@@ -227,22 +227,22 @@ p, li { white-space: pre-wrap; }?
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="322"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="326"/>
         <source>Fields name</source>
         <translation>Nome de Campos</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="338"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="342"/>
         <source>Empty Section %1</source>
         <translation>Seção Vazia %1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="346"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="350"/>
         <source>Section_%1</source>
         <translation>Seção_%1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="370"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="374"/>
         <source>Field %1</source>
         <translation>Campo %1</translation>
     </message>
@@ -251,7 +251,7 @@ p, li { white-space: pre-wrap; }?
     <name>CharacterSheetWindow</name>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="41"/>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="635"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="647"/>
         <source>Character Sheet Viewer</source>
         <translation>Visualizador de Ficha de Personagem</translation>
     </message>
@@ -286,7 +286,7 @@ p, li { white-space: pre-wrap; }?
         <translation>Dados</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="451"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="463"/>
         <source>QML Errors</source>
         <translation type="unfinished"></translation>
     </message>
@@ -316,32 +316,32 @@ p, li { white-space: pre-wrap; }?
         <translation>Compartilhar para</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="459"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="471"/>
         <source>Save Character Sheets Data</source>
         <translation>Salvar Dados de Ficha de Personagem</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="460"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="472"/>
         <source>Character Sheets Data files (*.rcs)</source>
         <translation>Arquivo de Dados de Fichas de Personagem (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="556"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="568"/>
         <source>Open Character Sheet data</source>
         <translation>Abrir Dados de Ficha de Personagem</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="557"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="569"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation>Arquivo de Dados de Ficha de Personagem (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="564"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="576"/>
         <source>Open Character Sheets View</source>
         <translation>Abrir visualização de Fichas de Personagem</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="565"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="577"/>
         <source>Character Sheet files (*.qml)</source>
         <translation>Arquivos de Ficha de Personagem (*.qml)</translation>
     </message>
@@ -476,19 +476,31 @@ p, li { white-space: pre-wrap; }?
         <translation>Você</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="217"/>
+        <location filename="../src/chat/chatwindow.cpp" line="220"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%2)]</source>
         <comment>mine dice roll</comment>
         <translation>obteve &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; nos dados jogados [%3 (%2)]</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="222"/>
+        <location filename="../src/chat/chatwindow.cpp" line="224"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%2]</source>
+        <comment>mine dice roll</comment>
+        <translation>obteve &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; nos dados jogados [%2]</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="233"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</source>
         <comment>third person roll</comment>
         <translation>obteve &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="241"/>
+        <location filename="../src/chat/chatwindow.cpp" line="237"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2]</source>
+        <comment>third person roll</comment>
+        <translation>obteve &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2]</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="257"/>
         <source>Syntax</source>
         <translation>Sintaxe</translation>
     </message>
@@ -503,12 +515,12 @@ p, li { white-space: pre-wrap; }?
         <translation>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Dice_Rolling&quot;&gt;http://wiki.rolisteam.org/index.php/Dice_Rolling&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="316"/>
+        <location filename="../src/chat/chatwindow.cpp" line="332"/>
         <source>Warning</source>
         <translation>Aviso</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="317"/>
+        <location filename="../src/chat/chatwindow.cpp" line="333"/>
         <source>Some users won&apos;t be enable to see your emotes.</source>
         <translation>Não será permitido para alguns usuários ver seus emoticons.</translation>
     </message>
@@ -1081,37 +1093,37 @@ p, li { white-space: pre-wrap; }?
         <translation>desconhecido</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1950"/>
+        <location filename="../src/mainwindow.cpp" line="1968"/>
         <source>Open Map</source>
         <translation>Abrir Mapa</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2211"/>
+        <location filename="../src/mainwindow.cpp" line="2229"/>
         <source>Connected</source>
         <translation>Conectado</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2211"/>
+        <location filename="../src/mainwindow.cpp" line="2229"/>
         <source>Not Connected</source>
         <translation>Não Conectado</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2212"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>Server</source>
         <translation>Servidor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2212"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>Client</source>
         <translation>Cliente</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2212"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>GM</source>
         <translation>MJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2212"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>Player</source>
         <translation>Jogador</translation>
     </message>
@@ -1146,13 +1158,13 @@ p, li { white-space: pre-wrap; }?
         <translation>Caixa de Ferramentas</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1946"/>
+        <location filename="../src/mainwindow.cpp" line="1964"/>
         <source>Open Picture</source>
         <translation>Abrir Imagem</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="695"/>
-        <location filename="../src/mainwindow.cpp" line="1954"/>
+        <location filename="../src/mainwindow.cpp" line="1972"/>
         <source>Open Minutes</source>
         <translation>Abrir Minutos</translation>
     </message>
@@ -1598,7 +1610,7 @@ p, li { white-space: pre-wrap; }?
         <translation>Explorador de Recursos</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2150"/>
+        <location filename="../src/mainwindow.cpp" line="2168"/>
         <source>Open %1</source>
         <translation>Abrir %1</translation>
     </message>
@@ -3184,37 +3196,37 @@ Porta:%2</translation>
         <translation>Erro de Carregamento</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="190"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="191"/>
         <source>Nothing was understood</source>
         <translation>Nada foi entendido</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="617"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="625"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation>Dado com %1 face(s) não existe. Por favor, colocar um valor maior que 0</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="663"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="680"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation>Lista está faltando depois do operador L. Por favor, adicione isto (por exemplo : 1L[espada,lança,pistola,flecha])</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="951"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="968"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation>Validador está faltando após o operador c. Por favor, mude isso</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="974"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="991"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation>Validador está faltando após o operador %1 . Por favor, mude isso</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="986"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="1003"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation>Esta condição %1 introduz um loop infinito. Por favor, mude isso</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="997"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="1014"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation>Validador está faltando após o operador e. Por favor, mude isso</translation>
     </message>

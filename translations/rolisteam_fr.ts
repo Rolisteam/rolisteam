@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="fr">
 <context>
     <name>AboutRolisteam</name>
     <message>
@@ -16,9 +18,9 @@
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Rolisteam helps you to manage a tabletop role playing game with remote friends/players. It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. Existing features : Map sharing (with permission management), Image sharing, background music, dice roll and so on. Rolisteam is written in Qt5 &lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You may modify and redistribute the program under the terms of the GPL (version 2 or later). A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam. Rolisteam is copyrighted by its contributors. See the 'COPYRIGHT' file for the complete list of contributors. We provide no warranty for this program.&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You may modify and redistribute the program under the terms of the GPL (version 2 or later). A copy of the GPL is contained in the &apos;COPYING&apos; file distributed with Rolisteam. Rolisteam is copyrighted by its contributors. See the &apos;COPYRIGHT&apos; file for the complete list of contributors. We provide no warranty for this program.&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Web Sites :&lt;/p&gt;
 &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Official Rolisteam Site&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Bug Tracker&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
@@ -219,22 +221,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="322"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="326"/>
         <source>Fields name</source>
         <translation>Nom du champ</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="338"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="342"/>
         <source>Empty Section %1</source>
         <translation>Section vide %1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="346"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="350"/>
         <source>Section_%1</source>
         <translation>Section_%1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="370"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="374"/>
         <source>Field %1</source>
         <translation>Champ %1</translation>
     </message>
@@ -243,7 +245,7 @@ p, li { white-space: pre-wrap; }
     <name>CharacterSheetWindow</name>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="41"/>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="635"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="647"/>
         <source>Character Sheet Viewer</source>
         <translation>Visionneur de fiche de personnage</translation>
     </message>
@@ -278,7 +280,7 @@ p, li { white-space: pre-wrap; }
         <translation>Données</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="451"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="463"/>
         <source>QML Errors</source>
         <translation>Erreurs QML</translation>
     </message>
@@ -308,32 +310,32 @@ p, li { white-space: pre-wrap; }
         <translation>Envoyer à</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="459"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="471"/>
         <source>Save Character Sheets Data</source>
         <translation>Sauvegarder les données des personnages</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="460"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="472"/>
         <source>Character Sheets Data files (*.rcs)</source>
         <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="556"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="568"/>
         <source>Open Character Sheet data</source>
         <translation>Ouvrir les données des personnages</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="557"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="569"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="564"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="576"/>
         <source>Open Character Sheets View</source>
         <translation>Ouvrir une fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="565"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="577"/>
         <source>Character Sheet files (*.qml)</source>
         <translation>Fiche de personnage (*.qml)</translation>
     </message>
@@ -468,19 +470,31 @@ p, li { white-space: pre-wrap; }
         <translation>Vous</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="217"/>
+        <location filename="../src/chat/chatwindow.cpp" line="220"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%2)]</source>
         <comment>mine dice roll</comment>
         <translation>avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%3 (%2)] </translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="222"/>
+        <location filename="../src/chat/chatwindow.cpp" line="224"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%2]</source>
+        <comment>mine dice roll</comment>
+        <translation>avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%2] </translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="233"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</source>
         <comment>third person roll</comment>
         <translation> a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="241"/>
+        <location filename="../src/chat/chatwindow.cpp" line="237"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2]</source>
+        <comment>third person roll</comment>
+        <translation> a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2]</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="257"/>
         <source>Syntax</source>
         <translation>Syntaxe</translation>
     </message>
@@ -495,12 +509,12 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Jeter_les_d%C3%A9s&quot;&gt;http://wiki.rolisteam.org/index.php/Jeter_les_dés&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="316"/>
+        <location filename="../src/chat/chatwindow.cpp" line="332"/>
         <source>Warning</source>
         <translation>Attention</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="317"/>
+        <location filename="../src/chat/chatwindow.cpp" line="333"/>
         <source>Some users won&apos;t be enable to see your emotes.</source>
         <translation>Certains utilisateurs ne verront pas vos emotes.</translation>
     </message>
@@ -867,7 +881,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="105"/>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="108"/>
         <source>Redo</source>
-        <translation>&amp;Refaire</translation>
+        <translation>Refaire</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="128"/>
@@ -1073,37 +1087,37 @@ p, li { white-space: pre-wrap; }
         <translation>inconnu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1950"/>
+        <location filename="../src/mainwindow.cpp" line="1968"/>
         <source>Open Map</source>
         <translation>Ouvrir Plan</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2211"/>
+        <location filename="../src/mainwindow.cpp" line="2229"/>
         <source>Connected</source>
         <translation>Connecté</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2211"/>
+        <location filename="../src/mainwindow.cpp" line="2229"/>
         <source>Not Connected</source>
         <translation>Non connecté</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2212"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>Server</source>
         <translation>Serveur</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2212"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>Client</source>
         <translation>Client</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2212"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>GM</source>
         <translation>MJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2212"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>Player</source>
         <translation>Joueur</translation>
     </message>
@@ -1138,13 +1152,13 @@ p, li { white-space: pre-wrap; }
         <translation>Boîte à outils</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1946"/>
+        <location filename="../src/mainwindow.cpp" line="1964"/>
         <source>Open Picture</source>
         <translation>Ouvrir Image</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="695"/>
-        <location filename="../src/mainwindow.cpp" line="1954"/>
+        <location filename="../src/mainwindow.cpp" line="1972"/>
         <source>Open Minutes</source>
         <translation>Ouvrir Notes</translation>
     </message>
@@ -1590,7 +1604,7 @@ p, li { white-space: pre-wrap; }
         <translation>Explorateur de Ressources</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2150"/>
+        <location filename="../src/mainwindow.cpp" line="2168"/>
         <source>Open %1</source>
         <translation>Ouvrir %1</translation>
     </message>
@@ -3175,37 +3189,37 @@ Port:%2</translation>
         <translation>Erreur de chargement</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="190"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="191"/>
         <source>Nothing was understood</source>
         <translation>Commande incomprise</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="617"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="625"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation>Un dé avec %1 face(s) n&apos;existe pas. S&apos;il vous plaît, veuillez entrer une valeur supérieure à 0</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="663"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="680"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation>La liste est manquante après l&apos;opérateur L. Veuillez en ajouter une (exemple: 1L[épée,lance,pistolet,flèche])</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="951"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="968"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur c. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="974"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="991"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur %1. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="986"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="1003"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation>La condition %1 introduit une boucle infinie. Veuillez la changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="997"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="1014"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur e. Veuillez le changer</translation>
     </message>

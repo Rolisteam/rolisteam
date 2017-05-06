@@ -221,22 +221,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="322"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="326"/>
         <source>Fields name</source>
         <translation>Mezők nevei</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="338"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="342"/>
         <source>Empty Section %1</source>
         <translation>Üres szakasz: %1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="346"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="350"/>
         <source>Section_%1</source>
         <translation>Szakasz_%1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="370"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="374"/>
         <source>Field %1</source>
         <translation>Mező: %1</translation>
     </message>
@@ -245,7 +245,7 @@ p, li { white-space: pre-wrap; }
     <name>CharacterSheetWindow</name>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="41"/>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="635"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="647"/>
         <source>Character Sheet Viewer</source>
         <translation>Karakterlap-megjelenítő</translation>
     </message>
@@ -280,7 +280,7 @@ p, li { white-space: pre-wrap; }
         <translation>Adatok</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="451"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="463"/>
         <source>QML Errors</source>
         <translation type="unfinished"></translation>
     </message>
@@ -310,32 +310,32 @@ p, li { white-space: pre-wrap; }
         <translation>Megosztás ezzel:</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="459"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="471"/>
         <source>Save Character Sheets Data</source>
         <translation>Karakterlap Adatainak Mentése</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="460"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="472"/>
         <source>Character Sheets Data files (*.rcs)</source>
         <translation>Karakterlap adatfájljai (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="556"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="568"/>
         <source>Open Character Sheet data</source>
         <translation>Karakterlap adatainak megnyitása</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="557"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="569"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation>Karakterlap adatfájljai (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="564"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="576"/>
         <source>Open Character Sheets View</source>
         <translation>Karakterlap nézet megnyitása</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="565"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="577"/>
         <source>Character Sheet files (*.qml)</source>
         <translation>Karakterlap-fájlok (*.qml)</translation>
     </message>
@@ -470,19 +470,31 @@ p, li { white-space: pre-wrap; }
         <translation>Te</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="217"/>
+        <location filename="../src/chat/chatwindow.cpp" line="220"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%2)]</source>
         <comment>mine dice roll</comment>
         <translation>A kockadobásod eredménye: &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="222"/>
+        <location filename="../src/chat/chatwindow.cpp" line="224"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%2]</source>
+        <comment>mine dice roll</comment>
+        <translation>A kockadobásod eredménye: &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2]</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="233"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</source>
         <comment>third person roll</comment>
         <translation>Az eredmény: &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="241"/>
+        <location filename="../src/chat/chatwindow.cpp" line="237"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2]</source>
+        <comment>third person roll</comment>
+        <translation>Az eredmény: &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2]</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="257"/>
         <source>Syntax</source>
         <translation>Szintaxis</translation>
     </message>
@@ -497,12 +509,12 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Dice_Rolling&quot;&gt;http://wiki.rolisteam.org/index.php/Dice_Rolling&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="316"/>
+        <location filename="../src/chat/chatwindow.cpp" line="332"/>
         <source>Warning</source>
         <translation>Figyelmeztetés</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="317"/>
+        <location filename="../src/chat/chatwindow.cpp" line="333"/>
         <source>Some users won&apos;t be enable to see your emotes.</source>
         <translation>Néhány felhasznló nem fogja látni a hangulatjeleket.</translation>
     </message>
@@ -1075,37 +1087,37 @@ p, li { white-space: pre-wrap; }
         <translation>ismeretlen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1950"/>
+        <location filename="../src/mainwindow.cpp" line="1968"/>
         <source>Open Map</source>
         <translation>Térkép Megnyitása</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2211"/>
+        <location filename="../src/mainwindow.cpp" line="2229"/>
         <source>Connected</source>
         <translation>Csatlakozva</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2211"/>
+        <location filename="../src/mainwindow.cpp" line="2229"/>
         <source>Not Connected</source>
         <translation>Nincs összeköttetés</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2212"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>Server</source>
         <translation>Kiszolgáló</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2212"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>Client</source>
         <translation>Kliens</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2212"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>GM</source>
         <translation>Mesélő</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2212"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>Player</source>
         <translation>Játékos</translation>
     </message>
@@ -1140,13 +1152,13 @@ p, li { white-space: pre-wrap; }
         <translation>Eszközsor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1946"/>
+        <location filename="../src/mainwindow.cpp" line="1964"/>
         <source>Open Picture</source>
         <translation>Kép megnyitása</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="695"/>
-        <location filename="../src/mainwindow.cpp" line="1954"/>
+        <location filename="../src/mainwindow.cpp" line="1972"/>
         <source>Open Minutes</source>
         <translation>Jegyzet Megnyitása</translation>
     </message>
@@ -1592,7 +1604,7 @@ p, li { white-space: pre-wrap; }
         <translation>Erőforrás-böngésző</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2150"/>
+        <location filename="../src/mainwindow.cpp" line="2168"/>
         <source>Open %1</source>
         <translation>Megnyitás: %1</translation>
     </message>
@@ -3178,37 +3190,37 @@ ez egy kiemelt szín.</translation>
         <translation>Töltési hiba</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="190"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="191"/>
         <source>Nothing was understood</source>
         <translation>Semmit sem értek</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="617"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="625"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation>Nem létezik %1 oldalú kocka. Kérlek 0-nál nagyobb számot adj meg</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="663"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="680"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation>Hiányzó lista az L operátor után. Kérlek add meg (példa: 1L[kard,lándza,pisztoly,nyílvessző])</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="951"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="968"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation>Hiányzó validátor a c operátor után. Kérlek változtasd meg</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="974"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="991"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation>Hiányzó validátor a(z) %1 operátor után. Kérlek változtasd meg</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="986"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="1003"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation>Ez a feltétel %1 végtelen ciklust hoz létre. Kérlek változtasd meg</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="997"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="1014"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation>Hiányzó validátor a e operátor után. Kérlek változtasd meg</translation>
     </message>
