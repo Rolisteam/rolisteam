@@ -186,6 +186,11 @@ public:
     void setCurrentType(const CharacterSheetItem::TypeField &currentType);
 
     virtual void initGraphicsItem();
+
+    CharacterSheetItem* getOrig() const;
+    virtual void setOrig(CharacterSheetItem *orig);
+
+    virtual void changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem *child);
 public slots:
     /**
      * @brief setValue
@@ -210,6 +215,8 @@ public slots:
 
     void setFormula(const QString &formula);
 
+    void updateLabelFromOrigin();
+
 
 signals:
     void valueChanged();
@@ -227,6 +234,7 @@ signals:
 
 protected:
     CharacterSheetItem* m_parent;
+    CharacterSheetItem* m_orig;
     int m_page;
     QString m_value;
     QString m_label;

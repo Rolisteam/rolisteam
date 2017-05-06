@@ -148,6 +148,8 @@ public:
      */
     void setLocalIsGM(bool localIsGM);
 
+    bool hasCharacterSheet(QString id);
+
 signals:
     /**
      * @brief addWidgetToMdiArea

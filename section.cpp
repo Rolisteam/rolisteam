@@ -163,6 +163,7 @@ CharacterSheetItem::CharacterSheetItemType Section::getItemType() const
 
 void Section::copySection(Section* oldSection)
 {
+    setOrig(oldSection);
     for(int i = 0; i < oldSection->getChildrenCount();++i)
     {
         CharacterSheetItem* childItem = oldSection->getChildAt(i);
@@ -180,6 +181,7 @@ void Section::copySection(Section* oldSection)
             {
                 Section* sec = new Section();
                 sec->copySection(dynamic_cast<Section*>(childItem));
+
                 newItem = sec;
             }
             appendChild(newItem);
@@ -200,7 +202,6 @@ bool Section::removeChild(CharacterSheetItem* child)
 }
 void  Section::removeAll()
 {
-    //qDeleteAll(m_dataHash.values());
     m_dataHash.clear();
     m_keyList.clear();
 }
@@ -224,6 +225,34 @@ void Section::resetAllId(int& i)
       }
   }
 }
+
+void Section::setOrig(CharacterSheetItem* orig)
+{
+    CharacterSheetItem::setOrig(orig);
+    for(auto key : m_dataHash.keys())
+    {
+        auto value = m_dataHash.value(key);
+        if(nullptr != value)
+        {
+            auto field = orig->getChildAt(key);
+            if(nullptr != field)
+            {
+                value->setOrig(field);
+            }
+        }
+    }
+}
+void Section::changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem *child)
+{
+    m_dataHash.remove(oldkey);
+    m_dataHash.insert(newKey,child);
+
+
+    auto index = m_keyList.indexOf(oldkey);
+    m_keyList.removeAt(index);
+    m_keyList.insert(index,newKey);
+}
+
 void Section::buildDataInto( CharacterSheet* character)
 {
     for(int i = 0; i< getChildrenCount();++i)
@@ -238,12 +267,6 @@ void Section::buildDataInto( CharacterSheet* character)
                 newField->copyField(childItem);
                 newItem = newField;
             }
-           /* if(CharacterSheetItem::ButtonItem == childItem->getItemType())
-            {
-                CharacterSheetButton* newField = new CharacterSheetButton();
-                newField->copyField(childItem);
-                newItem = newField;
-            }*/
             if(NULL!=newItem)
             {
                 newItem->setValue(character->getValue(newItem->getId()).toString());

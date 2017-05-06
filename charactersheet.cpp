@@ -94,8 +94,9 @@ const  QVariant CharacterSheet::getValue(QString path,Qt::ItemDataRole role) con
     return QString();
 }
 
-void CharacterSheet::setValue(QString key, QString value, QString formula)
+CharacterSheetItem* CharacterSheet::setValue(QString key, QString value, QString formula)
 {
+    CharacterSheetItem* result = nullptr;
     if(m_valuesMap.contains(key))
     {
         CharacterSheetItem* field = m_valuesMap.value(key);
@@ -104,16 +105,18 @@ void CharacterSheet::setValue(QString key, QString value, QString formula)
             field->setFormula(formula);
         }
         field->setValue(value);
-
+        result = nullptr;
     }
     else
     {
         Field* field = new Field();
+        result = field;
         field->setValue(value);
         field->setId(key);
         insertField(key,field);
         //m_valuesMap.insert(key,field);
     }
+    return result;
 }
 QList<QString> CharacterSheet::getAllDependancy(QString key)
 {
@@ -227,9 +230,26 @@ void CharacterSheet::load(QJsonObject& json)
         }
     }
 }
+void CharacterSheet::setOrigin(Section* sec)
+{
+    for(auto key : m_valuesMap.keys())
+    {
+        auto value = m_valuesMap.value(key);
+        if(nullptr != value)
+        {
+            auto field = sec->getChildAt(key);
+            if(nullptr != field)
+            {
+                value->setOrig(field);
+            }
+        }
+    }
+}
+
 void CharacterSheet::insertField(QString key, CharacterSheetItem* itemSheet)
 {
     m_valuesMap.insert(key,itemSheet);
+
     connect(itemSheet,SIGNAL(sendOffData()),this,SLOT(sendUpdateForField()));
 }
 
