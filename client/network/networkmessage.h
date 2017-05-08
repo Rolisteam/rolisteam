@@ -180,8 +180,8 @@ enum Action {
  */
 class NetworkMessage
 {
-
 public:
+    enum RecipientMode {All,OneOrMany};
     /**
      * @brief NetworkMessage
      * @param server
@@ -212,20 +212,26 @@ public:
      * @return
      */
     virtual NetMsg::Action action() const =0;
-
+    /**
+     * @brief setLinkToServer
+     * @param server
+     */
     void setLinkToServer(NetworkLink* server);
 
-
+    /**
+     * @brief getSize
+     * @return
+     */
     quint64 getSize();
-
-    virtual NetworkMessageHeader *  buffer() =0;
-protected:
     /**
      * @brief buffer
      * @return
      */
+    virtual NetworkMessageHeader *  buffer() =0;
+
 
 protected:
     NetworkLink* m_linkToServer;
+
 };
 #endif
