@@ -40,6 +40,8 @@ NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader & header, 
 
     m_pos = m_buffer;
     m_end = m_buffer + m_header->dataSize;
+
+    readRecipient();
 }
 
 NetworkMessageReader::NetworkMessageReader(const NetworkMessageReader & other)
@@ -53,6 +55,8 @@ NetworkMessageReader::NetworkMessageReader(const NetworkMessageReader & other)
     m_buffer = copy + sizeof(NetworkMessageHeader);
     m_pos = m_buffer;
     m_end = copy + size;
+
+    readRecipient();
 }
 
 NetworkMessageReader::~NetworkMessageReader()
@@ -73,6 +77,8 @@ void NetworkMessageReader::setData(QByteArray& bytes)
 
     m_pos = m_buffer + headerSize;
     m_end = m_buffer + headerSize + m_header->dataSize;
+
+    readRecipient();
 }
 
 NetMsg::Category NetworkMessageReader::category() const
@@ -89,6 +95,17 @@ NetworkMessageHeader* NetworkMessageReader::buffer()
 {
     return m_header;
 }
+
+QStringList NetworkMessageReader::recipientList() const
+{
+    return m_recipientList;
+}
+
+NetworkMessage::RecipientMode NetworkMessageReader::mode() const
+{
+    return m_mode;
+}
+
 
 NetworkMessageHeader *NetworkMessageReader::header() const
 {
@@ -107,6 +124,21 @@ void NetworkMessageReader::reset()
 void NetworkMessageReader::resetToData()
 {
     m_pos = m_buffer+sizeof(NetworkMessageHeader);
+    readRecipient();
+}
+
+void NetworkMessageReader::readRecipient()
+{
+    m_mode = static_cast<NetworkMessage::RecipientMode>(uint8());
+    if(m_mode == NetworkMessage::OneOrMany)
+    {
+        int size = uint8();
+        m_recipientList.clear();
+        for(int i = 0; i<size ; ++i)
+        {
+            m_recipientList << string8();
+        }
+    }
 }
 
 size_t NetworkMessageReader::left() const

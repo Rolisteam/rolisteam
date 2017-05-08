@@ -71,6 +71,21 @@ public:
     void setHeader(NetworkMessageHeader* header);
 
     void resetToData();
+    /////////////////////////////////
+    ///
+    ///
+    ///
+    /// \brief readRecipient
+    ///
+    ///
+    ///
+    /////////////////////////////////
+    void readRecipient();
+
+    NetworkMessage::RecipientMode mode() const;
+
+    QStringList recipientList() const;
+
 protected:
     NetworkMessageHeader * buffer();
 
@@ -79,6 +94,8 @@ private:
     char* m_buffer;
     const char * m_pos;
     const char * m_end;
+    RecipientMode m_mode;
+    QStringList m_recipientList;
 };
 
 #endif

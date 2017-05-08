@@ -25,8 +25,8 @@
 //#include "network/networkmanager.h"
 #include <QDebug>
 
-NetworkMessageWriter::NetworkMessageWriter(NetMsg::Category category, NetMsg::Action action, int size)
-    : NetworkMessage(nullptr)
+NetworkMessageWriter::NetworkMessageWriter(NetMsg::Category category, NetMsg::Action action,NetworkMessage::RecipientMode mode, int size)
+    : NetworkMessage(nullptr),m_mode(mode)
 {
     int headerSize = sizeof(NetworkMessageHeader);
 
@@ -45,6 +45,8 @@ NetworkMessageWriter::NetworkMessageWriter(NetMsg::Category category, NetMsg::Ac
 
     m_header->category = category;
     m_header->action = action;
+
+    uint8(static_cast<quint8>(m_mode));
 }
 
 NetworkMessageWriter::~NetworkMessageWriter()
@@ -69,6 +71,7 @@ NetMsg::Action NetworkMessageWriter::action() const
 void NetworkMessageWriter::reset()
 {
     m_currentPos = m_begin;
+    uint8(static_cast<quint8>(m_mode));
 }
 
 NetworkMessageHeader * NetworkMessageWriter::buffer()
@@ -163,22 +166,22 @@ void NetworkMessageWriter::rgb(const QColor & color)
 void NetworkMessageWriter::makeRoom(int size)
 {
     while (m_currentPos + size > m_end)
-        {
-            int newSize = (m_end - m_buffer) * 2;
-            char * newBuffer = new char[newSize];
-            memcpy(newBuffer, m_buffer, m_currentPos - m_buffer);
+    {
+        int newSize = (m_end - m_buffer) * 2;
+        char * newBuffer = new char[newSize];
+        memcpy(newBuffer, m_buffer, m_currentPos - m_buffer);
 
-            long long int diff = newBuffer - m_buffer;
+        long long int diff = newBuffer - m_buffer;
 
-            m_begin  += diff;
-            m_currentPos    += diff;
-            m_end = newBuffer + newSize;
+        m_begin  += diff;
+        m_currentPos    += diff;
+        m_end = newBuffer + newSize;
 
-            delete[] m_buffer;
+        delete[] m_buffer;
 
-            m_buffer = newBuffer;
-            m_header = (NetworkMessageHeader *) m_buffer;
-        }
+        m_buffer = newBuffer;
+        m_header = (NetworkMessageHeader *) m_buffer;
+    }
 }
 void NetworkMessageWriter::int8(qint8 data)
 {
@@ -206,19 +209,34 @@ void NetworkMessageWriter::int32(qint32 data)
     *((qint32 *)m_currentPos) = data;
     m_currentPos += size;
 }
- void NetworkMessageWriter::int64(qint64 data)
- {
-     int size = sizeof(qint64);
-     makeRoom(size);
+void NetworkMessageWriter::int64(qint64 data)
+{
+    int size = sizeof(qint64);
+    makeRoom(size);
 
-     *((qint64 *)m_currentPos) = data;
-     m_currentPos += size;
- }
- void NetworkMessageWriter::real(qreal data)
- {
-     int size = sizeof(qreal);
-     makeRoom(size);
+    *((qint64 *)m_currentPos) = data;
+    m_currentPos += size;
+}
+void NetworkMessageWriter::real(qreal data)
+{
+    int size = sizeof(qreal);
+    makeRoom(size);
 
-     *((qreal *)m_currentPos) = data;
-     m_currentPos += size;
- }
+    *((qreal *)m_currentPos) = data;
+    m_currentPos += size;
+}
+void NetworkMessageWriter::setRecipientList(QStringList list,NetworkMessage::RecipientMode mode)
+{
+    m_mode = mode;
+    reset();
+
+    if(mode != NetworkMessage::All)
+    {
+        uint8(list.size());
+        for(auto string : list)
+        {
+            string8(string);
+        }
+    }
+
+}

@@ -34,7 +34,7 @@
 class NetworkMessageWriter : public NetworkMessage
 {
 public:
-    NetworkMessageWriter(NetMsg::Category categorie, NetMsg::Action action, int size = 128);
+    NetworkMessageWriter(NetMsg::Category categorie, NetMsg::Action action,NetworkMessage::RecipientMode mode = NetworkMessage::All, int size = 128);
     virtual ~NetworkMessageWriter();
 
     NetMsg::Category category() const;
@@ -64,7 +64,11 @@ public:
 
     void real(qreal data);
 
-
+    /**
+     * @brief getRecipientList
+     * @return
+     */
+    void setRecipientList(QStringList,NetworkMessage::RecipientMode mode);
 protected:
     NetworkMessageHeader * buffer();
 
@@ -79,6 +83,7 @@ private:
     void makeRoom(int size);
     int m_sizeBuffer      ;
     int m_sizeData;
+    NetworkMessage::RecipientMode m_mode;
 };
 
 #endif
