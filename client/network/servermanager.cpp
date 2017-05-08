@@ -169,6 +169,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
         {
             QString id = msg->string8();
             m_model->kick(id);
+            sendOffModelToAll();
         }
         break;
         case NetMsg::Password:

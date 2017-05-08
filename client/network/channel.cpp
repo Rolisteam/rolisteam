@@ -121,8 +121,9 @@ TreeItem *Channel::getChildAt(int row)
     {
         return m_child.at(row);
     }
+    return nullptr;
 }
-void Channel::sendToAll(NetworkMessageReader* msg, TcpClient* tcp, bool mustBeSaved)
+void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool mustBeSaved)
 {
     if(mustBeSaved)
     {
@@ -186,22 +187,27 @@ void Channel::updateNewClient(TcpClient* newComer)
 
 void Channel::kick(QString str)
 {
-    TreeItem* child=nullptr;
+    bool found = false;
     for(TreeItem* item : m_child)
     {
         if(item->getId() == str)
         {
-            child = item;
+            //child = item;
+            found = true;
+            m_child.removeAll(item);
+            emit itemChanged();
+
             TcpClient* client = dynamic_cast<TcpClient*>(item);
             client->closeConnection();
+
+            NetworkMessageWriter* message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
+            message->string8(client->getPlayerId());
+            sendToAll(message,nullptr,false);
+
         }
 
     }
-    if(nullptr != child)
-    {
-        m_child.removeAll(child);
-    }
-    else
+    if(!found)
     {
         for(TreeItem* item : m_child)
         {

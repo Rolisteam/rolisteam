@@ -10,7 +10,7 @@
 #include <QString>
 
 class TcpClient;
-class NetworkMessageReader;
+class NetworkMessage;
 /**
  * @brief The Channel class
  */
@@ -37,7 +37,7 @@ public:
 
     bool isLeaf() const;
 
-    void sendToAll(NetworkMessageReader*, TcpClient *, bool mustBeSaved);
+    void sendToAll(NetworkMessage*, TcpClient *, bool mustBeSaved);
 
     void readFromJson(QJsonObject &json);
     void writeIntoJson(QJsonObject& json);
@@ -58,7 +58,7 @@ private:
     bool m_usersListed;
 
     QList<TreeItem*> m_child;
-    QList<NetworkMessageReader*> m_dataToSend;
+    QList<NetworkMessage*> m_dataToSend;
 };
 
 #endif // CHANNEL_H

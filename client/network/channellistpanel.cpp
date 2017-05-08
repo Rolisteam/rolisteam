@@ -132,6 +132,7 @@ void ChannelListPanel::kickUser()
         {
             TcpClient* item = static_cast<TcpClient*>(m_index.internalPointer());
             QString id = item->getId();
+            QString idPlayer = item->getPlayerId();
             if(!id.isEmpty())
             {
                 NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::Kicked);
@@ -139,6 +140,7 @@ void ChannelListPanel::kickUser()
                 idList << id;
                 msg.setRecipientList(idList,NetworkMessage::OneOrMany);
                 msg.string8(id);
+                msg.string8(idPlayer);
                 msg.sendAll();
             }
         }

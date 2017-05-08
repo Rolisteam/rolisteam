@@ -41,7 +41,7 @@ void TreeItem::setParentItem(TreeItem *parent)
     if(m_parentItem!=parent)
     {
         m_parentItem=parent;
-        itemChanged();
+        emit itemChanged();
     }
 }
 
@@ -55,7 +55,7 @@ void TreeItem::setName(const QString &name)
     if(m_name!=name)
     {
         m_name = name;
-        itemChanged();
+        emit itemChanged();
     }
 }
 
@@ -74,7 +74,7 @@ void TreeItem::setId(const QString &id)
     if(m_id!=id)
     {
         m_id=id;
-        itemChanged();
+        emit itemChanged();
     }
 }
 
