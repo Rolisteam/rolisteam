@@ -25,6 +25,7 @@ public:
     ChannelListPanel::GROUP currentGRoup() const;
     void setCurrentGRoup(const GROUP &currentGRoup);
 
+    bool isAdmin();
 public slots:
     void showCustomMenu(QPoint pos);
 
@@ -49,6 +50,7 @@ private:
     QAction* m_kick;
 
     GROUP m_currentGRoup;
+    QModelIndex m_index;
 };
 
 #endif // CHANNELLISTPANEL_H

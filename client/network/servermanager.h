@@ -38,6 +38,8 @@ public:
     void initServerManager();
 
     QVariant getValue(QString key) const;
+
+
 signals:
     void stateChanged(ServerManager::ServerState);
     void errorOccurs(QString);

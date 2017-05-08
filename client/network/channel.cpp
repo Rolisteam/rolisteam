@@ -184,6 +184,32 @@ void Channel::updateNewClient(TcpClient* newComer)
     }
 }
 
+void Channel::kick(QString str)
+{
+    TreeItem* child=nullptr;
+    for(TreeItem* item : m_child)
+    {
+        if(item->getId() == str)
+        {
+            child = item;
+            TcpClient* client = dynamic_cast<TcpClient*>(item);
+            client->closeConnection();
+        }
+
+    }
+    if(nullptr != child)
+    {
+        m_child.removeAll(child);
+    }
+    else
+    {
+        for(TreeItem* item : m_child)
+        {
+            item->kick(str);
+        }
+    }
+}
+
 bool Channel::addChildInto(QString id, TreeItem* child)
 {
     if(m_id == id)

@@ -247,7 +247,16 @@ void ChannelModel::writeSettings()
 
 }
 
-
+void ChannelModel::kick(QString id)
+{
+    for(auto item : m_root)
+    {
+        if(nullptr != item)
+        {
+            item->kick(id);
+        }
+    }
+}
 
 
 

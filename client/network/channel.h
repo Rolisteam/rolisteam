@@ -50,6 +50,8 @@ public:
     virtual void clear();
 
     void updateNewClient(TcpClient *newComer);
+
+    virtual void kick(QString str);
 private:
     QString m_password;
     QString m_description;

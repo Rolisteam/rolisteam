@@ -10,7 +10,8 @@
 ChannelListPanel::ChannelListPanel(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ChannelListPanel),
-    m_model(new ChannelModel)
+    m_model(new ChannelModel),
+    m_currentGRoup(ADMIN)
 {
     ui->setupUi(this);
     ui->m_channelView->setModel(m_model);
@@ -30,6 +31,8 @@ ChannelListPanel::ChannelListPanel(QWidget *parent) :
     m_setDefault = new QAction(tr("Set Default"),this);
     m_admin = new QAction(tr("Log as admin"),this);
     m_kick = new QAction(tr("Kick User"),this);
+
+    connect(m_kick,SIGNAL(triggered(bool)),this,SLOT(kickUser()));
 }
 
 ChannelListPanel::~ChannelListPanel()
@@ -83,6 +86,7 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
     QMenu menu(this);
 
     menu.addAction(m_join);
+    menu.addAction(m_kick);
     menu.addSeparator();
     menu.addAction(m_setDefault);
     menu.addAction(m_edit);
@@ -93,9 +97,9 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
     menu.addAction(m_deleteChannel);
     menu.addAction(m_admin);
 
-    QModelIndex index = ui->m_channelView->indexAt(pos);
+    m_index = ui->m_channelView->indexAt(pos);
 
-    if((!index.isValid())||(ChannelListPanel::VIEWER == m_currentGRoup))
+    if((!m_index.isValid())||(ChannelListPanel::VIEWER == m_currentGRoup))
     {
         m_setDefault->setEnabled(false);
         m_edit->setEnabled(false);
@@ -109,10 +113,37 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
 
     menu.exec(ui->m_channelView->mapToGlobal(pos));
 }
+bool ChannelListPanel::isAdmin()
+{
+    /// @TODO manage the admin account.
+    if(ChannelListPanel::ADMIN == m_currentGRoup)
+    {
+        return true;
+    }
+    return false;
+}
+#include "tcpclient.h"
 
 void ChannelListPanel::kickUser()
 {
+    if(isAdmin())
+    {
+        if(m_index.isValid())
+        {
+            TcpClient* item = static_cast<TcpClient*>(m_index.internalPointer());
+            QString id = item->getId();
+            if(!id.isEmpty())
+            {
+                NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::Kicked);
+                QStringList idList;
+                idList << id;
+                msg.setRecipientList(idList,NetworkMessage::OneOrMany);
+                msg.string8(id);
+                msg.sendAll();
+            }
+        }
 
+    }
 }
 
 void ChannelListPanel::banUser()

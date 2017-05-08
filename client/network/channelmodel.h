@@ -41,6 +41,8 @@ public:
     bool addConnectionToDefaultChannel(TcpClient *client);
     Qt::ItemFlags flags(const QModelIndex &index) const;
     bool hasChildren(const QModelIndex &parent) const;
+
+    void kick(QString);
 private:
     QList<TreeItem*> m_root;
     QString m_defaultChannel;

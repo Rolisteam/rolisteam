@@ -166,7 +166,10 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
 
         break;
         case NetMsg::Kicked:
-
+        {
+            QString id = msg->string8();
+            m_model->kick(id);
+        }
         break;
         case NetMsg::Password:
         {
@@ -324,7 +327,7 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
 }
 void ServerManager::sendOffModelToAll()
 {
-    //qDebug() << "sendoffmodeltoALL";
+    qDebug() << "sendoffmodeltoALL";
     for( auto connection : m_connections.values())
     {
         sendOffModel(connection);
