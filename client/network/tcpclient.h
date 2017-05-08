@@ -56,8 +56,12 @@ public:
     bool isGM() const;
     void setIsGM(bool isGM);
 
+    QString getPlayerId();
+
     void setInfoPlayer(NetworkMessageReader* msg);
     void fill(NetworkMessageWriter* msg);
+
+    void closeConnection();
 
 signals:
     /**

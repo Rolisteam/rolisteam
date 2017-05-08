@@ -17,7 +17,7 @@ void TcpClient::setSocket(QTcpSocket* socket)
     m_socket = socket;
     if(nullptr != m_socket)
     {
-        m_socket->setParent(this);
+       // m_socket->setParent(this);
         connect(m_socket,SIGNAL(readyRead()),this,SLOT(receivingData()));
         connect(m_socket,SIGNAL(disconnected()),this,SIGNAL(disconnected()));
         connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(connectionError(QAbstractSocket::SocketError)));
@@ -155,6 +155,15 @@ void TcpClient::setIsGM(bool isGM)
 
 }
 
+QString TcpClient::getPlayerId()
+{
+    if(nullptr != m_player)
+    {
+        return m_player->getUuid();
+    }
+    return QString();
+}
+
 void TcpClient::setInfoPlayer(NetworkMessageReader* msg)
 {
     if(nullptr != m_player)
@@ -162,8 +171,8 @@ void TcpClient::setInfoPlayer(NetworkMessageReader* msg)
         m_player->readFromMsg(*msg);
 
         /// @todo make it nicer.
-        m_name = m_player->getName();
-        m_id = m_player->getUuid();
+        setName(m_player->getName());
+        setId(m_player->getUuid());
     }
 }
 
@@ -172,6 +181,14 @@ void TcpClient::fill(NetworkMessageWriter *msg)
     if(nullptr != m_player)
     {
         m_player->fill(*msg);
+    }
+}
+
+void TcpClient::closeConnection()
+{
+    if(nullptr != m_socket)
+    {
+        m_socket->close();
     }
 }
 
@@ -336,9 +353,9 @@ int TcpClient::indexOf(TreeItem *child)
 
 void TcpClient::readFromJson(QJsonObject &json)
 {
-    m_name=json["name"].toString();
-    m_id=json["id"].toString();
     m_isGM = json["gm"].toBool();
+    setName(json["name"].toString());
+    setId(json["id"].toString());
 }
 
 void TcpClient::writeIntoJson(QJsonObject &json)
