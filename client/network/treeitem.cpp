@@ -40,8 +40,8 @@ void TreeItem::setParentItem(TreeItem *parent)
 {
     if(m_parentItem!=parent)
     {
-        itemChanged();
         m_parentItem=parent;
+        itemChanged();
     }
 }
 
@@ -54,8 +54,8 @@ void TreeItem::setName(const QString &name)
 {
     if(m_name!=name)
     {
-        itemChanged();
         m_name = name;
+        itemChanged();
     }
 }
 
@@ -73,8 +73,8 @@ void TreeItem::setId(const QString &id)
 {
     if(m_id!=id)
     {
-        itemChanged();
         m_id=id;
+        itemChanged();
     }
 }
 
@@ -84,6 +84,11 @@ bool TreeItem::addChildInto(QString id, TreeItem *child)
 }
 
 void TreeItem::clear()
+{
+
+}
+
+void TreeItem::kick(QString)
 {
 
 }

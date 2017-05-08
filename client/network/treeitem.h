@@ -40,6 +40,8 @@ public:
 
     virtual void clear();
 
+    virtual void kick(QString str);
+
 
 signals:
     void itemChanged();
