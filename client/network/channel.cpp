@@ -138,9 +138,8 @@ void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool mustBeSaved)
             qDebug()<< "[server][send to clients]" << other << tcp;
 
             //other->sendMessage(*msg);
-            QMetaObject::invokeMethod(other,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg));
-        }
-
+            QMetaObject::invokeMethod(other,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,!mustBeSaved));
+        }          
     }
 }
 int Channel::addChild(TreeItem* item)
@@ -171,7 +170,7 @@ void Channel::updateNewClient(TcpClient* newComer)
                 {
                     NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::PlayerCategory,NetMsg::PlayerConnectionAction);
                     tcpConnection->fill(msg);
-                    QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg));
+                    QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,true));
                 }
 
             }
@@ -181,7 +180,7 @@ void Channel::updateNewClient(TcpClient* newComer)
     for(auto msg : m_dataToSend)
     {
         //tcp->sendMessage(msg);
-        QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg));
+        QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,false));
     }
 }
 
@@ -205,7 +204,6 @@ void Channel::kick(QString str)
             sendToAll(message,nullptr,false);
 
         }
-
     }
     if(!found)
     {

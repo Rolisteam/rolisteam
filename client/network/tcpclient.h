@@ -121,7 +121,7 @@ public slots:
      * @brief sendMessage
      * @param msg
      */
-    void sendMessage(NetworkMessage* msg);
+    void sendMessage(NetworkMessage* msg,bool deleteMsg);
     /**
      * @brief connectionError
      * @param error

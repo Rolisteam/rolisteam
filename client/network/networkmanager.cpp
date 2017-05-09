@@ -131,7 +131,7 @@ bool ClientManager::startConnection()
 
 void ClientManager::startConnectionToServer()
 {
-    if(NULL==m_networkLinkToServer)
+    if(NULL!=m_networkLinkToServer)
     {
         m_networkLinkToServer->connectTo();
     }
@@ -194,30 +194,8 @@ void ClientManager::endingNetworkLink(NetworkLink * link)
             m_networkLinkToServer = NULL;
             m_playersList->cleanListButLocal();
         }
-
-
-       /* if(!m_disconnectAsked)
-        {
-            m_dialog->startTimer();
-            m_dialog->show();
-        }*/
     }
-  /*  else
-    {
-        if (link == NULL)
-        {
-			qWarning() << tr("NULL NetworkLink pointer (NetworkManager::finDeNetworkLink).");
-            return;
-        }
 
-        int i = m_networkLinkList.indexOf(link);
-        if (i < 0)
-        {
-			qWarning()<< tr("Unknown thread joined, (finDeNetworkLink - NetworkManager.cpp)");
-            return;
-        }
-        m_networkLinkList.removeAt(i);
-  //  }*/
 }
 void ClientManager::disconnectAndClose()
 {
@@ -249,6 +227,7 @@ bool ClientManager::isConnected() const
 
 void ClientManager::setConnectionState(ConnectionState state)
 {
+    qDebug() << "[Connection State]"<< state;
     if(m_connectionState!=state)
     {
         m_connectionState=state;

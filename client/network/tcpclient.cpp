@@ -269,7 +269,7 @@ void TcpClient::sendData(QByteArray a)
     }
     //qDebug() << "Array datasend:"<<dataSend;
 }
-void TcpClient::sendMessage(NetworkMessage* msg)
+void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 {
     qInfo() << "send message";
     NetworkMessageHeader* data = msg->buffer();
@@ -279,7 +279,10 @@ void TcpClient::sendMessage(NetworkMessage* msg)
     {
         qDebug() << "error Writing data" << m_socket->errorString() ;
     }
-    delete msg;
+    if(deleteMsg)
+    {
+        delete msg;
+    }
 }
 void TcpClient::connectionError(QAbstractSocket::SocketError error)
 {

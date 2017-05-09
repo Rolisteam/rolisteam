@@ -140,7 +140,7 @@ void ServerManager::sendOffAuthSuccessed()
     {
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AuthentificationSucessed);
 //        client->sendMessage(msg);
-        QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)));
+        QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
 
 
         sendOffModel(client);
@@ -153,11 +153,35 @@ void ServerManager::sendOffAuthFail()
     {
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AuthentificationFail);
         //client->sendMessage(msg);
-        QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)));
+        QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
 
 
     }
 }
+void ServerManager::removeClient(QString id)
+{
+    m_model->kick(id);
+    sendOffModelToAll();
+
+    QTcpSocket* client = nullptr;
+    for(auto key : m_connections.keys())
+    {
+        if(!key->isOpen())
+        {
+            qDebug() << "isClose";
+        }
+        auto value = m_connections[key];
+        if(value->getId() == id)
+        {
+            client = key;
+        }
+    }
+    if(nullptr != client)
+    {
+        m_connections.remove(client);
+    }
+}
+
 void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan, TcpClient* tcp)
 {
     switch (msg->action())
@@ -168,8 +192,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
         case NetMsg::Kicked:
         {
             QString id = msg->string8();
-            m_model->kick(id);
-            sendOffModelToAll();
+            removeClient(id);
         }
         break;
         case NetMsg::Password:
@@ -231,7 +254,7 @@ void ServerManager::sendOffModel(TcpClient* client)
         msg->byteArray32(doc.toJson());
 
         qDebug() << doc.toJson();
-        QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)));
+        QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
 
     }
 }
