@@ -154,13 +154,17 @@ public:
      * @param i
      */
     void resetAllId(int &i);
+
+    void setOrig(CharacterSheetItem *orig);
+    void changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem *child);
 public slots:
     /**
      * @brief fillList
      * @param result
      * @param character
      */
-    void buildDataInto(CharacterSheet* CharacterSheet);
+    void buildDataInto(CharacterSheet* characterSheet);
+    void updateData(CharacterSheet* characterSheet);
 private:
     QHash<QString,CharacterSheetItem*> m_dataHash;
     QStringList m_keyList;

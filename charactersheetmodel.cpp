@@ -150,7 +150,6 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
                     QString path = childItem->getPath();
                     CharacterSheet* sheet = m_characterList->at(index.column()-1);
                     return sheet->getValue(path,(Qt::ItemDataRole)role);
-                    //childItem->setValue(value.toString(),index.column()-1);
                 }
             }
         }
@@ -185,7 +184,14 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
                     m_formulaManager->setConstantHash(&hash);
                     valueStr=m_formulaManager->getValue(formula).toString();
                 }
-                sheet->setValue(path,valueStr,formula);
+
+                CharacterSheetItem* newitem = sheet->setValue(path,valueStr,formula);
+                if(nullptr!=newitem)
+                {
+                    //auto value = sheet->getFieldFromKey(path);
+                    newitem->setLabel(childItem->getLabel());
+                    newitem->setOrig(childItem);
+                }
                 computeFormula(childItem->getLabel(),sheet);
                 emit dataCharacterChange();
 
@@ -450,11 +456,10 @@ void CharacterSheetModel::readModel(QJsonObject& jsonObj,bool readRootSection)
         QJsonObject obj = charJson.toObject();
         CharacterSheet* sheet = new CharacterSheet();
         sheet->load(obj);
+        sheet->setOrigin(m_rootSection);
         addCharacterSheet(sheet);
         //m_characterList->append(sheet);
         //emit characterSheetHasBeenAdded(sheet);
     }
     endResetModel();
-//    m_characterCount = jsonObj["characterCount"].toInt();
-
 }

@@ -26,7 +26,7 @@
 //Item
 /////////////////////////////
 CharacterSheetItem::CharacterSheetItem()
-    : m_parent(NULL),m_page(0),m_readOnly(false)
+    : m_parent(nullptr),m_orig(nullptr),m_page(0),m_readOnly(false)
 {
 }
 
@@ -89,6 +89,38 @@ void CharacterSheetItem::setFormula(const QString &formula)
     m_formula = formula;
 }
 
+CharacterSheetItem *CharacterSheetItem::getOrig() const
+{
+    return m_orig;
+}
+
+void CharacterSheetItem::setOrig(CharacterSheetItem* orig)
+{
+    m_orig = orig;
+    if(nullptr != m_orig)
+    {
+        connect(m_orig,SIGNAL(labelChanged()),this,SLOT(updateLabelFromOrigin()));
+    }
+}
+void CharacterSheetItem::updateLabelFromOrigin()
+{
+    if(nullptr!=m_orig)
+    {
+      QString oldKey =m_label;
+
+      setLabel(m_orig->getLabel());
+
+      if(nullptr != m_parent)
+      {
+        m_parent->changeKeyChild(oldKey,m_label,this);
+      }
+    }
+}
+void CharacterSheetItem::changeKeyChild(QString oldkey, QString newKey,CharacterSheetItem* child)
+{
+
+}
+
 QString CharacterSheetItem::value() const
 {
     return m_value;
@@ -103,8 +135,6 @@ void CharacterSheetItem::setValue(const QString &value,bool fromNetwork)
 
     doc.setHtml(m_value);
     QString currentValue = doc.toPlainText();
-    //newValue.remove(QRegExp("<[^>]*>"));
-    //currentValue.remove(QRegExp("<[^>]*>"));
 
     if(currentValue!=newValue)
     {
@@ -129,7 +159,11 @@ QString CharacterSheetItem::getLabel() const
 
 void CharacterSheetItem::setLabel(const QString &label)
 {
-    m_label = label;
+    if(m_label != label)
+    {
+        m_label = label;
+        labelChanged();
+    }
 }
 void CharacterSheetItem::setId(const QString &id)
 {
