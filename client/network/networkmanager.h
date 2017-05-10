@@ -124,6 +124,8 @@ signals :
     void isConnecting();
     void isDisconnected();
 
+protected:
+    void initializeLink();
 private slots :
     //void newClientConnection();
     void endingNetworkLink(NetworkLink * link);
