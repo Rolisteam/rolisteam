@@ -1330,19 +1330,22 @@ void MainWindow::startConnection()
 }
 void MainWindow::initializedClientManager()
 {
-    m_clientManager = new ClientManager(m_currentConnectionProfile);
+    if(nullptr == m_clientManager)
+    {
+        m_clientManager = new ClientManager(m_currentConnectionProfile);
+
    // connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
 
-    connect(m_clientManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
-    connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
-    connect(m_clientManager,SIGNAL(errorOccur(QString)),m_dialog,SLOT(errorOccurs(QString)));
-    connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(updateWindowTitle()));
-    connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
-    connect(m_clientManager,SIGNAL(isAuthentified()),this,SLOT(postConnection()));
-
-    if((NULL!=m_currentConnectionProfile)&&(NULL!=m_clientManager))
+        connect(m_clientManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
+        connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
+        connect(m_clientManager,SIGNAL(errorOccur(QString)),m_dialog,SLOT(errorOccurs(QString)));
+        connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(updateWindowTitle()));
+        connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
+        connect(m_clientManager,SIGNAL(isAuthentified()),this,SLOT(postConnection()));
+    }
+    if((nullptr!=m_currentConnectionProfile)&&(nullptr!=m_clientManager))
     {
-        if(NULL!=m_playerList)
+        if(nullptr!=m_playerList)
         {
             m_playerList->completeListClean();
             m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
