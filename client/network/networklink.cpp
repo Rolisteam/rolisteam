@@ -340,8 +340,6 @@ void NetworkLink::disconnectAndClose()
     if(NULL!=m_socketTcp)
     {
         m_socketTcp->close();
-        //delete m_socketTcp;
-        //m_socketTcp=NULL;
     }
 }
 void NetworkLink::setSocket(QTcpSocket* socket, bool makeConnection)
