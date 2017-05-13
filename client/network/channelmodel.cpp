@@ -5,9 +5,15 @@
 
 #include <QSettings>
 #include <QList>
+#include <QIcon>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+
+#ifdef QT_WIDGETS_LIB
+#include <QApplication>
+#include <QStyle>
+#endif
 
 #include "channel.h"
 
@@ -56,8 +62,34 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const
         {
             return tmp->getName();
         }
+        #ifdef QT_WIDGETS_LIB
+        else if(role == Qt::DecorationRole)
+        {
+            if(!tmp->isLeaf())
+            {
+                QStyle* style = qApp->style();
+
+                return style->standardIcon(QStyle::SP_DirIcon);
+                //return QIcon(":/resources/icons/folder.png");
+            }
+        }
+        #endif
     }
     return QVariant();
+}
+
+bool ChannelModel::setData(const QModelIndex &index, const QVariant &value, int )
+{
+    if(!index.isValid())
+        return false;
+
+    TreeItem* tmp = static_cast<TreeItem*>(index.internalPointer());
+    if(tmp!=nullptr)
+    {
+        tmp->setName(value.toString());
+        return true;
+    }
+    return false;
 }
 
 QModelIndex ChannelModel::parent(const QModelIndex &child) const
@@ -112,16 +144,49 @@ int ChannelModel::addChannel(QString name, QString password)
 {
     Channel* chan = new Channel(name);
     chan->setPassword(password);
-    m_root.append(chan);
-   // chan->setParentItem(m_root);
+    QModelIndex index;
+    addChannelToChannel(chan,index);
     return m_root.indexOf(chan);
 }
+QModelIndex ChannelModel::addChannelToChannel(Channel* channel,QModelIndex& parent)
+{
+    int row = -1;
+    if(!parent.isValid())
+    {
+       beginInsertRows(parent,m_root.size(),m_root.size());
+       m_root.append(channel);
+       endInsertRows();
+       row = m_root.size()-1;
+    }
+    else
+    {
+        Channel* item = static_cast<Channel*>(parent.internalPointer());
+        if(nullptr!=item)
+        {
+            beginInsertRows(parent,item->childCount(),item->childCount());
+            item->addChild(channel);
+            endInsertRows();
+            row = item->childCount()-1;
+        }
+    }
+
+
+    return index(row,0,parent);
+}
+
 Qt::ItemFlags ChannelModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
         return Qt::ItemIsEnabled;
 
-    return Qt::ItemIsEnabled  | Qt::ItemIsSelectable;//| Qt::ItemIsEditable
+    if(isAdmin())
+    {
+        return Qt::ItemIsEnabled  | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+    }
+    else
+    {
+        return Qt::ItemIsEnabled  | Qt::ItemIsSelectable;//| Qt::ItemIsEditable
+    }
 }
 bool ChannelModel::hasChildren ( const QModelIndex & parent  ) const
 {
@@ -256,6 +321,16 @@ void ChannelModel::kick(QString id)
             item->kick(id);
         }
     }
+}
+
+bool ChannelModel::isAdmin() const
+{
+    return m_admin;
+}
+
+void ChannelModel::setAdmin(bool admin)
+{
+    m_admin = admin;
 }
 
 
