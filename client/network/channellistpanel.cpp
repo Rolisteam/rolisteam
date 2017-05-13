@@ -33,6 +33,12 @@ ChannelListPanel::ChannelListPanel(QWidget *parent) :
     m_kick = new QAction(tr("Kick User"),this);
 
     connect(m_kick,SIGNAL(triggered(bool)),this,SLOT(kickUser()));
+    connect(m_edit,SIGNAL(triggered(bool)),this,SLOT(editChannel()));
+    connect(m_addChannel,SIGNAL(triggered(bool)),this,SLOT(addChannel()));
+    connect(m_addSubchannel,SIGNAL(triggered(bool)),this,SLOT(addChannel()));
+    connect(m_deleteChannel,SIGNAL(triggered(bool)),this,SLOT(deleteChannel()));
+    connect(m_lock,SIGNAL(triggered(bool)),this,SLOT(lockChannel()));
+    connect(m_join,SIGNAL(triggered(bool)),this,SLOT(kickUser()));
 }
 
 ChannelListPanel::~ChannelListPanel()
@@ -147,25 +153,116 @@ void ChannelListPanel::kickUser()
 
     }
 }
+void ChannelListPanel::lockChannel()
+{
+    if(isAdmin())
+    {
+        if(m_index.isValid())
+        {
+            Channel* item = static_cast<Channel*>(m_index.internalPointer());
+            QString id = item->getId();
+            if(!id.isEmpty())
+            {
+                NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::LockChannel);
+                msg.string8(id);
+                msg.sendAll();
+            }
+        }
+    }
+}
+template <typename T>
+T ChannelListPanel::indexToPointer(QModelIndex index)
+{
+    T item = static_cast<T>(index.internalPointer());
+    return item;
+}
 
 void ChannelListPanel::banUser()
 {
-
+    if(isAdmin())
+    {
+        if(m_index.isValid())
+        {
+            TcpClient* item = indexToPointer<TcpClient*>(m_index);///static_cast<TcpClient*>(m_index.internalPointer());
+            QString id = item->getId();
+            QString idPlayer = item->getPlayerId();
+            if(!id.isEmpty())
+            {
+                NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::BanUser);
+                msg.string8(id);
+                msg.string8(idPlayer);
+                msg.sendAll();
+            }
+        }
+    }
 }
 
 void ChannelListPanel::addChannel()
 {
+    if(isAdmin())
+    {
+        Channel* newChannel = new Channel(tr("New Channel"));
 
+        Channel* parent = indexToPointer<Channel*>(m_index);
+
+        QModelIndex justAdded = m_model->addChannelToChannel(newChannel,m_index);
+        ui->m_channelView->edit(justAdded);
+
+        if(nullptr!=parent)
+        {
+            QString parentId = parent->getId();
+            if(!parentId.isEmpty())
+            {
+                NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::BanUser);
+                msg.string8(parentId);
+               // newChannel->fill(newChannel);
+                msg.sendAll();
+            }
+        }
+    }
 }
-
+void ChannelListPanel::editChannel()
+{
+    // Todo display dialog to edit properties of QML
+    if(isAdmin())
+    {
+        ui->m_channelView->edit(m_index);
+    }
+}
 void ChannelListPanel::deleteChannel()
 {
-
+    if(isAdmin())
+    {
+        if(m_index.isValid())
+        {
+            Channel* item = static_cast<Channel*>(m_index.internalPointer());
+            QString id = item->getId();
+            if(!id.isEmpty())
+            {
+                NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::DeleteChannel);
+                msg.string8(id);
+                msg.sendAll();
+            }
+        }
+    }
 }
 
 void ChannelListPanel::joinChannel()
 {
-
+    if(isAdmin())
+    {
+        if(m_index.isValid())
+        {
+            Channel* item = static_cast<Channel*>(m_index.internalPointer());
+            QString id = item->getId();
+            if(!id.isEmpty())
+            {
+                NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::JoinChannel);
+                msg.string8(id);
+                msg.sendAll();
+            }
+        }
+    }
 }
 
 ChannelListPanel::GROUP ChannelListPanel::currentGRoup() const
