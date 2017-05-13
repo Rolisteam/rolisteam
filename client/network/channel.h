@@ -19,7 +19,7 @@ class Channel : public TreeItem
     Q_OBJECT
 public:
     Channel();
-    Channel(QString);
+    Channel(QString name);
     virtual ~Channel();
 
     QString password() const;
