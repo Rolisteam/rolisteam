@@ -144,15 +144,18 @@ void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool mustBeSaved)
 }
 int Channel::addChild(TreeItem* item)
 {
-    m_child.append(item);
-    TcpClient* tcp = dynamic_cast<TcpClient*>(item);
-    if(nullptr!=tcp)
+    if(nullptr != item)
     {
-        tcp->setParentItem(this);
-
-        updateNewClient(tcp);
+        m_child.append(item);
+        item->setParentItem(this);
+        TcpClient* tcp = dynamic_cast<TcpClient*>(item);
+        if(nullptr!=tcp)
+        {
+            updateNewClient(tcp);
+        }
+        return m_child.size();
     }
-    return m_child.size();
+    return -1;
 
 }
 
