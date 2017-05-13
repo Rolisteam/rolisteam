@@ -75,6 +75,7 @@ quint64 NetworkMessage::getSize()
         NetworkMessageHeader* header = buffer();
         return  header->dataSize + sizeof(NetworkMessageHeader);
     }
+    return 0;
 }
 void NetworkMessage::setLinkToServer(NetworkLink* linkToServer)
 {
