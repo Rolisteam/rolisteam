@@ -66,6 +66,10 @@ enum Action {
     SetChannelList,
     AuthentificationSucessed,
     AuthentificationFail,
+    LockChannel,
+    JoinChannel,
+    DeleteChannel,
+    BanUser,
 
     // PlayerCategory
     PlayerConnectionAction = 0,
