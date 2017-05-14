@@ -29,56 +29,78 @@ QmlHighlighter::QmlHighlighter(QTextDocument *parent)
     keywordFormat.setForeground(Qt::blue);
 
     QStringList keywordPatterns;
-    keywordPatterns << "\\bif\\b" << "\\belsif\\b" << "\\belse\\b" << "\\breturn\\b"<< "\\bimport\\b" << "\\bsignal\\b" << "\\bproperty\\b"<< "\\bint\\b";
-    foreach (const QString &pattern, keywordPatterns) {
-        rule.pattern = QRegExp(pattern);
+    keywordPatterns << "\\sif\\s"
+                    << "\\selsif\\s"
+                    << "\\selse\\s"
+                    << "\\sreturn\\s"
+                    << "\\simport\\s"
+                    << "\\ssignal\\s"
+                    << "\\sproperty\\s"
+                    << "\\sint\\s"
+                    << "\\salias\\s"
+                    << "\\sstring\\s"
+                    << "\\sreal\\s";
+    foreach (const QString &pattern, keywordPatterns)
+    {
+        rule.pattern = QRegularExpression(pattern);
         rule.format = keywordFormat;
         highlightingRules.append(rule);
     }
 
     propertyFormat.setForeground(Qt::darkRed);
-    rule.pattern = QRegExp("[A-z]+:");
+    rule.pattern = QRegularExpression("\\w+:");
     rule.format = propertyFormat;
     highlightingRules.append(rule);
 
     lookupFormat.setForeground(Qt::magenta);
     //lookupFormat.setBackground(Qt::black);
-    rule.pattern = QRegExp("\\b[0-9]+\\b");
+    rule.pattern = QRegularExpression("\\s\\d+\\s");
     rule.format = lookupFormat;
     highlightingRules.append(rule);
 
     quotationFormat.setForeground(Qt::darkGreen);
-    rule.pattern = QRegExp("\".*\"");
+    rule.pattern = QRegularExpression("\".*\"");
     rule.format = quotationFormat;
     highlightingRules.append(rule);
-    rule.pattern = QRegExp("'.*'");
+    rule.pattern = QRegularExpression("'.*'");
     rule.format = quotationFormat;
     highlightingRules.append(rule);
 
     itemFormat.setForeground(QColor(Qt::red));
     //itemFormat.setFontWeight(QFont::Bold);
-    rule.pattern =  QRegExp("[A-Z][A-z|0-9]+ ");
+    rule.pattern =  QRegularExpression("[A-Z]\\w+ ");
     rule.format = itemFormat;
     highlightingRules.append(rule);
 
     cppObjectFormat.setForeground(QColor(Qt::blue).lighter());
     cppObjectFormat.setFontItalic(true);
-    rule.pattern =  QRegExp("_[A-Z][A-z|0-9]+");
+    rule.pattern =  QRegularExpression("_[A-Z]\\w+");
     rule.format = cppObjectFormat;
+    highlightingRules.append(rule);
+
+
+    commentFormat.setForeground(QColor(Qt::green).lighter());
+    commentFormat.setFontItalic(true);
+    rule.pattern =  QRegularExpression("\/\/.*");
+    rule.format = commentFormat;
     highlightingRules.append(rule);
 
 }
 
 void QmlHighlighter::highlightBlock(const QString &text)
 {
-    foreach(const HighlightingRule &rule, highlightingRules){
-        QRegExp expression(rule.pattern);
-        int index = expression.indexIn(text);
-        while (index >= 0) {
-            int length = expression.matchedLength();
+    foreach(const HighlightingRule &rule, highlightingRules)
+    {
+        QRegularExpression expression(rule.pattern);
+        QRegularExpressionMatch match;// = expression.match(text,0);
+        int index = text.indexOf(expression,0,&match);
+        while (index >= 0)
+        {
+            int length = match.capturedLength();
             setFormat(index, length, rule.format);
-            index = expression.indexIn(text, index + length);
+            index = text.indexOf(expression, index + length,&match);
         }
+
     }
     setCurrentBlockState(0);
 }

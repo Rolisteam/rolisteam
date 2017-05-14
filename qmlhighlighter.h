@@ -24,6 +24,7 @@
 #define QMLJSHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
+#include <QRegularExpression>
 
 class QmlHighlighter : public QSyntaxHighlighter
 {
@@ -38,7 +39,7 @@ protected:
 private:
     struct HighlightingRule
     {
-        QRegExp pattern;
+        QRegularExpression pattern;
         QTextCharFormat format;
     };
     QVector<HighlightingRule> highlightingRules;
@@ -49,5 +50,6 @@ private:
     QTextCharFormat quotationFormat;
     QTextCharFormat itemFormat;
     QTextCharFormat cppObjectFormat;
+    QTextCharFormat commentFormat;
 };
 #endif // QMLJSHIGHLIGHTER_H
