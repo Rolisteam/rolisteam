@@ -29,6 +29,7 @@ TRANSLATIONS =  translations/rcse_fr.ts \
                 translations/rcse_pt_BR.ts \
                 translations/rcse_hu_HU.ts \
                 translations/rcse_tr.ts \
+                translations/rcse_nl_NL.ts \
 
 isEmpty(QMAKE_LRELEASE) {
     win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease.exe
