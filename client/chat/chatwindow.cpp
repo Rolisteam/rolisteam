@@ -122,7 +122,7 @@ void ChatWindow::setupUi()
     vboxLayout->setSpacing(0);
 
     vboxLayout->addWidget(m_splitter);
-    m_displayZone= new ChatBrowser(m_showTime);
+    m_displayZone= new ChatBrowser(m_showTime,this);
     m_displayZone->setOpenExternalLinks(true);
     m_displayZone->setReadOnly(true);
     m_displayZone->setMinimumHeight(30);
