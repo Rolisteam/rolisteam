@@ -115,7 +115,7 @@ public:
      */
     const QString getAbsolueDir() const;
 
-    void write(QDataStream& out) const;
+    void write(QDataStream& out,bool tag = true) const;
     void read(QDataStream &in);
 
     /**

@@ -207,9 +207,12 @@ const QString CleverURI::getAbsolueDir() const
     return info.absolutePath();
 }
 
-void CleverURI::write(QDataStream &out) const
+void CleverURI::write(QDataStream &out, bool tag) const
 {
-    out << QStringLiteral("CleverUri");
+    if(tag)
+    {
+        out << QStringLiteral("CleverUri");
+    }
     QByteArray data;
     if(m_data.isEmpty())
     {
@@ -232,14 +235,6 @@ void CleverURI::read(QDataStream &in)
     m_currentMode = (CleverURI::LoadingMode)mode;
     m_state = (CleverURI::State)state;
     setUpListener();
-   /* if(QFile::exists(m_uri))
-    {
-        m_data.clear();
-    }
-    else
-    {
-        m_uri.clear();
-    }*/
 }
 
 QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
@@ -339,14 +334,14 @@ QVariant CleverURI::getData(ResourcesNode::DataValue i)
 
 QDataStream& operator<<(QDataStream& out, const CleverURI& con)
 {
-    out << con.getUri();
-    out << (int)con.getType();
+    con.write(out,false);
     return out;
 }
 
 QDataStream& operator>>(QDataStream& is,CleverURI& con)
 {
-    QString str;
+    con.read(is);
+    /*QString str;
     is >> str;
 
     int type;
@@ -354,7 +349,7 @@ QDataStream& operator>>(QDataStream& is,CleverURI& con)
 
 
     con.setType((CleverURI::ContentType)type);
-    con.setUri(str);
+    con.setUri(str);*/
     return is;
 }
 
