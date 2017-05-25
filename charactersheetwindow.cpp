@@ -279,7 +279,7 @@ void CharacterSheetWindow::affectSheetToCharacter()
             {
                 m_sheetToPerson.insert(sheet,parent);
                 NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterSheet);
-                //msg.string8(character->getUuid());
+                msg.string8(parent->getUuid());
                 fill(&msg,sheet,character->getUuid());
                 Player* person = character->getParentPlayer();
                 msg.sendTo(person->link());
@@ -306,6 +306,18 @@ void CharacterSheetWindow::checkAlreadyShare(CharacterSheet* sheet)
         m_sheetToPerson.remove(sheet);
     }
 }
+bool CharacterSheetWindow::hasCharacterSheet(QString id)
+{
+    if(NULL==m_model.getCharacterSheetById(id))
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
 void CharacterSheetWindow::removeConnection(Player* player)
 {
     CharacterSheet* key = m_sheetToPerson.key(player,NULL);

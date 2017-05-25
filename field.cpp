@@ -556,6 +556,8 @@ bool Field::hasFontField()
     case Field::CHECKBOX:
     case Field::IMAGE:
         return false;
+    default:
+        return false;
     }
     return false;
 }

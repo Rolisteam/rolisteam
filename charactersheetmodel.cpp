@@ -82,7 +82,7 @@ QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex 
     if(row<0)
         return QModelIndex();
     
-    CharacterSheetItem* parentItem = NULL;
+    CharacterSheetItem* parentItem = nullptr;
     
     if (!parent.isValid())
         parentItem = m_rootSection;
