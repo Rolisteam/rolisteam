@@ -126,14 +126,24 @@ private:
     QString m_pdfPath;
     PdfManager* m_pdf;
 
-    //Action
+    //Action Character
     QAction* m_addCharacter;
+    QAction* m_deleteCharacter;
+    QAction* m_copyCharacter;
+    QAction* m_defineAsTabName;
+    QAction* m_applyValueOnAllCharacterLines;
+    QAction* m_applyValueOnSelectedCharacterLines;
+    QAction* m_applyValueOnAllCharacters;
+
+    //Action items
     QAction* m_delItem;
     QAction* m_applyValueOnSelection;
     QAction* m_applyValueOnAllLines;
+    QString m_title;
+
+    //action view
     QAction* m_fitInView;
 
-    QString m_title;
 
     PreferencesManager* m_preferences;
 

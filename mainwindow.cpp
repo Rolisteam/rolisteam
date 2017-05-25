@@ -210,6 +210,15 @@ MainWindow::MainWindow(QWidget *parent) :
     m_applyValueOnSelection = new QAction(tr("Apply on Selection"),this);
     m_applyValueOnAllLines = new QAction(tr("Apply on all lines"),this);
 
+    m_deleteCharacter= new QAction(tr("Delete character"),this);
+    m_copyCharacter= new QAction(tr("Copy character"),this);
+    m_defineAsTabName= new QAction(tr("Character's Name"),this);
+
+
+    m_applyValueOnAllCharacterLines= new QAction(tr("Apply on all lines"),this);
+    m_applyValueOnSelectedCharacterLines= new QAction(tr("Apply on Selection"),this);
+    m_applyValueOnAllCharacters = new QAction(tr("Apply on all characters"),this);
+
     connect(ui->m_codeEdit,SIGNAL(textChanged()),this,SLOT(codeChanged()));
 
     // Help Menu
@@ -546,9 +555,44 @@ void MainWindow::menuRequested(const QPoint & pos)
     Q_UNUSED(pos);
     QMenu menu(this);
 
-    menu.addAction(m_addCharacter);
+    QModelIndex index = ui->m_characterView->currentIndex();
 
-    menu.exec(QCursor::pos());
+    menu.addAction(m_addCharacter);   
+    menu.addAction(m_copyCharacter);
+    menu.addSeparator();
+    menu.addAction(m_applyValueOnAllCharacters);
+    menu.addAction(m_applyValueOnSelectedCharacterLines);
+    menu.addAction(m_applyValueOnAllCharacterLines);
+    menu.addAction(m_defineAsTabName);
+    menu.addSeparator();
+    menu.addAction(m_deleteCharacter);
+    QAction* act = menu.exec(QCursor::pos());
+
+    if(act == m_deleteCharacter)
+    {
+        m_characterModel->removeCharacterSheet(index);
+    }
+    else if( act == m_defineAsTabName)
+    {
+        QString name = index.data().toString();
+        if(!name.isEmpty())
+        {
+            CharacterSheet* sheet = m_characterModel->getCharacterSheet(index.column()-1);
+            sheet->setName(name);
+        }
+    }
+    else if(act == m_applyValueOnSelectedCharacterLines)
+    {
+
+    }
+    else if(act == m_applyValueOnAllCharacterLines)
+    {
+
+    }
+    else if(act == m_copyCharacter)
+    {
+
+    }
 }
 void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
 {
