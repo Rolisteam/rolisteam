@@ -783,6 +783,7 @@ void MainWindow::open()
                     Canvas* canvas = new Canvas();
                     canvas->setModel(m_model);
                     canvas->setPixmap(pix);
+                    canvas->setCurrentPage(i);
                     m_canvasList.append(canvas);
                     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
                 }
