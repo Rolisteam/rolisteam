@@ -258,6 +258,14 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
     connect(sheet,SIGNAL(updateField(CharacterSheet*,CharacterSheetItem*)),this,SLOT(fieldHasBeenChanged(CharacterSheet*,CharacterSheetItem*)));
 
 }
+void CharacterSheetModel::removeCharacterSheet(QModelIndex & index)
+{
+    beginRemoveColumns(QModelIndex(),index.column(),index.column());
+
+    m_characterList->removeAt(index.column()-1);
+
+    endRemoveColumns();
+}
 
 CharacterSheet *CharacterSheetModel::getCharacterSheetById(QString id)
 {
