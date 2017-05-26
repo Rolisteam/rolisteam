@@ -268,8 +268,20 @@ void MainWindow::clearData()
     m_imgProvider->cleanData();
     m_characterModel->clearModel();
 
+    ui->m_codeEdit->clear();
+
     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
     canvas->setModel(m_model);
+
+    /*while(m_canvasList.size()>1)
+    {
+        delete m_canvasList.takeLast();
+    }
+    for(auto canvas : m_canvasList)
+    {
+        canvas->clear();
+    }
+    m_imgProvider->cleanData();*/
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* event)
@@ -754,54 +766,58 @@ void MainWindow::save()
 
 void MainWindow::open()
 {
-    m_filename = QFileDialog::getOpenFileName(this,tr("Save CharacterSheet"),QDir::homePath(),tr("Rolisteam CharacterSheet (*.rcs)"));
-    if(!m_filename.isEmpty())
+    if(mayBeSaved())
     {
-        QFile file(m_filename);
-        if(file.open(QIODevice::ReadOnly))
+        clearData();
+        m_filename = QFileDialog::getOpenFileName(this,tr("Save CharacterSheet"),QDir::homePath(),tr("Rolisteam CharacterSheet (*.rcs)"));
+        if(!m_filename.isEmpty())
         {
-            QJsonDocument json = QJsonDocument::fromJson(file.readAll());
-            QJsonObject jsonObj = json.object();
-            QJsonObject data = jsonObj["data"].toObject();
-
-            QString qml = jsonObj["qml"].toString();
-
-            ui->m_codeEdit->setPlainText(qml);
-
-            QJsonArray images = jsonObj["background"].toArray();
-            int i = 0;
-            for(auto jsonpix : images)
+            QFile file(m_filename);
+            if(file.open(QIODevice::ReadOnly))
             {
-                QJsonObject oj = jsonpix.toObject();
-                QString str = oj["bin"].toString();
-                QString id = oj["key"].toString();
-                QByteArray array = QByteArray::fromBase64(str.toUtf8());
-                QPixmap* pix = new QPixmap();
-                pix->loadFromData(array);
-                if(i!=0)
+                QJsonDocument json = QJsonDocument::fromJson(file.readAll());
+                QJsonObject jsonObj = json.object();
+                QJsonObject data = jsonObj["data"].toObject();
+
+                QString qml = jsonObj["qml"].toString();
+
+                ui->m_codeEdit->setPlainText(qml);
+
+                QJsonArray images = jsonObj["background"].toArray();
+                int i = 0;
+                for(auto jsonpix : images)
                 {
-                    Canvas* canvas = new Canvas();
-                    canvas->setModel(m_model);
-                    canvas->setPixmap(pix);
-                    canvas->setCurrentPage(i);
-                    m_canvasList.append(canvas);
-                    connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
+                    QJsonObject oj = jsonpix.toObject();
+                    QString str = oj["bin"].toString();
+                    QString id = oj["key"].toString();
+                    QByteArray array = QByteArray::fromBase64(str.toUtf8());
+                    QPixmap* pix = new QPixmap();
+                    pix->loadFromData(array);
+                    if(i!=0)
+                    {
+                        Canvas* canvas = new Canvas();
+                        canvas->setModel(m_model);
+                        canvas->setPixmap(pix);
+                        canvas->setCurrentPage(i);
+                        m_canvasList.append(canvas);
+                        connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
+                    }
+                    else
+                    {
+                        m_canvasList[0]->setPixmap(pix);
+                    }
+                    m_pixList.insert(id,pix);
+                    //m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(i).arg(id),*pix);
+                    m_imgProvider->insertPix(id,*pix);
+                    ++i;
                 }
-                else
-                {
-                    m_canvasList[0]->setPixmap(pix);
-                }
-                m_pixList.insert(id,pix);
-                //m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(i).arg(id),*pix);
-                m_imgProvider->insertPix(id,*pix);
-                ++i;
+                m_model->load(data,m_canvasList);
+                m_characterModel->setRootSection(m_model->getRootSection());
+                m_characterModel->readModel(jsonObj,false);
+                updatePageSelector();
+                setWindowTitle(m_title.arg(QFileInfo(m_filename).fileName()).arg("RCSE"));
+                setWindowModified(false);
             }
-            m_model->load(data,m_canvasList);
-            m_characterModel->setRootSection(m_model->getRootSection());
-            m_characterModel->readModel(jsonObj,false);
-            updatePageSelector();
-            setWindowTitle(m_title.arg(QFileInfo(m_filename).fileName()).arg("RCSE"));
-            setWindowModified(false);
         }
     }
 }

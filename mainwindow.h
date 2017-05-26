@@ -61,6 +61,7 @@ public:
     void updatePageSelector();
     void readSettings();
     void writeSettings();
+    void cleanData();
 public slots:
     void openPDF();
     void setCurrentTool();
