@@ -444,6 +444,7 @@ QString Field::getQMLItemName()
         return "SelectField";
     case Field::IMAGE:
         return "ImageField";
+    case Field::FUNCBUTTON:
     case Field::BUTTON:
         return "DiceButton";
     default:
@@ -497,9 +498,9 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         {
             out << "    text: "<<m_id<<".label\n";
         }
-        else
+        else if(m_currentType!=Field::FUNCBUTTON)
         {
-            out << "    text: "<<m_id << ".value\n";
+            out << "    text: "<<m_id << ".label\n";
         }
         out << "    textColor:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
         out << "    x:" << m_canvasField->pos().x() << "*parent.realscale"<<"\n";
@@ -528,16 +529,20 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         {
            out << "    onClicked:rollDiceCmd("<<m_id<<".value)\n";
         }
+        else if(m_currentType==Field::FUNCBUTTON)
+        {
+            out << "    onClicked:{\n    " << m_value <<"\n    }\n";
+        }
         if(m_currentType== Field::TEXTINPUT)
         {
             QPair<QString,QString> pair = getTextAlign();
             out << "    hAlign: "<< pair.first<<"\n";
             out << "    vAlign: "<< pair.second <<"\n";
         }
-        if((m_availableValue.isEmpty())&&(m_currentType!=Field::BUTTON))
+        if((m_availableValue.isEmpty())&&(m_currentType!=Field::BUTTON)&&(m_currentType!=Field::FUNCBUTTON))
         {
             out << "    onTextChanged: {\n";
-            out << "    "<<m_id<<".value = text}\n";
+            out << "    "<<m_id<<".value = text\n    }\n";
         }
         out << "}\n";
     }
@@ -550,6 +555,7 @@ bool Field::hasFontField()
     case Field::TEXTAREA:
     case Field::TEXTFIELD:
     case Field::BUTTON:
+    case Field::FUNCBUTTON:
         return true;
         break;
     case Field::SELECT:
