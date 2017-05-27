@@ -34,6 +34,7 @@ QmlHighlighter::QmlHighlighter(QTextDocument *parent)
                     << "\\selse\\s"
                     << "\\sreturn\\s"
                     << "\\simport\\s"
+                    << "import\\s"
                     << "\\ssignal\\s"
                     << "\\sproperty\\s"
                     << "\\sint\\s"
