@@ -146,6 +146,9 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             case Canvas::ADDIMAGE:
                 field->setCurrentType(Field::IMAGE);
                 break;
+            case Canvas::ADDFUNCBUTTON:
+                field->setCurrentType(Field::FUNCBUTTON);
+                break;
             case Canvas::BUTTON:
                 field->setCurrentType(Field::BUTTON);
                 field->setBgColor(Qt::red);
