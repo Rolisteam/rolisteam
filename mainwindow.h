@@ -35,7 +35,7 @@
 #include "field.h"
 #include "charactersheetmodel.h"
 #include "pdfmanager.h"
-
+#include "sheetproperties.h"
 #include "preferencesmanager.h"
 
 namespace Ui {
@@ -146,6 +146,12 @@ private:
 
 
     PreferencesManager* m_preferences;
+    /// Sheet properties
+    SheetProperties* m_sheetProperties;
+    QString m_additionnalCode;
+    bool m_additionnalCodeTop;
+    bool m_flickableSheet;
+    qreal m_fixedScaleSheet;
 
 
 };

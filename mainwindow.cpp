@@ -74,6 +74,11 @@ MainWindow::MainWindow(QWidget *parent) :
     setAcceptDrops(true);
     ui->setupUi(this);
 
+    m_additionnalCode = "";
+    m_fixedScaleSheet = 1.0;
+    m_additionnalCodeTop = true;
+    m_flickableSheet = false;
+
     Canvas* canvas = new Canvas();
     canvas->setCurrentPage(m_currentPage);
 
@@ -119,6 +124,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_addTextInputAct->setData(Canvas::ADDINPUT);
     ui->m_addTextFieldAct->setData(Canvas::ADDTEXTFIELD);
     ui->m_addImageAction->setData(Canvas::ADDIMAGE);
+    ui->m_functionButtonAct->setData(Canvas::ADDFUNCBUTTON);
 
     ui->m_moveAct->setData(Canvas::MOVE);
     ui->m_deleteAct->setData(Canvas::DELETETOOL);
@@ -129,6 +135,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_addTextField->setDefaultAction(ui->m_addTextFieldAct);
     ui->m_addCheckbox->setDefaultAction(ui->m_addCheckBoxAct);
     ui->m_imageBtn->setDefaultAction(ui->m_addImageAction);
+    ui->m_functionBtn->setDefaultAction(ui->m_functionButtonAct);
 
     QButtonGroup* group = new QButtonGroup();
     group->addButton(ui->m_addTextInput);
@@ -141,6 +148,7 @@ MainWindow::MainWindow(QWidget *parent) :
     group->addButton(ui->m_imageBtn);
     group->addButton(ui->m_deleteBtn);
     group->addButton(ui->m_moveBtn);
+    group->addButton(ui->m_functionBtn);
 
     ui->m_moveBtn->setDefaultAction(ui->m_moveAct);
     ui->m_deleteBtn->setDefaultAction(ui->m_deleteAct);
@@ -149,7 +157,24 @@ MainWindow::MainWindow(QWidget *parent) :
     QmlHighlighter* highlighter = new QmlHighlighter(ui->m_codeEdit->document());
     highlighter->setObjectName("HighLighterForQML");
 
+    m_sheetProperties = new SheetProperties();
 
+
+    connect(ui->m_sheetProperties,&QAction::triggered,[=](bool){
+       m_sheetProperties->setAdditionCodeAtTheBeginning(m_additionnalCodeTop);
+       m_sheetProperties->setAdditionalCode(m_additionnalCode);
+       m_sheetProperties->setFixedScale(m_fixedScaleSheet);
+       m_sheetProperties->setNoAdaptation(m_flickableSheet);
+
+       if(QDialog::Accepted == m_sheetProperties->exec())
+       {
+            m_additionnalCode = m_sheetProperties->getAdditionalCode();
+            m_fixedScaleSheet = m_sheetProperties->getFixedScale();
+            m_additionnalCodeTop = m_sheetProperties->getAdditionCodeAtTheBeginning();
+            m_flickableSheet = m_sheetProperties->isNoAdaptation();
+
+       }
+    });
 
     connect(ui->m_quitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
 
@@ -158,6 +183,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_addTextFieldAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_addTextInputAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_addImageAction,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_functionButtonAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
 
 
     connect(ui->m_moveAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
@@ -762,6 +788,10 @@ void MainWindow::save()
             }
             obj["qml"]=qmlFile;
 
+            obj["additionnalCode"] = m_additionnalCode;
+            obj["fixedScale"] = m_fixedScaleSheet;
+            obj["additionnalCodeTop"] = m_additionnalCodeTop;
+            obj["flickable"] = m_flickableSheet;
 
             //background
             QJsonArray images;
@@ -809,6 +839,14 @@ void MainWindow::open()
             QJsonObject data = jsonObj["data"].toObject();
 
             QString qml = jsonObj["qml"].toString();
+
+
+            m_additionnalCode = jsonObj["additionnalCode"].toString("");
+            m_fixedScaleSheet = jsonObj["fixedScale"].toDouble(1.0);
+            m_additionnalCodeTop = jsonObj["additionnalCodeTop"].toBool(true);
+            m_flickableSheet = jsonObj["flickable"].toBool(false);
+
+
 
             ui->m_codeEdit->setPlainText(qml);
 
@@ -907,14 +945,28 @@ void MainWindow::generateQML(QString& qml)
     text << "import QtQuick 2.4\n";
     text << "import \"qrc:/resources/qml/\"\n";
     text << "\n";
-    text << "Item {\n";
-    text << "   id:root\n";
+    if(m_flickableSheet)
+    {
+        text << "Flickable {\n";
+        text << "   id:root\n";
+        text << "   contentWidth: imagebg.width;\n   contentHeight: imagebg.height;\n";
+        text << "   boundsBehavior: Flickable.StopAtBounds;\n";
+    }
+    else
+    {
+        text << "Item {\n";
+        text << "   id:root\n";
+    }
     text << "   focus: true\n";
     text << "   property int page: 0\n";
     text << "   property int maxPage:"<< m_canvasList.size()-1 <<"\n";
     text << "   onPageChanged: {\n";
     text << "       page=page>maxPage ? maxPage : page<0 ? 0 : page\n";
     text << "   }\n";
+    if(m_additionnalCodeTop && (!m_additionnalCode.isEmpty()))
+    {
+        text << "   "<< m_additionnalCode<< "\n";
+    }
     text << "   Keys.onLeftPressed: --page\n";
     text << "   Keys.onRightPressed: ++page\n";
     text << "   signal rollDiceCmd(string cmd)\n";
@@ -928,9 +980,18 @@ void MainWindow::generateQML(QString& qml)
         text << "       id:imagebg" << "\n";
         text << "       property real iratio :" << ratio << "\n";
         text << "       property real iratiobis :" << ratioBis << "\n";
-        text << "       property real realscale: width/"<< pix->width() << "\n";
-        text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width" << "\n";
-        text << "       height:(parent.width>parent.height*iratio)?parent.height:iratiobis*parent.width" << "\n";
+        if(m_flickableSheet)
+        {
+            text << "       property real realscale: "<< m_fixedScaleSheet << "\n";
+            text << "       width: sourceSize.width*realscale" << "\n";
+            text << "       height: sourceSize.height*realscale" << "\n";
+        }
+        else
+        {
+            text << "       property real realscale: width/"<< pix->width() << "\n";
+            text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width" << "\n";
+            text << "       height:(parent.width>parent.height*iratio)?parent.height:iratiobis*parent.width" << "\n";
+        }
         text << "       source: \"image://rcs/"+key+"_background_%1.jpg\".arg(root.page)" << "\n";
         m_model->generateQML(text,CharacterSheetItem::FieldSec);
         text << "\n";
@@ -938,8 +999,19 @@ void MainWindow::generateQML(QString& qml)
     }
     else
     {
-        text << "       property real realscale: 1\n";
+        if(m_flickableSheet)
+        {
+            text << "       property real realscale: "<< m_fixedScaleSheet << "\n";
+        }
+        else
+        {
+            text << "       property real realscale: 1\n";
+        }
         m_model->generateQML(text,CharacterSheetItem::FieldSec);
+    }
+    if((!m_additionnalCodeTop) && (!m_additionnalCode.isEmpty()))
+    {
+        text << "   "<< m_additionnalCode << "\n";
     }
     text << "}\n";
     text.flush();
