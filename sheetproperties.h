@@ -15,6 +15,21 @@ public:
     explicit SheetProperties(QWidget *parent = 0);
     ~SheetProperties();
 
+    bool isNoAdaptation() const;
+    void setNoAdaptation(bool noAdaptation);
+
+    QString getAdditionalCode() const;
+    void setAdditionalCode(const QString &additionalCode);
+
+    qreal getFixedScale() const;
+    void setFixedScale(const qreal &fixedScale);
+
+    bool getAdditionCodeAtTheBeginning() const;
+    void setAdditionCodeAtTheBeginning(bool additionCodeAtTheBeginning);
+
+    void reset();
+
+
 private:
     Ui::SheetProperties *ui;
 };
