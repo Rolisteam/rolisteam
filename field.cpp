@@ -480,7 +480,7 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
     if(sec==CharacterSheetItem::FieldSec)
     {
 
-        out << getQMLItemName() <<" {\n";
+        out << getQMLItemName() <<" {//"<< m_label <<"\n";
         if(!m_availableValue.isEmpty())
         {
             out << "    availableValues:" << QStringLiteral("[\"%1\"]").arg(m_availableValue.join("\",\""))<<"\n";

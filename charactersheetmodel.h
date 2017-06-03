@@ -134,6 +134,7 @@ public:
     void readRootSection(NetworkMessageReader* msg);
     void fillRootSection(NetworkMessageWriter* msg);
 #endif
+    void removeCharacterSheet(QModelIndex &index);
 public slots:
     /**
     * @brief adds an empty CharacterSheet into the model.
