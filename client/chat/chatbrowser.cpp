@@ -84,10 +84,10 @@ void ChatBrowser::detachedView()
 {
     if(m_detachedDialog->isChecked())
     {
-        detachView(true);
+        emit detachView(true);
     }
     else
     {
-        detachView(false);
+        emit detachView(false);
     }
 }
