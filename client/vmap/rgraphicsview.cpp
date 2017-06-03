@@ -26,6 +26,7 @@
 #include "data/character.h"
 #include "rgraphicsview.h"
 #include "userlist/rolisteammimedata.h"
+#include "data/mediacontainer.h"
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
@@ -33,8 +34,8 @@
 #include "items/ruleitem.h"
 //#include "items/childpointitem.h"
 
-RGraphicsView::RGraphicsView(VMap *vmap)
-    : QGraphicsView(vmap),m_vmap(vmap),m_centerOnItem(NULL)
+RGraphicsView::RGraphicsView(VMap *vmap,QWidget* parent)
+    : QGraphicsView(vmap,parent),m_vmap(vmap),m_centerOnItem(NULL)
 {
     m_counterZoom = 0;
 
@@ -203,7 +204,9 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         }
 
         QMenu menu;
+        auto parentWid = dynamic_cast<MediaContainer*>(parentWidget());
         //Empty list
+
         if((list.isEmpty())||((list.size()==1)&&(list.contains(m_vmap->getFogItem()))))
         {
             menu.setTitle(tr("Change the map"));
@@ -252,8 +255,17 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
                 menu.addSeparator();
                 menu.addAction(m_importImage);
                 menu.addSeparator();
+            }
+
+            if(nullptr != parentWid)
+            {
+                parentWid->addActionToMenu(menu);
+            }
+            if(licenseToModify)
+            {
                 menu.addAction(m_properties);
             }
+
             menu.exec(event->globalPos());
         }
         else if ((list.size() > 1) && (licenseToModify))
@@ -296,8 +308,6 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             harmonizeMenu->addAction(m_normalizeSizeUnderMouse);
             harmonizeMenu->addAction(m_normalizeSizeBigger);
             harmonizeMenu->addAction(m_normalizeSizeSmaller);
-
-
 
             QAction* selectedAction = menu.exec(event->globalPos());
 

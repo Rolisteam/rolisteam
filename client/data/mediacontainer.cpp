@@ -26,6 +26,11 @@ MediaContainer::MediaContainer(QWidget* parent)
 {
     //m_preferences = ;
     setAttribute(Qt::WA_DeleteOnClose,false);
+    m_detachedDialog  = new QAction(tr("Detach the view"),this);
+    m_detachedDialog->setCheckable(true);
+
+    connect(m_detachedDialog,SIGNAL(triggered(bool)),this, SLOT(detachView(bool)));
+
 }
 MediaContainer::~MediaContainer()
 {
@@ -149,4 +154,27 @@ CleverURI::ContentType MediaContainer::getContentType()
         return m_uri->getType();
     }
     return CleverURI::NONE;
+}
+void MediaContainer::addActionToMenu(QMenu& menu)
+{
+    menu.addAction(m_detachedDialog);
+}
+
+void MediaContainer::detachView(bool b)
+{
+    static QMdiArea* parent = mdiArea();
+    if(b)
+    {
+        setParent(nullptr);
+        setVisible(true);
+    }
+    else
+    {
+        //m_window->setParent(parent);
+        if(nullptr!=parent)
+        {
+            parent->addSubWindow(this);
+        }
+        setVisible(true);
+    }
 }

@@ -386,6 +386,7 @@ void Image::contextMenuEvent ( QContextMenuEvent * event )
     menu.addSeparator();
     menu.addAction( m_actionfitWorkspace);
     menu.addAction( m_fitWindowAct);
+    addActionToMenu(menu);
     menu.addSeparator();
     menu.addAction(m_actionlittleZoom);
     menu.addAction(m_actionNormalZoom);

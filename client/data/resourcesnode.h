@@ -62,7 +62,7 @@ public:
 
     int rowInParent();
 
-    virtual void write(QDataStream& out) const=0;
+    virtual void write(QDataStream& out, bool tag = true) const=0;
     virtual void read(QDataStream& in)=0;
 
     virtual bool removeChild(ResourcesNode*);

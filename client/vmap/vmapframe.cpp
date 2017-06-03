@@ -62,7 +62,7 @@ void VMapFrame::closeEvent(QCloseEvent *event)
 }
 void  VMapFrame::createView()
 {
-    m_graphicView = new RGraphicsView(m_vmap);
+    m_graphicView = new RGraphicsView(m_vmap,this);
 
     connect(m_vmap,SIGNAL(mapStatutChanged()),this,SLOT(updateTitle()));
     connect(m_vmap,SIGNAL(mapChanged()),this,SLOT(updateTitle()));

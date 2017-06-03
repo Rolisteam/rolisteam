@@ -154,6 +154,7 @@ public:
      */
     virtual void setMediaId(QString);
 
+    void addActionToMenu(QMenu& menu);
 signals:
     /**
      * @brief visibleChanged
@@ -167,6 +168,7 @@ public slots:
      */
     void setVisible(bool b);
 
+    void detachView(bool b);
 protected:
     QString m_localPlayerId;
 	CleverURI* m_uri;
@@ -188,6 +190,7 @@ protected:
      * see getMediaId and setMediaId
      */
     QString m_mediaId;
+    QAction* m_detachedDialog;
 
 };
 
