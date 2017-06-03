@@ -145,10 +145,10 @@ int ChannelModel::addChannel(QString name, QString password)
     Channel* chan = new Channel(name);
     chan->setPassword(password);
     QModelIndex index;
-    addChannelToChannel(chan,index);
+    addChannelToIndex(chan,index);
     return m_root.indexOf(chan);
 }
-QModelIndex ChannelModel::addChannelToChannel(Channel* channel,QModelIndex& parent)
+QModelIndex ChannelModel::addChannelToIndex(Channel* channel,QModelIndex& parent)
 {
     int row = -1;
     if(!parent.isValid())
@@ -169,11 +169,52 @@ QModelIndex ChannelModel::addChannelToChannel(Channel* channel,QModelIndex& pare
             row = item->childCount()-1;
         }
     }
-
-
     return index(row,0,parent);
 }
+bool ChannelModel::addChannelToChannel(Channel* child, Channel* parent)
+{
+    bool result = false;
+    if(nullptr == parent)
+    {
+        beginInsertRows(QModelIndex(),m_root.size(),m_root.size());
+        m_root.append(child);
+        endInsertRows();
+        result = true;
+    }
+    else
+    {
 
+        QModelIndex index = channelToIndex(parent);
+        beginInsertRows(index,parent->childCount(),parent->childCount());
+        parent->addChild(child);
+        endInsertRows();
+        result = true;
+    }
+    return  result;
+}
+QModelIndex ChannelModel::channelToIndex(Channel* channel)
+{
+    QList<TreeItem*> listOfParent;
+    TreeItem* tmp = channel;
+    while(nullptr != tmp)
+    {
+        listOfParent.prepend(tmp);
+        tmp = tmp->getParentItem();
+    }
+    QModelIndex parent;
+    for(auto item : listOfParent)
+    {
+        if(nullptr!=item->getParentItem())
+        {
+            parent = parent.child(m_root.indexOf(item),0);
+        }
+        else
+        {
+            parent = parent.child(item->rowInParent(),0);
+        }
+    }
+    return parent;
+}
 Qt::ItemFlags ChannelModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
@@ -332,7 +373,28 @@ void ChannelModel::setAdmin(bool admin)
 {
     m_admin = admin;
 }
-
+TreeItem* ChannelModel::getItemById(QString id)
+{
+    for(auto item : m_root)
+    {
+        if(nullptr != item)
+        {
+            if(item->getId() == id)
+            {
+                return item;
+            }
+            else
+            {
+                TreeItem* child = item->getChildById(id);
+                if(nullptr!= child)
+                {
+                    return child;
+                }
+            }
+        }
+    }
+    return nullptr;
+}
 
 
 

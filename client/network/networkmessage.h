@@ -69,6 +69,7 @@ enum Action {
     LockChannel,
     JoinChannel,
     DeleteChannel,
+    AddChannel,
     BanUser,
 
     // PlayerCategory

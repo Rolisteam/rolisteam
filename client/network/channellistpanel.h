@@ -32,6 +32,7 @@ public slots:
     void showCustomMenu(QPoint pos);
 
 protected slots:
+    void addChannelAsSibbling();
     void lockChannel();
     void kickUser();
     void banUser();

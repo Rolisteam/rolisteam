@@ -46,10 +46,14 @@ public:
 
     void kick(QString);
 
+    TreeItem* getItemById(QString id);
+
     bool isAdmin() const;
     void setAdmin(bool admin);
 
-    QModelIndex addChannelToChannel(Channel *channel, QModelIndex &parent);
+    QModelIndex addChannelToIndex(Channel *channel, QModelIndex &parent);
+    bool addChannelToChannel(Channel* child, Channel* parent);
+    QModelIndex channelToIndex(Channel *channel);
 private:
     QList<TreeItem*> m_root;
     QString m_defaultChannel;

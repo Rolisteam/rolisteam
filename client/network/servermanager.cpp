@@ -222,6 +222,30 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
         case NetMsg::MoveChannel:
 
         break;
+        case NetMsg::AddChannel:
+        {
+            QString idparent = msg->string8();
+            TreeItem* parentItem = m_model->getItemById(idparent);
+            Channel* dest = static_cast<Channel*>(parentItem);
+
+            auto channel = new Channel();
+            channel->read(*msg);
+            m_model->addChannelToChannel(channel,dest);
+
+        }
+        break;
+        case NetMsg::JoinChannel:
+        {
+            QString id = msg->string8();
+            TreeItem* item = m_model->getItemById(id);
+            Channel* dest = static_cast<Channel*>(item);
+            if(nullptr != dest)
+            {
+                chan->removeChild(tcp);
+                dest->addChild(tcp);
+            }
+        }
+        break;
         case NetMsg::SetChannelList:
         {
             QByteArray data = msg->byteArray32();

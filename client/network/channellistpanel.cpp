@@ -34,11 +34,11 @@ ChannelListPanel::ChannelListPanel(QWidget *parent) :
 
     connect(m_kick,SIGNAL(triggered(bool)),this,SLOT(kickUser()));
     connect(m_edit,SIGNAL(triggered(bool)),this,SLOT(editChannel()));
-    connect(m_addChannel,SIGNAL(triggered(bool)),this,SLOT(addChannel()));
+    connect(m_addChannel,SIGNAL(triggered(bool)),this,SLOT(addChannelAsSibbling()));
     connect(m_addSubchannel,SIGNAL(triggered(bool)),this,SLOT(addChannel()));
     connect(m_deleteChannel,SIGNAL(triggered(bool)),this,SLOT(deleteChannel()));
     connect(m_lock,SIGNAL(triggered(bool)),this,SLOT(lockChannel()));
-    connect(m_join,SIGNAL(triggered(bool)),this,SLOT(kickUser()));
+    connect(m_join,SIGNAL(triggered(bool)),this,SLOT(joinChannel()));
 }
 
 ChannelListPanel::~ChannelListPanel()
@@ -90,7 +90,9 @@ void ChannelListPanel::sendOffModel()
 void ChannelListPanel::showCustomMenu(QPoint pos)
 {
     QMenu menu(this);
+    enum ClickState {Out,OnChannel,OnUser};
 
+    ClickState state = Out;
     menu.addAction(m_join);
     menu.addAction(m_kick);
     menu.addSeparator();
@@ -105,18 +107,71 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
 
     m_index = ui->m_channelView->indexAt(pos);
 
-    if((!m_index.isValid())||(ChannelListPanel::VIEWER == m_currentGRoup))
+
+    if(!m_index.isValid())
     {
-        m_setDefault->setEnabled(false);
+        state = Out;
+    }
+    else
+    {
+        TreeItem* data = indexToPointer<TreeItem*>(m_index);
+        if(data->isLeaf())
+        {
+            state = OnUser;
+        }
+        else
+        {
+            state = OnChannel;
+        }
+    }
+    if(state== Out)
+    {
+        m_addChannel->setEnabled(true);
         m_edit->setEnabled(false);
         m_lock->setEnabled(false);
-        m_addChannel->setEnabled(false);
         m_deleteChannel->setEnabled(false);
         m_addSubchannel->setEnabled(false);
+        m_kick->setEnabled(false);
+        m_setDefault->setEnabled(false);
+        m_join->setEnabled(false);
+
+    }
+    else if(state == OnChannel)
+    {
+        m_kick->setEnabled(false);
+        m_setDefault->setEnabled(true);
+        m_edit->setEnabled(true);
+        m_lock->setEnabled(true);
+        m_addChannel->setEnabled(true);
+        m_deleteChannel->setEnabled(true);
+        m_addSubchannel->setEnabled(true);
+        m_join->setEnabled(true);
+
+
+
+    }
+    else if(state == OnUser)
+    {
+        m_kick->setEnabled(true);
+        m_edit->setEnabled(false);
+        m_lock->setEnabled(false);
+        m_deleteChannel->setEnabled(false);
+        m_addSubchannel->setEnabled(false);
+        m_setDefault->setEnabled(false);
+        m_join->setEnabled(false);
+        m_addChannel->setEnabled(false);
     }
 
 
+    if(ChannelListPanel::VIEWER == m_currentGRoup)
+    {
+        m_kick->setEnabled(false);
+        m_edit->setEnabled(false);
+        m_lock->setEnabled(false);
+        m_deleteChannel->setEnabled(false);
+        m_addSubchannel->setEnabled(false);
 
+    }
     menu.exec(ui->m_channelView->mapToGlobal(pos));
 }
 bool ChannelListPanel::isAdmin()
@@ -205,7 +260,7 @@ void ChannelListPanel::addChannel()
 
         Channel* parent = indexToPointer<Channel*>(m_index);
 
-        QModelIndex justAdded = m_model->addChannelToChannel(newChannel,m_index);
+        QModelIndex justAdded = m_model->addChannelToIndex(newChannel,m_index);
         ui->m_channelView->edit(justAdded);
 
         if(nullptr!=parent)
@@ -213,14 +268,42 @@ void ChannelListPanel::addChannel()
             QString parentId = parent->getId();
             if(!parentId.isEmpty())
             {
-                NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::BanUser);
+                NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::AddChannel);
                 msg.string8(parentId);
-               // newChannel->fill(newChannel);
                 msg.sendAll();
             }
         }
     }
 }
+void ChannelListPanel::addChannelAsSibbling()
+{
+    if(isAdmin())
+    {
+        Channel* newChannel = new Channel(tr("New Channel"));
+
+        auto parentIndex = m_index.parent();
+
+        Channel* parent = nullptr;
+        QString parentId("");
+
+        if(parentIndex.isValid())
+        {
+            parent = indexToPointer<Channel*>(parentIndex);
+            parentId = parent->getId();
+
+        }
+
+        QModelIndex justAdded = m_model->addChannelToIndex(newChannel,parentIndex);
+        ui->m_channelView->edit(justAdded);
+
+        NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::AddChannel);
+        msg.string8(parentId);
+        newChannel->fill(msg);
+        msg.sendAll();
+
+    }
+}
+
 void ChannelListPanel::editChannel()
 {
     // Todo display dialog to edit properties of QML

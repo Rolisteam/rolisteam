@@ -245,3 +245,40 @@ void Channel::clear()
     }
     m_child.clear();
 }
+TreeItem* Channel::getChildById(QString id)
+{
+    for(TreeItem* item : m_child)
+    {
+        if(item->getId() == id)
+        {
+            return item;
+        }
+        else
+        {
+            auto itemChild = item->getChildById(id);
+            if(nullptr != itemChild)
+            {
+                return itemChild;
+            }
+        }
+    }
+    return nullptr;
+}
+
+void Channel::fill(NetworkMessageWriter& msg)
+{
+    msg.string8(m_id);
+    msg.string16(m_name);
+    msg.string16(m_description);
+}
+void Channel::read(NetworkMessageReader& msg)
+{
+   m_id= msg.string8();
+    m_name = msg.string16();
+    m_description = msg.string16();
+}
+
+bool Channel::removeChild(TcpClient* client)
+{
+   return (0 < m_child.removeAll(client));
+}
