@@ -7,7 +7,7 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "channel.h"
-
+#include "networkreceiver.h"
 
 class TreeItem;
 
@@ -16,7 +16,7 @@ class TreeItem;
 /**
  * @brief The ChannelModel class
  */
-class ChannelModel : public QAbstractItemModel
+class ChannelModel : public QAbstractItemModel, public NetWorkReceiver
 {
     Q_OBJECT
 public:
@@ -54,6 +54,8 @@ public:
     QModelIndex addChannelToIndex(Channel *channel, QModelIndex &parent);
     bool addChannelToChannel(Channel* child, Channel* parent);
     QModelIndex channelToIndex(Channel *channel);
+
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader *msg, NetworkLink *link);
 private:
     QList<TreeItem*> m_root;
     QString m_defaultChannel;

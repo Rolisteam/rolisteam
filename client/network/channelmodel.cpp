@@ -16,10 +16,11 @@
 #endif
 
 #include "channel.h"
-
+#include "receiveevent.h"
 ChannelModel::ChannelModel()
 {
     //m_root = new Channel();
+   ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory,this);
 }
 
 QModelIndex ChannelModel::index(int row, int column, const QModelIndex &parent) const
@@ -214,6 +215,22 @@ QModelIndex ChannelModel::channelToIndex(Channel* channel)
         }
     }
     return parent;
+}
+
+NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader *msg, NetworkLink *link)
+{
+    if(NetMsg::AddChannel == msg->action())
+    {
+        Channel* channel = new Channel();
+        QString idParent = msg->string8();
+        channel->read(*msg);
+
+        auto item = getItemById(idParent);
+        Channel* parent = static_cast<Channel*>(item);
+
+        addChannelToChannel(channel, parent);
+
+    }
 }
 Qt::ItemFlags ChannelModel::flags(const QModelIndex &index) const
 {
