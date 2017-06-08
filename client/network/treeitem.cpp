@@ -68,6 +68,10 @@ QString TreeItem::getId() const
 {
     return m_id;
 }
+TreeItem* TreeItem::getChildById(QString id)
+{
+    return nullptr;
+}
 
 void TreeItem::setId(const QString &id)
 {

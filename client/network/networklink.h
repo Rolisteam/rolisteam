@@ -136,6 +136,7 @@ signals:
     void disconnected();
     void authentificationSuccessed();
     void authentificationFail();
+    void clearData();
 
 
 protected slots:

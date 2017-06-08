@@ -9,8 +9,11 @@
 #include <QList>
 #include <QString>
 
+#include "networkmessagewriter.h"
+
 class TcpClient;
 class NetworkMessage;
+class NetworkMessageReader;
 /**
  * @brief The Channel class
  */
@@ -19,7 +22,7 @@ class Channel : public TreeItem
     Q_OBJECT
 public:
     Channel();
-    Channel(QString);
+    Channel(QString name);
     virtual ~Channel();
 
     QString password() const;
@@ -51,7 +54,13 @@ public:
 
     void updateNewClient(TcpClient *newComer);
 
+    bool removeChild(TcpClient* client);
+
     virtual void kick(QString str);
+    TreeItem* getChildById(QString id);
+
+    void fill(NetworkMessageWriter& msg);
+    void read(NetworkMessageReader& msg);
 private:
     QString m_password;
     QString m_description;

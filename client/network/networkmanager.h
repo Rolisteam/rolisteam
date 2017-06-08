@@ -123,6 +123,7 @@ signals :
     void isConnectedSig();
     void isConnecting();
     void isDisconnected();
+    void clearData();
 
 protected:
     void initializeLink();

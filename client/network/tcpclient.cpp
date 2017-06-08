@@ -271,7 +271,7 @@ void TcpClient::sendData(QByteArray a)
 }
 void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 {
-    qInfo() << "send message";
+    qInfo() << "send message" << msg->action() << msg->category();
     NetworkMessageHeader* data = msg->buffer();
     qint64 dataSend = m_socket->write((char*)data,data->dataSize+sizeof(NetworkMessageHeader));
     //qDebug() << "sendData MESSAGE:"<<dataSend;

@@ -5,9 +5,15 @@
 
 #include <QSettings>
 #include <QList>
+#include <QIcon>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+
+#ifdef QT_WIDGETS_LIB
+#include <QApplication>
+#include <QStyle>
+#endif
 
 #include "channel.h"
 
@@ -56,8 +62,34 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const
         {
             return tmp->getName();
         }
+        #ifdef QT_WIDGETS_LIB
+        else if(role == Qt::DecorationRole)
+        {
+            if(!tmp->isLeaf())
+            {
+                QStyle* style = qApp->style();
+
+                return style->standardIcon(QStyle::SP_DirIcon);
+                //return QIcon(":/resources/icons/folder.png");
+            }
+        }
+        #endif
     }
     return QVariant();
+}
+
+bool ChannelModel::setData(const QModelIndex &index, const QVariant &value, int )
+{
+    if(!index.isValid())
+        return false;
+
+    TreeItem* tmp = static_cast<TreeItem*>(index.internalPointer());
+    if(tmp!=nullptr)
+    {
+        tmp->setName(value.toString());
+        return true;
+    }
+    return false;
 }
 
 QModelIndex ChannelModel::parent(const QModelIndex &child) const
@@ -94,7 +126,7 @@ int ChannelModel::rowCount(const QModelIndex &parent) const
     else
     {
         TreeItem* item = static_cast<TreeItem*>(parent.internalPointer());
-        if(NULL!=item)
+        if(nullptr!=item)
         {
             result = item->childCount();
         }
@@ -112,16 +144,90 @@ int ChannelModel::addChannel(QString name, QString password)
 {
     Channel* chan = new Channel(name);
     chan->setPassword(password);
-    m_root.append(chan);
-   // chan->setParentItem(m_root);
+    QModelIndex index;
+    addChannelToIndex(chan,index);
     return m_root.indexOf(chan);
+}
+QModelIndex ChannelModel::addChannelToIndex(Channel* channel,QModelIndex& parent)
+{
+    int row = -1;
+    if(!parent.isValid())
+    {
+       beginInsertRows(parent,m_root.size(),m_root.size());
+       m_root.append(channel);
+       endInsertRows();
+       row = m_root.size()-1;
+    }
+    else
+    {
+        Channel* item = static_cast<Channel*>(parent.internalPointer());
+        if(nullptr!=item)
+        {
+            beginInsertRows(parent,item->childCount(),item->childCount());
+            item->addChild(channel);
+            endInsertRows();
+            row = item->childCount()-1;
+        }
+    }
+    return index(row,0,parent);
+}
+bool ChannelModel::addChannelToChannel(Channel* child, Channel* parent)
+{
+    bool result = false;
+    if(nullptr == parent)
+    {
+        beginInsertRows(QModelIndex(),m_root.size(),m_root.size());
+        m_root.append(child);
+        endInsertRows();
+        result = true;
+    }
+    else
+    {
+
+        QModelIndex index = channelToIndex(parent);
+        beginInsertRows(index,parent->childCount(),parent->childCount());
+        parent->addChild(child);
+        endInsertRows();
+        result = true;
+    }
+    return  result;
+}
+QModelIndex ChannelModel::channelToIndex(Channel* channel)
+{
+    QList<TreeItem*> listOfParent;
+    TreeItem* tmp = channel;
+    while(nullptr != tmp)
+    {
+        listOfParent.prepend(tmp);
+        tmp = tmp->getParentItem();
+    }
+    QModelIndex parent;
+    for(auto item : listOfParent)
+    {
+        if(nullptr!=item->getParentItem())
+        {
+            parent = parent.child(m_root.indexOf(item),0);
+        }
+        else
+        {
+            parent = parent.child(item->rowInParent(),0);
+        }
+    }
+    return parent;
 }
 Qt::ItemFlags ChannelModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
         return Qt::ItemIsEnabled;
 
-    return Qt::ItemIsEnabled  | Qt::ItemIsSelectable;//| Qt::ItemIsEditable
+    if(isAdmin())
+    {
+        return Qt::ItemIsEnabled  | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+    }
+    else
+    {
+        return Qt::ItemIsEnabled  | Qt::ItemIsSelectable;//| Qt::ItemIsEditable
+    }
 }
 bool ChannelModel::hasChildren ( const QModelIndex & parent  ) const
 {
@@ -258,6 +364,37 @@ void ChannelModel::kick(QString id)
     }
 }
 
+bool ChannelModel::isAdmin() const
+{
+    return m_admin;
+}
+
+void ChannelModel::setAdmin(bool admin)
+{
+    m_admin = admin;
+}
+TreeItem* ChannelModel::getItemById(QString id)
+{
+    for(auto item : m_root)
+    {
+        if(nullptr != item)
+        {
+            if(item->getId() == id)
+            {
+                return item;
+            }
+            else
+            {
+                TreeItem* child = item->getChildById(id);
+                if(nullptr!= child)
+                {
+                    return child;
+                }
+            }
+        }
+    }
+    return nullptr;
+}
 
 
 

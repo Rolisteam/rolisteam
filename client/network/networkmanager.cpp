@@ -48,7 +48,11 @@ ClientManager::ClientManager(ConnectionProfile* connection)
 
 
 
-
+    connect(this, SIGNAL(sendData(char *, quint32, NetworkLink *)),m_networkLinkToServer, SLOT(sendData(char *, quint32, NetworkLink *)));
+    connect(m_networkLinkToServer, SIGNAL(disconnected(NetworkLink *)),this, SLOT(endingNetworkLink(NetworkLink *)));
+    connect(m_networkLinkToServer,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
+    connect(m_networkLinkToServer,SIGNAL(errorMessage(QString)),this,SIGNAL(errorOccur(QString)));
+    connect(m_networkLinkToServer,SIGNAL(clearData()),this,SIGNAL(clearData()));
 
     m_connecting = new QState();
     m_connected= new QState();

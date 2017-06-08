@@ -79,16 +79,15 @@ QString Character::getParentId() const
 
 QHash<QString, QString> Character::getVariableDictionnary()
 {
-    if(NULL==m_sheet)
-    {
-        return QHash<QString, QString>();
-    }
-    else
+    if(nullptr!=m_sheet)
     {
         #ifndef UNIT_TEST
-            return m_sheet->getVariableDictionnary();
+        return m_sheet->getVariableDictionnary();
         #endif
     }
+
+    return QHash<QString, QString>();
+
 }
 
 CharacterSheet *Character::getSheet() const
@@ -183,11 +182,12 @@ QString Character::read(NetworkMessageReader& msg)
 CharacterState* Character::getStateFromIndex(int i)
 {
     if(m_stateList->empty())
-        return NULL;
+        return nullptr;
     if(m_stateList->size()>i)
     {
         return m_stateList->at(i);
     }
+    return nullptr;
 }
 
 Player* Character::getParentPlayer() const
@@ -206,7 +206,7 @@ bool Character::isNpc() const
 }
 void  Character::setState(CharacterState*  h)
 {
-  m_currentState = h;
+    m_currentState = h;
 }
 CharacterState* Character::getState() const
 {

@@ -42,6 +42,8 @@ public:
 
     virtual void kick(QString str);
 
+    virtual TreeItem* getChildById(QString id);
+
 
 signals:
     void itemChanged();

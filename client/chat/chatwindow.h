@@ -223,7 +223,7 @@ private slots :
 private :
     static QStringList m_keyWordList;
     QMdiSubWindow* m_window;
-    AbstractChat * m_chat;
+    AbstractChat* m_chat;
     QString m_filename;
     bool m_warnedEmoteUnavailable;
     bool m_hasUnseenMessage;

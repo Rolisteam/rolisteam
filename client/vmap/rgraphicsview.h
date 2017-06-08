@@ -37,7 +37,7 @@ public:
     * @brief constructor with parameters
     * @param Map address which it will be displayed by the graphicsview
     */
-    RGraphicsView(VMap* vmap);
+    RGraphicsView(VMap* vmap,QWidget* parent);
     
 	void currentToolChanged(VToolsBar::SelectableTool selectedtool);
     void readMessage(NetworkMessageReader* msg);

@@ -26,15 +26,20 @@ public:
     void setCurrentGRoup(const GROUP &currentGRoup);
 
     bool isAdmin();
+    template <typename T>
+    T indexToPointer(QModelIndex index);
 public slots:
     void showCustomMenu(QPoint pos);
 
 protected slots:
+    void addChannelAsSibbling();
+    void lockChannel();
     void kickUser();
     void banUser();
     void addChannel();
     void deleteChannel();
     void joinChannel();
+    void editChannel();
 private:
     Ui::ChannelListPanel *ui;
     ChannelModel* m_model;

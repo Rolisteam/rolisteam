@@ -49,6 +49,7 @@ VToolsBar::VToolsBar(QWidget *parent)
     createActions();
     makeTools();
     QHBoxLayout* lay = new QHBoxLayout();
+    lay->setMargin(0);
     lay->addWidget(m_centralWidget);
     setLayout(lay);
     connect(m_colorSelector,SIGNAL(currentColorChanged(QColor&)),this,SIGNAL(currentColorChanged(QColor&)));
@@ -269,6 +270,8 @@ void VToolsBar::makeTools()
   //  unmaskButton->setFixedSize(minSize);
     
     QVBoxLayout* toolsVerticalLayout = new QVBoxLayout();
+    toolsVerticalLayout->setMargin(0);
+    toolsVerticalLayout->setSpacing(0);
 
     FlowLayout *toolsLayout = new FlowLayout();
     toolsLayout->setSpacing(0);
@@ -306,6 +309,8 @@ void VToolsBar::makeTools()
     m_editionModeCombo->addItem(QIcon(":/resources/icons/eye.png"),tr("Unmask"),Unmask);
 
     FlowLayout* characterToolsLayout = new FlowLayout();
+    characterToolsLayout->setMargin(0);
+    characterToolsLayout->setSpacing(0);
     characterToolsLayout->addWidget(addNpcButton);
     characterToolsLayout->addWidget(resetNpcNumberButton);
     characterToolsLayout->addWidget(m_displayNPCCounter);

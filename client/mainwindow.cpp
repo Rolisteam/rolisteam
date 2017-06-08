@@ -185,7 +185,7 @@ void  MainWindow::closeConnection()
         m_ui->m_disconnectAction->setEnabled(false);
     }
 }
-void MainWindow::closeAllImagesAndMaps()
+void MainWindow::closeAllMediaContainer()
 {
     for(MediaContainer* tmp : m_mediaHash.values())
     {
@@ -894,7 +894,7 @@ void MainWindow::startReconnection()
     }
     if(!m_currentConnectionProfile->isServer())
     {
-        closeAllImagesAndMaps();
+        closeAllMediaContainer();
     }
     if(m_clientManager->startConnection())
     {
@@ -1333,8 +1333,14 @@ void MainWindow::initializedClientManager()
     if(nullptr == m_clientManager)
     {
         m_clientManager = new ClientManager(m_currentConnectionProfile);
-
    // connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
+    connect(m_clientManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
+    connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
+    connect(m_clientManager,SIGNAL(errorOccur(QString)),m_dialog,SLOT(errorOccurs(QString)));
+    connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(updateWindowTitle()));
+    connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
+    connect(m_clientManager,SIGNAL(isAuthentified()),this,SLOT(postConnection()));
+    connect(m_clientManager,SIGNAL(clearData()),this,SLOT(cleanUpData()));
 
         connect(m_clientManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
         connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
@@ -1353,6 +1359,12 @@ void MainWindow::initializedClientManager()
         }
     }
 }
+void MainWindow::cleanUpData()
+{
+    m_playerList->cleanListButLocal();
+    closeAllMediaContainer();
+}
+
 void MainWindow::postConnection()
 {
     m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();

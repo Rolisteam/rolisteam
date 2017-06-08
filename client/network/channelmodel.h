@@ -28,6 +28,8 @@ public:
     virtual int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
 
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
+
 
     int addChannel(QString name, QString password);
     bool addConnectionToChannel(QString chanId, TcpClient* client);
@@ -43,9 +45,19 @@ public:
     bool hasChildren(const QModelIndex &parent) const;
 
     void kick(QString);
+
+    TreeItem* getItemById(QString id);
+
+    bool isAdmin() const;
+    void setAdmin(bool admin);
+
+    QModelIndex addChannelToIndex(Channel *channel, QModelIndex &parent);
+    bool addChannelToChannel(Channel* child, Channel* parent);
+    QModelIndex channelToIndex(Channel *channel);
 private:
     QList<TreeItem*> m_root;
     QString m_defaultChannel;
+    bool m_admin;
 };
 
 #endif // CHANNELMODEL_H

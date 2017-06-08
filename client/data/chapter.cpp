@@ -137,7 +137,7 @@ bool Chapter::contains(ResourcesNode* node)
     return false;
 }
 
-void Chapter::write(QDataStream &out) const
+void Chapter::write(QDataStream &out, bool tag) const
 {
     out << QStringLiteral("Chapter");
     out << m_name;
