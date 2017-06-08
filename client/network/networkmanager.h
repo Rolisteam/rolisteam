@@ -27,9 +27,10 @@
 
 #include <QTcpServer>
 #include <QList>
-//#include <QColor>
+
+#include <QStateMachine>
 #include <QTimer>
-//#include <QDialog>
+#include <QState>
 
 
 //#include "connectiondialog.h"
@@ -38,9 +39,9 @@
 #include "userlist/playersList.h"
 #include "heartbeatsender.h"
 #include "network/networkmessagewriter.h"
+#include "network/networklink.h"
 
 class Player;
-class NetworkLink;
 class ConnectionProfile;
 
 /**
@@ -51,6 +52,7 @@ class ClientManager : public QObject
 {
     Q_OBJECT
     Q_ENUMS(ConnectionState)
+
 public:
     enum ConnectionState {DISCONNECTED,CONNECTING,CONNECTED,AUTHENTIFIED};
     /**
@@ -93,10 +95,8 @@ public:
      * @return
      */
     bool isConnected() const;
-    NetworkLink* getLinkToServer();
-    quint16 getPort() const;
-    void setValueConnection(QString portValue,QString hostnameValue,QString username,QString roleValue);
     void setConnectionProfile(ConnectionProfile*);
+    static NetworkLink* getLinkToServer();
 public slots:
     void setConnectionState(ConnectionState);
     void disconnectAndClose();
@@ -117,43 +117,42 @@ signals :
     void notifyUser(QString);
     void errorOccur(QString);
 
+    //State signal
+    void isReady();
+    void isAuthentified();
+    void isConnectedSig();
+    void isConnecting();
+    void isDisconnected();
+    void clearData();
+
+protected:
+    void initializeLink();
 private slots :
     //void newClientConnection();
     void endingNetworkLink(NetworkLink * link);
     void startConnectionToServer();
     //bool startListening();
-    void socketStateChanged(QAbstractSocket::SocketState state);
+   // void socketStateChanged(QAbstractSocket::SocketState state);
+
 private:
-    NetworkLink* m_networkLinkToServer;
-    quint16 m_port;
-    quint16 m_listeningPort;
-    QString m_address;
+    static NetworkLink* m_networkLinkToServer;
     QTimer* m_reconnect;
     Player* m_localPlayer;
 
     bool m_disconnectAsked;
     PreferencesManager* m_preferences;
-  //  ConnectionRetryDialog* m_dialog;
     PlayersList* m_playersList;
     ConnectionState m_connectionState;
     bool m_isClient;
-    bool m_commandLineValue;
-    QString m_portStr;
-    QString m_host;
-    QString m_role;
-    QString m_username;
     ConnectionProfile* m_connectionProfile;
-//    ConnectionWaitDialog* m_waitDialog;
     QList<QThread*> m_threadList;
     heartBeatSender* m_hbSender;
-
 
     QState* m_connecting;
     QState* m_connected;
     QState* m_authentified;
     QState* m_error;
     QState* m_disconnected;
-    QState* m_ready;
     QStateMachine m_states;
 };
 

@@ -32,33 +32,53 @@
 #include "network/connectionprofile.h"
 
 #define second 1000
-//ClientManager* ClientManager::m_singleton = nullptr;
+NetworkLink* ClientManager::m_networkLinkToServer = nullptr;
 /*****************
- * NetworkManager *
+ * ClientManager *
  *****************/
 ClientManager::ClientManager(ConnectionProfile* connection)
-    : QObject(),m_networkLinkToServer(nullptr),m_connectionProfile(connection),m_disconnectAsked(false),m_connectionState(DISCONNECTED),m_localPlayer(nullptr)
+    : QObject(),m_connectionProfile(connection),m_disconnectAsked(false),m_connectionState(DISCONNECTED),m_localPlayer(nullptr)
 {
+    qRegisterMetaType<NetworkLink*>("NetworkLink*");
+    qRegisterMetaType<char*>("char*");
+
     m_reconnect = new QTimer(this);
-    //m_preferences =  PreferencesManager::getInstance();
-   // m_dialog = new ConnectionRetryDialog();
     m_playersList = PlayersList::instance();
 
 
-}
 
+    connect(this, SIGNAL(sendData(char *, quint32, NetworkLink *)),m_networkLinkToServer, SLOT(sendData(char *, quint32, NetworkLink *)));
+    connect(m_networkLinkToServer, SIGNAL(disconnected(NetworkLink *)),this, SLOT(endingNetworkLink(NetworkLink *)));
+    connect(m_networkLinkToServer,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
+    connect(m_networkLinkToServer,SIGNAL(errorMessage(QString)),this,SIGNAL(errorOccur(QString)));
+    connect(m_networkLinkToServer,SIGNAL(clearData()),this,SIGNAL(clearData()));
 
     m_connecting = new QState();
     m_connected= new QState();
     m_authentified= new QState();
     m_error= new QState();
     m_disconnected= new QState();
-    m_ready = new QState();
-
 
     connect(m_connected,&QAbstractState::entered,[=]()
     {
-        emit connectionStateChanged(CONNECTED);
+        setConnectionState(CONNECTED);
+        m_states.start();
+    });
+    connect(m_connecting,&QAbstractState::entered,[=]()
+    {
+        setConnectionState(CONNECTING);
+        emit isConnecting();
+
+    });
+    connect(m_disconnected,&QAbstractState::entered,[=]()
+    {
+        setConnectionState(DISCONNECTED);
+        emit isDisconnected();
+    });
+    connect(m_authentified,&QAbstractState::entered,[=]()
+    {
+        setConnectionState(AUTHENTIFIED);
+        emit isAuthentified();
         PlayersList*  playerList = PlayersList::instance();
         if(!m_connectionProfile->isGM())
         {
@@ -67,30 +87,31 @@ ClientManager::ClientManager(ConnectionProfile* connection)
         playerList->sendOffLocalPlayerInformations();
         playerList->sendOffFeatures(m_connectionProfile->getPlayer());
     });
-    connect(m_connecting,&QAbstractState::entered,[=]()
-    {
-        emit connectionStateChanged(CONNECTING);
-    });
-    connect(m_disconnected,&QAbstractState::entered,[=]()
-    {
-        emit connectionStateChanged(DISCONNECTED);
-    });
-    connect(m_ready,&QAbstractState::entered,[=]()
-    {
-        emit connectionStateChanged(AUTHENTIFIED);
-    });
 
     m_states.addState(m_connecting);
     m_states.addState(m_connected);
     m_states.addState(m_authentified);
     m_states.addState(m_disconnected);
     m_states.addState(m_error);
-    m_states.addState(m_ready);
+
     m_states.setInitialState(m_disconnected);
 
+
+
+    connect(&m_states,SIGNAL(started()),this,SIGNAL(isReady()));
+
+
+
+    initializeLink();
+
+}
+void ClientManager::initializeLink()
+{
+    m_networkLinkToServer = new NetworkLink(m_connectionProfile);
     m_disconnected->addTransition(m_networkLinkToServer,SIGNAL(connecting()),m_connecting);
     m_connecting->addTransition(m_networkLinkToServer,SIGNAL(connected()),m_connected);
-    m_connected->addTransition(m_networkLinkToServer,SIGNAL(authentificationSuccessed()),m_ready);
+    m_connected->addTransition(m_networkLinkToServer,SIGNAL(authentificationSuccessed()),m_authentified);
+    //m_connected->addTransition(m_networkLinkToServer,SIGNAL(authentificationFail()),m_disconnected);
 
     m_states.addTransition(m_networkLinkToServer,SIGNAL(error()),m_error);
     m_states.addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
@@ -98,21 +119,10 @@ ClientManager::ClientManager(ConnectionProfile* connection)
     connect(&m_states,SIGNAL(started()),this,SIGNAL(isReady()));
 
     m_states.start();
-
-
-
-
-
 }
 
 ClientManager::~ClientManager()
 {
-   /* if(NULL!=m_dialog)
-    {
-        delete m_dialog;
-        m_dialog = NULL;
-    }*/
-
     delete m_reconnect;
 }
 
@@ -133,21 +143,11 @@ bool ClientManager::startConnection()
 
 void ClientManager::startConnectionToServer()
 {
-    if(NULL==m_networkLinkToServer)
+    if(nullptr==m_networkLinkToServer)
     {
-        m_networkLinkToServer = new NetworkLink(m_connectionProfile,this);
-        addNetworkLink(m_networkLinkToServer);
-        connect(m_networkLinkToServer,SIGNAL(errorMessage(QString)),this,SIGNAL(errorOccur(QString)));
-        connect(m_networkLinkToServer,SIGNAL(connnectionStateChanged(QAbstractSocket::SocketState)),this,SLOT(socketStateChanged(QAbstractSocket::SocketState)));
-
-        m_networkLinkToServer->connectTo();
+        initializeLink();
     }
-    else
-    {
-        m_networkLinkToServer->setConnection(m_connectionProfile);
-        //QMetaObject::invokeMethod(m_networkLinkToServer,"connectTo",Qt::QueuedConnection);
-        m_networkLinkToServer->connectTo();
-    }
+    m_networkLinkToServer->connectTo();
 }
 
 void ClientManager::sendMessage(char* data, quint32 size, NetworkLink* but)
@@ -156,7 +156,7 @@ void ClientManager::sendMessage(char* data, quint32 size, NetworkLink* but)
     memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
 
     //client
-    if(NULL!=m_networkLinkToServer)
+    if(nullptr!=m_networkLinkToServer)
     {
         m_networkLinkToServer->sendDataSlot(data,size,but);
     }
@@ -165,6 +165,11 @@ void ClientManager::sendMessage(char* data, quint32 size, NetworkLink* but)
 
 void ClientManager::addNetworkLink(NetworkLink* networkLink)
 {
+ /*   if((NULL!=networkLink)&&(m_networkLinkList.contains(networkLink)))
+    {
+        qDebug() << "#################\nNetworkLink is already inside;";
+    }
+
     if((NULL!=networkLink)&&(!m_networkLinkList.contains(networkLink)))
     {
         m_networkLinkList.append(networkLink);
@@ -172,7 +177,7 @@ void ClientManager::addNetworkLink(NetworkLink* networkLink)
         connect(networkLink, SIGNAL(disconnected(NetworkLink *)),this, SLOT(endingNetworkLink(NetworkLink *)));
         connect(networkLink,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
         emit linkAdded(networkLink);
-    }
+    }*/
 }
 
 
@@ -188,62 +193,26 @@ void ClientManager::endingNetworkLink(NetworkLink * link)
     }
 
 
- /*   if (!m_connectionProfile->isServer())
+    if (!m_connectionProfile->isServer())
     {
         if(link==m_networkLinkToServer)
         {
             setConnectionState(DISCONNECTED);
             emit notifyUser(tr("Connection with the Remote Server has been lost."));
-            m_networkLinkToServer = NULL;
+            m_networkLinkToServer = nullptr;
             m_playersList->cleanListButLocal();
         }
-
-
-        if(!m_disconnectAsked)
-        {
-            m_dialog->startTimer();
-            m_dialog->show();
-        }
     }
-  /*  else
-    {
-        if (link == NULL)
-        {
-			qWarning() << tr("NULL NetworkLink pointer (NetworkManager::finDeNetworkLink).");
-            return;
-        }
 
-        int i = m_networkLinkList.indexOf(link);
-        if (i < 0)
-        {
-			qWarning()<< tr("Unknown thread joined, (finDeNetworkLink - NetworkManager.cpp)");
-            return;
-        }
-        m_networkLinkList.removeAt(i);
-  //  }*/
 }
 void ClientManager::disconnectAndClose()
 {
     m_disconnectAsked = true;
-    /*if (m_connectionProfile->isServer())
-    {
-        m_server->close();
-        emit notifyUser(tr("Server has been closed."));
-        m_playersList->cleanListButLocal();
-        foreach(NetworkLink * tmp,m_networkLinkList)
-        {
-            tmp->disconnectAndClose();
-        }
-        m_networkLinkList.clear();
-    }
-    else
-    {*/
-        m_networkLinkToServer->disconnectAndClose();
-        emit notifyUser(tr("Connection to the server has been closed."));
-        m_playersList->cleanListButLocal();
-        delete m_networkLinkToServer;
-        m_networkLinkToServer=NULL;
-    //}
+    m_networkLinkToServer->disconnectAndClose();
+    emit notifyUser(tr("Connection to the server has been closed."));
+    m_playersList->cleanListButLocal();
+    delete m_networkLinkToServer;
+    m_networkLinkToServer=NULL;
     setConnectionState(DISCONNECTED);
 }
 bool ClientManager::isServer() const
@@ -252,11 +221,21 @@ bool ClientManager::isServer() const
 }
 bool ClientManager::isConnected() const
 {
-    return m_connectionState;
+    qDebug() << m_connectionState;
+    switch (m_connectionState)
+    {
+    case DISCONNECTED:
+    case CONNECTING:
+        return false;
+    case CONNECTED:
+    case AUTHENTIFIED:
+        return true;
+    }
 }
 
 void ClientManager::setConnectionState(ConnectionState state)
 {
+    qDebug() << "[Connection State]"<< state;
     if(m_connectionState!=state)
     {
         m_connectionState=state;
@@ -270,6 +249,7 @@ NetworkLink* ClientManager::getLinkToServer()
 void ClientManager::setConnectionProfile(ConnectionProfile* profile)
 {
     m_connectionProfile = profile;
+    initializeLink();
     if(!m_connectionProfile->isServer())
     {
         m_hbSender = new heartBeatSender(this);
@@ -279,36 +259,3 @@ void ClientManager::setConnectionProfile(ConnectionProfile* profile)
         }
     }
 }
-//void NetworkManager::messageRecieved(NetworkMessageReader* message,NetworkLink* link)
-//{
-//    if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
-//    {
-//        QList<NetWorkReceiver*> tmpList = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)m_header.category);
-//        foreach(NetWorkReceiver* tmp, tmpList)
-//        {
-//            forwardMessage(tmp->processMessage(&data),message,link);
-//        }
-//    }
-//}
-//void NetworkLink::forwardMessage( NetWorkReceiver::SendType type,NetworkMessageReader* message,NetworkLink* sender)
-//{
-//    if(NetWorkReceiver::NONE == type)
-//    {
-//        return;
-//    }
-//    if (isServer())
-//    {
-//        char* donnees = new char[m_header.dataSize + sizeof(NetworkMessageHeader)];
-//        memcpy(donnees, &m_header, sizeof(NetworkMessageHeader));
-//        memcpy(&(donnees[sizeof(NetworkMessageHeader)]), m_buffer, m_header.dataSize);
-//        if (NetWorkReceiver::ALL == type)
-//        {
-//            sendMessage(donnees,m_header.dataSize + sizeof(NetworkMessageHeader),NULL);
-//        }
-//        else if(NetWorkReceiver::AllExceptSender == type)
-//        {
-//            sendMessage(donnees,m_header.dataSize + sizeof(NetworkMessageHeader),sender);
-//        }
-//        delete[] donnees;
-//    }
-//}
