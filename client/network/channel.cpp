@@ -66,6 +66,7 @@ void Channel::readFromJson(QJsonObject &json)
     m_name=json["title"].toString();
     m_description=json["description"].toString();
     m_usersListed=json["usersListed"].toBool();
+    m_id=json["id"].toString();
 
     QJsonArray array = json["channel"].toArray();
     for(auto channelJson : array)
@@ -94,6 +95,7 @@ void Channel::writeIntoJson(QJsonObject &json)
     json["title"]=m_name;
     json["description"]=m_description;
     json["usersListed"]=m_usersListed;
+    json["id"]=m_id;
     json["type"]="channel";
 
     QJsonArray array;
@@ -137,6 +139,7 @@ void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool mustBeSaved)
         {
             qDebug()<< "[server][send to clients]" << other << tcp;
 
+
             //other->sendMessage(*msg);
             QMetaObject::invokeMethod(other,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,!mustBeSaved));
         }          
@@ -161,6 +164,9 @@ int Channel::addChild(TreeItem* item)
 
 void Channel::updateNewClient(TcpClient* newComer)
 {
+    NetworkMessageWriter* msg1 = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::ClearTable);
+    msg1->string8(newComer->getId());
+    QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg1),Q_ARG(bool,true));
     //Sending players infos
     for(auto child : m_child)
     {
@@ -173,6 +179,7 @@ void Channel::updateNewClient(TcpClient* newComer)
                 {
                     NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::PlayerCategory,NetMsg::PlayerConnectionAction);
                     tcpConnection->fill(msg);
+                    qDebug()<< "[updateNewClient] newComer";
                     QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,true));
                 }
 
@@ -183,6 +190,7 @@ void Channel::updateNewClient(TcpClient* newComer)
     for(auto msg : m_dataToSend)
     {
         //tcp->sendMessage(msg);
+        qDebug()<< "[updateNewClient] m_dataToSend";
         QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,false));
     }
 }
@@ -200,12 +208,8 @@ void Channel::kick(QString str)
             emit itemChanged();
 
             TcpClient* client = dynamic_cast<TcpClient*>(item);
+            removeChild(client);
             client->closeConnection();
-
-            NetworkMessageWriter* message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
-            message->string8(client->getPlayerId());
-            sendToAll(message,nullptr,false);
-
         }
     }
     if(!found)
@@ -273,12 +277,18 @@ void Channel::fill(NetworkMessageWriter& msg)
 }
 void Channel::read(NetworkMessageReader& msg)
 {
-   m_id= msg.string8();
+    m_id= msg.string8();
     m_name = msg.string16();
     m_description = msg.string16();
 }
 
 bool Channel::removeChild(TcpClient* client)
 {
-   return (0 < m_child.removeAll(client));
+    NetworkMessageWriter* message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
+    message->string8(client->getPlayerId());
+    sendToAll(message,nullptr,false);
+
+    emit itemChanged();
+    int i = m_child.removeAll(client);
+   return (0 < i);
 }
