@@ -270,6 +270,7 @@ void ChannelListPanel::addChannel()
             {
                 NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::AddChannel);
                 msg.string8(parentId);
+                newChannel->fill(msg);
                 msg.sendAll();
             }
         }
