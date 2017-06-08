@@ -380,7 +380,7 @@ void ServerManager::sendOffModelToAll()
     for( auto connection : m_connections.values())
     {
 
-        qDebug() << "for loop connection: loop:" << ++i;
+        qDebug() << "for loop connection: loop:" << ++i << connection->getName();
         sendOffModel(connection);
     }
 }
