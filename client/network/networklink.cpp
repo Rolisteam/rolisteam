@@ -262,6 +262,10 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
             disconnectAndClose();
         }
     }
+    else if(NetMsg::ClearTable == msg->action())
+    {
+        emit clearData();
+    }
 }
 
 void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
