@@ -144,6 +144,9 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case  NetMsg::ClearTable:
             str = QStringLiteral("Clear Table");
             break;
+        case  NetMsg::AddChannel:
+            str = QStringLiteral("AddChannel");
+            break;
         default:
             str = QStringLiteral("Unknown Action");
             break;
