@@ -240,7 +240,6 @@ QByteArray NetworkMessageReader::byteArray32()
 	QByteArray result(m_pos,size);
 	m_pos += size;
 	return result;
-
 }
 qint8 NetworkMessageReader::int8()
 {
