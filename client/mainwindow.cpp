@@ -1027,7 +1027,10 @@ void MainWindow::updateMayBeNeeded()
 {
     if(m_updateChecker->mustBeUpdated())
     {
-        QMessageBox::information(this,tr("Update Monitor"),tr("The %1 version has been released. Please take a look at <a href=\"http://www.rolisteam.org/download\">Download page</a> for more information").arg(m_updateChecker->getLatestVersion()));
+        QMessageBox::information(this,tr("Update Notification"),
+                                 tr("The %1 version has been released. "
+                                    "Please take a look at <a href=\"http://www.rolisteam.org/download\">Download page</a> for more information")
+                                 .arg(m_updateChecker->getLatestVersion()));
     }
     m_updateChecker->deleteLater();
 }
@@ -1333,21 +1336,15 @@ void MainWindow::initializedClientManager()
     if(nullptr == m_clientManager)
     {
         m_clientManager = new ClientManager(m_currentConnectionProfile);
-   // connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
-    connect(m_clientManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
-    connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
-    connect(m_clientManager,SIGNAL(errorOccur(QString)),m_dialog,SLOT(errorOccurs(QString)));
-    connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(updateWindowTitle()));
-    connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
-    connect(m_clientManager,SIGNAL(isAuthentified()),this,SLOT(postConnection()));
-    connect(m_clientManager,SIGNAL(clearData()),this,SLOT(cleanUpData()));
-
+       // connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
         connect(m_clientManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
         connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
         connect(m_clientManager,SIGNAL(errorOccur(QString)),m_dialog,SLOT(errorOccurs(QString)));
         connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(updateWindowTitle()));
         connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
         connect(m_clientManager,SIGNAL(isAuthentified()),this,SLOT(postConnection()));
+        connect(m_clientManager,SIGNAL(clearData()),this,SLOT(cleanUpData()));
+
     }
     if((nullptr!=m_currentConnectionProfile)&&(nullptr!=m_clientManager))
     {
