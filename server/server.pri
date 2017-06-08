@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     $$PWD/../client/data/person.cpp \
     $$PWD/../client/data/character.cpp \
     $$PWD/../client/data/characterstate.cpp \
-    $$PWD/../client/network/messagedispatcher.cpp
+    $$PWD/../client/network/messagedispatcher.cpp \
+        $$PWD/../client/network/receiveevent.cpp \
 
 HEADERS += $$PWD/../client/network/rolisteamdaemon.h \
             $$PWD/../client/network/channelmodel.h \
@@ -41,4 +42,5 @@ HEADERS += $$PWD/../client/network/rolisteamdaemon.h \
     $$PWD/../client/data/person.h \
     $$PWD/../client/data/character.h \
     $$PWD/../client/data/characterstate.h \
+        $$PWD/../client/network/receiveevent.h \
     $$PWD/../client/network/messagedispatcher.h
