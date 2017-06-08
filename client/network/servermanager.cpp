@@ -140,6 +140,7 @@ void ServerManager::sendOffAuthSuccessed()
     {
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AuthentificationSucessed);
 //        client->sendMessage(msg);
+        qDebug()<< "[sendOffAuthSuccessed] ";
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
 
 
@@ -153,6 +154,7 @@ void ServerManager::sendOffAuthFail()
     {
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AuthentificationFail);
         //client->sendMessage(msg);
+        qDebug()<< "[sendOffAuthFail] ";
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
 
 
@@ -253,7 +255,6 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
             if(!doc.isEmpty())
             {
                 QJsonObject obj = doc.object();
-
                 m_model->readDataJson(obj);
             }
 
@@ -276,8 +277,7 @@ void ServerManager::sendOffModel(TcpClient* client)
         doc.setObject(obj);
 
         msg->byteArray32(doc.toJson());
-
-        qDebug() << doc.toJson();
+        qDebug()<< "[sendOffModel] ";
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
 
     }
@@ -376,8 +376,11 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
 void ServerManager::sendOffModelToAll()
 {
     qDebug() << "sendoffmodeltoALL";
+    int i = 0;
     for( auto connection : m_connections.values())
     {
+
+        qDebug() << "for loop connection: loop:" << ++i;
         sendOffModel(connection);
     }
 }
