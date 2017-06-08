@@ -208,7 +208,7 @@ void NetworkLink::receivingData()
             {
                 QList<NetWorkReceiver*> tmpList = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)m_header.category);
 
-                foreach(NetWorkReceiver* tmp, tmpList)
+                for(NetWorkReceiver* tmp : tmpList)
                 {
                     forwardMessage(tmp->processMessage(&data));
                 }
@@ -265,6 +265,10 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
     else if(NetMsg::ClearTable == msg->action())
     {
         emit clearData();
+    }
+    else if(NetMsg::AddChannel == msg->action())
+    {
+        emit
     }
 }
 

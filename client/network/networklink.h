@@ -124,6 +124,7 @@ signals:
     void dataToSend(char* data,quint32 size, NetworkLink* but = 0);
     void receivedMessage(NetworkMessageReader*,NetworkLink*);
 
+
     //////////////////////////
     // State signal
     /////////////////////////
