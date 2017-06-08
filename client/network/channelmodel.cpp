@@ -126,7 +126,7 @@ int ChannelModel::rowCount(const QModelIndex &parent) const
     else
     {
         TreeItem* item = static_cast<TreeItem*>(parent.internalPointer());
-        if(NULL!=item)
+        if(nullptr!=item)
         {
             result = item->childCount();
         }
