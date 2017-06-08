@@ -269,15 +269,19 @@ void TcpClient::sendData(QByteArray a)
     }
     //qDebug() << "Array datasend:"<<dataSend;
 }
+#include <QThread>
 void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 {
-    qInfo() << "send message" << msg->action() << msg->category();
-    NetworkMessageHeader* data = msg->buffer();
-    qint64 dataSend = m_socket->write((char*)data,data->dataSize+sizeof(NetworkMessageHeader));
-    //qDebug() << "sendData MESSAGE:"<<dataSend;
-    if(-1 == dataSend)
+    qDebug() << "send message" << msg->action() << msg->category() << QThread::currentThread() << this->thread();
+    if(nullptr != m_socket)
     {
-        qDebug() << "error Writing data" << m_socket->errorString() ;
+        NetworkMessageHeader* data = msg->buffer();
+        qint64 dataSend = m_socket->write((char*)data,data->dataSize+sizeof(NetworkMessageHeader));
+        //qDebug() << "sendData MESSAGE:"<<dataSend;
+        if(-1 == dataSend)
+        {
+            qDebug() << "error Writing data" << m_socket->errorString() ;
+        }
     }
     if(deleteMsg)
     {
