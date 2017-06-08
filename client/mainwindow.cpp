@@ -104,7 +104,7 @@ MainWindow::MainWindow()
     m_vmapToolBar = new VmapToolBar();
     addToolBar(Qt::TopToolBarArea,m_vmapToolBar);
 
-    connect(m_clientManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
+
     m_ipChecker = new IpChecker(this);
     m_mapAction = new QMap<MediaContainer*,QAction*>();
 
@@ -117,7 +117,7 @@ MainWindow::MainWindow()
     m_gmToolBoxList.append(new NameGeneratorWidget());
     m_gmToolBoxList.append(new GMTOOL::Convertor());
 
-    foreach (QWidget* wid, m_gmToolBoxList)
+    for (QWidget* wid : m_gmToolBoxList)
     {
         QDockWidget* widDock = new QDockWidget(this);
         widDock->setAllowedAreas(Qt::AllDockWidgetAreas);
@@ -446,7 +446,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_quitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
 
     // network
-    connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
+
     connect(m_ui->m_disconnectAction,SIGNAL(triggered()),this,SLOT(closeConnection()));
     connect(m_ui->m_connectionAction,SIGNAL(triggered()),this,SLOT(startReconnection()));
     connect(m_ui->m_changeProfileAct,SIGNAL(triggered()),this,SLOT(showConnectionDialog()));
@@ -605,8 +605,8 @@ void MainWindow::sendOffAllMaps(NetworkLink * link)
             if(NULL!=tmp)
             {
                 tmp->getMap()->setHasPermissionMode(m_playerList->everyPlayerHasFeature("MapPermission"));
-                tmp->getMap()->emettreCarte(tmp->windowTitle(), link);
-                tmp->getMap()->emettreTousLesPersonnages(link);
+                tmp->getMap()->sendMap(tmp->windowTitle(), link);
+                tmp->getMap()->sendOffAllCharacters(link);
             }
         }
     }
@@ -1076,7 +1076,6 @@ void MainWindow::updateSessionToNewClient(Player* player)
         m_preferencesDialog->sendOffAllState(player->link());
     }
 }
-
 void MainWindow::readSettings()
 {
     QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_major));
@@ -1313,45 +1312,72 @@ void MainWindow::startConnection()
                 connect(&m_serverThread,SIGNAL(finished()),server,SLOT(deleteLater()));
                 connect(server,SIGNAL(sendLog(QString)),this,SLOT(notifyUser(QString)));
                 connect(server,SIGNAL(errorOccurs(QString)),this,SLOT(notifyUser(QString)));
+                connect(server,SIGNAL(listening()),this,SLOT(initializedClientManager()),Qt::QueuedConnection);
+
+
                 server->moveToThread(&m_serverThread);
 
                 m_serverThread.start();
             }
+            else
+            {
+                initializedClientManager();
+
+            }
         }
-        initializedClientManager();
-        if((NULL!=m_currentConnectionProfile)&&(NULL!=m_clientManager))
+
+    }
+}
+void MainWindow::initializedClientManager()
+{
+    if(nullptr == m_clientManager)
+    {
+        m_clientManager = new ClientManager(m_currentConnectionProfile);
+
+   // connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
+
+        connect(m_clientManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
+        connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
+        connect(m_clientManager,SIGNAL(errorOccur(QString)),m_dialog,SLOT(errorOccurs(QString)));
+        connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(updateWindowTitle()));
+        connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
+        connect(m_clientManager,SIGNAL(isAuthentified()),this,SLOT(postConnection()));
+    }
+    if((nullptr!=m_currentConnectionProfile)&&(nullptr!=m_clientManager))
+    {
+        if(nullptr!=m_playerList)
         {
-
-            if(NULL!=m_playerList)
-            {
-                m_playerList->completeListClean();
-
-                m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
-
-                m_clientManager->startConnection();
-                if(!m_currentConnectionProfile->isGM())
-                {
-                    m_playerList->addLocalCharacter(m_currentConnectionProfile->getCharacter());
-                }
-
-            }
-            m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
-            m_chatListWidget->addPublicChat();
-
-            if(NULL!=m_preferences)
-            {
-                m_preferences->registerValue("isClient",!m_currentConnectionProfile->isServer());
-            }
-
-
-            setUpNetworkConnection();
-            updateWindowTitle();
-            checkUpdate();
-            updateUi();
-            m_dialog->writeSettings(settings);
+            m_playerList->completeListClean();
+            m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
+            m_clientManager->startConnection();
         }
     }
+}
+void MainWindow::cleanUpData()
+{
+    m_playerList->cleanListButLocal();
+    closeAllMediaContainer();
+}
 
+void MainWindow::postConnection()
+{
+    m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
+    m_chatListWidget->addPublicChat();
+
+    if(NULL!=m_preferences)
+    {
+        m_preferences->registerValue("isClient",!m_currentConnectionProfile->isServer());
+    }
+
+    m_ui->m_connectionAction->setEnabled(false);
+    m_ui->m_disconnectAction->setEnabled(true);
+    m_dialog->accept();
+
+    setUpNetworkConnection();
+    updateWindowTitle();
+    checkUpdate();
+    updateUi();
+  //  m_dialog->writeSettings(settings);
 }
 
 void MainWindow::setupUi()
@@ -1694,7 +1720,7 @@ void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
         health.couleurEtat = npcState;
         health.nomEtat = npcStateName;
         npc->newHealtState(health, npcStateNum);
-        map->afficheOuMasquePnj(npc);
+        map->showHideNPC(npc);
 
     }
 }
@@ -1734,7 +1760,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         Map* map=findMapById(idMap);
         if(NULL!=map)
         {
-            map->lancerDeplacementPersonnage(idCharacter,moveList);
+            map->startCharacterMove(idCharacter,moveList);
         }
     }
     else if(NetMsg::changeCharacterState == msg->action())
@@ -1745,7 +1771,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         Map* map=findMapById(idMap);
         if(NULL!=map)
         {
-            CharacterToken* character = map->trouverPersonnage(idCharacter);
+            CharacterToken* character = map->findCharacter(idCharacter);
             if(NULL!=character)
             {
                 character->changeHealtStatus(stateNumber);
@@ -1762,7 +1788,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         Map* map=findMapById(idMap);
         if(NULL!=map)
         {
-            CharacterToken* character = map->trouverPersonnage(idCharacter);
+            CharacterToken* character = map->findCharacter(idCharacter);
             if(NULL!=character)
             {
                 character->newOrientation(orientation);
@@ -1777,7 +1803,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         Map* map=findMapById(idMap);
         if(NULL!=map)
         {
-            CharacterToken* character = map->trouverPersonnage(idCharacter);
+            CharacterToken* character = map->findCharacter(idCharacter);
             if(NULL!=character)
             {
                 character->showOrientation(showOrientation);

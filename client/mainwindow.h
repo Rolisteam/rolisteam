@@ -227,7 +227,7 @@ public slots :
     /**
      * @brief closeAllImagesAndMap - remove all maps and Pictures
      */
-    void closeAllImagesAndMaps();
+    void closeAllMediaContainer();
 
 	/**
      * @brief showConnectionDialog
@@ -345,6 +345,7 @@ protected slots:
      */
     void closeMediaContainer(QString id);
     void initializedClientManager();
+    void cleanUpData();
 private slots :
     /**
      * @brief userNatureChange
