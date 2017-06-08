@@ -68,18 +68,18 @@ void UpdateChecker::startChecking()
 
 }
 
-QString& UpdateChecker::getLatestVersion()
+QString UpdateChecker::getLatestVersion()
 {
     return m_version;
 }
 
-QString& UpdateChecker::getLatestVersionDate()
+QString UpdateChecker::getLatestVersionDate()
 {
     return m_versionDate;
 }
 void UpdateChecker::readXML(QNetworkReply* p)
 {
-
+    qDebug() << p;
     if(p->error()!=QNetworkReply::NoError)
     {
         m_noErrror = false;
@@ -133,6 +133,7 @@ void UpdateChecker::readXML(QNetworkReply* p)
 }
 bool UpdateChecker::inferiorVersion()
 {
+    qDebug() << m_versionMajor << "." << m_versionMiddle <<  "." <<m_versionMinor << " -- " <<VERSION_MAJOR << "." <<  VERSION_MIDDLE << "." << VERSION_MINOR;
     if(m_versionMajor>VERSION_MAJOR)
         return true;
     else if((m_versionMajor==VERSION_MAJOR)&&(m_versionMiddle>VERSION_MIDDLE))

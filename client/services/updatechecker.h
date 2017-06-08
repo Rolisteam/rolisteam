@@ -37,8 +37,8 @@ public:
     bool mustBeUpdated();
     void startChecking();
 
-    QString& getLatestVersion();
-    QString& getLatestVersionDate();
+    QString getLatestVersion();
+    QString getLatestVersionDate();
 signals:
     void checkFinished();
 
@@ -46,7 +46,7 @@ private slots:
     void readXML(QNetworkReply* p);
 
 private:
- bool inferiorVersion();
+    bool inferiorVersion();
 
 private:
     QString m_version;
