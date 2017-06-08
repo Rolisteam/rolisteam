@@ -185,7 +185,7 @@ void  MainWindow::closeConnection()
         m_ui->m_disconnectAction->setEnabled(false);
     }
 }
-void MainWindow::closeAllImagesAndMaps()
+void MainWindow::closeAllMediaContainer()
 {
     for(MediaContainer* tmp : m_mediaHash.values())
     {
@@ -894,7 +894,7 @@ void MainWindow::startReconnection()
     }
     if(!m_currentConnectionProfile->isServer())
     {
-        closeAllImagesAndMaps();
+        closeAllMediaContainer();
     }
     if(m_clientManager->startConnection())
     {
@@ -1339,6 +1339,7 @@ void MainWindow::initializedClientManager()
     connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(updateWindowTitle()));
     connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
     connect(m_clientManager,SIGNAL(isAuthentified()),this,SLOT(postConnection()));
+    connect(m_clientManager,SIGNAL(clearData()),this,SLOT(cleanUpData()));
 
     if((NULL!=m_currentConnectionProfile)&&(NULL!=m_clientManager))
     {
@@ -1350,6 +1351,12 @@ void MainWindow::initializedClientManager()
         }
     }
 }
+void MainWindow::cleanUpData()
+{
+    m_playerList->cleanListButLocal();
+    closeAllMediaContainer();
+}
+
 void MainWindow::postConnection()
 {
     m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
