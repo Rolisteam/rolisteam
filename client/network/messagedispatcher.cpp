@@ -20,6 +20,10 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
     {
         emit messageForAdmin(msg,channel,emitter);
         sendToAll = false;
+        if((NetMsg::ClearTable == msg->action()) || (NetMsg::AddChannel == msg->action()))
+        {
+            sendToAll = true;
+        }
     }
     else if(msg->category()== NetMsg::PlayerCategory)
     {
@@ -133,6 +137,12 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             break;
         case  NetMsg::SetChannelList:
             str = QStringLiteral("SetChannelList");
+            break;
+        case  NetMsg::JoinChannel:
+            str = QStringLiteral("Join Channel");
+            break;
+        case  NetMsg::ClearTable:
+            str = QStringLiteral("Clear Table");
             break;
         default:
             str = QStringLiteral("Unknown Action");
