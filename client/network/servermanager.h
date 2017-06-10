@@ -40,7 +40,7 @@ public:
     QVariant getValue(QString key) const;
 
 
-    void removeClient(QString id);
+    void kickClient(QString id);
 signals:
     void stateChanged(ServerManager::ServerState);
     void errorOccurs(QString);

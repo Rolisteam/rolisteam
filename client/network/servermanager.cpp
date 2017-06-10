@@ -142,8 +142,6 @@ void ServerManager::sendOffAuthSuccessed()
 //        client->sendMessage(msg);
         qDebug()<< "[sendOffAuthSuccessed] ";
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
-
-
         sendOffModel(client);
     }
 }
@@ -160,7 +158,7 @@ void ServerManager::sendOffAuthFail()
 
     }
 }
-void ServerManager::removeClient(QString id)
+void ServerManager::kickClient(QString id)
 {
     m_model->kick(id);
     sendOffModelToAll();
@@ -194,7 +192,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
         case NetMsg::Kicked:
         {
             QString id = msg->string8();
-            removeClient(id);
+            kickClient(id);
         }
         break;
         case NetMsg::Password:
@@ -260,6 +258,12 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
 
         }
             break;
+    case NetMsg::DeleteChannel:
+    {
+        QString id = msg->string8();
+        m_model->removeChild(id);
+    }
+        break;
         default:
             break;
     }
