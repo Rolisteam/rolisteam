@@ -138,10 +138,7 @@ void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool mustBeSaved)
         if((nullptr != other)&&(other!=tcp))
         {
             qDebug()<< "[server][send to clients]" << other << tcp;
-
-
-            //other->sendMessage(*msg);
-            QMetaObject::invokeMethod(other,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,!mustBeSaved));
+            QMetaObject::invokeMethod(other,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,false));
         }          
     }
 }
@@ -166,6 +163,7 @@ void Channel::updateNewClient(TcpClient* newComer)
 {
     NetworkMessageWriter* msg1 = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::ClearTable);
     msg1->string8(newComer->getId());
+
     QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg1),Q_ARG(bool,true));
     //Sending players infos
     for(auto child : m_child)
@@ -284,11 +282,14 @@ void Channel::read(NetworkMessageReader& msg)
 
 bool Channel::removeChild(TcpClient* client)
 {
+    //must be the first line
+    int i = m_child.removeAll(client);
+
+    //notify all remaining chan member to remove former player
     NetworkMessageWriter* message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
     message->string8(client->getPlayerId());
     sendToAll(message,nullptr,false);
 
     emit itemChanged();
-    int i = m_child.removeAll(client);
    return (0 < i);
 }
