@@ -63,6 +63,8 @@ public:
 
     void closeConnection();
 
+    void addPlayerFeature(QString uuid,QString  name,quint8 version);
+
 signals:
     /**
      * @brief readDataReceived

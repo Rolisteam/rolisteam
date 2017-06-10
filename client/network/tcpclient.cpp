@@ -192,6 +192,17 @@ void TcpClient::closeConnection()
     }
 }
 
+void TcpClient::addPlayerFeature(QString uuid, QString name, quint8 version)
+{
+    if(nullptr == m_player)
+        return;
+
+    if(m_player->getUuid() == uuid)
+    {
+        m_player->setFeature(name,version);
+    }
+}
+
 void TcpClient::receivingData()
 {
     //qInfo() << "########################################tcpClient########################################\n Receiving Data";
@@ -272,7 +283,7 @@ void TcpClient::sendData(QByteArray a)
 #include <QThread>
 void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 {
-    qDebug() << "send message" << msg->action() << msg->category() << QThread::currentThread() << this->thread();
+    qDebug() << "send message" << msg << deleteMsg;
     if(nullptr != m_socket)
     {
         NetworkMessageHeader* data = msg->buffer();
