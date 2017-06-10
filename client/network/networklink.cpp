@@ -266,10 +266,10 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
     {
         emit clearData();
     }
-    else if(NetMsg::AddChannel == msg->action())
-    {
-        emit
-    }
+//    else if(NetMsg::AddChannel == msg->action())
+//    {
+//        emit
+//    }
 }
 
 void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
@@ -317,21 +317,6 @@ void NetworkLink::forwardMessage( NetWorkReceiver::SendType type)
     {
         return;
     }
-  /*  if (m_networkManager->isServer())
-    {
-        char *donnees = new char[m_header.dataSize + sizeof(NetworkMessageHeader)];
-        memcpy(donnees, &m_header, sizeof(NetworkMessageHeader));
-        memcpy(&(donnees[sizeof(NetworkMessageHeader)]), m_buffer, m_header.dataSize);
-        if (NetWorkReceiver::ALL == type)
-        {
-            m_networkManager->sendMessage(donnees,m_header.dataSize + sizeof(NetworkMessageHeader),NULL);
-        }
-        else if(NetWorkReceiver::AllExceptSender == type)
-        {
-            m_networkManager->sendMessage(donnees,m_header.dataSize + sizeof(NetworkMessageHeader),this);
-        }
-        delete[] donnees;
-    }*/
 }
 
 ConnectionProfile *NetworkLink::getConnection() const
