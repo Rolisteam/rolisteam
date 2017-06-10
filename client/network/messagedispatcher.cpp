@@ -23,6 +23,7 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
         if((NetMsg::ClearTable == msg->action()) || (NetMsg::AddChannel == msg->action()))
         {
             sendToAll = true;
+            saveIt = false;
         }
     }
     else if(msg->category()== NetMsg::PlayerCategory)
@@ -33,8 +34,6 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
 
             msg->resetToData();
 
-
-
             QString name = msg->string16();
             QString uuid = msg->string8();
             msg->rgb();
@@ -42,6 +41,20 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
             emitter->setName(name);
             emitter->setId(uuid);
             emitter->setIsGM(isGM);
+            saveIt = false;
+        }
+    }
+    else if(msg->category() == NetMsg::SetupCategory)
+    {
+        if(msg->action() == NetMsg::AddFeatureAction)
+        {
+
+            QString uuid   = msg->string8();
+            QString name   = msg->string8();
+            quint8 version = msg->uint8();
+            emitter->addPlayerFeature(uuid,name,version);
+
+
             saveIt = false;
         }
     }
@@ -146,6 +159,9 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             break;
         case  NetMsg::AddChannel:
             str = QStringLiteral("AddChannel");
+            break;
+        case  NetMsg::DeleteChannel:
+            str = QStringLiteral("DeleteChannel");
             break;
         default:
             str = QStringLiteral("Unknown Action");
