@@ -56,6 +56,7 @@ public:
     QModelIndex channelToIndex(Channel *channel);
 
     virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader *msg, NetworkLink *link);
+    void removeChild(QString id);
 private:
     QList<TreeItem*> m_root;
     QString m_defaultChannel;

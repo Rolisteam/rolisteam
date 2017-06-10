@@ -221,15 +221,18 @@ NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader *msg
 {
     if(NetMsg::AddChannel == msg->action())
     {
-        Channel* channel = new Channel();
         QString idParent = msg->string8();
-        channel->read(*msg);
+        auto parent = getItemById(idParent);
+        if(nullptr == parent)
+        {
+            Channel* channel = new Channel();
+            channel->read(*msg);
 
-        auto item = getItemById(idParent);
-        Channel* parent = static_cast<Channel*>(item);
+            auto item = getItemById(idParent);
+            Channel* parent = static_cast<Channel*>(item);
 
-        addChannelToChannel(channel, parent);
-
+            addChannelToChannel(channel, parent);
+        }
     }
 }
 Qt::ItemFlags ChannelModel::flags(const QModelIndex &index) const
@@ -415,3 +418,7 @@ TreeItem* ChannelModel::getItemById(QString id)
 
 
 
+void ChannelModel::removeChild(QString id)
+{
+
+}
