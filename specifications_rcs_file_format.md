@@ -18,7 +18,7 @@ Page 1 will have {a41e1438-0aee-46d1-8714-2a284634df77}_background_1.jpg as back
 
 ## Number of character:
 
-characterCount: <int>
+characterCount: \<int>
 
 If the characterCount is zero that means this charactersheet describes only the structure of character sheet. A rcs file with no character is useless in Rolisteam. But you can add 
 character in it with rcse.
@@ -28,9 +28,9 @@ character in it with rcse.
 
 A character is defined by the following fields:
 
-* idSheet: <string> uuid
-* name: <string> name of the character
-* values: <json object>
+* idSheet: \<string> uuid
+* name: \<string> name of the character
+* values: \<json object>
 
 The values object has a key for each field defined in the data > items key.
 each key is defining the value for this specific field for this character.
