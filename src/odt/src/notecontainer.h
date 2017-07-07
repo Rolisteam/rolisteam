@@ -37,6 +37,9 @@ public:
     void saveInto(QDataStream& out);
 
     void putDataIntoCleverUri();
+
+
+    virtual void setTitle(QString str);
 public slots:
     void setFileName(QString);
 private:
