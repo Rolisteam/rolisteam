@@ -48,7 +48,7 @@ SessionManager::SessionManager()
     setWindowTitle(tr("Resources Explorer"));
     
     m_model = new SessionItemModel();
-    CleverURI::setListener(m_model);
+    //CleverURI::setListener(m_model);
     
     m_view->setModel(m_model);
 
@@ -91,6 +91,7 @@ Chapter* SessionManager::getCurrentChapter()
 CleverURI* SessionManager::addRessource(CleverURI* tp)
 {
     QModelIndex index = m_view->currentIndex();
+    tp->setListener(m_model);
     m_model->addResource(tp,index);
     emit sessionChanged(true);
     return  tp;
