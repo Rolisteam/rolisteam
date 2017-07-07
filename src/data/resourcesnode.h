@@ -34,7 +34,7 @@ public:
     ResourcesNode();
 
     QString name() const;
-    void setName(const QString &name);
+    virtual void setName(const QString &name);
 
 
     virtual QString getValue() const;
