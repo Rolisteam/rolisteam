@@ -56,7 +56,7 @@ QStringList CleverURI::m_typeNameList = QStringList() <<    QObject::tr("None") 
 QStringList CleverURI::m_typeToPreferenceDirectory = QStringList() <<   QString("SessionDirectory") <<QString("MapDirectory")       <<QString("MapDirectory")           <<QString("ChatDirectory")
                                                                    <<   QString("ImageDirectory")   <<QString("ImageDirectory")     <<QString("MinutesDirectory")       <<QString("CharacterSheetDirectory") <<
                                                                         QString("SessionDirectory") <<QString("MusicDirectoryPlayer")   <<QString("MusicDirectoryPlayer");
-CleverURIListener* CleverURI::s_listener = NULL;
+//CleverURIListener* CleverURI::s_listener = NULL;
 
 CleverURI::CleverURI()
     : m_type(NONE),m_state(Remain)
@@ -71,8 +71,7 @@ CleverURI::CleverURI(const CleverURI & mp)
     m_currentMode = mp.getCurrentMode();
     m_name = mp.name();
     m_state = mp.getState();
-    setUpListener();
-
+    updateListener(CleverURI::NAME);
 }
 QIcon CleverURI::getIcon()
 {
@@ -83,7 +82,7 @@ CleverURI::CleverURI(QString name,QString uri,ContentType type)
     : m_uri(uri),m_type(type),m_state(Remain)
 {
     m_name = name;
-    setUpListener();
+    updateListener(CleverURI::NAME);
     init();
 }
 
@@ -101,7 +100,7 @@ bool CleverURI::operator==(const CleverURI& uri) const
 void CleverURI::setUri(QString& uri)
 {
     m_uri=uri;
-    setUpListener();
+    updateListener(CleverURI::URI);
 }
 
 void CleverURI::setType(CleverURI::ContentType type)
@@ -124,10 +123,7 @@ bool CleverURI::hasChildren() const
 }
 void CleverURI::setUpListener()
 {
-    if(NULL!=s_listener)
-    {
-        s_listener->cleverURIHasChanged(this);
-    }
+    updateListener(CleverURI::NAME);
 }
 
 void CleverURI::init()
@@ -154,7 +150,10 @@ bool CleverURI::hasData() const
 
 void CleverURI::setListener(CleverURIListener *value)
 {
-    s_listener = value;
+    if(!m_listenerList.contains(value))
+    {
+        m_listenerList.append(value);
+    }
 }
 
 
@@ -183,12 +182,7 @@ void CleverURI::setDisplayed(bool displayed)
     {
         m_state = Opened;
     }
-
-    if(NULL!=s_listener)
-    {
-        s_listener->cleverURIHasChanged(this);
-    }
-
+    updateListener(CleverURI::DISPLAYED);
 }
 
 CleverURI::LoadingMode CleverURI::getCurrentMode() const
@@ -205,6 +199,12 @@ const QString CleverURI::getAbsolueDir() const
     QFileInfo info(m_uri);
     
     return info.absolutePath();
+}
+
+void CleverURI::setName(const QString &name)
+{
+    ResourcesNode::setName(name);
+    updateListener(CleverURI::NAME);
 }
 
 void CleverURI::write(QDataStream &out) const
@@ -231,7 +231,7 @@ void CleverURI::read(QDataStream &in)
     m_type = (CleverURI::ContentType)type;
     m_currentMode = (CleverURI::LoadingMode)mode;
     m_state = (CleverURI::State)state;
-    setUpListener();
+    updateListener(CleverURI::NAME);
    /* if(QFile::exists(m_uri))
     {
         m_data.clear();
@@ -319,6 +319,13 @@ void CleverURI::clearData()
 bool CleverURI::seekNode(QList<ResourcesNode*>& path,ResourcesNode* node)
 {
     return false;
+}
+void CleverURI::updateListener(CleverURI::DataValue value)
+{
+    for(CleverURIListener* listener : m_listenerList)
+    {
+        listener->cleverURIHasChanged(this,value);
+    }
 }
 
 QVariant CleverURI::getData(ResourcesNode::DataValue i)
