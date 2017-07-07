@@ -122,7 +122,7 @@ public:
     QStringList mimeTypes() const;
     QMimeData *mimeData(const QModelIndexList &indexes) const;
 
-    void cleverURIHasChanged(CleverURI* uri);
+    void cleverURIHasChanged(CleverURI* uri,CleverURI::DataValue field);
 
 public slots:
     void updateNode(ResourcesNode*);
