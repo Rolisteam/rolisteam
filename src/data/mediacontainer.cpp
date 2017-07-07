@@ -43,6 +43,10 @@ QString MediaContainer::getLocalPlayerId()
 void MediaContainer::setCleverUri(CleverURI* uri)
 {
 	m_uri = uri;
+    if(nullptr != m_uri)
+    {
+        m_uri->setListener(this);
+    }
 }
 QString MediaContainer::getTitle() const
 {
@@ -119,6 +123,7 @@ QAction* MediaContainer::getAction()
 void MediaContainer::setCleverUriType(CleverURI::ContentType type)
 {
     m_uri = new CleverURI(m_title,"",type);
+    m_uri->setListener(this);
 }
 void MediaContainer::currentColorChanged(QColor& penColor)
 {
@@ -133,6 +138,21 @@ QString MediaContainer::getMediaId()
 void MediaContainer::setMediaId(QString str)
 {
     m_mediaId = str;
+}
+
+void MediaContainer::cleverURIHasChanged(CleverURI* uri, CleverURI::DataValue field)
+{
+    if(nullptr==uri)
+        return;
+
+    switch (field)
+    {
+    case CleverURI::NAME:
+        setTitle(uri->name());
+        break;
+    default:
+        break;
+    }
 }
 void MediaContainer::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 {
