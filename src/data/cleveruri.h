@@ -115,6 +115,8 @@ public:
      */
     const QString getAbsolueDir() const;
 
+    virtual void setName(const QString &name);
+
     void write(QDataStream& out) const;
     void read(QDataStream &in);
 
@@ -142,12 +144,14 @@ public:
     bool seekNode(QList<ResourcesNode*>& path,ResourcesNode* node);
 
     //static CleverURIListener *getListener();
-    static void setListener(CleverURIListener *value);
+    void setListener(CleverURIListener *value);
 
     CleverURI::State getState() const;
     void setState(const State &state);
 
     bool hasData()const;
+
+    void updateListener(CleverURI::DataValue value);
 
 private:
     /**
@@ -165,7 +169,7 @@ private:
     static QHash<CleverURI::ContentType,QString> m_iconPathHash;
     static QStringList m_typeNameList;
     static QStringList m_typeToPreferenceDirectory;
-    static CleverURIListener* s_listener;
+    QList<CleverURIListener*> m_listenerList;
 };
 /**
  * @brief The CleverURIListener class is an abstract track to be notify when CleverURI has changed.
@@ -173,7 +177,7 @@ private:
 class CleverURIListener
 {
 public:
-    virtual void cleverURIHasChanged(CleverURI*)=0;
+    virtual void cleverURIHasChanged(CleverURI*,CleverURI::DataValue)=0;
 };
 
 typedef QList<CleverURI> CleverUriList;
