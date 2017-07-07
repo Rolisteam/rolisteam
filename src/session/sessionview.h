@@ -86,6 +86,7 @@ private:
     QAction* m_loadingModeColumn;
     QAction* m_displayedColumn;
     QAction* m_pathColumn;
+    QAction* m_rename;
     
 };
 
