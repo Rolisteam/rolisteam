@@ -103,7 +103,7 @@ Qt::ItemFlags SessionItemModel::flags ( const QModelIndex & index ) const
     if(childItem->mayHaveChildren())
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsDropEnabled /*| Qt::ItemIsUserCheckable */;
     else
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable| Qt::ItemIsDragEnabled /*| Qt::ItemIsUserCheckable */;
+        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable| Qt::ItemIsDragEnabled /*| Qt::ItemIsUserCheckable */;
     
 }
 QStringList SessionItemModel::mimeTypes() const
@@ -128,7 +128,7 @@ QMimeData* SessionItemModel::mimeData(const QModelIndexList &indexes) const
     return mimeData;
 }
 
-void SessionItemModel::cleverURIHasChanged(CleverURI *uri)
+void SessionItemModel::cleverURIHasChanged(CleverURI *uri,CleverURI::DataValue /*field*/)
 {
     updateNode(uri);
 }
