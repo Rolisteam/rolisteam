@@ -87,6 +87,14 @@ void NoteContainer::putDataIntoCleverUri()
         }
     }
 }
+
+void NoteContainer::setTitle(QString str)
+{
+    if(nullptr!=m_edit)
+    {
+        m_edit->setCurrentFileName(str);
+    }
+}
 void NoteContainer::readFromFile(QDataStream& data)
 {
     if(NULL!=m_edit)
