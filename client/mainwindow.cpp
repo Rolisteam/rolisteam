@@ -575,6 +575,7 @@ void MainWindow::newVectorialMap()
 void MainWindow::newSharedNoteDocument()
 {
     SharedNoteContainer* note = new SharedNoteContainer();
+    note->setOwner(m_playerList->getLocalPlayer());
     if(!m_mediaHash.contains(note->getMediaId()))
     {
         m_mediaHash.insert(note->getMediaId(),note);
