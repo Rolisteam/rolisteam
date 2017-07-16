@@ -416,6 +416,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_newCharacterSheet,SIGNAL(triggered(bool)),this,SLOT(newCharacterSheetWindow()));
     connect(m_ui->m_newChatAction, SIGNAL(triggered(bool)), m_chatListWidget, SLOT(createPrivateChat()));
     connect(m_ui->m_newNoteAction, SIGNAL(triggered(bool)), this, SLOT(newNoteDocument()));
+    connect(m_ui->m_newSharedNote, SIGNAL(triggered(bool)), this, SLOT(newSharedNoteDocument()));
 
     //open
     connect(m_ui->m_openPictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
@@ -433,6 +434,7 @@ void MainWindow::linkActionToMenu()
     m_ui->m_openVectorialMap->setData((int)CleverURI::VMAP);
     m_ui->m_openStoryAction->setData((int)CleverURI::SCENARIO);
     m_ui->m_openNoteAction->setData((int)CleverURI::TEXT);
+    m_ui->m_openShareNote->setData((int)CleverURI::SHAREDNOTE);
 
     m_ui->m_recentFileMenu->setVisible(false);
     connect(m_ui->m_closeAction, SIGNAL(triggered(bool)), this, SLOT(closeCurrentSubWindow()));
@@ -569,6 +571,17 @@ void MainWindow::newVectorialMap()
         tmp->fill(msg);
         msg.sendAll();
     }
+}//
+void MainWindow::newSharedNoteDocument()
+{
+    SharedNoteContainer* note = new SharedNoteContainer();
+    if(!m_mediaHash.contains(note->getMediaId()))
+    {
+        m_mediaHash.insert(note->getMediaId(),note);
+    }
+    m_sessionManager->addRessource(note->getCleverUri());
+    addMediaToMdiArea(note);
+    //displayMinutesEditor(true,true);
 }
 void MainWindow::newNoteDocument()
 {
@@ -2149,6 +2162,9 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         break;
     case CleverURI::TEXT:
         tmp = new NoteContainer();
+        break;
+    case CleverURI::SHAREDNOTE:
+       // tmp = new SharedNote();
         break;
     case CleverURI::SCENARIO:
         break;
