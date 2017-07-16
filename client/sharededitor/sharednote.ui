@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SharedNote</class>
+ <widget class="QMainWindow" name="SharedNote">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>758</width>
+    <height>439</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Cahoots</string>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <property name="usesScrollButtons">
+         <bool>true</bool>
+        </property>
+        <property name="documentMode">
+         <bool>true</bool>
+        </property>
+        <property name="tabsClosable">
+         <bool>true</bool>
+        </property>
+        <property name="movable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="tab">
+         <attribute name="title">
+          <string>untitled.txt</string>
+         </attribute>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="m_documentSupport" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>758</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionFile_New"/>
+    <addaction name="actionFile_Open"/>
+    <addaction name="actionFile_Save"/>
+    <addaction name="actionFile_Save_As"/>
+    <addaction name="actionFile_Save_A_Copy_As"/>
+    <addaction name="actionFile_Save_All"/>
+    <addaction name="actionFile_Close"/>
+    <addaction name="separator"/>
+    <addaction name="actionFile_Print"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <widget class="QMenu" name="menuEdit_Syntax_Highlighting">
+     <property name="title">
+      <string>Syntax Highlighting...</string>
+     </property>
+     <addaction name="actionEdit_None"/>
+     <addaction name="actionEdit_C"/>
+     <addaction name="actionEdit_Python"/>
+    </widget>
+    <addaction name="actionEdit_Undo"/>
+    <addaction name="actionEdit_Redo"/>
+    <addaction name="separator"/>
+    <addaction name="actionEdit_Cut"/>
+    <addaction name="actionEdit_Copy"/>
+    <addaction name="actionEdit_Paste"/>
+    <addaction name="separator"/>
+    <addaction name="actionEdit_Find_All"/>
+    <addaction name="actionEdit_Find"/>
+    <addaction name="menuEdit_Syntax_Highlighting"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionView_Line_Wrap"/>
+    <addaction name="actionView_Hide_Show_Participants"/>
+    <addaction name="actionView_Hide_Show_Chat"/>
+   </widget>
+   <widget class="QMenu" name="menuText">
+    <property name="title">
+     <string>Text</string>
+    </property>
+    <addaction name="actionText_Shift_Left"/>
+    <addaction name="actionText_Shift_Right"/>
+    <addaction name="actionText_Comment_Line"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionTools_Preview_as_Html"/>
+    <addaction name="separator"/>
+    <addaction name="actionTools_Announce_Document"/>
+    <addaction name="actionTools_Connect_to_Document"/>
+    <addaction name="separator"/>
+    <addaction name="actionTools_Resynchronize_Document"/>
+    <addaction name="separator"/>
+    <addaction name="actionTools_Preferences"/>
+   </widget>
+   <widget class="QMenu" name="menuWindow">
+    <property name="title">
+     <string>Window</string>
+    </property>
+    <addaction name="actionWindow_Split"/>
+    <addaction name="actionWindow_Split_Side_by_Side"/>
+    <addaction name="actionWindow_Remove_Split"/>
+    <addaction name="separator"/>
+    <addaction name="actionWindow_Next_Document"/>
+    <addaction name="actionWindow_Previous_Document"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuView"/>
+   <addaction name="menuText"/>
+   <addaction name="menuTools"/>
+   <addaction name="menuWindow"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionFile_New"/>
+   <addaction name="actionFile_Open"/>
+   <addaction name="actionFile_Save"/>
+   <addaction name="actionFile_Print"/>
+   <addaction name="actionEdit_Undo"/>
+   <addaction name="actionEdit_Redo"/>
+   <addaction name="actionEdit_Cut"/>
+   <addaction name="actionEdit_Copy"/>
+   <addaction name="actionEdit_Paste"/>
+   <addaction name="actionHelp_How_to_Collaborate"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionFile_Open">
+   <property name="icon">
+    <iconset resource="cahootsresc.qrc">
+     <normaloff>:/images/open.png</normaloff>:/images/open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionFile_Save">
+   <property name="icon">
+    <iconset resource="cahootsresc.qrc">
+     <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionFile_Save_As">
+   <property name="text">
+    <string>Save As...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionFile_New">
+   <property name="icon">
+    <iconset resource="cahootsresc.qrc">
+     <normaloff>:/images/new.png</normaloff>:/images/new.png</iconset>
+   </property>
+   <property name="text">
+    <string>New</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionFile_Print">
+   <property name="icon">
+    <iconset resource="cahootsresc.qrc">
+     <normaloff>:/images/print.png</normaloff>:/images/print.png</iconset>
+   </property>
+   <property name="text">
+    <string>Print</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionEdit_Undo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="cahootsresc.qrc">
+     <normaloff>:/images/undo.png</normaloff>:/images/undo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Undo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionEdit_Redo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="cahootsresc.qrc">
+     <normaloff>:/images/redo.png</normaloff>:/images/redo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Redo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Y</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionEdit_Cut">
+   <property name="icon">
+    <iconset resource="cahootsresc.qrc">
+     <normaloff>:/images/cut.png</normaloff>:/images/cut.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cut</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionEdit_Copy">
+   <property name="icon">
+    <iconset resource="cahootsresc.qrc">
+     <normaloff>:/images/copy.png</normaloff>:/images/copy.png</iconset>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionEdit_Paste">
+   <property name="icon">
+    <iconset resource="cahootsresc.qrc">
+     <normaloff>:/images/paste.png</normaloff>:/images/paste.png</iconset>
+   </property>
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionEdit_Find">
+   <property name="text">
+    <string>Find...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+F</string>
+   </property>
+  </action>
+  <action name="actionView_Line_Wrap">
+   <property name="text">
+    <string>Line Wrap</string>
+   </property>
+  </action>
+  <action name="actionFile_Close">
+   <property name="icon">
+    <iconset resource="cahootsresc.qrc">
+     <normaloff>:/images/close.png</normaloff>:/images/close.png</iconset>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionEdit_C">
+   <property name="text">
+    <string>C++</string>
+   </property>
+  </action>
+  <action name="actionEdit_Python">
+   <property name="text">
+    <string>Python</string>
+   </property>
+  </action>
+  <action name="actionText_Shift_Left">
+   <property name="text">
+    <string>Shift Left</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+[</string>
+   </property>
+  </action>
+  <action name="actionText_Shift_Right">
+   <property name="text">
+    <string>Shift Right</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+]</string>
+   </property>
+  </action>
+  <action name="actionText_Comment_Line">
+   <property name="text">
+    <string>Un/Comment Line</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+/</string>
+   </property>
+  </action>
+  <action name="actionTools_Preview_as_Html">
+   <property name="text">
+    <string>Preview as HTML</string>
+   </property>
+  </action>
+  <action name="actionFile_Save_A_Copy_As">
+   <property name="text">
+    <string>Save A Copy As...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionFile_Save_All">
+   <property name="text">
+    <string>Save All</string>
+   </property>
+  </action>
+  <action name="actionTools_Announce_Document">
+   <property name="text">
+    <string>Announce Document</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+A</string>
+   </property>
+  </action>
+  <action name="actionView_Hide_Show_Participants">
+   <property name="text">
+    <string>Show/Hide Participants</string>
+   </property>
+  </action>
+  <action name="actionView_Hide_Show_Chat">
+   <property name="text">
+    <string>Show/Hide Chat</string>
+   </property>
+  </action>
+  <action name="actionTools_Connect_to_Document">
+   <property name="text">
+    <string>Connect to Document...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+C</string>
+   </property>
+  </action>
+  <action name="actionWindow_Split">
+   <property name="text">
+    <string>Split</string>
+   </property>
+  </action>
+  <action name="actionTools_Resynchronize_Document">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Resynchronize Document</string>
+   </property>
+  </action>
+  <action name="actionWindow_Next_Document">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Next Document</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+]</string>
+   </property>
+  </action>
+  <action name="actionWindow_Previous_Document">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Previous Document</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+[</string>
+   </property>
+  </action>
+  <action name="actionEdit_None">
+   <property name="text">
+    <string>None</string>
+   </property>
+  </action>
+  <action name="actionWindow_Remove_Split">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Remove Split</string>
+   </property>
+  </action>
+  <action name="actionWindow_Split_Side_by_Side">
+   <property name="text">
+    <string>Split Side by Side</string>
+   </property>
+  </action>
+  <action name="actionTools_Preferences">
+   <property name="text">
+    <string>Preferences</string>
+   </property>
+  </action>
+  <action name="actionEdit_Find_All">
+   <property name="text">
+    <string>Find All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionHelp_About_Cahoots">
+   <property name="text">
+    <string>About Cahoots</string>
+   </property>
+  </action>
+  <action name="actionHelp_About_Qt">
+   <property name="text">
+    <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionHelp_How_to_Collaborate">
+   <property name="icon">
+    <iconset resource="cahootsresc.qrc">
+     <normaloff>:/images/help.png</normaloff>:/images/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>How to Collaborate</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="cahootsresc.qrc"/>
+ </resources>
+ <connections/>
+</ui>
