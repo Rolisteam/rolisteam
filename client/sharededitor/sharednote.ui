@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Cahoots</string>
+   <string>Shared Note Editor</string>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
@@ -106,6 +106,8 @@
     <addaction name="actionEdit_Find_All"/>
     <addaction name="actionEdit_Find"/>
     <addaction name="menuEdit_Syntax_Highlighting"/>
+    <addaction name="separator"/>
+    <addaction name="actionTools_Preview_as_Html"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -113,7 +115,6 @@
     </property>
     <addaction name="actionView_Line_Wrap"/>
     <addaction name="actionView_Hide_Show_Participants"/>
-    <addaction name="actionView_Hide_Show_Chat"/>
    </widget>
    <widget class="QMenu" name="menuText">
     <property name="title">
@@ -123,36 +124,10 @@
     <addaction name="actionText_Shift_Right"/>
     <addaction name="actionText_Comment_Line"/>
    </widget>
-   <widget class="QMenu" name="menuTools">
-    <property name="title">
-     <string>Tools</string>
-    </property>
-    <addaction name="actionTools_Preview_as_Html"/>
-    <addaction name="separator"/>
-    <addaction name="actionTools_Announce_Document"/>
-    <addaction name="actionTools_Connect_to_Document"/>
-    <addaction name="separator"/>
-    <addaction name="actionTools_Resynchronize_Document"/>
-    <addaction name="separator"/>
-    <addaction name="actionTools_Preferences"/>
-   </widget>
-   <widget class="QMenu" name="menuWindow">
-    <property name="title">
-     <string>Window</string>
-    </property>
-    <addaction name="actionWindow_Split"/>
-    <addaction name="actionWindow_Split_Side_by_Side"/>
-    <addaction name="actionWindow_Remove_Split"/>
-    <addaction name="separator"/>
-    <addaction name="actionWindow_Next_Document"/>
-    <addaction name="actionWindow_Previous_Document"/>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuView"/>
    <addaction name="menuText"/>
-   <addaction name="menuTools"/>
-   <addaction name="menuWindow"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="enabled">

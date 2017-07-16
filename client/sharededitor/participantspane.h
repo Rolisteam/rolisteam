@@ -43,6 +43,9 @@ public:
     virtual QModelIndex index(int row, int column, const QModelIndex & parent) const;
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 
+    Player* getOwner() const;
+    void setOwner(Player *owner);
+
 public slots:
     virtual void addHiddenPlayer(Player*);
     virtual void removePlayer(Player*);
@@ -56,6 +59,10 @@ private:
 
     QList<QList<Player*>*> m_data;
     QStringList m_permissionGroup;
+
+    Player* m_owner;
+    QList<Player *> *getListByChild(Player *owner);
+    void debugModel() const;
 };
 
 class ParticipantsPane : public QWidget
@@ -77,6 +84,9 @@ public:
     bool canRead(QTcpSocket *socket);
     void setFont(QFont font);
 
+    Player* getOwner() const;
+    void setOwner(Player *owner);
+
 signals:
     void memberCanNowRead(QTcpSocket *member);
     void memberPermissionsChanged(QTcpSocket *member, QString readability);
@@ -88,11 +98,11 @@ private slots:
     void addNewPlayer(Player*);
 
 private:
-    Ui::ParticipantsPane *ui;
+    Ui::ParticipantsPane* ui;
 
     PlayersList* m_playerList;
     ParcipantsModel* m_model;
-    Player* m_owner;
+
 };
 
 #endif // PARTICIPANTSPANE_H

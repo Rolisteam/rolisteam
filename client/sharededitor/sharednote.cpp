@@ -150,7 +150,10 @@ void SharedNote::closeEvent(QCloseEvent *event)
         event->ignore();
     }
 }
-
+void SharedNote::setOwner(Player* player)
+{
+    m_document->setOwner(player);
+}
 bool SharedNote::eventFilter(QObject *, QEvent *event)
 {
     if (event->type() == QEvent::FileOpen) {

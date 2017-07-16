@@ -129,6 +129,7 @@ public:
     QString curFile;
     QString myName;
 
+    void setOwner(Player *player);
 signals:
     void redoAvailable(bool);
     void undoAvailable(bool);
@@ -152,7 +153,7 @@ private:
     bool startedCollaborating;
 
     FindToolBar *findAllToolbar;
-    ParticipantsPane *participantPane;
+    ParticipantsPane* m_participantPane;
     //ChatPane *chatPane;
 };
 

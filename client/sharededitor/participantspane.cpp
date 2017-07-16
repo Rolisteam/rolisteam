@@ -94,6 +94,8 @@ void ParticipantsPane::addNewPlayer(Player*)
 
 
 
+
+
 void ParticipantsPane::newParticipant(QString name, QString address, QString permissions)
 {
 
@@ -129,6 +131,16 @@ void ParticipantsPane::setFont(QFont font)
 {
     // I'm not sure we want to set all these things to this font.
     ui->connectInfoLabel->setFont(font);
+}
+
+Player *ParticipantsPane::getOwner() const
+{
+       return m_model->getOwner();
+}
+
+void ParticipantsPane::setOwner(Player *owner)
+{
+    m_model->setOwner(owner);
 }
 
 void ParticipantsPane::onCurrentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *)
@@ -239,24 +251,36 @@ void ParticipantsPane::on_demotePushButton_clicked()
 
 ParcipantsModel::ParcipantsModel(PlayersList* m_playerList)
 {
+
     m_data.append(&m_readWrite);
     m_data.append(&m_readOnly);
     m_data.append(&m_hidden);
 
     m_permissionGroup << tr("Read Write") << tr("Read Only") << tr("Hidden");
+
+    for(int  i = 0; i < m_playerList->getPlayerCount() ; ++i)
+    {
+        Player* player = m_playerList->getPlayer(i);
+        m_hidden.append(player);
+    }
 }
 
 int ParcipantsModel::rowCount(const QModelIndex &parent) const
 {
     if(!parent.isValid())
     {
-        qDebug() << m_data.size();
+        qDebug() << "size data:" <<m_data.size();
         return m_data.size();
+    }
+    else if(!parent.parent().isValid())
+    {
+        qDebug() << "row count parentrow" << parent.row();
+        QList<Player*>* list = m_data.at(parent.row());
+        return list->size();
     }
     else
     {
-        QList<Player*>* list = m_data.at(parent.row());
-        return list->size();
+        return 0;
     }
 }
 
@@ -267,6 +291,7 @@ int ParcipantsModel::columnCount(const QModelIndex &parent) const
 
 QVariant ParcipantsModel::data(const QModelIndex &index, int role) const
 {
+   // debugModel();
     if(!index.isValid())
         return QVariant();
 
@@ -275,17 +300,31 @@ QVariant ParcipantsModel::data(const QModelIndex &index, int role) const
         QModelIndex parent = index.parent();
         if(!parent.isValid())
         {
-            qDebug() << "data" << m_permissionGroup.at(index.row());
             return m_permissionGroup.at(index.row());
         }
         else
         {
+            qDebug() << "parent row:"<<parent.row() << index.row();
             QList<Player*>* list = m_data.at(parent.row());
-            Player* player = list->at(index.row());
-            return player->getName();
+            if(!list->isEmpty())
+            {
+                Player* player = list->at(index.row());
+                return player->getName();
+            }
         }
     }
     return QVariant();
+}
+void ParcipantsModel::debugModel() const
+{
+    for(auto list : m_data)
+    {
+        qDebug() << "list:" << m_data.indexOf(list) << "size:" << list->size();
+        for(auto player : *list)
+        {
+            qDebug() << player->getName();
+        }
+    }
 }
 
 QModelIndex ParcipantsModel::parent(const QModelIndex& child) const
@@ -300,14 +339,20 @@ QModelIndex ParcipantsModel::parent(const QModelIndex& child) const
     {
         if(list->contains(childItem))
         {
+            //qDebug() << "match" << list << list->size() << childItem;
             current = list;
         }
     }
 
     if (nullptr == current)
+    {
         return QModelIndex();
+    }
+    else
+    {
+        return createIndex(m_data.indexOf(current), 0, current);
+    }
 
-    return createIndex(current->indexOf(childItem), 0, current);
 }
 
 QModelIndex ParcipantsModel::index(int row, int column, const QModelIndex & parent) const
@@ -317,6 +362,7 @@ QModelIndex ParcipantsModel::index(int row, int column, const QModelIndex & pare
 
     if (!parent.isValid())
     {
+        qDebug() << "index" << row;
         QList<Player*>* list = m_data.at(row);
         return createIndex(row, column, list);
     }
@@ -324,6 +370,7 @@ QModelIndex ParcipantsModel::index(int row, int column, const QModelIndex & pare
     {
         QList<Player*>* list = static_cast<QList<Player*>*>(parent.internalPointer());
         Player* player = list->at(row);
+        qDebug() << player->getName();
         return createIndex(row, column, player);
     }
 }
@@ -351,4 +398,49 @@ void ParcipantsModel::promotePlayer(Player *)
 void ParcipantsModel::demotePlayer(Player *)
 {
 
+}
+Player* ParcipantsModel::getOwner() const
+{
+    return m_owner;
+}
+
+void ParcipantsModel::setOwner(Player* owner)
+{
+    m_owner = owner;
+    QList<Player*>* list = getListByChild(m_owner);
+    QList<Player*>* destList =m_data.at(readWrite);
+    QModelIndex parent;
+    QModelIndex dest = createIndex(0,0,destList);
+    int indexDest = destList->size();
+
+    if(nullptr!=list)
+    {
+        int index = m_data.indexOf(list);
+        int indexPlayer = list->indexOf(owner);
+        parent = createIndex(index,0,list);
+
+
+        beginMoveRows(parent,indexPlayer,indexPlayer,dest,indexDest);
+        list->removeOne(owner);
+        destList->append(owner);
+        endMoveRows();
+    }
+    else
+    {
+        beginInsertRows(dest,indexDest,indexDest);
+        destList->append(owner);
+        endInsertRows();
+    }
+
+}
+QList<Player*>* ParcipantsModel::getListByChild(Player* owner)
+{
+    for(auto list : m_data)
+    {
+        if(list->contains(owner))
+        {
+            return list;
+        }
+    }
+    return nullptr;
 }

@@ -64,8 +64,8 @@ Document::Document(QWidget *parent) :
 
     // Participant frame
     delete ui->participantFrame;
-    participantPane = new ParticipantsPane();
-    ui->participantSplitter->insertWidget(1, participantPane);
+    m_participantPane = new ParticipantsPane();
+    ui->participantSplitter->insertWidget(1, m_participantPane);
 
     // Chat frame
    /* delete ui->chatFrame;
@@ -120,13 +120,13 @@ void Document::connectToDocument(QStringList list)
     QString portString = list.at(2);
 
     int port = portString.toInt();
-    participantPane->setOwnership(false);
+    m_participantPane->setOwnership(false);
     startedCollaborating = true;
 
     setChatHidden(false);
     setParticipantsHidden(false);
     editor->setReadOnly(true);
-    participantPane->setDisabled(true);
+    m_participantPane->setDisabled(true);
 
   /*  client = new Client(editor, participantPane, chatPane, this);
     client->setUsername(myName);
@@ -148,7 +148,7 @@ void Document::setChatFont(QFont font)
 
 void Document::setParticipantsFont(QFont font)
 {
-    participantPane->setFont(font);
+    m_participantPane->setFont(font);
 }
 
 void Document::undo()
@@ -177,7 +177,7 @@ void Document::cut()
     {
         editor->cut();
     }
-    else if (participantPane->hasFocus())
+    else if (m_participantPane->hasFocus())
     {
         // do nothing
     }
@@ -192,7 +192,7 @@ void Document::copy()
     if (editor->hasFocus()) {
         editor->copy();
     }
-    else if (participantPane->hasFocus()){
+    else if (m_participantPane->hasFocus()){
         // do nothing
     }
    /* else if (chatPane->hasFocus()) {
@@ -206,7 +206,7 @@ void Document::paste()
     {
         editor->paste();
     }
-    else if (participantPane->hasFocus())
+    else if (m_participantPane->hasFocus())
     {
         // do nothing
     }
@@ -443,7 +443,7 @@ void Document::findPrevious(QString string)
     editor->findPrev(string, Qt::CaseInsensitive, true, Enu::Contains);
 }
 
-void Document::setOwnerName(QString name)
+void Document::setOwner(Player* player)
 {
-   // server->setOwnerName(name);
+    m_participantPane->setOwner(player);
 }

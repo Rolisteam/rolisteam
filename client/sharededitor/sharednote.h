@@ -57,6 +57,7 @@ public:
     void writeSettings();
 
     void displaySharingPanel();
+    void setOwner(Player *player);
 protected:
     void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject *, QEvent *event);

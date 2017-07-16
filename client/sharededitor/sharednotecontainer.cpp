@@ -39,6 +39,10 @@ SharedNoteContainer::SharedNoteContainer()
 
 
 }
+void SharedNoteContainer::setOwner(Player* player)
+{
+    m_edit->setOwner(player);
+}
 
 void SharedNoteContainer::setFileName(QString str)
 {
