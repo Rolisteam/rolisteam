@@ -135,7 +135,7 @@ void Map::p_init()
 
     // Get every characters
     PlayersList* g_playersList = PlayersList::instance();
-    int maxPlayersIndex = g_playersList->numPlayers();
+    int maxPlayersIndex = g_playersList->getPlayerCount();
     for (int i = 0 ; i < maxPlayersIndex ; i++)
     {
         Player * player = g_playersList->getPlayer(i);

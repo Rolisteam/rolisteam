@@ -291,7 +291,7 @@ bool PlayersList::isLocal(Person * person) const
     return (person == local || person->getParent() == local);
 }
 
-int PlayersList::numPlayers() const
+int PlayersList::getPlayerCount() const
 {
     return m_playersList.size();
 }

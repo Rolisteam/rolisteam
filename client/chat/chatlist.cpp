@@ -79,7 +79,7 @@ ChatList::ChatList(MainWindow * mainWindow)
 	connect(g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(delPlayer(Player *)));
 
 	// Allready there player's chat
-	int maxPlayerIndex = g_playersList->numPlayers();
+	int maxPlayerIndex = g_playersList->getPlayerCount();
     Player * localPlayer = g_playersList->getLocalPlayer();
 	for (int i = 0 ; i < maxPlayerIndex ; i++)
 	{

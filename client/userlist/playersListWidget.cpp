@@ -124,7 +124,7 @@ void PlayersListWidgetModel::changeMap(Map * map)
     int max = 0;
     if(NULL!=playersList->getLocalPlayer())
     {
-        max = (playersList->getLocalPlayer()->isGM() ? playersList->numPlayers() : 1);
+        max = (playersList->getLocalPlayer()->isGM() ? playersList->getPlayerCount() : 1);
     }
 
     for (i = 0 ; i < max ; i++)
