@@ -105,37 +105,12 @@ Document::~Document()
     delete ui;
 }
 
-void Document::announceDocument(bool broadcastDocument)
+void Document::displayParticipantPanel()
 {
     startedCollaborating = true;
-    setChatHidden(false);
+    setChatHidden(true);
     setParticipantsHidden(false);
-
-    //server = new Server(editor, participantPane, chatPane, this);
-
-    if (broadcastDocument) {
-        //server->startBroadcasting();
-    }
-
-   /* server->listen(QHostAddress::Any, 0); // Port is chosen automatically, listening on all NICs
-    QString port = QString::number(server->serverPort(), 10);
-
-
-    QString ipAddress;
-    QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
-    // use the first non-localhost IPv4 address
-    for (int i = 0; i < ipAddressesList.size(); ++i) {
-        if (ipAddressesList.at(i) != QHostAddress::LocalHost &&
-            ipAddressesList.at(i).toIPv4Address())
-            ipAddress = ipAddressesList.at(i).toString();
-    }
-    // if we did not find one, use IPv4 localhost
-    if (ipAddress.isEmpty()) {
-        ipAddress = QHostAddress(QHostAddress::LocalHost).toString();
-    }
-    chatPane->appendChatMessage("Listening at " + ipAddress + ":" + port);
-
-    participantPane->setConnectInfo(ipAddress, port);*/
+    //participantPane->setConnectInfo(ipAddress, port);
 }
 
 void Document::connectToDocument(QStringList list)
