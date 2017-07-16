@@ -28,12 +28,16 @@ SharedNoteContainer::SharedNoteContainer()
 #endif
     if(NULL!=m_edit)
     {
-        //m_title = m_edit->getShowName();
+        m_title = m_edit->windowTitle();
     }
+
     setCleverUriType(CleverURI::TEXT);
     setWidget(m_edit);
     setWindowIcon(QIcon(":/notes.png"));
-    connect(m_edit,SIGNAL(showNameChanged(QString)),this,SLOT(setFileName(QString)));
+    m_edit->displaySharingPanel();
+    connect(m_edit,SIGNAL(windowTitleChanged(QString)),this,SLOT(setFileName(QString)));
+
+
 }
 
 void SharedNoteContainer::setFileName(QString str)
@@ -70,8 +74,8 @@ void SharedNoteContainer::saveMedia()
     if(NULL!=m_edit)
     {
        //m_edit->fileSave();
-        //QString uri = m_edit->getShowName();
-        //m_uri->setUri(uri);
+        QString uri = m_edit->windowTitle();
+        m_uri->setUri(uri);
     }
 }
 void SharedNoteContainer::putDataIntoCleverUri()
