@@ -557,10 +557,16 @@
    <property name="text">
     <string>Shared Note</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+K</string>
+   </property>
   </action>
   <action name="m_openShareNote">
    <property name="text">
     <string>Shared Note</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
    </property>
   </action>
  </widget>
