@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>105</width>
-    <height>464</height>
+    <width>506</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,152 +25,64 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>3</number>
-   </property>
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>6</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>5</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QLabel" name="participantsLabel">
      <property name="text">
-      <string>Participants</string>
+      <string>Permission</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QTreeWidget" name="treeWidget">
-     <property name="selectionBehavior">
-      <enum>QAbstractItemView::SelectRows</enum>
-     </property>
-     <property name="indentation">
-      <number>15</number>
-     </property>
-     <attribute name="headerVisible">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="headerVisible">
-      <bool>false</bool>
-     </attribute>
-     <column>
-      <property name="text">
-       <string>Participant</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Color</string>
-      </property>
-     </column>
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <property name="text">
-       <string>Read Write</string>
-      </property>
-      <property name="background">
-       <brush brushstyle="NoBrush">
-        <color alpha="255">
-         <red>104</red>
-         <green>173</green>
-         <blue>245</blue>
-        </color>
-       </brush>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="background">
-       <brush brushstyle="NoBrush">
-        <color alpha="255">
-         <red>104</red>
-         <green>173</green>
-         <blue>245</blue>
-        </color>
-       </brush>
-      </property>
-      <property name="flags">
-       <set>ItemIsUserCheckable|ItemIsEnabled</set>
-      </property>
-      <item>
-       <property name="text">
-        <string>Owner</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="background">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>0</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </brush>
-       </property>
-       <property name="flags">
-        <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
-       </property>
-      </item>
+      <widget class="QTreeView" name="m_treeview"/>
      </item>
      <item>
-      <property name="text">
-       <string>Read Only</string>
-      </property>
-      <property name="flags">
-       <set>ItemIsUserCheckable|ItemIsEnabled</set>
-      </property>
+      <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,1">
+       <item>
+        <widget class="QToolButton" name="m_upToolBtn">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QToolButton" name="m_downToolBtn">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
-     <item>
-      <property name="text">
-       <string>Waiting</string>
-      </property>
-      <property name="flags">
-       <set>ItemIsUserCheckable|ItemIsEnabled</set>
-      </property>
-     </item>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="promotePushButton">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>Promote</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="demotePushButton">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>Demote</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="line">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
+    </layout>
    </item>
    <item>
     <widget class="QLabel" name="connectInfoLabel">
@@ -194,7 +106,27 @@
     </widget>
    </item>
   </layout>
+  <action name="m_promoteAction">
+   <property name="icon">
+    <iconset resource="../../rolisteam.qrc">
+     <normaloff>:/resources/icons/go-up.png</normaloff>:/resources/icons/go-up.png</iconset>
+   </property>
+   <property name="text">
+    <string>Promote</string>
+   </property>
+  </action>
+  <action name="m_demoteAction">
+   <property name="icon">
+    <iconset resource="../../rolisteam.qrc">
+     <normaloff>:/resources/icons/go-down.png</normaloff>:/resources/icons/go-down.png</iconset>
+   </property>
+   <property name="text">
+    <string>Demote</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../rolisteam.qrc"/>
+ </resources>
  <connections/>
 </ui>

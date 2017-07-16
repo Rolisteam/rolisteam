@@ -24,81 +24,75 @@
 #include <QHostAddress>
 #include <QTcpSocket>
 
+#include "userlist/playersList.h"
+
 namespace Ui {
     class ParticipantsPane;
 }
 
-struct Participant {
-    // Used by owner and particiapnts:
-    QString name;
-    QHostAddress address;
-    QColor color;
-    QTreeWidgetItem *item;
+class ParcipantsModel : public QAbstractItemModel
+{
+    Q_OBJECT
+public:
+    enum Permission {readWrite,readOnly,hidden};
+    ParcipantsModel(PlayersList* m_playerList);
+    virtual int rowCount(const QModelIndex &parent) const;
+    virtual int columnCount(const QModelIndex &parent) const;
+    virtual QVariant data(const QModelIndex &index, int role) const;
+    virtual QModelIndex parent(const QModelIndex &child) const;
+    virtual QModelIndex index(int row, int column, const QModelIndex & parent) const;
+    virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 
-    // Only used by the owner:
-    int permissions;
-    QTcpSocket *socket;
-    // Used to store the incoming packet's size
-    quint32 blockSize;
+public slots:
+    virtual void addHiddenPlayer(Player*);
+    virtual void removePlayer(Player*);
+    void promotePlayer(Player*);
+    void demotePlayer(Player*);
+
+private:
+    QList<Player*> m_hidden;
+    QList<Player*> m_readOnly;
+    QList<Player*> m_readWrite;
+
+    QList<QList<Player*>*> m_data;
+    QStringList m_permissionGroup;
 };
 
-class ParticipantsPane : public QWidget {
+class ParticipantsPane : public QWidget
+{
     Q_OBJECT
 public:
     ParticipantsPane(QWidget *parent = 0);
     ~ParticipantsPane();
 
     void setOwnership(bool isOwner);
-
-    void setConnectInfo(QString address, QString port);
-
-    // Participants are first new'd (prior to greetings)
     void newParticipant(QTcpSocket *socket);
-    // ...and later added when they send their greetings
     bool addParticipant(QString name, QTcpSocket *socket);
-    // getNameForSocket allows us to set their name in the chat pane correctly
-    QString getNameForSocket(QTcpSocket *socket);
-    // getNameAddressForSocket allows us to get name@address as the owner
-    QString getNameAddressForSocket(QTcpSocket *socket);
-
-    // Client participant pane add participant functions
     void newParticipant(QString name, QString address, QString permissions = "waiting");
-
-    // For when we disconnect
     void removeAllParticipants();
-    // This is a function to be used by the owner
-    void removeParticipant(QTcpSocket *socket);
-    // This is a function to be used by the participants in removing participants via control messages.
     void removeParticipant(QString name, QString address);
-
     void setParticipantPermissions(QString name, QString address, QString permissions);
-
     void setOwnerName(QString name);
-
     bool canWrite(QTcpSocket *socket);
     bool canRead(QTcpSocket *socket);
-
     void setFont(QFont font);
 
-    QList<Participant*> participantList;
-    QMap<QTcpSocket *, Participant *> participantMap;
-
-private:
-    Ui::ParticipantsPane *ui;
-
-    QTreeWidgetItem *rwItem;
-    QTreeWidgetItem *roItem;
-    QTreeWidgetItem *waitItem;
-    QTreeWidgetItem *owner;
+signals:
+    void memberCanNowRead(QTcpSocket *member);
+    void memberPermissionsChanged(QTcpSocket *member, QString readability);
 
 private slots:
     void onCurrentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *);
     void on_promotePushButton_clicked();
     void on_demotePushButton_clicked();
+    void addNewPlayer(Player*);
 
-signals:
-    void memberCanNowRead(QTcpSocket *member);
-    void memberPermissionsChanged(QTcpSocket *member, QString readability);
+private:
+    Ui::ParticipantsPane *ui;
+
+    PlayersList* m_playerList;
+    ParcipantsModel* m_model;
+    Player* m_owner;
 };
 
 #endif // PARTICIPANTSPANE_H
