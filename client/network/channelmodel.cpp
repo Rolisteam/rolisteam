@@ -420,5 +420,27 @@ TreeItem* ChannelModel::getItemById(QString id)
 
 void ChannelModel::removeChild(QString id)
 {
-
+    auto item = getItemById(id);
+    if((nullptr != item)&&(!item->isLeaf()))
+    {
+        auto parent = item->getParentItem();
+        if(nullptr != parent)
+        {
+            Channel* channel = dynamic_cast<Channel*>(parent);
+            if(nullptr != channel)
+            {
+                QModelIndex index = channelToIndex(channel);
+                beginRemoveRows(index,channel->indexOf(item),channel->indexOf(item));
+                channel->removeChild(item);
+                endRemoveRows();
+            }
+        }
+        else
+        {
+            QModelIndex index;
+            beginRemoveRows(index,m_root.indexOf(item),m_root.indexOf(item));
+            m_root.removeAll(item);
+            endRemoveRows();
+        }
+    }
 }
