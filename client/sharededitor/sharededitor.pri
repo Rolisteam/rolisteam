@@ -46,15 +46,15 @@ HEADERS += \
 
 FORMS += \
     $$PWD/document.ui \
-    $$PWD/connecttodocument.ui \
     $$PWD/finddialog.ui \
-    $$PWD/preferencesdialog.ui \
     $$PWD/participantspane.ui \
     $$PWD/findtoolbar.ui \
-    $$PWD/announcedocumentdialog.ui \
-    $$PWD/firstrundialog.ui \
-#    $$PWD/chatpane.ui \
     $$PWD/sharednote.ui
+    $$PWD/firstrundialog.ui \
+#    $$PWD/connecttodocument.ui \
+#    $$PWD/preferencesdialog.ui \
+#   $$PWD/announcedocumentdialog.ui \
+#    $$PWD/chatpane.ui \
 
 
 RESOURCES += $$PWD/cahootsresc.qrc \
