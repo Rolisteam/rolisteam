@@ -60,7 +60,7 @@ target.path = /Applications/
 }
 INSTALLS += target
 
-include(odt/src/src.pri)
+include(noteeditor/noteeditor.pri)
 include(diceparser/diceparser.pri)
 include(vmap/vmap.pri)
 include(charactersheet/charactersheet.pri)
