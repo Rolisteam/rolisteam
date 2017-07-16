@@ -22,12 +22,12 @@ bool RServer::listen(const QHostAddress &address, quint16 port)
         QPair<QThread*,int> pair(thread,0);
 
         connect(thread,&QThread::started,m_serverManager,&ServerManager::start, Qt::QueuedConnection);
-        connect(this, &RServer::accepting,m_serverManager,&ServerManager::accept, Qt::QueuedConnection);
         connect(this,&RServer::finished,m_serverManager,&ServerManager::quit, Qt::QueuedConnection);
 
         m_threadPool.append(pair);
         thread->start();
     }
+    connect(this, &RServer::accepting,m_serverManager,&ServerManager::accept, Qt::QueuedConnection);
 
     return true;
 }
