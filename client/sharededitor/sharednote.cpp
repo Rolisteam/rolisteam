@@ -44,6 +44,8 @@ SharedNote::SharedNote(QWidget *parent)
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(documentChanged(int)));
     connect(ui->tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(tabCloseClicked(int)));
 
+
+
     connectDialog = new ConnectToDocument(this);
     connect(connectDialog, SIGNAL(connectToDocumentClicked(QStringList)), this, SLOT(connectToDocument(QStringList)));
 
@@ -118,13 +120,6 @@ void SharedNote::readSettings()
     QSize size = settings.value("size", QSize(width, height)).toSize();
     resize(size);
     move(pos);
-
-    if (settings.value("isNotFirstRun").toBool() != true) {
-        firstRunDialog = new FirstRunDialog(this);
-        firstRunDialog->show();
-        firstRunDialog->raise();
-        firstRunDialog->activateWindow();
-    }
     myName = settings.value("name", "Owner").toString();
 }
 
@@ -536,19 +531,9 @@ void SharedNote::on_actionView_Hide_Show_Chat_triggered()
     }
 }
 
-void SharedNote::on_actionTools_Announce_Document_triggered()
+void SharedNote::displaySharingPanel()
 {
-    if (m_document->docHasCollaborated())
-    {
-        return; // this SHOULD never happen, but just in case.
-    }
-   /* if (preferencesDialog->getAlwaysUseMyName() && preferencesDialog->getMyName() != "") {
-        m_document->announceDocument(announceDocumentDialog->isBroadcastingChecked());
-        m_document->setOwnerName(preferencesDialog->getMyName());
-    }
-    else {
-        announceDocumentDialog->show();
-    }*/
+    m_document->displayParticipantPanel();
 }
 
 /*void SharedNote::on_actionHelp_How_to_Collaborate_triggered()
@@ -725,20 +710,7 @@ void SharedNote::connectToDocument(QStringList list)
     }
 }
 
-void SharedNote::announceDocument(QString ownerName, Qt::CheckState broadcastCheckState, Qt::CheckState alwaysUserNameCheckState)
-{
-    m_document->announceDocument(broadcastCheckState == Qt::Checked);
-    m_document->setOwnerName(ownerName);
-    ui->actionTools_Announce_Document->setEnabled(false);
 
-    if (alwaysUserNameCheckState == Qt::Checked) {
-    /*    preferencesDialog->setAlwaysUseMyName(true);
-        preferencesDialog->setMyName(ownerName);*/
-    }
-    else {
-        //preferencesDialog->setAlwaysUseMyName(true);
-    }
-}
 
 void SharedNote::setEditorFont(QFont font)
 {

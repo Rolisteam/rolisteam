@@ -56,6 +56,7 @@ public:
     void readSettings();
     void writeSettings();
 
+    void displaySharingPanel();
 protected:
     void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject *, QEvent *event);
@@ -88,7 +89,6 @@ private slots:
     void on_actionView_Hide_Show_Participants_triggered();
     void on_actionView_Hide_Show_Chat_triggered();
 
-    void on_actionTools_Announce_Document_triggered();
     void on_actionTools_Connect_to_Document_triggered();
     void on_actionTools_Preview_as_Html_triggered();
     void on_actionTools_Resynchronize_Document_triggered();
@@ -121,7 +121,7 @@ private slots:
     void findReplaceTriggered(QString find, QString replace, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode);
 
     void connectToDocument(QStringList list);
-    void announceDocument(QString ownerName, Qt::CheckState broadcastCheckState, Qt::CheckState alwaysUserNameCheckState);
+//    void announceDocument(QString ownerName, Qt::CheckState broadcastCheckState, Qt::CheckState alwaysUserNameCheckState);
 
     void setEditorFont(QFont font);
     void setChatFont(QFont font);
@@ -135,8 +135,8 @@ private:
     AnnounceDocumentDialog *announceDocumentDialog;
     FindDialog *findDialog;
     //PreferencesDialog *preferencesDialog;
-    AboutDialog *aboutDialog;
-    FirstRunDialog *firstRunDialog;
+    //AboutDialog *aboutDialog;
+    //FirstRunDialog *firstRunDialog;
     Document* m_document;
     QString myName; // global name used for connecting to documents
 };
