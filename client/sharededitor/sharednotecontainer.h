@@ -39,6 +39,8 @@ public:
     void putDataIntoCleverUri();
 
     void setOwner(Player* player);
+
+    void updateNoteToAll();
 public slots:
     void setFileName(QString);
 private:

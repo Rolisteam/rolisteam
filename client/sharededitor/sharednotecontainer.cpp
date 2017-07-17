@@ -23,6 +23,7 @@
 SharedNoteContainer::SharedNoteContainer()
     : m_edit(new SharedNote())
 {
+    m_edit->setId(getMediaId());
 #ifdef Q_OS_MAC
     m_edit->menuBar()->setNativeMenuBar(false);
 #endif
@@ -42,6 +43,14 @@ SharedNoteContainer::SharedNoteContainer()
 void SharedNoteContainer::setOwner(Player* player)
 {
     m_edit->setOwner(player);
+}
+
+void SharedNoteContainer::updateNoteToAll()
+{
+    NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updateTextAndPermission);
+    msg.string8(m_mediaId);
+    m_edit->updateDocumentToAll(&msg);
+    msg.sendAll();
 }
 
 void SharedNoteContainer::setFileName(QString str)
