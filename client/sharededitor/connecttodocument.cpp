@@ -17,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "connecttodocument.h"
-#include "ui_connecttodocument.h"
 
 #include <QDebug>
 #include <QSettings>

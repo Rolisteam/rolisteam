@@ -17,7 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "firstrundialog.h"
-#include "ui_firstrundialog.h"
+//#include "ui_firstrundialog.h"
 
 #include "utilities.h"
 
