@@ -206,7 +206,7 @@ void Channel::kick(QString str)
             emit itemChanged();
 
             TcpClient* client = dynamic_cast<TcpClient*>(item);
-            removeChild(client);
+            removeClient(client);
             client->closeConnection();
         }
     }
@@ -280,7 +280,7 @@ void Channel::read(NetworkMessageReader& msg)
     m_description = msg.string16();
 }
 
-bool Channel::removeChild(TcpClient* client)
+bool Channel::removeClient(TcpClient* client)
 {
     //must be the first line
     int i = m_child.removeAll(client);
@@ -291,5 +291,23 @@ bool Channel::removeChild(TcpClient* client)
     sendToAll(message,nullptr,false);
 
     emit itemChanged();
-   return (0 < i);
+    return (0 < i);
+}
+bool Channel::removeChild(TreeItem* itm)
+{
+    if(itm->isLeaf())
+    {
+        removeClient(static_cast<TcpClient*>(itm));
+        return true;
+    }
+    else
+    {
+        if(itm->childCount() == 0)
+        {
+            m_child.removeAll(itm);
+            return true;
+        }
+
+    }
+    return false;
 }

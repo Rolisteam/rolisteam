@@ -54,6 +54,7 @@
 #include "vmap/vmaptoolbar.h"
 
 #include "notecontainer.h"
+#include "sharededitor/sharednotecontainer.h"
 #include "network/selectconnectionprofiledialog.h"
 
 #ifndef NULL_PLAYER
@@ -507,6 +508,7 @@ private slots :
 
 
 
+    void newSharedNoteDocument();
 private :
     /**
      * @brief MainWindow

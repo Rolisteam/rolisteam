@@ -36,6 +36,7 @@
      <addaction name="m_newNoteAction"/>
      <addaction name="m_addVectorialMap"/>
      <addaction name="m_newCharacterSheet"/>
+     <addaction name="m_newSharedNote"/>
     </widget>
     <widget class="QMenu" name="menu_Open">
      <property name="title">
@@ -48,6 +49,7 @@
      <addaction name="m_openStoryAction"/>
      <addaction name="m_openVectorialMap"/>
      <addaction name="m_openCharacterSheet"/>
+     <addaction name="m_openShareNote"/>
     </widget>
     <widget class="QMenu" name="m_recentFileMenu">
      <property name="title">
@@ -549,6 +551,22 @@
    </property>
    <property name="text">
     <string>Room List</string>
+   </property>
+  </action>
+  <action name="m_newSharedNote">
+   <property name="text">
+    <string>Shared Note</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+K</string>
+   </property>
+  </action>
+  <action name="m_openShareNote">
+   <property name="text">
+    <string>Shared Note</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
    </property>
   </action>
  </widget>

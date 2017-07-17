@@ -102,7 +102,7 @@ void PrivateChatDialogModel::setPlayersSet(const QSet<Player *> & set)
     m_set = set;
     m_set.insert(PlayersList::instance()->getLocalPlayer());
     emit dataChanged(createIndex(0, 0, PlayersList::NoParent),
-            createIndex(PlayersList::instance()->numPlayers() - 1, 0, PlayersList::NoParent));
+            createIndex(PlayersList::instance()->getPlayerCount() - 1, 0, PlayersList::NoParent));
 }
 
 void PrivateChatDialogModel::setEditable(bool isEditable)

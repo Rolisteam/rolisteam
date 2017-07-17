@@ -54,7 +54,8 @@ public:
 
     void updateNewClient(TcpClient *newComer);
 
-    bool removeChild(TcpClient* client);
+    bool removeClient(TcpClient* client);
+    bool removeChild(TreeItem*);
 
     virtual void kick(QString str);
     TreeItem* getChildById(QString id);

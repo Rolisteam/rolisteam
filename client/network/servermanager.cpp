@@ -102,7 +102,7 @@ void ServerManager::initServerManager()
 
    for(int i = count; i < chCount ; ++i)
    {
-       m_model->addChannel(QStringLiteral("Channel %1").arg(chCount),"");
+       m_model->addChannel(QStringLiteral("Channel %1").arg(i),"");
    }
 }
 
@@ -129,8 +129,6 @@ void ServerManager::initClient()
         {
             client->sendEvent(TcpClient::CheckedEvent);
         }
-
-
     }
 }
 void ServerManager::sendOffAuthSuccessed()
@@ -241,7 +239,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
             Channel* dest = static_cast<Channel*>(item);
             if(nullptr != dest)
             {
-                chan->removeChild(tcp);
+                chan->removeClient(tcp);
                 dest->addChild(tcp);
             }
         }
@@ -262,6 +260,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
     {
         QString id = msg->string8();
         m_model->removeChild(id);
+        sendOffModelToAll();
     }
         break;
         default:

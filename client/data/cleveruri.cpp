@@ -42,6 +42,7 @@ QHash<CleverURI::ContentType,QString> CleverURI::m_iconPathHash={
     {CleverURI::CHARACTERSHEET,":/resources/icons/treeview.png"},
     {CleverURI::SCENARIO,":/story.png"},
     {CleverURI::SONG,":/resources/icons/audiofile.svg"},
+    {CleverURI::SHAREDNOTE,":/notes.png"},
     #ifdef WITH_PDF
     {CleverURI::PDF,":/iconpdf"},
     #endif
@@ -51,7 +52,7 @@ QHash<CleverURI::ContentType,QString> CleverURI::m_iconPathHash={
 //enum ContentType {NONE,MAP,VMAP,CHAT,PICTURE,ONLINEPICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG,SONGLIST
 QStringList CleverURI::m_typeNameList = QStringList() <<    QObject::tr("None") <<QObject::tr("Map") <<QObject::tr("Vectorial Map") <<QObject::tr("Chat")
                                                       <<    QObject::tr("Picture") <<QObject::tr("Online Picture") <<QObject::tr("Text") <<QObject::tr("Text") <<
-                                                            QObject::tr("Charecter Sheet") <<QObject::tr("Scenario") <<QObject::tr("Song") <<QObject::tr("Song List");
+                                                            QObject::tr("Charecter Sheet") <<QObject::tr("Scenario") <<QObject::tr("Song") <<QObject::tr("Song List")<<QObject::tr("Shared Notes");
 
 QStringList CleverURI::m_typeToPreferenceDirectory = QStringList() <<   QString("SessionDirectory") <<QString("MapDirectory")       <<QString("MapDirectory")           <<QString("ChatDirectory")
                                                                    <<   QString("ImageDirectory")   <<QString("ImageDirectory")     <<QString("MinutesDirectory")       <<QString("CharacterSheetDirectory") <<
@@ -256,7 +257,7 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
         return QString();
         break;
     case CleverURI::TEXT:
-        return QObject::tr("Supported Text Files (%1)").arg(preferences->value("TextFileFilter","*.odt *.html *.txt").toString());
+        return QObject::tr("Supported Text Files (%1)").arg(preferences->value("TextFileFilter","*.odt *.html *.txt *.htm").toString());
         break;
     case CleverURI::SCENARIO:
         return QObject::tr("Supported Story Files (%1)").arg(preferences->value("StoryFileFilter","*.sce").toString());
@@ -270,6 +271,9 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
     case CleverURI::VMAP:
         return QString();
         //return QObject::tr("Supported Vmap formats (%1)").arg(preferences->value("VMapFileFilter","*.vmap").toString());
+        break;
+    case CleverURI::SHAREDNOTE:
+        return QObject::tr("Supported Audio formats (%1)").arg(preferences->value("TextFileFilter","*.rsn *.txt *.html *.htm").toString());
         break;
 #ifdef WITH_PDF
     case CleverURI::PDF:

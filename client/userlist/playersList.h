@@ -77,7 +77,7 @@ public:
      * @return  true if the person is the local user or one of his children.
      */
     bool isLocal(Person * person) const;
-    int numPlayers() const;
+    int getPlayerCount() const;
     Player* getPlayer(int index) const;
     Person* getPerson(const QString & uuid) const;
     Player* getPlayer(const QString & uuid) const;
