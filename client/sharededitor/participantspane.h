@@ -25,6 +25,7 @@
 #include <QTcpSocket>
 
 #include "userlist/playersList.h"
+#include "network/networkmessagewriter.h"
 
 namespace Ui {
     class ParticipantsPane;
@@ -46,13 +47,19 @@ public:
     Player* getOwner() const;
     void setOwner(Player *owner);
 
+    void saveModel(QJsonObject root);
+    QList<Player *> *getListByChild(Player *owner);
+
+    ParcipantsModel::Permission getPermissionFor(Player *player);
 public slots:
     virtual void addHiddenPlayer(Player*);
     virtual void removePlayer(Player*);
-    void promotePlayer(Player*);
-    void demotePlayer(Player*);
+    int promotePlayer(Player*);
+    int demotePlayer(Player*);
 
+    void setPlayerInto(Player *player, Permission level);
 private:
+    void debugModel() const;
     QList<Player*> m_hidden;
     QList<Player*> m_readOnly;
     QList<Player*> m_readWrite;
@@ -61,8 +68,6 @@ private:
     QStringList m_permissionGroup;
 
     Player* m_owner;
-    QList<Player *> *getListByChild(Player *owner);
-    void debugModel() const;
 };
 
 class ParticipantsPane : public QWidget
@@ -84,17 +89,19 @@ public:
     bool canRead(QTcpSocket *socket);
     void setFont(QFont font);
 
+    void fill(NetworkMessageWriter* msg);
+
     Player* getOwner() const;
     void setOwner(Player *owner);
 
 signals:
-    void memberCanNowRead(QTcpSocket *member);
-    void memberPermissionsChanged(QTcpSocket *member, QString readability);
+    void memberCanNowRead(QString name);
+    void memberPermissionsChanged(QString id, int i);
 
 private slots:
     void onCurrentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *);
-    void on_promotePushButton_clicked();
-    void on_demotePushButton_clicked();
+    void promoteCurrentItem();
+    void demoteCurrentItem();
     void addNewPlayer(Player*);
 
 private:

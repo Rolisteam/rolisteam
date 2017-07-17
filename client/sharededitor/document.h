@@ -1,15 +1,3 @@
-#ifndef DOCUMENT_H
-#define DOCUMENT_H
-
-#include <QWidget>
-#include <QtNetwork>
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <QSettings>
-
-#include "highlighters/cpphighlighter.h"
-#include "highlighters/pythonhighlighter.h"
-#include "codeeditor.h"
 /**
     Cahoots is a crossplatform real-time collaborative text editor.
 
@@ -28,20 +16,30 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef DOCUMENT_H
+#define DOCUMENT_H
+
+#include <QWidget>
+#include <QtNetwork>
+#include <QTcpServer>
+#include <QTcpSocket>
+#include <QSettings>
+#include "codeeditor.h"
 #include "participantspane.h"
-#include "chatpane.h"
 #include "enu.h"
 #include "findtoolbar.h"
+#include "network/networkmessagewriter.h"
 
-#include "client.h"
-#include "server.h"
+//#include "client.h"
+//#include "server.h"
 
 
 namespace Ui {
     class Document;
 }
 
-class Document : public QWidget {
+class Document : public QWidget
+{
     Q_OBJECT
 public:
     Document(QWidget *parent = 0);
@@ -76,7 +74,7 @@ public:
     void unCommentSelection();
 
     // User wants to resynchronize the document with the owner
-    void resynchronizeTriggered();
+    void fill(NetworkMessageWriter* msg);
 
     // Sets the highlighting style to the below Highlighter
     void setHighlighter(int Highlighter);
@@ -104,20 +102,13 @@ public:
     QString getPlainText();
     void setPlainText(QString text);
 
-    // Toggles line wrapping in the editor
+    QTextDocument* getDocument();
+
     void toggleLineWrap();
-
-    // Used for setting the document's modified attribute to b (for the modified-since-last-save attribute)
-    void setModified(bool b);
-
-    // Previews the current document as an HTML webpage in a dialog box
-    void previewAsHtml();
-
-    // Splits the editor vertically from horizontal or no split
+   void setModified(bool b);
+   void previewAsHtml();
     void splitEditor();
-    // Splits the editor horizontally from vertical or no split
     void splitEditorSideBySide();
-    // Unsplits the editor
     void unSplitEditor();
     bool isEditorSplit();
     bool isEditorSplitSideBySide();
@@ -130,6 +121,10 @@ public:
     QString myName;
 
     void setOwner(Player *player);
+
+    ParticipantsPane* getParticipantPane() const;
+    void setParticipantPane(ParticipantsPane* participantPane);
+
 signals:
     void redoAvailable(bool);
     void undoAvailable(bool);
@@ -142,19 +137,10 @@ private slots:
 
 private:
     Ui::Document *ui;
-
-    Client *client;
-    //Server *server;
-
-    QSyntaxHighlighter *highlighter;
-
-    CodeEditor *editor;
-    CodeEditor *bottomEditor;
+    CodeEditor* m_editor;
     bool startedCollaborating;
-
     FindToolBar *findAllToolbar;
     ParticipantsPane* m_participantPane;
-    //ChatPane *chatPane;
 };
 
 #endif // DOCUMENT_H

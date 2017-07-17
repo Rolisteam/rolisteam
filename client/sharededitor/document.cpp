@@ -40,37 +40,14 @@ Document::Document(QWidget *parent) :
 
     // Set up the editor
     delete ui->editorFrame;
-    editor = new CodeEditor(this);
-    QFontMetrics fm(editor->font());
-    editor->setTabStopWidth(fm.averageCharWidth() * 4);
-    ui->editorSplitter->insertWidget(0, editor);
+    m_editor = new CodeEditor(this);
+    QFontMetrics fm(m_editor->font());
+    m_editor->setTabStopWidth(fm.averageCharWidth() * 4);
+    ui->editorSplitter->insertWidget(0, m_editor);
     
-    // editor for split pane editing
-    delete ui->bottomEditorFrame;
-    bottomEditor = new CodeEditor(this);
-    bottomEditor->setFont(editor->font());
-    bottomEditor->setTabStopWidth(fm.averageCharWidth() * 4);
-    ui->editorSplitter->insertWidget(1, bottomEditor);
-
-    // we don't need the default document since we're using the document of the original editor
-    bottomEditor->document()->deleteLater();
-    bottomEditor->setDocument(editor->document());
-    bottomEditor->hide();
-
-    // editor highlighter
-    // highlighter = new CppHighlighter(editor->document());
-
-    highlighter = NULL;
-
-    // Participant frame
-    delete ui->participantFrame;
     m_participantPane = new ParticipantsPane();
     ui->participantSplitter->insertWidget(1, m_participantPane);
 
-    // Chat frame
-   /* delete ui->chatFrame;
-    chatPane = new ChatPane();
-    ui->codeChatSplitter->insertWidget(1, chatPane);*/
 
     // Find all toolbar widget
     delete ui->findAllFrame;
@@ -78,13 +55,13 @@ Document::Document(QWidget *parent) :
     ui->editorVerticalLayout->insertWidget(1, findAllToolbar);
     findAllToolbar->hide();
 
-    connect(findAllToolbar, SIGNAL(findAll(QString)), editor, SLOT(findAll(QString)));
+    connect(findAllToolbar, SIGNAL(findAll(QString)), m_editor, SLOT(findAll(QString)));
     connect(findAllToolbar, SIGNAL(findNext(QString)), this, SLOT(findNext(QString)));
     connect(findAllToolbar, SIGNAL(findPrevious(QString)), this, SLOT(findPrevious(QString)));
 
     // Emit signals to the mainwindow when redoability/undoability changes
-    connect(editor, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
-    connect(editor, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+    connect(m_editor, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+    connect(m_editor, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
     QList<int> sizeList;
     sizeList << 9000 << 1;
@@ -125,7 +102,7 @@ void Document::connectToDocument(QStringList list)
 
     setChatHidden(false);
     setParticipantsHidden(false);
-    editor->setReadOnly(true);
+    m_editor->setReadOnly(true);
     m_participantPane->setDisabled(true);
 
   /*  client = new Client(editor, participantPane, chatPane, this);
@@ -136,9 +113,9 @@ void Document::connectToDocument(QStringList list)
 
 void Document::setEditorFont(QFont font)
 {
-    editor->setFont(font);
-    QFontMetrics fm(editor->font());
-    editor->setTabStopWidth(fm.averageCharWidth() * 4);
+    m_editor->setFont(font);
+    QFontMetrics fm(m_editor->font());
+    m_editor->setTabStopWidth(fm.averageCharWidth() * 4);
 }
 
 void Document::setChatFont(QFont font)
@@ -153,8 +130,9 @@ void Document::setParticipantsFont(QFont font)
 
 void Document::undo()
 {
-    if (editor->hasFocus()) {
-        editor->undo();
+    if (m_editor->hasFocus())
+    {
+        m_editor->undo();
     }
  /*   else if (chatPane->hasFocus()) {
         chatPane->undo();
@@ -163,8 +141,9 @@ void Document::undo()
 
 void Document::redo()
 {
-    if (editor->hasFocus()) {
-        editor->redo();
+    if (m_editor->hasFocus())
+    {
+        m_editor->redo();
     }
    /* else if (chatPane->hasFocus()) {
         chatPane->redo();
@@ -173,9 +152,9 @@ void Document::redo()
 
 void Document::cut()
 {
-    if (editor->hasFocus())
+    if (m_editor->hasFocus())
     {
-        editor->cut();
+        m_editor->cut();
     }
     else if (m_participantPane->hasFocus())
     {
@@ -189,22 +168,25 @@ void Document::cut()
 
 void Document::copy()
 {
-    if (editor->hasFocus()) {
-        editor->copy();
+    if (m_editor->hasFocus())
+    {
+        m_editor->copy();
     }
-    else if (m_participantPane->hasFocus()){
+    else if (m_participantPane->hasFocus())
+    {
         // do nothing
     }
-   /* else if (chatPane->hasFocus()) {
+   /* else if (chatPane->hasFocus())
+    * {
         chatPane->copy();
     }*/
 }
 
 void Document::paste()
 {
-    if (editor->hasFocus())
+    if (m_editor->hasFocus())
     {
-        editor->paste();
+        m_editor->paste();
     }
     else if (m_participantPane->hasFocus())
     {
@@ -218,58 +200,60 @@ void Document::paste()
 
 void Document::setParticipantsHidden(bool b)
 {
-    if (b) {
+    if (b)
+    {
         ui->participantSplitter->widget(1)->hide();
     }
-    else {
+    else
+    {
         ui->participantSplitter->widget(1)->show();
-        editor->resize(QSize(9000, 9000));
+        m_editor->resize(QSize(9000, 9000));
     }
 }
 
 void Document::setChatHidden(bool b)
 {
     // Hide/show the widget (contains the chat widget) below the code text edit
-    if (b) {
+    if (b)
+    {
         ui->codeChatSplitter->widget(1)->hide();
     }
-    else {
-        editor->setFocus();
+    else
+    {
+        m_editor->setFocus();
         ui->codeChatSplitter->widget(1)->show();
     }
 }
 
 void Document::shiftLeft()
 {
-    editor->shiftLeft();
+    m_editor->shiftLeft();
 }
 
 void Document::shiftRight()
 {
-    editor->shiftRight();
+    m_editor->shiftRight();
 }
 
 void Document::unCommentSelection()
 {
-    editor->unCommentSelection();
+    m_editor->unCommentSelection();
 }
 
-void Document::resynchronizeTriggered()
+
+void Document::fill(NetworkMessageWriter* msg)
 {
-    /*if (server) {
-        server->resynchronize();
-    }
-    else if (client) {
-        client->resynchronize();
-    }*/
+    msg->string32(m_editor->toPlainText());
+    m_participantPane->fill(msg);
 }
 
 void Document::setHighlighter(int Highlighter)
 {
-    switch (Highlighter) {
+    switch (Highlighter)
+    {
     case None:
-        delete highlighter;
-        highlighter = NULL;
+        /*delete highlighter;
+        highlighter = NULL;*/
         break;
    /* case CPlusPlus:
         if (highlighter) {
@@ -292,17 +276,17 @@ void Document::setHighlighter(int Highlighter)
 
 bool Document::isUndoable()
 {
-    return editor->document()->isUndoAvailable();
+    return m_editor->document()->isUndoAvailable();
 }
 
 bool Document::isRedoable()
 {
-    return editor->document()->isRedoAvailable();
+    return m_editor->document()->isRedoAvailable();
 }
 
 bool Document::isModified()
 {
-    return editor->document()->isModified();
+    return m_editor->document()->isModified();
 }
 
 bool Document::isChatHidden()
@@ -323,69 +307,81 @@ void Document::findAll()
 
 void Document::findNext(QString searchString, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode)
 {
-    if (!editor->findNext(searchString, sensitivity, wrapAround, mode)) {
+    if (!m_editor->findNext(searchString, sensitivity, wrapAround, mode))
+    {
         emit notFound();
     }
 }
 
 void Document::findPrev(QString searchString, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode)
 {
-    if (!editor->findPrev(searchString, sensitivity, wrapAround, mode)) {
+    if (!m_editor->findPrev(searchString, sensitivity, wrapAround, mode))
+    {
         emit notFound();
     }
 }
 
 void Document::replaceAll(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, Enu::FindMode mode)
 {
-    if (!editor->replaceAll(searchString, replaceString, sensitivity, mode)) {
-        QMessageBox::information(editor, tr("Cahoots"), tr("The string was not found."));
+    if (!m_editor->replaceAll(searchString, replaceString, sensitivity, mode))
+    {
+        QMessageBox::information(m_editor, tr("Cahoots"), tr("The string was not found."));
     }
 }
 
 void Document::replace(QString replaceString)
 {
-    if (!editor->replace(replaceString)) {
+    if (!m_editor->replace(replaceString))
+    {
         emit notFound();
     }
 }
 
 void Document::findReplace(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode)
 {
-    if (!editor->findReplace(searchString, replaceString, sensitivity, wrapAround, mode)) {
+    if (!m_editor->findReplace(searchString, replaceString, sensitivity, wrapAround, mode))
+    {
         emit notFound();
     }
+}
+QTextDocument* Document::getDocument()
+{
+    if(nullptr != m_editor)
+        return m_editor->document();
+    else
+        return nullptr;
 }
 
 QString Document::getPlainText()
 {
-    return editor->toPlainText();
+    return m_editor->toPlainText();
 }
 
 void Document::setPlainText(QString text)
 {
-    editor->setPlainText(text);
+    m_editor->setPlainText(text);
 }
 
 void Document::toggleLineWrap()
 {
-    if (editor->lineWrapMode() == QPlainTextEdit::NoWrap) {
-        editor->setLineWrapMode(QPlainTextEdit::WidgetWidth);
-        bottomEditor->setLineWrapMode(QPlainTextEdit::WidgetWidth);
+    if (m_editor->lineWrapMode() == QPlainTextEdit::NoWrap) {
+        m_editor->setLineWrapMode(QPlainTextEdit::WidgetWidth);
+        //bottomEditor->setLineWrapMode(QPlainTextEdit::WidgetWidth);
     }
     else {
-        editor->setLineWrapMode(QPlainTextEdit::NoWrap);
-        bottomEditor->setLineWrapMode(QPlainTextEdit::NoWrap);
+        m_editor->setLineWrapMode(QPlainTextEdit::NoWrap);
+        //bottomEditor->setLineWrapMode(QPlainTextEdit::NoWrap);
     }
 }
 
 void Document::setModified(bool b)
 {
-    editor->document()->setModified(b);
+    m_editor->document()->setModified(b);
 }
 
 void Document::previewAsHtml()
 {
-    QString text = editor->toPlainText();
+    QString text = m_editor->toPlainText();
     QWebEngineView *preview = new QWebEngineView();
     preview->setHtml(text);
     preview->show();
@@ -393,20 +389,12 @@ void Document::previewAsHtml()
 
 void Document::splitEditor()
 {
-    ui->editorSplitter->setOrientation(Qt::Vertical);
-    bottomEditor->show();
-    QList<int> sizes;
-    sizes << 500 << 500;
-    ui->editorSplitter->setSizes(sizes);
+
 }
 
 void Document::splitEditorSideBySide()
 {
-    ui->editorSplitter->setOrientation(Qt::Horizontal);
-    bottomEditor->show();
-    QList<int> sizes;
-    sizes << 500 << 500;
-    ui->editorSplitter->setSizes(sizes);
+
 }
 
 bool Document::docHasCollaborated()
@@ -416,16 +404,11 @@ bool Document::docHasCollaborated()
 
 void Document::unSplitEditor()
 {
-    if (!isEditorSplit())
-    {
-        return;
-    }
-    bottomEditor->hide();
+
 }
 
 bool Document::isEditorSplit()
 {
-    return !bottomEditor->isHidden();
 }
 
 bool Document::isEditorSplitSideBySide()
@@ -435,12 +418,22 @@ bool Document::isEditorSplitSideBySide()
 
 void Document::findNext(QString string)
 {
-    editor->findNext(string, Qt::CaseInsensitive, true, Enu::Contains);
+    m_editor->findNext(string, Qt::CaseInsensitive, true, Enu::Contains);
 }
 
 void Document::findPrevious(QString string)
 {
-    editor->findPrev(string, Qt::CaseInsensitive, true, Enu::Contains);
+    m_editor->findPrev(string, Qt::CaseInsensitive, true, Enu::Contains);
+}
+
+ParticipantsPane *Document::getParticipantPane() const
+{
+    return m_participantPane;
+}
+
+void Document::setParticipantPane(ParticipantsPane *participantPane)
+{
+    m_participantPane = participantPane;
 }
 
 void Document::setOwner(Player* player)
