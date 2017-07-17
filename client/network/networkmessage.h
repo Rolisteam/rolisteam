@@ -52,7 +52,8 @@ enum Category {
     SetupCategory,
     SharePreferencesCategory,
     VMapCategory,
-    MediaCategory
+    MediaCategory,
+    SharedNoteCategory
 };
 
 enum Action {
@@ -178,7 +179,12 @@ enum Action {
     VisionChanged,
 
     //mediacategory
-    closeMedia=0
+    closeMedia=0,
+
+    //SharedNoteCategory
+    updateTextAndPermission,
+    updateText,
+    updatePermissionOneUser
 };
 }
 /**
