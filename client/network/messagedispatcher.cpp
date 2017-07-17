@@ -116,6 +116,9 @@ QString MessageDispatcher::cat2String(NetworkMessageHeader* head)
     case NetMsg::MediaCategory:
         str = QStringLiteral("MediaCategory");
         break;
+    case NetMsg::SharedNoteCategory:
+        str = QStringLiteral("SharedNoteCategory");
+        break;
 
     }
     return str;
@@ -508,6 +511,26 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         {
         case  NetMsg::closeMedia:
             str = QStringLiteral("closeMedia");
+            break;
+
+        default:
+            str = QStringLiteral("Unknown Action");
+            break;
+        }
+    }
+    else if(cat == NetMsg::SharedNoteCategory)
+    {
+
+        switch (act)
+        {
+        case  NetMsg::updateText:
+            str = QStringLiteral("Update Text");
+            break;
+        case  NetMsg::updateTextAndPermission:
+            str = QStringLiteral("Update Text and permission");
+            break;
+        case  NetMsg::updatePermissionOneUser:
+            str = QStringLiteral("Update permission on user");
             break;
 
         default:
