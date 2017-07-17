@@ -17,11 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "sharednote.h"
-#include "ui_sharednote.h"
 
-#include "utilities.h"
-#include "enu.h"
-
+#include <QTextDocumentFragment>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QTextCodec>
@@ -33,21 +30,22 @@
 #include <QCloseEvent>
 #include <QDesktopWidget>
 #include <QDesktopServices>
+#include "ui_sharednote.h"
 
+#include "utilities.h"
+#include "enu.h"
 SharedNote::SharedNote(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::SharedNote)
 {
     ui->setupUi(this);
 
-    ui->tabWidget->setFont(QFont(Utilities::s_labelFont, Utilities::s_labelFontSize));
 
-    connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(documentChanged(int)));
-    connect(ui->tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(tabCloseClicked(int)));
+    m_document = new Document(ui->m_documentSupport);
+    connect(m_document->getDocument(), SIGNAL(contentsChange(int,int,int)), this, SLOT(onTextChange(int,int,int)));
+    connect(m_document->getParticipantPane(), SIGNAL(memberCanNowRead(QString)), this, SLOT(populateDocumentForUser(QString)));
+    connect(m_document->getParticipantPane(), SIGNAL(memberPermissionsChanged(QString,int)), this, SLOT(playerPermissionsChanged(QString,int)));
 
 
-
-    connectDialog = new ConnectToDocument(this);
-    connect(connectDialog, SIGNAL(connectToDocumentClicked(QStringList)), this, SLOT(connectToDocument(QStringList)));
 
     findDialog = new FindDialog(this);
     connect(findDialog, SIGNAL(findDialogFindNext(QString,Qt::CaseSensitivity,bool,Enu::FindMode)), this,
@@ -61,15 +59,6 @@ SharedNote::SharedNote(QWidget *parent)
     connect(findDialog, SIGNAL(findDiaalogFindReplace(QString,QString,Qt::CaseSensitivity,bool,Enu::FindMode)), this,
             SLOT(findReplaceTriggered(QString,QString,Qt::CaseSensitivity,bool,Enu::FindMode)));
 
-    /*preferencesDialog = new PreferencesDialog(this);
-    connect(preferencesDialog, SIGNAL(setEditorFont(QFont)), this, SLOT(setEditorFont(QFont)));
-    connect(preferencesDialog, SIGNAL(setChatFont(QFont)), this, SLOT(setChatFont(QFont)));
-    connect(preferencesDialog, SIGNAL(setParticipantsFont(QFont)), this, SLOT(setParticipantsFont(QFont)));*/
-
-    /*announceDocumentDialog = new AnnounceDocumentDialog(this);
-    connect(announceDocumentDialog, SIGNAL(announceDocument(QString,Qt::CheckState,Qt::CheckState)),
-            this, SLOT(announceDocument(QString,Qt::CheckState,Qt::CheckState)));*/
-
     // sets the announce dialog to the state of the preferences pane
     /// @todo change name
    // announceDocumentDialog->setAnnounceDialogInfo("user", "user");
@@ -77,23 +66,16 @@ SharedNote::SharedNote(QWidget *parent)
     // Connects the pref dialog to the announce dialog for when information is changed in the preferences dialog
     //connect(preferencesDialog, SIGNAL(setAnnounceDialogInfo(QString,bool)), announceDocumentDialog, SLOT(setAnnounceDialogInfo(QString,bool)));
 
-    m_document = new Document(ui->m_documentSupport);
+
     QGridLayout *tabLayout = new QGridLayout;
     ui->m_documentSupport->setLayout(tabLayout);
     tabLayout->addWidget(m_document);
     tabLayout->setContentsMargins(0,0,0,0);
 
-    //ui->tabWidget->widget(0)->setLayout(tabLayout);
-    ui->tab->setVisible(false);
-    ui->tabWidget->setVisible(false);
+    //ui->tab->setVisible(false);
+    //ui->tabWidget->setVisible(false);
 
     /// @todo reset preferences stuff.
-   /* m_document->setEditorFont(preferencesDialog->getEditorFont());
-    m_document->setChatFont(preferencesDialog->getChatFont());
-    m_document->setParticipantsFont(preferencesDialog->getParticipantsFont());*/
-
-    //tabWidgetToDocumentMap.insert(ui->tabWidget->currentWidget(), document);
-
     connect(m_document, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(m_document, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
 
@@ -110,7 +92,7 @@ SharedNote::~SharedNote()
 
 void SharedNote::readSettings()
 {
-    QSettings settings("Cahoots", "SharedNote");
+    QSettings settings("rolisteam", "SharedNote");
     QDesktopWidget *desktop = QApplication::desktop();
     int width = static_cast<int>(desktop->width() * 0.80);
     int height = static_cast<int>(desktop->height() * 0.70);
@@ -120,23 +102,21 @@ void SharedNote::readSettings()
     QSize size = settings.value("size", QSize(width, height)).toSize();
     resize(size);
     move(pos);
-    myName = settings.value("name", "Owner").toString();
 }
 
 void SharedNote::writeSettings()
 {
-    QSettings settings("Cahoots", "SharedNote");
+    QSettings settings("rolisteam", "SharedNote");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
     settings.setValue("name", "user");
-    settings.setValue("isNotFirstRun", true);
 }
 
 // Protected closeEvent
 void SharedNote::closeEvent(QCloseEvent *event)
 {
     bool okToQuit = true;
-    for (int i = 0; i < ui->tabWidget->count() && okToQuit; i++)
+    /*for (int i = 0; i < ui->tabWidget->count() && okToQuit; i++)
     {
         okToQuit = maybeSave(i);
     }
@@ -148,8 +128,19 @@ void SharedNote::closeEvent(QCloseEvent *event)
     else
     {
         event->ignore();
-    }
+    }*/
 }
+void SharedNote::populateDocumentForUser(QString id)
+{
+    NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updateTextAndPermission,NetworkMessage::OneOrMany);
+    QStringList ids;
+    ids << id;
+    msg.setRecipientList(ids,NetworkMessage::OneOrMany);
+    msg.string8(m_id);
+    m_document->fill(&msg);
+    msg.sendAll();
+}
+
 void SharedNote::setOwner(Player* player)
 {
     m_document->setOwner(player);
@@ -161,7 +152,7 @@ bool SharedNote::eventFilter(QObject *, QEvent *event)
         if (!fileName.isEmpty())
         {
 
-            int index = ui->tabWidget->addTab(new QWidget(), QFileInfo(fileName).fileName());
+            /*int index = ui->tabWidget->addTab(new QWidget(), QFileInfo(fileName).fileName());
 
             Document *document = new Document(ui->tabWidget->widget(index));
 
@@ -183,7 +174,7 @@ bool SharedNote::eventFilter(QObject *, QEvent *event)
             ui->actionTools_Announce_Document->setEnabled(true);
 
             ui->actionWindow_Next_Document->setEnabled(ui->tabWidget->count() > 1);
-            ui->actionWindow_Previous_Document->setEnabled(ui->tabWidget->count() > 1);
+            ui->actionWindow_Previous_Document->setEnabled(ui->tabWidget->count() > 1);*/
 
            /* document->setEditorFont(preferencesDialog->getEditorFont());
             document->setChatFont(preferencesDialog->getChatFont());
@@ -211,7 +202,7 @@ bool SharedNote::maybeSave(int index)
 {
     if (m_document->isModified())
     {
-        ui->tabWidget->setCurrentIndex(index);
+      //  ui->tabWidget->setCurrentIndex(index);
         QMessageBox::StandardButton ret;
         ret = QMessageBox::warning(this, "Cahoots",
                                    "The document has been modified.\n"
@@ -243,7 +234,7 @@ bool SharedNote::saveFile(const QString &fileName)
     QApplication::restoreOverrideCursor();
 
     setCurrentFile(fileName);
-    statusBar()->showMessage("File saved", 4000);
+    //statusBar()->showMessage("File saved", 4000);
     return true;
 }
 
@@ -272,7 +263,7 @@ bool SharedNote::loadFile(const QString &fileName)
      else if (fileName.endsWith(".cpp") || fileName.endsWith(".c") || fileName.endsWith(".h") || fileName.endsWith(".hpp")) {
          m_document->setHighlighter(Document::CPlusPlus);
      }
-     statusBar()->showMessage("File loaded", 4000);
+     //statusBar()->showMessage("File loaded", 4000);
      return true;
 }
 
@@ -289,7 +280,7 @@ void SharedNote::setCurrentFile(const QString &fileName)
      else
          shownName = strippedName(m_document->curFile);
 
-     ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), shownName);
+     //ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), shownName);
 }
 
 QString SharedNote::strippedName(const QString &fullFileName)
@@ -300,7 +291,7 @@ QString SharedNote::strippedName(const QString &fullFileName)
 // File menu items
 void SharedNote::on_actionFile_New_triggered()
 {
-    int index = ui->tabWidget->addTab(new QWidget(), "untitled.txt");
+ /*   int index = ui->tabWidget->addTab(new QWidget(), "untitled.txt");
     
     Document *document = new Document(ui->tabWidget->widget(index));
     QGridLayout *tabLayout = new QGridLayout;
@@ -308,9 +299,9 @@ void SharedNote::on_actionFile_New_triggered()
     tabLayout->setContentsMargins(0,0,0,0);
     ui->tabWidget->widget(index)->setLayout(tabLayout);
 
-   /* document->setEditorFont(preferencesDialog->getEditorFont());
+    document->setEditorFont(preferencesDialog->getEditorFont());
     document->setChatFont(preferencesDialog->getChatFont());
-    document->setParticipantsFont(preferencesDialog->getParticipantsFont());*/
+    document->setParticipantsFont(preferencesDialog->getParticipantsFont());
 
     tabWidgetToDocumentMap.insert(ui->tabWidget->widget(index), document);
 
@@ -322,13 +313,13 @@ void SharedNote::on_actionFile_New_triggered()
 
 
     ui->actionWindow_Next_Document->setEnabled(ui->tabWidget->count() > 1);
-    ui->actionWindow_Previous_Document->setEnabled(ui->tabWidget->count() > 1);
+    ui->actionWindow_Previous_Document->setEnabled(ui->tabWidget->count() > 1);*/
 
 }
 
 void SharedNote::on_actionFile_Open_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(
+ /*   QString fileName = QFileDialog::getOpenFileName(
             this,
             "Open text file",
             openPath,
@@ -348,9 +339,9 @@ void SharedNote::on_actionFile_Open_triggered()
         connect(document, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
         connect(document, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
 
-       /* document->setEditorFont(preferencesDialog->getEditorFont());
+        document->setEditorFont(preferencesDialog->getEditorFont());
         document->setChatFont(preferencesDialog->getChatFont());
-        document->setParticipantsFont(preferencesDialog->getParticipantsFont());*/
+        document->setParticipantsFont(preferencesDialog->getParticipantsFont());
 
         ui->tabWidget->setCurrentIndex(index);
 
@@ -361,7 +352,7 @@ void SharedNote::on_actionFile_Open_triggered()
 
         ui->actionWindow_Next_Document->setEnabled(ui->tabWidget->count() > 1);
         ui->actionWindow_Previous_Document->setEnabled(ui->tabWidget->count() > 1);
-    }
+    }*/
 }
 
 bool SharedNote::on_actionFile_Save_triggered()
@@ -418,29 +409,29 @@ bool SharedNote::on_actionFile_Save_A_Copy_As_triggered()
     out << m_document->getPlainText();
     QApplication::restoreOverrideCursor();
 
-    statusBar()->showMessage("File saved as a copy", 4000);
+    //statusBar()->showMessage("File saved as a copy", 4000);
     return true;
 }
 
 bool SharedNote::on_actionFile_Save_All_triggered()
 {
     bool isAllSaved = false;
-    QWidget *originalWidget = ui->tabWidget->currentWidget();
+    /*QWidget *originalWidget = ui->tabWidget->currentWidget();
     for (int i = 0; i < tabWidgetToDocumentMap.size(); i++)
     {
         ui->tabWidget->setCurrentIndex(i);
         isAllSaved += on_actionFile_Save_triggered();
     }
-    ui->tabWidget->setCurrentWidget(originalWidget);
+    ui->tabWidget->setCurrentWidget(originalWidget);*/
     return isAllSaved;
 }
 
 void SharedNote::on_actionFile_Close_triggered()
 {
-    tabCloseClicked(ui->tabWidget->currentIndex());
+   /* tabCloseClicked(ui->tabWidget->currentIndex());
 
     ui->actionWindow_Next_Document->setEnabled(ui->tabWidget->count() > 1);
-    ui->actionWindow_Previous_Document->setEnabled(ui->tabWidget->count() > 1);
+    ui->actionWindow_Previous_Document->setEnabled(ui->tabWidget->count() > 1);*/
 }
 
 void SharedNote::on_actionFile_Print_triggered()
@@ -493,20 +484,7 @@ void SharedNote::on_actionEdit_Find_triggered()
     findDialog->show();
 }
 
-void SharedNote::on_actionEdit_None_triggered()
-{
-    m_document->setHighlighter(Document::None);
-}
 
-void SharedNote::on_actionEdit_C_triggered()
-{
-    m_document->setHighlighter(Document::CPlusPlus);
-}
-
-void SharedNote::on_actionEdit_Python_triggered()
-{
-    m_document->setHighlighter(Document::Python);
-}
 
 void SharedNote::on_actionView_Line_Wrap_triggered()
 {
@@ -515,22 +493,37 @@ void SharedNote::on_actionView_Line_Wrap_triggered()
 
 void SharedNote::on_actionView_Hide_Show_Participants_triggered()
 {
-
-    if (m_document->isParticipantsHidden()) {
-        m_document->setParticipantsHidden(false);
-    }
-    else {
-        m_document->setParticipantsHidden(true);
-    }
+    m_document->setParticipantsHidden(!m_document->isParticipantsHidden());
 }
 
-void SharedNote::on_actionView_Hide_Show_Chat_triggered()
+void SharedNote::textHasChanged(int pos, int charsRemoved, int charsAdded)
 {
-    if (m_document->isChatHidden()) {
-        m_document->setChatHidden(false);
+    QString toSend;
+    QString data;
+
+    if (charsRemoved > 0 && charsAdded == 0)
+    {
+        data = "";
     }
-    else {
-        m_document->setChatHidden(true);
+    else if (charsAdded > 0)
+    {
+        QTextCursor cursor = QTextCursor(m_document->getDocument());
+        cursor.setPosition(pos, QTextCursor::MoveAnchor);
+        cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, charsAdded);
+        data = cursor.selection().toPlainText();
+    }
+
+    toSend = QString("doc:%1 %2 %3 %4").arg(pos).arg(charsRemoved).arg(charsAdded).arg(data);
+    writeToAll(toSend);
+}
+void SharedNote::writeToAll(QString string)
+{
+    if(!string.isEmpty())
+    {
+        NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updateText);
+        msg.string8(m_id);
+        msg.string32(string);
+        msg.sendAll();
     }
 }
 
@@ -539,41 +532,16 @@ void SharedNote::displaySharingPanel()
     m_document->displayParticipantPanel();
 }
 
-/*void SharedNote::on_actionHelp_How_to_Collaborate_triggered()
-{
-    helpDialog->show();
-}
-
-void SharedNote::on_actionHelp_About_Cahoots_triggered()
-{
-    aboutDialog->exec();
-}
-
-void SharedNote::on_actionHelp_About_Qt_triggered()
-{
-    QDesktopServices::openUrl(QUrl("http://www.qtsoftware.com/"));
-}*/
-
-void SharedNote::on_actionTools_Connect_to_Document_triggered()
-{
-    // Create our dialog and show it. When they user clicks "okay", we'll emit a signal to the SharedNote, and pass that to the document.
-    connectDialog->show();
-    connectDialog->setName(myName);
-}
-
 void SharedNote::on_actionTools_Preview_as_Html_triggered()
 {
     m_document->previewAsHtml();
 }
 
-void SharedNote::on_actionTools_Resynchronize_Document_triggered()
+void SharedNote::updateDocumentToAll(NetworkMessageWriter* msg)
 {
-    m_document->resynchronizeTriggered();
-}
-
-void SharedNote::on_actionTools_Preferences_triggered()
-{
-    //preferencesDialog->show();
+    //NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updateTextAndPermission);
+    //msg.
+    m_document->fill(msg);
 }
 
 void SharedNote::on_actionText_Shift_Left_triggered()
@@ -591,55 +559,7 @@ void SharedNote::on_actionText_Comment_Line_triggered()
     m_document->unCommentSelection();
 }
 
-void SharedNote::on_actionWindow_Split_triggered()
-{
-    m_document->splitEditor();
-    ui->actionWindow_Split->setDisabled(true);
-    ui->actionWindow_Split_Side_by_Side->setDisabled(false);
-    ui->actionWindow_Remove_Split->setEnabled(true);
-}
 
-void SharedNote::on_actionWindow_Split_Side_by_Side_triggered()
-{
-    m_document->splitEditorSideBySide();
-    ui->actionWindow_Split->setDisabled(false);
-    ui->actionWindow_Split_Side_by_Side->setDisabled(true);
-    ui->actionWindow_Remove_Split->setEnabled(true);
-
-}
-
-void SharedNote::on_actionWindow_Remove_Split_triggered()
-{
-    ui->actionWindow_Split->setDisabled(false);
-    ui->actionWindow_Split_Side_by_Side->setDisabled(false);
-    ui->actionWindow_Remove_Split->setEnabled(false);
-    m_document->unSplitEditor();
-}
-
-void SharedNote::on_actionWindow_Next_Document_triggered()
-{
-    int numDocs = ui->tabWidget->count();
-    int curTab = ui->tabWidget->currentIndex();
-    if (numDocs == 1) {
-        return;
-    }
-    ui->tabWidget->setCurrentIndex((curTab + 1) % numDocs);
-}
-
-void SharedNote::on_actionWindow_Previous_Document_triggered()
-{
-    int numDocs = ui->tabWidget->count();
-    int curTab = ui->tabWidget->currentIndex();
-    if (numDocs == 1) {
-        return;
-    }
-    if (curTab == 0) {
-        ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
-    }
-    else {
-        ui->tabWidget->setCurrentIndex(curTab - 1);
-    }
-}
 
 void SharedNote::setUndoability(bool b)
 {
@@ -669,14 +589,14 @@ void SharedNote::documentChanged(int index)
 
 void SharedNote::tabCloseClicked(int index)
 {
-    if (maybeSave(index)) {
+ /*   if (maybeSave(index)) {
         if (ui->tabWidget->count() == 1) {
             on_actionFile_New_triggered();
         }
         ui->tabWidget->widget(index)->deleteLater();
         tabWidgetToDocumentMap.remove(ui->tabWidget->widget(index));
         ui->tabWidget->removeTab(index);
-    }
+    }*/
 }
 
 void SharedNote::findNextTriggered(QString str, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode)
@@ -706,13 +626,19 @@ void SharedNote::findReplaceTriggered(QString find, QString replace, Qt::CaseSen
 
 void SharedNote::connectToDocument(QStringList list)
 {
-    on_actionFile_New_triggered();
-    m_document->connectToDocument(list);;
-    if (m_document->myName != "") {
-        myName = m_document->myName;
-    }
-}
 
+}
+void SharedNote::playerPermissionsChanged(QString id,int perm)
+{
+    //QString toSend = QString("updateperm:%1").arg(permissions);
+
+    NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updatePermissionOneUser);
+    msg.string8(m_id);
+    msg.string8(id);
+    msg.int8(perm);
+
+    msg.sendAll();
+}
 
 
 void SharedNote::setEditorFont(QFont font)
@@ -729,4 +655,14 @@ void SharedNote::setChatFont(QFont font)
 void SharedNote::setParticipantsFont(QFont font)
 {
     m_document->setParticipantsFont(font);
+}
+
+QString SharedNote::id() const
+{
+    return m_id;
+}
+
+void SharedNote::setId(const QString &id)
+{
+    m_id = id;
 }

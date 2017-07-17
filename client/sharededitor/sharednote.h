@@ -26,8 +26,6 @@
 #include "connecttodocument.h"
 #include "finddialog.h"
 #include "findtoolbar.h"
-#include "announcedocumentdialog.h"
-#include "aboutdialog.h"
 #include "firstrundialog.h"
 //#include "preferencesdialog.h"
 
@@ -58,6 +56,17 @@ public:
 
     void displaySharingPanel();
     void setOwner(Player *player);
+
+    QString id() const;
+    void setId(const QString &id);
+
+public slots:
+    void updateDocumentToAll(NetworkMessageWriter* msg);
+    void textHasChanged(int pos, int charsRemoved, int charsAdded);
+
+    void playerPermissionsChanged(QString, int);
+    void writeToAll(QString string);
+    void populateDocumentForUser(QString id);
 protected:
     void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject *, QEvent *event);
@@ -81,33 +90,12 @@ private slots:
     void on_actionEdit_Find_All_triggered();
     void on_actionEdit_Find_triggered();
 
-    //Syntax Highlighting
-    void on_actionEdit_None_triggered();
-    void on_actionEdit_C_triggered();
-    void on_actionEdit_Python_triggered();
-
     void on_actionView_Line_Wrap_triggered();
     void on_actionView_Hide_Show_Participants_triggered();
-    void on_actionView_Hide_Show_Chat_triggered();
-
-    void on_actionTools_Connect_to_Document_triggered();
     void on_actionTools_Preview_as_Html_triggered();
-    void on_actionTools_Resynchronize_Document_triggered();
-    void on_actionTools_Preferences_triggered();
-
     void on_actionText_Shift_Left_triggered();
     void on_actionText_Shift_Right_triggered();
     void on_actionText_Comment_Line_triggered();
-
-    void on_actionWindow_Split_triggered();
-    void on_actionWindow_Split_Side_by_Side_triggered();
-    void on_actionWindow_Remove_Split_triggered();
-    void on_actionWindow_Next_Document_triggered();
-    void on_actionWindow_Previous_Document_triggered();
-
-    //void on_actionHelp_How_to_Collaborate_triggered();
-    //void on_actionHelp_About_Cahoots_triggered();
-    //void on_actionHelp_About_Qt_triggered();
 
     void setUndoability(bool b);
     void setRedoability(bool b);
@@ -122,7 +110,6 @@ private slots:
     void findReplaceTriggered(QString find, QString replace, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode);
 
     void connectToDocument(QStringList list);
-//    void announceDocument(QString ownerName, Qt::CheckState broadcastCheckState, Qt::CheckState alwaysUserNameCheckState);
 
     void setEditorFont(QFont font);
     void setChatFont(QFont font);
@@ -133,13 +120,10 @@ private:
     QMap<QWidget *, Document *> tabWidgetToDocumentMap;
     QString openPath;
     ConnectToDocument *connectDialog;
-    AnnounceDocumentDialog *announceDocumentDialog;
     FindDialog *findDialog;
-    //PreferencesDialog *preferencesDialog;
-    //AboutDialog *aboutDialog;
-    //FirstRunDialog *firstRunDialog;
+
     Document* m_document;
-    QString myName; // global name used for connecting to documents
+    QString m_id; // global name used for connecting to documents
 };
 
 #endif // MAINWINDOW_H

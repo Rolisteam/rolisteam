@@ -24,30 +24,6 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QTabWidget" name="tabWidget">
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <property name="usesScrollButtons">
-         <bool>true</bool>
-        </property>
-        <property name="documentMode">
-         <bool>true</bool>
-        </property>
-        <property name="tabsClosable">
-         <bool>true</bool>
-        </property>
-        <property name="movable">
-         <bool>true</bool>
-        </property>
-        <widget class="QWidget" name="tab">
-         <attribute name="title">
-          <string>untitled.txt</string>
-         </attribute>
-        </widget>
-       </widget>
-      </item>
-      <item>
        <widget class="QWidget" name="m_documentSupport" native="true">
         <property name="minimumSize">
          <size>
@@ -156,10 +132,9 @@
    <addaction name="actionEdit_Paste"/>
    <addaction name="actionHelp_How_to_Collaborate"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionFile_Open">
    <property name="icon">
-    <iconset resource="cahootsresc.qrc">
+    <iconset>
      <normaloff>:/images/open.png</normaloff>:/images/open.png</iconset>
    </property>
    <property name="text">
@@ -174,7 +149,7 @@
   </action>
   <action name="actionFile_Save">
    <property name="icon">
-    <iconset resource="cahootsresc.qrc">
+    <iconset>
      <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
    </property>
    <property name="text">
@@ -200,7 +175,7 @@
   </action>
   <action name="actionFile_New">
    <property name="icon">
-    <iconset resource="cahootsresc.qrc">
+    <iconset>
      <normaloff>:/images/new.png</normaloff>:/images/new.png</iconset>
    </property>
    <property name="text">
@@ -215,7 +190,7 @@
   </action>
   <action name="actionFile_Print">
    <property name="icon">
-    <iconset resource="cahootsresc.qrc">
+    <iconset>
      <normaloff>:/images/print.png</normaloff>:/images/print.png</iconset>
    </property>
    <property name="text">
@@ -233,7 +208,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="cahootsresc.qrc">
+    <iconset>
      <normaloff>:/images/undo.png</normaloff>:/images/undo.png</iconset>
    </property>
    <property name="text">
@@ -251,7 +226,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="cahootsresc.qrc">
+    <iconset>
      <normaloff>:/images/redo.png</normaloff>:/images/redo.png</iconset>
    </property>
    <property name="text">
@@ -266,7 +241,7 @@
   </action>
   <action name="actionEdit_Cut">
    <property name="icon">
-    <iconset resource="cahootsresc.qrc">
+    <iconset>
      <normaloff>:/images/cut.png</normaloff>:/images/cut.png</iconset>
    </property>
    <property name="text">
@@ -281,7 +256,7 @@
   </action>
   <action name="actionEdit_Copy">
    <property name="icon">
-    <iconset resource="cahootsresc.qrc">
+    <iconset>
      <normaloff>:/images/copy.png</normaloff>:/images/copy.png</iconset>
    </property>
    <property name="text">
@@ -296,7 +271,7 @@
   </action>
   <action name="actionEdit_Paste">
    <property name="icon">
-    <iconset resource="cahootsresc.qrc">
+    <iconset>
      <normaloff>:/images/paste.png</normaloff>:/images/paste.png</iconset>
    </property>
    <property name="text">
@@ -324,7 +299,7 @@
   </action>
   <action name="actionFile_Close">
    <property name="icon">
-    <iconset resource="cahootsresc.qrc">
+    <iconset>
      <normaloff>:/images/close.png</normaloff>:/images/close.png</iconset>
    </property>
    <property name="text">
@@ -493,7 +468,7 @@
   </action>
   <action name="actionHelp_How_to_Collaborate">
    <property name="icon">
-    <iconset resource="cahootsresc.qrc">
+    <iconset>
      <normaloff>:/images/help.png</normaloff>:/images/help.png</iconset>
    </property>
    <property name="text">
@@ -505,8 +480,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="cahootsresc.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
