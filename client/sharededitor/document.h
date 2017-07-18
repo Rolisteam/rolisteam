@@ -127,6 +127,8 @@ public:
     void setParticipantPane(ParticipantsPane* participantPane);
 
 
+public slots:
+    void runUpdateCmd(QString cmd);
 signals:
     void redoAvailable(bool);
     void undoAvailable(bool);

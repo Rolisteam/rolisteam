@@ -47,7 +47,13 @@ void SharedNoteContainer::readFromMsg(NetworkMessageReader* msg)
         m_edit->readFromMsg(msg);
     }
 }
-
+void SharedNoteContainer::runUpdateCmd(QString msg)
+{
+    if(nullptr!=m_edit)
+    {
+        m_edit->runUpdateCmd(msg);
+    }
+}
 void SharedNoteContainer::setOwner(Player* player)
 {
     m_edit->setOwner(player);

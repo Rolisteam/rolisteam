@@ -50,26 +50,26 @@ Document::Document(QWidget *parent) :
 
 
     // Find all toolbar widget
-    delete ui->findAllFrame;
+    /*delete ui->findAllFrame;
     findAllToolbar = new FindToolBar(this);
     ui->editorVerticalLayout->insertWidget(1, findAllToolbar);
     findAllToolbar->hide();
 
     connect(findAllToolbar, SIGNAL(findAll(QString)), m_editor, SLOT(findAll(QString)));
     connect(findAllToolbar, SIGNAL(findNext(QString)), this, SLOT(findNext(QString)));
-    connect(findAllToolbar, SIGNAL(findPrevious(QString)), this, SLOT(findPrevious(QString)));
+    connect(findAllToolbar, SIGNAL(findPrevious(QString)), this, SLOT(findPrevious(QString)));*/
 
     // Emit signals to the mainwindow when redoability/undoability changes
     connect(m_editor, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_editor, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
-    QList<int> sizeList;
+    /*QList<int> sizeList;
     sizeList << 9000 << 1;
     ui->codeChatSplitter->setSizes(sizeList);
-    ui->participantSplitter->setSizes(sizeList);
+    ui->participantSplitter->setSizes(sizeList);*/
 
     // Hide the panels that only matter if we're using the collaborative portion of the app
-    setChatHidden(true);
+    //setChatHidden(true);
     setParticipantsHidden(true);
 
     myName = "Owner"; // temporary
@@ -81,7 +81,26 @@ Document::~Document()
 {    
     delete ui;
 }
-
+/*
+ *
+ */
+void Document::runUpdateCmd(QString cmd)
+{
+    QRegExp rx;
+    if (cmd.startsWith("doc:"))
+    {
+        cmd.remove(0, 4);
+        rx = QRegExp("(\\d+)\\s(\\d+)\\s(\\d+)\\s(.*)");
+        if (cmd.contains(rx))
+        {
+            int pos = rx.cap(1).toInt();
+            int charsRemoved = rx.cap(2).toInt();
+            int charsAdded = rx.cap(3).toInt();
+            cmd = rx.cap(4);
+            m_editor->collabTextChange(pos, charsRemoved, charsAdded, cmd);
+        }
+    }
+}
 void Document::displayParticipantPanel()
 {
     startedCollaborating = true;
@@ -214,7 +233,7 @@ void Document::setParticipantsHidden(bool b)
 void Document::setChatHidden(bool b)
 {
     // Hide/show the widget (contains the chat widget) below the code text edit
-    if (b)
+   /* if (b)
     {
         ui->codeChatSplitter->widget(1)->hide();
     }
@@ -222,7 +241,7 @@ void Document::setChatHidden(bool b)
     {
         m_editor->setFocus();
         ui->codeChatSplitter->widget(1)->show();
-    }
+    }*/
 }
 
 void Document::shiftLeft()

@@ -61,6 +61,7 @@ public:
     void setId(const QString &id);
 
     void readFromMsg(NetworkMessageReader *msg);
+    void runUpdateCmd(QString cmd);
 public slots:
     void updateDocumentToAll(NetworkMessageWriter* msg);
     void textHasChanged(int pos, int charsRemoved, int charsAdded);

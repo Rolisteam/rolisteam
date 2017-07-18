@@ -501,6 +501,10 @@ void SharedNote::writeToAll(QString string)
         msg.sendAll();
     }
 }
+void SharedNote::runUpdateCmd(QString cmd)
+{
+    m_document->runUpdateCmd(cmd);
+}
 
 void SharedNote::displaySharingPanel()
 {
@@ -616,7 +620,6 @@ void SharedNote::connectToDocument(QStringList list)
 void SharedNote::playerPermissionsChanged(QString id,int perm)
 {
     //QString toSend = QString("updateperm:%1").arg(permissions);
-
     NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updatePermissionOneUser);
     msg.string8(m_id);//MediaId
     msg.string8(id);//playerId

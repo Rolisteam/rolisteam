@@ -44,6 +44,7 @@ public:
     void readFromMsg(NetworkMessageReader *msg);
 public slots:
     void setFileName(QString);
+    void runUpdateCmd(QString msg);
 private:
     SharedNote* m_edit;
 };

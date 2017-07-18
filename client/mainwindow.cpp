@@ -1260,12 +1260,18 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
     }
     else if(msg->action() == NetMsg::updateText)
     {
-
+        QString idMedia = msg->string8();
+        if(m_mediaHash.keys().contains(idMedia))
+        {
+            MediaContainer* mediaContainer = m_mediaHash.value(idMedia);
+            SharedNoteContainer* note = dynamic_cast<SharedNoteContainer*>(mediaContainer);
+            QString updateCmd = msg->string32();
+            note->runUpdateCmd(updateCmd);
+        }
     }
     else if(msg->action() == NetMsg::updateTextAndPermission)
     {
         QString idMedia = msg->string8();
-        qDebug() << "idmedia:"<<idMedia << msg->getSize();
 
         if(m_mediaHash.keys().contains(idMedia))
         {
