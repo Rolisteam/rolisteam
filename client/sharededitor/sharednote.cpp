@@ -41,10 +41,10 @@ SharedNote::SharedNote(QWidget *parent)
 
 
     m_document = new Document(ui->m_documentSupport);
-    connect(m_document->getDocument(), SIGNAL(contentsChange(int,int,int)), this, SLOT(onTextChange(int,int,int)));
+    connect(m_document->getDocument(), SIGNAL(contentsChange(int,int,int)), this, SLOT(textHasChanged(int,int,int)));
     connect(m_document->getParticipantPane(), SIGNAL(memberCanNowRead(QString)), this, SLOT(populateDocumentForUser(QString)));
     connect(m_document->getParticipantPane(), SIGNAL(memberPermissionsChanged(QString,int)), this, SLOT(playerPermissionsChanged(QString,int)));
-
+    connect(m_document->getParticipantPane(),SIGNAL(closeMediaToPlayer(QString)),this,SLOT(closeEditorFor(QString)));
 
 
     findDialog = new FindDialog(this);
@@ -116,28 +116,18 @@ void SharedNote::writeSettings()
 void SharedNote::closeEvent(QCloseEvent *event)
 {
     bool okToQuit = true;
-    /*for (int i = 0; i < ui->tabWidget->count() && okToQuit; i++)
-    {
-        okToQuit = maybeSave(i);
-    }
-    if (okToQuit)
-    {
-        writeSettings();
-        event->accept();
-    }
-    else
-    {
-        event->ignore();
-    }*/
 }
 void SharedNote::populateDocumentForUser(QString id)
 {
+    qDebug() << "populateDocumentForUser(QString id)";
     NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updateTextAndPermission,NetworkMessage::OneOrMany);
     QStringList ids;
     ids << id;
     msg.setRecipientList(ids,NetworkMessage::OneOrMany);
     msg.string8(m_id);
+    qDebug() << "idmedia:"<<m_id;
     m_document->fill(&msg);
+    qDebug() << "Media Size:"<<m_id << msg.getSize() << msg.getDataSize();
     msg.sendAll();
 }
 
@@ -152,33 +142,7 @@ bool SharedNote::eventFilter(QObject *, QEvent *event)
         if (!fileName.isEmpty())
         {
 
-            /*int index = ui->tabWidget->addTab(new QWidget(), QFileInfo(fileName).fileName());
 
-            Document *document = new Document(ui->tabWidget->widget(index));
-
-            QGridLayout *tabLayout = new QGridLayout;
-            tabLayout->addWidget(document);
-            tabLayout->setContentsMargins(0,0,0,0);
-            ui->tabWidget->widget(index)->setLayout(tabLayout);
-
-            tabWidgetToDocumentMap.insert(ui->tabWidget->widget(index), document);
-
-            connect(document, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
-            connect(document, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
-
-            ui->tabWidget->setCurrentIndex(index);
-
-            loadFile(fileName);
-            openPath = QFileInfo(fileName).path();
-
-            ui->actionTools_Announce_Document->setEnabled(true);
-
-            ui->actionWindow_Next_Document->setEnabled(ui->tabWidget->count() > 1);
-            ui->actionWindow_Previous_Document->setEnabled(ui->tabWidget->count() > 1);*/
-
-           /* document->setEditorFont(preferencesDialog->getEditorFont());
-            document->setChatFont(preferencesDialog->getChatFont());
-            document->setParticipantsFont(preferencesDialog->getParticipantsFont());*/
 
         }
         event->accept();
@@ -214,6 +178,17 @@ bool SharedNote::maybeSave(int index)
             return false;
     }
     return true;
+}
+void SharedNote::closeEditorFor(QString idplayer)
+{
+    NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::closeMedia);
+    QStringList list;
+    list << idplayer;
+    msg.setRecipientList(list,NetworkMessage::OneOrMany);
+    msg.string8(m_id);
+    //msg.string8(idplayer);
+
+    msg.sendAll();
 }
 
 bool SharedNote::saveFile(const QString &fileName)
@@ -531,17 +506,27 @@ void SharedNote::displaySharingPanel()
 {
     m_document->displayParticipantPanel();
 }
-
+void SharedNote::readFromMsg(NetworkMessageReader* msg)
+{
+    if(nullptr!=m_document)
+    {
+        m_document->readFromMsg(msg);
+    }
+}
 void SharedNote::on_actionTools_Preview_as_Html_triggered()
 {
-    m_document->previewAsHtml();
+    if(nullptr!=m_document)
+    {
+        m_document->previewAsHtml();
+    }
 }
 
 void SharedNote::updateDocumentToAll(NetworkMessageWriter* msg)
 {
-    //NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updateTextAndPermission);
-    //msg.
-    m_document->fill(msg);
+    if(nullptr!=m_document)
+    {
+        m_document->fill(msg);
+    }
 }
 
 void SharedNote::on_actionText_Shift_Left_triggered()
@@ -633,10 +618,9 @@ void SharedNote::playerPermissionsChanged(QString id,int perm)
     //QString toSend = QString("updateperm:%1").arg(permissions);
 
     NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updatePermissionOneUser);
-    msg.string8(m_id);
-    msg.string8(id);
-    msg.int8(perm);
-
+    msg.string8(m_id);//MediaId
+    msg.string8(id);//playerId
+    msg.int8(perm);//Permission
     msg.sendAll();
 }
 

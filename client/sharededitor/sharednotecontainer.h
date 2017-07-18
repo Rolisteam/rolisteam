@@ -41,6 +41,7 @@ public:
     void setOwner(Player* player);
 
     void updateNoteToAll();
+    void readFromMsg(NetworkMessageReader *msg);
 public slots:
     void setFileName(QString);
 private:

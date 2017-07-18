@@ -60,6 +60,7 @@ public:
     QString id() const;
     void setId(const QString &id);
 
+    void readFromMsg(NetworkMessageReader *msg);
 public slots:
     void updateDocumentToAll(NetworkMessageWriter* msg);
     void textHasChanged(int pos, int charsRemoved, int charsAdded);
@@ -67,6 +68,7 @@ public slots:
     void playerPermissionsChanged(QString, int);
     void writeToAll(QString string);
     void populateDocumentForUser(QString id);
+    void closeEditorFor(QString idplayer);
 protected:
     void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject *, QEvent *event);

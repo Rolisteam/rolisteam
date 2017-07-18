@@ -26,17 +26,18 @@
 
 #include "userlist/playersList.h"
 #include "network/networkmessagewriter.h"
+#include "network/networkmessagereader.h"
 
 namespace Ui {
     class ParticipantsPane;
 }
 
-class ParcipantsModel : public QAbstractItemModel
+class ParticipantsModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
     enum Permission {readWrite,readOnly,hidden};
-    ParcipantsModel(PlayersList* m_playerList);
+    ParticipantsModel(PlayersList* m_playerList);
     virtual int rowCount(const QModelIndex &parent) const;
     virtual int columnCount(const QModelIndex &parent) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
@@ -47,10 +48,11 @@ public:
     Player* getOwner() const;
     void setOwner(Player *owner);
 
-    void saveModel(QJsonObject root);
+    void saveModel(QJsonObject& root);
     QList<Player *> *getListByChild(Player *owner);
 
-    ParcipantsModel::Permission getPermissionFor(Player *player);
+    ParticipantsModel::Permission getPermissionFor(Player *player);
+    void loadModel(QJsonObject& root);
 public slots:
     virtual void addHiddenPlayer(Player*);
     virtual void removePlayer(Player*);
@@ -90,13 +92,16 @@ public:
     void setFont(QFont font);
 
     void fill(NetworkMessageWriter* msg);
+    void readFromMsg(NetworkMessageReader *msg);
 
     Player* getOwner() const;
     void setOwner(Player *owner);
 
+    void readPermissionChanged(NetworkMessageReader *msg);
 signals:
     void memberCanNowRead(QString name);
     void memberPermissionsChanged(QString id, int i);
+    void closeMediaToPlayer(QString id);
 
 private slots:
     void onCurrentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *);
@@ -108,7 +113,7 @@ private:
     Ui::ParticipantsPane* ui;
 
     PlayersList* m_playerList;
-    ParcipantsModel* m_model;
+    ParticipantsModel* m_model;
 
 };
 

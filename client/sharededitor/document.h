@@ -75,6 +75,7 @@ public:
 
     // User wants to resynchronize the document with the owner
     void fill(NetworkMessageWriter* msg);
+    void readFromMsg(NetworkMessageReader *msg);
 
     // Sets the highlighting style to the below Highlighter
     void setHighlighter(int Highlighter);
@@ -124,6 +125,7 @@ public:
 
     ParticipantsPane* getParticipantPane() const;
     void setParticipantPane(ParticipantsPane* participantPane);
+
 
 signals:
     void redoAvailable(bool);

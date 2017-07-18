@@ -244,9 +244,26 @@ void Document::unCommentSelection()
 void Document::fill(NetworkMessageWriter* msg)
 {
     msg->string32(m_editor->toPlainText());
+    qDebug() << "text"<< m_editor->toPlainText();
     m_participantPane->fill(msg);
 }
-
+void Document::readFromMsg(NetworkMessageReader* msg)
+{
+    if(nullptr!=msg)
+    {
+        if(msg->action() == NetMsg::updateTextAndPermission)
+        {
+            QString text = msg->string32();
+            qDebug() << "text"<< text;
+            m_editor->setPlainText(text);
+            m_participantPane->readFromMsg(msg);
+        }
+        else if(msg->action() == NetMsg::updatePermissionOneUser)
+        {
+            m_participantPane->readPermissionChanged(msg);
+        }
+    }
+}
 void Document::setHighlighter(int Highlighter)
 {
     switch (Highlighter)

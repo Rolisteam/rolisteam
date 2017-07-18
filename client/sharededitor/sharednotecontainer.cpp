@@ -32,7 +32,7 @@ SharedNoteContainer::SharedNoteContainer()
         m_title = m_edit->windowTitle();
     }
 
-    setCleverUriType(CleverURI::TEXT);
+    setCleverUriType(CleverURI::SHAREDNOTE);
     setWidget(m_edit);
     setWindowIcon(QIcon(":/notes.png"));
     m_edit->displaySharingPanel();
@@ -40,6 +40,14 @@ SharedNoteContainer::SharedNoteContainer()
 
 
 }
+void SharedNoteContainer::readFromMsg(NetworkMessageReader* msg)
+{
+    if(nullptr!=m_edit)
+    {
+        m_edit->readFromMsg(msg);
+    }
+}
+
 void SharedNoteContainer::setOwner(Player* player)
 {
     m_edit->setOwner(player);

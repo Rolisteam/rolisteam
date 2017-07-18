@@ -37,7 +37,7 @@
 ///
 /////////////////////////////////////////////////
 
-ParcipantsModel::ParcipantsModel(PlayersList* m_playerList)
+ParticipantsModel::ParticipantsModel(PlayersList* m_playerList)
 {
 
     m_data.append(&m_readWrite);
@@ -53,16 +53,16 @@ ParcipantsModel::ParcipantsModel(PlayersList* m_playerList)
     }
 }
 
-int ParcipantsModel::rowCount(const QModelIndex &parent) const
+int ParticipantsModel::rowCount(const QModelIndex &parent) const
 {
     if(!parent.isValid())
     {
-        qDebug() << "size data:" <<m_data.size();
+        //qDebug() << "size data:" <<m_data.size();
         return m_data.size();
     }
     else if(!parent.parent().isValid())
     {
-        qDebug() << "row count parentrow" << parent.row();
+        //qDebug() << "row count parentrow" << parent.row();
         QList<Player*>* list = m_data.at(parent.row());
         return list->size();
     }
@@ -72,12 +72,12 @@ int ParcipantsModel::rowCount(const QModelIndex &parent) const
     }
 }
 
-int ParcipantsModel::columnCount(const QModelIndex &parent) const
+int ParticipantsModel::columnCount(const QModelIndex &parent) const
 {
     return 1;
 }
 
-QVariant ParcipantsModel::data(const QModelIndex &index, int role) const
+QVariant ParticipantsModel::data(const QModelIndex &index, int role) const
 {
    // debugModel();
     if(!index.isValid())
@@ -92,7 +92,7 @@ QVariant ParcipantsModel::data(const QModelIndex &index, int role) const
         }
         else
         {
-            qDebug() << "parent row:"<<parent.row() << index.row();
+            //qDebug() << "parent row:"<<parent.row() << index.row();
             QList<Player*>* list = m_data.at(parent.row());
             if(!list->isEmpty())
             {
@@ -103,19 +103,19 @@ QVariant ParcipantsModel::data(const QModelIndex &index, int role) const
     }
     return QVariant();
 }
-void ParcipantsModel::debugModel() const
+void ParticipantsModel::debugModel() const
 {
-    for(auto list : m_data)
+  /*  for(auto list : m_data)
     {
         qDebug() << "list:" << m_data.indexOf(list) << "size:" << list->size();
         for(auto player : *list)
         {
             qDebug() << player->getName();
         }
-    }
+    }*/
 }
 
-QModelIndex ParcipantsModel::parent(const QModelIndex& child) const
+QModelIndex ParticipantsModel::parent(const QModelIndex& child) const
 {
     if (!child.isValid())
         return QModelIndex();
@@ -143,14 +143,13 @@ QModelIndex ParcipantsModel::parent(const QModelIndex& child) const
 
 }
 
-QModelIndex ParcipantsModel::index(int row, int column, const QModelIndex & parent) const
+QModelIndex ParticipantsModel::index(int row, int column, const QModelIndex & parent) const
 {
     if(row<0)
         return QModelIndex();
 
     if (!parent.isValid())
     {
-        qDebug() << "index" << row;
         QList<Player*>* list = m_data.at(row);
         return createIndex(row, column, list);
     }
@@ -158,29 +157,28 @@ QModelIndex ParcipantsModel::index(int row, int column, const QModelIndex & pare
     {
         QList<Player*>* list = static_cast<QList<Player*>*>(parent.internalPointer());
         Player* player = list->at(row);
-        qDebug() << player->getName();
         return createIndex(row, column, player);
     }
 }
 
-Qt::ItemFlags ParcipantsModel::flags(const QModelIndex &) const
+Qt::ItemFlags ParticipantsModel::flags(const QModelIndex &) const
 {
     return Qt::ItemIsEnabled  | Qt::ItemIsSelectable | Qt::ItemIsDropEnabled;
 }
 
-void ParcipantsModel::addHiddenPlayer(Player *)
+void ParticipantsModel::addHiddenPlayer(Player *)
 {
 
 }
 
-void ParcipantsModel::removePlayer(Player *)
+void ParticipantsModel::removePlayer(Player *)
 {
 
 }
 
-int ParcipantsModel::promotePlayer(Player* player)
+int ParticipantsModel::promotePlayer(Player* player)
 {
-    Permission perm = getPermissionFor(player);
+    ParticipantsModel::Permission perm = getPermissionFor(player);
     switch(perm)
     {
         case readOnly:
@@ -194,9 +192,9 @@ int ParcipantsModel::promotePlayer(Player* player)
     return -1;
 }
 
-int ParcipantsModel::demotePlayer(Player* player)
+int ParticipantsModel::demotePlayer(Player* player)
 {
-    Permission perm = getPermissionFor(player);
+    ParticipantsModel::Permission perm = getPermissionFor(player);
     switch(perm)
     {
         case readOnly:
@@ -209,17 +207,17 @@ int ParcipantsModel::demotePlayer(Player* player)
     }
     return -1;
 }
-Player* ParcipantsModel::getOwner() const
+Player* ParticipantsModel::getOwner() const
 {
     return m_owner;
 }
 
-void ParcipantsModel::setOwner(Player* owner)
+void ParticipantsModel::setOwner(Player* owner)
 {
     m_owner = owner;
     setPlayerInto(m_owner,readWrite);
 }
-ParcipantsModel::Permission ParcipantsModel::getPermissionFor(Player* player)
+ParticipantsModel::Permission ParticipantsModel::getPermissionFor(Player* player)
 {
     int permission = 3;
     for(auto list : m_data)
@@ -232,13 +230,18 @@ ParcipantsModel::Permission ParcipantsModel::getPermissionFor(Player* player)
     return static_cast<Permission>(permission);
 }
 
-void ParcipantsModel::setPlayerInto(Player* player, Permission level)
+void ParticipantsModel::setPlayerInto(Player* player, Permission level)
 {
     QList<Player*>* list = getListByChild(player);
     QList<Player*>* destList =m_data.at(level);
     QModelIndex parent;
     QModelIndex dest = createIndex(destList->size(),0,destList);
     int indexDest = destList->size();
+
+    if(destList == list)
+    {
+        return;
+    }
 
     if(nullptr!=list)
     {
@@ -260,7 +263,7 @@ void ParcipantsModel::setPlayerInto(Player* player, Permission level)
     }
 }
 
-void ParcipantsModel::saveModel(QJsonObject root)
+void ParticipantsModel::saveModel(QJsonObject& root)
 {
     QJsonArray hidden;
     QJsonArray readOnly;
@@ -285,7 +288,41 @@ void ParcipantsModel::saveModel(QJsonObject root)
     root["readOnly"]=readOnly;
     root["readWrite"]=readWrite;
 }
-QList<Player*>* ParcipantsModel::getListByChild(Player* owner)
+void ParticipantsModel::loadModel(QJsonObject& root)
+{
+
+    PlayersList* playerList = PlayersList::instance();
+
+    QJsonArray hidden = root["hidden"].toArray();
+    QJsonArray readOnly= root["readOnly"].toArray();
+    QJsonArray readWrite= root["readWrite"].toArray();
+
+    beginResetModel();
+
+    m_hidden.clear();
+    m_readOnly.clear();
+    m_readWrite.clear();
+
+    for(auto playerId : hidden)
+    {
+        Player* p = dynamic_cast<Player*>(playerList->getPerson(playerId.toString()));
+        m_hidden.append(p);
+    }
+
+    for(auto playerId : readOnly)
+    {
+        Player* p = dynamic_cast<Player*>(playerList->getPerson(playerId.toString()));
+        m_readOnly.append(p);
+    }
+
+    for(auto playerId : readWrite)
+    {
+        Player* p = dynamic_cast<Player*>(playerList->getPerson(playerId.toString()));
+        m_readWrite.append(p);
+    }
+    endResetModel();
+}
+QList<Player*>* ParticipantsModel::getListByChild(Player* owner)
 {
     for(auto list : m_data)
     {
@@ -310,9 +347,6 @@ ParticipantsPane::ParticipantsPane(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    /*connect(ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
-            this, SLOT(onCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));*/
-
     ui->m_downToolBtn->setDefaultAction(ui->m_demoteAction);
     ui->m_upToolBtn->setDefaultAction(ui->m_promoteAction);
 
@@ -323,7 +357,7 @@ ParticipantsPane::ParticipantsPane(QWidget *parent) :
 
     m_playerList = PlayersList::instance();
 
-    m_model = new ParcipantsModel(m_playerList);
+    m_model = new ParticipantsModel(m_playerList);
     ui->m_treeview->setModel(m_model);
     connect(m_playerList,SIGNAL(playerAdded(Player*)),this,SLOT(addNewPlayer(Player*)));
     connect(m_playerList,SIGNAL(playerDeleted(Player*)),this,SLOT(addNewPlayer(Player*)));
@@ -333,16 +367,9 @@ ParticipantsPane::ParticipantsPane(QWidget *parent) :
     ui->m_treeview->resizeColumnToContents(1);
     ui->m_treeview->expandAll();
 
-
-  /*  rwItem = ui->treeWidget->topLevelItem(0);
-    roItem = ui->treeWidget->topLevelItem(1);
-    waitItem = ui->treeWidget->topLevelItem(2);
-    owner = rwItem->child(0);*/
-
     ui->connectInfoLabel->setFont(QFont(Utilities::s_labelFont, Utilities::s_labelFontSize));
     ui->participantsLabel->setFont(QFont(Utilities::s_labelFont, Utilities::s_labelFontSize));
- /*   ui->promotePushButton->setFont(QFont(Utilities::s_labelFont, Utilities::s_labelFontSize));
-    ui->demotePushButton->setFont(QFont(Utilities::s_labelFont, Utilities::s_labelFontSize));*/
+
 }
 
 ParticipantsPane::~ParticipantsPane()
@@ -357,10 +384,15 @@ void ParticipantsPane::promoteCurrentItem()
     {
         Player* player = static_cast<Player*>(current.internalPointer());
         int i = m_model->promotePlayer(player);
-
+        qDebug() << "promote "<< i;
         if(i>=0)
         {
             emit memberPermissionsChanged(player->getUuid(),i);
+            if(i==ParticipantsModel::readOnly)
+            {
+                qDebug() << "promote "<< i;
+                emit memberCanNowRead(player->getUuid());
+            }
         }
     }
 }
@@ -373,24 +405,18 @@ void ParticipantsPane::demoteCurrentItem()
     {
         Player* player = static_cast<Player*>(current.internalPointer());
         int i = m_model->demotePlayer(player);
+        qDebug() << "demote "<< i;
         if(i>=0)
         {
             emit memberPermissionsChanged(player->getUuid(),i);
+            if(i==ParticipantsModel::hidden)
+            {
+                emit closeMediaToPlayer(player->getUuid());
+            }
         }
     }
 }
 void ParticipantsPane::setOwnership(bool isOwner)
-{
-
-}
-
-
-void ParticipantsPane::newParticipant(QTcpSocket *socket)
-{
-
-}
-
-bool ParticipantsPane::addParticipant(QString name, QTcpSocket *socket)
 {
 
 }
@@ -406,6 +432,32 @@ void ParticipantsPane::fill(NetworkMessageWriter* msg)
     m_model->saveModel(root);
     doc.setObject(root);
 
+    qDebug() << "Data: "<<doc.toJson();
+    msg->byteArray32(doc.toJson());
+
+}
+void ParticipantsPane::readFromMsg(NetworkMessageReader* msg)
+{
+    if(nullptr!=msg)
+    {
+
+        QByteArray data = msg->byteArray32();
+        qDebug() << "Data: "<<data;
+        QJsonDocument doc = QJsonDocument::fromJson(data);
+
+        QJsonObject root= doc.object();
+        m_model->loadModel(root);
+    }
+}
+void ParticipantsPane::readPermissionChanged(NetworkMessageReader* msg)
+{
+    QString playerId = msg->string8();
+    int perm = msg->int8();
+    Player* player =dynamic_cast<Player*>(m_playerList->getPerson(playerId));
+    if(nullptr != player)
+    {
+        m_model->setPlayerInto(player,static_cast<ParticipantsModel::Permission>(perm));
+    }
 }
 
 void ParticipantsPane::newParticipant(QString name, QString address, QString permissions)
@@ -418,27 +470,10 @@ void ParticipantsPane::removeAllParticipants()
 
 }
 
-
-void ParticipantsPane::setParticipantPermissions(QString name, QString address, QString permissions)
-{
-
-}
-
 void ParticipantsPane::setOwnerName(QString name)
 {
     //m_owner->setText(0, name);
 }
-
-/*bool ParticipantsPane::canWrite()
-{
-   // return participantMap.contains(socket) && participantMap.value(socket)->permissions == Enu::ReadWrite;
-}
-
-bool ParticipantsPane::canRead()
-{
-   // return participantMap.value(socket)->permissions == Enu::ReadOnly || participantMap.value(socket)->permissions == Enu::ReadWrite;
-}*/
-
 void ParticipantsPane::setFont(QFont font)
 {
     // I'm not sure we want to set all these things to this font.
@@ -457,102 +492,5 @@ void ParticipantsPane::setOwner(Player *owner)
 
 void ParticipantsPane::onCurrentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *)
 {    
-  /*  if (item->parent() == rwItem) {
-        if (owner == item) { // if it's the owner, can't demote
-            ui->demotePushButton->setDisabled(true);
-        } else {
-            ui->demotePushButton->setDisabled(false);
-        }
-        ui->promotePushButton->setDisabled(true);
-        ui->demotePushButton->setText("Demote");
-    }
-    else if (item->parent() == roItem) {
-        ui->demotePushButton->setDisabled(false);
-        ui->promotePushButton->setDisabled(false);
-        ui->demotePushButton->setText("Demote");
-    }
-    else if (item->parent() == waitItem) {
-        ui->demotePushButton->setDisabled(false);
-        ui->demotePushButton->setText("Kick");
-        ui->promotePushButton->setDisabled(false);
-    }*/
+
 }
-
-
- /*void ParticipantsPane::on_promotePushButton_clicked()
-{
-   QList<QTreeWidgetItem*> selectedItems = ui->treeWidget->selectedItems();
-    // find the currently selected item in the participants list
-
-    if (selectedItems.size() == 0) {
-        return;
-    }
-    for (int i = 0; i < selectedItems.size(); i++) {
-        selectedItems.at(i)->setSelected(false);
-    }
-
-    QString permissions;
-    for (int i = 0; i < participantList.size(); i++) {
-        if (selectedItems.at(0) == participantList.at(i)->item) {
-            if (participantList.at(i)->permissions == Enu::ReadWrite) {
-                // This should not happen, but we won't crash.
-                // Instead, disable the promote button.
-                ui->promotePushButton->setEnabled(false);
-                permissions = "write";
-            }
-            else if (participantList.at(i)->permissions == Enu::ReadOnly) {
-                roItem->removeChild(participantList.at(i)->item);
-                rwItem->insertChild(0, participantList.at(i)->item);
-                participantList.at(i)->permissions = Enu::ReadWrite;
-                permissions = "write";
-            }
-            else if (participantList.at(i)->permissions == Enu::Waiting) {
-                waitItem->removeChild(participantList.at(i)->item);
-                roItem->insertChild(0, participantList.at(i)->item);
-                participantList.at(i)->permissions = Enu::ReadOnly;
-
-                emit memberCanNowRead(participantList.at(i)->socket);
-                permissions = "read";
-            }
-            emit memberPermissionsChanged(participantList.at(i)->socket, permissions);
-            return;
-        }
-    }
-}*/
-/*
-void ParticipantsPane::on_demotePushButton_clicked()
-{
-    QList<QTreeWidgetItem*> selectedItems = ui->treeWidget->selectedItems();
-    // find the currently selected item in the participants list
-
-    if (selectedItems.size() == 0) {
-        return;
-    }
-    for (int i = 0; i < selectedItems.size(); i++) {
-        selectedItems.at(i)->setSelected(false);
-    }
-
-    QString permissions;
-    for (int i = 0; i < participantList.size(); i++) {
-        if (selectedItems.at(0) == participantList.at(i)->item) {
-            if (participantList.at(i)->permissions == Enu::ReadWrite) {
-                rwItem->removeChild(participantList.at(i)->item);
-                roItem->insertChild(0, participantList.at(i)->item);
-                participantList.at(i)->permissions = Enu::ReadOnly;
-                permissions = "read";
-            }
-            else if (participantList.at(i)->permissions == Enu::ReadOnly) {
-                roItem->removeChild(participantList.at(i)->item);
-                waitItem->insertChild(0, participantList.at(i)->item);
-                participantList.at(i)->permissions = Enu::Waiting;
-                permissions = "waiting";
-            }
-            else if (participantList.at(i)->permissions == Enu::Waiting) {
-                // This should only happen when we're kicking someone out of the document.
-                permissions = "kick";
-            }
-            emit memberPermissionsChanged(participantList.at(i)->socket, permissions);
-            return;
-        }
-    }
-}*/
