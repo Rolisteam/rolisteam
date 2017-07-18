@@ -1232,6 +1232,10 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, 
         processMediaMessage(msg);
         type = NetWorkReceiver::AllExceptSender;
         break;
+    case NetMsg::SharedNoteCategory:
+        processSharedNoteMessage(msg);
+        type = NetWorkReceiver::AllExceptSender;
+        break;
     }
     return type;//NetWorkReceiver::AllExceptMe;
 }
@@ -1240,6 +1244,44 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
     if(msg->action() == NetMsg::closeMedia)
     {
         closeMediaContainer(msg->string8());
+    }
+}
+void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
+{
+    if(msg->action() == NetMsg::updatePermissionOneUser)
+    {
+        QString idMedia = msg->string8();
+        if(m_mediaHash.keys().contains(idMedia))
+        {
+            MediaContainer* mediaContainer = m_mediaHash.value(idMedia);
+            SharedNoteContainer* note = dynamic_cast<SharedNoteContainer*>(mediaContainer);
+            note->readFromMsg(msg);
+        }
+    }
+    else if(msg->action() == NetMsg::updateText)
+    {
+
+    }
+    else if(msg->action() == NetMsg::updateTextAndPermission)
+    {
+        QString idMedia = msg->string8();
+        qDebug() << "idmedia:"<<idMedia << msg->getSize();
+
+        if(m_mediaHash.keys().contains(idMedia))
+        {
+            MediaContainer* mediaContainer = m_mediaHash.value(idMedia);
+            SharedNoteContainer* note = dynamic_cast<SharedNoteContainer*>(mediaContainer);
+            note->readFromMsg(msg);
+        }
+        else
+        {
+            SharedNoteContainer* note = new SharedNoteContainer();
+            note->readFromMsg(msg);
+            note->setMediaId(idMedia);
+            m_mediaHash.insert(idMedia,note);
+            m_sessionManager->addRessource(note->getCleverUri());
+            addMediaToMdiArea(note);
+        }
     }
 }
 
@@ -1467,6 +1509,7 @@ void MainWindow::setupUi()
     ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::SharedNoteCategory,this);
 
 
     ///////////////////
