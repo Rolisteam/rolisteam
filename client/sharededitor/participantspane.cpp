@@ -166,14 +166,22 @@ Qt::ItemFlags ParticipantsModel::flags(const QModelIndex &) const
     return Qt::ItemIsEnabled  | Qt::ItemIsSelectable | Qt::ItemIsDropEnabled;
 }
 
-void ParticipantsModel::addHiddenPlayer(Player *)
+void ParticipantsModel::addHiddenPlayer(Player * player)
 {
-
+    auto parent = createIndex(2,0,&m_hidden);
+    beginInsertRows(parent,m_hidden.size(),m_hidden.size());
+    m_hidden.append(player);
+    endInsertRows();
 }
 
-void ParticipantsModel::removePlayer(Player *)
+void ParticipantsModel::removePlayer(Player * player)
 {
+    auto list = getListByChild(player);
+    auto parent = createIndex(m_data.indexOf(list),0,&list);
 
+    beginRemoveRows(parent,list->indexOf(player),list->indexOf(player));
+    list->removeAll(player);
+    endRemoveRows();
 }
 
 int ParticipantsModel::promotePlayer(Player* player)
@@ -356,11 +364,13 @@ ParticipantsPane::ParticipantsPane(QWidget *parent) :
 
 
     m_playerList = PlayersList::instance();
+    connect(m_playerList,SIGNAL(playerAdded(Player*)),this,SLOT(addNewPlayer(Player*)));
+    connect(m_playerList,SIGNAL(playerDeleted(Player*)),this,SLOT(removePlayer(Player*)));
+
+
 
     m_model = new ParticipantsModel(m_playerList);
     ui->m_treeview->setModel(m_model);
-    connect(m_playerList,SIGNAL(playerAdded(Player*)),this,SLOT(addNewPlayer(Player*)));
-    connect(m_playerList,SIGNAL(playerDeleted(Player*)),this,SLOT(addNewPlayer(Player*)));
 
     ui->connectInfoLabel->hide();
     ui->m_treeview->resizeColumnToContents(0);
@@ -384,19 +394,23 @@ void ParticipantsPane::promoteCurrentItem()
     {
         Player* player = static_cast<Player*>(current.internalPointer());
         int i = m_model->promotePlayer(player);
-        qDebug() << "promote "<< i;
         if(i>=0)
         {
             emit memberPermissionsChanged(player->getUuid(),i);
             if(i==ParticipantsModel::readOnly)
             {
-                qDebug() << "promote "<< i;
                 emit memberCanNowRead(player->getUuid());
             }
         }
     }
 }
-
+bool ParticipantsPane::isOwner() const
+{
+    if(nullptr != m_model)
+    {
+        return m_playerList->isLocal(m_model->getOwner());
+    }
+}
 void ParticipantsPane::demoteCurrentItem()
 {
     QModelIndex current = ui->m_treeview->currentIndex();
@@ -405,7 +419,6 @@ void ParticipantsPane::demoteCurrentItem()
     {
         Player* player = static_cast<Player*>(current.internalPointer());
         int i = m_model->demotePlayer(player);
-        qDebug() << "demote "<< i;
         if(i>=0)
         {
             emit memberPermissionsChanged(player->getUuid(),i);
@@ -416,13 +429,31 @@ void ParticipantsPane::demoteCurrentItem()
         }
     }
 }
-void ParticipantsPane::setOwnership(bool isOwner)
-{
 
+bool ParticipantsPane::canWrite(Player* player)
+{
+    return (m_model->getPermissionFor(player) == ParticipantsModel::readWrite);
 }
-void ParticipantsPane::addNewPlayer(Player*)
-{
 
+bool ParticipantsPane::canRead(Player* player)
+{
+    bool readWrite = (m_model->getPermissionFor(player) == ParticipantsModel::readWrite);
+    bool read = (m_model->getPermissionFor(player) == ParticipantsModel::readOnly);
+    return read | readWrite;
+}
+void ParticipantsPane::addNewPlayer(Player* player)
+{
+    if(nullptr != m_model)
+    {
+        m_model->addHiddenPlayer(player);
+    }
+}
+void ParticipantsPane::removePlayer(Player* player)
+{
+    if(nullptr != m_model)
+    {
+        m_model->removePlayer(player);
+    }
 }
 
 void ParticipantsPane::fill(NetworkMessageWriter* msg)
@@ -431,8 +462,6 @@ void ParticipantsPane::fill(NetworkMessageWriter* msg)
     QJsonObject root;
     m_model->saveModel(root);
     doc.setObject(root);
-
-    qDebug() << "Data: "<<doc.toJson();
     msg->byteArray32(doc.toJson());
 
 }
@@ -442,7 +471,6 @@ void ParticipantsPane::readFromMsg(NetworkMessageReader* msg)
     {
 
         QByteArray data = msg->byteArray32();
-        qDebug() << "Data: "<<data;
         QJsonDocument doc = QJsonDocument::fromJson(data);
 
         QJsonObject root= doc.object();
@@ -460,20 +488,6 @@ void ParticipantsPane::readPermissionChanged(NetworkMessageReader* msg)
     }
 }
 
-void ParticipantsPane::newParticipant(QString name, QString address, QString permissions)
-{
-
-}
-
-void ParticipantsPane::removeAllParticipants()
-{
-
-}
-
-void ParticipantsPane::setOwnerName(QString name)
-{
-    //m_owner->setText(0, name);
-}
 void ParticipantsPane::setFont(QFont font)
 {
     // I'm not sure we want to set all these things to this font.
@@ -488,9 +502,4 @@ Player *ParticipantsPane::getOwner() const
 void ParticipantsPane::setOwner(Player *owner)
 {
     m_model->setOwner(owner);
-}
-
-void ParticipantsPane::onCurrentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *)
-{    
-
 }

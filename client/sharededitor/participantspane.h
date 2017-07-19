@@ -77,25 +77,18 @@ class ParticipantsPane : public QWidget
     Q_OBJECT
 public:
     ParticipantsPane(QWidget *parent = 0);
-    ~ParticipantsPane();
+    virtual ~ParticipantsPane();
 
-    void setOwnership(bool isOwner);
-    void newParticipant(QTcpSocket *socket);
-    bool addParticipant(QString name, QTcpSocket *socket);
-    void newParticipant(QString name, QString address, QString permissions = "waiting");
-    void removeAllParticipants();
-    void removeParticipant(QString name, QString address);
-    void setParticipantPermissions(QString name, QString address, QString permissions);
-    void setOwnerName(QString name);
-    bool canWrite(QTcpSocket *socket);
-    bool canRead(QTcpSocket *socket);
+    bool canWrite(Player* idPlayer);
+    bool canRead(Player* idPlayer);
     void setFont(QFont font);
+    bool isOwner() const;
 
     void fill(NetworkMessageWriter* msg);
     void readFromMsg(NetworkMessageReader *msg);
 
     Player* getOwner() const;
-    void setOwner(Player *owner);
+    void setOwner(Player* owner);
 
     void readPermissionChanged(NetworkMessageReader *msg);
 signals:
@@ -104,17 +97,16 @@ signals:
     void closeMediaToPlayer(QString id);
 
 private slots:
-    void onCurrentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *);
     void promoteCurrentItem();
     void demoteCurrentItem();
     void addNewPlayer(Player*);
+    void removePlayer(Player *player);
 
 private:
     Ui::ParticipantsPane* ui;
 
     PlayersList* m_playerList;
     ParticipantsModel* m_model;
-
 };
 
 #endif // PARTICIPANTSPANE_H
