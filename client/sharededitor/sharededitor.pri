@@ -58,8 +58,8 @@ FORMS += \
 
 
 #RESOURCES += $$PWD/cahootsresc.qrc \
-#    $$PWD/highlighters.qrc \
-#    $$PWD/helpresources.qrc
+#   $$PWD/highlighters.qrc \
+#   $$PWD/helpresources.qrc
 
 OTHER_FILES += $$PWD/help/collaboration.html
 
