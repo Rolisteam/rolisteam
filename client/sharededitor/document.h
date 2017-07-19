@@ -106,14 +106,8 @@ public:
     QTextDocument* getDocument();
 
     void toggleLineWrap();
-   void setModified(bool b);
-   void previewAsHtml();
-    void splitEditor();
-    void splitEditorSideBySide();
-    void unSplitEditor();
-    bool isEditorSplit();
-    bool isEditorSplitSideBySide();
-
+    void setModified(bool b);
+    void previewAsHtml();
     bool docHasCollaborated();
 
     void setOwnerName(QString name);
@@ -121,7 +115,8 @@ public:
     QString curFile;
     QString myName;
 
-    void setOwner(Player *player);
+    void setOwner(Player* player);
+    bool canWrite(Player* player);
 
     ParticipantsPane* getParticipantPane() const;
     void setParticipantPane(ParticipantsPane* participantPane);
