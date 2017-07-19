@@ -37,19 +37,23 @@ int CodeEditor::lineNumberAreaWidth()
 
 void CodeEditor::collabTextChange(int pos, int charsRemoved, int charsAdded, QString data)
 {
-    if (charsRemoved > 0 && charsAdded == 0) {
+
+    if (charsRemoved > 0 && charsAdded == 0)
+    {
         QTextCursor cursor = textCursor();
         cursor.setPosition(pos);
         cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, charsRemoved);
         cursor.removeSelectedText();
     }
-    else if (charsRemoved > 0 && charsAdded > 0) {
+    else if (charsRemoved > 0 && charsAdded > 0)
+    {
         QTextCursor cursor = textCursor();
         cursor.setPosition(pos);
         cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, charsRemoved);
         cursor.insertText(data.toLatin1());
     }
-    else if (charsRemoved == 0 && charsAdded > 0) {
+    else if (charsRemoved == 0 && charsAdded > 0)
+    {
         QTextCursor cursor = textCursor();
         cursor.setPosition(pos);
         cursor.insertText(data.toLatin1());
