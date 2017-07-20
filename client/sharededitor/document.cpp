@@ -17,6 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "document.h"
+#include "ui_document.h"
+
+#include "utilities.h"
+#include "enu.h"
 
 #include <QDialog>
 #include <QRegExp>
@@ -28,16 +32,9 @@
 #include <QTextDocumentFragment>
 #include <QDebug>
 
-#include "markdownhighlighter.h"
-#include "ui_document.h"
-
-#include "utilities.h"
-#include "enu.h"
-
-
 Document::Document(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Document),m_highlighter(nullptr)
+    ui(new Ui::Document)
 {
     ui->setupUi(this);
 
@@ -51,47 +48,31 @@ Document::Document(QWidget *parent) :
     m_participantPane = new ParticipantsPane();
     ui->participantSplitter->insertWidget(1, m_participantPane);
 
-    setParticipantsHidden(true);
-    m_editor->setReadOnly(true);
-
-    connect(m_participantPane,&ParticipantsPane::localPlayerIsOwner,[=](bool isOwner){
-      setParticipantsHidden(!isOwner);
-    });
-
-    connect(m_participantPane,&ParticipantsPane::localPlayerPermissionChanged,[=](ParticipantsModel::Permission perm){
-      if(ParticipantsModel::readOnly == perm)
-      {
-          m_editor->setReadOnly(true);
-      }
-      else if(ParticipantsModel::readWrite == perm)
-      {
-          m_editor->setReadOnly(false);
-      }
-    });
-
-
-
 
     // Find all toolbar widget
-    //delete ui->findAllFrame;
+    /*delete ui->findAllFrame;
     findAllToolbar = new FindToolBar(this);
     ui->editorVerticalLayout->insertWidget(1, findAllToolbar);
     findAllToolbar->hide();
 
     connect(findAllToolbar, SIGNAL(findAll(QString)), m_editor, SLOT(findAll(QString)));
     connect(findAllToolbar, SIGNAL(findNext(QString)), this, SLOT(findNext(QString)));
-    connect(findAllToolbar, SIGNAL(findPrevious(QString)), this, SLOT(findPrevious(QString)));
+    connect(findAllToolbar, SIGNAL(findPrevious(QString)), this, SLOT(findPrevious(QString)));*/
 
     // Emit signals to the mainwindow when redoability/undoability changes
     connect(m_editor, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_editor, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
-    QList<int> sizeList;
+    /*QList<int> sizeList;
     sizeList << 9000 << 1;
     ui->codeChatSplitter->setSizes(sizeList);
-    ui->participantSplitter->setSizes(sizeList);
+    ui->participantSplitter->setSizes(sizeList);*/
 
+    // Hide the panels that only matter if we're using the collaborative portion of the app
+    //setChatHidden(true);
+    setParticipantsHidden(true);
 
+    myName = "Owner"; // temporary
 
     startedCollaborating = false;
 }
@@ -116,16 +97,16 @@ void Document::runUpdateCmd(QString cmd)
             int charsRemoved = rx.cap(2).toInt();
             int charsAdded = rx.cap(3).toInt();
             cmd = rx.cap(4);
-            QTextDocument* doc = m_editor->document();
-            doc->blockSignals(true);
+            m_editor->blockSignals(true);
             m_editor->collabTextChange(pos, charsRemoved, charsAdded, cmd);
-            doc->blockSignals(false);
+            m_editor->blockSignals(true);
         }
     }
 }
 void Document::displayParticipantPanel()
 {
     startedCollaborating = true;
+    setChatHidden(true);
     setParticipantsHidden(false);
 }
 
@@ -134,6 +115,11 @@ void Document::setEditorFont(QFont font)
     m_editor->setFont(font);
     QFontMetrics fm(m_editor->font());
     m_editor->setTabStopWidth(fm.averageCharWidth() * 4);
+}
+
+void Document::setChatFont(QFont font)
+{
+   // chatPane->setFont(font);
 }
 
 void Document::setParticipantsFont(QFont font)
@@ -147,6 +133,9 @@ void Document::undo()
     {
         m_editor->undo();
     }
+ /*   else if (chatPane->hasFocus()) {
+        chatPane->undo();
+    }*/
 }
 
 void Document::redo()
@@ -155,6 +144,9 @@ void Document::redo()
     {
         m_editor->redo();
     }
+   /* else if (chatPane->hasFocus()) {
+        chatPane->redo();
+    }*/
 }
 
 void Document::cut()
@@ -167,6 +159,10 @@ void Document::cut()
     {
         // do nothing
     }
+   /* else if (chatPane->hasFocus())
+    {
+        chatPane->cut();
+    }*/
 }
 
 void Document::copy()
@@ -179,6 +175,10 @@ void Document::copy()
     {
         // do nothing
     }
+   /* else if (chatPane->hasFocus())
+    * {
+        chatPane->copy();
+    }*/
 }
 
 void Document::paste()
@@ -191,6 +191,10 @@ void Document::paste()
     {
         // do nothing
     }
+    /*else if (chatPane->hasFocus())
+    {
+        chatPane->paste();
+    }*/
 }
 
 void Document::setParticipantsHidden(bool b)
@@ -204,6 +208,20 @@ void Document::setParticipantsHidden(bool b)
         ui->participantSplitter->widget(1)->show();
         m_editor->resize(QSize(9000, 9000));
     }
+}
+
+void Document::setChatHidden(bool b)
+{
+    // Hide/show the widget (contains the chat widget) below the code text edit
+   /* if (b)
+    {
+        ui->codeChatSplitter->widget(1)->hide();
+    }
+    else
+    {
+        m_editor->setFocus();
+        ui->codeChatSplitter->widget(1)->show();
+    }*/
 }
 
 void Document::shiftLeft()
@@ -225,6 +243,7 @@ void Document::unCommentSelection()
 void Document::fill(NetworkMessageWriter* msg)
 {
     msg->string32(m_editor->toPlainText());
+    qDebug() << "text"<< m_editor->toPlainText();
     m_participantPane->fill(msg);
 }
 void Document::readFromMsg(NetworkMessageReader* msg)
@@ -234,6 +253,7 @@ void Document::readFromMsg(NetworkMessageReader* msg)
         if(msg->action() == NetMsg::updateTextAndPermission)
         {
             QString text = msg->string32();
+            qDebug() << "text"<< text;
             m_editor->setPlainText(text);
             m_participantPane->readFromMsg(msg);
         }
@@ -243,16 +263,13 @@ void Document::readFromMsg(NetworkMessageReader* msg)
         }
     }
 }
-void Document::setHighlighter(int highlighter)
+void Document::setHighlighter(int Highlighter)
 {
-    if(nullptr != m_highlighter)
-    {
-        delete m_highlighter;
-        m_highlighter = nullptr;
-    }
-    switch (highlighter)
+    switch (Highlighter)
     {
     case None:
+        /*delete highlighter;
+        highlighter = NULL;*/
         break;
     case MarkDown:
         m_highlighter = new MarkDownHighlighter(m_editor->document());
@@ -352,13 +369,13 @@ void Document::setPlainText(QString text)
 
 void Document::toggleLineWrap()
 {
-    if (m_editor->lineWrapMode() == QPlainTextEdit::NoWrap)
-    {
+    if (m_editor->lineWrapMode() == QPlainTextEdit::NoWrap) {
         m_editor->setLineWrapMode(QPlainTextEdit::WidgetWidth);
+        //bottomEditor->setLineWrapMode(QPlainTextEdit::WidgetWidth);
     }
-    else
-    {
+    else {
         m_editor->setLineWrapMode(QPlainTextEdit::NoWrap);
+        //bottomEditor->setLineWrapMode(QPlainTextEdit::NoWrap);
     }
 }
 
