@@ -47,6 +47,12 @@ void SharedNoteContainer::readFromMsg(NetworkMessageReader* msg)
         m_edit->readFromMsg(msg);
     }
 }
+
+void SharedNoteContainer::setMediaId(QString str)
+{
+    MediaContainer::setMediaId(str);
+    m_edit->setId(getMediaId());
+}
 void SharedNoteContainer::runUpdateCmd(QString msg)
 {
     if(nullptr!=m_edit)

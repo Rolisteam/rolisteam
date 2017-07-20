@@ -42,6 +42,7 @@ public:
 
     void updateNoteToAll();
     void readFromMsg(NetworkMessageReader *msg);
+    virtual void setMediaId(QString);
 public slots:
     void setFileName(QString);
     void runUpdateCmd(QString msg);
