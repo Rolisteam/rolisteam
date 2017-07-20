@@ -63,13 +63,11 @@ Document::Document(QWidget *parent) :
     connect(m_editor, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_editor, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
-    /*QList<int> sizeList;
+    QList<int> sizeList;
     sizeList << 9000 << 1;
     ui->codeChatSplitter->setSizes(sizeList);
-    ui->participantSplitter->setSizes(sizeList);*/
+    ui->participantSplitter->setSizes(sizeList);
 
-    // Hide the panels that only matter if we're using the collaborative portion of the app
-    //setChatHidden(true);
     setParticipantsHidden(true);
 
     myName = "Owner"; // temporary
@@ -97,7 +95,10 @@ void Document::runUpdateCmd(QString cmd)
             int charsRemoved = rx.cap(2).toInt();
             int charsAdded = rx.cap(3).toInt();
             cmd = rx.cap(4);
+            QTextDocument* doc = m_editor->document();
+            doc->blockSignals(true);
             m_editor->collabTextChange(pos, charsRemoved, charsAdded, cmd);
+            doc->blockSignals(false);
         }
     }
 }
