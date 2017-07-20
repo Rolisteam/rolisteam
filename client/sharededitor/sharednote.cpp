@@ -119,15 +119,12 @@ void SharedNote::closeEvent(QCloseEvent *event)
 }
 void SharedNote::populateDocumentForUser(QString id)
 {
-    qDebug() << "populateDocumentForUser(QString id)";
     NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updateTextAndPermission,NetworkMessage::OneOrMany);
     QStringList ids;
     ids << id;
     msg.setRecipientList(ids,NetworkMessage::OneOrMany);
     msg.string8(m_id);
-    qDebug() << "idmedia:"<<m_id;
     m_document->fill(&msg);
-    qDebug() << "Media Size:"<<m_id << msg.getSize() << msg.getDataSize();
     msg.sendAll();
 }
 
@@ -470,29 +467,36 @@ void SharedNote::on_actionView_Hide_Show_Participants_triggered()
 {
     m_document->setParticipantsHidden(!m_document->isParticipantsHidden());
 }
-
+//#include "userlist/playersList.h"
 void SharedNote::textHasChanged(int pos, int charsRemoved, int charsAdded)
 {
-    QString toSend;
-    QString data;
-
-    if (charsRemoved > 0 && charsAdded == 0)
+    PlayersList* list = PlayersList::instance();
+    Player* player = list->getLocalPlayer();
+    if(m_document->canWrite(player))
     {
-        data = "";
-    }
-    else if (charsAdded > 0)
-    {
-        QTextCursor cursor = QTextCursor(m_document->getDocument());
-        cursor.setPosition(pos, QTextCursor::MoveAnchor);
-        cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, charsAdded);
-        data = cursor.selection().toPlainText();
-    }
+        QString toSend;
+        QString data;
 
-    toSend = QString("doc:%1 %2 %3 %4").arg(pos).arg(charsRemoved).arg(charsAdded).arg(data);
-    writeToAll(toSend);
+        if (charsRemoved > 0 && charsAdded == 0)
+        {
+            data = "";
+        }
+        else if (charsAdded > 0)
+        {
+            QTextCursor cursor = QTextCursor(m_document->getDocument());
+            cursor.setPosition(pos, QTextCursor::MoveAnchor);
+            cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, charsAdded);
+            data = cursor.selection().toPlainText();
+        }
+
+        toSend = QString("doc:%1 %2 %3 %4").arg(pos).arg(charsRemoved).arg(charsAdded).arg(data);
+
+        writeToAll(toSend);
+    }
 }
 void SharedNote::writeToAll(QString string)
 {
+    qDebug() << string;
     if(!string.isEmpty())
     {
         NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updateText);
@@ -569,10 +573,10 @@ void SharedNote::documentChanged(int index)
     Document *document = m_document;
     ui->actionEdit_Undo->setEnabled(document->isUndoable());
     ui->actionEdit_Redo->setEnabled(document->isRedoable());
-    ui->actionWindow_Split->setDisabled(document->isEditorSplit() && !document->isEditorSplitSideBySide());
-    ui->actionWindow_Split_Side_by_Side->setDisabled(document->isEditorSplit() && document->isEditorSplitSideBySide());
+    //ui->actionWindow_Split->setDisabled(document->isEditorSplit() && !document->isEditorSplitSideBySide());
+   // ui->actionWindow_Split_Side_by_Side->setDisabled(document->isEditorSplit() && document->isEditorSplitSideBySide());
 
-    ui->actionWindow_Remove_Split->setEnabled(document->isEditorSplit());
+   // ui->actionWindow_Remove_Split->setEnabled(document->isEditorSplit());
     ui->actionTools_Announce_Document->setDisabled(document->docHasCollaborated());
 }
 

@@ -107,7 +107,6 @@ void Document::displayParticipantPanel()
     startedCollaborating = true;
     setChatHidden(true);
     setParticipantsHidden(false);
-    //participantPane->setConnectInfo(ipAddress, port);
 }
 
 void Document::connectToDocument(QStringList list)
@@ -124,11 +123,6 @@ void Document::connectToDocument(QStringList list)
     setParticipantsHidden(false);
     m_editor->setReadOnly(true);
     m_participantPane->setDisabled(true);
-
-  /*  client = new Client(editor, participantPane, chatPane, this);
-    client->setUsername(myName);
-    client->connectToHost(QHostAddress(address), port);
-    participantPane->setConnectInfo(address, portString);*/
 }
 
 void Document::setEditorFont(QFont font)
@@ -292,20 +286,7 @@ void Document::setHighlighter(int Highlighter)
         /*delete highlighter;
         highlighter = NULL;*/
         break;
-   /* case CPlusPlus:
-        if (highlighter) {
-            delete highlighter;
-            highlighter = NULL;
-        }
-        highlighter = new CppHighlighter(editor->document());
-        break;
-    case Python:
-        if (highlighter) {
-            delete highlighter;
-            highlighter = NULL;
-        }
-        highlighter = new PythonHighlighter(editor->document());
-        break;*/
+
     default:
         break;
     }
@@ -423,34 +404,9 @@ void Document::previewAsHtml()
     preview->setHtml(text);
     preview->show();
 }
-
-void Document::splitEditor()
-{
-
-}
-
-void Document::splitEditorSideBySide()
-{
-
-}
-
 bool Document::docHasCollaborated()
 {
     return startedCollaborating;
-}
-
-void Document::unSplitEditor()
-{
-
-}
-
-bool Document::isEditorSplit()
-{
-}
-
-bool Document::isEditorSplitSideBySide()
-{
-    return ui->editorSplitter->orientation() == Qt::Horizontal;
 }
 
 void Document::findNext(QString string)
@@ -476,4 +432,8 @@ void Document::setParticipantPane(ParticipantsPane *participantPane)
 void Document::setOwner(Player* player)
 {
     m_participantPane->setOwner(player);
+}
+bool Document::canWrite(Player* player)
+{
+    return m_participantPane->canWrite(player);
 }

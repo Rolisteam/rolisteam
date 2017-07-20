@@ -284,7 +284,7 @@ QModelIndex PlayersList::createIndex(Person * person) const
  ***********/
 bool PlayersList::isLocal(Person * person) const
 {
-    if (person == NULL)
+    if (person == nullptr)
         return false;
 
     Player* local = getLocalPlayer();
