@@ -549,14 +549,14 @@ void TextEdit::readFromBinary(QDataStream& data)
 {
     QString str;
     data >> str;
-
-    if (Qt::mightBeRichText(str)) {
+    if (Qt::mightBeRichText(str))
+    {
         textEdit->setHtml(str);
-    } else {
-
+    }
+    else
+    {
         textEdit->setPlainText(str);
     }
-
 }
 
 bool TextEdit::fileSaveAs()
