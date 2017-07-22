@@ -46,20 +46,6 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionFile_New"/>
-    <addaction name="actionFile_Open"/>
-    <addaction name="actionFile_Save"/>
-    <addaction name="actionFile_Save_As"/>
-    <addaction name="actionFile_Save_A_Copy_As"/>
-    <addaction name="actionFile_Save_All"/>
-    <addaction name="actionFile_Close"/>
-    <addaction name="separator"/>
-    <addaction name="actionFile_Print"/>
-   </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
      <string>Edit</string>
@@ -69,7 +55,7 @@
       <string>Syntax Highlighting...</string>
      </property>
      <addaction name="actionEdit_None"/>
-     <addaction name="actionEdit_C"/>
+     <addaction name="m_highlightMarkdownAction"/>
      <addaction name="actionEdit_Python"/>
     </widget>
     <addaction name="actionEdit_Undo"/>
@@ -84,6 +70,7 @@
     <addaction name="menuEdit_Syntax_Highlighting"/>
     <addaction name="separator"/>
     <addaction name="actionTools_Preview_as_Html"/>
+    <addaction name="actionFile_Print"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -100,7 +87,6 @@
     <addaction name="actionText_Shift_Right"/>
     <addaction name="actionText_Comment_Line"/>
    </widget>
-   <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuView"/>
    <addaction name="menuText"/>
@@ -121,9 +107,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionFile_New"/>
-   <addaction name="actionFile_Open"/>
-   <addaction name="actionFile_Save"/>
    <addaction name="actionFile_Print"/>
    <addaction name="actionEdit_Undo"/>
    <addaction name="actionEdit_Redo"/>
@@ -132,84 +115,13 @@
    <addaction name="actionEdit_Paste"/>
    <addaction name="actionHelp_How_to_Collaborate"/>
   </widget>
-  <action name="actionFile_Open">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/images/open.png</normaloff>:/images/open.png</iconset>
-   </property>
-   <property name="text">
-    <string>Open</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+O</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>false</bool>
-   </property>
-  </action>
-  <action name="actionFile_Save">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
-   </property>
-   <property name="text">
-    <string>Save</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>false</bool>
-   </property>
-  </action>
-  <action name="actionFile_Save_As">
-   <property name="text">
-    <string>Save As...</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>false</bool>
-   </property>
-  </action>
-  <action name="actionFile_New">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/images/new.png</normaloff>:/images/new.png</iconset>
-   </property>
-   <property name="text">
-    <string>New</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+N</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>false</bool>
-   </property>
-  </action>
-  <action name="actionFile_Print">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/images/print.png</normaloff>:/images/print.png</iconset>
-   </property>
-   <property name="text">
-    <string>Print</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+P</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>false</bool>
-   </property>
-  </action>
   <action name="actionEdit_Undo">
    <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>:/images/undo.png</normaloff>:/images/undo.png</iconset>
+    <iconset resource="../../rolisteam.qrc">
+     <normaloff>:/sharednote/resources/images/undo.png</normaloff>:/sharednote/resources/images/undo.png</iconset>
    </property>
    <property name="text">
     <string>Undo</string>
@@ -226,8 +138,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>:/images/redo.png</normaloff>:/images/redo.png</iconset>
+    <iconset resource="../../rolisteam.qrc">
+     <normaloff>:/sharednote/resources/images/redo.png</normaloff>:/sharednote/resources/images/redo.png</iconset>
    </property>
    <property name="text">
     <string>Redo</string>
@@ -241,8 +153,8 @@
   </action>
   <action name="actionEdit_Cut">
    <property name="icon">
-    <iconset>
-     <normaloff>:/images/cut.png</normaloff>:/images/cut.png</iconset>
+    <iconset resource="../../rolisteam.qrc">
+     <normaloff>:/sharednote/resources/images/cut.png</normaloff>:/sharednote/resources/images/cut.png</iconset>
    </property>
    <property name="text">
     <string>Cut</string>
@@ -256,8 +168,8 @@
   </action>
   <action name="actionEdit_Copy">
    <property name="icon">
-    <iconset>
-     <normaloff>:/images/copy.png</normaloff>:/images/copy.png</iconset>
+    <iconset resource="../../rolisteam.qrc">
+     <normaloff>:/sharednote/resources/images/copy.png</normaloff>:/sharednote/resources/images/copy.png</iconset>
    </property>
    <property name="text">
     <string>Copy</string>
@@ -271,8 +183,8 @@
   </action>
   <action name="actionEdit_Paste">
    <property name="icon">
-    <iconset>
-     <normaloff>:/images/paste.png</normaloff>:/images/paste.png</iconset>
+    <iconset resource="../../rolisteam.qrc">
+     <normaloff>:/sharednote/resources/images/paste.png</normaloff>:/sharednote/resources/images/paste.png</iconset>
    </property>
    <property name="text">
     <string>Paste</string>
@@ -297,24 +209,9 @@
     <string>Line Wrap</string>
    </property>
   </action>
-  <action name="actionFile_Close">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/images/close.png</normaloff>:/images/close.png</iconset>
-   </property>
+  <action name="m_highlightMarkdownAction">
    <property name="text">
-    <string>Close</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+W</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>false</bool>
-   </property>
-  </action>
-  <action name="actionEdit_C">
-   <property name="text">
-    <string>C++</string>
+    <string>Markdown</string>
    </property>
   </action>
   <action name="actionEdit_Python">
@@ -468,8 +365,8 @@
   </action>
   <action name="actionHelp_How_to_Collaborate">
    <property name="icon">
-    <iconset>
-     <normaloff>:/images/help.png</normaloff>:/images/help.png</iconset>
+    <iconset resource="../../rolisteam.qrc">
+     <normaloff>:/sharednote/resources/images/help.png</normaloff>:/sharednote/resources/images/help.png</iconset>
    </property>
    <property name="text">
     <string>How to Collaborate</string>
@@ -478,8 +375,25 @@
     <bool>false</bool>
    </property>
   </action>
+  <action name="actionFile_Print">
+   <property name="icon">
+    <iconset resource="../../rolisteam.qrc">
+     <normaloff>:/sharednote/resources/images/print.png</normaloff>:/sharednote/resources/images/print.png</iconset>
+   </property>
+   <property name="text">
+    <string>Print</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../../rolisteam.qrc"/>
+ </resources>
  <connections/>
 </ui>

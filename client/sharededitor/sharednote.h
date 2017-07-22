@@ -21,15 +21,16 @@
 
 #include <QSettings>
 #include <QMainWindow>
+#include <QTextStream>
 
 #include "document.h"
-#include "connecttodocument.h"
 #include "finddialog.h"
 #include "findtoolbar.h"
-#include "firstrundialog.h"
 //#include "preferencesdialog.h"
 
-
+class Player;
+class NetworkMessageReader;
+class NetworkMessageWriter;
 
 namespace Ui
 {
@@ -44,10 +45,15 @@ public:
     SharedNote(QWidget *parent = 0);
     ~SharedNote();
 
-    bool save(int index);
+    bool save();
     bool maybeSave(int index);
-    bool saveFile(const QString &fileName);
-    bool loadFile(const QString &fileName);
+
+    bool saveFileAsText(QTextStream& out);
+    bool loadFileAsText(QTextStream& out);
+
+    bool saveFile(QDataStream& out);
+    bool loadFile(QDataStream &fileName);
+
     void setCurrentFile(const QString &fileName);
     QString strippedName(const QString &fullFileName);
 
@@ -62,6 +68,8 @@ public:
 
     void readFromMsg(NetworkMessageReader *msg);
     void runUpdateCmd(QString cmd);
+
+
 public slots:
     void updateDocumentToAll(NetworkMessageWriter* msg);
     void textHasChanged(int pos, int charsRemoved, int charsAdded);
@@ -75,14 +83,9 @@ protected:
     bool eventFilter(QObject *, QEvent *event);
 
 private slots:
-    void on_actionFile_New_triggered();
-    void on_actionFile_Open_triggered();
-    bool on_actionFile_Save_triggered();
-    bool on_actionFile_Save_As_triggered();
-    bool on_actionFile_Save_A_Copy_As_triggered();
-    bool on_actionFile_Save_All_triggered();
+  //  bool fileSaveAs();
 
-    void on_actionFile_Close_triggered();
+
     void on_actionFile_Print_triggered();
 
     void on_actionEdit_Undo_triggered();
@@ -112,19 +115,15 @@ private slots:
     void replaceTriggered(QString replace);
     void findReplaceTriggered(QString find, QString replace, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode);
 
-    void connectToDocument(QStringList list);
-
     void setEditorFont(QFont font);
-    void setChatFont(QFont font);
     void setParticipantsFont(QFont font);
+
+    void setMarkdownAsHighlight();
 
 private:
     Ui::SharedNote *ui;
-    QMap<QWidget *, Document *> tabWidgetToDocumentMap;
-    QString openPath;
-    ConnectToDocument *connectDialog;
     FindDialog *findDialog;
-
+    QString m_fileName;
     Document* m_document;
     QString m_id; // global name used for connecting to documents
 };

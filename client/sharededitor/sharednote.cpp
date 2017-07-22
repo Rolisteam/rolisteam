@@ -78,9 +78,11 @@ SharedNote::SharedNote(QWidget *parent)
     /// @todo reset preferences stuff.
     connect(m_document, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(m_document, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
+    connect(ui->m_highlightMarkdownAction,SIGNAL(triggered(bool)),this,SLOT(setMarkdownAsHighlight()));
 
     readSettings();
-    openPath = QDir::homePath();
+
+    ui->m_highlightMarkdownAction->setData(static_cast<int>(Document::MarkDown));
 
     qApp->installEventFilter(this);
 }
@@ -149,14 +151,16 @@ bool SharedNote::eventFilter(QObject *, QEvent *event)
 }
 
 // Save methods
-bool SharedNote::save(int index)
+bool SharedNote::save()
 {
-    if (m_document->curFile.isEmpty()) {
-        return on_actionFile_Save_As_triggered();
+   /* if (m_document->curFile.isEmpty())
+    {
+        return fileSaveAs();
     }
-    else {
-        return saveFile(m_document->curFile);
-    }
+    else
+    {
+        return save();
+    }*/
 }
 
 bool SharedNote::maybeSave(int index)
@@ -170,12 +174,13 @@ bool SharedNote::maybeSave(int index)
                                    "Do you want to save your changes?",
                                    QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
         if (ret == QMessageBox::Save)
-            return save(index);
+            return save();
         else if (ret == QMessageBox::Cancel)
             return false;
     }
     return true;
 }
+
 void SharedNote::closeEditorFor(QString idplayer)
 {
     NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::closeMedia);
@@ -183,76 +188,54 @@ void SharedNote::closeEditorFor(QString idplayer)
     list << idplayer;
     msg.setRecipientList(list,NetworkMessage::OneOrMany);
     msg.string8(m_id);
-    //msg.string8(idplayer);
-
     msg.sendAll();
 }
 
-bool SharedNote::saveFile(const QString &fileName)
+bool SharedNote::saveFile(QDataStream& out)
 {
-    QFile file(fileName);
-    if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        QMessageBox::warning(this, tr("Application"),
-                             tr("Cannot write file %1:\n%2.")
-                             .arg(fileName)
-                             .arg(file.errorString()));
+    if(nullptr == m_document)
         return false;
-    }
 
-    QTextStream out(&file);
-    out.setCodec(QTextCodec::codecForName("ISO 8859-1"));
     QApplication::setOverrideCursor(Qt::WaitCursor);
     out << m_document->getPlainText();
     QApplication::restoreOverrideCursor();
-
-    setCurrentFile(fileName);
-    //statusBar()->showMessage("File saved", 4000);
+    m_document->setModified(false);
     return true;
 }
 
-bool SharedNote::loadFile(const QString &fileName)
+bool SharedNote::saveFileAsText(QTextStream &out)
 {
-     QFile file(fileName);
-     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-         QMessageBox::warning(this, tr("Application"),
-                              tr("Cannot read file %1:\n%2.")
-                              .arg(fileName)
-                              .arg(file.errorString()));
-         return false;
-     }
+    if(nullptr == m_document)
+        return false;
 
-     QTextStream in(&file);
-     in.setCodec(QTextCodec::codecForName("ISO 8859-1"));
-     QApplication::setOverrideCursor(Qt::WaitCursor);
-     m_document->setPlainText(in.readAll());
-     QApplication::restoreOverrideCursor();
-
-     setCurrentFile(fileName);
-
-     if (fileName.endsWith(".py")) {
-         m_document->setHighlighter(Document::Python);
-     }
-     else if (fileName.endsWith(".cpp") || fileName.endsWith(".c") || fileName.endsWith(".h") || fileName.endsWith(".hpp")) {
-         m_document->setHighlighter(Document::CPlusPlus);
-     }
-     //statusBar()->showMessage("File loaded", 4000);
-     return true;
+    out << m_document->getPlainText();
+    m_document->setModified(false);
+    return true;
 }
 
+bool SharedNote::loadFileAsText(QTextStream &in)
+{
+    if(nullptr == m_document)
+        return false;
+    QString data;
+    data = in.readAll();
+    m_document->setPlainText(data);
+    return true;
+}
+
+bool SharedNote::loadFile(QDataStream& in)
+{
+    if(nullptr == m_document)
+        return false;
+
+    QString data;
+    in >> data;
+    m_document->setPlainText(data);
+    return true;
+}
 void SharedNote::setCurrentFile(const QString &fileName)
 {
-     m_document->curFile = fileName;
-     m_document->setModified(false);
-#warning "mechanic for showing if a document is modified"
-//     setWindowModified(false); // Possible future mechanic for showing in the title bar if the document isModified
-
-     QString shownName;
-     if (m_document->curFile.isEmpty())
-         shownName = "untitled.txt";
-     else
-         shownName = strippedName(m_document->curFile);
-
-     //ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), shownName);
+    m_fileName = fileName;
 }
 
 QString SharedNote::strippedName(const QString &fullFileName)
@@ -260,151 +243,8 @@ QString SharedNote::strippedName(const QString &fullFileName)
      return QFileInfo(fullFileName).fileName();
 }
 
-// File menu items
-void SharedNote::on_actionFile_New_triggered()
-{
- /*   int index = ui->tabWidget->addTab(new QWidget(), "untitled.txt");
-    
-    Document *document = new Document(ui->tabWidget->widget(index));
-    QGridLayout *tabLayout = new QGridLayout;
-    tabLayout->addWidget(document);
-    tabLayout->setContentsMargins(0,0,0,0);
-    ui->tabWidget->widget(index)->setLayout(tabLayout);
-
-    document->setEditorFont(preferencesDialog->getEditorFont());
-    document->setChatFont(preferencesDialog->getChatFont());
-    document->setParticipantsFont(preferencesDialog->getParticipantsFont());
-
-    tabWidgetToDocumentMap.insert(ui->tabWidget->widget(index), document);
-
-    connect(document, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
-    connect(document, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
-    
-    ui->tabWidget->setCurrentIndex(index);
-    ui->actionTools_Announce_Document->setEnabled(true);
 
 
-    ui->actionWindow_Next_Document->setEnabled(ui->tabWidget->count() > 1);
-    ui->actionWindow_Previous_Document->setEnabled(ui->tabWidget->count() > 1);*/
-
-}
-
-void SharedNote::on_actionFile_Open_triggered()
-{
- /*   QString fileName = QFileDialog::getOpenFileName(
-            this,
-            "Open text file",
-            openPath,
-            "Text files (*.*)");
-    if (!fileName.isEmpty()) {
-        int index = ui->tabWidget->addTab(new QWidget(), QFileInfo(fileName).fileName());
-
-        Document *document = new Document(ui->tabWidget->widget(index));
-
-        QGridLayout *tabLayout = new QGridLayout;
-        tabLayout->addWidget(document);
-        tabLayout->setContentsMargins(0,0,0,0);
-        ui->tabWidget->widget(index)->setLayout(tabLayout);
-
-        tabWidgetToDocumentMap.insert(ui->tabWidget->widget(index), document);
-
-        connect(document, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
-        connect(document, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
-
-        document->setEditorFont(preferencesDialog->getEditorFont());
-        document->setChatFont(preferencesDialog->getChatFont());
-        document->setParticipantsFont(preferencesDialog->getParticipantsFont());
-
-        ui->tabWidget->setCurrentIndex(index);
-
-        loadFile(fileName);
-        openPath = QFileInfo(fileName).path();
-
-        ui->actionTools_Announce_Document->setEnabled(true);
-
-        ui->actionWindow_Next_Document->setEnabled(ui->tabWidget->count() > 1);
-        ui->actionWindow_Previous_Document->setEnabled(ui->tabWidget->count() > 1);
-    }*/
-}
-
-bool SharedNote::on_actionFile_Save_triggered()
-{
-    if (m_document->curFile.isEmpty()) {
-        return on_actionFile_Save_As_triggered();
-    }
-    else {
-        return saveFile(m_document->curFile);
-    }
-}
-
-bool SharedNote::on_actionFile_Save_As_triggered()
-{
-    qApp->processEvents(); // Redraw so we see the document we're saving along with the dialog
-    // This is in case program control changes documents on a "Save All" or closeEvent
-    QString fileName = QFileDialog::getSaveFileName(
-            this,
-            "Save As...",
-            m_document->curFile.isEmpty() ?
-                QDir::homePath() + "/untitled.txt" :
-                m_document->curFile,
-            "Text (*.txt)");
-    if (fileName.isEmpty())
-        return false;
-
-    return saveFile(fileName);
-}
-
-bool SharedNote::on_actionFile_Save_A_Copy_As_triggered()
-{
-    QString fileName = QFileDialog::getSaveFileName(
-            this,
-            "Save A Copy As...",
-            m_document->curFile.isEmpty() ?
-                QDir::homePath() + "/untitled.txt" :
-                m_document->curFile,
-            "Text (*.txt)");
-    if (fileName.isEmpty())
-        return false;
-
-    QFile file(fileName);
-    if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        QMessageBox::warning(this, tr("Application"),
-                             tr("Cannot write file %1:\n%2.")
-                             .arg(fileName)
-                             .arg(file.errorString()));
-        return false;
-    }
-
-    QTextStream out(&file);
-    out.setCodec(QTextCodec::codecForName("ISO 8859-1"));
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-    out << m_document->getPlainText();
-    QApplication::restoreOverrideCursor();
-
-    //statusBar()->showMessage("File saved as a copy", 4000);
-    return true;
-}
-
-bool SharedNote::on_actionFile_Save_All_triggered()
-{
-    bool isAllSaved = false;
-    /*QWidget *originalWidget = ui->tabWidget->currentWidget();
-    for (int i = 0; i < tabWidgetToDocumentMap.size(); i++)
-    {
-        ui->tabWidget->setCurrentIndex(i);
-        isAllSaved += on_actionFile_Save_triggered();
-    }
-    ui->tabWidget->setCurrentWidget(originalWidget);*/
-    return isAllSaved;
-}
-
-void SharedNote::on_actionFile_Close_triggered()
-{
-   /* tabCloseClicked(ui->tabWidget->currentIndex());
-
-    ui->actionWindow_Next_Document->setEnabled(ui->tabWidget->count() > 1);
-    ui->actionWindow_Previous_Document->setEnabled(ui->tabWidget->count() > 1);*/
-}
 
 void SharedNote::on_actionFile_Print_triggered()
 {
@@ -617,10 +457,6 @@ void SharedNote::findReplaceTriggered(QString find, QString replace, Qt::CaseSen
     m_document->findReplace(find, replace, sensitivity, wrapAround, mode);
 }
 
-void SharedNote::connectToDocument(QStringList list)
-{
-
-}
 void SharedNote::playerPermissionsChanged(QString id,int perm)
 {
     //QString toSend = QString("updateperm:%1").arg(permissions);
@@ -635,12 +471,6 @@ void SharedNote::playerPermissionsChanged(QString id,int perm)
 void SharedNote::setEditorFont(QFont font)
 {
     m_document->setEditorFont(font);
-
-}
-
-void SharedNote::setChatFont(QFont font)
-{
-    m_document->setChatFont(font);
 }
 
 void SharedNote::setParticipantsFont(QFont font)
@@ -656,4 +486,11 @@ QString SharedNote::id() const
 void SharedNote::setId(const QString &id)
 {
     m_id = id;
+}
+
+void SharedNote::setMarkdownAsHighlight()
+{
+    QAction* act = qobject_cast<QAction*>(sender());
+
+    m_document->setHighlighter(act->data().toInt());
 }
