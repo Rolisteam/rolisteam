@@ -640,9 +640,11 @@ void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
     QModelIndex index = ui->treeView->currentIndex();
     if(index.isValid())
     {
-        menu.addAction(m_delItem);
-        menu.addAction(m_applyValueOnAllLines);
+
         menu.addAction(m_applyValueOnSelection);
+        menu.addAction(m_applyValueOnAllLines);
+        menu.addSeparator();
+        menu.addAction(m_delItem);
     }
 
     QAction* act = menu.exec(QCursor::pos());
