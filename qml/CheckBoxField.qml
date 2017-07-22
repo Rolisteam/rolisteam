@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick 2.4
-import QtQuick.Controls 1.3
+import QtQuick.Controls 2.1
 import QtQuick.Controls.Styles 1.4
 
 Rectangle {
@@ -19,7 +19,7 @@ Rectangle {
         id: checkbox
         anchors.fill: parent
         checked: root.text === "1"  ? true :false
-        activeFocusOnPress: !root.readOnly
+        enabled: !root.readOnly
         onCheckedChanged: {
             root.text = checked ? "1": "0"
         }
