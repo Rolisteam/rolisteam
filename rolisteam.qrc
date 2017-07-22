@@ -102,7 +102,7 @@
         <file alias="resources/qml/ImageField.qml">client/charactersheet/qml/ImageField.qml</file>
         <file alias="resources/qml/TextInputField.qml">client/charactersheet/qml/TextInputField.qml</file>
         <file alias="resources/qml/TextFieldField.qml">client/charactersheet/qml/TextFieldField.qml</file>
-        <file alias="resources/qml/TextAreaField.qml" >client/charactersheet/qml/TextAreaField.qml</file>
+        <file alias="resources/qml/TextAreaField.qml">client/charactersheet/qml/TextAreaField.qml</file>
         <file alias="resources/qml/SelectField.qml">client/charactersheet/qml/SelectField.qml</file>
         <file alias="resources/qml/qmldir">client/charactersheet/qml/qmldir</file>
         <file alias="resources/qml/main.qml">client/charactersheet/qml/main.qml</file>
@@ -119,5 +119,22 @@
         <file>resources/gridpattern/01_sqare.png</file>
         <file>resources/gridpattern/02_octo.png</file>
         <file>resources/gridpattern/03_hexa.png</file>
+    </qresource>
+    <qresource prefix="/sharednote">
+        <file>resources/images/cahootsicon.png</file>
+        <file>resources/images/cahootssplash.png</file>
+        <file>resources/images/close.png</file>
+        <file>resources/images/copy.png</file>
+        <file>resources/images/cut.png</file>
+        <file>resources/images/help.png</file>
+        <file>resources/images/icon.icns</file>
+        <file>resources/images/icon.ico</file>
+        <file>resources/images/new.png</file>
+        <file>resources/images/open.png</file>
+        <file>resources/images/paste.png</file>
+        <file>resources/images/print.png</file>
+        <file>resources/images/redo.png</file>
+        <file>resources/images/save.png</file>
+        <file>resources/images/undo.png</file>
     </qresource>
 </RCC>
