@@ -7,11 +7,13 @@ Data to generate the qml code, the qml code, and data about characters.
 
 The background key is an array of object. This object has two keys:  
 
-bin : data of the image saved in base64  
-key : id of the image (used in QML to point the image)  
+**bin** : data of the image saved in base64  
+**key** : id of the image (used in QML to point the image)  
 
 The key must have this scheme: "{a41e1438-0aee-46d1-8714-2a284634df77}_background_0.jpg"  
 If you have many background images the only difference between key must be the last number. It should be incremented.  
+
+### Examples
 
 Page 0 will have {a41e1438-0aee-46d1-8714-2a284634df77}_background_0.jpg as background  
 Page 1 will have {a41e1438-0aee-46d1-8714-2a284634df77}_background_1.jpg as background
@@ -20,17 +22,15 @@ Page 1 will have {a41e1438-0aee-46d1-8714-2a284634df77}_background_1.jpg as back
 
 characterCount: \<int>
 
-If the characterCount is zero that means this charactersheet describes only the structure of character sheet. A rcs file with no character is useless in Rolisteam. But you can add 
-character in it with rcse.
-
+If the characterCount is zero that means this charactersheet describes only the structure of character sheet. A rcs file with no character is useless in Rolisteam. But you can add character in it with rcse.
 
 ## Array of characters
 
 A character is defined by the following fields:
 
-* idSheet: \<string> uuid
-* name: \<string> name of the character
-* values: \<json object>
+* **idSheet**: \<string> uuid
+* **name**: \<string> name of the character
+* **values**: \<json object>
 
 The values object has a key for each field defined in the data > items key.
 each key is defining the value for this specific field for this character.
@@ -52,10 +52,10 @@ example:
 
 A value is a jsonobject with those keys:
 
-* formula: \<string eg: "=4+5"> It should begin with '='
+* formula: \<string> eg: "=4+5" It should begin with '='
 * id: \<string> no space, no special caracter, no uppercase. Same as the key of jsonobject
-* label: \<string> 
-* readonly: \<bool>
+* label: \<string> an easy way to reference the field
+* readonly: \<bool> if true, no player can change the value of this field only the GM.
 * type: \<string> always set at field
 * typefield: \<int> : 0 => TextInput, 1 => TextField, 2=> TextArea, 3=> Select, 4=> Checkbox, 6=>Image, 7=>button
 * value: \<string>
