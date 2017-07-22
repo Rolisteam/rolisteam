@@ -68,8 +68,6 @@ Document::Document(QWidget *parent) :
     ui->codeChatSplitter->setSizes(sizeList);
     ui->participantSplitter->setSizes(sizeList);*/
 
-    // Hide the panels that only matter if we're using the collaborative portion of the app
-    //setChatHidden(true);
     setParticipantsHidden(true);
 
     myName = "Owner"; // temporary
