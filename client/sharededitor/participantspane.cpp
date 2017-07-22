@@ -469,7 +469,6 @@ void ParticipantsPane::readFromMsg(NetworkMessageReader* msg)
 {
     if(nullptr!=msg)
     {
-
         QByteArray data = msg->byteArray32();
         QJsonDocument doc = QJsonDocument::fromJson(data);
 
@@ -485,7 +484,12 @@ void ParticipantsPane::readPermissionChanged(NetworkMessageReader* msg)
     if(nullptr != player)
     {
         m_model->setPlayerInto(player,static_cast<ParticipantsModel::Permission>(perm));
+        if(player == m_playerList->getLocalPlayer())
+        {
+            emit localPlayerPermissionChanged(m_model->getPermissionFor(player));
+        }
     }
+
 }
 
 void ParticipantsPane::setFont(QFont font)
@@ -502,4 +506,10 @@ Player *ParticipantsPane::getOwner() const
 void ParticipantsPane::setOwner(Player *owner)
 {
     m_model->setOwner(owner);
+    if(owner == m_playerList->getLocalPlayer())
+    {
+        emit localPlayerIsOwner(true);
+        emit localPlayerPermissionChanged(ParticipantsModel::readWrite);
+    }
+
 }

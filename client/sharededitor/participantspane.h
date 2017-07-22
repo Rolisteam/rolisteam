@@ -91,10 +91,13 @@ public:
     void setOwner(Player* owner);
 
     void readPermissionChanged(NetworkMessageReader *msg);
+
 signals:
     void memberCanNowRead(QString name);
     void memberPermissionsChanged(QString id, int i);
     void closeMediaToPlayer(QString id);
+    void localPlayerPermissionChanged(ParticipantsModel::Permission);
+    void localPlayerIsOwner(bool);
 
 private slots:
     void promoteCurrentItem();
