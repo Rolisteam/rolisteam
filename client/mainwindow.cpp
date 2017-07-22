@@ -426,6 +426,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_openVectorialMap, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_ui->m_openStoryAction, SIGNAL(triggered(bool)), this, SLOT(openStory()));
     connect(m_ui->m_openNoteAction, SIGNAL(triggered(bool)), this, SLOT(openNote()));
+    connect(m_ui->m_openShareNote, SIGNAL(triggered(bool)), this, SLOT(openContent()));
 
     m_ui->m_openPictureAction->setData((int)CleverURI::PICTURE);
     m_ui->m_openOnlinePictureAction->setData((int)CleverURI::ONLINEPICTURE);
@@ -840,11 +841,6 @@ void MainWindow::saveMedia(MediaContainer* mediaC,bool askPath, bool saveAs)
             if(!askPath)//save into story
             {
                 mediaC->putDataIntoCleverUri();
-                /*if(!uri.isEmpty())
-                {
-                    mediaC->saveMedia();
-                }*/
-
             }
             else
             {
@@ -2214,7 +2210,11 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         tmp = new NoteContainer();
         break;
     case CleverURI::SHAREDNOTE:
-       // tmp = new SharedNote();
+    {
+        SharedNoteContainer* tmpShared = new SharedNoteContainer();
+        tmpShared->setOwner(m_playerList->getLocalPlayer());
+        tmp = tmpShared;
+    }
         break;
     case CleverURI::SCENARIO:
         break;
