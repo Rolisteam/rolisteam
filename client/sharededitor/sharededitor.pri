@@ -10,7 +10,8 @@ SOURCES += \
     $$PWD/findtoolbar.cpp \
     $$PWD/utilities.cpp \
     $$PWD/sharednotecontainer.cpp \
-    $$PWD/sharednote.cpp
+    $$PWD/sharednote.cpp \
+    $$PWD/markdownhighlighter.cpp
 #    $$PWD/announcedocumentdialog.cpp \
 #    $$PWD/firstrundialog.cpp \
 #    $$PWD/connecttodocument.cpp \
@@ -32,7 +33,8 @@ HEADERS += \
     $$PWD/enu.h \
     $$PWD/utilities.h \
     $$PWD/sharednotecontainer.h \
-    $$PWD/sharednote.h
+    $$PWD/sharednote.h \
+    $$PWD/markdownhighlighter.h
 #    $$PWD/firstrundialog.h \
 #    $$PWD/announcedocumentdialog.h \
 #    $$PWD/highlighters/cpphighlighter.h \
@@ -57,7 +59,7 @@ FORMS += \
 #    $$PWD/chatpane.ui \
 
 
-#RESOURCES += $$PWD/cahootsresc.qrc \
+#RESOURCES += $$PWD/cahootsresc.qrc
 #   $$PWD/highlighters.qrc \
 #   $$PWD/helpresources.qrc
 
