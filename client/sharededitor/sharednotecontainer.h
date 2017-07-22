@@ -30,15 +30,17 @@ class SharedNoteContainer : public MediaContainer
     Q_OBJECT
 public:
     SharedNoteContainer();
-    bool readFileFromUri();
-    void saveMedia();
+    virtual bool readFileFromUri();
+    virtual void saveMedia();
 
     void readFromFile(QDataStream& data);
     void saveInto(QDataStream& out);
 
-    void putDataIntoCleverUri();
+    virtual void putDataIntoCleverUri();
 
     void setOwner(Player* player);
+
+
 
     void updateNoteToAll();
     void readFromMsg(NetworkMessageReader *msg);

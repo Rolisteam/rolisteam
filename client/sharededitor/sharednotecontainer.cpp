@@ -35,7 +35,7 @@ SharedNoteContainer::SharedNoteContainer()
     setCleverUriType(CleverURI::SHAREDNOTE);
     setWidget(m_edit);
     setWindowIcon(QIcon(":/notes.png"));
-    m_edit->displaySharingPanel();
+   // m_edit->displaySharingPanel();
     connect(m_edit,SIGNAL(windowTitleChanged(QString)),this,SLOT(setFileName(QString)));
 
 
@@ -81,9 +81,10 @@ void SharedNoteContainer::setFileName(QString str)
     }
 }
 
+
 bool SharedNoteContainer::readFileFromUri()
 {
-    if((NULL==m_uri)||(NULL==m_edit))
+    if((nullptr==m_uri)||(nullptr==m_edit))
     {
         return false;
     }
@@ -97,28 +98,63 @@ bool SharedNoteContainer::readFileFromUri()
     else
     {
         QString uri = m_uri->getUri();
-        return m_edit->loadFile(uri);
+        QFile file(uri);
+        if(!file.open(QIODevice::ReadOnly))
+        {
+            return false;
+        }
+        QTextStream in(&file);
+        return m_edit->loadFileAsText(in);
     }
     return false;
 }
 
 void SharedNoteContainer::saveMedia()
 {
-    if(NULL!=m_edit)
+    if(nullptr!=m_edit)
     {
-       //m_edit->fileSave();
-        QString uri = m_edit->windowTitle();
-        m_uri->setUri(uri);
+        if(nullptr!=m_uri)
+        {
+            QString filter = CleverURI::getFilterForType(m_uri->getType());
+            filter = filter.remove(0,filter.indexOf("(")+1);
+            filter = filter.remove(filter.indexOf(")"),1);
+            filter = filter.replace('*',' ');
+            QStringList list = filter.split(' ',QString::SkipEmptyParts);
+
+            bool hasEnd=false;
+            for(auto end : list)
+            {
+                qDebug() << end;
+                if(m_uri->getUri().endsWith(end))
+                {
+                    hasEnd = true;
+                }
+            }
+            if(!hasEnd)
+            {
+                QString str = m_uri->getUri()+".rsn";
+                m_uri->setUri(str);
+            }
+
+            QFile file(m_uri->getUri());
+            if (!file.open(QIODevice::WriteOnly))
+            {
+                return;
+            }
+            QTextStream out(&file);
+            m_edit->saveFileAsText(out);
+            file.close();
+        }
     }
 }
 void SharedNoteContainer::putDataIntoCleverUri()
 {
-    if(NULL!=m_edit)
+    if(nullptr!=m_edit)
     {
         QByteArray data;
         QDataStream out(&data,QIODevice::WriteOnly);
-        //m_edit->saveFileAsBinary(out);
-        if(NULL!=m_uri)
+        m_edit->saveFile(out);
+        if(nullptr!=m_uri)
         {
             m_uri->setData(data);
         }
@@ -126,9 +162,9 @@ void SharedNoteContainer::putDataIntoCleverUri()
 }
 void SharedNoteContainer::readFromFile(QDataStream& data)
 {
-    if(NULL!=m_edit)
+    if(nullptr!=m_edit)
     {
-        //m_edit->readFromBinary(data);
+        m_edit->loadFile(data);
         m_title = m_edit->windowTitle();
     }
 }
@@ -137,7 +173,7 @@ void SharedNoteContainer::saveInto(QDataStream &out)
 {
     if(NULL!=m_edit)
     {
-       // m_edit->saveFileAsBinary(out);
+        m_edit->saveFile(out);
     }
 }
 
