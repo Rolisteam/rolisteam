@@ -282,10 +282,11 @@ QMAKE_CXXFLAGS = "-std=c++11 -fstack-protector -W -Wall -Wextra -pedantic -Wstac
 
 
 ICON = ../resources/logo/rolisteam.icns
-RESOURCES += ../rolisteam.qrc
+
 # Version
 DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=9 VERSION_MINOR=0
 
+RESOURCES += $$PWD/../rolisteam.qrc
 
 UI_DIR = src
 
