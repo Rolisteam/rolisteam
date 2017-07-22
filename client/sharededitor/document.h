@@ -20,15 +20,14 @@
 #define DOCUMENT_H
 
 #include <QWidget>
-#include <QtNetwork>
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <QSettings>
+
+#include <QSyntaxHighlighter>
 #include "codeeditor.h"
 #include "participantspane.h"
 #include "enu.h"
 #include "findtoolbar.h"
 #include "network/networkmessagewriter.h"
+
 
 //#include "client.h"
 //#include "server.h"
@@ -49,11 +48,7 @@ public:
     // Hopefully we can do something with Bonjour so you can browse for local documents
     // but that's down the road.
     void displayParticipantPanel();
-
-    void connectToDocument(QStringList list);
-
     void setEditorFont(QFont font);
-    void setChatFont(QFont font);
     void setParticipantsFont(QFont font);
 
     void undo();
@@ -64,8 +59,6 @@ public:
 
     // shows/hides the participants pane
     void setParticipantsHidden(bool b);
-    // shows/hides the chat pane
-    void setChatHidden(bool b);
     // shifts the current line/selected lines left
     void shiftLeft();
     // shifts the current line/selected lines right
@@ -79,7 +72,7 @@ public:
 
     // Sets the highlighting style to the below Highlighter
     void setHighlighter(int Highlighter);
-    enum Highlighter {None, CPlusPlus, Python};
+    enum Highlighter {None, MarkDown};
 
     // returns if the editor is undable
     bool isUndoable();
@@ -112,8 +105,6 @@ public:
 
     void setOwnerName(QString name);
 
-    QString curFile;
-    QString myName;
 
     void setOwner(Player* player);
     bool canWrite(Player* player);
@@ -140,6 +131,7 @@ private:
     bool startedCollaborating;
     FindToolBar *findAllToolbar;
     ParticipantsPane* m_participantPane;
+    QSyntaxHighlighter* m_highlighter;
 };
 
 #endif // DOCUMENT_H
