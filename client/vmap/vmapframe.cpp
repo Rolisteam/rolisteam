@@ -222,7 +222,7 @@ bool VMapFrame::openMedia()
 }
 void VMapFrame::saveMedia()
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         if(nullptr!=m_uri)
         {
