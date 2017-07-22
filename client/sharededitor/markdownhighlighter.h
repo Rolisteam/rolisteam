@@ -20,18 +20,18 @@
 * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
 ***************************************************************************/
 
-#ifndef QMLJSHIGHLIGHTER_H
-#define QMLJSHIGHLIGHTER_H
+#ifndef MARKDOWNHIGHLIGHTER_H
+#define MARKDOWNHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
 #include <QRegularExpression>
 
-class QmlHighlighter : public QSyntaxHighlighter
+class MarkDownHighlighter : public QSyntaxHighlighter
 {
     Q_OBJECT
 
 public:
-    QmlHighlighter(QTextDocument *parent = 0);
+    MarkDownHighlighter(QTextDocument *parent = 0);
 
 protected:
     void highlightBlock(const QString &text);
@@ -44,12 +44,12 @@ private:
     };
     QVector<HighlightingRule> highlightingRules;
 
-    QTextCharFormat keywordFormat;
-    QTextCharFormat propertyFormat;
-    QTextCharFormat lookupFormat;
-    QTextCharFormat quotationFormat;
-    QTextCharFormat itemFormat;
-    QTextCharFormat cppObjectFormat;
-    QTextCharFormat commentFormat;
+
+    QTextCharFormat listFormat;
+    QTextCharFormat titleFormat;
+    QTextCharFormat lineReturnFormat;
+    QTextCharFormat boldFormat;
+    QTextCharFormat italicFormat;
+    QTextCharFormat quoteFormat;
 };
-#endif // QMLJSHIGHLIGHTER_H
+#endif // MARKDOWNHIGHLIGHTER_H

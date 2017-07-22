@@ -19,76 +19,55 @@
 * Free Software Foundation, Inc.,                                          *
 * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
 ***************************************************************************/
-#include "qmlhighlighter.h"
+#include "markdownhighlighter.h"
 
-QmlHighlighter::QmlHighlighter(QTextDocument *parent)
+MarkDownHighlighter::MarkDownHighlighter(QTextDocument *parent)
     : QSyntaxHighlighter(parent)
 {
     HighlightingRule rule;
-
-    keywordFormat.setForeground(Qt::blue);
-
-    QStringList keywordPatterns;
-    keywordPatterns << "\\sif\\s"
-                    << "\\selsif\\s"
-                    << "\\selse\\s"
-                    << "\\sreturn\\s"
-                    << "\\simport\\s"
-                    << "import\\s"
-                    << "\\ssignal\\s"
-                    << "\\sproperty\\s"
-                    << "\\sint\\s"
-                    << "\\salias\\s"
-                    << "\\sstring\\s"
-                    << "\\sreal\\s";
-    foreach (const QString &pattern, keywordPatterns)
-    {
-        rule.pattern = QRegularExpression(pattern);
-        rule.format = keywordFormat;
-        highlightingRules.append(rule);
-    }
-
-    propertyFormat.setForeground(Qt::darkRed);
-    rule.pattern = QRegularExpression("\\w+:");
-    rule.format = propertyFormat;
+    listFormat.setForeground(Qt::darkRed);
+    listFormat.setFontWeight(QFont::Bold);
+    rule.pattern = QRegularExpression("^\\d\\.");
+    rule.format = listFormat;
+    highlightingRules.append(rule);
+    rule.pattern = QRegularExpression("^\\* ");
+    rule.format = listFormat;
     highlightingRules.append(rule);
 
-    lookupFormat.setForeground(Qt::magenta);
+    quoteFormat.setBackground(Qt::darkGray);
+    quoteFormat.setForeground(Qt::white);
+    quoteFormat.setFontStyleHint(QFont::Monospace);
     //lookupFormat.setBackground(Qt::black);
-    rule.pattern = QRegularExpression("\\s\\d+\\s");
-    rule.format = lookupFormat;
+    rule.pattern = QRegularExpression("```.*```");
+    rule.format = quoteFormat;
     highlightingRules.append(rule);
 
-    quotationFormat.setForeground(Qt::darkGreen);
-    rule.pattern = QRegularExpression("\".*\"");
-    rule.format = quotationFormat;
-    highlightingRules.append(rule);
-    rule.pattern = QRegularExpression("'.*'");
-    rule.format = quotationFormat;
+    titleFormat.setForeground(Qt::darkGreen);
+    listFormat.setFontWeight(QFont::Bold);
+    rule.pattern = QRegularExpression("^#+.*");
+    rule.format = titleFormat;
     highlightingRules.append(rule);
 
-    itemFormat.setForeground(QColor(Qt::red));
+    boldFormat.setFontWeight(QFont::Bold);
+    rule.pattern = QRegularExpression("\\*\\*\\*.*\\*\\*\\*");
+    rule.format = boldFormat;
+    highlightingRules.append(rule);
+
+    lineReturnFormat.setBackground(QColor(Qt::yellow));
     //itemFormat.setFontWeight(QFont::Bold);
-    rule.pattern =  QRegularExpression("[A-Z]\\w+ ");
-    rule.format = itemFormat;
+    rule.pattern =  QRegularExpression("  \n");
+    rule.format = lineReturnFormat;
     highlightingRules.append(rule);
 
-    cppObjectFormat.setForeground(QColor(Qt::blue).lighter());
-    cppObjectFormat.setFontItalic(true);
-    rule.pattern =  QRegularExpression("_[A-Z]\\w+");
-    rule.format = cppObjectFormat;
+    italicFormat.setFontItalic(true);
+    rule.pattern =  QRegularExpression("\\*.*\\*");
+    rule.format = italicFormat;
     highlightingRules.append(rule);
 
-
-    commentFormat.setForeground(QColor(Qt::green).lighter());
-    commentFormat.setFontItalic(true);
-    rule.pattern =  QRegularExpression("\/\/.*");
-    rule.format = commentFormat;
-    highlightingRules.append(rule);
 
 }
 
-void QmlHighlighter::highlightBlock(const QString &text)
+void MarkDownHighlighter::highlightBlock(const QString &text)
 {
     foreach(const HighlightingRule &rule, highlightingRules)
     {
