@@ -46,15 +46,15 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>321</width>
-                 <height>705</height>
+                 <width>322</width>
+                 <height>699</height>
                 </rect>
                </property>
               </widget>
              </widget>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_4">
+             <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0">
               <item>
                <widget class="QToolButton" name="m_addTextInput">
                 <property name="sizePolicy">
@@ -235,8 +235,15 @@
                 <property name="text">
                  <string>Function btn</string>
                 </property>
+                <property name="icon">
+                 <iconset resource="qmlfile.qrc">
+                  <normaloff>:/resources/icons/function.png</normaloff>:/resources/icons/function.png</iconset>
+                </property>
                 <property name="checkable">
                  <bool>true</bool>
+                </property>
+                <property name="toolButtonStyle">
+                 <enum>Qt::ToolButtonTextBesideIcon</enum>
                 </property>
                 <property name="autoRaise">
                  <bool>true</bool>
@@ -270,14 +277,14 @@
                </widget>
               </item>
               <item>
-               <spacer name="verticalSpacer_4">
+               <spacer name="verticalSpacer_6">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
-                  <height>40</height>
+                  <height>200</height>
                  </size>
                 </property>
                </spacer>
@@ -351,19 +358,6 @@
                  <string notr="true">buttonGroup</string>
                 </attribute>
                </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
               </item>
               <item>
                <widget class="QComboBox" name="m_selectPageCb"/>
@@ -504,7 +498,7 @@
      <x>0</x>
      <y>0</y>
      <width>1069</width>
-     <height>19</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -535,6 +529,8 @@
     <addaction name="separator"/>
     <addaction name="m_resetIdAct"/>
     <addaction name="m_sheetProperties"/>
+    <addaction name="separator"/>
+    <addaction name="m_showItemIcon"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -749,8 +745,26 @@
    </property>
   </action>
   <action name="m_functionButtonAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/function.png</normaloff>:/resources/icons/function.png</iconset>
+   </property>
    <property name="text">
     <string>Function Button</string>
+   </property>
+  </action>
+  <action name="m_showItemIcon">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide/Show icon in Editor</string>
    </property>
   </action>
  </widget>

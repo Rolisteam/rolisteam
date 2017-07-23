@@ -37,6 +37,7 @@
 #include "pdfmanager.h"
 #include "sheetproperties.h"
 #include "preferencesmanager.h"
+#include "imagemodel.h"
 
 namespace Ui {
 class MainWindow;
@@ -102,13 +103,15 @@ protected:
     void managePDFImport();
 protected slots:
     void columnAdded();
+    void alignOn();
     void clearData();
     void showPreferences();
 
 private slots:
     void codeChanged();
 //private:
-   // QString getFilePath(QString);
+    // QString getFilePath(QString);
+    void sameGeometry();
 private:
     Ui::MainWindow *ui;
     QList<Canvas*> m_canvasList;
@@ -127,6 +130,8 @@ private:
     QString m_pdfPath;
     PdfManager* m_pdf;
 
+    ImageModel* m_imageModel;
+
     //Action Character
     QAction* m_addCharacter;
     QAction* m_deleteCharacter;
@@ -144,6 +149,12 @@ private:
 
     //action view
     QAction* m_fitInView;
+    QAction* m_alignOnY;
+    QAction* m_alignOnX;
+    QAction* m_sameWidth;
+    QAction* m_sameHeight;
+    QAction* m_dupplicate;
+    QPoint m_posMenu;
 
 
     PreferencesManager* m_preferences;

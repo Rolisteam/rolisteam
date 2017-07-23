@@ -50,6 +50,7 @@
 #include "borderlisteditor.h"
 #include "qmlhighlighter.h"
 #include "aboutrcse.h"
+#include "preferencesdialog.h"
 
 // Delegates
 #include "delegate/alignmentdelegate.h"
@@ -73,6 +74,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_qmlGeneration =true;
     setAcceptDrops(true);
     ui->setupUi(this);
+
+    //ui->m_imageList
 
     m_additionnalCode = "";
     m_fixedScaleSheet = 1.0;
@@ -102,14 +105,49 @@ MainWindow::MainWindow(QWidget *parent) :
     m_view = new QGraphicsView(this);
     m_view->setContextMenuPolicy(Qt::CustomContextMenu);
 
+    //////////////////////////////////////
+    // QAction for view
+    //////////////////////////////////////
     m_fitInView = new QAction(tr("Fit the view"),m_view);
     m_fitInView->setCheckable(true);
+
+    m_alignOnY = new QAction(tr("Align on Y"),m_view);
+    m_alignOnX = new QAction(tr("Align on X"),m_view);
+    m_sameWidth= new QAction(tr("Same Width"),m_view);
+    m_sameHeight = new QAction(tr("Same Height"),m_view);
+    m_dupplicate = new QAction(tr("Dupplicate"),m_view);
+
     connect(m_fitInView,SIGNAL(triggered(bool)),this,SLOT(setFitInView()));
+    connect(m_alignOnY,SIGNAL(triggered(bool)),this,SLOT(alignOn()));
+    connect(m_alignOnX,SIGNAL(triggered(bool)),this,SLOT(alignOn()));
+    connect(m_sameWidth,SIGNAL(triggered(bool)),this,SLOT(sameGeometry()));
+    connect(m_sameHeight,SIGNAL(triggered(bool)),this,SLOT(sameGeometry()));
+
+
     m_view->installEventFilter(this);
     m_view->setAcceptDrops(true);
     m_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-    //m_view->setViewport(new QOpenGLWidget());
     m_view->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
+
+    //////////////////////////////////////
+    // end of QAction for view
+    //////////////////////////////////////
+
+
+
+    connect(ui->m_showItemIcon,&QAction::triggered,[=](bool triggered)
+    {
+       CanvasField::setShowImageField(triggered);
+       QList<QRectF> list;
+       list << m_view->sceneRect();
+       m_view->updateScene(list);
+    });
+
+
+
+
+
+    //m_view->setViewport(new QOpenGLWidget());
 
     connect(ui->m_backgroundImageAct,SIGNAL(triggered(bool)),this,SLOT(openImage()));
     connect(m_view, SIGNAL(customContextMenuRequested(QPoint)),this, SLOT(menuRequestedFromView(QPoint)));
@@ -185,6 +223,18 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_addImageAction,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_functionButtonAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
 
+    connect(ui->m_moveAct,&QAction::triggered,[=](bool triggered){
+        if(triggered)
+        {
+            m_view->setDragMode(QGraphicsView::RubberBandDrag);
+        }
+        else
+        {
+            m_view->setDragMode(QGraphicsView::NoDrag);
+        }
+
+    });
+
 
     connect(ui->m_moveAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_deleteAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
@@ -252,6 +302,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_onlineHelpAct, SIGNAL(triggered()), this, SLOT(helpOnLine()));
 
 
+    m_imageModel = new ImageModel();
+    ui->m_imageList->setModel(m_imageModel);
+
+
     readSettings();
 }
 MainWindow::~MainWindow()
@@ -298,6 +352,7 @@ void MainWindow::clearData()
     m_view->setScene(canvas);
 
     m_pixList.clear();
+    m_imageModel->clear();
 
     m_model->clearModel();
     m_imgProvider->cleanData();
@@ -437,6 +492,7 @@ void MainWindow::openPDF()
     {
         qreal res = m_pdf->getDpi();
         m_pixList.clear();
+        m_imageModel->clear();
         QString id = QUuid::createUuid().toString();
         static int lastCanvas=m_canvasList.size()-1;
 
@@ -496,6 +552,7 @@ void MainWindow::openPDF()
                         canvas->setPixmap(pix);
                         QString key = QStringLiteral("%2_background_%1.jpg").arg(lastCanvas+i).arg(id);
                         m_pixList.insert(key,pix);
+                        m_imageModel->insertImage(pix,key,QString("From PDF"));
 
                         m_imgProvider->insertPix(key,*pix);
                     }
@@ -544,6 +601,7 @@ void MainWindow::openImage()
                 QString id = QUuid::createUuid().toString();
                 QString key = QStringLiteral("%2_background_%1.jpg").arg(m_currentPage).arg(id);
                 m_pixList.insert(key,pix);
+                m_imageModel->insertImage(pix,key,img);
                 m_imgProvider->insertPix(key,*pix);
                 //setFitInView(); //m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
             }
@@ -551,6 +609,76 @@ void MainWindow::openImage()
     }
 
 }
+
+void MainWindow::sameGeometry()
+{
+    auto action = qobject_cast<QAction*>(sender());
+    bool width = false;
+    if(m_sameWidth == action)
+    {
+        width = true;
+    }
+    QList<QGraphicsItem*> items = m_view->scene()->selectedItems();
+    QGraphicsItem* reference = m_view->itemAt(m_posMenu);
+    if(nullptr != reference)
+    {
+        qreal value = reference->boundingRect().height();
+        if(width)
+        {
+            value = reference->boundingRect().width();
+        }
+
+
+        for(auto item : items)
+        {
+            auto field = dynamic_cast<CanvasField*>(item);
+            if(width)
+            {
+                field->setWidth(value);
+            }
+            else
+            {
+                field->setHeight(value);
+            }
+        }
+    }
+}
+
+void MainWindow::alignOn()
+{
+    auto action = qobject_cast<QAction*>(sender());
+    bool onX = false;
+    if(m_alignOnX == action)
+    {
+        onX = true;
+    }
+
+    QList<QGraphicsItem*> items = m_view->scene()->selectedItems();
+    QGraphicsItem* reference = m_view->itemAt(m_posMenu);
+    if(nullptr != reference)
+    {
+        qreal value = reference->pos().y();
+        if(onX)
+        {
+            value = reference->pos().x();
+        }
+
+
+        for(auto item : items)
+        {
+            if(onX)
+            {
+                item->setPos(value,item->pos().y());
+            }
+            else
+            {
+                item->setPos(item->pos().x(),value);
+
+            }
+        }
+    }
+}
+
 void MainWindow::setFitInView()
 {
     if(m_fitInView->isChecked())
@@ -564,7 +692,6 @@ void MainWindow::setFitInView()
         m_view->fitInView(QRectF(m_view->rect()));
     }
 }
-#include "preferencesdialog.h"
 void MainWindow::showPreferences()
 {
     PreferencesDialog dialog;
@@ -585,7 +712,16 @@ void MainWindow::menuRequestedFromView(const QPoint & pos)
     QMenu menu(this);
 
     menu.addAction(m_fitInView);
+    menu.addSeparator();
+    menu.addAction(m_alignOnX);
+    menu.addAction(m_alignOnY);
+    menu.addAction(m_sameWidth);
+    menu.addAction(m_sameHeight);
+    menu.addSeparator();
+    menu.addAction(m_dupplicate);
+    qDebug() << pos << QCursor::pos();
 
+    m_posMenu = pos;
     menu.exec(QCursor::pos());
 }
 void MainWindow::menuRequested(const QPoint & pos)
@@ -702,6 +838,7 @@ void MainWindow::setImage()
 {
     int i = 0;
     m_pixList.clear();
+    m_imageModel->clear();
     QString id = QUuid::createUuid().toString();//one id for all images.
     QSize previous;
     bool issue = false;
@@ -725,6 +862,7 @@ void MainWindow::setImage()
         QString idList = QStringLiteral("%2_background_%1.jpg").arg(i).arg(id);
         m_imgProvider->insertPix(idList,*pix);
         m_pixList.insert(idList,pix);
+        m_imageModel->insertImage(pix,idList,"from canvas");
         ++i;
     }
     if(issue)
@@ -890,6 +1028,7 @@ void MainWindow::open()
                         m_canvasList[0]->setPixmap(pix);
                     }
                     m_pixList.insert(id,pix);
+                    m_imageModel->insertImage(pix,id,"from rcs file");
                     //m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(i).arg(id),*pix);
                     m_imgProvider->insertPix(id,*pix);
                     ++i;
