@@ -26,5 +26,7 @@
         <file>translations/rcse_hu_HU.qm</file>
         <file>translations/rcse_pt_BR.qm</file>
         <file>translations/rcse_tr.qm</file>
+        <file>resources/icons/dark_tool_rect_selection.svg</file>
+        <file>resources/icons/function.png</file>
     </qresource>
 </RCC>
