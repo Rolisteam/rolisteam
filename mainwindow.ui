@@ -22,7 +22,7 @@
     <item>
      <widget class="QTabWidget" name="m_tabWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="editor">
        <attribute name="title">
@@ -47,7 +47,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>321</width>
-                 <height>699</height>
+                 <height>705</height>
                 </rect>
                </property>
               </widget>
@@ -207,7 +207,7 @@
                  </sizepolicy>
                 </property>
                 <property name="text">
-                 <string>Button</string>
+                 <string>Dice Button</string>
                 </property>
                 <property name="icon">
                  <iconset resource="qmlfile.qrc">
@@ -228,6 +228,22 @@
                 <property name="autoRaise">
                  <bool>true</bool>
                 </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="m_functionBtn">
+                <property name="text">
+                 <string>Function btn</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup</string>
+                </attribute>
                </widget>
               </item>
               <item>
@@ -252,6 +268,19 @@
                  <bool>true</bool>
                 </property>
                </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
               <item>
                <widget class="QToolButton" name="m_moveBtn">
@@ -475,7 +504,7 @@
      <x>0</x>
      <y>0</y>
      <width>1069</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -505,6 +534,7 @@
     <addaction name="m_backgroundImageAct"/>
     <addaction name="separator"/>
     <addaction name="m_resetIdAct"/>
+    <addaction name="m_sheetProperties"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -708,6 +738,19 @@
    </property>
    <property name="visible">
     <bool>false</bool>
+   </property>
+  </action>
+  <action name="m_sheetProperties">
+   <property name="text">
+    <string>Sheet Properties…</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="m_functionButtonAct">
+   <property name="text">
+    <string>Function Button</string>
    </property>
   </action>
  </widget>
