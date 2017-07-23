@@ -13,6 +13,8 @@ QHash<int,QString> CanvasField::m_pictureMap({{Field::TEXTINPUT, ":/resources/ic
                                               {Field::IMAGE,":/resources/icons/photo.png"},
                                               {Field::BUTTON,""}});
 
+bool CanvasField::m_showImageField = true;
+
 CanvasField::CanvasField(Field* field)
     : m_field(field)
 {
@@ -45,14 +47,33 @@ QPainterPath CanvasField::shape() const
     path.closeSubpath();
     return path;
 }
+#include <QStyleOptionGraphicsItem>
 void CanvasField::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     if(NULL==m_field)
         return;
     painter->save();
+
+
+
     painter->fillRect(m_rect,m_field->bgColor());
+
+
     painter->setPen(Qt::black);
     painter->drawRect(m_rect);
+
+
+    if(option->state & QStyle::State_Selected )
+    {
+        painter->save();
+        QPen pen = painter->pen();
+        pen.setColor(Qt::red);
+        pen.setWidth(5);
+        painter->setPen(pen);
+        painter->drawRect(m_rect);
+        painter->restore();
+    }
+
     int flags =0;
     Field::TextAlign align = m_field->getTextAlignValue();
     if(align <3)
@@ -90,7 +111,7 @@ void CanvasField::paint ( QPainter * painter, const QStyleOptionGraphicsItem * o
             m_currentType = m_field->getCurrentType();
         }
     }
-    if(!m_pix.isNull())
+    if((!m_pix.isNull())&& m_showImageField )
     {
         painter->drawPixmap(m_rect.center()-m_pix.rect().center(),m_pix,m_pix.rect());
     }
@@ -116,4 +137,14 @@ void CanvasField::setHeight(qreal h)
         emit heightChanged();
         update();
     }
+}
+
+bool CanvasField::getShowImageField()
+{
+    return m_showImageField;
+}
+
+void CanvasField::setShowImageField(bool showImageField)
+{
+    m_showImageField = showImageField;
 }

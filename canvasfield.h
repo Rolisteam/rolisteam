@@ -25,6 +25,9 @@ public:
     void setWidth(qreal w);
     void setHeight(qreal h);
 
+    static bool getShowImageField();
+    static void setShowImageField(bool showImageField);
+
 signals:
     void widthChanged();
     void heightChanged();
@@ -33,6 +36,7 @@ private:
     Field* m_field;
     QRectF m_rect;
     static QHash<int,QString> m_pictureMap;
+    static bool m_showImageField;
     QPixmap m_pix;
     int m_currentType;
 };
