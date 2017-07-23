@@ -53,9 +53,6 @@ public:
     explicit Field(QPointF topleft,QGraphicsItem* parent = 0);
     virtual ~Field();
 
-
-    //void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
-
     QSize size() const;
     void setSize(const QSize &size);
 
