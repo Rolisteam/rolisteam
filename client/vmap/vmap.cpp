@@ -1670,7 +1670,7 @@ VMap::VisibilityMode VMap::getVisibilityMode()
 }
 void VMap::setOption(VisualItem::Properties pop,QVariant value)
 {
-    if(NULL!=m_propertiesHash)
+    if(nullptr!=m_propertiesHash)
     {
         if(getOption(pop)!=value)
         {
