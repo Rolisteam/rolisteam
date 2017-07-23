@@ -60,7 +60,7 @@ void Canvas::dropEvent ( QGraphicsSceneDragDropEvent * event )
             if(url.isLocalFile())
             {
                 m_pix = new QPixmap(url.toLocalFile());
-                if(NULL==m_bg)
+                if(nullptr==m_bg)
                 {
                     m_bg = addPixmap(*m_pix);
                     m_bg->setFlag(QGraphicsItem::ItemIsSelectable,false);
@@ -84,10 +84,10 @@ void Canvas::dropEvent ( QGraphicsSceneDragDropEvent * event )
 void Canvas::setCurrentTool(Canvas::Tool tool)
 {
     m_currentTool = tool;
-    if(NULL!=m_currentItem)
+    if(nullptr!=m_currentItem)
     {
        // deleteItem(m_currentItem);
-        m_currentItem=NULL;
+        m_currentItem=nullptr;
     }
 }
 void Canvas::deleteItem(QGraphicsItem* item)
@@ -101,7 +101,7 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 
     if(mouseEvent->button() == Qt::LeftButton)
     {
-        if(m_currentTool==Canvas::MOVE)
+        if(forwardEvent())
         {
                 QGraphicsScene::mousePressEvent(mouseEvent);
         }
@@ -164,7 +164,7 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 void Canvas::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
 
-    if(m_currentTool==Canvas::MOVE)
+    if(forwardEvent())
     {
         QGraphicsScene::mouseMoveEvent(mouseEvent);
     }
@@ -174,11 +174,21 @@ void Canvas::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         update();
     }
 }
+bool Canvas::forwardEvent()
+{
+    if(Canvas::MOVE == m_currentTool)
+    {
+        return true;
+    }
+    else
+        return false;
+}
+
 void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     Q_UNUSED(mouseEvent);
 
-    if(m_currentTool==Canvas::MOVE)
+    if(forwardEvent())
     {      
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
     }

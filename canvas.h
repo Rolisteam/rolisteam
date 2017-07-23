@@ -58,6 +58,10 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
+
+
+private:
+    bool forwardEvent();
 private:
     QGraphicsPixmapItem* m_bg;
     CSItem* m_currentItem;
