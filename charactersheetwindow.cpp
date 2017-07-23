@@ -182,6 +182,8 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint & pos)
         QMenu* affect = menu.addMenu(tr("Share To "));
         addSharingMenu(affect);
     }
+
+    addActionToMenu(menu);
     menu.exec(QCursor::pos());
 }
 void CharacterSheetWindow::addSharingMenu(QMenu* share)
@@ -214,6 +216,7 @@ void CharacterSheetWindow::contextMenuForTabs(const QPoint& pos)
         menu.addAction(m_stopSharingTabAct);
         menu.addSeparator();
         addSharingMenu(share);
+        addActionToMenu(menu);
 
         menu.exec(QCursor::pos());
     }
