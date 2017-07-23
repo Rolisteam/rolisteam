@@ -8,7 +8,7 @@ Rectangle {
 
     property string text : ""
     property color textColor: "black"
-    property alias style: checkbox.style
+   // property alias style: checkbox.style
     property int hAlign: 0
     property int vAlign: 0
     property bool clippedText: false
