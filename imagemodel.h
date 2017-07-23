@@ -2,12 +2,14 @@
 #define IMAGEMODEL_H
 
 #include <QAbstractTableModel>
+#include <QPixmap>
 
 class ImageModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
+    enum Headers {Thumbnails,Key,Filename,User};
     explicit ImageModel(QObject *parent = nullptr);
 
     // Header:
@@ -19,7 +21,17 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    QList<QPixmap>* imageData() const;
+    void setImageData(QList<QPixmap>* imageData);
+
+    void insertImage(QPixmap*,QString,QString);
+
+    void clear();
 private:
+    QList<QPixmap>* m_imageData;
+    QStringList m_keyList;
+    QStringList m_filename;
+    QStringList m_column;
 };
 
 #endif // IMAGEMODEL_H
