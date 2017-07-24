@@ -109,8 +109,7 @@ SightItem::~SightItem()
 }
 QRectF  SightItem::boundingRect() const
 {
-
-    if(NULL!=scene())
+    if(nullptr!=scene())
     {
         QList<QGraphicsView*> list = scene()->views();
         if(!list.isEmpty())
@@ -118,13 +117,12 @@ QRectF  SightItem::boundingRect() const
             QGraphicsView* view = list.at(0);
 
             QPointF A = view->mapToScene( QPoint(0,0) );
-            QPointF B = view->mapToScene( QPoint(
-                                              view->viewport()->width(),
-                                              view->viewport()->height() ));
+            QPointF B = view->mapToScene( QPoint(view->viewport()->width(),view->viewport()->height()));
 
-            return QRectF( A, B );
-
+            qDebug() << "bounding rect" << A << B << mapFromScene(A) << mapFromScene(B);
+            return QRectF( mapFromScene(A), mapFromScene(B) );
         }
+        qDebug() << "bounding rect" << scene()->sceneRect();
         return scene()->sceneRect();
     }
     else

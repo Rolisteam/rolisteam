@@ -259,6 +259,8 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     //Messaging
     connect(ui->m_showTimeCheckBox,SIGNAL(clicked(bool)),this,SLOT(manageMessagingPref()));
     connect(ui->m_timeColorBtn,SIGNAL(clicked(bool)),this,SLOT(manageMessagingPref()));
+    connect(ui->m_maxLenghtCommand,SIGNAL(valueChanged(int)),this,SLOT(manageMessagingPref()));
+    connect(ui->m_hideLongCommand,SIGNAL(toggled(bool)),this,SLOT(manageMessagingPref()));
 
 
     // background
@@ -298,6 +300,8 @@ void PreferencesDialog::manageMessagingPref()
 {
     m_preferences->registerValue("MessagingShowTime",ui->m_showTimeCheckBox->isChecked());
     m_preferences->registerValue("MessagingColorTime",ui->m_timeColorBtn->color());
+    m_preferences->registerValue("maxSizeForCuttingDiceCmd",ui->m_maxLenghtCommand->value());
+    m_preferences->registerValue("hideLongCommand",ui->m_hideLongCommand->isChecked());
 }
 
 void PreferencesDialog::updateUi(bool isGM)
@@ -339,6 +343,8 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("Mask_color", ui->m_fogColor->color());
     m_preferences->registerValue("PictureAdjust",ui->m_pictureAdjust->isChecked());
     m_preferences->registerValue("FullScreenAtStarting",ui->m_fullScreenCheckbox->isChecked());
+    m_preferences->registerValue("maxSizeForCuttingDiceCmd",ui->m_maxLenghtCommand->value());
+    m_preferences->registerValue("hideLongCommand",ui->m_hideLongCommand->isChecked());
 
     //theme
     m_preferences->registerValue("currentTheme", ui->m_themeComboBox->currentText());
@@ -415,6 +421,9 @@ void PreferencesDialog::load()
     ui->m_opacitySpin->setValue(m_preferences->value("Fog_opacity",fog.red()).toInt());
     ui->m_fogColor->setColor(m_preferences->value("Mask_color",QColor(Qt::darkMagenta)).value<QColor>());
     ui->m_fullScreenCheckbox->setChecked(m_preferences->value("FullScreenAtStarting",true).toBool());
+    ui->m_maxLenghtCommand->setValue(m_preferences->value("maxSizeForCuttingDiceCmd",100).toInt());
+    ui->m_hideLongCommand->setChecked(m_preferences->value("hideLongCommand",false).toBool());
+
 
     //Default Permission
     ui->m_defaultMapModeCombo->setCurrentIndex(m_preferences->value("defaultPermissionMap",0).toInt());
