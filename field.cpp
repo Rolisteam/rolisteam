@@ -494,13 +494,13 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         }
         out << "    id: _"<<m_id<< "\n";
 
-        if(m_currentType==Field::BUTTON)
+        if((m_currentType==Field::BUTTON)||(m_currentType==Field::FUNCBUTTON))
         {
             out << "    text: "<<m_id<<".label\n";
         }
         else if(m_currentType!=Field::FUNCBUTTON)
         {
-            out << "    text: "<<m_id << ".label\n";
+            out << "    text: "<<m_id << ".value\n";
         }
         out << "    textColor:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
         out << "    x:" << m_canvasField->pos().x() << "*parent.realscale"<<"\n";
