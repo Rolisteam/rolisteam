@@ -156,7 +156,7 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             }
         }
     }
-    else if(mouseEvent->button()==Qt::RightButton)
+    else
     {
         QGraphicsScene::mousePressEvent(mouseEvent);
     }
