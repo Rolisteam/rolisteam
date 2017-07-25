@@ -165,6 +165,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_functionButtonAct->setData(Canvas::ADDFUNCBUTTON);
 
     ui->m_moveAct->setData(Canvas::MOVE);
+    ui->m_moveAct->setShortcut(QKeySequence(Qt::Key_Escape));
+    ui->m_moveAct->setChecked(true);
     ui->m_deleteAct->setData(Canvas::DELETETOOL);
     ui->m_addButtonAct->setData(Canvas::BUTTON);
 
@@ -754,7 +756,7 @@ void MainWindow::menuRequested(const QPoint & pos)
             CharacterSheet* sheet = m_characterModel->getCharacterSheet(index.column()-1);
             sheet->setName(name);
         }
-    }
+    }/// @todo these functions
     else if(act == m_applyValueOnSelectedCharacterLines)
     {
 
