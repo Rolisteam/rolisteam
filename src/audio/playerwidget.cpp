@@ -465,6 +465,7 @@ void PlayerWidget::removeAll()
 }
 void PlayerWidget::playSong(quint64 pos)
 {
+    setPositionAt(pos);
     m_player.play();
 }
 
