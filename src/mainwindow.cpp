@@ -736,7 +736,7 @@ QString MainWindow::getShortNameFromPath(QString path)
     return info.baseName();
 }
 
-void MainWindow::saveAsStory()
+bool MainWindow::saveAsStory(bool saveIt)
 {
     // open file
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Scenario as"), m_preferences->value("SessionDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
@@ -748,34 +748,42 @@ void MainWindow::saveAsStory()
             fileName.append(QStringLiteral(".sce"));
         }
         m_currentStory = new  CleverURI(getShortNameFromPath(fileName),fileName,CleverURI::SCENARIO);
-        saveStory();
+        if(saveIt)
+        {
+            saveStory();
+        }
     }
 }
 bool MainWindow::saveStory()
 {
+    bool hasUri = false;
     if(nullptr == m_currentStory)
     {
-        saveAsStory();
+        hasUri = saveAsStory(false);
     }
-    QFileInfo info(m_currentStory->getUri());
-
-    m_preferences->registerValue("SessionDirectory",info.absolutePath());
-
-    QFile file(m_currentStory->getUri());
-    if (!file.open(QIODevice::WriteOnly))
+    if((hasUri)&&(nullptr!=m_currentStory))
     {
-        notifyUser(tr("%1 cannot be opened (saveStory - MainWindow.cpp)").arg(m_currentStory->getUri()));
-        return false;
+        QFileInfo info(m_currentStory->getUri());
+
+        m_preferences->registerValue("SessionDirectory",info.absolutePath());
+
+        QFile file(m_currentStory->getUri());
+        if (!file.open(QIODevice::WriteOnly))
+        {
+            notifyUser(tr("%1 cannot be opened (saveStory - MainWindow.cpp)").arg(m_currentStory->getUri()));
+            return false;
+        }
+
+        saveAllMediaContainer();
+
+        QDataStream out(&file);
+        m_sessionManager->saveSession(out);
+        file.close();
+        m_sessionManager->setSessionName(m_currentStory->getData(ResourcesNode::NAME).toString());
+        updateWindowTitle();
+        return true;
     }
-
-    saveAllMediaContainer();
-
-    QDataStream out(&file);
-    m_sessionManager->saveSession(out);
-    file.close();
-    m_sessionManager->setSessionName(m_currentStory->getData(ResourcesNode::NAME).toString());
-    updateWindowTitle();
-    return true;
+    return hasUri;
 }
 ////////////////////////////////////////////////////
 // Save data

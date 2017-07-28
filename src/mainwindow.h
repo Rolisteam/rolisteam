@@ -477,7 +477,7 @@ private slots :
     /**
      * @brief saveAsStory asks filename to save current story into.
      */
-    void saveAsStory();
+    bool saveAsStory(bool saveIt=true);
     /**
      * @brief saveMinutes saves notes into file.
      * @return
