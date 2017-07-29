@@ -28,3 +28,5 @@ TRANSLATIONS =  ../translations/roliserver_fr.ts \
 
 # Version
 DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=9 VERSION_MINOR=0
+INSTALLS += target
+target.path = $$PREFIX/
