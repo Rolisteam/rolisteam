@@ -108,6 +108,7 @@
         <file alias="resources/qml/main.qml">client/charactersheet/qml/main.qml</file>
         <file alias="resources/qml/DiceButton.qml">client/charactersheet/qml/DiceButton.qml</file>
         <file alias="resources/qml/CheckBoxField.qml">client/charactersheet/qml/CheckBoxField.qml</file>
+        <file>resources/icons/liberapay.png</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>
