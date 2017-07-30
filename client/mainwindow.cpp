@@ -464,6 +464,18 @@ void MainWindow::linkActionToMenu()
     // Help
     connect(m_ui->m_aboutAction, SIGNAL(triggered()), this, SLOT(aboutRolisteam()));
     connect(m_ui->m_onlineHelpAction, SIGNAL(triggered()), this, SLOT(helpOnLine()));
+    connect(m_ui->m_supportRolisteam,&QAction::triggered,[=]{
+        if (!QDesktopServices::openUrl(QUrl("https://liberapay.com/Rolisteam/donate")))
+        {
+            QMessageBox * msgBox = new QMessageBox(
+                        QMessageBox::Information,
+                        tr("Support"),
+                        tr("The %1 donation page can be found online at :<br> <a href=\"https://liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>").arg(m_preferences->value("Application_Name","rolisteam").toString()),
+                        QMessageBox::Ok
+                        );
+            msgBox->exec();
+        }
+    });
 
 
     //Note Editor
@@ -1394,7 +1406,7 @@ void MainWindow::initializedClientManager()
     if(nullptr == m_clientManager)
     {
         m_clientManager = new ClientManager(m_currentConnectionProfile);
-       // connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
+        connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
         connect(m_clientManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
         connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
         connect(m_clientManager,SIGNAL(errorOccur(QString)),m_dialog,SLOT(errorOccurs(QString)));
@@ -1410,7 +1422,7 @@ void MainWindow::initializedClientManager()
         {
             m_playerList->completeListClean();
             m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
-            m_clientManager->startConnection();
+            //m_clientManager->startConnection();
         }
     }
 }

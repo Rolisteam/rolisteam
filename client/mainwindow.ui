@@ -122,6 +122,7 @@
     </property>
     <addaction name="m_onlineHelpAction"/>
     <addaction name="separator"/>
+    <addaction name="m_supportRolisteam"/>
     <addaction name="m_aboutAction"/>
    </widget>
    <widget class="QMenu" name="m_gmToolBoxMenu">
@@ -569,8 +570,18 @@
     <string>Ctrl+L</string>
    </property>
   </action>
+  <action name="m_supportRolisteam">
+   <property name="icon">
+    <iconset resource="../rolisteam.qrc">
+     <normaloff>:/resources/icons/liberapay.png</normaloff>:/resources/icons/liberapay.png</iconset>
+   </property>
+   <property name="text">
+    <string>Support Rolisteam</string>
+   </property>
+  </action>
  </widget>
  <resources>
+  <include location="../rolisteam.qrc"/>
   <include location="../rolisteam.qrc"/>
  </resources>
  <connections>
