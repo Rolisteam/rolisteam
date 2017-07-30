@@ -51,10 +51,7 @@ void NetworkMessage::sendTo(NetworkLink * link)
     NetworkMessageHeader * header = buffer();
     #ifndef UNIT_TEST
     link->sendData((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
-    //link->sendDataSlot((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
-    //link->sendDataSlot((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
     #endif
-   // QMetaObject::invokeMethod(link,"sendData",Qt::QueuedConnection,Q_ARG(NetworkMessage*,this));
 }
 
 void NetworkMessage::sendAll(NetworkLink * butLink)
