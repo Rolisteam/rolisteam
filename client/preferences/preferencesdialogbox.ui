@@ -27,7 +27,7 @@
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>Color</string>
+          <string>Map</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
@@ -103,6 +103,9 @@
             <property name="text">
              <string>Check for Update</string>
             </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item>
@@ -171,6 +174,9 @@
            <widget class="QCheckBox" name="m_pictureAdjust">
             <property name="text">
              <string>Pictures fit their Windows (at the opening)</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -251,6 +257,50 @@
              <widget class="ColorButton" name="m_timeColorBtn">
               <property name="text">
                <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_19">
+            <item>
+             <widget class="QCheckBox" name="m_hideLongCommand">
+              <property name="text">
+               <string>Hide Long commands</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_9">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_25">
+              <property name="text">
+               <string>Maximum Lenght :</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="m_maxLenghtCommand">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="maximum">
+               <number>10000</number>
+              </property>
+              <property name="value">
+               <number>100</number>
               </property>
              </widget>
             </item>
@@ -1078,6 +1128,7 @@
  </customwidgets>
  <resources>
   <include location="../../rolisteam.qrc"/>
+  <include location="../../rolisteam.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -1109,6 +1160,22 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_hideLongCommand</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_maxLenghtCommand</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>116</x>
+     <y>520</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>432</x>
+     <y>523</y>
     </hint>
    </hints>
   </connection>

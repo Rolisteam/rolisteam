@@ -40,7 +40,9 @@ private:
     struct HighlightingRule
     {
         QRegularExpression pattern;
+        QRegularExpression pattern2;
         QTextCharFormat format;
+        bool isMultiline=false;
     };
     QVector<HighlightingRule> highlightingRules;
 
@@ -50,6 +52,11 @@ private:
     QTextCharFormat lineReturnFormat;
     QTextCharFormat boldFormat;
     QTextCharFormat italicFormat;
+    QTextCharFormat codeFormat;
     QTextCharFormat quoteFormat;
+    QTextCharFormat linkFormat;
+
+
+    HighlightingRule m_codeRule;
 };
 #endif // MARKDOWNHIGHLIGHTER_H

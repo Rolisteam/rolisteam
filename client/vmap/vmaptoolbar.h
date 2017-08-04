@@ -22,7 +22,7 @@
 #define VMAPTOOLBAR_H
 
 #include <QToolBar>
-
+#include <QDoubleSpinBox>
 
 #include "vmap.h"
 #include "widgets/colorbutton.h"
@@ -69,7 +69,7 @@ public slots:
     void permissionHasChanged(int index);
     void patternChanged(int);
     void setPatternSize(int);
-    void setScaleSize(int);
+    void setScaleSize(double);
     void managedAction();
 
     void layerHasChanged(int index);
@@ -95,7 +95,7 @@ private:
     QComboBox* m_currentPermission;
     QComboBox* m_currentVisibility;
     QSpinBox* m_gridSize;
-    QSpinBox* m_scaleSize;
+    QDoubleSpinBox* m_scaleSize;
     QCheckBox* m_showOnlyItemsFromThisLayer;
     QCheckBox* m_showCharacterVision;
     QCheckBox* m_collision;

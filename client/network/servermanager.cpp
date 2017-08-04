@@ -137,7 +137,6 @@ void ServerManager::sendOffAuthSuccessed()
     if(nullptr != client)
     {
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AuthentificationSucessed);
-//        client->sendMessage(msg);
         qDebug()<< "[sendOffAuthSuccessed] ";
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
         sendOffModel(client);
@@ -403,8 +402,10 @@ void ServerManager::removeSocket(QTcpSocket *socket)
     if(!socket) return;
     if(!m_connections.contains(socket)) return;
 
-    qDebug() << this << "removing socket = " <<  socket;
+    TcpClient* client = m_connections.value(socket);
 
+    qDebug() << this << "removing socket = " <<  socket;
+    m_model->removeChild(client->getId());
     if(socket->isOpen())
     {
         qDebug() << this << "socket is open, attempting to close it " << socket;
@@ -417,6 +418,7 @@ void ServerManager::removeSocket(QTcpSocket *socket)
     socket->deleteLater();
 
     qDebug() << this << "client count = " << m_connections.count();
+    sendOffModelToAll();
 
 }
 void ServerManager::error(QAbstractSocket::SocketError socketError)

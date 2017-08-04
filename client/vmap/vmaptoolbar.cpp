@@ -71,8 +71,10 @@ void VmapToolBar::setupUi()
     m_currentVisibility->addItems(listVisi);
 
 
-    m_scaleSize = new QSpinBox(this);
-    m_scaleSize->setRange(1,std::numeric_limits<int>::max());
+    m_scaleSize = new QDoubleSpinBox(this);
+    m_scaleSize->setRange(0.1,std::numeric_limits<double>::max());
+    m_scaleSize->setValue(1.0);
+
 
     m_gridSize = new QSpinBox(this);
     m_gridSize->setRange(1,std::numeric_limits<int>::max());
@@ -122,7 +124,7 @@ void VmapToolBar::setupUi()
     connect(m_gridUnit,SIGNAL(currentIndexChanged(int)),this,SLOT(setUnit()));
     connect(m_bgSelector,SIGNAL(colorChanged(QColor)),this,SLOT(setBackgroundColor(QColor)));
     connect(m_gridSize,SIGNAL(valueChanged(int)),this,SLOT(setPatternSize(int)));
-    connect(m_scaleSize,SIGNAL(valueChanged(int)),this,SLOT(setScaleSize(int)));
+    connect(m_scaleSize,SIGNAL(valueChanged(double)),this,SLOT(setScaleSize(double)));
 
     connect(m_currentVisibility,SIGNAL(currentIndexChanged(int)),this,SLOT(visibilityHasChanged(int)));
     connect(m_currentPermission,SIGNAL(currentIndexChanged(int)),this,SLOT(permissionHasChanged(int)));
@@ -219,7 +221,7 @@ void VmapToolBar::setPatternSize(int p)
         m_vmap->setOption(VisualItem::GridSize,p);
     }
 }
-void  VmapToolBar::setScaleSize(int p)
+void  VmapToolBar::setScaleSize(double p)
 {
     if(NULL!=m_vmap)
     {

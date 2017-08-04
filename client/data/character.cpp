@@ -105,7 +105,14 @@ void Character::setListOfCharacterState(QList<CharacterState*>* list)
 }
 int Character::indexOf(CharacterState* state)
 {
-    return m_stateList->indexOf(state);
+    if(nullptr != m_stateList)
+    {
+        return m_stateList->indexOf(state);
+    }
+    else
+    {
+        return -1;
+    }
 }
 
 CharacterState* Character::getStateFromLabel(QString label)

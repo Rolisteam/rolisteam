@@ -205,7 +205,7 @@ QModelIndex ChannelModel::channelToIndex(Channel* channel)
     QModelIndex parent;
     for(auto item : listOfParent)
     {
-        if(nullptr!=item->getParentItem())
+        if(nullptr==item->getParentItem())
         {
             parent = parent.child(m_root.indexOf(item),0);
         }
@@ -421,7 +421,7 @@ TreeItem* ChannelModel::getItemById(QString id)
 void ChannelModel::removeChild(QString id)
 {
     auto item = getItemById(id);
-    if((nullptr != item)&&(!item->isLeaf()))
+    if((nullptr != item))//&&(!item->isLeaf())
     {
         auto parent = item->getParentItem();
         if(nullptr != parent)

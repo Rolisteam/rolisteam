@@ -212,16 +212,29 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
             bool onlyValue = getMessageResult(value, cmdLine,list);
             color = m_localPerson->getColor();
 
+            int maxSizeForCuttingDiceCmd = m_preferences->value("maxSizeForCuttingDiceCmd",100).toInt();
+
+            bool cmdMustBeHidden = (cmdLine.size() > maxSizeForCuttingDiceCmd);
+
+            cmdMustBeHidden &= m_preferences->value("hideLongCommand",false).toBool();
+
             if(!onlyValue)
             {
                 QString diceOutput;
                 if(!list.isEmpty())
                 {
-                    diceOutput = tr("got <span class=\"dice\">%1</span> at your dice roll [%3 (%2)]","mine dice roll").arg(value).arg(list).arg(cmdLine);
+                    if(cmdMustBeHidden)
+                    {
+                        diceOutput = tr("got <span class=\"dice\">%1</span> at your dice roll <span title=\"%3\">[%2]</span>","my dice roll").arg(value).arg(list).arg(cmdLine);
+                    }
+                    else
+                    {
+                        diceOutput = tr("got <span class=\"dice\">%1</span> at your dice roll [%3 (%2)]","my dice roll").arg(value).arg(list).arg(cmdLine);
+                    }
                 }
                 else
                 {
-                    diceOutput = tr("got <span class=\"dice\">%1</span> at your dice roll [%2]","mine dice roll").arg(value).arg(cmdLine);
+                    diceOutput = tr("got <span class=\"dice\">%1</span> at your dice roll [%2]","my dice roll").arg(value).arg(cmdLine);
                 }
                 if(showResult)
                 {
@@ -230,11 +243,18 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
                 QString diceOutput2;
                 if(!list.isEmpty())
                 {
-                   diceOutput2 = tr("got <span class=\"dice\">%1</span> [%3 (%2)]","third person roll").arg(value).arg(list).arg(cmdLine);
+                    if(cmdMustBeHidden)
+                    {
+                        diceOutput2 = tr("got <span class=\"dice\">%1</span> <span title=\"%3\">[%2]</span>","third person").arg(value).arg(list).arg(cmdLine);
+                    }
+                    else
+                    {
+                        diceOutput2 = tr("got <span class=\"dice\">%1</span> [%3 (%2)]","third person").arg(value).arg(list).arg(cmdLine);
+                    }
                 }
                 else
                 {
-                    diceOutput2 = tr("got <span class=\"dice\">%1</span> [%2]","third person roll").arg(value).arg(cmdLine);
+                    diceOutput2 = tr("got <span class=\"dice\">%1</span> [%2]","third person").arg(value).arg(cmdLine);
                 }
                 message = diceOutput2;
             }
