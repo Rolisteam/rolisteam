@@ -27,6 +27,7 @@
 #include "data/person.h"
 #include "vmap/items/visualitem.h"
 #include "vmap/items/sightitem.h"
+#include "vmap/items/griditem.h"
 /**
  * @page VMap
  * @tableofcontents
@@ -608,6 +609,7 @@ private:
     VisualItem::Layer m_currentLayer;
 
     SightItem* m_sightItem;
+    GridItem* m_gridItem;
 
     VToolsBar::EditionMode m_editionMode;
 

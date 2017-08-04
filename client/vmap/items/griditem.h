@@ -18,8 +18,8 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 
-#ifndef SIGHTITEM_H
-#define SIGHTITEM_H
+#ifndef GRIDITEM_H
+#define GRIDITEM_H
 
 #include <QGradient>
 #include <QConicalGradient>
@@ -29,37 +29,23 @@
 #include "data/charactervision.h"
 
 
-class FogSingularity
-{
-public:
-    FogSingularity(QPolygonF* poly = NULL,bool isAdding = false);
-    const QPolygonF* getPolygon() const;
-
-    bool isAdding() const;
-    void fillMessage(NetworkMessageWriter* msg);
-    void readItem(NetworkMessageReader* msg);
-    void setPolygon(QPolygonF* );
-private:
-    QPolygonF* m_poly;
-    bool m_adding;
-};
 
 /**
  * @brief The SightItem class
  */
-class SightItem : public VisualItem
+class GridItem : public VisualItem
 {
     Q_OBJECT
 public:
     /**
-     * @brief SightItem
+     * @brief GridItem
      * @param characterItemMap
      */
-    SightItem(QMap<QString,CharacterItem*>* characterItemMap);
+    GridItem();
     /**
-     * @brief ~SightItem
+     * @brief ~GridItem
      */
-    virtual ~SightItem();
+    virtual ~GridItem();
     /**
      * @brief setNewEnd
      * @param nend
@@ -118,21 +104,6 @@ public:
      */
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget);
     /**
-     * @brief setDefaultShape
-     * @param shape
-     */
-    void setDefaultShape(CharacterVision::SHAPE shape);
-    /**
-     * @brief setDefaultRadius
-     * @param rad
-     */
-    void setDefaultRadius(qreal rad);
-    /**
-     * @brief setDefaultAngle
-     * @param rad
-     */
-    void setDefaultAngle(qreal rad);
-    /**
      * @brief updateChildPosition
      */
     void updateChildPosition();
@@ -146,61 +117,23 @@ public:
      */
     void addActionContextMenu(QMenu* menu);
     /**
-     * @brief setColor
-     */
-    void setColor(QColor& color);
-    /**
-     * @brief insertVision
-     */
-    void insertVision(CharacterItem* item);
-    /**
      * @brief setVisible
      * @param visible
      */
     virtual void setVisible(bool visible);
-    /**
-     * @brief addFogPolygon
-     * @param a
-     */
-    FogSingularity*  addFogPolygon(QPolygonF* a,bool adding);
+
     void computePattern();
 public slots:
-    /**
-     * @brief moveVision
-     * @param id
-     * @param pos
-     */
-    void moveVision(qreal id, QPointF& pos);
-    /**
-     * @brief removeVision vision to the given character.
-     * @param item
-     */
-    void removeVision(CharacterItem* item);
-    /**
-     * @brief setGM
-     */
-    void setGM(bool);
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
-    void updateVeil();
 private:
-    CharacterVision::SHAPE m_defaultShape;
-    qreal m_defaultAngle;
-    qreal m_defaultRadius;
-    QMap<QString,CharacterItem*>* m_characterItemMap;
-    QColor m_bgColor;
-    QImage m_image;
-    qreal m_count;
-    QList<FogSingularity*> m_fogHoleList;
     bool m_isGM;
-    QPainterPath m_path;
-    QRectF m_rectOfVeil;
     /**
      * @brief m_computedPattern
      */
     QImage m_computedPattern;
 };
 
-#endif // SIGHTITEM_H
+#endif // GRIDITEM_H

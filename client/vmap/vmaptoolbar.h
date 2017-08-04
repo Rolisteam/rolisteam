@@ -99,6 +99,7 @@ private:
     QCheckBox* m_showOnlyItemsFromThisLayer;
     QCheckBox* m_showCharacterVision;
     QCheckBox* m_collision;
+    QCheckBox* m_gridAbove;
     QAction* m_showTransparentItem;
 };
 
