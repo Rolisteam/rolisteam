@@ -25,6 +25,8 @@ public:
     void setImageData(QList<QPixmap>* imageData);
 
     void insertImage(QPixmap*,QString,QString);
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+
 
     void clear();
 private:

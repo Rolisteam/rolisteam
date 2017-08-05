@@ -49,7 +49,7 @@ QVariant ImageModel::data(const QModelIndex &index, int role) const
             break;
             case Key:
 //                qDebug() << m_keyList.at(index.row());
-                return m_keyList.at(index.row());
+                return "image://rcs/"+m_keyList.at(index.row());
             break;
             case Filename:
             //    qDebug() << m_filename.at(index.row());
@@ -86,6 +86,18 @@ void ImageModel::insertImage(QPixmap * pix, QString key, QString stuff)
     m_keyList.append(key);
     m_filename.append(stuff);
     endInsertRows();
+}
+
+Qt::ItemFlags ImageModel::flags(const QModelIndex &index) const
+{
+    if(index.column() == 1)
+    {
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+    }
+    else
+    {
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    }
 }
 
 void ImageModel::clear()

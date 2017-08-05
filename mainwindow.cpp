@@ -306,6 +306,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_imageModel = new ImageModel();
     ui->m_imageList->setModel(m_imageModel);
+    auto* view = ui->m_imageList->horizontalHeader();
+    view->setSectionResizeMode(1,QHeaderView::Stretch);
+    ui->m_imageList->setAlternatingRowColors(true);
+
+
+    ui->m_addImageBtn->setDefaultAction(ui->m_addImageAct);
+    ui->m_removeImgBtn->setDefaultAction(ui->m_deleteImageAct);
+
+
+    connect(ui->m_addImageAct,SIGNAL(triggered(bool)),this,SLOT(addImage()));
 
 
     readSettings();
@@ -582,7 +592,7 @@ void MainWindow::openImage()
 #ifdef WITH_PDF
     QString supportedFormat("Supported files (*.jpg *.png *.xpm *.pdf);;All Files (*.*)");
 #else
-    QString supportedFormat("Supported files (*.jpg,*.png);;All Files (*.*)");
+    QString supportedFormat("Supported files (*.jpg *.png);;All Files (*.*)");
 #endif
     QString img = QFileDialog::getOpenFileName(this,tr("Open Background Image"),QDir::homePath(),supportedFormat);
     if(!img.isEmpty())
@@ -734,11 +744,11 @@ void MainWindow::menuRequested(const QPoint & pos)
     QModelIndex index = ui->m_characterView->currentIndex();
 
     menu.addAction(m_addCharacter);   
-    menu.addAction(m_copyCharacter);
+   // menu.addAction(m_copyCharacter);
     menu.addSeparator();
     menu.addAction(m_applyValueOnAllCharacters);
-    menu.addAction(m_applyValueOnSelectedCharacterLines);
-    menu.addAction(m_applyValueOnAllCharacterLines);
+  //  menu.addAction(m_applyValueOnSelectedCharacterLines);
+  //  menu.addAction(m_applyValueOnAllCharacterLines);
     menu.addAction(m_defineAsTabName);
     menu.addSeparator();
     menu.addAction(m_deleteCharacter);
@@ -755,6 +765,24 @@ void MainWindow::menuRequested(const QPoint & pos)
         {
             CharacterSheet* sheet = m_characterModel->getCharacterSheet(index.column()-1);
             sheet->setName(name);
+        }
+    }
+    else if(act == m_applyValueOnAllCharacters)
+    {
+        QString value = index.data().toString();
+        auto characterItem = m_characterModel->indexToSection(index);
+        if((!value.isEmpty())&&(nullptr!=characterItem))
+        {
+            QString key = characterItem->getId();
+            for(int i = 0; i < m_characterModel->getCharacterSheetCount(); ++i)
+            {
+                CharacterSheet* sheet = m_characterModel->getCharacterSheet(i);
+                if(nullptr != sheet)
+                {
+                    sheet->setValue(key,value,QString());
+                }
+
+            }
         }
     }/// @todo these functions
     else if(act == m_applyValueOnSelectedCharacterLines)
@@ -872,21 +900,6 @@ void MainWindow::setImage()
         QMessageBox::warning(this,tr("Error!"),tr("Background images have to be of the same size"),QMessageBox::Ok);
     }
 }
-/*QString MainWindow::getFilePath(QString path)
-{
-   if(m_preferences->value("hasCustomPath",false).toBool())
-    {
-        if(!m_preferences->value("GenerationCustomPath","").toString().isEmpty())
-        {
-            return QStringLiteral("%1/%2").arg(m_preferences->value("GenerationCustomPath","").toString()).arg(path);
-        }
-        return path;
-    }
-    else
-    {
-        return path;
-    }
-}*/
 
 void MainWindow::setCurrentTool()
 {
@@ -1399,4 +1412,19 @@ void MainWindow::aboutRcse()
 {
     AboutRcse dialog;
     dialog.exec();
+}
+void MainWindow::addImage()
+{
+    QString supportedFormat("Supported files (*.jpg *.png);;All Files (*.*)");
+    QString img = QFileDialog::getOpenFileName(this,tr("Open Background Image"),QDir::homePath(),supportedFormat);
+    if(!img.isEmpty())
+    {
+        QPixmap* pix = new QPixmap(img);
+        if(!pix->isNull())
+        {
+            QString fileName = QFileInfo(img).fileName();
+            m_imageModel->insertImage(pix,fileName,img);
+            m_imgProvider->insertPix(fileName,*pix);
+        }
+    }
 }

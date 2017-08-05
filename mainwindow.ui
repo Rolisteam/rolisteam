@@ -22,7 +22,7 @@
     <item>
      <widget class="QTabWidget" name="m_tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="editor">
        <attribute name="title">
@@ -765,6 +765,24 @@
    </property>
    <property name="text">
     <string>Hide/Show icon in Editor</string>
+   </property>
+  </action>
+  <action name="m_addImageAct">
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/add_round.png</normaloff>:/resources/icons/add_round.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Image</string>
+   </property>
+  </action>
+  <action name="m_deleteImageAct">
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete Image</string>
    </property>
   </action>
  </widget>

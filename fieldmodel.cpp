@@ -75,7 +75,8 @@ FieldModel::FieldModel(QObject *parent) : QAbstractItemModel(parent)
              << new Column(tr("Text-align"),CharacterSheetItem::TEXT_ALIGN)
              << new Column(tr("Text Color"),CharacterSheetItem::TEXTCOLOR)
              << new Column(tr("Bg Color"),CharacterSheetItem::BGCOLOR)
-             << new Column(tr("Border"),CharacterSheetItem::BORDER);
+             << new Column(tr("Border"),CharacterSheetItem::BORDER)
+             << new Column(tr("Page"),CharacterSheetItem::PAGE);
 
     m_alignList << tr("TopRight")
            << tr("TopMiddle")
