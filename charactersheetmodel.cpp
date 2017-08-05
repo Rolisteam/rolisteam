@@ -335,7 +335,10 @@ QVariant CharacterSheetModel::headerData(int section, Qt::Orientation orientatio
         case 0:
             return tr("Fields name");
         default:
-            return QString();
+            {
+                auto character = m_characterList->at(section-1);
+                return character->getName();
+            }
         }
     }
     return QVariant();
@@ -419,7 +422,7 @@ CharacterSheetItem* CharacterSheetModel::indexToSection(const QModelIndex & inde
     if(index.isValid())
         return static_cast<CharacterSheetItem*>(index.internalPointer());
     else
-        return NULL;
+        return nullptr;
 }
 QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex & index)
 {

@@ -147,6 +147,8 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
         return m_clippedText;
     case FONT:
         return m_font.toString();
+    case PAGE:
+        return m_page;
     }
     return QVariant();
 }
@@ -226,6 +228,9 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         break;
     case FONT:
         m_font.fromString(var.toString());
+        break;
+    case PAGE:
+        m_page = var.toInt();
         break;
     }
    // update();
