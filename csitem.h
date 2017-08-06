@@ -46,15 +46,15 @@ public:
     QColor textColor() const;
     void setTextColor(const QColor &textColor);
 
-    qreal getX() const;
-    qreal getY() const;
-    qreal getWidth() const;
-    qreal getHeight() const;
+    virtual qreal getX() const;
+    virtual qreal getY() const;
+    virtual qreal getWidth() const;
+    virtual qreal getHeight() const;
 
-    void setX(qreal x);
-    void setY(qreal y);
-    void setWidth(qreal width);
-    void setHeight(qreal height);
+    virtual void setX(qreal x);
+    virtual void setY(qreal y);
+    virtual void setWidth(qreal width);
+    virtual void setHeight(qreal height);
 
     QRectF getRect() const;
     void setRect(const QRectF &rect);

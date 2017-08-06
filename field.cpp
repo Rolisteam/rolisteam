@@ -409,6 +409,46 @@ void Field::initGraphicsItem()
     m_canvasField->setHeight(m_rect.height());
 #endif
 }
+
+qreal Field::getWidth() const
+{
+    return getValueFrom(CharacterSheetItem::WIDTH, Qt::DisplayRole).toReal();
+}
+
+void Field::setWidth(qreal width)
+{
+    setValueFrom(CharacterSheetItem::WIDTH,width);
+}
+
+qreal Field::getHeight() const
+{
+    return getValueFrom(CharacterSheetItem::HEIGHT, Qt::DisplayRole).toReal();
+}
+
+void Field::setHeight(qreal height)
+{
+    setValueFrom(CharacterSheetItem::HEIGHT,height);
+}
+
+void Field::setX(qreal x)
+{
+    setValueFrom(CharacterSheetItem::X,x);
+}
+
+qreal Field::getX() const
+{
+    return getValueFrom(CharacterSheetItem::X, Qt::DisplayRole).toReal();
+}
+
+void Field::setY(qreal y)
+{
+    setValueFrom(CharacterSheetItem::Y,y);
+}
+
+qreal Field::getY() const
+{
+    return getValueFrom(CharacterSheetItem::Y, Qt::DisplayRole).toReal();
+}
 void Field::loadDataItem(QJsonObject &json)
 {
     m_id = json["id"].toString();

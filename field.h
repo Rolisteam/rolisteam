@@ -106,6 +106,18 @@ public:
     void setCanvasField(CanvasField* canvasField);
 
     void initGraphicsItem();
+
+    virtual qreal getWidth() const;
+    virtual void setWidth(qreal width);
+
+    virtual qreal getHeight() const;
+    virtual void setHeight(qreal height);
+
+    virtual void setX(qreal x);
+    virtual qreal getX() const;
+
+    virtual void setY(qreal x);
+    virtual qreal getY() const;
 signals:
     void updateNeeded(CSItem* c);
     //void valueChanged(QString);
