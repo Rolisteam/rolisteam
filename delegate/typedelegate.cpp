@@ -28,7 +28,8 @@ TypeDelegate::TypeDelegate()
            << tr("Select")
            << tr("Checkbox")
            << tr("Image")
-           << tr("Button");
+           << tr("Dice Button")
+           << tr("Type Button");
 }
 
 QWidget* TypeDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
