@@ -268,7 +268,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->m_newAct,SIGNAL(triggered(bool)),this,SLOT(clearData()));
 
-    canvas->setCurrentTool(Canvas::NONE);
+    canvas->setCurrentTool(Canvas::MOVE);
 
     connect(ui->treeView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editColor(QModelIndex)));
 
