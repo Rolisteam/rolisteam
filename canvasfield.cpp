@@ -19,9 +19,12 @@ CanvasField::CanvasField(Field* field)
     : m_field(field)
 {
     m_rect.setCoords(0,0,0,0);
+    setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable );
 }
 void CanvasField::setNewEnd(QPointF nend)
 {
+    emit widthChanged();
+    emit heightChanged();
     m_rect.setBottomRight(nend);
 }
 Field* CanvasField::getField() const
