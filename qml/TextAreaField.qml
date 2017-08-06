@@ -12,6 +12,7 @@ Rectangle {
     property alias vAlign: textArea.verticalAlignment
     property bool clippedText: false
     property bool readOnly: false
+    property bool backgroundVisible: textArea.backgroundVisible
     TextArea {
         id: textArea
         anchors.fill: parent
