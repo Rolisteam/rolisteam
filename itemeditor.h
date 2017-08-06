@@ -15,7 +15,6 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent* event);
-    void mouseReleaseEvent(QMouseEvent* event);
 
 signals:
     void openContextMenu(QPoint);

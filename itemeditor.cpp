@@ -10,7 +10,6 @@ ItemEditor::ItemEditor(QWidget* parent)
     setAcceptDrops(true);
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
-
 }
 
 bool ItemEditor::handle() const
@@ -42,9 +41,4 @@ void ItemEditor::mousePressEvent(QMouseEvent *event)
     {
         QGraphicsView::mousePressEvent(event);
     }
-}
-
-void ItemEditor::mouseReleaseEvent(QMouseEvent *event)
-{
-    QGraphicsView::mouseReleaseEvent(event);
 }
