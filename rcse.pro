@@ -84,7 +84,8 @@ SOURCES += main.cpp\
     preferencesdialog.cpp \
     preferencesmanager.cpp \
     sheetproperties.cpp \
-    imagemodel.cpp
+    imagemodel.cpp \
+    itemeditor.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -102,7 +103,8 @@ HEADERS  += mainwindow.h \
     preferencesdialog.h \
     preferencesmanager.h \
     sheetproperties.h \
-    imagemodel.h
+    imagemodel.h \
+    itemeditor.h
 
 
 

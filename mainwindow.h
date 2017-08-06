@@ -38,6 +38,7 @@
 #include "sheetproperties.h"
 #include "preferencesmanager.h"
 #include "imagemodel.h"
+#include "itemeditor.h"
 
 namespace Ui {
 class MainWindow;
@@ -116,7 +117,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QList<Canvas*> m_canvasList;
-    QGraphicsView* m_view;
+    ItemEditor* m_view;
     EDITION_TOOL m_currentTool;
     QPoint m_startField;
     QHash<QString,QPixmap*> m_pixList;

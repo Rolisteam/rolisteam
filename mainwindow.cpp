@@ -102,8 +102,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     canvas->setModel(m_model);
     ui->treeView->setItemDelegateForColumn(CharacterSheetItem::BORDER,new BorderListEditor);
-    m_view = new QGraphicsView(this);
-    m_view->setContextMenuPolicy(Qt::CustomContextMenu);
+    m_view = new ItemEditor(this);
+    //m_view->setContextMenuPolicy(Qt::CustomContextMenu);
 
     //////////////////////////////////////
     // QAction for view
@@ -125,9 +125,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     m_view->installEventFilter(this);
-    m_view->setAcceptDrops(true);
-    m_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-    m_view->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
 
     //////////////////////////////////////
     // end of QAction for view
@@ -150,7 +147,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //m_view->setViewport(new QOpenGLWidget());
 
     connect(ui->m_backgroundImageAct,SIGNAL(triggered(bool)),this,SLOT(openImage()));
-    connect(m_view, SIGNAL(customContextMenuRequested(QPoint)),this, SLOT(menuRequestedFromView(QPoint)));
+    connect(m_view, SIGNAL(openContextMenu(QPoint)),this, SLOT(menuRequestedFromView(QPoint)));
 
     m_view->setScene(canvas);
     ui->scrollArea->setWidget(m_view);
@@ -226,15 +223,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_functionButtonAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
 
     connect(ui->m_moveAct,&QAction::triggered,[=](bool triggered){
-        if(triggered)
-        {
-            m_view->setDragMode(QGraphicsView::RubberBandDrag);
-        }
-        else
-        {
-            m_view->setDragMode(QGraphicsView::NoDrag);
-        }
-
+        m_view->setHandle(triggered);
     });
 
 
@@ -697,7 +686,10 @@ void MainWindow::setFitInView()
     {
         Canvas* canvas = m_canvasList[m_currentPage];
         QPixmap* pix = canvas->pixmap();
-        m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
+        if(nullptr != pix)
+        {
+            m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
+        }
     }
     else
     {
@@ -731,7 +723,6 @@ void MainWindow::menuRequestedFromView(const QPoint & pos)
     menu.addAction(m_sameHeight);
     menu.addSeparator();
     menu.addAction(m_dupplicate);
-    qDebug() << pos << QCursor::pos();
 
     m_posMenu = pos;
     menu.exec(QCursor::pos());
