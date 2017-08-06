@@ -176,7 +176,7 @@ void Canvas::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 }
 bool Canvas::forwardEvent()
 {
-    if(Canvas::MOVE == m_currentTool)
+    if((Canvas::MOVE == m_currentTool)||(Canvas::NONE == m_currentTool))
     {
         return true;
     }
@@ -194,9 +194,28 @@ void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     }
     else
     {
+        adjustNewItem(m_currentItem);
         m_currentItem=NULL;
     }
 }
+void Canvas::adjustNewItem(CSItem* item)
+{
+    if(nullptr == item)
+        return;
+    //qDebug() <<"newitem width: "<< item->getWidth()<<"newitem height:" << item->getHeight();
+    if(item->getWidth() < 0)
+    {
+        item->setX(item->getX()+item->getWidth());
+        item->setWidth(fabs(item->getWidth()));
+    }
+
+    if(item->getHeight() < 0)
+    {
+        item->setY(item->getY()+item->getHeight());
+        item->setHeight(fabs(item->getHeight()));
+    }
+}
+
 Canvas::Tool Canvas::currentTool() const
 {
     return m_currentTool;

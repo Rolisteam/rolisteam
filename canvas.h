@@ -61,6 +61,7 @@ protected:
 
 
 private:
+    void adjustNewItem(CSItem *item);
     bool forwardEvent();
 private:
     QGraphicsPixmapItem* m_bg;
