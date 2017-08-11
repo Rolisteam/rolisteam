@@ -39,11 +39,11 @@ public:
     /**
      * @brief The ItemType enum
      */
-    enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT,RULE,IMAGE,SIGHT,ANCHOR};
+    enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT,RULE,IMAGE,SIGHT,ANCHOR,GRID};
     /**
      * @brief The Layer enum
      */
-    enum Layer{GROUND,OBJECT,CHARACTER_LAYER,FOG,NONE};
+    enum Layer{GROUND,OBJECT,CHARACTER_LAYER,FOG,GRIDLAYER,NONE};
     /**
      * @brief The StackOrder enum
      */
@@ -67,6 +67,7 @@ public:
         PermissionMode,
         FogOfWarStatus,
         CollisionStatus,
+        GridAbove,
         HideOtherLayers
                     };
 	/**

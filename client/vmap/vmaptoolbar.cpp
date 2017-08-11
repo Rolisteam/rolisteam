@@ -39,6 +39,9 @@ void VmapToolBar::setupUi()
     m_showGridAct->setToolTip(tr("Show/Hide Grid"));
     m_showGridAct->setCheckable(true);
 
+    m_gridAbove = new QCheckBox(tr("Grid Above"),this);
+    m_gridAbove->setToolTip(tr("Grid Above"));
+
     m_bgSelector =new ColorButton();
 
     m_currentPermission =new QComboBox();
@@ -81,6 +84,7 @@ void VmapToolBar::setupUi()
     addSeparator();
     addWidget(new QLabel(tr("Grid:")));
     addAction(m_showGridAct);
+    addWidget(m_gridAbove);
     addWidget(m_gridPattern);
     addWidget(m_gridSize);
     addWidget(new QLabel(tr("px :")));
@@ -111,6 +115,12 @@ void VmapToolBar::setupUi()
 
     connect(m_showOnlyItemsFromThisLayer,SIGNAL(clicked(bool)),this,SLOT(managedAction()));
     connect(m_showGridAct,SIGNAL(triggered()),this,SLOT(triggerGrid()));
+    connect(m_gridAbove,&QCheckBox::toggled,[=](bool b){
+        if(nullptr!=m_vmap)
+        {
+            m_vmap->setOption(VisualItem::GridAbove,b);
+        }
+    });
     connect(m_gridUnit,SIGNAL(currentIndexChanged(int)),this,SLOT(setUnit()));
     connect(m_bgSelector,SIGNAL(colorChanged(QColor)),this,SLOT(setBackgroundColor(QColor)));
     connect(m_gridSize,SIGNAL(valueChanged(int)),this,SLOT(setPatternSize(int)));

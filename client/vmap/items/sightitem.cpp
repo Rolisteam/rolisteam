@@ -29,7 +29,6 @@
 #include <QGraphicsView>
 #include <math.h>
 
-
 #include "userlist/playersList.h"
 
 #include "network/networkmessagewriter.h"
@@ -169,7 +168,6 @@ void SightItem::fillMessage(NetworkMessageWriter* msg)
     {
 
         hole->fillMessage(msg);
-
     }
 
     msg->uint64(m_characterItemMap->keys().size());
@@ -284,21 +282,13 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
                 {
                     case CharacterVision::DISK:
                     {
-                       // subArea.moveTo(charact->pos()+QPointF(itemRadius,itemRadius));
-                        //subArea.addEllipse(charact->pos()+QPointF(itemRadius,itemRadius),vision->getRadius()+itemRadius,vision->getRadius()+itemRadius);
                         subArea.addEllipse(QPointF(0,0),vision->getRadius()+itemRadius,vision->getRadius()+itemRadius);
-                        //subArea.addEllipse(vision->getCharacterItem()->boundingRect());
                     }
                     break;
                     case CharacterVision::ANGLE:
                     {
-                        //subArea.moveTo(center);
-
                         QRectF rectArc;
-                        //rectArc.setCoords(center.x()-vision->getRadius(),center.y()-vision->getRadius(),center.x()+vision->getRadius(),center.y()+vision->getRadius());
                         rectArc.setCoords(-vision->getRadius(),-vision->getRadius(),vision->getRadius(),vision->getRadius());
-
-                        //-vision->getAngle()/2-rot
                         subArea.arcTo(rectArc,-vision->getAngle()/2,vision->getAngle());
                         painter->setPen(QColor(255,0,0));
 
@@ -312,8 +302,6 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
     }
     painter->drawPath(path);
     painter->restore();
-    /*painter->setPen(Qt::red);
-    painter->drawText(0,0,QStringLiteral("%1").arg(zValue()));*/
 }
 void SightItem::insertVision(CharacterItem* item)
 {

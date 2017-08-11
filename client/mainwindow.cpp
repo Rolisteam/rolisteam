@@ -573,6 +573,10 @@ void MainWindow::newVectorialMap()
     if(mapWizzard.exec())
     {
         VMap* tempmap = new VMap();
+        if((nullptr != tempmap)&&(nullptr != m_currentConnectionProfile))
+        {
+            tempmap->setOption(VisualItem::LocalIsGM,m_currentConnectionProfile->isGM());
+        }
         mapWizzard.setAllMap(tempmap);
         VMapFrame* tmp = new VMapFrame(new CleverURI(tempmap->getMapTitle(),"",CleverURI::VMAP),tempmap);
         prepareVMap(tmp);
@@ -2214,7 +2218,15 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         tmp = new MapFrame();
         break;
     case CleverURI::VMAP:
-        tmp = new VMapFrame();
+    {
+        VMapFrame* mapFrame = new VMapFrame();
+        VMap* map = mapFrame->getMap();
+        if((nullptr != map)&&(nullptr != m_currentConnectionProfile))
+        {
+            map->setOption(VisualItem::LocalIsGM,m_currentConnectionProfile->isGM());
+        }
+        tmp =mapFrame;
+    }
         break;
     case CleverURI::PICTURE:
     case CleverURI::ONLINEPICTURE:

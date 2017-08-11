@@ -6,7 +6,8 @@ HEADERS += $$PWD/vmapwizzarddialog.h \
     $$PWD/patternmodel.h \
     $$PWD/vcolorselector.h \
     $$PWD/vcolortablechooser.h \
-    $$PWD/vmaptoolbar.h
+    $$PWD/vmaptoolbar.h \
+    $$PWD/items/griditem.h
 SOURCES += $$PWD/vmapwizzarddialog.cpp \
     $$PWD/vmapframe.cpp \
     $$PWD/vmap.cpp \
@@ -15,7 +16,8 @@ SOURCES += $$PWD/vmapwizzarddialog.cpp \
     $$PWD/patternmodel.cpp \
     $$PWD/vcolorselector.cpp \
     $$PWD/vcolortablechooser.cpp \
-    $$PWD/vmaptoolbar.cpp
+    $$PWD/vmaptoolbar.cpp \
+    $$PWD/items/griditem.cpp
 FORMS += $$PWD/vmapwizzarddialog.ui
 
 

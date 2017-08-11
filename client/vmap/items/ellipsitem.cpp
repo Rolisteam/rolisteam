@@ -92,8 +92,8 @@ void EllipsItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * op
 }
 void EllipsItem::setNewEnd(QPointF& p)
 {
-    m_rx = std::fabs(p.x()-pos().x());
-    m_ry = std::fabs(p.y()-pos().y());
+    m_rx = std::fabs(p.x()-pos().x())*sqrt(2);
+    m_ry = std::fabs(p.y()-pos().y())*sqrt(2);
 
     m_rect.setRect(-m_rx,-m_ry,m_rx*2,m_ry*2);
 }
