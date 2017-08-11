@@ -28,6 +28,10 @@ public:
     bool isAdmin();
     template <typename T>
     T indexToPointer(QModelIndex index);
+
+    QString serverName() const;
+    void setServerName(const QString &serverName);
+
 public slots:
     void showCustomMenu(QPoint pos);
 
@@ -56,6 +60,7 @@ private:
 
     GROUP m_currentGRoup;
     QModelIndex m_index;
+    QString m_serverName;
 };
 
 #endif // CHANNELLISTPANEL_H

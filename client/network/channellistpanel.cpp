@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <QMenu>
 
+#include "preferences/preferencesmanager.h"
+
 ChannelListPanel::ChannelListPanel(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ChannelListPanel),
@@ -39,6 +41,7 @@ ChannelListPanel::ChannelListPanel(QWidget *parent) :
     connect(m_deleteChannel,SIGNAL(triggered(bool)),this,SLOT(deleteChannel()));
     connect(m_lock,SIGNAL(triggered(bool)),this,SLOT(lockChannel()));
     connect(m_join,SIGNAL(triggered(bool)),this,SLOT(joinChannel()));
+    connect(m_admin,SIGNAL(triggered(bool)),this,SLOT(loginAdmin()));
 }
 
 ChannelListPanel::~ChannelListPanel()
@@ -251,7 +254,26 @@ void ChannelListPanel::banUser()
         }
     }
 }
+#include <QInputDialog>
 
+void ChannelListPanel::loginAdmin()
+{
+    PreferencesManager* preferences =  PreferencesManager::getInstance();
+
+    QString pwadmin = preferences->value(QString("adminPassword_for_%1").arg(m_serverName),QString()).toString();
+    if(pwadmin.isEmpty())
+    {
+        pwadmin = QInputDialog::getText(this,tr("Admin Password"),tr("Password"),QLineEdit::Password);
+    }
+
+    if(!pwadmin.isEmpty())
+    {
+        NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::AdminPassword);
+        msg.string8(id);
+        msg.string8(pwadmin);
+        msg.sendAll();
+    }
+}
 void ChannelListPanel::addChannel()
 {
     if(isAdmin())
@@ -312,6 +334,16 @@ void ChannelListPanel::editChannel()
     {
         ui->m_channelView->edit(m_index);
     }
+}
+
+QString ChannelListPanel::serverName() const
+{
+    return m_serverName;
+}
+
+void ChannelListPanel::setServerName(const QString &serverName)
+{
+    m_serverName = serverName;
 }
 void ChannelListPanel::deleteChannel()
 {
