@@ -244,15 +244,7 @@ Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
     }
     else if(m_colunm[index.column()]->getPos() == CharacterSheetItem::TYPE)
     {
-        QVariant var = index.data();
-        if(var.toInt() == Field::SELECT)
-        {
-           return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
-        }
-        else
-        {
-            return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
-        }
+         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
     }
     else if(!childItem->mayHaveChildren())
     {
