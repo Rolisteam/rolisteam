@@ -131,12 +131,13 @@ MainWindow::MainWindow()
     }
 
     //Room List
-    ChannelListPanel* roomPanel = new ChannelListPanel(this);
+    m_roomPanel = new ChannelListPanel(this);
+
 
     m_roomPanelDockWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
-    m_roomPanelDockWidget->setWidget(roomPanel);
-    m_roomPanelDockWidget->setWindowTitle(roomPanel->windowTitle());
-    m_roomPanelDockWidget->setObjectName(roomPanel->objectName());
+    m_roomPanelDockWidget->setWidget(m_roomPanel);
+    m_roomPanelDockWidget->setWindowTitle(m_roomPanel->windowTitle());
+    m_roomPanelDockWidget->setObjectName(m_roomPanel->objectName());
     m_roomPanelDockWidget->setVisible(false);
     addDockWidget(Qt::RightDockWidgetArea, m_roomPanelDockWidget);
 
@@ -920,6 +921,7 @@ void MainWindow::startReconnection()
     }
     if(m_clientManager->startConnection())
     {
+        m_roomPanel->setServerName(m_currentConnectionProfile->getAddress());
         m_playerList->sendOffLocalPlayerInformations();
         m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
         m_ui->m_connectionAction->setEnabled(false);
