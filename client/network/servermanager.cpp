@@ -262,6 +262,11 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
         sendOffModelToAll();
     }
         break;
+    case NetMsg::AdminPassword:
+    {
+        QString passwd = msg->string8();
+    }
+        break;
         default:
             break;
     }
