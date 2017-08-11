@@ -73,6 +73,7 @@ enum Action {
     AddChannel,
     BanUser,
     ClearTable,
+    AdminPassword,
 
     // PlayerCategory
     PlayerConnectionAction = 0,
