@@ -601,6 +601,7 @@ private:
     CleverURI* m_currentStory;
     QDockWidget* m_roomPanelDockWidget;
     QThread m_serverThread;
+    ChannelListPanel* m_roomPanel;
 };
 
 #endif
