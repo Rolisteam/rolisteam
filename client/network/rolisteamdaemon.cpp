@@ -23,6 +23,7 @@ void RolisteamDaemon::readConfigFile(QString filepath)
     QString timeStart = settings.value("TimeStart").toString();
     QString timeEnd= settings.value("TimeEnd").toString();
     QString ipMode= settings.value("IpMode").toString();
+    QString adminPassword= settings.value("AdminPassword").toString();
     int threadCount= settings.value("ThreadCount").toInt();
     int channelCount= settings.value("ChannelCount").toInt();
     int timeToRetry= settings.value("TimeToRetry").toInt();
@@ -36,6 +37,7 @@ void RolisteamDaemon::readConfigFile(QString filepath)
     m_serverManager.insertField("ConnectionMax",connectionMax);
     m_serverManager.insertField("TimeStart",timeStart);
     m_serverManager.insertField("TimeEnd",timeEnd);
+    m_serverManager.insertField("AdminPassword",adminPassword);
     m_serverManager.insertField("IpMode",ipMode);//v4 v6 any
     m_serverManager.insertField("ThreadCount",threadCount);//thread count
     m_serverManager.insertField("ChannelCount",channelCount);//channel count
@@ -75,6 +77,7 @@ void RolisteamDaemon::createEmptyConfigFile(QString filepath)
     settings.setValue("ChannelCount",m_serverManager.getValue("ChannelCount"));
     settings.setValue("TimeToRetry",m_serverManager.getValue("TimeToRetry"));
     settings.setValue("LogLevel",m_serverManager.getValue("LogLevel"));
+    settings.setValue("AdminPassword",m_serverManager.getValue("AdminPassword"));
 
     settings.sync();
 
