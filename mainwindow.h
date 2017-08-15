@@ -107,6 +107,7 @@ protected slots:
     void clearData();
     void showPreferences();
 
+    void checkCharacters();
 private slots:
     void codeChanged();
 //private:

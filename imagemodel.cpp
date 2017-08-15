@@ -1,8 +1,10 @@
 #include "imagemodel.h"
 #include <QIcon>
 #include <QDebug>
-ImageModel::ImageModel(QObject *parent)
-    : QAbstractTableModel(parent),m_imageData(new QList<QPixmap>())
+ImageModel::ImageModel(QHash<QString,QPixmap*>& list,QObject *parent)
+    : QAbstractTableModel(parent),
+      m_imageData(new QList<QPixmap>()),
+      m_list(list)
 {
     m_column << tr("Thumbnail")<< tr("Key")<< tr("Filename")<< tr("Is Background");
 }
@@ -45,14 +47,25 @@ QVariant ImageModel::data(const QModelIndex &index, int role) const
         switch (index.column())
         {
             case Thumbnails:
-                //return m_imageData->at(index.row());
             break;
             case Key:
-//                qDebug() << m_keyList.at(index.row());
                 return "image://rcs/"+m_keyList.at(index.row());
             break;
             case Filename:
-            //    qDebug() << m_filename.at(index.row());
+                return m_filename.at(index.row());
+            break;
+        }
+    }
+    else if(Qt::EditRole == role)
+    {
+        switch (index.column())
+        {
+            case Thumbnails:
+            break;
+            case Key:
+                return m_keyList.at(index.row());
+            break;
+            case Filename:
                 return m_filename.at(index.row());
             break;
         }
@@ -68,7 +81,28 @@ QVariant ImageModel::data(const QModelIndex &index, int role) const
     }
     return QVariant();
 }
-
+bool ImageModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if((Qt::DisplayRole == role)||(Qt::EditRole == role))
+    {
+        switch (index.column())
+        {
+        case Key:
+        {
+                m_provider->removeImg(m_keyList.at(index.row()));
+                QPixmap* pix = m_list.value(m_keyList.at(index.row()));
+                m_list.remove(m_keyList.at(index.row()));
+                m_keyList.replace(index.row(),value.toString());
+                m_provider->insertPix(value.toString(),m_imageData->at(index.row()));
+                m_list.insert(value.toString(),pix);
+        }
+            return true;
+        default:
+            return false;
+        }
+    }
+    return false;
+}
  QList<QPixmap>* ImageModel::imageData() const
 {
     return m_imageData;
@@ -82,6 +116,8 @@ void ImageModel::setImageData( QList<QPixmap>* imageData)
 void ImageModel::insertImage(QPixmap * pix, QString key, QString stuff)
 {
     beginInsertRows(QModelIndex(),m_imageData->size(),m_imageData->size());
+    m_provider->insertPix(key,*pix);
+    m_list.insert(key,pix);
     m_imageData->append(*pix);
     m_keyList.append(key);
     m_filename.append(stuff);
@@ -104,7 +140,19 @@ void ImageModel::clear()
 {
     beginResetModel();
     m_imageData->clear();
+    m_provider->cleanData();
+    m_list.clear();
     m_keyList.clear();
     m_filename.clear();
     endResetModel();
+}
+
+void ImageModel::setImageProvider(RolisteamImageProvider *img)
+{
+    m_provider = img;
+}
+
+void ImageModel::setPixList(QHash<QString, QPixmap*> &list)
+{
+    m_list = list;
 }

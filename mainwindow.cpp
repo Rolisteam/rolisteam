@@ -234,9 +234,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionQML_View,SIGNAL(triggered(bool)),this,SLOT(showQML()));
     connect(ui->actionCode_To_QML,SIGNAL(triggered(bool)),this,SLOT(showQMLFromCode()));
 
+
+    ///////////////////////
+    /// @brief action menu
+    ///////////////////////
     connect(ui->m_saveAct,SIGNAL(triggered(bool)),this,SLOT(save()));
     connect(ui->actionSave_As,SIGNAL(triggered(bool)),this,SLOT(saveAs()));
     connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
+
+    connect(ui->m_checkValidityAct,SIGNAL(triggered(bool)),this,SLOT(checkCharacters()));
 
     connect(ui->m_addPage,SIGNAL(clicked(bool)),this,SLOT(addPage()));
     connect(ui->m_removePage,SIGNAL(clicked(bool)),this,SLOT(removePage()));
@@ -293,8 +299,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_onlineHelpAct, SIGNAL(triggered()), this, SLOT(helpOnLine()));
 
 
-    m_imageModel = new ImageModel();
+    m_imageModel = new ImageModel(m_pixList);
     ui->m_imageList->setModel(m_imageModel);
+
+    m_imageModel->setImageProvider(m_imgProvider);
     auto* view = ui->m_imageList->horizontalHeader();
     view->setSectionResizeMode(1,QHeaderView::Stretch);
     ui->m_imageList->setAlternatingRowColors(true);
@@ -313,15 +321,14 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+void MainWindow::checkCharacters()
+{
+    m_characterModel->checkCharacter(m_model->getRootSection());
+}
+
 void MainWindow::readSettings()
 {
     QSettings settings("rolisteam",QString("rcse/preferences"));
-
-   /* if(m_resetSettings)
-    {
-        settings.clear();
-    }*/
-
     restoreState(settings.value("windowState").toByteArray());
     settings.value("Maximized", false).toBool();
    // if(!maxi)
@@ -330,8 +337,6 @@ void MainWindow::readSettings()
     }
 
     m_preferences->readSettings(settings);
-
-    //m_preferencesDialog->initializePostSettings();
 }
 void MainWindow::writeSettings()
 {
@@ -352,27 +357,15 @@ void MainWindow::clearData()
     m_canvasList.append(canvas);
     m_view->setScene(canvas);
 
-    m_pixList.clear();
     m_imageModel->clear();
 
     m_model->clearModel();
-    m_imgProvider->cleanData();
     m_characterModel->clearModel();
 
     ui->m_codeEdit->clear();
 
     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
     canvas->setModel(m_model);
-
-    /*while(m_canvasList.size()>1)
-    {
-        delete m_canvasList.takeLast();
-    }
-    for(auto canvas : m_canvasList)
-    {
-        canvas->clear();
-    }
-    m_imgProvider->cleanData();*/
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* event)
@@ -492,7 +485,6 @@ void MainWindow::openPDF()
     if(nullptr!=m_pdf)
     {
         qreal res = m_pdf->getDpi();
-        m_pixList.clear();
         m_imageModel->clear();
         QString id = QUuid::createUuid().toString();
         static int lastCanvas=m_canvasList.size()-1;
@@ -552,10 +544,7 @@ void MainWindow::openPDF()
                     {
                         canvas->setPixmap(pix);
                         QString key = QStringLiteral("%2_background_%1.jpg").arg(lastCanvas+i).arg(id);
-                        m_pixList.insert(key,pix);
                         m_imageModel->insertImage(pix,key,QString("From PDF"));
-
-                        m_imgProvider->insertPix(key,*pix);
                     }
                 }
             }
@@ -601,10 +590,7 @@ void MainWindow::openImage()
                 canvas->setPixmap(pix);
                 QString id = QUuid::createUuid().toString();
                 QString key = QStringLiteral("%2_background_%1.jpg").arg(m_currentPage).arg(id);
-                m_pixList.insert(key,pix);
                 m_imageModel->insertImage(pix,key,img);
-                m_imgProvider->insertPix(key,*pix);
-                //setFitInView(); //m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
             }
         }
     }
@@ -858,7 +844,6 @@ void MainWindow::columnAdded()
 void MainWindow::setImage()
 {
     int i = 0;
-    m_pixList.clear();
     m_imageModel->clear();
     QString id = QUuid::createUuid().toString();//one id for all images.
     QSize previous;
@@ -881,8 +866,6 @@ void MainWindow::setImage()
             pix=new QPixmap();
         }
         QString idList = QStringLiteral("%2_background_%1.jpg").arg(i).arg(id);
-        m_imgProvider->insertPix(idList,*pix);
-        m_pixList.insert(idList,pix);
         m_imageModel->insertImage(pix,idList,"from canvas");
         ++i;
     }
@@ -1033,10 +1016,10 @@ void MainWindow::open()
                     {
                         m_canvasList[0]->setPixmap(pix);
                     }
-                    m_pixList.insert(id,pix);
+                   // m_pixList.insert(id,pix);
                     m_imageModel->insertImage(pix,id,"from rcs file");
                     //m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(i).arg(id),*pix);
-                    m_imgProvider->insertPix(id,*pix);
+                    //m_imgProvider->insertPix(id,*pix);
                     ++i;
                 }
                 m_model->load(data,m_canvasList);
@@ -1078,6 +1061,7 @@ void MainWindow::generateQML(QString& qml)
     QPixmap* pix = NULL;
     bool allTheSame=true;
     QSize size;
+    //m_pixList = m_imageModel->getPixHash();
     for(QPixmap* pix2 : m_pixList.values())
     {
         if(size != pix2->size())
@@ -1409,7 +1393,7 @@ void MainWindow::addImage()
         {
             QString fileName = QFileInfo(img).fileName();
             m_imageModel->insertImage(pix,fileName,img);
-            m_imgProvider->insertPix(fileName,*pix);
+            //m_imgProvider->insertPix(fileName,*pix);
         }
     }
 }
