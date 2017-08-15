@@ -33,15 +33,16 @@ CanvasField::CanvasField()
 }
 #endif
 
-Field::Field(QGraphicsItem* parent)
-: CSItem(parent)
+Field::Field(bool addCount,QGraphicsItem* parent)
+: CSItem(parent,addCount)
 {
  init();
 }
 
-Field::Field(QPointF topleft,QGraphicsItem* parent)
-    : CSItem(parent)
+Field::Field(QPointF topleft,bool addCount,QGraphicsItem* parent)
+    : CSItem(parent,addCount)
 {
+    Q_UNUSED(topleft);
     m_value = QStringLiteral("value");
     init();
 }
@@ -349,6 +350,7 @@ void Field::save(QJsonObject& json,bool exp)
 
 void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
 {
+    Q_UNUSED(scene);
     m_id = json["id"].toString();
     m_border = (BorderLine)json["border"].toInt();
     m_value= json["value"].toString();
@@ -650,7 +652,7 @@ QPair<QString,QString> Field::getTextAlign()
     return pair;
 }
 
-void Field::copyField(CharacterSheetItem* oldItem)
+void Field::copyField(CharacterSheetItem* oldItem,bool copyData)
 {
     Field* oldField =  dynamic_cast<Field*>(oldItem);
     if(NULL!=oldField)
@@ -663,6 +665,11 @@ void Field::copyField(CharacterSheetItem* oldItem)
         setBgColor(oldField->bgColor());
         setTextColor(oldField->textColor());
         setLabel(oldField->getLabel());
+        setFormula(oldField->getFormula());
+        if(copyData)
+        {
+            setValue(oldField->value());
+        }
         setOrig(oldField);
     }
 }

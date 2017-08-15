@@ -36,7 +36,7 @@ class CSItem : public CharacterSheetItem
 
 public:
     enum BorderLine {UP=1,LEFT=2,DOWN=4,RIGHT=8,ALL=15,NONE=16};
-    CSItem(QGraphicsItem* parent=0);
+    CSItem(QGraphicsItem* parent=0,bool addCount=true);
     virtual void setNewEnd(QPointF nend) =0;
 
 

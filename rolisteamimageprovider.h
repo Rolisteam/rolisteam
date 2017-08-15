@@ -22,6 +22,8 @@ public:
 
     void setData( QHash<QString, QPixmap>* data);
 
+    void removeImg(QString key);
+
 #ifndef RCSE
     void fill(NetworkMessageWriter& msg);
     void read(NetworkMessageReader& msg);

@@ -21,9 +21,13 @@
 #include <QDebug>
 
 int CSItem::m_count=0;
-CSItem::CSItem(QGraphicsItem* parent)
+CSItem::CSItem(QGraphicsItem* parent,bool addCount)
 {
-    ++m_count;
+      Q_UNUSED(parent);
+    if(addCount)
+    {
+        ++m_count;
+    }
 }
 
 QColor CSItem::bgColor() const
@@ -68,22 +72,22 @@ qreal CSItem::getHeight() const
 
 void CSItem::setX(qreal x)
 {
-
+  Q_UNUSED(x);
 }
 
 void CSItem::setY(qreal y)
 {
-
+  Q_UNUSED(y);
 }
 
 void CSItem::setWidth(qreal width)
 {
-
+  Q_UNUSED(width);
 }
 
 void CSItem::setHeight(qreal height)
 {
-
+  Q_UNUSED(height);
 }
 
 QRectF CSItem::getRect() const

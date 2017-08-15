@@ -49,8 +49,8 @@ public:
 
     enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,BottomRight,BottomMiddle,BottomLeft};
 
-    explicit Field(QGraphicsItem* parent = 0);
-    explicit Field(QPointF topleft,QGraphicsItem* parent = 0);
+    explicit Field(bool addCount = true,QGraphicsItem* parent = 0);
+    explicit Field(QPointF topleft,bool addCount = true,QGraphicsItem* parent = 0);
     virtual ~Field();
 
     QSize size() const;
@@ -89,7 +89,7 @@ public:
 
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
 
-    void copyField(CharacterSheetItem* );
+    void copyField(CharacterSheetItem* ,bool copyData );
 
     bool getClippedText() const;
     void setClippedText(bool clippedText);

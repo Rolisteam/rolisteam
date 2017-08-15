@@ -42,6 +42,8 @@ int CharacterSheetItem::getChildrenCount() const
 
 QVariant CharacterSheetItem::getValueFrom(CharacterSheetItem::ColumnId i,int role) const
 {
+    Q_UNUSED(i);
+    Q_UNUSED(role);
     return QVariant();
 }
 
@@ -118,7 +120,9 @@ void CharacterSheetItem::updateLabelFromOrigin()
 }
 void CharacterSheetItem::changeKeyChild(QString oldkey, QString newKey,CharacterSheetItem* child)
 {
-
+    Q_UNUSED(oldkey);
+    Q_UNUSED(newKey);
+    Q_UNUSED(child);
 }
 
 QString CharacterSheetItem::value() const
@@ -209,6 +213,7 @@ void CharacterSheetItem::setParent(CharacterSheetItem *parent)
 }
 int CharacterSheetItem::indexOfChild(CharacterSheetItem* itm)
 {
+    Q_UNUSED(itm);
     return 0;
 }
 bool CharacterSheetItem::hasFormula() const

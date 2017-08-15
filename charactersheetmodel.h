@@ -142,6 +142,8 @@ public slots:
     CharacterSheet* addCharacterSheet();
 
     void clearModel();
+
+    void checkCharacter(Section* section);
 signals:
     void characterSheetHasBeenAdded(CharacterSheet* sheet);
     void dataCharacterChange();

@@ -246,6 +246,24 @@ void CharacterSheetModel::clearModel()
     }
     endResetModel();
 }
+
+void CharacterSheetModel::checkCharacter(Section *section)
+{
+    for(CharacterSheet* sheet : *m_characterList)
+    {
+        for(int i = 0; i <  section->getChildrenCount(); ++i)
+        {
+            auto id = section->getChildAt(i);
+            auto field = sheet->getFieldFromKey(id->getId());
+            if(nullptr == field)
+            {
+                Field* newField = new Field(false);
+                newField->copyField(id,true);
+                sheet->insertCharacterItem(newField);
+            }
+        }
+    }
+}
 void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
 {
     beginInsertColumns(QModelIndex(),m_characterList->size()+1 ,m_characterList->size()+1 );

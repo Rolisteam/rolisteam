@@ -58,6 +58,7 @@ CharacterSheetItem* Section::getChildAt(QString key) const
 }
 QVariant Section::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
 {
+    Q_UNUSED(role);
     if(CharacterSheetItem::ID==id)
         return m_id;
     if(CharacterSheetItem::VALUE==id)
@@ -167,13 +168,13 @@ void Section::copySection(Section* oldSection)
     for(int i = 0; i < oldSection->getChildrenCount();++i)
     {
         CharacterSheetItem* childItem = oldSection->getChildAt(i);
-        if(NULL!=childItem)
+        if(nullptr!=childItem)
         {
             CharacterSheetItem* newItem = NULL;
             if(CharacterSheetItem::FieldItem == childItem->getItemType())
             {
-                Field* newField = new Field();
-                newField->copyField(childItem);
+                Field* newField = new Field(false);
+                newField->copyField(childItem,false);
                 newItem = newField;
             }
 
@@ -263,8 +264,8 @@ void Section::buildDataInto( CharacterSheet* character)
             CharacterSheetItem* newItem = NULL;
             if(CharacterSheetItem::FieldItem == childItem->getItemType())
             {
-                Field* newField = new Field();
-                newField->copyField(childItem);
+                Field* newField = new Field(false);
+                newField->copyField(childItem,false);
                 newItem = newField;
             }
             if(NULL!=newItem)

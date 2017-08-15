@@ -16,6 +16,7 @@ RolisteamImageProvider::~RolisteamImageProvider()
 
 QPixmap RolisteamImageProvider::requestPixmap(const QString &id, QSize *size, const QSize& requestedSize)
 {
+      Q_UNUSED(requestedSize);
     /// @warning Ugly stuff
     //qDebug() << "Image Provider" << s_data->size();
     QString idTranslate = id;
@@ -78,3 +79,7 @@ void RolisteamImageProvider::read(NetworkMessageReader &msg)
     }
 }
 #endif
+void RolisteamImageProvider::removeImg(QString key)
+{
+    s_data->remove(key);
+}

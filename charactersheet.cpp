@@ -67,7 +67,7 @@ CharacterSheetItem* CharacterSheet::getFieldFromKey(QString key)
     {
         return m_valuesMap.value(key);
     }
-    return NULL;
+    return nullptr;
 }
 
 const  QVariant CharacterSheet::getValue(QString path,Qt::ItemDataRole role) const
@@ -109,7 +109,7 @@ CharacterSheetItem* CharacterSheet::setValue(QString key, QString value, QString
     }
     else
     {
-        Field* field = new Field();
+        Field* field = new Field(false);
         result = field;
         field->setValue(value);
         field->setId(key);
