@@ -82,7 +82,7 @@ QmlHighlighter::QmlHighlighter(QTextDocument *parent)
 
     commentFormat.setForeground(QColor(Qt::green).lighter());
     commentFormat.setFontItalic(true);
-    rule.pattern =  QRegularExpression("\/\/.*");
+    rule.pattern =  QRegularExpression("\\/\\/.*");
     rule.format = commentFormat;
     highlightingRules.append(rule);
 

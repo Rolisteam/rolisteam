@@ -67,9 +67,9 @@ private:
     QGraphicsPixmapItem* m_bg;
     CSItem* m_currentItem;
     Tool m_currentTool;
+    QPixmap* m_pix;
     FieldModel* m_model;
     int m_currentPage;
-    QPixmap* m_pix;
 };
 
 #endif // CANVAS_H

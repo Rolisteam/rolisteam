@@ -73,7 +73,6 @@ SOURCES += main.cpp\
     fieldmodel.cpp \
     borderlisteditor.cpp \
     qmlhighlighter.cpp \
-    charactermodel.cpp \
     delegate/alignmentdelegate.cpp \
     codeeditor.cpp \
     delegate/typedelegate.cpp \
@@ -92,7 +91,6 @@ HEADERS  += mainwindow.h \
     fieldmodel.h \
     borderlisteditor.h \
     qmlhighlighter.h \
-    charactermodel.h \
     delegate/alignmentdelegate.h \
     codeeditor.h \
     delegate/typedelegate.h \

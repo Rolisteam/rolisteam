@@ -55,8 +55,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-
-    Field* addFieldAt(QPoint pos);
     bool qmlGeneration() const;
     void setQmlGeneration(bool qmlGeneration);
 

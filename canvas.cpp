@@ -28,7 +28,8 @@
 
 //#include "charactersheetbutton.h"
 
-Canvas::Canvas(QObject *parent) : QGraphicsScene(parent),m_bg(NULL),m_currentItem(NULL),m_pix(NULL),m_model(NULL)
+Canvas::Canvas(QObject *parent)
+    : QGraphicsScene(parent),m_bg(nullptr),m_currentItem(nullptr),m_pix(nullptr),m_model(nullptr)
 {
     setSceneRect(QRect(0,0,800,600));
 }
@@ -152,6 +153,10 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             case Canvas::BUTTON:
                 field->setCurrentType(Field::BUTTON);
                 field->setBgColor(Qt::red);
+                break;
+            case Canvas::MOVE:
+            case Canvas::DELETETOOL:
+            case Canvas::NONE:
                 break;
             }
         }

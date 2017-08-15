@@ -34,6 +34,7 @@ BorderListEditor::BorderListEditor(QObject *widget)
 
 QString BorderListEditor::displayText(const QVariant &value, const QLocale &locale) const
 {
+    Q_UNUSED(locale);
     int border = value.toInt();
 
     QString result;
@@ -62,6 +63,8 @@ QString BorderListEditor::displayText(const QVariant &value, const QLocale &loca
 
 QWidget *BorderListEditor::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    Q_UNUSED(option);
+    Q_UNUSED(index);
     QListWidget* cb = new QListWidget(parent);
     cb->setSelectionMode(QAbstractItemView::ExtendedSelection);
     cb->setMinimumHeight(80);

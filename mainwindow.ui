@@ -510,13 +510,7 @@
     <addaction name="m_saveAct"/>
     <addaction name="actionSave_As"/>
     <addaction name="separator"/>
-    <addaction name="actionSave_Qml"/>
-    <addaction name="actionLoad_Qml"/>
-    <addaction name="separator"/>
-    <addaction name="m_rolisteamExport"/>
-    <addaction name="separator"/>
     <addaction name="m_preferencesAction"/>
-    <addaction name="separator"/>
     <addaction name="m_quitAction"/>
    </widget>
    <widget class="QMenu" name="menuEdition">
@@ -528,6 +522,7 @@
     <addaction name="m_backgroundImageAct"/>
     <addaction name="separator"/>
     <addaction name="m_resetIdAct"/>
+    <addaction name="m_checkValidityAct"/>
     <addaction name="m_sheetProperties"/>
     <addaction name="separator"/>
     <addaction name="m_showItemIcon"/>
@@ -783,6 +778,11 @@
    </property>
    <property name="text">
     <string>Delete Image</string>
+   </property>
+  </action>
+  <action name="m_checkValidityAct">
+   <property name="text">
+    <string>Check Validity</string>
    </property>
   </action>
  </widget>

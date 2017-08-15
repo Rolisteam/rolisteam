@@ -323,8 +323,8 @@ void MainWindow::readSettings()
     }*/
 
     restoreState(settings.value("windowState").toByteArray());
-    bool  maxi = settings.value("Maximized", false).toBool();
-    if(!maxi)
+    settings.value("Maximized", false).toBool();
+   // if(!maxi)
     {
         restoreGeometry(settings.value("geometry").toByteArray());
     }
@@ -1053,11 +1053,11 @@ void MainWindow::updatePageSelector()
 {
     QStringList list;
     ui->m_selectPageCb->clear();
-    int i =0;
-    for(Canvas* canvas: m_canvasList)
+    //int i =0;
+    for(int i = 0; i < m_canvasList.size() ; ++i)
     {
         list << QStringLiteral("Page %1").arg(i+1);
-        ++i;
+        //++i;
     }
     ui->m_selectPageCb->addItems(list);
     ui->m_selectPageCb->setCurrentIndex(0);
@@ -1327,12 +1327,6 @@ void MainWindow::setQmlGeneration(bool qmlGeneration)
     m_qmlGeneration = qmlGeneration;
 }
 
-Field* MainWindow::addFieldAt(QPoint pos)
-{
-    //qDebug() << "create Field";
-
-    return NULL;
-}
 void MainWindow::rollDice(QString cmd)
 {
     qDebug() << cmd;

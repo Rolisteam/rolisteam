@@ -53,6 +53,8 @@ QPainterPath CanvasField::shape() const
 #include <QStyleOptionGraphicsItem>
 void CanvasField::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+      Q_UNUSED(widget);
+
     if(NULL==m_field)
         return;
     painter->save();

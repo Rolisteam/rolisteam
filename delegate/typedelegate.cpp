@@ -73,6 +73,7 @@ void TypeDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, cons
 
 QString TypeDelegate::displayText(const QVariant &value, const QLocale &locale) const
 {
+      Q_UNUSED(locale);
     bool b;
     int i = value.toInt(&b);
     if((b)&&(i>=0)&&(i<m_data.size()))
