@@ -82,12 +82,9 @@ public slots:
     void addPage();
     void removePage();
     void currentPageChanged(int);
-    void menuRequested(const QPoint &pos);
-    void menuRequestedForFieldModel(const QPoint &pos);
 
     void editColor(QModelIndex);
     void openImage();
-    void menuRequestedFromView(const QPoint &pos);
     void setFitInView();
     bool mayBeSaved();
     void modelChanged();
@@ -95,6 +92,7 @@ public slots:
     void aboutRcse();
     void helpOnLine();
     void addImage();
+    void copyPath();
 protected:
     bool eventFilter(QObject *, QEvent *);
     void applyValue(QModelIndex &index, bool selection);
@@ -102,6 +100,10 @@ protected:
     void closeEvent(QCloseEvent *event);
     void managePDFImport();
 protected slots:
+    void menuRequested(const QPoint &pos);
+    void menuRequestedForFieldModel(const QPoint &pos);
+    void menuRequestedFromView(const QPoint &pos);
+    void menuRequestedForImageModel(const QPoint &pos);
     void columnAdded();
     void alignOn();
     void clearData();
@@ -157,6 +159,11 @@ private:
     QAction* m_dupplicate;
     QPoint m_posMenu;
 
+    //action image model
+    QAction* m_copyPath;
+    QAction* m_replaceImage;
+    QAction* m_removeImage;
+
 
     PreferencesManager* m_preferences;
     /// Sheet properties
@@ -165,8 +172,6 @@ private:
     bool m_additionnalCodeTop;
     bool m_flickableSheet;
     qreal m_fixedScaleSheet;
-
-
 };
 
 #endif // MAINWINDOW_H
