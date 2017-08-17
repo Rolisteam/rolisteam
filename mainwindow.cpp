@@ -337,6 +337,10 @@ MainWindow::MainWindow(QWidget *parent) :
     m_imageModel = new ImageModel(m_pixList);
     ui->m_imageList->setModel(m_imageModel);
 
+    ui->m_imageList->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->m_imageList,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequestedForImageModel(QPoint)));
+
+
     m_imageModel->setImageProvider(m_imgProvider);
     auto* view = ui->m_imageList->horizontalHeader();
     view->setSectionResizeMode(1,QHeaderView::Stretch);
@@ -355,6 +359,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Make the table button invisible
     ui->m_tableFieldBtn->setVisible(false);
+
+
+    //////////////////////////////////////////
+    ///
+    /// contextual action for image model
+    ///
+    //////////////////////////////////////////
+    m_copyPath = new QAction(tr("Copy Path"),ui->m_imageList);
+    m_copyPath->setShortcut(QKeySequence("CTRL+c"));
+    m_replaceImage= new QAction(tr("Change Image"),ui->m_imageList);
+    m_removeImage= new QAction(tr("Delete Image"),ui->m_imageList);
+
+    ui->m_imageList->addAction(m_copyPath);
+    connect(m_copyPath,SIGNAL(triggered(bool)),this,SLOT(copyPath()));
+    ui->m_imageList->addAction(m_replaceImage);
+    ui->m_imageList->addAction(m_removeImage);
+
     readSettings();
 }
 MainWindow::~MainWindow()
@@ -879,6 +900,44 @@ void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
         applyValue(index,true);
     }
 }
+#include <QClipboard>
+
+void MainWindow::menuRequestedForImageModel(const QPoint & pos)
+{
+    Q_UNUSED(pos);
+    QMenu menu(this);
+
+    QModelIndex index = ui->m_imageList->currentIndex();
+    if(index.isValid())
+    {
+        menu.addAction(m_copyPath);
+        menu.addSeparator();
+        menu.addAction(m_replaceImage);
+        menu.addAction(m_removeImage);
+
+        m_copyPath->setEnabled(index.column()==1);
+    }
+
+    QAction* act = menu.exec(QCursor::pos());
+
+    if( m_replaceImage == act)
+    {
+    }
+    else if(m_removeImage == act)
+    {
+    }
+}
+void MainWindow::copyPath()
+{
+    QModelIndex index = ui->m_imageList->currentIndex();
+    if(index.column() == 1)
+    {
+        QString path = index.data().toString();
+        QClipboard* clipboard = QGuiApplication::clipboard();
+        clipboard->setText(path);
+    }
+}
+
 void MainWindow::applyValue(QModelIndex& index, bool selection)
 {
     if(!index.isValid())

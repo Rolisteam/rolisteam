@@ -82,12 +82,9 @@ public slots:
     void addPage();
     void removePage();
     void currentPageChanged(int);
-    void menuRequested(const QPoint &pos);
-    void menuRequestedForFieldModel(const QPoint &pos);
 
     void editColor(QModelIndex);
     void openImage();
-    void menuRequestedFromView(const QPoint &pos);
     void setFitInView();
     bool mayBeSaved();
     void modelChanged();
@@ -95,6 +92,7 @@ public slots:
     void aboutRcse();
     void helpOnLine();
     void addImage();
+    void copyPath();
 protected:
     bool eventFilter(QObject *, QEvent *);
     bool wheelEventForView(QWheelEvent *event);
@@ -103,6 +101,10 @@ protected:
     void applyValue(QModelIndex &index, bool selection);
     void applyValueOnCharacterSelection(QModelIndex &index, bool selection, bool allCharacter);
 protected slots:
+    void menuRequested(const QPoint &pos);
+    void menuRequestedForFieldModel(const QPoint &pos);
+    void menuRequestedFromView(const QPoint &pos);
+    void menuRequestedForImageModel(const QPoint &pos);
     void columnAdded();
     void alignOn();
     void clearData();
@@ -159,6 +161,11 @@ private:
     QAction* m_sameHeight;
     QAction* m_dupplicate;
     QPoint m_posMenu;
+
+    //action image model
+    QAction* m_copyPath;
+    QAction* m_replaceImage;
+    QAction* m_removeImage;
 
 
     PreferencesManager* m_preferences;
