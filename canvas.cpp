@@ -26,6 +26,8 @@
 #include <QDebug>
 
 
+#include "tablecanvasfield.h"
+
 //#include "charactersheetbutton.h"
 
 Canvas::Canvas(QObject *parent)
@@ -117,9 +119,18 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 }
             }
         }
+       /*else if(m_currentTool == Canvas::ADDTABLE)
+        {
+
+        }*/
         else if((m_currentTool<=Canvas::ADDCHECKBOX)||(m_currentTool==Canvas::BUTTON))
         {
             Field* field = new Field(mouseEvent->scenePos());
+
+            if(Canvas::ADDTABLE == m_currentTool)
+            {
+                field->setCanvasField(new TableCanvasField(field));
+            }
             field->setPage(m_currentPage);
             addItem(field->getCanvasField());
             if(nullptr != m_model)
@@ -143,6 +154,12 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 break;
             case Canvas::ADDTEXTFIELD:
                 field->setCurrentType(Field::TEXTFIELD);
+                break;
+            case Canvas::ADDTABLE:
+            {
+                field->setCurrentType(Field::TABLE);
+
+            }
                 break;
             case Canvas::ADDIMAGE:
                 field->setCurrentType(Field::IMAGE);

@@ -54,7 +54,7 @@
              </widget>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+             <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
               <item>
                <widget class="QToolButton" name="m_addTextInput">
                 <property name="sizePolicy">
@@ -251,6 +251,19 @@
                 <attribute name="buttonGroup">
                  <string notr="true">buttonGroup</string>
                 </attribute>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="m_tableFieldBtn">
+                <property name="text">
+                 <string>Table</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
                </widget>
               </item>
               <item>
@@ -783,6 +796,14 @@
   <action name="m_checkValidityAct">
    <property name="text">
     <string>Check Validity</string>
+   </property>
+  </action>
+  <action name="m_tableFieldAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Table</string>
    </property>
   </action>
  </widget>

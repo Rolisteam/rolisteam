@@ -32,7 +32,7 @@ signals:
     void widthChanged();
     void heightChanged();
 
-private:
+protected:
     Field* m_field;
     QRectF m_rect;
     static QHash<int,QString> m_pictureMap;

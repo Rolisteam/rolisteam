@@ -84,7 +84,8 @@ SOURCES += main.cpp\
     preferencesmanager.cpp \
     sheetproperties.cpp \
     imagemodel.cpp \
-    itemeditor.cpp
+    itemeditor.cpp \
+    tablecanvasfield.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -102,7 +103,8 @@ HEADERS  += mainwindow.h \
     preferencesmanager.h \
     sheetproperties.h \
     imagemodel.h \
-    itemeditor.h
+    itemeditor.h \
+    tablecanvasfield.h
 
 
 

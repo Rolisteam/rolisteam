@@ -160,6 +160,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_addTextFieldAct->setData(Canvas::ADDTEXTFIELD);
     ui->m_addImageAction->setData(Canvas::ADDIMAGE);
     ui->m_functionButtonAct->setData(Canvas::ADDFUNCBUTTON);
+    ui->m_tableFieldAct->setData(Canvas::ADDTABLE);
+
 
     ui->m_moveAct->setData(Canvas::MOVE);
     ui->m_moveAct->setShortcut(QKeySequence(Qt::Key_Escape));
@@ -173,6 +175,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_addCheckbox->setDefaultAction(ui->m_addCheckBoxAct);
     ui->m_imageBtn->setDefaultAction(ui->m_addImageAction);
     ui->m_functionBtn->setDefaultAction(ui->m_functionButtonAct);
+    ui->m_tableFieldBtn->setDefaultAction(ui->m_tableFieldAct);
 
     QButtonGroup* group = new QButtonGroup();
     group->addButton(ui->m_addTextInput);
@@ -186,6 +189,7 @@ MainWindow::MainWindow(QWidget *parent) :
     group->addButton(ui->m_deleteBtn);
     group->addButton(ui->m_moveBtn);
     group->addButton(ui->m_functionBtn);
+    group->addButton(ui->m_tableFieldBtn);
 
     ui->m_moveBtn->setDefaultAction(ui->m_moveAct);
     ui->m_deleteBtn->setDefaultAction(ui->m_deleteAct);
@@ -221,6 +225,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_addTextInputAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_addImageAction,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_functionButtonAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_tableFieldAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
 
     connect(ui->m_moveAct,&QAction::triggered,[=](bool triggered){
         m_view->setHandle(triggered);
