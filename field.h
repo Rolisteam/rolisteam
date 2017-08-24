@@ -94,9 +94,7 @@ public:
     bool getClippedText() const;
     void setClippedText(bool clippedText);
 
-    //virtual QPainterPath shape() const;
     void setTextAlign(const TextAlign &textAlign);
-
 
     Field::TextAlign getTextAlignValue();
 
@@ -120,7 +118,6 @@ public:
     virtual qreal getY() const;
 signals:
     void updateNeeded(CSItem* c);
-    //void valueChanged(QString);
 
 protected:
     void init();
@@ -128,10 +125,10 @@ protected:
     void mouseMoveEvent(QMouseEvent* ev);
 
     QPair<QString, QString> getTextAlign();
-private:
     QString getQMLItemName();
     bool hasFontField();
-private:
+
+protected:
     QFont  m_font;
     TextAlign m_textAlign;
     QStringList m_availableValue;

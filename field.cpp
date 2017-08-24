@@ -491,6 +491,8 @@ QString Field::getQMLItemName()
         return "SelectField";
     case Field::IMAGE:
         return "ImageField";
+    case Field::TABLE:
+        return "Item";
     case Field::FUNCBUTTON:
     case Field::BUTTON:
         return "DiceButton";
