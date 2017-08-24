@@ -1,7 +1,7 @@
 #include "canvasfield.h"
 
 #include <QPainter>
-
+#include <QGraphicsSceneContextMenuEvent>
 #include <QDebug>
 #include "field.h"
 
@@ -133,7 +133,12 @@ void CanvasField::setWidth(qreal w)
         update();
     }
 }
-
+void CanvasField::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+      QMenu menu;
+      setMenu(menu);
+      menu.exec(event->screenPos());
+}
 void CanvasField::setHeight(qreal h)
 {
     if(h!=m_rect.height())
@@ -152,4 +157,9 @@ bool CanvasField::getShowImageField()
 void CanvasField::setShowImageField(bool showImageField)
 {
     m_showImageField = showImageField;
+}
+
+void CanvasField::setMenu(QMenu &menu)
+{
+
 }

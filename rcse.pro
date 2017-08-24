@@ -85,7 +85,8 @@ SOURCES += main.cpp\
     sheetproperties.cpp \
     imagemodel.cpp \
     itemeditor.cpp \
-    tablecanvasfield.cpp
+    tablecanvasfield.cpp \
+    columndefinitiondialog.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -104,7 +105,8 @@ HEADERS  += mainwindow.h \
     sheetproperties.h \
     imagemodel.h \
     itemeditor.h \
-    tablecanvasfield.h
+    tablecanvasfield.h \
+    columndefinitiondialog.h
 
 
 
@@ -112,7 +114,8 @@ FORMS    += mainwindow.ui \
     aboutrcse.ui \
     pdfmanager.ui \
     preferencesdialog.ui \
-    sheetproperties.ui
+    sheetproperties.ui \
+    columndefinitiondialog.ui
 
 DISTFILES += \
     charactersheet/qml/*.qml \

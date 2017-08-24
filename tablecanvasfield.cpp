@@ -72,14 +72,24 @@ void HandleItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 //
 //
 /////////////////////////////////////////////////////
+bool compareHandles(HandleItem* first, HandleItem* two)
+{
+    return (first->pos().x() < two->pos().x());
+}
+
 
 TableCanvasField::TableCanvasField(Field* field)
- :CanvasField(field),m_colunmCount(1),m_lineCount(1)
+ :CanvasField(field),m_colunmCount(1),m_lineCount(1),m_dataReset(true)
 {
     m_addColumn= new ButtonCanvas();
 
+    m_dialog = new ColumnDefinitionDialog();
     m_addColumn->setParentItem(this);
     m_addLine = new ButtonCanvas();
+
+    m_defineColumns = new QAction(tr("Define Columns"),this);
+
+    connect(m_defineColumns,SIGNAL(triggered(bool)),this,SLOT(defineColumns()));
 
     m_addLine->setMsg("+");
     m_addColumn->setMsg("+");
@@ -106,10 +116,34 @@ void TableCanvasField::addColumn()
     update();
 }
 
+
 void TableCanvasField::addLine()
 {
     m_lineCount++;
     update();
+}
+
+void TableCanvasField::defineColumns()
+{
+    std::sort(m_handles.begin(),m_handles.end(),compareHandles);
+
+    if(m_dataReset)
+    {
+        m_dialog->setData(m_handles,boundingRect().width());
+        m_dataReset = false;
+    }
+
+    m_dialog->exec();
+
+    update();
+}
+
+void TableCanvasField::setMenu(QMenu &menu)
+{
+    menu.addAction(m_defineColumns);
+
+
+    //menu.addAction(m_properties);
 }
 
 void TableCanvasField::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -126,7 +160,7 @@ void TableCanvasField::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     m_addLine->setPos(0,boundingRect().height()/2);
     m_addColumn->setPos(boundingRect().width()/2,0);
 
-    if(option->state & QStyle::State_Selected )
+    if(hasFocusOrChild() )
     {
         painter->save();
         QPen pen = painter->pen();
@@ -140,12 +174,49 @@ void TableCanvasField::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     for(auto handle : m_handles)
     {
         painter->drawLine(handle->pos().x(),0,handle->pos().x(),boundingRect().height());
-        handle->setVisible(option->state & QStyle::State_Selected);
+        handle->setVisible(hasFocusOrChild());
+    }
+
+    auto yStep = boundingRect().height()/(m_lineCount);
+
+    if(!m_dataReset)
+    {
+        auto model = m_dialog->model();
+        if(nullptr != model)
+        {
+            auto list = model->children();
+            for(int x = 0; x < m_colunmCount; ++x)
+            {
+                auto  field = list.at(x);
+                qreal xPos = 0;
+                if(x!=0)
+                {
+                    xPos = m_handles.at(x-1)->pos().x();
+                }
+                auto itemType = field->getItemType();
+                auto fieldW = field->getValueFrom(CharacterSheetItem::WIDTH,Qt::DisplayRole).toDouble();
+                auto fieldH = field->getValueFrom(CharacterSheetItem::HEIGHT,Qt::DisplayRole).toDouble();
+                for(int y = 0; y < m_lineCount; ++y)
+                {
+                    QRectF rect(xPos,y*yStep,fieldW,fieldH);
+                    QPixmap map = QPixmap(m_pictureMap[itemType]);
+                    m_pix=map.scaled(32,32);
+                    if((!m_pix.isNull())&& m_showImageField )
+                    {
+                        painter->drawPixmap(rect.center()-m_pix.rect().center(),m_pix,m_pix.rect());
+                    }
+                    painter->save();
+                    painter->setPen(Qt::green);
+                    painter->drawRect(rect);
+                    painter->restore();
+                }
+            }
+
+        }
+
     }
 
 
-
-    auto yStep = boundingRect().height()/(m_lineCount);
     for(int i = 0; i < m_lineCount ; ++i)
     {
         painter->drawLine(0,i*yStep,boundingRect().width(),i*yStep);
@@ -153,7 +224,29 @@ void TableCanvasField::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->drawText(QPoint(0,0),m_field->getId());
     painter->restore();
 }
+bool TableCanvasField::hasFocusOrChild()
+{
+        if(isSelected())
+        {
+            return true;
+        }
+        else
+        {
+            if(m_handles.isEmpty())
+            {
+                return false;
+            }
+            for(int i = 0; i< m_handles.size();++i)
+            {
+                if((m_handles.at(i)!=NULL)&&(m_handles.at(i)->isSelected()))
+                {
+                    return true;
+                }
+            }
+        }
 
+    return false;
+}
 
 //////////////////////////////////////////////////////
 //
@@ -194,7 +287,6 @@ void ButtonCanvas::setMsg(const QString &msg)
 #include <QGraphicsSceneMouseEvent>
 void ButtonCanvas::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << event->button() << Qt::LeftButton;
    if(event->buttons() & Qt::LeftButton)
    {
        emit clicked();

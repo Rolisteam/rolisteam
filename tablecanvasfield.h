@@ -4,6 +4,9 @@
 #include <QObject>
 #include "canvasfield.h"
 #include "charactersheetitem.h"
+
+#include "columndefinitiondialog.h"
+
 class TableCanvasField;
 class HandleItem : public QGraphicsObject
 {
@@ -85,9 +88,15 @@ public:
 
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
+    bool hasFocusOrChild();
 public slots:
     void addColumn();
     void addLine();
+    void defineColumns();
+
+
+protected:
+    virtual void setMenu(QMenu& menu);
 
 private:
     int m_colunmCount;
@@ -98,6 +107,11 @@ private:
 
     ButtonCanvas* m_addColumn;
     ButtonCanvas* m_addLine;
+    QAction* m_properties;
+    QAction* m_defineColumns;
+
+    ColumnDefinitionDialog* m_dialog;
+    bool m_dataReset;
 
 };
 

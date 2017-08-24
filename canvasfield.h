@@ -1,7 +1,7 @@
 #ifndef CANVASFIELD_H
 #define CANVASFIELD_H
 #include <QGraphicsObject>
-
+#include <QMenu>
 //
 class Field;
 /**
@@ -27,6 +27,9 @@ public:
 
     static bool getShowImageField();
     static void setShowImageField(bool showImageField);
+protected:
+    virtual void setMenu(QMenu& menu);
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 signals:
     void widthChanged();

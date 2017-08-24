@@ -3,6 +3,9 @@
 
 #include <QDialog>
 
+#include "fieldmodel.h"
+
+class HandleItem;
 namespace Ui {
 class ColumnDefinitionDialog;
 }
@@ -15,8 +18,15 @@ public:
     explicit ColumnDefinitionDialog(QWidget *parent = 0);
     ~ColumnDefinitionDialog();
 
+
+    FieldModel *model() const;
+    void setModel(FieldModel *model);
+
+public slots:
+    void setData(QList<HandleItem*> ,qreal widthTotal);
 private:
     Ui::ColumnDefinitionDialog *ui;
+    FieldModel* m_model;
 };
 
 #endif // COLUMNDEFINITIONDIALOG_H
