@@ -89,6 +89,16 @@ public:
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
     bool hasFocusOrChild();
+
+    int colunmCount() const;
+    void setColunmCount(int colunmCount);
+
+    int lineCount() const;
+    void setLineCount(int lineCount);
+
+    int getColumnWidth(int c);
+    int getLineHeight();
+
 public slots:
     void addColumn();
     void addLine();
@@ -101,9 +111,8 @@ protected:
 private:
     int m_colunmCount;
     int m_lineCount;
-    //QList<qreal> m_columnSize;
     QList<CharacterSheetItem::TypeField> m_fieldTypes;
-    QList<HandleItem*> m_handles;
+    QList<HandleItem *> m_handles;
 
     ButtonCanvas* m_addColumn;
     ButtonCanvas* m_addLine;

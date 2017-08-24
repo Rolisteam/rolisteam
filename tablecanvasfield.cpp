@@ -146,10 +146,50 @@ void TableCanvasField::setMenu(QMenu &menu)
     //menu.addAction(m_properties);
 }
 
+QList<HandleItem *> TableCanvasField::handles() const
+{
+    return m_handles;
+}
+
+void TableCanvasField::setHandles(const QList<HandleItem *> &handles)
+{
+    m_handles = handles;
+}
+
+QList<CharacterSheetItem::TypeField> TableCanvasField::fieldTypes() const
+{
+    return m_fieldTypes;
+}
+
+void TableCanvasField::setFieldTypes(const QList<CharacterSheetItem::TypeField> &fieldTypes)
+{
+    m_fieldTypes = fieldTypes;
+}
+
+int TableCanvasField::lineCount() const
+{
+    return m_lineCount;
+}
+
+void TableCanvasField::setLineCount(int lineCount)
+{
+    m_lineCount = lineCount;
+}
+
+int TableCanvasField::colunmCount() const
+{
+    return m_colunmCount;
+}
+
+void TableCanvasField::setColunmCount(int colunmCount)
+{
+    m_colunmCount = colunmCount;
+}
+
 void TableCanvasField::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(widget);
-
+    
     if(NULL==m_field)
         return;
     painter->save();
