@@ -1,6 +1,0 @@
-?package(rolisteam):\
-	  needs="X11"\
-	  section="Applications/Games"\
-	  title="Rolisteam"\
-	  command="/usr/bin/rolisteam"
-

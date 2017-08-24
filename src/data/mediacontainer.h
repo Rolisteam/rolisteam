@@ -30,11 +30,12 @@
 #include "data/cleveruri.h"
 #include "preferences/preferencesmanager.h"
 #include "vmap/vtoolbar.h"
+#include "cleveruri.h"
 
 /**
  * @brief The MediaContainer class
  */
-class MediaContainer : public QMdiSubWindow
+class MediaContainer : public QMdiSubWindow, public CleverURIListener
 {
     Q_OBJECT
 public:
@@ -153,6 +154,8 @@ public:
      * @brief setMediaId
      */
     virtual void setMediaId(QString);
+
+    virtual void cleverURIHasChanged(CleverURI*,CleverURI::DataValue field);
 
 signals:
     /**

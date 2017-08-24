@@ -40,6 +40,14 @@ SessionView::SessionView(QWidget *parent) :
         setColumnHidden(3,!m_pathColumn->isChecked());
     });
     m_pathColumn->setChecked(false);
+
+    m_rename = new QAction(tr("Rename"),this);
+    m_rename->setShortcut(QKeySequence(Qt::Key_F2));
+    connect(m_rename,&QAction::triggered,[=](){
+        edit(currentIndex());
+    });
+
+    //setEditTriggers(QAbstractItemView::AnyKeyPressed);
 }
 void SessionView::onDefineChapter()
 {
@@ -62,6 +70,8 @@ void SessionView::startDrag(Qt::DropActions supportedActions)
 void SessionView::contextMenuEvent ( QContextMenuEvent * event )
 {
     QMenu popMenu(this);
+    popMenu.addAction(m_rename);
+    popMenu.addSeparator();
     popMenu.addAction(m_addChapterAction);
     popMenu.addAction(m_removeAction);
     popMenu.addSeparator();
