@@ -221,22 +221,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="326"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="328"/>
         <source>Fields name</source>
         <translation>Nume câmp</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="342"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="344"/>
         <source>Empty Section %1</source>
         <translation>Secțiune goală %1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="350"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="352"/>
         <source>Section_%1</source>
         <translation>Sectiune_%1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="374"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="376"/>
         <source>Field %1</source>
         <translation>Câmp %1</translation>
     </message>
