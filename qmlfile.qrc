@@ -28,5 +28,6 @@
         <file>translations/rcse_tr.qm</file>
         <file>resources/icons/dark_tool_rect_selection.svg</file>
         <file>resources/icons/function.png</file>
+        <file>resources/icons/table.png</file>
     </qresource>
 </RCC>

@@ -258,6 +258,10 @@
                 <property name="text">
                  <string>Table</string>
                 </property>
+                <property name="icon">
+                 <iconset resource="qmlfile.qrc">
+                  <normaloff>:/resources/icons/table.png</normaloff>:/resources/icons/table.png</iconset>
+                </property>
                 <property name="checkable">
                  <bool>true</bool>
                 </property>
@@ -804,6 +808,10 @@
   <action name="m_tableFieldAct">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/table.png</normaloff>:/resources/icons/table.png</iconset>
    </property>
    <property name="text">
     <string>Table</string>
