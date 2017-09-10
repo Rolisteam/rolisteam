@@ -21,6 +21,9 @@ public:
     QString getAdditionalCode() const;
     void setAdditionalCode(const QString &additionalCode);
 
+    QString getAdditionalImport() const;
+    void setAdditionalImport(const QString &additionalImport);
+
     qreal getFixedScale() const;
     void setFixedScale(const qreal &fixedScale);
 

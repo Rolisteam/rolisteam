@@ -97,10 +97,11 @@ public slots:
     void addImage();
 protected:
     bool eventFilter(QObject *, QEvent *);
-    void applyValue(QModelIndex &index, bool selection);
     bool wheelEventForView(QWheelEvent *event);
     void closeEvent(QCloseEvent *event);
     void managePDFImport();
+    void applyValue(QModelIndex &index, bool selection);
+    void applyValueOnCharacterSelection(QModelIndex &index, bool selection, bool allCharacter);
 protected slots:
     void columnAdded();
     void alignOn();
@@ -162,6 +163,8 @@ private:
     /// Sheet properties
     SheetProperties* m_sheetProperties;
     QString m_additionnalCode;
+    QString m_additionnalImport;
+
     bool m_additionnalCodeTop;
     bool m_flickableSheet;
     qreal m_fixedScaleSheet;

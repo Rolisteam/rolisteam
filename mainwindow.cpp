@@ -78,6 +78,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->m_imageList
 
     m_additionnalCode = "";
+    m_additionnalImport = "";
     m_fixedScaleSheet = 1.0;
     m_additionnalCodeTop = true;
     m_flickableSheet = false;
@@ -204,6 +205,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_sheetProperties,&QAction::triggered,[=](bool){
        m_sheetProperties->setAdditionCodeAtTheBeginning(m_additionnalCodeTop);
        m_sheetProperties->setAdditionalCode(m_additionnalCode);
+       m_sheetProperties->setAdditionalImport(m_additionnalImport);
        m_sheetProperties->setFixedScale(m_fixedScaleSheet);
        m_sheetProperties->setNoAdaptation(m_flickableSheet);
 
@@ -212,6 +214,7 @@ MainWindow::MainWindow(QWidget *parent) :
             m_additionnalCode = m_sheetProperties->getAdditionalCode();
             m_fixedScaleSheet = m_sheetProperties->getFixedScale();
             m_additionnalCodeTop = m_sheetProperties->getAdditionCodeAtTheBeginning();
+            m_additionnalImport = m_sheetProperties->getAdditionalImport();
             m_flickableSheet = m_sheetProperties->isNoAdaptation();
 
        }
@@ -729,7 +732,7 @@ void MainWindow::menuRequested(const QPoint & pos)
    // menu.addAction(m_copyCharacter);
     menu.addSeparator();
     menu.addAction(m_applyValueOnAllCharacters);
-  //  menu.addAction(m_applyValueOnSelectedCharacterLines);
+    menu.addAction(m_applyValueOnSelectedCharacterLines);
   //  menu.addAction(m_applyValueOnAllCharacterLines);
     menu.addAction(m_defineAsTabName);
     menu.addSeparator();
@@ -766,11 +769,13 @@ void MainWindow::menuRequested(const QPoint & pos)
 
             }
         }
-    }/// @todo these functions
+    }
     else if(act == m_applyValueOnSelectedCharacterLines)
     {
 
-    }
+        applyValueOnCharacterSelection(index,true,false);
+
+    }/// @todo these functions
     else if(act == m_applyValueOnAllCharacterLines)
     {
 
@@ -780,6 +785,32 @@ void MainWindow::menuRequested(const QPoint & pos)
 
     }
 }
+
+void MainWindow::applyValueOnCharacterSelection(QModelIndex& index, bool selection,bool allCharacter)
+{
+    if(!index.isValid())
+        return;
+
+    if(selection)
+    {
+        QVariant var = index.data(Qt::DisplayRole);
+        QVariant editvar = index.data(Qt::EditRole);
+        if(editvar != var)
+        {
+            var = editvar;
+        }
+        int col = index.column();
+        QModelIndexList list = ui->m_characterView->selectionModel()->selectedIndexes();
+        for(QModelIndex modelIndex : list)
+        {
+            if(modelIndex.column() == col)
+            {
+                m_characterModel->setData(modelIndex,var,Qt::EditRole);
+            }
+        }
+    }
+}
+
 void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
 {
     Q_UNUSED(pos);
@@ -935,6 +966,7 @@ void MainWindow::save()
             obj["qml"]=qmlFile;
 
             obj["additionnalCode"] = m_additionnalCode;
+            obj["additionnalImport"] = m_additionnalImport;
             obj["fixedScale"] = m_fixedScaleSheet;
             obj["additionnalCodeTop"] = m_additionnalCodeTop;
             obj["flickable"] = m_flickableSheet;
@@ -990,6 +1022,7 @@ void MainWindow::open()
                 QString qml = jsonObj["qml"].toString();
 
             m_additionnalCode = jsonObj["additionnalCode"].toString("");
+            m_additionnalImport = jsonObj["additionnalImport"].toString("");
             m_fixedScaleSheet = jsonObj["fixedScale"].toDouble(1.0);
             m_additionnalCodeTop = jsonObj["additionnalCodeTop"].toBool(true);
             m_flickableSheet = jsonObj["flickable"].toBool(false);
@@ -1021,10 +1054,7 @@ void MainWindow::open()
                     {
                         m_canvasList[0]->setPixmap(pix);
                     }
-                   // m_pixList.insert(id,pix);
                     m_imageModel->insertImage(pix,id,"from rcs file");
-                    //m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(i).arg(id),*pix);
-                    //m_imgProvider->insertPix(id,*pix);
                     ++i;
                 }
                 m_model->load(data,m_canvasList);
@@ -1096,6 +1126,10 @@ void MainWindow::generateQML(QString& qml)
     }
     text << "import QtQuick 2.4\n";
     text << "import \"qrc:/resources/qml/\"\n";
+    if(!m_additionnalImport.isEmpty())
+    {
+        text << "   "<< m_additionnalImport<< "\n";
+    }
     text << "\n";
     if(m_flickableSheet)
     {
@@ -1145,7 +1179,7 @@ void MainWindow::generateQML(QString& qml)
             text << "       height:(parent.width>parent.height*iratio)?parent.height:iratiobis*parent.width" << "\n";
         }
         text << "       source: \"image://rcs/"+key+"_background_%1.jpg\".arg(root.page)" << "\n";
-        m_model->generateQML(text,CharacterSheetItem::FieldSec);
+        m_model->generateQML(text,CharacterSheetItem::FieldSec,false);
         text << "\n";
         text << "  }\n";
     }
@@ -1159,7 +1193,7 @@ void MainWindow::generateQML(QString& qml)
         {
             text << "       property real realscale: 1\n";
         }
-        m_model->generateQML(text,CharacterSheetItem::FieldSec);
+        m_model->generateQML(text,CharacterSheetItem::FieldSec,false);
     }
     if((!m_additionnalCodeTop) && (!m_additionnalCode.isEmpty()))
     {

@@ -33,6 +33,16 @@ void SheetProperties::setAdditionalCode(const QString &additionalCode)
     ui->m_additionnalCode->document()->setPlainText(additionalCode);
 }
 
+QString SheetProperties::getAdditionalImport() const
+{
+    return ui->m_additionnalImport->document()->toPlainText();
+}
+
+void SheetProperties::setAdditionalImport(const QString &additionalImport)
+{
+    ui->m_additionnalImport->setPlainText(additionalImport);
+}
+
 qreal SheetProperties::getFixedScale() const
 {
     return ui->m_fixedScale->value();
