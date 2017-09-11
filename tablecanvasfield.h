@@ -99,6 +99,10 @@ public:
     int getColumnWidth(int c);
     int getLineHeight();
 
+
+    Field* generateSubField(int i);
+
+    void generateSubFields(QTextStream &out);
 public slots:
     void addColumn();
     void addLine();

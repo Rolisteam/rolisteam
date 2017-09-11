@@ -146,7 +146,7 @@ void TableCanvasField::setMenu(QMenu &menu)
     //menu.addAction(m_properties);
 }
 
-QList<HandleItem *> TableCanvasField::handles() const
+/*QList<HandleItem *> TableCanvasField::handles() const
 {
     return m_handles;
 }
@@ -164,7 +164,7 @@ QList<CharacterSheetItem::TypeField> TableCanvasField::fieldTypes() const
 void TableCanvasField::setFieldTypes(const QList<CharacterSheetItem::TypeField> &fieldTypes)
 {
     m_fieldTypes = fieldTypes;
-}
+}*/
 
 int TableCanvasField::lineCount() const
 {
@@ -286,6 +286,14 @@ bool TableCanvasField::hasFocusOrChild()
         }
 
     return false;
+}
+void TableCanvasField::generateSubFields(QTextStream & out)
+{
+    auto model = m_dialog->model();
+    if(nullptr != model)
+    {
+        model->generateQML(out,CharacterSheetItem::FieldSec,true);
+    }
 }
 
 //////////////////////////////////////////////////////
