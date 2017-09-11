@@ -27,6 +27,10 @@
 #include <QGraphicsItem>
 #include "charactersheetitem.h"
 #include "field.h"
+#include "qqmlobjectlistmodel.h"
+#include "qqmlhelpers.h"
+#include "propertyhelpers.h"
+#include <QObject>
 
 #ifdef RCSE
 #include "tablecanvasfield.h"
@@ -38,13 +42,28 @@ class TableCanvasField : public QGraphicsObject
 #endif
 
 
+class LineFieldItem : public QObject
+{
+    Q_OBJECT
+    READONLY_PROPERTY (int, columnCount)
+    READONLY_PROPERTY (int, linePos)
+    QML_OBJMODEL_PROPERTY (Field, fieldModel)
 
+public:
+    explicit LineFieldItem (QObject * parent = NULL);
+
+public slots://should be moved inside TableField perhaps.
+    Q_INVOKABLE QObject* createLineItem (void);
+};
 /**
  * @brief The Field class managed text field in qml and datamodel.
  */
 class TableField : public Field
 {
     Q_OBJECT
+    Q_PROPERTY (QQmlObjectListModelBase* m_lines READ getLines CONSTANT)
+    READONLY_PROPERTY (int, columnCount)
+    WRITABLE_PROPERTY (int, lineCount)
 public:
 
     enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,BottomRight,BottomMiddle,BottomLeft};
@@ -53,13 +72,19 @@ public:
     explicit TableField(QPointF topleft,bool addCount = true,QGraphicsItem* parent = 0);
 
 
-    void generateQML(QTextStream &out, CharacterSheetItem::QMLSection sec);
+    void generateQML(QTextStream &out, CharacterSheetItem::QMLSection sec,int i, bool isTable=false);
+    virtual ~TableField();
+
+    QQmlObjectListModel<LineFieldItem> * getLines (void) const { return m_lines; }
+
+
 protected:
     void init();
 
 
 protected:
     TableCanvasField* m_tableCanvasField;
+    QQmlObjectListModel<LineFieldItem>* m_lines;
 };
 
 #endif // TABLEFIELD_H

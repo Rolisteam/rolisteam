@@ -146,7 +146,7 @@ public:
      * @param out
      * @param sec
      */
-    virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec)=0;
+    virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec, int i, bool isTable=false)=0;
     /**
      * @brief setNewEnd
      * @param nend

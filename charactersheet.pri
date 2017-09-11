@@ -4,6 +4,7 @@ HEADERS += $$PWD/charactersheetwindow.h \
     $$PWD/charactersheetitem.h \
     $$PWD/field.h\
     $$PWD/tablefield.h\
+    $$PWD/qqmlobjectlistmodel.h\
     $$PWD/csitem.h\
     $$PWD/section.h \
     $$PWD/rolisteamimageprovider.h \
@@ -23,6 +24,7 @@ SOURCES += $$PWD/charactersheetwindow.cpp \
     $$PWD/charactersheetmodel.cpp\
     $$PWD/charactersheet.cpp \
     $$PWD/charactersheetitem.cpp \
+    $$PWD/qqmlobjectlistmodel.cpp\
     $$PWD/section.cpp \
     $$PWD/field.cpp\
     $$PWD/tablefield.cpp\

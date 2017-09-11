@@ -133,12 +133,23 @@ QString CharacterSheetItem::value() const
 void CharacterSheetItem::setValue(const QString &value,bool fromNetwork)
 {
     /// @warning ugly solution to prevent html rich text to break the change check.
-    QTextDocument doc;
-    doc.setHtml(value);
-    QString newValue = doc.toPlainText();
 
-    doc.setHtml(m_value);
-    QString currentValue = doc.toPlainText();
+    QString newValue;
+    QString currentValue;
+    if(m_currentType <= SELECT)
+    {
+        QTextDocument doc;
+        doc.setHtml(value);
+        newValue = doc.toPlainText();
+
+        doc.setHtml(m_value);
+        currentValue = doc.toPlainText();
+    }
+    else
+    {
+        newValue = value;
+        currentValue = m_value;
+    }
 
     if(currentValue!=newValue)
     {

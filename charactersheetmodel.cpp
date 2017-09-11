@@ -261,6 +261,14 @@ void CharacterSheetModel::checkCharacter(Section *section)
                 newField->copyField(id,true);
                 sheet->insertCharacterItem(newField);
             }
+            if(field->getCurrentType() != id->getCurrentType())
+            {
+                field->setCurrentType(id->getCurrentType());
+            }
+            if(field->getLabel() != id->getLabel())
+            {
+                field->setLabel(id->getLabel());
+            }
         }
     }
 }
@@ -354,8 +362,15 @@ QVariant CharacterSheetModel::headerData(int section, Qt::Orientation orientatio
             return tr("Fields name");
         default:
             {
-                auto character = m_characterList->at(section-1);
-                return character->getName();
+                if(m_characterList->size() > (section-1))
+                {
+                    auto character = m_characterList->at(section-1);
+                    return character->getName();
+                }
+                else
+                {
+                    return QString();
+                }
             }
         }
     }

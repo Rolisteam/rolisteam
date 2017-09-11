@@ -34,13 +34,13 @@ TableCanvasField::TableCanvasField()
 #endif
 
 TableField::TableField(bool addCount,QGraphicsItem* parent)
-: CSItem(parent,addCount)
+: Field(addCount,parent)
 {
  init();
 }
 
 TableField::TableField(QPointF topleft,bool addCount,QGraphicsItem* parent)
-    : CSItem(parent,addCount)
+    : Field(topleft,addCount,parent)
 {
     Q_UNUSED(topleft);
     m_value = QStringLiteral("value");
@@ -66,13 +66,15 @@ void TableField::init()
     m_canvasField = nullptr;
     m_tableCanvasField = nullptr;
 #endif
+
+    m_lines = new QQmlObjectListModel<LineFieldItem>();
     m_id = QStringLiteral("id_%1").arg(m_count);
-    m_currentType=TABLE;
+    m_currentType=Field::TABLE;
     m_clippedText = false;
 
 
     m_border=NONE;
-    m_textAlign = TopLeft;
+    m_textAlign = Field::TopLeft;
     m_bgColor = Qt::transparent;
     m_textColor = Qt::black;
     m_font = font();
@@ -90,7 +92,7 @@ void TableField::init()
     }
     #endif
 }
-void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
+void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int i, bool isTable)
 {
     if(NULL==m_tableCanvasField)
     {
@@ -99,11 +101,19 @@ void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec
     if(sec==CharacterSheetItem::FieldSec)
     {
         out << "    Item{//"<< m_label <<"\n";
-            for(auto handles : m_tableCanvasField->handles())
-            {
-
-            }
+        out << "        Repeater{\n";
+        out << "            model:"<< m_id << "Model\n";
+        out << "            Row {";
+        m_tableCanvasField->generateSubFields(out);
+        out << "            }";
+        out << "        }";
+        out << "    }";
 
     }
 }
 
+
+QObject* LineFieldItem::createLineItem()
+{
+
+}

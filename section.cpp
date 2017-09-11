@@ -107,9 +107,12 @@ void Section::save(QJsonObject& json,bool exp)
     foreach (QString key, m_keyList)
     {
         CharacterSheetItem* item = m_dataHash.value(key);
-       QJsonObject itemObject;
-       item->save(itemObject,exp);
-       fieldArray.append(itemObject);
+        if(nullptr != item)
+        {
+            QJsonObject itemObject;
+            item->save(itemObject,exp);
+            fieldArray.append(itemObject);
+        }
     }
     json["items"] = fieldArray;
 }
@@ -149,11 +152,13 @@ void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
         m_keyList.append(item->getPath());
     }
 }
-void Section::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
+void Section::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int i, bool isTable)
 {
-    foreach (CharacterSheetItem* item, m_dataHash.values())
+    //for(CharacterSheetItem* item: m_dataHash.values())
+    for(auto key : m_keyList)
     {
-        item->generateQML(out,sec);
+        CharacterSheetItem* item = m_dataHash.value(key);
+        item->generateQML(out,sec,i, isTable);
     }
 }
 

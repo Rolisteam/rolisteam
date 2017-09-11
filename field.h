@@ -82,7 +82,7 @@ public:
 
     virtual QPointF mapFromScene(QPointF);
 
-    virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec);
+    virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec,int i, bool isTable=false);
 
     QStringList getAvailableValue() const;
     void setAvailableValue(const QStringList &availableValue);

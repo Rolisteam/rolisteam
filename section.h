@@ -108,7 +108,7 @@ public:
      * @brief generateQML
      * @param out
      */
-    virtual void generateQML(QTextStream &out,CharacterSheetItem::QMLSection);
+    virtual void generateQML(QTextStream &out,CharacterSheetItem::QMLSection,int i, bool isTable=false);
     /**
      * @brief setNewEnd
      */
