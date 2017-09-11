@@ -1002,6 +1002,9 @@ void MainWindow::save()
         //
     }
 }
+#include <QJsonValue>
+#include <QJsonValueRef>
+
 
 
 void MainWindow::open()
@@ -1027,15 +1030,43 @@ void MainWindow::open()
             m_additionnalCodeTop = jsonObj["additionnalCodeTop"].toBool(true);
             m_flickableSheet = jsonObj["flickable"].toBool(false);
 
-
-
             ui->m_codeEdit->setPlainText(qml);
 
                 QJsonArray images = jsonObj["background"].toArray();
-                int i = 0;
-                for(auto jsonpix : images)
+                QList<QJsonObject> objList;
+                for(auto obj : images)
                 {
-                    QJsonObject oj = jsonpix.toObject();
+                    objList.append(obj.toObject());
+                }
+
+                std::sort(objList.begin(),objList.end(),[](const QJsonObject& aObj,const QJsonObject& bObj){
+
+                    QRegularExpression exp(".*_background_(\\d+).*");
+                    QRegularExpressionMatch match = exp.match(aObj["key"].toString());
+                    int bInt = -1;
+                    int aInt = -1;
+                    if(match.hasMatch())
+                    {
+                        aInt = match.captured(1).toInt();
+                    }
+                    QRegularExpressionMatch match2 = exp.match(bObj["key"].toString());
+                    if (match2.hasMatch()) {
+                        bInt = match2.captured(1).toInt();
+                    }
+                    if((0 != bInt)||(0 != aInt))
+                    {
+                        return bInt > aInt;
+                    }
+                    else
+                    {
+                        return bObj["key"].toString() > aObj["key"].toString();
+                    }
+                });
+                int i = 0;
+                for(auto jsonpix : objList)
+                {
+
+                    QJsonObject oj = jsonpix;//jsonpix.toObject();
                     QString str = oj["bin"].toString();
                     QString id = oj["key"].toString();
                     QByteArray array = QByteArray::fromBase64(str.toUtf8());

@@ -265,6 +265,9 @@
                 <property name="checkable">
                  <bool>true</bool>
                 </property>
+                <property name="toolButtonStyle">
+                 <enum>Qt::ToolButtonTextBesideIcon</enum>
+                </property>
                 <property name="autoRaise">
                  <bool>true</bool>
                 </property>
