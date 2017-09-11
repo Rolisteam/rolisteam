@@ -255,9 +255,9 @@ Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
 
 }
-void FieldModel::generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec)
+void FieldModel::generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec,bool isTable)
 {
-    m_rootSection->generateQML(out,sec);
+    m_rootSection->generateQML(out,sec,0,isTable);
 }
 
 QString FieldModel::getValue(const QString &key)

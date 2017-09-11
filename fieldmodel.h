@@ -157,7 +157,7 @@ public:
      * @param out
      * @param sec
      */
-    void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec);
+    void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec, bool isTable = false);
 
     Q_INVOKABLE QString getValue(const QString& key);
     /**
