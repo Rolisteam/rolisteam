@@ -322,6 +322,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->m_addImageAct,SIGNAL(triggered(bool)),this,SLOT(addImage()));
 
+    // Make the table button invisible
+    ui->m_tableFieldBtn->setVisible(false);
+
 
     readSettings();
 }
