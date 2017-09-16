@@ -313,9 +313,13 @@ MainWindow::MainWindow(QWidget *parent) :
     m_imageModel->setImageProvider(m_imgProvider);
     auto* view = ui->m_imageList->horizontalHeader();
     view->setSectionResizeMode(1,QHeaderView::Stretch);
+#ifndef Q_OS_OSX
     ui->m_imageList->setAlternatingRowColors(true);
+#endif
 
-
+#ifdef Q_OS_MACX
+    ui->treeView->setAlternatingRowColors(false);
+#endif
     ui->m_addImageBtn->setDefaultAction(ui->m_addImageAct);
     ui->m_removeImgBtn->setDefaultAction(ui->m_deleteImageAct);
 
