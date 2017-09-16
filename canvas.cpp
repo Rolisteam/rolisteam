@@ -24,6 +24,7 @@
 #include <QMimeData>
 #include <QUrl>
 #include <QDebug>
+#include <cmath>
 
 
 #include "tablecanvasfield.h"
