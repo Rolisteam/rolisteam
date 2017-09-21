@@ -25,6 +25,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 #include <QGraphicsPixmapItem>
+#include <QUndoStack>
+
 #include "field.h"
 #include "fieldmodel.h"
 
@@ -48,9 +50,13 @@ public:
    Canvas::Tool currentTool() const;
 
    void deleteItem(QGraphicsItem *item);
+
+   QUndoStack *undoStack() const;
+   void setUndoStack(QUndoStack *undoStack);
+
 signals:
-    void imageChanged();
-    void itemDeleted(QGraphicsItem*);
+   void imageChanged();
+   void itemDeleted(QGraphicsItem*);
 protected:
     void dragEnterEvent ( QGraphicsSceneDragDropEvent * event );
     void dropEvent ( QGraphicsSceneDragDropEvent * event );
@@ -70,6 +76,7 @@ private:
     QPixmap* m_pix;
     FieldModel* m_model;
     int m_currentPage;
+    QUndoStack* m_undoStack;
 };
 
 #endif // CANVAS_H

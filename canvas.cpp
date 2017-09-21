@@ -99,7 +99,7 @@ void Canvas::deleteItem(QGraphicsItem* item)
      removeItem(item);
      itemDeleted(item);
 }
-
+#include "undo/addfieldcommand.h"
 void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
 
@@ -126,57 +126,11 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         }*/
         else if((m_currentTool<=Canvas::ADDCHECKBOX)||(m_currentTool==Canvas::BUTTON))
         {
-            Field* field = new Field(mouseEvent->scenePos());
+          AddFieldCommand* addCommand = new AddFieldCommand(m_currentTool,this,m_model,m_currentPage,mouseEvent->scenePos());
+          m_currentItem = addCommand->getField();
+          m_currentItem->setPage(m_currentPage);
 
-            if(Canvas::ADDTABLE == m_currentTool)
-            {
-                field->setCanvasField(new TableCanvasField(field));
-            }
-            field->setPage(m_currentPage);
-            addItem(field->getCanvasField());
-            if(nullptr != m_model)
-            {
-                m_model->appendField(field);
-            }
-            field->setValueFrom(CharacterSheetItem::X,mouseEvent->scenePos().x());
-            field->setValueFrom(CharacterSheetItem::Y,mouseEvent->scenePos().y());
-            m_currentItem = field;
-            //m_currentItem->setFocus();
-            switch(m_currentTool)//TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON
-            {
-            case Canvas::ADDCHECKBOX:
-                field->setCurrentType(Field::CHECKBOX);
-                break;
-            case Canvas::ADDINPUT:
-                field->setCurrentType(Field::TEXTINPUT);
-                break;
-            case Canvas::ADDTEXTAREA:
-                field->setCurrentType(Field::TEXTAREA);
-                break;
-            case Canvas::ADDTEXTFIELD:
-                field->setCurrentType(Field::TEXTFIELD);
-                break;
-            case Canvas::ADDTABLE:
-            {
-                field->setCurrentType(Field::TABLE);
-
-            }
-                break;
-            case Canvas::ADDIMAGE:
-                field->setCurrentType(Field::IMAGE);
-                break;
-            case Canvas::ADDFUNCBUTTON:
-                field->setCurrentType(Field::FUNCBUTTON);
-                break;
-            case Canvas::BUTTON:
-                field->setCurrentType(Field::BUTTON);
-                field->setBgColor(Qt::red);
-                break;
-            case Canvas::MOVE:
-            case Canvas::DELETETOOL:
-            case Canvas::NONE:
-                break;
-            }
+          m_undoStack->push(addCommand);
         }
     }
     else
@@ -207,13 +161,23 @@ bool Canvas::forwardEvent()
         return false;
 }
 
+QUndoStack *Canvas::undoStack() const
+{
+  return m_undoStack;
+}
+
+void Canvas::setUndoStack(QUndoStack *undoStack)
+{
+  m_undoStack = undoStack;
+}
+
 void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
-    Q_UNUSED(mouseEvent);
+  Q_UNUSED(mouseEvent);
 
-    if(forwardEvent())
-    {      
-        QGraphicsScene::mouseReleaseEvent(mouseEvent);
+  if(forwardEvent())
+  {
+    QGraphicsScene::mouseReleaseEvent(mouseEvent);
     }
     else
     {
