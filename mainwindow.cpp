@@ -65,7 +65,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_currentPage(0),
     m_editedTextByHand(false),
     m_counterZoom(0),
-    m_pdf(nullptr)
+    m_pdf(nullptr),
+    m_undoStack(new QUndoStack(this))
 {
     m_title = QStringLiteral("%1[*] - %2");
     setWindowTitle(m_title.arg("Unknown").arg("RCSE"));
@@ -85,6 +86,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Canvas* canvas = new Canvas();
     canvas->setCurrentPage(m_currentPage);
+    canvas->setUndoStack(&m_undoStack);
 
     m_canvasList.append(canvas);
     m_model = new FieldModel();
@@ -127,6 +129,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_view->installEventFilter(this);
 
+
+
     //////////////////////////////////////
     // end of QAction for view
     //////////////////////////////////////
@@ -141,8 +145,19 @@ MainWindow::MainWindow(QWidget *parent) :
        m_view->updateScene(list);
     });
 
+    ////////////////////
+    // undo / redo
+    ////////////////////
 
 
+    QAction* undo = m_undoStack.createUndoAction(this,tr("&Undo"));
+    ui->menuEdition->insertAction(ui->actionQML_View,undo);
+
+    QAction* redo = m_undoStack.createRedoAction(this,tr("&Redo"));
+    ui->menuEdition->insertAction(ui->actionQML_View,redo);
+
+    undo->setShortcut(QKeySequence::Undo);
+    redo->setShortcut(QKeySequence::Redo);
 
 
     //m_view->setViewport(new QOpenGLWidget());
@@ -249,15 +264,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_saveAct,SIGNAL(triggered(bool)),this,SLOT(save()));
     connect(ui->actionSave_As,SIGNAL(triggered(bool)),this,SLOT(saveAs()));
     connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
-
     connect(ui->m_checkValidityAct,SIGNAL(triggered(bool)),this,SLOT(checkCharacters()));
-
     connect(ui->m_addPage,SIGNAL(clicked(bool)),this,SLOT(addPage()));
     connect(ui->m_removePage,SIGNAL(clicked(bool)),this,SLOT(removePage()));
     connect(ui->m_selectPageCb,SIGNAL(currentIndexChanged(int)),this,SLOT(currentPageChanged(int)));
-
     connect(ui->m_resetIdAct,SIGNAL(triggered(bool)),m_model,SLOT(resetAllId()));
-
     connect(ui->m_preferencesAction,SIGNAL(triggered(bool)),this,SLOT(showPreferences()));
 
 
@@ -328,8 +339,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Make the table button invisible
     ui->m_tableFieldBtn->setVisible(false);
-
-
     readSettings();
 }
 MainWindow::~MainWindow()
@@ -369,6 +378,7 @@ void MainWindow::clearData()
     CSItem::resetCount();
     m_currentPage = 0;
     canvas->setCurrentPage(m_currentPage);
+    canvas->setUndoStack(&m_undoStack);
     m_canvasList.append(canvas);
     m_view->setScene(canvas);
 

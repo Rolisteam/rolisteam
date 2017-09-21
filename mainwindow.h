@@ -27,7 +27,7 @@
 #include <QHash>
 #include <QPixmap>
 
-
+#include <QUndoStack>
 
 #include "canvas.h"
 #include "fieldmodel.h"
@@ -168,6 +168,8 @@ private:
     bool m_additionnalCodeTop;
     bool m_flickableSheet;
     qreal m_fixedScaleSheet;
+
+    QUndoStack m_undoStack;
 
 
 };

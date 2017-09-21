@@ -540,6 +540,7 @@
     <property name="title">
      <string>Edition</string>
     </property>
+    <addaction name="separator"/>
     <addaction name="actionQML_View"/>
     <addaction name="actionCode_To_QML"/>
     <addaction name="m_backgroundImageAct"/>
@@ -818,6 +819,16 @@
    </property>
    <property name="text">
     <string>Table</string>
+   </property>
+  </action>
+  <action name="m_undo">
+   <property name="text">
+    <string>&amp;Undo</string>
+   </property>
+  </action>
+  <action name="m_redo">
+   <property name="text">
+    <string>&amp;Redo</string>
    </property>
   </action>
  </widget>
