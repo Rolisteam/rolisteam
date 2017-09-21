@@ -58,8 +58,8 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 target.path = $$PREFIX/
 
 INCLUDEPATH  += /usr/include/poppler/qt5
-LIBS         += -lpoppler-qt5
-DEFINES += WITH_PDF
+#LIBS         += -lpoppler-qt5
+#DEFINES += WITH_PDF
 }
 INSTALLS += target
 
@@ -86,7 +86,10 @@ SOURCES += main.cpp\
     imagemodel.cpp \
     itemeditor.cpp \
     tablecanvasfield.cpp \
-    columndefinitiondialog.cpp
+    columndefinitiondialog.cpp \
+    undo/addfieldcommand.cpp \
+    undo/deletefieldcommand.cpp \
+    undo/movefieldcommand.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -106,7 +109,10 @@ HEADERS  += mainwindow.h \
     imagemodel.h \
     itemeditor.h \
     tablecanvasfield.h \
-    columndefinitiondialog.h
+    columndefinitiondialog.h \
+    undo/addfieldcommand.h \
+    undo/deletefieldcommand.h \
+    undo/movefieldcommand.h
 
 
 
