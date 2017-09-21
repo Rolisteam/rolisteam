@@ -372,7 +372,7 @@ void FieldModel::removeItem(QModelIndex& index)
     if(index.isValid())
     {
         CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
-        Section* parentSection =NULL;
+        Section* parentSection =nullptr;
         if(index.parent().isValid())
         {
             CharacterSheetItem* parentItem = static_cast<CharacterSheetItem*>(index.internalPointer());
@@ -400,6 +400,46 @@ void FieldModel::removeItem(QModelIndex& index)
     emit modelChanged();
     }
 }
+
+void FieldModel::removeField(Field* field)
+{
+  //int index = m_rootSection->indexOfChild(field);
+  QList<CharacterSheetItem*> ancestors;
+
+  //ancestors.append(field);
+  CharacterSheetItem* tmp = field;
+  while(tmp!=nullptr)
+  {
+    tmp = tmp->getParent();
+    if(nullptr!=tmp)
+    {
+      ancestors.prepend(tmp);
+
+    }
+  }
+
+  //ancestors.prepend(m_rootSection);
+
+  QModelIndex parent;
+  CharacterSheetItem* parentSection=nullptr;
+  for(const auto& ancestor : ancestors)
+  {
+    if(nullptr != parentSection)
+    {
+      parent = parent.child(parentSection->indexOfChild(ancestor),0);
+    }
+    parentSection = ancestor;
+  }
+
+  beginRemoveRows(parent,
+                  parentSection->indexOfChild(field),
+                  parentSection->indexOfChild(field));
+
+  parentSection->removeChild(field);
+
+  endRemoveRows();
+  emit modelChanged();
+}
 void FieldModel::clearModel()
 {
     beginResetModel();
@@ -421,7 +461,6 @@ void FieldModel::resetAllId()
     beginResetModel();
     int i = 0;
     m_rootSection->resetAllId(i);
-    qDebug() << "i:" << i;
     Field::setCount(i);
     endResetModel();
 }

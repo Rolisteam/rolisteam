@@ -184,6 +184,7 @@ public:
      * @param index
      */
     void removeItem(QModelIndex& index);
+    void removeField(Field* field);
     /**
      * @brief setValueForAll
      * @param index
