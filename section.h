@@ -128,6 +128,7 @@ public:
      * @return
      */
     bool removeChild(CharacterSheetItem*);
+    bool deleteChild(CharacterSheetItem*);
     /**
      * @brief setValueForAll
      * @param item

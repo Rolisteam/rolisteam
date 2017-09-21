@@ -182,7 +182,17 @@ void CharacterSheetItem::setLabel(const QString &label)
 }
 void CharacterSheetItem::setId(const QString &id)
 {
-    m_id = id;
+  m_id = id;
+}
+
+bool CharacterSheetItem::removeChild(CharacterSheetItem *)
+{
+  return false;
+}
+
+bool CharacterSheetItem::deleteChild(CharacterSheetItem *)
+{
+  return false;
 }
 int CharacterSheetItem::rowInParent()
 {

@@ -168,6 +168,13 @@ public:
      */
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const = 0;
     /**
+     * @brief removeChild
+     * @return
+     */
+    virtual bool removeChild(CharacterSheetItem*);
+
+    virtual bool deleteChild(CharacterSheetItem*);
+    /**
      * @brief getLabel
      * @return
      */
