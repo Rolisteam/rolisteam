@@ -1,27 +1,36 @@
-#include "setfieldpropertycommand.h"
+#include "setfieldproperties.h"
 
-SetFieldPropertyCommand::AddPageCommand(QList<Field*> selection, QVariant value, CharacterSheetItem::ColumnId col, QUndoCommand *parent)
-  : QUndoCommand(parent),m_newValue(value),m_selection(selection),m_col(col)
+SetFieldPropertyCommand::SetFieldPropertyCommand(FieldModel* model,QModelIndexList selection, QVariant value, int col, QUndoCommand *parent)
+  : QUndoCommand(parent),m_newValue(value),m_selection(selection),m_col(col),m_model(model)
 {
-    for(Field* field : selection)
+    for(QModelIndex index : m_selection)
     {
-    	m_oldValues.append(field->getValueFrom(m_col,Qt::EditRole));
-	}	
-    setText(QObject::tr("Delete Character #%1").arg(index));
+        if(m_col == index.column())
+        {
+          m_oldValues.append(m_model->data(index,Qt::EditRole));
+        }
+    }
+    setText(QObject::tr("Set Property %1").arg(m_newValue.toString()));
 }
 void SetFieldPropertyCommand::undo()
 {
     int i = 0;
-    for(Field* field : selection)
+    for(QModelIndex index : m_selection)
     {
-        field->setValueFrom(m_col,m_selection.at(i));
+      if(index.column() == m_col)
+      {
+        m_model->setData(index,m_oldValues.at(i),Qt::EditRole);
         ++i;
-	}
+      }
+    }
 }
 void SetFieldPropertyCommand::redo()
 {
-    for(Field* field : selection)
+    for(QModelIndex index : m_selection)
     {
-        field->setValueFrom(m_col,m_newValue);
-	}
+      if(index.column() == m_col)
+      {
+        m_model->setData(index,m_newValue,Qt::EditRole);
+      }
+    }
 }
