@@ -827,6 +827,7 @@ void MainWindow::applyValueOnCharacterSelection(QModelIndex& index, bool selecti
         }
     }
 }
+#include "undo/deletefieldcommand.h"
 
 void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
 {
@@ -847,7 +848,10 @@ void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
 
     if(act == m_delItem)
     {
-        m_model->removeItem(index);
+        auto itemData = static_cast<Field*>(index.internalPointer());
+        DeleteFieldCommand* deleteCommand = new DeleteFieldCommand(itemData,m_canvasList.at(m_currentPage),m_model,m_currentPage);
+        m_undoStack.push(deleteCommand);
+        //m_model->removeItem(index);
     }
     else if( m_applyValueOnAllLines == act)
     {
