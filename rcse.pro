@@ -89,7 +89,8 @@ SOURCES += main.cpp\
     columndefinitiondialog.cpp \
     undo/addfieldcommand.cpp \
     undo/deletefieldcommand.cpp \
-    undo/movefieldcommand.cpp
+    undo/movefieldcommand.cpp \
+    undo/setfieldproperties.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -112,7 +113,8 @@ HEADERS  += mainwindow.h \
     columndefinitiondialog.h \
     undo/addfieldcommand.h \
     undo/deletefieldcommand.h \
-    undo/movefieldcommand.h
+    undo/movefieldcommand.h \
+    undo/setfieldproperties.h
 
 
 

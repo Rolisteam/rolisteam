@@ -56,7 +56,7 @@
 #include "delegate/alignmentdelegate.h"
 #include "delegate/typedelegate.h"
 #include "delegate/fontdelegate.h"
-
+#include "undo/setfieldproperties.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -868,28 +868,28 @@ void MainWindow::applyValue(QModelIndex& index, bool selection)
         return;
 
 
+    QUndoCommand* cmd = nullptr;
     if(selection)
     {
-        QVariant var = index.data(Qt::DisplayRole);
-        QVariant editvar = index.data(Qt::EditRole);
-        if(editvar != var)
-        {
-            var = editvar;
-        }
-        int col = index.column();
-        QModelIndexList list = ui->treeView->selectionModel()->selectedIndexes();
-        for(QModelIndex modelIndex : list)
-        {
-            if(modelIndex.column() == col)
-            {
-                m_model->setData(modelIndex,var,Qt::EditRole);
-            }
-        }
+      QVariant var = index.data(Qt::DisplayRole);
+      QVariant editvar = index.data(Qt::EditRole);
+      if(editvar != var)
+      {
+          var = editvar;
+      }
+      int col = index.column();
+      QModelIndexList list = ui->treeView->selectionModel()->selectedIndexes();
+
+      cmd = new SetFieldPropertyCommand(m_model,list,var,col);
+
+      m_undoStack.push(cmd);
+
     }
     else
     {
         m_model->setValueForAll(index);
     }
+
 }
 
 void MainWindow::columnAdded()
