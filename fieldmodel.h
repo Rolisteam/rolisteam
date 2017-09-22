@@ -191,6 +191,7 @@ public:
      */
     void setValueForAll(QModelIndex& index);
 
+    void insertField(CSItem *field, CharacterSheetItem *parent, int pos);
 signals:
     /**
      * @brief valuesChanged

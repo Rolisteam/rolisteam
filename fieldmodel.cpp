@@ -232,7 +232,17 @@ void FieldModel::appendField(CSItem *f)
     endInsertRows();
     emit modelChanged();
 }
-
+void FieldModel::insertField(CSItem* field, CharacterSheetItem* parent, int pos)
+{
+    beginInsertRows(QModelIndex(),pos,pos);
+    qDebug() << m_rootSection->getChildrenCount() << "children count";
+    if(parent == m_rootSection)
+    {
+        m_rootSection->insertChild(field,pos);
+    }
+    endInsertRows();
+    emit modelChanged();
+}
 Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
 {
     if (!index.isValid())
@@ -291,7 +301,7 @@ void FieldModel::removePageId(int id)
                           parentSection->indexOfChild(child),
                           parentSection->indexOfChild(child));
 
-          parentSection->removeChild(child);
+          parentSection->deleteChild(child);
           endRemoveRows();
       }
     }
@@ -391,7 +401,7 @@ void FieldModel::removeItem(QModelIndex& index)
                         parentSection->indexOfChild(childItem),
                         parentSection->indexOfChild(childItem));
 
-        parentSection->removeChild(childItem);
+        parentSection->deleteChild(childItem);
 
         endRemoveRows();
 
@@ -417,8 +427,6 @@ void FieldModel::removeField(Field* field)
 
     }
   }
-
-  //ancestors.prepend(m_rootSection);
 
   QModelIndex parent;
   CharacterSheetItem* parentSection=nullptr;
