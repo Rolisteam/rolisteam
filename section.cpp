@@ -85,6 +85,12 @@ void Section::appendChild(CharacterSheetItem* item)
     m_keyList.append(item->getPath());
     item->setParent(this);
 }
+void Section::insertChild(CharacterSheetItem* item,int pos)
+{
+    m_dataHash.insert(item->getPath(),item);
+    m_keyList.insert(pos,item->getPath());
+    item->setParent(this);
+}
 int Section::indexOfChild(CharacterSheetItem* itm)
 {
     return m_keyList.indexOf(itm->getPath());
@@ -201,8 +207,17 @@ bool Section::removeChild(CharacterSheetItem* child)
     {
         m_dataHash.remove(child->getId());
         m_keyList.removeOne(child->getId());
-        delete child;
        return true;
+    }
+    return false;
+}
+
+bool Section::deleteChild(CharacterSheetItem * child)
+{
+    if(removeChild(child))
+    {
+        delete child;
+        return true;
     }
     return false;
 }

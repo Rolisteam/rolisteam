@@ -76,6 +76,8 @@ public:
      * @brief appendChild
      */
     virtual void appendChild(CharacterSheetItem*);
+    void insertChild(CharacterSheetItem* item,int pos);
+
     /**
      * @brief indexOfChild
      * @param itm

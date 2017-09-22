@@ -82,12 +82,6 @@ void Field::init()
         connect(m_canvasField,&CanvasField::yChanged,[=](){
             emit updateNeeded(this);
         });
-     /*   connect(m_canvasField,&CanvasField::widthChanged,[=](){
-            emit updateNeeded(this);
-        });
-        connect(m_canvasField,&CanvasField::heightChanged,[=](){
-            emit updateNeeded(this);
-        });*/
     }
     #endif
 }
