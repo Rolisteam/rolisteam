@@ -26,6 +26,9 @@
 #include <QDebug>
 #include <cmath>
 
+#include "undo/deletefieldcommand.h"
+#include "undo/addfieldcommand.h"
+#include "undo/movefieldcommand.h"
 
 #include "tablecanvasfield.h"
 
@@ -40,7 +43,6 @@ Canvas::Canvas(QObject *parent)
 void Canvas::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
     const QMimeData* mimeData =  event->mimeData();
-
     if(mimeData->hasUrls())
     {
         event->acceptProposedAction();
@@ -96,18 +98,36 @@ void Canvas::setCurrentTool(Canvas::Tool tool)
 }
 void Canvas::deleteItem(QGraphicsItem* item)
 {
-     removeItem(item);
-     itemDeleted(item);
+    auto fieldItem = dynamic_cast<CanvasField*>(item);
+    if(nullptr != fieldItem)
+    {
+
+        DeleteFieldCommand* deleteCommand = new DeleteFieldCommand(fieldItem->getField(),this,m_model,m_currentPage);
+        m_undoStack->push(deleteCommand);
+    }
+
+    //removeItem(item);
+
 }
-#include "undo/addfieldcommand.h"
 void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
-
     if(mouseEvent->button() == Qt::LeftButton)
     {
         if(forwardEvent())
         {
-                QGraphicsScene::mousePressEvent(mouseEvent);
+            m_oldPos.clear();
+            QPointF mousePos(mouseEvent->buttonDownScenePos(Qt::LeftButton).x(),
+                             mouseEvent->buttonDownScenePos(Qt::LeftButton).y());
+            const QList<QGraphicsItem *> itemList = items(mousePos);
+            m_movingItems.append(itemList.isEmpty() ? nullptr : itemList.first());
+
+            if (m_movingItems.first() != nullptr && mouseEvent->button() == Qt::LeftButton)
+            {
+                m_oldPos.append(m_movingItems.first()->pos());
+            }
+
+            clearSelection();
+            QGraphicsScene::mousePressEvent(mouseEvent);
         }
         if(m_currentTool==Canvas::DELETETOOL)
         {
@@ -120,16 +140,10 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 }
             }
         }
-       /*else if(m_currentTool == Canvas::ADDTABLE)
-        {
-
-        }*/
         else if((m_currentTool<=Canvas::ADDCHECKBOX)||(m_currentTool==Canvas::BUTTON))
         {
           AddFieldCommand* addCommand = new AddFieldCommand(m_currentTool,this,m_model,m_currentPage,mouseEvent->scenePos());
           m_currentItem = addCommand->getField();
-          m_currentItem->setPage(m_currentPage);
-
           m_undoStack->push(addCommand);
         }
     }
@@ -175,9 +189,18 @@ void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
   Q_UNUSED(mouseEvent);
 
-  if(forwardEvent())
-  {
-    QGraphicsScene::mouseReleaseEvent(mouseEvent);
+    if(forwardEvent())
+    {
+        if (m_movingItems.first() != nullptr && mouseEvent->button() == Qt::LeftButton)
+        {
+            if (m_oldPos.first() != m_movingItems.first()->pos())
+            {
+                MoveFieldCommand* moveCmd = new MoveFieldCommand(m_movingItems,m_oldPos);
+                m_undoStack->push(moveCmd);
+            }
+            m_movingItems.clear();
+        }
+        QGraphicsScene::mouseReleaseEvent(mouseEvent);
     }
     else
     {

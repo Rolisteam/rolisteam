@@ -57,6 +57,7 @@ public:
 signals:
    void imageChanged();
    void itemDeleted(QGraphicsItem*);
+
 protected:
     void dragEnterEvent ( QGraphicsSceneDragDropEvent * event );
     void dropEvent ( QGraphicsSceneDragDropEvent * event );
@@ -77,6 +78,8 @@ private:
     FieldModel* m_model;
     int m_currentPage;
     QUndoStack* m_undoStack;
+    QList<QGraphicsItem*> m_movingItems;
+    QList<QPointF> m_oldPos;
 };
 
 #endif // CANVAS_H
