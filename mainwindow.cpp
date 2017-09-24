@@ -376,6 +376,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_imageList->addAction(m_replaceImage);
     ui->m_imageList->addAction(m_removeImage);
 
+    //////////////////////////////////////////
+    ///
+    /// contextual action for image model
+    ///
+    //////////////////////////////////////////
+    m_copyPath = new QAction(tr("Copy Path"),ui->m_imageList);
+    m_copyPath->setShortcut(QKeySequence("CTRL+c"));
+    m_replaceImage= new QAction(tr("Change Image"),ui->m_imageList);
+    m_removeImage= new QAction(tr("Delete Image"),ui->m_imageList);
+
+    ui->m_imageList->addAction(m_copyPath);
+    connect(m_copyPath,SIGNAL(triggered(bool)),this,SLOT(copyPath()));
+    ui->m_imageList->addAction(m_replaceImage);
+    ui->m_imageList->addAction(m_removeImage);
+
+
     readSettings();
 }
 MainWindow::~MainWindow()
