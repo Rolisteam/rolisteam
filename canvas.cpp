@@ -35,7 +35,7 @@
 //#include "charactersheetbutton.h"
 
 Canvas::Canvas(QObject *parent)
-    : QGraphicsScene(parent),m_bg(nullptr),m_currentItem(nullptr),m_pix(nullptr),m_model(nullptr)
+    : QGraphicsScene(parent),m_bg(nullptr),m_currentItem(nullptr),m_pix(nullptr),m_model(nullptr),m_undoStack(nullptr)
 {
     setSceneRect(QRect(0,0,800,600));
 }
@@ -53,36 +53,20 @@ void Canvas::dragMoveEvent(QGraphicsSceneDragDropEvent* event)
 {
     event->acceptProposedAction();
 }
-
-
+#include "undo/setbackgroundimage.h"
 void Canvas::dropEvent ( QGraphicsSceneDragDropEvent * event )
 {
 
     const QMimeData* mimeData =  event->mimeData();
     if(mimeData->hasUrls())
     {
-        foreach(QUrl url, mimeData->urls())
+        for(const QUrl& url : mimeData->urls())
         {
             if(url.isLocalFile())
             {
-                m_pix = new QPixmap(url.toLocalFile());
-                if(nullptr==m_bg)
-                {
-                    m_bg = addPixmap(*m_pix);
-                    m_bg->setFlag(QGraphicsItem::ItemIsSelectable,false);
-                    m_bg->setFlag(QGraphicsItem::ItemSendsGeometryChanges,false);
-                    m_bg->setFlag(QGraphicsItem::ItemIsMovable,false);
-                    m_bg->setFlag(QGraphicsItem::ItemIsFocusable,false);
-                    m_bg->setAcceptedMouseButtons(Qt::NoButton);
-                    emit imageChanged();
-                    setSceneRect(m_bg->boundingRect());
-                }
-                else
-                {
-                    m_bg->setPixmap(*m_pix);
-                    emit imageChanged();
-                    setSceneRect(m_bg->boundingRect());
-                }
+                SetBackgroundCommand* cmd = new SetBackgroundCommand(m_bg,this,url);
+                m_undoStack->push(cmd);
+                emit imageChanged();
             }
         }
     }
@@ -92,7 +76,6 @@ void Canvas::setCurrentTool(Canvas::Tool tool)
     m_currentTool = tool;
     if(nullptr!=m_currentItem)
     {
-       // deleteItem(m_currentItem);
         m_currentItem=nullptr;
     }
 }
@@ -101,13 +84,9 @@ void Canvas::deleteItem(QGraphicsItem* item)
     auto fieldItem = dynamic_cast<CanvasField*>(item);
     if(nullptr != fieldItem)
     {
-
         DeleteFieldCommand* deleteCommand = new DeleteFieldCommand(fieldItem->getField(),this,m_model,m_currentPage);
         m_undoStack->push(deleteCommand);
     }
-
-    //removeItem(item);
-
 }
 void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
@@ -126,7 +105,7 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 m_oldPos.append(m_movingItems.first()->pos());
             }
 
-            clearSelection();
+            //clearSelection();
             QGraphicsScene::mousePressEvent(mouseEvent);
         }
         if(m_currentTool==Canvas::DELETETOOL)
@@ -154,7 +133,6 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 }
 void Canvas::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
-
     if(forwardEvent())
     {
         QGraphicsScene::mouseMoveEvent(mouseEvent);
@@ -175,14 +153,24 @@ bool Canvas::forwardEvent()
         return false;
 }
 
+QGraphicsPixmapItem* Canvas::getBg() const
+{
+    return m_bg;
+}
+
+void Canvas::setBg(QGraphicsPixmapItem *bg)
+{
+    m_bg = bg;
+}
+
 QUndoStack *Canvas::undoStack() const
 {
-  return m_undoStack;
+    return m_undoStack;
 }
 
 void Canvas::setUndoStack(QUndoStack *undoStack)
 {
-  m_undoStack = undoStack;
+    m_undoStack = undoStack;
 }
 
 void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
@@ -191,14 +179,17 @@ void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 
     if(forwardEvent())
     {
-        if (m_movingItems.first() != nullptr && mouseEvent->button() == Qt::LeftButton)
+        if(!m_movingItems.isEmpty())
         {
-            if (m_oldPos.first() != m_movingItems.first()->pos())
+            if (m_movingItems.first() != nullptr && mouseEvent->button() == Qt::LeftButton)
             {
-                MoveFieldCommand* moveCmd = new MoveFieldCommand(m_movingItems,m_oldPos);
-                m_undoStack->push(moveCmd);
+                if (m_oldPos.first() != m_movingItems.first()->pos())
+                {
+                    MoveFieldCommand* moveCmd = new MoveFieldCommand(m_movingItems,m_oldPos);
+                    m_undoStack->push(moveCmd);
+                }
+                m_movingItems.clear();
             }
-            m_movingItems.clear();
         }
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
     }
@@ -257,9 +248,17 @@ QPixmap* Canvas::pixmap()
 void Canvas::setPixmap(QPixmap* pix)
 {
     m_pix = pix;
-    if((NULL!=m_pix)&&(!m_pix->isNull()))
+   /* if((nullptr!=m_pix)&&(!m_pix->isNull()))
     {
-        m_bg = addPixmap(*m_pix);
-        setSceneRect(m_bg->boundingRect());
-    }
+        if(nullptr == m_bg)
+        {
+            m_bg = addPixmap(*m_pix);
+            m_bg->setFlag(QGraphicsItem::ItemIsSelectable,false);
+            m_bg->setFlag(QGraphicsItem::ItemSendsGeometryChanges,false);
+            m_bg->setFlag(QGraphicsItem::ItemIsMovable,false);
+            m_bg->setFlag(QGraphicsItem::ItemIsFocusable,false);
+            m_bg->setAcceptedMouseButtons(Qt::NoButton);
+            setSceneRect(m_bg->boundingRect());
+        }
+    }*/
 }

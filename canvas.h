@@ -54,6 +54,9 @@ public:
    QUndoStack *undoStack() const;
    void setUndoStack(QUndoStack *undoStack);
 
+   QGraphicsPixmapItem *getBg() const;
+   void setBg(QGraphicsPixmapItem *bg);
+
 signals:
    void imageChanged();
    void itemDeleted(QGraphicsItem*);

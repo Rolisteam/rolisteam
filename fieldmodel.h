@@ -192,6 +192,7 @@ public:
     void setValueForAll(QModelIndex& index);
 
     void insertField(CSItem *field, CharacterSheetItem *parent, int pos);
+    void getFieldFromPage(int pagePos, QList<CharacterSheetItem *> &list);
 signals:
     /**
      * @brief valuesChanged

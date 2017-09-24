@@ -235,7 +235,6 @@ void FieldModel::appendField(CSItem *f)
 void FieldModel::insertField(CSItem* field, CharacterSheetItem* parent, int pos)
 {
     beginInsertRows(QModelIndex(),pos,pos);
-    qDebug() << m_rootSection->getChildrenCount() << "children count";
     if(parent == m_rootSection)
     {
         m_rootSection->insertChild(field,pos);
@@ -285,28 +284,11 @@ QList<CharacterSheetItem *> FieldModel::children()
    return result;
 }
 
-void FieldModel::removePageId(int id)
+void FieldModel::getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list)
 {
-    Section* parentSection = m_rootSection;
-
-
-
-
-    for(int i = m_rootSection->getChildrenCount()-1;i>=0;--i)
-    {
-      auto child = m_rootSection->getChildAt(i);
-      if(id == child->getPage())
-      {
-          beginRemoveRows(createIndex(parentSection->indexOfChild(child),0,parentSection),
-                          parentSection->indexOfChild(child),
-                          parentSection->indexOfChild(child));
-
-          parentSection->deleteChild(child);
-          endRemoveRows();
-      }
-    }
-    emit modelChanged();
+    m_rootSection->getFieldFromPage(pagePos,list);
 }
+
 void FieldModel::updateItem(CSItem* item)
 {
     int ind = m_rootSection->indexOfChild(item);
