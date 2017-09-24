@@ -107,13 +107,15 @@ protected slots:
     void alignOn();
     void clearData();
     void showPreferences();
-
+    void pageCountChanged();
     void checkCharacters();
 private slots:
     void codeChanged();
 //private:
     // QString getFilePath(QString);
     void sameGeometry();
+private:
+    int pageCount();
 private:
     Ui::MainWindow *ui;
     QList<Canvas*> m_canvasList;
@@ -170,6 +172,7 @@ private:
     qreal m_fixedScaleSheet;
 
     QUndoStack m_undoStack;
+
 
 
 };

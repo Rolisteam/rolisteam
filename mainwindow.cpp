@@ -42,7 +42,8 @@
 #include <QButtonGroup>
 #include <QUuid>
 #include <QDesktopServices>
-
+#include <QJsonValue>
+#include <QJsonValueRef>
 #ifdef WITH_PDF
 #include <poppler-qt5.h>
 #endif
@@ -57,7 +58,11 @@
 #include "delegate/typedelegate.h"
 #include "delegate/fontdelegate.h"
 #include "undo/setfieldproperties.h"
-
+#include "undo/addpagecommand.h"
+#include "undo/deletepagecommand.h"
+#include "undo/setbackgroundimage.h"
+#include "undo/addcharactercommand.h"
+#include "undo/deletecharactercommand.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -88,6 +93,11 @@ MainWindow::MainWindow(QWidget *parent) :
     canvas->setCurrentPage(m_currentPage);
     canvas->setUndoStack(&m_undoStack);
 
+    auto model = AddPageCommand::getPagesModel();
+    auto data = model->stringList();
+    data.append(tr("Page 1"));
+    model->setStringList(data);
+
     m_canvasList.append(canvas);
     m_model = new FieldModel();
     connect(m_model,SIGNAL(modelChanged()),this,SLOT(modelChanged()));
@@ -101,6 +111,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     FontDelegate* fontDelegate = new FontDelegate();
     ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::FONT),fontDelegate);
+
+    DeletePageCommand::setPagesModel(AddPageCommand::getPagesModel());
+
+    connect(AddPageCommand::getPagesModel(),SIGNAL(modelReset()),
+            this,SLOT(pageCountChanged()));
 
 
     canvas->setModel(m_model);
@@ -271,8 +286,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_resetIdAct,SIGNAL(triggered(bool)),m_model,SLOT(resetAllId()));
     connect(ui->m_preferencesAction,SIGNAL(triggered(bool)),this,SLOT(showPreferences()));
 
-
-
     m_imgProvider = new RolisteamImageProvider();
 
     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
@@ -289,7 +302,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->treeView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequestedForFieldModel(QPoint)));
     connect(ui->m_characterView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequested(QPoint)));
-    connect(m_addCharacter,SIGNAL(triggered(bool)),m_characterModel,SLOT(addCharacterSheet()));
+    //connect(m_addCharacter,SIGNAL(triggered(bool)),m_characterModel,SLOT(addCharacterSheet()));
+    connect(m_addCharacter,&QAction::triggered,[&](){
+        m_undoStack.push(new AddCharacterCommand(m_characterModel));
+    });
 
     connect(ui->m_newAct,SIGNAL(triggered(bool)),this,SLOT(clearData()));
 
@@ -568,12 +584,15 @@ void MainWindow::openPDF()
                     if(nullptr!=canvas)
                     {
                         canvas->setPixmap(pix);
+                        auto bg = canvas->getBg();
+                        SetBackgroundCommand* cmd = new SetBackgroundCommand(bg,canvas,pix);
+                        m_undoStack.push(cmd);
+                        canvas->setBg(bg);
                         QString key = QStringLiteral("%2_background_%1.jpg").arg(lastCanvas+i).arg(id);
                         m_imageModel->insertImage(pix,key,QString("From PDF"));
                     }
                 }
             }
-
         delete pdfPage;
     }
     }
@@ -613,6 +632,10 @@ void MainWindow::openImage()
             {
                 Canvas* canvas = m_canvasList[m_currentPage];
                 canvas->setPixmap(pix);
+                auto bg = canvas->getBg();
+                SetBackgroundCommand* cmd = new SetBackgroundCommand(bg,canvas,pix);
+                m_undoStack.push(cmd);
+                canvas->setBg(bg);
                 QString id = QUuid::createUuid().toString();
                 QString key = QStringLiteral("%2_background_%1.jpg").arg(m_currentPage).arg(id);
                 m_imageModel->insertImage(pix,key,img);
@@ -758,7 +781,8 @@ void MainWindow::menuRequested(const QPoint & pos)
 
     if(act == m_deleteCharacter)
     {
-        m_characterModel->removeCharacterSheet(index);
+        DeleteCharacterCommand* cmd = new DeleteCharacterCommand(index,m_characterModel);
+        m_undoStack.push(cmd);
     }
     else if( act == m_defineAsTabName)
     {
@@ -867,28 +891,36 @@ void MainWindow::applyValue(QModelIndex& index, bool selection)
     if(!index.isValid())
         return;
 
-
+    QList<CharacterSheetItem*> listField;
     QUndoCommand* cmd = nullptr;
+    QVariant var = index.data(Qt::DisplayRole);
+    QVariant editvar = index.data(Qt::EditRole);
+    if(editvar != var)
+    {
+        var = editvar;
+    }
+    int col = index.column();
+
     if(selection)
     {
-      QVariant var = index.data(Qt::DisplayRole);
-      QVariant editvar = index.data(Qt::EditRole);
-      if(editvar != var)
-      {
-          var = editvar;
-      }
-      int col = index.column();
       QModelIndexList list = ui->treeView->selectionModel()->selectedIndexes();
 
-      cmd = new SetFieldPropertyCommand(m_model,list,var,col);
-
-      m_undoStack.push(cmd);
-
+      for(QModelIndex& index : list)
+      {
+          if(index.column() == col)
+          {
+            auto field = static_cast<Field*>(index.internalPointer());
+            listField.append(field);
+          }
+      }
+      cmd = new SetFieldPropertyCommand(m_model,listField,var,col);
     }
     else
     {
+        cmd = new SetFieldPropertyCommand(m_model,m_model->children(),var,col);
         m_model->setValueForAll(index);
     }
+    m_undoStack.push(cmd);
 
 }
 
@@ -1023,11 +1055,6 @@ void MainWindow::save()
         //
     }
 }
-#include <QJsonValue>
-#include <QJsonValueRef>
-
-
-
 void MainWindow::open()
 {
     if(mayBeSaved())
@@ -1097,6 +1124,12 @@ void MainWindow::open()
                     {
                         Canvas* canvas = new Canvas();
                         canvas->setModel(m_model);
+                        canvas->setUndoStack(&m_undoStack);
+                        auto bg = canvas->getBg();
+                        SetBackgroundCommand cmd(bg,canvas,pix);
+                        cmd.redo();
+                        canvas->setBg(bg);
+
                         canvas->setPixmap(pix);
                         canvas->setCurrentPage(i);
                         m_canvasList.append(canvas);
@@ -1105,6 +1138,10 @@ void MainWindow::open()
                     else
                     {
                         m_canvasList[0]->setPixmap(pix);
+                        auto bg = m_canvasList[0]->getBg();
+                        SetBackgroundCommand cmd(bg,m_canvasList[0],pix);
+                        cmd.redo();
+                        m_canvasList[0]->setBg(bg);
                     }
                     m_imageModel->insertImage(pix,id,"from rcs file");
                     ++i;
@@ -1122,15 +1159,35 @@ void MainWindow::open()
 void MainWindow::updatePageSelector()
 {
     QStringList list;
-    ui->m_selectPageCb->clear();
-    //int i =0;
     for(int i = 0; i < m_canvasList.size() ; ++i)
     {
         list << QStringLiteral("Page %1").arg(i+1);
-        //++i;
     }
-    ui->m_selectPageCb->addItems(list);
+    auto model = AddPageCommand::getPagesModel();
+    model->setStringList(list);
+    ui->m_selectPageCb->setModel(AddPageCommand::getPagesModel());
     ui->m_selectPageCb->setCurrentIndex(0);
+}
+void MainWindow::pageCountChanged()
+{
+    if( m_currentPage >= pageCount())
+    {
+        //currentPageChanged(pageCount()-1);
+        ui->m_selectPageCb->setCurrentIndex(pageCount()-1);
+    }
+}
+int MainWindow::pageCount()
+{
+    auto model = AddPageCommand::getPagesModel();
+    return model->rowCount();
+}
+void MainWindow::currentPageChanged(int i)
+{
+    if((i>=0)&&(i<m_canvasList.size()))
+    {
+        m_currentPage = i;
+        m_view->setScene(m_canvasList[i]);
+    }
 }
 void MainWindow::codeChanged()
 {
@@ -1410,39 +1467,24 @@ void MainWindow::rollDice(QString cmd)
 void MainWindow::addPage()
 {
     Canvas* previous = m_canvasList[m_currentPage];
-    ++m_currentPage;
-    Canvas* canvas = new Canvas();
-    canvas->setCurrentPage(m_currentPage);
+    ui->m_selectPageCb->setModel(AddPageCommand::getPagesModel());
+    AddPageCommand* cmd = new AddPageCommand(++m_currentPage,m_canvasList,previous->currentTool());
+    auto canvas = cmd->canvas();
+    canvas->setUndoStack(&m_undoStack);
+    m_undoStack.push(cmd);
     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
-
-    canvas->setCurrentTool(previous->currentTool());
-
     canvas->setModel(m_model);
-    m_canvasList.append(canvas);
-
-    updatePageSelector();
-    currentPageChanged(m_currentPage);
-    ui->m_selectPageCb->setCurrentIndex(m_currentPage);
+    ui->m_selectPageCb->setCurrentIndex(pageCount()-1);
     setWindowModified(true);
 }
-void MainWindow::currentPageChanged(int i)
-{
-    if((i>=0)&&(i<m_canvasList.size()))
-    {
-        m_currentPage = i;
-        m_view->setScene(m_canvasList[i]);
-    }
 
-}
+#include "undo/deletepagecommand.h"
 void MainWindow::removePage()
 {
     if(m_canvasList.size()>1)
     {
-        Canvas* previous = m_canvasList[m_currentPage];
-        m_canvasList.removeOne(previous);
-        m_model->removePageId(m_currentPage);
-        --m_currentPage;
-        updatePageSelector();
+        DeletePageCommand* cmd = new DeletePageCommand(m_currentPage,m_canvasList,m_model);
+        m_undoStack.push(cmd);
     }
 }
 void MainWindow::editColor(QModelIndex index)
