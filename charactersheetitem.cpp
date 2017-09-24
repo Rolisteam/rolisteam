@@ -26,7 +26,7 @@
 //Item
 /////////////////////////////
 CharacterSheetItem::CharacterSheetItem()
-    : m_parent(nullptr),m_orig(nullptr),m_page(0),m_readOnly(false)
+    : m_parent(nullptr),m_orig(nullptr),m_page(0),m_readOnly(false),m_hasDefaultValue(false)
 {
 }
 
@@ -79,10 +79,6 @@ void CharacterSheetItem::setPage(int page)
 
 QString CharacterSheetItem::getFormula() const
 {
-    if(m_formula.isEmpty())
-    {
-        return m_value;
-    }
     return m_formula;
 }
 
@@ -133,7 +129,7 @@ QString CharacterSheetItem::value() const
 void CharacterSheetItem::setValue(const QString &value,bool fromNetwork)
 {
     /// @warning ugly solution to prevent html rich text to break the change check.
-
+    m_hasDefaultValue = false;
     QString newValue;
     QString currentValue;
     if(m_currentType <= SELECT)
@@ -250,15 +246,7 @@ void CharacterSheetItem::setCurrentType(const CharacterSheetItem::TypeField &cur
 {
     m_currentType = currentType;
 }
-/*Field::TypeField Field::getCurrentType() const
-{
-    return m_currentType;
-}
 
-void Field::setCurrentType(const Field::TypeField &currentType)
-{
-    m_currentType = currentType;
-}*/
 void CharacterSheetItem::initGraphicsItem()
 {
 

@@ -43,15 +43,16 @@ Field::Field(QPointF topleft,bool addCount,QGraphicsItem* parent)
     : CSItem(parent,addCount)
 {
     Q_UNUSED(topleft);
-    m_value = QStringLiteral("value");
+    m_hasDefaultValue = true;
+    m_value = QString("value %1").arg(m_count);
     init();
 }
 Field::~Field()
 {
     #ifdef RCSE
-    if(NULL!=m_canvasField)
+    if(nullptr!=m_canvasField)
         delete m_canvasField;
-    m_canvasField=NULL;
+    m_canvasField=nullptr;
     #endif
 }
 void Field::init()
@@ -681,7 +682,10 @@ void Field::copyField(CharacterSheetItem* oldItem,bool copyData)
         setFormula(oldField->getFormula());
         if(copyData)
         {
-            setValue(oldField->value());
+            if(!m_hasDefaultValue)
+            {
+                setValue(oldField->value());
+            }
         }
         setOrig(oldField);
     }

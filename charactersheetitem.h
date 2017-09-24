@@ -249,6 +249,7 @@ protected:
     QString m_id;
     QString m_formula;
     TypeField m_currentType;
+    bool m_hasDefaultValue;
 };
 
 #endif // CHARACTERSHEETITEM_H

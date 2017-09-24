@@ -83,7 +83,12 @@ const  QVariant CharacterSheet::getValue(QString path,Qt::ItemDataRole role) con
             }
             else if(role == Qt::EditRole)
             {
-                return item->getFormula();
+                QString str = item->getFormula();
+                if(str.isEmpty())
+                {
+                    str = item->value();
+                }
+                return str;
             }
             else if(Qt::BackgroundRole)
             {

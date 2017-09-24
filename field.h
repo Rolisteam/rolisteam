@@ -134,6 +134,7 @@ protected:
     QStringList m_availableValue;
     bool m_clippedText;
     CanvasField* m_canvasField;
+
 };
 
 #endif // FIELD_H
