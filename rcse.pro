@@ -58,8 +58,8 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 target.path = $$PREFIX/
 
 INCLUDEPATH  += /usr/include/poppler/qt5
-#LIBS         += -lpoppler-qt5
-#DEFINES += WITH_PDF
+LIBS         += -lpoppler-qt5
+DEFINES += WITH_PDF
 }
 INSTALLS += target
 
@@ -90,7 +90,12 @@ SOURCES += main.cpp\
     undo/addfieldcommand.cpp \
     undo/deletefieldcommand.cpp \
     undo/movefieldcommand.cpp \
-    undo/setfieldproperties.cpp
+    undo/setfieldproperties.cpp \
+    undo/addpagecommand.cpp \
+    undo/deletepagecommand.cpp \
+    undo/setbackgroundimage.cpp \
+    undo/addcharactercommand.cpp \
+    undo/deletecharactercommand.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -114,7 +119,12 @@ HEADERS  += mainwindow.h \
     undo/addfieldcommand.h \
     undo/deletefieldcommand.h \
     undo/movefieldcommand.h \
-    undo/setfieldproperties.h
+    undo/setfieldproperties.h \
+    undo/addpagecommand.h \
+    undo/deletepagecommand.h \
+    undo/setbackgroundimage.h \
+    undo/addcharactercommand.h \
+    undo/deletecharactercommand.h
 
 
 
