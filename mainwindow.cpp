@@ -761,6 +761,7 @@ void MainWindow::menuRequestedFromView(const QPoint & pos)
     m_posMenu = pos;
     menu.exec(QCursor::pos());
 }
+#include "undo/setpropertyonallcharacters.h"
 void MainWindow::menuRequested(const QPoint & pos)
 {
     Q_UNUSED(pos);
@@ -796,26 +797,18 @@ void MainWindow::menuRequested(const QPoint & pos)
     else if(act == m_applyValueOnAllCharacters)
     {
         QString value = index.data().toString();
+        QString formula = index.data(Qt::EditRole).toString();
         auto characterItem = m_characterModel->indexToSection(index);
         if((!value.isEmpty())&&(nullptr!=characterItem))
         {
             QString key = characterItem->getId();
-            for(int i = 0; i < m_characterModel->getCharacterSheetCount(); ++i)
-            {
-                CharacterSheet* sheet = m_characterModel->getCharacterSheet(i);
-                if(nullptr != sheet)
-                {
-                    sheet->setValue(key,value,QString());
-                }
-
-            }
+            SetPropertyOnCharactersCommand* cmd = new SetPropertyOnCharactersCommand(key,value,formula,m_characterModel);
+            m_undoStack.push(cmd);
         }
     }
     else if(act == m_applyValueOnSelectedCharacterLines)
     {
-
         applyValueOnCharacterSelection(index,true,false);
-
     }/// @todo these functions
     else if(act == m_applyValueOnAllCharacterLines)
     {

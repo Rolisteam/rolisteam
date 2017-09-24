@@ -95,7 +95,8 @@ SOURCES += main.cpp\
     undo/deletepagecommand.cpp \
     undo/setbackgroundimage.cpp \
     undo/addcharactercommand.cpp \
-    undo/deletecharactercommand.cpp
+    undo/deletecharactercommand.cpp \
+    undo/setpropertyonallcharacters.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -124,7 +125,8 @@ HEADERS  += mainwindow.h \
     undo/deletepagecommand.h \
     undo/setbackgroundimage.h \
     undo/addcharactercommand.h \
-    undo/deletecharactercommand.h
+    undo/deletecharactercommand.h \
+    undo/setpropertyonallcharacters.h
 
 
 
