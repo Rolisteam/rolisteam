@@ -272,11 +272,15 @@ void CharacterSheetModel::checkCharacter(Section *section)
         }
     }
 }
-void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
+void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet, int pos)
 {
-    beginInsertColumns(QModelIndex(),m_characterList->size()+1 ,m_characterList->size()+1 );
+    if(pos<0)
+    {
+        pos = m_characterList->size()+1;
+    }
+    beginInsertColumns(QModelIndex(),pos,pos);
     //++m_characterCount;
-    m_characterList->append(sheet);
+    m_characterList->insert(pos-1,sheet);
     emit characterSheetHasBeenAdded(sheet);
     endInsertColumns();
 
@@ -284,6 +288,21 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
     connect(sheet,SIGNAL(updateField(CharacterSheet*,CharacterSheetItem*)),this,SLOT(fieldHasBeenChanged(CharacterSheet*,CharacterSheetItem*)));
 
 }
+void CharacterSheetModel::removeCharacterSheet(CharacterSheet* sheet)
+{
+    int pos = m_characterList->indexOf(sheet);
+
+    if(pos>=0)
+    {
+        beginRemoveColumns(QModelIndex(),pos+1,pos+1);
+
+        m_characterList->removeAt(pos);
+
+        endRemoveColumns();
+    }
+
+}
+
 void CharacterSheetModel::removeCharacterSheet(QModelIndex & index)
 {
     beginRemoveColumns(QModelIndex(),index.column(),index.column());

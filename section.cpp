@@ -273,7 +273,6 @@ void Section::changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem 
     m_keyList.removeAt(index);
     m_keyList.insert(index,newKey);
 }
-
 void Section::buildDataInto( CharacterSheet* character)
 {
     for(int i = 0; i< getChildrenCount();++i)
@@ -321,4 +320,24 @@ void Section::saveDataItem(QJsonObject &json)
 void Section::loadDataItem(QJsonObject &json)
 {
     load(json,QList<QGraphicsScene*>());
+}
+void Section::getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list)
+{
+    for(int i = getChildrenCount()-1;i>=0;--i)
+    {
+      auto child = getChildAt(i);
+      if(!child->mayHaveChildren())
+      {
+          if(pagePos == child->getPage())
+          {
+              list.append(child);
+          }
+      }
+      else
+      {
+        auto childSection = dynamic_cast<Section*>(child);
+        childSection->getFieldFromPage(pagePos,list);
+      }
+
+    }
 }

@@ -95,15 +95,12 @@ public:
     * @param index location of the new line.
     */
     void addLine(const QModelIndex & index);
-    
-    
+
     Qt::ItemFlags flags(const QModelIndex &index) const;
     bool hasChildren ( const QModelIndex & parent  ) const;
     
-    
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role) const;
-    
     
     CharacterSheetItem* indexToSection(const QModelIndex & index);
     QModelIndex indexToSectionIndex(const QModelIndex & index);
@@ -122,19 +119,18 @@ public:
 
     Section* getRootSection() const;
 
-    void addCharacterSheet(CharacterSheet *sheet);
+    void addCharacterSheet(CharacterSheet *sheet,int pos = -1);
 
     CharacterSheet* getCharacterSheetById(QString id);
 
-
     int getCharacterSheetCount() const;
-
 
 #ifndef RCSE
     void readRootSection(NetworkMessageReader* msg);
     void fillRootSection(NetworkMessageWriter* msg);
 #endif
     void removeCharacterSheet(QModelIndex &index);
+    void removeCharacterSheet(CharacterSheet *sheet);
 public slots:
     /**
     * @brief adds an empty CharacterSheet into the model.

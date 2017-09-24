@@ -160,6 +160,7 @@ public:
 
     void setOrig(CharacterSheetItem *orig);
     void changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem *child);
+    void getFieldFromPage(int pagePos, QList<CharacterSheetItem *> &list);
 public slots:
     /**
      * @brief fillList
