@@ -19,43 +19,38 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-#ifndef UPDATECHECKER_H
-#define UPDATECHECKER_H
+#ifndef TIPCHECKER_H
+#define TIPCHECKER_H
 
 #include <QString>
 #include <QTcpSocket>
 #include <QNetworkAccessManager>
 /**
- * @brief The UpdateChecker class is dedicated to check if there is new release of rolisteam.
+ * @brief The TipChecker class displays link to article on the rolisteam website.
  */
-class UpdateChecker : public QObject
+class TipChecker : public QObject
 {
     Q_OBJECT
 public:
-    UpdateChecker();
+    TipChecker(QObject* obj = nullptr);
 
-    bool mustBeUpdated();
+    bool hasArticle();
     void startChecking();
 
-    QString getLatestVersion();
-    QString getLatestVersionDate();
+    QString getArticleTitle();
+    QString getArticleContent();
+    QString getUrl();
 signals:
     void checkFinished();
 
 private slots:
-    void readXML(QNetworkReply* p);
+    void readJSon(QNetworkReply* p);
 
 private:
-    bool inferiorVersion();
-
-private:
-    QString m_version;
-    int m_versionMinor;
-    int m_versionMajor;
-    int m_versionMiddle;
-    QString m_versionDate;
-    QString m_versionChangelog;
-//    QTcpSocket m_socket;
+    QString m_title;
+    QString m_msg;
+    QString m_url;
+    int id;
     QNetworkAccessManager* m_manager;
     bool m_state;
     bool m_noErrror;

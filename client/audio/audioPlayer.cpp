@@ -85,9 +85,9 @@ void AudioPlayer::setupUi()
     setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     setFeatures(QDockWidget::AllDockWidgetFeatures);
     setMinimumWidth(255);
-    m_mainWidget = new QWidget();
+    m_mainWidget = new QWidget(this);
 
-    m_mainLayout = new QVBoxLayout();
+    m_mainLayout = new QVBoxLayout(this);
     m_mainLayout->setSpacing(0);
     m_mainLayout->setMargin(0);
 

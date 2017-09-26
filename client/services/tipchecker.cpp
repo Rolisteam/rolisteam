@@ -21,7 +21,7 @@
  *************************************************************************/
 
 
-#include "updatechecker.h"
+#include "tipchecker.h"
 
 #include <QUrl>
 #include <QNetworkRequest>
@@ -29,117 +29,88 @@
 #include <QRegExp>
 #include <QStringList>
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
 /*****************
  * UpdateChecker *
  *****************/
 
-UpdateChecker::UpdateChecker()
-    : m_state(false),m_versionMinor(0),m_versionMajor(0),m_versionMiddle(0),m_manager(NULL)
+TipChecker::TipChecker(QObject* obj)
+    : QObject(obj), m_state(false),m_manager(nullptr)
 {
     m_noErrror = true;
-#ifdef VERSION_MINOR
-    #ifdef VERSION_MAJOR
-        #ifdef VERSION_MIDDLE
-			m_versionMinor=VERSION_MINOR;
-			m_versionMajor=VERSION_MAJOR;
-			m_versionMiddle=VERSION_MIDDLE;
-        #endif
-    #endif
-#endif
 }
 
-bool UpdateChecker::mustBeUpdated()
+bool TipChecker::hasArticle()
 {
    return m_state;
 }
 
-void UpdateChecker::startChecking()
+void TipChecker::startChecking()
 {
-#ifdef VERSION_MINOR
-    #ifdef VERSION_MAJOR
-        #ifdef VERSION_MIDDLE
-            m_manager = new QNetworkAccessManager(this);
-            connect(m_manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(readXML(QNetworkReply*)));
+    m_manager = new QNetworkAccessManager(this);
+    connect(m_manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(readJSon(QNetworkReply*)));
 
-             m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/version.xml")));
-        #endif
-    #endif
-#endif
-
+    m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/tips.json")));
 }
 
-QString UpdateChecker::getLatestVersion()
+QString TipChecker::getArticleContent()
 {
-    return m_version;
+    return m_msg;
 }
 
-QString UpdateChecker::getLatestVersionDate()
+QString TipChecker::getUrl()
 {
-    return m_versionDate;
+    return m_url;
 }
-void UpdateChecker::readXML(QNetworkReply* p)
+
+QString TipChecker::getArticleTitle()
 {
-    qDebug() << p;
+    return m_title;
+}
+void TipChecker::readJSon(QNetworkReply* p)
+{
     if(p->error()!=QNetworkReply::NoError)
     {
         m_noErrror = false;
         return;
     }
-#ifdef VERSION_MINOR
-    #ifdef VERSION_MAJOR
-        #ifdef VERSION_MIDDLE
-    QByteArray a= p->readAll();
 
-    QRegExp versionMajor("<version_major>(.*)</version_major>");
-    QRegExp versionMiddle("<version_middle>(.*)</version_middle>");
-    QRegExp versionMinor("<version_minor>(.*)</version_minor>");
-    QRegExp date("<date>(.*)</date>");
-    QRegExp changelog("<date>(.*)</date>");
+    QByteArray a = p->readAll();
+    QJsonParseError error;
+    QJsonDocument doc(QJsonDocument::fromJson(a,&error));
 
-    QString string(a);
-    int pos = versionMajor.indexIn(string);
-    if(pos!=-1)
-    {
-        m_versionMajor = versionMajor.capturedTexts().at(1).toInt();
-    }
-    pos = versionMiddle.indexIn(string);
-    if(pos!=-1)
-    {
-        m_versionMiddle = versionMiddle.capturedTexts().at(1).toInt();
-    }
-    pos = versionMinor.indexIn(string);
-    if(pos!=-1)
-    {
-        m_versionMinor = versionMinor.capturedTexts().at(1).toInt();
-    }
-     pos = date.indexIn(string);
-     if(pos!=-1)
-     {
-          m_versionDate = date.capturedTexts().at(1);
-     }
-     pos = changelog.indexIn(string);
-     if(pos!=-1)
-     {
-          m_versionChangelog = changelog.capturedTexts().at(1);
-     }
-     m_state = inferiorVersion();
-     m_version = QString("%1.%2.%3").arg(m_versionMajor).arg(m_versionMiddle).arg(m_versionMinor);
-     emit checkFinished();
-     m_manager->deleteLater();
-        #endif
-    #endif
-#endif
 
+    if(error.error != QJsonParseError::NoError)
+    {
+        qDebug() << error.errorString();
+        m_noErrror = false;
+        return;
+    }
+
+    QJsonObject obj = doc.object();
+    QString locale = QLocale::system().name();
+    int pos = locale.indexOf('_');
+    if(pos>=0)
+    {
+        locale.remove(locale.indexOf(pos,1));
+    }
+
+
+    if(!obj.contains(locale))
+    {
+        locale = "en";
+    }
+    if(obj.contains(locale))
+    {
+        QJsonObject lang = obj[locale].toObject();
+        m_title = lang["title"].toString();
+        m_msg = lang["msg"].toString();
+        m_url = lang["url"].toString();
+        if(!m_msg.isEmpty() && !m_title.isEmpty())
+        {
+            m_state = true;
+        }
+    }
 }
-bool UpdateChecker::inferiorVersion()
-{
-    qDebug() << m_versionMajor << "." << m_versionMiddle <<  "." <<m_versionMinor << " -- " <<VERSION_MAJOR << "." <<  VERSION_MIDDLE << "." << VERSION_MINOR;
-    if(m_versionMajor>VERSION_MAJOR)
-        return true;
-    else if((m_versionMajor==VERSION_MAJOR)&&(m_versionMiddle>VERSION_MIDDLE))
-        return true;
-    else if((m_versionMajor==VERSION_MAJOR)&&(m_versionMiddle==VERSION_MIDDLE)&&(m_versionMinor>VERSION_MINOR))
-        return true;
-    else
-        return false;
-}
+

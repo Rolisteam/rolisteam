@@ -29,10 +29,9 @@
 #include "sessionitemmodel.h"
 #include "preferences/preferencesmanager.h"
 
-SessionManager::SessionManager()
-    : m_sessionName(tr("Unknown"))
+SessionManager::SessionManager(QWidget* parent)
+    : QWidget(parent), m_sessionName(tr("Unknown"))
 {
-
     setObjectName("SessionManager");
     m_options = PreferencesManager::getInstance();
     m_view =new SessionView(this);

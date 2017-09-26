@@ -444,7 +444,7 @@ void PreferencesDialog::load()
 
 void PreferencesDialog::editColor(QModelIndex index)
 {
-    QColor color = QColorDialog::getColor(index.data(Qt::DecorationRole).value<QColor>());
+    QColor color = QColorDialog::getColor(index.data(Qt::DecorationRole).value<QColor>(),this);
     if(color.isValid())
     {
         m_paletteModel->setColor(index,color);

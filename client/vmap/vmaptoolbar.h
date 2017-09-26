@@ -37,7 +37,7 @@ public:
     /**
      * @brief VmapToolBar
      */
-    VmapToolBar();
+    VmapToolBar(QWidget* parent);
     /**
       */
     virtual ~VmapToolBar();

@@ -41,7 +41,7 @@ Image::Image(/*QString title,QString identImage, QString identJoueur, QImage *im
     : MediaContainer(parent),m_NormalSize(0,0)
 {
     setObjectName("Image");
-    m_widgetArea = new QScrollArea();
+    m_widgetArea = new QScrollArea(this);
     m_zoomLevel = 1;
     m_parent=parent;
     setWindowIcon(QIcon(":/resources/icons/photo.png"));

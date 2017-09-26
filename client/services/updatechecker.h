@@ -32,7 +32,7 @@ class UpdateChecker : public QObject
 {
     Q_OBJECT
 public:
-    UpdateChecker();
+    UpdateChecker(QObject* obj = nullptr);
 
     bool mustBeUpdated();
     void startChecking();

@@ -25,22 +25,25 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
-class UpdaterWindow : public QWidget
+#include "ui_tipofdayviewer.h"
+
+namespace Ui {
+class tipofdayviewer;
+}
+
+class TipOfDayViewer : public QDialog
 {
     Q_OBJECT
 
 public:
-    UpdaterWindow(QWidget *parent = NULL);
+    TipOfDayViewer(QString title, QString msg, QString url, QWidget *parent = nullptr);
 
-public slots:
-
-    void downloadProgess(qint64 bytesReceived, qint64 bytesTotal);
-    void save();
+    bool dontshowAgain() const;
+    void setDontshowAgain(bool dontshowAgain);
 
 private:
-    QProgressBar* m_progressBar;
-    QNetworkReply* reply;
-    QNetworkAccessManager m_manager;
+    Ui::tipofdayviewer* m_ui;
+    bool m_dontshowAgain;
 };
 
 #endif // UPDATERWINDOW_H

@@ -17,41 +17,50 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-#include "updaterwindow.h"
+#include "tipofdayviewer.h"
 #include <QFile>
 #include <QMessageBox>
-UpdaterWindow::UpdaterWindow(QWidget *parent): QWidget(parent)
-{
-    //Windows Options
-    setFixedSize(258,112);
-    setWindowTitle("Updater");
+#include <QDesktopServices>
 
-    m_progressBar = new QProgressBar(this);
-    m_progressBar->setValue(0);
-    reply = m_manager.get(QNetworkRequest(QUrl("http://site.fr/last/application.exe")));
-    connect(reply, SIGNAL(finished()), this, SLOT(save()));
-    connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(downloadProgess(qint64, qint64)));
-}
-
-void UpdaterWindow::downloadProgess(qint64 bytesReceived, qint64 bytesTotal)
+TipOfDayViewer::TipOfDayViewer(QString title, QString msg, QString url,QWidget *parent)
+    : QDialog(parent)
 {
-    if (bytesTotal != -1)
+    m_ui->setupUi(this);
+    setWindowTitle(tr("%1 - Tip Of The Day").arg(title));
+    m_ui->m_text->setText(msg);
+    connect(m_ui->m_neverShowAgain,&QCheckBox::toggled,[&](bool value){
+       m_dontshowAgain = value;
+    });
+
+    if(!url.isEmpty())
     {
-        m_progressBar->setRange(0, bytesTotal);
-        m_progressBar->setValue(bytesReceived);
+        connect(m_ui->m_buttonBox,&QDialogButtonBox::clicked,[&](QAbstractButton* btn){
+            auto standard = m_ui->m_buttonBox->standardButton(btn);
+            if(QDialogButtonBox::Open == standard)
+            {
+                if (!QDesktopServices::openUrl(QUrl(url)))
+                {
+                    QMessageBox * msgBox = new QMessageBox(
+                                QMessageBox::Information,
+                                tr("No Service to open links"),
+                                tr("Please find the type here: <a href=\"%1\"</a>").arg(url),
+                                QMessageBox::Ok
+                                );
+                    msgBox->exec();
+                }
+            }
+        });
     }
 }
 
-void UpdaterWindow::save()
+bool TipOfDayViewer::dontshowAgain() const
 {
-    reply->deleteLater();
-    QFile lastversion("rolisteam.exe");
-
-    if ( lastversion.open(QIODevice::WriteOnly) )
-    {
-        lastversion.write(reply->readAll());
-        lastversion.close();
-        QMessageBox::information(this, "", "");
-    }
-    close();
+    return m_dontshowAgain;
 }
+
+void TipOfDayViewer::setDontshowAgain(bool dontshowAgain)
+{
+    m_dontshowAgain = dontshowAgain;
+}
+
+

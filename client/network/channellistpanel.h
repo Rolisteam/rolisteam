@@ -34,6 +34,7 @@ public:
 
 public slots:
     void showCustomMenu(QPoint pos);
+    void loginAdmin();
 
 protected slots:
     void addChannelAsSibbling();

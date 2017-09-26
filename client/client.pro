@@ -167,7 +167,9 @@ HEADERS += \
     network/passwordaccepter.h \
     network/timeaccepter.h \
     network/connectionaccepter.h \
-    network/rserver.h
+    network/rserver.h \
+    services/tipchecker.h \
+    widgets/tipofdayviewer.h
 
 
    #     persondialog.cpp \
@@ -255,7 +257,9 @@ SOURCES += \
     network/passwordaccepter.cpp \
     network/timeaccepter.cpp \
     network/connectionaccepter.cpp \
-    network/rserver.cpp
+    network/rserver.cpp \
+    services/tipchecker.cpp \
+    widgets/tipofdayviewer.cpp
 
 
 FORMS += \
@@ -270,7 +274,8 @@ FORMS += \
     widgets/aboutrolisteam.ui \
     network/selectconnectionprofiledialog.ui \
     widgets/persondialog.ui \
-    network/channellistpanel.ui
+    network/channellistpanel.ui \
+    widgets/tipofdayviewer.ui
 
 
 # Installs

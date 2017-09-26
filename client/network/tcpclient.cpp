@@ -252,7 +252,7 @@ void TcpClient::receivingData()
 }
 void TcpClient::forwardMessage()
 {
-    qDebug() <<"[forwardMessage]" <<m_header.dataSize << m_header.action << m_header.category;
+   // qDebug() <<"[forwardMessage]" <<m_header.dataSize << m_header.action << m_header.category;
     QByteArray array((char*)&m_header,sizeof(NetworkMessageHeader));
     array.append(m_buffer,m_header.dataSize);
     if(m_currentState != m_disconnected)
@@ -283,7 +283,7 @@ void TcpClient::sendData(QByteArray a)
 #include <QThread>
 void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 {
-    qDebug() << "send message" << msg << deleteMsg;
+   // qDebug() << "send message" << msg << deleteMsg;
     if((nullptr != m_socket)&&(m_socket->isWritable()))
     {
         NetworkMessageHeader* data = msg->buffer();

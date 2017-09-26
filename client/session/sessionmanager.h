@@ -41,7 +41,7 @@ public:
     /**
     * @brief default constructor
     */
-    SessionManager();
+    SessionManager(QWidget* parent);
     /**
      * @brief ~SessionManager
      */

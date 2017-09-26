@@ -20,8 +20,8 @@
 
 #include "vmaptoolbar.h"
 
-VmapToolBar::VmapToolBar()
-    : m_vmap(NULL)
+VmapToolBar::VmapToolBar(QWidget* parent)
+    : QToolBar(parent), m_vmap(nullptr)
 {
     setObjectName("VMapToolBar");
     setWindowTitle(tr("Toolbar for VMap"));

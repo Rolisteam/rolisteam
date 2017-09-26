@@ -269,7 +269,7 @@ void ChannelListPanel::loginAdmin()
     if(!pwadmin.isEmpty())
     {
         NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::AdminPassword);
-        msg.string8(id);
+        //msg.string8(id);
         msg.string8(pwadmin);
         msg.sendAll();
     }
