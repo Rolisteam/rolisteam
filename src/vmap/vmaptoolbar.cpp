@@ -39,30 +39,30 @@ void VmapToolBar::setupUi()
     m_showGridAct->setToolTip(tr("Show/Hide Grid"));
     m_showGridAct->setCheckable(true);
 
-    m_bgSelector =new ColorButton();
+    m_bgSelector =new ColorButton(this);
 
-    m_currentPermission =new QComboBox();
+    m_currentPermission =new QComboBox(this);
     QStringList list;
     list << tr("GM Only") <<tr("PC Move") <<tr("ALL") ;
     m_currentPermission->addItems(list);
 
-    m_currentLayer = new QComboBox();
+    m_currentLayer = new QComboBox(this);
     QStringList listLayer;
     listLayer << tr("Ground") <<tr("Object") <<tr("Character");
     m_currentLayer->addItems(listLayer);
 
 
-    m_gridPattern =new QComboBox();
+    m_gridPattern =new QComboBox(this);
     QStringList listGrid;
     listGrid << tr("None") <<tr("Square") <<tr("Hexagon") ;
     m_gridPattern->addItems(listGrid);
 
-    m_gridUnit=new QComboBox();
+    m_gridUnit=new QComboBox(this);
     QStringList listUnit;
     listUnit << tr("m") <<tr("km") <<tr("cm")<<tr("mile")<<tr("yard")<<tr("inch")<<tr("foot") <<tr("px");
     m_gridUnit->addItems(listUnit);
 
-    m_currentVisibility=new QComboBox();
+    m_currentVisibility=new QComboBox(this);
     QStringList listVisi;
     listVisi <<tr("Hidden") <<tr("Fog of War")<< tr("All");
     m_currentVisibility->addItems(listVisi);
@@ -74,32 +74,32 @@ void VmapToolBar::setupUi()
     m_gridSize = new QSpinBox(this);
     m_gridSize->setRange(1,std::numeric_limits<int>::max());
 
-    addWidget(new QLabel(tr("Background:")));
+    addWidget(new QLabel(tr("Background:"),this));
     addWidget(m_bgSelector);
     addSeparator();
-    addWidget(new QLabel(tr("Grid:")));
+    addWidget(new QLabel(tr("Grid:"),this));
     addAction(m_showGridAct);
     addWidget(m_gridPattern);
     addWidget(m_gridSize);
-    addWidget(new QLabel(tr("px :")));
+    addWidget(new QLabel(tr("px :"),this));
     addWidget(m_scaleSize);
     addWidget(m_gridUnit);
     addSeparator();
-    addWidget(new QLabel(tr("Permission:")));
+    addWidget(new QLabel(tr("Permission:"),this));
     addWidget(m_currentPermission);
     addSeparator();
-    addWidget(new QLabel(tr("Visibility:")));
+    addWidget(new QLabel(tr("Visibility:"),this));
     addWidget(m_currentVisibility);
-    addWidget(new QLabel(tr("Layer:")));
+    addWidget(new QLabel(tr("Layer:"),this));
     addWidget(m_currentLayer);
 
-    m_showOnlyItemsFromThisLayer = new QCheckBox(tr("Hide other Layers"));
+    m_showOnlyItemsFromThisLayer = new QCheckBox(tr("Hide other Layers"),this);
     addWidget(m_showOnlyItemsFromThisLayer);
 
-    m_showCharacterVision = new QCheckBox(tr("Character Vision"));
+    m_showCharacterVision = new QCheckBox(tr("Character Vision"),this);
     addWidget(m_showCharacterVision);
 
-    m_collision = new QCheckBox(tr("Collision"));
+    m_collision = new QCheckBox(tr("Collision"),this);
     addWidget(m_collision);
 
 
