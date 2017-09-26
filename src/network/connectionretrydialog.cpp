@@ -29,7 +29,7 @@ ConnectionRetryDialog::ConnectionRetryDialog(QWidget *parent) :
     ui(new Ui::ConnectionRetryDialog)
 {
     ui->setupUi(this);
-    m_timer=new QTimer();
+    m_timer=new QTimer(this);
     m_counter = DEFAULT_TIMEOUT;
     m_timeoutValue = DEFAULT_INTERVAL;
     m_timer->setInterval(m_timeoutValue);
