@@ -82,7 +82,8 @@ PaletteModel::PaletteModel()
 
 PaletteModel::~PaletteModel()
 {
-
+    qDeleteAll(m_data);
+    m_data.clear();
 }
 QVariant PaletteModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
