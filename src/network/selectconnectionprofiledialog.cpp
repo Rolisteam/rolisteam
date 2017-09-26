@@ -99,7 +99,8 @@ ProfileModel::ProfileModel(QString version)
 
 ProfileModel::~ProfileModel()
 {
-
+    qDeleteAll(m_connectionProfileList);
+    m_connectionProfileList.clear();
 }
 QVariant ProfileModel::headerData(int section, Qt::Orientation orientation, int role)
 {
