@@ -1,4 +1,4 @@
-<p align='center'><img src="http://www.rolisteam.org/sites/default/files/pixture_reloaded_logo.png"/></p>
+<p align='center'><img src="https://raw.githubusercontent.com/Rolisteam/rolisteam/master/resources/logo/1000-rolisteam.png"/></p>
 
 ---
 
