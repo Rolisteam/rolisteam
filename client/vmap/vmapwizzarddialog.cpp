@@ -186,7 +186,7 @@ void MapWizzardDialog::setAllMap(VMap* map)
         resultVisibility = VMap::HIDDEN;
         break;
     case 1:
-        resultVisibility = VMap::CHARACTER;
+        resultVisibility = VMap::FOGOFWAR;
         break;
     case 2:
         resultVisibility = VMap::ALL;
