@@ -27,7 +27,8 @@ ProfileModel::ProfileModel(QString version)
 
 ProfileModel::~ProfileModel()
 {
-
+    qDeleteAll(m_connectionProfileList);
+    m_connectionProfileList.clear();
 }
 QVariant ProfileModel::headerData(int section, Qt::Orientation orientation, int role)
 {
@@ -52,7 +53,6 @@ QVariant ProfileModel::data(const QModelIndex &index, int role) const
 
     if(Qt::DisplayRole == role)
     {
-
         return m_connectionProfileList.at(index.row())->getTitle();
     }
 
