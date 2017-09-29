@@ -37,7 +37,8 @@ Chapter::Chapter(const Chapter& m)
 
 Chapter::~Chapter()
 {
-    
+    qDeleteAll(m_children);
+    m_children.clear();
 }
 
 bool Chapter::hasChildren() const
