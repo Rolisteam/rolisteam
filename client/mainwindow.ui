@@ -130,7 +130,13 @@
      <string>GM ToolBox</string>
     </property>
    </widget>
+   <widget class="QMenu" name="m_editMenu">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+   </widget>
    <addaction name="menu_File"/>
+   <addaction name="m_editMenu"/>
    <addaction name="m_menuSubWindows"/>
    <addaction name="menuNetwork"/>
    <addaction name="m_gmToolBoxMenu"/>

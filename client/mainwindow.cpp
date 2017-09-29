@@ -54,6 +54,7 @@
 #include "userlist/playersListWidget.h"
 #include "preferences/preferencesdialog.h"
 #include "services/updatechecker.h"
+#include "services/tipchecker.h"
 #include "improvedworkspace.h"
 #include "data/mediacontainer.h"
 #include "network/receiveevent.h"
@@ -75,9 +76,6 @@
 #include "audio/audioPlayer.h"
 #endif
 
-// singleton to the mainwindow
-MainWindow* MainWindow::m_singleton= nullptr;
-
 MainWindow::MainWindow()
     : QMainWindow(),
       m_clientManager(nullptr),
@@ -96,26 +94,26 @@ MainWindow::MainWindow()
     m_shownProgress=false;
 
     m_preferences = PreferencesManager::getInstance();
-    m_downLoadProgressbar = new QProgressBar();
+    m_downLoadProgressbar = new QProgressBar(this);
     m_downLoadProgressbar->setRange(0,100);
 
     m_downLoadProgressbar->setVisible(false);
     m_clientManager = nullptr;
-    m_vmapToolBar = new VmapToolBar();
+    m_vmapToolBar = new VmapToolBar(this);
     addToolBar(Qt::TopToolBarArea,m_vmapToolBar);
 
 
     m_ipChecker = new IpChecker(this);
     m_mapAction = new QMap<MediaContainer*,QAction*>();
 
-    m_sessionManager = new SessionManager();
+    m_sessionManager = new SessionManager(this);
 
     connect(m_sessionManager,SIGNAL(sessionChanged(bool)),this,SLOT(setWindowModified(bool)));
     connect(m_sessionManager,SIGNAL(openFile(CleverURI*,bool)),this,SLOT(openCleverURI(CleverURI*,bool)));
 
     /// Create all GM toolbox widget
-    m_gmToolBoxList.append(new NameGeneratorWidget());
-    m_gmToolBoxList.append(new GMTOOL::Convertor());
+    m_gmToolBoxList.append(new NameGeneratorWidget(this));
+    m_gmToolBoxList.append(new GMTOOL::Convertor(this));
 
     for (QWidget* wid : m_gmToolBoxList)
     {
@@ -144,11 +142,12 @@ MainWindow::MainWindow()
 }
 MainWindow::~MainWindow()
 {
-    m_serverThread.quit();
+    //m_serverThread.quit();
     // delete m_dockLogUtil;
     if(nullptr != m_currentStory)
     {
         delete m_currentStory;
+        m_currentStory = nullptr;
     }
 }
 void MainWindow::aboutRolisteam()
@@ -181,6 +180,7 @@ void  MainWindow::closeConnection()
     if(nullptr!=m_clientManager)
     {
         //m_serverThread.terminate();
+        m_serverThread.quit();
         m_clientManager->disconnectAndClose();
         m_ui->m_connectionAction->setEnabled(true);
         m_ui->m_disconnectAction->setEnabled(false);
@@ -241,7 +241,7 @@ void MainWindow::closeMediaContainer(QString id)
          }
      }
 }
-
+#include "widgets/tipofdayviewer.h"
 void MainWindow::closeCurrentSubWindow()
 {
     QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
@@ -255,11 +255,28 @@ void MainWindow::checkUpdate()
 {
     if(m_preferences->value("MainWindow_MustBeChecked",true).toBool())
     {
-        m_updateChecker = new UpdateChecker();
+        m_updateChecker = new UpdateChecker(this);
         m_updateChecker->startChecking();
         connect(m_updateChecker,SIGNAL(checkFinished()),this,SLOT(updateMayBeNeeded()));
     }
 }
+void MainWindow::tipChecker()
+{
+    if(m_preferences->value("MainWindow_neverDisplayTips",false).toBool())
+    {
+        TipChecker* tipChecker = new TipChecker(this);
+        tipChecker->startChecking();
+        connect(tipChecker,&TipChecker::checkFinished,[&](){
+            if(tipChecker->hasArticle())
+            {
+                TipOfDayViewer view(tipChecker->getArticleTitle(),tipChecker->getArticleContent(),tipChecker->getUrl(),this);
+                view.exec();
+            }
+            m_updateChecker->deleteLater();
+        });
+    }
+}
+
 void MainWindow::activeWindowChanged(QMdiSubWindow *subWindow)
 {
     if(nullptr!=m_currentConnectionProfile)
@@ -328,6 +345,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
             m_playerList->sendDelLocalPlayer();
         }
         writeSettings();
+        m_serverThread.quit();
         event->accept();
     }
     else
@@ -348,14 +366,7 @@ ClientManager* MainWindow::getNetWorkManager()
 {
     return m_clientManager;
 }
-MainWindow* MainWindow::getInstance()
-{
-    if(NULL==m_singleton)
-    {
-        m_singleton = new MainWindow();
-    }
-    return m_singleton;
-}
+
 Map::PermissionMode MainWindow::getPermission(int id)
 {
     switch(id)
@@ -446,6 +457,20 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_saveScenarioAsAction, SIGNAL(triggered(bool)), this, SLOT(saveAsStory()));
     connect(m_ui->m_preferencesAction, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
 
+
+    //Edition
+    // Windows managing
+    connect(m_ui->m_cascadeViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(cascadeSubWindows()));
+    connect(m_ui->m_tabViewAction,SIGNAL(triggered(bool)),m_mdiArea,SLOT(setTabbedMode(bool)));
+    connect(m_ui->m_tileViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
+
+    auto redo = m_undoStack.createRedoAction(this);
+    auto undo = m_undoStack.createUndoAction(this);
+
+    m_ui->m_editMenu->insertAction(nullptr,redo);
+    m_ui->m_editMenu->insertAction(redo,undo);
+
+
     // close
     connect(m_ui->m_quitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
 
@@ -457,10 +482,6 @@ void MainWindow::linkActionToMenu()
 
     connect(m_ui->m_roomListAct,SIGNAL(triggered(bool)),m_roomPanelDockWidget,SLOT(setVisible(bool)));
 
-    // Windows managing
-    connect(m_ui->m_cascadeViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(cascadeSubWindows()));
-    connect(m_ui->m_tabViewAction,SIGNAL(triggered(bool)),m_mdiArea,SLOT(setTabbedMode(bool)));
-    connect(m_ui->m_tileViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
 
     // Help
     connect(m_ui->m_aboutAction, SIGNAL(triggered()), this, SLOT(aboutRolisteam()));
@@ -1474,14 +1495,14 @@ void MainWindow::setupUi()
 
 
     //setAnimated(false);
-    m_mdiArea = new ImprovedWorkspace();
+    m_mdiArea = new ImprovedWorkspace(this);
     setCentralWidget(m_mdiArea);
     connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(activeWindowChanged(QMdiSubWindow *)));
 
-    m_toolBar = new ToolsBar();
+    m_toolBar = new ToolsBar(this);
 
-    m_vToolBar = new VToolsBar();
-    m_toolBarStack = new QStackedWidget();
+    m_vToolBar = new VToolsBar(this);
+    m_toolBarStack = new QStackedWidget(this);
     m_toolBarStack->setMinimumWidth(10);
     m_toolBarStack->addWidget(m_toolBar);
     m_toolBarStack->addWidget(m_vToolBar);
@@ -1961,6 +1982,8 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
         map->setOption(VisualItem::LocalIsGM,m_currentConnectionProfile->isGM());
     }
     map->setLocalId(m_localPlayerId);
+
+    tmp->setUndoStack(&m_undoStack);
 
     //Toolbar to Map
     connect(m_vToolBar,SIGNAL(currentToolChanged(VToolsBar::SelectableTool)),tmp,SLOT(currentToolChanged(VToolsBar::SelectableTool)));

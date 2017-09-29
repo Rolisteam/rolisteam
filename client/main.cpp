@@ -168,7 +168,7 @@ int main(int argc, char *argv[])
 
 
     // Create the main window
-    MainWindow* mainWindow =MainWindow::getInstance();
+    MainWindow* mainWindow = new MainWindow();
     mainWindow->parseCommandLineArguments(app.arguments());
 
     mainWindow->setupUi();

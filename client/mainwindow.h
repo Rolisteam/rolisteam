@@ -33,6 +33,7 @@
 #include <QProgressBar>
 #include <QMdiSubWindow>
 #include <QStackedWidget>
+#include <QUndoStack>
 
 #include "data/cleveruri.h"
 #include "data/mediacontainer.h"
@@ -97,14 +98,14 @@ public :
      */
     enum MessageType {Information,Notice,Warning,Error};
     /**
+     * @brief MainWindow
+     */
+    MainWindow();
+    /**
      * @brief ~MainWindow
      */
     virtual ~MainWindow();
-    /**
-     * @brief getInstance
-     * @return
-     */
-    static MainWindow* getInstance();
+
 
     /**
      * @brief addMap
@@ -341,6 +342,7 @@ protected :
     void readStory(QString fileName);
     void prepareNote(NoteContainer *note);
     void processSharedNoteMessage(NetworkMessageReader *msg);
+    void tipChecker();
 protected slots:
     /**
      * @brief closeMediaContainer
@@ -512,10 +514,6 @@ private slots :
     void newSharedNoteDocument();
 private :
     /**
-     * @brief MainWindow
-     */
-    MainWindow();
-    /**
      * @brief showCleverUri
      * @param uri
      */
@@ -602,6 +600,7 @@ private:
     QDockWidget* m_roomPanelDockWidget;
     QThread m_serverThread;
     ChannelListPanel* m_roomPanel;
+    QUndoStack m_undoStack;
 };
 
 #endif
