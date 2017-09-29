@@ -57,6 +57,7 @@ class FormulaManager
 {
 public:
     FormulaManager();
+    ~FormulaManager();
 
     QVariant getValue(QString i);
     void setConstantHash(QHash<QString,QString>* hash);

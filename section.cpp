@@ -33,6 +33,11 @@ Section::Section()
 {
 
 }
+Section::~Section()
+{
+    qDeleteAll(m_dataHash.values());
+    m_dataHash.clear();
+}
 
 bool Section::hasChildren()
 {

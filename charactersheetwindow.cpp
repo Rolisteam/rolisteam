@@ -345,7 +345,7 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     {
         openQML();
     }
-    m_qmlView = new QQuickWidget();
+    m_qmlView = new QQuickWidget(this);
     m_qmlView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_qmlView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(contextMenuForTabs(QPoint)));
 
@@ -495,7 +495,7 @@ QJsonDocument CharacterSheetWindow::saveFile()
 
     //background
     QJsonArray images;
-    QHash<QString,QPixmap>* hash = RolisteamImageProvider::getData();
+    QHash<QString,QPixmap> hash = RolisteamImageProvider::getData();
     for(auto key : m_pixmapList.keys())
     {
         QJsonObject obj;

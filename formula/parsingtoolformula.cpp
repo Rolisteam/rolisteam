@@ -49,6 +49,15 @@ ParsingToolFormula::ParsingToolFormula()
     m_arithmeticOperation->insert(QStringLiteral("/"),ScalarOperatorFNode::DIVIDE);
     m_arithmeticOperation->insert(QStringLiteral("÷"),ScalarOperatorFNode::DIVIDE);
 }
+ParsingToolFormula::~ParsingToolFormula()
+{
+    m_variableHash->clear();
+    delete m_variableHash;
+
+    m_arithmeticOperation->clear();
+    delete m_arithmeticOperation;
+}
+
 FormulaNode* ParsingToolFormula::getLatestNode(FormulaNode* node)
 {
     if(NULL==node)

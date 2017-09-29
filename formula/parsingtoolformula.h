@@ -38,6 +38,7 @@ public:
      * @brief ParsingToolFormula
      */
     ParsingToolFormula();
+    ~ParsingToolFormula();
     /**
      * @brief readFormula
      * @return

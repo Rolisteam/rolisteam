@@ -40,6 +40,12 @@ CharacterSheet::CharacterSheet()
     ++m_count;
     m_name = m_name.arg(m_count);
 }
+CharacterSheet::~CharacterSheet()
+{
+    qDeleteAll(m_valuesMap);
+    m_valuesMap.clear();
+}
+
 const  QString CharacterSheet::getTitle()
 {
     return m_name;

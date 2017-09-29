@@ -25,6 +25,10 @@ FormulaManager::FormulaManager()
 {
     m_parsingTool = new ParsingToolFormula();
 }
+FormulaManager::~FormulaManager()
+{
+    delete m_parsingTool;
+}
 
 QVariant FormulaManager::getValue(QString i)
 {

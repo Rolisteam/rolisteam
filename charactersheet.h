@@ -47,6 +47,7 @@ public:
     * Constructor
     */
     CharacterSheet();
+    ~CharacterSheet();
     /**
     * @brief allows to get the key, this function is used for displaying the meaning of fields
     * @param int index : 0 refers to the title of the section, 1 refers to key of the first data of the first section...

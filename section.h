@@ -36,6 +36,7 @@ public:
      * @brief Section constructor
      */
     Section();
+    ~Section();
 
     /**
      * @brief hasChildren
