@@ -18,7 +18,7 @@ bool RServer::listen(const QHostAddress &address, quint16 port)
 
     for(int i = 0; i < m_numberOfThread ; ++i)
     {
-        QThread* thread = new QThread();
+        QThread* thread = new QThread(this);
         QPair<QThread*,int> pair(thread,0);
 
         connect(thread,&QThread::started,m_serverManager,&ServerManager::start, Qt::QueuedConnection);
@@ -54,7 +54,7 @@ qint64 RServer::port()
 void RServer::incomingConnection(qintptr descriptor)
 {
     qDebug() << this << "attempting to accept connection" << descriptor;
-    TcpClient* connection = new TcpClient(nullptr);
+    TcpClient* connection = new TcpClient(nullptr,this);
     accept(descriptor, connection);
 }
 
@@ -85,7 +85,7 @@ void RServer::accept(qintptr descriptor, TcpClient* connection)
             thread = pair.first;
             pair.second++;
         }
-        qDebug() << this << "accepting the connection" << descriptor;
+       // qDebug() << this << "accepting the connection" << descriptor;
         connection->moveToThread(thread);
         emit accepting(descriptor, connection, thread);
     }
@@ -97,19 +97,19 @@ void RServer::complete()
 {
    // if(!m_thread)
     {
-        qWarning() << this << "exiting complete there was no thread!";
+       // qWarning() << this << "exiting complete there was no thread!";
         return;
     }
 
-   qDebug() << this << "Complete called, destroying thread";
+  // qDebug() << this << "Complete called, destroying thread";
 //    delete m_connections;
 
-    qDebug() << this << "Quitting thread";
+  //  qDebug() << this << "Quitting thread";
    // m_thread->quit();
   //  m_thread->wait();
 
  //   delete m_thread;
 
-    qDebug() << this << "complete";
+   // qDebug() << this << "complete";
 
 }

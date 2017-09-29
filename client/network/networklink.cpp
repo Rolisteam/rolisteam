@@ -364,23 +364,23 @@ void NetworkLink::connectTo()
 }
 void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
 {
-    qDebug() << "[client] socket State Changed" << state;
+    //qDebug() << "[client] socket State Changed" << state;
     switch (state)
     {
     case QAbstractSocket::ClosingState:
     case QAbstractSocket::UnconnectedState:
-        qDebug() << "[client] disconnected";
+        //qDebug() << "[client] disconnected";
         emit disconnected();
         break;
     case QAbstractSocket::HostLookupState:
     case QAbstractSocket::ConnectingState:
     case QAbstractSocket::BoundState:
-        qDebug() << "[client] connecting";
+        //qDebug() << "[client] connecting";
         emit connecting();//setConnectionState(CONNECTING);
         break;
     case QAbstractSocket::ConnectedState:
     {
-        qDebug() << "[client] connected";
+        //qDebug() << "[client] connected";
         emit connected();
         QString pw = m_connection->getPassword();
         if(!pw.isEmpty())
