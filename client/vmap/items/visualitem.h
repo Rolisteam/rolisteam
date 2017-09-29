@@ -68,7 +68,8 @@ public:
         FogOfWarStatus,
         CollisionStatus,
         GridAbove,
-        HideOtherLayers
+        HideOtherLayers,
+        VisibilityMode
                     };
 	/**
 	 * @brief VisualItem default constructor
