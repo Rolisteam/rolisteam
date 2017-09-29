@@ -49,7 +49,7 @@ void ServerManager::startListening()
 {
     if (m_server == nullptr)
     {
-        m_server = new RServer(this,getValue("ThreadCount").toInt(),this);
+        m_server = new RServer(this,getValue("ThreadCount").toInt());
         //connect(m_server, SIGNAL(newConnection()), this, SLOT(incomingClientConnection()));
 
     }
@@ -66,7 +66,6 @@ void ServerManager::startListening()
 }
 void ServerManager::stopListening()
 {
-
     m_server->close();
 }
 
@@ -276,7 +275,7 @@ void ServerManager::sendOffModel(TcpClient* client)
 {
     if(nullptr != client)
     {
-        qDebug() << "[current qthread]" << QThread::currentThread() << " [client thread:]"<<client->thread();
+        //qDebug() << "[current qthread]" << QThread::currentThread() << " [client thread:]"<<client->thread();
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::SetChannelList);
         QJsonDocument doc;
         QJsonObject obj;
@@ -284,7 +283,7 @@ void ServerManager::sendOffModel(TcpClient* client)
         doc.setObject(obj);
 
         msg->byteArray32(doc.toJson());
-        qDebug()<< "[sendOffModel] ";
+        //qDebug()<< "[sendOffModel] ";
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
 
     }
@@ -331,7 +330,7 @@ void ServerManager::start()
 void ServerManager::quit()
 {
     if(!sender()) return;
-    qDebug() << this << "connections quitting";
+    //qDebug() << this << "connections quitting";
 
   /*  foreach(QTcpSocket *socket, m_connections.keys())
     {
@@ -339,13 +338,13 @@ void ServerManager::quit()
         removeSocket(socket);
     }*/
 
-    qDebug() << this << "finishing";
+    //qDebug() << this << "finishing";
     emit finished();
 }
 
 void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread)
 {
-    qDebug() << "*** HEY WATCH THIS";
+    //qDebug() << "*** HEY WATCH THIS";
     QTcpSocket *socket = new QTcpSocket();
 
     if(!socket->setSocketDescriptor(handle))
@@ -382,12 +381,12 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
 }
 void ServerManager::sendOffModelToAll()
 {
-    qDebug() << "sendoffmodeltoALL";
+   // qDebug() << "sendoffmodeltoALL";
     int i = 0;
     for( auto connection : m_connections.values())
     {
 
-        qDebug() << "for loop connection: loop:" << ++i << connection->getName();
+     //   qDebug() << "for loop connection: loop:" << ++i << connection->getName();
         sendOffModel(connection);
     }
 }
@@ -409,27 +408,27 @@ void ServerManager::removeSocket(QTcpSocket *socket)
 
     TcpClient* client = m_connections.value(socket);
 
-    qDebug() << this << "removing socket = " <<  socket;
+    //qDebug() << this << "removing socket = " <<  socket;
     m_model->removeChild(client->getId());
     if(socket->isOpen())
     {
-        qDebug() << this << "socket is open, attempting to close it " << socket;
+       // qDebug() << this << "socket is open, attempting to close it " << socket;
         socket->disconnect();
         socket->close();
     }
 
-    qDebug() << this << "deleting socket" << socket;
+    //qDebug() << this << "deleting socket" << socket;
     m_connections.remove(socket);
     socket->deleteLater();
 
-    qDebug() << this << "client count = " << m_connections.count();
+    //qDebug() << this << "client count = " << m_connections.count();
     sendOffModelToAll();
 
 }
 void ServerManager::error(QAbstractSocket::SocketError socketError)
 {
     if(!sender()) return;
-    qDebug() << this << "error in socket" << sender() << " error = " << socketError;
+    //qDebug() << this << "error in socket" << sender() << " error = " << socketError;
 
     QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
     if(!socket) return;
