@@ -34,6 +34,10 @@ MediaContainer::MediaContainer(QWidget* parent)
 }
 MediaContainer::~MediaContainer()
 {
+    if(nullptr != m_uri)
+    {
+        delete m_uri;
+    }
 }
 
 void MediaContainer::setLocalPlayerId(QString id)
@@ -158,6 +162,16 @@ CleverURI::ContentType MediaContainer::getContentType()
 void MediaContainer::addActionToMenu(QMenu& menu)
 {
     menu.addAction(m_detachedDialog);
+}
+
+QUndoStack* MediaContainer::getUndoStack() const
+{
+    return nullptr;
+}
+
+void MediaContainer::setUndoStack(QUndoStack* undoStack)
+{
+
 }
 
 void MediaContainer::detachView(bool b)

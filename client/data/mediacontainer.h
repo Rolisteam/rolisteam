@@ -155,6 +155,9 @@ public:
     virtual void setMediaId(QString);
 
     void addActionToMenu(QMenu& menu);
+
+    virtual QUndoStack* getUndoStack() const;
+    virtual void setUndoStack(QUndoStack* undoStack);
 signals:
     /**
      * @brief visibleChanged
