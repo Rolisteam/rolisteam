@@ -168,6 +168,8 @@ public :
 
     void putDataIntoCleverUri();
     NetWorkReceiver::SendType processMessage(NetworkMessageReader *msg);
+    QUndoStack *getUndoStack() const;
+    void setUndoStack(QUndoStack *undoStack);
 public slots :
 	/**
 	 * @brief setCleverURI

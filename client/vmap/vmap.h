@@ -22,6 +22,7 @@
 
 #include <QGraphicsScene>
 #include <QColor>
+#include <QUndoStack>
 #include "vtoolbar.h"
 #include "map/map.h"
 #include "data/person.h"
@@ -45,6 +46,7 @@
  *
  */
 class CharacterItem;
+class AddVmapItemCommand;
 /**
     * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...
     * It is using the QGraphicsScene from Qt.
@@ -55,7 +57,7 @@ class VMap : public QGraphicsScene
 public:
     enum GRID_PATTERN{NONE,SQUARE,HEXAGON,OCTOGON};
     enum SCALE_UNIT{M,KM,CM,MILE,YARD,INCH,FEET,PX};
-    enum VisibilityMode {HIDDEN,CHARACTER,ALL};
+    enum VisibilityMode {HIDDEN,FOGOFWAR,ALL};
     /**
     * @brief default constructor
     */
@@ -243,7 +245,7 @@ public:
      * @param pop
      * @param value
      */
-    void setOption(VisualItem::Properties pop,QVariant value);
+    bool setOption(VisualItem::Properties pop,QVariant value);
     /**
      * @brief getOption
      * @param pop
@@ -297,6 +299,18 @@ public:
      * @param msg
      */
     void processVisionMsg(NetworkMessageReader *msg);
+    const QString& getLocalUserId() const;
+    int getCurrentNpcNumber() const;
+
+    QString getCurrentNpcName() const;
+
+    void removeItemFromData(VisualItem* item);
+    void addItemFromData(VisualItem* item);
+    void insertItemFromData(VisualItem* item,int pos);
+
+    QUndoStack* getUndoStack() const;
+    void setUndoStack(QUndoStack* undoStack);
+
 public slots:
     /**
     * @brief defines the current tools
@@ -489,7 +503,7 @@ protected:
      * @param item to add
      * @param fromNetwork, true when item is added from network, false by default.
      */
-    void addNewItem(VisualItem* item, bool fromNetwork = false);
+    void addNewItem(AddVmapItemCommand* item, bool undoable, bool fromNetwork = false);
     /**
      * @brief dragEnterEvent
      * @param event
@@ -618,6 +632,7 @@ private:
     quint64 m_zIndex;
 
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
+    QUndoStack* m_undoStack = nullptr;
 
     friend QDataStream& operator<<(QDataStream& os,const VMap&);
     friend QDataStream& operator>>(QDataStream& is,VMap&);

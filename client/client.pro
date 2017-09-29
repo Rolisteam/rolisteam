@@ -67,6 +67,7 @@ include(charactersheet/charactersheet.pri)
 include(session/session.pri)
 include(widgets/MRichTextEditor/MRichTextEditor.pri)
 include(sharededitor/sharededitor.pri)
+include(undoCmd/undoCmd.pri)
 
 
 
@@ -169,7 +170,7 @@ HEADERS += \
     network/connectionaccepter.h \
     network/rserver.h \
     services/tipchecker.h \
-    widgets/tipofdayviewer.h
+    widgets/tipofdayviewer.h \
 
 
    #     persondialog.cpp \
@@ -259,7 +260,7 @@ SOURCES += \
     network/connectionaccepter.cpp \
     network/rserver.cpp \
     services/tipchecker.cpp \
-    widgets/tipofdayviewer.cpp
+    widgets/tipofdayviewer.cpp \
 
 
 FORMS += \
@@ -280,7 +281,7 @@ FORMS += \
 
 # Installs
 unix:!macx{
-QMAKE_CXXFLAGS = "-std=c++11 -fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror"
+QMAKE_CXXFLAGS = "-std=c++11 -fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror -Wall -Wextra -Wnon-virtual-dtor"
 }
 
 
@@ -317,5 +318,6 @@ PRE_TARGETDEPS += $$PWD/../../../lib/zlibapi/dll32/zlibwapi.lib
 }
 
 DISTFILES += \
-    rolisteam.dox
+    rolisteam.dox \
+    undoCmd/undoCmd.pri
 

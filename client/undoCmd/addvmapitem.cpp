@@ -17,96 +17,227 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-#include "addfieldcommand.h"
-#include "field.h"
-#include "tablecanvasfield.h"
+#include "addvmapitem.h"
 
-AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas,FieldModel* model,int currentPage,QPointF pos,QUndoCommand *parent)
-  : QUndoCommand(parent),m_canvas(canvas),m_model(model),m_currentPage(currentPage)
+#include "vmap/items/rectitem.h"
+#include "vmap/items/ellipsitem.h"
+#include "vmap/items/pathitem.h"
+#include "vmap/items/lineitem.h"
+#include "vmap/items/textitem.h"
+#include "vmap/items/characteritem.h"
+#include "vmap/items/ruleitem.h"
+#include "vmap/items/imageitem.h"
+#include "vmap/items/anchoritem.h"
+
+#include "data/character.h"
+
+
+AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
+                                       VMap* vmap,
+                                       QPointF& pos,
+                                       QColor& color,
+                                       int penSize,
+                                       QUndoCommand *parent)
+    : QUndoCommand(parent),
+      m_vmap(vmap),
+      m_pos(pos),
+      m_color(color),
+      m_penSize(penSize)
 {
 
-  m_field = new Field(pos);
-  m_field->setPage(m_currentPage);
-  if(Canvas::ADDTABLE == tool)
-  {
-      m_field->setCanvasField(new TableCanvasField(m_field));
-  }
+    switch(tool)
+    {
+    case VToolsBar::PEN:
+        m_currentItem=new PathItem(m_pos,m_color,m_penSize,true);
+        break;
+    case VToolsBar::PATH:
+    {
+        PathItem* pathItem=new PathItem(m_pos,m_color,m_penSize);
+        m_currentItem = pathItem;
+        m_currentPath = pathItem;
+    }
+        break;
+    case VToolsBar::LINE:
+        m_currentItem= new LineItem(m_pos,m_color,m_penSize);
+        break;
+    case VToolsBar::EMPTYRECT:
+        m_currentItem = new RectItem(m_pos,m_pos,false,m_penSize,m_color);
+        break;
+    case VToolsBar::FILLRECT:
+        m_currentItem = new RectItem(m_pos,m_pos,true,m_penSize,m_color);
+        break;
+    case VToolsBar::EMPTYELLIPSE:
+        m_currentItem = new EllipsItem(m_pos,false,m_penSize,m_color);
+        break;
+    case VToolsBar::FILLEDELLIPSE:
+        m_currentItem = new EllipsItem(m_pos,true,m_penSize,m_color);
+        break;
+    case VToolsBar::TEXT:
+    {
+        QGraphicsItem* item = m_vmap->itemAt(m_pos,QTransform());
+        TextItem* tmp = dynamic_cast<TextItem*>(item);
+        QGraphicsTextItem* tmpGraph = dynamic_cast<QGraphicsTextItem*>(item);
+        if((NULL==tmp)&&(NULL==tmpGraph))
+        {
+            TextItem* temptext = new TextItem(m_pos,m_penSize,m_color);
+            m_currentItem = temptext;
+        }
+        else
+        {
+            m_error = true;
+        }
 
-  //m_canvas->addItem(m_field->getCanvasField());
+    }
+        break;
+    case VToolsBar::TEXTBORDER:
+    {
+        QGraphicsItem* item = m_vmap->itemAt(m_pos,QTransform());
+        TextItem* tmp = dynamic_cast<TextItem*>(item);
+        QGraphicsTextItem* tmpGraph = dynamic_cast<QGraphicsTextItem*>(item);
+        if((NULL==tmp)&&(NULL==tmpGraph))
+        {
+            TextItem* temptext = new TextItem(m_pos,m_penSize,m_color);
+            temptext->setBorderVisible(true);
+            m_currentItem = temptext;
+        }
+        else
+        {
+            m_error = true;
+        }
+    }
+        break;
+    case VToolsBar::HANDLER:
+        break;
+    case VToolsBar::ADDNPC:
+    {
+        CharacterItem* itemCharar= new CharacterItem(new Character(m_vmap->getCurrentNpcName(),m_color,true,m_vmap->getCurrentNpcNumber()),m_pos);
+        m_currentItem = itemCharar;
 
-  m_field->setValueFrom(CharacterSheetItem::X,pos.x());
-  m_field->setValueFrom(CharacterSheetItem::Y,pos.y());
+    }
+        break;
+    case VToolsBar::RULE:
+    {
+        RuleItem* itemRule = new RuleItem(m_pos);
+        itemRule->setUnit((VMap::SCALE_UNIT)m_vmap->getOption(VisualItem::Unit).toInt());
+        itemRule->setPixelToUnit(m_vmap->getOption(VisualItem::GridSize).toInt()/m_vmap->getOption(VisualItem::Scale).toReal());
+        m_currentItem = itemRule;
+    }
+        break;
+    case VToolsBar::ANCHOR:
+    {
+        AnchorItem* anchorItem = new AnchorItem(m_pos);
+        m_currentItem = anchorItem;
+    }
+        break;
+    }
+    m_currentItem->setLayer(m_vmap->getCurrentLayer());
+    m_currentItem->setMapId(m_vmap->getId());
 
-  QString type;
+    setText(QObject::tr("Add vmap item"));
+}
+AddVmapItemCommand::AddVmapItemCommand(VisualItem* item,VMap* map,QUndoCommand *parent)
+    : QUndoCommand(parent),m_currentItem(item),m_vmap(map)
+{
 
-  //m_currentItem->setFocus();
-  switch(tool)//TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON
-  {
-  case Canvas::ADDCHECKBOX:
-      m_field->setCurrentType(Field::CHECKBOX);
-      type = QObject::tr("checkbox");
-      break;
-  case Canvas::ADDINPUT:
-      m_field->setCurrentType(Field::TEXTINPUT);
-      type = QObject::tr("TextInput");
-      break;
-  case Canvas::ADDTEXTAREA:
-      m_field->setCurrentType(Field::TEXTAREA);
-      type = QObject::tr("TextArea");
-      break;
-  case Canvas::ADDTEXTFIELD:
-      m_field->setCurrentType(Field::TEXTFIELD);
-      type = QObject::tr("TextField");
-      break;
-  case Canvas::ADDTABLE:
-  {
-      m_field->setCurrentType(Field::TABLE);
-      type = QObject::tr("Table");
-  }
-      break;
-  case Canvas::ADDIMAGE:
-      m_field->setCurrentType(Field::IMAGE);
-      type = QObject::tr("Image");
-      break;
-  case Canvas::ADDFUNCBUTTON:
-      m_field->setCurrentType(Field::FUNCBUTTON);
-      type = QObject::tr("function");
-      break;
-  case Canvas::BUTTON:
-      m_field->setCurrentType(Field::BUTTON);
-      m_field->setBgColor(Qt::red);
-      type = QObject::tr("Dice Button");
-      break;
-  case Canvas::MOVE:
-  case Canvas::DELETETOOL:
-  case Canvas::NONE:
-  default:
-      type = QObject::tr("Unknown");
-      break;
-  }
-
-  setText(QObject::tr("Add %1 Field").arg(type));
 }
 
-void AddFieldCommand::undo()
+bool AddVmapItemCommand::isEditable()
 {
-  m_canvas->removeItem(m_field->getCanvasField());
-  m_canvas->update();
-  m_model->removeField(m_field);
+    bool editable = false;
+    if((m_vmap->getOption(VisualItem::LocalIsGM).toBool()))//GM
+    {
+       editable = true;
+    }
+    else
+    {
+        if(m_vmap->getPermissionMode() == Map::PC_ALL)
+        {
+            editable = true;
+        }
+        else if(m_vmap->getPermissionMode() == Map::PC_MOVE)
+        {
+            if(m_currentItem->getType()==VisualItem::CHARACTER)
+            {
+                CharacterItem* charItem = dynamic_cast<CharacterItem*>(m_currentItem);
+                if(nullptr != charItem )
+                {
+                    if(charItem->getParentId() == m_vmap->getLocalUserId())
+                    {
+                        editable = true;
+                        charItem->setCharacterIsMovable(true);
+                    }
+                }
+            }
+        }
+    }
+    return editable;
+}
+bool AddVmapItemCommand::isVisible()
+{
+    bool visible = false;
+    if((m_vmap->getOption(VisualItem::LocalIsGM).toBool())||(m_vmap->getOption(VisualItem::VisibilityMode) == VMap::ALL))
+    {
+        visible = true;
+    }
+    else if(static_cast<VMap::VisibilityMode>(m_vmap->getOption(VisualItem::VisibilityMode).toInt()) == VMap::FOGOFWAR)
+    {
+        if(m_currentItem->getType()==VisualItem::CHARACTER)
+        {
+            CharacterItem* charItem = dynamic_cast<CharacterItem*>(m_currentItem);
+            if(nullptr != charItem )
+            {
+                if(charItem->getParentId() == m_vmap->getLocalUserId())
+                {
+                    visible = true;
+                }
+            }
+        }
+    }
+    return visible;
+}
+void AddVmapItemCommand::undo()
+{
+    m_vmap->removeItem(m_currentItem);
+    m_vmap->update();
+    m_vmap->removeItemFromData(m_currentItem);
+}
+void AddVmapItemCommand::redo()
+{
+    m_vmap->setFocusItem(m_currentItem);
+    m_vmap->QGraphicsScene::addItem(m_currentItem);
+    QObject::connect(m_currentItem,SIGNAL(itemGeometryChanged(VisualItem*)),m_vmap,SLOT(sendItemToAll(VisualItem*)));
+    QObject::connect(m_currentItem,SIGNAL(itemRemoved(QString)),m_vmap,SLOT(removeItemFromScene(QString)));
+    QObject::connect(m_currentItem,SIGNAL(duplicateItem(VisualItem*)),m_vmap,SLOT(duplicateItem(VisualItem*)));
+    QObject::connect(m_currentItem,SIGNAL(itemLayerChanged(VisualItem*)),m_vmap,SLOT(checkItemLayer(VisualItem*)));
+    QObject::connect(m_currentItem,SIGNAL(itemPositionHasChanged()),m_vmap,SLOT(selectionPositionHasChanged()));
+    QObject::connect(m_currentItem,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),m_vmap,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
+    QObject::connect(m_currentItem,SIGNAL(changeStackPosition(VisualItem*,VisualItem::StackOrder)),m_vmap,SLOT(changeStackOrder(VisualItem*,VisualItem::StackOrder)));
+
+    m_currentItem->setVisible(isVisible());
+    m_currentItem->setEditableItem(isEditable());
+
+
+    m_vmap->addItemFromData(m_currentItem);
 
 }
 
-void AddFieldCommand::redo()
+VisualItem* AddVmapItemCommand::getItem() const
 {
-  m_canvas->addItem(m_field->getCanvasField());
-  if(nullptr != m_model)
-  {
-      m_model->appendField(m_field);
-  }
-
+    return m_currentItem;
 }
 
-Field *AddFieldCommand::getField() const
+
+bool AddVmapItemCommand::hasError() const
 {
-  return m_field;
+    return m_error;
+}
+
+void AddVmapItemCommand::setError(bool error)
+{
+    m_error = error;
+}
+template <class T>
+T* AddVmapItemCommand::getItem() const
+{
+    return dynamic_cast<T*>(m_currentItem);
 }

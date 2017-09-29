@@ -500,23 +500,39 @@ QString VMapFrame::getMediaId()
 }
 void VMapFrame::processsZValueMsg(NetworkMessageReader* msg)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->processZValueMsg(msg);
     }
 }
 void VMapFrame::processsRotationMsg(NetworkMessageReader* msg)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->processRotationMsg(msg);
     }
 }
 void VMapFrame::processsRectGeometryMsg(NetworkMessageReader* msg)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->processRectGeometryMsg(msg);
+    }
+}
+QUndoStack* VMapFrame::getUndoStack() const
+{
+    if(nullptr!=m_vmap)
+    {
+        return m_vmap->getUndoStack();
+    }
+    return nullptr;
+}
+
+void VMapFrame::setUndoStack(QUndoStack* undoStack)
+{
+    if(nullptr!=m_vmap)
+    {
+        return m_vmap->setUndoStack(undoStack);
     }
 }
 

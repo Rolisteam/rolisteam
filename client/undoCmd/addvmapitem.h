@@ -21,24 +21,49 @@
 #define ADDVMAPITEMCOMMAND_H
 
 #include <QUndoCommand>
-#include "vmap.h"
+#include "vmap/vmap.h"
+#include "vmap/vtoolbar.h"
+
 
 class AddVmapItemCommand : public QUndoCommand
 {
 public:
-  AddVMapItemCommand(Canvas::Tool tool, VMap* vmap,QList<VisualItem*>* list,QPointF pos,
-                  QUndoCommand *parent = 0);
+    AddVmapItemCommand(VToolsBar::SelectableTool tool,
+                       VMap* canvas,
+                       QPointF& pos,
+                       QColor& color,
+                       int penSize,
+                       QUndoCommand *parent= nullptr);
 
-  void undo() override;
-  void redo() override;
+    AddVmapItemCommand(VisualItem* item,VMap* map,QUndoCommand *parent = nullptr);
 
-  VisualItem* getItem() const;
+    void undo() override;
+    void redo() override;
 
+    template <class T>
+    T* getItem() const;
+    VisualItem* getItem() const;
+    VisualItem* getPath() const;
+
+    QString getLocalUserId() const;
+    void setLocalUserId(const QString &localUserId);
+
+    bool hasError() const;
+    void setError(bool error);
+
+protected:
+    bool isVisible();
+    bool isEditable();
 private:
-  VisualItem* m_item;
-  VMap* m_map;
-  QPointF m_pos;
-  QList<VisualItem*>* m_list;
+    VMap* m_vmap;
+    //QMap<QString,VisualItem*>* m_itemMap;
+    //QStringList& m_keyList;
+    QPointF m_pos;
+    QColor m_color;
+    int m_penSize;
+    VisualItem* m_currentItem = nullptr;
+    VisualItem* m_currentPath = nullptr;
+    bool m_error = false;
 };
 
 #endif // ADDFIELDCOMMAND_H
