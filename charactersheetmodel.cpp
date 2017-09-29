@@ -246,11 +246,41 @@ void CharacterSheetModel::clearModel()
     }
     endResetModel();
 }
-void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
+
+void CharacterSheetModel::checkCharacter(Section *section)
 {
-    beginInsertColumns(QModelIndex(),m_characterList->size()+1 ,m_characterList->size()+1 );
+    for(CharacterSheet* sheet : *m_characterList)
+    {
+        for(int i = 0; i <  section->getChildrenCount(); ++i)
+        {
+            auto id = section->getChildAt(i);
+            auto field = sheet->getFieldFromKey(id->getId());
+            if(nullptr == field)
+            {
+                Field* newField = new Field(false);
+                newField->copyField(id,true);
+                sheet->insertCharacterItem(newField);
+            }
+            if(field->getCurrentType() != id->getCurrentType())
+            {
+                field->setCurrentType(id->getCurrentType());
+            }
+            if(field->getLabel() != id->getLabel())
+            {
+                field->setLabel(id->getLabel());
+            }
+        }
+    }
+}
+void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet, int pos)
+{
+    if(pos<0)
+    {
+        pos = m_characterList->size()+1;
+    }
+    beginInsertColumns(QModelIndex(),pos,pos);
     //++m_characterCount;
-    m_characterList->append(sheet);
+    m_characterList->insert(pos-1,sheet);
     emit characterSheetHasBeenAdded(sheet);
     endInsertColumns();
 
@@ -258,6 +288,21 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
     connect(sheet,SIGNAL(updateField(CharacterSheet*,CharacterSheetItem*)),this,SLOT(fieldHasBeenChanged(CharacterSheet*,CharacterSheetItem*)));
 
 }
+void CharacterSheetModel::removeCharacterSheet(CharacterSheet* sheet)
+{
+    int pos = m_characterList->indexOf(sheet);
+
+    if(pos>=0)
+    {
+        beginRemoveColumns(QModelIndex(),pos+1,pos+1);
+
+        m_characterList->removeAt(pos);
+
+        endRemoveColumns();
+    }
+
+}
+
 void CharacterSheetModel::removeCharacterSheet(QModelIndex & index)
 {
     beginRemoveColumns(QModelIndex(),index.column(),index.column());
@@ -335,7 +380,17 @@ QVariant CharacterSheetModel::headerData(int section, Qt::Orientation orientatio
         case 0:
             return tr("Fields name");
         default:
-            return QString();
+            {
+                if(m_characterList->size() > (section-1))
+                {
+                    auto character = m_characterList->at(section-1);
+                    return character->getName();
+                }
+                else
+                {
+                    return QString();
+                }
+            }
         }
     }
     return QVariant();
@@ -419,7 +474,7 @@ CharacterSheetItem* CharacterSheetModel::indexToSection(const QModelIndex & inde
     if(index.isValid())
         return static_cast<CharacterSheetItem*>(index.internalPointer());
     else
-        return NULL;
+        return nullptr;
 }
 QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex & index)
 {

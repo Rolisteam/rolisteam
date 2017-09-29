@@ -42,9 +42,9 @@ class CharacterSheetItem : public QObject
 public:
     enum CharacterSheetItemType {SectionItem,FieldItem,ButtonItem};
 
-    enum ColumnId {ID,LABEL,VALUE,VALUES,TYPE,X,Y,WIDTH,HEIGHT,CLIPPED,FONT,TEXT_ALIGN,TEXTCOLOR,BGCOLOR,BORDER};
+    enum ColumnId {ID,LABEL,VALUE,VALUES,TYPE,X,Y,WIDTH,HEIGHT,CLIPPED,FONT,TEXT_ALIGN,TEXTCOLOR,BGCOLOR,BORDER,PAGE};
     enum QMLSection {FieldSec,ConnectionSec};
-    enum TypeField {TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON,FUNCBUTTON};
+    enum TypeField {TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON,FUNCBUTTON,TABLE};
     /**
      * @brief CharacterSheetItem
      */
@@ -146,7 +146,7 @@ public:
      * @param out
      * @param sec
      */
-    virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec)=0;
+    virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec, int i, bool isTable=false)=0;
     /**
      * @brief setNewEnd
      * @param nend
@@ -167,6 +167,13 @@ public:
      * @return
      */
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const = 0;
+    /**
+     * @brief removeChild
+     * @return
+     */
+    virtual bool removeChild(CharacterSheetItem*);
+
+    virtual bool deleteChild(CharacterSheetItem*);
     /**
      * @brief getLabel
      * @return
@@ -242,6 +249,7 @@ protected:
     QString m_id;
     QString m_formula;
     TypeField m_currentType;
+    bool m_hasDefaultValue;
 };
 
 #endif // CHARACTERSHEETITEM_H

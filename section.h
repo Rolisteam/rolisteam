@@ -77,6 +77,8 @@ public:
      * @brief appendChild
      */
     virtual void appendChild(CharacterSheetItem*);
+    void insertChild(CharacterSheetItem* item,int pos);
+
     /**
      * @brief indexOfChild
      * @param itm
@@ -109,7 +111,7 @@ public:
      * @brief generateQML
      * @param out
      */
-    virtual void generateQML(QTextStream &out,CharacterSheetItem::QMLSection);
+    virtual void generateQML(QTextStream &out,CharacterSheetItem::QMLSection,int i, bool isTable=false);
     /**
      * @brief setNewEnd
      */
@@ -129,6 +131,7 @@ public:
      * @return
      */
     bool removeChild(CharacterSheetItem*);
+    bool deleteChild(CharacterSheetItem*);
     /**
      * @brief setValueForAll
      * @param item
@@ -158,6 +161,7 @@ public:
 
     void setOrig(CharacterSheetItem *orig);
     void changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem *child);
+    void getFieldFromPage(int pagePos, QList<CharacterSheetItem *> &list);
 public slots:
     /**
      * @brief fillList

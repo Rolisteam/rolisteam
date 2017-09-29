@@ -33,24 +33,26 @@ CanvasField::CanvasField()
 }
 #endif
 
-Field::Field(QGraphicsItem* parent)
-: CSItem(parent)
+Field::Field(bool addCount,QGraphicsItem* parent)
+: CSItem(parent,addCount)
 {
  init();
 }
 
-Field::Field(QPointF topleft,QGraphicsItem* parent)
-    : CSItem(parent)
+Field::Field(QPointF topleft,bool addCount,QGraphicsItem* parent)
+    : CSItem(parent,addCount)
 {
-    m_value = QStringLiteral("value");
+    Q_UNUSED(topleft);
+    m_hasDefaultValue = true;
+    m_value = QString("value %1").arg(m_count);
     init();
 }
 Field::~Field()
 {
     #ifdef RCSE
-    if(NULL!=m_canvasField)
+    if(nullptr!=m_canvasField)
         delete m_canvasField;
-    m_canvasField=NULL;
+    m_canvasField=nullptr;
     #endif
 }
 void Field::init()
@@ -81,12 +83,6 @@ void Field::init()
         connect(m_canvasField,&CanvasField::yChanged,[=](){
             emit updateNeeded(this);
         });
-     /*   connect(m_canvasField,&CanvasField::widthChanged,[=](){
-            emit updateNeeded(this);
-        });
-        connect(m_canvasField,&CanvasField::heightChanged,[=](){
-            emit updateNeeded(this);
-        });*/
     }
     #endif
 }
@@ -147,6 +143,8 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
         return m_clippedText;
     case FONT:
         return m_font.toString();
+    case PAGE:
+        return m_page;
     }
     return QVariant();
 }
@@ -226,6 +224,9 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         break;
     case FONT:
         m_font.fromString(var.toString());
+        break;
+    case PAGE:
+        m_page = var.toInt();
         break;
     }
    // update();
@@ -344,6 +345,7 @@ void Field::save(QJsonObject& json,bool exp)
 
 void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
 {
+    Q_UNUSED(scene);
     m_id = json["id"].toString();
     m_border = (BorderLine)json["border"].toInt();
     m_value= json["value"].toString();
@@ -404,6 +406,46 @@ void Field::initGraphicsItem()
     m_canvasField->setHeight(m_rect.height());
 #endif
 }
+
+qreal Field::getWidth() const
+{
+    return getValueFrom(CharacterSheetItem::WIDTH, Qt::DisplayRole).toReal();
+}
+
+void Field::setWidth(qreal width)
+{
+    setValueFrom(CharacterSheetItem::WIDTH,width);
+}
+
+qreal Field::getHeight() const
+{
+    return getValueFrom(CharacterSheetItem::HEIGHT, Qt::DisplayRole).toReal();
+}
+
+void Field::setHeight(qreal height)
+{
+    setValueFrom(CharacterSheetItem::HEIGHT,height);
+}
+
+void Field::setX(qreal x)
+{
+    setValueFrom(CharacterSheetItem::X,x);
+}
+
+qreal Field::getX() const
+{
+    return getValueFrom(CharacterSheetItem::X, Qt::DisplayRole).toReal();
+}
+
+void Field::setY(qreal y)
+{
+    setValueFrom(CharacterSheetItem::Y,y);
+}
+
+qreal Field::getY() const
+{
+    return getValueFrom(CharacterSheetItem::Y, Qt::DisplayRole).toReal();
+}
 void Field::loadDataItem(QJsonObject &json)
 {
     m_id = json["id"].toString();
@@ -444,6 +486,8 @@ QString Field::getQMLItemName()
         return "SelectField";
     case Field::IMAGE:
         return "ImageField";
+    case Field::TABLE:
+        return "Item";
     case Field::FUNCBUTTON:
     case Field::BUTTON:
         return "DiceButton";
@@ -472,7 +516,7 @@ Field::TextAlign Field::getTextAlignValue()
     return m_textAlign;
 }
 
-void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
+void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int i, bool isTable)
 {
     if(NULL==m_canvasField)
     {
@@ -492,23 +536,40 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
             out << "    "<<m_id<<".value = currentText\n";
             out << "    }}\n";
         }
-        out << "    id: _"<<m_id<< "\n";
-
-        if((m_currentType==Field::BUTTON)||(m_currentType==Field::FUNCBUTTON))
+        if(!isTable)
         {
-            out << "    text: "<<m_id<<".label\n";
+            out << "    id: _"<<m_id<< "\n";
+            if((m_currentType==Field::BUTTON)||(m_currentType==Field::FUNCBUTTON))
+            {
+                out << "    text: "<<m_id<<".label\n";
+            }
+            else if(m_currentType!=Field::FUNCBUTTON)
+            {
+                out << "    text: "<<m_id << ".value\n";
+            }
         }
-        else if(m_currentType!=Field::FUNCBUTTON)
+        else
         {
-            out << "    text: "<<m_id << ".value\n";
+            if((m_currentType==Field::BUTTON)||(m_currentType==Field::FUNCBUTTON))
+            {
+                out << "    text: parent."<<m_id<<"[index].label\n";
+            }
+            else if(m_currentType!=Field::FUNCBUTTON)
+            {
+                out << "    text: parent."<<m_id << "[index].value\n";
+            }
         }
         out << "    textColor:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
-        out << "    x:" << m_canvasField->pos().x() << "*parent.realscale"<<"\n";
         if(m_clippedText)
         {
             out << "    clippedText:true\n";
         }
-        out << "    y:" <<  m_canvasField->pos().y()<< "*parent.realscale"<<"\n";
+        if(!isTable)
+        {
+            out << "    x:" << m_canvasField->pos().x() << "*parent.realscale"<<"\n";
+            out << "    y:" <<  m_canvasField->pos().y()<< "*parent.realscale"<<"\n";
+        }
+
         out << "    width:" << m_canvasField->boundingRect().width() <<"*parent.realscale"<<"\n";
         out << "    height:"<< m_canvasField->boundingRect().height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
@@ -605,7 +666,7 @@ QPair<QString,QString> Field::getTextAlign()
     return pair;
 }
 
-void Field::copyField(CharacterSheetItem* oldItem)
+void Field::copyField(CharacterSheetItem* oldItem,bool copyData)
 {
     Field* oldField =  dynamic_cast<Field*>(oldItem);
     if(NULL!=oldField)
@@ -618,6 +679,14 @@ void Field::copyField(CharacterSheetItem* oldItem)
         setBgColor(oldField->bgColor());
         setTextColor(oldField->textColor());
         setLabel(oldField->getLabel());
+        setFormula(oldField->getFormula());
+        if(copyData)
+        {
+            if(!m_hasDefaultValue)
+            {
+                setValue(oldField->value());
+            }
+        }
         setOrig(oldField);
     }
 }

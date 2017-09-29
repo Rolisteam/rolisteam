@@ -26,7 +26,7 @@
 //Item
 /////////////////////////////
 CharacterSheetItem::CharacterSheetItem()
-    : m_parent(nullptr),m_orig(nullptr),m_page(0),m_readOnly(false)
+    : m_parent(nullptr),m_orig(nullptr),m_page(0),m_readOnly(false),m_hasDefaultValue(false)
 {
 }
 
@@ -42,6 +42,8 @@ int CharacterSheetItem::getChildrenCount() const
 
 QVariant CharacterSheetItem::getValueFrom(CharacterSheetItem::ColumnId i,int role) const
 {
+    Q_UNUSED(i);
+    Q_UNUSED(role);
     return QVariant();
 }
 
@@ -77,10 +79,6 @@ void CharacterSheetItem::setPage(int page)
 
 QString CharacterSheetItem::getFormula() const
 {
-    if(m_formula.isEmpty())
-    {
-        return m_value;
-    }
     return m_formula;
 }
 
@@ -118,7 +116,9 @@ void CharacterSheetItem::updateLabelFromOrigin()
 }
 void CharacterSheetItem::changeKeyChild(QString oldkey, QString newKey,CharacterSheetItem* child)
 {
-
+    Q_UNUSED(oldkey);
+    Q_UNUSED(newKey);
+    Q_UNUSED(child);
 }
 
 QString CharacterSheetItem::value() const
@@ -129,12 +129,23 @@ QString CharacterSheetItem::value() const
 void CharacterSheetItem::setValue(const QString &value,bool fromNetwork)
 {
     /// @warning ugly solution to prevent html rich text to break the change check.
-    QTextDocument doc;
-    doc.setHtml(value);
-    QString newValue = doc.toPlainText();
+    m_hasDefaultValue = false;
+    QString newValue;
+    QString currentValue;
+    if(m_currentType <= SELECT)
+    {
+        QTextDocument doc;
+        doc.setHtml(value);
+        newValue = doc.toPlainText();
 
-    doc.setHtml(m_value);
-    QString currentValue = doc.toPlainText();
+        doc.setHtml(m_value);
+        currentValue = doc.toPlainText();
+    }
+    else
+    {
+        newValue = value;
+        currentValue = m_value;
+    }
 
     if(currentValue!=newValue)
     {
@@ -167,7 +178,17 @@ void CharacterSheetItem::setLabel(const QString &label)
 }
 void CharacterSheetItem::setId(const QString &id)
 {
-    m_id = id;
+  m_id = id;
+}
+
+bool CharacterSheetItem::removeChild(CharacterSheetItem *)
+{
+  return false;
+}
+
+bool CharacterSheetItem::deleteChild(CharacterSheetItem *)
+{
+  return false;
 }
 int CharacterSheetItem::rowInParent()
 {
@@ -209,6 +230,7 @@ void CharacterSheetItem::setParent(CharacterSheetItem *parent)
 }
 int CharacterSheetItem::indexOfChild(CharacterSheetItem* itm)
 {
+    Q_UNUSED(itm);
     return 0;
 }
 bool CharacterSheetItem::hasFormula() const
@@ -224,15 +246,7 @@ void CharacterSheetItem::setCurrentType(const CharacterSheetItem::TypeField &cur
 {
     m_currentType = currentType;
 }
-/*Field::TypeField Field::getCurrentType() const
-{
-    return m_currentType;
-}
 
-void Field::setCurrentType(const Field::TypeField &currentType)
-{
-    m_currentType = currentType;
-}*/
 void CharacterSheetItem::initGraphicsItem()
 {
 

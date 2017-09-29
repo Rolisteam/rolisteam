@@ -73,7 +73,7 @@ CharacterSheetItem* CharacterSheet::getFieldFromKey(QString key)
     {
         return m_valuesMap.value(key);
     }
-    return NULL;
+    return nullptr;
 }
 
 const  QVariant CharacterSheet::getValue(QString path,Qt::ItemDataRole role) const
@@ -89,7 +89,12 @@ const  QVariant CharacterSheet::getValue(QString path,Qt::ItemDataRole role) con
             }
             else if(role == Qt::EditRole)
             {
-                return item->getFormula();
+                QString str = item->getFormula();
+                if(str.isEmpty())
+                {
+                    str = item->value();
+                }
+                return str;
             }
             else if(Qt::BackgroundRole)
             {
@@ -115,7 +120,7 @@ CharacterSheetItem* CharacterSheet::setValue(QString key, QString value, QString
     }
     else
     {
-        Field* field = new Field();
+        Field* field = new Field(false);
         result = field;
         field->setValue(value);
         field->setId(key);
