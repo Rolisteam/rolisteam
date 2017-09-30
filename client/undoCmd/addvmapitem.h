@@ -51,9 +51,12 @@ public:
     bool hasError() const;
     void setError(bool error);
 
+    bool isNpc()const;
+
 protected:
     bool isVisible();
     bool isEditable();
+    void initItem();
 private:
     VMap* m_vmap;
     //QMap<QString,VisualItem*>* m_itemMap;
@@ -64,6 +67,7 @@ private:
     VisualItem* m_currentItem = nullptr;
     VisualItem* m_currentPath = nullptr;
     bool m_error = false;
+    VToolsBar::SelectableTool m_tool;
 };
 
 #endif // ADDFIELDCOMMAND_H

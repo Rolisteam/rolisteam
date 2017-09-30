@@ -42,10 +42,11 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
       m_vmap(vmap),
       m_pos(pos),
       m_color(color),
-      m_penSize(penSize)
+      m_penSize(penSize),
+      m_tool(tool)
 {
 
-    switch(tool)
+    switch(m_tool)
     {
     case VToolsBar::PEN:
         m_currentItem=new PathItem(m_pos,m_color,m_penSize,true);
@@ -130,15 +131,30 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
     }
         break;
     }
-    m_currentItem->setLayer(m_vmap->getCurrentLayer());
-    m_currentItem->setMapId(m_vmap->getId());
+
+    QObject::connect(m_currentItem,SIGNAL(itemGeometryChanged(VisualItem*)),m_vmap,SLOT(sendItemToAll(VisualItem*)));
+    QObject::connect(m_currentItem,SIGNAL(itemRemoved(QString)),m_vmap,SLOT(removeItemFromScene(QString)));
+    QObject::connect(m_currentItem,SIGNAL(duplicateItem(VisualItem*)),m_vmap,SLOT(duplicateItem(VisualItem*)));
+    QObject::connect(m_currentItem,SIGNAL(itemLayerChanged(VisualItem*)),m_vmap,SLOT(checkItemLayer(VisualItem*)));
+    QObject::connect(m_currentItem,SIGNAL(itemPositionHasChanged()),m_vmap,SLOT(selectionPositionHasChanged()));
+    QObject::connect(m_currentItem,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),m_vmap,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
+    QObject::connect(m_currentItem,SIGNAL(changeStackPosition(VisualItem*,VisualItem::StackOrder)),m_vmap,SLOT(changeStackOrder(VisualItem*,VisualItem::StackOrder)));
+
+    initItem();
 
     setText(QObject::tr("Add vmap item"));
 }
 AddVmapItemCommand::AddVmapItemCommand(VisualItem* item,VMap* map,QUndoCommand *parent)
     : QUndoCommand(parent),m_currentItem(item),m_vmap(map)
 {
+    initItem();
+}
 
+void AddVmapItemCommand::initItem()
+{
+    m_currentItem->setPropertiesHash(m_vmap->getPropertiesHash());
+    m_currentItem->setLayer(m_vmap->getCurrentLayer());
+    m_currentItem->setMapId(m_vmap->getId());
 }
 
 bool AddVmapItemCommand::isEditable()
@@ -205,20 +221,9 @@ void AddVmapItemCommand::redo()
 {
     m_vmap->setFocusItem(m_currentItem);
     m_vmap->QGraphicsScene::addItem(m_currentItem);
-    QObject::connect(m_currentItem,SIGNAL(itemGeometryChanged(VisualItem*)),m_vmap,SLOT(sendItemToAll(VisualItem*)));
-    QObject::connect(m_currentItem,SIGNAL(itemRemoved(QString)),m_vmap,SLOT(removeItemFromScene(QString)));
-    QObject::connect(m_currentItem,SIGNAL(duplicateItem(VisualItem*)),m_vmap,SLOT(duplicateItem(VisualItem*)));
-    QObject::connect(m_currentItem,SIGNAL(itemLayerChanged(VisualItem*)),m_vmap,SLOT(checkItemLayer(VisualItem*)));
-    QObject::connect(m_currentItem,SIGNAL(itemPositionHasChanged()),m_vmap,SLOT(selectionPositionHasChanged()));
-    QObject::connect(m_currentItem,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),m_vmap,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
-    QObject::connect(m_currentItem,SIGNAL(changeStackPosition(VisualItem*,VisualItem::StackOrder)),m_vmap,SLOT(changeStackOrder(VisualItem*,VisualItem::StackOrder)));
-
     m_currentItem->setVisible(isVisible());
     m_currentItem->setEditableItem(isEditable());
-
-
     m_vmap->addItemFromData(m_currentItem);
-
 }
 
 VisualItem* AddVmapItemCommand::getItem() const
@@ -226,6 +231,10 @@ VisualItem* AddVmapItemCommand::getItem() const
     return m_currentItem;
 }
 
+VisualItem *AddVmapItemCommand::getPath() const
+{
+    return m_currentPath;
+}
 
 bool AddVmapItemCommand::hasError() const
 {
@@ -235,6 +244,11 @@ bool AddVmapItemCommand::hasError() const
 void AddVmapItemCommand::setError(bool error)
 {
     m_error = error;
+}
+
+bool AddVmapItemCommand::isNpc() const
+{
+    return (m_tool == VToolsBar::ADDNPC);
 }
 template <class T>
 T* AddVmapItemCommand::getItem() const
