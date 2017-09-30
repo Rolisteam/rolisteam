@@ -336,7 +336,7 @@ void SharedNote::textHasChanged(int pos, int charsRemoved, int charsAdded)
 }
 void SharedNote::writeToAll(QString string)
 {
-    qDebug() << string;
+    //qDebug() << string;
     if(!string.isEmpty())
     {
         NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updateText);

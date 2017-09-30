@@ -40,11 +40,11 @@ SharedNoteContainer::SharedNoteContainer()
 
 
 }
-void SharedNoteContainer::readFromMsg(NetworkMessageReader* msg)
+void SharedNoteContainer::readMessage(NetworkMessageReader& msg)
 {
     if(nullptr!=m_edit)
     {
-        m_edit->readFromMsg(msg);
+        m_edit->readFromMsg(&msg);
     }
 }
 
@@ -124,7 +124,7 @@ void SharedNoteContainer::saveMedia()
             bool hasEnd=false;
             for(auto end : list)
             {
-                qDebug() << end;
+                //qDebug() << end;
                 if(m_uri->getUri().endsWith(end))
                 {
                     hasEnd = true;
