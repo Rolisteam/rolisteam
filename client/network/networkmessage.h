@@ -46,7 +46,6 @@ enum Category {
     CharacterCategory,
     DrawCategory,
     MapCategory,
-    PictureCategory,
     ChatCategory,
     MusicCategory,
     SetupCategory,
@@ -113,10 +112,6 @@ enum Action {
     ImportMap,
     CloseMap,
 
-    // PictureCategory
-    AddPictureAction = 0,
-    DelPictureAction,
-
     // Painting
     penPainting =0,
     linePainting,
@@ -180,7 +175,8 @@ enum Action {
     VisionChanged,
 
     //mediacategory
-    closeMedia=0,
+    addMedia=0,
+    closeMedia,
 
     //SharedNoteCategory
     updateTextAndPermission,

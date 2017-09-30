@@ -95,9 +95,6 @@ QString MessageDispatcher::cat2String(NetworkMessageHeader* head)
     case NetMsg::MapCategory:
         str = QStringLiteral("MapCategory");
         break;
-    case NetMsg::PictureCategory:
-        str = QStringLiteral("PictureCategory");
-        break;
     case NetMsg::ChatCategory:
         str = QStringLiteral("ChatCategory");
         break;
@@ -331,22 +328,6 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             break;
         }
     }
-    else if(cat == NetMsg::PictureCategory)
-    {
-        switch (act)
-        {
-        case  NetMsg::AddPictureAction:
-            str = QStringLiteral("AddPictureAction");
-            break;
-        case  NetMsg::DelPictureAction:
-            str = QStringLiteral("DelPictureAction");
-            break;
-
-        default:
-            str = QStringLiteral("Unknown Action");
-            break;
-        }
-    }
     else if(cat == NetMsg::ChatCategory)
     {
         switch (act)
@@ -509,6 +490,9 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
 
         switch (act)
         {
+        case  NetMsg::addMedia:
+            str = QStringLiteral("AddMedia");
+            break;
         case  NetMsg::closeMedia:
             str = QStringLiteral("closeMedia");
             break;
