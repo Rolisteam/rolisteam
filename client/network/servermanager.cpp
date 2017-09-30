@@ -136,7 +136,7 @@ void ServerManager::sendOffAuthSuccessed()
     if(nullptr != client)
     {
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AuthentificationSucessed);
-        qDebug()<< "[sendOffAuthSuccessed] ";
+        //qDebug()<< "[sendOffAuthSuccessed] ";
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
         sendOffModel(client);
     }
@@ -148,7 +148,7 @@ void ServerManager::sendOffAuthFail()
     {
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AuthentificationFail);
         //client->sendMessage(msg);
-        qDebug()<< "[sendOffAuthFail] ";
+        //qDebug()<< "[sendOffAuthFail] ";
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
 
 
@@ -164,7 +164,7 @@ void ServerManager::kickClient(QString id)
     {
         if(!key->isOpen())
         {
-            qDebug() << "isClose";
+            //qDebug() << "isClose";
         }
         auto value = m_connections[key];
         if(value->getId() == id)
@@ -345,8 +345,7 @@ void ServerManager::quit()
 void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread)
 {
     //qDebug() << "*** HEY WATCH THIS";
-    QTcpSocket *socket = new QTcpSocket();
-
+    QTcpSocket* socket = new QTcpSocket();
     if(!socket->setSocketDescriptor(handle))
     {
         qWarning() << this << "could not accept connection" << handle;
@@ -362,7 +361,7 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
 
     if(m_corConnection->isValid(data))
     {
-        connect(connection,SIGNAL(dataReceived(QByteArray)),this,SLOT(messageReceived(QByteArray)),Qt::QueuedConnection);
+        connect(connection,SIGNAL(dataReceived(QByteArray)),this,SLOT(messageReceived(QByteArray)));//,Qt::QueuedConnection
         connect(connection,SIGNAL(isReady()),this,SLOT(initClient()),Qt::QueuedConnection);
         connect(connection,SIGNAL(authSuccess()),this,SLOT(sendOffAuthSuccessed()),Qt::QueuedConnection);
         connect(connection,SIGNAL(authFail()),this,SLOT(sendOffAuthFail()),Qt::QueuedConnection);

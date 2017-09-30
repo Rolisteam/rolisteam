@@ -4,12 +4,12 @@
 RServer::RServer(ServerManager* serverMan,int threadCount,QObject *parent)
     : QTcpServer(parent), m_numberOfThread(threadCount),m_serverManager(serverMan)
 {
-    qDebug() <<  this << "created on" << QThread::currentThread();
+    //qDebug() <<  this << "created on" << QThread::currentThread();
 }
 
 RServer::~RServer()
 {
-    qDebug() <<  this << "destroyed";
+   // qDebug() <<  this << "destroyed";
 }
 
 bool RServer::listen(const QHostAddress &address, quint16 port)
@@ -34,7 +34,7 @@ bool RServer::listen(const QHostAddress &address, quint16 port)
 
 void RServer::close()
 {
-    qDebug() << this << "closing server";
+   // qDebug() << this << "closing server";
     emit finished();
     QTcpServer::close();
 }
@@ -53,8 +53,8 @@ qint64 RServer::port()
 
 void RServer::incomingConnection(qintptr descriptor)
 {
-    qDebug() << this << "attempting to accept connection" << descriptor;
-    TcpClient* connection = new TcpClient(nullptr,this);
+ //   qDebug() << this << "attempting to accept connection" << descriptor;
+    TcpClient* connection = new TcpClient(nullptr,nullptr);
     accept(descriptor, connection);
 }
 

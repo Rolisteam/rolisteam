@@ -51,42 +51,42 @@ void TcpClient::setSocket(QTcpSocket* socket)
         connect(m_incomingConnection,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "Incoming State";
+                //qDebug() << "Incoming State";
                 m_currentState = m_incomingConnection;
             }
         });
         connect(m_controlConnection,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "Control State";
+               // qDebug() << "Control State";
                 m_currentState = m_controlConnection;
             }
         });
         connect(m_waitingAuthentificationData,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "WaitingAuthData State";
+                //qDebug() << "WaitingAuthData State";
                 m_currentState = m_waitingAuthentificationData;
             }
         });
         connect(m_authentification,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "Authification State";
+                //qDebug() << "Authification State";
                 m_currentState = m_authentification;
             }
         });
         connect(m_wantToGoToChannel,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "WantToGoToChannel State";
+                //qDebug() << "WantToGoToChannel State";
                 m_currentState = m_wantToGoToChannel;
             }
         });
         connect(m_inPlace,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "InPlace State";
+                //qDebug() << "InPlace State";
                 m_currentState = m_inPlace;
 
             }
@@ -94,14 +94,14 @@ void TcpClient::setSocket(QTcpSocket* socket)
         connect(m_waitingAuthChannel,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "WaitingAuthChannel State";
+               // qDebug() << "WaitingAuthChannel State";
                 m_currentState = m_waitingAuthChannel;
             }
         });
         connect(m_disconnected,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "disconnected State";
+               // qDebug() << "disconnected State";
                 m_currentState = m_disconnected;
                 m_socket->close();
             }
@@ -109,7 +109,7 @@ void TcpClient::setSocket(QTcpSocket* socket)
         connect(m_stayInPlace,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "StayInPlace State";
+               // qDebug() << "StayInPlace State";
                 m_currentState = m_stayInPlace;
             }
         });
@@ -205,7 +205,7 @@ void TcpClient::addPlayerFeature(QString uuid, QString name, quint8 version)
 
 void TcpClient::receivingData()
 {
-    //qInfo() << "########################################tcpClient########################################\n Receiving Data";
+    qInfo() << "########################################tcpClient########################################\n Receiving Data";
     if(NULL==m_socket)
     {
         return;

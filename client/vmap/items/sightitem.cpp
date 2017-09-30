@@ -118,10 +118,8 @@ QRectF  SightItem::boundingRect() const
             QPointF A = view->mapToScene( QPoint(0,0) );
             QPointF B = view->mapToScene( QPoint(view->viewport()->width(),view->viewport()->height()));
 
-            qDebug() << "bounding rect" << A << B << mapFromScene(A) << mapFromScene(B);
             return QRectF( mapFromScene(A), mapFromScene(B) );
         }
-        qDebug() << "bounding rect" << scene()->sceneRect();
         return scene()->sceneRect();
     }
     else

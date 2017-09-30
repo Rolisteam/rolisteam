@@ -216,11 +216,11 @@ bool ClientManager::isServer() const
 }
 bool ClientManager::isConnected() const
 {
-    qDebug() << m_connectionState <<"statemachine active"<<m_states.isRunning() << m_states.active() ;
+   /* qDebug() << m_connectionState <<"statemachine active"<<m_states.isRunning() << m_states.active() ;
     qDebug() << "connecting"<<m_connecting->active();
     qDebug() << "m_connected"<<m_connected->active();
     qDebug() << "m_authentified"<<m_authentified->active();
-    qDebug() << "m_disconnected"<<m_disconnected->active();
+    qDebug() << "m_disconnected"<<m_disconnected->active();*/
     switch (m_connectionState)
     {
     case DISCONNECTED:
@@ -234,7 +234,7 @@ bool ClientManager::isConnected() const
 
 void ClientManager::setConnectionState(ConnectionState state)
 {
-    qDebug() << "[Connection State]"<< state;
+   // qDebug() << "[Connection State]"<< state;
     if(m_connectionState!=state)
     {
         m_connectionState=state;

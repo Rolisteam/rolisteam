@@ -675,7 +675,7 @@ QString VisualItem::getLayerToText(VisualItem::Layer id)
 
 QVariant VisualItem::getOption(VisualItem::Properties pop) const
 {
-    if(NULL!=m_propertiesHash)
+    if(nullptr!=m_propertiesHash)
     {
         return m_propertiesHash->value(pop);
     }
