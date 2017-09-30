@@ -58,6 +58,10 @@
 #include "improvedworkspace.h"
 #include "data/mediacontainer.h"
 #include "network/receiveevent.h"
+#include "widgets/tipofdayviewer.h"
+
+//Undo
+#include "undoCmd/addmediaconteneur.h"
 
 //Text editor
 #include "textedit.h"
@@ -142,8 +146,6 @@ MainWindow::MainWindow()
 }
 MainWindow::~MainWindow()
 {
-    //m_serverThread.quit();
-    // delete m_dockLogUtil;
     if(nullptr != m_currentStory)
     {
         delete m_currentStory;
@@ -155,25 +157,22 @@ void MainWindow::aboutRolisteam()
     AboutRolisteam diag(m_version,this);
     diag.exec();
 }
-void MainWindow::addMediaToMdiArea(MediaContainer* mediac)
+
+void MainWindow::addMediaToMdiArea(MediaContainer* mediac,bool redoable)
 {
-    CleverURI* uri = mediac->getCleverUri();
-    if(nullptr!=uri)
+    if(nullptr != m_currentConnectionProfile)
     {
-        setLatestFile(uri);
-        m_sessionManager->addRessource(mediac->getCleverUri());
-        uri->setDisplayed(true);
+        AddMediaConteneur* addMedia = new AddMediaConteneur(mediac,m_sessionManager,m_ui->m_menuSubWindows,this,m_mdiArea,m_currentConnectionProfile->isGM());
+        if(redoable)
+        {
+            m_undoStack.push(addMedia);
+        }
+        else
+        {
+            addMedia->redo();
+        }
     }
-    QAction *action = m_ui->m_menuSubWindows->addAction(mediac->getTitle());
-    action->setCheckable(true);
-    action->setChecked(true);
-
-    mediac->setAction(action);
-    m_mdiArea->addContainerMedia(mediac);
-    m_mapAction->insert(mediac,action);
-    mediac->setVisible(true);
-    mediac->setFocus();
-
+    //m_mdiArea->addContainerMedia(m_media);
 }
 void  MainWindow::closeConnection()
 {
@@ -213,7 +212,6 @@ void MainWindow::closeMediaContainer(QString id)
                  m_playersListWidget->model()->changeMap(nullptr);
                  m_toolBar->changeMap(nullptr);
              }
-
              //setUri as undisplayed
              CleverURI* uri = mediaCon->getCleverUri();
              if(nullptr!=uri)
@@ -224,14 +222,7 @@ void MainWindow::closeMediaContainer(QString id)
                     m_sessionManager->resourceClosed(uri);//delete the uri
                  }
              }
-
-             //remove action from data and from memory
-             QAction* act = m_mapAction->value(mediaCon);
-             m_mapAction->remove(mediaCon);
-             delete act;
              delete mediaCon;
-
-
              if((nullptr!=m_currentConnectionProfile)&&(m_currentConnectionProfile->isGM()))
              {
                  NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::closeMedia);
@@ -241,7 +232,6 @@ void MainWindow::closeMediaContainer(QString id)
          }
      }
 }
-#include "widgets/tipofdayviewer.h"
 void MainWindow::closeCurrentSubWindow()
 {
     QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
@@ -464,8 +454,12 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_tabViewAction,SIGNAL(triggered(bool)),m_mdiArea,SLOT(setTabbedMode(bool)));
     connect(m_ui->m_tileViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
 
-    auto redo = m_undoStack.createRedoAction(this);
-    auto undo = m_undoStack.createUndoAction(this);
+    auto redo = m_undoStack.createRedoAction(this,tr("&Redo"));
+    auto undo = m_undoStack.createUndoAction(this,tr("&Undo"));
+
+    undo->setShortcut(QKeySequence::Undo);
+    redo->setShortcut(QKeySequence::Redo);
+
 
     m_ui->m_editMenu->insertAction(nullptr,redo);
     m_ui->m_editMenu->insertAction(redo,undo);
@@ -587,7 +581,6 @@ void MainWindow::newCharacterSheetWindow()
     addMediaToMdiArea(window);
 }
 
-
 void MainWindow::newVectorialMap()
 {
     MapWizzardDialog mapWizzard(m_mdiArea);
@@ -603,12 +596,6 @@ void MainWindow::newVectorialMap()
         prepareVMap(tmp);
         addMediaToMdiArea(tmp);
         //tempmap->setCurrentTool(m_toolbar->getCurrentTool());
-
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
-
-        tempmap->fill(msg);
-        tmp->fill(msg);
-        msg.sendAll();
     }
 }//
 void MainWindow::newSharedNoteDocument()
@@ -666,12 +653,12 @@ void MainWindow::sendOffAllMaps(NetworkLink * link)
 }
 void MainWindow::sendOffAllImages(NetworkLink * link)
 {
-    NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
-
+    NetworkMessageWriter message = NetworkMessageWriter(NetMsg::MediaCategory, NetMsg::addMedia);
     for(MediaContainer* sub: m_mediaHash.values())
     {
         if(sub->getContentType() == CleverURI::PICTURE)
         {
+            message.uint8(sub->getContentType());
             Image* img = dynamic_cast<Image*>(sub);
             if(NULL!=sub)
             {
@@ -1014,12 +1001,13 @@ void MainWindow::readImageFromStream(QDataStream &file)
         notifyUser(tr("Image compression error (readImageFromStream - MainWindow.cpp)"));
     }
 
-    NetworkMessageWriter msg(NetMsg::PictureCategory,NetMsg::AddPictureAction);
+   /* NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
+    msg.uint8();
     msg.string16(title);
     msg.string8(idImage);
     msg.string8(m_localPlayerId);
     msg.byteArray32(byteArray);
-    msg.sendAll();
+    msg.sendAll();*/
 }
 void MainWindow::helpOnLine()
 {
@@ -1120,12 +1108,15 @@ void MainWindow::notifyAboutDeletedPlayer(Player * player) const
 
 void MainWindow::updateSessionToNewClient(Player* player)
 {
-    if(NULL!=player)
+    if(nullptr!=player)
     {
-        sendOffAllMaps(player->link());
-        sendOffAllImages(player->link());
-        m_preferencesDialog->sendOffAllDiceAlias(player->link());
-        m_preferencesDialog->sendOffAllState(player->link());
+        if(m_currentConnectionProfile->isGM())
+        {
+            sendOffAllMaps(player->link());
+            sendOffAllImages(player->link());
+            m_preferencesDialog->sendOffAllDiceAlias(player->link());
+            m_preferencesDialog->sendOffAllState(player->link());
+        }
     }
 }
 void MainWindow::readSettings()
@@ -1232,10 +1223,6 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, 
     NetWorkReceiver::SendType type;
     switch(msg->category())
     {
-    case NetMsg::PictureCategory:
-        processImageMessage(msg);
-        type = NetWorkReceiver::AllExceptSender;
-        break;
     case NetMsg::MapCategory:
         processMapMessage(msg);
         type = NetWorkReceiver::AllExceptSender;
@@ -1276,7 +1263,69 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, 
 }
 void MainWindow::processMediaMessage(NetworkMessageReader* msg)
 {
-    if(msg->action() == NetMsg::closeMedia)
+    if(msg->action() == NetMsg::addMedia)
+    {
+        auto type = static_cast<CleverURI::ContentType>(msg->int8());
+        switch(type)
+        {
+        case CleverURI::MAP:
+
+            break;
+        case CleverURI::VMAP:
+        {
+            VMap* map = new VMap();
+            map->setOption(VisualItem::LocalIsGM,false);
+            map->readMessage(*msg);
+
+            VMapFrame* mapFrame = new VMapFrame(nullptr,map);
+            mapFrame->readMessage(*msg);
+            prepareVMap(mapFrame);
+            addMediaToMdiArea(mapFrame,false);
+        }
+            break;
+        case CleverURI::CHAT:
+            break;
+        case CleverURI::PICTURE:
+        {
+           /* QString title = msg->string16();
+            QString idImage = msg->string8();
+            QString idPlayer = msg->string8();
+            QByteArray dataImage = msg->byteArray32();
+
+            QImage *img = new QImage;
+            if (!img->loadFromData(dataImage, "jpg"))
+            {
+                notifyUser("Cannot read received image (receptionMessageImage - NetworkLink.cpp)");
+            }*/
+            Image* image = new Image(m_mdiArea);
+            image->readMessage(*msg);
+            /*image->setTitle(title);
+            image->setMediaId(idImage);
+            image->setIdOwner(idPlayer);
+            image->setImage(*img);*/
+
+            //addImage(image, title);
+            prepareImage(image);
+            addMediaToMdiArea(image,false);
+            image->setVisible(true);
+        }
+            break;
+        case CleverURI::ONLINEPICTURE:
+            break;
+        case CleverURI::CHARACTERSHEET:
+            break;
+        case CleverURI::SHAREDNOTE:
+            break;
+        case CleverURI::TEXT:
+        case CleverURI::SCENARIO:
+        case CleverURI::SONG:
+        case CleverURI::SONGLIST:
+        case NONE:
+            break;
+
+        }
+    }
+    else if(msg->action() == NetMsg::closeMedia)
     {
         closeMediaContainer(msg->string8());
     }
@@ -1290,7 +1339,7 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
         {
             MediaContainer* mediaContainer = m_mediaHash.value(idMedia);
             SharedNoteContainer* note = dynamic_cast<SharedNoteContainer*>(mediaContainer);
-            note->readFromMsg(msg);
+            note->readMessage(*msg);
         }
     }
     else if(msg->action() == NetMsg::updateText)
@@ -1312,12 +1361,12 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
         {
             MediaContainer* mediaContainer = m_mediaHash.value(idMedia);
             SharedNoteContainer* note = dynamic_cast<SharedNoteContainer*>(mediaContainer);
-            note->readFromMsg(msg);
+            note->readMessage(*msg);
         }
         else
         {
             SharedNoteContainer* note = new SharedNoteContainer();
-            note->readFromMsg(msg);
+            note->readMessage(*msg);
             note->setMediaId(idMedia);
             m_mediaHash.insert(idMedia,note);
             m_sessionManager->addRessource(note->getCleverUri());
@@ -1541,7 +1590,6 @@ void MainWindow::setupUi()
     m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
 
 
-    ReceiveEvent::registerNetworkReceiver(NetMsg::PictureCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory,this);
@@ -1615,37 +1663,6 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
             addMediaToMdiArea(mapFrame);
             mapFrame->setVisible(true);
         }
-    }
-}
-void MainWindow::processImageMessage(NetworkMessageReader* msg)
-{
-    if(msg->action() == NetMsg::AddPictureAction)
-    {
-        QString title = msg->string16();
-        QString idImage = msg->string8();
-        QString idPlayer = msg->string8();
-        QByteArray dataImage = msg->byteArray32();
-
-        QImage *img = new QImage;
-        if (!img->loadFromData(dataImage, "jpg"))
-        {
-            notifyUser("Cannot read received image (receptionMessageImage - NetworkLink.cpp)");
-        }
-        Image* image = new Image();
-        image->setTitle(title);
-        image->setMediaId(idImage);
-        image->setIdOwner(idPlayer);
-        image->setImage(*img);
-
-        //addImage(image, title);
-        prepareImage(image);
-        addMediaToMdiArea(image);
-        image->setVisible(true);
-    }
-    else if(msg->action() == NetMsg::DelPictureAction)
-    {
-        QString idImage = msg->string8();
-        closeMediaContainer(idImage);
     }
 }
 void MainWindow::processNpcMessage(NetworkMessageReader* msg)
@@ -1816,9 +1833,9 @@ void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
             npc->showOrHideOrientation();
         }
 
-        CharacterToken::etatDeSante health;
-        health.couleurEtat = npcState;
-        health.nomEtat = npcStateName;
+        CharacterToken::StateOfHealth health;
+        health.stateColor = npcState;
+        health.stateName = npcStateName;
         npc->newHealtState(health, npcStateNum);
         map->showHideNPC(npc);
 
@@ -1914,7 +1931,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     {
         CharacterSheetWindow* sheetWindow = new CharacterSheetWindow();
         prepareCharacterSheetWindow(sheetWindow);
-        sheetWindow->read(msg);
+        sheetWindow->readMessage(*msg);
         addMediaToMdiArea(sheetWindow);
         m_mediaHash.insert(sheetWindow->getMediaId(),sheetWindow);
 
@@ -2048,14 +2065,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
     {
     case NetMsg::addVmap:
     {
-        VMap* map = new VMap();
-        map->setOption(VisualItem::LocalIsGM,false);
-        map->readMessage(*msg);
 
-        VMapFrame* mapFrame = new VMapFrame(nullptr,map);
-        mapFrame->readMessage(*msg);
-        prepareVMap(mapFrame);
-        addMediaToMdiArea(mapFrame);
     }
         break;
     case NetMsg::loadVmap:
@@ -2195,18 +2205,8 @@ void MainWindow::setLatestFile(CleverURI* fileName)
 
         m_preferences->registerValue("recentFileList", var3,true);
 
-
         updateRecentFileActions();
-    }
-}
-void MainWindow::showCleverUri(CleverURI* uri)
-{
-    for(auto i : m_mapAction->keys())
-    {
-        if(i->getCleverUri() == uri)
-        {
-            i->setVisible(true);
-        }
+
     }
 }
 void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
@@ -2230,7 +2230,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
     }
     if((uri->isDisplayed())&&(!force))
     {
-        showCleverUri(uri);
+        m_mdiArea->showCleverUri(uri);
         return;
     }
 
@@ -2253,7 +2253,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         break;
     case CleverURI::PICTURE:
     case CleverURI::ONLINEPICTURE:
-        tmp = new Image();
+        tmp = new Image(m_mdiArea);
         break;
     case CleverURI::TEXT:
         tmp = new NoteContainer();
@@ -2347,7 +2347,7 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
             break;
         case CleverURI::PICTURE:
         case CleverURI::ONLINEPICTURE:
-            tmp = new Image();
+            tmp = new Image(m_mdiArea);
             break;
         case CleverURI::VMAP:
             tmp = new VMapFrame();
@@ -2480,7 +2480,7 @@ void MainWindow::dropEvent(QDropEvent* event)
             }
                 break;
             case CleverURI::PICTURE:
-                tmp = new Image();
+                tmp = new Image(m_mdiArea);
                 tmp->setCleverUri(uri);
                 tmp->readFileFromUri();
                 prepareImage(static_cast<Image*>(tmp));

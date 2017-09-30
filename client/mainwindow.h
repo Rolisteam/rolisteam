@@ -196,7 +196,13 @@ public :
      * @brief addMediaToMdiArea
      * @param mediac
      */
-    void addMediaToMdiArea(MediaContainer* mediac );
+    void addMediaToMdiArea(MediaContainer* mediac, bool undoable = true);
+
+    /**
+     * @brief setLatestFile
+     * @param fileName
+     */
+    void setLatestFile(CleverURI* fileName);
 
 signals:
     /**
@@ -449,11 +455,7 @@ private slots :
      * @brief newNoteDocument
      */
     void newNoteDocument();
-    /**
-     * @brief setLatestFile
-     * @param fileName
-     */
-    void setLatestFile(CleverURI* fileName);
+
     /**
      * @brief updateRecentFileActions
      */
@@ -508,16 +510,7 @@ private slots :
      * @brief newCharacterSheetWindow
      */
     void newCharacterSheetWindow();
-
-
-
     void newSharedNoteDocument();
-private :
-    /**
-     * @brief showCleverUri
-     * @param uri
-     */
-    void showCleverUri(CleverURI *uri);
 
 private:
     /**

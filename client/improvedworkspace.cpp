@@ -23,18 +23,15 @@
 #include <QtGui>
 
 #include "improvedworkspace.h"
-
 #include "map/mapframe.h"
 #include "Image.h"
-
-//#include <QTextStream>
 
 #define GRAY_SCALE 191
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/	
 ImprovedWorkspace::ImprovedWorkspace(QWidget *parent)
-: QMdiArea(parent),m_variableSizeBackground(size()),m_map(new QMap<QAction*,QMdiSubWindow*>())
+: QMdiArea(parent),m_variableSizeBackground(size()),m_actionSubWindowMap(new QMap<QAction*,QMdiSubWindow*>())
 {
     m_preferences =  PreferencesManager::getInstance();
 
@@ -50,18 +47,34 @@ ImprovedWorkspace::ImprovedWorkspace(QWidget *parent)
 
 ImprovedWorkspace::~ImprovedWorkspace()
 {
-	if(NULL!=m_backgroundPicture)
+    if(nullptr!=m_backgroundPicture)
 	{
 		delete m_backgroundPicture;
-		m_backgroundPicture = NULL;
+        m_backgroundPicture = nullptr;
 	}
 
-	if(NULL!=m_map)
+    if(nullptr!=m_actionSubWindowMap)
 	{
-		delete m_map;
-		m_map = NULL;
+        delete m_actionSubWindowMap;
+        m_actionSubWindowMap = nullptr;
 	}
 }
+void ImprovedWorkspace::showCleverUri(CleverURI* uri)
+{
+    for(auto i : m_actionSubWindowMap->values())
+    {
+        auto media = dynamic_cast<MediaContainer*>(i);
+        if(nullptr != media)
+        {
+            if(media->getCleverUri() == uri)
+            {
+                i->setVisible(true);
+            }
+        }
+    }
+}
+
+
 void ImprovedWorkspace::updateBackGround()
 {
     m_color = m_preferences->value("BackGroundColor",QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE)).value<QColor>();
@@ -69,13 +82,7 @@ void ImprovedWorkspace::updateBackGround()
     setBackground(m_background);
 
     QString fileName = m_preferences->value("PathOfBackgroundImage",":/resources/icons/workspacebackground.jpg").toString();
-//    if (!QFile::exists(fileName))
-//    {
-//        fileName = ":/resources/icons/workspacebackground.jpg";
-//    }
-
     m_variableSizeBackground = m_variableSizeBackground.scaled(size());
-
     m_variableSizeBackground.fill(m_color);
     QPainter painter(&m_variableSizeBackground);
 
@@ -180,7 +187,7 @@ QWidget*  ImprovedWorkspace::addWindow(QWidget* child,QAction* action)
 }
 void ImprovedWorkspace::addContainerMedia(MediaContainer* mediac)
 {
-    if(NULL!=mediac)
+    if(nullptr!=mediac)
     {
         addSubWindow(mediac);
         insertActionAndSubWindow(mediac->getAction(),mediac);
@@ -189,21 +196,22 @@ void ImprovedWorkspace::addContainerMedia(MediaContainer* mediac)
             mediac->setVisible(true);
         }
         mediac->setAttribute(Qt::WA_DeleteOnClose, false);
-        if(NULL!=mediac->widget())
+        if(nullptr!=mediac->widget())
         {
             mediac->widget()->setAttribute(Qt::WA_DeleteOnClose, false);
         }
         mediac->installEventFilter(this);
     }
 }
-
-/*QWidget* ImprovedWorkspace::activeWindow()
+void ImprovedWorkspace::removeMediaContainer(MediaContainer* mediac)
 {
-    return currentSubWindow();
-}*/
+    removeSubWindow(mediac);
+    m_actionSubWindowMap->remove(mediac->getAction());
+    mediac->removeEventFilter(this);
+}
 void ImprovedWorkspace::insertActionAndSubWindow(QAction* act, QMdiSubWindow* sub)
 {
-    m_map->insert(act,sub);
+    m_actionSubWindowMap->insert(act,sub);
 }
 void ImprovedWorkspace::setTabbedMode(bool isTabbed)
 {
@@ -215,17 +223,20 @@ void ImprovedWorkspace::setTabbedMode(bool isTabbed)
         setTabPosition(QTabWidget::North);
 
         /// make all subwindows visible.
-        foreach(QMdiSubWindow* tmp, subWindowList())
+        for(QAction* act : m_actionSubWindowMap->keys())
         {
-            tmp->setVisible(true);
-            QAction* tmpAct = m_map->key(tmp);
-            if(NULL!=tmpAct)
+            auto tmp = m_actionSubWindowMap->value(act);
+            if(nullptr == tmp)
             {
-                tmpAct->setChecked(true);
-            }
-            if(NULL!=tmp->widget())
-            {
-                tmp->widget()->setVisible(true);
+                tmp->setVisible(true);
+                if(nullptr!=act)
+                {
+                    act->setChecked(true);
+                }
+                if(nullptr!=tmp->widget())
+                {
+                    tmp->widget()->setVisible(true);
+                }
             }
         }
     }
@@ -255,10 +266,10 @@ void ImprovedWorkspace::ensurePresent()
     QAction* act = qobject_cast<QAction*>(sender());
     if(NULL!=act)
     {
-        if(!subWindowList().contains(m_map->value(act)))
+        if(!subWindowList().contains(m_actionSubWindowMap->value(act)))
         {
-            m_map->value(act)->widget()->setVisible(true);
-            addSubWindow(m_map->value(act));
+            m_actionSubWindowMap->value(act)->widget()->setVisible(true);
+            addSubWindow(m_actionSubWindowMap->value(act));
         }
     }
 }
@@ -303,7 +314,6 @@ void ImprovedWorkspace::addWidgetToMdi(QWidget* wid,QString title)
     QMdiSubWindow* sub = addSubWindow(wid);
     sub->setWindowTitle(title);
     wid->setWindowTitle(title);
-    //sub->setAttribute(Qt::WA_DeleteOnClose, false);
     sub->setVisible(true);
     wid->setVisible(true);
 }

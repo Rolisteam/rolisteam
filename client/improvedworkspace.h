@@ -60,7 +60,16 @@ public :
      * @brief preferencesHasChanged
      */
     void preferencesHasChanged(QString);
-
+    /**
+     * @brief showCleverUri
+     * @param uri
+     */
+    void showCleverUri(CleverURI *uri);
+    /**
+     * @brief removeMediaContainer
+     * @param mediac
+     */
+    void removeMediaContainer(MediaContainer* mediac);
 signals:
     void removedAction(QAction*);
 
@@ -84,7 +93,7 @@ private:
     QPixmap m_variableSizeBackground;
 
     PreferencesManager* m_preferences;
-    QMap<QAction*,QMdiSubWindow*>* m_map;
+    QMap<QAction*,QMdiSubWindow*>* m_actionSubWindowMap;
     QImage *imageFond;		// Image de fond du workspace
 
     QString m_fileName;
