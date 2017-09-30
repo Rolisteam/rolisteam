@@ -41,7 +41,7 @@ class Map;
 /**
  * @brief The BipMapWindow class - is the scroll area which manages the display of map.
  */
-class MapFrame : /*public QScrollArea,*/ public MediaContainer
+class MapFrame : public MediaContainer
 {
 Q_OBJECT
 
@@ -108,6 +108,10 @@ public :
      */
     void putDataIntoCleverUri();
 
+
+
+    virtual void fill(NetworkMessageWriter& msg);
+    virtual void readMessage(NetworkMessageReader& msg);
 
 
 signals:

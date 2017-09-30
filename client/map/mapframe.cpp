@@ -340,7 +340,7 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 		uchar diametre;
 
 		QColor couleur;
-		CharacterToken::etatDeSante sante;
+		CharacterToken::StateOfHealth sante;
 
 		QPoint centre;
 		QPoint orientation;
@@ -358,8 +358,8 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 		in >> couleur ;
 		in >> centre ;
 		in >> orientation ;
-		in >>sante.couleurEtat ;
-		in >> sante.nomEtat ;
+		in >>sante.stateColor ;
+		in >> sante.stateName ;
 		in >> numeroEtat ;
 		in>> visible;
 		in >> orientationAffichee;
@@ -557,4 +557,17 @@ void MapFrame::putDataIntoCleverUri()
             m_uri->setData(data);
         }
     }
+}
+
+void MapFrame::fill(NetworkMessageWriter &msg)
+{
+    if(nullptr != m_map)
+    {
+        //m_map->;
+    }
+}
+
+void MapFrame::readMessage(NetworkMessageReader &msg)
+{
+
 }

@@ -43,9 +43,9 @@ public :
 
     typedef struct
     {
-        QColor couleurEtat;
-        QString nomEtat;
-    } etatDeSante;
+        QColor stateColor;
+        QString stateName;
+    } StateOfHealth;
 
     CharacterToken(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType, bool showNpcNumber,bool showName,int numero = 0,bool isLocal=false);
     void moveCharacter(QPoint position);
@@ -61,7 +61,7 @@ public :
     void renameCharacter(QString nouveauNom);
     void changeCharacterColor(QColor coul);
     void newOrientation(QPoint uneOrientation);
-    void newHealtState(etatDeSante sante, int numeroSante);
+    void newHealtState(StateOfHealth sante, int numeroSante);
     void emettrePnj(QString idCarte);
     void changeHealtStatus(int numEtat);
     void showOrientation(bool afficher);
@@ -95,7 +95,7 @@ private :
 
 private:
     typePersonnage type;		// Indique si le personnage est un PJ ou un PNJ
-    etatDeSante etat;			// Etat se sante actuel du personnage
+    StateOfHealth etat;			// Etat se sante actuel du personnage
     int numeroEtat;				// Numero de l'etat de sante dans la liste G_etatsDeSante
     QString nomPerso;			// Nom du personnage
     QString identifiant;		// Identifiant servant a differencier les personnages
@@ -114,7 +114,7 @@ private:
     QPoint centre;				// Sert a memoriser la position du centre pendant que le personnage est cache
     bool m_localPerso;
 
-    QList<CharacterToken::etatDeSante> m_healtStateList;
+    QList<CharacterToken::StateOfHealth> m_healtStateList;
 
     //Character * person;
 

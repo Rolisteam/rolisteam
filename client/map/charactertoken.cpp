@@ -78,9 +78,9 @@ CharacterToken::CharacterToken(QWidget *parent, QString persoId, QString nom, QC
     disquePerso->resize(QSize(diametre+4, diametre+4));
     // Ajout du tooltip au label
     if (type == pj)
-        disquePerso->setToolTip(nomPerso + " (" + etat.nomEtat + ")");
+        disquePerso->setToolTip(nomPerso + " (" + etat.stateName + ")");
     else
-        disquePerso->setToolTip(nomPerso + (nomPerso.isEmpty()?"":" - ") + QString::number(numeroPnj) + " (" + etat.nomEtat + ")");
+        disquePerso->setToolTip(nomPerso + (nomPerso.isEmpty()?"":" - ") + QString::number(numeroPnj) + " (" + etat.stateName + ")");
 
     // Dessin du personnage et ajout de l'image au label
     drawCharacter();
@@ -334,7 +334,7 @@ void CharacterToken::drawCharacter(QPoint positionSouris)
 
     // Dessin d'un disque
     QPen pen;
-    pen.setColor(etat.couleurEtat);
+    pen.setColor(etat.stateColor);
     pen.setWidth(4);
     painterDisque.setPen(pen);
     painterDisque.setBrush(m_color);
@@ -350,7 +350,7 @@ void CharacterToken::drawCharacter(QPoint positionSouris)
         QPoint p1 = QPoint(diametre/2+2, diametre/2+2);
         QPoint p2 = p1 + orientation;
         // Dessin de la ligne d'orientation
-        if (etat.couleurEtat.value() >= 128)
+        if (etat.stateColor.value() >= 128)
             pen.setColor(Qt::black);
         else
             pen.setColor(Qt::white);
@@ -388,9 +388,9 @@ void CharacterToken::drawCharacter(QPoint positionSouris)
     }
     // Ajout du tooltip au label
     if (type == pj)
-        disquePerso->setToolTip(nomPerso + " (" + etat.nomEtat + ")");
+        disquePerso->setToolTip(nomPerso + " (" + etat.stateName + ")");
     else if (type == pnj)
-        disquePerso->setToolTip(nomPerso + (nomPerso.isEmpty()?"":" - ") + QString::number(numeroPnj) + " (" + etat.nomEtat + ")");
+        disquePerso->setToolTip(nomPerso + (nomPerso.isEmpty()?"":" - ") + QString::number(numeroPnj) + " (" + etat.stateName + ")");
     else
         qWarning()<< (tr("Unknown Character Type (CharacterToken - charactertoken.cpp)"));
 
@@ -463,9 +463,9 @@ void CharacterToken::renameCharacter(QString nouveauNom)
     updateTitle();
     // M.a.j du tooltip
     if (type == pj)
-        disquePerso->setToolTip(nomPerso + " (" + etat.nomEtat + ")");
+        disquePerso->setToolTip(nomPerso + " (" + etat.stateName + ")");
     else if (type == pnj)
-        disquePerso->setToolTip(nomPerso + (nomPerso.isEmpty()?"":" - ") + QString::number(numeroPnj) + " (" + etat.nomEtat + ")");
+        disquePerso->setToolTip(nomPerso + (nomPerso.isEmpty()?"":" - ") + QString::number(numeroPnj) + " (" + etat.stateName + ")");
     else
         qWarning()<< (tr("Unknown Character Type (CharacterToken - charactertoken.cpp)"));
 }
@@ -486,7 +486,7 @@ void CharacterToken::newOrientation(QPoint uneOrientation)
     drawCharacter();
 }
 
-void CharacterToken::newHealtState(etatDeSante sante, int numeroSante)
+void CharacterToken::newHealtState(StateOfHealth sante, int numeroSante)
 {
     numeroEtat = numeroSante;
     etat = sante;
@@ -519,7 +519,7 @@ void CharacterToken::write(QDataStream &out)
     int numeroDuPnj = numeroPnj;
     if (type==pj)
         numeroDuPnj = 0;
-    out << nomPerso << ident << pnj << numeroDuPnj << diametre << m_color << getCharacterCenter() << orientation << etat.couleurEtat << etat.nomEtat << numeroEtat << visible << orientationAffichee;
+    out << nomPerso << ident << pnj << numeroDuPnj << diametre << m_color << getCharacterCenter() << orientation << etat.stateColor << etat.stateName << numeroEtat << visible << orientationAffichee;
 }
 void CharacterToken::prepareToSendOff(NetworkMessageWriter* msg, bool convertirEnPnj)
 {
@@ -552,17 +552,17 @@ void CharacterToken::prepareToSendOff(NetworkMessageWriter* msg, bool convertirE
     msg->int16(orientation.x());
     msg->int16(orientation.y());
 
-    msg->rgb(etat.couleurEtat);
+    msg->rgb(etat.stateColor);
 
-    msg->string16(etat.nomEtat);
+    msg->string16(etat.stateName);
     msg->uint16(numeroEtat);
     msg->uint8( visible);
     msg->uint8(orientationAffichee);
 }
 void CharacterToken::AddHealthState(const QColor &color, const QString &label)
 {
-    CharacterToken::etatDeSante state;
-	state.couleurEtat = color;
-	state.nomEtat = label;
+    CharacterToken::StateOfHealth state;
+	state.stateColor = color;
+	state.stateName = label;
 	m_healtStateList.append(state);
 }
