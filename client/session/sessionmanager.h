@@ -85,12 +85,21 @@ public:
      * @param model
      */
     void setModel(SessionItemModel* model);
-
+    /**
+     * @brief getSessionName
+     * @return
+     */
     QString getSessionName() const;
+    /**
+     * @brief setSessionName
+     * @param sessionName
+     */
     void setSessionName(const QString &sessionName);
-
-
-
+    /**
+     * @brief removeResource
+     * @param uri
+     */
+    void removeResource(CleverURI *uri);
 public slots:
     /**
     * @brief add chapter into the given index
