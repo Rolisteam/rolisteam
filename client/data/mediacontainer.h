@@ -31,6 +31,8 @@
 #include "preferences/preferencesmanager.h"
 #include "vmap/vtoolbar.h"
 
+#include "network/networkmessagewriter.h"
+
 /**
  * @brief The MediaContainer class
  */
@@ -158,6 +160,14 @@ public:
 
     virtual QUndoStack* getUndoStack() const;
     virtual void setUndoStack(QUndoStack* undoStack);
+
+
+    virtual void fill(NetworkMessageWriter& msg);
+    virtual void readMessage(NetworkMessageReader& msg);
+
+    bool isRemote() const;
+    void setRemote(bool remote);
+
 signals:
     /**
      * @brief visibleChanged
@@ -194,6 +204,7 @@ protected:
      */
     QString m_mediaId;
     QAction* m_detachedDialog;
+    bool m_remote;
 
 };
 

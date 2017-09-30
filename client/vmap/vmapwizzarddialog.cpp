@@ -124,7 +124,7 @@ void MapWizzardDialog::updateDataFrom(VMap* map)
     ui->m_sizeGrid->setValue(map->getOption(VisualItem::GridSize).toInt());
     ui->m_gridColorBtn->setColor(map->getOption(VisualItem::GridColor).value<QColor>());
     ui->m_permissionComboBox->setCurrentIndex(map->getPermissionMode());
-    ui->m_visibilityComboBox->setCurrentIndex(map->getVisibilityMode());
+    ui->m_visibilityComboBox->setCurrentIndex(map->getOption(VisualItem::VisibilityMode).toInt());
     ui->m_scaleOfGrid->setValue(map->getOption(VisualItem::GridSize).toInt());
     ui->m_unitPattern->setCurrentIndex(map->getOption(VisualItem::Unit).toInt());
     ui->m_colorButton->setColor(map->getBackGroundColor());

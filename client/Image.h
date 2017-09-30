@@ -61,7 +61,6 @@ public :
     void setInternalAction(QAction *action);
     QAction* getAssociatedAction() const;
 
-    void fill(NetworkMessageWriter & message) const;
     void saveImageToFile(QFile &file);
     void saveImageToFile(QDataStream& out);
     bool isImageOwner(QString id);
@@ -74,6 +73,10 @@ public :
     virtual void saveMedia();
 
     virtual void putDataIntoCleverUri();
+
+
+    virtual void fill(NetworkMessageWriter& msg);
+    virtual void readMessage(NetworkMessageReader& msg);
 
 public slots :
     void pointeurMain();

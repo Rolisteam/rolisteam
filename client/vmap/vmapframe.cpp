@@ -78,7 +78,7 @@ void VMapFrame::updateMap()
     setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
     setWidget(m_graphicView);
     setWindowIcon(QIcon(":/vmap.png"));
-    m_vmap->setVisibilityMode(m_vmap->getVisibilityMode());
+    m_vmap->setVisibilityMode(static_cast<VMap::VisibilityMode>(m_vmap->getOption(VisualItem::VisibilityMode).toInt()));
 
     updateTitle();
 }
@@ -379,6 +379,8 @@ void VMapFrame::fill(NetworkMessageWriter& msg)
         msg.real(rect.y());
         msg.real(rect.width());
         msg.real(rect.height());
+
+        m_vmap->fill(msg);
     }
 }
 void VMapFrame::readMessage(NetworkMessageReader& msg)

@@ -203,7 +203,7 @@ void VmapToolBar::updateUI()
         m_showCharacterVision->setChecked(m_vmap->getOption(VisualItem::EnableCharacterVision).toBool());
         m_gridUnit->setCurrentIndex(m_vmap->getOption(VisualItem::Unit).toInt());
         m_currentPermission->setCurrentIndex(m_vmap->getOption(VisualItem::PermissionMode).toInt());
-        m_currentVisibility->setCurrentIndex(m_vmap->getVisibilityMode());
+        m_currentVisibility->setCurrentIndex(m_vmap->getOption(VisualItem::VisibilityMode).toInt());
         m_gridPattern->setCurrentIndex(m_vmap->getOption(VisualItem::GridPattern).toInt());
         m_collision->setChecked(m_vmap->getOption(VisualItem::CollisionStatus).toBool());
         m_showOnlyItemsFromThisLayer->setChecked(m_vmap->getOption(VisualItem::HideOtherLayers).toBool());

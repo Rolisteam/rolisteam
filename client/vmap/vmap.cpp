@@ -78,7 +78,7 @@ void VMap::initMap()
     m_propertiesHash->insert(VisualItem::CollisionStatus,false);
     m_propertiesHash->insert(VisualItem::PermissionMode,Map::GM_ONLY);
     m_propertiesHash->insert(VisualItem::FogOfWarStatus,false);
-    m_propertiesHash->insert(VisualItem::VisibilityMode,m_currentVisibityMode);
+    m_propertiesHash->insert(VisualItem::VisibilityMode,VMap::HIDDEN);
 }
 
 VToolsBar::SelectableTool VMap::getSelectedtool() const
@@ -195,7 +195,7 @@ void VMap::fill(NetworkMessageWriter& msg)
     msg.uint8((quint8)m_currentLayer);
     msg.string8(m_sightItem->getId());
     msg.uint8((quint8)getPermissionMode());
-    msg.uint8((quint8)getVisibilityMode());
+    msg.uint8(getOption(VisualItem::VisibilityMode).toInt());
     msg.uint64(m_zIndex);
     msg.uint8(getOption(VisualItem::EnableCharacterVision).toBool());
     msg.uint8(getOption(VisualItem::GridPattern).toInt());
@@ -380,9 +380,10 @@ void VMap::addItem()
     {
         AddVmapItemCommand* itemCmd = new AddVmapItemCommand(m_selectedtool,this, m_first,m_itemColor,m_penSize);
         m_currentItem = itemCmd->getItem();
+        m_currentPath = itemCmd->getPath();
         m_currentItem->setPropertiesHash(m_propertiesHash);
 
-        addNewItem(itemCmd,true);
+        addNewItem(itemCmd,(VToolsBar::Painting == m_editionMode));
 
         if(VToolsBar::Painting != m_editionMode)
         {
@@ -1067,6 +1068,16 @@ void VMap::ensureFogAboveAll()
     }
 }
 
+QHash<VisualItem::Properties, QVariant>* VMap::getPropertiesHash() const
+{
+    return m_propertiesHash;
+}
+
+void VMap::setPropertiesHash(QHash<VisualItem::Properties, QVariant> *propertiesHash)
+{
+    m_propertiesHash = propertiesHash;
+}
+
 QUndoStack* VMap::getUndoStack() const
 {
     return m_undoStack;
@@ -1182,8 +1193,10 @@ void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwor
             }
         }
 
-        emit npcAdded();
-
+        if(itemCmd->isNpc())
+        {
+            emit npcAdded();
+        }
         if(undoable)
         {
             m_undoStack->push(itemCmd);
@@ -1571,10 +1584,6 @@ void VMap::hideOtherLayers(bool b)
     }
 }
 
-VMap::VisibilityMode VMap::getVisibilityMode()
-{
-    return m_currentVisibityMode;
-}
 bool VMap::setOption(VisualItem::Properties pop,QVariant value)
 {
     if(nullptr!=m_propertiesHash)
@@ -1606,9 +1615,9 @@ QString VMap::getVisibilityModeText()
 {
     QStringList visibilityData;
     visibilityData << tr("Hidden") << tr("Fog Of War") << tr("All visible");
-    if(m_currentVisibityMode>0 && m_currentVisibityMode < visibilityData.size())
+    if(getOption(VisualItem::VisibilityMode).toInt()>0 && getOption(VisualItem::VisibilityMode).toInt() < visibilityData.size())
     {
-        return visibilityData.at(m_currentVisibityMode);
+        return visibilityData.at(getOption(VisualItem::VisibilityMode).toInt());
     }
     else
     {

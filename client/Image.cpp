@@ -38,10 +38,10 @@
 /* Constructeur                                                     */
 /********************************************************************/
 Image::Image(/*QString title,QString identImage, QString identJoueur, QImage *image, QAction *action,*/ ImprovedWorkspace *parent)
-    : MediaContainer(parent),m_NormalSize(0,0)
+    : MediaContainer(parent),m_parent(parent),m_NormalSize(0,0)
 {
     setObjectName("Image");
-    m_widgetArea = new QScrollArea(this);
+    m_widgetArea = new QScrollArea();
     m_zoomLevel = 1;
     m_parent=parent;
     setWindowIcon(QIcon(":/resources/icons/photo.png"));
@@ -57,7 +57,10 @@ Image::Image(/*QString title,QString identImage, QString identJoueur, QImage *im
 
 Image::~Image()
 {
-
+    if(nullptr != m_widgetArea)
+    {
+        delete m_widgetArea;
+    }
 }
 void Image::initImage()
 {
@@ -70,7 +73,7 @@ void Image::initImage()
 
         m_ratioImage = (double)m_pixMap.size().width()/m_pixMap.size().height();
         m_ratioImageBis = (double)m_pixMap.size().height()/m_pixMap.size().width();
-        if(NULL!=m_parent)
+        if(nullptr!=m_parent)
         {
             fitWorkSpace();
         }
@@ -95,7 +98,7 @@ bool Image::isImageOwner(QString id)
     return m_idPlayer == id;
 }
 
-void Image::fill(NetworkMessageWriter & message) const
+void Image::fill(NetworkMessageWriter & message)
 {
     QByteArray baImage;
     QBuffer bufImage(&baImage);
@@ -103,14 +106,23 @@ void Image::fill(NetworkMessageWriter & message) const
     {
         //   qDebug() << "png size:" << bufImage.size();
     }
-
-
-
-    message.reset();
+    //message.reset();
     message.string16(m_title);
     message.string8(m_mediaId);
     message.string8(m_idPlayer);
     message.byteArray32(baImage);
+}
+
+void Image::readMessage(NetworkMessageReader &msg)
+{
+    m_title = msg.string16();
+    setTitle(m_title);
+    m_mediaId = msg.string8();
+    m_idPlayer = msg.string8();
+    QByteArray data = msg.byteArray32();
+    QImage img =QImage::fromData(data);
+    setImage(img);
+    m_remote = true;
 }
 
 
@@ -230,19 +242,34 @@ void Image::onFitWorkSpace()
 
 void Image::fitWorkSpace()
 {
-    if(NULL!=parentWidget())
+    /* Better computation
+     * if(nullptr!=parentWidget())
     {
         QSize windowsize = parentWidget()->size();//right size
         while((windowsize.height()<(m_zoomLevel * m_pixMap.height()))||(windowsize.width()<(m_zoomLevel * m_pixMap.width())))
         {
-            m_zoomLevel -= 0.1;
+            m_zoomLevel -= 0.05;
         }
+        setGeometry(0,0,m_pixMap.width()*m_zoomLevel,m_pixMap.height()*m_zoomLevel);
         m_imageLabel->resize(m_pixMap.size());
         m_NormalSize = QSize(0,0);
         resizeLabel();
-        setGeometry(m_imageLabel->rect().adjusted(0,0,4,4));
         m_zoomLevel = 1.0;
-    }
+    }*/
+
+    if(nullptr!=parentWidget())
+       {
+           QSize windowsize = parentWidget()->size();//right size
+           while((windowsize.height()<(m_zoomLevel * m_pixMap.height()))||(windowsize.width()<(m_zoomLevel * m_pixMap.width())))
+           {
+               m_zoomLevel -= 0.1;
+           }
+           m_imageLabel->resize(m_pixMap.size());
+           m_NormalSize = QSize(0,0);
+           resizeLabel();
+           setGeometry(m_imageLabel->rect().adjusted(0,0,4,4));
+           m_zoomLevel = 1.0;
+   }
 }
 void Image::wheelEvent(QWheelEvent *event)
 {
@@ -511,9 +538,9 @@ bool Image::readFileFromUri()
     }
     setTitle(m_uri->name()+tr(" (Picture)"));
 
-    NetworkMessageWriter message(NetMsg::PictureCategory, NetMsg::AddPictureAction);
+   /* NetworkMessageWriter message(NetMsg::PictureCategory, NetMsg::AddPictureAction);
     fill(message);
-    message.sendAll();
+    message.sendAll();*/
     return true;
 }
 bool Image::openMedia()

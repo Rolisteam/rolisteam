@@ -22,7 +22,7 @@
 
 
 MediaContainer::MediaContainer(QWidget* parent)
-    : QMdiSubWindow(parent),m_uri(NULL),m_preferences(PreferencesManager::getInstance()),m_action(NULL),m_currentCursor(NULL),m_mediaId(QUuid::createUuid().toString())
+    : QMdiSubWindow(parent),m_uri(NULL),m_preferences(PreferencesManager::getInstance()),m_action(NULL),m_currentCursor(NULL),m_mediaId(QUuid::createUuid().toString()),m_remote(false)
 {
     //m_preferences = ;
     setAttribute(Qt::WA_DeleteOnClose,false);
@@ -174,6 +174,16 @@ void MediaContainer::setUndoStack(QUndoStack* undoStack)
 
 }
 
+void MediaContainer::fill(NetworkMessageWriter &msg)
+{
+
+}
+
+void MediaContainer::readMessage(NetworkMessageReader &msg)
+{
+
+}
+
 void MediaContainer::detachView(bool b)
 {
     static QMdiArea* parent = mdiArea();
@@ -191,4 +201,14 @@ void MediaContainer::detachView(bool b)
         }
         setVisible(true);
     }
+}
+
+bool MediaContainer::isRemote() const
+{
+    return m_remote;
+}
+
+void MediaContainer::setRemote(bool remote)
+{
+    m_remote = remote;
 }

@@ -186,11 +186,6 @@ public:
 	 */
     Map::PermissionMode getPermissionMode();
     /**
-     * @brief getVisibilityMode
-     * @return
-     */
-    VMap::VisibilityMode getVisibilityMode();
-    /**
      * @brief fill
      * @param msg
      */
@@ -310,6 +305,9 @@ public:
 
     QUndoStack* getUndoStack() const;
     void setUndoStack(QUndoStack* undoStack);
+
+    QHash<VisualItem::Properties, QVariant> *getPropertiesHash() const;
+    void setPropertiesHash(QHash<VisualItem::Properties, QVariant> *propertiesHash);
 
 public slots:
     /**
@@ -613,10 +611,6 @@ private:
      * @brief m_localUserId
      */
     QString m_localUserId;
-    /**
-     * @brief m_currentVisibityMode
-     */
-    VMap::VisibilityMode m_currentVisibityMode;
     /**
      * @brief m_currentLayer
      */
