@@ -51,11 +51,19 @@ ParsingToolFormula::ParsingToolFormula()
 }
 ParsingToolFormula::~ParsingToolFormula()
 {
-    m_variableHash->clear();
-    delete m_variableHash;
+    if(nullptr != m_variableHash)
+    {
+        m_variableHash->clear();
+        delete m_variableHash;
+        m_variableHash = nullptr;
+    }
 
-    m_arithmeticOperation->clear();
-    delete m_arithmeticOperation;
+    if(nullptr != m_arithmeticOperation)
+    {
+        m_arithmeticOperation->clear();
+        delete m_arithmeticOperation;
+        m_arithmeticOperation = nullptr;
+    }
 }
 
 FormulaNode* ParsingToolFormula::getLatestNode(FormulaNode* node)

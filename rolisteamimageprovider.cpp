@@ -2,8 +2,7 @@
 #include <QDebug>
 #include <QBuffer>
 
-QHash<QString,QPixmap> RolisteamImageProvider::s_data;
-
+//QHash<QString,QPixmap> RolisteamImageProvider::s_data;
 
 RolisteamImageProvider::RolisteamImageProvider()
     :  QQuickImageProvider(QQuickImageProvider::Pixmap)
@@ -22,43 +21,50 @@ QPixmap RolisteamImageProvider::requestPixmap(const QString &id, QSize *size, co
     QString idTranslate = id;
     idTranslate = idTranslate.replace("%7B","{").replace("%7D","}");
 
-    QPixmap pixmap= s_data.value(idTranslate);
+    QPixmap* pixmap= m_data->value(idTranslate);
+    if(nullptr == pixmap)
+    {
+        return QPixmap();
+    }
 
     if (NULL!=size)
-        return pixmap.copy(0,0,size->width(),size->height());
+    {
+        return pixmap->copy(0,0,size->width(),size->height());
+    }
     else
-        return pixmap;
+    {
+        return *pixmap;
+    }
 }
 
-void RolisteamImageProvider::insertPix(QString key, QPixmap img)
+void RolisteamImageProvider::insertPix(QString key, QPixmap* img)
 {
-   // qDebug() << key << img << "Image Provider";
-    s_data.insert(key,img);
+    m_data->insert(key,img);
 }
-QHash<QString,QPixmap>& RolisteamImageProvider::getData()
+QSharedPointer<QHash<QString,QPixmap*>> RolisteamImageProvider::getData()
 {
-    return s_data;
+    return m_data;
 }
 void RolisteamImageProvider::cleanData()
 {
-    s_data.clear();
+    m_data->clear();
 }
 
-void RolisteamImageProvider::setData( QHash<QString, QPixmap>& data)
+void RolisteamImageProvider::setData( QSharedPointer<QHash<QString, QPixmap*>> data)
 {
-    s_data = data;
+    m_data = data;
 }
 #ifndef RCSE
 void RolisteamImageProvider::fill(NetworkMessageWriter &msg)
 {
-    msg.uint16(s_data.count());
-    for(auto key : s_data.keys())
+    msg.uint16(m_data->count());
+    for(auto key : m_data->keys())
     {
         msg.string16(key);
         QByteArray array;
         QBuffer buffer(&array);
         buffer.open(QIODevice::WriteOnly);
-        s_data.value(key).toImage().save(&buffer,"jpg");
+        m_data->value(key)->toImage().save(&buffer,"jpg");
         msg.byteArray32(array);
     }
 }
@@ -70,13 +76,13 @@ void RolisteamImageProvider::read(NetworkMessageReader &msg)
     {
         QString key = msg.string16();
         QByteArray array = msg.byteArray32();
-        QPixmap pix;
-        pix.loadFromData(array);
+        QPixmap* pix = new QPixmap();
+        pix->loadFromData(array);
         insertPix(key,pix);
     }
 }
 #endif
 void RolisteamImageProvider::removeImg(QString key)
 {
-    s_data->remove(key);
+    m_data->remove(key);
 }

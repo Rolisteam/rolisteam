@@ -349,13 +349,12 @@ private:
     QQuickWidget* m_qmlView;
 
     QHash<CharacterSheet*,Player*> m_sheetToPerson;
-    QHash<QString,QPixmap*> m_pixmapList;
+    QSharedPointer<QHash<QString,QPixmap*>> m_pixmapList;
 
     QJsonObject m_data;
 
     QString m_qmlData;
     bool m_localIsGM;
-
 };
 
 #endif // CHARACTERSHEETWINDOW_H

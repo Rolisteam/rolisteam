@@ -27,7 +27,10 @@ FormulaManager::FormulaManager()
 }
 FormulaManager::~FormulaManager()
 {
-    delete m_parsingTool;
+    if(nullptr != m_parsingTool)
+    {
+        delete m_parsingTool;
+    }
 }
 
 QVariant FormulaManager::getValue(QString i)

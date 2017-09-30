@@ -88,6 +88,8 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     connect(m_detachTab,SIGNAL(triggered(bool)),this,SLOT(detachTab()));
 
     m_imgProvider = new RolisteamImageProvider();
+    m_pixmapList = QSharedPointer<QHash<QString,QPixmap*>>(new QHash<QString,QPixmap*>());
+    m_imgProvider->setData(m_pixmapList);
 }
 CharacterSheetWindow::~CharacterSheetWindow()
 {
@@ -350,8 +352,10 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     connect(m_qmlView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(contextMenuForTabs(QPoint)));
 
    // connect(m_qmlView->engine(),SIGNAL(warnings(QList<QQmlError>)),this,SLOT(displayError(QList<QQmlError>)));
+    auto imageProvider = new RolisteamImageProvider();
+    imageProvider->setData(m_imgProvider->getData());
 
-    m_qmlView->engine()->addImageProvider(QLatin1String("rcs"),new RolisteamImageProvider());
+    m_qmlView->engine()->addImageProvider(QLatin1String("rcs"),imageProvider);
 
     for(int i =0;i<chSheet->getFieldCount();++i)
     {
@@ -481,8 +485,6 @@ void  CharacterSheetWindow::saveCharacterSheet()
 }
 QJsonDocument CharacterSheetWindow::saveFile()
 {
-
-
     QJsonDocument json;
     QJsonObject obj;
 
@@ -492,15 +494,13 @@ QJsonDocument CharacterSheetWindow::saveFile()
     //qml file
     obj["qml"]=m_qmlData;
 
-
     //background
     QJsonArray images;
-    QHash<QString,QPixmap> hash = RolisteamImageProvider::getData();
-    for(auto key : m_pixmapList.keys())
+    for(auto key : m_pixmapList->keys())
     {
         QJsonObject obj;
         obj["key"]=key;
-        QPixmap* pix = m_pixmapList.value(key);
+        QPixmap* pix = m_pixmapList->value(key);
         if(NULL!=pix)
         {
             QByteArray bytes;
@@ -536,8 +536,8 @@ bool CharacterSheetWindow::readData(QByteArray data)
         QByteArray array = QByteArray::fromBase64(str.toUtf8());
         QPixmap* pix = new QPixmap();
         pix->loadFromData(array);
-        m_imgProvider->insertPix(key,*pix);
-        m_pixmapList.insert(key,pix);
+        m_imgProvider->insertPix(key,pix);
+        //m_pixmapList.insert(key,pix);
         ++i;
     }
     //m_model->load(data,m_canvasList);

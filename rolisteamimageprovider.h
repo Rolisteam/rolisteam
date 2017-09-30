@@ -16,11 +16,11 @@ public:
     virtual ~RolisteamImageProvider();
     virtual QPixmap requestPixmap(const QString &id, QSize *size, const QSize& requestedSize);
 
-    static void insertPix(QString key,QPixmap img);
-    static QHash<QString,QPixmap>& getData();
-    static void cleanData();
+    void insertPix(QString key,QPixmap* img);
+    QSharedPointer<QHash<QString,QPixmap*>> getData();
+    void cleanData();
 
-    void setData( QHash<QString, QPixmap>& data);
+    void setData( QSharedPointer<QHash<QString, QPixmap*>> data);
 
     void removeImg(QString key);
 
@@ -29,7 +29,7 @@ public:
     void read(NetworkMessageReader& msg);
 #endif
 private:
-    static QHash<QString,QPixmap> s_data;
+    QSharedPointer< QHash<QString,QPixmap*>> m_data;
 };
 
 #endif // ROLISTEAMIMAGEPROVIDER_H
