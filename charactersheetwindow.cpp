@@ -715,29 +715,26 @@ void CharacterSheetWindow::fill(NetworkMessageWriter* msg,CharacterSheet* sheet,
 }
 
 
-void CharacterSheetWindow::read(NetworkMessageReader* msg)
+void CharacterSheetWindow::readMessage(NetworkMessageReader& msg)
 {
-    if(NULL==msg)
-        return;
-
     CharacterSheet* sheet = new CharacterSheet();
 
-    m_mediaId = msg->string8();
-    QString idChar = msg->string8();
-    m_title = msg->string8();
+    m_mediaId = msg.string8();
+    QString idChar = msg.string8();
+    m_title = msg.string8();
 
     if(NULL!=sheet)
     {
-        sheet->read(*msg);
+        sheet->read(msg);
     }
-    m_qmlData = msg->string32();
+    m_qmlData = msg.string32();
     if(NULL!=m_imgProvider)
     {
-        m_imgProvider->read(*msg);
+        m_imgProvider->read(msg);
     }
 
     addCharacterSheet(sheet);
-    m_model.readRootSection(msg);
+    m_model.readRootSection(&msg);
 
     Character* character = PlayersList::instance()->getCharacter(idChar);
     if(NULL!=character)

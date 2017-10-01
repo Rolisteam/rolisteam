@@ -131,7 +131,7 @@ public:
      * @brief read
      * @param msg
      */
-    void read(NetworkMessageReader* msg);
+    void readMessage(NetworkMessageReader& msg);
     /**
      * @brief processUpdateFieldMessage
      * @param msg
@@ -149,7 +149,6 @@ public:
     void setLocalIsGM(bool localIsGM);
 
     bool hasCharacterSheet(QString id);
-
 signals:
     /**
      * @brief addWidgetToMdiArea
