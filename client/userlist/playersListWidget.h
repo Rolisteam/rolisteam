@@ -28,7 +28,7 @@
 #include <QPushButton>
 #include <QSet>
 #include <QTreeView>
-
+#include <QPointer>
 
 #include "userlist/playerslistproxy.h"
 class UserListView;
@@ -53,7 +53,7 @@ public slots:
     void changeMap(Map * map);
 
 private:
-   Map* m_map;
+   QPointer<Map> m_map;
 
    bool isCheckable(const QModelIndex &index) const;
 };

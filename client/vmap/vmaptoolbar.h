@@ -82,7 +82,7 @@ private:
 
 
 private:
-    VMap* m_vmap;
+    QPointer<VMap> m_vmap;
 
     //Button
     ColorButton* m_bgSelector;
