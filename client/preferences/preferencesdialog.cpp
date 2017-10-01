@@ -320,6 +320,7 @@ void PreferencesDialog::show()
 }
 void PreferencesDialog::save() const
 {
+    //paths
     m_preferences->registerValue("MusicDirectoryGM",ui->m_musicDirGM->path());
     m_preferences->registerValue("MusicDirectoryPlayer",ui->m_musicDirPlayer->path());
     m_preferences->registerValue("ImageDirectory",ui->m_pictureDir->path());
@@ -336,6 +337,7 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("MessagingShowTime",ui->m_showTimeCheckBox->isChecked());
     m_preferences->registerValue("MessagingColorTime",ui->m_timeColorBtn->color());
 
+    //General
     QColor color;
     int opacity=ui->m_opacitySlider->value();
     color.setRgb(opacity,opacity,opacity);
@@ -345,6 +347,8 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("FullScreenAtStarting",ui->m_fullScreenCheckbox->isChecked());
     m_preferences->registerValue("maxSizeForCuttingDiceCmd",ui->m_maxLenghtCommand->value());
     m_preferences->registerValue("hideLongCommand",ui->m_hideLongCommand->isChecked());
+    m_preferences->registerValue("shortNameInTabMode",ui->m_shortNameCb->isChecked());
+    m_preferences->registerValue("MaxLengthTabName",ui->m_tabTitleLength->value());
 
     //theme
     m_preferences->registerValue("currentTheme", ui->m_themeComboBox->currentText());
@@ -411,6 +415,9 @@ void PreferencesDialog::load()
 
     ui->m_heartBeat->setChecked(m_preferences->value("HeartBeatStatus",false).toBool());
     ui->m_hbFrequency->setValue(m_preferences->value("HbFrequency",60).toInt());
+
+    ui->m_shortNameCb->setChecked(m_preferences->value("shortNameInTabMode",false).toBool());
+    ui->m_tabTitleLength->setValue(m_preferences->value("MaxLengthTabName",10).toInt());
 
     ////////////////////////
     //MAP

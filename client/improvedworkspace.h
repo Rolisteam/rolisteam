@@ -81,6 +81,7 @@ public slots:
 protected :
     void resizeEvent ( QResizeEvent * event );
     bool eventFilter(QObject *object, QEvent *event);
+    bool updateTitleTab();
 private :
     void updateBackGround();
 
@@ -97,6 +98,7 @@ private:
     QImage *imageFond;		// Image de fond du workspace
 
     QString m_fileName;
+    QHash<QMdiSubWindow*, QString> m_titleBar;
 };
 
 #endif

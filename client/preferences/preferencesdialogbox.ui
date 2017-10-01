@@ -171,6 +171,57 @@
            </layout>
           </item>
           <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_21">
+            <item>
+             <widget class="QCheckBox" name="m_shortNameCb">
+              <property name="toolTip">
+               <string>All subwindows will have a short title (making tab shorter)</string>
+              </property>
+              <property name="text">
+               <string>Short title in Tabview</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_20">
+              <item>
+               <spacer name="horizontalSpacer_10">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_26">
+                <property name="text">
+                 <string>Max Length:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="m_tabTitleLength">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="singleStep">
+                 <number>1</number>
+                </property>
+                <property name="value">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
            <widget class="QCheckBox" name="m_pictureAdjust">
             <property name="text">
              <string>Pictures fit their Windows (at the opening)</string>
@@ -1170,12 +1221,28 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>116</x>
-     <y>520</y>
+     <x>140</x>
+     <y>554</y>
     </hint>
     <hint type="destinationlabel">
-     <x>432</x>
-     <y>523</y>
+     <x>490</x>
+     <y>556</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_shortNameCb</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_tabTitleLength</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>45</x>
+     <y>323</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>473</x>
+     <y>319</y>
     </hint>
    </hints>
   </connection>

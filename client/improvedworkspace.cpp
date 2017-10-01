@@ -38,6 +38,8 @@ ImprovedWorkspace::ImprovedWorkspace(QWidget *parent)
     m_preferences->registerListener("BackGroundPositioning",this);
     m_preferences->registerListener("PathOfBackgroundImage",this);
     m_preferences->registerListener("BackGroundColor",this);
+    m_preferences->registerListener("shortNameInTabMode",this);
+    m_preferences->registerListener("MaxLengthTabName",this);
 
     m_backgroundPicture = new QPixmap(size());
 
@@ -221,7 +223,6 @@ void ImprovedWorkspace::setTabbedMode(bool isTabbed)
         //setTabsClosable ( true );
         setTabsMovable ( true );
         setTabPosition(QTabWidget::North);
-
         /// make all subwindows visible.
         for(QAction* act : m_actionSubWindowMap->keys())
         {
@@ -244,8 +245,36 @@ void ImprovedWorkspace::setTabbedMode(bool isTabbed)
     {
         setViewMode(QMdiArea::SubWindowView);
     }
+    updateTitleTab();
 }
+bool ImprovedWorkspace::updateTitleTab()
+{
+    bool shortName = m_preferences->value("shortNameInTabMode",false).toBool();
+    int textLength = m_preferences->value("MaxLengthTabName",10).toInt();
+    if((viewMode() == QMdiArea::TabbedView)&&(shortName))
+    {
+        for(auto subwindow : m_actionSubWindowMap->values())
+        {
+            auto title = subwindow->windowTitle();
+            if(title.size() > textLength)
+            {
+                m_titleBar.insert(subwindow,title);
+                title = title.left(textLength);
+                subwindow->setWindowTitle(title);
+            }
+        }
+    }
+    else
+    {
 
+        for(auto key : m_titleBar.keys())
+        {
+            auto title = m_titleBar.value(key);
+            key->setWindowTitle(title);
+        }
+        m_titleBar.clear();
+    }
+}
 bool ImprovedWorkspace::eventFilter(QObject *object, QEvent *event)
 {
     if(event->type()==QEvent::Close)
@@ -307,6 +336,7 @@ void ImprovedWorkspace::preferencesHasChanged(QString str)
 {
     updateBackGround();
     update();
+    updateTitleTab();
 }
 void ImprovedWorkspace::addWidgetToMdi(QWidget* wid,QString title)
 {
