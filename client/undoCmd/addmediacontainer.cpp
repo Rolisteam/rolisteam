@@ -1,8 +1,8 @@
-#include "addmediaconteneur.h"
+#include "addmediacontainer.h"
 #include "improvedworkspace.h"
 #include "network/networkmessagewriter.h"
 #include <QDebug>
-AddMediaConteneur::AddMediaConteneur(MediaContainer* mediac,
+AddMediaContainer::AddMediaContainer(MediaContainer* mediac,
                                      SessionManager* manager,
                                      QMenu* menu,
                                      MainWindow* main,
@@ -14,13 +14,13 @@ AddMediaConteneur::AddMediaConteneur(MediaContainer* mediac,
       m_manager(manager),
       m_menu(menu),
       m_main(main),
-      m_gm(gm),
-      m_mdiArea(workspace)
+      m_mdiArea(workspace),
+      m_gm(gm)
 {
     setText(QObject::tr("Show %1").arg(mediac->getTitle()));
 }
 
-void AddMediaConteneur::redo()
+void AddMediaContainer::redo()
 {
     if(nullptr != m_media)
     {
@@ -32,9 +32,13 @@ void AddMediaConteneur::redo()
             m_manager->addRessource(m_media->getCleverUri());
             uri->setDisplayed(true);
         }
-        QAction *action = m_menu->addAction(m_media->getTitle());
-        action->setCheckable(true);
-        action->setChecked(true);
+        QAction* action= m_media->getAction();
+        if(action == nullptr)
+        {
+            action = m_menu->addAction(m_media->getTitle());
+            action->setCheckable(true);
+            action->setChecked(true);
+        }
         m_media->setAction(action);
         m_mdiArea->addContainerMedia(m_media);
         m_media->setVisible(true);
@@ -44,14 +48,14 @@ void AddMediaConteneur::redo()
         {
             NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
             qDebug() << "########################\n" << uri->getType();
-            msg.int8(static_cast<int>(uri->getType()));
+            msg.uint8(static_cast<quint8>(uri->getType()));
             m_media->fill(msg);
             msg.sendAll();
         }
     }
 }
 
-void AddMediaConteneur::undo()
+void AddMediaContainer::undo()
 {
     //remove from workspace, action in menu and from resources manager.
     if(nullptr != m_media)
@@ -67,7 +71,7 @@ void AddMediaConteneur::undo()
         }
     }
 }
-bool AddMediaConteneur::sendAtOpening()
+bool AddMediaContainer::sendAtOpening()
 {
     if(m_media->isRemote())
     {

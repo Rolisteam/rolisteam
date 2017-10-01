@@ -9,10 +9,10 @@
 
 class ImprovedWorkspace;
 
-class AddMediaConteneur : public QUndoCommand
+class AddMediaContainer : public QUndoCommand
 {
 public:
-    AddMediaConteneur(MediaContainer* mediac,SessionManager* manager,QMenu* menu, MainWindow* main, ImprovedWorkspace* workspace, bool isGM, QUndoCommand* parent = nullptr);
+    AddMediaContainer(MediaContainer* mediac,SessionManager* manager,QMenu* menu, MainWindow* main, ImprovedWorkspace* workspace, bool isGM, QUndoCommand* parent = nullptr);
 
     void redo() override;
     void undo() override;
