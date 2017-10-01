@@ -61,7 +61,8 @@
 #include "widgets/tipofdayviewer.h"
 
 //Undo
-#include "undoCmd/addmediaconteneur.h"
+#include "undoCmd/addmediacontainer.h"
+#include "undoCmd/deletemediacontainercommand.h"
 
 //Text editor
 #include "textedit.h"
@@ -82,13 +83,13 @@
 
 MainWindow::MainWindow()
     : QMainWindow(),
+      m_preferencesDialog(nullptr),
       m_clientManager(nullptr),
       m_ui(new Ui::MainWindow),
       m_resetSettings(false),
       m_currentConnectionProfile(nullptr),
       m_profileDefined(false),
       m_currentStory(nullptr),
-      m_preferencesDialog(nullptr),
       m_roomPanelDockWidget(new QDockWidget(this))
 {
     setAcceptDrops(true);
@@ -162,7 +163,7 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac,bool redoable)
 {
     if(nullptr != m_currentConnectionProfile)
     {
-        AddMediaConteneur* addMedia = new AddMediaConteneur(mediac,m_sessionManager,m_ui->m_menuSubWindows,this,m_mdiArea,m_currentConnectionProfile->isGM());
+        AddMediaContainer* addMedia = new AddMediaContainer(mediac,m_sessionManager,m_ui->m_menuSubWindows,this,m_mdiArea,m_currentConnectionProfile->isGM());
         if(redoable)
         {
             m_undoStack.push(addMedia);
@@ -202,6 +203,9 @@ void MainWindow::closeMediaContainer(QString id)
          MediaContainer* mediaCon = m_mediaHash.value(id);
          if(nullptr!=mediaCon)
          {
+            DeleteMediaContainerCommand* cmd = new DeleteMediaContainerCommand(mediaCon,m_sessionManager,m_ui->m_editMenu,this,m_mdiArea,m_currentConnectionProfile->isGM());
+            m_undoStack.push(cmd);
+
              m_mediaHash.remove(id);
              if(CleverURI::VMAP == mediaCon->getContentType())
              {
@@ -210,10 +214,9 @@ void MainWindow::closeMediaContainer(QString id)
              else if(CleverURI::MAP == mediaCon->getContentType())
              {
                  m_playersListWidget->model()->changeMap(nullptr);
-                 m_toolBar->changeMap(nullptr);
              }
              //setUri as undisplayed
-             CleverURI* uri = mediaCon->getCleverUri();
+            /* CleverURI* uri = mediaCon->getCleverUri();
              if(nullptr!=uri)
              {
                  uri->setState(CleverURI::Remain);
@@ -228,7 +231,7 @@ void MainWindow::closeMediaContainer(QString id)
                  NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::closeMedia);
                  msg.string8(id);
                  msg.sendAll();
-             }
+             }*/
          }
      }
 }
@@ -383,7 +386,7 @@ void MainWindow::receiveData(quint64 readData,quint64 size)
     else if(readData!=size)
     {
         m_downLoadProgressbar->setVisible(true);
-        quint64 i = (size-readData)*100/size;
+        int i = static_cast<int>((size-readData)*100/size);
 
         m_downLoadProgressbar->setValue(i);
         m_shownProgress=true;
@@ -430,14 +433,14 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_openNoteAction, SIGNAL(triggered(bool)), this, SLOT(openNote()));
     connect(m_ui->m_openShareNote, SIGNAL(triggered(bool)), this, SLOT(openContent()));
 
-    m_ui->m_openPictureAction->setData((int)CleverURI::PICTURE);
-    m_ui->m_openOnlinePictureAction->setData((int)CleverURI::ONLINEPICTURE);
-    m_ui->m_openMapAction->setData((int)CleverURI::MAP);
-    m_ui->m_openCharacterSheet->setData((int)CleverURI::CHARACTERSHEET);
-    m_ui->m_openVectorialMap->setData((int)CleverURI::VMAP);
-    m_ui->m_openStoryAction->setData((int)CleverURI::SCENARIO);
-    m_ui->m_openNoteAction->setData((int)CleverURI::TEXT);
-    m_ui->m_openShareNote->setData((int)CleverURI::SHAREDNOTE);
+    m_ui->m_openPictureAction->setData(static_cast<int>(CleverURI::PICTURE));
+    m_ui->m_openOnlinePictureAction->setData(static_cast<int>(CleverURI::ONLINEPICTURE));
+    m_ui->m_openMapAction->setData(static_cast<int>(CleverURI::MAP));
+    m_ui->m_openCharacterSheet->setData(static_cast<int>(CleverURI::CHARACTERSHEET));
+    m_ui->m_openVectorialMap->setData(static_cast<int>(CleverURI::VMAP));
+    m_ui->m_openStoryAction->setData(static_cast<int>(CleverURI::SCENARIO));
+    m_ui->m_openNoteAction->setData(static_cast<int>(CleverURI::TEXT));
+    m_ui->m_openShareNote->setData(static_cast<int>(CleverURI::SHAREDNOTE));
 
     m_ui->m_recentFileMenu->setVisible(false);
     connect(m_ui->m_closeAction, SIGNAL(triggered(bool)), this, SLOT(closeCurrentSubWindow()));
@@ -459,6 +462,10 @@ void MainWindow::linkActionToMenu()
 
     undo->setShortcut(QKeySequence::Undo);
     redo->setShortcut(QKeySequence::Redo);
+
+    connect(&m_undoStack, &QUndoStack::cleanChanged,this,[this](bool clean){
+        setWindowModified(!clean);
+    });
 
 
     m_ui->m_editMenu->insertAction(nullptr,redo);
@@ -520,8 +527,8 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
     connect(m_toolBar,SIGNAL(currentNpcNumberChanged(int)),map,SLOT(setCurrentNpcNumber(int)));
 
     connect(map, SIGNAL(changeCurrentColor(QColor)), m_toolBar, SLOT(changeCurrentColor(QColor)));
-    connect(map, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementNpcNumber()));
-    connect(map, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(updateNpc(int,QString)));
+    connect(map, SIGNAL(increaseNpcNumber()), m_toolBar, SLOT(incrementNpcNumber()));
+    connect(map, SIGNAL(updateNPC(int, QString)), m_toolBar, SLOT(updateNpc(int,QString)));
 
     connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map, SLOT(setPcNameVisible(bool)));
     connect(m_ui->m_showNpcNameAction, SIGNAL(triggered(bool)), map, SLOT(setNpcNameVisible(bool)));
@@ -830,6 +837,7 @@ bool MainWindow::saveStory()
     file.close();
     m_sessionManager->setSessionName(m_currentStory->getData(ResourcesNode::NAME).toString());
     updateWindowTitle();
+    m_undoStack.setClean();
     return true;
 }
 ////////////////////////////////////////////////////
@@ -1087,6 +1095,7 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
         m_ui->m_disconnectAction->setEnabled(false);
         m_dialog->open();
         break;
+    case ClientManager::AUTHENTIFIED:
     case ClientManager::CONNECTING:
         break;
     }
@@ -1216,6 +1225,7 @@ void MainWindow::parseCommandLineArguments(QStringList list)
 }
 NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, NetworkLink* link)
 {
+    Q_UNUSED(link)
     if(NULL==msg)
         return NetWorkReceiver::NONE;
 
@@ -1258,6 +1268,8 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, 
         processSharedNoteMessage(msg);
         type = NetWorkReceiver::AllExceptSender;
         break;
+    default:
+        qWarning("Unexpected message - MainWindow::ProcessMessage");
     }
     return type;//NetWorkReceiver::AllExceptMe;
 }
@@ -1265,11 +1277,15 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
 {
     if(msg->action() == NetMsg::addMedia)
     {
-        auto type = static_cast<CleverURI::ContentType>(msg->int8());
+        auto type = static_cast<CleverURI::ContentType>(msg->uint8());
         switch(type)
         {
         case CleverURI::MAP:
+        {
+            MapFrame* mapf = new MapFrame();
+            mapf->readMessage(*msg);
 
+        }
             break;
         case CleverURI::VMAP:
         {
@@ -1287,24 +1303,8 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
             break;
         case CleverURI::PICTURE:
         {
-           /* QString title = msg->string16();
-            QString idImage = msg->string8();
-            QString idPlayer = msg->string8();
-            QByteArray dataImage = msg->byteArray32();
-
-            QImage *img = new QImage;
-            if (!img->loadFromData(dataImage, "jpg"))
-            {
-                notifyUser("Cannot read received image (receptionMessageImage - NetworkLink.cpp)");
-            }*/
             Image* image = new Image(m_mdiArea);
             image->readMessage(*msg);
-            /*image->setTitle(title);
-            image->setMediaId(idImage);
-            image->setIdOwner(idPlayer);
-            image->setImage(*img);*/
-
-            //addImage(image, title);
             prepareImage(image);
             addMediaToMdiArea(image,false);
             image->setVisible(true);
@@ -1694,7 +1694,7 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
 
         QList<QPoint> pointList;
         QPoint point;
-        for (int i=0; i<pointNumber; i++)
+        for (quint32 i=0; i<pointNumber; i++)
         {
             quint16 pointX = msg->uint16();
             quint16 pointY = msg->uint16();
@@ -1718,7 +1718,7 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
         {
             SelectedColor selectedColor;
             selectedColor.color = color;
-            selectedColor.type = (ColorKind)colorType;
+            selectedColor.type = static_cast<ColorKind>(colorType);
             map->paintPenLine(&pointList,zoneToRefresh,diameter,selectedColor,idPlayer==m_localPlayerId);
         }
     }
@@ -1745,7 +1745,7 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
         {
             SelectedColor selectedColor;
             selectedColor.color = color;
-            selectedColor.type = (ColorKind)colorType;
+            selectedColor.type = static_cast<ColorKind>(colorType);
 
             map->paintText(text,pos,zoneToRefresh,selectedColor);
 
@@ -1783,7 +1783,7 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
         {
             SelectedColor selectedColor;
             selectedColor.color = color;
-            selectedColor.type = (ColorKind)colorType;
+            selectedColor.type = static_cast<ColorKind>(colorType);
 
             map->paintOther(msg->action(),startPos,endPos,zoneToRefresh,diameter,selectedColor);
         }
@@ -1821,7 +1821,7 @@ void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
         bool showNumber=(npcType == CharacterToken::pnj)?m_ui->m_showNpcNumberAction->isChecked():false;
         bool showName=(npcType == CharacterToken::pnj)? m_ui->m_showNpcNameAction->isChecked():m_ui->m_showPcNameAction->isChecked();
 
-        CharacterToken* npc = new CharacterToken(map, npcId, npcName, npcColor, npcDiameter, npcPos, (CharacterToken::typePersonnage)npcType,showNumber,showName, npcNumber);
+        CharacterToken* npc = new CharacterToken(map, npcId, npcName, npcColor, npcDiameter, npcPos, static_cast<CharacterToken::typePersonnage>(npcType),showNumber,showName, npcNumber);
 
         if((npcVisible)||(npcType == CharacterToken::pnj && (NULL!=m_currentConnectionProfile) && m_currentConnectionProfile->isGM()))
         {
@@ -1867,7 +1867,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
 
         QList<QPoint> moveList;
         QPoint point;
-        for (int i=0; i<pointNumber; i++)
+        for (quint32 i=0; i<pointNumber; i++)
         {
             quint16 posX = msg->uint16();
             quint16 posY = msg->uint16();
@@ -2051,23 +2051,9 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
 }
 NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* msg)
 {
-    /*bool isServer = false;
-    if(NULL!=m_currentConnectionProfile)
-    {
-        isServer = m_currentConnectionProfile->isServer();
-    }*/
     NetWorkReceiver::SendType type = NetWorkReceiver::NONE;
-    /*if(isServer)
-    {
-        type = NetWorkReceiver::AllExceptSender;
-    }*/
     switch(msg->action())
     {
-    case NetMsg::addVmap:
-    {
-
-    }
-        break;
     case NetMsg::loadVmap:
         break;
     case NetMsg::closeVmap:
@@ -2076,6 +2062,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
         closeMediaContainer(vmapId);
     }
         break;
+    case NetMsg::addVmap:
     case NetMsg::DelPoint:
         break;
     case NetMsg::addItem:
@@ -2105,6 +2092,9 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
             }
         }
     }
+        break;
+    default:
+        qWarning("Unexpected Action - MainWindow::processVMapMessage");
         break;
     }
 
@@ -2147,7 +2137,7 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
 void MainWindow::openContent()
 {
     QAction* action=static_cast<QAction*>(sender());
-    CleverURI::ContentType type = (CleverURI::ContentType)action->data().toInt();
+    CleverURI::ContentType type = static_cast<CleverURI::ContentType>(action->data().toInt());
     openContentFromType(type);
 }
 void MainWindow::openRecentFile()
@@ -2508,6 +2498,8 @@ void MainWindow::dropEvent(QDropEvent* event)
                 break;
             case CleverURI::SCENARIO:
                 readStory(uri->getUri());
+                break;
+            default:
                 break;
             }
             //m_sessionManager->addRessource(uri);
