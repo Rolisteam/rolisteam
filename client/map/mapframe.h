@@ -166,6 +166,11 @@ private :
 	MapWizzard* m_mapWizzard;
     QScrollArea* m_widgetArea;
     bool m_isHidden;
+
+    quint16 m_width;
+    quint16 m_height;
+    QColor m_color;
+
 };
 
 #endif

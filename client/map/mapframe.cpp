@@ -51,7 +51,6 @@ MapFrame::MapFrame(Map* map, QWidget *parent)
 	initMap();
 
     setWidget(m_widgetArea);
-
 }
 
 
@@ -71,9 +70,9 @@ void MapFrame::initMap()
 
 		resize(m_map->width()+4, m_map->height()+4);
 
-		connect(m_map, SIGNAL(commencerDeplacementBipMapWindow(QPoint)),
+        connect(m_map, SIGNAL(startBipmapMove(QPoint)),
                 this, SLOT(startMoving(QPoint)));
-		connect(m_map, SIGNAL(deplacerBipMapWindow(QPoint)),
+        connect(m_map, SIGNAL(moveBipMapWindow(QPoint)),
                 this, SLOT(moveMap(QPoint)));
         connect(m_map,SIGNAL(permissionModeChanged()),this,SLOT(updateTitle()));
 	}
@@ -403,21 +402,13 @@ bool MapFrame::createMap()
 
         m_title = mapDialog.getTitle();
 
-        QColor color = mapDialog.getColor();
-        quint16 width = mapDialog.getSize().width();
-        quint16 height = mapDialog.getSize().height();
+        m_color = mapDialog.getColor();
+        m_width = mapDialog.getSize().width();
+        m_height = mapDialog.getSize().height();
 
         setCleverUriType(CleverURI::MAP);
 
-        NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::AddEmptyMap);
-        msg.string16(m_title);
-        msg.string8(idMap);
-        msg.rgb(color);
-        msg.uint16(width);
-        msg.uint16(height);
-        msg.uint8(12);
-        msg.uint8((quint8)mapDialog.getPermission());
-        msg.sendAll();
+
 
         initMap();
         return true;
@@ -430,27 +421,8 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
     QString idMap = msg->string8();
     setTitle(m_title);
 
-    if(msg->action() == NetMsg::AddEmptyMap)
-    {
-        QColor color = msg->rgb();
-        quint16 width = msg->uint16();
-        quint16 height = msg->uint16();
-        quint8 npSize = msg->uint8();
-        quint8 permission = msg->uint8();
-        QSize mapSize(width,height);
 
-        QImage image(mapSize, QImage::Format_ARGB32_Premultiplied);
-        image.fill(color.rgb());
-
-        m_map = new Map(m_localPlayerId,idMap, &image);
-        m_map->setLocalIsPlayer(localIsPlayer);
-        m_map->setPermissionMode((Map::PermissionMode)permission);
-        m_map->changePjSize(npSize,false);
-
-        emit notifyUser(tr("New map: %1").arg(m_title));
-
-    }
-    else if(msg->action() == NetMsg::LoadMap)
+    if(msg->action() == NetMsg::LoadMap)
     {
         quint8 npSize = msg->uint8();
         quint8 permission = msg->uint8();
@@ -563,11 +535,42 @@ void MapFrame::fill(NetworkMessageWriter &msg)
 {
     if(nullptr != m_map)
     {
-        //m_map->;
+        //NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::AddEmptyMap);
+        msg.string16(m_title);
+        msg.string8(m_map->getMapId());
+        msg.rgb(m_color);
+        msg.uint16(m_width);
+        msg.uint16(m_height);
+        msg.uint8(12);
+        msg.uint8(static_cast<quint8>(m_map->getPermissionMode()));
+        msg.sendAll();
     }
 }
 
 void MapFrame::readMessage(NetworkMessageReader &msg)
 {
+    //if(msg.action() == NetMsg::AddEmptyMap)
+    {
+        m_title = msg.string16();
+        QString idMap = msg.string8();
+        setTitle(m_title);
+        m_color = msg.rgb();
+        m_width = msg.uint16();
+        m_height = msg.uint16();
+        quint8 npSize = msg.uint8();
+        quint8 permission = msg.uint8();
+        QSize mapSize(m_width,m_height);
 
+        QImage image(mapSize, QImage::Format_ARGB32_Premultiplied);
+        image.fill(m_color.rgb());
+
+        m_map = new Map(m_localPlayerId,idMap, &image);
+        m_map->setLocalIsPlayer(true);
+        m_map->setPermissionMode(static_cast<Map::PermissionMode>(permission));
+        m_map->changePjSize(npSize,false);
+
+        emit notifyUser(tr("New map: %1").arg(m_title));
+
+        initMap();
+    }
 }
