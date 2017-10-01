@@ -316,6 +316,8 @@ void VMap::updateItem()
             update();
         }
         break;
+    default:
+        break;
     }
 }
 void VMap::addImageItem(QString file)
@@ -634,7 +636,20 @@ void VMap::checkItemLayer(VisualItem* item)
 
 void VMap::sendOffItem(VisualItem* item, bool doInitPoint)
 {
-    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
+    if((nullptr != m_currentAddCmd) && (m_currentAddCmd->getItem() == item))
+    {
+        if(m_currentAddCmd->isUndoable())
+        {
+            m_undoStack->push(m_currentAddCmd);
+        }
+        else
+        {
+            m_currentAddCmd->redo();
+            delete m_currentAddCmd;
+        }
+    }
+    m_currentAddCmd = nullptr;
+   /* NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
     msg.string8(m_id);
     msg.uint8(item->getType());
     if(doInitPoint)
@@ -642,7 +657,7 @@ void VMap::sendOffItem(VisualItem* item, bool doInitPoint)
         item->initChildPointItem();
     }
     item->fillMessage(&msg);
-    msg.sendAll();
+    msg.sendAll();*/
 }
 
 void VMap::setCurrentChosenColor(QColor& p)
@@ -828,7 +843,6 @@ void VMap::openFile(QDataStream& in)
 
 void VMap::addCharacter(Character* p, QPointF pos)
 {
-
     CharacterItem* item= new CharacterItem(p,pos);
     if(nullptr!=item)
     {
@@ -902,7 +916,6 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
 {
     if(NULL!=msg)
     {
-
         VisualItem* item=NULL;
         VisualItem::ItemType type = (VisualItem::ItemType)msg->uint8();
         CharacterItem* charItem = NULL;
@@ -1032,8 +1045,7 @@ void VMap::processSetParentItem(NetworkMessageReader* msg)
     }
 }
 void VMap::processZValueMsg(NetworkMessageReader* msg)
-{        
-                                                                                                     
+{                                                                                                    
     if(NULL!=msg)                                                                                          
     {           
 		QString id = msg->string16();
@@ -1174,8 +1186,8 @@ void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwor
 {
     if((nullptr!=itemCmd)&&(!itemCmd->hasError()))
     {
-       // item->setMapId(m_id);
-        VisualItem* item = itemCmd->getItem();
+        m_currentAddCmd = itemCmd;
+        VisualItem* item = m_currentAddCmd->getItem();
 
         if((item!=m_sightItem)&&(item!=m_gridItem)&&(VisualItem::ANCHOR!=item->type())&&(VisualItem::RULE!=item->type()))
         {
@@ -1197,15 +1209,8 @@ void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwor
         {
             emit npcAdded();
         }
-        if(undoable)
-        {
-            m_undoStack->push(itemCmd);
-        }
-        else
-        {
-            itemCmd->redo();
-            delete itemCmd;
-        }
+        itemCmd->setUndoable(undoable);
+
     }
 }
 QList<CharacterItem*> VMap::getCharacterOnMap(QString id)
@@ -1232,48 +1237,22 @@ void VMap::promoteItemInType(VisualItem* item, VisualItem::ItemType type)
         removeItemFromScene(item->getId());
         addNewItem(new AddVmapItemCommand(bis,this),true);
         bis->initChildPointItem();
-        sendOffItem(bis);
+        //sendOffItem(bis);
     }
 }
-
+#include "undoCmd/deletevmapitem.h"
 void VMap::removeItemFromScene(QString id,bool sendToAll)
 {
     if(m_sightItem->getId()==id || m_gridItem->getId() == id)
     {
         return;
     }
-    VisualItem* item = m_itemMap->take(id);
+    VisualItem* item = m_itemMap->value(id);
+
     if(NULL!=item)
     {
-        m_sortedItemList.removeAll(id);
-        if(item->getType() == VisualItem::CHARACTER)
-        {
-            CharacterItem* cItem = dynamic_cast<CharacterItem*>(item);
-            if(NULL != cItem)
-            {
-                m_sightItem->removeVision(cItem);
-                //QList<CharacterItem*> list = m_characterItemMap->values(cItem->getCharacterId());
-                int i = m_characterItemMap->remove(cItem->getCharacterId());
-               // if(i > 0)
-            //    {
-                    //list.removeOne(cItem);
-                  /*  for(auto itemC : list)
-                    {
-                        m_characterItemMap->insertMulti(itemC->getCharacterId(),itemC);
-                    }*/
-               // }
-            }
-        }
-        QGraphicsScene::removeItem(item);
-        delete item;
-
-        if(sendToAll)
-        {
-            NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::DelItem);
-            msg.string8(m_id);//id map
-            msg.string16(id);//id item
-            msg.sendAll();
-        }
+        DeleteVmapItemCommand* cmd = new DeleteVmapItemCommand(this,item,sendToAll);
+        m_undoStack->push(cmd);
     }
 }
 
@@ -1460,7 +1439,6 @@ void VMap::duplicateItem(VisualItem* item)
         copy->clearFocus();
         clearFocus();
         setFocusItem(copy);
-        //m_currentItem = copy;
         update();
         sendOffItem(copy,false);
     }

@@ -627,6 +627,7 @@ private:
 
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
     QUndoStack* m_undoStack = nullptr;
+    AddVmapItemCommand* m_currentAddCmd;
 
     friend QDataStream& operator<<(QDataStream& os,const VMap&);
     friend QDataStream& operator>>(QDataStream& is,VMap&);

@@ -53,6 +53,9 @@ public:
 
     bool isNpc()const;
 
+    bool isUndoable() const;
+    void setUndoable(bool undoable);
+
 protected:
     bool isVisible();
     bool isEditable();
@@ -68,6 +71,8 @@ private:
     VisualItem* m_currentPath = nullptr;
     bool m_error = false;
     VToolsBar::SelectableTool m_tool;
+    bool m_first;
+    bool m_undoable;
 };
 
 #endif // ADDFIELDCOMMAND_H

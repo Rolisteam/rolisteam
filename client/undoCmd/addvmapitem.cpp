@@ -152,9 +152,21 @@ AddVmapItemCommand::AddVmapItemCommand(VisualItem* item,VMap* map,QUndoCommand *
 
 void AddVmapItemCommand::initItem()
 {
+    m_first = true;
     m_currentItem->setPropertiesHash(m_vmap->getPropertiesHash());
     m_currentItem->setLayer(m_vmap->getCurrentLayer());
     m_currentItem->setMapId(m_vmap->getId());
+    m_vmap->QGraphicsScene::addItem(m_currentItem);
+}
+
+bool AddVmapItemCommand::isUndoable() const
+{
+    return m_undoable;
+}
+
+void AddVmapItemCommand::setUndoable(bool undoable)
+{
+    m_undoable = undoable;
 }
 
 bool AddVmapItemCommand::isEditable()
@@ -162,7 +174,7 @@ bool AddVmapItemCommand::isEditable()
     bool editable = false;
     if((m_vmap->getOption(VisualItem::LocalIsGM).toBool()))//GM
     {
-       editable = true;
+        editable = true;
     }
     else
     {
@@ -216,14 +228,34 @@ void AddVmapItemCommand::undo()
     m_vmap->removeItem(m_currentItem);
     m_vmap->update();
     m_vmap->removeItemFromData(m_currentItem);
+
+    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::DelItem);
+    msg.string8(m_vmap->getId());//id map
+    msg.string16(m_currentItem->getId());//id item
+    msg.sendAll();
 }
 void AddVmapItemCommand::redo()
 {
     m_vmap->setFocusItem(m_currentItem);
-    m_vmap->QGraphicsScene::addItem(m_currentItem);
     m_currentItem->setVisible(isVisible());
     m_currentItem->setEditableItem(isEditable());
     m_vmap->addItemFromData(m_currentItem);
+    if(m_first)
+    {
+        m_currentItem->initChildPointItem();
+        m_first = false;
+    }
+    else
+    {
+        m_vmap->QGraphicsScene::addItem(m_currentItem);
+    }
+
+    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
+    msg.string8(m_vmap->getId());
+    msg.uint8(m_currentItem->getType());
+    m_currentItem->fillMessage(&msg);
+    msg.sendAll();
+
 }
 
 VisualItem* AddVmapItemCommand::getItem() const
