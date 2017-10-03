@@ -22,7 +22,14 @@ class TcpClient : public TreeItem
 {
     Q_OBJECT
 public:
-    enum ConnectionEvent {HasCheckEvent,NoCheckEvent,CheckedEvent,CheckFailedEvent,ForbiddenEvent,DataReceivedEvent,AuthFailEvent,AuthSuccessEvent,NoRestrictionEvent,HasRestrictionEvent,ChannelAuthSuccessEvent,ChannelAuthFailEvent,MoveChanEvent};
+    enum ConnectionEvent {HasCheckEvent,NoCheckEvent,
+                          CheckedEvent,CheckFailedEvent,
+                          ForbiddenEvent,DataReceivedEvent,
+                          AuthFailEvent, AuthSuccessEvent,
+                          NoRestrictionEvent,HasRestrictionEvent,
+                          ChannelAuthSuccessEvent,ChannelAuthFailEvent,
+                          MoveChanEvent,AdminAuthSuccess,
+                          AdminAuthFailed};
     /**
      * @brief TcpClient
      * @param socket
@@ -65,6 +72,9 @@ public:
 
     void addPlayerFeature(QString uuid,QString  name,quint8 version);
 
+    bool isAdmin() const;
+    void setIsAdmin(bool isAdmin);
+
 signals:
     /**
      * @brief readDataReceived
@@ -94,7 +104,8 @@ signals:
     void channelAuthFail();
     void channelAuthSuccess();
     void moveChannel();
-
+    void adminAuthFailed();
+    void adminAuthSucceed();
     void isReady();
 
 
@@ -156,6 +167,7 @@ private:
     QState* m_currentState;
 
     bool m_isGM;
+    bool m_isAdmin;
 
     Player* m_player;
 

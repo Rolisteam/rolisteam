@@ -67,6 +67,8 @@ public slots:
     void error(QAbstractSocket::SocketError socketError);
     void sendOffModel(TcpClient*);
     void sendOffModelToAll();
+    void sendOffAdminAuthFail();
+    void sendOffAdminAuthSuccessed();
 private slots:
     void incomingClientConnection();
 
@@ -77,6 +79,8 @@ private:
     int m_defaultChannelIndex;
     ConnectionAccepter* m_corEndProcess;
     ConnectionAccepter* m_corConnection;
+    ConnectionAccepter* m_adminAccepter;
+    ConnectionAccepter* m_enterInRoomAccepter;
 
     QMap<QString,QVariant> m_parameters;
 

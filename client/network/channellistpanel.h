@@ -36,7 +36,7 @@ public:
 
 public slots:
     void showCustomMenu(QPoint pos);
-    void loginAdmin();
+    void sendOffLoginAdmin(QString str = QString());
 
 protected slots:
     void addChannelAsSibbling();
@@ -47,6 +47,7 @@ protected slots:
     void deleteChannel();
     void joinChannel();
     void editChannel();
+    void logAsAdmin();
 private:
     Ui::ChannelListPanel *ui;
     ChannelModel* m_model;

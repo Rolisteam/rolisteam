@@ -1373,6 +1373,22 @@ void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
         }
 
     }
+    else if(NetMsg::AdminAuthFail == msg->action())
+    {
+        ChannelListPanel* roomPanel = qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
+        if(nullptr != roomPanel)
+        {
+            roomPanel->processMessage(msg);
+        }
+    }
+    else if(NetMsg::AdminAuthSucessed == msg->action())
+    {
+        ChannelListPanel* roomPanel = qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
+        if(nullptr != roomPanel)
+        {
+            roomPanel->processMessage(msg);
+        }
+    }
 }
 void MainWindow::notifyUser(QString message, MainWindow::MessageType type) const
 {
@@ -1436,6 +1452,8 @@ void MainWindow::startConnection()
                 server->insertField("LogLevel",3);
                 server->insertField("password",m_currentConnectionProfile->getPassword());
                 server->insertField("TimeToRetry",5000);
+                server->insertField("adminPassword",m_currentConnectionProfile->getPassword());
+
                 server->initServerManager();
 
                 connect(&m_serverThread,SIGNAL(started()),server,SLOT(startListening()));
@@ -1463,6 +1481,7 @@ void MainWindow::initializedClientManager()
     if(nullptr == m_clientManager)
     {
         m_clientManager = new ClientManager(m_currentConnectionProfile);
+
         connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
         connect(m_clientManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
         connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
@@ -1479,6 +1498,7 @@ void MainWindow::initializedClientManager()
         {
             m_playerList->completeListClean();
             m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
+            m_roomPanel->sendOffLoginAdmin(m_currentConnectionProfile->getPassword());
             //m_clientManager->startConnection();
         }
     }

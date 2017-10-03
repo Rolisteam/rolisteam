@@ -5,9 +5,12 @@
 class PasswordAccepter : public ConnectionAccepter
 {
 public:
-    PasswordAccepter();
+    enum Level {Connection, Admin, Channel};
+    PasswordAccepter(PasswordAccepter::Level level = Connection);
 
     virtual bool isValid(const QMap<QString,QVariant>& data);
+private:
+    PasswordAccepter::Level m_currentLevel;
 };
 
 #endif // PASSWORDACCEPTER_H

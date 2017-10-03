@@ -266,10 +266,14 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
     {
         emit clearData();
     }
-//    else if(NetMsg::AddChannel == msg->action())
-//    {
-//        emit
-//    }
+    else if(NetMsg::AdminAuthFail == msg->action())
+    {
+        emit adminAuthFailed();
+    }
+    else if(NetMsg::AdminAuthSucessed == msg->action())
+    {
+        emit adminAuthSuccessed();
+    }
 }
 
 void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)

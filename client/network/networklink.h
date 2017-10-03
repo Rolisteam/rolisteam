@@ -138,6 +138,8 @@ signals:
     void authentificationSuccessed();
     void authentificationFail();
     void clearData();
+    void adminAuthSuccessed();
+    void adminAuthFailed();
 
 
 protected slots:

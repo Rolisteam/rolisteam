@@ -73,6 +73,8 @@ enum Action {
     BanUser,
     ClearTable,
     AdminPassword,
+    AdminAuthSucessed,
+    AdminAuthFail,
 
     // PlayerCategory
     PlayerConnectionAction = 0,

@@ -39,6 +39,9 @@ ServerManager::ServerManager(QObject *parent)
     tmp->setNext(tmp3);
     tmp3->setNext(nullptr);
 
+
+    m_adminAccepter = new PasswordAccepter(PasswordAccepter::Admin);
+    m_adminAccepter->setNext(nullptr);
 }
 
 int ServerManager::getPort() const
@@ -71,18 +74,12 @@ void ServerManager::stopListening()
 
 void ServerManager::messageReceived(QByteArray array)
 {
-    //qInfo() << "Message Received" << array.size();
     TcpClient* client = qobject_cast<TcpClient*>(sender());
     if(nullptr != client)
     {
-        //qInfo() << "Client" ;
         Channel* channel = client->getParentChannel();
-      //  if(nullptr != channel)
         {
-            //qInfo() << "channel" ;
-            //channel->sendToAll(,client);
             emit messageMustBeDispatched(array,channel,client);
-            //m_msgDispatcher->dispatchMessage(array,channel,client);
         }
     }
 }
@@ -130,6 +127,28 @@ void ServerManager::initClient()
         }
     }
 }
+void ServerManager::sendOffAdminAuthSuccessed()
+{
+    TcpClient* client = qobject_cast<TcpClient*>(sender());
+    if(nullptr != client)
+    {
+        NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AdminAuthSucessed);
+        qDebug()<< "[sendOffAdminAuthSuccessed] ";
+        QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
+        sendOffModel(client);
+    }
+}
+void ServerManager::sendOffAdminAuthFail()
+{
+    TcpClient* client = qobject_cast<TcpClient*>(sender());
+    if(nullptr != client)
+    {
+        NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AdminAuthFail);
+        //client->sendMessage(msg);
+        qDebug()<< "[sendOffAdminAuthFail] ";
+        QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
+    }
+}
 void ServerManager::sendOffAuthSuccessed()
 {
     TcpClient* client = qobject_cast<TcpClient*>(sender());
@@ -150,8 +169,6 @@ void ServerManager::sendOffAuthFail()
         //client->sendMessage(msg);
         //qDebug()<< "[sendOffAuthFail] ";
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
-
-
     }
 }
 void ServerManager::kickClient(QString id)
@@ -180,6 +197,7 @@ void ServerManager::kickClient(QString id)
 
 void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan, TcpClient* tcp)
 {
+    bool idAdmin = tcp->isAdmin();
     switch (msg->action())
     {
         case NetMsg::Goodbye:
@@ -187,8 +205,11 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
         break;
         case NetMsg::Kicked:
         {
-            QString id = msg->string8();
-            kickClient(id);
+            if(idAdmin)
+            {
+                QString id = msg->string8();
+                kickClient(id);
+            }
         }
         break;
         case NetMsg::Password:
@@ -220,14 +241,16 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
         break;
         case NetMsg::AddChannel:
         {
-            QString idparent = msg->string8();
-            TreeItem* parentItem = m_model->getItemById(idparent);
-            Channel* dest = static_cast<Channel*>(parentItem);
+            if(idAdmin)
+            {
+                QString idparent = msg->string8();
+                TreeItem* parentItem = m_model->getItemById(idparent);
+                Channel* dest = static_cast<Channel*>(parentItem);
 
-            auto channel = new Channel();
-            channel->read(*msg);
-            m_model->addChannelToChannel(channel,dest);
-
+                auto channel = new Channel();
+                channel->read(*msg);
+                m_model->addChannelToChannel(channel,dest);
+            }
         }
         break;
         case NetMsg::JoinChannel:
@@ -247,6 +270,8 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
         break;
         case NetMsg::SetChannelList:
         {
+        if(idAdmin)
+        {
             QByteArray data = msg->byteArray32();
             QJsonDocument doc = QJsonDocument::fromJson(data);
             if(!doc.isEmpty())
@@ -254,19 +279,32 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
                 QJsonObject obj = doc.object();
                 m_model->readDataJson(obj);
             }
-
+          }
         }
             break;
     case NetMsg::DeleteChannel:
     {
-        QString id = msg->string8();
-        m_model->removeChild(id);
-        sendOffModelToAll();
+        if(idAdmin)
+        {
+            QString id = msg->string8();
+            m_model->removeChild(id);
+            sendOffModelToAll();
+        }
     }
         break;
     case NetMsg::AdminPassword:
     {
-        QString passwd = msg->string8();
+        QString passwd = msg->string32();
+        QMap<QString,QVariant> data(m_parameters);
+        data["userpassword"]=passwd;
+        if(m_adminAccepter->isValid(data))
+        {
+            tcp->sendEvent(TcpClient::AdminAuthSuccess);
+        }
+        else
+        {
+            tcp->sendEvent(TcpClient::AdminAuthFailed);
+        }
     }
         break;
         default:
@@ -367,6 +405,8 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
         connect(connection,SIGNAL(dataReceived(QByteArray)),this,SLOT(messageReceived(QByteArray)));//,Qt::QueuedConnection
         connect(connection,SIGNAL(isReady()),this,SLOT(initClient()),Qt::QueuedConnection);
         connect(connection,SIGNAL(authSuccess()),this,SLOT(sendOffAuthSuccessed()),Qt::QueuedConnection);
+        connect(connection,SIGNAL(adminAuthFailed()),this,SLOT(sendOffAdminAuthFail()),Qt::QueuedConnection);
+        connect(connection,SIGNAL(adminAuthSucceed()),this,SLOT(sendOffAdminAuthSuccessed()),Qt::QueuedConnection);
         connect(connection,SIGNAL(authFail()),this,SLOT(sendOffAuthFail()),Qt::QueuedConnection);
         connect(connection,SIGNAL(itemChanged()),this,SLOT(sendOffModelToAll()),Qt::QueuedConnection);
 

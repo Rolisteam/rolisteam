@@ -2,7 +2,7 @@
 #include "channel.h"
 
 TcpClient::TcpClient(QTcpSocket* socket,QObject *parent)
-    : TreeItem(parent),m_socket(socket),m_player(new Player())
+    : TreeItem(parent),m_socket(socket),m_player(new Player()),m_isAdmin(false)
 {
     m_dataToRead=0;
     m_headerRead = 0;
@@ -138,6 +138,16 @@ void TcpClient::starReading()
    /* qInfo() << m_stateMachine.isRunning();
     qInfo() << "########################################tcpClient########################################" << this;*/
 
+}
+
+bool TcpClient::isAdmin() const
+{
+    return m_isAdmin;
+}
+
+void TcpClient::setIsAdmin(bool isAdmin)
+{
+    m_isAdmin = isAdmin;
 }
 
 bool TcpClient::isGM() const
@@ -347,6 +357,14 @@ void TcpClient::sendEvent(TcpClient::ConnectionEvent event)
         break;
     case MoveChanEvent:
         emit moveChannel();
+        break;
+    case AdminAuthFailed:
+        emit adminAuthFailed();
+        m_isAdmin = false;
+        break;
+    case AdminAuthSuccess:
+        emit adminAuthSucceed();
+        m_isAdmin = true;
         break;
     }
 }

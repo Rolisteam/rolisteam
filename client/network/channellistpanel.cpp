@@ -13,7 +13,7 @@ ChannelListPanel::ChannelListPanel(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ChannelListPanel),
     m_model(new ChannelModel),
-    m_currentGroup(ADMIN)
+    m_currentGroup(VIEWER)
 {
     ui->setupUi(this);
     ui->m_channelView->setModel(m_model);
@@ -47,7 +47,7 @@ ChannelListPanel::ChannelListPanel(QWidget *parent) :
     connect(m_deleteChannel,SIGNAL(triggered(bool)),this,SLOT(deleteChannel()));
     connect(m_lock,SIGNAL(triggered(bool)),this,SLOT(lockChannel()));
     connect(m_join,SIGNAL(triggered(bool)),this,SLOT(joinChannel()));
-    connect(m_admin,SIGNAL(triggered(bool)),this,SLOT(loginAdmin()));
+    connect(m_admin,SIGNAL(triggered(bool)),this,SLOT(logAsAdmin()));
 }
 
 ChannelListPanel::~ChannelListPanel()
@@ -80,6 +80,12 @@ void ChannelListPanel::processMessage(NetworkMessageReader* msg)
 
         }
             break;
+    case NetMsg::AdminAuthFail:
+        m_currentGroup = VIEWER;
+        break;
+    case NetMsg::AdminAuthSucessed:
+        m_currentGroup = ADMIN;
+        break;
         default:
             break;
     }
@@ -261,22 +267,27 @@ void ChannelListPanel::banUser()
     }
 }
 #include <QInputDialog>
-
-void ChannelListPanel::loginAdmin()
+void ChannelListPanel::logAsAdmin()
 {
     PreferencesManager* preferences =  PreferencesManager::getInstance();
 
     QString pwadmin = preferences->value(QString("adminPassword_for_%1").arg(m_serverName),QString()).toString();
+
+
     if(pwadmin.isEmpty())
     {
         pwadmin = QInputDialog::getText(this,tr("Admin Password"),tr("Password"),QLineEdit::Password);
     }
+    sendOffLoginAdmin(pwadmin);
+}
 
-    if(!pwadmin.isEmpty())
+void ChannelListPanel::sendOffLoginAdmin(QString str)
+{
+    if(!str.isEmpty())
     {
         NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::AdminPassword);
         //msg.string8(id);
-        msg.string8(pwadmin);
+        msg.string32(str);
         msg.sendAll();
     }
 }

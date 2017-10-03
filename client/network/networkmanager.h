@@ -138,6 +138,7 @@ private:
     static NetworkLink* m_networkLinkToServer;
     QTimer* m_reconnect;
     Player* m_localPlayer;
+    bool m_isAdmin;
 
     bool m_disconnectAsked;
     PreferencesManager* m_preferences;

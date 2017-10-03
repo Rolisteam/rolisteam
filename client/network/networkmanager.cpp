@@ -112,6 +112,13 @@ void ClientManager::initializeLink()
     connect(m_networkLinkToServer,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
     connect(m_networkLinkToServer,SIGNAL(errorMessage(QString)),this,SIGNAL(errorOccur(QString)));
     connect(m_networkLinkToServer,SIGNAL(clearData()),this,SIGNAL(clearData()));
+   /* connect(m_networkLinkToServer,&NetworkLink::adminAuthFailed,[=](){
+        m_isAdmin=false;
+    });
+    connect(m_networkLinkToServer,&NetworkLink::adminAuthSuccessed,[=](){
+        m_isAdmin=true;
+    });*/
+
 
     m_states.start();
 }
