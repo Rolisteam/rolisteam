@@ -101,7 +101,7 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    quint32 parentRow = (quint32)(index.internalId() & NoParent);
+    quint32 parentRow = static_cast<quint32>((index.internalId() & NoParent));
     if (parentRow == NoParent)
     {
         if (row >= m_playersList.size())
@@ -118,9 +118,9 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
     }
     else
     {
-        if (parentRow >= (quint32)m_playersList.size())
+        if (parentRow >= static_cast<quint32>(m_playersList.size()))
             return QVariant();
-        Player * player = m_playersList.at(parentRow);
+        Player * player = m_playersList.at(static_cast<int>(parentRow));
 
         if (row >= player->getCharactersCount())
             return QVariant();
@@ -136,7 +136,7 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
         //    return person->getUuid();
         case Qt::DecorationRole:
         {
-            if(person->hasAvatar())
+            if(person->isLeaf())
             {
                 return person->getAvatar().scaled(64,64,Qt::KeepAspectRatio,Qt::SmoothTransformation);
             }
