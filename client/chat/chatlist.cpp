@@ -120,7 +120,7 @@ void ChatList::rollDiceCmd(QString cmd, QString owner)
     if(!m_chatWindowList.isEmpty())
     {
         ChatWindow* wid = m_chatWindowList.first();
-        if(NULL!=wid)
+        if(nullptr!=wid)
         {
             wid->rollDiceCmd(cmd,owner);
         }
