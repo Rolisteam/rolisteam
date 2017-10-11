@@ -279,7 +279,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
         showMessage(messageTitle, color, messageCorps);
     }
 
-    m_diceParser->setVariableDictionary(NULL);
+    m_diceParser->setVariableDictionary(nullptr);
 }
 
 bool ChatWindow::isTimeShown() const
@@ -727,9 +727,9 @@ void ChatWindow::detachView(bool b)
 }
 void ChatWindow::setProperDictionnary(QString idOwner)
 {
-    if(NULL!=m_diceParser)
+    if(nullptr!=m_diceParser)
     {
-        QHash<QString,QString>* variableTest = NULL;
+        QHash<QString,QString>* variableTest = nullptr;
         if(m_dicoByCharacter.contains(idOwner))
         {
             variableTest = m_dicoByCharacter[idOwner];
@@ -739,7 +739,7 @@ void ChatWindow::setProperDictionnary(QString idOwner)
 
 
         Person* localPerson = PlayersList::instance()->getPerson(idOwner);
-        if(NULL!=localPerson)
+        if(nullptr!=localPerson)
         {
             variableTest = new QHash<QString,QString>();
             *variableTest = localPerson->getVariableDictionnary();
