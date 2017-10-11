@@ -185,6 +185,11 @@ QHash<QString, QString> Player::getVariableDictionnary()
     return QHash<QString, QString>();
 }
 
+bool Player::isLeaf() const
+{
+    return false;
+}
+
 bool Player::hasFeature(const QString & name, quint8 version) const
 {
     return m_features.contains(name) && m_features.value(name) >= version;

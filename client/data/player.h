@@ -161,6 +161,7 @@ public:
 
     virtual QHash<QString,QString> getVariableDictionnary();
 
+    virtual bool isLeaf() const;
 private:
     friend class PlayersList;
     friend class SendFeaturesIterator;
