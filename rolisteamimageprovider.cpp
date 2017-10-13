@@ -48,7 +48,10 @@ QSharedPointer<QHash<QString,QPixmap>> RolisteamImageProvider::getData()
 }
 void RolisteamImageProvider::cleanData()
 {
+  if(!m_data.isNull())
+  {
     m_data->clear();
+  }
 }
 
 void RolisteamImageProvider::setData( QSharedPointer<QHash<QString, QPixmap>> data)
