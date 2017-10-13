@@ -104,7 +104,7 @@ void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec
         out << "        Repeater{\n";
         out << "            model:"<< m_id << "Model\n";
         out << "            Row {";
-        m_tableCanvasField->generateSubFields(out);
+        //m_tableCanvasField->generateSubFields(out);
         out << "            }";
         out << "        }";
         out << "    }";
