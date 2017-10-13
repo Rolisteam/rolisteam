@@ -26,7 +26,6 @@
 #include <QMainWindow>
 #include <QHash>
 #include <QPixmap>
-
 #include <QUndoStack>
 
 #include "canvas.h"
@@ -39,6 +38,8 @@
 #include "preferencesmanager.h"
 #include "imagemodel.h"
 #include "itemeditor.h"
+
+class CodeDialog;
 
 namespace Ui {
 class MainWindow;
@@ -100,6 +101,8 @@ protected:
     void managePDFImport();
     void applyValue(QModelIndex &index, bool selection);
     void applyValueOnCharacterSelection(QModelIndex &index, bool selection, bool allCharacter);
+    void defineItemCode(QModelIndex &index);
+
 protected slots:
     void menuRequested(const QPoint &pos);
     void menuRequestedForFieldModel(const QPoint &pos);
@@ -151,7 +154,8 @@ private:
     QAction* m_delItem;
     QAction* m_applyValueOnSelection;
     QAction* m_applyValueOnAllLines;
-    QString m_title;
+    QAction* m_defineCode;
+
 
     //action view
     QAction* m_fitInView;
@@ -167,7 +171,7 @@ private:
     QAction* m_replaceImage;
     QAction* m_removeImage;
 
-
+    QString m_title;
     PreferencesManager* m_preferences;
     /// Sheet properties
     SheetProperties* m_sheetProperties;
@@ -179,7 +183,7 @@ private:
     qreal m_fixedScaleSheet;
 
     QUndoStack m_undoStack;
-
+    CodeDialog* m_codeEdit;
 
 
 };

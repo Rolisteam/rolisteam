@@ -289,6 +289,11 @@ void FieldModel::getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list)
     m_rootSection->getFieldFromPage(pagePos,list);
 }
 
+Field* FieldModel::getFieldFromIndex(const QModelIndex &index)
+{
+    return static_cast<Field*>(index.internalPointer());
+}
+
 void FieldModel::updateItem(CSItem* item)
 {
     int ind = m_rootSection->indexOfChild(item);

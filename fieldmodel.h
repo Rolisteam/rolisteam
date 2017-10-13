@@ -158,7 +158,9 @@ public:
      * @param sec
      */
     void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec, bool isTable = false);
-
+    /**
+    *
+    */
     Q_INVOKABLE QString getValue(const QString& key);
     /**
      * @brief children
@@ -190,9 +192,24 @@ public:
      * @param index
      */
     void setValueForAll(QModelIndex& index);
-
+    /**
+     * @brief insertField
+     * @param field
+     * @param parent
+     * @param pos
+     */
     void insertField(CSItem *field, CharacterSheetItem *parent, int pos);
+    /**
+     * @brief getFieldFromPage
+     * @param pagePos
+     * @param list
+     */
     void getFieldFromPage(int pagePos, QList<CharacterSheetItem *> &list);
+    /**
+     * @brief getFieldFromIndex
+     * @param index
+     */
+    Field* getFieldFromIndex(const QModelIndex& index);
 signals:
     /**
      * @brief valuesChanged

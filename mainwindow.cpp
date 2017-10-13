@@ -44,6 +44,8 @@
 #include <QDesktopServices>
 #include <QJsonValue>
 #include <QJsonValueRef>
+#include <QClipboard>
+
 #ifdef WITH_PDF
 #include <poppler-qt5.h>
 #endif
@@ -313,11 +315,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->treeView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editColor(QModelIndex)));
 
-
+    //Item action
     m_delItem = new QAction(tr("Delete Item"),this);
     m_applyValueOnSelection = new QAction(tr("Apply on Selection"),this);
     m_applyValueOnAllLines = new QAction(tr("Apply on all lines"),this);
+    m_defineCode = new QAction(tr("Define Field Code"),this);
 
+    // Character table
     m_deleteCharacter= new QAction(tr("Delete character"),this);
     m_copyCharacter= new QAction(tr("Copy character"),this);
     m_defineAsTabName= new QAction(tr("Character's Name"),this);
@@ -895,6 +899,8 @@ void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
         menu.addAction(m_applyValueOnSelection);
         menu.addAction(m_applyValueOnAllLines);
         menu.addSeparator();
+        menu.addAction(m_defineCode);
+        menu.addSeparator();
         menu.addAction(m_delItem);
     }
 
@@ -915,9 +921,23 @@ void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
     {
         applyValue(index,true);
     }
+    else if(m_defineCode == act)
+    {
+        defineItemCode(index);
+    }
 }
-#include <QClipboard>
+void MainWindow::defineItemCode(QModelIndex& index)
+{
+    if(!index.isValid())
+        return;
 
+    Field* field = m_model->getFieldFromIndex(index);
+
+    m_codeEdit = new CodeEditor();
+    QVariant var = index.data(Qt::DisplayRole);
+    QVariant editvar = index.data(Qt::EditRole);
+
+}
 void MainWindow::menuRequestedForImageModel(const QPoint & pos)
 {
     Q_UNUSED(pos);
@@ -989,7 +1009,6 @@ void MainWindow::applyValue(QModelIndex& index, bool selection)
         m_model->setValueForAll(index);
     }
     m_undoStack.push(cmd);
-
 }
 
 void MainWindow::columnAdded()

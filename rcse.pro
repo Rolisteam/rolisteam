@@ -96,7 +96,8 @@ SOURCES += main.cpp\
     undo/setbackgroundimage.cpp \
     undo/addcharactercommand.cpp \
     undo/deletecharactercommand.cpp \
-    undo/setpropertyonallcharacters.cpp
+    undo/setpropertyonallcharacters.cpp \
+    widgets/codeedit.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -126,7 +127,8 @@ HEADERS  += mainwindow.h \
     undo/setbackgroundimage.h \
     undo/addcharactercommand.h \
     undo/deletecharactercommand.h \
-    undo/setpropertyonallcharacters.h
+    undo/setpropertyonallcharacters.h \
+    widgets/codeedit.h
 
 
 
@@ -135,7 +137,8 @@ FORMS    += mainwindow.ui \
     pdfmanager.ui \
     preferencesdialog.ui \
     sheetproperties.ui \
-    columndefinitiondialog.ui
+    columndefinitiondialog.ui \
+    widgets/codeedit.ui
 
 DISTFILES += \
     charactersheet/qml/*.qml \
