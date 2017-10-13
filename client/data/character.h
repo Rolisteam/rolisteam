@@ -26,7 +26,19 @@
 #include "charactersheet/charactersheet.h"
 
 #include <QList>
-
+#include <QMovie>
+class CharacterShape
+{
+public:
+	CharacterShape();
+	
+	bool hasMovie();
+	
+private:
+	QString m_name;
+	QImage m_image;
+	QMovie m_movie;
+};
 /**
  * @brief Represents PCs and NPCs.
  *
@@ -125,6 +137,9 @@ public:
     virtual QHash<QString,QString> getVariableDictionnary();
 
     int indexOf(CharacterState *state);
+	void insertAction(const QString& name, const QImage& img, const QKeySequence& seq);
+	void removeAction(const QString& name);
+	void clearActions();
 signals:
     void avatarChanged();
 
@@ -135,6 +150,7 @@ private:
 private:
     bool m_isNpc;
     int m_number;
+	QList<CharacterShape*>* m_actionList;
     CharacterState* m_currentState;
     CharacterSheet* m_sheet;
     static QList<CharacterState*>* m_stateList;
