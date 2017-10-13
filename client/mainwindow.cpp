@@ -59,6 +59,7 @@
 #include "data/mediacontainer.h"
 #include "network/receiveevent.h"
 #include "widgets/tipofdayviewer.h"
+#include "shortcuteditordialog.h"
 
 //Undo
 #include "undoCmd/addmediacontainer.h"
@@ -73,13 +74,16 @@
 #include "vmap/vmapframe.h"
 #include "vmap/vmap.h"
 #include "vmap/vmapwizzarddialog.h"
+
 //character sheet
 #include "charactersheet/charactersheetwindow.h"
+
 //session
 #include "session/sessionmanager.h"
 #ifndef NULL_PLAYER
 #include "audio/audioPlayer.h"
 #endif
+
 
 MainWindow::MainWindow()
     : QMainWindow(),
@@ -433,6 +437,8 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_openNoteAction, SIGNAL(triggered(bool)), this, SLOT(openNote()));
     connect(m_ui->m_openShareNote, SIGNAL(triggered(bool)), this, SLOT(openContent()));
 
+    connect(m_ui->m_shortCutEditorAct, SIGNAL(triggered(bool)),this,SLOT(showShortCutEditor()));
+
     m_ui->m_openPictureAction->setData(static_cast<int>(CleverURI::PICTURE));
     m_ui->m_openOnlinePictureAction->setData(static_cast<int>(CleverURI::ONLINEPICTURE));
     m_ui->m_openMapAction->setData(static_cast<int>(CleverURI::MAP));
@@ -468,7 +474,7 @@ void MainWindow::linkActionToMenu()
     });
 
 
-    m_ui->m_editMenu->insertAction(nullptr,redo);
+    m_ui->m_editMenu->insertAction(m_ui->m_shortCutEditorAct,redo);
     m_ui->m_editMenu->insertAction(redo,undo);
 
 
@@ -2506,4 +2512,10 @@ void MainWindow::dropEvent(QDropEvent* event)
         }
         event->acceptProposedAction();
     }
+}
+
+void MainWindow::showShortCutEditor()
+{
+    ShortCutEditorDialog dialog;
+    dialog.exec();
 }

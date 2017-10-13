@@ -171,6 +171,9 @@ HEADERS += \
     network/rserver.h \
     services/tipchecker.h \
     widgets/tipofdayviewer.h \
+    data/shortcutmodel.h \
+    data/shortcutvisitor.h \
+    shortcuteditordialog.h
 
 
    #     persondialog.cpp \
@@ -261,6 +264,9 @@ SOURCES += \
     network/rserver.cpp \
     services/tipchecker.cpp \
     widgets/tipofdayviewer.cpp \
+    data/shortcutmodel.cpp \
+    data/shortcutvisitor.cpp \
+    shortcuteditordialog.cpp
 
 
 FORMS += \
@@ -276,7 +282,8 @@ FORMS += \
     network/selectconnectionprofiledialog.ui \
     widgets/persondialog.ui \
     network/channellistpanel.ui \
-    widgets/tipofdayviewer.ui
+    widgets/tipofdayviewer.ui \
+    shortcuteditordialog.ui
 
 
 # Installs

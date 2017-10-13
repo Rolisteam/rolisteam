@@ -134,6 +134,8 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="separator"/>
+    <addaction name="m_shortCutEditorAct"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="m_editMenu"/>
@@ -583,6 +585,11 @@
    </property>
    <property name="text">
     <string>Support Rolisteam</string>
+   </property>
+  </action>
+  <action name="m_shortCutEditorAct">
+   <property name="text">
+    <string>Shortcut Editor</string>
    </property>
   </action>
  </widget>

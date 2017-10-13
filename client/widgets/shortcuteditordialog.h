@@ -2,7 +2,7 @@
 #define SHORTCUTEDITORDIALOG_H
 
 #include <QDialog>
-
+class ShortCutModel;
 namespace Ui {
 class ShortCutEditorDialog;
 }
@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::ShortCutEditorDialog *ui;
+	ShortCutModel* m_model;
 };
 
 #endif // SHORTCUTEDITORDIALOG_H

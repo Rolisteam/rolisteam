@@ -512,6 +512,8 @@ private slots :
     void newCharacterSheetWindow();
     void newSharedNoteDocument();
 
+    void showShortCutEditor();
+
 private:
     /**
      * @brief createNotificationZone

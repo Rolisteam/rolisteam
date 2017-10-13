@@ -1,12 +1,18 @@
+#ifndef SHORTCUTVISITOR_H
+#define SHORTCUTVISITOR_H
+#include <QObject>
+#include <QAbstractItemModel>
+class ShortCutModel;
+
 class ShortcutVisitor : public QObject
 {
   Q_OBJECT
 
 public:
   ShortcutVisitor(QObject* parent = nullptr);
-  ~ShortcutInspector();
+  ~ShortcutVisitor();
 
-  QAbstractModel* getModel() const;
+  QAbstractItemModel* getModel() const;
   bool registerWidget(QWidget* widget, const QString& categoryName, bool recursion = false);
   bool unregisterWidget(QWidget* widget);
 
@@ -17,6 +23,8 @@ private:
   void visit(QWidget* widget, int categoryIndex, bool recursion);
 
 private:
-  QAbstractModel* m_model;
+  ShortCutModel* m_model;
   QMap<QWidget*, QString> m_categoriesNames;
 };
+
+#endif // SHORTCUTVISITOR_H
