@@ -311,6 +311,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->m_newAct,SIGNAL(triggered(bool)),this,SLOT(clearData()));
 
+    connect(ui->m_openLiberapay,&QAction::triggered,[=]{
+        if (!QDesktopServices::openUrl(QUrl("https://liberapay.com/Rolisteam/donate")))
+        {
+            QMessageBox * msgBox = new QMessageBox(
+                        QMessageBox::Information,
+                        tr("Support"),
+                        tr("The %1 donation page can be found online at :<br> <a href=\"https://liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>").arg(m_preferences->value("Application_Name","rolisteam").toString()),
+                        QMessageBox::Ok
+                        );
+            msgBox->exec();
+        }
+    });
+
+
     canvas->setCurrentTool(Canvas::MOVE);
 
     connect(ui->treeView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editColor(QModelIndex)));

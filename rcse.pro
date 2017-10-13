@@ -142,7 +142,8 @@ FORMS    += mainwindow.ui \
 
 DISTFILES += \
     charactersheet/qml/*.qml \
-    resources/icons/photo.png
+    resources/icons/photo.png \
+    resources/icons/liberapay.png
 
 RESOURCES += \
     qmlfile.qrc

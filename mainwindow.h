@@ -119,6 +119,7 @@ private slots:
 //private:
     // QString getFilePath(QString);
     void sameGeometry();
+
 private:
     int pageCount();
 private:

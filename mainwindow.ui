@@ -557,6 +557,7 @@
     </property>
     <addaction name="m_onlineHelpAct"/>
     <addaction name="m_aboutRcseAct"/>
+    <addaction name="m_openLiberapay"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdition"/>
@@ -829,6 +830,15 @@
   <action name="m_redo">
    <property name="text">
     <string>&amp;Redo</string>
+   </property>
+  </action>
+  <action name="m_openLiberapay">
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/liberapay.png</normaloff>:/resources/icons/liberapay.png</iconset>
+   </property>
+   <property name="text">
+    <string>Support Rolisteam</string>
    </property>
   </action>
  </widget>
