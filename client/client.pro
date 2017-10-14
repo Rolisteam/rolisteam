@@ -173,7 +173,7 @@ HEADERS += \
     widgets/tipofdayviewer.h \
     data/shortcutmodel.h \
     data/shortcutvisitor.h \
-    shortcuteditordialog.h
+    widgets/shortcuteditordialog.h
 
 
    #     persondialog.cpp \
@@ -266,7 +266,7 @@ SOURCES += \
     widgets/tipofdayviewer.cpp \
     data/shortcutmodel.cpp \
     data/shortcutvisitor.cpp \
-    shortcuteditordialog.cpp
+    widgets/shortcuteditordialog.cpp
 
 
 FORMS += \
@@ -283,7 +283,7 @@ FORMS += \
     widgets/persondialog.ui \
     network/channellistpanel.ui \
     widgets/tipofdayviewer.ui \
-    shortcuteditordialog.ui
+    widgets/shortcuteditordialog.ui
 
 
 # Installs
