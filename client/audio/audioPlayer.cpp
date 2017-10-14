@@ -87,7 +87,7 @@ void AudioPlayer::setupUi()
     setMinimumWidth(255);
     m_mainWidget = new QWidget(this);
 
-    m_mainLayout = new QVBoxLayout(this);
+    m_mainLayout = new QVBoxLayout();
     m_mainLayout->setSpacing(0);
     m_mainLayout->setMargin(0);
 
