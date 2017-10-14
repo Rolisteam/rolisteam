@@ -119,7 +119,7 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
     case VToolsBar::RULE:
     {
         RuleItem* itemRule = new RuleItem(m_pos);
-        itemRule->setUnit((VMap::SCALE_UNIT)m_vmap->getOption(VisualItem::Unit).toInt());
+        itemRule->setUnit(static_cast<VMap::SCALE_UNIT>(m_vmap->getOption(VisualItem::Unit).toInt()));
         itemRule->setPixelToUnit(m_vmap->getOption(VisualItem::GridSize).toInt()/m_vmap->getOption(VisualItem::Scale).toReal());
         m_currentItem = itemRule;
     }
@@ -136,7 +136,9 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
     QObject::connect(m_currentItem,SIGNAL(itemRemoved(QString)),m_vmap,SLOT(removeItemFromScene(QString)));
     QObject::connect(m_currentItem,SIGNAL(duplicateItem(VisualItem*)),m_vmap,SLOT(duplicateItem(VisualItem*)));
     QObject::connect(m_currentItem,SIGNAL(itemLayerChanged(VisualItem*)),m_vmap,SLOT(checkItemLayer(VisualItem*)));
-    QObject::connect(m_currentItem,SIGNAL(itemPositionHasChanged()),m_vmap,SLOT(selectionPositionHasChanged()));
+    //QObject::connect(m_currentItem,SIGNAL(itemPositionHasChanged()),m_vmap,SLOT(selectionPositionHasChanged()));
+    //QObject::connect(m_currentItem,SIGNAL(itemPositionAboutToChange()),m_vmap,SLOT(selectionPositionAboutToChange()));
+
     QObject::connect(m_currentItem,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),m_vmap,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
     QObject::connect(m_currentItem,SIGNAL(changeStackPosition(VisualItem*,VisualItem::StackOrder)),m_vmap,SLOT(changeStackOrder(VisualItem*,VisualItem::StackOrder)));
 
