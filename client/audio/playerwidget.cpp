@@ -135,7 +135,7 @@ void PlayerWidget::setupUi()
     m_repeatAct->setShortcut(QKeySequence("Ctrl+R"));
     m_repeatAct->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_changeDirectoryAct = new QAction(style()->standardIcon(QStyle::SP_DirIcon),tr("Open Directory"),this);
-    m_volumeMutedAct = new QAction(this);
+    m_volumeMutedAct = new QAction(tr("Mute Volume"),this);
     m_volumeMutedAct->setCheckable(true);
     m_volumeMutedAct->setShortcut(QKeySequence("Ctrl+M"));
     m_volumeMutedAct->setShortcutContext(Qt::WidgetWithChildrenShortcut);
