@@ -29,6 +29,8 @@
 #include "vmap/items/visualitem.h"
 #include "vmap/items/sightitem.h"
 #include "vmap/items/griditem.h"
+
+
 /**
  * @page VMap
  * @tableofcontents
@@ -419,8 +421,9 @@ public slots:
     /**
      * @brief selectionPositionHasChanged
      */
-    void selectionPositionHasChanged();
+    //void selectionPositionHasChanged();
     void showTransparentItems();
+    //void selectionPositionAboutToChange();
 signals:
     /**
      * @brief npcAdded
@@ -628,6 +631,8 @@ private:
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
     QUndoStack* m_undoStack = nullptr;
     AddVmapItemCommand* m_currentAddCmd;
+    QList<VisualItem*> m_movingItems;
+    QList<QPointF> m_oldPos;
 
     friend QDataStream& operator<<(QDataStream& os,const VMap&);
     friend QDataStream& operator>>(QDataStream& is,VMap&);

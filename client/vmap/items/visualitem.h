@@ -20,7 +20,7 @@
 #ifndef VISUALITEM_H
 #define VISUALITEM_H
 
-#include <QGraphicsItem>
+#include <QGraphicsObject>
 
 #include <QVector>
 #include <QAction>
@@ -69,8 +69,7 @@ public:
         CollisionStatus,
         GridAbove,
         HideOtherLayers,
-        VisibilityMode
-                    };
+        VisibilityMode};
 	/**
 	 * @brief VisualItem default constructor
 	 */
@@ -260,6 +259,7 @@ public:
     virtual void readLayerMsg(NetworkMessageReader* msg);
     virtual void readMovePointMsg(NetworkMessageReader* msg);
     virtual bool isLocal() const;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 signals:
     /**
@@ -295,6 +295,12 @@ signals:
      * @brief itemPositionHasChanged
      */
     void itemPositionHasChanged();
+    /**
+     * @brief itemPositionAboutToChange
+     */
+    void itemPositionAboutToChange();
+
+
 
 public slots:
     /**
@@ -402,6 +408,7 @@ protected:
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
     QVector<ChildPointItem*>* m_child;
     bool m_holdSize;
+
 
 private slots:
 	/**

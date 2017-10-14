@@ -140,12 +140,13 @@ void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     update();
     QGraphicsItem::mouseReleaseEvent(event);
-    //sendPositionMsg();
-    emit itemPositionHasChanged();
+}
+QVariant VisualItem::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+    return QGraphicsItem::itemChange(change, value);
 }
 void VisualItem::keyPressEvent(QKeyEvent* event)
 {
-
     if((event->key ()==Qt::Key_Delete)&&(m_editable)&&(isSelected())&&hasPermissionToMove())
     {
         emit itemRemoved(m_id);
