@@ -59,7 +59,8 @@
 #include "data/mediacontainer.h"
 #include "network/receiveevent.h"
 #include "widgets/tipofdayviewer.h"
-#include "shortcuteditordialog.h"
+#include "widgets/shortcuteditordialog.h"
+#include "data/shortcutvisitor.h"
 
 //Undo
 #include "undoCmd/addmediacontainer.h"
@@ -83,7 +84,6 @@
 #ifndef NULL_PLAYER
 #include "audio/audioPlayer.h"
 #endif
-
 
 MainWindow::MainWindow()
     : QMainWindow(),
@@ -2516,6 +2516,10 @@ void MainWindow::dropEvent(QDropEvent* event)
 
 void MainWindow::showShortCutEditor()
 {
+    ShortcutVisitor visitor;
+    visitor.registerWidget(this,"mainwindow",true);
+
     ShortCutEditorDialog dialog;
+    dialog.setModel(visitor.getModel());
     dialog.exec();
 }
