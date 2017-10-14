@@ -136,7 +136,7 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
         //    return person->getUuid();
         case Qt::DecorationRole:
         {
-            if(person->isLeaf())
+            if((person->isLeaf())&&(!person->getAvatar().isNull()))
             {
                 return person->getAvatar().scaled(64,64,Qt::KeepAspectRatio,Qt::SmoothTransformation);
             }
