@@ -143,28 +143,28 @@ void VmapToolBar::setCurrentMap(VMap* map)
 }
 void VmapToolBar::triggerGrid()
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->setOption(VisualItem::ShowGrid,m_showGridAct->isChecked());
     }
 }
 void VmapToolBar::setUnit()
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->setOption(VisualItem::Unit,m_gridUnit->currentIndex());
     }
 }
 void VmapToolBar::setBackgroundColor(QColor color)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->setBackGroundColor(color);
     }
 }
 void VmapToolBar::patternChanged(int index)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->setOption(VisualItem::GridPattern,index);
     }
@@ -172,28 +172,28 @@ void VmapToolBar::patternChanged(int index)
 
 void VmapToolBar::visibilityHasChanged(int index)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
-        m_vmap->setVisibilityMode((VMap::VisibilityMode)index);
+        m_vmap->setVisibilityMode(static_cast<VMap::VisibilityMode>(index));
     }
 }
 void VmapToolBar::permissionHasChanged(int index)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
-        m_vmap->setPermissionMode((Map::PermissionMode)index);
+        m_vmap->setPermissionMode(static_cast<Map::PermissionMode>(index));
     }
 }
 void VmapToolBar::layerHasChanged(int index)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
-        m_vmap->setCurrentLayer((VisualItem::Layer)index);
+        m_vmap->setCurrentLayer(static_cast<VisualItem::Layer>(index));
     }
 }
 void VmapToolBar::updateUI()
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         setEnabled(true);
         m_bgSelector->setColor(m_vmap->getBackGroundColor());
@@ -216,14 +216,14 @@ void VmapToolBar::updateUI()
 }
 void VmapToolBar::setPatternSize(int p)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->setOption(VisualItem::GridSize,p);
     }
 }
 void  VmapToolBar::setScaleSize(double p)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->setOption(VisualItem::Scale,p);
     }
@@ -231,7 +231,7 @@ void  VmapToolBar::setScaleSize(double p)
 
 void VmapToolBar::managedAction()
 {
-    if(NULL==m_vmap)
+    if(nullptr==m_vmap)
     {
         return;
     }
