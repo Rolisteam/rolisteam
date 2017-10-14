@@ -20,7 +20,7 @@ private slots:
   void objectDeleted(QObject* obj);
 
 private:
-  void visit(QWidget* widget, int categoryIndex, bool recursion);
+  void visit(QWidget* widget, const QString& category, bool recursion);
 
 private:
   ShortCutModel* m_model;

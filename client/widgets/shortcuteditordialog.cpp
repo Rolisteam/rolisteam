@@ -8,11 +8,21 @@ ShortCutEditorDialog::ShortCutEditorDialog(QWidget *parent) :
     ui(new Ui::ShortCutEditorDialog)
 {
     ui->setupUi(this);
-	m_model = new ShortCutModel();
-	ui->m_shortcutView->setModel(m_model);
+
 }
 
 ShortCutEditorDialog::~ShortCutEditorDialog()
 {
     delete ui;
+}
+
+QAbstractItemModel* ShortCutEditorDialog::model() const
+{
+    return m_model;
+}
+
+void ShortCutEditorDialog::setModel(QAbstractItemModel* model)
+{
+    m_model = model;
+    ui->m_shortCutView->setModel(m_model);
 }

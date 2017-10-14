@@ -14,13 +14,17 @@ ShortcutVisitor::ShortcutVisitor(QObject* parent)
 ShortcutVisitor::~ShortcutVisitor()
 {}
 
-bool ShortcutVisitor::registerWidget(
-        QWidget* widget, const QString& categoryName, bool recursion)
+QAbstractItemModel *ShortcutVisitor::getModel() const
+{
+    return m_model;
+}
+
+bool ShortcutVisitor::registerWidget(QWidget* widget, const QString& categoryName, bool recursion)
 {
     if(m_categoriesNames.find(widget) != m_categoriesNames.end())
         return false; // widget already registered
 
-    int categoryIndex =-1;// m_model->addCategory(categoryName);
+    const QString& categoryIndex = m_categoriesNames[widget];
 
     if(categoryIndex == -1)
         return false; // Error during creation (category name already used)
@@ -37,7 +41,7 @@ bool ShortcutVisitor::unregisterWidget(QWidget* widget)
     if(m_categoriesNames.find(widget) == m_categoriesNames.end())
         return false;
 
-    int categoryIndex =-1;// m_model->indexOfCategory(m_categoriesNames[widget]);
+    const QString& categoryIndex = m_categoriesNames[widget];
 
     if(categoryIndex == -1)
         return false;
@@ -55,18 +59,22 @@ void ShortcutVisitor::objectDeleted(QObject* obj)
         unregisterWidget(widget);
     }
 }
-
-void ShortcutVisitor::visit(QWidget* widget, int categoryIndex, bool recursion)
+#include <QDebug>
+void ShortcutVisitor::visit(QWidget* widget,const QString& category, bool recursion)
 {
     QList<QAction*> actions = widget->actions();
+    if(!actions.isEmpty())
+    {
+        m_model->addCategory(category);
+    }
     for(QAction* action : actions)
     {
-        if(!action->shortcut().isEmpty())
+        //if(!action->shortcut().isEmpty())
         {
             QString actionName = action->text();
+            qDebug() << actionName << action->shortcut().toString(QKeySequence::NativeText);
             actionName.remove('&');
-            /*m_model->addAction(categoryIndex, actionName,
-                               action->shortcut().toString(QKeySequence::NativeText));*/
+            m_model->insertShortCut(category, actionName,action->shortcut().toString(QKeySequence::NativeText));
         }
     }
 
@@ -78,7 +86,7 @@ void ShortcutVisitor::visit(QWidget* widget, int categoryIndex, bool recursion)
             QWidget* wd = qobject_cast<QWidget*>(obj);
             if(nullptr != wd)
             {
-                visit(wd, categoryIndex, recursion);
+                visit(wd, wd->objectName(), recursion);
             }
         }
     }

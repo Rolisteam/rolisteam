@@ -22,30 +22,61 @@
 
 #include <QAbstractItemModel>
 #include <QKeySequence>
-
-
-
-class ShortCut
+class ShortCutItem
 {
 public:
+    virtual ~ShortCutItem();
+    virtual bool isLeaf() const = 0;
+};
+
+
+class ShortCut : public ShortCutItem
+{
+public:
+    ShortCut(const QString& name, const QString& seq);
+    QKeySequence getSequence() const;
+    void setSequence(const QKeySequence &seq);
+
+    bool isLeaf() const override {return true;}
+
+    QString getName() const;
+    void setName(const QString &name);
 
 private:
+    QString m_name;
     QKeySequence m_seq;
-	QString m_name;
 };
 
-class Category
+class Category : public ShortCutItem
 {
 public:
+    Category(const QString& name);
+
+    QString name() const;
+    void setName(const QString &name);
+
+    ShortCut* getShortCut(int i) const;
+
+    bool isLeaf() const override {return false;}
+
+    int size() const;
+
+    bool hasShortCut(ShortCut* cut) const;
+    int indexOf(ShortCut* cut)const;
+
+    void insertShortcut(const QString& name, const QString& key);
 
 private:
- QList<ShortCut> m_shortcuts;
+    QList<ShortCut*> m_shortcuts;
+    QString m_name;
 };
-
+/**
+ * @brief The ShortCutModel class
+ */
 class ShortCutModel : public QAbstractItemModel
 {
 public:
-	ShortCutModel();
+    ShortCutModel();
 
     virtual QModelIndex index(int,int,const QModelIndex& parent) const;
     virtual QModelIndex parent(const QModelIndex& parent) const;
@@ -55,11 +86,11 @@ public:
     QVariant data(const QModelIndex& index, int role) const;
 
 
-    void insertShortCut(QString category, QString key);
-    void addCategory(QString category);
+    void insertShortCut(const QString& category, const QString& name,const QString& key);
+    void addCategory(const QString& category);
 
 private:
-	QList<Category> m_root;
+    QList<Category*> m_root;
 };
 
 #endif
