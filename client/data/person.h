@@ -121,7 +121,7 @@ public:
      * @brief isLeaf
      * @return
      */
-    bool isLeaf();
+    virtual bool isLeaf() const;
     /**
      * @brief setState
      * @param c

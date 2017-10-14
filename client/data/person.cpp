@@ -125,7 +125,7 @@ Qt::CheckState Person::checkedState()
     return m_checkState;
 }
 
-bool Person::isLeaf()
+bool Person::isLeaf() const
 {
     return true;
 }
