@@ -48,6 +48,7 @@ public:
      * @brief The StackOrder enum
      */
     enum StackOrder{FRONT,RAISE,LOWER,BACK};
+    enum TransformType {NoTransform,KeepRatio,Sticky};
     /**
      * @brief The Properties enum
      */
@@ -153,7 +154,7 @@ public:
      * @param rect
      * @param keepRatio
      */
-    virtual void resizeContents(const QRectF& rect, bool keepRatio = true);
+    virtual void resizeContents(const QRectF& rect, TransformType transformType = KeepRatio);
 
     /**
      * @brief setGeometryPoint
@@ -410,6 +411,7 @@ protected:
     bool m_holdSize;
 
 
+    QPointF computeClosePoint(QPointF pos);
 private slots:
 	/**
 	 * @brief manageAction

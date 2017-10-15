@@ -18,7 +18,7 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "visualitem.h"
-
+#include <QGuiApplication>
 #include <QGraphicsSceneHoverEvent>
 #include <math.h>
 #include <QCursor>
@@ -143,7 +143,27 @@ void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 }
 QVariant VisualItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
+    if (change == ItemPositionChange )
+    {
+        QPointF newPos = computeClosePoint(value.toPointF());
+        if(newPos != value.toPointF())
+        {
+            return newPos;
+        }
+    }
     return QGraphicsItem::itemChange(change, value);
+}
+
+QPointF VisualItem::computeClosePoint(QPointF pos)
+{
+    if(Qt::AltModifier & QGuiApplication::keyboardModifiers())
+    {
+        int size = getOption(GridSize).toInt();
+        pos.setX(std::round(pos.x()/size)*size);
+        pos.setY(std::round(pos.y()/size)*size);
+    }
+    //Compute y possible.
+    return pos;
 }
 void VisualItem::keyPressEvent(QKeyEvent* event)
 {
@@ -163,18 +183,21 @@ void VisualItem::setId(QString id)
     m_id = id;
 }
 
-void VisualItem::resizeContents(const QRectF& rect, bool keepRatio)
+void VisualItem::resizeContents(const QRectF& rect, TransformType transformType)
 {
     if (!rect.isValid())
+    {
+        qDebug() << "rect is invalid";
         return;
+    }
     prepareGeometryChange();
     int width = m_rect.width();
     int height = m_rect.height();
     //sendRectGeometryMsg();
     m_resizing = true;
-    //.normalized()
+    //qDebug() << m_rect << rect << "------------------------";
     m_rect = rect;
-    if (keepRatio)
+    if (transformType == VisualItem::KeepRatio)
     {
         int hfw = height * rect.width() / width;
         if (hfw > 1)
@@ -685,7 +708,6 @@ QVariant VisualItem::getOption(VisualItem::Properties pop) const
 
 void VisualItem::setSize(QSizeF size)
 {
-    //qDebug() << "Size:"<< size;
     m_rect.setSize(size);
     updateChildPosition();
     update();
