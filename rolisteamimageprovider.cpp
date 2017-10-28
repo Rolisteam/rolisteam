@@ -22,27 +22,27 @@ QPixmap RolisteamImageProvider::requestPixmap(const QString &id, QSize *size, co
     QString idTranslate = id;
     idTranslate = idTranslate.replace("%7B","{").replace("%7D","}");
 
-    QPixmap* pixmap= m_data->value(idTranslate);
-    if(nullptr == pixmap)
+    QPixmap pixmap= m_data->value(idTranslate);
+ /*   if(nullptr == pixmap)
     {
         return QPixmap();
-    }
+    }*/
 
-    if (NULL!=size)
+    if (nullptr!=size)
     {
-        return pixmap->copy(0,0,size->width(),size->height());
+        return pixmap.copy(0,0,size->width(),size->height());
     }
     else
     {
-        return *pixmap;
+        return pixmap;
     }
 }
 
-void RolisteamImageProvider::insertPix(QString key, QPixmap* img)
+void RolisteamImageProvider::insertPix(QString key, QPixmap img)
 {
     m_data->insert(key,img);
 }
-QSharedPointer<QHash<QString,QPixmap*>> RolisteamImageProvider::getData()
+QSharedPointer<QHash<QString,QPixmap>> RolisteamImageProvider::getData()
 {
     return m_data;
 }
@@ -51,7 +51,7 @@ void RolisteamImageProvider::cleanData()
     m_data->clear();
 }
 
-void RolisteamImageProvider::setData( QSharedPointer<QHash<QString, QPixmap*>> data)
+void RolisteamImageProvider::setData( QSharedPointer<QHash<QString, QPixmap>> data)
 {
     m_data = data;
 }
