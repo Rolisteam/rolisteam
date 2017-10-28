@@ -59,8 +59,6 @@ public:
     QFont font() const;
     void setFont(const QFont &font);
 
-    //QRectF boundingRect() const;
-
     CharacterSheetItem* getChildAt(QString) const;
 
     virtual QVariant getValueFrom(CharacterSheetItem::ColumnId,int role) const;

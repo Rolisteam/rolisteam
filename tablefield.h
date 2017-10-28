@@ -31,7 +31,7 @@
 #include "qqmlhelpers.h"
 #include "propertyhelpers.h"
 #include <QObject>
-
+#include <QStandardItemModel>
 #ifdef RCSE
 #include "tablecanvasfield.h"
 #else
@@ -41,33 +41,54 @@ class TableCanvasField : public QGraphicsObject
 };
 #endif
 
-
+/**
+ * @brief The LineFieldItem class
+ */
 class LineFieldItem : public QObject
 {
     Q_OBJECT
-    READONLY_PROPERTY (int, columnCount)
-    READONLY_PROPERTY (int, linePos)
-    QML_OBJMODEL_PROPERTY (Field, fieldModel)
-
 public:
-    explicit LineFieldItem (QObject * parent = NULL);
+    explicit LineFieldItem (QObject * parent = nullptr);
+    ~LineFieldItem();
+    void insertField(Field* field);
 
-public slots://should be moved inside TableField perhaps.
-    Q_INVOKABLE QObject* createLineItem (void);
+    Q_INVOKABLE Field* getField(int k) const;
+
+    QList<Field *> getFields() const;
+    void setFields(const QList<Field *> &fields);
+
+private:
+    QList<Field*> m_fields;
 };
+
+/**
+ * @brief The LineModel class
+ */
+class LineModel : public QAbstractListModel
+{
+    Q_OBJECT
+public:
+    enum customRole {LineRole = Qt::UserRole+1};
+    LineModel();
+    int rowCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    bool setData(QModelIndex& index, QVariant data,int role);
+    QHash<int, QByteArray>  roleNames() const;
+    void generateAllField(int count);
+private:
+    QList<LineFieldItem*> m_lines;
+};
+
+
 /**
  * @brief The Field class managed text field in qml and datamodel.
  */
 class TableField : public Field
 {
     Q_OBJECT
-    Q_PROPERTY (QQmlObjectListModelBase* m_lines READ getLines CONSTANT)
-    READONLY_PROPERTY (int, columnCount)
-    WRITABLE_PROPERTY (int, lineCount)
+    Q_PROPERTY (QAbstractItemModel* model READ getModel CONSTANT)
 public:
-
     enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,BottomRight,BottomMiddle,BottomLeft};
-
     explicit TableField(bool addCount = true,QGraphicsItem* parent = 0);
     explicit TableField(QPointF topleft,bool addCount = true,QGraphicsItem* parent = 0);
 
@@ -75,16 +96,26 @@ public:
     void generateQML(QTextStream &out, CharacterSheetItem::QMLSection sec,int i, bool isTable=false);
     virtual ~TableField();
 
-    QQmlObjectListModel<LineFieldItem> * getLines (void) const { return m_lines; }
+    LineModel* getModel () const;
 
+    virtual bool mayHaveChildren()const;
 
+    int getRowCount() const;
+    void setRowCount(int rowCount);
+
+    void makeLines();
+public slots:
+    void addLine();
+    void removeLine(int);
 protected:
     void init();
 
 
+
 protected:
-    TableCanvasField* m_tableCanvasField;
-    QQmlObjectListModel<LineFieldItem>* m_lines;
+    TableCanvasField* m_tableCanvasField = nullptr;
+    LineModel* m_model = nullptr;
+    int m_rowCount;
 };
 
 #endif // TABLEFIELD_H

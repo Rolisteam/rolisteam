@@ -331,7 +331,7 @@ void Section::getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list)
     for(int i = getChildrenCount()-1;i>=0;--i)
     {
       auto child = getChildAt(i);
-      if(!child->mayHaveChildren())
+      if(child->getItemType()!=SectionItem)
       {
           if(pagePos == child->getPage())
           {

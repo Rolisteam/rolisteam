@@ -2,6 +2,7 @@
 #define ROLISTEAMIMAGEPROVIDER_H
 
 #include <QQuickImageProvider>
+#include <QSharedPointer>
 #ifndef RCSE
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"

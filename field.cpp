@@ -89,7 +89,6 @@ void Field::init()
 
 QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
 {
-
     switch(id)
     {
     case ID:
@@ -242,7 +241,7 @@ void Field::setNewEnd(QPointF nend)
 }
 QPointF Field::mapFromScene(QPointF pos)
 {
-    if(NULL!=m_canvasField)
+    if(nullptr!=m_canvasField)
     {
         return m_canvasField->mapFromScene(pos);
     }

@@ -2,11 +2,12 @@
 #include <QDebug>
 #include <QBuffer>
 
-//QHash<QString,QPixmap> RolisteamImageProvider::s_data;
+
 
 RolisteamImageProvider::RolisteamImageProvider()
     :  QQuickImageProvider(QQuickImageProvider::Pixmap)
 {
+    m_data.reset(new QHash<QString,QPixmap>());
 }
 
 RolisteamImageProvider::~RolisteamImageProvider()
