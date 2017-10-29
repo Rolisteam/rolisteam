@@ -58,7 +58,10 @@ void LineFieldItem::insertField(Field *field)
 
 Field* LineFieldItem::getField(int k) const
 {
-    return m_fields.at(k);
+    if(m_fields.size()>k)
+        return m_fields.at(k);
+    else
+        return nullptr;
 }
 
 QList<Field *> LineFieldItem::getFields() const
@@ -70,7 +73,40 @@ void LineFieldItem::setFields(const QList<Field *> &fields)
 {
     m_fields = fields;
 }
-
+int LineFieldItem::getFieldCount() const
+{
+    return m_fields.size();
+}
+Field* LineFieldItem::getFieldById(const QString& id)
+{
+   for(const auto field : m_fields)
+   {
+       if(field->getId() == id)
+       {
+           return field;
+       }
+   }
+   return nullptr;
+}
+void LineFieldItem::save(QJsonArray &json)
+{
+    for(const auto field : m_fields)
+    {
+        QJsonObject obj;
+        field->save(obj);
+        json.append(obj);
+    }
+}
+void LineFieldItem::load(QJsonArray &json, QList<QGraphicsScene *> scene)
+{
+    for( auto value : json)
+    {
+        Field* field = new Field();
+        QJsonObject obj = value.toObject();
+        field->load(obj,scene);
+        m_fields.append(field);
+    }
+}
 ////////////////////////////////////////
 //
 ////////////////////////////////////////
@@ -80,11 +116,13 @@ LineModel::LineModel()
 }
 int LineModel::rowCount(const QModelIndex& parent) const
 {
+    qDebug() << "line size"<<m_lines.size() << parent;
     return m_lines.size();
 }
 
 QVariant LineModel::data(const QModelIndex &index, int role) const
 {
+    qDebug() << "data line model"<<index << role;
     if(!index.isValid())
         return QVariant();
 
@@ -92,13 +130,12 @@ QVariant LineModel::data(const QModelIndex &index, int role) const
 
     if(role == LineRole)
     {
-
         return QVariant::fromValue<LineFieldItem*>(item);
     }
     else
     {
         int key = role - (LineRole+1);
-        return QVariant::fromValue<Field*>(item->getField(key));
+        return QVariant::fromValue<Field*>(item->getField(key/2));
     }
     return QVariant();
 }
@@ -118,24 +155,79 @@ QHash<int, QByteArray>  LineModel::roleNames() const
     }
     return roles;
 }
-void LineModel::generateAllField(int count)
+void LineModel::insertLine(LineFieldItem* line)
 {
-    LineFieldItem* Firstline = m_lines.first();
-    while(m_lines.size()<count)
+    beginInsertRows(QModelIndex(),m_lines.size(),m_lines.size());
+    m_lines.append(line);
+    endInsertRows();
+}
+void LineModel::clear()
+{
+    beginResetModel();
+    qDeleteAll(m_lines);
+    m_lines.clear();
+    endResetModel();
+}
+int LineModel::getChildrenCount() const
+{
+    if(!m_lines.isEmpty())
     {
-        //LineFieldItem* line = new LineFieldItem(&Firstline);
-       // m_lines.append(line);
+        return m_lines.size()*getColumnCount();
+    }
+    return 0;
+}
+Field*  LineModel::getFieldById(const QString& id)
+{
+    Field* item = nullptr;
+    for(const auto& line : m_lines)
+    {
+        item = line->getFieldById(id);
+    }
+    return item;
+
+}
+int LineModel::getColumnCount() const
+{
+    if(!m_lines.isEmpty())
+    {
+        auto line = m_lines.first();
+        return line->getFieldCount();
+    }
+    return 0;
+}
+Field* LineModel::getField(int line, int col)
+{
+    if(m_lines.size()>line)
+    {
+        return m_lines.at(line)->getField(col);
+    }
+    return nullptr;
+}
+void LineModel::save(QJsonArray &json)
+{
+    for(const auto& line : m_lines)
+    {
+        QJsonArray lineJson;
+        line->save(lineJson);
+        json.append(lineJson);
     }
 }
-
+void LineModel::load(QJsonArray &json, QList<QGraphicsScene *> scene)
+{
+    QJsonArray::Iterator it;
+    for(it = json.begin(); it != json.end(); ++it)
+    {
+        QJsonArray obj = (*it).toArray();
+        LineFieldItem* line = new LineFieldItem();
+        line->load(obj,scene);
+        m_lines.append(line);
+    }
+}
 ///////////////////////////////////
 /// \brief TableField::TableField
 /// \param addCount
 /// \param parent
 ///////////////////////////////////
-
-
-
 TableField::TableField(bool addCount,QGraphicsItem* parent)
     : Field(addCount,parent)
 {
@@ -177,16 +269,12 @@ void TableField::removeLine(int)
 }
 void TableField::init()
 {
-#ifdef RCSE
-    m_tableCanvasField = new TableCanvasField(this);
-    m_canvasField = m_tableCanvasField;
-#else
     m_canvasField = nullptr;
     m_tableCanvasField = nullptr;
-#endif
     m_id = QStringLiteral("id_%1").arg(m_count);
     m_currentType=Field::TABLE;
     m_clippedText = false;
+    m_model = new LineModel();
 
 
     m_border=NONE;
@@ -194,54 +282,196 @@ void TableField::init()
     m_bgColor = Qt::transparent;
     m_textColor = Qt::black;
     m_font = font();
-#ifdef RCSE
-    if(nullptr!=m_canvasField)
+}
+
+void TableField::setCanvasField(CanvasField *canvasField)
+{
+    m_tableCanvasField = dynamic_cast<TableCanvasField*>(canvasField);
+    Field::setCanvasField(canvasField);
+}
+
+bool TableField::hasChildren()
+{
+    if(m_model->rowCount(QModelIndex())>0)
     {
-        m_canvasField->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable|QGraphicsItem::ItemClipsToShape);
-
-        connect(m_canvasField,&CanvasField::xChanged,[=](){
-            emit updateNeeded(this);
-        });
-        connect(m_canvasField,&CanvasField::yChanged,[=](){
-            emit updateNeeded(this);
-        });
+        return true;
     }
-#endif
+    else
+    {
+        return false;
+    }
 }
 
-int TableField::getRowCount() const
+int TableField::getChildrenCount() const
 {
-    return m_rowCount;
+   return m_model->getChildrenCount();
 }
 
-void TableField::setRowCount(int rowCount)
+CharacterSheetItem* TableField::getChildAt(QString id)
 {
-    m_rowCount = rowCount;
+    return m_model->getFieldById(id);
 }
-void TableField::makeLines()
+
+CharacterSheetItem* TableField::getChildAt(int index) const
 {
-   m_model->generateAllField(m_rowCount);
+    int itemPerLine = m_model->getColumnCount();
+    int line = index/itemPerLine;
+    int col = index - (line*itemPerLine);
+    return m_model->getField(line,col);
 }
+
+void TableField::save(QJsonObject &json, bool exp)
+{
+    if(exp)
+    {
+        json["type"]="tablefield";
+        json["id"]=m_id;
+        json["label"]=m_label;
+        json["value"]=m_value;
+        return;
+    }
+    json["type"]="field";
+    json["id"]=m_id;
+    json["typefield"]=m_currentType;
+    json["label"]=m_label;
+    json["value"]=m_value;
+    json["border"]=m_border;
+    json["page"]=m_page;
+    json["formula"]=m_formula;
+
+    json["clippedText"]=m_clippedText;
+
+    QJsonObject bgcolor;
+    bgcolor["r"]=QJsonValue(m_bgColor.red());
+    bgcolor["g"]=m_bgColor.green();
+    bgcolor["b"]=m_bgColor.blue();
+    bgcolor["a"]=m_bgColor.alpha();
+    json["bgcolor"]=bgcolor;
+
+    QJsonObject textcolor;
+    textcolor["r"]=m_textColor.red();
+    textcolor["g"]=m_textColor.green();
+    textcolor["b"]=m_textColor.blue();
+    textcolor["a"]=m_textColor.alpha();
+    json["textcolor"]=textcolor;
+
+    json["font"]=m_font.toString();
+    json["textalign"]=m_textAlign;
+    json["x"]=getValueFrom(CharacterSheetItem::X,Qt::DisplayRole).toDouble();
+    json["y"]=getValueFrom(CharacterSheetItem::Y,Qt::DisplayRole).toDouble();
+    json["width"]=getValueFrom(CharacterSheetItem::WIDTH,Qt::DisplayRole).toDouble();
+    json["height"]=getValueFrom(CharacterSheetItem::HEIGHT,Qt::DisplayRole).toDouble();
+    QJsonArray valuesArray;
+    valuesArray=QJsonArray::fromStringList(m_availableValue);
+    json["values"]=valuesArray;
+
+    QJsonArray childArray;
+    m_model->save(childArray);
+    json["children"]=childArray;
+
+}
+
+void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
+{
+    Q_UNUSED(scene);
+    m_id = json["id"].toString();
+    m_border = (BorderLine)json["border"].toInt();
+    m_value= json["value"].toString();
+    m_label = json["label"].toString();
+
+    m_currentType=(Field::TypeField)json["typefield"].toInt();
+    m_clippedText=json["clippedText"].toBool();
+
+    m_formula = json["formula"].toString();
+
+    QJsonObject bgcolor = json["bgcolor"].toObject();
+    int r,g,b,a;
+    r = bgcolor["r"].toInt();
+    g = bgcolor["g"].toInt();
+    b = bgcolor["b"].toInt();
+    a = bgcolor["a"].toInt();
+
+    m_bgColor=QColor(r,g,b,a);
+
+    QJsonObject textcolor = json["textcolor"].toObject();
+
+    r = textcolor["r"].toInt();
+    g = textcolor["g"].toInt();
+    b = textcolor["b"].toInt();
+    a = textcolor["a"].toInt();
+
+    m_textColor=QColor(r,g,b,a);
+
+    m_font.fromString(json["font"].toString());
+
+    m_textAlign = static_cast<Field::TextAlign>(json["textalign"].toInt());
+    qreal x,y,w,h;
+    x=json["x"].toDouble();
+    y=json["y"].toDouble();
+    w=json["width"].toDouble();
+    h=json["height"].toDouble();
+    m_page=json["page"].toInt();
+
+    QJsonArray valuesArray=json["values"].toArray();
+    for(auto value : valuesArray.toVariantList())
+    {
+        m_availableValue << value.toString();
+    }
+    m_rect.setRect(x,y,w,h);
+    #ifdef RCSE
+    m_canvasField->setPos(x,y);
+    m_canvasField->setWidth(w);
+    m_canvasField->setHeight(h);
+    #endif
+
+
+    QJsonArray childArray=json["children"].toArray();
+    m_model->load(childArray,scene);
+
+}
+
+
 bool TableField::mayHaveChildren() const
 {
     return true;
 }
 void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int i, bool isTable)
 {
+    Q_UNUSED(i)
+    Q_UNUSED(isTable)
+
     if(nullptr==m_tableCanvasField)
     {
         return;
     }
+
+    m_model->clear();
+
+    m_tableCanvasField->setLineModel(m_model,this);
+    emit updateNeeded(this);
     if(sec==CharacterSheetItem::FieldSec)
     {
-        out << "    Column{//"<< m_label <<"\n";
-        out << "        Repeater{\n";
-        out << "            model:"<< m_id << "model\n";
-        out << "            Row {";
-        //m_tableCanvasField->generateSubFields(out);
-        out << "            }";
-        out << "        }";
-        out << "    }";
+        out << "    ListView{//"<< m_label <<"\n";
+        out << "        id: _" << m_id<<"list\n";
+        out << "        x:" << m_tableCanvasField->pos().x() << "*root.realscale"<<"\n";
+        out << "        y:" <<  m_tableCanvasField->pos().y()<< "*root.realscale"<<"\n";
+        out << "        width:" << m_tableCanvasField->boundingRect().width() <<"*root.realscale"<<"\n";
+        out << "        height:"<< m_tableCanvasField->boundingRect().height()<<"*root.realscale"<<"\n";
+        if(m_page>=0)
+        {
+            out << "    visible: root.page == "<< m_page << "? true : false\n";
+        }
+        out << "        readonly property int maxRow:"<<m_tableCanvasField->lineCount() << "\n";
+        out << "        interactive: count>maxRow?true:false;\n";
+        out << "        clip: true;\n";
+        out << "        model:"<< m_id << ".model\n";
+        out << "        delegate: RowLayout {\n";
+        out << "            height:parent.height/parent.count\n";
+        out << "            width: parent.width\n";
+        m_tableCanvasField->generateSubFields(out);
+        out << "        }\n";
+        out << "     }\n";
+
 
     }
 }

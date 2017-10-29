@@ -504,6 +504,19 @@ CanvasField* Field::getCanvasField() const
 void Field::setCanvasField(CanvasField *canvasField)
 {
     m_canvasField = canvasField;
+    #ifdef RCSE
+    if(NULL!=m_canvasField)
+    {
+        m_canvasField->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable|QGraphicsItem::ItemClipsToShape);
+
+        connect(m_canvasField,&CanvasField::xChanged,[=](){
+            emit updateNeeded(this);
+        });
+        connect(m_canvasField,&CanvasField::yChanged,[=](){
+            emit updateNeeded(this);
+        });
+    }
+    #endif
 }
 
 void Field::setTextAlign(const Field::TextAlign &textAlign)
@@ -549,14 +562,7 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int 
         }
         else
         {
-            if((m_currentType==Field::BUTTON)||(m_currentType==Field::FUNCBUTTON))
-            {
-                out << "    text: parent."<<m_id<<"[index].label\n";
-            }
-            else if(m_currentType!=Field::FUNCBUTTON)
-            {
-                out << "    text: parent."<<m_id << "[index].value\n";
-            }
+            out << "    text:"<<m_label<<".value\n";
         }
         out << "    textColor:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
         if(m_clippedText)
@@ -565,14 +571,17 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int 
         }
         if(!isTable)
         {
-            out << "    x:" << m_canvasField->pos().x() << "*parent.realscale"<<"\n";
-            out << "    y:" <<  m_canvasField->pos().y()<< "*parent.realscale"<<"\n";
+            out << "    x:" << m_canvasField->pos().x() << "*root.realscale"<<"\n";
+            out << "    y:" <<  m_canvasField->pos().y()<< "*root.realscale"<<"\n";
         }
 
-        out << "    width:" << m_canvasField->boundingRect().width() <<"*parent.realscale"<<"\n";
-        out << "    height:"<< m_canvasField->boundingRect().height()<<"*parent.realscale"<<"\n";
+        out << "    width:" << m_canvasField->boundingRect().width() <<"*root.realscale"<<"\n";
+        out << "    height:"<< m_canvasField->boundingRect().height()<<"*root.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
-        out << "    visible: root.page == "<< m_page << "? true : false\n";
+        if(m_page>=0)
+        {
+            out << "    visible: root.page == "<< m_page << "? true : false\n";
+        }
         out << "    readOnly: "<<m_id<<".readOnly\n";
         if(hasFontField())
         {
@@ -602,7 +611,15 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int 
         if((m_availableValue.isEmpty())&&(m_currentType!=Field::BUTTON)&&(m_currentType!=Field::FUNCBUTTON))
         {
             out << "    onTextChanged: {\n";
-            out << "    "<<m_id<<".value = text\n    }\n";
+            if(!isTable)
+            {
+                out << "    "<<m_id<<".value = text\n    }\n";
+            }
+            else
+            {
+                    out << "    "<<m_label<<".value = text\n    }\n";
+            }
+
         }
         out << "}\n";
     }

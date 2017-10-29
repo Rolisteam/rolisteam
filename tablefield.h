@@ -57,6 +57,10 @@ public:
     QList<Field *> getFields() const;
     void setFields(const QList<Field *> &fields);
 
+    int getFieldCount() const;
+    Field* getFieldById(const QString& id);
+    void save(QJsonArray& json);
+    void load(QJsonArray &json, QList<QGraphicsScene *> scene );
 private:
     QList<Field*> m_fields;
 };
@@ -74,7 +78,14 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     bool setData(QModelIndex& index, QVariant data,int role);
     QHash<int, QByteArray>  roleNames() const;
-    void generateAllField(int count);
+    void insertLine(LineFieldItem* line);
+    void clear();
+    int getChildrenCount() const;
+    int getColumnCount() const;
+    Field* getField(int line, int col);
+    Field* getFieldById(const QString& id);
+    void save(QJsonArray& json);
+    void load(QJsonArray &json, QList<QGraphicsScene *> scene);
 private:
     QList<LineFieldItem*> m_lines;
 };
@@ -100,10 +111,17 @@ public:
 
     virtual bool mayHaveChildren()const;
 
-    int getRowCount() const;
-    void setRowCount(int rowCount);
+    virtual void setCanvasField(CanvasField* canvasField);
 
-    void makeLines();
+    ///Overriden from charactersheetitem
+    virtual bool hasChildren();
+    virtual int getChildrenCount() const;
+    virtual CharacterSheetItem* getChildAt(QString);
+    virtual CharacterSheetItem* getChildAt(int) const;
+    virtual void save(QJsonObject& json,bool exp=false);
+    virtual void load(QJsonObject& json,QList<QGraphicsScene*> scene);
+
+
 public slots:
     void addLine();
     void removeLine(int);
@@ -115,7 +133,6 @@ protected:
 protected:
     TableCanvasField* m_tableCanvasField = nullptr;
     LineModel* m_model = nullptr;
-    int m_rowCount;
 };
 
 #endif // TABLEFIELD_H

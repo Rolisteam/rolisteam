@@ -99,7 +99,7 @@ public:
     virtual void setNewEnd(QPointF nend);
 
     CanvasField* getCanvasField() const;
-    void setCanvasField(CanvasField* canvasField);
+    virtual void setCanvasField(CanvasField* canvasField);
 
     void initGraphicsItem();
 
