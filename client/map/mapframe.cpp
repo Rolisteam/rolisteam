@@ -60,7 +60,7 @@ MapFrame::~MapFrame()
 }
 void MapFrame::initMap()
 {
-	if(NULL!=m_map)
+	if(nullptr!=m_map)
 	{
         //setTitle(m_title);
         updateTitle();
@@ -125,7 +125,7 @@ void MapFrame::moveMap(QPoint position)
 }
 QString MapFrame::getMediaId()
 {
-	if(NULL!=m_map)
+	if(nullptr!=m_map)
     {
 		return m_map->getMapId();
     }
@@ -177,7 +177,7 @@ bool MapFrame::openUriAndLoadMap(QString uri)
 bool MapFrame::readFileFromUri()
 {
 
-    if((NULL!=m_uri)&&(!m_uri->getData().isEmpty())&&(m_uri->getUri().isEmpty()))
+    if((nullptr!=m_uri)&&(!m_uri->getData().isEmpty())&&(m_uri->getUri().isEmpty()))
     {//load from uri data
         QByteArray array = m_uri->getData();
         QDataStream in(&array,QIODevice::ReadOnly);
@@ -186,7 +186,7 @@ bool MapFrame::readFileFromUri()
         readMapAndNpc(in,m_isHidden);
         m_title = m_uri->name();
     }
-    else if((NULL!=m_uri)&&(!m_uri->getUri().isEmpty())&&(m_uri->getData().isEmpty()))
+    else if((nullptr!=m_uri)&&(!m_uri->getUri().isEmpty())&&(m_uri->getData().isEmpty()))
     {
         if(!openUriAndLoadMap(m_uri->getUri()))
         {
@@ -194,7 +194,7 @@ bool MapFrame::readFileFromUri()
         }
         m_title = m_uri->name();
     }
-    else //if(NULL==m_uri)
+    else //if(nullptr==m_uri)
     {
         Map::PermissionMode Permission = m_mapWizzard->getPermissionMode();
         QString filepath = m_mapWizzard->getFilepath();
@@ -493,7 +493,7 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
 }
 void MapFrame::saveMedia()
 {
-    if(NULL!=m_map)
+    if(nullptr!=m_map)
     {
         if(nullptr!=m_uri)
         {
@@ -518,13 +518,13 @@ void MapFrame::saveMedia()
 
 void MapFrame::putDataIntoCleverUri()
 {
-    if(NULL!=m_map)
+    if(nullptr!=m_map)
     {
         QByteArray data;
         QDataStream out(&data,QIODevice::WriteOnly);
         //out << m_isHidden;
         m_map->saveMap(out);
-        if(NULL!=m_uri)
+        if(nullptr!=m_uri)
         {
             m_uri->setData(data);
         }

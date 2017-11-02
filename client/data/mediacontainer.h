@@ -43,7 +43,7 @@ public:
     /**
      * @brief MediaContainer
      */
-    MediaContainer(QWidget* parent = NULL);
+    MediaContainer(QWidget* parent = nullptr);
     /**
      * @brief ~MediaContainer
      */

@@ -67,7 +67,7 @@ void BlinkingDecorationDelegate::timeOutCount()
 // Code for ChatList class
 ////////////////////////////////
 ChatList::ChatList(MainWindow * mainWindow)
-    : QAbstractItemModel(NULL), m_chatWindowList(), m_chatMenu(),m_mainWindow(mainWindow)
+    : QAbstractItemModel(nullptr), m_chatWindowList(), m_chatMenu(),m_mainWindow(mainWindow)
 {
     m_chatMenu.setTitle(tr("ChatWindows"));
 
@@ -130,7 +130,7 @@ void ChatList::rollDiceCmd(QString cmd, QString owner)
 bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     QMdiSubWindow* chatw = getChatSubWindowByIndex(index);
-    if (chatw == NULL)
+    if (chatw == nullptr)
         return false;
 
     switch (role)
@@ -160,10 +160,10 @@ QVariant ChatList::data(const QModelIndex &index, int role) const
     QMdiSubWindow * chatw2 = getChatSubWindowByIndex(index);
     ChatWindow * chatw = getChatWindowByIndex(index);
 
-    if (chatw == NULL)
+    if (chatw == nullptr)
         return QVariant();
 
-    if (chatw->chat() == NULL)
+    if (chatw->chat() == nullptr)
         return QVariant();
 
     switch (role)
@@ -232,8 +232,8 @@ QMenu * ChatList::chatMenu()
 AbstractChat * ChatList::chat(const QModelIndex & index)
 {
     ChatWindow * chatw = getChatWindowByIndex(index);
-    if (chatw == NULL)
-        return NULL;
+    if (chatw == nullptr)
+        return nullptr;
     return chatw->chat();
 }
 
@@ -252,7 +252,7 @@ bool ChatList::delLocalChat(const QModelIndex & index)
 {
     ChatWindow * chatw =  getChatWindowByIndex(index);
     PrivateChat * chat = qobject_cast<PrivateChat *>(chatw->chat());
-    if (chat == NULL || !chat->belongsToLocalPlayer())
+    if (chat == nullptr || !chat->belongsToLocalPlayer())
         return false;
     
     chat->sendDel();
@@ -288,7 +288,7 @@ void ChatList::addChatWindow(ChatWindow* chatw)
         subWindowChat->resize(264,451);
     }
 
-    if(NULL!=subWindowChat)
+    if(nullptr!=subWindowChat)
     {
         chatw->setSubWindow(subWindowChat);
         subWindowChat->setWindowTitle(tr("%1 (Chat)").arg(chatw->getTitleFromChat()));
@@ -351,28 +351,28 @@ ChatWindow* ChatList::getChatWindowByUuid(const QString & uuid) const
         if (uuid == chatw->chat()->identifier())
             return chatw;
     }
-    return NULL;
+    return nullptr;
 }
 
 ChatWindow * ChatList::getChatWindowByIndex(const QModelIndex & index) const
 {
     if (!index.isValid() || index.parent().isValid() || index.column() != 0)
-        return NULL;
+        return nullptr;
 
     int row = index.row();
     if (row < 0 || row >= m_chatWindowList.size())
-        return NULL;
+        return nullptr;
 
     return m_chatWindowList.at(row);
 }
 QMdiSubWindow * ChatList::getChatSubWindowByIndex(const QModelIndex & index) const
 {
     if (!index.isValid() || index.parent().isValid() || index.column() != 0)
-        return NULL;
+        return nullptr;
 
     int row = index.row();
     if (row < 0 || row >= m_chatSubWindowList.size())
-        return NULL;
+        return nullptr;
 
     return m_chatSubWindowList.at(row);
 }
@@ -381,7 +381,7 @@ void ChatList::addPlayerChat(Player * player)
     if(player != PlayersList::instance()->getLocalPlayer())
     {
         ChatWindow * chatw = getChatWindowByUuid(player->getUuid());
-        if (chatw == NULL)
+        if (chatw == nullptr)
         {
             addChatWindow(new ChatWindow(new PlayerChat(player), m_mainWindow));
         }
@@ -394,7 +394,7 @@ void ChatList::delPlayer(Player * player)
     foreach (QMdiSubWindow* tmp, m_chatSubWindowList)
     {
         ChatWindow* chatw = static_cast<ChatWindow*>(tmp->widget());
-        if((NULL!=chatw) && (chatw->chat()->belongsTo(player)))
+        if((nullptr!=chatw) && (chatw->chat()->belongsTo(player)))
         {
             int pos = m_chatWindowList.indexOf(chatw);
             if (pos >= 0)
@@ -458,7 +458,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     PlayersList* playersList = PlayersList::instance();
 
     Person* sender = playersList->getPerson(from);
-    if (sender == NULL)
+    if (sender == nullptr)
     {
         qWarning("Message from unknown person %s", qPrintable(from));
         return;
@@ -467,11 +467,11 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     if (to == playersList->getLocalPlayer()->getUuid())
     {//to one person
        ChatWindow* win = getChatWindowByUuid(from);
-       if((NULL==win) && (NULL!=sender->getParent()))
+       if((nullptr==win) && (nullptr!=sender->getParent()))
        {
             win = getChatWindowByUuid(sender->getParent()->getUuid());
        }
-       if(NULL!=win)
+       if(nullptr!=win)
        {
             win->showMessage(sender->getName(), sender->getColor(), msg, data.action());
        }
@@ -480,7 +480,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     else//Global
     {
         Player * addressee = playersList->getPlayer(to);
-        if (addressee != NULL)
+        if (addressee != nullptr)
         {
             if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
                 data.sendTo(addressee->link());
@@ -489,7 +489,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     }
 
     ChatWindow * chatw = getChatWindowByUuid(to);
-    if (NULL != chatw)
+    if (nullptr != chatw)
     {
         chatw->showMessage(sender->getName(), sender->getColor(), msg, data.action());
     }
@@ -530,14 +530,14 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
     }
 
     ChatWindow * chatw = getChatWindowByUuid(newChat->identifier());
-    if (chatw != NULL)
+    if (chatw != nullptr)
     {
         if (newChat->includeLocalPlayer())
         {
             if (PreferencesManager::getInstance()->value("isClient",true).toBool())
             {
                 PrivateChat * oldChat = qobject_cast<PrivateChat *>(chatw->chat());
-                if (oldChat == NULL)
+                if (oldChat == nullptr)
                 {
                     qWarning("%s is not a private chat", qPrintable(newChat->identifier()));
                     return;
@@ -585,7 +585,7 @@ void ChatList::deletePrivateChat(ReceiveEvent * event)
     }
 
     ChatWindow * chatw = getChatWindowByUuid(uuid);
-    if (chatw != NULL)
+    if (chatw != nullptr)
         delChatWindow(chatw);
 }
 void ChatList::updateDiceAliases(QList<DiceAlias*>* map)

@@ -206,7 +206,7 @@ void TcpClient::addPlayerFeature(QString uuid, QString name, quint8 version)
 void TcpClient::receivingData()
 {
     qInfo() << "########################################tcpClient########################################\n Receiving Data";
-    if(NULL==m_socket)
+    if(nullptr==m_socket)
     {
         return;
     }

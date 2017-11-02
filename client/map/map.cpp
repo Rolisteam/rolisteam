@@ -46,7 +46,7 @@ Map::Map(QString localPlayerId,QString identCarte, QImage *image, bool masquer, 
     : QWidget(parent), m_mapId(identCarte),m_hasPermissionMode(true)
 {
     m_localPlayerId = localPlayerId;
-    if(NULL!=PlayersList::instance()->getLocalPlayer())
+    if(nullptr!=PlayersList::instance()->getLocalPlayer())
     {
         m_localIsPlayer = !PlayersList::instance()->getLocalPlayer()->isGM();
     }
@@ -821,7 +821,7 @@ void Map::processNpcActionReleased(QPoint positionSouris)
     {
         if (ColorSelector::getSelectedColor().type == ColorType)
         {
-            if (m_selectedNpc!=NULL)
+            if (m_selectedNpc!=nullptr)
             {
                 showHideNPC(m_selectedNpc);
                 m_lastSelectedNpc = m_selectedNpc;
@@ -1029,7 +1029,7 @@ void Map::showHideNPC(CharacterToken *pnjSeul)
 void Map::changePjSize(int nouvelleTaille, bool updatePj)
 {
 	m_npcSize = nouvelleTaille;
-    if((updatePj)&&(m_lastSelectedNpc!=NULL))
+    if((updatePj)&&(m_lastSelectedNpc!=nullptr))
     {
 		m_lastSelectedNpc->setPcSize(nouvelleTaille);
     }
@@ -1044,12 +1044,12 @@ int Map::getPcSize()
 
 CharacterToken* Map::findCharacter(QString idPerso)
 {
-    CharacterToken *perso=NULL;
+    CharacterToken *perso=nullptr;
     bool ok = false;
     for (int i=0; i<children().size() && !ok; i++)
     {
         perso = dynamic_cast<CharacterToken *>(children().at(i));
-        if(NULL!=perso)
+        if(nullptr!=perso)
         {
             if (perso->getCharacterId() == idPerso)
             {
@@ -1060,7 +1060,7 @@ CharacterToken* Map::findCharacter(QString idPerso)
     }
 
     if (!ok)
-        return NULL;
+        return nullptr;
 
     return perso;
 }
@@ -1087,7 +1087,7 @@ void Map::showPc(QString idPerso, bool show)
 {
     CharacterToken *pj = findCharacter(idPerso);
     // @Todo @warning Pc ID not found
-    if (NULL==pj)
+    if (nullptr==pj)
     {
         qWarning() << (tr("PC ID %1 not found (showPc - map.cpp)").arg(idPerso));
         return;
@@ -1107,7 +1107,7 @@ void Map::showPc(QString idPerso, bool show)
 bool Map::isVisiblePc(QString idPerso)
 {
     CharacterToken *pj = findCharacter(idPerso);
-    if (NULL==pj)
+    if (nullptr==pj)
     {
 		qWarning() << tr("PC ID: %1 not found (isVisiblePc - map.cpp)") << qPrintable(idPerso);
         return false;
@@ -1125,7 +1125,7 @@ void Map::addCharacter(Character * person)
 void Map::eraseCharacter(QString idCharacter)
 {
     CharacterToken *perso = findCharacter(idCharacter);
-     if (NULL==perso)
+     if (nullptr==perso)
     {
 		qWarning() << tr("No character with this id: %1").arg(idCharacter)<<"(eraseCharacter - map.cpp)";
         return;
@@ -1135,11 +1135,11 @@ void Map::eraseCharacter(QString idCharacter)
 
 void Map::delCharacter(Character * person)
 {
-	if(NULL==person)
+	if(nullptr==person)
 		return;
 
     CharacterToken * pj = findCharacter(person->getUuid());
-    if (pj == NULL)
+    if (pj == nullptr)
     {
 		qWarning() << ( tr("Person %s %s unknown in Carte::changePerson"),
                 qPrintable(person->getUuid()), qPrintable(person->getName()) );
@@ -1151,10 +1151,10 @@ void Map::delCharacter(Character * person)
 
 void Map::changeCharacter(Character * person)
 {
-	if(NULL==person)
+	if(nullptr==person)
 		return;
     CharacterToken * pj = findCharacter(person->getUuid());
-    if (pj == NULL)
+    if (pj == nullptr)
     {
         qWarning() << tr("Person %s %s unknown in Carte::changePerson").arg(person->getUuid()).arg(person->getName()) ;
         return;
@@ -1264,7 +1264,7 @@ void Map::sendOffAllGlobalCharacters(NetworkLink * link, bool versNetworkLinkUni
 
 void Map::sendTrace()
 {
-    NetworkMessageWriter* msg = NULL;
+    NetworkMessageWriter* msg = nullptr;
 
     if(ToolsBar::Pen == m_currentTool )
     {
@@ -1348,7 +1348,7 @@ void Map::sendTrace()
         msg->rgb(ColorSelector::getSelectedColor().color);
     }
 
-    if(NULL!=msg)
+    if(nullptr!=msg)
     {
         msg->sendAll();
     }
@@ -1698,7 +1698,7 @@ void Map::moveAllCharacters()
         CharacterToken *perso = findCharacter(m_motionList[i].idCharacter);
 
 
-        if (NULL != perso)
+        if (nullptr != perso)
         {
             position = m_motionList[i].motion.takeFirst();
             perso->moveCharaterCenter(position);
@@ -1789,14 +1789,14 @@ QString Map::getMapId()
 
 QString Map::getLastSelectedCharacterId()
 {
-    if(m_lastSelectedNpc==NULL)
+    if(m_lastSelectedNpc==nullptr)
         return QString();
     return m_lastSelectedNpc->getCharacterId();
 }
 bool Map::selectCharacter(QString& id)
 {
     CharacterToken* tmp=findCharacter(id);
-    if(tmp!=NULL)
+    if(tmp!=nullptr)
         m_lastSelectedNpc=tmp;
     else
         return false;

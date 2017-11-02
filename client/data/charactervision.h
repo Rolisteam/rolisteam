@@ -35,7 +35,7 @@ public:
     /**
      * @brief Vision
      */
-    CharacterVision(QObject* parent = NULL);
+    CharacterVision(QObject* parent = nullptr);
     /**
      * @brief ~CharacterVision
      */

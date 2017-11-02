@@ -44,7 +44,7 @@ public:
      * @param color
      * @param parent
      */
-    ColorButton(const QColor & color = QColor("tan"), QWidget * parent = NULL);
+    ColorButton(const QColor & color = QColor("tan"), QWidget * parent = nullptr);
     virtual ~ColorButton();
     /**
      * @brief color

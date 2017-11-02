@@ -37,14 +37,14 @@ QStringList VisualItem::type2NameList =  QStringList() << tr("Path")<< tr("Line"
 QStringList VisualItem::s_layerName = QStringList() << tr("Ground")<< tr("Object")<< tr("Character");
 
 VisualItem::VisualItem()
-    : QGraphicsObject(),m_editable(false),m_child(NULL)
+    : QGraphicsObject(),m_editable(false),m_child(nullptr)
 {
     m_id = QUuid::createUuid().toString();
     init();
 }
 
 VisualItem::VisualItem(QColor& penColor,bool b,QGraphicsItem * parent )
-    : QGraphicsObject(parent),m_color(penColor),m_editable(b),m_child(NULL)
+    : QGraphicsObject(parent),m_color(penColor),m_editable(b),m_child(nullptr)
 {
     m_id = QUuid::createUuid().toString();
     init();
@@ -57,7 +57,7 @@ VisualItem::~VisualItem()
 void VisualItem::init()
 {
     createActions();
-    m_propertiesHash = NULL;
+    m_propertiesHash = nullptr;
     m_resizing = false;
     m_rotating = false;
     m_layer = VisualItem::NONE;
@@ -109,7 +109,7 @@ void VisualItem::setEditableItem(bool b)
         disconnect(this,SIGNAL(rotationChanged()),this,SLOT(rotationChange()));
         disconnect(this,SIGNAL(opacityChanged()),this,SLOT(sendOpacityMsg()));
     }
-    if(NULL!=m_child)
+    if(nullptr!=m_child)
     {
         foreach (ChildPointItem* itemChild, *m_child)
         {
@@ -331,7 +331,7 @@ void VisualItem::addPromoteItemMenu(QMenu* menu)
 void VisualItem::promoteItem()
 {
     QAction* act = qobject_cast<QAction*>(sender());
-    if(NULL!=act)
+    if(nullptr!=act)
     {
         VisualItem::ItemType type = (VisualItem::ItemType)act->data().toInt();
         emit promoteItemTo(this,type);
@@ -386,13 +386,13 @@ bool VisualItem::hasFocusOrChild()
         }
         else
         {
-            if(m_child==NULL)
+            if(m_child==nullptr)
             {
                 return false;
             }
             for(int i = 0; i< m_child->size();++i)
             {
-                if((m_child->at(i)!=NULL)&&(m_child->at(i)->isSelected()))
+                if((m_child->at(i)!=nullptr)&&(m_child->at(i)->isSelected()))
                 {
                     return true;
                 }
@@ -611,14 +611,14 @@ void VisualItem::setModifiers(Qt::KeyboardModifiers modifiers)
 VisualItem* VisualItem::promoteTo(VisualItem::ItemType type)
 {
     /// @brief must be implemented in child classes.
-    return NULL;
+    return nullptr;
 }
 
 void VisualItem::setChildrenVisible(bool b)
 {
     if((!b)||(canBeMoved()))
     {
-        if(NULL!=m_child)
+        if(nullptr!=m_child)
         {
             for(ChildPointItem* item: *m_child)
             {

@@ -362,7 +362,7 @@ void ToolsBar::incrementNpcNumber()
 void ToolsBar::updateUi(bool isGM)
 {
 
-    if(NULL!=m_color)
+    if(nullptr!=m_color)
     {
         m_color->updateUi(isGM);
     }
@@ -403,7 +403,7 @@ void ToolsBar::updateNpc(int diametre, QString nom)
 
 void ToolsBar::changeMap(Map* map)
 {
-    if (map != NULL)
+    if (map != nullptr)
     {
         m_npcDiameter->setDiameter(map->getPcSize());
     }

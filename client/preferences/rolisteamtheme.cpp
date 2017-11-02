@@ -76,7 +76,7 @@ QStyle* RolisteamTheme::getStyle() const
 }
 void RolisteamTheme::setStyle(QStyle* style)
 {
-    if(NULL!=style)
+    if(nullptr!=style)
     {
        m_styleName=style->objectName();
     }

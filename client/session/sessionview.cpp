@@ -10,6 +10,13 @@
 SessionView::SessionView(QWidget *parent) :
     QTreeView(parent)
 {
+    setAcceptDrops(true);
+    setDragEnabled(true);
+    setDropIndicatorShown(true);
+    setDefaultDropAction(Qt::MoveAction);
+
+
+    setDragDropMode(QAbstractItemView::InternalMove);
     //setContextMenuPolicy (Qt::CustomContextMenu);
     m_addChapterAction = new QAction(tr("Add Chapter…"),this);
     connect(m_addChapterAction,SIGNAL(triggered()),this,SLOT(onAddChapter()));
@@ -51,7 +58,7 @@ void SessionView::startDrag(Qt::DropActions supportedActions)
     QModelIndexList indexes = selectionModel()->selectedRows();
 
     QMimeData* mimeData = model()->mimeData(indexes);
-    if(NULL==mimeData)
+    if(nullptr==mimeData)
         return;
 
     drag->setMimeData(mimeData);

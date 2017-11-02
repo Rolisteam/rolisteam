@@ -51,7 +51,7 @@ public :
      * @param uneCarte - the embedded map
      * @param parent - parent QWidget
      */
-	MapFrame(Map* map =NULL, QWidget* parent = NULL);
+	MapFrame(Map* map =nullptr, QWidget* parent = nullptr);
     /**
      *
      */

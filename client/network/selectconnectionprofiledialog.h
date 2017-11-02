@@ -64,6 +64,8 @@ public:
 
    ConnectionProfile* getProfile(const QModelIndex&);
 
+   void cloneProfile(const QModelIndex& index);
+
    int indexOf(ConnectionProfile *tmp);
    ConnectionProfile *getProfile(int index);
 public slots:
@@ -73,6 +75,8 @@ public slots:
    void appendProfile();
 
 
+protected:
+   void appendProfile(ConnectionProfile *profile);
 private:
     QList<ConnectionProfile*> m_connectionProfileList;
     QString m_version;

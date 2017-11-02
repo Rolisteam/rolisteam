@@ -3,7 +3,7 @@
 #define DEFAULT_PORT 6660
 
 ConnectionProfile::ConnectionProfile()
-    : m_character(NULL),m_server(false),m_port(DEFAULT_PORT),m_player(NULL),m_isGM(false)
+    : m_character(nullptr),m_server(false),m_port(DEFAULT_PORT),m_player(nullptr),m_isGM(false)
 {
 
 }
@@ -84,4 +84,16 @@ QString ConnectionProfile::getPassword() const
 void ConnectionProfile::setPassword(const QString &password)
 {
     m_password = password;
+}
+void ConnectionProfile::cloneProfile(const ConnectionProfile* src)
+{
+    setPassword(src->getPassword());
+    setGm(src->isGM());
+    setPort(src->getPort());
+    setTitle(src->getTitle());
+    setName(src->getName());
+    setAddress(src->getAddress());
+    setServerMode(src->isServer());
+    m_player = new Player();
+    m_player->copyPlayer(src->getPlayer());
 }

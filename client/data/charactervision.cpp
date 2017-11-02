@@ -25,7 +25,7 @@
 #include <QDebug>
 
 CharacterVision::CharacterVision(QObject* parent)
-    : QObject(parent),m_shape(ANGLE),m_cornerPoint(NULL),m_visible(false),m_radius(50)
+    : QObject(parent),m_shape(ANGLE),m_cornerPoint(nullptr),m_visible(false),m_radius(50)
 {
 
 }
@@ -73,7 +73,7 @@ CharacterVision::SHAPE CharacterVision::getShape()
 
 void CharacterVision::showCorner(bool b)
 {
-    if(NULL!=m_cornerPoint)
+    if(nullptr!=m_cornerPoint)
     {
         m_cornerPoint->setVisible(b);
     }

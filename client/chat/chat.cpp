@@ -91,8 +91,8 @@ bool PublicChat::everyPlayerHasFeature(const QString & feature, quint8 version) 
 PlayerChat::PlayerChat(Player * player)
     : m_player(player)
 {
-    if (m_player == NULL)
-        qFatal("PlayerChat with NULL player");
+    if (m_player == nullptr)
+        qFatal("PlayerChat with nullptr player");
     connect(PlayersList::instance(), SIGNAL(playerChanged(Player *)),
             this, SLOT(verifyName(Player *)));
 }
@@ -179,7 +179,7 @@ PrivateChat::PrivateChat(ReceiveEvent & event)
     QString chatUuid  = data.string8();
 
     m_owner = g_playersList->getPlayer(data.string8());
-    if (m_owner == NULL)
+    if (m_owner == nullptr)
     {
         qWarning("New chat from an unknown player.");
         return;
@@ -245,7 +245,7 @@ void PrivateChat::p_sendThem(NetworkMessage & message, NetworkLink * but, bool f
     Player * localPlayer = PlayersList::instance()->getLocalPlayer();
     foreach (Player * player, m_set)
     {
-        if (player != localPlayer && player != NULL && player->link() != but)
+        if (player != localPlayer && player != nullptr && player->link() != but)
             message.sendTo(player->link());
     }
 }
@@ -309,7 +309,7 @@ void PrivateChat::sendUpdate() const
     quint8 i = 0;
     foreach (Player * player, m_set)
     {
-        if (player != NULL)
+        if (player != nullptr)
         {
             message.string8(player->getUuid());
             i++;

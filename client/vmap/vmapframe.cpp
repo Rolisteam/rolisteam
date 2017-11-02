@@ -32,14 +32,14 @@
 #include "network/networkmessagereader.h"
 
 VMapFrame::VMapFrame()
-    : MediaContainer(),m_graphicView(NULL),m_currentEditingMode(0)
+    : MediaContainer(),m_graphicView(nullptr),m_currentEditingMode(0)
 {
     setObjectName("VMapFrame");
     m_vmap = new VMap();
 }
 
 VMapFrame::VMapFrame(CleverURI* uri,VMap *map)
-    : MediaContainer(),m_vmap(map),m_graphicView(NULL),m_currentEditingMode(0)
+    : MediaContainer(),m_vmap(map),m_graphicView(nullptr),m_currentEditingMode(0)
 {
     setObjectName("VMapFrame");
     m_uri =uri;
@@ -107,11 +107,11 @@ void VMapFrame::currentCursorChanged(QCursor* cursor)
 void VMapFrame::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 {
     m_currentTool = selectedtool;
-    if(m_vmap != NULL)
+    if(m_vmap != nullptr)
     {
         m_vmap->setCurrentTool(selectedtool);
     }
-    if(NULL!=m_graphicView)
+    if(nullptr!=m_graphicView)
     {
         m_graphicView->currentToolChanged(selectedtool);
 
@@ -133,26 +133,26 @@ void VMapFrame::mousePressEvent(QMouseEvent* event)
 }
 void VMapFrame::currentPenSizeChanged(int ps)
 {
-    if(m_vmap != NULL)
+    if(m_vmap != nullptr)
     {
         m_vmap->setPenSize(ps);
     }
 }
 void VMapFrame::setCurrentNpcNameChanged(QString str)
 {
-    if(m_vmap != NULL)
+    if(m_vmap != nullptr)
         m_vmap->setCurrentNpcName(str);
 }
 void VMapFrame::setCurrentNpcNumberChanged(int str)
 {
-    if(m_vmap != NULL)
+    if(m_vmap != nullptr)
         m_vmap->setCurrentNpcNumber(str);
 }
 void VMapFrame::currentColorChanged(QColor& penColor)
 {
     m_penColor = penColor;
     
-    if(m_vmap !=NULL)
+    if(m_vmap !=nullptr)
     {
         m_vmap->setCurrentChosenColor(m_penColor);
     }
@@ -245,12 +245,12 @@ void VMapFrame::saveMedia()
 }
 void VMapFrame::putDataIntoCleverUri()
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         QByteArray data;
         QDataStream out(&data,QIODevice::WriteOnly);
         m_vmap->saveFile(out);
-        if(NULL!=m_uri)
+        if(nullptr!=m_uri)
         {
             m_uri->setData(data);
         }
@@ -262,14 +262,14 @@ bool VMapFrame::hasDockWidget() const
 }
 QDockWidget* VMapFrame::getDockWidget()
 {
-    return NULL;
+    return nullptr;
     //return m_toolsbar;
 }
 
 NetWorkReceiver::SendType VMapFrame::processMessage(NetworkMessageReader* msg)
 {
     NetWorkReceiver::SendType type = NetWorkReceiver::NONE;
-    if(NULL==m_vmap)
+    if(nullptr==m_vmap)
         return type;
 
     switch(msg->action())
@@ -389,7 +389,7 @@ void VMapFrame::readMessage(NetworkMessageReader& msg)
     qreal y = msg.real();
     qreal w = msg.real();
     qreal h = msg.real();
-    if(NULL!=m_graphicView)
+    if(nullptr!=m_graphicView)
     {
         m_graphicView->setSceneRect(x,y,w,h);
     }
@@ -430,63 +430,63 @@ bool VMapFrame::readFileFromUri()
 }
 void VMapFrame::processAddItemMessage(NetworkMessageReader* msg)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->processAddItemMessage(msg);
     }
 }
 void VMapFrame::processMoveItemMessage(NetworkMessageReader* msg)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->processMoveItemMessage(msg);
     }
 }
 void  VMapFrame::processOpacityMessage(NetworkMessageReader* msg)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->processOpacityMessage(msg);
     }
 }
 void  VMapFrame::processLayerMessage(NetworkMessageReader* msg)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->processLayerMessage(msg);
     }
 }
 void VMapFrame::processGeometryChangeItem(NetworkMessageReader* msg)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->processGeometryChangeItem(msg);
     }
 }
 void VMapFrame::processMapPropertyChange(NetworkMessageReader* msg)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->readMessage(*msg,false);
     }
 }
 void VMapFrame::processGeometryViewChange(NetworkMessageReader* msg)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_graphicView->readMessage(msg);
     }
 }
 void VMapFrame::processDelItemMessage(NetworkMessageReader* msg)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->processDelItemMessage(msg);
     }
 }
 void VMapFrame::processSetParentItem(NetworkMessageReader* msg)
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         m_vmap->processSetParentItem(msg);
     }
@@ -494,7 +494,7 @@ void VMapFrame::processSetParentItem(NetworkMessageReader* msg)
 
 QString VMapFrame::getMediaId()
 {
-    if(NULL!=m_vmap)
+    if(nullptr!=m_vmap)
     {
         return m_vmap->getId();
     }

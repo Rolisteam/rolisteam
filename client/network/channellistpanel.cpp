@@ -13,12 +13,18 @@ ChannelListPanel::ChannelListPanel(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ChannelListPanel),
     m_model(new ChannelModel),
-    m_currentGRoup(ADMIN)
+    m_currentGroup(ADMIN)
 {
     ui->setupUi(this);
     ui->m_channelView->setModel(m_model);
     ui->m_channelView->setAlternatingRowColors(true);
     ui->m_channelView->setHeaderHidden(true);
+    ui->m_channelView->setAcceptDrops(true);
+    ui->m_channelView->setDragEnabled(true);
+    ui->m_channelView->setDropIndicatorShown(true);
+    ui->m_channelView->setDefaultDropAction(Qt::MoveAction);
+    ui->m_channelView->setDragDropMode(QAbstractItemView::InternalMove);
+
 
     ui->m_channelView->setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -166,7 +172,7 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
     }
 
 
-    if(ChannelListPanel::VIEWER == m_currentGRoup)
+    if(ChannelListPanel::VIEWER == m_currentGroup)
     {
         m_kick->setEnabled(false);
         m_edit->setEnabled(false);
@@ -180,7 +186,7 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
 bool ChannelListPanel::isAdmin()
 {
     /// @TODO manage the admin account.
-    if(ChannelListPanel::ADMIN == m_currentGRoup)
+    if(ChannelListPanel::ADMIN == m_currentGroup)
     {
         return true;
     }
@@ -345,6 +351,11 @@ void ChannelListPanel::setServerName(const QString &serverName)
 {
     m_serverName = serverName;
 }
+
+void ChannelListPanel::setLocalPlayerId(const QString &id)
+{
+    m_localPlayerId =  id;
+}
 void ChannelListPanel::deleteChannel()
 {
     if(isAdmin())
@@ -375,6 +386,7 @@ void ChannelListPanel::joinChannel()
             {
                 NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::JoinChannel);
                 msg.string8(id);
+                msg.string8(m_localPlayerId);
                 msg.sendAll();
             }
         }
@@ -383,10 +395,10 @@ void ChannelListPanel::joinChannel()
 
 ChannelListPanel::GROUP ChannelListPanel::currentGRoup() const
 {
-    return m_currentGRoup;
+    return m_currentGroup;
 }
 
 void ChannelListPanel::setCurrentGRoup(const GROUP &currentGRoup)
 {
-    m_currentGRoup = currentGRoup;
+    m_currentGroup = currentGRoup;
 }

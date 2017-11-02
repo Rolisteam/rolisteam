@@ -45,7 +45,7 @@ TextLabel::TextLabel(QGraphicsItem* parent)
 void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     VMap* map = dynamic_cast<VMap*>(scene());
-    if( NULL != map)
+    if( nullptr != map)
     {
         if(map->getSelectedtool() == VToolsBar::HANDLER)
         {
@@ -62,7 +62,7 @@ void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
 void TextLabel::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
    /* VMap* map = dynamic_cast<VMap*>(scene());
-    if( NULL != map)
+    if( nullptr != map)
     {
         if(map->getSelectedtool() == VToolsBar::HANDLER)
         {
@@ -117,7 +117,7 @@ QString RichTextEditDialog::getText()
 //
 ///////////////////////
 
-RichTextEditDialog* TextItem::m_dialog = NULL;
+RichTextEditDialog* TextItem::m_dialog = nullptr;
 TextItem::TextItem()
     : m_offset(QPointF(100,30))
 {
@@ -140,7 +140,7 @@ TextItem::TextItem(QPointF& start,quint16 penSize,QColor& penColor,QGraphicsItem
 
 void TextItem::init()
 {
-    if(NULL==m_dialog)
+    if(nullptr==m_dialog)
     {
         m_dialog = new RichTextEditDialog();
     }
@@ -297,7 +297,7 @@ void TextItem::updateTextPosition()
     setTransformOriginPoint(m_rect.center());
     m_textItem->setPos(m_rect.center().x()-rectItem.width()/2,m_rect.center().y()-rectItem.height()/2);
 
-    if((NULL!=m_child)&&(!m_child->isEmpty()))
+    if((nullptr!=m_child)&&(!m_child->isEmpty()))
     {
         if(!m_child->at(0)->isSelected())
         {
@@ -580,7 +580,7 @@ void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent * event)
     if(isEditable())
     {
         VMap* vmap = dynamic_cast<VMap*>(scene());
-        if(NULL!=vmap)
+        if(nullptr!=vmap)
         {
             VToolsBar::SelectableTool tool = vmap->getSelectedtool();
             if((VToolsBar::TEXT ==tool)||(VToolsBar::TEXTBORDER== tool))

@@ -135,7 +135,7 @@ void ChatListWidget::selectAnotherChat(const QModelIndex & index)
 {
     AbstractChat* chat = m_chatList->chat(index);
     m_deleteButton->setEnabled(
-            chat != NULL &&
+            chat != nullptr &&
             chat->inherits("PrivateChat") &&
             chat->belongsToLocalPlayer()
             );
@@ -144,7 +144,7 @@ void ChatListWidget::selectAnotherChat(const QModelIndex & index)
 void ChatListWidget::editChat(const QModelIndex & index)
 {
     PrivateChat * chat = qobject_cast<PrivateChat *>(m_chatList->chat(index));
-    if (chat != NULL)
+    if (chat != nullptr)
         m_privateChatDialog->edit(chat);
 }
 

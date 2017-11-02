@@ -160,12 +160,12 @@ void ClientManager::sendMessage(char* data, quint32 size, NetworkLink* but)
 
 void ClientManager::addNetworkLink(NetworkLink* networkLink)
 {
- /*   if((NULL!=networkLink)&&(m_networkLinkList.contains(networkLink)))
+ /*   if((nullptr!=networkLink)&&(m_networkLinkList.contains(networkLink)))
     {
         qDebug() << "#################\nNetworkLink is already inside;";
     }
 
-    if((NULL!=networkLink)&&(!m_networkLinkList.contains(networkLink)))
+    if((nullptr!=networkLink)&&(!m_networkLinkList.contains(networkLink)))
     {
         m_networkLinkList.append(networkLink);
         connect(this, SIGNAL(sendData(char *, quint32, NetworkLink *)),networkLink, SLOT(sendData(char *, quint32, NetworkLink *)));
@@ -207,7 +207,7 @@ void ClientManager::disconnectAndClose()
     emit notifyUser(tr("Connection to the server has been closed."));
     m_playersList->cleanListButLocal();
 //delete m_networkLinkToServer;
-  //  m_networkLinkToServer=NULL;
+  //  m_networkLinkToServer=nullptr;
     setConnectionState(DISCONNECTED);
 }
 bool ClientManager::isServer() const

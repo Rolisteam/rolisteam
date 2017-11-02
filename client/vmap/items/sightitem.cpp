@@ -81,7 +81,7 @@ void FogSingularity::readItem(NetworkMessageReader* msg)
 }
 void FogSingularity::setPolygon(QPolygonF* poly)
 {
-    if(NULL!=m_poly)
+    if(nullptr!=m_poly)
     {
         delete m_poly;
     }
@@ -206,10 +206,10 @@ void SightItem::readItem(NetworkMessageReader* msg)
         QString str = msg->string8();
         //Character* item = PlayersList::instance()->getCharacter(str);
         VisualItem* item= m_characterItemMap->value(str);
-        if(NULL!=item)
+        if(nullptr!=item)
         {
             CharacterItem* cItem = dynamic_cast<CharacterItem*>(item);
-            if(NULL!=cItem)
+            if(nullptr!=cItem)
             {
                 m_characterItemMap->insert(str,cItem);
             }
@@ -232,7 +232,7 @@ void SightItem::initChildPointItem()
 }
 VisualItem* SightItem::getItemCopy()
 {
-    return NULL;
+    return nullptr;
 }
 
 
@@ -261,7 +261,7 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
     {
         foreach(CharacterItem* charact , m_characterItemMap->values())
         {
-            if((NULL!=charact)&&
+            if((nullptr!=charact)&&
                     ((charact->isLocal())||getOption(VisualItem::LocalIsGM).toBool()))
             {
                 CharacterVision* vision = charact->getVision();
@@ -304,7 +304,7 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
 void SightItem::insertVision(CharacterItem* item)
 {
     item->setDefaultVisionParameter(m_defaultShape,m_defaultRadius,m_defaultAngle);
-    if(NULL!=m_child)
+    if(nullptr!=m_child)
     {
         m_child->append(item->getRadiusChildWidget());
     }
@@ -315,7 +315,7 @@ void SightItem::removeVision(CharacterItem* item)
     {
         m_characterItemMap->remove(item->getId());
     }
-    if(NULL!=m_child)
+    if(nullptr!=m_child)
     {
         m_child->removeAll(item->getRadiusChildWidget());
     }
@@ -337,11 +337,11 @@ void  SightItem::setDefaultRadius(qreal rad)
 }
 void SightItem::setVisible(bool visible)
 {
-    if(NULL!=m_child)
+    if(nullptr!=m_child)
     {
         foreach (ChildPointItem* item,*m_child)
         {
-            if(NULL!=item)
+            if(nullptr!=item)
             {
                // item->setVisible(visible);
             }

@@ -99,7 +99,7 @@ public:
      * @brief PrivateChatDialog
      * @param parent
      */
-    PrivateChatDialog(QWidget * parent = NULL);
+    PrivateChatDialog(QWidget * parent = nullptr);
     /**
      * @brief sizeHint
      * @return
@@ -112,7 +112,7 @@ public slots:
      * @param chat
      * @return
      */
-    int edit(PrivateChat * chat = NULL);
+    int edit(PrivateChat * chat = nullptr);
 
 private:
     QLineEdit * m_name_w;

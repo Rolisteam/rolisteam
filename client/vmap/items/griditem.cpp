@@ -58,7 +58,7 @@ GridItem::~GridItem()
 }
 QRectF  GridItem::boundingRect() const
 {
-    if(NULL!=scene())
+    if(nullptr!=scene())
     {
         QList<QGraphicsView*> list = scene()->views();
         if(!list.isEmpty())

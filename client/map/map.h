@@ -83,7 +83,7 @@ public :
     /**
      * @brief trouverPersonnage
      * @param idPerso id of the character
-     * @return the corresponding DessinPerso or NULL
+     * @return the corresponding DessinPerso or nullptr
      */
     CharacterToken* findCharacter(QString idPerso);
 
@@ -146,8 +146,8 @@ private :
 	void processNpcAction(QPoint positionSouris);
 	void processNpcActionReleased(QPoint positionSouris);
 	void processNpcMove(QPoint positionSouris);
-    void sendOffGlobalMap(QString titre, NetworkLink * link = NULL, bool versNetworkLinkUniquement = false);
-    void sendOffAllGlobalCharacters(NetworkLink * link = NULL, bool versNetworkLinkUniquement = false);
+    void sendOffGlobalMap(QString titre, NetworkLink * link = nullptr, bool versNetworkLinkUniquement = false);
+    void sendOffAllGlobalCharacters(NetworkLink * link = nullptr, bool versNetworkLinkUniquement = false);
 	CharacterToken* paintCharacter(QPoint positionSouris);
     QColor getFogColor();
 

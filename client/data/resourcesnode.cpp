@@ -21,7 +21,7 @@
 #include "resourcesnode.h"
 
 ResourcesNode::ResourcesNode()
-    : m_parent(NULL)
+    : m_parent(nullptr)
 {
 
 }
@@ -48,7 +48,7 @@ void ResourcesNode::setValue(QString value)
 
 ResourcesNode *ResourcesNode::getChildAt(int) const
 {
-    return NULL;
+    return nullptr;
 }
 
 QIcon ResourcesNode::getIcon()
@@ -68,7 +68,7 @@ void ResourcesNode::setParentNode(ResourcesNode *parent)
 
 int ResourcesNode::rowInParent()
 {
-    if(NULL!=m_parent)
+    if(nullptr!=m_parent)
     {
         return m_parent->indexOf(this);
     }

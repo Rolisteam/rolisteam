@@ -44,13 +44,13 @@
 
 
 CharacterItem::CharacterItem()
-: VisualItem(),m_character(NULL),m_thumnails(NULL),m_protectGeometryChange(false),m_visionChanged(false)
+: VisualItem(),m_character(nullptr),m_thumnails(nullptr),m_protectGeometryChange(false),m_visionChanged(false)
 {
     createActions();
 }
 
 CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
-    : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL),m_protectGeometryChange(false),m_visionChanged(false)
+    : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(nullptr),m_protectGeometryChange(false),m_visionChanged(false)
 {
 	setPos(m_center-QPoint(diameter/2,diameter/2));
 	sizeChanged(diameter);
@@ -69,7 +69,7 @@ void CharacterItem::writeData(QDataStream& out) const
     out << opacity();
     out << (int)m_layer;
     //out << zValue();
-    if(NULL!=m_character)
+    if(nullptr!=m_character)
     {
         out << true;
         m_character->writeData(out);
@@ -180,7 +180,7 @@ void CharacterItem::setChildrenVisible(bool b)
 #define PEN_RADIUS 3
 void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
 {
-    if(m_thumnails==NULL)
+    if(m_thumnails==nullptr)
     {
         generatedThumbnail();
     }
@@ -210,7 +210,7 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 
 	QPen pen = painter->pen();
     pen.setWidth(PEN_WIDTH);
-    if(( NULL!= m_character )&&(NULL!=m_character->getState()))
+    if(( nullptr!= m_character )&&(nullptr!=m_character->getState()))
 	{
         if(getOption(VisualItem::ShowHealtStatus).toBool())
         {
@@ -284,10 +284,10 @@ void CharacterItem::setRectSize(qreal x,qreal y,qreal w,qreal h)
 }
 void CharacterItem::generatedThumbnail()
 {
-    if(m_thumnails!=NULL)
+    if(m_thumnails!=nullptr)
     {
         delete m_thumnails;
-        m_thumnails = NULL;
+        m_thumnails = nullptr;
     }
     m_thumnails=new QPixmap(m_diameter,m_diameter);
     m_thumnails->fill(Qt::transparent);
@@ -341,7 +341,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     //path
     QByteArray data;
     QDataStream in(&data,QIODevice::WriteOnly);
-    if((m_thumnails==NULL)||(m_thumnails->isNull()))
+    if((m_thumnails==nullptr)||(m_thumnails->isNull()))
     {
         generatedThumbnail();
     }
@@ -389,7 +389,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
 
     Character* tmp = PlayersList::instance()->getCharacter(idCharacter);
 
-    if(NULL!=tmp)
+    if(nullptr!=tmp)
     {
         m_character = tmp;
         m_character->read(*msg);
@@ -409,7 +409,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     }
 
 
-    if(NULL!=m_vision)
+    if(nullptr!=m_vision)
     {
         m_vision->readMessage(msg);
     }
@@ -427,7 +427,7 @@ void CharacterItem::resizeContents(const QRectF& rect, bool )
 }
 QString CharacterItem::getCharacterId() const
 {
-    if(NULL!=m_character)
+    if(nullptr!=m_character)
     {
         return m_character->getUuid();
     }
@@ -458,7 +458,7 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &va
         for(QGraphicsItem* item : list)
         {
             VisualItem* vItem = dynamic_cast<VisualItem*>(item);
-            if((NULL!=vItem)&&(vItem!=this))
+            if((nullptr!=vItem)&&(vItem!=this))
             {
                 if((vItem->getLayer()==VisualItem::OBJECT))
                 {
@@ -628,7 +628,7 @@ ChildPointItem* CharacterItem::getRadiusChildWidget()
 }
 QColor CharacterItem::getColor()
 {
-    if(NULL!= m_character)
+    if(nullptr!= m_character)
         return m_character->getColor();
 }
 
@@ -697,7 +697,7 @@ void CharacterItem::changeCharacter()
 	Character* tmp = PlayersList::instance()->getCharacter(uuid);
 
     Character* old = m_character;
-	if(NULL!=tmp)
+	if(nullptr!=tmp)
 	{
 		m_character = tmp;
         generatedThumbnail();
@@ -741,10 +741,10 @@ void CharacterItem::changeVisionShape()
 void CharacterItem::characterStateChange()
 {
     QAction* act = qobject_cast<QAction*>(sender());
-    if(NULL == act)
+    if(nullptr == act)
         return;
 
-    if(NULL == m_character)
+    if(nullptr == m_character)
         return;
 
 	int index = act->data().toInt();
@@ -769,10 +769,10 @@ VisualItem* CharacterItem::getItemCopy()
 
 QString CharacterItem::getParentId() const
 {
-    if(NULL!=m_character)
+    if(nullptr!=m_character)
     {
         Person* pers = m_character->getParent();
-        if(NULL!=pers)
+        if(nullptr!=pers)
         {
             return pers->getUuid();
         }
@@ -782,7 +782,7 @@ QString CharacterItem::getParentId() const
 void CharacterItem::readCharacterStateChanged(NetworkMessageReader& msg)
 {
     int index = msg.uint16();
-    if(NULL!=m_character)
+    if(nullptr!=m_character)
     {
         QList<CharacterState*>* list = Character::getCharacterStateList();
         if(nullptr != list)
@@ -790,7 +790,7 @@ void CharacterItem::readCharacterStateChanged(NetworkMessageReader& msg)
             if(!list->isEmpty() && index < list->size())
             {
                 CharacterState* state = Character::getCharacterStateList()->at(index);
-                if(NULL!=state)
+                if(nullptr!=state)
                 {
                     m_character->setState(state);
                     update();
@@ -804,13 +804,13 @@ void CharacterItem::characterHasBeenDeleted(Character* pc)
 {
     if(pc == m_character)
     {
-        m_character = NULL;
+        m_character = nullptr;
     }
 }
 
 void CharacterItem::addChildPoint(ChildPointItem* item)
 {
-    if(NULL!=m_child)
+    if(nullptr!=m_child)
     {
         //item->setPointID(m_child->size());
         m_child->append(item);
@@ -938,7 +938,7 @@ void CharacterItem::setEditableItem(bool b)
 }
 bool CharacterItem::isNpc()
 {
-    if(NULL!=m_character)
+    if(nullptr!=m_character)
     {
         return m_character->isNpc();
     }
@@ -947,7 +947,7 @@ bool CharacterItem::isNpc()
 
 bool CharacterItem::isPlayableCharacter()
 {
-    if(NULL!=m_character)
+    if(nullptr!=m_character)
     {
         return !m_character->isNpc();
     }

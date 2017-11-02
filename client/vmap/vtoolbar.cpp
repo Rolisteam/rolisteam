@@ -28,11 +28,11 @@
 #include "widgets/flowlayout.h"
 
 
-VToolsBar* VToolsBar::m_sigleton=NULL;
+VToolsBar* VToolsBar::m_sigleton=nullptr;
 
 VToolsBar* VToolsBar::getInstance(QWidget *parent)
 {
-    if(m_sigleton==NULL)
+    if(m_sigleton==nullptr)
     {
         m_sigleton=new VToolsBar(parent);
     }

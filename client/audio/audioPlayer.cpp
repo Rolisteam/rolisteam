@@ -32,10 +32,10 @@
 #include "network/networklink.h"
 #include "network/networkmessagewriter.h"
 
-AudioPlayer * AudioPlayer::m_singleton = NULL;
+AudioPlayer * AudioPlayer::m_singleton = nullptr;
 
 AudioPlayer::AudioPlayer(QWidget *parent)
-    : QDockWidget(parent)//,m_currentSource(NULL)
+    : QDockWidget(parent)//,m_currentSource(nullptr)
 {
     m_isGM = false;
     m_preferences = PreferencesManager::getInstance();
@@ -46,7 +46,7 @@ AudioPlayer::AudioPlayer(QWidget *parent)
 
 AudioPlayer*  AudioPlayer::getInstance(QWidget *parent)
 {
-    if(m_singleton==NULL)
+    if(m_singleton==nullptr)
     {
         m_singleton = new AudioPlayer(parent);
     }
@@ -116,7 +116,7 @@ void AudioPlayer::showMusicPlayer(bool status)
 {
     QAction* act = qobject_cast<QAction*>(sender());
 
-    if(NULL!=act)
+    if(nullptr!=act)
     {
         int i = m_playerActionsList.indexOf(act);
 

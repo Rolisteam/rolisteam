@@ -40,7 +40,7 @@ public:
      * @param master
      * @param link
      */
-    Player(const QString & getName, const QColor & getColor, bool master = false, NetworkLink * link = NULL);
+    Player(const QString & getName, const QColor & getColor, bool master = false, NetworkLink * link = nullptr);
     /**
      * @brief Player
      * @param uuid
@@ -49,13 +49,13 @@ public:
      * @param master
      * @param link
      */
-    Player(const QString & uuid, const QString & getName, const QColor & getColor, bool master = false, NetworkLink * link = NULL);
+    Player(const QString & uuid, const QString & getName, const QColor & getColor, bool master = false, NetworkLink * link = nullptr);
     /**
      * @brief Player
      * @param data
      * @param link
      */
-    Player(NetworkMessageReader & data, NetworkLink * link = NULL);
+    Player(NetworkMessageReader & data, NetworkLink * link = nullptr);
     /**
      * @brief ~Player
      */
@@ -162,6 +162,8 @@ public:
     virtual QHash<QString,QString> getVariableDictionnary();
 
     virtual bool isLeaf() const;
+
+    void copyPlayer(Player* player);
 
 private:
     friend class PlayersList;

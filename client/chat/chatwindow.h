@@ -63,7 +63,7 @@ public :
      * @param chat
      * @param parent
      */
-	ChatWindow(AbstractChat * chat,QWidget* parent = NULL);
+	ChatWindow(AbstractChat * chat,QWidget* parent = nullptr);
     /**
      * @brief ~ChatWindow
      */
@@ -78,7 +78,7 @@ public :
      * @param dice
      * @return
      */
-    QString diceToText(ExportedDiceResult& dice);
+    QString diceToText(QList<ExportedDiceResult>& dice);
     /**
      * @brief toggleViewAction
      * @return

@@ -101,7 +101,7 @@ int LocalPersonModel::rowCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
     Player* tmp = m_playersList->getLocalPlayer();
-    if(NULL!=tmp)
+    if(nullptr!=tmp)
     {
        return 1 + tmp->getCharactersCount();
     }

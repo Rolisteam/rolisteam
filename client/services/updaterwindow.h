@@ -30,7 +30,7 @@ class UpdaterWindow : public QWidget
     Q_OBJECT
 
 public:
-    UpdaterWindow(QWidget *parent = NULL);
+    UpdaterWindow(QWidget *parent = nullptr);
 
 public slots:
 

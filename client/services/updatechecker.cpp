@@ -34,7 +34,7 @@
  *****************/
 
 UpdateChecker::UpdateChecker(QObject* obj)
-    : QObject(obj), m_state(false),m_versionMinor(0),m_versionMajor(0),m_versionMiddle(0),m_manager(NULL)
+    : QObject(obj), m_state(false),m_versionMinor(0),m_versionMajor(0),m_versionMiddle(0),m_manager(nullptr)
 {
     m_noErrror = true;
 #ifdef VERSION_MINOR

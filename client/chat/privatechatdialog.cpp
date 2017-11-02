@@ -53,10 +53,10 @@ Qt::ItemFlags PrivateChatDialogModel::flags(const QModelIndex &index) const
     PlayersList * g_playersList = PlayersList::instance();
     Player * player = g_playersList->getPlayer(index);
 
-    // We should return Qt::NoItemFlags when (player == NULL),
+    // We should return Qt::NoItemFlags when (player == nullptr),
     // but this cause an infinite loop when the last entry is deleted.
     // This is a workaround of a Qt's bug.
-    if (player == NULL || player == g_playersList->getLocalPlayer())
+    if (player == nullptr || player == g_playersList->getLocalPlayer())
         return Qt::ItemIsEnabled;
 
     if (player->hasFeature("MultiChat"))
@@ -150,11 +150,11 @@ QSize PrivateChatDialog::sizeHint() const
 
 int PrivateChatDialog::edit(PrivateChat * chat)
 {
-    if (chat == NULL)
+    if (chat == nullptr)
     {
         return QDialog::Rejected;
     }
-    if(NULL==chat->owner())
+    if(nullptr==chat->owner())
     {
          return QDialog::Rejected;
     }

@@ -30,7 +30,7 @@
 
 #include "data/character.h"
 Player::Player()
-    : m_gameMaster(NULL),m_link(NULL)
+    : m_gameMaster(nullptr),m_link(nullptr)
 {
 
 }
@@ -153,7 +153,7 @@ void Player::clearCharacterList()
 {
     for(auto character : m_characters)
     {
-        character->setParentPerson(NULL);
+        character->setParentPerson(nullptr);
     }
     m_characters.clear();
 }
@@ -210,4 +210,12 @@ QString Player::getUserVersion() const
 void Player::setUserVersion(QString softV)
 {
     m_softVersion = softV;
+}
+void Player::copyPlayer(Player* player)
+{
+    setAvatar(player->getAvatar());
+    setColor(player->getColor());
+    setGM(player->isGM());
+    setName(player->getName());
+    setUserVersion(player->getUserVersion());
 }

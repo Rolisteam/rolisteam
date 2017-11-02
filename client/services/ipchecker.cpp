@@ -24,7 +24,7 @@
 #include "ipchecker.h"
 
 IpChecker::IpChecker(QObject *parent) :
-	QObject(parent),m_manager(NULL)
+	QObject(parent),m_manager(nullptr)
 {
 
 }

@@ -267,6 +267,11 @@ TreeItem* Channel::getChildById(QString id)
     return nullptr;
 }
 
+void Channel::insertChildAt(int pos, TreeItem* item)
+{
+    m_child.insert(pos,item);
+}
+
 void Channel::fill(NetworkMessageWriter& msg)
 {
     msg.string8(m_id);

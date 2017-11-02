@@ -40,7 +40,7 @@ public:
      * @param isDirectory
      * @param parent
      */
-    FileDirChooser(bool isDirectory = true,QWidget * parent = NULL);
+    FileDirChooser(bool isDirectory = true,QWidget * parent = nullptr);
     ~FileDirChooser();
     /**
      * @brief setPath define the value of the widget. Current selection.

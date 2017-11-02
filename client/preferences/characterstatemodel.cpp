@@ -46,7 +46,7 @@ QVariant CharacterStateModel::data(const QModelIndex &index, int role) const
 		CharacterState* state = m_stateList->at(index.row());
         if((Qt::DisplayRole == role)||(Qt::EditRole == role))
 		{
-			if(NULL!=state)
+			if(nullptr!=state)
             {
 				if(index.column()==LABEL)
                 {
@@ -115,7 +115,7 @@ NetWorkReceiver::SendType CharacterStateModel::processMessage(NetworkMessageRead
 {
     NetWorkReceiver::SendType type  = NetWorkReceiver::AllExceptSender;;
 
-    if(NULL==msg)
+    if(nullptr==msg)
         return NetWorkReceiver::NONE;
 
     switch(msg->action())

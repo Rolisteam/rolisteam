@@ -22,7 +22,7 @@
 
 
 MediaContainer::MediaContainer(QWidget* parent)
-    : QMdiSubWindow(parent),m_uri(NULL),m_preferences(PreferencesManager::getInstance()),m_action(NULL),m_currentCursor(NULL),m_mediaId(QUuid::createUuid().toString()),m_remote(false)
+    : QMdiSubWindow(parent),m_uri(nullptr),m_preferences(PreferencesManager::getInstance()),m_action(nullptr),m_currentCursor(nullptr),m_mediaId(QUuid::createUuid().toString()),m_remote(false)
 {
     //m_preferences = ;
     setAttribute(Qt::WA_DeleteOnClose,false);
@@ -67,7 +67,7 @@ bool MediaContainer::openMedia()
 }
 void MediaContainer::error(QString err,QWidget* parent)
 {
-    if(NULL!=parent)
+    if(nullptr!=parent)
     {
         QMessageBox msgBox(parent);
         msgBox.addButton(QMessageBox::Cancel);
@@ -84,7 +84,7 @@ void MediaContainer::error(QString err,QWidget* parent)
 }
 bool MediaContainer::isUriEndWith(QString str)
 {
-    if(NULL!=m_uri)
+    if(nullptr!=m_uri)
     {
         if(m_uri->getUri().endsWith(str))
         {
@@ -101,10 +101,10 @@ void MediaContainer::setTitle(QString str)
 }
 void MediaContainer::setVisible(bool b)
 {
-    if(NULL!=widget())
+    if(nullptr!=widget())
     {
         widget()->setVisible(b);
-        if(NULL!=m_action)
+        if(nullptr!=m_action)
         {
             m_action->setChecked(b);
 
@@ -153,7 +153,7 @@ void MediaContainer::currentCursorChanged(QCursor* cursor)
 }
 CleverURI::ContentType MediaContainer::getContentType()
 {
-    if(NULL!=m_uri)
+    if(nullptr!=m_uri)
     {
         return m_uri->getType();
     }

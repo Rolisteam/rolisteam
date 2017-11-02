@@ -57,7 +57,7 @@ QStringList CleverURI::m_typeNameList = QStringList() <<    QObject::tr("None") 
 QStringList CleverURI::m_typeToPreferenceDirectory = QStringList() <<   QString("SessionDirectory") <<QString("MapDirectory")       <<QString("MapDirectory")           <<QString("ChatDirectory")
                                                                    <<   QString("ImageDirectory")   <<QString("ImageDirectory")     <<QString("MinutesDirectory")       <<QString("CharacterSheetDirectory") <<
                                                                         QString("SessionDirectory") <<QString("MusicDirectoryPlayer")   <<QString("MusicDirectoryPlayer")<<QString("MinutesDirectory");
-CleverURIListener* CleverURI::s_listener = NULL;
+CleverURIListener* CleverURI::s_listener = nullptr;
 
 CleverURI::CleverURI()
     : m_type(NONE),m_state(Remain)
@@ -125,7 +125,7 @@ bool CleverURI::hasChildren() const
 }
 void CleverURI::setUpListener()
 {
-    if(NULL!=s_listener)
+    if(nullptr!=s_listener)
     {
         s_listener->cleverURIHasChanged(this);
     }
@@ -185,7 +185,7 @@ void CleverURI::setDisplayed(bool displayed)
         m_state = Opened;
     }
 
-    if(NULL!=s_listener)
+    if(nullptr!=s_listener)
     {
         s_listener->cleverURIHasChanged(this);
     }

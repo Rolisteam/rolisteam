@@ -27,6 +27,7 @@
 #include <QGraphicsSceneMouseEvent>
 
 #include <math.h>
+#include <cmath>
 #define PI 3.14159265
 
 #define SQUARE_SIZE 6
@@ -152,29 +153,80 @@ void ChildPointItem::setPlacement(ChildPointItem::PLACEMENT p)
 void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
 { 
     event->accept();
-    QPointF v = pos() + event->pos();
+    qDebug() << pos() << event->pos() << "taritnatenate ";
+    QPointF v = pos() + event->pos();//distance vector
+    qreal rot = m_parent->rotation();
+   /* */
+
     if(m_editable)
     {
         if(m_currentMotion == MOUSE)
         {
             if(!(event->modifiers() & Qt::ControlModifier))
             {
-                bool ratio = false;
+                VisualItem::TransformType transformType = VisualItem::NoTransform;
 
+                //qDebug() << "before"<< v  << event->pos() << pos();
+                /*if(rot != 0)
+                {
+                    v.setX(std::cos(rot)*v.x());
+                    v.setY(std::sin(rot)*v.y());
+                }*/
+                qreal W = 0;//qMax(fabs(v.x()), 5.0);
+                qreal H = 0;//qMax(fabs(v.y()), 4.0);
+                qreal X = 0;
+                qreal Y = 0;
+                m_parent->setRotation(0);
+                v = event->pos();//distance vector
+                switch(m_placement)
+                {
+                    case TopLeft://topleft
+                       // m_parent->setTransformOriginPoint(m_parent->boundingRect().bottomRight());
+                        X = v.x();
+                        Y = v.y();
+                        W = m_parent->boundingRect().width() - X;
+                        H = m_parent->boundingRect().height() - Y;
+                        break;
+                    case TopRight://topright
+                       // m_parent->setTransformOriginPoint(m_parent->boundingRect().bottomLeft());
+                        Y = v.y();
+                        W = m_parent->boundingRect().width() + v.x();
+                        H = m_parent->boundingRect().height() - Y;
+                        break;
+                    case ButtomRight:// bottom right
+                       // m_parent->setTransformOriginPoint(m_parent->boundingRect().topLeft());
+                        W = m_parent->boundingRect().width() + v.x();
+                        H = m_parent->boundingRect().height() + v.y();
+                        break;
+                    case ButtomLeft://bottom left
+                        //m_parent->setTransformOriginPoint(m_parent->boundingRect().topRight());
+                        X = v.x();
+                        H = m_parent->boundingRect().height() + v.y();
+                        W = m_parent->boundingRect().width() - X;
+                        break;
+                }
                 if((event->modifiers() & Qt::ShiftModifier))
                 {
-                    ratio = true;
+                    transformType = VisualItem::KeepRatio;
                 }
-                int W = qMax(2 * fabs(v.x()), 5.0);
-                int H = qMax(2 * fabs(v.y()), 4.0);
-
-                //if((v.x() >1)&&(v.y()>1))
-               // qDebug() << v.y() << v.x();
+                else if(event->modifiers() & Qt::AltModifier)
                 {
-                    m_parent->resizeContents(QRectF(-W / 2, -H / 2, W, H),ratio);
+                    transformType = VisualItem::Sticky;
+                    int size = m_parent->getOption(VisualItem::GridSize).toInt();
+                    W = std::round(W/size)*size;
+                    H = std::round(H/size)*size;
+                }
+
+                {
+                    if(rot == 0)
+                    {
+                        m_parent->moveBy(X,Y);
+                    }
+                    m_parent->resizeContents(QRectF(0, 0, W, H),transformType);
+                    //m_parent->setTransformOriginPoint(m_parent->boundingRect().center());
+                    m_parent->setRotation(rot);
                 }
             }
-
         }
         if(((m_currentMotion == MOUSE)||(m_allowRotation))&&(event->modifiers() & Qt::ControlModifier))
         {
@@ -188,7 +240,7 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
                 qreal newAngle = atan2(v.y(), v.x());
                 double dZr = 57.29577951308232 * (newAngle - refAngle); // 180 * a / M_PI
                 double zr = m_parent->rotation() + dZr;
-
+                m_parent->setTransformOriginPoint(m_parent->boundingRect().center());
                 m_parent->setRotation(zr);
         }
         else

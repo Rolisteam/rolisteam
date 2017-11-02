@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QAbstractItemModel>
+#include <QMimeData>
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -12,7 +13,17 @@
 class TreeItem;
 
 
-
+class ClientMimeData : public QMimeData
+{
+Q_OBJECT
+public:
+    ClientMimeData();
+    void addClient(TcpClient* m,const QModelIndex);
+    const QMap<QModelIndex,TcpClient*>& getList() const;
+    virtual bool hasFormat(const QString & mimeType) const;
+private:
+    QMap<QModelIndex,TcpClient*> m_clientList;
+};
 /**
  * @brief The ChannelModel class
  */
@@ -55,11 +66,20 @@ public:
     bool addChannelToChannel(Channel* child, Channel* parent);
     QModelIndex channelToIndex(Channel *channel);
 
+    void setLocalPlayerId(const QString &id);
+
     virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader *msg, NetworkLink *link);
     void removeChild(QString id);
+    QStringList mimeTypes() const;
+    Qt::DropActions supportedDropActions() const;
+    QMimeData *mimeData(const QModelIndexList &indexes) const;
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+protected:
+    bool moveMediaItem(QList<TcpClient *> items, const QModelIndex &parentToBe, int row, QList<QModelIndex> &formerPosition);
 private:
     QList<TreeItem*> m_root;
     QString m_defaultChannel;
+    QString m_localPlayerId;
     bool m_admin;
 };
 

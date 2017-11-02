@@ -26,7 +26,7 @@ NoteContainer::NoteContainer()
 #ifdef Q_OS_MAC
     m_edit->menuBar()->setNativeMenuBar(false);
 #endif
-    if(NULL!=m_edit)
+    if(nullptr!=m_edit)
     {
         m_title = m_edit->getShowName();
     }
@@ -38,7 +38,7 @@ NoteContainer::NoteContainer()
 
 void NoteContainer::setFileName(QString str)
 {
-    if(NULL!=m_uri)
+    if(nullptr!=m_uri)
     {
         m_uri->setUri(str);
     }
@@ -46,7 +46,7 @@ void NoteContainer::setFileName(QString str)
 
 bool NoteContainer::readFileFromUri()
 {
-    if((NULL==m_uri)||(NULL==m_edit))
+    if((nullptr==m_uri)||(nullptr==m_edit))
     {
         return false;
     }
@@ -67,7 +67,7 @@ bool NoteContainer::readFileFromUri()
 
 void NoteContainer::saveMedia()
 {
-    if(NULL!=m_edit)
+    if(nullptr!=m_edit)
     {
         m_edit->fileSave();
         QString uri = m_edit->getShowName();
@@ -76,12 +76,12 @@ void NoteContainer::saveMedia()
 }
 void NoteContainer::putDataIntoCleverUri()
 {
-    if(NULL!=m_edit)
+    if(nullptr!=m_edit)
     {
         QByteArray data;
         QDataStream out(&data,QIODevice::WriteOnly);
         m_edit->saveFileAsBinary(out);
-        if(NULL!=m_uri)
+        if(nullptr!=m_uri)
         {
             m_uri->setData(data);
         }
@@ -89,7 +89,7 @@ void NoteContainer::putDataIntoCleverUri()
 }
 void NoteContainer::readFromFile(QDataStream& data)
 {
-    if(NULL!=m_edit)
+    if(nullptr!=m_edit)
     {
         m_edit->readFromBinary(data);
         m_title = m_edit->windowTitle();
@@ -98,7 +98,7 @@ void NoteContainer::readFromFile(QDataStream& data)
 
 void NoteContainer::saveInto(QDataStream &out)
 {
-    if(NULL!=m_edit)
+    if(nullptr!=m_edit)
     {
         m_edit->saveFileAsBinary(out);
     }

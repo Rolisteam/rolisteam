@@ -29,28 +29,28 @@
 #include "network/networkmessagewriter.h"
 //#include "userlist/playersList.h"
 
-QList<CharacterState*>* Character::m_stateList = NULL;
+QList<CharacterState*>* Character::m_stateList = nullptr;
 
 Character::Character()
-    :Person(), m_currentState(NULL),m_sheet(NULL)
+    :Person(), m_currentState(nullptr),m_sheet(nullptr)
 {
 	init();
 }
 
 Character::Character(const QString & nom, const QColor & color,bool npc,int number)
-    : Person(nom, color), m_isNpc(npc),m_number(number),m_currentState(NULL),m_sheet(NULL)
+    : Person(nom, color), m_isNpc(npc),m_number(number),m_currentState(nullptr),m_sheet(nullptr)
 {
 	init();
 }
 
 Character::Character(const QString & uuid, const QString & nom, const QColor & color,bool npc,int number)
-    : Person(uuid, nom, color),m_isNpc(npc),m_number(number),m_currentState(NULL),m_sheet(NULL)
+    : Person(uuid, nom, color),m_isNpc(npc),m_number(number),m_currentState(nullptr),m_sheet(nullptr)
 {
 	init();
 }
 
 Character::Character(NetworkMessageReader & data)
-    : Person(), m_currentState(NULL),m_sheet(NULL)
+    : Person(), m_currentState(nullptr),m_sheet(nullptr)
 {
     read(data);
 
@@ -62,7 +62,7 @@ Character::~Character()
 }
 void Character::init()
 {
-	if((NULL != m_stateList)&&(NULL == m_currentState)&&(!m_stateList->isEmpty()))
+	if((nullptr != m_stateList)&&(nullptr == m_currentState)&&(!m_stateList->isEmpty()))
 	{
 		m_currentState = m_stateList->first();
 	}
@@ -70,7 +70,7 @@ void Character::init()
 
 QString Character::getParentId() const
 {
-    if(NULL!=m_parent)
+    if(nullptr!=m_parent)
     {
         return m_parent->getUuid();
     }
@@ -124,18 +124,18 @@ CharacterState* Character::getStateFromLabel(QString label)
             return state;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void Character::fill(NetworkMessageWriter & message,bool addAvatar)
 {
-    if(NULL!=m_parent)
+    if(nullptr!=m_parent)
     {
         message.string8(m_parent->getUuid());
     }
     else
     {
-        message.string8("NULL");
+        message.string8("nullptr");
     }
     message.string8(m_uuid);
     message.string16(m_name);
@@ -223,7 +223,7 @@ void Character::writeData(QDataStream& out) const
 {
     out << m_uuid;
     out << m_name;
-    if(NULL!=m_currentState)
+    if(nullptr!=m_currentState)
     {
         out << true;
         out << m_currentState->getLabel();
@@ -251,7 +251,7 @@ void Character::readData(QDataStream& in)
     }
     else
     {
-        m_currentState = NULL;
+        m_currentState = nullptr;
     }
     in >> m_isNpc;
     in >> m_number;

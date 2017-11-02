@@ -90,7 +90,7 @@ public:
 
     virtual void preferencesHasChanged(QString);
 
-    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg, NetworkLink* link = NULL);
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg, NetworkLink* link = nullptr);
 
 
 	///new methods

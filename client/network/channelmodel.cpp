@@ -10,6 +10,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+
 #ifdef QT_WIDGETS_LIB
 #include <QApplication>
 #include <QStyle>
@@ -17,6 +18,37 @@
 
 #include "channel.h"
 #include "receiveevent.h"
+
+//////////////////////////////////////
+/// ClientMimeData
+/////////////////////////////////////
+
+ClientMimeData::ClientMimeData()
+{
+    setData("application/rolisteam.networkclient.list",QByteArray());
+}
+
+void ClientMimeData::addClient(TcpClient* m,const QModelIndex index)
+{
+    if(nullptr!=m)
+    {
+        m_clientList.insert(index,m);
+    }
+}
+const QMap<QModelIndex,TcpClient*>& ClientMimeData::getList() const
+{
+    return m_clientList;
+}
+bool ClientMimeData::hasFormat(const QString & mimeType) const
+{
+    return ((mimeType=="application/rolisteam.networkclient.list") | QMimeData::hasFormat(mimeType));
+}
+
+//////////////////////////////////////
+/// ChannelModel
+/////////////////////////////////////
+
+
 ChannelModel::ChannelModel()
 {
     //m_root = new Channel();
@@ -31,13 +63,10 @@ QModelIndex ChannelModel::index(int row, int column, const QModelIndex &parent) 
     TreeItem* childItem = nullptr;
     if (!parent.isValid())
     {
-       // qDebug() << "invalid parent";
-        //childItem = m_root->getChildAt(row);
         childItem = m_root.at(row);
     }
     else
     {
-       // qDebug() << "valid parent";
         TreeItem* parentItem = static_cast<TreeItem*>(parent.internalPointer());
         childItem = parentItem->getChildAt(row);
     }
@@ -132,7 +161,7 @@ int ChannelModel::rowCount(const QModelIndex &parent) const
             result = item->childCount();
         }
     }
-   // qDebug() << "[Number of child]"<< result << parent.isValid();
+    qDebug() << result << parent;
     return result;
 }
 
@@ -233,20 +262,34 @@ NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader *msg
 
             addChannelToChannel(channel, parent);
         }
+        return NetWorkReceiver::NONE;
     }
+    else if(NetMsg::AdminPassword)
+    {
+        return NetWorkReceiver::ALL;
+    }
+    return NetWorkReceiver::NONE;
 }
 Qt::ItemFlags ChannelModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
-        return Qt::ItemIsEnabled;
+        return Qt::NoItemFlags;
 
-    if(isAdmin())
+    TreeItem* item = static_cast<TreeItem*>(index.internalPointer());
+
+    if(isAdmin() && item->isLeaf())
     {
-        return Qt::ItemIsEnabled  | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+    //    qDebug() << "full permission leaf";
+        return Qt::ItemIsEnabled  | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled ;
+    }
+    else if(isAdmin() && !item->isLeaf())
+    {
+     //   qDebug() << "full permission channel";
+        return Qt::ItemIsEnabled  | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDropEnabled ;
     }
     else
     {
-        return Qt::ItemIsEnabled  | Qt::ItemIsSelectable;//| Qt::ItemIsEditable
+        return Qt::ItemIsEnabled  | Qt::ItemIsSelectable;
     }
 }
 bool ChannelModel::hasChildren ( const QModelIndex & parent  ) const
@@ -264,6 +307,189 @@ bool ChannelModel::hasChildren ( const QModelIndex & parent  ) const
         else
             return true;
     }
+}
+QStringList ChannelModel::mimeTypes() const
+{
+    QStringList types;
+    types << "application/rolisteam.networkclient.list";
+    return types;
+}
+Qt::DropActions ChannelModel::supportedDropActions() const
+{
+    return Qt::MoveAction;
+}
+QMimeData* ChannelModel::mimeData(const QModelIndexList &indexes) const
+{
+    ClientMimeData* mimeData = new ClientMimeData();
+
+    foreach(const QModelIndex & index, indexes)
+    {
+        if((index.isValid())&&(index.column()==0))
+        {
+            TcpClient* item = static_cast<TcpClient*>(index.internalPointer());
+            mimeData->addClient(item,index);
+        }
+    }
+    return mimeData;
+}
+
+bool ChannelModel::moveMediaItem(QList<TcpClient*> items,const QModelIndex& parentToBe,int row,QList<QModelIndex>& formerPosition)
+{
+
+    if(isAdmin())
+    {
+        if(parentToBe.isValid())
+        {
+            Channel* item = static_cast<Channel*>(parentToBe.internalPointer());
+            QString id = item->getId();
+            for(auto client : items)
+            {
+                if(!id.isEmpty())
+                {
+                    NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::JoinChannel);
+                    msg.string8(id);
+                    msg.string8(client->getId());
+                    msg.sendAll();
+                }
+            }
+        }
+    }
+
+ /*   if(items.isEmpty()||formerPosition.isEmpty())
+    {
+        return false;
+    }
+    TreeItem* parentItem = static_cast<TreeItem*>(parentToBe.internalPointer());
+
+    int orignRow = row;
+
+
+    QList<int> listRow;
+
+
+    TcpClient* item = items.at(0);
+    TreeItem* parent =item->getParentItem();
+    QModelIndex formerPositionIndex = formerPosition.at(0);
+    QModelIndex sourceParent = formerPositionIndex.parent();
+    QModelIndex destinationParent = parentToBe;
+
+    int sourceFirst = parent->indexOf(item);
+    int sourceLast = parent->indexOf(item)+items.size()-1;
+
+    int destinationRow = orignRow<0?parentItem->childCount():orignRow;
+    if((sourceParent == destinationParent)&&((destinationRow == parentItem->childCount())||(destinationRow>sourceFirst)))
+    {
+        destinationRow-=items.size()-1;
+    }
+    if((sourceParent == destinationParent)&&( sourceFirst == destinationRow))
+    {
+        destinationRow-=items.size();
+        return false;
+    }
+
+    qDebug() << sourceParent <<sourceFirst <<sourceLast << destinationParent << destinationRow;
+
+    if(!beginMoveRows(sourceParent,sourceFirst,sourceLast,destinationParent,destinationRow))
+        return false;
+
+
+
+    for(int i = items.size()-1;i>=0;--i)
+    {
+        while(listRow.contains(row))
+        {
+            ++row;
+        }
+
+        TcpClient* item = items.at(i);
+        TreeItem* parent =item->getParentItem();
+        QModelIndex formerPositionIndex = formerPosition.at(i);
+
+        if(nullptr!=parent)
+        {
+            parent->removeChild(item);
+            if(orignRow == -1 && m_root.contains(parentItem) )
+            {
+                orignRow = parentItem->childCount();
+                row = orignRow;
+            }
+            else if(formerPositionIndex.row()<orignRow && parentToBe == formerPositionIndex.parent())
+            {
+                orignRow -=1;
+                row = orignRow;
+            }
+
+           // int oldModRow = -1; ########parent "Channel 7" 0 "MJ"
+            int newModRow = -1;
+
+            if(nullptr != parentItem )
+            {
+                if(m_root.contains(parentItem))
+                {
+                    newModRow = m_root.indexOf(parentItem);
+                }
+                else
+                {
+                    newModRow = parentItem->rowInParent();
+                }
+            }
+            qDebug() << "########parent" << parentItem->getName() << orignRow << item->getName();
+            parentItem->insertChildAt(orignRow,item);//row
+            //---
+
+
+
+        }
+    }
+
+    endMoveRows();*/
+    return true;
+}
+bool ChannelModel::dropMimeData(const QMimeData *data,
+                                    Qt::DropAction action, int row, int column, const QModelIndex &parent)
+{
+    Q_UNUSED(column);
+
+    if (action == Qt::IgnoreAction)
+        return false;
+
+    bool added=false;
+
+    if (data->hasFormat("application/rolisteam.networkclient.list"))
+    {
+        const  ClientMimeData* clientData = qobject_cast<const ClientMimeData*>(data);
+
+        if(nullptr!=clientData)
+        {
+            QList<TcpClient*> clientList = clientData->getList().values();
+            QList<QModelIndex> indexList = clientData->getList().keys();
+            //foreach(CleverURI* media,mediaList)
+            {
+                if (action == Qt::MoveAction)
+                {
+                    added = moveMediaItem(clientList,parent,row,indexList);
+                }
+            }
+        }
+    }
+/*    else if((data->hasUrls())&&(!added))
+    {
+        QList<QUrl> list = data->urls();
+        foreach(QUrl url, list)
+        {
+            if(url.isLocalFile())
+            {
+                QFileInfo fileInfo(url.toLocalFile());
+                if(fileInfo.isFile())
+                {
+
+                }
+                //addChildMediaTo(medium,parent);
+            }
+            //else if(url.isLocalFile())
+        }
+    }*/
+    return added;
 }
 bool ChannelModel::addConnectionToDefaultChannel(TcpClient* client)
 {

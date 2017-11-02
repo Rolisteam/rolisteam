@@ -67,7 +67,7 @@ void addFeature(ReceiveEvent & event)
     quint8 version = data.uint8();
 
     Player * player = PlayersList::instance()->getPlayer(uuid);
-    if (player == NULL)
+    if (player == nullptr)
     {
         qWarning()<< QString("Feature %1 for unknown player %2").arg(name).arg(uuid);
         event.repostLater();
@@ -82,7 +82,7 @@ void addFeature(ReceiveEvent & event)
  ************************/
 
 SendFeaturesIterator::SendFeaturesIterator()
-    : QMapIterator<QString, quint8>(QMap<QString, quint8>()), m_player(NULL), m_message(NetMsg::SetupCategory, NetMsg::AddFeatureAction)
+    : QMapIterator<QString, quint8>(QMap<QString, quint8>()), m_player(nullptr), m_message(NetMsg::SetupCategory, NetMsg::AddFeatureAction)
 {
 }
 
@@ -93,7 +93,7 @@ SendFeaturesIterator::SendFeaturesIterator(const Player & player)
 
 SendFeaturesIterator & SendFeaturesIterator::operator=(const Player * player)
 {
-    if (player != NULL)
+    if (player != nullptr)
         QMapIterator<QString, quint8>::operator=(player->m_features);
 
     m_player = player;
@@ -107,7 +107,7 @@ SendFeaturesIterator::~SendFeaturesIterator()
 NetworkMessageWriter & SendFeaturesIterator::message()
 {
     m_message.reset();
-    if (m_player != NULL)
+    if (m_player != nullptr)
     {
         //qDebug("Prepared feature %s -> %s (%d)", qPrintable(m_player->uuid()), qPrintable(key()), value());
         m_message.string8(m_player->getUuid());

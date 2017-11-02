@@ -43,6 +43,8 @@ public:
     virtual void kick(QString str);
 
     virtual TreeItem* getChildById(QString id);
+    virtual bool removeChild(TreeItem*);
+    virtual void insertChildAt(int pos, TreeItem*);
 
 
 signals:

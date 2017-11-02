@@ -232,7 +232,7 @@ void Image::zoomOut()
 
 void Image::onFitWorkSpace()
 {
-    if(NULL!=parentWidget())
+    if(nullptr!=parentWidget())
     {
         m_imageLabel->resize(parentWidget()->size());
         fitWorkSpace();
@@ -494,7 +494,7 @@ void Image::putDataIntoCleverUri()
     QByteArray data;
     QDataStream out(&data,QIODevice::WriteOnly);
     saveImageToFile(out);
-    if(NULL!=m_uri)
+    if(nullptr!=m_uri)
     {
         m_uri->setData(data);
     }
@@ -503,7 +503,7 @@ bool Image::readFileFromUri()
 {
     if(m_pixMap.isNull())
     {
-        if(NULL==m_uri)
+        if(nullptr==m_uri)
         {
             return false;
         }

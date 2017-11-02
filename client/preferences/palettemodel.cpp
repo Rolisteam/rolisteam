@@ -97,7 +97,7 @@ QVariant PaletteModel::headerData(int section, Qt::Orientation orientation, int 
 }
 void PaletteModel::initData()
 {
-    PaletteColor* color = NULL;
+    PaletteColor* color = nullptr;
 
     color = new PaletteColor(QColor(),"WindowText",QPalette::Active,QPalette::WindowText);
     m_data.append(color);

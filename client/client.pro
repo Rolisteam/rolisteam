@@ -74,13 +74,14 @@ include(undoCmd/undoCmd.pri)
 #GM TOOL BOX
 include(widgets/gmtoolbox/NameGenerator/NameGenerator.pri)
 include(widgets/gmtoolbox/UnitConvertor/UnitConvertor.pri)
+include(widgets/gmtoolbox/DiceBookMark/DiceBookMark.pri)
 
 #Audio configuration
 HAVE_SOUND {
  DEFINES+= HAVE_SOUND
 }
-HAVE_NULL {
- DEFINES+= NULL_PLAYER
+HAVE_nullptr {
+ DEFINES+= nullptr_PLAYER
 }
 # End of audio
 

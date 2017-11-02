@@ -32,6 +32,8 @@ public:
     QString serverName() const;
     void setServerName(const QString &serverName);
 
+    void setLocalPlayerId(const QString& id);
+
 public slots:
     void showCustomMenu(QPoint pos);
     void loginAdmin();
@@ -59,9 +61,10 @@ private:
     QAction* m_admin;
     QAction* m_kick;
 
-    GROUP m_currentGRoup;
+    GROUP m_currentGroup;
     QModelIndex m_index;
     QString m_serverName;
+    QString m_localPlayerId;
 };
 
 #endif // CHANNELLISTPANEL_H

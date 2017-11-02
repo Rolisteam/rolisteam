@@ -176,7 +176,7 @@ void RuleItem::setPixelToUnit(qreal pixels)
 }
 VisualItem* RuleItem::getItemCopy()
 {
-    return NULL;
+    return nullptr;
 }
 
 void RuleItem::setZoomLevel(qreal i)

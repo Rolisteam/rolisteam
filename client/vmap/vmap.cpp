@@ -57,9 +57,9 @@ void VMap::initMap()
 
     m_penSize = 1;
     m_id = QUuid::createUuid().toString();
-    m_currentItem = NULL;
-    m_currentPath = NULL;
-    m_fogItem = NULL;
+    m_currentItem = nullptr;
+    m_currentPath = nullptr;
+    m_fogItem = nullptr;
     m_itemMap=new  QMap<QString,VisualItem*>;
     m_characterItemMap = new QMap<QString,CharacterItem*>();
     setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -90,10 +90,10 @@ void VMap::setCurrentTool(VToolsBar::SelectableTool selectedtool)
     cleanFogEdition();
     if((m_selectedtool == VToolsBar::PATH)&&(m_selectedtool != selectedtool))
     {
-        m_currentPath = NULL;
+        m_currentPath = nullptr;
     }
     m_selectedtool = selectedtool;
-    m_currentItem = NULL;
+    m_currentItem = nullptr;
 
 }
 VisualItem::Layer VMap::currentLayer() const
@@ -335,7 +335,7 @@ void VMap::setCurrentItemOpacity(qreal a)
     for(auto item : selection)
     {
         VisualItem* vItem = dynamic_cast<VisualItem*>(item);
-        if(NULL!=vItem)
+        if(nullptr!=vItem)
         {
             vItem->setOpacity(a);
         }
@@ -405,7 +405,7 @@ void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 VisualItem* vitem = dynamic_cast<VisualItem*>(item);
                 if(nullptr != vitem)
                 {
-                    if((m_gridItem != vitem)&&(m_fogItem != vitem))
+                    if(isNormalItem(vitem))
                     {
                         m_movingItems.append(vitem);
                         m_oldPos.append(vitem->pos());
@@ -553,7 +553,7 @@ void VMap::setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send)
         }
         else
         {
-            msg.string8("NULL");
+            msg.string8("nullptr");
         }
         bool hasMoved=false;
         if(nullptr==parent)
@@ -580,7 +580,14 @@ void VMap::setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send)
         }
     }
 }
-
+bool VMap::isNormalItem(QGraphicsItem* item)
+{
+    if((item == m_gridItem)||(item == m_fogItem))
+    {
+       return false;
+    }
+    return true;
+}
 void VMap::manageAnchor()
 {
     AnchorItem* tmp = dynamic_cast< AnchorItem*>(m_currentItem);
@@ -590,24 +597,21 @@ void VMap::manageAnchor()
         QGraphicsItem* child = nullptr;
         QGraphicsItem* parent = nullptr;
         QList<QGraphicsItem*> item1 = items(tmp->getStart());
-
         for (QGraphicsItem* item: item1)
         {
-            if((nullptr==child)&&(item!=m_gridItem)&&(item!=m_currentItem)&&(item!=m_sightItem))
+            if((nullptr==child)&&(isNormalItem(item))&&(item!=m_sightItem))
             {
                 child = item;
             }
         }
-
         QList<QGraphicsItem*> item2 = items(tmp->getEnd());
         for (QGraphicsItem* item: item2)
         {
-            if((nullptr==parent)&&(item!=m_gridItem)&&(item!=m_currentItem)&&(item!=m_sightItem))
+            if((nullptr==parent)&&(isNormalItem(item))&&(item!=m_sightItem))
             {
                 parent = item;
             }
         }
-
         setAnchor(child,parent);
     }
 }
@@ -661,15 +665,6 @@ void VMap::sendOffItem(VisualItem* item, bool doInitPoint)
         }
     }
     m_currentAddCmd = nullptr;
-   /* NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
-    msg.string8(m_id);
-    msg.uint8(item->getType());
-    if(doInitPoint)
-    {
-        item->initChildPointItem();
-    }
-    item->fillMessage(&msg);
-    msg.sendAll();*/
 }
 
 void VMap::setCurrentChosenColor(QColor& p)
@@ -743,7 +738,7 @@ void VMap::saveFile(QDataStream& out)
     foreach(QString key, m_sortedItemList)//m_itemMap->values()
     {
         VisualItem* tmp = m_itemMap->value(key);
-        if(NULL!=tmp)
+        if(nullptr!=tmp)
         {
             out << (int)tmp->getType() << *tmp << tmp->pos().x() << tmp->pos().y();
         }
@@ -1046,7 +1041,7 @@ void VMap::processSetParentItem(NetworkMessageReader* msg)
         VisualItem* childItem = m_itemMap->value(childId);
 
         VisualItem* parentItem = nullptr;
-        if(parentId!=QStringLiteral("NULL"))
+        if(parentId!=QStringLiteral("nullptr"))
         {
             parentItem = m_itemMap->value(parentId);
         }

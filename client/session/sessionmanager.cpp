@@ -147,7 +147,7 @@ void SessionManager::openResources(QModelIndex& index)
 
     CleverURI* item = static_cast<CleverURI*>(index.internalPointer());
 
-    if(item!=NULL)
+    if(item!=nullptr)
     { 
        emit openFile(item,false);
     }
@@ -165,7 +165,7 @@ void SessionManager::removeSelectedItem()
 }
 void SessionManager::updateCleverUri(CleverURI* uri )
 {
-    if(NULL!=m_model)
+    if(nullptr!=m_model)
     {
         m_model->updateNode(uri);
     }
@@ -173,7 +173,7 @@ void SessionManager::updateCleverUri(CleverURI* uri )
 
 void SessionManager::saveSession(QDataStream& out)
 {
-    if(NULL!=m_model)
+    if(nullptr!=m_model)
     {
         m_model->saveModel(out);
         emit sessionChanged(false);
@@ -181,7 +181,7 @@ void SessionManager::saveSession(QDataStream& out)
 }
 void SessionManager::loadSession(QDataStream& in)
 {
-    if(NULL!=m_model)
+    if(nullptr!=m_model)
     {
         m_model->loadModel(in);
     }

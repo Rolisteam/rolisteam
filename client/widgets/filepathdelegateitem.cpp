@@ -121,7 +121,7 @@ void FilePathDelegateItem::setEditorData(QWidget *editor, const QModelIndex &ind
     if(index.isValid())
     {
         ImagePathEditor* ImgEditor= qobject_cast<ImagePathEditor*>(editor);
-        if(NULL!=ImgEditor)
+        if(nullptr!=ImgEditor)
         {
             ImgEditor->setPixmap(index.data(Qt::DisplayRole).value<QPixmap>());
         }
@@ -136,7 +136,7 @@ void FilePathDelegateItem::updateEditorGeometry(QWidget *editor, const QStyleOpt
 void FilePathDelegateItem::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
     ImagePathEditor* imgEditor= qobject_cast<ImagePathEditor*>(editor) ;
-    if(NULL!=imgEditor)
+    if(nullptr!=imgEditor)
     {
         QVariant var;
         var.setValue(imgEditor->getData());

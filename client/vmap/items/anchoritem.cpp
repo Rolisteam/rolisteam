@@ -108,7 +108,7 @@ void AnchorItem::initChildPointItem()
 
 VisualItem* AnchorItem::getItemCopy()
 {
-	return NULL;
+	return nullptr;
 }
 const QPointF& AnchorItem::getStart() const
 {

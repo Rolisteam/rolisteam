@@ -58,7 +58,7 @@
 #include "sharededitor/sharednotecontainer.h"
 #include "network/selectconnectionprofiledialog.h"
 
-#ifndef NULL_PLAYER
+#ifndef nullptr_PLAYER
 #include "audio/audioPlayer.h"
 #endif
 
@@ -558,7 +558,7 @@ private:
 
     QHash<QString,MediaContainer*> m_mediaHash;
     QMap<MediaContainer*,QAction*>* m_mapAction;
-#ifndef NULL_PLAYER   
+#ifndef nullptr_PLAYER   
     AudioPlayer* m_audioPlayer;
 #endif
 

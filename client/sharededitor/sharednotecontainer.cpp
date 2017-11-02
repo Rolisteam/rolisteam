@@ -27,7 +27,7 @@ SharedNoteContainer::SharedNoteContainer()
 #ifdef Q_OS_MAC
     m_edit->menuBar()->setNativeMenuBar(false);
 #endif
-    if(NULL!=m_edit)
+    if(nullptr!=m_edit)
     {
         m_title = m_edit->windowTitle();
     }
@@ -75,7 +75,7 @@ void SharedNoteContainer::updateNoteToAll()
 
 void SharedNoteContainer::setFileName(QString str)
 {
-    if(NULL!=m_uri)
+    if(nullptr!=m_uri)
     {
         m_uri->setUri(str);
     }
@@ -171,7 +171,7 @@ void SharedNoteContainer::readFromFile(QDataStream& data)
 
 void SharedNoteContainer::saveInto(QDataStream &out)
 {
-    if(NULL!=m_edit)
+    if(nullptr!=m_edit)
     {
         m_edit->saveFile(out);
     }

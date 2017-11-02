@@ -45,7 +45,7 @@ public:
      * @brief PlayerWidget
      * @param parent
      */
-    PlayerWidget(int id, QWidget* parent = NULL);
+    PlayerWidget(int id, QWidget* parent = nullptr);
     /**
      * @brief startMedia
      */

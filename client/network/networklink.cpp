@@ -58,10 +58,10 @@ void NetworkLink::initialize()
 
 NetworkLink::~NetworkLink()
 {
-    if(NULL!=m_socketTcp)
+    if(nullptr!=m_socketTcp)
     {
         delete m_socketTcp;
-        m_socketTcp=NULL;
+        m_socketTcp=nullptr;
     }
 }
 void NetworkLink::makeSignalConnection()
@@ -77,7 +77,7 @@ void NetworkLink::makeSignalConnection()
 void NetworkLink::connectionError(QAbstractSocket::SocketError erreur)
 {
     Q_UNUSED(erreur);
-    if(NULL==m_socketTcp)
+    if(nullptr==m_socketTcp)
     {
         return;
     }
@@ -96,7 +96,7 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
 
     qDebug() << "Categorie:" << MessageDispatcher::cat2String((NetworkMessageHeader*)data) << "Action" << MessageDispatcher::act2String((NetworkMessageHeader*)data);
 
-    if(NULL==m_socketTcp)
+    if(nullptr==m_socketTcp)
     {
         emit errorMessage(tr("Socket is null"));
         return;
@@ -126,7 +126,7 @@ void NetworkLink::sendData(NetworkMessage* msg)
 {
     qDebug() << "Categorie:" << MessageDispatcher::cat2String(msg->buffer()) << "Action" << MessageDispatcher::act2String(msg->buffer());
 
-    if(NULL==m_socketTcp)
+    if(nullptr==m_socketTcp)
     {
         emit errorMessage(tr("Socket is null"));
         return;
@@ -154,7 +154,7 @@ void NetworkLink::sendDataSlot(char *data, quint32 size, NetworkLink *but)
 
 void NetworkLink::receivingData()
 {
-    if(NULL==m_socketTcp)
+    if(nullptr==m_socketTcp)
     {
         return;
     }
@@ -330,7 +330,7 @@ void NetworkLink::setConnection(ConnectionProfile* value)
 }
 void NetworkLink::disconnectAndClose()
 {
-    if(NULL!=m_socketTcp)
+    if(nullptr!=m_socketTcp)
     {
         m_socketTcp->close();
     }

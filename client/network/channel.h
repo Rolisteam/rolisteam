@@ -59,6 +59,7 @@ public:
 
     virtual void kick(QString str);
     TreeItem* getChildById(QString id);
+    virtual void insertChildAt(int pos, TreeItem*);
 
     void fill(NetworkMessageWriter& msg);
     void read(NetworkMessageReader& msg);

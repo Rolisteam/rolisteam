@@ -42,7 +42,7 @@ NetworkMessage::~NetworkMessage()
 
 void NetworkMessage::sendTo(NetworkLink * link)
 {
-    if (link == NULL)
+    if (link == nullptr)
     {
         sendAll();
         return;
@@ -67,7 +67,7 @@ void NetworkMessage::sendAll(NetworkLink * butLink)
 }
 quint64 NetworkMessage::getSize()
 {
-    if(buffer()!=NULL)
+    if(buffer()!=nullptr)
     {
         NetworkMessageHeader* header = buffer();
         return  header->dataSize + sizeof(NetworkMessageHeader);

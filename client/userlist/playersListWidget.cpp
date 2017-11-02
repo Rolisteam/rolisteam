@@ -44,7 +44,7 @@
  **************************/
 
 PlayersListWidgetModel::PlayersListWidgetModel(QObject * parent)
-    : PlayersListProxyModel(parent), m_map(NULL)
+    : PlayersListProxyModel(parent), m_map(nullptr)
 {
 }
 
@@ -83,7 +83,7 @@ bool PlayersListWidgetModel::setData(const QModelIndex &index, const QVariant &v
     PlayersList* g_playersList = PlayersList::instance();
     Person * person = g_playersList->getPerson(index);
 
-    if (person != NULL && g_playersList->isLocal(person))
+    if (person != nullptr && g_playersList->isLocal(person))
         switch (role)
         {
             case Qt::EditRole:
@@ -100,7 +100,7 @@ bool PlayersListWidgetModel::setData(const QModelIndex &index, const QVariant &v
 
     if (role == Qt::CheckStateRole && isCheckable(index))
     {
-        // isCheckable ensures person and m_map is not NULL and person is a character.
+        // isCheckable ensures person and m_map is not nullptr and person is a character.
         m_map->toggleCharacterView(static_cast<Character *>(person));
         emit dataChanged(index, index);
         return true;
@@ -122,7 +122,7 @@ void PlayersListWidgetModel::changeMap(Map * map)
     QModelIndex end;
     int i;
     int max = 0;
-    if(NULL!=playersList->getLocalPlayer())
+    if(nullptr!=playersList->getLocalPlayer())
     {
         max = (playersList->getLocalPlayer()->isGM() ? playersList->getPlayerCount() : 1);
     }
@@ -154,13 +154,13 @@ void PlayersListWidgetModel::changeMap(Map * map)
 
 bool PlayersListWidgetModel::isCheckable(const QModelIndex &index) const
 {
-    if (!index.isValid() || m_map == NULL)
+    if (!index.isValid() || m_map == nullptr)
         return false;
 
     PlayersList * playersList = PlayersList::instance();
 
     Person * person = playersList->getPerson(index);
-    if (person == NULL)
+    if (person == nullptr)
         return false;
 
     Player* localPlayer = playersList->getLocalPlayer();
@@ -214,7 +214,7 @@ void PlayersListWidget::createLocalCharacter()
 {
     PlayersList* playersList = PlayersList::instance();
     Player * localPlayer = playersList->getLocalPlayer();
-    if(NULL==localPlayer)
+    if(nullptr==localPlayer)
     {
         return;
     }
@@ -272,7 +272,7 @@ void PlayersListWidget::setUI()
     // Add PC button
     Player* tmp = PlayersList::instance()->getLocalPlayer();
     QString what = tr("PC");
-    if(NULL!=tmp)
+    if(nullptr!=tmp)
     {
         what = (tmp->isGM() ? tr("NPC") : tr("PC"));
     }

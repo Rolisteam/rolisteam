@@ -260,7 +260,10 @@
   </action>
   <action name="m_onlineHelpAction">
    <property name="text">
-    <string>Check Update</string>
+    <string>Rolisteam Help</string>
+   </property>
+   <property name="toolTip">
+    <string>online documentation</string>
    </property>
    <property name="shortcut">
     <string>F1</string>
@@ -269,9 +272,6 @@
   <action name="m_aboutAction">
    <property name="text">
     <string>About Rolisteam</string>
-   </property>
-   <property name="shortcut">
-    <string>F12</string>
    </property>
   </action>
   <action name="m_newMapAction">
@@ -517,6 +517,9 @@
    <property name="text">
     <string>Change Profile</string>
    </property>
+   <property name="shortcut">
+    <string>F10</string>
+   </property>
   </action>
   <action name="m_newCharacterSheet">
    <property name="icon">
@@ -590,6 +593,9 @@
   <action name="m_shortCutEditorAct">
    <property name="text">
     <string>Shortcut Editor</string>
+   </property>
+   <property name="shortcut">
+    <string>F11</string>
    </property>
   </action>
  </widget>

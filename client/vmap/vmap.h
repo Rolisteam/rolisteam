@@ -533,6 +533,7 @@ protected:
      * @brief ensureFogAboveAll
      */
     void ensureFogAboveAll();
+    bool isNormalItem(QGraphicsItem *item);
 private:
     /**
     * @brief width of the map

@@ -100,6 +100,12 @@ public:
      */
     void setPassword(const QString &password);
 
+    /**
+     * @brief cloneProfile
+     * @param src
+     */
+    void cloneProfile(const ConnectionProfile* src);
+
 private:
     Character* m_character;
     bool    m_server;

@@ -44,7 +44,7 @@ public:
     virtual QString name() const =0;
     virtual bool belongsToLocalPlayer() const;
     virtual bool belongsTo(Player * player) const =0;
-    virtual void sendThem(NetworkMessage & message, NetworkLink * but = NULL) const =0;
+    virtual void sendThem(NetworkMessage & message, NetworkLink * but = nullptr) const =0;
     virtual bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const =0;
 
 signals:
@@ -65,7 +65,7 @@ public:
     QString identifier() const;
     QString name() const;
     bool belongsTo(Player * player) const;
-    void sendThem(NetworkMessage & message, NetworkLink * but = NULL) const;
+    void sendThem(NetworkMessage & message, NetworkLink * but = nullptr) const;
     bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
 };
 /**
@@ -82,7 +82,7 @@ public:
     QString identifier() const;
     QString name() const;
     bool belongsTo(Player * player) const;
-    void sendThem(NetworkMessage & message, NetworkLink * but = NULL) const;
+    void sendThem(NetworkMessage & message, NetworkLink * but = nullptr) const;
     bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
 
 private:
@@ -116,7 +116,7 @@ public:
     QString name() const;
     bool belongsToLocalPlayer() const;
     bool belongsTo(Player * player) const;
-    void sendThem(NetworkMessage & message, NetworkLink * but = NULL) const;
+    void sendThem(NetworkMessage & message, NetworkLink * but = nullptr) const;
     bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
 
     Player * owner() const;

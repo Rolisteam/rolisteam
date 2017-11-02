@@ -159,7 +159,7 @@ void Chapter::read(QDataStream &in)
         QString type;
         in >> type;
         ResourcesNode* node;
-        CleverURI* uri=NULL;
+        CleverURI* uri=nullptr;
         if(type=="Chapter")
         {
             Chapter* chapter = new Chapter();
@@ -198,7 +198,7 @@ bool Chapter::removeChild(ResourcesNode* item)
             if(child->mayHaveChildren())
             {
                 Chapter* chap = dynamic_cast<Chapter*>(child);
-                if(NULL!=chap)
+                if(nullptr!=chap)
                 {
                     removed = chap->removeChild(item);
                 }

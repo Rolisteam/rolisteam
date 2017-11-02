@@ -58,7 +58,7 @@ public:
      * @brief ColorWidget
      * @param parent
      */
-    ColorWidget(QWidget* parent = NULL);
+    ColorWidget(QWidget* parent = nullptr);
     /**
      * @brief setColor
      */

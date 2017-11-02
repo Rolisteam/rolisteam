@@ -37,7 +37,7 @@ MapWizzardDialog::MapWizzardDialog(QWidget* parent) :
     ui(new Ui::MapWizzardDialog)
 {
     ui->setupUi(this);
-    if(NULL!=parent)
+    if(nullptr!=parent)
     {
         m_width = parent->rect().width();
         m_height = parent->rect().height();

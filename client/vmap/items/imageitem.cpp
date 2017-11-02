@@ -13,7 +13,7 @@
 #include "data/character.h"
 
 ImageItem::ImageItem()
-: VisualItem(),m_initialized(false),m_movie(NULL)
+: VisualItem(),m_initialized(false),m_movie(nullptr)
 {
 	m_keepAspect = true;
 
@@ -192,9 +192,9 @@ void ImageItem::setGeometryPoint(qreal pointId, QPointF &pos)
 
 	//updateChildPosition();
 }
-void ImageItem::resizeContents(const QRectF& rect, bool keepRatio)
+void ImageItem::resizeContents(const QRectF& rect, TransformType transformType)
 {
-    VisualItem::resizeContents(rect,keepRatio);
+    VisualItem::resizeContents(rect,transformType);
 }
 void ImageItem::initChildPointItem()
 {
@@ -207,7 +207,7 @@ void ImageItem::initChildPointItem()
 
     m_rect = m_rect.normalized();
 	setTransformOriginPoint(m_rect.center());
-    if((NULL == m_child))
+    if((nullptr == m_child))
     {
         m_child = new QVector<ChildPointItem*>();
     }
@@ -227,7 +227,7 @@ void ImageItem::initChildPointItem()
 }
 void ImageItem::updateChildPosition()
 {
-    if((NULL!= m_child) && (!m_child->isEmpty()))
+    if((nullptr!= m_child) && (!m_child->isEmpty()))
     {
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(0)->setPlacement(ChildPointItem::TopLeft);
@@ -264,7 +264,7 @@ void ImageItem::loadImage()
     else
     {
         delete m_movie;
-        m_movie = NULL;
+        m_movie = nullptr;
         m_image.load(m_imagePath);
 
         if(m_image.isNull())
@@ -282,7 +282,7 @@ void ImageItem::setModifiers(Qt::KeyboardModifiers modifiers)
 }
 void ImageItem::updateImageFromMovie(QRect rect)
 {
-    if(NULL!=m_movie)
+    if(nullptr!=m_movie)
     {
         m_image = m_movie->currentImage();
         if(m_rect.isNull())
@@ -301,7 +301,7 @@ VisualItem* ImageItem::getItemCopy()
 {
 	ImageItem* rectItem = new ImageItem();
 	rectItem->setImageUri(m_imagePath);
-    rectItem->resizeContents(m_rect,false);
+    rectItem->resizeContents(m_rect,VisualItem::NoTransform);
     rectItem->setPos(pos());
 	return rectItem;
 }

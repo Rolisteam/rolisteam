@@ -38,7 +38,7 @@ void UserListDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & 
     QString uuid = index.data(PlayersList::IdentifierRole).toString();
     Person* p = PlayersList::instance()->getPerson(uuid);
     painter->save();
-    if(p!=NULL)
+    if(p!=nullptr)
     {
         QRect tmp = option.rect;
         if (option.state & QStyle::State_Selected)
@@ -59,7 +59,7 @@ QSize UserListDelegate::sizeHint ( const QStyleOptionViewItem & option, const QM
     QSize returnValue;
     QString uuid = index.data(PlayersList::IdentifierRole).toString();
     Person* p = PlayersList::instance()->getPerson(uuid);
-    if(p!=NULL)
+    if(p!=nullptr)
     {
         returnValue.setWidth(option.fontMetrics.width(p->getName()));
         returnValue.setHeight(/*option.fontMetrics.height()*/option.decorationSize.height());

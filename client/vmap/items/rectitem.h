@@ -94,13 +94,6 @@ public:
 	 * @return
 	 */
     virtual VisualItem* getItemCopy();
-
-    /**
-     * @brief resizeContents
-     */
-    virtual void resizeContents(const QRectF&,bool);
-
-
 protected:
     /**
      * @brief updateChildPosition

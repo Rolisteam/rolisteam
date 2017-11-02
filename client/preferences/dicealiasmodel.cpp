@@ -43,7 +43,7 @@ QVariant DiceAliasModel::data(const QModelIndex &index, int role) const
         DiceAlias* diceAlias = m_diceAliasList->at(index.row());
         if((Qt::DisplayRole == role)||(Qt::EditRole == role))
 		{
-            if(NULL!=diceAlias)
+            if(nullptr!=diceAlias)
             {
                 if(index.column()==PATTERN)
                 {

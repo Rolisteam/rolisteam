@@ -186,7 +186,7 @@ void UserListView::mousePressEvent ( QMouseEvent * event)
     {
         QString uuid = tmp.data(PlayersList::IdentifierRole).toString();
         Person* tmpperso = PlayersList::instance()->getCharacter(uuid);
-        if(NULL!= tmpperso)
+        if(nullptr!= tmpperso)
         {
             QDrag *drag = new QDrag(this);
             RolisteamMimeData *mimeData = new RolisteamMimeData();
@@ -209,7 +209,7 @@ void UserListView::mouseMoveEvent ( QMouseEvent * event)
     {
         QString uuid = tmp.data(PlayersList::IdentifierRole).toString();
         Person* tmpperso = PlayersList::instance()->getCharacter(uuid);
-        if(NULL!= tmpperso)
+        if(nullptr!= tmpperso)
         {
             QDrag *drag = new QDrag(this);
             RolisteamMimeData *mimeData = new RolisteamMimeData();

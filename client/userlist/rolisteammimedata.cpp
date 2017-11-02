@@ -2,7 +2,7 @@
 
 
 RolisteamMimeData::RolisteamMimeData()
-    : m_data(NULL)
+    : m_data(nullptr)
 {
     m_format = "rolisteam/userlist-item";
 }
@@ -21,7 +21,7 @@ void RolisteamMimeData::setPerson(Person* data)
 }
 bool RolisteamMimeData::hasPerson() const
 {
-    if(m_data!=NULL)
+    if(m_data!=nullptr)
         return true;
     else
         return false;

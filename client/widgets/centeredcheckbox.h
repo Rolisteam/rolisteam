@@ -31,7 +31,7 @@ class CenteredCheckBox : public QWidget
 {
     Q_OBJECT
  public:
-    CenteredCheckBox( QWidget* parent=NULL);
+    CenteredCheckBox( QWidget* parent=nullptr);
 
     bool isCheckedDelegate() const;
     void setCheckedDelegate(bool);

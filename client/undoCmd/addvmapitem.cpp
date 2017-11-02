@@ -78,7 +78,7 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
         QGraphicsItem* item = m_vmap->itemAt(m_pos,QTransform());
         TextItem* tmp = dynamic_cast<TextItem*>(item);
         QGraphicsTextItem* tmpGraph = dynamic_cast<QGraphicsTextItem*>(item);
-        if((NULL==tmp)&&(NULL==tmpGraph))
+        if((nullptr==tmp)&&(nullptr==tmpGraph))
         {
             TextItem* temptext = new TextItem(m_pos,m_penSize,m_color);
             m_currentItem = temptext;
@@ -95,7 +95,7 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
         QGraphicsItem* item = m_vmap->itemAt(m_pos,QTransform());
         TextItem* tmp = dynamic_cast<TextItem*>(item);
         QGraphicsTextItem* tmpGraph = dynamic_cast<QGraphicsTextItem*>(item);
-        if((NULL==tmp)&&(NULL==tmpGraph))
+        if((nullptr==tmp)&&(nullptr==tmpGraph))
         {
             TextItem* temptext = new TextItem(m_pos,m_penSize,m_color);
             temptext->setBorderVisible(true);

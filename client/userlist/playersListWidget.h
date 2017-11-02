@@ -66,7 +66,7 @@ class PlayersListWidget : public QDockWidget
 {
     Q_OBJECT
 public:
-    PlayersListWidget(QWidget * parent = NULL);
+    PlayersListWidget(QWidget * parent = nullptr);
     ~PlayersListWidget();
 
     PlayersListWidgetModel * model() const;

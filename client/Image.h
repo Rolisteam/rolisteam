@@ -49,7 +49,7 @@ Q_OBJECT
 
 public :
     //Image(QString title, QString identImage, QString identJoueur, QImage *image, QAction *action = 0, ImprovedWorkspace *parent = 0);
-    Image(ImprovedWorkspace* parent = NULL);
+    Image(ImprovedWorkspace* parent = nullptr);
     /**
      * @brief ~Image destructor.
      */

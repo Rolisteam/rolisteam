@@ -310,7 +310,7 @@ void PathItem::setGeometryPoint(qreal pointId, QPointF &pos)
 }
 void PathItem::initChildPointItem()
 {
-	if(NULL == m_child)
+	if(nullptr == m_child)
 	{
 		m_child = new QVector<ChildPointItem*>();
         ChildPointItem* tmp = new ChildPointItem(-1,this);

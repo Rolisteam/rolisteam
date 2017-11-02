@@ -32,7 +32,7 @@
 class FogSingularity
 {
 public:
-    FogSingularity(QPolygonF* poly = NULL,bool isAdding = false);
+    FogSingularity(QPolygonF* poly = nullptr,bool isAdding = false);
     const QPolygonF* getPolygon() const;
 
     bool isAdding() const;

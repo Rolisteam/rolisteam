@@ -69,6 +69,11 @@ void ProfileModel::appendProfile()
     player->setUserVersion(m_version);
     profile->setPlayer(player);
     profile->setCharacter(new Character(QStringLiteral("Unknown"),Qt::black,false));
+    appendProfile(profile);
+
+}
+void ProfileModel::appendProfile(ConnectionProfile* profile)
+{
     beginInsertRows(QModelIndex(),m_connectionProfileList.size(),m_connectionProfileList.size());
     m_connectionProfileList.append(profile);
     endInsertRows();
@@ -134,6 +139,20 @@ ConnectionProfile* ProfileModel::getProfile(const QModelIndex& index)
     return getProfile(index.row());
 }
 
+void ProfileModel::cloneProfile(const QModelIndex &index)
+{
+     auto profileSrc = getProfile(index.row());
+
+     if(nullptr != profileSrc)
+     {
+         ConnectionProfile* clonedProfile = new ConnectionProfile();
+         clonedProfile->cloneProfile(profileSrc);
+         auto name = clonedProfile->getName();
+         clonedProfile->setName(name.append(tr(" (clone)")));
+         appendProfile(clonedProfile);
+     }
+}
+
 int ProfileModel::indexOf(ConnectionProfile *tmp)
 {
     return m_connectionProfileList.indexOf(tmp);
@@ -144,11 +163,11 @@ ConnectionProfile* ProfileModel::getProfile(int index)
     {
         return m_connectionProfileList.at(index);
     }
-    return NULL;
+    return nullptr;
 }
 void ProfileModel::removeProfile(ConnectionProfile* profile)
 {
-    if(NULL!=profile)
+    if(nullptr!=profile)
     {
         beginRemoveRows(QModelIndex(),m_connectionProfileList.indexOf(profile),m_connectionProfileList.indexOf(profile));
         m_connectionProfileList.removeOne(profile);
@@ -203,7 +222,7 @@ Qt::ItemFlags ProfileModel::flags(const QModelIndex & index)
 
 SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::SelectConnectionProfileDialog),m_currentProfile(NULL),m_version(version)
+    ui(new Ui::SelectConnectionProfileDialog),m_currentProfile(nullptr),m_version(version)
 {
     ui->setupUi(this);
     QSettings settings("rolisteam","rolisteam");
@@ -247,7 +266,7 @@ void SelectConnectionProfileDialog::setCurrentProfile(QModelIndex index)
 }
 void SelectConnectionProfileDialog::updateGUI()
 {
-    if(NULL!=m_currentProfile)
+    if(nullptr!=m_currentProfile)
     {
         ui->m_addresseLineEdit->setText(m_currentProfile->getAddress());
         ui->m_name->setText(m_currentProfile->getName());
@@ -258,7 +277,7 @@ void SelectConnectionProfileDialog::updateGUI()
         ui->m_colorBtn->setColor(m_currentProfile->getPlayer()->getColor());
         ui->m_passwordEdit->setText(m_currentProfile->getPassword());
 
-        if(NULL!=m_currentProfile->getCharacter())
+        if(nullptr!=m_currentProfile->getCharacter())
         {
         //character
             ui->m_characterName->setText(m_currentProfile->getCharacter()->getName());
@@ -269,7 +288,7 @@ void SelectConnectionProfileDialog::updateGUI()
 }
 void SelectConnectionProfileDialog::removeProfile()
 {
-  if(NULL!=m_currentProfile)
+  if(nullptr!=m_currentProfile)
   {
       if(QMessageBox::No == QMessageBox::question(this,tr("Remove Current Profile"),tr("Do you really want to remove %1 from your connection list ?").arg(m_currentProfile->getTitle())))
       {
@@ -288,7 +307,7 @@ void SelectConnectionProfileDialog::removeProfile()
       }
       else
       {
-        m_currentProfile = NULL;
+        m_currentProfile = nullptr;
       }
       updateGUI();
   }
@@ -297,7 +316,7 @@ void SelectConnectionProfileDialog::removeProfile()
 void SelectConnectionProfileDialog::updateProfile()
 {
     ui->m_errorNotification->setStyleSheet("");
-    if(NULL!=m_currentProfile)
+    if(nullptr!=m_currentProfile)
     {
         m_currentProfile->setAddress(ui->m_addresseLineEdit->text());
         m_currentProfile->setName(ui->m_name->text());

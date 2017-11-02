@@ -91,7 +91,7 @@ void ImprovedWorkspace::updateBackGround()
     if(m_fileName!=fileName)
     {
         m_fileName = fileName;
-        if(NULL!=m_backgroundPicture)
+        if(nullptr!=m_backgroundPicture)
         {
             delete m_backgroundPicture;
         }
@@ -280,7 +280,7 @@ bool ImprovedWorkspace::eventFilter(QObject *object, QEvent *event)
     if(event->type()==QEvent::Close)
     {
         QMdiSubWindow* sub = dynamic_cast<QMdiSubWindow*>(object);
-        if(NULL!=sub)
+        if(nullptr!=sub)
         {
             //removeSubWindow(sub);
             sub->setVisible(false);
@@ -293,7 +293,7 @@ bool ImprovedWorkspace::eventFilter(QObject *object, QEvent *event)
 void ImprovedWorkspace::ensurePresent()
 {
     QAction* act = qobject_cast<QAction*>(sender());
-    if(NULL!=act)
+    if(nullptr!=act)
     {
         if(!subWindowList().contains(m_actionSubWindowMap->value(act)))
         {
@@ -306,10 +306,10 @@ QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
 {
     foreach(QMdiSubWindow* tmp, subWindowList())
     {
-        if(NULL!=tmp->widget())
+        if(nullptr!=tmp->widget())
         {
             MapFrame* tmpWindow = dynamic_cast<MapFrame*>(tmp->widget());
-            if(NULL!=tmpWindow)
+            if(nullptr!=tmpWindow)
             {
                 if(tmpWindow->getMediaId() == id)
                 {
@@ -319,7 +319,7 @@ QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
             else
             {
                 Image* img = dynamic_cast<Image*>(tmp);
-                if(NULL!=img)
+                if(nullptr!=img)
                 {
                     if(img->getMediaId() == id)
                     {
@@ -329,7 +329,7 @@ QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
             }
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void ImprovedWorkspace::preferencesHasChanged(QString str)

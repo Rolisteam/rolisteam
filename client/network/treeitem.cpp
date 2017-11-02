@@ -61,7 +61,9 @@ void TreeItem::setName(const QString &name)
 
 int TreeItem::rowInParent()
 {
-    return m_parentItem->indexOf(this);
+    if(nullptr != m_parentItem)
+        return m_parentItem->indexOf(this);
+    return -1;
 }
 
 QString TreeItem::getId() const
@@ -71,6 +73,16 @@ QString TreeItem::getId() const
 TreeItem* TreeItem::getChildById(QString id)
 {
     return nullptr;
+}
+
+bool TreeItem::removeChild(TreeItem *)
+{
+    return false;
+}
+
+void TreeItem::insertChildAt(int pos, TreeItem *)
+{
+
 }
 
 void TreeItem::setId(const QString &id)

@@ -32,7 +32,7 @@ class Delegate : public QItemDelegate
     Q_OBJECT
 
     public:
-        Delegate(QObject * parent = NULL);
+        Delegate(QObject * parent = nullptr);
         ~Delegate();
 
         int roleAt(const QStyleOptionViewItem &option, const QModelIndex &index, QPoint pos) const;

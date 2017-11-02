@@ -174,7 +174,7 @@ void ColorDelegate::setEditorData(QWidget * editor, const QModelIndex & index) c
 void ColorDelegate::setModelData(QWidget * editor, QAbstractItemModel * model, const QModelIndex & index) const
 {
     ColorListEditor* cb = qobject_cast<ColorListEditor*>(editor);
-    if(NULL!=cb)
+    if(nullptr!=cb)
     {
         QColor color = cb->color();
         model->setData(index,color);
@@ -306,7 +306,7 @@ void PreferencesDialog::manageMessagingPref()
 
 void PreferencesDialog::updateUi(bool isGM)
 {
-    if(NULL!=m_aliasModel)
+    if(nullptr!=m_aliasModel)
     {
         m_aliasModel->setGM(isGM);
         m_stateModel->setGM(isGM);
@@ -665,7 +665,7 @@ void PreferencesDialog::editCss()
 {
     RolisteamTheme* theme =getCurrentRemovableTheme();
 
-    if(NULL==theme)
+    if(nullptr==theme)
     {
         return;
     }
@@ -703,7 +703,7 @@ void PreferencesDialog::setTitleAtCurrentTheme()
 {
     RolisteamTheme* theme =getCurrentRemovableTheme();
 
-    if(NULL==theme)
+    if(nullptr==theme)
     {
         return;
     }
@@ -721,7 +721,7 @@ void PreferencesDialog::setTitleAtCurrentTheme()
 void PreferencesDialog::backgroundChanged()
 {
     RolisteamTheme* theme =getCurrentRemovableTheme(false);
-    if(NULL==theme)
+    if(nullptr==theme)
     {
         return;
     }
@@ -886,7 +886,7 @@ void PreferencesDialog::applyBackground()
     if((i>=0)&&(i<m_themes.size()))
     {
         RolisteamTheme* theme = m_themes.at(i);
-        if(NULL!=theme)
+        if(nullptr!=theme)
         {
             m_currentThemeIsEditable = theme->isRemovable();
             theme->setBackgroundColor(ui->m_bgColorPush->color());
@@ -902,14 +902,14 @@ void PreferencesDialog::applyBackground()
 }
 void PreferencesDialog::sendOffAllDiceAlias(NetworkLink* link)
 {
-    if(NULL!=m_aliasModel)
+    if(nullptr!=m_aliasModel)
     {
         m_aliasModel->sendOffAllDiceAlias(link);
     }
 }
 void PreferencesDialog::sendOffAllState(NetworkLink* link)
 {
-    if(NULL!=m_aliasModel)
+    if(nullptr!=m_aliasModel)
     {
         m_stateModel->sendOffAllCharacterState(link);
     }
@@ -993,7 +993,7 @@ RolisteamTheme* PreferencesDialog::getCurrentRemovableTheme(bool selectNew)
         return theme;
     }
     else
-        return NULL;
+        return nullptr;
 }
 
 CharacterStateModel *PreferencesDialog::getStateModel() const
