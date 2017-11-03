@@ -23,7 +23,7 @@ public:
     void setModel(FieldModel *model);
 
 public slots:
-    void setData(QList<HandleItem*> ,qreal widthTotal);
+    void setData(QList<HandleItem*> ,qreal widthTotal,int line, qreal height);
 private:
     Ui::ColumnDefinitionDialog *ui;
     FieldModel* m_model;

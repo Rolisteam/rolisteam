@@ -22,7 +22,7 @@
     <item>
      <widget class="QTabWidget" name="m_tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="editor">
        <attribute name="title">
@@ -659,10 +659,16 @@
    <property name="text">
     <string>Generate Code and Sheet</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
   </action>
   <action name="actionCode_To_QML">
    <property name="text">
     <string>Code To Sheet</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
    </property>
   </action>
   <action name="m_addButtonAct">

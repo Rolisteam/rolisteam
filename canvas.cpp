@@ -189,6 +189,7 @@ void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                     m_undoStack->push(moveCmd);
                 }
                 m_movingItems.clear();
+                m_oldPos.clear();
             }
         }
         QGraphicsScene::mouseReleaseEvent(mouseEvent);

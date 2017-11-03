@@ -4,6 +4,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <QDebug>
 
+#include "tablefield.h"
 #include "field.h"
 #define SQUARE_SIZE 12
 
@@ -88,8 +89,10 @@ TableCanvasField::TableCanvasField(Field* field)
     m_addLine = new ButtonCanvas();
 
     m_defineColumns = new QAction(tr("Define Columns"),this);
+    m_values = new QAction(tr("Define Values"),this);
 
     connect(m_defineColumns,SIGNAL(triggered(bool)),this,SLOT(defineColumns()));
+    connect(m_values,SIGNAL(triggered(bool)),this,SLOT(defineValues()));
 
     m_addLine->setMsg("+");
     m_addColumn->setMsg("+");
@@ -113,6 +116,11 @@ void TableCanvasField::addColumn()
     {
         item->setPos(colW*(m_handles.indexOf(item)+1),boundingRect().height()/2);
     }
+    if(m_columnDefined)
+    {
+        m_dataReset = true;
+        defineColumns();
+    }
     update();
 }
 
@@ -129,42 +137,26 @@ void TableCanvasField::defineColumns()
 
     if(m_dataReset)
     {
-        m_dialog->setData(m_handles,boundingRect().width());
+        m_dialog->setData(m_handles,boundingRect().width(),m_lineCount,boundingRect().height());
         m_dataReset = false;
     }
 
     m_dialog->exec();
 
     update();
+    m_columnDefined = true;
+}
+
+void TableCanvasField::defineValues()
+{
+
 }
 
 void TableCanvasField::setMenu(QMenu &menu)
 {
     menu.addAction(m_defineColumns);
-
-
-    //menu.addAction(m_properties);
+    menu.addAction(m_values);
 }
-
-/*QList<HandleItem *> TableCanvasField::handles() const
-{
-    return m_handles;
-}
-
-void TableCanvasField::setHandles(const QList<HandleItem *> &handles)
-{
-    m_handles = handles;
-}
-
-QList<CharacterSheetItem::TypeField> TableCanvasField::fieldTypes() const
-{
-    return m_fieldTypes;
-}
-
-void TableCanvasField::setFieldTypes(const QList<CharacterSheetItem::TypeField> &fieldTypes)
-{
-    m_fieldTypes = fieldTypes;
-}*/
 
 int TableCanvasField::lineCount() const
 {
@@ -190,7 +182,7 @@ void TableCanvasField::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 {
     Q_UNUSED(widget);
     
-    if(NULL==m_field)
+    if(nullptr==m_field)
         return;
     painter->save();
     painter->fillRect(m_rect,m_field->bgColor());
@@ -200,7 +192,7 @@ void TableCanvasField::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     m_addLine->setPos(0,boundingRect().height()/2);
     m_addColumn->setPos(boundingRect().width()/2,0);
 
-    if(hasFocusOrChild() )
+    if(hasFocusOrChild())
     {
         painter->save();
         QPen pen = painter->pen();
@@ -225,7 +217,7 @@ void TableCanvasField::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         if(nullptr != model)
         {
             auto list = model->children();
-            for(int x = 0; x < m_colunmCount; ++x)
+            for(int x = 0; x < std::min(m_colunmCount,list.size()); ++x)
             {
                 auto  field = list.at(x);
                 qreal xPos = 0;
@@ -233,17 +225,21 @@ void TableCanvasField::paint(QPainter *painter, const QStyleOptionGraphicsItem *
                 {
                     xPos = m_handles.at(x-1)->pos().x();
                 }
+                qreal xEnd = boundingRect().width()-xPos;
+                if(x < m_colunmCount-1)
+                {
+                    xEnd = m_handles.at(x)->pos().x()-xPos;
+                }
                 auto itemType = field->getItemType();
-                auto fieldW = field->getValueFrom(CharacterSheetItem::WIDTH,Qt::DisplayRole).toDouble();
-                auto fieldH = field->getValueFrom(CharacterSheetItem::HEIGHT,Qt::DisplayRole).toDouble();
+                auto fieldH = boundingRect().height()/m_lineCount;
                 for(int y = 0; y < m_lineCount; ++y)
                 {
-                    QRectF rect(xPos,y*yStep,fieldW,fieldH);
+                    QRectF rect(xPos,y*yStep,xEnd,fieldH);
                     QPixmap map = QPixmap(m_pictureMap[itemType]);
                     m_pix=map.scaled(32,32);
                     if((!m_pix.isNull())&& m_showImageField )
                     {
-                        painter->drawPixmap(rect.center()-m_pix.rect().center(),m_pix,m_pix.rect());
+                        painter->drawPixmap(rect.center(),m_pix,m_pix.rect());//-m_pix.rect().center()
                     }
                     painter->save();
                     painter->setPen(Qt::green);
@@ -295,7 +291,26 @@ void TableCanvasField::generateSubFields(QTextStream & out)
         model->generateQML(out,CharacterSheetItem::FieldSec,true);
     }
 }
-
+void TableCanvasField::setLineModel(LineModel* lineModel,TableField* parent)
+{
+    auto model = m_dialog->model();
+    for(int i = 0 ; i < m_lineCount; ++i)
+    {
+        LineFieldItem* line = new LineFieldItem();
+        for(CharacterSheetItem* child : model->children())
+        {
+            Field* field = dynamic_cast<Field*>(child);
+            if(nullptr!=field)
+            {
+                Field* newField = new Field();
+                newField->copyField(field,true);
+                newField->setParent(parent);
+                line->insertField(newField);
+            }
+        }
+        lineModel->insertLine(line);
+    }
+}
 //////////////////////////////////////////////////////
 //
 //
@@ -320,7 +335,6 @@ void ButtonCanvas::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     painter->drawRect(boundingRect());
     painter->drawText(boundingRect(),m_msg);
     painter->restore();
-
 }
 
 QString ButtonCanvas::msg() const
@@ -337,7 +351,10 @@ void ButtonCanvas::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
    if(event->buttons() & Qt::LeftButton)
    {
-       emit clicked();
+       if(boundingRect().contains(event->pos()))
+       {
+            emit clicked();
+       }
    }
    else
    {

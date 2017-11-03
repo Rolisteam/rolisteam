@@ -39,7 +39,7 @@
 #include "imagemodel.h"
 #include "itemeditor.h"
 
-class CodeDialog;
+class CodeEditor;
 
 namespace Ui {
 class MainWindow;
@@ -184,9 +184,7 @@ private:
     qreal m_fixedScaleSheet;
 
     QUndoStack m_undoStack;
-    CodeDialog* m_codeEdit;
-
-
+    CodeEditor* m_codeEdit;
 };
 
 #endif // MAINWINDOW_H

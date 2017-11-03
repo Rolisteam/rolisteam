@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui quickwidgets quick
+QT       += core gui quickwidgets quick webview
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

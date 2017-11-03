@@ -2,7 +2,7 @@
 #define SHEETPROPERTIES_H
 
 #include <QDialog>
-
+#include <QStringListModel>
 namespace Ui {
 class SheetProperties;
 }
@@ -27,14 +27,20 @@ public:
     qreal getFixedScale() const;
     void setFixedScale(const qreal &fixedScale);
 
+
+
     bool getAdditionCodeAtTheBeginning() const;
     void setAdditionCodeAtTheBeginning(bool additionCodeAtTheBeginning);
 
     void reset();
 
+    QStringList getFontUri() const;
+    void setFontUri(const QStringList &fontUri);
 
 private:
     Ui::SheetProperties *ui;
+    QStringList m_fontUri;
+    QStringListModel m_model;
 };
 
 #endif // SHEETPROPERTIES_H

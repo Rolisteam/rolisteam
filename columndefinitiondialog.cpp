@@ -34,27 +34,34 @@ ColumnDefinitionDialog::~ColumnDefinitionDialog()
     delete ui;
 }
 
-void ColumnDefinitionDialog::setData(QList<HandleItem *> list,qreal widthTotal)
+void ColumnDefinitionDialog::setData(QList<HandleItem *> list,qreal widthTotal, int line, qreal height)
 {
     qreal currentX = 0;
+    qreal currentY = height/line;
     m_model->clearModel();
+    int i = 0;
     for(auto handle : list)
     {
         auto field = new Field();
         field->setCurrentType(CharacterSheetItem::TEXTINPUT);
         m_model->appendField(field);
         field->setX(currentX);
+        field->setY(i*currentY);
         field->setWidth(handle->pos().x()-currentX);
+        field->setHeight(currentY);
         currentX  = handle->pos().x();
+        ++i;
     }
     auto field = new Field();
     field->setCurrentType(CharacterSheetItem::TEXTINPUT);
     m_model->appendField(field);
     field->setX(currentX);
+    field->setY(i*currentY);
     field->setWidth(widthTotal-currentX);
+    field->setHeight(currentY);
 }
 
-FieldModel *ColumnDefinitionDialog::model() const
+FieldModel* ColumnDefinitionDialog::model() const
 {
     return m_model;
 }

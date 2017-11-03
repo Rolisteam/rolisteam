@@ -19,18 +19,24 @@
     ***************************************************************************/
 #include "addfieldcommand.h"
 #include "field.h"
+#include "tablefield.h"
 #include "tablecanvasfield.h"
 
 AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas,FieldModel* model,int currentPage,QPointF pos,QUndoCommand *parent)
   : QUndoCommand(parent),m_canvas(canvas),m_model(model),m_currentPage(currentPage)
 {
 
-  m_field = new Field(pos);
-  m_field->setPage(m_currentPage);
+
   if(Canvas::ADDTABLE == tool)
   {
+      m_field = new TableField();
       m_field->setCanvasField(new TableCanvasField(m_field));
   }
+  else
+  {
+      m_field = new Field(pos);
+  }
+  m_field->setPage(m_currentPage);
 
   //m_canvas->addItem(m_field->getCanvasField());
 

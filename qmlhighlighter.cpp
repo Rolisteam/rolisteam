@@ -37,6 +37,7 @@ QmlHighlighter::QmlHighlighter(QTextDocument *parent)
                     << "import\\s"
                     << "\\ssignal\\s"
                     << "\\sproperty\\s"
+                    << "\\sfunction\\s"
                     << "\\sint\\s"
                     << "\\salias\\s"
                     << "\\sstring\\s"
@@ -49,7 +50,7 @@ QmlHighlighter::QmlHighlighter(QTextDocument *parent)
     }
 
     propertyFormat.setForeground(Qt::darkRed);
-    rule.pattern = QRegularExpression("\\w+:");
+    rule.pattern = QRegularExpression("[0-9a-zA-Z_\\.]*\\s*:");
     rule.format = propertyFormat;
     highlightingRules.append(rule);
 

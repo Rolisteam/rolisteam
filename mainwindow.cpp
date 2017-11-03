@@ -156,10 +156,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->m_showItemIcon,&QAction::triggered,[=](bool triggered)
     {
-       CanvasField::setShowImageField(triggered);
-       QList<QRectF> list;
-       list << m_view->sceneRect();
-       m_view->updateScene(list);
+        CanvasField::setShowImageField(triggered);
+        QList<QRectF> list;
+        list << m_view->sceneRect();
+        m_view->updateScene(list);
     });
 
     ////////////////////
@@ -235,21 +235,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     connect(ui->m_sheetProperties,&QAction::triggered,[=](bool){
-       m_sheetProperties->setAdditionCodeAtTheBeginning(m_additionnalCodeTop);
-       m_sheetProperties->setAdditionalCode(m_additionnalCode);
-       m_sheetProperties->setAdditionalImport(m_additionnalImport);
-       m_sheetProperties->setFixedScale(m_fixedScaleSheet);
-       m_sheetProperties->setNoAdaptation(m_flickableSheet);
+        m_sheetProperties->setAdditionCodeAtTheBeginning(m_additionnalCodeTop);
+        m_sheetProperties->setAdditionalCode(m_additionnalCode);
+        m_sheetProperties->setAdditionalImport(m_additionnalImport);
+        m_sheetProperties->setFixedScale(m_fixedScaleSheet);
+        m_sheetProperties->setNoAdaptation(m_flickableSheet);
 
-       if(QDialog::Accepted == m_sheetProperties->exec())
-       {
+        if(QDialog::Accepted == m_sheetProperties->exec())
+        {
             m_additionnalCode = m_sheetProperties->getAdditionalCode();
             m_fixedScaleSheet = m_sheetProperties->getFixedScale();
             m_additionnalCodeTop = m_sheetProperties->getAdditionCodeAtTheBeginning();
             m_additionnalImport = m_sheetProperties->getAdditionalImport();
             m_flickableSheet = m_sheetProperties->isNoAdaptation();
 
-       }
+        }
     });
 
     connect(ui->m_quitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
@@ -376,7 +376,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_addImageAct,SIGNAL(triggered(bool)),this,SLOT(addImage()));
 
     // Make the table button invisible
-    ui->m_tableFieldBtn->setVisible(false);
+    //ui->m_tableFieldBtn->setVisible(false);
 
 
     //////////////////////////////////////////
@@ -426,7 +426,7 @@ void MainWindow::readSettings()
     QSettings settings("rolisteam",QString("rcse/preferences"));
     restoreState(settings.value("windowState").toByteArray());
     settings.value("Maximized", false).toBool();
-   // if(!maxi)
+    // if(!maxi)
     {
         restoreGeometry(settings.value("geometry").toByteArray());
     }
@@ -596,16 +596,16 @@ void MainWindow::openPDF()
             Poppler::Page* pdfPage = document->page(i);  // Document starts at page 0
             if (nullptr == pdfPage)
             {
-              QMessageBox::warning(this,tr("Error! This PDF file seems empty!"),tr("This PDF document has no page."),QMessageBox::Ok);
-              return;
+                QMessageBox::warning(this,tr("Error! This PDF file seems empty!"),tr("This PDF document has no page."),QMessageBox::Ok);
+                return;
             }
             // Generate a QImage of the rendered page
 
             QImage image = pdfPage->renderToImage(res,res);//xres, yres, x, y, width, height
             if (image.isNull())
             {
-              QMessageBox::warning(this,tr("Error! Can not make image!"),tr("System has failed while making image of the pdf page."),QMessageBox::Ok);
-              return;
+                QMessageBox::warning(this,tr("Error! Can not make image!"),tr("System has failed while making image of the pdf page."),QMessageBox::Ok);
+                return;
             }
             QPixmap* pix = new QPixmap();
             if(!m_pdf->hasResolution())
@@ -648,19 +648,19 @@ void MainWindow::openPDF()
                     }
                 }
             }
-        delete pdfPage;
-    }
+            delete pdfPage;
+        }
     }
     delete document;
 #endif
 }
 void MainWindow::managePDFImport()
 {
-  m_pdf =new PdfManager(this);
-  connect(m_pdf,SIGNAL(apply()),this,SLOT(openPDF()));
-  connect(m_pdf,SIGNAL(accepted()),this,SLOT(openPDF()));
-  openPDF();
-  m_pdf->exec();
+    m_pdf =new PdfManager(this);
+    connect(m_pdf,SIGNAL(apply()),this,SLOT(openPDF()));
+    connect(m_pdf,SIGNAL(accepted()),this,SLOT(openPDF()));
+    openPDF();
+    m_pdf->exec();
 
 }
 
@@ -804,6 +804,18 @@ void MainWindow::menuRequestedFromView(const QPoint & pos)
     Q_UNUSED(pos);
     QMenu menu(this);
 
+
+    auto list = m_view->items(pos);
+
+    for(auto item : list)
+    {
+        auto field = dynamic_cast<CanvasField*>(item);
+        if(nullptr != field)
+        {
+            field->setMenu(menu);
+            menu.addSeparator();
+        }
+    }
     menu.addAction(m_fitInView);
     menu.addSeparator();
     menu.addAction(m_alignOnX);
@@ -824,12 +836,12 @@ void MainWindow::menuRequested(const QPoint & pos)
 
     QModelIndex index = ui->m_characterView->currentIndex();
 
-    menu.addAction(m_addCharacter);   
-   // menu.addAction(m_copyCharacter);
+    menu.addAction(m_addCharacter);
+    // menu.addAction(m_copyCharacter);
     menu.addSeparator();
     menu.addAction(m_applyValueOnAllCharacters);
     menu.addAction(m_applyValueOnSelectedCharacterLines);
-  //  menu.addAction(m_applyValueOnAllCharacterLines);
+    //  menu.addAction(m_applyValueOnAllCharacterLines);
     menu.addAction(m_defineAsTabName);
     menu.addSeparator();
     menu.addAction(m_deleteCharacter);
@@ -1005,17 +1017,17 @@ void MainWindow::applyValue(QModelIndex& index, bool selection)
 
     if(selection)
     {
-      QModelIndexList list = ui->treeView->selectionModel()->selectedIndexes();
+        QModelIndexList list = ui->treeView->selectionModel()->selectedIndexes();
 
-      for(QModelIndex& index : list)
-      {
-          if(index.column() == col)
-          {
-            auto field = static_cast<Field*>(index.internalPointer());
-            listField.append(field);
-          }
-      }
-      cmd = new SetFieldPropertyCommand(m_model,listField,var,col);
+        for(QModelIndex& index : list)
+        {
+            if(index.column() == col)
+            {
+                auto field = static_cast<Field*>(index.internalPointer());
+                listField.append(field);
+            }
+        }
+        cmd = new SetFieldPropertyCommand(m_model,listField,var,col);
     }
     else
     {
@@ -1051,7 +1063,7 @@ void MainWindow::setImage()
         }
         //m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
         setFitInView();
-        if(NULL==pix)
+        if(nullptr == pix)
         {
             pix=new QPixmap();
         }
@@ -1070,7 +1082,7 @@ void MainWindow::setCurrentTool()
     QAction* action = dynamic_cast<QAction*>(sender());
     for(auto canvas : m_canvasList)
     {
-        canvas->setCurrentTool((Canvas::Tool)action->data().toInt());
+        canvas->setCurrentTool(static_cast<Canvas::Tool>(action->data().toInt()));
     }
 }
 void MainWindow::saveAs()
@@ -1125,6 +1137,21 @@ void MainWindow::save()
             obj["additionnalCodeTop"] = m_additionnalCodeTop;
             obj["flickable"] = m_flickableSheet;
 
+            QJsonArray fonts;
+            QStringList list = m_sheetProperties->getFontUri();
+            for(QString fontUri : list)
+            {
+                QFile file(fontUri);
+                if(file.open(QIODevice::ReadOnly))
+                {
+                    QJsonObject font;
+                    font["name"] = fontUri;
+                    QByteArray array = file.readAll();
+                    font["data"] = array.toBase64();
+                    fonts.append(font);
+                }
+            }
+
             //background
             QJsonArray images;
             for(auto canvas : m_canvasList)
@@ -1173,13 +1200,13 @@ void MainWindow::open()
 
                 QString qml = jsonObj["qml"].toString();
 
-            m_additionnalCode = jsonObj["additionnalCode"].toString("");
-            m_additionnalImport = jsonObj["additionnalImport"].toString("");
-            m_fixedScaleSheet = jsonObj["fixedScale"].toDouble(1.0);
-            m_additionnalCodeTop = jsonObj["additionnalCodeTop"].toBool(true);
-            m_flickableSheet = jsonObj["flickable"].toBool(false);
+                m_additionnalCode = jsonObj["additionnalCode"].toString("");
+                m_additionnalImport = jsonObj["additionnalImport"].toString("");
+                m_fixedScaleSheet = jsonObj["fixedScale"].toDouble(1.0);
+                m_additionnalCodeTop = jsonObj["additionnalCodeTop"].toBool(true);
+                m_flickableSheet = jsonObj["flickable"].toBool(false);
 
-            ui->m_codeEdit->setPlainText(qml);
+                ui->m_codeEdit->setPlainText(qml);
 
                 QJsonArray images = jsonObj["background"].toArray();
                 QList<QJsonObject> objList;
@@ -1317,7 +1344,7 @@ void MainWindow::generateQML(QString& qml)
         }
         pix = pix2;
     }
-   // QPixmap pix = m_canvasList.pixmap();
+    // QPixmap pix = m_canvasList.pixmap();
     qreal ratio = 1;
     qreal ratioBis= 1;
     bool hasImage= false;
@@ -1335,6 +1362,7 @@ void MainWindow::generateQML(QString& qml)
         key = keyParts[0];
     }
     text << "import QtQuick 2.4\n";
+    text << "import QtQuick.Layouts 1.3\n";
     text << "import \"qrc:/resources/qml/\"\n";
     if(!m_additionnalImport.isEmpty())
     {
@@ -1352,6 +1380,10 @@ void MainWindow::generateQML(QString& qml)
     {
         text << "Item {\n";
         text << "   id:root\n";
+        if(hasImage)
+        {
+            text << "property alias realscale: imagebg.realscale\n";
+        }
     }
     text << "   focus: true\n";
     text << "   property int page: 0\n";
@@ -1432,7 +1464,7 @@ void MainWindow::showQML()
     generateQML(data);
     ui->m_codeEdit->setPlainText(data);
     m_editedTextByHand=false;
-    QHash<QString,QPixmap>* imgdata = RolisteamImageProvider::getData();
+    QSharedPointer<QHash<QString,QPixmap>> imgdata = m_imgProvider->getData();
 
     //QFile file(getFilePath("test.qml"));
     QTemporaryFile file;
@@ -1485,7 +1517,7 @@ void MainWindow::showQMLFromCode()
 {
     QString data = ui->m_codeEdit->document()->toPlainText();
 
-   /* QString name(getFilePath(QStringLiteral("test.qml")));
+    /* QString name(getFilePath(QStringLiteral("test.qml")));
     if(QFile::exists(name))
     {
         QFile::remove(name);
@@ -1499,7 +1531,7 @@ void MainWindow::showQMLFromCode()
 
     //delete ui->m_quickview;
     ui->m_quickview->engine()->clearComponentCache();
-    QHash<QString,QPixmap>* imgdata = RolisteamImageProvider::getData();
+    QSharedPointer<QHash<QString,QPixmap>> imgdata = m_imgProvider->getData();
     m_imgProvider = new RolisteamImageProvider();
     m_imgProvider->setData(imgdata);
     ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
@@ -1601,15 +1633,13 @@ void MainWindow::editColor(QModelIndex index)
 
         if(NULL!=itm)
         {
-            QColor col = itm->getValueFrom((CharacterSheetItem::ColumnId)index.column(),Qt::EditRole).value<QColor>();//CharacterSheetItem::TEXTCOLOR
+            QColor col = itm->getValueFrom(static_cast<CharacterSheetItem::ColumnId>(index.column()),Qt::EditRole).value<QColor>();//CharacterSheetItem::TEXTCOLOR
             col = QColorDialog::getColor(col,this,tr("Get Color"),QColorDialog::ShowAlphaChannel);
 
-            itm->setValueFrom((CharacterSheetItem::ColumnId)index.column(),col);
+            itm->setValueFrom(static_cast<CharacterSheetItem::ColumnId>(index.column()),col);
         }
     }
 }
-
-
 
 void MainWindow::aboutRcse()
 {

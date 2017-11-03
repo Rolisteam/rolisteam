@@ -23,6 +23,7 @@
 #include <QApplication>
 #include <QTextCodec>
 #include <QTranslator>
+#include <QtWebView/QtWebView>
 
 #include <QCommandLineParser>
 #include <QCommandLineOption>
@@ -30,6 +31,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    QtWebView::initialize();
     a.setAttribute(Qt::AA_DontUseNativeMenuBar,true);
     QString appName("RCSE");
     a.setApplicationName(appName);

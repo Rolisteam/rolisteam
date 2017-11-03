@@ -8,6 +8,8 @@
 #include "columndefinitiondialog.h"
 
 class TableCanvasField;
+class LineModel;
+class TableField;
 class HandleItem : public QGraphicsObject
 {
 public:
@@ -99,6 +101,8 @@ public:
     int getColumnWidth(int c);
     int getLineHeight();
 
+    void setLineModel(LineModel* model, TableField* parent);
+
 
     Field* generateSubField(int i);
 
@@ -107,6 +111,7 @@ public slots:
     void addColumn();
     void addLine();
     void defineColumns();
+    void defineValues();
 
 
 protected:
@@ -115,6 +120,7 @@ protected:
 private:
     int m_colunmCount;
     int m_lineCount;
+
     QList<CharacterSheetItem::TypeField> m_fieldTypes;
     QList<HandleItem *> m_handles;
 
@@ -122,9 +128,12 @@ private:
     ButtonCanvas* m_addLine;
     QAction* m_properties;
     QAction* m_defineColumns;
+    QAction* m_values;
 
     ColumnDefinitionDialog* m_dialog;
     bool m_dataReset;
+    bool m_columnDefined = false;
+
 
 };
 
