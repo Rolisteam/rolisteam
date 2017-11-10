@@ -14,7 +14,7 @@ CONFIG += c++11
 macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
 CONFIG += HAVE_SOUND
 
-QT += core gui opengl network widgets printsupport multimedia quick qml quickwidgets webenginewidgets
+QT += core gui opengl network widgets printsupport multimedia quick qml quickwidgets webenginewidgets webview
 
 ## Translation
 TRANSLATIONS =  ../translations/rolisteam_fr.ts \
