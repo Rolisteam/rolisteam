@@ -1,4 +1,5 @@
 #include "dicebookmarkmodel.h"
+#include "userlist/rolisteammimedata.h"
 
 DiceBookMarkModel::DiceBookMarkModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -7,26 +8,25 @@ DiceBookMarkModel::DiceBookMarkModel(QObject *parent)
 
 QVariant DiceBookMarkModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    // FIXME: Implement me!
-}
-
-bool DiceBookMarkModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
-{
-    if (value != headerData(section, orientation, role)) {
-        // FIXME: Implement me!
-        emit headerDataChanged(orientation, section, section);
-        return true;
+    if(role == Qt::DisplayRole)
+    {
+        if(orientation == Qt::Horizontal)
+        {
+            if(section == 0)
+                return tr("Name");
+            else
+                return tr("Command");
+        }
     }
-    return false;
+    return QVariant();
 }
-
 
 int DiceBookMarkModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
 
-    // FIXME: Implement me!
+    return m_data.size();
 }
 
 int DiceBookMarkModel::columnCount(const QModelIndex &parent) const
@@ -34,7 +34,7 @@ int DiceBookMarkModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    // FIXME: Implement me!
+    return 2;
 }
 
 QVariant DiceBookMarkModel::data(const QModelIndex &index, int role) const
@@ -42,18 +42,45 @@ QVariant DiceBookMarkModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
+    if((Qt::DisplayRole == role)||(Qt::EditRole == role))
+    {
+        std::pair<QString,QString> pair = m_data[index.row()];
+        if(index.column() == 0)
+        {
+            return pair.first;
+        }
+        else
+        {
+            return pair.second;
+        }
+    }
     return QVariant();
 }
 
 bool DiceBookMarkModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (data(index, role) != value) {
-        // FIXME: Implement me!
+    if (data(index, role) != value)
+    {
+        auto& pair = m_data[index.row()];
+        if(index.column() == 0)
+        {
+            pair.first = value.toString();
+        }
+        else
+        {
+            pair.second = value.toString();
+        }
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
     }
     return false;
+}
+
+QStringList DiceBookMarkModel::mimeTypes() const
+{
+    QStringList types;
+    types << "rolisteam/dice-command";
+    return types;
 }
 
 Qt::ItemFlags DiceBookMarkModel::flags(const QModelIndex &index) const
@@ -61,33 +88,38 @@ Qt::ItemFlags DiceBookMarkModel::flags(const QModelIndex &index) const
     if (!index.isValid())
         return Qt::NoItemFlags;
 
-    return Qt::ItemIsEditable; // FIXME: Implement me!
+    return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled ;
 }
 
-bool DiceBookMarkModel::insertRows(int row, int count, const QModelIndex &parent)
+QMimeData* DiceBookMarkModel::mimeData(const QModelIndexList &indexes) const
 {
-    beginInsertRows(parent, row, row + count - 1);
-    // FIXME: Implement me!
+    RolisteamMimeData* mimeData = new RolisteamMimeData();
+
+    for(const QModelIndex & index : indexes)
+    {
+        if((index.isValid())&&(index.column()==0))
+        {
+            std::pair<QString,QString> pair = m_data[index.row()];
+            mimeData->setAlias(pair.first,pair.second);
+        }
+    }
+    return mimeData;
+}
+
+bool DiceBookMarkModel::appendRows()
+{
+    beginInsertRows(QModelIndex(), m_data.size(), m_data.size());
+    m_data.push_back(std::pair<QString,QString>());
     endInsertRows();
+    return true;
 }
 
-bool DiceBookMarkModel::insertColumns(int column, int count, const QModelIndex &parent)
-{
-    beginInsertColumns(parent, column, column + count - 1);
-    // FIXME: Implement me!
-    endInsertColumns();
-}
 
 bool DiceBookMarkModel::removeRows(int row, int count, const QModelIndex &parent)
 {
     beginRemoveRows(parent, row, row + count - 1);
-    // FIXME: Implement me!
+    m_data.erase(m_data.begin()+row);
     endRemoveRows();
+    return true;
 }
 
-bool DiceBookMarkModel::removeColumns(int column, int count, const QModelIndex &parent)
-{
-    beginRemoveColumns(parent, column, column + count - 1);
-    // FIXME: Implement me!
-    endRemoveColumns();
-}
