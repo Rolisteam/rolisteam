@@ -112,11 +112,12 @@ QStringList SessionItemModel::mimeTypes() const
     types << "application/rolisteam.cleveruri.list" << "text/uri-list";
     return types;
 }
+
 QMimeData* SessionItemModel::mimeData(const QModelIndexList &indexes) const
 {
     CleverUriMimeData* mimeData = new CleverUriMimeData();
 
-    foreach(const QModelIndex & index, indexes)
+    for(const QModelIndex & index : indexes)
     {
         if((index.isValid())&&(index.column()==0))
         {
