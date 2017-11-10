@@ -55,7 +55,7 @@ ChatWindow::ChatWindow(AbstractChat * chat,QWidget* parent)
     }
     m_warnedEmoteUnavailable = false;
     m_hasUnseenMessage = false;
-
+    setAcceptDrops(true);
     // static members
     if (m_keyWordList.size() == 0)
     {
@@ -143,9 +143,9 @@ void ChatWindow::setupUi()
     m_selectPersonComboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
 
     // Toolbar
-    QToolBar * toolBar = new QToolBar();
-    toolBar->addWidget(m_selectPersonComboBox);
-    QAction* action = toolBar->addAction(QIcon::fromTheme("document-save", QIcon(":/resources/icons/save.png")),tr("save"), this, SLOT(save()));
+    m_toolBar = new QToolBar();
+    m_toolBar->addWidget(m_selectPersonComboBox);
+    QAction* action = m_toolBar->addAction(QIcon::fromTheme("document-save", QIcon(":/resources/icons/save.png")),tr("save"), this, SLOT(save()));
     action->setToolTip(tr("Save all messages from this window in %1/%2.html").arg(m_preferences->value("ChatDirectory",QDir::homePath()).toString(), m_chat->name()));
 
     // SelectPersonComboBox
@@ -155,7 +155,7 @@ void ChatWindow::setupUi()
     internalVLayout->setMargin(0);
     internalVLayout->setSpacing(0);
 
-    internalVLayout->addWidget(toolBar);
+    internalVLayout->addWidget(m_toolBar);
     internalVLayout->addWidget(m_editionZone);
     m_bottomWidget->setLayout(internalVLayout);
 
@@ -766,12 +766,49 @@ void ChatWindow::setProperDictionnary(QString idOwner)
         m_diceParser->setVariableDictionary(variableTest);
     }
 }
+#include "userlist/rolisteammimedata.h"
+void ChatWindow::dropEvent(QDropEvent* event)
+{
+    const RolisteamMimeData* data = dynamic_cast<const RolisteamMimeData*>(event->mimeData());
 
+    if(nullptr != data)
+    {
+        if(data->hasFormat(QStringLiteral("rolisteam/dice-command")))
+        {
+            std::pair<QString,QString> pair = data->getAlias();
+            m_diceBookMarks.push_back(pair);
+            QAction* action = m_toolBar->addAction(pair.first);
+            action->setData(pair.second);
+            connect(action,&QAction::triggered,this,[=](){
+                auto action = qobject_cast<QAction*>(sender());
+                QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
+                rollDiceCmd(action->data().toString(),localPersonIdentifier);
+            });
+            event->acceptProposedAction();
+        }
+    }
+}
+
+void ChatWindow::dragEnterEvent(QDragEnterEvent * event)
+{
+    const RolisteamMimeData* data = dynamic_cast<const RolisteamMimeData*>(event->mimeData());
+
+    if(data->hasFormat(QStringLiteral("rolisteam/dice-command")))
+    {
+        event->acceptProposedAction();
+    }
+    QWidget::dragEnterEvent(event);
+}
+Qt::DropActions ChatWindow::supportedDropActions() const
+{
+    return Qt::CopyAction | Qt::MoveAction;
+}
 void ChatWindow::rollDiceCmd(QString cmd, QString owner)
 {
     QString title;
     QString msg;
     QString idOwner = PlayersList::instance()->getUuidFromName(owner);
+
     setProperDictionnary(idOwner);
 
     manageDiceRoll(cmd.simplified(),title,msg);

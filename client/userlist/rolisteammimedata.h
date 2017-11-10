@@ -34,10 +34,17 @@ public:
       *  @brief return the person instance.
       */
     Person* getData() const;
-    /*protected:
-    QVariant retrieveData ( const QString & mimeType, QVariant::Type type ) const;*/
+
+    /**
+     * @brief getAlias
+     * @return
+     */
+    std::pair<QString,QString> getAlias() const;
+    void setAlias(QString,QString);
+
 private:
     QString m_format; /// const string representing the minetype of person
     Person* m_data; /// pointer to stored data
+    std::pair<QString,QString> m_alias; /// alias
 };
 #endif // ROLISTEAMMIMEDATA_H

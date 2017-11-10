@@ -30,6 +30,7 @@
 #include <QSplitter>
 #include <QTextBrowser>
 #include <QMdiSubWindow>
+#include <QToolBar>
 
 #include "network/networkmessage.h"
 #include "preferences/preferencesmanager.h"
@@ -124,6 +125,7 @@ public :
 
     bool isTimeShown() const;
 
+    Qt::DropActions supportedDropActions() const;
 signals:
     /**
      * @brief ChatWindowHasChanged
@@ -181,8 +183,13 @@ protected :
      * @brief updateListAlias
      */
     void updateListAlias();
-
+    /**
+     * @brief setProperDictionnary
+     * @param idOwner
+     */
     void setProperDictionnary(QString idOwner);
+    void dropEvent(QDropEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event);
 private slots :
     /**
      * @brief sendOffTextMessage
@@ -240,7 +247,9 @@ private :
     Person* m_localPerson;
     static QList<DiceAlias*>* m_receivedAlias;
     QHash<QString,QHash<QString,QString>*> m_dicoByCharacter;
+    std::vector<std::pair<QString,QString>> m_diceBookMarks;
     bool m_showTime;
+    QToolBar* m_toolBar;
 };
 
 #endif
