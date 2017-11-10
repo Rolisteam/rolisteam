@@ -278,7 +278,7 @@ void Convertor::convert()
     Unit* dest= m_model->getUnitFromIndex(to);
 
     ConvertorOperator* convert = m_convertorTable.value(QPair<Unit*,Unit*>(from,dest));
-    if(NULL!=convert)
+    if(nullptr!=convert)
     {
         double d = convert->convert(ui->m_fromLine->text().toDouble());
         ui->m_toLine->setText(QStringLiteral("%1").arg(d));
