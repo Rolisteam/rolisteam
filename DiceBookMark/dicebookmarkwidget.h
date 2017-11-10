@@ -1,13 +1,14 @@
 #ifndef DICEBOOKMARKWIDGET_H
 #define DICEBOOKMARKWIDGET_H
 
-#include <QDockWidget>
+#include <QWidget>
+#include "dicebookmarkmodel.h"
 
 namespace Ui {
 class DiceBookMarkWidget;
 }
 
-class DiceBookMarkWidget : public QDockWidget
+class DiceBookMarkWidget : public QWidget
 {
     Q_OBJECT
 
@@ -17,6 +18,7 @@ public:
 
 private:
     Ui::DiceBookMarkWidget *ui;
+    DiceBookMarkModel* m_model;
 };
 
 #endif // DICEBOOKMARKWIDGET_H

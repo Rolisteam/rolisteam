@@ -1,6 +1,7 @@
 
 include(NameGenerator/NameGenerator.pri)
 include(UnitConvertor/UnitConvertor.pri)
+include(DiceBookMark/DiceBookMark.pri)
 
 SOURCES += \
     main.cpp
