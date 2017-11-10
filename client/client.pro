@@ -274,7 +274,6 @@ FORMS += \
     network/connectionretrydialog.ui \
     map/mapwizzard.ui \
     map/newemptymapdialog.ui \
-    chat/chatwindow.ui \
     preferences/preferencesdialogbox.ui \
     audio/audiowidget.ui \
     mainwindow.ui \

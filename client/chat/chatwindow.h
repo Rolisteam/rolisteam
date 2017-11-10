@@ -40,16 +40,11 @@
 #include "data/person.h"
 #include "diceparser.h"
 
-//#include "ui_chatwindow.h"
-
 class AbstractChat;
 class MainWindow;
 class Player;
 class ImprovedTextEdit;
 
-namespace Ui {
-class ChatWindow;
-}
 /**
  * @brief chat window display on screen the chat.
  */    
