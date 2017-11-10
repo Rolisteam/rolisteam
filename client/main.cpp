@@ -30,8 +30,8 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <time.h>
+#include <QtWebView/QtWebView>
 
-//#include "network/networkmanager.h"
 #include "mainwindow.h"
 #include "data/person.h"
 #include "preferences/preferencesmanager.h"
@@ -90,6 +90,7 @@ int main(int argc, char *argv[])
 {
     // Application creation
     QApplication app(argc, argv);
+    QtWebView::initialize();
     app.setAttribute(Qt::AA_DontUseNativeMenuBar,true);
 
     QString appName("rolisteam");
