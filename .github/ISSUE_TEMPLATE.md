@@ -1,4 +1,5 @@
-[![Build Status](http://www.rolisteam.org/sites/default/files/pixture_reloaded_logo.png)](http://www.rolisteam.org)
+<p align='center'><img src="https://raw.githubusercontent.com/Rolisteam/rolisteam/master/resources/logo/1000-rolisteam.png"/></p>
+
 
 #Your configuration:
 Rolisteam version: 
