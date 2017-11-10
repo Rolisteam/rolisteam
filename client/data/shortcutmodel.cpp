@@ -97,6 +97,21 @@ ShortCutModel::ShortCutModel()
 
 }
 
+QVariant ShortCutModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if(role == Qt::DisplayRole)
+    {
+        if(orientation == Qt::Horizontal)
+        {
+            if(section == 0)
+                return tr("Action");
+            else
+                return tr("Key");
+        }
+    }
+    return QVariant();
+}
+
 QModelIndex ShortCutModel::index(int r, int c, const QModelIndex &parent) const
 {
     if(r<0)
@@ -140,6 +155,9 @@ QModelIndex ShortCutModel::parent(const QModelIndex &index) const
 
 void ShortCutModel::addCategory(const QString& category)
 {
+    if(category.isEmpty())
+        return;
+
     auto cat = std::find_if(m_root.begin(),m_root.end(),[=](Category* cat){
             return (cat->name() == category);
     });
@@ -164,11 +182,17 @@ void ShortCutModel::insertShortCut(const QString& category,const QString& name,c
         }
     });
 
-    QModelIndex idx = index(m_root.indexOf(*cat),0,QModelIndex());
+    if(cat != m_root.end())
+    {
+        QModelIndex idx = index(m_root.indexOf(*cat),0,QModelIndex());
 
-    beginInsertRows(idx,(*cat)->size(),(*cat)->size());
-    (*cat)->insertShortcut(name,key);
-    endInsertRows();
+        if(!name.isEmpty())
+        {
+            beginInsertRows(idx,(*cat)->size(),(*cat)->size());
+            (*cat)->insertShortcut(name,key);
+            endInsertRows();
+        }
+    }
 }
 
 int ShortCutModel::rowCount(const QModelIndex &parent) const

@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Shortcut Viewer</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../rolisteam.qrc">
+    <normaloff>:/logo-256.ico</normaloff>:/logo-256.ico</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -29,7 +33,10 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../rolisteam.qrc"/>
+  <include location="../../rolisteam.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
