@@ -769,23 +769,22 @@ bool PlayersList::event(QEvent * event)
                 qWarning("PlayersList : message of unknown categorie (%d)", data.category());
         }
     }
-
     return QObject::event(event);
 }
 
 void PlayersList::addPlayer(NetworkMessageReader & data)
 {
     Player * newPlayer = new Player(data);
-
     Person * actualPerson = m_uuidMap.value(newPlayer->getUuid());
     if (actualPerson != nullptr)
     {
         if (actualPerson->getParent() == nullptr)
         {
             Player * actualPlayer = static_cast<Player *>(actualPerson);
-            bool isGM = newPlayer->isGM();
-            if (m_localPlayer->isGM() != isGM)
+
+            if((m_localPlayer->isGM())&&(m_localPlayer->isGM() == newPlayer->isGM())&&(newPlayer->getUuid() != m_localPlayer->getUuid()))
             {
+                qDebug() << "Local player is not GM%%%%%%%%%%%%%%%%%%%" << newPlayer->isGM() << m_localPlayer->isGM() << newPlayer->getUuid() << m_localPlayer->getUuid();
                 m_localPlayer->setGM(false);
                 notifyPersonChanged(actualPlayer);
                 emit localGMRefused(false);
