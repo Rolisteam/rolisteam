@@ -35,7 +35,7 @@
 /////////////////////////////
 
 CharacterSheetModel::CharacterSheetModel()
- : m_formulaManager(NULL) //m_characterCount(0),
+ : m_formulaManager(nullptr) //m_characterCount(0),
 {
     m_characterList = new QList<CharacterSheet*>;
     m_rootSection = new Section();
@@ -68,7 +68,7 @@ CharacterSheet*  CharacterSheetModel::getCharacterSheet(int id)
     {
         return m_characterList->at(id);
     }
-    return NULL;
+    return nullptr;
 }
 
 int CharacterSheetModel::columnCount ( const QModelIndex & parent  ) const
