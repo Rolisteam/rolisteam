@@ -397,12 +397,12 @@ private slots :
      * @brief sendOffAllMaps
      * @param link
      */
-	void sendOffAllMaps(NetworkLink * link);
+    void sendOffAllMaps(Player* player);
     /**
      * @brief sendOffAllImages
      * @param link
      */
-	void sendOffAllImages(NetworkLink * link);
+    void sendOffAllImages(Player* player);
     /**
      * @brief updateSessionToNewClient
      * @param player

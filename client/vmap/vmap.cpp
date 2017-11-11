@@ -188,6 +188,7 @@ void VMap::characterHasBeenDeleted(Character* character)
 void VMap::fill(NetworkMessageWriter& msg)
 {
     msg.string8(getId());
+    qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ write Id Media:"<< getId();
     msg.string16(getMapTitle());
     msg.rgb(mapColor());
     msg.uint16(mapWidth());
@@ -204,10 +205,13 @@ void VMap::fill(NetworkMessageWriter& msg)
     msg.uint8(getOption(VisualItem::GridAbove).toBool());
     msg.rgb(getOption(VisualItem::GridColor).value<QColor>());
     msg.uint64(static_cast<quint64>(m_itemMap->values().size()));
+
+    qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ write media:"<< getMapTitle() << mapColor().name() << m_sightItem->getId() << m_zIndex << getOption(VisualItem::VisibilityMode).toInt() << m_itemMap->values().size();
 }
 void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
 {
     m_id = msg.string8();
+    qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ read Id Media:"<< m_id << "action:"<<msg.action();
     m_title = msg.string16();
     m_bgColor = msg.rgb();
     setWidth(msg.uint16());
@@ -228,6 +232,8 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
     QColor colorGrid = msg.rgb();
 
     quint64 itemCount = msg.uint64();
+    qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ read media:"<< m_title << m_bgColor.name() << idSight << m_zIndex << enableCharacter << itemCount;
+
     if(readCharacter)
     {
         for(quint64 i = 0; i < itemCount; ++i)
@@ -304,7 +310,6 @@ void VMap::cleanFogEdition()
         m_fogItem = nullptr;
     }
 }
-
 
 void VMap::updateItem()
 {

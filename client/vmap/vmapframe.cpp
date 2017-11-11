@@ -374,23 +374,42 @@ void VMapFrame::fill(NetworkMessageWriter& msg)
 {
     if(nullptr!=m_graphicView)
     {
-        QRectF rect = m_graphicView->sceneRect();
-        msg.real(rect.x());
-        msg.real(rect.y());
-        msg.real(rect.width());
-        msg.real(rect.height());
+        if(msg.action() == NetMsg::addMedia)
+        {
+            QRectF rect = m_graphicView->sceneRect();
+            msg.real(rect.x());
+            msg.real(rect.y());
+            msg.real(rect.width());
+            msg.real(rect.height());
 
-        m_vmap->fill(msg);
+            m_vmap->fill(msg);
+            m_vmap->sendAllItems(msg);
+        }
+        else
+        {
+            qDebug() << msg.action() << "///////////////////////// FILL VMAPFRAME";
+        }
     }
 }
 void VMapFrame::readMessage(NetworkMessageReader& msg)
 {
-    qreal x = msg.real();
-    qreal y = msg.real();
-    qreal w = msg.real();
-    qreal h = msg.real();
-    if(nullptr!=m_graphicView)
+    if(msg.action() == NetMsg::addMedia)
     {
+        qreal x = msg.real();
+        qreal y = msg.real();
+        qreal w = msg.real();
+        qreal h = msg.real();
+        if(nullptr == m_vmap)
+        {
+            m_vmap = new VMap();
+        }
+        m_vmap->readMessage(msg);
+        m_vmap->setOption(VisualItem::LocalIsGM,false);
+        if(nullptr==m_graphicView)
+        {
+            createView();
+            updateMap();
+        }
         m_graphicView->setSceneRect(x,y,w,h);
     }
 }
@@ -418,9 +437,9 @@ bool VMapFrame::readFileFromUri()
         if((nullptr!=m_vmap)&&(read))
         {
             NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
-            m_vmap->fill(msg);
-            m_vmap->sendAllItems(msg);
+            //m_vmap->fill(msg);
             fill(msg);
+            m_vmap->sendAllItems(msg);
             msg.sendAll();
             return true;
         }

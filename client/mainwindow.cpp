@@ -145,8 +145,6 @@ MainWindow::MainWindow()
 
     //Room List
     m_roomPanel = new ChannelListPanel(this);
-
-
     m_roomPanelDockWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
     m_roomPanelDockWidget->setWidget(m_roomPanel);
     m_roomPanelDockWidget->setWindowTitle(m_roomPanel->windowTitle());
@@ -183,13 +181,11 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac,bool redoable)
             addMedia->redo();
         }
     }
-    //m_mdiArea->addContainerMedia(m_media);
 }
 void  MainWindow::closeConnection()
 {
     if(nullptr!=m_clientManager)
     {
-        //m_serverThread.terminate();
         m_serverThread.quit();
         m_clientManager->disconnectAndClose();
         m_ui->m_connectionAction->setEnabled(true);
@@ -618,7 +614,7 @@ void MainWindow::newNoteDocument()
     m_sessionManager->addRessource(note->getCleverUri());
     addMediaToMdiArea(note);
 }
-void MainWindow::sendOffAllMaps(NetworkLink * link)
+void MainWindow::sendOffAllMaps(Player* player)
 {
     for(auto mediaC : m_mediaHash)
     {
@@ -632,8 +628,11 @@ void MainWindow::sendOffAllMaps(NetworkLink * link)
                 NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
                 tempmap->fill(msg);
                 tempmap->sendAllItems(msg);
+                QStringList idList;
+                idList << player->getUuid();
+                msg.setRecipientList(idList,NetworkMessage::OneOrMany);
                 tmp->fill(msg);
-                msg.sendTo(link);
+                msg.sendAll();
             }
         }
         else if(CleverURI::MAP == mediaC->getContentType())
@@ -642,13 +641,13 @@ void MainWindow::sendOffAllMaps(NetworkLink * link)
             if(nullptr!=tmp)
             {
                 tmp->getMap()->setHasPermissionMode(m_playerList->everyPlayerHasFeature("MapPermission"));
-                tmp->getMap()->sendMap(tmp->windowTitle(), link);
-                tmp->getMap()->sendOffAllCharacters(link);
+                tmp->getMap()->sendMap(tmp->windowTitle(), player->getUuid());
+                tmp->getMap()->sendOffAllCharacters(player->getUuid());
             }
         }
     }
 }
-void MainWindow::sendOffAllImages(NetworkLink * link)
+void MainWindow::sendOffAllImages(Player* player)
 {
     NetworkMessageWriter message = NetworkMessageWriter(NetMsg::MediaCategory, NetMsg::addMedia);
     for(MediaContainer* sub: m_mediaHash.values())
@@ -660,7 +659,10 @@ void MainWindow::sendOffAllImages(NetworkLink * link)
             if(nullptr!=sub)
             {
                 img->fill(message);
-                message.sendTo(link);
+                QStringList idList;
+                idList << player->getUuid();
+                message.setRecipientList(idList,NetworkMessage::OneOrMany);
+                message.sendAll();
             }
         }
     }
@@ -1061,13 +1063,14 @@ void MainWindow::updateMayBeNeeded()
     }
     m_updateChecker->deleteLater();
 }
+
 void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
 {
     switch(state)
     {
-    /*case ClientManager::LISTENING:
-        m_ipChecker->startCheck();*/
-    case ClientManager::CONNECTED:
+
+    case ClientManager::CONNECTED: /// @brief Action to be done after socket connection.
+        m_roomPanel->sendOffLoginAdmin(m_currentConnectionProfile->getPassword());
         m_ui->m_connectionAction->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
         m_dialog->accept();
@@ -1078,7 +1081,9 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
         m_dialog->open();
         break;
     case ClientManager::AUTHENTIFIED:
+        break;
     case ClientManager::CONNECTING:
+        m_chatListWidget->addPublicChat();
         break;
     }
 }
@@ -1103,8 +1108,8 @@ void MainWindow::updateSessionToNewClient(Player* player)
     {
         if(m_currentConnectionProfile->isGM())
         {
-            sendOffAllMaps(player->link());
-            sendOffAllImages(player->link());
+            sendOffAllMaps(player);
+            sendOffAllImages(player);
             m_preferencesDialog->sendOffAllDiceAlias(player->link());
             m_preferencesDialog->sendOffAllState(player->link());
         }
@@ -1275,12 +1280,8 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
             break;
         case CleverURI::VMAP:
         {
-            VMap* map = new VMap();
-            map->setOption(VisualItem::LocalIsGM,false);
-            map->readMessage(*msg);
-
-            VMapFrame* mapFrame = new VMapFrame(nullptr,map);
-            mapFrame->readMessage(*msg);
+            VMapFrame* mapFrame = new VMapFrame();
+            mapFrame->readMessage(*msg);// create the vmap
             prepareVMap(mapFrame);
             addMediaToMdiArea(mapFrame,false);
         }
@@ -1465,6 +1466,7 @@ void MainWindow::startConnection()
                 connect(&m_serverThread,SIGNAL(finished()),server,SLOT(deleteLater()));
                 connect(server,SIGNAL(sendLog(QString)),this,SLOT(notifyUser(QString)));
                 connect(server,SIGNAL(errorOccurs(QString)),this,SLOT(notifyUser(QString)));
+                connect(server,SIGNAL(errorOccurs(QString)),m_dialog,SLOT(errorOccurs(QString)));
                 connect(server,SIGNAL(listening()),this,SLOT(initializedClientManager()),Qt::QueuedConnection);
 
 
@@ -1475,7 +1477,6 @@ void MainWindow::startConnection()
             else
             {
                 initializedClientManager();
-
             }
         }
 
@@ -1483,6 +1484,7 @@ void MainWindow::startConnection()
 }
 void MainWindow::initializedClientManager()
 {
+
     if(nullptr == m_clientManager)
     {
         m_clientManager = new ClientManager(m_currentConnectionProfile);
@@ -1499,12 +1501,14 @@ void MainWindow::initializedClientManager()
     }
     if((nullptr!=m_currentConnectionProfile)&&(nullptr!=m_clientManager))
     {
+        if(m_currentConnectionProfile->isServer())
+        {
+            m_ipChecker->startCheck();
+        }
         if(nullptr!=m_playerList)
         {
             m_playerList->completeListClean();
             m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
-            m_roomPanel->sendOffLoginAdmin(m_currentConnectionProfile->getPassword());
-            //m_clientManager->startConnection();
         }
     }
 }
@@ -1518,7 +1522,6 @@ void MainWindow::postConnection()
 {
     m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
     m_roomPanel->setLocalPlayerId(m_localPlayerId);
-    m_chatListWidget->addPublicChat();
 
     if(nullptr!=m_preferences)
     {
@@ -1657,8 +1660,6 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
     else
     {
         MapFrame* mapFrame = new MapFrame(nullptr, m_mdiArea);
-      //  mapFrame->setCleverUri(new CleverURI("",CleverURI::MAP));
-
         if((nullptr!=m_currentConnectionProfile)&&(!mapFrame->processMapMessage(msg,!m_currentConnectionProfile->isGM())))
         {
             delete mapFrame;
@@ -1937,6 +1938,8 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     {
         CharacterSheetWindow* sheetWindow = new CharacterSheetWindow();
         prepareCharacterSheetWindow(sheetWindow);
+        QString idmedia = msg->string8();
+        sheetWindow->setMediaId(idmedia);
         sheetWindow->readMessage(*msg);
         addMediaToMdiArea(sheetWindow);
         m_mediaHash.insert(sheetWindow->getMediaId(),sheetWindow);

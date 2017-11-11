@@ -272,7 +272,7 @@ private: //members
     /**
     *  pointer to the map, the place where all items are added and displayed
     */
-    VMap* m_vmap;    
+    VMap* m_vmap = nullptr;
     /**
     * Pointer to the graphicView, the widget (viewport) which displays the scene
     */
