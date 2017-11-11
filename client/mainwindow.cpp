@@ -61,6 +61,7 @@
 #include "widgets/tipofdayviewer.h"
 #include "widgets/shortcuteditordialog.h"
 #include "data/shortcutvisitor.h"
+#include "widgets/gmtoolbox/gamemastertool.h"
 
 //Undo
 #include "undoCmd/addmediacontainer.h"
@@ -1142,6 +1143,8 @@ void MainWindow::readSettings()
     }
     updateRecentFileActions();
     m_preferencesDialog->initializePostSettings();
+    m_gmToolBoxList[2]->readSettings(settings);
+    m_chatListWidget->readSettings(settings);
 }
 void MainWindow::writeSettings()
 {
@@ -1150,6 +1153,8 @@ void MainWindow::writeSettings()
     settings.setValue("windowState", saveState());
     settings.setValue("Maximized", isMaximized());
     m_preferences->writeSettings(settings);
+    m_gmToolBoxList[2]->writeSettings(settings);
+    m_chatListWidget->writeSettings(settings);
 }
 void MainWindow::parseCommandLineArguments(QStringList list)
 {

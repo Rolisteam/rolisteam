@@ -218,3 +218,13 @@ void ChatListWidget::cleanChatList()
 {
     m_chatList->cleanChat();
 }
+
+void ChatListWidget::readSettings(QSettings &setting)
+{
+    m_chatList->readSettings(setting);
+}
+
+void ChatListWidget::writeSettings(QSettings &setting)
+{
+    m_chatList->writeSettings(setting);
+}

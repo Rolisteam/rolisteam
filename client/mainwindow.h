@@ -85,6 +85,7 @@ class PlayersList;
 class ConnectionProfile;
 class SessionManager;
 class CharacterSheetWindow;
+class GameMasterTool;
 /**
  * @brief Main widget for rolisteam, it herits from QMainWindow.
  */
@@ -588,7 +589,7 @@ private:
     VmapToolBar* m_vmapToolBar;
 
     ConnectionProfile* m_currentConnectionProfile;
-    QList<QWidget*> m_gmToolBoxList;
+    QList<GameMasterTool*> m_gmToolBoxList;
     SelectConnectionProfileDialog* m_dialog;
     bool m_profileDefined;
     CleverURI* m_currentStory;

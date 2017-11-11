@@ -28,6 +28,7 @@
 #include <QMenu>
 #include <QStyledItemDelegate>
 #include <QTimer>
+#include <QSettings>
 
 class AbstractChat;
 class ChatWindow;
@@ -106,6 +107,8 @@ public:
     void updateDiceAliases(QList<DiceAlias*>* map);
 
     void cleanChat();
+    void readSettings(QSettings& settings);
+    void writeSettings(QSettings& settings);
 public slots:
 	void addPublicChat();
     void rollDiceCmd(QString, QString);
@@ -158,7 +161,7 @@ private:
     QMap<QString, PrivateChat *> m_privateChatMap;
     QMenu m_chatMenu;
     MainWindow * m_mainWindow;
-	//Person* m_localPerson;
+    std::vector<std::pair<QString,QString>> m_pairList;
 };
 
 #endif

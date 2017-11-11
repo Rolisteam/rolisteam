@@ -33,6 +33,7 @@
 #include <QDir>
 #include <QPushButton>
 #include <QMdiArea>
+#include <QMenu>
 
 #include "chat/chat.h"
 #include "network/networkmessagewriter.h"
@@ -56,6 +57,7 @@ ChatWindow::ChatWindow(AbstractChat * chat,QWidget* parent)
     m_warnedEmoteUnavailable = false;
     m_hasUnseenMessage = false;
     setAcceptDrops(true);
+    //setContextMenuPolicy(Qt::CustomContextMenu);
     // static members
     if (m_keyWordList.size() == 0)
     {
@@ -775,20 +777,24 @@ void ChatWindow::dropEvent(QDropEvent* event)
     {
         if(data->hasFormat(QStringLiteral("rolisteam/dice-command")))
         {
-            std::pair<QString,QString> pair = data->getAlias();
-            m_diceBookMarks.push_back(pair);
-            QAction* action = m_toolBar->addAction(pair.first);
-            action->setData(pair.second);
-            connect(action,&QAction::triggered,this,[=](){
-                auto action = qobject_cast<QAction*>(sender());
-                QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
-                rollDiceCmd(action->data().toString(),localPersonIdentifier);
-            });
+            //std::pair<QString,QString> pair = ;
+            appendDiceShortCut(data->getAlias());
             event->acceptProposedAction();
         }
     }
 }
-
+void ChatWindow::appendDiceShortCut(const std::pair<QString,QString>& pair)
+{
+    m_diceBookMarks.push_back(pair);
+    QAction* action = m_toolBar->addAction(pair.first);
+    action->setData(pair.second);
+    m_actionList.push_back(action);
+    connect(action,&QAction::triggered,this,[=](){
+        auto action = qobject_cast<QAction*>(sender());
+        QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
+        rollDiceCmd(action->data().toString(),localPersonIdentifier);
+    });
+}
 void ChatWindow::dragEnterEvent(QDragEnterEvent * event)
 {
     const RolisteamMimeData* data = dynamic_cast<const RolisteamMimeData*>(event->mimeData());
@@ -798,6 +804,10 @@ void ChatWindow::dragEnterEvent(QDragEnterEvent * event)
         event->acceptProposedAction();
     }
     QWidget::dragEnterEvent(event);
+}
+std::vector<std::pair<QString,QString>>& ChatWindow::getDiceShortCuts()
+{
+    return m_diceBookMarks;
 }
 Qt::DropActions ChatWindow::supportedDropActions() const
 {
@@ -822,4 +832,35 @@ void ChatWindow::rollDiceCmd(QString cmd, QString owner)
 void ChatWindow::setLocalPlayer(Person* person)
 {
     m_localPerson = person;
+}
+void ChatWindow::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu menu;
+
+    QMenu* remove = menu.addMenu(tr("Remove"));
+
+    for(const auto& pair : m_diceBookMarks)
+    {
+        QAction* action = remove->addAction(pair.first);
+        action->setData(pair.second);
+
+        connect(action,&QAction::triggered,this,[=](){
+            auto act = qobject_cast<QAction*>(sender());
+            auto it = std::find_if(m_diceBookMarks.begin(),m_diceBookMarks.end(),[=](std::pair<QString,QString> pair){
+                return ((pair.first == act->text()) && (pair.second == act->data().toString()));
+            });
+            m_diceBookMarks.erase(it);
+            auto it2 = std::find_if(m_actionList.begin(),m_actionList.end(),[=](QAction* action){
+                return ((action->text() == act->text()) && (action->data().toString() == act->data().toString()));
+            });
+            m_actionList.erase(it2);
+            m_toolBar->removeAction(*it2);
+            delete *it2;
+
+        });
+    }
+
+
+    menu.exec(event->globalPos());
+
 }

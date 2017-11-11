@@ -73,6 +73,7 @@ ChatList::ChatList(MainWindow * mainWindow)
 
 
 
+
 	// Stay sync with g_playersList
 	PlayersList * g_playersList = PlayersList::instance();
 	connect(g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(addPlayerChat(Player *)));
@@ -112,9 +113,46 @@ ChatList::~ChatList()
 void ChatList::addPublicChat()
 {
 	// main (public) chat
-    addChatWindow(new ChatWindow(new PublicChat(), m_mainWindow));
+    auto chat = new ChatWindow(new PublicChat(), m_mainWindow);
+    for(auto& diceBookmark : m_pairList)
+    {
+        chat->appendDiceShortCut(diceBookmark);
+    }
+    addChatWindow(chat);
 }
+void ChatList::readSettings(QSettings& settings)
+{
+    int size = settings.beginReadArray(QStringLiteral("dicebookmarks"));
+    m_pairList.clear();
+    for(int i = 0; i<size; ++i)
+    {
+        settings.setArrayIndex(i);
+        QString title =  settings.value(QStringLiteral("title")).toString();
+        QString cmd = settings.value(QStringLiteral("command")).toString();
+        m_pairList.push_back(std::pair<QString,QString>(title,cmd));
+    }
+    settings.endArray();
+}
+void ChatList::writeSettings(QSettings& settings)
+{
+    if(!m_chatWindowList.isEmpty())
+    {
+        auto chat = m_chatWindowList.first();
+        std::vector<std::pair<QString,QString>> pairList = chat->getDiceShortCuts();
+        settings.beginWriteArray(QStringLiteral("dicebookmarks"));
+        int i = 0;
+        for(auto& pair : pairList)
+        {
+            settings.setArrayIndex(i);
+            settings.setValue(QStringLiteral("title"),pair.first);
+            settings.setValue(QStringLiteral("command"),pair.second);
+            ++i;
+        }
+        settings.endArray();
 
+    }
+
+}
 void ChatList::rollDiceCmd(QString cmd, QString owner)
 {
     if(!m_chatWindowList.isEmpty())

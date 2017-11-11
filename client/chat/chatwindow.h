@@ -23,6 +23,15 @@
 
 
 #ifndef CHATWINDOW_H
+#include "preferences/preferencesmanager.h"
+#include "widgets/colorbutton.h"
+#include "chatbrowser.h"
+
+#include "data/person.h"
+#include "diceparser.h"
+
+class AbstractChat;
+class MainWindow;
 #define CHATWINDOW_H
 
 #include <QComboBox>
@@ -33,15 +42,6 @@
 #include <QToolBar>
 
 #include "network/networkmessage.h"
-#include "preferences/preferencesmanager.h"
-#include "widgets/colorbutton.h"
-#include "chatbrowser.h"
-
-#include "data/person.h"
-#include "diceparser.h"
-
-class AbstractChat;
-class MainWindow;
 class Player;
 class ImprovedTextEdit;
 
@@ -121,6 +121,10 @@ public :
     bool isTimeShown() const;
 
     Qt::DropActions supportedDropActions() const;
+    void appendDiceShortCut(const std::pair<QString, QString> &pair);
+
+    std::vector<std::pair<QString,QString>>& getDiceShortCuts();
+    void contextMenuEvent(QContextMenuEvent *event);
 signals:
     /**
      * @brief ChatWindowHasChanged
@@ -243,6 +247,7 @@ private :
     static QList<DiceAlias*>* m_receivedAlias;
     QHash<QString,QHash<QString,QString>*> m_dicoByCharacter;
     std::vector<std::pair<QString,QString>> m_diceBookMarks;
+    std::vector<QAction*> m_actionList;
     bool m_showTime;
     QToolBar* m_toolBar;
 };

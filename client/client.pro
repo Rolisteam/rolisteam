@@ -174,7 +174,8 @@ HEADERS += \
     widgets/tipofdayviewer.h \
     data/shortcutmodel.h \
     data/shortcutvisitor.h \
-    widgets/shortcuteditordialog.h
+    widgets/shortcuteditordialog.h \
+    widgets/gmtoolbox/gamemastertool.h
 
 
    #     persondialog.cpp \
@@ -267,7 +268,8 @@ SOURCES += \
     widgets/tipofdayviewer.cpp \
     data/shortcutmodel.cpp \
     data/shortcutvisitor.cpp \
-    widgets/shortcuteditordialog.cpp
+    widgets/shortcuteditordialog.cpp \
+    widgets/gmtoolbox/gamemastertool.cpp
 
 
 FORMS += \

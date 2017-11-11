@@ -27,6 +27,7 @@
 #include <QMenu>
 #include <QPushButton>
 #include <QListView>
+#include <QSettings>
 
 #include "network/networkreceiver.h"
 
@@ -55,6 +56,9 @@ public:
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg, NetworkLink* link);
 
     void cleanChatList();
+
+    void readSettings(QSettings &setting);
+    void writeSettings(QSettings& setting);
 public slots:
     void createPrivateChat();
 	void addPublicChat();
