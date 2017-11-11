@@ -35,18 +35,18 @@ public:
     * @param filled either we paint filled rectange or just uts border
     * @param color
     */
-	RectItem(QPointF& topleft,QPointF& buttomright,bool filled,quint16 penSize,QColor& penColor,QGraphicsItem * parent = 0);
+    RectItem(QPointF& topleft,QPointF& buttomright,bool filled,quint16 penSize,QColor& penColor,QGraphicsItem * parent = 0);
     /**
     * @brief paint the current rectangle into the scene.
     * @see Qt documentation
     */
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
-    
+
     /**
     * @brief gives bounding rect. Return rect geometry into the QRectF
     */
     virtual QRectF boundingRect() const ;
-    
+
     /**
     * @brief defines new end point.
     */
@@ -89,11 +89,18 @@ public:
      * @brief initChildPointItem
      */
     virtual void initChildPointItem();
-	/**
-	 * @brief getItemCopy
-	 * @return
-	 */
+    /**
+     * @brief getItemCopy
+     * @return
+     */
     virtual VisualItem* getItemCopy();
+
+    /**
+     * @brief resizeContents
+     */
+    virtual void resizeContents(const QRectF&,TransformType);
+
+
 protected:
     /**
      * @brief updateChildPosition
@@ -103,7 +110,7 @@ protected:
 
 private:
 
-	quint16 m_penWidth;
+    quint16 m_penWidth;
     bool m_initialized;
     /**
     * @brief stores the filled state.

@@ -1171,19 +1171,19 @@ void Map::sendMap(QString titre)
 }
 
 
-void Map::sendMap(QString titre, NetworkLink * link)
+void Map::sendMap(QString titre, QString key)
 {
-    sendOffGlobalMap(titre, link, true);
+    sendOffGlobalMap(titre, key, true);
 }
 
 
-void Map::sendOffGlobalMap(QString titre, NetworkLink * link, bool versNetworkLinkUniquement)
+void Map::sendOffGlobalMap(QString titre, QString key, bool versNetworkLinkUniquement)
 {
     QByteArray baFondOriginal;
     QBuffer bufFondOriginal(&baFondOriginal);
     if (!m_originalBackground->save(&bufFondOriginal, "jpeg", 70))
     {
-		qWarning() << (tr("Codec Error (emettreCarte - map.cpp)"));
+        qWarning() << (tr("Codec Error (emettreCarte - map.cpp)"));
     }
 
 
@@ -1192,20 +1192,20 @@ void Map::sendOffGlobalMap(QString titre, NetworkLink * link, bool versNetworkLi
 
     if (!m_backgroundImage->save(&bufFond, "jpeg", 70))
     {
-		qWarning() << (tr("Codec Error (emettreCarte - map.cpp)"));
+        qWarning() << (tr("Codec Error (emettreCarte - map.cpp)"));
     }
     QByteArray baAlpha;
     QBuffer bufAlpha(&baAlpha);
     if (!m_alphaLayer->save(&bufAlpha, "jpeg", 100))
     {
-		qWarning() << (tr("Codec Error (emettreCarte - map.cpp)"));
+        qWarning() << (tr("Codec Error (emettreCarte - map.cpp)"));
     }
 
 
     NetworkMessageWriter message(NetMsg::MapCategory, NetMsg::ImportMap);
     message.string16(titre);
     message.string8(m_mapId);
-	message.uint8(m_npcSize);
+    message.uint8(m_npcSize);
     message.uint8(getPermissionMode());
     message.uint8(getFogColor().red());
     message.byteArray32(baFondOriginal);
@@ -1214,12 +1214,14 @@ void Map::sendOffGlobalMap(QString titre, NetworkLink * link, bool versNetworkLi
 
     if (versNetworkLinkUniquement)
     {
-     message.sendTo(link);
+        QStringList idList;
+        idList << key;
+        message.setRecipientList(idList,NetworkMessage::OneOrMany);
+        message.sendAll();
     }
     else
     {
-
-     message.sendAll();
+        message.sendAll();
     }
 }
 
@@ -1230,13 +1232,13 @@ void Map::sendOffAllCharacters()
 }
 
 
-void Map::sendOffAllCharacters(NetworkLink * link)
+void Map::sendOffAllCharacters(QString idPlayer)
 {
-    sendOffAllGlobalCharacters(link, true);
+    sendOffAllGlobalCharacters(idPlayer, true);
 }
 
 
-void Map::sendOffAllGlobalCharacters(NetworkLink * link, bool versNetworkLinkUniquement)
+void Map::sendOffAllGlobalCharacters(QString idPlayer, bool versNetworkLinkUniquement)
 {
 
     NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterList);
@@ -1254,10 +1256,15 @@ void Map::sendOffAllGlobalCharacters(NetworkLink * link, bool versNetworkLinkUni
 
     if (versNetworkLinkUniquement)
     {
-        msg.sendTo(link);
+        QStringList idList;
+        idList << idPlayer;
+        msg.setRecipientList(idList,NetworkMessage::OneOrMany);
+        msg.sendAll();
     }
     else
+    {
         msg.sendAll();
+    }
 
 }
 

@@ -136,9 +136,6 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
     QObject::connect(m_currentItem,SIGNAL(itemRemoved(QString)),m_vmap,SLOT(removeItemFromScene(QString)));
     QObject::connect(m_currentItem,SIGNAL(duplicateItem(VisualItem*)),m_vmap,SLOT(duplicateItem(VisualItem*)));
     QObject::connect(m_currentItem,SIGNAL(itemLayerChanged(VisualItem*)),m_vmap,SLOT(checkItemLayer(VisualItem*)));
-    //QObject::connect(m_currentItem,SIGNAL(itemPositionHasChanged()),m_vmap,SLOT(selectionPositionHasChanged()));
-    //QObject::connect(m_currentItem,SIGNAL(itemPositionAboutToChange()),m_vmap,SLOT(selectionPositionAboutToChange()));
-
     QObject::connect(m_currentItem,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),m_vmap,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
     QObject::connect(m_currentItem,SIGNAL(changeStackPosition(VisualItem*,VisualItem::StackOrder)),m_vmap,SLOT(changeStackOrder(VisualItem*,VisualItem::StackOrder)));
 
@@ -158,6 +155,7 @@ void AddVmapItemCommand::initItem()
     m_currentItem->setPropertiesHash(m_vmap->getPropertiesHash());
     m_currentItem->setLayer(m_vmap->getCurrentLayer());
     m_currentItem->setMapId(m_vmap->getId());
+    m_currentItem->setVisible(isVisible());
     m_vmap->QGraphicsScene::addItem(m_currentItem);
 }
 
@@ -223,6 +221,7 @@ bool AddVmapItemCommand::isVisible()
             }
         }
     }
+    qDebug() << "==============================================="<<visible;
     return visible;
 }
 void AddVmapItemCommand::undo()

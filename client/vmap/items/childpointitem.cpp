@@ -150,13 +150,13 @@ void ChildPointItem::setPlacement(ChildPointItem::PLACEMENT p)
 
 
 }
-void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
+/*void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
 { 
     event->accept();
     qDebug() << pos() << event->pos() << "taritnatenate ";
     QPointF v = pos() + event->pos();//distance vector
     qreal rot = m_parent->rotation();
-   /* */
+
 
     if(m_editable)
     {
@@ -167,11 +167,7 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
                 VisualItem::TransformType transformType = VisualItem::NoTransform;
 
                 //qDebug() << "before"<< v  << event->pos() << pos();
-                /*if(rot != 0)
-                {
-                    v.setX(std::cos(rot)*v.x());
-                    v.setY(std::sin(rot)*v.y());
-                }*/
+
                 qreal W = 0;//qMax(fabs(v.x()), 5.0);
                 qreal H = 0;//qMax(fabs(v.y()), 4.0);
                 qreal X = 0;
@@ -241,6 +237,65 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
                 double dZr = 57.29577951308232 * (newAngle - refAngle); // 180 * a / M_PI
                 double zr = m_parent->rotation() + dZr;
                 m_parent->setTransformOriginPoint(m_parent->boundingRect().center());
+                m_parent->setRotation(zr);
+        }
+        else
+        {
+               QGraphicsItem::mouseMoveEvent(event);
+        }
+    }
+    else
+    {
+            QGraphicsItem::mouseMoveEvent(event);
+    }
+}*/
+void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
+{
+    event->accept();
+    QPointF v = pos() + event->pos();
+    if(m_editable)
+    {
+        if(m_currentMotion == MOUSE)
+        {
+            if(!(event->modifiers() & Qt::ControlModifier))
+            {
+                VisualItem::TransformType transformType = VisualItem::NoTransform;
+
+                if((event->modifiers() & Qt::ShiftModifier))
+                {
+                    transformType = VisualItem::KeepRatio;
+                }
+                int W = qMax(2 * fabs(v.x()), 5.0);
+                int H = qMax(2 * fabs(v.y()), 4.0);
+                if(event->modifiers() & Qt::AltModifier)
+                {
+                    transformType = VisualItem::Sticky;
+                    int size = m_parent->getOption(VisualItem::GridSize).toInt();
+                    W = std::round(W/size)*size;
+                    H = std::round(H/size)*size;
+                }
+
+                //if((v.x() >1)&&(v.y()>1))
+               // qDebug() << v.y() << v.x();
+                {
+                    m_parent->resizeContents(QRectF(-W / 2, -H / 2, W, H),transformType);
+                }
+            }
+
+        }
+        if(((m_currentMotion == MOUSE)||(m_allowRotation))&&(event->modifiers() & Qt::ControlModifier))
+        {
+                if (v.isNull())
+                    return;
+
+                QPointF refPos = pos();
+
+                // set item rotation (set rotation relative to current)
+                qreal refAngle = atan2(refPos.y(), refPos.x());
+                qreal newAngle = atan2(v.y(), v.x());
+                double dZr = 57.29577951308232 * (newAngle - refAngle); // 180 * a / M_PI
+                double zr = m_parent->rotation() + dZr;
+
                 m_parent->setRotation(zr);
         }
         else

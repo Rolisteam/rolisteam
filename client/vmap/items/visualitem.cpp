@@ -84,6 +84,7 @@ void VisualItem::init()
 void VisualItem::setEditableItem(bool b)
 {
     m_editable=b;
+    qDebug() << "editable and movable" << m_editable <<  hasPermissionToMove();
     if((m_editable)&&(hasPermissionToMove()))
     {
         /// @warning if two connected people have editable item, it will lead to endless loop.
@@ -91,8 +92,6 @@ void VisualItem::setEditableItem(bool b)
         connect(this,SIGNAL(xChanged()),this,SLOT(posChange()));
         connect(this,SIGNAL(yChanged()),this,SLOT(posChange()));
         connect(this,SIGNAL(zChanged()),this,SLOT(sendZValueMsg()));
-        //connect(this,SIGNAL(heightChanged()),this,SLOT(sendRectGeometryMsg()));
-        //connect(this,SIGNAL(widthChanged()),this,SLOT(sendRectGeometryMsg()));
         connect(this,SIGNAL(heightChanged()),this,SLOT(rectChange()));
         connect(this,SIGNAL(widthChanged()),this,SLOT(rectChange()));
         connect(this,SIGNAL(rotationChanged()),this,SLOT(rotationChange()));//sendRotationMsg
@@ -111,7 +110,7 @@ void VisualItem::setEditableItem(bool b)
     }
     if(nullptr!=m_child)
     {
-        foreach (ChildPointItem* itemChild, *m_child)
+        for (ChildPointItem* itemChild : *m_child)
         {
             itemChild->setEditableItem(m_editable);
         }
@@ -140,6 +139,7 @@ void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     update();
     QGraphicsItem::mouseReleaseEvent(event);
+    endOfGeometryChange();
 }
 QVariant VisualItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
@@ -444,6 +444,7 @@ bool VisualItem::isLocal() const
 }
 void VisualItem::posChange()
 {
+    qDebug() << "add pos";
     m_pointList.append(pos());
 }
 void VisualItem::rectChange()
@@ -465,6 +466,7 @@ void VisualItem::sendPositionMsg()
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
         msg.string8(m_mapId);
         msg.string16(m_id);
+        qDebug() << "send move Item "<< m_pointList;
         msg.uint64(m_pointList.size());
         for(auto point : m_pointList)
         {
@@ -483,6 +485,7 @@ void VisualItem::readPositionMsg(NetworkMessageReader* msg)
         qreal y = msg->real();
         blockSignals(true);
         setPos(x,y);
+        qDebug() << "read move Item "<< x << y;
         blockSignals(false);
     }
     update();

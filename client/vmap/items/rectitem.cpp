@@ -37,10 +37,8 @@ RectItem::RectItem()
 RectItem::RectItem(QPointF& topleft,QPointF& buttomright,bool filled,quint16 penSize,QColor& penColor,QGraphicsItem * parent)
     : VisualItem(penColor,parent),m_penWidth(penSize),m_initialized(false),m_filled(filled)
 {
-    m_rect.setX(0);
-    m_rect.setY(0);
-    setPos(topleft);
-    m_rect.setBottomRight(buttomright-topleft);
+    m_rect.setBottomRight(buttomright);
+    m_rect.setTopLeft(topleft);
     m_filled= filled;
 }
 
@@ -56,7 +54,9 @@ QPainterPath RectItem::shape() const
         qreal halfPenSize = m_penWidth/2.0;
         qreal off = 0.5 * halfPenSize;
 
+
         path.moveTo(m_rect.topLeft().x()-off,m_rect.topLeft().y()-off);
+
         path.lineTo(m_rect.topRight().x()+off,m_rect.topRight().y()-off);
         path.lineTo(m_rect.bottomRight().x()+off,m_rect.bottomRight().y()+off);
         path.lineTo(m_rect.bottomLeft().x()-off,m_rect.bottomLeft().y()+off);
@@ -93,11 +93,11 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     }
     setChildrenVisible(hasFocusOrChild());
     painter->restore();
+ //   painter->drawText(m_rect,QStringLiteral("%1").arg(zValue()));
 }
 void RectItem::setNewEnd(QPointF& p)
 {
-    QPointF posItem = pos();
-    m_rect.setBottomRight(p-posItem);
+    m_rect.setBottomRight(p);
 }
 
 VisualItem::ItemType RectItem::getType() const
@@ -142,6 +142,12 @@ void RectItem::readData(QDataStream& in)
     QPointF p;
     in >> p;
     setPos(p);
+
+
+    /*qreal zvalue;
+    in >> zvalue;
+    setZValue(zvalue);*/
+
     int i;
     in >> i;
     m_layer = (VisualItem::Layer)i;
@@ -167,7 +173,7 @@ void RectItem::fillMessage(NetworkMessageWriter* msg)
     //others
     msg->int8(m_filled);
     msg->rgb(m_color);
-	msg->uint16(m_penWidth);
+    msg->uint16(m_penWidth);
 
 
     msg->real(scale());
@@ -196,36 +202,36 @@ void RectItem::readItem(NetworkMessageReader* msg)
 
     m_filled = msg->int8();
     m_color = msg->rgb();
-	m_penWidth = msg->uint16();
+    m_penWidth = msg->uint16();
+
+    //setTransformOriginPoint(m_rect.center());
     setScale(msg->real());
     setRotation(msg->real());
 }
-void RectItem::setGeometryPoint(qreal pointId, QPointF &position)
+void RectItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
-
-    QPointF posItem = pos();
     switch ((int)pointId)
     {
     case 0:
-        m_rect.setTopLeft(position);
+        m_rect.setTopLeft(pos);
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         break;
     case 1:
-        m_rect.setTopRight(position);
+        m_rect.setTopRight(pos);
          m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         break;
     case 2:
-        m_rect.setBottomRight(position-posItem);
+        m_rect.setBottomRight(pos);
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         break;
     case 3:
-        m_rect.setBottomLeft(position);
+        m_rect.setBottomLeft(pos);
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(2)->setPos(m_rect.bottomRight());
@@ -234,9 +240,16 @@ void RectItem::setGeometryPoint(qreal pointId, QPointF &position)
         break;
     }
     setTransformOriginPoint(m_rect.center());
+    //updateChildPosition();
 }
 void RectItem::initChildPointItem()
 {
+    if(!m_initialized)
+    {
+        setPos(m_rect.center());
+        m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
+        m_initialized=true;
+    }
     m_rect = m_rect.normalized();
     setTransformOriginPoint(m_rect.center());
     m_child = new QVector<ChildPointItem*>();
@@ -246,6 +259,7 @@ void RectItem::initChildPointItem()
         ChildPointItem* tmp = new ChildPointItem(i,this);
         tmp->setMotion(ChildPointItem::MOUSE);
         m_child->append(tmp);
+        //tmp->setFlag(QGraphicsItem::ItemIgnoresParentOpacity,true);
     }
    updateChildPosition();
 }
@@ -260,15 +274,20 @@ void RectItem::updateChildPosition()
     m_child->value(3)->setPos(m_rect.bottomLeft());
     m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
 
-    //setTransformOriginPoint(m_rect.center());
+    setTransformOriginPoint(m_rect.center());
 
     update();
 }
 VisualItem* RectItem::getItemCopy()
 {
-	QPointF topLeft = m_rect.topLeft();
-	QPointF bottomRight = m_rect.bottomRight();
-	RectItem* rectItem = new RectItem(topLeft,bottomRight,m_filled,m_penWidth,m_color);
+    QPointF topLeft = m_rect.topLeft();
+    QPointF bottomRight = m_rect.bottomRight();
+    RectItem* rectItem = new RectItem(topLeft,bottomRight,m_filled,m_penWidth,m_color);
     rectItem->setPos(pos());
-	return rectItem;
+    return rectItem;
+}
+void RectItem::resizeContents(const QRectF& rect ,TransformType b)
+{
+   // qDebug() << "after" <<m_rect << rect;
+    VisualItem::resizeContents(rect,b);
 }

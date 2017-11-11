@@ -66,9 +66,9 @@ public :
 	void showPc(QString idPerso, bool afficher);
 	void changePjSize(int nouvelleTaille, bool updatePj = true);
     void sendMap(QString titre);
-    void sendMap(QString titre, NetworkLink * link);
+    void sendMap(QString titre, QString idPlayer);
     void sendOffAllCharacters();
-    void sendOffAllCharacters(NetworkLink * link);
+    void sendOffAllCharacters(QString idPlayer);
     void paintPenLine(QList<QPoint> *listePoints, QRect zoneToRefresh, quint8 diametre, SelectedColor couleur, bool joueurLocal);
     void paintText(QString texte, QPoint positionSouris, QRect zoneToRefresh, SelectedColor couleur);
     void paintOther(NetMsg::Action action, QPoint depart, QPoint arrivee, QRect zoneToRefresh, quint8 diametre, SelectedColor couleur);
@@ -146,8 +146,8 @@ private :
 	void processNpcAction(QPoint positionSouris);
 	void processNpcActionReleased(QPoint positionSouris);
 	void processNpcMove(QPoint positionSouris);
-    void sendOffGlobalMap(QString titre, NetworkLink * link = nullptr, bool versNetworkLinkUniquement = false);
-    void sendOffAllGlobalCharacters(NetworkLink * link = nullptr, bool versNetworkLinkUniquement = false);
+    void sendOffGlobalMap(QString titre, QString idPlayer = QString(),  bool versNetworkLinkUniquement = false);
+    void sendOffAllGlobalCharacters(QString idPlayer = QString(), bool versNetworkLinkUniquement = false);
 	CharacterToken* paintCharacter(QPoint positionSouris);
     QColor getFogColor();
 

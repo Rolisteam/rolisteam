@@ -967,6 +967,7 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
             item->readItem(msg);
             QPointF pos = item->pos();
             qreal z = item->zValue();
+            qDebug() << "data of map: " << z << getOption(VisualItem::VisibilityMode).toInt();
             addNewItem(new AddVmapItemCommand(item,this),false,true);
             item->initChildPointItem();
             if(nullptr!=charItem)
