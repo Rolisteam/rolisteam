@@ -543,7 +543,6 @@ void MapFrame::fill(NetworkMessageWriter &msg)
         msg.uint16(m_height);
         msg.uint8(12);
         msg.uint8(static_cast<quint8>(m_map->getPermissionMode()));
-        msg.sendAll();
     }
 }
 

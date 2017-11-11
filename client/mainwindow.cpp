@@ -1275,6 +1275,14 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
         {
             MapFrame* mapf = new MapFrame();
             mapf->readMessage(*msg);
+            prepareMap(mapf);
+            addMediaToMdiArea(mapf,false);
+            mapf->setVisible(true);
+            /*if((nullptr!=m_currentConnectionProfile)&&(!mapFrame->processMapMessage(msg,!m_currentConnectionProfile->isGM())))
+            {
+                delete mapFrame;
+            }
+            else*/
 
         }
             break;
@@ -1288,6 +1296,7 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
             break;
         case CleverURI::CHAT:
             break;
+        case CleverURI::ONLINEPICTURE:
         case CleverURI::PICTURE:
         {
             Image* image = new Image(m_mdiArea);
@@ -1296,8 +1305,6 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
             addMediaToMdiArea(image,false);
             image->setVisible(true);
         }
-            break;
-        case CleverURI::ONLINEPICTURE:
             break;
         case CleverURI::CHARACTERSHEET:
             break;
