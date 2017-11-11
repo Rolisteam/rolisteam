@@ -26,7 +26,6 @@
 #include <QUuid>
 #include <QApplication>
 
-
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
@@ -36,15 +35,11 @@
 Person::Person()
     : m_uuid(QUuid::createUuid().toString()),m_parent(nullptr)
 {
-
 }
-
-
 
 Person::Person(const QString & name, const QColor & color)
     : m_uuid(QUuid::createUuid().toString()),m_name(name), m_color(color),m_parent(nullptr)
 {
-
 }
 
 Person::Person(const QString & uuid, const QString & name, const QColor & color)

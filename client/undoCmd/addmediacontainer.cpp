@@ -66,7 +66,6 @@ void AddMediaContainer::redo()
         if(sendAtOpening())
         {
             NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
-            qDebug() << "########################\n" << uri->getType();
             msg.uint8(static_cast<quint8>(uri->getType()));
             m_media->fill(msg);
             msg.sendAll();

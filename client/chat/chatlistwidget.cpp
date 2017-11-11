@@ -203,7 +203,6 @@ void ChatListWidget::processMoveDiceALias(NetworkMessageReader* msg)
         m_diceAliasMapFromGM->insert(to,tpm);
 
     }
-
 }
 void ChatListWidget::addPublicChat()
 {

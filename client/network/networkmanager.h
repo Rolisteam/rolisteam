@@ -59,7 +59,6 @@ public:
      * @brief NetworkManager
      */
     ClientManager(ConnectionProfile* connection);
-   // static ClientManager *getInstance();
 	/**
 	 * @brief ~NetworkManager
 	 */
@@ -71,13 +70,6 @@ public:
      * @param sauf
      */
     void sendMessage(char *donnees, quint32 taille, NetworkLink *sauf);
-
-    /**
-     * @brief ajouterNetworkLink
-     * @param NetworkLink
-     */
-    void addNetworkLink(NetworkLink *NetworkLink);
-
     /**
      * @brief isServer
      * @return
@@ -105,7 +97,6 @@ public slots:
      * @return true everything goes fine, otherwise false.
      */
     bool startConnection();
-
 signals :
     void sendData(char* data, quint32 size, NetworkLink* but);
 
@@ -128,11 +119,8 @@ signals :
 protected:
     void initializeLink();
 private slots :
-    //void newClientConnection();
     void endingNetworkLink(NetworkLink * link);
     void startConnectionToServer();
-    //bool startListening();
-   // void socketStateChanged(QAbstractSocket::SocketState state);
 
 private:
     static NetworkLink* m_networkLinkToServer;

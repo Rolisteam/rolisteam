@@ -71,9 +71,6 @@ ChatList::ChatList(MainWindow * mainWindow)
 {
     m_chatMenu.setTitle(tr("ChatWindows"));
 
-
-
-
 	// Stay sync with g_playersList
 	PlayersList * g_playersList = PlayersList::instance();
 	connect(g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(addPlayerChat(Player *)));
@@ -149,9 +146,7 @@ void ChatList::writeSettings(QSettings& settings)
             ++i;
         }
         settings.endArray();
-
     }
-
 }
 void ChatList::rollDiceCmd(QString cmd, QString owner)
 {
@@ -185,7 +180,6 @@ bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role
         chatw->setVisible(!visible);
 
     }
-
         return true;
     }
 
@@ -305,7 +299,6 @@ bool ChatList::delLocalChat(const QModelIndex & index)
 
 void ChatList::addChatWindow(ChatWindow* chatw)
 {
-
     connect(m_mainWindow, SIGNAL(closing()), chatw, SLOT(save()));
     int listSize = m_chatWindowList.size();
     beginInsertRows(QModelIndex(), listSize, listSize);
@@ -334,11 +327,8 @@ void ChatList::addChatWindow(ChatWindow* chatw)
         chatw->setLocalPlayer(PlayersList::instance()->getLocalPlayer());
         subWindowChat->setAttribute(Qt::WA_DeleteOnClose, false);
         chatw->setAttribute(Qt::WA_DeleteOnClose, false);
-
         subWindowChat->setVisible(chatw->toggleViewAction()->isChecked());
     }
-
-
     endInsertRows();
 }
 

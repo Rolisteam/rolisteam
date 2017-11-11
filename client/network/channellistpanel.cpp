@@ -161,9 +161,6 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
         m_deleteChannel->setEnabled(true);
         m_addSubchannel->setEnabled(true);
         m_join->setEnabled(true);
-
-
-
     }
     else if(state == OnUser)
     {
