@@ -22,6 +22,7 @@
 #define NAMEGENERATORWIDGET_H
 
 #include <QWidget>
+#include "widgets/gmtoolbox/gamemastertool.h"
 
 namespace Ui {
 class NameGeneratorWidget;
@@ -46,7 +47,7 @@ struct DataBase;
 /**
  * @brief The NameGeneratorWidget class
  */
-class NameGeneratorWidget : public QWidget
+class NameGeneratorWidget : public GameMasterTool
 {
     Q_OBJECT
 

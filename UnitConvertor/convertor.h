@@ -7,6 +7,7 @@
 #include "unit.h"
 #include "unitmodel.h"
 #include "convertoroperator.h"
+#include "widgets/gmtoolbox/gamemastertool.h"
 namespace Ui {
 class Convertor;
 }
@@ -26,7 +27,7 @@ namespace GMTOOL
  *
  */
 
-class Convertor : public QWidget
+class Convertor : public GameMasterTool
 {
     Q_OBJECT
 

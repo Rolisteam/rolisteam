@@ -6,7 +6,7 @@ namespace GMTOOL
 
 
 Convertor::Convertor(QWidget *parent) :
-    QWidget(parent),
+    GameMasterTool(parent),
     ui(new Ui::Convertor)
 {
     ui->setupUi(this);
