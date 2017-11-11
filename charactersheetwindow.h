@@ -202,6 +202,9 @@ public slots:
      * @param errors
      */
     void readErrorFromQML(QList<QQmlError> errors);
+
+
+    void printCurrentPage();
 protected slots:
     /**
      * @brief addTabWithSheetView
@@ -324,6 +327,7 @@ private:
      * @brief stop sharing charactersheet action
      */
     QAction* m_stopSharingTabAct;
+    QAction* m_printAct;
     /**
     * @brief vertical layout to display widget in proper order.
     */

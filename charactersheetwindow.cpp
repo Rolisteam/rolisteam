@@ -23,7 +23,7 @@
 #include <QQmlContext>
 #include <QQmlComponent>
 #include <QQuickItem>
-
+#include <QPrintDialog>
 #include <QJsonDocument>
 #include <QJsonObject>
 
@@ -66,6 +66,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     m_loadQml = new QAction(tr("Load CharacterSheet View File"),this);
 
     m_detachTab = new QAction(tr("Detach Tabs"),this);
+    m_printAct = new QAction(tr("Print Page"),this);
     m_view.setModel(&m_model);
     
     resize(m_preferences->value("charactersheetwindows/width",400).toInt(),m_preferences->value("charactersheetwindows/height",600).toInt());
@@ -85,6 +86,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     connect(m_addSection,SIGNAL(triggered()),this,SLOT(addSection()));
     connect(m_addCharacterSheet,SIGNAL(triggered()),this,SLOT(addCharacterSheet()));
     connect(m_loadQml,SIGNAL(triggered(bool)),this,SLOT(openQML()));
+    connect(m_printAct,&QAction::triggered,this,&CharacterSheetWindow::printCurrentPage);
     connect(m_detachTab,SIGNAL(triggered(bool)),this,SLOT(detachTab()));
 
     m_imgProvider = new RolisteamImageProvider();
@@ -93,10 +95,10 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
 }
 CharacterSheetWindow::~CharacterSheetWindow()
 {
-    if(NULL!=m_imgProvider)
+    if(nullptr!=m_imgProvider)
     {
         delete m_imgProvider;
-        m_imgProvider = NULL;
+        m_imgProvider = nullptr;
     }
 }
 void CharacterSheetWindow::addLine()
@@ -115,7 +117,7 @@ void CharacterSheetWindow::setReadOnlyOnSelection()
         if(0==item.column())
         {
             CharacterSheetItem* csitem = static_cast<CharacterSheetItem*>(item.internalPointer());
-            if(NULL!=csitem)
+            if(nullptr!=csitem)
             {
                 listItem.append(csitem);
             }
@@ -123,10 +125,10 @@ void CharacterSheetWindow::setReadOnlyOnSelection()
         else
         {
             CharacterSheet* sheet = m_model.getCharacterSheet(item.column()-1);
-            if(NULL!=sheet)
+            if(nullptr!=sheet)
             {
                 CharacterSheetItem* csitem = static_cast<CharacterSheetItem*>(item.internalPointer());
-                if(NULL!=csitem)
+                if(nullptr!=csitem)
                 {
                     listItem.append(sheet->getFieldFromKey(csitem->getId()));
                 }
@@ -208,7 +210,7 @@ void CharacterSheetWindow::contextMenuForTabs(const QPoint& pos)
      m_currentCharacterSheet =  m_characterSheetlist.value(quickWid);
 
     //m_currentCharacterSheet = m_characterSheetlist.values().at(m_tabs->currentIndex()-1);
-    if(NULL!=m_currentCharacterSheet)
+    if(nullptr!=m_currentCharacterSheet)
     {
 
         menu.addAction(m_detachTab);
@@ -219,6 +221,8 @@ void CharacterSheetWindow::contextMenuForTabs(const QPoint& pos)
         menu.addSeparator();
         addSharingMenu(share);
         addActionToMenu(menu);
+        menu.addAction(m_printAct);
+
 
         menu.exec(QCursor::pos());
     }
@@ -252,10 +256,10 @@ void CharacterSheetWindow::detachTab()
 void CharacterSheetWindow::copyTab()
 {
     QQuickWidget* wid = dynamic_cast<QQuickWidget*>(m_tabs->currentWidget());
-    if(NULL!=wid)
+    if(nullptr!=wid)
     {
         CharacterSheet* sheet =m_characterSheetlist.value(wid);
-        if(NULL!=sheet)
+        if(nullptr!=sheet)
         {
             addTabWithSheetView(sheet);
         }
@@ -267,10 +271,10 @@ void CharacterSheetWindow::affectSheetToCharacter()
     QAction* action = qobject_cast<QAction*>(sender());
     QString key = action->data().toString();
     Character* character = PlayersList::instance()->getCharacter(key);
-    if(NULL!=character)
+    if(nullptr!=character)
     {
         CharacterSheet* sheet = m_currentCharacterSheet;//m_model.getCharacterSheet(m_currentCharacterSheet);
-        if(NULL!=sheet)
+        if(nullptr!=sheet)
         {
             checkAlreadyShare(sheet);
             character->setSheet(sheet);
@@ -280,14 +284,21 @@ void CharacterSheetWindow::affectSheetToCharacter()
 
             Player* parent = character->getParentPlayer();
             Player* localItem =  PlayersList::instance()->getLocalPlayer();
-            if((NULL!=parent)&&(NULL!=localItem)&&(localItem->isGM()))
+            if((nullptr!=parent)&&(nullptr!=localItem)&&(localItem->isGM()))
             {
                 m_sheetToPerson.insert(sheet,parent);
-                NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterSheet);
-                msg.string8(parent->getUuid());
-                fill(&msg,sheet,character->getUuid());
+
                 Player* person = character->getParentPlayer();
-                msg.sendTo(person->link());
+                if(nullptr != person)
+                {
+                    NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterSheet);
+                    QStringList idList;
+                    idList << person->getUuid();
+                    msg.setRecipientList(idList,NetworkMessage::OneOrMany);
+                    msg.string8(parent->getUuid());
+                    fill(&msg,sheet,character->getUuid());
+                    msg.sendAll();
+                }
             }
         }
     }
@@ -488,6 +499,16 @@ QJsonDocument CharacterSheetWindow::saveFile()
     QJsonDocument json;
     QJsonObject obj;
 
+    if(!m_fileUri.isEmpty())
+    {
+        QFile file(m_fileUri);
+        if(file.open(QIODevice::ReadOnly))
+        {
+            json = QJsonDocument::fromJson(file.readAll());
+        }
+        obj = json.object();
+    }
+
     //Get datamodel
     obj["data"]=m_data;
 
@@ -558,7 +579,7 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
     {
         QFile file(fileUri);
         if(file.open(QIODevice::ReadOnly))
-        {
+        {         
             readData(file.readAll());
         }
         return true;
@@ -701,19 +722,39 @@ void CharacterSheetWindow::fill(NetworkMessageWriter* msg,CharacterSheet* sheet,
     msg->string8(m_mediaId);
     msg->string8(idChar);
     msg->string8(m_title);
-    if(NULL!=sheet)
+    if(nullptr!=sheet)
     {
         sheet->fill(*msg);
     }
     msg->string32(m_qmlData);
-    if(NULL!=m_imgProvider)
+    if(nullptr!=m_imgProvider)
     {
         m_imgProvider->fill(*msg);
     }
     m_model.fillRootSection(msg);
 
 }
-
+void CharacterSheetWindow::printCurrentPage()
+{
+    //QString pdfFilePath = QFileDialog::getSaveFileName(this,tr("Print charactersheet"),QDir::homePath(),QStringLiteral("Pdf (*.pdf)"));
+    //if(!pdfFilePath.isEmpty())
+    {
+        QPrinter printer;
+        QPrintDialog *dlg = new QPrintDialog(&printer,this);
+        if(dlg->exec() == QDialog::Accepted)
+        {
+            //QPoint start(0,0);
+            QPainter painter(&printer);
+            for(auto& qmlView : m_characterSheetlist.keys())
+            {
+                auto image = qmlView->grabFramebuffer();
+                painter.drawImage(printer.pageRect(QPrinter::DevicePixel),image,image.rect());
+                printer.newPage();
+            }
+            painter.end();
+        }
+    }
+}
 
 void CharacterSheetWindow::readMessage(NetworkMessageReader& msg)
 {
@@ -723,12 +764,13 @@ void CharacterSheetWindow::readMessage(NetworkMessageReader& msg)
     QString idChar = msg.string8();
     m_title = msg.string8();
 
-    if(NULL!=sheet)
+
+    if(nullptr!=sheet)
     {
         sheet->read(msg);
     }
     m_qmlData = msg.string32();
-    if(NULL!=m_imgProvider)
+    if(nullptr!=m_imgProvider)
     {
         m_imgProvider->read(msg);
     }
@@ -737,7 +779,7 @@ void CharacterSheetWindow::readMessage(NetworkMessageReader& msg)
     m_model.readRootSection(&msg);
 
     Character* character = PlayersList::instance()->getCharacter(idChar);
-    if(NULL!=character)
+    if(nullptr!=character)
     {
         character->setSheet(sheet);
     }
