@@ -2,7 +2,7 @@
 #define DICEBOOKMARKMODEL_H
 
 #include <QAbstractTableModel>
-
+#include <QSettings>
 /**
  * @brief The DiceBookMarkModel class
  */
@@ -36,6 +36,10 @@ public:
 
     QMimeData *mimeData(const QModelIndexList &indexes) const;
     QStringList mimeTypes() const;
+
+
+    void writeSettings(QSettings& settings);
+    void readSettings(QSettings& settings);
 private:
     std::vector<std::pair<QString,QString>> m_data;
 };

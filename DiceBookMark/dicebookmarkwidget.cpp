@@ -2,7 +2,7 @@
 #include "ui_dicebookmarkwidget.h"
 #include <QHeaderView>
 DiceBookMarkWidget::DiceBookMarkWidget(QWidget *parent) :
-    QWidget(parent),
+    GameMasterTool(parent),
     ui(new Ui::DiceBookMarkWidget)
 {
     ui->setupUi(this);
@@ -25,4 +25,12 @@ DiceBookMarkWidget::DiceBookMarkWidget(QWidget *parent) :
 DiceBookMarkWidget::~DiceBookMarkWidget()
 {
     delete ui;
+}
+void DiceBookMarkWidget::writeSettings(QSettings& settings)
+{
+    m_model->writeSettings(settings);
+}
+void DiceBookMarkWidget::readSettings(QSettings& settings)
+{
+    m_model->readSettings(settings);
 }

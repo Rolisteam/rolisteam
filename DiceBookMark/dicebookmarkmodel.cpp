@@ -122,4 +122,33 @@ bool DiceBookMarkModel::removeRows(int row, int count, const QModelIndex &parent
     endRemoveRows();
     return true;
 }
+void DiceBookMarkModel::writeSettings(QSettings& settings)
+{
+    settings.beginWriteArray(QStringLiteral("dicebookmarks"));
+    int i = 0;
+    for(auto& pair : m_data)
+    {
+        settings.setArrayIndex(i);
+        settings.setValue(QStringLiteral("title"),pair.first);
+        settings.setValue(QStringLiteral("command"),pair.second);
+        ++i;
+    }
+    settings.endArray();
+
+}
+void DiceBookMarkModel::readSettings(QSettings& settings)
+{
+    int size = settings.beginReadArray(QStringLiteral("dicebookmarks"));
+    beginResetModel();
+    m_data.clear();
+    for(int i = 0; i<size; ++i)
+    {
+        settings.setArrayIndex(i);
+        QString title =  settings.value(QStringLiteral("title")).toString();
+        QString cmd = settings.value(QStringLiteral("command")).toString();
+        m_data.push_back(std::pair<QString,QString>(title,cmd));
+    }
+    settings.endArray();
+    endResetModel();
+}
 
