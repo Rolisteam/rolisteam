@@ -49,13 +49,13 @@ void CodeEditor::collabTextChange(int pos, int charsRemoved, int charsAdded, QSt
         QTextCursor cursor = textCursor();
         cursor.setPosition(pos);
         cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, charsRemoved);      
-        cursor.insertText(data.toLatin1());
+        cursor.insertText(data);
     }
     else if (charsRemoved == 0 && charsAdded > 0)
     {
         QTextCursor cursor = textCursor();
         cursor.setPosition(pos);
-        cursor.insertText(data.toLatin1());
+        cursor.insertText(data);
     }
 }
 
@@ -103,7 +103,7 @@ void CodeEditor::unCommentSelection()
 
         QString endText = endBlock.text();
         int endPos = end - endBlock.position();
-        bool hasTrailingCharacters = !endText.left(endPos).remove(QLatin1String("//")).trimmed().isEmpty()
+        bool hasTrailingCharacters = !endText.left(endPos).remove(QStringLiteral("//")).trimmed().isEmpty()
                                      && !endText.mid(endPos).trimmed().isEmpty();
         if ((endPos <= endText.length() - 2
             && endText.at(endPos) == QLatin1Char('*')
@@ -129,15 +129,15 @@ void CodeEditor::unCommentSelection()
         cursor.removeSelectedText();
     } else if (doCStyleComment) {
         cursor.setPosition(end);
-        cursor.insertText(QLatin1String("*/"));
+        cursor.insertText(QStringLiteral("*/"));
         cursor.setPosition(start);
-        cursor.insertText(QLatin1String("/*"));
+        cursor.insertText(QStringLiteral("/*"));
     } else {
         endBlock = endBlock.next();
         doCppStyleUncomment = true;
         for (QTextBlock block = startBlock; block != endBlock; block = block.next()) {
             QString text = block.text();
-            if (!text.trimmed().startsWith(QLatin1String("//"))) {
+            if (!text.trimmed().startsWith(QStringLiteral("//"))) {
                 doCppStyleUncomment = false;
                 break;
             }
