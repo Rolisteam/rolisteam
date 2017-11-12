@@ -54,39 +54,51 @@
 #include "userlist/playersListWidget.h"
 #include "preferences/preferencesdialog.h"
 #include "services/updatechecker.h"
+#include "services/tipchecker.h"
 #include "improvedworkspace.h"
 #include "data/mediacontainer.h"
 #include "network/receiveevent.h"
+#include "widgets/tipofdayviewer.h"
+#include "widgets/shortcuteditordialog.h"
+#include "data/shortcutvisitor.h"
+#include "widgets/gmtoolbox/gamemastertool.h"
+
+//Undo
+#include "undoCmd/addmediacontainer.h"
+#include "undoCmd/deletemediacontainercommand.h"
 
 //Text editor
 #include "textedit.h"
 #include "widgets/aboutrolisteam.h"
+
+//GMToolBox
 #include "widgets/gmtoolbox/UnitConvertor/convertor.h"
 #include "widgets/gmtoolbox/NameGenerator/namegeneratorwidget.h"
+#include "widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.h"
+
 //VMAP
 #include "vmap/vmapframe.h"
 #include "vmap/vmap.h"
 #include "vmap/vmapwizzarddialog.h"
+
 //character sheet
 #include "charactersheet/charactersheetwindow.h"
+
 //session
 #include "session/sessionmanager.h"
 #ifndef NULL_PLAYER
 #include "audio/audioPlayer.h"
 #endif
 
-// singleton to the mainwindow
-MainWindow* MainWindow::m_singleton= nullptr;
-
 MainWindow::MainWindow()
     : QMainWindow(),
+      m_preferencesDialog(nullptr),
       m_clientManager(nullptr),
       m_ui(new Ui::MainWindow),
       m_resetSettings(false),
       m_currentConnectionProfile(nullptr),
       m_profileDefined(false),
       m_currentStory(nullptr),
-      m_preferencesDialog(nullptr),
       m_roomPanelDockWidget(new QDockWidget(this))
 {
     setAcceptDrops(true);
@@ -96,26 +108,27 @@ MainWindow::MainWindow()
     m_shownProgress=false;
 
     m_preferences = PreferencesManager::getInstance();
-    m_downLoadProgressbar = new QProgressBar();
+    m_downLoadProgressbar = new QProgressBar(this);
     m_downLoadProgressbar->setRange(0,100);
 
     m_downLoadProgressbar->setVisible(false);
     m_clientManager = nullptr;
-    m_vmapToolBar = new VmapToolBar();
+    m_vmapToolBar = new VmapToolBar(this);
     addToolBar(Qt::TopToolBarArea,m_vmapToolBar);
 
 
     m_ipChecker = new IpChecker(this);
     m_mapAction = new QMap<MediaContainer*,QAction*>();
 
-    m_sessionManager = new SessionManager();
+    m_sessionManager = new SessionManager(this);
 
     connect(m_sessionManager,SIGNAL(sessionChanged(bool)),this,SLOT(setWindowModified(bool)));
     connect(m_sessionManager,SIGNAL(openFile(CleverURI*,bool)),this,SLOT(openCleverURI(CleverURI*,bool)));
 
     /// Create all GM toolbox widget
-    m_gmToolBoxList.append(new NameGeneratorWidget());
-    m_gmToolBoxList.append(new GMTOOL::Convertor());
+    m_gmToolBoxList.append(new NameGeneratorWidget(this));
+    m_gmToolBoxList.append(new GMTOOL::Convertor(this));
+    m_gmToolBoxList.append(new DiceBookMarkWidget(this));
 
     for (QWidget* wid : m_gmToolBoxList)
     {
@@ -131,23 +144,21 @@ MainWindow::MainWindow()
     }
 
     //Room List
-    ChannelListPanel* roomPanel = new ChannelListPanel(this);
-
+    m_roomPanel = new ChannelListPanel(this);
     m_roomPanelDockWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
-    m_roomPanelDockWidget->setWidget(roomPanel);
-    m_roomPanelDockWidget->setWindowTitle(roomPanel->windowTitle());
-    m_roomPanelDockWidget->setObjectName(roomPanel->objectName());
+    m_roomPanelDockWidget->setWidget(m_roomPanel);
+    m_roomPanelDockWidget->setWindowTitle(m_roomPanel->windowTitle());
+    m_roomPanelDockWidget->setObjectName(m_roomPanel->objectName());
     m_roomPanelDockWidget->setVisible(false);
     addDockWidget(Qt::RightDockWidgetArea, m_roomPanelDockWidget);
 
 }
 MainWindow::~MainWindow()
 {
-    m_serverThread.quit();
-    // delete m_dockLogUtil;
     if(nullptr != m_currentStory)
     {
         delete m_currentStory;
+        m_currentStory = nullptr;
     }
 }
 void MainWindow::aboutRolisteam()
@@ -155,31 +166,27 @@ void MainWindow::aboutRolisteam()
     AboutRolisteam diag(m_version,this);
     diag.exec();
 }
-void MainWindow::addMediaToMdiArea(MediaContainer* mediac)
+
+void MainWindow::addMediaToMdiArea(MediaContainer* mediac,bool redoable)
 {
-    CleverURI* uri = mediac->getCleverUri();
-    if(nullptr!=uri)
+    if(nullptr != m_currentConnectionProfile)
     {
-        setLatestFile(uri);
-        m_sessionManager->addRessource(mediac->getCleverUri());
-        uri->setDisplayed(true);
+        AddMediaContainer* addMedia = new AddMediaContainer(mediac,m_sessionManager,m_ui->m_menuSubWindows,this,m_mdiArea,m_currentConnectionProfile->isGM());
+        if(redoable)
+        {
+            m_undoStack.push(addMedia);
+        }
+        else
+        {
+            addMedia->redo();
+        }
     }
-    QAction *action = m_ui->m_menuSubWindows->addAction(mediac->getTitle());
-    action->setCheckable(true);
-    action->setChecked(true);
-
-    mediac->setAction(action);
-    m_mdiArea->addContainerMedia(mediac);
-    m_mapAction->insert(mediac,action);
-    mediac->setVisible(true);
-    mediac->setFocus();
-
 }
 void  MainWindow::closeConnection()
 {
     if(nullptr!=m_clientManager)
     {
-        //m_serverThread.terminate();
+        m_serverThread.quit();
         m_clientManager->disconnectAndClose();
         m_ui->m_connectionAction->setEnabled(true);
         m_ui->m_disconnectAction->setEnabled(false);
@@ -202,6 +209,9 @@ void MainWindow::closeMediaContainer(QString id)
          MediaContainer* mediaCon = m_mediaHash.value(id);
          if(nullptr!=mediaCon)
          {
+            DeleteMediaContainerCommand* cmd = new DeleteMediaContainerCommand(mediaCon,m_sessionManager,m_ui->m_editMenu,this,m_mdiArea,m_currentConnectionProfile->isGM());
+            m_undoStack.push(cmd);
+
              m_mediaHash.remove(id);
              if(CleverURI::VMAP == mediaCon->getContentType())
              {
@@ -210,37 +220,10 @@ void MainWindow::closeMediaContainer(QString id)
              else if(CleverURI::MAP == mediaCon->getContentType())
              {
                  m_playersListWidget->model()->changeMap(nullptr);
-                 m_toolBar->changeMap(nullptr);
-             }
-
-             //setUri as undisplayed
-             CleverURI* uri = mediaCon->getCleverUri();
-             if(nullptr!=uri)
-             {
-                 uri->setState(CleverURI::Remain);
-                 if(!uri->hasData())
-                 {
-                    m_sessionManager->resourceClosed(uri);//delete the uri
-                 }
-             }
-
-             //remove action from data and from memory
-             QAction* act = m_mapAction->value(mediaCon);
-             m_mapAction->remove(mediaCon);
-             delete act;
-             delete mediaCon;
-
-
-             if((nullptr!=m_currentConnectionProfile)&&(m_currentConnectionProfile->isGM()))
-             {
-                 NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::closeMedia);
-                 msg.string8(id);
-                 msg.sendAll();
              }
          }
      }
 }
-
 void MainWindow::closeCurrentSubWindow()
 {
     QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
@@ -254,11 +237,28 @@ void MainWindow::checkUpdate()
 {
     if(m_preferences->value("MainWindow_MustBeChecked",true).toBool())
     {
-        m_updateChecker = new UpdateChecker();
+        m_updateChecker = new UpdateChecker(this);
         m_updateChecker->startChecking();
         connect(m_updateChecker,SIGNAL(checkFinished()),this,SLOT(updateMayBeNeeded()));
     }
 }
+void MainWindow::tipChecker()
+{
+    if(m_preferences->value("MainWindow_neverDisplayTips",false).toBool())
+    {
+        TipChecker* tipChecker = new TipChecker(this);
+        tipChecker->startChecking();
+        connect(tipChecker,&TipChecker::checkFinished,[&](){
+            if(tipChecker->hasArticle())
+            {
+                TipOfDayViewer view(tipChecker->getArticleTitle(),tipChecker->getArticleContent(),tipChecker->getUrl(),this);
+                view.exec();
+            }
+            m_updateChecker->deleteLater();
+        });
+    }
+}
+
 void MainWindow::activeWindowChanged(QMdiSubWindow *subWindow)
 {
     if(nullptr!=m_currentConnectionProfile)
@@ -327,6 +327,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
             m_playerList->sendDelLocalPlayer();
         }
         writeSettings();
+        m_serverThread.quit();
         event->accept();
     }
     else
@@ -347,14 +348,7 @@ ClientManager* MainWindow::getNetWorkManager()
 {
     return m_clientManager;
 }
-MainWindow* MainWindow::getInstance()
-{
-    if(NULL==m_singleton)
-    {
-        m_singleton = new MainWindow();
-    }
-    return m_singleton;
-}
+
 Map::PermissionMode MainWindow::getPermission(int id)
 {
     switch(id)
@@ -381,7 +375,7 @@ void MainWindow::receiveData(quint64 readData,quint64 size)
     else if(readData!=size)
     {
         m_downLoadProgressbar->setVisible(true);
-        quint64 i = (size-readData)*100/size;
+        int i = static_cast<int>((size-readData)*100/size);
 
         m_downLoadProgressbar->setValue(i);
         m_shownProgress=true;
@@ -416,6 +410,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_newCharacterSheet,SIGNAL(triggered(bool)),this,SLOT(newCharacterSheetWindow()));
     connect(m_ui->m_newChatAction, SIGNAL(triggered(bool)), m_chatListWidget, SLOT(createPrivateChat()));
     connect(m_ui->m_newNoteAction, SIGNAL(triggered(bool)), this, SLOT(newNoteDocument()));
+    connect(m_ui->m_newSharedNote, SIGNAL(triggered(bool)), this, SLOT(newSharedNoteDocument()));
 
     //open
     connect(m_ui->m_openPictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
@@ -425,14 +420,18 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_openVectorialMap, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_ui->m_openStoryAction, SIGNAL(triggered(bool)), this, SLOT(openStory()));
     connect(m_ui->m_openNoteAction, SIGNAL(triggered(bool)), this, SLOT(openNote()));
+    connect(m_ui->m_openShareNote, SIGNAL(triggered(bool)), this, SLOT(openContent()));
 
-    m_ui->m_openPictureAction->setData((int)CleverURI::PICTURE);
-    m_ui->m_openOnlinePictureAction->setData((int)CleverURI::ONLINEPICTURE);
-    m_ui->m_openMapAction->setData((int)CleverURI::MAP);
-    m_ui->m_openCharacterSheet->setData((int)CleverURI::CHARACTERSHEET);
-    m_ui->m_openVectorialMap->setData((int)CleverURI::VMAP);
-    m_ui->m_openStoryAction->setData((int)CleverURI::SCENARIO);
-    m_ui->m_openNoteAction->setData((int)CleverURI::TEXT);
+    connect(m_ui->m_shortCutEditorAct, SIGNAL(triggered(bool)),this,SLOT(showShortCutEditor()));
+
+    m_ui->m_openPictureAction->setData(static_cast<int>(CleverURI::PICTURE));
+    m_ui->m_openOnlinePictureAction->setData(static_cast<int>(CleverURI::ONLINEPICTURE));
+    m_ui->m_openMapAction->setData(static_cast<int>(CleverURI::MAP));
+    m_ui->m_openCharacterSheet->setData(static_cast<int>(CleverURI::CHARACTERSHEET));
+    m_ui->m_openVectorialMap->setData(static_cast<int>(CleverURI::VMAP));
+    m_ui->m_openStoryAction->setData(static_cast<int>(CleverURI::SCENARIO));
+    m_ui->m_openNoteAction->setData(static_cast<int>(CleverURI::TEXT));
+    m_ui->m_openShareNote->setData(static_cast<int>(CleverURI::SHAREDNOTE));
 
     m_ui->m_recentFileMenu->setVisible(false);
     connect(m_ui->m_closeAction, SIGNAL(triggered(bool)), this, SLOT(closeCurrentSubWindow()));
@@ -441,6 +440,29 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_saveScenarioAction, SIGNAL(triggered(bool)), this, SLOT(saveStory()));
     connect(m_ui->m_saveScenarioAsAction, SIGNAL(triggered(bool)), this, SLOT(saveAsStory()));
     connect(m_ui->m_preferencesAction, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
+
+
+    //Edition
+    // Windows managing
+    connect(m_ui->m_cascadeViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(cascadeSubWindows()));
+    connect(m_ui->m_tabViewAction,SIGNAL(triggered(bool)),m_mdiArea,SLOT(setTabbedMode(bool)));
+    connect(m_ui->m_tileViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
+
+    auto redo = m_undoStack.createRedoAction(this,tr("&Redo"));
+    auto undo = m_undoStack.createUndoAction(this,tr("&Undo"));
+
+    undo->setShortcut(QKeySequence::Undo);
+    redo->setShortcut(QKeySequence::Redo);
+
+    connect(&m_undoStack, &QUndoStack::cleanChanged,this,[this](bool clean){
+        setWindowModified(!clean);
+    });
+
+
+    m_ui->m_editMenu->insertAction(m_ui->m_shortCutEditorAct,redo);
+    m_ui->m_editMenu->insertAction(redo,undo);
+    m_ui->m_editMenu->insertSeparator(m_ui->m_shortCutEditorAct);
+
 
     // close
     connect(m_ui->m_quitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
@@ -453,29 +475,32 @@ void MainWindow::linkActionToMenu()
 
     connect(m_ui->m_roomListAct,SIGNAL(triggered(bool)),m_roomPanelDockWidget,SLOT(setVisible(bool)));
 
-    // Windows managing
-    connect(m_ui->m_cascadeViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(cascadeSubWindows()));
-    connect(m_ui->m_tabViewAction,SIGNAL(triggered(bool)),m_mdiArea,SLOT(setTabbedMode(bool)));
-    connect(m_ui->m_tileViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
 
     // Help
     connect(m_ui->m_aboutAction, SIGNAL(triggered()), this, SLOT(aboutRolisteam()));
     connect(m_ui->m_onlineHelpAction, SIGNAL(triggered()), this, SLOT(helpOnLine()));
-
-
-    //Note Editor
-    //connect(m_ui->m_showMinutesEditorAction, SIGNAL(triggered(bool)), this, SLOT(displayMinutesEditor(bool)));
-
+    connect(m_ui->m_supportRolisteam,&QAction::triggered,[=]{
+        if (!QDesktopServices::openUrl(QUrl("https://liberapay.com/Rolisteam/donate")))
+        {
+            QMessageBox * msgBox = new QMessageBox(
+                        QMessageBox::Information,
+                        tr("Support"),
+                        tr("The %1 donation page can be found online at :<br> <a href=\"https://liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>").arg(m_preferences->value("Application_Name","rolisteam").toString()),
+                        QMessageBox::Ok
+                        );
+            msgBox->exec();
+        }
+    });
 }
 void MainWindow::prepareMap(MapFrame* mapFrame)
 {
     m_mediaHash.insert(mapFrame->getMediaId(),mapFrame);
     Map* map = mapFrame->getMap();
-    if(NULL==map)
+    if(nullptr==map)
         return;
     map->setPointeur(m_toolBar->getCurrentTool());
 
-    if(NULL!=m_currentConnectionProfile)
+    if(nullptr!=m_currentConnectionProfile)
     {
         map->setLocalIsPlayer(!m_currentConnectionProfile->isGM());
     }
@@ -489,8 +514,8 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
     connect(m_toolBar,SIGNAL(currentNpcNumberChanged(int)),map,SLOT(setCurrentNpcNumber(int)));
 
     connect(map, SIGNAL(changeCurrentColor(QColor)), m_toolBar, SLOT(changeCurrentColor(QColor)));
-    connect(map, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementNpcNumber()));
-    connect(map, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(updateNpc(int,QString)));
+    connect(map, SIGNAL(increaseNpcNumber()), m_toolBar, SLOT(incrementNpcNumber()));
+    connect(map, SIGNAL(updateNPC(int, QString)), m_toolBar, SLOT(updateNpc(int,QString)));
 
     connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map, SLOT(setPcNameVisible(bool)));
     connect(m_ui->m_showNpcNameAction, SIGNAL(triggered(bool)), map, SLOT(setNpcNameVisible(bool)));
@@ -524,14 +549,14 @@ void MainWindow::prepareNote(NoteContainer* note)
 void MainWindow::updateWorkspace()
 {
     QMdiSubWindow* active = m_mdiArea->currentSubWindow();
-    if (NULL!=active)
+    if (nullptr!=active)
     {
         activeWindowChanged(active);
     }
 }
 void MainWindow::newMap()
 {
-    MapFrame* mapFrame = new MapFrame(NULL, m_mdiArea);
+    MapFrame* mapFrame = new MapFrame(nullptr, m_mdiArea);
     if(!mapFrame->createMap())
     {
         delete mapFrame;
@@ -550,25 +575,34 @@ void MainWindow::newCharacterSheetWindow()
     addMediaToMdiArea(window);
 }
 
-
 void MainWindow::newVectorialMap()
 {
     MapWizzardDialog mapWizzard(m_mdiArea);
     if(mapWizzard.exec())
     {
         VMap* tempmap = new VMap();
+        if((nullptr != tempmap)&&(nullptr != m_currentConnectionProfile))
+        {
+            tempmap->setOption(VisualItem::LocalIsGM,m_currentConnectionProfile->isGM());
+        }
         mapWizzard.setAllMap(tempmap);
         VMapFrame* tmp = new VMapFrame(new CleverURI(tempmap->getMapTitle(),"",CleverURI::VMAP),tempmap);
         prepareVMap(tmp);
         addMediaToMdiArea(tmp);
         //tempmap->setCurrentTool(m_toolbar->getCurrentTool());
-
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
-
-        tempmap->fill(msg);
-        tmp->fill(msg);
-        msg.sendAll();
     }
+}//
+void MainWindow::newSharedNoteDocument()
+{
+    SharedNoteContainer* note = new SharedNoteContainer();
+    note->setOwner(m_playerList->getLocalPlayer());
+    if(!m_mediaHash.contains(note->getMediaId()))
+    {
+        m_mediaHash.insert(note->getMediaId(),note);
+    }
+    m_sessionManager->addRessource(note->getCleverUri());
+    addMediaToMdiArea(note);
+    //displayMinutesEditor(true,true);
 }
 void MainWindow::newNoteDocument()
 {
@@ -579,9 +613,8 @@ void MainWindow::newNoteDocument()
     }
     m_sessionManager->addRessource(note->getCleverUri());
     addMediaToMdiArea(note);
-    //displayMinutesEditor(true,true);
 }
-void MainWindow::sendOffAllMaps(NetworkLink * link)
+void MainWindow::sendOffAllMaps(Player* player)
 {
     for(auto mediaC : m_mediaHash)
     {
@@ -589,41 +622,47 @@ void MainWindow::sendOffAllMaps(NetworkLink * link)
         {
             //mapi.next();
             VMapFrame* tmp = dynamic_cast<VMapFrame*>(mediaC);
-            if(NULL!=tmp)
+            if(nullptr!=tmp)
             {
                 VMap* tempmap = tmp->getMap();
                 NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
                 tempmap->fill(msg);
                 tempmap->sendAllItems(msg);
+                QStringList idList;
+                idList << player->getUuid();
+                msg.setRecipientList(idList,NetworkMessage::OneOrMany);
                 tmp->fill(msg);
-                msg.sendTo(link);
+                msg.sendAll();
             }
         }
         else if(CleverURI::MAP == mediaC->getContentType())
         {
             MapFrame* tmp = dynamic_cast<MapFrame*>(mediaC);
-            if(NULL!=tmp)
+            if(nullptr!=tmp)
             {
                 tmp->getMap()->setHasPermissionMode(m_playerList->everyPlayerHasFeature("MapPermission"));
-                tmp->getMap()->sendMap(tmp->windowTitle(), link);
-                tmp->getMap()->sendOffAllCharacters(link);
+                tmp->getMap()->sendMap(tmp->windowTitle(), player->getUuid());
+                tmp->getMap()->sendOffAllCharacters(player->getUuid());
             }
         }
     }
 }
-void MainWindow::sendOffAllImages(NetworkLink * link)
+void MainWindow::sendOffAllImages(Player* player)
 {
-    NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
-
+    NetworkMessageWriter message = NetworkMessageWriter(NetMsg::MediaCategory, NetMsg::addMedia);
     for(MediaContainer* sub: m_mediaHash.values())
     {
         if(sub->getContentType() == CleverURI::PICTURE)
         {
+            message.uint8(sub->getContentType());
             Image* img = dynamic_cast<Image*>(sub);
-            if(NULL!=sub)
+            if(nullptr!=sub)
             {
                 img->fill(message);
-                message.sendTo(link);
+                QStringList idList;
+                idList << player->getUuid();
+                message.setRecipientList(idList,NetworkMessage::OneOrMany);
+                message.sendAll();
             }
         }
     }
@@ -631,15 +670,15 @@ void MainWindow::sendOffAllImages(NetworkLink * link)
 Map* MainWindow::findMapById(QString idMap)
 {
     MediaContainer* media = m_mediaHash.value(idMap);
-    if(NULL!=media)
+    if(nullptr!=media)
     {
         MapFrame* mapframe = dynamic_cast<MapFrame*>(media);
-        if(NULL!=mapframe)
+        if(nullptr!=mapframe)
         {
             return mapframe->getMap();
         }
     }
-    return NULL;
+    return nullptr;
 }
 bool MainWindow::mayBeSaved(bool connectionLoss)
 {
@@ -664,7 +703,7 @@ bool MainWindow::mayBeSaved(bool connectionLoss)
         msgBox.setWindowTitle(tr("Quit %1 ").arg(msg));
     }
 
-    if(NULL!=PlayersList::instance()->getLocalPlayer())
+    if(nullptr!=PlayersList::instance()->getLocalPlayer())
     {
         if(!PlayersList::instance()->getLocalPlayer()->isGM())
         {
@@ -790,6 +829,7 @@ bool MainWindow::saveStory()
     file.close();
     m_sessionManager->setSessionName(m_currentStory->getData(ResourcesNode::NAME).toString());
     updateWindowTitle();
+    m_undoStack.setClean();
     return true;
 }
 ////////////////////////////////////////////////////
@@ -800,10 +840,10 @@ bool MainWindow::saveStory()
 void MainWindow::saveCurrentMedia()
 {
     QMdiSubWindow* active = m_mdiArea->currentSubWindow();
-    if(NULL != active)
+    if(nullptr != active)
     {
         MediaContainer* currentMedia = dynamic_cast<MediaContainer*>(active);
-        if(NULL!=currentMedia)
+        if(nullptr!=currentMedia)
         {
             bool saveAs = false;
             if(qobject_cast<QAction*>(sender())==m_ui->m_saveAsAction)
@@ -816,21 +856,16 @@ void MainWindow::saveCurrentMedia()
 }
 void MainWindow::saveMedia(MediaContainer* mediaC,bool askPath, bool saveAs)
 {
-    if(NULL!=mediaC)
+    if(nullptr!=mediaC)
     {
         CleverURI* cleverURI = mediaC->getCleverUri();
-        if(NULL!=cleverURI)
+        if(nullptr!=cleverURI)
         {
             QString uri  = cleverURI->getUri();
             QFileInfo info(uri);
             if(!askPath)//save into story
             {
                 mediaC->putDataIntoCleverUri();
-                /*if(!uri.isEmpty())
-                {
-                    mediaC->saveMedia();
-                }*/
-
             }
             else
             {
@@ -862,7 +897,7 @@ bool MainWindow::saveMinutes()
         if(CleverURI::TEXT == edit->getContentType())
         {
             NoteContainer* note = dynamic_cast<NoteContainer*>(edit);
-            if(NULL!=note)
+            if(nullptr!=note)
             {
                 note->saveMedia();
             }
@@ -887,7 +922,7 @@ void MainWindow::stopReconnection()
 }
 void MainWindow::startReconnection()
 {
-    if(NULL==m_currentConnectionProfile)
+    if(nullptr==m_currentConnectionProfile)
     {
         showConnectionDialog(true);
         return;
@@ -898,6 +933,7 @@ void MainWindow::startReconnection()
     }
     if(m_clientManager->startConnection())
     {
+        m_roomPanel->setServerName(m_currentConnectionProfile->getAddress());
         m_playerList->sendOffLocalPlayerInformations();
         m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
         m_ui->m_connectionAction->setEnabled(false);
@@ -918,7 +954,7 @@ void MainWindow::showIp(QString ip)
 }
 void MainWindow::setUpNetworkConnection()
 {
-    if((m_currentConnectionProfile!=NULL)&&(!m_currentConnectionProfile->isServer()))
+    if((m_currentConnectionProfile!=nullptr)&&(!m_currentConnectionProfile->isServer()))
     {
         connect(m_playerList, SIGNAL(localGMRefused(bool)), this, SLOT(userNatureChange(bool)));
         connect(this, SIGNAL(closing()), m_playerList, SLOT(sendDelLocalPlayer()));
@@ -964,13 +1000,6 @@ void MainWindow::readImageFromStream(QDataStream &file)
     {
         notifyUser(tr("Image compression error (readImageFromStream - MainWindow.cpp)"));
     }
-
-    NetworkMessageWriter msg(NetMsg::PictureCategory,NetMsg::AddPictureAction);
-    msg.string16(title);
-    msg.string8(idImage);
-    msg.string8(m_localPlayerId);
-    msg.byteArray32(byteArray);
-    msg.sendAll();
 }
 void MainWindow::helpOnLine()
 {
@@ -992,7 +1021,7 @@ void MainWindow::updateUi()
         return;
     }
     m_toolBar->updateUi(m_currentConnectionProfile->isGM());
-#ifndef NULL_PLAYER
+#ifndef nullptr_PLAYER
     m_audioPlayer->updateUi(m_currentConnectionProfile->isGM());
 #endif
     if(nullptr!=m_preferencesDialog)
@@ -1027,17 +1056,21 @@ void MainWindow::updateMayBeNeeded()
 {
     if(m_updateChecker->mustBeUpdated())
     {
-        QMessageBox::information(this,tr("Update Monitor"),tr("The %1 version has been released. Please take a look at <a href=\"http://www.rolisteam.org/download\">Download page</a> for more information").arg(m_updateChecker->getLatestVersion()));
+        QMessageBox::information(this,tr("Update Notification"),
+                                 tr("The %1 version has been released. "
+                                    "Please take a look at <a href=\"http://www.rolisteam.org/download\">Download page</a> for more information")
+                                 .arg(m_updateChecker->getLatestVersion()));
     }
     m_updateChecker->deleteLater();
 }
+
 void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
 {
     switch(state)
     {
-    /*case ClientManager::LISTENING:
-        m_ipChecker->startCheck();*/
-    case ClientManager::CONNECTED:
+
+    case ClientManager::CONNECTED: /// @brief Action to be done after socket connection.
+        m_roomPanel->sendOffLoginAdmin(m_currentConnectionProfile->getPassword());
         m_ui->m_connectionAction->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
         m_dialog->accept();
@@ -1047,7 +1080,10 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
         m_ui->m_disconnectAction->setEnabled(false);
         m_dialog->open();
         break;
+    case ClientManager::AUTHENTIFIED:
+        break;
     case ClientManager::CONNECTING:
+        m_chatListWidget->addPublicChat();
         break;
     }
 }
@@ -1068,17 +1104,20 @@ void MainWindow::notifyAboutDeletedPlayer(Player * player) const
 
 void MainWindow::updateSessionToNewClient(Player* player)
 {
-    if(NULL!=player)
+    if(nullptr!=player)
     {
-        sendOffAllMaps(player->link());
-        sendOffAllImages(player->link());
-        m_preferencesDialog->sendOffAllDiceAlias(player->link());
-        m_preferencesDialog->sendOffAllState(player->link());
+        if(m_currentConnectionProfile->isGM())
+        {
+            sendOffAllMaps(player);
+            sendOffAllImages(player);
+            m_preferencesDialog->sendOffAllDiceAlias(player->link());
+            m_preferencesDialog->sendOffAllState(player->link());
+        }
     }
 }
 void MainWindow::readSettings()
 {
-    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_major));
+    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
 
     if(m_resetSettings)
     {
@@ -1109,14 +1148,18 @@ void MainWindow::readSettings()
     }
     updateRecentFileActions();
     m_preferencesDialog->initializePostSettings();
+    m_gmToolBoxList[2]->readSettings(settings);
+    m_chatListWidget->readSettings(settings);
 }
 void MainWindow::writeSettings()
 {
-    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_major));
+    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
     settings.setValue("Maximized", isMaximized());
     m_preferences->writeSettings(settings);
+    m_gmToolBoxList[2]->writeSettings(settings);
+    m_chatListWidget->writeSettings(settings);
 }
 void MainWindow::parseCommandLineArguments(QStringList list)
 {
@@ -1173,17 +1216,14 @@ void MainWindow::parseCommandLineArguments(QStringList list)
 }
 NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, NetworkLink* link)
 {
-    if(NULL==msg)
+    Q_UNUSED(link)
+    if(nullptr==msg)
         return NetWorkReceiver::NONE;
 
 
     NetWorkReceiver::SendType type;
     switch(msg->category())
     {
-    case NetMsg::PictureCategory:
-        processImageMessage(msg);
-        type = NetWorkReceiver::AllExceptSender;
-        break;
     case NetMsg::MapCategory:
         processMapMessage(msg);
         type = NetWorkReceiver::AllExceptSender;
@@ -1215,14 +1255,117 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, 
         processMediaMessage(msg);
         type = NetWorkReceiver::AllExceptSender;
         break;
+    case NetMsg::SharedNoteCategory:
+        processSharedNoteMessage(msg);
+        type = NetWorkReceiver::AllExceptSender;
+        break;
+    default:
+        qWarning("Unexpected message - MainWindow::ProcessMessage");
     }
     return type;//NetWorkReceiver::AllExceptMe;
 }
 void MainWindow::processMediaMessage(NetworkMessageReader* msg)
 {
-    if(msg->action() == NetMsg::closeMedia)
+    if(msg->action() == NetMsg::addMedia)
+    {
+        auto type = static_cast<CleverURI::ContentType>(msg->uint8());
+        switch(type)
+        {
+        case CleverURI::MAP:
+        {
+            MapFrame* mapf = new MapFrame();
+            mapf->readMessage(*msg);
+            prepareMap(mapf);
+            addMediaToMdiArea(mapf,false);
+            mapf->setVisible(true);
+            /*if((nullptr!=m_currentConnectionProfile)&&(!mapFrame->processMapMessage(msg,!m_currentConnectionProfile->isGM())))
+            {
+                delete mapFrame;
+            }
+            else*/
+
+        }
+            break;
+        case CleverURI::VMAP:
+        {
+            VMapFrame* mapFrame = new VMapFrame();
+            mapFrame->readMessage(*msg);// create the vmap
+            prepareVMap(mapFrame);
+            addMediaToMdiArea(mapFrame,false);
+        }
+            break;
+        case CleverURI::CHAT:
+            break;
+        case CleverURI::ONLINEPICTURE:
+        case CleverURI::PICTURE:
+        {
+            Image* image = new Image(m_mdiArea);
+            image->readMessage(*msg);
+            prepareImage(image);
+            addMediaToMdiArea(image,false);
+            image->setVisible(true);
+        }
+            break;
+        case CleverURI::CHARACTERSHEET:
+            break;
+        case CleverURI::SHAREDNOTE:
+            break;
+        case CleverURI::TEXT:
+        case CleverURI::SCENARIO:
+        case CleverURI::SONG:
+        case CleverURI::SONGLIST:
+        case NONE:
+            break;
+
+        }
+    }
+    else if(msg->action() == NetMsg::closeMedia)
     {
         closeMediaContainer(msg->string8());
+    }
+}
+void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
+{
+    if(msg->action() == NetMsg::updatePermissionOneUser)
+    {
+        QString idMedia = msg->string8();
+        if(m_mediaHash.keys().contains(idMedia))
+        {
+            MediaContainer* mediaContainer = m_mediaHash.value(idMedia);
+            SharedNoteContainer* note = dynamic_cast<SharedNoteContainer*>(mediaContainer);
+            note->readMessage(*msg);
+        }
+    }
+    else if(msg->action() == NetMsg::updateText)
+    {
+        QString idMedia = msg->string8();
+        if(m_mediaHash.keys().contains(idMedia))
+        {
+            MediaContainer* mediaContainer = m_mediaHash.value(idMedia);
+            SharedNoteContainer* note = dynamic_cast<SharedNoteContainer*>(mediaContainer);
+            QString updateCmd = msg->string32();
+            note->runUpdateCmd(updateCmd);
+        }
+    }
+    else if(msg->action() == NetMsg::updateTextAndPermission)
+    {
+        QString idMedia = msg->string8();
+
+        if(m_mediaHash.keys().contains(idMedia))
+        {
+            MediaContainer* mediaContainer = m_mediaHash.value(idMedia);
+            SharedNoteContainer* note = dynamic_cast<SharedNoteContainer*>(mediaContainer);
+            note->readMessage(*msg);
+        }
+        else
+        {
+            SharedNoteContainer* note = new SharedNoteContainer();
+            note->readMessage(*msg);
+            note->setMediaId(idMedia);
+            m_mediaHash.insert(idMedia,note);
+            m_sessionManager->addRessource(note->getCleverUri());
+            addMediaToMdiArea(note);
+        }
     }
 }
 
@@ -1242,6 +1385,22 @@ void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
             roomPanel->processMessage(msg);
         }
 
+    }
+    else if(NetMsg::AdminAuthFail == msg->action())
+    {
+        ChannelListPanel* roomPanel = qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
+        if(nullptr != roomPanel)
+        {
+            roomPanel->processMessage(msg);
+        }
+    }
+    else if(NetMsg::AdminAuthSucessed == msg->action())
+    {
+        ChannelListPanel* roomPanel = qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
+        if(nullptr != roomPanel)
+        {
+            roomPanel->processMessage(msg);
+        }
     }
 }
 void MainWindow::notifyUser(QString message, MainWindow::MessageType type) const
@@ -1290,7 +1449,7 @@ void MainWindow::startConnection()
 {
     m_chatListWidget->cleanChatList();
     QSettings settings("rolisteam","rolisteam");
-    if(NULL!=m_dialog)
+    if(nullptr!=m_dialog)
     {
         m_dialog->writeSettings(settings);
         m_currentConnectionProfile = m_dialog->getSelectedProfile();
@@ -1306,12 +1465,15 @@ void MainWindow::startConnection()
                 server->insertField("LogLevel",3);
                 server->insertField("password",m_currentConnectionProfile->getPassword());
                 server->insertField("TimeToRetry",5000);
+                server->insertField("adminPassword",m_currentConnectionProfile->getPassword());
+
                 server->initServerManager();
 
                 connect(&m_serverThread,SIGNAL(started()),server,SLOT(startListening()));
                 connect(&m_serverThread,SIGNAL(finished()),server,SLOT(deleteLater()));
                 connect(server,SIGNAL(sendLog(QString)),this,SLOT(notifyUser(QString)));
                 connect(server,SIGNAL(errorOccurs(QString)),this,SLOT(notifyUser(QString)));
+                connect(server,SIGNAL(errorOccurs(QString)),m_dialog,SLOT(errorOccurs(QString)));
                 connect(server,SIGNAL(listening()),this,SLOT(initializedClientManager()),Qt::QueuedConnection);
 
 
@@ -1322,7 +1484,6 @@ void MainWindow::startConnection()
             else
             {
                 initializedClientManager();
-
             }
         }
 
@@ -1330,10 +1491,12 @@ void MainWindow::startConnection()
 }
 void MainWindow::initializedClientManager()
 {
+
     if(nullptr == m_clientManager)
     {
         m_clientManager = new ClientManager(m_currentConnectionProfile);
-       // connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
+
+        connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
         connect(m_clientManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
         connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
         connect(m_clientManager,SIGNAL(errorOccur(QString)),m_dialog,SLOT(errorOccurs(QString)));
@@ -1345,11 +1508,14 @@ void MainWindow::initializedClientManager()
     }
     if((nullptr!=m_currentConnectionProfile)&&(nullptr!=m_clientManager))
     {
+        if(m_currentConnectionProfile->isServer())
+        {
+            m_ipChecker->startCheck();
+        }
         if(nullptr!=m_playerList)
         {
             m_playerList->completeListClean();
             m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
-            m_clientManager->startConnection();
         }
     }
 }
@@ -1362,9 +1528,9 @@ void MainWindow::cleanUpData()
 void MainWindow::postConnection()
 {
     m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
-    m_chatListWidget->addPublicChat();
+    m_roomPanel->setLocalPlayerId(m_localPlayerId);
 
-    if(NULL!=m_preferences)
+    if(nullptr!=m_preferences)
     {
         m_preferences->registerValue("isClient",!m_currentConnectionProfile->isServer());
     }
@@ -1377,7 +1543,6 @@ void MainWindow::postConnection()
     updateWindowTitle();
     checkUpdate();
     updateUi();
-  //  m_dialog->writeSettings(settings);
 }
 
 void MainWindow::setupUi()
@@ -1389,21 +1554,20 @@ void MainWindow::setupUi()
 #ifdef VERSION_MAJOR
 #ifdef VERSION_MIDDLE
     m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-    m_major = QString("%1.%2.0").arg(VERSION_MAJOR).arg(VERSION_MIDDLE);
 #endif
 #endif
 #endif
 
 
     //setAnimated(false);
-    m_mdiArea = new ImprovedWorkspace();
+    m_mdiArea = new ImprovedWorkspace(this);
     setCentralWidget(m_mdiArea);
     connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(activeWindowChanged(QMdiSubWindow *)));
 
-    m_toolBar = new ToolsBar();
+    m_toolBar = new ToolsBar(this);
 
-    m_vToolBar = new VToolsBar();
-    m_toolBarStack = new QStackedWidget();
+    m_vToolBar = new VToolsBar(this);
+    m_toolBarStack = new QStackedWidget(this);
     m_toolBarStack->setMinimumWidth(10);
     m_toolBarStack->addWidget(m_toolBar);
     m_toolBarStack->addWidget(m_vToolBar);
@@ -1442,7 +1606,6 @@ void MainWindow::setupUi()
     m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
 
 
-    ReceiveEvent::registerNetworkReceiver(NetMsg::PictureCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory,this);
@@ -1451,6 +1614,7 @@ void MainWindow::setupUi()
     ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::SharedNoteCategory,this);
 
 
     ///////////////////
@@ -1465,7 +1629,7 @@ void MainWindow::setupUi()
     ///////////////////
     //Audio Player
     ///////////////////
-#ifndef NULL_PLAYER
+#ifndef nullptr_PLAYER
     m_audioPlayer = AudioPlayer::getInstance(this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory,m_audioPlayer);
     addDockWidget(Qt::RightDockWidgetArea,m_audioPlayer );
@@ -1502,10 +1666,8 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
     }
     else
     {
-        MapFrame* mapFrame = new MapFrame(NULL, m_mdiArea);
-      //  mapFrame->setCleverUri(new CleverURI("",CleverURI::MAP));
-
-        if((NULL!=m_currentConnectionProfile)&&(!mapFrame->processMapMessage(msg,!m_currentConnectionProfile->isGM())))
+        MapFrame* mapFrame = new MapFrame(nullptr, m_mdiArea);
+        if((nullptr!=m_currentConnectionProfile)&&(!mapFrame->processMapMessage(msg,!m_currentConnectionProfile->isGM())))
         {
             delete mapFrame;
         }
@@ -1515,37 +1677,6 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
             addMediaToMdiArea(mapFrame);
             mapFrame->setVisible(true);
         }
-    }
-}
-void MainWindow::processImageMessage(NetworkMessageReader* msg)
-{
-    if(msg->action() == NetMsg::AddPictureAction)
-    {
-        QString title = msg->string16();
-        QString idImage = msg->string8();
-        QString idPlayer = msg->string8();
-        QByteArray dataImage = msg->byteArray32();
-
-        QImage *img = new QImage;
-        if (!img->loadFromData(dataImage, "jpg"))
-        {
-            notifyUser("Cannot read received image (receptionMessageImage - NetworkLink.cpp)");
-        }
-        Image* image = new Image();
-        image->setTitle(title);
-        image->setMediaId(idImage);
-        image->setIdOwner(idPlayer);
-        image->setImage(*img);
-
-        //addImage(image, title);
-        prepareImage(image);
-        addMediaToMdiArea(image);
-        image->setVisible(true);
-    }
-    else if(msg->action() == NetMsg::DelPictureAction)
-    {
-        QString idImage = msg->string8();
-        closeMediaContainer(idImage);
     }
 }
 void MainWindow::processNpcMessage(NetworkMessageReader* msg)
@@ -1560,7 +1691,7 @@ void MainWindow::processNpcMessage(NetworkMessageReader* msg)
     {
         QString idNpc = msg->string8();
         Map* map = findMapById(idMap);
-        if(NULL!=map)
+        if(nullptr!=map)
         {
             map->eraseCharacter(idNpc);
         }
@@ -1577,7 +1708,7 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
 
         QList<QPoint> pointList;
         QPoint point;
-        for (int i=0; i<pointNumber; i++)
+        for (quint32 i=0; i<pointNumber; i++)
         {
             quint16 pointX = msg->uint16();
             quint16 pointY = msg->uint16();
@@ -1597,11 +1728,11 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
 
         Map* map = findMapById(idMap);
 
-        if(NULL!=map)
+        if(nullptr!=map)
         {
             SelectedColor selectedColor;
             selectedColor.color = color;
-            selectedColor.type = (ColorKind)colorType;
+            selectedColor.type = static_cast<ColorKind>(colorType);
             map->paintPenLine(&pointList,zoneToRefresh,diameter,selectedColor,idPlayer==m_localPlayerId);
         }
     }
@@ -1624,11 +1755,11 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
 
         Map* map = findMapById(idMap);
 
-        if(NULL!=map)
+        if(nullptr!=map)
         {
             SelectedColor selectedColor;
             selectedColor.color = color;
-            selectedColor.type = (ColorKind)colorType;
+            selectedColor.type = static_cast<ColorKind>(colorType);
 
             map->paintText(text,pos,zoneToRefresh,selectedColor);
 
@@ -1662,11 +1793,11 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
         QColor color(msg->rgb());
         Map* map = findMapById(idMap);
 
-        if(NULL!=map)
+        if(nullptr!=map)
         {
             SelectedColor selectedColor;
             selectedColor.color = color;
-            selectedColor.type = (ColorKind)colorType;
+            selectedColor.type = static_cast<ColorKind>(colorType);
 
             map->paintOther(msg->action(),startPos,endPos,zoneToRefresh,diameter,selectedColor);
         }
@@ -1676,7 +1807,7 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
 }
 void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
 {
-    if(NULL!=map)
+    if(nullptr!=map)
     {
         QString npcName = msg->string16();
         QString npcId = msg->string8();
@@ -1704,9 +1835,9 @@ void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
         bool showNumber=(npcType == CharacterToken::pnj)?m_ui->m_showNpcNumberAction->isChecked():false;
         bool showName=(npcType == CharacterToken::pnj)? m_ui->m_showNpcNameAction->isChecked():m_ui->m_showPcNameAction->isChecked();
 
-        CharacterToken* npc = new CharacterToken(map, npcId, npcName, npcColor, npcDiameter, npcPos, (CharacterToken::typePersonnage)npcType,showNumber,showName, npcNumber);
+        CharacterToken* npc = new CharacterToken(map, npcId, npcName, npcColor, npcDiameter, npcPos, static_cast<CharacterToken::typePersonnage>(npcType),showNumber,showName, npcNumber);
 
-        if((npcVisible)||(npcType == CharacterToken::pnj && (NULL!=m_currentConnectionProfile) && m_currentConnectionProfile->isGM()))
+        if((npcVisible)||(npcType == CharacterToken::pnj && (nullptr!=m_currentConnectionProfile) && m_currentConnectionProfile->isGM()))
         {
             npc->showCharacter();
         }
@@ -1716,9 +1847,9 @@ void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
             npc->showOrHideOrientation();
         }
 
-        CharacterToken::etatDeSante health;
-        health.couleurEtat = npcState;
-        health.nomEtat = npcStateName;
+        CharacterToken::StateOfHealth health;
+        health.stateColor = npcState;
+        health.stateName = npcStateName;
         npc->newHealtState(health, npcStateNum);
         map->showHideNPC(npc);
 
@@ -1733,7 +1864,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         quint16 characterNumber = msg->uint16();
         Map* map = findMapById(idMap);
 
-        if(NULL!=map)
+        if(nullptr!=map)
         {
             for(int i=0;i<characterNumber;++i)
             {
@@ -1750,7 +1881,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
 
         QList<QPoint> moveList;
         QPoint point;
-        for (int i=0; i<pointNumber; i++)
+        for (quint32 i=0; i<pointNumber; i++)
         {
             quint16 posX = msg->uint16();
             quint16 posY = msg->uint16();
@@ -1758,7 +1889,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
             moveList.append(point);
         }
         Map* map=findMapById(idMap);
-        if(NULL!=map)
+        if(nullptr!=map)
         {
             map->startCharacterMove(idCharacter,moveList);
         }
@@ -1769,10 +1900,10 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         QString idCharacter = msg->string8();
         quint16 stateNumber = msg->uint16();
         Map* map=findMapById(idMap);
-        if(NULL!=map)
+        if(nullptr!=map)
         {
             CharacterToken* character = map->findCharacter(idCharacter);
-            if(NULL!=character)
+            if(nullptr!=character)
             {
                 character->changeHealtStatus(stateNumber);
             }
@@ -1786,10 +1917,10 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         qint16 posY = msg->int16();
         QPoint orientation(posX, posY);
         Map* map=findMapById(idMap);
-        if(NULL!=map)
+        if(nullptr!=map)
         {
             CharacterToken* character = map->findCharacter(idCharacter);
-            if(NULL!=character)
+            if(nullptr!=character)
             {
                 character->newOrientation(orientation);
             }
@@ -1801,10 +1932,10 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         QString idCharacter = msg->string8();
         quint8 showOrientation = msg->uint8();
         Map* map=findMapById(idMap);
-        if(NULL!=map)
+        if(nullptr!=map)
         {
             CharacterToken* character = map->findCharacter(idCharacter);
-            if(NULL!=character)
+            if(nullptr!=character)
             {
                 character->showOrientation(showOrientation);
             }
@@ -1812,42 +1943,24 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::addCharacterSheet == msg->action())
     {
-        QString idPlayer = msg->string8();
-        if(m_localPlayerId == idPlayer)
-        {
-            CharacterSheetWindow* sheetWindow = new CharacterSheetWindow();
-            prepareCharacterSheetWindow(sheetWindow);
-            sheetWindow->read(msg);
-            addMediaToMdiArea(sheetWindow);
-            m_mediaHash.insert(sheetWindow->getMediaId(),sheetWindow);
-        }
+        CharacterSheetWindow* sheetWindow = new CharacterSheetWindow();
+        prepareCharacterSheetWindow(sheetWindow);
+        QString idmedia = msg->string8();
+        sheetWindow->setMediaId(idmedia);
+        sheetWindow->readMessage(*msg);
+        addMediaToMdiArea(sheetWindow);
+        m_mediaHash.insert(sheetWindow->getMediaId(),sheetWindow);
 
     }
     else if(NetMsg::updateFieldCharacterSheet == msg->action())
     {
-
         QString idCharacterSheetW = msg->string8();
         CharacterSheetWindow* sheet = findCharacterSheetWindowById(idCharacterSheetW);
         if(nullptr!=sheet)
         {
             sheet->processUpdateFieldMessage(msg);
-
         }
 
-    }
-    else if(NetMsg::closeCharacterSheet == msg->action())
-    {
-        QString mediaId = msg->string8();
-        QString sheetId = msg->string8();
-        CharacterSheetWindow* sheet = findCharacterSheetWindowById(mediaId);
-
-        if(nullptr!=sheet)
-        {
-            if((sheet->hasCharacterSheet(sheetId))&&(!m_currentConnectionProfile->isGM()))//can't close the media for the GM.
-            {
-                closeMediaContainer(mediaId);
-            }
-        }
     }
 }
 CharacterSheetWindow*  MainWindow::findCharacterSheetWindowById(QString id)
@@ -1871,7 +1984,7 @@ void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
     {
         quint8 display = msg->uint8();
         Map* map=findMapById(idMap);
-        if(NULL!=map)
+        if(nullptr!=map)
         {
             map->showPc(idCharacter,display);
         }
@@ -1881,7 +1994,7 @@ void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
         /// @warning overweird
         quint8 size = msg->uint8();
         Map* map=findMapById(idMap);
-        if(NULL!=map)
+        if(nullptr!=map)
         {
             map->selectCharacter(idCharacter);
             map->changePjSize(size + 11);
@@ -1890,18 +2003,20 @@ void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
 }
 void MainWindow::prepareVMap(VMapFrame* tmp)
 {
-    if(NULL==tmp)
+    if(nullptr==tmp)
         return;
 
     VMap* map = tmp->getMap();
 
-    if(NULL==map)
+    if(nullptr==map)
         return;
-    if(NULL!=m_currentConnectionProfile)
+    if(nullptr!=m_currentConnectionProfile)
     {
         map->setOption(VisualItem::LocalIsGM,m_currentConnectionProfile->isGM());
     }
     map->setLocalId(m_localPlayerId);
+
+    tmp->setUndoStack(&m_undoStack);
 
     //Toolbar to Map
     connect(m_vToolBar,SIGNAL(currentToolChanged(VToolsBar::SelectableTool)),tmp,SLOT(currentToolChanged(VToolsBar::SelectableTool)));
@@ -1952,30 +2067,9 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
 }
 NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* msg)
 {
-    /*bool isServer = false;
-    if(NULL!=m_currentConnectionProfile)
-    {
-        isServer = m_currentConnectionProfile->isServer();
-    }*/
     NetWorkReceiver::SendType type = NetWorkReceiver::NONE;
-    /*if(isServer)
-    {
-        type = NetWorkReceiver::AllExceptSender;
-    }*/
     switch(msg->action())
     {
-    case NetMsg::addVmap:
-    {
-        VMap* map = new VMap();
-        map->setOption(VisualItem::LocalIsGM,false);
-        map->readMessage(*msg);
-
-        VMapFrame* mapFrame = new VMapFrame(nullptr,map);
-        mapFrame->readMessage(*msg);
-        prepareVMap(mapFrame);
-        addMediaToMdiArea(mapFrame);
-    }
-        break;
     case NetMsg::loadVmap:
         break;
     case NetMsg::closeVmap:
@@ -1984,6 +2078,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
         closeMediaContainer(vmapId);
     }
         break;
+    case NetMsg::addVmap:
     case NetMsg::DelPoint:
         break;
     case NetMsg::addItem:
@@ -2004,15 +2099,18 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
     {
         QString vmapId = msg->string8();
         MediaContainer* tmp = m_mediaHash.value(vmapId);
-        if(NULL!=tmp)
+        if(nullptr!=tmp)
         {
             VMapFrame* mapF = dynamic_cast<VMapFrame*>(tmp);
-            if(NULL!=mapF)
+            if(nullptr!=mapF)
             {
                 type = mapF->processMessage(msg);
             }
         }
     }
+        break;
+    default:
+        qWarning("Unexpected Action - MainWindow::processVMapMessage");
         break;
     }
 
@@ -2050,12 +2148,12 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
 
         return new CleverURI(getShortNameFromPath(filepath),filepath,type);
     }
-    return NULL;
+    return nullptr;
 }
 void MainWindow::openContent()
 {
     QAction* action=static_cast<QAction*>(sender());
-    CleverURI::ContentType type = (CleverURI::ContentType)action->data().toInt();
+    CleverURI::ContentType type = static_cast<CleverURI::ContentType>(action->data().toInt());
     openContentFromType(type);
 }
 void MainWindow::openRecentFile()
@@ -2096,7 +2194,7 @@ void MainWindow::updateRecentFileActions()
 void MainWindow::setLatestFile(CleverURI* fileName)
 {
     // no online picture because they are handled in a really different way.
-    if((NULL!=fileName)&&(fileName->getType()!=CleverURI::ONLINEPICTURE))
+    if((nullptr!=fileName)&&(fileName->getType()!=CleverURI::ONLINEPICTURE))
     {
         QVariant var = QVariant::fromValue(CleverUriList());
 
@@ -2113,23 +2211,13 @@ void MainWindow::setLatestFile(CleverURI* fileName)
 
         m_preferences->registerValue("recentFileList", var3,true);
 
-
         updateRecentFileActions();
-    }
-}
-void MainWindow::showCleverUri(CleverURI* uri)
-{
-    for(auto i : m_mapAction->keys())
-    {
-        if(i->getCleverUri() == uri)
-        {
-            i->setVisible(true);
-        }
+
     }
 }
 void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
 {
-    if(NULL!=m_currentConnectionProfile)
+    if(nullptr!=m_currentConnectionProfile)
     {
         window->setLocalIsGM(m_currentConnectionProfile->isGM());
     }
@@ -2142,31 +2230,46 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
 
 void MainWindow::openCleverURI(CleverURI* uri,bool force)
 {
-    if(NULL==uri)
+    if(nullptr==uri)
     {
         return;
     }
     if((uri->isDisplayed())&&(!force))
     {
-        showCleverUri(uri);
+        m_mdiArea->showCleverUri(uri);
         return;
     }
 
-    MediaContainer* tmp=NULL;
+    MediaContainer* tmp=nullptr;
     switch(uri->getType())
     {
     case CleverURI::MAP:
         tmp = new MapFrame();
         break;
     case CleverURI::VMAP:
-        tmp = new VMapFrame();
+    {
+        VMapFrame* mapFrame = new VMapFrame();
+        VMap* map = mapFrame->getMap();
+        if((nullptr != map)&&(nullptr != m_currentConnectionProfile))
+        {
+            map->setOption(VisualItem::LocalIsGM,m_currentConnectionProfile->isGM());
+        }
+        tmp =mapFrame;
+    }
         break;
     case CleverURI::PICTURE:
     case CleverURI::ONLINEPICTURE:
-        tmp = new Image();
+        tmp = new Image(m_mdiArea);
         break;
     case CleverURI::TEXT:
         tmp = new NoteContainer();
+        break;
+    case CleverURI::SHAREDNOTE:
+    {
+        SharedNoteContainer* tmpShared = new SharedNoteContainer();
+        tmpShared->setOwner(m_playerList->getLocalPlayer());
+        tmp = tmpShared;
+    }
         break;
     case CleverURI::SCENARIO:
         break;
@@ -2179,14 +2282,14 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         break;
     case CleverURI::SONGLIST:
     {
-        #ifndef NULL_PLAYER
+        #ifndef nullptr_PLAYER
             m_audioPlayer->openSongList(uri->getUri());
         #endif
     }
         break;
     case CleverURI::SONG:
     {
-        #ifndef NULL_PLAYER
+        #ifndef nullptr_PLAYER
             m_audioPlayer->openSong(uri->getUri());
         #endif
     }
@@ -2194,7 +2297,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
     default:
         break;
     }
-    if(tmp!=NULL)
+    if(tmp!=nullptr)
     {
         tmp->setLocalPlayerId(m_localPlayerId);
         tmp->setCleverUri(uri);
@@ -2242,7 +2345,7 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
     }
     else
     {
-        MediaContainer* tmp=NULL;
+        MediaContainer* tmp=nullptr;
         switch(type)
         {
         case CleverURI::MAP:
@@ -2250,7 +2353,7 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
             break;
         case CleverURI::PICTURE:
         case CleverURI::ONLINEPICTURE:
-            tmp = new Image();
+            tmp = new Image(m_mdiArea);
             break;
         case CleverURI::VMAP:
             tmp = new VMapFrame();
@@ -2259,7 +2362,7 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
             break;
         }
 
-        if(tmp!=NULL)
+        if(tmp!=nullptr)
         {
             tmp->setCleverUriType(type);
             if(tmp->openMedia())
@@ -2287,7 +2390,7 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
 }
 void MainWindow::updateWindowTitle()
 {
-    if(NULL != m_currentConnectionProfile)
+    if(nullptr != m_currentConnectionProfile)
     {
         setWindowTitle(QStringLiteral("%6[*] - v%2 - %3 - %4 - %5 - %1").arg(m_preferences->value("applicationName","Rolisteam").toString())
                        .arg(m_version)
@@ -2359,7 +2462,7 @@ void MainWindow::dropEvent(QDropEvent* event)
         for(int i = 0; i< list.size();++i)
         {
             CleverURI::ContentType type= getContentType(list.at(i).toLocalFile());
-            MediaContainer* tmp=NULL;
+            MediaContainer* tmp=nullptr;
             CleverURI* uri = new CleverURI(getShortNameFromPath(list.at(i).toLocalFile()),list.at(i).toLocalFile(),type);
             switch(type)
             {
@@ -2383,7 +2486,7 @@ void MainWindow::dropEvent(QDropEvent* event)
             }
                 break;
             case CleverURI::PICTURE:
-                tmp = new Image();
+                tmp = new Image(m_mdiArea);
                 tmp->setCleverUri(uri);
                 tmp->readFileFromUri();
                 prepareImage(static_cast<Image*>(tmp));
@@ -2398,13 +2501,13 @@ void MainWindow::dropEvent(QDropEvent* event)
                 addMediaToMdiArea(tmp);
                 tmp->setVisible(true);
             case CleverURI::SONG:
-#ifndef NULL_PLAYER
+#ifndef nullptr_PLAYER
                 m_audioPlayer->openSong(list.at(i).toLocalFile());
 #endif
                 m_sessionManager->addRessource(uri);
                 break;
             case CleverURI::SONGLIST:
-#ifndef NULL_PLAYER
+#ifndef nullptr_PLAYER
                 m_audioPlayer->openSongList(list.at(i).toLocalFile());
 #endif
                 m_sessionManager->addRessource(uri);
@@ -2412,9 +2515,20 @@ void MainWindow::dropEvent(QDropEvent* event)
             case CleverURI::SCENARIO:
                 readStory(uri->getUri());
                 break;
+            default:
+                break;
             }
-            //m_sessionManager->addRessource(uri);
         }
         event->acceptProposedAction();
     }
+}
+
+void MainWindow::showShortCutEditor()
+{
+    ShortcutVisitor visitor;
+    visitor.registerWidget(this,"mainwindow",true);
+
+    ShortCutEditorDialog dialog;
+    dialog.setModel(visitor.getModel());
+    dialog.exec();
 }

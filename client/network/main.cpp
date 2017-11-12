@@ -40,9 +40,20 @@
 * @author Renaud Guezennec
 *
 *  @section intro_sec Introduction
-* Stand alone server for rolisteam.
+* Rolisteam help you to manage role playing games with your friend all over the world.<br/>
+* Rolisteam is a free software under GNU/GPL. Its purpose is to provide all features required to<br/>
+* perform Role playing games with remote friends.<br/>
+* It is based on Client/server architecture and it is written in C++ with Qt.<br/>
 *
 * @section features_sec Features:
+* - Chat with one, many and all players
+* - Sharing images and many other media type
+* - Drawing maps on the fly
+* - Sharing environment sound
+* - Multi-platform: Windows, Linux and Mac OS X
+* - Powerful die rolling syntax
+* - Theme and skin: make your own skin, save it, share it.
+* - Useful preferences systems
 *
 *
 *
@@ -94,28 +105,29 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     //QString locale = QLocale::system().name();
 
-    // Ressources
 
-
-    // Settings
     QCommandLineParser parser;
-    parser.setApplicationDescription(QObject::tr("RolisteamD is a stand alone server to host games from rolisteam clients."));
-
-    QCommandLineOption configFile(QStringList() << "f" << "configFile","Read all parameters from <file>.","file");
-    QCommandLineOption generateFile(QStringList() << "g" << "generate","Generate basic config <output>.","output");
-
     parser.addHelpOption();
     parser.addVersionOption();
-    parser.addOption(configFile);
-    parser.addOption(generateFile);
 
-    RolisteamDaemon daemon;
-    parser.process(app.arguments());
+    QCommandLineOption configuration(QStringList() << "c"<< "config", QObject::tr("Set the path to configuration file [mandatory]"),"config");
+    QCommandLineOption print(QStringList() << "p"<< "print", QObject::tr("Print a default configuration file into Standard output"));
 
-    if(parser.isSet(generateFile))
+
+    parser.addOption(configuration);
+    parser.addOption(print);
+
+    parser.parse(app.arguments());
+
+    bool hasConfig = parser.isSet(configuration);
+    bool askPrint = parser.isSet(print);
+
+
+    QString configPath;
+
+    if(hasConfig)
     {
-        QString value = parser.value(generateFile);
-        daemon.readConfigFile(value);
+        configPath = parser.value(configuration);
     }
 
 
@@ -124,10 +136,20 @@ int main(int argc, char *argv[])
         parser.showHelp();
     }
 
+    RolisteamDaemon deamon;
+    deamon.readConfigFile(configPath);
+
+    if(askPrint)
+    {
+        deamon.createEmptyConfigFile();
+        return 0;
+    }
+
+
+
+
+
+
 
     return app.exec();
-
-
-
-
-}
+} 

@@ -5,7 +5,6 @@
 
 ## Generic parameter
 CONFIG +=  -console
-QT += widgets printsupport multimedia quick qml quickwidgets
 #-console
 #
 
@@ -16,8 +15,6 @@ TEMPLATE = subdirs
 SUBDIRS = client server
 
 
-#DEFINES += DEBUG_MODE
-CONFIG += c++11
 
 MOC_DIR = bin
 OBJECTS_DIR = bin

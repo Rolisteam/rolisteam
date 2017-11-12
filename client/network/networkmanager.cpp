@@ -88,11 +88,7 @@ ClientManager::ClientManager(ConnectionProfile* connection)
 
     m_states.setInitialState(m_disconnected);
 
-
-
     connect(&m_states,SIGNAL(started()),this,SIGNAL(isReady()));
-
-
 
     initializeLink();
 
@@ -106,9 +102,6 @@ void ClientManager::initializeLink()
     m_authentified->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
     m_connected->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
     m_connecting->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
-
-    //m_states.addTransition(m_networkLinkToServer,SIGNAL(error()),m_error);
-    //m_states.addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
 
     connect(this, SIGNAL(sendData(char *, quint32, NetworkLink *)),m_networkLinkToServer, SLOT(sendData(char *, quint32, NetworkLink *)));
     connect(m_networkLinkToServer, SIGNAL(disconnected(NetworkLink *)),this, SLOT(endingNetworkLink(NetworkLink *)));
@@ -160,36 +153,14 @@ void ClientManager::sendMessage(char* data, quint32 size, NetworkLink* but)
     }
 }
 
-
-void ClientManager::addNetworkLink(NetworkLink* networkLink)
-{
- /*   if((NULL!=networkLink)&&(m_networkLinkList.contains(networkLink)))
-    {
-        qDebug() << "#################\nNetworkLink is already inside;";
-    }
-
-    if((NULL!=networkLink)&&(!m_networkLinkList.contains(networkLink)))
-    {
-        m_networkLinkList.append(networkLink);
-        connect(this, SIGNAL(sendData(char *, quint32, NetworkLink *)),networkLink, SLOT(sendData(char *, quint32, NetworkLink *)));
-        connect(networkLink, SIGNAL(disconnected(NetworkLink *)),this, SLOT(endingNetworkLink(NetworkLink *)));
-        connect(networkLink,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
-        emit linkAdded(networkLink);
-    }*/
-}
-
-
-
 void ClientManager::endingNetworkLink(NetworkLink * link)
 {
 
     if(!m_disconnectAsked)
     {
         link->deleteLater();
-
         emit linkDeleted(link);
     }
-
 
     if (!m_connectionProfile->isServer())
     {
@@ -209,8 +180,6 @@ void ClientManager::disconnectAndClose()
     m_networkLinkToServer->disconnectAndClose();
     emit notifyUser(tr("Connection to the server has been closed."));
     m_playersList->cleanListButLocal();
-//delete m_networkLinkToServer;
-  //  m_networkLinkToServer=NULL;
     setConnectionState(DISCONNECTED);
 }
 bool ClientManager::isServer() const
@@ -219,11 +188,6 @@ bool ClientManager::isServer() const
 }
 bool ClientManager::isConnected() const
 {
-    qDebug() << m_connectionState <<"statemachine active"<<m_states.isRunning() << m_states.active() ;
-    qDebug() << "connecting"<<m_connecting->active();
-    qDebug() << "m_connected"<<m_connected->active();
-    qDebug() << "m_authentified"<<m_authentified->active();
-    qDebug() << "m_disconnected"<<m_disconnected->active();
     switch (m_connectionState)
     {
     case DISCONNECTED:
@@ -237,7 +201,6 @@ bool ClientManager::isConnected() const
 
 void ClientManager::setConnectionState(ConnectionState state)
 {
-    qDebug() << "[Connection State]"<< state;
     if(m_connectionState!=state)
     {
         m_connectionState=state;

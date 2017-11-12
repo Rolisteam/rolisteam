@@ -15,6 +15,7 @@ public:
     explicit RolisteamDaemon(QObject *parent = 0);
 
 
+    void start();
 signals:
 
 public slots:

@@ -24,8 +24,9 @@
 
 #ifndef UNIT_TEST
 #include "network/networklink.h"
+#include "network/networkmanager.h"
 #endif
-//#include "network/networkmanager.h"
+
 
 
 NetworkMessage::NetworkMessage(NetworkLink* linkToServer)
@@ -41,7 +42,7 @@ NetworkMessage::~NetworkMessage()
 
 void NetworkMessage::sendTo(NetworkLink * link)
 {
-    if (link == NULL)
+    if (link == nullptr)
     {
         sendAll();
         return;
@@ -50,26 +51,28 @@ void NetworkMessage::sendTo(NetworkLink * link)
     NetworkMessageHeader * header = buffer();
     #ifndef UNIT_TEST
     link->sendData((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
-    //link->sendDataSlot((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
-    //link->sendDataSlot((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
     #endif
-   // QMetaObject::invokeMethod(link,"sendData",Qt::QueuedConnection,Q_ARG(NetworkMessage*,this));
 }
 
 void NetworkMessage::sendAll(NetworkLink * butLink)
 {
     NetworkMessageHeader* header = buffer();
 #ifndef UNIT_TEST
-    m_server->sendMessage((char *)header, header->dataSize + sizeof(NetworkMessageHeader), butLink);
+    m_linkToServer = ClientManager::getLinkToServer();
+    if(nullptr != m_linkToServer)
+    {
+        m_linkToServer->sendData(reinterpret_cast<char*>(header), header->dataSize + sizeof(NetworkMessageHeader), butLink);
+    }
 #endif
 }
 quint64 NetworkMessage::getSize()
 {
-    if(buffer()!=NULL)
+    if(buffer()!=nullptr)
     {
         NetworkMessageHeader* header = buffer();
         return  header->dataSize + sizeof(NetworkMessageHeader);
     }
+    return 0;
 }
 void NetworkMessage::setLinkToServer(NetworkLink* linkToServer)
 {

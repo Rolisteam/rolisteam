@@ -6,27 +6,58 @@
 #include <QSettings>
 
 RolisteamDaemon::RolisteamDaemon(QObject *parent)
-    : QObject(parent)
+    : QObject(parent)//,m_serverManager(new ServerManager())
 {
 
 }
 
-void RolisteamDaemon::readConfigFile(QString)
+void RolisteamDaemon::readConfigFile(QString filepath)
 {
     QSettings settings(filepath,QSettings::IniFormat);
 
     int port = settings.value("port").toInt();
-    QString password = settings.value("AdminPassword").toString();
-    //QFile file(filepath);
-    m_serverManager.setPort(port);
+    QString password = settings.value("password").toString();
+    QString range = settings.value("IpRange").toString();
+    QString ipBan = settings.value("IpBan").toString();
+    QString connectionMax = settings.value("ConnectionMax").toString();
+    QString timeStart = settings.value("TimeStart").toString();
+    QString timeEnd= settings.value("TimeEnd").toString();
+    QString ipMode= settings.value("IpMode").toString();
+    QString adminPassword= settings.value("AdminPassword").toString();
+    int threadCount= settings.value("ThreadCount").toInt();
+    int channelCount= settings.value("ChannelCount").toInt();
+    int timeToRetry= settings.value("TimeToRetry").toInt();
+    int logLevel= settings.value("LogLevel").toInt();
 
+
+    m_serverManager.insertField("port",port);
+    m_serverManager.insertField("password",password);
+    m_serverManager.insertField("IpRange",range);
+    m_serverManager.insertField("IpBan",ipBan);
+    m_serverManager.insertField("ConnectionMax",connectionMax);
+    m_serverManager.insertField("TimeStart",timeStart);
+    m_serverManager.insertField("TimeEnd",timeEnd);
+    m_serverManager.insertField("AdminPassword",adminPassword);
+    m_serverManager.insertField("IpMode",ipMode);//v4 v6 any
+    m_serverManager.insertField("ThreadCount",threadCount);//thread count
+    m_serverManager.insertField("ChannelCount",channelCount);//channel count
+    m_serverManager.insertField("TimeToRetry",timeToRetry);//channel count
+    m_serverManager.insertField("LogLevel",logLevel);//channel count
+
+    //m_serverManager.insertField("ConnectionMax",ipBan);
+    m_serverManager.initServerManager();
+    //QFile file(filepath);
+    //m_serverManager.setPort(port);
+}
+
+void RolisteamDaemon::start()
+{
     connect(&m_thread,SIGNAL(started()),&m_serverManager,SLOT(startListening()));
     connect(&m_serverManager,SIGNAL(sendLog(QString)),this,SLOT(notifyUser(QString)));
     connect(&m_serverManager,SIGNAL(errorOccurs(QString)),this,SLOT(errorMessage(QString)));
     m_serverManager.moveToThread(&m_thread);
 
     m_thread.start();
-
 }
 
 #include <iostream>
@@ -61,7 +92,7 @@ int RolisteamDaemon::getLevelOfLog()
 }
 void RolisteamDaemon::notifyUser(QString str)
 {
-    qDebug() << str;
+    qInfo() << str;
 }
 
 void RolisteamDaemon::errorMessage(QString str)

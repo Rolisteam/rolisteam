@@ -30,6 +30,7 @@
 #include <QSplitter>
 #include <QTextBrowser>
 #include <QMdiSubWindow>
+#include <QToolBar>
 
 #include "network/networkmessage.h"
 #include "preferences/preferencesmanager.h"

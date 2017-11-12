@@ -32,12 +32,19 @@
         <file>resources/icons/normalstyle.png</file>
         <file>resources/icons/underlinestyle.png</file>
         <file>resources/icons/remove.png</file>
+        <file alias="map.png">resources/icons/maplogo.png</file>
         <file>translations/rolisteam_fr.qm</file>
         <file>resources/icons/moveNpc.png</file>
         <file>resources/icons/line.png</file>
         <file>resources/icons/text.png</file>
+        <file alias="picture.png">resources/icons/image.png</file>
         <file>resources/icons/save.png</file>
         <file>resources/logo/128.ico</file>
+        <file alias="rolisteam250.png">resources/logo/250-rolisteam.png</file>
+        <file alias="logo.png">resources/logo/250-symbole.png</file>
+        <file alias="256ico.png">resources/logo/256-icone.png</file>
+        <file alias="logo-256.ico">resources/logo/256.ico</file>
+        <file>resources/logo/500-rolisteam.png</file>
         <file>resources/logo/500-symbole.png</file>
         <file>resources/logo/1000-fond.png</file>
         <file>resources/logo/1000-rolisteam.png</file>
@@ -45,7 +52,14 @@
         <file>resources/logo/1500-rolisteam.png</file>
         <file>resources/logo/Rolisteam-fond.svg</file>
         <file>resources/logo/Rolisteam.svg</file>
-        <file>resources/logo/500-rolisteam.png</file>
+        <file alias="logo.svg">resources/logo/symbol.svg</file>
+        <file alias="chat.png">resources/icons/chatIcon.png</file>
+        <file alias="notes.png">resources/icons/notes.png</file>
+        <file alias="story.png">resources/icons/scenario.png</file>
+        <file alias="exit.png">resources/icons/exit.png</file>
+        <file alias="settings.png">resources/icons/settings.png</file>
+        <file alias="fit-page.png">resources/icons/fit-page-32.png</file>
+        <file alias="fit-window.png">resources/icons/fit-width-24.png</file>
         <file>translations/qt_fr.qm</file>
         <file>translations/rolisteam_de.qm</file>
         <file>translations/rolisteam_pt_BR.qm</file>
@@ -85,7 +99,6 @@
         <file>resources/icons/treeview.png</file>
         <file>resources/icons/audiofile.svg</file>
         <file>resources/icons/playlist.svg</file>
-        <file>resources/icons/liberapay.png</file>
         <file alias="resources/qml/ImageField.qml">client/charactersheet/qml/ImageField.qml</file>
         <file alias="resources/qml/TextInputField.qml">client/charactersheet/qml/TextInputField.qml</file>
         <file alias="resources/qml/TextFieldField.qml">client/charactersheet/qml/TextFieldField.qml</file>
@@ -95,21 +108,8 @@
         <file alias="resources/qml/main.qml">client/charactersheet/qml/main.qml</file>
         <file alias="resources/qml/DiceButton.qml">client/charactersheet/qml/DiceButton.qml</file>
         <file alias="resources/qml/CheckBoxField.qml">client/charactersheet/qml/CheckBoxField.qml</file>
-        <file alias="map.png">resources/icons/maplogo.png</file>
-        <file alias="picture.png">resources/icons/image.png</file>
-        <file alias="rolisteam250.png">resources/logo/250-rolisteam.png</file>
-        <file alias="logo.png">resources/logo/250-symbole.png</file>
-        <file alias="256ico.png">resources/logo/256-icone.png</file>
-        <file alias="logo-256.ico">resources/logo/256.ico</file>
-        <file alias="logo.svg">resources/logo/symbol.svg</file>
-        <file alias="chat.png">resources/icons/chatIcon.png</file>
-        <file alias="notes.png">resources/icons/notes.png</file>
-        <file alias="story.png">resources/icons/scenario.png</file>
-        <file alias="exit.png">resources/icons/exit.png</file>
-        <file alias="settings.png">resources/icons/settings.png</file>
-        <file alias="fit-page.png">resources/icons/fit-page-32.png</file>
-        <file alias="fit-window.png">resources/icons/fit-width-24.png</file>
-	<file alias="vmap.png" >resources/icons/vmap.png</file>
+        <file>resources/icons/liberapay.png</file>
+        <file alias="vmap.png">resources/icons/vmap.png</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>

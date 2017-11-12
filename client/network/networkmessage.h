@@ -25,7 +25,7 @@
 #define NETWORK_MESSAGE_H
 
 #include <QtGlobal>
-//#include "network/networkmanager.h"
+//
 class NetworkLink;
 class ClientManager;
 
@@ -46,13 +46,13 @@ enum Category {
     CharacterCategory,
     DrawCategory,
     MapCategory,
-    PictureCategory,
     ChatCategory,
     MusicCategory,
     SetupCategory,
     SharePreferencesCategory,
     VMapCategory,
-    MediaCategory
+    MediaCategory,
+    SharedNoteCategory
 };
 
 enum Action {
@@ -64,6 +64,17 @@ enum Action {
     Kicked,
     MoveChannel,
     SetChannelList,
+    AuthentificationSucessed,
+    AuthentificationFail,
+    LockChannel,
+    JoinChannel,
+    DeleteChannel,
+    AddChannel,
+    BanUser,
+    ClearTable,
+    AdminPassword,
+    AdminAuthSucessed,
+    AdminAuthFail,
 
     // PlayerCategory
     PlayerConnectionAction = 0,
@@ -102,10 +113,6 @@ enum Action {
     LoadMap,
     ImportMap,
     CloseMap,
-
-    // PictureCategory
-    AddPictureAction = 0,
-    DelPictureAction,
 
     // Painting
     penPainting =0,
@@ -170,7 +177,13 @@ enum Action {
     VisionChanged,
 
     //mediacategory
-    closeMedia=0
+    addMedia=0,
+    closeMedia,
+
+    //SharedNoteCategory
+    updateTextAndPermission,
+    updateText,
+    updatePermissionOneUser
 };
 }
 /**
@@ -178,13 +191,13 @@ enum Action {
  */
 class NetworkMessage
 {
-
 public:
+    enum RecipientMode {All,OneOrMany};
     /**
      * @brief NetworkMessage
      * @param server
      */
-    NetworkMessage(ClientManager* server = nullptr);
+    NetworkMessage(NetworkLink* server = nullptr);
     /**
      * @brief ~NetworkMessage
      */
@@ -210,20 +223,26 @@ public:
      * @return
      */
     virtual NetMsg::Action action() const =0;
-
+    /**
+     * @brief setLinkToServer
+     * @param server
+     */
     void setLinkToServer(NetworkLink* server);
 
-
+    /**
+     * @brief getSize
+     * @return
+     */
     quint64 getSize();
-
-    virtual NetworkMessageHeader *  buffer() =0;
-protected:
     /**
      * @brief buffer
      * @return
      */
+    virtual NetworkMessageHeader *  buffer() =0;
+
 
 protected:
     NetworkLink* m_linkToServer;
+
 };
 #endif

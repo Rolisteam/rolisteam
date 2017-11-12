@@ -64,7 +64,11 @@ public:
 
     void real(qreal data);
 
-
+    /**
+     * @brief getRecipientList
+     * @return
+     */
+    void setRecipientList(QStringList,NetworkMessage::RecipientMode mode);
 protected:
     NetworkMessageHeader * buffer();
 
@@ -79,6 +83,7 @@ private:
     void makeRoom(int size);
     int m_sizeBuffer      ;
     int m_sizeData;
+    NetworkMessage::RecipientMode m_mode;
 };
 
 #endif

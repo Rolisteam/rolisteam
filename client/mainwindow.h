@@ -33,6 +33,7 @@
 #include <QProgressBar>
 #include <QMdiSubWindow>
 #include <QStackedWidget>
+#include <QUndoStack>
 
 #include "data/cleveruri.h"
 #include "data/mediacontainer.h"
@@ -54,6 +55,7 @@
 #include "vmap/vmaptoolbar.h"
 
 #include "notecontainer.h"
+#include "sharededitor/sharednotecontainer.h"
 #include "network/selectconnectionprofiledialog.h"
 
 #ifndef NULL_PLAYER
@@ -61,6 +63,7 @@
 #endif
 
 #include "network/networkmanager.h"
+#include  "network/channellistpanel.h"
 
 namespace Ui {
 class MainWindow;
@@ -82,6 +85,7 @@ class PlayersList;
 class ConnectionProfile;
 class SessionManager;
 class CharacterSheetWindow;
+class GameMasterTool;
 /**
  * @brief Main widget for rolisteam, it herits from QMainWindow.
  */
@@ -95,14 +99,14 @@ public :
      */
     enum MessageType {Information,Notice,Warning,Error};
     /**
+     * @brief MainWindow
+     */
+    MainWindow();
+    /**
      * @brief ~MainWindow
      */
     virtual ~MainWindow();
-    /**
-     * @brief getInstance
-     * @return
-     */
-    static MainWindow* getInstance();
+
 
     /**
      * @brief addMap
@@ -193,7 +197,13 @@ public :
      * @brief addMediaToMdiArea
      * @param mediac
      */
-    void addMediaToMdiArea(MediaContainer* mediac );
+    void addMediaToMdiArea(MediaContainer* mediac, bool undoable = true);
+
+    /**
+     * @brief setLatestFile
+     * @param fileName
+     */
+    void setLatestFile(CleverURI* fileName);
 
 signals:
     /**
@@ -338,6 +348,8 @@ protected :
     void saveMedia(MediaContainer *mediaC,bool AskPath, bool saveAs);
     void readStory(QString fileName);
     void prepareNote(NoteContainer *note);
+    void processSharedNoteMessage(NetworkMessageReader *msg);
+    void tipChecker();
 protected slots:
     /**
      * @brief closeMediaContainer
@@ -385,12 +397,12 @@ private slots :
      * @brief sendOffAllMaps
      * @param link
      */
-	void sendOffAllMaps(NetworkLink * link);
+    void sendOffAllMaps(Player* player);
     /**
      * @brief sendOffAllImages
      * @param link
      */
-	void sendOffAllImages(NetworkLink * link);
+    void sendOffAllImages(Player* player);
     /**
      * @brief updateSessionToNewClient
      * @param player
@@ -444,11 +456,7 @@ private slots :
      * @brief newNoteDocument
      */
     void newNoteDocument();
-    /**
-     * @brief setLatestFile
-     * @param fileName
-     */
-    void setLatestFile(CleverURI* fileName);
+
     /**
      * @brief updateRecentFileActions
      */
@@ -503,19 +511,9 @@ private slots :
      * @brief newCharacterSheetWindow
      */
     void newCharacterSheetWindow();
+    void newSharedNoteDocument();
 
-
-
-private :
-    /**
-     * @brief MainWindow
-     */
-    MainWindow();
-    /**
-     * @brief showCleverUri
-     * @param uri
-     */
-    void showCleverUri(CleverURI *uri);
+    void showShortCutEditor();
 
 private:
     /**
@@ -571,7 +569,6 @@ private:
     UpdateChecker* m_updateChecker;
 
     QString m_version;
-    QString m_major;
     QDockWidget* m_dockLogUtil;
     ClientManager* m_clientManager;
     QTextEdit* m_notifierDisplay;
@@ -592,18 +589,14 @@ private:
     VmapToolBar* m_vmapToolBar;
 
     ConnectionProfile* m_currentConnectionProfile;
-    QList<QWidget*> m_gmToolBoxList;
+    QList<GameMasterTool*> m_gmToolBoxList;
     SelectConnectionProfileDialog* m_dialog;
     bool m_profileDefined;
     CleverURI* m_currentStory;
-<<<<<<< 92b91363d980d527f6d3cdee72fd4bafc3cd4b97
-
-||||||| merged common ancestors
-    QDockWidget* m_roomPanelDockWidget;
-=======
     QDockWidget* m_roomPanelDockWidget;
     QThread m_serverThread;
->>>>>>> -rename the networkmanager to clientmanager.
+    ChannelListPanel* m_roomPanel;
+    QUndoStack m_undoStack;
 };
 
 #endif
