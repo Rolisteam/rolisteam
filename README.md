@@ -2,7 +2,7 @@
 
 ---
 
-**Table of Contents** &nbsp;&nbsp; [Rolisteam](#rolisteam) | [Downloads](#downloads) | [Get Involved] (#get-involved-) | [Community](#community) | [Translation](#translation-status-) | [Road Map](#road-map-) | [License](#license-)
+**Table of Contents** &nbsp;&nbsp; [Rolisteam](#rolisteam) | [Downloads](#downloads) | [Get Involved](#get-involved) | [Community](#community) | [Translation](#translation-status) | [Road Map](#road-map) | [License](#license-)
 
 ---
 
