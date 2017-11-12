@@ -1,0 +1,990 @@
+/*************************************************************************
+ *     Copyright (C) 2011 by Joseph Boudou                               *
+ *      Copyright (C) 2014 by Renaud Guezennec                            *
+ *                                                                       *
+ *     http://www.rolisteam.org/                                         *
+ *                                                                       *
+ *   Rolisteam is free software; you can redistribute it and/or modify   *
+ *   it under the terms of the GNU General Public License as published   *
+ *   by the Free Software Foundation; either version 2 of the License,   *
+ *   or (at your option) any later version.                              *
+ *                                                                       *
+ *   This program is distributed in the hope that it will be useful,     *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of      *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the       *
+ *   GNU General Public License for more details.                        *
+ *                                                                       *
+ *   You should have received a copy of the GNU General Public License   *
+ *   along with this program; if not, write to the                       *
+ *   Free Software Foundation, Inc.,                                     *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
+ *************************************************************************/
+
+
+#include <QApplication>
+#include <QDebug>
+#include <QPalette>
+
+#include "userlist/playersList.h"
+
+#include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
+#include "Features.h"
+#include "data/person.h"
+#include "data/character.h"
+#include "data/player.h"
+#include "network/receiveevent.h"
+
+
+
+
+/******************
+ * Initialisation *
+ ******************/
+PlayersList* PlayersList::m_singleton=nullptr;
+
+PlayersList::PlayersList()
+    : QAbstractItemModel(nullptr), m_gmCount(0),m_localPlayer(nullptr)
+{
+    using namespace NetMsg;
+    ReceiveEvent::registerReceiver(PlayerCategory, PlayerConnectionAction, this);
+    ReceiveEvent::registerReceiver(PlayerCategory, AddPlayerAction, this);
+    ReceiveEvent::registerReceiver(PlayerCategory, DelPlayerAction, this);
+    ReceiveEvent::registerReceiver(PlayerCategory, ChangePlayerNameAction, this);
+    ReceiveEvent::registerReceiver(PlayerCategory, ChangePlayerColorAction, this);
+    ReceiveEvent::registerReceiver(CharacterPlayerCategory, AddPlayerCharacterAction, this);
+    ReceiveEvent::registerReceiver(CharacterPlayerCategory, DelPlayerCharacterAction, this);
+    ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterNameAction, this);
+    ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterColorAction, this);
+    ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterAvatarAction, this);
+    ReceiveEvent::registerReceiver(SetupCategory, AddFeatureAction, this);
+
+    //m_localPlayer = new Player();
+    //m_playersList.append(m_localPlayer);
+
+    connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(sendDelLocalPlayer()));
+}
+
+
+PlayersList::~PlayersList()
+{
+    for (int i = 0; i < m_playersList.size(); i++)
+    {
+        delete m_playersList.at(i);
+    }
+}
+
+PlayersList* PlayersList::instance()
+{
+    if(nullptr==m_singleton)
+    {
+        m_singleton = new PlayersList();
+    }
+    return m_singleton;
+}
+
+
+/*************
+ * ItemModel *
+ *************/
+
+QVariant PlayersList::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid() || index.column() != 0)
+            return QVariant();
+
+    Person* person;
+
+    int row = index.row();
+    if (row < 0)
+    {
+        return QVariant();
+    }
+
+    quint32 parentRow = static_cast<quint32>((index.internalId() & NoParent));
+    if (parentRow == NoParent)
+    {
+        if (row >= m_playersList.size())
+            return QVariant();
+
+        Player * player = m_playersList.at(row);
+        person = player;
+
+        if (role == Qt::BackgroundRole && player->isGM())
+        {
+            QPalette pal = qApp->palette();
+            return QVariant(pal.color(QPalette::Active,QPalette::Button));
+        }
+    }
+    else
+    {
+        if (parentRow >= static_cast<quint32>(m_playersList.size()))
+            return QVariant();
+        Player * player = m_playersList.at(static_cast<int>(parentRow));
+
+        if (row >= player->getCharactersCount())
+            return QVariant();
+        person = player->getCharacterByIndex(row);
+    }
+
+    switch (role)
+    {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+        case Qt::ToolTipRole:
+            return person->getName();
+        //    return person->getUuid();
+        case Qt::DecorationRole:
+        {
+            if((person->isLeaf())&&(!person->getAvatar().isNull()))
+            {
+                return person->getAvatar().scaled(64,64,Qt::KeepAspectRatio,Qt::SmoothTransformation);
+            }
+            else
+                return QVariant(person->getColor());
+        }
+        case IdentifierRole:
+            return QVariant(person->getUuid());
+      }
+
+    return QVariant();
+}
+
+Qt::ItemFlags PlayersList::flags(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return Qt::ItemIsEnabled;
+
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+}
+
+QVariant PlayersList::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    Q_UNUSED(section);
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
+        return QVariant(tr("Players List"));
+    return QVariant();
+}
+
+QModelIndex PlayersList::index(int row, int column, const QModelIndex &parent) const
+{
+    if (column != 0)
+        return QModelIndex();
+
+    if (parent.isValid())
+    {
+        quint32 parentRow = parent.row();
+        if (parentRow >= (quint32)m_playersList.size())
+            return QModelIndex();
+
+        Player * player = m_playersList.at(parentRow);
+        if (row < 0 || row >= player->getCharactersCount())
+            return QModelIndex();
+
+        return QAbstractItemModel::createIndex(row, 0, parentRow);
+    }
+    else
+    {
+        if (row < 0 && row >= m_playersList.size())
+            return QModelIndex();
+
+        return QAbstractItemModel::createIndex(row, 0, NoParent);
+    }
+}
+QList<Character*> PlayersList::getCharacterList()
+{
+	QList<Character*> list;
+
+	foreach(Player* player,m_playersList)
+	{
+		list << player->getChildrenCharacter();
+	}
+	return list;
+}
+
+QModelIndex PlayersList::parent(const QModelIndex & index) const
+{
+    if (!index.isValid())
+        return QModelIndex();
+
+    quint32 parentRow = (quint32)(index.internalId() & NoParent);
+
+    if (parentRow == NoParent || parentRow >= (quint32)m_playersList.size())
+    {
+        return QModelIndex();
+    }
+
+    return QAbstractItemModel::createIndex(parentRow, 0, NoParent);
+}
+
+int PlayersList::rowCount(const QModelIndex & index) const
+{
+    if (!index.isValid())
+    {
+        return m_playersList.size();
+    }
+
+    quint32 parentRow = (quint32)(index.internalId() & NoParent);
+    int row = index.row();
+    if (parentRow != NoParent || row < 0 || row >= m_playersList.size())
+    {
+        return 0;
+    }
+
+    return m_playersList.at(row)->getCharactersCount();
+}
+
+int PlayersList::columnCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent);
+    return 1;
+}
+
+bool PlayersList::setData(const QModelIndex & index, const QVariant &value, int role)
+{
+    Q_UNUSED(index);
+    Q_UNUSED(value);
+    Q_UNUSED(role);
+    return false;
+}
+
+QModelIndex PlayersList::mapIndexToMe(const QModelIndex & index) const
+{
+    if (!index.isValid())
+        return QModelIndex();
+
+    quint32 parentRow = (quint32)(index.internalId() & NoParent);
+    return QAbstractItemModel::createIndex(index.row(), index.column(), parentRow);
+}
+
+QModelIndex PlayersList::createIndex(Person * person) const
+{
+    int size = m_playersList.size();
+    for (int row = 0; row < size; row++)
+    {
+        Player * player = m_playersList.at(row);
+        if (person == player)
+        {
+            return QAbstractItemModel::createIndex(row, 0, NoParent);
+        }
+        else
+        {
+            int c_row;
+            if (player->searchCharacter((Character *)(person), c_row))
+                return QAbstractItemModel::createIndex(c_row, 0, row);
+        }
+    }
+
+    return QModelIndex();
+}
+
+
+/***********
+ * Getters *
+ ***********/
+bool PlayersList::isLocal(Person * person) const
+{
+    if (person == nullptr)
+        return false;
+
+    Player* local = getLocalPlayer();
+    return (person == local || person->getParent() == local);
+}
+
+int PlayersList::getPlayerCount() const
+{
+    return m_playersList.size();
+}
+
+Player * PlayersList::getPlayer(int index) const
+{
+    if (index < 0 && index > m_playersList.size())
+        return nullptr;
+    return m_playersList.at(index);
+}
+
+Person * PlayersList::getPerson(const QString & uuid) const
+{
+    //qDebug()<< "uuid person:" << uuid ;
+    return m_uuidMap.value(uuid);
+}
+
+Player * PlayersList::getPlayer(const QString & uuid) const
+{
+    Person * person = m_uuidMap.value(uuid);
+    if (person == nullptr || person->getParent() != nullptr)//No person or if person has parent return Player
+        return nullptr;
+    return static_cast<Player *>(person);
+}
+
+Character * PlayersList::getCharacter(const QString & uuid) const
+{
+    Person * person = m_uuidMap.value(uuid);
+    if (person == nullptr || person->getParent() == nullptr)
+        return nullptr;
+    return static_cast<Character *>(person);
+}
+
+Player* PlayersList::getParent(const QString & uuid) const
+{
+    Person* person = m_uuidMap.value(uuid);
+    if (person == nullptr)
+        return nullptr;
+    
+    Person* parent = person->getParent();
+    if (parent == nullptr)
+    {
+        return nullptr;
+    }
+    else
+    {
+      Player* player = dynamic_cast<Player*>(parent);
+      if(nullptr!=player)
+      {
+          return player;
+      }
+    }
+
+    return nullptr;
+}
+
+Person * PlayersList::getPerson(const QModelIndex & index) const
+{
+    if (!index.isValid() || index.column() != 0)
+        return nullptr;
+
+    int row = index.row();
+    if (row < 0)
+        return nullptr;
+
+    quint32 parentRow = (quint32)(index.internalId() & NoParent);
+    if (parentRow == NoParent)
+    {
+        if (row < m_playersList.size())
+            return m_playersList.at(row);
+    }
+    else if (parentRow < (quint32)m_playersList.size())
+    {
+        Player * player = m_playersList.at(parentRow);
+
+        if (row < player->getCharactersCount())
+            return player->getCharacterByIndex(row);
+    }
+
+    return nullptr;
+}
+    
+Player * PlayersList::getPlayer(const QModelIndex & index) const
+{
+    if (!index.isValid() || index.column() != 0)
+        return nullptr;
+
+    int row = index.row();
+    quint32 parentRow = (quint32)(index.internalId() & NoParent);
+    if (parentRow == NoParent && row >= 0 && row < m_playersList.size())
+        return m_playersList.at(row);
+
+    return nullptr;
+}
+
+Character * PlayersList::getCharacter(const QModelIndex & index) const
+{
+    if (!index.isValid() || index.column() != 0)
+        return nullptr;
+
+    int row = index.row();
+    quint32 parentRow = (quint32)(index.internalId() & NoParent);
+    if (parentRow == NoParent && row >= 0 && parentRow < (quint32)m_playersList.size())
+    {
+        Player * player = m_playersList.at(row);
+        if (row < player->getCharactersCount())
+            return player->getCharacterByIndex(row);
+    }
+
+    return nullptr;
+}
+
+QString PlayersList::getUuidFromName(QString owner)
+{
+    Person* ownerPerson = m_localPlayer;
+    QList<Character*> list = getCharacterList();
+    bool unfound = true;
+    for(int i = 0; i< list.size() && unfound; ++i)
+    {
+        Character* carac = list.at(i);
+        if(carac->getName() == owner)
+        {
+            unfound = false;
+            ownerPerson = carac;
+        }
+    }
+    return ownerPerson->getUuid();
+}
+
+bool PlayersList::everyPlayerHasFeature(const QString & name, quint8 version) const
+{
+    int playersCount = m_playersList.size();
+    for (int i = 0; i < playersCount; i++)
+    {
+        if (!m_playersList.at(i)->hasFeature(name, version))
+            return false;
+    }
+    return true;
+}
+Player* PlayersList::getLocalPlayer() const
+{
+    return m_localPlayer;
+}
+
+void PlayersList::sendOffLocalPlayerInformations()
+{
+    NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
+    setLocalFeatures(*m_localPlayer);
+    m_localPlayer->fill(message);
+    message.sendAll();
+}
+void PlayersList::sendOffFeatures(Player* player)
+{
+    //setLocalFeatures(*player);
+    SendFeaturesIterator i(*player);
+    while (i.hasNext())
+    {
+        i.next();
+        i.message().sendAll();
+    }
+}
+
+/***********
+ * Setters *
+ ***********/
+
+void PlayersList::setLocalPlayer(Player * player)
+{
+
+    if(player!=m_localPlayer)
+    {
+        if (m_playersList.size() > 0)
+        {
+            return;
+        }
+        m_localPlayer=player;
+        addPlayer(player);
+    }
+}
+
+void PlayersList::cleanListButLocal()
+{
+    beginResetModel();
+    foreach(Player* tmp,m_playersList )
+    {
+        if(tmp != m_localPlayer)
+        {
+            delPlayer(tmp);
+        }
+    }
+    endResetModel();
+
+}
+
+void PlayersList::addLocalCharacter(Character * newCharacter)
+{
+    addCharacter(getLocalPlayer(), newCharacter);
+
+    NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::AddPlayerCharacterAction);
+    newCharacter->fill(message);
+    message.uint8(1); // add it to the map
+    message.sendAll();
+}
+
+void PlayersList::changeLocalPerson(Person * person, const QString & name, const QColor & color, const QImage & icon)
+{
+    if (!isLocal(person))
+        return;
+
+    if (p_setLocalPersonName(person, name) || p_setLocalPersonColor(person, color) || setLocalPersonAvatar(person,icon))
+        notifyPersonChanged(person);
+}
+
+void PlayersList::setLocalPersonName(Person * person, const QString & name)
+{
+    if (!isLocal(person))
+        return;
+
+    if (p_setLocalPersonName(person, name))
+        notifyPersonChanged(person);
+}
+
+void PlayersList::setLocalPersonColor(Person * person, const QColor & color)
+{
+    if (!isLocal(person))
+        return;
+
+    if (p_setLocalPersonColor(person, color))
+        notifyPersonChanged(person);
+}
+
+
+bool PlayersList::setLocalPersonAvatar(Person* person,const QImage& image)
+{
+    if(person->getAvatar() != image)
+    {
+        person->setAvatar(image);
+        NetworkMessageWriter * message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterAvatarAction);
+
+        message->string8(person->getUuid());
+
+        QByteArray data;
+        QDataStream in(&data,QIODevice::WriteOnly);
+        in << image;
+        message->byteArray32(data);
+        message->sendAll();
+
+        return true;
+    }
+    return false;
+}
+
+bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
+{
+    if (person->setColor(color))
+    {
+        NetworkMessageWriter * message;
+
+        if (person->getParent() == nullptr)
+            message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerColorAction);
+        else
+            message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterColorAction);
+
+        message->string8(person->getUuid());
+        message->rgb(person->getColor());
+        message->sendAll();
+
+        return true;
+    }
+    return false;
+}
+bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
+{
+    if (person->setName(name))
+    {
+        NetworkMessageWriter * message;
+
+        if (person->getParent() == nullptr)
+            message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerNameAction);
+        else
+            message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterNameAction);
+
+        message->string16(person->getName());
+        message->string8(person->getUuid());
+        message->sendAll();
+
+        return true;
+    }
+    return false;
+}
+
+void PlayersList::delLocalCharacter(int index)
+{
+    Player * parent = getLocalPlayer();
+    if (index < 0 || index >= parent->getCharactersCount())
+        return;
+
+    NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::DelPlayerCharacterAction);
+    message.string8(parent->getCharacterByIndex(index)->getUuid());
+    message.sendAll();
+
+    delCharacter(parent, index);
+}
+
+void PlayersList::addPlayer(Player * player)
+{
+    int size = m_playersList.size();
+    QString uuid = player->getUuid();
+
+    if (m_uuidMap.contains(uuid))
+        return;
+
+    beginInsertRows(QModelIndex(), size, size);
+
+    m_playersList << player;
+    m_uuidMap.insert(uuid, player);
+    if (player->isGM())
+        m_gmCount += 1;
+
+    emit playerAdded(player);
+
+    endInsertRows();
+
+    for(int i = 0;i<player->getCharactersCount();++i)
+    {
+        Character* character = player->getCharacterByIndex(i);
+        addCharacter(player,character);
+        //emit characterAdded(player->getCharacterByIndex(i));
+        //m_uuidMap.insert(character->getUuid(),character);
+    }
+}
+
+void PlayersList::addCharacter(Player * player, Character * character)
+{
+    int size = player->getCharactersCount();
+    QString uuid = character->getUuid();
+
+    if (m_uuidMap.contains(uuid))
+       return;
+
+    beginInsertRows(createIndex(player), size, size);
+
+    if(character->getParentPlayer() != player)
+    {
+        player->addCharacter(character);
+    }
+    m_uuidMap.insert(uuid, character);
+
+    emit characterAdded(character);
+
+    endInsertRows();
+}
+
+void PlayersList::delPlayer(Player * player)
+{
+    int index = m_playersList.indexOf(player);
+    if (index < 0)
+        return;
+
+    int charactersCount = player->getCharactersCount();
+    for (int i = 0; i < charactersCount ; i++)
+    {
+        delCharacter(player, 0);
+    }
+
+    beginRemoveRows(QModelIndex(), index, index);
+
+    m_uuidMap.remove(player->getUuid());
+    m_playersList.removeAt(index);
+    if (player->isGM())
+        m_gmCount -= 1;
+
+    emit playerDeleted(player);
+    delete player;
+
+    endRemoveRows();
+}
+
+void PlayersList::delCharacter(Player * parent, int index)
+{
+    Character * character = parent->getCharacterByIndex(index);
+    QModelIndex parentItem = createIndex(parent);
+    beginRemoveRows(parentItem , index, index);
+
+    emit characterDeleted(character);
+
+    m_uuidMap.remove(character->getUuid());
+    parent->delCharacter(index);
+
+    endRemoveRows();
+}
+
+void PlayersList::notifyPersonChanged(Person * person)
+{
+    QModelIndex index = createIndex(person);
+    
+    if (index.internalId() != NoParent)
+        emit characterChanged(static_cast<Character *>(person));
+    else
+        emit playerChanged(static_cast<Player *>(person));
+
+    emit dataChanged(index, index);
+}
+
+
+/***********
+ * Network *
+ ***********/
+
+bool PlayersList::event(QEvent * event)
+{
+    if (event->type() == ReceiveEvent::Type)
+    {
+        using namespace NetMsg;
+        ReceiveEvent * rEvent = static_cast<ReceiveEvent *>(event);
+        NetworkMessageReader & data = rEvent->data();
+        switch (data.category())
+        {
+            case PlayerCategory:
+                switch (data.action())
+                {
+                    case PlayerConnectionAction:
+                        addPlayerAsServer(rEvent);
+                        return true;
+                    case AddPlayerAction:
+                        addPlayer(data);
+                        return true;
+                    case DelPlayerAction:
+                        delPlayer(data);
+                        return true;
+                    case ChangePlayerNameAction:
+                        setPersonName(data);
+                        return true;
+                    case ChangePlayerColorAction:
+                        setPersonColor(data);
+                        return true;
+                    default:
+                        qWarning() << tr("PlayersList [PlayerCategory]: unknown action (%d)").arg(data.action());
+                }
+                break;
+            case CharacterPlayerCategory:
+                switch (data.action())
+                {
+                    case AddPlayerCharacterAction:
+                        addCharacter(data);
+                        return true;
+                    case DelPlayerCharacterAction:
+                        delCharacter(data);
+                        return true;
+                    case ChangePlayerCharacterNameAction:
+                        setPersonName(data);
+                        return true;
+                    case ChangePlayerCharacterColorAction:
+                        setPersonColor(data);
+                        return true;
+                    case ChangePlayerCharacterAvatarAction:
+                        setPersonAvatar(data);
+                        return true;
+                    default:
+                        qWarning() << tr("PlayersList [CharacterPlayerCategory]: unknown action (%d)").arg(data.action());
+
+                }
+                break;
+            case SetupCategory:
+                switch (data.action())
+                {
+                    case AddFeatureAction:
+                        addFeature(*rEvent);
+                        return true;
+                    default:
+                        qWarning("PlayersList : message of categorie \"parametres\" with unknown action (%d)", data.action());
+                }
+                break;
+            default:
+                qWarning("PlayersList : message of unknown categorie (%d)", data.category());
+        }
+    }
+    return QObject::event(event);
+}
+
+void PlayersList::addPlayer(NetworkMessageReader & data)
+{
+    Player * newPlayer = new Player(data);
+    Person * actualPerson = m_uuidMap.value(newPlayer->getUuid());
+    if (actualPerson != nullptr)
+    {
+        if (actualPerson->getParent() == nullptr)
+        {
+            Player * actualPlayer = static_cast<Player *>(actualPerson);
+
+            if((m_localPlayer->isGM())&&(m_localPlayer->isGM() == newPlayer->isGM())&&(newPlayer->getUuid() != m_localPlayer->getUuid()))
+            {
+                qDebug() << "Local player is not GM%%%%%%%%%%%%%%%%%%%" << newPlayer->isGM() << m_localPlayer->isGM() << newPlayer->getUuid() << m_localPlayer->getUuid();
+                m_localPlayer->setGM(false);
+                notifyPersonChanged(actualPlayer);
+                emit localGMRefused(false);
+            }
+        }
+        else
+            qWarning("A Player and a Character have the same UUID %s", qPrintable(newPlayer->getUuid()));
+    }
+    else
+        addPlayer(newPlayer);
+}
+
+void PlayersList::addPlayerAsServer(ReceiveEvent * event)
+{
+    NetworkLink * link = event->link();
+    Player* player = new Player(event->data(), link);
+    if (player->isGM() && m_gmCount > 0)
+    {
+        player->setGM(false);
+    }
+
+    addPlayer(player);
+
+    NetworkMessageWriter msgPlayer (NetMsg::PlayerCategory, NetMsg::AddPlayerAction);
+    player->fill(msgPlayer);
+    msgPlayer.uint8(1);
+    msgPlayer.sendAll();
+
+    NetworkMessageWriter msgCharacter (NetMsg::CharacterPlayerCategory, NetMsg::AddPlayerCharacterAction);
+    SendFeaturesIterator featuresIterator;
+
+    int playersListSize = m_playersList.size();
+    for (int i = 0 ; i < playersListSize ; i++)
+    {
+        Player * curPlayer = m_playersList.at(i);
+        msgPlayer.reset();
+        curPlayer->fill(msgPlayer);
+        // don't display it in the log
+        msgPlayer.uint8(0);
+        if (curPlayer != player)
+        {
+            msgPlayer.sendTo(link);
+            int charactersListSize = curPlayer->getCharactersCount();
+            for (int j = 0 ; j < charactersListSize ; j++)
+            {
+                Character * character = curPlayer->getCharacterByIndex(j);
+                msgCharacter.reset();
+                character->fill(msgCharacter);
+                // add it to the maps
+                msgCharacter.uint8(1);
+                msgCharacter.sendTo(link);
+            }
+        }
+        featuresIterator = curPlayer;
+        while (featuresIterator.hasNext())
+        {
+            featuresIterator.next();
+            featuresIterator.message().sendTo(link);
+        }
+    }
+    emit playerAddedAsClient(player);
+}
+
+void PlayersList::delPlayer(NetworkMessageReader & data)
+{
+    /// @todo: If the player is the GM, call AudioPlayer::pselectNewFile("").
+    QString uuid = data.string8();
+    Player * player = getPlayer(uuid);
+    if (player != nullptr)
+    {
+        delPlayer(player);
+    }
+}
+
+void PlayersList::setPersonName(NetworkMessageReader & data)
+{
+    QString name = data.string16();
+    QString uuid = data.string8();
+
+    Person * person = m_uuidMap.value(uuid);
+    if (person == nullptr)
+        return;
+
+    if (person->setName(name))
+        notifyPersonChanged(person);
+}
+void PlayersList::setPersonAvatar(NetworkMessageReader & data)
+{
+     QString uuid = data.string8();
+     QByteArray imageBuffer = data.byteArray32();
+     Person * person = m_uuidMap.value(uuid);
+     QDataStream out(&imageBuffer,QIODevice::ReadOnly);
+     QImage img;
+     out >> img;
+
+     if (person == nullptr)
+         return;
+
+     person->setAvatar(img);
+}
+
+void PlayersList::setPersonColor(NetworkMessageReader & data)
+{
+    QString uuid = data.string8();
+    QColor color = QColor(data.rgb());
+
+    Person * person = m_uuidMap.value(uuid);
+    if (person == nullptr)
+        return;
+
+    if (person->setColor(color))
+        notifyPersonChanged(person);
+}
+
+void PlayersList::addCharacter(NetworkMessageReader & data)
+{
+    Character* character = new Character();
+    QString parentId = character->read(data);
+
+    Player* player = getPlayer(parentId);
+    if (player == nullptr)
+        return;
+    addCharacter(player, character);
+}
+
+void PlayersList::delCharacter(NetworkMessageReader & data)
+{
+    QString uuid = data.string8();
+    Character * character = getCharacter(uuid);
+    if (character == nullptr)
+        return;
+
+    Player* parent = character->getParentPlayer();
+    if(nullptr!=parent)
+    {
+        delCharacter(parent, parent->getIndexOfCharacter(character));
+    }
+}
+
+void PlayersList::sendDelLocalPlayer()
+{
+    if(nullptr!=getLocalPlayer())
+    {
+        NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
+        message.string8(getLocalPlayer()->getUuid());
+        message.sendAll();
+    }
+}
+void PlayersList::completeListClean()
+{
+    beginResetModel();
+    m_playersList.clear();
+    m_uuidMap.clear();
+    endResetModel();
+
+    Player* player= getLocalPlayer();
+    if(nullptr!=player)
+    {
+        player->clearCharacterList();
+    }
+
+    m_localPlayer = nullptr;
+
+}
+
+/*********
+ * Other *
+ *********/
+
+void PlayersList::delPlayerWithLink(NetworkLink * link)
+{
+    int playersCount = m_playersList.size();
+    for (int i = 0; i < playersCount ; i++)
+    {
+        Player * player = m_playersList.at(i);
+        if (player->link() == link)
+        {
+            qWarning("Something wrong happens to %s", qPrintable(player->getName()));
+            NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
+            message.string8(player->getUuid());
+            message.sendAll(link);
+
+            delPlayer(player);
+
+            return;
+        }
+    }
+}
+Player* PlayersList::getGM()
+{
+    for(auto player : m_playersList)
+    {
+        if(player->isGM())
+        {
+            return player;
+        }
+    }
+    return nullptr;
+}
+bool PlayersList::hasPlayer(Player* player)
+{
+    return m_playersList.contains(player);
+}
