@@ -37,14 +37,14 @@
 /**
  * @brief The MediaContainer class
  */
-class MediaContainer : public QMdiSubWindow
+class MediaContainer : public QMdiSubWindow, public CleverURIListener
 {
     Q_OBJECT
 public:
     /**
      * @brief MediaContainer
      */
-    MediaContainer(QWidget* parent = NULL);
+    MediaContainer(QWidget* parent = nullptr);
     /**
      * @brief ~MediaContainer
      */
@@ -156,6 +156,8 @@ public:
      * @brief setMediaId
      */
     virtual void setMediaId(QString);
+
+    virtual void cleverURIHasChanged(CleverURI*,CleverURI::DataValue field);
 
     void addActionToMenu(QMenu& menu);
 

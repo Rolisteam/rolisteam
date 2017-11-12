@@ -42,6 +42,7 @@ QHash<CleverURI::ContentType,QString> CleverURI::m_iconPathHash={
     {CleverURI::CHARACTERSHEET,":/resources/icons/treeview.png"},
     {CleverURI::SCENARIO,":/story.png"},
     {CleverURI::SONG,":/resources/icons/audiofile.svg"},
+    {CleverURI::SHAREDNOTE,":/notes.png"},
     #ifdef WITH_PDF
     {CleverURI::PDF,":/iconpdf"},
     #endif
@@ -50,13 +51,13 @@ QHash<CleverURI::ContentType,QString> CleverURI::m_iconPathHash={
 
 //enum ContentType {NONE,MAP,VMAP,CHAT,PICTURE,ONLINEPICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG,SONGLIST
 QStringList CleverURI::m_typeNameList = QStringList() <<    QObject::tr("None") <<QObject::tr("Map") <<QObject::tr("Vectorial Map") <<QObject::tr("Chat")
-                                                      <<    QObject::tr("Picture") <<QObject::tr("Online Picture") <<QObject::tr("Text") <<QObject::tr("Text") <<
-                                                            QObject::tr("Charecter Sheet") <<QObject::tr("Scenario") <<QObject::tr("Song") <<QObject::tr("Song List");
+                                                      <<    QObject::tr("Picture") <<QObject::tr("Online Picture") <<QObject::tr("Text") <<
+                                                            QObject::tr("Charecter Sheet") <<QObject::tr("Scenario") <<QObject::tr("Song") <<QObject::tr("Song List")<<QObject::tr("Shared Notes");
 
 QStringList CleverURI::m_typeToPreferenceDirectory = QStringList() <<   QString("SessionDirectory") <<QString("MapDirectory")       <<QString("MapDirectory")           <<QString("ChatDirectory")
                                                                    <<   QString("ImageDirectory")   <<QString("ImageDirectory")     <<QString("MinutesDirectory")       <<QString("CharacterSheetDirectory") <<
-                                                                        QString("SessionDirectory") <<QString("MusicDirectoryPlayer")   <<QString("MusicDirectoryPlayer");
-//CleverURIListener* CleverURI::s_listener = NULL;
+                                                                        QString("SessionDirectory") <<QString("MusicDirectoryPlayer")   <<QString("MusicDirectoryPlayer")<<QString("MinutesDirectory");
+//CleverURIListener* CleverURI::s_listener = nullptr;
 
 CleverURI::CleverURI()
     : m_type(NONE),m_state(Remain)
@@ -145,6 +146,14 @@ void CleverURI::setState(const State &state)
 bool CleverURI::hasData() const
 {
     return !m_data.isEmpty();
+}
+
+void CleverURI::updateListener(CleverURI::DataValue value)
+{
+    for(CleverURIListener* listener : m_listenerList)
+    {
+        listener->cleverURIHasChanged(this,value);
+    }
 }
 
 
@@ -345,14 +354,14 @@ QVariant CleverURI::getData(ResourcesNode::DataValue i)
 
 QDataStream& operator<<(QDataStream& out, const CleverURI& con)
 {
-    out << con.getUri();
-    out << (int)con.getType();
+    con.write(out,false);
     return out;
 }
 
 QDataStream& operator>>(QDataStream& is,CleverURI& con)
 {
-    QString str;
+    con.read(is);
+    /*QString str;
     is >> str;
 
     int type;
@@ -360,7 +369,7 @@ QDataStream& operator>>(QDataStream& is,CleverURI& con)
 
 
     con.setType((CleverURI::ContentType)type);
-    con.setUri(str);
+    con.setUri(str);*/
     return is;
 }
 

@@ -36,7 +36,7 @@ CleverUriMimeData::CleverUriMimeData()
 
 void CleverUriMimeData::addCleverURI(CleverURI* m,const QModelIndex index)
 {
-    if(NULL!=m)
+    if(nullptr!=m)
     {
         m_mediaList.insert(index,m);
     }
@@ -58,7 +58,7 @@ SessionItemModel::SessionItemModel()
 {
     m_header << tr("Name")<< tr("Loading Mode")<< tr("Displayed")<< tr("Path");
     m_rootItem = new Chapter();
-    m_rootItem->setParentNode(NULL);
+    m_rootItem->setParentNode(nullptr);
 
 
     connect(m_rootItem,SIGNAL(openFile(CleverURI*,bool)),this,SIGNAL(openFile(CleverURI*,bool)));
@@ -68,7 +68,7 @@ QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & pa
     if(row<0)
         return QModelIndex();
     
-    ResourcesNode* parentItem = NULL;
+    ResourcesNode* parentItem = nullptr;
 
     if (!parent.isValid())
         parentItem = m_rootItem;
@@ -97,11 +97,11 @@ bool  SessionItemModel::setData ( const QModelIndex & index, const QVariant & va
 Qt::ItemFlags SessionItemModel::flags ( const QModelIndex & index ) const
 {
     if (!index.isValid())
-        return Qt::ItemIsEnabled;
+        return Qt::NoItemFlags | Qt::ItemIsDropEnabled;
     
     ResourcesNode* childItem = static_cast<ResourcesNode*>(index.internalPointer());
     if(childItem->mayHaveChildren())
-        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsDropEnabled /*| Qt::ItemIsUserCheckable */;
+        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsDropEnabled ;
     else
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable| Qt::ItemIsDragEnabled ;
     
@@ -112,23 +112,23 @@ QStringList SessionItemModel::mimeTypes() const
     types << "application/rolisteam.cleveruri.list" << "text/uri-list";
     return types;
 }
+
 QMimeData* SessionItemModel::mimeData(const QModelIndexList &indexes) const
 {
     CleverUriMimeData* mimeData = new CleverUriMimeData();
 
-    foreach(const QModelIndex & index, indexes)
+    for(const QModelIndex & index : indexes)
     {
         if((index.isValid())&&(index.column()==0))
         {
             CleverURI* item = static_cast<CleverURI*>(index.internalPointer());
-            //previousModule.append(item);
             mimeData->addCleverURI(item,index);
         }
     }
     return mimeData;
 }
 
-void SessionItemModel::cleverURIHasChanged(CleverURI *uri)
+void SessionItemModel::cleverURIHasChanged(CleverURI *uri,CleverURI::DataValue field)
 {
     updateNode(uri);
 }
@@ -140,18 +140,18 @@ void SessionItemModel::updateNode(ResourcesNode* node)
     QList<ResourcesNode*> path;
     if(m_rootItem->seekNode(path,node))
     {
-        ResourcesNode* parentItem=NULL;
+        ResourcesNode* parentItem=nullptr;
         for(auto i : path)
         {
-            if(NULL!=parentItem)
+            if(nullptr!=parentItem)
             {
-                    nodeIndex = index(parentItem->indexOf(i),0,parent);
-                    parent=nodeIndex;
+                nodeIndex = index(parentItem->indexOf(i),0,parent);
+                parent=nodeIndex;
             }
             parentItem=i;
         }
     }
-	emit dataChanged(nodeIndex,nodeIndex);
+    emit dataChanged(nodeIndex,nodeIndex);
 }
 void SessionItemModel::removeNode(ResourcesNode* node)
 {
@@ -160,20 +160,20 @@ void SessionItemModel::removeNode(ResourcesNode* node)
     QList<ResourcesNode*> path;
     if(m_rootItem->seekNode(path,node))
     {
-        ResourcesNode* parentItem=NULL;
-        ResourcesNode* tmpItem=NULL;
+        ResourcesNode* parentItem=nullptr;
+        ResourcesNode* tmpItem=nullptr;
 
         for(int i = 0 ; i<path.size();++i)
         {
             ResourcesNode* current=path.at(i);
-            if(NULL!=tmpItem)
+            if(nullptr!=tmpItem)
             {
-                    row = tmpItem->indexOf(current);
-                    if(i+1<path.size())
-                    {
-                        parent = index(row,0,parent);//recursive parenting
-                    }
-                    parentItem = tmpItem;
+                row = tmpItem->indexOf(current);
+                if(i+1<path.size())
+                {
+                    parent = index(row,0,parent);//recursive parenting
+                }
+                parentItem = tmpItem;
             }
             tmpItem=current;
         }
@@ -189,7 +189,7 @@ Qt::DropActions SessionItemModel::supportedDropActions() const
     return Qt::CopyAction | Qt::MoveAction;
 }
 bool SessionItemModel::dropMimeData(const QMimeData *data,
-                              Qt::DropAction action, int row, int column, const QModelIndex &parent)
+                                    Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
     Q_UNUSED(column);
 
@@ -202,7 +202,7 @@ bool SessionItemModel::dropMimeData(const QMimeData *data,
     {
         const  CleverUriMimeData* mediaData = qobject_cast<const CleverUriMimeData*>(data);
 
-        if(NULL!=mediaData)
+        if(nullptr!=mediaData)
         {
             QList<CleverURI*> mediaList = mediaData->getList().values();
             QList<QModelIndex> indexList = mediaData->getList().keys();
@@ -239,7 +239,7 @@ bool SessionItemModel::moveMediaItem(QList<CleverURI*> items,const QModelIndex& 
 {
     ResourcesNode* parentItem = static_cast<ResourcesNode*>(parentToBe.internalPointer());
 
-    if(NULL==parentItem)
+    if(nullptr==parentItem)
     {
         parentItem = m_rootItem;
     }
@@ -287,7 +287,7 @@ bool SessionItemModel::moveMediaItem(QList<CleverURI*> items,const QModelIndex& 
         ResourcesNode* parent =item->getParentNode();
         QModelIndex formerPositionIndex = formerPosition.at(i);
 
-        if(NULL!=parent)
+        if(nullptr!=parent)
         {
 
             parent->removeChild(item);
@@ -332,7 +332,6 @@ bool SessionItemModel::moveMediaItem(QList<CleverURI*> items,const QModelIndex& 
 }
 QModelIndex SessionItemModel::parent( const QModelIndex & index ) const
 {
-    
     if (!index.isValid())
         return QModelIndex();
     
@@ -370,7 +369,7 @@ QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
     {
         if((role == Qt::DisplayRole)||(Qt::EditRole==role))
         {
-            return tmp->getData((ResourcesNode::DataValue)index.column());
+            return tmp->getData(static_cast<ResourcesNode::DataValue>(index.column()));
         }
         else if(role == Qt::DecorationRole)
         {
@@ -388,7 +387,7 @@ void SessionItemModel::addResource(ResourcesNode* node,QModelIndex& parent)
     if(m_rootItem->contains(node))
         return;
 
-    Chapter* parentItem=NULL;
+    Chapter* parentItem=nullptr;
     if(!parent.isValid())
     {
         parentItem=m_rootItem;
@@ -400,10 +399,10 @@ void SessionItemModel::addResource(ResourcesNode* node,QModelIndex& parent)
         {
             node=node->getParentNode();//leaf's parent is not a leaf indeed
         }
-        parentItem=dynamic_cast<Chapter*>(node);// NULL when it is not a chapter.
+        parentItem=dynamic_cast<Chapter*>(node);// nullptr when it is not a chapter.
     }
 
-    beginInsertRows(QModelIndex(),parentItem->getChildrenCount(),parentItem->getChildrenCount());
+    beginInsertRows(parent,parentItem->getChildrenCount(),parentItem->getChildrenCount());
     parentItem->addResource(node);
     endInsertRows();
 }
@@ -414,7 +413,7 @@ void SessionItemModel::remove(QModelIndex& index)
         return;
     ResourcesNode* indexItem = static_cast<ResourcesNode*>(index.internalPointer());
     QModelIndex parent = index.parent();
-    ResourcesNode* parentItem=NULL;
+    ResourcesNode* parentItem=nullptr;
     
     if(!parent.isValid())
         parentItem=m_rootItem;

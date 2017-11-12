@@ -21,3 +21,4 @@ OBJECTS_DIR = bin
 
 UI_DIR = bin
 
+RESOURCES += rolisteam.qrc
