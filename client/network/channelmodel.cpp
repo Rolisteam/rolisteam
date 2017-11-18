@@ -63,7 +63,8 @@ QModelIndex ChannelModel::index(int row, int column, const QModelIndex &parent) 
     TreeItem* childItem = nullptr;
     if (!parent.isValid())
     {
-        childItem = m_root.at(row);
+        if(m_root.size()<row)
+            childItem = m_root.at(row);
     }
     else
     {
