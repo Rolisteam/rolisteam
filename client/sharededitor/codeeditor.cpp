@@ -451,7 +451,6 @@ bool CodeEditor::findAll(QString searchString)
 {
     QString documentString = document()->toPlainText();
     bool isFound = false;
-    #warning: This needs to be refined so that not just any action is undone.
     if (!isFirstTime) {
         undo();
     }

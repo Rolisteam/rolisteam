@@ -161,6 +161,7 @@ bool SharedNote::save()
     {
         return save();
     }*/
+    return true;
 }
 
 bool SharedNote::maybeSave(int index)

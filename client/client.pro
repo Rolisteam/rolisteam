@@ -15,7 +15,9 @@ CONFIG += c++11
 macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
 CONFIG += HAVE_SOUND
 
-QT += core gui opengl network widgets printsupport multimedia quick qml quickwidgets webenginewidgets webview
+QT += core gui opengl network widgets printsupport multimedia quick qml quickwidgets webview webenginewidgets
+
+##
 
 ## Translation
 TRANSLATIONS =  ../translations/rolisteam_fr.ts \
@@ -317,14 +319,25 @@ OTHER_FILES += \
     $$TRANSLATIONS
 
 #Windows
+#INCLUDEPATH += $$PWD/../../lib/zlibapivs
+#DEPENDPATH += $$PWD/../../lib/zlibapivs
+
+#win32 {
+#DEFINES  += ZLIB_WINAPI
+#RC_FILE = "../resources/logo/rolisteam.rc"
+#OTHER_FILES +=../resources/logo/rolisteam.rc
+#LIBS += -L$$PWD/../../lib/zlibapivs/x64/ -lzlibwapi
+#INCLUDEPATH += $$PWD/../../lib/zlibapivs/includes/
+#PRE_TARGETDEPS += $$PWD/../../lib/zlibapivs/x64/zlibwapi.lib
+#}
+
 win32 {
 DEFINES  += ZLIB_WINAPI
 RC_FILE = "../resources/logo/rolisteam.rc"
 OTHER_FILES +=../resources/logo/rolisteam.rc
-LIBS += -L$$PWD/../../../lib/zlibapi/dll32/ -lzlibwapi
-INCLUDEPATH += $$PWD/../../../lib/zlibapi/include
-DEPENDPATH += $$PWD/../../../lib/zlibapi/include
-PRE_TARGETDEPS += $$PWD/../../../lib/zlibapi/dll32/zlibwapi.lib
+LIBS += -L$$PWD/../../lib/zlib_1_2_8/lib/zlib -lzlib
+INCLUDEPATH += $$PWD/../../lib/zlib_1_2_8/include/zlib
+PRE_TARGETDEPS += $$PWD/../../lib/zlib_1_2_8/lib/zlib/zlib.lib
 }
 
 DISTFILES += \

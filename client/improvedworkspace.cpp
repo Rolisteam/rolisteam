@@ -274,6 +274,7 @@ bool ImprovedWorkspace::updateTitleTab()
         }
         m_titleBar.clear();
     }
+    return true;
 }
 bool ImprovedWorkspace::eventFilter(QObject *object, QEvent *event)
 {
