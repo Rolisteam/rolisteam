@@ -8,6 +8,10 @@ TcpClient::TcpClient(QTcpSocket* socket,QObject *parent)
     m_headerRead = 0;
 
 }
+TcpClient::~TcpClient()
+{
+    qDebug() << "|||||||||||||| TcpClient dead";
+}
 void TcpClient::connectionCheckedSlot()
 {
     qDebug() << "connection checked";
@@ -20,6 +24,9 @@ void TcpClient::setSocket(QTcpSocket* socket)
        // m_socket->setParent(this);
         connect(m_socket,SIGNAL(readyRead()),this,SLOT(receivingData()));
         connect(m_socket,SIGNAL(disconnected()),this,SIGNAL(disconnected()));
+        connect(m_socket,&QTcpSocket::disconnected,this,[=](){
+            qDebug()<< "TCP CLIENT is disconnected *******************************";
+        });
         connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(connectionError(QAbstractSocket::SocketError)));
 
 
@@ -51,42 +58,42 @@ void TcpClient::setSocket(QTcpSocket* socket)
         connect(m_incomingConnection,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                //qDebug() << "Incoming State";
+                qDebug() << "Incoming State";
                 m_currentState = m_incomingConnection;
             }
         });
         connect(m_controlConnection,&QState::activeChanged,[=](bool b){
             if(b)
             {
-               // qDebug() << "Control State";
+                qDebug() << "Control State";
                 m_currentState = m_controlConnection;
             }
         });
         connect(m_waitingAuthentificationData,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                //qDebug() << "WaitingAuthData State";
+                qDebug() << "WaitingAuthData State";
                 m_currentState = m_waitingAuthentificationData;
             }
         });
         connect(m_authentification,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                //qDebug() << "Authification State";
+                qDebug() << "Authification State";
                 m_currentState = m_authentification;
             }
         });
         connect(m_wantToGoToChannel,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                //qDebug() << "WantToGoToChannel State";
+                qDebug() << "WantToGoToChannel State";
                 m_currentState = m_wantToGoToChannel;
             }
         });
         connect(m_inPlace,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                //qDebug() << "InPlace State";
+                qDebug() << "InPlace State";
                 m_currentState = m_inPlace;
 
             }
@@ -94,14 +101,14 @@ void TcpClient::setSocket(QTcpSocket* socket)
         connect(m_waitingAuthChannel,&QState::activeChanged,[=](bool b){
             if(b)
             {
-               // qDebug() << "WaitingAuthChannel State";
+                qDebug() << "WaitingAuthChannel State";
                 m_currentState = m_waitingAuthChannel;
             }
         });
         connect(m_disconnected,&QState::activeChanged,[=](bool b){
             if(b)
             {
-               // qDebug() << "disconnected State";
+                qDebug() << "disconnected State";
                 m_currentState = m_disconnected;
                 m_socket->close();
             }
@@ -109,7 +116,7 @@ void TcpClient::setSocket(QTcpSocket* socket)
         connect(m_stayInPlace,&QState::activeChanged,[=](bool b){
             if(b)
             {
-               // qDebug() << "StayInPlace State";
+                qDebug() << "StayInPlace State";
                 m_currentState = m_stayInPlace;
             }
         });
@@ -258,11 +265,11 @@ void TcpClient::receivingData()
             forwardMessage();
         }
     }
-
+ qInfo() << "End of reading data \n########################################tcpClient########################################";
 }
 void TcpClient::forwardMessage()
 {
-   // qDebug() <<"[forwardMessage]" <<m_header.dataSize << m_header.action << m_header.category;
+    qDebug() <<"[forwardMessage]" <<m_header.dataSize << m_header.action << m_header.category;
     QByteArray array((char*)&m_header,sizeof(NetworkMessageHeader));
     array.append(m_buffer,m_header.dataSize);
     if(m_currentState != m_disconnected)
@@ -311,7 +318,7 @@ void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 }
 void TcpClient::connectionError(QAbstractSocket::SocketError error)
 {
-    //qDebug() << "Error socket" <<error;
+    qDebug() << "Disconnection Error socket" <<error;
     emit disconnected();
 }
 
@@ -334,7 +341,7 @@ void TcpClient::sendEvent(TcpClient::ConnectionEvent event)
     case ForbiddenEvent:
         emit forbidden();
         break;
-    case DataReceivedEvent:
+    case AuthDataReceivedEvent:
         emit authDataReceived();
         break;
     case AuthFailEvent:

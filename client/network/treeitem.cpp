@@ -1,5 +1,7 @@
 #include "treeitem.h"
 #include <QUuid>
+#include <QDebug>
+
 TreeItem::TreeItem(QObject* parent)
     : QObject(parent), m_id(QUuid::createUuid().toString()),m_parentItem(nullptr)
 {
@@ -52,6 +54,7 @@ QString TreeItem::getName() const
 
 void TreeItem::setName(const QString &name)
 {
+    qDebug() << "##### Name: "<< name;
     if(m_name!=name)
     {
         m_name = name;

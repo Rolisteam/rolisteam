@@ -36,6 +36,7 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
 
             QString name = msg->string16();
             QString uuid = msg->string8();
+            qDebug() << "33333333333333333 name sideserver" << name;
             msg->rgb();
             bool isGM = msg->uint8();
             emitter->setName(name);
@@ -162,6 +163,27 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             break;
         case  NetMsg::DeleteChannel:
             str = QStringLiteral("DeleteChannel");
+            break;
+        case  NetMsg::AuthentificationSucessed:
+            str = QStringLiteral("AuthentificationSucessed");
+            break;
+        case  NetMsg::AuthentificationFail:
+            str = QStringLiteral("AuthentificationFail");
+            break;
+        case  NetMsg::LockChannel:
+            str = QStringLiteral("LockChannel");
+            break;
+        case  NetMsg::BanUser:
+            str = QStringLiteral("BanUser");
+            break;
+        case  NetMsg::AdminPassword:
+            str = QStringLiteral("AdminPassword");
+            break;
+        case  NetMsg::AdminAuthSucessed:
+            str = QStringLiteral("AdminPassword");
+            break;
+        case  NetMsg::AdminAuthFail:
+            str = QStringLiteral("AdminPassword");
             break;
         default:
             str = QStringLiteral("Unknown Action");

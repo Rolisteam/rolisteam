@@ -438,10 +438,12 @@ Player* PlayersList::getLocalPlayer() const
 
 void PlayersList::sendOffLocalPlayerInformations()
 {
+    qDebug() << "sendOffLocalPlayerInformations %%%%%%%%%%%%" ;
     NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
     setLocalFeatures(*m_localPlayer);
     m_localPlayer->fill(message);
     message.sendAll();
+    qDebug() << "END sendOffLocalPlayerInformations %%%%%%%%%%%%" ;
 }
 void PlayersList::sendOffFeatures(Player* player)
 {

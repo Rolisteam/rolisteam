@@ -61,7 +61,8 @@ void NetworkMessage::sendAll(NetworkLink * butLink)
     m_linkToServer = ClientManager::getLinkToServer();
     if(nullptr != m_linkToServer)
     {
-        m_linkToServer->sendData(reinterpret_cast<char*>(header), header->dataSize + sizeof(NetworkMessageHeader), butLink);
+        //m_linkToServer->sendData(reinterpret_cast<char*>(header), header->dataSize + sizeof(NetworkMessageHeader), butLink);
+        m_linkToServer->sendData(this);
     }
 #endif
 }

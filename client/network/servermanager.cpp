@@ -217,6 +217,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
             QMap<QString,QVariant> data(m_parameters);
             data["userpassword"]=msg->string32();
             bool hasChannelData = static_cast<bool>(msg->uint8());
+            tcp->sendEvent(TcpClient::AuthDataReceivedEvent);
             if(m_corEndProcess->isValid(data))
             {
                 tcp->sendEvent(TcpClient::AuthSuccessEvent);
@@ -398,10 +399,11 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
 
     QMap<QString,QVariant> data(m_parameters);
     data["currentIp"]=socket->peerAddress().toString();
-    //qInfo() << "currentIP" << data["currentIp"].toString();
+    qDebug() << "currentIP" << data["currentIp"].toString()<< "BEFORE LE IF";
 
     if(m_corConnection->isValid(data))
     {
+        qDebug() << "currentIP" << "AFTER LE IF";
         connect(connection,SIGNAL(dataReceived(QByteArray)),this,SLOT(messageReceived(QByteArray)));//,Qt::QueuedConnection
         connect(connection,SIGNAL(isReady()),this,SLOT(initClient()),Qt::QueuedConnection);
         connect(connection,SIGNAL(authSuccess()),this,SLOT(sendOffAuthSuccessed()),Qt::QueuedConnection);

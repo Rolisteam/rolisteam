@@ -88,6 +88,8 @@ HAVE_NULL {
 }
 # End of audio
 
+DEFINES += DEBUG_MODE
+
 ## Source
 HEADERS += \
         chat/chat.h \

@@ -24,7 +24,7 @@ class TcpClient : public TreeItem
 public:
     enum ConnectionEvent {HasCheckEvent,NoCheckEvent,
                           CheckedEvent,CheckFailedEvent,
-                          ForbiddenEvent,DataReceivedEvent,
+                          ForbiddenEvent,AuthDataReceivedEvent,
                           AuthFailEvent, AuthSuccessEvent,
                           NoRestrictionEvent,HasRestrictionEvent,
                           ChannelAuthSuccessEvent,ChannelAuthFailEvent,
@@ -36,6 +36,7 @@ public:
      * @param parent
      */
     explicit TcpClient(QTcpSocket* socket,QObject *parent = 0);
+    ~TcpClient();
     /**
      * @brief getSocket
      * @return

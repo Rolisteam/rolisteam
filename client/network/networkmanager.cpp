@@ -53,20 +53,25 @@ ClientManager::ClientManager(ConnectionProfile* connection)
 
     connect(m_connected,&QAbstractState::entered,[=]()
     {
+
+        qDebug() << "@@@@@@@@@@@@@@@@@@@@@@ CONNECTED";
         setConnectionState(CONNECTED);
     });
     connect(m_connecting,&QAbstractState::entered,[=]()
     {
+        qDebug() << "@@@@@@@@@@@@@@@@@@@@@@ CONNECTING";
         setConnectionState(CONNECTING);
         emit isConnecting();
     });
     connect(m_disconnected,&QAbstractState::entered,[=]()
     {
+        qDebug() << "@@@@@@@@@@@@@@@@@@@@@@ DISCONNECTED";
         setConnectionState(DISCONNECTED);
         emit isDisconnected();
     });
     connect(m_authentified,&QAbstractState::entered,[=]()
     {
+        qDebug() << "@@@@@@@@@@@@@@@@@@@@@@ AUTHENTIFIED";
         setConnectionState(AUTHENTIFIED);
         emit isAuthentified();
         PlayersList*  playerList = PlayersList::instance();
