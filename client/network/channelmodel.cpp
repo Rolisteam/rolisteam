@@ -59,11 +59,13 @@ QModelIndex ChannelModel::index(int row, int column, const QModelIndex &parent) 
 {
     if(row<0)
         return QModelIndex();
+    if(column<0)
+        return QModelIndex();
 
     TreeItem* childItem = nullptr;
     if (!parent.isValid())
     {
-        if(m_root.size()<row)
+        if(m_root.size()>row)
             childItem = m_root.at(row);
     }
     else
@@ -86,7 +88,6 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     TreeItem* tmp = static_cast<TreeItem*>(index.internalPointer());
-   // qDebug() << "[data channelmodel]"<<  tmp;
     if(tmp!=nullptr)
     {
         if((role == Qt::DisplayRole)||(Qt::EditRole==role))
@@ -132,7 +133,7 @@ QModelIndex ChannelModel::parent(const QModelIndex &child) const
     if(nullptr!=childItem)
     {
         TreeItem* parentItem = childItem->getParentItem();
-       // qDebug() << "parent Item" << parentItem << childItem->childCount()<< childItem;
+        //qDebug() << "parent Item" << parentItem << childItem->childCount()<< childItem;
 
         if(m_root.contains(childItem))
         {
@@ -162,7 +163,7 @@ int ChannelModel::rowCount(const QModelIndex &parent) const
             result = item->childCount();
         }
     }
-    qDebug() << result << parent;
+    //qDebug() << result << parent << "$$$$$$$$$$$$$$$$$$$$";
     return result;
 }
 
@@ -548,11 +549,11 @@ void ChannelModel::readDataJson(const QJsonObject& obj)
 
 
     ///////////
-  /*  qDebug() << "m_root:" << m_root->childCount();
+   /*qDebug() << "m_root:" << m_root.size();
 
     for(auto item : m_root)
     {
-        qDebug() << "child:" << item->childCount();
+        qDebug() << "child:" << item->childCount() << item->getName();
     }*/
 }
 

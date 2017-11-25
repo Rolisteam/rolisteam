@@ -54,13 +54,11 @@ ClientManager::ClientManager(ConnectionProfile* connection)
     connect(m_connected,&QAbstractState::entered,[=]()
     {
         setConnectionState(CONNECTED);
-        m_states.start();
     });
     connect(m_connecting,&QAbstractState::entered,[=]()
     {
         setConnectionState(CONNECTING);
         emit isConnecting();
-
     });
     connect(m_disconnected,&QAbstractState::entered,[=]()
     {
