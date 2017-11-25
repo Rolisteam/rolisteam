@@ -56,7 +56,7 @@ enum Category {
 };
 
 enum Action {
-    // ConnectionCategory
+    // AdministrationCategory
     EndConnectionAction = 0,
     heartbeat,
     Password,
