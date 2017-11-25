@@ -93,30 +93,25 @@ void NetworkLink::p_disconnect()
 
 void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
 {
-
-    qDebug() << "send Data Categorie 1:" << MessageDispatcher::cat2String((NetworkMessageHeader*)data) << "Action" << MessageDispatcher::act2String((NetworkMessageHeader*)data);
-
     if(nullptr==m_socketTcp)
     {
-        qDebug() << "Socket is null";
         emit errorMessage(tr("Socket is null"));
         return;
     }
 
-   // qDebug() << "current thread:" << QThread::currentThread() << "normal thread of this:" << this->thread() << "normal thread of socket:" << m_socketTcp->thread();
-    qDebug() << "this:" << this << "but" << but;
     if (but != this)
     {
         // Emission des donnees
        #ifdef DEBUG_MODE
         NetworkMessageHeader header;
         memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
+        qDebug() << "send Data Categorie 1:" << MessageDispatcher::cat2String((NetworkMessageHeader*)data) << "Action" << MessageDispatcher::act2String((NetworkMessageHeader*)data);
+
         qDebug() << "header: cat" << header.category << "act:"<< header.action << "datasize:" << header.dataSize <<  "size"<<size << (int)data[0]
                  << "socket" << m_socketTcp;
         #endif
 
         int t = m_socketTcp->write(data, size);
-         qDebug() << "data writen:" << t;
         if (t < 0)
         {
             emit errorMessage(tr("Tranmission error :")+m_socketTcp->errorString());
@@ -126,8 +121,6 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
 
 void NetworkLink::sendData(NetworkMessage* msg)
 {
-    qDebug() << "send Data Categorie 2:"  << "Categorie:" << MessageDispatcher::cat2String(msg->buffer()) << "Action" << MessageDispatcher::act2String(msg->buffer());
-
     if(nullptr==m_socketTcp)
     {
         emit errorMessage(tr("Socket is null"));
