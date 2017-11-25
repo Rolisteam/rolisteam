@@ -1386,7 +1386,6 @@ void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
         {
             roomPanel->processMessage(msg);
         }
-
     }
     else if(NetMsg::AdminAuthFail == msg->action())
     {
@@ -1404,6 +1403,12 @@ void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
             roomPanel->processMessage(msg);
         }
     }
+    else if(NetMsg::AuthentificationFail == msg->action())
+    {
+        m_dialog->errorOccurs(tr("Error: Wrong password!"));
+        closeConnection();
+    }
+
 }
 void MainWindow::notifyUser(QString message, MainWindow::MessageType type) const
 {
