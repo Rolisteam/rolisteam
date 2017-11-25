@@ -222,19 +222,23 @@ void TcpClient::addPlayerFeature(QString uuid, QString name, quint8 version)
 
 void TcpClient::receivingData()
 {
-    qInfo() << "########################################tcpClient########################################\n Receiving Data";
+    //qDebug() << "\n\n\n\n\n######################################## DEBUT ########################################\n Receiving Data";
     if(nullptr==m_socket)
     {
+       // qDebug() << "End of reading data socket null";
         return;
     }
     quint32 dataReceived=0;
-    bool incomingData = false;
+
+
     while (m_socket->bytesAvailable())
     {
-        if (!incomingData)
+        if (!m_incomingData)
         {
             qint64 size = 0;
             char* tmp = (char *)&m_header;
+
+            // To do only if there is enough data
             size = m_socket->read(tmp+m_headerRead, sizeof(NetworkMessageHeader)-m_headerRead);
             size+=m_headerRead;
             if(size!= sizeof(NetworkMessageHeader))
@@ -246,30 +250,41 @@ void TcpClient::receivingData()
             {
                 m_headerRead=0;
             }
-            //qDebug() << "Allocation size"<<m_header.dataSize << "action" <<m_header.action << "cat" <<m_header.category;
+            //qDebug() << "\n\n\Allocation size"<<m_header.dataSize << "action" <<m_header.action << "cat" <<m_header.category << sizeof(NetworkMessageHeader);
             m_buffer = new char[m_header.dataSize];
             m_dataToRead = m_header.dataSize;
             emit readDataReceived(m_header.dataSize,m_header.dataSize);
 
         }
+        //qDebug() << "\n\n\Before reading dataReceived:" << dataReceived << "dataToRead:" <<m_dataToRead << "data dispo:"<< m_socket->bytesAvailable()<< "dataToRead:" << m_dataReceivedTotal;
+        // To do only if there is enough data
         dataReceived = m_socket->read(&(m_buffer[m_header.dataSize-m_dataToRead]), m_dataToRead);
+        m_dataReceivedTotal += dataReceived;
+        //qDebug() << "After reading dataReceived:" << dataReceived << "dataToRead:" <<m_dataToRead << m_socket->bytesAvailable() << m_dataReceivedTotal << "\n\n";
+
+
         if (dataReceived < m_dataToRead)
         {
             m_dataToRead-=dataReceived;
-            incomingData = true;
+            m_incomingData = true;
             emit readDataReceived(m_dataToRead,m_header.dataSize);
+            //m_socket->waitForReadyRead();
         }
         else
         {
+            m_headerRead = 0;
+            dataReceived = 0;
+            m_dataReceivedTotal = 0;
             emit readDataReceived(0,0);
+            m_incomingData = false;
             forwardMessage();
         }
     }
- qInfo() << "End of reading data \n########################################tcpClient########################################";
+ //qDebug() << "End of reading data \n######################################## FIN ########################################\n\n\n\n\n";
 }
 void TcpClient::forwardMessage()
 {
-    qDebug() <<"[forwardMessage]" <<m_header.dataSize << m_header.action << m_header.category;
+    //qDebug() <<"[forwardMessage]" <<m_header.dataSize << m_header.action << m_header.category;
     QByteArray array((char*)&m_header,sizeof(NetworkMessageHeader));
     array.append(m_buffer,m_header.dataSize);
     if(m_currentState != m_disconnected)
@@ -297,7 +312,7 @@ void TcpClient::sendData(QByteArray a)
     }
     //qDebug() << "Array datasend:"<<dataSend;
 }
-#include <QThread>
+
 void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 {
    // qDebug() << "send message" << msg << deleteMsg;
@@ -305,7 +320,7 @@ void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
     {
         NetworkMessageHeader* data = msg->buffer();
         qint64 dataSend = m_socket->write((char*)data,data->dataSize+sizeof(NetworkMessageHeader));
-        //qDebug() << "sendData MESSAGE:"<<dataSend;
+       // qDebug() << "sendData MESSAGE:"<<dataSend;
         if(-1 == dataSend)
         {
             qDebug() << "error Writing data" << m_socket->errorString() ;
@@ -318,7 +333,6 @@ void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 }
 void TcpClient::connectionError(QAbstractSocket::SocketError error)
 {
-    qDebug() << "Disconnection Error socket" <<error;
     emit disconnected();
 }
 

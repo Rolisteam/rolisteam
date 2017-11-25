@@ -170,6 +170,9 @@ private:
     bool m_isGM;
     bool m_isAdmin;
 
+    bool m_incomingData = false;
+    quint32 m_dataReceivedTotal=0;
+
     Player* m_player;
 
 };
