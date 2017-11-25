@@ -571,6 +571,7 @@ bool CharacterSheetWindow::readData(QByteArray data)
             connect(sheet,SIGNAL(updateField(CharacterSheet*,CharacterSheetItem*)),this,SLOT(updateFieldFrom(CharacterSheet*,CharacterSheetItem*)));
         }
     }
+    return true;
 }
 
 bool CharacterSheetWindow::openFile(const QString& fileUri)
