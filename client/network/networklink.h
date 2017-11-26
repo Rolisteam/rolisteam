@@ -27,14 +27,13 @@
 #include <QTcpSocket>
 
 #include "network/networkmessage.h"
-//#include "mainwindow.h"
 #include "connectionprofile.h"
 #include "networkreceiver.h"
 
 class Map;
 
 /**
- * @brief The NetworkLink class
+ * @brief The NetworkLink class to the server
  */
 class NetworkLink : public QObject
 {
@@ -178,13 +177,13 @@ private :
     bool m_receivingData;
     char* m_buffer;
     quint32 m_remainingData;
-   // ClientManager* m_networkManager;
     QMap<NetMsg::Category,NetWorkReceiver*> m_receiverMap;
     int m_headerRead;
     QHash<QString,int> m_hbCount;
     int m_port;
     QString m_host;
     ConnectionProfile* m_connection;
+
 };
 
 #endif
