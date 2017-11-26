@@ -1072,7 +1072,6 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
     {
 
     case ClientManager::CONNECTED: /// @brief Action to be done after socket connection.
-        m_roomPanel->sendOffLoginAdmin(m_currentConnectionProfile->getPassword());
         m_ui->m_connectionAction->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
         m_dialog->accept();
@@ -1083,6 +1082,7 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
         m_dialog->open();
         break;
     case ClientManager::AUTHENTIFIED:
+        m_roomPanel->sendOffLoginAdmin(m_currentConnectionProfile->getPassword());
         break;
     case ClientManager::CONNECTING:
         m_chatListWidget->addPublicChat();
@@ -1378,24 +1378,7 @@ void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
         notifyUser(tr("End of the connection process"));
         updateWorkspace();
     }
-    else if(msg->action() == NetMsg::SetChannelList)
-    {
-        //QByteArray data = msg->byteArray32();
-        ChannelListPanel* roomPanel = qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
-        if(nullptr != roomPanel)
-        {
-            roomPanel->processMessage(msg);
-        }
-    }
-    else if(NetMsg::AdminAuthFail == msg->action())
-    {
-        ChannelListPanel* roomPanel = qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
-        if(nullptr != roomPanel)
-        {
-            roomPanel->processMessage(msg);
-        }
-    }
-    else if(NetMsg::AdminAuthSucessed == msg->action())
+    else if((msg->action() == NetMsg::SetChannelList) || (NetMsg::AdminAuthFail == msg->action()) ||  (NetMsg::AdminAuthSucessed == msg->action()))
     {
         ChannelListPanel* roomPanel = qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
         if(nullptr != roomPanel)
