@@ -74,7 +74,7 @@ void ChannelListPanel::processMessage(NetworkMessageReader* msg)
             if(!doc.isEmpty())
             {
                 QJsonObject obj = doc.object();
-               // qDebug() << "[Received channel] " << doc.toJson();
+                //qDebug() << "[Received channel] " << doc.toJson();
                 m_model->readDataJson(obj);
             }
 
