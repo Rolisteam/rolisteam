@@ -15,7 +15,7 @@ CONFIG   +=  qt warn_off
 ##########LIBS   += -lz
 win32:LIBS	+= -luser32
 
-win32:RC_FILE = src/odt/src/win.rc
+win32:RC_FILE = noteeditor/src/win.rc
 
 ### compiler default
 LIB_EXTENSION = a  
@@ -24,7 +24,7 @@ win32-msvc*{
 LIB_EXTENSION = lib
 DEFINES += VISUALSTUDIOCC_
 CONFIG += embed_manifest_exe 
-message(win32 Visual Studio 2005 Compiler setting .......) 
+message(win32 Visual Studio Compiler setting .......)
 }
 
 win32-g++{

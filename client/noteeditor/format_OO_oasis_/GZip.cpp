@@ -50,8 +50,10 @@
 #include <qdebug.h>
 #include <qdir.h>
 
+#ifdef HAVE_ZLIB
 #define ZLIB_WINAPI
 #include <zlib.h>
+#endif
 
 #if defined(Q_OS_WIN)
 #  define S_ISDIR(x) ((x) & 0040000) > 0
@@ -172,6 +174,7 @@ static quint32 permissionsToMode(QFile::Permissions perms)
     return mode;
 }
 
+#ifdef HAVE_ZLIB
 static int inflate(Bytef *dest, ulong *destLen, const Bytef *source, ulong sourceLen)
 {
     z_stream stream;
@@ -207,6 +210,7 @@ static int inflate(Bytef *dest, ulong *destLen, const Bytef *source, ulong sourc
     return err;
 }
 
+
 static int deflate (Bytef *dest, ulong *destLen, const Bytef *source, ulong sourceLen)
 {
     z_stream stream;
@@ -235,6 +239,7 @@ static int deflate (Bytef *dest, ulong *destLen, const Bytef *source, ulong sour
     err = deflateEnd(&stream);
     return err;
 }
+#endif
 
 static QFile::Permissions modeToPermissions(quint32 mode)
 {
@@ -557,10 +562,14 @@ void GZipWriterPrivate::addEntry(EntryType type, const QString &fileName, const 
     // don't compress small files
     QZipWriter::CompressionPolicy compression = compressionPolicy;
     if (compressionPolicy == QZipWriter::AutoCompress) {
+        #ifdef HAVE_ZLIB
         if (contents.length() < 64)
             compression = QZipWriter::NeverCompress;
         else
             compression = QZipWriter::AlwaysCompress;
+        #else
+            compression = QZipWriter::NeverCompress;
+        #endif
     }
 
     FileHeader header;
@@ -571,6 +580,7 @@ void GZipWriterPrivate::addEntry(EntryType type, const QString &fileName, const 
     writeUInt(header.h.uncompressed_size, contents.length());
     writeMSDosDate(header.h.last_mod_file, QDateTime::currentDateTime());
     QByteArray data = contents;
+#ifdef HAVE_ZLIB
     if (compression == QZipWriter::AlwaysCompress) {
         writeUShort(header.h.compression_method, 8);
 
@@ -601,6 +611,7 @@ void GZipWriterPrivate::addEntry(EntryType type, const QString &fileName, const 
     uint crc_32 = ::crc32(0, 0, 0);
     crc_32 = ::crc32(crc_32, (const uchar *)contents.constData(), contents.length());
     writeUInt(header.h.crc_32, crc_32);
+#endif
 
     header.file_name = fileName.toLocal8Bit();
     if (header.file_name.size() > 0xffff) {
@@ -842,6 +853,7 @@ QByteArray QZipReader::fileData(const QString &fileName) const
         //qDebug("compressed=%d", compressed.size());
         compressed.truncate(compressed_size);
         QByteArray baunzip;
+#ifdef HAVE_ZLIB
         ulong len = qMax(uncompressed_size,  1);
         int res;
         do {
@@ -865,6 +877,7 @@ QByteArray QZipReader::fileData(const QString &fileName) const
                 break;
             }
         } while (res == Z_BUF_ERROR);
+#endif
         return baunzip;
     }
     qWarning() << "QZip: Unknown compression method";

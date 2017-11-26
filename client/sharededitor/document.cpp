@@ -22,7 +22,9 @@
 #include <QRegExp>
 #include <QDebug>
 #include <QFontMetrics>
+#ifdef HAVE_WEBVIEW
 #include <QWebEngineView>
+#endif
 #include <QLayout>
 #include <QMessageBox>
 #include <QTextDocumentFragment>
@@ -370,9 +372,11 @@ void Document::setModified(bool b)
 void Document::previewAsHtml()
 {
     QString text = m_editor->toPlainText();
+    #ifdef HAVE_WEBVIEW
     QWebEngineView *preview = new QWebEngineView();
     preview->setHtml(text);
     preview->show();
+    #endif
 }
 bool Document::docHasCollaborated()
 {
