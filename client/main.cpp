@@ -30,7 +30,6 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <time.h>
-#include <QtWebView/QtWebView>
 #include <QDebug>
 
 #include "mainwindow.h"
@@ -91,8 +90,6 @@ int main(int argc, char *argv[])
 {
     // Application creation
     QApplication app(argc, argv);
-    qDebug() << "test";
-    QtWebView::initialize();
     app.setAttribute(Qt::AA_DontUseNativeMenuBar,true);
 
     QString appName("rolisteam");
