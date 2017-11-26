@@ -13,11 +13,19 @@ CONFIG += c++11
 
 
 macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
+
+############## FEATURES ######################
 CONFIG += HAVE_SOUND
+#CONFIG += HAVE_WEBVIEW
+CONFIG += HAVE_ZLIB
+############## END OF FEATURES ######################
 
-QT += core gui opengl network widgets printsupport multimedia quick qml quickwidgets webview webenginewidgets
+QT += core gui opengl network widgets printsupport multimedia quick qml quickwidgets
 
-##
+HAVE_WEBVIEW {
+DEFINES+= HAVE_WEBVIEW
+QT += webview webenginewidgets
+}
 
 ## Translation
 TRANSLATIONS =  ../translations/rolisteam_fr.ts \
@@ -45,7 +53,6 @@ updateTrans.command= ${QMAKE_LRELEASE} src.pro
 
 unix:!macx{
 # linux only
-
 updateqm.input = TRANSLATIONS
 updateqm.output = ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.qm
 updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.qm
@@ -157,30 +164,30 @@ HEADERS += \
         data/characterstate.h \
         widgets/filepathdelegateitem.h \
         network/selectconnectionprofiledialog.h \
-    services/updaterwindow.h \
-    widgets/realslider.h \
-    network/heartbeatsender.h \
-    widgets/persondialog.h \
-    network/connectionprofile.h \
-    network/tcpclient.h \
-    network/channelmodel.h \
-    network/messagedispatcher.h \
-    network/channel.h \
-    network/treeitem.h \
-    network/channellistpanel.h \
-    network/servermanager.h \
-    network/ipbanaccepter.h \
-    network/iprangeaccepter.h \
-    network/passwordaccepter.h \
-    network/timeaccepter.h \
-    network/connectionaccepter.h \
-    network/rserver.h \
-    services/tipchecker.h \
-    widgets/tipofdayviewer.h \
-    data/shortcutmodel.h \
-    data/shortcutvisitor.h \
-    widgets/shortcuteditordialog.h \
-    widgets/gmtoolbox/gamemastertool.h
+        services/updaterwindow.h \
+        widgets/realslider.h \
+        network/heartbeatsender.h \
+        widgets/persondialog.h \
+        network/connectionprofile.h \
+        network/tcpclient.h \
+        network/channelmodel.h \
+        network/messagedispatcher.h \
+        network/channel.h \
+        network/treeitem.h \
+        network/channellistpanel.h \
+        network/servermanager.h \
+        network/ipbanaccepter.h \
+        network/iprangeaccepter.h \
+        network/passwordaccepter.h \
+        network/timeaccepter.h \
+        network/connectionaccepter.h \
+        network/rserver.h \
+        services/tipchecker.h \
+        widgets/tipofdayviewer.h \
+        data/shortcutmodel.h \
+        data/shortcutvisitor.h \
+        widgets/shortcuteditordialog.h \
+        widgets/gmtoolbox/gamemastertool.h
 
 
    #     persondialog.cpp \
@@ -251,30 +258,30 @@ SOURCES += \
         data/characterstate.cpp \
         widgets/filepathdelegateitem.cpp \
         network/selectconnectionprofiledialog.cpp \
-    services/updaterwindow.cpp \
-    widgets/realslider.cpp \
-    network/heartbeatsender.cpp \
-    widgets/persondialog.cpp \
-    network/connectionprofile.cpp \
-    network/tcpclient.cpp \
-    network/channelmodel.cpp \
-    network/messagedispatcher.cpp \
-    network/channel.cpp \
-    network/treeitem.cpp \
-    network/channellistpanel.cpp \
-    network/servermanager.cpp \
-    network/ipbanaccepter.cpp \
-    network/iprangeaccepter.cpp \
-    network/passwordaccepter.cpp \
-    network/timeaccepter.cpp \
-    network/connectionaccepter.cpp \
-    network/rserver.cpp \
-    services/tipchecker.cpp \
-    widgets/tipofdayviewer.cpp \
-    data/shortcutmodel.cpp \
-    data/shortcutvisitor.cpp \
-    widgets/shortcuteditordialog.cpp \
-    widgets/gmtoolbox/gamemastertool.cpp
+        services/updaterwindow.cpp \
+        widgets/realslider.cpp \
+        network/heartbeatsender.cpp \
+        widgets/persondialog.cpp \
+        network/connectionprofile.cpp \
+        network/tcpclient.cpp \
+        network/channelmodel.cpp \
+        network/messagedispatcher.cpp \
+        network/channel.cpp \
+        network/treeitem.cpp \
+        network/channellistpanel.cpp \
+        network/servermanager.cpp \
+        network/ipbanaccepter.cpp \
+        network/iprangeaccepter.cpp \
+        network/passwordaccepter.cpp \
+        network/timeaccepter.cpp \
+        network/connectionaccepter.cpp \
+        network/rserver.cpp \
+        services/tipchecker.cpp \
+        widgets/tipofdayviewer.cpp \
+        data/shortcutmodel.cpp \
+        data/shortcutvisitor.cpp \
+        widgets/shortcuteditordialog.cpp \
+        widgets/gmtoolbox/gamemastertool.cpp
 
 
 FORMS += \
@@ -310,38 +317,46 @@ RESOURCES += $$PWD/../rolisteam.qrc
 
 UI_DIR = src
 
-unix{
-LIBS += -lz
-}
-CONFIG += embed_manifest_exe
+
+
 
 INCLUDEPATH +=src/audio
 OTHER_FILES += \
     src/widgets/widgets.pro \
     $$TRANSLATIONS
 
-#Windows
-#INCLUDEPATH += $$PWD/../../lib/zlibapivs
-#DEPENDPATH += $$PWD/../../lib/zlibapivs
 
-#win32 {
-#DEFINES  += ZLIB_WINAPI
-#RC_FILE = "../resources/logo/rolisteam.rc"
-#OTHER_FILES +=../resources/logo/rolisteam.rc
-#LIBS += -L$$PWD/../../lib/zlibapivs/x64/ -lzlibwapi
-#INCLUDEPATH += $$PWD/../../lib/zlibapivs/includes/
-#PRE_TARGETDEPS += $$PWD/../../lib/zlibapivs/x64/zlibwapi.lib
-#}
+HAVE_ZLIB {
+DEFINES += HAVE_ZLIB
+unix{
+LIBS += -lz
+}
 
-win32 {
+win32{
+win32-g++ {
 DEFINES  += ZLIB_WINAPI
-RC_FILE = "../resources/logo/rolisteam.rc"
-OTHER_FILES +=../resources/logo/rolisteam.rc
+LIBS += -L$$PWD/../../lib/zlibapi/dll32/ -lzlibwapi
+INCLUDEPATH += $$PWD/../../lib/zlibapi/include
+PRE_TARGETDEPS += $$PWD/../../lib/zlibapi/dll32/zlibwapi.lib
+}
+
+win32-msvc {
+#Must be vs2015
+DEFINES  += ZLIB_WINAPI
 LIBS += -L$$PWD/../../lib/zlib_1_2_8/lib/zlib -lzlib
 INCLUDEPATH += $$PWD/../../lib/zlib_1_2_8/include/zlib
 PRE_TARGETDEPS += $$PWD/../../lib/zlib_1_2_8/lib/zlib/zlib.lib
 }
+}
 
+
+
+}
+win32{
+RC_FILE = "../resources/logo/rolisteam.rc"
+OTHER_FILES +=../resources/logo/rolisteam.rc
+CONFIG += embed_manifest_exe
+}
 DISTFILES += \
     rolisteam.dox \
     undoCmd/undoCmd.pri
