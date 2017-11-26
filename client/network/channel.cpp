@@ -137,7 +137,6 @@ void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool mustBeSaved)
 
         if((nullptr != other)&&(other!=tcp))
         {
-          //  qDebug()<< "[server][send to clients]" << other << tcp;
             QMetaObject::invokeMethod(other,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,false));
         }          
     }
@@ -163,8 +162,6 @@ void Channel::updateNewClient(TcpClient* newComer)
 {
     NetworkMessageWriter* msg1 = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::ClearTable);
     msg1->string8(newComer->getId());
-    //qDebug() << newComer->getName() << newComer->getId() << "NEwComer !!!!!!!!!!!!!!!!";
-
     QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg1),Q_ARG(bool,true));
     //Sending players infos
     for(auto child : m_child)
@@ -178,7 +175,6 @@ void Channel::updateNewClient(TcpClient* newComer)
                 {
                     NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::PlayerCategory,NetMsg::PlayerConnectionAction);
                     tcpConnection->fill(msg);
-                    //qDebug()<< "[updateNewClient] newComer" << tcpConnection->getName();
                     QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,true));
                 }
 
@@ -189,7 +185,6 @@ void Channel::updateNewClient(TcpClient* newComer)
     for(auto msg : m_dataToSend)
     {
         //tcp->sendMessage(msg);
-        //qDebug()<< "[updateNewClient] m_dataToSend";
         QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,false));
     }
 }

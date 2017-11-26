@@ -250,12 +250,10 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::AuthentificationSucessed == msg->action())
     {
-        qDebug() <<   "processAdminstrationMessage Authentification Success";
         emit authentificationSuccessed();
     }
     else if(NetMsg::AuthentificationFail == msg->action())
     {
-        qDebug() <<   "processAdminstrationMessage AuthentificationFail ";
         emit errorMessage(tr("Authentification Fail"));
         emit authentificationFail();
         if(isOpen())
@@ -265,22 +263,18 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::ClearTable == msg->action())
     {
-        qDebug() <<   "processAdminstrationMessage ClearTable ";
         emit clearData();
     }
     else if(NetMsg::AdminAuthFail == msg->action())
     {
-        qDebug() <<   "processAdminstrationMessage AdminAuthFail ";
         emit adminAuthFailed();
     }
     else if(NetMsg::AdminAuthSucessed == msg->action())
     {
-        qDebug() <<   "processAdminstrationMessage AdminAuthSucessed ";
         emit adminAuthSuccessed();
     }
     else if(NetMsg::SetChannelList == msg->action())
     {
-        qDebug() <<   "processAdminstrationMessage SetChannelList ";
     }
     else
         qDebug() <<   "processAdminstrationMessage Autre "<< msg->action();

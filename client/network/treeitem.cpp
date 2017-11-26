@@ -54,7 +54,6 @@ QString TreeItem::getName() const
 
 void TreeItem::setName(const QString &name)
 {
-    qDebug() << "##### Name: "<< name;
     if(m_name!=name)
     {
         m_name = name;
