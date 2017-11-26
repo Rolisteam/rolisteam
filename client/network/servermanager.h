@@ -48,6 +48,7 @@ signals:
     void messageMustBeDispatched(QByteArray array, Channel* channel,TcpClient* client);
     void finished();
     void listening();
+    void clientAccepted();
 
 public slots:
     void startListening();

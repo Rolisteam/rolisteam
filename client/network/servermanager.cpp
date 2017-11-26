@@ -110,12 +110,13 @@ void ServerManager::initClient()
 {
     TcpClient* client = qobject_cast<TcpClient*>(sender());
     QMap<QString,QVariant> data(m_parameters);
+    m_connections.insert(client->getSocket(),client);
     data["currentIp"]=client->getSocket()->peerAddress().toString();
     if(nullptr != client)
     {
         client->sendEvent(TcpClient::HasCheckEvent);
 
-        if(m_corEndProcess->isValid(data))
+        if(m_corConnection->isValid(data) && m_corEndProcess->isValid(data))
         {
             m_model->addConnectionToDefaultChannel(client);
             client->sendEvent(TcpClient::AuthSuccessEvent);
@@ -133,7 +134,6 @@ void ServerManager::sendOffAdminAuthSuccessed()
     if(nullptr != client)
     {
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AdminAuthSucessed);
-        qDebug()<< "[sendOffAdminAuthSuccessed] ";
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
         sendOffModel(client);
     }
@@ -144,8 +144,6 @@ void ServerManager::sendOffAdminAuthFail()
     if(nullptr != client)
     {
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AdminAuthFail);
-        //client->sendMessage(msg);
-        qDebug()<< "[sendOffAdminAuthFail] ";
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
     }
 }
@@ -155,7 +153,6 @@ void ServerManager::sendOffAuthSuccessed()
     if(nullptr != client)
     {
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AuthentificationSucessed);
-        //qDebug()<< "[sendOffAuthSuccessed] ";
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
         sendOffModel(client);
     }
@@ -166,8 +163,6 @@ void ServerManager::sendOffAuthFail()
     if(nullptr != client)
     {
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AuthentificationFail);
-        //client->sendMessage(msg);
-        //qDebug()<< "[sendOffAuthFail] ";
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
     }
 }
@@ -315,9 +310,8 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
 
 void ServerManager::sendOffModel(TcpClient* client)
 {
-    if(nullptr != client)
+    if((nullptr != client))//&&(!client->getName().isEmpty())
     {
-        //qDebug() << "[current qthread]" << QThread::currentThread() << " [client thread:]"<<client->thread();
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::SetChannelList);
         QJsonDocument doc;
         QJsonObject obj;
@@ -325,7 +319,6 @@ void ServerManager::sendOffModel(TcpClient* client)
         doc.setObject(obj);
 
         msg->byteArray32(doc.toJson());
-        //qDebug()<< "[sendOffModel] ";
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
 
     }
@@ -366,71 +359,46 @@ void ServerManager::setState(const ServerManager::ServerState &state)
 }
 void ServerManager::start()
 {
-    qDebug() << this << "connections started on" << QThread::currentThread();
+
 }
 
 void ServerManager::quit()
 {
     if(!sender()) return;
-    //qDebug() << this << "connections quitting";
-
-  /*  foreach(QTcpSocket *socket, m_connections.keys())
-    {
-        qDebug() << this << "closing socket" << socket;
-        removeSocket(socket);
-    }*/
-
-    //qDebug() << this << "finishing";
     emit finished();
 }
 
 void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread)
 {
-    //qDebug() << "*** HEY WATCH THIS";
-    QTcpSocket* socket = new QTcpSocket();
-    if(!socket->setSocketDescriptor(handle))
-    {
-        qWarning() << this << "could not accept connection" << handle;
-        connection->deleteLater();
-        return;
-    }
-
     emit sendLog(tr("New Incoming Connection!"));
 
-    QMap<QString,QVariant> data(m_parameters);
-    data["currentIp"]=socket->peerAddress().toString();
-    qDebug() << "currentIP" << data["currentIp"].toString()<< "BEFORE LE IF";
+    connect(connection,SIGNAL(dataReceived(QByteArray)),this,SLOT(messageReceived(QByteArray)),Qt::QueuedConnection);//
+    connect(connection,SIGNAL(socketInitiliazed()),this,SLOT(initClient()),Qt::QueuedConnection);
+    connect(connection,SIGNAL(authSuccess()),this,SLOT(sendOffAuthSuccessed()),Qt::QueuedConnection);
+    connect(connection,SIGNAL(adminAuthFailed()),this,SLOT(sendOffAdminAuthFail()),Qt::QueuedConnection);
+    connect(connection,SIGNAL(adminAuthSucceed()),this,SLOT(sendOffAdminAuthSuccessed()),Qt::QueuedConnection);
+    connect(connection,SIGNAL(authFail()),this,SLOT(sendOffAuthFail()),Qt::QueuedConnection);
+    connect(connection,SIGNAL(itemChanged()),this,SLOT(sendOffModelToAll()),Qt::QueuedConnection);
+    connect(this,&ServerManager::clientAccepted,connection,&TcpClient::starReading,Qt::QueuedConnection);
+    connect(connection,&TcpClient::socketDisconnection,this,&ServerManager::disconnected,Qt::QueuedConnection);
+    connect(connection,&TcpClient::socketError,this,&ServerManager::error,Qt::QueuedConnection);
 
-    if(m_corConnection->isValid(data))
-    {
-        qDebug() << "currentIP" << "AFTER LE IF";
-        connect(connection,SIGNAL(dataReceived(QByteArray)),this,SLOT(messageReceived(QByteArray)));//,Qt::QueuedConnection
-        connect(connection,SIGNAL(isReady()),this,SLOT(initClient()),Qt::QueuedConnection);
-        connect(connection,SIGNAL(authSuccess()),this,SLOT(sendOffAuthSuccessed()),Qt::QueuedConnection);
-        connect(connection,SIGNAL(adminAuthFailed()),this,SLOT(sendOffAdminAuthFail()),Qt::QueuedConnection);
-        connect(connection,SIGNAL(adminAuthSucceed()),this,SLOT(sendOffAdminAuthSuccessed()),Qt::QueuedConnection);
-        connect(connection,SIGNAL(authFail()),this,SLOT(sendOffAuthFail()),Qt::QueuedConnection);
-        connect(connection,SIGNAL(itemChanged()),this,SLOT(sendOffModelToAll()),Qt::QueuedConnection);
+   /* */
+    //connection->moveToThread(thread);
+    //socket->moveToThread(thread);
+    connection->setSocketHandleId(handle);
 
-        connect(socket,&QTcpSocket::disconnected, this, &ServerManager::disconnected,Qt::QueuedConnection);
-        connect(socket,static_cast<void (QTcpSocket::*)(QAbstractSocket::SocketError)>(&QTcpSocket::error),this,&ServerManager::error,Qt::QueuedConnection);
 
-        connection->moveToThread(thread);
-        connection->setSocket(socket);
+    emit clientAccepted();
 
-        m_connections.insert(socket,connection);
-        emit socket->connected();
-    }
+
 
 }
 void ServerManager::sendOffModelToAll()
 {
-   // qDebug() << "sendoffmodeltoALL";
     int i = 0;
     for( auto connection : m_connections.values())
     {
-
-     //   qDebug() << "for loop connection: loop:" << ++i << connection->getName();
         sendOffModel(connection);
     }
 }
@@ -452,27 +420,22 @@ void ServerManager::removeSocket(QTcpSocket *socket)
 
     TcpClient* client = m_connections.value(socket);
 
-    //qDebug() << this << "removing socket = " <<  socket;
     m_model->removeChild(client->getId());
     if(socket->isOpen())
     {
-       // qDebug() << this << "socket is open, attempting to close it " << socket;
         socket->disconnect();
         socket->close();
     }
 
-    //qDebug() << this << "deleting socket" << socket;
     m_connections.remove(socket);
     socket->deleteLater();
 
-    //qDebug() << this << "client count = " << m_connections.count();
     sendOffModelToAll();
 
 }
 void ServerManager::error(QAbstractSocket::SocketError socketError)
 {
     if(!sender()) return;
-    //qDebug() << this << "error in socket" << sender() << " error = " << socketError;
 
     QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
     if(!socket) return;
