@@ -1,36 +1,38 @@
 #include "tcpclient.h"
 #include "channel.h"
 
+#include <QThread>
+
 TcpClient::TcpClient(QTcpSocket* socket,QObject *parent)
     : TreeItem(parent),m_socket(socket),m_player(new Player()),m_isAdmin(false)
 {
-    m_dataToRead=0;
+    m_remainingData=0;
     m_headerRead = 0;
 
 }
 TcpClient::~TcpClient()
 {
-    qDebug() << "|||||||||||||| TcpClient dead";
+
 }
 void TcpClient::connectionCheckedSlot()
 {
-    qDebug() << "connection checked";
+
 }
 void TcpClient::setSocket(QTcpSocket* socket)
 {
     m_socket = socket;
     if(nullptr != m_socket)
     {
+
        // m_socket->setParent(this);
+        connect(m_socket,&QTcpSocket::disconnected, this, &TcpClient::socketDisconnection,Qt::QueuedConnection);
+        connect(m_socket,static_cast<void (QTcpSocket::*)(QAbstractSocket::SocketError)>(&QTcpSocket::error),this,&TcpClient::socketError,Qt::QueuedConnection);
+
         connect(m_socket,SIGNAL(readyRead()),this,SLOT(receivingData()));
         connect(m_socket,SIGNAL(disconnected()),this,SIGNAL(disconnected()));
-        connect(m_socket,&QTcpSocket::disconnected,this,[=](){
-            qDebug()<< "TCP CLIENT is disconnected *******************************";
-        });
         connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(connectionError(QAbstractSocket::SocketError)));
 
-
-        connect(&m_stateMachine,SIGNAL(started()),this,SLOT(starReading()));
+        //connect(&m_stateMachine,SIGNAL(started()),this,SLOT(starReading()));
         connect(&m_stateMachine,SIGNAL(started()),this,SIGNAL(isReady()));
         m_incomingConnection = new QState();
         m_controlConnection = new QState();
@@ -58,57 +60,48 @@ void TcpClient::setSocket(QTcpSocket* socket)
         connect(m_incomingConnection,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "Incoming State";
                 m_currentState = m_incomingConnection;
             }
         });
         connect(m_controlConnection,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "Control State";
                 m_currentState = m_controlConnection;
             }
         });
         connect(m_waitingAuthentificationData,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "WaitingAuthData State";
                 m_currentState = m_waitingAuthentificationData;
             }
         });
         connect(m_authentification,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "Authification State";
                 m_currentState = m_authentification;
             }
         });
         connect(m_wantToGoToChannel,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "WantToGoToChannel State";
                 m_currentState = m_wantToGoToChannel;
             }
         });
         connect(m_inPlace,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "InPlace State";
                 m_currentState = m_inPlace;
-
             }
         });
         connect(m_waitingAuthChannel,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "WaitingAuthChannel State";
                 m_currentState = m_waitingAuthChannel;
             }
         });
         connect(m_disconnected,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "disconnected State";
                 m_currentState = m_disconnected;
                 m_socket->close();
             }
@@ -116,7 +109,6 @@ void TcpClient::setSocket(QTcpSocket* socket)
         connect(m_stayInPlace,&QState::activeChanged,[=](bool b){
             if(b)
             {
-                qDebug() << "StayInPlace State";
                 m_currentState = m_stayInPlace;
             }
         });
@@ -136,15 +128,27 @@ void TcpClient::setSocket(QTcpSocket* socket)
         m_waitingAuthChannel->addTransition(this, SIGNAL(channelAuthFail()), m_stayInPlace);
         m_waitingAuthChannel->addTransition(this, SIGNAL(channelAuthSuccess()), m_inPlace);
         m_inPlace->addTransition(this, SIGNAL(moveChannel()), m_wantToGoToChannel);
+
+        emit socketInitiliazed();
     }
 
 }
 
 void TcpClient::starReading()
 {
-   /* qInfo() << m_stateMachine.isRunning();
-    qInfo() << "########################################tcpClient########################################" << this;*/
+    QTcpSocket* socket = new QTcpSocket();
+    socket->setSocketDescriptor(getSocketHandleId());
+    setSocket(socket);
+}
 
+qintptr TcpClient::getSocketHandleId() const
+{
+    return m_socketHandleId;
+}
+
+void TcpClient::setSocketHandleId(const qintptr &socketHandleId)
+{
+    m_socketHandleId = socketHandleId;
 }
 
 bool TcpClient::isAdmin() const
@@ -222,69 +226,64 @@ void TcpClient::addPlayerFeature(QString uuid, QString name, quint8 version)
 
 void TcpClient::receivingData()
 {
-    //qDebug() << "\n\n\n\n\n######################################## DEBUT ########################################\n Receiving Data";
     if(nullptr==m_socket)
     {
        // qDebug() << "End of reading data socket null";
         return;
     }
-    quint32 dataReceived=0;
+    quint32 dataRead=0;
 
 
     while (m_socket->bytesAvailable())
     {
-        if (!m_incomingData)
+        if (!m_receivingData)
         {
-            qint64 size = 0;
+            qint64 readDataSize = 0;
             char* tmp = (char *)&m_header;
 
             // To do only if there is enough data
-            size = m_socket->read(tmp+m_headerRead, sizeof(NetworkMessageHeader)-m_headerRead);
-            size+=m_headerRead;
-            if(size!= sizeof(NetworkMessageHeader))
+            readDataSize = m_socket->read(tmp+m_headerRead, sizeof(NetworkMessageHeader)-m_headerRead);
+            readDataSize+=m_headerRead;
+            if(readDataSize!= sizeof(NetworkMessageHeader))
             {
-              //m_headerRead=size;
+              //m_headerRead=readDataSize;
               return;
             }
             else
             {
                 m_headerRead=0;
             }
-            //qDebug() << "\n\n\Allocation size"<<m_header.dataSize << "action" <<m_header.action << "cat" <<m_header.category << sizeof(NetworkMessageHeader);
             m_buffer = new char[m_header.dataSize];
-            m_dataToRead = m_header.dataSize;
+            m_remainingData = m_header.dataSize;
             emit readDataReceived(m_header.dataSize,m_header.dataSize);
 
         }
-        //qDebug() << "\n\n\Before reading dataReceived:" << dataReceived << "dataToRead:" <<m_dataToRead << "data dispo:"<< m_socket->bytesAvailable()<< "dataToRead:" << m_dataReceivedTotal;
         // To do only if there is enough data
-        dataReceived = m_socket->read(&(m_buffer[m_header.dataSize-m_dataToRead]), m_dataToRead);
-        m_dataReceivedTotal += dataReceived;
-        //qDebug() << "After reading dataReceived:" << dataReceived << "dataToRead:" <<m_dataToRead << m_socket->bytesAvailable() << m_dataReceivedTotal << "\n\n";
+        dataRead = m_socket->read(&(m_buffer[m_header.dataSize-m_remainingData]), m_remainingData);
+        m_dataReceivedTotal += dataRead;
 
 
-        if (dataReceived < m_dataToRead)
+        if (dataRead < m_remainingData)
         {
-            m_dataToRead-=dataReceived;
-            m_incomingData = true;
-            emit readDataReceived(m_dataToRead,m_header.dataSize);
+            m_remainingData -= dataRead;
+            m_receivingData = true;
+            emit readDataReceived(m_remainingData,m_header.dataSize);
             //m_socket->waitForReadyRead();
         }
         else
         {
             m_headerRead = 0;
-            dataReceived = 0;
+            dataRead = 0;
             m_dataReceivedTotal = 0;
             emit readDataReceived(0,0);
-            m_incomingData = false;
+            m_receivingData = false;
+            m_remainingData = 0;
             forwardMessage();
         }
     }
- //qDebug() << "End of reading data \n######################################## FIN ########################################\n\n\n\n\n";
 }
 void TcpClient::forwardMessage()
 {
-    //qDebug() <<"[forwardMessage]" <<m_header.dataSize << m_header.action << m_header.category;
     QByteArray array((char*)&m_header,sizeof(NetworkMessageHeader));
     array.append(m_buffer,m_header.dataSize);
     if(m_currentState != m_disconnected)
@@ -294,7 +293,6 @@ void TcpClient::forwardMessage()
 }
 void TcpClient::sendData(char* data, quint32 size)
 {
-    qInfo() << "send data (char*)";
     qint64 dataSend = m_socket->write(data,size);
     if(-1 == dataSend)
     {
@@ -304,7 +302,6 @@ void TcpClient::sendData(char* data, quint32 size)
 }
 void TcpClient::sendData(QByteArray a)
 {
-    qInfo() << "send data";
     qint64 dataSend = m_socket->write(a);
     if(-1 == dataSend)
     {
@@ -315,12 +312,10 @@ void TcpClient::sendData(QByteArray a)
 
 void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 {
-   // qDebug() << "send message" << msg << deleteMsg;
     if((nullptr != m_socket)&&(m_socket->isWritable()))
     {
         NetworkMessageHeader* data = msg->buffer();
         qint64 dataSend = m_socket->write((char*)data,data->dataSize+sizeof(NetworkMessageHeader));
-       // qDebug() << "sendData MESSAGE:"<<dataSend;
         if(-1 == dataSend)
         {
             qDebug() << "error Writing data" << m_socket->errorString() ;
@@ -386,6 +381,9 @@ void TcpClient::sendEvent(TcpClient::ConnectionEvent event)
     case AdminAuthSuccess:
         emit adminAuthSucceed();
         m_isAdmin = true;
+        break;
+    default:
+        qDebug() << "sendEvent Unkown event";
         break;
     }
 }

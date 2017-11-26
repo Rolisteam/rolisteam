@@ -76,6 +76,9 @@ public:
     bool isAdmin() const;
     void setIsAdmin(bool isAdmin);
 
+    qintptr getSocketHandleId() const;
+    void setSocketHandleId(const qintptr &socketHandleId);
+
 signals:
     /**
      * @brief readDataReceived
@@ -108,6 +111,9 @@ signals:
     void adminAuthFailed();
     void adminAuthSucceed();
     void isReady();
+    void socketDisconnection();
+    void socketError(QAbstractSocket::SocketError );
+    void socketInitiliazed();
 
 
 
@@ -146,13 +152,15 @@ public slots:
     void sendEvent(TcpClient::ConnectionEvent);
 
     void connectionCheckedSlot();
+
+
     void starReading();
 private:
     QTcpSocket* m_socket;
     NetworkMessageHeader m_header;
     char* m_buffer;
     int m_headerRead;
-    quint32 m_dataToRead;
+    quint32 m_remainingData;
 
     QStateMachine m_stateMachine;
     QState* m_incomingConnection;
@@ -170,10 +178,12 @@ private:
     bool m_isGM;
     bool m_isAdmin;
 
-    bool m_incomingData = false;
+    bool m_receivingData = false;
     quint32 m_dataReceivedTotal=0;
 
     Player* m_player;
+
+    qintptr m_socketHandleId;
 
 };
 
