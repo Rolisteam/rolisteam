@@ -112,6 +112,7 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
         #endif
 
         int t = m_socketTcp->write(data, size);
+
         if (t < 0)
         {
             emit errorMessage(tr("Tranmission error :")+m_socketTcp->errorString());
@@ -129,6 +130,7 @@ void NetworkLink::sendData(NetworkMessage* msg)
     //if (but != this)
     {
         int t = m_socketTcp->write((char*)msg->buffer(), msg->getSize());
+
 
         if (t < 0)
         {
@@ -178,9 +180,7 @@ void NetworkLink::receivingData()
             emit readDataReceived(m_header.dataSize,m_header.dataSize);
 
         }
-
         readData = m_socketTcp->read(&(m_buffer[m_header.dataSize-m_remainingData]), m_remainingData);
-
         if (readData < m_remainingData)
         {
             m_remainingData -= readData;
@@ -205,11 +205,14 @@ void NetworkLink::receivingData()
 
                 for(NetWorkReceiver* tmp : tmpList)
                 {
-                    forwardMessage(tmp->processMessage(&data));
+                    tmp->processMessage(&data);
                 }
             }
+            else
+            {
+                qDebug() << "NO receiver for this category";
+            }
             //emit receivedMessage(data,this);
-
             switch(data.category())
             {
                 case NetMsg::PlayerCategory :
@@ -224,16 +227,17 @@ void NetworkLink::receivingData()
                     break;
             }
             delete[] m_buffer;
+            m_remainingData = 0;
             m_receivingData = false;
         }
 
     }
-
 }
 void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
 {
     if(NetMsg::heartbeat == msg->action())
     {
+        qDebug() <<   "processAdminstrationMessage heartbeat ";
         QString id = msg->string8();
         if(!m_hbCount.contains(id))
         {
@@ -246,10 +250,12 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::AuthentificationSucessed == msg->action())
     {
+        qDebug() <<   "processAdminstrationMessage Authentification Success";
         emit authentificationSuccessed();
     }
     else if(NetMsg::AuthentificationFail == msg->action())
     {
+        qDebug() <<   "processAdminstrationMessage AuthentificationFail ";
         emit errorMessage(tr("Authentification Fail"));
         emit authentificationFail();
         if(isOpen())
@@ -259,16 +265,25 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::ClearTable == msg->action())
     {
+        qDebug() <<   "processAdminstrationMessage ClearTable ";
         emit clearData();
     }
     else if(NetMsg::AdminAuthFail == msg->action())
     {
+        qDebug() <<   "processAdminstrationMessage AdminAuthFail ";
         emit adminAuthFailed();
     }
     else if(NetMsg::AdminAuthSucessed == msg->action())
     {
+        qDebug() <<   "processAdminstrationMessage AdminAuthSucessed ";
         emit adminAuthSuccessed();
     }
+    else if(NetMsg::SetChannelList == msg->action())
+    {
+        qDebug() <<   "processAdminstrationMessage SetChannelList ";
+    }
+    else
+        qDebug() <<   "processAdminstrationMessage Autre "<< msg->action();
 }
 
 void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
@@ -363,34 +378,28 @@ void NetworkLink::connectTo()
 }
 void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
 {
-    //qDebug() << "[client] socket State Changed" << state;
     switch (state)
     {
     case QAbstractSocket::ClosingState:
     case QAbstractSocket::UnconnectedState:
-        //qDebug() << "[client] disconnected";
         emit disconnected();
         break;
     case QAbstractSocket::HostLookupState:
     case QAbstractSocket::ConnectingState:
     case QAbstractSocket::BoundState:
-        //qDebug() << "[client] connecting";
         emit connecting();//setConnectionState(CONNECTING);
         break;
     case QAbstractSocket::ConnectedState:
     {
-        //qDebug() << "[client] connected";
         emit connected();
         QString pw = m_connection->getPassword();
         if(!pw.isEmpty())
         {
             NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::Password);
-            msg.setLinkToServer(this);
             msg.string32(pw);
             msg.uint8(false);
-            msg.sendTo(this);
+            msg.sendAll();
         }
-
         //setConnectionState(CONNECTED);
     }
         break;
