@@ -4,7 +4,7 @@
 RServer::RServer(ServerManager* serverMan,int threadCount,QObject *parent)
     : QTcpServer(parent), m_numberOfThread(threadCount),m_serverManager(serverMan)
 {
-    //qDebug() <<  this << "created on" << QThread::currentThread();
+    connect(this,&RServer::finished,m_serverManager,&ServerManager::quit, Qt::QueuedConnection);
 }
 
 RServer::~RServer()
@@ -21,9 +21,6 @@ bool RServer::listen(const QHostAddress &address, quint16 port)
         QThread* thread = new QThread(this);
         QPair<QThread*,int> pair(thread,0);
 
-        connect(thread,&QThread::started,m_serverManager,&ServerManager::start, Qt::QueuedConnection);
-        connect(this,&RServer::finished,m_serverManager,&ServerManager::quit, Qt::QueuedConnection);
-
         m_threadPool.append(pair);
         thread->start();
     }
@@ -34,7 +31,6 @@ bool RServer::listen(const QHostAddress &address, quint16 port)
 
 void RServer::close()
 {
-   // qDebug() << this << "closing server";
     emit finished();
     QTcpServer::close();
 }
@@ -53,7 +49,6 @@ qint64 RServer::port()
 
 void RServer::incomingConnection(qintptr descriptor)
 {
- //   qDebug() << this << "attempting to accept connection" << descriptor;
     TcpClient* connection = new TcpClient(nullptr,nullptr);
     accept(descriptor, connection);
 }
@@ -85,9 +80,12 @@ void RServer::accept(qintptr descriptor, TcpClient* connection)
             thread = pair.first;
             pair.second++;
         }
-       // qDebug() << this << "accepting the connection" << descriptor;
         connection->moveToThread(thread);
         emit accepting(descriptor, connection, thread);
+    }
+    else
+    {
+        qDebug() << "error no thread" ;
     }
     /// @todo error no thread!
 
@@ -95,21 +93,5 @@ void RServer::accept(qintptr descriptor, TcpClient* connection)
 
 void RServer::complete()
 {
-   // if(!m_thread)
-    {
-       // qWarning() << this << "exiting complete there was no thread!";
         return;
-    }
-
-  // qDebug() << this << "Complete called, destroying thread";
-//    delete m_connections;
-
-  //  qDebug() << this << "Quitting thread";
-   // m_thread->quit();
-  //  m_thread->wait();
-
- //   delete m_thread;
-
-   // qDebug() << this << "complete";
-
 }
