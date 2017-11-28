@@ -204,7 +204,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
     QColor color;
     if(m_diceParser->parseLine(str))
     {
-        m_diceParser->Start();
+        m_diceParser->start();
         if(m_diceParser->getErrorMap().isEmpty())
         {
             messageTitle = tr("You");
