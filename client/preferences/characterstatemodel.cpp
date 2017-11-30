@@ -26,8 +26,8 @@
 #include <QDebug>
 #include <QBuffer>
 
-CharacterStateModel::CharacterStateModel()
-    : m_stateList(new QList<CharacterState*>()),m_stateListFromGM(new QList<CharacterState*>()),m_isGM(false)
+CharacterStateModel::CharacterStateModel(QObject* parent)
+    : QAbstractListModel(parent), m_stateList(new QList<CharacterState*>()),m_stateListFromGM(new QList<CharacterState*>()),m_isGM(false)
 {
 	m_header << tr("Label") << tr("Color")<< tr("Image");
 

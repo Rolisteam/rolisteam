@@ -23,8 +23,8 @@
 
 #include <QDebug>
 
-DiceAliasModel::DiceAliasModel()
-    : m_diceAliasList(new QList<DiceAlias*>()),m_isGM(false)
+DiceAliasModel::DiceAliasModel(QObject* parent)
+    : QAbstractListModel(parent),m_diceAliasList(new QList<DiceAlias*>()),m_isGM(false)
 {
     m_header << tr("Pattern") << tr("Value")<< tr("Regular Expression")<< tr("Disable") << tr("Comments");
 }

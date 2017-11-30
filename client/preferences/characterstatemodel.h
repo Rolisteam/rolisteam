@@ -39,7 +39,7 @@ public:
     /**
      * @brief CharacterStateModel
      */
-    CharacterStateModel();
+    CharacterStateModel(QObject* parent=nullptr);
     /**
       *
       * */

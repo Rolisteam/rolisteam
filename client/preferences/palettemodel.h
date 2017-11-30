@@ -57,7 +57,7 @@ class PaletteModel : public QAbstractTableModel
         Q_OBJECT
 public:
 
-    PaletteModel();
+    PaletteModel(QObject* parent = nullptr);
     virtual ~PaletteModel();
 
     void initData();

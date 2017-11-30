@@ -49,6 +49,7 @@
 CheckBoxDelegate::CheckBoxDelegate(bool aRedCheckBox, QObject *parent)
 {
     m_editor = new CenteredCheckBox();
+    //m_editor->setParent(parent);
     connect( m_editor, SIGNAL(commitEditor()),
              this, SLOT(commitEditor()) );
 }
@@ -196,13 +197,13 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
     m_preferences = PreferencesManager::getInstance();
 
-    m_aliasModel = new DiceAliasModel();
+    m_aliasModel = new DiceAliasModel(this);
     ui->m_tableViewAlias->setModel(m_aliasModel);
     m_diceParser = new DiceParser();
     m_aliasModel->setAliases(m_diceParser->getAliases());
 
 
-    m_stateModel = new CharacterStateModel();
+    m_stateModel = new CharacterStateModel(this);
     ui->m_stateView->setModel(m_stateModel);
 
     QHeaderView* horizontalHeader = ui->m_tableViewAlias->horizontalHeader();
@@ -213,7 +214,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::METHOD,new CheckBoxDelegate());
     ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::DISABLE,new CheckBoxDelegate());
 
-    m_paletteModel = new PaletteModel();
+    m_paletteModel = new PaletteModel(this);
     m_paletteModel->setPalette(palette());
     ui->m_paletteTableView->setModel(m_paletteModel);
     horizontalHeader = ui->m_paletteTableView->horizontalHeader();
@@ -281,14 +282,18 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_importBtn,SIGNAL(clicked()),this,SLOT(importTheme()));
     connect(ui->m_deleteTheme,SIGNAL(clicked()),this,SLOT(deleteTheme()));
 
-    ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::COLOR,new ColorDelegate());
-    ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::PICTURE,new FilePathDelegateItem());
+    ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::COLOR,new ColorDelegate(this));
+    ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::PICTURE,new FilePathDelegateItem(this));
 
 }
 
 PreferencesDialog::~PreferencesDialog()
 {
-    // QObject should do it right for us already.
+    if(nullptr != m_diceParser)
+    {
+        delete m_diceParser;
+        m_diceParser=nullptr;
+    }
 }
 
 void PreferencesDialog::manageHeartBeat()
