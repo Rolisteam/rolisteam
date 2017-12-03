@@ -60,7 +60,7 @@ QStringList CleverURI::m_typeToPreferenceDirectory = QStringList() <<   QString(
 //CleverURIListener* CleverURI::s_listener = nullptr;
 
 CleverURI::CleverURI()
-    : m_type(NONE),m_state(Remain)
+    : m_type(NONE),m_state(Unloaded)
 {
     init();
 }
@@ -80,7 +80,7 @@ QIcon CleverURI::getIcon()
 }
 
 CleverURI::CleverURI(QString name,QString uri,ContentType type)
-    : m_uri(uri),m_type(type),m_state(Remain)
+    : m_uri(uri),m_type(type),m_state(Unloaded)
 {
     m_name = name;
     updateListener(CleverURI::NAME);
@@ -189,7 +189,7 @@ void CleverURI::setDisplayed(bool displayed)
     }
     else
     {
-        m_state = Opened;
+        m_state = Hidden;
     }
     updateListener(CleverURI::DISPLAYED);
 }

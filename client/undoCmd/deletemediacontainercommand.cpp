@@ -44,7 +44,7 @@ void DeleteMediaContainerCommand::redo()
         auto uri = m_media->getCleverUri();
         if(nullptr != uri)
         {
-            uri->setState(CleverURI::Remain);
+            uri->setState(CleverURI::Unloaded);
         }
         m_manager->resourceClosed(m_media->getCleverUri());
         m_mdiArea->removeSubWindow(m_media);

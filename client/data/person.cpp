@@ -28,6 +28,8 @@
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#include "resourcesnode.h"
+#include "cleveruri.h"
 
 /**********
  * Person *
@@ -84,13 +86,13 @@ bool Person::setColor(const QColor & color)
     return true;
 }
 
-bool Person::setName(const QString & name)
+void Person::setName(const QString & name)
 {
-    if (name == m_name)
-        return false;
+    /*if (name == m_name)
+        return false;*/
 
     m_name = name;
-    return true;
+    //return true;
 }
 
 

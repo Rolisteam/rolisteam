@@ -29,6 +29,8 @@
 #include <QMap>
 #include <QImage>
 
+#include "resourcesnode.h"
+
 class Character;
 class NetworkMessageReader;
 class NetworkMessageWriter;
@@ -37,7 +39,7 @@ class Player;
 /**
  * @brief Abstract class for players and characters.
  */
-class Person 
+class Person : public ResourcesNode
 {
 
 public:
@@ -111,7 +113,7 @@ public:
      * @param getName
      * @return
      */
-    bool setName(const QString & getName);
+    void setName(const QString & getName);
     /**
      * @brief checkedState
      * @return
@@ -131,7 +133,13 @@ public:
     virtual QHash<QString,QString> getVariableDictionnary() = 0;
 
 
+    virtual QVariant getData(ResourcesNode::DataValue);
+
+
     ResourcesNode::TypeResource getResourcesType() const;
+    virtual void write(QDataStream &out, bool tag) const;
+    virtual void read(QDataStream &in);
+    virtual bool seekNode(QList<ResourcesNode*>& path,ResourcesNode* node);
 protected:
     /**
      * @brief Person
