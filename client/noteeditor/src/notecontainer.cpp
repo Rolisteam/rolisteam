@@ -50,7 +50,7 @@ bool NoteContainer::readFileFromUri()
     {
         return false;
     }
-    if(m_uri->getUri().isEmpty())
+    if(!m_uri->exists())
     {
         QByteArray array =m_uri->getData();
         QDataStream in(&array,QIODevice::ReadOnly);
@@ -59,7 +59,6 @@ bool NoteContainer::readFileFromUri()
     }
     else
     {
-
         return m_edit->load(m_uri->getUri());
     }
     return false;

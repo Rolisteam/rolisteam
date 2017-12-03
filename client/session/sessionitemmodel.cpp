@@ -378,6 +378,20 @@ QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
                 return QIcon(tmp->getIcon());
             }
         }
+        else if(role == Qt::BackgroundRole)
+        {
+            if(tmp->getResourcesType() == ResourcesNode::Cleveruri)
+            {
+                auto const& cleverUri = dynamic_cast<CleverURI*>(tmp);
+                if(!cleverUri->hasData())
+                {
+                    if(!cleverUri->exists())
+                    {
+                        return QColor(Qt::red).lighter();
+                    }
+                }
+            }
+        }
     }
     return QVariant();
 }

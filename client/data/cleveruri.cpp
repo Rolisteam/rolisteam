@@ -203,6 +203,14 @@ void CleverURI::setCurrentMode(const LoadingMode &currentMode)
 {
     m_currentMode = currentMode;
 }
+bool CleverURI::exists()
+{
+    if(m_uri.isEmpty())
+        return false;
+
+    QFileInfo info(m_uri);
+    return info.exists();
+}
 const QString CleverURI::getAbsolueDir() const
 {
     QFileInfo info(m_uri);

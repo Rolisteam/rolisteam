@@ -419,7 +419,7 @@ bool VMapFrame::readFileFromUri()
     if(nullptr!=m_uri)
     {
         bool read=false;
-        if(m_uri->getUri().isEmpty())//have not been saved outside story
+        if(!m_uri->exists())//have not been saved outside story
         {
             QByteArray data = m_uri->getData();
             QDataStream in(&data,QIODevice::ReadOnly);
