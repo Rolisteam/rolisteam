@@ -164,7 +164,6 @@ public:
     virtual bool isLeaf() const;
 
     void copyPlayer(Player* player);
-
 private:
     friend class PlayersList;
     friend class SendFeaturesIterator;

@@ -275,7 +275,6 @@ bool SessionItemModel::moveMediaItem(QList<CleverURI*> items,const QModelIndex& 
             return false;
     }
 
-
     for(int i = items.size()-1;i>=0;--i)
     {
         while(listRow.contains(row))

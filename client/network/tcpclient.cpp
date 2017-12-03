@@ -137,6 +137,7 @@ void TcpClient::setSocket(QTcpSocket* socket)
 void TcpClient::starReading()
 {
     QTcpSocket* socket = new QTcpSocket();
+    qDebug() << "start reading: current thread" << QThread::currentThread() << " thread socket" << socket->thread() << " object thread" << thread();
     socket->setSocketDescriptor(getSocketHandleId());
     setSocket(socket);
 }

@@ -56,13 +56,11 @@ Player::~Player()
     qDeleteAll(m_characters);
     m_characters.clear();
 }
-#include <QDebug>
 void Player::readFromMsg(NetworkMessageReader& data)
 {
     m_name = data.string16();
     m_uuid = data.string8();
 
-    qDebug() << "readFromMsg {{{{ name sideserver" << m_name;
     m_color = QColor(data.rgb());
     m_gameMaster  = (data.uint8() != 0);
     m_softVersion = data.string16();
@@ -79,10 +77,8 @@ void Player::readFromMsg(NetworkMessageReader& data)
     QDataStream in(&array,QIODevice::ReadOnly);
     in >> m_features;
 }
-#include <QDebug>
 void Player::fill(NetworkMessageWriter & message,bool addAvatar)
 {
-    qDebug() << "Player name" << m_name;
     message.string16(m_name);
     message.string8(m_uuid);
     message.rgb(m_color);

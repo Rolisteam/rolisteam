@@ -621,8 +621,6 @@ void PlayersList::addPlayer(Player * player)
     {
         Character* character = player->getCharacterByIndex(i);
         addCharacter(player,character);
-        //emit characterAdded(player->getCharacterByIndex(i));
-        //m_uuidMap.insert(character->getUuid(),character);
     }
 }
 

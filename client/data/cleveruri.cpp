@@ -252,14 +252,6 @@ void CleverURI::read(QDataStream &in)
     m_currentMode = (CleverURI::LoadingMode)mode;
     m_state = (CleverURI::State)state;
     updateListener(CleverURI::NAME);
-   /* if(QFile::exists(m_uri))
-    {
-        m_data.clear();
-    }
-    else
-    {
-        m_uri.clear();
-    }*/
 }
 
 QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
@@ -273,13 +265,6 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
     case CleverURI::PICTURE:
         return QObject::tr("Supported Image formats (%1)").arg(preferences->value("ImageFileFilter","*.jpg *.jpeg *.png *.bmp *.svg").toString());
         break;
-    case CleverURI::MAP:
-        return QString();
-        //return QObject::tr("Supported Map formats (%1)").arg(preferences->value("MapFileFilter","*.pla").toString());
-        break;
-    case CleverURI::CHAT:
-        return QString();
-        break;
     case CleverURI::TEXT:
         return QObject::tr("Supported Text Files (%1)").arg(preferences->value("TextFileFilter","*.odt *.htm *.html *.txt").toString());
         break;
@@ -289,13 +274,6 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
     case CleverURI::SONG:
         return QObject::tr("Supported Audio formats (%1)").arg(preferences->value("AudioFileFilter","*.wav *.mp2 *.mp3 *.ogg *.flac").toString());
         break;
-    case CleverURI::ONLINEPICTURE:
-        return QString();
-        break;
-    case CleverURI::VMAP:
-        return QString();
-        //return QObject::tr("Supported Vmap formats (%1)").arg(preferences->value("VMapFileFilter","*.vmap").toString());
-        break;
     case CleverURI::SHAREDNOTE:
         return QObject::tr("Supported Shared Note formats (%1)").arg(preferences->value("TextFileFilter","*.rsn *.txt *.html *.htm *.md").toString());
         break;
@@ -304,6 +282,10 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
         return QObject::tr("Pdf File (%1)").arg(preferences->value("PdfFileFilter","*.pdf").toString());;
         break;
 #endif
+    case CleverURI::VMAP:
+    case CleverURI::MAP:
+    case CleverURI::CHAT:
+    case CleverURI::ONLINEPICTURE:
     default:
         return QString();
         break;

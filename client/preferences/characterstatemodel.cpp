@@ -309,7 +309,6 @@ void CharacterStateModel::processMoveState(NetworkMessageReader* msg)
         CharacterState* tpm = m_stateList->takeAt(from);
         m_stateListFromGM->insert(to,tpm);
         //endMoveRows();
-
     }
 }
 void CharacterStateModel::processRemoveState(NetworkMessageReader* msg)
