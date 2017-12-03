@@ -336,6 +336,11 @@ bool CleverURI::seekNode(QList<ResourcesNode*>& path,ResourcesNode* node)
     return false;
 }
 
+ResourcesNode::TypeResource CleverURI::getResourcesType() const
+{
+    return ResourcesNode::Cleveruri;
+}
+
 QVariant CleverURI::getData(ResourcesNode::DataValue i)
 {
 

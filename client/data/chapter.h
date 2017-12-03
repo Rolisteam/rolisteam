@@ -76,6 +76,8 @@ public:
 
     virtual QIcon getIcon();
 
+     ResourcesNode::TypeResource getResourcesType() const;
+
 signals:
     void openFile(CleverURI*, bool);
     void updated(ResourcesNode*);

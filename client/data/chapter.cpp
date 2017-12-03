@@ -119,6 +119,11 @@ QIcon Chapter::getIcon()
     return style->standardIcon(QStyle::SP_DirIcon);
 }
 
+ResourcesNode::TypeResource Chapter::getResourcesType() const
+{
+    return ResourcesNode::Chapter;
+}
+
 bool Chapter::contains(ResourcesNode* node)
 {
     if(m_children.contains(node))

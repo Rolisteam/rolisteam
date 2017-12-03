@@ -128,3 +128,7 @@ void Person::setState(Qt::CheckState c)
 {
     m_checkState = c;
 }
+ResourcesNode::TypeResource Person::getResourcesType() const
+{
+    return ResourcesNode::Person;
+}

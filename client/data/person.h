@@ -131,6 +131,7 @@ public:
     virtual QHash<QString,QString> getVariableDictionnary() = 0;
 
 
+    ResourcesNode::TypeResource getResourcesType() const;
 protected:
     /**
      * @brief Person

@@ -153,6 +153,7 @@ public:
 
     void updateListener(CleverURI::DataValue value);
 
+    ResourcesNode::TypeResource getResourcesType() const;
 private:
     /**
     * @brief split the uri to get the shortname

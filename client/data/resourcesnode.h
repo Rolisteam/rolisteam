@@ -31,6 +31,7 @@ class ResourcesNode
 {
 public:
     enum DataValue {NAME,MODE,DISPLAYED,URI};
+    enum TypeResource {Cleveruri,Person,Chapter};
     ResourcesNode();
 
     QString name() const;
@@ -62,6 +63,7 @@ public:
 
     int rowInParent();
 
+    virtual ResourcesNode::TypeResource getResourcesType()const =0;
     virtual void write(QDataStream& out, bool tag = true) const=0;
     virtual void read(QDataStream& in)=0;
 
