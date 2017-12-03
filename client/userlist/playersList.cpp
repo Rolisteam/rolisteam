@@ -567,22 +567,22 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
 }
 bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
 {
-    if (person->setName(name))
-    {
-        NetworkMessageWriter * message;
+    if(person->getName() == name)
+        return false;
+    person->setName(name);
+    NetworkMessageWriter * message;
 
-        if (person->getParent() == nullptr)
-            message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerNameAction);
-        else
-            message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterNameAction);
+    if (person->getParent() == nullptr)
+        message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerNameAction);
+    else
+        message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterNameAction);
 
-        message->string16(person->getName());
-        message->string8(person->getUuid());
-        message->sendAll();
+    message->string16(person->getName());
+    message->string8(person->getUuid());
+    message->sendAll();
 
-        return true;
-    }
-    return false;
+    return true;
+
 }
 
 void PlayersList::delLocalCharacter(int index)
@@ -868,8 +868,11 @@ void PlayersList::setPersonName(NetworkMessageReader & data)
     if (person == nullptr)
         return;
 
-    if (person->setName(name))
+    if(person->getName() != name)
+    {
+        person->setName(name);
         notifyPersonChanged(person);
+    }
 }
 void PlayersList::setPersonAvatar(NetworkMessageReader & data)
 {
