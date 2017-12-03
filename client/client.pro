@@ -20,7 +20,7 @@ CONFIG += HAVE_SOUND
 CONFIG += HAVE_ZLIB
 ############## END OF FEATURES ######################
 
-QT += core gui opengl network widgets printsupport multimedia quick qml quickwidgets
+QT += core gui opengl network widgets printsupport multimedia quick qml quickwidgets svg
 
 HAVE_WEBVIEW {
 DEFINES+= HAVE_WEBVIEW
