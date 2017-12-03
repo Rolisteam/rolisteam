@@ -507,40 +507,31 @@ bool Image::readFileFromUri()
         {
             return false;
         }
-        //read from CleverURI
-        QByteArray data;
         QByteArray dataFromURI= m_uri->getData();
-        QDataStream in(&dataFromURI,QIODevice::ReadOnly);
-        in >> data;
-        QImage img=QImage::fromData(data);
+        QImage img=QImage::fromData(dataFromURI);
 
-        if(img.isNull() && !m_uri->getUri().isEmpty() && CleverURI::PICTURE == m_uri->getType())
+        if(img.isNull())
+        {
+            m_uri->setData({});
+        }
+
+        if(img.isNull() && m_uri->exists() && CleverURI::PICTURE == m_uri->getType())
         {
             QByteArray array;
             m_uri->loadFileFromUri(array);
             img=QImage::fromData(array);
         }
-
-
         if(img.isNull())
         {
             return false;
         }
-
         setImage(img);
-
     }
-
-
     if(CleverURI::ONLINEPICTURE == m_uri->getType())
     {
         initImage();
     }
     setTitle(m_uri->name()+tr(" (Picture)"));
-
-   /* NetworkMessageWriter message(NetMsg::PictureCategory, NetMsg::AddPictureAction);
-    fill(message);
-    message.sendAll();*/
     return true;
 }
 bool Image::openMedia()
