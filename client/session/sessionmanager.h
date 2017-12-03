@@ -56,7 +56,7 @@ public:
     * @param urifile: file's uri
     * @param type : type of content: picture, maps etc...
     */
-    CleverURI* addRessource(CleverURI* uri);
+    void addRessource(ResourcesNode* uri);
     /**
     * @brief accessor to the recent files list
     */

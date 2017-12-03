@@ -86,13 +86,19 @@ Chapter* SessionManager::getCurrentChapter()
 {
     return m_currentChapter;
 }
-CleverURI* SessionManager::addRessource(CleverURI* tp)
+void SessionManager::addRessource(ResourcesNode* tp)
 {
     QModelIndex index = m_view->currentIndex();
-    tp->setListener(m_model);
+    if(tp->getResourcesType() == ResourcesNode::Cleveruri)
+    {
+        auto cleveruri = dynamic_cast<CleverURI*>(tp);
+        if(nullptr != cleveruri)
+        {
+            cleveruri->setListener(m_model);
+        }
+    }
     m_model->addResource(tp,index);
     emit sessionChanged(true);
-    return  tp;
 }
 void SessionManager::removeResource(CleverURI* uri)
 {
