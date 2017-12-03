@@ -32,7 +32,6 @@ void TcpClient::setSocket(QTcpSocket* socket)
         connect(m_socket,SIGNAL(disconnected()),this,SIGNAL(disconnected()));
         connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(connectionError(QAbstractSocket::SocketError)));
 
-        //connect(&m_stateMachine,SIGNAL(started()),this,SLOT(starReading()));
         connect(&m_stateMachine,SIGNAL(started()),this,SIGNAL(isReady()));
         m_incomingConnection = new QState();
         m_controlConnection = new QState();
@@ -134,8 +133,9 @@ void TcpClient::setSocket(QTcpSocket* socket)
 
 }
 
-void TcpClient::starReading()
+void TcpClient::startReading()
 {
+
     QTcpSocket* socket = new QTcpSocket();
     qDebug() << "start reading: current thread" << QThread::currentThread() << " thread socket" << socket->thread() << " object thread" << thread();
     socket->setSocketDescriptor(getSocketHandleId());
@@ -234,6 +234,7 @@ void TcpClient::receivingData()
     }
     quint32 dataRead=0;
 
+    qDebug() << "current thread" << QThread::currentThread() << " thread socket" << m_socket->thread() << " object thread" << thread() << m_socket->bytesAvailable() << "sender"<< sender()<< "curent socket" << m_socket;
 
     while (m_socket->bytesAvailable())
     {

@@ -154,7 +154,7 @@ public slots:
     void connectionCheckedSlot();
 
 
-    void starReading();
+    void startReading();
 private:
     QTcpSocket* m_socket;
     NetworkMessageHeader m_header;

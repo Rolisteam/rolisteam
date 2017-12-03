@@ -379,17 +379,15 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
     connect(connection,SIGNAL(adminAuthSucceed()),this,SLOT(sendOffAdminAuthSuccessed()),Qt::QueuedConnection);
     connect(connection,SIGNAL(authFail()),this,SLOT(sendOffAuthFail()),Qt::QueuedConnection);
     connect(connection,SIGNAL(itemChanged()),this,SLOT(sendOffModelToAll()),Qt::QueuedConnection);
-    connect(this,&ServerManager::clientAccepted,connection,&TcpClient::starReading,Qt::QueuedConnection);
+    //connect(this,&ServerManager::clientAccepted,connection,&TcpClient::starReading,Qt::QueuedConnection);
     connect(connection,&TcpClient::socketDisconnection,this,&ServerManager::disconnected,Qt::QueuedConnection);
     connect(connection,&TcpClient::socketError,this,&ServerManager::error,Qt::QueuedConnection);
-
-   /* */
-    //connection->moveToThread(thread);
-    //socket->moveToThread(thread);
     connection->setSocketHandleId(handle);
 
 
-    emit clientAccepted();
+    //emit clientAccepted();
+    QMetaObject::invokeMethod(connection,"startReading",Qt::QueuedConnection);
+
 
 
 
