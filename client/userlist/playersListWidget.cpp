@@ -222,8 +222,11 @@ void PlayersListWidget::createLocalCharacter()
     if (m_personDialog->edit(tr("New Character"), tr("New Character"), localPlayer->getColor(),"") == QDialog::Accepted)
     {
         Character* tmp = new Character(m_personDialog->getName(), m_personDialog->getColor());
+        tmp->setNpc(localPlayer->isGM());
         tmp->setAvatar(QImage(m_personDialog->getAvatarUri()));
         playersList->addLocalCharacter(tmp);
+
+
     }
 }
 
