@@ -208,10 +208,7 @@ void NetworkLink::receivingData()
                     tmp->processMessage(&data);
                 }
             }
-            else
-            {
-                qDebug() << "NO receiver for this category";
-            }
+
             //emit receivedMessage(data,this);
             switch(data.category())
             {
