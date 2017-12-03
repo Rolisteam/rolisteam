@@ -107,11 +107,14 @@ public:
     /**
      * @brief sendOffAllDiceAlias
      */
-    void sendOffAllDiceAlias(NetworkLink*);
+    void sendOffAllDiceAlias(const QString& playerId);
+
+    void setModified(bool);
 
 private:
     QList<DiceAlias*>* m_diceAliasList;
     bool m_isGM;
+    bool m_modified = false;
     QStringList m_header;
 };
 

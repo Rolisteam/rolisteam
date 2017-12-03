@@ -905,18 +905,18 @@ void PreferencesDialog::applyBackground()
         }
     }
 }
-void PreferencesDialog::sendOffAllDiceAlias(NetworkLink* link)
+void PreferencesDialog::sendOffAllDiceAlias(const QString& playerId)
 {
     if(nullptr!=m_aliasModel)
     {
-        m_aliasModel->sendOffAllDiceAlias(link);
+        m_aliasModel->sendOffAllDiceAlias(playerId);
     }
 }
-void PreferencesDialog::sendOffAllState(NetworkLink* link)
+void PreferencesDialog::sendOffAllState(const QString& playerId)
 {
     if(nullptr!=m_aliasModel)
     {
-        m_stateModel->sendOffAllCharacterState(link);
+        m_stateModel->sendOffAllCharacterState(playerId);
     }
 }
 void PreferencesDialog::exportTheme()

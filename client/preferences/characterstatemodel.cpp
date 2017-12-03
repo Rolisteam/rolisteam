@@ -323,11 +323,14 @@ void CharacterStateModel::processRemoveState(NetworkMessageReader* msg)
     }
 }
 
-void CharacterStateModel::sendOffAllCharacterState(NetworkLink* link)
+void CharacterStateModel::sendOffAllCharacterState(const QString& playerId)
 {
-    foreach(CharacterState* state,*m_stateList)
+    for(CharacterState* state : *m_stateList)
     {
         NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addState);
+        QStringList list;
+        list << playerId;
+        msg.setRecipientList(list,NetworkMessage::OneOrMany);
         msg.uint64(m_stateList->indexOf(state));
         msg.string32(state->getLabel());
         msg.rgb(state->getColor());
@@ -348,7 +351,7 @@ void CharacterStateModel::sendOffAllCharacterState(NetworkLink* link)
         {
             msg.uint8((quint8)false);
         }
-        msg.sendTo(link);
+        msg.sendAll();
     }
 }
 void CharacterStateModel::moveState(int from,int to)

@@ -179,13 +179,13 @@ public:
     /**
      * @brief sendOffAllDiceAlias
      */
-    void sendOffAllDiceAlias(NetworkLink*);
+    void sendOffAllDiceAlias(const QString& playerId);
     /**
      * @brief initializePostSettings loads every data from the settings file.
      */
     void initializePostSettings();
 
-    void sendOffAllState(NetworkLink *link);
+    void sendOffAllState(const QString& playerId);
     CharacterStateModel *getStateModel() const;
     void setStateModel(CharacterStateModel *stateModel);
 

@@ -50,6 +50,7 @@
 #include "charactersheet/charactersheet.h"
 #include "data/person.h"
 #include "data/player.h"
+#include "data/character.h"
 #include "userlist/playersList.h"
 #include "userlist/playersListWidget.h"
 #include "preferences/preferencesdialog.h"
@@ -1112,8 +1113,8 @@ void MainWindow::updateSessionToNewClient(Player* player)
         {
             sendOffAllMaps(player);
             sendOffAllImages(player);
-            m_preferencesDialog->sendOffAllDiceAlias(player->link());
-            m_preferencesDialog->sendOffAllState(player->link());
+            m_preferencesDialog->sendOffAllDiceAlias(player->getUuid());
+            m_preferencesDialog->sendOffAllState(player->getUuid());
         }
     }
 }
@@ -1641,6 +1642,7 @@ void MainWindow::setupUi()
     connect(m_playerList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
     connect(m_playerList, SIGNAL(playerAddedAsClient(Player*)), this, SLOT(updateSessionToNewClient(Player*)));
     connect(m_playerList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
+    connect(m_playerList, &PlayersList::characterAdded,m_sessionManager,&SessionManager::addRessource);
 
 
     m_dialog = new SelectConnectionProfileDialog(m_version,this);
