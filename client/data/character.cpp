@@ -266,3 +266,44 @@ void Character::setNpc(bool b)
 {
     m_isNpc = b;
 }
+void Character::write(QDataStream& out, bool tag) const
+{
+    if(tag)
+    {
+        out << QStringLiteral("player");
+    }
+    out << m_isNpc;
+    out << m_number;
+    out << m_name;
+    out << m_uuid;
+    out << m_color;
+    if(nullptr != m_parent)
+        out << m_parent->getUuid();
+    else
+        out << QString();
+
+    out << static_cast<int>(m_checkState);
+
+    QByteArray array;
+    m_avatar.save(array);
+    out << array;
+
+}
+void Character::read(QDataStream& in)
+{
+
+    in >> m_isNpc;
+    in >> m_number;
+    in >> m_name;
+    in >> m_uuid;
+    in >> m_color;
+    QString parentId;
+    in >> parentId;
+    int checkState;
+    in >> checkState;
+    m_checkState = static_cast<Qt::CheckState>(checkState);
+    QByteArray array;
+    in >> array;
+    m_avatar = QImage::fromData(array);
+
+}

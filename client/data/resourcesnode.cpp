@@ -26,6 +26,10 @@ ResourcesNode::ResourcesNode()
 
 }
 
+ResourcesNode::~ResourcesNode()
+{
+
+}
 QString ResourcesNode::name() const
 {
     return m_name;

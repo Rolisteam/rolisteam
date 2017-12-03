@@ -132,3 +132,30 @@ ResourcesNode::TypeResource Person::getResourcesType() const
 {
     return ResourcesNode::Person;
 }
+QVariant Person::getData(ResourcesNode::DataValue data)
+{
+    switch(data)
+    {
+    case NAME:
+        return m_name;
+    case MODE:
+        return CleverURI::Internal;
+    case DISPLAYED:
+        return true;
+    case URI:
+        return {};
+    }
+}
+void Person::write(QDataStream& out, bool tag) const
+{
+
+}
+void Person::read(QDataStream& in)
+{
+
+}
+
+bool Person::seekNode(QList<ResourcesNode *> &path, ResourcesNode *node)
+{
+
+}

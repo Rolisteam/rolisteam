@@ -140,6 +140,8 @@ public:
 	void insertAction(const QString& name, const QImage& img, const QKeySequence& seq);
 	void removeAction(const QString& name);
 	void clearActions();
+    virtual void write(QDataStream &out, bool tag) const;
+    virtual void read(QDataStream &in);
 signals:
     void avatarChanged();
 
