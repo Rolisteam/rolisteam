@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick 2.4
-import QtQuick.Controls 1.3
+import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
 
 Rectangle {
@@ -14,6 +14,9 @@ Rectangle {
     property bool clippedText: false
     property bool readOnly: false
     property alias checked: checkbox.checked
+    property alias indicator: checkbox.indicator
+    property alias contentItem: checkbox.contentItem
+    property alias background: checkbox.background
 
     CheckBox {
         id: checkbox

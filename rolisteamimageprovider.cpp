@@ -7,7 +7,7 @@
 RolisteamImageProvider::RolisteamImageProvider()
     :  QQuickImageProvider(QQuickImageProvider::Pixmap)
 {
-    m_data.reset(new QHash<QString,QPixmap*>());
+    m_data.reset(new QHash<QString,QPixmap>());
 }
 
 RolisteamImageProvider::~RolisteamImageProvider()

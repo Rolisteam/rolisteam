@@ -1,18 +1,20 @@
 import QtQuick 2.0
 import QtQuick 2.4
-import QtQuick.Controls 1.3
+import QtQuick.Controls 2.0
 
 Rectangle {
     id:root
     property alias text : textArea.text
-    property alias textColor: textArea.textColor
+    property alias textColor: textArea.color
     property alias font: textArea.font
     property alias wrapMode : textArea.wrapMode
     property alias hAlign: textArea.horizontalAlignment
     property alias vAlign: textArea.verticalAlignment
     property bool clippedText: false
     property bool readOnly: false
-    property bool backgroundVisible: textArea.backgroundVisible
+    property bool backgroundVisible: textArea.background.visible
+    property alias background: textArea.background
+
     TextArea {
         id: textArea
         anchors.fill: parent

@@ -406,6 +406,12 @@ void Field::initGraphicsItem()
 #endif
 }
 
+void Field::storeQMLCode()
+{
+    QTextStream out(&m_generatedCode);
+    generateQML(out,CharacterSheetItem::FieldSec,0,false);
+}
+
 qreal Field::getWidth() const
 {
     return getValueFrom(CharacterSheetItem::WIDTH, Qt::DisplayRole).toReal();
@@ -530,7 +536,12 @@ Field::TextAlign Field::getTextAlignValue()
 
 void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int i, bool isTable)
 {
-    if(NULL==m_canvasField)
+    if(!m_generatedCode.isEmpty())
+    {
+        out << m_generatedCode;
+        return;
+    }
+    if(nullptr==m_canvasField)
     {
         return;
     }
@@ -643,6 +654,16 @@ bool Field::hasFontField()
         return false;
     }
     return false;
+}
+
+QString Field::getGeneratedCode() const
+{
+    return m_generatedCode;
+}
+
+void Field::setGeneratedCode(const QString &generatedCode)
+{
+    m_generatedCode = generatedCode;
 }
 
 QPair<QString,QString> Field::getTextAlign()

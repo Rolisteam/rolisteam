@@ -260,7 +260,7 @@ LineModel *TableField::getModel() const
 
 void TableField::addLine()
 {
-
+    m_model->insertLine(new LineFieldItem(this));
 }
 
 void TableField::removeLine(int)
@@ -470,9 +470,12 @@ void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec
         out << "            width: parent.width\n";
         m_tableCanvasField->generateSubFields(out);
         out << "        }\n";
+        out << "        Button {\n";
+        out << "            anchors.top: parent.bottom\n";
+        out << "            text: \""<< tr("Add line") << "\"\n";
+        out << "            onClicked: "<< m_id <<".addLine()\n";
+        out << "        }\n";
         out << "     }\n";
-
-
     }
 }
 

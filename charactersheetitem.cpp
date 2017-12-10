@@ -123,7 +123,6 @@ void CharacterSheetItem::changeKeyChild(QString oldkey, QString newKey,Character
 
 QString CharacterSheetItem::value() const
 {
-    qDebug() << "characterSheetItem" << m_value << m_id << m_label;
     return m_value;
 }
 

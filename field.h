@@ -103,6 +103,7 @@ public:
 
     void initGraphicsItem();
 
+
     virtual qreal getWidth() const;
     virtual void setWidth(qreal width);
 
@@ -114,6 +115,12 @@ public:
 
     virtual void setY(qreal x);
     virtual qreal getY() const;
+
+    QString getGeneratedCode() const;
+    void setGeneratedCode(const QString &generatedCode);
+
+public slots:
+    void storeQMLCode();
 signals:
     void updateNeeded(CSItem* c);
 
@@ -132,6 +139,7 @@ protected:
     QStringList m_availableValue;
     bool m_clippedText;
     CanvasField* m_canvasField;
+    QString m_generatedCode;
 
 };
 
