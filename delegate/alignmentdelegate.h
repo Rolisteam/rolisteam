@@ -27,7 +27,7 @@
 class AlignmentDelegate : public QStyledItemDelegate
 {
 public:
-    AlignmentDelegate();
+    AlignmentDelegate(QWidget* parent = nullptr);
     enum AlignmentState {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,BottomRight,BottomMiddle,BottomLeft};
 
 

@@ -97,7 +97,8 @@ SOURCES += main.cpp\
     undo/addcharactercommand.cpp \
     undo/deletecharactercommand.cpp \
     undo/setpropertyonallcharacters.cpp \
-    widgets/codeedit.cpp
+    widgets/codeedit.cpp \
+    delegate/pagedelegate.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -128,7 +129,8 @@ HEADERS  += mainwindow.h \
     undo/addcharactercommand.h \
     undo/deletecharactercommand.h \
     undo/setpropertyonallcharacters.h \
-    widgets/codeedit.h
+    widgets/codeedit.h \
+    delegate/pagedelegate.h
 
 
 

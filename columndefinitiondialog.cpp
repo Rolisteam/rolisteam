@@ -6,6 +6,7 @@
 #include "delegate/alignmentdelegate.h"
 #include "delegate/typedelegate.h"
 #include "delegate/fontdelegate.h"
+#include "delegate/pagedelegate.h"
 
 
 ColumnDefinitionDialog::ColumnDefinitionDialog(QWidget *parent) :
@@ -16,14 +17,17 @@ ColumnDefinitionDialog::ColumnDefinitionDialog(QWidget *parent) :
     m_model = new FieldModel(this);
     ui->m_column2Field->setModel(m_model);
 
-    AlignmentDelegate* delegate = new AlignmentDelegate();
+    AlignmentDelegate* delegate = new AlignmentDelegate(this);
     ui->m_column2Field->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TEXT_ALIGN),delegate);
 
-    TypeDelegate* typeDelegate = new TypeDelegate();
+    TypeDelegate* typeDelegate = new TypeDelegate(this);
     ui->m_column2Field->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TYPE),typeDelegate);
 
-    FontDelegate* fontDelegate = new FontDelegate();
+    FontDelegate* fontDelegate = new FontDelegate(this);
     ui->m_column2Field->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::FONT),fontDelegate);
+
+    PageDelegate* pageDelegate = new PageDelegate(this);
+    ui->m_column2Field->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::PAGE),pageDelegate);
 
     ui->m_column2Field->setItemDelegateForColumn(CharacterSheetItem::BORDER,new BorderListEditor);
 

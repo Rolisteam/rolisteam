@@ -59,6 +59,9 @@
 #include "delegate/alignmentdelegate.h"
 #include "delegate/typedelegate.h"
 #include "delegate/fontdelegate.h"
+#include "delegate/pagedelegate.h"
+
+//Undo
 #include "undo/setfieldproperties.h"
 #include "undo/addpagecommand.h"
 #include "undo/deletepagecommand.h"
@@ -105,14 +108,17 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_model,SIGNAL(modelChanged()),this,SLOT(modelChanged()));
     ui->treeView->setModel(m_model);
 
-    AlignmentDelegate* delegate = new AlignmentDelegate();
+    AlignmentDelegate* delegate = new AlignmentDelegate(this);
     ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TEXT_ALIGN),delegate);
 
-    TypeDelegate* typeDelegate = new TypeDelegate();
+    TypeDelegate* typeDelegate = new TypeDelegate(this);
     ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TYPE),typeDelegate);
 
-    FontDelegate* fontDelegate = new FontDelegate();
+    FontDelegate* fontDelegate = new FontDelegate(this);
     ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::FONT),fontDelegate);
+
+    PageDelegate* pageDelegate = new PageDelegate(this);
+    ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::PAGE),pageDelegate);
 
     DeletePageCommand::setPagesModel(AddPageCommand::getPagesModel());
 
@@ -1053,17 +1059,19 @@ void MainWindow::setImage()
     for(auto canvas : m_canvasList)
     {
         QPixmap* pix = canvas->pixmap();
-        if(!previous.isValid())
+        if(pix!=nullptr)
         {
-            previous = pix->size();
+            if(!previous.isValid())
+            {
+                previous = pix->size();
+            }
+            if(previous!=pix->size())
+            {
+                issue = true;
+            }
+            setFitInView();
         }
-        if(previous!=pix->size())
-        {
-            issue = true;
-        }
-        //m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
-        setFitInView();
-        if(nullptr == pix)
+        else if(nullptr == pix)
         {
             pix=new QPixmap();
         }
@@ -1147,7 +1155,7 @@ void MainWindow::save()
                     QJsonObject font;
                     font["name"] = fontUri;
                     QByteArray array = file.readAll();
-                    font["data"] = array.toBase64();
+                    font["data"] = QString(array.toBase64());
                     fonts.append(font);
                 }
             }
@@ -1157,7 +1165,7 @@ void MainWindow::save()
             for(auto canvas : m_canvasList)
             {
                 QPixmap* pix = canvas->pixmap();
-                if(NULL!=pix)
+                if(nullptr!=pix)
                 {
                     QJsonObject oj;
 
@@ -1300,9 +1308,9 @@ void MainWindow::pageCountChanged()
 {
     if( m_currentPage >= pageCount())
     {
-        //currentPageChanged(pageCount()-1);
         ui->m_selectPageCb->setCurrentIndex(pageCount()-1);
     }
+    PageDelegate::setPageNumber(pageCount());
 }
 int MainWindow::pageCount()
 {
@@ -1363,6 +1371,7 @@ void MainWindow::generateQML(QString& qml)
     }
     text << "import QtQuick 2.4\n";
     text << "import QtQuick.Layouts 1.3\n";
+    text << "import QtQuick.Controls 2.0\n";
     text << "import \"qrc:/resources/qml/\"\n";
     if(!m_additionnalImport.isEmpty())
     {

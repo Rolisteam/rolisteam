@@ -21,7 +21,8 @@
 #include <QComboBox>
 #include "charactersheetitem.h"
 
-AlignmentDelegate::AlignmentDelegate()
+AlignmentDelegate::AlignmentDelegate(QWidget* parent)
+: QStyledItemDelegate(parent)
 {
     m_data << tr("TopRight")
            << tr("TopMiddle")

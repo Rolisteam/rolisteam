@@ -17,28 +17,30 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-#ifndef TYPEDELEGATE_H
-#define TYPEDELEGATE_H
+#ifndef PAGEDELEGATE_H
+#define PAGEDELEGATE_H
 
 #include <QStyledItemDelegate>
 #include <QWidget>
 
-
-class TypeDelegate : public QStyledItemDelegate
+/**
+ * @brief The PageDelegate class makes possible to set item visible on all pages.
+ */
+class PageDelegate : public QStyledItemDelegate
 {
 public:
-    TypeDelegate(QWidget* parent = nullptr);
-    enum AlignmentState {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,BottomRight,BottomMiddle,BottomLeft};
+    PageDelegate(QWidget* parent = nullptr);
 
+    virtual QString displayText(const QVariant &value, const QLocale &locale) const;
 
     QWidget *createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const;
     void setEditorData(QWidget * editor, const QModelIndex & index) const;
     void setModelData(QWidget * editor, QAbstractItemModel * model, const QModelIndex & index) const;
-    QString displayText(const QVariant &value, const QLocale &locale) const;
+
+    static int setPageNumber(int page);
 
 private:
-    QStringList m_data;
-
+    static int m_pageNumber;
 };
 
-#endif // ALIGNMENTDELEGATE_H
+#endif // PAGEDELEGATE_H

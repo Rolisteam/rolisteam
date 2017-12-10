@@ -27,7 +27,7 @@
 class FontDelegate : public QStyledItemDelegate
 {
 public:
-    FontDelegate();
+    FontDelegate(QWidget* parent = nullptr);
 
     QWidget *createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const;
     void setEditorData(QWidget * editor, const QModelIndex & index) const;
