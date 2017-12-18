@@ -53,7 +53,7 @@ class NameGeneratorWidget : public GameMasterTool
 
 public:
     enum AVAILABLE_GENDER{Female,Male,BOTH,NONE};
-    enum TypeOfGeneration{Chinese,Elves,English,French,Japanese,StarWars};
+    enum TypeOfGeneration{Chinese,Elves,English,French,Japanese,StarWars,Russian};
 
     explicit NameGeneratorWidget(QWidget *parent = 0);
     ~NameGeneratorWidget();

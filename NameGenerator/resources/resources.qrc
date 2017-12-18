@@ -15,5 +15,10 @@
         <file>result_Last_Name_human_star_wars_Male.txt</file>
         <file>result_Name_human_star_wars_Male.txt</file>
         <file>data_Last_Name_French.txt</file>
+        <file>data_last_name_russian.txt</file>
+        <file>datarussian_firstname_h.txt</file>
+        <file>datarussian_firstname_w.txt</file>
+        <file>lastName_russian.txt</file>
+        <file>result_last_name_russian.txt</file>
     </qresource>
 </RCC>

@@ -42,7 +42,7 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
     uint seed = quintptr(this) + QDateTime::currentDateTime().toMSecsSinceEpoch();
     qsrand(seed);
 
-    m_model << tr("Chinese Name") << tr("Elve Name")<< tr("English Name") << tr("French Name") << tr("Japanese Name") << tr("Star Wars Name");
+    m_model << tr("Chinese Name") << tr("Elve Name")<< tr("English Name") << tr("French Name") << tr("Japanese Name") << tr("Star Wars Name")<< tr("Russian Name");
     ui->m_database->addItems(m_model);
     connect(ui->m_database,SIGNAL(currentIndexChanged(int)),this,SLOT(checkFeatureAvailability()));
 
@@ -121,6 +121,25 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
     swName.generate = true;
     swName.id=10;
 
+    //Russian
+    DataBase russianMale;
+    russianMale.filepath=":/data/datarussian_firstname_h.txt";
+    russianMale.gender = Male;
+    russianMale.generate = true;
+    russianMale.id=11;
+
+    DataBase russianFemale ;
+    russianFemale.filepath=":/data/datarussian_firstname_w.txt";
+    russianFemale.gender = Female;
+    russianFemale.generate = true;
+    russianFemale.id=12;
+
+    DataBase russianName ;
+    russianName.filepath=":/data/result_last_name_russian.txt";
+    russianName.gender = NONE;
+    russianName.generate = true;
+    russianName.id=13;
+
     //database
     QHash<QString,DataBase> chineseDataBase;
     chineseDataBase.insert(MName,chineseMale);
@@ -144,12 +163,19 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
     FrenchDataBase.insert(FName,frenchFemale);
     FrenchDataBase.insert(LName,frenchName);
 
+    //russian
+    QHash<QString,DataBase> russianDataBase;
+    FrenchDataBase.insert(MName,russianMale);
+    FrenchDataBase.insert(FName,russianFemale);
+    FrenchDataBase.insert(LName,russianName);
+
     //inserting databases
     m_complexName.insert(Japanese,jpnDataBase);
     m_complexName.insert(Chinese,chineseDataBase);
     m_complexName.insert(Elves,elveDataBase);
     m_complexName.insert(French,FrenchDataBase);
     m_complexName.insert(StarWars,swDataBase);
+    m_complexName.insert(Russian,russianDataBase);
 
     checkFeatureAvailability();
 }
