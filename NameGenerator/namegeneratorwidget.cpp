@@ -125,13 +125,13 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
     DataBase russianMale;
     russianMale.filepath=":/data/datarussian_firstname_h.txt";
     russianMale.gender = Male;
-    russianMale.generate = true;
+    russianMale.generate = false;
     russianMale.id=11;
 
     DataBase russianFemale ;
     russianFemale.filepath=":/data/datarussian_firstname_w.txt";
     russianFemale.gender = Female;
-    russianFemale.generate = true;
+    russianFemale.generate = false;
     russianFemale.id=12;
 
     DataBase russianName ;
@@ -165,9 +165,9 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
 
     //russian
     QHash<QString,DataBase> russianDataBase;
-    FrenchDataBase.insert(MName,russianMale);
-    FrenchDataBase.insert(FName,russianFemale);
-    FrenchDataBase.insert(LName,russianName);
+    russianDataBase.insert(MName,russianMale);
+    russianDataBase.insert(FName,russianFemale);
+    russianDataBase.insert(LName,russianName);
 
     //inserting databases
     m_complexName.insert(Japanese,jpnDataBase);
