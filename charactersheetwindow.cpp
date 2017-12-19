@@ -663,14 +663,15 @@ bool CharacterSheetWindow::hasDockWidget() const
 }
 QDockWidget* CharacterSheetWindow::getDockWidget()
 {
-    return NULL;
+    return nullptr;
 }
 bool CharacterSheetWindow::readFileFromUri()
 {
-    if(NULL!=m_uri)
+    if(nullptr!=m_uri)
     {
         setTitle(QStringLiteral("%1 - %2").arg(m_uri->getData(ResourcesNode::NAME).toString()).arg(tr("Character Sheet Viewer")));
-        if(!m_uri->getUri().isEmpty())
+
+        if(!m_uri->exists())
         {
             return openFile(m_uri->getUri());
         }
