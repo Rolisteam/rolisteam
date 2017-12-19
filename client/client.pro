@@ -16,7 +16,7 @@ macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
 
 ############## FEATURES ######################
 CONFIG += HAVE_SOUND
-#CONFIG += HAVE_WEBVIEW
+CONFIG += HAVE_WEBVIEW
 CONFIG += HAVE_ZLIB
 ############## END OF FEATURES ######################
 
@@ -24,7 +24,7 @@ QT += core gui opengl network widgets printsupport multimedia quick qml quickwid
 
 HAVE_WEBVIEW {
 DEFINES+= HAVE_WEBVIEW
-QT += webview webenginewidgets
+QT += webengine webenginewidgets
 }
 
 ## Translation

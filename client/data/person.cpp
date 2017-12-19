@@ -159,7 +159,7 @@ void Person::read(QDataStream& in)
 
 bool Person::seekNode(QList<ResourcesNode *> &path, ResourcesNode *node)
 {
-
+    return false;
 }
 QIcon Person::getIcon()
 {
