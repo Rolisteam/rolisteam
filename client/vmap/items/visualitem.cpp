@@ -84,7 +84,6 @@ void VisualItem::init()
 void VisualItem::setEditableItem(bool b)
 {
     m_editable=b;
-    qDebug() << "editable and movable" << m_editable <<  hasPermissionToMove();
     if((m_editable)&&(hasPermissionToMove()))
     {
         /// @warning if two connected people have editable item, it will lead to endless loop.

@@ -39,7 +39,7 @@ public:
     /**
      * @brief The ItemType enum
      */
-    enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT,RULE,IMAGE,SIGHT,ANCHOR,GRID};
+    enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT,RULE,IMAGE,SIGHT,ANCHOR,GRID,HIGHLIGHTER};
     /**
      * @brief The Layer enum
      */

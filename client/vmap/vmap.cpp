@@ -17,6 +17,7 @@
 #include "items/ruleitem.h"
 #include "items/imageitem.h"
 #include "items/anchoritem.h"
+#include "items/highlighteritem.h"
 
 #include "userlist/rolisteammimedata.h"
 
@@ -926,7 +927,7 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
     if(nullptr!=msg)
     {
         VisualItem* item=nullptr;
-        VisualItem::ItemType type = (VisualItem::ItemType)msg->uint8();
+        VisualItem::ItemType type = static_cast<VisualItem::ItemType>(msg->uint8());
         CharacterItem* charItem = nullptr;
         switch(type)
         {
@@ -958,13 +959,15 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
         case VisualItem::GRID:
             item=m_gridItem;
             break;
+        case VisualItem::HIGHLIGHTER:
+            item=new HighlighterItem();
+            break;
         }
         if(nullptr!=item)
         {
             item->readItem(msg);
             QPointF pos = item->pos();
             qreal z = item->zValue();
-            qDebug() << "data of map: " << z << getOption(VisualItem::VisibilityMode).toInt();
             addNewItem(new AddVmapItemCommand(item,this),false,true);
             item->initChildPointItem();
             if(nullptr!=charItem)

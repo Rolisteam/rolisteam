@@ -144,6 +144,13 @@ void VToolsBar::createActions()
             m_pipette->setChecked(tool==VToolsBar::PIPETTE);
     });
 
+    m_highlighterAct = new QAction(QIcon(":/resources/icons/pipettecursor.png"),tr("Highlighter"),m_toolsGroup);
+    m_highlighterAct->setData(HIGHLIGHTER);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+           m_highlighterAct->setChecked(tool==VToolsBar::HIGHLIGHTER);
+    }); 
+
+
   /*  m_unmaskPathAct = new QAction(QIcon(":/resources/icons/maskpath.png"),tr("Unmask Path"),m_toolsGroup);
     m_unmaskPathAct->setData(PATHFOG);
     connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
@@ -171,6 +178,7 @@ void VToolsBar::createActions()
     m_ruleAct->setCheckable(true);
     m_pathAct->setCheckable(true);
     m_pipette->setCheckable(true);
+    m_highlighterAct->setCheckable(true);
 
     m_anchorAct->setCheckable(true);
     //m_unmaskPathAct->setCheckable(true);
@@ -201,6 +209,7 @@ void VToolsBar::makeTools()
     QToolButton* pathButton  = new QToolButton();
     QToolButton* anchorButton  = new QToolButton();
     QToolButton* pipetteButton  = new QToolButton();
+    QToolButton* highlighterButton  = new QToolButton();
 
 
     penButton->setDefaultAction(m_pencilAct);
@@ -217,6 +226,7 @@ void VToolsBar::makeTools()
     pathButton->setDefaultAction(m_pathAct);
     pipetteButton->setDefaultAction(m_pipette);
     anchorButton->setDefaultAction(m_anchorAct);
+    highlighterButton->setDefaultAction(m_highlighterAct);
     textButton->addAction(m_textWithBorderAct);
   //  unveilRect->setDefaultAction(m_unmaskRectAct);
 
@@ -239,6 +249,7 @@ void VToolsBar::makeTools()
     pathButton->setAutoRaise(true);
     anchorButton->setAutoRaise(true);
     pipetteButton->setAutoRaise(true);
+    highlighterButton->setAutoRaise(true);
  //   unveilRect->setAutoRaise(true);
 
     /**
@@ -259,8 +270,9 @@ void VToolsBar::makeTools()
     resetNpcNumberButton->setIconSize(iconSize);
     ruleButton->setIconSize(iconSize);
     pathButton->setIconSize(iconSize);
-
     pipetteButton->setIconSize(iconSize);
+    highlighterButton->setIconSize(iconSize);
+
     //maskModeButton->setIconSize(iconSize);
    // paintingModeButton->setIconSize(iconSize);
 
@@ -288,6 +300,7 @@ void VToolsBar::makeTools()
     toolsLayout->addWidget(pathButton);
     toolsLayout->addWidget(anchorButton);
     toolsLayout->addWidget(pipetteButton);
+    toolsLayout->addWidget(highlighterButton);
     //toolsLayout->addWidget(unveilRect);
 
     m_npcNameTextEdit = new QLineEdit();

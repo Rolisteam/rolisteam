@@ -58,7 +58,7 @@ public :
     /**
       * @brief tools id
       */
-    enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC,RULE,PATH,ANCHOR,TEXTBORDER,PIPETTE};
+    enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC,RULE,PATH,ANCHOR,TEXTBORDER,PIPETTE,HIGHLIGHTER};
     /**
      * @brief The EditionMode enum
      */
@@ -177,6 +177,7 @@ private:
 	QAction* m_pathAct;
     QAction* m_anchorAct;
     QAction* m_pipette;
+    QAction* m_highlighterAct;
   //  QAction* m_unmaskPathAct;
     QAction* m_textWithBorderAct;
     QComboBox* m_editionModeCombo;

@@ -32,6 +32,7 @@ HEADERS += $$PWD/items/visualitem.h \
     $$PWD/items/ruleitem.h \
     $$PWD/items/imageitem.h \
     $$PWD/items/anchoritem.h \
+    $$PWD/items/highlighteritem.h\
     $$PWD/items/sightitem.h
 
 
@@ -43,6 +44,7 @@ SOURCES += $$PWD/items/visualitem.cpp \
     $$PWD/items/characteritem.cpp \
     $$PWD/items/lineitem.cpp \
     $$PWD/items/textitem.cpp \
+    $$PWD/items/highlighteritem.cpp\
     $$PWD/items/childpointitem.cpp \
     $$PWD/items/ruleitem.cpp \
     $$PWD/items/imageitem.cpp \

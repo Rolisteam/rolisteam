@@ -28,6 +28,7 @@
 #include "vmap/items/ruleitem.h"
 #include "vmap/items/imageitem.h"
 #include "vmap/items/anchoritem.h"
+#include "vmap/items/highlighteritem.h"
 
 #include "data/character.h"
 
@@ -130,6 +131,12 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
         m_currentItem = anchorItem;
     }
         break;
+    case VToolsBar::HIGHLIGHTER:
+    {
+        HighlighterItem* highlighter = new HighlighterItem(m_pos,m_penSize,m_color);
+        m_currentItem = highlighter;
+    }
+        break;
     }
 
     QObject::connect(m_currentItem,SIGNAL(itemGeometryChanged(VisualItem*)),m_vmap,SLOT(sendItemToAll(VisualItem*)));
@@ -221,7 +228,6 @@ bool AddVmapItemCommand::isVisible()
             }
         }
     }
-    qDebug() << "==============================================="<<visible;
     return visible;
 }
 void AddVmapItemCommand::undo()
