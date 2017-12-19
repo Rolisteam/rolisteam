@@ -36,7 +36,7 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
 
             QString name = msg->string16();
             QString uuid = msg->string8();
-            qDebug() << "33333333333333333 name sideserver" << name;
+           // qDebug() << "33333333333333333 name sideserver" << name;
             msg->rgb();
             bool isGM = msg->uint8();
             emitter->setName(name);

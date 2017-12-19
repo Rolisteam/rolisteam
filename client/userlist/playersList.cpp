@@ -438,12 +438,12 @@ Player* PlayersList::getLocalPlayer() const
 
 void PlayersList::sendOffLocalPlayerInformations()
 {
-    qDebug() << "sendOffLocalPlayerInformations %%%%%%%%%%%%" ;
+    //qDebug() << "sendOffLocalPlayerInformations %%%%%%%%%%%%" ;
     NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
     setLocalFeatures(*m_localPlayer);
     m_localPlayer->fill(message);
     message.sendAll();
-    qDebug() << "END sendOffLocalPlayerInformations %%%%%%%%%%%%" ;
+    //qDebug() << "END sendOffLocalPlayerInformations %%%%%%%%%%%%" ;
 }
 void PlayersList::sendOffFeatures(Player* player)
 {
@@ -632,7 +632,9 @@ void PlayersList::addCharacter(Player * player, Character * character)
     if (m_uuidMap.contains(uuid))
        return;
 
-    beginInsertRows(createIndex(player), size, size);
+    auto index = createIndex(player);
+
+    beginInsertRows(index, size, size);
 
     if(character->getParentPlayer() != player)
     {
@@ -784,7 +786,7 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
 
             if((m_localPlayer->isGM())&&(m_localPlayer->isGM() == newPlayer->isGM())&&(newPlayer->getUuid() != m_localPlayer->getUuid()))
             {
-                qDebug() << "Local player is not GM%%%%%%%%%%%%%%%%%%%" << newPlayer->isGM() << m_localPlayer->isGM() << newPlayer->getUuid() << m_localPlayer->getUuid();
+                //qDebug() << "Local player is not GM%%%%%%%%%%%%%%%%%%%" << newPlayer->isGM() << m_localPlayer->isGM() << newPlayer->getUuid() << m_localPlayer->getUuid();
                 m_localPlayer->setGM(false);
                 notifyPersonChanged(actualPlayer);
                 emit localGMRefused(false);
