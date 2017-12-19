@@ -437,6 +437,7 @@ bool TableField::mayHaveChildren() const
 }
 void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int i, bool isTable)
 {
+    #ifdef RCSE
     Q_UNUSED(i)
     Q_UNUSED(isTable)
 
@@ -477,5 +478,6 @@ void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec
         out << "        }\n";
         out << "     }\n";
     }
+     #endif
 }
 

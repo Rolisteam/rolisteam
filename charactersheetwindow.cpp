@@ -90,7 +90,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     connect(m_detachTab,SIGNAL(triggered(bool)),this,SLOT(detachTab()));
 
     m_imgProvider = new RolisteamImageProvider();
-    m_pixmapList = QSharedPointer<QHash<QString,QPixmap*>>(new QHash<QString,QPixmap*>());
+    m_pixmapList = QSharedPointer<QHash<QString,QPixmap>>(new QHash<QString,QPixmap>());
     m_imgProvider->setData(m_pixmapList);
 }
 CharacterSheetWindow::~CharacterSheetWindow()
@@ -521,13 +521,13 @@ QJsonDocument CharacterSheetWindow::saveFile()
     {
         QJsonObject obj;
         obj["key"]=key;
-        QPixmap* pix = m_pixmapList->value(key);
-        if(NULL!=pix)
+        QPixmap pix = m_pixmapList->value(key);
+        if(!pix.isNull())
         {
             QByteArray bytes;
             QBuffer buffer(&bytes);
             buffer.open(QIODevice::WriteOnly);
-            pix->save(&buffer, "PNG");
+            pix.save(&buffer, "PNG");
             obj["bin"]=QString(buffer.data().toBase64());
             images.append(obj);
         }
@@ -557,7 +557,7 @@ bool CharacterSheetWindow::readData(QByteArray data)
         QByteArray array = QByteArray::fromBase64(str.toUtf8());
         QPixmap* pix = new QPixmap();
         pix->loadFromData(array);
-        m_imgProvider->insertPix(key,pix);
+        m_imgProvider->insertPix(key,*pix);
         //m_pixmapList.insert(key,pix);
         ++i;
     }

@@ -65,7 +65,7 @@ void RolisteamImageProvider::fill(NetworkMessageWriter &msg)
         QByteArray array;
         QBuffer buffer(&array);
         buffer.open(QIODevice::WriteOnly);
-        m_data->value(key)->toImage().save(&buffer,"jpg");
+        m_data->value(key).toImage().save(&buffer,"jpg");
         msg.byteArray32(array);
     }
 }
@@ -79,7 +79,7 @@ void RolisteamImageProvider::read(NetworkMessageReader &msg)
         QByteArray array = msg.byteArray32();
         QPixmap* pix = new QPixmap();
         pix->loadFromData(array);
-        insertPix(key,pix);
+        insertPix(key,*pix);
     }
 }
 #endif

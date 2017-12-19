@@ -352,7 +352,7 @@ private:
     QQuickWidget* m_qmlView;
 
     QHash<CharacterSheet*,Player*> m_sheetToPerson;
-    QSharedPointer<QHash<QString,QPixmap*>> m_pixmapList;
+    QSharedPointer<QHash<QString,QPixmap>> m_pixmapList;
 
     QJsonObject m_data;
 
