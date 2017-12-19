@@ -102,7 +102,7 @@ void Image::fill(NetworkMessageWriter & message)
 {
     QByteArray baImage;
     QBuffer bufImage(&baImage);
-    if (!m_imageLabel->pixmap()->save(&bufImage, "jpg", 70))
+    if (!m_pixMap.save(&bufImage, "jpg", 70))
     {
         //   qDebug() << "png size:" << bufImage.size();
     }
