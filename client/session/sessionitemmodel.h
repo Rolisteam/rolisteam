@@ -130,6 +130,7 @@ public slots:
 
 signals:
     void openFile(CleverURI*,bool);
+    void openResource(ResourcesNode*,bool);
 
 protected:
     bool moveMediaItem(QList<CleverURI*> items, const QModelIndex &parentToBe, int row, QList<QModelIndex> &formerPosition);

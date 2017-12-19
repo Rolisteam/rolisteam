@@ -54,7 +54,7 @@ SessionView::SessionView(QWidget *parent) :
         edit(currentIndex());
     });
 
-    //setEditTriggers(QAbstractItemView::AnyKeyPressed);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 void SessionView::onDefineChapter()
 {

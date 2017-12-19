@@ -80,6 +80,7 @@ public:
 
 signals:
     void openFile(CleverURI*, bool);
+    void openResource(ResourcesNode*,bool);
     void updated(ResourcesNode*);
 private:
     QList<ResourcesNode*> m_children;/// list of resource

@@ -162,7 +162,15 @@ void Player::delCharacter(int index)
 {
     if (index >= 0 && index < m_characters.size())
     {
-        delete m_characters.at(index);
+        auto character = m_characters.at(index);
+        if(!character->isNpc())
+        {
+            delete m_characters.at(index);
+        }
+        else
+        {
+            character->setParentPerson(nullptr);
+        }
         m_characters.removeAt(index);
     }
 }

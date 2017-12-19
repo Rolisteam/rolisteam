@@ -161,3 +161,7 @@ bool Person::seekNode(QList<ResourcesNode *> &path, ResourcesNode *node)
 {
 
 }
+QIcon Person::getIcon()
+{
+    return QIcon(QPixmap::fromImage(m_avatar));
+}

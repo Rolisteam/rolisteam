@@ -204,7 +204,6 @@ public :
      * @param fileName
      */
     void setLatestFile(CleverURI* fileName);
-
 signals:
     /**
      * @brief closing
@@ -452,6 +451,7 @@ private slots :
      * @param force
      */
     void openCleverURI(CleverURI* uri,bool force = false);
+    void openResource(ResourcesNode *node, bool force);
     /**
      * @brief newNoteDocument
      */

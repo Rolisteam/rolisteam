@@ -138,6 +138,7 @@ signals:
      * @param statut
      */
     void sessionChanged(bool statut);
+    void openResource(ResourcesNode*, bool);
 protected:
     /**
     * @brief catches the closeevent to manage it as hiding event

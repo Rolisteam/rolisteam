@@ -270,7 +270,7 @@ void Character::write(QDataStream& out, bool tag) const
 {
     if(tag)
     {
-        out << QStringLiteral("player");
+        out << QStringLiteral("Character");
     }
     out << m_isNpc;
     out << m_number;
@@ -285,13 +285,14 @@ void Character::write(QDataStream& out, bool tag) const
     out << static_cast<int>(m_checkState);
 
     QByteArray array;
-    m_avatar.save(array);
+    QBuffer buffer(&array);
+    buffer.open(QIODevice::WriteOnly);
+    m_avatar.save(&buffer,"PNG");
     out << array;
 
 }
 void Character::read(QDataStream& in)
 {
-
     in >> m_isNpc;
     in >> m_number;
     in >> m_name;

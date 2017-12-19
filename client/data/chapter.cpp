@@ -24,6 +24,7 @@
 #include <QApplication>
 
 #include "chapter.h"
+#include "character.h"
 
 Chapter::Chapter()
     : m_children(QList<ResourcesNode*>())
@@ -61,7 +62,7 @@ ResourcesNode *Chapter::getChildAt(int i) const
 {
     if((i>=0)&&(i<m_children.size()))
     {
-            return m_children[i];
+        return m_children[i];
     }
 }
 
@@ -169,7 +170,13 @@ void Chapter::read(QDataStream &in)
         {
             Chapter* chapter = new Chapter();
             node=chapter;
-            connect(chapter,SIGNAL(openFile(CleverURI*,bool)),this,SIGNAL(openFile(CleverURI*,bool)));
+            connect(chapter,&Chapter::openFile,this,&Chapter::openFile);
+            connect(chapter,&Chapter::openResource,this,&Chapter::openResource);
+        }
+        else if(type=="Character")
+        {
+            Character* character = new Character();
+            node = character;
         }
         else
         {
@@ -183,7 +190,8 @@ void Chapter::read(QDataStream &in)
         {
             if(uri->isDisplayed())
             {
-                emit openFile(uri,true);
+                //emit openFile(uri,true);
+                emit openResource(uri, true);
             }
         }
     }
@@ -198,7 +206,7 @@ bool Chapter::removeChild(ResourcesNode* item)
     }
     else
     {
-        foreach(ResourcesNode* child,m_children)
+        for(ResourcesNode* child : m_children)
         {
             if(child->mayHaveChildren())
             {

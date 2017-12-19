@@ -135,6 +135,8 @@ public:
 
     virtual QVariant getData(ResourcesNode::DataValue);
 
+    virtual QIcon getIcon();
+
 
     ResourcesNode::TypeResource getResourcesType() const;
     virtual void write(QDataStream &out, bool tag) const;

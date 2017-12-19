@@ -61,7 +61,8 @@ SessionItemModel::SessionItemModel()
     m_rootItem->setParentNode(nullptr);
 
 
-    connect(m_rootItem,SIGNAL(openFile(CleverURI*,bool)),this,SIGNAL(openFile(CleverURI*,bool)));
+    connect(m_rootItem,&Chapter::openFile,this,&SessionItemModel::openFile);
+    connect(m_rootItem,&Chapter::openResource,this,&SessionItemModel::openResource);
 }
 QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & parent ) const
 {

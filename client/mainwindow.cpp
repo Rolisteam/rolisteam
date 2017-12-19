@@ -124,7 +124,8 @@ MainWindow::MainWindow()
     m_sessionManager = new SessionManager(this);
 
     connect(m_sessionManager,SIGNAL(sessionChanged(bool)),this,SLOT(setWindowModified(bool)));
-    connect(m_sessionManager,SIGNAL(openFile(CleverURI*,bool)),this,SLOT(openCleverURI(CleverURI*,bool)));
+    connect(m_sessionManager,&SessionManager::openFile,this,&MainWindow::openCleverURI);
+    connect(m_sessionManager,&SessionManager::openResource,this,&MainWindow::openResource);
 
     /// Create all GM toolbox widget
     m_gmToolBoxList.append(new NameGeneratorWidget(this));
@@ -1642,7 +1643,12 @@ void MainWindow::setupUi()
     connect(m_playerList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
     connect(m_playerList, SIGNAL(playerAddedAsClient(Player*)), this, SLOT(updateSessionToNewClient(Player*)));
     connect(m_playerList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
-    connect(m_playerList, &PlayersList::characterAdded,m_sessionManager,&SessionManager::addRessource);
+    connect(m_playerList, &PlayersList::characterAdded,this,[=](Character* character){
+        if(character->isNpc())
+        {
+            m_sessionManager->addRessource(character);
+        }
+    });
 
 
     m_dialog = new SelectConnectionProfileDialog(m_version,this);
@@ -2218,6 +2224,18 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
     connect(window,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
     connect(window,SIGNAL(errorOccurs(QString,MainWindow::MessageType)),this,SLOT(notifyUser(QString,MainWindow::MessageType)));
     connect(m_playerList,SIGNAL(playerDeleted(Player*)),window,SLOT(removeConnection(Player*)));
+}
+
+void MainWindow::openResource(ResourcesNode* node, bool force)
+{
+    if(node->getResourcesType() == ResourcesNode::Cleveruri)
+    {
+        openCleverURI(dynamic_cast<CleverURI*>(node),force);
+    }
+    else if(node->getResourcesType() == ResourcesNode::Person)
+    {
+        m_playerList->addLocalCharacter(dynamic_cast<Character*>(node));
+    }
 }
 
 void MainWindow::openCleverURI(CleverURI* uri,bool force)
