@@ -109,6 +109,8 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
 
         qDebug() << "header: cat" << header.category << "act:"<< header.action << "datasize:" << header.dataSize <<  "size"<<size << (int)data[0]
                  << "socket" << m_socketTcp;
+
+        qDebug() << "thread current" << QThread::currentThread() << "thread socket:" << m_socketTcp->thread() << "this thread" << thread();
         #endif
 
         int t = m_socketTcp->write(data, size);
@@ -201,7 +203,7 @@ void NetworkLink::receivingData()
             NetworkMessageReader data(m_header,m_buffer);
             if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
             {
-                QList<NetWorkReceiver*> tmpList = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)m_header.category);
+                QList<NetWorkReceiver*> tmpList = ReceiveEvent::getNetWorkReceiverFor(static_cast<NetMsg::Category>(m_header.category));
 
                 for(NetWorkReceiver* tmp : tmpList)
                 {
@@ -234,7 +236,6 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
 {
     if(NetMsg::heartbeat == msg->action())
     {
-        qDebug() <<   "processAdminstrationMessage heartbeat ";
         QString id = msg->string8();
         if(!m_hbCount.contains(id))
         {
@@ -270,11 +271,28 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
     {
         emit adminAuthSuccessed();
     }
+    else if(NetMsg::NeedPassword == msg->action())
+    {
+        if(nullptr != m_connection)
+        {
+            const auto pw = m_connection->getPassword();
+            if(pw.isEmpty())
+            {
+                emit errorMessage(tr("Authentification Fail"));
+                emit authentificationFail();
+                emit disconnected();
+                if(isOpen())
+                {
+                    disconnectAndClose();
+                }
+            }
+        }
+    }
     else if(NetMsg::SetChannelList == msg->action())
     {
     }
     else
-        qDebug() <<   "processAdminstrationMessage Autre "<< msg->action();
+        qDebug() <<   "processAdminstrationMessage "<< msg->action();
 }
 
 void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)

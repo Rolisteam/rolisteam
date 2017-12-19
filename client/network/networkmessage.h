@@ -28,14 +28,12 @@
 //
 class NetworkLink;
 class ClientManager;
-
 struct NetworkMessageHeader
 {
     quint8  category;
     quint8  action;
     quint32 dataSize;
 };
-
 namespace NetMsg
 {
 enum Category {
@@ -64,6 +62,7 @@ enum Action {
     Kicked,
     MoveChannel,
     SetChannelList,
+    NeedPassword,
     AuthentificationSucessed,
     AuthentificationFail,
     LockChannel,
@@ -141,8 +140,6 @@ enum Action {
     NewSong,
     ChangePositionSong,
 
-
-
     // SetupCategory
     AddFeatureAction = 2,
 
@@ -153,6 +150,11 @@ enum Action {
     addState,
     moveState,
     removeState,
+
+
+
+
+
 
     //Vmap
     addVmap = 0,

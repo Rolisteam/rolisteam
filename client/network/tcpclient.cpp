@@ -24,7 +24,7 @@ void TcpClient::setSocket(QTcpSocket* socket)
     if(nullptr != m_socket)
     {
 
-       // m_socket->setParent(this);
+        m_stateMachine = new QStateMachine();
         connect(m_socket,&QTcpSocket::disconnected, this, &TcpClient::socketDisconnection,Qt::QueuedConnection);
         connect(m_socket,static_cast<void (QTcpSocket::*)(QAbstractSocket::SocketError)>(&QTcpSocket::error),this,&TcpClient::socketError,Qt::QueuedConnection);
 
@@ -32,7 +32,7 @@ void TcpClient::setSocket(QTcpSocket* socket)
         connect(m_socket,SIGNAL(disconnected()),this,SIGNAL(disconnected()));
         connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(connectionError(QAbstractSocket::SocketError)));
 
-        connect(&m_stateMachine,SIGNAL(started()),this,SIGNAL(isReady()));
+        connect(m_stateMachine,SIGNAL(started()),this,SIGNAL(isReady()));
         m_incomingConnection = new QState();
         m_controlConnection = new QState();
         m_waitingAuthentificationData = new QState();
@@ -43,18 +43,18 @@ void TcpClient::setSocket(QTcpSocket* socket)
         m_disconnected = new QState();
         m_stayInPlace = new QState();
 
-        m_stateMachine.addState(m_incomingConnection);
-        m_stateMachine.setInitialState(m_incomingConnection);
 
-        m_stateMachine.addState(m_controlConnection);
-        m_stateMachine.addState(m_waitingAuthentificationData);
-        m_stateMachine.addState(m_authentification);
-        m_stateMachine.addState(m_wantToGoToChannel);
-        m_stateMachine.addState(m_inPlace);
-        m_stateMachine.addState(m_waitingAuthChannel);
-        m_stateMachine.addState(m_disconnected);
-        m_stateMachine.addState(m_stayInPlace);
-        m_stateMachine.start();
+        m_stateMachine->addState(m_incomingConnection);
+        m_stateMachine->setInitialState(m_incomingConnection);
+        m_stateMachine->addState(m_controlConnection);
+        m_stateMachine->addState(m_waitingAuthentificationData);
+        m_stateMachine->addState(m_authentification);
+        m_stateMachine->addState(m_wantToGoToChannel);
+        m_stateMachine->addState(m_inPlace);
+        m_stateMachine->addState(m_waitingAuthChannel);
+        m_stateMachine->addState(m_disconnected);
+        m_stateMachine->addState(m_stayInPlace);
+        m_stateMachine->start();
 
         connect(m_incomingConnection,&QState::activeChanged,[=](bool b){
             if(b)
@@ -72,6 +72,11 @@ void TcpClient::setSocket(QTcpSocket* socket)
             if(b)
             {
                 m_currentState = m_waitingAuthentificationData;
+                if(true)
+                {
+                    NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::NeedPassword);
+                    sendMessage(&msg,false);
+                }
             }
         });
         connect(m_authentification,&QState::activeChanged,[=](bool b){
@@ -137,7 +142,7 @@ void TcpClient::startReading()
 {
 
     QTcpSocket* socket = new QTcpSocket();
-    qDebug() << "start reading: current thread" << QThread::currentThread() << " thread socket" << socket->thread() << " object thread" << thread();
+    //qDebug() << "start reading: current thread" << QThread::currentThread() << " thread socket" << socket->thread() << " object thread" << thread();
     socket->setSocketDescriptor(getSocketHandleId());
     setSocket(socket);
 }
@@ -234,7 +239,7 @@ void TcpClient::receivingData()
     }
     quint32 dataRead=0;
 
-    qDebug() << "current thread" << QThread::currentThread() << " thread socket" << m_socket->thread() << " object thread" << thread() << m_socket->bytesAvailable() << "sender"<< sender()<< "curent socket" << m_socket;
+   // qDebug() << "current thread" << QThread::currentThread() << " thread socket" << m_socket->thread() << " object thread" << thread() << m_socket->bytesAvailable() << "sender"<< sender()<< "curent socket" << m_socket;
 
     while (m_socket->bytesAvailable())
     {
@@ -288,7 +293,13 @@ void TcpClient::forwardMessage()
 {
     QByteArray array((char*)&m_header,sizeof(NetworkMessageHeader));
     array.append(m_buffer,m_header.dataSize);
-    if(m_currentState != m_disconnected)
+    if((m_currentState == m_waitingAuthentificationData)&&
+       ((m_header.category != NetMsg::AdministrationCategory)&&(m_header.action != NetMsg::Password)))
+    {
+        qDebug() <<"error in connection protocol";
+        emit authFail();
+    }
+    else if(m_currentState != m_disconnected)
     {
         emit dataReceived(array);
     }
@@ -335,6 +346,7 @@ void TcpClient::connectionError(QAbstractSocket::SocketError error)
 
 void TcpClient::sendEvent(TcpClient::ConnectionEvent event)
 {//{HasCheckEvent,NoCheckEvent,CheckedEvent,CheckFailedEvent,ForbiddenEvent,DataReceivedEvent,AuthFailEvent,AuthSuccessEvent,NoRestrictionEvent,HasRestrictionEvent,ChannelAuthSuccessEvent,ChannelAuthFailEvent};
+    qDebug() << "sendEvent" << event << CheckedEvent ;
     switch (event)
     {
     case HasCheckEvent:

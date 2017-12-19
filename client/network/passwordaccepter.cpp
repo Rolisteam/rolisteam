@@ -30,11 +30,11 @@ bool PasswordAccepter::isValid(const QMap<QString, QVariant> &data)
     {//(QCryptographicHash::hash(upw.toUtf8(),QCryptographicHash::Sha3_512) != pw.toUtf8()))
         result = false;
     }
-    qInfo() << "password" << result << pw << upw;
+    //qInfo() << "password" << result << pw << upw;
     if(nullptr != m_next)
     {
         result&=m_next->isValid(data);
     }
-    qInfo() << result;
+    //qInfo() << result;
     return result;
 }

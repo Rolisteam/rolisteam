@@ -16,7 +16,7 @@
 class ClientManager;
 class Channel;
 /**
- * @brief The TcpClient class
+ * @brief The TcpClient class reprents connection state with client in server side.
  */
 class TcpClient : public TreeItem
 {
@@ -148,11 +148,9 @@ public slots:
      */
     void connectionError(QAbstractSocket::SocketError error);
 
-
     void sendEvent(TcpClient::ConnectionEvent);
 
     void connectionCheckedSlot();
-
 
     void startReading();
 private:
@@ -162,7 +160,7 @@ private:
     int m_headerRead;
     quint32 m_remainingData;
 
-    QStateMachine m_stateMachine;
+    QStateMachine* m_stateMachine;
     QState* m_incomingConnection;
     QState* m_controlConnection;
     QState* m_waitingAuthentificationData;

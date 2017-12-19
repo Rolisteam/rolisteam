@@ -85,7 +85,6 @@ private:
 
     QMap<QString,QVariant> m_parameters;
 
-
     MessageDispatcher* m_msgDispatcher;
     QHash<QTcpSocket*,TcpClient*> m_connections;
     ServerState m_state;
