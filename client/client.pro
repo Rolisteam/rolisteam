@@ -187,7 +187,7 @@ HEADERS += \
         data/shortcutmodel.h \
         data/shortcutvisitor.h \
         widgets/shortcuteditordialog.h \
-        widgets/gmtoolbox/gamemastertool.h
+        widgets/gmtoolbox/gamemastertool.h \
 
 
    #     persondialog.cpp \
@@ -281,7 +281,7 @@ SOURCES += \
         data/shortcutmodel.cpp \
         data/shortcutvisitor.cpp \
         widgets/shortcuteditordialog.cpp \
-        widgets/gmtoolbox/gamemastertool.cpp
+        widgets/gmtoolbox/gamemastertool.cpp \
 
 
 FORMS += \
