@@ -54,6 +54,7 @@
 #include "qmlhighlighter.h"
 #include "aboutrcse.h"
 #include "preferencesdialog.h"
+#include "codeeditordialog.h"
 
 // Delegates
 #include "delegate/alignmentdelegate.h"
@@ -340,6 +341,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_applyValueOnSelection = new QAction(tr("Apply on Selection"),this);
     m_applyValueOnAllLines = new QAction(tr("Apply on all lines"),this);
     m_defineCode = new QAction(tr("Define Field Code"),this);
+    m_resetCode = new QAction(tr("Reset Field Code"),this);
 
     // Character table
     m_deleteCharacter= new QAction(tr("Delete character"),this);
@@ -957,6 +959,19 @@ void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
     {
         defineItemCode(index);
     }
+    else if(m_resetCode == act)
+    {
+        if(!index.isValid())
+            return;
+
+        Field* field = m_model->getFieldFromIndex(index);
+
+        if(nullptr != field)
+        {
+            field->setGeneratedCode(QStringLiteral(""));
+        }
+
+    }
 }
 void MainWindow::defineItemCode(QModelIndex& index)
 {
@@ -965,9 +980,19 @@ void MainWindow::defineItemCode(QModelIndex& index)
 
     Field* field = m_model->getFieldFromIndex(index);
 
-    m_codeEdit = new CodeEditor();
-    QVariant var = index.data(Qt::DisplayRole);
-    QVariant editvar = index.data(Qt::EditRole);
+    if(nullptr != field)
+    {
+        CodeEditorDialog dialog;
+
+        field->storeQMLCode();
+        auto code = field->getGeneratedCode();
+        dialog.setPlainText(code);
+
+        if(dialog.exec())
+        {
+           field->setGeneratedCode(dialog.toPlainText());
+        }
+    }
 
 }
 void MainWindow::menuRequestedForImageModel(const QPoint & pos)
@@ -1159,6 +1184,7 @@ void MainWindow::save()
                     fonts.append(font);
                 }
             }
+            obj["fonts"]=fonts;
 
             //background
             QJsonArray images;
@@ -1213,6 +1239,14 @@ void MainWindow::open()
                 m_fixedScaleSheet = jsonObj["fixedScale"].toDouble(1.0);
                 m_additionnalCodeTop = jsonObj["additionnalCodeTop"].toBool(true);
                 m_flickableSheet = jsonObj["flickable"].toBool(false);
+
+                const auto fonts = jsonObj["fonts"].toArray();
+                for(QJsonObject obj : fonts)
+                {
+                    auto const name = font["name"].toString("");
+                    auto const fontData = font["data"].toString("");
+                    QFontDatabase::addApplicationFontFromData(fontData);
+                }
 
                 ui->m_codeEdit->setPlainText(qml);
 

@@ -98,7 +98,8 @@ SOURCES += main.cpp\
     undo/deletecharactercommand.cpp \
     undo/setpropertyonallcharacters.cpp \
     widgets/codeedit.cpp \
-    delegate/pagedelegate.cpp
+    delegate/pagedelegate.cpp \
+    codeeditordialog.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -130,7 +131,8 @@ HEADERS  += mainwindow.h \
     undo/deletecharactercommand.h \
     undo/setpropertyonallcharacters.h \
     widgets/codeedit.h \
-    delegate/pagedelegate.h
+    delegate/pagedelegate.h \
+    codeeditordialog.h
 
 
 
@@ -140,7 +142,8 @@ FORMS    += mainwindow.ui \
     preferencesdialog.ui \
     sheetproperties.ui \
     columndefinitiondialog.ui \
-    widgets/codeedit.ui
+    widgets/codeedit.ui \
+    codeeditordialog.ui
 
 DISTFILES += \
     charactersheet/qml/*.qml \

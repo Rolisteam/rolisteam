@@ -156,6 +156,7 @@ private:
     QAction* m_applyValueOnSelection;
     QAction* m_applyValueOnAllLines;
     QAction* m_defineCode;
+    QAction* m_resetCode;
 
 
     //action view

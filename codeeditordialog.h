@@ -15,6 +15,9 @@ public:
     explicit CodeEditorDialog(QWidget *parent = 0);
     ~CodeEditorDialog();
 
+    void setPlainText(const QString data);
+    QString toPlainText();
+
 private:
     Ui::CodeEditorDialog *ui;
 };

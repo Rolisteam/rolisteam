@@ -12,3 +12,11 @@ CodeEditorDialog::~CodeEditorDialog()
 {
     delete ui;
 }
+void CodeEditorDialog::setPlainText(const QString data)
+{
+    ui->m_codeEditor->setPlainText(data);
+}
+QString CodeEditorDialog::toPlainText()
+{
+    return ui->m_codeEditor->toPlainText();
+}
