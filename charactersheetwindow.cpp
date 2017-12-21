@@ -366,18 +366,19 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     auto imageProvider = new RolisteamImageProvider();
     imageProvider->setData(m_imgProvider->getData());
 
-    m_qmlView->engine()->addImageProvider(QLatin1String("rcs"),imageProvider);
+    auto engineQml = m_qmlView->engine();
+
+    engineQml->addImageProvider(QLatin1String("rcs"),imageProvider);
 
     for(int i =0;i<chSheet->getFieldCount();++i)
     {
         CharacterSheetItem* field = chSheet->getFieldAt(i);
-        if(NULL!=field)
+        if(nullptr!=field)
         {
             m_qmlView->engine()->rootContext()->setContextProperty(field->getId(),field);
         }
     }
 
-    //QString name(QStringLiteral("charactersheet.qml"));
     QTemporaryFile fileTemp;
 
     if(fileTemp.open())//QIODevice::WriteOnly
