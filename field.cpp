@@ -408,8 +408,11 @@ void Field::initGraphicsItem()
 
 void Field::storeQMLCode()
 {
-    QTextStream out(&m_generatedCode);
-    generateQML(out,CharacterSheetItem::FieldSec,0,false);
+    if(m_generatedCode.isEmpty())
+    {
+        QTextStream out(&m_generatedCode);
+        generateQML(out,CharacterSheetItem::FieldSec,0,false);
+    }
 }
 
 qreal Field::getWidth() const
