@@ -1241,10 +1241,11 @@ void MainWindow::open()
                 m_flickableSheet = jsonObj["flickable"].toBool(false);
 
                 const auto fonts = jsonObj["fonts"].toArray();
-                for(QJsonObject obj : fonts)
+                for(const auto obj : fonts)
                 {
-                    auto const name = font["name"].toString("");
-                    auto const fontData = font["data"].toString("");
+                    const auto font = obj.toObject();
+                    //const auto name = font["name"].toString("");
+                    const auto fontData = QByteArray::fromBase64(font["data"].toString("").toLatin1());
                     QFontDatabase::addApplicationFontFromData(fontData);
                 }
 
@@ -1390,7 +1391,7 @@ void MainWindow::generateQML(QString& qml)
     qreal ratio = 1;
     qreal ratioBis= 1;
     bool hasImage= false;
-    if((allTheSame)&&(NULL!=pix)&&(!pix->isNull()))
+    if((allTheSame)&&(nullptr!=pix)&&(!pix->isNull()))
     {
         ratio = (qreal)pix->width()/(qreal)pix->height();
         ratioBis = (qreal)pix->height()/(qreal)pix->width();
@@ -1406,6 +1407,7 @@ void MainWindow::generateQML(QString& qml)
     text << "import QtQuick 2.4\n";
     text << "import QtQuick.Layouts 1.3\n";
     text << "import QtQuick.Controls 2.0\n";
+    text << "import Dice 1.0\n";
     text << "import \"qrc:/resources/qml/\"\n";
     if(!m_additionnalImport.isEmpty())
     {

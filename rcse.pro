@@ -64,6 +64,7 @@ DEFINES += WITH_PDF
 INSTALLS += target
 
 include(charactersheet/charactersheet.pri)
+include(diceparser/diceparser.pri)
 
 INCLUDEPATH += charactersheet
 

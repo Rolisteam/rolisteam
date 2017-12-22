@@ -25,6 +25,8 @@
 #include <QTranslator>
 #include <QtWebView/QtWebView>
 
+#include "diceparser/qmltypesregister.h"
+
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 
@@ -44,6 +46,8 @@ int main(int argc, char *argv[])
         #endif
     #endif
     a.setApplicationVersion(version);
+
+    registerQmlTypes();
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QString locale = QLocale::system().name();
