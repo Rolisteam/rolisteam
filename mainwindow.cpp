@@ -45,6 +45,8 @@
 #include <QJsonValue>
 #include <QJsonValueRef>
 #include <QClipboard>
+#include <QPrinter>
+#include <QPrintDialog>
 
 #ifdef WITH_PDF
 #include <poppler-qt5.h>
@@ -69,6 +71,7 @@
 #include "undo/setbackgroundimage.h"
 #include "undo/addcharactercommand.h"
 #include "undo/deletecharactercommand.h"
+#include "undo/deletepagecommand.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -273,6 +276,7 @@ MainWindow::MainWindow(QWidget *parent) :
         m_view->setHandle(triggered);
     });
 
+    connect(ui->m_exportPdfAct,&QAction::triggered,this,&MainWindow::exportPDF);
 
     connect(ui->m_moveAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_deleteAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
@@ -1132,7 +1136,6 @@ void MainWindow::saveAs()
 }
 void MainWindow::save()
 {
-    // m_filename = QFileDialog::getSaveFileName(this,tr("Select file to export files"),QDir::homePath());
     if(m_filename.isEmpty())
         saveAs();
     else if(!m_filename.isEmpty())
@@ -1443,6 +1446,7 @@ void MainWindow::generateQML(QString& qml)
     text << "   Keys.onLeftPressed: --page\n";
     text << "   Keys.onRightPressed: ++page\n";
     text << "   signal rollDiceCmd(string cmd)\n";
+    text << "   signal showText(string text)\n";
     text << "   MouseArea {\n";
     text << "        anchors.fill:parent\n";
     text << "        onClicked: root.focus = true\n";
@@ -1497,7 +1501,8 @@ void MainWindow::showQML()
 {
     if(m_editedTextByHand)
     {
-        QMessageBox::StandardButton btn = QMessageBox::question(this,tr("Do you want to erase current QML code ?"),tr("Generate QML code will override any change you made in the QML.<br/>Do you really want to generate QML code ?"),
+        QMessageBox::StandardButton btn = QMessageBox::question(this,tr("Do you want to erase current QML code ?"),
+                                                                tr("Generate QML code will override any change you made in the QML.<br/>Do you really want to generate QML code ?"),
                                                                 QMessageBox::Yes | QMessageBox::Cancel,QMessageBox::Cancel);
 
         if(btn == QMessageBox::Cancel)
@@ -1511,7 +1516,6 @@ void MainWindow::showQML()
     m_editedTextByHand=false;
     QSharedPointer<QHash<QString,QPixmap>> imgdata = m_imgProvider->getData();
 
-    //QFile file(getFilePath("test.qml"));
     QTemporaryFile file;
     if(file.open())//QIODevice::WriteOnly
     {
@@ -1534,7 +1538,6 @@ void MainWindow::showQML()
     QList<CharacterSheetItem *> list = m_model->children();
     for(CharacterSheetItem* item : list)
     {
-        //qDebug() <<"add item into qml" << item->getId();
         ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
     }
     ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
@@ -1562,11 +1565,6 @@ void MainWindow::showQMLFromCode()
 {
     QString data = ui->m_codeEdit->document()->toPlainText();
 
-    /* QString name(getFilePath(QStringLiteral("test.qml")));
-    if(QFile::exists(name))
-    {
-        QFile::remove(name);
-    }*/
     QTemporaryFile file;
     if(file.open())//QIODevice::WriteOnly
     {
@@ -1656,7 +1654,6 @@ void MainWindow::addPage()
     setWindowModified(true);
 }
 
-#include "undo/deletepagecommand.h"
 void MainWindow::removePage()
 {
     if(m_canvasList.size()>1)
@@ -1676,7 +1673,7 @@ void MainWindow::editColor(QModelIndex index)
 
         CharacterSheetItem* itm = static_cast<CharacterSheetItem*>(index.internalPointer());
 
-        if(NULL!=itm)
+        if(nullptr!=itm)
         {
             QColor col = itm->getValueFrom(static_cast<CharacterSheetItem::ColumnId>(index.column()),Qt::EditRole).value<QColor>();//CharacterSheetItem::TEXTCOLOR
             col = QColorDialog::getColor(col,this,tr("Get Color"),QColorDialog::ShowAlphaChannel);
@@ -1702,7 +1699,42 @@ void MainWindow::addImage()
         {
             QString fileName = QFileInfo(img).fileName();
             m_imageModel->insertImage(pix,fileName,img);
-            //m_imgProvider->insertPix(fileName,*pix);
         }
     }
+}
+#include <QPagedPaintDevice>
+void MainWindow::exportPDF()
+{
+    //const auto pdfPath = QFileDialog::getSaveFileName(this,tr("PDF Export"),QDir::homePath(),tr("Pdf file (*.pdf)"));
+
+    QObject* root = ui->m_quickview->rootObject();
+    if(nullptr == root)
+      return;
+
+    auto maxPage = root->property("pageMax").toInt();
+    QPrinter printer;
+    QPrintDialog dialog(&printer, this);
+    if(dialog.exec() != QDialog::Accepted)
+    {
+    /*printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOrientation(QPrinter::Portrait);
+    printer.setPageSize(QPrinter::A4);
+    printer.setOutputFileName(pdfPath);*/
+    QPainter painter;
+    if (painter.begin(&printer))
+    {
+      for(int i = 0 ; i <= maxPage ; ++i)
+      {
+        qDebug() << "page" << i;
+        root->setProperty("page",i);
+        auto image = ui->m_quickview->grabFramebuffer();
+        QRect rect(0,0,printer.width(),printer.height());
+        painter.drawImage(rect,
+                          image);
+        printer.newPage();
+      }
+      painter.end();
+    }
+    }
+
 }

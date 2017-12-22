@@ -532,8 +532,11 @@
     <addaction name="m_openAct"/>
     <addaction name="m_saveAct"/>
     <addaction name="actionSave_As"/>
+    <addaction name="m_recentFiles"/>
     <addaction name="separator"/>
     <addaction name="m_preferencesAction"/>
+    <addaction name="m_exportPdfAct"/>
+    <addaction name="separator"/>
     <addaction name="m_quitAction"/>
    </widget>
    <widget class="QMenu" name="menuEdition">
@@ -545,11 +548,11 @@
     <addaction name="actionCode_To_QML"/>
     <addaction name="m_backgroundImageAct"/>
     <addaction name="separator"/>
-    <addaction name="m_resetIdAct"/>
-    <addaction name="m_checkValidityAct"/>
     <addaction name="m_sheetProperties"/>
     <addaction name="separator"/>
     <addaction name="m_showItemIcon"/>
+    <addaction name="m_checkValidityAct"/>
+    <addaction name="m_resetIdAct"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -845,6 +848,16 @@
    </property>
    <property name="text">
     <string>Support Rolisteam</string>
+   </property>
+  </action>
+  <action name="m_exportPdfAct">
+   <property name="text">
+    <string>Export as PDF</string>
+   </property>
+  </action>
+  <action name="m_recentFiles">
+   <property name="text">
+    <string>Recent files</string>
    </property>
   </action>
  </widget>

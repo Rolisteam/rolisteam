@@ -94,6 +94,8 @@ public slots:
     void helpOnLine();
     void addImage();
     void copyPath();
+
+    void exportPDF();
 protected:
     bool eventFilter(QObject *, QEvent *);
     bool wheelEventForView(QWheelEvent *event);
@@ -116,8 +118,6 @@ protected slots:
     void checkCharacters();
 private slots:
     void codeChanged();
-//private:
-    // QString getFilePath(QString);
     void sameGeometry();
 
 private:
