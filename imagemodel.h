@@ -12,7 +12,7 @@ class ImageModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    enum Headers {Thumbnails,Key,Filename,User};
+    enum Headers {Key,Filename,User};
     explicit ImageModel(QHash<QString,QPixmap*>& list,QObject *parent = nullptr);
 
     // Header:

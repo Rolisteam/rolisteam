@@ -1,12 +1,15 @@
 #include "imagemodel.h"
 #include <QIcon>
-#include <QDebug>
+#include <QBuffer>
+
+#define TOOLTIP_SIZE 256
+
 ImageModel::ImageModel(QHash<QString,QPixmap*>& list,QObject *parent)
     : QAbstractTableModel(parent),
       m_imageData(new QList<QPixmap>()),
       m_list(list)
 {
-    m_column << tr("Thumbnail")<< tr("Key")<< tr("Filename")<< tr("Is Background");
+    m_column << tr("Key")<< tr("Filename")<< tr("Is Background");
 }
 
 QVariant ImageModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -46,8 +49,6 @@ QVariant ImageModel::data(const QModelIndex &index, int role) const
     {
         switch (index.column())
         {
-            case Thumbnails:
-            break;
             case Key:
                 return "image://rcs/"+m_keyList.at(index.row());
             break;
@@ -60,8 +61,6 @@ QVariant ImageModel::data(const QModelIndex &index, int role) const
     {
         switch (index.column())
         {
-            case Thumbnails:
-            break;
             case Key:
                 return m_keyList.at(index.row());
             break;
@@ -70,14 +69,14 @@ QVariant ImageModel::data(const QModelIndex &index, int role) const
             break;
         }
     }
-    else if(Qt::DecorationRole == role)
+    else if(Qt::ToolTipRole == role)
     {
-        if(index.column() == 0 )
-        {
-            QIcon icon(m_imageData->at(index.row()));
-            return icon;
-        }
-
+        auto image =  m_imageData->at(index.row());
+        image = image.scaledToWidth(TOOLTIP_SIZE);
+        QByteArray data;
+        QBuffer buffer(&data);
+        image.save(&buffer, "PNG", 100);
+        return QString("<img src='data:image/png;base64, %0'>").arg(QString(data.toBase64()));
     }
     return QVariant();
 }
