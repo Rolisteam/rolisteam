@@ -2,6 +2,7 @@
 #include "ui_sheetproperties.h"
 
 #include <QFileDialog>
+#include <QFontDatabase>
 
 SheetProperties::SheetProperties(QWidget *parent) :
     QDialog(parent),
@@ -16,6 +17,10 @@ SheetProperties::SheetProperties(QWidget *parent) :
         {
             m_fontUri.append(files);
             m_model.setStringList(m_fontUri);
+            for(auto uri : m_fontUri)
+            {
+                QFontDatabase::addApplicationFont(uri);
+            }
         }
     });
 
