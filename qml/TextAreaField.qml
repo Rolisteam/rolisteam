@@ -12,7 +12,7 @@ Rectangle {
     property alias vAlign: textArea.verticalAlignment
     property bool clippedText: false
     property bool readOnly: false
-    property bool backgroundVisible: textArea.background.visible
+    property bool backgroundVisible: true
     property alias background: textArea.background
 
     TextArea {

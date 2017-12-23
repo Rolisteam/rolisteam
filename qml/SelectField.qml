@@ -8,8 +8,10 @@ Rectangle {
     property alias currentIndex : selectvalues.currentIndex
     property alias currentText: selectvalues.currentText
     property alias count: selectvalues.count
+    property alias itemDelegate: selectvalues.delegate
     property alias combo: selectvalues
-    property alias style: selectvalues.style
+    property alias indicator: selectvalues.indicator
+
 
     property color textColor:"black"
     property int hAlign: 0
