@@ -61,7 +61,7 @@ public:
     /**
     * @brief default construtor
     */
-    CharacterSheetWindow(CleverURI* uri= NULL, QWidget* parent = NULL);
+    CharacterSheetWindow(CleverURI* uri= nullptr, QWidget* parent = nullptr);
     /**
      * @brief ~CharacterSheetWindow
      */
@@ -203,8 +203,10 @@ public slots:
      */
     void readErrorFromQML(QList<QQmlError> errors);
 
-
-    void printCurrentPage();
+    /**
+     * @brief exportPDF
+     */
+    void exportPDF();
 protected slots:
     /**
      * @brief addTabWithSheetView
@@ -349,7 +351,6 @@ private:
     CharacterSheet* m_currentCharacterSheet;
     RolisteamImageProvider* m_imgProvider;
     QQmlComponent* m_sheetComponent;
-    QQuickWidget* m_qmlView;
 
     QHash<CharacterSheet*,Player*> m_sheetToPerson;
     QSharedPointer<QHash<QString,QPixmap>> m_pixmapList;
