@@ -200,12 +200,12 @@ bool CharacterSheetItem::mayHaveChildren()
 }
 CharacterSheetItem*  CharacterSheetItem::getChildAt(int) const
 {
-    return NULL;
+    return nullptr;
 }
 QString CharacterSheetItem::getPath()
 {
     QString path;
-    if(NULL!=m_parent)
+    if(nullptr!=m_parent)
     {
         path=m_parent->getPath();
         if(!path.isEmpty())

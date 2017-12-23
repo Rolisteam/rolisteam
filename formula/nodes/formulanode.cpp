@@ -55,11 +55,11 @@ int FormulaNode::getPriority()
 }
 FormulaNode* FormulaNode::getLatestNode(FormulaNode* node)
 {
-    if(NULL==node)
+    if(nullptr==node)
     {
-        return NULL;
+        return nullptr;
     }
-    while(NULL!=node->next())
+    while(nullptr!=node->next())
     {
         node = node->next();
     }

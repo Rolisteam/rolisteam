@@ -41,7 +41,7 @@ void ValueFNode::setValue(QVariant var)
 int ValueFNode::getPriority()
 {
     int priority=0;
-    if(NULL!=m_next)
+    if(nullptr!=m_next)
     {
         priority = m_next->getPriority();
     }

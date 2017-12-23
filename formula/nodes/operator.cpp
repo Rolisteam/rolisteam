@@ -39,7 +39,7 @@ bool OperatorFNode::run(FormulaNode *previous)
 {
     for(auto node : m_parameters)
     {
-        if(NULL!=node)
+        if(nullptr!=node)
         {
             node->run(this);
         }
@@ -69,7 +69,7 @@ bool OperatorFNode::run(FormulaNode *previous)
         concatenate();
         break;
     }
-    if(NULL!=m_next)
+    if(nullptr!=m_next)
     {
         m_next->run(this);
     }
@@ -95,7 +95,7 @@ void OperatorFNode::absFunction()
         FormulaNode* node = m_parameters.at(0);
         node->run(this);
         node = getLatestNode(node);
-        if(NULL!=node)
+        if(nullptr!=node)
         {
             QVariant var = node->getResult();
             m_result = fabs(var.toDouble());
@@ -117,7 +117,7 @@ void OperatorFNode::ceilFunction()
     {
         FormulaNode* node = m_parameters.at(0);
         node = getLatestNode(node);
-        if(NULL!=node)
+        if(nullptr!=node)
         {
             QVariant var = node->getResult();
             m_result = ceil(var.toDouble());
@@ -139,7 +139,7 @@ void OperatorFNode::floorFunction()
     {
         FormulaNode* node = m_parameters.at(0);
         node = getLatestNode(node);
-        if(NULL!=node)
+        if(nullptr!=node)
         {
             QVariant var = node->getResult();
             m_result = floor(var.toDouble());
@@ -161,7 +161,7 @@ void OperatorFNode::concatenate()
             FormulaNode* node = m_parameters.at(i);
 
             node = getLatestNode(node);
-            if(NULL!=node)
+            if(nullptr!=node)
             {
                 QVariant var = node->getResult();
                 concat += var.toString();
@@ -179,7 +179,7 @@ void OperatorFNode::min()
     {
         FormulaNode* node = m_parameters.at(i);
         node = getLatestNode(node);
-        if(NULL!=node)
+        if(nullptr!=node)
         {
             QVariant var = node->getResult();
             if(0==i)
@@ -202,7 +202,7 @@ void OperatorFNode::max()
     {
         FormulaNode* node = m_parameters.at(i);
         node = getLatestNode(node);
-        if(NULL!=node)
+        if(nullptr!=node)
         {
             QVariant var = node->getResult();
             if(0==i)
@@ -232,7 +232,7 @@ void OperatorFNode::avg()
         {
             FormulaNode* node = m_parameters.at(i);
             node = getLatestNode(node);
-            if(NULL!=node)
+            if(nullptr!=node)
             {
                 avg = avg.toDouble() + node->getResult().toDouble();
             }

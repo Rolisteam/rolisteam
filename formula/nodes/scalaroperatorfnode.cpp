@@ -48,7 +48,7 @@ bool ScalarOperatorFNode::run(FormulaNode* previous)
         if(!presult.isNull())
         {
              FormulaNode* internal = m_internalNode;
-             while(NULL != internal->next() )
+             while(nullptr != internal->next() )
              {
                     internal = internal->next();
              }
@@ -56,7 +56,7 @@ bool ScalarOperatorFNode::run(FormulaNode* previous)
 
             QVariant internalresult = internal->getResult();
             //m_result->setPrevious(internalResult);
-            /*if(NULL!=m_internalNode->getResult())
+            /*if(nullptr!=m_internalNode->getResult())
             {
                 m_internalNode->getResult()->setPrevious(previousResult);
             }*/
@@ -90,7 +90,7 @@ bool ScalarOperatorFNode::run(FormulaNode* previous)
             {
                 m_value = result;
             }
-            if(NULL!=m_next)
+            if(nullptr!=m_next)
             {
                 m_next->run(this);
             }

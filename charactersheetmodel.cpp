@@ -124,7 +124,7 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
     if((role == Qt::DisplayRole)||(role == Qt::EditRole)||(role == Qt::BackgroundRole))
     {
         CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
-        if(NULL!=childItem)
+        if(nullptr!=childItem)
         {
             if(role == Qt::BackgroundRole)
             {
@@ -163,7 +163,7 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
     {
         CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
 
-        if(NULL!=childItem)
+        if(nullptr!=childItem)
         {
             if(index.column()==0)
             {
@@ -321,12 +321,12 @@ CharacterSheet *CharacterSheetModel::getCharacterSheetById(QString id)
             return sheet;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 int CharacterSheetModel::getCharacterSheetCount() const
 {
-    if(NULL!=m_characterList)
+    if(nullptr!=m_characterList)
     {
         return m_characterList->size();
     }
@@ -422,7 +422,7 @@ CharacterSheetItem* CharacterSheetModel::addSection(QString title)
 void CharacterSheetModel::addLine(const QModelIndex& index)
 {
     QModelIndex parent = index;
-    CharacterSheetItem* parentItem = NULL;
+    CharacterSheetItem* parentItem = nullptr;
     if(index.isValid())
     {
         parentItem = static_cast<CharacterSheetItem*>(index.internalPointer());

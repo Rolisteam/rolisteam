@@ -21,7 +21,7 @@
 namespace Formula
 {
 FormulaManager::FormulaManager()
-    : m_startingNode(NULL)
+    : m_startingNode(nullptr)
 {
     m_parsingTool = new ParsingToolFormula();
 }
@@ -50,10 +50,10 @@ bool FormulaManager::parseLine(QString& str)
 
 QVariant FormulaManager::startComputing()
 {
-    m_startingNode->run(NULL);
+    m_startingNode->run(nullptr);
 
     FormulaNode* node = m_startingNode;
-    while(NULL!=node->next())
+    while(nullptr!=node->next())
     {
         node=node->next();
     }
@@ -66,7 +66,7 @@ QVariant FormulaManager::startComputing()
 bool FormulaManager::readFormula(QString &str)
 {
     m_startingNode = new StartNode();
-    FormulaNode* node = NULL;
+    FormulaNode* node = nullptr;
     bool a = m_parsingTool->readFormula(str,node);
 
     m_startingNode->setNext(node);
@@ -74,7 +74,7 @@ bool FormulaManager::readFormula(QString &str)
 }
 void FormulaManager::setConstantHash(QHash<QString,QString>* hash)
 {
-    if(NULL!=m_parsingTool)
+    if(nullptr!=m_parsingTool)
     {
         m_parsingTool->setVariableHash(hash);
     }

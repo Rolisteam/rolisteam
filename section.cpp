@@ -55,7 +55,7 @@ CharacterSheetItem* Section::getChildAt(int i) const
     {
         return m_dataHash.value(m_keyList.at(i));
     }
-    return NULL;
+    return nullptr;
 }
 CharacterSheetItem* Section::getChildAt(QString key) const
 {
@@ -137,7 +137,7 @@ void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
     {
         QJsonObject obj = (*it).toObject();
         CharacterSheetItem* item;
-        QGraphicsItem* gItem=NULL;
+        QGraphicsItem* gItem=nullptr;
         if(obj["type"]==QStringLiteral("Section"))
         {
             item = new Section();
@@ -152,7 +152,7 @@ void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
         if(scenes.size()>item->getPage())
         {
             QGraphicsScene* scene = scenes.at(item->getPage());
-            if((NULL!=scene)&&(NULL!=gItem))
+            if((nullptr!=scene)&&(nullptr!=gItem))
             {
                 scene->addItem(gItem);
                 item->initGraphicsItem();
@@ -186,7 +186,7 @@ void Section::copySection(Section* oldSection)
         CharacterSheetItem* childItem = oldSection->getChildAt(i);
         if(nullptr!=childItem)
         {
-            CharacterSheetItem* newItem = NULL;
+            CharacterSheetItem* newItem = nullptr;
             if(CharacterSheetItem::FieldItem == childItem->getItemType())
             {
                 Field* newField = new Field(false);
@@ -283,16 +283,16 @@ void Section::buildDataInto( CharacterSheet* character)
     for(int i = 0; i< getChildrenCount();++i)
     {
         CharacterSheetItem* childItem = getChildAt(i);
-        if(NULL!=childItem)
+        if(nullptr!=childItem)
         {
-            CharacterSheetItem* newItem = NULL;
+            CharacterSheetItem* newItem = nullptr;
             if(CharacterSheetItem::FieldItem == childItem->getItemType())
             {
                 Field* newField = new Field(false);
                 newField->copyField(childItem,false);
                 newItem = newField;
             }
-            if(NULL!=newItem)
+            if(nullptr!=newItem)
             {
                 newItem->setValue(character->getValue(newItem->getId()).toString());
                 character->insertCharacterItem(newItem);
@@ -310,7 +310,7 @@ void Section::setValueForAll(CharacterSheetItem* itemSrc,int col)
     for(auto key : m_keyList)
     {
         CharacterSheetItem* item = m_dataHash.value(key);
-        if(NULL!=item)
+        if(nullptr!=item)
         {
             item->setValueFrom((ColumnId)col,itemSrc->getValueFrom((ColumnId)col,Qt::DisplayRole));
         }

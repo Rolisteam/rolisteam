@@ -23,11 +23,11 @@ QVariant ParenthesesFNode::getResult()
 bool ParenthesesFNode::run(FormulaNode* /*previous*/)
 {
     bool result = false;
-    if(NULL!=m_internalNode)
+    if(nullptr!=m_internalNode)
     {
         m_internalNode->run(this);
         FormulaNode* temp=m_internalNode;
-       while(NULL!=temp->next())
+       while(nullptr!=temp->next())
        {
             temp=temp->next();
        }
@@ -36,7 +36,7 @@ bool ParenthesesFNode::run(FormulaNode* /*previous*/)
     }
 
 
-    if(NULL!=m_next)
+    if(nullptr!=m_next)
     {
         return m_next->run(this);
     }

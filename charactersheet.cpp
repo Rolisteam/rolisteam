@@ -35,7 +35,7 @@
 
 int CharacterSheet::m_count=0;
 CharacterSheet::CharacterSheet()
-    : m_name("Character %1"),m_rootSection(NULL),m_uuid(QUuid::createUuid().toString())
+    : m_name("Character %1"),m_rootSection(nullptr),m_uuid(QUuid::createUuid().toString())
 {
     ++m_count;
     m_name = m_name.arg(m_count);
@@ -64,7 +64,7 @@ CharacterSheetItem* CharacterSheet::getFieldAt(int i)
         return m_valuesMap.value(m_valuesMap.keys().at(i));
 
     }
-    return NULL;
+    return nullptr;
 }
 
 CharacterSheetItem* CharacterSheet::getFieldFromKey(QString key)
@@ -81,7 +81,7 @@ const  QVariant CharacterSheet::getValue(QString path,Qt::ItemDataRole role) con
     if(m_valuesMap.contains(path))
     {
         CharacterSheetItem* item = m_valuesMap.value(path);
-        if(NULL!=item)
+        if(nullptr!=item)
         {
             if(role == Qt::DisplayRole)
             {
@@ -181,7 +181,7 @@ void CharacterSheet::setFieldData(QJsonObject &obj)
 {
     QString id = obj["id"].toString();
     CharacterSheetItem* item = m_valuesMap.value(id);
-    if(NULL!=item)
+    if(nullptr!=item)
     {
         item->loadDataItem(obj);
     }
@@ -228,12 +228,12 @@ void CharacterSheet::load(QJsonObject& json)
     for(QString key : array.keys() )
     {
         QJsonObject item = array[key].toObject();
-        CharacterSheetItem* itemSheet=NULL;
+        CharacterSheetItem* itemSheet=nullptr;
         if((item["type"]==QStringLiteral("field"))||(item["type"]==QStringLiteral("button")))
         {
             itemSheet = new Field();
         }
-        if(NULL!=itemSheet)
+        if(nullptr!=itemSheet)
         {
             itemSheet->loadDataItem(item);
             itemSheet->setId(key);
@@ -268,7 +268,7 @@ void CharacterSheet::sendUpdateForField()
 {
     CharacterSheetItem* item = dynamic_cast<CharacterSheetItem*>(sender());
 
-    if(NULL!=item)
+    if(nullptr!=item)
     {
         emit updateField(this,item);
     }
@@ -295,7 +295,7 @@ QHash<QString, QString> CharacterSheet::getVariableDictionnary()
     QHash<QString, QString> dataDict;
     for(QString key : m_valuesMap.keys())
     {
-        if(NULL!=m_valuesMap[key])
+        if(nullptr!=m_valuesMap[key])
         {
             dataDict[key] = m_valuesMap[key]->value();
             dataDict[m_valuesMap[key]->getLabel()] = m_valuesMap[key]->value();

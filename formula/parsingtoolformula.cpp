@@ -27,7 +27,7 @@
 namespace Formula
 {
 ParsingToolFormula::ParsingToolFormula()
-    : m_variableHash(NULL)
+    : m_variableHash(nullptr)
 {
     //ABS,MIN,MAX,IF,FLOOR,CEIL,AVG
     m_hashOp = new QHash<QString,ParsingToolFormula::FormulaOperator>();
@@ -68,10 +68,10 @@ ParsingToolFormula::~ParsingToolFormula()
 
 FormulaNode* ParsingToolFormula::getLatestNode(FormulaNode* node)
 {
-    if(NULL==node)
-        return NULL;
+    if(nullptr==node)
+        return nullptr;
     FormulaNode* next = node;
-    while(NULL != next->next() )
+    while(nullptr != next->next() )
     {
         next = next->next();
     }
@@ -93,7 +93,7 @@ bool ParsingToolFormula::readFormula(QString& str, FormulaNode* & previous)
     {
         str=str.remove(0,1);
     }
-    FormulaNode* operandNode=NULL;
+    FormulaNode* operandNode=nullptr;
     bool found = false;
     if(readParenthese(str,operandNode))
     {
@@ -119,7 +119,7 @@ bool ParsingToolFormula::readParenthese(QString& str, FormulaNode* & previous)
     if(str.startsWith("("))
     {
         str=str.remove(0,1);
-        FormulaNode* internalNode=NULL;
+        FormulaNode* internalNode=nullptr;
         if(readFormula(str,internalNode))
         {
 
@@ -156,12 +156,12 @@ bool ParsingToolFormula::readScalarOperator(QString& str, FormulaNode* previous)
         ScalarOperatorFNode* node = new ScalarOperatorFNode();
         node->setArithmeticOperator(ope);
 
-        FormulaNode* internal=NULL;
+        FormulaNode* internal=nullptr;
         readFormula(str,internal);
 
         node->setInternalNode(internal);
 
-        if(NULL==internal)
+        if(nullptr==internal)
         {
             delete node;
             return false;
@@ -169,7 +169,7 @@ bool ParsingToolFormula::readScalarOperator(QString& str, FormulaNode* previous)
         if(node->getPriority()>=internal->getPriority())
         {
             node->setNext(internal->next());
-            internal->setNext(NULL);
+            internal->setNext(nullptr);
         }
         previous->setNext(node);
 
@@ -238,7 +238,7 @@ bool ParsingToolFormula::readOperator(QString& str, FormulaNode* & previous)
             OperatorFNode* node = new OperatorFNode();
             previous = node;
             node->setOperator(m_hashOp->value(key));
-            FormulaNode* nextNode=NULL;
+            FormulaNode* nextNode=nullptr;
             found = true;
             if(str.startsWith("("))
             {
@@ -246,7 +246,7 @@ bool ParsingToolFormula::readOperator(QString& str, FormulaNode* & previous)
                 while(readFormula(str,nextNode) ) //&& !str.startsWith(")")
                 {//reading parameter loop
                    node->addParameter(nextNode);
-                   nextNode=NULL;
+                   nextNode=nullptr;
                    if(str.startsWith(","))
                    {
                        str=str.remove(0,1);
@@ -277,7 +277,7 @@ bool ParsingToolFormula::readFieldRef(QString& str, FormulaNode* & previous)
     int post = str.indexOf('}');
     key = str.left(post);
 
-    if(NULL!=m_variableHash)
+    if(nullptr!=m_variableHash)
     {
         if(m_variableHash->contains(key))
         {

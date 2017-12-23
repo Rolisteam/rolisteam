@@ -60,7 +60,7 @@ void Field::init()
 #ifdef RCSE
     m_canvasField = new CanvasField(this);
 #else
-    m_canvasField = NULL;
+    m_canvasField = nullptr;
 #endif
     m_id = QStringLiteral("id_%1").arg(m_count);
     m_currentType=TEXTINPUT;
@@ -73,7 +73,7 @@ void Field::init()
     m_textColor = Qt::black;
     m_font = font();
     #ifdef RCSE
-    if(NULL!=m_canvasField)
+    if(nullptr!=m_canvasField)
     {
         m_canvasField->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable|QGraphicsItem::ItemClipsToShape);
 
@@ -99,23 +99,23 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
         return m_value;
     case X:
         //return m_rect.x();
-        if(NULL!=m_canvasField)
+        if(nullptr!=m_canvasField)
             return m_canvasField->pos().x();
         else
             return 0;
     case Y:
         //return m_rect.y();
-        if(NULL!=m_canvasField)
+        if(nullptr!=m_canvasField)
             return m_canvasField->pos().y();
         else
             return 0;
     case WIDTH:
-        if(NULL!=m_canvasField)
+        if(nullptr!=m_canvasField)
             return m_canvasField->boundingRect().width();
         else
             return 0;
     case HEIGHT:
-        if(NULL!=m_canvasField)
+        if(nullptr!=m_canvasField)
             return m_canvasField->boundingRect().height();
         else
             return 0;
@@ -163,20 +163,20 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         break;
     case X:
         //m_rect.setX(var.toReal());
-        if(NULL!=m_canvasField)
+        if(nullptr!=m_canvasField)
         {
             m_canvasField->setPos(var.toReal(),m_canvasField->pos().y());
         }
         break;
     case Y:
         //m_rect.setY(var.toReal());
-        if(NULL!=m_canvasField)
+        if(nullptr!=m_canvasField)
         {
             m_canvasField->setPos(m_canvasField->pos().x(),var.toReal());
         }
         break;
     case WIDTH:
-        if(NULL!=m_canvasField)
+        if(nullptr!=m_canvasField)
         {
             #ifdef RCSE
             m_canvasField->setWidth(var.toReal());
@@ -184,7 +184,7 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         }
         break;
     case HEIGHT:
-        if(NULL!=m_canvasField)
+        if(nullptr!=m_canvasField)
         {
             #ifdef RCSE
             m_canvasField->setHeight(var.toReal());
@@ -280,7 +280,7 @@ void Field::setClippedText(bool clippedText)
 
 CharacterSheetItem* Field::getChildAt(QString) const
 {
-    return NULL;
+    return nullptr;
 }
 QStringList Field::getAvailableValue() const
 {
@@ -514,7 +514,7 @@ void Field::setCanvasField(CanvasField *canvasField)
 {
     m_canvasField = canvasField;
     #ifdef RCSE
-    if(NULL!=m_canvasField)
+    if(nullptr!=m_canvasField)
     {
         m_canvasField->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable|QGraphicsItem::ItemClipsToShape);
 
@@ -709,7 +709,7 @@ QPair<QString,QString> Field::getTextAlign()
 void Field::copyField(CharacterSheetItem* oldItem,bool copyData)
 {
     Field* oldField =  dynamic_cast<Field*>(oldItem);
-    if(NULL!=oldField)
+    if(nullptr!=oldField)
     {
         setId(oldField->getId());
         setCurrentType(oldField->getCurrentType());
