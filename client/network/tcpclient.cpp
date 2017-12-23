@@ -29,7 +29,7 @@ void TcpClient::setSocket(QTcpSocket* socket)
         connect(m_socket,static_cast<void (QTcpSocket::*)(QAbstractSocket::SocketError)>(&QTcpSocket::error),this,&TcpClient::socketError,Qt::QueuedConnection);
 
         connect(m_socket,SIGNAL(readyRead()),this,SLOT(receivingData()));
-        connect(m_socket,SIGNAL(disconnected()),this,SIGNAL(disconnected()));
+        connect(m_socket,SIGNAL(disconnected()),this,SIGNAL(socketDisconnection()));
         connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(connectionError(QAbstractSocket::SocketError)));
 
         connect(m_stateMachine,SIGNAL(started()),this,SIGNAL(isReady()));
@@ -142,7 +142,6 @@ void TcpClient::startReading()
 {
 
     QTcpSocket* socket = new QTcpSocket();
-    //qDebug() << "start reading: current thread" << QThread::currentThread() << " thread socket" << socket->thread() << " object thread" << thread();
     socket->setSocketDescriptor(getSocketHandleId());
     setSocket(socket);
 }
@@ -304,14 +303,13 @@ void TcpClient::forwardMessage()
         emit dataReceived(array);
     }
 }
-void TcpClient::sendData(char* data, quint32 size)
+/*void TcpClient::sendData(char* data, quint32 size)
 {
     qint64 dataSend = m_socket->write(data,size);
     if(-1 == dataSend)
     {
         qDebug() << "error Writing data";
     }
-    //qDebug() << "datasend:"<<dataSend;
 }
 void TcpClient::sendData(QByteArray a)
 {
@@ -320,8 +318,7 @@ void TcpClient::sendData(QByteArray a)
     {
         qDebug() << "error Writing data";
     }
-    //qDebug() << "Array datasend:"<<dataSend;
-}
+}*/
 
 void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 {
@@ -331,7 +328,11 @@ void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
         qint64 dataSend = m_socket->write((char*)data,data->dataSize+sizeof(NetworkMessageHeader));
         if(-1 == dataSend)
         {
-            qDebug() << "error Writing data" << m_socket->errorString() ;
+            qDebug() << "error Writing data" << m_socket->errorString();
+            if(m_socket->state() != QAbstractSocket::ConnectedState)
+            {
+                emit socketDisconnection();
+            }
         }
     }
     if(deleteMsg)
@@ -341,12 +342,13 @@ void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 }
 void TcpClient::connectionError(QAbstractSocket::SocketError error)
 {
-    emit disconnected();
+    emit socketDisconnection();
+    if(m_socket)
+        qWarning() << m_socket->errorString();
 }
 
 void TcpClient::sendEvent(TcpClient::ConnectionEvent event)
 {//{HasCheckEvent,NoCheckEvent,CheckedEvent,CheckFailedEvent,ForbiddenEvent,DataReceivedEvent,AuthFailEvent,AuthSuccessEvent,NoRestrictionEvent,HasRestrictionEvent,ChannelAuthSuccessEvent,ChannelAuthFailEvent};
-    qDebug() << "sendEvent" << event << CheckedEvent ;
     switch (event)
     {
     case HasCheckEvent:

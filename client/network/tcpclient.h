@@ -88,10 +88,6 @@ signals:
      * @brief dataReceived
      */
     void dataReceived(QByteArray);
-    /**
-     * @brief disconnected
-     */
-    void disconnected();
 
     ///
     /// \brief connectionChecked
@@ -131,12 +127,12 @@ public slots:
      * @param data
      * @param size
      */
-    void sendData(char* data, quint32 size);
+   // void sendData(char* data, quint32 size);
     /**
      * @brief sendData
      * @param a
      */
-    void sendData(QByteArray a);
+   // void sendData(QByteArray a);
     /**
      * @brief sendMessage
      * @param msg
