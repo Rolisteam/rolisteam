@@ -52,7 +52,7 @@ ChatWindow::ChatWindow(AbstractChat * chat,QWidget* parent)
     m_preferences = PreferencesManager::getInstance();
     if (m_chat == nullptr)
     {
-        qFatal("ChatWindow with NULL chat");
+        qFatal("ChatWindow with nullptr chat");
     }
     m_warnedEmoteUnavailable = false;
     m_hasUnseenMessage = false;
