@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>524</width>
-    <height>711</height>
+    <height>860</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -263,6 +263,57 @@
            <widget class="QLabel" name="label_9">
             <property name="text">
              <string>* : need restart</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_9">
+         <property name="title">
+          <string>Character Sheet</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_22">
+          <item>
+           <widget class="QLabel" name="label_27">
+            <property name="text">
+             <string>Time between page:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="m_timeSliderPage">
+            <property name="minimum">
+             <number>16</number>
+            </property>
+            <property name="maximum">
+             <number>6000</number>
+            </property>
+            <property name="value">
+             <number>300</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="m_displayTimePage">
+            <property name="suffix">
+             <string>ms</string>
+            </property>
+            <property name="minimum">
+             <number>16</number>
+            </property>
+            <property name="maximum">
+             <number>6000</number>
+            </property>
+            <property name="singleStep">
+             <number>100</number>
+            </property>
+            <property name="value">
+             <number>300</number>
             </property>
            </widget>
           </item>
@@ -1189,8 +1240,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>266</x>
-     <y>701</y>
+     <x>275</x>
+     <y>850</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -1205,8 +1256,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>334</x>
-     <y>701</y>
+     <x>343</x>
+     <y>850</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -1221,12 +1272,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>140</x>
-     <y>554</y>
+     <x>164</x>
+     <y>630</y>
     </hint>
     <hint type="destinationlabel">
      <x>490</x>
-     <y>556</y>
+     <y>632</y>
     </hint>
    </hints>
   </connection>
@@ -1243,6 +1294,38 @@
     <hint type="destinationlabel">
      <x>473</x>
      <y>319</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_timeSliderPage</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>m_displayTimePage</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>217</x>
+     <y>513</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>450</x>
+     <y>518</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_displayTimePage</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>m_timeSliderPage</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>414</x>
+     <y>500</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>352</x>
+     <y>510</y>
     </hint>
    </hints>
   </connection>

@@ -255,6 +255,9 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
     connect(ui->m_heartBeat,SIGNAL(clicked(bool)),this,SLOT(manageHeartBeat()));
     connect(ui->m_hbFrequency,SIGNAL(valueChanged(int)),this,SLOT(manageHeartBeat()));
+    connect(ui->m_displayTimePage,&QSpinBox::valueChanged,this,[=](int val){
+       m_preferences->registerValue("waitingTimeBetweenPage",val,true);
+    });
 
 
     //Messaging
@@ -355,6 +358,8 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("shortNameInTabMode",ui->m_shortNameCb->isChecked());
     m_preferences->registerValue("MaxLengthTabName",ui->m_tabTitleLength->value());
 
+    m_preferences->registerValue("waitingTimeBetweenPage",ui->m_displayTimePage);
+
     //theme
     m_preferences->registerValue("currentTheme", ui->m_themeComboBox->currentText());
     m_preferences->registerValue("ThemeNumber",m_themes.size());
@@ -423,6 +428,8 @@ void PreferencesDialog::load()
 
     ui->m_shortNameCb->setChecked(m_preferences->value("shortNameInTabMode",false).toBool());
     ui->m_tabTitleLength->setValue(m_preferences->value("MaxLengthTabName",10).toInt());
+
+    ui->m_displayTimePage->setValue(m_preferences->value("waitingTimeBetweenPage",300).toInt());
 
     ////////////////////////
     //MAP
