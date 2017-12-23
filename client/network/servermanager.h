@@ -53,25 +53,20 @@ signals:
 public slots:
     void startListening();
     void messageReceived(QByteArray);
-    void disconnection();
     void stopListening();
-
     void processMessageAdmin(NetworkMessageReader *msg,Channel* chan, TcpClient* tcp);
     void initClient();
     void sendOffAuthSuccessed();
     void sendOffAuthFail();
-    void start();
     void quit();
     void accept(qintptr handle, TcpClient* connection, QThread* thread);
-    void removeSocket(QTcpSocket *socket);
+    void removeClient(TcpClient* socket);
     void disconnected();
     void error(QAbstractSocket::SocketError socketError);
     void sendOffModel(TcpClient*);
     void sendOffModelToAll();
     void sendOffAdminAuthFail();
     void sendOffAdminAuthSuccessed();
-private slots:
-    void incomingClientConnection();
 
 private:
     int m_port;

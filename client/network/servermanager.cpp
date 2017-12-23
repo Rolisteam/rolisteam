@@ -84,11 +84,6 @@ void ServerManager::messageReceived(QByteArray array)
     }
 }
 
-void ServerManager::disconnection()
-{
-
-    qInfo() << "Disconnction";
-}
 void ServerManager::initServerManager()
 {
    //create channel
@@ -102,10 +97,6 @@ void ServerManager::initServerManager()
    }
 }
 
-void ServerManager::incomingClientConnection()
-{
-   //empty
-}
 void ServerManager::initClient()
 {
     TcpClient* client = qobject_cast<TcpClient*>(sender());
@@ -357,10 +348,6 @@ void ServerManager::setState(const ServerManager::ServerState &state)
         emit listening();
     }
 }
-void ServerManager::start()
-{
-
-}
 
 void ServerManager::quit()
 {
@@ -370,6 +357,7 @@ void ServerManager::quit()
 
 void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread)
 {
+    Q_UNUSED(thread);
     emit sendLog(tr("New Incoming Connection!"));
 
     connect(connection,SIGNAL(dataReceived(QByteArray)),this,SLOT(messageReceived(QByteArray)),Qt::QueuedConnection);//
@@ -379,7 +367,6 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
     connect(connection,SIGNAL(adminAuthSucceed()),this,SLOT(sendOffAdminAuthSuccessed()),Qt::QueuedConnection);
     connect(connection,SIGNAL(authFail()),this,SLOT(sendOffAuthFail()),Qt::QueuedConnection);
     connect(connection,SIGNAL(itemChanged()),this,SLOT(sendOffModelToAll()),Qt::QueuedConnection);
-    //connect(this,&ServerManager::clientAccepted,connection,&TcpClient::starReading,Qt::QueuedConnection);
     connect(connection,&TcpClient::socketDisconnection,this,&ServerManager::disconnected,Qt::QueuedConnection);
     connect(connection,&TcpClient::socketError,this,&ServerManager::error,Qt::QueuedConnection);
     connection->setSocketHandleId(handle);
@@ -387,14 +374,10 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
 
     //emit clientAccepted();
     QMetaObject::invokeMethod(connection,"startReading",Qt::QueuedConnection);
-
-
-
-
 }
+
 void ServerManager::sendOffModelToAll()
 {
-    int i = 0;
     for( auto connection : m_connections.values())
     {
         sendOffModel(connection);
@@ -404,39 +387,38 @@ void ServerManager::sendOffModelToAll()
 void ServerManager::disconnected()
 {
     if(!sender()) return;
-    //qDebug() << this << "disconnecting socket"<< sender();
 
-    QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
-    if(!socket) return;
+    TcpClient* client = qobject_cast<TcpClient*>(sender());
+    if(!client) return;
 
-    removeSocket(socket);
+    removeClient(client);
 }
-void ServerManager::removeSocket(QTcpSocket *socket)
+void ServerManager::removeClient(TcpClient* client)
 {
-    if(!socket) return;
-    if(!m_connections.contains(socket)) return;
 
-    TcpClient* client = m_connections.value(socket);
+    auto socket = client->getSocket();
 
-    m_model->removeChild(client->getId());
-    if(socket->isOpen())
+    if(nullptr != socket)
     {
-        socket->disconnect();
-        socket->close();
+        m_model->removeChild(client->getId());
+        if(socket->isOpen())
+        {
+            socket->disconnect();
+            socket->close();
+        }
+        m_connections.remove(socket);
+        socket->deleteLater();
+
+        sendOffModelToAll();
     }
-
-    m_connections.remove(socket);
-    socket->deleteLater();
-
-    sendOffModelToAll();
 
 }
 void ServerManager::error(QAbstractSocket::SocketError socketError)
 {
     if(!sender()) return;
 
-    QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
-    if(!socket) return;
+    TcpClient* client = qobject_cast<TcpClient*>(sender());
+    if(!client) return;
 
-    removeSocket(socket);
+    removeClient(client);
 }
