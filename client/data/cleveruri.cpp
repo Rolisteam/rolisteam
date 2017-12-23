@@ -42,7 +42,7 @@ QHash<CleverURI::ContentType,QString> CleverURI::m_iconPathHash={
     {CleverURI::CHARACTERSHEET,":/resources/icons/treeview.png"},
     {CleverURI::SCENARIO,":/story.png"},
     {CleverURI::SONG,":/resources/icons/audiofile.svg"},
-    {CleverURI::SHAREDNOTE,":/notes.png"},
+    {CleverURI::SHAREDNOTE,":/resources/icons/sharedEditor.png"},
     #ifdef WITH_PDF
     {CleverURI::PDF,":/iconpdf"},
     #endif

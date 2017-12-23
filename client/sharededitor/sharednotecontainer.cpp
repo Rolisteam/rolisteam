@@ -34,7 +34,7 @@ SharedNoteContainer::SharedNoteContainer()
 
     setCleverUriType(CleverURI::SHAREDNOTE);
     setWidget(m_edit);
-    setWindowIcon(QIcon(":/notes.png"));
+    setWindowIcon(QIcon(":/resources/icons/sharedEditor.png"));
    // m_edit->displaySharingPanel();
     connect(m_edit,SIGNAL(windowTitleChanged(QString)),this,SLOT(setFileName(QString)));
 
