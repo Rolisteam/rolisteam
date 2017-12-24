@@ -5,6 +5,7 @@
 #include <QTcpSocket>
 #include <QStateMachine>
 #include <QState>
+#include <QPointer>
 
 #include "channelmodel.h"
 
@@ -38,12 +39,6 @@ public:
     explicit TcpClient(QTcpSocket* socket,QObject *parent = 0);
     ~TcpClient();
     /**
-     * @brief getSocket
-     * @return
-     */
-    QTcpSocket* getSocket();
-
-    /**
      * @brief getParentChannel
      * @return
      */
@@ -53,13 +48,17 @@ public:
      * @param parent
      */
     void setParentChannel(Channel *parent);
-
     void readFromJson(QJsonObject &json);
     void writeIntoJson(QJsonObject& json);
-
     virtual int indexOf(TreeItem*);
-
+    /**
+     * @brief getSocket
+     * @return
+     */
+    QTcpSocket* getSocket();
     void setSocket(QTcpSocket* socket);
+    qintptr getSocketHandleId() const;
+    void setSocketHandleId(const qintptr &socketHandleId);
 
     bool isGM() const;
     void setIsGM(bool isGM);
@@ -75,10 +74,7 @@ public:
 
     bool isAdmin() const;
     void setIsAdmin(bool isAdmin);
-
-    qintptr getSocketHandleId() const;
-    void setSocketHandleId(const qintptr &socketHandleId);
-
+    bool isConnected()const;
 signals:
     /**
      * @brief readDataReceived
@@ -110,9 +106,6 @@ signals:
     void socketDisconnection();
     void socketError(QAbstractSocket::SocketError );
     void socketInitiliazed();
-
-
-
 public slots:
     /**
      * @brief receivingData
@@ -122,17 +115,6 @@ public slots:
      * @brief forwardMessage
      */
     void forwardMessage();
-    /**
-     * @brief sendData
-     * @param data
-     * @param size
-     */
-   // void sendData(char* data, quint32 size);
-    /**
-     * @brief sendData
-     * @param a
-     */
-   // void sendData(QByteArray a);
     /**
      * @brief sendMessage
      * @param msg
@@ -150,7 +132,7 @@ public slots:
 
     void startReading();
 private:
-    QTcpSocket* m_socket;
+    QPointer<QTcpSocket> m_socket;
     NetworkMessageHeader m_header;
     char* m_buffer;
     int m_headerRead;

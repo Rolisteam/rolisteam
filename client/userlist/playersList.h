@@ -139,10 +139,6 @@ signals:
      */
     void localGMRefused(bool);
 
-
-private slots:
-    void delPlayerWithLink(NetworkLink * link);
-
 private:
     /**
      * @brief Constructor

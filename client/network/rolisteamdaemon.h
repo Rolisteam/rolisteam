@@ -17,9 +17,10 @@ public:
 
     void start();
 signals:
+    void stopped();
 
 public slots:
-    void readConfigFile(QString);
+    bool readConfigFile(QString);
     void createEmptyConfigFile(QString filepath);
 
     int getLevelOfLog();

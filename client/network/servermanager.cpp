@@ -53,9 +53,8 @@ void ServerManager::startListening()
     if (m_server == nullptr)
     {
         m_server = new RServer(this,getValue("ThreadCount").toInt());
-        //connect(m_server, SIGNAL(newConnection()), this, SLOT(incomingClientConnection()));
-
     }
+    ++m_tryCount;
     if (m_server->listen(QHostAddress::Any,getValue("port").toInt()))
     {
         setState(Listening);
@@ -63,8 +62,16 @@ void ServerManager::startListening()
     }
     else
     {
-        emit errorOccurs(m_server->errorString());
-        QTimer::singleShot(getValue("TimeToRetry").toInt(),this,SLOT(startListening()));
+        if(m_tryCount < getValue("TryCount").toInt() || getValue("TryCount").toInt() == 0)
+        {
+            emit errorOccurs(m_server->errorString());
+            QTimer::singleShot(getValue("TimeToRetry").toInt(),this,SLOT(startListening()));
+        }
+        else
+        {
+            emit finished();
+        }
+
     }
 }
 void ServerManager::stopListening()
@@ -371,7 +378,6 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
     connect(connection,&TcpClient::socketError,this,&ServerManager::error,Qt::QueuedConnection);
     connection->setSocketHandleId(handle);
 
-
     //emit clientAccepted();
     QMetaObject::invokeMethod(connection,"startReading",Qt::QueuedConnection);
 }
@@ -386,6 +392,7 @@ void ServerManager::sendOffModelToAll()
 
 void ServerManager::disconnected()
 {
+    qDebug() << "ServerManager::disconnected()";
     if(!sender()) return;
 
     TcpClient* client = qobject_cast<TcpClient*>(sender());
@@ -395,6 +402,8 @@ void ServerManager::disconnected()
 }
 void ServerManager::removeClient(TcpClient* client)
 {
+    qDebug() << "ServerManager::removeClient";
+    client->isReady();
 
     auto socket = client->getSocket();
 
@@ -410,15 +419,73 @@ void ServerManager::removeClient(TcpClient* client)
         socket->deleteLater();
 
         sendOffModelToAll();
+        client->deleteLater();
     }
 
 }
 void ServerManager::error(QAbstractSocket::SocketError socketError)
 {
+
+   /* qDebug() << "ServerManager::error";
     if(!sender()) return;
 
     TcpClient* client = qobject_cast<TcpClient*>(sender());
     if(!client) return;
 
-    removeClient(client);
+    qDebug() << "[Error Socket]" << socketError << client->isConnected();
+    switch(socketError)
+    {
+    case QAbstractSocket::ConnectionRefusedError:
+        break;
+    case QAbstractSocket::RemoteHostClosedError:
+        break;
+    case QAbstractSocket::HostNotFoundError:
+        break;
+    case QAbstractSocket::SocketAccessError:
+        break;
+    case QAbstractSocket::SocketResourceError:
+        break;
+    case QAbstractSocket::SocketTimeoutError:
+        break;
+    case QAbstractSocket::DatagramTooLargeError:
+        break;
+    case QAbstractSocket::NetworkError:
+        break;
+    case QAbstractSocket::AddressInUseError:
+        break;
+    case QAbstractSocket::SocketAddressNotAvailableError:
+        break;
+    case QAbstractSocket::UnsupportedSocketOperationError:
+        break;
+    case QAbstractSocket::ProxyAuthenticationRequiredError:
+        break;
+    case QAbstractSocket::SslHandshakeFailedError:
+        break;
+    case QAbstractSocket::UnfinishedSocketOperationError:
+        break;
+    case QAbstractSocket::ProxyConnectionRefusedError:
+        break;
+    case QAbstractSocket::ProxyConnectionClosedError:
+        break;
+    case QAbstractSocket::ProxyConnectionTimeoutError:
+        break;
+    case QAbstractSocket::ProxyNotFoundError:
+        break;
+    case QAbstractSocket::ProxyProtocolError:
+        break;
+    case QAbstractSocket::OperationError:
+        break;
+    case QAbstractSocket::SslInternalError:
+        break;
+    case QAbstractSocket::SslInvalidUserDataError:
+        break;
+    case QAbstractSocket::TemporaryError:
+        break;
+    case QAbstractSocket::UnknownSocketError:
+        break;
+
+    }*/
+    /*
+
+    removeClient(client);*/
 }

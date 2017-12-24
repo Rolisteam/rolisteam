@@ -62,7 +62,7 @@ PlayersList::PlayersList()
     //m_localPlayer = new Player();
     //m_playersList.append(m_localPlayer);
 
-    connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(sendDelLocalPlayer()));
+    //connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(sendDelLocalPlayer()));
 }
 
 
@@ -959,7 +959,7 @@ void PlayersList::completeListClean()
  * Other *
  *********/
 
-void PlayersList::delPlayerWithLink(NetworkLink * link)
+/*void PlayersList::delPlayerWithLink(NetworkLink * link)
 {
     int playersCount = m_playersList.size();
     for (int i = 0; i < playersCount ; i++)
@@ -977,7 +977,7 @@ void PlayersList::delPlayerWithLink(NetworkLink * link)
             return;
         }
     }
-}
+}*/
 Player* PlayersList::getGM()
 {
     for(auto player : m_playersList)

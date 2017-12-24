@@ -24,22 +24,13 @@ public:
     enum Channels {Unique,Several};
 
     explicit ServerManager(QObject *parent = 0);
-
     void sendMessage(NetworkMessage* msg);
-
     int getPort() const;
-
     ServerManager::ServerState getState() const;
     void setState(const ServerManager::ServerState &state);
-
     void insertField(QString,QVariant, bool erase = true);
-
-
     void initServerManager();
-
     QVariant getValue(QString key) const;
-
-
     void kickClient(QString id);
 signals:
     void stateChanged(ServerManager::ServerState);
@@ -83,7 +74,7 @@ private:
     MessageDispatcher* m_msgDispatcher;
     QHash<QTcpSocket*,TcpClient*> m_connections;
     ServerState m_state;
-
+    int m_tryCount;
 };
 
 #endif // SERVERMANAGER_H

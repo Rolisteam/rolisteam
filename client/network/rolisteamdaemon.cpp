@@ -4,6 +4,7 @@
 #include <QTime>
 
 #include <QSettings>
+#include <QFileInfo>
 
 RolisteamDaemon::RolisteamDaemon(QObject *parent)
     : QObject(parent)//,m_serverManager(new ServerManager())
@@ -11,8 +12,12 @@ RolisteamDaemon::RolisteamDaemon(QObject *parent)
 
 }
 
-void RolisteamDaemon::readConfigFile(QString filepath)
+bool RolisteamDaemon::readConfigFile(QString filepath)
 {
+
+    if(!QFileInfo::exists(filepath))
+        return false;
+
     QSettings settings(filepath,QSettings::IniFormat);
 
     int port = settings.value("port").toInt();
@@ -27,6 +32,7 @@ void RolisteamDaemon::readConfigFile(QString filepath)
     int threadCount= settings.value("ThreadCount").toInt();
     int channelCount= settings.value("ChannelCount").toInt();
     int timeToRetry= settings.value("TimeToRetry").toInt();
+    int tryCount= settings.value("TryCount").toInt();
     int logLevel= settings.value("LogLevel").toInt();
 
 
@@ -41,13 +47,13 @@ void RolisteamDaemon::readConfigFile(QString filepath)
     m_serverManager.insertField("IpMode",ipMode);//v4 v6 any
     m_serverManager.insertField("ThreadCount",threadCount);//thread count
     m_serverManager.insertField("ChannelCount",channelCount);//channel count
-    m_serverManager.insertField("TimeToRetry",timeToRetry);//channel count
+    m_serverManager.insertField("TimeToRetry",timeToRetry);//TimeToRetry
+    m_serverManager.insertField("TryCount",tryCount);//TimeToRetry
     m_serverManager.insertField("LogLevel",logLevel);//channel count
 
-    //m_serverManager.insertField("ConnectionMax",ipBan);
     m_serverManager.initServerManager();
-    //QFile file(filepath);
-    //m_serverManager.setPort(port);
+
+    return true;
 }
 
 void RolisteamDaemon::start()
@@ -55,6 +61,8 @@ void RolisteamDaemon::start()
     connect(&m_thread,SIGNAL(started()),&m_serverManager,SLOT(startListening()));
     connect(&m_serverManager,SIGNAL(sendLog(QString)),this,SLOT(notifyUser(QString)));
     connect(&m_serverManager,SIGNAL(errorOccurs(QString)),this,SLOT(errorMessage(QString)));
+    connect(&m_serverManager,&ServerManager::finished,&m_thread,&QThread::quit);
+    connect(&m_thread,&QThread::finished,this,&RolisteamDaemon::stopped,Qt::QueuedConnection);
     m_serverManager.moveToThread(&m_thread);
 
     m_thread.start();
@@ -76,14 +84,11 @@ void RolisteamDaemon::createEmptyConfigFile(QString filepath)
     settings.setValue("ThreadCount",m_serverManager.getValue("ThreadCount"));
     settings.setValue("ChannelCount",m_serverManager.getValue("ChannelCount"));
     settings.setValue("TimeToRetry",m_serverManager.getValue("TimeToRetry"));
+    settings.setValue("TryCount",m_serverManager.getValue("TryCount"));
     settings.setValue("LogLevel",m_serverManager.getValue("LogLevel"));
     settings.setValue("AdminPassword",m_serverManager.getValue("AdminPassword"));
 
     settings.sync();
-
-    //QTextStream out(stdout);
-
-    //out << "configuration file:\n";
 }
 
 int RolisteamDaemon::getLevelOfLog()

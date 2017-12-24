@@ -12,7 +12,7 @@ TcpClient::TcpClient(QTcpSocket* socket,QObject *parent)
 }
 TcpClient::~TcpClient()
 {
-
+    qDebug() << "TcpClient delete";
 }
 void TcpClient::connectionCheckedSlot()
 {
@@ -29,7 +29,6 @@ void TcpClient::setSocket(QTcpSocket* socket)
         connect(m_socket,static_cast<void (QTcpSocket::*)(QAbstractSocket::SocketError)>(&QTcpSocket::error),this,&TcpClient::socketError,Qt::QueuedConnection);
 
         connect(m_socket,SIGNAL(readyRead()),this,SLOT(receivingData()));
-        connect(m_socket,SIGNAL(disconnected()),this,SIGNAL(socketDisconnection()));
         connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(connectionError(QAbstractSocket::SocketError)));
 
         connect(m_stateMachine,SIGNAL(started()),this,SIGNAL(isReady()));
@@ -342,7 +341,6 @@ void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 }
 void TcpClient::connectionError(QAbstractSocket::SocketError error)
 {
-    emit socketDisconnection();
     if(m_socket)
         qWarning() << m_socket->errorString();
 }
@@ -437,3 +435,10 @@ void TcpClient::writeIntoJson(QJsonObject &json)
     json["gm"]=m_isGM;
 }
 
+bool TcpClient::isConnected() const
+{
+    if(!m_socket.isNull())
+        return (m_socket->isValid() & (m_socket->state() == QAbstractSocket::ConnectedState));
+    else
+        return false;
+}

@@ -14,7 +14,7 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
 
     msg->setData(data);
 
-    qDebug() << "[Server][Received Message]" <<cat2String(msg->header()) << act2String(msg->header()) << channel;
+    qDebug() << "[Server][Received Message]" <<cat2String(msg->header()) << act2String(msg->header()) << channel << emitter->getName();
 
     if(msg->category()== NetMsg::AdministrationCategory)
     {
@@ -36,13 +36,18 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
 
             QString name = msg->string16();
             QString uuid = msg->string8();
-           // qDebug() << "33333333333333333 name sideserver" << name;
             msg->rgb();
             bool isGM = msg->uint8();
             emitter->setName(name);
             emitter->setId(uuid);
             emitter->setIsGM(isGM);
             saveIt = false;
+        }
+        else if(msg->action() == NetMsg::DelPlayerAction)
+        {
+            saveIt = false;
+            sendToAll = false;
+            channel->removeClient(emitter);
         }
     }
     else if(msg->category() == NetMsg::SetupCategory)

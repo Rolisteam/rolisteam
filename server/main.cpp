@@ -149,9 +149,6 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     //QString locale = QLocale::system().name();
 
-
-
-
     QCommandLineParser parser;
     parser.addHelpOption();
     parser.addVersionOption();
@@ -189,18 +186,15 @@ int main(int argc, char *argv[])
         parser.showHelp();
     }
 
-    deamon.readConfigFile(configPath);
+    if(!deamon.readConfigFile(configPath))
+    {
+        parser.showHelp();
+    }
 
     g_logMini = static_cast<LOG_STATE>(deamon.getLevelOfLog());
 
 
+    QObject::connect(&deamon,&RolisteamDaemon::stopped,&app,&QCoreApplication::quit);
     deamon.start();
-    //m_networkManager->setValueConnection(portValue,hostnameValue,username,roleValue);
-
-
-
-
-
-
     return app.exec();
 } 
