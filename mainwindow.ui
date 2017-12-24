@@ -46,7 +46,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>322</width>
+                 <width>316</width>
                  <height>699</height>
                 </rect>
                </property>
@@ -439,7 +439,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="m_codeTab">
        <attribute name="title">
         <string>Code</string>
        </attribute>
@@ -449,7 +449,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="m_characterTab">
        <attribute name="title">
         <string>Characters</string>
        </attribute>
@@ -466,7 +466,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="images">
+      <widget class="QWidget" name="m_imagesTab">
        <attribute name="title">
         <string>Stored Images</string>
        </attribute>

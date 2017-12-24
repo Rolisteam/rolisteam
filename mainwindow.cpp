@@ -47,6 +47,9 @@
 #include <QClipboard>
 #include <QPrinter>
 #include <QPrintDialog>
+#include <QPagedPaintDevice>
+#include <QQmlProperty>
+#include <QTimer>
 
 #ifdef WITH_PDF
 #include <poppler-qt5.h>
@@ -72,6 +75,7 @@
 #include "undo/addcharactercommand.h"
 #include "undo/deletecharactercommand.h"
 #include "undo/deletepagecommand.h"
+#include "undo/deletefieldcommand.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -923,7 +927,7 @@ void MainWindow::applyValueOnCharacterSelection(QModelIndex& index, bool selecti
         }
     }
 }
-#include "undo/deletefieldcommand.h"
+
 
 void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
 {
@@ -1247,7 +1251,6 @@ void MainWindow::open()
                 for(const auto obj : fonts)
                 {
                     const auto font = obj.toObject();
-                    //const auto name = font["name"].toString("");
                     const auto fontData = QByteArray::fromBase64(font["data"].toString("").toLatin1());
                     QFontDatabase::addApplicationFontFromData(fontData);
                 }
@@ -1455,6 +1458,7 @@ void MainWindow::generateQML(QString& qml)
     {
         text << "   Image {\n";
         text << "       id:imagebg" << "\n";
+        text << "       objectName:\"imagebg\"" << "\n";
         text << "       property real iratio :" << ratio << "\n";
         text << "       property real iratiobis :" << ratioBis << "\n";
         if(m_flickableSheet)
@@ -1702,39 +1706,55 @@ void MainWindow::addImage()
         }
     }
 }
-#include <QPagedPaintDevice>
+
 void MainWindow::exportPDF()
 {
-    //const auto pdfPath = QFileDialog::getSaveFileName(this,tr("PDF Export"),QDir::homePath(),tr("Pdf file (*.pdf)"));
-
     QObject* root = ui->m_quickview->rootObject();
     if(nullptr == root)
-      return;
+        return;
 
-    auto maxPage = root->property("pageMax").toInt();
+    auto maxPage =  QQmlProperty::read(root, "maxPage").toInt();
+    auto currentPage =  QQmlProperty::read(root, "page").toInt();
+    auto sheetW =  QQmlProperty::read(root, "width").toReal();
+    auto sheetH =  QQmlProperty::read(root, "height").toReal();
+
+    ui->m_tabWidget->setCurrentWidget(ui->m_qml);
+
+    QObject *imagebg = root->findChild<QObject*>("imagebg");
+    if (nullptr != imagebg)
+    {
+        sheetW =  QQmlProperty::read(imagebg, "width").toReal();
+        sheetH =  QQmlProperty::read(imagebg, "height").toReal();
+    }
+
     QPrinter printer;
     QPrintDialog dialog(&printer, this);
-    if(dialog.exec() != QDialog::Accepted)
+    if(dialog.exec() == QDialog::Accepted)
     {
-    /*printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOrientation(QPrinter::Portrait);
-    printer.setPageSize(QPrinter::A4);
-    printer.setOutputFileName(pdfPath);*/
-    QPainter painter;
-    if (painter.begin(&printer))
-    {
-      for(int i = 0 ; i <= maxPage ; ++i)
-      {
-        qDebug() << "page" << i;
-        root->setProperty("page",i);
-        auto image = ui->m_quickview->grabFramebuffer();
-        QRect rect(0,0,printer.width(),printer.height());
-        painter.drawImage(rect,
-                          image);
-        printer.newPage();
-      }
-      painter.end();
+        QPainter painter;
+        if (painter.begin(&printer))
+        {
+            for(int i = 0 ; i <= maxPage ; ++i)
+            {
+                root->setProperty("page",i);
+                ui->m_quickview->repaint();
+                QTimer timer;
+                timer.setSingleShot(true);
+                QEventLoop loop;
+                connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
+                timer.start(m_preferences->value("waitingTimeBetweenPage",300).toInt());
+                loop.exec();
+
+                auto image = ui->m_quickview->grabFramebuffer();
+                QRectF rect(0,0,printer.width(),printer.height());
+                QRectF source(0.0, 0.0, sheetW, sheetH);
+                painter.drawImage(rect,image, source);
+                if(i != maxPage)
+                    printer.newPage();
+            }
+            painter.end();
+        }
     }
-    }
+    root->setProperty("page",currentPage);
 
 }
