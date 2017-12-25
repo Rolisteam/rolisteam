@@ -1412,7 +1412,7 @@ void MainWindow::generateQML(QString& qml)
     }
     text << "import QtQuick 2.4\n";
     text << "import QtQuick.Layouts 1.3\n";
-    text << "import QtQuick.Controls 2.0\n";
+    text << "import QtQuick.Controls 2.2\n";
     text << "import Dice 1.0\n";
     text << "import \"qrc:/resources/qml/\"\n";
     if(!m_additionnalImport.isEmpty())
