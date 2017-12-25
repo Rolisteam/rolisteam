@@ -590,7 +590,16 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int 
         }
 
         out << "    width:" << m_canvasField->boundingRect().width() <<"*root.realscale"<<"\n";
-        out << "    height:"<< m_canvasField->boundingRect().height()<<"*root.realscale"<<"\n";
+        if(isTable)
+        {
+            out << "    Layout.fillHeight: true\n";
+        }
+        else
+        {
+            out << "    height:"<< m_canvasField->boundingRect().height()<<"*root.realscale"<<"\n";
+        }
+
+
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
         if(m_page>=0)
         {
@@ -631,7 +640,7 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int 
             }
             else
             {
-                    out << "    "<<m_label<<".value = text\n    }\n";
+                out << "    "<<m_label<<".value = text\n    }\n";
             }
 
         }

@@ -84,6 +84,7 @@ public:
     int getColumnCount() const;
     Field* getField(int line, int col);
     Field* getFieldById(const QString& id);
+
     void save(QJsonArray& json);
     void load(QJsonArray &json, QList<QGraphicsScene *> scene);
 private:

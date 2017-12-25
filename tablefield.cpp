@@ -116,13 +116,11 @@ LineModel::LineModel()
 }
 int LineModel::rowCount(const QModelIndex& parent) const
 {
-    qDebug() << "line size"<<m_lines.size() << parent;
     return m_lines.size();
 }
 
 QVariant LineModel::data(const QModelIndex &index, int role) const
 {
-    qDebug() << "data line model"<<index << role;
     if(!index.isValid())
         return QVariant();
 
@@ -260,7 +258,20 @@ LineModel *TableField::getModel() const
 
 void TableField::addLine()
 {
-    m_model->insertLine(new LineFieldItem(this));
+    auto lineItem = new LineFieldItem(this);
+    auto index = QModelIndex().child(0,0);
+    auto first = m_model->data(index,LineModel::LineRole).value<LineFieldItem*>();
+    for(Field* field : first->getFields())
+    {
+        if(nullptr!=field)
+        {
+            Field* newField = new Field();
+            newField->copyField(field,true);
+            newField->setParent(field->getParent());
+            lineItem->insertField(newField);
+        }
+    }
+    m_model->insertLine(lineItem);
 }
 
 void TableField::removeLine(int)
@@ -467,8 +478,8 @@ void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec
         out << "        clip: true;\n";
         out << "        model:"<< m_id << ".model\n";
         out << "        delegate: RowLayout {\n";
-        out << "            height:parent.height/parent.count\n";
-        out << "            width: parent.width\n";
+        out << "            height: "<< m_id<<"list.height/"<< m_id<<"list.count\n";
+        out << "            width:  "<< m_id<<"list.width\n";
         m_tableCanvasField->generateSubFields(out);
         out << "        }\n";
         out << "        Button {\n";
