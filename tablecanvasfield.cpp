@@ -3,6 +3,8 @@
 #include <QStyle>
 #include <QStyleOptionGraphicsItem>
 #include <QDebug>
+#include <QJsonArray>
+
 
 #include "tablefield.h"
 #include "field.h"
@@ -63,7 +65,31 @@ void HandleItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsObject::mouseReleaseEvent(event);
 }
+void HandleItem::load(QJsonObject &json)
+{
+    m_currentMotion = static_cast<MOTION>(json["motion"].toInt());
+    qreal x = json["x"].toDouble();
+    qreal y = json["y"].toDouble();
 
+    qreal posx = json["posx"].toDouble();
+    qreal posy = json["posy"].toDouble();
+
+
+    setPos(posx,posy);
+    m_posHasChanged = json["haschanged"].toBool();
+
+    m_startPoint.setX(x);
+    m_startPoint.setY(y);
+}
+void HandleItem::save(QJsonObject &json)
+{
+    json["motion"]=static_cast<int>(m_currentMotion);
+    json["x"]=m_startPoint.x();
+    json["y"]=m_startPoint.y();
+    json["posx"]=pos().x();
+    json["posy"]=pos().y();
+    json["haschanged"]= m_posHasChanged;
+}
 
 
 
@@ -310,6 +336,52 @@ void TableCanvasField::setLineModel(LineModel* lineModel,TableField* parent)
         }
         lineModel->insertLine(line);
     }
+}
+
+void TableCanvasField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
+{
+    m_lineCount = json["lineCount"].toInt();
+    m_colunmCount = json["colunmCount"].toInt();
+    m_dataReset = json["dataReset"].toBool();
+    m_columnDefined = json["columnDefined"].toBool();
+
+    QJsonArray fields = json["fieldType"].toArray();
+    for(auto type : fields)
+    {
+        m_fieldTypes.append(static_cast<CharacterSheetItem::TypeField>(type.toInt()));
+    }
+
+    QJsonArray handles = json["handles"].toArray();
+    for(auto handle : handles)
+    {
+        auto handleItem = new HandleItem(this);
+        auto obj = handle.toObject();
+        handleItem->load(obj);
+        m_handles.append(handleItem);
+    }
+}
+void TableCanvasField::save(QJsonObject &json)
+{
+    json["lineCount"] = m_lineCount;
+    json["colunmCount"] = m_colunmCount;
+    json["dataReset"] = m_dataReset;
+    json["columnDefined"] = m_columnDefined;
+
+    QJsonArray fields;
+    for(auto type : m_fieldTypes)
+    {
+        fields.push_back(static_cast<int>(type));
+    }
+    json["fieldType"] = fields;
+
+    QJsonArray handles;
+    for(auto handle : m_handles)
+    {
+        QJsonObject obj;
+        handle->save(obj);
+        handles.push_back(obj);
+    }
+    json["handles"] = handles;
 }
 //////////////////////////////////////////////////////
 //

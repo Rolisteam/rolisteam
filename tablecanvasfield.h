@@ -44,6 +44,9 @@ public:
      */
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
+    void load(QJsonObject &json);
+    void save(QJsonObject &json);
+
 protected:
     /**
      * @brief ChildPointItem::mouseMoveEvent
@@ -107,6 +110,9 @@ public:
     Field* generateSubField(int i);
 
     void generateSubFields(QTextStream &out);
+
+    void load(QJsonObject &json, QList<QGraphicsScene *> scene);
+    void save(QJsonObject &json);
 public slots:
     void addColumn();
     void addLine();

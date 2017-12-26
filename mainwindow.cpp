@@ -1431,10 +1431,10 @@ void MainWindow::generateQML(QString& qml)
     {
         text << "Item {\n";
         text << "   id:root\n";
-        if(hasImage)
-        {
-            text << "property alias realscale: imagebg.realscale\n";
-        }
+    }
+    if(hasImage)
+    {
+        text << "property alias realscale: imagebg.realscale\n";
     }
     text << "   focus: true\n";
     text << "   property int page: 0\n";
