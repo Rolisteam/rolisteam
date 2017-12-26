@@ -25,6 +25,7 @@
 #include <QGraphicsScene>
 
 #include "field.h"
+#include "tablefield.h"
 #include "charactersheetbutton.h"
 
 #include <QDebug>
@@ -141,6 +142,12 @@ void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
         if(obj["type"]==QStringLiteral("Section"))
         {
             item = new Section();
+        }
+        else if(obj["type"]==QStringLiteral("tableField"))
+        {
+            TableField* field=new TableField();
+            item = field;
+            gItem = field->getCanvasField();
         }
         else
         {

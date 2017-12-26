@@ -341,7 +341,7 @@ void TableField::save(QJsonObject &json, bool exp)
         json["value"]=m_value;
         return;
     }
-    json["type"]="field";
+    json["type"]="tablefield";
     json["id"]=m_id;
     json["typefield"]=m_currentType;
     json["label"]=m_label;
@@ -380,17 +380,23 @@ void TableField::save(QJsonObject &json, bool exp)
     m_model->save(childArray);
     json["children"]=childArray;
 
+    #ifdef RCSE
+    if(nullptr != m_tableCanvasField)
+    {
+        m_tableCanvasField->save(json);
+    }
+    #endif
+
 }
 
 void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
 {
-    Q_UNUSED(scene);
     m_id = json["id"].toString();
     m_border = (BorderLine)json["border"].toInt();
     m_value= json["value"].toString();
     m_label = json["label"].toString();
 
-    m_currentType=(Field::TypeField)json["typefield"].toInt();
+    m_currentType=(Field::TypeField)json["type"].toInt();
     m_clippedText=json["clippedText"].toBool();
 
     m_formula = json["formula"].toString();
@@ -430,14 +436,20 @@ void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
     }
     m_rect.setRect(x,y,w,h);
     #ifdef RCSE
+    QJsonArray childArray=json["children"].toArray();
+    m_model->load(childArray,scene);
+
+    if(json.contains("canvas"))
+    {
+        m_tableCanvasField = new TableCanvasField(this);
+        auto obj = json["canvas"].toObject();
+        m_tableCanvasField->load(obj,scene);
+        m_canvasField = m_tableCanvasField;
+    }
     m_canvasField->setPos(x,y);
     m_canvasField->setWidth(w);
     m_canvasField->setHeight(h);
     #endif
-
-
-    QJsonArray childArray=json["children"].toArray();
-    m_model->load(childArray,scene);
 
 }
 
@@ -478,8 +490,8 @@ void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec
         out << "        clip: true;\n";
         out << "        model:"<< m_id << ".model\n";
         out << "        delegate: RowLayout {\n";
-        out << "            height: "<< m_id<<"list.height/"<< m_id<<"list.count\n";
-        out << "            width:  "<< m_id<<"list.width\n";
+        out << "            height: _"<< m_id<<"list.height/_"<< m_id<<"list.count\n";
+        out << "            width:  _"<< m_id<<"list.width\n";
         m_tableCanvasField->generateSubFields(out);
         out << "        }\n";
         out << "        Button {\n";
