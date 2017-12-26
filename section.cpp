@@ -142,20 +142,22 @@ void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
         if(obj["type"]==QStringLiteral("Section"))
         {
             item = new Section();
+            item->load(obj,scenes);
         }
-        else if(obj["type"]==QStringLiteral("tableField"))
+        else if(obj["type"]==QStringLiteral("TableField"))
         {
             TableField* field=new TableField();
             item = field;
+            item->load(obj,scenes);
             gItem = field->getCanvasField();
         }
         else
         {
             Field* field=new Field();
             item = field;
+            item->load(obj,scenes);
             gItem = field->getCanvasField();
         }
-        item->load(obj,scenes);
         if(scenes.size()>item->getPage())
         {
             QGraphicsScene* scene = scenes.at(item->getPage());

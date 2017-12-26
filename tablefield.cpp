@@ -97,11 +97,12 @@ void LineFieldItem::save(QJsonArray &json)
         json.append(obj);
     }
 }
-void LineFieldItem::load(QJsonArray &json, QList<QGraphicsScene *> scene)
+void LineFieldItem::load(QJsonArray &json, QList<QGraphicsScene *> scene,  CharacterSheetItem* parent)
 {
     for( auto value : json)
     {
         Field* field = new Field();
+        field->setParent(parent);
         QJsonObject obj = value.toObject();
         field->load(obj,scene);
         m_fields.append(field);
@@ -210,14 +211,14 @@ void LineModel::save(QJsonArray &json)
         json.append(lineJson);
     }
 }
-void LineModel::load(QJsonArray &json, QList<QGraphicsScene *> scene)
+void LineModel::load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent)
 {
     QJsonArray::Iterator it;
     for(it = json.begin(); it != json.end(); ++it)
     {
         QJsonArray obj = (*it).toArray();
         LineFieldItem* line = new LineFieldItem();
-        line->load(obj,scene);
+        line->load(obj,scene,parent);
         m_lines.append(line);
     }
 }
@@ -335,13 +336,13 @@ void TableField::save(QJsonObject &json, bool exp)
 {
     if(exp)
     {
-        json["type"]="tablefield";
+        json["type"]="TableField";
         json["id"]=m_id;
         json["label"]=m_label;
         json["value"]=m_value;
         return;
     }
-    json["type"]="tablefield";
+    json["type"]="TableField";
     json["id"]=m_id;
     json["typefield"]=m_currentType;
     json["label"]=m_label;
@@ -383,7 +384,9 @@ void TableField::save(QJsonObject &json, bool exp)
     #ifdef RCSE
     if(nullptr != m_tableCanvasField)
     {
-        m_tableCanvasField->save(json);
+        QJsonObject obj;
+        m_tableCanvasField->save(obj);
+        json["canvas"]=obj;
     }
     #endif
 
@@ -392,11 +395,11 @@ void TableField::save(QJsonObject &json, bool exp)
 void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
 {
     m_id = json["id"].toString();
-    m_border = (BorderLine)json["border"].toInt();
+    m_border = static_cast<BorderLine>(json["border"].toInt());
     m_value= json["value"].toString();
     m_label = json["label"].toString();
 
-    m_currentType=(Field::TypeField)json["type"].toInt();
+    m_currentType=static_cast<Field::TypeField>(json["type"].toInt());
     m_clippedText=json["clippedText"].toBool();
 
     m_formula = json["formula"].toString();
@@ -437,7 +440,7 @@ void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
     m_rect.setRect(x,y,w,h);
     #ifdef RCSE
     QJsonArray childArray=json["children"].toArray();
-    m_model->load(childArray,scene);
+    m_model->load(childArray,scene,this);
 
     if(json.contains("canvas"))
     {
@@ -471,7 +474,7 @@ void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec
 
     m_model->clear();
 
-    m_tableCanvasField->setLineModel(m_model,this);
+    m_tableCanvasField->fillLineModel(m_model,this);
     emit updateNeeded(this);
     if(sec==CharacterSheetItem::FieldSec)
     {
@@ -492,13 +495,14 @@ void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec
         out << "        delegate: RowLayout {\n";
         out << "            height: _"<< m_id<<"list.height/_"<< m_id<<"list.count\n";
         out << "            width:  _"<< m_id<<"list.width\n";
+        out << "            spacing:0\n";
         m_tableCanvasField->generateSubFields(out);
         out << "        }\n";
-        out << "        Button {\n";
-        out << "            anchors.top: parent.bottom\n";
-        out << "            text: \""<< tr("Add line") << "\"\n";
-        out << "            onClicked: "<< m_id <<".addLine()\n";
-        out << "        }\n";
+        out << "     }\n";
+        out << "     Button {\n";
+        out << "        anchors.top: _" << m_id<<"list.bottom\n";
+        out << "        text: \""<< tr("Add line") << "\"\n";
+        out << "        onClicked: "<< m_id <<".addLine()\n";
         out << "     }\n";
     }
      #endif

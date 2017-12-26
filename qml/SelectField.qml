@@ -24,10 +24,38 @@ Rectangle {
     ComboBox {
         id: selectvalues
         anchors.fill: parent
+        padding: 0
+        spacing: 0
         enabled: !root.readOnly
+
         onCountChanged: {
             currentIndex=selectvalues.find(root.text)
         }
+
+        indicator: Canvas {
+                  id: canvas
+                  x: selectvalues.width - width
+                  y: (selectvalues.availableHeight - height) / 2
+                  width: 12
+                  height: 8
+                  contextType: "2d"
+
+                  Connections {
+                      target: selectvalues
+                      onPressedChanged: canvas.requestPaint()
+                  }
+
+                  onPaint: {
+                      context.reset();
+                      context.moveTo(0, 0);
+                      context.lineTo(width, 0);
+                      context.lineTo(width / 2, height);
+                      context.closePath();
+                      context.fillStyle = "black";
+                      context.fill();
+                  }
+              }
+
     }
     onTextChanged: {
         if(selectvalues.count>0)

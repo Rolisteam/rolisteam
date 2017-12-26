@@ -346,11 +346,11 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
 {
     Q_UNUSED(scene);
     m_id = json["id"].toString();
-    m_border = (BorderLine)json["border"].toInt();
+    m_border = static_cast<BorderLine>(json["border"].toInt());
     m_value= json["value"].toString();
     m_label = json["label"].toString();
 
-    m_currentType=(Field::TypeField)json["typefield"].toInt();
+    m_currentType=static_cast<Field::TypeField>(json["typefield"].toInt());
     m_clippedText=json["clippedText"].toBool();
 
     m_formula = json["formula"].toString();
@@ -375,7 +375,7 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
 
     m_font.fromString(json["font"].toString());
 
-    m_textAlign = (TextAlign)json["textalign"].toInt();
+    m_textAlign = static_cast<TextAlign>(json["textalign"].toInt());
     qreal x,y,w,h;
     x=json["x"].toDouble();
     y=json["y"].toDouble();
@@ -557,10 +557,11 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int 
             out << "    availableValues:" << QStringLiteral("[\"%1\"]").arg(m_availableValue.join("\",\""))<<"\n";
             out << "    currentIndex: combo.find(text)\n";
             out << "    onCurrentIndexChanged:{\n";
-            out << "    if(count>0)\n";
-            out << "    {\n";
-            out << "    "<<m_id<<".value = currentText\n";
-            out << "    }}\n";
+            out << "        if(" << m_id <<".value !== availableValues[currentIndex])\n";
+            out << "        {\n";
+            out << "          "<<m_id<<".value = availableValues[currentIndex]\n";
+            out << "        }";
+            out << "    }\n";
         }
         if(!isTable)
         {

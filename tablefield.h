@@ -60,7 +60,7 @@ public:
     int getFieldCount() const;
     Field* getFieldById(const QString& id);
     void save(QJsonArray& json);
-    void load(QJsonArray &json, QList<QGraphicsScene *> scene );
+    void load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent);
 private:
     QList<Field*> m_fields;
 };
@@ -86,7 +86,7 @@ public:
     Field* getFieldById(const QString& id);
 
     void save(QJsonArray& json);
-    void load(QJsonArray &json, QList<QGraphicsScene *> scene);
+    void load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent);
 private:
     QList<LineFieldItem*> m_lines;
 };
