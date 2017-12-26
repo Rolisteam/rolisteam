@@ -151,7 +151,7 @@ public:
      * @param json
      * @param scene
      */
-    void load(QJsonObject& json,QList<Canvas*> scene);
+    void load(QJsonObject& json,QList<QGraphicsScene*> scene);
     /**
      * @brief generateQML
      * @param out

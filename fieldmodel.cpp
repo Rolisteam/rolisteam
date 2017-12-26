@@ -353,15 +353,11 @@ void FieldModel::save(QJsonObject& json,bool exp)
     m_rootSection->save(json,exp);
 }
 
-void FieldModel::load(QJsonObject &json,QList<Canvas*> scene)
+void FieldModel::load(QJsonObject &json,QList<QGraphicsScene*> scene)
 {
-    QList<QGraphicsScene*> list;
-    for(auto canvas : scene)
-    {
-        list << canvas;
-    }
+    /**/
     beginResetModel();
-    m_rootSection->load(json,list);
+    m_rootSection->load(json,scene);
     endResetModel();
 }
 void FieldModel::removeItem(QModelIndex& index)

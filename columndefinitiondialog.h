@@ -22,6 +22,9 @@ public:
     FieldModel *model() const;
     void setModel(FieldModel *model);
 
+    void load(QJsonObject &json, QList<QGraphicsScene *> scene);
+    void save(QJsonObject &json);
+
 public slots:
     void setData(QList<HandleItem*> ,qreal widthTotal,int line, qreal height);
 private:

@@ -51,10 +51,8 @@ QVariant ImageModel::data(const QModelIndex &index, int role) const
         {
             case Key:
                 return "image://rcs/"+m_keyList.at(index.row());
-            break;
             case Filename:
                 return m_filename.at(index.row());
-            break;
         }
     }
     else if(Qt::EditRole == role)
@@ -63,10 +61,8 @@ QVariant ImageModel::data(const QModelIndex &index, int role) const
         {
             case Key:
                 return m_keyList.at(index.row());
-            break;
             case Filename:
                 return m_filename.at(index.row());
-            break;
         }
     }
     else if(Qt::ToolTipRole == role)
@@ -125,7 +121,7 @@ void ImageModel::insertImage(QPixmap * pix, QString key, QString stuff)
 
 Qt::ItemFlags ImageModel::flags(const QModelIndex &index) const
 {
-    if(index.column() == 1)
+    if(index.column() == Key)
     {
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
     }

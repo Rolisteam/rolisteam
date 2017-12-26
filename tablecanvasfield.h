@@ -43,7 +43,6 @@ public:
      * @param widget
      */
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-
     void load(QJsonObject &json);
     void save(QJsonObject &json);
 
@@ -104,8 +103,7 @@ public:
     int getColumnWidth(int c);
     int getLineHeight();
 
-    void setLineModel(LineModel* model, TableField* parent);
-
+    void fillLineModel(LineModel* model, TableField* parent);
 
     Field* generateSubField(int i);
 
@@ -127,7 +125,6 @@ private:
     int m_colunmCount;
     int m_lineCount;
 
-    QList<CharacterSheetItem::TypeField> m_fieldTypes;
     QList<HandleItem *> m_handles;
 
     ButtonCanvas* m_addColumn;

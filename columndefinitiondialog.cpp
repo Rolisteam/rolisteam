@@ -74,3 +74,11 @@ void ColumnDefinitionDialog::setModel(FieldModel *model)
 {
     m_model = model;
 }
+void ColumnDefinitionDialog::load(QJsonObject &json, QList<QGraphicsScene *> scene)
+{
+    m_model->load(json, scene);
+}
+void ColumnDefinitionDialog::save(QJsonObject &json)
+{
+    m_model->save(json);
+}

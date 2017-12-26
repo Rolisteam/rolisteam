@@ -377,7 +377,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_imageModel->setImageProvider(m_imgProvider);
     auto* view = ui->m_imageList->horizontalHeader();
-    view->setSectionResizeMode(1,QHeaderView::Stretch);
+    view->setSectionResizeMode(0,QHeaderView::Stretch);
 #ifndef Q_OS_OSX
     ui->m_imageList->setAlternatingRowColors(true);
 #endif
@@ -1323,7 +1323,12 @@ void MainWindow::open()
                     m_imageModel->insertImage(pix,id,"from rcs file");
                     ++i;
                 }
-                m_model->load(data,m_canvasList);
+                QList<QGraphicsScene*> list;
+                for(auto canvas : m_canvasList)
+                {
+                    list << canvas;
+                }
+                m_model->load(data,list);
                 m_characterModel->setRootSection(m_model->getRootSection());
                 m_characterModel->readModel(jsonObj,false);
                 updatePageSelector();

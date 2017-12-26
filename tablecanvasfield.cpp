@@ -317,7 +317,7 @@ void TableCanvasField::generateSubFields(QTextStream & out)
         model->generateQML(out,CharacterSheetItem::FieldSec,true);
     }
 }
-void TableCanvasField::setLineModel(LineModel* lineModel,TableField* parent)
+void TableCanvasField::fillLineModel(LineModel* lineModel,TableField* parent)
 {
     auto model = m_dialog->model();
     for(int i = 0 ; i < m_lineCount; ++i)
@@ -345,12 +345,6 @@ void TableCanvasField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
     m_dataReset = json["dataReset"].toBool();
     m_columnDefined = json["columnDefined"].toBool();
 
-    QJsonArray fields = json["fieldType"].toArray();
-    for(auto type : fields)
-    {
-        m_fieldTypes.append(static_cast<CharacterSheetItem::TypeField>(type.toInt()));
-    }
-
     QJsonArray handles = json["handles"].toArray();
     for(auto handle : handles)
     {
@@ -359,6 +353,9 @@ void TableCanvasField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
         handleItem->load(obj);
         m_handles.append(handleItem);
     }
+
+    QJsonObject dialog = json["dialog"].toObject();
+    m_dialog->load(dialog,scene);
 }
 void TableCanvasField::save(QJsonObject &json)
 {
@@ -366,13 +363,6 @@ void TableCanvasField::save(QJsonObject &json)
     json["colunmCount"] = m_colunmCount;
     json["dataReset"] = m_dataReset;
     json["columnDefined"] = m_columnDefined;
-
-    QJsonArray fields;
-    for(auto type : m_fieldTypes)
-    {
-        fields.push_back(static_cast<int>(type));
-    }
-    json["fieldType"] = fields;
 
     QJsonArray handles;
     for(auto handle : m_handles)
@@ -382,6 +372,10 @@ void TableCanvasField::save(QJsonObject &json)
         handles.push_back(obj);
     }
     json["handles"] = handles;
+
+    QJsonObject dialog;
+    m_dialog->save(dialog);
+    json["dialog"] = dialog;
 }
 //////////////////////////////////////////////////////
 //
