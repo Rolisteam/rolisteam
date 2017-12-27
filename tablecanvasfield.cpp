@@ -5,7 +5,6 @@
 #include <QDebug>
 #include <QJsonArray>
 
-
 #include "tablefield.h"
 #include "field.h"
 #define SQUARE_SIZE 12
@@ -106,29 +105,64 @@ bool compareHandles(HandleItem* first, HandleItem* two)
 
 
 TableCanvasField::TableCanvasField(Field* field)
- :CanvasField(field),m_colunmCount(1),m_lineCount(1),m_dataReset(true)
+ :CanvasField(field),m_colunmCount(1),m_lineCount(1),m_dataReset(true),m_position(0)
 {
     m_addColumn= new ButtonCanvas();
+    m_addColumn->setParentItem(this);
 
     m_dialog = new ColumnDefinitionDialog();
-    m_addColumn->setParentItem(this);
-    m_addLine = new ButtonCanvas();
 
-    m_defineColumns = new QAction(tr("Define Columns"),this);
-    m_values = new QAction(tr("Define Values"),this);
+    connect(m_dialog,&ColumnDefinitionDialog::columnCountChanged,this,[=](int i)
+    {
+        while(i>m_colunmCount)
+        {
+            addColumn();
+        }
+        while(i<m_colunmCount)
+        {
+            removeColumn();
+        }
+    });
+
+    connect(m_dialog,&ColumnDefinitionDialog::lineCountChanged,this,[=](int i)
+    {
+        m_lineCount=i;
+        update();
+    });
+
+    connect(m_dialog,&ColumnDefinitionDialog::positionChanged,this,[=](int i)
+    {
+        m_position=i;
+        update();
+    });
+
+    m_addLine = new ButtonCanvas();
+    m_addLine->setParentItem(this);
+    m_addLineInGame = new ButtonCanvas();
+    m_addLineInGame->setParentItem(this);
+
+    QRectF rect(0,0,SQUARE_SIZE*6,SQUARE_SIZE*2);
+    m_addLineInGame->setRect(rect);
+
+    m_defineColumns = new QAction(tr("Properties"),this);
+//    m_properties = new QAction(tr("Properties"),this);
 
     connect(m_defineColumns,SIGNAL(triggered(bool)),this,SLOT(defineColumns()));
-    connect(m_values,SIGNAL(triggered(bool)),this,SLOT(defineValues()));
 
     m_addLine->setMsg("+");
     m_addColumn->setMsg("+");
+    m_addLineInGame->setMsg(tr("Add Line"));
 
-    m_addLine->setParentItem(this);
 
     m_addLine->setPos(24,200);
     m_addColumn->setPos(200,24);
+
     connect(m_addColumn,SIGNAL(clicked()),this,SLOT(addColumn()));
     connect(m_addLine,SIGNAL(clicked()),this,SLOT(addLine()));
+}
+TableCanvasField::~TableCanvasField()
+{
+
 }
 void TableCanvasField::addColumn()
 {
@@ -149,7 +183,26 @@ void TableCanvasField::addColumn()
     }
     update();
 }
+void TableCanvasField::removeColumn()
+{
+    m_colunmCount--;
+    if(m_handles.isEmpty())
+        return;
 
+    m_handles.removeLast();
+
+    qreal colW = boundingRect().width()/(m_handles.size()+1);
+    for(auto item : m_handles)
+    {
+        item->setPos(colW*(m_handles.indexOf(item)+1),boundingRect().height()/2);
+    }
+    if(m_columnDefined)
+    {
+        m_dataReset = true;
+        defineColumns();
+    }
+    update();
+}
 
 void TableCanvasField::addLine()
 {
@@ -167,21 +220,23 @@ void TableCanvasField::defineColumns()
         m_dataReset = false;
     }
 
-    m_dialog->exec();
-
-    update();
-    m_columnDefined = true;
-}
-
-void TableCanvasField::defineValues()
-{
+    if(m_dialog->isHidden())
+    {
+        m_dialog->exec();
+        update();
+        m_columnDefined = true;
+    }
 
 }
 
 void TableCanvasField::setMenu(QMenu &menu)
 {
     menu.addAction(m_defineColumns);
-    menu.addAction(m_values);
+}
+
+int TableCanvasField::getPosition() const
+{
+    return m_position;
 }
 
 int TableCanvasField::lineCount() const
@@ -207,6 +262,44 @@ void TableCanvasField::setColunmCount(int colunmCount)
 void TableCanvasField::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(widget);
+
+    QPointF position;
+    switch(static_cast<TableField::ControlPosition>(m_position))
+    {
+        case TableField::CtrlLeftTop:
+            position.setY(0);
+            position.setX(-m_addLineInGame->boundingRect().width());
+        break;
+        case TableField::CtrlTopLeft:
+            position.setY(-m_addLineInGame->boundingRect().height());
+            position.setX(0);
+        break;
+        case TableField::CtrlLeftBottom:
+            position.setY(boundingRect().height()-m_addLineInGame->boundingRect().height());
+            position.setX(-m_addLineInGame->boundingRect().width());
+        break;
+        case TableField::CtrlBottomLeft:
+            position.setY(boundingRect().height());
+            position.setX(0);
+        break;
+        case TableField::CtrlBottomRight:
+            position.setY(boundingRect().height());
+            position.setX(boundingRect().width()-m_addLineInGame->boundingRect().width());
+        break;
+        case TableField::CtrlRightTop:
+            position.setY(0);
+            position.setX(boundingRect().width());
+        break;
+        case TableField::CtrlTopRight:
+            position.setY(-m_addLineInGame->boundingRect().height());
+            position.setX(boundingRect().width()-m_addLineInGame->boundingRect().width());
+        break;
+        case TableField::CtrlRightBottom:
+            position.setY(boundingRect().height()-m_addLineInGame->boundingRect().height());
+            position.setX(boundingRect().width());
+        break;
+    }
+    m_addLineInGame->setPos(position);
     
     if(nullptr==m_field)
         return;
@@ -378,9 +471,9 @@ void TableCanvasField::save(QJsonObject &json)
     json["dialog"] = dialog;
 }
 
-void TableCanvasField::setPositionAddLine(TableField::ControlPosition pos)
+void TableCanvasField::setPositionAddLine(int pos)
 {
-
+    m_position = pos;
 }
 //////////////////////////////////////////////////////
 //
@@ -388,6 +481,7 @@ void TableCanvasField::setPositionAddLine(TableField::ControlPosition pos)
 //
 /////////////////////////////////////////////////////
 ButtonCanvas::ButtonCanvas()
+    : m_rect(QRectF(0,0, SQUARE_SIZE*2, SQUARE_SIZE*2))
 {
     setAcceptedMouseButtons(Qt::LeftButton);
     setFlags( QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable );
@@ -395,16 +489,16 @@ ButtonCanvas::ButtonCanvas()
 
 QRectF ButtonCanvas::boundingRect() const
 {
-      return QRectF(0,0, SQUARE_SIZE*2, SQUARE_SIZE*2);
+      return m_rect;
 }
 
 void ButtonCanvas::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->save();
-    painter->fillRect(boundingRect(),Qt::blue);
+    painter->fillRect(boundingRect(),Qt::cyan);
     painter->setPen(Qt::black);
     painter->drawRect(boundingRect());
-    painter->drawText(boundingRect(),m_msg);
+    painter->drawText(boundingRect(), Qt::AlignCenter,m_msg);
     painter->restore();
 }
 
@@ -431,4 +525,14 @@ void ButtonCanvas::mousePressEvent(QGraphicsSceneMouseEvent *event)
    {
        QGraphicsObject::mousePressEvent(event);
    }
+}
+
+QRectF ButtonCanvas::rect() const
+{
+    return m_rect;
+}
+
+void ButtonCanvas::setRect(const QRectF &rect)
+{
+    m_rect = rect;
 }

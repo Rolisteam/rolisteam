@@ -4,7 +4,6 @@
 #include <QObject>
 #include "canvasfield.h"
 #include "charactersheetitem.h"
-
 #include "columndefinitiondialog.h"
 
 class TableCanvasField;
@@ -74,6 +73,9 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QString msg() const;
     void setMsg(const QString &msg);
+    QRectF rect() const;
+    void setRect(const QRectF &rect);
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
 
@@ -81,7 +83,7 @@ signals:
     void clicked();
 private:
     QString m_msg;
-
+    QRectF m_rect;
 };
 
 class TableCanvasField : public CanvasField
@@ -89,6 +91,7 @@ class TableCanvasField : public CanvasField
         Q_OBJECT
 public:
     TableCanvasField(Field* field);
+    virtual ~TableCanvasField();
 
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
@@ -112,13 +115,14 @@ public:
     void load(QJsonObject &json, QList<QGraphicsScene *> scene);
     void save(QJsonObject &json);
 
-    void setPositionAddLine(TableField::ControlPosition pos);
+    void setPositionAddLine(int pos);
+    int getPosition() const;
+
 public slots:
     void addColumn();
+    void removeColumn();
     void addLine();
     void defineColumns();
-    void defineValues();
-
 
 protected:
     virtual void setMenu(QMenu& menu);
@@ -132,12 +136,11 @@ private:
     ButtonCanvas* m_addColumn;
     ButtonCanvas* m_addLine;
     ButtonCanvas* m_addLineInGame;
-    QAction* m_properties;
     QAction* m_defineColumns;
-    QAction* m_values;
 
     ColumnDefinitionDialog* m_dialog;
     bool m_dataReset;
+    int m_position;
     bool m_columnDefined = false;
 
 
