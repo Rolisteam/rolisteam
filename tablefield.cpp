@@ -260,7 +260,7 @@ LineModel *TableField::getModel() const
 void TableField::addLine()
 {
     auto lineItem = new LineFieldItem(this);
-    auto index = QModelIndex().child(0,0);
+    auto index = m_model->index(0,0);
     auto first = m_model->data(index,LineModel::LineRole).value<LineFieldItem*>();
     for(Field* field : first->getFields())
     {
@@ -294,6 +294,16 @@ void TableField::init()
     m_bgColor = Qt::transparent;
     m_textColor = Qt::black;
     m_font = font();
+}
+
+TableField::ControlPosition TableField::getPosition() const
+{
+    return m_position;
+}
+
+void TableField::setPosition(const ControlPosition &position)
+{
+    m_position = position;
 }
 
 void TableField::setCanvasField(CanvasField *canvasField)
@@ -360,6 +370,8 @@ void TableField::save(QJsonObject &json, bool exp)
     bgcolor["a"]=m_bgColor.alpha();
     json["bgcolor"]=bgcolor;
 
+    json["positionControl"] = m_position;
+
     QJsonObject textcolor;
     textcolor["r"]=m_textColor.red();
     textcolor["g"]=m_textColor.green();
@@ -420,7 +432,11 @@ void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
     b = textcolor["b"].toInt();
     a = textcolor["a"].toInt();
 
+
+
     m_textColor=QColor(r,g,b,a);
+
+    m_position = static_cast<ControlPosition>(json["positionControl"].toInt());
 
     m_font.fromString(json["font"].toString());
 
@@ -493,7 +509,7 @@ void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec
         out << "        clip: true;\n";
         out << "        model:"<< m_id << ".model\n";
         out << "        delegate: RowLayout {\n";
-        out << "            height: _"<< m_id<<"list.height/_"<< m_id<<"list.count\n";
+        out << "            height: _"<< m_id<<"list.height/_"<< m_id<<"list.maxRow\n";
         out << "            width:  _"<< m_id<<"list.width\n";
         out << "            spacing:0\n";
         m_tableCanvasField->generateSubFields(out);

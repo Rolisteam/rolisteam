@@ -100,7 +100,8 @@ class TableField : public Field
     Q_OBJECT
     Q_PROPERTY (QAbstractItemModel* model READ getModel CONSTANT)
 public:
-    enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,BottomRight,BottomMiddle,BottomLeft};
+    //enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,BottomRight,BottomMiddle,BottomLeft};
+    enum ControlPosition {CtrlLeftTop,CtrlLeftBottom,CtrlTopLeft,CtrlTopRight,CtrlBottomLeft,CtrlBottomRight,CtrlRightTop,CtrlRightBottom};
     explicit TableField(bool addCount = true,QGraphicsItem* parent = 0);
     explicit TableField(QPointF topleft,bool addCount = true,QGraphicsItem* parent = 0);
 
@@ -123,6 +124,9 @@ public:
     virtual void load(QJsonObject& json,QList<QGraphicsScene*> scene);
 
 
+    ControlPosition getPosition() const;
+    void setPosition(const ControlPosition &position);
+
 public slots:
     void addLine();
     void removeLine(int);
@@ -132,6 +136,7 @@ protected:
 
 
 protected:
+    ControlPosition m_position;
     TableCanvasField* m_tableCanvasField = nullptr;
     LineModel* m_model = nullptr;
 };
