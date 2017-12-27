@@ -590,13 +590,14 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int 
             out << "    y:" <<  m_canvasField->pos().y()<< "*root.realscale"<<"\n";
         }
 
-        out << "    width:" << m_canvasField->boundingRect().width() <<"*root.realscale"<<"\n";
         if(isTable)
         {
             out << "    Layout.fillHeight: true\n";
+            out << "    Layout.preferredWidth:" << m_canvasField->boundingRect().width() << "*root.realscale"<<"\n";
         }
         else
         {
+            out << "    width:" << m_canvasField->boundingRect().width() <<"*root.realscale"<<"\n";
             out << "    height:"<< m_canvasField->boundingRect().height()<<"*root.realscale"<<"\n";
         }
 

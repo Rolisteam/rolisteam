@@ -516,11 +516,70 @@ void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec
         out << "        }\n";
         out << "     }\n";
         out << "     Button {\n";
-        out << "        anchors.top: _" << m_id<<"list.bottom\n";
+        out << computeControlPosition();
         out << "        text: \""<< tr("Add line") << "\"\n";
         out << "        onClicked: "<< m_id <<".addLine()\n";
         out << "     }\n";
     }
      #endif
+}
+
+QString TableField::computeControlPosition()
+{
+    QString Line1("anchors.%1: _%5list.%2\nanchors.%3: _%5list.%4\n");//top,button//left,right
+
+    m_position = static_cast<ControlPosition>(m_tableCanvasField->getPosition());
+    switch (m_position)
+    {
+        case TableField::CtrlLeftTop:
+            Line1=Line1.arg(QLatin1String("top"))
+                    .arg(QLatin1String("top"))
+                    .arg(QLatin1String("right"))
+                    .arg(QLatin1String("left"));
+        break;
+        case TableField::CtrlTopLeft:
+            Line1=Line1.arg(QLatin1String("bottom"))
+                    .arg(QLatin1String("top"))
+                    .arg(QLatin1String("left"))
+                    .arg(QLatin1String("left"));
+        break;
+        case TableField::CtrlLeftBottom:
+            Line1=Line1.arg(QLatin1String("bottom"))
+                    .arg(QLatin1String("bottom"))
+                    .arg(QLatin1String("right"))
+                    .arg(QLatin1String("left"));
+        break;
+        case TableField::CtrlBottomLeft:
+        Line1=Line1.arg(QLatin1String("top"))
+                .arg(QLatin1String("bottom"))
+                .arg(QLatin1String("left"))
+                .arg(QLatin1String("left"));
+        break;
+        case TableField::CtrlBottomRight:
+        Line1=Line1.arg(QLatin1String("top"))
+                .arg(QLatin1String("bottom"))
+                .arg(QLatin1String("right"))
+                .arg(QLatin1String("right"));
+        break;
+        case TableField::CtrlRightTop:
+        Line1=Line1.arg(QLatin1String("top"))
+                .arg(QLatin1String("top"))
+                .arg(QLatin1String("left"))
+                .arg(QLatin1String("right"));
+        break;
+        case TableField::CtrlTopRight:
+        Line1=Line1.arg(QLatin1String("bottom"))
+                .arg(QLatin1String("top"))
+                .arg(QLatin1String("right"))
+                .arg(QLatin1String("right"));
+        break;
+        case TableField::CtrlRightBottom:
+        Line1=Line1.arg(QLatin1String("bottom"))
+                .arg(QLatin1String("bottom"))
+                .arg(QLatin1String("left"))
+                .arg(QLatin1String("right"));
+        break;
+    }
+    return Line1.arg(m_id);
 }
 

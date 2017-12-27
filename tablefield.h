@@ -99,6 +99,7 @@ class TableField : public Field
 {
     Q_OBJECT
     Q_PROPERTY (QAbstractItemModel* model READ getModel CONSTANT)
+
 public:
     //enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,BottomRight,BottomMiddle,BottomLeft};
     enum ControlPosition {CtrlLeftTop,CtrlLeftBottom,CtrlTopLeft,CtrlTopRight,CtrlBottomLeft,CtrlBottomRight,CtrlRightTop,CtrlRightBottom};
@@ -132,7 +133,7 @@ public slots:
     void removeLine(int);
 protected:
     void init();
-
+    QString computeControlPosition();
 
 
 protected:

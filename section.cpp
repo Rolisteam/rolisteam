@@ -158,18 +158,23 @@ void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
             item->load(obj,scenes);
             gItem = field->getCanvasField();
         }
-        if(scenes.size()>item->getPage())
+        if(!m_dataHash.contains(item->getPath()))
         {
-            QGraphicsScene* scene = scenes.at(item->getPage());
-            if((nullptr!=scene)&&(nullptr!=gItem))
+            item->setParent(this);
+            if(scenes.size()>item->getPage())
             {
-                scene->addItem(gItem);
-                item->initGraphicsItem();
+                QGraphicsScene* scene = scenes.at(item->getPage());
+                if((nullptr!=scene)&&(nullptr!=gItem))
+                {
+                    scene->addItem(gItem);
+                    item->initGraphicsItem();
+                }
             }
+            m_dataHash.insert(item->getPath(),item);
+            m_keyList.append(item->getPath());
         }
-        item->setParent(this);
-        m_dataHash.insert(item->getPath(),item);
-        m_keyList.append(item->getPath());
+        else
+            qDebug() << "Dupplicate found"<< item->getPath();
     }
 }
 void Section::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int i, bool isTable)
