@@ -55,16 +55,12 @@
 #include <poppler-qt5.h>
 #endif
 
-#include "borderlisteditor.h"
+
 #include "qmlhighlighter.h"
 #include "aboutrcse.h"
 #include "preferencesdialog.h"
 #include "codeeditordialog.h"
 
-// Delegates
-#include "delegate/alignmentdelegate.h"
-#include "delegate/typedelegate.h"
-#include "delegate/fontdelegate.h"
 #include "delegate/pagedelegate.h"
 
 //Undo
@@ -94,6 +90,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setAcceptDrops(true);
     ui->setupUi(this);
 
+
+
     //ui->m_imageList
 
     m_additionnalCode = "";
@@ -114,19 +112,11 @@ MainWindow::MainWindow(QWidget *parent) :
     m_canvasList.append(canvas);
     m_model = new FieldModel();
     connect(m_model,SIGNAL(modelChanged()),this,SLOT(modelChanged()));
-    ui->treeView->setModel(m_model);
+    ui->treeView->setFieldModel(m_model);
+    ui->treeView->setCurrentPage(&m_currentPage);
+    ui->treeView->setCanvasList(&m_canvasList);
+    ui->treeView->setUndoStack(&m_undoStack);
 
-    AlignmentDelegate* delegate = new AlignmentDelegate(this);
-    ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TEXT_ALIGN),delegate);
-
-    TypeDelegate* typeDelegate = new TypeDelegate(this);
-    ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TYPE),typeDelegate);
-
-    FontDelegate* fontDelegate = new FontDelegate(this);
-    ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::FONT),fontDelegate);
-
-    PageDelegate* pageDelegate = new PageDelegate(this);
-    ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::PAGE),pageDelegate);
 
     DeletePageCommand::setPagesModel(AddPageCommand::getPagesModel());
 
@@ -135,12 +125,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     canvas->setModel(m_model);
-    ui->treeView->setItemDelegateForColumn(CharacterSheetItem::BORDER,new BorderListEditor);
     m_view = new ItemEditor(this);
     //m_view->setContextMenuPolicy(Qt::CustomContextMenu);
 
     //////////////////////////////////////
-    // QAction for view
+    // QAction for Canvas
     //////////////////////////////////////
     m_fitInView = new QAction(tr("Fit the view"),m_view);
     m_fitInView->setCheckable(true);
@@ -316,8 +305,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_characterView->setModel(m_characterModel);
     m_characterModel->setRootSection(m_model->getRootSection());
     ui->m_characterView->setContextMenuPolicy(Qt::CustomContextMenu);
-    ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->treeView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequestedForFieldModel(QPoint)));
+   // ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+    //connect(ui->treeView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequestedForFieldModel(QPoint)));
     connect(ui->m_characterView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequested(QPoint)));
     //connect(m_addCharacter,SIGNAL(triggered(bool)),m_characterModel,SLOT(addCharacterSheet()));
     connect(m_addCharacter,&QAction::triggered,[&](){
@@ -342,14 +331,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     canvas->setCurrentTool(Canvas::MOVE);
 
-    connect(ui->treeView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editColor(QModelIndex)));
 
-    //Item action
-    m_delItem = new QAction(tr("Delete Item"),this);
-    m_applyValueOnSelection = new QAction(tr("Apply on Selection"),this);
-    m_applyValueOnAllLines = new QAction(tr("Apply on all lines"),this);
-    m_defineCode = new QAction(tr("Define Field Code"),this);
-    m_resetCode = new QAction(tr("Reset Field Code"),this);
 
     // Character table
     m_deleteCharacter= new QAction(tr("Delete character"),this);
@@ -382,9 +364,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_imageList->setAlternatingRowColors(true);
 #endif
 
-#ifdef Q_OS_MACX
-    ui->treeView->setAlternatingRowColors(false);
-#endif
+
     ui->m_addImageBtn->setDefaultAction(ui->m_addImageAct);
     ui->m_removeImgBtn->setDefaultAction(ui->m_deleteImageAct);
 
@@ -928,81 +908,6 @@ void MainWindow::applyValueOnCharacterSelection(QModelIndex& index, bool selecti
     }
 }
 
-
-void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
-{
-    Q_UNUSED(pos);
-    QMenu menu(this);
-
-    QModelIndex index = ui->treeView->currentIndex();
-    if(index.isValid())
-    {
-
-        menu.addAction(m_applyValueOnSelection);
-        menu.addAction(m_applyValueOnAllLines);
-        menu.addSeparator();
-        menu.addAction(m_defineCode);
-        menu.addSeparator();
-        menu.addAction(m_delItem);
-    }
-
-    QAction* act = menu.exec(QCursor::pos());
-
-    if(act == m_delItem)
-    {
-        auto itemData = static_cast<Field*>(index.internalPointer());
-        DeleteFieldCommand* deleteCommand = new DeleteFieldCommand(itemData,m_canvasList.at(m_currentPage),m_model,m_currentPage);
-        m_undoStack.push(deleteCommand);
-        //m_model->removeItem(index);
-    }
-    else if( m_applyValueOnAllLines == act)
-    {
-        applyValue(index,false);
-    }
-    else if(m_applyValueOnSelection == act)
-    {
-        applyValue(index,true);
-    }
-    else if(m_defineCode == act)
-    {
-        defineItemCode(index);
-    }
-    else if(m_resetCode == act)
-    {
-        if(!index.isValid())
-            return;
-
-        Field* field = m_model->getFieldFromIndex(index);
-
-        if(nullptr != field)
-        {
-            field->setGeneratedCode(QStringLiteral(""));
-        }
-
-    }
-}
-void MainWindow::defineItemCode(QModelIndex& index)
-{
-    if(!index.isValid())
-        return;
-
-    Field* field = m_model->getFieldFromIndex(index);
-
-    if(nullptr != field)
-    {
-        CodeEditorDialog dialog;
-
-        field->storeQMLCode();
-        auto code = field->getGeneratedCode();
-        dialog.setPlainText(code);
-
-        if(dialog.exec())
-        {
-           field->setGeneratedCode(dialog.toPlainText());
-        }
-    }
-
-}
 void MainWindow::menuRequestedForImageModel(const QPoint & pos)
 {
     Q_UNUSED(pos);
@@ -1037,43 +942,6 @@ void MainWindow::copyPath()
         QClipboard* clipboard = QGuiApplication::clipboard();
         clipboard->setText(path);
     }
-}
-
-void MainWindow::applyValue(QModelIndex& index, bool selection)
-{
-    if(!index.isValid())
-        return;
-
-    QList<CharacterSheetItem*> listField;
-    QUndoCommand* cmd = nullptr;
-    QVariant var = index.data(Qt::DisplayRole);
-    QVariant editvar = index.data(Qt::EditRole);
-    if(editvar != var)
-    {
-        var = editvar;
-    }
-    int col = index.column();
-
-    if(selection)
-    {
-        QModelIndexList list = ui->treeView->selectionModel()->selectedIndexes();
-
-        for(QModelIndex& index : list)
-        {
-            if(index.column() == col)
-            {
-                auto field = static_cast<Field*>(index.internalPointer());
-                listField.append(field);
-            }
-        }
-        cmd = new SetFieldPropertyCommand(m_model,listField,var,col);
-    }
-    else
-    {
-        cmd = new SetFieldPropertyCommand(m_model,m_model->children(),var,col);
-        m_model->setValueForAll(index);
-    }
-    m_undoStack.push(cmd);
 }
 
 void MainWindow::columnAdded()
@@ -1669,26 +1537,6 @@ void MainWindow::removePage()
     {
         DeletePageCommand* cmd = new DeletePageCommand(m_currentPage,m_canvasList,m_model);
         m_undoStack.push(cmd);
-    }
-}
-void MainWindow::editColor(QModelIndex index)
-{
-    if(!index.isValid())
-    {
-        return;
-    }
-    if(index.column()==CharacterSheetItem::BGCOLOR || CharacterSheetItem::TEXTCOLOR == index.column())
-    {
-
-        CharacterSheetItem* itm = static_cast<CharacterSheetItem*>(index.internalPointer());
-
-        if(nullptr!=itm)
-        {
-            QColor col = itm->getValueFrom(static_cast<CharacterSheetItem::ColumnId>(index.column()),Qt::EditRole).value<QColor>();//CharacterSheetItem::TEXTCOLOR
-            col = QColorDialog::getColor(col,this,tr("Get Color"),QColorDialog::ShowAlphaChannel);
-
-            itm->setValueFrom(static_cast<CharacterSheetItem::ColumnId>(index.column()),col);
-        }
     }
 }
 

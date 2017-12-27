@@ -100,7 +100,8 @@ SOURCES += main.cpp\
     undo/setpropertyonallcharacters.cpp \
     widgets/codeedit.cpp \
     delegate/pagedelegate.cpp \
-    codeeditordialog.cpp
+    codeeditordialog.cpp \
+    widgets/fieldview.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -134,6 +135,7 @@ HEADERS  += mainwindow.h \
     widgets/codeedit.h \
     delegate/pagedelegate.h \
     codeeditordialog.h \
+    widgets/fieldview.h
 
 
 

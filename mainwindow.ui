@@ -425,7 +425,7 @@
             </item>
            </layout>
           </widget>
-          <widget class="QTreeView" name="treeView">
+          <widget class="FieldView" name="treeView">
            <property name="alternatingRowColors">
             <bool>true</bool>
            </property>
@@ -884,6 +884,11 @@
    <class>CodeEditor</class>
    <extends>QPlainTextEdit</extends>
    <header>codeeditor.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FieldView</class>
+   <extends>QTreeView</extends>
+   <header>widgets/fieldview.h</header>
   </customwidget>
  </customwidgets>
  <resources>

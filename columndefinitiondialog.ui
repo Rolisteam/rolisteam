@@ -114,7 +114,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QTableView" name="m_column2Field"/>
+    <widget class="FieldView" name="m_column2Field"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -128,6 +128,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FieldView</class>
+   <extends>QTreeView</extends>
+   <header>fieldview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

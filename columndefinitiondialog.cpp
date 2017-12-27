@@ -16,22 +16,7 @@ ColumnDefinitionDialog::ColumnDefinitionDialog(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle(tr("Table Properties"));
     m_model = new FieldModel(this);
-    ui->m_column2Field->setModel(m_model);
-
-    AlignmentDelegate* delegate = new AlignmentDelegate(this);
-    ui->m_column2Field->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TEXT_ALIGN),delegate);
-
-    TypeDelegate* typeDelegate = new TypeDelegate(this);
-    ui->m_column2Field->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TYPE),typeDelegate);
-
-    FontDelegate* fontDelegate = new FontDelegate(this);
-    ui->m_column2Field->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::FONT),fontDelegate);
-
-    PageDelegate* pageDelegate = new PageDelegate(this);
-    ui->m_column2Field->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::PAGE),pageDelegate);
-
-    ui->m_column2Field->setItemDelegateForColumn(CharacterSheetItem::BORDER,new BorderListEditor);
-
+    ui->m_column2Field->setFieldModel(m_model);
 
     connect(ui->m_columnCountEdit,SIGNAL(valueChanged(int)),this,SIGNAL(columnCountChanged(int)));
     connect(ui->m_lineCountEdit,SIGNAL(valueChanged(int)),this,SIGNAL(lineCountChanged(int)));

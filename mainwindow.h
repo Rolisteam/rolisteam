@@ -84,7 +84,6 @@ public slots:
     void removePage();
     void currentPageChanged(int);
 
-    void editColor(QModelIndex);
     void openImage();
     void setFitInView();
     bool mayBeSaved();
@@ -107,7 +106,7 @@ protected:
 
 protected slots:
     void menuRequested(const QPoint &pos);
-    void menuRequestedForFieldModel(const QPoint &pos);
+    //void menuRequestedForFieldModel(const QPoint &pos);
     void menuRequestedFromView(const QPoint &pos);
     void menuRequestedForImageModel(const QPoint &pos);
     void columnAdded();
@@ -152,11 +151,11 @@ private:
     QAction* m_applyValueOnAllCharacters;
 
     //Action items
-    QAction* m_delItem;
+    /*QAction* m_delItem;
     QAction* m_applyValueOnSelection;
     QAction* m_applyValueOnAllLines;
     QAction* m_defineCode;
-    QAction* m_resetCode;
+    QAction* m_resetCode;*/
 
 
     //action view
