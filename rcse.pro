@@ -133,7 +133,7 @@ HEADERS  += mainwindow.h \
     undo/setpropertyonallcharacters.h \
     widgets/codeedit.h \
     delegate/pagedelegate.h \
-    codeeditordialog.h
+    codeeditordialog.h \
 
 
 
