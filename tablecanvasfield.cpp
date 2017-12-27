@@ -377,6 +377,11 @@ void TableCanvasField::save(QJsonObject &json)
     m_dialog->save(dialog);
     json["dialog"] = dialog;
 }
+
+void TableCanvasField::setPositionAddLine(TableField::ControlPosition pos)
+{
+
+}
 //////////////////////////////////////////////////////
 //
 //

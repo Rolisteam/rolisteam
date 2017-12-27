@@ -111,6 +111,8 @@ public:
 
     void load(QJsonObject &json, QList<QGraphicsScene *> scene);
     void save(QJsonObject &json);
+
+    void setPositionAddLine(TableField::ControlPosition pos);
 public slots:
     void addColumn();
     void addLine();
@@ -129,6 +131,7 @@ private:
 
     ButtonCanvas* m_addColumn;
     ButtonCanvas* m_addLine;
+    ButtonCanvas* m_addLineInGame;
     QAction* m_properties;
     QAction* m_defineColumns;
     QAction* m_values;
