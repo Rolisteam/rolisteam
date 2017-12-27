@@ -316,7 +316,7 @@ void FieldModel::updateItem(CSItem* item)
         QModelIndex first;
         QModelIndex second;
         int i=0;
-        foreach(CharacterSheetItem* itemtmp, list)
+        for(CharacterSheetItem* itemtmp : list)
         {
             CharacterSheetItem* next = NULL;
             if(i+1>list.size())
