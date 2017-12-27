@@ -25,8 +25,14 @@ public:
     void load(QJsonObject &json, QList<QGraphicsScene *> scene);
     void save(QJsonObject &json);
 
+signals:
+    void lineCountChanged(int i);
+    void positionChanged(int i);
+    void columnCountChanged(int i);
+
 public slots:
     void setData(QList<HandleItem*> ,qreal widthTotal,int line, qreal height);
+
 private:
     Ui::ColumnDefinitionDialog *ui;
     FieldModel* m_model;

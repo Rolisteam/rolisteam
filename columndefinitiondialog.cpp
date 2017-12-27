@@ -14,6 +14,7 @@ ColumnDefinitionDialog::ColumnDefinitionDialog(QWidget *parent) :
     ui(new Ui::ColumnDefinitionDialog)
 {
     ui->setupUi(this);
+    setWindowTitle(tr("Table Properties"));
     m_model = new FieldModel(this);
     ui->m_column2Field->setModel(m_model);
 
@@ -31,6 +32,10 @@ ColumnDefinitionDialog::ColumnDefinitionDialog(QWidget *parent) :
 
     ui->m_column2Field->setItemDelegateForColumn(CharacterSheetItem::BORDER,new BorderListEditor);
 
+
+    connect(ui->m_columnCountEdit,SIGNAL(valueChanged(int)),this,SIGNAL(columnCountChanged(int)));
+    connect(ui->m_lineCountEdit,SIGNAL(valueChanged(int)),this,SIGNAL(lineCountChanged(int)));
+    connect(ui->m_controlPositionCb,SIGNAL(currentIndexChanged(int)),this,SIGNAL(positionChanged(int)));
 }
 
 ColumnDefinitionDialog::~ColumnDefinitionDialog()
@@ -63,6 +68,10 @@ void ColumnDefinitionDialog::setData(QList<HandleItem *> list,qreal widthTotal, 
     field->setY(i*currentY);
     field->setWidth(widthTotal-currentX);
     field->setHeight(currentY);
+
+
+    ui->m_columnCountEdit->setValue(list.size()+1);
+    ui->m_lineCountEdit->setValue(line);
 }
 
 FieldModel* ColumnDefinitionDialog::model() const
@@ -82,3 +91,15 @@ void ColumnDefinitionDialog::save(QJsonObject &json)
 {
     m_model->save(json);
 }
+/*void ColumnDefinitionDialog::positionChanged(int i)
+{
+
+}
+void ColumnDefinitionDialog::lineCountChanged(int i)
+{
+
+}
+void ColumnDefinitionDialog::columnCountChanged(int i)
+{
+
+}*/
