@@ -87,7 +87,7 @@ public:
 
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
 
-    void copyField(CharacterSheetItem* ,bool copyData );
+    void copyField(CharacterSheetItem* ,bool copyData, bool sameId = true);
 
     bool getClippedText() const;
     void setClippedText(bool clippedText);

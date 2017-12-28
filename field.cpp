@@ -717,12 +717,15 @@ QPair<QString,QString> Field::getTextAlign()
     return pair;
 }
 
-void Field::copyField(CharacterSheetItem* oldItem,bool copyData)
+void Field::copyField(CharacterSheetItem* oldItem,bool copyData, bool sameId)
 {
     Field* oldField =  dynamic_cast<Field*>(oldItem);
     if(nullptr!=oldField)
     {
-        setId(oldField->getId());
+        if(sameId)
+        {
+            setId(oldField->getId());
+        }
         setCurrentType(oldField->getCurrentType());
         setRect(oldField->getRect());
         setBorder(oldField->border());
