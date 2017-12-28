@@ -1,6 +1,8 @@
 #include "columndefinitiondialog.h"
-#include "ui_columndefinitiondialog.h"
+#include <QUndoStack>
 
+
+#include "ui_columndefinitiondialog.h"
 #include "borderlisteditor.h"
 #include "tablecanvasfield.h"
 #include "delegate/alignmentdelegate.h"
@@ -17,6 +19,9 @@ ColumnDefinitionDialog::ColumnDefinitionDialog(QWidget *parent) :
     setWindowTitle(tr("Table Properties"));
     m_model = new FieldModel(this);
     ui->m_column2Field->setFieldModel(m_model);
+    ui->m_column2Field->setCurrentPage(nullptr);
+    ui->m_column2Field->setCanvasList(nullptr);
+    ui->m_column2Field->setUndoStack(new QUndoStack(this));
 
     connect(ui->m_columnCountEdit,SIGNAL(valueChanged(int)),this,SIGNAL(columnCountChanged(int)));
     connect(ui->m_lineCountEdit,SIGNAL(valueChanged(int)),this,SIGNAL(lineCountChanged(int)));

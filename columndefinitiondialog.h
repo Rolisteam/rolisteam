@@ -3,9 +3,11 @@
 
 #include <QDialog>
 
+
 #include "fieldmodel.h"
 
 class HandleItem;
+class QUndoStack;
 namespace Ui {
 class ColumnDefinitionDialog;
 }
