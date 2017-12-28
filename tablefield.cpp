@@ -136,7 +136,7 @@ QVariant LineModel::data(const QModelIndex &index, int role) const
         int key = role - (LineRole+1);
         return QVariant::fromValue<Field*>(item->getField(key/2));
     }
-    return QVariant();
+    //return QVariant();
 }
 
 QHash<int, QByteArray>  LineModel::roleNames() const
