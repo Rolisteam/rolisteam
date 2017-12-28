@@ -211,7 +211,7 @@ void CharacterSheet::save(QJsonObject& json)
     json["name"]= m_name;
     json["idSheet"]= m_uuid;
     QJsonObject array=QJsonObject();
-    foreach (QString key, m_valuesMap.keys())
+    for (QString key : m_valuesMap.keys())
     {
         QJsonObject item;
         m_valuesMap[key]->saveDataItem(item);
