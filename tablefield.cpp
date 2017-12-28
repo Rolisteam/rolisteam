@@ -454,10 +454,10 @@ void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
         m_availableValue << value.toString();
     }
     m_rect.setRect(x,y,w,h);
-    #ifdef RCSE
     QJsonArray childArray=json["children"].toArray();
     m_model->load(childArray,scene,this);
 
+    #ifdef RCSE
     if(json.contains("canvas"))
     {
         m_tableCanvasField = new TableCanvasField(this);
@@ -526,6 +526,7 @@ void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec
 
 QString TableField::computeControlPosition()
 {
+    #ifdef RCSE
     QString Line1("anchors.%1: _%5list.%2\nanchors.%3: _%5list.%4\n");//top,button//left,right
 
     m_position = static_cast<ControlPosition>(m_tableCanvasField->getPosition());
@@ -581,5 +582,6 @@ QString TableField::computeControlPosition()
         break;
     }
     return Line1.arg(m_id);
+     #endif
 }
 
