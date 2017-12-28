@@ -97,6 +97,15 @@ void LineFieldItem::save(QJsonArray &json)
         json.append(obj);
     }
 }
+void LineFieldItem::saveDataItem(QJsonArray &json)
+{
+    for(const auto field : m_fields)
+    {
+        QJsonObject obj;
+        field->saveDataItem(obj);
+        json.append(obj);
+    }
+}
 void LineFieldItem::load(QJsonArray &json, QList<QGraphicsScene *> scene,  CharacterSheetItem* parent)
 {
     for( auto value : json)
@@ -108,6 +117,18 @@ void LineFieldItem::load(QJsonArray &json, QList<QGraphicsScene *> scene,  Chara
         m_fields.append(field);
     }
 }
+void LineFieldItem::loadDataItem(QJsonArray &json, CharacterSheetItem* parent)
+{
+    for( auto value : json)
+    {
+        Field* field = new Field();
+        field->setParent(parent);
+        QJsonObject obj = value.toObject();
+        field->loadDataItem(obj);
+        m_fields.append(field);
+    }
+}
+
 ////////////////////////////////////////
 //
 ////////////////////////////////////////
@@ -211,6 +232,15 @@ void LineModel::save(QJsonArray &json)
         json.append(lineJson);
     }
 }
+void LineModel::saveDataItem(QJsonArray &json)
+{
+    for(const auto& line : m_lines)
+    {
+        QJsonArray lineJson;
+        line->saveDataItem(lineJson);
+        json.append(lineJson);
+    }
+}
 void LineModel::load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent)
 {
     QJsonArray::Iterator it;
@@ -219,6 +249,18 @@ void LineModel::load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterS
         QJsonArray obj = (*it).toArray();
         LineFieldItem* line = new LineFieldItem();
         line->load(obj,scene,parent);
+        m_lines.append(line);
+    }
+}
+
+void LineModel::loadDataItem(QJsonArray &json, CharacterSheetItem* parent)
+{
+    QJsonArray::Iterator it;
+    for(it = json.begin(); it != json.end(); ++it)
+    {
+        QJsonArray obj = (*it).toArray();
+        LineFieldItem* line = new LineFieldItem();
+        line->loadDataItem(obj,parent);
         m_lines.append(line);
     }
 }
@@ -350,6 +392,7 @@ void TableField::save(QJsonObject &json, bool exp)
         json["id"]=m_id;
         json["label"]=m_label;
         json["value"]=m_value;
+        json["typefield"]=m_currentType;
         return;
     }
     json["type"]="TableField";
@@ -403,7 +446,10 @@ void TableField::save(QJsonObject &json, bool exp)
     #endif
 
 }
-
+CharacterSheetItem::CharacterSheetItemType TableField::getItemType() const
+{
+    return CharacterSheetItemType::TableItem;
+}
 void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
 {
     m_id = json["id"].toString();
@@ -411,7 +457,7 @@ void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
     m_value= json["value"].toString();
     m_label = json["label"].toString();
 
-    m_currentType=static_cast<Field::TypeField>(json["type"].toInt());
+    m_currentType=static_cast<Field::TypeField>(json["typefield"].toInt());
     m_clippedText=json["clippedText"].toBool();
 
     m_formula = json["formula"].toString();
@@ -584,4 +630,30 @@ QString TableField::computeControlPosition()
     return Line1.arg(m_id);
      #endif
 }
+void TableField::loadDataItem(QJsonObject &json)
+{
+    m_id = json["id"].toString();
+    setValue(json["value"].toString(),true);
+    setLabel(json["label"].toString());
+    setFormula(json["formula"].toString());
+    setReadOnly(json["readonly"].toBool());
+    m_currentType=static_cast<Field::TypeField>(json["typefield"].toInt());
 
+    QJsonArray childArray=json["children"].toArray();
+    m_model->loadDataItem(childArray,this);
+}
+
+void TableField::saveDataItem(QJsonObject &json)
+{
+    json["type"]="TableField";
+    json["typefield"]=m_currentType;
+    json["id"]=m_id;
+    json["label"]=m_label;
+    json["value"]=m_value;
+    json["formula"]=m_formula;
+    json["readonly"]=m_readOnly;
+
+    QJsonArray childArray;
+    m_model->save(childArray);
+    json["children"]=childArray;
+}

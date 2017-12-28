@@ -61,6 +61,8 @@ public:
     Field* getFieldById(const QString& id);
     void save(QJsonArray& json);
     void load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent);
+    void saveDataItem(QJsonArray &json);
+    void loadDataItem(QJsonArray &json, CharacterSheetItem *parent);
 private:
     QList<Field*> m_fields;
 };
@@ -87,6 +89,8 @@ public:
 
     void save(QJsonArray& json);
     void load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent);
+    void saveDataItem(QJsonArray &json);
+    void loadDataItem(QJsonArray &json, CharacterSheetItem *parent);
 private:
     QList<LineFieldItem*> m_lines;
 };
@@ -128,6 +132,9 @@ public:
     ControlPosition getPosition() const;
     void setPosition(const ControlPosition &position);
 
+    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
+    void saveDataItem(QJsonObject &json);
+    void loadDataItem(QJsonObject &json);
 public slots:
     void addLine();
     void removeLine(int);
