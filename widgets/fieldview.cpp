@@ -20,7 +20,7 @@
 
 
 FieldView::FieldView(QWidget* parent)
-    : QTreeView(parent)
+    : QTreeView(parent), m_mapper(new QSignalMapper(this))
 {
     //Item action
     m_delItem = new QAction(tr("Delete Item"),this);
@@ -28,6 +28,50 @@ FieldView::FieldView(QWidget* parent)
     m_applyValueOnAllLines = new QAction(tr("Apply on all lines"),this);
     m_defineCode = new QAction(tr("Define Field Code"),this);
     m_resetCode = new QAction(tr("Reset Field Code"),this);
+
+    m_showGeometryGroup = new QAction(tr("Position columns"),this);
+    connect(m_showGeometryGroup,&QAction::triggered,this,[=](){
+        hideAllColumns(true);
+        showColumn(CharacterSheetItem::ID);
+        showColumn(CharacterSheetItem::LABEL);
+        showColumn(CharacterSheetItem::X);
+        showColumn(CharacterSheetItem::Y);
+        showColumn(CharacterSheetItem::WIDTH);
+        showColumn(CharacterSheetItem::HEIGHT);
+        showColumn(CharacterSheetItem::PAGE);
+    });
+    m_showEsteticGroup= new QAction(tr("Esthetic columns"),this);
+    connect(m_showEsteticGroup,&QAction::triggered,this,[=](){
+        hideAllColumns(true);
+        showColumn(CharacterSheetItem::ID);
+        showColumn(CharacterSheetItem::LABEL);
+        showColumn(CharacterSheetItem::BGCOLOR);
+        showColumn(CharacterSheetItem::BORDER);
+        showColumn(CharacterSheetItem::CLIPPED);
+        showColumn(CharacterSheetItem::FONT);
+        showColumn(CharacterSheetItem::TEXT_ALIGN);
+        showColumn(CharacterSheetItem::TEXTCOLOR);
+    });
+    m_showValueGroup= new QAction(tr("Value columns"),this);
+    connect(m_showValueGroup,&QAction::triggered,this,[=](){
+        hideAllColumns(true);
+        showColumn(CharacterSheetItem::ID);
+        showColumn(CharacterSheetItem::LABEL);
+        showColumn(CharacterSheetItem::VALUE);
+        showColumn(CharacterSheetItem::VALUES);
+        showColumn(CharacterSheetItem::TYPE);
+    });
+    m_showIdGroup= new QAction(tr("Id columns"),this);
+    connect(m_showIdGroup,&QAction::triggered,this,[=](){
+        hideAllColumns(true);
+        showColumn(CharacterSheetItem::ID);
+        showColumn(CharacterSheetItem::LABEL);
+    });
+
+    m_showAllGroup= new QAction(tr("All columns"),this);
+    connect(m_showAllGroup,&QAction::triggered,this,[=](){
+        hideAllColumns(false);
+    });
 
     setAlternatingRowColors(true);
 #ifdef Q_OS_MACX
@@ -50,9 +94,22 @@ FieldView::FieldView(QWidget* parent)
 
     setItemDelegateForColumn(CharacterSheetItem::BORDER,new BorderListEditor);
 
-
+    connect(m_mapper,static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),this,[this](int i)
+    {
+        this->setColumnHidden(i,!this->isColumnHidden(i));
+    });
 }
-
+void FieldView::hideAllColumns(bool hidden)
+{
+    if(m_model)
+    {
+        auto columCount = m_model->columnCount(QModelIndex());
+        for(int i = 0; i < columCount ; ++i)
+        {
+            this->setColumnHidden(i,hidden);
+        }
+    }
+}
 void FieldView::contextMenuEvent(QContextMenuEvent* event)
 {
 
@@ -66,9 +123,31 @@ void FieldView::contextMenuEvent(QContextMenuEvent* event)
         menu.addAction(m_applyValueOnAllLines);
         menu.addSeparator();
         menu.addAction(m_defineCode);
-        menu.addSeparator();
-        menu.addAction(m_delItem);
+        if(nullptr != m_canvasList)
+        {
+            menu.addSeparator();
+            menu.addAction(m_delItem);
+        }
     }
+    auto showSubMenu = menu.addMenu(tr("Show"));
+    showSubMenu->addAction(m_showAllGroup);
+    showSubMenu->addAction(m_showEsteticGroup);
+    showSubMenu->addAction(m_showIdGroup);
+    showSubMenu->addAction(m_showValueGroup);
+    showSubMenu->addAction(m_showGeometryGroup);
+
+    auto hideSubMenu = menu.addMenu(tr("Show/Hide"));
+    auto columnCount = m_model->columnCount(QModelIndex());
+    for(int i = 0; i < columnCount;++i)
+    {
+        auto name = m_model->headerData(i,Qt::Horizontal,Qt::DisplayRole).toString();
+        auto  act = hideSubMenu->addAction(name);
+        act->setCheckable(true);
+        act->setChecked(!isColumnHidden(i));
+        connect(act, SIGNAL(triggered(bool)) , m_mapper, SLOT(map()));
+        m_mapper->setMapping(act,i);
+    }
+
 
     QAction* act = menu.exec(event->globalPos());
 

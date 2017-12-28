@@ -4,6 +4,7 @@
 #include <QTreeView>
 #include <QContextMenuEvent>
 #include <QList>
+#include <QSignalMapper>
 
 class QUndoStack;
 class FieldModel;
@@ -29,22 +30,34 @@ public:
     FieldModel *getModel() const;
     void setFieldModel(FieldModel *model);
 
+
+
 public slots:
     void editColor(QModelIndex index);
+    void hideAllColumns(bool);
 
 protected:
     void contextMenuEvent(QContextMenuEvent* event) override;
 private:
-    QAction* m_delItem;
-    QAction* m_applyValueOnSelection;
-    QAction* m_applyValueOnAllLines;
-    QAction* m_defineCode;
-    QAction* m_resetCode;
+    QAction* m_delItem= nullptr;
+    QAction* m_applyValueOnSelection= nullptr;
+    QAction* m_applyValueOnAllLines= nullptr;
+    QAction* m_defineCode= nullptr;
+    QAction* m_resetCode= nullptr;
 
-    QUndoStack* m_undoStack;
-    FieldModel* m_model;
-    QList<Canvas*>* m_canvasList;
-    int* m_currentPage;
+    //Show Hide Columns
+    QAction* m_showGeometryGroup = nullptr;
+    QAction* m_showEsteticGroup= nullptr;
+    QAction* m_showValueGroup= nullptr;
+    QAction* m_showAllGroup= nullptr;
+    QAction* m_showIdGroup= nullptr;
+
+    QUndoStack* m_undoStack= nullptr;
+    FieldModel* m_model= nullptr;
+    QList<Canvas*>* m_canvasList= nullptr;
+    int* m_currentPage= nullptr;
+
+    QSignalMapper* m_mapper = nullptr;
 };
 
 #endif // FIELDVIEW_H
