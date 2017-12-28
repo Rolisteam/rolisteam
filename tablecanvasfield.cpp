@@ -4,6 +4,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <QDebug>
 #include <QJsonArray>
+#include <QGraphicsSceneMouseEvent>
 
 #include "tablefield.h"
 #include "field.h"
@@ -515,7 +516,7 @@ void ButtonCanvas::setMsg(const QString &msg)
 {
     m_msg = msg;
 }
-#include <QGraphicsSceneMouseEvent>
+
 void ButtonCanvas::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
    if(event->buttons() & Qt::LeftButton)

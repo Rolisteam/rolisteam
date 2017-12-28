@@ -142,8 +142,6 @@ private:
     bool m_dataReset;
     int m_position;
     bool m_columnDefined = false;
-
-
 };
 
 #endif // TABLECANVASFIELD_H
