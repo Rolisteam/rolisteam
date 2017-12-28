@@ -162,7 +162,11 @@ TableCanvasField::TableCanvasField(Field* field)
 }
 TableCanvasField::~TableCanvasField()
 {
-
+    if(nullptr != m_dialog)
+    {
+        delete m_dialog;
+        m_dialog = nullptr;
+    }
 }
 void TableCanvasField::addColumn()
 {
@@ -422,7 +426,7 @@ void TableCanvasField::fillLineModel(LineModel* lineModel,TableField* parent)
             if(nullptr!=field)
             {
                 Field* newField = new Field();
-                newField->copyField(field,true);
+                newField->copyField(field,true,false);
                 newField->setParent(parent);
                 line->insertField(newField);
             }
