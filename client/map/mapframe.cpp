@@ -177,7 +177,7 @@ bool MapFrame::openUriAndLoadMap(QString uri)
 bool MapFrame::readFileFromUri()
 {
 
-    if((nullptr!=m_uri)&&(m_uri->hasData())&&(m_uri->exists()))
+    if((nullptr!=m_uri)&&(m_uri->hasData())&&(!m_uri->exists()))
     {//load from uri data
         QByteArray array = m_uri->getData();
         QDataStream in(&array,QIODevice::ReadOnly);
@@ -185,7 +185,7 @@ bool MapFrame::readFileFromUri()
         readMapAndNpc(in,m_isHidden);
         m_title = m_uri->name();
     }
-    else if((nullptr!=m_uri)&&(m_uri->exists())&&(m_uri->hasData()))
+    else if((nullptr!=m_uri)&&(m_uri->exists()))
     {
         if(!openUriAndLoadMap(m_uri->getUri()))
         {
