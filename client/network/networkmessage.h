@@ -77,6 +77,7 @@ enum Action {
 
     // PlayerCategory
     PlayerConnectionAction = 0,
+    /// @todo remove AddPlayerAction
     AddPlayerAction,
     DelPlayerAction,
     ChangePlayerNameAction,
