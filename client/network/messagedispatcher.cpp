@@ -28,7 +28,8 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
     }
     else if(msg->category()== NetMsg::PlayerCategory)
     {
-        if(msg->action() == NetMsg::PlayerConnectionAction)
+        if((msg->action() == NetMsg::PlayerConnectionAction) ||
+           (msg->action() == NetMsg::AddPlayerAction))
         {
             emitter->setInfoPlayer(msg);
 
