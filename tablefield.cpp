@@ -628,6 +628,8 @@ QString TableField::computeControlPosition()
         break;
     }
     return Line1.arg(m_id);
+    #else
+    return {};
      #endif
 }
 void TableField::loadDataItem(QJsonObject &json)
