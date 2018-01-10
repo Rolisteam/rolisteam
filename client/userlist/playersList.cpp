@@ -716,7 +716,8 @@ bool PlayersList::event(QEvent * event)
                 switch (data.action())
                 {
                     case PlayerConnectionAction:
-                        addPlayerAsServer(rEvent);
+                        addPlayer(data);
+                        //addPlayerAsServer(rEvent);
                         return true;
                     case AddPlayerAction:
                         addPlayer(data);
@@ -801,7 +802,7 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
 
 void PlayersList::addPlayerAsServer(ReceiveEvent * event)
 {
-    NetworkLink * link = event->link();
+    NetworkLink* link = event->link();
     Player* player = new Player(event->data(), link);
     if (player->isGM() && m_gmCount > 0)
     {
@@ -810,32 +811,23 @@ void PlayersList::addPlayerAsServer(ReceiveEvent * event)
 
     addPlayer(player);
 
-    NetworkMessageWriter msgPlayer (NetMsg::PlayerCategory, NetMsg::AddPlayerAction);
+    /*NetworkMessageWriter msgPlayer (NetMsg::PlayerCategory, NetMsg::AddPlayerAction);
     player->fill(msgPlayer);
     msgPlayer.uint8(1);
-    msgPlayer.sendAll();
+    msgPlayer.sendAll();*/
 
-    NetworkMessageWriter msgCharacter (NetMsg::CharacterPlayerCategory, NetMsg::AddPlayerCharacterAction);
     SendFeaturesIterator featuresIterator;
 
-    int playersListSize = m_playersList.size();
-    for (int i = 0 ; i < playersListSize ; i++)
+    for (auto curPlayer : m_playersList)
     {
-        Player * curPlayer = m_playersList.at(i);
-        msgPlayer.reset();
-        curPlayer->fill(msgPlayer);
-        // don't display it in the log
-        msgPlayer.uint8(0);
         if (curPlayer != player)
         {
-            msgPlayer.sendTo(link);
             int charactersListSize = curPlayer->getCharactersCount();
             for (int j = 0 ; j < charactersListSize ; j++)
             {
+                NetworkMessageWriter msgCharacter (NetMsg::CharacterPlayerCategory, NetMsg::AddPlayerCharacterAction);
                 Character * character = curPlayer->getCharacterByIndex(j);
-                msgCharacter.reset();
                 character->fill(msgCharacter);
-                // add it to the maps
                 msgCharacter.uint8(1);
                 msgCharacter.sendTo(link);
             }
