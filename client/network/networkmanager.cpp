@@ -25,7 +25,9 @@
 #include "network/networkmanager.h"
 
 #include <QTcpSocket>
+#include <QDebug>
 //#include <QMessageBox>
+
 #include "network/networklink.h"
 #include "data/person.h"
 #include "data/player.h"
@@ -75,6 +77,7 @@ ClientManager::ClientManager(ConnectionProfile* connection)
             playerList->addLocalCharacter(m_connectionProfile->getCharacter());
         }
         playerList->sendOffLocalPlayerInformations();
+        qDebug() << "sendoff feature from clientManager";
         playerList->sendOffFeatures(m_connectionProfile->getPlayer());
     });
 
