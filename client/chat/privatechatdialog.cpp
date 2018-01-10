@@ -50,8 +50,8 @@ Qt::ItemFlags PrivateChatDialogModel::flags(const QModelIndex &index) const
     if (!m_isEditable)
         return Qt::ItemIsEnabled;
 
-    PlayersList * g_playersList = PlayersList::instance();
-    Player * player = g_playersList->getPlayer(index);
+    PlayersList* g_playersList = PlayersList::instance();
+    Player* player = g_playersList->getPlayer(index);
 
     // We should return Qt::NoItemFlags when (player == nullptr),
     // but this cause an infinite loop when the last entry is deleted.
