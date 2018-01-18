@@ -17,44 +17,52 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-#include "typedelegate.h"
+#include "pagedelegate.h"
 #include <QComboBox>
+#include "charactersheetitem.h"
 
-TypeDelegate::TypeDelegate(QWidget* parent)
-: QStyledItemDelegate(parent)
+int PageDelegate::m_pageNumber = 1;
+const QString pageName(PageDelegate::tr("Page %1"));
+PageDelegate::PageDelegate(QWidget* parent)
+    : QStyledItemDelegate(parent)
 {
-    m_data << tr("TextInput")
-           << tr("TextField")
-           << tr("TextArea")
-           << tr("Select")
-           << tr("Checkbox")
-           << tr("Image")
-           << tr("Dice Button")
-           << tr("Type Button");
-}
 
-QWidget* TypeDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+}
+QString PageDelegate::displayText(const QVariant &value, const QLocale &locale) const
+{
+    if(value.toInt() < 0)
+    {
+        return tr("All pages");
+    }
+    else
+    {
+        return pageName.arg(value.toInt()+1);
+    }
+}
+QWidget* PageDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     // ComboBox ony in column 2
-    if (index.column() != 4)
-        return QStyledItemDelegate::createEditor(parent, option, index);
+       if (index.column() != static_cast<int>(CharacterSheetItem::PAGE))
+           return QStyledItemDelegate::createEditor(parent, option, index);
 
 
     QComboBox* cm = new QComboBox(parent);
-    for(QString item : m_data)
+    cm->setEditable(true);
+    cm->insertItem(0,tr("All Pages"));
+    for(int i=0;i<m_pageNumber;++i)
     {
-        cm->addItem(item,m_data.indexOf(item));
+        cm->insertItem(i+1,pageName.arg(i+1));
     }
     return cm;
 }
-void TypeDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
+void PageDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
 {
     if (QComboBox* cb = qobject_cast<QComboBox*>(editor))
     {
        int currentIndex = index.data(Qt::EditRole).toInt();
        if (currentIndex >= 0)
        {
-           cb->setCurrentIndex(currentIndex);
+           cb->setCurrentIndex(currentIndex+1);
        }
     }
     else
@@ -62,24 +70,16 @@ void TypeDelegate::setEditorData(QWidget* editor, const QModelIndex& index) cons
         QStyledItemDelegate::setEditorData(editor, index);
     }
 }
-void TypeDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
+void PageDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
 {
     if (QComboBox* cb = qobject_cast<QComboBox*>(editor))
     {
-        model->setData(index, cb->currentIndex(), Qt::EditRole);
+        model->setData(index, cb->currentIndex()-1, Qt::EditRole);
     }
     else
         QStyledItemDelegate::setModelData(editor, model, index);
 }
-
-QString TypeDelegate::displayText(const QVariant &value, const QLocale &locale) const
+int PageDelegate::setPageNumber(int page)
 {
-      Q_UNUSED(locale);
-    bool b;
-    int i = value.toInt(&b);
-    if((b)&&(i>=0)&&(i<m_data.size()))
-    {
-        return m_data.at(i);
-    }
-    return 0;
+    m_pageNumber = page;
 }

@@ -27,9 +27,8 @@ public:
 
     static bool getShowImageField();
     static void setShowImageField(bool showImageField);
-protected:
     virtual void setMenu(QMenu& menu);
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+
 
 signals:
     void widthChanged();

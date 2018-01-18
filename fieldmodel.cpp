@@ -289,6 +289,11 @@ void FieldModel::getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list)
     m_rootSection->getFieldFromPage(pagePos,list);
 }
 
+Field* FieldModel::getFieldFromIndex(const QModelIndex &index)
+{
+    return static_cast<Field*>(index.internalPointer());
+}
+
 void FieldModel::updateItem(CSItem* item)
 {
     int ind = m_rootSection->indexOfChild(item);
@@ -311,7 +316,7 @@ void FieldModel::updateItem(CSItem* item)
         QModelIndex first;
         QModelIndex second;
         int i=0;
-        foreach(CharacterSheetItem* itemtmp, list)
+        for(CharacterSheetItem* itemtmp : list)
         {
             CharacterSheetItem* next = NULL;
             if(i+1>list.size())
@@ -348,15 +353,11 @@ void FieldModel::save(QJsonObject& json,bool exp)
     m_rootSection->save(json,exp);
 }
 
-void FieldModel::load(QJsonObject &json,QList<Canvas*> scene)
+void FieldModel::load(QJsonObject &json,QList<QGraphicsScene*> scene)
 {
-    QList<QGraphicsScene*> list;
-    for(auto canvas : scene)
-    {
-        list << canvas;
-    }
+    /**/
     beginResetModel();
-    m_rootSection->load(json,list);
+    m_rootSection->load(json,scene);
     endResetModel();
 }
 void FieldModel::removeItem(QModelIndex& index)

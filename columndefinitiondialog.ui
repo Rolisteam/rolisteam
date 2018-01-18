@@ -15,7 +15,106 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTableView" name="m_column2Field"/>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Line Count:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QSpinBox" name="m_lineCountEdit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Column Count:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QSpinBox" name="m_columnCountEdit"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Control Position</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="m_controlPositionCb">
+         <item>
+          <property name="text">
+           <string>LeftTop</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>LeftBottom</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>TopLeft</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>TopRight</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>BottomLeft</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>BottomRight</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RightTop</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RightBottom</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Column Definition:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="FieldView" name="m_column2Field"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -29,6 +128,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FieldView</class>
+   <extends>QTreeView</extends>
+   <header>fieldview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

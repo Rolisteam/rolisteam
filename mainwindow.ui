@@ -232,6 +232,12 @@
               </item>
               <item>
                <widget class="QToolButton" name="m_functionBtn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Function btn</string>
                 </property>
@@ -255,6 +261,12 @@
               </item>
               <item>
                <widget class="QToolButton" name="m_tableFieldBtn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Table</string>
                 </property>
@@ -413,7 +425,7 @@
             </item>
            </layout>
           </widget>
-          <widget class="QTreeView" name="treeView">
+          <widget class="FieldView" name="treeView">
            <property name="alternatingRowColors">
             <bool>true</bool>
            </property>
@@ -439,7 +451,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="m_codeTab">
        <attribute name="title">
         <string>Code</string>
        </attribute>
@@ -449,7 +461,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="m_characterTab">
        <attribute name="title">
         <string>Characters</string>
        </attribute>
@@ -466,7 +478,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="images">
+      <widget class="QWidget" name="m_imagesTab">
        <attribute name="title">
         <string>Stored Images</string>
        </attribute>
@@ -532,8 +544,11 @@
     <addaction name="m_openAct"/>
     <addaction name="m_saveAct"/>
     <addaction name="actionSave_As"/>
+    <addaction name="m_recentFiles"/>
     <addaction name="separator"/>
     <addaction name="m_preferencesAction"/>
+    <addaction name="m_exportPdfAct"/>
+    <addaction name="separator"/>
     <addaction name="m_quitAction"/>
    </widget>
    <widget class="QMenu" name="menuEdition">
@@ -545,11 +560,11 @@
     <addaction name="actionCode_To_QML"/>
     <addaction name="m_backgroundImageAct"/>
     <addaction name="separator"/>
-    <addaction name="m_resetIdAct"/>
-    <addaction name="m_checkValidityAct"/>
     <addaction name="m_sheetProperties"/>
     <addaction name="separator"/>
     <addaction name="m_showItemIcon"/>
+    <addaction name="m_checkValidityAct"/>
+    <addaction name="m_resetIdAct"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -557,6 +572,7 @@
     </property>
     <addaction name="m_onlineHelpAct"/>
     <addaction name="m_aboutRcseAct"/>
+    <addaction name="m_openLiberapay"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdition"/>
@@ -658,10 +674,16 @@
    <property name="text">
     <string>Generate Code and Sheet</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
   </action>
   <action name="actionCode_To_QML">
    <property name="text">
     <string>Code To Sheet</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
    </property>
   </action>
   <action name="m_addButtonAct">
@@ -831,6 +853,25 @@
     <string>&amp;Redo</string>
    </property>
   </action>
+  <action name="m_openLiberapay">
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/liberapay.png</normaloff>:/resources/icons/liberapay.png</iconset>
+   </property>
+   <property name="text">
+    <string>Support Rolisteam</string>
+   </property>
+  </action>
+  <action name="m_exportPdfAct">
+   <property name="text">
+    <string>Export as PDF</string>
+   </property>
+  </action>
+  <action name="m_recentFiles">
+   <property name="text">
+    <string>Recent files</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -843,6 +884,11 @@
    <class>CodeEditor</class>
    <extends>QPlainTextEdit</extends>
    <header>codeeditor.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FieldView</class>
+   <extends>QTreeView</extends>
+   <header>widgets/fieldview.h</header>
   </customwidget>
  </customwidgets>
  <resources>

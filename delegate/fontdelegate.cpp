@@ -20,7 +20,8 @@
 #include "fontdelegate.h"
 #include <QFontDialog>
 
-FontDelegate::FontDelegate()
+FontDelegate::FontDelegate(QWidget* parent)
+: QStyledItemDelegate(parent)
 {
 
 }

@@ -29,5 +29,6 @@
         <file>resources/icons/dark_tool_rect_selection.svg</file>
         <file>resources/icons/function.png</file>
         <file>resources/icons/table.png</file>
+        <file>resources/icons/liberapay.png</file>
     </qresource>
 </RCC>

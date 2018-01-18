@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui quickwidgets quick
+QT       += core gui quickwidgets quick webview printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -64,6 +64,7 @@ DEFINES += WITH_PDF
 INSTALLS += target
 
 include(charactersheet/charactersheet.pri)
+include(diceparser/diceparser.pri)
 
 INCLUDEPATH += charactersheet
 
@@ -96,7 +97,11 @@ SOURCES += main.cpp\
     undo/setbackgroundimage.cpp \
     undo/addcharactercommand.cpp \
     undo/deletecharactercommand.cpp \
-    undo/setpropertyonallcharacters.cpp
+    undo/setpropertyonallcharacters.cpp \
+    widgets/codeedit.cpp \
+    delegate/pagedelegate.cpp \
+    codeeditordialog.cpp \
+    widgets/fieldview.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -126,7 +131,11 @@ HEADERS  += mainwindow.h \
     undo/setbackgroundimage.h \
     undo/addcharactercommand.h \
     undo/deletecharactercommand.h \
-    undo/setpropertyonallcharacters.h
+    undo/setpropertyonallcharacters.h \
+    widgets/codeedit.h \
+    delegate/pagedelegate.h \
+    codeeditordialog.h \
+    widgets/fieldview.h
 
 
 
@@ -135,11 +144,14 @@ FORMS    += mainwindow.ui \
     pdfmanager.ui \
     preferencesdialog.ui \
     sheetproperties.ui \
-    columndefinitiondialog.ui
+    columndefinitiondialog.ui \
+    widgets/codeedit.ui \
+    codeeditordialog.ui
 
 DISTFILES += \
     charactersheet/qml/*.qml \
-    resources/icons/photo.png
+    resources/icons/photo.png \
+    resources/icons/liberapay.png
 
 RESOURCES += \
     qmlfile.qrc

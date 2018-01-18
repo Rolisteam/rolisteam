@@ -1,11 +1,37 @@
 #include "sheetproperties.h"
 #include "ui_sheetproperties.h"
 
+#include <QFileDialog>
+#include <QFontDatabase>
+
 SheetProperties::SheetProperties(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SheetProperties)
 {
     ui->setupUi(this);
+    ui->listView->setModel(&m_model);
+
+    connect(ui->m_addFontBtn,&QToolButton::clicked,this,[=]{
+        QStringList files = QFileDialog::getOpenFileNames(this,tr("Add Font file"),QDir::homePath(),"font (*.ttf *.otf)");
+        if(!files.isEmpty())
+        {
+            m_fontUri.append(files);
+            m_model.setStringList(m_fontUri);
+            for(auto uri : m_fontUri)
+            {
+                QFontDatabase::addApplicationFont(uri);
+            }
+        }
+    });
+
+    connect(ui->m_removeFontBtn,&QToolButton::clicked,this,[=]{
+        auto index = ui->listView->currentIndex();
+        if(index.isValid())
+        {
+            m_fontUri.removeAt(index.row());
+            m_model.setStringList(m_fontUri);
+        }
+    });
 }
 
 SheetProperties::~SheetProperties()
@@ -76,5 +102,16 @@ void SheetProperties::reset()
     ui->m_flickable->setChecked(false);
     ui->m_fixedScale->setValue(1.0);
     ui->m_placeToAdditionnal->setCurrentIndex(0);
+}
+
+QStringList SheetProperties::getFontUri() const
+{
+    return m_fontUri;
+}
+
+void SheetProperties::setFontUri(const QStringList &fontUri)
+{
+    m_fontUri = fontUri;
+    m_model.setStringList(m_fontUri);
 }
 

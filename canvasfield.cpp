@@ -133,12 +133,6 @@ void CanvasField::setWidth(qreal w)
         update();
     }
 }
-void CanvasField::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
-{
-      QMenu menu;
-      setMenu(menu);
-      menu.exec(event->screenPos());
-}
 void CanvasField::setHeight(qreal h)
 {
     if(h!=m_rect.height())

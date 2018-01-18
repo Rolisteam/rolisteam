@@ -26,7 +26,6 @@
 #include <QMainWindow>
 #include <QHash>
 #include <QPixmap>
-
 #include <QUndoStack>
 
 #include "canvas.h"
@@ -39,6 +38,8 @@
 #include "preferencesmanager.h"
 #include "imagemodel.h"
 #include "itemeditor.h"
+
+class CodeEditor;
 
 namespace Ui {
 class MainWindow;
@@ -83,7 +84,6 @@ public slots:
     void removePage();
     void currentPageChanged(int);
 
-    void editColor(QModelIndex);
     void openImage();
     void setFitInView();
     bool mayBeSaved();
@@ -93,6 +93,8 @@ public slots:
     void helpOnLine();
     void addImage();
     void copyPath();
+
+    void exportPDF();
 protected:
     bool eventFilter(QObject *, QEvent *);
     bool wheelEventForView(QWheelEvent *event);
@@ -100,9 +102,11 @@ protected:
     void managePDFImport();
     void applyValue(QModelIndex &index, bool selection);
     void applyValueOnCharacterSelection(QModelIndex &index, bool selection, bool allCharacter);
+    void defineItemCode(QModelIndex &index);
+
 protected slots:
     void menuRequested(const QPoint &pos);
-    void menuRequestedForFieldModel(const QPoint &pos);
+    //void menuRequestedForFieldModel(const QPoint &pos);
     void menuRequestedFromView(const QPoint &pos);
     void menuRequestedForImageModel(const QPoint &pos);
     void columnAdded();
@@ -113,9 +117,8 @@ protected slots:
     void checkCharacters();
 private slots:
     void codeChanged();
-//private:
-    // QString getFilePath(QString);
     void sameGeometry();
+
 private:
     int pageCount();
 private:
@@ -148,10 +151,12 @@ private:
     QAction* m_applyValueOnAllCharacters;
 
     //Action items
-    QAction* m_delItem;
+    /*QAction* m_delItem;
     QAction* m_applyValueOnSelection;
     QAction* m_applyValueOnAllLines;
-    QString m_title;
+    QAction* m_defineCode;
+    QAction* m_resetCode;*/
+
 
     //action view
     QAction* m_fitInView;
@@ -167,7 +172,7 @@ private:
     QAction* m_replaceImage;
     QAction* m_removeImage;
 
-
+    QString m_title;
     PreferencesManager* m_preferences;
     /// Sheet properties
     SheetProperties* m_sheetProperties;
@@ -179,9 +184,7 @@ private:
     qreal m_fixedScaleSheet;
 
     QUndoStack m_undoStack;
-
-
-
+    CodeEditor* m_codeEdit;
 };
 
 #endif // MAINWINDOW_H
