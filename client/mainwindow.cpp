@@ -450,6 +450,28 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_tabViewAction,SIGNAL(triggered(bool)),m_mdiArea,SLOT(setTabbedMode(bool)));
     connect(m_ui->m_tileViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
 
+    addAction(m_ui->m_fullScreenAct);
+    m_mdiArea->addAction(m_ui->m_fullScreenAct);
+
+    connect(m_ui->m_fullScreenAct,&QAction::triggered,this,[=](bool enable){
+        if(enable)
+        {
+            showFullScreen();
+        	menuBar()->setVisible(false);
+            m_mdiArea->setMouseTracking(true);
+            m_vmapToolBar->setMouseTracking(true);
+	        setMouseTracking(true);
+        }
+        else
+        {
+            showNormal();
+            menuBar()->setVisible(true);
+            m_mdiArea->setMouseTracking(false);
+            m_vmapToolBar->setMouseTracking(false);
+            setMouseTracking(false);
+        }
+    });
+
     auto redo = m_undoStack.createRedoAction(this,tr("&Redo"));
     auto undo = m_undoStack.createUndoAction(this,tr("&Undo"));
 
@@ -494,6 +516,23 @@ void MainWindow::linkActionToMenu()
         }
     });
 }
+
+void MainWindow::mouseMoveEvent(QMouseEvent* event)
+{
+    if(isFullScreen())
+    {
+        if(event->screenPos().y() == 0.0)
+        {
+            menuBar()->setVisible(true);
+        }
+        else if(event->screenPos().y() > 100)
+        {
+            menuBar()->setVisible(false);
+        }
+    }
+    QMainWindow::mouseMoveEvent(event);
+}
+
 void MainWindow::prepareMap(MapFrame* mapFrame)
 {
     m_mediaHash.insert(mapFrame->getMediaId(),mapFrame);

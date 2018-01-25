@@ -349,6 +349,7 @@ protected :
     void prepareNote(NoteContainer *note);
     void processSharedNoteMessage(NetworkMessageReader *msg);
     void tipChecker();
+    virtual void mouseMoveEvent(QMouseEvent *event);
 protected slots:
     /**
      * @brief closeMediaContainer
