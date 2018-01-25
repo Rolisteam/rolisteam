@@ -240,7 +240,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
                 }
                 if(showResult)
                 {
-                    showMessage(messageTitle, color, diceOutput,NetMsg::DiceMessageAction);
+                    showMessage(messageTitle, color, diceOutput,m_diceParser->getComment(),NetMsg::DiceMessageAction);
                 }
                 QString diceOutput2;
                 if(!list.isEmpty())
@@ -265,7 +265,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
                 messageTitle="";
                 if(!showResult)
                 {
-                    showMessage(messageTitle, color,value,NetMsg::DiceMessageAction);
+                    showMessage(messageTitle, color,value,m_diceParser->getComment(),NetMsg::DiceMessageAction);
                 }
                 message = value;
             }
@@ -360,7 +360,8 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
 
                     if(nullptr!=localPerson)
                     {
-                        showMessage(localPerson->getName(), localPerson->getColor(), tmpmessage,NetMsg::EmoteMessageAction);
+                        QString vide;
+                        showMessage(localPerson->getName(), localPerson->getColor(), tmpmessage,vide, NetMsg::EmoteMessageAction);
                         action = NetMsg::EmoteMessageAction;
                     }
                     break;
@@ -391,6 +392,7 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
     data.string8(localPerson->getUuid());
     data.string8(m_chat->identifier());
     data.string32(message);
+    data.string32(m_diceParser->getComment());
     m_chat->sendThem(data);
 }
 QString ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
@@ -518,18 +520,7 @@ bool ChatWindow::getMessageResult(QString& value, QString& command, QString& lis
         diceText = diceToText(diceList);
         hasDiceList= true;
     }
-  /*  if(m_diceParser->hasSeparator())
-    {
-        bool ok;
-        QStringList allStringlist = m_diceParser->getAllDiceResult(ok);
-        if(ok)
-        {
-            QString patternColor("<span class=\"dice\">%1</span>");
-            list =   patternColor.arg(allStringlist.join(" ; "));
-            scalarText = list;
-        }
-    }
-    else*/ if(m_diceParser->hasIntegerResultNotInFirst())
+    if(m_diceParser->hasIntegerResultNotInFirst())
     {
         auto list = m_diceParser->getLastIntegerResults();
         QStringList rlist;
@@ -582,7 +573,7 @@ QAction * ChatWindow::toggleViewAction() const
 }
 
 
-void ChatWindow::showMessage(const QString& user, const QColor& color, const QString& message, NetMsg::Action msgtype)
+void ChatWindow::showMessage(const QString& user, const QColor& color, const QString& message, const QString& comment, NetMsg::Action msgtype)
 {
     m_displayZone->moveCursor(QTextCursor::End);
     m_displayZone->setTextColor(color);
@@ -611,8 +602,15 @@ void ChatWindow::showMessage(const QString& user, const QColor& color, const QSt
     }
 
     setUpdatesEnabled(false);
+    auto align = m_displayZone->alignment();
+    if(!comment.isEmpty())
+    {
+        m_displayZone->append(QStringLiteral("%1").arg(comment));
+        m_displayZone->setAlignment(Qt::AlignCenter);//<span style=\"font-size: strong;\"></span>
+    }
 
     m_displayZone->append(pattern.arg(userSpan).arg(msg));
+    m_displayZone->setAlignment(align);
     setUpdatesEnabled(true);
     if (!m_editionZone->hasFocus() && !m_hasUnseenMessage)
     {
@@ -828,6 +826,7 @@ void ChatWindow::rollDiceCmd(QString cmd, QString owner)
     data.string8(idOwner);
     data.string8(m_chat->identifier());
     data.string32(msg);
+    data.string32(m_diceParser->getComment());
     m_chat->sendThem(data);
 }
 void ChatWindow::setLocalPlayer(Person* person)

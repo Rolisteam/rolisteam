@@ -87,7 +87,7 @@ public :
      * @param message
      * @param msgtype
      */
-    void showMessage(const QString &utilisateur, const QColor &couleur,const QString &message, NetMsg::Action msgtype = NetMsg::ChatMessageAction);
+    void showMessage(const QString &utilisateur, const QColor &couleur,const QString &message, const QString &comment = QString(), NetMsg::Action msgtype = NetMsg::ChatMessageAction);
     /**
      * @brief hasUnseenMessage
      * @return
@@ -235,7 +235,7 @@ private :
     bool m_hasUnseenMessage;
     QPushButton* m_save;
     PreferencesManager* m_preferences;
-    ChatBrowser * m_displayZone;
+    ChatBrowser* m_displayZone;
 	QComboBox* m_selectPersonComboBox;
     ImprovedTextEdit * m_editionZone;
     QAction * m_toggleViewAction;

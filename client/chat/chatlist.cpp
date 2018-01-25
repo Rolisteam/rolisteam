@@ -482,6 +482,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     QString from = data.string8();
     QString to   = data.string8();
     QString msg  = data.string32();
+    QString comment  = data.string32();
 
     PlayersList* playersList = PlayersList::instance();
 
@@ -501,7 +502,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
        }
        if(nullptr!=win)
        {
-            win->showMessage(sender->getName(), sender->getColor(), msg, data.action());
+            win->showMessage(sender->getName(), sender->getColor(), msg,comment, data.action());
        }
        return;
     }
@@ -519,7 +520,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     ChatWindow * chatw = getChatWindowByUuid(to);
     if (nullptr != chatw)
     {
-        chatw->showMessage(sender->getName(), sender->getColor(), msg, data.action());
+        chatw->showMessage(sender->getName(), sender->getColor(), msg,comment, data.action());
     }
 
     if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
