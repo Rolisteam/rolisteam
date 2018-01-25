@@ -36,6 +36,7 @@ private:
     QAction* m_detachedDialog;
     QAction* m_wordWarp;
     QAction* m_showTime;
+    QAction* m_clearChat;
 
     QColor m_bgColor;
     QWidget* m_parent;

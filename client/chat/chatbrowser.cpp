@@ -14,6 +14,8 @@ ChatBrowser::ChatBrowser(bool showTimeStatus,QWidget *parent) :
     m_bgColorAct->setToolTip(tr("Background Color"));
     connect(m_bgColorAct,SIGNAL(triggered()),this, SLOT(backGroundChanged()));
 
+    m_clearChat = new QAction(tr("Clear chat"),this);
+
 
     m_detachedDialog = new QAction(tr("Detach the view"),this);
     m_detachedDialog->setCheckable(true);
@@ -28,6 +30,7 @@ ChatBrowser::ChatBrowser(bool showTimeStatus,QWidget *parent) :
     connect(m_detachedDialog,SIGNAL(triggered()),this, SLOT(detachedView()));
     connect(m_showTime,SIGNAL(triggered(bool)),this, SIGNAL(showTimeChanged(bool)));
     connect(m_wordWarp,SIGNAL(triggered()),this, SLOT(setWordWrap()));
+    connect(m_clearChat,&QAction::triggered,this,&ChatBrowser::clear);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(showContextMenu(QPoint)));
@@ -77,8 +80,6 @@ void ChatBrowser::setWordWrap()
         setWordWrapMode(QTextOption::WrapAnywhere);
     }
 }
-
-
 
 void ChatBrowser::detachedView()
 {
