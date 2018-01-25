@@ -102,7 +102,7 @@ void ImprovedWorkspace::updateBackGround()
     int w = m_backgroundPicture->width();
     int h = m_backgroundPicture->height();
     bool repeated=false;
-    switch((Positioning)m_preferences->value("BackGroundPositioning",0).toInt())
+    switch(static_cast<Positioning>(m_preferences->value("BackGroundPositioning",0).toInt()))
     {
     case TopLeft:
         break;
