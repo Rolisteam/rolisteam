@@ -63,6 +63,7 @@
 #include "widgets/shortcuteditordialog.h"
 #include "data/shortcutvisitor.h"
 #include "widgets/gmtoolbox/gamemastertool.h"
+#include "pdfviewer/pdfviewer.h"
 
 //Undo
 #include "undoCmd/addmediacontainer.h"
@@ -2314,6 +2315,13 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
     case CleverURI::TEXT:
         tmp = new NoteContainer();
         break;
+    case CleverURI::PDF:
+    {
+        auto pdfV = new PdfViewer();
+        connect(pdfV,&PdfViewer::openImageAs,this,&MainWindow::openImageAs);
+        tmp = pdfV;
+    }
+        break;
     case CleverURI::SHAREDNOTE:
     {
         SharedNoteContainer* tmpShared = new SharedNoteContainer();
@@ -2485,10 +2493,13 @@ CleverURI::ContentType MainWindow::getContentType(QString str)
     {
         return CleverURI::CHARACTERSHEET;
     }
+    else if(str.endsWith(".pdf"))
+    {
+        return CleverURI::PDF;
+    }
     else
     {
         QStringList list = m_preferences->value("AudioFileFilter","*.wav *.mp2 *.mp3 *.ogg *.flac").toString().split(' ');
-        //QStringList list = audioFileFilter.split(' ');
         int i=0;
         while(i<list.size())
         {

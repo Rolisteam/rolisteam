@@ -44,7 +44,7 @@ QHash<CleverURI::ContentType,QString> CleverURI::m_iconPathHash={
     {CleverURI::SONG,":/resources/icons/audiofile.svg"},
     {CleverURI::SHAREDNOTE,":/resources/icons/sharedEditor.png"},
     #ifdef WITH_PDF
-    {CleverURI::PDF,":/iconpdf"},
+    {CleverURI::PDF,":/resources/icons/pdfLogo.png"},
     #endif
     {CleverURI::SONGLIST,":/resources/icons/playlist.svg"}
 };

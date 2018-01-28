@@ -50,6 +50,7 @@
      <addaction name="m_openVectorialMap"/>
      <addaction name="m_openCharacterSheet"/>
      <addaction name="m_openShareNote"/>
+     <addaction name="m_openPdfAct"/>
     </widget>
     <widget class="QMenu" name="m_recentFileMenu">
      <property name="title">
@@ -616,6 +617,18 @@
    </property>
    <property name="shortcut">
     <string>F11</string>
+   </property>
+  </action>
+  <action name="m_openPdfAct">
+   <property name="icon">
+    <iconset resource="../rolisteam.qrc">
+     <normaloff>:/resources/icons/pdfLogo.png</normaloff>:/resources/icons/pdfLogo.png</iconset>
+   </property>
+   <property name="text">
+    <string>PDF File</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
    </property>
   </action>
  </widget>

@@ -27,6 +27,8 @@ DEFINES+= HAVE_WEBVIEW
 QT += webengine webenginewidgets
 }
 
+DEFINES += WITH_PDF
+
 ## Translation
 TRANSLATIONS =  ../translations/rolisteam_fr.ts \
                 ../translations/rolisteam.ts \
@@ -78,6 +80,7 @@ include(session/session.pri)
 include(widgets/MRichTextEditor/MRichTextEditor.pri)
 include(sharededitor/sharededitor.pri)
 include(undoCmd/undoCmd.pri)
+include(qpdflib/qpdflib.pri)
 
 
 
@@ -104,7 +107,7 @@ HEADERS += \
         chat/chatlistwidget.h \
         delegate.h \
         Features.h \
-        Image.h \
+        image.h \
         localpersonmodel.h \
         network/networkmessage.h \
         network/networkmessagereader.h \
@@ -188,6 +191,8 @@ HEADERS += \
         data/shortcutvisitor.h \
         widgets/shortcuteditordialog.h \
         widgets/gmtoolbox/gamemastertool.h \
+    pdfviewer/pdfviewer.h \
+    widgets/overlay.h
 
 
    #     persondialog.cpp \
@@ -198,7 +203,7 @@ SOURCES += \
         chat/chatlistwidget.cpp \
         delegate.cpp \
         Features.cpp \
-        Image.cpp \
+        image.cpp \
         localpersonmodel.cpp \
         main.cpp \
         network/networkmessage.cpp \
@@ -282,6 +287,8 @@ SOURCES += \
         data/shortcutvisitor.cpp \
         widgets/shortcuteditordialog.cpp \
         widgets/gmtoolbox/gamemastertool.cpp \
+    pdfviewer/pdfviewer.cpp \
+    widgets/overlay.cpp
 
 
 FORMS += \
@@ -359,5 +366,6 @@ CONFIG += embed_manifest_exe
 }
 DISTFILES += \
     rolisteam.dox \
-    undoCmd/undoCmd.pri
+    undoCmd/undoCmd.pri \
+    ../resources/icons/pdfLogo.png
 
