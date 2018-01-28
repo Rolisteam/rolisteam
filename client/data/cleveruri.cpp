@@ -266,7 +266,7 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
         return QObject::tr("Supported Image formats (%1)").arg(preferences->value("ImageFileFilter","*.jpg *.jpeg *.png *.bmp *.svg").toString());
         break;
     case CleverURI::TEXT:
-        return QObject::tr("Supported Text Files (%1)").arg(preferences->value("TextFileFilter","*.odt *.htm *.html *.txt").toString());
+        return QObject::tr("Supported Text Files (%1)").arg(preferences->value("TextFileFilter","*.odt *.htm *.html *.txt *.md").toString());
         break;
     case CleverURI::SCENARIO:
         return QObject::tr("Supported Story Files (%1)").arg(preferences->value("StoryFileFilter","*.sce").toString());
