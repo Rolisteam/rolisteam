@@ -412,6 +412,7 @@ void SessionItemModel::addResource(ResourcesNode* node,QModelIndex& parent)
         if(!node->mayHaveChildren())
         {
             node=node->getParentNode();//leaf's parent is not a leaf indeed
+            parent = parent.parent();
         }
         parentItem=dynamic_cast<Chapter*>(node);// nullptr when it is not a chapter.
     }
