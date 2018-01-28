@@ -175,6 +175,10 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac,bool redoable)
     if(nullptr != m_currentConnectionProfile)
     {
         AddMediaContainer* addMedia = new AddMediaContainer(mediac,m_sessionManager,m_ui->m_menuSubWindows,this,m_mdiArea,m_currentConnectionProfile->isGM());
+        if(!m_mediaHash.contains(mediac->getMediaId()))
+        {
+            m_mediaHash.insert(mediac->getMediaId(),mediac);
+        }
         if(redoable)
         {
             m_undoStack.push(addMedia);
@@ -207,25 +211,25 @@ void MainWindow::closeAllMediaContainer()
 }
 void MainWindow::closeMediaContainer(QString id)
 {
-     if(m_mediaHash.contains(id))
-     {
-         MediaContainer* mediaCon = m_mediaHash.value(id);
-         if(nullptr!=mediaCon)
-         {
+    if(m_mediaHash.contains(id))
+    {
+        MediaContainer* mediaCon = m_mediaHash.value(id);
+        if(nullptr!=mediaCon)
+        {
             DeleteMediaContainerCommand* cmd = new DeleteMediaContainerCommand(mediaCon,m_sessionManager,m_ui->m_editMenu,this,m_mdiArea,m_currentConnectionProfile->isGM());
             m_undoStack.push(cmd);
 
-             m_mediaHash.remove(id);
-             if(CleverURI::VMAP == mediaCon->getContentType())
-             {
-                 m_vmapToolBar->setCurrentMap(nullptr);
-             }
-             else if(CleverURI::MAP == mediaCon->getContentType())
-             {
-                 m_playersListWidget->model()->changeMap(nullptr);
-             }
-         }
-     }
+            m_mediaHash.remove(id);
+            if(CleverURI::VMAP == mediaCon->getContentType())
+            {
+                m_vmapToolBar->setCurrentMap(nullptr);
+            }
+            else if(CleverURI::MAP == mediaCon->getContentType())
+            {
+                m_playersListWidget->model()->changeMap(nullptr);
+            }
+        }
+    }
 }
 void MainWindow::closeCurrentSubWindow()
 {
@@ -408,12 +412,23 @@ void MainWindow::createNotificationZone()
 void MainWindow::linkActionToMenu()
 {
     // file menu
-    connect(m_ui->m_newMapAction, SIGNAL(triggered(bool)), this, SLOT(newMap()));
-    connect(m_ui->m_addVectorialMap, SIGNAL(triggered(bool)), this, SLOT(newVectorialMap()));
-    connect(m_ui->m_newCharacterSheet,SIGNAL(triggered(bool)),this,SLOT(newCharacterSheetWindow()));
+    const auto& fun = [this](){
+        auto act = qobject_cast<QAction*>(sender());
+        newDocument(static_cast<CleverURI::ContentType>(act->data().toInt()));
+    };
+    connect(m_ui->m_newMapAction, &QAction::triggered, this, fun);
+    connect(m_ui->m_addVectorialMap, &QAction::triggered, this, fun);
+    connect(m_ui->m_newCharacterSheet, &QAction::triggered, this, fun);
+    connect(m_ui->m_newNoteAction, &QAction::triggered, this, fun);
+    connect(m_ui->m_newSharedNote, &QAction::triggered, this, fun);
     connect(m_ui->m_newChatAction, SIGNAL(triggered(bool)), m_chatListWidget, SLOT(createPrivateChat()));
-    connect(m_ui->m_newNoteAction, SIGNAL(triggered(bool)), this, SLOT(newNoteDocument()));
-    connect(m_ui->m_newSharedNote, SIGNAL(triggered(bool)), this, SLOT(newSharedNoteDocument()));
+
+    m_ui->m_newMapAction->setData(static_cast<int>(CleverURI::MAP));
+    m_ui->m_addVectorialMap->setData(static_cast<int>(CleverURI::VMAP));
+    m_ui->m_newCharacterSheet->setData(static_cast<int>(CleverURI::CHARACTERSHEET));
+    m_ui->m_newNoteAction->setData(static_cast<int>(CleverURI::TEXT));
+    m_ui->m_newSharedNote->setData(static_cast<int>(CleverURI::SHAREDNOTE));
+
 
     //open
     connect(m_ui->m_openPictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
@@ -422,8 +437,9 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_openCharacterSheet,SIGNAL(triggered(bool)),this,SLOT(openContent()));
     connect(m_ui->m_openVectorialMap, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_ui->m_openStoryAction, SIGNAL(triggered(bool)), this, SLOT(openStory()));
-    connect(m_ui->m_openNoteAction, SIGNAL(triggered(bool)), this, SLOT(openNote()));
+    connect(m_ui->m_openNoteAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_ui->m_openShareNote, SIGNAL(triggered(bool)), this, SLOT(openContent()));
+    connect(m_ui->m_openPdfAct, SIGNAL(triggered(bool)), this, SLOT(openContent()));
 
     connect(m_ui->m_shortCutEditorAct, SIGNAL(triggered(bool)),this,SLOT(showShortCutEditor()));
 
@@ -435,6 +451,7 @@ void MainWindow::linkActionToMenu()
     m_ui->m_openStoryAction->setData(static_cast<int>(CleverURI::SCENARIO));
     m_ui->m_openNoteAction->setData(static_cast<int>(CleverURI::TEXT));
     m_ui->m_openShareNote->setData(static_cast<int>(CleverURI::SHAREDNOTE));
+    m_ui->m_openPdfAct->setData(static_cast<int>(CleverURI::PDF));
 
     m_ui->m_recentFileMenu->setVisible(false);
     connect(m_ui->m_closeAction, SIGNAL(triggered(bool)), this, SLOT(closeCurrentSubWindow()));
@@ -443,7 +460,6 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_saveScenarioAction, SIGNAL(triggered(bool)), this, SLOT(saveStory()));
     connect(m_ui->m_saveScenarioAsAction, SIGNAL(triggered(bool)), this, SLOT(saveAsStory()));
     connect(m_ui->m_preferencesAction, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
-
 
     //Edition
     // Windows managing
@@ -458,10 +474,10 @@ void MainWindow::linkActionToMenu()
         if(enable)
         {
             showFullScreen();
-        	menuBar()->setVisible(false);
+            menuBar()->setVisible(false);
             m_mdiArea->setMouseTracking(true);
             m_vmapToolBar->setMouseTracking(true);
-	        setMouseTracking(true);
+            setMouseTracking(true);
         }
         else
         {
@@ -536,7 +552,6 @@ void MainWindow::mouseMoveEvent(QMouseEvent* event)
 
 void MainWindow::prepareMap(MapFrame* mapFrame)
 {
-    m_mediaHash.insert(mapFrame->getMediaId(),mapFrame);
     Map* map = mapFrame->getMap();
     if(nullptr==map)
         return;
@@ -579,15 +594,10 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
 }
 void MainWindow::prepareImage(Image* imageFrame)
 {
-    m_mediaHash.insert(imageFrame->getMediaId(),imageFrame);
     connect(m_toolBar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),imageFrame,SLOT(setCurrentTool(ToolsBar::SelectableTool)));
     imageFrame->setCurrentTool(m_toolBar->getCurrentTool());
 }
 
-void MainWindow::prepareNote(NoteContainer* note)
-{
-    m_mediaHash.insert(note->getMediaId(),note);
-}
 void MainWindow::updateWorkspace()
 {
     QMdiSubWindow* active = m_mdiArea->currentSubWindow();
@@ -596,67 +606,70 @@ void MainWindow::updateWorkspace()
         activeWindowChanged(active);
     }
 }
-void MainWindow::newMap()
-{
-    MapFrame* mapFrame = new MapFrame(nullptr, m_mdiArea);
-    if(!mapFrame->createMap())
-    {
-        delete mapFrame;
-    }
-    else
-    {
-        prepareMap(mapFrame);
-        addMediaToMdiArea(mapFrame);
-        mapFrame->setVisible(true);
-    }
-}
-void MainWindow::newCharacterSheetWindow()
-{
-    CharacterSheetWindow* window = new CharacterSheetWindow();
-    prepareCharacterSheetWindow(window);
-    addMediaToMdiArea(window);
-}
 
-
-void MainWindow::newVectorialMap()
+MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
 {
-    MapWizzardDialog mapWizzard(m_mdiArea);
-    if(mapWizzard.exec())
+    MediaContainer* media=nullptr;
+    switch(type)
     {
-        VMap* tempmap = new VMap();
-        if((nullptr != tempmap)&&(nullptr != m_currentConnectionProfile))
+        case CleverURI::CHARACTERSHEET:
         {
-            tempmap->setOption(VisualItem::LocalIsGM,m_currentConnectionProfile->isGM());
+            CharacterSheetWindow* window = new CharacterSheetWindow();
+            media = window;
+            prepareCharacterSheetWindow(window);
         }
-        mapWizzard.setAllMap(tempmap);
-        VMapFrame* tmp = new VMapFrame(new CleverURI(tempmap->getMapTitle(),"",CleverURI::VMAP),tempmap);
-        prepareVMap(tmp);
-        addMediaToMdiArea(tmp);
-        //tempmap->setCurrentTool(m_toolbar->getCurrentTool());
+            break;
+        case CleverURI::SHAREDNOTE:
+        {
+            SharedNoteContainer* note = new SharedNoteContainer();
+            media = note;
+            note->setOwner(m_playerList->getLocalPlayer());
+
+        }
+            break;
+        case CleverURI::VMAP:
+        {
+            MapWizzardDialog mapWizzard(m_mdiArea);
+            if(mapWizzard.exec())
+            {
+                VMap* tempmap = new VMap();
+                if((nullptr != tempmap)&&(nullptr != m_currentConnectionProfile))
+                {
+                    tempmap->setOption(VisualItem::LocalIsGM,m_currentConnectionProfile->isGM());
+                }
+                mapWizzard.setAllMap(tempmap);
+                VMapFrame* tmp = new VMapFrame(new CleverURI(tempmap->getMapTitle(),"",CleverURI::VMAP),tempmap);
+                prepareVMap(tmp);
+                media = tmp;
+            }
+        }
+            break;
+        case CleverURI::MAP:
+        {
+            MapFrame* mapFrame = new MapFrame(nullptr, m_mdiArea);
+            if(mapFrame->createMap())
+            {
+                prepareMap(mapFrame);
+            }
+            else
+                delete mapFrame;
+        }
+            break;
+        case CleverURI::TEXT:
+        {
+            media = new NoteContainer();
+        }
+            break;
+        default:
+            break;
     }
-}//
-void MainWindow::newSharedNoteDocument()
-{
-    SharedNoteContainer* note = new SharedNoteContainer();
-    note->setOwner(m_playerList->getLocalPlayer());
-    if(!m_mediaHash.contains(note->getMediaId()))
+    if(nullptr != media)
     {
-        m_mediaHash.insert(note->getMediaId(),note);
+        addMediaToMdiArea(media);
     }
-    m_sessionManager->addRessource(note->getCleverUri());
-    addMediaToMdiArea(note);
-    //displayMinutesEditor(true,true);
+    return media;
 }
-void MainWindow::newNoteDocument()
-{
-    NoteContainer* note = new NoteContainer();
-    if(!m_mediaHash.contains(note->getMediaId()))
-    {
-        m_mediaHash.insert(note->getMediaId(),note);
-    }
-    m_sessionManager->addRessource(note->getCleverUri());
-    addMediaToMdiArea(note);
-}
+
 void MainWindow::sendOffAllMaps(Player* player)
 {
     for(auto mediaC : m_mediaHash)
@@ -786,26 +799,9 @@ QWidget* MainWindow::registerSubWindow(QWidget * subWindow,QAction* action)
     return m_mdiArea->addWindow(subWindow,action);
 }
 
-void MainWindow::openNote()
-{
-    // open file name.
-    QString filename = QFileDialog::getOpenFileName(this, tr("Open Minutes"), m_preferences->value("MinutesDirectory",QDir::homePath()).toString(), CleverURI::getFilterForType(CleverURI::TEXT));
-
-    if (!filename.isEmpty())
-    {
-        QFileInfo fi(filename);
-        m_preferences->registerValue("MinutesDirectory",fi.absolutePath() +"/");
-        NoteContainer* noteEditor = new NoteContainer();
-        noteEditor->setFileName(filename);
-        noteEditor->readFileFromUri();
-        addMediaToMdiArea(noteEditor);
-    }
-}
-
 void MainWindow::openStory()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open scenario"), m_preferences->value("SessionDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
-
     readStory(fileName);
 }
 void MainWindow::readStory(QString fileName)
@@ -879,8 +875,6 @@ bool MainWindow::saveStory()
 ////////////////////////////////////////////////////
 // Save data
 ////////////////////////////////////////////////////
-
-
 void MainWindow::saveCurrentMedia()
 {
     QMdiSubWindow* active = m_mdiArea->currentSubWindow();
@@ -946,7 +940,6 @@ bool MainWindow::saveMinutes()
                 note->saveMedia();
             }
         }
-
     }
     return true;
 }
@@ -1077,7 +1070,6 @@ void MainWindow::updateUi()
     {
         m_playersListWidget->updateUi(m_currentConnectionProfile->isGM());
     }
-
 
     bool isGM = m_currentConnectionProfile->isGM();
     m_vToolBar->setGM(isGM);
@@ -1265,7 +1257,6 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, 
     if(nullptr==msg)
         return NetWorkReceiver::NONE;
 
-
     NetWorkReceiver::SendType type;
     switch(msg->category())
     {
@@ -1323,12 +1314,6 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
             prepareMap(mapf);
             addMediaToMdiArea(mapf,false);
             mapf->setVisible(true);
-            /*if((nullptr!=m_currentConnectionProfile)&&(!mapFrame->processMapMessage(msg,!m_currentConnectionProfile->isGM())))
-            {
-                delete mapFrame;
-            }
-            else*/
-
         }
             break;
         case CleverURI::VMAP:
@@ -1407,7 +1392,6 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
             SharedNoteContainer* note = new SharedNoteContainer();
             note->readMessage(*msg);
             note->setMediaId(idMedia);
-            m_mediaHash.insert(idMedia,note);
             m_sessionManager->addRessource(note->getCleverUri());
             addMediaToMdiArea(note);
         }
@@ -1988,8 +1972,6 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         sheetWindow->setMediaId(idmedia);
         sheetWindow->readMessage(*msg);
         addMediaToMdiArea(sheetWindow);
-        m_mediaHash.insert(sheetWindow->getMediaId(),sheetWindow);
-
     }
     else if(NetMsg::updateFieldCharacterSheet == msg->action())
     {
@@ -2054,7 +2036,6 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
         map->setOption(VisualItem::LocalIsGM,m_currentConnectionProfile->isGM());
     }
     map->setLocalId(m_localPlayerId);
-
     tmp->setUndoStack(&m_undoStack);
 
     //Toolbar to Map
@@ -2066,12 +2047,9 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     connect(m_vToolBar,SIGNAL(currentPenSizeChanged(int)),tmp,SLOT(currentPenSizeChanged(int)));
     connect(m_vToolBar,SIGNAL(currentNpcNameChanged(QString)),tmp,SLOT(setCurrentNpcNameChanged(QString)));
     connect(m_vToolBar,SIGNAL(currentNpcNumberChanged(int)),tmp,SLOT(setCurrentNpcNumberChanged(int)));
-
     connect(m_vToolBar,SIGNAL(opacityChanged(qreal)),map,SLOT(setCurrentItemOpacity(qreal)));
     connect(map,SIGNAL(currentItemOpacity(qreal)),m_vToolBar,SLOT(setCurrentOpacity(qreal)));
-
     connect(m_vToolBar,SIGNAL(currentEditionModeChanged(VToolsBar::EditionMode)),map,SLOT(setEditionMode(VToolsBar::EditionMode)));
-
 
     //map to toolbar
     connect(map,SIGNAL(npcAdded()),m_vToolBar,SLOT(increaseNpcNumber()));
@@ -2094,11 +2072,8 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     map->setOption(VisualItem::ShowNpcNumber,m_ui->m_showNpcNumberAction->isChecked());
     map->setOption(VisualItem::ShowPcName,m_ui->m_showPcNameAction->isChecked());
     map->setOption(VisualItem::ShowHealtStatus,m_ui->m_showHealtStatusAction->isChecked());
-
     map->setCurrentNpcNumber(m_toolBar->getCurrentNpcNumber());
     tmp->currentPenSizeChanged(m_vToolBar->getCurrentPenSize());
-
-    m_mediaHash.insert(tmp->getMediaId(),tmp);
 
     m_vToolBar->setCurrentTool(VToolsBar::HANDLER);
     tmp->currentToolChanged(m_vToolBar->getCurrentTool());
@@ -2195,6 +2170,7 @@ void MainWindow::openContent()
     CleverURI::ContentType type = static_cast<CleverURI::ContentType>(action->data().toInt());
     openContentFromType(type);
 }
+
 void MainWindow::openRecentFile()
 {
     QAction *action = qobject_cast<QAction *>(sender());
@@ -2205,14 +2181,12 @@ void MainWindow::openRecentFile()
         openCleverURI(uri,true);
     }
 }
+
 void MainWindow::updateRecentFileActions()
 {
     QVariant var = QVariant::fromValue(CleverUriList());
-
     CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList >();
-
     int numRecentFiles = qMin(files.size(), m_maxSizeRecentFile);
-
     for (int i = 0; i < numRecentFiles; ++i)
     {
         QString text = QStringLiteral("&%1 %2").arg(i + 1).arg(files[i].name());
@@ -2227,18 +2201,16 @@ void MainWindow::updateRecentFileActions()
     {
         m_recentFileActs[j]->setVisible(false);
     }
-
     m_ui->m_recentFileMenu->setEnabled(numRecentFiles > 0);
 }
+
 void MainWindow::setLatestFile(CleverURI* fileName)
 {
     // no online picture because they are handled in a really different way.
     if((nullptr!=fileName)&&(fileName->getType()!=CleverURI::ONLINEPICTURE))
     {
         QVariant var = QVariant::fromValue(CleverUriList());
-
         CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList>();
-
         files.removeAll(*fileName);
         files.prepend(*fileName);
         while (files.size() > m_maxSizeRecentFile)
@@ -2247,11 +2219,8 @@ void MainWindow::setLatestFile(CleverURI* fileName)
         }
         QVariant var3;
         var3.setValue(files);
-
         m_preferences->registerValue("recentFileList", var3,true);
-
         updateRecentFileActions();
-
     }
 }
 void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
@@ -2260,7 +2229,6 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
     {
         window->setLocalIsGM(m_currentConnectionProfile->isGM());
     }
-    m_mediaHash.insert(window->getMediaId(),window);
     connect(window,SIGNAL(addWidgetToMdiArea(QWidget*,QString )),m_mdiArea,SLOT(addWidgetToMdi(QWidget*,QString)));
     connect(window,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
     connect(window,SIGNAL(errorOccurs(QString,MainWindow::MessageType)),this,SLOT(notifyUser(QString,MainWindow::MessageType)));
@@ -2330,6 +2298,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
     }
         break;
     case CleverURI::SCENARIO:
+        readStory(uri->getUri());
         break;
     case CleverURI::CHARACTERSHEET:
     {
@@ -2340,16 +2309,16 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         break;
     case CleverURI::SONGLIST:
     {
-        #ifndef nullptr_PLAYER
-            m_audioPlayer->openSongList(uri->getUri());
-        #endif
+#ifndef nullptr_PLAYER
+        m_audioPlayer->openSongList(uri->getUri());
+#endif
     }
         break;
     case CleverURI::SONG:
     {
-        #ifndef nullptr_PLAYER
-            m_audioPlayer->openSong(uri->getUri());
-        #endif
+#ifndef nullptr_PLAYER
+        m_audioPlayer->openSong(uri->getUri());
+#endif
     }
         break;
     default:
@@ -2372,10 +2341,6 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
             else if((uri->getType()==CleverURI::PICTURE)||((uri->getType()==CleverURI::ONLINEPICTURE)))
             {
                 prepareImage(static_cast<Image*>(tmp));
-            }
-            else if(uri->getType()==CleverURI::TEXT)
-            {
-                prepareNote(static_cast<NoteContainer*>(tmp));
             }
             addMediaToMdiArea(tmp);
         }
@@ -2523,62 +2488,8 @@ void MainWindow::dropEvent(QDropEvent* event)
         for(int i = 0; i< list.size();++i)
         {
             CleverURI::ContentType type= getContentType(list.at(i).toLocalFile());
-            MediaContainer* tmp=nullptr;
             CleverURI* uri = new CleverURI(getShortNameFromPath(list.at(i).toLocalFile()),list.at(i).toLocalFile(),type);
-            switch(type)
-            {
-            case CleverURI::MAP:
-                tmp = new MapFrame();
-                tmp->setCleverUri(uri);
-                tmp->readFileFromUri();
-                prepareMap(static_cast<MapFrame*>(tmp));
-                addMediaToMdiArea(tmp);
-                tmp->setVisible(true);
-                break;
-            case CleverURI::CHARACTERSHEET:
-            {
-                CharacterSheetWindow* sheet = new CharacterSheetWindow();
-                prepareCharacterSheetWindow(sheet);
-                tmp = sheet;
-                tmp->setCleverUri(uri);
-                tmp->readFileFromUri();
-                addMediaToMdiArea(tmp);
-                tmp->setVisible(true);
-            }
-                break;
-            case CleverURI::PICTURE:
-                tmp = new Image(m_mdiArea);
-                tmp->setCleverUri(uri);
-                tmp->readFileFromUri();
-                prepareImage(static_cast<Image*>(tmp));
-                addMediaToMdiArea(tmp);
-                tmp->setVisible(true);
-                break;
-            case CleverURI::VMAP:
-                tmp = new VMapFrame();
-                tmp->setCleverUri(uri);
-                tmp->readFileFromUri();
-                prepareVMap(static_cast<VMapFrame*>(tmp));
-                addMediaToMdiArea(tmp);
-                tmp->setVisible(true);
-            case CleverURI::SONG:
-#ifndef NULL_PLAYER
-                m_audioPlayer->openSong(list.at(i).toLocalFile());
-#endif
-                m_sessionManager->addRessource(uri);
-                break;
-            case CleverURI::SONGLIST:
-#ifndef NULL_PLAYER
-                m_audioPlayer->openSongList(list.at(i).toLocalFile());
-#endif
-                m_sessionManager->addRessource(uri);
-                break;
-            case CleverURI::SCENARIO:
-                readStory(uri->getUri());
-                break;
-            default:
-                break;
-            }
+            openCleverURI(uri,true);
         }
         event->acceptProposedAction();
     }
@@ -2592,4 +2503,26 @@ void MainWindow::showShortCutEditor()
     ShortCutEditorDialog dialog;
     dialog.setModel(visitor.getModel());
     dialog.exec();
+}
+
+void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
+{
+    auto media = newDocument(type);
+    if(type == CleverURI::VMAP)
+    {
+        auto vmapframe = dynamic_cast<VMapFrame*>(media);
+   //     vmapframe->addPixmap(pix);
+    }
+    else if(type == CleverURI::MAP)
+    {
+        auto mapframe = dynamic_cast<MapFrame*>(media);
+  //      mapframe->addPixmap(pix);
+    }
+    else if(type == CleverURI::PICTURE)
+    {
+        Image* img = new Image(m_mdiArea);
+        auto imgPix = pix.toImage();
+        img->setImage(imgPix);
+        addMediaToMdiArea(img);
+    }
 }

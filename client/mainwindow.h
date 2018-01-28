@@ -247,8 +247,16 @@ public slots :
      * @brief startConnection
      */
     void startConnection();
-
+    /**
+     * @brief postConnection
+     */
     void postConnection();
+    /**
+     * @brief openImageAs
+     * @param pix
+     * @param type
+     */
+    void openImageAs(const QPixmap pix, CleverURI::ContentType type);
 protected :
     /**
      * @brief closeEvent
@@ -346,7 +354,6 @@ protected :
      */
     void saveMedia(MediaContainer *mediaC,bool AskPath, bool saveAs);
     void readStory(QString fileName);
-    void prepareNote(NoteContainer *note);
     void processSharedNoteMessage(NetworkMessageReader *msg);
     void tipChecker();
     virtual void mouseMoveEvent(QMouseEvent *event);
@@ -358,6 +365,7 @@ protected slots:
     void closeMediaContainer(QString id);
     void initializedClientManager();
     void cleanUpData();
+    MediaContainer *newDocument(CleverURI::ContentType type);
 private slots :
     /**
      * @brief userNatureChange
@@ -370,21 +378,9 @@ private slots :
      */
     void activeWindowChanged(QMdiSubWindow* widget);
     /**
-     * @brief newMap
-     */
-    void newMap();
-    /**
-     * @brief newVectorialMap
-     */
-    void newVectorialMap();
-    /**
      * @brief openStory
      */
     void openStory();
-    /**
-     * @brief openNote
-     */
-    void openNote();
     /**
      * @brief closeCurrentSubWindow
      */
@@ -454,11 +450,6 @@ private slots :
     void openCleverURI(CleverURI* uri,bool force = false);
     void openResource(ResourcesNode *node, bool force);
     /**
-     * @brief newNoteDocument
-     */
-    void newNoteDocument();
-
-    /**
      * @brief updateRecentFileActions
      */
     void updateRecentFileActions();
@@ -508,11 +499,6 @@ private slots :
      * @param ip
      */
     void showIp(QString ip);
-    /**
-     * @brief newCharacterSheetWindow
-     */
-    void newCharacterSheetWindow();
-    void newSharedNoteDocument();
 
     void showShortCutEditor();
 
