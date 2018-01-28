@@ -28,7 +28,7 @@
 
 
 
-#include "Image.h"
+#include "image.h"
 #include "network/networklink.h"
 #include "mainwindow.h"
 #include "network/networkmessagewriter.h"

@@ -45,7 +45,7 @@
 #include "map/map.h"
 #include "chat/chatlistwidget.h"
 #include "network/networkmanager.h"
-#include "Image.h"
+#include "image.h"
 #include "network/networkmessagewriter.h"
 #include "charactersheet/charactersheet.h"
 #include "data/person.h"

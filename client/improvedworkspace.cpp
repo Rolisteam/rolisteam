@@ -24,7 +24,7 @@
 
 #include "improvedworkspace.h"
 #include "map/mapframe.h"
-#include "Image.h"
+#include "image.h"
 
 #define GRAY_SCALE 191
 /********************************************************************/
