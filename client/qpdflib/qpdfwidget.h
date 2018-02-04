@@ -48,7 +48,7 @@ public:
      * @brief Load raw pdf data.
      * @param data PDF data.
      */
-    void loadData(const QByteArray &data);
+    bool loadData(const QByteArray &data);
 
     /**
      * @brief Close PDF document.
@@ -215,7 +215,8 @@ signals:
 private slots:
 
     void onLoadFinished(bool status);
-    void renderPdf();
+    void renderPdfData();
+    void renderPdfFile(const QString &file);
     void onRenderPdfFinished();
 
 private:

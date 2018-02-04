@@ -273,9 +273,17 @@ void PdfViewer::putDataIntoCleverUri()
 }
 bool PdfViewer::readFileFromUri()
 {
-    if(m_pdfWidget->loadFile(m_uri->getUri()))
+    if(!m_uri->hasData())
     {
-        setTitle(m_uri->name()+tr(" (PDF)"));
+        QByteArray array;
+        m_uri->loadFileFromUri(array);
+        m_uri->setData(array);
+    }
+    const auto& data = m_uri->getData();
+
+    if(m_pdfWidget->loadData(data))
+    {
+        setTitle(tr("%1 (PDF)").arg(m_uri->name()));
 
         return true;
     }

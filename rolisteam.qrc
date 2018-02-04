@@ -111,9 +111,7 @@
         <file>resources/icons/liberapay.png</file>
         <file alias="vmap.png">resources/icons/vmap.png</file>
         <file>resources/icons/sharedEditor.png</file>
-        <file>resources/js/pdfview/compatibility.js</file>
         <file>resources/js/pdfview/debugger.js</file>
-        <file>resources/js/pdfview/l10n.js</file>
         <file>resources/js/pdfview/pdf.js</file>
         <file>resources/js/pdfview/pdf.worker.js</file>
         <file>resources/js/pdfview/viewer.css</file>
