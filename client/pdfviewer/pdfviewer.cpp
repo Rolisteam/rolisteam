@@ -163,6 +163,7 @@ void PdfViewer::exportImage()
 
         delete m_overlay;
         m_overlay = nullptr;
+        m_cropCurrentView->setChecked(false);
     }
 }
 
