@@ -1,0 +1,23 @@
+diagram {
+
+
+node connecting;
+node connected;
+node authentified;
+node disconnected;
+node error;
+
+
+disconnected-> connecting [label="connecting()"]
+connecting-> connected [label="connected()"]
+connected-> authentified [label="authentificationSuccessed()"]
+authentified-> disconnected [label="disconnected()"]
+connected-> disconnected [label="disconnected()"]
+disconnected-> connecting [label="connecting()"]
+disconnected-> connecting [label="connecting()"]
+
+
+
+
+
+}

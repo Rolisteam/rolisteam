@@ -1,0 +1,21 @@
+digraph server {
+
+ node [shape=box]; incomingConnection, controlConnection, waitingAuthData, authentificationServer, wantToGoToChannel, inplace, waitingAdminAuth, disconnected, stayInPlace;
+
+
+  
+ incomingConnection -> controlConnection [label="hasCheck()"];
+ controlConnection -> waitingAuthData [label="connectionChecked()"];
+ waitingAuthData -> authentificationServer [label="authDataReceived()"];
+ controlConnection -> disconnected [label="forbidden()"];
+ waitingAuthData -> disconnected  [label="Rien()"];
+ controlConnection -> inplace  [label="authSuccess()"];
+ authentification -> disconnected [label="authFail()"];
+ authentification -> wantToGoToChannel [label="authSuccess()"];
+ wantToGoToChannel -> inplace  [label="hasNoRestriction()"];
+ wantToGoToChannel -> waitingAuthChannel [label="hasRestriction()"];
+ waitingAuthChannel -> stayInPlace [label="channelAuthFail()"];
+ waitingAuthChannel -> inplace [label="channelAuthSuccess()"];
+ inplace -> wantToGoToChannel  [label="moveChannel()"];
+
+}
