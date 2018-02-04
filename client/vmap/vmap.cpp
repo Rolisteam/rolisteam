@@ -210,7 +210,6 @@ void VMap::fill(NetworkMessageWriter& msg)
 void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
 {
     m_id = msg.string8();
-    qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ read Id Media:"<< m_id << "action:"<<msg.action();
     m_title = msg.string16();
     m_bgColor = msg.rgb();
     setWidth(msg.uint16());
@@ -231,7 +230,6 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
     QColor colorGrid = msg.rgb();
 
     quint64 itemCount = msg.uint64();
-    qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ read media:"<< m_title << m_bgColor.name() << idSight << m_zIndex << enableCharacter << itemCount;
 
     if(readCharacter)
     {
@@ -314,11 +312,11 @@ void VMap::updateItem()
 {
     switch(m_selectedtool)
     {
-        case VToolsBar::PATH:
-        {
-            m_currentPath->setNewEnd(m_first);
-            update();
-        }
+    case VToolsBar::PATH:
+    {
+        m_currentPath->setNewEnd(m_first);
+        update();
+    }
         break;
     default:
         break;
@@ -328,7 +326,7 @@ void VMap::addImageItem(QString file)
 {
     ImageItem* led = new ImageItem();
     led->setImageUri(file);
-    led->initChildPointItem();
+    //led->initChildPointItem();
     addNewItem(new AddVmapItemCommand(led,this),true);
     sendOffItem(led);
 }
@@ -336,7 +334,9 @@ void VMap::addImageItem(QImage img)
 {
     ImageItem* led = new ImageItem();
     led->setImage(img);
-    led->initChildPointItem();
+    QPointF size(img.width(),img.height());
+    led->setNewEnd(size);
+    //led->initChildPointItem();
     addNewItem(new AddVmapItemCommand(led,this),true);
     sendOffItem(led);
 }
@@ -449,10 +449,10 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     if(m_currentItem!=nullptr)
     {
-            m_end = mouseEvent->scenePos();
-            m_currentItem->setModifiers(mouseEvent->modifiers());
-            m_currentItem->setNewEnd( m_end);
-            update();
+        m_end = mouseEvent->scenePos();
+        m_currentItem->setModifiers(mouseEvent->modifiers());
+        m_currentItem->setNewEnd( m_end);
+        update();
     }
     if((m_selectedtool==VToolsBar::HANDLER)||
             (m_selectedtool==VToolsBar::TEXT)||
@@ -595,7 +595,7 @@ bool VMap::isNormalItem(QGraphicsItem* item)
 {
     if((item == m_gridItem)||(item == m_fogItem))
     {
-       return false;
+        return false;
     }
     return true;
 }
@@ -1068,15 +1068,15 @@ void VMap::processSetParentItem(NetworkMessageReader* msg)
 void VMap::processZValueMsg(NetworkMessageReader* msg)
 {                                                                                                    
     if(nullptr!=msg)
-    {           
-		QString id = msg->string16();
-		VisualItem* item = m_itemMap->value(id);
+    {
+        QString id = msg->string16();
+        VisualItem* item = m_itemMap->value(id);
         if(nullptr!=item)
-		{
+        {
             item->readZValueMsg(msg);
             ensureFogAboveAll();
-		}
-    }                                                                                                         
+        }
+    }
 }
 void VMap::ensureFogAboveAll()
 {
@@ -1152,26 +1152,26 @@ int VMap::getCurrentNpcNumber() const
 void VMap::processRotationMsg(NetworkMessageReader* msg)
 {                                                                                                             
     if(nullptr!=msg)
-    {           
-		QString id = msg->string16();
-		VisualItem* item = m_itemMap->value(id);
+    {
+        QString id = msg->string16();
+        VisualItem* item = m_itemMap->value(id);
         if(nullptr!=item)
-		{
-	        item->readRotationMsg(msg);                                                                        
-		}
-    }                                                                                                         
+        {
+            item->readRotationMsg(msg);
+        }
+    }
 }                                                                                                             
 void VMap::processRectGeometryMsg(NetworkMessageReader* msg)
 {                                                                                                             
     if(nullptr!=msg)
-    {           
-		QString id = msg->string16();
-		VisualItem* item = m_itemMap->value(id);
+    {
+        QString id = msg->string16();
+        VisualItem* item = m_itemMap->value(id);
         if(nullptr!=item)
-		{
-	        item->readRectGeometryMsg(msg);                                                                        
-		}
-    }                                                                                                         
+        {
+            item->readRectGeometryMsg(msg);
+        }
+    }
 }
 
 void VMap::processVisionMsg(NetworkMessageReader* msg)
@@ -1297,18 +1297,18 @@ void VMap::keyPressEvent(QKeyEvent* event)
             {
                 if(itemV->getType() == VisualItem::CHARACTER)
                 {
-                       CharacterItem* itemC = dynamic_cast<CharacterItem*>(itemV);
+                    CharacterItem* itemC = dynamic_cast<CharacterItem*>(itemV);
 
-                       if(((getOption(VisualItem::LocalIsGM).toBool())||getOption(VisualItem::PermissionMode).toInt()!=Map::PC_ALL)||
-                         (itemC->isLocal()&&(getOption(VisualItem::PermissionMode).toInt()!=Map::PC_MOVE)))
-                       {
-                           idListToRemove << itemV->getId();
-                       }
+                    if(((getOption(VisualItem::LocalIsGM).toBool())||getOption(VisualItem::PermissionMode).toInt()!=Map::PC_ALL)||
+                            (itemC->isLocal()&&(getOption(VisualItem::PermissionMode).toInt()!=Map::PC_MOVE)))
+                    {
+                        idListToRemove << itemV->getId();
+                    }
                 }
                 else if(itemV->isEditable())
                 {
                     if((getOption(VisualItem::LocalIsGM).toBool())||(!getOption(VisualItem::LocalIsGM).toBool())&&
-                       (getOption(VisualItem::PermissionMode).toInt()!=Map::PC_ALL))
+                            (getOption(VisualItem::PermissionMode).toInt()!=Map::PC_ALL))
                     {
                         idListToRemove << itemV->getId();
                     }
@@ -1321,7 +1321,7 @@ void VMap::keyPressEvent(QKeyEvent* event)
         }
         setFocusItem(nullptr);
         event->accept();
-      //  return;
+        //  return;
     }
     QGraphicsScene::keyPressEvent(event);
 }
@@ -1531,7 +1531,7 @@ void VMap::insertCharacterInMap(CharacterItem* item)
         {
             m_sightItem->insertVision(item);
         }
-       /* if((item->isPlayableCharacter())&&(!getOption(VisualItem::LocalIsGM).toBool())&&(item->isLocal()))
+        /* if((item->isPlayableCharacter())&&(!getOption(VisualItem::LocalIsGM).toBool())&&(item->isLocal()))
         {
             changeStackOrder(item,VisualItem::FRONT);
         }*/

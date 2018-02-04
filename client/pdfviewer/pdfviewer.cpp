@@ -103,9 +103,6 @@ void PdfViewer::creationToolBar()
     m_cropOption.push_back(m_image);
     hLayout->addWidget(button);
 
-
-
-
     hLayout->addStretch();
 
     m_mainLayout->addLayout(hLayout);

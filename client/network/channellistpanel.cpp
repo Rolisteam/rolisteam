@@ -122,7 +122,6 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
 
     m_index = ui->m_channelView->indexAt(pos);
 
-
     if(!m_index.isValid())
     {
         state = Out;

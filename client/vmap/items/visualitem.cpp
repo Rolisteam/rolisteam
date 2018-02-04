@@ -443,7 +443,7 @@ bool VisualItem::isLocal() const
 }
 void VisualItem::posChange()
 {
-    qDebug() << "add pos";
+    //qDebug() << "add pos";
     m_pointList.append(pos());
 }
 void VisualItem::rectChange()
@@ -465,7 +465,7 @@ void VisualItem::sendPositionMsg()
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
         msg.string8(m_mapId);
         msg.string16(m_id);
-        qDebug() << "send move Item "<< m_pointList;
+        //qDebug() << "send move Item "<< m_pointList;
         msg.uint64(m_pointList.size());
         for(auto point : m_pointList)
         {
@@ -484,7 +484,7 @@ void VisualItem::readPositionMsg(NetworkMessageReader* msg)
         qreal y = msg->real();
         blockSignals(true);
         setPos(x,y);
-        qDebug() << "read move Item "<< x << y;
+        //qDebug() << "read move Item "<< x << y;
         blockSignals(false);
     }
     update();
