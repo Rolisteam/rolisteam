@@ -15,20 +15,20 @@ bool PasswordAccepter::isValid(const QMap<QString, QVariant> &data)
 
     if(Connection == m_currentLevel)
     {
-        pw = data["password"].toString();
+        pw = data["serverPassword"].toString();
     }
     else if(Admin == m_currentLevel)
     {
-        pw = data["adminPassword"].toString();
+        pw = data["AdminPassword"].toString();
     }
     else if(Channel == m_currentLevel)
     {
         pw = data["ChannelPassword"].toString();
     }
-    bool result = true;
-    if((!pw.isEmpty())&&(upw != pw))
+    bool result = false;
+    if((pw.isEmpty())||(upw == pw))
     {//(QCryptographicHash::hash(upw.toUtf8(),QCryptographicHash::Sha3_512) != pw.toUtf8()))
-        result = false;
+        result = true;
     }
     //qInfo() << "password" << result << pw << upw;
     if(nullptr != m_next)

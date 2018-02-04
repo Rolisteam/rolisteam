@@ -21,7 +21,7 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
     QSettings settings(filepath,QSettings::IniFormat);
 
     int port = settings.value("port").toInt();
-    QString password = settings.value("password").toString();
+    QString password = settings.value("ServerPassword").toString();
     QString range = settings.value("IpRange").toString();
     QString ipBan = settings.value("IpBan").toString();
     QString connectionMax = settings.value("ConnectionMax").toString();
@@ -37,7 +37,7 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
 
 
     m_serverManager.insertField("port",port);
-    m_serverManager.insertField("password",password);
+    m_serverManager.insertField("ServerPassword",password);
     m_serverManager.insertField("IpRange",range);
     m_serverManager.insertField("IpBan",ipBan);
     m_serverManager.insertField("ConnectionMax",connectionMax);
@@ -74,7 +74,7 @@ void RolisteamDaemon::createEmptyConfigFile(QString filepath)
     QSettings settings(filepath,QSettings::IniFormat);
 
     settings.setValue("port",m_serverManager.getValue("port"));
-    settings.setValue("password",m_serverManager.getValue("password"));
+    settings.setValue("ServerPassword",m_serverManager.getValue("ServerPassword"));
     settings.setValue("IpRange",m_serverManager.getValue("IpRange"));
     settings.setValue("IpBan",m_serverManager.getValue("IpBan"));
     settings.setValue("ConnectionMax",m_serverManager.getValue("ConnectionMax"));
