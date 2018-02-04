@@ -88,8 +88,15 @@
  */
 int main(int argc, char *argv[])
 {
+    //Ugly patch to allow loading huge file.
+    int nargs = argc + 1;
+    char** args = new char*[nargs];
+    for (int i = 0; i < argc; i++) {
+        args[i] = argv[i];
+    }
+    args[argc] = (char*)"--disable-web-security";
     // Application creation
-    QApplication app(argc, argv);
+    QApplication app(nargs, args);
     app.setAttribute(Qt::AA_DontUseNativeMenuBar,true);
 
     QString appName("rolisteam");
@@ -188,5 +195,6 @@ int main(int argc, char *argv[])
     QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
 
     delete mainWindow;
+    delete[] args;
     return value;
 } 
