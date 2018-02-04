@@ -73,11 +73,7 @@ public:
     void resetToData();
     /////////////////////////////////
     ///
-    ///
-    ///
     /// \brief readRecipient
-    ///
-    ///
     ///
     /////////////////////////////////
     void readRecipient();
