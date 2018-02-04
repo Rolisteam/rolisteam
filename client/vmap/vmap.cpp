@@ -663,6 +663,9 @@ void VMap::checkItemLayer(VisualItem* item)
 
 void VMap::sendOffItem(VisualItem* item, bool doInitPoint)
 {
+    if(nullptr == m_undoStack)
+        return;
+
     if((nullptr != m_currentAddCmd) && (m_currentAddCmd->getItem() == item))
     {
         if(m_currentAddCmd->isUndoable())
