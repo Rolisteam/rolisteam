@@ -649,6 +649,7 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
             MapFrame* mapFrame = new MapFrame(nullptr, m_mdiArea);
             if(mapFrame->createMap())
             {
+                media = mapFrame;
                 prepareMap(mapFrame);
             }
             else
