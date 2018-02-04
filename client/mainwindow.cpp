@@ -2514,20 +2514,35 @@ void MainWindow::showShortCutEditor()
 
 void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
 {
-    auto media = newDocument(type);
+    auto viewer = qobject_cast<MediaContainer*>(sender());
+    QString title(tr("Export from %1"));
+    if(nullptr != viewer)
+    {
+        title.arg(viewer->getTitle());
+    }
+    else
+    {
+        title.arg(tr("unknown"));
+    }
     if(type == CleverURI::VMAP)
     {
-        auto vmapframe = dynamic_cast<VMapFrame*>(media);
-   //     vmapframe->addPixmap(pix);
+        auto media = newDocument(type);
+        auto vmapFrame = dynamic_cast<VMapFrame*>(media);
+        auto vmap = vmapFrame->getMap();
+        vmap->addImageItem(pix.toImage());
     }
     else if(type == CleverURI::MAP)
     {
-        auto mapframe = dynamic_cast<MapFrame*>(media);
-  //      mapframe->addPixmap(pix);
+        //auto mapframe = dynamic_cast<MapFrame*>(media);
+        auto mapframe = new MapFrame();
+        mapframe->setTitle(title);
+        auto img = new QImage(pix.toImage());
+        auto map = new Map(m_localPlayerId,mapframe->getMediaId(),img,false);
+        mapframe->setMap(map);
+        addMediaToMdiArea(mapframe);
     }
     else if(type == CleverURI::PICTURE)
     {
-        auto media = newDocument(type);
         Image* img = new Image(m_mdiArea);
         auto imgPix = pix.toImage();
         img->setImage(imgPix);
