@@ -1209,6 +1209,7 @@ void MainWindow::parseCommandLineArguments(QStringList list)
     QCommandLineOption role(QStringList() << "r"<< "role", tr("Define the <role>: gm or pc"),"role");
     QCommandLineOption reset(QStringList() << "reset-settings", tr("Erase the settings and use the default parameters"));
     QCommandLineOption user(QStringList() << "u"<<"user", tr("Define the <username>"),"username");
+    QCommandLineOption websecurity(QStringList() << "w" <<"disable-web-security", tr("Remove limit to PDF file size"));
     QCommandLineOption translation(QStringList() << "t"<<"translation", QObject::tr("path to the translation file: <translationfile>"),"translationfile");
 
     parser.addOption(port);
@@ -1217,6 +1218,7 @@ void MainWindow::parseCommandLineArguments(QStringList list)
     parser.addOption(reset);
     parser.addOption(user);
     parser.addOption(translation);
+    parser.addOption(websecurity);
 
     parser.process(list);
 
