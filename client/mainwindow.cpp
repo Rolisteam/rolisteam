@@ -2213,6 +2213,10 @@ void MainWindow::setLatestFile(CleverURI* fileName)
     {
         QVariant var = QVariant::fromValue(CleverUriList());
         CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList>();
+        for(auto file : files)
+        {
+            file.clearData();
+        }
         files.removeAll(*fileName);
         files.prepend(*fileName);
         while (files.size() > m_maxSizeRecentFile)
