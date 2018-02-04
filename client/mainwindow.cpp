@@ -2527,6 +2527,7 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
     }
     else if(type == CleverURI::PICTURE)
     {
+        auto media = newDocument(type);
         Image* img = new Image(m_mdiArea);
         auto imgPix = pix.toImage();
         img->setImage(imgPix);
