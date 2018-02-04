@@ -127,74 +127,42 @@
         <file>resources/js/pdfview/images/annotation-note.svg</file>
         <file>resources/js/pdfview/images/annotation-paragraph.svg</file>
         <file>resources/js/pdfview/images/findbarButton-next.png</file>
-        <file>resources/js/pdfview/images/findbarButton-next_2x.png</file>
         <file>resources/js/pdfview/images/findbarButton-next-rtl.png</file>
-        <file>resources/js/pdfview/images/findbarButton-next-rtl_2x.png</file>
         <file>resources/js/pdfview/images/findbarButton-previous.png</file>
-        <file>resources/js/pdfview/images/findbarButton-previous_2x.png</file>
         <file>resources/js/pdfview/images/findbarButton-previous-rtl.png</file>
-        <file>resources/js/pdfview/images/findbarButton-previous-rtl_2x.png</file>
         <file>resources/js/pdfview/images/grab.cur</file>
         <file>resources/js/pdfview/images/grabbing.cur</file>
         <file>resources/js/pdfview/images/loading-icon.gif</file>
         <file>resources/js/pdfview/images/loading-small.png</file>
-        <file>resources/js/pdfview/images/loading-small_2x.png</file>
         <file>resources/js/pdfview/images/secondaryToolbarButton-documentProperties.png</file>
-        <file>resources/js/pdfview/images/secondaryToolbarButton-documentProperties_2x.png</file>
         <file>resources/js/pdfview/images/secondaryToolbarButton-firstPage.png</file>
-        <file>resources/js/pdfview/images/secondaryToolbarButton-firstPage_2x.png</file>
         <file>resources/js/pdfview/images/secondaryToolbarButton-handTool.png</file>
-        <file>resources/js/pdfview/images/secondaryToolbarButton-handTool_2x.png</file>
         <file>resources/js/pdfview/images/secondaryToolbarButton-lastPage.png</file>
-        <file>resources/js/pdfview/images/secondaryToolbarButton-lastPage_2x.png</file>
         <file>resources/js/pdfview/images/secondaryToolbarButton-rotateCcw.png</file>
-        <file>resources/js/pdfview/images/secondaryToolbarButton-rotateCcw_2x.png</file>
         <file>resources/js/pdfview/images/secondaryToolbarButton-rotateCw.png</file>
-        <file>resources/js/pdfview/images/secondaryToolbarButton-rotateCw_2x.png</file>
         <file>resources/js/pdfview/images/shadow.png</file>
         <file>resources/js/pdfview/images/texture.png</file>
         <file>resources/js/pdfview/images/toolbarButton-bookmark.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-bookmark_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-download.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-download_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-menuArrows.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-menuArrows_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-openFile.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-openFile_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-pageDown.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-pageDown_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-pageDown-rtl.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-pageDown-rtl_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-pageUp.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-pageUp_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-pageUp-rtl.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-pageUp-rtl_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-presentationMode.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-presentationMode_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-print.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-print_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-search.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-search_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-secondaryToolbarToggle.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-secondaryToolbarToggle_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-secondaryToolbarToggle-rtl.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-secondaryToolbarToggle-rtl_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-sidebarToggle.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-sidebarToggle_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-sidebarToggle-rtl.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-sidebarToggle-rtl_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-viewAttachments.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-viewAttachments_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-viewOutline.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-viewOutline_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-viewOutline-rtl.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-viewOutline-rtl_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-viewThumbnail.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-viewThumbnail_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-zoomIn.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-zoomIn_2x.png</file>
         <file>resources/js/pdfview/images/toolbarButton-zoomOut.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-zoomOut_2x.png</file>
         <file>resources/js/pdfview/locale/locale.properties</file>
         <file>resources/js/pdfview/locale/en-US/viewer.properties</file>
         <file>resources/js/pdfview/cmaps/78-EUC-H.bcmap</file>

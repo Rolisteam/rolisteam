@@ -246,7 +246,7 @@ void QPdfWidget::renderPdfFile(const QString &file)
     }
 
     m->pdfData = m->pdfData.toBase64();
-    QString script = QString("qpdf_ShowPdfFile('%1')")
+    QString script = QString("qpdf_ShowPdfFile('file://%1')")
                         .arg(file);
 
     m->pPdfJsBridge->invokeJavaScript(script);
