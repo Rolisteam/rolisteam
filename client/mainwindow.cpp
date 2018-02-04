@@ -1483,9 +1483,9 @@ void MainWindow::startConnection()
                 server->insertField("ThreadCount",1);
                 server->insertField("ChannelCount",1);
                 server->insertField("LogLevel",3);
-                server->insertField("password",m_currentConnectionProfile->getPassword());
+                server->insertField("ServerPassword",m_currentConnectionProfile->getPassword());
                 server->insertField("TimeToRetry",5000);
-                server->insertField("adminPassword",m_currentConnectionProfile->getPassword());
+                server->insertField("AdminPassword",m_currentConnectionProfile->getPassword());
 
                 server->initServerManager();
 
