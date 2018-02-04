@@ -84,6 +84,9 @@ public:
 
 
     VisualItem* promoteTo(VisualItem::ItemType);
+    QImage getImage() const;
+    void setImage(const QImage &image);
+
 protected slots:
     void updateImageFromMovie(QRect);
 

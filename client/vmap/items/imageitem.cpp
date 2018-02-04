@@ -276,6 +276,16 @@ void ImageItem::loadImage()
         }
     }
 }
+
+QImage ImageItem::getImage() const
+{
+    return m_image;
+}
+
+void ImageItem::setImage(const QImage &image)
+{
+    m_image = image;
+}
 void ImageItem::setModifiers(Qt::KeyboardModifiers modifiers)
 {
     m_modifiers = modifiers;

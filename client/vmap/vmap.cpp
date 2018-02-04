@@ -331,7 +331,14 @@ void VMap::addImageItem(QString file)
     addNewItem(new AddVmapItemCommand(led,this),true);
     sendOffItem(led);
 }
-
+void VMap::addImageItem(QImage img)
+{
+    ImageItem* led = new ImageItem();
+    led->setImage(img);
+    led->initChildPointItem();
+    addNewItem(new AddVmapItemCommand(led,this),true);
+    sendOffItem(led);
+}
 void VMap::setCurrentItemOpacity(qreal a)
 {
     QList<QGraphicsItem*> selection= selectedItems();
