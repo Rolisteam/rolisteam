@@ -34,15 +34,16 @@ public:
     QmlHighlighter(QTextDocument *parent = 0);
 
 protected:
-    void highlightBlock(const QString &text);
-
-private:
     struct HighlightingRule
     {
         QRegularExpression pattern;
         QTextCharFormat format;
     };
-    QVector<HighlightingRule> highlightingRules;
+    void highlightBlock(const QString &text);
+
+    void loadDictionary(QString filepath, HighlightingRule& rule);
+private:
+    QVector<HighlightingRule> m_highlightingRules;
 
     QTextCharFormat keywordFormat;
     QTextCharFormat propertyFormat;

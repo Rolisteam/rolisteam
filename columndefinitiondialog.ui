@@ -132,7 +132,7 @@
   <customwidget>
    <class>FieldView</class>
    <extends>QTreeView</extends>
-   <header>fieldview.h</header>
+   <header>widgets/fieldview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
