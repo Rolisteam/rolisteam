@@ -182,7 +182,11 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
         m_lock->setEnabled(false);
         m_deleteChannel->setEnabled(false);
         m_addSubchannel->setEnabled(false);
-
+        m_admin->setEnabled(true);
+    }
+    else if(ChannelListPanel::ADMIN == m_currentGroup)
+    {
+        m_admin->setEnabled(false);
     }
     menu.exec(ui->m_channelView->mapToGlobal(pos));
 }
