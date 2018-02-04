@@ -40,7 +40,7 @@ void heartBeatSender::updateTimer()
 }
 void heartBeatSender::sendHeartBeatMsg()
 {
-    NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::heartbeat);
+    NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::Heartbeat);
     msg.string8(m_localId);
     msg.sendAll();
 }

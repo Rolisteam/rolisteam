@@ -234,7 +234,7 @@ void NetworkLink::receivingData()
 }
 void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
 {
-    if(NetMsg::heartbeat == msg->action())
+    if(NetMsg::Heartbeat == msg->action())
     {
         QString id = msg->string8();
         if(!m_hbCount.contains(id))
@@ -404,7 +404,7 @@ void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
         QString pw = m_connection->getPassword();
         if(!pw.isEmpty())
         {
-            NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::Password);
+            NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::ServerPassword);
             msg.string32(pw);
             msg.uint8(false);
             msg.sendAll();

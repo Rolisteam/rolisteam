@@ -56,8 +56,8 @@ enum Category {
 enum Action {
     // AdministrationCategory
     EndConnectionAction = 0,
-    heartbeat,
-    Password,
+    Heartbeat,
+    ServerPassword,
     Goodbye,
     Kicked,
     MoveChannel,
@@ -69,6 +69,7 @@ enum Action {
     JoinChannel,
     DeleteChannel,
     AddChannel,
+    ChannelPassword,
     BanUser,
     ClearTable,
     AdminPassword,
