@@ -27,17 +27,6 @@
 #include "data/chapter.h"
 
 
-class CleverUriMimeData : public QMimeData
-{
-Q_OBJECT
-public:
-    CleverUriMimeData();
-    void addCleverURI(CleverURI* m,const QModelIndex);
-    QMap<QModelIndex,CleverURI*> getList() const;
-    virtual bool hasFormat(const QString & mimeType) const;
-private:
-    QMap<QModelIndex,CleverURI*> m_mediaList;
-};
 /**
     * @brief subclassed model to fit the management of session (ressources)
     */
@@ -133,7 +122,7 @@ signals:
     void openResource(ResourcesNode*,bool);
 
 protected:
-    bool moveMediaItem(QList<CleverURI*> items, const QModelIndex &parentToBe, int row, QList<QModelIndex> &formerPosition);
+    bool moveMediaItem(QList<ResourcesNode*> items, const QModelIndex &parentToBe, int row, QList<QModelIndex> &formerPosition);
 
 private:
     Chapter* m_rootItem;/// root item address

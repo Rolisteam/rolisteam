@@ -20,6 +20,7 @@
 #include "items/highlighteritem.h"
 
 #include "userlist/rolisteammimedata.h"
+#include "data/cleverurimimedata.h"
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
@@ -1390,28 +1391,58 @@ const QString& VMap::getLocalUserId() const
 {
     return m_localUserId;
 }
+
+#include "data/cleveruri.h"
 void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
-{
-    const RolisteamMimeData* data = qobject_cast<const RolisteamMimeData*>(event->mimeData());
-    if(data)
+{ 
+    auto data = event->mimeData();
+    if (data->hasFormat("rolisteam/userlist-item"))
     {
-        if (data->hasFormat("rolisteam/userlist-item"))
+        const RolisteamMimeData* rolisteamData = qobject_cast<const RolisteamMimeData*>(data);
+        Person* item = rolisteamData->getData();
+        Character* character = dynamic_cast<Character*>(item);
+        if(character)
         {
-            Person* item = data->getData();
-            Character* character = dynamic_cast<Character*>(item);
-            if(character)
+            addCharacter(character,event->scenePos());
+        }
+    }
+    else if(data->hasFormat("rolisteam/cleverurilist"))
+    {
+        const  CleverUriMimeData* resourcesData = qobject_cast<const CleverUriMimeData*>(data);
+        if(nullptr!=resourcesData)
+        {
+            QList<ResourcesNode*> resourcesList = resourcesData->getList().values();
+            for(ResourcesNode* resource : resourcesList)
             {
-                addCharacter(character,event->scenePos());
+                if(resource->getResourcesType() == ResourcesNode::Cleveruri)
+                {
+                    auto media = dynamic_cast<CleverURI*>(resource);
+                    if(media->getType() == CleverURI::PICTURE)
+                    {
+                        ImageItem* led = new ImageItem();
+                        led->setImageUri(media->getUri());
+                        addNewItem(new AddVmapItemCommand(led,this),true);
+                        led->setPos(event->scenePos());
+                        sendOffItem(led);
+                    }
+                }
+                else if(resource->getResourcesType() == ResourcesNode::Person)
+                {
+                    Person* item = dynamic_cast<Character*>(resource);
+                    Character* character = dynamic_cast<Character*>(item);
+                    if(character)
+                    {
+                        addCharacter(character,event->scenePos());
+                    }
+                }
             }
         }
     }
     else
     {
-        const QMimeData* mimeData =  event->mimeData();
-
-        if(mimeData->hasUrls())
+        if(data->hasUrls())
         {
-            foreach(QUrl url, mimeData->urls())
+            for(QUrl url: data->urls())
             {
                 if(url.isLocalFile())
                 {
@@ -1422,9 +1453,7 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
                     sendOffItem(led);
                 }
             }
-
         }
-
     }
 }
 void VMap::dragEnterEvent ( QGraphicsSceneDragDropEvent * event )

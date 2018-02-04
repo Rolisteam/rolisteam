@@ -19,36 +19,14 @@
     ***************************************************************************/
 #include "sessionitemmodel.h"
 #include "data/cleveruri.h"
+#include "data/cleverurimimedata.h"
 
 #include <QDebug>
 #include <QIcon>
 #include <QFileInfo>
 #include <QUrl>
 
-//////////////////////////////////////
-/// CleverUriMimeData
-/////////////////////////////////////
 
-CleverUriMimeData::CleverUriMimeData()
-{
-    setData("application/rolisteam.cleveruri.list",QByteArray());
-}
-
-void CleverUriMimeData::addCleverURI(CleverURI* m,const QModelIndex index)
-{
-    if(nullptr!=m)
-    {
-        m_mediaList.insert(index,m);
-    }
-}
-QMap<QModelIndex,CleverURI*> CleverUriMimeData::getList() const
-{
-    return m_mediaList;
-}
-bool CleverUriMimeData::hasFormat(const QString & mimeType) const
-{
-    return ((mimeType=="application/rolisteam.cleveruri.list") | QMimeData::hasFormat(mimeType));
-}
 
 //////////////////////////////////////
 /// SessionItemModel
@@ -110,7 +88,7 @@ Qt::ItemFlags SessionItemModel::flags ( const QModelIndex & index ) const
 QStringList SessionItemModel::mimeTypes() const
 {
     QStringList types;
-    types << "application/rolisteam.cleveruri.list" << "text/uri-list";
+    types << "rolisteam/cleverurilist" << "text/uri-list";
     return types;
 }
 
@@ -122,8 +100,8 @@ QMimeData* SessionItemModel::mimeData(const QModelIndexList &indexes) const
     {
         if((index.isValid())&&(index.column()==0))
         {
-            CleverURI* item = static_cast<CleverURI*>(index.internalPointer());
-            mimeData->addCleverURI(item,index);
+            ResourcesNode* item = static_cast<ResourcesNode*>(index.internalPointer());
+            mimeData->addResourceNode(item,index);
         }
     }
     return mimeData;
@@ -199,13 +177,13 @@ bool SessionItemModel::dropMimeData(const QMimeData *data,
 
     bool added=false;
 
-    if (data->hasFormat("application/rolisteam.cleveruri.list"))
+    if (data->hasFormat("rolisteam/cleverurilist"))
     {
         const  CleverUriMimeData* mediaData = qobject_cast<const CleverUriMimeData*>(data);
 
         if(nullptr!=mediaData)
         {
-            QList<CleverURI*> mediaList = mediaData->getList().values();
+            QList<ResourcesNode*> mediaList = mediaData->getList().values();
             QList<QModelIndex> indexList = mediaData->getList().keys();
             //foreach(CleverURI* media,mediaList)
             {
@@ -236,7 +214,7 @@ bool SessionItemModel::dropMimeData(const QMimeData *data,
     return added;
 }
 
-bool SessionItemModel::moveMediaItem(QList<CleverURI*> items,const QModelIndex& parentToBe,int row,QList<QModelIndex>& formerPosition)
+bool SessionItemModel::moveMediaItem(QList<ResourcesNode*> items,const QModelIndex& parentToBe,int row,QList<QModelIndex>& formerPosition)
 {
     ResourcesNode* parentItem = static_cast<ResourcesNode*>(parentToBe.internalPointer());
 
@@ -252,7 +230,7 @@ bool SessionItemModel::moveMediaItem(QList<CleverURI*> items,const QModelIndex& 
 
     if((!items.isEmpty())&&(!formerPosition.isEmpty()))
     {
-        CleverURI* item = items.at(0);
+        ResourcesNode* item = items.at(0);
         ResourcesNode* parent =item->getParentNode();
         QModelIndex formerPositionIndex = formerPosition.at(0);
         QModelIndex sourceParent = formerPositionIndex.parent();
@@ -283,7 +261,7 @@ bool SessionItemModel::moveMediaItem(QList<CleverURI*> items,const QModelIndex& 
             ++row;
         }
 
-        CleverURI* item = items.at(i);
+        ResourcesNode* item = items.at(i);
         ResourcesNode* parent =item->getParentNode();
         QModelIndex formerPositionIndex = formerPosition.at(i);
 

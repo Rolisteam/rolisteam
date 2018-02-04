@@ -192,7 +192,8 @@ HEADERS += \
         widgets/shortcuteditordialog.h \
         widgets/gmtoolbox/gamemastertool.h \
     pdfviewer/pdfviewer.h \
-    widgets/overlay.h
+    widgets/overlay.h \
+    data/cleverurimimedata.h
 
 
    #     persondialog.cpp \
@@ -288,7 +289,8 @@ SOURCES += \
         widgets/shortcuteditordialog.cpp \
         widgets/gmtoolbox/gamemastertool.cpp \
     pdfviewer/pdfviewer.cpp \
-    widgets/overlay.cpp
+    widgets/overlay.cpp \
+    data/cleverurimimedata.cpp
 
 
 FORMS += \

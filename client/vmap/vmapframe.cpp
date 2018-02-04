@@ -42,7 +42,7 @@ VMapFrame::VMapFrame(CleverURI* uri,VMap *map)
     : MediaContainer(),m_vmap(map),m_graphicView(nullptr),m_currentEditingMode(0)
 {
     setObjectName("VMapFrame");
-    m_uri =uri;
+    m_uri = uri;
     
     createView();
     updateMap();
