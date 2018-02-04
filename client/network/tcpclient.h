@@ -23,14 +23,14 @@ class TcpClient : public TreeItem
 {
     Q_OBJECT
 public:
-    enum ConnectionEvent {HasCheckEvent,NoCheckEvent,
-                          CheckedEvent,CheckFailedEvent,
-                          ForbiddenEvent,AuthDataReceivedEvent,
-                          AuthFailEvent, AuthSuccessEvent,
-                          NoRestrictionEvent,HasRestrictionEvent,
-                          ChannelAuthSuccessEvent,ChannelAuthFailEvent,
-                          MoveChanEvent,AdminAuthSuccess,
-                          AdminAuthFailed};
+    enum ConnectionEvent {CheckSuccessEvent,CheckFailEvent,
+                          ControlFailEvent,ControlSuccessEvent,
+                          ServerAuthDataReceivedEvent,
+                          ServerAuthFailEvent, ServerAuthSuccessEvent,
+                          AdminAuthFailEvent,AdminAuthSuccessEvent,
+                          ChannelAuthSuccessEvent,ChannelAuthFailEvent,ChannelAuthDataReceivedEvent,
+                          MoveChanEvent};
+    Q_ENUM(ConnectionEvent)
     /**
      * @brief TcpClient
      * @param socket
@@ -75,6 +75,11 @@ public:
     bool isAdmin() const;
     void setIsAdmin(bool isAdmin);
     bool isConnected()const;
+    QString getIpAddress();
+    QString getWantedChannel();
+    QString getServerPassword() const;
+    QString getAdminPassword() const;
+    QString getChannelPassword() const;
 signals:
     /**
      * @brief readDataReceived
@@ -87,22 +92,34 @@ signals:
 
     ///
     /// \brief connectionChecked
-    void hasCheck();
-    void hasNoCheck();
-    void connectionChecked();
+    void checkSuccess();
     void checkFail();
-    void forbidden();
-    void authDataReceived();
-    void authFail();
-    void authSuccess();
-    void hasNoRestriction();
-    void hasRestriction();
-    void channelAuthFail();
-    void channelAuthSuccess();
-    void moveChannel();
+
+    void controlFail();
+    void controlSuccess();
+
+    void serverAuthDataReceived();
+    void serverAuthFail();
+    void serverAuthSuccess();
+
     void adminAuthFailed();
     void adminAuthSucceed();
+
+    void channelAuthFail();
+    void channelAuthSuccess();
+
+    void moveChannel();
+
+
+    //Signal to check
+    void checkServerAcceptClient(TcpClient* client);
+    void checkServerPassword(TcpClient* client);
+    void checkAdminPassword(TcpClient* client);
+    void checkChannelPassword(TcpClient* client);
+
     void isReady();
+    void hasNoRestriction();
+    void hasRestriction();
     void socketDisconnection();
     void socketError(QAbstractSocket::SocketError );
     void socketInitiliazed();
@@ -125,42 +142,44 @@ public slots:
      * @param error
      */
     void connectionError(QAbstractSocket::SocketError error);
-
     void sendEvent(TcpClient::ConnectionEvent);
-
-    void connectionCheckedSlot();
-
     void startReading();
+
+protected:
+    bool isCurrentState(QState *state);
+    void readAdministrationMessages(NetworkMessageReader& msg);
 private:
     QPointer<QTcpSocket> m_socket;
     NetworkMessageHeader m_header;
-    char* m_buffer;
+    char* m_buffer= nullptr;
     int m_headerRead;
     quint32 m_remainingData;
 
-    QStateMachine* m_stateMachine;
-    QState* m_incomingConnection;
-    QState* m_controlConnection;
-    QState* m_waitingAuthentificationData;
-    QState* m_authentification;
-    QState* m_wantToGoToChannel;
-    QState* m_inPlace;
-    QState* m_waitingAuthChannel;
-    QState* m_stayInPlace;
-    QState* m_disconnected;
+    QStateMachine* m_stateMachine= nullptr;
+    QState* m_incomingConnection= nullptr;
+    QState* m_controlConnection= nullptr;
+    QState* m_authentificationServer= nullptr;
+    QState* m_disconnected= nullptr;
 
-    QState* m_currentState;
+    QStateMachine* m_connected= nullptr;
+    QState* m_inChannel= nullptr;
+    QState* m_wantToGoToChannel= nullptr;
 
-    bool m_isGM;
-    bool m_isAdmin;
+    QState* m_currentState = nullptr;
+
+    bool m_isGM = false;
+    bool m_isAdmin = false;
 
     bool m_receivingData = false;
     quint32 m_dataReceivedTotal=0;
-
     Player* m_player;
-
     qintptr m_socketHandleId;
+    QString m_wantedChannel;
+
+    QString m_serverPassword;
+    QString m_adminPassword;
+    QString m_channelPassword;
 
 };
-
+Q_DECLARE_METATYPE(TcpClient::ConnectionEvent)
 #endif // TCPCLIENT_H

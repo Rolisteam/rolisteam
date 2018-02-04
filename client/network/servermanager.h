@@ -59,6 +59,13 @@ public slots:
     void sendOffAdminAuthFail();
     void sendOffAdminAuthSuccessed();
 
+    //Connection proccess tests
+    void serverAcceptClient(TcpClient* client);
+    void checkAuthToServer(TcpClient* client);
+    void checkAuthToChannel(TcpClient* client);
+    void checkAuthAsAdmin(TcpClient* client);
+protected:
+    void sendEventToClient(TcpClient *client, TcpClient::ConnectionEvent event);
 private:
     int m_port;
     RServer* m_server;

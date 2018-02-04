@@ -102,6 +102,8 @@ void ClientManager::initializeLink()
     m_authentified->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
     m_connected->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
     m_connecting->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
+    m_error->addTransition(m_networkLinkToServer,SIGNAL(connecting()),m_connecting);
+    m_connecting->addTransition(m_networkLinkToServer,SIGNAL(error()),m_error);
 
     connect(this, SIGNAL(sendData(char *, quint32, NetworkLink *)),m_networkLinkToServer, SLOT(sendData(char *, quint32, NetworkLink *)));
     connect(m_networkLinkToServer, SIGNAL(disconnected(NetworkLink *)),this, SLOT(endingNetworkLink(NetworkLink *)));
