@@ -77,7 +77,6 @@ ClientManager::ClientManager(ConnectionProfile* connection)
             playerList->addLocalCharacter(m_connectionProfile->getCharacter());
         }
         playerList->sendOffLocalPlayerInformations();
-        qDebug() << "sendoff feature from clientManager";
         playerList->sendOffFeatures(m_connectionProfile->getPlayer());
     });
 
