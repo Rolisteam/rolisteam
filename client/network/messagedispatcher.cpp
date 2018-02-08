@@ -48,7 +48,8 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
         {
             saveIt = false;
             sendToAll = false;
-            channel->removeClient(emitter);
+            if(channel != nullptr)
+                channel->removeClient(emitter);
         }
     }
     else if(msg->category() == NetMsg::SetupCategory)

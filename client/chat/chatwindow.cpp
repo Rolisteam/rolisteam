@@ -560,11 +560,11 @@ bool ChatWindow::getMessageResult(QString& value, QString& command, QString& lis
         {
             value = m_diceParser->getStringResult().join(" ; ").replace("\n","<br/>");
             list = stringResult;
-            return true;
+            hasDiceList = true;
         }
     }
 
-    return false;
+    return hasDiceList;
 }
 
 QAction * ChatWindow::toggleViewAction() const
