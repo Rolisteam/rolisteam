@@ -172,6 +172,7 @@ bool MapFrame::openUriAndLoadMap(QString uri)
         return false;
     }
     file.close();
+    return true;
 }
 
 bool MapFrame::readFileFromUri()
