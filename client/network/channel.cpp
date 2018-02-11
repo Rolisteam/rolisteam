@@ -291,6 +291,11 @@ bool Channel::removeClient(TcpClient* client)
     message->string8(client->getPlayerId());
     sendToAll(message,nullptr,false);
 
+    if(hasNoClient())
+    {
+        m_dataToSend.clear();
+    }
+
     emit itemChanged();
     return (0 < i);
 }
@@ -308,7 +313,18 @@ bool Channel::removeChild(TreeItem* itm)
             m_child.removeAll(itm);
             return true;
         }
-
     }
     return false;
+}
+bool Channel::hasNoClient()
+{
+    bool hasNoClient = true;
+    for(auto child : m_child)
+    {
+        if(child->isLeaf())
+        {
+            hasNoClient = false;
+        }
+    }
+    return hasNoClient;
 }

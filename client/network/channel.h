@@ -63,6 +63,8 @@ public:
 
     void fill(NetworkMessageWriter& msg);
     void read(NetworkMessageReader& msg);
+protected:
+    bool hasNoClient();
 private:
     QString m_password;
     QString m_description;
