@@ -90,7 +90,6 @@ const QVariant PreferencesManager::value(QString key,QVariant defaultValue)
         return defaultValue;
     }
 }
-//#1707fe
 void PreferencesManager::readSettings(QSettings & settings)
 {
     settings.beginGroup("rolisteam/preferences");
