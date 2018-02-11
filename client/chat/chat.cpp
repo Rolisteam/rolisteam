@@ -73,9 +73,9 @@ bool PublicChat::belongsTo(Player * player) const
     return false;
 }
 
-void PublicChat::sendThem(NetworkMessage & message, NetworkLink * but) const
+void PublicChat::sendThem(NetworkMessage & message ) const
 {
-    message.sendAll(but);
+    message.sendAll();
 }
 
 bool PublicChat::everyPlayerHasFeature(const QString & feature, quint8 version) const
@@ -115,20 +115,9 @@ bool PlayerChat::belongsTo(Player * player) const
     return (m_player == player);
 }
 
-void PlayerChat::sendThem(NetworkMessage & message, NetworkLink * but) const
+void PlayerChat::sendThem(NetworkMessage & message) const
 {
-    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
-    {
-        message.sendAll(but);
-    }
-    else
-    {
-        NetworkLink* to = m_player->link();
-        if (to != but)
-        {
-            message.sendTo(to);
-        }
-    }
+    message.sendAll();
 }
 
 bool PlayerChat::everyPlayerHasFeature(const QString & feature, quint8 version) const
@@ -185,12 +174,6 @@ PrivateChat::PrivateChat(ReceiveEvent & event)
         return;
     }
 
-    if ((!PreferencesManager::getInstance()->value("isClient",true).toBool()) && (!sameLink(event.link())))
-    {
-        qWarning("%s is usurpating chat %s", qPrintable(m_owner->getName()), qPrintable(chatUuid));
-        return;
-    }
-
     m_name = data.string16();
 
     for (quint8 i = data.uint8() ; i > 0 ; i--)
@@ -228,26 +211,15 @@ bool PrivateChat::belongsTo(Player * player) const
 }
 
 
-void PrivateChat::sendThem(NetworkMessage & message, NetworkLink * but) const
+void PrivateChat::sendThem(NetworkMessage & message) const
 {
-    p_sendThem(message, but, false);
+    p_sendThem(message, false);
 }
 
-void PrivateChat::p_sendThem(NetworkMessage & message, NetworkLink * but, bool force) const
+void PrivateChat::p_sendThem(NetworkMessage & message, bool force) const
 {
-    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
-    {
-        if (force || m_set.size() > 1)
-            message.sendAll(but);
-        return;
-    }
-
-    Player * localPlayer = PlayersList::instance()->getLocalPlayer();
-    foreach (Player * player, m_set)
-    {
-        if (player != localPlayer && player != nullptr && player->link() != but)
-            message.sendTo(player->link());
-    }
+    if (force || m_set.size() > 1)
+        message.sendAll();
 }
 
 
@@ -324,7 +296,7 @@ void PrivateChat::sendUpdate() const
         i++;
     }
 
-    p_sendThem(message, m_owner->link(), true);
+    p_sendThem(message, true);
 }
 
 
@@ -360,14 +332,6 @@ void PrivateChat::set(const QString & name, const QSet<Player *> & set)
 void PrivateChat::p_set(const QString & name, QSet<Player *> set, bool thenUpdate)
 {
     set.insert(m_owner);
-
-    if (thenUpdate && !PreferencesManager::getInstance()->value("isClient",true).toBool())
-    {
-        m_set.subtract(set);
-        if (m_set.size() > 0)
-            sendDel();
-    }
-
     m_name = name;
     emit changedName(m_name);
     m_set  = set;

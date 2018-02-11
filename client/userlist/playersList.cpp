@@ -800,48 +800,6 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
         addPlayer(newPlayer);
 }
 
-void PlayersList::addPlayerAsServer(ReceiveEvent * event)
-{
-    NetworkLink* link = event->link();
-    Player* player = new Player(event->data(), link);
-    if (player->isGM() && m_gmCount > 0)
-    {
-        player->setGM(false);
-    }
-
-    addPlayer(player);
-
-    /*NetworkMessageWriter msgPlayer (NetMsg::PlayerCategory, NetMsg::AddPlayerAction);
-    player->fill(msgPlayer);
-    msgPlayer.uint8(1);
-    msgPlayer.sendAll();*/
-
-    SendFeaturesIterator featuresIterator;
-
-    for (auto curPlayer : m_playersList)
-    {
-        if (curPlayer != player)
-        {
-            int charactersListSize = curPlayer->getCharactersCount();
-            for (int j = 0 ; j < charactersListSize ; j++)
-            {
-                NetworkMessageWriter msgCharacter (NetMsg::CharacterPlayerCategory, NetMsg::AddPlayerCharacterAction);
-                Character * character = curPlayer->getCharacterByIndex(j);
-                character->fill(msgCharacter);
-                msgCharacter.uint8(1);
-                msgCharacter.sendTo(link);
-            }
-        }
-        featuresIterator = curPlayer;
-        while (featuresIterator.hasNext())
-        {
-            featuresIterator.next();
-            featuresIterator.message().sendTo(link);
-        }
-    }
-    emit playerAddedAsClient(player);
-}
-
 void PlayersList::delPlayer(NetworkMessageReader & data)
 {
     /// @todo: If the player is the GM, call AudioPlayer::pselectNewFile("").

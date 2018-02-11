@@ -183,8 +183,8 @@ void ChatWindow::setupUi()
 ChatWindow::~ChatWindow()
 {
     delete m_toggleViewAction;
-
-    if (PreferencesManager::getInstance()->value("isClient",true).toBool() || !m_chat->inherits("PrivateChat"))
+/// @warning dead code
+    if ( !m_chat->inherits("PrivateChat"))//PreferencesManager::getInstance()->value("isClient",true).toBool() ||
         delete m_chat;
 }
 

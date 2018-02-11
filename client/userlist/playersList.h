@@ -157,7 +157,6 @@ private:
     void delPlayer(Player * player);
     void delCharacter(Player * parent, int index);
     void addPlayer(NetworkMessageReader & data);
-    void addPlayerAsServer(ReceiveEvent * event);
     void delPlayer(NetworkMessageReader & data);
     void setPersonName(NetworkMessageReader & data);
     void setPersonColor(NetworkMessageReader & data);

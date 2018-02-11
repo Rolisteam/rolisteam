@@ -274,8 +274,6 @@ bool ChatList::addLocalChat(PrivateChat * chat)
     if (!chat->belongsToLocalPlayer())
         return false;
 
-    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
-        m_privateChatMap.insert(chat->identifier(), chat);
     addChatWindow(new ChatWindow(chat,m_mainWindow));
     return true;
 }
@@ -289,11 +287,12 @@ bool ChatList::delLocalChat(const QModelIndex & index)
     
     chat->sendDel();
     delChatWindow(chatw);
-    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
+    /// @warning dead code
+    /*if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         m_privateChatMap.remove(chat->identifier());
         delete chat;
-    }
+    }*/
     return true;
 }
 
@@ -506,29 +505,12 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
        }
        return;
     }
-    else//Global
-    {
-        Player * addressee = playersList->getPlayer(to);
-        if (addressee != nullptr)
-        {
-            if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
-                data.sendTo(addressee->link());
-            return;
-        }
-    }
+
 
     ChatWindow * chatw = getChatWindowByUuid(to);
     if (nullptr != chatw)
     {
         chatw->showMessage(sender->getName(), sender->getColor(), msg,comment, data.action());
-    }
-
-    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
-    {
-        if (m_privateChatMap.contains(to))
-            m_privateChatMap.value(to)->sendThem(data, event->link());
-        else if (to.isEmpty())
-            data.sendAll(event->link());
     }
 }
 
@@ -541,8 +523,8 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
         delete newChat;
         return;
     }
-
-    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
+/// @warning dead code
+  /*  if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         if (m_privateChatMap.contains(newChat->identifier()))
         {
@@ -556,24 +538,21 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
             m_privateChatMap.insert(newChat->identifier(), newChat);
             newChat->sendUpdate();
         }
-    }
+    }*/
 
     ChatWindow * chatw = getChatWindowByUuid(newChat->identifier());
     if (chatw != nullptr)
     {
         if (newChat->includeLocalPlayer())
         {
-            if (PreferencesManager::getInstance()->value("isClient",true).toBool())
+            PrivateChat * oldChat = qobject_cast<PrivateChat *>(chatw->chat());
+            if (oldChat == nullptr)
             {
-                PrivateChat * oldChat = qobject_cast<PrivateChat *>(chatw->chat());
-                if (oldChat == nullptr)
-                {
-                    qWarning("%s is not a private chat", qPrintable(newChat->identifier()));
-                    return;
-                }
-                oldChat->set(*newChat, false);
-                delete newChat;
+                qWarning("%s is not a private chat", qPrintable(newChat->identifier()));
+                return;
             }
+            oldChat->set(*newChat, false);
+            delete newChat;
         }
         else
             delChatWindow(chatw);
@@ -583,7 +562,7 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
     {
         addChatWindow(new ChatWindow(newChat,m_mainWindow));
     }
-    else if (PreferencesManager::getInstance()->value("isClient",true).toBool())
+    else
     {
         delete newChat;
     }
@@ -592,8 +571,8 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
 void ChatList::deletePrivateChat(ReceiveEvent * event)
 {
     QString uuid = event->data().string8();
-
-    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
+/// @warning dead code
+    /*if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         if (!m_privateChatMap.contains(uuid))
         {
@@ -611,7 +590,7 @@ void ChatList::deletePrivateChat(ReceiveEvent * event)
         chat->sendDel();
         chat->deleteLater();
         m_privateChatMap.remove(uuid);
-    }
+    }*/
 
     ChatWindow * chatw = getChatWindowByUuid(uuid);
     if (chatw != nullptr)
