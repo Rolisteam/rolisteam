@@ -147,6 +147,7 @@ QVariant Person::getData(ResourcesNode::DataValue data)
     case URI:
         return {};
     }
+    return {};
 }
 void Person::write(QDataStream& out, bool tag) const
 {

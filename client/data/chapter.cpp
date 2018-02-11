@@ -64,6 +64,7 @@ ResourcesNode *Chapter::getChildAt(int i) const
     {
         return m_children[i];
     }
+    return nullptr;
 }
 
 int Chapter::indexOf(ResourcesNode* node)

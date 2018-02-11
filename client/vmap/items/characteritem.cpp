@@ -625,11 +625,14 @@ ChildPointItem* CharacterItem::getRadiusChildWidget()
     {
         return  m_child->value(DIRECTION_RADIUS_HANDLE);
     }
+    return nullptr;
 }
 QColor CharacterItem::getColor()
 {
     if(nullptr!= m_character)
         return m_character->getColor();
+
+    return {};
 }
 
 void CharacterItem::updateChildPosition()

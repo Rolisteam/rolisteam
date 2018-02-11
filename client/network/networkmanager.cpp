@@ -199,6 +199,7 @@ bool ClientManager::isConnected() const
     case AUTHENTIFIED:
         return true;
     }
+    return false;
 }
 
 void ClientManager::setConnectionState(ConnectionState state)

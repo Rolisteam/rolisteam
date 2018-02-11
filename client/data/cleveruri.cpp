@@ -345,6 +345,7 @@ QVariant CleverURI::getData(ResourcesNode::DataValue i)
     case URI:
         return m_uri;
     }
+    return {};
 }
 
 QDataStream& operator<<(QDataStream& out, const CleverURI& con)

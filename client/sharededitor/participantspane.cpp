@@ -410,6 +410,7 @@ bool ParticipantsPane::isOwner() const
     {
         return m_playerList->isLocal(m_model->getOwner());
     }
+    return false;
 }
 void ParticipantsPane::demoteCurrentItem()
 {

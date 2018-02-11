@@ -328,4 +328,5 @@ VisualItem* ImageItem::promoteTo(VisualItem::ItemType type)
         item->setScale(scale());
         return item;
     }
+    return nullptr;
 }
