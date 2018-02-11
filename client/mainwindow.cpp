@@ -44,7 +44,7 @@
 #include "map/mapframe.h"
 #include "map/map.h"
 #include "chat/chatlistwidget.h"
-#include "network/networkmanager.h"
+#include "network/clientmanager.h"
 #include "image.h"
 #include "network/networkmessagewriter.h"
 #include "charactersheet/charactersheet.h"
@@ -1106,11 +1106,9 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
 {
     switch(state)
     {
-
     case ClientManager::CONNECTED: /// @brief Action to be done after socket connection.
         m_ui->m_connectionAction->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
-        m_dialog->accept();
         break;
     case ClientManager::DISCONNECTED:
         m_ui->m_connectionAction->setEnabled(true);
@@ -1119,6 +1117,7 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
         break;
     case ClientManager::AUTHENTIFIED:
         m_roomPanel->sendOffLoginAdmin(m_currentConnectionProfile->getPassword());
+        m_dialog->accept();
         break;
     case ClientManager::CONNECTING:
         m_chatListWidget->addPublicChat();
@@ -1498,7 +1497,6 @@ void MainWindow::startConnection()
 }
 void MainWindow::initializedClientManager()
 {
-
     if(nullptr == m_clientManager)
     {
         m_clientManager = new ClientManager(m_currentConnectionProfile);
@@ -1511,6 +1509,7 @@ void MainWindow::initializedClientManager()
         connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
         connect(m_clientManager,SIGNAL(isAuthentified()),this,SLOT(postConnection()));
         connect(m_clientManager,SIGNAL(clearData()),this,SLOT(cleanUpData()));
+        //connect(m_clientManager,&ClientManager::moveToAnotherChannel,this,&MainWindow::);
 
     }
     if((nullptr!=m_currentConnectionProfile)&&(nullptr!=m_clientManager))
@@ -1538,12 +1537,21 @@ void MainWindow::postConnection()
     {
         return;
     }
+
+    PlayersList*  playerList = PlayersList::instance();
+    if(!m_currentConnectionProfile->isGM())
+    {
+        playerList->addLocalCharacter(m_currentConnectionProfile->getCharacter());
+    }
+    playerList->sendOffLocalPlayerInformations();
+    playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
+
     m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
     m_roomPanel->setLocalPlayerId(m_localPlayerId);
 
     if(nullptr!=m_preferences)
     {
-        m_preferences->registerValue("isClient",!m_currentConnectionProfile->isServer());
+        m_preferences->registerValue("isClient",true);
     }
 
     m_ui->m_connectionAction->setEnabled(false);
@@ -2211,10 +2219,6 @@ void MainWindow::setLatestFile(CleverURI* fileName)
     {
         QVariant var = QVariant::fromValue(CleverUriList());
         CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList>();
-        for(auto file : files)
-        {
-            file.clearData();
-        }
         files.removeAll(*fileName);
         files.prepend(*fileName);
         while (files.size() > m_maxSizeRecentFile)

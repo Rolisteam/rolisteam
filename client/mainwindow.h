@@ -62,7 +62,7 @@
 #include "audio/audioPlayer.h"
 #endif
 
-#include "network/networkmanager.h"
+#include "network/clientmanager.h"
 #include  "network/channellistpanel.h"
 
 namespace Ui {
