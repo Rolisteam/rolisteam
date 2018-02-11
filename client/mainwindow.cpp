@@ -1140,19 +1140,6 @@ void MainWindow::notifyAboutDeletedPlayer(Player * player) const
     notifyUser(tr("%1 just leaves the game.").arg(player->getName()));
 }
 
-void MainWindow::updateSessionToNewClient(Player* player)
-{
-    if(nullptr!=player)
-    {
-        if(m_currentConnectionProfile->isGM())
-        {
-            sendOffAllMaps(player);
-            sendOffAllImages(player);
-            m_preferencesDialog->sendOffAllDiceAlias(player->getUuid());
-            m_preferencesDialog->sendOffAllState(player->getUuid());
-        }
-    }
-}
 void MainWindow::readSettings()
 {
     QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
@@ -1547,6 +1534,10 @@ void MainWindow::cleanUpData()
 
 void MainWindow::postConnection()
 {
+    if(m_currentConnectionProfile == nullptr)
+    {
+        return;
+    }
     m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
     m_roomPanel->setLocalPlayerId(m_localPlayerId);
 
@@ -1563,6 +1554,13 @@ void MainWindow::postConnection()
     updateWindowTitle();
     checkUpdate();
     updateUi();
+
+
+    if(m_currentConnectionProfile->isGM())
+    {
+        m_preferencesDialog->sendOffAllDiceAlias();
+        m_preferencesDialog->sendOffAllState();
+    }
 }
 
 void MainWindow::setupUi()
@@ -1669,7 +1667,6 @@ void MainWindow::setupUi()
     m_playerList = PlayersList::instance();
 
     connect(m_playerList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
-    connect(m_playerList, SIGNAL(playerAddedAsClient(Player*)), this, SLOT(updateSessionToNewClient(Player*)));
     connect(m_playerList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
     connect(m_playerList, &PlayersList::characterAdded,this,[=](Character* character){
         if(character->isNpc())

@@ -107,7 +107,7 @@ public:
     /**
      * @brief sendOffAllDiceAlias
      */
-    void sendOffAllDiceAlias(const QString& playerId);
+    void sendOffAllDiceAlias();
 
     void setModified(bool);
 

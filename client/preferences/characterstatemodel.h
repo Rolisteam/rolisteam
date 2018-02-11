@@ -110,7 +110,7 @@ public:
     /**
 	 * @brief sendOffAllCharacterState
      */
-    void sendOffAllCharacterState(const QString& playerId);
+    void sendOffAllCharacterState();
 
     void processAddState(NetworkMessageReader *msg);
     void processMoveState(NetworkMessageReader *msg);

@@ -267,14 +267,11 @@ void DiceAliasModel::clear()
     m_diceAliasList->clear();
     endResetModel();
 }
-void DiceAliasModel::sendOffAllDiceAlias(const QString& playerId)
+void DiceAliasModel::sendOffAllDiceAlias()
 {
     for(DiceAlias* alias : *m_diceAliasList)
     {
         NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addDiceAlias);
-        QStringList list;
-        list << playerId;
-        msg.setRecipientList(list, NetworkMessage::OneOrMany);
         msg.int64(m_diceAliasList->indexOf(alias));
         msg.string32(alias->getCommand());
         msg.string32(alias->getValue());

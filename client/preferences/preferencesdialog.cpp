@@ -912,18 +912,18 @@ void PreferencesDialog::applyBackground()
         }
     }
 }
-void PreferencesDialog::sendOffAllDiceAlias(const QString& playerId)
+void PreferencesDialog::sendOffAllDiceAlias()
 {
     if(nullptr!=m_aliasModel)
     {
-        m_aliasModel->sendOffAllDiceAlias(playerId);
+        m_aliasModel->sendOffAllDiceAlias();
     }
 }
-void PreferencesDialog::sendOffAllState(const QString& playerId)
+void PreferencesDialog::sendOffAllState()
 {
     if(nullptr!=m_aliasModel)
     {
-        m_stateModel->sendOffAllCharacterState(playerId);
+        m_stateModel->sendOffAllCharacterState();
     }
 }
 void PreferencesDialog::exportTheme()
@@ -978,6 +978,7 @@ bool PreferencesDialog::importTheme()
 
         return true;
     }
+    return false;
 }
 
 RolisteamTheme* PreferencesDialog::getCurrentRemovableTheme(bool selectNew)

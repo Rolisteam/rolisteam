@@ -400,11 +400,6 @@ private slots :
      */
     void sendOffAllImages(Player* player);
     /**
-     * @brief updateSessionToNewClient
-     * @param player
-     */
-    void updateSessionToNewClient(Player* player);
-    /**
      * @brief receiveData
      * @param readData
      * @param size

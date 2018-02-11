@@ -323,14 +323,11 @@ void CharacterStateModel::processRemoveState(NetworkMessageReader* msg)
     }
 }
 
-void CharacterStateModel::sendOffAllCharacterState(const QString& playerId)
+void CharacterStateModel::sendOffAllCharacterState()
 {
     for(CharacterState* state : *m_stateList)
     {
         NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addState);
-        QStringList list;
-        list << playerId;
-        msg.setRecipientList(list,NetworkMessage::OneOrMany);
         msg.uint64(m_stateList->indexOf(state));
         msg.string32(state->getLabel());
         msg.rgb(state->getColor());
