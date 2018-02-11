@@ -65,7 +65,7 @@ public:
 
     virtual bool contains(ResourcesNode *);
 
-    void write(QDataStream& out, bool tag=true) const;
+    void write(QDataStream& out, bool tag=true,bool saveData=true) const;
     void read(QDataStream &in);
 
     QVariant getData(ResourcesNode::DataValue);

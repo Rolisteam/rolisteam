@@ -139,7 +139,7 @@ public:
 
 
     ResourcesNode::TypeResource getResourcesType() const;
-    virtual void write(QDataStream &out, bool tag) const;
+    virtual void write(QDataStream &out, bool tag = true, bool saveData = true) const;
     virtual void read(QDataStream &in);
     virtual bool seekNode(QList<ResourcesNode*>& path,ResourcesNode* node);
 protected:

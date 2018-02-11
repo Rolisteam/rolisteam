@@ -145,12 +145,12 @@ bool Chapter::contains(ResourcesNode* node)
     return false;
 }
 
-void Chapter::write(QDataStream &out, bool tag) const
+void Chapter::write(QDataStream &out, bool tag, bool saveData) const
 {
     out << QStringLiteral("Chapter");
     out << m_name;
     out << m_children.size();
-    foreach(ResourcesNode* node,m_children)
+    for(const ResourcesNode* node : m_children)
     {
         node->write(out);
     }

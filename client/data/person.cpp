@@ -149,7 +149,7 @@ QVariant Person::getData(ResourcesNode::DataValue data)
     }
     return {};
 }
-void Person::write(QDataStream& out, bool tag) const
+void Person::write(QDataStream& out, bool tag, bool saveData) const
 {
 
 }

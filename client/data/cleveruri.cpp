@@ -224,22 +224,26 @@ void CleverURI::setName(const QString &name)
     updateListener(CleverURI::NAME);
 }
 
-void CleverURI::write(QDataStream &out, bool tag) const
+void CleverURI::write(QDataStream &out, bool tag, bool saveData) const
 {
     if(tag)
     {
         out << QStringLiteral("CleverUri");
     }
+
     QByteArray data;
-    if(m_data.isEmpty())
+    if(saveData)
     {
-        loadFileFromUri(data);
+        if(m_data.isEmpty())
+        {
+            loadFileFromUri(data);
+        }
+        else
+        {
+            data = m_data;
+        }
     }
-    else
-    {
-        data = m_data;
-    }
-    out << (int)m_type << m_uri << m_name << (int)m_currentMode << data << (int)m_state;
+    out << (int)m_type << m_uri << m_name << (int)m_currentMode << m_data << (int)m_state;
 }
 
 void CleverURI::read(QDataStream &in)
@@ -350,29 +354,20 @@ QVariant CleverURI::getData(ResourcesNode::DataValue i)
 
 QDataStream& operator<<(QDataStream& out, const CleverURI& con)
 {
-    con.write(out,false);
+    con.write(out,false,false);
     return out;
 }
 
 QDataStream& operator>>(QDataStream& is,CleverURI& con)
 {
     con.read(is);
-    /*QString str;
-    is >> str;
-
-    int type;
-    is >> type;
-
-
-    con.setType((CleverURI::ContentType)type);
-    con.setUri(str);*/
     return is;
 }
 
 QDataStream& operator<<(QDataStream& out, const CleverUriList& con)
 {
     out << con.size();
-    foreach(CleverURI uri, con)
+    for(const CleverURI& uri : con)
     {
         out << uri;
     }

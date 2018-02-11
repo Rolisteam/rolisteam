@@ -117,7 +117,7 @@ public:
 
     virtual void setName(const QString &name);
 
-    void write(QDataStream& out,bool tag = true) const;
+    void write(QDataStream& out,bool tag = true, bool saveData = true) const;
     void read(QDataStream &in);
 
     /**
