@@ -366,6 +366,8 @@ NetWorkReceiver::SendType VMapFrame::processMessage(NetworkMessageReader* msg)
             type = NetWorkReceiver::AllExceptSender;
         }
         break;
+        default:
+        break;
     }
 
     return type;
