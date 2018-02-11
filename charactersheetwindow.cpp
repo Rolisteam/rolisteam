@@ -312,12 +312,15 @@ void CharacterSheetWindow::checkAlreadyShare(CharacterSheet* sheet)
         if(nullptr!=olderParent)
         {
             NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::closeCharacterSheet);
+            QStringList recipiants;
+            recipiants << olderParent->getUuid();
+            msg.setRecipientList(recipiants,NetworkMessage::OneOrMany);
             msg.string8(m_mediaId);
             msg.string8(sheet->getUuid());
             PlayersList* list = PlayersList::instance();
             if(list->hasPlayer(olderParent))
             {
-                msg.sendTo(olderParent->link());
+                msg.sendAll();
             }
         }
         m_sheetToPerson.remove(sheet);
@@ -430,14 +433,6 @@ void CharacterSheetWindow::updateFieldFrom(CharacterSheet* sheet, CharacterSheet
 {
     if(nullptr!=sheet)
     {
-        NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::updateFieldCharacterSheet);
-        msg.string8(m_mediaId);
-        msg.string8(sheet->getUuid());
-        QJsonObject object;
-        item->saveDataItem(object);
-        QJsonDocument doc;
-        doc.setObject(object);
-        msg.byteArray32(doc.toBinaryData());
         Player* person = nullptr;
         if(m_localIsGM)
         {
@@ -449,7 +444,18 @@ void CharacterSheetWindow::updateFieldFrom(CharacterSheet* sheet, CharacterSheet
         }
         if(nullptr!=person)
         {
-            msg.sendTo(person->link());
+            NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::updateFieldCharacterSheet);
+            QStringList recipiants;
+            recipiants << person->getUuid();
+            msg.setRecipientList(recipiants,NetworkMessage::OneOrMany);
+            msg.string8(m_mediaId);
+            msg.string8(sheet->getUuid());
+            QJsonObject object;
+            item->saveDataItem(object);
+            QJsonDocument doc;
+            doc.setObject(object);
+            msg.byteArray32(doc.toBinaryData());
+            msg.sendAll();
         }
     }
 }
