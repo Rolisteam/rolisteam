@@ -68,9 +68,8 @@ void NetworkLink::makeSignalConnection()
 {
     connect(m_socketTcp, SIGNAL(readyRead()),this, SLOT(receivingData()));
     connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(connectionError(QAbstractSocket::SocketError)));
-    connect(m_socketTcp, SIGNAL(disconnected()), this, SLOT(p_disconnect()));
+    connect(m_socketTcp, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
     connect(m_socketTcp,SIGNAL(stateChanged(QAbstractSocket::SocketState)),this,SLOT(socketStateChanged(QAbstractSocket::SocketState)));
-    connect(this,SIGNAL(dataToSend(char*,quint32,NetworkLink*)),this,SLOT(sendData(char*,quint32,NetworkLink*)));
 }
 
 
@@ -84,42 +83,39 @@ void NetworkLink::connectionError(QAbstractSocket::SocketError erreur)
     emit errorMessage(m_socketTcp->errorString());
 }
 
-void NetworkLink::p_disconnect()
-{
-    qWarning("Emit disconneted signal : s");
-    emit disconnected(this);
-}
 
-
-void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
+void NetworkLink::sendData(char* data, quint32 size)
 {
     if(nullptr==m_socketTcp)
     {
         emit errorMessage(tr("Socket is null"));
         return;
     }
-
-    if (but != this)
+    if(!m_socketTcp->isWritable())
     {
-        // Emission des donnees
-       #ifdef DEBUG_MODE
-        NetworkMessageHeader header;
-        memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
-        qDebug() << "send Data Categorie 1:" << MessageDispatcher::cat2String((NetworkMessageHeader*)data) << "Action" << MessageDispatcher::act2String((NetworkMessageHeader*)data);
-
-        qDebug() << "header: cat" << header.category << "act:"<< header.action << "datasize:" << header.dataSize <<  "size"<<size << (int)data[0]
-                 << "socket" << m_socketTcp;
-
-        qDebug() << "thread current" << QThread::currentThread() << "thread socket:" << m_socketTcp->thread() << "this thread" << thread();
-        #endif
-
-        int t = m_socketTcp->write(data, size);
-
-        if (t < 0)
-        {
-            emit errorMessage(tr("Tranmission error :")+m_socketTcp->errorString());
-        }
+        emit errorMessage(tr("Socket is not writable"));
+        return;
     }
+
+        // sending data
+   #ifdef DEBUG_MODE
+    NetworkMessageHeader header;
+    memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
+    qDebug() << "send Data Categorie 1:" << MessageDispatcher::cat2String((NetworkMessageHeader*)data) << "Action" << MessageDispatcher::act2String((NetworkMessageHeader*)data);
+
+    qDebug() << "header: cat" << header.category << "act:"<< header.action << "datasize:" << header.dataSize <<  "size"<<size << (int)data[0]
+             << "socket" << m_socketTcp;
+
+    qDebug() << "thread current" << QThread::currentThread() << "thread socket:" << m_socketTcp->thread() << "this thread" << thread();
+    #endif
+
+    int t = m_socketTcp->write(data, size);
+
+    if (t < 0)
+    {
+        emit errorMessage(tr("Tranmission error :")+m_socketTcp->errorString());
+    }
+
 }
 
 void NetworkLink::sendData(NetworkMessage* msg)
@@ -129,26 +125,19 @@ void NetworkLink::sendData(NetworkMessage* msg)
         emit errorMessage(tr("Socket is null"));
         return;
     }
+    if(!m_socketTcp->isWritable())
+    {
+        emit errorMessage(tr("Socket is not writable"));
+        return;
+    }
     //if (but != this)
     {
         int t = m_socketTcp->write((char*)msg->buffer(), msg->getSize());
-
-
         if (t < 0)
         {
             emit errorMessage(tr("Tranmission error :")+m_socketTcp->errorString());
         }
     }
-}
-
-void NetworkLink::sendDataSlot(char *data, quint32 size, NetworkLink *but)
-{
-    #ifdef DEBUG_MODE
-     NetworkMessageHeader header;
-     memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
-     qDebug() << "sendDataSlot header: cat" << header.category << "act:"<< header.action << "datasize:" << header.dataSize <<  "size"<<size << (int)data[0];
-     #endif
-    emit dataToSend(data,size, but);
 }
 
 void NetworkLink::receivingData()
@@ -191,10 +180,8 @@ void NetworkLink::receivingData()
         }
         else
         {
-            //QApplication::alert(m_mainWindow);
             emit readDataReceived(0,0);
 
-            // Send event
             if (ReceiveEvent::hasReceiverFor(m_header.category, m_header.action))
             {
                 ReceiveEvent * event = new ReceiveEvent(m_header, m_buffer, this);
@@ -204,14 +191,11 @@ void NetworkLink::receivingData()
             if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
             {
                 QList<NetWorkReceiver*> tmpList = ReceiveEvent::getNetWorkReceiverFor(static_cast<NetMsg::Category>(m_header.category));
-
                 for(NetWorkReceiver* tmp : tmpList)
                 {
                     tmp->processMessage(&data);
                 }
             }
-
-            //emit receivedMessage(data,this);
             switch(data.category())
             {
                 case NetMsg::PlayerCategory :
@@ -271,6 +255,10 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
     {
         emit adminAuthSuccessed();
     }
+    else if(NetMsg::MovedIntoChannel == msg->action())
+    {
+        emit moveToAnotherChannel();
+    }
     else if(NetMsg::NeedPassword == msg->action())
     {
         if(nullptr != m_connection)
@@ -281,6 +269,7 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
                 emit errorMessage(tr("Authentification Fail"));
                 emit authentificationFail();
                 emit disconnected();
+                emit disconnect(this);
                 if(isOpen())
                 {
                     disconnectAndClose();
@@ -402,13 +391,10 @@ void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
     {
         emit connected();
         QString pw = m_connection->getPassword();
-        if(!pw.isEmpty())
-        {
-            NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::ServerPassword);
-            msg.string32(pw);
-            msg.uint8(false);
-            msg.sendAll();
-        }
+        NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::ServerPassword);
+        msg.string32(pw);
+        msg.uint8(false);
+        msg.sendAll();
         //setConnectionState(CONNECTED);
     }
         break;

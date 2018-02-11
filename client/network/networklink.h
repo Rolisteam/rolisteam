@@ -84,45 +84,23 @@ public :
      * @param msg
      */
     void processSetupMessage(NetworkMessageReader* msg);
-
-
-
     ConnectionProfile *getConnection() const;
     void setConnection(ConnectionProfile *value);
 
     bool isOpen() const;
 
 public slots :
-    /**
-     * @brief sendData
-     * @param data
-     * @param size
-     * @param but
-     */
-    void sendData(char* data, quint32 size, NetworkLink* but = 0);
-
+    void sendData(char* data, quint32 size);
     void connectTo();
-
-
     void sendData(NetworkMessage *msg);
-
-    void sendDataSlot(char* data,quint32 size, NetworkLink* but = 0);
     void processAdminstrationMessage(NetworkMessageReader *msg);
 signals:
-    /**
-     * @brief disconnected
-     * @param link
-     */
-    void disconnected(NetworkLink* link);
     /**
      * @brief readDataReceived
      */
     void readDataReceived(quint64,quint64);
     void errorMessage(QString);
     void connnectionStateChanged(QAbstractSocket::SocketState);
-    void dataToSend(char* data,quint32 size, NetworkLink* but = 0);
-    void receivedMessage(NetworkMessageReader*,NetworkLink*);
-
 
     //////////////////////////
     // State signal
@@ -139,6 +117,7 @@ signals:
     void clearData();
     void adminAuthSuccessed();
     void adminAuthFailed();
+    void moveToAnotherChannel();
 
 
 protected slots:
@@ -146,8 +125,6 @@ protected slots:
 private slots :
     void receivingData();
     void connectionError(QAbstractSocket::SocketError);
-    void p_disconnect();
-
 private :
     /**
      * @brief makeSignalConnection
