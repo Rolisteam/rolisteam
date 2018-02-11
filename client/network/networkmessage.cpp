@@ -24,7 +24,7 @@
 
 #ifndef UNIT_TEST
 #include "network/networklink.h"
-#include "network/networkmanager.h"
+#include "network/clientmanager.h"
 #endif
 
 
@@ -40,29 +40,15 @@ NetworkMessage::~NetworkMessage()
 
 }
 
-void NetworkMessage::sendTo(NetworkLink * link)
-{
-    if (link == nullptr)
-    {
-        sendAll();
-        return;
-    }
-
-    NetworkMessageHeader * header = buffer();
-    #ifndef UNIT_TEST
-    link->sendData((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
-    #endif
-}
-
-void NetworkMessage::sendAll(NetworkLink * butLink)
+void NetworkMessage::sendAll()
 {
     NetworkMessageHeader* header = buffer();
 #ifndef UNIT_TEST
     m_linkToServer = ClientManager::getLinkToServer();
     if(nullptr != m_linkToServer)
     {
-        m_linkToServer->sendData(reinterpret_cast<char*>(header), header->dataSize + sizeof(NetworkMessageHeader), butLink);
-        //m_linkToServer->sendData(this);
+        //m_linkToServer->sendData(reinterpret_cast<char*>(header), header->dataSize + sizeof(NetworkMessageHeader));
+        m_linkToServer->sendData(this);
     }
 #endif
 }

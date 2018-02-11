@@ -75,6 +75,7 @@ enum Action {
     AdminPassword,
     AdminAuthSucessed,
     AdminAuthFail,
+    MovedIntoChannel,
 
     // PlayerCategory
     PlayerConnectionAction = 0,
@@ -210,12 +211,12 @@ public:
      * @brief sendTo
      * @param link
      */
-	void sendTo(NetworkLink * link);
+    //void sendTo(NetworkLink * link);
     /**
      * @brief sendAll
      * @param butLink
      */
-    void sendAll(NetworkLink * butLink = nullptr);
+    void sendAll();
     /**
      * @brief category
      * @return
