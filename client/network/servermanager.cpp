@@ -267,7 +267,7 @@ void ServerManager::kickClient(QString id)
 
 void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan, TcpClient* tcp)
 {
-    bool idAdmin = tcp->isAdmin();
+    bool isAdmin = tcp->isAdmin();
     switch (msg->action())
     {
         case NetMsg::Goodbye:
@@ -275,7 +275,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
         break;
         case NetMsg::Kicked:
         {
-            if(idAdmin)
+            if(isAdmin)
             {
                 QString id = msg->string8();
                 kickClient(id);
@@ -298,7 +298,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
         break;
         case NetMsg::AddChannel:
         {
-            if(idAdmin)
+            if(isAdmin)
             {
                 QString idparent = msg->string8();
                 TreeItem* parentItem = m_model->getItemById(idparent);
@@ -312,7 +312,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
         break;
         case NetMsg::JoinChannel:
         {
-            if(idAdmin)
+            if(isAdmin)
             {
                 QString id = msg->string8();
                 QString idClient = msg->string8();
@@ -324,13 +324,14 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
                 {
                     chan->removeClient(client);
                     dest->addChild(client);
+                    sendEventToClient(tcp,TcpClient::ServerAuthDataReceivedEvent);
                 }
             }
         }
         break;
         case NetMsg::SetChannelList:
         {
-        if(idAdmin)
+        if(isAdmin)
         {
             QByteArray data = msg->byteArray32();
             QJsonDocument doc = QJsonDocument::fromJson(data);
@@ -344,7 +345,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
             break;
     case NetMsg::DeleteChannel:
     {
-        if(idAdmin)
+        if(isAdmin)
         {
             QString id = msg->string8();
             m_model->removeChild(id);
