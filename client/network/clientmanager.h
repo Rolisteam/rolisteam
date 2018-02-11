@@ -119,29 +119,28 @@ signals :
 protected:
     void initializeLink();
 private slots :
-    void endingNetworkLink(NetworkLink * link);
+    void endingNetworkLink();
     void startConnectionToServer();
 
 private:
     static NetworkLink* m_networkLinkToServer;
-    QTimer* m_reconnect;
-    Player* m_localPlayer;
+    QTimer* m_reconnect= nullptr;
+    Player* m_localPlayer= nullptr;
     bool m_isAdmin;
 
     bool m_disconnectAsked;
-    PreferencesManager* m_preferences;
-    PlayersList* m_playersList;
+    PreferencesManager* m_preferences= nullptr;
+    PlayersList* m_playersList= nullptr;
     ConnectionState m_connectionState;
-    bool m_isClient;
-    ConnectionProfile* m_connectionProfile;
+    ConnectionProfile* m_connectionProfile = nullptr;
     QList<QThread*> m_threadList;
-    heartBeatSender* m_hbSender;
+    heartBeatSender* m_hbSender= nullptr;
 
-    QState* m_connecting;
-    QState* m_connected;
-    QState* m_authentified;
-    QState* m_error;
-    QState* m_disconnected;
+    QState* m_connecting= nullptr;
+    QState* m_connected= nullptr;
+    QState* m_authentified= nullptr;
+    QState* m_error= nullptr;
+    QState* m_disconnected= nullptr;
     QStateMachine m_states;
 };
 

@@ -22,7 +22,7 @@
 *************************************************************************/
 
 
-#include "network/networkmanager.h"
+#include "network/clientmanager.h"
 
 #include <QTcpSocket>
 #include <QDebug>
@@ -71,13 +71,6 @@ ClientManager::ClientManager(ConnectionProfile* connection)
     {
         setConnectionState(AUTHENTIFIED);
         emit isAuthentified();
-        PlayersList*  playerList = PlayersList::instance();
-        if(!m_connectionProfile->isGM())
-        {
-            playerList->addLocalCharacter(m_connectionProfile->getCharacter());
-        }
-        playerList->sendOffLocalPlayerInformations();
-        playerList->sendOffFeatures(m_connectionProfile->getPlayer());
     });
 
     m_states.addState(m_connecting);
@@ -85,28 +78,29 @@ ClientManager::ClientManager(ConnectionProfile* connection)
     m_states.addState(m_authentified);
     m_states.addState(m_disconnected);
     m_states.addState(m_error);
-
     m_states.setInitialState(m_disconnected);
-
     connect(&m_states,SIGNAL(started()),this,SIGNAL(isReady()));
-
     initializeLink();
-
 }
 void ClientManager::initializeLink()
 {
     m_networkLinkToServer = new NetworkLink(m_connectionProfile);
+
     m_disconnected->addTransition(m_networkLinkToServer,SIGNAL(connecting()),m_connecting);
     m_connecting->addTransition(m_networkLinkToServer,SIGNAL(connected()),m_connected);
     m_connected->addTransition(m_networkLinkToServer,SIGNAL(authentificationSuccessed()),m_authentified);
+
     m_authentified->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
     m_connected->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
     m_connecting->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
+
+    m_connecting->addTransition(m_networkLinkToServer,SIGNAL(authentificationFail()),m_disconnected);
+    m_connected->addTransition(m_networkLinkToServer,SIGNAL(authentificationFail()),m_disconnected);
+
     m_error->addTransition(m_networkLinkToServer,SIGNAL(connecting()),m_connecting);
     m_connecting->addTransition(m_networkLinkToServer,SIGNAL(error()),m_error);
 
-    connect(this, SIGNAL(sendData(char *, quint32, NetworkLink *)),m_networkLinkToServer, SLOT(sendData(char *, quint32, NetworkLink *)));
-    connect(m_networkLinkToServer, SIGNAL(disconnected(NetworkLink *)),this, SLOT(endingNetworkLink(NetworkLink *)));
+    connect(m_networkLinkToServer, SIGNAL(disconnected()),this, SLOT(endingNetworkLink()));
     connect(m_networkLinkToServer,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
     connect(m_networkLinkToServer,SIGNAL(errorMessage(QString)),this,SIGNAL(errorOccur(QString)));
     connect(m_networkLinkToServer,SIGNAL(clearData()),this,SIGNAL(clearData()));
@@ -143,36 +137,20 @@ void ClientManager::startConnectionToServer()
     m_networkLinkToServer->connectTo();
 }
 
-void ClientManager::sendMessage(char* data, quint32 size, NetworkLink* but)
+void ClientManager::endingNetworkLink()
 {
-    NetworkMessageHeader header;
-    memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
-
-    //client
-    if(nullptr!=m_networkLinkToServer)
-    {
-        m_networkLinkToServer->sendDataSlot(data,size,but);
-    }
-}
-
-void ClientManager::endingNetworkLink(NetworkLink * link)
-{
-
     if(!m_disconnectAsked)
     {
-        link->deleteLater();
-        emit linkDeleted(link);
+        m_networkLinkToServer->deleteLater();
+        emit linkDeleted(m_networkLinkToServer);
     }
 
     if (!m_connectionProfile->isServer())
     {
-        if(link==m_networkLinkToServer)
-        {
-            setConnectionState(DISCONNECTED);
-            emit notifyUser(tr("Connection with the Remote Server has been lost."));
-            m_networkLinkToServer = nullptr;
-            m_playersList->cleanListButLocal();
-        }
+        setConnectionState(DISCONNECTED);
+        emit notifyUser(tr("Connection with the Remote Server has been lost."));
+        m_networkLinkToServer = nullptr;
+        m_playersList->cleanListButLocal();
     }
 
 }
