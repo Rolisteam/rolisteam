@@ -281,12 +281,10 @@ Qt::ItemFlags ChannelModel::flags(const QModelIndex &index) const
 
     if(isAdmin() && item->isLeaf())
     {
-    //    qDebug() << "full permission leaf";
         return Qt::ItemIsEnabled  | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled ;
     }
     else if(isAdmin() && !item->isLeaf())
     {
-     //   qDebug() << "full permission channel";
         return Qt::ItemIsEnabled  | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDropEnabled ;
     }
     else
@@ -324,7 +322,7 @@ QMimeData* ChannelModel::mimeData(const QModelIndexList &indexes) const
 {
     ClientMimeData* mimeData = new ClientMimeData();
 
-    foreach(const QModelIndex & index, indexes)
+    for(const QModelIndex & index: indexes)
     {
         if((index.isValid())&&(index.column()==0))
         {
@@ -335,7 +333,7 @@ QMimeData* ChannelModel::mimeData(const QModelIndexList &indexes) const
     return mimeData;
 }
 
-bool ChannelModel::moveMediaItem(QList<TcpClient*> items,const QModelIndex& parentToBe,int row,QList<QModelIndex>& formerPosition)
+bool ChannelModel::moveMediaItem(QList<TcpClient*> items,const QModelIndex& parentToBe,int row, QList<QModelIndex>& formerPosition)
 {
 
     if(isAdmin())
@@ -352,100 +350,12 @@ bool ChannelModel::moveMediaItem(QList<TcpClient*> items,const QModelIndex& pare
                     msg.string8(id);
                     msg.string8(client->getId());
                     msg.sendAll();
+                    return true;
                 }
             }
         }
     }
-
- /*   if(items.isEmpty()||formerPosition.isEmpty())
-    {
-        return false;
-    }
-    TreeItem* parentItem = static_cast<TreeItem*>(parentToBe.internalPointer());
-
-    int orignRow = row;
-
-
-    QList<int> listRow;
-
-
-    TcpClient* item = items.at(0);
-    TreeItem* parent =item->getParentItem();
-    QModelIndex formerPositionIndex = formerPosition.at(0);
-    QModelIndex sourceParent = formerPositionIndex.parent();
-    QModelIndex destinationParent = parentToBe;
-
-    int sourceFirst = parent->indexOf(item);
-    int sourceLast = parent->indexOf(item)+items.size()-1;
-
-    int destinationRow = orignRow<0?parentItem->childCount():orignRow;
-    if((sourceParent == destinationParent)&&((destinationRow == parentItem->childCount())||(destinationRow>sourceFirst)))
-    {
-        destinationRow-=items.size()-1;
-    }
-    if((sourceParent == destinationParent)&&( sourceFirst == destinationRow))
-    {
-        destinationRow-=items.size();
-        return false;
-    }
-
-    qDebug() << sourceParent <<sourceFirst <<sourceLast << destinationParent << destinationRow;
-
-    if(!beginMoveRows(sourceParent,sourceFirst,sourceLast,destinationParent,destinationRow))
-        return false;
-
-
-
-    for(int i = items.size()-1;i>=0;--i)
-    {
-        while(listRow.contains(row))
-        {
-            ++row;
-        }
-
-        TcpClient* item = items.at(i);
-        TreeItem* parent =item->getParentItem();
-        QModelIndex formerPositionIndex = formerPosition.at(i);
-
-        if(nullptr!=parent)
-        {
-            parent->removeChild(item);
-            if(orignRow == -1 && m_root.contains(parentItem) )
-            {
-                orignRow = parentItem->childCount();
-                row = orignRow;
-            }
-            else if(formerPositionIndex.row()<orignRow && parentToBe == formerPositionIndex.parent())
-            {
-                orignRow -=1;
-                row = orignRow;
-            }
-
-           // int oldModRow = -1; ########parent "Channel 7" 0 "MJ"
-            int newModRow = -1;
-
-            if(nullptr != parentItem )
-            {
-                if(m_root.contains(parentItem))
-                {
-                    newModRow = m_root.indexOf(parentItem);
-                }
-                else
-                {
-                    newModRow = parentItem->rowInParent();
-                }
-            }
-            qDebug() << "########parent" << parentItem->getName() << orignRow << item->getName();
-            parentItem->insertChildAt(orignRow,item);//row
-            //---
-
-
-
-        }
-    }
-
-    endMoveRows();*/
-    return true;
+    return false;
 }
 bool ChannelModel::dropMimeData(const QMimeData *data,
                                     Qt::DropAction action, int row, int column, const QModelIndex &parent)
@@ -465,7 +375,6 @@ bool ChannelModel::dropMimeData(const QMimeData *data,
         {
             QList<TcpClient*> clientList = clientData->getList().values();
             QList<QModelIndex> indexList = clientData->getList().keys();
-            //foreach(CleverURI* media,mediaList)
             {
                 if (action == Qt::MoveAction)
                 {
@@ -474,23 +383,6 @@ bool ChannelModel::dropMimeData(const QMimeData *data,
             }
         }
     }
-/*    else if((data->hasUrls())&&(!added))
-    {
-        QList<QUrl> list = data->urls();
-        foreach(QUrl url, list)
-        {
-            if(url.isLocalFile())
-            {
-                QFileInfo fileInfo(url.toLocalFile());
-                if(fileInfo.isFile())
-                {
-
-                }
-                //addChildMediaTo(medium,parent);
-            }
-            //else if(url.isLocalFile())
-        }
-    }*/
     return added;
 }
 bool ChannelModel::addConnectionToDefaultChannel(TcpClient* client)
@@ -520,7 +412,6 @@ bool ChannelModel::addConnectionToChannel(QString chanId, TcpClient* client)
     bool found=false;
     for(auto item : m_root)
     {
-        //TreeItem* item = m_root->getChildAt(i);
         if(nullptr != item)
         {
             found = item->addChildInto(chanId,client);
@@ -546,15 +437,6 @@ void ChannelModel::readDataJson(const QJsonObject& obj)
         m_root.append(tmp);
     }
     endResetModel();
-
-
-    ///////////
-   /*qDebug() << "m_root:" << m_root.size();
-
-    for(auto item : m_root)
-    {
-        qDebug() << "child:" << item->childCount() << item->getName();
-    }*/
 }
 
 void ChannelModel::writeDataJson(QJsonObject& obj)
@@ -562,7 +444,6 @@ void ChannelModel::writeDataJson(QJsonObject& obj)
     QJsonArray array;
     for(auto item : m_root) //int i = 0; i< m_root->childCount(); ++i)
     {
-        //auto item = m_root->getChildAt(i);
         if(nullptr != item)
         {
             QJsonObject jsonObj;
@@ -576,11 +457,8 @@ void ChannelModel::writeDataJson(QJsonObject& obj)
 void ChannelModel::readSettings()
 {
     QSettings settings("Rolisteam","roliserver");
-
     QJsonDocument doc= QJsonDocument::fromVariant(settings.value("channeldata",""));
-
     QJsonObject obj = doc.object();
-
     readDataJson(obj);
 }
 
@@ -588,17 +466,11 @@ void ChannelModel::readSettings()
 void ChannelModel::writeSettings()
 {
     QSettings settings("Rolisteam","roliserver");
-
     QJsonDocument doc;
-
     QJsonObject obj;
-
     writeDataJson(obj);
-
     doc.setObject(obj);
     settings.setValue("channeldata",doc);
-
-
 }
 
 void ChannelModel::kick(QString id)
@@ -643,8 +515,6 @@ TreeItem* ChannelModel::getItemById(QString id)
     }
     return nullptr;
 }
-
-
 
 void ChannelModel::removeChild(QString id)
 {
