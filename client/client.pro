@@ -311,10 +311,10 @@ FORMS += \
 
 # Installs
 unix:!macx{
-QMAKE_CXXFLAGS = "-std=c++11 -fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror -Wall -Wextra -Wnon-virtual-dtor"
+QMAKE_CXXFLAGS += "-Wall -Werror=return-type"
 }
 
-
+CONFIG += warn_on
 
 
 ICON = ../resources/logo/rolisteam.icns
