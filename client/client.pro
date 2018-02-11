@@ -133,7 +133,6 @@ HEADERS += \
         audio/musicmodel.h \
         audio/playerwidget.h \
         network/networkreceiver.h \
-        network/networkmanager.h \
         improvedworkspace.h \
         network/networklink.h \
         map/map.h \
@@ -193,7 +192,8 @@ HEADERS += \
         widgets/gmtoolbox/gamemastertool.h \
     pdfviewer/pdfviewer.h \
     widgets/overlay.h \
-    data/cleverurimimedata.h
+    data/cleverurimimedata.h \
+    network/clientmanager.h
 
 
    #     persondialog.cpp \
@@ -230,7 +230,6 @@ SOURCES += \
         audio/audioPlayer.cpp \
         audio/musicmodel.cpp \
         audio/playerwidget.cpp \
-        network/networkmanager.cpp \
         improvedworkspace.cpp \
         network/networklink.cpp \
         map/map.cpp \
@@ -290,7 +289,8 @@ SOURCES += \
         widgets/gmtoolbox/gamemastertool.cpp \
     pdfviewer/pdfviewer.cpp \
     widgets/overlay.cpp \
-    data/cleverurimimedata.cpp
+    data/cleverurimimedata.cpp \
+    network/clientmanager.cpp
 
 
 FORMS += \
