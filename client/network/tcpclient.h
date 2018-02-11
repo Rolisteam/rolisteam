@@ -29,7 +29,7 @@ public:
                           ServerAuthFailEvent, ServerAuthSuccessEvent,
                           AdminAuthFailEvent,AdminAuthSuccessEvent,
                           ChannelAuthSuccessEvent,ChannelAuthFailEvent,ChannelAuthDataReceivedEvent,
-                          MoveChanEvent};
+                          ChannelChanged, MoveChanEvent};
     Q_ENUM(ConnectionEvent)
     /**
      * @brief TcpClient
@@ -148,6 +148,7 @@ public slots:
 protected:
     bool isCurrentState(QState *state);
     void readAdministrationMessages(NetworkMessageReader& msg);
+    void sendOffChannelChanged();
 private:
     QPointer<QTcpSocket> m_socket;
     NetworkMessageHeader m_header;

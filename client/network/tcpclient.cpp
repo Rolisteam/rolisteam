@@ -386,10 +386,18 @@ void TcpClient::sendEvent(TcpClient::ConnectionEvent event)
     case MoveChanEvent:
         emit moveChannel();
         break;
+    case ChannelChanged:
+        sendOffChannelChanged();
+        break;
     default:
         qDebug() << "sendEvent Unkown event";
         break;
     }
+}
+void TcpClient::sendOffChannelChanged()
+{
+    NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::MovedIntoChannel);
+    sendMessage(&msg,false);
 }
 void TcpClient::readAdministrationMessages(NetworkMessageReader& msg)
 {
