@@ -352,7 +352,8 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
         }
         else
         {
-            if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
+            /// @warning deadcode
+            /*if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
             {
                 QPainter painter;
         
@@ -369,7 +370,7 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
                 painter.setRenderHint(QPainter::Antialiasing);
                 
 				paintMap(painter);
-            }
+            }*/
 
 			if(((!m_localIsPlayer))||
               (((m_currentMode == Map::PC_ALL))))
@@ -377,8 +378,8 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
                  m_mousePoint = pos;
                 m_newZone = zoneToRefresh();
             }
-
-            if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
+            /// @warning deadcode
+           /* if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
             {
                 if (ColorSelector::getSelectedColor().type == Erase)
                 {
@@ -390,13 +391,12 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
                 }
 
 				addAlphaLayer(m_backgroundImage, m_alphaLayer, m_alphaBg, m_newZone);
-                update(/*zoneOrigine.unite(zoneNouvelle)*/);
+                update();//zoneOrigine.unite(zoneNouvelle)
                 showHideNPC();
-            }
+            }*/
 			if((!m_localIsPlayer)||
               (((m_currentMode == Map::PC_ALL))))
             {
-
                 sendTrace();
             }
 
