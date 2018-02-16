@@ -109,6 +109,8 @@ QMimeData* SessionItemModel::mimeData(const QModelIndexList &indexes) const
 
 void SessionItemModel::cleverURIHasChanged(CleverURI *uri,CleverURI::DataValue field)
 {
+    /// @warning field not used
+    Q_UNUSED(field);
     updateNode(uri);
 }
 
@@ -278,18 +280,6 @@ bool SessionItemModel::moveMediaItem(QList<ResourcesNode*> items,const QModelInd
             {
                 orignRow -=1;
                 row = orignRow;
-            }
-
-            int oldModRow = -1;
-            int newModRow = -1;
-            if( parent != m_rootItem )
-            {
-                oldModRow = parent->rowInParent();
-            }
-
-            if( parentItem != m_rootItem )
-            {
-                newModRow = parentItem->rowInParent();
             }
 
             parentItem->insertChildAt(orignRow,item);//row

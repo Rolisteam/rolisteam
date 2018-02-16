@@ -973,6 +973,8 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
         case VisualItem::HIGHLIGHTER:
             item=new HighlighterItem();
             break;
+        default:
+            break;
         }
         if(nullptr!=item)
         {

@@ -162,11 +162,14 @@ ColorDelegate::ColorDelegate( QObject* parent )
 
 QWidget* ColorDelegate::createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const
 {
+    Q_UNUSED(option)
+    Q_UNUSED(index)
     return new ColorListEditor(parent);
 }
 
 void ColorDelegate::setEditorData(QWidget * editor, const QModelIndex & index) const
 {
+    Q_UNUSED(index)
     ColorListEditor* cb = qobject_cast<ColorListEditor*>(editor);
     QColor checked = index.data().value<QColor>();
     cb->setColor(checked);

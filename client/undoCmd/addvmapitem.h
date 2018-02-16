@@ -61,9 +61,7 @@ protected:
     bool isEditable();
     void initItem();
 private:
-    VMap* m_vmap;
-    //QMap<QString,VisualItem*>* m_itemMap;
-    //QStringList& m_keyList;
+    VMap* m_vmap=nullptr;
     QPointF m_pos;
     QColor m_color;
     int m_penSize;

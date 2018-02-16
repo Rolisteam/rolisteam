@@ -137,18 +137,24 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
         m_currentItem = highlighter;
     }
         break;
+    default:
+        break;
     }
 
-    QObject::connect(m_currentItem,SIGNAL(itemGeometryChanged(VisualItem*)),m_vmap,SLOT(sendItemToAll(VisualItem*)));
-    QObject::connect(m_currentItem,SIGNAL(itemRemoved(QString)),m_vmap,SLOT(removeItemFromScene(QString)));
-    QObject::connect(m_currentItem,SIGNAL(duplicateItem(VisualItem*)),m_vmap,SLOT(duplicateItem(VisualItem*)));
-    QObject::connect(m_currentItem,SIGNAL(itemLayerChanged(VisualItem*)),m_vmap,SLOT(checkItemLayer(VisualItem*)));
-    QObject::connect(m_currentItem,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),m_vmap,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
-    QObject::connect(m_currentItem,SIGNAL(changeStackPosition(VisualItem*,VisualItem::StackOrder)),m_vmap,SLOT(changeStackOrder(VisualItem*,VisualItem::StackOrder)));
+    if(nullptr!=m_currentItem)
+    {
 
-    initItem();
+        QObject::connect(m_currentItem,SIGNAL(itemGeometryChanged(VisualItem*)),m_vmap,SLOT(sendItemToAll(VisualItem*)));
+        QObject::connect(m_currentItem,SIGNAL(itemRemoved(QString)),m_vmap,SLOT(removeItemFromScene(QString)));
+        QObject::connect(m_currentItem,SIGNAL(duplicateItem(VisualItem*)),m_vmap,SLOT(duplicateItem(VisualItem*)));
+        QObject::connect(m_currentItem,SIGNAL(itemLayerChanged(VisualItem*)),m_vmap,SLOT(checkItemLayer(VisualItem*)));
+        QObject::connect(m_currentItem,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),m_vmap,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
+        QObject::connect(m_currentItem,SIGNAL(changeStackPosition(VisualItem*,VisualItem::StackOrder)),m_vmap,SLOT(changeStackOrder(VisualItem*,VisualItem::StackOrder)));
 
-    setText(QObject::tr("Add vmap item"));
+        initItem();
+
+        setText(QObject::tr("Add vmap item"));
+    }
 }
 AddVmapItemCommand::AddVmapItemCommand(VisualItem* item,VMap* map,QUndoCommand *parent)
     : QUndoCommand(parent),m_currentItem(item),m_vmap(map)

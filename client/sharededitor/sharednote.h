@@ -46,7 +46,7 @@ public:
     ~SharedNote();
 
     bool save();
-    bool maybeSave(int index);
+    bool maybeSave();
 
     bool saveFileAsText(QTextStream& out);
     bool loadFileAsText(QTextStream& out);
@@ -106,8 +106,8 @@ private slots:
     void setUndoability(bool b);
     void setRedoability(bool b);
 
-    void documentChanged(int index);
-    void tabCloseClicked(int index);
+    void documentChanged();
+    void tabCloseClicked();
 
     void findNextTriggered(QString str, Qt::CaseSensitivity, bool wrapAround, Enu::FindMode mode);
     void findPrevTriggered(QString str, Qt::CaseSensitivity, bool wrapAround, Enu::FindMode mode);

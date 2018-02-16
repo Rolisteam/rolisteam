@@ -72,7 +72,7 @@ int ParticipantsModel::rowCount(const QModelIndex &parent) const
     }
 }
 
-int ParticipantsModel::columnCount(const QModelIndex &parent) const
+int ParticipantsModel::columnCount(const QModelIndex &) const
 {
     return 1;
 }

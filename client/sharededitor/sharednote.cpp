@@ -115,9 +115,10 @@ void SharedNote::writeSettings()
 }
 
 // Protected closeEvent
-void SharedNote::closeEvent(QCloseEvent *event)
+void SharedNote::closeEvent(QCloseEvent* )
 {
-    bool okToQuit = true;
+    //bool okToQuit = true;
+    /// @warning do something
 }
 void SharedNote::populateDocumentForUser(QString id)
 {
@@ -164,11 +165,10 @@ bool SharedNote::save()
     return true;
 }
 
-bool SharedNote::maybeSave(int index)
+bool SharedNote::maybeSave()
 {
     if (m_document->isModified())
     {
-      //  ui->tabWidget->setCurrentIndex(index);
         QMessageBox::StandardButton ret;
         ret = QMessageBox::warning(this, "Cahoots",
                                    "The document has been modified.\n"
@@ -409,7 +409,7 @@ void SharedNote::setRedoability(bool b)
     }
 }
 
-void SharedNote::documentChanged(int index)
+void SharedNote::documentChanged()
 {
     Document *document = m_document;
     ui->actionEdit_Undo->setEnabled(document->isUndoable());
@@ -421,7 +421,7 @@ void SharedNote::documentChanged(int index)
     ui->actionTools_Announce_Document->setDisabled(document->docHasCollaborated());
 }
 
-void SharedNote::tabCloseClicked(int index)
+void SharedNote::tabCloseClicked()
 {
  /*   if (maybeSave(index)) {
         if (ui->tabWidget->count() == 1) {
