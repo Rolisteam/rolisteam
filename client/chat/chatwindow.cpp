@@ -211,7 +211,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
             QString value;
             QString cmdLine;
             QString list;
-            bool onlyValue = getMessageResult(value, cmdLine,list);
+            bool hasDiceList = getMessageResult(value, cmdLine,list);
             color = m_localPerson->getColor();
 
             int maxSizeForCuttingDiceCmd = m_preferences->value("maxSizeForCuttingDiceCmd",100).toInt();
@@ -220,7 +220,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
 
             cmdMustBeHidden &= m_preferences->value("hideLongCommand",false).toBool();
 
-            if(!onlyValue)
+            if(hasDiceList)
             {
                 QString diceOutput;
                 if(!list.isEmpty())
@@ -263,7 +263,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
             else
             {
                 messageTitle="";
-                if(!showResult)
+                if(showResult)
                 {
                     showMessage(messageTitle, color,value,m_diceParser->getComment(),NetMsg::DiceMessageAction);
                 }
