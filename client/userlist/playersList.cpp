@@ -447,7 +447,7 @@ void PlayersList::sendOffLocalPlayerInformations()
 }
 void PlayersList::sendOffFeatures(Player* player)
 {
-    //setLocalFeatures(*player);
+    setLocalFeatures(*player);
     SendFeaturesIterator i(*player);
     while (i.hasNext())
     {

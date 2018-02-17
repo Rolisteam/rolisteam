@@ -64,25 +64,6 @@ public:
 	 */
     virtual ~ClientManager();
     /**
-     * @brief emettreDonnees
-     * @param donnees
-     * @param taille
-     * @param sauf
-     */
-    void sendMessage(char *donnees, quint32 taille, NetworkLink *sauf);
-    /**
-     * @brief isServer
-     * @return
-     */
-    bool isServer() const;
-    /**
-     * @brief getLocalPlayer
-     * @return
-     */
-    Player* getLocalPlayer();
-
-
-    /**
      * @brief isConnected
      * @return
      */
@@ -97,6 +78,9 @@ public slots:
      * @return true everything goes fine, otherwise false.
      */
     bool startConnection();
+
+    void sendOffConnectionInfo();
+    void reset();
 signals :
     void sendData(char* data, quint32 size, NetworkLink* but);
 
@@ -114,6 +98,7 @@ signals :
     void isConnectedSig();
     void isConnecting();
     void isDisconnected();
+    void connectedToServer();
     void clearData();
 
 protected:
@@ -125,7 +110,6 @@ private slots :
 private:
     static NetworkLink* m_networkLinkToServer;
     QTimer* m_reconnect= nullptr;
-    Player* m_localPlayer= nullptr;
     bool m_isAdmin;
 
     bool m_disconnectAsked;

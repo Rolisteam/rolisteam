@@ -5,7 +5,7 @@
 #include <QHostAddress>
 
 TcpClient::TcpClient(QTcpSocket* socket,QObject *parent)
-    : TreeItem(parent),m_socket(socket),m_player(new Player()),m_isAdmin(false)
+    : TreeItem(parent),m_socket(socket),m_isAdmin(false)
 {
     m_remainingData=0;
     m_headerRead = 0;
@@ -88,18 +88,7 @@ void TcpClient::setSocket(QTcpSocket* socket)
                 m_currentState = m_wantToGoToChannel;
             }
         });
-       /* connect(m_inPlace,&QState::activeChanged,[=](bool b){
-            if(b)
-            {
-                m_currentState = m_inPlace;
-            }
-        });
-        connect(m_waitingAuthChannel,&QState::activeChanged,[=](bool b){
-            if(b)
-            {
-                m_currentState = m_waitingAuthChannel;
-            }
-        });*/
+
         connect(m_disconnected,&QState::activeChanged,this,[=](bool b){
             if(b)
             {
@@ -107,12 +96,7 @@ void TcpClient::setSocket(QTcpSocket* socket)
                 closeConnection();
             }
         });
-       /* connect(m_stayInPlace,&QState::activeChanged,[=](bool b){
-            if(b)
-            {
-                m_currentState = m_stayInPlace;
-            }
-        });*/
+
 
 
 
@@ -187,6 +171,12 @@ QString TcpClient::getPlayerId()
 
 void TcpClient::setInfoPlayer(NetworkMessageReader* msg)
 {
+    if(nullptr == msg)
+        return;
+
+    if(nullptr == m_player)
+        m_player = new Player();
+
     if(nullptr != m_player)
     {
         m_player->readFromMsg(*msg);
@@ -348,13 +338,14 @@ void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 }
 void TcpClient::connectionError(QAbstractSocket::SocketError error)
 {
-    if(m_socket)
-        qWarning() << m_socket->errorString();
+    if(nullptr!=m_socket)
+        qWarning() << m_socket->errorString() << error;
 }
 
 void TcpClient::sendEvent(TcpClient::ConnectionEvent event)
-{//{HasCheckEvent,NoCheckEvent,CheckedEvent,CheckFailedEvent,ForbiddenEvent,DataReceivedEvent,AuthFailEvent,AuthSuccessEvent,NoRestrictionEvent,HasRestrictionEvent,ChannelAuthSuccessEvent,ChannelAuthFailEvent};
-    qDebug() << "server connection to "<<m_player->getName() << "recieve event:" <<event;
+{
+    if(nullptr != m_player)
+        qDebug() << "server connection to "<<m_player->getName() << "recieve event:" <<event;
     switch (event)
     {
     case CheckSuccessEvent:
@@ -413,9 +404,10 @@ void TcpClient::readAdministrationMessages(NetworkMessageReader& msg)
     qDebug() << "admin message - action: "<< msg.action() <<"category:" <<msg.category();
     switch (msg.action())
     {
-        case NetMsg::ServerPassword:
+        case NetMsg::ConnectionInfo:
             m_serverPassword = msg.string32();
             qDebug() <<"server password" <<m_serverPassword;
+            setInfoPlayer(&msg);
             emit checkServerPassword(this);
         break;
         case NetMsg::ChannelPassword:
@@ -447,7 +439,7 @@ QTcpSocket* TcpClient::getSocket()
 {
     return m_socket;
 }
-int TcpClient::indexOf(TreeItem *child)
+int TcpClient::indexOf(TreeItem*)
 {
     return -1;
 }

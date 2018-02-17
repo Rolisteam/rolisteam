@@ -34,6 +34,8 @@ public:
 
     void setLocalPlayerId(const QString& id);
 
+    void cleanUp();
+
 public slots:
     void showCustomMenu(QPoint pos);
     void sendOffLoginAdmin(QString str = QString());

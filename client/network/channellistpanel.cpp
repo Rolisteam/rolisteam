@@ -413,3 +413,8 @@ void ChannelListPanel::setCurrentGRoup(const GROUP &currentGRoup)
 {
     m_currentGroup = currentGRoup;
 }
+void ChannelListPanel::cleanUp()
+{
+    if(nullptr != m_model)
+        m_model->cleanUp();
+}

@@ -544,3 +544,10 @@ void ChannelModel::removeChild(QString id)
         }
     }
 }
+void ChannelModel::cleanUp()
+{
+    beginResetModel();
+    qDeleteAll(m_root);
+    m_root.clear();
+    endResetModel();
+}

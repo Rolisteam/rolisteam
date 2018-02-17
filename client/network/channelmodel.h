@@ -74,6 +74,9 @@ public:
     Qt::DropActions supportedDropActions() const;
     QMimeData *mimeData(const QModelIndexList &indexes) const;
     bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+
+
+    void cleanUp();
 protected:
     bool moveMediaItem(QList<TcpClient *> items, const QModelIndex &parentToBe, int row, QList<QModelIndex> &formerPosition);
 private:

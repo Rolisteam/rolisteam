@@ -388,3 +388,8 @@ void SelectConnectionProfileDialog::errorOccurs(QString str)
     ui->m_errorNotification->setText(str);
     ui->m_progressBar->setVisible(false);
 }
+
+void SelectConnectionProfileDialog::disconnection()
+{
+    ui->m_progressBar->setVisible(false);
+}

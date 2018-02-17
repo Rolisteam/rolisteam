@@ -14,7 +14,6 @@
 
 #include "data/player.h"
 
-class ClientManager;
 class Channel;
 /**
  * @brief The TcpClient class reprents connection state with client in server side.
@@ -112,6 +111,8 @@ signals:
 
     void moveChannel();
 
+    void playerStatusChanged();
+
 
     //Signal to check
     void checkServerAcceptClient(TcpClient* client);
@@ -175,7 +176,7 @@ private:
 
     bool m_receivingData = false;
     quint32 m_dataReceivedTotal=0;
-    Player* m_player;
+    Player* m_player= nullptr;
     qintptr m_socketHandleId;
     QString m_wantedChannel;
 

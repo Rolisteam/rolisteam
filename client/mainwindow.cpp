@@ -194,7 +194,9 @@ void  MainWindow::closeConnection()
     if(nullptr!=m_clientManager)
     {
         m_serverThread.quit();
+        cleanUpData();
         m_clientManager->disconnectAndClose();
+        m_chatListWidget->cleanChatList();
         m_ui->m_connectionAction->setEnabled(true);
         m_ui->m_disconnectAction->setEnabled(false);
     }
@@ -1512,6 +1514,10 @@ void MainWindow::initializedClientManager()
         //connect(m_clientManager,&ClientManager::moveToAnotherChannel,this,&MainWindow::);
 
     }
+    else
+    {
+        m_clientManager->reset();
+    }
     if((nullptr!=m_currentConnectionProfile)&&(nullptr!=m_clientManager))
     {
         if(m_currentConnectionProfile->isServer())
@@ -1529,6 +1535,13 @@ void MainWindow::cleanUpData()
 {
     m_playerList->cleanListButLocal();
     closeAllMediaContainer();
+    ChannelListPanel* roomPanel = qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
+    if(nullptr != roomPanel)
+    {
+        roomPanel->cleanUp();
+    }
+    if(nullptr !=m_dialog)
+        m_dialog->disconnection();
 }
 
 void MainWindow::postConnection()

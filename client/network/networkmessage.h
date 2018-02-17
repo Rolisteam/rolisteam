@@ -57,7 +57,7 @@ enum Action {
     // AdministrationCategory
     EndConnectionAction = 0,
     Heartbeat,
-    ServerPassword,
+    ConnectionInfo,
     Goodbye,
     Kicked,
     MoveChannel,

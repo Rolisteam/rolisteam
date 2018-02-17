@@ -145,6 +145,7 @@ public slots:
     void openImage();
     void errorOccurs(QString);
     void checkConnection();
+    void disconnection();
 private:
 	Ui::SelectConnectionProfileDialog *ui;
     ProfileModel* m_model;

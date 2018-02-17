@@ -144,8 +144,8 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case  NetMsg::Heartbeat:
             str = QStringLiteral("heartbeat");
             break;
-        case  NetMsg::ServerPassword:
-            str = QStringLiteral("ServerPassword");
+        case  NetMsg::ConnectionInfo:
+            str = QStringLiteral("ConnectionInfo");
             break;
         case  NetMsg::Goodbye:
             str = QStringLiteral("Goodbye");

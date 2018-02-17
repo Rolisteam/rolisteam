@@ -117,6 +117,7 @@ public:
     void delLocalCharacter(int index);
 
     bool hasPlayer(Player* player);
+    //static void defineFeaturePlayer(Player* player);
 
     Player* getGM();
     // Proxy helpers

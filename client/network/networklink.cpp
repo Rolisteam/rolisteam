@@ -390,11 +390,6 @@ void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
     case QAbstractSocket::ConnectedState:
     {
         emit connected();
-        QString pw = m_connection->getPassword();
-        NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::ServerPassword);
-        msg.string32(pw);
-        msg.uint8(false);
-        msg.sendAll();
         //setConnectionState(CONNECTED);
     }
         break;
