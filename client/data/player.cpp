@@ -227,3 +227,14 @@ void Player::copyPlayer(Player* player)
     setName(player->getName());
     setUserVersion(player->getUserVersion());
 }
+bool Player::isFullyDefined()
+{
+    if(m_uuid.isEmpty())
+        return false;
+    if(m_name.isEmpty())
+        return false;
+    if(m_features.isEmpty())
+        return false;
+
+    return true;
+}

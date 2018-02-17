@@ -205,6 +205,15 @@ void TcpClient::fill(NetworkMessageWriter *msg)
     }
 }
 
+bool TcpClient::isFullyDefined()
+{
+    if(nullptr != m_player)
+    {
+       return m_player->isFullyDefined();
+    }
+    return false;
+}
+
 void TcpClient::closeConnection()
 {
     if(nullptr != m_socket)

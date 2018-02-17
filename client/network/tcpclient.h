@@ -72,6 +72,8 @@ public:
 
     void addPlayerFeature(QString uuid,QString  name,quint8 version);
 
+    bool isFullyDefined();
+
     bool isAdmin() const;
     void setIsAdmin(bool isAdmin);
     bool isConnected()const;

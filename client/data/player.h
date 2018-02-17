@@ -163,6 +163,8 @@ public:
 
     virtual bool isLeaf() const;
 
+    bool isFullyDefined();
+
     void copyPlayer(Player* player);
 private:
     friend class PlayersList;

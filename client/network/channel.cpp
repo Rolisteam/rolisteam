@@ -171,7 +171,7 @@ void Channel::updateNewClient(TcpClient* newComer)
             TcpClient* tcpConnection = dynamic_cast<TcpClient*>(child);
             if(nullptr != tcpConnection)
             {
-                if(tcpConnection != newComer)
+                if((tcpConnection != newComer)&&(tcpConnection->isFullyDefined()))
                 {
                     NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::PlayerCategory,NetMsg::PlayerConnectionAction);
                     tcpConnection->fill(msg);
