@@ -56,6 +56,9 @@ public:
     bool isUndoable() const;
     void setUndoable(bool undoable);
 
+    bool getInitPoint() const;
+    void setInitPoint(bool initPoint);
+
 protected:
     bool isVisible();
     bool isEditable();
@@ -65,12 +68,13 @@ private:
     QPointF m_pos;
     QColor m_color;
     int m_penSize;
-    VisualItem* m_currentItem = nullptr;
     VisualItem* m_currentPath = nullptr;
     bool m_error = false;
     VToolsBar::SelectableTool m_tool;
     bool m_first;
     bool m_undoable;
+    bool m_initPoint = true;
+    VisualItem* m_currentItem = nullptr;
 };
 
 #endif // ADDFIELDCOMMAND_H

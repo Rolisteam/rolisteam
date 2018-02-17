@@ -172,6 +172,16 @@ void AddVmapItemCommand::initItem()
     m_vmap->QGraphicsScene::addItem(m_currentItem);
 }
 
+bool AddVmapItemCommand::getInitPoint() const
+{
+    return m_initPoint;
+}
+
+void AddVmapItemCommand::setInitPoint(bool initPoint)
+{
+    m_initPoint = initPoint;
+}
+
 bool AddVmapItemCommand::isUndoable() const
 {
     return m_undoable;
