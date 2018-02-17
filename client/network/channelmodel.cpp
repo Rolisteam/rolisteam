@@ -250,6 +250,7 @@ QModelIndex ChannelModel::channelToIndex(Channel* channel)
 
 NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader *msg, NetworkLink *link)
 {
+    Q_UNUSED(link)
     if(NetMsg::AddChannel == msg->action())
     {
         QString idParent = msg->string8();
@@ -335,7 +336,8 @@ QMimeData* ChannelModel::mimeData(const QModelIndexList &indexes) const
 
 bool ChannelModel::moveMediaItem(QList<TcpClient*> items,const QModelIndex& parentToBe,int row, QList<QModelIndex>& formerPosition)
 {
-
+    Q_UNUSED(row)
+    Q_UNUSED(formerPosition)
     if(isAdmin())
     {
         if(parentToBe.isValid())

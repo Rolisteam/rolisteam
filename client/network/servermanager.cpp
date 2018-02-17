@@ -489,7 +489,8 @@ void ServerManager::removeClient(TcpClient* client)
 }
 void ServerManager::error(QAbstractSocket::SocketError socketError)
 {
-
+    Q_UNUSED(socketError)
+    /// @todo enable this code ?
    /* qDebug() << "ServerManager::error";
     if(!sender()) return;
 

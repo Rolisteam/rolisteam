@@ -149,17 +149,18 @@ QVariant Person::getData(ResourcesNode::DataValue data)
     }
     return {};
 }
-void Person::write(QDataStream& out, bool tag, bool saveData) const
+void Person::write(QDataStream&, bool, bool) const
 {
-
+    //default implement does nothing [virtual]
 }
-void Person::read(QDataStream& in)
+void Person::read(QDataStream&)
 {
-
+    //default implement does nothing [virtual]
 }
 
-bool Person::seekNode(QList<ResourcesNode *> &path, ResourcesNode *node)
+bool Person::seekNode(QList<ResourcesNode *>&, ResourcesNode*)
 {
+    //default implement does nothing [virtual]
     return false;
 }
 QIcon Person::getIcon()

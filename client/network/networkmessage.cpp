@@ -42,7 +42,7 @@ NetworkMessage::~NetworkMessage()
 
 void NetworkMessage::sendAll()
 {
-    NetworkMessageHeader* header = buffer();
+    //NetworkMessageHeader* header = buffer();
 #ifndef UNIT_TEST
     m_linkToServer = ClientManager::getLinkToServer();
     if(nullptr != m_linkToServer)

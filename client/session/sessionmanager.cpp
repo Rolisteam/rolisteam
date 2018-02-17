@@ -143,8 +143,9 @@ void SessionManager::setModel(SessionItemModel *model)
 
 void SessionManager::setCurrentChapter()
 {
-    QModelIndex p = m_view->currentIndex();
-    // m_currentChapter = m_model->getChapter(p);
+    /// @todo @warning something strange here.
+    //QModelIndex p = m_view->currentIndex();
+    //m_currentChapter = m_model->getChapter(p);
 }
 
 void SessionManager::openResources(QModelIndex& index)
