@@ -668,6 +668,7 @@ void VMap::sendOffItem(VisualItem* item, bool doInitPoint)
 
     if((nullptr != m_currentAddCmd) && (m_currentAddCmd->getItem() == item))
     {
+        m_currentAddCmd->setInitPoint(doInitPoint);
         if(m_currentAddCmd->isUndoable())
         {
             m_undoStack->push(m_currentAddCmd);
@@ -1144,7 +1145,7 @@ void VMap::addItemFromData(VisualItem *item)
     m_sortedItemList.append(item->getId());
 }
 
-void VMap::insertItemFromData(VisualItem *item, int pos)
+void VMap::insertItemFromData(VisualItem *, int )
 {
 
 }
@@ -1312,8 +1313,8 @@ void VMap::keyPressEvent(QKeyEvent* event)
                 }
                 else if(itemV->isEditable())
                 {
-                    if((getOption(VisualItem::LocalIsGM).toBool())||(!getOption(VisualItem::LocalIsGM).toBool())&&
-                            (getOption(VisualItem::PermissionMode).toInt()!=Map::PC_ALL))
+                    if((getOption(VisualItem::LocalIsGM).toBool()) || ((!getOption(VisualItem::LocalIsGM).toBool())
+                        &&(getOption(VisualItem::PermissionMode).toInt()!=Map::PC_ALL)))
                     {
                         idListToRemove << itemV->getId();
                     }
