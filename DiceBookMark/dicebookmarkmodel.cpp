@@ -1,8 +1,8 @@
 #include "dicebookmarkmodel.h"
 #include "userlist/rolisteammimedata.h"
 
-DiceBookMarkModel::DiceBookMarkModel(QObject *parent)
-    : QAbstractTableModel(parent)
+DiceBookMarkModel::DiceBookMarkModel(std::vector<std::pair<QString,QString>>& data, QObject *parent)
+    : QAbstractTableModel(parent), m_data(data)
 {
 }
 

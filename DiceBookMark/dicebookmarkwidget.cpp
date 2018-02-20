@@ -1,12 +1,13 @@
 #include "dicebookmarkwidget.h"
 #include "ui_dicebookmarkwidget.h"
 #include <QHeaderView>
-DiceBookMarkWidget::DiceBookMarkWidget(QWidget *parent) :
-    GameMasterTool(parent),
+DiceBookMarkWidget::DiceBookMarkWidget(std::vector<std::pair<QString,QString>>& data,
+                                       QWidget *parent) :
+    QDialog(parent),
     ui(new Ui::DiceBookMarkWidget)
 {
     ui->setupUi(this);
-    m_model = new DiceBookMarkModel(this);
+    m_model = new DiceBookMarkModel(data,this);
     ui->tableView->setModel(m_model);
     auto header = ui->tableView->horizontalHeader();
     header->setStretchLastSection(true);

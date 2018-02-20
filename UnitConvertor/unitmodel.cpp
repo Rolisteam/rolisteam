@@ -56,13 +56,16 @@ QVariant UnitModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-int UnitModel::rowCount(const QModelIndex &parent) const
+int UnitModel::rowCount(const QModelIndex&) const
 {
     return m_data.values().size();
 }
 
 QVariant UnitModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
+    Q_UNUSED(section)
+    Q_UNUSED(orientation)
+    Q_UNUSED(role)    
     return QVariant();
 }
 

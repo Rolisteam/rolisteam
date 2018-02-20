@@ -11,7 +11,7 @@ class DiceBookMarkModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    explicit DiceBookMarkModel(QObject *parent = nullptr);
+    explicit DiceBookMarkModel(std::vector<std::pair<QString,QString>>& data, QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -41,7 +41,7 @@ public:
     void writeSettings(QSettings& settings);
     void readSettings(QSettings& settings);
 private:
-    std::vector<std::pair<QString,QString>> m_data;
+    std::vector<std::pair<QString,QString>>& m_data;
 };
 
 #endif // DICEBOOKMARKMODEL_H
