@@ -42,6 +42,9 @@
 #include "userlist/playersList.h"
 #include "chat/improvedtextedit.h"
 
+#include "widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.h"
+
+
 
 QStringList ChatWindow::m_keyWordList;
 QList<DiceAlias*>* ChatWindow::m_receivedAlias = nullptr;
@@ -836,7 +839,15 @@ void ChatWindow::setLocalPlayer(Person* person)
 void ChatWindow::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu menu;
+    QAction* edit = menu.addAction(tr("Edit DiceBookmark"));
 
+    connect(edit, &QAction::triggered,this,[=](){
+        DiceBookMarkWidget dialog(m_diceBookMarks,this);
+        dialog.exec();
+    });
+    
+    if(!m_diceBookMarks.empty())
+    {
     QMenu* remove = menu.addMenu(tr("Remove"));
 
     for(const auto& pair : m_diceBookMarks)
@@ -858,6 +869,7 @@ void ChatWindow::contextMenuEvent(QContextMenuEvent *event)
             delete *it2;
 
         });
+    }
     }
 
 

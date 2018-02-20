@@ -131,7 +131,7 @@ MainWindow::MainWindow()
     /// Create all GM toolbox widget
     m_gmToolBoxList.append(new NameGeneratorWidget(this));
     m_gmToolBoxList.append(new GMTOOL::Convertor(this));
-    m_gmToolBoxList.append(new DiceBookMarkWidget(this));
+    //m_gmToolBoxList.append(new DiceBookMarkWidget(this));
 
     for (QWidget* wid : m_gmToolBoxList)
     {
@@ -1174,7 +1174,7 @@ void MainWindow::readSettings()
     }
     updateRecentFileActions();
     m_preferencesDialog->initializePostSettings();
-    m_gmToolBoxList[2]->readSettings(settings);
+    //m_gmToolBoxList[2]->readSettings(settings);
     m_chatListWidget->readSettings(settings);
 }
 void MainWindow::writeSettings()
@@ -1184,7 +1184,7 @@ void MainWindow::writeSettings()
     settings.setValue("windowState", saveState());
     settings.setValue("Maximized", isMaximized());
     m_preferences->writeSettings(settings);
-    m_gmToolBoxList[2]->writeSettings(settings);
+    //m_gmToolBoxList[2]->writeSettings(settings);
     m_chatListWidget->writeSettings(settings);
 }
 void MainWindow::parseCommandLineArguments(QStringList list)
