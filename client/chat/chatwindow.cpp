@@ -277,7 +277,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
         }
     }
     
-    if(!m_diceParser->getErrorMap().isEmpty())
+    if(!m_diceParser->humanReadableError().isEmpty())
     {
         QString messageCorps = m_diceParser->humanReadableError();
         messageTitle = tr("Syntax");
