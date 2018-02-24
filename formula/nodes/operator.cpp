@@ -37,6 +37,7 @@ void OperatorFNode::setOperator(const ParsingToolFormula::FormulaOperator &ope)
 
 bool OperatorFNode::run(FormulaNode *previous)
 {
+    Q_UNUSED(previous)
     for(auto node : m_parameters)
     {
         if(nullptr!=node)

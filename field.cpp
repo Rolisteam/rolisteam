@@ -539,6 +539,7 @@ Field::TextAlign Field::getTextAlignValue()
 
 void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int i, bool isTable)
 {
+    Q_UNUSED(i)
     if(!m_generatedCode.isEmpty())
     {
         out << m_generatedCode;

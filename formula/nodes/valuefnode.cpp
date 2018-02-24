@@ -27,6 +27,7 @@ ValueFNode::ValueFNode()
 
 bool ValueFNode::run(FormulaNode *previous)
 {
+    Q_UNUSED(previous)
     if(0 != m_next)
     {
         m_next->run(this);

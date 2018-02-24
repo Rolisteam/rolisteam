@@ -225,7 +225,7 @@ void CharacterSheetWindow::contextMenuForTabs(const QPoint& pos)
         menu.addAction(m_printAct);
 
 
-        menu.exec(QCursor::pos());
+        menu.exec(mapToGlobal(pos));
     }
 }
 bool CharacterSheetWindow::eventFilter(QObject *object, QEvent *event)
@@ -353,7 +353,7 @@ void CharacterSheetWindow::addSection()
 }
 void CharacterSheetWindow::addCharacterSheet()
 {
-    CharacterSheet* sheet = m_model.addCharacterSheet();
+    /*CharacterSheet* sheet =*/m_model.addCharacterSheet();
 
 }
 void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)

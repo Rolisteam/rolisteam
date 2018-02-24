@@ -136,7 +136,7 @@ LineModel::LineModel()
 {
 
 }
-int LineModel::rowCount(const QModelIndex& parent) const
+int LineModel::rowCount(const QModelIndex&) const
 {
     return m_lines.size();
 }
@@ -567,7 +567,12 @@ void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec
         out << "        onClicked: "<< m_id <<".addLine()\n";
         out << "     }\n";
     }
-     #endif
+    #else
+        Q_UNUSED(out)
+        Q_UNUSED(sec)
+        Q_UNUSED(isTable)
+        Q_UNUSED(i)
+    #endif
 }
 
 QString TableField::computeControlPosition()
