@@ -18,8 +18,8 @@ public:
     void setCurrentCat(const Unit::Category &currentCat);
 
 private:
-    QString m_symbol;
     QString m_name;
+    QString m_symbol;
     Unit::Category m_currentCat;
 
 };
