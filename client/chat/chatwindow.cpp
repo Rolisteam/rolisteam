@@ -223,8 +223,8 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
 
             cmdMustBeHidden &= m_preferences->value("hideLongCommand",false).toBool();
 
-            if(hasDiceList)
-            {
+         /*   if(hasDiceList)
+            {*/
                 QString diceOutput;
                 if(!list.isEmpty())
                 {
@@ -262,7 +262,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
                     diceOutput2 = tr("got <span class=\"dice\">%1</span> [%2]","third person").arg(value).arg(cmdLine);
                 }
                 message = diceOutput2;
-            }
+         /*   }
             else
             {
                 messageTitle="";
@@ -270,8 +270,9 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
                 {
                     showMessage(messageTitle, color,value,m_diceParser->getComment(),NetMsg::DiceMessageAction);
                 }
-                message = value;
-            }
+                auto stringOutput = tr("got <span class=\"dice\">%1</span> [%2]","third person").arg(value).arg(cmdLine);
+                message = stringOutput;
+            }*/
 
         }
     }
