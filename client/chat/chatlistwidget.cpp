@@ -152,7 +152,7 @@ void ChatListWidget::deleteSelectedChat()
 {
     m_chatList->delLocalChat(m_selectionModel->currentIndex());
 }
-NetWorkReceiver::SendType ChatListWidget::processMessage(NetworkMessageReader* msg, NetworkLink* link)
+NetWorkReceiver::SendType ChatListWidget::processMessage(NetworkMessageReader* msg)
 {
     switch (msg->action())
     {

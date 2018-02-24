@@ -53,7 +53,7 @@ public:
 
     bool eventFilter(QObject * object, QEvent * event);
 
-    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg, NetworkLink* link);
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 
     void cleanChatList();
 

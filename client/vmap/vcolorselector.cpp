@@ -78,6 +78,7 @@ BackgroundButton::BackgroundButton(QPixmap* p,QWidget * parent )
 
 void BackgroundButton::paintEvent( QPaintEvent * event )
 {
+    Q_UNUSED(event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing,true);
     QRect r=rect();

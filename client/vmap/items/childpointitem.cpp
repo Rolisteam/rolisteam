@@ -88,6 +88,8 @@ QRectF ChildPointItem::boundingRect() const
 }
 void ChildPointItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     painter->setPen(Qt::black);
     painter->fillRect(m_startPoint.x(), m_startPoint.y(), 2*SQUARE_SIZE, 2*SQUARE_SIZE,Qt::gray);
     painter->drawRect(m_startPoint.x(), m_startPoint.y(), 2*SQUARE_SIZE, 2*SQUARE_SIZE);

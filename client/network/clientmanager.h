@@ -109,14 +109,14 @@ private slots :
 
 private:
     static NetworkLink* m_networkLinkToServer;
+    ConnectionProfile* m_connectionProfile = nullptr;
+    ConnectionState m_connectionState = DISCONNECTED;
+    bool m_disconnectAsked= false;
     QTimer* m_reconnect= nullptr;
     bool m_isAdmin;
 
-    bool m_disconnectAsked;
     PreferencesManager* m_preferences= nullptr;
     PlayersList* m_playersList= nullptr;
-    ConnectionState m_connectionState;
-    ConnectionProfile* m_connectionProfile = nullptr;
     QList<QThread*> m_threadList;
     heartBeatSender* m_hbSender= nullptr;
 

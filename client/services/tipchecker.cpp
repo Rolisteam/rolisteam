@@ -36,7 +36,7 @@
  *****************/
 
 TipChecker::TipChecker(QObject* obj)
-    : QObject(obj), m_state(false),m_manager(nullptr)
+    : QObject(obj)
 {
     m_noErrror = true;
 }

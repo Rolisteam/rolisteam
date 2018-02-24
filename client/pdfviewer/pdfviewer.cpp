@@ -198,6 +198,7 @@ void PdfViewer::showOverLay()
 }
 void PdfViewer::fill(NetworkMessageWriter & message)
 {
+    Q_UNUSED(message)
 //    QByteArray baPdfViewer;
 //    QBuffer bufPdfViewer(&baPdfViewer);
 //    if (!m_pixMap.save(&bufPdfViewer, "jpg", 70))
@@ -213,6 +214,7 @@ void PdfViewer::fill(NetworkMessageWriter & message)
 
 void PdfViewer::readMessage(NetworkMessageReader &msg)
 {
+    Q_UNUSED(msg)
 //    m_title = msg.string16();
 //    setTitle(m_title);
 //    m_mediaId = msg.string8();
@@ -226,6 +228,7 @@ void PdfViewer::readMessage(NetworkMessageReader &msg)
 
 void PdfViewer::savePdfToFile(QDataStream &out)
 {
+    Q_UNUSED(out)
 //    QByteArray baPdfViewer;
 //    QBuffer bufPdfViewer(&baPdfViewer);
 //    if(!m_pixMap.isNull())

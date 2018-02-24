@@ -214,7 +214,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
             QString value;
             QString cmdLine;
             QString list;
-            bool hasDiceList = getMessageResult(value, cmdLine,list);
+            getMessageResult(value, cmdLine,list);
             color = m_localPerson->getColor();
 
             int maxSizeForCuttingDiceCmd = m_preferences->value("maxSizeForCuttingDiceCmd",100).toInt();
@@ -659,6 +659,7 @@ QString ChatWindow::getTitleFromChat()
 
 void ChatWindow::showEvent(QShowEvent *event)
 {
+    Q_UNUSED(event)
     m_editionZone->setFocus(Qt::OtherFocusReason);
     if(m_selectPersonComboBox->currentText().isEmpty())
     {
@@ -673,6 +674,7 @@ void ChatWindow::showEvent(QShowEvent *event)
 }
 void ChatWindow::hideEvent(QHideEvent *event)
 {
+    Q_UNUSED(event)
     if(nullptr!=m_toggleViewAction)
     {
         m_toggleViewAction->setChecked(false);

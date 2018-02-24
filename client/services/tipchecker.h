@@ -51,8 +51,8 @@ private:
     QString m_msg;
     QString m_url;
     int id;
-    QNetworkAccessManager* m_manager;
-    bool m_state;
+    bool m_state = false;
+    QNetworkAccessManager* m_manager = nullptr;
     bool m_noErrror;
 };
 

@@ -73,8 +73,10 @@ void XMLTextEdit::Syntaxcheck()
 }
 void XMLTextEdit::contextMenuEvent ( QContextMenuEvent * e )
 {
+  if(nullptr == e)
+      return;
   QMenu *RContext = createOwnStandardContextMenu();
-  RContext->exec(QCursor::pos());
+  RContext->exec(e->globalPos());
   delete RContext;
 }
 

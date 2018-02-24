@@ -143,6 +143,8 @@ private slots:
 private:
     void createActions();
 private:
+    bool m_penMode;
+    bool m_filled;
     /**
     * @brief pen used for drawing the path
     */
@@ -158,8 +160,6 @@ private:
     QAction* m_closeAct;
     QAction* m_fillAct;
     bool m_closed;
-    bool m_filled;
-    bool m_penMode;
     QPointF m_changedPointPos;
     qreal     m_changedPointId;
     

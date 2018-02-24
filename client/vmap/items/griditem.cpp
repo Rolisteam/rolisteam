@@ -82,16 +82,17 @@ QRectF  GridItem::boundingRect() const
 }
 void GridItem::setNewEnd(QPointF& nend)
 {
+    Q_UNUSED(nend)
     return;
 }
 void GridItem::writeData(QDataStream& out) const
 {
-
+    Q_UNUSED(out)
 }
 
 void GridItem::readData(QDataStream& in)
 {
-
+    Q_UNUSED(in)
 }
 VisualItem::ItemType GridItem::getType() const
 {
@@ -197,6 +198,8 @@ void  GridItem::updateChildPosition()
 
 void GridItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     if(getOption(VisualItem::GridAbove).toBool() &&
        getOption(VisualItem::ShowGrid).toBool() &&
        (getOption(VisualItem::GridPattern).toInt() != VMap::NONE))
@@ -216,7 +219,7 @@ void GridItem::createActions()
 
 void GridItem::addActionContextMenu(QMenu* menu)
 {
-
+    Q_UNUSED(menu)
 }
 void GridItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {

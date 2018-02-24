@@ -108,7 +108,7 @@ FilePathDelegateItem::FilePathDelegateItem(QObject *parent):
 
 }
 
-QWidget* FilePathDelegateItem::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index	) const
+QWidget* FilePathDelegateItem::createEditor(QWidget *parent, const QStyleOptionViewItem &, const QModelIndex &	) const
 {
 
     ImagePathEditor*	editor = new ImagePathEditor(parent);

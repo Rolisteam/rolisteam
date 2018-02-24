@@ -68,7 +68,7 @@ public:
 
     void setLocalPlayerId(const QString &id);
 
-    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader *msg, NetworkLink *link);
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader *msg);
     void removeChild(QString id);
     QStringList mimeTypes() const;
     Qt::DropActions supportedDropActions() const;

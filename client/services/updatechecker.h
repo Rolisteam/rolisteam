@@ -49,6 +49,7 @@ private:
     bool inferiorVersion();
 
 private:
+    bool m_state;
     QString m_version;
     int m_versionMinor;
     int m_versionMajor;
@@ -57,7 +58,6 @@ private:
     QString m_versionChangelog;
 //    QTcpSocket m_socket;
     QNetworkAccessManager* m_manager;
-    bool m_state;
     bool m_noErrror;
 };
 

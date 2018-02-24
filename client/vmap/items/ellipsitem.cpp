@@ -68,6 +68,8 @@ QPainterPath EllipsItem::shape() const
 }
 void EllipsItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     painter->save();
     if(!m_filled)
     {

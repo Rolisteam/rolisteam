@@ -119,12 +119,12 @@ public slots:
     void showCorner(bool);
 
 private:
-    CharacterVision::SHAPE m_shape;
+    CharacterVision::SHAPE m_shape = ANGLE;
     QPointF m_pos;
-    qreal m_radius;
-    qreal m_angle;
-    ChildPointItem* m_cornerPoint;
-    bool m_visible;
+    qreal m_angle = 50;
+    ChildPointItem* m_cornerPoint = nullptr;
+    bool m_visible = false;
+    qreal m_radius = 50;
 };
 
 

@@ -131,6 +131,7 @@ QPainterPath CharacterItem::shape() const
 }
 void CharacterItem::setNewEnd(QPointF& nend)
 {
+    Q_UNUSED(nend)
     //m_center = nend;
 }
 QString CharacterItem::getSubTitle() const
@@ -180,6 +181,8 @@ void CharacterItem::setChildrenVisible(bool b)
 #define PEN_RADIUS 3
 void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     if(m_thumnails==nullptr)
     {
         generatedThumbnail();

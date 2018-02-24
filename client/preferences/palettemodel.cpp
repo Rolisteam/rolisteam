@@ -218,11 +218,11 @@ void PaletteModel::initData()
     color = new PaletteColor(QColor(),"NoRole",QPalette::Disabled,QPalette::NoRole);
     m_data.append(color);
 }
-int PaletteModel::rowCount(const QModelIndex &parent) const
+int PaletteModel::rowCount(const QModelIndex &) const
 {
     return m_data.size();
 }
-int  PaletteModel::columnCount(const QModelIndex &parent) const
+int  PaletteModel::columnCount(const QModelIndex &) const
 {
     return m_header.size();
 }

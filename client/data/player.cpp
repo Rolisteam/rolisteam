@@ -29,6 +29,8 @@
 #endif
 
 #include "data/character.h"
+
+#include <QDebug>
 Player::Player()
     : m_gameMaster(nullptr),m_link(nullptr)
 {
@@ -94,6 +96,7 @@ void Player::fill(NetworkMessageWriter & message,bool addAvatar)
 
     QByteArray array;
     QDataStream out(&array,QIODevice::WriteOnly);
+    qDebug() << m_features.size();
     out << m_features;
 
     message.byteArray32(array);

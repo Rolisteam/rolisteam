@@ -82,11 +82,11 @@ QVariant DiceAliasModel::data(const QModelIndex &index, int role) const
 	return QVariant();
 
 }
-int DiceAliasModel::rowCount(const QModelIndex &parent) const
+int DiceAliasModel::rowCount(const QModelIndex &) const
 {
     return m_diceAliasList->size();
 }
-int DiceAliasModel::columnCount(const QModelIndex &parent) const
+int DiceAliasModel::columnCount(const QModelIndex &) const
 {
     return m_header.size();
 }
@@ -125,6 +125,7 @@ void DiceAliasModel::addAlias(DiceAlias* alias)
 }
 Qt::ItemFlags DiceAliasModel::flags(const QModelIndex &index) const
 {
+    Q_UNUSED(index)
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
 }
 bool DiceAliasModel::setData(const QModelIndex &index, const QVariant &value, int role)

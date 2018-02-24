@@ -107,7 +107,7 @@ bool ResourcesNode::removeChild(ResourcesNode*)
     return false;
 }
 
-void ResourcesNode::insertChildAt(int row, ResourcesNode *)
+void ResourcesNode::insertChildAt(int , ResourcesNode *)
 {
 
 }

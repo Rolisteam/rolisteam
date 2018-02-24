@@ -832,7 +832,7 @@ QString MainWindow::getShortNameFromPath(QString path)
     return info.baseName();
 }
 
-bool MainWindow::saveAsStory(bool saveIt)
+bool MainWindow::saveAsStory()
 {
     // open file
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Scenario as"), m_preferences->value("SessionDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
@@ -1242,9 +1242,8 @@ void MainWindow::parseCommandLineArguments(QStringList list)
         //m_clientManager->setValueConnection(portValue,hostnameValue,username,roleValue);
     }
 }
-NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, NetworkLink* link)
+NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
 {
-    Q_UNUSED(link)
     if(nullptr==msg)
         return NetWorkReceiver::NONE;
 
@@ -1332,6 +1331,7 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
         case CleverURI::SHAREDNOTE:
             break;
         case CleverURI::TEXT:
+        case CleverURI::PDF:
         case CleverURI::SCENARIO:
         case CleverURI::SONG:
         case CleverURI::SONGLIST:

@@ -36,13 +36,12 @@ MusicModel::MusicModel(QObject *parent) :
 
 
 }
-int MusicModel::rowCount(const QModelIndex & parent) const
+int MusicModel::rowCount(const QModelIndex &) const
 {
     return m_data.size();
-
 }
 
-int MusicModel::columnCount(const QModelIndex & parent) const
+int MusicModel::columnCount(const QModelIndex &) const
 {
     return m_header.size();
 }
@@ -183,7 +182,7 @@ Qt::DropActions MusicModel::supportedDropActions() const
 {
     return Qt::CopyAction | Qt::MoveAction;
 }
-bool MusicModel::dropMimeData(const QMimeData *data,Qt::DropAction action, int row, int column, const QModelIndex &parent)
+bool MusicModel::dropMimeData(const QMimeData *data,Qt::DropAction action, int row)
 {
     if (action == Qt::IgnoreAction)
         return true;

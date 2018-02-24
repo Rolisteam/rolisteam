@@ -325,7 +325,7 @@ void CleverURI::clearData()
 {
     m_data.clear();
 }
-bool CleverURI::seekNode(QList<ResourcesNode*>& path,ResourcesNode* node)
+bool CleverURI::seekNode(QList<ResourcesNode*>& ,ResourcesNode* )
 {
     return false;
 }

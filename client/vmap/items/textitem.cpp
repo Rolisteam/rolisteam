@@ -169,6 +169,8 @@ QRectF TextItem::boundingRect() const
 }
 void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     setChildrenVisible(hasFocusOrChild());
     if((m_showRect)||(option->state & QStyle::State_MouseOver))
     {
@@ -181,6 +183,7 @@ void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 }
 void TextItem::setNewEnd(QPointF& p)
 {
+    Q_UNUSED(p)
 
 }
 VisualItem::ItemType TextItem::getType() const
@@ -577,6 +580,7 @@ void TextItem::setEditableItem(bool b)
 }
 void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent * event)
 {
+    Q_UNUSED(event)
     if(isEditable())
     {
         VMap* vmap = dynamic_cast<VMap*>(scene());
@@ -593,8 +597,9 @@ void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent * event)
 }
 void TextItem::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
 {
+    Q_UNUSED(event)
     if(isEditable())
-    QApplication::restoreOverrideCursor();
+        QApplication::restoreOverrideCursor();
 }
 void TextItem::keyPressEvent(QKeyEvent* event)
 {

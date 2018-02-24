@@ -48,6 +48,8 @@
 
 CheckBoxDelegate::CheckBoxDelegate(bool aRedCheckBox, QObject *parent)
 {
+    Q_UNUSED(aRedCheckBox)
+    Q_UNUSED(parent)
     m_editor = new CenteredCheckBox();
     //m_editor->setParent(parent);
     connect( m_editor, SIGNAL(commitEditor()),
@@ -56,6 +58,8 @@ CheckBoxDelegate::CheckBoxDelegate(bool aRedCheckBox, QObject *parent)
 
 QWidget* CheckBoxDelegate::createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const
 {
+    Q_UNUSED(option)
+    Q_UNUSED(index)
     CenteredCheckBox* cb = new CenteredCheckBox(parent);
     return cb;
 }
@@ -88,13 +92,13 @@ void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
         return;
     }
 
-    QStyleOptionViewItemV4 opt = option;
-    QStyledItemDelegate::initStyleOption(&opt, index);
+    //QStyleOptionViewItemV4 opt = option;
+   // QStyledItemDelegate::initStyleOption(&option, index);
 
     QVariant var= index.data();
 
     bool checked = var.toBool();
-    QVariant color= index.data(Qt::BackgroundRole);
+    //QVariant color= index.data(Qt::BackgroundRole);
 
     if (option.state & QStyle::State_Selected)
     {
@@ -156,6 +160,7 @@ void ColorListEditor::populateList()
 
 
 ColorDelegate::ColorDelegate( QObject* parent )
+    : QStyledItemDelegate(parent)
 {
 
 }

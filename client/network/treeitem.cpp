@@ -28,7 +28,7 @@ int TreeItem::addChild(TreeItem *)
     return 0;
 }
 
-TreeItem *TreeItem::getChildAt(int row)
+TreeItem *TreeItem::getChildAt(int)
 {
     return nullptr;
 }
@@ -72,7 +72,7 @@ QString TreeItem::getId() const
 {
     return m_id;
 }
-TreeItem* TreeItem::getChildById(QString id)
+TreeItem* TreeItem::getChildById(QString )
 {
     return nullptr;
 }
@@ -82,7 +82,7 @@ bool TreeItem::removeChild(TreeItem *)
     return false;
 }
 
-void TreeItem::insertChildAt(int pos, TreeItem *)
+void TreeItem::insertChildAt(int , TreeItem *)
 {
 
 }
@@ -96,7 +96,7 @@ void TreeItem::setId(const QString &id)
     }
 }
 
-bool TreeItem::addChildInto(QString id, TreeItem *child)
+bool TreeItem::addChildInto(QString , TreeItem *)
 {
     return false;
 }

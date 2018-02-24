@@ -22,6 +22,7 @@
 
 #include <QAbstractItemModel>
 #include <QApplication>
+#include <QDebug>
 
 #include "chat/chat.h"
 #include "network/networkmessagereader.h"
@@ -71,23 +72,23 @@ ChatList::ChatList(MainWindow * mainWindow)
 {
     m_chatMenu.setTitle(tr("ChatWindows"));
 
-	// Stay sync with g_playersList
-	PlayersList * g_playersList = PlayersList::instance();
-	connect(g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(addPlayerChat(Player *)));
-	connect(g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(delPlayer(Player *)));
+    // Stay sync with g_playersList
+    PlayersList * g_playersList = PlayersList::instance();
+    connect(g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(addPlayerChat(Player *)));
+    connect(g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(delPlayer(Player *)));
 
-	// Allready there player's chat
-	int maxPlayerIndex = g_playersList->getPlayerCount();
+    // Allready there player's chat
+    int maxPlayerIndex = g_playersList->getPlayerCount();
     Player * localPlayer = g_playersList->getLocalPlayer();
-	for (int i = 0 ; i < maxPlayerIndex ; i++)
-	{
-		Player * player = g_playersList->getPlayer(i);
+    for (int i = 0 ; i < maxPlayerIndex ; i++)
+    {
+        Player * player = g_playersList->getPlayer(i);
 
-		if (player != localPlayer)
-		{
-			addPlayerChat(player);//m_mainWindow
-		}
-	}
+        if (player != localPlayer)
+        {
+            addPlayerChat(player);//m_mainWindow
+        }
+    }
 
     // Receive events
     ReceiveEvent::registerReceiver(NetMsg::ChatCategory, NetMsg::ChatMessageAction, this);
@@ -109,7 +110,7 @@ ChatList::~ChatList()
 }
 void ChatList::addPublicChat()
 {
-	// main (public) chat
+    // main (public) chat
     auto chat = new ChatWindow(new PublicChat(), m_mainWindow);
     for(auto& diceBookmark : m_pairList)
     {
@@ -162,6 +163,8 @@ void ChatList::rollDiceCmd(QString cmd, QString owner)
 
 bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    Q_UNUSED(value)
+
     QMdiSubWindow* chatw = getChatSubWindowByIndex(index);
     if (chatw == nullptr)
         return false;
@@ -494,16 +497,16 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
 
     if (to == playersList->getLocalPlayer()->getUuid())
     {//to one person
-       ChatWindow* win = getChatWindowByUuid(from);
-       if((nullptr==win) && (nullptr!=sender->getParent()))
-       {
+        ChatWindow* win = getChatWindowByUuid(from);
+        if((nullptr==win) && (nullptr!=sender->getParent()))
+        {
             win = getChatWindowByUuid(sender->getParent()->getUuid());
-       }
-       if(nullptr!=win)
-       {
+        }
+        if(nullptr!=win)
+        {
             win->showMessage(sender->getName(), sender->getColor(), msg,comment, data.action());
-       }
-       return;
+        }
+        return;
     }
 
 
@@ -523,8 +526,8 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
         delete newChat;
         return;
     }
-/// @warning dead code
-  /*  if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
+    /// @warning dead code
+    /*  if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         if (m_privateChatMap.contains(newChat->identifier()))
         {
@@ -571,7 +574,7 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
 void ChatList::deletePrivateChat(ReceiveEvent * event)
 {
     QString uuid = event->data().string8();
-/// @warning dead code
+    /// @warning dead code
     /*if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         if (!m_privateChatMap.contains(uuid))

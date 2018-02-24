@@ -70,7 +70,7 @@ void FogSingularity::readItem(NetworkMessageReader* msg)
     m_adding = (bool)msg->uint8();
 
     m_poly = new QPolygonF();
-    for(int j = 0; j <pointCount; ++j)
+    for(unsigned int j = 0; j <pointCount; ++j)
     {
         qreal x = msg->real();
         qreal y = msg->real();
@@ -129,16 +129,17 @@ QRectF  SightItem::boundingRect() const
 }
 void SightItem::setNewEnd(QPointF& nend)
 {
+    Q_UNUSED(nend)
     return;
 }
 void SightItem::writeData(QDataStream& out) const
 {
-
+    Q_UNUSED(out)
 }
 
 void SightItem::readData(QDataStream& in)
 {
-
+    Q_UNUSED(in)
 }
 VisualItem::ItemType SightItem::getType() const
 {
@@ -193,7 +194,7 @@ void SightItem::readItem(NetworkMessageReader* msg)
     setZValue(z);
 
     quint64 count = msg->uint64();
-    for(int i = 0; i<count;++i)
+    for(unsigned int i = 0; i<count;++i)
     {
         FogSingularity* fogs = new FogSingularity();
         fogs->readItem(msg);
@@ -201,7 +202,7 @@ void SightItem::readItem(NetworkMessageReader* msg)
     }
 
     count = msg->uint64();
-    for(int i = 0;i < count;++i)
+    for(unsigned int i = 0;i < count;++i)
     {
         QString str = msg->string8();
         //Character* item = PlayersList::instance()->getCharacter(str);
@@ -220,6 +221,8 @@ void SightItem::readItem(NetworkMessageReader* msg)
 }
 void SightItem::setGeometryPoint(qreal pointId,QPointF& pos)
 {
+    Q_UNUSED(pointId)
+    Q_UNUSED(pos)
     /* if(m_visionMap.contains(pointId))
     {
         Vision* vis = m_visionMap.value(pointId);
@@ -243,6 +246,8 @@ void  SightItem::updateChildPosition()
 
 void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     painter->save();
     painter->setPen(Qt::NoPen);
     if(getOption(VisualItem::LocalIsGM).toBool())
@@ -362,11 +367,14 @@ void SightItem::createActions()
 
 void SightItem::addActionContextMenu(QMenu* menu)
 {
+    Q_UNUSED(menu)
     /*menu->addAction(m_diskShape);
     menu->addAction(m_angleShape);*/
 }
 void SightItem::moveVision(qreal id, QPointF& pos)
 {
+    Q_UNUSED(id)
+    Q_UNUSED(pos)
     /*if(m_visionMap.contains(id))
     {
         m_visionMap.value(id)->setRadius(pos.x());

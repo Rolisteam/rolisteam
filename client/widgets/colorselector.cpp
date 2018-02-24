@@ -57,6 +57,7 @@ void ColorWidget::mousePressEvent(QMouseEvent* event)
 }
 void ColorWidget::paintEvent(QPaintEvent* event)
 {
+    Q_UNUSED(event)
      QPainter painter(this);
      painter.fillRect(rect(),m_color);
 }

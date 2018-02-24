@@ -72,8 +72,6 @@ protected:
 private slots:
     void setZoomFactor();
     void showMapProperties();
-	void rubberBandGeometry(QRect viewportRect, QPointF fromScenePoint, QPointF toScenePoint);
-
     void changeLayer();
     void changeVisibility();
     void sendOffMapChange();

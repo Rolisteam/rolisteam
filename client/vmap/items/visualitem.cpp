@@ -284,6 +284,8 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         case CHARACTER_LAYER:
             m_putCharacterLayer->setChecked(true);
             break;
+        default:
+            break;
         }
         m_menuPos = event->screenPos();
 
@@ -559,6 +561,7 @@ void VisualItem::readRectGeometryMsg(NetworkMessageReader* msg)
 void VisualItem::readMovePointMsg(NetworkMessageReader* msg)
 {
     //Do nothing - only used for now on by pathItem.
+    Q_UNUSED(msg)
 }
 
 void VisualItem::setRectSize(qreal x,qreal y,qreal w,qreal h)
@@ -607,11 +610,13 @@ void VisualItem::endOfGeometryChange()
 
 void VisualItem::setModifiers(Qt::KeyboardModifiers modifiers)
 {
+    Q_UNUSED(modifiers)
     /// @brief must be implemented in child classes.
     return;
 }
 VisualItem* VisualItem::promoteTo(VisualItem::ItemType type)
 {
+    Q_UNUSED(type)
     /// @brief must be implemented in child classes.
     return nullptr;
 }

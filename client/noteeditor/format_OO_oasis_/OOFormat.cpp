@@ -78,9 +78,8 @@ QTextFrameFormat DefaultFrameFormat()
 
 QTextCharFormat DefaultCharFormats( bool qtwritteln , QTextCharFormat format )
 {
-    #if QT_VERSION >= 0x040500
+    Q_UNUSED(qtwritteln)
     format.setFontStyleStrategy ( QFont::PreferAntialias );
-    #endif
     return format;
 }
 
@@ -133,11 +132,11 @@ QString  ootrimmed( QString txt , const QString txttransform )
     bool firstspace = false;
     if (txt.size() >= 1 )
     {
-        if (txt.at(0) == QChar::Null || txt.at(0) == QChar(' ') | txt.at(0) ==  QChar::Nbsp )
+        if (txt.at(0) == QChar::Null || txt.at(0) == QChar(' ') || txt.at(0) ==  QChar::Nbsp )
         {
             firstspace = true;
         }
-        if (txt.at(cosize) == QChar::Null || txt.at(cosize) == QChar(' ') | txt.at(cosize) ==  QChar::Nbsp )
+        if (txt.at(cosize) == QChar::Null || txt.at(cosize) == QChar(' ') || txt.at(cosize) ==  QChar::Nbsp )
         {
             lastspace  = true;
         }
@@ -170,8 +169,8 @@ QString  ootrimmed( QString txt , const QString txttransform )
 
 
 
-OOFormat::OOFormat()
- : QObject(0),Qdoc(new QTextDocument()),FoCol(new FopColor())
+OOFormat::OOFormat(QObject *parent)
+ : QObject(parent),Qdoc(new QTextDocument()),FoCol(new FopColor())
 {
 	
 }

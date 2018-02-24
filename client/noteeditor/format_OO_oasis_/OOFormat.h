@@ -149,7 +149,7 @@ class OOFormat : public QObject
      Q_OBJECT
 //
 public:
- OOFormat();
+ OOFormat(QObject* parent = nullptr);
  QString hashGenerator( const QString name  ) const;
  QTextDocument *Qdoc;
  FopColor *FoCol;

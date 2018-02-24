@@ -326,8 +326,6 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 	//m_map->setPointeur(m_toolBar->getCurrentTool());
 
     initMap();
-	QPoint pos2 = mapFromParent(pos);
-
 	quint16 nbrPersonnages;
 	in >>  nbrPersonnages;
 
@@ -444,7 +442,7 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
     {
         quint8 npSize = msg->uint8();
         quint8 permission = msg->uint8();
-        quint8 alphaValue = msg->uint8();
+        msg->uint8();
         QByteArray originBackground = msg->byteArray32();
         QByteArray background = msg->byteArray32();
         QByteArray bgAlpha = msg->byteArray32();

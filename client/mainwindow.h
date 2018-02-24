@@ -181,7 +181,7 @@ public :
 	 * @brief processMessage
 	 * @param msg
 	 */
-    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg, NetworkLink* link);
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 
     /**
      * @brief prepareMap
@@ -472,7 +472,7 @@ private slots :
     /**
      * @brief saveAsStory asks filename to save current story into.
      */
-    bool saveAsStory(bool saveIt=true);
+    bool saveAsStory();
     /**
      * @brief saveMinutes saves notes into file.
      * @return

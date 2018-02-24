@@ -505,7 +505,7 @@ QMap<QString,QPen> FoRegion::penstyle()
 /*  fo:block-container or other frame apache not on region */
 void FoRegion::styleContainer( QDomElement e , const qreal height )
 {
-     FopColor hc = FopColor();
+     FopColor hc;
      e.setAttribute ("background-color",hc.foName(bg));
         if (rpen != QPen(Qt::NoPen)) {
            e.setAttribute ("border-width",metrics(rpen.width()));
@@ -533,7 +533,7 @@ void FoRegion::styleContainer( QDomElement e , const qreal height )
     if (height !=0) {
      e.setAttribute ("height",metrics(qAbs(height - margin_top - padding- margin_bottom)));
     }
-    delete &hc;
+    //delete &hc;
        
 }
 

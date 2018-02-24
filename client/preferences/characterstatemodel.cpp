@@ -77,11 +77,11 @@ QVariant CharacterStateModel::data(const QModelIndex &index, int role) const
 	return QVariant();
 
 }
-int CharacterStateModel::rowCount(const QModelIndex &parent) const
+int CharacterStateModel::rowCount(const QModelIndex &) const
 {
 	return m_stateList->size();
 }
-int CharacterStateModel::columnCount(const QModelIndex &parent) const
+int CharacterStateModel::columnCount(const QModelIndex &) const
 {
     return m_header.size();
 }
@@ -111,9 +111,9 @@ void CharacterStateModel::preferencesHasChanged(QString pref)
         m_isGM =! PreferencesManager::getInstance()->value(pref,true).toBool();
     }
 }
-NetWorkReceiver::SendType CharacterStateModel::processMessage(NetworkMessageReader* msg, NetworkLink* link)
+NetWorkReceiver::SendType CharacterStateModel::processMessage(NetworkMessageReader* msg)
 {
-    NetWorkReceiver::SendType type  = NetWorkReceiver::AllExceptSender;;
+    NetWorkReceiver::SendType type  = NetWorkReceiver::AllExceptSender;
 
     if(nullptr==msg)
         return NetWorkReceiver::NONE;
@@ -129,6 +129,8 @@ NetWorkReceiver::SendType CharacterStateModel::processMessage(NetworkMessageRead
         case NetMsg::moveState:
             processMoveState(msg);
         break;
+    default:
+        break;
     }
 
     return type;
@@ -143,6 +145,7 @@ void CharacterStateModel::addState(CharacterState* alias)
 }
 Qt::ItemFlags CharacterStateModel::flags(const QModelIndex &index) const
 {
+    Q_UNUSED(index)
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
 }
 bool CharacterStateModel::setData(const QModelIndex &index, const QVariant &value, int role)

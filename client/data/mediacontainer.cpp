@@ -189,17 +189,17 @@ QUndoStack* MediaContainer::getUndoStack() const
     return nullptr;
 }
 
-void MediaContainer::setUndoStack(QUndoStack* undoStack)
+void MediaContainer::setUndoStack(QUndoStack* )
 {
 
 }
 
-void MediaContainer::fill(NetworkMessageWriter &msg)
+void MediaContainer::fill(NetworkMessageWriter &)
 {
 
 }
 
-void MediaContainer::readMessage(NetworkMessageReader &msg)
+void MediaContainer::readMessage(NetworkMessageReader &)
 {
 
 }

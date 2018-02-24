@@ -217,15 +217,9 @@ private slots:
      */
     bool askToDeleteAll();
     /**
-     * @brief seekHasChanged
-     */
-    void seekHasChanged(bool);
-    /**
      * @brief openStream
      */
     void openStream();
-
-
 signals:
     /**
      * @brief positionChanged
@@ -243,10 +237,6 @@ signals:
      * @brief askPrevious
      */
     void askPrevious();
-
-
-
-
     // ****************** For NetWork ******** //
     /**
      * @brief playerStopped
@@ -268,8 +258,6 @@ signals:
      * @brief playerPositionChanged
      */
     void playerPositionChanged(int,quint64);
-
-
 private:
     QSlider* m_volume;
     QSlider* m_seek;

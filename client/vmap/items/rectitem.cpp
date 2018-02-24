@@ -77,6 +77,8 @@ QPainterPath RectItem::shape() const
 }
 void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     painter->save();
     if(!m_filled)
     {

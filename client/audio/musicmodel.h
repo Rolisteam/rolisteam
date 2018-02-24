@@ -116,7 +116,7 @@ public:
     QStringList mimeTypes() const;
 protected:
     Qt::DropActions supportedDropActions() const;
-    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row);
 
 private:
     QStringList m_header;

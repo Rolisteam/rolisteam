@@ -157,7 +157,7 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
     }
 }
 AddVmapItemCommand::AddVmapItemCommand(VisualItem* item,VMap* map,QUndoCommand *parent)
-    : QUndoCommand(parent),m_currentItem(item),m_vmap(map)
+    : QUndoCommand(parent),m_vmap(map),m_currentItem(item)
 {
     initItem();
 }

@@ -248,9 +248,8 @@ QModelIndex ChannelModel::channelToIndex(Channel* channel)
     return parent;
 }
 
-NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader *msg, NetworkLink *link)
+NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader *msg)
 {
-    Q_UNUSED(link)
     if(NetMsg::AddChannel == msg->action())
     {
         QString idParent = msg->string8();

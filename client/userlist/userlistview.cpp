@@ -218,7 +218,8 @@ void UserListView::mouseMoveEvent ( QMouseEvent * event)
             drag->setMimeData(mimeData);
             drag->setPixmap(generateAvatar(tmpperso));
 
-            Qt::DropAction dropAction = drag->exec();
+            //Qt::DropAction dropAction =
+            drag->exec();
         }
     }
 }

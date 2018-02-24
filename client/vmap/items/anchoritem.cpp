@@ -54,6 +54,9 @@ void AnchorItem::setNewEnd(QPointF& nend)
 }
 void AnchorItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+    Q_UNUSED(widget)
+    Q_UNUSED(option)
+
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing,true);
 
@@ -73,20 +76,20 @@ void AnchorItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * op
 
 void AnchorItem::writeData(QDataStream& out) const
 {
-
+    Q_UNUSED(out)
 }
 
 void AnchorItem::readData(QDataStream& in)
 {
-
+    Q_UNUSED(in)
 }
 void AnchorItem::fillMessage(NetworkMessageWriter* msg)
 {
-
+    Q_UNUSED(msg)
 }
 void AnchorItem::readItem(NetworkMessageReader* msg)
 {
-
+    Q_UNUSED(msg)
 }
 void AnchorItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {

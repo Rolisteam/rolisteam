@@ -74,6 +74,8 @@ QPainterPath HighlighterItem::shape() const
 }
 void HighlighterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     painter->save();
     QPen pen = painter->pen();
     pen.setColor(m_color);
@@ -95,6 +97,7 @@ qreal HighlighterItem::getRadius() const
 }
 void HighlighterItem::setNewEnd(QPointF& p)
 {
+    Q_UNUSED(p)
   /*  m_radius = std::fabs(p.x()-pos().x())*sqrt(2);
 
     m_rect.setRect(-m_radius,-m_radius,m_radius*2,m_radius*2);*/
@@ -105,10 +108,12 @@ VisualItem::ItemType HighlighterItem::getType() const
 }
 void HighlighterItem::writeData(QDataStream& out) const
 {
+    Q_UNUSED(out)
 }
 
 void HighlighterItem::readData(QDataStream& in)
 {
+    Q_UNUSED(in)
 }
 void HighlighterItem::fillMessage(NetworkMessageWriter* msg)
 {

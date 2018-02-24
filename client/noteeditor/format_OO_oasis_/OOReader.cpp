@@ -119,7 +119,7 @@ void Gloader::run()
 #include <QDomDocument>
 
 OOReader::OOReader( const QString file , OOReader::WIDGEDEST e , QObject* parent )
-		: OOFormat(),maxStyleCount(0),styleCurrentCount(0),charsRead(),QTWRITTELN(false),
+        : OOFormat(parent),maxStyleCount(0),styleCurrentCount(0),charsRead(),QTWRITTELN(false),
 		construct_modus(e),sumOfBlocks(0),fileHash("250186"),fontTotal(0)
 {
 
@@ -297,7 +297,6 @@ bool OOReader::convertBody( const QDomElement &element )
 		else if ( child.tagName() == QLatin1String( "text:list" ) ) {
 			/* span element */
 			convertList(cursor,child,styleCurrentCount,1);
-			qDebug() << "### list root Nr.---" << styleCurrentCount << sumOfBlocks;
 			styleCurrentCount++;
 			emit statusRead(styleCurrentCount,sumOfBlocks);
 			//////////QCoreApplication::processEvents();
@@ -318,6 +317,7 @@ bool OOReader::convertBody( const QDomElement &element )
 
 bool OOReader::iterateElements( const QDomElement e ,   QTextCursor &cursor  , const int processing  )
 {
+    Q_UNUSED(processing)
 	int loppiter = -1;
 	QDomElement child = e.firstChildElement();
 	while ( !child.isNull() ) {
@@ -381,7 +381,7 @@ bool OOReader::convertList( QTextCursor &cur , QDomElement e  , const int proces
 	}
 
 	QDomElement firstpara = ul_blck.firstChildElement("text:p");
-	const int CCpos = cur.position();
+//	const int CCpos = cur.position();
 	QTextCharFormat spanFor = DefaultCharFormats(QTWRITTELN);
 	QTextBlockFormat paraFormat = DefaultMargin();
 	if (!ul_blck.isNull() && !firstpara.isNull()) {
@@ -397,7 +397,7 @@ bool OOReader::convertList( QTextCursor &cur , QDomElement e  , const int proces
 	}
 
 
-	int lisumm = 1;
+//	int lisumm = 1;
 	QTextList *Uls = cur.createList( ulinit );
     Uls->add( cur.block() );
     cur.endEditBlock();
@@ -406,6 +406,7 @@ bool OOReader::convertList( QTextCursor &cur , QDomElement e  , const int proces
 
 QPair<QTextBlockFormat,QTextCharFormat> OOReader::paraFormatCss2( const QString name , QTextBlockFormat parent , bool HandleSpace  )
 {
+    Q_UNUSED(HandleSpace)
 	QTextBlockFormat paraFormat = DefaultMargin();
 	paraFormat.merge(parent);
 	QTextCharFormat charFormat = DefaultCharFormats(QTWRITTELN);
@@ -422,6 +423,7 @@ QPair<QTextBlockFormat,QTextCharFormat> OOReader::paraFormatCss2( const QString 
 
 QTextCharFormat OOReader::charFormatCss2( const QString name , QTextCharFormat parent , bool HandleSpace  )
 {
+    Q_UNUSED(HandleSpace)
 	QTextCharFormat base = DefaultCharFormats(QTWRITTELN);
 	base.merge(parent);
 	if (css2[name].valid && parent.isValid()) {
@@ -514,9 +516,9 @@ bool OOReader::convertFrame( QTextCursor &cur , const QDomElement e , QTextCharF
     const QString name = e.attribute ("draw:style-name");
 	const qreal width = Unit(e.attribute("svg:width"));
 	const qreal height = Unit(e.attribute("svg:height"));
-	const qreal poX = Unit(e.attribute("svg:x"));
+/*	const qreal poX = Unit(e.attribute("svg:x"));
 	const qreal poY = Unit(e.attribute("svg:y"));
-	const int zindex = e.attribute("draw:z-index").toInt();
+    const int zindex = e.attribute("draw:z-index").toInt();*/
     
     QTextFrameFormat fox;
     if (css2[name].valid) {
@@ -547,6 +549,9 @@ bool OOReader::convertFrame( QTextCursor &cur , const QDomElement e , QTextCharF
 
 bool OOReader::convertImage( QTextCursor &cur , const QDomElement e , QTextCharFormat parent ,  bool HandleSpace )
 {
+    Q_UNUSED(cur)
+    Q_UNUSED(parent)
+    Q_UNUSED(HandleSpace)
 	if (e.isNull()) {
 		return false;
 	}
@@ -621,6 +626,7 @@ bool OOReader::convertImage( QTextCursor &cur , const QDomElement e , QTextCharF
 
 bool OOReader::convertSpaceTag( QTextCursor &cur , const QDomElement e , QTextCharFormat parent ,  bool HandleSpace )
 {
+    Q_UNUSED(HandleSpace)
 	if (e.isNull()) {
 		return false;
 	}
@@ -1420,7 +1426,7 @@ QTextFrameFormat OOReader::FrameFormat( const QString name )
 
 bool OOReader::convertCellTable( const QDomElement e  , QTextCursor &cur  , const int processing )
 {
-
+    Q_UNUSED(processing)
 	cur.beginEditBlock();
 	///////cur.insertText(QString("%1-%2").arg(cell.row()).arg(cell.column()));
 	/////cur.insertText(QString("cc"));
@@ -1481,7 +1487,6 @@ bool OOReader::convertTable( QTextCursor &cur , const QDomElement e  , const int
 	const qreal defaultPercents = 99.9999;
 	while (!column.isNull()) {
 		QTextLength cool_wi = QTextLength(QTextLength::PercentageLength,defaultPercents);
-		bool appendC = false;
 		const QString sname = column.attribute ("table:style-name");
 		const int makecolls = qMax(column.attribute("table:number-columns-repeated").toInt(),1);
 		if (!sname.isEmpty()) {

@@ -1317,6 +1317,7 @@ void Map::sendTrace()
     else
     {
         NetMsg::Action action;
+        bool ok = true;
         switch(m_currentTool)
         {
         case ToolsBar::Line:
@@ -1334,25 +1335,30 @@ void Map::sendTrace()
         case ToolsBar::FilledEllipse:
             action = NetMsg::filledEllipsePainting;
             break;
+        default:
+            ok = false;
+            break;
         }
+        if(ok)
+        {
+            msg = new NetworkMessageWriter(NetMsg::DrawCategory,action);
+            msg->string8(m_mapId);
+            msg->uint16(m_originPoint.x());
+            msg->uint16(m_originPoint.y());
 
-        msg = new NetworkMessageWriter(NetMsg::DrawCategory,action);
-        msg->string8(m_mapId);
-        msg->uint16(m_originPoint.x());
-        msg->uint16(m_originPoint.y());
+            msg->uint16(m_mousePoint.x());
+            msg->uint16(m_mousePoint.y());
 
-        msg->uint16(m_mousePoint.x());
-        msg->uint16(m_mousePoint.y());
+            msg->uint16(m_newZone.x());
+            msg->uint16(m_newZone.y());
+            msg->uint16(m_newZone.width());
+            msg->uint16(m_newZone.height());
 
-        msg->uint16(m_newZone.x());
-        msg->uint16(m_newZone.y());
-        msg->uint16(m_newZone.width());
-        msg->uint16(m_newZone.height());
+            msg->uint8(m_penSize);
 
-		msg->uint8(m_penSize);
-
-        msg->uint8(ColorSelector::getSelectedColor().type);
-        msg->rgb(ColorSelector::getSelectedColor().color);
+            msg->uint8(ColorSelector::getSelectedColor().type);
+            msg->rgb(ColorSelector::getSelectedColor().color);
+        }
     }
 
     if(nullptr!=msg)
@@ -1371,7 +1377,7 @@ void Map::sendCharacterPath()
     msg.string8(m_mapId);
     msg.string8(idPerso);
     msg.uint32(sizeList);
-    for (int i=0; i<sizeList; i++)
+    for (unsigned int i=0; i<sizeList; i++)
     {
         msg.uint16(m_characterMoveList[i].x());
         msg.uint16(m_characterMoveList[i].y());

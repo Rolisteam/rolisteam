@@ -410,8 +410,9 @@ void TextEdit::drawDoc()
     }
 }
 
-void TextEdit::onRead( int now ,int tot )
+void TextEdit::onRead( int  ,int  )
 {
+
     //////qDebug() << "### reading line -> " << now <<  " t." << tot;
     
 }

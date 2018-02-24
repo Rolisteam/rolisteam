@@ -71,6 +71,8 @@ QPainterPath LineItem::shape() const
 }
 void LineItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     painter->save();
     painter->setPen(m_pen);
     painter->drawLine(m_startPoint,m_endPoint);

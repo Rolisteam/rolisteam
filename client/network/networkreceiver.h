@@ -37,7 +37,7 @@ public:
      * @param msg is the received network message, it stores the important data.
      * @return How the Server should do with this package.
      */
-    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg, NetworkLink* link = nullptr) = 0;
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) = 0;
 };
 
 #endif // NETWORKRECEIVER_H

@@ -222,6 +222,8 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             case VisualItem::CHARACTER_LAYER:
                 m_editCharacterLayer->setChecked(true);
                 break;
+            default:
+                break;
             }
             if(licenseToModify)
             {
@@ -629,10 +631,7 @@ void RGraphicsView::changeVisibility()
         sendOffMapChange();
     }
 }
-void RGraphicsView::rubberBandGeometry(QRect viewportRect, QPointF fromScenePoint, QPointF toScenePoint)
-{
-    //qDebug() << viewportRect << fromScenePoint << toScenePoint;
-}
+
 
 void RGraphicsView::setZoomFactor()
 {
@@ -734,17 +733,22 @@ void RGraphicsView::resizeEvent(QResizeEvent* event)
 }
 void RGraphicsView::readMessage(NetworkMessageReader* msg)
 {
+    /// @warning unread message
     qreal x  = msg->real();
     qreal y  = msg->real();
     qreal width  = msg->real();
     qreal height  = msg->real();
+    Q_UNUSED(x)
+    Q_UNUSED(y)
+    Q_UNUSED(width)
+    Q_UNUSED(height)
 
     //qDebug() <<"read message" << x << y << width << height;
 
-    if(nullptr!=scene())
-    {
+    //if(nullptr!=scene())
+    //{
         //setSceneRect(x,y,width,height);
-    }
+    //}
 }
 void RGraphicsView::addImageToMap()
 {

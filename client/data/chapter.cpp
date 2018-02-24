@@ -31,7 +31,7 @@ Chapter::Chapter()
 {
 }
 Chapter::Chapter(const Chapter& m)
-: m_children(QList<ResourcesNode*>())
+:QObject(m.parent()),m_children(QList<ResourcesNode*>())
 {
     m_name=m.m_name;
 }
@@ -145,7 +145,7 @@ bool Chapter::contains(ResourcesNode* node)
     return false;
 }
 
-void Chapter::write(QDataStream &out, bool tag, bool saveData) const
+void Chapter::write(QDataStream &out, bool , bool ) const
 {
     out << QStringLiteral("Chapter");
     out << m_name;

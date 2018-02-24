@@ -44,7 +44,7 @@
 PlayersList* PlayersList::m_singleton=nullptr;
 
 PlayersList::PlayersList()
-    : QAbstractItemModel(nullptr), m_gmCount(0),m_localPlayer(nullptr)
+    : QAbstractItemModel(nullptr)
 {
     using namespace NetMsg;
     ReceiveEvent::registerReceiver(PlayerCategory, PlayerConnectionAction, this);

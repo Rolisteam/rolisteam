@@ -25,6 +25,8 @@ QRectF ImageItem::boundingRect() const
 }
 void ImageItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
 	painter->save();
 	painter->drawImage(m_rect,m_image,m_image.rect());
 
@@ -292,6 +294,7 @@ void ImageItem::setModifiers(Qt::KeyboardModifiers modifiers)
 }
 void ImageItem::updateImageFromMovie(QRect rect)
 {
+    Q_UNUSED(rect)
     if(nullptr!=m_movie)
     {
         m_image = m_movie->currentImage();

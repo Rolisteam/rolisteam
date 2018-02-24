@@ -72,7 +72,8 @@ void RuleItem::setNewEnd(QPointF& nend)
 }
 void RuleItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
-    //setScale(1+1*m_zoomFactor);
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
 
     //qDebug() << m_zoomFactor << 1+1*m_zoomFactor << 1/m_zoomFactor;
     painter->save();
@@ -108,20 +109,20 @@ void RuleItem::setModifiers(Qt::KeyboardModifiers mod)
 
 void RuleItem::writeData(QDataStream& out) const
 {
-
+    Q_UNUSED(out)
 }
 
 void RuleItem::readData(QDataStream& in)
 {
-
+    Q_UNUSED(in)
 }
 void RuleItem::fillMessage(NetworkMessageWriter* msg)
 {
-
+    Q_UNUSED(msg)
 }
 void RuleItem::readItem(NetworkMessageReader* msg)
 {
-
+    Q_UNUSED(msg)
 }
 void RuleItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {

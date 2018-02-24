@@ -70,15 +70,17 @@ void PlayerWidget::setDuration(qint64 duration)
 
 void PlayerWidget::positionChanged(qint64 time)
 {
-     QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
+    QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
 
-     if((m_isGM) && ((time>m_time+(FACTOR_WAIT*m_player.notifyInterval()))||(time<m_time)))
-     {
-          emit playerPositionChanged(m_id,time);
-     }
-     m_time = time;
-     m_ui->m_timeSlider->setValue(time);
-     m_ui->m_timerDisplay->display(displayTime.toString("mm:ss"));
+    if((m_isGM) &&
+            ((static_cast<quint64>(time)>m_time+(FACTOR_WAIT*m_player.notifyInterval()))||
+             (static_cast<quint64>(time)<m_time)))
+    {
+        emit playerPositionChanged(m_id,time);
+    }
+    m_time = time;
+    m_ui->m_timeSlider->setValue(time);
+    m_ui->m_timerDisplay->display(displayTime.toString("mm:ss"));
 
 }
 void PlayerWidget::mediaStatusChanged(QMediaPlayer::MediaStatus status)
@@ -211,7 +213,7 @@ void PlayerWidget::setupUi()
     updateIcon();
     connect(&m_player,SIGNAL(positionChanged(qint64)),this,SLOT(positionChanged(qint64)));
     connect(&m_player,SIGNAL(durationChanged(qint64)),this,SLOT(setDuration(qint64)));
-   // connect(m_playAct,SIGNAL(triggered()),&m_player,SLOT(play()));
+    // connect(m_playAct,SIGNAL(triggered()),&m_player,SLOT(play()));
     connect(m_playAct,SIGNAL(triggered()),this,SLOT(playSelectedSong()));
 
     connect(m_stopAct,SIGNAL(triggered()),&m_player,SLOT(stop()));
@@ -227,7 +229,6 @@ void PlayerWidget::setupUi()
     connect(&m_player,SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)),this,SLOT(mediaStatusChanged(QMediaPlayer::MediaStatus)));
 
     connect(&m_player,SIGNAL(error(QMediaPlayer::Error)),this,SLOT(errorOccurs(QMediaPlayer::Error)));
-    connect(&m_player,SIGNAL(seekableChanged(bool)),this,SLOT(seekHasChanged(bool)));
     connect(m_ui->m_label,SIGNAL(textChanged(QString)),this,SLOT(labelTextChanged()));
 
     connect(m_repeatAct,SIGNAL(triggered()),this,SLOT(triggeredPlayingModeAction()));
@@ -241,9 +242,9 @@ void PlayerWidget::setupUi()
 void PlayerWidget::startMediaByModelIndex(QModelIndex p)//double click
 {
 
-      startMedia(m_model->getMediaByModelIndex(p),m_model->data(p).toString());
-      m_model->setCurrentSong(p);
-          //  m_mediaObject->play();
+    startMedia(m_model->getMediaByModelIndex(p),m_model->data(p).toString());
+    m_model->setCurrentSong(p);
+    //  m_mediaObject->play();
 }
 
 void PlayerWidget::removeFile()
@@ -251,11 +252,11 @@ void PlayerWidget::removeFile()
     QModelIndexList list = m_ui->m_songList->selectionModel()->selectedIndexes();
     m_model->removeSong(list);
 }
-void PlayerWidget::currentChanged(const QModelIndex& current, const QModelIndex& previous)
+void PlayerWidget::currentChanged(const QModelIndex& current, const QModelIndex&)
 {
     if((current.isValid())&&(m_player.mediaStatus() == QMediaPlayer::NoMedia))
     {
-            startMedia(m_model->getMediaByModelIndex(current),current.data().toString(),false);
+        startMedia(m_model->getMediaByModelIndex(current),current.data().toString(),false);
     }
 }
 void PlayerWidget::playSelectedSong()
@@ -263,7 +264,7 @@ void PlayerWidget::playSelectedSong()
     QModelIndex current = m_ui->m_songList->currentIndex();
     if((current.isValid())&&((m_player.mediaStatus() == QMediaPlayer::NoMedia)||(m_player.mediaStatus()==QMediaPlayer::EndOfMedia)||(m_player.state()==QMediaPlayer::StoppedState)))
     {
-            startMedia(m_model->getMediaByModelIndex(current),current.data().toString());
+        startMedia(m_model->getMediaByModelIndex(current),current.data().toString());
     }
     else
     {
@@ -375,23 +376,23 @@ void PlayerWidget::addActionsIntoMenu(QMenu* menu)
 void PlayerWidget::updateUi(bool isGM)
 {
     m_isGM = isGM;
-   /* if(isGM)
+    /* if(isGM)
     {// Game Master*/
-        m_ui->m_playButton->setVisible(isGM);
-        m_ui->m_stopButton->setVisible(isGM);
-        m_ui->m_pauseButton->setVisible(isGM);
-        m_ui->m_uniqueMode->setVisible(isGM);
-        m_ui->m_repeatMode->setVisible(isGM);
-        m_ui->m_timeSlider->setVisible(isGM);
-        m_ui->m_addButton->setVisible(isGM);
-        //m_ui->m_volumeMutedButton->setVisible(true);
-        m_ui->m_deleteButton->setVisible(isGM);
-        m_ui->m_songList->setVisible(isGM);
-        m_ui->m_savePlaylist->setVisible(isGM);
-        m_ui->m_changeDirectory->setVisible(!isGM);
-        m_ui->m_timerDisplay->setVisible(isGM);
-   // }
-   /* else//Player
+    m_ui->m_playButton->setVisible(isGM);
+    m_ui->m_stopButton->setVisible(isGM);
+    m_ui->m_pauseButton->setVisible(isGM);
+    m_ui->m_uniqueMode->setVisible(isGM);
+    m_ui->m_repeatMode->setVisible(isGM);
+    m_ui->m_timeSlider->setVisible(isGM);
+    m_ui->m_addButton->setVisible(isGM);
+    //m_ui->m_volumeMutedButton->setVisible(true);
+    m_ui->m_deleteButton->setVisible(isGM);
+    m_ui->m_songList->setVisible(isGM);
+    m_ui->m_savePlaylist->setVisible(isGM);
+    m_ui->m_changeDirectory->setVisible(!isGM);
+    m_ui->m_timerDisplay->setVisible(isGM);
+    // }
+    /* else//Player
     {
         m_ui->m_playButton->setVisible(false);
         m_ui->m_stopButton->setVisible(false);
@@ -422,7 +423,7 @@ void PlayerWidget::updateIcon()
     }
     else
     {
-       m_volumeMutedAct->setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
+        m_volumeMutedAct->setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
     }
 }
 void PlayerWidget::setTime(int time)
@@ -544,75 +545,75 @@ void PlayerWidget::loadPlayList()
 {
     QStringList list;
     list << "http://tabletopaudio.com/download.php?downld_file=70_Age_of_Steam.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=69_Forest_Night.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=68_1940s_Office.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=67_Asylum.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=66_Royal_Salon.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=65_Dungeon_I.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=64_Mountain_Pass.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=63_Industrial_Shipyard.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=62_Middle_Earth_Dawn.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=61_Orbital_Platform.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=60_Dark_and_Stormy.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=59_Dinotopia.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=58_Terror.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=57_Colosseum.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=56_Medieval_Town.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=55_Ice_Cavern.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=54_Mountain_Tavern.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=53_Strangers_on_a_Train.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=52_Warehouse_13.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=51_Woodland_Campsite.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=50_Super_Hero.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=49_Goblin's_Cave.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=48_Overland_with_Oxen.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=47_There_be_Dragons.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=46_Cathedral.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=45_Samurai_HQ.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=44_Victorian_London.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=43_Dome_City_Center.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=42_Rise_of_the_Ancients.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=41_Starship_Bridge.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=40_The_Long_Rain.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=39_Temple_of_the_Eye.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=38_Into_the_Deep.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=34_Clash_of_Kings.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=36_Down_by_the_Sea.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=37_Catacombs.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=30_Los_Vangeles_3030.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=35_Swamplandia.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=33_Far_Above_the_World.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=32_City_and_the_City.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=29_Kaltoran_Craft_FE.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=28_Nephilim_Labs_FE.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=31_Frozen_Wastes.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=26_Uncommon_Valor_a.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=27_Xingu_Nights.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=25_Deep_Space_EVA.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=24_Forbidden_Galaxy.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=23_The_Slaughtered_Ox.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=21_Derelict_Freighter.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=22_True_West_a.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=20_Dark_Continent_aa.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=19_Age_of_Sail.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=18_House_on_the_Hill.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=17_Alien_Night_Club.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=15_Alien_Machine_Shop.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=16_Busy_Space_Port.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=4_Solemn_Vow-a.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=6_Abyssal_Gaze.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=7_The_Desert_Awaits.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=8_New_Dust_to_Dust.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=9_Before_The_Storm.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=10_In_The_Shadows.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=11_Shelter_from_the_Storm.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=12_Disembodied_Spirits.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=13_Cave_of_Time.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=14_Protean_Fields.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=1_The_Inner_Core.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=2_Bubbling_Pools.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=5_Desert_Bazaar.mp3"
-        << "http://tabletopaudio.com/download.php?downld_file=3_The_March_of_the_Faithful.mp3";
+         << "http://tabletopaudio.com/download.php?downld_file=69_Forest_Night.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=68_1940s_Office.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=67_Asylum.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=66_Royal_Salon.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=65_Dungeon_I.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=64_Mountain_Pass.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=63_Industrial_Shipyard.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=62_Middle_Earth_Dawn.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=61_Orbital_Platform.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=60_Dark_and_Stormy.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=59_Dinotopia.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=58_Terror.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=57_Colosseum.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=56_Medieval_Town.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=55_Ice_Cavern.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=54_Mountain_Tavern.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=53_Strangers_on_a_Train.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=52_Warehouse_13.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=51_Woodland_Campsite.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=50_Super_Hero.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=49_Goblin's_Cave.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=48_Overland_with_Oxen.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=47_There_be_Dragons.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=46_Cathedral.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=45_Samurai_HQ.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=44_Victorian_London.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=43_Dome_City_Center.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=42_Rise_of_the_Ancients.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=41_Starship_Bridge.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=40_The_Long_Rain.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=39_Temple_of_the_Eye.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=38_Into_the_Deep.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=34_Clash_of_Kings.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=36_Down_by_the_Sea.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=37_Catacombs.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=30_Los_Vangeles_3030.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=35_Swamplandia.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=33_Far_Above_the_World.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=32_City_and_the_City.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=29_Kaltoran_Craft_FE.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=28_Nephilim_Labs_FE.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=31_Frozen_Wastes.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=26_Uncommon_Valor_a.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=27_Xingu_Nights.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=25_Deep_Space_EVA.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=24_Forbidden_Galaxy.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=23_The_Slaughtered_Ox.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=21_Derelict_Freighter.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=22_True_West_a.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=20_Dark_Continent_aa.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=19_Age_of_Sail.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=18_House_on_the_Hill.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=17_Alien_Night_Club.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=15_Alien_Machine_Shop.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=16_Busy_Space_Port.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=4_Solemn_Vow-a.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=6_Abyssal_Gaze.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=7_The_Desert_Awaits.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=8_New_Dust_to_Dust.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=9_Before_The_Storm.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=10_In_The_Shadows.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=11_Shelter_from_the_Storm.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=12_Disembodied_Spirits.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=13_Cave_of_Time.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=14_Protean_Fields.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=1_The_Inner_Core.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=2_Bubbling_Pools.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=5_Desert_Bazaar.mp3"
+         << "http://tabletopaudio.com/download.php?downld_file=3_The_March_of_the_Faithful.mp3";
 
     if(askToDeleteAll())
     {
@@ -635,36 +636,34 @@ void  PlayerWidget::savePlaylist()
     QFile file(filename);
 
     // if(file.isWritable())
-     {
-         file.open(QIODevice::WriteOnly);
-         QTextStream in(&file);
-         m_model->saveIn(in);
-     }
+    {
+        file.open(QIODevice::WriteOnly);
+        QTextStream in(&file);
+        m_model->saveIn(in);
+    }
+}
+void PlayerWidget::errorOccurs(QMediaPlayer::Error e)
+{
+    if(QMediaPlayer::NoError == e)
+        return;
 
+    QString Error("Error %1 : %2");
+    m_ui->m_label->setText(Error.arg(m_player.errorString()).arg(m_player.currentMedia().canonicalUrl().toString()));
+}
+void PlayerWidget::labelTextChanged()
+{
+    if(m_ui->m_label->text().startsWith("Error") && m_player.error()!=QMediaPlayer::NoError)
+    {
+        m_ui->m_label->setStyleSheet("color: red");
+        m_ui->m_label->setEchoMode(QLineEdit::Normal);
+    }
+    else
+    {
+        m_ui->m_label->setStyleSheet("color: black");
+        if(!m_isGM)
+        {// Player
+            m_ui->m_label->setEchoMode(QLineEdit::Password);
+        }
+    }
+}
 
- }
- void PlayerWidget::errorOccurs(QMediaPlayer::Error e)
- {
-     QString Error("Error %1 : %2");
-     m_ui->m_label->setText(Error.arg(m_player.errorString()).arg(m_player.currentMedia().canonicalUrl().toString()));
- }
- void PlayerWidget::labelTextChanged()
- {
-     if(m_ui->m_label->text().startsWith("Error") && m_player.error()!=QMediaPlayer::NoError)
-     {
-         m_ui->m_label->setStyleSheet("color: red");
-         m_ui->m_label->setEchoMode(QLineEdit::Normal);
-     }
-     else
-     {
-         m_ui->m_label->setStyleSheet("color: black");
-         if(!m_isGM)
-         {// Player
-                 m_ui->m_label->setEchoMode(QLineEdit::Password);
-         }
-     }
- }
- void PlayerWidget::seekHasChanged(bool seekable)
- {
-  //   m_ui->m_timeSlider->setEnabled(seekable);
- }

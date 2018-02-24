@@ -333,7 +333,7 @@ QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
     return nullptr;
 }
 
-void ImprovedWorkspace::preferencesHasChanged(QString str)
+void ImprovedWorkspace::preferencesHasChanged(QString)
 {
     updateBackGround();
     update();

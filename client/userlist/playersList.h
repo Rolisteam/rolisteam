@@ -171,11 +171,11 @@ private:
 private:
     QList<Player *> m_playersList;
     QMap<QString, Person *> m_uuidMap;
-    Player* m_localPlayer;
 
     static PlayersList* m_singleton;
 
-    int m_gmCount;
+    int m_gmCount = 0;
+    Player* m_localPlayer = nullptr;
 };
 
 #endif

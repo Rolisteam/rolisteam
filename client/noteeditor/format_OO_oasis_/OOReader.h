@@ -142,12 +142,12 @@ struct StyleInfo
         QString name;
         uint position;
         QTextFormat of;
-        QTextCharFormat ofchar;
         OOReader::STYLETYPE type;
         QByteArray chunk;
         QString css;
         bool valid;
         bool filled;
+        QTextCharFormat ofchar;
     };
 
 
@@ -157,23 +157,22 @@ protected:
     void openStreams( QMap<QString,QByteArray> list ); /* unzipped file */
     QString odtzipfile;
     int maxStyleCount;
-    int sumOfBlocks;
-    uint charsRead;
-    WIDGEDEST construct_modus;
     int styleCurrentCount;
+    uint charsRead;
+    bool QTWRITTELN;
+    WIDGEDEST construct_modus;
+    int sumOfBlocks;
+    QString fileHash;
+    int fontTotal;
+
     QMap<int,QTextDocument*> layerlist; /* absolute layer having y,x  */
     QMap<QString,QTextDocument*> lateral; /* header footer fo region */
     QMap<QString,StyleInfo> css2; /* all oo style name */
     QMap<QString,QByteArray> filist;  /* all file from zip oo */
-    
     QMap<QString,QDomElement> fontname; 
-    int fontTotal;
     QFont standardFont;
-
-    QString fileHash;
     QDomDocument bodyStarter;
     bool DocInitContruct;
-    bool QTWRITTELN;
     qreal FontMaxPoint;
     qreal FontMinPoint;
     int imageCurrentCount;

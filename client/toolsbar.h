@@ -132,7 +132,6 @@ private :
 
 private slots :
     void resetNpcNumber();
-	void changeSize(bool floating);
     void currentToolHasChanged(QAction*);
 
 private:

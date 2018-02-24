@@ -51,9 +51,9 @@ signals:
     void itemChanged();
 
 protected:
-    QString m_name;
-    TreeItem* m_parentItem;
     QString m_id;
+    TreeItem* m_parentItem;
+    QString m_name;
 };
 
 #endif // TREEITEM_H

@@ -30,7 +30,7 @@
 
 
 ColorButton::ColorButton(QWidget * parent,bool transparency)
-    : QPushButton(parent), m_color(QColor("tan"))//, m_dialog(QColor("tan"), this)
+    : QPushButton(parent), m_color(QColor("tan")),m_hasTransparency(transparency)
 {
 
     setStyle(QStyleFactory::create("fusion"));
