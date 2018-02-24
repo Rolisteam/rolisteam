@@ -405,7 +405,7 @@ QString ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
     for(auto dice : diceList)
     {
         QStringList resultGlobal;
-        foreach(int face, dice.keys())
+        for(int face : dice.keys())
         {
             QStringList result;
             QStringList currentStreak;
@@ -414,7 +414,7 @@ QString ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
             bool previousHighlight=false;
             QString previousColor;
             QString patternColor("<span class=\"dice\">");
-            foreach (HighLightDice tmp, diceResult)
+            for (HighLightDice tmp : diceResult)
             {
                 if(previousColor != tmp.getColor())
                 {
@@ -489,7 +489,7 @@ QString ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
                     //currentStreak.clear();
                 }
             }
-            foreach(QStringList a, allStreakList)
+            for(QStringList a : allStreakList)
             {
                 result << a;
             }
