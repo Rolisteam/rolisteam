@@ -189,6 +189,9 @@ protected :
     void setProperDictionnary(QString idOwner);
     void dropEvent(QDropEvent *event);
     void dragEnterEvent(QDragEnterEvent *event);
+    void updateAction();
+    void removeAllShortcut();
+    void createAction(const std::pair<QString, QString> &pair);
 private slots :
     /**
      * @brief sendOffTextMessage
