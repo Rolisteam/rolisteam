@@ -779,7 +779,7 @@ void PreferencesDialog::performDiag()
     QFontDatabase database;
     htmlResult+= tr("<h2>Font families:</h2><ul>");
     linePattern = "<li>%1</li>";
-    foreach (const QString &family, database.families())
+    for(const QString &family: database.families())
     {
         result+= linePattern.arg(family);
     }
@@ -805,7 +805,7 @@ void PreferencesDialog::performDiag()
                         << "audio/wav"
                         << "audio/webm"
                         << "audio/flac";//
-    foreach (const QString &type, commonAudioMimeType)
+  /*  for(const QString &type : commonAudioMimeType)
     {
         switch (QMediaPlayer::hasSupport(type))
         {
@@ -820,7 +820,7 @@ void PreferencesDialog::performDiag()
             result+= tr("<li>Supported format: %1</li>").arg(type);
             break;
         }
-    }
+    }*/
     htmlResult +=result;
     htmlResult+= tr("</ul>End of Supported Audio file formats");
 

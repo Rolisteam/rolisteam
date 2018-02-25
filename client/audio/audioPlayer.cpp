@@ -57,7 +57,7 @@ void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
     QMenu menu;
     if(m_isGM)
     {
-        foreach(PlayerWidget* tmp,m_players)
+        for(PlayerWidget* tmp:m_players)
         {
             if((tmp->geometry().contains(ev->pos(),true))&&(tmp->isVisible()))
             {
