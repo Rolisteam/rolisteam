@@ -227,7 +227,14 @@
     </layout>
    </item>
    <item>
-    <widget class="QListView" name="m_songList"/>
+    <widget class="QListView" name="m_songList">
+     <property name="defaultDropAction">
+      <enum>Qt::IgnoreAction</enum>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
