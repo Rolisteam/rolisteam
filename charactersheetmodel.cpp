@@ -260,6 +260,7 @@ void CharacterSheetModel::checkCharacter(Section *section)
                 Field* newField = new Field(false);
                 newField->copyField(id,true);
                 sheet->insertCharacterItem(newField);
+                field = newField;
             }
             if(field->getCurrentType() != id->getCurrentType())
             {
@@ -373,6 +374,9 @@ void CharacterSheetModel::setRootSection(Section *rootSection)
 QVariant CharacterSheetModel::headerData(int section, Qt::Orientation orientation,
                                          int role) const
 {
+    if(role  == Qt::TextAlignmentRole)
+        return Qt::AlignCenter;
+
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
     {
         switch(section)
