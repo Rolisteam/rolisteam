@@ -240,3 +240,11 @@ void NetworkMessageWriter::setRecipientList(QStringList list,NetworkMessage::Rec
     }
 
 }
+QStringList NetworkMessageWriter::getRecipientList() const
+{
+    return {};
+}
+NetworkMessage::RecipientMode NetworkMessageWriter::getRecipientMode() const
+{
+    return m_mode;
+}

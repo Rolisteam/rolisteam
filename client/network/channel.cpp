@@ -125,22 +125,48 @@ TreeItem *Channel::getChildAt(int row)
     }
     return nullptr;
 }
-void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool mustBeSaved)
-{
+void Channel::sendMessage(NetworkMessage* msg, TcpClient* tcp, bool mustBeSaved)
+{  
     if(mustBeSaved)
     {
         m_dataToSend.append(msg);
     }
+    if(msg->getRecipientMode() == NetworkMessage::All)
+    {
+        sendToAll(msg,tcp);
+    }
+    else if(msg->getRecipientMode() == NetworkMessage::OneOrMany) 
+    {
+        sendToMany(msg,tcp);
+    }
+
+}
+void Channel::sendToMany(NetworkMessage* msg, TcpClient* tcp)
+{ 
+    auto recipient = msg->getRecipientList();
     for(auto client : m_child)
     {
         TcpClient* other = dynamic_cast<TcpClient*>(client);
 
+        if((nullptr != other)&&(other!=tcp)&&(recipient.contains(other->getId())))
+        {
+            QMetaObject::invokeMethod(other,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,false));
+        }          
+    }
+}
+
+void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp)
+{
+    for(auto client : m_child)
+    {
+        TcpClient* other = dynamic_cast<TcpClient*>(client);
         if((nullptr != other)&&(other!=tcp))
         {
             QMetaObject::invokeMethod(other,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,false));
         }          
     }
 }
+
 int Channel::addChild(TreeItem* item)
 {
     if(nullptr != item)
@@ -289,7 +315,7 @@ bool Channel::removeClient(TcpClient* client)
     //notify all remaining chan member to remove former player
     NetworkMessageWriter* message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
     message->string8(client->getPlayerId());
-    sendToAll(message,nullptr,false);
+    sendMessage(message,nullptr,false);
 
     if(hasNoClient())
     {

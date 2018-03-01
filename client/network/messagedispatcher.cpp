@@ -67,11 +67,9 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
         }
     }
 
-
-
     if((sendToAll)&&(nullptr != channel))
     {
-        channel->sendToAll(msg,emitter,saveIt);
+        channel->sendMessage(msg,emitter,saveIt);
     }
 
 }

@@ -96,12 +96,12 @@ NetworkMessageHeader* NetworkMessageReader::buffer()
     return m_header;
 }
 
-QStringList NetworkMessageReader::recipientList() const
+QStringList NetworkMessageReader::getRecipientList() const
 {
     return m_recipientList;
 }
 
-NetworkMessage::RecipientMode NetworkMessageReader::mode() const
+NetworkMessage::RecipientMode NetworkMessageReader::getRecipientMode() const
 {
     return m_mode;
 }

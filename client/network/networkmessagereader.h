@@ -78,9 +78,9 @@ public:
     /////////////////////////////////
     void readRecipient();
 
-    NetworkMessage::RecipientMode mode() const;
+    NetworkMessage::RecipientMode getRecipientMode() const;
 
-    QStringList recipientList() const;
+    virtual QStringList getRecipientList() const;
 
 protected:
     NetworkMessageHeader * buffer();

@@ -25,6 +25,7 @@
 #define NETWORK_MESSAGE_H
 
 #include <QtGlobal>
+#include <QStringList>
 //
 class NetworkLink;
 class ClientManager;
@@ -233,6 +234,9 @@ public:
      * @param server
      */
     void setLinkToServer(NetworkLink* server);
+    virtual NetworkMessage::RecipientMode getRecipientMode() const = 0;
+    virtual QStringList getRecipientList() const = 0;
+    
 
     /**
      * @brief getSize
