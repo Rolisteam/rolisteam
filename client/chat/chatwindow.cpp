@@ -361,7 +361,6 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
                         showMessage(msgTitle, color, msgBody);
                         m_warnedEmoteUnavailable = true;
                     }
-
                     if(nullptr!=localPerson)
                     {
                         QString vide;
@@ -369,10 +368,8 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
                         action = NetMsg::EmoteMessageAction;
                     }
                     break;
-
                 }
             }
-
         }
     }
     else//normal text
@@ -392,11 +389,20 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
         return;
 
     // Emission du message
-    NetworkMessageWriter data(NetMsg::ChatCategory, action);
+    auto mode = m_chat->getRecipientMode();
+    NetworkMessageWriter data(NetMsg::ChatCategory, action, mode);
+    if(NetworkMessage::OneOrMany == mode)
+    {
+        data.setRecipientList(m_chat->getRecipientList(),mode);
+    }
+
     data.string8(localPerson->getUuid());
     data.string8(m_chat->identifier());
     data.string32(message);
-    data.string32(m_diceParser->getComment());
+    if(NetMsg::DiceMessageAction == action)
+    {
+        data.string32(m_diceParser->getComment());
+    }
     m_chat->sendThem(data);
 }
 QString ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)

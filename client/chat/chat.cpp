@@ -42,6 +42,11 @@ bool AbstractChat::belongsToLocalPlayer() const
     return false;
 }
 
+QStringList AbstractChat::getRecipientList() const
+{
+    return {};
+}
+
 
 /**************
  * PublicChat *
@@ -81,6 +86,11 @@ void PublicChat::sendThem(NetworkMessage & message ) const
 bool PublicChat::everyPlayerHasFeature(const QString & feature, quint8 version) const
 {
     return PlayersList::instance()->everyPlayerHasFeature(feature, version);
+}
+
+NetworkMessage::RecipientMode PublicChat::getRecipientMode() const
+{
+    return NetworkMessage::All;
 }
 
 
@@ -125,12 +135,21 @@ bool PlayerChat::everyPlayerHasFeature(const QString & feature, quint8 version) 
     return m_player->hasFeature(feature, version);
 }
 
+NetworkMessage::RecipientMode PlayerChat::getRecipientMode() const
+{
+    return NetworkMessage::OneOrMany;
+}
+
 void PlayerChat::verifyName(Player * player)
 {
     if (player == m_player)
         emit changedName(m_player->getName());
 }
 
+QStringList PlayerChat::getRecipientList() const
+{
+    return (QStringList() << m_player->getUuid());
+}
 
 /***************
  * PrivateChat *
@@ -233,6 +252,11 @@ bool PrivateChat::everyPlayerHasFeature(const QString & feature, quint8 version)
     return true;
 }
 
+NetworkMessage::RecipientMode PrivateChat::getRecipientMode() const
+{
+    return NetworkMessage::OneOrMany;
+}
+
 Player * PrivateChat::owner() const
 {
     return m_owner;
@@ -267,6 +291,15 @@ QSet<Player *> PrivateChat::players() const
     return m_set;
 }
 
+QStringList PrivateChat::getRecipientList() const
+{
+    QStringList reciList;
+    for(auto reci : m_set)
+    {
+        reciList << reci->getUuid();
+    }
+    return reciList;
+}
 
 void PrivateChat::sendUpdate() const
 {

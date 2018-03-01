@@ -24,6 +24,7 @@
 #define CHAT_H
 
 #include <QSet>
+#include <QStringList>
 #include <QString>
 #include <QObject>
 
@@ -46,6 +47,8 @@ public:
     virtual bool belongsTo(Player * player) const =0;
     virtual void sendThem(NetworkMessage & message) const =0;
     virtual bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const =0;
+    virtual NetworkMessage::RecipientMode getRecipientMode() const = 0;
+    virtual QStringList getRecipientList() const;
 
 signals:
     void changedName(QString);
@@ -67,6 +70,7 @@ public:
     bool belongsTo(Player * player) const;
     void sendThem(NetworkMessage & message) const;
     bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
+    virtual NetworkMessage::RecipientMode getRecipientMode() const;
 };
 /**
  * @brief The PlayerChat class
@@ -84,7 +88,9 @@ public:
     bool belongsTo(Player * player) const;
     void sendThem(NetworkMessage & message) const;
     bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
+    virtual NetworkMessage::RecipientMode getRecipientMode() const;
 
+    virtual QStringList getRecipientList() const;
 private:
     Player * m_player;
 
@@ -118,6 +124,7 @@ public:
     bool belongsTo(Player * player) const;
     void sendThem(NetworkMessage & message) const;
     bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
+    virtual NetworkMessage::RecipientMode getRecipientMode() const;
 
     Player * owner() const;
 
@@ -142,6 +149,7 @@ public:
          */
     void set(const QString & name, const QSet<Player *> & set);
 
+    virtual QStringList getRecipientList() const;
 private:
     QString  m_uuid;
     QString  m_name;
