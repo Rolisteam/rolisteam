@@ -484,7 +484,11 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     QString from = data.string8();
     QString to   = data.string8();
     QString msg  = data.string32();
-    QString comment  = data.string32();
+    QString comment;
+    if(data.action() == DiceMessageAction)
+    {
+        comment  = data.string32();
+    }
 
     PlayersList* playersList = PlayersList::instance();
 
