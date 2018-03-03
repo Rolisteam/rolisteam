@@ -101,7 +101,8 @@ SOURCES += main.cpp\
     widgets/codeedit.cpp \
     delegate/pagedelegate.cpp \
     codeeditordialog.cpp \
-    widgets/fieldview.cpp
+    widgets/fieldview.cpp \
+    widgets/logpanel.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -135,7 +136,8 @@ HEADERS  += mainwindow.h \
     widgets/codeedit.h \
     delegate/pagedelegate.h \
     codeeditordialog.h \
-    widgets/fieldview.h
+    widgets/fieldview.h \
+    widgets/logpanel.h
 
 
 
@@ -146,7 +148,8 @@ FORMS    += mainwindow.ui \
     sheetproperties.ui \
     columndefinitiondialog.ui \
     widgets/codeedit.ui \
-    codeeditordialog.ui
+    codeeditordialog.ui \
+    widgets/logpanel.ui
 
 DISTFILES += \
     charactersheet/qml/*.qml \
