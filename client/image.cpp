@@ -210,14 +210,7 @@ void Image::resizeLabel()
         m_NormalSize = widget()->size();
     }
 }
-void Image::pointeurMain()
-{
-    m_imageLabel->setCursor(Qt::OpenHandCursor);
-}
-void Image::pointeurNormal()
-{
-    m_imageLabel->setCursor(Qt::ForbiddenCursor);
-}
+
 void Image::zoomIn()
 {
     m_zoomLevel +=0.2;
@@ -481,10 +474,10 @@ void Image::setCurrentTool(ToolsBar::SelectableTool tool)
     switch(m_currentTool)
     {
     case ToolsBar::Handler :
-        pointeurMain();
+        m_imageLabel->setCursor(Qt::OpenHandCursor);
         break;
     default :
-        pointeurNormal();
+        m_imageLabel->setCursor(Qt::ForbiddenCursor);
         break;
     }
 }

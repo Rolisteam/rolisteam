@@ -79,8 +79,6 @@ public :
     virtual void readMessage(NetworkMessageReader& msg);
 
 public slots :
-    void pointeurMain();
-    void pointeurNormal();
     void setCurrentTool(ToolsBar::SelectableTool tool);
 
 protected:
