@@ -434,7 +434,7 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
         }
         m_map= new Map(m_localPlayerId,idMap, &image, maskPlan);
         m_map->setLocalIsPlayer(localIsPlayer);
-        m_map->changePjSize(npSize,false);
+        m_map->changePcSize(npSize,false);
         m_map->setPermissionMode((Map::PermissionMode)permission);
         emit notifyUser(tr("Receiving map: %1").arg(m_title));
     }
@@ -470,7 +470,7 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
 
         m_map = new Map(m_localPlayerId,idMap, &originalBackgroundImage, &backgroundImage, &alphaImage);
         m_map->setLocalIsPlayer(localIsPlayer);
-        m_map->changePjSize(npSize,false);
+        m_map->changePcSize(npSize,false);
 
         m_map->setPermissionMode((Map::PermissionMode)permission);
         if(localIsPlayer)
@@ -564,7 +564,7 @@ void MapFrame::readMessage(NetworkMessageReader &msg)
         m_map = new Map(m_localPlayerId,idMap, &image);
         m_map->setLocalIsPlayer(true);
         m_map->setPermissionMode(static_cast<Map::PermissionMode>(permission));
-        m_map->changePjSize(npSize,false);
+        m_map->changePcSize(npSize,false);
 
         emit notifyUser(tr("New map: %1").arg(m_title));
 
