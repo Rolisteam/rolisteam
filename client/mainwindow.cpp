@@ -2022,25 +2022,19 @@ void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
 {
     QString idMap = msg->string8();
     QString idCharacter = msg->string8();
+    Map* map=findMapById(idMap);
+    if(nullptr == map)
+        return;
+
+    quint8 param = msg->uint8();
     if(msg->action() == NetMsg::ToggleViewPlayerCharacterAction)
     {
-        quint8 display = msg->uint8();
-        Map* map=findMapById(idMap);
-        if(nullptr!=map)
-        {
-            map->showPc(idCharacter,display);
-        }
+        map->showPc(idCharacter,param);
     }
     else if(msg->action() == NetMsg::ChangePlayerCharacterSizeAction)
     {
-        /// @warning overweird
-        quint8 size = msg->uint8();
-        Map* map=findMapById(idMap);
-        if(nullptr!=map)
-        {
-            map->selectCharacter(idCharacter);
-            map->changePjSize(size + 11);
-        }
+        map->selectCharacter(idCharacter);
+        map->changePcSize(param + 11);
     }
 }
 void MainWindow::prepareVMap(VMapFrame* tmp)
