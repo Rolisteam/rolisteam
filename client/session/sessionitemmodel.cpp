@@ -109,7 +109,6 @@ QMimeData* SessionItemModel::mimeData(const QModelIndexList &indexes) const
 
 void SessionItemModel::cleverURIHasChanged(CleverURI *uri,CleverURI::DataValue field)
 {
-    /// @warning field not used
     Q_UNUSED(field);
     updateNode(uri);
 }
