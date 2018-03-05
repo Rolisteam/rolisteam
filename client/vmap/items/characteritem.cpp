@@ -54,9 +54,7 @@ CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
 {
 	setPos(m_center-QPoint(diameter/2,diameter/2));
 	sizeChanged(diameter);
-    /// @todo make it
-    //connect(m_character,SIGNAL(avatarChanged()),this,SLOT(generatedThumbnail()));
-
+    connect(m_character,&Character::avatarChanged,this,&CharacterItem::generatedThumbnail);
      createActions();
 }
 
