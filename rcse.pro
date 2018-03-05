@@ -102,7 +102,8 @@ SOURCES += main.cpp\
     delegate/pagedelegate.cpp \
     codeeditordialog.cpp \
     widgets/fieldview.cpp \
-    widgets/logpanel.cpp
+    widgets/logpanel.cpp \
+    logcontroller.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -137,7 +138,8 @@ HEADERS  += mainwindow.h \
     delegate/pagedelegate.h \
     codeeditordialog.h \
     widgets/fieldview.h \
-    widgets/logpanel.h
+    widgets/logpanel.h \
+    logcontroller.h
 
 
 

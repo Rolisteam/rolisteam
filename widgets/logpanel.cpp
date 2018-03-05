@@ -17,13 +17,7 @@ LogPanel::~LogPanel()
 {
     delete ui;
 }
-void LogPanel::appendMessage(QString msg, Level lvl)
-{
-    if(lvl == m_currentLevel)
-    {
-        ui->m_logview->append(msg);
-    }
-}
+
 void LogPanel::saveLog()
 {
     auto filePath = QFileDialog::getSaveFileName(this,tr("Saving logs"),QDir::homePath(),tr("Log files %1").arg("(*.rlog)"));
@@ -34,3 +28,4 @@ void LogPanel::saveLog()
         in << ui->m_logview->toPlainText();
     }
 }
+
