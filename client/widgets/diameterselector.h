@@ -44,7 +44,6 @@ public :
    * @param full or not
    * @param minimum value
    * @param maximum value
-   * @todo Make real default constructor of DiameterSelector
    */
     DiameterSelector(QWidget *parent = 0, bool plein = true, int minimum = 1, int maximum = 50);
     void setDiameter(int diameter);
