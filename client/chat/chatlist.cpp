@@ -485,7 +485,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     QString to   = data.string8();
     QString msg  = data.string32();
     QString comment;
-    if(data.action() == DiceMessageAction)
+    if(data.action() == NetMsg::DiceMessageAction)
     {
         comment  = data.string32();
     }
