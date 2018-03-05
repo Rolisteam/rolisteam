@@ -1,5 +1,7 @@
 #include "rserver.h"
 #include "servermanager.h"
+#include <QDebug>
+#include <QMessageLogger>
 
 RServer::RServer(ServerManager* serverMan,int threadCount,QObject *parent)
     : QTcpServer(parent), m_numberOfThread(threadCount),m_serverManager(serverMan)
@@ -59,7 +61,7 @@ void RServer::accept(qintptr descriptor, TcpClient* connection)
     int previous = 0;
     QThread* thread=nullptr;
     if(!m_threadPool.isEmpty())
-     {
+    {
         for(int i = 0 ; i < m_threadPool.size() && !found ; ++i)
         {
             auto pair = m_threadPool.at(i);
@@ -85,10 +87,8 @@ void RServer::accept(qintptr descriptor, TcpClient* connection)
     }
     else
     {
-        qDebug() << "error no thread" ;
+        qFatal("No thread available - server is stopped") ;
     }
-    /// @todo error no thread!
-
 }
 
 void RServer::complete()
