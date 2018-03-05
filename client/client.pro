@@ -1,10 +1,14 @@
 TEMPLATE = app
-TARGET = bin/rolisteam
+TARGET = rolisteam
 LANGUAGE = C++
 
 DEPENDPATH += .
 INCLUDEPATH += .
 
+OBJECTS_DIR = build/obj
+MOC_DIR = build/moc
+UI_DIR = build/ui
+RCC_DIR = build/qrc
 
 isEmpty(PREFIX) {
  PREFIX = /usr/local/bin
