@@ -112,10 +112,6 @@ public slots:
     */
     void openResources(QModelIndex&);
     /**
-    * @brief set the current chapter. The selected item from the view become the current one.
-    */
-    void setCurrentChapter();
-    /**
     * @brief removes selected items and all children
     */
     void removeSelectedItem();
