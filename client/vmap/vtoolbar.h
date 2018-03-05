@@ -149,7 +149,6 @@ private:
     void makeTools(); /// utility function
 
     QWidget* m_centralWidget; /// address to the main widget
-    QLineEdit* m_textEditLine; /// text line @warning is it still used ?
     QLineEdit* m_npcNameTextEdit;/// text line to define the npc name
     QLCDNumber* m_displayNPCCounter; /// count how many npc have been created
     VColorSelector* m_colorSelector; /// select a color
