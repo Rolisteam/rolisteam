@@ -114,6 +114,8 @@
    <addaction name="actionEdit_Copy"/>
    <addaction name="actionEdit_Paste"/>
    <addaction name="actionHelp_How_to_Collaborate"/>
+   <addaction name="separator"/>
+   <addaction name="m_refresh"/>
   </widget>
   <action name="actionEdit_Undo">
    <property name="enabled">
@@ -390,9 +392,15 @@
     <bool>false</bool>
    </property>
   </action>
+  <action name="m_refresh">
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
+  <include location="../../rolisteam.qrc"/>
   <include location="../../rolisteam.qrc"/>
  </resources>
  <connections/>

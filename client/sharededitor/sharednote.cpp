@@ -59,13 +59,6 @@ SharedNote::SharedNote(QWidget *parent)
     connect(findDialog, SIGNAL(findDiaalogFindReplace(QString,QString,Qt::CaseSensitivity,bool,Enu::FindMode)), this,
             SLOT(findReplaceTriggered(QString,QString,Qt::CaseSensitivity,bool,Enu::FindMode)));
 
-    // sets the announce dialog to the state of the preferences pane
-    /// @todo change name
-   // announceDocumentDialog->setAnnounceDialogInfo("user", "user");
-
-    // Connects the pref dialog to the announce dialog for when information is changed in the preferences dialog
-    //connect(preferencesDialog, SIGNAL(setAnnounceDialogInfo(QString,bool)), announceDocumentDialog, SLOT(setAnnounceDialogInfo(QString,bool)));
-
 
     QGridLayout *tabLayout = new QGridLayout;
     ui->m_documentSupport->setLayout(tabLayout);
@@ -75,7 +68,6 @@ SharedNote::SharedNote(QWidget *parent)
     //ui->tab->setVisible(false);
     //ui->tabWidget->setVisible(false);
 
-    /// @todo reset preferences stuff.
     connect(m_document, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(m_document, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
     connect(ui->m_highlightMarkdownAction,SIGNAL(triggered(bool)),this,SLOT(setMarkdownAsHighlight()));
