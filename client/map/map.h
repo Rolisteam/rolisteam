@@ -64,7 +64,7 @@ public :
     void showHideNPC(CharacterToken *pnjSeul = 0);
     void toggleCharacterView(Character * character);
 	void showPc(QString idPerso, bool afficher);
-	void changePjSize(int nouvelleTaille, bool updatePj = true);
+	void changePcSize(int nouvelleTaille, bool updatePj = true);
     void sendMap(QString titre);
     void sendMap(QString titre, QString idPlayer);
     void sendOffAllCharacters();

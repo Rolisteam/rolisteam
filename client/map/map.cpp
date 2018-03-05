@@ -1026,7 +1026,7 @@ void Map::showHideNPC(CharacterToken *pnjSeul)
 }
 
 
-void Map::changePjSize(int nouvelleTaille, bool updatePj)
+void Map::changePcSize(int nouvelleTaille, bool updatePj)
 {
 	m_npcSize = nouvelleTaille;
     if((updatePj)&&(m_lastSelectedNpc!=nullptr))
