@@ -61,6 +61,7 @@ void ChatBrowser::showContextMenu(QPoint pos)
     menu->addAction(m_detachedDialog);
     menu->addAction(m_showTime);
     menu->addSeparator();
+    menu->addAction(m_clearChat);
     menu->addAction(m_wordWarp);
     menu->exec(mapToGlobal(pos));
 }
