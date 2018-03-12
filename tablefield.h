@@ -27,9 +27,6 @@
 #include <QGraphicsItem>
 #include "charactersheetitem.h"
 #include "field.h"
-#include "qqmlobjectlistmodel.h"
-#include "qqmlhelpers.h"
-#include "propertyhelpers.h"
 #include <QObject>
 #include <QStandardItemModel>
 #ifdef RCSE
