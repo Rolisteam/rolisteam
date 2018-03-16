@@ -7,3 +7,6 @@
 	url = https://github.com/Rolisteam/DiceParser.git
     pushURL = git@github.com:Rolisteam/DiceParser.git
 
+[submodule "common"]
+	path = common
+	url = https://github.com/Rolisteam/common.git
