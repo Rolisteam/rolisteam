@@ -10,3 +10,6 @@
 	path = client/charactersheet
 	url = https://github.com/Rolisteam/RCharacterSheet.git
 	pushURL = git@github.com:Rolisteam/RCharacterSheet.git
+[submodule "client/common"]
+	path = client/common
+	url = https://github.com/Rolisteam/common.git
