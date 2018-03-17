@@ -27,7 +27,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QQmlProperty>
-
+#include <QPrinter>
 
 #include "charactersheetwindow.h"
 #include "charactersheet/charactersheet.h"
@@ -353,8 +353,7 @@ void CharacterSheetWindow::addSection()
 }
 void CharacterSheetWindow::addCharacterSheet()
 {
-    /*CharacterSheet* sheet =*/m_model.addCharacterSheet();
-
+    m_model.addCharacterSheet();
 }
 void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
 {
@@ -366,13 +365,19 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     qmlView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(qmlView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(contextMenuForTabs(QPoint)));
 
-   // connect(m_qmlView->engine(),SIGNAL(warnings(QList<QQmlError>)),this,SLOT(displayError(QList<QQmlError>)));
     auto imageProvider = new RolisteamImageProvider();
     imageProvider->setData(m_imgProvider->getData());
 
     auto engineQml = qmlView->engine();
 
     engineQml->addImageProvider(QLatin1String("rcs"),imageProvider);
+
+    if(m_sheetToCharacter.contains(chSheet))
+    {
+        auto character = m_sheetToCharacter.value(chSheet);
+        character->setImageProvider(imageProvider);
+        qmlView->engine()->rootContext()->setContextProperty("_character",character);
+    }
 
     for(int i =0;i<chSheet->getFieldCount();++i)
     {
@@ -398,7 +403,10 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     displayError(qmlView->errors());
 
     QObject* root = qmlView->rootObject();
+
+    connect(root,SIGNAL(rollDiceCmd(QString,bool)),this,SLOT(rollDice(QString,bool)));
     connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
+
     m_characterSheetlist.insert(qmlView,chSheet);
     int id = m_tabs->addTab(qmlView,chSheet->getTitle());
     if(!m_localIsGM)
@@ -410,11 +418,11 @@ void CharacterSheetWindow::readErrorFromQML(QList<QQmlError> list)
 {
     for(auto error : list)
     {
-        emit errorOccurs(error.toString(),MainWindow::Error);
+        emit errorOccurs(error.toString());
     }
 }
 
-void CharacterSheetWindow::rollDice(QString str)
+void CharacterSheetWindow::rollDice(QString str,bool alias)
 {
     QObject* obj = sender();
     QString label;
@@ -426,7 +434,7 @@ void CharacterSheetWindow::rollDice(QString str)
             label = m_tabs->tabText(m_tabs->indexOf(qmlView));
         }
     }
-    emit rollDiceCmd(str,label);
+    emit rollDiceCmd(str,label,alias);
 }
 
 void CharacterSheetWindow::updateFieldFrom(CharacterSheet* sheet, CharacterSheetItem *item)
@@ -615,7 +623,6 @@ void CharacterSheetWindow::openQML()
 {
     m_qmlUri = QFileDialog::getOpenFileName(this, tr("Open Character Sheets View"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
                                             tr("Character Sheet files (*.qml)"));
-
     if(!m_qmlUri.isEmpty())
     {
         QFile file(m_qmlUri);
@@ -771,10 +778,11 @@ void CharacterSheetWindow::readMessage(NetworkMessageReader& msg)
         m_imgProvider->read(msg);
     }
 
+    Character* character = PlayersList::instance()->getCharacter(idChar);
+    m_sheetToCharacter.insert(sheet,character);
+
     addCharacterSheet(sheet);
     m_model.readRootSection(&msg);
-
-    Character* character = PlayersList::instance()->getCharacter(idChar);
     if(nullptr!=character)
     {
         character->setSheet(sheet);

@@ -32,8 +32,6 @@
 #include "charactersheetmodel.h"
 #include "rolisteamimageprovider.h"
 
-#include "mainwindow.h"
-
 //#include "qmlnetworkaccessmanager.h"
 
 /**
@@ -160,12 +158,13 @@ signals:
      * @param str
      * @param label
      */
-    void rollDiceCmd(QString str,QString label);
+    void rollDiceCmd(QString str,QString label, bool withAlias);
+    void showText(QString str);
     /**
      * @brief errorOccurs
      * @param error
      */
-    void errorOccurs(QString error, MainWindow::MessageType);
+    void errorOccurs(QString error);
 
 public slots:
     /**
@@ -186,7 +185,7 @@ public slots:
      * @brief rollDice
      * @param cmd
      */
-    void rollDice(QString cmd);
+    void rollDice(QString cmd, bool alias);
     /**
      * @brief updateFieldFrom
      * @param sheet
@@ -353,6 +352,7 @@ private:
     QQmlComponent* m_sheetComponent;
 
     QHash<CharacterSheet*,Player*> m_sheetToPerson;
+    QHash<CharacterSheet*,Character*> m_sheetToCharacter;
     QSharedPointer<QHash<QString,QPixmap>> m_pixmapList;
 
     QJsonObject m_data;
