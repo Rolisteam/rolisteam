@@ -186,7 +186,6 @@ bool SessionItemModel::dropMimeData(const QMimeData *data,
         {
             QList<ResourcesNode*> mediaList = mediaData->getList().values();
             QList<QModelIndex> indexList = mediaData->getList().keys();
-            //foreach(CleverURI* media,mediaList)
             {
                 if (action == Qt::MoveAction)
                 {
@@ -198,7 +197,7 @@ bool SessionItemModel::dropMimeData(const QMimeData *data,
     else if((data->hasUrls())&&(!added))
     {
         QList<QUrl> list = data->urls();
-        foreach(QUrl url, list)
+        for(QUrl url: list)
         {
             if(url.isLocalFile())
             {

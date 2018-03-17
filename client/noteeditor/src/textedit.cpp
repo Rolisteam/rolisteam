@@ -388,7 +388,7 @@ void TextEdit::setupTextActions()
     comboSize->setEditable(true);
 
     QFontDatabase db;
-    foreach(int size, db.standardSizes())
+    for(int size : db.standardSizes())
         comboSize->addItem(QString::number(size));
 
     connect(comboSize, SIGNAL(activated(const QString &)),

@@ -55,7 +55,7 @@ QRectF PathItem::boundingRect() const
 {
 	QPainterPath path;
 	path.moveTo(m_start);
-	foreach(QPointF p,m_pointVector)
+    for(QPointF p:m_pointVector)
 	{
 		path.lineTo(p);
 	}
@@ -219,7 +219,7 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
 
     //path
     msg->uint32(m_pointVector.size());
-    foreach(QPointF pos,m_pointVector)
+    for(QPointF pos:m_pointVector)
     {
         msg->real(pos.x());
         msg->real(pos.y());

@@ -163,14 +163,14 @@ void SightItem::fillMessage(NetworkMessageWriter* msg)
      msg->real(zValue());
 
     msg->uint64(m_fogHoleList.count());
-    foreach(FogSingularity* hole, m_fogHoleList)
+    for(FogSingularity* hole: m_fogHoleList)
     {
 
         hole->fillMessage(msg);
     }
 
     msg->uint64(m_characterItemMap->keys().size());
-    foreach(QString key, m_characterItemMap->keys())
+    for(QString key: m_characterItemMap->keys())
     {
         msg->string8(key);
     }
@@ -264,7 +264,7 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
 
     if(getOption(VisualItem::EnableCharacterVision).toBool())
     {
-        foreach(CharacterItem* charact , m_characterItemMap->values())
+        for(CharacterItem* charact: m_characterItemMap->values())
         {
             if((nullptr!=charact)&&
                     ((charact->isLocal())||getOption(VisualItem::LocalIsGM).toBool()))
@@ -344,7 +344,7 @@ void SightItem::setVisible(bool visible)
 {
     if(nullptr!=m_child)
     {
-        foreach (ChildPointItem* item,*m_child)
+        for (ChildPointItem* item: *m_child)
         {
             if(nullptr!=item)
             {
@@ -393,7 +393,7 @@ void SightItem::updateVeil()
         m_rectOfVeil = m_rectOfVeil.united(rect);
     }
     path.addRect(m_rectOfVeil);
-    foreach(FogSingularity* fogs, m_fogHoleList)
+    for(FogSingularity* fogs: m_fogHoleList)
     {
         QPainterPath subPoly;
         const QPolygonF* poly = fogs->getPolygon();

@@ -634,7 +634,7 @@ bool VMap::editLayer(VisualItem::Layer layer)
     {
         m_currentLayer = layer;
         emit mapChanged();
-        foreach(VisualItem* item, m_itemMap->values())
+        for(VisualItem* item: m_itemMap->values())
         {
             if(m_currentLayer == item->getLayer())
             {
@@ -742,7 +742,7 @@ void VMap::saveFile(QDataStream& out)
 
 
     out << m_propertiesHash->count();
-    foreach(VisualItem::Properties property, m_propertiesHash->keys())
+    for(VisualItem::Properties property: m_propertiesHash->keys())
     {
         out << (int)property;
         out << m_propertiesHash->value(property);
@@ -750,7 +750,7 @@ void VMap::saveFile(QDataStream& out)
 
 
     out << m_itemMap->size();
-    foreach(QString key, m_sortedItemList)//m_itemMap->values()
+    for(QString key: m_sortedItemList)//m_itemMap->values()
     {
         VisualItem* tmp = m_itemMap->value(key);
         if(nullptr!=tmp)
@@ -1243,7 +1243,7 @@ void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwor
 QList<CharacterItem*> VMap::getCharacterOnMap(QString id)
 {
     QList<CharacterItem*> result;
-    foreach(CharacterItem* item, m_characterItemMap->values())
+    for(CharacterItem* item: m_characterItemMap->values())
     {
         if(nullptr!=item)
         {
@@ -1340,11 +1340,11 @@ void VMap::setPermissionMode(Map::PermissionMode mode)
         {
             if(Map::PC_MOVE == mode)
             {
-                foreach(VisualItem* item,m_itemMap->values())
+                for(VisualItem* item:m_itemMap->values())
                 {
                     item->setEditableItem(false);
                 }
-                foreach(CharacterItem* item,m_characterItemMap->values())
+                for(CharacterItem* item:m_characterItemMap->values())
                 {
                     item->setEditableItem(false);
                     item->setCharacterIsMovable(true);
@@ -1358,7 +1358,7 @@ void VMap::setPermissionMode(Map::PermissionMode mode)
                 {
                     value = true;
                 }
-                foreach(VisualItem* item,m_itemMap->values())
+                for(VisualItem* item: m_itemMap->values())
                 {
                     item->setEditableItem(value);
                 }
@@ -1578,7 +1578,7 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
             visibilitySight = false;
         }
     }
-    foreach(VisualItem* item, m_itemMap->values())
+    for(VisualItem* item: m_itemMap->values())
     {
         item->setVisible(visibilityItems);
     }
@@ -1678,7 +1678,7 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
 
     int prevIndex = 0;
     int nextIndex = size - 1;
-    foreach (QGraphicsItem * qitem, stackedItems)
+    for (QGraphicsItem * qitem: stackedItems)
     {
         // operate only on different Content and not on sightItem.
         VisualItem* c = dynamic_cast<VisualItem*>(qitem);

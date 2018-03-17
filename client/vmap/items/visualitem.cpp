@@ -322,7 +322,7 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 }
 void VisualItem::addPromoteItemMenu(QMenu* menu)
 {
-    foreach(ItemType type, m_promoteTypeList)
+    for(ItemType type: m_promoteTypeList)
     {
         QAction* action = menu->addAction(type2NameList[type]);
         action->setData(type);

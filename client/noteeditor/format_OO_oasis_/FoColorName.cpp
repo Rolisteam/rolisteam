@@ -164,7 +164,7 @@ FopColor::FopColor( const QString colorchunk , FopColor::AlternateColor col )
 
     
     QStringList colorNames = QColor::colorNames();
-    foreach (QString name, colorNames) {
+    for (QString name: colorNames) {
         record(name,QColor(name));
         /*  qt overwrite color ? */
     }
@@ -198,7 +198,7 @@ QString FopColor::foName( const QColor e )
 {
     ////////QColor
     QStringList icoli = fopListColor();
-    foreach (QString name, icoli) {
+    for (QString name: icoli) {
         const QColor runn = foColor(name);
         if (e.rgba() == runn.rgba()) {
             return name;

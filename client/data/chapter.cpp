@@ -134,7 +134,7 @@ bool Chapter::contains(ResourcesNode* node)
     }
     else
     {
-        foreach(ResourcesNode* child, m_children)
+        for(ResourcesNode* child: m_children)
         {
             if(child->contains(node))
             {

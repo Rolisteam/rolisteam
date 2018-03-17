@@ -662,14 +662,14 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
 {
   QMenu* stateMenu =  menu->addMenu(tr("Change State"));
   QList<CharacterState*>* listOfState =  Character::getCharacterStateList();
-  foreach(CharacterState* state, *listOfState)
+  for(CharacterState* state: *listOfState)
   {
 	QAction* act = stateMenu->addAction(QIcon(*state->getPixmap()),state->getLabel(),this,SLOT(characterStateChange()));
 	act->setData(listOfState->indexOf(state));
   }
 
   QMenu* user =  menu->addMenu(tr("Affect to"));
-  foreach(Character* character, PlayersList::instance()->getCharacterList())
+  for(Character* character: PlayersList::instance()->getCharacterList())
   {
 	QAction* act = user->addAction(character->getName());
     act->setData(character->getUuid());
@@ -905,7 +905,7 @@ void CharacterItem::setCharacterIsMovable(bool isMovable)
 
             if(nullptr!=m_child)
             {
-                foreach (ChildPointItem* itemChild, *m_child)
+                for (ChildPointItem* itemChild: *m_child)
                 {
                     itemChild->setEditableItem(true);
                     itemChild->setMotion(ChildPointItem::NONE);
@@ -931,7 +931,7 @@ void CharacterItem::setEditableItem(bool b)
     {
         if(nullptr!=m_child)
         {
-            foreach (ChildPointItem* itemChild, *m_child)
+            for (ChildPointItem* itemChild: *m_child)
             {
                 itemChild->setEditableItem(true);
                 itemChild->setMotion(ChildPointItem::ALL);

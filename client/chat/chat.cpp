@@ -244,7 +244,7 @@ void PrivateChat::p_sendThem(NetworkMessage & message, bool force) const
 
 bool PrivateChat::everyPlayerHasFeature(const QString & feature, quint8 version) const
 {
-    foreach (Player * player, m_set)
+    for (Player * player: m_set)
     {
         if (! player->hasFeature(feature, version))
             return false;
@@ -312,7 +312,7 @@ void PrivateChat::sendUpdate() const
     message.uint8(size);
 
     quint8 i = 0;
-    foreach (Player * player, m_set)
+    for (Player * player: m_set)
     {
         if (player != nullptr)
         {

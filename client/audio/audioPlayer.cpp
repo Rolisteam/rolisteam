@@ -66,7 +66,7 @@ void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
             }
         }
     }
-    foreach(QAction* act,m_playerActionsList)
+    for(QAction* act:m_playerActionsList)
     {
         menu.addAction(act);
     }
@@ -131,7 +131,7 @@ void AudioPlayer::showMusicPlayer(bool status)
 void AudioPlayer::updateUi(bool isGM)
 {
     m_isGM = isGM;
-    foreach(PlayerWidget* tmp,m_players)
+    for(PlayerWidget* tmp:m_players)
     {
         tmp->updateUi(isGM);
     }

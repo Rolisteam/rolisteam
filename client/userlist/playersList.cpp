@@ -195,7 +195,7 @@ QList<Character*> PlayersList::getCharacterList()
 {
 	QList<Character*> list;
 
-	foreach(Player* player,m_playersList)
+    for(Player* player:m_playersList)
 	{
 		list << player->getChildrenCharacter();
 	}
@@ -470,6 +470,7 @@ void PlayersList::setLocalPlayer(Player * player)
             return;
         }
         m_localPlayer=player;
+        setLocalFeatures(*player);
         addPlayer(player);
     }
 }
@@ -477,7 +478,7 @@ void PlayersList::setLocalPlayer(Player * player)
 void PlayersList::cleanListButLocal()
 {
     beginResetModel();
-    foreach(Player* tmp,m_playersList )
+    for(Player* tmp : m_playersList )
     {
         if(tmp != m_localPlayer)
         {

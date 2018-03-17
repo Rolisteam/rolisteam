@@ -257,7 +257,7 @@ void PaletteModel::setPalette(QPalette palette)
 {
     //dataChanged(QModelIndex());
     beginResetModel();
-    foreach(PaletteColor* color, m_data)
+    for(PaletteColor* color: m_data)
     {
         color->setColor(palette.color(color->getGroup(),color->getRole()));
     }
@@ -271,7 +271,7 @@ void PaletteModel::setColor(const QModelIndex & index, QColor color)
 QPalette PaletteModel::getPalette()
 {
     QPalette palette;
-    foreach (PaletteColor* tmp,m_data)
+    for (PaletteColor* tmp: m_data)
     {
         palette.setColor(tmp->getGroup(),tmp->getRole(),tmp->getColor());
     }
@@ -280,8 +280,7 @@ QPalette PaletteModel::getPalette()
 void PaletteModel::writeTo(QJsonObject& json)
 {
     QJsonArray colors;
-
-    foreach (PaletteColor* tmp,m_data)
+    for (PaletteColor* tmp: m_data)
     {
         QJsonObject paletteObject;
         tmp->writeTo(paletteObject);

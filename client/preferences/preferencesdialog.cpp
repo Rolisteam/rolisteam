@@ -540,7 +540,7 @@ void PreferencesDialog::initializePostSettings()
     }
     ui->m_themeComboBox->clear();
 
-    foreach (RolisteamTheme* theme, m_themes)
+    for (RolisteamTheme* theme: m_themes)
     {
         ui->m_themeComboBox->addItem(theme->getName());
         if(!theme->isRemovable())

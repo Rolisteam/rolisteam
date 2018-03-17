@@ -421,7 +421,7 @@ void ChatList::addPlayerChat(Player * player)
 
 void ChatList::delPlayer(Player * player)
 {
-    foreach (QMdiSubWindow* tmp, m_chatSubWindowList)
+    for (QMdiSubWindow* tmp: m_chatSubWindowList)
     {
         ChatWindow* chatw = static_cast<ChatWindow*>(tmp->widget());
         if((nullptr!=chatw) && (chatw->chat()->belongsTo(player)))
@@ -605,7 +605,7 @@ void ChatList::deletePrivateChat(ReceiveEvent * event)
 }
 void ChatList::updateDiceAliases(QList<DiceAlias*>* map)
 {
-    foreach(ChatWindow* tmp, m_chatWindowList)
+    for(ChatWindow* tmp: m_chatWindowList)
     {
         tmp->updateDiceAliases(map);
     }
