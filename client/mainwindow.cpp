@@ -65,6 +65,9 @@
 #include "widgets/gmtoolbox/gamemastertool.h"
 #include "pdfviewer/pdfviewer.h"
 
+//LOG
+#include "common/widgets/logpanel.h"
+
 //Undo
 #include "undoCmd/addmediacontainer.h"
 #include "undoCmd/deletemediacontainercommand.h"
@@ -108,6 +111,8 @@ MainWindow::MainWindow()
 
     m_ui->setupUi(this);
     m_shownProgress=false;
+
+
 
     m_preferences = PreferencesManager::getInstance();
     m_downLoadProgressbar = new QProgressBar(this);
@@ -164,6 +169,120 @@ MainWindow::~MainWindow()
         m_currentStory = nullptr;
     }
 }
+
+void MainWindow::setupUi()
+{
+    // Initialisation de la liste des BipMapWindow, des Image et des Tchat
+    m_mediaHash.clear();
+    m_version=tr("unknown");
+#ifdef VERSION_MINOR
+#ifdef VERSION_MAJOR
+#ifdef VERSION_MIDDLE
+    m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+#endif
+#endif
+#endif
+    m_dialog = new SelectConnectionProfileDialog(m_version,this);
+
+    //setAnimated(false);
+    m_mdiArea = new ImprovedWorkspace(this);
+    setCentralWidget(m_mdiArea);
+    connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(activeWindowChanged(QMdiSubWindow *)));
+
+    m_toolBar = new ToolsBar(this);
+
+    m_vToolBar = new VToolsBar(this);
+    m_toolBarStack = new QStackedWidget(this);
+    m_toolBarStack->setMinimumWidth(10);
+    m_toolBarStack->addWidget(m_toolBar);
+    m_toolBarStack->addWidget(m_vToolBar);
+
+    QDockWidget* dock = new QDockWidget(this);
+    dock->setWidget(m_toolBarStack);
+    addDockWidget(Qt::LeftDockWidgetArea,dock);
+    dock->setWindowTitle(tr("ToolBox"));
+    dock->setObjectName("DockToolBar");
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,dock->toggleViewAction());
+    QAction* vmapToolBar  = m_vmapToolBar->toggleViewAction();
+    vmapToolBar->setShortcut(Qt::Key_F9);
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,m_vmapToolBar->toggleViewAction());
+    m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
+
+
+
+    m_chatListWidget = new ChatListWidget(this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory,m_chatListWidget);
+    addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
+    dock->setAllowedAreas(Qt::AllDockWidgetAreas);
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,m_chatListWidget->toggleViewAction());
+
+
+    QDockWidget* dock2 = new QDockWidget(this);
+    dock2->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
+    dock2->setWidget(m_sessionManager);
+    dock2->setWindowTitle(tr("Resources Explorer"));
+    dock2->setObjectName("sessionManager");
+    addDockWidget(Qt::RightDockWidgetArea,dock2);
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,dock2->toggleViewAction());
+    m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
+
+
+    ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::DrawCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::SharedNoteCategory,this);
+
+    createNotificationZone();
+    ///////////////////
+    //PlayerList
+    ///////////////////
+    m_playersListWidget = new PlayersListWidget(this);
+    addDockWidget(Qt::RightDockWidgetArea, m_playersListWidget);
+    setWindowIcon(QIcon(":/logo.png"));
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_characterListAct,m_playersListWidget->toggleViewAction());
+    m_ui->m_menuSubWindows->removeAction(m_ui->m_characterListAct);
+
+    ///////////////////
+    //Audio Player
+    ///////////////////
+#ifndef NULL_PLAYER
+    m_audioPlayer = AudioPlayer::getInstance(this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory,m_audioPlayer);
+    addDockWidget(Qt::RightDockWidgetArea,m_audioPlayer );
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_audioPlayerAct,m_audioPlayer->toggleViewAction());
+    m_ui->m_menuSubWindows->removeAction(m_ui->m_audioPlayerAct);
+#endif
+
+    m_preferencesDialog = new PreferencesDialog(this);
+    linkActionToMenu();
+    if(nullptr!=m_preferencesDialog->getStateModel())
+    {
+        ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory,m_preferencesDialog->getStateModel());
+    }
+
+
+    // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
+    m_playerList = PlayersList::instance();
+
+    connect(m_playerList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
+    connect(m_playerList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
+    connect(m_playerList, &PlayersList::characterAdded,this,[=](Character* character){
+        if(character->isNpc())
+        {
+            m_sessionManager->addRessource(character);
+        }
+    });
+
+
+    connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
+    connect(m_ipChecker,SIGNAL(finished(QString)),this,SLOT(showIp(QString)));
+}
+
 void MainWindow::aboutRolisteam()
 {
     AboutRolisteam diag(m_version,this);
@@ -999,7 +1118,6 @@ void MainWindow::startReconnection()
     {
         m_roomPanel->setServerName(m_currentConnectionProfile->getAddress());
         m_playerList->sendOffLocalPlayerInformations();
-        qDebug() << "sendoff features from mainwindow";
         m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
         m_ui->m_connectionAction->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
@@ -1600,123 +1718,7 @@ void MainWindow::postConnection()
     }
 }
 
-void MainWindow::setupUi()
-{
-    // Initialisation de la liste des BipMapWindow, des Image et des Tchat
-    m_mediaHash.clear();
-    m_version=tr("unknown");
-#ifdef VERSION_MINOR
-#ifdef VERSION_MAJOR
-#ifdef VERSION_MIDDLE
-    m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-#endif
-#endif
-#endif
 
-
-    //setAnimated(false);
-    m_mdiArea = new ImprovedWorkspace(this);
-    setCentralWidget(m_mdiArea);
-    connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(activeWindowChanged(QMdiSubWindow *)));
-
-    m_toolBar = new ToolsBar(this);
-
-    m_vToolBar = new VToolsBar(this);
-    m_toolBarStack = new QStackedWidget(this);
-    m_toolBarStack->setMinimumWidth(10);
-    m_toolBarStack->addWidget(m_toolBar);
-    m_toolBarStack->addWidget(m_vToolBar);
-
-    QDockWidget* dock = new QDockWidget(this);
-    dock->setWidget(m_toolBarStack);
-    addDockWidget(Qt::LeftDockWidgetArea,dock);
-    dock->setWindowTitle(tr("ToolBox"));
-    dock->setObjectName("DockToolBar");
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,dock->toggleViewAction());
-    QAction* vmapToolBar  = m_vmapToolBar->toggleViewAction();
-    vmapToolBar->setShortcut(Qt::Key_F9);
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,m_vmapToolBar->toggleViewAction());
-    m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
-
-    createNotificationZone();
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_notificationAct,m_dockLogUtil->toggleViewAction());
-    m_ui->m_menuSubWindows->removeAction(m_ui->m_notificationAct);
-    addDockWidget(Qt::RightDockWidgetArea, m_dockLogUtil);
-
-
-    m_chatListWidget = new ChatListWidget(this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory,m_chatListWidget);
-    addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
-    dock->setAllowedAreas(Qt::AllDockWidgetAreas);
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,m_chatListWidget->toggleViewAction());
-
-
-    QDockWidget* dock2 = new QDockWidget(this);
-    dock2->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
-    dock2->setWidget(m_sessionManager);
-    dock2->setWindowTitle(tr("Resources Explorer"));
-    dock2->setObjectName("sessionManager");
-    addDockWidget(Qt::RightDockWidgetArea,dock2);
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,dock2->toggleViewAction());
-    m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
-
-
-    ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory,this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory,this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory,this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::DrawCategory,this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory,this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory,this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory,this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory,this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::SharedNoteCategory,this);
-
-
-    ///////////////////
-    //PlayerList
-    ///////////////////
-    m_playersListWidget = new PlayersListWidget(this);
-    addDockWidget(Qt::RightDockWidgetArea, m_playersListWidget);
-    setWindowIcon(QIcon(":/logo.png"));
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_characterListAct,m_playersListWidget->toggleViewAction());
-    m_ui->m_menuSubWindows->removeAction(m_ui->m_characterListAct);
-
-    ///////////////////
-    //Audio Player
-    ///////////////////
-#ifndef NULL_PLAYER
-    m_audioPlayer = AudioPlayer::getInstance(this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory,m_audioPlayer);
-    addDockWidget(Qt::RightDockWidgetArea,m_audioPlayer );
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_audioPlayerAct,m_audioPlayer->toggleViewAction());
-    m_ui->m_menuSubWindows->removeAction(m_ui->m_audioPlayerAct);
-#endif
-
-    m_preferencesDialog = new PreferencesDialog(this);
-    linkActionToMenu();
-    if(nullptr!=m_preferencesDialog->getStateModel())
-    {
-        ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory,m_preferencesDialog->getStateModel());
-    }
-
-
-    // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
-    m_playerList = PlayersList::instance();
-
-    connect(m_playerList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
-    connect(m_playerList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
-    connect(m_playerList, &PlayersList::characterAdded,this,[=](Character* character){
-        if(character->isNpc())
-        {
-            m_sessionManager->addRessource(character);
-        }
-    });
-
-
-    m_dialog = new SelectConnectionProfileDialog(m_version,this);
-    connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
-    connect(m_ipChecker,SIGNAL(finished(QString)),this,SLOT(showIp(QString)));
-}
 void MainWindow::processMapMessage(NetworkMessageReader* msg)
 {
     if(msg->action() == NetMsg::CloseMap)
