@@ -19,15 +19,6 @@
     ***************************************************************************/
 
 #include "player.h"
-
-#include <QApplication>
-
-
-#ifndef UNIT_TEST
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
-#endif
-
 #include "data/character.h"
 
 #include <QDebug>
@@ -83,9 +74,9 @@ void Player::fill(NetworkMessageWriter & message,bool addAvatar)
 {
     message.string16(m_name);
     message.string8(m_uuid);
-    message.rgb(m_color);
+    message.rgb(m_color.rgb());
     message.uint8(m_gameMaster ? 1 : 0);
-    message.string16(qApp->applicationVersion());
+    message.string16(QCoreApplication::instance()->applicationVersion());
     message.int32(m_characters.size());
 
     for(Character* item : m_characters)
@@ -96,7 +87,6 @@ void Player::fill(NetworkMessageWriter & message,bool addAvatar)
 
     QByteArray array;
     QDataStream out(&array,QIODevice::WriteOnly);
-    qDebug() << m_features.size();
     out << m_features;
 
     message.byteArray32(array);

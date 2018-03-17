@@ -23,7 +23,21 @@
 
 #include "person.h"
 #include "characterstate.h"
+#include "network/networkmessagereader.h"
+
+#ifdef QT_QUICK_LIB
 #include "charactersheet/charactersheet.h"
+#include "charactersheet/rolisteamimageprovider.h"
+#else
+class RolisteamImageProvider
+{
+
+};
+class CharacterSheet
+{
+
+};
+#endif
 
 #include <QList>
 #include <QMovie>

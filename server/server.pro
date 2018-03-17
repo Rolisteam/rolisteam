@@ -5,6 +5,10 @@ LANGUAGE = C++
 DEPENDPATH += . ../client/
 INCLUDEPATH += . ../client/
 
+OBJECTS_DIR = obj
+MOC_DIR = moc
+UI_DIR = ui
+
 DEFINES += UNIT_TEST
 
 isEmpty(PREFIX) {
@@ -14,7 +18,8 @@ CONFIG += c++11
 
 include(server.pri)
 
-QT += core gui opengl network
+QT += core network
+#gui opengl
 
 ## Translation
 TRANSLATIONS =  ../translations/roliserver_fr.ts \

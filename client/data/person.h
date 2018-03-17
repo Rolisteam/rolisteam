@@ -32,7 +32,6 @@
 #include "resourcesnode.h"
 
 class Character;
-class NetworkMessageReader;
 class NetworkMessageWriter;
 class Player;
 

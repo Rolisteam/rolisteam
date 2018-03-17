@@ -24,9 +24,7 @@
 #include "data/person.h"
 
 #include <QUuid>
-#include <QApplication>
 
-#include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "resourcesnode.h"
 #include "cleveruri.h"
