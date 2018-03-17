@@ -1225,6 +1225,7 @@ void MainWindow::parseCommandLineArguments(QStringList list)
     QCommandLineOption user(QStringList() << "u"<<"user", tr("Define the <username>"),"username");
     QCommandLineOption websecurity(QStringList() << "w" <<"disable-web-security", tr("Remove limit to PDF file size"));
     QCommandLineOption translation(QStringList() << "t"<<"translation", QObject::tr("path to the translation file: <translationfile>"),"translationfile");
+    QCommandLineOption url(QStringList() << "l"<<"link", QObject::tr("Define URL to connect to server: <url>"),"url");
 
     parser.addOption(port);
     parser.addOption(hostname);
@@ -1233,6 +1234,7 @@ void MainWindow::parseCommandLineArguments(QStringList list)
     parser.addOption(user);
     parser.addOption(translation);
     parser.addOption(websecurity);
+    parser.addOption(url);
 
     parser.process(list);
 
@@ -1240,12 +1242,15 @@ void MainWindow::parseCommandLineArguments(QStringList list)
     bool hasHostname = parser.isSet(hostname);
     bool hasRole = parser.isSet(role);
     bool hasUser = parser.isSet(user);
+    bool hasUrl = parser.isSet(url);
     m_resetSettings = parser.isSet(reset);
 
     QString portValue;
     QString hostnameValue;
     QString roleValue;
     QString username;
+    QString urlString;
+    QString passwordValue;
     if(hasPort)
     {
         portValue = parser.value(port);
@@ -1262,9 +1267,23 @@ void MainWindow::parseCommandLineArguments(QStringList list)
     {
         username = parser.value(user);
     }
+    if(hasUrl)
+    {
+        urlString = parser.value(url);
+        auto list = urlString.split("/",QString::SkipEmptyParts);
+        //rolisteam://IP/port/password
+        if(list.size() ==  4)
+        {
+            hostnameValue = list[1];
+            portValue = list[2];
+            passwordValue = list[3];
+            m_dialog->setArgumentProfile(hostnameValue,portValue.toInt(),passwordValue);
+        }
+    }
+
     if(!(roleValue.isNull()&&hostnameValue.isNull()&&portValue.isNull()&&username.isNull()))
     {
-        //m_clientManager->setValueConnection(portValue,hostnameValue,username,roleValue);
+
     }
 }
 NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)

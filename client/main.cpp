@@ -152,6 +152,16 @@ int main(int argc, char *argv[])
     QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(version));
     settings.beginGroup("rolisteam/preferences");
 
+#ifdef Q_OS_WIN
+    QString cmdLine("\"%1\rolisteam.exe\" \"-l % 1\"");
+    QSettings fooKey("HKEY_CLASSES_ROOT\\rolisteam", QSettings::NativeFormat);
+    mxKey.setValue(".", "URL:rolisteam Protocol");
+    mxKey.setValue("URL Protocol", "");
+    QSettings fooOpenKey("HKEY_CLASSES_ROOT\\rolisteam\\shell\\open\\command", QSettings::NativeFormat);
+    QFileInfo info(QCoreApplication::applicationFilePath());
+    mxOpenKey.setValue(".", cmdLine.arg(info.absoluteFilePath())).replace("% 1","%1");
+#endif
+
     QMap<QString,QVariant> map;
 
     int size = settings.beginReadArray("preferenceMap");

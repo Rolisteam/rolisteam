@@ -73,14 +73,10 @@ public slots:
     * @brief ProfileModel::appendProfile
     */
    void appendProfile();
-
-
-protected:
    void appendProfile(ConnectionProfile *profile);
 private:
     QList<ConnectionProfile*> m_connectionProfileList;
     QString m_version;
-
 };
 
 /**
@@ -117,7 +113,13 @@ public:
     */
     void writeSettings(QSettings & settings);
 
-
+    /**
+     * @brief setArgumentProfile
+     * @param host
+     * @param port
+     * @param password
+     */
+    void setArgumentProfile(QString host,int port,QString password);
     /**
      * @brief updateGUI
      */

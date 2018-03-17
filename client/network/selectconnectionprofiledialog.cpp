@@ -331,12 +331,15 @@ void SelectConnectionProfileDialog::updateProfile()
         person->setName(ui->m_name->text());
 
         Character* character = m_currentProfile->getCharacter();
-        if(!m_avatarUri.isEmpty())
+        if(character != nullptr)
         {
-            character->setAvatar(QImage(m_avatarUri));
+            if(!m_avatarUri.isEmpty())
+            {
+                character->setAvatar(QImage(m_avatarUri));
+            }
+            character->setName(ui->m_characterName->text());
+            character->setColor(ui->m_characterColor->color());
         }
-        character->setName(ui->m_characterName->text());
-        character->setColor(ui->m_characterColor->color());
 
     }
 }
@@ -348,6 +351,25 @@ void SelectConnectionProfileDialog::readSettings(QSettings & settings)
 void SelectConnectionProfileDialog::writeSettings(QSettings & settings)
 {
     m_model->writeSettings(settings);
+}
+
+void SelectConnectionProfileDialog::setArgumentProfile(QString host, int port, QString password)
+{
+    ConnectionProfile* fromURL = new ConnectionProfile();
+    fromURL->setTitle(tr("From URL"));
+    fromURL->setName(tr("Unknown"));
+    fromURL->setAddress(host);
+    fromURL->setPort(port);
+    fromURL->setPassword(password);
+    fromURL->setGm(false);
+    fromURL->setServerMode(false);
+    fromURL->setPlayer(new Player);
+    m_model->appendProfile(fromURL);
+    auto index = m_model->indexOf(fromURL);
+    ui->m_profileList->setCurrentIndex(m_model->index(index, 0));
+    m_currentProfile = fromURL;
+    updateGUI();
+    updateProfile();
 }
 
 void SelectConnectionProfileDialog::connectToIndex(QModelIndex index)
