@@ -23,8 +23,6 @@
 #define DATA_READER_H
 
 #include <QString>
-#include <QColor>
-
 #include "network/networkmessage.h"
 /**
  * @brief The NetworkMessageReader class
@@ -58,9 +56,7 @@ public:
     QByteArray byteArray32();
 
     QString string(int size);
-
-    QRgb rgb();
-
+    unsigned int rgb();
     qreal  real();
     qint8  int8();
     qint16 int16();

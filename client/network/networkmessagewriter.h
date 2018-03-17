@@ -22,10 +22,7 @@
 #ifndef NETWORK_MESSAGE_WRITER_H
 #define NETWORK_MESSAGE_WRITER_H
 
-#include <QColor>
 #include <QString>
-
-
 #include "network/networkmessage.h"
 
 /**
@@ -53,7 +50,7 @@ public:
 
     void byteArray32(const QByteArray & data);
 
-    void rgb(const QColor & color);
+    void rgb(unsigned int color);
 
     int getDataSize();
 

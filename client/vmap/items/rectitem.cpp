@@ -174,7 +174,7 @@ void RectItem::fillMessage(NetworkMessageWriter* msg)
 
     //others
     msg->int8(m_filled);
-    msg->rgb(m_color);
+    msg->rgb(m_color.rgb());
     msg->uint16(m_penWidth);
 
 

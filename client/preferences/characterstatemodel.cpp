@@ -178,7 +178,7 @@ bool CharacterStateModel::setData(const QModelIndex &index, const QVariant &valu
             msg.int64(index.row());
 			msg.string32(state->getLabel());
             //msg.byteArray32(state->getImage());
-            msg.rgb(state->getColor());
+            msg.rgb(state->getColor().rgb());
 
             msg.sendAll();
         }
@@ -333,7 +333,7 @@ void CharacterStateModel::sendOffAllCharacterState()
         NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addState);
         msg.uint64(m_stateList->indexOf(state));
         msg.string32(state->getLabel());
-        msg.rgb(state->getColor());
+        msg.rgb(state->getColor().rgb());
         if(state->hasImage())
         {
             msg.uint8((quint8)true);

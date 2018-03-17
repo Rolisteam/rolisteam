@@ -544,7 +544,7 @@ void CharacterToken::prepareToSendOff(NetworkMessageWriter* msg, bool convertirE
     msg->uint8(characterType);
     msg->uint8(characterNum);
     msg->uint8(diametre);
-    msg->rgb(m_color);
+    msg->rgb(m_color.rgb());
 
     msg->uint16(getCharacterCenter().x());
     msg->uint16(getCharacterCenter().y());
@@ -552,7 +552,7 @@ void CharacterToken::prepareToSendOff(NetworkMessageWriter* msg, bool convertirE
     msg->int16(orientation.x());
     msg->int16(orientation.y());
 
-    msg->rgb(etat.stateColor);
+    msg->rgb(etat.stateColor.rgb());
 
     msg->string16(etat.stateName);
     msg->uint16(numeroEtat);

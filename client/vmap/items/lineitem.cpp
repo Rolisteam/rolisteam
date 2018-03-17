@@ -131,7 +131,7 @@ void LineItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_endPoint.y());
     //pen
     msg->int16(m_pen.width());
-    msg->rgb(m_color);
+    msg->rgb(m_color.rgb());
 
 
     msg->real(pos().x());

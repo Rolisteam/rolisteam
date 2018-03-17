@@ -191,7 +191,7 @@ void VMap::fill(NetworkMessageWriter& msg)
 {
     msg.string8(getId());
     msg.string16(getMapTitle());
-    msg.rgb(mapColor());
+    msg.rgb(mapColor().rgb());
     msg.uint16(mapWidth());
     msg.uint16(mapHeight());
     msg.uint8(static_cast<quint8>(m_currentLayer));
@@ -204,7 +204,7 @@ void VMap::fill(NetworkMessageWriter& msg)
     msg.uint8(getOption(VisualItem::ShowGrid).toBool());
     msg.uint32(static_cast<quint8>(getOption(VisualItem::GridSize).toInt()));
     msg.uint8(getOption(VisualItem::GridAbove).toBool());
-    msg.rgb(getOption(VisualItem::GridColor).value<QColor>());
+    msg.rgb(getOption(VisualItem::GridColor).value<QColor>().rgb());
     msg.uint64(static_cast<quint64>(m_itemMap->values().size()));
 }
 void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)

@@ -536,7 +536,7 @@ void MapFrame::fill(NetworkMessageWriter &msg)
         //NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::AddEmptyMap);
         msg.string16(m_title);
         msg.string8(m_map->getMapId());
-        msg.rgb(m_color);
+        msg.rgb(m_color.rgb());
         msg.uint16(m_width);
         msg.uint16(m_height);
         msg.uint8(12);

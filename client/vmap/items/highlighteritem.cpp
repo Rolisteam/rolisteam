@@ -130,7 +130,7 @@ void HighlighterItem::fillMessage(NetworkMessageWriter* msg)
     //center
     msg->real(m_center.x());
     msg->real(m_center.y());
-    msg->rgb(m_color);
+    msg->rgb(m_color.rgb());
     msg->int16(m_penWidth);
 }
 void HighlighterItem::readItem(NetworkMessageReader* msg)

@@ -558,7 +558,7 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
             message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterColorAction);
 
         message->string8(person->getUuid());
-        message->rgb(person->getColor());
+        message->rgb(person->getColor().rgb());
         message->sendAll();
 
         return true;

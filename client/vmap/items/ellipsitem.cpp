@@ -167,7 +167,7 @@ void EllipsItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_center.x());
     msg->real(m_center.y());
     msg->int8(m_filled);
-    msg->rgb(m_color);
+    msg->rgb(m_color.rgb());
     msg->int16(m_penWidth);
 }
 void EllipsItem::readItem(NetworkMessageReader* msg)

@@ -211,7 +211,7 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
 
     //pen
     msg->uint16(m_pen.width());
-    msg->rgb(m_pen.color());
+    msg->rgb(m_pen.color().rgb());
 
     msg->real(m_start.x());
     msg->real(m_start.y());

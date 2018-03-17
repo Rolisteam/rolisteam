@@ -18,7 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-//#include "mainwindow.h"
 #include "network/networkmessagereader.h"
 
 NetworkMessageReader::NetworkMessageReader()
@@ -222,18 +221,19 @@ QString NetworkMessageReader::string(int sizeQChar)
     return QString();
 }
 
-QRgb NetworkMessageReader::rgb()
+unsigned int NetworkMessageReader::rgb()
 {
-    size_t size = sizeof(QRgb);
+    size_t size = sizeof(unsigned int);
     if (left() >= size)
     {
-        QRgb ret;
+        unsigned int ret;
         memcpy(&ret, m_pos, size);
         m_pos += size;
         return ret;
     }
-    return qRgb(255, 255, 255);
+    return 0x00ffffff;
 }
+
 QByteArray NetworkMessageReader::byteArray32()
 {
 	int size = uint32();

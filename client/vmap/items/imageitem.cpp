@@ -104,7 +104,7 @@ void ImageItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(opacity());
 
 	msg->int8(m_keepAspect);
-	msg->rgb(m_color);
+    msg->rgb(m_color.rgb());
 
     QFile file(m_imagePath);
     if(file.exists())

@@ -460,7 +460,7 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_start.x());
     msg->real(m_start.y());
     msg->string32(m_doc->toHtml());
-    msg->rgb(m_color);
+    msg->rgb(m_color.rgb());
     msg->uint8((quint8 )m_showRect);
 }
 void TextItem::readItem(NetworkMessageReader* msg)

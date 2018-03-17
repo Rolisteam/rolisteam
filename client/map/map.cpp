@@ -1291,7 +1291,7 @@ void Map::sendTrace()
 
 		msg->uint8(m_penSize);
         msg->uint8(ColorSelector::getSelectedColor().type);
-        msg->rgb(ColorSelector::getSelectedColor().color);
+        msg->rgb(ColorSelector::getSelectedColor().color.rgb());
     }
     else if(m_currentTool == ToolsBar::Text)
     {
@@ -1307,7 +1307,7 @@ void Map::sendTrace()
         msg->uint16(m_newZone.height());
 
         msg->uint8(ColorSelector::getSelectedColor().type);
-        msg->rgb(ColorSelector::getSelectedColor().color);
+        msg->rgb(ColorSelector::getSelectedColor().color.rgb());
 
     }
     else if (m_currentTool == ToolsBar::Handler)
@@ -1357,7 +1357,7 @@ void Map::sendTrace()
             msg->uint8(m_penSize);
 
             msg->uint8(ColorSelector::getSelectedColor().type);
-            msg->rgb(ColorSelector::getSelectedColor().color);
+            msg->rgb(ColorSelector::getSelectedColor().color.rgb());
         }
     }
 

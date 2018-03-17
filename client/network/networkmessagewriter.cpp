@@ -154,12 +154,12 @@ void NetworkMessageWriter::byteArray32(const QByteArray & data)
     m_currentPos += size;
 }
 
-void NetworkMessageWriter::rgb(const QColor & color)
+void NetworkMessageWriter::rgb(unsigned int color)
 {
-    int size = sizeof(QRgb);
+    int size = sizeof(unsigned int);
     makeRoom(size);
 
-    *((QRgb *)m_currentPos) = color.rgb();
+    *((unsigned int *)m_currentPos) = color;
     m_currentPos += size;
 }
 
