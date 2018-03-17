@@ -311,7 +311,7 @@ QString NameGeneratorWidget::buildName(const QJsonObject& json)
     qreal first = (qreal)qrand()/(qreal)RAND_MAX;
     qreal sum=0;
 
-    foreach (QString key, firstLetter.keys())
+    for (QString key: firstLetter.keys())
     {
         sum += firstLetter[key].toDouble();
         if((sum > first)&&(result.isEmpty()))
