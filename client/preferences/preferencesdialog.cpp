@@ -503,14 +503,14 @@ void PreferencesDialog::initializePostSettings()
     {
         for(int i = 0; i< size; ++i)
         {
-            QString name = m_preferences->value(QString("Theme_%1_name").arg(i),QString()).toString();
-            QPalette pal = m_preferences->value(QString("Theme_%1_palette").arg(i),QPalette()).value<QPalette>();
-            QString style = m_preferences->value(QString("Theme_%1_stylename").arg(i),"fusion").toString();
-            QColor color = m_preferences->value(QString("Theme_%1_bgColor").arg(i),QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE)).value<QColor>();
-            QString path = m_preferences->value(QString("Theme_%1_bgPath").arg(i),"").toString();
-            int pos = m_preferences->value(QString("Theme_%1_bgPosition").arg(i),0).toInt();
-            QString css = m_preferences->value(QString("Theme_%1_css").arg(i),"").toString();
-            bool isRemovable = m_preferences->value(QString("Theme_%1_removable").arg(i),false).toBool();
+            QString name = m_preferences->value(QStringLiteral("Theme_%1_name").arg(i),QString()).toString();
+            QPalette pal = m_preferences->value(QStringLiteral("Theme_%1_palette").arg(i),QPalette()).value<QPalette>();
+            QString style = m_preferences->value(QStringLiteral("Theme_%1_stylename").arg(i),"fusion").toString();
+            QColor color = m_preferences->value(QStringLiteral("Theme_%1_bgColor").arg(i),QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE)).value<QColor>();
+            QString path = m_preferences->value(QStringLiteral("Theme_%1_bgPath").arg(i),"").toString();
+            int pos = m_preferences->value(QStringLiteral("Theme_%1_bgPosition").arg(i),0).toInt();
+            QString css = m_preferences->value(QStringLiteral("Theme_%1_css").arg(i),"").toString();
+            bool isRemovable = m_preferences->value(QStringLiteral("Theme_%1_removable").arg(i),false).toBool();
             RolisteamTheme* tmp = new RolisteamTheme(pal,name,css,QStyleFactory::create(style),path,pos,color,isRemovable);
             m_themes.append(tmp);
             // m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getName());
@@ -574,10 +574,10 @@ void PreferencesDialog::initializePostSettings()
     size = m_preferences->value("DiceAliasNumber",0).toInt();
     for(int i = 0; i < size ; ++i)
     {
-        QString cmd = m_preferences->value(QString("DiceAlias_%1_command").arg(i),"").toString();
-        QString value = m_preferences->value(QString("DiceAlias_%1_value").arg(i),"").toString();
-        bool replace = m_preferences->value(QString("DiceAlias_%1_type").arg(i),true).toBool();
-        bool enable = m_preferences->value(QString("DiceAlias_%1_enable").arg(i),true).toBool();
+        QString cmd = m_preferences->value(QStringLiteral("DiceAlias_%1_command").arg(i),"").toString();
+        QString value = m_preferences->value(QStringLiteral("DiceAlias_%1_value").arg(i),"").toString();
+        bool replace = m_preferences->value(QStringLiteral("DiceAlias_%1_type").arg(i),true).toBool();
+        bool enable = m_preferences->value(QStringLiteral("DiceAlias_%1_enable").arg(i),true).toBool();
 
         DiceAlias* tmpAlias = new DiceAlias(cmd,value,replace,enable);
         m_aliasModel->addAlias(tmpAlias);
@@ -596,9 +596,9 @@ void PreferencesDialog::initializePostSettings()
     size = m_preferences->value("CharacterStateNumber",0).toInt();
     for(int i = 0; i < size ; ++i)
     {
-        QString label = m_preferences->value(QString("CharacterState_%1_label").arg(i),"").toString();
-        QColor color = m_preferences->value(QString("CharacterState_%1_color").arg(i),"").value<QColor>();
-        QPixmap pixmap = m_preferences->value(QString("CharacterState_%1_pixmap").arg(i),true).value<QPixmap>();
+        QString label = m_preferences->value(QStringLiteral("CharacterState_%1_label").arg(i),"").toString();
+        QColor color = m_preferences->value(QStringLiteral("CharacterState_%1_color").arg(i),"").value<QColor>();
+        QPixmap pixmap = m_preferences->value(QStringLiteral("CharacterState_%1_pixmap").arg(i),true).value<QPixmap>();
 
 
         CharacterState* tmpState = new CharacterState();
