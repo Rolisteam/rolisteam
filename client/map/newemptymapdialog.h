@@ -21,7 +21,7 @@
 #define NEWEMPTYMAPDIALOG_H
 
 #include <QDialog>
-#include "widgets/colorbutton.h"
+#include "common/widgets/colorbutton.h"
 
 #include "map/map.h"
 #include <QMessageBox>

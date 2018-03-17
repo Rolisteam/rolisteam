@@ -23,7 +23,7 @@
 #include <QDialog>
 #include <QLineEdit>
 
-#include "widgets/colorbutton.h"
+#include "common/widgets/colorbutton.h"
 
 namespace Ui {
 class PersonDialog;

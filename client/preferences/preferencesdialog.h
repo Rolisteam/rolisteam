@@ -32,7 +32,7 @@
 #include "preferences/dicealiasmodel.h"
 #include "preferences/preferencesmanager.h"
 #include "diceparser/diceparser.h"
-#include "widgets/colorbutton.h"
+#include "common/widgets/colorbutton.h"
 #include "widgets/filedirchooser.h"
 #include "widgets/centeredcheckbox.h"
 #include "preferences/palettemodel.h"

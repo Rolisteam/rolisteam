@@ -25,7 +25,7 @@
 #include <QDoubleSpinBox>
 
 #include "vmap.h"
-#include "widgets/colorbutton.h"
+#include "common/widgets/colorbutton.h"
 
 /**
  * @brief The VmapToolBar class
