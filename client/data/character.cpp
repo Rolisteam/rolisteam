@@ -67,6 +67,118 @@ void Character::init()
 	}
 }
 
+RolisteamImageProvider *Character::getImageProvider() const
+{
+    return m_imageProvider;
+}
+
+void Character::setImageProvider(RolisteamImageProvider *imageProvider)
+{
+    m_imageProvider = imageProvider;
+}
+
+qreal Character::getDistancePerTurn() const
+{
+    return m_distancePerTurn;
+}
+
+void Character::setDistancePerTurn(const qreal &distancePerTurn)
+{
+    if(m_distancePerTurn == distancePerTurn)
+        return;
+    m_distancePerTurn = distancePerTurn;
+    emit distancePerTurnChanged();
+}
+
+int Character::getInitiativeScore() const
+{
+    return m_initiativeScore;
+}
+
+void Character::setInitiativeScore(int intiativeScore)
+{
+    if(m_initiativeScore == intiativeScore)
+        return;
+    m_initiativeScore = intiativeScore;
+    emit initiativeChanged();
+}
+
+QString Character::getAvatarPath() const
+{
+    return m_avatarPath;
+}
+
+void Character::setAvatarPath(const QString &avatarPath)
+{
+    if(m_avatarPath == avatarPath)
+        return;
+
+    m_avatarPath = avatarPath;
+    emit avatarPathChanged();
+}
+
+void Character::setCurrentState(QString name, QColor color, QString image)
+{
+    CharacterState* tmpState=nullptr;
+    for(auto state: *m_stateList)
+    {
+        if(state->getLabel() == name && color == state->getColor() )
+        {
+            tmpState = state;
+        }
+    }
+
+    if(tmpState == nullptr)
+    {
+        tmpState = new CharacterState();
+        tmpState->setLabel(name);
+        tmpState->setColor(color);
+        m_stateList->append(tmpState);
+    }
+
+    //m_currentState = tmpState;
+    setState(tmpState);
+}
+
+int Character::getHealthPointsCurrent() const
+{
+    return m_healthPointsCurrent;
+}
+
+void Character::setHealthPointsCurrent(int hpCurrent)
+{
+    if(hpCurrent == m_healthPointsCurrent)
+        return;
+    m_healthPointsCurrent = hpCurrent;
+    emit currentHealthPointsChanged();
+}
+
+int Character::getHealthPointsMin() const
+{
+    return m_healthPointsMin;
+}
+
+void Character::setHealthPointsMin(int hpMin)
+{
+    if(hpMin == m_healthPointsMin)
+        return;
+    m_healthPointsMin = hpMin;
+    emit minHPChanged();
+}
+
+int Character::getHealthPointsMax() const
+{
+    return m_healthPointsMax;
+}
+
+void Character::setHealthPointsMax(int hpMax)
+{
+    if(hpMax == m_healthPointsMax)
+        return;
+    m_healthPointsMax = hpMax;
+    emit maxHPChanged();
+}
+
 QString Character::getParentId() const
 {
     if(nullptr!=m_parent)
@@ -84,9 +196,7 @@ QHash<QString, QString> Character::getVariableDictionnary()
         return m_sheet->getVariableDictionnary();
         #endif
     }
-
     return QHash<QString, QString>();
-
 }
 
 CharacterSheet *Character::getSheet() const
@@ -116,7 +226,7 @@ int Character::indexOf(CharacterState* state)
 
 CharacterState* Character::getStateFromLabel(QString label)
 {
-    foreach(CharacterState* state, *m_stateList)
+    for(CharacterState* state: *m_stateList)
     {
         if(state->getLabel() == label)
         {
@@ -212,7 +322,10 @@ bool Character::isNpc() const
 }
 void  Character::setState(CharacterState*  h)
 {
+    if(h == m_currentState)
+        return;
     m_currentState = h;
+    emit stateChanged();
 }
 CharacterState* Character::getState() const
 {

@@ -61,6 +61,15 @@ private:
 class Character : public QObject,public Person
 {
     Q_OBJECT
+    Q_PROPERTY(int healthPoints READ getHealthPointsCurrent WRITE setHealthPointsCurrent NOTIFY currentHealthPointsChanged)
+    Q_PROPERTY(int maxHP READ getHealthPointsMax WRITE setHealthPointsMax NOTIFY maxHPChanged)
+    Q_PROPERTY(int minHP READ getHealthPointsMin WRITE setHealthPointsMin NOTIFY minHPChanged)
+    Q_PROPERTY(QString avatarPath READ getAvatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
+    Q_PROPERTY(bool isNpc READ isNpc WRITE setNpc NOTIFY npcChanged)
+    Q_PROPERTY(int initiative READ getInitiativeScore WRITE setInitiativeScore NOTIFY initiativeChanged)
+    Q_PROPERTY(qreal distancePerTurn READ getDistancePerTurn WRITE setDistancePerTurn NOTIFY distancePerTurnChanged)
+    Q_PROPERTY(CharacterState* state READ getState WRITE setState NOTIFY stateChanged)
+
 public:
    // enum HeathState {Healthy,Lightly,Seriously,Dead,Sleeping,Bewitched};
     Character();
@@ -101,6 +110,10 @@ public:
      */
     bool isNpc() const;
     /**
+     * @brief setNpc
+     */
+    void setNpc(bool);
+    /**
      * @brief number
      * @return
      */
@@ -136,10 +149,8 @@ public:
      * @return
      */
     CharacterState* getStateFromLabel(QString label);
-
     void  setState(CharacterState*  h);
 
-    void setNpc(bool);
 
     CharacterSheet* getSheet() const;
     void setSheet(CharacterSheet* sheet);
@@ -147,29 +158,70 @@ public:
     Player *getParentPlayer() const;
     QString getParentId() const;
 
-
     virtual QHash<QString,QString> getVariableDictionnary();
 
     int indexOf(CharacterState *state);
+
 	void insertAction(const QString& name, const QImage& img, const QKeySequence& seq);
 	void removeAction(const QString& name);
 	void clearActions();
+
     virtual void write(QDataStream &out, bool tag) const;
     virtual void read(QDataStream &in);
+
+    int getHealthPointsMax() const;
+    void setHealthPointsMax(int hpMax);
+
+    int getHealthPointsMin() const;
+    void setHealthPointsMin(int hpMin);
+
+    int getHealthPointsCurrent() const;
+    void setHealthPointsCurrent(int hpCurrent);
+
+    QString getAvatarPath() const;
+    void setAvatarPath(const QString &avatarPath);
+
+    void setCurrentState(QString name,QColor color, QString image);
+
+    int getInitiativeScore() const;
+    void setInitiativeScore(int intiativeScore);
+
+    qreal getDistancePerTurn() const;
+    void setDistancePerTurn(const qreal &distancePerTurn);
+
+    RolisteamImageProvider *getImageProvider() const;
+    void setImageProvider(RolisteamImageProvider *imageProvider);
+
 signals:
     void avatarChanged();
+    void currentHealthPointsChanged();
+    void maxHPChanged();
+    void minHPChanged();
+    void avatarPathChanged();
+    void npcChanged();
+    void initiativeChanged();
+    void distancePerTurnChanged();
+    void stateChanged();
 
 protected:
     CharacterState* getStateFromIndex(int i);
 private:
     void init();
+
 private:
-    bool m_isNpc;
-    int m_number;
-	QList<CharacterShape*>* m_actionList;
-    CharacterState* m_currentState;
-    CharacterSheet* m_sheet;
+    bool m_isNpc = true;
+    int m_number = 0;
     static QList<CharacterState*>* m_stateList;
+	QList<CharacterShape*>* m_actionList;
+    CharacterState* m_currentState = nullptr;
+    CharacterSheet* m_sheet = nullptr;
+    int m_healthPointsMax=100;
+    int m_healthPointsMin=0;
+    int m_healthPointsCurrent=100;
+    QString m_avatarPath;
+    RolisteamImageProvider* m_imageProvider = nullptr;
+    int m_initiativeScore = 0;
+    qreal m_distancePerTurn = 0;
 };
 
 #endif // CHARACTER_H
