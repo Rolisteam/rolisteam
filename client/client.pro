@@ -194,10 +194,10 @@ HEADERS += \
         data/shortcutvisitor.h \
         widgets/shortcuteditordialog.h \
         widgets/gmtoolbox/gamemastertool.h \
-    pdfviewer/pdfviewer.h \
-    widgets/overlay.h \
-    data/cleverurimimedata.h \
-    network/clientmanager.h
+        pdfviewer/pdfviewer.h \
+        widgets/overlay.h \
+        data/cleverurimimedata.h \
+        network/clientmanager.h
 
 
    #     persondialog.cpp \

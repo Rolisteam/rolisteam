@@ -27,7 +27,6 @@
 #include "data/player.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-//#include "userlist/playersList.h"
 
 QList<CharacterState*>* Character::m_stateList = nullptr;
 
@@ -142,7 +141,7 @@ void Character::fill(NetworkMessageWriter & message,bool addAvatar)
     message.int8(indexOf(m_currentState));
     message.uint8((int)m_isNpc);
     message.int32(m_number);
-    message.rgb(m_color);
+    message.rgb(m_color.rgb());
 
     if(addAvatar)
     {
