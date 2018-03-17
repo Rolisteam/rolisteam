@@ -22,9 +22,10 @@
 #ifndef FIELD_H
 #define FIELD_H
 
-#include <QWidget>
-#include <QLabel>
 #include <QGraphicsItem>
+#include <QMouseEvent>
+#include <QFont>
+
 #include "charactersheetitem.h"
 #include "csitem.h"
 
