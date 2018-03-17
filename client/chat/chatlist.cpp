@@ -149,14 +149,14 @@ void ChatList::writeSettings(QSettings& settings)
         settings.endArray();
     }
 }
-void ChatList::rollDiceCmd(QString cmd, QString owner)
+void ChatList::rollDiceCmd(QString cmd, QString owner,bool alias)
 {
     if(!m_chatWindowList.isEmpty())
     {
         ChatWindow* wid = m_chatWindowList.first();
         if(nullptr!=wid)
         {
-            wid->rollDiceCmd(cmd,owner);
+            wid->rollDiceCmd(cmd,owner,alias);
         }
     }
 }

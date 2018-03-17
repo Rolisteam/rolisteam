@@ -34,7 +34,7 @@
 
 #include "network/networkmessage.h"
 #include "preferences/preferencesmanager.h"
-#include "widgets/colorbutton.h"
+#include "common/widgets/colorbutton.h"
 #include "chatbrowser.h"
 
 #include "data/person.h"
@@ -158,7 +158,7 @@ public slots:
      */
     void detachView(bool b);
 
-    void rollDiceCmd(QString cmd,QString owner);
+    void rollDiceCmd(QString cmd, QString owner, bool alias);
 
     void showTime(bool showTime);
 

@@ -108,11 +108,7 @@ void ChatWindow::updateListAlias()
     }
     if(nullptr!=m_receivedAlias)
     {
-        /*foreach(int id,m_receivedAlias->keys())
-        {*/
-        // DiceAlias* dicealias = m_receivedAlias->value(id);
         list->append(*m_receivedAlias);
-        //}
     }
 }
 
@@ -808,7 +804,7 @@ void ChatWindow::createAction(const std::pair<QString,QString>& pair)
     connect(action,&QAction::triggered,this,[=](){
         auto action = qobject_cast<QAction*>(sender());
         QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
-        rollDiceCmd(action->data().toString(),localPersonIdentifier);
+        rollDiceCmd(action->data().toString(),localPersonIdentifier,true);
     });
 }
 void ChatWindow::dragEnterEvent(QDragEnterEvent * event)
@@ -829,7 +825,7 @@ Qt::DropActions ChatWindow::supportedDropActions() const
 {
     return Qt::CopyAction | Qt::MoveAction;
 }
-void ChatWindow::rollDiceCmd(QString cmd, QString owner)
+void ChatWindow::rollDiceCmd(QString cmd, QString owner, bool alias)
 {
     QString title;
     QString msg;

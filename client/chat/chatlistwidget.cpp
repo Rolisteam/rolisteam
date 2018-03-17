@@ -209,9 +209,9 @@ void ChatListWidget::addPublicChat()
     m_chatList->addPublicChat();
 }
 
-void ChatListWidget::rollDiceCmd(QString cmd, QString owner)
+void ChatListWidget::rollDiceCmd(QString cmd, QString owner,bool alias)
 {
-    m_chatList->rollDiceCmd(cmd,owner);
+    m_chatList->rollDiceCmd(cmd,owner,alias);
 }
 void ChatListWidget::cleanChatList()
 {

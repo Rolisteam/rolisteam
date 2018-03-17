@@ -111,7 +111,7 @@ public:
     void writeSettings(QSettings& settings);
 public slots:
 	void addPublicChat();
-    void rollDiceCmd(QString, QString);
+    void rollDiceCmd(QString, QString, bool alias);
 
 private:
     /**
