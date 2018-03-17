@@ -131,7 +131,7 @@ HEADERS += \
         services/ipchecker.h \
         map/mapwizzard.h \
         map/newemptymapdialog.h \
-        widgets/colorbutton.h \
+        common/widgets/colorbutton.h \
         widgets/filedirchooser.h \
         audio/audioPlayer.h \
         audio/musicmodel.h \
@@ -229,7 +229,7 @@ SOURCES += \
         services/ipchecker.cpp \
         map/mapwizzard.cpp \
         map/newemptymapdialog.cpp \
-        widgets/colorbutton.cpp \
+        common/widgets/colorbutton.cpp \
         widgets/filedirchooser.cpp \
         audio/audioPlayer.cpp \
         audio/musicmodel.cpp \
