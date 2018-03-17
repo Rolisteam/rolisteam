@@ -401,14 +401,38 @@ void MainWindow::createNotificationZone()
     QWidget* wd = new QWidget();
     QVBoxLayout* layout = new QVBoxLayout();
     wd->setLayout(layout);
-    m_notifierDisplay = new QTextEdit(m_dockLogUtil);
-    m_notifierDisplay->setReadOnly(true);
+
+
+    m_notifierDisplay = new LogPanel(m_dockLogUtil);
 
     layout->addWidget(m_notifierDisplay);
     layout->addWidget(m_downLoadProgressbar);
 
     m_dockLogUtil->setWidget(wd);
-    m_dockLogUtil->setMinimumWidth(125);
+    m_dockLogUtil->setMinimumWidth(80);
+
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_notificationAct,m_dockLogUtil->toggleViewAction());
+    m_ui->m_menuSubWindows->removeAction(m_ui->m_notificationAct);
+    addDockWidget(Qt::RightDockWidgetArea, m_dockLogUtil);
+}
+void MainWindow::createPostSettings()
+{
+
+    // Log controller
+    auto logDebug = m_preferences->value(QStringLiteral("LogDebug"),false).toBool();
+    m_logController = new LogController(logDebug,this);
+    auto LogResearch = m_preferences->value(QStringLiteral("LogResearch"),false).toBool();
+    auto logRoli = m_preferences->value(QStringLiteral("LogRolisteam"),false).toBool();
+    m_logController->setSignalInspection(logDebug && (LogResearch || logRoli));
+    if((LogResearch || logRoli))
+    {
+        m_logController->listenObjects(this);
+    }
+    m_logController->setCurrentModes(LogController::Gui);
+    m_logController->setLogLevel(LogController::Info);
+    connect(m_logController,&LogController::showMessage,
+            m_notifierDisplay,&LogPanel::showMessage);
+
 }
 
 void MainWindow::linkActionToMenu()
@@ -816,7 +840,7 @@ void MainWindow::readStory(QString fileName)
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly))
     {
-        notifyUser("Cannot be read (openStory - MainWindow.cpp)");
+        notifyUser("Cannot be read (openStory - MainWindow.cpp)",LogController::Error);
         return;
     }
     m_sessionManager->setSessionName(info.baseName());
@@ -861,7 +885,7 @@ bool MainWindow::saveStory()
     QFile file(m_currentStory->getUri());
     if (!file.open(QIODevice::WriteOnly))
     {
-        notifyUser(tr("%1 cannot be opened (saveStory - MainWindow.cpp)").arg(m_currentStory->getUri()));
+        notifyUser(tr("%1 cannot be opened (saveStory - MainWindow.cpp)").arg(m_currentStory->getUri()),LogController::Error);
         return false;
     }
 
@@ -990,7 +1014,7 @@ void MainWindow::showIp(QString ip)
 {
     if(nullptr!=m_currentConnectionProfile)
     {
-        notifyUser(tr("Server Ip Address:%1\nPort:%2").arg(ip).arg(m_currentConnectionProfile->getPort()));
+        notifyUser(tr("Server Ip Address:%1\nPort:%2").arg(ip).arg(m_currentConnectionProfile->getPort()),LogController::Features);
     }
 }
 void MainWindow::setUpNetworkConnection()
@@ -1017,7 +1041,7 @@ void MainWindow::readImageFromStream(QDataStream &file)
     QImage img;
     if (!img.loadFromData(baImage, "jpg"))
     {
-        notifyUser(tr("Image compression error (readImageFromStream - MainWindow.cpp)"));
+        notifyUser(tr("Image compression error (readImageFromStream - MainWindow.cpp)"),LogController::Error);
     }
 
     // Creation de l'identifiant
@@ -1039,7 +1063,7 @@ void MainWindow::readImageFromStream(QDataStream &file)
     QBuffer buffer(&byteArray);
     if (!img.save(&buffer, "jpg", 70))
     {
-        notifyUser(tr("Image compression error (readImageFromStream - MainWindow.cpp)"));
+        notifyUser(tr("Image compression error (readImageFromStream - MainWindow.cpp)"),LogController::Error);
     }
 }
 void MainWindow::helpOnLine()
@@ -1129,16 +1153,17 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
 
 void MainWindow::notifyAboutAddedPlayer(Player * player) const
 {
-    notifyUser(tr("%1 just joins the game.").arg(player->getName()));
+    notifyUser(tr("%1 just joins the game.").arg(player->getName()),LogController::Features);
     if(player->getUserVersion().compare(m_version)!=0)
     {
-        notifyUser(tr("%1 has not the right version: %2.").arg(player->getName()).arg(player->getUserVersion()),Error);
+        notifyUser(tr("%1 has not the right version: %2.").arg(player->getName())
+                   .arg(player->getUserVersion()),LogController::Error);
     }
 }
 
 void MainWindow::notifyAboutDeletedPlayer(Player * player) const
 {
-    notifyUser(tr("%1 just leaves the game.").arg(player->getName()));
+    notifyUser(tr("%1 just leaves the game.").arg(player->getName()),LogController::Features);
 }
 
 void MainWindow::readSettings()
@@ -1174,8 +1199,9 @@ void MainWindow::readSettings()
     }
     updateRecentFileActions();
     m_preferencesDialog->initializePostSettings();
-    //m_gmToolBoxList[2]->readSettings(settings);
     m_chatListWidget->readSettings(settings);
+
+    createPostSettings();
 }
 void MainWindow::writeSettings()
 {
@@ -1184,7 +1210,6 @@ void MainWindow::writeSettings()
     settings.setValue("windowState", saveState());
     settings.setValue("Maximized", isMaximized());
     m_preferences->writeSettings(settings);
-    //m_gmToolBoxList[2]->writeSettings(settings);
     m_chatListWidget->writeSettings(settings);
 }
 void MainWindow::parseCommandLineArguments(QStringList list)
@@ -1393,7 +1418,7 @@ void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
 {
     if(msg->action() == NetMsg::EndConnectionAction)
     {
-        notifyUser(tr("End of the connection process"));
+        notifyUser(tr("End of the connection process"),LogController::Info);
         updateWorkspace();
     }
     else if((msg->action() == NetMsg::SetChannelList) || (NetMsg::AdminAuthFail == msg->action()) ||  (NetMsg::AdminAuthSucessed == msg->action()))
@@ -1411,38 +1436,10 @@ void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
     }
 
 }
-void MainWindow::notifyUser(QString message, MainWindow::MessageType type) const
+void MainWindow::notifyUser(QString message, LogController::LogLevel type) const
 {
-    static bool alternance = false;
-    QColor color;
-    alternance = !alternance;
-
-    if (alternance)
-        color = Qt::darkBlue;
-    else
-        color = Qt::darkRed;
-
-    switch (type)
-    {
-    case Error:
-        color = Qt::red;
-        message.prepend(tr("Error:"));
-        break;
-    case Warning:
-        color = Qt::darkRed;
-        message.prepend(tr("Warning:"));
-        break;
-    case Information:
-    case Notice:
-        break;
-    }
-
-    QString time = QTime::currentTime().toString("hh:mm:ss") + " - ";
-    m_notifierDisplay->moveCursor(QTextCursor::End);
-    m_notifierDisplay->setTextColor(Qt::darkGreen);
-    m_notifierDisplay->append(time);
-    m_notifierDisplay->setTextColor(color);
-    m_notifierDisplay->insertPlainText(message);
+    Q_ASSERT(m_logController != nullptr);
+    m_logController->manageMessage(message,type);
 }
 void  MainWindow::showConnectionDialog(bool forced)
 {
@@ -2245,7 +2242,7 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
         window->setLocalIsGM(m_currentConnectionProfile->isGM());
     }
     connect(window,SIGNAL(addWidgetToMdiArea(QWidget*,QString )),m_mdiArea,SLOT(addWidgetToMdi(QWidget*,QString)));
-    connect(window,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
+    connect(window,SIGNAL(rollDiceCmd(QString,QString,bool)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
     connect(window,SIGNAL(errorOccurs(QString,MainWindow::MessageType)),this,SLOT(notifyUser(QString,MainWindow::MessageType)));
     connect(m_playerList,SIGNAL(playerDeleted(Player*)),window,SLOT(removeConnection(Player*)));
 }

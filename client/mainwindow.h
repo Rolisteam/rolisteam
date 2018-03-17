@@ -65,6 +65,9 @@
 #include "network/clientmanager.h"
 #include  "network/channellistpanel.h"
 
+//log
+#include "common/controller/logcontroller.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -86,6 +89,7 @@ class ConnectionProfile;
 class SessionManager;
 class CharacterSheetWindow;
 class GameMasterTool;
+class LogPanel;
 /**
  * @brief Main widget for rolisteam, it herits from QMainWindow.
  */
@@ -94,10 +98,6 @@ class MainWindow : public QMainWindow, public NetWorkReceiver
     Q_OBJECT
 
 public :
-    /**
-     * @brief The MessageType enum
-     */
-    enum MessageType {Information,Notice,Warning,Error};
     /**
      * @brief MainWindow
      */
@@ -215,7 +215,7 @@ public slots :
      * @brief notifyUser
      * @param msg
      */
-    void notifyUser(QString msg, MainWindow::MessageType msgType = Information) const;
+    void notifyUser(QString msg, LogController::LogLevel msgType = LogController::Info) const;
     /**
      * @brief quitterApplication
      * @param perteConnexion
@@ -357,6 +357,7 @@ protected :
     void processSharedNoteMessage(NetworkMessageReader *msg);
     void tipChecker();
     virtual void mouseMoveEvent(QMouseEvent *event);
+    void createPostSettings();
 protected slots:
     /**
      * @brief closeMediaContainer
@@ -553,7 +554,7 @@ private:
     QString m_version;
     QDockWidget* m_dockLogUtil;
     ClientManager* m_clientManager;
-    QTextEdit* m_notifierDisplay;
+    LogPanel* m_notifierDisplay;
     PlayersList* m_playerList;
     IpChecker* m_ipChecker; /// @brief get the server IP.
 
@@ -572,13 +573,14 @@ private:
 
     ConnectionProfile* m_currentConnectionProfile;
     QList<GameMasterTool*> m_gmToolBoxList;
-    SelectConnectionProfileDialog* m_dialog;
+    SelectConnectionProfileDialog* m_dialog = nullptr;
     bool m_profileDefined;
     CleverURI* m_currentStory;
     QDockWidget* m_roomPanelDockWidget;
     QThread m_serverThread;
     ChannelListPanel* m_roomPanel;
     QUndoStack m_undoStack;
+    LogController* m_logController;
 };
 
 #endif

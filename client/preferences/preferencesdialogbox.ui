@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>524</width>
-    <height>860</height>
+    <height>975</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
       <attribute name="title">
        <string>General</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_20">
+      <layout class="QVBoxLayout" name="verticalLayout_21">
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
@@ -259,13 +259,6 @@
             </item>
            </layout>
           </item>
-          <item>
-           <widget class="QLabel" name="label_9">
-            <property name="text">
-             <string>* : need restart</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
        </item>
@@ -412,6 +405,69 @@
         </widget>
        </item>
        <item>
+        <widget class="QGroupBox" name="groupBox_10">
+         <property name="title">
+          <string>Data collection</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_20">
+          <item>
+           <widget class="QLabel" name="label_28">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Those data are anonymous. &lt;br/&gt;We have two kind of data collection:&lt;br/&gt;-The &lt;/span&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;first&lt;/span&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt; one is dedicated to Rolisteam's staff only &lt;br/&gt;and its goal is to make &lt;/span&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;Rolisteam&lt;/span&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt; greater.&lt;br/&gt;-The &lt;/span&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;second&lt;/span&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt; collection program is dedicated to study about Role Playing Game. &lt;br/&gt;It is made to provide raw data to &lt;/span&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;university researchers&lt;/span&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;To know more about it: &lt;/span&gt;&lt;a href=&quot;http://www.rolisteam.org/datacollection.html&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#007af4;&quot;&gt;www.rolisteam.org/datacollection.html&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::RichText</enum>
+            </property>
+            <property name="scaledContents">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_23">
+            <item>
+             <widget class="QCheckBox" name="m_logRolisteam">
+              <property name="text">
+               <string>Rolisteam*</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="m_logUniversityResearch">
+              <property name="text">
+               <string>University Research*</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_11">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="m_debugLogInfo">
+              <property name="toolTip">
+               <string>May slow down rolisteam</string>
+              </property>
+              <property name="text">
+               <string>Include Debug data*</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -423,6 +479,13 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>* : need restart</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -444,7 +507,7 @@
               <item>
                <widget class="QLabel" name="label_21">
                 <property name="text">
-                 <string>Current Theme</string>
+                 <string>Current Theme*</string>
                 </property>
                </widget>
               </item>
@@ -680,6 +743,13 @@
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QLabel" name="label_29">
+              <property name="text">
+               <string>*: need restart</string>
+              </property>
+             </widget>
+            </item>
             <item>
              <spacer name="horizontalSpacer_4">
               <property name="orientation">
@@ -1217,15 +1287,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>ColorButton</class>
+   <extends>QPushButton</extends>
+   <header>common/widgets/colorbutton.h</header>
+  </customwidget>
+  <customwidget>
    <class>FileDirChooser</class>
    <extends>QWidget</extends>
    <header location="global">widgets/filedirchooser.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ColorButton</class>
-   <extends>QPushButton</extends>
-   <header>widgets/colorbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources>

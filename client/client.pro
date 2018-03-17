@@ -197,7 +197,9 @@ HEADERS += \
         pdfviewer/pdfviewer.h \
         widgets/overlay.h \
         data/cleverurimimedata.h \
-        network/clientmanager.h
+        network/clientmanager.h\
+        common/widgets/logpanel.h\
+        common/controller/logcontroller.h
 
 
    #     persondialog.cpp \
@@ -291,10 +293,12 @@ SOURCES += \
         data/shortcutvisitor.cpp \
         widgets/shortcuteditordialog.cpp \
         widgets/gmtoolbox/gamemastertool.cpp \
-    pdfviewer/pdfviewer.cpp \
-    widgets/overlay.cpp \
-    data/cleverurimimedata.cpp \
-    network/clientmanager.cpp
+        pdfviewer/pdfviewer.cpp \
+        widgets/overlay.cpp \
+        data/cleverurimimedata.cpp \
+        network/clientmanager.cpp \
+        common/widgets/logpanel.cpp\
+        common/controller/logcontroller.cpp
 
 
 FORMS += \
@@ -310,7 +314,8 @@ FORMS += \
     widgets/persondialog.ui \
     network/channellistpanel.ui \
     widgets/tipofdayviewer.ui \
-    widgets/shortcuteditordialog.ui
+    widgets/shortcuteditordialog.ui\
+    common/widgets/logpanel.ui\
 
 
 # Installs

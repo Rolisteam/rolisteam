@@ -373,18 +373,22 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("ThemeNumber",m_themes.size());
     int i = 0;
 
-    foreach(RolisteamTheme* tmp, m_themes)
+    m_preferences->registerValue(QStringLiteral("LogDebug"),ui->m_debugLogInfo->isChecked());
+    m_preferences->registerValue(QStringLiteral("LogResearch"),ui->m_logUniversityResearch->isChecked());
+    m_preferences->registerValue(QStringLiteral("LogRolisteam"),ui->m_logRolisteam->isChecked());
+
+    for(RolisteamTheme* tmp: m_themes)
     {
-        m_preferences->registerValue(QString("Theme_%1_name").arg(i),tmp->getName());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_name").arg(i),tmp->getName());
         QVariant var;
         var.setValue<QPalette>(tmp->getPalette());
-        m_preferences->registerValue(QString("Theme_%1_palette").arg(i),var);
-        m_preferences->registerValue(QString("Theme_%1_stylename").arg(i),tmp->getStyleName());
-        m_preferences->registerValue(QString("Theme_%1_bgColor").arg(i),tmp->getBackgroundColor());
-        m_preferences->registerValue(QString("Theme_%1_bgPath").arg(i),tmp->getBackgroundImage());
-        m_preferences->registerValue(QString("Theme_%1_bgPosition").arg(i),tmp->getBackgroundPosition());
-        m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getCss());
-        m_preferences->registerValue(QString("Theme_%1_removable").arg(i),tmp->isRemovable());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_palette").arg(i),var);
+        m_preferences->registerValue(QStringLiteral("Theme_%1_stylename").arg(i),tmp->getStyleName());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_bgColor").arg(i),tmp->getBackgroundColor());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_bgPath").arg(i),tmp->getBackgroundImage());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_bgPosition").arg(i),tmp->getBackgroundPosition());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_css").arg(i),tmp->getCss());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_removable").arg(i),tmp->isRemovable());
         // m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getName());
         ++i;
     }
@@ -395,10 +399,10 @@ void PreferencesDialog::save() const
     for(int i = 0; i < aliasList->size() ; ++i)
     {
         DiceAlias* tmpAlias = aliasList->at(i);
-        m_preferences->registerValue(QString("DiceAlias_%1_command").arg(i),tmpAlias->getCommand());
-        m_preferences->registerValue(QString("DiceAlias_%1_value").arg(i),tmpAlias->getValue());
-        m_preferences->registerValue(QString("DiceAlias_%1_type").arg(i),tmpAlias->isReplace());
-        m_preferences->registerValue(QString("DiceAlias_%1_enable").arg(i),tmpAlias->isEnable());
+        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_command").arg(i),tmpAlias->getCommand());
+        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_value").arg(i),tmpAlias->getValue());
+        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_type").arg(i),tmpAlias->isReplace());
+        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_enable").arg(i),tmpAlias->isEnable());
     }
 
     //State
@@ -407,9 +411,9 @@ void PreferencesDialog::save() const
     for(int i = 0; i < stateList->size() ; ++i)
     {
         CharacterState* tmpState = stateList->at(i);
-        m_preferences->registerValue(QString("CharacterState_%1_label").arg(i),tmpState->getLabel());
-        m_preferences->registerValue(QString("CharacterState_%1_color").arg(i),tmpState->getColor());
-        m_preferences->registerValue(QString("CharacterState_%1_pixmap").arg(i),tmpState->getImage());
+        m_preferences->registerValue(QStringLiteral("CharacterState_%1_label").arg(i),tmpState->getLabel());
+        m_preferences->registerValue(QStringLiteral("CharacterState_%1_color").arg(i),tmpState->getColor());
+        m_preferences->registerValue(QStringLiteral("CharacterState_%1_pixmap").arg(i),tmpState->getImage());
     }
 
 
@@ -465,6 +469,12 @@ void PreferencesDialog::load()
     //Messaging
     ui->m_showTimeCheckBox->setChecked(m_preferences->value("MessagingShowTime",false).toBool());
     ui->m_timeColorBtn->setColor(m_preferences->value("MessagingColorTime",QColor(Qt::darkGreen)).value<QColor>());
+
+    //LOG
+    ui->m_debugLogInfo->setChecked(m_preferences->value(QStringLiteral("LogDebug"),false).toBool());
+    ui->m_logUniversityResearch->setChecked(m_preferences->value(QStringLiteral("LogResearch"),false).toBool());
+    ui->m_logRolisteam->setChecked(m_preferences->value(QStringLiteral("LogRolisteam"),false).toBool());
+
 
     updateTheme();
 }
