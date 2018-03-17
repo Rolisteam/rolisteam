@@ -40,12 +40,16 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
     controller->manageMessage(msgFormated,cLevel);
 }
 
-LogController::LogController(QObject *parent)
+LogController::LogController(bool attachMessage,QObject *parent)
   : QObject(parent)
 {
+    qRegisterMetaType<LogController::LogLevel>("LogController::LogLevel");
     if(controller == nullptr)
     {
-        qInstallMessageHandler(messageHandler);
+        if(attachMessage)
+        {
+           qInstallMessageHandler(messageHandler);
+        }
         controller = this;
     }
 }
@@ -107,10 +111,13 @@ void LogController::listenObjects(const QObject* object)
         }
     }
 
-    QObjectList children = widget->children();
-    for(QObject* obj : children)
+    if(widget != nullptr)
     {
-        listenObjects(obj);
+        QObjectList children = widget->children();
+        for(QObject* obj : children)
+        {
+            listenObjects(obj);
+        }
     }
 
 }
@@ -132,13 +139,28 @@ void LogController::signalActivated()
 }
 QString LogController::typeToText(LogController::LogLevel type)
 {
-    static QStringList list = {"Error","Debug","Warning","Info"};
+    static QStringList list = {"Error","Debug","Warning","Info","Feature"};
     return list.at(type);
+}
+
+bool LogController::signalInspection() const
+{
+    return m_signalInspection;
+}
+
+void LogController::setSignalInspection(bool signalInspection)
+{
+    m_signalInspection = signalInspection;
+}
+
+void LogController::setListenOutSide(bool val)
+{
+    m_listenOutSide = val;
 }
 
 void LogController::manageMessage(QString message, LogController::LogLevel type)
 {
-    if(m_logLevel < type)
+    if(m_logLevel < type && type != Features)
         return;
 
     QString str("%1 - %2 - %3");
@@ -158,7 +180,7 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
     }
     if(m_currentModes & Gui)
     {
-        emit showMessage(str);
+        emit showMessage(str,type);
     }
     if(m_currentModes & Network)
     {

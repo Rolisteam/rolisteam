@@ -2,7 +2,9 @@
 #define LOGPANEL_H
 
 #include <QWidget>
-#include "logcontroller.h"
+#include <QAbstractListModel>
+#include "common/controller/logcontroller.h"
+#include "preferences/preferencesmanager.h"
 
 namespace Ui {
 class LogPanel;
@@ -17,7 +19,7 @@ public:
     ~LogPanel();
 
 public slots:
-    void showMessage(QString);
+    void showMessage(QString,LogController::LogLevel level);
 
 signals:
     void logLevelChanged(LogController::LogLevel i);
@@ -25,6 +27,8 @@ protected slots:
     void saveLog();
 private:
     Ui::LogPanel *ui;
+    PreferencesManager* m_prefManager = PreferencesManager::getInstance();
+    LogController::LogLevel m_currentLogLevel;
 };
 
 #endif // LOGPANEL_H

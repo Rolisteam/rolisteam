@@ -77,7 +77,11 @@
     </layout>
    </item>
    <item>
-    <widget class="QTextEdit" name="m_logview"/>
+    <widget class="QTextEdit" name="m_logview">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
   <action name="m_eraseAllAct">
@@ -86,6 +90,9 @@
    </property>
   </action>
   <action name="m_saveAct">
+   <property name="icon">
+    <iconset theme="QStyle::SP_DriveHDIcon"/>
+   </property>
    <property name="text">
     <string>Save</string>
    </property>
