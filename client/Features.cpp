@@ -109,7 +109,6 @@ NetworkMessageWriter & SendFeaturesIterator::message()
     m_message.reset();
     if (m_player != nullptr)
     {
-        //qDebug("Prepared feature %s -> %s (%d)", qPrintable(m_player->uuid()), qPrintable(key()), value());
         m_message.string8(m_player->getUuid());
         m_message.string8(key());
         m_message.uint8(value());
