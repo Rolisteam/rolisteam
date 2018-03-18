@@ -114,6 +114,7 @@
     <addaction name="m_disconnectAction"/>
     <addaction name="separator"/>
     <addaction name="m_changeProfileAct"/>
+    <addaction name="m_connectionLinkAct"/>
     <addaction name="separator"/>
     <addaction name="m_roomListAct"/>
    </widget>
@@ -629,6 +630,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="m_connectionLinkAct">
+   <property name="text">
+    <string>Copy Connection Link</string>
    </property>
   </action>
  </widget>

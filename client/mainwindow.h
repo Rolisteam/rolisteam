@@ -454,12 +454,6 @@ private slots :
      */
     void openRecentFile();
 
-    /**
-    * \brief Show the about dialog
-    *
-    */
-    void aboutRolisteam();
-
     /// \brief open the Qt assistant with the rolisteam documentation
     /**
      * @brief helpOnLine
@@ -489,12 +483,6 @@ private slots :
      * @param player
      */
     void notifyAboutDeletedPlayer(Player * player) const;
-
-    /**
-     * @brief showIp displays ip address of the server - feature request #76
-     * @param ip
-     */
-    void showIp(QString ip);
 
     void showShortCutEditor();
 
@@ -581,6 +569,7 @@ private:
     ChannelListPanel* m_roomPanel;
     QUndoStack m_undoStack;
     LogController* m_logController;
+    QString m_connectionAddress;
 };
 
 #endif

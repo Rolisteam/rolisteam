@@ -280,13 +280,13 @@ void MainWindow::setupUi()
 
 
     connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
-    connect(m_ipChecker,SIGNAL(finished(QString)),this,SLOT(showIp(QString)));
-}
-
-void MainWindow::aboutRolisteam()
-{
-    AboutRolisteam diag(m_version,this);
-    diag.exec();
+    connect(m_ipChecker,&IpChecker::finished,this,[=](QString ip){
+        m_connectionAddress = ip;
+        if(nullptr!=m_currentConnectionProfile)
+        {
+            notifyUser(tr("Server Ip Address:%1\nPort:%2").arg(m_connectionAddress).arg(m_currentConnectionProfile->getPort()),LogController::Features);
+        }
+    });
 }
 
 void MainWindow::addMediaToMdiArea(MediaContainer* mediac,bool redoable)
@@ -658,12 +658,24 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_disconnectAction,SIGNAL(triggered()),this,SLOT(closeConnection()));
     connect(m_ui->m_connectionAction,SIGNAL(triggered()),this,SLOT(startReconnection()));
     connect(m_ui->m_changeProfileAct,SIGNAL(triggered()),this,SLOT(showConnectionDialog()));
-
+    connect(m_ui->m_connectionLinkAct,&QAction::triggered,this,[=](){
+        QString str("rolisteam://%1/%2/%3");
+        if(m_currentConnectionProfile == nullptr)
+            return;
+        auto* clipboard = QGuiApplication::clipboard();
+        clipboard->setText(str.arg(m_connectionAddress)
+                           .arg(m_currentConnectionProfile->getPort())
+                           .arg(m_currentConnectionProfile->getPassword()));
+    });
     connect(m_ui->m_roomListAct,SIGNAL(triggered(bool)),m_roomPanelDockWidget,SLOT(setVisible(bool)));
 
 
     // Help
-    connect(m_ui->m_aboutAction, SIGNAL(triggered()), this, SLOT(aboutRolisteam()));
+    connect(m_ui->m_aboutAction,&QAction::triggered, this,[=]()
+    {
+        AboutRolisteam diag(m_version,this);
+        diag.exec();
+    });
     connect(m_ui->m_onlineHelpAction, SIGNAL(triggered()), this, SLOT(helpOnLine()));
     connect(m_ui->m_supportRolisteam,&QAction::triggered,[=]{
         if (!QDesktopServices::openUrl(QUrl("https://liberapay.com/Rolisteam/donate")))
@@ -1128,13 +1140,7 @@ void MainWindow::startReconnection()
         m_ui->m_disconnectAction->setEnabled(false);
     }
 }
-void MainWindow::showIp(QString ip)
-{
-    if(nullptr!=m_currentConnectionProfile)
-    {
-        notifyUser(tr("Server Ip Address:%1\nPort:%2").arg(ip).arg(m_currentConnectionProfile->getPort()),LogController::Features);
-    }
-}
+
 void MainWindow::setUpNetworkConnection()
 {
     if((m_currentConnectionProfile!=nullptr)&&(!m_currentConnectionProfile->isServer()))
@@ -1225,6 +1231,7 @@ void MainWindow::updateUi()
     m_ui->m_closeAction->setEnabled(isGM);
     m_ui->m_saveAction->setEnabled(isGM);
     m_ui->m_saveScenarioAction->setEnabled(isGM);
+    m_ui->m_connectionLinkAct->setVisible(isGM);
     m_ui->m_saveScenarioAsAction->setEnabled(isGM);
     m_vmapToolBar->setVisible(isGM);
     m_vmapToolBar->toggleViewAction()->setVisible(isGM);
@@ -2263,8 +2270,10 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
         window->setLocalIsGM(m_currentConnectionProfile->isGM());
     }
     connect(window,SIGNAL(addWidgetToMdiArea(QWidget*,QString )),m_mdiArea,SLOT(addWidgetToMdi(QWidget*,QString)));
-    connect(window,SIGNAL(rollDiceCmd(QString,QString,bool)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
-    connect(window,SIGNAL(errorOccurs(QString,MainWindow::MessageType)),this,SLOT(notifyUser(QString,MainWindow::MessageType)));
+    connect(window,SIGNAL(rollDiceCmd(QString,QString,bool)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString,bool)));
+    connect(window,&CharacterSheetWindow::errorOccurs,this,[=](QString msg){
+      notifyUser(msg,LogController::Error);
+    });
     connect(m_playerList,SIGNAL(playerDeleted(Player*)),window,SLOT(removeConnection(Player*)));
 }
 
