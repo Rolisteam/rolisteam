@@ -185,7 +185,7 @@ public slots:
      * @brief rollDice
      * @param cmd
      */
-    void rollDice(QString cmd, bool alias);
+    void rollDice(QString cmd, bool alias = true);
     /**
      * @brief updateFieldFrom
      * @param sheet
