@@ -1,7 +1,7 @@
 #include "dicebookmarkmodel.h"
 #include "userlist/rolisteammimedata.h"
 
-DiceBookMarkModel::DiceBookMarkModel(std::vector<std::pair<QString,QString>>& data, QObject *parent)
+DiceBookMarkModel::DiceBookMarkModel(std::vector<DiceShortCut>& data, QObject *parent)
     : QAbstractTableModel(parent), m_data(data)
 {
 }
@@ -14,8 +14,10 @@ QVariant DiceBookMarkModel::headerData(int section, Qt::Orientation orientation,
         {
             if(section == 0)
                 return tr("Name");
-            else
+            else if(section == 1)
                 return tr("Command");
+            else if(section == 2)
+                return tr("Alias");
         }
     }
     return QVariant();
@@ -34,7 +36,7 @@ int DiceBookMarkModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 2;
+    return 3;
 }
 
 QVariant DiceBookMarkModel::data(const QModelIndex &index, int role) const
@@ -44,14 +46,18 @@ QVariant DiceBookMarkModel::data(const QModelIndex &index, int role) const
 
     if((Qt::DisplayRole == role)||(Qt::EditRole == role))
     {
-        std::pair<QString,QString> pair = m_data[index.row()];
+        const auto pair = m_data[index.row()];
         if(index.column() == 0)
         {
-            return pair.first;
+            return pair.text();
+        }
+        else if(index.column() == 1)
+        {
+            return pair.command();
         }
         else
         {
-            return pair.second;
+            return pair.alias();
         }
     }
     return QVariant();
@@ -64,11 +70,15 @@ bool DiceBookMarkModel::setData(const QModelIndex &index, const QVariant &value,
         auto& pair = m_data[index.row()];
         if(index.column() == 0)
         {
-            pair.first = value.toString();
+            pair.setText(value.toString());
+        }
+        else if(index.column() == 1)
+        {
+            pair.setCommand(value.toString());
         }
         else
         {
-            pair.second = value.toString();
+            pair.setAlias(value.toBool());
         }
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
@@ -99,8 +109,8 @@ QMimeData* DiceBookMarkModel::mimeData(const QModelIndexList &indexes) const
     {
         if((index.isValid())&&(index.column()==0))
         {
-            std::pair<QString,QString> pair = m_data[index.row()];
-            mimeData->setAlias(pair.first,pair.second);
+            DiceShortCut pair = m_data[index.row()];
+            mimeData->setAlias(pair.text(),pair.command(),pair.alias());
         }
     }
     return mimeData;
@@ -109,7 +119,7 @@ QMimeData* DiceBookMarkModel::mimeData(const QModelIndexList &indexes) const
 bool DiceBookMarkModel::appendRows()
 {
     beginInsertRows(QModelIndex(), m_data.size(), m_data.size());
-    m_data.push_back(std::pair<QString,QString>());
+    m_data.push_back(DiceShortCut());
     endInsertRows();
     return true;
 }
@@ -129,8 +139,9 @@ void DiceBookMarkModel::writeSettings(QSettings& settings)
     for(auto& pair : m_data)
     {
         settings.setArrayIndex(i);
-        settings.setValue(QStringLiteral("title"),pair.first);
-        settings.setValue(QStringLiteral("command"),pair.second);
+        settings.setValue(QStringLiteral("title"),pair.text());
+        settings.setValue(QStringLiteral("command"),pair.command());
+        settings.setValue(QStringLiteral("alias"),pair.alias());
         ++i;
     }
     settings.endArray();
@@ -144,9 +155,11 @@ void DiceBookMarkModel::readSettings(QSettings& settings)
     for(int i = 0; i<size; ++i)
     {
         settings.setArrayIndex(i);
-        QString title =  settings.value(QStringLiteral("title")).toString();
-        QString cmd = settings.value(QStringLiteral("command")).toString();
-        m_data.push_back(std::pair<QString,QString>(title,cmd));
+        DiceShortCut cut;
+        cut.setText(settings.value(QStringLiteral("title")).toString());
+        cut.setCommand(settings.value(QStringLiteral("command")).toString());
+        cut.setAlias( settings.value(QStringLiteral("alias"),true).toBool());
+        m_data.push_back(cut);
     }
     settings.endArray();
     endResetModel();

@@ -3,6 +3,7 @@
 
 #include <QAbstractTableModel>
 #include <QSettings>
+#include "data/diceshortcut.h"
 /**
  * @brief The DiceBookMarkModel class
  */
@@ -11,7 +12,7 @@ class DiceBookMarkModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    explicit DiceBookMarkModel(std::vector<std::pair<QString,QString>>& data, QObject *parent = nullptr);
+    explicit DiceBookMarkModel(std::vector<DiceShortCut>& data, QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -41,7 +42,7 @@ public:
     void writeSettings(QSettings& settings);
     void readSettings(QSettings& settings);
 private:
-    std::vector<std::pair<QString,QString>>& m_data;
+    std::vector<DiceShortCut>& m_data;
 };
 
 #endif // DICEBOOKMARKMODEL_H

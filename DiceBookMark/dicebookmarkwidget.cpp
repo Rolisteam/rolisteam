@@ -1,7 +1,7 @@
 #include "dicebookmarkwidget.h"
 #include "ui_dicebookmarkwidget.h"
 #include <QHeaderView>
-DiceBookMarkWidget::DiceBookMarkWidget(std::vector<std::pair<QString,QString>>& data,
+DiceBookMarkWidget::DiceBookMarkWidget(std::vector<DiceShortCut>& data,
                                        QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DiceBookMarkWidget)
