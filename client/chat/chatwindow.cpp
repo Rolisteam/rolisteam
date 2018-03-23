@@ -44,7 +44,7 @@
 
 #include "widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.h"
 
-
+#include "userlist/rolisteammimedata.h"
 
 QStringList ChatWindow::m_keyWordList;
 QList<DiceAlias*>* ChatWindow::m_receivedAlias = nullptr;
@@ -775,7 +775,7 @@ void ChatWindow::setProperDictionnary(QString idOwner)
         m_diceParser->setVariableDictionary(variableTest);
     }
 }
-#include "userlist/rolisteammimedata.h"
+
 void ChatWindow::dropEvent(QDropEvent* event)
 {
     const RolisteamMimeData* data = dynamic_cast<const RolisteamMimeData*>(event->mimeData());
@@ -790,21 +790,24 @@ void ChatWindow::dropEvent(QDropEvent* event)
         }
     }
 }
-void ChatWindow::appendDiceShortCut(const std::pair<QString,QString>& pair)
+void ChatWindow::appendDiceShortCut(const DiceShortCut& pair)
 {
     m_diceBookMarks.push_back(pair);
     createAction(pair);
 }
 
-void ChatWindow::createAction(const std::pair<QString,QString>& pair)
+void ChatWindow::createAction(const DiceShortCut& pair)
 {
-    QAction* action = m_toolBar->addAction(pair.first);
-    action->setData(pair.second);
+    QAction* action = m_toolBar->addAction(pair.text());
     m_actionList.push_back(action);
+    action->setData(static_cast<int>(m_diceBookMarks.size())-1);
     connect(action,&QAction::triggered,this,[=](){
         auto action = qobject_cast<QAction*>(sender());
-        QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
-        rollDiceCmd(action->data().toString(),localPersonIdentifier,true);
+        auto index = action->data().toInt();
+        auto dice = m_diceBookMarks[index];
+        QString localPersonIdentifier =
+        m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
+        rollDiceCmd(dice.command(),localPersonIdentifier,dice.alias());
     });
 }
 void ChatWindow::dragEnterEvent(QDragEnterEvent * event)
@@ -817,7 +820,7 @@ void ChatWindow::dragEnterEvent(QDragEnterEvent * event)
     }
     QWidget::dragEnterEvent(event);
 }
-std::vector<std::pair<QString,QString>>& ChatWindow::getDiceShortCuts()
+std::vector<DiceShortCut>& ChatWindow::getDiceShortCuts()
 {
     return m_diceBookMarks;
 }
@@ -880,24 +883,24 @@ void ChatWindow::contextMenuEvent(QContextMenuEvent *event)
     {
         QMenu* remove = menu.addMenu(tr("Remove"));
 
+        int i = 0;
         for(const auto& pair : m_diceBookMarks)
         {
-            QAction* action = remove->addAction(pair.first);
-            action->setData(pair.second);
-
+            QAction* action = remove->addAction(pair.text());
+            action->setData(i);
+            ++i;
             connect(action,&QAction::triggered,this,[=](){
                 auto act = qobject_cast<QAction*>(sender());
-                auto it = std::find_if(m_diceBookMarks.begin(),m_diceBookMarks.end(),[=](std::pair<QString,QString> pair){
-                    return ((pair.first == act->text()) && (pair.second == act->data().toString()));
-                });
-                m_diceBookMarks.erase(it);
-                auto it2 = std::find_if(m_actionList.begin(),m_actionList.end(),[=](QAction* action){
-                    return ((action->text() == act->text()) && (action->data().toString() == act->data().toString()));
-                });
-                m_actionList.erase(it2);
-                m_toolBar->removeAction(*it2);
-                delete *it2;
+                auto index = act->data().toInt();
+                auto action = m_actionList[index];
+                m_diceBookMarks.erase(m_diceBookMarks.begin()+index);
+                m_actionList.erase(m_actionList.begin()+index);
+                m_toolBar->removeAction(action);
+                delete action;
 
+                int j = 0;
+                for(auto act : m_actionList)
+                    act->setData(j++);
             });
         }
     }

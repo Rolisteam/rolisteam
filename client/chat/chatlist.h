@@ -30,6 +30,8 @@
 #include <QTimer>
 #include <QSettings>
 
+#include "data/diceshortcut.h"
+
 class AbstractChat;
 class ChatWindow;
 class MainWindow;
@@ -161,7 +163,7 @@ private:
     QMap<QString, PrivateChat *> m_privateChatMap;
     QMenu m_chatMenu;
     MainWindow * m_mainWindow;
-    std::vector<std::pair<QString,QString>> m_pairList;
+    std::vector<DiceShortCut> m_pairList;
 };
 
 #endif

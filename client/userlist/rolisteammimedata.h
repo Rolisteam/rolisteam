@@ -3,7 +3,7 @@
 
 #include <QMimeData>
 
-
+#include "data/diceshortcut.h"
 #include "data/person.h"
 /**
  * @brief allows drag and drop inside the application scope.
@@ -39,12 +39,12 @@ public:
      * @brief getAlias
      * @return
      */
-    std::pair<QString,QString> getAlias() const;
-    void setAlias(QString,QString);
+    DiceShortCut getAlias() const;
+    void setAlias(QString,QString,bool);
 
 private:
     QString m_format; /// const string representing the minetype of person
     Person* m_data; /// pointer to stored data
-    std::pair<QString,QString> m_alias; /// alias
+    DiceShortCut m_alias; /// alias
 };
 #endif // ROLISTEAMMIMEDATA_H

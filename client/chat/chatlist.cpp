@@ -125,9 +125,11 @@ void ChatList::readSettings(QSettings& settings)
     for(int i = 0; i<size; ++i)
     {
         settings.setArrayIndex(i);
-        QString title =  settings.value(QStringLiteral("title")).toString();
-        QString cmd = settings.value(QStringLiteral("command")).toString();
-        m_pairList.push_back(std::pair<QString,QString>(title,cmd));
+        DiceShortCut cut;
+        cut.setText(settings.value(QStringLiteral("title")).toString());
+        cut.setCommand(settings.value(QStringLiteral("command")).toString());
+        cut.setAlias(settings.value(QStringLiteral("alias")).toBool());
+        m_pairList.push_back(cut);
     }
     settings.endArray();
 }
@@ -136,14 +138,15 @@ void ChatList::writeSettings(QSettings& settings)
     if(!m_chatWindowList.isEmpty())
     {
         auto chat = m_chatWindowList.first();
-        std::vector<std::pair<QString,QString>> pairList = chat->getDiceShortCuts();
+        std::vector<DiceShortCut> pairList = chat->getDiceShortCuts();
         settings.beginWriteArray(QStringLiteral("dicebookmarks"));
         int i = 0;
         for(auto& pair : pairList)
         {
             settings.setArrayIndex(i);
-            settings.setValue(QStringLiteral("title"),pair.first);
-            settings.setValue(QStringLiteral("command"),pair.second);
+            settings.setValue(QStringLiteral("title"),pair.text());
+            settings.setValue(QStringLiteral("command"),pair.command());
+            settings.setValue(QStringLiteral("alias"),pair.alias());
             ++i;
         }
         settings.endArray();

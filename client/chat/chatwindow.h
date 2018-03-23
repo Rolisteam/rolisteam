@@ -39,11 +39,14 @@
 
 #include "data/person.h"
 #include "diceparser.h"
+#include "data/diceshortcut.h"
 
 class AbstractChat;
 class MainWindow;
 class Player;
 class ImprovedTextEdit;
+
+
 
 /**
  * @brief chat window display on screen the chat.
@@ -121,9 +124,9 @@ public :
     bool isTimeShown() const;
 
     Qt::DropActions supportedDropActions() const;
-    void appendDiceShortCut(const std::pair<QString, QString> &pair);
+    void appendDiceShortCut(const DiceShortCut &pair);
 
-    std::vector<std::pair<QString,QString>>& getDiceShortCuts();
+    std::vector<DiceShortCut>& getDiceShortCuts();
     void contextMenuEvent(QContextMenuEvent *event);
 signals:
     /**
@@ -191,7 +194,7 @@ protected :
     void dragEnterEvent(QDragEnterEvent *event);
     void updateAction();
     void removeAllShortcut();
-    void createAction(const std::pair<QString, QString> &pair);
+    void createAction(const DiceShortCut &pair);
 private slots :
     /**
      * @brief sendOffTextMessage
@@ -249,7 +252,7 @@ private :
     Person* m_localPerson;
     static QList<DiceAlias*>* m_receivedAlias;
     QHash<QString,QHash<QString,QString>*> m_dicoByCharacter;
-    std::vector<std::pair<QString,QString>> m_diceBookMarks;
+    std::vector<DiceShortCut> m_diceBookMarks;
     std::vector<QAction*> m_actionList;
     bool m_showTime;
     QToolBar* m_toolBar;

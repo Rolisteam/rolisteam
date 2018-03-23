@@ -199,7 +199,8 @@ HEADERS += \
         data/cleverurimimedata.h \
         network/clientmanager.h\
         common/widgets/logpanel.h\
-        common/controller/logcontroller.h
+        common/controller/logcontroller.h \
+    data/diceshortcut.h
 
 
    #     persondialog.cpp \
@@ -298,7 +299,8 @@ SOURCES += \
         data/cleverurimimedata.cpp \
         network/clientmanager.cpp \
         common/widgets/logpanel.cpp\
-        common/controller/logcontroller.cpp
+        common/controller/logcontroller.cpp \
+    data/diceshortcut.cpp
 
 
 FORMS += \

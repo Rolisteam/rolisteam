@@ -14,7 +14,7 @@ bool RolisteamMimeData::hasFormat ( const QString & mimeType ) const
     }
     else if(mimeType==QStringLiteral("rolisteam/dice-command"))
     {
-        return !m_alias.first.isEmpty();
+        return !m_alias.text().isEmpty();
     }
     return QMimeData::hasFormat(mimeType);
 }
@@ -35,12 +35,14 @@ Person* RolisteamMimeData::getData() const
 {
     return m_data;
 }
-std::pair<QString,QString> RolisteamMimeData::getAlias() const
+DiceShortCut RolisteamMimeData::getAlias() const
 {
     return m_alias;
 }
-void RolisteamMimeData::setAlias(QString key, QString command)
+void RolisteamMimeData::setAlias(QString key, QString command, bool usedAlias)
 {
     m_format = "rolisteam/dice-command";
-    m_alias = std::pair<QString,QString>(key,command);
+    m_alias.setText(key);
+    m_alias.setCommand(command);
+    m_alias.setAlias(usedAlias);
 }
