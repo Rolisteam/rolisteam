@@ -105,6 +105,8 @@ void PaletteModel::initData()
     m_data.append(color);
     color = new PaletteColor(QColor(),"Button",QPalette::Active,QPalette::Button);
     m_data.append(color);
+    color = new PaletteColor(QColor(),"ButtonText",QPalette::Active,QPalette::ButtonText);
+    m_data.append(color);
     color = new PaletteColor(QColor(),"Light",QPalette::Active,QPalette::Light);
     m_data.append(color);
     color = new PaletteColor(QColor(),"Midlight",QPalette::Active,QPalette::Midlight);
@@ -125,7 +127,7 @@ void PaletteModel::initData()
     m_data.append(color);
     color = new PaletteColor(QColor(),"Highlight",QPalette::Active,QPalette::Highlight);
     m_data.append(color);
-    color = new PaletteColor(QColor(),"WindowText",QPalette::Active,QPalette::HighlightedText);
+    color = new PaletteColor(QColor(),"HighlightedText",QPalette::Active,QPalette::HighlightedText);
     m_data.append(color);
     color = new PaletteColor(QColor(),"Link",QPalette::Active,QPalette::Link);
     m_data.append(color);
@@ -143,6 +145,8 @@ void PaletteModel::initData()
     color = new PaletteColor(QColor(),"WindowText",QPalette::Inactive,QPalette::WindowText);
     m_data.append(color);
     color = new PaletteColor(QColor(),"Button",QPalette::Inactive,QPalette::Button);
+    m_data.append(color);
+    color = new PaletteColor(QColor(),"ButtonText",QPalette::Inactive,QPalette::ButtonText);
     m_data.append(color);
     color = new PaletteColor(QColor(),"Light",QPalette::Inactive,QPalette::Light);
     m_data.append(color);
@@ -164,7 +168,7 @@ void PaletteModel::initData()
     m_data.append(color);
     color = new PaletteColor(QColor(),"Highlight",QPalette::Inactive,QPalette::Highlight);
     m_data.append(color);
-    color = new PaletteColor(QColor(),"WindowText",QPalette::Inactive,QPalette::HighlightedText);
+    color = new PaletteColor(QColor(),"HighlightedText",QPalette::Inactive,QPalette::HighlightedText);
     m_data.append(color);
     color = new PaletteColor(QColor(),"Link",QPalette::Inactive,QPalette::Link);
     m_data.append(color);
@@ -182,6 +186,8 @@ void PaletteModel::initData()
     color = new PaletteColor(QColor(),"WindowText",QPalette::Disabled,QPalette::WindowText);
     m_data.append(color);
     color = new PaletteColor(QColor(),"Button",QPalette::Disabled,QPalette::Button);
+    m_data.append(color);
+    color = new PaletteColor(QColor(),"ButtonText",QPalette::Disabled,QPalette::ButtonText);
     m_data.append(color);
     color = new PaletteColor(QColor(),"Light",QPalette::Disabled,QPalette::Light);
     m_data.append(color);
@@ -203,7 +209,7 @@ void PaletteModel::initData()
     m_data.append(color);
     color = new PaletteColor(QColor(),"Highlight",QPalette::Disabled,QPalette::Highlight);
     m_data.append(color);
-    color = new PaletteColor(QColor(),"WindowText",QPalette::Disabled,QPalette::HighlightedText);
+    color = new PaletteColor(QColor(),"HighlightedText",QPalette::Disabled,QPalette::HighlightedText);
     m_data.append(color);
     color = new PaletteColor(QColor(),"Link",QPalette::Disabled,QPalette::Link);
     m_data.append(color);
