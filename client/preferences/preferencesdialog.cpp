@@ -279,6 +279,11 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(backgroundChanged()));
     connect(ui->m_bgColorPush, SIGNAL(colorChanged(QColor)), this, SLOT(backgroundChanged()));
     connect(ui->m_backgroundImage,SIGNAL(pathChanged()),this,SLOT(backgroundChanged()));
+    connect(ui->m_diceHighlightColorBtn,&ColorButton::colorChanged,this,[=](){
+        auto theme = getCurrentRemovableTheme();
+        theme->setDiceHighlightColor(ui->m_diceHighlightColorBtn->color());
+        m_preferences->registerValue("DiceHighlightColor",ui->m_diceHighlightColorBtn->color());
+    });
     //connect(ui->m_backgroundImage,ç)
 
     //themes
@@ -389,6 +394,7 @@ void PreferencesDialog::save() const
         m_preferences->registerValue(QStringLiteral("Theme_%1_bgPosition").arg(i),tmp->getBackgroundPosition());
         m_preferences->registerValue(QStringLiteral("Theme_%1_css").arg(i),tmp->getCss());
         m_preferences->registerValue(QStringLiteral("Theme_%1_removable").arg(i),tmp->isRemovable());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_highlightDice").arg(i),tmp->getDiceHighlightColor());
         // m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getName());
         ++i;
     }
@@ -508,10 +514,12 @@ void PreferencesDialog::initializePostSettings()
             QString style = m_preferences->value(QStringLiteral("Theme_%1_stylename").arg(i),"fusion").toString();
             QColor color = m_preferences->value(QStringLiteral("Theme_%1_bgColor").arg(i),QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE)).value<QColor>();
             QString path = m_preferences->value(QStringLiteral("Theme_%1_bgPath").arg(i),"").toString();
+            QColor hlDice = m_preferences->value(QStringLiteral("Theme_%1_highlightDice").arg(i),QColor(Qt::red)).value<QColor>();
             int pos = m_preferences->value(QStringLiteral("Theme_%1_bgPosition").arg(i),0).toInt();
             QString css = m_preferences->value(QStringLiteral("Theme_%1_css").arg(i),"").toString();
             bool isRemovable = m_preferences->value(QStringLiteral("Theme_%1_removable").arg(i),false).toBool();
             RolisteamTheme* tmp = new RolisteamTheme(pal,name,css,QStyleFactory::create(style),path,pos,color,isRemovable);
+            tmp->setDiceHighlightColor(hlDice);
             m_themes.append(tmp);
             // m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getName());
         }
@@ -672,12 +680,12 @@ void PreferencesDialog::updateTheme()
         ui->m_styleCombo->setCurrentIndex(ui->m_styleCombo->findText(defaultStyle.toUpper(), Qt::MatchContains));
         ui->m_styleCombo->blockSignals(false);
 
-
-        qApp->setStyleSheet(theme->getCss());
+        ui->m_diceHighlightColorBtn->setColor(theme->getDiceHighlightColor());
 
         qApp->setStyle(theme->getStyle());
         qApp->setPalette(theme->getPalette());
         applyBackground();
+        qApp->setStyleSheet(theme->getCss());
     }
 
 }
