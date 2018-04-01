@@ -22,6 +22,7 @@
 
 #include <QAbstractTableModel>
 #include <QMediaPlayer>
+#include <QPersistentModelIndex>
 /**
  * @brief The MusicModel class is the model which stores the playlist. Each audioWidget has one instance of this class.
  */
@@ -98,7 +99,7 @@ public:
      * @brief getCurrentSong
      * @return
      */
-    QModelIndex& getCurrentSong();
+    QModelIndex getCurrentSong();
     /**
      * @brief saveIn
      * @param file
@@ -122,7 +123,7 @@ private:
     QStringList m_header;
     QList<QMediaContent*> m_data;
     QMediaPlayer* m_player;
-    QModelIndex m_currentSong;
+    QPersistentModelIndex m_currentSong;
 };
 
 #endif // MUSICMODEL_H

@@ -160,9 +160,9 @@ void MusicModel::setCurrentSong(QModelIndex& p)
     m_currentSong = p;
     dataChanged(p,p);
 }
-QModelIndex& MusicModel::getCurrentSong()
+QModelIndex MusicModel::getCurrentSong()
 {
-    return m_currentSong;
+    return static_cast<QModelIndex>(m_currentSong);
 }
 void MusicModel::saveIn(QTextStream& file)
 {
