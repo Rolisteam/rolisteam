@@ -125,19 +125,19 @@ TreeItem *Channel::getChildAt(int row)
     }
     return nullptr;
 }
-void Channel::sendMessage(NetworkMessage* msg, TcpClient* tcp, bool mustBeSaved)
+void Channel::sendMessage(NetworkMessage* msg, TcpClient* emitter, bool mustBeSaved)
 {  
-    if(mustBeSaved)
-    {
-        m_dataToSend.append(msg);
-    }
     if(msg->getRecipientMode() == NetworkMessage::All)
     {
-        sendToAll(msg,tcp);
+        sendToAll(msg,emitter);
+        if(mustBeSaved)
+        {
+            m_dataToSend.append(msg);
+        }
     }
     else if(msg->getRecipientMode() == NetworkMessage::OneOrMany) 
     {
-        sendToMany(msg,tcp);
+        sendToMany(msg,emitter);
     }
 
 }
