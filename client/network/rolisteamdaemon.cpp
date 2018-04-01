@@ -7,7 +7,7 @@
 #include <QFileInfo>
 
 RolisteamDaemon::RolisteamDaemon(QObject *parent)
-    : QObject(parent)//,m_serverManager(new ServerManager())
+    : QObject(parent),m_logController(new LogController(true,this))
 {
 
 }
@@ -34,7 +34,18 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
     int timeToRetry= settings.value("TimeToRetry").toInt();
     int tryCount= settings.value("TryCount").toInt();
     int logLevel= settings.value("LogLevel").toInt();
+    bool deepInspectionLog = settings.value("DeepInspectionLog").toInt();
 
+    QString pathToLog = settings.value("LogFile").toString();
+
+
+    if(deepInspectionLog)
+    {
+        m_logController->listenObjects(&m_serverManager);
+    }
+    m_logController->setLogLevel(static_cast<LogController::LogLevel>(logLevel));
+
+    m_logController->setCurrentModes(LogController::Console | LogController::File );//*/
 
     m_serverManager.insertField("port",port);
     m_serverManager.insertField("ServerPassword",password);
@@ -49,7 +60,10 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
     m_serverManager.insertField("ChannelCount",channelCount);//channel count
     m_serverManager.insertField("TimeToRetry",timeToRetry);//TimeToRetry
     m_serverManager.insertField("TryCount",tryCount);//TimeToRetry
-    m_serverManager.insertField("LogLevel",logLevel);//channel count
+    m_serverManager.insertField("LogLevel",logLevel);//loglevel
+    m_serverManager.insertField("LogFile",pathToLog);//logpath
+    m_serverManager.insertField("DeepInspectionLog",deepInspectionLog);//logpath
+
 
     m_serverManager.initServerManager();
 
@@ -86,23 +100,9 @@ void RolisteamDaemon::createEmptyConfigFile(QString filepath)
     settings.setValue("TimeToRetry",m_serverManager.getValue("TimeToRetry"));
     settings.setValue("TryCount",m_serverManager.getValue("TryCount"));
     settings.setValue("LogLevel",m_serverManager.getValue("LogLevel"));
+    settings.setValue("LogFile",m_serverManager.getValue("LogFile"));
+    settings.setValue("DeepInspectionLog",m_serverManager.getValue("DeepInspectionLog"));
     settings.setValue("AdminPassword",m_serverManager.getValue("AdminPassword"));
 
     settings.sync();
-}
-
-int RolisteamDaemon::getLevelOfLog()
-{
-    return m_serverManager.getValue("LogLevel").toInt();
-}
-void RolisteamDaemon::notifyUser(QString str)
-{
-    qInfo() << str;
-}
-
-void RolisteamDaemon::errorMessage(QString str)
-{
-
-    QString time = QTime::currentTime().toString("hh:mm:ss") + " - ";
-    qDebug() << time << tr("Error!")<< str;
 }

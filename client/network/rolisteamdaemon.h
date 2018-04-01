@@ -5,6 +5,7 @@
 #include <QThread>
 
 #include "servermanager.h"
+#include "../client/common/controller/logcontroller.h"
 /**
  * @brief The RolisteamDaemon class
  */
@@ -23,14 +24,9 @@ public slots:
     bool readConfigFile(QString);
     void createEmptyConfigFile(QString filepath);
 
-    int getLevelOfLog();
-
-private slots:
-    void notifyUser(QString);
-    void errorMessage(QString);
-
 private:
     ServerManager m_serverManager;
+    LogController* m_logController = nullptr;
     QThread m_thread;
 };
 
