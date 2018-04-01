@@ -82,7 +82,6 @@ void RolisteamDaemon::start()
     m_thread.start();
 }
 
-#include <iostream>
 void RolisteamDaemon::createEmptyConfigFile(QString filepath)
 {
     QSettings settings(filepath,QSettings::IniFormat);
