@@ -784,7 +784,6 @@ void ChatWindow::dropEvent(QDropEvent* event)
     {
         if(data->hasFormat(QStringLiteral("rolisteam/dice-command")))
         {
-            //std::pair<QString,QString> pair = ;
             appendDiceShortCut(data->getAlias());
             event->acceptProposedAction();
         }
