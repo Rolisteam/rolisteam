@@ -114,6 +114,8 @@ MainWindow::MainWindow()
 
 
 
+
+
     m_preferences = PreferencesManager::getInstance();
     m_downLoadProgressbar = new QProgressBar(this);
     m_downLoadProgressbar->setRange(0,100);
@@ -695,11 +697,11 @@ void MainWindow::mouseMoveEvent(QMouseEvent* event)
 {
     if(isFullScreen())
     {
-        if(event->screenPos().y() == 0.0)
+        if(event->windowPos().y() == 0.0)
         {
             menuBar()->setVisible(true);
         }
-        else if(event->screenPos().y() > 100)
+        else if(event->windowPos().y() > 100)
         {
             menuBar()->setVisible(false);
         }
