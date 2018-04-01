@@ -5,19 +5,26 @@
 #include <QTextStream>
 #include <QFile>
 
+/**
+ * @brief The LogController class receives log messeges and displays them in the right sink.
+ */
 class LogController : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(LogController::LogLevel logLevel READ logLevel WRITE setLogLevel NOTIFY logLevelChanged)
 public:
     enum LogLevel {Error,Debug,Warning,Info,Features};
-    enum StorageMode {Console=0,File=1,Gui=2,Network=4,Database=8};
     Q_ENUM(LogLevel)
+
+    enum StorageMode {Console=1,File=2,Gui=4,Network=8,Database=16};
     Q_ENUM(StorageMode)
+    Q_DECLARE_FLAGS(StorageModes, StorageMode)
+    Q_FLAGS(StorageModes)
+
     explicit LogController(bool attachMessage,QObject *parent = nullptr);
     ~LogController();
 
-    LogController::StorageMode currentModes() const;
+    LogController::StorageModes currentModes() const;
     LogController::LogLevel logLevel() const;
 
     void manageMessage(QString message, LogController::LogLevel type);
@@ -34,17 +41,17 @@ public slots:
     void signalActivated();
     void actionActivated();
     void setLogLevel(const LogLevel& logLevel);
-    void setCurrentModes(const StorageMode &currentModes);
+    void setCurrentModes(const StorageModes &currentModes);
 
 private:
     QString typeToText(LogController::LogLevel type);
 private:
     LogLevel m_logLevel = Error;
-    StorageMode m_currentModes = Console;
+    StorageModes m_currentModes = Console;
     bool m_signalInspection = false;
     bool m_listenOutSide = false;
     QTextStream m_file;
     QFile m_currentFile;
 };
-
+Q_DECLARE_OPERATORS_FOR_FLAGS(LogController::StorageModes)
 #endif // LOGCONTROLLER_H

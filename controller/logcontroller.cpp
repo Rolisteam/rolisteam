@@ -1,10 +1,10 @@
 #include "logcontroller.h"
-#include <QAction>
 #include <QMetaObject>
 #include <QMetaMethod>
 #include <QTime>
 
 #ifdef QT_WIDGETS_LIB
+#include <QAction>
 #include <QWidget>
 #endif
 
@@ -59,12 +59,12 @@ LogController::~LogController()
       controller = nullptr;
 }
 
-LogController::StorageMode LogController::currentModes() const
+LogController::StorageModes LogController::currentModes() const
 {
     return m_currentModes;
 }
 
-void LogController::setCurrentModes(const StorageMode &currentModes)
+void LogController::setCurrentModes(const StorageModes &currentModes)
 {
     m_currentModes = currentModes;
 }
@@ -106,11 +106,11 @@ void LogController::listenObjects(const QObject* object)
             auto meth = metaObject->method(i);
             if(meth.methodType() == QMetaMethod::Signal && meth.access() == QMetaMethod::Public)
             {
-                connect(object,SIGNAL(meth.name()),this,SLOT(actionActivated()));
+                connect(object,SIGNAL(meth.name()),this,SLOT(actionActivated()),Qt::QueuedConnection);
             }
         }
     }
-
+#ifdef QT_WIDGETS_LIB
     if(widget != nullptr)
     {
         QObjectList children = widget->children();
@@ -119,14 +119,16 @@ void LogController::listenObjects(const QObject* object)
             listenObjects(obj);
         }
     }
-
+#endif
 }
 
 
 void LogController::actionActivated()
 {
+    #ifdef QT_WIDGETS_LIB
     auto act = qobject_cast<QAction*>(sender());
     manageMessage(QStringLiteral("[Action] - %1 - %2").arg(act->text()).arg(act->objectName()),Info);
+    #endif
 }
 
 void LogController::signalActivated()
