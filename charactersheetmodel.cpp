@@ -173,7 +173,6 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
             else
             {
                 QString path = childItem->getPath();
-                //qDebug() << "Path::" << path;
                 CharacterSheet* sheet = m_characterList->at(index.column()-1);
                 QString valueStr = value.toString();
                 QString formula;
@@ -188,13 +187,11 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
                 CharacterSheetItem* newitem = sheet->setValue(path,valueStr,formula);
                 if(nullptr!=newitem)
                 {
-                    //auto value = sheet->getFieldFromKey(path);
                     newitem->setLabel(childItem->getLabel());
                     newitem->setOrig(childItem);
                 }
                 computeFormula(childItem->getLabel(),sheet);
                 emit dataCharacterChange();
-
             }
             return true;
         }
