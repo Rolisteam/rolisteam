@@ -2,13 +2,14 @@ import QtQuick 2.0
 import QtQuick 2.4
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
+import Rolisteam 1.0
 
 Item {
     id:root
 
     property string text : ""
     property color textColor: "black"
-   // property alias style: checkbox.style
+    property Field field: null
     property int hAlign: 0
     property int vAlign: 0
     property bool clippedText: false
@@ -45,8 +46,9 @@ Item {
             }
         }
 
-        onCheckedChanged: {
-            root.text = checked ? "1": "0"
+        onClicked: {
+            field.value = checked ? "1": "0"
+            checked = Qt.binding(function() { return field.value === "1" ? true : false })
         }
     }
 }
