@@ -59,7 +59,7 @@ void CharacterSheetItem::setReadOnly(bool readOnly)
     {
         m_readOnly = readOnly;
         emit readOnlyChanged();
-        emit sendOffData();
+        emit sendOffData(this);
     }
 }
 
@@ -153,7 +153,7 @@ void CharacterSheetItem::setValue(const QString &value,bool fromNetwork)
         emit valueChanged();
         if(!fromNetwork)
         {
-            emit sendOffData();
+            emit sendOffData(this);
         }
     }
 }

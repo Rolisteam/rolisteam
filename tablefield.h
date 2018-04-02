@@ -137,6 +137,9 @@ public:
 
 public slots:
     void removeLine(int);
+signals:
+    void updateNeeded(CSItem* c);
+
 protected:
     void init();
     QString computeControlPosition();

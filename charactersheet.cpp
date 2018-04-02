@@ -266,17 +266,10 @@ void CharacterSheet::insertField(QString key, CharacterSheetItem* itemSheet)
 {
     m_valuesMap.insert(key,itemSheet);
 
-    connect(itemSheet,SIGNAL(sendOffData()),this,SLOT(sendUpdateForField()));
-}
-
-void CharacterSheet::sendUpdateForField()
-{
-    CharacterSheetItem* item = dynamic_cast<CharacterSheetItem*>(sender());
-
-    if(nullptr!=item)
-    {
+    connect(itemSheet,&CharacterSheetItem::sendOffData,
+            this,[=](CharacterSheetItem* item){
         emit updateField(this,item);
-    }
+    });
 }
 
 #if !defined(RCSE)  && !defined(UNIT_TEST)

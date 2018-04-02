@@ -237,7 +237,7 @@ signals:
     void formulaChanged();
     void idChanged();
     void labelChanged();
-    void sendOffData();
+    void sendOffData(CharacterSheetItem* item);
 
 protected:
     CharacterSheetItem* m_parent;
