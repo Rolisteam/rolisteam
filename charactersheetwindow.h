@@ -183,9 +183,10 @@ public slots:
 
     /**
      * @brief rollDice
-     * @param cmd
+     * @param cmd : dice command
+     * @param alias : use alias if true, otherwise the command stays unmodified.
      */
-    void rollDice(QString cmd, bool alias = true);
+    void rollDice(QString cmd,bool alias = true);
     /**
      * @brief updateFieldFrom
      * @param sheet
