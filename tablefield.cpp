@@ -33,6 +33,15 @@ TableCanvasField::TableCanvasField()
 
 }
 #endif
+
+
+void copyModel(LineModel* src, LineModel* dest,CharacterSheetItem* parent)
+{
+    QJsonArray array;
+    src->saveDataItem(array);
+    qDebug() << array.size();
+    dest->loadDataItem(array,parent);
+}
 //////////////////////////////////////////
 /// @brief LineFieldItem::createLineItem
 /// @return
@@ -232,6 +241,7 @@ void LineModel::save(QJsonArray &json)
         json.append(lineJson);
     }
 }
+
 void LineModel::saveDataItem(QJsonArray &json)
 {
     for(const auto& line : m_lines)
@@ -243,6 +253,7 @@ void LineModel::saveDataItem(QJsonArray &json)
 }
 void LineModel::load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent)
 {
+    beginResetModel();
     QJsonArray::Iterator it;
     for(it = json.begin(); it != json.end(); ++it)
     {
@@ -251,10 +262,13 @@ void LineModel::load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterS
         line->load(obj,scene,parent);
         m_lines.append(line);
     }
+    endResetModel();
 }
 
 void LineModel::loadDataItem(QJsonArray &json, CharacterSheetItem* parent)
 {
+    beginResetModel();
+    m_lines.clear();
     QJsonArray::Iterator it;
     for(it = json.begin(); it != json.end(); ++it)
     {
@@ -263,6 +277,19 @@ void LineModel::loadDataItem(QJsonArray &json, CharacterSheetItem* parent)
         line->loadDataItem(obj,parent);
         m_lines.append(line);
     }
+    endResetModel();
+}
+void LineModel::removeLine(int index)
+{
+    if(m_lines.isEmpty())
+        return;
+    if(m_lines.size()<=index)
+        return;
+    if(index<0)
+        return;
+    beginRemoveRows(QModelIndex(),index,index);
+    m_lines.removeAt(index);
+    endRemoveRows();
 }
 ///////////////////////////////////
 /// \brief TableField::TableField
@@ -299,27 +326,9 @@ LineModel *TableField::getModel() const
     return m_model;
 }
 
-void TableField::addLine()
+void TableField::removeLine(int index)
 {
-    auto lineItem = new LineFieldItem(this);
-    auto index = m_model->index(0,0);
-    auto first = m_model->data(index,LineModel::LineRole).value<LineFieldItem*>();
-    for(Field* field : first->getFields())
-    {
-        if(nullptr!=field)
-        {
-            Field* newField = new Field();
-            newField->copyField(field,true);
-            newField->setParent(field->getParent());
-            lineItem->insertField(newField);
-        }
-    }
-    m_model->insertLine(lineItem);
-}
-
-void TableField::removeLine(int)
-{
-
+    m_model->removeLine(index);
 }
 void TableField::init()
 {
@@ -353,6 +362,16 @@ void TableField::setCanvasField(CanvasField *canvasField)
     m_tableCanvasField = dynamic_cast<TableCanvasField*>(canvasField);
     Field::setCanvasField(canvasField);
 }
+
+QVariant TableField::getValueFrom(CharacterSheetItem::ColumnId col, int role) const
+{
+    if(col == CharacterSheetItem::VALUE)
+    {
+        return m_model->getChildrenCount();
+    }
+    return Field::getValueFrom(col,role);
+}
+
 
 bool TableField::hasChildren()
 {
@@ -393,6 +412,9 @@ void TableField::save(QJsonObject &json, bool exp)
         json["label"]=m_label;
         json["value"]=m_value;
         json["typefield"]=m_currentType;
+        QJsonArray childArray;
+        m_model->save(childArray);
+        json["children"]=childArray;
         return;
     }
     json["type"]="TableField";
@@ -516,6 +538,28 @@ void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
     m_canvasField->setHeight(h);
     #endif
 
+}
+
+void TableField::copyField(CharacterSheetItem *oldItem, bool copyData, bool sameId)
+{
+    auto const oldField =  dynamic_cast<TableField*>(oldItem);
+    if(nullptr!=oldField)
+    {
+        if(sameId)
+        {
+            setId(oldField->getId());
+        }
+        setCurrentType(oldField->getCurrentType());
+        setRect(oldField->getRect());
+        setBorder(oldField->border());
+        setFont(oldField->font());
+        setBgColor(oldField->bgColor());
+        setTextColor(oldField->textColor());
+        setLabel(oldField->getLabel());
+        setFormula(oldField->getFormula());
+        copyModel(oldField->getModel(),m_model,this);
+        setOrig(oldField);
+    }
 }
 
 
@@ -661,6 +705,6 @@ void TableField::saveDataItem(QJsonObject &json)
     json["readonly"]=m_readOnly;
 
     QJsonArray childArray;
-    m_model->save(childArray);
+    m_model->saveDataItem(childArray);
     json["children"]=childArray;
 }

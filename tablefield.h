@@ -83,7 +83,7 @@ public:
     int getColumnCount() const;
     Field* getField(int line, int col);
     Field* getFieldById(const QString& id);
-
+    void removeLine(int index);
     void save(QJsonArray& json);
     void load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent);
     void saveDataItem(QJsonArray &json);
@@ -106,8 +106,6 @@ public:
     enum ControlPosition {CtrlLeftTop,CtrlLeftBottom,CtrlTopLeft,CtrlTopRight,CtrlBottomLeft,CtrlBottomRight,CtrlRightTop,CtrlRightBottom};
     explicit TableField(bool addCount = true,QGraphicsItem* parent = 0);
     explicit TableField(QPointF topleft,bool addCount = true,QGraphicsItem* parent = 0);
-
-
     void generateQML(QTextStream &out, CharacterSheetItem::QMLSection sec,int i, bool isTable=false);
     virtual ~TableField();
 
@@ -117,6 +115,9 @@ public:
 
     virtual void setCanvasField(CanvasField* canvasField);
 
+
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId,int role) const;
+
     ///Overriden from charactersheetitem
     virtual bool hasChildren();
     virtual int getChildrenCount() const;
@@ -124,6 +125,7 @@ public:
     virtual CharacterSheetItem* getChildAt(int) const;
     virtual void save(QJsonObject& json,bool exp=false);
     virtual void load(QJsonObject& json,QList<QGraphicsScene*> scene);
+    virtual void copyField(CharacterSheetItem* oldItem,bool copyData, bool sameId = true);
 
 
     ControlPosition getPosition() const;
@@ -132,8 +134,8 @@ public:
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
     void saveDataItem(QJsonObject &json);
     void loadDataItem(QJsonObject &json);
+
 public slots:
-    void addLine();
     void removeLine(int);
 protected:
     void init();

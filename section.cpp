@@ -306,6 +306,13 @@ void Section::buildDataInto( CharacterSheet* character)
                 newField->copyField(childItem,false);
                 newItem = newField;
             }
+            else if(CharacterSheetItem::TableItem == childItem->getItemType())
+            {
+                TableField* field  = new TableField(false);
+                field->copyField(childItem,false);
+                newItem = field;
+            }
+
             if(nullptr!=newItem)
             {
                 newItem->setValue(character->getValue(newItem->getId()).toString());
