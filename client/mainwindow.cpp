@@ -88,6 +88,7 @@
 
 //character sheet
 #include "charactersheet/charactersheetwindow.h"
+#include "diceparser/qmltypesregister.h"
 
 //session
 #include "session/sessionmanager.h"
@@ -113,7 +114,7 @@ MainWindow::MainWindow()
     m_shownProgress=false;
 
 
-
+    registerQmlTypes();
 
 
     m_preferences = PreferencesManager::getInstance();
