@@ -27,6 +27,7 @@
 
 #include "section.h"
 #include "charactersheetbutton.h"
+#include "tablefield.h"
 /////////////////////////////////////////
 //          CharacterSheet           ////
 /////////////////////////////////////////
@@ -232,6 +233,10 @@ void CharacterSheet::load(QJsonObject& json)
         if((item["type"]==QStringLiteral("field"))||(item["type"]==QStringLiteral("button")))
         {
             itemSheet = new Field();
+        }
+        else if(item["type"]== QStringLiteral("TableField"))
+        {
+            itemSheet = new TableField();
         }
         if(nullptr!=itemSheet)
         {
