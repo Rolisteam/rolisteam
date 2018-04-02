@@ -192,6 +192,8 @@ bool CharacterSheetItem::deleteChild(CharacterSheetItem *)
 }
 int CharacterSheetItem::rowInParent()
 {
+    if(nullptr == m_parent)
+        return -1;
     return m_parent->indexOfChild(this);
 }
 bool CharacterSheetItem::mayHaveChildren()

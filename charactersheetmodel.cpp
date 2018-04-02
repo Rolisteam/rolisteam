@@ -280,7 +280,6 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet, int pos)
         pos = m_characterList->size()+1;
     }
     beginInsertColumns(QModelIndex(),pos,pos);
-    //++m_characterCount;
     m_characterList->insert(pos-1,sheet);
     emit characterSheetHasBeenAdded(sheet);
     endInsertColumns();

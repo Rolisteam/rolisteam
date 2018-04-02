@@ -116,7 +116,7 @@ void Section::save(QJsonObject& json,bool exp)
     json["name"] = m_name;
     json["type"] = QStringLiteral("Section");
     QJsonArray fieldArray;
-    for (QString key: m_keyList)
+    for (QString key : m_keyList)
     {
         CharacterSheetItem* item = m_dataHash.value(key);
         if(nullptr != item)

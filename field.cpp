@@ -153,10 +153,10 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
     switch(id)
     {
     case ID:
-        setId(var.toString());
+        setId(var.toString().trimmed());
         break;
     case LABEL:
-        setLabel(var.toString());
+        setLabel(var.toString().trimmed());
         break;
     case VALUE:
         setValue(var.toString());
