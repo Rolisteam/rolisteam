@@ -553,17 +553,7 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int 
     {
 
         out << getQMLItemName() <<" {//"<< m_label <<"\n";
-        if(!m_availableValue.isEmpty())
-        {
-            out << "    availableValues:" << QStringLiteral("[\"%1\"]").arg(m_availableValue.join("\",\""))<<"\n";
-            out << "    currentIndex: combo.find(text)\n";
-            out << "    onCurrentIndexChanged:{\n";
-            out << "        if(" << m_id <<".value !== availableValues[currentIndex])\n";
-            out << "        {\n";
-            out << "          "<<m_id<<".value = availableValues[currentIndex]\n";
-            out << "        }";
-            out << "    }\n";
-        }
+
         if(!isTable)
         {
             out << "    id: _"<<m_id<< "\n";
@@ -575,10 +565,26 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int 
             {
                 out << "    text: "<<m_id << ".value\n";
             }
+
+            if(m_currentType == Field::CHECKBOX)
+            {
+                out << "    field: "<<m_id << "\n";
+            }
         }
         else
         {
             out << "    text:"<<m_label<<".value\n";
+        }
+        if(!m_availableValue.isEmpty())
+        {
+            out << "    availableValues:" << QStringLiteral("[\"%1\"]").arg(m_availableValue.join("\",\""))<<"\n";
+            out << "    currentIndex: combo.find(text)\n";
+            out << "    onCurrentTextChanged:{\n";
+            out << "        if(" << m_id <<".value !== availableValues[currentIndex])\n";
+            out << "        {\n";
+            out << "          "<<m_id<<".value = availableValues[currentIndex]\n";
+            out << "        }";
+            out << "    }\n";
         }
         out << "    textColor:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
         if(m_clippedText)
