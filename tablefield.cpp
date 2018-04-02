@@ -39,7 +39,6 @@ void copyModel(LineModel* src, LineModel* dest,CharacterSheetItem* parent)
 {
     QJsonArray array;
     src->saveDataItem(array);
-    qDebug() << array.size();
     dest->loadDataItem(array,parent);
 }
 //////////////////////////////////////////
@@ -208,12 +207,13 @@ int LineModel::getChildrenCount() const
 }
 Field*  LineModel::getFieldById(const QString& id)
 {
-    Field* item = nullptr;
     for(const auto& line : m_lines)
     {
-        item = line->getFieldById(id);
+        auto item = line->getFieldById(id);
+        if(nullptr != item)
+            return item;
     }
-    return item;
+    return nullptr;
 
 }
 int LineModel::getColumnCount() const
@@ -391,7 +391,7 @@ int TableField::getChildrenCount() const
    return m_model->getChildrenCount();
 }
 
-CharacterSheetItem* TableField::getChildAt(QString id)
+CharacterSheetItem* TableField::getChildAt(QString id) const
 {
     return m_model->getFieldById(id);
 }
@@ -680,7 +680,7 @@ QString TableField::computeControlPosition()
     return Line1.arg(m_id);
     #else
     return {};
-     #endif
+    #endif
 }
 void TableField::loadDataItem(QJsonObject &json)
 {

@@ -121,8 +121,8 @@ public:
     ///Overriden from charactersheetitem
     virtual bool hasChildren();
     virtual int getChildrenCount() const;
-    virtual CharacterSheetItem* getChildAt(QString);
-    virtual CharacterSheetItem* getChildAt(int) const;
+    virtual CharacterSheetItem* getChildAt(QString ) const;
+    virtual CharacterSheetItem* getChildAt(int ) const;
     virtual void save(QJsonObject& json,bool exp=false);
     virtual void load(QJsonObject& json,QList<QGraphicsScene*> scene);
     virtual void copyField(CharacterSheetItem* oldItem,bool copyData, bool sameId = true);

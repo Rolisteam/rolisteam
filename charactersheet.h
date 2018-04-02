@@ -90,7 +90,7 @@ public:
      * @param key
      * @return
      */
-    CharacterSheetItem *getFieldFromKey(QString key);
+    CharacterSheetItem *getFieldFromKey(QString key) const;
 
     /**
      * @brief getRootSection
@@ -135,8 +135,6 @@ public slots:
     */
     const  QVariant getValue(QString key,Qt::ItemDataRole role = Qt::DisplayRole) const;
     CharacterSheetItem* setValue(QString key , QString value, QString formula);
-
-    void sendUpdateForField();
 
 signals:
     void updateField(CharacterSheet*,CharacterSheetItem* );

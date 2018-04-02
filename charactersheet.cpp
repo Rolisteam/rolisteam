@@ -68,9 +68,16 @@ CharacterSheetItem* CharacterSheet::getFieldAt(int i)
     return nullptr;
 }
 
-CharacterSheetItem* CharacterSheet::getFieldFromKey(QString key)
+CharacterSheetItem* CharacterSheet::getFieldFromKey(QString key) const
 {
-    if(m_valuesMap.contains(key))
+    QStringList keyList = key.split('.');
+    if(keyList.size() > 1)
+    {
+        CharacterSheetItem* field = m_valuesMap[keyList.takeFirst()];
+        field = field->getChildAt(keyList.takeFirst());
+        return field;
+    }
+    else if(m_valuesMap.contains(key))
     {
         return m_valuesMap.value(key);
     }
@@ -79,28 +86,25 @@ CharacterSheetItem* CharacterSheet::getFieldFromKey(QString key)
 
 const  QVariant CharacterSheet::getValue(QString path,Qt::ItemDataRole role) const
 {
-    if(m_valuesMap.contains(path))
+    CharacterSheetItem* item = getFieldFromKey(path);
+    if(nullptr!=item)
     {
-        CharacterSheetItem* item = m_valuesMap.value(path);
-        if(nullptr!=item)
+        if(role == Qt::DisplayRole)
         {
-            if(role == Qt::DisplayRole)
+             return item->value();
+        }
+        else if(role == Qt::EditRole)
+        {
+            QString str = item->getFormula();
+            if(str.isEmpty())
             {
-                 return item->value();
+                str = item->value();
             }
-            else if(role == Qt::EditRole)
-            {
-                QString str = item->getFormula();
-                if(str.isEmpty())
-                {
-                    str = item->value();
-                }
-                return str;
-            }
-            else if(Qt::BackgroundRole)
-            {
-                return item->isReadOnly();
-            }
+            return str;
+        }
+        else if(Qt::BackgroundRole)
+        {
+            return item->isReadOnly();
         }
     }
     return QString();
@@ -109,14 +113,13 @@ const  QVariant CharacterSheet::getValue(QString path,Qt::ItemDataRole role) con
 CharacterSheetItem* CharacterSheet::setValue(QString key, QString value, QString formula)
 {
     CharacterSheetItem* result = nullptr;
-    if(m_valuesMap.contains(key))
+
+    auto item = getFieldFromKey(key);
+
+    if(item != nullptr)
     {
-        CharacterSheetItem* field = m_valuesMap.value(key);
-        //if(!formula.isEmpty())
-        {
-            field->setFormula(formula);
-        }
-        field->setValue(value);
+        item->setFormula(formula);
+        item->setValue(value);
         result = nullptr;
     }
     else
@@ -126,7 +129,6 @@ CharacterSheetItem* CharacterSheet::setValue(QString key, QString value, QString
         field->setValue(value);
         field->setId(key);
         insertField(key,field);
-        //m_valuesMap.insert(key,field);
     }
     return result;
 }
@@ -238,6 +240,7 @@ void CharacterSheet::load(QJsonObject& json)
         {
             itemSheet = new TableField();
         }
+
         if(nullptr!=itemSheet)
         {
             itemSheet->loadDataItem(item);
