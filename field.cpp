@@ -574,16 +574,31 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int 
         else
         {
             out << "    text:"<<m_label<<".value\n";
+
+            if(m_currentType == Field::CHECKBOX)
+            {
+                out << "    field: "<< m_label << "\n";
+            }
         }
         if(!m_availableValue.isEmpty())
         {
             out << "    availableValues:" << QStringLiteral("[\"%1\"]").arg(m_availableValue.join("\",\""))<<"\n";
             out << "    currentIndex: combo.find(text)\n";
             out << "    onCurrentTextChanged:{\n";
-            out << "        if(" << m_id <<".value !== availableValues[currentIndex])\n";
-            out << "        {\n";
-            out << "          "<<m_id<<".value = availableValues[currentIndex]\n";
-            out << "        }";
+            if(!isTable)
+            {
+                out << "        if(" << m_id <<".value !== availableValues[currentIndex])\n";
+                out << "        {\n";
+                out << "          "<<m_id<<".value = availableValues[currentIndex]\n";
+                out << "        }";
+            }
+            else
+            {
+                out << "        if(" << m_label <<".value !== availableValues[currentIndex])\n";
+                out << "        {\n";
+                out << "          "<<m_label<<".value = availableValues[currentIndex]\n";
+                out << "        }";
+            }
             out << "    }\n";
         }
         out << "    textColor:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
@@ -614,7 +629,14 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int 
         {
             out << "    visible: root.page == "<< m_page << "? true : false\n";
         }
-        out << "    readOnly: "<<m_id<<".readOnly\n";
+        if(isTable)
+        {
+            out << "    readOnly: "<<m_label<<".readOnly\n";
+        }
+        else
+        {
+            out << "    readOnly: "<<m_id<<".readOnly\n";
+        }
         if(hasFontField())
         {
             out << "    font.family: \"" << m_font.family() <<"\"\n";
@@ -651,7 +673,6 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int 
             {
                 out << "    "<<m_label<<".value = text\n    }\n";
             }
-
         }
         out << "}\n";
     }
