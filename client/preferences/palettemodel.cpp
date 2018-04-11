@@ -76,6 +76,7 @@ bool PaletteColor::readFrom(QJsonObject& json)
 PaletteModel::PaletteModel(QObject* parent)
     : QAbstractTableModel(parent)
 {
+
     m_header << tr("Role") << tr("Group");
     m_groupList << tr("Active") << tr("Disable")<< tr("Inactive");
     initData();

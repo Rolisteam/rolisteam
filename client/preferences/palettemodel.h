@@ -54,9 +54,8 @@ private:
  */
 class PaletteModel : public QAbstractTableModel
 {
-        Q_OBJECT
+   Q_OBJECT
 public:
-
     PaletteModel(QObject* parent = nullptr);
     virtual ~PaletteModel();
 
