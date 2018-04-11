@@ -337,7 +337,6 @@ ResourcesNode::TypeResource CleverURI::getResourcesType() const
 
 QVariant CleverURI::getData(ResourcesNode::DataValue i)
 {
-
     switch(i)
     {
     case NAME:
