@@ -1,0 +1,6 @@
+[submodule "lib/rolisteam"]
+	path = lib/rolisteam
+	url = git@github.com:Rolisteam/rolisteam.git
+[submodule "lib/diceparser"]
+	path = lib/diceparser
+	url = git@github.com:Rolisteam/DiceParser.git

@@ -14,6 +14,10 @@ DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=9 VERSION_MINOR=0
 TEMPLATE = subdirs
 SUBDIRS = client server
 
+TESTS {
+message("test")
+    SUBDIRS += tests
+}
 
 
 MOC_DIR = bin
