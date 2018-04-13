@@ -208,7 +208,7 @@ void TestCharacterSheet::wrongCommandsTest()
 {
     QStringList commands;
 
-    foreach(QString cmd, commands)
+    for(QString cmd: commands)
     {
         QVariant a = m_formulaMan->getValue(cmd);
 
@@ -220,8 +220,7 @@ void TestCharacterSheet::cleanupTestCase()
     delete m_sheet;
     delete m_formulaMan;
     delete m_variable;
-    qDeleteAll(m_list);
-
+    //qDeleteAll(m_list);
 }
 
 QTEST_MAIN(TestCharacterSheet);
