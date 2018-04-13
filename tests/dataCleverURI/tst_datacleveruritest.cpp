@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtCore/QString>
-#include <QtTest/QtTest>
+#include <QString>
+#include <QtTest>
 #include <cleveruri.h>
 
 class DataCleverURITest : public QObject
@@ -31,6 +31,7 @@ public:
 
 private Q_SLOTS:
     void testCleverURISetGet();
+    void testMode();
     void initTestCase();
     void cleanupTestCase();
 
@@ -82,6 +83,29 @@ void DataCleverURITest::testCleverURISetGet()
     QVERIFY2(m_cleverURI->getData(ResourcesNode::NAME).toString()=="file","ShortName is wrong!");
 
     QVERIFY2(m_cleverURI->hasChildren()==false,"CleverURI has children, that should not be!");
+}
+
+void DataCleverURITest::testMode()
+{
+    m_cleverURI->setCurrentMode(CleverURI::Internal);
+    QVERIFY2(m_cleverURI->getCurrentMode() == CleverURI::Internal, "Not the right mode INTERNAL");
+    
+    QString girafePath(":/assets/img/girafe.jpg");
+    m_cleverURI->setUri(girafePath);
+    QVERIFY2(m_cleverURI->hasData(),"Clever URI has no data");
+
+    m_cleverURI->clearData();
+    QVERIFY2(!m_cleverURI->hasData(),"Clever URI has data");
+
+    m_cleverURI->setCurrentMode(CleverURI::Linked);
+    QVERIFY2(m_cleverURI->getCurrentMode() == CleverURI::Linked, "Not the right mode LINKED");
+
+    QString lionPath(":/assets/img/lion.jpg");
+    m_cleverURI->setUri(lionPath);
+    QVERIFY2(!m_cleverURI->hasData(),"Clever URI has data");
+    
+    m_cleverURI->setCurrentMode(CleverURI::Internal);
+    QVERIFY2(!m_cleverURI->hasData(),"Clever URI has not load the data");
 }
 
 QTEST_MAIN(DataCleverURITest);
