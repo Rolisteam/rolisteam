@@ -159,6 +159,7 @@ void TestDice::commandsTest()
             << "10d[-8--1]"
             << "4d6e6i[=4]{-4}+2"
             << "4d6e6f[!=4]+2"
+            << "5d10g10"
             << "4d6p[4:blue]c[>=4];1d6p[1:#FFFFFF]c6-@c1;1d6p[1:#FF0000]c[>=4]+@c6-@c1"
             << "10d[0-9]";
     for(QString cmd : commands)
