@@ -117,7 +117,6 @@ bool Chapter::seekNode(QList<ResourcesNode *> &path, ResourcesNode *node)
 QIcon Chapter::getIcon()
 {
     QStyle* style = qApp->style();
-
     return style->standardIcon(QStyle::SP_DirIcon);
 }
 
@@ -221,6 +220,13 @@ bool Chapter::removeChild(ResourcesNode* item)
     }
     return removed;
 }
+
+void Chapter::clear()
+{
+    qDeleteAll(m_children);
+    m_children.clear();
+}
+
 QDataStream& operator<<(QDataStream& os,const Chapter& chap)
 {
     chap.write(os);

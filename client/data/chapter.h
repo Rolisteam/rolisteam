@@ -62,6 +62,7 @@ public:
     * @brief removes node (chapter or ressource)
     */
     bool removeChild(ResourcesNode* item);
+    void clear();
 
     virtual bool contains(ResourcesNode *);
 
