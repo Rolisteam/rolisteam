@@ -97,7 +97,7 @@ QVariant ParticipantsModel::data(const QModelIndex &index, int role) const
             if(!list->isEmpty())
             {
                 Player* player = list->at(index.row());
-                return player->getName();
+                return player->name();
             }
         }
     }

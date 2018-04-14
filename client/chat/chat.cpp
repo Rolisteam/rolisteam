@@ -117,7 +117,7 @@ QString PlayerChat::identifier() const
 
 QString PlayerChat::name() const
 {
-    return m_player->getName();
+    return m_player->name();
 }
 
 bool PlayerChat::belongsTo(Player * player) const
@@ -143,7 +143,7 @@ NetworkMessage::RecipientMode PlayerChat::getRecipientMode() const
 void PlayerChat::verifyName(Player * player)
 {
     if (player == m_player)
-        emit changedName(m_player->getName());
+        emit changedName(m_player->name());
 }
 
 QStringList PlayerChat::getRecipientList() const

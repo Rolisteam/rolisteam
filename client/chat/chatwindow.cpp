@@ -360,7 +360,7 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
                     if(nullptr!=localPerson)
                     {
                         QString vide;
-                        showMessage(localPerson->getName(), localPerson->getColor(), tmpmessage,vide, NetMsg::EmoteMessageAction);
+                        showMessage(localPerson->name(), localPerson->getColor(), tmpmessage,vide, NetMsg::EmoteMessageAction);
                         action = NetMsg::EmoteMessageAction;
                     }
                     break;
@@ -370,7 +370,7 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
     }
     else//normal text
     {//sending info to others.
-        msgTitle = localPerson->getName();
+        msgTitle = localPerson->name();
         if(!hasHtml)
         {
             message = message.toHtmlEscaped();

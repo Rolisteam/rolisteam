@@ -182,7 +182,7 @@ void TcpClient::setInfoPlayer(NetworkMessageReader* msg)
         m_player->readFromMsg(*msg);
 
         /// @todo make it nicer.
-        setName(m_player->getName());
+        setName(m_player->name());
         setId(m_player->getUuid());
     }
 }
@@ -345,7 +345,7 @@ void TcpClient::connectionError(QAbstractSocket::SocketError error)
 void TcpClient::sendEvent(TcpClient::ConnectionEvent event)
 {
     if(nullptr != m_player)
-        qDebug() << "server connection to "<<m_player->getName() << "recieve event:" <<event;
+        qDebug() << "server connection to "<<m_player->name() << "recieve event:" <<event;
     switch (event)
     {
     case CheckSuccessEvent:

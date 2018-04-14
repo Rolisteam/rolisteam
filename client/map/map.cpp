@@ -139,7 +139,7 @@ void Map::p_init()
     for (int i = 0 ; i < maxPlayersIndex ; i++)
     {
         Player * player = g_playersList->getPlayer(i);
-        int maxCharactersIndex = player->getCharactersCount();
+        int maxCharactersIndex = player->getChildrenCount();
         for (int j = 0 ; j < maxCharactersIndex ; j++)
         {
             addCharacter(player->getCharacterByIndex(j));
@@ -1118,7 +1118,7 @@ bool Map::isVisiblePc(QString idPerso)
 
 void Map::addCharacter(Character * person)
 {
-    new CharacterToken(this, person->getUuid(), person->getName(), person->getColor(), m_npcSize, QPoint(m_backgroundImage->width()/2, m_backgroundImage->height()/2), CharacterToken::pj, false, m_showPcName);
+    new CharacterToken(this, person->getUuid(), person->name(), person->getColor(), m_npcSize, QPoint(m_backgroundImage->width()/2, m_backgroundImage->height()/2), CharacterToken::pj, false, m_showPcName);
 }
 
 
@@ -1142,7 +1142,7 @@ void Map::delCharacter(Character * person)
     if (pj == nullptr)
     {
 		qWarning() << ( tr("Person %s %s unknown in Carte::changePerson"),
-                qPrintable(person->getUuid()), qPrintable(person->getName()) );
+                qPrintable(person->getUuid()), qPrintable(person->name()) );
         return;
     }
 
@@ -1156,11 +1156,11 @@ void Map::changeCharacter(Character * person)
     CharacterToken * pj = findCharacter(person->getUuid());
     if (pj == nullptr)
     {
-        qWarning() << tr("Person %s %s unknown in Carte::changePerson").arg(person->getUuid()).arg(person->getName()) ;
+        qWarning() << tr("Person %s %s unknown in Carte::changePerson").arg(person->getUuid()).arg(person->name()) ;
         return;
     }
 
-    pj->renameCharacter(person->getName());
+    pj->renameCharacter(person->name());
     pj->changeCharacterColor(person->getColor());
 }
 

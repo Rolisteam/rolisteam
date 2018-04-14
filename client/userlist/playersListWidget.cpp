@@ -130,7 +130,7 @@ void PlayersListWidgetModel::changeMap(Map * map)
     for (i = 0 ; i < max ; i++)
     {
         Player * player = playersList->getPlayer(i);
-        int nbCharacters = player->getCharactersCount();
+        int nbCharacters = player->getChildrenCount();
 
         if (nbCharacters > 0)
         {
@@ -142,7 +142,7 @@ void PlayersListWidgetModel::changeMap(Map * map)
     for (; i < max ; i++)
     {
         Player * player = playersList->getPlayer(i);
-        int nbCharacters = player->getCharactersCount();
+        int nbCharacters = player->getChildrenCount();
 
         if (nbCharacters > 0)
             end   = createIndex(nbCharacters, 0, i);
@@ -203,7 +203,7 @@ void PlayersListWidget::editIndex(const QModelIndex & index)
     if (!playersList->isLocal(person))
         return;
 
-    if (m_personDialog->edit(tr("Edit"), person->getName(), person->getColor(),m_personDialog->getAvatarUri()) == QDialog::Accepted)
+    if (m_personDialog->edit(tr("Edit"), person->name(), person->getColor(),m_personDialog->getAvatarUri()) == QDialog::Accepted)
     {
         //person->setAvatar();
         playersList->changeLocalPerson(person, m_personDialog->getName(), m_personDialog->getColor(),QImage(m_personDialog->getAvatarUri()));

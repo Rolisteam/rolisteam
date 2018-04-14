@@ -511,7 +511,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
         }
         if(nullptr!=win)
         {
-            win->showMessage(sender->getName(), sender->getColor(), msg,comment, data.action());
+            win->showMessage(sender->name(), sender->getColor(), msg,comment, data.action());
         }
         return;
     }
@@ -520,7 +520,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     ChatWindow * chatw = getChatWindowByUuid(to);
     if (nullptr != chatw)
     {
-        chatw->showMessage(sender->getName(), sender->getColor(), msg,comment, data.action());
+        chatw->showMessage(sender->name(), sender->getColor(), msg,comment, data.action());
     }
 }
 

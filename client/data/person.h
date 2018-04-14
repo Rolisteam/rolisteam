@@ -47,7 +47,7 @@ public:
      * @param name
      * @param color
      */
-    Person(const QString & getName, const QColor & getColor);
+    Person(const QString & name, const QColor & getColor);
     /**
      * @brief Person
      * @param uuid
@@ -64,11 +64,6 @@ public:
      * @return
      */
     const QString getUuid() const;
-    /**
-     * @brief name
-     * @return
-     */
-    QString getName() const;
     /**
      * @brief color
      * @return
@@ -108,12 +103,6 @@ public:
      */
     bool setColor(const QColor & color);
     /**
-     * @brief setName
-     * @param getName
-     * @return
-     */
-    void setName(const QString & getName);
-    /**
      * @brief checkedState
      * @return
      */
@@ -131,11 +120,9 @@ public:
 
     virtual QHash<QString,QString> getVariableDictionnary() = 0;
 
-
     virtual QVariant getData(ResourcesNode::DataValue);
 
     virtual QIcon getIcon();
-
 
     ResourcesNode::TypeResource getResourcesType() const;
     virtual void write(QDataStream &out, bool tag = true, bool saveData = true) const;
@@ -146,9 +133,7 @@ protected:
      * @brief Person
      */
     Person();
-
     QString m_uuid;
-    QString m_name;
     QColor  m_color;
     QImage  m_avatar;
     Person* m_parent;

@@ -1281,17 +1281,17 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
 
 void MainWindow::notifyAboutAddedPlayer(Player * player) const
 {
-    notifyUser(tr("%1 just joins the game.").arg(player->getName()),LogController::Features);
+    notifyUser(tr("%1 just joins the game.").arg(player->name()),LogController::Features);
     if(player->getUserVersion().compare(m_version)!=0)
     {
-        notifyUser(tr("%1 has not the right version: %2.").arg(player->getName())
+        notifyUser(tr("%1 has not the right version: %2.").arg(player->name())
                    .arg(player->getUserVersion()),LogController::Error);
     }
 }
 
 void MainWindow::notifyAboutDeletedPlayer(Player * player) const
 {
-    notifyUser(tr("%1 just leaves the game.").arg(player->getName()),LogController::Features);
+    notifyUser(tr("%1 just leaves the game.").arg(player->name()),LogController::Features);
 }
 
 void MainWindow::readSettings()

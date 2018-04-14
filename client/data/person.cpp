@@ -38,13 +38,15 @@ Person::Person()
 }
 
 Person::Person(const QString & name, const QColor & color)
-    : m_uuid(QUuid::createUuid().toString()),m_name(name), m_color(color),m_parent(nullptr)
+    : m_uuid(QUuid::createUuid().toString()),m_color(color),m_parent(nullptr)
 {
+    m_name = name;
 }
 
 Person::Person(const QString & uuid, const QString & name, const QColor & color)
-    : m_uuid(uuid), m_name(name), m_color(color),m_parent(nullptr)
+    : m_uuid(uuid),m_color(color),m_parent(nullptr)
 {
+    m_name = name;
 }
 
 Person::~Person()
@@ -53,11 +55,6 @@ Person::~Person()
 const QString Person::getUuid() const
 {
     return m_uuid;
-}
-
-QString Person::getName() const
-{
-    return m_name;
 }
 
 QColor Person::getColor() const
@@ -83,17 +80,6 @@ bool Person::setColor(const QColor & color)
     m_color = color;
     return true;
 }
-
-void Person::setName(const QString & name)
-{
-    /*if (name == m_name)
-        return false;*/
-
-    m_name = name;
-    //return true;
-}
-
-
 
 const QImage& Person::getAvatar() const
 {

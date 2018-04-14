@@ -202,7 +202,7 @@ void ProfileModel::writeSettings(QSettings & settings)
         var.setValue(img);
         settings.setValue("CharacterPix",var);
         //settings.setValue("CharacterPath",profile->getPathImg());
-        settings.setValue("CharacterName",character->getName());
+        settings.setValue("CharacterName",character->name());
 
     }
     settings.endArray();
@@ -281,7 +281,7 @@ void SelectConnectionProfileDialog::updateGUI()
         if(nullptr!=m_currentProfile->getCharacter())
         {
         //character
-            ui->m_characterName->setText(m_currentProfile->getCharacter()->getName());
+            ui->m_characterName->setText(m_currentProfile->getCharacter()->name());
             ui->m_characterColor->setColor(m_currentProfile->getCharacter()->getColor());
             ui->m_selectCharaterAvatar->setIcon(QIcon(QPixmap::fromImage(m_currentProfile->getCharacter()->getAvatar())));
         }

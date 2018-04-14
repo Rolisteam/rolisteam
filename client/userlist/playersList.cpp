@@ -122,7 +122,7 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
             return QVariant();
         Player * player = m_playersList.at(static_cast<int>(parentRow));
 
-        if (row >= player->getCharactersCount())
+        if (row >= player->getChildrenCount())
             return QVariant();
         person = player->getCharacterByIndex(row);
     }
@@ -132,7 +132,7 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
         case Qt::DisplayRole:
         case Qt::EditRole:
         case Qt::ToolTipRole:
-            return person->getName();
+            return person->name();
         //    return person->getUuid();
         case Qt::DecorationRole:
         {
@@ -178,7 +178,7 @@ QModelIndex PlayersList::index(int row, int column, const QModelIndex &parent) c
             return QModelIndex();
 
         Player * player = m_playersList.at(parentRow);
-        if (row < 0 || row >= player->getCharactersCount())
+        if (row < 0 || row >= player->getChildrenCount())
             return QModelIndex();
 
         return QAbstractItemModel::createIndex(row, 0, parentRow);
@@ -231,7 +231,7 @@ int PlayersList::rowCount(const QModelIndex & index) const
         return 0;
     }
 
-    return m_playersList.at(row)->getCharactersCount();
+    return m_playersList.at(row)->getChildrenCount();
 }
 
 int PlayersList::columnCount(const QModelIndex &parent) const
@@ -367,7 +367,7 @@ Person * PlayersList::getPerson(const QModelIndex & index) const
     {
         Player * player = m_playersList.at(parentRow);
 
-        if (row < player->getCharactersCount())
+        if (row < player->getChildrenCount())
             return player->getCharacterByIndex(row);
     }
 
@@ -397,7 +397,7 @@ Character * PlayersList::getCharacter(const QModelIndex & index) const
     if (parentRow == NoParent && row >= 0 && parentRow < (quint32)m_playersList.size())
     {
         Player * player = m_playersList.at(row);
-        if (row < player->getCharactersCount())
+        if (row < player->getChildrenCount())
             return player->getCharacterByIndex(row);
     }
 
@@ -412,7 +412,7 @@ QString PlayersList::getUuidFromName(QString owner)
     for(int i = 0; i< list.size() && unfound; ++i)
     {
         Character* carac = list.at(i);
-        if(carac->getName() == owner)
+        if(carac->name() == owner)
         {
             unfound = false;
             ownerPerson = carac;
@@ -568,7 +568,7 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
 }
 bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
 {
-    if(person->getName() == name)
+    if(person->name() == name)
         return false;
     person->setName(name);
     NetworkMessageWriter * message;
@@ -578,7 +578,7 @@ bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
     else
         message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterNameAction);
 
-    message->string16(person->getName());
+    message->string16(person->name());
     message->string8(person->getUuid());
     message->sendAll();
 
@@ -589,7 +589,7 @@ bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
 void PlayersList::delLocalCharacter(int index)
 {
     Player * parent = getLocalPlayer();
-    if (index < 0 || index >= parent->getCharactersCount())
+    if (index < 0 || index >= parent->getChildrenCount())
         return;
 
     NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::DelPlayerCharacterAction);
@@ -618,7 +618,7 @@ void PlayersList::addPlayer(Player * player)
 
     endInsertRows();
 
-    for(int i = 0;i<player->getCharactersCount();++i)
+    for(int i = 0;i<player->getChildrenCount();++i)
     {
         Character* character = player->getCharacterByIndex(i);
         addCharacter(player,character);
@@ -627,7 +627,7 @@ void PlayersList::addPlayer(Player * player)
 
 void PlayersList::addCharacter(Player * player, Character * character)
 {
-    int size = player->getCharactersCount();
+    int size = player->getChildrenCount();
     QString uuid = character->getUuid();
 
     if (m_uuidMap.contains(uuid))
@@ -654,7 +654,7 @@ void PlayersList::delPlayer(Player * player)
     if (index < 0)
         return;
 
-    int charactersCount = player->getCharactersCount();
+    int charactersCount = player->getChildrenCount();
     for (int i = 0; i < charactersCount ; i++)
     {
         delCharacter(player, 0);
@@ -682,7 +682,7 @@ void PlayersList::delCharacter(Player * parent, int index)
     emit characterDeleted(character);
 
     m_uuidMap.remove(character->getUuid());
-    parent->delCharacter(index);
+    parent->removeChild(character);
 
     endRemoveRows();
 }
@@ -821,7 +821,7 @@ void PlayersList::setPersonName(NetworkMessageReader & data)
     if (person == nullptr)
         return;
 
-    if(person->getName() != name)
+    if(person->name() != name)
     {
         person->setName(name);
         notifyPersonChanged(person);

@@ -97,7 +97,7 @@ NetworkLink * Player::link() const
     return m_link;
 }
 
-int Player::getCharactersCount() const
+int Player::getChildrenCount() const
 {
     return m_characters.size();
 }
@@ -217,7 +217,7 @@ void Player::copyPlayer(Player* player)
     setAvatar(player->getAvatar());
     setColor(player->getColor());
     setGM(player->isGM());
-    setName(player->getName());
+    setName(player->name());
     setUserVersion(player->getUserVersion());
 }
 bool Player::isFullyDefined()

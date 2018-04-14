@@ -50,7 +50,7 @@ void UserListDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & 
         QRectF target(option.rect.x(), option.rect.y(),option.decorationSize.width(), option.rect.height());
         painter->drawImage(target,p->getAvatar(),p->getAvatar().rect());
         tmp.adjust(option.decorationSize.width(),1,1,1);
-        painter->drawText(tmp,Qt::AlignVCenter,p->getName());
+        painter->drawText(tmp,Qt::AlignVCenter,p->name());
     }
     painter->restore();
 }
@@ -61,7 +61,7 @@ QSize UserListDelegate::sizeHint ( const QStyleOptionViewItem & option, const QM
     Person* p = PlayersList::instance()->getPerson(uuid);
     if(p!=nullptr)
     {
-        returnValue.setWidth(option.fontMetrics.width(p->getName()));
+        returnValue.setWidth(option.fontMetrics.width(p->name()));
         returnValue.setHeight(/*option.fontMetrics.height()*/option.decorationSize.height());
     }
 

@@ -139,20 +139,20 @@ QString CharacterItem::getSubTitle() const
     {
         if(getOption(VisualItem::ShowNpcName).toBool())
         {
-            toShow = m_character->getName();
+            toShow = m_character->name();
         }
         if(getOption(VisualItem::ShowNpcNumber).toBool())
         {
-            toShow = m_character->getName();
+            toShow = m_character->name();
         }
         if(getOption(VisualItem::ShowNpcName).toBool() && getOption(VisualItem::ShowNpcNumber).toBool())
         {
-            toShow = QString("%1 - %2").arg(m_character->getName()).arg(m_character->number());
+            toShow = QString("%1 - %2").arg(m_character->name()).arg(m_character->number());
         }
     }
     else if(getOption(VisualItem::ShowPcName).toBool())
     {
-        toShow = m_character->getName();
+        toShow = m_character->name();
     }
     return toShow;
 }
@@ -671,7 +671,7 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
   QMenu* user =  menu->addMenu(tr("Affect to"));
   for(Character* character: PlayersList::instance()->getCharacterList())
   {
-	QAction* act = user->addAction(character->getName());
+    QAction* act = user->addAction(character->name());
     act->setData(character->getUuid());
 
 	connect(act,SIGNAL(triggered()),this,SLOT(changeCharacter()));
