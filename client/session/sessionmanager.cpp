@@ -145,12 +145,6 @@ void SessionManager::openResources(QModelIndex& index)
     if(!index.isValid())
         return;
 
-   /* CleverURI* item = static_cast<CleverURI*>(index.internalPointer());
-
-    if(item!=nullptr)
-    { 
-       emit openFile(item,false);
-    }*/
     emit openResource(static_cast<ResourcesNode*>(index.internalPointer()),false);
 }
 void SessionManager::removeSelectedItem()
