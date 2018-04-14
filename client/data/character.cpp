@@ -316,6 +316,11 @@ int Character::number() const
     return m_number;
 }
 
+void Character::setNumber(int n)
+{
+    m_number = n;
+}
+
 bool Character::isNpc() const
 {
     return m_isNpc;

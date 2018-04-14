@@ -118,6 +118,7 @@ public:
      * @return
      */
     int number() const;
+    void setNumber(int n);
     /**
      * @brief getHeathState
      * @return
