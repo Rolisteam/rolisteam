@@ -83,7 +83,7 @@ public:
      * @brief getCharactersCount
      * @return
      */
-    int         getCharactersCount() const;
+    virtual int  getChildrenCount() const;
     /**
      * @brief getCharacterByIndex
      * @param index
@@ -151,7 +151,7 @@ public:
      * @brief delCharacter
      * @param index
      */
-    void delCharacter(int index);
+    virtual bool removeChild(ResourcesNode*);
 
     void clearCharacterList();
     /**

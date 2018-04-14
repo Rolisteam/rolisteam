@@ -151,21 +151,22 @@ void Player::clearCharacterList()
     m_characters.clear();
 }
 
-void Player::delCharacter(int index)
+bool Player::removeChild(ResourcesNode* node)
 {
-    if (index >= 0 && index < m_characters.size())
+    auto character = static_cast<Character*>(node);
+    if (!m_characters.contains(character))
+        return false;
+
+    m_characters.removeOne(character);
+    if(!character->isNpc())
     {
-        auto character = m_characters.at(index);
-        if(!character->isNpc())
-        {
-            delete m_characters.at(index);
-        }
-        else
-        {
-            character->setParentPerson(nullptr);
-        }
-        m_characters.removeAt(index);
+        delete character;
     }
+    else
+    {
+        character->setParentPerson(nullptr);
+    }
+    return true;
 }
 
 bool Player::searchCharacter(Character * character, int & index) const
