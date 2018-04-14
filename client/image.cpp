@@ -30,20 +30,18 @@
 
 #include "image.h"
 #include "network/networklink.h"
-#include "mainwindow.h"
 #include "network/networkmessagewriter.h"
 #include "widgets/onlinepicturedialog.h"
 
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/
-Image::Image(/*QString title,QString identImage, QString identJoueur, QImage *image, QAction *action,*/ ImprovedWorkspace *parent)
-    : MediaContainer(parent),m_parent(parent),m_NormalSize(0,0)
+Image::Image(QWidget* parent)
+    : MediaContainer(parent),m_NormalSize(0,0)
 {
     setObjectName("Image");
     m_widgetArea = new QScrollArea();
     m_zoomLevel = 1;
-    m_parent=parent;
     setWindowIcon(QIcon(":/resources/icons/photo.png"));
     createActions();
     m_imageLabel = new QLabel(this);
@@ -73,10 +71,7 @@ void Image::initImage()
 
         m_ratioImage = (double)m_pixMap.size().width()/m_pixMap.size().height();
         m_ratioImageBis = (double)m_pixMap.size().height()/m_pixMap.size().width();
-        if(nullptr!=m_parent)
-        {
-            fitWorkSpace();
-        }
+        fitWorkSpace();
         fitWindow();
     }
 }
@@ -458,12 +453,10 @@ void Image::resizeEvent(QResizeEvent *event)
 
 }
 
-void Image::setParent(ImprovedWorkspace *parent)
+void Image::setParent(QWidget *parent)
 {
-    m_parent=parent;
     QMdiSubWindow::setParent(parent);
-    if(m_parent)
-        fitWorkSpace();
+    fitWorkSpace();
 }
 
 void Image::setCurrentTool(ToolsBar::SelectableTool tool)

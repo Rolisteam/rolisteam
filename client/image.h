@@ -30,8 +30,6 @@
 #include <QString>
 #include <QLabel>
 
-#include "improvedworkspace.h"
-#include "mainwindow.h"
 #include "toolsbar.h"
 #include "preferences/preferencesmanager.h"
 
@@ -49,7 +47,7 @@ Q_OBJECT
 
 public :
     //Image(QString title, QString identImage, QString identJoueur, QImage *image, QAction *action = 0, ImprovedWorkspace *parent = 0);
-    Image(ImprovedWorkspace* parent = nullptr);
+    Image(QWidget* parent = nullptr);
     /**
      * @brief ~Image destructor.
      */
@@ -64,7 +62,7 @@ public :
     void saveImageToFile(QFile &file);
     void saveImageToFile(QDataStream& out);
     bool isImageOwner(QString id);
-    void setParent(ImprovedWorkspace *parent);
+    void setParent(QWidget *parent);
     void setImage(QImage& img);
     void setIdOwner(QString);
 
@@ -154,8 +152,6 @@ private :
     int m_verticalStart;
     bool m_allowedMove;
     double m_zoomLevel;
-    ImprovedWorkspace* m_parent;
-
     QSize m_NormalSize;
     QSize m_windowSize;
     QPixmap  m_pixMap;
