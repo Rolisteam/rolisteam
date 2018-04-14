@@ -9,18 +9,18 @@ SUBDIRS = \
     paletteModel\
     chat \
     charactersheet \
-    rolisteamtheme
+    rolisteamtheme \
+    dataplayer \
+    picture \
+    session \
+    dataCharacter \
+    dataChapter
     #     network \
-    #picture \
-    #    dataChapter \ #chat MainWindow  picture   map Dice
-    #  dataplayer \
-    # dataCharacter \
+    #    MainWindow  picture   map Dice
     #networkServer \
 
 OBJECTS_DIR = obj
-OTHER_FILES = UnitTestRolisteam.pri
-
-
+OTHER_FILES = tests.pri
 
 
 

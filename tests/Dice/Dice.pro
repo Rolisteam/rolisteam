@@ -12,12 +12,12 @@ OBJECTS_DIR=trash
 
 QT += testlib quick qml widgets
 
-INCLUDEPATH += ../lib/diceparser/
-INCLUDEPATH += ../lib/diceparser/node
-INCLUDEPATH += ../lib/diceparser/result
+INCLUDEPATH += $$ROLISTEAMSRC/diceparser/
+INCLUDEPATH += $$ROLISTEAMSRC/diceparser/node
+INCLUDEPATH += $$ROLISTEAMSRC/diceparser/result
 
 
-include(../../client/diceparser/diceparser.pri)
+include($$ROLISTEAMSRC/diceparser/diceparser.pri)
 
 HEADERS -= ../../../rolisteam/client/diceparser/qmltypesregister.h
 SOURCES -= ../../../rolisteam/client/diceparser/qmltypesregister.cpp

@@ -8,12 +8,12 @@ QT += widgets gui
 
 TEMPLATE = app
 
-HEADERS += ../$$ROLISTEAMSRC/widgets/colorbutton.h
+HEADERS += $$ROLISTEAMSRC/common/widgets/colorbutton.h
 
 SOURCES += \
     tst_colorButton.cpp \
-    ../$$ROLISTEAMSRC/widgets/colorbutton.cpp
+    $$ROLISTEAMSRC/common/widgets/colorbutton.cpp
 
-INCLUDEPATH += ../$$ROLISTEAMSRC/widgets/
+INCLUDEPATH += $$ROLISTEAMSRC/common/widgets/
 #INCLUDEPATH += ../$$ROLISTEAMSRC/src/data/
 #INCLUDEPATH += ../$$ROLISTEAMSRC/src/
