@@ -101,6 +101,7 @@ bool CleverURI::operator==(const CleverURI& uri) const
 void CleverURI::setUri(QString& uri)
 {
     m_uri=uri;
+    loadData();
     updateListener(CleverURI::URI);
 }
 
@@ -125,6 +126,16 @@ bool CleverURI::hasChildren() const
 void CleverURI::setUpListener()
 {
     updateListener(CleverURI::NAME);
+}
+
+void CleverURI::loadData()
+{
+    if(getCurrentMode() == Internal)
+    {
+        loadFileFromUri(m_data);
+    }
+    else
+        m_data.clear();
 }
 
 void CleverURI::init()
@@ -214,7 +225,6 @@ bool CleverURI::exists()
 const QString CleverURI::getAbsolueDir() const
 {
     QFileInfo info(m_uri);
-    
     return info.absolutePath();
 }
 

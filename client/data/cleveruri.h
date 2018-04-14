@@ -157,6 +157,8 @@ public:
 
     ResourcesNode::TypeResource getResourcesType() const;
 
+protected:
+    void loadData();
 private:
     /**
     * @brief split the uri to get the shortname
