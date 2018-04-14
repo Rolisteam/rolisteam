@@ -37,9 +37,6 @@ DEPENDPATH = $$ROLISTEAMSRC \
 
 DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=8 VERSION_MINOR=0
 
-
-
-
 CONFIG += c++11
 
 TEMPLATE=app
@@ -48,3 +45,5 @@ QT += core \
  testlib
 
 
+RESOURCES += \
+    $$PWD/resources.qrc

@@ -19,8 +19,8 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
-#include "Image.h"
-#include "cleveruri.h"
+#include <image.h>
+#include <cleveruri.h>
 
 class PictureTest : public QObject
 {
@@ -32,7 +32,7 @@ public:
 private slots:
     void initTestCase();
     void cleanupTestCase();
-   // void testGetSet();
+    void testGetSet();
 private:
     Image* m_image;
 };
@@ -51,10 +51,16 @@ void PictureTest::cleanupTestCase()
     delete m_image;
 }
 
-/*void PictureTest::testGetSet()
+void PictureTest::testGetSet()
 {
-    m_image->setCleverURI(new CleverURI("../../rolisteam/resources/logo/500-rolisteam.png",CleverURI::PICTURE));
-}*/
+    auto uri = new CleverURI("girafe",":/assets/img/girafe.jpg",CleverURI::PICTURE);
+    m_image->setCleverUri(uri);
+    QVERIFY2(m_image->getCleverUri() == uri, "not the same image");
+
+    QString ownerId("owner");
+    m_image->setIdOwner(ownerId);
+    QVERIFY2(m_image->isImageOwner(ownerId), "not the rigth owner");
+}
 
 
 QTEST_MAIN(PictureTest);

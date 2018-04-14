@@ -65,29 +65,25 @@ void DataplayerTest::testGetSet()
 
     QString tmpname("nametest");
     m_player->setName(tmpname);
-    QVERIFY2(m_player->getName()==tmpname, "Names are different! Failure");
+    QVERIFY2(m_player->name()==tmpname, "Names are different! Failure");
 }
 void DataplayerTest::testChildrenAddAndRemove()
 {
         QVERIFY2(m_player->isLeaf()==false, "It has children! Failure");
         QList<Character*> list;
+        m_player->clearCharacterList();
         for(int i = 0; i<COUNT_TURN; i++)
         {
             Character* tmp = new Character("Unknown",Qt::blue,"/fake/path/");
             list.append(tmp);
             m_player->addCharacter(tmp);
-            //
-            QVERIFY2(m_player->childrenCount()==list.size(), "The children count is not as expected! Failure");
-        }
-        qDebug() << m_player->childrenCount() << list.size();
-        for(int i = list.size()-1; i>=0; i--)
-        {
-            m_player->removeCharacter(i);
+            QVERIFY2(m_player->getChildrenCount()==list.size(), "The children count is not as expected! Failure");
         }
 
-        QVERIFY2(m_player->childrenCount()==0, "The children count is not as expected! 0 Failure");
-
-
+        m_player->removeChild(list.at(0));
+        QVERIFY2(m_player->getChildrenCount()==(list.size()-1), "The children count is not as expected! Failure");
+        m_player->clearCharacterList();
+        QVERIFY2(m_player->getChildrenCount()==0, "The children count is not as expected! 0 Failure");
 
 }
 

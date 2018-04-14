@@ -38,6 +38,7 @@ private slots:
 private:
     PreferencesManager* m_preferences;
 };
+
 PreferencesTest::PreferencesTest()
 {
 

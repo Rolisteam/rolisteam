@@ -21,7 +21,8 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 
-#include <data/charactersheet.h>
+#include <character.h>
+#include <characterstate.h>
 
 #define COUNT_TURN 2000
 class DataCharacterTest : public QObject
@@ -32,13 +33,13 @@ public:
     DataCharacterTest();
 
 private Q_SLOTS:
-    void testAddRemoveAtSection();
-    void testAddRemoveOneSection();
+    void testSetAndGet();
+    void testProperty();
     void initTestCase();
     void cleanupTestCase();
 
 private:
-    CharacterSheet* m_charactersheet;
+    Character* m_character;
 };
 
 DataCharacterTest::DataCharacterTest()
@@ -47,52 +48,65 @@ DataCharacterTest::DataCharacterTest()
 }
 void DataCharacterTest::initTestCase()
 {
-     m_charactersheet = new CharacterSheet();
+     m_character = new Character();
 }
 
 void DataCharacterTest::cleanupTestCase()
 {
-    delete m_charactersheet;
+    delete m_character;
 }
-void DataCharacterTest::testAddRemoveAtSection()
+void DataCharacterTest::testSetAndGet()
 {
-    for(int i = 0; i< COUNT_TURN; i++)
-    {
-        Section* sectemp= new Section();
-        sectemp->setName(QString("Section %1").arg(i));
-        QString a("%1");
-                a=a.arg(i);
-        sectemp->setValue(a);
-        m_charactersheet->appendSection(sectemp);
-    }
+    m_character->setName("Name");
+    QVERIFY2(m_character->name() == "Name","names are different");
 
-    QVERIFY2(m_charactersheet->getSectionCount()==COUNT_TURN,"The number of section is not as expected");
-    for(int i = COUNT_TURN; i>=0; i--)
-    {
-        m_charactersheet->removeSectionAt(i);
-    }
-    QVERIFY2(m_charactersheet->getSectionCount()==0,"The number of section is not 0");
+    m_character->setAvatar(QImage(":/assets/img/girafe.jpg"));
+    QVERIFY2(m_character->hasAvatar(),"has no avatar");
+
+    m_character->setColor(Qt::red);
+    QVERIFY2(m_character->getColor() == Qt::red,"not the right color");
+
+
+    m_character->setNpc(true);
+    QVERIFY(m_character->isNpc());
+
+    m_character->setNpc(false);
+    QVERIFY(!m_character->isNpc());
+
+    m_character->setNumber(10);
+    QVERIFY(m_character->number() == 10);
+
 }
-void DataCharacterTest::testAddRemoveOneSection()
+void DataCharacterTest::testProperty()
 {
-    QList<Section*> sectionlist;
-    for(int i = 0; i< COUNT_TURN; i++)
-    {
-        Section* sectemp= new Section();
-        sectemp->setName(QString("Section %1").arg(i));
-        QString a("%1");
-                a=a.arg(i);
-        sectemp->setValue(a);
+    QSignalSpy spy(m_character,&Character::currentHealthPointsChanged);
+    m_character->setHealthPointsCurrent(10);
+    QVERIFY(spy.count() == 1);
 
-        sectionlist.append(sectemp);
-        m_charactersheet->appendSection(sectemp);
-    }
-    QVERIFY2(m_charactersheet->getSectionCount()==COUNT_TURN,"The number of section is not as expected");
-    for(int i = 0; i< COUNT_TURN; i++)
-    {
-        m_charactersheet->removeSection(sectionlist.at(i));
-    }
-    QVERIFY2(m_charactersheet->getSectionCount()==0,"The number of section is not 0");
+    QSignalSpy spyMaxHP(m_character,&Character::maxHPChanged);
+    m_character->setHealthPointsMax(200);
+    QVERIFY(spyMaxHP.count() == 1);
+
+    QSignalSpy spyminHP(m_character,&Character::minHPChanged);
+    m_character->setHealthPointsMin(50);
+    QVERIFY(spyminHP.count() == 1);
+
+    QSignalSpy spydistancePerTurn(m_character,&Character::distancePerTurnChanged);
+    m_character->setDistancePerTurn(25.9);
+    QVERIFY(spydistancePerTurn.count() == 1);
+
+    QSignalSpy spyInit(m_character,&Character::initiativeChanged);
+    m_character->setInitiativeScore(24);
+    QVERIFY(spyInit.count() == 1);
+
+    QSignalSpy spyState(m_character,&Character::stateChanged);
+    auto state = new CharacterState();
+    state->setLabel("test");
+    state->setColor(Qt::red);
+    state->setIsLocal(true);
+    m_character->setState(state);
+    QVERIFY(spyState.count() == 1);
+    QVERIFY(m_character->getState() == state);
 }
 
 QTEST_MAIN(DataCharacterTest);

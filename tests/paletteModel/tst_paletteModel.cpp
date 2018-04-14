@@ -60,7 +60,22 @@ void PaletteModelTest::getAndSetTest()
     QPalette  test_palette;
     m_paletteModel->setPalette(test_palette);
     QPalette result=m_paletteModel->getPalette();
-    QVERIFY(result==test_palette);
+
+    bool equal = true;
+    for(int grp = 0; grp <  QPalette::NColorGroups; grp++)
+    {
+        for(int role = 0; role < QPalette::NColorRoles; role++)
+        {
+            /*qDebug() << grp << role << result.color((QPalette::ColorGroup)grp,(QPalette::ColorRole)role)
+                     << test_palette.color((QPalette::ColorGroup)grp,(QPalette::ColorRole)role)
+                     <<*/
+             if((result.color((QPalette::ColorGroup)grp,(QPalette::ColorRole)role) != test_palette.color((QPalette::ColorGroup)grp,(QPalette::ColorRole)role)))
+             {
+                 equal = false;
+             }
+        }
+    }
+    QVERIFY(equal);
 }
 void PaletteModelTest::paletteColorChangedTest()
 {
