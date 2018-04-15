@@ -405,6 +405,14 @@ void SessionItemModel::remove(QModelIndex& index)
     endRemoveRows();
 }
 
+void SessionItemModel::clearData()
+{
+    if(nullptr == m_rootItem)
+        return;
+
+    m_rootItem->clear();
+}
+
 QVariant SessionItemModel::headerData ( int section, Qt::Orientation orientation, int role  ) const
 {
     if((role==Qt::DisplayRole)&&(orientation==Qt::Horizontal))

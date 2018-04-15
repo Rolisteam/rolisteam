@@ -100,6 +100,8 @@ public:
      * @param uri
      */
     void removeResource(CleverURI *uri);
+
+    SessionView* getView() const;
 public slots:
     /**
     * @brief add chapter into the given index

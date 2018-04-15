@@ -105,6 +105,11 @@ void SessionManager::removeResource(CleverURI* uri)
     m_model->removeNode(uri);
 }
 
+SessionView *SessionManager::getView() const
+{
+    return m_view;
+}
+
 void SessionManager::addChapter(QModelIndex& index)
 {
     QString tmp = tr("Chapter %1").arg(m_model->rowCount(index));

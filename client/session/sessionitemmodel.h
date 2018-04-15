@@ -100,6 +100,7 @@ public:
     * @param position of the item
     */
     virtual Qt::ItemFlags flags ( const QModelIndex & index ) const;
+    void clearData();
 
 
 
