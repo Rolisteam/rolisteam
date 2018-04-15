@@ -82,6 +82,7 @@ private:
     * @brief stores the position of the click
     */
     QPoint m_pointClick;
+    QAction* m_switchLoadingMode;
 
     QAction* m_loadingModeColumn;
     QAction* m_displayedColumn;
