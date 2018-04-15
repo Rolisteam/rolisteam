@@ -104,9 +104,7 @@ void Map::p_init()
 
     m_alphaBg = new QImage(m_originalBackground->size(), QImage::Format_ARGB32);
 
-
-
-	addAlphaLayer(m_backgroundImage, m_alphaLayer, m_alphaBg);
+    addAlphaLayer(m_backgroundImage, m_alphaLayer, m_alphaBg);
 
     QColor color(m_alphaBg->pixel(10,10));
     QColor color2(m_alphaLayer->pixel(10,10));
@@ -117,7 +115,7 @@ void Map::p_init()
     pal.setColor(QPalette::Window, PreferencesManager::getInstance()->value("Mask_color",QColor(Qt::darkMagenta)).value<QColor>());
     setPalette(pal);
     
-	m_npcSize = 12;
+    m_npcSize = 12;
     m_leftButtonStatus = false;
     m_rightButtonStatus = false;
     m_mousePoint = QPoint(0,0);
@@ -134,11 +132,11 @@ void Map::p_init()
     m_motionList.clear();
 
     // Get every characters
-    PlayersList* g_playersList = PlayersList::instance();
-    int maxPlayersIndex = g_playersList->getPlayerCount();
+    PlayersList* playersList = PlayersList::instance();
+    int maxPlayersIndex = playersList->getPlayerCount();
     for (int i = 0 ; i < maxPlayersIndex ; i++)
     {
-        Player * player = g_playersList->getPlayer(i);
+        Player * player = playersList->getPlayer(i);
         int maxCharactersIndex = player->getChildrenCount();
         for (int j = 0 ; j < maxCharactersIndex ; j++)
         {
@@ -147,11 +145,11 @@ void Map::p_init()
     }
 
     // connect to g_playesList to stay tuned
-    connect(g_playersList, SIGNAL(characterAdded(Character *)),
+    connect(playersList, SIGNAL(characterAdded(Character *)),
             this, SLOT(addCharacter(Character *)));
-    connect(g_playersList, SIGNAL(characterDeleted(Character *)),
+    connect(playersList, SIGNAL(characterDeleted(Character *)),
             this, SLOT(delCharacter(Character *)));
-    connect(g_playersList, SIGNAL(characterChanged(Character *)),
+    connect(playersList, SIGNAL(characterChanged(Character *)),
             this, SLOT(changeCharacter(Character *)));
 }
 
@@ -303,16 +301,16 @@ void Map::mousePressEvent(QMouseEvent *event)
         {
             m_rightButtonStatus = true;
             setCursor(*m_orientCursor);
-			CharacterToken *pnj = paintCharacter(positionSouris);
-            if (pnj)
+            CharacterToken *npc = paintCharacter(positionSouris);
+            if (npc)
             {
-                pnj->showOrHideOrientation();
-                m_lastSelectedNpc = pnj;
+                npc->showOrHideOrientation();
+                m_lastSelectedNpc = npc;
 
                 NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::showCharecterOrientation);
                 msg.string8(m_mapId);
-                msg.string8(pnj->getCharacterId());
-                msg.uint8(pnj->orientationStatus());
+                msg.string8(npc->getCharacterId());
+                msg.uint8(npc->orientationStatus());
                 msg.sendAll();
             }
             else if (m_lastSelectedNpc)
@@ -353,7 +351,7 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
         else
         {
             /// @warning deadcode
-            /*if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
+            if (!m_localIsPlayer)//PreferencesManager::getInstance()->value("isClient",true).toBool()
             {
                 QPainter painter;
         
@@ -370,7 +368,7 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
                 painter.setRenderHint(QPainter::Antialiasing);
                 
 				paintMap(painter);
-            }*/
+            }
 
 			if(((!m_localIsPlayer))||
               (((m_currentMode == Map::PC_ALL))))
@@ -378,22 +376,22 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
                  m_mousePoint = pos;
                 m_newZone = zoneToRefresh();
             }
-            /// @warning deadcode
-           /* if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
+            /// NOTE @warning deadcode
+           if (!m_localIsPlayer)//!PreferencesManager::getInstance()->value("isClient",true).toBool()
             {
                 if (ColorSelector::getSelectedColor().type == Erase)
                 {
-					addAlphaLayer(m_originalBackground, m_eraseAlpha, m_originalBackground, m_newZone);
+                    addAlphaLayer(m_originalBackground, m_eraseAlpha, m_originalBackground, m_newZone);
                     QPainter painterFond(m_backgroundImage);
                     painterFond.drawImage(m_newZone, *m_originalBackground, m_newZone);
                     QPainter painterEfface(m_eraseAlpha);
                     painterEfface.fillRect(m_newZone, Qt::black);
                 }
 
-				addAlphaLayer(m_backgroundImage, m_alphaLayer, m_alphaBg, m_newZone);
+                addAlphaLayer(m_backgroundImage, m_alphaLayer, m_alphaBg, m_newZone);
                 update();//zoneOrigine.unite(zoneNouvelle)
                 showHideNPC();
-            }*/
+            }
 			if((!m_localIsPlayer)||
               (((m_currentMode == Map::PC_ALL))))
             {
