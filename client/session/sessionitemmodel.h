@@ -118,7 +118,6 @@ public slots:
     void removeNode(ResourcesNode*);
 
 signals:
-    void openFile(CleverURI*,bool);
     void openResource(ResourcesNode*,bool);
 
 protected:

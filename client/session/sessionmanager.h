@@ -126,14 +126,13 @@ signals:
     */
     void changeVisibility(bool);
     /**
-    * @brief emitted when the application must open a resource
-    */
-    void openFile(CleverURI*,bool);
-    /**
      * @brief sessionChanged
      * @param statut
      */
     void sessionChanged(bool statut);
+    /**
+    * @brief emitted when the application must open a resource
+    */
     void openResource(ResourcesNode*, bool);
 protected:
     /**

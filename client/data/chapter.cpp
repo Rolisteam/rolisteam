@@ -29,11 +29,13 @@
 Chapter::Chapter()
     : m_children(QList<ResourcesNode*>())
 {
+    m_children.clear();
 }
 Chapter::Chapter(const Chapter& m)
 :QObject(m.parent()),m_children(QList<ResourcesNode*>())
 {
     m_name=m.m_name;
+    m_children.clear();
 }
 
 Chapter::~Chapter()
@@ -170,7 +172,6 @@ void Chapter::read(QDataStream &in)
         {
             Chapter* chapter = new Chapter();
             node=chapter;
-            connect(chapter,&Chapter::openFile,this,&Chapter::openFile);
             connect(chapter,&Chapter::openResource,this,&Chapter::openResource);
         }
         else if(type=="Character")
@@ -190,7 +191,6 @@ void Chapter::read(QDataStream &in)
         {
             if(uri->isDisplayed())
             {
-                //emit openFile(uri,true);
                 emit openResource(uri, true);
             }
         }

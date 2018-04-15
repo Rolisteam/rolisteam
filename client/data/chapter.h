@@ -80,7 +80,6 @@ public:
      ResourcesNode::TypeResource getResourcesType() const;
 
 signals:
-    void openFile(CleverURI*, bool);
     void openResource(ResourcesNode*,bool);
     void updated(ResourcesNode*);
 private:

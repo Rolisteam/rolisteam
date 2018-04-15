@@ -75,7 +75,7 @@ SessionManager::SessionManager(QWidget* parent)
     connect(m_view,SIGNAL(onDoubleClick(QModelIndex&)),this,SLOT(openResources(QModelIndex&)));
     connect(m_view,SIGNAL(addChapter(QModelIndex&)),this,SLOT(addChapter(QModelIndex&)));
     connect(m_view,SIGNAL(removeSelection()),this,SLOT(removeSelectedItem()));
-    connect(m_model,SIGNAL(openFile(CleverURI*,bool)),this,SIGNAL(openFile(CleverURI*,bool)));
+    connect(m_model,&SessionItemModel::openResource,this,&SessionManager::openResource);
 }
 SessionManager::~SessionManager()
 {
