@@ -61,7 +61,7 @@ ImprovedWorkspace::~ImprovedWorkspace()
         m_actionSubWindowMap = nullptr;
 	}
 }
-void ImprovedWorkspace::showCleverUri(CleverURI* uri)
+bool ImprovedWorkspace::showCleverUri(CleverURI* uri)
 {
     for(auto i : m_actionSubWindowMap->values())
     {
@@ -71,9 +71,11 @@ void ImprovedWorkspace::showCleverUri(CleverURI* uri)
             if(media->getCleverUri() == uri)
             {
                 i->setVisible(true);
+                return true;
             }
         }
     }
+    return false;
 }
 
 

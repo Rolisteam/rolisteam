@@ -64,7 +64,7 @@ public :
      * @brief showCleverUri
      * @param uri
      */
-    void showCleverUri(CleverURI *uri);
+    bool showCleverUri(CleverURI *uri);
     /**
      * @brief removeMediaContainer
      * @param mediac
