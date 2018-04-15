@@ -21,6 +21,8 @@
 
 #include <sessionmanager.h>
 #include <sessionitemmodel.h>
+#include <character.h>
+#include <QMouseEvent>
 
 class SessionTest : public QObject
 {
@@ -53,7 +55,60 @@ void SessionTest::initTestCase()
 
 void SessionTest::testModel()
 {
+    m_sessionManager->show();
+    QApplication::processEvents();
 
+    CleverURI* uri1 = new CleverURI("uri1","/path/uri1",CleverURI::CHARACTERSHEET);
+    CleverURI* uri2  = new CleverURI("uri2","/path/uri2",CleverURI::VMAP);
+    Character* character = new Character("character1",Qt::red,true);
+    Chapter* chapter = new Chapter();
+    chapter->setName("chapter1");
+
+    auto sessionview = m_sessionManager->getView();
+
+    QModelIndex index;
+    m_model->addResource(uri1,index);
+    m_model->addResource(uri2,index);
+    m_model->addResource(character,index);
+    m_model->addResource(chapter,index);
+
+    QVERIFY2(m_model->rowCount(index) == 4, "NOT the excepted number of data");
+
+    QSignalSpy layout(m_model, &SessionItemModel::layoutChanged);
+    QPoint local(10,10);
+    qDebug() <<local << sessionview->indexAt(local);
+    QMouseEvent* event = new QMouseEvent(QEvent::MouseButtonPress,local,Qt::LeftButton,0,0);
+    QApplication::postEvent(m_sessionManager, event);
+    QApplication::processEvents();
+
+    for(int i = 0; i < 55; ++i)
+    {
+        QPoint moveMouse(10,10+i);
+        QMouseEvent* eventMove = new QMouseEvent(QEvent::MouseMove,moveMouse,Qt::LeftButton,Qt::LeftButton,0);
+        QApplication::postEvent(m_sessionManager, eventMove);
+        QApplication::processEvents();
+    }
+
+    QPoint moveMouse(10,65);
+    qDebug() <<moveMouse << sessionview->indexAt(moveMouse);
+    QMouseEvent* eventMove = new QMouseEvent(QEvent::MouseMove,moveMouse,Qt::LeftButton,Qt::LeftButton,0);
+    QApplication::postEvent(m_sessionManager, eventMove);
+    QApplication::processEvents();
+
+    QPoint moveRelease(10,65);
+    auto index2 = sessionview->indexAt(moveRelease);
+    qDebug() <<moveRelease << index.internalPointer() << index2;
+    QMouseEvent* eventRelease = new QMouseEvent(QEvent::MouseButtonRelease,moveRelease,Qt::LeftButton,0,0);
+    QApplication::postEvent(m_sessionManager, eventRelease);
+    QApplication::processEvents();
+
+    qDebug() << m_model->rowCount(index) << chapter << character << uri2 << uri1 ;
+
+    QVERIFY2(m_model->rowCount(index) == 3, "NOT the excepted number of data");
+
+    QVERIFY2(layout.count() == 1, "Drag and drop not working");
+
+    m_model->clearData();
 }
 
 void SessionTest::testManager()
