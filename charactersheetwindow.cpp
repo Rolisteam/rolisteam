@@ -40,15 +40,16 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     : MediaContainer(parent),m_localIsGM(false)
 {
     m_uri=uri;
-    m_title = tr("Character Sheet Viewer");
+    m_title = tr("%1 - Character Sheet Viewer");
     // m_data = new QJsonObject();
     if(nullptr==m_uri)
     {
         setCleverUriType(CleverURI::CHARACTERSHEET);
+        m_title = m_title.arg("");
     }
     else
     {
-        m_title.append("- %1").arg(m_uri->getData(ResourcesNode::NAME).toString());
+        m_title = m_title.arg(m_uri->getData(ResourcesNode::NAME).toString());
     }
     setObjectName("CharacterSheetViewer");
     connect(&m_model,SIGNAL(characterSheetHasBeenAdded(CharacterSheet*)),this,SLOT(addTabWithSheetView(CharacterSheet*)));
