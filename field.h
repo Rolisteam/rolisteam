@@ -22,7 +22,6 @@
 #ifndef FIELD_H
 #define FIELD_H
 
-#include <QGraphicsItem>
 #include <QMouseEvent>
 #include <QFont>
 
