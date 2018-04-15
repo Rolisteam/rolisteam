@@ -196,7 +196,7 @@ void CharacterSheetWindow::addSharingMenu(QMenu* share)
 {
     for(Character* character : PlayersList::instance()->getCharacterList())
     {
-        QAction* action = share->addAction(QPixmap::fromImage(character->getAvatar()),character->getName());
+        QAction* action = share->addAction(QPixmap::fromImage(character->getAvatar()),character->name());
         action->setData(character->getUuid());
         connect(action,SIGNAL(triggered(bool)),this,SLOT(affectSheetToCharacter()));
     }
@@ -279,7 +279,7 @@ void CharacterSheetWindow::affectSheetToCharacter()
         {
             checkAlreadyShare(sheet);
             character->setSheet(sheet);
-            sheet->setName(character->getName());
+            sheet->setName(character->name());
             QQuickWidget* wid = m_characterSheetlist.key(sheet);
             m_tabs->setTabText(m_tabs->indexOf(wid),sheet->getName());
 
@@ -693,21 +693,19 @@ bool CharacterSheetWindow::readFileFromUri()
     {
         setTitle(QStringLiteral("%1 - %2").arg(m_uri->getData(ResourcesNode::NAME).toString()).arg(tr("Character Sheet Viewer")));
 
-        if(m_uri->exists())
+        if(m_uri->getCurrentMode() == CleverURI::Internal || !m_uri->exists())
+        {
+            QByteArray data = m_uri->getData();
+            m_uri->setCurrentMode(CleverURI::Internal);
+            QJsonDocument doc = QJsonDocument::fromBinaryData(data);
+            return readData(doc.toJson());
+        }
+        else if(m_uri->getCurrentMode() == CleverURI::Linked)
         {
             return openFile(m_uri->getUri());
         }
-        else
-        {
-            QByteArray data = m_uri->getData();
-            return readData(data);
-        }
-
     }
-    else
-    {
-        return false;
-    }
+    return false;
 }
 void CharacterSheetWindow::putDataIntoCleverUri()
 {
