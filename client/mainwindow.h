@@ -352,7 +352,7 @@ protected :
      * @param AskPath
      * @param saveAs
      */
-    void saveMedia(MediaContainer *mediaC,bool AskPath, bool saveAs);
+    void saveMedia(MediaContainer *mediaC, bool saveAs);
     void readStory(QString fileName);
     void processSharedNoteMessage(NetworkMessageReader *msg);
     void tipChecker();
@@ -463,11 +463,7 @@ private slots :
      * @brief saveStory - saves all media contener into the current story file.
      *
      */
-    bool saveStory();
-    /**
-     * @brief saveAsStory asks filename to save current story into.
-     */
-    bool saveAsStory();
+    bool saveStory(bool saveAs);
     /**
      * @brief saveMinutes saves notes into file.
      * @return

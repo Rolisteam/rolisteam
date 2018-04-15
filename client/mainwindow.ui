@@ -35,7 +35,6 @@
      <addaction name="m_newChatAction"/>
      <addaction name="m_newNoteAction"/>
      <addaction name="m_addVectorialMap"/>
-     <addaction name="m_newCharacterSheet"/>
      <addaction name="m_newSharedNote"/>
     </widget>
     <widget class="QMenu" name="menu_Open">
@@ -522,18 +521,6 @@
    </property>
    <property name="shortcut">
     <string>F10</string>
-   </property>
-  </action>
-  <action name="m_newCharacterSheet">
-   <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/icons/treeview.png</normaloff>:/resources/icons/treeview.png</iconset>
-   </property>
-   <property name="text">
-    <string>Character Sheet</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+W</string>
    </property>
   </action>
   <action name="m_openCharacterSheet">

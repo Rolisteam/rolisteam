@@ -133,7 +133,6 @@ MainWindow::MainWindow()
     m_sessionManager = new SessionManager(this);
 
     connect(m_sessionManager,SIGNAL(sessionChanged(bool)),this,SLOT(setWindowModified(bool)));
-    connect(m_sessionManager,&SessionManager::openFile,this,&MainWindow::openCleverURI);
     connect(m_sessionManager,&SessionManager::openResource,this,&MainWindow::openResource);
 
     /// Create all GM toolbox widget
@@ -566,17 +565,14 @@ void MainWindow::linkActionToMenu()
     };
     connect(m_ui->m_newMapAction, &QAction::triggered, this, fun);
     connect(m_ui->m_addVectorialMap, &QAction::triggered, this, fun);
-    connect(m_ui->m_newCharacterSheet, &QAction::triggered, this, fun);
     connect(m_ui->m_newNoteAction, &QAction::triggered, this, fun);
     connect(m_ui->m_newSharedNote, &QAction::triggered, this, fun);
     connect(m_ui->m_newChatAction, SIGNAL(triggered(bool)), m_chatListWidget, SLOT(createPrivateChat()));
 
     m_ui->m_newMapAction->setData(static_cast<int>(CleverURI::MAP));
     m_ui->m_addVectorialMap->setData(static_cast<int>(CleverURI::VMAP));
-    m_ui->m_newCharacterSheet->setData(static_cast<int>(CleverURI::CHARACTERSHEET));
     m_ui->m_newNoteAction->setData(static_cast<int>(CleverURI::TEXT));
     m_ui->m_newSharedNote->setData(static_cast<int>(CleverURI::SHAREDNOTE));
-
 
     //open
     connect(m_ui->m_openPictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
@@ -605,8 +601,12 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_closeAction, SIGNAL(triggered(bool)), this, SLOT(closeCurrentSubWindow()));
     connect(m_ui->m_saveAction, SIGNAL(triggered(bool)), this, SLOT(saveCurrentMedia()));
     connect(m_ui->m_saveAsAction, SIGNAL(triggered(bool)), this, SLOT(saveCurrentMedia()));
-    connect(m_ui->m_saveScenarioAction, SIGNAL(triggered(bool)), this, SLOT(saveStory()));
-    connect(m_ui->m_saveScenarioAsAction, SIGNAL(triggered(bool)), this, SLOT(saveAsStory()));
+    connect(m_ui->m_saveScenarioAction, &QAction::triggered, this,[=](){
+         saveStory(false);
+    });
+    connect(m_ui->m_saveScenarioAsAction, &QAction::triggered, this,[=](){
+         saveStory(true);
+    });
     connect(m_ui->m_preferencesAction, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
 
     //Edition
@@ -770,15 +770,10 @@ void MainWindow::updateWorkspace()
 MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
 {
     MediaContainer* media=nullptr;
+    auto uri = new CleverURI(tr("Untitled"),"",type);
+    uri->setCurrentMode(CleverURI::Internal);
     switch(type)
     {
-        case CleverURI::CHARACTERSHEET:
-        {
-            CharacterSheetWindow* window = new CharacterSheetWindow();
-            media = window;
-            prepareCharacterSheetWindow(window);
-        }
-            break;
         case CleverURI::SHAREDNOTE:
         {
             SharedNoteContainer* note = new SharedNoteContainer();
@@ -826,6 +821,7 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
     }
     if(nullptr != media)
     {
+        media->setCleverUri(uri);
         addMediaToMdiArea(media);
     }
     return media;
@@ -944,7 +940,7 @@ bool MainWindow::mayBeSaved(bool connectionLoss)
             if (!PlayersList::instance()->getLocalPlayer()->isGM())
                 ok = saveMinutes();
             else
-                ok = saveStory();
+                ok = saveStory(false);
 
             if (ok || connectionLoss)
             {
@@ -990,27 +986,20 @@ QString MainWindow::getShortNameFromPath(QString path)
     return info.baseName();
 }
 
-bool MainWindow::saveAsStory()
+bool MainWindow::saveStory(bool saveAs)
 {
-    // open file
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Scenario as"), m_preferences->value("SessionDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
-
-    if (!fileName.isNull())
+    if(nullptr == m_currentStory || saveAs)
     {
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Save Scenario as"), m_preferences->value("SessionDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
+        if (fileName.isNull())
+        {
+            return false;
+        }
         if(!fileName.endsWith(".sce"))
         {
             fileName.append(QStringLiteral(".sce"));
         }
         m_currentStory = new  CleverURI(getShortNameFromPath(fileName),fileName,CleverURI::SCENARIO);
-        return saveStory();
-    }
-    return false;
-}
-bool MainWindow::saveStory()
-{
-    if(nullptr == m_currentStory)
-    {
-        saveAsStory();
     }
     QFileInfo info(m_currentStory->getUri());
 
@@ -1038,22 +1027,31 @@ bool MainWindow::saveStory()
 ////////////////////////////////////////////////////
 void MainWindow::saveCurrentMedia()
 {
+    bool saveAs = false;
+    if(qobject_cast<QAction*>(sender())==m_ui->m_saveAsAction)
+    {
+        saveAs=true;
+    }
     QMdiSubWindow* active = m_mdiArea->currentSubWindow();
     if(nullptr != active)
     {
         MediaContainer* currentMedia = dynamic_cast<MediaContainer*>(active);
         if(nullptr!=currentMedia)
         {
-            bool saveAs = false;
-            if(qobject_cast<QAction*>(sender())==m_ui->m_saveAsAction)
+            auto uri = currentMedia->getCleverUri();
+            if(nullptr != uri && !saveAs)
             {
-                saveAs=true;
+                if(uri->getCurrentMode() == CleverURI::Internal)
+                {
+                    saveStory(false);
+                    return;
+                }
             }
-            saveMedia(currentMedia,true,saveAs);
+            saveMedia(currentMedia,saveAs);
         }
     }
 }
-void MainWindow::saveMedia(MediaContainer* mediaC,bool askPath, bool saveAs)
+void MainWindow::saveMedia(MediaContainer* mediaC, bool saveAs)
 {
     if(nullptr!=mediaC)
     {
@@ -1061,14 +1059,9 @@ void MainWindow::saveMedia(MediaContainer* mediaC,bool askPath, bool saveAs)
         if(nullptr!=cleverURI)
         {
             QString uri  = cleverURI->getUri();
-            QFileInfo info(uri);
-            if(!askPath)//save into story
+            if(cleverURI->getCurrentMode() == CleverURI::Linked)
             {
-                mediaC->putDataIntoCleverUri();
-            }
-            else
-            {
-                if((uri.isEmpty())||(!info.exists(uri))||(!info.isWritable())||saveAs)
+                if(uri.isEmpty() || saveAs)
                 {
                     QString key = CleverURI::getPreferenceDirectoryKey(cleverURI->getType());
                     QString filter = CleverURI::getFilterForType(cleverURI->getType());
@@ -1083,8 +1076,12 @@ void MainWindow::saveMedia(MediaContainer* mediaC,bool askPath, bool saveAs)
                     cleverURI->setUri(fileName);
                 }
                 mediaC->saveMedia();
-                setLatestFile(cleverURI);
             }
+            else if(cleverURI->getCurrentMode() == CleverURI::Internal)
+            {
+                mediaC->putDataIntoCleverUri();
+            }
+            setLatestFile(cleverURI);
         }
     }
 }
@@ -1110,7 +1107,7 @@ void MainWindow::saveAllMediaContainer()
     //new fashion
     for(auto media : m_mediaHash.values())
     {
-        saveMedia(media,false,false);
+        saveMedia(media,false);
     }
 }
 void MainWindow::stopReconnection()
@@ -2250,21 +2247,24 @@ void MainWindow::updateRecentFileActions()
 void MainWindow::setLatestFile(CleverURI* fileName)
 {
     // no online picture because they are handled in a really different way.
-    if((nullptr!=fileName)&&(fileName->getType()!=CleverURI::ONLINEPICTURE))
+    if((nullptr==fileName) ||
+       (fileName->getType()==CleverURI::ONLINEPICTURE) ||
+       (fileName->getCurrentMode() == CleverURI::Internal))
     {
-        QVariant var = QVariant::fromValue(CleverUriList());
-        CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList>();
-        files.removeAll(*fileName);
-        files.prepend(*fileName);
-        while (files.size() > m_maxSizeRecentFile)
-        {
-            files.removeLast();
-        }
-        QVariant var3;
-        var3.setValue(files);
-        m_preferences->registerValue("recentFileList", var3,true);
-        updateRecentFileActions();
+        return;
     }
+    QVariant var = QVariant::fromValue(CleverUriList());
+    CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList>();
+    files.removeAll(*fileName);
+    files.prepend(*fileName);
+    while (files.size() > m_maxSizeRecentFile)
+    {
+        files.removeLast();
+    }
+    QVariant var3;
+    var3.setValue(files);
+    m_preferences->registerValue("recentFileList", var3,true);
+    updateRecentFileActions();
 }
 void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
 {
@@ -2300,8 +2300,8 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
     }
     if((uri->isDisplayed())&&(!force))
     {
-        m_mdiArea->showCleverUri(uri);
-        return;
+        if(m_mdiArea->showCleverUri(uri))
+            return;
     }
 
     MediaContainer* tmp=nullptr;
