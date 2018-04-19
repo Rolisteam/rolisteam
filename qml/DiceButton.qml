@@ -8,11 +8,19 @@ Rectangle {
     property alias hAlign: textInput.horizontalAlignment
     property alias font: textInput.font
     property alias wrapMode: textInput.wrapMode
+    property string label: ""
 
     property alias vAlign: textInput.verticalAlignment
     property bool readOnly: false
+    property bool hasAlias: true
     scale: mouseZone.pressed ? 0.8 : 1.0
     signal clicked
+    Drag.active: mouseZone.drag.active
+    Drag.mimeData: {"text/label":root.label,
+                    "text/command": root.text,
+                    "text/hasAlias": root.hasAlias}
+    Drag.dragType: Drag.Automatic
+    Drag.supportedActions: Qt.CopyAction
     Text {//textInput.textColor
         id: textInput
         anchors.fill: parent
