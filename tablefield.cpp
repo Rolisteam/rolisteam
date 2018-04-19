@@ -132,6 +132,7 @@ void LineFieldItem::loadDataItem(QJsonArray &json, CharacterSheetItem* parent)
         Field* field = new Field();
         field->setParent(parent);
         connect(field, &Field::sendOffData, parent, &CharacterSheetItem::sendOffData);
+        connect(field, &Field::updateNeeded, parent, &CharacterSheetItem::updateNeeded);
         QJsonObject obj = value.toObject();
         field->loadDataItem(obj);
         m_fields.append(field);

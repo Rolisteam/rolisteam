@@ -224,6 +224,9 @@ public slots:
 
     void updateLabelFromOrigin();
 
+    // WARNING make implementation
+    void updateNeeded();
+
 
 signals:
     void valueChanged();

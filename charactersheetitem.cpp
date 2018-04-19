@@ -114,6 +114,11 @@ void CharacterSheetItem::updateLabelFromOrigin()
       }
     }
 }
+
+void CharacterSheetItem::updateNeeded()
+{
+
+}
 void CharacterSheetItem::changeKeyChild(QString oldkey, QString newKey,CharacterSheetItem* child)
 {
     Q_UNUSED(oldkey);
