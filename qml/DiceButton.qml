@@ -28,13 +28,6 @@ Rectangle {
         onWidthChanged: {
             computeSizeFont();
         }
-        MouseArea {
-            id: mouseZone
-            anchors.fill: parent
-            onClicked:  root.clicked()
-            enabled: !root.readOnly
-        }
-
         function computeSizeFont()
         {
             if(parent.clippedText)
@@ -49,5 +42,15 @@ Rectangle {
                 }
             }
         }
+    }
+    MouseArea {
+        id: mouseZone
+        anchors.fill: parent
+        onClicked:  root.clicked()
+        enabled: !root.readOnly
+        drag.target: parent
+        onPressed: parent.grabToImage(function(result) {
+            parent.Drag.imageSource = result.url
+        })
     }
 }
