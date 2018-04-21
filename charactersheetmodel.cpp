@@ -259,9 +259,9 @@ void CharacterSheetModel::checkCharacter(Section *section)
                 sheet->insertCharacterItem(newField);
                 field = newField;
             }
-            if(field->getCurrentType() != id->getCurrentType())
+            if(field->getFieldType() != id->getFieldType())
             {
-                field->setCurrentType(id->getCurrentType());
+                field->setCurrentType(id->getFieldType());
             }
             if(field->getLabel() != id->getLabel())
             {

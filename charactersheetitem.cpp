@@ -244,7 +244,7 @@ bool CharacterSheetItem::hasFormula() const
 {
     return !m_formula.isEmpty();
 }
-CharacterSheetItem::TypeField CharacterSheetItem::getCurrentType() const
+CharacterSheetItem::TypeField CharacterSheetItem::getFieldType() const
 {
     return m_currentType;
 }
@@ -252,6 +252,10 @@ CharacterSheetItem::TypeField CharacterSheetItem::getCurrentType() const
 void CharacterSheetItem::setCurrentType(const CharacterSheetItem::TypeField &currentType)
 {
     m_currentType = currentType;
+    if(m_currentType == CharacterSheetItem::FUNCBUTTON && m_hasDefaultValue)
+    {
+        m_value = "";
+    }
 }
 
 void CharacterSheetItem::initGraphicsItem()

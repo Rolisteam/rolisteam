@@ -140,13 +140,7 @@ public:
      * @param json
      * @param scene
      */
-    virtual void loadDataItem(QJsonObject& json)=0;
-    /**
-     * @brief generateQML
-     * @param out
-     * @param sec
-     */
-    virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec, int i, bool isTable=false)=0;
+    virtual void loadDataItem(QJsonObject& json)=0;   
     /**
      * @brief setNewEnd
      * @param nend
@@ -189,7 +183,7 @@ public:
 
     bool hasFormula() const;
 
-    CharacterSheetItem::TypeField getCurrentType() const;
+    CharacterSheetItem::TypeField getFieldType() const;
     void setCurrentType(const CharacterSheetItem::TypeField &currentType);
 
     virtual void initGraphicsItem();

@@ -49,7 +49,7 @@ public:
     virtual void setNewEnd(QPointF nend);
     QRectF boundingRect() const;
 
-    CharacterSheetItem::TypeField getCurrentType()const;
+    CharacterSheetItem::TypeField getFieldType()const;
 
     CharacterSheetItem* getChildAt(QString) const;
 
