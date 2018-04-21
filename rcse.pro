@@ -102,8 +102,9 @@ SOURCES += main.cpp\
     delegate/pagedelegate.cpp \
     codeeditordialog.cpp \
     widgets/fieldview.cpp \
-    widgets/logpanel.cpp \
-    logcontroller.cpp
+    common/widgets/logpanel.cpp \
+    common/controller/logcontroller.cpp \
+    qmlgeneratorvisitor.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -138,8 +139,9 @@ HEADERS  += mainwindow.h \
     delegate/pagedelegate.h \
     codeeditordialog.h \
     widgets/fieldview.h \
-    widgets/logpanel.h \
-    logcontroller.h
+    common/widgets/logpanel.h \
+    common/controller/logcontroller.h \
+    qmlgeneratorvisitor.h
 
 
 
@@ -151,7 +153,7 @@ FORMS    += mainwindow.ui \
     columndefinitiondialog.ui \
     widgets/codeedit.ui \
     codeeditordialog.ui \
-    widgets/logpanel.ui
+    common/widgets/logpanel.ui
 
 DISTFILES += \
     charactersheet/qml/*.qml \
