@@ -157,7 +157,7 @@ public:
      * @param out
      * @param sec
      */
-    void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec, bool isTable = false);
+    void generateQML(QTextStream& out, int indentation, bool isTable = false);
     /**
     *
     */

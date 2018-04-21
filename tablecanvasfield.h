@@ -88,7 +88,7 @@ private:
 
 class TableCanvasField : public CanvasField
 {
-        Q_OBJECT
+    Q_OBJECT
 public:
     TableCanvasField(Field* field);
     virtual ~TableCanvasField();
@@ -110,6 +110,7 @@ public:
 
     Field* generateSubField(int i);
 
+
     void generateSubFields(QTextStream &out);
 
     void load(QJsonObject &json, QList<QGraphicsScene *> scene);
@@ -117,6 +118,8 @@ public:
 
     void setPositionAddLine(int pos);
     int getPosition() const;
+
+    CharacterSheetItem* getRoot();
 
 public slots:
     void addColumn();

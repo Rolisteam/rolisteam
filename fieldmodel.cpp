@@ -26,6 +26,7 @@
 #include <QGraphicsScene>
 
 #include "canvas.h"
+#include "qmlgeneratorvisitor.h"
 
 //////////////////////////////
 //Column
@@ -98,7 +99,7 @@ QVariant FieldModel::data(const QModelIndex &index, int role) const
     if((role == Qt::DisplayRole)||(Qt::EditRole == role))
     {
         CharacterSheetItem* item = static_cast<CharacterSheetItem*>(index.internalPointer());
-        if(NULL!=item)
+        if(nullptr!=item)
         {
             QVariant var = item->getValueFrom(m_colunm[index.column()]->getPos(),role);
             if((index.column() == CharacterSheetItem::TEXT_ALIGN)&&(Qt::DisplayRole == role))
@@ -116,7 +117,7 @@ QVariant FieldModel::data(const QModelIndex &index, int role) const
     if((role == Qt::BackgroundRole )&&((index.column() == CharacterSheetItem::BGCOLOR)||(index.column() == CharacterSheetItem::TEXTCOLOR)))
     {
         CharacterSheetItem* item = static_cast<CharacterSheetItem*>(index.internalPointer());
-        if(NULL!=item)
+        if(nullptr!=item)
         {
             QVariant var = item->getValueFrom(m_colunm[index.column()]->getPos(),Qt::EditRole);
             return var;
@@ -126,7 +127,7 @@ QVariant FieldModel::data(const QModelIndex &index, int role) const
     if((Qt::FontRole==role)&&(index.column() == CharacterSheetItem::FONT))
     {
             CharacterSheetItem* item = static_cast<CharacterSheetItem*>(index.internalPointer());
-            if(NULL!=item)
+            if(nullptr!=item)
             {
                 QVariant var = item->getValueFrom(m_colunm[index.column()]->getPos(),Qt::DisplayRole);
                 QFont font;
@@ -142,7 +143,7 @@ QModelIndex FieldModel::index(int row, int column, const QModelIndex &parent) co
     if(row<0)
         return QModelIndex();
 
-    CharacterSheetItem* parentItem = NULL;
+    CharacterSheetItem* parentItem = nullptr;
 
     // qDebug()<< "Index session " <<row << column << parent;
     if (!parent.isValid())
@@ -213,7 +214,7 @@ bool FieldModel::setData(const QModelIndex &index, const QVariant &value, int ro
     {
         CharacterSheetItem* item = static_cast<CharacterSheetItem*>(index.internalPointer());
 
-        if(NULL!=item)
+        if(nullptr!=item)
         {
             item->setValueFrom(m_colunm[index.column()]->getPos(),value);
             emit valuesChanged(item->getValueFrom(CharacterSheetItem::ID,Qt::DisplayRole).toString(),value.toString());
@@ -264,9 +265,13 @@ Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
 
 }
-void FieldModel::generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec,bool isTable)
+void FieldModel::generateQML(QTextStream& out,int indentation,bool isTable)
 {
-    m_rootSection->generateQML(out,sec,0,isTable);
+    QmlGeneratorVisitor visitor(out,m_rootSection);
+    visitor.setIndentation(indentation);
+    visitor.setIsTable(isTable);
+    visitor.generateCharacterSheetItem();
+    //m_rootSection->generateQML(out,CharacterSheetItem::FieldSec,0,isTable);
 }
 
 QString FieldModel::getValue(const QString &key)
@@ -306,7 +311,7 @@ void FieldModel::updateItem(CSItem* item)
     {
         CharacterSheetItem* parent = item->getParent();
         QList<CharacterSheetItem*> list;
-        while(parent!=NULL)
+        while(parent!=nullptr)
         {
             list.prepend(parent);
             parent = parent->getParent();
@@ -318,7 +323,7 @@ void FieldModel::updateItem(CSItem* item)
         int i=0;
         for(CharacterSheetItem* itemtmp : list)
         {
-            CharacterSheetItem* next = NULL;
+            CharacterSheetItem* next = nullptr;
             if(i+1>list.size())
             {
                 next = list[++i];
@@ -339,7 +344,7 @@ void FieldModel::updateItem(CSItem* item)
     }
 }
 
-Section *FieldModel::getRootSection() const
+Section* FieldModel::getRootSection() const
 {
     return m_rootSection;
 }
@@ -376,7 +381,7 @@ void FieldModel::removeItem(QModelIndex& index)
             parentSection = m_rootSection;
         }
 
-        if(NULL==parentSection)
+        if(nullptr==parentSection)
         {
             return;
         }

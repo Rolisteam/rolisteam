@@ -398,7 +398,7 @@ bool TableCanvasField::hasFocusOrChild()
             }
             for(int i = 0; i< m_handles.size();++i)
             {
-                if((m_handles.at(i)!=NULL)&&(m_handles.at(i)->isSelected()))
+                if((m_handles.at(i)!=nullptr)&&(m_handles.at(i)->isSelected()))
                 {
                     return true;
                 }
@@ -414,6 +414,17 @@ void TableCanvasField::generateSubFields(QTextStream & out)
     {
         model->generateQML(out,CharacterSheetItem::FieldSec,true);
     }
+}
+
+CharacterSheetItem* TableCanvasField::getRoot()
+{
+    auto model = m_dialog->model();
+    Section* sec = nullptr;
+    if(nullptr != model)
+    {
+        sec = model->getRootSection();
+    }
+    return sec;
 }
 void TableCanvasField::fillLineModel(LineModel* lineModel,TableField* parent)
 {
