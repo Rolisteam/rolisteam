@@ -2,7 +2,7 @@
 #define LOGPANEL_H
 
 #include <QWidget>
-#include <QAbstractListModel>
+ #include <QAbstractListModel>
 #include "common/controller/logcontroller.h"
 #include "preferences/preferencesmanager.h"
 
