@@ -137,7 +137,7 @@ void Canvas::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     {
         QGraphicsScene::mouseMoveEvent(mouseEvent);
     }
-    else if(m_currentItem!=NULL)
+    else if(m_currentItem!=nullptr)
     {
         m_currentItem->setNewEnd(m_currentItem->mapFromScene(mouseEvent->scenePos()));
         update();
@@ -197,7 +197,7 @@ void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     else
     {
         adjustNewItem(m_currentItem);
-        m_currentItem=NULL;
+        m_currentItem=nullptr;
     }
 }
 void Canvas::adjustNewItem(CSItem* item)

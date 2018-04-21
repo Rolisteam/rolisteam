@@ -11,6 +11,7 @@ QHash<int,QString> CanvasField::m_pictureMap({{Field::TEXTINPUT, ":/resources/ic
                                               {Field::SELECT,""},
                                               {Field::CHECKBOX,":/resources/icons/checked_checkbox.png"},
                                               {Field::IMAGE,":/resources/icons/photo.png"},
+                                              {Field::WEBPAGE,":/resources/icons/webPage.svg"},
                                               {Field::BUTTON,""}});
 
 bool CanvasField::m_showImageField = true;
@@ -55,7 +56,7 @@ void CanvasField::paint ( QPainter * painter, const QStyleOptionGraphicsItem * o
 {
       Q_UNUSED(widget);
 
-    if(NULL==m_field)
+    if(nullptr==m_field)
         return;
     painter->save();
 
@@ -107,13 +108,13 @@ void CanvasField::paint ( QPainter * painter, const QStyleOptionGraphicsItem * o
         flags |= Qt::AlignLeft;
     }
 
-    if(m_pix.isNull()||m_currentType!=m_field->getCurrentType())
+    if(m_pix.isNull()||m_currentType!=m_field->getFieldType())
     {
-        QPixmap map = QPixmap(m_pictureMap[m_field->getCurrentType()]);
+        QPixmap map = QPixmap(m_pictureMap[m_field->getFieldType()]);
         if(!map.isNull())
         {
             m_pix=map.scaled(32,32);
-            m_currentType = m_field->getCurrentType();
+            m_currentType = m_field->getFieldType();
         }
     }
     if((!m_pix.isNull())&& m_showImageField )
