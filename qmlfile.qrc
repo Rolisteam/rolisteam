@@ -20,6 +20,7 @@
         <file alias="resources/qml/TextInputField.qml">charactersheet/qml/TextInputField.qml</file>
         <file alias="resources/qml/DiceButton.qml">charactersheet/qml/DiceButton.qml</file>
         <file alias="resources/qml/ImageField.qml">charactersheet/qml/ImageField.qml</file>
+        <file alias="resources/qml/WebView.qml">charactersheet/qml/WebView.qml</file>
         <file>resources/logo/symbol2.png</file>
         <file>translations/rcse_fr.qm</file>
         <file>translations/rcse_de.qm</file>
@@ -34,5 +35,6 @@
         <file>resources/dictionaries/keywords.txt</file>
         <file>resources/dictionaries/properties.txt</file>
         <file>resources/dictionaries/qml.txt</file>
+        <file>resources/icons/webPage.svg</file>
     </qresource>
 </RCC>
