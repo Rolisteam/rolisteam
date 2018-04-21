@@ -21,10 +21,15 @@
 
 #include <QtWidgets>
 
+#include <QFontDatabase>
 
-
-CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
+CodeEditor::CodeEditor(QWidget *parent)
+    : QPlainTextEdit(parent)
 {
+    const QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    setFont(fixedFont);
+    QFontMetrics metrics(fixedFont);
+    setTabStopWidth(metrics.width("    "));
     lineNumberArea = new LineNumberArea(this);
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
