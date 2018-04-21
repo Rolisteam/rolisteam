@@ -80,8 +80,6 @@ public:
 
     virtual QPointF mapFromScene(QPointF);
 
-    virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec,int i, bool isTable=false);
-
     QStringList getAvailableValue() const;
     void setAvailableValue(const QStringList &availableValue);
 
@@ -119,6 +117,10 @@ public:
     QString getGeneratedCode() const;
     void setGeneratedCode(const QString &generatedCode);
 
+    bool getAliasEnabled() const;
+    void setAliasEnabled(bool aliasEnabled);
+
+    QPair<QString, QString> getTextAlign();
 public slots:
     void storeQMLCode();
 signals:
@@ -129,10 +131,6 @@ protected:
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent* ev);
 
-    QPair<QString, QString> getTextAlign();
-    QString getQMLItemName();
-    bool hasFontField();
-
 protected:
     QFont  m_font;
     TextAlign m_textAlign;
@@ -140,6 +138,7 @@ protected:
     bool m_clippedText;
     CanvasField* m_canvasField;
     QString m_generatedCode;
+    bool m_aliasEnabled = true;
 
 };
 

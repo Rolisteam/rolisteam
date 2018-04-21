@@ -25,6 +25,7 @@
 #include <QJsonArray>
 #include <QUuid>
 #include <QDebug>
+#include "qmlgeneratorvisitor.h"
 
 #ifndef RCSE
 CanvasField::CanvasField()
@@ -411,7 +412,10 @@ void Field::storeQMLCode()
     if(m_generatedCode.isEmpty())
     {
         QTextStream out(&m_generatedCode);
-        generateQML(out,CharacterSheetItem::FieldSec,0,false);
+        QmlGeneratorVisitor visitor(out,this);
+        visitor.generateQmlCodeForRoot();
+
+        //generateQML(out,CharacterSheetItem::FieldSec,0,false);
     }
 }
 
@@ -474,36 +478,6 @@ void Field::saveDataItem(QJsonObject &json)
     json["formula"]=m_formula;
     json["readonly"]=m_readOnly;
 }
-QString Field::getQMLItemName()
-{
-    if(!m_availableValue.isEmpty())
-    {
-        return "SelectField";
-    }
-    switch(m_currentType)
-    {
-    case Field::TEXTFIELD:
-        return "TextFieldField";
-    case Field::TEXTINPUT:
-        return "TextInputField";
-    case Field::TEXTAREA:
-        return "TextAreaField";
-    case Field::CHECKBOX:
-        return "CheckBoxField";
-    case Field::SELECT:
-        return "SelectField";
-    case Field::IMAGE:
-        return "ImageField";
-    case Field::TABLE:
-        return "Item";
-    case Field::FUNCBUTTON:
-    case Field::BUTTON:
-        return "DiceButton";
-    default:
-        return "";
-        break;
-    }
-}
 
 CanvasField* Field::getCanvasField() const
 {
@@ -537,165 +511,14 @@ Field::TextAlign Field::getTextAlignValue()
     return m_textAlign;
 }
 
-void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int i, bool isTable)
+bool Field::getAliasEnabled() const
 {
-    Q_UNUSED(i)
-    if(!m_generatedCode.isEmpty())
-    {
-        out << m_generatedCode;
-        return;
-    }
-    if(nullptr==m_canvasField)
-    {
-        return;
-    }
-    if(sec==CharacterSheetItem::FieldSec)
-    {
-
-        out << getQMLItemName() <<" {//"<< m_label <<"\n";
-
-        if(!isTable)
-        {
-            out << "    id: _"<<m_id<< "\n";
-            if((m_currentType==Field::BUTTON)||(m_currentType==Field::FUNCBUTTON))
-            {
-                out << "    text: "<<m_id<<".label\n";
-            }
-            else if(m_currentType!=Field::FUNCBUTTON)
-            {
-                out << "    text: "<<m_id << ".value\n";
-            }
-
-            if(m_currentType == Field::CHECKBOX)
-            {
-                out << "    field: "<<m_id << "\n";
-            }
-        }
-        else
-        {
-            out << "    text:"<<m_label<<".value\n";
-
-            if(m_currentType == Field::CHECKBOX)
-            {
-                out << "    field: "<< m_label << "\n";
-            }
-        }
-        if(!m_availableValue.isEmpty())
-        {
-            out << "    availableValues:" << QStringLiteral("[\"%1\"]").arg(m_availableValue.join("\",\""))<<"\n";
-            out << "    currentIndex: combo.find(text)\n";
-            out << "    onCurrentTextChanged:{\n";
-            if(!isTable)
-            {
-                out << "        if(" << m_id <<".value !== availableValues[currentIndex])\n";
-                out << "        {\n";
-                out << "          "<<m_id<<".value = availableValues[currentIndex]\n";
-                out << "        }";
-            }
-            else
-            {
-                out << "        if(" << m_label <<".value !== availableValues[currentIndex])\n";
-                out << "        {\n";
-                out << "          "<<m_label<<".value = availableValues[currentIndex]\n";
-                out << "        }";
-            }
-            out << "    }\n";
-        }
-        out << "    textColor:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
-        if(m_clippedText)
-        {
-            out << "    clippedText:true\n";
-        }
-        if(!isTable)
-        {
-            out << "    x:" << m_canvasField->pos().x() << "*root.realscale"<<"\n";
-            out << "    y:" <<  m_canvasField->pos().y()<< "*root.realscale"<<"\n";
-        }
-
-        if(isTable)
-        {
-            out << "    Layout.fillHeight: true\n";
-            out << "    Layout.preferredWidth:" << m_canvasField->boundingRect().width() << "*root.realscale"<<"\n";
-        }
-        else
-        {
-            out << "    width:" << m_canvasField->boundingRect().width() <<"*root.realscale"<<"\n";
-            out << "    height:"<< m_canvasField->boundingRect().height()<<"*root.realscale"<<"\n";
-        }
-
-
-        out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
-        if(m_page>=0)
-        {
-            out << "    visible: root.page == "<< m_page << "? true : false\n";
-        }
-        if(isTable)
-        {
-            out << "    readOnly: "<<m_label<<".readOnly\n";
-        }
-        else
-        {
-            out << "    readOnly: "<<m_id<<".readOnly\n";
-        }
-        if(hasFontField())
-        {
-            out << "    font.family: \"" << m_font.family() <<"\"\n";
-            out << "    font.bold: " << (m_font.bold()?"true":"false") <<"\n";
-            out << "    font.italic: " << (m_font.italic()?"true":"false") <<"\n";
-            out << "    font.underline: " << (m_font.underline()?"true":"false") <<"\n";
-            out << "    font.pointSize: " << m_font.pointSize() <<"\n";
-            out << "    font.overline: " << (m_font.overline()?"true":"false") <<"\n";
-            out << "    font.strikeout: " << (m_font.strikeOut()?"true":"false") <<"\n";
-
-        }
-        if(m_currentType==Field::BUTTON)
-        {
-           out << "    onClicked:rollDiceCmd("<<m_id<<".value)\n";
-        }
-        else if(m_currentType==Field::FUNCBUTTON)
-        {
-            out << "    onClicked:{\n    " << m_value <<"\n    }\n";
-        }
-        if(m_currentType== Field::TEXTINPUT)
-        {
-            QPair<QString,QString> pair = getTextAlign();
-            out << "    hAlign: "<< pair.first<<"\n";
-            out << "    vAlign: "<< pair.second <<"\n";
-        }
-        if((m_availableValue.isEmpty())&&(m_currentType!=Field::BUTTON)&&(m_currentType!=Field::FUNCBUTTON))
-        {
-            out << "    onTextChanged: {\n";
-            if(!isTable)
-            {
-                out << "    "<<m_id<<".value = text\n    }\n";
-            }
-            else
-            {
-                out << "    "<<m_label<<".value = text\n    }\n";
-            }
-        }
-        out << "}\n";
-    }
+    return m_aliasEnabled;
 }
-bool Field::hasFontField()
+
+void Field::setAliasEnabled(bool aliasEnabled)
 {
-    switch (m_currentType)
-    {
-    case Field::TEXTINPUT:
-    case Field::TEXTAREA:
-    case Field::TEXTFIELD:
-    case Field::BUTTON:
-    case Field::FUNCBUTTON:
-        return true;
-        break;
-    case Field::SELECT:
-    case Field::CHECKBOX:
-    case Field::IMAGE:
-        return false;
-    default:
-        return false;
-    }
-    return false;
+    m_aliasEnabled = aliasEnabled;
 }
 
 QString Field::getGeneratedCode() const
@@ -754,7 +577,7 @@ void Field::copyField(CharacterSheetItem* oldItem,bool copyData, bool sameId)
         {
             setId(oldField->getId());
         }
-        setCurrentType(oldField->getCurrentType());
+        setCurrentType(oldField->getFieldType());
         setRect(oldField->getRect());
         setBorder(oldField->border());
         setFont(oldField->font());

@@ -177,15 +177,7 @@ void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
             qDebug() << "Dupplicate found"<< item->getPath();
     }
 }
-void Section::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int i, bool isTable)
-{
-    //for(CharacterSheetItem* item: m_dataHash.values())
-    for(auto key : m_keyList)
-    {
-        CharacterSheetItem* item = m_dataHash.value(key);
-        item->generateQML(out,sec,i, isTable);
-    }
-}
+
 
 CharacterSheetItem::CharacterSheetItemType Section::getItemType() const
 {

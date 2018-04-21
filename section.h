@@ -108,11 +108,6 @@ public:
      */
     virtual void load(QJsonObject& json,QList<QGraphicsScene*> scene);
     /**
-     * @brief generateQML
-     * @param out
-     */
-    virtual void generateQML(QTextStream &out,CharacterSheetItem::QMLSection,int i, bool isTable=false);
-    /**
      * @brief setNewEnd
      */
     virtual void setNewEnd(QPointF){}

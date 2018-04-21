@@ -135,6 +135,10 @@ public:
     void saveDataItem(QJsonObject &json);
     void loadDataItem(QJsonObject &json);
 
+    int getMaxVisibleRowCount() const;
+
+    CharacterSheetItem* getRoot();
+
 public slots:
     void removeLine(int);
 signals:

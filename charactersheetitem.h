@@ -40,11 +40,11 @@ class CharacterSheetItem : public QObject
     Q_PROPERTY(QString formula READ getFormula WRITE setFormula NOTIFY formulaChanged)
     Q_PROPERTY(QString label READ getLabel WRITE setLabel NOTIFY labelChanged)
 public:
-    enum CharacterSheetItemType {SectionItem,FieldItem,ButtonItem,TableItem};
+    enum CharacterSheetItemType {SectionItem,FieldItem,TableItem};
 
     enum ColumnId {ID,LABEL,VALUE,VALUES,TYPE,X,Y,WIDTH,HEIGHT,CLIPPED,FONT,TEXT_ALIGN,TEXTCOLOR,BGCOLOR,BORDER,PAGE};
     enum QMLSection {FieldSec,ConnectionSec};
-    enum TypeField {TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON,FUNCBUTTON,TABLE};
+    enum TypeField {TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON,FUNCBUTTON,TABLE,WEBPAGE};
     /**
      * @brief CharacterSheetItem
      */

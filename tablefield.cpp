@@ -392,6 +392,16 @@ int TableField::getChildrenCount() const
    return m_model->getChildrenCount();
 }
 
+int TableField::getMaxVisibleRowCount() const
+{
+    return m_tableCanvasField->lineCount();
+}
+
+CharacterSheetItem *TableField::getRoot()
+{
+    return m_tableCanvasField->getRoot();
+}
+
 CharacterSheetItem* TableField::getChildAt(QString id) const
 {
     return m_model->getFieldById(id);
@@ -551,7 +561,7 @@ void TableField::copyField(CharacterSheetItem *oldItem, bool copyData, bool same
         {
             setId(oldField->getId());
         }
-        setCurrentType(oldField->getCurrentType());
+        setCurrentType(oldField->getFieldType());
         setRect(oldField->getRect());
         setBorder(oldField->border());
         setFont(oldField->font());
