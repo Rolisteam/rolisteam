@@ -23,7 +23,7 @@
 #include <QApplication>
 #include <QTextCodec>
 #include <QTranslator>
-#include <QtWebView/QtWebView>
+#include <QtWebEngine/QtWebEngine>
 
 #include "diceparser/qmltypesregister.h"
 
@@ -33,7 +33,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QtWebView::initialize();
+    QtWebEngine::initialize();
     a.setAttribute(Qt::AA_DontUseNativeMenuBar,true);
     QString appName("RCSE");
     a.setApplicationName(appName);

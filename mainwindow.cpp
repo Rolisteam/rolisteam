@@ -50,6 +50,9 @@
 #include <QPagedPaintDevice>
 #include <QQmlProperty>
 #include <QTimer>
+#include <QDockWidget>
+#include "common/widgets/logpanel.h"
+#include "common/controller/logcontroller.h"
 
 #ifdef WITH_PDF
 #include <poppler-qt5.h>
@@ -91,8 +94,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
 
+    //LOG
+    m_logManager = new LogController(this);
+    m_logManager->setCurrentModes(LogController::Gui);
+    QDockWidget* wid = new QDockWidget();
+    wid->setObjectName(QStringLiteral("logpanel"));
+    m_logPanel = new LogPanel();
+    wid->setWidget(m_logPanel);
+    addDockWidget(Qt::BottomDockWidgetArea,wid);
 
-    //ui->m_imageList
+    connect(m_logManager,&LogController::showMessage,m_logPanel,&LogPanel::showMessage);
+
 
     m_additionnalCode = "";
     m_additionnalImport = "";
@@ -197,6 +209,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_addImageAction->setData(Canvas::ADDIMAGE);
     ui->m_functionButtonAct->setData(Canvas::ADDFUNCBUTTON);
     ui->m_tableFieldAct->setData(Canvas::ADDTABLE);
+    ui->m_webPageAct->setData(Canvas::ADDWEBPAGE);
 
 
     ui->m_moveAct->setData(Canvas::MOVE);
@@ -212,6 +225,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_imageBtn->setDefaultAction(ui->m_addImageAction);
     ui->m_functionBtn->setDefaultAction(ui->m_functionButtonAct);
     ui->m_tableFieldBtn->setDefaultAction(ui->m_tableFieldAct);
+    ui->m_webPageBtn->setDefaultAction(ui->m_webPageAct);
 
     QButtonGroup* group = new QButtonGroup();
     group->addButton(ui->m_addTextInput);
@@ -226,6 +240,7 @@ MainWindow::MainWindow(QWidget *parent) :
     group->addButton(ui->m_moveBtn);
     group->addButton(ui->m_functionBtn);
     group->addButton(ui->m_tableFieldBtn);
+    group->addButton(ui->m_webPageBtn);
 
     ui->m_moveBtn->setDefaultAction(ui->m_moveAct);
     ui->m_deleteBtn->setDefaultAction(ui->m_deleteAct);
@@ -264,6 +279,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_addImageAction,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_functionButtonAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_tableFieldAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_webPageAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
 
     connect(ui->m_moveAct,&QAction::triggered,[=](bool triggered){
         m_view->setHandle(triggered);
@@ -539,7 +555,7 @@ void MainWindow::modelChanged()
 }
 bool MainWindow::wheelEventForView(QWheelEvent *event)
 {
-    if(NULL==event)
+    if(nullptr==event)
         return false;
 
     if(event->modifiers() & Qt::ShiftModifier)
@@ -1252,7 +1268,7 @@ void MainWindow::generateQML(QString& qml)
 {
 
     QTextStream text(&qml);
-    QPixmap* pix = NULL;
+    QPixmap* pix = nullptr;
     bool allTheSame=true;
     QSize size;
     //m_pixList = m_imageModel->getPixHash();
@@ -1286,7 +1302,7 @@ void MainWindow::generateQML(QString& qml)
     text << "import QtQuick 2.4\n";
     text << "import QtQuick.Layouts 1.3\n";
     text << "import QtQuick.Controls 2.2\n";
-    text << "import Dice 1.0\n";
+    text << "import Rolisteam 1.0\n";
     text << "import \"qrc:/resources/qml/\"\n";
     if(!m_additionnalImport.isEmpty())
     {
@@ -1296,44 +1312,44 @@ void MainWindow::generateQML(QString& qml)
     if(m_flickableSheet)
     {
         text << "Flickable {\n";
-        text << "   id:root\n";
-        text << "   contentWidth: imagebg.width;\n   contentHeight: imagebg.height;\n";
-        text << "   boundsBehavior: Flickable.StopAtBounds;\n";
+        text << "    id:root\n";
+        text << "    contentWidth: imagebg.width;\n   contentHeight: imagebg.height;\n";
+        text << "    boundsBehavior: Flickable.StopAtBounds;\n";
     }
     else
     {
         text << "Item {\n";
-        text << "   id:root\n";
+        text << "    id:root\n";
     }
     if(hasImage)
     {
-        text << "property alias realscale: imagebg.realscale\n";
+        text << "    property alias realscale: imagebg.realscale\n";
     }
-    text << "   focus: true\n";
-    text << "   property int page: 0\n";
-    text << "   property int maxPage:"<< m_canvasList.size()-1 <<"\n";
-    text << "   onPageChanged: {\n";
-    text << "       page=page>maxPage ? maxPage : page<0 ? 0 : page\n";
-    text << "   }\n";
+    text << "    focus: true\n";
+    text << "    property int page: 0\n";
+    text << "    property int maxPage:"<< m_canvasList.size()-1 <<"\n";
+    text << "    onPageChanged: {\n";
+    text << "        page=page>maxPage ? maxPage : page<0 ? 0 : page\n";
+    text << "    }\n";
     if(m_additionnalCodeTop && (!m_additionnalCode.isEmpty()))
     {
         text << "   "<< m_additionnalCode<< "\n";
     }
-    text << "   Keys.onLeftPressed: --page\n";
-    text << "   Keys.onRightPressed: ++page\n";
-    text << "   signal rollDiceCmd(string cmd)\n";
-    text << "   signal showText(string text)\n";
-    text << "   MouseArea {\n";
-    text << "        anchors.fill:parent\n";
-    text << "        onClicked: root.focus = true\n";
-    text << "    }\n";
+    text << "    Keys.onLeftPressed: --page\n";
+    text << "    Keys.onRightPressed: ++page\n";
+    text << "    signal rollDiceCmd(string cmd)\n";
+    text << "    signal showText(string text)\n";
+    text << "    MouseArea {\n";
+    text << "         anchors.fill:parent\n";
+    text << "         onClicked: root.focus = true\n";
+    text << "     }\n";
     if(hasImage)
     {
-        text << "   Image {\n";
-        text << "       id:imagebg" << "\n";
-        text << "       objectName:\"imagebg\"" << "\n";
-        text << "       property real iratio :" << ratio << "\n";
-        text << "       property real iratiobis :" << ratioBis << "\n";
+        text << "    Image {\n";
+        text << "        id:imagebg" << "\n";
+        text << "        objectName:\"imagebg\"" << "\n";
+        text << "        property real iratio :" << ratio << "\n";
+        text << "        property real iratiobis :" << ratioBis << "\n";
         if(m_flickableSheet)
         {
             text << "       property real realscale: "<< m_fixedScaleSheet << "\n";
@@ -1347,7 +1363,7 @@ void MainWindow::generateQML(QString& qml)
             text << "       height:(parent.width>parent.height*iratio)?parent.height:iratiobis*parent.width" << "\n";
         }
         text << "       source: \"image://rcs/"+key+"_background_%1.jpg\".arg(root.page)" << "\n";
-        m_model->generateQML(text,CharacterSheetItem::FieldSec,false);
+        m_model->generateQML(text,1,false);
         text << "\n";
         text << "  }\n";
     }
@@ -1355,13 +1371,13 @@ void MainWindow::generateQML(QString& qml)
     {
         if(m_flickableSheet)
         {
-            text << "       property real realscale: "<< m_fixedScaleSheet << "\n";
+            text << "    property real realscale: "<< m_fixedScaleSheet << "\n";
         }
         else
         {
-            text << "       property real realscale: 1\n";
+            text << "    property real realscale: 1\n";
         }
-        m_model->generateQML(text,CharacterSheetItem::FieldSec,false);
+        m_model->generateQML(text,1,false);
     }
     if((!m_additionnalCodeTop) && (!m_additionnalCode.isEmpty()))
     {
@@ -1400,7 +1416,7 @@ void MainWindow::showQML()
         file.close();
     }
     QLayout* layout = ui->m_qml->layout();
-    if(NULL!=ui->m_quickview)
+    if(nullptr!=ui->m_quickview)
     {
         layout->removeWidget(ui->m_quickview);
         delete ui->m_quickview;
@@ -1427,14 +1443,10 @@ void MainWindow::displayWarningsQML(QList<QQmlError> list)
 {
     if(!list.isEmpty())
     {
-        QString errors;
-        QTextStream out(&errors);
         for(auto error : list)
         {
-            out << error.toString();
+            m_logManager->manageMessage(error.toString(),LogController::Error);
         }
-
-        QMessageBox::information(this,tr("QML Error "),errors,QMessageBox::Ok);
     }
 }
 

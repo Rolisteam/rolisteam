@@ -83,6 +83,10 @@ AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas,FieldModel* m
       m_field->setBgColor(Qt::red);
       type = QObject::tr("Dice Button");
       break;
+  case Canvas::ADDWEBPAGE:
+      m_field->setCurrentType(Field::WEBPAGE);
+      type = QObject::tr("Web Page");
+      break;
   case Canvas::MOVE:
   case Canvas::DELETETOOL:
   case Canvas::NONE:

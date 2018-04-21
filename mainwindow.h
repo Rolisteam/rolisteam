@@ -40,6 +40,8 @@
 #include "itemeditor.h"
 
 class CodeEditor;
+class LogPanel;
+class LogController;
 
 namespace Ui {
 class MainWindow;
@@ -141,6 +143,10 @@ private:
 
     ImageModel* m_imageModel;
 
+    //Log
+    LogPanel* m_logPanel = nullptr;
+    LogController* m_logManager = nullptr;
+
     //Action Character
     QAction* m_addCharacter;
     QAction* m_deleteCharacter;
@@ -149,14 +155,6 @@ private:
     QAction* m_applyValueOnAllCharacterLines;
     QAction* m_applyValueOnSelectedCharacterLines;
     QAction* m_applyValueOnAllCharacters;
-
-    //Action items
-    /*QAction* m_delItem;
-    QAction* m_applyValueOnSelection;
-    QAction* m_applyValueOnAllLines;
-    QAction* m_defineCode;
-    QAction* m_resetCode;*/
-
 
     //action view
     QAction* m_fitInView;

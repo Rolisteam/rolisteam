@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui quickwidgets quick webview printsupport
+QT       += core gui quickwidgets quick webengine printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

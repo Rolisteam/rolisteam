@@ -46,7 +46,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>322</width>
+                 <width>316</width>
                  <height>699</height>
                 </rect>
                </property>
@@ -54,7 +54,7 @@
              </widget>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+             <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
               <item>
                <widget class="QToolButton" name="m_addTextInput">
                 <property name="sizePolicy">
@@ -299,6 +299,29 @@
                 <property name="icon">
                  <iconset resource="qmlfile.qrc">
                   <normaloff>:/resources/icons/photo.png</normaloff>:/resources/icons/photo.png</iconset>
+                </property>
+                <property name="toolButtonStyle">
+                 <enum>Qt::ToolButtonTextBesideIcon</enum>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="m_webPageBtn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>WebView</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="qmlfile.qrc">
+                  <normaloff>:/resources/icons/webPage.svg</normaloff>:/resources/icons/webPage.svg</iconset>
                 </property>
                 <property name="toolButtonStyle">
                  <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -870,6 +893,18 @@
   <action name="m_recentFiles">
    <property name="text">
     <string>Recent files</string>
+   </property>
+  </action>
+  <action name="m_webPageAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/webPage.svg</normaloff>:/resources/icons/webPage.svg</iconset>
+   </property>
+   <property name="text">
+    <string>WebView</string>
    </property>
   </action>
  </widget>
