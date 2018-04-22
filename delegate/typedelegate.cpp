@@ -30,7 +30,8 @@ TypeDelegate::TypeDelegate(QWidget* parent)
            << tr("Checkbox")
            << tr("Image")
            << tr("Dice Button")
-           << tr("Type Button");
+           << tr("Function Button")
+           << tr("WebView");
 }
 
 QWidget* TypeDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
