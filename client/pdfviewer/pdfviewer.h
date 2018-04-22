@@ -75,12 +75,12 @@ signals:
 
 
 protected:
+    void createActions();
     void creationToolBar();
 protected slots:
     void showOverLay();
     void exportImage();
-private :
-    void createActions();
+
 private :
     QString m_owner;
     QVBoxLayout* m_mainLayout = nullptr;

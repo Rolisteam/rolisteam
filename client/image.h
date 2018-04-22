@@ -43,8 +43,7 @@ class QShortcut;
  */
 class Image : public MediaContainer
 {
-Q_OBJECT
-
+    Q_OBJECT
 public :
     //Image(QString title, QString identImage, QString identJoueur, QImage *image, QAction *action = 0, ImprovedWorkspace *parent = 0);
     Image(QWidget* parent = nullptr);
