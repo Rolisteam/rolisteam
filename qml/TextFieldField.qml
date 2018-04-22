@@ -1,4 +1,3 @@
-import QtQuick 2.0
 import QtQuick 2.4
 import QtQuick.Controls 2.0
 
@@ -11,10 +10,14 @@ Rectangle {
     property alias vAlign: textField.verticalAlignment
     property bool clippedText: false
     property bool readOnly: false
+    property alias placeholderText: textField.placeholderText
+    property string tooltip: ""
     TextField {
         id: textField
         anchors.fill: parent
         selectByMouse: true
+        ToolTip.text: root.tooltip
+        ToolTip.visible: root.tooltip.length >0 && activeFocus
         readOnly: root.readOnly
     }
 }

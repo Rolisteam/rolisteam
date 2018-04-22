@@ -119,6 +119,16 @@ void CharacterSheetItem::updateNeeded()
 {
 
 }
+
+QString CharacterSheetItem::getTooltip() const
+{
+    return m_tooltip;
+}
+
+void CharacterSheetItem::setTooltip(const QString &tooltip)
+{
+    m_tooltip = tooltip;
+}
 void CharacterSheetItem::changeKeyChild(QString oldkey, QString newKey,CharacterSheetItem* child)
 {
     Q_UNUSED(oldkey);

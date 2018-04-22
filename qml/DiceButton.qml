@@ -9,10 +9,11 @@ Rectangle {
     property alias font: textInput.font
     property alias wrapMode: textInput.wrapMode
     property string label: ""
-
     property alias vAlign: textInput.verticalAlignment
     property bool readOnly: false
     property bool hasAlias: true
+    property string tooltip: ""
+
     scale: mouseZone.pressed ? 0.8 : 1.0
     signal clicked
     Drag.active: mouseZone.drag.active
@@ -26,12 +27,11 @@ Rectangle {
         anchors.fill: parent
         clip: true
         onWidthChanged: {
-            computeSizeFont();
+            if(parent.clippedText)
+                computeSizeFont();
         }
         function computeSizeFont()
         {
-            if(parent.clippedText)
-            {
                 while((contentWidth>root.width)&&(font.pointSize>1)&&(root.width>0))
                 {
                     font.pointSize-=1
@@ -40,12 +40,13 @@ Rectangle {
                 {
                     font.pointSize+=1
                 }
-            }
         }
     }
     MouseArea {
         id: mouseZone
         anchors.fill: parent
+        ToolTip.visible: root.tooltip.length >0 && mouseZone.pressed
+        ToolTip.text: root.tooltip
         onClicked:  root.clicked()
         enabled: !root.readOnly
         drag.target: parent

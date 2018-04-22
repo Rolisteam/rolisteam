@@ -1,4 +1,3 @@
-import QtQuick 2.0
 import QtQuick 2.4
 import QtQuick.Controls 2.0
 
@@ -14,12 +13,15 @@ Rectangle {
     property bool readOnly: false
     property bool backgroundVisible: true
     property alias background: textArea.background
-
+    property string tooltip: ""
+    property alias placeholderText: textArea.placeholderText
     TextArea {
         id: textArea
         anchors.fill: parent
         selectByMouse: true
         readOnly: root.readOnly
+        ToolTip.text: root.tooltip
+        ToolTip.visible: root.tooltip.length >0 && hovered
         textFormat: TextEdit.RichText
     }
 }

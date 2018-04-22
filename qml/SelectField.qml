@@ -1,4 +1,3 @@
-import QtQuick 2.0
 import QtQuick 2.4
 import QtQuick.Controls 2.0
 
@@ -11,8 +10,7 @@ Rectangle {
     property alias itemDelegate: selectvalues.delegate
     property alias combo: selectvalues
     property alias indicator: selectvalues.indicator
-
-
+    property string tooltip: ""
     property color textColor:"black"
     property int hAlign: 0
     property int vAlign: 0
@@ -27,7 +25,8 @@ Rectangle {
         padding: 0
         spacing: 0
         enabled: !root.readOnly
-
+        ToolTip.text: root.tooltip
+        ToolTip.visible: root.tooltip.length >0 && pressed
         onCountChanged: {
             currentIndex=selectvalues.find(root.text)
         }

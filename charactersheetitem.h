@@ -42,9 +42,9 @@ class CharacterSheetItem : public QObject
 public:
     enum CharacterSheetItemType {SectionItem,FieldItem,TableItem};
 
-    enum ColumnId {ID,LABEL,VALUE,VALUES,TYPE,X,Y,WIDTH,HEIGHT,CLIPPED,FONT,TEXT_ALIGN,TEXTCOLOR,BGCOLOR,BORDER,PAGE};
+    enum ColumnId {ID,LABEL,VALUE,VALUES,TYPE,X,Y,WIDTH,HEIGHT,CLIPPED,FONT,TEXT_ALIGN,TEXTCOLOR,BGCOLOR,BORDER,PAGE,TOOLTIP};
     enum QMLSection {FieldSec,ConnectionSec};
-    enum TypeField {TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON,FUNCBUTTON,TABLE,WEBPAGE};
+    enum TypeField {TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,DICEBUTTON,FUNCBUTTON,WEBPAGE,TABLE};
     /**
      * @brief CharacterSheetItem
      */
@@ -192,6 +192,9 @@ public:
     virtual void setOrig(CharacterSheetItem *orig);
 
     virtual void changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem *child);
+    QString getTooltip() const;
+    void setTooltip(const QString &tooltip);
+
 public slots:
     /**
      * @brief setValue
@@ -242,6 +245,7 @@ protected:
     int m_page;
     QString m_value;
     QString m_label;
+    QString m_tooltip;
     bool m_readOnly;
     QString m_id;
     QString m_formula;

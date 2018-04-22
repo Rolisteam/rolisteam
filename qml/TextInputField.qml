@@ -11,12 +11,14 @@ Rectangle {
     property alias font : textInput.font
     property alias wrapMode : textInput.wrapMode
     property bool clippedText: false
-    property bool readOnly: false
+    property alias readOnly: textInput.readOnly
+    property string tooltip: ""
     TextInput {//textInput.textColor
         id: textInput
         anchors.fill: parent
         selectByMouse: true
-        readOnly: root.readOnly
+        ToolTip.text: root.tooltip
+        ToolTip.visible:root.tooltip.length >0 &&textInput.activeFocus
         onWidthChanged: {
             computeSizeFont();
         }

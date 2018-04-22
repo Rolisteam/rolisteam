@@ -145,6 +145,8 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
         return m_font.toString();
     case PAGE:
         return m_page;
+    case TOOLTIP:
+        return m_tooltip;
     }
     return QVariant();
 }
@@ -217,7 +219,7 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         }
         break;
     case TYPE:
-        m_currentType= (Field::TypeField)var.toInt();
+        m_currentType= static_cast<Field::TypeField>(var.toInt());
         break;
     case CLIPPED:
         m_clippedText=var.toBool();
@@ -227,6 +229,9 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         break;
     case PAGE:
         m_page = var.toInt();
+        break;
+    case TOOLTIP:
+        m_tooltip = var.toString();
         break;
     }
    // update();
@@ -315,6 +320,7 @@ void Field::save(QJsonObject& json,bool exp)
     json["border"]=m_border;
     json["page"]=m_page;
     json["formula"]=m_formula;
+    json["tooltip"]=m_tooltip;
 
     json["clippedText"]=m_clippedText;
 
@@ -350,6 +356,7 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
     m_border = static_cast<BorderLine>(json["border"].toInt());
     m_value= json["value"].toString();
     m_label = json["label"].toString();
+    m_tooltip = json["tooltip"].toString();
 
     m_currentType=static_cast<Field::TypeField>(json["typefield"].toInt());
     m_clippedText=json["clippedText"].toBool();

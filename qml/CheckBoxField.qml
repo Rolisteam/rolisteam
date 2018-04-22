@@ -1,4 +1,3 @@
-import QtQuick 2.0
 import QtQuick 2.4
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
@@ -20,6 +19,7 @@ Item {
     property alias background: checkbox.background
     property int radius: 3
     property alias color: checkbox.color
+    property string tooltip: ""
 
     CheckBox {
         id: checkbox
@@ -30,6 +30,8 @@ Item {
         rightPadding: 0
         topPadding: 0
         bottomPadding:0
+        ToolTip.text: root.tooltip
+        ToolTip.visible: root.tooltip.length >0 && checkbox.pressed
         property alias color: indic.color
         indicator: Rectangle {
             id: indic
