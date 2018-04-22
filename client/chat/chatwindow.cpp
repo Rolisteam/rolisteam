@@ -778,15 +778,32 @@ void ChatWindow::setProperDictionnary(QString idOwner)
 
 void ChatWindow::dropEvent(QDropEvent* event)
 {
-    const RolisteamMimeData* data = dynamic_cast<const RolisteamMimeData*>(event->mimeData());
+    const QMimeData* data = event->mimeData();
+    const RolisteamMimeData* rdata = dynamic_cast<const RolisteamMimeData*>(data);
 
-    if(nullptr != data)
+    if(nullptr != rdata)
     {
-        if(data->hasFormat(QStringLiteral("rolisteam/dice-command")))
+        if(rdata->hasFormat(QStringLiteral("rolisteam/dice-command")))
         {
-            appendDiceShortCut(data->getAlias());
+            appendDiceShortCut(rdata->getAlias());
             event->acceptProposedAction();
         }
+    }
+    else //if(data->hasFormat(QStringLiteral("text/label")))
+    {
+        auto label = data->data(QStringLiteral("text/label"));
+        auto cmd = data->data(QStringLiteral("text/command"));
+        auto alias = data->data(QStringLiteral("text/hasAlias"));
+
+        if(label.isEmpty() || cmd.isEmpty() || alias.isEmpty())
+            return;
+
+        DiceShortCut* cut = new DiceShortCut();
+        cut->setAlias(alias.toInt());
+        cut->setCommand(QString::fromUtf8(cmd));
+        cut->setText(QString::fromUtf8(label));
+        appendDiceShortCut(*cut);
+        event->acceptProposedAction();
     }
 }
 void ChatWindow::appendDiceShortCut(const DiceShortCut& pair)
@@ -811,9 +828,19 @@ void ChatWindow::createAction(const DiceShortCut& pair)
 }
 void ChatWindow::dragEnterEvent(QDragEnterEvent * event)
 {
-    const RolisteamMimeData* data = dynamic_cast<const RolisteamMimeData*>(event->mimeData());
+    const auto mimeData = event->mimeData();
+    if(nullptr == mimeData)
+        return;
+    const RolisteamMimeData* data = dynamic_cast<const RolisteamMimeData*>(mimeData);
 
-    if(data->hasFormat(QStringLiteral("rolisteam/dice-command")))
+    if(nullptr != data)
+    {
+        if(data->hasFormat(QStringLiteral("rolisteam/dice-command")))
+        {
+            event->acceptProposedAction();
+        }
+    }
+    if(mimeData->hasFormat(QStringLiteral("text/command")))
     {
         event->acceptProposedAction();
     }
