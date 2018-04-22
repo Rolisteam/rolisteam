@@ -66,7 +66,7 @@ INSTALLS += target
 include(charactersheet/charactersheet.pri)
 include(diceparser/diceparser.pri)
 
-INCLUDEPATH += charactersheet
+INCLUDEPATH += charactersheet .
 
 SOURCES += main.cpp\
         mainwindow.cpp \

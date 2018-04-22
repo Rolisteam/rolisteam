@@ -423,6 +423,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     readSettings();
+    m_logPanel->initSetting();
 }
 MainWindow::~MainWindow()
 {
