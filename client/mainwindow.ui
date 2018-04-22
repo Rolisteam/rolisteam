@@ -36,6 +36,7 @@
      <addaction name="m_newNoteAction"/>
      <addaction name="m_addVectorialMap"/>
      <addaction name="m_newSharedNote"/>
+     <addaction name="m_newWebViewACt"/>
     </widget>
     <widget class="QMenu" name="menu_Open">
      <property name="title">
@@ -622,6 +623,15 @@
   <action name="m_connectionLinkAct">
    <property name="text">
     <string>Copy Connection Link</string>
+   </property>
+  </action>
+  <action name="m_newWebViewACt">
+   <property name="icon">
+    <iconset resource="../rolisteam.qrc">
+     <normaloff>:/resources/icons/webPage.svg</normaloff>:/resources/icons/webPage.svg</iconset>
+   </property>
+   <property name="text">
+    <string>WebPage</string>
    </property>
   </action>
  </widget>

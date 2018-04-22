@@ -337,6 +337,7 @@
         <file>resources/icons/pdfLogo.png</file>
         <file>resources/icons/crop.svg</file>
         <file>resources/icons/document-share.svg</file>
+        <file>resources/icons/webPage.svg</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>

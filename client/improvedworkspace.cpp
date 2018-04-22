@@ -285,7 +285,6 @@ bool ImprovedWorkspace::eventFilter(QObject *object, QEvent *event)
         QMdiSubWindow* sub = dynamic_cast<QMdiSubWindow*>(object);
         if(nullptr!=sub)
         {
-            //removeSubWindow(sub);
             sub->setVisible(false);
             event->accept();
             return true;

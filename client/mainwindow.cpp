@@ -64,6 +64,7 @@
 #include "data/shortcutvisitor.h"
 #include "widgets/gmtoolbox/gamemastertool.h"
 #include "pdfviewer/pdfviewer.h"
+#include "webview/webview.h"
 
 //LOG
 #include "common/widgets/logpanel.h"
@@ -563,16 +564,19 @@ void MainWindow::linkActionToMenu()
         auto act = qobject_cast<QAction*>(sender());
         newDocument(static_cast<CleverURI::ContentType>(act->data().toInt()));
     };
-    connect(m_ui->m_newMapAction, &QAction::triggered, this, fun);
-    connect(m_ui->m_addVectorialMap, &QAction::triggered, this, fun);
-    connect(m_ui->m_newNoteAction, &QAction::triggered, this, fun);
-    connect(m_ui->m_newSharedNote, &QAction::triggered, this, fun);
-    connect(m_ui->m_newChatAction, SIGNAL(triggered(bool)), m_chatListWidget, SLOT(createPrivateChat()));
-
     m_ui->m_newMapAction->setData(static_cast<int>(CleverURI::MAP));
     m_ui->m_addVectorialMap->setData(static_cast<int>(CleverURI::VMAP));
     m_ui->m_newNoteAction->setData(static_cast<int>(CleverURI::TEXT));
     m_ui->m_newSharedNote->setData(static_cast<int>(CleverURI::SHAREDNOTE));
+    m_ui->m_newWebViewACt->setData(static_cast<int>(CleverURI::WEBVIEW));
+
+
+    connect(m_ui->m_newMapAction, &QAction::triggered, this, fun);
+    connect(m_ui->m_addVectorialMap, &QAction::triggered, this, fun);
+    connect(m_ui->m_newNoteAction, &QAction::triggered, this, fun);
+    connect(m_ui->m_newSharedNote, &QAction::triggered, this, fun);
+    connect(m_ui->m_newWebViewACt, &QAction::triggered, this, fun);
+    connect(m_ui->m_newChatAction, SIGNAL(triggered(bool)), m_chatListWidget, SLOT(createPrivateChat()));
 
     //open
     connect(m_ui->m_openPictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
@@ -814,6 +818,12 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
         case CleverURI::TEXT:
         {
             media = new NoteContainer();
+        }
+        break;
+        case CleverURI::WEBVIEW:
+        {
+            media = new WebView();
+            uri->setCurrentMode(CleverURI::Linked);
         }
             break;
         default:
@@ -2017,7 +2027,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         QString idmedia = msg->string8();
         sheetWindow->setMediaId(idmedia);
         sheetWindow->readMessage(*msg);
-        addMediaToMdiArea(sheetWindow);
+        addMediaToMdiArea(sheetWindow, false);
     }
     else if(NetMsg::updateFieldCharacterSheet == msg->action())
     {

@@ -85,6 +85,7 @@ include(widgets/MRichTextEditor/MRichTextEditor.pri)
 include(sharededitor/sharededitor.pri)
 include(undoCmd/undoCmd.pri)
 include(qpdflib/qpdflib.pri)
+include(webview/webview.pri)
 
 
 
