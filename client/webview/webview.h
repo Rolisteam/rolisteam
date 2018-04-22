@@ -4,8 +4,10 @@
 #include <QWidget>
 #include <QWebEngineView>
 #include <QAction>
+#include <QMouseEvent>
 
 #include "data/mediacontainer.h"
+#include "network/networkmessagewriter.h"
 
 class WebView : public MediaContainer
 {
@@ -21,7 +23,9 @@ public:
 
     virtual void cleverURIHasChanged(CleverURI*,CleverURI::DataValue);
 
+    void fill(NetworkMessageWriter &message);
 protected:
+    void mousePressEvent(QMouseEvent *mouseEvent);
     void createActions();
     void creationToolBar();
 
@@ -30,13 +34,14 @@ private:
     QWebEngineView* m_view;
     QAction* m_shareAsLink;
     QAction* m_shareAsHtml;
-    QAction* m_shareAsView;
+    //QAction* m_shareAsView;
     QAction* m_next;
     QAction* m_previous;
     QAction* m_reload;
     QLineEdit* m_addressEdit;
-
     QVBoxLayout* m_mainLayout;
+
+
 };
 
 #endif // WEBVIEW_H

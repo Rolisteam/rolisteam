@@ -41,27 +41,28 @@
 #include "ui_mainwindow.h"
 
 #include "toolsbar.h"
+#include "image.h"
+#include "improvedworkspace.h"
 #include "map/mapframe.h"
 #include "map/map.h"
 #include "chat/chatlistwidget.h"
 #include "network/clientmanager.h"
-#include "image.h"
-#include "network/networkmessagewriter.h"
 #include "charactersheet/charactersheet.h"
 #include "data/person.h"
 #include "data/player.h"
 #include "data/character.h"
+#include "data/shortcutvisitor.h"
+#include "data/mediacontainer.h"
 #include "userlist/playersList.h"
 #include "userlist/playersListWidget.h"
 #include "preferences/preferencesdialog.h"
 #include "services/updatechecker.h"
 #include "services/tipchecker.h"
-#include "improvedworkspace.h"
-#include "data/mediacontainer.h"
+#include "network/networkmessagewriter.h"
 #include "network/receiveevent.h"
+#include "network/servermanager.h"
 #include "widgets/tipofdayviewer.h"
 #include "widgets/shortcuteditordialog.h"
-#include "data/shortcutvisitor.h"
 #include "widgets/gmtoolbox/gamemastertool.h"
 #include "pdfviewer/pdfviewer.h"
 #include "webview/webview.h"
@@ -283,6 +284,7 @@ void MainWindow::setupUi()
 
 
     connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
+    connect(m_dialog,&SelectConnectionProfileDialog::rejected,&m_serverThread,&QThread::quit);
     connect(m_ipChecker,&IpChecker::finished,this,[=](QString ip){
         m_connectionAddress = ip;
         if(nullptr!=m_currentConnectionProfile)
@@ -1505,6 +1507,13 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
             image->setVisible(true);
         }
             break;
+        case CleverURI::WEBVIEW:
+        {
+            auto webv  =  new WebView(m_mdiArea);
+            auto uri = webv->getCleverUri();
+            auto url = msg->string32();
+            uri->setUri(url);
+        }
         case CleverURI::CHARACTERSHEET:
             break;
         case CleverURI::SHAREDNOTE:
@@ -1602,7 +1611,6 @@ void  MainWindow::showConnectionDialog(bool forced)
         m_dialog->open();
     }
 }
-#include "network/servermanager.h"
 
 void MainWindow::startConnection()
 {
@@ -1617,27 +1625,25 @@ void MainWindow::startConnection()
         {
             if(m_currentConnectionProfile->isServer())
             {
-                ServerManager* server = new ServerManager();
-                server->insertField("port",m_currentConnectionProfile->getPort());
-                server->insertField("ThreadCount",1);
-                server->insertField("ChannelCount",1);
-                server->insertField("LogLevel",3);
-                server->insertField("ServerPassword",m_currentConnectionProfile->getPassword());
-                server->insertField("TimeToRetry",5000);
-                server->insertField("AdminPassword",m_currentConnectionProfile->getPassword());
-
-                server->initServerManager();
-
-                connect(&m_serverThread,SIGNAL(started()),server,SLOT(startListening()));
-                connect(&m_serverThread,SIGNAL(finished()),server,SLOT(deleteLater()));
-                connect(server,SIGNAL(sendLog(QString)),this,SLOT(notifyUser(QString)));
-                connect(server,SIGNAL(errorOccurs(QString)),this,SLOT(notifyUser(QString)));
-                connect(server,SIGNAL(errorOccurs(QString)),m_dialog,SLOT(errorOccurs(QString)));
-                connect(server,SIGNAL(listening()),this,SLOT(initializedClientManager()),Qt::QueuedConnection);
-
-
-                server->moveToThread(&m_serverThread);
-
+                if(!m_serverThread.isRunning() || m_server == nullptr)
+                {
+                    m_server = new ServerManager();
+                    m_server->initServerManager();
+                    connect(&m_serverThread,SIGNAL(started()),m_server,SLOT(startListening()));
+                    connect(&m_serverThread,SIGNAL(finished()),m_server,SLOT(deleteLater()));
+                    connect(m_server,SIGNAL(sendLog(QString)),this,SLOT(notifyUser(QString)));
+                    connect(m_server,SIGNAL(errorOccurs(QString)),this,SLOT(notifyUser(QString)));
+                    connect(m_server,SIGNAL(errorOccurs(QString)),m_dialog,SLOT(errorOccurs(QString)));
+                    connect(m_server,SIGNAL(listening()),this,SLOT(initializedClientManager()),Qt::QueuedConnection);
+                    m_server->moveToThread(&m_serverThread);
+                }
+                m_server->insertField("port",m_currentConnectionProfile->getPort());
+                m_server->insertField("ThreadCount",1);
+                m_server->insertField("ChannelCount",1);
+                m_server->insertField("LogLevel",3);
+                m_server->insertField("ServerPassword",m_currentConnectionProfile->getPassword());
+                m_server->insertField("TimeToRetry",5000);
+                m_server->insertField("AdminPassword",m_currentConnectionProfile->getPassword());
                 m_serverThread.start();
             }
             else

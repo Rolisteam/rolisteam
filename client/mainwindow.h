@@ -90,6 +90,7 @@ class SessionManager;
 class CharacterSheetWindow;
 class GameMasterTool;
 class LogPanel;
+class ServerManager;
 /**
  * @brief Main widget for rolisteam, it herits from QMainWindow.
  */
@@ -562,6 +563,7 @@ private:
     CleverURI* m_currentStory;
     QDockWidget* m_roomPanelDockWidget;
     QThread m_serverThread;
+    ServerManager* m_server = nullptr;
     ChannelListPanel* m_roomPanel;
     QUndoStack m_undoStack;
     LogController* m_logController;

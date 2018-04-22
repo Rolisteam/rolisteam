@@ -2,6 +2,7 @@
 
 #include <QVBoxLayout>
 
+
 WebView::WebView(QWidget *parent)
     : MediaContainer(parent)
 {
@@ -65,11 +66,31 @@ void WebView::cleverURIHasChanged(CleverURI* uri, CleverURI::DataValue datav)
     }
 }
 
+void WebView::mousePressEvent(QMouseEvent* mouseEvent)
+{
+    if(mouseEvent->button() ==  Qt::BackButton)
+    {
+        m_view->back();
+    }
+    else if(mouseEvent->button() == Qt::ForwardButton)
+    {
+        m_view->forward();
+    }
+    MediaContainer::mousePressEvent(mouseEvent);
+
+}
+
 void WebView::createActions()
 {
     m_shareAsLink = new QAction(tr("Share"),this);
+
+   /* connect(m_shareAsLink,&QAction::triggered,[=](){
+        NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
+        msg.string32(m_uri->getUri());
+    });*/
+
     m_shareAsHtml = new QAction(tr("Share Html"),this);
-    m_shareAsView = new QAction(tr("Share View"),this);
+    //m_shareAsView = new QAction(tr("Share View"),this);
     m_next= new QAction(tr("next"),this);
     m_next->setIcon(style()->standardIcon(QStyle::SP_ArrowForward));
     m_previous= new QAction(tr("Previous"),this);
@@ -77,6 +98,14 @@ void WebView::createActions()
     m_reload= new QAction(tr("Reload"),this);
     m_reload->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
 
+}
+
+void WebView::fill(NetworkMessageWriter & message)
+{
+    message.string8(m_mediaId);
+    auto url = m_uri->getUri();
+    message.string32(url);
+    message.string16(m_title);
 }
 
 void WebView::creationToolBar()
@@ -113,10 +142,10 @@ void WebView::creationToolBar()
     hLayout->addWidget(button);
 
 
-    button = new QToolButton(this);
+  /*  button = new QToolButton(this);
     button->setAutoRaise(true);
     button->setDefaultAction(m_shareAsView);
-    hLayout->addWidget(button);
+    hLayout->addWidget(button);*/
 
     m_mainLayout->addLayout(hLayout);
 
