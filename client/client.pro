@@ -341,7 +341,7 @@ UI_DIR = src
 
 
 
-INCLUDEPATH +=src/audio
+INCLUDEPATH += preferences/
 OTHER_FILES += \
     src/widgets/widgets.pro \
     $$TRANSLATIONS

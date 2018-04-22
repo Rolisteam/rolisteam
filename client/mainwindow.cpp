@@ -544,6 +544,7 @@ void MainWindow::createPostSettings()
 
     // Log controller
     auto logDebug = m_preferences->value(QStringLiteral("LogDebug"),false).toBool();
+    m_notifierDisplay->initSetting();
     m_logController = new LogController(logDebug,this);
     auto LogResearch = m_preferences->value(QStringLiteral("LogResearch"),false).toBool();
     auto logRoli = m_preferences->value(QStringLiteral("LogRolisteam"),false).toBool();
