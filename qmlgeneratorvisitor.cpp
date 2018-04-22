@@ -4,6 +4,9 @@
 #include "field.h"
 #include "tablefield.h"
 
+
+
+
 QmlGeneratorVisitor::QmlGeneratorVisitor(QTextStream& out, CharacterSheetItem* rootItem)
     : m_out(out), m_root(rootItem)
 {
@@ -69,6 +72,7 @@ bool QmlGeneratorVisitor::generateCharacterSheetItem()
         }
 
     }
+    return true;
 }
 
 bool QmlGeneratorVisitor::generateQmlCodeForRoot()
@@ -119,6 +123,7 @@ bool QmlGeneratorVisitor::generateQmlCodeForRoot()
         if(field)
             generateTable(field);
     }
+    return true;
 }
 
 bool QmlGeneratorVisitor::generateTextInput(Field *item)
@@ -133,6 +138,7 @@ bool QmlGeneratorVisitor::generateTextInput(Field *item)
         "%6    color: \"%4\"\n"
         "%6    visible: root.page == %5? true : false\n"
         "%6    readOnly: %2.readOnly\n"+
+        getToolTip(item)+
         generatePosition(item) +
         generateAlignment(item) +
         generateFont(item->font()) +
@@ -163,6 +169,7 @@ bool QmlGeneratorVisitor::generateTextArea(Field *item)
         "%6    color: \"%4\"\n"
         "%6    visible: root.page == %5? true : false\n"
         "%6    readOnly: %2.readOnly\n"+
+        getToolTip(item)+
         generatePosition(item) +
         generateAlignment(item) +
         generateFont(item->font()) +
@@ -194,6 +201,7 @@ bool QmlGeneratorVisitor::generateTextField(Field *item)
         "%6    color: \"%4\"\n"
         "%6    visible: root.page == %5? true : false\n"
         "%6    readOnly: %2.readOnly\n"+
+        getToolTip(item)+
         generatePosition(item) +
         generateAlignment(item) +
         generateFont(item->font()) +
@@ -234,6 +242,7 @@ bool QmlGeneratorVisitor::generateSelect(Field *item)
         "%7    }\n"
         "%7    visible: root.page == %5? true : false\n"
         "%7    readOnly: %2.readOnly\n"+
+        getToolTip(item)+
         generatePosition(item) +
         "%7    onTextChanged: {\n"
         "%7        %2.value = text\n"
@@ -264,6 +273,7 @@ bool QmlGeneratorVisitor::generateCheckBox(Field *item)
         "%6    color: \"%4\"\n"
         "%6    visible: root.page == %5? true : false\n"
         "%6    readOnly: %2.readOnly\n"+
+        getToolTip(item)+
         generatePosition(item) +
         "%6    onTextChanged: {\n"
         "%6        %2.value = text\n"
@@ -294,6 +304,7 @@ bool QmlGeneratorVisitor::generateFuncButton(Field *item)
         "%7    color: \"%4\"\n"
         "%7    visible: root.page == %5? true : false\n"
         "%7    readOnly: %2.readOnly\n"+
+        getToolTip(item)+
         generatePosition(item) +
         generateAlignment(item) +
         generateFont(item->font()) +
@@ -328,6 +339,7 @@ bool QmlGeneratorVisitor::generateDiceButton(Field *item)
         "%7    color: \"%4\"\n"
         "%7    visible: root.page == %5? true : false\n"
         "%7    readOnly: %2.readOnly\n"+
+        getToolTip(item)+
         generatePosition(item) +
         generateAlignment(item) +
         generateFont(item->font()) +
@@ -425,6 +437,7 @@ bool QmlGeneratorVisitor::generateWebPage(Field* item)
     "%1WebView{//%2\n"
     "%4"
     "%1    url:%3.value\n"+
+    getToolTip(item)+
     generatePosition(item)+
     "%1    visible: root.page == 0? true : false\n"
     "%1    readOnly: %3.readOnly\n"
@@ -495,7 +508,6 @@ QString QmlGeneratorVisitor::generateFont(QFont font)
 }
 
 
-
 int QmlGeneratorVisitor::indentation() const
 {
     return m_indentation;
@@ -519,4 +531,10 @@ QString QmlGeneratorVisitor::getId(Field* item)
         result = item->getLabel();
     }
     return result;
+}
+
+QString QmlGeneratorVisitor::getToolTip(Field* item)
+{
+    QString tooltip = item->getTooltip();
+    return QStringLiteral("%1    tooltip:\"%2\"\n").arg(m_indenSpace).arg(tooltip);
 }

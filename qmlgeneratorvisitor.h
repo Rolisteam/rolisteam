@@ -40,6 +40,7 @@ protected:
 
     QString getId(Field* item);
 
+    QString getToolTip(Field *item);
 private:
     CharacterSheetItem* m_root = nullptr;
     bool m_isTable = false;
