@@ -17,7 +17,7 @@ LogPanel::LogPanel(QWidget *parent) :
     ui->m_eraseBtn->setDefaultAction(ui->m_eraseAllAct);
     ui->m_saveBtn->setDefaultAction(ui->m_saveAct);
 
-    ui->m_logLevel->setCurrentIndex(m_prefManager->value("LogController_LogLevel",0).toInt());
+
 
     //QIcon::fromTheme("edit-clear",)
     ui->m_eraseAllAct->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
@@ -61,6 +61,11 @@ void LogPanel::showMessage(QString msg,LogController::LogLevel level)
     }
     ui->m_logview->setTextColor(color);
     ui->m_logview->append(msg);
+}
+
+void LogPanel::initSetting()
+{
+    ui->m_logLevel->setCurrentIndex(m_prefManager->value("LogController_LogLevel",0).toInt());
 }
 
 void LogPanel::saveLog()

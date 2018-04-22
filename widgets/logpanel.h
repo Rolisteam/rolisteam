@@ -4,7 +4,7 @@
 #include <QWidget>
  #include <QAbstractListModel>
 #include "common/controller/logcontroller.h"
-#include "preferences/preferencesmanager.h"
+#include <preferencesmanager.h>
 
 namespace Ui {
 class LogPanel;
@@ -20,6 +20,7 @@ public:
 
 public slots:
     void showMessage(QString,LogController::LogLevel level);
+    void initSetting();
 
 signals:
     void logLevelChanged(LogController::LogLevel i);
