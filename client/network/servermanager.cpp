@@ -96,8 +96,6 @@ void ServerManager::initServerManager()
    //create channel
    int chCount = getValue("ChannelCount").toInt();
    int count = m_model->rowCount(QModelIndex());
-
-
    for(int i = count; i < chCount ; ++i)
    {
        m_model->addChannel(QStringLiteral("Channel %1").arg(i),"");
