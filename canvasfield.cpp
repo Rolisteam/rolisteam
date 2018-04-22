@@ -12,7 +12,7 @@ QHash<int,QString> CanvasField::m_pictureMap({{Field::TEXTINPUT, ":/resources/ic
                                               {Field::CHECKBOX,":/resources/icons/checked_checkbox.png"},
                                               {Field::IMAGE,":/resources/icons/photo.png"},
                                               {Field::WEBPAGE,":/resources/icons/webPage.svg"},
-                                              {Field::BUTTON,""}});
+                                              {Field::DICEBUTTON,""}});
 
 bool CanvasField::m_showImageField = true;
 

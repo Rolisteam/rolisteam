@@ -79,7 +79,7 @@ AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas,FieldModel* m
       type = QObject::tr("function");
       break;
   case Canvas::BUTTON:
-      m_field->setCurrentType(Field::BUTTON);
+      m_field->setCurrentType(Field::DICEBUTTON);
       m_field->setBgColor(Qt::red);
       type = QObject::tr("Dice Button");
       break;

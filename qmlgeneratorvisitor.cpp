@@ -46,7 +46,7 @@ bool QmlGeneratorVisitor::generateCharacterSheetItem()
             case CharacterSheetItem::IMAGE:
                 generateImage(field);
                 break;
-            case CharacterSheetItem::BUTTON:
+            case CharacterSheetItem::DICEBUTTON:
                 generateDiceButton(field);
                 break;
             case CharacterSheetItem::FUNCBUTTON:
@@ -98,7 +98,7 @@ bool QmlGeneratorVisitor::generateQmlCodeForRoot()
         case CharacterSheetItem::IMAGE:
             generateImage(field);
             break;
-        case CharacterSheetItem::BUTTON:
+        case CharacterSheetItem::DICEBUTTON:
             generateDiceButton(field);
             break;
         case CharacterSheetItem::FUNCBUTTON:
