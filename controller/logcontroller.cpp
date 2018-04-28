@@ -8,8 +8,8 @@
 #include <QWidget>
 #endif
 
-QTextStream out(stdout);
-QTextStream err(stderr);
+QTextStream out(stdout, QIODevice::WriteOnly);
+QTextStream err(stderr, QIODevice::WriteOnly);
 LogController* controller = nullptr;
 
 void messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
@@ -174,7 +174,10 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
         if(type == Error)
             err << str;
         else
-            out << str;
+        {
+            out << str << "\n";
+            out.flush();
+        }
     }
     if(m_currentModes & File)
     {
