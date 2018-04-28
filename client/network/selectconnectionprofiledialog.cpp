@@ -92,7 +92,7 @@ void ProfileModel::readSettings(QSettings & settings)
         profile->setPort(settings.value("port").toInt());
         profile->setServerMode(settings.value("server").toBool());
         profile->setGm(settings.value("gm").toBool());
-        profile->setHash(settings.value("password").toString());
+        profile->setHash(QByteArray::fromBase64(settings.value("password").toByteArray()));
         QColor color = settings.value("PlayerColor").value<QColor>();
         Player* player = new Player(profile->getName(),color,profile->isGM());
         player->setUserVersion(m_version);
@@ -193,7 +193,7 @@ void ProfileModel::writeSettings(QSettings & settings)
         settings.setValue("server",profile->isServer());
         settings.setValue("port",profile->getPort());
         settings.setValue("gm",profile->isGM());
-        settings.setValue("password",profile->getPassword());
+        settings.setValue("password",profile->getPassword().toBase64());
         settings.setValue("PlayerColor",player->getColor());
 
         settings.setValue("CharacterColor",character->getColor());
@@ -239,6 +239,10 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWi
     ui->m_profileList->setCurrentIndex(m_model->index(0, 0));
     setCurrentProfile(ui->m_profileList->currentIndex());
 
+    connect(ui->m_passwordEdit, &QLineEdit::textChanged,this,[=](){
+        m_passChanged = true;
+    });
+
 
     connect(ui->m_addProfile,SIGNAL(clicked()),m_model,SLOT(appendProfile()));
     connect(ui->m_cancel,SIGNAL(clicked()),this,SLOT(reject()));
@@ -276,6 +280,7 @@ void SelectConnectionProfileDialog::updateGUI()
         ui->m_isServerCheckbox->setChecked(m_currentProfile->isServer());
         ui->m_isGmCheckbox->setChecked(m_currentProfile->isGM());
         ui->m_colorBtn->setColor(m_currentProfile->getPlayer()->getColor());
+        m_passChanged = false;
         ui->m_passwordEdit->setText(m_currentProfile->getPassword());
 
         if(nullptr!=m_currentProfile->getCharacter())
@@ -325,7 +330,10 @@ void SelectConnectionProfileDialog::updateProfile()
         m_currentProfile->setServerMode(ui->m_isServerCheckbox->isChecked());
         m_currentProfile->setTitle(ui->m_profileTitle->text());
         m_currentProfile->setGm(ui->m_isGmCheckbox->isChecked());
-        m_currentProfile->setPassword(ui->m_passwordEdit->text());
+        if(m_passChanged)
+        {
+            m_currentProfile->setPassword(ui->m_passwordEdit->text());
+        }
         Person* person = m_currentProfile->getPlayer();
         person->setColor(ui->m_colorBtn->color());
         person->setName(ui->m_name->text());
@@ -353,7 +361,7 @@ void SelectConnectionProfileDialog::writeSettings(QSettings & settings)
     m_model->writeSettings(settings);
 }
 
-void SelectConnectionProfileDialog::setArgumentProfile(QString host, int port, QString password)
+void SelectConnectionProfileDialog::setArgumentProfile(QString host, int port, QByteArray password)
 {
     ConnectionProfile* fromURL = new ConnectionProfile();
     fromURL->setTitle(tr("From URL"));

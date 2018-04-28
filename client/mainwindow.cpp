@@ -678,7 +678,7 @@ void MainWindow::linkActionToMenu()
         auto* clipboard = QGuiApplication::clipboard();
         clipboard->setText(str.arg(m_connectionAddress)
                            .arg(m_currentConnectionProfile->getPort())
-                           .arg(m_currentConnectionProfile->getPassword()));
+                           .arg(QString::fromUtf8(m_currentConnectionProfile->getPassword().toBase64())));
     });
     connect(m_ui->m_roomListAct,SIGNAL(triggered(bool)),m_roomPanelDockWidget,SLOT(setVisible(bool)));
 
@@ -1418,7 +1418,8 @@ void MainWindow::parseCommandLineArguments(QStringList list)
             hostnameValue = list[1];
             portValue = list[2];
             passwordValue = list[3];
-            m_dialog->setArgumentProfile(hostnameValue,portValue.toInt(),passwordValue);
+            QByteArray pass = QByteArray::fromBase64(passwordValue.toUtf8());
+            m_dialog->setArgumentProfile(hostnameValue,portValue.toInt(),pass);
         }
     }
 

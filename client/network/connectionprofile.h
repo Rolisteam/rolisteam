@@ -93,13 +93,13 @@ public:
      * @brief getPassword
      * @return
      */
-    QString getPassword() const;
+    QByteArray getPassword() const;
     /**
      * @brief setPassword
      * @param password
      */
     void setPassword(const QString &password);
-    void setHash(const QString &password);
+    void setHash(const QByteArray &password);
 
     /**
      * @brief cloneProfile

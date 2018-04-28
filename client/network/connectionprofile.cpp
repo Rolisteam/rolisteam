@@ -78,9 +78,9 @@ void ConnectionProfile::setCharacter(Character* character)
     m_character = character;
 }
 
-QString ConnectionProfile::getPassword() const
+QByteArray ConnectionProfile::getPassword() const
 {
-    return QString::fromUtf8(m_password);
+    return m_password;
 }
 
 void ConnectionProfile::setPassword(const QString &password)
@@ -94,13 +94,13 @@ void ConnectionProfile::setPassword(const QString &password)
         m_password = QCryptographicHash::hash(password.toUtf8(),QCryptographicHash::Sha3_512);
     }
 }
-void ConnectionProfile::setHash(const QString &password)
+void ConnectionProfile::setHash(const QByteArray &password)
 {
-    m_password = password.toUtf8();
+    m_password = password;
 }
 void ConnectionProfile::cloneProfile(const ConnectionProfile* src)
 {
-    m_password = src->getPassword().toUtf8();
+    m_password = src->getPassword();
     setGm(src->isGM());
     setPort(src->getPort());
     setTitle(src->getTitle());

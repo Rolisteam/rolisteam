@@ -21,14 +21,14 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
     QSettings settings(filepath,QSettings::IniFormat);
 
     int port = settings.value("port").toInt();
-    QString password = settings.value("ServerPassword").toString();
+    auto password = QByteArray::fromBase64(settings.value("ServerPassword").toByteArray());
     QString range = settings.value("IpRange").toString();
     QString ipBan = settings.value("IpBan").toString();
     QString connectionMax = settings.value("ConnectionMax").toString();
     QString timeStart = settings.value("TimeStart").toString();
     QString timeEnd= settings.value("TimeEnd").toString();
     QString ipMode= settings.value("IpMode").toString();
-    QString adminPassword= settings.value("AdminPassword").toString();
+    auto adminPassword = QByteArray::fromBase64(settings.value("AdminPassword").toByteArray());
     int threadCount= settings.value("ThreadCount").toInt();
     int channelCount= settings.value("ChannelCount").toInt();
     int timeToRetry= settings.value("TimeToRetry").toInt();
@@ -45,7 +45,12 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
     }
     m_logController->setLogLevel(static_cast<LogController::LogLevel>(logLevel));
 
-    m_logController->setCurrentModes(LogController::Console | LogController::File );//*/
+    LogController::StorageModes modes = LogController::Console;
+
+    if(!pathToLog.isEmpty())
+        modes |= LogController::File;
+
+    m_logController->setCurrentModes(modes);
 
     m_serverManager.insertField("port",port);
     m_serverManager.insertField("ServerPassword",password);

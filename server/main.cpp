@@ -29,7 +29,10 @@
 #include <QUuid>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
+#include <QCryptographicHash>
 #include <time.h>
+#include <string>
+#include <iostream>
 
 #include "network/rolisteamdaemon.h"
 #include "preferences/preferencesmanager.h"
@@ -74,7 +77,6 @@
 *
 *
 */
-#include <QTextStream>
 /**
  * @brief main
  * @param argc
@@ -109,15 +111,28 @@ int main(int argc, char *argv[])
 
     QCommandLineOption configuration(QStringList() << "c"<< "config", QObject::tr("Set the path to configuration file [mandatory]"),"config");
     QCommandLineOption print(QStringList() << "p"<< "print", QObject::tr("Print a default configuration file into Standard output"),"output");
+    QCommandLineOption hashPassword(QStringList() << "g"<< "generate", QObject::tr("Ask for password and return its hash key."),"password");
 
 
     parser.addOption(configuration);
     parser.addOption(print);
+    parser.addOption(hashPassword);
 
     parser.parse(app.arguments());
 
     bool hasConfig = parser.isSet(configuration);
     bool askPrint = parser.isSet(print);
+    bool askHash = parser.isSet(hashPassword);
+
+
+    if(askHash)
+    {
+        std::cout << "Please enter your password [Then Press Enter]" << std::endl;
+        std::string password;
+        std::cin >> password;
+        std::cout << "The hash key is:\n" << QCryptographicHash::hash(QByteArray::fromStdString(password), QCryptographicHash::Sha3_512).toBase64().toStdString() << std::endl;
+        return 0;
+    }
 
 
     QString configPath;

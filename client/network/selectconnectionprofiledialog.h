@@ -119,7 +119,7 @@ public:
      * @param port
      * @param password
      */
-    void setArgumentProfile(QString host,int port,QString password);
+    void setArgumentProfile(QString host, int port, QByteArray password);
     /**
      * @brief updateGUI
      */
@@ -154,6 +154,7 @@ private:
     ConnectionProfile* m_currentProfile;
     QString m_version;
     QString m_avatarUri;
+    bool m_passChanged = false;
 };
 
 #endif // SELECTCONNECTIONPROFILEDIALOG_H
