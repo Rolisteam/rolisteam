@@ -52,20 +52,21 @@ void ServerManager::startListening()
 {
     if (m_server == nullptr)
     {
-        m_server = new RServer(this,getValue("ThreadCount").toInt());
+        m_server = new RServer(this,getValue(QStringLiteral("ThreadCount")).toInt());
     }
     ++m_tryCount;
-    if (m_server->listen(QHostAddress::Any,getValue("port").toInt()))
+    if (m_server->listen(QHostAddress::Any,getValue(QStringLiteral("port")).toInt()))
     {
         setState(Listening);
-        emit sendLog(tr("Rolisteam Server is on!"));
+        emit sendLog(tr("Rolisteam Server is on!"), LogController::Info);
     }
     else
     {
-        if(m_tryCount < getValue("TryCount").toInt() || getValue("TryCount").toInt() == 0)
+        if(m_tryCount < getValue(QStringLiteral("TryCount")).toInt() || getValue(QStringLiteral("TryCount")).toInt() == 0)
         {
-            emit errorOccurs(m_server->errorString());
-            QTimer::singleShot(getValue("TimeToRetry").toInt(),this,SLOT(startListening()));
+            emit sendLog(m_server->errorString(), LogController::Error);
+            emit sendLog(tr("Retry start server in %1s!").arg(getValue(QStringLiteral("TimeToRetry")).toInt()), LogController::Info);
+            QTimer::singleShot(getValue(QStringLiteral("TimeToRetry")).toInt(),this,SLOT(startListening()));
         }
         else
         {
@@ -219,6 +220,9 @@ void ServerManager::sendOffAdminAuthFail()
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AdminAuthFail);
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
     }
+    emit sendLog(tr("Authentification as Admin fails: %2 - %1, Wrong password.")
+                 .arg(client->getName())
+                 .arg(client->getIpAddress()), LogController::Info);
 }
 void ServerManager::sendOffAuthSuccessed()
 {
@@ -238,28 +242,29 @@ void ServerManager::sendOffAuthFail()
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::AuthentificationFail);
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
     }
+    emit sendLog(tr("Authentification fails: %1 try to connect to the server with wrong password.").arg(client->getIpAddress()), LogController::Info);
 }
 void ServerManager::kickClient(QString id)
 {
     m_model->kick(id);
     sendOffModelToAll();
 
-    QTcpSocket* client = nullptr;
+    TcpClient* client = nullptr;
     for(auto key : m_connections.keys())
     {
-        if(!key->isOpen())
-        {
-            //qDebug() << "isClose";
-        }
         auto value = m_connections[key];
         if(value->getId() == id)
         {
-            client = key;
+            client = value;
         }
     }
+    emit sendLog(tr("User has been kick out: %2 - %1.")
+                 .arg(client->getName())
+                 .arg(client->getIpAddress()), LogController::Info);
+
     if(nullptr != client)
     {
-        m_connections.remove(client);
+        removeClient(client);
     }
 }
 
@@ -420,7 +425,7 @@ void ServerManager::quit()
 void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread)
 {
     Q_UNUSED(thread);
-    emit sendLog(tr("New Incoming Connection!"));
+    emit sendLog(tr("New Incoming Connection!"), LogController::Info);
 
     connect(connection,SIGNAL(dataReceived(QByteArray)),this,SLOT(messageReceived(QByteArray)),Qt::QueuedConnection);//
     connect(connection,SIGNAL(socketInitiliazed()),this,SLOT(initClient()),Qt::QueuedConnection);
@@ -454,7 +459,7 @@ void ServerManager::sendOffModelToAll()
 
 void ServerManager::disconnected()
 {
-    qDebug() << "ServerManager::disconnected()";
+    emit sendLog(tr("New Incoming Connection!"), LogController::Info);
     if(!sender()) return;
 
     TcpClient* client = qobject_cast<TcpClient*>(sender());
@@ -464,7 +469,6 @@ void ServerManager::disconnected()
 }
 void ServerManager::removeClient(TcpClient* client)
 {
-    qDebug() << "ServerManager::removeClient";
     client->isReady();
 
     auto socket = client->getSocket();
@@ -487,16 +491,20 @@ void ServerManager::removeClient(TcpClient* client)
 }
 void ServerManager::error(QAbstractSocket::SocketError socketError)
 {
-    Q_UNUSED(socketError)
-    /// @todo enable this code ?
-   /* qDebug() << "ServerManager::error";
+    if(QAbstractSocket::RemoteHostClosedError == socketError)
+        return;
     if(!sender()) return;
 
     TcpClient* client = qobject_cast<TcpClient*>(sender());
     if(!client) return;
 
-    qDebug() << "[Error Socket]" << socketError << client->isConnected();
-    switch(socketError)
+    auto socket = client->getSocket();
+
+    if(!socket) return;
+
+    emit sendLog(socket->errorString(), LogController::Error);
+
+   /* switch(socketError)
     {
     case QAbstractSocket::ConnectionRefusedError:
         break;
@@ -548,7 +556,4 @@ void ServerManager::error(QAbstractSocket::SocketError socketError)
         break;
 
     }*/
-    /*
-
-    removeClient(client);*/
 }

@@ -213,15 +213,10 @@ signals:
 
 public slots :
     /**
-     * @brief notifyUser
-     * @param msg
+     * @brief
+     * @param
      */
-    void notifyUser(QString msg, LogController::LogLevel msgType = LogController::Info) const;
-    /**
-     * @brief quitterApplication
-     * @param perteConnexion
-     */
-    bool mayBeSaved(bool perteConnexion = false);
+    bool mayBeSaved(bool connectionLost = false);
     /**
      * @brief checkUpdate
      */
@@ -566,7 +561,7 @@ private:
     ServerManager* m_server = nullptr;
     ChannelListPanel* m_roomPanel;
     QUndoStack m_undoStack;
-    LogController* m_logController;
+    LogController* m_logController = nullptr;
     QString m_connectionAddress;
 };
 

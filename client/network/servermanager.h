@@ -11,6 +11,7 @@
 #include "connectionaccepter.h"
 #include "messagedispatcher.h"
 #include "rserver.h"
+#include "common/controller/logcontroller.h"
 /**
  * @brief The ServerManager class
  *
@@ -34,8 +35,7 @@ public:
     void kickClient(QString id);
 signals:
     void stateChanged(ServerManager::ServerState);
-    void errorOccurs(QString);
-    void sendLog(QString);
+    void sendLog(QString, LogController::LogLevel);
     void messageMustBeDispatched(QByteArray array, Channel* channel,TcpClient* client);
     void finished();
     void listening();

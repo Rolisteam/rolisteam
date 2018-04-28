@@ -73,8 +73,7 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
 void RolisteamDaemon::start()
 {
     connect(&m_thread,SIGNAL(started()),&m_serverManager,SLOT(startListening()));
-    connect(&m_serverManager,SIGNAL(sendLog(QString)),this,SLOT(notifyUser(QString)));
-    connect(&m_serverManager,SIGNAL(errorOccurs(QString)),this,SLOT(errorMessage(QString)));
+    connect(&m_serverManager,&ServerManager::sendLog, m_logController, &LogController::manageMessage, Qt::QueuedConnection);
     connect(&m_serverManager,&ServerManager::finished,&m_thread,&QThread::quit);
     connect(&m_thread,&QThread::finished,this,&RolisteamDaemon::stopped,Qt::QueuedConnection);
     m_serverManager.moveToThread(&m_thread);

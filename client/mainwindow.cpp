@@ -289,7 +289,10 @@ void MainWindow::setupUi()
         m_connectionAddress = ip;
         if(nullptr!=m_currentConnectionProfile)
         {
-            notifyUser(tr("Server Ip Address:%1\nPort:%2").arg(m_connectionAddress).arg(m_currentConnectionProfile->getPort()),LogController::Features);
+            m_logController->manageMessage(tr("Server Ip Address:%1\nPort:%2")
+                                           .arg(m_connectionAddress)
+                                           .arg(m_currentConnectionProfile->getPort()),
+                                           LogController::Features);
         }
     });
 }
@@ -983,7 +986,7 @@ void MainWindow::readStory(QString fileName)
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly))
     {
-        notifyUser("Cannot be read (openStory - MainWindow.cpp)",LogController::Error);
+        m_logController->manageMessage("Cannot be read (openStory - MainWindow.cpp)",LogController::Error);
         return;
     }
     m_sessionManager->setSessionName(info.baseName());
@@ -1021,7 +1024,7 @@ bool MainWindow::saveStory(bool saveAs)
     QFile file(m_currentStory->getUri());
     if (!file.open(QIODevice::WriteOnly))
     {
-        notifyUser(tr("%1 cannot be opened (saveStory - MainWindow.cpp)").arg(m_currentStory->getUri()),LogController::Error);
+        m_logController->manageMessage(tr("%1 cannot be opened (saveStory - MainWindow.cpp)").arg(m_currentStory->getUri()),LogController::Error);
         return false;
     }
 
@@ -1178,7 +1181,7 @@ void MainWindow::readImageFromStream(QDataStream &file)
     QImage img;
     if (!img.loadFromData(baImage, "jpg"))
     {
-        notifyUser(tr("Image compression error (readImageFromStream - MainWindow.cpp)"),LogController::Error);
+        m_logController->manageMessage(tr("Image compression error (readImageFromStream - MainWindow.cpp)"),LogController::Error);
     }
 
     // Creation de l'identifiant
@@ -1200,7 +1203,7 @@ void MainWindow::readImageFromStream(QDataStream &file)
     QBuffer buffer(&byteArray);
     if (!img.save(&buffer, "jpg", 70))
     {
-        notifyUser(tr("Image compression error (readImageFromStream - MainWindow.cpp)"),LogController::Error);
+        m_logController->manageMessage(tr("Image compression error (readImageFromStream - MainWindow.cpp)"),LogController::Error);
     }
 }
 void MainWindow::helpOnLine()
@@ -1291,17 +1294,17 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
 
 void MainWindow::notifyAboutAddedPlayer(Player * player) const
 {
-    notifyUser(tr("%1 just joins the game.").arg(player->name()),LogController::Features);
+    m_logController->manageMessage(tr("%1 just joins the game.").arg(player->name()),LogController::Features);
     if(player->getUserVersion().compare(m_version)!=0)
     {
-        notifyUser(tr("%1 has not the right version: %2.").arg(player->name())
+        m_logController->manageMessage(tr("%1 has not the right version: %2.").arg(player->name())
                    .arg(player->getUserVersion()),LogController::Error);
     }
 }
 
 void MainWindow::notifyAboutDeletedPlayer(Player * player) const
 {
-    notifyUser(tr("%1 just leaves the game.").arg(player->name()),LogController::Features);
+    m_logController->manageMessage(tr("%1 just leaves the game.").arg(player->name()),LogController::Features);
 }
 
 void MainWindow::readSettings()
@@ -1582,7 +1585,7 @@ void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
 {
     if(msg->action() == NetMsg::EndConnectionAction)
     {
-        notifyUser(tr("End of the connection process"),LogController::Info);
+        m_logController->manageMessage(tr("End of the connection process"),LogController::Info);
         updateWorkspace();
     }
     else if((msg->action() == NetMsg::SetChannelList) || (NetMsg::AdminAuthFail == msg->action()) ||  (NetMsg::AdminAuthSucessed == msg->action()))
@@ -1600,11 +1603,7 @@ void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
     }
 
 }
-void MainWindow::notifyUser(QString message, LogController::LogLevel type) const
-{
-    Q_ASSERT(m_logController != nullptr);
-    m_logController->manageMessage(message,type);
-}
+
 void  MainWindow::showConnectionDialog(bool forced)
 {
     if((!m_profileDefined)||(forced))
@@ -1632,9 +1631,11 @@ void MainWindow::startConnection()
                     m_server->initServerManager();
                     connect(&m_serverThread,SIGNAL(started()),m_server,SLOT(startListening()));
                     connect(&m_serverThread,SIGNAL(finished()),m_server,SLOT(deleteLater()));
-                    connect(m_server,SIGNAL(sendLog(QString)),this,SLOT(notifyUser(QString)));
-                    connect(m_server,SIGNAL(errorOccurs(QString)),this,SLOT(notifyUser(QString)));
-                    connect(m_server,SIGNAL(errorOccurs(QString)),m_dialog,SLOT(errorOccurs(QString)));
+                    connect(m_server,&ServerManager::sendLog,m_logController,&LogController::manageMessage);
+                    connect(m_server,&ServerManager::sendLog,this,[=](QString str, LogController::LogLevel level){
+                        if(LogController::Error == level)
+                            m_dialog->errorOccurs(str);
+                    });
                     connect(m_server,SIGNAL(listening()),this,SLOT(initializedClientManager()),Qt::QueuedConnection);
                     m_server->moveToThread(&m_serverThread);
                 }
@@ -1662,9 +1663,11 @@ void MainWindow::initializedClientManager()
         m_clientManager = new ClientManager(m_currentConnectionProfile);
 
         connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
-        connect(m_clientManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
+        connect(m_clientManager,&ClientManager::notifyUser,this,[=](QString str){
+            m_logController->manageMessage(str,LogController::Features);
+        });
         connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
-        connect(m_clientManager,SIGNAL(errorOccur(QString)),m_dialog,SLOT(errorOccurs(QString)));
+        connect(m_clientManager,&ClientManager::errorOccur,m_dialog,&SelectConnectionProfileDialog::errorOccurs);
         connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(updateWindowTitle()));
         connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
         connect(m_clientManager,SIGNAL(isAuthentified()),this,SLOT(postConnection()));
@@ -2292,7 +2295,7 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
     connect(window,SIGNAL(addWidgetToMdiArea(QWidget*,QString )),m_mdiArea,SLOT(addWidgetToMdi(QWidget*,QString)));
     connect(window,SIGNAL(rollDiceCmd(QString,QString,bool)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString,bool)));
     connect(window,&CharacterSheetWindow::errorOccurs,this,[=](QString msg){
-      notifyUser(msg,LogController::Error);
+      m_logController->manageMessage(msg,LogController::Error);
     });
     connect(m_playerList,SIGNAL(playerDeleted(Player*)),window,SLOT(removeConnection(Player*)));
 }
