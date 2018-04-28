@@ -92,7 +92,7 @@ void ProfileModel::readSettings(QSettings & settings)
         profile->setPort(settings.value("port").toInt());
         profile->setServerMode(settings.value("server").toBool());
         profile->setGm(settings.value("gm").toBool());
-        profile->setPassword(settings.value("password").toString());
+        profile->setHash(settings.value("password").toString());
         QColor color = settings.value("PlayerColor").value<QColor>();
         Player* player = new Player(profile->getName(),color,profile->isGM());
         player->setUserVersion(m_version);
@@ -360,7 +360,7 @@ void SelectConnectionProfileDialog::setArgumentProfile(QString host, int port, Q
     fromURL->setName(tr("Unknown"));
     fromURL->setAddress(host);
     fromURL->setPort(port);
-    fromURL->setPassword(password);
+    fromURL->setHash(password);
     fromURL->setGm(false);
     fromURL->setServerMode(false);
     fromURL->setPlayer(new Player);

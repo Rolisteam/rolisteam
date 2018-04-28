@@ -1,5 +1,7 @@
 #include "connectionprofile.h"
 
+#include <QCryptographicHash>
+
 #define DEFAULT_PORT 6660
 
 ConnectionProfile::ConnectionProfile()
@@ -78,16 +80,27 @@ void ConnectionProfile::setCharacter(Character* character)
 
 QString ConnectionProfile::getPassword() const
 {
-    return m_password;
+    return QString::fromUtf8(m_password);
 }
 
 void ConnectionProfile::setPassword(const QString &password)
 {
-    m_password = password;
+    if(password.isEmpty())
+    {
+        m_password.clear();
+    }
+    else
+    {
+        m_password = QCryptographicHash::hash(password.toUtf8(),QCryptographicHash::Sha3_512);
+    }
+}
+void ConnectionProfile::setHash(const QString &password)
+{
+    m_password = password.toUtf8();
 }
 void ConnectionProfile::cloneProfile(const ConnectionProfile* src)
 {
-    setPassword(src->getPassword());
+    m_password = src->getPassword().toUtf8();
     setGm(src->isGM());
     setPort(src->getPort());
     setTitle(src->getTitle());

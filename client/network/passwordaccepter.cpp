@@ -15,7 +15,7 @@ bool PasswordAccepter::isValid(const QMap<QString, QVariant> &data)
 
     if(Connection == m_currentLevel)
     {
-        pw = data["serverPassword"].toString();
+        pw = data["ServerPassword"].toString();
     }
     else if(Admin == m_currentLevel)
     {
@@ -26,7 +26,7 @@ bool PasswordAccepter::isValid(const QMap<QString, QVariant> &data)
         pw = data["ChannelPassword"].toString();
     }
     bool result = false;
-    if((pw.isEmpty())||(upw == pw))
+    if(upw == pw)
     {//(QCryptographicHash::hash(upw.toUtf8(),QCryptographicHash::Sha3_512) != pw.toUtf8()))
         result = true;
     }

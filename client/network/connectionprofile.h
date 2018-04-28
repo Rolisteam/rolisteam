@@ -99,6 +99,7 @@ public:
      * @param password
      */
     void setPassword(const QString &password);
+    void setHash(const QString &password);
 
     /**
      * @brief cloneProfile
@@ -115,7 +116,7 @@ private:
     QString m_title;///< @brief defines the name of the profile. It can be what ever users want.
     QString m_name;
     QString m_address;
-    QString m_password;
+    QByteArray m_password;
 };
 
 
