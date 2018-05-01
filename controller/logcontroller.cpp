@@ -171,13 +171,13 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
 
     if(m_currentModes & Console)
     {
+        QTextStream* current = &out;
         if(type == Error)
-            err << str;
-        else
         {
-            out << str << "\n";
-            out.flush();
+            current = &err;
         }
+        *current << str << "\n";
+        current->flush();
     }
     if(m_currentModes & File)
     {
