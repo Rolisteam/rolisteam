@@ -394,12 +394,21 @@ int TableField::getChildrenCount() const
 
 int TableField::getMaxVisibleRowCount() const
 {
-    return m_tableCanvasField->lineCount();
+    #ifdef RCSE
+        return m_tableCanvasField->lineCount();
+    #else
+        return 0;
+    #endif
+
 }
 
 CharacterSheetItem *TableField::getRoot()
 {
-    return m_tableCanvasField->getRoot();
+    #ifdef RCSE
+        return m_tableCanvasField->getRoot();
+    #else
+        return nullptr;
+    #endif
 }
 
 CharacterSheetItem* TableField::getChildAt(QString id) const
