@@ -1,12 +1,15 @@
 #include "channellistpanel.h"
 #include "ui_channellistpanel.h"
 
+
+#include <QInputDialog>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
 #include <QMenu>
 
+#include "tcpclient.h"
 #include "preferences/preferencesmanager.h"
 
 ChannelListPanel::ChannelListPanel(QWidget *parent) :
@@ -33,6 +36,7 @@ ChannelListPanel::ChannelListPanel(QWidget *parent) :
     m_edit= new QAction(tr("Edit Channel"),this);
     m_lock= new QAction(tr("Lock Channel"),this);
     m_join= new QAction(tr("Switch to channel"),this);
+    m_channelPassword = new QAction(tr("Set Channel Private"),this);
     m_addChannel= new QAction(tr("Add channel"),this);
     m_addSubchannel= new QAction(tr("Add subchannel"),this);
     m_deleteChannel= new QAction(tr("Delete Channel"),this);
@@ -48,6 +52,7 @@ ChannelListPanel::ChannelListPanel(QWidget *parent) :
     connect(m_lock,SIGNAL(triggered(bool)),this,SLOT(lockChannel()));
     connect(m_join,SIGNAL(triggered(bool)),this,SLOT(joinChannel()));
     connect(m_admin,SIGNAL(triggered(bool)),this,SLOT(logAsAdmin()));
+    connect(m_channelPassword,&QAction::triggered,this,&ChannelListPanel::setPasswordOnChannel);
 }
 
 ChannelListPanel::~ChannelListPanel()
@@ -113,6 +118,7 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
     menu.addSeparator();
     menu.addAction(m_setDefault);
     menu.addAction(m_edit);
+    menu.addAction(m_channelPassword);
     menu.addAction(m_lock);
     menu.addSeparator();
     menu.addAction(m_addChannel);
@@ -198,7 +204,6 @@ bool ChannelListPanel::isAdmin()
     }
     return false;
 }
-#include "tcpclient.h"
 
 void ChannelListPanel::kickUser()
 {
@@ -266,7 +271,7 @@ void ChannelListPanel::banUser()
         }
     }
 }
-#include <QInputDialog>
+
 void ChannelListPanel::logAsAdmin()
 {
     PreferencesManager* preferences =  PreferencesManager::getInstance();
@@ -384,6 +389,26 @@ void ChannelListPanel::deleteChannel()
         }
     }
 }
+#include <QCryptographicHash>
+
+void ChannelListPanel::setPasswordOnChannel()
+{
+    if(!isAdmin() && !m_index.isValid())
+        return;
+
+    Channel* item = static_cast<Channel*>(m_index.internalPointer());
+    auto pw = QInputDialog::getText(this,tr("Channel Password"),tr("Password for channel: %1").arg(item->getName()),QLineEdit::Password);
+
+    if(pw.isEmpty())
+        return;
+
+    NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::ChannelPassword);
+    msg.string8(item->getId());
+    auto pwA = QCryptographicHash::hash(pw.toUtf8(),QCryptographicHash::Sha3_512);
+    msg.byteArray32(pwA);
+    msg.sendAll();
+
+}
 
 void ChannelListPanel::joinChannel()
 {
@@ -392,12 +417,19 @@ void ChannelListPanel::joinChannel()
         if(m_index.isValid())
         {
             Channel* item = static_cast<Channel*>(m_index.internalPointer());
+
+            QByteArray pw;
+            if(!item->password().isEmpty())
+                pw = QInputDialog::getText(this,tr("Channel Password"),tr("Channel %1 required password:").arg(item->getName()),QLineEdit::Password).toUtf8();
+
             QString id = item->getId();
             if(!id.isEmpty())
             {
                 NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::JoinChannel);
                 msg.string8(id);
                 msg.string8(m_localPlayerId);
+                auto pwA = QCryptographicHash::hash(pw,QCryptographicHash::Sha3_512);
+                msg.byteArray32(pwA);
                 msg.sendAll();
             }
         }

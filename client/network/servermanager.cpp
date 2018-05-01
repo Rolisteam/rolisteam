@@ -62,14 +62,15 @@ void ServerManager::startListening()
     }
     else
     {
+        emit sendLog(m_server->errorString(), LogController::Error);
         if(m_tryCount < getValue(QStringLiteral("TryCount")).toInt() || getValue(QStringLiteral("TryCount")).toInt() == 0)
         {
-            emit sendLog(m_server->errorString(), LogController::Error);
             emit sendLog(tr("Retry start server in %1s!").arg(getValue(QStringLiteral("TimeToRetry")).toInt()), LogController::Info);
             QTimer::singleShot(getValue(QStringLiteral("TimeToRetry")).toInt(),this,SLOT(startListening()));
         }
         else
         {
+            emit sendLog(tr("Retry count reached. Server stops trying."), LogController::Info);
             emit finished();
         }
 
@@ -177,25 +178,32 @@ void ServerManager::checkAuthAsAdmin(TcpClient* client)
         sendEventToClient(client,TcpClient::AdminAuthFailEvent);
     }
 }
-void ServerManager::checkAuthToChannel(TcpClient* client)
+void ServerManager::checkAuthToChannel(TcpClient* client,QString channelId, QByteArray password)
 {
     QMap<QString,QVariant> data(m_parameters);
-    if(m_corEndProcess->isValid(data))
+    auto item = m_model->getItemById(channelId);
+    auto channel = dynamic_cast<Channel*>(item);
+
+    auto eventToSend = TcpClient::ChannelAuthSuccessEvent;
+
+    if(nullptr == channel)
+        eventToSend = TcpClient::ChannelAuthFailEvent;
+
+    if(channel->password() != password)
+        eventToSend = TcpClient::ChannelAuthFailEvent;
+
+    if((m_corEndProcess->isValid(data)) && (eventToSend != TcpClient::ChannelAuthFailEvent))
     {
-        QString chanId=client->getWantedChannel();
-        if(m_model->addConnectionToChannel(chanId,client))
-        {
-            sendEventToClient(client,TcpClient::ChannelAuthSuccessEvent);
-        }
-        else
+        if(!m_model->addConnectionToChannel(channelId,client))
         {
             m_model->addConnectionToDefaultChannel(client);
         }
     }
     else
     {
-        sendEventToClient(client,TcpClient::ChannelAuthFailEvent);
+        eventToSend = TcpClient::ChannelAuthFailEvent;
     }
+    sendEventToClient(client,eventToSend);
 }
 /////////////////////////////////////////////////////////
 ///
@@ -285,17 +293,6 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
             }
         }
         break;
-//        case NetMsg::Password:
-//        {
-//            QMap<QString,QVariant> data(m_parameters);
-//            data["userpassword"]=msg->string32();
-//            bool hasChannelData = static_cast<bool>(msg->uint8());
-//            if(hasChannelData)
-//                sendEventToClient(tcp,TcpClient::ChannelAuthDataReceivedEvent);
-//            else
-//                sendEventToClient(tcp,TcpClient::ServerAuthDataReceivedEvent);
-//        }
-//        break;
         case NetMsg::MoveChannel:
 
         break;
@@ -329,6 +326,10 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
                     dest->addChild(client);
                     sendEventToClient(tcp,TcpClient::ServerAuthDataReceivedEvent);
                 }
+            }
+            else
+            {
+
             }
         }
         break;
@@ -440,6 +441,7 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
     connect(connection,&TcpClient::checkServerPassword,this,&ServerManager::checkAuthToServer,Qt::QueuedConnection);
     connect(connection,&TcpClient::checkAdminPassword,this,&ServerManager::checkAuthAsAdmin,Qt::QueuedConnection);
     connect(connection,&TcpClient::checkChannelPassword,this,&ServerManager::checkAuthToChannel,Qt::QueuedConnection);
+    connect(connection,&TcpClient::channelPassword,this,&ServerManager::setChannelPassword,Qt::QueuedConnection);
 
     connect(connection,&TcpClient::socketDisconnection,this,&ServerManager::disconnected,Qt::QueuedConnection);
     connect(connection,&TcpClient::socketError,this,&ServerManager::error,Qt::QueuedConnection);
@@ -489,6 +491,20 @@ void ServerManager::removeClient(TcpClient* client)
     }
 
 }
+void ServerManager::setChannelPassword(QString chanId, QByteArray passwd)
+{
+    auto item = m_model->getItemById(chanId);
+    if(nullptr == item)
+        return;
+
+    auto channel = dynamic_cast<Channel*>(item);
+    if(nullptr == channel)
+        return;
+
+    channel->setPassword(passwd);
+    sendOffModelToAll();
+}
+
 void ServerManager::error(QAbstractSocket::SocketError socketError)
 {
     if(QAbstractSocket::RemoteHostClosedError == socketError)

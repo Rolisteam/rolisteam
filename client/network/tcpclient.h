@@ -118,7 +118,8 @@ signals:
     void checkServerAcceptClient(TcpClient* client);
     void checkServerPassword(TcpClient* client);
     void checkAdminPassword(TcpClient* client);
-    void checkChannelPassword(TcpClient* client);
+    void checkChannelPassword(TcpClient* client,QString channelId, QByteArray password);
+    void channelPassword(QString channelId, QByteArray password);
 
     void isReady();
     void hasNoRestriction();

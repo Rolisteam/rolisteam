@@ -56,13 +56,10 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
     {
         if(msg->action() == NetMsg::AddFeatureAction)
         {
-
             QString uuid   = msg->string8();
             QString name   = msg->string8();
             quint8 version = msg->uint8();
             emitter->addPlayerFeature(uuid,name,version);
-
-
             saveIt = false;
         }
     }
@@ -156,6 +153,9 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             break;
         case  NetMsg::SetChannelList:
             str = QStringLiteral("SetChannelList");
+            break;
+        case  NetMsg::ChannelPassword:
+            str = QStringLiteral("ChannelPassword");
             break;
         case  NetMsg::JoinChannel:
             str = QStringLiteral("Join Channel");

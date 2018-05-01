@@ -16,12 +16,12 @@ Channel::~Channel()
 
 }
 
-QString Channel::password() const
+QByteArray Channel::password() const
 {
     return m_password;
 }
 
-void Channel::setPassword(const QString &password)
+void Channel::setPassword(const QByteArray &password)
 {
     m_password = password;
 }
@@ -62,7 +62,7 @@ bool Channel::isLeaf() const
 }
 void Channel::readFromJson(QJsonObject &json)
 {
-    m_password=json["password"].toString();
+    m_password=QByteArray::fromBase64(json["password"].toString().toUtf8());
     m_name=json["title"].toString();
     m_description=json["description"].toString();
     m_usersListed=json["usersListed"].toBool();
@@ -91,7 +91,7 @@ void Channel::readFromJson(QJsonObject &json)
 
 void Channel::writeIntoJson(QJsonObject &json)
 {
-    json["password"]=m_password;
+    json["password"]=QString::fromUtf8(m_password.toBase64());
     json["title"]=m_name;
     json["description"]=m_description;
     json["usersListed"]=m_usersListed;

@@ -46,23 +46,25 @@ protected slots:
     void kickUser();
     void banUser();
     void addChannel();
+    void setPasswordOnChannel();
     void deleteChannel();
     void joinChannel();
     void editChannel();
     void logAsAdmin();
 private:
     Ui::ChannelListPanel *ui;
-    ChannelModel* m_model;
+    ChannelModel* m_model = nullptr;
 
-    QAction* m_edit;
-    QAction* m_lock;
-    QAction* m_join;
-    QAction* m_addChannel;
-    QAction* m_addSubchannel;
-    QAction* m_deleteChannel;
-    QAction* m_setDefault;
-    QAction* m_admin;
-    QAction* m_kick;
+    QAction* m_edit = nullptr;
+    QAction* m_lock = nullptr;
+    QAction* m_join = nullptr;
+    QAction* m_channelPassword = nullptr;
+    QAction* m_addChannel = nullptr;
+    QAction* m_addSubchannel = nullptr;
+    QAction* m_deleteChannel = nullptr;
+    QAction* m_setDefault = nullptr;
+    QAction* m_admin = nullptr;
+    QAction* m_kick = nullptr;
 
     GROUP m_currentGroup;
     QModelIndex m_index;

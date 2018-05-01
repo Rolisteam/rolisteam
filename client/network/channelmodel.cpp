@@ -12,6 +12,7 @@
 
 
 #ifdef QT_WIDGETS_LIB
+#include <QInputDialog>
 #include <QApplication>
 #include <QStyle>
 #endif
@@ -99,10 +100,15 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const
         {
             if(!tmp->isLeaf())
             {
+                auto channel = dynamic_cast<Channel*>(tmp);
                 QStyle* style = qApp->style();
-
-                return style->standardIcon(QStyle::SP_DirIcon);
-                //return QIcon(":/resources/icons/folder.png");
+                if(nullptr != style)
+                {
+                    if(channel->password().isEmpty())
+                        return style->standardIcon(QStyle::SP_DirIcon);
+                    else
+                        return style->standardIcon(QStyle::SP_DirClosedIcon);
+                }
             }
         }
         #endif
@@ -172,7 +178,7 @@ int ChannelModel::columnCount(const QModelIndex &) const
     return 1;
 }
 
-int ChannelModel::addChannel(QString name, QString password)
+int ChannelModel::addChannel(QString name, QByteArray password)
 {
     Channel* chan = new Channel(name);
     chan->setPassword(password);
@@ -343,6 +349,15 @@ bool ChannelModel::moveMediaItem(QList<TcpClient*> items,const QModelIndex& pare
         {
             Channel* item = static_cast<Channel*>(parentToBe.internalPointer());
             QString id = item->getId();
+
+            QByteArray pw;
+            #ifdef QT_WIDGETS_LIB
+            if(!item->password().isEmpty())
+            {
+                pw = QInputDialog::getText(nullptr,tr("Channel Password"),tr("Channel %1 required password:").arg(item->getName()),QLineEdit::Password).toUtf8().toBase64();
+            }
+            #endif
+
             for(auto client : items)
             {
                 if(!id.isEmpty())
@@ -350,6 +365,7 @@ bool ChannelModel::moveMediaItem(QList<TcpClient*> items,const QModelIndex& pare
                     NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::JoinChannel);
                     msg.string8(id);
                     msg.string8(client->getId());
+                    msg.byteArray32(pw);
                     msg.sendAll();
                     return true;
                 }

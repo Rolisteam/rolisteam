@@ -25,8 +25,8 @@ public:
     Channel(QString name);
     virtual ~Channel();
 
-    QString password() const;
-    void setPassword(const QString &password);
+    QByteArray password() const;
+    void setPassword(const QByteArray &password);
 
     virtual int childCount() const;
 
@@ -69,7 +69,7 @@ public:
 protected:
     bool hasNoClient();
 private:
-    QString m_password;
+    QByteArray m_password;
     QString m_description;
     bool m_usersListed;
 

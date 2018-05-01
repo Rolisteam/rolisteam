@@ -33,6 +33,7 @@ public:
     void initServerManager();
     QVariant getValue(QString key) const;
     void kickClient(QString id);
+    void setChannelPassword(QString chanId, QByteArray passwd);
 signals:
     void stateChanged(ServerManager::ServerState);
     void sendLog(QString, LogController::LogLevel);
@@ -62,26 +63,26 @@ public slots:
     //Connection proccess tests
     void serverAcceptClient(TcpClient* client);
     void checkAuthToServer(TcpClient* client);
-    void checkAuthToChannel(TcpClient* client);
+    void checkAuthToChannel(TcpClient* client, QString channelId, QByteArray password);
     void checkAuthAsAdmin(TcpClient* client);
 protected:
     void sendEventToClient(TcpClient *client, TcpClient::ConnectionEvent event);
 private:
     int m_port;
-    RServer* m_server;
-    ChannelModel* m_model;
-    int m_defaultChannelIndex;
-    ConnectionAccepter* m_corEndProcess;
-    ConnectionAccepter* m_corConnection;
-    ConnectionAccepter* m_adminAccepter;
-    ConnectionAccepter* m_enterInRoomAccepter;
+    RServer* m_server = nullptr;
+    ChannelModel* m_model = nullptr;
+    int m_defaultChannelIndex = 0;
+    ConnectionAccepter* m_corEndProcess = nullptr;
+    ConnectionAccepter* m_corConnection = nullptr;
+    ConnectionAccepter* m_adminAccepter = nullptr;
+    ConnectionAccepter* m_enterInRoomAccepter = nullptr;
 
     QMap<QString,QVariant> m_parameters;
 
-    MessageDispatcher* m_msgDispatcher;
+    MessageDispatcher* m_msgDispatcher = nullptr;
     QHash<QTcpSocket*,TcpClient*> m_connections;
-    ServerState m_state;
-    int m_tryCount;
+    ServerState m_state = Off;
+    int m_tryCount  = 0;
 };
 
 #endif // SERVERMANAGER_H

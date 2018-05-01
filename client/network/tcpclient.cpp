@@ -406,16 +406,23 @@ void TcpClient::readAdministrationMessages(NetworkMessageReader& msg)
     {
         case NetMsg::ConnectionInfo:
             m_serverPassword = msg.string32();
-            qDebug() <<"server password" <<m_serverPassword;
             setInfoPlayer(&msg);
             emit checkServerPassword(this);
         break;
         case NetMsg::ChannelPassword:
-            m_channelPassword = msg.string32();
+            if(isAdmin())
+            {
+                auto channelId = msg.string8();
+                auto passwd = msg.byteArray32();
+                emit channelPassword(channelId, passwd);
+            }
         break;
         case NetMsg::MoveChannel:
+        {
             m_wantedChannel = msg.string32();
-            m_channelPassword = msg.string32();
+            auto passwd = msg.byteArray32();
+            emit checkChannelPassword(this, m_wantedChannel, passwd);
+        }
         break;
         case NetMsg::AdminPassword:
             m_adminPassword = msg.string32();
