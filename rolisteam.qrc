@@ -108,6 +108,7 @@
         <file alias="resources/qml/main.qml">client/charactersheet/qml/main.qml</file>
         <file alias="resources/qml/DiceButton.qml">client/charactersheet/qml/DiceButton.qml</file>
         <file alias="resources/qml/CheckBoxField.qml">client/charactersheet/qml/CheckBoxField.qml</file>
+        <file alias="resources/qml/WebView.qml">client/charactersheet/qml/WebView.qml</file>
         <file>resources/icons/liberapay.png</file>
         <file alias="vmap.png">resources/icons/vmap.png</file>
         <file>resources/icons/sharedEditor.png</file>

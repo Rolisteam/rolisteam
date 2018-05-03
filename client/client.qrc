@@ -95,6 +95,7 @@
         <file alias="resources/qml/main.qml">client/charactersheet/qml/main.qml</file>
         <file alias="resources/qml/DiceButton.qml">client/charactersheet/qml/DiceButton.qml</file>
         <file alias="resources/qml/CheckBoxField.qml">client/charactersheet/qml/CheckBoxField.qml</file>
+        <file alias="resources/qml/WebView.qml">client/charactersheet/qml/WebView.qml</file>
         <file alias="map.png">resources/icons/maplogo.png</file>
         <file alias="picture.png">resources/icons/image.png</file>
         <file alias="rolisteam250.png">resources/logo/250-rolisteam.png</file>
