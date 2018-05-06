@@ -23,7 +23,6 @@
 
 #include <QObject>
 #include <QString>
-#include <QTcpSocket>
 #include <QNetworkAccessManager>
 
 /**

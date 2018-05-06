@@ -23,7 +23,6 @@
 #define UPDATECHECKER_H
 
 #include <QString>
-#include <QTcpSocket>
 #include <QNetworkAccessManager>
 /**
  * @brief The UpdateChecker class is dedicated to check if there is new release of rolisteam.
@@ -56,7 +55,6 @@ private:
     int m_versionMiddle;
     QString m_versionDate;
     QString m_versionChangelog;
-//    QTcpSocket m_socket;
     QNetworkAccessManager* m_manager;
     bool m_noErrror;
 };

@@ -23,7 +23,6 @@
 #define TIPCHECKER_H
 
 #include <QString>
-#include <QTcpSocket>
 #include <QNetworkAccessManager>
 /**
  * @brief The TipChecker class displays link to article on the rolisteam website.

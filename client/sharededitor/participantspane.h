@@ -22,7 +22,6 @@
 #include <QWidget>
 #include <QTreeWidgetItem>
 #include <QHostAddress>
-#include <QTcpSocket>
 
 #include "userlist/playersList.h"
 #include "network/networkmessagewriter.h"
