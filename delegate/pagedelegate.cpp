@@ -79,7 +79,7 @@ void PageDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, cons
     else
         QStyledItemDelegate::setModelData(editor, model, index);
 }
-int PageDelegate::setPageNumber(int page)
+void PageDelegate::setPageNumber(int page)
 {
     m_pageNumber = page;
 }
