@@ -202,8 +202,11 @@ void Channel::updateNewClient(TcpClient* newComer)
                     NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::PlayerCategory,NetMsg::PlayerConnectionAction);
                     tcpConnection->fill(msg);
                     QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,true));
-                }
 
+                    NetworkMessageWriter* msg2 = new NetworkMessageWriter(NetMsg::PlayerCategory,NetMsg::PlayerConnectionAction);
+                    newComer->fill(msg2);
+                    QMetaObject::invokeMethod(tcpConnection,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg2),Q_ARG(bool,true));
+                }
             }
         }
     }
