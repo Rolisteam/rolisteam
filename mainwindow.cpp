@@ -895,7 +895,7 @@ void MainWindow::menuRequested(const QPoint & pos)
     else if(act == m_applyValueOnSelectedCharacterLines)
     {
         applyValueOnCharacterSelection(index,true,false);
-    }/// @todo these functions
+    }/// TODO these functions
     else if(act == m_applyValueOnAllCharacterLines)
     {
 
