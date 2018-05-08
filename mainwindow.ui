@@ -22,7 +22,7 @@
     <item>
      <widget class="QTabWidget" name="m_tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="editor">
        <attribute name="title">
@@ -464,23 +464,56 @@
        <attribute name="title">
         <string>View</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
-         <widget class="QQuickWidget" name="m_quickview">
-          <property name="resizeMode">
-           <enum>QQuickWidget::SizeRootObjectToView</enum>
+         <widget class="QSplitter" name="splitter_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
+          <widget class="QQuickWidget" name="m_quickview">
+           <property name="resizeMode">
+            <enum>QQuickWidget::SizeRootObjectToView</enum>
+           </property>
+          </widget>
+          <widget class="QWidget" name="">
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QToolButton" name="m_codeToViewBtn">
+                <property name="text">
+                 <string>...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="m_generateCodeBtn">
+                <property name="text">
+                 <string>...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="CodeEditor" name="m_codeEdit"/>
+            </item>
+           </layout>
+          </widget>
          </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="m_codeTab">
-       <attribute name="title">
-        <string>Code</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
-         <widget class="CodeEditor" name="m_codeEdit"/>
         </item>
        </layout>
       </widget>
@@ -579,8 +612,8 @@
      <string>Edition</string>
     </property>
     <addaction name="separator"/>
-    <addaction name="actionQML_View"/>
-    <addaction name="actionCode_To_QML"/>
+    <addaction name="m_genarateCodeAct"/>
+    <addaction name="m_codeToViewAct"/>
     <addaction name="m_backgroundImageAct"/>
     <addaction name="separator"/>
     <addaction name="m_sheetProperties"/>
@@ -693,7 +726,11 @@
     <string>Load View</string>
    </property>
   </action>
-  <action name="actionQML_View">
+  <action name="m_genarateCodeAct">
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/gear.svg</normaloff>:/resources/icons/gear.svg</iconset>
+   </property>
    <property name="text">
     <string>Generate Code and Sheet</string>
    </property>
@@ -701,7 +738,11 @@
     <string>Ctrl+R</string>
    </property>
   </action>
-  <action name="actionCode_To_QML">
+  <action name="m_codeToViewAct">
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/arrow.svg</normaloff>:/resources/icons/arrow.svg</iconset>
+   </property>
    <property name="text">
     <string>Code To Sheet</string>
    </property>

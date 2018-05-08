@@ -36,5 +36,7 @@
         <file>resources/dictionaries/properties.txt</file>
         <file>resources/dictionaries/qml.txt</file>
         <file>resources/icons/webPage.svg</file>
+        <file>resources/icons/arrow.svg</file>
+        <file>resources/icons/gear.svg</file>
     </qresource>
 </RCC>

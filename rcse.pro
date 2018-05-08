@@ -162,7 +162,9 @@ DISTFILES += \
     resources/dictionaries/javascript.txt \
     resources/dictionaries/keywords.txt \
     resources/dictionaries/properties.txt \
-    resources/dictionaries/qml.txt
+    resources/dictionaries/qml.txt \
+    resources/icons/arrow.svg \
+    resources/icons/gear.svg
 
 RESOURCES += \
     qmlfile.qrc

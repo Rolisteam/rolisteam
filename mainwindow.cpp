@@ -97,11 +97,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //LOG
     m_logManager = new LogController(this);
     m_logManager->setCurrentModes(LogController::Gui);
-    QDockWidget* wid = new QDockWidget();
+    QDockWidget* wid = new QDockWidget(tr("Log panel"),this);
     wid->setObjectName(QStringLiteral("logpanel"));
     m_logPanel = new LogPanel();
     wid->setWidget(m_logPanel);
     addDockWidget(Qt::BottomDockWidgetArea,wid);
+    auto showLogPanel = wid->toggleViewAction();
 
     connect(m_logManager,&LogController::showMessage,m_logPanel,&LogPanel::showMessage);
 
@@ -161,6 +162,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_view->installEventFilter(this);
 
+    ui->m_codeToViewBtn->setDefaultAction(ui->m_codeToViewAct);
+    ui->m_generateCodeBtn->setDefaultAction(ui->m_genarateCodeAct);
 
 
     //////////////////////////////////////
@@ -183,10 +186,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     QAction* undo = m_undoStack.createUndoAction(this,tr("&Undo"));
-    ui->menuEdition->insertAction(ui->actionQML_View,undo);
+    ui->menuEdition->insertAction(ui->m_genarateCodeAct,undo);
 
     QAction* redo = m_undoStack.createRedoAction(this,tr("&Redo"));
-    ui->menuEdition->insertAction(ui->actionQML_View,redo);
+    ui->menuEdition->insertAction(ui->m_genarateCodeAct,redo);
+
+    ui->menuEdition->addSeparator();
+    ui->menuEdition->addAction(showLogPanel);
 
     undo->setShortcut(QKeySequence::Undo);
     redo->setShortcut(QKeySequence::Redo);
@@ -291,8 +297,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_deleteAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_addButtonAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
 
-    connect(ui->actionQML_View,SIGNAL(triggered(bool)),this,SLOT(showQML()));
-    connect(ui->actionCode_To_QML,SIGNAL(triggered(bool)),this,SLOT(showQMLFromCode()));
+    connect(ui->m_genarateCodeAct,SIGNAL(triggered(bool)),this,SLOT(showQML()));
+    connect(ui->m_codeToViewAct,SIGNAL(triggered(bool)),this,SLOT(showQMLFromCode()));
 
 
     ///////////////////////
