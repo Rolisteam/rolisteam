@@ -1422,7 +1422,7 @@ void MainWindow::showQML()
         file.write(data.toUtf8());
         file.close();
     }
-    QLayout* layout = ui->m_qml->layout();
+    /*QLayout* layout = ui->m_qml->layout();
     if(nullptr!=ui->m_quickview)
     {
         layout->removeWidget(ui->m_quickview);
@@ -1430,7 +1430,7 @@ void MainWindow::showQML()
         ui->m_quickview = new QQuickWidget();
         layout->addWidget(ui->m_quickview);
 
-    }
+    }*/
     ui->m_quickview->engine()->clearComponentCache();
     m_imgProvider = new RolisteamImageProvider();
     m_imgProvider->setData(imgdata);
