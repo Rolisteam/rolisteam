@@ -174,7 +174,7 @@ win32 {
 RC_FILE = "resources/logo/rcse.rc"
 OTHER_FILES +=resources/logo/rcse.rc
 
-LIBS += -L$$PWD/../../lib/poppler-0.24/lib/ -llibpoppler-qt5.dll
+#LIBS += -L$$PWD/../../lib/poppler-0.24/lib/ -llibpoppler-qt5.dll
 #DEFINES += WITH_PDF
 
 #INCLUDEPATH += $$PWD/../../lib/poppler-0.24/include/poppler-qt5
