@@ -22,16 +22,13 @@ macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
 CONFIG += HAVE_SOUND
 CONFIG += HAVE_WEBVIEW
 CONFIG += HAVE_ZLIB
+CONFIG += HAVE_PDF
 ############## END OF FEATURES ######################
 
 QT += core gui opengl network widgets printsupport multimedia quick qml quickwidgets svg
 
-HAVE_WEBVIEW {
-DEFINES+= HAVE_WEBVIEW
-QT += webengine webenginewidgets
-}
 
-DEFINES += WITH_PDF
+#
 
 ## Translation
 TRANSLATIONS =  ../translations/rolisteam_fr.ts \
@@ -84,8 +81,8 @@ include(session/session.pri)
 include(widgets/MRichTextEditor/MRichTextEditor.pri)
 include(sharededitor/sharededitor.pri)
 include(undoCmd/undoCmd.pri)
-include(qpdflib/qpdflib.pri)
-include(webview/webview.pri)
+
+
 
 
 
@@ -98,10 +95,23 @@ include(widgets/gmtoolbox/DiceBookMark/DiceBookMark.pri)
 HAVE_SOUND {
  DEFINES+= HAVE_SOUND
 }
+# End of audio
 HAVE_NULL {
  DEFINES+= NULL_PLAYER
 }
-# End of audio
+HAVE_PDF {
+DEFINES += WITH_PDF
+include(qpdflib/qpdflib.pri)
+HEADERS += pdfviewer/pdfviewer.h
+
+SOURCES += pdfviewer/pdfviewer.cpp
+}
+
+HAVE_WEBVIEW {
+DEFINES+= HAVE_WEBVIEW
+QT += webengine webenginewidgets
+include(webview/webview.pri)
+}
 
 #DEFINES += DEBUG_MODE
 
@@ -195,7 +205,6 @@ HEADERS += \
         data/shortcutvisitor.h \
         widgets/shortcuteditordialog.h \
         widgets/gmtoolbox/gamemastertool.h \
-        pdfviewer/pdfviewer.h \
         widgets/overlay.h \
         data/cleverurimimedata.h \
         network/clientmanager.h\
@@ -295,7 +304,6 @@ SOURCES += \
         data/shortcutvisitor.cpp \
         widgets/shortcuteditordialog.cpp \
         widgets/gmtoolbox/gamemastertool.cpp \
-        pdfviewer/pdfviewer.cpp \
         widgets/overlay.cpp \
         data/cleverurimimedata.cpp \
         network/clientmanager.cpp \

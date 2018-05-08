@@ -153,13 +153,13 @@ int main(int argc, char *argv[])
     settings.beginGroup("rolisteam/preferences");
 
 #ifdef Q_OS_WIN
-    QString cmdLine("\"%1\rolisteam.exe\" \"-l % 1\"");
+    QString cmdLine("\"%2\rolisteam.exe\" \"-l %1\"");
     QSettings fooKey("HKEY_CLASSES_ROOT\\rolisteam", QSettings::NativeFormat);
-    mxKey.setValue(".", "URL:rolisteam Protocol");
-    mxKey.setValue("URL Protocol", "");
+    fooKey.setValue(".", "URL:rolisteam Protocol");
+    fooKey.setValue("URL Protocol", "");
     QSettings fooOpenKey("HKEY_CLASSES_ROOT\\rolisteam\\shell\\open\\command", QSettings::NativeFormat);
     QFileInfo info(QCoreApplication::applicationFilePath());
-    mxOpenKey.setValue(".", cmdLine.arg(info.absoluteFilePath())).replace("% 1","%1");
+    fooOpenKey.setValue(".", cmdLine.arg("%1").arg(info.absoluteFilePath()));
 #endif
 
     QMap<QString,QVariant> map;

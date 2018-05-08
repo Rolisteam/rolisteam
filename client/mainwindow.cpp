@@ -65,8 +65,9 @@
 #include "widgets/shortcuteditordialog.h"
 #include "widgets/gmtoolbox/gamemastertool.h"
 #include "pdfviewer/pdfviewer.h"
+#ifdef HAVE_WEBVIEW
 #include "webview/webview.h"
-
+#endif
 //LOG
 #include "common/widgets/logpanel.h"
 
@@ -605,8 +606,9 @@ void MainWindow::linkActionToMenu()
     m_ui->m_openStoryAction->setData(static_cast<int>(CleverURI::SCENARIO));
     m_ui->m_openNoteAction->setData(static_cast<int>(CleverURI::TEXT));
     m_ui->m_openShareNote->setData(static_cast<int>(CleverURI::SHAREDNOTE));
+    #ifdef WITH_PDF
     m_ui->m_openPdfAct->setData(static_cast<int>(CleverURI::PDF));
-
+    #endif
     m_ui->m_recentFileMenu->setVisible(false);
     connect(m_ui->m_closeAction, SIGNAL(triggered(bool)), this, SLOT(closeCurrentSubWindow()));
     connect(m_ui->m_saveAction, SIGNAL(triggered(bool)), this, SLOT(saveCurrentMedia()));
@@ -826,11 +828,13 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
             media = new NoteContainer();
         }
         break;
+        #ifdef HAVE_WEBVIEW
         case CleverURI::WEBVIEW:
         {
             media = new WebView();
             uri->setCurrentMode(CleverURI::Linked);
         }
+#endif
             break;
         default:
             break;
@@ -1512,6 +1516,8 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
             image->setVisible(true);
         }
             break;
+#ifdef HAVE_WEBVIEW
+
         case CleverURI::WEBVIEW:
         {
             auto webv  =  new WebView(m_mdiArea);
@@ -1519,12 +1525,15 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
             auto url = msg->string32();
             uri->setUri(url);
         }
+#endif
         case CleverURI::CHARACTERSHEET:
             break;
         case CleverURI::SHAREDNOTE:
             break;
         case CleverURI::TEXT:
+#ifdef WITH_PDF
         case CleverURI::PDF:
+#endif
         case CleverURI::SCENARIO:
         case CleverURI::SONG:
         case CleverURI::SONGLIST:
@@ -2349,6 +2358,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
     case CleverURI::TEXT:
         tmp = new NoteContainer();
         break;
+#ifdef WITH_PDF
     case CleverURI::PDF:
     {
         auto pdfV = new PdfViewer();
@@ -2356,6 +2366,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         tmp = pdfV;
     }
         break;
+#endif
     case CleverURI::SHAREDNOTE:
     {
         SharedNoteContainer* tmpShared = new SharedNoteContainer();
@@ -2524,10 +2535,12 @@ CleverURI::ContentType MainWindow::getContentType(QString str)
     {
         return CleverURI::CHARACTERSHEET;
     }
+    #ifdef WITH_PDF
     else if(str.endsWith(".pdf"))
     {
         return CleverURI::PDF;
     }
+#endif
     else
     {
         QStringList list = m_preferences->value("AudioFileFilter","*.wav *.mp2 *.mp3 *.ogg *.flac").toString().split(' ');

@@ -239,7 +239,7 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWi
     ui->m_profileList->setCurrentIndex(m_model->index(0, 0));
     setCurrentProfile(ui->m_profileList->currentIndex());
 
-    connect(ui->m_passwordEdit, &QLineEdit::textChanged,this,[=](){
+    connect(ui->m_passwordEdit, &QLineEdit::textEdited,this,[=](){
         m_passChanged = true;
     });
 
