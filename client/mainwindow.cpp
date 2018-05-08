@@ -1672,7 +1672,6 @@ void MainWindow::initializedClientManager()
     {
         m_clientManager = new ClientManager(m_currentConnectionProfile);
 
-        connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
         connect(m_clientManager,&ClientManager::notifyUser,this,[=](QString str){
             m_logController->manageMessage(str,LogController::Features);
         });
@@ -1687,6 +1686,7 @@ void MainWindow::initializedClientManager()
     }
     else
     {
+        m_clientManager->setConnectionProfile(m_currentConnectionProfile);
         m_clientManager->reset();
     }
     if((nullptr!=m_currentConnectionProfile)&&(nullptr!=m_clientManager))

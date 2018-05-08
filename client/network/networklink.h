@@ -25,6 +25,7 @@
 
 #include <QtNetwork>
 #include <QTcpSocket>
+#include <QPointer>
 
 #include "network/networkmessage.h"
 #include "connectionprofile.h"
@@ -40,12 +41,6 @@ class NetworkLink : public QObject
     Q_OBJECT
 
 public :
-
-    /**
-     * @brief NetworkLink
-     * @param socket
-     */
-    NetworkLink(QTcpSocket *socket);
     /**
      * @brief NetworkLink
      * @param m_connection
@@ -124,7 +119,7 @@ protected slots:
     void socketStateChanged(QAbstractSocket::SocketState state);
 private slots :
     void receivingData();
-    void connectionError(QAbstractSocket::SocketError);
+    void connectionError(QAbstractSocket::SocketError error);
 private :
     /**
      * @brief makeSignalConnection
@@ -149,17 +144,17 @@ private :
     int extractCharacter(Map* map, char *m_buffer);
 
 
-    QTcpSocket* m_socketTcp;
+    QPointer<QTcpSocket> m_socketTcp;
     NetworkMessageHeader m_header;
     bool m_receivingData;
-    char* m_buffer;
+    char* m_buffer  = nullptr;
     quint32 m_remainingData;
     QMap<NetMsg::Category,NetWorkReceiver*> m_receiverMap;
     int m_headerRead;
     QHash<QString,int> m_hbCount;
     int m_port;
     QString m_host;
-    ConnectionProfile* m_connection;
+    ConnectionProfile* m_connection = nullptr;
 
 };
 

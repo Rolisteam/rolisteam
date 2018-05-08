@@ -75,11 +75,19 @@ void TcpClient::setSocket(QTcpSocket* socket)
         });
 
         connect(m_authentificationServer,&QState::activeChanged,this,[=](bool b){
-            qDebug() << "authentification server";
+            qDebug() << "authentification state";
             if(b)
             {
                 m_currentState = m_authentificationServer;
-                emit checkServerPassword(this);
+                if(m_player)
+                {
+                    emit checkServerPassword(this);
+                }
+                else
+                {
+                    m_waitingData = true;
+                }
+
             }
         });
         connect(m_wantToGoToChannel,&QState::activeChanged,this,[=](bool b){
@@ -96,10 +104,6 @@ void TcpClient::setSocket(QTcpSocket* socket)
                 closeConnection();
             }
         });
-
-
-
-
 
         m_incomingConnection->addTransition(this, SIGNAL(checkSuccess()), m_controlConnection);
         m_incomingConnection->addTransition(this,SIGNAL(checkFail()),m_disconnected);
@@ -401,13 +405,17 @@ void TcpClient::sendOffChannelChanged()
 }
 void TcpClient::readAdministrationMessages(NetworkMessageReader& msg)
 {
-    qDebug() << "admin message - action: "<< msg.action() <<"category:" <<msg.category();
+    qDebug() << "player "<< m_player ;
     switch (msg.action())
     {
         case NetMsg::ConnectionInfo:
             m_serverPassword = msg.string32();
             setInfoPlayer(&msg);
-            emit checkServerPassword(this);
+            if(m_waitingData)
+            {
+                emit checkServerPassword(this);
+            }
+            m_waitingData =false;
         break;
         case NetMsg::ChannelPassword:
             if(isAdmin())

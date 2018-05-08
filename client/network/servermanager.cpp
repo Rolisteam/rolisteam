@@ -135,13 +135,11 @@ void ServerManager::serverAcceptClient(TcpClient* client)
         data["currentIp"]=client->getIpAddress();
         if(m_corConnection->isValid(data))
         {
-            m_model->addConnectionToDefaultChannel(client);
-            sendEventToClient(client,TcpClient::ServerAuthSuccessEvent);
-            sendOffModel(client);
+            sendEventToClient(client,TcpClient::ControlSuccessEvent);
         }
         else
         {
-            sendEventToClient(client,TcpClient::ServerAuthFailEvent);
+            sendEventToClient(client,TcpClient::ControlFailEvent);
         }
     }
 }
@@ -438,6 +436,8 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
     connect(connection,SIGNAL(adminAuthSucceed()),this,SLOT(sendOffAdminAuthSuccessed()),Qt::QueuedConnection);
     connect(connection,SIGNAL(itemChanged()),this,SLOT(sendOffModelToAll()),Qt::QueuedConnection);
 
+
+    connect(connection,&TcpClient::checkServerAcceptClient,this,&ServerManager::serverAcceptClient,Qt::QueuedConnection);
     connect(connection,&TcpClient::checkServerPassword,this,&ServerManager::checkAuthToServer,Qt::QueuedConnection);
     connect(connection,&TcpClient::checkAdminPassword,this,&ServerManager::checkAuthAsAdmin,Qt::QueuedConnection);
     connect(connection,&TcpClient::checkChannelPassword,this,&ServerManager::checkAuthToChannel,Qt::QueuedConnection);

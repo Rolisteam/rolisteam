@@ -35,14 +35,6 @@
 #include "network/networkmessagewriter.h"
 #include "network/messagedispatcher.h"
 
-NetworkLink::NetworkLink(QTcpSocket* socket)
-    : m_socketTcp(socket)
-{
-    m_receivingData = false;
-    m_headerRead= 0;
-    setSocket(socket);
-}
-
 NetworkLink::NetworkLink(ConnectionProfile* connection)
 {
     setConnection(connection);
@@ -58,11 +50,7 @@ void NetworkLink::initialize()
 
 NetworkLink::~NetworkLink()
 {
-    if(nullptr!=m_socketTcp)
-    {
-        delete m_socketTcp;
-        m_socketTcp=nullptr;
-    }
+    qDebug() << "destruction NetworkLink";
 }
 void NetworkLink::makeSignalConnection()
 {
@@ -73,10 +61,10 @@ void NetworkLink::makeSignalConnection()
 }
 
 
-void NetworkLink::connectionError(QAbstractSocket::SocketError erreur)
+void NetworkLink::connectionError(QAbstractSocket::SocketError error)
 {
-    Q_UNUSED(erreur);
-    if(nullptr==m_socketTcp)
+    Q_UNUSED(error);
+    if(m_socketTcp.isNull())
     {
         return;
     }
@@ -342,8 +330,9 @@ void NetworkLink::setConnection(ConnectionProfile* value)
 }
 void NetworkLink::disconnectAndClose()
 {
-    if(nullptr!=m_socketTcp)
+    if(m_socketTcp)
     {
+        qDebug() << "close socket";
         m_socketTcp->close();
     }
 }
@@ -362,7 +351,10 @@ void NetworkLink::insertNetWortReceiver(NetWorkReceiver* receiver,NetMsg::Catego
 }
 void NetworkLink::connectTo()
 {
-   if(nullptr != m_socketTcp)
+    qDebug() << "before socket";
+    qDebug() << m_socketTcp << "test" << m_connection;
+    qDebug() << "after socket";
+   if(!m_socketTcp.isNull())
    {
        if(nullptr != m_connection)
        {
@@ -376,6 +368,7 @@ void NetworkLink::connectTo()
 }
 void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
 {
+    qDebug() <<"networklink state:" <<state;
     switch (state)
     {
     case QAbstractSocket::ClosingState:
@@ -388,10 +381,9 @@ void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
         emit connecting();//setConnectionState(CONNECTING);
         break;
     case QAbstractSocket::ConnectedState:
-    {
+        qDebug() <<"before connected";
         emit connected();
         //setConnectionState(CONNECTED);
-    }
         break;
     default:
         break;

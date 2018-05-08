@@ -85,7 +85,6 @@ signals :
     void sendData(char* data, quint32 size, NetworkLink* but);
 
     void linkAdded(NetworkLink * link);
-    void linkDeleted(NetworkLink * link);
     void dataReceived(quint64,quint64);
     void stopConnectionTry();
     void connectionStateChanged(ClientManager::ConnectionState);

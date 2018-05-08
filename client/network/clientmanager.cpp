@@ -46,6 +46,8 @@ ClientManager::ClientManager(ConnectionProfile* connection)
     qRegisterMetaType<NetworkLink*>("NetworkLink*");
     qRegisterMetaType<char*>("char*");
 
+    connect(this,&ClientManager::isReady,this,&ClientManager::startConnection);
+
     m_reconnect = new QTimer(this);
     m_playersList = PlayersList::instance();
 
@@ -70,7 +72,7 @@ ClientManager::ClientManager(ConnectionProfile* connection)
     });
     connect(m_disconnected,&QAbstractState::entered,[=]()
     {
-        qDebug() <<"client disconnecting state" ;
+        qDebug() <<"client disconnected state" ;
         setConnectionState(DISCONNECTED);
         emit isDisconnected();
     });
@@ -81,6 +83,11 @@ ClientManager::ClientManager(ConnectionProfile* connection)
         emit isAuthentified();
     });
 
+    connect(m_error,&QAbstractState::entered,[=]()
+    {
+        qDebug() <<"Error state";
+    });
+
     m_states.addState(m_connecting);
     m_states.addState(m_connected);
     m_states.addState(m_authentified);
@@ -88,32 +95,41 @@ ClientManager::ClientManager(ConnectionProfile* connection)
     m_states.addState(m_error);
     m_states.setInitialState(m_disconnected);
     connect(&m_states,SIGNAL(started()),this,SIGNAL(isReady()));
+
     initializeLink();
 }
 void ClientManager::initializeLink()
 {
-    m_networkLinkToServer = new NetworkLink(m_connectionProfile);
+    if(!m_states.isRunning())
+    {
+        m_networkLinkToServer = new NetworkLink(m_connectionProfile);
 
-    m_disconnected->addTransition(m_networkLinkToServer,SIGNAL(connecting()),m_connecting);
-    m_connecting->addTransition(m_networkLinkToServer,SIGNAL(connected()),m_connected);
-    m_connected->addTransition(m_networkLinkToServer,SIGNAL(authentificationSuccessed()),m_authentified);
+        m_disconnected->addTransition(m_networkLinkToServer,SIGNAL(connecting()),m_connecting);
+        m_connecting->addTransition(m_networkLinkToServer,SIGNAL(connected()),m_connected);
+        m_connected->addTransition(m_networkLinkToServer,SIGNAL(authentificationSuccessed()),m_authentified);
 
-    m_authentified->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
-    m_connected->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
-    m_connecting->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
+        m_authentified->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
+        m_connected->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
+        m_connecting->addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
 
-    m_connecting->addTransition(m_networkLinkToServer,SIGNAL(authentificationFail()),m_disconnected);
-    m_connected->addTransition(m_networkLinkToServer,SIGNAL(authentificationFail()),m_disconnected);
+        m_connecting->addTransition(m_networkLinkToServer,SIGNAL(authentificationFail()),m_disconnected);
+        m_connected->addTransition(m_networkLinkToServer,SIGNAL(authentificationFail()),m_disconnected);
 
-    m_error->addTransition(m_networkLinkToServer,SIGNAL(connecting()),m_connecting);
-    m_connecting->addTransition(m_networkLinkToServer,SIGNAL(error()),m_error);
+        m_error->addTransition(m_networkLinkToServer,SIGNAL(connecting()),m_connecting);
+        m_connecting->addTransition(m_networkLinkToServer,SIGNAL(error()),m_error);
 
-    connect(m_networkLinkToServer, SIGNAL(disconnected()),this, SLOT(endingNetworkLink()));
-    connect(m_networkLinkToServer,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
-    connect(m_networkLinkToServer,SIGNAL(errorMessage(QString)),this,SIGNAL(errorOccur(QString)));
-    connect(m_networkLinkToServer,SIGNAL(clearData()),this,SIGNAL(clearData()));
+        connect(m_networkLinkToServer, SIGNAL(disconnected()),this, SLOT(endingNetworkLink()));
+        connect(m_networkLinkToServer,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
+        connect(m_networkLinkToServer,SIGNAL(errorMessage(QString)),this,SIGNAL(errorOccur(QString)));
+        connect(m_networkLinkToServer,SIGNAL(clearData()),this,SIGNAL(clearData()));
+        m_states.start();
+    }
+    else if(nullptr != m_networkLinkToServer)
+    {
+        m_networkLinkToServer->setConnection(m_connectionProfile);
+        reset();
+    }
 
-    m_states.start();
 }
 
 ClientManager::~ClientManager()
@@ -143,17 +159,11 @@ void ClientManager::startConnectionToServer()
 
 void ClientManager::endingNetworkLink()
 {
-    if(!m_disconnectAsked)
-    {
-        m_networkLinkToServer->deleteLater();
-        emit linkDeleted(m_networkLinkToServer);
-    }
 
     if (!m_connectionProfile->isServer())
     {
         setConnectionState(DISCONNECTED);
         emit notifyUser(tr("Connection with the Remote Server has been lost."));
-        m_networkLinkToServer = nullptr;
         m_playersList->cleanListButLocal();
     }
 
@@ -203,7 +213,8 @@ void ClientManager::setConnectionProfile(ConnectionProfile* profile)
     auto localPlayer = m_connectionProfile->getPlayer();
     if(nullptr != localPlayer)
     {
-        m_hbSender = new heartBeatSender(this);
+        if(m_hbSender == nullptr)
+            m_hbSender = new heartBeatSender(this);
         m_hbSender->setIdLocalUser(localPlayer->getUuid());
     }
 
@@ -227,11 +238,4 @@ void ClientManager::reset()
     {
         emit isReady();
     }
-    else
-    {
-        if(m_states.isRunning())
-            m_states.stop();
-        m_states.start();
-    }
-
 }

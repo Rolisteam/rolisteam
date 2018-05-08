@@ -175,6 +175,7 @@ private:
     bool m_isGM = false;
     bool m_isAdmin = false;
 
+    bool m_waitingData = false;
     bool m_receivingData = false;
     quint32 m_dataReceivedTotal=0;
     Player* m_player= nullptr;
