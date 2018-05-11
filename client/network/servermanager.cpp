@@ -505,7 +505,7 @@ void ServerManager::setChannelPassword(QString chanId, QByteArray passwd)
     sendOffModelToAll();
 }
 
-void ServerManager::error(QAbstractSocket::SocketError socketError)
+void ServerManager::error(QAbstractSocket::SocketError)
 {
     if(QAbstractSocket::RemoteHostClosedError == socketError)
         return;

@@ -116,9 +116,7 @@ MainWindow::MainWindow()
     m_ui->setupUi(this);
     m_shownProgress=false;
 
-
     registerQmlTypes();
-
 
     m_preferences = PreferencesManager::getInstance();
     m_downLoadProgressbar = new QProgressBar(this);

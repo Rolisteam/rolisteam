@@ -52,8 +52,8 @@ signals:
 
 protected:
     QString m_id;
-    TreeItem* m_parentItem;
     QString m_name;
+    TreeItem* m_parentItem = nullptr;
 };
 
 #endif // TREEITEM_H
