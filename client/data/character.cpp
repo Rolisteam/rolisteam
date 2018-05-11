@@ -84,7 +84,7 @@ qreal Character::getDistancePerTurn() const
 
 void Character::setDistancePerTurn(const qreal &distancePerTurn)
 {
-    if(m_distancePerTurn == distancePerTurn)
+    if(qFuzzyCompare(m_distancePerTurn, distancePerTurn))
         return;
     m_distancePerTurn = distancePerTurn;
     emit distancePerTurnChanged();
@@ -133,6 +133,9 @@ void Character::setCurrentState(QString name, QColor color, QString image)
         tmpState = new CharacterState();
         tmpState->setLabel(name);
         tmpState->setColor(color);
+        QPixmap pix(image);
+        if(!pix.isNull())
+          tmpState->setImage(pix);
         m_stateList->append(tmpState);
     }
 
@@ -248,14 +251,14 @@ void Character::fill(NetworkMessageWriter & message,bool addAvatar)
     }
     message.string8(m_uuid);
     message.string16(m_name);
-    message.int8(indexOf(m_currentState));
-    message.uint8((int)m_isNpc);
+    message.int8(static_cast<qint8>(indexOf(m_currentState)));
+    message.uint8(static_cast<quint8>(m_isNpc));
     message.int32(m_number);
     message.rgb(m_color.rgb());
 
     if(addAvatar)
     {
-        message.uint8((quint8)!m_avatar.isNull());
+        message.uint8(static_cast<quint8>(!m_avatar.isNull()));
         if(!m_avatar.isNull())
         {
             QByteArray baImage;
@@ -268,7 +271,7 @@ void Character::fill(NetworkMessageWriter & message,bool addAvatar)
     }
     else
     {
-        message.uint8((quint8)false);
+        message.uint8(static_cast<quint8>(false));
     }
 
 }
@@ -282,11 +285,11 @@ QString Character::read(NetworkMessageReader& msg)
     {
         m_currentState = getStateFromIndex(currentStateIndex);
     }
-    m_isNpc = (bool)msg.uint8();
+    m_isNpc = static_cast<bool>(msg.uint8());
     m_number = msg.int32();
     m_color = QColor(msg.rgb());
 
-    bool hasAvatar = (bool) msg.uint8();
+    bool hasAvatar = static_cast<bool>(msg.uint8());
 
     if(hasAvatar)
     {

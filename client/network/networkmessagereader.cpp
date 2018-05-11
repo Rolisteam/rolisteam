@@ -32,7 +32,7 @@ NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader & header, 
     size_t headerSize = sizeof(NetworkMessageHeader);
     m_buffer = new char[header.dataSize + headerSize];
     memcpy(m_buffer, &header, headerSize);
-    m_header = (NetworkMessageHeader *)m_buffer;
+    m_header = reinterpret_cast<NetworkMessageHeader*>(m_buffer);
 
     m_buffer += headerSize;
     memcpy(m_buffer, buffer, m_header->dataSize);
@@ -46,11 +46,11 @@ NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader & header, 
 NetworkMessageReader::NetworkMessageReader(const NetworkMessageReader & other)
 : NetworkMessage(nullptr)
 {
-    size_t size = other.m_end - ((char *)other.m_header);
+    size_t size = other.m_end - reinterpret_cast<char*>(other.m_header);
     char * copy = new char[size];
     memcpy(copy, other.m_header, size);
 
-    m_header = (NetworkMessageHeader *)copy;
+    m_header = reinterpret_cast<NetworkMessageHeader*>(copy);
     m_buffer = copy + sizeof(NetworkMessageHeader);
     m_pos = m_buffer;
     m_end = copy + size;
@@ -72,7 +72,7 @@ void NetworkMessageReader::setData(QByteArray& bytes)
 
     memcpy(m_buffer,data,size+headerSize);
 
-    m_header = (NetworkMessageHeader *)m_buffer;
+    m_header = reinterpret_cast<NetworkMessageHeader*>(m_buffer);
 
     m_pos = m_buffer + headerSize;
     m_end = m_buffer + headerSize + m_header->dataSize;
@@ -92,7 +92,12 @@ NetMsg::Action NetworkMessageReader::action() const
 
 NetworkMessageHeader* NetworkMessageReader::buffer()
 {
-    return m_header;
+  return m_header;
+}
+
+bool NetworkMessageReader::isSizeReadable(size_t size)
+{
+  return (left() >= size);
 }
 
 QStringList NetworkMessageReader::getRecipientList() const
@@ -142,15 +147,15 @@ void NetworkMessageReader::readRecipient()
 
 size_t NetworkMessageReader::left() const
 {
-    return (m_end - m_pos);
+    return static_cast<size_t>(m_end - m_pos);
 }
 
 quint8 NetworkMessageReader::uint8()
 {
     size_t size = sizeof(quint8);
-    if (left() >= size)
+    if (isSizeReadable(size))
     {
-        quint8 ret = (quint8) *m_pos;
+        quint8 ret = static_cast<quint8>(*m_pos);
         m_pos += size;
         return ret;
     }
@@ -160,7 +165,7 @@ quint8 NetworkMessageReader::uint8()
 quint16 NetworkMessageReader::uint16()
 {
     size_t size = sizeof(quint16);
-    if (left() >= size)
+    if (isSizeReadable(size))
     {
         quint16 ret;
         memcpy(&ret, m_pos, size);
@@ -173,7 +178,7 @@ quint16 NetworkMessageReader::uint16()
 quint32 NetworkMessageReader::uint32()
 {
     size_t size = sizeof(quint32);
-    if (left() >= size)
+    if (isSizeReadable(size))
     {
         quint32 ret;
         memcpy(&ret, m_pos, size);
@@ -185,7 +190,7 @@ quint32 NetworkMessageReader::uint32()
 quint64 NetworkMessageReader::uint64()
 {
     size_t size = sizeof(quint64);
-    if (left() >= size)
+    if (isSizeReadable(size))
     {
         quint64 ret;
         memcpy(&ret, m_pos, size);
@@ -209,12 +214,13 @@ QString NetworkMessageReader::string32()
     return string(uint32());
 }
 
-QString NetworkMessageReader::string(int sizeQChar)
+QString NetworkMessageReader::string(quint64 sizeQChar)
 {
     size_t sizeBytes = sizeQChar * sizeof(QChar);
-    if (sizeBytes > 0 && left() >= sizeBytes)
+    if (sizeBytes > 0 && isSizeReadable(sizeBytes))
     {
-        QString ret((const QChar *) m_pos, sizeQChar);
+        QByteArray result(m_pos,static_cast<int>(sizeBytes));
+        QString ret(result);
         m_pos += sizeBytes;
         return ret;
     }
@@ -224,7 +230,7 @@ QString NetworkMessageReader::string(int sizeQChar)
 unsigned int NetworkMessageReader::rgb()
 {
     size_t size = sizeof(unsigned int);
-    if (left() >= size)
+    if (isSizeReadable(size))
     {
         unsigned int ret;
         memcpy(&ret, m_pos, size);
@@ -236,17 +242,21 @@ unsigned int NetworkMessageReader::rgb()
 
 QByteArray NetworkMessageReader::byteArray32()
 {
-	int size = uint32();
-	QByteArray result(m_pos,size);
-	m_pos += size;
-	return result;
+    size_t size = static_cast<size_t>(uint32());
+    if(isSizeReadable(size))
+    {
+      QByteArray result(m_pos, static_cast<int>(size));
+      m_pos += size;
+      return result;
+    }
+    return {};
 }
 qint8 NetworkMessageReader::int8()
 {
     size_t size = sizeof(qint8);
-    if (left() >= size)
+    if (isSizeReadable(size))
     {
-        qint8 ret = (qint8) *m_pos;
+        qint8 ret = static_cast<qint8>( *m_pos);
         m_pos += size;
         return ret;
     }
@@ -256,7 +266,7 @@ qint8 NetworkMessageReader::int8()
 qint16 NetworkMessageReader::int16()
 {
     size_t size = sizeof(qint16);
-    if (left() >= size)
+    if (isSizeReadable(size))
     {
         qint16 ret;
         memcpy(&ret, m_pos, size);
@@ -269,7 +279,7 @@ qint16 NetworkMessageReader::int16()
 qint32 NetworkMessageReader::int32()
 {
     size_t size = sizeof(qint32);
-    if (left() >= size)
+    if (isSizeReadable(size))
     {
         qint32 ret;
         memcpy(&ret, m_pos, size);
@@ -281,7 +291,7 @@ qint32 NetworkMessageReader::int32()
 qint64 NetworkMessageReader::int64()
 {
     size_t size = sizeof(qint64);
-    if (left() >= size)
+    if (isSizeReadable(size))
     {
         qint64 ret;
         memcpy(&ret, m_pos, size);
@@ -293,7 +303,7 @@ qint64 NetworkMessageReader::int64()
 qreal  NetworkMessageReader::real()
 {
     size_t size = sizeof(qreal);
-    if (left() >= size)
+    if (isSizeReadable(size))
     {
         qreal ret;
         memcpy(&ret, m_pos, size);

@@ -256,7 +256,6 @@ QModelIndex ChannelModel::channelToIndex(Channel* channel)
 
 NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader *msg)
 {
-    Q_UNUSED(link);
     if(NetMsg::AddChannel == msg->action())
     {
         QString idParent = msg->string8();
@@ -273,7 +272,7 @@ NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader *msg
         }
         return NetWorkReceiver::NONE;
     }
-    else if(NetMsg::AdminPassword)
+    else if(NetMsg::AdminPassword == msg->action())
     {
         return NetWorkReceiver::ALL;
     }

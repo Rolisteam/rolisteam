@@ -231,7 +231,7 @@ private slots :
      * @param str
      * @param secret
      */
-    void manageDiceRoll(QString str,QString& messageTitle,QString& message, bool showResult = true);
+    void manageDiceRoll(QString str,QString& messageTitle,QString& message,bool alias, bool showResult = true);
 private :
     static QStringList m_keyWordList;
     QMdiSubWindow* m_window;

@@ -196,12 +196,12 @@ bool ChatWindow::isVisible()
 {
     return (m_window->isVisible() & QWidget::isVisible());
 }
-void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& message,bool showResult)
+void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& message,bool alias, bool showResult)
 {
     updateListAlias();
 
     QColor color;
-    if(m_diceParser->parseLine(str))
+    if(m_diceParser->parseLine(str, alias))
     {
         m_diceParser->start();
         if(m_diceParser->getErrorMap().isEmpty())
@@ -333,10 +333,10 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
         switch(chatOperator)
         {
         case DICEROLL:
-            manageDiceRoll(tmpmessage,msgTitle,message);
+            manageDiceRoll(tmpmessage,msgTitle,message, true);
             break;
         case SECRET_DICEROLL:
-            manageDiceRoll(tmpmessage,msgTitle,message);
+            manageDiceRoll(tmpmessage,msgTitle,message, true);
             return;
         case TO_GM_DICEROLL:
             manageDiceRoll(tmpmessage,msgTitle,message,false);
@@ -862,7 +862,7 @@ void ChatWindow::rollDiceCmd(QString cmd, QString owner, bool alias)
 
     setProperDictionnary(idOwner);
 
-    manageDiceRoll(cmd.simplified(),title,msg);
+    manageDiceRoll(cmd.simplified(),title,msg, alias);
 
     NetworkMessageWriter data(NetMsg::ChatCategory, NetMsg::DiceMessageAction);
     data.string8(idOwner);

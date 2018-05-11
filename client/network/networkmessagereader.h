@@ -55,7 +55,7 @@ public:
 
     QByteArray byteArray32();
 
-    QString string(int size);
+    QString string(quint64 size);
     unsigned int rgb();
     qreal  real();
     qint8  int8();
@@ -80,6 +80,8 @@ public:
 
 protected:
     NetworkMessageHeader * buffer();
+    bool isSizeReadable(size_t size);
+
 
 private:
     NetworkMessageHeader * m_header;
