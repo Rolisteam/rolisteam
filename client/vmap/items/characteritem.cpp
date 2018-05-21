@@ -891,7 +891,6 @@ void CharacterItem::endOfGeometryChange()
 }
 void CharacterItem::setCharacterIsMovable(bool isMovable)
 {
-
     if((m_propertiesHash->value(VisualItem::LocalIsGM).toBool())||
        (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)||
             (isLocal()&&(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)))

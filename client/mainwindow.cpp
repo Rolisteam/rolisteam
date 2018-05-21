@@ -1666,6 +1666,14 @@ void MainWindow::startConnection()
 }
 void MainWindow::initializedClientManager()
 {
+    if(nullptr == m_currentConnectionProfile)
+        return;
+
+    if(nullptr == m_currentConnectionProfile->getPlayer())
+        return;
+
+    m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
+
     if(nullptr == m_clientManager)
     {
         m_clientManager = new ClientManager(m_currentConnectionProfile);
@@ -1728,7 +1736,6 @@ void MainWindow::postConnection()
     playerList->sendOffLocalPlayerInformations();
     playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
 
-    m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
     m_roomPanel->setLocalPlayerId(m_localPlayerId);
 
     if(nullptr!=m_preferences)

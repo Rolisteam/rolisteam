@@ -869,14 +869,10 @@ void VMap::addCharacter(Character* p, QPointF pos)
     if(nullptr!=item)
     {
         item->setZValue(m_zIndex);
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
-        msg.string8(m_id);
-        msg.uint8(item->getType());
-        item->fillMessage(&msg);
-        msg.sendAll();
         item->initChildPointItem();
         addNewItem(new AddVmapItemCommand(item,this),true);
         insertCharacterInMap(item);
+        sendOffItem(item);
     }
 }
 QColor VMap::getBackGroundColor() const
