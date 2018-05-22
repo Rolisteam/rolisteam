@@ -395,6 +395,8 @@ bool QmlGeneratorVisitor::generateTable(Field *item)
     if(!tablefield)
         return false;
 
+    tablefield->fillModel();
+
     QString node(
     "%1ListView{//%2\n"
     "%1    id: _%3list\n"+
@@ -404,6 +406,27 @@ bool QmlGeneratorVisitor::generateTable(Field *item)
     "%1    interactive: count>maxRow?true:false;\n"
     "%1    clip: true;\n"
     "%1    model: %3.model\n"
+    "%1    MouseArea {\n"
+    "%1        id: listmouse%3\n"
+    "%1        anchors.fill: parent\n"
+    "%1        acceptedButtons: Qt.RightButton\n"
+    "%1        onClicked: contextMenu%3.popup()\n"
+    "%1        Menu {\n"
+    "%1            id: contextMenu%3\n"
+    "%1            MenuItem { \n"
+    "%1                text: \"Add line\"\n"
+    "%1                onTriggered: %3.addLine()\n"
+    "%1            }\n"
+    "%1            MenuItem { \n"
+    "%1                text: \"Remove current Line\"\n"
+    "%1                onTriggered: %3.removeLine(_%3list.indexAt(parent.x, parent.y))\n"
+    "%1            }\n"
+    "%1            MenuItem { \n"
+    "%1                text: \"Remove Last line\"\n"
+    "%1                onTriggered: %3.removeLastLine()\n"
+    "%1            }\n"
+    "%1        }\n"
+    "%1    }\n"
     "%1    delegate: RowLayout {\n"
     "%1        height: _%3list.height/_%3list.maxRow\n"
     "%1        width:  _%3list.width\n"
