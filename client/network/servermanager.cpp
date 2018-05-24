@@ -164,9 +164,8 @@ void ServerManager::checkAuthToServer(TcpClient* client)
 }
 void ServerManager::checkAuthAsAdmin(TcpClient* client)
 {
-    QString passwd = client->getAdminPassword();
     QMap<QString,QVariant> data(m_parameters);
-    data["userpassword"]=passwd;
+    data["userpassword"] = client->getAdminPassword();
     if(m_adminAccepter->isValid(data))
     {
         sendEventToClient(client,TcpClient::AdminAuthSuccessEvent);

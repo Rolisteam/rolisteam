@@ -67,7 +67,7 @@ public:
     void setInfoPlayer(NetworkMessageReader* msg);
     void fill(NetworkMessageWriter* msg);
 
-    void closeConnection();
+
 
     void addPlayerFeature(QString uuid,QString  name,quint8 version);
 
@@ -148,6 +148,7 @@ public slots:
     void connectionError(QAbstractSocket::SocketError error);
     void sendEvent(TcpClient::ConnectionEvent);
     void startReading();
+    void closeConnection();
 
 protected:
     bool isCurrentState(QState *state);

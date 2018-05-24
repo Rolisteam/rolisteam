@@ -300,6 +300,9 @@ QString Character::read(NetworkMessageReader& msg)
 }
 CharacterState* Character::getStateFromIndex(int i)
 {
+    if(nullptr == m_stateList)
+       return nullptr;
+
     if(m_stateList->empty())
         return nullptr;
     if(m_stateList->size()>i)

@@ -224,9 +224,9 @@ void ClientManager::sendOffConnectionInfo()
     if(nullptr == m_connectionProfile)
         return;
 
-    QString pw = m_connectionProfile->getPassword();
+    QByteArray pw = m_connectionProfile->getPassword();
     NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::ConnectionInfo);
-    msg.string32(pw);
+    msg.byteArray32(pw);
     auto localPlayer = m_connectionProfile->getPlayer();
     setLocalFeatures(*localPlayer);
     localPlayer->fill(msg);

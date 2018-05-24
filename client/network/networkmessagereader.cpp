@@ -219,8 +219,8 @@ QString NetworkMessageReader::string(quint64 sizeQChar)
     size_t sizeBytes = sizeQChar * sizeof(QChar);
     if (sizeBytes > 0 && isSizeReadable(sizeBytes))
     {
-        QByteArray result(m_pos,static_cast<int>(sizeBytes));
-        QString ret(result);
+        QString ret(reinterpret_cast<const QChar*>(m_pos),
+                    static_cast<int>(sizeQChar));
         m_pos += sizeBytes;
         return ret;
     }

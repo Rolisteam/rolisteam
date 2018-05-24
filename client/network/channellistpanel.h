@@ -38,7 +38,7 @@ public:
 
 public slots:
     void showCustomMenu(QPoint pos);
-    void sendOffLoginAdmin(QString str = QString());
+    void sendOffLoginAdmin(QByteArray str = QByteArray());
 
 protected slots:
     void addChannelAsSibbling();

@@ -8,6 +8,7 @@
 #include <QJsonArray>
 #include <QDebug>
 #include <QMenu>
+#include <QCryptographicHash>
 
 #include "tcpclient.h"
 #include "preferences/preferencesmanager.h"
@@ -64,13 +65,10 @@ void ChannelListPanel::processMessage(NetworkMessageReader* msg)
     switch (msg->action())
     {
         case NetMsg::Goodbye:
-
         break;
         case NetMsg::Kicked:
-
         break;
         case NetMsg::MoveChannel:
-
         break;
         case NetMsg::SetChannelList:
         {
@@ -165,6 +163,7 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
         m_addChannel->setEnabled(true);
         m_deleteChannel->setEnabled(true);
         m_addSubchannel->setEnabled(true);
+        m_channelPassword->setEnabled(true);
         m_join->setEnabled(true);
     }
     else if(state == OnUser)
@@ -174,6 +173,7 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
         m_lock->setEnabled(false);
         m_deleteChannel->setEnabled(false);
         m_addSubchannel->setEnabled(false);
+        m_channelPassword->setEnabled(false);
         m_setDefault->setEnabled(false);
         m_join->setEnabled(false);
         m_addChannel->setEnabled(false);
@@ -217,9 +217,6 @@ void ChannelListPanel::kickUser()
             if(!id.isEmpty())
             {
                 NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::Kicked);
-                QStringList idList;
-                idList << id;
-                msg.setRecipientList(idList,NetworkMessage::OneOrMany);
                 msg.string8(id);
                 msg.string8(idPlayer);
                 msg.sendAll();
@@ -278,21 +275,21 @@ void ChannelListPanel::logAsAdmin()
 
     QString pwadmin = preferences->value(QString("adminPassword_for_%1").arg(m_serverName),QString()).toString();
 
-
     if(pwadmin.isEmpty())
     {
         pwadmin = QInputDialog::getText(this,tr("Admin Password"),tr("Password"),QLineEdit::Password);
     }
-    sendOffLoginAdmin(pwadmin);
+    auto pwA = QCryptographicHash::hash(pwadmin.toUtf8(),QCryptographicHash::Sha3_512);
+    sendOffLoginAdmin(pwA);
 }
 
-void ChannelListPanel::sendOffLoginAdmin(QString str)
+void ChannelListPanel::sendOffLoginAdmin(QByteArray str)
 {
     if(!str.isEmpty())
     {
         NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::AdminPassword);
         //msg.string8(id);
-        msg.string32(str);
+        msg.byteArray32(str);
         msg.sendAll();
     }
 }

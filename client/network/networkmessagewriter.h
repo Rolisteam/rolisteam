@@ -60,6 +60,7 @@ public:
     void int64(qint64 data);
 
     void real(qreal data);
+    void sendAll();
 
     /**
      * @brief getRecipientList

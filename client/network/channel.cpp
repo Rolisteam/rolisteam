@@ -232,7 +232,7 @@ void Channel::kick(QString str)
 
             TcpClient* client = dynamic_cast<TcpClient*>(item);
             removeClient(client);
-            client->closeConnection();
+            QMetaObject::invokeMethod(client,"closeConnection",Qt::QueuedConnection);
         }
     }
     if(!found)

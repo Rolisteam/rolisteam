@@ -409,7 +409,7 @@ void TcpClient::readAdministrationMessages(NetworkMessageReader& msg)
     switch (msg.action())
     {
         case NetMsg::ConnectionInfo:
-            m_serverPassword = msg.string32();
+            m_serverPassword = msg.byteArray32();
             setInfoPlayer(&msg);
             if(m_waitingData)
             {
@@ -433,7 +433,7 @@ void TcpClient::readAdministrationMessages(NetworkMessageReader& msg)
         }
         break;
         case NetMsg::AdminPassword:
-            m_adminPassword = msg.string32();
+            m_adminPassword = msg.byteArray32();
             emit checkAdminPassword(this);
         break;
         default:
