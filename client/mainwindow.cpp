@@ -1077,7 +1077,7 @@ void MainWindow::saveMedia(MediaContainer* mediaC, bool saveAs)
         if(nullptr!=cleverURI)
         {
             QString uri  = cleverURI->getUri();
-            if(cleverURI->getCurrentMode() == CleverURI::Linked)
+            if(cleverURI->getCurrentMode() == CleverURI::Linked || saveAs )
             {
                 if(uri.isEmpty() || saveAs)
                 {

@@ -29,6 +29,10 @@ SharedNoteContainer::SharedNoteContainer()
 #endif
     if(nullptr!=m_edit)
     {
+        connect(m_edit, &SharedNote::windowTitleChanged,this, [=](){
+            m_title = m_edit->windowTitle();
+            setFileName(m_edit->fileName());
+        });
         m_title = m_edit->windowTitle();
     }
 
@@ -36,9 +40,7 @@ SharedNoteContainer::SharedNoteContainer()
     setWidget(m_edit);
     setWindowIcon(QIcon(":/resources/icons/sharedEditor.png"));
    // m_edit->displaySharingPanel();
-    connect(m_edit,SIGNAL(windowTitleChanged(QString)),this,SLOT(setFileName(QString)));
-
-
+    //connect(m_edit,SIGNAL(windowTitleChanged(QString)),this,SLOT(setFileName(QString)));
 }
 void SharedNoteContainer::readMessage(NetworkMessageReader& msg)
 {
@@ -78,6 +80,7 @@ void SharedNoteContainer::setFileName(QString str)
     if(nullptr!=m_uri)
     {
         m_uri->setUri(str);
+        m_edit->setFileName(str);
     }
 }
 
@@ -135,6 +138,7 @@ void SharedNoteContainer::saveMedia()
                 QString str = m_uri->getUri()+".rsn";
                 m_uri->setUri(str);
             }
+            m_edit->setFileName(m_uri->name());
 
             QFile file(m_uri->getUri());
             if (!file.open(QIODevice::WriteOnly))

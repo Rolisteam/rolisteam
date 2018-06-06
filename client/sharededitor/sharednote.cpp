@@ -45,6 +45,9 @@ SharedNote::SharedNote(QWidget *parent)
     connect(m_document->getParticipantPane(), SIGNAL(memberCanNowRead(QString)), this, SLOT(populateDocumentForUser(QString)));
     connect(m_document->getParticipantPane(), SIGNAL(memberPermissionsChanged(QString,int)), this, SLOT(playerPermissionsChanged(QString,int)));
     connect(m_document->getParticipantPane(),SIGNAL(closeMediaToPlayer(QString)),this,SLOT(closeEditorFor(QString)));
+    connect(m_document, &Document::contentChanged, this, [=](){
+        setWindowModified(true);
+    });
 
 
     findDialog = new FindDialog(this);
@@ -126,6 +129,7 @@ void SharedNote::populateDocumentForUser(QString id)
 void SharedNote::setOwner(Player* player)
 {
     m_document->setOwner(player);
+    updateWindowTitle();
 }
 bool SharedNote::eventFilter(QObject *, QEvent *event)
 {
@@ -141,37 +145,6 @@ bool SharedNote::eventFilter(QObject *, QEvent *event)
         return true;
     }
     return false;
-}
-
-// Save methods
-bool SharedNote::save()
-{
-   /* if (m_document->curFile.isEmpty())
-    {
-        return fileSaveAs();
-    }
-    else
-    {
-        return save();
-    }*/
-    return true;
-}
-
-bool SharedNote::maybeSave()
-{
-    if (m_document->isModified())
-    {
-        QMessageBox::StandardButton ret;
-        ret = QMessageBox::warning(this, "Cahoots",
-                                   "The document has been modified.\n"
-                                   "Do you want to save your changes?",
-                                   QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-        if (ret == QMessageBox::Save)
-            return save();
-        else if (ret == QMessageBox::Cancel)
-            return false;
-    }
-    return true;
 }
 
 void SharedNote::closeEditorFor(QString idplayer)
@@ -193,6 +166,7 @@ bool SharedNote::saveFile(QDataStream& out)
     out << m_document->getPlainText();
     QApplication::restoreOverrideCursor();
     m_document->setModified(false);
+    setWindowModified(false);
     return true;
 }
 
@@ -203,6 +177,7 @@ bool SharedNote::saveFileAsText(QTextStream &out)
 
     out << m_document->getPlainText();
     m_document->setModified(false);
+    setWindowModified(false);
     return true;
 }
 
@@ -289,8 +264,6 @@ void SharedNote::on_actionEdit_Find_triggered()
     findDialog->show();
 }
 
-
-
 void SharedNote::on_actionView_Line_Wrap_triggered()
 {
     m_document->toggleLineWrap();
@@ -352,6 +325,7 @@ void SharedNote::readFromMsg(NetworkMessageReader* msg)
     if(nullptr!=m_document)
     {
         m_document->readFromMsg(msg);
+        updateWindowTitle();
     }
 }
 void SharedNote::on_actionTools_Preview_as_Html_triggered()
@@ -384,8 +358,6 @@ void SharedNote::on_actionText_Comment_Line_triggered()
 {
     m_document->unCommentSelection();
 }
-
-
 
 void SharedNote::setUndoability(bool b)
 {
@@ -486,4 +458,22 @@ void SharedNote::setMarkdownAsHighlight()
     QAction* act = qobject_cast<QAction*>(sender());
 
     m_document->setHighlighter(act->data().toInt());
+}
+
+QString SharedNote::fileName() const
+{
+    return m_fileName;
+}
+
+void SharedNote::setFileName(const QString &fileName)
+{
+    m_fileName = fileName;
+    updateWindowTitle();
+}
+
+void SharedNote::updateWindowTitle()
+{
+    PlayersList* list = PlayersList::instance();
+    Player* player = list->getLocalPlayer();
+    setWindowTitle(tr("%1 - SharedNote[*] - %2").arg(m_fileName).arg(m_document->canWrite(player) ? tr("ReadWrite"):tr("ReadOnly")));
 }

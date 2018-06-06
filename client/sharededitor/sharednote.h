@@ -45,9 +45,6 @@ public:
     SharedNote(QWidget *parent = 0);
     ~SharedNote();
 
-    bool save();
-    bool maybeSave();
-
     bool saveFileAsText(QTextStream& out);
     bool loadFileAsText(QTextStream& out);
 
@@ -70,6 +67,9 @@ public:
     void runUpdateCmd(QString cmd);
 
 
+    QString fileName() const;
+    void setFileName(const QString &fileName);
+
 public slots:
     void updateDocumentToAll(NetworkMessageWriter* msg);
     void textHasChanged(int pos, int charsRemoved, int charsAdded);
@@ -82,6 +82,7 @@ protected:
     void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject *, QEvent *event);
 
+    void updateWindowTitle();
 private slots:
   //  bool fileSaveAs();
 

@@ -119,6 +119,7 @@ signals:
     void redoAvailable(bool);
     void undoAvailable(bool);
     void notFound();
+    void contentChanged();
 
 private slots:
     // triggered by the find toolbar, not the dialog

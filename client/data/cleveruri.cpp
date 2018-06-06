@@ -102,6 +102,8 @@ bool CleverURI::operator==(const CleverURI& uri) const
 void CleverURI::setUri(QString& uri)
 {
     m_uri=uri;
+    QFileInfo info(uri);
+    m_name = info.baseName();
     loadData();
     updateListener(CleverURI::URI);
 }

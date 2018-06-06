@@ -16,6 +16,10 @@
   <property name="windowTitle">
    <string>Shared Note Editor</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../rolisteam.qrc">
+    <normaloff>:/resources/icons/sharedEditor.png</normaloff>:/resources/icons/sharedEditor.png</iconset>
+  </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
   </property>
@@ -54,9 +58,8 @@
      <property name="title">
       <string>Syntax Highlighting...</string>
      </property>
-     <addaction name="actionEdit_None"/>
      <addaction name="m_highlightMarkdownAction"/>
-     <addaction name="actionEdit_Python"/>
+     <addaction name="actionEdit_None"/>
     </widget>
     <addaction name="actionEdit_Undo"/>
     <addaction name="actionEdit_Redo"/>
@@ -212,13 +215,11 @@
    </property>
   </action>
   <action name="m_highlightMarkdownAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Markdown</string>
-   </property>
-  </action>
-  <action name="actionEdit_Python">
-   <property name="text">
-    <string>Python</string>
    </property>
   </action>
   <action name="actionText_Shift_Left">
@@ -325,6 +326,9 @@
    </property>
   </action>
   <action name="actionEdit_None">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>None</string>
    </property>

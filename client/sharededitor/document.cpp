@@ -71,8 +71,7 @@ Document::Document(QWidget *parent) :
       }
     });
 
-
-
+    connect(m_editor, &CodeEditor::textChanged,this,&Document::contentChanged);
 
     // Find all toolbar widget
     //delete ui->findAllFrame;
