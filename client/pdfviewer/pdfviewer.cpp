@@ -128,7 +128,7 @@ void PdfViewer::createActions()
 
     connect(m_cropCurrentView, &QAction::triggered,this,&PdfViewer::showOverLay);
 
-    m_shareDocument = new QAction(tr("Document"),this);
+    m_shareDocument = new QAction(tr("Document to all"),this);
     m_shareDocument->setIcon(QIcon(":/resources/icons/document-share.svg"));
 
 
@@ -146,6 +146,7 @@ void PdfViewer::createActions()
     connect(m_toMap,&QAction::triggered,this,&PdfViewer::exportImage);
     connect(m_toVmap,&QAction::triggered,this,&PdfViewer::exportImage);
     connect(m_image,&QAction::triggered,this,&PdfViewer::exportImage);
+    connect(m_shareDocument,&QAction::triggered,this,&PdfViewer::sharePdfTo);
 
 }
 
@@ -164,6 +165,19 @@ void PdfViewer::exportImage()
         delete m_overlay;
         m_overlay = nullptr;
         m_cropCurrentView->setChecked(false);
+    }
+}
+
+void PdfViewer::sharePdfTo()
+{
+    auto answer = QMessageBox::question(this,tr("Sharing Pdf File"),tr("PDF transfert can be really heavy.\nDo you want to continue and share the PDF?"),
+                          QMessageBox::Yes | QMessageBox::Cancel);
+    if(answer == QMessageBox::Yes)
+    {
+        NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
+        msg.uint8(getContentType());
+        fill(msg);
+        msg.sendAll();
     }
 }
 
@@ -198,31 +212,36 @@ void PdfViewer::showOverLay()
 }
 void PdfViewer::fill(NetworkMessageWriter & message)
 {
-    Q_UNUSED(message)
-//    QByteArray baPdfViewer;
-//    QBuffer bufPdfViewer(&baPdfViewer);
-//    if (!m_pixMap.save(&bufPdfViewer, "jpg", 70))
-//    {
-//        //   qDebug() << "png size:" << bufPdfViewer.size();
-//    }
-//    //message.reset();
-//    message.string16(m_title);
-//    message.string8(m_mediaId);
-//    message.string8(m_idPlayer);
-//    message.byteArray32(baPdfViewer);
+    QByteArray baPdfViewer = m_uri->getData();
+    if(baPdfViewer.isEmpty())
+    {
+        QFile pdfFile(m_uri->getUri());
+        if(!pdfFile.exists())
+            return;
+
+        if(pdfFile.open(QIODevice::ReadOnly))
+        {
+            baPdfViewer = pdfFile.readAll();
+        }
+    }
+
+    message.string16(m_title);
+    message.string8(m_mediaId);
+    message.byteArray32(baPdfViewer);
 }
 
 void PdfViewer::readMessage(NetworkMessageReader &msg)
 {
-    Q_UNUSED(msg)
-//    m_title = msg.string16();
-//    setTitle(m_title);
-//    m_mediaId = msg.string8();
-//    m_idPlayer = msg.string8();
-//    QByteArray data = msg.byteArray32();
-//    QPdfViewer img =QPdfViewer::fromData(data);
-//    setPdfViewer(img);
-//    m_remote = true;
+    m_title = msg.string16();
+    setTitle(m_title);
+    m_mediaId = msg.string8();
+    QByteArray data = msg.byteArray32();
+    //QTemporaryFile file;
+    //file.setAutoRemove(false);
+    //file.open();
+    //file.write(data);
+    m_pdfWidget->loadData(data);
+    m_remote = true;
 }
 
 

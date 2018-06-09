@@ -1523,15 +1523,23 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
             auto url = msg->string32();
             uri->setUri(url);
         }
+            break;
+#endif
+#ifdef WITH_PDF
+       case CleverURI::PDF:
+        {
+            auto pdf = new PdfViewer(m_mdiArea);
+            pdf->readMessage(*msg);
+            addMediaToMdiArea(pdf,false);
+            pdf->setVisible(true);
+        }
+       break;
 #endif
         case CleverURI::CHARACTERSHEET:
             break;
         case CleverURI::SHAREDNOTE:
             break;
         case CleverURI::TEXT:
-#ifdef WITH_PDF
-        case CleverURI::PDF:
-#endif
         case CleverURI::SCENARIO:
         case CleverURI::SONG:
         case CleverURI::SONGLIST:

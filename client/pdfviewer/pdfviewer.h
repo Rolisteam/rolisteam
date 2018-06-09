@@ -80,6 +80,7 @@ protected:
 protected slots:
     void showOverLay();
     void exportImage();
+    void sharePdfTo();
 
 private :
     QString m_owner;
