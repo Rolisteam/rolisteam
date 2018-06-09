@@ -290,6 +290,5 @@ VisualItem* RectItem::getItemCopy()
 }
 void RectItem::resizeContents(const QRectF& rect ,TransformType b)
 {
-   // qDebug() << "after" <<m_rect << rect;
     VisualItem::resizeContents(rect,b);
 }

@@ -226,7 +226,6 @@ void EllipsItem::setGeometryPoint(qreal pointId, QPointF &pos)
 	}
     m_rect.setRect(-m_rx,-m_ry,m_rx*2,m_ry*2);
     m_resizing = true;
-    //qDebug() <<"EllipsItem" << m_rect << this->pos();
     update();
 }
 void EllipsItem::initChildPointItem()

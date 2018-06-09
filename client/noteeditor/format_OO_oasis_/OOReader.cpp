@@ -27,7 +27,6 @@ QMap<QString,QByteArray> unzipstream( const QString file )
 			if (fi.size > 0) {
 				ooFile.insert(fi.filePath,unzip.fileData(fi.filePath));
 			}
-			/////////qDebug() << "### file  " << fi.filePath << fi.size;
 		}
 
 		unzip.close();

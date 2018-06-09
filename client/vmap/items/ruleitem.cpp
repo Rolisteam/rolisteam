@@ -75,7 +75,6 @@ void RuleItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    //qDebug() << m_zoomFactor << 1+1*m_zoomFactor << 1/m_zoomFactor;
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing,true);
 

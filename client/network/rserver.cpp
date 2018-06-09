@@ -11,7 +11,6 @@ RServer::RServer(ServerManager* serverMan,int threadCount,QObject *parent)
 
 RServer::~RServer()
 {
-   // qDebug() <<  this << "destroyed";
 }
 
 bool RServer::listen(const QHostAddress &address, quint16 port)

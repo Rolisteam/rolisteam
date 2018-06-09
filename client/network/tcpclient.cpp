@@ -231,12 +231,9 @@ void TcpClient::receivingData()
 {
     if(nullptr==m_socket)
     {
-       // qDebug() << "End of reading data socket null";
         return;
     }
     quint32 dataRead=0;
-
-   // qDebug() << "current thread" << QThread::currentThread() << " thread socket" << m_socket->thread() << " object thread" << thread() << m_socket->bytesAvailable() << "sender"<< sender()<< "curent socket" << m_socket;
 
     while (m_socket->bytesAvailable())
     {
@@ -394,7 +391,6 @@ void TcpClient::sendEvent(TcpClient::ConnectionEvent event)
         sendOffChannelChanged();
         break;
     default:
-        qDebug() << "sendEvent Unkown event";
         break;
     }
 }
@@ -405,7 +401,6 @@ void TcpClient::sendOffChannelChanged()
 }
 void TcpClient::readAdministrationMessages(NetworkMessageReader& msg)
 {
-    qDebug() << "player "<< m_player ;
     switch (msg.action())
     {
         case NetMsg::ConnectionInfo:

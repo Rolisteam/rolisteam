@@ -289,11 +289,9 @@ void CharacterStateModel::processAddState(NetworkMessageReader* msg)
     state->setLabel(msg->string32());
     state->setColor(msg->rgb());
     bool hasImage = (bool)msg->uint8();
-    //qDebug() << hasImage;
     if(hasImage)
     {
         QByteArray array = msg->byteArray32();
-        //qDebug() << array.size();
         QPixmap pix;
         pix.loadFromData(array);
         state->setImage(pix);

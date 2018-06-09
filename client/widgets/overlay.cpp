@@ -16,7 +16,6 @@ Overlay::Overlay(QRect rect, QWidget * parent)
     auto y = m_rect.y();
     m_rect.setY(0);
     m_rect.setHeight(m_rect.height()-y);
-   // qDebug() << "rect" << m_rect;
 
     setAttribute(Qt::WA_NoSystemBackground);
     //setAttribute(Qt::WA_TransparentForMouseEvents);
@@ -60,12 +59,10 @@ void Overlay::setRect(const QRect &rect)
 int Overlay::computeDistance(QPoint p, QPoint r)
 {
   auto result = p-r;
-  //qDebug() << result.manhattanLength();
   return result.manhattanLength();
 }
 void Overlay::mousePressEvent(QMouseEvent* event)
 {
-   // qDebug() << "mouse press"<<event->pos() << event->globalPos();
     auto pos = event->pos();
     if(computeDistance(pos,m_rect.topLeft())<DISTANCE_SELECTION)
     {
@@ -91,7 +88,6 @@ void Overlay::mousePressEvent(QMouseEvent* event)
     {
       m_currentCorner = None;
     }
- //   qDebug() << "corner" <<m_currentCorner;
 
     if(m_currentCorner == None)
       QWidget::mousePressEvent(event);
@@ -101,7 +97,6 @@ void Overlay::mousePressEvent(QMouseEvent* event)
 
 void Overlay::mouseMoveEvent(QMouseEvent* event)
 {
- //   qDebug() << "mouse move"<<event->pos() << event->globalPos();
   auto pos = event->pos();
   auto deplace = pos-m_lastPosition;
 

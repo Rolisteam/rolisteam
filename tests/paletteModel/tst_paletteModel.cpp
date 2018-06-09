@@ -66,9 +66,6 @@ void PaletteModelTest::getAndSetTest()
     {
         for(int role = 0; role < QPalette::NColorRoles; role++)
         {
-            /*qDebug() << grp << role << result.color((QPalette::ColorGroup)grp,(QPalette::ColorRole)role)
-                     << test_palette.color((QPalette::ColorGroup)grp,(QPalette::ColorRole)role)
-                     <<*/
              if((result.color((QPalette::ColorGroup)grp,(QPalette::ColorRole)role) != test_palette.color((QPalette::ColorGroup)grp,(QPalette::ColorRole)role)))
              {
                  equal = false;

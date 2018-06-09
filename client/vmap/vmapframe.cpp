@@ -387,10 +387,6 @@ void VMapFrame::fill(NetworkMessageWriter& msg)
             m_vmap->fill(msg);
             m_vmap->sendAllItems(msg);
         }
-        else
-        {
-            qDebug() << msg.action() << "///////////////////////// FILL VMAPFRAME";
-        }
     }
 }
 void VMapFrame::readMessage(NetworkMessageReader& msg)

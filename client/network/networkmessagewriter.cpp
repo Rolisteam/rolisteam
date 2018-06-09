@@ -252,5 +252,4 @@ NetworkMessage::RecipientMode NetworkMessageWriter::getRecipientMode() const
 void NetworkMessageWriter::sendAll()
 {
     NetworkMessage::sendAll();
-    qDebug() << "[NetworkMessageWriter] Datasize:" << getDataSize() << " Size:" << getSize();
 }

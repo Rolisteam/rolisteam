@@ -702,7 +702,6 @@ void RGraphicsView::resizeEvent(QResizeEvent* event)
 {
     //GM is the references
 
-    //    qDebug() << "resize event" << geometry() << scene()->sceneRect() << sceneRect();
     if((nullptr!=scene())&&(m_vmap->getOption(VisualItem::LocalIsGM).toBool()))
     {
 
@@ -742,8 +741,6 @@ void RGraphicsView::readMessage(NetworkMessageReader* msg)
     Q_UNUSED(y)
     Q_UNUSED(width)
     Q_UNUSED(height)
-
-    //qDebug() <<"read message" << x << y << width << height;
 
     //if(nullptr!=scene())
     //{

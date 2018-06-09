@@ -305,7 +305,6 @@ Player * PlayersList::getPlayer(int index) const
 
 Person * PlayersList::getPerson(const QString & uuid) const
 {
-    //qDebug()<< "uuid person:" << uuid ;
     return m_uuidMap.value(uuid);
 }
 
@@ -438,12 +437,10 @@ Player* PlayersList::getLocalPlayer() const
 
 void PlayersList::sendOffLocalPlayerInformations()
 {
-    //qDebug() << "sendOffLocalPlayerInformations %%%%%%%%%%%%" ;
     NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
     setLocalFeatures(*m_localPlayer);
     m_localPlayer->fill(message);
     message.sendAll();
-    //qDebug() << "END sendOffLocalPlayerInformations %%%%%%%%%%%%" ;
 }
 void PlayersList::sendOffFeatures(Player* player)
 {
@@ -788,7 +785,6 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
 
             if((m_localPlayer->isGM())&&(m_localPlayer->isGM() == newPlayer->isGM())&&(newPlayer->getUuid() != m_localPlayer->getUuid()))
             {
-                //qDebug() << "Local player is not GM%%%%%%%%%%%%%%%%%%%" << newPlayer->isGM() << m_localPlayer->isGM() << newPlayer->getUuid() << m_localPlayer->getUuid();
                 m_localPlayer->setGM(false);
                 notifyPersonChanged(actualPlayer);
                 emit localGMRefused(false);

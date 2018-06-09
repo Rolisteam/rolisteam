@@ -91,7 +91,6 @@ void ShortcutVisitor::visit(QWidget* widget,const QString& category, bool recurs
         //if(!action->shortcut().isEmpty())
         {
             QString actionName = action->text();
-            //qDebug() << actionName << action->shortcut().toString(QKeySequence::NativeText);
             actionName.remove('&');
             m_model->insertShortCut(category, actionName,action->shortcut().toString(QKeySequence::NativeText));
         }

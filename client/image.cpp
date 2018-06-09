@@ -99,7 +99,6 @@ void Image::fill(NetworkMessageWriter & message)
     QBuffer bufImage(&baImage);
     if (!m_pixMap.save(&bufImage, "jpg", 70))
     {
-        //   qDebug() << "png size:" << bufImage.size();
     }
     //message.reset();
     message.string16(m_title);

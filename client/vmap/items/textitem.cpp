@@ -61,23 +61,8 @@ void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
 void TextLabel::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-   /* VMap* map = dynamic_cast<VMap*>(scene());
-    if( nullptr != map)
-    {
-        if(map->getSelectedtool() == VToolsBar::HANDLER)
-        {
-            qDebug() << "double click handler";
-        }
-        else if((map->getSelectedtool() == VToolsBar::TEXT)||
-                (map->getSelectedtool() == VToolsBar::TEXTBORDER))
-        {
-            qDebug() << "double click text";//start richtextedit dialog
-        }
-    }*/
     QGraphicsTextItem::mouseDoubleClickEvent(event);
-
 }
-
 
 ///////////////////////////////////////
 /// Code of RichTextEditDialog

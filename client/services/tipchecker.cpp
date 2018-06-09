@@ -83,7 +83,6 @@ void TipChecker::readJSon(QNetworkReply* p)
 
     if(error.error != QJsonParseError::NoError)
     {
-        qDebug() << error.errorString();
         m_noErrror = false;
         return;
     }

@@ -127,7 +127,6 @@ void SharedNoteContainer::saveMedia()
             bool hasEnd=false;
             for(auto end : list)
             {
-                //qDebug() << end;
                 if(m_uri->getUri().endsWith(end))
                 {
                     hasEnd = true;

@@ -697,9 +697,7 @@ QRect Map::zoneToRefresh()
     /*m_originePoint=mapToScale(m_originePoint);
     m_mousePoint=mapToScale(m_mousePoint);*/
 
-   // qDebug() << "Refresh zone1: " << m_backgroundImage->rect() << resultat << m_mousePoint << m_originePoint ;
     m_refreshZone = resultat.intersected(m_backgroundImage->rect());
-   //qDebug() << "Refresh zone2: " <<resultat.intersect(m_backgroundImage->rect()) << width() << height();
     return m_refreshZone;//rect();
 }
 

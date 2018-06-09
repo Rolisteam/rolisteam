@@ -158,10 +158,7 @@ TextEdit::TextEdit(QWidget *parent)
     statusbar->setObjectName(QString::fromUtf8("statusbar"));
     setStatusBar(statusbar);
     
-    //// 4.41 = 263169
-    
-    ///////qDebug() << "### QT_VERSION  " << QT_VERSION;
-    
+    //// 4.41 = 263169    
     
     
     QString initialFile;

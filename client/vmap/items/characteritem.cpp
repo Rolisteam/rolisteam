@@ -124,7 +124,6 @@ QPainterPath CharacterItem::shape() const
         path.addRoundedRect(0,0,m_diameter,m_diameter,m_diameter/10,m_diameter/10);
     }
     path.addRect(m_rectText);
-    //qDebug() << boundingRect() << m_diameter << m_rectText;
 	return path;
 }
 void CharacterItem::setNewEnd(QPointF& nend)
@@ -446,7 +445,6 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &va
         }
         m_oldPosition = pos();
         QList<QGraphicsItem*> list = collidingItems();
-        //qDebug()<<"collision list:"<<list;
 
         //list.clear();
         QPainterPath path;

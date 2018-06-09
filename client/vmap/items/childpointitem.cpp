@@ -155,7 +155,6 @@ void ChildPointItem::setPlacement(ChildPointItem::PLACEMENT p)
 /*void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
 { 
     event->accept();
-    qDebug() << pos() << event->pos() << "taritnatenate ";
     QPointF v = pos() + event->pos();//distance vector
     qreal rot = m_parent->rotation();
 
@@ -167,8 +166,6 @@ void ChildPointItem::setPlacement(ChildPointItem::PLACEMENT p)
             if(!(event->modifiers() & Qt::ControlModifier))
             {
                 VisualItem::TransformType transformType = VisualItem::NoTransform;
-
-                //qDebug() << "before"<< v  << event->pos() << pos();
 
                 qreal W = 0;//qMax(fabs(v.x()), 5.0);
                 qreal H = 0;//qMax(fabs(v.y()), 4.0);
@@ -278,7 +275,6 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
                 }
 
                 //if((v.x() >1)&&(v.y()>1))
-               // qDebug() << v.y() << v.x();
                 {
                     m_parent->resizeContents(QRectF(-W / 2, -H / 2, W, H),transformType);
                 }

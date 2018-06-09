@@ -90,7 +90,6 @@ CleverURI::CleverURI(QString name,QString uri,ContentType type)
 
 CleverURI::~CleverURI()
 {
-    // qDebug() << "Destructor of CleverURI";
 }
 bool CleverURI::operator==(const CleverURI& uri) const
 {

@@ -50,7 +50,6 @@ void NetworkLink::initialize()
 
 NetworkLink::~NetworkLink()
 {
-    qDebug() << "destruction NetworkLink";
 }
 void NetworkLink::makeSignalConnection()
 {
@@ -351,9 +350,6 @@ void NetworkLink::insertNetWortReceiver(NetWorkReceiver* receiver,NetMsg::Catego
 }
 void NetworkLink::connectTo()
 {
-    qDebug() << "before socket";
-    qDebug() << m_socketTcp << "test" << m_connection;
-    qDebug() << "after socket";
    if(!m_socketTcp.isNull())
    {
        if(nullptr != m_connection)
@@ -368,7 +364,6 @@ void NetworkLink::connectTo()
 }
 void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
 {
-    qDebug() <<"networklink state:" <<state;
     switch (state)
     {
     case QAbstractSocket::ClosingState:
@@ -381,7 +376,6 @@ void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
         emit connecting();//setConnectionState(CONNECTING);
         break;
     case QAbstractSocket::ConnectedState:
-        qDebug() <<"before connected";
         emit connected();
         //setConnectionState(CONNECTED);
         break;

@@ -181,9 +181,6 @@ void ColorTable::mousePressEvent(QMouseEvent* e)
 
 void ColorTable::resizeEvent(QResizeEvent * event)
 {
-    /*int length = width()>height() ? height() : width();
-    qDebug() << width() << height();
-    setFixedSize(length,length);*/
     QWidget::resizeEvent(event);
 }
 

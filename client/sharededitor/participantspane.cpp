@@ -57,12 +57,10 @@ int ParticipantsModel::rowCount(const QModelIndex &parent) const
 {
     if(!parent.isValid())
     {
-        //qDebug() << "size data:" <<m_data.size();
         return m_data.size();
     }
     else if(!parent.parent().isValid())
     {
-        //qDebug() << "row count parentrow" << parent.row();
         QList<Player*>* list = m_data.at(parent.row());
         return list->size();
     }
@@ -79,7 +77,6 @@ int ParticipantsModel::columnCount(const QModelIndex &) const
 
 QVariant ParticipantsModel::data(const QModelIndex &index, int role) const
 {
-   // debugModel();
     if(!index.isValid())
         return QVariant();
 
@@ -92,7 +89,6 @@ QVariant ParticipantsModel::data(const QModelIndex &index, int role) const
         }
         else
         {
-            //qDebug() << "parent row:"<<parent.row() << index.row();
             QList<Player*>* list = m_data.at(parent.row());
             if(!list->isEmpty())
             {
@@ -102,17 +98,6 @@ QVariant ParticipantsModel::data(const QModelIndex &index, int role) const
         }
     }
     return QVariant();
-}
-void ParticipantsModel::debugModel() const
-{
-  /*  for(auto list : m_data)
-    {
-        qDebug() << "list:" << m_data.indexOf(list) << "size:" << list->size();
-        for(auto player : *list)
-        {
-            qDebug() << player->getName();
-        }
-    }*/
 }
 
 QModelIndex ParticipantsModel::parent(const QModelIndex& child) const
@@ -127,7 +112,6 @@ QModelIndex ParticipantsModel::parent(const QModelIndex& child) const
     {
         if(list->contains(childItem))
         {
-            //qDebug() << "match" << list << list->size() << childItem;
             current = list;
         }
     }

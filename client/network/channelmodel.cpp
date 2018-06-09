@@ -139,7 +139,6 @@ QModelIndex ChannelModel::parent(const QModelIndex &child) const
     if(nullptr!=childItem)
     {
         TreeItem* parentItem = childItem->getParentItem();
-        //qDebug() << "parent Item" << parentItem << childItem->childCount()<< childItem;
 
         if(m_root.contains(childItem))
         {
@@ -169,7 +168,6 @@ int ChannelModel::rowCount(const QModelIndex &parent) const
             result = item->childCount();
         }
     }
-    //qDebug() << result << parent << "$$$$$$$$$$$$$$$$$$$$";
     return result;
 }
 

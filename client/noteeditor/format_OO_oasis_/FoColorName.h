@@ -52,7 +52,6 @@ static inline qreal OoColorAlpha( const int i )
 
     QTextEdit t;
     FopColor *fc = new FopColor();
-    qDebug() << "### load color   ";
     QStringList items = fc->fopListColor();
     for (int i = 0; i < items.size(); ++i)  {
         const QString name = items.at(i);

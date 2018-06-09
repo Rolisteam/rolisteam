@@ -186,7 +186,6 @@ void VisualItem::resizeContents(const QRectF& rect, TransformType transformType)
 {
     if (!rect.isValid())
     {
-        qDebug() << "rect is invalid";
         return;
     }
     prepareGeometryChange();
@@ -194,7 +193,6 @@ void VisualItem::resizeContents(const QRectF& rect, TransformType transformType)
     int height = m_rect.height();
     //sendRectGeometryMsg();
     m_resizing = true;
-    //qDebug() << m_rect << rect << "------------------------";
     m_rect = rect;
     if (transformType == VisualItem::KeepRatio)
     {
@@ -445,7 +443,6 @@ bool VisualItem::isLocal() const
 }
 void VisualItem::posChange()
 {
-    //qDebug() << "add pos";
     m_pointList.append(pos());
 }
 void VisualItem::rectChange()
@@ -467,7 +464,6 @@ void VisualItem::sendPositionMsg()
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
         msg.string8(m_mapId);
         msg.string16(m_id);
-        //qDebug() << "send move Item "<< m_pointList;
         msg.uint64(m_pointList.size());
         for(auto point : m_pointList)
         {
@@ -486,7 +482,6 @@ void VisualItem::readPositionMsg(NetworkMessageReader* msg)
         qreal y = msg->real();
         blockSignals(true);
         setPos(x,y);
-        //qDebug() << "read move Item "<< x << y;
         blockSignals(false);
     }
     update();

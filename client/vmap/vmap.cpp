@@ -1692,7 +1692,6 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
 
     if(index < 0)
     {
-        //qDebug() << "changeStackOrder index is less than 0" << item->sceneBoundingRect().intersects(item->shape().boundingRect()) << item->sceneBoundingRect();
         return;
     }
 

@@ -187,9 +187,7 @@ FopColor::FopColor( const QString colorchunk , FopColor::AlternateColor col )
               avaiablelist.insert(humanname,iter);
           }
     foplist.clear();
-          
-    //qDebug() << "### avaiablelist.size()   " << avaiablelist.size();
-          
+                    
     currentcolor = foColor(colorchunk,col);
 }
 
@@ -296,7 +294,6 @@ qreal Unit( const QString datain )
 {
     QString ctmp = datain;
     const QString data = ctmp.replace(" ","").trimmed();
-    //qDebug() << "### request unit data->" << datain << " size->" << datain.size();
     qreal points = -1;
     
     if (data.size() < 1)
