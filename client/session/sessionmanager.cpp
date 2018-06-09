@@ -196,7 +196,6 @@ void SessionManager::resourceClosed(CleverURI* uri)
            (uri->getCurrentMode() != CleverURI::Linked))//new and unsaved document
         {
             m_model->removeNode(uri);
-            delete uri;
         }
     }
 }

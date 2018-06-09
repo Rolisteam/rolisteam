@@ -36,6 +36,13 @@ DeleteMediaContainerCommand::DeleteMediaContainerCommand(MediaContainer* media, 
     setText(QObject::tr("Close %1").arg(m_media->getTitle()));
 }
 
+DeleteMediaContainerCommand::~DeleteMediaContainerCommand()
+{
+    if(!m_media->isVisible())
+    {
+        delete m_media;
+    }
+}
 void DeleteMediaContainerCommand::redo()
 {
     if(nullptr != m_media)

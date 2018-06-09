@@ -37,6 +37,8 @@ public:
                                 bool isGM,
                                 QUndoCommand* parent = nullptr);
 
+    ~DeleteMediaContainerCommand();
+
     void redo() override;
     void undo() override;
 

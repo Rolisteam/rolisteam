@@ -1720,6 +1720,7 @@ void MainWindow::cleanUpData()
 {
     m_playerList->cleanListButLocal();
     closeAllMediaContainer();
+    m_undoStack.clear();
     ChannelListPanel* roomPanel = qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
     if(nullptr != roomPanel)
     {
