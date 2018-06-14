@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTextStream>
 #include <QFile>
+#include <QMutex>
 
 /**
  * @brief The LogController class receives log messeges and displays them in the right sink.
@@ -52,6 +53,7 @@ private:
     bool m_listenOutSide = false;
     QTextStream m_file;
     QFile m_currentFile;
+    QMutex m_mutex;
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(LogController::StorageModes)
 #endif // LOGCONTROLLER_H

@@ -2,6 +2,8 @@
 #include <QMetaObject>
 #include <QMetaMethod>
 #include <QTime>
+#include <QMutexLocker>
+#include <iostream>
 
 #ifdef QT_WIDGETS_LIB
 #include <QAction>
@@ -165,19 +167,25 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
     if(m_logLevel < type && type != Features)
         return;
 
+    QMutexLocker locker(&m_mutex);
+    Q_UNUSED(locker)
+
     QString str("%1 - %2 - %3");
     str=str.arg(QTime::currentTime().toString("hh:mm:ss")).arg(typeToText(type)).arg(message);
 
-
     if(m_currentModes & Console)
     {
-        QTextStream* current = &out;
+        /*QTextStream* current = &out;
         if(type == Error)
         {
             current = &err;
         }
         *current << str << "\n";
-        current->flush();
+        current->flush();*/
+        /*out << str << "\n";
+        /*out.flush();
+         */
+        std::cout << str.toStdString() << std::endl;
     }
     if(m_currentModes & File)
     {
