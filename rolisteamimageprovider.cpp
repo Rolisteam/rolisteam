@@ -18,7 +18,6 @@ QPixmap RolisteamImageProvider::requestPixmap(const QString &id, QSize *size, co
 {
       Q_UNUSED(requestedSize);
     /// @warning Ugly stuff
-    //qDebug() << "Image Provider" << s_data->size();
     QString idTranslate = id;
     idTranslate = idTranslate.replace("%7B","{").replace("%7D","}");
 

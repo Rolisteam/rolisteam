@@ -61,9 +61,7 @@ CharacterSheetItem* CharacterSheet::getFieldAt(int i)
 {
     if(i<m_valuesMap.size() && i >=0)
     {
-       // qDebug() << m_valuesMap.keys() << m_valuesMap << m_valuesMap.keys().at(i);
         return m_valuesMap.value(m_valuesMap.keys().at(i));
-
     }
     return nullptr;
 }

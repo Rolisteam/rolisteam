@@ -201,7 +201,6 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
 void CharacterSheetModel::computeFormula(QString path,CharacterSheet* sheet)
 {
     QList<QString> List = sheet->getAllDependancy(path);
-    //qDebug() << "computeformula" <<List << path;
 
     for(auto item : List)
     {
