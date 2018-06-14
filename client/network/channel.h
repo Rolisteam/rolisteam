@@ -66,6 +66,11 @@ public:
 
     void fill(NetworkMessageWriter& msg);
     void read(NetworkMessageReader& msg);
+
+public slots:
+    void clearData();
+signals:
+    void memorySizeChanged(quint64 memorySize, Channel* id);
 protected:
     bool hasNoClient();
 private:
@@ -75,6 +80,7 @@ private:
 
     QList<TreeItem*> m_child;
     QList<NetworkMessage*> m_dataToSend;
+    quint64 m_memorySize = 0;
 };
 
 #endif // CHANNEL_H

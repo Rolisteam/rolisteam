@@ -20,6 +20,16 @@
 #include "channel.h"
 #include "receiveevent.h"
 
+quint64 computeTotalSize(const std::map<Channel*,quint64>& map)
+{
+    quint64 totalSize = 0;
+    for(auto pair : map)
+    {
+        totalSize += pair.second;
+    }
+    return totalSize;
+}
+
 //////////////////////////////////////
 /// ClientMimeData
 /////////////////////////////////////
@@ -563,4 +573,23 @@ void ChannelModel::cleanUp()
     qDeleteAll(m_root);
     m_root.clear();
     endResetModel();
+}
+void ChannelModel::setChannelMemorySize(Channel* chan, quint64 size)
+{
+    if(m_shield)
+        return;
+    m_sizeMap[chan] = size;
+
+    emit totalSizeChanged(computeTotalSize(m_sizeMap));
+}
+
+void ChannelModel::emptyChannelMemory()
+{
+    m_shield = true;
+    for(auto pair : m_sizeMap)
+    {
+        QMetaObject::invokeMethod(pair.first,"clearData",Qt::QueuedConnection);
+        pair.second = 0;
+    }
+    m_shield = false;
 }

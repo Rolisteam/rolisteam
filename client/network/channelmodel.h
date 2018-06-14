@@ -77,13 +77,21 @@ public:
 
 
     void cleanUp();
+    void emptyChannelMemory();
+signals:
+    void totalSizeChanged(quint64);
+
+public slots:
+    void setChannelMemorySize(Channel* chan, quint64);
 protected:
     bool moveMediaItem(QList<TcpClient *> items, const QModelIndex &parentToBe, int row, QList<QModelIndex> &formerPosition);
 private:
     QList<TreeItem*> m_root;
+    std::map<Channel*,quint64> m_sizeMap;
     QString m_defaultChannel;
     QString m_localPlayerId;
     bool m_admin;
+    bool m_shield = false;
 };
 
 #endif // CHANNELMODEL_H

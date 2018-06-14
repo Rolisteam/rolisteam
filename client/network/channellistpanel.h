@@ -66,6 +66,7 @@ private:
     QAction* m_admin = nullptr;
     QAction* m_kick = nullptr;
 
+
     GROUP m_currentGroup;
     QModelIndex m_index;
     QString m_serverName;

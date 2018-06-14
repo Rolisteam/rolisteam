@@ -29,7 +29,6 @@ ChannelListPanel::ChannelListPanel(QWidget *parent) :
     ui->m_channelView->setDefaultDropAction(Qt::MoveAction);
     ui->m_channelView->setDragDropMode(QAbstractItemView::InternalMove);
 
-
     ui->m_channelView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     connect(ui->m_channelView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(showCustomMenu(QPoint)));

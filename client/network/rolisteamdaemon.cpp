@@ -34,10 +34,24 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
     int timeToRetry= settings.value("TimeToRetry").toInt();
     int tryCount= settings.value("TryCount").toInt();
     int logLevel= settings.value("LogLevel").toInt();
+    QString maxMemorySize= settings.value("MaxMemorySize").toString();
     bool deepInspectionLog = settings.value("DeepInspectionLog").toInt();
 
     QString pathToLog = settings.value("LogFile").toString();
 
+    quint64 memorySize = 0;
+    quint64 factor = 0;
+    if(maxMemorySize.endsWith("G"))
+    {
+        factor = 1024*1024*1024;
+    }
+    else if(maxMemorySize.endsWith("M"))
+    {
+        factor = 1024*1024;
+    }
+    maxMemorySize = maxMemorySize.remove(maxMemorySize.length()-1,1);
+
+    memorySize = factor * maxMemorySize.toULongLong();
 
     if(deepInspectionLog)
     {
@@ -68,7 +82,7 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
     m_serverManager.insertField("LogLevel",logLevel);//loglevel
     m_serverManager.insertField("LogFile",pathToLog);//logpath
     m_serverManager.insertField("DeepInspectionLog",deepInspectionLog);//logpath
-
+    m_serverManager.insertField("MemorySize",memorySize);//max memory size
 
     m_serverManager.initServerManager();
 
@@ -106,6 +120,7 @@ void RolisteamDaemon::createEmptyConfigFile(QString filepath)
     settings.setValue("LogFile",m_serverManager.getValue("LogFile"));
     settings.setValue("DeepInspectionLog",m_serverManager.getValue("DeepInspectionLog"));
     settings.setValue("AdminPassword",m_serverManager.getValue("AdminPassword"));
+    settings.setValue("MaxMemorySize",m_serverManager.getValue("MemorySize"));
 
     settings.sync();
 }

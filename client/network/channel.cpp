@@ -133,6 +133,8 @@ void Channel::sendMessage(NetworkMessage* msg, TcpClient* emitter, bool mustBeSa
         if(mustBeSaved)
         {
             m_dataToSend.append(msg);
+            m_memorySize += msg->getSize();
+            emit memorySizeChanged(m_memorySize,this);
         }
     }
     else if(msg->getRecipientMode() == NetworkMessage::OneOrMany) 
@@ -322,11 +324,18 @@ bool Channel::removeClient(TcpClient* client)
 
     if(hasNoClient())
     {
-        m_dataToSend.clear();
+        clearData();
     }
 
     emit itemChanged();
     return (0 < i);
+}
+
+void Channel::clearData()
+{
+    m_dataToSend.clear();
+    m_memorySize = 0;
+    emit memorySizeChanged(m_memorySize,this);
 }
 bool Channel::removeChild(TreeItem* itm)
 {
