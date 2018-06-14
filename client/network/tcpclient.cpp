@@ -101,17 +101,32 @@ void TcpClient::setSocket(QTcpSocket* socket)
             if(b)
             {
                 m_currentState = m_disconnected;
+                m_forwardMessage = false;
                 closeConnection();
+            }
+        });
+
+        connect(m_connected,&QState::activeChanged,this,[=](bool b){
+            if(b)
+            {
+                m_forwardMessage = true;
             }
         });
 
         m_incomingConnection->addTransition(this, SIGNAL(checkSuccess()), m_controlConnection);
         m_incomingConnection->addTransition(this,SIGNAL(checkFail()),m_disconnected);
-        m_controlConnection->addTransition(this, SIGNAL(controlFail()), m_disconnected);
+        m_incomingConnection->addTransition(this,&TcpClient::protocolViolation,m_disconnected);
+
         m_controlConnection->addTransition(this, SIGNAL(controlSuccess()), m_authentificationServer);
-        m_authentificationServer->addTransition(this, SIGNAL(serverAuthFail()), m_disconnected);
+        m_controlConnection->addTransition(this, SIGNAL(controlFail()), m_disconnected);
+        m_controlConnection->addTransition(this,&TcpClient::protocolViolation,m_disconnected);
+
         m_authentificationServer->addTransition(this, SIGNAL(serverAuthSuccess()), m_connected);
+        m_authentificationServer->addTransition(this, SIGNAL(serverAuthFail()), m_disconnected);
+        m_authentificationServer->addTransition(this,&TcpClient::protocolViolation,m_disconnected);
+
         m_connected->addTransition(this,SIGNAL(socketDisconnection()),m_disconnected);
+        m_connected->addTransition(this,&TcpClient::protocolViolation,m_disconnected);
 
         m_wantToGoToChannel->addTransition(this, SIGNAL(channelAuthFail()), m_inChannel);
         m_wantToGoToChannel->addTransition(this, SIGNAL(channelAuthSuccess()), m_inChannel);
@@ -244,11 +259,12 @@ void TcpClient::receivingData()
 
             // To do only if there is enough data
             readDataSize = m_socket->read(tmp+m_headerRead, sizeof(NetworkMessageHeader)-m_headerRead);
-            readDataSize+=m_headerRead;
+            //readDataSize+=m_headerRead;
             if(readDataSize!= sizeof(NetworkMessageHeader))
             {
+                m_headerRead += readDataSize;
               //m_headerRead=readDataSize;
-              return;
+                continue;
             }
             else
             {
@@ -314,7 +330,14 @@ void TcpClient::forwardMessage()
             msg.setData(array);
             readAdministrationMessages(msg);
         }
+        else if(!m_forwardMessage)
+        {
+            delete [] m_buffer;
+            emit protocolViolation();
+        }
+
         emit dataReceived(array);
+
     }
 }
 

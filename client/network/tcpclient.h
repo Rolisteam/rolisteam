@@ -127,6 +127,7 @@ signals:
     void socketDisconnection();
     void socketError(QAbstractSocket::SocketError );
     void socketInitiliazed();
+    void protocolViolation();
 public slots:
     /**
      * @brief receivingData
@@ -175,6 +176,7 @@ private:
 
     bool m_isGM = false;
     bool m_isAdmin = false;
+    bool m_forwardMessage = false;
 
     bool m_waitingData = false;
     bool m_receivingData = false;
