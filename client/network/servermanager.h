@@ -65,6 +65,9 @@ public slots:
     void checkAuthToServer(TcpClient* client);
     void checkAuthToChannel(TcpClient* client, QString channelId, QByteArray password);
     void checkAuthAsAdmin(TcpClient* client);
+
+    //memory
+    void memoryChannelChanged(quint64);
 protected:
     void sendEventToClient(TcpClient *client, TcpClient::ConnectionEvent event);
 private:

@@ -20,6 +20,8 @@ ServerManager::ServerManager(QObject *parent)
     qRegisterMetaType<NetworkMessage*>("NetworkMessage*");
 
     m_model = new ChannelModel();
+
+    connect(m_model,&ChannelModel::totalSizeChanged,this,&ServerManager::memoryChannelChanged);
     m_msgDispatcher = new MessageDispatcher(this);
     connect(this,SIGNAL(messageMustBeDispatched(QByteArray,Channel*,TcpClient*)),m_msgDispatcher,SLOT(dispatchMessage(QByteArray,Channel*,TcpClient*)),Qt::QueuedConnection);
 
@@ -173,6 +175,14 @@ void ServerManager::checkAuthAsAdmin(TcpClient* client)
     else
     {
         sendEventToClient(client,TcpClient::AdminAuthFailEvent);
+    }
+}
+
+void ServerManager::memoryChannelChanged(quint64 size)
+{
+    if(size > m_parameters["memorySize"].toULongLong())
+    {
+        m_model->emptyChannelMemory();
     }
 }
 void ServerManager::checkAuthToChannel(TcpClient* client,QString channelId, QByteArray password)
@@ -518,57 +528,4 @@ void ServerManager::error(QAbstractSocket::SocketError socketError)
     if(!socket) return;
 
     emit sendLog(socket->errorString(), LogController::Error);
-
-   /* switch(socketError)
-    {
-    case QAbstractSocket::ConnectionRefusedError:
-        break;
-    case QAbstractSocket::RemoteHostClosedError:
-        break;
-    case QAbstractSocket::HostNotFoundError:
-        break;
-    case QAbstractSocket::SocketAccessError:
-        break;
-    case QAbstractSocket::SocketResourceError:
-        break;
-    case QAbstractSocket::SocketTimeoutError:
-        break;
-    case QAbstractSocket::DatagramTooLargeError:
-        break;
-    case QAbstractSocket::NetworkError:
-        break;
-    case QAbstractSocket::AddressInUseError:
-        break;
-    case QAbstractSocket::SocketAddressNotAvailableError:
-        break;
-    case QAbstractSocket::UnsupportedSocketOperationError:
-        break;
-    case QAbstractSocket::ProxyAuthenticationRequiredError:
-        break;
-    case QAbstractSocket::SslHandshakeFailedError:
-        break;
-    case QAbstractSocket::UnfinishedSocketOperationError:
-        break;
-    case QAbstractSocket::ProxyConnectionRefusedError:
-        break;
-    case QAbstractSocket::ProxyConnectionClosedError:
-        break;
-    case QAbstractSocket::ProxyConnectionTimeoutError:
-        break;
-    case QAbstractSocket::ProxyNotFoundError:
-        break;
-    case QAbstractSocket::ProxyProtocolError:
-        break;
-    case QAbstractSocket::OperationError:
-        break;
-    case QAbstractSocket::SslInternalError:
-        break;
-    case QAbstractSocket::SslInvalidUserDataError:
-        break;
-    case QAbstractSocket::TemporaryError:
-        break;
-    case QAbstractSocket::UnknownSocketError:
-        break;
-
-    }*/
 }
