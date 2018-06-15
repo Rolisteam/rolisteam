@@ -35,7 +35,7 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
     int tryCount= settings.value("TryCount").toInt();
     int logLevel= settings.value("LogLevel").toInt();
     QString maxMemorySize= settings.value("MaxMemorySize").toString();
-    bool deepInspectionLog = settings.value("DeepInspectionLog").toInt();
+    bool deepInspectionLog = settings.value("DeepInspectionLog").toBool();
 
     QString pathToLog = settings.value("LogFile").toString();
 
