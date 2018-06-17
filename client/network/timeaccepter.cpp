@@ -8,7 +8,6 @@ TimeAccepter::TimeAccepter()
 
 bool TimeAccepter::isValid(const QMap<QString, QVariant> &data)
 {
-    qInfo() << data;
     QTime time(QTime::currentTime());
     const QString format = QStringLiteral("hh:ss");
 
@@ -20,12 +19,11 @@ bool TimeAccepter::isValid(const QMap<QString, QVariant> &data)
        ((time<start)||(time>end)))
     {
         result = false;
+        qInfo() << QObject::tr("Connection out of time slot. Connection refused");
     }
-    qInfo() << result;
     if(nullptr != m_next)
     {
         result &= m_next->isValid(data);
     }
-    qInfo() << result;
     return true;
 }
