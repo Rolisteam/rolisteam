@@ -60,8 +60,12 @@ public:
     bool removeClient(TcpClient* client);
     bool removeChild(TreeItem*);
 
+    bool isCurrentGm(TreeItem*);
+    QString getCurrentGmId();
+
     virtual void kick(QString str);
     TreeItem* getChildById(QString id);
+    TcpClient* getPlayerById(QString id);
     virtual void insertChildAt(int pos, TreeItem*);
 
     void fill(NetworkMessageWriter& msg);
@@ -73,6 +77,8 @@ signals:
     void memorySizeChanged(quint64 memorySize, Channel* id);
 protected:
     bool hasNoClient();
+    void sendOffGmStatus(TcpClient *client);
+    void findNewGM();
 private:
     QByteArray m_password;
     QString m_description;
@@ -81,6 +87,7 @@ private:
     QList<TreeItem*> m_child;
     QList<NetworkMessage*> m_dataToSend;
     quint64 m_memorySize = 0;
+    TcpClient* m_currentGm = nullptr;
 };
 
 #endif // CHANNEL_H

@@ -77,11 +77,11 @@ enum Action {
     AdminAuthSucessed,
     AdminAuthFail,
     MovedIntoChannel,
+    GMStatus,
+
 
     // PlayerCategory
     PlayerConnectionAction = 0,
-    /// @todo remove AddPlayerAction
-    AddPlayerAction,
     DelPlayerAction,
     ChangePlayerNameAction,
     ChangePlayerColorAction,

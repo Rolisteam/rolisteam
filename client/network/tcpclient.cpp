@@ -166,17 +166,9 @@ void TcpClient::setIsAdmin(bool isAdmin)
 
 bool TcpClient::isGM() const
 {
-    return m_isGM;
-}
-
-void TcpClient::setIsGM(bool isGM)
-{
-    if(m_isGM != isGM)
-    {
-        m_isGM = isGM;
-        emit itemChanged();
-    }
-
+    if(m_player == nullptr)
+        return false;
+    return m_player->isGM();
 }
 
 QString TcpClient::getPlayerId()
@@ -185,7 +177,7 @@ QString TcpClient::getPlayerId()
     {
         return m_player->getUuid();
     }
-    return QString();
+    return m_playerId;
 }
 
 void TcpClient::setInfoPlayer(NetworkMessageReader* msg)
@@ -479,9 +471,10 @@ int TcpClient::indexOf(TreeItem*)
 
 void TcpClient::readFromJson(QJsonObject &json)
 {
-    m_isGM = json["gm"].toBool();
     setName(json["name"].toString());
     setId(json["id"].toString());
+    m_playerId=json["idPlayer"].toString();
+
 }
 
 void TcpClient::writeIntoJson(QJsonObject &json)
@@ -489,7 +482,7 @@ void TcpClient::writeIntoJson(QJsonObject &json)
     json["type"]="client";
     json["name"]=m_name;
     json["id"]=m_id;
-    json["gm"]=m_isGM;
+    json["idPlayer"]=getPlayerId();
 }
 QString TcpClient::getIpAddress()
 {

@@ -264,6 +264,11 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
             }
         }
     }
+    else if(NetMsg::GMStatus == msg->action())
+    {
+        bool status = static_cast<bool>(msg->int8());
+        emit gameMasterStatusChanged(status);
+    }
     else if(NetMsg::SetChannelList == msg->action())
     {
     }
@@ -277,17 +282,11 @@ void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
     {
         if(NetMsg::PlayerConnectionAction == msg->action())
         {
-            //m_networkManager->addNetworkLink(this);
-
             NetworkMessageHeader header;
             header.category = NetMsg::AdministrationCategory;
             header.action = NetMsg::EndConnectionAction;
             header.dataSize = 0;
             sendData((char *)&header, sizeof(NetworkMessageHeader));
-        }
-        else if(NetMsg::AddPlayerAction == msg->action())
-        {
-
         }
         else if(NetMsg::DelPlayerAction == msg->action())
         {

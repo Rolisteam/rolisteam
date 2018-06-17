@@ -28,8 +28,7 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
     }
     else if(msg->category()== NetMsg::PlayerCategory)
     {
-        if((msg->action() == NetMsg::PlayerConnectionAction) ||
-           (msg->action() == NetMsg::AddPlayerAction))
+        if(msg->action() == NetMsg::PlayerConnectionAction)
         {
             emitter->setInfoPlayer(msg);
 
@@ -38,10 +37,9 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
             QString name = msg->string16();
             QString uuid = msg->string8();
             msg->rgb();
-            bool isGM = msg->uint8();
+            msg->uint8();
             emitter->setName(name);
             emitter->setId(uuid);
-            emitter->setIsGM(isGM);
             saveIt = false;
         }
         else if(msg->action() == NetMsg::DelPlayerAction)
@@ -201,9 +199,6 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         {
         case  NetMsg::PlayerConnectionAction:
             str = QStringLiteral("PlayerConnectionAction");
-            break;
-        case  NetMsg::AddPlayerAction:
-            str = QStringLiteral("AddPlayerAction");
             break;
         case  NetMsg::DelPlayerAction:
             str = QStringLiteral("DelPlayerAction");

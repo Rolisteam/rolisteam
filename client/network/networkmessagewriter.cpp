@@ -227,6 +227,7 @@ void NetworkMessageWriter::real(qreal data)
 }
 void NetworkMessageWriter::setRecipientList(QStringList list,NetworkMessage::RecipientMode mode)
 {
+    m_recipientList = list;
     m_mode = mode;
     reset();
 
@@ -242,7 +243,7 @@ void NetworkMessageWriter::setRecipientList(QStringList list,NetworkMessage::Rec
 }
 QStringList NetworkMessageWriter::getRecipientList() const
 {
-    return {};
+    return m_recipientList;
 }
 NetworkMessage::RecipientMode NetworkMessageWriter::getRecipientMode() const
 {

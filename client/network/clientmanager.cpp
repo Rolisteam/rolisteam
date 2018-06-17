@@ -118,10 +118,11 @@ void ClientManager::initializeLink()
         m_error->addTransition(m_networkLinkToServer,SIGNAL(connecting()),m_connecting);
         m_connecting->addTransition(m_networkLinkToServer,SIGNAL(error()),m_error);
 
-        connect(m_networkLinkToServer, SIGNAL(disconnected()),this, SLOT(endingNetworkLink()));
+        connect(m_networkLinkToServer,SIGNAL(disconnected()),this,SLOT(endingNetworkLink()));
         connect(m_networkLinkToServer,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
         connect(m_networkLinkToServer,SIGNAL(errorMessage(QString)),this,SIGNAL(errorOccur(QString)));
         connect(m_networkLinkToServer,SIGNAL(clearData()),this,SIGNAL(clearData()));
+        connect(m_networkLinkToServer,&NetworkLink::gameMasterStatusChanged,this,&ClientManager::gameMasterStatusChanged);
         m_states.start();
     }
     else if(nullptr != m_networkLinkToServer)

@@ -83,6 +83,7 @@ private:
     void makeRoom(int size);
     int m_sizeBuffer      ;
     int m_sizeData;
+    QStringList m_recipientList;
     NetworkMessage::RecipientMode m_mode;
 };
 

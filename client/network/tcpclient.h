@@ -60,7 +60,6 @@ public:
     void setSocketHandleId(const qintptr &socketHandleId);
 
     bool isGM() const;
-    void setIsGM(bool isGM);
 
     QString getPlayerId();
 
@@ -174,7 +173,6 @@ private:
 
     QState* m_currentState = nullptr;
 
-    bool m_isGM = false;
     bool m_isAdmin = false;
     bool m_forwardMessage = false;
 
@@ -182,6 +180,7 @@ private:
     bool m_receivingData = false;
     quint32 m_dataReceivedTotal=0;
     Player* m_player= nullptr;
+    QString m_playerId;
     qintptr m_socketHandleId;
     QString m_wantedChannel;
 

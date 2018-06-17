@@ -48,7 +48,6 @@ PlayersList::PlayersList()
 {
     using namespace NetMsg;
     ReceiveEvent::registerReceiver(PlayerCategory, PlayerConnectionAction, this);
-    ReceiveEvent::registerReceiver(PlayerCategory, AddPlayerAction, this);
     ReceiveEvent::registerReceiver(PlayerCategory, DelPlayerAction, this);
     ReceiveEvent::registerReceiver(PlayerCategory, ChangePlayerNameAction, this);
     ReceiveEvent::registerReceiver(PlayerCategory, ChangePlayerColorAction, this);
@@ -110,10 +109,10 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
         Player * player = m_playersList.at(row);
         person = player;
 
-        if (role == Qt::BackgroundRole && player->isGM())
+        if ((role == Qt::BackgroundRole) && (player->getUuid() == m_idCurrentGM))
         {
             QPalette pal = qApp->palette();
-            return QVariant(pal.color(QPalette::Active,QPalette::Button));
+            return QVariant(pal.color(QPalette::Active,QPalette::Dark));
         }
     }
     else
@@ -483,7 +482,6 @@ void PlayersList::cleanListButLocal()
         }
     }
     endResetModel();
-
 }
 
 void PlayersList::addLocalCharacter(Character * newCharacter)
@@ -608,8 +606,6 @@ void PlayersList::addPlayer(Player * player)
 
     m_playersList << player;
     m_uuidMap.insert(uuid, player);
-    if (player->isGM())
-        m_gmCount += 1;
 
     emit playerAdded(player);
 
@@ -661,8 +657,6 @@ void PlayersList::delPlayer(Player * player)
 
     m_uuidMap.remove(player->getUuid());
     m_playersList.removeAt(index);
-    if (player->isGM())
-        m_gmCount -= 1;
 
     emit playerDeleted(player);
     delete player;
@@ -714,10 +708,6 @@ bool PlayersList::event(QEvent * event)
                 switch (data.action())
                 {
                     case PlayerConnectionAction:
-                        addPlayer(data);
-                        //addPlayerAsServer(rEvent);
-                        return true;
-                    case AddPlayerAction:
                         addPlayer(data);
                         return true;
                     case DelPlayerAction:
@@ -776,25 +766,12 @@ bool PlayersList::event(QEvent * event)
 void PlayersList::addPlayer(NetworkMessageReader & data)
 {
     Player * newPlayer = new Player(data);
-    Person * actualPerson = m_uuidMap.value(newPlayer->getUuid());
-    if (actualPerson != nullptr)
+    if(m_uuidMap.contains(newPlayer->getUuid()))
     {
-        if (actualPerson->getParent() == nullptr)
-        {
-            Player * actualPlayer = static_cast<Player *>(actualPerson);
-
-            if((m_localPlayer->isGM())&&(m_localPlayer->isGM() == newPlayer->isGM())&&(newPlayer->getUuid() != m_localPlayer->getUuid()))
-            {
-                m_localPlayer->setGM(false);
-                notifyPersonChanged(actualPlayer);
-                emit localGMRefused(false);
-            }
-        }
-        else
-            qWarning("A Player and a Character have the same UUID %s", qPrintable(newPlayer->getUuid()));
+        qWarning("A Player and a Character have the same UUID %s", qPrintable(newPlayer->getUuid()));
+        return;
     }
-    else
-        addPlayer(newPlayer);
+    addPlayer(newPlayer);
 }
 
 void PlayersList::delPlayer(NetworkMessageReader & data)
@@ -884,6 +861,12 @@ void PlayersList::sendDelLocalPlayer()
         message.string8(getLocalPlayer()->getUuid());
         message.sendAll();
     }
+}
+
+void PlayersList::setCurrentGM(QString idGm)
+{
+    qDebug() << "idGM: " << idGm;
+    m_idCurrentGM = idGm;
 }
 void PlayersList::completeListClean()
 {

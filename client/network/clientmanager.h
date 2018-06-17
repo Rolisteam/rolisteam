@@ -90,6 +90,7 @@ signals :
     void connectionStateChanged(ClientManager::ConnectionState);
     void notifyUser(QString);
     void errorOccur(QString);
+    void gameMasterStatusChanged(bool status);
 
     //State signal
     void isReady();

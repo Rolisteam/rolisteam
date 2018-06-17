@@ -124,6 +124,7 @@ public:
     static const quint32 NoParent = 0x7fffffff;
 public slots:
     void sendDelLocalPlayer();
+    void setCurrentGM(QString idGm);
     bool setLocalPersonAvatar(Person* person,const QImage& image);
 signals:
     void playerAdded(Player * player);
@@ -173,9 +174,8 @@ private:
     QMap<QString, Person *> m_uuidMap;
 
     static PlayersList* m_singleton;
-
-    int m_gmCount = 0;
     Player* m_localPlayer = nullptr;
+    QString m_idCurrentGM;
 };
 
 #endif

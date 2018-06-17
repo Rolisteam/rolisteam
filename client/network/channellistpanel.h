@@ -36,6 +36,11 @@ public:
 
     void cleanUp();
 
+signals:
+    void CurrentChannelGmIdChanged(QString gm);
+
+
+
 public slots:
     void showCustomMenu(QPoint pos);
     void sendOffLoginAdmin(QByteArray str = QByteArray());

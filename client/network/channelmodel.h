@@ -58,6 +58,7 @@ public:
     void kick(QString);
 
     TreeItem* getItemById(QString id);
+    TcpClient* getPlayerById(QString id);
 
     bool isAdmin() const;
     void setAdmin(bool admin);
@@ -80,6 +81,7 @@ public:
     void emptyChannelMemory();
 signals:
     void totalSizeChanged(quint64);
+    void localPlayerGMChanged(QString id);
 
 public slots:
     void setChannelMemorySize(Channel* chan, quint64);

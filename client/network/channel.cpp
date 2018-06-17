@@ -68,7 +68,8 @@ void Channel::readFromJson(QJsonObject &json)
     m_usersListed=json["usersListed"].toBool();
     m_id=json["id"].toString();
 
-    QJsonArray array = json["channel"].toArray();
+    QJsonArray array = json["children"].toArray();
+    qDebug() << "children "<< array;
     for(auto channelJson : array)
     {
         QJsonObject obj = channelJson.toObject();
@@ -82,6 +83,11 @@ void Channel::readFromJson(QJsonObject &json)
         {
             TcpClient* tcpItem = new TcpClient(nullptr,nullptr);
             item = tcpItem;
+            qDebug() << "gm status" << tcpItem << obj["gm"].toBool();
+            if(obj["gm"].toBool())
+            {
+                m_currentGm = tcpItem;
+            }
         }
         item->readFromJson(obj);
         item->setParentItem(this);
@@ -109,11 +115,12 @@ void Channel::writeIntoJson(QJsonObject &json)
             {
                 QJsonObject jsonObj;
                 item->writeIntoJson(jsonObj);
+                jsonObj["gm"]=(item == m_currentGm);
                 array.append(jsonObj);
             }
         }
     }
-    json["channel"]=array;
+    json["children"]=array;
 }
 
 TreeItem *Channel::getChildAt(int row)
@@ -145,7 +152,7 @@ void Channel::sendMessage(NetworkMessage* msg, TcpClient* emitter, bool mustBeSa
 }
 void Channel::sendToMany(NetworkMessage* msg, TcpClient* tcp)
 { 
-    auto recipient = msg->getRecipientList();
+    auto const recipient = msg->getRecipientList();
     for(auto client : m_child)
     {
         TcpClient* other = dynamic_cast<TcpClient*>(client);
@@ -178,12 +185,36 @@ int Channel::addChild(TreeItem* item)
         TcpClient* tcp = dynamic_cast<TcpClient*>(item);
         if(nullptr!=tcp)
         {
+            if(tcp->isGM())
+            {
+                sendOffGmStatus(tcp);
+            }
             updateNewClient(tcp);
         }
         return m_child.size();
     }
     return -1;
 
+}
+
+bool Channel::addChildInto(QString id, TreeItem* child)
+{
+    if(m_id == id)
+    {
+        addChild(child);
+        return true;
+    }
+    else
+    {
+        for(TreeItem* item : m_child)
+        {
+            if(item->addChildInto(id, child))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void Channel::updateNewClient(TcpClient* newComer)
@@ -246,25 +277,7 @@ void Channel::kick(QString str)
     }
 }
 
-bool Channel::addChildInto(QString id, TreeItem* child)
-{
-    if(m_id == id)
-    {
-        addChild(child);
-        return true;
-    }
-    else
-    {
-        for(TreeItem* item : m_child)
-        {
-            if(item->addChildInto(id, child))
-            {
-                return true;
-            }
-        }
-    }
-    return false;
-}
+
 
 void Channel::clear()
 {
@@ -272,6 +285,7 @@ void Channel::clear()
     {
         item->clear();
     }
+    qDeleteAll(m_child);
     m_child.clear();
 }
 TreeItem* Channel::getChildById(QString id)
@@ -288,6 +302,33 @@ TreeItem* Channel::getChildById(QString id)
             if(nullptr != itemChild)
             {
                 return itemChild;
+            }
+        }
+    }
+    return nullptr;
+}
+
+TcpClient* Channel::getPlayerById(QString id)
+{
+    for(auto item : m_child)
+    {
+        if(nullptr == item)
+            continue;
+
+        auto client = dynamic_cast<TcpClient*>(item);
+        if(client)
+        {
+            if(client->getPlayerId() == id)
+            {
+                return client;
+            }
+        }
+        else
+        {
+            auto channel = dynamic_cast<Channel*>(item);
+            if(nullptr!= channel)
+            {
+                return channel->getPlayerById(id);
             }
         }
     }
@@ -325,6 +366,10 @@ bool Channel::removeClient(TcpClient* client)
     if(hasNoClient())
     {
         clearData();
+    }
+    else if((m_currentGm != nullptr) && (m_currentGm == client))
+    {
+        findNewGM();
     }
 
     emit itemChanged();
@@ -365,4 +410,48 @@ bool Channel::hasNoClient()
         }
     }
     return hasNoClient;
+}
+
+void Channel::sendOffGmStatus(TcpClient* client)
+{
+    bool isRealGM = false;
+    if(m_currentGm == nullptr || m_currentGm == client)
+    {
+        m_currentGm = client;
+        isRealGM = true;
+    }
+    NetworkMessageWriter* message = new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::GMStatus);
+    QStringList idList;
+    idList << client->getPlayerId();
+    message->setRecipientList(idList,NetworkMessage::OneOrMany);
+    message->int8(static_cast<qint8>(isRealGM));
+    sendToMany(message,nullptr);
+}
+void Channel::findNewGM()
+{
+    auto result = std::find_if(m_child.begin(), m_child.end(),[=](TreeItem*& item){
+        auto client = dynamic_cast<TcpClient*>(item);
+        if(nullptr != client)
+        {
+            if(client->isGM())
+            {
+                return true;
+            }
+        }
+        return false;
+    });
+
+    m_currentGm = dynamic_cast<TcpClient*>(*result);
+    sendOffGmStatus(m_currentGm);
+}
+bool Channel::isCurrentGm(TreeItem* item)
+{
+    return (m_currentGm == item);
+}
+
+QString Channel::getCurrentGmId()
+{
+    if(m_currentGm)
+        return m_currentGm->getPlayerId();
+    return {};
 }

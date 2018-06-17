@@ -15,6 +15,7 @@
 #include <QInputDialog>
 #include <QApplication>
 #include <QStyle>
+#include <QFont>
 #endif
 
 #include "channel.h"
@@ -106,6 +107,23 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const
             return tmp->getName();
         }
         #ifdef QT_WIDGETS_LIB
+        else if(role == Qt::FontRole)
+        {
+            if(tmp->isLeaf())
+            {
+                auto parent = tmp->getParentItem();
+                if(parent)
+                {
+                    auto channel = dynamic_cast<Channel*>(parent);
+                    if(channel->isCurrentGm(tmp))
+                    {
+                        QFont font;
+                        font.setBold(true);
+                        return font;
+                    }
+                }
+            }
+        }
         else if(role == Qt::DecorationRole)
         {
             if(!tmp->isLeaf())
@@ -260,6 +278,11 @@ QModelIndex ChannelModel::channelToIndex(Channel* channel)
         }
     }
     return parent;
+}
+
+void ChannelModel::setLocalPlayerId(const QString &id)
+{
+    m_localPlayerId = id;
 }
 
 NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader *msg)
@@ -462,6 +485,17 @@ void ChannelModel::readDataJson(const QJsonObject& obj)
         m_root.append(tmp);
     }
     endResetModel();
+
+    auto item = getPlayerById(m_localPlayerId);
+    if(nullptr != item)
+    {
+        auto parent = dynamic_cast<Channel*>(item->getParentItem());// channel
+        if(nullptr != parent)
+        {
+            qDebug() << parent->getName() << "name of parent";
+            emit localPlayerGMChanged(parent->getCurrentGmId());
+        }
+    }
 }
 
 void ChannelModel::writeDataJson(QJsonObject& obj)
@@ -537,6 +571,34 @@ TreeItem* ChannelModel::getItemById(QString id)
                 }
             }
         }
+    }
+    return nullptr;
+}
+
+TcpClient* ChannelModel::getPlayerById(QString id)
+{
+    for(auto item : m_root)
+    {
+        if(nullptr == item)
+            continue;
+
+        auto client = dynamic_cast<TcpClient*>(item);
+        if(client)
+        {
+            if(client->getPlayerId() == id)
+            {
+                return client;
+            }
+        }
+        else
+        {
+            auto channel = dynamic_cast<Channel*>(item);
+            if(nullptr!= channel)
+            {
+                return channel->getPlayerById(id);
+            }
+        }
+
     }
     return nullptr;
 }

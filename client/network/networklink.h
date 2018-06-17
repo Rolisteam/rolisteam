@@ -34,7 +34,7 @@
 class Map;
 
 /**
- * @brief The NetworkLink class to the server
+ * @brief The NetworkLink class to the server [Client side]
  */
 class NetworkLink : public QObject
 {
@@ -96,6 +96,7 @@ signals:
     void readDataReceived(quint64,quint64);
     void errorMessage(QString);
     void connnectionStateChanged(QAbstractSocket::SocketState);
+    void gameMasterStatusChanged(bool status);
 
     //////////////////////////
     // State signal

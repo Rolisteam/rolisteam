@@ -274,6 +274,7 @@ void MainWindow::setupUi()
 
     connect(m_playerList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
     connect(m_playerList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
+    connect(m_roomPanel,&ChannelListPanel::CurrentChannelGmIdChanged,m_playerList,&PlayersList::setCurrentGM);
     connect(m_playerList, &PlayersList::characterAdded,this,[=](Character* character){
         if(character->isNpc())
         {
@@ -1161,7 +1162,7 @@ void MainWindow::startReconnection()
 
 void MainWindow::setUpNetworkConnection()
 {
-    if((m_currentConnectionProfile!=nullptr)&&(!m_currentConnectionProfile->isServer()))
+    if(m_currentConnectionProfile!=nullptr)
     {
         connect(m_playerList, SIGNAL(localGMRefused(bool)), this, SLOT(userNatureChange(bool)));
         connect(this, SIGNAL(closing()), m_playerList, SLOT(sendDelLocalPlayer()));
@@ -1695,6 +1696,7 @@ void MainWindow::initializedClientManager()
         connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
         connect(m_clientManager,SIGNAL(isAuthentified()),this,SLOT(postConnection()));
         connect(m_clientManager,SIGNAL(clearData()),this,SLOT(cleanUpData()));
+        connect(m_clientManager,&ClientManager::gameMasterStatusChanged,this,&MainWindow::userNatureChange);
         //connect(m_clientManager,&ClientManager::moveToAnotherChannel,this,&MainWindow::);
 
     }
