@@ -53,6 +53,9 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
 
     memorySize = factor * maxMemorySize.toULongLong();
 
+    auto listIpBan = ipBan.split(",",QString::SkipEmptyParts);
+
+
     if(deepInspectionLog)
     {
         m_logController->listenObjects(&m_serverManager);
@@ -69,7 +72,7 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
     m_serverManager.insertField("port",port);
     m_serverManager.insertField("ServerPassword",password);
     m_serverManager.insertField("IpRange",range);
-    m_serverManager.insertField("IpBan",ipBan);
+    m_serverManager.insertField("IpBan",listIpBan);
     m_serverManager.insertField("ConnectionMax",connectionMax);
     m_serverManager.insertField("TimeStart",timeStart);
     m_serverManager.insertField("TimeEnd",timeEnd);

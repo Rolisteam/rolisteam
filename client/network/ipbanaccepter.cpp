@@ -8,19 +8,24 @@ IpBanAccepter::IpBanAccepter()
 bool IpBanAccepter::isValid(const QMap<QString, QVariant> &data)
 {
     qInfo() << "IpBanAccepter";
-    QList<QVariant> bannedIp = data["bannedIp"].toList();
-    QString currentIp = data["clientIp"].toString();
+    QStringList bannedIp = data["IpBan"].toStringList();
+    QString currentIp = data["currentIp"].toString();
 
-    bool result=true;
+    // Cut current ip
+    bool result = !bannedIp.contains(currentIp);
 
-    for(QVariant ip : bannedIp)
+    auto pos = currentIp.lastIndexOf(':');
+    if(pos>-1)
     {
-        if(currentIp == ip.toString())
-        {
-            result = false;
-        }
+        ++pos;
+        auto ipV4 = currentIp.right(currentIp.size()-(pos));
+        auto ipV6 = currentIp.left(pos);
+
+        result &= !bannedIp.contains(ipV4);
+        result &= !bannedIp.contains(ipV6);
+
+        qInfo() << "bannedIp" << bannedIp << " result" << result ;
     }
-    qInfo() << "bannedIp" << bannedIp << " result" << result;
 
     if(nullptr != m_next)
     {
