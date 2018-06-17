@@ -69,7 +69,6 @@ void Channel::readFromJson(QJsonObject &json)
     m_id=json["id"].toString();
 
     QJsonArray array = json["children"].toArray();
-    qDebug() << "children "<< array;
     for(auto channelJson : array)
     {
         QJsonObject obj = channelJson.toObject();
@@ -420,6 +419,9 @@ void Channel::sendOffGmStatus(TcpClient* client)
         m_currentGm = client;
         isRealGM = true;
     }
+    if(nullptr == client)
+        return;
+
     NetworkMessageWriter* message = new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::GMStatus);
     QStringList idList;
     idList << client->getPlayerId();
@@ -441,7 +443,11 @@ void Channel::findNewGM()
         return false;
     });
 
-    m_currentGm = dynamic_cast<TcpClient*>(*result);
+    if(result == m_child.end())
+        m_currentGm = nullptr;
+    else
+        m_currentGm = dynamic_cast<TcpClient*>(*result);
+
     sendOffGmStatus(m_currentGm);
 }
 bool Channel::isCurrentGm(TreeItem* item)

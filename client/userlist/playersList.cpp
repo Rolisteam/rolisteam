@@ -108,11 +108,13 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
 
         Player * player = m_playersList.at(row);
         person = player;
-
-        if ((role == Qt::BackgroundRole) && (player->getUuid() == m_idCurrentGM))
+        if(player != nullptr)
         {
-            QPalette pal = qApp->palette();
-            return QVariant(pal.color(QPalette::Active,QPalette::Dark));
+            if ((role == Qt::BackgroundRole) && (player->getUuid() == m_idCurrentGM) && player->isGM())
+            {
+                QPalette pal = qApp->palette();
+                return QVariant(pal.color(QPalette::Active,QPalette::Dark));
+            }
         }
     }
     else
