@@ -255,7 +255,7 @@ void AddVmapItemCommand::undo()
     NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::DelItem);
     msg.string8(m_vmap->getId());//id map
     msg.string16(m_currentItem->getId());//id item
-    msg.sendAll();
+    msg.sendToServer();
 }
 void AddVmapItemCommand::redo()
 {
@@ -277,7 +277,7 @@ void AddVmapItemCommand::redo()
     msg.string8(m_vmap->getId());
     msg.uint8(m_currentItem->getType());
     m_currentItem->fillMessage(&msg);
-    msg.sendAll();
+    msg.sendToServer();
 
 }
 

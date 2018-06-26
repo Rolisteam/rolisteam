@@ -438,7 +438,7 @@ bool VMapFrame::readFileFromUri()
             //m_vmap->fill(msg);
             fill(msg);
             m_vmap->sendAllItems(msg);
-            msg.sendAll();
+            msg.sendToServer();
             return true;
         }
 

@@ -250,7 +250,7 @@ NetworkMessage::RecipientMode NetworkMessageWriter::getRecipientMode() const
     return m_mode;
 }
 
-void NetworkMessageWriter::sendAll()
+void NetworkMessageWriter::sendToServer()
 {
-    NetworkMessage::sendAll();
+    NetworkMessage::sendToServer();
 }

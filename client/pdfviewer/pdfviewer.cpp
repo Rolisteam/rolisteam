@@ -177,7 +177,7 @@ void PdfViewer::sharePdfTo()
         NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
         msg.uint8(getContentType());
         fill(msg);
-        msg.sendAll();
+        msg.sendToServer();
     }
 }
 

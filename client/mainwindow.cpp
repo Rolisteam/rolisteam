@@ -484,7 +484,11 @@ ClientManager* MainWindow::getNetWorkManager()
 {
     return m_clientManager;
 }
-
+void MainWindow::sendGoodBye()
+{
+    NetworkMessageWriter message (NetMsg::AdministrationCategory, NetMsg::Goodbye);
+    message.sendToServer();
+}
 Map::PermissionMode MainWindow::getPermission(int id)
 {
     switch(id)
@@ -864,7 +868,7 @@ void MainWindow::sendOffAllMaps(Player* player)
                 idList << player->getUuid();
                 msg.setRecipientList(idList,NetworkMessage::OneOrMany);
                 tmp->fill(msg);
-                msg.sendAll();
+                msg.sendToServer();
             }
         }
         else if(CleverURI::MAP == mediaC->getContentType())
@@ -894,7 +898,7 @@ void MainWindow::sendOffAllImages(Player* player)
                 QStringList idList;
                 idList << player->getUuid();
                 message.setRecipientList(idList,NetworkMessage::OneOrMany);
-                message.sendAll();
+                message.sendToServer();
             }
         }
     }

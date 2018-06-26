@@ -123,7 +123,7 @@ void SharedNote::populateDocumentForUser(QString id)
     msg.setRecipientList(ids,NetworkMessage::OneOrMany);
     msg.string8(m_id);
     m_document->fill(&msg);
-    msg.sendAll();
+    msg.sendToServer();
 }
 
 void SharedNote::setOwner(Player* player)
@@ -154,7 +154,7 @@ void SharedNote::closeEditorFor(QString idplayer)
     list << idplayer;
     msg.setRecipientList(list,NetworkMessage::OneOrMany);
     msg.string8(m_id);
-    msg.sendAll();
+    msg.sendToServer();
 }
 
 bool SharedNote::saveFile(QDataStream& out)
@@ -307,7 +307,7 @@ void SharedNote::writeToAll(QString string)
         NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updateText);
         msg.string8(m_id);
         msg.string32(string);
-        msg.sendAll();
+        msg.sendToServer();
     }
 }
 void SharedNote::runUpdateCmd(QString cmd)
@@ -428,7 +428,7 @@ void SharedNote::playerPermissionsChanged(QString id,int perm)
     msg.string8(m_id);//MediaId
     msg.string8(id);//playerId
     msg.int8(perm);//Permission
-    msg.sendAll();
+    msg.sendToServer();
 }
 
 

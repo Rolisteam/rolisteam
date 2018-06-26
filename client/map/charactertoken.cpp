@@ -506,7 +506,7 @@ void CharacterToken::emettrePnj(QString idCarte)
     NetworkMessageWriter msg(NetMsg::NPCCategory,NetMsg::addNpc);
     msg.string8(idCarte);
     prepareToSendOff(&msg);
-    msg.sendAll();
+    msg.sendToServer();
 
 }
 void CharacterToken::write(QDataStream &out)

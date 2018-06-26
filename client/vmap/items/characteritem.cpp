@@ -759,7 +759,7 @@ void CharacterItem::characterStateChange()
     msg->string8(m_id);
     msg->string8(m_character->getUuid());
     msg->uint16(index);
-    msg->sendAll();
+    msg->sendToServer();
 
 }
 VisualItem* CharacterItem::getItemCopy()
@@ -869,7 +869,7 @@ void CharacterItem::sendVisionMsg()
         msg.string16(getCharacterId());
         msg.string16(m_id);
         m_vision->fill(&msg);
-        msg.sendAll();
+        msg.sendToServer();
     }
 }
 void CharacterItem::readVisionMsg(NetworkMessageReader* msg)

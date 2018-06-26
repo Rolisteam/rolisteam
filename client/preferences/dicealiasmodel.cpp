@@ -176,7 +176,7 @@ bool DiceAliasModel::setData(const QModelIndex &index, const QVariant &value, in
             msg.int8(diceAlias->isReplace());
             msg.int8(diceAlias->isEnable());
             msg.string32(diceAlias->getComment());
-            msg.sendAll();
+            msg.sendToServer();
         }
     }
     return result;
@@ -195,7 +195,7 @@ void DiceAliasModel::deleteAlias(QModelIndex& index)
 
     NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::removeDiceAlias);
     msg.int64(index.row());
-    msg.sendAll();
+    msg.sendToServer();
 }
 void DiceAliasModel::upAlias(QModelIndex& index)
 {
@@ -279,7 +279,7 @@ void DiceAliasModel::sendOffAllDiceAlias()
         msg.int8(alias->isReplace());
         msg.int8(alias->isEnable());
         msg.string32(alias->getComment());
-        msg.sendAll();
+        msg.sendToServer();
     }
 }
 void DiceAliasModel::moveAlias(int from,int to)
@@ -289,6 +289,6 @@ void DiceAliasModel::moveAlias(int from,int to)
         NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::moveDiceAlias);
         msg.int64(from);
         msg.int64(to);
-        msg.sendAll();
+        msg.sendToServer();
     }
 }
