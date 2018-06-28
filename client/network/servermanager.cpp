@@ -288,9 +288,6 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
     bool isAdmin = tcp->isAdmin();
     switch (msg->action())
     {
-        case NetMsg::Goodbye:
-
-        break;
         case NetMsg::Kicked:
         {
             if(isAdmin)
@@ -444,6 +441,7 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
     connect(connection,SIGNAL(adminAuthFailed()),this,SLOT(sendOffAdminAuthFail()),Qt::QueuedConnection);
     connect(connection,SIGNAL(adminAuthSucceed()),this,SLOT(sendOffAdminAuthSuccessed()),Qt::QueuedConnection);
     connect(connection,SIGNAL(itemChanged()),this,SLOT(sendOffModelToAll()),Qt::QueuedConnection);
+    connect(connection,&TcpClient::clientSaysGoodBye,this,&ServerManager::disconnected,Qt::QueuedConnection);
 
 
     connect(connection,&TcpClient::checkServerAcceptClient,this,&ServerManager::serverAcceptClient,Qt::QueuedConnection);
@@ -470,7 +468,7 @@ void ServerManager::sendOffModelToAll()
 
 void ServerManager::disconnected()
 {
-    emit sendLog(tr("New Incoming Connection!"), LogController::Info);
+    emit sendLog(tr("Disconnected!"), LogController::Info);
     if(!sender()) return;
 
     TcpClient* client = qobject_cast<TcpClient*>(sender());
@@ -483,22 +481,21 @@ void ServerManager::removeClient(TcpClient* client)
     client->isReady();
 
     auto socket = client->getSocket();
+    m_connections.remove(socket);
+
+    m_model->removeChild(client->getId());
 
     if(nullptr != socket)
     {
-        m_model->removeChild(client->getId());
         if(socket->isOpen())
         {
             socket->disconnect();
             socket->close();
         }
-        m_connections.remove(socket);
         socket->deleteLater();
-
-        sendOffModelToAll();
-        client->deleteLater();
     }
-
+    sendOffModelToAll();
+    client->deleteLater();
 }
 void ServerManager::setChannelPassword(QString chanId, QByteArray passwd)
 {

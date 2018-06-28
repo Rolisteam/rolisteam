@@ -35,6 +35,8 @@ public:
     NetworkMessageReader(const NetworkMessageReader & other);
     virtual ~NetworkMessageReader();
 
+    bool isValid();
+
     NetMsg::Category category() const;
     NetMsg::Action action() const;
 
@@ -84,10 +86,11 @@ protected:
 
 
 private:
-    NetworkMessageHeader * m_header;
-    char* m_buffer;
-    const char * m_pos;
-    const char * m_end;
+    NetworkMessageHeader * m_header =nullptr;
+    bool m_outMemory = false;
+    char* m_buffer =nullptr;
+    const char * m_pos =nullptr;
+    const char * m_end =nullptr;
     RecipientMode m_mode;
     QStringList m_recipientList;
 };

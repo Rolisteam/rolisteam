@@ -179,7 +179,7 @@ void MapWizzardDialog::setAllMap(VMap* map)
     }
     map->setPermissionMode(result);
 
-    VMap::VisibilityMode resultVisibility;
+    VMap::VisibilityMode resultVisibility = VMap::HIDDEN;
     switch(ui->m_visibilityComboBox->currentIndex())
     {
     case 0:

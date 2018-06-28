@@ -110,6 +110,7 @@ signals:
 
     void moveChannel();
 
+    void clientSaysGoodBye();
     void playerStatusChanged();
 
 

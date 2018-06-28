@@ -205,11 +205,6 @@ public :
      * @param fileName
      */
     void setLatestFile(CleverURI* fileName);
-signals:
-    /**
-     * @brief closing
-     */
-    void closing();
 
 public slots :
     /**
@@ -354,6 +349,7 @@ protected :
     void tipChecker();
     virtual void mouseMoveEvent(QMouseEvent *event);
     void createPostSettings();
+    void sendGoodBye();
 protected slots:
     /**
      * @brief closeMediaContainer

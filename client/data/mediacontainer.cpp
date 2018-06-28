@@ -22,7 +22,12 @@
 
 
 MediaContainer::MediaContainer(QWidget* parent)
-    : QMdiSubWindow(parent),m_uri(nullptr),m_preferences(PreferencesManager::getInstance()),m_action(nullptr),m_currentCursor(nullptr),m_mediaId(QUuid::createUuid().toString()),m_remote(false)
+    : QMdiSubWindow(parent),m_uri(nullptr),
+      m_preferences(PreferencesManager::getInstance()),
+      m_action(nullptr),
+      m_currentCursor(nullptr),
+      m_mediaId(QUuid::createUuid().toString()),
+      m_remote(false)
 {
     //m_preferences = ;
     setAttribute(Qt::WA_DeleteOnClose,false);

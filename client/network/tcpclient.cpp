@@ -102,7 +102,10 @@ void TcpClient::setSocket(QTcpSocket* socket)
             {
                 m_currentState = m_disconnected;
                 m_forwardMessage = false;
-                closeConnection();
+                if(nullptr != m_socket)
+                {
+                    m_socket->close();
+                }
             }
         });
 
@@ -221,6 +224,7 @@ void TcpClient::closeConnection()
     {
         m_socket->close();
     }
+    emit clientSaysGoodBye();
 }
 
 void TcpClient::addPlayerFeature(QString uuid, QString name, quint8 version)
@@ -236,13 +240,13 @@ void TcpClient::addPlayerFeature(QString uuid, QString name, quint8 version)
 
 void TcpClient::receivingData()
 {
-    if(nullptr==m_socket)
+    if(m_socket.isNull())
     {
         return;
     }
     quint32 dataRead=0;
 
-    while (m_socket->bytesAvailable())
+    while (!m_socket.isNull() && m_socket->bytesAvailable())
     {
         if (!m_receivingData)
         {
@@ -327,9 +331,10 @@ void TcpClient::forwardMessage()
             delete [] m_buffer;
             emit protocolViolation();
         }
-
-        emit dataReceived(array);
-
+        else
+        {
+            emit dataReceived(array);
+        }
     }
 }
 
@@ -355,7 +360,9 @@ void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 void TcpClient::connectionError(QAbstractSocket::SocketError error)
 {
     if(nullptr!=m_socket)
+    {
         qWarning() << m_socket->errorString() << error;
+    }
 }
 
 void TcpClient::sendEvent(TcpClient::ConnectionEvent event)
@@ -445,6 +452,9 @@ void TcpClient::readAdministrationMessages(NetworkMessageReader& msg)
         case NetMsg::AdminPassword:
             m_adminPassword = msg.byteArray32();
             emit checkAdminPassword(this);
+        break;
+        case NetMsg::Goodbye:
+            closeConnection();
         break;
         default:
             break;

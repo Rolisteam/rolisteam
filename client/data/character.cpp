@@ -277,7 +277,7 @@ void Character::fill(NetworkMessageWriter & message,bool addAvatar)
 }
 QString Character::read(NetworkMessageReader& msg)
 {
-    if(msg.isValid())
+    if(!msg.isValid())
         return {};
     QString parentId = msg.string8();
     m_uuid = msg.string8();

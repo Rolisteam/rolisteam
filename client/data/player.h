@@ -175,8 +175,8 @@ private:
 
 
 private:
-    bool m_gameMaster;
-    NetworkLink * m_link;
+    bool m_gameMaster = false;
+    NetworkLink * m_link = nullptr;
     QList<Character *> m_characters;
     QMap<QString, quint8> m_features;
     QString m_softVersion;

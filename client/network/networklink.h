@@ -132,11 +132,6 @@ private :
      */
     void postTo(QObject * obj) const;
     /**
-     * @brief forwardMessage
-     * @param all
-     */
-    void forwardMessage(NetWorkReceiver::SendType all);
-    /**
      * @brief extractCharacter
      * @param map
      * @param m_buffer

@@ -44,8 +44,6 @@ public:
 
     virtual TreeItem* getChildById(QString id);
     virtual bool removeChild(TreeItem*);
-    virtual void insertChildAt(int pos, TreeItem*);
-
 
 signals:
     void itemChanged();

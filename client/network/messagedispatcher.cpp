@@ -188,6 +188,12 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case  NetMsg::AdminAuthFail:
             str = QStringLiteral("AdminPassword");
             break;
+        case  NetMsg::MovedIntoChannel:
+            str = QStringLiteral("MovedIntoChannel");
+            break;
+        case  NetMsg::GMStatus:
+            str = QStringLiteral("GMStatus");
+            break;
         default:
             str = QStringLiteral("Unknown Action");
             break;

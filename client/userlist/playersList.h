@@ -123,7 +123,6 @@ public:
     // Proxy helpers
     static const quint32 NoParent = 0x7fffffff;
 public slots:
-    void sendDelLocalPlayer();
     void setCurrentGM(QString idGm);
     bool setLocalPersonAvatar(Person* person,const QImage& image);
 signals:
@@ -158,7 +157,7 @@ private:
     void addCharacter(Player * player, Character * character);
     void delPlayer(Player * player);
     void delCharacter(Player * parent, int index);
-    void addPlayer(NetworkMessageReader & data);
+    void receivePlayer(NetworkMessageReader & data);
     void delPlayer(NetworkMessageReader & data);
     void setPersonName(NetworkMessageReader & data);
     void setPersonColor(NetworkMessageReader & data);
