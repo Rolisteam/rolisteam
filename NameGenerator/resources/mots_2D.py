@@ -15,7 +15,8 @@ import argparse
 #filepath = "testdata.txt"
 #FilepathTab = ["_Name_Elve_Male", "_Name_Elve_Female", "_Name_Japanese_Female","_Name_Chinese_Male","_Name_Chinese_Female","_Name_Japanese_Male","_Name_Dwarf_Male","_Name_Dwarf_Female","_Name_human_star_wars_Male","_Name_human_star_wars_Female"]
 #FilepathTab = ["_Last_Name_human_star_wars_Male","_Name_human_star_wars_Male"]
-FilepathTab = ["_last_name_russian"]
+#FilepathTab = ["_last_name_russian"]
+FilepathTab = ["_Name_German_Female","_Name_German_Male","_Name_Bulgare_Male","_Name_Bulgare_Female"]
 
 res = []
 
