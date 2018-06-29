@@ -710,7 +710,7 @@ bool PlayersList::event(QEvent * event)
                 switch (data.action())
                 {
                     case PlayerConnectionAction:
-                        addPlayer(data);
+                        receivePlayer(data);
                         return true;
                     case DelPlayerAction:
                         delPlayer(data);
@@ -765,12 +765,12 @@ bool PlayersList::event(QEvent * event)
     return QObject::event(event);
 }
 
-void PlayersList::addPlayer(NetworkMessageReader & data)
+void PlayersList::receivePlayer(NetworkMessageReader & data)
 {
     Player * newPlayer = new Player(data);
     if(m_uuidMap.contains(newPlayer->getUuid()))
     {
-        qWarning("A Player and a Character have the same UUID %s", qPrintable(newPlayer->getUuid()));
+        qWarning("A Player and a Character have the same UUID %s : %s - %s", qPrintable(newPlayer->getUuid()), qPrintable(newPlayer->name()), qPrintable(m_uuidMap.value(newPlayer->getUuid())->name()));
         return;
     }
     addPlayer(newPlayer);
@@ -852,16 +852,6 @@ void PlayersList::delCharacter(NetworkMessageReader & data)
     if(nullptr!=parent)
     {
         delCharacter(parent, parent->getIndexOfCharacter(character));
-    }
-}
-
-void PlayersList::sendDelLocalPlayer()
-{
-    if(nullptr!=getLocalPlayer())
-    {
-        NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
-        message.string8(getLocalPlayer()->getUuid());
-        message.sendToServer();
     }
 }
 

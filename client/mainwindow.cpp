@@ -458,12 +458,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if(mayBeSaved())
     {
-        if(nullptr!=m_playerList)
-        {
-            m_playerList->sendDelLocalPlayer();
-        }
+        sendGoodBye();
         writeSettings();
-        m_serverThread.quit();
+        if(m_serverThread.isRunning())
+            m_serverThread.quit();
         event->accept();
     }
     else
@@ -484,7 +482,11 @@ ClientManager* MainWindow::getNetWorkManager()
 {
     return m_clientManager;
 }
-
+void MainWindow::sendGoodBye()
+{
+    NetworkMessageWriter message (NetMsg::AdministrationCategory, NetMsg::Goodbye);
+    message.sendToServer();
+}
 Map::PermissionMode MainWindow::getPermission(int id)
 {
     switch(id)
@@ -1165,7 +1167,6 @@ void MainWindow::setUpNetworkConnection()
     if(m_currentConnectionProfile!=nullptr)
     {
         connect(m_playerList, SIGNAL(localGMRefused(bool)), this, SLOT(userNatureChange(bool)));
-        connect(this, SIGNAL(closing()), m_playerList, SLOT(sendDelLocalPlayer()));
     }
     connect(m_clientManager, SIGNAL(dataReceived(quint64,quint64)), this, SLOT(receiveData(quint64,quint64)));
 }
@@ -1436,7 +1437,7 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
     if(nullptr==msg)
         return NetWorkReceiver::NONE;
 
-    NetWorkReceiver::SendType type;
+    NetWorkReceiver::SendType type = NetWorkReceiver::NONE;
     switch(msg->category())
     {
     case NetMsg::MapCategory:

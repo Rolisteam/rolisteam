@@ -8,6 +8,7 @@
 #include <QJsonObject>
 #include <QList>
 #include <QString>
+#include <QPointer>
 
 #include "networkmessagewriter.h"
 
@@ -66,7 +67,6 @@ public:
     virtual void kick(QString str);
     TreeItem* getChildById(QString id);
     TcpClient* getPlayerById(QString id);
-    virtual void insertChildAt(int pos, TreeItem*);
 
     void fill(NetworkMessageWriter& msg);
     void read(NetworkMessageReader& msg);
@@ -84,10 +84,10 @@ private:
     QString m_description;
     bool m_usersListed;
 
-    QList<TreeItem*> m_child;
+    QList<QPointer<TreeItem>> m_child;
     QList<NetworkMessage*> m_dataToSend;
     quint64 m_memorySize = 0;
-    TcpClient* m_currentGm = nullptr;
+    QPointer<TcpClient> m_currentGm;
 };
 
 #endif // CHANNEL_H

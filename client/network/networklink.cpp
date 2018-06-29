@@ -288,34 +288,13 @@ void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
             header.dataSize = 0;
             sendData((char *)&header, sizeof(NetworkMessageHeader));
         }
-        else if(NetMsg::DelPlayerAction == msg->action())
-        {
-            forwardMessage(NetWorkReceiver::AllExceptSender);
-        }
-        else if(NetMsg::ChangePlayerNameAction == msg->action())
-        {
-           forwardMessage(NetWorkReceiver::AllExceptSender);
-        }
-        else if(NetMsg::ChangePlayerColorAction == msg->action())
-        {
-           forwardMessage(NetWorkReceiver::AllExceptSender);
-        }
     }
 }
 void NetworkLink::processSetupMessage(NetworkMessageReader* msg)
 {
-    if (msg->action() == NetMsg::AddFeatureAction)
-    {
-        forwardMessage(NetWorkReceiver::AllExceptSender);
-    }
+
 }
-void NetworkLink::forwardMessage( NetWorkReceiver::SendType type)
-{
-    if(NetWorkReceiver::NONE == type)
-    {
-        return;
-    }
-}
+
 
 ConnectionProfile *NetworkLink::getConnection() const
 {

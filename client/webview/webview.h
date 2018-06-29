@@ -31,15 +31,16 @@ protected:
 
     void updateTitle();
 private:
-    QWebEngineView* m_view;
-    QAction* m_shareAsLink;
-    QAction* m_shareAsHtml;
-    //QAction* m_shareAsView;
-    QAction* m_next;
-    QAction* m_previous;
-    QAction* m_reload;
-    QLineEdit* m_addressEdit;
-    QVBoxLayout* m_mainLayout;
+    QWebEngineView* m_view = nullptr;
+    QAction* m_shareAsLink = nullptr;
+    QAction* m_shareAsHtml = nullptr;
+    QAction* m_shareAsView = nullptr;
+    QAction* m_hideAddress = nullptr;
+    QAction* m_next = nullptr;
+    QAction* m_previous = nullptr;
+    QAction* m_reload = nullptr;
+    QLineEdit* m_addressEdit = nullptr;
+    QVBoxLayout* m_mainLayout = nullptr;
 
 
 };

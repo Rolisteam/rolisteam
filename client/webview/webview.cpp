@@ -8,6 +8,7 @@ WebView::WebView(QWidget *parent)
 {
     setObjectName("WebPage");
     setWindowIcon(QIcon(":/resources/icons/webPage.svg"));
+    m_uri = new CleverURI("Webpage","",CleverURI::WEBVIEW);
     auto wid = new QWidget();
     m_mainLayout = new QVBoxLayout(wid);
     wid->setLayout(m_mainLayout);
@@ -84,10 +85,13 @@ void WebView::createActions()
 {
     m_shareAsLink = new QAction(tr("Share"),this);
 
-   /* connect(m_shareAsLink,&QAction::triggered,[=](){
+    connect(m_shareAsLink,&QAction::triggered,[=](){
         NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
+        msg.uint8(getContentType());
+        msg.string8(m_mediaId);
         msg.string32(m_uri->getUri());
-    });*/
+        msg.sendToServer();
+    });
 
     m_shareAsHtml = new QAction(tr("Share Html"),this);
     //m_shareAsView = new QAction(tr("Share View"),this);
@@ -97,6 +101,10 @@ void WebView::createActions()
     m_previous->setIcon(style()->standardIcon(QStyle::SP_ArrowBack));
     m_reload= new QAction(tr("Reload"),this);
     m_reload->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
+
+    m_hideAddress = new QAction(tr("Hide Address Bar"),this);
+    m_hideAddress->setCheckable(true);
+    m_hideAddress->setIcon(QIcon(":/resources/icons/mask.png"));
 
 }
 
@@ -132,20 +140,24 @@ void WebView::creationToolBar()
 
     button = new QToolButton(this);
     button->setAutoRaise(true);
+    button->setDefaultAction(m_hideAddress);
+    hLayout->addWidget(button);
+    hLayout->addStretch();
+
+    button = new QToolButton(this);
+    button->setAutoRaise(true);
     button->setDefaultAction(m_shareAsLink);
     hLayout->addWidget(button);
-
 
     button = new QToolButton(this);
     button->setAutoRaise(true);
     button->setDefaultAction(m_shareAsHtml);
     hLayout->addWidget(button);
 
-
-  /*  button = new QToolButton(this);
+    button = new QToolButton(this);
     button->setAutoRaise(true);
     button->setDefaultAction(m_shareAsView);
-    hLayout->addWidget(button);*/
+    hLayout->addWidget(button);
 
     m_mainLayout->addLayout(hLayout);
 
@@ -159,11 +171,12 @@ void WebView::creationToolBar()
     connect(m_view,&QWebEngineView::titleChanged,[=](){
         m_uri->setName(m_view->title());
     });
+    connect(m_hideAddress,&QAction::triggered,this,[=](bool b){
+        if(b)
+            m_addressEdit->setEchoMode(QLineEdit::Password);
+    });
     connect(m_view,&QWebEngineView::urlChanged,[=](){
         auto url = m_view->url().toString();
         m_uri->setUri(url);
     });
-   // connect(m_addressEdit,&QLineEdit::editingFinished,m_view,&QWebEngineView::setUrl);
-
-
 }

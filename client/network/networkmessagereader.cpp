@@ -62,6 +62,11 @@ NetworkMessageReader::~NetworkMessageReader()
 {
     delete[] ((char *)m_header);
 }
+
+bool NetworkMessageReader::isValid()
+{
+    return !m_outMemory;
+}
 void NetworkMessageReader::setData(QByteArray& bytes)
 {
     int size = bytes.size();
@@ -97,7 +102,8 @@ NetworkMessageHeader* NetworkMessageReader::buffer()
 
 bool NetworkMessageReader::isSizeReadable(size_t size)
 {
-  return (left() >= size);
+  m_outMemory =! (left() >= size);
+  return !m_outMemory;
 }
 
 QStringList NetworkMessageReader::getRecipientList() const

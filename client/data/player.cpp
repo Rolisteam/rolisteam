@@ -51,6 +51,11 @@ Player::~Player()
 }
 void Player::readFromMsg(NetworkMessageReader& data)
 {
+    if(!data.isValid())
+    {
+        qWarning() << "Network message OUT OF MEMORY";
+        return;
+    }
     m_name = data.string16();
     m_uuid = data.string8();
 
@@ -58,17 +63,36 @@ void Player::readFromMsg(NetworkMessageReader& data)
     m_gameMaster  = (data.uint8() != 0);
     m_softVersion = data.string16();
     int childCount = data.int32();
-    for(int i = 0; i < childCount;++i)
+    for(int i = 0;( i < childCount && data.isValid() );++i)
     {
-        Character* child = new Character();
-        child->read(data);
-        m_characters.append(child);
-        child->setParentPerson(this);
-        data.uint8();
+        try {
+            Character* child = new Character();
+            child->read(data);
+            m_characters.append(child);
+            child->setParentPerson(this);
+            data.uint8();
+        }
+        catch(std::bad_alloc &)
+        {
+            qWarning() << "Bad alloc";
+             return;
+        }
+    }
+    if(!data.isValid())
+    {
+        qWarning() << "Network message OUT OF MEMORY";
+        return;
     }
     QByteArray array = data.byteArray32();
     QDataStream in(&array,QIODevice::ReadOnly);
     in >> m_features;
+
+    if(m_features.isEmpty())
+    {
+        qDebug() << "ERROR";
+    }
+
+    qDebug() << "receiving FEATURE OF " << m_name << m_features;
 }
 void Player::fill(NetworkMessageWriter & message,bool addAvatar)
 {
@@ -88,6 +112,8 @@ void Player::fill(NetworkMessageWriter & message,bool addAvatar)
     QByteArray array;
     QDataStream out(&array,QIODevice::WriteOnly);
     out << m_features;
+
+    qDebug() << "sending FEATURE OF " << m_name << m_features;
 
     message.byteArray32(array);
 }
@@ -194,6 +220,7 @@ bool Player::isLeaf() const
 
 bool Player::hasFeature(const QString & name, quint8 version) const
 {
+    qDebug() << name << m_features << this->name() << version;
     return m_features.contains(name) && m_features.value(name) >= version;
 }
 

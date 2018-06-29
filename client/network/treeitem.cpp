@@ -82,11 +82,6 @@ bool TreeItem::removeChild(TreeItem *)
     return false;
 }
 
-void TreeItem::insertChildAt(int , TreeItem *)
-{
-
-}
-
 void TreeItem::setId(const QString &id)
 {
     if(m_id!=id)
