@@ -113,7 +113,7 @@ void CharacterSheetWindow::setReadOnlyOnSelection()
     QList<QModelIndex> list = m_view.selectionModel()->selectedIndexes();
     bool allTheSame = true;
     int i=0;
-    bool firstStatus;
+    bool firstStatus = true;
     QList<CharacterSheetItem*> listItem;
     for(auto item : list)
     {
@@ -299,7 +299,7 @@ void CharacterSheetWindow::affectSheetToCharacter()
                     msg.setRecipientList(idList,NetworkMessage::OneOrMany);
                     msg.string8(parent->getUuid());
                     fill(&msg,sheet,character->getUuid());
-                    msg.sendAll();
+                    msg.sendToServer();
                 }
             }
         }
@@ -321,7 +321,7 @@ void CharacterSheetWindow::checkAlreadyShare(CharacterSheet* sheet)
             PlayersList* list = PlayersList::instance();
             if(list->hasPlayer(olderParent))
             {
-                msg.sendAll();
+                msg.sendToServer();
             }
         }
         m_sheetToPerson.remove(sheet);
@@ -464,7 +464,7 @@ void CharacterSheetWindow::updateFieldFrom(CharacterSheet* sheet, CharacterSheet
             QJsonDocument doc;
             doc.setObject(object);
             msg.byteArray32(doc.toBinaryData());
-            msg.sendAll();
+            msg.sendToServer();
         }
     }
 }
