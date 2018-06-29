@@ -80,7 +80,7 @@ bool PublicChat::belongsTo(Player * player) const
 
 void PublicChat::sendThem(NetworkMessage & message ) const
 {
-    message.sendAll();
+    message.sendToServer();
 }
 
 bool PublicChat::everyPlayerHasFeature(const QString & feature, quint8 version) const
@@ -127,7 +127,7 @@ bool PlayerChat::belongsTo(Player * player) const
 
 void PlayerChat::sendThem(NetworkMessage & message) const
 {
-    message.sendAll();
+    message.sendToServer();
 }
 
 bool PlayerChat::everyPlayerHasFeature(const QString & feature, quint8 version) const
@@ -238,7 +238,7 @@ void PrivateChat::sendThem(NetworkMessage & message) const
 void PrivateChat::p_sendThem(NetworkMessage & message, bool force) const
 {
     if (force || m_set.size() > 1)
-        message.sendAll();
+        message.sendToServer();
 }
 
 

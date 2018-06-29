@@ -611,7 +611,7 @@ void RGraphicsView::sendOffMapChange()
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::vmapChanges);
         msg.string8(m_vmap->getId());
         m_vmap->fill(msg);
-        msg.sendAll();
+        msg.sendToServer();
     }
 }
 
@@ -723,7 +723,7 @@ void RGraphicsView::resizeEvent(QResizeEvent* event)
         msg.real(r.width());
         msg.real(r.height());
 
-        msg.sendAll();
+        msg.sendToServer();
     }
 
     setResizeAnchor(QGraphicsView::NoAnchor);

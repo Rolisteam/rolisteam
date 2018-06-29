@@ -217,7 +217,7 @@ public:
      * @brief sendAll
      * @param butLink
      */
-    virtual void sendAll();
+    virtual void sendToServer();
     /**
      * @brief category
      * @return

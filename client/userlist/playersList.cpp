@@ -441,7 +441,7 @@ void PlayersList::sendOffLocalPlayerInformations()
     NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
     setLocalFeatures(*m_localPlayer);
     m_localPlayer->fill(message);
-    message.sendAll();
+    message.sendToServer();
 }
 void PlayersList::sendOffFeatures(Player* player)
 {
@@ -450,7 +450,7 @@ void PlayersList::sendOffFeatures(Player* player)
     while (i.hasNext())
     {
         i.next();
-        i.message().sendAll();
+        i.message().sendToServer();
     }
 }
 
@@ -493,7 +493,7 @@ void PlayersList::addLocalCharacter(Character * newCharacter)
     NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::AddPlayerCharacterAction);
     newCharacter->fill(message);
     message.uint8(1); // add it to the map
-    message.sendAll();
+    message.sendToServer();
 }
 
 void PlayersList::changeLocalPerson(Person * person, const QString & name, const QColor & color, const QImage & icon)
@@ -537,7 +537,7 @@ bool PlayersList::setLocalPersonAvatar(Person* person,const QImage& image)
         QDataStream in(&data,QIODevice::WriteOnly);
         in << image;
         message->byteArray32(data);
-        message->sendAll();
+        message->sendToServer();
 
         return true;
     }
@@ -557,7 +557,7 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
 
         message->string8(person->getUuid());
         message->rgb(person->getColor().rgb());
-        message->sendAll();
+        message->sendToServer();
 
         return true;
     }
@@ -577,7 +577,7 @@ bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
 
     message->string16(person->name());
     message->string8(person->getUuid());
-    message->sendAll();
+    message->sendToServer();
 
     return true;
 
@@ -591,7 +591,7 @@ void PlayersList::delLocalCharacter(int index)
 
     NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::DelPlayerCharacterAction);
     message.string8(parent->getCharacterByIndex(index)->getUuid());
-    message.sendAll();
+    message.sendToServer();
 
     delCharacter(parent, index);
 }
@@ -861,7 +861,7 @@ void PlayersList::sendDelLocalPlayer()
     {
         NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
         message.string8(getLocalPlayer()->getUuid());
-        message.sendAll();
+        message.sendToServer();
     }
 }
 

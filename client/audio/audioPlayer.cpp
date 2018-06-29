@@ -150,7 +150,7 @@ void AudioPlayer::onePlayerHasStopped(int id)
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::StopSong);
         message.uint8(id);
-        message.sendAll();
+        message.sendToServer();
     }
 }
 
@@ -160,7 +160,7 @@ void AudioPlayer::onePlayerIsPaused(int id)
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::PauseSong);
         message.uint8(id);
-        message.sendAll();
+        message.sendToServer();
     }
 }
 
@@ -171,7 +171,7 @@ void AudioPlayer::onePlayerPlays(int id,quint64 pos)
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::PlaySong);
         message.uint8(id);
         message.uint64(pos);
-        message.sendAll();
+        message.sendToServer();
     }
 }
 
@@ -183,7 +183,7 @@ void AudioPlayer::onePlayerHasNewSong(int id,QString str)
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::NewSong);
         message.uint8(id);
         message.string32(str);
-        message.sendAll();
+        message.sendToServer();
     }
 }
 
@@ -194,7 +194,7 @@ void AudioPlayer::onePlayerHasChangedPosition(int id,quint64 pos)
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::ChangePositionSong);
         message.uint8(id);
         message.uint64(pos);
-        message.sendAll();
+        message.sendToServer();
     }
 }
 

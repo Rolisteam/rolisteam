@@ -72,7 +72,7 @@ void SharedNoteContainer::updateNoteToAll()
     NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updateTextAndPermission);
     msg.string8(m_mediaId);
     m_edit->updateDocumentToAll(&msg);
-    msg.sendAll();
+    msg.sendToServer();
 }
 
 void SharedNoteContainer::setFileName(QString str)

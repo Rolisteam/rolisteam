@@ -231,7 +231,7 @@ void ClientManager::sendOffConnectionInfo()
     auto localPlayer = m_connectionProfile->getPlayer();
     setLocalFeatures(*localPlayer);
     localPlayer->fill(msg);
-    msg.sendAll();
+    msg.sendToServer();
 }
 void ClientManager::reset()
 {

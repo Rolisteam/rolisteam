@@ -571,7 +571,7 @@ void VMap::setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send)
         {
             if(send)
             {
-                msg.sendAll();
+                msg.sendToServer();
             }
             child->setParentItem(parent);
             hasMoved = true;
@@ -580,7 +580,7 @@ void VMap::setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send)
         {
             if(send)
             {
-                msg.sendAll();
+                msg.sendToServer();
             }
             child->setParentItem(parent);
             hasMoved = true;
@@ -1285,7 +1285,7 @@ void VMap::sendItemToAll(VisualItem* item)
     msg.string8(m_id);
     msg.string16(item->getId());
     item->fillMessage(&msg);
-    msg.sendAll();
+    msg.sendToServer();
 }
 void VMap::keyPressEvent(QKeyEvent* event)
 {

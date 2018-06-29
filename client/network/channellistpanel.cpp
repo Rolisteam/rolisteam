@@ -102,7 +102,7 @@ void ChannelListPanel::sendOffModel()
     doc.setObject(obj);
 
     msg.byteArray32(doc.toJson());
-    msg.sendAll();
+    msg.sendToServer();
 }
 void ChannelListPanel::showCustomMenu(QPoint pos)
 {
@@ -218,7 +218,7 @@ void ChannelListPanel::kickUser()
                 NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::Kicked);
                 msg.string8(id);
                 msg.string8(idPlayer);
-                msg.sendAll();
+                msg.sendToServer();
             }
         }
 
@@ -236,7 +236,7 @@ void ChannelListPanel::lockChannel()
             {
                 NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::LockChannel);
                 msg.string8(id);
-                msg.sendAll();
+                msg.sendToServer();
             }
         }
     }
@@ -262,7 +262,7 @@ void ChannelListPanel::banUser()
                 NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::BanUser);
                 msg.string8(id);
                 msg.string8(idPlayer);
-                msg.sendAll();
+                msg.sendToServer();
             }
         }
     }
@@ -289,7 +289,7 @@ void ChannelListPanel::sendOffLoginAdmin(QByteArray str)
         NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::AdminPassword);
         //msg.string8(id);
         msg.byteArray32(str);
-        msg.sendAll();
+        msg.sendToServer();
     }
 }
 void ChannelListPanel::addChannel()
@@ -311,7 +311,7 @@ void ChannelListPanel::addChannel()
                 NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::AddChannel);
                 msg.string8(parentId);
                 newChannel->fill(msg);
-                msg.sendAll();
+                msg.sendToServer();
             }
         }
     }
@@ -340,7 +340,7 @@ void ChannelListPanel::addChannelAsSibbling()
         NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::AddChannel);
         msg.string8(parentId);
         newChannel->fill(msg);
-        msg.sendAll();
+        msg.sendToServer();
 
     }
 }
@@ -381,7 +381,7 @@ void ChannelListPanel::deleteChannel()
             {
                 NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::DeleteChannel);
                 msg.string8(id);
-                msg.sendAll();
+                msg.sendToServer();
             }
         }
     }
@@ -403,7 +403,7 @@ void ChannelListPanel::setPasswordOnChannel()
     msg.string8(item->getId());
     auto pwA = QCryptographicHash::hash(pw.toUtf8(),QCryptographicHash::Sha3_512);
     msg.byteArray32(pwA);
-    msg.sendAll();
+    msg.sendToServer();
 
 }
 
@@ -427,7 +427,7 @@ void ChannelListPanel::joinChannel()
                 msg.string8(m_localPlayerId);
                 auto pwA = QCryptographicHash::hash(pw,QCryptographicHash::Sha3_512);
                 msg.byteArray32(pwA);
-                msg.sendAll();
+                msg.sendToServer();
             }
         }
     }

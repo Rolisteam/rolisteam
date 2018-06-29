@@ -247,7 +247,7 @@ bool MapFrame::readFileFromUri()
             msg.uint8(m_map->getPermissionMode());
             msg.uint8(m_isHidden);
             msg.byteArray32(byteArray);
-            msg.sendAll();
+            msg.sendToServer();
 
         }
     }

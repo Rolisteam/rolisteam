@@ -180,7 +180,7 @@ bool CharacterStateModel::setData(const QModelIndex &index, const QVariant &valu
             //msg.byteArray32(state->getImage());
             msg.rgb(state->getColor().rgb());
 
-            msg.sendAll();
+            msg.sendToServer();
         }
     }
     return result;
@@ -199,7 +199,7 @@ void CharacterStateModel::deleteState(QModelIndex& index)
 
     NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::removeState);
     msg.int64(index.row());
-    msg.sendAll();
+    msg.sendToServer();
 }
 void CharacterStateModel::upState(QModelIndex& index)
 {
@@ -349,7 +349,7 @@ void CharacterStateModel::sendOffAllCharacterState()
         {
             msg.uint8((quint8)false);
         }
-        msg.sendAll();
+        msg.sendToServer();
     }
 }
 void CharacterStateModel::moveState(int from,int to)
@@ -359,6 +359,6 @@ void CharacterStateModel::moveState(int from,int to)
         NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::moveState);
         msg.int64(from);
         msg.int64(to);
-        msg.sendAll();
+        msg.sendToServer();
     }
 }

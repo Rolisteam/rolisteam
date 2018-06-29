@@ -415,6 +415,6 @@ void PathItem::sendPointPosition()
         msg.real(m_changedPointId);
         msg.real(m_changedPointPos.x());
         msg.real(m_changedPointPos.y());
-        msg.sendAll();
+        msg.sendToServer();
     }
 }

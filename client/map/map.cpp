@@ -311,7 +311,7 @@ void Map::mousePressEvent(QMouseEvent *event)
                 msg.string8(m_mapId);
                 msg.string8(npc->getCharacterId());
                 msg.uint8(npc->orientationStatus());
-                msg.sendAll();
+                msg.sendToServer();
             }
             else if (m_lastSelectedNpc)
             {
@@ -413,7 +413,7 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
             msg.string8(m_lastSelectedNpc->getCharacterId());
             msg.int16(orientation.x());
             msg.int16(orientation.y());
-            msg.sendAll();
+            msg.sendToServer();
         }
     }
 }
@@ -776,7 +776,7 @@ void Map::processNpcAction(QPoint positionSouris)
                             NetworkMessageWriter msg(NetMsg::NPCCategory,NetMsg::delNpc);
                             msg.string8(m_mapId);
                             msg.string8(pnj->getCharacterId());
-                            msg.sendAll();
+                            msg.sendToServer();
 
                             pnj->~CharacterToken();
                         }
@@ -799,7 +799,7 @@ void Map::processNpcAction(QPoint positionSouris)
                         msg.string8(m_mapId);
                         msg.string8(pnj->getCharacterId());
                         msg.uint16(pnj->getHealtState());
-                        msg.sendAll();
+                        msg.sendToServer();
                 }
                 else
                     qWarning() << (tr("undefined tool for processing action on NPC or PC (processNpcAction - map.cpp)"));
@@ -1073,7 +1073,7 @@ void Map::toggleCharacterView(Character * character)
         message.string8(m_mapId);
         message.string8(uuid);
         message.uint8(newState ? 1 : 0);
-        message.sendAll();
+        message.sendToServer();
     }
 
 }
@@ -1213,11 +1213,11 @@ void Map::sendOffGlobalMap(QString titre, QString key, bool versNetworkLinkUniqu
         QStringList idList;
         idList << key;
         message.setRecipientList(idList,NetworkMessage::OneOrMany);
-        message.sendAll();
+        message.sendToServer();
     }
     else
     {
-        message.sendAll();
+        message.sendToServer();
     }
 }
 
@@ -1255,11 +1255,11 @@ void Map::sendOffAllGlobalCharacters(QString idPlayer, bool versNetworkLinkUniqu
         QStringList idList;
         idList << idPlayer;
         msg.setRecipientList(idList,NetworkMessage::OneOrMany);
-        msg.sendAll();
+        msg.sendToServer();
     }
     else
     {
-        msg.sendAll();
+        msg.sendToServer();
     }
 
 }
@@ -1359,7 +1359,7 @@ void Map::sendTrace()
 
     if(nullptr!=msg)
     {
-        msg->sendAll();
+        msg->sendToServer();
     }
 }
 
@@ -1378,7 +1378,7 @@ void Map::sendCharacterPath()
         msg.uint16(m_characterMoveList[i].x());
         msg.uint16(m_characterMoveList[i].y());
     }
-    msg.sendAll();
+    msg.sendToServer();
 }
 
 

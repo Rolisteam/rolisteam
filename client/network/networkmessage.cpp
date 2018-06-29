@@ -40,7 +40,7 @@ NetworkMessage::~NetworkMessage()
 
 }
 
-void NetworkMessage::sendAll()
+void NetworkMessage::sendToServer()
 {
     //NetworkMessageHeader* header = buffer();
 #ifndef UNIT_TEST

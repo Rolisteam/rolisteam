@@ -397,7 +397,7 @@ bool ChannelModel::moveMediaItem(QList<TcpClient*> items,const QModelIndex& pare
                     msg.string8(id);
                     msg.string8(client->getId());
                     msg.byteArray32(pw);
-                    msg.sendAll();
+                    msg.sendToServer();
                     return true;
                 }
             }

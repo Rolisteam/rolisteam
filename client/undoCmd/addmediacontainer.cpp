@@ -68,7 +68,7 @@ void AddMediaContainer::redo()
             NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
             msg.uint8(static_cast<quint8>(uri->getType()));
             m_media->fill(msg);
-            msg.sendAll();
+            msg.sendToServer();
         }
     }
 }
@@ -85,7 +85,7 @@ void AddMediaContainer::undo()
         {
             NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::closeMedia);
             msg.string8(m_media->getMediaId());
-            msg.sendAll();
+            msg.sendToServer();
         }
     }
 }

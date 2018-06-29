@@ -408,7 +408,7 @@ void VisualItem::sendItemLayer()
         msg.string8(m_mapId);
         msg.string16(m_id);
         msg.uint8(m_layer);
-        msg.sendAll();
+        msg.sendToServer();
     }
 }
 
@@ -420,7 +420,7 @@ void VisualItem::sendOpacityMsg()
         msg.string8(m_mapId);
         msg.string16(m_id);
         msg.real(opacity());
-        msg.sendAll();
+        msg.sendToServer();
     }
 }
 void VisualItem::readOpacityMsg(NetworkMessageReader* msg)
@@ -470,7 +470,7 @@ void VisualItem::sendPositionMsg()
             msg.real(point.x());
             msg.real(point.y());
         }
-        msg.sendAll();
+        msg.sendToServer();
     }
 }
 void VisualItem::readPositionMsg(NetworkMessageReader* msg)
@@ -494,7 +494,7 @@ void VisualItem::sendZValueMsg()
         msg.string8(m_mapId);
         msg.string16(m_id);
         msg.real(zValue());
-        msg.sendAll();
+        msg.sendToServer();
     }
 }
 void VisualItem::readZValueMsg(NetworkMessageReader* msg)
@@ -517,7 +517,7 @@ void VisualItem::sendRotationMsg()
         msg.string8(m_mapId);
         msg.string16(m_id);
         msg.real(rotation());
-        msg.sendAll();
+        msg.sendToServer();
     }
 }
 void VisualItem::readRotationMsg(NetworkMessageReader* msg)
@@ -539,7 +539,7 @@ void VisualItem::sendRectGeometryMsg()
         msg.real(m_rect.y());
         msg.real(m_rect.width());
         msg.real(m_rect.height());
-        msg.sendAll();
+        msg.sendToServer();
     }
 }
 void VisualItem::readRectGeometryMsg(NetworkMessageReader* msg)
