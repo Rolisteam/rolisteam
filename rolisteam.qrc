@@ -339,6 +339,8 @@
         <file>resources/icons/crop.svg</file>
         <file>resources/icons/document-share.svg</file>
         <file>resources/icons/webPage.svg</file>
+        <file>resources/icons/reverse.svg</file>
+        <file>resources/icons/list.svg</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>
