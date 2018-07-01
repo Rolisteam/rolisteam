@@ -8,6 +8,8 @@
 #include "unitmodel.h"
 #include "convertoroperator.h"
 #include "widgets/gmtoolbox/gamemastertool.h"
+#include "customrulemodel.h"
+
 namespace Ui {
 class Convertor;
 }
@@ -37,15 +39,18 @@ public:
 
 public slots:
     void categoryHasChanged(int i);
+    void categoryHasChangedOnSecondPanel(int i);
     void convert();
 private:
-    Ui::Convertor *ui;
+    Ui::Convertor *ui = nullptr;
     QMap<Unit::Category,QString> m_map;
-    UnitModel* m_model;
-    CategoryModel* m_catModel;
-    CategoryModel* m_toModel;
+    UnitModel* m_model = nullptr;
+    CategoryModel* m_catModel = nullptr;
+    CategoryModel* m_toModel = nullptr;
+    CustomRuleModel* m_customRulesModel = nullptr;
 
-    QHash<QPair<Unit*,Unit*>,ConvertorOperator*> m_convertorTable;
+
+    QHash<QPair<const Unit*, const Unit*>,ConvertorOperator*> m_convertorTable;
 };
 }
 #endif // CONVERTOR_H

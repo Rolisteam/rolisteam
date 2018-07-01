@@ -7,138 +7,309 @@
     <x>0</x>
     <y>0</y>
     <width>434</width>
-    <height>138</height>
+    <height>263</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Unit Convertor</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,10,0,0">
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Category:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="m_categoryCombo">
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="page">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <property name="text">
-         <string>Temperature</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Distance</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Currency</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Volume</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Mass</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="m_convert">
-       <property name="text">
-        <string>convert</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="m_reverse">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,10,0,0,0">
          <item>
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="label">
            <property name="text">
-            <string>From:</string>
+            <string>Category:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="m_fromCombo"/>
+          <widget class="QComboBox" name="m_categoryCombo">
+           <item>
+            <property name="text">
+             <string>Temperature</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Distance</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Currency</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Volume</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Mass</string>
+            </property>
+           </item>
+          </widget>
          </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="m_fromLine"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QFrame" name="frame">
-       <property name="frameShape">
-        <enum>QFrame::VLine</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Sunken</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QLabel" name="label_2">
+          <widget class="QPushButton" name="m_convert">
            <property name="text">
-            <string>To</string>
+            <string>convert</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="m_toCombo"/>
+          <widget class="QToolButton" name="m_reverse">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="m_customValue">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QLineEdit" name="m_toLine"/>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>From:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="m_fromCombo"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="m_fromLine"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QFrame" name="frame">
+           <property name="frameShape">
+            <enum>QFrame::VLine</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>To</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="m_toCombo"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="m_toLine"/>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>123</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
+     </widget>
+     <widget class="QWidget" name="page_2">
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5"/>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Category</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="m_categoryCombo2">
+             <item>
+              <property name="text">
+               <string>Temperature</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Distance</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Currency</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Volume</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Mass</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QTableView" name="m_tableView"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QToolButton" name="m_addBtn">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="m_removeBtn">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QToolButton" name="m_backBtn">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
   </layout>
+  <action name="m_reverseAct">
+   <property name="icon">
+    <iconset resource="../../../../rolisteam.qrc">
+     <normaloff>:/resources/icons/reverse.svg</normaloff>:/resources/icons/reverse.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Reverse</string>
+   </property>
+  </action>
+  <action name="m_customRuleAct">
+   <property name="icon">
+    <iconset resource="../../../../rolisteam.qrc">
+     <normaloff>:/resources/icons/list.svg</normaloff>:/resources/icons/list.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Custom Rule</string>
+   </property>
+  </action>
+  <action name="m_addUnitAction">
+   <property name="icon">
+    <iconset resource="../../../../rolisteam.qrc">
+     <normaloff>:/resources/icons/add_round.png</normaloff>:/resources/icons/add_round.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Unit</string>
+   </property>
+  </action>
+  <action name="m_removeUnit">
+   <property name="icon">
+    <iconset resource="../../../../rolisteam.qrc">
+     <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove Unit</string>
+   </property>
+   <property name="toolTip">
+    <string>remove unit</string>
+   </property>
+  </action>
+  <action name="m_back">
+   <property name="icon">
+    <iconset resource="../../../noteeditor/src/textedit.qrc">
+     <normaloff>:/trolltech/dialogs/qprintpreviewdialog/images/go-previous-24.png</normaloff>:/trolltech/dialogs/qprintpreviewdialog/images/go-previous-24.png</iconset>
+   </property>
+   <property name="text">
+    <string>Return</string>
+   </property>
+   <property name="toolTip">
+    <string>Return to convertor page</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../../rolisteam.qrc"/>
+  <include location="../../../../rolisteam.qrc"/>
+  <include location="../../../noteeditor/src/textedit.qrc"/>
+ </resources>
  <connections/>
 </ui>

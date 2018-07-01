@@ -1,10 +1,43 @@
 #include "unit.h"
+
 namespace GMTOOL
 {
+
+Unit::Unit()
+{
+
+}
 Unit::Unit(QString n,QString s,Category c)
     : m_name(n),m_symbol(s),m_currentCat(c)
 {
 
+}
+Unit::Unit(const Unit &copy)
+    : m_name(copy.name()),m_symbol(copy.symbol()),
+      m_currentCat(copy.currentCat())
+{
+
+}
+
+Unit::~Unit()
+{
+
+}
+/*Unit::Unit(const Unit&& copy)
+    : m_name(std::move(copy.name())),
+      m_symbol(std::move(copy.symbol())),
+      m_currentCat(std::move(copy.currentCat()))
+{
+
+}*/
+
+Unit &Unit::operator=(const Unit & b)
+{
+    m_name = b.name();
+    m_symbol = b.symbol();
+    m_currentCat = b.currentCat();
+
+    return *this;
 }
 QString Unit::symbol() const
 {
@@ -33,6 +66,7 @@ void Unit::setCurrentCat(const Unit::Category &currentCat)
 {
     m_currentCat = currentCat;
 }
+
 }
 
 

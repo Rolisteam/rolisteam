@@ -17,6 +17,8 @@ public:
 
        QString currentCategory() const;
        void setCurrentCategory(const QString &currentCategory);
+
+       void addUnit(Unit* );
 protected:
        bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const Q_DECL_OVERRIDE;
 private:
@@ -28,8 +30,8 @@ class UnitModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    enum Role {Category=Qt::UserRole};
-    UnitModel();
+    enum Role {Category=Qt::UserRole,UnitRole};
+    UnitModel(QObject* parent);
 
     QVariant data(const QModelIndex &index, int role) const;
     int rowCount(const QModelIndex &parent) const;
@@ -37,15 +39,22 @@ public:
 
 
     Unit* insertData(Unit* unit);
-    Unit* getUnitFromIndex(const QModelIndex& i);
+    Unit* getUnitFromIndex(const QModelIndex& i, int currentCat);
 
     QHash<Unit::Category, QString> cat2Text() const;
     void setCat2Text(const QHash<Unit::Category, QString> &cat2Text);
 
     QString getCatNameFromId(Unit::Category) const;
 
+    // Add data:
+    bool insertUnit(Unit::Category cat);
+
+    // Remove data:
+    bool removeUnit(const QModelIndex &index);
+protected:
+    Unit *indexToUnit(const QModelIndex &index) const;
 private:
-    QMap<Unit::Category,Unit*> m_data;
+    QMap<Unit::Category,QList<Unit*>> m_data;
     static QHash<Unit::Category,QString> m_cat2Text;
 
 };
