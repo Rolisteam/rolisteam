@@ -150,6 +150,12 @@ void VToolsBar::createActions()
            m_highlighterAct->setChecked(tool==VToolsBar::HIGHLIGHTER);
     }); 
 
+    m_bucketAct = new QAction(QIcon(),tr("Paint Bucket"),m_toolsGroup);
+    m_bucketAct->setData(BUCKET);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+           m_bucketAct->setChecked(tool==VToolsBar::BUCKET);
+    });
+
 
   /*  m_unmaskPathAct = new QAction(QIcon(":/resources/icons/maskpath.png"),tr("Unmask Path"),m_toolsGroup);
     m_unmaskPathAct->setData(PATHFOG);
@@ -179,6 +185,7 @@ void VToolsBar::createActions()
     m_pathAct->setCheckable(true);
     m_pipette->setCheckable(true);
     m_highlighterAct->setCheckable(true);
+    m_bucketAct->setCheckable(true);
 
     m_anchorAct->setCheckable(true);
     //m_unmaskPathAct->setCheckable(true);
@@ -209,6 +216,7 @@ void VToolsBar::makeTools()
     QToolButton* pathButton  = new QToolButton();
     QToolButton* anchorButton  = new QToolButton();
     QToolButton* pipetteButton  = new QToolButton();
+    QToolButton* bucketButton  = new QToolButton();
     QToolButton* highlighterButton  = new QToolButton();
 
 
@@ -228,6 +236,7 @@ void VToolsBar::makeTools()
     anchorButton->setDefaultAction(m_anchorAct);
     highlighterButton->setDefaultAction(m_highlighterAct);
     textButton->addAction(m_textWithBorderAct);
+    bucketButton->setDefaultAction(m_bucketAct);
   //  unveilRect->setDefaultAction(m_unmaskRectAct);
 
     connect(ruleButton,SIGNAL(triggered(QAction*)),ruleButton,SLOT(setDefaultAction(QAction*)));
@@ -250,11 +259,12 @@ void VToolsBar::makeTools()
     anchorButton->setAutoRaise(true);
     pipetteButton->setAutoRaise(true);
     highlighterButton->setAutoRaise(true);
+    bucketButton->setAutoRaise(true);
  //   unveilRect->setAutoRaise(true);
 
     /**
     *
-    * @todo used preferencemanager to get icon Size.
+    * @todo  TODO used preferencemanager to get icon Size.
     *
     */
     QSize iconSize(20,20);
@@ -272,14 +282,8 @@ void VToolsBar::makeTools()
     pathButton->setIconSize(iconSize);
     pipetteButton->setIconSize(iconSize);
     highlighterButton->setIconSize(iconSize);
+    bucketButton->setIconSize(iconSize);
 
-    //maskModeButton->setIconSize(iconSize);
-   // paintingModeButton->setIconSize(iconSize);
-
- //   QSize minSize(40,40);
- //   paintingModeButton->setFixedSize(minSize);
-   // maskModeButton->setFixedSize(minSize);
-  //  unmaskButton->setFixedSize(minSize);
     
     QVBoxLayout* toolsVerticalLayout = new QVBoxLayout();
     toolsVerticalLayout->setMargin(0);
@@ -300,8 +304,8 @@ void VToolsBar::makeTools()
     toolsLayout->addWidget(pathButton);
     toolsLayout->addWidget(anchorButton);
     toolsLayout->addWidget(pipetteButton);
+    toolsLayout->addWidget(bucketButton);
     toolsLayout->addWidget(highlighterButton);
-    //toolsLayout->addWidget(unveilRect);
 
     m_npcNameTextEdit = new QLineEdit();
     m_npcNameTextEdit->setToolTip(tr("NPC Name"));

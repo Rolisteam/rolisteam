@@ -28,6 +28,7 @@
 //Undo management
 #include "undoCmd/addvmapitem.h"
 #include "undoCmd/movevmapitem.h"
+#include "undoCmd/changecoloritem.h"
 
 VMap::VMap(QObject * parent)
     : QGraphicsScene(parent),m_currentLayer(VisualItem::GROUND)
@@ -375,6 +376,7 @@ void VMap::addItem()
         QList<QGraphicsItem *> itemList = items(m_first);
         if(!itemList.isEmpty())
         {
+            itemList.removeAll(m_gridItem);
             VisualItem* item = dynamic_cast<VisualItem*>(itemList.at(0));
             if(nullptr!=item)
             {
@@ -385,6 +387,24 @@ void VMap::addItem()
                     {
                         emit colorPipette(color);
                     }
+                }
+            }
+        }
+    }
+    else if(VToolsBar::BUCKET == m_selectedtool)
+    {
+        QList<QGraphicsItem *> itemList = items(m_first);
+        if(!itemList.isEmpty())
+        {
+            qDebug() << "opacity" << m_gridItem->opacity() << m_gridItem->isVisible();
+            itemList.removeAll(m_gridItem);
+            VisualItem* item = dynamic_cast<VisualItem*>(itemList.at(0));
+            if(nullptr!=item)
+            {
+                if(item->getType() != VisualItem::IMAGE)
+                {
+                    auto cmd = new ChangeColorItemCmd(item,m_itemColor);
+                    m_undoStack->push(cmd);
                 }
             }
         }

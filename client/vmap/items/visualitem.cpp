@@ -123,6 +123,7 @@ QColor VisualItem::getColor()
 void VisualItem::setPenColor(QColor& penColor)
 {
     m_color = penColor;
+    update();
 }
 void VisualItem::mousePressEvent ( QGraphicsSceneMouseEvent * event )
 {
