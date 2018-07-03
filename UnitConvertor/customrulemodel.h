@@ -10,7 +10,7 @@
 namespace GMTOOL {
 
 
-class CustomRuleModel : public QAbstractProxyModel
+class CustomRuleModel : public CategoryModel
 {
     Q_OBJECT
 
@@ -23,7 +23,7 @@ public:
     bool setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role = Qt::EditRole) override;
 
     // Basic functionality:
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    //int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -34,8 +34,8 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
-    QModelIndex mapToSource(const QModelIndex &proxyIndex) const;
-    QModelIndex mapFromSource(const QModelIndex &sourceIndex) const;
+   /* QModelIndex mapToSource(const QModelIndex &proxyIndex) const;
+    QModelIndex mapFromSource(const QModelIndex &sourceIndex) const;*/
     QModelIndex parent(const QModelIndex &child) const;
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
 
@@ -59,8 +59,9 @@ public:
     QHash<QPair<const Unit *, const Unit *>, ConvertorOperator *> *convertionRules() const;
     void setConvertionRules(QHash<QPair<const Unit *, const Unit *>, ConvertorOperator *> *convertionRules);
 
+    QModelIndex buddy(const QModelIndex &index) const;
 private:
-    CategoryModel* m_units = nullptr;
+    //CategoryModel* m_units = nullptr;
     QHash<QPair<const Unit*, const Unit*>,ConvertorOperator*>* m_convertionRules;
     int m_currentCatId = 0;
 };

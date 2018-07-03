@@ -67,6 +67,16 @@ void Unit::setCurrentCat(const Unit::Category &currentCat)
     m_currentCat = currentCat;
 }
 
+bool Unit::readOnly() const
+{
+    return m_readOnly;
+}
+
+void Unit::setReadOnly(bool readOnly)
+{
+    m_readOnly = readOnly;
+}
+
 }
 
 

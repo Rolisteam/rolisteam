@@ -24,11 +24,14 @@ public:
     Unit::Category currentCat() const;
     void setCurrentCat(const Unit::Category &currentCat);
 
+    bool readOnly() const;
+    void setReadOnly(bool readOnly);
 
 private:
     QString m_name;
     QString m_symbol;
     Unit::Category m_currentCat;
+    bool m_readOnly = true;
 };
 }
 Q_DECLARE_METATYPE(GMTOOL::Unit)

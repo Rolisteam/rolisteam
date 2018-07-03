@@ -16,12 +16,11 @@ public:
        CategoryModel(QObject* parent);
 
        QString currentCategory() const;
-       void setCurrentCategory(const QString &currentCategory);
+       virtual void setCurrentCategory(const QString &currentCategory);
 
        void addUnit(Unit* );
 protected:
        bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const Q_DECL_OVERRIDE;
-private:
        QString m_currentCategory;
 };
 
@@ -45,6 +44,12 @@ public:
     void setCat2Text(const QHash<Unit::Category, QString> &cat2Text);
 
     QString getCatNameFromId(Unit::Category) const;
+
+    void readSettings();
+    void writeSettings();
+
+    int getIndex(Unit* unit);
+    Unit *getUnitByIndex(int i) const;
 
     // Add data:
     bool insertUnit(Unit::Category cat);

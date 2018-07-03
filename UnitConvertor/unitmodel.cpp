@@ -1,5 +1,7 @@
 #include "unitmodel.h"
 #include <QDebug>
+#include  <QSettings>
+
 namespace GMTOOL
 {
 QHash<Unit::Category,QString> UnitModel::m_cat2Text({{Unit::CURRENCY,tr("Currency")},
@@ -24,11 +26,6 @@ void CategoryModel::addUnit(Unit* unit)
     auto unitModel = dynamic_cast<UnitModel*>(sourceModel());
     unitModel->insertData(unit);
     endInsertRows();
-
-    /*if(insertRow(rowCount()))
-    {
-    }*/
-
 }
 
 QString CategoryModel::currentCategory() const
@@ -40,7 +37,7 @@ void CategoryModel::setCurrentCategory(const QString &currentCategory)
 {
     m_currentCategory = currentCategory;
     invalidateFilter();
-    setFilterFixedString(currentCategory);
+    setFilterFixedString(m_currentCategory);
 }
 bool CategoryModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
@@ -49,28 +46,17 @@ bool CategoryModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourcePar
     return (index0.data(Qt::UserRole).toString()==m_currentCategory);
 }
 
+
+//////////////////////
 UnitModel::UnitModel(QObject* parent)
     : QAbstractListModel(parent)
 {
-
+    readSettings();
 }
 
 Unit* UnitModel::indexToUnit(const QModelIndex& index) const
 {
-    auto r = index.row();
-    for(auto list : m_data)
-    {
-        if(r>=list.size())
-        {
-            r-=list.size();
-            continue;
-        }
-        else
-        {
-            return list.at(r);
-        }
-    }
-    return nullptr;
+    return getUnitByIndex(index.row());
 }
 
 QVariant UnitModel::data(const QModelIndex &index, int role) const
@@ -122,6 +108,7 @@ Unit* UnitModel::insertData(Unit *unit)
     list.append(unit);
     endInsertRows();
     return unit;
+    writeSettings();
 }
 
 Unit *UnitModel::getUnitFromIndex(const QModelIndex &i, int currentCat)
@@ -164,9 +151,84 @@ bool UnitModel::insertUnit(Unit::Category cat)
     Unit* unit = new Unit(tr("New Unit"),"",cat);
     list.append(unit);
     endInsertRows();
+    writeSettings();
 
     return true;
 }
+void UnitModel::readSettings()
+{
+    QSettings setting("rolisteam","rolisteam");
+    setting.beginGroup("UnitModel");
 
+    auto size = setting.beginReadArray("units");
+    for(int i = 0; i < size; ++i)
+    {
+        setting.setArrayIndex(i);
+        auto name = setting.value("name").toString();
+        auto symbol = setting.value("symbol").toString();
+        auto cat = setting.value("category").toInt();
+        auto readonly = setting.value("readonly").toBool();
+        auto unit = new Unit(name,symbol,(GMTOOL::Unit::Category)cat);
+        unit->setReadOnly(readonly);
+        auto& list = m_data[unit->currentCat()];
+        list.append(unit);
+    }
+    setting.endGroup();
+}
+void UnitModel::writeSettings()
+{
+    QSettings setting("rolisteam","rolisteam");
+    setting.beginGroup("UnitModel");
+
+    setting.beginWriteArray("units");
+    int i =  0;
+    for(auto list : m_data)
+    {
+        for(auto unit : list)
+        {
+            setting.setArrayIndex(i);
+            setting.setValue("name",unit->name());
+            setting.setValue("symbol",unit->symbol());
+            setting.setValue("category",unit->currentCat());
+            setting.setValue("readonly",unit->readOnly());
+            ++i;
+        }
+    }
+    setting.endGroup();
+}
+
+int UnitModel::getIndex(Unit* unit)
+{
+    int i = 0;
+    for(auto list : m_data)
+    {
+        auto pos = list.indexOf(unit);
+        if(pos<0)
+        {
+            i+=list.size();
+        }
+        else
+        {
+            i+=pos;
+        }
+    }
+    return i;
+}
+Unit* UnitModel::getUnitByIndex(int r) const
+{
+    for(auto list : m_data)
+    {
+        if(r>=list.size())
+        {
+            r-=list.size();
+            continue;
+        }
+        else
+        {
+            return list.at(r);
+        }
+    }
+    return nullptr;
+}
 }
 

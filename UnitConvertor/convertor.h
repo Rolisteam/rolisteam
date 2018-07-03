@@ -37,10 +37,13 @@ public:
     explicit Convertor(QWidget *parent = 0);
     virtual ~Convertor();
 
+    void readSettings();
+    void writeSettings();
 public slots:
     void categoryHasChanged(int i);
     void categoryHasChangedOnSecondPanel(int i);
     void convert();
+
 private:
     Ui::Convertor *ui = nullptr;
     QMap<Unit::Category,QString> m_map;
