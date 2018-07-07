@@ -144,13 +144,13 @@ void VToolsBar::createActions()
             m_pipette->setChecked(tool==VToolsBar::PIPETTE);
     });
 
-    m_highlighterAct = new QAction(QIcon(":/resources/icons/pipettecursor.png"),tr("Highlighter"),m_toolsGroup);
+    m_highlighterAct = new QAction(QIcon(":/resources/icons/marker-512.png"),tr("Highlighter"),m_toolsGroup);
     m_highlighterAct->setData(HIGHLIGHTER);
     connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
            m_highlighterAct->setChecked(tool==VToolsBar::HIGHLIGHTER);
     }); 
 
-    m_bucketAct = new QAction(QIcon(),tr("Paint Bucket"),m_toolsGroup);
+    m_bucketAct = new QAction(QIcon(":/resources/icons/000000-paint-bucket-512.png"),tr("Paint Bucket"),m_toolsGroup);
     m_bucketAct->setData(BUCKET);
     connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
            m_bucketAct->setChecked(tool==VToolsBar::BUCKET);
