@@ -1,4 +1,5 @@
 #include "customrulemodel.h"
+#include <QColor>
 
 #define PERMANENT_COL_COUNT 2
 
@@ -143,7 +144,7 @@ QVariant CustomRuleModel::data(const QModelIndex &idx, int role) const
         {
             if(sameUnit(pair))
             {
-                return QVariant::fromValue(Qt::red);
+                return  QColor(Qt::red).lighter();
             }
         }
         else if(Qt::DisplayRole == role || Qt::EditRole == role)
