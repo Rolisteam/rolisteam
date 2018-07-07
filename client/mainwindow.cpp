@@ -67,6 +67,7 @@
 #include "pdfviewer/pdfviewer.h"
 #ifdef HAVE_WEBVIEW
 #include "webview/webview.h"
+#include <QWebEngineSettings>
 #endif
 //LOG
 #include "common/widgets/logpanel.h"
@@ -117,6 +118,9 @@ MainWindow::MainWindow()
     m_shownProgress=false;
 
     registerQmlTypes();
+#ifdef HAVE_WEBVIEW
+    QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, true);
+#endif
 
     m_preferences = PreferencesManager::getInstance();
     m_downLoadProgressbar = new QProgressBar(this);
@@ -786,11 +790,16 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
     MediaContainer* media=nullptr;
     auto uri = new CleverURI(tr("Untitled"),"",type);
     uri->setCurrentMode(CleverURI::Internal);
+
+    auto localIsGM = false;
+    if(m_currentConnectionProfile != nullptr)
+        localIsGM = m_currentConnectionProfile->isGM();
+
     switch(type)
     {
         case CleverURI::SHAREDNOTE:
         {
-            SharedNoteContainer* note = new SharedNoteContainer();
+            SharedNoteContainer* note = new SharedNoteContainer(localIsGM);
             media = note;
             note->setOwner(m_playerList->getLocalPlayer());
 
@@ -802,12 +811,12 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
             if(mapWizzard.exec())
             {
                 VMap* tempmap = new VMap();
-                if((nullptr != tempmap)&&(nullptr != m_currentConnectionProfile))
+                if(nullptr != tempmap)
                 {
-                    tempmap->setOption(VisualItem::LocalIsGM,m_currentConnectionProfile->isGM());
+                    tempmap->setOption(VisualItem::LocalIsGM,localIsGM);
                 }
                 mapWizzard.setAllMap(tempmap);
-                VMapFrame* tmp = new VMapFrame(new CleverURI(tempmap->getMapTitle(),"",CleverURI::VMAP),tempmap);
+                VMapFrame* tmp = new VMapFrame(localIsGM,new CleverURI(tempmap->getMapTitle(),"",CleverURI::VMAP),tempmap);
                 prepareVMap(tmp);
                 media = tmp;
             }
@@ -827,13 +836,13 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
             break;
         case CleverURI::TEXT:
         {
-            media = new NoteContainer();
+            media = new NoteContainer(localIsGM);
         }
         break;
         #ifdef HAVE_WEBVIEW
         case CleverURI::WEBVIEW:
         {
-            media = new WebView();
+            media = new WebView(localIsGM);
             uri->setCurrentMode(CleverURI::Linked);
         }
 #endif
@@ -1432,10 +1441,10 @@ void MainWindow::parseCommandLineArguments(QStringList list)
         }
     }
 
-    if(!(roleValue.isNull()&&hostnameValue.isNull()&&portValue.isNull()&&username.isNull()))
+  /*  if(!(roleValue.isNull()&&hostnameValue.isNull()&&portValue.isNull()&&username.isNull()))
     {
 
-    }
+    }*/
 }
 NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
 {
@@ -1507,7 +1516,7 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
             break;
         case CleverURI::VMAP:
         {
-            VMapFrame* mapFrame = new VMapFrame();
+            VMapFrame* mapFrame = new VMapFrame(false);
             mapFrame->readMessage(*msg);// create the vmap
             prepareVMap(mapFrame);
             addMediaToMdiArea(mapFrame,false);
@@ -1612,7 +1621,7 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
         }
         else
         {
-            SharedNoteContainer* note = new SharedNoteContainer();
+            SharedNoteContainer* note = new SharedNoteContainer(false);
             note->readMessage(*msg);
             note->setMediaId(idMedia);
             m_sessionManager->addRessource(note->getCleverUri());
@@ -2374,6 +2383,10 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
             return;
     }
 
+    auto localIsGM = false;
+    if(m_currentConnectionProfile != nullptr)
+        localIsGM = m_currentConnectionProfile->isGM();
+
     MediaContainer* tmp=nullptr;
     switch(uri->getType())
     {
@@ -2382,7 +2395,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         break;
     case CleverURI::VMAP:
     {
-        VMapFrame* mapFrame = new VMapFrame();
+        VMapFrame* mapFrame = new VMapFrame(localIsGM);
         VMap* map = mapFrame->getMap();
         if((nullptr != map)&&(nullptr != m_currentConnectionProfile))
         {
@@ -2396,7 +2409,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         tmp = new Image(m_mdiArea);
         break;
     case CleverURI::TEXT:
-        tmp = new NoteContainer();
+        tmp = new NoteContainer(localIsGM);
         break;
 #ifdef WITH_PDF
     case CleverURI::PDF:

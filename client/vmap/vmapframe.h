@@ -56,11 +56,11 @@ public :
 	/**
 	 * @brief VMapFrame
 	 */
-    VMapFrame();
+    VMapFrame(bool localIsGM,QWidget* parent = nullptr);
     /**
     * @brief constructor
     */
-    VMapFrame(CleverURI* uri,VMap *vmap);
+    VMapFrame(bool localIsGM,CleverURI* uri,VMap *vmap,QWidget* parent = nullptr);
     /**
     * @brief destructor
     */

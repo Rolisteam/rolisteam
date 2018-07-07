@@ -30,7 +30,7 @@ class SharedNoteContainer : public MediaContainer
     Q_OBJECT
 public:
 
-    SharedNoteContainer();
+    SharedNoteContainer(bool localIsGM,QWidget* parent = nullptr);
     virtual bool readFileFromUri();
     virtual void saveMedia();
     void readFromFile(QDataStream& data);

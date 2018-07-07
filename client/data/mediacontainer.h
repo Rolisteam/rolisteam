@@ -44,7 +44,7 @@ public:
     /**
      * @brief MediaContainer
      */
-    MediaContainer(QWidget* parent = nullptr);
+    MediaContainer(bool localIsGM, QWidget* parent = nullptr);
     /**
      * @brief ~MediaContainer
      */
@@ -171,6 +171,9 @@ public:
     bool isRemote() const;
     void setRemote(bool remote);
 
+    bool getLocalIsGM() const;
+    void setLocalIsGM(bool localIsGM);
+
 signals:
     /**
      * @brief visibleChanged
@@ -207,7 +210,8 @@ protected:
      */
     QString m_mediaId;
     QAction* m_detachedDialog;
-    bool m_remote;
+    bool m_remote = false;
+    bool m_localIsGM = false;
 
 };
 

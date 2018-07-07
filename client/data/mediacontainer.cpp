@@ -21,13 +21,14 @@
 #include <QMessageBox>
 
 
-MediaContainer::MediaContainer(QWidget* parent)
+MediaContainer::MediaContainer(bool localIsGM,QWidget* parent)
     : QMdiSubWindow(parent),m_uri(nullptr),
       m_preferences(PreferencesManager::getInstance()),
       m_action(nullptr),
       m_currentCursor(nullptr),
       m_mediaId(QUuid::createUuid().toString()),
-      m_remote(false)
+      m_remote(false),
+      m_localIsGM(localIsGM)
 {
     //m_preferences = ;
     setAttribute(Qt::WA_DeleteOnClose,false);
@@ -226,6 +227,16 @@ void MediaContainer::detachView(bool b)
         }
         setVisible(true);
     }
+}
+
+bool MediaContainer::getLocalIsGM() const
+{
+    return m_localIsGM;
+}
+
+void MediaContainer::setLocalIsGM(bool localIsGM)
+{
+    m_localIsGM = localIsGM;
 }
 
 bool MediaContainer::isRemote() const
