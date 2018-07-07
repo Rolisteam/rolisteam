@@ -51,9 +51,18 @@ QHash<CleverURI::ContentType,QString> CleverURI::m_iconPathHash={
 };
 
 //enum ContentType {NONE,MAP,VMAP,CHAT,PICTURE,ONLINEPICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG,SONGLIST
-QStringList CleverURI::m_typeNameList = QStringList() <<    QObject::tr("None") <<QObject::tr("Map") <<QObject::tr("Vectorial Map") <<QObject::tr("Chat")
-                                                      <<    QObject::tr("Picture") <<QObject::tr("Online Picture") <<QObject::tr("Text") <<
-                                                            QObject::tr("Charecter Sheet") <<QObject::tr("Scenario") <<QObject::tr("Song") <<QObject::tr("Song List")<<QObject::tr("Shared Notes");
+QStringList CleverURI::m_typeNameList = QStringList() << QObject::tr("None")
+                                                      << QObject::tr("Map")
+                                                      << QObject::tr("Vectorial Map")
+                                                      << QObject::tr("Chat")
+                                                      << QObject::tr("Picture")
+                                                      << QObject::tr("Online Picture")
+                                                      << QObject::tr("Text")
+                                                      << QObject::tr("Charecter Sheet")
+                                                      << QObject::tr("Scenario")
+                                                      << QObject::tr("Song")
+                                                      << QObject::tr("Song List")
+                                                      << QObject::tr("Shared Notes");
 
 QStringList CleverURI::m_typeToPreferenceDirectory = QStringList() <<   QString("SessionDirectory") <<QString("MapDirectory")       <<QString("MapDirectory")           <<QString("ChatDirectory")
                                                                    <<   QString("ImageDirectory")   <<QString("ImageDirectory")     <<QString("MinutesDirectory")       <<QString("CharacterSheetDirectory") <<
@@ -292,6 +301,9 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
         break;
     case CleverURI::SHAREDNOTE:
         return QObject::tr("Supported Shared Note formats (%1)").arg(preferences->value("TextFileFilter","*.rsn *.txt *.html *.htm *.md").toString());
+        break;
+    case CleverURI::WEBVIEW:
+        return QObject::tr("Supported WebPage (%1)").arg(preferences->value("WebPageFilter","*.html *.xhtml *.htm").toString());
         break;
 #ifdef WITH_PDF
     case CleverURI::PDF:

@@ -299,6 +299,7 @@ protected :
      * @param msg
      */
     void processMediaMessage(NetworkMessageReader *msg);
+    void processWebPageMessage(NetworkMessageReader *msg);
     /**
      * @brief processVMapMessage
      * @param msg

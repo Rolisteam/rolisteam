@@ -1,23 +1,26 @@
 #include "webview.h"
 
 #include <QVBoxLayout>
+#include "network/networkmessagereader.h"
 
-
-WebView::WebView(QWidget *parent)
-    : MediaContainer(parent)
+WebView::WebView(bool localIsGM,QWidget *parent)
+    : MediaContainer(localIsGM,parent)
 {
     setObjectName("WebPage");
     setWindowIcon(QIcon(":/resources/icons/webPage.svg"));
     m_uri = new CleverURI("Webpage","",CleverURI::WEBVIEW);
     auto wid = new QWidget();
     m_mainLayout = new QVBoxLayout(wid);
-    wid->setLayout(m_mainLayout);
+
+
 
     m_view = new QWebEngineView();
 
-    createActions();
-    creationToolBar();
-
+    if(m_localIsGM)
+    {
+        createActions();
+        creationToolBar();
+    }
     m_mainLayout->addWidget(m_view);
 
     updateTitle();
@@ -35,6 +38,8 @@ bool WebView::readFileFromUri()
     if(nullptr == m_uri)
         return false;
 
+
+    m_addressEdit->setText(m_uri->getUri());
     m_view->setUrl(QUrl(m_uri->getUri()));
     return true;
 }
@@ -54,6 +59,13 @@ void WebView::updateTitle()
     if(nullptr == m_uri)
         return;
     setWindowTitle(tr("%1 - WebPage").arg(m_uri->name()));
+}
+
+void WebView::sendOffClose()
+{
+    NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::closeMedia);
+    msg.string8(m_mediaId);
+    msg.sendToServer();
 }
 
 void WebView::cleverURIHasChanged(CleverURI* uri, CleverURI::DataValue datav)
@@ -81,20 +93,76 @@ void WebView::mousePressEvent(QMouseEvent* mouseEvent)
 
 }
 
+void WebView::fill(NetworkMessageWriter & message)
+{
+    message.string8(m_mediaId);
+    auto url = m_uri->getUri();
+    message.string32(url);
+    message.string16(m_title);
+}
+
+void WebView::readMessage(NetworkMessageReader& msg)
+{
+    auto typeMsg = static_cast<ShareType>(msg.uint8());
+    auto url = msg.string32();
+    if(typeMsg == HTML)
+    {
+        auto html = msg.string32();
+        m_view->setHtml(html,QUrl::fromUserInput(url));
+    }
+    else if(typeMsg == URL)
+    {
+        m_view->setUrl(QUrl::fromUserInput(url));
+    }
+    m_uri->setUri(url);
+}
+
 void WebView::createActions()
 {
     m_shareAsLink = new QAction(tr("Share"),this);
+    m_shareAsLink->setCheckable(true);
 
-    connect(m_shareAsLink,&QAction::triggered,[=](){
-        NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
-        msg.uint8(getContentType());
-        msg.string8(m_mediaId);
-        msg.string32(m_uri->getUri());
-        msg.sendToServer();
+    connect(m_shareAsLink,&QAction::triggered,[=](bool checked){
+        m_shareAsHtml->setEnabled(!checked);
+        if(checked)
+        {
+            NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
+            msg.uint8(getContentType());
+            msg.string8(m_mediaId);
+            msg.int8(URL);
+            msg.string32(m_uri->getUri());
+            msg.sendToServer();
+        }
+        else
+        {
+            sendOffClose();
+        }
     });
 
-    m_shareAsHtml = new QAction(tr("Share Html"),this);
-    //m_shareAsView = new QAction(tr("Share View"),this);
+    m_shareAsHtml = new QAction(tr("Share html"),this);
+    m_shareAsHtml->setCheckable(true);
+
+
+    connect(m_shareAsHtml, &QAction::triggered,[=](bool checked){
+        m_shareAsLink->setEnabled(!checked);
+        if(checked)
+        {
+            m_view->page()->toHtml([=](QString html){
+                NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
+                msg.uint8(getContentType());
+                msg.string8(m_mediaId);
+                msg.uint8(HTML);
+                msg.string32(m_uri->getUri());
+                msg.string32(html);
+                msg.sendToServer();
+            });
+        }
+        else
+        {
+           sendOffClose();
+        }
+    });
+
     m_next= new QAction(tr("next"),this);
     m_next->setIcon(style()->standardIcon(QStyle::SP_ArrowForward));
     m_previous= new QAction(tr("Previous"),this);
@@ -108,17 +176,10 @@ void WebView::createActions()
 
 }
 
-void WebView::fill(NetworkMessageWriter & message)
-{
-    message.string8(m_mediaId);
-    auto url = m_uri->getUri();
-    message.string32(url);
-    message.string16(m_title);
-}
 
 void WebView::creationToolBar()
 {
-    auto hLayout = new QHBoxLayout(this);
+    auto hLayout = new QHBoxLayout();
 
     auto button = new QToolButton(this);
     button->setAutoRaise(true);
@@ -159,11 +220,18 @@ void WebView::creationToolBar()
     button->setDefaultAction(m_shareAsView);
     hLayout->addWidget(button);
 
+    auto checkbox = new QCheckBox(tr("Keep Sharing"),this);
+    connect(checkbox,&QCheckBox::clicked,this,[checkbox,this](){
+        m_keepSharing = checkbox->isChecked();
+    });
+    hLayout->addWidget(checkbox);
+
+
     m_mainLayout->addLayout(hLayout);
 
 
     connect(m_addressEdit,&QLineEdit::editingFinished,[=](){
-        m_view->setUrl(QUrl(m_addressEdit->text()));
+        m_view->setUrl(QUrl::fromUserInput(m_addressEdit->text()));
     });
     connect(m_reload,&QAction::triggered,m_view,&QWebEngineView::reload);
     connect(m_next,&QAction::triggered,m_view,&QWebEngineView::forward);
@@ -178,5 +246,35 @@ void WebView::creationToolBar()
     connect(m_view,&QWebEngineView::urlChanged,[=](){
         auto url = m_view->url().toString();
         m_uri->setUri(url);
+        if((m_shareAsHtml->isChecked() || m_shareAsLink->isChecked() ) && m_keepSharing)
+        {
+            if(m_shareAsLink->isChecked())
+            {
+                NetworkMessageWriter msg(NetMsg::WebPageCategory,NetMsg::UpdateContent);
+                msg.string8(m_mediaId);
+                msg.int8(URL);
+                msg.string32(url);
+                msg.sendToServer();
+            }
+            else if(m_shareAsHtml->isChecked())
+            {
+                m_view->page()->toHtml([=](QString html){
+                    NetworkMessageWriter msg(NetMsg::WebPageCategory,NetMsg::UpdateContent);
+                    msg.string8(m_mediaId);
+                    msg.uint8(HTML);
+                    msg.string32(m_uri->getUri());
+                    msg.string32(html);
+                    msg.sendToServer();
+                });
+            }
+        }
     });
+    m_addressEdit->setFocusPolicy(Qt::StrongFocus);
+
+}
+void WebView::showEvent(QShowEvent* event)
+{
+    MediaContainer::showEvent(event);
+    if(nullptr != m_addressEdit)
+        m_addressEdit->setFocus();
 }

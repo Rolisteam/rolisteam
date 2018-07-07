@@ -239,6 +239,7 @@ void MainWindow::setupUi()
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::SharedNoteCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::WebPageCategory,this);
 
     createNotificationZone();
     ///////////////////
@@ -1479,6 +1480,10 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
         processSharedNoteMessage(msg);
         type = NetWorkReceiver::AllExceptSender;
         break;
+    case NetMsg::WebPageCategory:
+        processWebPageMessage(msg);
+        type = NetWorkReceiver::AllExceptSender;
+        break;
     default:
         qWarning("Unexpected message - MainWindow::ProcessMessage");
     }
@@ -1524,10 +1529,10 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
 
         case CleverURI::WEBVIEW:
         {
-            auto webv  =  new WebView(m_mdiArea);
-            auto uri = webv->getCleverUri();
-            auto url = msg->string32();
-            uri->setUri(url);
+            auto webv  =  new WebView(false,m_mdiArea);
+            webv->setMediaId(msg->string8());
+            webv->readMessage(*msg);
+            addMediaToMdiArea(webv,false);
         }
             break;
 #endif
@@ -1557,6 +1562,19 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
     else if(msg->action() == NetMsg::closeMedia)
     {
         closeMediaContainer(msg->string8());
+    }
+}
+void MainWindow::processWebPageMessage(NetworkMessageReader* msg)
+{
+    if(msg->action() == NetMsg::UpdateContent)
+    {
+        QString idMedia = msg->string8();
+        if(m_mediaHash.keys().contains(idMedia))
+        {
+            MediaContainer* mediaContainer = m_mediaHash.value(idMedia);
+            WebView* note = dynamic_cast<WebView*>(mediaContainer);
+            note->readMessage(*msg);
+        }
     }
 }
 void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
@@ -2391,9 +2409,15 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
 #endif
     case CleverURI::SHAREDNOTE:
     {
-        SharedNoteContainer* tmpShared = new SharedNoteContainer();
+        SharedNoteContainer* tmpShared = new SharedNoteContainer(localIsGM);
         tmpShared->setOwner(m_playerList->getLocalPlayer());
         tmp = tmpShared;
+    }
+        break;
+    case CleverURI::WEBVIEW:
+    {
+        WebView* tmpWeb = new WebView(localIsGM);
+        tmp = tmpWeb;
     }
         break;
     case CleverURI::SCENARIO:
@@ -2478,7 +2502,7 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
             tmp = new Image(m_mdiArea);
             break;
         case CleverURI::VMAP:
-            tmp = new VMapFrame();
+            tmp = new VMapFrame(true);
             break;
         default:
             break;

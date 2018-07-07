@@ -349,7 +349,7 @@ QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
                 auto const& cleverUri = dynamic_cast<CleverURI*>(tmp);
                 if(!cleverUri->hasData())
                 {
-                    if(!cleverUri->exists())
+                    if(!cleverUri->exists() && cleverUri->getType() != CleverURI::WEBVIEW)
                     {
                         return QColor(Qt::red).lighter();
                     }

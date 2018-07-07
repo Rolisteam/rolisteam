@@ -51,7 +51,8 @@ enum Category {
     SharePreferencesCategory,
     VMapCategory,
     MediaCategory,
-    SharedNoteCategory
+    SharedNoteCategory,
+    WebPageCategory
 };
 
 enum Action {
@@ -155,11 +156,6 @@ enum Action {
     moveState,
     removeState,
 
-
-
-
-
-
     //Vmap
     addVmap = 0,
     vmapChanges,
@@ -190,7 +186,11 @@ enum Action {
     //SharedNoteCategory
     updateTextAndPermission,
     updateText,
-    updatePermissionOneUser
+    updatePermissionOneUser,
+
+
+    //WebPage
+    UpdateContent
 };
 }
 /**

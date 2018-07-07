@@ -14,7 +14,8 @@ class WebView : public MediaContainer
     Q_OBJECT
 
 public:
-    explicit WebView(QWidget *parent = 0);
+    enum ShareType {URL, HTML};
+    explicit WebView(bool localIsGM, QWidget *parent = 0);
     virtual ~WebView();
 
     virtual bool readFileFromUri();
@@ -24,13 +25,18 @@ public:
     virtual void cleverURIHasChanged(CleverURI*,CleverURI::DataValue);
 
     void fill(NetworkMessageWriter &message);
+    void readMessage(NetworkMessageReader& msg);
 protected:
     void mousePressEvent(QMouseEvent *mouseEvent);
+    void showEvent(QShowEvent* event);
+
     void createActions();
     void creationToolBar();
 
     void updateTitle();
+    void sendOffClose();
 private:
+    bool m_keepSharing = false;
     QWebEngineView* m_view = nullptr;
     QAction* m_shareAsLink = nullptr;
     QAction* m_shareAsHtml = nullptr;
@@ -41,6 +47,7 @@ private:
     QAction* m_reload = nullptr;
     QLineEdit* m_addressEdit = nullptr;
     QVBoxLayout* m_mainLayout = nullptr;
+
 
 
 };
