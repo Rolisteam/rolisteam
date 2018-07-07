@@ -374,9 +374,9 @@ void VMap::addItem()
     if(VToolsBar::PIPETTE == m_selectedtool)
     {
         QList<QGraphicsItem *> itemList = items(m_first);
+        itemList.removeAll(m_gridItem);
         if(!itemList.isEmpty())
         {
-            itemList.removeAll(m_gridItem);
             VisualItem* item = dynamic_cast<VisualItem*>(itemList.at(0));
             if(nullptr!=item)
             {
@@ -394,9 +394,9 @@ void VMap::addItem()
     else if(VToolsBar::BUCKET == m_selectedtool)
     {
         QList<QGraphicsItem *> itemList = items(m_first);
+        itemList.removeAll(m_gridItem);
         if(!itemList.isEmpty())
         {
-            itemList.removeAll(m_gridItem);
             VisualItem* item = dynamic_cast<VisualItem*>(itemList.at(0));
             if(nullptr!=item)
             {
