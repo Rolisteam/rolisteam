@@ -28,16 +28,19 @@ class VisualItem;
 class ChangeColorItemCmd : public QUndoCommand
 {
 public:
-    ChangeColorItemCmd(VisualItem* item, QColor newColor,QUndoCommand* parent = nullptr);
+    ChangeColorItemCmd(VisualItem* item, QColor newColor, QString mapId, QUndoCommand* parent = nullptr);
 
     void redo() override;
     void undo() override;
+
+    void sendOffColor();
 
 
 private:
     VisualItem* m_item;
     QColor m_oldColor;
     QColor m_newColor;
+    QString m_mapId;
 };
 
 #endif // CHANGECOLORITEM_H

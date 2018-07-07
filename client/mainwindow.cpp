@@ -1356,6 +1356,10 @@ void MainWindow::writeSettings()
     settings.setValue("Maximized", isMaximized());
     m_preferences->writeSettings(settings);
     m_chatListWidget->writeSettings(settings);
+    for(auto gmtool : m_gmToolBoxList)
+    {
+        gmtool->writeSettings();
+    }
 }
 void MainWindow::parseCommandLineArguments(QStringList list)
 {
@@ -2196,6 +2200,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
     case NetMsg::RotationItem:
     case NetMsg::characterStateChanged:
     case NetMsg::VisionChanged:
+    case NetMsg::ColorChanged:
     case NetMsg::ZValueItem:
     {
         QString vmapId = msg->string8();

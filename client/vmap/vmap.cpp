@@ -396,14 +396,13 @@ void VMap::addItem()
         QList<QGraphicsItem *> itemList = items(m_first);
         if(!itemList.isEmpty())
         {
-            qDebug() << "opacity" << m_gridItem->opacity() << m_gridItem->isVisible();
             itemList.removeAll(m_gridItem);
             VisualItem* item = dynamic_cast<VisualItem*>(itemList.at(0));
             if(nullptr!=item)
             {
                 if(item->getType() != VisualItem::IMAGE)
                 {
-                    auto cmd = new ChangeColorItemCmd(item,m_itemColor);
+                    auto cmd = new ChangeColorItemCmd(item,m_itemColor, m_id);
                     m_undoStack->push(cmd);
                 }
             }
@@ -1213,6 +1212,21 @@ void VMap::processVisionMsg(NetworkMessageReader* msg)
         }
     }
 }
+void VMap::processColorMsg(NetworkMessageReader* msg)
+{
+    if(msg == nullptr)
+        return;
+
+    QString id = msg->string16();
+    VisualItem* item = m_itemMap->value(id);
+    QColor color = QColor::fromRgb(msg->rgb());
+    if(nullptr!=item)
+    {
+        item->setPenColor(color);
+    }
+
+}
+
 void VMap::processMovePointMsg(NetworkMessageReader* msg)
 {
     if(nullptr!=msg)

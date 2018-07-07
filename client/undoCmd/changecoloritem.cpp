@@ -19,19 +19,33 @@
  ***************************************************************************/
 #include "changecoloritem.h"
 #include "vmap/items/visualitem.h"
-ChangeColorItemCmd::ChangeColorItemCmd(VisualItem* item, QColor newColor,QUndoCommand* parent)
-    : QUndoCommand(parent),m_item(item), m_newColor(newColor)
+#include "network/networkmessagewriter.h"
+
+ChangeColorItemCmd::ChangeColorItemCmd(VisualItem* item, QColor newColor,QString mapId, QUndoCommand* parent)
+    : QUndoCommand(parent),m_item(item), m_newColor(newColor),m_mapId(mapId)
 {
-    m_oldColor = item->getColor();
+    m_oldColor = m_item->getColor();
 
     setText(QObject::tr("Change Item Color"));
 
 }
 void ChangeColorItemCmd::redo()
 {
-    m_item->setPenColor(m_newColor);
+    m_item->setPenColor(m_newColor); 
+    sendOffColor();
 }
 void ChangeColorItemCmd::undo()
 {
-    m_item->setPenColor(m_oldColor);
+    m_item->setPenColor(m_oldColor); 
+    sendOffColor();
+}
+
+
+void ChangeColorItemCmd::sendOffColor()
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::ColorChanged);
+    msg.string8(m_mapId);//id map
+    msg.string16(m_item->getId());//id item
+    msg.rgb(m_item->getColor().rgb());
+    msg.sendToServer();
 }

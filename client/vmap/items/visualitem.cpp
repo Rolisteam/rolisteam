@@ -162,7 +162,6 @@ QPointF VisualItem::computeClosePoint(QPointF pos)
         pos.setX(std::round(pos.x()/size)*size);
         pos.setY(std::round(pos.y()/size)*size);
     }
-    //Compute y possible.
     return pos;
 }
 void VisualItem::keyPressEvent(QKeyEvent* event)

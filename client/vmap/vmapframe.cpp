@@ -366,6 +366,12 @@ NetWorkReceiver::SendType VMapFrame::processMessage(NetworkMessageReader* msg)
             type = NetWorkReceiver::AllExceptSender;
         }
         break;
+        case NetMsg::ColorChanged:
+        {
+            m_vmap->processColorMsg(msg);
+            type = NetWorkReceiver::AllExceptSender;
+        }
+        break;
         default:
         break;
     }

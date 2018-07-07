@@ -181,6 +181,7 @@ enum Action {
     SetParentItem,
     MovePoint,
     VisionChanged,
+    ColorChanged,
 
     //mediacategory
     addMedia=0,

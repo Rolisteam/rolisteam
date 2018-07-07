@@ -296,6 +296,7 @@ public:
      * @param msg
      */
     void processVisionMsg(NetworkMessageReader *msg);
+    void processColorMsg(NetworkMessageReader* msg);
     const QString& getLocalUserId() const;
     int getCurrentNpcNumber() const;
 

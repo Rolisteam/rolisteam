@@ -292,15 +292,6 @@ signals:
      */
     void changeStackPosition(VisualItem*,  VisualItem::StackOrder);
 
-    /**
-     * @brief itemPositionHasChanged
-     */
-    void itemPositionHasChanged();
-    /**
-     * @brief itemPositionAboutToChange
-     */
-    void itemPositionAboutToChange();
-
 
 
 public slots:
