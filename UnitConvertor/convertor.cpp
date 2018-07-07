@@ -1,6 +1,7 @@
 #include "convertor.h"
 #include "ui_convertor.h"
 #include <QMetaType>
+#include <QDebug>
 
 namespace GMTOOL
 {
@@ -34,6 +35,7 @@ Convertor::Convertor(QWidget *parent) :
 
     connect(ui->m_back,&QAction::triggered,this,[=](){
         ui->stackedWidget->setCurrentIndex(0);
+        categoryHasChanged(ui->m_categoryCombo->currentIndex());
     });
     ui->stackedWidget->setCurrentIndex(0);
 
@@ -305,17 +307,30 @@ Convertor::~Convertor()
 
 void Convertor::readSettings()
 {
-    QSettings setting("rolisteam","rolisteam");
+    QSettings setting(QStringLiteral("rolisteam"),QStringLiteral("rolisteam"));
     setting.beginGroup("UnitModel");
 
-    setting.beginGroup("convertor");
-    for(auto key : m_convertorTable.keys())
+    int nodeSize = setting.beginReadArray(QStringLiteral("convertor"));
+    for(int i = 0; i  < nodeSize ; ++i)
     {
-       // auto a = m_model->getIndex(key.first);
-     //   auto b = m_model->getIndex(key.second);
+        setting.setArrayIndex(i);
+        auto fromUnitId = setting.value(QStringLiteral("fromUnit")).toInt();
+        auto toUnitId = setting.value(QStringLiteral("toUnit")).toInt();
+
+        auto readOnly = setting.value(QStringLiteral("readOnly")).toBool();
+        auto fraction = setting.value(QStringLiteral("fraction")).toBool();
+        auto a = setting.value(QStringLiteral("a")).toDouble();
+        auto b = setting.value(QStringLiteral("b")).toDouble();
+
+        auto convertor = new ConvertorOperator(a,b,fraction,readOnly);
 
 
+        auto unitFrom = m_model->getUnitByIndex(fromUnitId);
+        auto unitTo = m_model->getUnitByIndex(toUnitId);
+        m_convertorTable.insert(QPair<const Unit*, const Unit*>(unitFrom,unitTo),convertor);
     }
+    setting.endArray();
+    setting.endGroup();
 }
 
 void Convertor::writeSettings()
@@ -323,6 +338,33 @@ void Convertor::writeSettings()
     QSettings setting("rolisteam","rolisteam");
     setting.beginGroup("UnitModel");
 
+    setting.beginWriteArray(QStringLiteral("convertor"), m_convertorTable.size());
+    int i = 0;
+    for(auto pair : m_convertorTable.keys())
+    {
+        auto convertor = m_convertorTable[pair];
+
+        if(nullptr != convertor)
+        {
+            setting.setArrayIndex(i);
+            auto a = m_model->getIndex(const_cast<Unit*>(pair.first));
+            auto b = m_model->getIndex(const_cast<Unit*>(pair.second));
+
+            setting.setValue(QStringLiteral("fromUnit"),a);
+            setting.setValue(QStringLiteral("toUnit"),b);
+
+            setting.setValue(QStringLiteral("readOnly"),convertor->isReadOnly());
+            setting.setValue(QStringLiteral("fraction"),convertor->fraction());
+            setting.setValue(QStringLiteral("a"),convertor->a());
+            setting.setValue(QStringLiteral("b"),convertor->b());
+            ++i;
+        }
+
+    }
+    setting.endArray();
+    setting.endGroup();
+
+    m_model->writeSettings();
 
 }
 

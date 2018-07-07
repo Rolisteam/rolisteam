@@ -38,7 +38,7 @@ public:
 
 
     Unit* insertData(Unit* unit);
-    Unit* getUnitFromIndex(const QModelIndex& i, int currentCat);
+    Unit *getUnitFromIndex(const QModelIndex& i, int currentCat);
 
     QHash<Unit::Category, QString> cat2Text() const;
     void setCat2Text(const QHash<Unit::Category, QString> &cat2Text);
@@ -48,7 +48,7 @@ public:
     void readSettings();
     void writeSettings();
 
-    int getIndex(Unit* unit);
+    int getIndex(Unit *unit);
     Unit *getUnitByIndex(int i) const;
 
     // Add data:

@@ -51,7 +51,7 @@ bool CategoryModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourcePar
 UnitModel::UnitModel(QObject* parent)
     : QAbstractListModel(parent)
 {
-    readSettings();
+   readSettings();
 }
 
 Unit* UnitModel::indexToUnit(const QModelIndex& index) const
@@ -84,7 +84,6 @@ QVariant UnitModel::data(const QModelIndex &index, int role) const
 
 int UnitModel::rowCount(const QModelIndex&) const
 {
-    qDebug() << "data count total " << m_data.values().size();
     int sum = 0;
     for(auto list : m_data)
     {
@@ -108,7 +107,6 @@ Unit* UnitModel::insertData(Unit *unit)
     list.append(unit);
     endInsertRows();
     return unit;
-    writeSettings();
 }
 
 Unit *UnitModel::getUnitFromIndex(const QModelIndex &i, int currentCat)
@@ -168,11 +166,13 @@ void UnitModel::readSettings()
         auto symbol = setting.value("symbol").toString();
         auto cat = setting.value("category").toInt();
         auto readonly = setting.value("readonly").toBool();
-        auto unit = new Unit(name,symbol,(GMTOOL::Unit::Category)cat);
+        auto unit = new Unit(name,symbol,static_cast<GMTOOL::Unit::Category>(cat));
         unit->setReadOnly(readonly);
         auto& list = m_data[unit->currentCat()];
         list.append(unit);
+
     }
+    setting.endArray();
     setting.endGroup();
 }
 void UnitModel::writeSettings()
@@ -194,6 +194,7 @@ void UnitModel::writeSettings()
             ++i;
         }
     }
+    setting.endArray();
     setting.endGroup();
 }
 
@@ -210,9 +211,10 @@ int UnitModel::getIndex(Unit* unit)
         else
         {
             i+=pos;
+            return i;
         }
     }
-    return i;
+    return -1;
 }
 Unit* UnitModel::getUnitByIndex(int r) const
 {

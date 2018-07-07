@@ -158,11 +158,29 @@
      </widget>
      <widget class="QWidget" name="page_2">
       <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5"/>
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_6">
+         <property name="spacing">
+          <number>2</number>
+         </property>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_6">
            <item>

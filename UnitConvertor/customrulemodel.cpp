@@ -1,7 +1,6 @@
 #include "customrulemodel.h"
 
 #define PERMANENT_COL_COUNT 2
-#include <QDebug>
 
 namespace std {
 
@@ -77,15 +76,6 @@ void CustomRuleModel::setConvertionRules(QHash<QPair<const Unit *, const Unit *>
     m_convertionRules = convertionRules;
 }
 
-
-/*int CustomRuleModel::rowCount(const QModelIndex &parent) const
-{
-    if (parent.isValid())
-        return 0;
-
-    return m_units->rowCount();
-}*/
-
 int CustomRuleModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
@@ -109,13 +99,11 @@ bool sameUnit(QPair<const Unit*,const Unit*> pair)
 
 QPair<const Unit*,const Unit*> CustomRuleModel::makePair(const QModelIndex& indexPair) const
 {
-    qDebug() << indexPair.internalPointer();
-    auto idx = index(indexPair.row(),0, QModelIndex());
-    auto idx2 = index(indexPair.column()-PERMANENT_COL_COUNT,0,QModelIndex());
-    auto model = dynamic_cast<UnitModel*>(sourceModel());
+    auto idx = CategoryModel::index(indexPair.row(),0, QModelIndex());
+    auto idx2 = CategoryModel::index(indexPair.column()-PERMANENT_COL_COUNT,0,QModelIndex());
 
-    Unit* xUnit = model->getUnitFromIndex(idx,m_currentCatId);
-    Unit* yUnit = model->getUnitFromIndex(idx2,m_currentCatId);
+    Unit* xUnit = CategoryModel::data(idx,UnitModel::UnitRole).value<Unit*>();
+    Unit* yUnit = CategoryModel::data(idx2,UnitModel::UnitRole).value<Unit*>();
     QPair<const Unit*, const Unit*> pair(xUnit,yUnit);
     return pair;
 }
@@ -130,14 +118,11 @@ QVariant CustomRuleModel::data(const QModelIndex &idx, int role) const
     if (!idx.isValid())
         return QVariant();
 
-    if(idx.column() == 2)
-        qDebug() << "####################################### "<< idx.column();
-
     if(idx.column() < PERMANENT_COL_COUNT)
     {
         if(Qt::DisplayRole == role || Qt::EditRole == role)
         {
-            const Unit* xUnit = sourceModel()->data(index(idx.row(),0,QModelIndex()),UnitModel::UnitRole).value<Unit*>();
+            const Unit* xUnit = CategoryModel::data(CategoryModel::index(idx.row(),0,QModelIndex()),UnitModel::UnitRole).value<Unit*>();
             if(nullptr != xUnit)
             {
                 if(idx.column() == 0)
@@ -179,9 +164,7 @@ bool CustomRuleModel::setData(const QModelIndex &idx, const QVariant &value, int
 {
     if (data(idx, role) != value)
     {
-        auto model = dynamic_cast<UnitModel*>(sourceModel());
-
-        Unit* xUnit = model->getUnitFromIndex(index(idx.row(),0,QModelIndex()),m_currentCatId);
+        Unit* xUnit = CategoryModel::data(CategoryModel::index(idx.row(),0,QModelIndex()),UnitModel::UnitRole).value<Unit*>();
         if(idx.column() == 0)
         {
             xUnit->setName(value.toString());
@@ -227,36 +210,39 @@ bool CustomRuleModel::setData(const QModelIndex &idx, const QVariant &value, int
 
 Qt::ItemFlags CustomRuleModel::flags(const QModelIndex &idx) const
 {
+
     if (!idx.isValid())
         return Qt::NoItemFlags;
 
-    Unit* xUnit = sourceModel()->data(index(idx.row(),0,QModelIndex()),UnitModel::UnitRole).value<Unit*>();
+    Unit* xUnit = CategoryModel::data(CategoryModel::index(idx.row(),0,QModelIndex()),UnitModel::UnitRole).value<Unit*>();
+
+
     if(nullptr == xUnit)
         return Qt::NoItemFlags;
 
-    if(xUnit->readOnly())
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable ;
+    auto flag = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
-    return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
-}
-/*
-QModelIndex CustomRuleModel::mapToSource(const QModelIndex &proxyIndex) const
-{
-    if(proxyIndex.column() == 0)
+    if((idx.column()-PERMANENT_COL_COUNT)==idx.row())
     {
-        return CategoryModel::mapToSource(proxyIndex);
-        //return sourceModel()->index(proxyIndex.row(),0);
+        flag= Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     }
-    else
-        return sourceModel()->index(-1,-1);
+    else if(!xUnit->readOnly())
+    {
+        flag = Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    }
+    else if(idx.column()-PERMANENT_COL_COUNT >= 0)
+    {
+        Unit* yUnit = CategoryModel::data(CategoryModel::index(idx.column()-PERMANENT_COL_COUNT,0,QModelIndex()),UnitModel::UnitRole).value<Unit*>();
+
+        if(!yUnit->readOnly())
+            flag = Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    }
+
+
+    return  flag;
+
 }
 
-QModelIndex CustomRuleModel::mapFromSource(const QModelIndex &sourceIndex) const
-{
-    qDebug() << "mapfromSource" << sourceIndex;
-    return index(sourceIndex.row(),0,QModelIndex());
-}
-*/
 QModelIndex CustomRuleModel::parent(const QModelIndex &child) const
 {
     return {};
@@ -264,34 +250,24 @@ QModelIndex CustomRuleModel::parent(const QModelIndex &child) const
 
 QModelIndex CustomRuleModel::index(int row, int column, const QModelIndex &parent) const
 {
-    qDebug() << row << column << rowCount();
     if(rowCount()>row && column<rowCount()+PERMANENT_COL_COUNT)
     {
-        qDebug() << "create INdex";
         return createIndex(row,column);
     }
     else
     {
-        qDebug() << "create INdex bidon";
         return {};
     }
 }
 
 bool CustomRuleModel::insertUnit()
 {
-    //beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    //beginInsertColumns(QModelIndex(), rowCount()+PERMANENT_COL_COUNT,rowCount()+PERMANENT_COL_COUNT);
 
     beginResetModel();
 
     auto unit = new Unit(tr("New Unit"),"",static_cast<Unit::Category>(m_currentCatId));
     unit->setReadOnly(false);
     addUnit(unit);
-
-   // endInsertColumns();
-    //sort(0);
-   // endInsertRows();
-
     invalidateFilter();
     setFilterFixedString(m_currentCategory);
 
@@ -316,9 +292,6 @@ bool CustomRuleModel::removeUnit(const QModelIndex &index)
                 m_convertionRules->remove(key);
         }
     }
-
-
-    //m_units.erase(m_units.begin()+index.row());
 
     endRemoveColumns();
     endRemoveRows();
