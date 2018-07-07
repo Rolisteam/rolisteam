@@ -19,8 +19,8 @@ public:
     explicit DiceBookMarkWidget(std::vector<DiceShortCut>& data,QWidget *parent = 0);
     ~DiceBookMarkWidget();
 
-    virtual void writeSettings(QSettings& settings);
-    virtual void readSettings(QSettings& settings);
+    virtual void writeSettings();
+    virtual void readSettings();
 
 
 private:

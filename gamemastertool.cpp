@@ -5,12 +5,10 @@ GameMasterTool::GameMasterTool(QWidget *parent) : QWidget(parent)
 
 }
 
-void GameMasterTool::readSettings(QSettings &settings)
+void GameMasterTool::readSettings()
 {
-    Q_UNUSED(settings)
 }
 
-void GameMasterTool::writeSettings(QSettings &settings)
+void GameMasterTool::writeSettings()
 {
-    Q_UNUSED(settings)
 }

@@ -27,11 +27,15 @@ DiceBookMarkWidget::~DiceBookMarkWidget()
 {
     delete ui;
 }
-void DiceBookMarkWidget::writeSettings(QSettings& settings)
+void DiceBookMarkWidget::writeSettings()
 {
+    QSettings settings(QStringLiteral("rolisteam"),QStringLiteral("rolisteam"));
+    settings.beginGroup("DiceBookMark");
     m_model->writeSettings(settings);
 }
-void DiceBookMarkWidget::readSettings(QSettings& settings)
+void DiceBookMarkWidget::readSettings()
 {
+    QSettings settings(QStringLiteral("rolisteam"),QStringLiteral("rolisteam"));
+    settings.beginGroup("DiceBookMark");
     m_model->readSettings(settings);
 }

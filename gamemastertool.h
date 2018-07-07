@@ -10,8 +10,8 @@ class GameMasterTool : public QWidget
 public:
     explicit GameMasterTool(QWidget *parent = nullptr);
 
-    virtual void readSettings(QSettings& settings);
-    virtual void writeSettings(QSettings& settings);
+    virtual void readSettings();
+    virtual void writeSettings();
 
 };
 
