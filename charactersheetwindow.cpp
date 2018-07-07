@@ -37,7 +37,7 @@
 #include "data/player.h"
 
 CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
-    : MediaContainer(parent),m_localIsGM(false)
+    : MediaContainer(parent)
 {
     m_uri=uri;
     m_title = tr("%1 - Character Sheet Viewer");
@@ -640,16 +640,6 @@ void CharacterSheetWindow::closeEvent(QCloseEvent *event)
     setVisible(false);
     event->ignore();
     
-}
-
-bool CharacterSheetWindow::getLocalIsGM() const
-{
-    return m_localIsGM;
-}
-
-void CharacterSheetWindow::setLocalIsGM(bool localIsGM)
-{
-    m_localIsGM = localIsGM;
 }
 
 RolisteamImageProvider *CharacterSheetWindow::getImgProvider() const

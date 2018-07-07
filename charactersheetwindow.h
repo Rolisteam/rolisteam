@@ -135,16 +135,6 @@ public:
      * @param msg
      */
     void processUpdateFieldMessage(NetworkMessageReader *msg);
-    /**
-     * @brief getLocalIsGM
-     * @return
-     */
-    bool getLocalIsGM() const;
-    /**
-     * @brief setLocalIsGM
-     * @param localIsGM
-     */
-    void setLocalIsGM(bool localIsGM);
 
     bool hasCharacterSheet(QString id);
 signals:
@@ -184,7 +174,7 @@ public slots:
     /**
      * @brief rollDice
      * @param cmd : dice command
-     * @param alias : use alias if true, otherwise the command stays unmodified.
+     * @param alias : use alias if true, otherwise the command stays unmodified.
      */
     void rollDice(QString cmd,bool alias = true);
     /**
@@ -359,7 +349,6 @@ private:
     QJsonObject m_data;
 
     QString m_qmlData;
-    bool m_localIsGM;
 };
 
 #endif // CHARACTERSHEETWINDOW_H
