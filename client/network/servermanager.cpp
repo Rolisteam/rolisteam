@@ -441,8 +441,6 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
     connect(connection,SIGNAL(adminAuthFailed()),this,SLOT(sendOffAdminAuthFail()),Qt::QueuedConnection);
     connect(connection,SIGNAL(adminAuthSucceed()),this,SLOT(sendOffAdminAuthSuccessed()),Qt::QueuedConnection);
     connect(connection,SIGNAL(itemChanged()),this,SLOT(sendOffModelToAll()),Qt::QueuedConnection);
-    connect(connection,&TcpClient::clientSaysGoodBye,this,&ServerManager::disconnected,Qt::QueuedConnection);
-
 
     connect(connection,&TcpClient::checkServerAcceptClient,this,&ServerManager::serverAcceptClient,Qt::QueuedConnection);
     connect(connection,&TcpClient::checkServerPassword,this,&ServerManager::checkAuthToServer,Qt::QueuedConnection);
@@ -476,6 +474,7 @@ void ServerManager::disconnected()
 
     removeClient(client);
 }
+
 void ServerManager::removeClient(TcpClient* client)
 {
     client->isReady();
@@ -484,12 +483,13 @@ void ServerManager::removeClient(TcpClient* client)
     m_connections.remove(socket);
 
     m_model->removeChild(client->getId());
+    client->disconnect();
 
     if(nullptr != socket)
     {
+        socket->disconnect();
         if(socket->isOpen())
         {
-            socket->disconnect();
             socket->close();
         }
         socket->deleteLater();
