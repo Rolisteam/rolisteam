@@ -148,7 +148,7 @@ void Channel::sendMessage(NetworkMessage* msg, TcpClient* emitter, bool mustBeSa
     }
 
 }
-void Channel::sendToMany(NetworkMessage* msg, TcpClient* tcp)
+void Channel::sendToMany(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
 { 
     auto const recipient = msg->getRecipientList();
     for(auto client : m_child)
@@ -157,20 +157,19 @@ void Channel::sendToMany(NetworkMessage* msg, TcpClient* tcp)
 
         if((nullptr != other)&&(other!=tcp)&&(recipient.contains(other->getId())))
         {
-            QMetaObject::invokeMethod(other,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,false));
+            QMetaObject::invokeMethod(other,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,deleteMsg));
         }
     }
 }
 
-void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp)
+void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
 {
     for(auto client : m_child)
     {
-
         TcpClient* other = dynamic_cast<TcpClient*>(client.data());
         if((nullptr != other)&&(other!=tcp))
         {
-            QMetaObject::invokeMethod(other,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,false));
+            QMetaObject::invokeMethod(other,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,deleteMsg));
         }          
     }
 }
@@ -186,8 +185,10 @@ int Channel::addChild(TreeItem* item)
         {
             connect(tcp,&TcpClient::clientSaysGoodBye,this,[=]{
                 m_child.removeAll(tcp);
-                NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
-                message.string8(tcp->getPlayerId());
+                qInfo() << tr("Client left!");
+                auto message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
+                message->string8(tcp->getPlayerId());
+                sendToAll(message,tcp,true);
             });
             if(tcp->isGM())
             {

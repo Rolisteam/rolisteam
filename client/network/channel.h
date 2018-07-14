@@ -42,8 +42,8 @@ public:
     bool isLeaf() const;
 
     void sendMessage(NetworkMessage*, TcpClient *, bool mustBeSaved);
-    void sendToAll(NetworkMessage*, TcpClient* sender);
-    void sendToMany(NetworkMessage* msg, TcpClient* sender);
+    void sendToAll(NetworkMessage*, TcpClient* sender, bool deleteMsg = false);
+    void sendToMany(NetworkMessage* msg, TcpClient* sender, bool deleteMsg = false);
 
 
     void readFromJson(QJsonObject &json);
