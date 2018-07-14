@@ -266,6 +266,12 @@ public:
     quint16 getPenWidth() const;
     void setPenWidth(const quint16 &penWidth);
 
+    static int getHighlightWidth();
+    static void setHighlightWidth(int highlightWidth);
+
+    static QColor getHighlightColor();
+    static void setHighlightColor(const QColor &highlightColor);
+
 signals:
     /**
      * @brief itemGeometryChanged

@@ -123,6 +123,18 @@ MainWindow::MainWindow()
 #endif
 
     m_preferences = PreferencesManager::getInstance();
+
+    auto func = [=](QString str){
+        auto v = m_preferences->value(str,6).toInt();
+        VisualItem::setHighlightWidth(v);
+    };
+    m_preferences->registerLambda(QStringLiteral("VMAP::highlightPenWidth"),func);
+    auto func2 = [=](QString str){
+        auto v = m_preferences->value(str,QColor(Qt::red)).value<QColor>();
+        VisualItem::setHighlightColor(v);
+    };
+    m_preferences->registerLambda(QStringLiteral("VMAP::highlightColor"),func2);
+
     m_downLoadProgressbar = new QProgressBar(this);
     m_downLoadProgressbar->setRange(0,100);
 

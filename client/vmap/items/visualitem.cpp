@@ -683,6 +683,26 @@ bool VisualItem::hasPermissionToMove(bool allowCharacter) const
     }
 }
 
+QColor VisualItem::getHighlightColor()
+{
+    return m_highlightColor;
+}
+
+void VisualItem::setHighlightColor(const QColor &highlightColor)
+{
+    m_highlightColor = highlightColor;
+}
+
+int VisualItem::getHighlightWidth()
+{
+    return m_highlightWidth;
+}
+
+void VisualItem::setHighlightWidth(int highlightWidth)
+{
+    m_highlightWidth = highlightWidth;
+}
+
 quint16 VisualItem::getPenWidth() const
 {
     return m_penWidth;

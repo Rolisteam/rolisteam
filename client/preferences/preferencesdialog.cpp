@@ -254,7 +254,13 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_topCharacterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
     connect(ui->m_bottomCharacterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
 
+    connect(ui->m_highLightPenWidth,QOverload<int>::of(&QSpinBox::valueChanged),this,[=](){
+        m_preferences->registerValue("VMAP::highlightPenWidth",ui->m_highLightPenWidth->value(),true);
+    });
 
+    connect(ui->m_mapItemHighlightColor,&ColorButton::colorChanged,this,[=](){
+        m_preferences->registerValue("VMAP::highlightColor",ui->m_mapItemHighlightColor->color(),true);
+    });
 
     // Misc
     setSizeGripEnabled(true);
@@ -448,6 +454,9 @@ void PreferencesDialog::load()
     ui->m_tabTitleLength->setValue(m_preferences->value("MaxLengthTabName",10).toInt());
 
     ui->m_displayTimePage->setValue(m_preferences->value("waitingTimeBetweenPage",300).toInt());
+
+    ui->m_highLightPenWidth->setValue(m_preferences->value("VMAP::highlightPenWidth",6).toInt());
+    ui->m_mapItemHighlightColor->setColor(m_preferences->value("VMAP::highlightColor",QColor(Qt::red)).value<QColor>());
 
     ////////////////////////
     //MAP
