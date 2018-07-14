@@ -56,7 +56,7 @@ public:
         ShowNpcName,
         ShowPcName,
         ShowNpcNumber,
-        ShowHealtStatus,
+        ShowHealthStatus,
         ShowGrid,
         LocalIsGM,
         GridPattern,
@@ -70,7 +70,8 @@ public:
         CollisionStatus,
         GridAbove,
         HideOtherLayers,
-        VisibilityMode};
+        VisibilityMode,
+        ShowHealthBar};
 	/**
 	 * @brief VisualItem default constructor
 	 */
@@ -392,7 +393,6 @@ protected:
     VisualItem::Layer m_layer;
     QVector<ItemType> m_promoteTypeList;
     QList<QPointF> m_pointList;
-    //QList<QRectF> m_sizeList;
     bool m_resizing;
     bool m_rotating;
     bool m_receivingZValue;

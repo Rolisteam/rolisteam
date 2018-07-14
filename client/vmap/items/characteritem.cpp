@@ -142,7 +142,7 @@ QString CharacterItem::getSubTitle() const
         }
         if(getOption(VisualItem::ShowNpcNumber).toBool())
         {
-            toShow = m_character->name();
+            toShow = m_character->number();
         }
         if(getOption(VisualItem::ShowNpcName).toBool() && getOption(VisualItem::ShowNpcNumber).toBool())
         {
@@ -194,7 +194,7 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 	painter->setRenderHint(QPainter::TextAntialiasing,true);
 	painter->setRenderHint(QPainter::SmoothPixmapTransform,true);
 
-
+    painter->save();
     if(m_character->hasAvatar())
     {
         painter->drawPixmap(m_rect,*m_thumnails,m_thumnails->rect());
@@ -212,7 +212,7 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
     pen.setWidth(PEN_WIDTH);
     if(( nullptr!= m_character )&&(nullptr!=m_character->getState()))
 	{
-        if(getOption(VisualItem::ShowHealtStatus).toBool())
+        if(getOption(VisualItem::ShowHealthStatus).toBool())
         {
             toShow += QString(" %1").arg(m_character->getState()->getLabel());
         }
@@ -273,7 +273,6 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
             }
         }
     }
-    painter->drawPath(m_debugPath);
 }
 const QPointF& CharacterItem::getCenter() const
 {

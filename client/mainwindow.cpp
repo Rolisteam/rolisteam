@@ -2183,7 +2183,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
         map->setOption(VisualItem::ShowPcName,b);
     });
     connect(m_ui->m_showHealtStatusAction, &QAction::triggered,[=](bool b){
-        map->setOption(VisualItem::ShowHealtStatus,b);
+        map->setOption(VisualItem::ShowHealthStatus,b);
     });
 
     connect(m_ui->m_healthBarAct,&QAction::triggered,[=](bool b){
@@ -2192,7 +2192,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     map->setOption(VisualItem::ShowNpcName,m_ui->m_showNpcNameAction->isChecked());
     map->setOption(VisualItem::ShowNpcNumber,m_ui->m_showNpcNumberAction->isChecked());
     map->setOption(VisualItem::ShowPcName,m_ui->m_showPcNameAction->isChecked());
-    map->setOption(VisualItem::ShowHealtStatus,m_ui->m_showHealtStatusAction->isChecked());
+    map->setOption(VisualItem::ShowHealthStatus,m_ui->m_showHealtStatusAction->isChecked());
     map->setCurrentNpcNumber(m_toolBar->getCurrentNpcNumber());
     tmp->currentPenSizeChanged(m_vToolBar->getCurrentPenSize());
 

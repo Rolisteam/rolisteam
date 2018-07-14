@@ -322,11 +322,7 @@ private:
 
     //sight
     CharacterVision* m_vision;
-
-
     QPointF m_oldPosition;
-    QPainterPath m_debugPath;
-    QPainterPath m_debugPath2;
 
     bool m_protectGeometryChange;
     bool m_visionChanged;

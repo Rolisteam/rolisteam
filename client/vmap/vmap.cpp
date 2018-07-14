@@ -74,7 +74,7 @@ void VMap::initMap()
     m_propertiesHash->insert(VisualItem::ShowNpcName,false);
     m_propertiesHash->insert(VisualItem::ShowPcName,false);
     m_propertiesHash->insert(VisualItem::ShowNpcNumber,false);
-    m_propertiesHash->insert(VisualItem::ShowHealtStatus,false);
+    m_propertiesHash->insert(VisualItem::ShowHealthStatus,false);
     m_propertiesHash->insert(VisualItem::ShowHealthBar,true);
     m_propertiesHash->insert(VisualItem::ShowGrid,false);
     m_propertiesHash->insert(VisualItem::LocalIsGM,false);
@@ -488,7 +488,6 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     {
         if(VisualItem::PATH == m_currentPath->getType())
         {
-
             PathItem* itm = dynamic_cast<PathItem*>(m_currentPath);
             if(nullptr!=itm)
             {
