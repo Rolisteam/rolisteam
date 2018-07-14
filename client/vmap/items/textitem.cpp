@@ -118,7 +118,6 @@ TextItem::TextItem(QPointF& start,quint16 penSize,QColor& penColor,QGraphicsItem
     m_rect.setTopLeft(QPointF(0,0));
     m_rect.setBottomRight(m_offset);
     setPos(m_start);
-    //m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
     init();
     createActions();
 }
@@ -157,13 +156,24 @@ void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     Q_UNUSED(option)
     Q_UNUSED(widget)
     setChildrenVisible(hasFocusOrChild());
-    if((m_showRect)||(option->state & QStyle::State_MouseOver))
+    if(m_showRect)
     {
         QPen pen = painter->pen();
         pen.setColor(m_color);
         pen.setWidth(m_showRect?m_penWidth:2);
         painter->setPen(pen);
         painter->drawRect(boundingRect());
+    }
+
+    if(option->state & QStyle::State_MouseOver || isUnderMouse())
+    {
+        painter->save();
+        QPen pen = painter->pen();
+        pen.setColor(m_highlightColor);
+        pen.setWidth(m_highlightWidth);
+        painter->setPen(pen);
+        painter->drawRect(m_rect);
+        painter->restore();
     }
 }
 void TextItem::setNewEnd(QPointF& p)
@@ -208,7 +218,7 @@ void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 }
 void TextItem::wheelEvent(QGraphicsSceneWheelEvent *event)
 {
-    if(event->modifiers() && Qt::ControlModifier)
+    if(event->modifiers() & Qt::ControlModifier)
     {
         if(event->delta()>0)
         {

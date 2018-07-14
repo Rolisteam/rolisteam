@@ -5,6 +5,7 @@
 #include <QBuffer>
 #include <QFileInfo>
 #include <QImageWriter>
+#include <QStyleOptionGraphicsItem>
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
@@ -33,6 +34,17 @@ void ImageItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
     setChildrenVisible(hasFocusOrChild());
 
 	painter->restore();
+
+    if(option->state & QStyle::State_MouseOver || isUnderMouse())
+    {
+        painter->save();
+        QPen pen = painter->pen();
+        pen.setColor(m_highlightColor);
+        pen.setWidth(m_highlightWidth);
+        painter->setPen(pen);
+        painter->drawRect(m_rect);
+        painter->restore();
+    }
 }
 void ImageItem::setNewEnd(QPointF& p)
 {

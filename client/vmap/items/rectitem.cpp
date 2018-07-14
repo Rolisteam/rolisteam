@@ -95,7 +95,18 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     }
     setChildrenVisible(hasFocusOrChild());
     painter->restore();
- //   painter->drawText(m_rect,QStringLiteral("%1").arg(zValue()));
+
+
+    if(option->state & QStyle::State_MouseOver || isUnderMouse())
+    {
+        painter->save();
+        QPen pen = painter->pen();
+        pen.setColor(m_highlightColor);
+        pen.setWidth(m_highlightWidth);
+        painter->setPen(pen);
+        painter->drawRect(m_rect);
+        painter->restore();
+    }
 }
 void RectItem::setNewEnd(QPointF& p)
 {

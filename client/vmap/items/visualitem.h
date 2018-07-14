@@ -377,7 +377,8 @@ protected:
 
 protected:
     QColor m_color;
-    //ItemType m_type;
+    static QColor m_highlightColor;
+    static int m_highlightWidth;
     QString m_id;
     QString m_mapId;
     bool m_editable;

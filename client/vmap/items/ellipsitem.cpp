@@ -20,7 +20,7 @@
 #include "ellipsitem.h"
 
 #include <QPainter>
-#include <QDebug>
+#include <QStyleOptionGraphicsItem>
 
 #include <math.h>
 #include <cmath>
@@ -90,6 +90,16 @@ void EllipsItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * op
 
     painter->restore();
 
+    if(option->state & QStyle::State_MouseOver || isUnderMouse())
+    {
+        painter->save();
+        QPen pen = painter->pen();
+        pen.setColor(m_highlightColor);
+        pen.setWidth(m_highlightWidth);
+        painter->setPen(pen);
+        painter->drawEllipse(m_center,m_rx,m_ry);
+        painter->restore();
+    }
 
 }
 void EllipsItem::setNewEnd(QPointF& p)

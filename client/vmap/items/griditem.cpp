@@ -48,6 +48,7 @@ GridItem::GridItem()
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
     createActions();
     setAcceptedMouseButtons(Qt::NoButton);
+    setAcceptHoverEvents(false);
     m_layer = GRIDLAYER;
     setFlags(QGraphicsItem::ItemSendsGeometryChanges);
 }

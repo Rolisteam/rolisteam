@@ -129,13 +129,13 @@ public:
      * @param msg
      */
     virtual void readMovePointMsg(NetworkMessageReader* msg);
-
 protected slots:
     void sendPointPosition();
 private slots:
     void closePath();
     void fillPath();
 private:
+    void initRealPoints();
     void createActions();
 private:
     bool m_penMode;
@@ -148,6 +148,7 @@ private:
     QPointF m_end;
 
 	QVector<QPointF> m_pointVector;
+    QVector<QPointF> m_pointVectorBary;
     QAction* m_closeAct;
     QAction* m_fillAct;
     bool m_closed;

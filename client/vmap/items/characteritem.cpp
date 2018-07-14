@@ -249,6 +249,21 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 		painter->setPen(m_character->getColor());
         painter->drawText(m_rectText,Qt::AlignCenter,toShow);
 	}
+    painter->restore();
+
+    if(option->state & QStyle::State_MouseOver || isUnderMouse())
+    {
+        painter->save();
+        QPen pen = painter->pen();
+        pen.setColor(m_highlightColor);
+        pen.setWidth(m_highlightWidth);
+        painter->setPen(pen);
+        if(m_character->hasAvatar())
+            painter->drawRect(m_rect);
+        else
+            painter->drawEllipse(m_rect);
+        painter->restore();
+    }
 
     if(getOption(VisualItem::ShowHealthBar).toBool())
     {

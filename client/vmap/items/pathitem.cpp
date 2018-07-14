@@ -20,14 +20,37 @@
 #include "pathitem.h"
 #include <QPainterPath>
 #include <QPainter>
-#include <QMenu>
 #include <QDebug>
+#include <QMenu>
+#include <QStyleOptionGraphicsItem>
 
 #include "map/map.h"
 
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
+
+QPainterPath vectorToPath(const QVector<QPointF>& points, bool closeUp = false)
+{
+    QPainterPath path;
+    bool first = true;
+    QPointF start;
+    for(QPointF p : points)
+    {
+        if(first)
+        {
+            first = false;
+            start = p;
+            path.moveTo(p);
+        }
+        else
+            path.lineTo(p);
+    }
+
+    if(closeUp)
+        path.lineTo(start);
+    return path;
+}
 
 
 PathItem::PathItem()
@@ -41,68 +64,37 @@ PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,bool penMode,QGra
     : VisualItem(penColor,penSize,parent),m_penMode(penMode),m_filled(false)
 {
     m_closed=false;
-//    m_path.moveTo(start);
-	m_start = start;
+    setPos(start);
+    m_start = start;
     m_end = m_start;
     createActions();
     
 }
 QRectF PathItem::boundingRect() const
 {
-	QPainterPath path;
-	path.moveTo(m_start);
-    for(QPointF p:m_pointVector)
-	{
-		path.lineTo(p);
-	}
+    QPainterPath path = vectorToPath(m_pointVectorBary);
 	QRectF rect = path.boundingRect();
-    rect.adjust(-m_pen.width()/2,-m_pen.width()/2,m_pen.width()/2,m_pen.width()/2);
+    rect.adjust(-m_penWidth/2,-m_penWidth/2,m_penWidth/2,m_penWidth/2);
     return rect;
 }
 
 QPainterPath PathItem::shape () const
 {
-	QPainterPath path;
-	path.moveTo(m_start);
-    for(QPointF p : m_pointVector)
-	{
-		path.lineTo(p);
-	}
-	return path;
+    return vectorToPath(m_pointVectorBary);
 }
 void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
     setChildrenVisible(hasFocusOrChild());
 
-	QPainterPath path;
-
-    if(!m_penMode)
-    {
-        path.moveTo(m_start);
-        for(QPointF p : m_pointVector)
-        {
-            path.lineTo(p);
-        }
-        if(m_closed)
-        {
-            path.lineTo(m_start);
-        }
-    }
-    else
-    {
-        path.moveTo(m_start);
-        for(QPointF p: m_pointVector)
-        {
-            path.lineTo(p);
-        }
-    }
+    QPainterPath path = vectorToPath(m_pointVectorBary,m_closed);
     if(!m_penMode)
     {
         if(!m_end.isNull())
         {
-            path.lineTo(m_end);
+            path.lineTo(m_end-pos());
         }
     }
     painter->save();
@@ -120,6 +112,19 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     painter->setPen(pen);
 	painter->drawPath(path);
     painter->restore();
+
+
+    if(option->state & QStyle::State_MouseOver || isUnderMouse())
+    {
+        painter->save();
+        QPen pen = painter->pen();
+        pen.setColor(m_highlightColor);
+        pen.setWidth(m_highlightWidth);
+        painter->setPen(pen);
+        QTransform scale = QTransform().scale(1.01,1.01);
+        painter->drawPath(scale.map(path));
+        painter->restore();
+    }
 }
 void PathItem::setNewEnd(QPointF& p)
 {
@@ -127,11 +132,10 @@ void PathItem::setNewEnd(QPointF& p)
     if(m_penMode)
     {
         m_pointVector.append(p);
-        update();
         initChildPointItem();
+        update();
         emit itemGeometryChanged(this);
     }
-
 }
 void PathItem::release()
 {
@@ -140,8 +144,8 @@ void PathItem::release()
         if(m_end != m_start)
         {
             m_pointVector.append(m_end);
-            update();
             initChildPointItem();
+            update();
             emit itemGeometryChanged(this);
         }
         m_end = QPointF();
@@ -161,9 +165,7 @@ void PathItem::writeData(QDataStream& out) const
     out << scale();
     out << rotation();
     out << m_penMode;
-    out << (VisualItem::Layer)m_layer;
-
-
+    out << static_cast<int>(m_layer);
 }
 
 void PathItem::readData(QDataStream& in)
@@ -190,9 +192,10 @@ void PathItem::readData(QDataStream& in)
     in >> m_penMode;
     int i;
     in >> i;
-    m_layer = (VisualItem::Layer)i;
+    m_layer = static_cast<VisualItem::Layer>(i);
 
     //m_end = m_start;
+    initRealPoints();
 }
 VisualItem::ItemType PathItem::getType() const
 {
@@ -206,7 +209,7 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
     msg->uint8(m_closed);
     msg->uint8(m_filled);
     msg->uint8(m_penMode);
-    msg->uint8((VisualItem::Layer)m_layer);
+    msg->uint8(static_cast<quint8>(m_layer));
     msg->real(zValue());
     msg->real(opacity());
 
@@ -234,12 +237,12 @@ void PathItem::readItem(NetworkMessageReader* msg)
     m_id = msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
-    m_closed = (bool)msg->uint8();
+    m_closed = static_cast<bool>(msg->uint8());
     m_closeAct->setChecked(m_closed);
-    m_filled = (bool)msg->uint8();
+    m_filled = static_cast<bool>(msg->uint8());
     m_fillAct->setChecked(m_filled);
-    m_penMode = (bool)msg->uint8();
-    m_layer = (VisualItem::Layer)msg->uint8();
+    m_penMode = static_cast<bool>(msg->uint8());
+    m_layer = static_cast<VisualItem::Layer>(msg->uint8());
     setZValue(msg->real());
     setOpacity(msg->real());
 
@@ -266,6 +269,7 @@ void PathItem::readItem(NetworkMessageReader* msg)
 
 
     setPos(posx,posy);
+    initRealPoints();
 }
 void PathItem::createActions()
 {
@@ -297,43 +301,56 @@ void  PathItem::fillPath()
 }
 void PathItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
-    if(pointId==-1)
+    auto idx = static_cast<int>(pointId);
+
+    if(m_pointVectorBary.isEmpty() || m_pointVectorBary.size() <= idx)
+        return;
+
+    m_resizing = true;
+    m_changedPointId = pointId;
+    m_changedPointPos = pos;
+    m_pointVectorBary[idx]=pos;
+}
+
+void PathItem::initRealPoints()
+{
+    QPointF median = m_start;
+    for(auto point : m_pointVector)
     {
-        m_start = pos;
-        m_resizing = true;
-        m_changedPointId = pointId;
-        m_changedPointPos = pos;
+        median = (median+point)/2;
     }
-    else
+    m_pointVectorBary.clear();
+    m_pointVectorBary.append(m_start-median);
+    for(auto point : m_pointVector)
     {
-        m_resizing = true;
-        m_changedPointId = pointId;
-        m_changedPointPos = pos;
-        m_pointVector[(int)pointId]=pos;
+        m_pointVectorBary.append(point-median);
     }
+    setPos(median);
 }
 void PathItem::initChildPointItem()
 {
-	if(nullptr == m_child)
+    initRealPoints();
+
+    if(nullptr == m_child)
 	{
 		m_child = new QVector<ChildPointItem*>();
-        ChildPointItem* tmp = new ChildPointItem(-1,this);
-        tmp->setMotion(ChildPointItem::ALL);
-        m_child->append(tmp);
-        tmp->setPos(m_start);
-        tmp->setPlacement(ChildPointItem::Center);
-	}
-
-
+    }
+    else
+    {
+       qDeleteAll(m_child->begin(),m_child->end());
+       m_child->clear();
+    }
     if(!m_penMode)
     {
-        for(int i = m_child->size()-1; i< m_pointVector.size() ; ++i)
+        int i = 0;
+        for(auto p : m_pointVectorBary)
         {
             ChildPointItem* tmp = new ChildPointItem(i,this);
             tmp->setMotion(ChildPointItem::ALL);
             m_child->append(tmp);
-            tmp->setPos(m_pointVector.at(i));
+            tmp->setPos(p);
             tmp->setPlacement(ChildPointItem::Center);
+            ++i;
         }
     }
 
@@ -350,6 +367,7 @@ VisualItem* PathItem::getItemCopy()
     path->setPos(pos());
 	return path;
 }
+
 void PathItem::setStartPoint(QPointF start)
 {
     m_start = start;
@@ -359,21 +377,14 @@ void PathItem::readMovePointMsg(NetworkMessageReader* msg)
     qreal pointid = msg->real();
     qreal x = msg->real();
     qreal y = msg->real();
-    if(-1==pointid)
-    {
-        m_start = QPointF(x,y);
-    }
-    else
-    {
-        m_pointVector[(int)pointid]=QPointF(x,y);
-    }
+    m_pointVectorBary[static_cast<int>(pointid)]=QPointF(x,y);
     update();
 }
 
 
 void PathItem::setPath(QVector<QPointF> points)
 {
-    m_pointVector = points;
+    m_pointVectorBary = points;
     update();
 }
 void PathItem::setClosed(bool b)

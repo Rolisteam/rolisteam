@@ -33,6 +33,10 @@
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
 
+QColor VisualItem::m_highlightColor = QColor(Qt::red);
+int VisualItem::m_highlightWidth = 6;
+
+
 QStringList VisualItem::type2NameList =  QStringList() << tr("Path")<< tr("Line")<< tr("Ellipse")<< tr("Character")<< tr("Text")<< tr("Rect")<< tr("Rule")<< tr("Image");
 QStringList VisualItem::s_layerName = QStringList() << tr("Ground")<< tr("Object")<< tr("Character");
 
@@ -57,6 +61,8 @@ VisualItem::~VisualItem()
 void VisualItem::init()
 {
     createActions();
+    setAcceptHoverEvents(true);
+    setFlag(QGraphicsItem::ItemUsesExtendedStyleOption,true);
     m_propertiesHash = nullptr;
     m_resizing = false;
     m_rotating = false;
@@ -141,6 +147,7 @@ void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mouseReleaseEvent(event);
     endOfGeometryChange();
 }
+
 QVariant VisualItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange )
