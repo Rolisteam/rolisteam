@@ -26,7 +26,6 @@ QRectF ImageItem::boundingRect() const
 }
 void ImageItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
-    Q_UNUSED(option)
     Q_UNUSED(widget)
 	painter->save();
 	painter->drawImage(m_rect,m_image,m_image.rect());
