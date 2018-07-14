@@ -328,7 +328,18 @@ void Character::setNumber(int n)
 {
     m_number = n;
 }
+QColor Character::getLifeColor() const
+{
+    return m_lifeColor;
+}
+void Character::setLifeColor(QColor color)
+{
+    if(m_lifeColor == color)
+        return;
 
+    m_lifeColor = color;
+    emit lifeColorChanged();
+}
 bool Character::isNpc() const
 {
     return m_isNpc;

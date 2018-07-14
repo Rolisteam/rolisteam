@@ -250,6 +250,29 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
         painter->drawText(m_rectText,Qt::AlignCenter,toShow);
 	}
 
+    if(getOption(VisualItem::ShowHealthBar).toBool())
+    {
+        if(nullptr != m_character)
+        {
+            auto max = m_character->getHealthPointsMax();
+            auto color = m_character->getLifeColor();
+            auto min = m_character->getHealthPointsMin();
+            auto current = m_character->getHealthPointsCurrent();
+            QPen pen = painter->pen();
+            pen.setColor(color);
+
+            if(min<max)
+            {
+                QRect bar(m_rect.x(),m_rect.height()-PEN_WIDTH,m_rect.width(),PEN_WIDTH);
+                painter->save();
+                auto newWidth = (current-min)*bar.width()/(max-min);
+                painter->drawRect(bar);
+                QRect value(m_rect.x(),m_rect.height()-PEN_WIDTH,newWidth,PEN_WIDTH);
+                painter->fillRect(value,color);
+                painter->restore();
+            }
+        }
+    }
     painter->drawPath(m_debugPath);
 }
 const QPointF& CharacterItem::getCenter() const

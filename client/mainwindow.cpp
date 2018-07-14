@@ -2186,6 +2186,9 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
         map->setOption(VisualItem::ShowHealtStatus,b);
     });
 
+    connect(m_ui->m_healthBarAct,&QAction::triggered,[=](bool b){
+        map->setOption(VisualItem::ShowHealthBar,b);
+    });
     map->setOption(VisualItem::ShowNpcName,m_ui->m_showNpcNameAction->isChecked());
     map->setOption(VisualItem::ShowNpcNumber,m_ui->m_showNpcNumberAction->isChecked());
     map->setOption(VisualItem::ShowPcName,m_ui->m_showPcNameAction->isChecked());

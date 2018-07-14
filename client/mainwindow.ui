@@ -94,6 +94,7 @@
      <addaction name="m_showNpcNameAction"/>
      <addaction name="m_showNpcNumberAction"/>
      <addaction name="m_showHealtStatusAction"/>
+     <addaction name="m_healthBarAct"/>
     </widget>
     <addaction name="menuReorganize"/>
     <addaction name="separator"/>
@@ -635,6 +636,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="m_healthBarAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Health Bar</string>
    </property>
   </action>
  </widget>

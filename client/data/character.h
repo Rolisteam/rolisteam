@@ -69,6 +69,7 @@ class Character : public QObject,public Person
     Q_PROPERTY(int initiative READ getInitiativeScore WRITE setInitiativeScore NOTIFY initiativeChanged)
     Q_PROPERTY(qreal distancePerTurn READ getDistancePerTurn WRITE setDistancePerTurn NOTIFY distancePerTurnChanged)
     Q_PROPERTY(CharacterState* state READ getState WRITE setState NOTIFY stateChanged)
+    Q_PROPERTY(QColor lifeColor READ getLifeColor WRITE setLifeColor NOTIFY lifeColorChanged)
 
 public:
    // enum HeathState {Healthy,Lightly,Seriously,Dead,Sleeping,Bewitched};
@@ -193,6 +194,9 @@ public:
     RolisteamImageProvider *getImageProvider() const;
     void setImageProvider(RolisteamImageProvider *imageProvider);
 
+    QColor getLifeColor() const;
+    void setLifeColor(QColor color);
+
 signals:
     void avatarChanged();
     void currentHealthPointsChanged();
@@ -203,6 +207,7 @@ signals:
     void initiativeChanged();
     void distancePerTurnChanged();
     void stateChanged();
+    void lifeColorChanged();
 
 protected:
     CharacterState* getStateFromIndex(int i);
@@ -223,6 +228,7 @@ private:
     RolisteamImageProvider* m_imageProvider = nullptr;
     int m_initiativeScore = 0;
     qreal m_distancePerTurn = 0;
+    QColor m_lifeColor = QColor(Qt::green);
 };
 
 #endif // CHARACTER_H
