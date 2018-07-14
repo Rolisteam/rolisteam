@@ -222,7 +222,7 @@ void TcpClient::closeConnection()
 {
     if(nullptr != m_socket)
     {
-        m_socket->close();
+        m_socket->disconnectFromHost();
     }
     emit clientSaysGoodBye();
 }
