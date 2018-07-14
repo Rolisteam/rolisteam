@@ -103,6 +103,11 @@ void PreferencesManager::readSettings(QSettings & settings)
     }   
     settings.endArray();
     settings.endGroup();
+
+    for(auto p : m_lambdaMap)
+    {
+        p.second(p.first);
+    }
 }
 void PreferencesManager::writeSettings(QSettings & settings)
 {
@@ -126,6 +131,10 @@ void PreferencesManager::registerListener(QString str, PreferencesListener* list
 {
    m_listernerMap.insert(str,listerner);
 }
+void PreferencesManager::registerLambda(QString key,std::function<void(QString)> func)
+{
+    m_lambdaMap.insert({key,func});
+}
 void PreferencesManager::notifyListener(QString str)
 {
     PreferencesListener* tmp = m_listernerMap.value(str);
@@ -133,4 +142,7 @@ void PreferencesManager::notifyListener(QString str)
     {
         tmp->preferencesHasChanged(str);
     }
+
+    auto func = m_lambdaMap[str];
+    func(str);
 }

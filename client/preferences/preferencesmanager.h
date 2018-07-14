@@ -88,6 +88,7 @@ public:
      * @brief registerListener
      */
     void registerListener(QString ,PreferencesListener* );
+    void registerLambda(QString key,std::function<void(QString)> func);
     
 private:
     /**
@@ -116,6 +117,10 @@ private:
      * @brief m_listernerMap
      */
     QMap<QString,PreferencesListener*> m_listernerMap;
+    /**
+     * @brief m_lambdaMap
+     */
+    std::map<QString,std::function<void(QString)>> m_lambdaMap;
 };
 
 #endif // PREFERENCESMANAGER_H
