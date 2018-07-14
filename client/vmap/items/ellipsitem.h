@@ -91,9 +91,6 @@ private:
     * @brief ellipse center
     */
     QPointF m_center;
-    
-
-    qint16 m_penWidth;
     /**
     * @brief stores the filled state
     */

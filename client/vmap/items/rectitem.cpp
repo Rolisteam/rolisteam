@@ -29,13 +29,13 @@
 #include "network/networkmessagereader.h"
 
 RectItem::RectItem()
-    : VisualItem(),m_penWidth(1),m_initialized(false),m_filled(false)
+    : VisualItem(),m_initialized(false),m_filled(false)
 {
 
 }
 
 RectItem::RectItem(QPointF& topleft,QPointF& buttomright,bool filled,quint16 penSize,QColor& penColor,QGraphicsItem * parent)
-    : VisualItem(penColor,parent),m_penWidth(penSize),m_initialized(false),m_filled(filled)
+    : VisualItem(penColor,penSize,parent),m_initialized(false),m_filled(filled)
 {
     m_rect.setBottomRight(buttomright);
     m_rect.setTopLeft(topleft);

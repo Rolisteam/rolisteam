@@ -109,8 +109,6 @@ protected:
 
 
 private:
-
-    quint16 m_penWidth;
     bool m_initialized;
     /**
     * @brief stores the filled state.

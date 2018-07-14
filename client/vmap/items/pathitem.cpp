@@ -38,16 +38,12 @@ PathItem::PathItem()
 }
 
 PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,bool penMode,QGraphicsItem * parent)
-    : VisualItem(penColor,parent),m_penMode(penMode),m_filled(false)
+    : VisualItem(penColor,penSize,parent),m_penMode(penMode),m_filled(false)
 {
     m_closed=false;
 //    m_path.moveTo(start);
 	m_start = start;
     m_end = m_start;
-    m_pen.setColor(penColor);
-    m_pen.setWidth(penSize);
-    m_pen.setCapStyle(Qt::RoundCap);
-    m_pen.setJoinStyle(Qt::RoundJoin);
     createActions();
     
 }
@@ -110,12 +106,18 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         }
     }
     painter->save();
+    auto pen = painter->pen();
+    pen.setColor(m_color);
+    pen.setWidth(m_penWidth);
+    pen.setCapStyle(Qt::RoundCap);
+    pen.setJoinStyle(Qt::RoundJoin);
+    painter->setPen(pen);
     if(m_filled)
     {
         path.setFillRule(Qt::OddEvenFill);
-        painter->setBrush(m_pen.brush());
+        painter->setBrush(pen.brush());
     }
-    painter->setPen(m_pen);
+    painter->setPen(pen);
 	painter->drawPath(path);
     painter->restore();
 }
@@ -152,7 +154,8 @@ void PathItem::writeData(QDataStream& out) const
     out << m_pointVector;
     out << m_path;
     out << opacity();
-    out << m_pen;
+    out << m_penWidth;
+    out << m_color;
     out << m_closed;
     out << m_filled;
     out << scale();
@@ -171,7 +174,8 @@ void PathItem::readData(QDataStream& in)
     qreal opa=0;
     in >> opa;
     setOpacity(opa);
-    in >> m_pen;
+    in >> m_penWidth;
+    in >> m_color;
     in >> m_closed;
     m_closeAct->setChecked(m_closed);
     in >> m_filled;
@@ -210,8 +214,8 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(pos().y());
 
     //pen
-    msg->uint16(m_pen.width());
-    msg->rgb(m_pen.color().rgb());
+    msg->uint16(m_penWidth);
+    msg->rgb(m_color.rgb());
 
     msg->real(m_start.x());
     msg->real(m_start.y());
@@ -244,10 +248,8 @@ void PathItem::readItem(NetworkMessageReader* msg)
 
 
     //pen
-    m_pen.setWidth(msg->int16());
-    m_pen.setColor(msg->rgb());
-    m_pen.setCapStyle(Qt::RoundCap);
-    m_pen.setJoinStyle(Qt::RoundJoin);
+    m_penWidth =msg->int16();
+    m_color = msg->rgb();
 
     m_start.setX(msg->real());
     m_start.setY(msg->real());
@@ -341,16 +343,12 @@ VisualItem* PathItem::getItemCopy()
 	PathItem* path = new PathItem();
     path->setPath(m_pointVector);
     path->setStartPoint(m_start);
-    path->setPen(m_pen);
+    path->setPenColor(m_color);
+    path->setPenWidth(m_penWidth);
     path->setClosed(m_closed);
     path->setFilled(m_filled);
     path->setPos(pos());
 	return path;
-}
-void PathItem::setPen(QPen pen)
-{
-    m_pen = pen;
-    update();
 }
 void PathItem::setStartPoint(QPointF start)
 {

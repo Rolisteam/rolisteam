@@ -88,7 +88,6 @@ protected:
     void initAnimation();
 private:
     qreal m_radius;
-    qreal m_penWidth;
     /**
     * @brief hightligther center
     */

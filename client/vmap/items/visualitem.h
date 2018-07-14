@@ -82,7 +82,7 @@ public:
 	 * @param editable edition status
 	 * @param parent
 	 */
-	VisualItem(QColor& penColor,bool editable,QGraphicsItem * parent = 0);
+    VisualItem(QColor& penColor,int size, bool editable,QGraphicsItem * parent = 0);
     /**
      * @brief ~VisualItem
      */
@@ -263,6 +263,9 @@ public:
     virtual bool isLocal() const;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
+    quint16 getPenWidth() const;
+    void setPenWidth(const quint16 &penWidth);
+
 signals:
     /**
      * @brief itemGeometryChanged
@@ -377,7 +380,8 @@ protected:
     //ItemType m_type;
     QString m_id;
     QString m_mapId;
-	bool m_editable;
+    bool m_editable;
+    quint16 m_penWidth;
     QRectF m_rect;
     QPoint m_menuPos;
 

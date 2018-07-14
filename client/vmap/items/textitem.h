@@ -143,7 +143,6 @@ private:
 
 private:
     QPointF m_start;
-   // QLineEdit* m_textEdit;
     QFont m_font;
 
     //QAction*
@@ -154,10 +153,7 @@ private:
     TextLabel* m_textItem;
 
     bool m_showRect;
-    quint16 m_penWidth;
-
     const QPointF m_offset;
-
     static RichTextEditDialog* m_dialog;
 
 };

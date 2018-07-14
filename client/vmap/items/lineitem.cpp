@@ -37,13 +37,11 @@ LineItem::LineItem()
 }
 
 LineItem::LineItem(QPointF& p,QColor& penColor,int penSize,QGraphicsItem * parent)
-    :  VisualItem(penColor,parent)
+    :  VisualItem(penColor,penSize,parent)
 {
     m_startPoint = p;
 	m_endPoint = p;
     m_rect.setTopLeft(p);
-    m_pen.setColor(penColor);
-    m_pen.setWidth(penSize);
 }
 
 void LineItem::setNewEnd(QPointF& nend)
@@ -74,7 +72,10 @@ void LineItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     Q_UNUSED(option)
     Q_UNUSED(widget)
     painter->save();
-    painter->setPen(m_pen);
+    auto pen = painter->pen();
+    pen.setColor(m_color);
+    pen.setWidth(m_penWidth);
+    painter->setPen(pen);
     painter->drawLine(m_startPoint,m_endPoint);
     setChildrenVisible(hasFocusOrChild());
     painter->restore();

@@ -112,7 +112,7 @@ TextItem::TextItem()
 }
 
 TextItem::TextItem(QPointF& start,quint16 penSize,QColor& penColor,QGraphicsItem * parent)
-    : VisualItem(penColor,parent),m_penWidth(penSize),m_offset(QPointF(100,30))
+    : VisualItem(penColor,penSize,parent),m_offset(QPointF(100,30))
 {
     m_start = start;
     m_rect.setTopLeft(QPointF(0,0));

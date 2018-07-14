@@ -35,7 +35,7 @@ EllipsItem::EllipsItem()
 }
 
 EllipsItem::EllipsItem(QPointF& center,bool filled,int penSize,QColor& penColor,QGraphicsItem * parent)
-    : VisualItem(penColor,parent),m_penWidth(penSize),m_filled(false)
+    : VisualItem(penColor,penSize,parent),m_filled(false)
 {
     m_center = center;
     setPos(m_center);

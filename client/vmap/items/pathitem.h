@@ -95,11 +95,6 @@ public:
      */
 	virtual VisualItem* getItemCopy();
     /**
-     * @brief setPen
-     * @param pen
-     */
-    void setPen(QPen pen);
-    /**
      * @brief setPath
      * @param points
      */
@@ -145,10 +140,6 @@ private:
 private:
     bool m_penMode;
     bool m_filled;
-    /**
-    * @brief pen used for drawing the path
-    */
-    QPen m_pen;
     /**
     * @brief path stored in QtClasse
     */

@@ -37,14 +37,14 @@ QStringList VisualItem::type2NameList =  QStringList() << tr("Path")<< tr("Line"
 QStringList VisualItem::s_layerName = QStringList() << tr("Ground")<< tr("Object")<< tr("Character");
 
 VisualItem::VisualItem()
-    : QGraphicsObject(),m_editable(false),m_child(nullptr)
+    : QGraphicsObject(),m_editable(false),m_child(nullptr),m_penWidth(1)
 {
     m_id = QUuid::createUuid().toString();
     init();
 }
 
-VisualItem::VisualItem(QColor& penColor,bool b,QGraphicsItem * parent )
-    : QGraphicsObject(parent),m_color(penColor),m_editable(b),m_child(nullptr)
+VisualItem::VisualItem(QColor& penColor,int penSize, bool b,QGraphicsItem * parent )
+    : QGraphicsObject(parent),m_color(penColor),m_penWidth(penSize),m_editable(b),m_child(nullptr)
 {
     m_id = QUuid::createUuid().toString();
     init();
@@ -674,6 +674,16 @@ bool VisualItem::hasPermissionToMove(bool allowCharacter) const
     {
         return false;
     }
+}
+
+quint16 VisualItem::getPenWidth() const
+{
+    return m_penWidth;
+}
+
+void VisualItem::setPenWidth(const quint16 &penWidth)
+{
+    m_penWidth = penWidth;
 }
 bool VisualItem::getHoldSize() const
 {

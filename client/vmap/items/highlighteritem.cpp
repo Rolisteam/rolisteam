@@ -37,7 +37,7 @@ HighlighterItem::HighlighterItem()
 }
 
 HighlighterItem::HighlighterItem(QPointF& center,int penSize,QColor& penColor,QGraphicsItem * parent)
-    : VisualItem(penColor,parent),m_penWidth(penSize)
+    : VisualItem(penColor,penSize,parent)
 {
     m_center = center;
     setPos(m_center);
