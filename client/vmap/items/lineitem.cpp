@@ -20,7 +20,7 @@
 #include "lineitem.h"
 #include <QPainterPath>
 #include <QPainter>
-#include <QDebug>
+#include <QStyleOptionGraphicsItem>
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
@@ -51,25 +51,35 @@ void LineItem::setNewEnd(QPointF& nend)
 }
 QRectF LineItem::boundingRect() const
 {
-    return  m_rect;
+    return  m_rect.normalized();
 }
 QPainterPath LineItem::shape() const
 {
-	QPainterPath path;
     QLineF line(m_startPoint,m_endPoint);
-    qreal halfPenSize = m_pen.widthF()/2.0;
-    qreal angle = line.angle()*PI/180;
-    qreal yoff = cos(angle) * halfPenSize;
-    qreal xoff = sin(angle) * halfPenSize;
-    path.moveTo(m_startPoint.x()-xoff,m_startPoint.y()-yoff);
-    path.lineTo(m_endPoint.x()-xoff,m_endPoint.y()-yoff);
-    path.lineTo(m_endPoint.x()+xoff,m_endPoint.y()+yoff);
-    path.lineTo(m_startPoint.x()+xoff,m_startPoint.y()+yoff);
+    line.setLength(line.length()+m_penWidth/2.0);
+    QLineF line2(line.p2(),line.p1());
+    line2.setLength(line2.length()+m_penWidth/2.0);
+    line.setPoints(line2.p2(),line2.p1());
+
+    QLineF normal = line.normalVector();
+    normal.setLength(m_penWidth/2.0);
+    auto start = normal.p2();
+    auto end = normal.pointAt(-1);
+    QLineF normal2 = line2.normalVector();
+    normal2.setLength(m_penWidth/2.0);
+    auto p2 = normal2.p2();
+    auto p3 = normal2.pointAt(-1);
+
+    QPainterPath path;
+    path.moveTo(start);
+    path.lineTo(p3);
+    path.lineTo(p2);
+    path.lineTo(end);
+    path.lineTo(start);
 	return path;
 }
 void LineItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
-    Q_UNUSED(option)
     Q_UNUSED(widget)
     painter->save();
     auto pen = painter->pen();
@@ -79,6 +89,18 @@ void LineItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     painter->drawLine(m_startPoint,m_endPoint);
     setChildrenVisible(hasFocusOrChild());
     painter->restore();
+
+    if(option->state & QStyle::State_MouseOver || isUnderMouse())
+    {
+        painter->save();
+        auto shapePath = shape();
+        QPen pen = painter->pen();
+        pen.setColor(m_highlightColor);
+        pen.setWidth(m_highlightWidth);
+        painter->setPen(pen);
+        painter->drawPath(shapePath);
+        painter->restore();
+    }
     
 }
 void LineItem::writeData(QDataStream& out) const
@@ -87,7 +109,7 @@ void LineItem::writeData(QDataStream& out) const
     out << m_startPoint;
     out << m_endPoint;
     out << opacity();
-    out << m_pen;
+    out << m_penWidth;
     out << m_color;
     out << (int)m_layer;
 }
@@ -100,7 +122,7 @@ void LineItem::readData(QDataStream& in)
     qreal opa=0;
     in >> opa;
     setOpacity(opa);
-    in >> m_pen;
+    in >> m_penWidth;
     in >> m_color;
     int i;
     in >> i;
@@ -131,7 +153,7 @@ void LineItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_endPoint.x());
     msg->real(m_endPoint.y());
     //pen
-    msg->int16(m_pen.width());
+    msg->int16(m_penWidth);
     msg->rgb(m_color.rgb());
 
 
@@ -158,9 +180,8 @@ void LineItem::readItem(NetworkMessageReader* msg)
     m_endPoint.setX(msg->real());
     m_endPoint.setY(msg->real());
     //pen
-    m_pen.setWidth(msg->int16());
+    m_penWidth = msg->int16();
     m_color = msg->rgb();
-    m_pen.setColor(m_color);
 
     qreal posx = msg->real();
     qreal posy = msg->real();
@@ -212,7 +233,7 @@ void LineItem::initChildPointItem()
 }
 VisualItem* LineItem::getItemCopy()
 {
-	LineItem* line = new LineItem(m_startPoint,m_color,m_pen.width());
+    LineItem* line = new LineItem(m_startPoint,m_color,m_penWidth);
 	line->setNewEnd(m_endPoint);
     line->setOpacity(opacity());
     line->setScale(scale());

@@ -93,10 +93,6 @@ private:
     * @brief ending point, should moved
     */
     QPointF m_endPoint;
-    /**
-    * @brief pen
-    */
-    QPen m_pen;
 };
 
 #endif // LINEITEM_H

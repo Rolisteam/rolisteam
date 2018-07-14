@@ -40,7 +40,7 @@
 TextLabel::TextLabel(QGraphicsItem* parent)
     : QGraphicsTextItem(parent)
 {
-
+    //setAcceptHoverEvents(true);
 }
 void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
@@ -164,8 +164,7 @@ void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         painter->setPen(pen);
         painter->drawRect(boundingRect());
     }
-
-    if(option->state & QStyle::State_MouseOver || isUnderMouse())
+    if(option->state & QStyle::State_MouseOver)
     {
         painter->save();
         QPen pen = painter->pen();
@@ -387,14 +386,6 @@ void TextItem::writeData(QDataStream& out) const
     //out << zValue();
     out << (int) m_layer;
 }
-/*void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
-{
-    VisualItem::mouseDoubleClickEvent(event);
-}*/
-void TextItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
-{
-    VisualItem::mousePressEvent(event);
-}
 
 void TextItem::readData(QDataStream& in)
 {
@@ -589,12 +580,15 @@ void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent * event)
         }
 
     }
+    VisualItem::hoverEnterEvent(event);
 }
 void TextItem::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
 {
     Q_UNUSED(event)
     if(isEditable())
         QApplication::restoreOverrideCursor();
+
+    VisualItem::hoverLeaveEvent(event);
 }
 void TextItem::keyPressEvent(QKeyEvent* event)
 {

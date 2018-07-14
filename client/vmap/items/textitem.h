@@ -34,7 +34,6 @@ public:
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
-
 };
 /**
  * @brief The RichTextEditDialog class is a simple class based on QDialog to display rich text editor
@@ -131,12 +130,11 @@ public slots:
     void editText();
     void sizeToTheContent();
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent* event);
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void wheelEvent(QGraphicsSceneWheelEvent* event);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
     void keyPressEvent(QKeyEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 private:
     void updateFont();
     void init();
