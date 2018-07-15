@@ -48,13 +48,8 @@ void DeleteMediaContainerCommand::redo()
     if(nullptr != m_media)
     {
         m_menu->removeAction(m_media->getAction());
-        auto uri = m_media->getCleverUri();
-        if(nullptr != uri)
-        {
-            uri->setState(CleverURI::Unloaded);
-        }
-        m_manager->resourceClosed(m_media->getCleverUri());
         m_mdiArea->removeSubWindow(m_media);
+        m_manager->resourceClosed(m_media->getCleverUri());
         if(m_gm)
         {
             NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::closeMedia);

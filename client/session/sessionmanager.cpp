@@ -191,7 +191,7 @@ void SessionManager::resourceClosed(CleverURI* uri)
     if(nullptr!=uri)
     {
         m_view->clearSelection();
-        uri->setDisplayed(false);
+        uri->setState(CleverURI::Unloaded);
         if((uri->getUri().isEmpty())||
            (uri->getCurrentMode() != CleverURI::Linked))//new and unsaved document
         {
