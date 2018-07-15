@@ -257,10 +257,14 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_highLightPenWidth,QOverload<int>::of(&QSpinBox::valueChanged),this,[=](){
         m_preferences->registerValue("VMAP::highlightPenWidth",ui->m_highLightPenWidth->value(),true);
     });
-
     connect(ui->m_mapItemHighlightColor,&ColorButton::colorChanged,this,[=](){
         m_preferences->registerValue("VMAP::highlightColor",ui->m_mapItemHighlightColor->color(),true);
     });
+
+    connect(ui->m_hideTipsOfTheDay,&QCheckBox::clicked,this,[=](){
+        m_preferences->registerValue("MainWindow::neverDisplayTips",ui->m_hideTipsOfTheDay->isChecked(),false);
+    });
+
 
     // Misc
     setSizeGripEnabled(true);
@@ -356,7 +360,7 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("MinutesDirectory",ui->m_minuteDir->path());
     m_preferences->registerValue("ChatDirectory",ui->m_chatDir->path());
     m_preferences->registerValue("currentTranslationFile",ui->m_translationFileEdit->path());
-    m_preferences->registerValue("MainWindow_MustBeChecked",ui->m_checkUpdate->isChecked());
+    m_preferences->registerValue("MainWindow::MustBeChecked",ui->m_checkUpdate->isChecked());
     m_preferences->registerValue("defaultPermissionMap",ui->m_defaultMapModeCombo->currentIndex());
     m_preferences->registerValue("CharacterSheetDirectory",ui->m_characterSheetDir->path());
 
@@ -445,7 +449,9 @@ void PreferencesDialog::load()
     ui->m_characterSheetDir->setPath(m_preferences->value("CharacterSheetDirectory",QDir::homePath()).toString());
 
     ui->m_translationFileEdit->setPath(m_preferences->value("currentTranslationFile","").toString());
-    ui->m_checkUpdate->setChecked(m_preferences->value("MainWindow_MustBeChecked",true).toBool());
+    ui->m_checkUpdate->setChecked(m_preferences->value("MainWindow::MustBeChecked",true).toBool());
+
+    ui->m_hideTipsOfTheDay->setChecked(m_preferences->value("MainWindow::neverDisplayTips",false).toBool());
 
     ui->m_heartBeat->setChecked(m_preferences->value("HeartBeatStatus",false).toBool());
     ui->m_hbFrequency->setValue(m_preferences->value("HbFrequency",60).toInt());

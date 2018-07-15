@@ -49,8 +49,7 @@ bool TipChecker::hasArticle()
 void TipChecker::startChecking()
 {
     m_manager = new QNetworkAccessManager(this);
-    connect(m_manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(readJSon(QNetworkReply*)));
-
+    connect(m_manager,&QNetworkAccessManager::finished,this, &TipChecker::readJSon);
     m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/tips.json")));
 }
 
@@ -73,17 +72,17 @@ void TipChecker::readJSon(QNetworkReply* p)
     if(p->error()!=QNetworkReply::NoError)
     {
         m_noErrror = false;
+        emit checkFinished();
         return;
     }
 
     QByteArray a = p->readAll();
     QJsonParseError error;
     QJsonDocument doc(QJsonDocument::fromJson(a,&error));
-
-
     if(error.error != QJsonParseError::NoError)
     {
         m_noErrror = false;
+        emit checkFinished();
         return;
     }
 
@@ -106,10 +105,23 @@ void TipChecker::readJSon(QNetworkReply* p)
         m_title = lang["title"].toString();
         m_msg = lang["msg"].toString();
         m_url = lang["url"].toString();
+        m_id = lang["id"].toInt();
         if(!m_msg.isEmpty() && !m_title.isEmpty())
         {
             m_state = true;
         }
+
     }
+    emit checkFinished();
+}
+
+int TipChecker::getId() const
+{
+    return m_id;
+}
+
+void TipChecker::setId(int value)
+{
+    m_id = value;
 }
 

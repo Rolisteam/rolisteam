@@ -214,6 +214,13 @@
            </widget>
           </item>
           <item>
+           <widget class="QCheckBox" name="m_hideTipsOfTheDay">
+            <property name="text">
+             <string>Don't show &quot;Tips of the day&quot;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QCheckBox" name="m_fullScreenCheckbox">
             <property name="text">
              <string>Full Screen at launch</string>

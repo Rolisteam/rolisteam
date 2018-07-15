@@ -388,26 +388,29 @@ void MainWindow::closeCurrentSubWindow()
 }
 void MainWindow::checkUpdate()
 {
-    if(m_preferences->value("MainWindow_MustBeChecked",true).toBool())
+    if(m_preferences->value(QStringLiteral("MainWindow::MustBeChecked"),true).toBool())
     {
         m_updateChecker = new UpdateChecker(this);
         m_updateChecker->startChecking();
-        connect(m_updateChecker,SIGNAL(checkFinished()),this,SLOT(updateMayBeNeeded()));
+        connect(m_updateChecker,&UpdateChecker::checkFinished,this,&MainWindow::updateMayBeNeeded);
     }
 }
 void MainWindow::tipChecker()
 {
-    if(m_preferences->value("MainWindow_neverDisplayTips",false).toBool())
+    if(!m_preferences->value(QStringLiteral("MainWindow::neverDisplayTips"),false).toBool())
     {
         TipChecker* tipChecker = new TipChecker(this);
         tipChecker->startChecking();
-        connect(tipChecker,&TipChecker::checkFinished,[&](){
-            if(tipChecker->hasArticle())
+        connect(tipChecker,&TipChecker::checkFinished,this,[=](){
+            auto id = m_preferences->value(QStringLiteral("MainWindow::lastTips"),0).toInt();
+            if(tipChecker->hasArticle() && tipChecker->getId()+1 > id)
             {
                 TipOfDayViewer view(tipChecker->getArticleTitle(),tipChecker->getArticleContent(),tipChecker->getUrl(),this);
                 view.exec();
+                m_preferences->registerValue(QStringLiteral("MainWindow::lastTips"),tipChecker->getId());
+                m_preferences->registerValue(QStringLiteral("MainWindow::neverDisplayTips"),view.dontshowAgain());
             }
-            m_updateChecker->deleteLater();
+            tipChecker->deleteLater();
         });
     }
 }
@@ -1291,6 +1294,10 @@ void MainWindow::updateMayBeNeeded()
                                  tr("The %1 version has been released. "
                                     "Please take a look at <a href=\"http://www.rolisteam.org/download\">Download page</a> for more information")
                                  .arg(m_updateChecker->getLatestVersion()));
+    }
+    else
+    {
+        tipChecker();
     }
     m_updateChecker->deleteLater();
 }

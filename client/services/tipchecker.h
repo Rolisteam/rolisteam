@@ -39,6 +39,9 @@ public:
     QString getArticleTitle();
     QString getArticleContent();
     QString getUrl();
+    int getId() const;
+    void setId(int value);
+
 signals:
     void checkFinished();
 
@@ -49,7 +52,7 @@ private:
     QString m_title;
     QString m_msg;
     QString m_url;
-    int id;
+    int m_id;
     bool m_state = false;
     QNetworkAccessManager* m_manager = nullptr;
     bool m_noErrror;
