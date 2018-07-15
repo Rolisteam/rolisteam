@@ -152,7 +152,7 @@ void Character::setHealthPointsCurrent(int hpCurrent)
 {
     if(hpCurrent == m_healthPointsCurrent)
         return;
-    m_healthPointsCurrent = hpCurrent;
+    m_healthPointsCurrent = qBound(m_healthPointsMin, hpCurrent, m_healthPointsMax);
     emit currentHealthPointsChanged();
 }
 

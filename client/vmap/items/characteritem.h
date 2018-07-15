@@ -288,6 +288,8 @@ protected:
      * @return
      */
     virtual bool canBeMoved() const;
+
+    virtual void wheelEvent(QGraphicsSceneWheelEvent *event);
 private slots:
     /**
      * @brief createActions
@@ -317,8 +319,10 @@ private:
 	QString m_title;
 
     //QAction*
-	QAction* m_visionShapeDisk;
-	QAction* m_visionShapeAngle;
+    QAction* m_visionShapeDisk = nullptr;
+    QAction* m_visionShapeAngle = nullptr;
+    QAction* m_reduceLife = nullptr;
+    QAction* m_increaseLife = nullptr;
 
     //sight
     CharacterVision* m_vision;

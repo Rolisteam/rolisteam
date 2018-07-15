@@ -758,6 +758,25 @@ void CharacterItem::createActions()
 	connect(m_visionShapeDisk,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
 
 
+    m_reduceLife = new QAction(tr("Reduce Life"),this);
+    m_increaseLife = new QAction(tr("Increase Life"),this);
+
+
+
+    connect(m_reduceLife,&QAction::triggered,this,[this](){
+        if(nullptr == m_character)
+            return;
+        auto i = m_character->getHealthPointsCurrent();
+        m_character->setHealthPointsCurrent(i);
+    });
+
+    connect(m_increaseLife,&QAction::triggered,this,[this](){
+        if(nullptr == m_character)
+            return;
+        auto i = m_character->getHealthPointsCurrent();
+        m_character->setHealthPointsCurrent(i);
+    });
+
     connect(PlayersList::instance(),SIGNAL(characterDeleted(Character*)),this,SLOT(characterHasBeenDeleted(Character*)));
 }
 void CharacterItem::changeVisionShape()
@@ -926,7 +945,7 @@ void CharacterItem::endOfGeometryChange()
 }
 void CharacterItem::setCharacterIsMovable(bool isMovable)
 {
-    if((m_propertiesHash->value(VisualItem::LocalIsGM).toBool())||
+    if((getOption(VisualItem::LocalIsGM).toBool())||
        (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)||
             (isLocal()&&(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)))
     {
@@ -974,6 +993,23 @@ void CharacterItem::setEditableItem(bool b)
         }
     }
 }
+
+void CharacterItem::wheelEvent(QGraphicsSceneWheelEvent *event)
+{
+    if((nullptr != m_character)&&(event->modifiers() & Qt::AltModifier))
+    {
+            auto hp = m_character->getHealthPointsCurrent();
+            auto delta = event->delta();
+            if(delta>0)
+                ++hp;
+             else
+                --hp;
+            m_character->setHealthPointsCurrent(hp);
+            update();
+    }
+    VisualItem::wheelEvent(event);
+}
+
 bool CharacterItem::isNpc()
 {
     if(nullptr!=m_character)
