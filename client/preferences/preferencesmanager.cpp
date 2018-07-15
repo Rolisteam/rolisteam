@@ -144,5 +144,6 @@ void PreferencesManager::notifyListener(QString str)
     }
 
     auto func = m_lambdaMap[str];
-    func(str);
+    if(nullptr != func)
+        func(str);
 }
