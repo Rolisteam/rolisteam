@@ -246,6 +246,42 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_testPushButton,SIGNAL(clicked()),this,SLOT(testAliasCommand()));
 
 
+    connect(ui->m_importDiceBtn,&QPushButton::clicked,this,[=](){
+        auto filename = QFileDialog::getOpenFileName(this,tr("Import Dice Aliases or States"),m_preferences->value("DataDirectory",QDir::homePath()).toString(),tr("Supported Rule files (*.rr *.json)"));
+        if(filename.isEmpty())
+            return;
+        QFile file(filename);
+        if(file.exists() && file.open(QIODevice::ReadOnly))
+        {
+            QJsonDocument doc=QJsonDocument::fromJson(file.readAll());
+            auto obj = doc.object();
+            m_aliasModel->load(obj);
+            m_stateModel->load(obj);
+        }
+
+    });
+
+    connect(ui->m_exportDiceBtn,&QPushButton::clicked,this,[=](){
+        auto filename = QFileDialog::getSaveFileName(this,tr("Export Dice Aliases or States"),m_preferences->value("DataDirectory",QDir::homePath()).toString(),tr("Supported Rule files (*.rr *.json)"));
+        if(filename.isEmpty())
+            return;
+
+        if(!filename.endsWith(QStringLiteral(".json")) && !filename.endsWith(QStringLiteral(".rr")))
+            filename.append(QStringLiteral(".rr"));
+
+        QJsonObject obj;
+        m_aliasModel->save(obj);
+        m_stateModel->save(obj);
+        QFile file(filename);
+        if(file.open(QIODevice::WriteOnly))
+        {
+            QJsonDocument doc;
+            doc.setObject(obj);
+            file.write(doc.toJson());
+        }
+
+    });
+
     //States
     connect(ui->m_addCharacterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
     connect(ui->m_delCharceterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));

@@ -23,7 +23,9 @@
 
 
 #include "data/character.h"
-#include <QDebug>
+#include <QJsonArray>
+#include <QColor>
+#include <QJsonObject>
 #include <QBuffer>
 
 CharacterStateModel::CharacterStateModel(QObject* parent)
@@ -341,7 +343,7 @@ void CharacterStateModel::sendOffAllCharacterState()
            // buffer.open(QIODevice::WriteOnly);
             if(!state->getPixmap()->save(&buffer,"PNG"))
             {
-                qWarning() << "error during encoding png";
+                qWarning("error during encoding png");
             }
             msg.byteArray32(array);
         }
@@ -361,4 +363,51 @@ void CharacterStateModel::moveState(int from,int to)
         msg.int64(to);
         msg.sendToServer();
     }
+}
+void CharacterStateModel::load(const QJsonObject &obj)
+{
+    QJsonArray states = obj["states"].toArray();
+
+    for(auto stateRef : states)
+    {
+        auto state = stateRef.toObject();
+        auto da = new CharacterState();
+        da->setLabel(state["label"].toString());
+        da->setIsLocal(state["local"].toBool());
+        auto base64 = state["image"].toString();
+        if(!base64.isEmpty())
+        {
+            QByteArray array = QByteArray::fromBase64(base64.toUtf8());
+            QPixmap pix;
+            pix.loadFromData(array);
+            da->setImage(pix);
+        }
+        QColor col;
+        col.setNamedColor(state["color"].toString());
+        da->setColor(col);
+        addState(da);
+    }
+}
+
+void CharacterStateModel::save(QJsonObject &obj)
+{
+    QJsonArray states;
+    for(auto state : *m_stateList)
+    {
+        QJsonObject stateObj;
+        stateObj["label"]=state->getLabel();
+        stateObj["color"]=state->getColor().name();
+        QPixmap pix = state->getImage();
+        if(!pix.isNull())
+        {
+            QByteArray bytes;
+            QBuffer buffer(&bytes);
+            buffer.open(QIODevice::WriteOnly);
+            pix.save(&buffer, "PNG");
+            stateObj["image"]=QString(buffer.data().toBase64());
+        }
+        stateObj["local"]=state->isLocal();
+        states.append(stateObj);
+    }
+    obj["states"]=states;
 }

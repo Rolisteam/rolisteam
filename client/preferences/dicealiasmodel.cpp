@@ -21,7 +21,8 @@
 #include "network/networkmessagewriter.h"
 #include "preferences/preferencesmanager.h"
 
-#include <QDebug>
+#include <QJsonArray>
+#include <QJsonObject>
 
 DiceAliasModel::DiceAliasModel(QObject* parent)
     : QAbstractListModel(parent),m_diceAliasList(new QList<DiceAlias*>()),m_isGM(false)
@@ -281,6 +282,35 @@ void DiceAliasModel::sendOffAllDiceAlias()
         msg.string32(alias->getComment());
         msg.sendToServer();
     }
+}
+
+void DiceAliasModel::load(const QJsonObject &obj)
+{
+    QJsonArray aliases = obj["aliases"].toArray();
+
+    for(auto aliasRef : aliases)
+    {
+        auto alias = aliasRef.toObject();
+        auto da = new DiceAlias(alias["command"].toString(),alias["value"].toString(),alias["replace"].toBool(),alias["enable"].toBool());
+        da->setComment(alias["comment"].toString());
+        addAlias(da);
+    }
+}
+
+void DiceAliasModel::save(QJsonObject &obj)
+{
+    QJsonArray dices;
+    for(auto dice : *m_diceAliasList)
+    {
+        QJsonObject diceObj;
+        diceObj["command"]=dice->getCommand();
+        diceObj["value"]=dice->getValue();
+        diceObj["replace"]=dice->isReplace();
+        diceObj["enable"]=dice->isEnable();
+        diceObj["comment"]=dice->getComment();
+        dices.append(diceObj);
+    }
+    obj["aliases"]=dices;
 }
 void DiceAliasModel::moveAlias(int from,int to)
 {

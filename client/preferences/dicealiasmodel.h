@@ -111,6 +111,9 @@ public:
 
     void setModified(bool);
 
+    void load(const QJsonObject& obj);
+    void save(QJsonObject& obj);
+
 private:
     QList<DiceAlias*>* m_diceAliasList;
     bool m_isGM;

@@ -115,6 +115,8 @@ public:
     void processAddState(NetworkMessageReader *msg);
     void processMoveState(NetworkMessageReader *msg);
     void processRemoveState(NetworkMessageReader *msg);
+    void load(const QJsonObject &obj);
+    void save(QJsonObject &obj);
 private:
     QList<CharacterState*>* m_stateList;
     QList<CharacterState*>* m_stateListFromGM;

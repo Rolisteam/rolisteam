@@ -282,7 +282,7 @@ private:
     RolisteamTheme* getCurrentRemovableTheme(bool selectNew= true);
 
 private:
-    PreferencesManager* m_preferences;
+    PreferencesManager* m_preferences = nullptr;
     Ui::PreferencesDialogBox* ui;
 	DiceParser* m_diceParser;
 	DiceAliasModel* m_aliasModel;
