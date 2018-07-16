@@ -142,5 +142,5 @@ void SessionView::onAddChapter()
 }
 QModelIndexList SessionView::getSelection()
 {
-    return selectionModel()->selectedIndexes();
+    return selectionModel()->selectedRows();
 }
