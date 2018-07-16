@@ -17,8 +17,8 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-#ifndef UPDATERWINDOW_H
-#define UPDATERWINDOW_H
+#ifndef TIPOFDAYVIEWER_H
+#define TIPOFDAYVIEWER_H
 
 #include <QWidget>
 #include <QProgressBar>
@@ -28,7 +28,7 @@
 #include "ui_tipofdayviewer.h"
 
 namespace Ui {
-class tipofdayviewer;
+class TipOfDayViewer;
 }
 
 class TipOfDayViewer : public QDialog
@@ -42,8 +42,8 @@ public:
     void setDontshowAgain(bool dontshowAgain);
 
 private:
-    Ui::tipofdayviewer* m_ui;
+    Ui::TipOfDayViewer* m_ui;
     bool m_dontshowAgain;
 };
 
-#endif // UPDATERWINDOW_H
+#endif // TIPOFDAYVIEWER_H

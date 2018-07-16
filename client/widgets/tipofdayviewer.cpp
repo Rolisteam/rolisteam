@@ -18,12 +18,13 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "tipofdayviewer.h"
+#include "ui_tipofdayviewer.h"
 #include <QFile>
 #include <QMessageBox>
 #include <QDesktopServices>
 
 TipOfDayViewer::TipOfDayViewer(QString title, QString msg, QString url,QWidget *parent)
-    : QDialog(parent)
+    : QDialog(parent), m_ui(new Ui::TipOfDayViewer)
 {
     m_ui->setupUi(this);
     setWindowTitle(tr("%1 - Tip Of The Day").arg(title));

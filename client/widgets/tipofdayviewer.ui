@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>tipofdayviewer</class>
- <widget class="QDialog" name="tipofdayviewer">
+ <class>TipOfDayViewer</class>
+ <widget class="QDialog" name="TipOfDayViewer">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -65,7 +65,7 @@
   <connection>
    <sender>m_buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>tipofdayviewer</receiver>
+   <receiver>TipOfDayViewer</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -81,7 +81,7 @@
   <connection>
    <sender>m_buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>tipofdayviewer</receiver>
+   <receiver>TipOfDayViewer</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
