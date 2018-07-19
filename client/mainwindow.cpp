@@ -2235,7 +2235,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
     case NetMsg::addVmap:
     case NetMsg::DelPoint:
         break;
-    case NetMsg::addItem:
+    case NetMsg::AddItem:
     case NetMsg::DelItem:
     case NetMsg::MoveItem:
     case NetMsg::GeometryItemChanged:
@@ -2247,7 +2247,8 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
     case NetMsg::SetParentItem:
     case NetMsg::RectGeometryItem:
     case NetMsg::RotationItem:
-    case NetMsg::characterStateChanged:
+    case NetMsg::CharacterStateChanged:
+    case NetMsg::CharacterChanged:
     case NetMsg::VisionChanged:
     case NetMsg::ColorChanged:
     case NetMsg::ZValueItem:

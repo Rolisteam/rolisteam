@@ -50,12 +50,13 @@ CharacterItem::CharacterItem()
 }
 
 CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
-    : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(nullptr),m_protectGeometryChange(false),m_visionChanged(false)
+    : VisualItem(),m_center(pos),m_diameter(diameter),m_thumnails(nullptr),m_protectGeometryChange(false),m_visionChanged(false)
 {
+    setCharacter(m);
 	setPos(m_center-QPoint(diameter/2,diameter/2));
 	sizeChanged(diameter);
     connect(m_character,&Character::avatarChanged,this,&CharacterItem::generatedThumbnail);
-     createActions();
+    createActions();
 }
 
 void CharacterItem::writeData(QDataStream& out) const
@@ -95,12 +96,12 @@ void CharacterItem::readData(QDataStream& in)
     m_layer = (VisualItem::Layer)tmp;
     bool hasCharacter;
     in >> hasCharacter;
-    m_character = new Character();
+    auto charact = new Character();
     if(hasCharacter)
     {
-        m_character->readData(in);
+        charact->readData(in);
     }
-
+    setCharacter(charact);
 }
 VisualItem::ItemType CharacterItem::getType() const
 {
@@ -428,17 +429,17 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
 
     if(nullptr!=tmp)
     {
-        m_character = tmp;
-        m_character->read(*msg);
-        generatedThumbnail();
+        tmp->read(*msg);
     }
     else
     {
     /// @todo This code may no longer be needed.
-        m_character = new Character();
-        QString id = m_character->read(*msg);
-        m_character->setParentPerson(PlayersList::instance()->getPlayer(id));
+        tmp = new Character();
+        QString id = tmp->read(*msg);
+        tmp->setParentPerson(PlayersList::instance()->getPlayer(id));
     }
+    setCharacter(tmp);
+    generatedThumbnail();
 
     if(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)
     {
@@ -732,13 +733,12 @@ void CharacterItem::changeCharacter()
 	QAction* act = qobject_cast<QAction*>(sender());
 	QString uuid = act->data().toString();
 
-
 	Character* tmp = PlayersList::instance()->getCharacter(uuid);
 
     Character* old = m_character;
 	if(nullptr!=tmp)
 	{
-		m_character = tmp;
+        setCharacter(tmp);
         generatedThumbnail();
         emit ownerChanged(old,this);
         emit itemGeometryChanged(this);
@@ -810,7 +810,7 @@ void CharacterItem::characterStateChange()
 	CharacterState* state = Character::getCharacterStateList()->at(index);
     m_character->setState(state);
 
-    NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::VMapCategory,NetMsg::characterStateChanged);
+    NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::VMapCategory,NetMsg::CharacterStateChanged);
     msg->string8(getMapId());
     msg->string8(m_id);
     msg->string8(m_character->getUuid());
@@ -818,6 +818,20 @@ void CharacterItem::characterStateChange()
     msg->sendToServer();
 
 }
+
+void CharacterItem::updateCharacter()
+{
+    if(nullptr == m_character)
+        return;
+
+    NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::VMapCategory,NetMsg::CharacterChanged);
+    msg->string8(getMapId());
+    msg->string8(m_id);
+    msg->string8(m_character->getUuid());
+    m_character->fill(*msg,true);
+    msg->sendToServer();
+}
+
 VisualItem* CharacterItem::getItemCopy()
 {
 	CharacterItem* charactItem = new CharacterItem(m_character,pos(),m_diameter);
@@ -856,6 +870,15 @@ void CharacterItem::readCharacterStateChanged(NetworkMessageReader& msg)
             }
         }
     }
+}
+
+void CharacterItem::readCharacterChanged(NetworkMessageReader& msg)
+{
+    if(nullptr == m_character)
+        return;
+
+    m_character->read(msg);
+    update();
 }
 
 void CharacterItem::characterHasBeenDeleted(Character* pc)
@@ -977,6 +1000,23 @@ void CharacterItem::setCharacterIsMovable(bool isMovable)
     }
 
 }
+
+void CharacterItem::setCharacter(Character* character)
+{
+    if(character == m_character)
+        return;
+
+    if(nullptr != m_character)
+    {
+        disconnect(m_character,0,this,0);
+    }
+    m_character = character;
+    if(m_character)
+    {
+        connect(m_character,&Character::currentHealthPointsChanged,this,&CharacterItem::updateCharacter);
+    }
+
+}
 void CharacterItem::setEditableItem(bool b)
 {
     VisualItem::setEditableItem(b);
@@ -1005,9 +1045,11 @@ void CharacterItem::wheelEvent(QGraphicsSceneWheelEvent *event)
              else
                 --hp;
             m_character->setHealthPointsCurrent(hp);
+            event->accept();
             update();
     }
-    VisualItem::wheelEvent(event);
+    else
+        VisualItem::wheelEvent(event);
 }
 
 bool CharacterItem::isNpc()

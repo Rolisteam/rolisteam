@@ -232,6 +232,9 @@ public:
      * @param b
      */
     void setEditableItem(bool b);
+    void updateCharacter();
+    void readCharacterChanged(NetworkMessageReader &msg);
+    void setCharacter(Character *character);
 signals:
     /**
      * @brief positionChanged
@@ -311,7 +314,7 @@ private:
     QString getSubTitle() const;
 
 private:
-    Character* m_character;
+    Character* m_character = nullptr;
     QPointF m_center;
     int m_diameter;
     QPixmap* m_thumnails;

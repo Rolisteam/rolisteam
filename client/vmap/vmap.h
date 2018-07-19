@@ -292,6 +292,11 @@ public:
      */
     void processCharacterStateHasChanged(NetworkMessageReader &msg);
     /**
+     * @brief processCharacterHasChanged
+     * @param msg
+     */
+    void processCharacterHasChanged(NetworkMessageReader &msg);
+    /**
      * @brief processVisionMsg
      * @param msg
      */

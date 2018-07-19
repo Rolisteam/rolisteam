@@ -270,6 +270,22 @@ void VMap::processCharacterStateHasChanged(NetworkMessageReader& msg)
                 characterItem->readCharacterStateChanged(msg);
             }
         }
+    }
+}
+
+void VMap::processCharacterHasChanged(NetworkMessageReader& msg)
+{
+    QString idItem = msg.string8();
+    VisualItem* item = m_itemMap->value(idItem);
+    if(item->getType() == VisualItem::CHARACTER)
+    {
+        auto character = dynamic_cast<CharacterItem*>(item);
+        if(character == nullptr)
+            return;
+
+        QString idCharacter = msg.string8();
+        if(idCharacter == character->getCharacterId())
+            character->readCharacterChanged(msg);
 
     }
 }

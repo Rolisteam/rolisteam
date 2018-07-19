@@ -276,7 +276,7 @@ NetWorkReceiver::SendType VMapFrame::processMessage(NetworkMessageReader* msg)
     {
         case NetMsg::DelPoint:
             break;
-        case NetMsg::addItem:
+        case NetMsg::AddItem:
         {
             m_vmap->processAddItemMessage(msg);
             type = NetWorkReceiver::AllExceptSender;
@@ -326,10 +326,14 @@ NetWorkReceiver::SendType VMapFrame::processMessage(NetworkMessageReader* msg)
             type = NetWorkReceiver::AllExceptSender;
         }
             break;
-        case NetMsg::characterStateChanged:
+        case NetMsg::CharacterStateChanged:
             m_vmap->processCharacterStateHasChanged(*msg);
             type = NetWorkReceiver::AllExceptSender;
             break;
+        case NetMsg::CharacterChanged:
+            m_vmap->processCharacterHasChanged(*msg);
+            type = NetWorkReceiver::AllExceptSender;
+        break;
         case NetMsg::SetParentItem:
         {
             m_vmap->processSetParentItem(msg);

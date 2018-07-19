@@ -241,20 +241,18 @@ CharacterState* Character::getStateFromLabel(QString label)
 
 void Character::fill(NetworkMessageWriter & message,bool addAvatar)
 {
-    if(nullptr!=m_parent)
-    {
-        message.string8(m_parent->getUuid());
-    }
-    else
-    {
-        message.string8("nullptr");
-    }
+    message.string8(nullptr != m_parent ? m_parent->getUuid() : QStringLiteral("nullptr"));
     message.string8(m_uuid);
     message.string16(m_name);
     message.int8(static_cast<qint8>(indexOf(m_currentState)));
     message.uint8(static_cast<quint8>(m_isNpc));
     message.int32(m_number);
     message.rgb(m_color.rgb());
+    message.int32(m_healthPointsCurrent);
+    message.int32(m_healthPointsMin);
+    message.int32(m_healthPointsMax);
+    message.int32(m_initiativeScore);
+    message.real(m_distancePerTurn);
 
     if(addAvatar)
     {
@@ -290,6 +288,11 @@ QString Character::read(NetworkMessageReader& msg)
     m_isNpc = static_cast<bool>(msg.uint8());
     m_number = msg.int32();
     m_color = QColor(msg.rgb());
+    m_healthPointsCurrent = msg.int32();
+    m_healthPointsMin = msg.int32();
+    m_healthPointsMax = msg.int32();
+    m_initiativeScore = msg.int32();
+    m_distancePerTurn = msg.real();
 
     bool hasAvatar = static_cast<bool>(msg.uint8());
 

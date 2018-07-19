@@ -273,7 +273,7 @@ void AddVmapItemCommand::redo()
         m_vmap->QGraphicsScene::addItem(m_currentItem);
     }
 
-    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
+    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::AddItem);
     msg.string8(m_vmap->getId());
     msg.uint8(m_currentItem->getType());
     m_currentItem->fillMessage(&msg);
