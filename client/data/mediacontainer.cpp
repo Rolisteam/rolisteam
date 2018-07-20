@@ -40,10 +40,7 @@ MediaContainer::MediaContainer(bool localIsGM,QWidget* parent)
 }
 MediaContainer::~MediaContainer()
 {
-    if(nullptr != m_uri)
-    {
-        delete m_uri;
-    }
+
 }
 
 void MediaContainer::setLocalPlayerId(QString id)

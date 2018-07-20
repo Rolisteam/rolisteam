@@ -24,13 +24,14 @@
 #include "improvedworkspace.h"
 
 
-DeleteMediaContainerCommand::DeleteMediaContainerCommand(MediaContainer* media, SessionManager* manager,QMenu* menu, MainWindow* main,ImprovedWorkspace* workspace,bool isGM, QUndoCommand* parent)
+DeleteMediaContainerCommand::DeleteMediaContainerCommand(MediaContainer* media, SessionManager* manager,QMenu* menu, MainWindow* main,ImprovedWorkspace* workspace,bool isGM,QHash<QString,MediaContainer*>& hash, QUndoCommand* parent)
     : QUndoCommand (parent),
       m_media(media),
       m_manager(manager),
       m_menu(menu),
       m_main(main),
       m_mdiArea(workspace),
+      m_hash(hash),
       m_gm(isGM)
 {
     setText(QObject::tr("Close %1").arg(m_media->getTitle()));
@@ -47,9 +48,14 @@ void DeleteMediaContainerCommand::redo()
 {
     if(nullptr != m_media)
     {
-        m_menu->removeAction(m_media->getAction());
-        m_mdiArea->removeSubWindow(m_media);
+        auto act = m_media->getAction();
+        if(act)
+        {
+            act->setVisible(false);
+        }
+        m_mdiArea->removeMediaContainer(m_media);
         m_manager->resourceClosed(m_media->getCleverUri());
+        m_hash.remove(m_media->getMediaId());
         if(m_gm)
         {
             NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::closeMedia);
@@ -76,11 +82,13 @@ void DeleteMediaContainerCommand::undo()
             action = m_menu->addAction(m_media->getTitle());
             action->setCheckable(true);
             action->setChecked(true);
+            m_media->setAction(action);
         }
-        m_media->setAction(action);
+        action->setVisible(true);
         m_mdiArea->addContainerMedia(m_media);
         m_media->setVisible(true);
         m_media->setFocus();
+        m_hash.insert(m_media->getMediaId(), m_media);
         if(sendAtOpening())
         {
             NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);

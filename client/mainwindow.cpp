@@ -362,15 +362,17 @@ void MainWindow::closeMediaContainer(QString id)
         MediaContainer* mediaCon = m_mediaHash.value(id);
         if(nullptr!=mediaCon)
         {
-            DeleteMediaContainerCommand* cmd = new DeleteMediaContainerCommand(mediaCon,m_sessionManager,m_ui->m_editMenu,this,m_mdiArea,m_currentConnectionProfile->isGM());
+            auto type = mediaCon->getContentType();
+
+            DeleteMediaContainerCommand* cmd = new DeleteMediaContainerCommand(mediaCon,m_sessionManager,m_ui->m_editMenu,this,m_mdiArea,m_currentConnectionProfile->isGM(),m_mediaHash);
             m_undoStack.push(cmd);
 
-            m_mediaHash.remove(id);
-            if(CleverURI::VMAP == mediaCon->getContentType())
+            //m_mediaHash.remove(id);
+            if(CleverURI::VMAP == type)
             {
                 m_vmapToolBar->setCurrentMap(nullptr);
             }
-            else if(CleverURI::MAP == mediaCon->getContentType())
+            else if(CleverURI::MAP == type)
             {
                 m_playersListWidget->model()->changeMap(nullptr);
             }
@@ -2400,11 +2402,13 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
     {
         return;
     }
-    if((uri->isDisplayed())&&(!force))
+    if((uri->getState() == CleverURI::Hidden)&&(!force))
     {
         if(m_mdiArea->showCleverUri(uri))
             return;
     }
+    else if(uri->getState() == CleverURI::DISPLAYED)
+        return;
 
     auto localIsGM = false;
     if(m_currentConnectionProfile != nullptr)

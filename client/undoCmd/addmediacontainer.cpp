@@ -58,6 +58,7 @@ void AddMediaContainer::redo()
             action->setCheckable(true);
             action->setChecked(true);
         }
+        action->setVisible(true);
         m_media->setAction(action);
         m_mdiArea->addContainerMedia(m_media);
         m_media->setVisible(true);
@@ -78,7 +79,9 @@ void AddMediaContainer::undo()
     //remove from workspace, action in menu and from resources manager.
     if(nullptr != m_media)
     {
-        m_menu->removeAction(m_media->getAction());
+        auto act = m_media->getAction();
+        if(act)
+            act->setVisible(false);
         m_manager->removeResource(m_media->getCleverUri());
         m_mdiArea->removeSubWindow(m_media);
         if(m_gm)

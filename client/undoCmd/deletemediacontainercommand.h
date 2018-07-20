@@ -35,6 +35,7 @@ public:
                                 MainWindow* main,
                                 ImprovedWorkspace* workspace,
                                 bool isGM,
+                                QHash<QString,MediaContainer*>& hash,
                                 QUndoCommand* parent = nullptr);
 
     ~DeleteMediaContainerCommand();
@@ -49,6 +50,7 @@ private:
     QMenu* m_menu = nullptr;
     MainWindow* m_main = nullptr;
     ImprovedWorkspace* m_mdiArea = nullptr;
+    QHash<QString,MediaContainer*>& m_hash;
     bool m_gm;
 };
 

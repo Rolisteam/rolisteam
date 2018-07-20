@@ -39,6 +39,7 @@ public:
     * @brief default construtor
     */
     SessionItemModel();
+    virtual ~SessionItemModel();
     /**
     * @brief pure virtual method to create index according the given position and parent
     * @param row : row of the index (define position of the index into the parent's children list)

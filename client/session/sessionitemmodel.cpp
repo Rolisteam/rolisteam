@@ -40,6 +40,12 @@ SessionItemModel::SessionItemModel()
 
     connect(m_rootItem,&Chapter::openResource,this,&SessionItemModel::openResource);
 }
+
+SessionItemModel::~SessionItemModel()
+{
+    if(m_rootItem != nullptr)
+        delete m_rootItem;
+}
 QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & parent ) const
 {
     if(row<0)
