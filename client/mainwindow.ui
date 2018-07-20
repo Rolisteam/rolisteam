@@ -592,7 +592,7 @@
   </action>
   <action name="m_shortCutEditorAct">
    <property name="text">
-    <string>Shortcut Editor</string>
+    <string>Shortcut Viewer</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+F1</string>
