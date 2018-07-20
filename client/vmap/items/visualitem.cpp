@@ -37,8 +37,8 @@ QColor VisualItem::m_highlightColor = QColor(Qt::red);
 int VisualItem::m_highlightWidth = 6;
 
 
-QStringList VisualItem::type2NameList =  QStringList() << tr("Path")<< tr("Line")<< tr("Ellipse")<< tr("Character")<< tr("Text")<< tr("Rect")<< tr("Rule")<< tr("Image");
-QStringList VisualItem::s_layerName = QStringList() << tr("Ground")<< tr("Object")<< tr("Character");
+QStringList VisualItem::s_type2NameList =  QStringList() << QObject::tr("Path")<< QObject::tr("Line")<< QObject::tr("Ellipse")<< QObject::tr("Character")<< QObject::tr("Text")<< QObject::tr("Rect")<< QObject::tr("Rule")<< QObject::tr("Image");
+QStringList VisualItem::s_layerName = QStringList() << QObject::tr("Ground")<< QObject::tr("Object")<< QObject::tr("Character");
 
 VisualItem::VisualItem()
     : QGraphicsObject(),m_editable(false),m_child(nullptr),m_penWidth(1)
@@ -329,7 +329,7 @@ void VisualItem::addPromoteItemMenu(QMenu* menu)
 {
     for(ItemType type: m_promoteTypeList)
     {
-        QAction* action = menu->addAction(type2NameList[type]);
+        QAction* action = menu->addAction(s_type2NameList[type]);
         action->setData(type);
         connect(action,SIGNAL(triggered()),this,SLOT(promoteItem()));
     }

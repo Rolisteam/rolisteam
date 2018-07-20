@@ -85,7 +85,7 @@ static inline QString FileFilterHaving()
     return filter;
 }
 
-QString TextEdit::m_filter = QString("%1 %2 %3 %4").arg(tr("OpenOffice 2.4 file format OASIS ")).arg(tr(" (*.odt *.ott);;")).arg(tr("XHTML file format")).arg(tr(" (*.htm *.html);;"));
+QString TextEdit::m_filter = QString("%1 %2 %3 %4").arg(QObject::tr("OpenOffice 2.4 file format OASIS ")).arg(QObject::tr(" (*.odt *.ott);;")).arg(QObject::tr("XHTML file format")).arg(QObject::tr(" (*.htm *.html);;"));
 
 
 #ifdef Q_WS_MAC

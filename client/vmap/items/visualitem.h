@@ -428,7 +428,7 @@ private slots:
 	 */
     void promoteItem();
 private:
-    static QStringList type2NameList;
+    static QStringList s_type2NameList;
 	static QStringList s_layerName;
 };
 
