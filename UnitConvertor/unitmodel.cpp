@@ -4,11 +4,11 @@
 
 namespace GMTOOL
 {
-QHash<Unit::Category,QString> UnitModel::m_cat2Text({{Unit::CURRENCY,tr("Currency")},
-                                                     {Unit::DISTANCE,tr("Distance")},
-                                                     {Unit::TEMPERATURE,tr("Temperature")},
-                                                    {Unit::MASS,tr("MASS")},
-                                                    {Unit::MASS,tr("OTHER")}});
+QHash<Unit::Category,QString> UnitModel::m_cat2Text({{Unit::CURRENCY,QObject::tr("Currency")},
+                                                     {Unit::DISTANCE,QObject::tr("Distance")},
+                                                     {Unit::TEMPERATURE,QObject::tr("Temperature")},
+                                                    {Unit::MASS,QObject::tr("MASS")},
+                                                    {Unit::MASS,QObject::tr("OTHER")}});
 
                                                      //{Unit::VOLUME,tr("Volume")},
 
