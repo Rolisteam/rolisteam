@@ -117,7 +117,9 @@ QString MessageDispatcher::cat2String(NetworkMessageHeader* head)
     case NetMsg::SharedNoteCategory:
         str = QStringLiteral("SharedNoteCategory");
         break;
-
+    case NetMsg::WebPageCategory:
+        str = QStringLiteral("WebPageCategory");
+        break;
     }
     return str;
 }
