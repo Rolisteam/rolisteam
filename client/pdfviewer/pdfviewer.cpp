@@ -181,6 +181,13 @@ void PdfViewer::sharePdfTo()
     }
 }
 
+void PdfViewer::updateTitle()
+{
+    if(nullptr == m_uri)
+        return;
+    setWindowTitle(tr("%1 - (PDF)").arg(m_uri->name()));
+}
+
 void PdfViewer::showOverLay()
 {
     if(m_cropCurrentView->isChecked())
@@ -225,15 +232,15 @@ void PdfViewer::fill(NetworkMessageWriter & message)
         }
     }
 
-    message.string16(m_title);
+    message.string16(getUriName());
     message.string8(m_mediaId);
     message.byteArray32(baPdfViewer);
 }
 
 void PdfViewer::readMessage(NetworkMessageReader &msg)
 {
-    m_title = msg.string16();
-    setTitle(m_title);
+    setUriName(msg.string16());
+
     m_mediaId = msg.string8();
     QByteArray data = msg.byteArray32();
     //QTemporaryFile file;
@@ -303,8 +310,7 @@ bool PdfViewer::readFileFromUri()
 
     if(m_pdfWidget->loadFile(m_uri->getUri()))
     {
-        setTitle(tr("%1 (PDF)").arg(m_uri->name()));
-
+        updateTitle();
         return true;
     }
     return false;

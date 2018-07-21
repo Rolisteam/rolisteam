@@ -27,20 +27,11 @@ SharedNoteContainer::SharedNoteContainer(bool localIsGM,QWidget* parent)
 #ifdef Q_OS_MAC
     m_edit->menuBar()->setNativeMenuBar(false);
 #endif
-    if(nullptr!=m_edit)
-    {
-        connect(m_edit, &SharedNote::windowTitleChanged,this, [=](){
-            m_title = m_edit->windowTitle();
-            setFileName(m_edit->fileName());
-        });
-        m_title = m_edit->windowTitle();
-    }
-
     setCleverUriType(CleverURI::SHAREDNOTE);
     setWidget(m_edit);
     setWindowIcon(QIcon(":/resources/icons/sharedEditor.png"));
-   // m_edit->displaySharingPanel();
-    //connect(m_edit,SIGNAL(windowTitleChanged(QString)),this,SLOT(setFileName(QString)));
+    m_edit->setFileName(getUriName());
+
 }
 void SharedNoteContainer::readMessage(NetworkMessageReader& msg)
 {
@@ -75,41 +66,31 @@ void SharedNoteContainer::updateNoteToAll()
     msg.sendToServer();
 }
 
-void SharedNoteContainer::setFileName(QString str)
-{
-    if(nullptr!=m_uri)
-    {
-        m_uri->setUri(str);
-        m_edit->setFileName(str);
-    }
-}
-
-
 bool SharedNoteContainer::readFileFromUri()
 {
     if((nullptr==m_uri)||(nullptr==m_edit))
-    {
         return false;
-    }
+
+    bool val = false;
     if(!m_uri->exists())
     {
         QByteArray array =m_uri->getData();
         QDataStream in(&array,QIODevice::ReadOnly);
         readFromFile(in);
-        return true;
+        val = true;
     }
     else
     {
         QString uri = m_uri->getUri();
         QFile file(uri);
-        if(!file.open(QIODevice::ReadOnly))
+        if(file.open(QIODevice::ReadOnly))
         {
-            return false;
+            QTextStream in(&file);
+            val = m_edit->loadFileAsText(in);
         }
-        QTextStream in(&file);
-        return m_edit->loadFileAsText(in);
     }
-    return false;
+    updateTitle();
+    return val;
 }
 
 void SharedNoteContainer::saveMedia()
@@ -137,7 +118,7 @@ void SharedNoteContainer::saveMedia()
                 QString str = m_uri->getUri()+".rsn";
                 m_uri->setUri(str);
             }
-            m_edit->setFileName(m_uri->name());
+            updateTitle();
 
             QFile file(m_uri->getUri());
             if (!file.open(QIODevice::WriteOnly))
@@ -150,6 +131,15 @@ void SharedNoteContainer::saveMedia()
         }
     }
 }
+
+void SharedNoteContainer::updateTitle()
+{
+    if(nullptr == m_edit)
+        return;
+
+    m_edit->setFileName(getUriName());// update the title too
+}
+
 void SharedNoteContainer::putDataIntoCleverUri()
 {
     if(nullptr!=m_edit)
@@ -168,7 +158,6 @@ void SharedNoteContainer::readFromFile(QDataStream& data)
     if(nullptr!=m_edit)
     {
         m_edit->loadFile(data);
-        m_title = m_edit->windowTitle();
     }
 }
 
@@ -179,4 +168,3 @@ void SharedNoteContainer::saveInto(QDataStream &out)
         m_edit->saveFile(out);
     }
 }
-

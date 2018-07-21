@@ -22,8 +22,6 @@ public:
     virtual void saveMedia();
     virtual void putDataIntoCleverUri();
 
-    virtual void cleverURIHasChanged(CleverURI*,CleverURI::DataValue);
-
     void fill(NetworkMessageWriter &message);
     void readMessage(NetworkMessageReader& msg);
 protected:

@@ -26,10 +26,6 @@ NoteContainer::NoteContainer(bool localIsGM,QWidget* parent)
 #ifdef Q_OS_MAC
     m_edit->menuBar()->setNativeMenuBar(false);
 #endif
-    if(nullptr!=m_edit)
-    {
-        m_title = m_edit->getShowName();
-    }
     setCleverUriType(CleverURI::TEXT);
     setWidget(m_edit);
     setWindowIcon(QIcon(":/notes.png"));
@@ -44,24 +40,33 @@ void NoteContainer::setFileName(QString str)
     }
 }
 
+void NoteContainer::updateTitle()
+{
+    if(nullptr == m_uri)
+        return;
+    setWindowTitle(tr("%1[*] - (Notes)").arg(m_uri->name()));
+}
+
 bool NoteContainer::readFileFromUri()
 {
     if((nullptr==m_uri)||(nullptr==m_edit))
     {
         return false;
     }
+    bool val = false;
     if(!m_uri->exists())
     {
         QByteArray array =m_uri->getData();
         QDataStream in(&array,QIODevice::ReadOnly);
         readFromFile(in);
-        return true;
+        val = true;
     }
     else
     {
-        return m_edit->load(m_uri->getUri());
+        val = m_edit->load(m_uri->getUri());
     }
-    return false;
+    updateTitle();
+    return val;
 }
 
 void NoteContainer::saveMedia()
@@ -99,7 +104,6 @@ void NoteContainer::readFromFile(QDataStream& data)
     if(nullptr!=m_edit)
     {
         m_edit->readFromBinary(data);
-        m_title = m_edit->windowTitle();
     }
 }
 

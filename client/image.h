@@ -96,6 +96,9 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void contextMenuEvent ( QContextMenuEvent * event );
     void paintEvent ( QPaintEvent * event );
+
+protected slots:
+    virtual void updateTitle();
 private slots:
     /**
     * @brief generic function to set the zoom level and refresh the picture

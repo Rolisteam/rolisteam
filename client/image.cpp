@@ -101,7 +101,7 @@ void Image::fill(NetworkMessageWriter & message)
     {
     }
     //message.reset();
-    message.string16(m_title);
+    message.string16(getUriName());
     message.string8(m_mediaId);
     message.string8(m_idPlayer);
     message.byteArray32(baImage);
@@ -109,8 +109,8 @@ void Image::fill(NetworkMessageWriter & message)
 
 void Image::readMessage(NetworkMessageReader &msg)
 {
-    m_title = msg.string16();
-    setTitle(m_title);
+    setUriName(msg.string16());
+
     m_mediaId = msg.string8();
     m_idPlayer = msg.string8();
     QByteArray data = msg.byteArray32();
@@ -137,7 +137,6 @@ void Image::saveImageToFile(QDataStream &out)
 
 void Image::mousePressEvent(QMouseEvent *event)
 {
-
     if (event->button() == Qt::LeftButton && m_currentTool == ToolsBar::Handler)
     {
         m_allowedMove = true;
@@ -290,6 +289,13 @@ void Image::paintEvent ( QPaintEvent * event )
         m_NormalSize = m_imageLabel->size() / m_zoomLevel;
         m_windowSize = size();
     }
+}
+
+void Image::updateTitle()
+{
+    if(nullptr == m_uri)
+        return;
+    setWindowTitle(tr("%1 - (Picture)").arg(m_uri->name()));
 }
 void Image::setZoomLevel(double zoomlevel)
 {
@@ -516,12 +522,16 @@ bool Image::readFileFromUri()
     {
         initImage();
     }
-    setTitle(m_uri->name()+tr(" (Picture)"));
+    updateTitle();
     return true;
 }
 bool Image::openMedia()
 {
+    if(nullptr == m_uri)
+        return false;
+
     QString filepath;
+    bool val = false;
     if(CleverURI::ONLINEPICTURE == m_uri->getType())
     {
         OnlinePictureDialog dialog;
@@ -530,17 +540,15 @@ bool Image::openMedia()
             filepath = dialog.getPath();
             m_pixMap = dialog.getPixmap();
 
-
             if(!filepath.isEmpty())
             {
                 m_uri->setUri(filepath);
-                setTitle(dialog.getTitle()+tr(" (Picture)"));
                 m_uri->setName(dialog.getTitle());
-                return true;
+                val = true;
             }
         }
     }
-    return false;
+    return val;
 }
 void Image::saveMedia()
 {

@@ -42,6 +42,8 @@ public:
     virtual void setTitle(QString str);
 public slots:
     void setFileName(QString);
+protected slots:
+    void updateTitle();
 private:
     TextEdit* m_edit;
 };

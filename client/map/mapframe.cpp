@@ -74,30 +74,25 @@ void MapFrame::initMap()
                 this, SLOT(startMoving(QPoint)));
         connect(m_map, SIGNAL(moveBipMapWindow(QPoint)),
                 this, SLOT(moveMap(QPoint)));
-        connect(m_map,SIGNAL(permissionModeChanged()),this,SLOT(updateTitle()));
+        connect(m_map,&Map::permissionModeChanged,this,&MapFrame::updateTitle);
 	}
 }
 void MapFrame::updateTitle()
 {
-    QString realTitle(tr("%1 - Permission: %2"));
-
+    QString permission = tr("Unknown");
     if(m_map->getPermissionMode()==Map::GM_ONLY)
     {
-        realTitle= realTitle.arg(m_title).arg(tr("GM Only"));
+        permission=tr("GM Only");
     }
     else if(m_map->getPermissionMode()==Map::PC_ALL)
     {
-        realTitle=realTitle.arg(m_title).arg(tr("All"));
+        permission=tr("All");
     }
     else if(m_map->getPermissionMode()==Map::PC_MOVE)
     {
-        realTitle=realTitle.arg(m_title).arg(tr("Pc Move"));
+        permission=tr("Pc Move");
     }
-    else
-    {
-        realTitle=realTitle.arg(m_title).arg(tr("Unknown"));
-    }
-    setTitle(realTitle);
+    setWindowTitle(tr("%1 - Permission: %2").arg(getUriName()).arg(permission));
 }
 
 Map* MapFrame::getMap()
@@ -177,14 +172,13 @@ bool MapFrame::openUriAndLoadMap(QString uri)
 
 bool MapFrame::readFileFromUri()
 {
-
     if((nullptr!=m_uri)&&(m_uri->hasData())&&(!m_uri->exists()))
     {//load from uri data
         QByteArray array = m_uri->getData();
         QDataStream in(&array,QIODevice::ReadOnly);
         m_isHidden = false;
         readMapAndNpc(in,m_isHidden);
-        m_title = m_uri->name();
+
     }
     else if((nullptr!=m_uri)&&(m_uri->exists()))
     {
@@ -192,17 +186,16 @@ bool MapFrame::readFileFromUri()
         {
             return false;
         }
-        m_title = m_uri->name();
+
     }
     else //if(nullptr==m_uri)
     {
         Map::PermissionMode Permission = m_mapWizzard->getPermissionMode();
         QString filepath = m_mapWizzard->getFilepath();
-        m_title = m_mapWizzard->getTitle();
 
         m_isHidden = m_mapWizzard->getHidden();
-        QFileInfo info(filepath);
-        m_uri = new CleverURI(info.baseName(),filepath,CleverURI::MAP);
+        m_uri = new CleverURI(m_mapWizzard->getTitle(),filepath,CleverURI::MAP);
+
 
         if (filepath.endsWith(".pla"))
         {
@@ -215,7 +208,6 @@ bool MapFrame::readFileFromUri()
         {
             QString str("");
             m_uri->setUri(str);
-            m_uri->setName(m_title);
             QImage image(filepath);
             if (image.isNull())
             {
@@ -241,7 +233,7 @@ bool MapFrame::readFileFromUri()
             }
 
             NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::LoadMap);
-            msg.string16(m_title);
+            msg.string16(getUriName());
             msg.string8(idMap);
             msg.uint8(12);
             msg.uint8(m_map->getPermissionMode());
@@ -256,7 +248,9 @@ bool MapFrame::readFileFromUri()
 }
 bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 {
-    in >> m_title;
+    QString title;
+    in >> title;
+    setUriName(title);
 
 	QPoint pos;
 	in >>pos;
@@ -398,7 +392,7 @@ bool MapFrame::createMap()
         m_map = new Map(m_localPlayerId,idMap, &image);
         m_map->setPermissionMode(mapDialog.getPermission());
 
-        m_title = mapDialog.getTitle();
+        auto title = mapDialog.getTitle();
 
         m_color = mapDialog.getColor();
         m_width = mapDialog.getSize().width();
@@ -406,7 +400,7 @@ bool MapFrame::createMap()
 
         setCleverUriType(CleverURI::MAP);
 
-
+        setUriName(title);
 
         initMap();
         return true;
@@ -415,9 +409,9 @@ bool MapFrame::createMap()
 }
 bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
 {
-    m_title = msg->string16();
+    auto title = msg->string16();
     QString idMap = msg->string8();
-    setTitle(m_title);
+    setUriName(title);
 
 
     if(msg->action() == NetMsg::LoadMap)
@@ -436,7 +430,6 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
         m_map->setLocalIsPlayer(localIsPlayer);
         m_map->changePcSize(npSize,false);
         m_map->setPermissionMode((Map::PermissionMode)permission);
-        emit notifyUser(tr("Receiving map: %1").arg(m_title));
     }
     else if(msg->action() == NetMsg::ImportMap)
     {
@@ -482,10 +475,9 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
             QColor color = m_preferences->value("Fog_color",QColor(50,50,50)).value<QColor>();
             m_map->adaptAlphaLayer(color.red());
         }
-
-        emit notifyUser(tr("Receiving map: %1").arg(m_title));
-
     }
+    emit notifyUser(tr("Receiving map: %1").arg(title));
+    setUriName(title);
     initMap();
     return true;
 }
@@ -534,7 +526,7 @@ void MapFrame::fill(NetworkMessageWriter &msg)
     if(nullptr != m_map)
     {
         //NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::AddEmptyMap);
-        msg.string16(m_title);
+        msg.string16(getUriName());
         msg.string8(m_map->getMapId());
         msg.rgb(m_color.rgb());
         msg.uint16(m_width);
@@ -548,9 +540,8 @@ void MapFrame::readMessage(NetworkMessageReader &msg)
 {
     //if(msg.action() == NetMsg::AddEmptyMap)
     {
-        m_title = msg.string16();
+        auto title = msg.string16();
         QString idMap = msg.string8();
-        setTitle(m_title);
         m_color = msg.rgb();
         m_width = msg.uint16();
         m_height = msg.uint16();
@@ -566,8 +557,9 @@ void MapFrame::readMessage(NetworkMessageReader &msg)
         m_map->setPermissionMode(static_cast<Map::PermissionMode>(permission));
         m_map->changePcSize(npSize,false);
 
-        emit notifyUser(tr("New map: %1").arg(m_title));
+        setUriName(title);
 
+        emit notifyUser(tr("New map: %1").arg(title));
         initMap();
     }
 }

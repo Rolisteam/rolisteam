@@ -41,8 +41,10 @@ public:
     void readMessage(NetworkMessageReader& msg);
     virtual void setMediaId(QString);
 
+protected slots:
+    virtual void updateTitle();
+
 public slots:
-    void setFileName(QString);
     void runUpdateCmd(QString msg);
 private:
     SharedNote* m_edit;

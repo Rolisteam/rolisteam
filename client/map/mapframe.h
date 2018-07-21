@@ -139,9 +139,7 @@ public slots :
      */
     void moveMap(QPoint position);
 
-
-    void updateTitle();
-protected :
+protected:
     /**
      * @brief focusInEvent
      * @param event
@@ -157,6 +155,8 @@ protected :
      * @return true the reading was succesfull, false otherwise.
      */
     bool openUriAndLoadMap(QString uri);
+    virtual void updateTitle();
+
 private :
 	Map* m_map;
     QPoint pointDepart;

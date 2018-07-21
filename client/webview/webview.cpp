@@ -68,17 +68,6 @@ void WebView::sendOffClose()
     msg.sendToServer();
 }
 
-void WebView::cleverURIHasChanged(CleverURI* uri, CleverURI::DataValue datav)
-{
-    if(uri != m_uri)
-        return;
-
-    if(datav == CleverURI::NAME)
-    {
-        updateTitle();
-    }
-}
-
 void WebView::mousePressEvent(QMouseEvent* mouseEvent)
 {
     if(mouseEvent->button() ==  Qt::BackButton)
@@ -98,7 +87,7 @@ void WebView::fill(NetworkMessageWriter & message)
     message.string8(m_mediaId);
     auto url = m_uri->getUri();
     message.string32(url);
-    message.string16(m_title);
+    message.string16(getUriName());
 }
 
 void WebView::readMessage(NetworkMessageReader& msg)
@@ -242,6 +231,8 @@ void WebView::creationToolBar()
     connect(m_hideAddress,&QAction::triggered,this,[=](bool b){
         if(b)
             m_addressEdit->setEchoMode(QLineEdit::Password);
+        else
+            m_addressEdit->setEchoMode(QLineEdit::Normal);
     });
     connect(m_view,&QWebEngineView::urlChanged,[=](){
         auto url = m_view->url().toString();
