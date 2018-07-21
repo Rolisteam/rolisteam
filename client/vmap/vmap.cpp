@@ -144,12 +144,17 @@ void VMap::setHeight(int height)
 
 void VMap::setTitle(QString title)
 {
+    if(m_title == title)
+        return;
+
     m_title = title;
     emit mapChanged();
 }
 
 void VMap::setBackGroundColor(QColor bgcolor)
 {
+    if(m_bgColor == bgcolor)
+        return;
     m_bgColor = bgcolor;
     computePattern();
     update();
@@ -1694,14 +1699,12 @@ QString VMap::getVisibilityModeText()
 {
     QStringList visibilityData;
     visibilityData << tr("Hidden") << tr("Fog Of War") << tr("All visible");
-    if(getOption(VisualItem::VisibilityMode).toInt()>0 && getOption(VisualItem::VisibilityMode).toInt() < visibilityData.size())
+
+    if(getOption(VisualItem::VisibilityMode).toInt()>=0 && getOption(VisualItem::VisibilityMode).toInt() < visibilityData.size())
     {
         return visibilityData.at(getOption(VisualItem::VisibilityMode).toInt());
     }
-    else
-    {
-        return QString();
-    }
+    return {};
 }
 VToolsBar::EditionMode  VMap::getEditionMode()
 {
