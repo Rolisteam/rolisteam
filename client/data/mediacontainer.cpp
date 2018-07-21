@@ -25,6 +25,7 @@ MediaContainer::MediaContainer(bool localIsGM,QWidget* parent)
     : QMdiSubWindow(parent),m_uri(nullptr),
       m_preferences(PreferencesManager::getInstance()),
       m_action(nullptr),
+      m_name(tr("Unknown")),
       m_currentCursor(nullptr),
       m_mediaId(QUuid::createUuid().toString()),
       m_remote(false),
@@ -54,16 +55,22 @@ QString MediaContainer::getLocalPlayerId()
 }
 void MediaContainer::setCleverUri(CleverURI* uri)
 {
+    if(m_uri == uri)
+        return;
+
+    if(m_uri != nullptr )
+    {
+        delete m_uri;
+        m_uri = nullptr;
+    }
 	m_uri = uri;
     if(nullptr != m_uri)
     {
         m_uri->setListener(this);
     }
+    updateTitle();
 }
-QString MediaContainer::getTitle() const
-{
-	return m_title;
-}
+
 CleverURI*  MediaContainer::getCleverUri() const
 {
     return  m_uri;
@@ -101,11 +108,6 @@ bool MediaContainer::isUriEndWith(QString str)
     return false;
 }
 
-void MediaContainer::setTitle(QString str)
-{
-  m_title = str;
-  setWindowTitle(m_title);
-}
 void MediaContainer::setVisible(bool b)
 {
     if(nullptr!=widget())
@@ -134,7 +136,7 @@ QAction* MediaContainer::getAction()
 }
 void MediaContainer::setCleverUriType(CleverURI::ContentType type)
 {
-    m_uri = new CleverURI(m_title,"",type);
+    m_uri = new CleverURI(tr("Unknown"),"",type);
     m_uri->setListener(this);
 }
 void MediaContainer::currentColorChanged(QColor& penColor)
@@ -147,6 +149,23 @@ QString MediaContainer::getMediaId()
     return m_mediaId;
 }
 
+QString MediaContainer::getUriName()
+{
+    if(nullptr == m_uri)
+        return m_name;
+
+    return m_uri->name();
+}
+
+void MediaContainer::setUriName(QString name)
+{
+    if(nullptr != m_uri)
+        m_uri->setName(name);
+    m_name = name;
+
+    updateTitle();
+}
+
 void MediaContainer::setMediaId(QString str)
 {
     m_mediaId = str;
@@ -154,16 +173,12 @@ void MediaContainer::setMediaId(QString str)
 
 void MediaContainer::cleverURIHasChanged(CleverURI* uri, CleverURI::DataValue field)
 {
-    if(nullptr==uri)
+    if(uri != m_uri)
         return;
 
-    switch (field)
+    if(field == CleverURI::NAME)
     {
-    case CleverURI::NAME:
-        setTitle(uri->name());
-        break;
-    default:
-        break;
+        updateTitle();
     }
 }
 void MediaContainer::currentToolChanged(VToolsBar::SelectableTool selectedtool)

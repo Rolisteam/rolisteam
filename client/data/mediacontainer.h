@@ -87,17 +87,6 @@ public:
 	 * @return
 	 */
     virtual bool openMedia();
-
-	/**
-	 * @brief getTitle
-	 * @return
-	 */
-	virtual QString getTitle() const;
-    /**
-     * @brief setTitle
-     * @param str
-     */
-    virtual void setTitle(QString str);
     /**
      * @brief error
      * @param err - error message to display
@@ -152,6 +141,8 @@ public:
      * @return the media id
      */
     virtual QString getMediaId();
+    virtual QString getUriName();
+    virtual void setUriName(QString name);
     /**
      * @brief setMediaId
      */
@@ -188,13 +179,16 @@ public slots:
     void setVisible(bool b);
 
     void detachView(bool b);
+
+protected slots:
+    virtual void updateTitle() = 0;
 protected:
     QString m_localPlayerId;
 	CleverURI* m_uri;
-	QString m_title;
     QString m_filter;
     PreferencesManager* m_preferences;
     QAction* m_action;
+    QString m_name;
     QCursor* m_currentCursor;
     /**
     * @brief the current tool, it is an enum item.
