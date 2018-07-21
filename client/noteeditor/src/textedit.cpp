@@ -486,7 +486,7 @@ void TextEdit::setCurrentFileName(const QString &fileName)
         m_showName = QFileInfo(fileName).fileName();
 
     emit showNameChanged(m_showName);
-    setWindowTitle(QString("%1[*]  OASIS Open Document Format for Office Applications").arg(m_showName));
+    setWindowTitle(tr("%1[*] - (Notes)").arg(m_showName));
     setWindowModified(false);
 }
 
