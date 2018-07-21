@@ -805,7 +805,7 @@ void CharacterItem::characterStateChange()
     if(nullptr == m_character)
         return;
 
-	int index = act->data().toInt();
+    int index = act->data().toInt();
 
 	CharacterState* state = Character::getCharacterStateList()->at(index);
     m_character->setState(state);
