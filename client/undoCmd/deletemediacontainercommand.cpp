@@ -34,7 +34,7 @@ DeleteMediaContainerCommand::DeleteMediaContainerCommand(MediaContainer* media, 
       m_hash(hash),
       m_gm(isGM)
 {
-    setText(QObject::tr("Close %1").arg(m_media->getTitle()));
+    setText(QObject::tr("Close %1").arg(m_media->getUriName()));
 }
 
 DeleteMediaContainerCommand::~DeleteMediaContainerCommand()
@@ -79,7 +79,7 @@ void DeleteMediaContainerCommand::undo()
         QAction* action= m_media->getAction();
         if(action == nullptr)
         {
-            action = m_menu->addAction(m_media->getTitle());
+            action = m_menu->addAction(m_media->getUriName());
             action->setCheckable(true);
             action->setChecked(true);
             m_media->setAction(action);

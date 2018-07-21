@@ -36,7 +36,7 @@ AddMediaContainer::AddMediaContainer(MediaContainer* mediac,
       m_mdiArea(workspace),
       m_gm(gm)
 {
-    setText(QObject::tr("Show %1").arg(mediac->getTitle()));
+    setText(QObject::tr("Show %1").arg(mediac->getUriName()));
 }
 
 void AddMediaContainer::redo()
@@ -54,7 +54,7 @@ void AddMediaContainer::redo()
         QAction* action= m_media->getAction();
         if(action == nullptr)
         {
-            action = m_menu->addAction(m_media->getTitle());
+            action = m_menu->addAction(m_media->getUriName());
             action->setCheckable(true);
             action->setChecked(true);
         }
