@@ -40,17 +40,11 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     : MediaContainer(parent)
 {
     m_uri=uri;
-    m_title = tr("%1 - Character Sheet Viewer");
-    // m_data = new QJsonObject();
     if(nullptr==m_uri)
     {
         setCleverUriType(CleverURI::CHARACTERSHEET);
-        m_title = m_title.arg("");
     }
-    else
-    {
-        m_title = m_title.arg(m_uri->getData(ResourcesNode::NAME).toString());
-    }
+
     setObjectName("CharacterSheetViewer");
     connect(&m_model,SIGNAL(characterSheetHasBeenAdded(CharacterSheet*)),this,SLOT(addTabWithSheetView(CharacterSheet*)));
     
@@ -76,8 +70,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     m_view.setAlternatingRowColors(true);
     m_view.setSelectionBehavior(QAbstractItemView::SelectItems);
     m_view.setSelectionMode(QAbstractItemView::ExtendedSelection);
-    setWindowTitle(m_title);
-    
+    updateTitle();
     m_tabs = new QTabWidget(this);
     m_tabs->addTab(&m_view,tr("Data"));
     setWidget(m_tabs);
@@ -169,6 +162,13 @@ void CharacterSheetWindow::setReadOnlyOnSelection()
             csitem->setReadOnly(valueToSet);
          }
     }
+}
+
+void CharacterSheetWindow::updateTitle()
+{
+    if(nullptr == m_uri)
+        return;
+    setWindowTitle(tr("%1 - (Character Sheet Viewer)").arg(m_uri->name()));
 }
 
 void CharacterSheetWindow::displayCustomMenu(const QPoint & pos)
@@ -682,7 +682,7 @@ bool CharacterSheetWindow::readFileFromUri()
 {
     if(nullptr!=m_uri)
     {
-        setTitle(QStringLiteral("%1 - %2").arg(m_uri->getData(ResourcesNode::NAME).toString()).arg(tr("Character Sheet Viewer")));
+        updateTitle();
 
         if(m_uri->getCurrentMode() == CleverURI::Internal || !m_uri->exists())
         {
@@ -732,9 +732,12 @@ void CharacterSheetWindow::saveMedia()
 }
 void CharacterSheetWindow::fill(NetworkMessageWriter* msg,CharacterSheet* sheet,QString idChar)
 {
+
     msg->string8(m_mediaId);
     msg->string8(idChar);
-    msg->string8(m_title);
+    msg->string8(getUriName());
+
+
     if(nullptr!=sheet)
     {
         sheet->fill(*msg);
@@ -754,8 +757,7 @@ void CharacterSheetWindow::readMessage(NetworkMessageReader& msg)
 
     m_mediaId = msg.string8();
     QString idChar = msg.string8();
-    m_title = msg.string8();
-
+    setUriName(msg.string8());
 
     if(nullptr!=sheet)
     {

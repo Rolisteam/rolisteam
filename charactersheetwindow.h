@@ -245,7 +245,7 @@ protected slots:
      */
     void setReadOnlyOnSelection();
 
-
+    virtual void updateTitle();
     /**
     * @brief copyTab
     */
