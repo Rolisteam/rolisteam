@@ -171,11 +171,6 @@ public :
     QUndoStack *getUndoStack() const;
     void setUndoStack(QUndoStack *undoStack);
 public slots :
-	/**
-	 * @brief setCleverURI
-	 * @param uri
-	 */
-    virtual void setCleverURI(CleverURI* uri);
     /**
     *  @brief change the current mice cursor
     *  @param new selected QCursor
@@ -236,11 +231,11 @@ protected :
     */
     virtual void mousePressEvent(QMouseEvent* event);
     
-private slots:
+protected slots:
 	/**
 	 * @brief updateTitle
 	 */
-	void updateTitle();
+    virtual void updateTitle();
     
 private: //functions
 	/**

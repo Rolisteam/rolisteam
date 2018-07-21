@@ -42,7 +42,7 @@ VMapFrame::VMapFrame(bool localIsGM,CleverURI* uri,VMap *map,QWidget* parent)
     : MediaContainer(localIsGM,parent),m_vmap(map),m_graphicView(nullptr),m_currentEditingMode(0)
 {
     setObjectName("VMapFrame");
-    m_uri = uri;
+    setCleverUri(uri);
     
     createView();
     updateMap();
@@ -71,9 +71,9 @@ void VMapFrame::updateMap()
 {
     if(m_vmap->getMapTitle().isEmpty())
     {
-        m_vmap->setTitle(tr("Unknown Map"));
+        setUriName(tr("Unknown Map"));
     }
-    setTitle(m_vmap->getMapTitle());
+    setUriName(m_vmap->getMapTitle());
     m_graphicView->setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
     setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
     setWidget(m_graphicView);
@@ -84,7 +84,8 @@ void VMapFrame::updateMap()
 }
 void VMapFrame::updateTitle()
 {
-    setWindowTitle(tr("%1 - visibility: %2 - permission: %3 - layer: %4").arg(m_vmap->getMapTitle())
+    m_vmap->setTitle(getUriName());
+    setWindowTitle(tr("%1 - visibility: %2 - permission: %3 - layer: %4").arg(getUriName())
                    .arg(m_vmap->getVisibilityModeText())
                    .arg(m_vmap->getPermissionModeText())
                    .arg(m_vmap->getCurrentLayerText()));
@@ -125,7 +126,6 @@ void VMapFrame::currentToolChanged(VToolsBar::SelectableTool selectedtool)
             break;
         }
     }
-
 }
 void VMapFrame::mousePressEvent(QMouseEvent* event)
 {
@@ -198,10 +198,7 @@ void VMapFrame::keyPressEvent ( QKeyEvent * event )
         MediaContainer::keyPressEvent(event);
     }
 }
-void VMapFrame::setCleverURI(CleverURI* uri)
-{
-    m_uri=uri;
-}
+
 bool VMapFrame::openMedia()
 {
     MapWizzard wiz(true);
