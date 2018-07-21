@@ -163,7 +163,7 @@ CleverURI::State CleverURI::getState() const
 void CleverURI::setState(const State &state)
 {
     m_state = state;
-    updateListener(CleverURI::DISPLAYED);
+    updateListener(CleverURI::STATE);
 }
 
 bool CleverURI::hasData() const
@@ -214,7 +214,7 @@ void CleverURI::setDisplayed(bool displayed)
     {
         m_state = Hidden;
     }
-    updateListener(CleverURI::DISPLAYED);
+    updateListener(CleverURI::STATE);
 }
 
 CleverURI::LoadingMode CleverURI::getCurrentMode() const
@@ -369,7 +369,7 @@ QVariant CleverURI::getData(ResourcesNode::DataValue i)
         return m_name;
     case MODE:
         return m_currentMode==Internal ? QObject::tr("Internal") : QObject::tr("Linked");
-    case DISPLAYED:
+    case STATE:
     {
         static const std::vector<QString> list({QObject::tr("Closed"),QObject::tr("Hidden"),QObject::tr("Displayed")});
         return list[m_state];
