@@ -382,38 +382,38 @@ protected:
     bool hasPermissionToMove(bool allowCharacter = true) const;
 
 protected:
+    QPointF computeClosePoint(QPointF pos);
+
+protected:
     QColor m_color;
     static QColor m_highlightColor;
     static int m_highlightWidth;
     QString m_id;
     QString m_mapId;
-    bool m_editable;
-    quint16 m_penWidth;
+    bool m_editable = false;
+    QVector<ChildPointItem*>* m_child = nullptr;
+    quint16 m_penWidth = 1;
     QRectF m_rect;
     QPoint m_menuPos;
 
 
     /// QAction*
-    QAction* m_duplicateAct;
-    QAction* m_putGroundLayer;
-    QAction* m_putObjectLayer;
-    QAction* m_putCharacterLayer;
+    QAction* m_duplicateAct= nullptr;
+    QAction* m_putGroundLayer= nullptr;
+    QAction* m_putObjectLayer= nullptr;
+    QAction* m_putCharacterLayer= nullptr;
 
 
 
-    VisualItem::Layer m_layer;
+    VisualItem::Layer m_layer = VisualItem::NONE;
     QVector<ItemType> m_promoteTypeList;
     QList<QPointF> m_pointList;
-    bool m_resizing;
-    bool m_rotating;
-    bool m_receivingZValue;
+    bool m_resizing = false;
+    bool m_rotating = false;
+    bool m_receivingZValue = false;
 
-    QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
-    QVector<ChildPointItem*>* m_child;
-    bool m_holdSize;
-
-
-    QPointF computeClosePoint(QPointF pos);
+    QHash<VisualItem::Properties,QVariant>* m_propertiesHash= nullptr;
+    bool m_holdSize = false;
 private slots:
 	/**
 	 * @brief manageAction

@@ -41,14 +41,14 @@ QStringList VisualItem::s_type2NameList =  QStringList() << QObject::tr("Path")<
 QStringList VisualItem::s_layerName = QStringList() << QObject::tr("Ground")<< QObject::tr("Object")<< QObject::tr("Character");
 
 VisualItem::VisualItem()
-    : QGraphicsObject(),m_editable(false),m_child(nullptr),m_penWidth(1)
+    : QGraphicsObject()
 {
     m_id = QUuid::createUuid().toString();
     init();
 }
 
 VisualItem::VisualItem(QColor& penColor,int penSize, bool b,QGraphicsItem * parent )
-    : QGraphicsObject(parent),m_color(penColor),m_penWidth(penSize),m_editable(b),m_child(nullptr)
+    : QGraphicsObject(parent),m_color(penColor),m_editable(b),m_child(nullptr),m_penWidth(penSize)
 {
     m_id = QUuid::createUuid().toString();
     init();
@@ -63,10 +63,6 @@ void VisualItem::init()
     createActions();
     setAcceptHoverEvents(true);
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption,true);
-    m_propertiesHash = nullptr;
-    m_resizing = false;
-    m_rotating = false;
-    m_layer = VisualItem::NONE;
     QActionGroup* group = new QActionGroup(this);
     m_putGroundLayer = new QAction(s_layerName[0],this);
     m_putGroundLayer->setData(VisualItem::GROUND);
