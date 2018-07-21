@@ -485,11 +485,6 @@ private:
      */
     void linkActionToMenu();
     /**
-     * @brief readImageFromStream
-     * @param file
-     */
-    void readImageFromStream(QDataStream &file);
-    /**
      * @brief getContentType
      * @param str
      * @return

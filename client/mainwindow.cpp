@@ -833,7 +833,9 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
                     tempmap->setOption(VisualItem::LocalIsGM,localIsGM);
                 }
                 mapWizzard.setAllMap(tempmap);
-                VMapFrame* tmp = new VMapFrame(localIsGM,new CleverURI(tempmap->getMapTitle(),"",CleverURI::VMAP),tempmap);
+                QString name = tempmap->getMapTitle();
+                uri->setName(name);
+                VMapFrame* tmp = new VMapFrame(localIsGM,uri,tempmap);
                 prepareVMap(tmp);
                 media = tmp;
             }
@@ -846,6 +848,8 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
             {
                 media = mapFrame;
                 prepareMap(mapFrame);
+                uri->setName(mapFrame->getUriName());
+
             }
             else
                 delete mapFrame;
@@ -1197,46 +1201,7 @@ void MainWindow::setUpNetworkConnection()
     }
     connect(m_clientManager, SIGNAL(dataReceived(quint64,quint64)), this, SLOT(receiveData(quint64,quint64)));
 }
-void MainWindow::readImageFromStream(QDataStream &file)
-{
-    QString title;
-    QByteArray baImage;
-    QPoint topleft;
-    QSize size;
 
-    file >> title;
-    file >>topleft;
-    file >> size;
-    file >> baImage;
-
-    QImage img;
-    if (!img.loadFromData(baImage, "jpg"))
-    {
-        m_logController->manageMessage(tr("Image compression error (readImageFromStream - MainWindow.cpp)"),LogController::Error);
-    }
-
-    // Creation de l'identifiant
-    QString idImage = QUuid::createUuid().toString();
-
-    // Creation de la fenetre image
-    Image* imgWindow = new Image(m_mdiArea);
-    imgWindow->setTitle(title);
-    imgWindow->setLocalPlayerId(m_localPlayerId);
-    imgWindow->setImage(img);
-
-    prepareImage(imgWindow);
-    addMediaToMdiArea(imgWindow);
-
-    connect(m_toolBar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),imgWindow,SLOT(setCurrentTool(ToolsBar::SelectableTool)));
-    imgWindow->setCurrentTool(m_toolBar->getCurrentTool());
-
-    QByteArray byteArray;
-    QBuffer buffer(&byteArray);
-    if (!img.save(&buffer, "jpg", 70))
-    {
-        m_logController->manageMessage(tr("Image compression error (readImageFromStream - MainWindow.cpp)"),LogController::Error);
-    }
-}
 void MainWindow::helpOnLine()
 {
     if (!QDesktopServices::openUrl(QUrl("http://wiki.rolisteam.org/")))
@@ -2407,7 +2372,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         if(m_mdiArea->showCleverUri(uri))
             return;
     }
-    else if(uri->getState() == CleverURI::DISPLAYED)
+    else if(uri->getState() == CleverURI::Displayed)
         return;
 
     auto localIsGM = false;
@@ -2674,36 +2639,39 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
 {
     auto viewer = qobject_cast<MediaContainer*>(sender());
     QString title(tr("Export from %1"));
+    QString sourceName = tr("unknown");
     if(nullptr != viewer)
     {
-        title.arg(viewer->getTitle());
+        sourceName = viewer->getUriName();
     }
-    else
-    {
-        title.arg(tr("unknown"));
-    }
+
+    MediaContainer* destination = nullptr;
     if(type == CleverURI::VMAP)
     {
         auto media = newDocument(type);
         auto vmapFrame = dynamic_cast<VMapFrame*>(media);
         auto vmap = vmapFrame->getMap();
         vmap->addImageItem(pix.toImage());
+        destination = media;
     }
     else if(type == CleverURI::MAP)
     {
         //auto mapframe = dynamic_cast<MapFrame*>(media);
         auto mapframe = new MapFrame();
-        mapframe->setTitle(title);
+        mapframe->setUriName(title);
         auto img = new QImage(pix.toImage());
         auto map = new Map(m_localPlayerId,mapframe->getMediaId(),img,false);
         mapframe->setMap(map);
         addMediaToMdiArea(mapframe);
+        destination = mapframe;
     }
     else if(type == CleverURI::PICTURE)
     {
-        Image* img = new Image(m_mdiArea);
+        auto img = new Image(m_mdiArea);
         auto imgPix = pix.toImage();
         img->setImage(imgPix);
         addMediaToMdiArea(img);
+        destination = img;
     }
+    destination->setUriName(title.arg(sourceName));
 }
