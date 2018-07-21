@@ -197,6 +197,8 @@ public:
     QColor getLifeColor() const;
     void setLifeColor(QColor color);
 
+    virtual QString getToolTip() const;
+
 signals:
     void avatarChanged();
     void currentHealthPointsChanged();

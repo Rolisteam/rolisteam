@@ -132,9 +132,9 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
     {
         case Qt::DisplayRole:
         case Qt::EditRole:
-        case Qt::ToolTipRole:
             return person->name();
-        //    return person->getUuid();
+        case Qt::ToolTipRole:
+            return person->getToolTip();
         case Qt::DecorationRole:
         {
             if((person->isLeaf())&&(!person->getAvatar().isNull()))

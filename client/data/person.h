@@ -122,6 +122,8 @@ public:
 
     virtual QVariant getData(ResourcesNode::DataValue);
 
+    virtual QString getToolTip() const;
+
     virtual QIcon getIcon();
 
     ResourcesNode::TypeResource getResourcesType() const;
