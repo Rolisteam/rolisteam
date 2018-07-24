@@ -29,7 +29,7 @@ NoteContainer::NoteContainer(bool localIsGM,QWidget* parent)
     setCleverUriType(CleverURI::TEXT);
     setWidget(m_edit);
     setWindowIcon(QIcon(":/notes.png"));
-    connect(m_edit,SIGNAL(showNameChanged(QString)),this,SLOT(setFileName(QString)));
+    connect(m_edit,SIGNAL(fileNameChanged(QString)),this,SLOT(setFileName(QString)));
 }
 
 void NoteContainer::setFileName(QString str)
@@ -38,13 +38,18 @@ void NoteContainer::setFileName(QString str)
     {
         m_uri->setUri(str);
     }
+    setWindowModified(false);
+    updateTitle();
 }
 
 void NoteContainer::updateTitle()
 {
-    if(nullptr == m_uri)
-        return;
-    setWindowTitle(tr("%1[*] - (Notes)").arg(m_uri->name()));
+    QString showName;
+    if (nullptr == m_uri || m_uri->name().isEmpty())
+        showName = "untitled.txt";
+    else
+        showName = m_uri->name();
+    setWindowTitle(tr("%1[*] - (Notes)").arg(showName));
 }
 
 bool NoteContainer::readFileFromUri()
@@ -74,7 +79,7 @@ void NoteContainer::saveMedia()
     if(nullptr!=m_edit)
     {
         m_edit->fileSave();
-        QString uri = m_edit->getShowName();
+        QString uri = m_edit->getFileName();
         m_uri->setUri(uri);
     }
 }
