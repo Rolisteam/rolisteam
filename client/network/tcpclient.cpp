@@ -343,7 +343,7 @@ void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
     if((nullptr != m_socket)&&(m_socket->isWritable()))
     {
         NetworkMessageHeader* data = msg->buffer();
-        qint64 dataSend = m_socket->write((char*)data,data->dataSize+sizeof(NetworkMessageHeader));
+        qint64 dataSend = m_socket->write(reinterpret_cast<char*>(data),data->dataSize+sizeof(NetworkMessageHeader));
         if(-1 == dataSend)
         {
             if(m_socket->state() != QAbstractSocket::ConnectedState)
