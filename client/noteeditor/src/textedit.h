@@ -87,7 +87,7 @@ public slots:
 
 signals:
     void showed(bool);
-    void showNameChanged(QString);
+    void fileNameChanged(QString);
 
 protected:
     virtual void closeEvent(QCloseEvent *e);
@@ -157,7 +157,6 @@ private:
     QToolBar *tb;
     QString fileName;
     QTextEdit *textEdit;
-    QString m_showName;
 
     static QString m_filter;
 };
