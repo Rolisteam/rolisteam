@@ -15,7 +15,7 @@ class WebView : public MediaContainer
 
 public:
     enum ShareType {URL, HTML};
-    explicit WebView(bool localIsGM, QWidget *parent = 0);
+    explicit WebView(bool localIsOwner, QWidget *parent = 0);
     virtual ~WebView();
 
     virtual bool readFileFromUri();

@@ -863,10 +863,10 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
         #ifdef HAVE_WEBVIEW
         case CleverURI::WEBVIEW:
         {
-            media = new WebView(localIsGM);
+            media = new WebView(true);
             uri->setCurrentMode(CleverURI::Linked);
         }
-#endif
+        #endif
             break;
         default:
             break;
@@ -2401,7 +2401,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         tmp = new Image(m_mdiArea);
         break;
     case CleverURI::TEXT:
-        tmp = new NoteContainer(localIsGM);
+        tmp = new NoteContainer(true);
         break;
 #ifdef WITH_PDF
     case CleverURI::PDF:
@@ -2421,7 +2421,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         break;
     case CleverURI::WEBVIEW:
     {
-        WebView* tmpWeb = new WebView(localIsGM);
+        WebView* tmpWeb = new WebView(true);
         tmp = tmpWeb;
     }
         break;

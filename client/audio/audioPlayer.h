@@ -119,10 +119,6 @@ protected:
 
 private slots :
     /**
-    * @brief  slot which manage the player's root directory change
-    */
-    void pChangeDirectory();
-    /**
      * @brief showMusicPlayer
      */
     void showMusicPlayer(bool);
@@ -131,12 +127,6 @@ private :
         * @brief private constructor
         */
     AudioPlayer(QWidget *parent = 0);
-
-    /**
-     * @brief getDirectoryKey
-     * @return
-     */
-    QString getDirectoryKey();
     /**
      * @brief playerWidget
      */

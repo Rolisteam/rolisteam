@@ -39,6 +39,7 @@ AudioPlayer::AudioPlayer(QWidget *parent)
 {
     m_isGM = false;
     m_preferences = PreferencesManager::getInstance();
+
     setObjectName("MusicPlayer");
     setupUi();
     setWidget(m_mainWidget);
@@ -198,38 +199,12 @@ void AudioPlayer::onePlayerHasChangedPosition(int id,quint64 pos)
     }
 }
 
-
-
-
-QString AudioPlayer::getDirectoryKey()
-{
-    QString key;
-    if (m_isGM)
-    {
-        key="MusicDirectoryPlayer";
-    }
-    else
-    {
-        key="MusicDirectoryGM";
-    }
-    return key;
-}
-
-void AudioPlayer::pChangeDirectory()
-{
-
-    QString key = getDirectoryKey();
-
-
-    QString tmp = QFileDialog::getExistingDirectory(0 , tr("Select the songs directory"), m_preferences->value(key,QDir::homePath()).toString(),
-                                                    QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks);
-    m_preferences->registerValue(key,tmp);
-
-}
-
 NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
 {
     int id = msg->uint8();
+    if(id >= m_players.size() && id < 0)
+        return NetWorkReceiver::NONE;
+
     NetMsg::Action action = msg->action();
     switch (action)
     {
@@ -241,7 +216,7 @@ NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
         break;
     case NetMsg::ChangePositionSong:
     {
-        int pos= msg->uint64();
+        quint64 pos= msg->uint64();
         m_players[id]->setPositionAt(pos);
     }
         break;
@@ -251,6 +226,7 @@ NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
     case NetMsg::NewSong:
     {
         QString file = msg->string32();
+        qDebug() << "file" << file;
         m_players[id]->setSourceSong(file);
     }
         break;

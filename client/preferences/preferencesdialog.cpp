@@ -388,8 +388,9 @@ void PreferencesDialog::show()
 void PreferencesDialog::save() const
 {
     //paths
-    m_preferences->registerValue("MusicDirectoryGM",ui->m_musicDirGM->path());
-    m_preferences->registerValue("MusicDirectoryPlayer",ui->m_musicDirPlayer->path());
+    m_preferences->registerValue("MusicDirectoryPlayer_0",ui->m_musicDirPath->path());
+    m_preferences->registerValue("MusicDirectoryPlayer_1",ui->m_musicDirPath2->path());
+    m_preferences->registerValue("MusicDirectoryPlayer_2",ui->m_musicDirPath3->path());
     m_preferences->registerValue("ImageDirectory",ui->m_pictureDir->path());
     m_preferences->registerValue("MapDirectory",ui->m_mapDir->path());
     m_preferences->registerValue("SessionDirectory",ui->m_scenarioDir->path());
@@ -475,8 +476,9 @@ void PreferencesDialog::load()
     //Direcotry PATH
     ui->m_translationFileEdit->setMode(false);
     ui->m_translationFileEdit->setFilter("Translation File: (*.qm)");
-    ui->m_musicDirGM->setPath(m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString());
-    ui->m_musicDirPlayer->setPath(m_preferences->value("MusicDirectoryPlayer",QDir::homePath()).toString());
+    ui->m_musicDirPath->setPath(m_preferences->value("MusicDirectoryPlayer_0",QDir::homePath()).toString());
+    ui->m_musicDirPath2->setPath(m_preferences->value("MusicDirectoryPlayer_1",QDir::homePath()).toString());
+    ui->m_musicDirPath3->setPath(m_preferences->value("MusicDirectoryPlayer_2",QDir::homePath()).toString());
     ui->m_pictureDir->setPath(m_preferences->value("ImageDirectory",QDir::homePath()).toString());
     ui->m_mapDir->setPath(m_preferences->value("MapDirectory",QDir::homePath()).toString());
     ui->m_scenarioDir->setPath(m_preferences->value("SessionDirectory",QDir::homePath()).toString());

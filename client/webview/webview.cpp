@@ -3,8 +3,8 @@
 #include <QVBoxLayout>
 #include "network/networkmessagereader.h"
 
-WebView::WebView(bool localIsGM,QWidget *parent)
-    : MediaContainer(localIsGM,parent)
+WebView::WebView(bool localIsOwner,QWidget *parent)
+    : MediaContainer(localIsOwner,parent)
 {
     setObjectName("WebPage");
     setWindowIcon(QIcon(":/resources/icons/webPage.svg"));
@@ -16,7 +16,7 @@ WebView::WebView(bool localIsGM,QWidget *parent)
 
     m_view = new QWebEngineView();
 
-    if(m_localIsGM)
+    if(localIsOwner)
     {
         createActions();
         creationToolBar();
@@ -58,7 +58,7 @@ void WebView::updateTitle()
 {
     if(nullptr == m_uri)
         return;
-    setWindowTitle(tr("%1 - WebPage").arg(m_uri->name()));
+    setWindowTitle(tr("%1 - WebPage").arg(getUriName()));
 }
 
 void WebView::sendOffClose()
@@ -93,6 +93,7 @@ void WebView::fill(NetworkMessageWriter & message)
 void WebView::readMessage(NetworkMessageReader& msg)
 {
     auto typeMsg = static_cast<ShareType>(msg.uint8());
+    setUriName(msg.string16());
     auto url = msg.string32();
     if(typeMsg == HTML)
     {
@@ -104,6 +105,7 @@ void WebView::readMessage(NetworkMessageReader& msg)
         m_view->setUrl(QUrl::fromUserInput(url));
     }
     m_uri->setUri(url);
+
 }
 
 void WebView::createActions()
@@ -118,6 +120,7 @@ void WebView::createActions()
             NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
             msg.uint8(getContentType());
             msg.string8(m_mediaId);
+            msg.string16(getUriName());
             msg.int8(URL);
             msg.string32(m_uri->getUri());
             msg.sendToServer();
@@ -140,6 +143,7 @@ void WebView::createActions()
                 NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
                 msg.uint8(getContentType());
                 msg.string8(m_mediaId);
+                msg.string16(getUriName());
                 msg.uint8(HTML);
                 msg.string32(m_uri->getUri());
                 msg.string32(html);
@@ -243,6 +247,7 @@ void WebView::creationToolBar()
             {
                 NetworkMessageWriter msg(NetMsg::WebPageCategory,NetMsg::UpdateContent);
                 msg.string8(m_mediaId);
+                msg.string16(getUriName());
                 msg.int8(URL);
                 msg.string32(url);
                 msg.sendToServer();
@@ -252,6 +257,7 @@ void WebView::creationToolBar()
                 m_view->page()->toHtml([=](QString html){
                     NetworkMessageWriter msg(NetMsg::WebPageCategory,NetMsg::UpdateContent);
                     msg.string8(m_mediaId);
+                    msg.string16(getUriName());
                     msg.uint8(HTML);
                     msg.string32(m_uri->getUri());
                     msg.string32(html);

@@ -27,10 +27,41 @@
 #include "network/networkmessage.h"
 #define FACTOR_WAIT 4
 
+QString getExistingFile(const QString& rootDir, const QString& pathOnGM)
+{
+    qDebug() << rootDir << pathOnGM;
+    QFileInfo info(pathOnGM);
+
+    auto list = pathOnGM.split("/");
+    QStringList result;
+    for(auto item : list)
+    {
+        result.prepend(item);
+    }
+    QString consumedPath = "";
+    QString totalPath;
+
+    for(auto item : result)
+    {
+        if(consumedPath.isEmpty())
+            consumedPath = item;
+        else
+            consumedPath = item+"/"+consumedPath;
+        auto temp = QStringLiteral("%1/%2").arg(rootDir,consumedPath);
+        if(QFile::exists(temp))
+        {
+            return temp;
+        }
+    }
+    return rootDir+"/"+info.fileName();//error message
+}
+
+
 PlayerWidget::PlayerWidget(int id, QWidget* parent)
     : QWidget(parent),m_id(id),m_ui(new Ui::AudioWidgetUI),m_isGM(false)
 {
     m_preferences = PreferencesManager::getInstance();
+    //m_preferences->registerLambda();
     m_ui->setupUi(this);
     m_playingMode = NEXT;
 
@@ -275,11 +306,11 @@ void PlayerWidget::addSongIntoModel(QString str)
 
 void PlayerWidget::addFiles()
 {
-    QStringList fileList = QFileDialog::getOpenFileNames(this, tr("Add song"), m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString(), tr("Audio files (%1)").arg(m_audioFileFilter));
+    QStringList fileList = QFileDialog::getOpenFileNames(this, tr("Add song"), m_preferences->value(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id),QDir::homePath()).toString(), tr("Audio files (%1)").arg(m_audioFileFilter));
     if (fileList.isEmpty())
         return;
     QFileInfo fileinfo(fileList[0]);
-    m_preferences->registerValue("MusicDirectoryGM",fileinfo.absolutePath());
+    //m_preferences->registerValue(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id),fileinfo.absolutePath());
     m_model->addSong(fileList);
 }
 bool PlayerWidget::askToDeleteAll()
@@ -302,11 +333,11 @@ void PlayerWidget::openPlayList()
 {
     if(askToDeleteAll())
     {
-        QString filename = QFileDialog::getOpenFileName(this, tr("Open Play List"), m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString(), tr("PlayList (*.m3u)"));
+        QString filename = QFileDialog::getOpenFileName(this, tr("Open Play List"), m_preferences->value(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id),QDir::homePath()).toString(), tr("PlayList (*.m3u)"));
         if (filename.isEmpty())
             return;
         QFileInfo fileinfo(filename);
-        m_preferences->registerValue("MusicDirectoryGM",fileinfo.absolutePath());
+        //m_preferences->registerValue(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id),fileinfo.absolutePath());
         readM3uPlayList(filename);
     }
 
@@ -427,14 +458,15 @@ void PlayerWidget::setTime(int time)
 }
 void PlayerWidget::sourceChanged(const QMediaContent & media)
 {
-    if(media.canonicalUrl().isLocalFile())
+    /* if(media.canonicalUrl().isLocalFile())
     {
-        emit newSongPlayed(m_id,media.canonicalUrl().fileName());
+        auto path = media.canonicalUrl().toString();
+        emit newSongPlayed(m_id,path);
     }
     else
-    {
-        emit newSongPlayed(m_id,media.canonicalUrl().toString());
-    }
+    {*/
+    emit newSongPlayed(m_id,media.canonicalUrl().toString());
+    //}
 }
 void PlayerWidget::playerStatusChanged(QMediaPlayer::State newState)
 {
@@ -482,13 +514,13 @@ void PlayerWidget::setPositionAt(quint64 pos)
 
 void PlayerWidget::setSourceSong(QString file)
 {
-
     QString path("%1/%2");
-    QString dir = m_preferences->value(QString("MusicDirectoryPlayer_%1").arg(m_id),QDir::homePath()).toString();
+    QString dir = m_preferences->value(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id),QDir::homePath()).toString();
     QUrl url(file,QUrl::StrictMode);
-    if((!url.isValid())||(url.isRelative()))
+    if((!url.isValid())||(url.isRelative())||url.isLocalFile())
     {
-        url = QUrl::fromLocalFile(path.arg(dir).arg(file));
+        url = QUrl::fromLocalFile(getExistingFile(dir,file));
+        qDebug() << url;
     }
     QMediaContent currentContent(url);
 
@@ -500,7 +532,7 @@ void PlayerWidget::changeDirectory()
     QString dir = QFileDialog::getExistingDirectory(this, tr("Load Directory"), m_preferences->value(QString("MusicDirectoryPlayer_%1").arg(m_id),QDir::homePath()).toString());
     if(!dir.isEmpty())
     {
-        m_preferences->registerValue(QString("MusicDirectoryPlayer_%1").arg(m_id),dir,true);
+        m_preferences->registerValue(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id),dir,true);
     }
 }
 void PlayerWidget::modeHasBeenChanged()

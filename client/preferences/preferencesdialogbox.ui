@@ -20,7 +20,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tabWidgetPage1">
       <attribute name="title">
@@ -824,14 +824,21 @@
               <item>
                <widget class="QLabel" name="label_2">
                 <property name="text">
-                 <string>Music (GM) :</string>
+                 <string>Music Player 1 :</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QLabel" name="label_3">
                 <property name="text">
-                 <string>Music (Player) :</string>
+                 <string>Music Player 2 :</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_32">
+                <property name="text">
+                 <string>Music Player 3 :</string>
                 </property>
                </widget>
               </item>
@@ -882,10 +889,13 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
-               <widget class="FileDirChooser" name="m_musicDirGM" native="true"/>
+               <widget class="FileDirChooser" name="m_musicDirPath" native="true"/>
               </item>
               <item>
-               <widget class="FileDirChooser" name="m_musicDirPlayer" native="true"/>
+               <widget class="FileDirChooser" name="m_musicDirPath2" native="true"/>
+              </item>
+              <item>
+               <widget class="FileDirChooser" name="m_musicDirPath3" native="true"/>
               </item>
               <item>
                <widget class="FileDirChooser" name="m_pictureDir" native="true"/>
