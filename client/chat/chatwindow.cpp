@@ -258,18 +258,6 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
                     diceOutput2 = tr("got <span class=\"dice\">%1</span> [%2]","third person").arg(value).arg(cmdLine);
                 }
                 message = diceOutput2;
-         /*   }
-            else
-            {
-                messageTitle="";
-                if(showResult)
-                {
-                    showMessage(messageTitle, color,value,m_diceParser->getComment(),NetMsg::DiceMessageAction);
-                }
-                auto stringOutput = tr("got <span class=\"dice\">%1</span> [%2]","third person").arg(value).arg(cmdLine);
-                message = stringOutput;
-            }*/
-
         }
     }
     
@@ -820,7 +808,7 @@ void ChatWindow::createAction(const DiceShortCut& pair)
     connect(action,&QAction::triggered,this,[=](){
         auto action = qobject_cast<QAction*>(sender());
         auto index = action->data().toInt();
-        auto dice = m_diceBookMarks[index];
+        auto dice = m_diceBookMarks[static_cast<size_t>(index)];
         QString localPersonIdentifier =
         m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
         rollDiceCmd(dice.command(),localPersonIdentifier,dice.alias());
