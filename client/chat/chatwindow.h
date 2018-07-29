@@ -56,7 +56,7 @@ class ChatWindow : public QWidget
 Q_OBJECT
 
 public :
-    enum CHAT_OPERATOR {DICEROLL,SECRET_DICEROLL,COMMAND,TO_GM_DICEROLL};
+    enum CHAT_OPERATOR {NONE,DICEROLL,SECRET_DICEROLL,COMMAND,TO_GM_DICEROLL};
     /**
      * @brief ChatWindow
      * @param chat

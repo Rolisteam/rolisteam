@@ -313,10 +313,11 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
     }
 
     setProperDictionnary(localPersonIdentifier);
+    CHAT_OPERATOR chatOperator = NONE;
 
     if(m_operatorMap->contains(tmpmessage.left(1)))
     {
-        CHAT_OPERATOR chatOperator = m_operatorMap->value(tmpmessage.left(1));
+        chatOperator = m_operatorMap->value(tmpmessage.left(1));
         tmpmessage=tmpmessage.remove(0,1);
         switch(chatOperator)
         {
@@ -351,9 +352,11 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
                         showMessage(localPerson->name(), localPerson->getColor(), tmpmessage,vide, NetMsg::EmoteMessageAction);
                         action = NetMsg::EmoteMessageAction;
                     }
-                    break;
                 }
             }
+        break;
+        case NONE:
+            break;
         }
     }
     else//normal text
@@ -374,10 +377,21 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
 
     // Emission du message
     auto mode = m_chat->getRecipientMode();
+
+    if(chatOperator == TO_GM_DICEROLL)
+    {
+        mode = NetworkMessage::OneOrMany;
+    }
+
     NetworkMessageWriter data(NetMsg::ChatCategory, action, mode);
     if(NetworkMessage::OneOrMany == mode)
     {
-        data.setRecipientList(m_chat->getRecipientList(),mode);
+        if(chatOperator == TO_GM_DICEROLL)
+        {
+            data.setRecipientList(QStringList() << PlayersList::instance()->getGmId(),mode);
+        }
+        else
+            data.setRecipientList(m_chat->getRecipientList(),mode);
     }
 
     data.string8(localPerson->getUuid());
