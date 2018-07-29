@@ -911,6 +911,15 @@ Player* PlayersList::getGM()
     }
     return nullptr;
 }
+
+QString PlayersList::getGmId()
+{
+    auto gm = getGM();
+    if(nullptr == gm)
+        return {};
+    else
+        return gm->getUuid();
+}
 bool PlayersList::hasPlayer(Player* player)
 {
     return m_playersList.contains(player);

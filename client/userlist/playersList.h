@@ -120,6 +120,7 @@ public:
     //static void defineFeaturePlayer(Player* player);
 
     Player* getGM();
+    QString getGmId();
     // Proxy helpers
     static const quint32 NoParent = 0x7fffffff;
 public slots:
