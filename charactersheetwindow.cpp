@@ -50,7 +50,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     
     setWindowIcon(QIcon(":/resources/icons/treeview.png"));
     m_addSection = new QAction(tr("Add Section"),this);
-    m_addLine= new QAction(tr("Add line"),this);
+    m_addLine= new QAction(tr("Add Field"),this);
     m_addCharacterSheet= new QAction(tr("Add CharacterSheet"),this);
     m_copyTab = new QAction(tr("Copy Tab"),this);
     connect(m_copyTab,SIGNAL(triggered(bool)),this,SLOT(copyTab()));
