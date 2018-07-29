@@ -9,9 +9,10 @@
 // LogPanel code
 //
 /////////////////////////////////////
-LogPanel::LogPanel(QWidget *parent) :
+LogPanel::LogPanel(LogController* controller,QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::LogPanel)
+    ui(new Ui::LogPanel),
+    m_controller(controller)
 {
     ui->setupUi(this);
     ui->m_eraseBtn->setDefaultAction(ui->m_eraseAllAct);
@@ -25,10 +26,12 @@ LogPanel::LogPanel(QWidget *parent) :
 
 
     connect(ui->m_logLevel,static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,[=](){
-        m_currentLogLevel = static_cast<LogController::LogLevel>(ui->m_logLevel->currentIndex());
-        emit logLevelChanged(m_currentLogLevel);
+        auto logLevel = static_cast<LogController::LogLevel>(ui->m_logLevel->currentIndex());
+        controller->setLogLevel(logLevel);
         m_prefManager->registerValue("LogController_LogLevel",ui->m_logLevel->currentIndex());
     });
+
+    connect(m_controller,&LogController::showMessage,this,&LogPanel::showMessage);
 }
 
 LogPanel::~LogPanel()
@@ -40,7 +43,7 @@ void LogPanel::showMessage(QString msg,LogController::LogLevel level)
 {
     static bool alternance = false;
 
-    if(m_currentLogLevel < level && level !=LogController::Features)
+    if(m_controller->logLevel() < level && level !=LogController::Features)
         return;
 
     QColor color;

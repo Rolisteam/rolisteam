@@ -15,21 +15,19 @@ class LogPanel : public QWidget
     Q_OBJECT
 
 public:
-    explicit LogPanel(QWidget* parent = 0);
+    explicit LogPanel(LogController* controller, QWidget* parent = 0);
     ~LogPanel();
 
 public slots:
     void showMessage(QString,LogController::LogLevel level);
     void initSetting();
 
-signals:
-    void logLevelChanged(LogController::LogLevel i);
 protected slots:
     void saveLog();
 private:
     Ui::LogPanel *ui;
     PreferencesManager* m_prefManager = PreferencesManager::getInstance();
-    LogController::LogLevel m_currentLogLevel;
+    LogController* m_controller = nullptr;
 };
 
 #endif // LOGPANEL_H
