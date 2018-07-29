@@ -8,8 +8,8 @@ SetPropertyOnCharactersCommand::SetPropertyOnCharactersCommand(QString idPropert
       auto charact = m_model->getCharacterSheet(i);
       if(nullptr != charact)
       {
-        m_oldValues << charact->getValue(m_propertyId,Qt::EditRole).toString();
-        m_oldFormula << charact->getValue(m_propertyId,Qt::EditRole).toString();
+        m_oldValues << charact->getValue(m_propertyId,Qt::DisplayRole).toString();
+        m_oldFormula << charact->getValue(m_propertyId,Qt::UserRole).toString();
       }
     }
     setText(QObject::tr("Set property on all characters: %1").arg(idProperty));

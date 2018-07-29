@@ -883,7 +883,7 @@ void MainWindow::menuRequested(const QPoint & pos)
     else if(act == m_applyValueOnAllCharacters)
     {
         QString value = index.data().toString();
-        QString formula = index.data(Qt::EditRole).toString();
+        QString formula = index.data(Qt::UserRole).toString();
         auto characterItem = m_characterModel->indexToSection(index);
         if((!value.isEmpty())&&(nullptr!=characterItem))
         {
