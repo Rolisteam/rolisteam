@@ -93,18 +93,19 @@ MainWindow::MainWindow(QWidget *parent) :
     setAcceptDrops(true);
     ui->setupUi(this);
 
+    ui->m_tabWidget->setCurrentIndex(0);
 
     //LOG
-    m_logManager = new LogController(this);
+    m_logManager = new LogController(false,this);
     m_logManager->setCurrentModes(LogController::Gui);
     QDockWidget* wid = new QDockWidget(tr("Log panel"),this);
     wid->setObjectName(QStringLiteral("logpanel"));
-    m_logPanel = new LogPanel();
+    m_logPanel = new LogPanel(m_logManager);
     wid->setWidget(m_logPanel);
     addDockWidget(Qt::BottomDockWidgetArea,wid);
     auto showLogPanel = wid->toggleViewAction();
 
-    connect(m_logManager,&LogController::showMessage,m_logPanel,&LogPanel::showMessage);
+
 
 
     m_additionnalCode = "";
@@ -392,6 +393,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     connect(ui->m_addImageAct,SIGNAL(triggered(bool)),this,SLOT(addImage()));
+    connect(ui->m_deleteImageAct,&QAction::triggered,this,[=](){
+        auto index = ui->m_imageList->currentIndex();
+        m_imageModel->removeImageAt(index);
+    });
 
     // Make the table button invisible
     //ui->m_tableFieldBtn->setVisible(false);
@@ -405,27 +410,10 @@ MainWindow::MainWindow(QWidget *parent) :
     m_copyPath = new QAction(tr("Copy Path"),ui->m_imageList);
     m_copyPath->setShortcut(QKeySequence("CTRL+c"));
     m_replaceImage= new QAction(tr("Change Image"),ui->m_imageList);
-    m_removeImage= new QAction(tr("Delete Image"),ui->m_imageList);
 
     ui->m_imageList->addAction(m_copyPath);
     connect(m_copyPath,SIGNAL(triggered(bool)),this,SLOT(copyPath()));
     ui->m_imageList->addAction(m_replaceImage);
-    ui->m_imageList->addAction(m_removeImage);
-
-    //////////////////////////////////////////
-    ///
-    /// contextual action for image model
-    ///
-    //////////////////////////////////////////
-    m_copyPath = new QAction(tr("Copy Path"),ui->m_imageList);
-    m_copyPath->setShortcut(QKeySequence("CTRL+c"));
-    m_replaceImage= new QAction(tr("Change Image"),ui->m_imageList);
-    m_removeImage= new QAction(tr("Delete Image"),ui->m_imageList);
-
-    ui->m_imageList->addAction(m_copyPath);
-    connect(m_copyPath,SIGNAL(triggered(bool)),this,SLOT(copyPath()));
-    ui->m_imageList->addAction(m_replaceImage);
-    ui->m_imageList->addAction(m_removeImage);
 
 
     readSettings();
@@ -663,7 +651,7 @@ void MainWindow::openPDF()
                         m_undoStack.push(cmd);
                         canvas->setBg(bg);
                         QString key = QStringLiteral("%2_background_%1.jpg").arg(lastCanvas+i).arg(id);
-                        m_imageModel->insertImage(pix,key,QString("From PDF"));
+                        m_imageModel->insertImage(pix,key,QString("From PDF"),true);
                     }
                 }
             }
@@ -712,7 +700,7 @@ void MainWindow::openImage()
                 canvas->setBg(bg);
                 QString id = QUuid::createUuid().toString();
                 QString key = QStringLiteral("%2_background_%1.jpg").arg(m_currentPage).arg(id);
-                m_imageModel->insertImage(pix,key,img);
+                m_imageModel->insertImage(pix,key,img,true);
             }
         }
     }
@@ -908,6 +896,7 @@ void MainWindow::menuRequested(const QPoint & pos)
 
 void MainWindow::applyValueOnCharacterSelection(QModelIndex& index, bool selection,bool allCharacter)
 {
+    Q_UNUSED(allCharacter);
     if(!index.isValid())
         return;
 
@@ -942,7 +931,7 @@ void MainWindow::menuRequestedForImageModel(const QPoint & pos)
         menu.addAction(m_copyPath);
         menu.addSeparator();
         menu.addAction(m_replaceImage);
-        menu.addAction(m_removeImage);
+        menu.addAction(ui->m_deleteImageAct);
 
         m_copyPath->setEnabled(index.column()==1);
     }
@@ -952,9 +941,7 @@ void MainWindow::menuRequestedForImageModel(const QPoint & pos)
     if( m_replaceImage == act)
     {
     }
-    else if(m_removeImage == act)
-    {
-    }
+
 }
 void MainWindow::copyPath()
 {
@@ -1000,7 +987,7 @@ void MainWindow::setImage()
             pix=new QPixmap();
         }
         QString idList = QStringLiteral("%2_background_%1.jpg").arg(i).arg(id);
-        m_imageModel->insertImage(pix,idList,"from canvas");
+        m_imageModel->insertImage(pix,idList,"from canvas",true);
         ++i;
     }
     if(issue)
@@ -1085,23 +1072,8 @@ void MainWindow::save()
             obj["fonts"]=fonts;
 
             //background
-            QJsonArray images;
-            for(auto canvas : m_canvasList)
-            {
-                QPixmap* pix = canvas->pixmap();
-                if(nullptr!=pix)
-                {
-                    QJsonObject oj;
+            QJsonArray images = m_imageModel->save();
 
-                    QByteArray bytes;
-                    QBuffer buffer(&bytes);
-                    buffer.open(QIODevice::WriteOnly);
-                    pix->save(&buffer, "PNG");
-                    oj["bin"]=QString(buffer.data().toBase64());
-                    oj["key"]=m_pixList.key(pix);
-                    images.append(oj);
-                }
-            }
             obj["background"]=images;
             m_characterModel->writeModel(obj,true);
             json.setObject(obj);
@@ -1185,34 +1157,38 @@ void MainWindow::open()
                     QJsonObject oj = jsonpix;//jsonpix.toObject();
                     QString str = oj["bin"].toString();
                     QString id = oj["key"].toString();
+                    bool isBg = oj["isBg"].toBool();
                     QByteArray array = QByteArray::fromBase64(str.toUtf8());
                     QPixmap* pix = new QPixmap();
                     pix->loadFromData(array);
-                    if(i!=0)
+                    if(isBg)
                     {
-                        Canvas* canvas = new Canvas();
-                        canvas->setModel(m_model);
-                        canvas->setUndoStack(&m_undoStack);
-                        auto bg = canvas->getBg();
-                        SetBackgroundCommand cmd(bg,canvas,pix);
-                        cmd.redo();
-                        canvas->setBg(bg);
+                        if(i!=0)
+                        {
+                            Canvas* canvas = new Canvas();
+                            canvas->setModel(m_model);
+                            canvas->setUndoStack(&m_undoStack);
+                            auto bg = canvas->getBg();
+                            SetBackgroundCommand cmd(bg,canvas,pix);
+                            cmd.redo();
+                            canvas->setBg(bg);
 
-                        canvas->setPixmap(pix);
-                        canvas->setCurrentPage(i);
-                        m_canvasList.append(canvas);
-                        connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
+                            canvas->setPixmap(pix);
+                            canvas->setCurrentPage(i);
+                            m_canvasList.append(canvas);
+                            connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
+                        }
+                        else
+                        {
+                            m_canvasList[0]->setPixmap(pix);
+                            auto bg = m_canvasList[0]->getBg();
+                            SetBackgroundCommand cmd(bg,m_canvasList[0],pix);
+                            cmd.redo();
+                            m_canvasList[0]->setBg(bg);
+                        }
+                        ++i;
                     }
-                    else
-                    {
-                        m_canvasList[0]->setPixmap(pix);
-                        auto bg = m_canvasList[0]->getBg();
-                        SetBackgroundCommand cmd(bg,m_canvasList[0],pix);
-                        cmd.redo();
-                        m_canvasList[0]->setBg(bg);
-                    }
-                    m_imageModel->insertImage(pix,id,"from rcs file");
-                    ++i;
+                    m_imageModel->insertImage(pix,id,"from rcs file",isBg);
                 }
                 QList<QGraphicsScene*> list;
                 for(auto canvas : m_canvasList)
@@ -1278,8 +1254,17 @@ void MainWindow::generateQML(QString& qml)
     QPixmap* pix = nullptr;
     bool allTheSame=true;
     QSize size;
-    //m_pixList = m_imageModel->getPixHash();
-    for(QPixmap* pix2 : m_pixList.values())
+
+    QList<QPixmap*> imageList;
+    for(auto key : m_pixList.keys())
+    {
+        if(m_imageModel->isBackgroundById(key))
+        {
+            imageList.append(m_pixList.value(key));
+        }
+    }
+
+    for(QPixmap* pix2 : imageList)
     {
         if(size != pix2->size())
         {
@@ -1289,7 +1274,6 @@ void MainWindow::generateQML(QString& qml)
         }
         pix = pix2;
     }
-    // QPixmap pix = m_canvasList.pixmap();
     qreal ratio = 1;
     qreal ratioBis= 1;
     bool hasImage= false;
@@ -1344,7 +1328,7 @@ void MainWindow::generateQML(QString& qml)
     }
     text << "    Keys.onLeftPressed: --page\n";
     text << "    Keys.onRightPressed: ++page\n";
-    text << "    signal rollDiceCmd(string cmd)\n";
+    text << "    signal rollDiceCmd(string cmd, bool alias)\n";
     text << "    signal showText(string text)\n";
     text << "    MouseArea {\n";
     text << "         anchors.fill:parent\n";
@@ -1440,19 +1424,23 @@ void MainWindow::showQML()
     {
         ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
     }
+    connect(ui->m_quickview->engine(),&QQmlEngine::warnings,this,[=](const QList<QQmlError> &warning){
+        displayWarningsQML(warning,LogController::Warning);
+    });
     ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
     displayWarningsQML(ui->m_quickview->errors());
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QObject* root = ui->m_quickview->rootObject();
+    connect(root,SIGNAL(rollDiceCmd(QString,bool)),this,SLOT(rollDice(QString,bool)));
     connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
 }
-void MainWindow::displayWarningsQML(QList<QQmlError> list)
+void MainWindow::displayWarningsQML(QList<QQmlError> list, LogController::LogLevel level)
 {
     if(!list.isEmpty())
     {
         for(auto error : list)
         {
-            m_logManager->manageMessage(error.toString(),LogController::Error);
+            m_logManager->manageMessage(error.toString(), level);
         }
     }
 }
@@ -1536,6 +1524,11 @@ void MainWindow::rollDice(QString cmd)
     qDebug() << cmd;
 }
 
+void MainWindow::rollDice(QString cmd, bool b)
+{
+    qDebug() << cmd << b;
+}
+
 void MainWindow::addPage()
 {
     Canvas* previous = m_canvasList[m_currentPage];
@@ -1561,7 +1554,9 @@ void MainWindow::removePage()
 
 void MainWindow::aboutRcse()
 {
-    AboutRcse dialog;
+    QString version("%1.%2.%3");
+
+    AboutRcse dialog(version.arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR),this);
     dialog.exec();
 }
 void MainWindow::addImage()
@@ -1574,7 +1569,7 @@ void MainWindow::addImage()
         if(!pix->isNull())
         {
             QString fileName = QFileInfo(img).fileName();
-            m_imageModel->insertImage(pix,fileName,img);
+            m_imageModel->insertImage(pix,fileName,img,false);
         }
     }
 }

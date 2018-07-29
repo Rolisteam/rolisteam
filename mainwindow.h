@@ -38,10 +38,10 @@
 #include "preferencesmanager.h"
 #include "imagemodel.h"
 #include "itemeditor.h"
+#include "common/controller/logcontroller.h"
 
 class CodeEditor;
 class LogPanel;
-class LogController;
 
 namespace Ui {
 class MainWindow;
@@ -90,13 +90,14 @@ public slots:
     void setFitInView();
     bool mayBeSaved();
     void modelChanged();
-    void displayWarningsQML(QList<QQmlError> list);
+    void displayWarningsQML(QList<QQmlError> list, LogController::LogLevel level = LogController::Error);
     void aboutRcse();
     void helpOnLine();
     void addImage();
     void copyPath();
 
     void exportPDF();
+    void rollDice(QString cmd, bool b);
 protected:
     bool eventFilter(QObject *, QEvent *);
     bool wheelEventForView(QWheelEvent *event);

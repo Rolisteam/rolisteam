@@ -22,7 +22,7 @@
     <item>
      <widget class="QTabWidget" name="m_tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="editor">
        <attribute name="title">
@@ -475,7 +475,7 @@
             <enum>QQuickWidget::SizeRootObjectToView</enum>
            </property>
           </widget>
-          <widget class="QWidget" name="">
+          <widget class="QWidget" name="layoutWidget">
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -627,8 +627,9 @@
      <string>Help</string>
     </property>
     <addaction name="m_onlineHelpAct"/>
-    <addaction name="m_aboutRcseAct"/>
     <addaction name="m_openLiberapay"/>
+    <addaction name="separator"/>
+    <addaction name="m_aboutRcseAct"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdition"/>
@@ -816,6 +817,10 @@
    </property>
   </action>
   <action name="m_aboutRcseAct">
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/logo/symbol2.png</normaloff>:/resources/logo/symbol2.png</iconset>
+   </property>
    <property name="text">
     <string>About RCSE</string>
    </property>
