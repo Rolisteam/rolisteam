@@ -152,12 +152,12 @@ private:
     /**
     * @brief QList which stores pointer to CharacterSheet.
     */
-    QList<CharacterSheet*>* m_characterList;
+    QList<CharacterSheet*>* m_characterList= nullptr;
 
    // int m_characterCount;
     
-    Section* m_rootSection;
-    Formula::FormulaManager* m_formulaManager;
+    Section* m_rootSection= nullptr;
+    Formula::FormulaManager* m_formulaManager = nullptr;
 };
 
 #endif // CHARACTERSHEETMODEL_H
