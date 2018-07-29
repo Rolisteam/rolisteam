@@ -5,6 +5,7 @@ CodeEdit::CodeEdit(Field* m_field,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CodeEdit)
 {
+    Q_UNUSED(m_field);
     ui->setupUi(this);
 }
 

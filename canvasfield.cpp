@@ -156,5 +156,5 @@ void CanvasField::setShowImageField(bool showImageField)
 
 void CanvasField::setMenu(QMenu &menu)
 {
-
+    Q_UNUSED(menu);
 }

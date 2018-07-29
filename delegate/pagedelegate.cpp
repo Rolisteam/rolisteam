@@ -30,6 +30,7 @@ PageDelegate::PageDelegate(QWidget* parent)
 }
 QString PageDelegate::displayText(const QVariant &value, const QLocale &locale) const
 {
+    Q_UNUSED(locale);
     if(value.toInt() < 0)
     {
         return tr("All pages");

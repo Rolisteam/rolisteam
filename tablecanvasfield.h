@@ -41,7 +41,7 @@ public:
      * @param option
      * @param widget
      */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     void load(QJsonObject &json);
     void save(QJsonObject &json);
 
@@ -70,7 +70,7 @@ class ButtonCanvas : public QGraphicsObject
 public:
     ButtonCanvas();
     QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QString msg() const;
     void setMsg(const QString &msg);
     QRectF rect() const;
@@ -93,7 +93,7 @@ public:
     TableCanvasField(Field* field);
     virtual ~TableCanvasField();
 
-    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+    void paint (QPainter * painter, const QStyleOptionGraphicsItem *, QWidget * = 0);
 
     bool hasFocusOrChild();
 

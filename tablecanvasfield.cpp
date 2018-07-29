@@ -49,7 +49,7 @@ QRectF HandleItem::boundingRect() const
     return QRectF(0,0, SQUARE_SIZE, SQUARE_SIZE);
 }
 
-void HandleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void HandleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->setPen(Qt::black);
     painter->fillRect(m_startPoint.x(), m_startPoint.y(), SQUARE_SIZE, SQUARE_SIZE,Qt::gray);
@@ -264,10 +264,8 @@ void TableCanvasField::setColunmCount(int colunmCount)
     m_colunmCount = colunmCount;
 }
 
-void TableCanvasField::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void TableCanvasField::paint(QPainter *painter, const QStyleOptionGraphicsItem*,QWidget*)
 {
-    Q_UNUSED(widget);
-
     QPointF position;
     switch(static_cast<TableField::ControlPosition>(m_position))
     {
@@ -508,7 +506,7 @@ QRectF ButtonCanvas::boundingRect() const
       return m_rect;
 }
 
-void ButtonCanvas::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void ButtonCanvas::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
     painter->save();
     painter->fillRect(boundingRect(),Qt::cyan);
