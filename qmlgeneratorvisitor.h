@@ -42,9 +42,9 @@ protected:
 
     QString getToolTip(Field *item);
 private:
+    QTextStream& m_out;
     CharacterSheetItem* m_root = nullptr;
     bool m_isTable = false;
-    QTextStream& m_out;
     int m_indentation = 1;
     QString m_indenSpace;
 };

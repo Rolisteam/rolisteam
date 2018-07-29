@@ -30,37 +30,44 @@ bool QmlGeneratorVisitor::generateCharacterSheetItem()
         if(child->getItemType() == CharacterSheetItem::FieldItem)
         {
             auto field = dynamic_cast<Field*>(child);
-            switch (field->getFieldType()) {
-            case CharacterSheetItem::TEXTINPUT:
-                generateTextInput(field);
-                break;
-            case CharacterSheetItem::TEXTFIELD:
-                generateTextField(field);
-                break;
-            case CharacterSheetItem::TEXTAREA:
-                generateTextArea(field);
-                break;
-            case CharacterSheetItem::SELECT:
-                generateSelect(field);
-                break;
-            case CharacterSheetItem::CHECKBOX:
-                generateCheckBox(field);
-                break;
-            case CharacterSheetItem::IMAGE:
-                generateImage(field);
-                break;
-            case CharacterSheetItem::DICEBUTTON:
-                generateDiceButton(field);
-                break;
-            case CharacterSheetItem::FUNCBUTTON:
-                generateFuncButton(field);
-                break;
-            case CharacterSheetItem::TABLE:
-                generateTable(field);
-                break;
-            case CharacterSheetItem::WEBPAGE:
-                generateWebPage(field);
-                break;
+            if(field->getGeneratedCode().isEmpty())
+            {
+                switch (field->getFieldType()) {
+                case CharacterSheetItem::TEXTINPUT:
+                    generateTextInput(field);
+                    break;
+                case CharacterSheetItem::TEXTFIELD:
+                    generateTextField(field);
+                    break;
+                case CharacterSheetItem::TEXTAREA:
+                    generateTextArea(field);
+                    break;
+                case CharacterSheetItem::SELECT:
+                    generateSelect(field);
+                    break;
+                case CharacterSheetItem::CHECKBOX:
+                    generateCheckBox(field);
+                    break;
+                case CharacterSheetItem::IMAGE:
+                    generateImage(field);
+                    break;
+                case CharacterSheetItem::DICEBUTTON:
+                    generateDiceButton(field);
+                    break;
+                case CharacterSheetItem::FUNCBUTTON:
+                    generateFuncButton(field);
+                    break;
+                case CharacterSheetItem::TABLE:
+                    generateTable(field);
+                    break;
+                case CharacterSheetItem::WEBPAGE:
+                    generateWebPage(field);
+                    break;
+                }
+            }
+            else
+            {
+                m_out << field->getGeneratedCode();
             }
 
         }
@@ -229,24 +236,21 @@ bool QmlGeneratorVisitor::generateSelect(Field *item)
     // WARNING no aligment and font for selectfield.
     QString text("%7SelectField {//%1\n"
         "%8"
-        "%7    text: %2.value\n"
+        "%7    selected: %2.value\n"
         "%7    availableValues:%6\n"
         "%7    currentIndex: combo.find(text)\n"
         "%7    textColor:\"%3\"\n"
         "%7    color: \"%4\"\n"
-        "%7    onCurrentTextChanged:{\n"
-        "%7        if(%2.value !== availableValues[currentIndex])\n"
+        "%7    onCurrentIndexChanged:{\n"
+        "%7        if(%2.value !== currentIndex)\n"
         "%7        {\n"
-        "%7            %2.value = availableValues[currentIndex]\n"
+        "%7            %2.value = currentIndex\n"
         "%7        }\n"
         "%7    }\n"
         "%7    visible: root.page == %5? true : false\n"
         "%7    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
-        "%7    onTextChanged: {\n"
-        "%7        %2.value = text\n"
-        "%7    }\n"
      "%7}\n");
 
      m_out << text.arg(item->getLabel())//%1
@@ -298,8 +302,8 @@ bool QmlGeneratorVisitor::generateFuncButton(Field *item)
 
     QString text("%7DiceButton {//%1\n"
         "%8"
-        "%7    text: %2.value\n"
-        "%7    label: %2.label\n"
+        "%7    command: %2.value\n"
+        "%7    text: %2.label\n"
         "%7    textColor: \"%3\"\n"
         "%7    color: \"%4\"\n"
         "%7    visible: root.page == %5? true : false\n"
@@ -308,7 +312,7 @@ bool QmlGeneratorVisitor::generateFuncButton(Field *item)
         generatePosition(item) +
         generateAlignment(item) +
         generateFont(item->font()) +
-        "%7    onTextChanged: {\n"
+        "%7    onClicked: {\n"
         "%7        %6\n"
         "%7    }\n"
      "%7}\n");
@@ -333,8 +337,8 @@ bool QmlGeneratorVisitor::generateDiceButton(Field *item)
 
     QString text("%7DiceButton {//%1\n"
         "%8"
-        "%7    text: %2.value\n"
-        "%7    label: %2.label\n"
+        "%7    command: %2.value\n"
+        "%7    text: %2.label\n"
         "%7    textColor: \"%3\"\n"
         "%7    color: \"%4\"\n"
         "%7    visible: root.page == %5? true : false\n"
@@ -343,9 +347,7 @@ bool QmlGeneratorVisitor::generateDiceButton(Field *item)
         generatePosition(item) +
         generateAlignment(item) +
         generateFont(item->font()) +
-        "%7    onTextChanged: {\n"
-        "%7        onClicked:rollDiceCmd(%2.value,%6)\n"
-        "%7    }\n"
+        "%7    onClicked:rollDiceCmd(%2.value,%6)\n"
      "%7}\n");
 
      m_out << text.arg(item->getLabel())//%1
@@ -512,7 +514,7 @@ QString QmlGeneratorVisitor::generateAlignment(Field *item)
 
 QString QmlGeneratorVisitor::generateFont(QFont font)
 {
-    QString fontStr("%8    font.family:  %1\n"
+    QString fontStr("%8    font.family:  \"%1\"\n"
     "%8    font.bold:    %2\n"
     "%8    font.italic:  %3\n"
     "%8    font.underline: %4\n"
