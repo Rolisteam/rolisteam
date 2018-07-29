@@ -78,6 +78,7 @@ public:
     bool setData(QModelIndex& index, QVariant data,int role);
     QHash<int, QByteArray>  roleNames() const;
     void insertLine(LineFieldItem* line);
+    void appendLine(TableField* field);
     void clear();
     int getChildrenCount() const;
     int getColumnCount() const;
@@ -106,7 +107,7 @@ public:
     enum ControlPosition {CtrlLeftTop,CtrlLeftBottom,CtrlTopLeft,CtrlTopRight,CtrlBottomLeft,CtrlBottomRight,CtrlRightTop,CtrlRightBottom};
     explicit TableField(bool addCount = true,QGraphicsItem* parent = 0);
     explicit TableField(QPointF topleft,bool addCount = true,QGraphicsItem* parent = 0);
-    void generateQML(QTextStream &out, CharacterSheetItem::QMLSection sec,int i, bool isTable=false);
+    void fillModel();
     virtual ~TableField();
 
     LineModel* getModel () const;
@@ -140,7 +141,9 @@ public:
     CharacterSheetItem* getRoot();
 
 public slots:
-    void removeLine(int);
+    void addLine();
+    void removeLine(int line);
+    void removeLastLine();
 signals:
     void updateNeeded(CSItem* c);
 

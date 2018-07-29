@@ -185,12 +185,27 @@ QHash<int, QByteArray>  LineModel::roleNames() const
     }
     return roles;
 }
+
 void LineModel::insertLine(LineFieldItem* line)
 {
     beginInsertRows(QModelIndex(),m_lines.size(),m_lines.size());
     m_lines.append(line);
     endInsertRows();
 }
+
+void LineModel::appendLine(TableField* field)
+{
+    if(m_lines.isEmpty())
+        return;
+
+    auto line = m_lines.last();
+    QJsonArray array;
+    line->save(array);
+    auto fieldLine = new LineFieldItem();
+    fieldLine->loadDataItem(array, field);
+    insertLine(fieldLine);
+}
+
 void LineModel::clear()
 {
     beginResetModel();
@@ -198,6 +213,7 @@ void LineModel::clear()
     m_lines.clear();
     endResetModel();
 }
+
 int LineModel::getChildrenCount() const
 {
     if(!m_lines.isEmpty())
@@ -206,6 +222,7 @@ int LineModel::getChildrenCount() const
     }
     return 0;
 }
+
 Field*  LineModel::getFieldById(const QString& id)
 {
     for(const auto& line : m_lines)
@@ -217,6 +234,7 @@ Field*  LineModel::getFieldById(const QString& id)
     return nullptr;
 
 }
+
 int LineModel::getColumnCount() const
 {
     if(!m_lines.isEmpty())
@@ -226,6 +244,7 @@ int LineModel::getColumnCount() const
     }
     return 0;
 }
+
 Field* LineModel::getField(int line, int col)
 {
     if(m_lines.size()>line)
@@ -234,6 +253,7 @@ Field* LineModel::getField(int line, int col)
     }
     return nullptr;
 }
+
 void LineModel::save(QJsonArray &json)
 {
     for(const auto& line : m_lines)
@@ -253,6 +273,7 @@ void LineModel::saveDataItem(QJsonArray &json)
         json.append(lineJson);
     }
 }
+
 void LineModel::load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent)
 {
     beginResetModel();
@@ -281,6 +302,7 @@ void LineModel::loadDataItem(QJsonArray &json, CharacterSheetItem* parent)
     }
     endResetModel();
 }
+
 void LineModel::removeLine(int index)
 {
     if(m_lines.isEmpty())
@@ -332,6 +354,19 @@ void TableField::removeLine(int index)
 {
     m_model->removeLine(index);
 }
+
+void TableField::removeLastLine()
+{
+    QModelIndex index;
+    m_model->removeLine(m_model->rowCount(index)-1);
+}
+
+void TableField::addLine()
+{
+    m_model->appendLine(this);
+}
+
+
 void TableField::init()
 {
     m_canvasField = nullptr;
@@ -408,7 +443,7 @@ CharacterSheetItem *TableField::getRoot()
         return m_tableCanvasField->getRoot();
     #else
         return nullptr;
-    #endif
+#endif
 }
 
 CharacterSheetItem* TableField::getChildAt(QString id) const
@@ -495,6 +530,7 @@ CharacterSheetItem::CharacterSheetItemType TableField::getItemType() const
 }
 void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
 {
+    Q_UNUSED(scene);
     m_id = json["id"].toString();
     m_border = static_cast<BorderLine>(json["border"].toInt());
     m_value= json["value"].toString();
@@ -544,14 +580,16 @@ void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
     }
     m_rect.setRect(x,y,w,h);
     QJsonArray childArray=json["children"].toArray();
-    m_model->load(childArray,scene,this);
+
+    QList<QGraphicsScene*> emptyList;
+    m_model->load(childArray,emptyList,this);
 
     #ifdef RCSE
     if(json.contains("canvas"))
     {
         m_tableCanvasField = new TableCanvasField(this);
         auto obj = json["canvas"].toObject();
-        m_tableCanvasField->load(obj,scene);
+        m_tableCanvasField->load(obj,emptyList);
         m_canvasField = m_tableCanvasField;
     }
     m_canvasField->setPos(x,y);
@@ -563,6 +601,7 @@ void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
 
 void TableField::copyField(CharacterSheetItem *oldItem, bool copyData, bool sameId)
 {
+    Q_UNUSED(copyData);
     auto const oldField =  dynamic_cast<TableField*>(oldItem);
     if(nullptr!=oldField)
     {
@@ -588,21 +627,22 @@ bool TableField::mayHaveChildren() const
 {
     return true;
 }
-void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec,int i, bool isTable)
+
+void TableField::fillModel()
 {
-    #ifdef RCSE
+   /* #ifdef RCSE
     Q_UNUSED(i)
     Q_UNUSED(isTable)
 
     if(nullptr==m_tableCanvasField)
     {
         return;
-    }
+    }*/
+
 
     m_model->clear();
-
     m_tableCanvasField->fillLineModel(m_model,this);
-    emit updateNeeded(this);
+    /*emit updateNeeded(this);
     if(sec==CharacterSheetItem::FieldSec)
     {
         out << "    ListView{//"<< m_label <<"\n";
@@ -637,7 +677,7 @@ void TableField::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec
         Q_UNUSED(sec)
         Q_UNUSED(isTable)
         Q_UNUSED(i)
-    #endif
+    #endif*/
 }
 
 QString TableField::computeControlPosition()
