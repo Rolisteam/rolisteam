@@ -325,6 +325,7 @@ void Field::save(QJsonObject& json,bool exp)
     json["page"]=m_page;
     json["formula"]=m_formula;
     json["tooltip"]=m_tooltip;
+    json["generatedCode"]=m_generatedCode;
 
     json["clippedText"]=m_clippedText;
 
@@ -394,6 +395,7 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
     w=json["width"].toDouble();
     h=json["height"].toDouble();
     m_page=json["page"].toInt();
+    m_generatedCode = json["generatedCode"].toString();
 
     QJsonArray valuesArray=json["values"].toArray();
     for(auto value : valuesArray.toVariantList())
