@@ -100,6 +100,10 @@ const  QVariant CharacterSheet::getValue(QString path,Qt::ItemDataRole role) con
             }
             return str;
         }
+        else if(role == Qt::UserRole)
+        {
+            return item->getFormula();
+        }
         else if(role == Qt::BackgroundRole)
         {
             return item->isReadOnly() ? QColor(Qt::red) : QVariant();
