@@ -3,7 +3,10 @@ import QtQuick.Controls 2.0
 
 Rectangle {
     id:root
-    property string text: ""
+    property int selected
+    property var selectedValue: 0
+    property int valueRole: 0
+    property bool defined: false
     property alias currentIndex : selectvalues.currentIndex
     property alias currentText: selectvalues.currentText
     property alias count: selectvalues.count
@@ -15,10 +18,20 @@ Rectangle {
     property int hAlign: 0
     property int vAlign: 0
     property bool readOnly: false
+    property alias textRole: selectvalues.textRole
 
     property alias availableValues: selectvalues.model
     property bool clippedText: false
-
+    Component.onCompleted:{
+        currentIndex = selected
+        defined = true
+    }
+    onSelectedChanged:{
+        if(currentIndex !== selected)
+        {
+            currentIndex = selected
+        }
+    }
     ComboBox {
         id: selectvalues
         anchors.fill: parent
@@ -28,7 +41,7 @@ Rectangle {
         ToolTip.text: root.tooltip
         ToolTip.visible: root.tooltip.length >0 && pressed
         onCountChanged: {
-            currentIndex=selectvalues.find(root.text)
+            currentIndex=selected
         }
 
         indicator: Canvas {
@@ -56,11 +69,11 @@ Rectangle {
               }
 
     }
-    onTextChanged: {
+    /*onTextChanged: {
         if(selectvalues.count>0)
         {
             currentIndex=selectvalues.find(text)
         }
-    }
+    }*/
 }
 

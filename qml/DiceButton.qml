@@ -8,11 +8,12 @@ Rectangle {
     property alias hAlign: textInput.horizontalAlignment
     property alias font: textInput.font
     property alias wrapMode: textInput.wrapMode
-    property string label: ""
+    property string command: ""
     property alias vAlign: textInput.verticalAlignment
     property bool readOnly: false
     property bool hasAlias: true
     property string tooltip: ""
+
 
     scale: mouseZone.pressed ? 0.8 : 1.0
     signal clicked
