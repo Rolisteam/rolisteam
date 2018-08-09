@@ -555,7 +555,7 @@ void MainWindow::createNotificationZone()
     wd->setLayout(layout);
 
 
-    m_notifierDisplay = new LogPanel(m_dockLogUtil);
+    m_notifierDisplay = new LogPanel(m_logController,m_dockLogUtil);
 
     layout->addWidget(m_notifierDisplay);
     layout->addWidget(m_downLoadProgressbar);
