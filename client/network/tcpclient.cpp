@@ -196,7 +196,8 @@ void TcpClient::setInfoPlayer(NetworkMessageReader* msg)
         m_player->readFromMsg(*msg);
 
         /// @todo make it nicer.
-        setName(m_player->name());
+        auto name = m_player->name();
+        setName(name);
         setId(m_player->getUuid());
     }
 }
@@ -316,8 +317,8 @@ QString TcpClient::getServerPassword() const
 }
 void TcpClient::forwardMessage()
 {
-    QByteArray array((char*)&m_header,sizeof(NetworkMessageHeader));
-    array.append(m_buffer,m_header.dataSize);
+    QByteArray array(reinterpret_cast<char*>(&m_header),sizeof(NetworkMessageHeader));
+    array.append(m_buffer,static_cast<int>(m_header.dataSize));
     if(!isCurrentState(m_disconnected))
     {
         if(m_header.category == NetMsg::AdministrationCategory)
@@ -325,6 +326,7 @@ void TcpClient::forwardMessage()
             NetworkMessageReader msg;
             msg.setData(array);
             readAdministrationMessages(msg);
+            emit dataReceived(array);
         }
         else if(!m_forwardMessage)
         {
