@@ -14,6 +14,7 @@ SUBDIRS = \
     picture \
     session \
     dataCharacter \
+    sendToServer \
     dataChapter
     #     network \
     #    MainWindow  picture   map Dice
