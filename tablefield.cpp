@@ -641,7 +641,9 @@ void TableField::fillModel()
 
 
     m_model->clear();
+    #ifdef RCSE
     m_tableCanvasField->fillLineModel(m_model,this);
+    #endif
     /*emit updateNeeded(this);
     if(sec==CharacterSheetItem::FieldSec)
     {

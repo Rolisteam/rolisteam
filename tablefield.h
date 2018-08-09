@@ -38,6 +38,7 @@ class TableCanvasField : public QGraphicsObject
 };
 #endif
 
+class TableField;
 /**
  * @brief The LineFieldItem class
  */
