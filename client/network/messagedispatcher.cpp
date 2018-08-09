@@ -1,9 +1,19 @@
 #include "messagedispatcher.h"
 #include "network/networkmessagereader.h"
 
+#include <QDateTime>
+#include <QStringView>
+
 MessageDispatcher::MessageDispatcher(QObject *parent) : QObject(parent)
 {
+    QDateTime time = QDateTime::currentDateTime();
+    QString path = QStringLiteral("/home/renaud/www/DataServer_%1.log").arg(time.toString(Qt::ISODate));
 
+    m_file.setFileName(path);
+    if(m_file.open(QIODevice::WriteOnly))
+    {
+        m_recorder.setDevice(&m_file);
+    }
 }
 
 void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpClient* emitter)
@@ -13,6 +23,26 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
     NetworkMessageReader* msg = new NetworkMessageReader();
 
     msg->setData(data);
+
+    if(m_recording)
+    {
+        static QHash<TcpClient*,int> tableEmitter;
+        static int counter = 0;
+        int i = 0;
+        if(tableEmitter.contains(emitter))
+        {
+            i = tableEmitter[emitter];
+        }
+        else
+        {
+            tableEmitter[emitter] = counter;
+            i = counter;
+            ++counter;
+        }
+
+        m_recorder << QTime::currentTime().toString(QStringLiteral("hh:mm:ss:zzz")) << "_" << i << "_" << data.toBase64() << "\n";
+        m_recorder.flush();
+    }
 
     qDebug() << "[Server][Received Message]" <<cat2String(msg->header()) << act2String(msg->header()) << channel << emitter->getName() << msg->getSize();
 

@@ -14,6 +14,8 @@ DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=9 VERSION_MINOR=0
 TEMPLATE = subdirs
 SUBDIRS = client server
 
+CONFIG += TESTS
+
 TESTS {
 message("test")
     SUBDIRS += tests

@@ -29,6 +29,10 @@ signals:
 public slots:
     void dispatchMessage(QByteArray msg, Channel* channel, TcpClient* emitter);
 
+private:
+    bool m_recording = true;
+    QTextStream m_recorder;
+    QFile m_file;
 };
 
 #endif // MESSAGEDISPATCHER_H
