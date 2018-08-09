@@ -33,6 +33,7 @@ public:
     void setSignalInspection(bool signalInspection);
     void setListenOutSide(bool );
 
+    void setMessageHandler(bool attachMessage);
 signals:
     void showMessage(QString,LogController::LogLevel);
     void sendOffMessage(QString);

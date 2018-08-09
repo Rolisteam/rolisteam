@@ -46,14 +46,7 @@ LogController::LogController(bool attachMessage,QObject *parent)
   : QObject(parent)
 {
     qRegisterMetaType<LogController::LogLevel>("LogController::LogLevel");
-    if(controller == nullptr)
-    {
-        if(attachMessage)
-        {
-           qInstallMessageHandler(messageHandler);
-        }
-        controller = this;
-    }
+    setMessageHandler(attachMessage);
 }
 
 LogController::~LogController()
@@ -61,6 +54,19 @@ LogController::~LogController()
       controller = nullptr;
 }
 
+
+void LogController::setMessageHandler(bool attachMessage)
+{
+    if((controller == nullptr) && (attachMessage))
+    {
+           qInstallMessageHandler(messageHandler);
+    }
+    else
+    {
+        qInstallMessageHandler(nullptr);
+        controller= nullptr;
+    }
+}
 LogController::StorageModes LogController::currentModes() const
 {
     return m_currentModes;
