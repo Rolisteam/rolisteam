@@ -23,7 +23,7 @@ ServerManager::ServerManager(QObject *parent)
 
     connect(m_model,&ChannelModel::totalSizeChanged,this,&ServerManager::memoryChannelChanged);
     m_msgDispatcher = new MessageDispatcher(this);
-    connect(this,SIGNAL(messageMustBeDispatched(QByteArray,Channel*,TcpClient*)),m_msgDispatcher,SLOT(dispatchMessage(QByteArray,Channel*,TcpClient*)),Qt::QueuedConnection);
+    connect(this,&ServerManager::messageMustBeDispatched,m_msgDispatcher,&MessageDispatcher::dispatchMessage,Qt::QueuedConnection);
 
     connect(m_msgDispatcher, SIGNAL(messageForAdmin(NetworkMessageReader*,Channel*,TcpClient*)),this,SLOT(processMessageAdmin(NetworkMessageReader*,Channel*,TcpClient*)));
     m_defaultChannelIndex = m_model->addChannel("default","");
