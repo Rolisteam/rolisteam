@@ -554,6 +554,7 @@ void MainWindow::createNotificationZone()
     QVBoxLayout* layout = new QVBoxLayout();
     wd->setLayout(layout);
 
+    m_logController = new LogController(false,this);
 
     m_notifierDisplay = new LogPanel(m_logController,m_dockLogUtil);
 
@@ -573,7 +574,8 @@ void MainWindow::createPostSettings()
     // Log controller
     auto logDebug = m_preferences->value(QStringLiteral("LogDebug"),false).toBool();
     m_notifierDisplay->initSetting();
-    m_logController = new LogController(logDebug,this);
+    m_logController->setMessageHandler(logDebug);
+
     auto LogResearch = m_preferences->value(QStringLiteral("LogResearch"),false).toBool();
     auto logRoli = m_preferences->value(QStringLiteral("LogRolisteam"),false).toBool();
     m_logController->setSignalInspection(logDebug && (LogResearch || logRoli));
