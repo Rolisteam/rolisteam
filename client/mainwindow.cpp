@@ -120,6 +120,7 @@ MainWindow::MainWindow()
     registerQmlTypes();
 #ifdef HAVE_WEBVIEW
     QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, true);
+    QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::Accelerated2dCanvasEnabled, false);
 #endif
 
     m_preferences = PreferencesManager::getInstance();
@@ -1561,6 +1562,7 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
 }
 void MainWindow::processWebPageMessage(NetworkMessageReader* msg)
 {
+#ifdef HAVE_WEBVIEW
     if(msg->action() == NetMsg::UpdateContent)
     {
         QString idMedia = msg->string8();
@@ -1571,6 +1573,7 @@ void MainWindow::processWebPageMessage(NetworkMessageReader* msg)
             note->readMessage(*msg);
         }
     }
+#endif
 }
 void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
 {
@@ -2419,12 +2422,15 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         tmp = tmpShared;
     }
         break;
+#ifdef HAVE_WEBVIEW
     case CleverURI::WEBVIEW:
     {
         WebView* tmpWeb = new WebView(true);
         tmp = tmpWeb;
     }
         break;
+
+#endif
     case CleverURI::SCENARIO:
         readStory(uri->getUri());
         break;

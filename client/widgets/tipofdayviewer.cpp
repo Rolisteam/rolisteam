@@ -29,7 +29,7 @@ TipOfDayViewer::TipOfDayViewer(QString title, QString msg, QString url,QWidget *
     m_ui->setupUi(this);
     setWindowTitle(tr("%1 - Tip Of The Day").arg(title));
     m_ui->m_text->setText(msg);
-    connect(m_ui->m_neverShowAgain,&QCheckBox::toggled,[&](bool value){
+    connect(m_ui->m_neverShowAgain,&QCheckBox::toggled,this,[&](bool value){
        m_dontshowAgain = value;
     });
 
