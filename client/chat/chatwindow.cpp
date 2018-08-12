@@ -85,14 +85,13 @@ ChatWindow::ChatWindow(AbstractChat * chat,QWidget* parent)
     m_operatorMap->insert("!",DICEROLL);
     m_operatorMap->insert("&",SECRET_DICEROLL);
     m_operatorMap->insert("#",TO_GM_DICEROLL);
-
-
-
 }
+
 QMdiSubWindow* ChatWindow::getSubWindow()
 {
     return m_window;
 }
+
 void ChatWindow::updateListAlias()
 {
     QList<DiceAlias*>* list = m_diceParser->getAliases();
@@ -269,7 +268,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
         showMessage(messageTitle, color, messageCorps);
     }
 
-    m_diceParser->setVariableDictionary(nullptr);
+    m_diceParser->setVariableDictionary(QHash<QString,QString>());
 }
 
 bool ChatWindow::isTimeShown() const
@@ -757,20 +756,17 @@ void ChatWindow::setProperDictionnary(QString idOwner)
 {
     if(nullptr!=m_diceParser)
     {
-        QHash<QString,QString>* variableTest = nullptr;
+        QHash<QString,QString> variableTest;
         if(m_dicoByCharacter.contains(idOwner))
         {
             variableTest = m_dicoByCharacter[idOwner];
             m_dicoByCharacter.remove(idOwner);
-            delete variableTest;
         }
-
 
         Person* localPerson = PlayersList::instance()->getPerson(idOwner);
         if(nullptr!=localPerson)
         {
-            variableTest = new QHash<QString,QString>();
-            *variableTest = localPerson->getVariableDictionnary();
+            variableTest = localPerson->getVariableDictionnary();
             m_dicoByCharacter.insert(idOwner,variableTest);
         }
 

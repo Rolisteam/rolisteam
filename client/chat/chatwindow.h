@@ -251,7 +251,7 @@ private :
     QMap<QString,CHAT_OPERATOR>* m_operatorMap;
     Person* m_localPerson;
     static QList<DiceAlias*>* m_receivedAlias;
-    QHash<QString,QHash<QString,QString>*> m_dicoByCharacter;
+    QHash<QString,QHash<QString,QString>> m_dicoByCharacter;
     std::vector<DiceShortCut> m_diceBookMarks;
     std::vector<QAction*> m_actionList;
     bool m_showTime;
