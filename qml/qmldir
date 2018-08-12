@@ -8,3 +8,4 @@ CheckBoxField 1.0 CheckBoxField.qml
 DiceButton 1.0 DiceButton.qml
 ImageField 1.0 ImageField.qml
 WebView 1.0 WebView.qml
+PageButton 1.0 PageButton.qml
