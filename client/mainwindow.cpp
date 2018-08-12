@@ -84,6 +84,7 @@
 #include "widgets/gmtoolbox/UnitConvertor/convertor.h"
 #include "widgets/gmtoolbox/NameGenerator/namegeneratorwidget.h"
 #include "widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.h"
+#include "widgets/gmtoolbox/NpcMaker/npcmakerwidget.h"
 
 //VMAP
 #include "vmap/vmapframe.h"
@@ -156,10 +157,16 @@ MainWindow::MainWindow()
     /// Create all GM toolbox widget
     m_gmToolBoxList.append(new NameGeneratorWidget(this));
     m_gmToolBoxList.append(new GMTOOL::Convertor(this));
+    m_gmToolBoxList.append(new NpcMakerWidget(this));
     //m_gmToolBoxList.append(new DiceBookMarkWidget(this));
 
-    for (QWidget* wid : m_gmToolBoxList)
+    for (auto gmTool : m_gmToolBoxList)
     {
+        QWidget* wid  = dynamic_cast<QWidget*>(gmTool);
+
+        if(wid == nullptr)
+            continue;
+
         QDockWidget* widDock = new QDockWidget(this);
         widDock->setAllowedAreas(Qt::AllDockWidgetAreas);
         widDock->setWidget(wid);
