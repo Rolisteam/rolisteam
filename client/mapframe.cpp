@@ -61,7 +61,7 @@ MapFrame::~MapFrame()
 }
 void MapFrame::initMap()
 {
-	if(NULL!=m_map)
+        if(nullptr!=m_map)
 	{
         //setTitle(m_title);
         updateTitle();
@@ -126,9 +126,9 @@ void MapFrame::moveMap(QPoint position)
 }
 QString MapFrame::getMediaId()
 {
-	if(NULL!=m_map)
+    if(nullptr!=m_map)
     {
-		return m_map->identifiantCarte();
+        return m_map->identifiantCarte();
     }
     else
     {
@@ -137,20 +137,20 @@ QString MapFrame::getMediaId()
 }
 void MapFrame::focusInEvent(QFocusEvent * event)
 {
-	emit activated(m_map);
+    emit activated(m_map);
 
     MediaContainer::focusInEvent(event);
 }
 bool MapFrame::openMedia()
 {
-	m_mapWizzard->resetData();
-	if(m_mapWizzard->exec()==QMessageBox::Accepted)
-	{
-		QFileInfo info(m_mapWizzard->getFilepath());
+    m_mapWizzard->resetData();
+    if(m_mapWizzard->exec()==QMessageBox::Accepted)
+    {
+        QFileInfo info(m_mapWizzard->getFilepath());
 
-		m_preferences->registerValue("MapDirectory",info.absolutePath());
+        m_preferences->registerValue("MapDirectory",info.absolutePath());
         return true;
-	}
+    }
     return false;
 }
 bool MapFrame::openUriAndLoadMap(QString uri)
@@ -178,7 +178,7 @@ bool MapFrame::openUriAndLoadMap(QString uri)
 bool MapFrame::readFileFromUri()
 {
 
-    if((NULL!=m_uri)&&(!m_uri->getData().isEmpty())&&(m_uri->getUri().isEmpty()))
+    if((nullptr!=m_uri)&&(!m_uri->getData().isEmpty())&&(m_uri->getUri().isEmpty()))
     {//load from uri data
         QByteArray array = m_uri->getData();
         QDataStream in(&array,QIODevice::ReadOnly);
@@ -187,7 +187,7 @@ bool MapFrame::readFileFromUri()
         readMapAndNpc(in,m_isHidden);
         m_title = m_uri->name();
     }
-    else if((NULL!=m_uri)&&(!m_uri->getUri().isEmpty())&&(m_uri->getData().isEmpty()))
+    else if((nullptr!=m_uri)&&(!m_uri->getUri().isEmpty())&&(m_uri->getData().isEmpty()))
     {
         if(!openUriAndLoadMap(m_uri->getUri()))
         {
@@ -259,133 +259,133 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 {
     in >> m_title;
 
-	QPoint pos;
-	in >>pos;
+    QPoint pos;
+    in >>pos;
 
-	Map::PermissionMode myPermission;
-	quint32 permiInt;
-	in >> permiInt;
-	myPermission = (Map::PermissionMode) permiInt;
+    Map::PermissionMode myPermission;
+    quint32 permiInt;
+    in >> permiInt;
+    myPermission = (Map::PermissionMode) permiInt;
 
-	QSize size;
-	in >> size;
+    QSize size;
+    in >> size;
 
-	int taillePj;
-	in >> taillePj;
+    int taillePj;
+    in >> taillePj;
 
-	QByteArray baFondOriginal;
-	in >> baFondOriginal;
+    QByteArray baFondOriginal;
+    in >> baFondOriginal;
 
-	QByteArray baFond;
-	in >> baFond;
+    QByteArray baFond;
+    in >> baFond;
 
-	QByteArray baAlpha;
-	in>> baAlpha;
+    QByteArray baAlpha;
+    in>> baAlpha;
 
-	bool ok;
+    bool ok;
 
 
-	//////////////////
-	// Manage Data to create the map.
-	//////////////////
+    //////////////////
+    // Manage Data to create the map.
+    //////////////////
 
-	QImage fondOriginal;
-	ok = fondOriginal.loadFromData(baFondOriginal, "jpeg");
-	if (!ok)
-	{
+    QImage fondOriginal;
+    ok = fondOriginal.loadFromData(baFondOriginal, "jpeg");
+    if (!ok)
+    {
         error(tr("Extract original background information Failed (readMapAndNpc - bipmapwindow.cpp)"),this);
-		return false;
-	}
+        return false;
+    }
 
-	QImage fond;
-	ok = fond.loadFromData(baFond, "jpeg");
-	if (!ok)
-	{
+    QImage fond;
+    ok = fond.loadFromData(baFond, "jpeg");
+    if (!ok)
+    {
         error(tr("Extract background information Failed (readMapAndNpc - bipmapwindow.cpp)"),this);
-		return false;
-	}
+        return false;
+    }
 
-	QImage alpha;
-	ok = alpha.loadFromData(baAlpha, "jpeg");
-	if (!ok)
-	{
+    QImage alpha;
+    ok = alpha.loadFromData(baAlpha, "jpeg");
+    if (!ok)
+    {
         error(tr("Extract alpha layer information Failed (readMapAndNpc - bipmapwindow.cpp)"),this);
-		return false;
-	}
+        return false;
+    }
 
-	if (hidden)
-	{
-		QPainter painterAlpha(&alpha);
+    if (hidden)
+    {
+        QPainter painterAlpha(&alpha);
         QColor color = PreferencesManager::getInstance()->value("Fog_color",QColor(5,5,5)).value<QColor>();
-		painterAlpha.fillRect(0, 0, alpha.width(), alpha.height(), color);
-	}
+        painterAlpha.fillRect(0, 0, alpha.width(), alpha.height(), color);
+    }
 
-	QString idCarte = QUuid::createUuid().toString();
+    QString idCarte = QUuid::createUuid().toString();
 
-	m_map = new Map(m_localPlayerId,idCarte, &fondOriginal, &fond, &alpha);
-	m_map->setPermissionMode(myPermission);
-	//m_map->setPointeur(m_toolBar->getCurrentTool());
+    m_map = new Map(m_localPlayerId,idCarte, &fondOriginal, &fond, &alpha);
+    m_map->setPermissionMode(myPermission);
+    //m_map->setPointeur(m_toolBar->getCurrentTool());
 
     initMap();
-	QPoint pos2 = mapFromParent(pos);
+    QPoint pos2 = mapFromParent(pos);
 
-	quint16 nbrPersonnages;
-	in >>  nbrPersonnages;
+    quint16 nbrPersonnages;
+    in >>  nbrPersonnages;
 
-	for (int i=0; i<nbrPersonnages; ++i)
-	{
-		QString nomPerso,ident;
-		CharacterToken::typePersonnage type;
-		int numeroDuPnj;
-		uchar diametre;
+    for (int i=0; i<nbrPersonnages; ++i)
+    {
+        QString nomPerso,ident;
+        CharacterToken::typePersonnage type;
+        int numeroDuPnj;
+        uchar diametre;
 
-		QColor couleur;
-		CharacterToken::etatDeSante sante;
+        QColor couleur;
+        CharacterToken::etatDeSante sante;
 
-		QPoint centre;
-		QPoint orientation;
-		int numeroEtat;
-		bool visible;
-		bool orientationAffichee;
+        QPoint centre;
+        QPoint orientation;
+        int numeroEtat;
+        bool visible;
+        bool orientationAffichee;
 
-		in >> nomPerso;
-		in >> ident ;
-		int typeint;
-		in >> typeint;
-		type=(CharacterToken::typePersonnage) typeint;
-		in >> numeroDuPnj ;
-		in >> diametre;
-		in >> couleur ;
-		in >> centre ;
-		in >> orientation ;
-		in >>sante.couleurEtat ;
-		in >> sante.nomEtat ;
-		in >> numeroEtat ;
-		in>> visible;
-		in >> orientationAffichee;
+        in >> nomPerso;
+        in >> ident ;
+        int typeint;
+        in >> typeint;
+        type=(CharacterToken::typePersonnage) typeint;
+        in >> numeroDuPnj ;
+        in >> diametre;
+        in >> couleur ;
+        in >> centre ;
+        in >> orientation ;
+        in >>sante.couleurEtat ;
+        in >> sante.nomEtat ;
+        in >> numeroEtat ;
+        in>> visible;
+        in >> orientationAffichee;
 
-		bool showNumber=true;//(type == DessinPerso::pnj)?m_ui->m_showNpcNumberAction->isChecked():false;
-		bool showName=true;//(type == DessinPerso::pnj)? m_ui->m_showNpcNameAction->isChecked():m_ui->m_showPcNameAction->isChecked();
+        bool showNumber=true;//(type == DessinPerso::pnj)?m_ui->m_showNpcNumberAction->isChecked():false;
+        bool showName=true;//(type == DessinPerso::pnj)? m_ui->m_showNpcNameAction->isChecked():m_ui->m_showPcNameAction->isChecked();
 
-		CharacterToken *pnj = new CharacterToken(m_map, ident, nomPerso, couleur, diametre, centre, type,showNumber,showName, numeroDuPnj);
+        CharacterToken *pnj = new CharacterToken(m_map, ident, nomPerso, couleur, diametre, centre, type,showNumber,showName, numeroDuPnj);
 
         if (visible || (type == CharacterToken::pnj && PlayersList::instance()->getLocalPlayer()->isGM()))
-			pnj->showCharacter();
-		// On m.a.j l'orientation
-		pnj->newOrientation(orientation);
-		// Affichage de l'orientation si besoin
-		if (orientationAffichee)
-			pnj->showOrHideOrientation();
+            pnj->showCharacter();
+        // On m.a.j l'orientation
+        pnj->newOrientation(orientation);
+        // Affichage de l'orientation si besoin
+        if (orientationAffichee)
+            pnj->showOrHideOrientation();
 
-		pnj->newHealtState(sante, numeroEtat);
+        pnj->newHealtState(sante, numeroEtat);
 
-		m_map->afficheOuMasquePnj(pnj);
+        m_map->afficheOuMasquePnj(pnj);
 
-	}
-	m_map->emettreCarte(windowTitle());
-	m_map->emettreTousLesPersonnages();
+    }
+    m_map->emettreCarte(windowTitle());
+    m_map->emettreTousLesPersonnages();
 
-	return true;
+    return true;
 }
 
 bool MapFrame::createMap()
@@ -521,7 +521,7 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
 }
 void MapFrame::saveMedia()
 {
-    if(NULL!=m_map)
+    if(nullptr!=m_map)
     {
         if(nullptr!=m_uri)
         {
@@ -546,13 +546,13 @@ void MapFrame::saveMedia()
 
 void MapFrame::putDataIntoCleverUri()
 {
-    if(NULL!=m_map)
+    if(nullptr!=m_map)
     {
         QByteArray data;
         QDataStream out(&data,QIODevice::WriteOnly);
         //out << m_isHidden;
         m_map->saveMap(out);
-        if(NULL!=m_uri)
+        if(nullptr!=m_uri)
         {
             m_uri->setData(data);
         }

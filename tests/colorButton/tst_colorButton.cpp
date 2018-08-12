@@ -46,7 +46,7 @@ ColorButtonTest::ColorButtonTest()
 }
 void ColorButtonTest::initTestCase()
 {
-    m_colorButton =new ColorButton(NULL,false);
+    m_colorButton =new ColorButton(nullptr,false);
 }
 
 void ColorButtonTest::getAndSetTest()

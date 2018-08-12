@@ -31,7 +31,6 @@
 #include "data/character.h"
 #include "data/player.h"
 #include "userlist/playersList.h"
-//#include "vmap/items/sightitem.h"
 #include "vmap/vmap.h"
 #include "map/map.h"
 
@@ -42,6 +41,46 @@
 #define DIRECTION_RADIUS_HANDLE 4
 #define ANGLE_HANDLE 5
 
+void updateListAlias(QList<DiceAlias*>* list)
+{
+    auto preferences = PreferencesManager::getInstance();
+    list->clear();
+    int size = preferences->value("DiceAliasNumber",0).toInt();
+    for(int i = 0; i < size ; ++i)
+    {
+        QString cmd = preferences->value(QString("DiceAlias_%1_command").arg(i),"").toString();
+        QString value = preferences->value(QString("DiceAlias_%1_value").arg(i),"").toString();
+        bool replace = preferences->value(QString("DiceAlias_%1_type").arg(i),true).toBool();
+        bool enable = preferences->value(QString("DiceAlias_%1_enable").arg(i),true).toBool();
+        list->append(new DiceAlias(cmd,value,replace,enable));
+    }
+}
+
+QRect makeSquare(QRect rect)
+{
+    if(rect.width()<rect.height())
+        rect.setWidth(rect.height());
+    else
+        rect.setHeight(rect.width());
+
+    return rect;
+}
+
+QColor ContrastColor(QColor color)
+{
+    int d = 0;
+
+    // Counting the perceptive luminance - human eye favors green color...
+    double luminance = ( 0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue())/255;
+
+    if (luminance > 0.5)
+       d = 0; // bright colors - black font
+    else
+       d = 255; // dark colors - white font
+
+    return  QColor(d,d,d);
+}
+
 
 CharacterItem::CharacterItem()
 : VisualItem(),m_character(nullptr),m_thumnails(nullptr),m_protectGeometryChange(false),m_visionChanged(false)
@@ -49,11 +88,11 @@ CharacterItem::CharacterItem()
     createActions();
 }
 
-CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
+CharacterItem::CharacterItem(Character* m,QPointF pos,qreal diameter)
     : VisualItem(),m_center(pos),m_diameter(diameter),m_thumnails(nullptr),m_protectGeometryChange(false),m_visionChanged(false)
 {
     setCharacter(m);
-	setPos(m_center-QPoint(diameter/2,diameter/2));
+    setPos(m_center-QPointF(diameter/2,diameter/2));
 	sizeChanged(diameter);
     connect(m_character,&Character::avatarChanged,this,&CharacterItem::generatedThumbnail);
     createActions();
@@ -62,11 +101,12 @@ CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
 void CharacterItem::writeData(QDataStream& out) const
 {
     out << m_center;
-    out << m_diameter;
+    int diam = static_cast<int>(m_diameter);
+    out << diam;
     out << *m_thumnails;
     out << m_rect;
     out << opacity();
-    out << (int)m_layer;
+    out << static_cast<int>(m_layer);
     //out << zValue();
     if(nullptr!=m_character)
     {
@@ -79,10 +119,13 @@ void CharacterItem::writeData(QDataStream& out) const
     }
 }
 
+
 void CharacterItem::readData(QDataStream& in)
 {
     in >> m_center;
-    in >> m_diameter;
+    int diam;
+    in >> diam;
+    m_diameter= diam;
     m_thumnails = new QPixmap();
     in >> *m_thumnails;
     in >> m_rect;
@@ -93,7 +136,7 @@ void CharacterItem::readData(QDataStream& in)
 
     int tmp;
     in >> tmp;
-    m_layer = (VisualItem::Layer)tmp;
+    m_layer = static_cast<VisualItem::Layer>(tmp);
     bool hasCharacter;
     in >> hasCharacter;
     auto charact = new Character();
@@ -143,7 +186,7 @@ QString CharacterItem::getSubTitle() const
         }
         if(getOption(VisualItem::ShowNpcNumber).toBool())
         {
-            toShow = m_character->number();
+            toShow = QString::number(m_character->number());
         }
         if(getOption(VisualItem::ShowNpcName).toBool() && getOption(VisualItem::ShowNpcNumber).toBool())
         {
@@ -211,22 +254,59 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 
 	QPen pen = painter->pen();
     pen.setWidth(PEN_WIDTH);
-    if(( nullptr!= m_character )&&(nullptr!=m_character->getState()))
+    if( nullptr!= m_character )
 	{
-        if(getOption(VisualItem::ShowHealthStatus).toBool())
+        if(nullptr!=m_character->getState())
         {
-            toShow += QString(" %1").arg(m_character->getState()->getLabel());
+            if(getOption(VisualItem::ShowHealthStatus).toBool())
+            {
+                toShow += QString(" %1").arg(m_character->getState()->getLabel());
+            }
+            if(!m_character->getState()->getImage().isNull())
+            {
+                painter->drawPixmap(m_rect,m_character->getState()->getImage(),m_character->getState()->getImage().rect());
+            }
+            else if(!m_character->hasAvatar())
+            {
+                pen.setColor(m_character->getState()->getColor());
+                painter->setPen(pen);
+                painter->drawEllipse(m_rect.adjusted(PEN_RADIUS,PEN_RADIUS,-PEN_RADIUS,-PEN_RADIUS));
+            }
+            else
+            {
+                pen.setWidth(PEN_WIDTH/2);
+                pen.setColor(m_character->getState()->getColor());
+                painter->setPen(pen);
+                int diam = static_cast<int>(m_diameter);
+                painter->drawRoundedRect(0,0,diam,diam,m_diameter/RADIUS_CORNER,m_diameter/RADIUS_CORNER);
+            }
         }
-		if(!m_character->getState()->getImage().isNull())
-		{
-			painter->drawPixmap(m_rect,m_character->getState()->getImage(),m_character->getState()->getImage().rect());
-		}
-        else if(!m_character->hasAvatar())
-		{
-			pen.setColor(m_character->getState()->getColor());
-			painter->setPen(pen);
-            painter->drawEllipse(m_rect.adjusted(PEN_RADIUS,PEN_RADIUS,-PEN_RADIUS,-PEN_RADIUS));
-		}
+        if(getOption(VisualItem::ShowInitScore).toBool() && m_character->hasInitScore())
+        {
+            painter->save();
+            auto init = QString("%1").arg(m_character->getInitiativeScore());
+            auto chColor = m_character->getColor();
+            auto color = ContrastColor(chColor);
+            painter->setPen(color);
+            auto font = painter->font();
+            font.setBold(true);
+            font.setPointSizeF(font.pointSizeF()*2);
+            painter->setFont(font);
+            auto tl = m_rect.topLeft().toPoint();
+            auto metric = painter->fontMetrics();
+            auto rect = metric.boundingRect(init);
+            rect.moveCenter(tl);
+            painter->save();
+            painter->setPen(Qt::NoPen);
+            painter->setBrush(QBrush(chColor,Qt::SolidPattern));
+            auto square = makeSquare(rect);
+            square.moveCenter(tl);
+            painter->drawEllipse(square);
+            painter->restore();
+            painter->drawText(rect,Qt::AlignCenter,init);
+            toShow += QString(" %1: %2").arg(tr("Init","short for Initiative")).arg(init);
+            painter->restore();
+        }
 	}
     //QRectF rectText;
     QFontMetrics metric(painter->font());
@@ -279,11 +359,11 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 
             if(min<max)
             {
-                QRect bar(m_rect.x(),m_rect.height()-PEN_WIDTH,m_rect.width(),PEN_WIDTH);
+                QRectF bar(m_rect.x(),m_rect.height()-PEN_WIDTH,m_rect.width(),PEN_WIDTH);
                 painter->save();
                 auto newWidth = (current-min)*bar.width()/(max-min);
                 painter->drawRect(bar);
-                QRect value(m_rect.x(),m_rect.height()-PEN_WIDTH,newWidth,PEN_WIDTH);
+                QRectF value(m_rect.x(),m_rect.height()-PEN_WIDTH,newWidth,PEN_WIDTH);
                 painter->fillRect(value,color);
                 painter->restore();
             }
@@ -294,7 +374,7 @@ const QPointF& CharacterItem::getCenter() const
 {
     return m_center;
 }
-void CharacterItem::sizeChanged(int m_size)
+void CharacterItem::sizeChanged(qreal m_size)
 {
     m_diameter=m_size;
 	m_rect.setRect(0,0,m_diameter,m_diameter);
@@ -327,7 +407,8 @@ void CharacterItem::generatedThumbnail()
         delete m_thumnails;
         m_thumnails = nullptr;
     }
-    m_thumnails=new QPixmap(m_diameter,m_diameter);
+    int diam = static_cast<int>(m_diameter);
+    m_thumnails=new QPixmap(diam,diam);
     m_thumnails->fill(Qt::transparent);
     QPainter painter(m_thumnails);
     QBrush brush;
@@ -341,13 +422,13 @@ void CharacterItem::generatedThumbnail()
     {
         painter.setPen(Qt::NoPen);
         QImage img =m_character->getAvatar();
-        brush.setTextureImage(img.scaled(m_diameter,m_diameter));
+        brush.setTextureImage(img.scaled(diam,diam));
     }
     
     painter.setBrush(brush);
-    painter.drawRoundedRect(0,0,m_diameter,m_diameter,m_diameter/RADIUS_CORNER,m_diameter/RADIUS_CORNER);
+    painter.drawRoundedRect(0,0,diam,diam,m_diameter/RADIUS_CORNER,m_diameter/RADIUS_CORNER);
 }
-int CharacterItem::getRadius() const
+qreal CharacterItem::getRadius() const
 {
     return m_diameter/2;
 }
@@ -357,7 +438,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(scale());
     msg->real(rotation());
     msg->string16(m_character->getUuid());
-    msg->uint16(m_diameter);
+    msg->real(m_diameter);
 
     msg->uint8(m_layer);
     msg->real(zValue());
@@ -395,9 +476,9 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     setScale(msg->real());
     setRotation(msg->real());
     QString idCharacter = msg->string16();
-    m_diameter = msg->uint16();
+    m_diameter = msg->real();
 
-    m_layer = (VisualItem::Layer)msg->uint8();
+    m_layer = static_cast<VisualItem::Layer>(msg->uint8());
 
     setZValue(msg->real());
     setOpacity(msg->real());
@@ -452,7 +533,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
         m_vision->readMessage(msg);
     }
 }
-void CharacterItem::resizeContents(const QRectF& rect, bool )
+void CharacterItem::resizeContents(const QRectF& rect, TransformType  )
 {
     if (!rect.isValid())
         return;
@@ -524,7 +605,7 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
     QRectF rect=m_rect;
     if(m_protectGeometryChange)
         return;
-    switch ((int)pointId)
+    switch (static_cast<int>(pointId))
     {
     case 0:
         rect.setTopLeft(pos);
@@ -550,7 +631,7 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         break;
     case ANGLE_HANDLE:
     {
-        if(pos.x()-((m_vision->getRadius()+getRadius())/2)!=0)
+        if(!qFuzzyCompare(pos.x(),((m_vision->getRadius()+getRadius())/2)))
         {
             pos.setX((m_vision->getRadius()+getRadius())/2);
         }
@@ -582,7 +663,7 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
 	}
     m_diameter = qMin(rect.width(),rect.height());
     sizeChanged(m_diameter);
-    switch ((int)pointId)
+    switch (static_cast<int>(pointId))
     {
     case 0:
         pos = m_rect.topLeft();
@@ -710,7 +791,7 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
     QAction* act = user->addAction(character->name());
     act->setData(character->getUuid());
 
-	connect(act,SIGNAL(triggered()),this,SLOT(changeCharacter()));
+    connect(act,&QAction::triggered,this,&CharacterItem::changeCharacter);
   }
   QMenu* shape =  menu->addMenu(tr("Vision Shape"));
   shape->addAction(m_visionShapeDisk);
@@ -726,8 +807,89 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
 	 m_visionShapeDisk->setChecked(false);
      m_visionShapeAngle->setChecked(true);
   }
+  if(getOption(VisualItem::LocalIsGM).toBool() && nullptr != m_character)
+  {
+      //Actions
+      auto actionlist = m_character->getActionList();
+      QMenu* actions =  menu->addMenu(tr("Actions"));
+      auto cmd = m_character->getInitCommand();
+      auto act = actions->addAction(tr("Initiative"));
+      act->setData(cmd);
+      connect(act,&QAction::triggered,this,&CharacterItem::runInit);
 
+      act = actions->addAction(tr("Clean Initiative"));
+      connect(act,&QAction::triggered,this,&CharacterItem::cleanInit);
+
+
+      if(!actionlist.isEmpty())
+      {
+          for(auto charAction : actionlist)
+          {
+              auto act = actions->addAction(charAction->name());
+              act->setData(charAction->command());
+              connect(act,&QAction::triggered,this,&CharacterItem::runCommand);
+          }
+      }
+
+      //Shapes
+      auto shapeList = m_character->getShapeList();
+      if(!shapeList.isEmpty())
+      {
+          QMenu* actions =  menu->addMenu(tr("Shapes"));
+          for(auto charShape : shapeList)
+          {
+              auto act = actions->addAction(charShape->name());
+              act->setData(charShape->uri());
+              connect(act,&QAction::triggered,this,&CharacterItem::setShape);
+          }
+      }
+  }
 }
+
+void CharacterItem::runInit()
+{
+    if(nullptr == m_character)
+        return;
+
+    auto cmd = m_character->getInitCommand();
+
+    updateListAlias(m_diceParser.getAliases());
+    if(m_diceParser.parseLine(cmd))
+    {
+        m_diceParser.start();
+        if(!m_diceParser.getErrorMap().isEmpty())
+            qWarning() << m_diceParser.humanReadableError();
+        auto result = m_diceParser.getLastIntegerResults();
+        int sum = std::accumulate(result.begin(),result.end(),0);
+        m_character->setInitiativeScore(sum);
+        update();
+    }
+}
+void CharacterItem::cleanInit()
+{
+    if(nullptr == m_character)
+        return;
+    m_character->clearInitScore();
+    update();
+}
+void CharacterItem::runCommand()
+{
+    if(nullptr == m_character)
+        return;
+    auto act = qobject_cast<QAction*>(sender());
+    auto cmd = act->data().toString();
+
+    emit runDiceCommand(cmd, m_character->getUuid());
+}
+
+void CharacterItem::setShape()
+{
+    auto act = qobject_cast<QAction*>(sender());
+    auto cmd = act->data().toString();
+
+    // FIXME : run the command
+}
+
 void CharacterItem::changeCharacter()
 {
 	QAction* act = qobject_cast<QAction*>(sender());
@@ -747,6 +909,7 @@ void CharacterItem::changeCharacter()
 
 void CharacterItem::createActions()
 {
+    updateListAlias(m_diceParser.getAliases());
     m_vision = new CharacterVision(this);
 
 	m_visionShapeDisk =  new QAction(tr("Disk"),this);
@@ -814,7 +977,7 @@ void CharacterItem::characterStateChange()
     msg->string8(getMapId());
     msg->string8(m_id);
     msg->string8(m_character->getUuid());
-    msg->uint16(index);
+    msg->uint16(static_cast<quint16>(index));
     msg->sendToServer();
 
 }
@@ -834,7 +997,7 @@ void CharacterItem::updateCharacter()
 
 VisualItem* CharacterItem::getItemCopy()
 {
-	CharacterItem* charactItem = new CharacterItem(m_character,pos(),m_diameter);
+    CharacterItem* charactItem = new CharacterItem(m_character,pos(),m_diameter);
 	charactItem->setPos(pos());
 	return charactItem;
 }
@@ -921,7 +1084,7 @@ bool CharacterItem::canBeMoved() const
 }
 void CharacterItem::readPositionMsg(NetworkMessageReader* msg)
 {
-    int z = zValue();
+    auto z = zValue();
     VisualItem::readPositionMsg(msg);
     if(isLocal())
     {
@@ -1008,7 +1171,7 @@ void CharacterItem::setCharacter(Character* character)
 
     if(nullptr != m_character)
     {
-        disconnect(m_character,0,this,0);
+        disconnect(m_character,nullptr,this,nullptr);
     }
     m_character = character;
     if(m_character)
@@ -1068,4 +1231,22 @@ bool CharacterItem::isPlayableCharacter()
         return !m_character->isNpc();
     }
     return false;
+}
+void CharacterItem::setTokenFile(QString filename)
+{
+    QFile file(filename);
+    if(file.open(QIODevice::ReadOnly))
+    {
+        QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+        QJsonObject obj= doc.object();
+
+        m_diameter = obj["size"].toDouble();
+        m_rect.setHeight(m_diameter);
+        m_rect.setWidth(m_diameter);
+        if(nullptr == m_character)
+        {
+            m_character = new Character();
+        }
+        m_character->readTokenObj(obj);
+    }
 }
