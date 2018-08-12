@@ -110,6 +110,9 @@ void NpcMakerWidget::importNpc()
         ui->m_initCommand->setText(jobj["initCommand"].toString());
         ui->m_initValue->setValue(jobj["initValue"].toInt());
         ui->m_sizeEdit->setValue(jobj["size"].toInt());
+        ui->m_lifeMin->setValue(jobj["lifeMin"].toInt());
+        ui->m_maxLife->setValue(jobj["lifeMax"].toInt());
+        ui->m_currentLife->setValue(jobj["lifeCurrent"].toInt());
 
         auto avatarData = QByteArray::fromBase64(jobj["avatarImg"].toString().toUtf8());
         QPixmap pix = QPixmap::fromImage(QImage::fromData(avatarData));
@@ -146,7 +149,7 @@ void NpcMakerWidget::importNpc()
             auto shape = new CharacterShape();
             shape->setName(obj["name"].toString());
             shape->setUri(obj["uri"].toString());
-            auto avatarData = QByteArray::fromBase64(jobj["avatarImg"].toString().toUtf8());
+            auto avatarData = QByteArray::fromBase64(obj["avatarImg"].toString().toUtf8());
             QImage img = QImage::fromData(avatarData);
             shape->setImage(img);
             m_shapeModel->addData(shape);
@@ -174,6 +177,10 @@ void NpcMakerWidget::exportNpc()
     jobj["initValue"] = ui->m_initValue->value();
     jobj["size"] = ui->m_sizeEdit->value();
     jobj["color"] = ui->m_colorSelector->color().name(QColor::HexArgb);
+    jobj["lifeMax"]=ui->m_maxLife->value();
+    jobj["lifeMin"]=ui->m_lifeMin->value();
+    jobj["lifeCurrent"]= ui->m_currentLife->value();
+
     auto pix = ui->m_avatarDisplay->pixmap();
     QByteArray data;
     QBuffer buf(&data);

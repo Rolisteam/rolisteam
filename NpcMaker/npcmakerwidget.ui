@@ -35,7 +35,7 @@
       <enum>QTabWidget::East</enum>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -299,8 +299,11 @@
           </item>
           <item>
            <widget class="QSpinBox" name="m_lifeMin">
+            <property name="minimum">
+             <number>-1000</number>
+            </property>
             <property name="maximum">
-             <number>100</number>
+             <number>1000</number>
             </property>
            </widget>
           </item>
@@ -326,8 +329,11 @@
           </item>
           <item>
            <widget class="QSpinBox" name="m_currentLife">
+            <property name="minimum">
+             <number>-1000</number>
+            </property>
             <property name="maximum">
-             <number>100</number>
+             <number>1000</number>
             </property>
             <property name="value">
              <number>100</number>
@@ -356,8 +362,11 @@
           </item>
           <item>
            <widget class="QSpinBox" name="m_maxLife">
+            <property name="minimum">
+             <number>-1000</number>
+            </property>
             <property name="maximum">
-             <number>100</number>
+             <number>1000</number>
             </property>
             <property name="value">
              <number>100</number>
