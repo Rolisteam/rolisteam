@@ -47,7 +47,7 @@ struct DataBase;
 /**
  * @brief The NameGeneratorWidget class
  */
-class NameGeneratorWidget : public GameMasterTool
+class NameGeneratorWidget : public QWidget, public GameMasterTool
 {
     Q_OBJECT
 

@@ -9,6 +9,7 @@
 #include "convertoroperator.h"
 #include "widgets/gmtoolbox/gamemastertool.h"
 #include "customrulemodel.h"
+#include <QSettings>
 
 namespace Ui {
 class Convertor;
@@ -29,7 +30,7 @@ namespace GMTOOL
  *
  */
 
-class Convertor : public GameMasterTool
+class Convertor : public QWidget, public GameMasterTool
 {
     Q_OBJECT
 

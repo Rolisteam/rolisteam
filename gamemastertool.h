@@ -1,14 +1,10 @@
 #ifndef GAMEMASTERTOOL_H
 #define GAMEMASTERTOOL_H
 
-#include <QWidget>
-#include <QSettings>
-
-class GameMasterTool : public QWidget
+class GameMasterTool
 {
-    Q_OBJECT
 public:
-    explicit GameMasterTool(QWidget *parent = nullptr);
+    explicit GameMasterTool();
 
     virtual void readSettings();
     virtual void writeSettings();

@@ -8,7 +8,7 @@ namespace GMTOOL
 
 
 Convertor::Convertor(QWidget *parent) :
-    GameMasterTool(parent),
+    QWidget(parent),
     ui(new Ui::Convertor),
     m_customRulesModel(new CustomRuleModel)
 {

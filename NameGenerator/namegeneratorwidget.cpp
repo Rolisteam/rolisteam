@@ -33,7 +33,7 @@
 #define BothName "BothName"
 
 NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
-    GameMasterTool(parent),
+    QWidget(parent),
     ui(new Ui::NameGeneratorWidget)
 {
     setWindowTitle(QStringLiteral("Name Generator"));
