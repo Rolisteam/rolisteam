@@ -30,11 +30,13 @@
 #include "field.h"
 #include "fieldmodel.h"
 
+
+class ImageModel;
 class Canvas : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    enum Tool {NONE,ADDINPUT,ADDTEXTFIELD,ADDTEXTAREA,ADDTABLE,ADDIMAGE,ADDFUNCBUTTON,ADDWEBPAGE,ADDCHECKBOX,MOVE,DELETETOOL,BUTTON};
+    enum Tool {NONE,ADDINPUT,ADDTEXTFIELD,ADDTEXTAREA,ADDTABLE,ADDIMAGE,ADDFUNCBUTTON,ADDWEBPAGE,NEXTPAGE,PREVIOUSPAGE,ADDCHECKBOX,MOVE,DELETETOOL,BUTTON};
     explicit Canvas(QObject *parent = 0);
 
     void setCurrentTool(Canvas::Tool);
@@ -56,6 +58,9 @@ public:
 
    QGraphicsPixmapItem *getBg() const;
    void setBg(QGraphicsPixmapItem *bg);
+
+   ImageModel *getImageModel() const;
+   void setImageModel(ImageModel *imageModel);
 
 signals:
    void imageChanged();
@@ -83,6 +88,7 @@ private:
     QUndoStack* m_undoStack;
     QList<QGraphicsItem*> m_movingItems;
     QList<QPointF> m_oldPos;
+    ImageModel* m_imageModel = nullptr;
 };
 
 #endif // CANVAS_H

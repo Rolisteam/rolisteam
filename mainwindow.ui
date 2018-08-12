@@ -22,7 +22,7 @@
     <item>
      <widget class="QTabWidget" name="m_tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="editor">
        <attribute name="title">
@@ -54,7 +54,7 @@
              </widget>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+             <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
               <item>
                <widget class="QToolButton" name="m_addTextInput">
                 <property name="sizePolicy">
@@ -322,6 +322,44 @@
                 <property name="icon">
                  <iconset resource="qmlfile.qrc">
                   <normaloff>:/resources/icons/webPage.svg</normaloff>:/resources/icons/webPage.svg</iconset>
+                </property>
+                <property name="toolButtonStyle">
+                 <enum>Qt::ToolButtonTextBesideIcon</enum>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="m_nextPageBtn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Next Page</string>
+                </property>
+                <property name="toolButtonStyle">
+                 <enum>Qt::ToolButtonTextBesideIcon</enum>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="m_previousPageBtn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Previous Page</string>
                 </property>
                 <property name="toolButtonStyle">
                  <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -697,7 +735,7 @@
      <normaloff>:/resources/icons/moveNpc.png</normaloff>:/resources/icons/moveNpc.png</iconset>
    </property>
    <property name="text">
-    <string>Move</string>
+    <string>Move Item</string>
    </property>
   </action>
   <action name="m_deleteAct">
@@ -709,7 +747,7 @@
      <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
    </property>
    <property name="text">
-    <string>Delete</string>
+    <string>Delete Item</string>
    </property>
   </action>
   <action name="m_rolisteamExport">
@@ -951,6 +989,30 @@
    </property>
    <property name="text">
     <string>WebView</string>
+   </property>
+  </action>
+  <action name="m_nextPageAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/arrow_next.svg</normaloff>:/resources/icons/arrow_next.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Next Page</string>
+   </property>
+  </action>
+  <action name="m_previousPageAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/arrow.svg</normaloff>:/resources/icons/arrow.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Previous Page</string>
    </property>
   </action>
  </widget>

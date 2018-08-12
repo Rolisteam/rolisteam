@@ -33,6 +33,7 @@ protected:
     bool generateImage(Field* item);
     bool generateWebPage(Field* item);
     bool generateTable(Field *item);
+    bool generateChangePageBtn(Field *item, bool next);
 
     QString generatePosition(Field* item);
     QString generateAlignment(Field* item);

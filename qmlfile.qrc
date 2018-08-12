@@ -21,6 +21,7 @@
         <file alias="resources/qml/DiceButton.qml">charactersheet/qml/DiceButton.qml</file>
         <file alias="resources/qml/ImageField.qml">charactersheet/qml/ImageField.qml</file>
         <file alias="resources/qml/WebView.qml">charactersheet/qml/WebView.qml</file>
+        <file alias="resources/qml/PageButton.qml">charactersheet/qml/PageButton.qml</file>
         <file>resources/logo/symbol2.png</file>
         <file>translations/rcse_fr.qm</file>
         <file>translations/rcse_de.qm</file>
@@ -38,5 +39,8 @@
         <file>resources/icons/webPage.svg</file>
         <file>resources/icons/arrow.svg</file>
         <file>resources/icons/gear.svg</file>
+        <file>resources/icons/arrow_next.svg</file>
+        <file>resources/icons/next.png</file>
+        <file>resources/icons/previous.png</file>
     </qresource>
 </RCC>

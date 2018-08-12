@@ -139,6 +139,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     canvas->setModel(m_model);
+
     m_view = new ItemEditor(this);
     //m_view->setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -217,6 +218,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_functionButtonAct->setData(Canvas::ADDFUNCBUTTON);
     ui->m_tableFieldAct->setData(Canvas::ADDTABLE);
     ui->m_webPageAct->setData(Canvas::ADDWEBPAGE);
+    ui->m_nextPageAct->setData(Canvas::NEXTPAGE);
+    ui->m_previousPageAct->setData(Canvas::PREVIOUSPAGE);
 
 
     ui->m_moveAct->setData(Canvas::MOVE);
@@ -233,6 +236,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_functionBtn->setDefaultAction(ui->m_functionButtonAct);
     ui->m_tableFieldBtn->setDefaultAction(ui->m_tableFieldAct);
     ui->m_webPageBtn->setDefaultAction(ui->m_webPageAct);
+    ui->m_nextPageBtn->setDefaultAction(ui->m_nextPageAct);
+    ui->m_previousPageBtn->setDefaultAction(ui->m_previousPageAct);
 
     QButtonGroup* group = new QButtonGroup();
     group->addButton(ui->m_addTextInput);
@@ -248,6 +253,8 @@ MainWindow::MainWindow(QWidget *parent) :
     group->addButton(ui->m_functionBtn);
     group->addButton(ui->m_tableFieldBtn);
     group->addButton(ui->m_webPageBtn);
+    group->addButton(ui->m_nextPageBtn);
+    group->addButton(ui->m_previousPageBtn);
 
     ui->m_moveBtn->setDefaultAction(ui->m_moveAct);
     ui->m_deleteBtn->setDefaultAction(ui->m_deleteAct);
@@ -287,6 +294,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_functionButtonAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_tableFieldAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_webPageAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_nextPageAct,&QAction::triggered,this,&MainWindow::setCurrentTool);
+    connect(ui->m_previousPageAct,&QAction::triggered,this,&MainWindow::setCurrentTool);
 
     connect(ui->m_moveAct,&QAction::triggered,[=](bool triggered){
         m_view->setHandle(triggered);
@@ -328,10 +337,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_characterView->setModel(m_characterModel);
     m_characterModel->setRootSection(m_model->getRootSection());
     ui->m_characterView->setContextMenuPolicy(Qt::CustomContextMenu);
-   // ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
-    //connect(ui->treeView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequestedForFieldModel(QPoint)));
     connect(ui->m_characterView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequested(QPoint)));
-    //connect(m_addCharacter,SIGNAL(triggered(bool)),m_characterModel,SLOT(addCharacterSheet()));
     connect(m_addCharacter,&QAction::triggered,[&](){
         m_undoStack.push(new AddCharacterCommand(m_characterModel));
     });
@@ -374,6 +380,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     m_imageModel = new ImageModel(m_pixList);
+    canvas->setImageModel(m_imageModel);
     ui->m_imageList->setModel(m_imageModel);
 
     ui->m_imageList->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -469,6 +476,7 @@ void MainWindow::clearData()
 
     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
     canvas->setModel(m_model);
+    canvas->setImageModel(m_imageModel);
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* event)
@@ -1167,6 +1175,7 @@ void MainWindow::open()
                         {
                             Canvas* canvas = new Canvas();
                             canvas->setModel(m_model);
+                            canvas->setImageModel(m_imageModel);
                             canvas->setUndoStack(&m_undoStack);
                             auto bg = canvas->getBg();
                             SetBackgroundCommand cmd(bg,canvas,pix);
@@ -1279,8 +1288,8 @@ void MainWindow::generateQML(QString& qml)
     bool hasImage= false;
     if((allTheSame)&&(nullptr!=pix)&&(!pix->isNull()))
     {
-        ratio = (qreal)pix->width()/(qreal)pix->height();
-        ratioBis = (qreal)pix->height()/(qreal)pix->width();
+        ratio = static_cast<qreal>(pix->width())/static_cast<qreal>(pix->height());
+        ratioBis = static_cast<qreal>(pix->height())/static_cast<qreal>(pix->width());
         hasImage=true;
     }
 
@@ -1539,6 +1548,7 @@ void MainWindow::addPage()
     m_undoStack.push(cmd);
     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
     canvas->setModel(m_model);
+    canvas->setImageModel(m_imageModel);
     ui->m_selectPageCb->setCurrentIndex(pageCount()-1);
     setWindowModified(true);
 }

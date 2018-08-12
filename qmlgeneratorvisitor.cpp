@@ -4,7 +4,18 @@
 #include "field.h"
 #include "tablefield.h"
 
-
+QString getPageManagement(Field* item, QString indent)
+{
+    int page = item->getPage();
+    if(page >= 0)
+        return QStringLiteral("%1    visible: root.page == %5? true : false\n").arg(indent).arg(page);
+    else if(item->getFieldType() == CharacterSheetItem::NEXTPAGE)
+        return QStringLiteral("%1    visible: root.page != root.maxPage\n").arg(indent);
+    else if(item->getFieldType() == CharacterSheetItem::PREVIOUSPAGE)
+        return QStringLiteral("%1    visible: root.page != 0\n").arg(indent);
+    else
+        return QStringLiteral("%1    visible: true\n").arg(indent);
+}
 
 
 QmlGeneratorVisitor::QmlGeneratorVisitor(QTextStream& out, CharacterSheetItem* rootItem)
@@ -32,7 +43,8 @@ bool QmlGeneratorVisitor::generateCharacterSheetItem()
             auto field = dynamic_cast<Field*>(child);
             if(field->getGeneratedCode().isEmpty())
             {
-                switch (field->getFieldType()) {
+                switch (field->getFieldType())
+                {
                 case CharacterSheetItem::TEXTINPUT:
                     generateTextInput(field);
                     break;
@@ -63,6 +75,12 @@ bool QmlGeneratorVisitor::generateCharacterSheetItem()
                 case CharacterSheetItem::WEBPAGE:
                     generateWebPage(field);
                     break;
+                case CharacterSheetItem::NEXTPAGE:
+                    generateChangePageBtn(field,true);
+                    break;
+                case CharacterSheetItem::PREVIOUSPAGE:
+                    generateChangePageBtn(field,false);
+                    break;
                 }
             }
             else
@@ -90,7 +108,8 @@ bool QmlGeneratorVisitor::generateQmlCodeForRoot()
     if(m_root->getItemType() == CharacterSheetItem::FieldItem)
     {
         auto field = dynamic_cast<Field*>(m_root);
-        switch (field->getFieldType()) {
+        switch (field->getFieldType())
+        {
         case CharacterSheetItem::TEXTINPUT:
             generateTextInput(field);
             break;
@@ -121,6 +140,12 @@ bool QmlGeneratorVisitor::generateQmlCodeForRoot()
         case CharacterSheetItem::WEBPAGE:
             generateWebPage(field);
             break;
+        case CharacterSheetItem::NEXTPAGE:
+            generateChangePageBtn(field,true);
+            break;
+        case CharacterSheetItem::PREVIOUSPAGE:
+            generateChangePageBtn(field,false);
+            break;
         }
 
     }
@@ -142,8 +167,8 @@ bool QmlGeneratorVisitor::generateTextInput(Field *item)
         "%7"
         "%6    text: %2.value\n"
         "%6    textColor:\"%3\"\n"
-        "%6    color: \"%4\"\n"
-        "%6    visible: root.page == %5? true : false\n"
+        "%6    color: \"%4\"\n"+
+        getPageManagement(item,m_indenSpace)+
         "%6    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
@@ -173,8 +198,8 @@ bool QmlGeneratorVisitor::generateTextArea(Field *item)
         "%7"
         "%6    text: %2.value\n"
         "%6    textColor:\"%3\"\n"
-        "%6    color: \"%4\"\n"
-        "%6    visible: root.page == %5? true : false\n"
+        "%6    color: \"%4\"\n"+
+        getPageManagement(item,m_indenSpace)+
         "%6    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
@@ -205,8 +230,8 @@ bool QmlGeneratorVisitor::generateTextField(Field *item)
         "%7"
         "%6    text: %2.value\n"
         "%6    textColor:\"%3\"\n"
-        "%6    color: \"%4\"\n"
-        "%6    visible: root.page == %5? true : false\n"
+        "%6    color: \"%4\"\n"+
+        getPageManagement(item,m_indenSpace)+
         "%6    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
@@ -246,8 +271,8 @@ bool QmlGeneratorVisitor::generateSelect(Field *item)
         "%7        {\n"
         "%7            %2.value = currentIndex\n"
         "%7        }\n"
-        "%7    }\n"
-        "%7    visible: root.page == %5? true : false\n"
+        "%7    }\n"+
+        getPageManagement(item,m_indenSpace)+
         "%7    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
@@ -274,8 +299,8 @@ bool QmlGeneratorVisitor::generateCheckBox(Field *item)
         "%6    field: %2\n"
         "%6    text: %2.value\n"
         "%6    textColor:\"%3\"\n"
-        "%6    color: \"%4\"\n"
-        "%6    visible: root.page == %5? true : false\n"
+        "%6    color: \"%4\"\n"+
+        getPageManagement(item,m_indenSpace)+
         "%6    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
@@ -305,8 +330,8 @@ bool QmlGeneratorVisitor::generateFuncButton(Field *item)
         "%7    command: %2.value\n"
         "%7    text: %2.label\n"
         "%7    textColor: \"%3\"\n"
-        "%7    color: \"%4\"\n"
-        "%7    visible: root.page == %5? true : false\n"
+        "%7    color: \"%4\"\n"+
+        getPageManagement(item,m_indenSpace)+
         "%7    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
@@ -340,8 +365,8 @@ bool QmlGeneratorVisitor::generateDiceButton(Field *item)
         "%7    command: %2.value\n"
         "%7    text: %2.label\n"
         "%7    textColor: \"%3\"\n"
-        "%7    color: \"%4\"\n"
-        "%7    visible: root.page == %5? true : false\n"
+        "%7    color: \"%4\"\n"+
+        getPageManagement(item,m_indenSpace)+
         "%7    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
@@ -371,8 +396,8 @@ bool QmlGeneratorVisitor::generateImage(Field *item)
         "%7"
         "%6    text: %2.value\n"
         "%6    textColor:\"%3\"\n"
-        "%6    color: \"%4\"\n"
-        "%6    visible: root.page == %5? true : false\n"
+        "%6    color: \"%4\"\n"+
+        getPageManagement(item,m_indenSpace)+
         "%6    readOnly: %2.readOnly\n"+
         generatePosition(item) +
         "%6    onTextChanged: {\n"
@@ -403,7 +428,7 @@ bool QmlGeneratorVisitor::generateTable(Field *item)
     "%1ListView{//%2\n"
     "%1    id: _%3list\n"+
     generatePosition(item)+
-    "%1    visible: root.page == 0? true : false\n"
+    getPageManagement(item,m_indenSpace)+
     "%1    readonly property int maxRow:%4\n"
     "%1    interactive: count>maxRow?true:false;\n"
     "%1    clip: true;\n"
@@ -451,6 +476,34 @@ bool QmlGeneratorVisitor::generateTable(Field *item)
 
     return true;
 
+}
+
+bool QmlGeneratorVisitor::generateChangePageBtn(Field *item, bool next)
+{
+    if(!item)
+        return false;
+
+
+    QString node(
+    "%1PageButton{//%2\n"
+    "%1    next:%3\n"
+    "%1    text: %4.value\n"+
+    getToolTip(item)+
+    generatePosition(item)+
+    getPageManagement(item,m_indenSpace)+
+    "%1    showImage:true\n"
+    "%1    onClicked: {\n"
+    "%1        root.page += next ? 1 : -1\n"
+    "%1    }\n"
+    "%1}\n");
+
+
+
+    m_out << node.arg(m_indenSpace)
+             .arg(item->getLabel())
+             .arg(next ? "true": "false").arg(getId(item));
+
+    return true;
 }
 
 bool QmlGeneratorVisitor::generateWebPage(Field* item)

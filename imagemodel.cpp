@@ -6,7 +6,6 @@
 
 ImageModel::ImageModel(QHash<QString,QPixmap*>& list,QObject *parent)
     : QAbstractTableModel(parent),
-      m_imageData(new QList<QPixmap>()),
       m_list(list)
 {
     m_column << tr("Key")<< tr("Filename")<< tr("Is Background");
@@ -18,7 +17,6 @@ QVariant ImageModel::headerData(int section, Qt::Orientation orientation, int ro
     {
         if(Qt::DisplayRole == role)
         {
-           // qDebug() << m_column.at(section);
             return m_column.at(section);
         }
     }
@@ -30,7 +28,7 @@ int ImageModel::rowCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return  m_imageData->size();
+    return  m_keyList.size();
 }
 
 int ImageModel::columnCount(const QModelIndex &parent) const
@@ -71,11 +69,12 @@ QVariant ImageModel::data(const QModelIndex &index, int role) const
     }
     else if(Qt::ToolTipRole == role)
     {
-        auto image =  m_imageData->at(index.row());
-        image = image.scaledToWidth(TOOLTIP_SIZE);
+        auto key =  m_keyList.at(index.row());
+        auto image = m_list[key];
+        auto pixmap = image->scaledToWidth(TOOLTIP_SIZE);
         QByteArray data;
         QBuffer buffer(&data);
-        image.save(&buffer, "PNG", 100);
+        pixmap.save(&buffer, "PNG", 100);
         return QString("<img src='data:image/png;base64, %0'>").arg(QString(data.toBase64()));
     }
     return QVariant();
@@ -89,12 +88,14 @@ bool ImageModel::setData(const QModelIndex &index, const QVariant &value, int ro
         {
         case Key:
         {
-                m_provider->removeImg(m_keyList.at(index.row()));
-                QPixmap* pix = m_list.value(m_keyList.at(index.row()));
-                m_list.remove(m_keyList.at(index.row()));
-                m_keyList.replace(index.row(),value.toString());
-                m_provider->insertPix(value.toString(),m_imageData->at(index.row()));
-                m_list.insert(value.toString(),pix);
+            auto formerKey = m_keyList.at(index.row());
+            m_provider->removeImg(formerKey);
+            QPixmap* pix = m_list.value(formerKey);
+            m_list.remove(formerKey);
+
+            m_keyList.replace(index.row(),value.toString());
+            m_provider->insertPix(value.toString(),*pix);
+            m_list.insert(value.toString(),pix);
         }
             val = true;
             break;
@@ -108,15 +109,6 @@ bool ImageModel::setData(const QModelIndex &index, const QVariant &value, int ro
     }
     return val;
 }
- QList<QPixmap>* ImageModel::imageData() const
-{
-    return m_imageData;
-}
-
-void ImageModel::setImageData( QList<QPixmap>* imageData)
-{
-    m_imageData = imageData;
-}
 
 QJsonArray ImageModel::save()
 {
@@ -124,16 +116,16 @@ QJsonArray ImageModel::save()
     int i = 0;
     for(auto key : m_keyList)
     {
-        auto pix = m_imageData->at(i);
+        auto pix = m_list[key];
         bool bg = m_background[static_cast<size_t>(i)];
-        if(!pix.isNull())
+        if(pix != nullptr)
         {
             QJsonObject oj;
 
             QByteArray bytes;
             QBuffer buffer(&bytes);
             buffer.open(QIODevice::WriteOnly);
-            pix.save(&buffer, "PNG");
+            pix->save(&buffer, "PNG");
             oj["bin"]=QString(buffer.data().toBase64());
             oj["key"]=key;
             oj["isBg"]=bg;
@@ -145,16 +137,19 @@ QJsonArray ImageModel::save()
 }
 
 
-void ImageModel::insertImage(QPixmap * pix, QString key, QString stuff, bool isBg)
+bool ImageModel::insertImage(QPixmap * pix, QString key, QString stuff, bool isBg)
 {
-    beginInsertRows(QModelIndex(),m_imageData->size(),m_imageData->size());
+    if(m_keyList.contains(key))
+        return false;
+
+    beginInsertRows(QModelIndex(),m_list.size(),m_list.size());
     m_provider->insertPix(key,*pix);
     m_list.insert(key,pix);
-    m_imageData->append(*pix);
     m_keyList.append(key);
     m_filename.append(stuff);
     m_background.push_back(isBg);
     endInsertRows();
+    return true;
 }
 
 Qt::ItemFlags ImageModel::flags(const QModelIndex &index) const
@@ -172,7 +167,6 @@ Qt::ItemFlags ImageModel::flags(const QModelIndex &index) const
 void ImageModel::clear()
 {
     beginResetModel();
-    m_imageData->clear();
     m_provider->cleanData();
     m_list.clear();
     m_keyList.clear();
@@ -201,13 +195,27 @@ void ImageModel::removeImageAt(const QModelIndex& index)
         return;
 
     auto i = index.row();
+    removeImage(i);
+
+}
+
+void ImageModel::removeImageByKey(const QString& key)
+{
+    auto index = m_keyList.indexOf(key);
+    removeImage(index);
+}
+
+void ImageModel::removeImage(int i)
+{
+    if(i < 0 || m_keyList.size() <= i)
+        return;
+
     beginRemoveRows(QModelIndex(), i,i);
     auto key = m_keyList.at(i);
-    m_imageData->removeAt(i);
+    m_list.remove(key);
     m_provider->removeImg(key);
     m_filename.removeAt(i);
     m_keyList.removeAt(i);
     m_background.erase(m_background.begin() + i);
     endRemoveRows();
-
 }

@@ -7,7 +7,15 @@
 #include <QJsonObject>
 
 #include "charactersheet/rolisteamimageprovider.h"
-
+/*
+ * TODO use struct instead of several list
+struct ImageData
+{
+    QString m_url;
+    QString m_key;
+    bool m_isBackground;
+    QPixmap m_pixmap;
+};*/
 
 class ImageModel : public QAbstractTableModel
 {
@@ -30,8 +38,8 @@ public:
     QList<QPixmap>* imageData() const;
     void setImageData(QList<QPixmap>* imageData);
 
-    void insertImage(QPixmap*, QString, QString, bool isBg);
-    Qt::ItemFlags flags(const QModelIndex &index) const;
+    bool insertImage(QPixmap*, QString, QString, bool isBg);
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
 
     void clear();
 
@@ -46,8 +54,10 @@ public:
     bool isBackgroundById(QString id);
 
     //QHash<>getPixHash() const;
+    void removeImageByKey(const QString &key);
 private:
-    QList<QPixmap>* m_imageData;
+    void removeImage(int i);
+private:
     QStringList m_keyList;
     QStringList m_filename;
     std::vector<bool> m_background;

@@ -21,9 +21,12 @@
 #include "field.h"
 #include "tablefield.h"
 #include "tablecanvasfield.h"
+#include "imagemodel.h"
+#include <QPixmap>
 
-AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas,FieldModel* model,int currentPage,QPointF pos,QUndoCommand *parent)
-  : QUndoCommand(parent),m_canvas(canvas),m_model(model),m_currentPage(currentPage)
+
+AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas,FieldModel* model,int currentPage,ImageModel* imageModel,QPointF pos,QUndoCommand *parent)
+  : QUndoCommand(parent),m_tool(tool),m_canvas(canvas),m_model(model),m_currentPage(currentPage),m_imageModel(imageModel)
 {
 
 
@@ -46,7 +49,7 @@ AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas,FieldModel* m
   QString type;
 
   //m_currentItem->setFocus();
-  switch(tool)//TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON
+  switch(m_tool)//TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON
   {
   case Canvas::ADDCHECKBOX:
       m_field->setCurrentType(Field::CHECKBOX);
@@ -87,6 +90,14 @@ AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas,FieldModel* m
       m_field->setCurrentType(Field::WEBPAGE);
       type = QObject::tr("Web Page");
       break;
+  case Canvas::NEXTPAGE:
+      m_field->setCurrentType(Field::NEXTPAGE);
+      type = QObject::tr("Next Page Button");
+      break;
+  case Canvas::PREVIOUSPAGE:
+      m_field->setCurrentType(Field::PREVIOUSPAGE);
+      type = QObject::tr("Previous Page Button");
+      break;
   case Canvas::MOVE:
   case Canvas::DELETETOOL:
   case Canvas::NONE:
@@ -102,7 +113,24 @@ void AddFieldCommand::undo()
 {
   m_canvas->removeItem(m_field->getCanvasField());
   m_canvas->update();
-  m_model->removeField(m_field);
+  if(nullptr != m_model)
+  {
+    m_model->removeField(m_field);
+  }
+  if(nullptr != m_imageModel)
+  {
+      QString key;
+      if(m_tool == Canvas::PREVIOUSPAGE)
+      {
+          key = "previouspagebtn.png";
+      }
+      else if(m_tool == Canvas::NEXTPAGE)
+      {
+          key = "nextpagebtn.png";
+      }
+      if(m_addImage)
+        m_imageModel->removeImageByKey(key);
+  }
 
 }
 
@@ -112,6 +140,27 @@ void AddFieldCommand::redo()
   if(nullptr != m_model)
   {
       m_model->appendField(m_field);
+  }
+  if(nullptr != m_imageModel)
+  {
+      QString path;
+      QString key;
+
+      if(m_tool == Canvas::PREVIOUSPAGE)
+      {
+          path=QStringLiteral(":/resources/icons/previous.png");
+          key = "previouspagebtn.png";
+      }
+      else if(m_tool == Canvas::NEXTPAGE)
+      {
+          path=QStringLiteral(":/resources/icons/next.png");
+          key = "nextpagebtn.png";
+      }
+      if(!path.isEmpty())
+      {
+        auto pix = new QPixmap(path);
+        m_addImage = m_imageModel->insertImage(pix,key,path,false);
+      }
   }
 
 }

@@ -29,6 +29,7 @@
 #include "undo/deletefieldcommand.h"
 #include "undo/addfieldcommand.h"
 #include "undo/movefieldcommand.h"
+#include "undo/setbackgroundimage.h"
 
 #include "tablecanvasfield.h"
 
@@ -53,7 +54,6 @@ void Canvas::dragMoveEvent(QGraphicsSceneDragDropEvent* event)
 {
     event->acceptProposedAction();
 }
-#include "undo/setbackgroundimage.h"
 void Canvas::dropEvent ( QGraphicsSceneDragDropEvent * event )
 {
 
@@ -121,7 +121,7 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         }
         else if((m_currentTool<=Canvas::ADDCHECKBOX)||(m_currentTool==Canvas::BUTTON))
         {
-          AddFieldCommand* addCommand = new AddFieldCommand(m_currentTool,this,m_model,m_currentPage,mouseEvent->scenePos());
+          AddFieldCommand* addCommand = new AddFieldCommand(m_currentTool,this,m_model,m_currentPage,m_imageModel, mouseEvent->scenePos());
           m_currentItem = addCommand->getField();
           m_undoStack->push(addCommand);
         }
@@ -151,6 +151,16 @@ bool Canvas::forwardEvent()
     }
     else
         return false;
+}
+
+ImageModel *Canvas::getImageModel() const
+{
+    return m_imageModel;
+}
+
+void Canvas::setImageModel(ImageModel *imageModel)
+{
+    m_imageModel = imageModel;
 }
 
 QGraphicsPixmapItem* Canvas::getBg() const
