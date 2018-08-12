@@ -71,7 +71,7 @@ ColorButton::~ColorButton()
 }
 void ColorButton::openDialog()
 {
-    QColorDialog dialog;
+    QColorDialog dialog(this);
     dialog.setCurrentColor(m_color);
     dialog.setOption(QColorDialog::ShowAlphaChannel,m_hasTransparency);
     if(QDialog::Accepted==dialog.exec())
