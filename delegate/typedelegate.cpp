@@ -31,7 +31,9 @@ TypeDelegate::TypeDelegate(QWidget* parent)
            << tr("Image")
            << tr("Dice Button")
            << tr("Function Button")
-           << tr("WebView");
+           << tr("WebView")
+           << tr("Next Page Button")
+           << tr("Previous Page Button");
 }
 
 QWidget* TypeDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
