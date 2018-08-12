@@ -57,6 +57,7 @@ public:
         ShowPcName,
         ShowNpcNumber,
         ShowHealthStatus,
+        ShowInitScore,
         ShowGrid,
         LocalIsGM,
         GridPattern,
@@ -82,7 +83,7 @@ public:
 	 * @param editable edition status
 	 * @param parent
 	 */
-    VisualItem(QColor& penColor,int size, bool editable,QGraphicsItem * parent = 0);
+    VisualItem(QColor& penColor,int size, bool editable,QGraphicsItem * parent = nullptr);
     /**
      * @brief ~VisualItem
      */

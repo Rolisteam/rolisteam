@@ -236,7 +236,17 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
                 changeVibility->addAction(m_hiddenVisibility);
                 changeVibility->addAction(m_characterVisibility);
                 changeVibility->addAction(m_allVisibility);
+
+                QMenu* rollInit = menu.addMenu(tr("Roll Init"));
+                rollInit->addAction(m_rollInitOnAllNpc);
+                rollInit->addAction(m_rollInitOnAllCharacter);
+
+                QMenu* cleanInit = menu.addMenu(tr("Clean Init"));
+                cleanInit->addAction(m_cleanInitOnAllNpc);
+                cleanInit->addAction(m_cleanInitOnAllCharacter);
+
             }
+
             menu.addAction(m_zoomIn);
             menu.addAction(m_zoomOut);
             menu.addAction(m_zoomInMax);
@@ -291,6 +301,12 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             QAction* raiseAction = menu.addAction(tr("Raise"));
             raiseAction->setIcon(QIcon(":/resources/icons/action-order-raise.png"));
             raiseAction->setData(VisualItem::RAISE);
+
+            QMenu* rollInit = menu.addMenu(tr("Roll Init"));
+            rollInit->addAction(m_rollInitOnSelection);
+
+            QMenu* cleanInit = menu.addMenu(tr("Clean Init"));
+            cleanInit->addAction(m_cleanInitOnSelection);
 
             menu.addAction(m_lockSize);
 
@@ -363,7 +379,6 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         else//only one item
         {
             QGraphicsView::contextMenuEvent(event);
-
         }
     }
     else
@@ -382,8 +397,8 @@ void RGraphicsView::centerOnItem()
         if(!rect2.contains(rect))
         {
 
-            int dx = rect.center().x() - rect2.center().x();
-            int dy = rect.center().y() - rect2.center().y();
+            qreal dx = rect.center().x() - rect2.center().x();
+            qreal dy = rect.center().y() - rect2.center().y();
 
             rect2.translate(dx,dy);
             setSceneRect(rect2);
@@ -401,8 +416,6 @@ void RGraphicsView::setRotation(QList<VisualItem*> list, int value)
 }
 void RGraphicsView::normalizeSize(QList<VisualItem*> list,Method method,QPoint point)
 {
-
-
     QSizeF finalRect;
     if(Bigger == method)
     {
@@ -591,6 +604,31 @@ void RGraphicsView::createAction()
     connect(m_hiddenVisibility,SIGNAL(triggered()),this,SLOT(changeVisibility()));
     connect(m_characterVisibility,SIGNAL(triggered()),this,SLOT(changeVisibility()));
 
+
+    m_rollInitOnAllNpc= new QAction(tr("All Npcs"),this);
+    m_rollInitOnAllNpc->setToolTip(tr("Roll Initiative on All Npcs"));
+    connect(m_rollInitOnAllNpc, &QAction::triggered,this,&RGraphicsView::rollInit);
+
+    m_rollInitOnSelection= new QAction(tr("Selection"),this);
+    m_rollInitOnSelection->setToolTip(tr("Roll Initiative on Selection"));
+    connect(m_rollInitOnSelection, &QAction::triggered,this,&RGraphicsView::rollInit);
+
+    m_rollInitOnAllCharacter= new QAction(tr("All Characters"),this);
+    m_rollInitOnAllCharacter->setToolTip(tr("Roll Initiative on All Characters"));
+    connect(m_rollInitOnAllCharacter, &QAction::triggered,this,&RGraphicsView::rollInit);
+
+    m_cleanInitOnAllNpc= new QAction(tr("All Npcs"),this);
+    m_cleanInitOnAllNpc->setToolTip(tr("Clean Initiative on All Npcs"));
+    connect(m_cleanInitOnAllNpc, &QAction::triggered,this,&RGraphicsView::cleanInit);
+
+    m_cleanInitOnSelection= new QAction(tr("Selection"),this);
+    m_cleanInitOnSelection->setToolTip(tr("Clean Initiative on Selection"));
+    connect(m_cleanInitOnSelection, &QAction::triggered,this,&RGraphicsView::cleanInit);
+
+    m_cleanInitOnAllCharacter= new QAction(tr("All Characters"),this);
+    m_cleanInitOnAllCharacter->setToolTip(tr("Clean Initiative on All Characters"));
+    connect(m_cleanInitOnAllCharacter, &QAction::triggered,this,&RGraphicsView::cleanInit);
+
 }
 void RGraphicsView::showMapProperties()
 {
@@ -604,6 +642,42 @@ void RGraphicsView::showMapProperties()
         sendOffMapChange();
     }
 }
+
+void RGraphicsView::rollInit()
+{
+    VMap::APPLY_ON_CHARACTER apply;
+    if(sender() == m_rollInitOnAllNpc)
+    {
+        apply = VMap::AllNPC;
+    }
+    else if(sender() == m_rollInitOnAllCharacter)
+    {
+        apply = VMap::AllCharacter;
+    }
+    else
+    {
+        apply = VMap::SelectionOnly;
+    }
+    m_vmap->rollInit(apply);
+}
+void RGraphicsView::cleanInit()
+{
+    VMap::APPLY_ON_CHARACTER apply;
+    if(sender() == m_cleanInitOnAllNpc)
+    {
+        apply = VMap::AllNPC;
+    }
+    else if(sender() == m_cleanInitOnAllCharacter)
+    {
+        apply = VMap::AllCharacter;
+    }
+    else
+    {
+        apply = VMap::SelectionOnly;
+    }
+    m_vmap->cleanUpInit(apply);
+}
+
 void RGraphicsView::sendOffMapChange()
 {
     if((m_vmap->getOption(VisualItem::LocalIsGM).toBool())||(m_vmap->getPermissionMode() == Map::PC_ALL))
@@ -618,7 +692,7 @@ void RGraphicsView::sendOffMapChange()
 void RGraphicsView::changeLayer()
 {
     QAction* act = qobject_cast<QAction*>(sender());
-    if(m_vmap->editLayer((VisualItem::Layer)act->data().toInt()))
+    if(m_vmap->editLayer(static_cast<VisualItem::Layer>(act->data().toInt())))
     {
         sendOffMapChange();
     }
@@ -626,7 +700,7 @@ void RGraphicsView::changeLayer()
 void RGraphicsView::changeVisibility()
 {
     QAction* act = qobject_cast<QAction*>(sender());
-    if(m_vmap->setVisibilityMode((VMap::VisibilityMode)act->data().toInt()))
+    if(m_vmap->setVisibilityMode(static_cast<VMap::VisibilityMode>(act->data().toInt())))
     {
         sendOffMapChange();
     }

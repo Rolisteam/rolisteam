@@ -75,6 +75,7 @@ void VMap::initMap()
     m_propertiesHash->insert(VisualItem::ShowPcName,false);
     m_propertiesHash->insert(VisualItem::ShowNpcNumber,false);
     m_propertiesHash->insert(VisualItem::ShowHealthStatus,false);
+    m_propertiesHash->insert(VisualItem::ShowInitScore,true);
     m_propertiesHash->insert(VisualItem::ShowHealthBar,true);
     m_propertiesHash->insert(VisualItem::ShowGrid,false);
     m_propertiesHash->insert(VisualItem::LocalIsGM,false);
@@ -1501,13 +1502,25 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
         {
             for(QUrl url: data->urls())
             {
-                if(url.isLocalFile())
+                VisualItem* item = nullptr;
+                if(url.isLocalFile() && url.fileName().endsWith("rtok"))
+                {
+                    CharacterItem* persona = new CharacterItem();
+                    persona->setTokenFile(url.toLocalFile());
+                    insertCharacterInMap(persona);
+                    item=persona;
+                }
+                else if(url.isLocalFile())
                 {
                     ImageItem* led = new ImageItem();
                     led->setImageUri(url.toLocalFile());
-                    addNewItem(new AddVmapItemCommand(led,this),true);
-                    led->setPos(event->scenePos());
-                    sendOffItem(led);
+                    item=led;
+                }
+                if(nullptr != item)
+                {
+                    addNewItem(new AddVmapItemCommand(item,this),true);
+                    item->setPos(event->scenePos());
+                    sendOffItem(item);
                 }
             }
         }
@@ -1818,3 +1831,76 @@ QRectF VMap::itemsBoundingRectWithoutSight()
     return result;
 }
 
+void VMap::rollInit(APPLY_ON_CHARACTER zone)
+{
+    QList<CharacterItem*> list;
+    if(zone == AllCharacter)
+    {
+        list = m_characterItemMap->values();
+    }
+    else if(zone == AllNPC)
+    {
+        auto all = m_characterItemMap->values();
+        for(auto i : all)
+        {
+            if(i->isNpc())
+            {
+                list.append(i);
+            }
+        }
+    }
+    else
+    {
+        auto selection = selectedItems();
+        for(auto sel : selection)
+        {
+            auto item = dynamic_cast<CharacterItem*>(sel);
+            if(nullptr != item)
+            {
+                list.append(item);
+            }
+        }
+    }
+
+    for(auto charac : list)
+    {
+        charac->runInit();
+    }
+}
+
+void VMap::cleanUpInit(APPLY_ON_CHARACTER zone)
+{
+    QList<CharacterItem*> list;
+    if(zone == AllCharacter)
+    {
+        list = m_characterItemMap->values();
+    }
+    else if(zone == AllNPC)
+    {
+        auto all = m_characterItemMap->values();
+        for(auto i : all)
+        {
+            if(i->isNpc())
+            {
+                list.append(i);
+            }
+        }
+    }
+    else
+    {
+        auto selection = selectedItems();
+        for(auto sel : selection)
+        {
+            auto item = dynamic_cast<CharacterItem*>(sel);
+            if(nullptr != item)
+            {
+                list.append(item);
+            }
+        }
+    }
+
+    for(auto charac : list)
+    {
+        charac->cleanInit();
+    }
+}

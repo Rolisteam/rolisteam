@@ -27,10 +27,11 @@
 #include "data/person.h"
 #include "data/charactervision.h"
 #include "data/characterstate.h"
+#include "diceparser/diceparser.h"
 
 /**
-    * @brief represents any character on map.
-    */
+* @brief represents any character on map.
+*/
 class CharacterItem : public VisualItem
 {
     Q_OBJECT
@@ -45,7 +46,7 @@ public:
      * @param center
      * @param diameter
      */
-    CharacterItem(Character* m,QPointF center,int diameter = 40);
+    CharacterItem(Character* m,QPointF center,qreal diameter = 40.0);
     /**
     * @brief serialisation function to write data
     */
@@ -76,7 +77,7 @@ public:
     /**
     * @brief paint the ellipse at the correct position
     */
-    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr );
 
     /**
      * @brief fillMessage
@@ -103,7 +104,7 @@ public:
      * @param rect
      * @param keepRatio
      */
-    void resizeContents(const QRectF& rect, bool keepRatio);
+    void resizeContents(const QRectF& rect, TransformType transformType = KeepRatio);
     /**
      * @brief updateChildPosition
      */
@@ -144,7 +145,7 @@ public:
      * @brief getRadius
      * @return
      */
-    int getRadius() const;
+    qreal getRadius() const;
     /**
      * @brief addChildPoint
      * @param item
@@ -235,6 +236,7 @@ public:
     void updateCharacter();
     void readCharacterChanged(NetworkMessageReader &msg);
     void setCharacter(Character *character);
+    void setTokenFile(QString);
 signals:
     /**
      * @brief positionChanged
@@ -258,6 +260,8 @@ signals:
      */
     void ownerChanged(Character* old,CharacterItem*);
 
+    void runDiceCommand(QString cmd, QString uuid);
+
 public slots:
     /**
      * @brief characterHasBeenDeleted
@@ -271,7 +275,7 @@ public slots:
      * @brief sizeChanged
      * @param m_size
      */
-    void sizeChanged(int m_size);
+    void sizeChanged(qreal m_size);
     /**
      * @brief readPositionMsg
      * @param msg
@@ -285,6 +289,8 @@ public slots:
      * @brief generatedThumbnail
      */
     void generatedThumbnail();
+    void cleanInit();
+    void runInit();
 protected:
     /**
      * @brief canBeMoved
@@ -293,6 +299,9 @@ protected:
     virtual bool canBeMoved() const;
 
     virtual void wheelEvent(QGraphicsSceneWheelEvent *event);
+protected slots:
+    void runCommand();
+    void setShape();
 private slots:
     /**
      * @brief createActions
@@ -312,14 +321,16 @@ private:
      * @return
      */
     QString getSubTitle() const;
+    void visionChanged();
 
 private:
     Character* m_character = nullptr;
     QPointF m_center;
-    int m_diameter;
+    qreal m_diameter;
     QPixmap* m_thumnails;
     QRectF m_rectText;
 	QString m_title;
+    DiceParser m_diceParser;
 
     //QAction*
     QAction* m_visionShapeDisk = nullptr;
@@ -333,7 +344,7 @@ private:
 
     bool m_protectGeometryChange;
     bool m_visionChanged;
-    void visionChanged();
+
 };
 
 #endif // CHARACTERITEM_H

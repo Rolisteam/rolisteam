@@ -192,14 +192,14 @@ void VisualItem::resizeContents(const QRectF& rect, TransformType transformType)
         return;
     }
     prepareGeometryChange();
-    int width = m_rect.width();
-    int height = m_rect.height();
+    auto width = m_rect.width();
+    auto height = m_rect.height();
     //sendRectGeometryMsg();
     m_resizing = true;
     m_rect = rect;
     if (transformType == VisualItem::KeepRatio)
     {
-        int hfw = height * rect.width() / width;
+        auto hfw = height * rect.width() / width;
         if (hfw > 1)
         {
             m_rect.setTop(-hfw / 2);

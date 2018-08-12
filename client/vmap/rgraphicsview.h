@@ -69,6 +69,9 @@ protected:
 
 
     void mouseMoveEvent(QMouseEvent *event);
+protected slots:
+    void rollInit();
+    void cleanInit();
 private slots:
     void setZoomFactor();
     void showMapProperties();
@@ -91,6 +94,14 @@ private:
     QAction* m_editGroundLayer;
     QAction* m_editObjectLayer;
     QAction* m_editCharacterLayer;
+
+    //Global action
+    QAction* m_rollInitOnAllNpc;
+    QAction* m_rollInitOnSelection;
+    QAction* m_rollInitOnAllCharacter;
+    QAction* m_cleanInitOnAllNpc;
+    QAction* m_cleanInitOnSelection;
+    QAction* m_cleanInitOnAllCharacter;
 
     QAction* m_normalizeSizeAverage;
     QAction* m_normalizeSizeUnderMouse;

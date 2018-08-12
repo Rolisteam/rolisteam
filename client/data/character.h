@@ -41,18 +41,94 @@ class CharacterSheet
 
 #include <QList>
 #include <QMovie>
-class CharacterShape
+
+class CharacterField
+{
+public:
+    enum Type {Shape, Action, Property};
+    CharacterField();
+    virtual ~CharacterField();
+
+    virtual Type getType() = 0;
+    virtual QVariant getData(int col,int role) = 0;
+    virtual bool setData(int col,QVariant value, int role ) = 0;
+};
+
+class CharacterShape : public CharacterField
 {
 public:
 	CharacterShape();
 	
 	bool hasMovie();
 	
+    QString name() const;
+    void setName(const QString &name);
+
+    QImage image() const;
+    void setImage(const QImage &image);
+
+    const QMovie& movie() const;
+    void setMovie(const QMovie &movie);
+
+    QString uri() const;
+    void setUri(const QString &uri);
+
+    virtual QVariant getData(int col,int role);
+    virtual bool setData(int col,QVariant value, int role );
+
+    virtual Type getType() { return Shape; }
+
 private:
-	QString m_name;
-	QImage m_image;
-	QMovie m_movie;
+    QString m_name;
+    QString m_uri;
+    QImage m_image;
+    QMovie m_movie;
 };
+
+class CharacterAction : public CharacterField
+{
+public:
+    CharacterAction();
+
+    QString name() const;
+    void setName(const QString &name);
+
+    QString command() const;
+    void setCommand(const QString &command);
+
+    bool isValid(){ return !m_command.isEmpty(); }
+
+    virtual QVariant getData(int col,int role);
+    virtual bool setData(int col,QVariant value, int role );
+
+    virtual Type getType() { return Action; }
+
+private:
+    QString m_name;
+    QString m_command;
+};
+
+class CharacterProperty : public CharacterField
+{
+public:
+    CharacterProperty();
+
+    QString name() const;
+    void setName(const QString &name);
+
+    QString value() const;
+    void setValue(const QString &value);
+
+    virtual QVariant getData(int col,int role);
+    virtual bool setData(int col,QVariant value, int role );
+
+     virtual Type getType() { return Property; }
+
+private:
+    QString m_name;
+    QString m_value;
+};
+
 /**
  * @brief Represents PCs and NPCs.
  *
@@ -70,6 +146,7 @@ class Character : public QObject,public Person
     Q_PROPERTY(qreal distancePerTurn READ getDistancePerTurn WRITE setDistancePerTurn NOTIFY distancePerTurnChanged)
     Q_PROPERTY(CharacterState* state READ getState WRITE setState NOTIFY stateChanged)
     Q_PROPERTY(QColor lifeColor READ getLifeColor WRITE setLifeColor NOTIFY lifeColorChanged)
+    Q_PROPERTY(QString initCommand READ getInitCommand WRITE setInitCommand NOTIFY initCommandChanged)
 
 public:
    // enum HeathState {Healthy,Lightly,Seriously,Dead,Sleeping,Bewitched};
@@ -153,6 +230,8 @@ public:
     CharacterState* getStateFromLabel(QString label);
     void  setState(CharacterState*  h);
 
+    bool hasInitScore();
+
 
     CharacterSheet* getSheet() const;
     void setSheet(CharacterSheet* sheet);
@@ -162,13 +241,13 @@ public:
 
     virtual QHash<QString,QString> getVariableDictionnary();
 
-    int indexOf(CharacterState *state);
+    int indexOfState(CharacterState *state);
 
 	void insertAction(const QString& name, const QImage& img, const QKeySequence& seq);
 	void removeAction(const QString& name);
 	void clearActions();
 
-    virtual void write(QDataStream &out, bool tag) const;
+    virtual void write(QDataStream &out, bool tag, bool saveData = true) const;
     virtual void read(QDataStream &in);
 
     int getHealthPointsMax() const;
@@ -198,7 +277,16 @@ public:
     void setLifeColor(QColor color);
 
     virtual QString getToolTip() const;
+    void readTokenObj(const QJsonObject& obj);
 
+    QString getInitCommand()const;
+    void setInitCommand(const QString& init);
+
+    QList<CharacterAction *> getActionList() const;
+    QList<CharacterShape *> getShapeList() const;
+
+public slots:
+    void clearInitScore();
 signals:
     void avatarChanged();
     void currentHealthPointsChanged();
@@ -210,6 +298,7 @@ signals:
     void distancePerTurnChanged();
     void stateChanged();
     void lifeColorChanged();
+    void initCommandChanged();
 
 protected:
     CharacterState* getStateFromIndex(int i);
@@ -220,7 +309,9 @@ private:
     bool m_isNpc = true;
     int m_number = 0;
     static QList<CharacterState*>* m_stateList;
-	QList<CharacterShape*>* m_actionList;
+    QList<CharacterShape*> m_shapeList;
+    QList<CharacterAction*> m_actionList;
+    QList<CharacterProperty*> m_propertyList;
     CharacterState* m_currentState = nullptr;
     CharacterSheet* m_sheet = nullptr;
     int m_healthPointsMax=100;
@@ -229,8 +320,10 @@ private:
     QString m_avatarPath;
     RolisteamImageProvider* m_imageProvider = nullptr;
     int m_initiativeScore = 0;
+    CharacterAction m_initiativeRoll;
     qreal m_distancePerTurn = 0;
     QColor m_lifeColor = QColor(Qt::green);
+    bool m_hasInitScore = false;
 };
 
 #endif // CHARACTER_H

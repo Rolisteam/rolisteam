@@ -22,11 +22,232 @@
 #include <QDebug>
 #include <QPixmap>
 #include <QBuffer>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonArray>
 
 #include "character.h"
 #include "data/player.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+
+//  Begin character field
+CharacterField::CharacterField()
+{
+
+}
+
+CharacterField::~CharacterField()
+{
+
+}
+
+
+CharacterShape::CharacterShape()
+{
+
+}
+
+QString CharacterShape::name() const
+{
+    return m_name;
+}
+
+void CharacterShape::setName(const QString &name)
+{
+    m_name = name;
+}
+
+QImage CharacterShape::image() const
+{
+    return m_image;
+}
+
+void CharacterShape::setImage(const QImage &image)
+{
+    m_image = image;
+}
+
+const QMovie& CharacterShape::movie() const
+{
+    return m_movie;
+}
+
+void CharacterShape::setMovie(const QMovie &movie)
+{
+    m_movie.setFileName(movie.fileName());
+}
+
+QString CharacterShape::uri() const
+{
+    return m_uri;
+}
+
+void CharacterShape::setUri(const QString &uri)
+{
+    m_uri = uri;
+}
+
+QVariant CharacterShape::getData(int col, int role)
+{
+    if(Qt::DisplayRole == role || Qt::EditRole == role)
+    {
+        if(col == 0)
+        {
+            return name();
+        }
+        else if(col == 1)
+        {
+            return uri();
+        }
+    }
+    else if(Qt::DecorationRole == role)
+    {
+        return image();
+    }
+    return QVariant();
+}
+
+bool CharacterShape::setData(int col, QVariant value, int role)
+{
+    bool set = false;
+    if(Qt::DisplayRole == role || Qt::EditRole == role)
+    {
+        if(col == 0)
+        {
+            setName(value.toString());
+            set = true;
+        }
+        else if(col == 1)
+        {
+            setUri(value.toString());
+            set = true;
+        }
+    }
+    return set;
+}
+
+CharacterAction::CharacterAction()
+{
+
+}
+
+QString CharacterAction::name() const
+{
+    return m_name;
+}
+
+void CharacterAction::setName(const QString &name)
+{
+    m_name = name;
+}
+
+QString CharacterAction::command() const
+{
+    return m_command;
+}
+
+void CharacterAction::setCommand(const QString &command)
+{
+    m_command = command;
+}
+
+QVariant CharacterAction::getData(int col, int role)
+{
+    if(Qt::DisplayRole == role || Qt::EditRole == role)
+    {
+        if(col == 0)
+        {
+            return name();
+        }
+        else if(col == 1)
+        {
+            return command();
+        }
+    }
+    return QVariant();
+}
+
+bool CharacterAction::setData(int col, QVariant value, int role)
+{
+    bool set = false;
+    if(Qt::DisplayRole == role || Qt::EditRole == role)
+    {
+        if(col == 0)
+        {
+            setName(value.toString());
+            set = true;
+        }
+        else if(col == 1)
+        {
+            setCommand(value.toString());
+            set = true;
+        }
+    }
+    return set;
+}
+
+CharacterProperty::CharacterProperty()
+{
+
+}
+
+QString CharacterProperty::name() const
+{
+    return m_name;
+}
+
+void CharacterProperty::setName(const QString &name)
+{
+    m_name = name;
+}
+
+QString CharacterProperty::value() const
+{
+    return m_value;
+}
+
+void CharacterProperty::setValue(const QString &value)
+{
+    m_value = value;
+}
+
+QVariant CharacterProperty::getData(int col, int role)
+{
+    if(Qt::DisplayRole == role || Qt::EditRole == role)
+    {
+        if(col == 0)
+        {
+            return name();
+        }
+        else if(col == 1)
+        {
+            return value();
+        }
+    }
+    return QVariant();
+}
+
+bool CharacterProperty::setData(int col, QVariant value, int role)
+{
+    bool set = false;
+    if(Qt::DisplayRole == role || Qt::EditRole == role)
+    {
+        if(col == 0)
+        {
+            setName(value.toString());
+            set = true;
+        }
+        else if(col == 1)
+        {
+            setValue(value.toString());
+            set = true;
+        }
+    }
+    return set;
+}
+
+//end character field
 
 QList<CharacterState*>* Character::m_stateList = nullptr;
 
@@ -67,6 +288,16 @@ void Character::init()
 	}
 }
 
+QList<CharacterShape *> Character::getShapeList() const
+{
+    return m_shapeList;
+}
+
+QList<CharacterAction *> Character::getActionList() const
+{
+    return m_actionList;
+}
+
 RolisteamImageProvider *Character::getImageProvider() const
 {
     return m_imageProvider;
@@ -99,6 +330,7 @@ void Character::setInitiativeScore(int intiativeScore)
 {
     if(m_initiativeScore == intiativeScore)
         return;
+    m_hasInitScore = true;
     m_initiativeScore = intiativeScore;
     emit initiativeChanged();
 }
@@ -193,13 +425,22 @@ QString Character::getParentId() const
 
 QHash<QString, QString> Character::getVariableDictionnary()
 {
+    QHash<QString,QString> variables;
     if(nullptr!=m_sheet)
     {
         #ifndef UNIT_TEST
-        return m_sheet->getVariableDictionnary();
+        variables = m_sheet->getVariableDictionnary();
         #endif
     }
-    return QHash<QString, QString>();
+    else if(!m_propertyList.isEmpty())
+    {
+        for(auto property : m_propertyList)
+        {
+            if(property != nullptr)
+                variables.insert(property->name(),property->value());
+        }
+    }
+    return variables;
 }
 
 CharacterSheet *Character::getSheet() const
@@ -215,7 +456,7 @@ void Character::setListOfCharacterState(QList<CharacterState*>* list)
 {
     m_stateList = list;
 }
-int Character::indexOf(CharacterState* state)
+int Character::indexOfState(CharacterState* state)
 {
     if(nullptr != m_stateList)
     {
@@ -244,7 +485,7 @@ void Character::fill(NetworkMessageWriter & message,bool addAvatar)
     message.string8(nullptr != m_parent ? m_parent->getUuid() : QStringLiteral("nullptr"));
     message.string8(m_uuid);
     message.string16(m_name);
-    message.int8(static_cast<qint8>(indexOf(m_currentState)));
+    message.int8(static_cast<qint8>(indexOfState(m_currentState)));
     message.uint8(static_cast<quint8>(m_isNpc));
     message.int32(m_number);
     message.rgb(m_color.rgb());
@@ -344,6 +585,18 @@ void Character::setLifeColor(QColor color)
     emit lifeColorChanged();
 }
 
+void Character::setInitCommand(const QString &init)
+{
+    if(m_initiativeRoll.command() == init)
+        return;
+
+    m_initiativeRoll.setCommand(init);
+    emit initCommandChanged();
+}
+QString Character::getInitCommand() const
+{
+    return m_initiativeRoll.command();
+}
 QString Character::getToolTip() const
 {
     QString tooltip(tr("%1:\n"
@@ -373,6 +626,16 @@ void  Character::setState(CharacterState*  h)
         return;
     m_currentState = h;
     emit stateChanged();
+}
+
+bool Character::hasInitScore()
+{
+    return m_hasInitScore;
+}
+
+void Character::clearInitScore()
+{
+    m_hasInitScore = false;
 }
 CharacterState* Character::getState() const
 {
@@ -425,7 +688,7 @@ void Character::setNpc(bool b)
 {
     m_isNpc = b;
 }
-void Character::write(QDataStream& out, bool tag) const
+void Character::write(QDataStream& out, bool tag, bool) const
 {
     if(tag)
     {
@@ -467,3 +730,54 @@ void Character::read(QDataStream& in)
     m_avatar = QImage::fromData(array);
 
 }
+
+void Character::readTokenObj(const QJsonObject& obj)
+{
+    m_isNpc = true;
+    m_name = obj["name"].toString();
+    m_color.setNamedColor(obj["color"].toString());
+    m_healthPointsMax = obj["lifeMax"].toInt();
+    m_healthPointsMin = obj["lifeMin"].toInt();
+    m_healthPointsCurrent = obj["lifeCurrent"].toInt();
+    m_initiativeScore = obj["initValue"].toInt();
+    m_initiativeRoll.setName(tr("Initiative"));
+    m_initiativeRoll.setCommand(obj["initCommand"].toString());
+    m_avatarPath = obj["avatarUri"].toString();
+    auto array = QByteArray::fromBase64(obj["avatarImg"].toString().toUtf8());
+    m_avatar = QImage::fromData(array);
+
+    auto actionArray = obj["actions"].toArray();
+    for(auto act : actionArray)
+    {
+        auto actObj = act.toObject();
+        auto action = new CharacterAction();
+        action->setName(actObj["name"].toString());
+        action->setCommand(actObj["command"].toString());
+        m_actionList.append(action);
+    }
+
+    auto propertyArray = obj["properties"].toArray();
+    for(auto pro : propertyArray)
+    {
+        auto proObj = pro.toObject();
+        auto property = new CharacterProperty();
+        property->setName(proObj["name"].toString());
+        property->setValue(proObj["value"].toString());
+        m_propertyList.append(property);
+    }
+
+    auto shapeArray = obj["shapes"].toArray();
+    for(auto sha : shapeArray)
+    {
+        auto objSha = sha.toObject();
+        auto shape = new CharacterShape();
+        shape->setName(objSha["name"].toString());
+        shape->setUri(objSha["uri"].toString());
+        auto avatarData = QByteArray::fromBase64(objSha["avatarImg"].toString().toUtf8());
+        QImage img = QImage::fromData(avatarData);
+        shape->setImage(img);
+        m_shapeList.append(shape);
+    }
+
+}
+

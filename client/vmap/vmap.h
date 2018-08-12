@@ -60,6 +60,7 @@ public:
     enum GRID_PATTERN{NONE,SQUARE,HEXAGON,OCTOGON};
     enum SCALE_UNIT{M,KM,CM,MILE,YARD,INCH,FEET,PX};
     enum VisibilityMode {HIDDEN,FOGOFWAR,ALL};
+    enum APPLY_ON_CHARACTER {SelectionOnly, AllCharacter, AllNPC};
     /**
     * @brief default constructor
     */
@@ -431,6 +432,8 @@ public slots:
     //void selectionPositionHasChanged();
     void showTransparentItems();
     //void selectionPositionAboutToChange();
+    void cleanUpInit(APPLY_ON_CHARACTER zone);
+    void rollInit(APPLY_ON_CHARACTER zone);
 signals:
     /**
      * @brief npcAdded
