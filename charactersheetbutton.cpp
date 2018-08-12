@@ -242,7 +242,7 @@ CharacterSheetItem::TypeField CharacterSheetButton::getCurrentType()const
 }
 CharacterSheetItem* CharacterSheetButton::getChildAt(QString) const
 {
-    return NULL;
+    return nullptr;
 }
 
 CharacterSheetItem::CharacterSheetItemType CharacterSheetButton::getItemType() const
@@ -267,7 +267,7 @@ void CharacterSheetButton::loadDataItem(QJsonObject &json)
 void CharacterSheetButton::copyField(CharacterSheetItem* newBtn)
 {
     CharacterSheetButton* newField = dynamic_cast<CharacterSheetButton*>(newBtn);
-    if(NULL!=newField)
+    if(nullptr!=newField)
     {
         setId(newField->getId());
         //setValue(newField->value());
