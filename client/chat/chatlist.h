@@ -114,6 +114,7 @@ public:
 public slots:
 	void addPublicChat();
     void rollDiceCmd(QString, QString, bool alias);
+    void rollDiceCmdForCharacter(QString cmd, QString uuid, bool alias);
 
 private:
     /**

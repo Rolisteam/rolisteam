@@ -68,6 +68,7 @@ public slots:
      * @param owner
      */
     void rollDiceCmd(QString cmd,QString owner, bool alias);
+    void rollDiceCmdForCharacter(QString cmd,QString uuid, bool alias = true);
 private slots:
     void selectAnotherChat(const QModelIndex & index);
     void editChat(const QModelIndex & index);

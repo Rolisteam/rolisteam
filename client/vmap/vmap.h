@@ -456,6 +456,13 @@ signals:
      * @brief colorPipette
      */
     void colorPipette(QColor);
+
+    /**
+     * @brief runCommandForCharacter
+     * @param cmd
+     * @param uuid
+     */
+    void runDiceCommandForCharacter(QString cmd, QString uuid);
 private slots:
     /**
      * @brief sendItemToAll

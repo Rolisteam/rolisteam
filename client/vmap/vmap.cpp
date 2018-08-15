@@ -1596,15 +1596,32 @@ void VMap::insertCharacterInMap(CharacterItem* item)
     if((nullptr!=m_characterItemMap)&&(nullptr!=item))
     {
         m_characterItemMap->insertMulti(item->getCharacterId(),item);
-        connect(item,SIGNAL(ownerChanged(Character*,CharacterItem*)),this,SLOT(ownerHasChangedForCharacterItem(Character*,CharacterItem*)));
+        connect(item,&CharacterItem::ownerChanged,this,&VMap::ownerHasChangedForCharacterItem);
+        connect(item,&CharacterItem::runDiceCommand,this, &VMap::runDiceCommandForCharacter);
         if(!item->isNpc())
         {
             m_sightItem->insertVision(item);
         }
-        /* if((item->isPlayableCharacter())&&(!getOption(VisualItem::LocalIsGM).toBool())&&(item->isLocal()))
+        else
         {
-            changeStackOrder(item,VisualItem::FRONT);
-        }*/
+            auto list = PlayersList::instance();
+            list->addNpc(item->getCharacter());
+            auto search = item->getName();
+            auto items = m_characterItemMap->values();
+            items.removeAll(item);
+            QList<CharacterItem*> sameNameItems;
+            std::copy_if(items.begin(), items.end(), std::back_inserter(sameNameItems),[search](CharacterItem* item){
+                return item->getName() == search;
+            });
+            auto it = std::max_element(sameNameItems.begin(), sameNameItems.end(),[](const CharacterItem* a, const CharacterItem* b){
+                                 return a->getNumber() < b->getNumber();
+                             });
+            if(it != sameNameItems.end())
+            {
+                int max = (*it)->getNumber();
+                item->setNumber(++max);
+            }
+        }
     }
 }
 

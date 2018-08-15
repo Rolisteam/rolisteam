@@ -552,7 +552,27 @@ QString CharacterItem::getCharacterId() const
     }
     return QString();
 }
+void CharacterItem::setNumber(int n)
+{
+    if(nullptr == m_character)
+        return;
 
+    m_character->setNumber(n);
+}
+QString CharacterItem::getName() const
+{
+    if(nullptr == m_character)
+        return {};
+
+    return m_character->name();
+}
+int CharacterItem::getNumber() const
+{
+    if(nullptr == m_character)
+        return {};
+
+    return m_character->number();
+}
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     QVariant newValue = value;
@@ -1179,6 +1199,10 @@ void CharacterItem::setCharacter(Character* character)
         connect(m_character,&Character::currentHealthPointsChanged,this,&CharacterItem::updateCharacter);
     }
 
+}
+Character* CharacterItem::getCharacter() const
+{
+    return m_character;
 }
 void CharacterItem::setEditableItem(bool b)
 {

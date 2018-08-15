@@ -119,6 +119,9 @@ public:
     bool hasPlayer(Player* player);
     //static void defineFeaturePlayer(Player* player);
 
+    void addNpc(Character* character);
+
+
     Player* getGM();
     QString getGmId();
     // Proxy helpers
@@ -172,6 +175,8 @@ private:
 private:
     QList<Player *> m_playersList;
     QMap<QString, Person *> m_uuidMap;
+    /// WARNING ugly solution to store NPC
+    QList<Character*> m_npcList;
 
     static PlayersList* m_singleton;
     Player* m_localPlayer = nullptr;

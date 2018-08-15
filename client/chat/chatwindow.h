@@ -162,6 +162,7 @@ public slots:
     void detachView(bool b);
 
     void rollDiceCmd(QString cmd, QString owner, bool alias);
+    void rollDiceCmdForCharacter(QString cmd, QString uuid, bool alias);
 
     void showTime(bool showTime);
 

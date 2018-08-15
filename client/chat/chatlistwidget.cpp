@@ -187,7 +187,7 @@ void ChatListWidget::processAddDiceAlias(NetworkMessageReader* msg)
 }
 void ChatListWidget::processRemoveDiceALias(NetworkMessageReader* msg)
 {
-    int pos = msg->int64();
+    qint64 pos = msg->int64();
     if(m_diceAliasMapFromGM->size()>pos)
     {
         m_diceAliasMapFromGM->removeAt(pos);
@@ -195,8 +195,8 @@ void ChatListWidget::processRemoveDiceALias(NetworkMessageReader* msg)
 }
 void ChatListWidget::processMoveDiceALias(NetworkMessageReader* msg)
 {
-    int from = msg->int64();
-    int to   = msg->int64();
+    qint64 from = msg->int64();
+    qint64 to   = msg->int64();
     if((from>=0)&&(from<m_diceAliasMapFromGM->size()))
     {
         DiceAlias* tpm = m_diceAliasMapFromGM->takeAt(from);
@@ -212,6 +212,11 @@ void ChatListWidget::addPublicChat()
 void ChatListWidget::rollDiceCmd(QString cmd, QString owner,bool alias)
 {
     m_chatList->rollDiceCmd(cmd,owner,alias);
+}
+
+void ChatListWidget::rollDiceCmdForCharacter(QString cmd,QString uuid, bool alias)
+{
+    m_chatList->rollDiceCmdForCharacter(cmd,uuid,alias);
 }
 void ChatListWidget::cleanChatList()
 {

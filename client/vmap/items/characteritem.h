@@ -236,7 +236,11 @@ public:
     void updateCharacter();
     void readCharacterChanged(NetworkMessageReader &msg);
     void setCharacter(Character *character);
+    Character* getCharacter() const;
     void setTokenFile(QString);
+    void setNumber(int);
+    QString getName() const;
+    int getNumber() const;
 signals:
     /**
      * @brief positionChanged

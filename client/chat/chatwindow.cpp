@@ -854,21 +854,29 @@ Qt::DropActions ChatWindow::supportedDropActions() const
 }
 void ChatWindow::rollDiceCmd(QString cmd, QString owner, bool alias)
 {
+    QString idOwner = PlayersList::instance()->getUuidFromName(owner);
+    rollDiceCmdForCharacter(cmd, idOwner, alias);
+}
+
+void ChatWindow::rollDiceCmdForCharacter(QString cmd, QString uuid, bool alias)
+{
     QString title;
     QString msg;
-    QString idOwner = PlayersList::instance()->getUuidFromName(owner);
 
-    setProperDictionnary(idOwner);
+    setProperDictionnary(uuid);
 
     manageDiceRoll(cmd.simplified(),title,msg, alias);
 
     NetworkMessageWriter data(NetMsg::ChatCategory, NetMsg::DiceMessageAction);
-    data.string8(idOwner);
+    data.string8(uuid);
     data.string8(m_chat->identifier());
     data.string32(msg);
     data.string32(m_diceParser->getComment());
     m_chat->sendThem(data);
 }
+
+
+
 
 void ChatWindow::setLocalPlayer(Person* person)
 {

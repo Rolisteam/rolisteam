@@ -306,7 +306,18 @@ Player * PlayersList::getPlayer(int index) const
 
 Person * PlayersList::getPerson(const QString & uuid) const
 {
-    return m_uuidMap.value(uuid);
+    auto person = m_uuidMap.value(uuid);
+    if(nullptr == person)
+    {
+        auto it = std::find_if(m_npcList.begin(), m_npcList.end(), [uuid](Character* character){
+            return (character->getUuid() == uuid);
+        });
+        if(it != std::end(m_npcList))
+        {
+            person = *it;
+        }
+    }
+    return person;
 }
 
 Player * PlayersList::getPlayer(const QString & uuid) const
@@ -380,7 +391,7 @@ Player * PlayersList::getPlayer(const QModelIndex & index) const
         return nullptr;
 
     int row = index.row();
-    quint32 parentRow = (quint32)(index.internalId() & NoParent);
+    quint32 parentRow = static_cast<quint32>(index.internalId() & NoParent);
     if (parentRow == NoParent && row >= 0 && row < m_playersList.size())
         return m_playersList.at(row);
 
@@ -393,8 +404,8 @@ Character * PlayersList::getCharacter(const QModelIndex & index) const
         return nullptr;
 
     int row = index.row();
-    quint32 parentRow = (quint32)(index.internalId() & NoParent);
-    if (parentRow == NoParent && row >= 0 && parentRow < (quint32)m_playersList.size())
+    quint32 parentRow = static_cast<quint32>(index.internalId() & NoParent);
+    if (parentRow == NoParent && row >= 0 && parentRow < static_cast<quint32>(m_playersList.size()))
     {
         Player * player = m_playersList.at(row);
         if (row < player->getChildrenCount())
@@ -872,9 +883,7 @@ void PlayersList::completeListClean()
     {
         player->clearCharacterList();
     }
-
     m_localPlayer = nullptr;
-
 }
 
 /*********
@@ -923,4 +932,12 @@ QString PlayersList::getGmId()
 bool PlayersList::hasPlayer(Player* player)
 {
     return m_playersList.contains(player);
+}
+
+void PlayersList::addNpc(Character *character)
+{
+    if(character == nullptr)
+        return;
+
+    m_npcList.append(character);
 }

@@ -2168,7 +2168,10 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     connect(m_vToolBar,SIGNAL(currentEditionModeChanged(VToolsBar::EditionMode)),map,SLOT(setEditionMode(VToolsBar::EditionMode)));
 
     //map to toolbar
-    connect(map,SIGNAL(npcAdded()),m_vToolBar,SLOT(increaseNpcNumber()));
+    connect(map,&VMap::npcAdded,m_vToolBar,&VToolsBar::increaseNpcNumber);
+    connect(map,&VMap::runDiceCommandForCharacter,this,[=](QString cmd, QString uuid){
+        m_chatListWidget->rollDiceCmdForCharacter(cmd,uuid,true);
+    });
 
     // menu to Map
     connect(m_ui->m_showNpcNameAction, &QAction::triggered,[=](bool b){

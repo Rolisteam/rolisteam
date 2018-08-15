@@ -164,6 +164,18 @@ void ChatList::rollDiceCmd(QString cmd, QString owner,bool alias)
     }
 }
 
+void ChatList::rollDiceCmdForCharacter(QString cmd, QString uuid,bool alias)
+{
+    if(!m_chatWindowList.isEmpty())
+    {
+        ChatWindow* wid = m_chatWindowList.first();
+        if(nullptr!=wid)
+        {
+            wid->rollDiceCmdForCharacter(cmd,uuid,alias);
+        }
+    }
+}
+
 bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     Q_UNUSED(value)
