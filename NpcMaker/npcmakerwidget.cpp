@@ -191,6 +191,8 @@ void NpcMakerWidget::exportNpc()
     for(auto field : *m_actionModel)
     {
         auto act = convertField<CharacterAction>(field);
+        if(act == nullptr)
+            continue;
         QJsonObject actJson;
         actJson["name"]=act->name();
         actJson["command"]=act->command();
@@ -199,9 +201,11 @@ void NpcMakerWidget::exportNpc()
     jobj["actions"]= actionArray;
 
     QJsonArray propertyArray;
-    for(auto field : *m_actionModel)
+    for(auto field : *m_propertyModel)
     {
         auto proprety = convertField<CharacterProperty>(field);
+        if(proprety == nullptr)
+            continue;
         QJsonObject actJson;
         actJson["name"]=proprety->name();
         actJson["value"]=proprety->value();
@@ -213,6 +217,8 @@ void NpcMakerWidget::exportNpc()
     for(auto field : *m_actionModel)
     {
         auto shape = convertField<CharacterShape>(field);
+        if(shape == nullptr)
+            continue;
         QJsonObject actJson;
         actJson["name"]=shape->name();
         actJson["uri"]=shape->uri();
