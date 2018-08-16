@@ -1269,7 +1269,8 @@ void CharacterItem::setTokenFile(QString filename)
         m_rect.setWidth(m_diameter);
         if(nullptr == m_character)
         {
-            m_character = new Character();
+            auto character = new Character();
+            setCharacter(character);
         }
         m_character->readTokenObj(obj);
     }
