@@ -592,9 +592,6 @@ void MainWindow::createPostSettings()
     }
     m_logController->setCurrentModes(LogController::Gui);
     m_logController->setLogLevel(LogController::Info);
-    connect(m_logController,&LogController::showMessage,
-            m_notifierDisplay,&LogPanel::showMessage);
-
 }
 
 void MainWindow::linkActionToMenu()
