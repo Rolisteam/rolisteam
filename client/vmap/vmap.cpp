@@ -796,7 +796,7 @@ void VMap::saveFile(QDataStream& out)
         VisualItem* tmp = m_itemMap->value(key);
         if(nullptr!=tmp)
         {
-            out << (int)tmp->getType() << *tmp << tmp->pos().x() << tmp->pos().y();
+            out << static_cast<int>(tmp->getType()) << *tmp << tmp->pos().x() << tmp->pos().y();
         }
     }
 }
@@ -1171,6 +1171,9 @@ QString VMap::getCurrentNpcName() const
 
 void VMap::removeItemFromData(VisualItem *item)
 {
+    if(nullptr == item)
+        return;
+
     m_sortedItemList.removeAll(item->getId());
     m_itemMap->remove(item->getId());
     m_characterItemMap->remove(item->getId());
@@ -1178,8 +1181,13 @@ void VMap::removeItemFromData(VisualItem *item)
 
 void VMap::addItemFromData(VisualItem *item)
 {
-    m_itemMap->insert(item->getId(),item);
-    m_sortedItemList.append(item->getId());
+    if(nullptr == item)
+        return;
+
+    auto id = item->getId();
+    m_itemMap->insert(id,item);
+    if(!m_sortedItemList.contains(id))
+        m_sortedItemList.append(id);
 }
 
 void VMap::insertItemFromData(VisualItem *, int )
@@ -1279,8 +1287,10 @@ void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwor
         {
             if((item->type() != VisualItem::ANCHOR)&&(item->type() != VisualItem::GRID))
             {
-                m_itemMap->insert(item->getId(),item);
-                m_sortedItemList << item->getId();
+                auto id = item->getId();
+                m_itemMap->insert(id,item);
+                if(m_sortedItemList.contains(id))
+                    m_sortedItemList << id;
             }
         }
 
@@ -1749,60 +1759,53 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
 {
     if (nullptr == item || m_sortedItemList.size() < 2)
         return;
-    int size = m_sortedItemList.size();
     int index = m_sortedItemList.indexOf(item->getId());
-
-    // find out insertion indexes over the stacked items
-    QList<QGraphicsItem *> stackedItems = items(item->sceneBoundingRect(), Qt::IntersectsItemShape);
-
-    int prevIndex = 0;
-    int nextIndex = size - 1;
-    for (QGraphicsItem * qitem: stackedItems)
-    {
-        // operate only on different Content and not on sightItem.
-        VisualItem* c = dynamic_cast<VisualItem*>(qitem);
-        if (!c || c == item || c == m_sightItem || c == m_gridItem)
-            continue;
-
-        // refine previous/next indexes (close to 'index')
-        int cIdx = m_sortedItemList.indexOf(c->getId());
-        if (cIdx < nextIndex && cIdx > index)
-            nextIndex = cIdx;
-        else if (cIdx > prevIndex && cIdx < index)
-            prevIndex = cIdx;
-    }
-
-
     if(index < 0)
-    {
         return;
-    }
 
-    // move items
-    switch (op)
-    {
-    case VisualItem::FRONT: // front
-        m_sortedItemList.append(m_sortedItemList.takeAt(index));
-        break;
-    case VisualItem::RAISE: // raise
-        if (index >= size - 1)
-            return;
-
-        m_sortedItemList.insert(nextIndex, m_sortedItemList.takeAt(index));
-        break;
-    case VisualItem::LOWER: // lower
-        if (index <= 0)
-            return;
-        m_sortedItemList.insert(prevIndex, m_sortedItemList.takeAt(index));
-        break;
-    case VisualItem::BACK: // back
-        m_sortedItemList.prepend(m_sortedItemList.takeAt(index));
-        break;
-    }
-
-    // reassign z-levels
     m_sortedItemList.removeAll(m_sightItem->getId());
     m_sortedItemList.removeAll(m_gridItem->getId());
+
+    if(VisualItem::FRONT == op)
+    {
+        m_sortedItemList.append(m_sortedItemList.takeAt(index));
+    }
+    else if(VisualItem::BACK == op)
+    {
+        m_sortedItemList.prepend(m_sortedItemList.takeAt(index));
+    }
+    else
+    {
+        // find out insertion indexes over the stacked items
+        QList<QGraphicsItem *> stackedItems = items(item->sceneBoundingRect(), Qt::IntersectsItemShape);
+
+        int maxIndex = 0;
+        int minIndex = m_sortedItemList.size()-1;
+        for (QGraphicsItem * qitem: stackedItems)
+        {
+            // operate only on different Content and not on sightItem.
+            VisualItem* vItem = dynamic_cast<VisualItem*>(qitem);
+            if (!vItem || vItem == item || vItem == m_sightItem || vItem == m_gridItem)
+                continue;
+
+            auto id = vItem->getId();
+            auto tmpIndex = m_sortedItemList.indexOf(id);
+            maxIndex = std::max(maxIndex,tmpIndex);
+            minIndex = std::min(minIndex,tmpIndex);
+        }
+
+        if(VisualItem::RAISE == op)
+        {
+            m_sortedItemList.insert(maxIndex, m_sortedItemList.takeAt(index));
+              // element at  index must be after all element in list
+        }
+        else if(VisualItem::LOWER ==  op)
+        {
+            m_sortedItemList.insert(minIndex, m_sortedItemList.takeAt(index));
+            // element at  index must be before all element in list
+        }
+    }
+    // reassign z-levels
     m_sortedItemList.append(m_sightItem->getId());
     m_sortedItemList.append(m_gridItem->getId());
 
@@ -1824,7 +1827,7 @@ void VMap::showTransparentItems()
 {
     for(auto item : m_itemMap->values())
     {
-        if(item->opacity() == 0)
+        if(qFuzzyCompare(item->opacity(), 0))
         {
             item->setOpacity(1);
         }
