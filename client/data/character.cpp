@@ -25,6 +25,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonArray>
+#include <QFileInfo>
 
 #include "character.h"
 #include "data/player.h"
@@ -85,7 +86,15 @@ QString CharacterShape::uri() const
 
 void CharacterShape::setUri(const QString &uri)
 {
+    if(m_uri == uri)
+        return;
+
     m_uri = uri;
+
+    if(QFileInfo::exists(m_uri))
+        m_image = QImage(m_uri);
+    else
+        m_image = QImage();
 }
 
 QVariant CharacterShape::getData(int col, int role)
@@ -731,6 +740,20 @@ void Character::read(QDataStream& in)
 
 }
 
+void Character::setCurrentShape(int index)
+{
+    if(qBound(0,index, m_shapeList.size()) != index)
+        return;
+
+    auto shape = m_shapeList[index];
+    m_avatar = shape->image();
+
+}
+
+void Character::setDefaultShape()
+{
+    m_avatar = m_defaultAvatar;
+}
 void Character::readTokenObj(const QJsonObject& obj)
 {
     m_isNpc = true;
@@ -745,6 +768,7 @@ void Character::readTokenObj(const QJsonObject& obj)
     m_avatarPath = obj["avatarUri"].toString();
     auto array = QByteArray::fromBase64(obj["avatarImg"].toString().toUtf8());
     m_avatar = QImage::fromData(array);
+    m_defaultAvatar = m_avatar;
 
     auto actionArray = obj["actions"].toArray();
     for(auto act : actionArray)
@@ -773,7 +797,7 @@ void Character::readTokenObj(const QJsonObject& obj)
         auto shape = new CharacterShape();
         shape->setName(objSha["name"].toString());
         shape->setUri(objSha["uri"].toString());
-        auto avatarData = QByteArray::fromBase64(objSha["avatarImg"].toString().toUtf8());
+        auto avatarData = QByteArray::fromBase64(objSha["dataImg"].toString().toUtf8());
         QImage img = QImage::fromData(avatarData);
         shape->setImage(img);
         m_shapeList.append(shape);

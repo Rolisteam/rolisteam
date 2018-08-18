@@ -284,9 +284,10 @@ public:
 
     QList<CharacterAction *> getActionList() const;
     QList<CharacterShape *> getShapeList() const;
-
 public slots:
     void clearInitScore();
+    void setDefaultShape();
+    void setCurrentShape(int index);
 signals:
     void avatarChanged();
     void currentHealthPointsChanged();
@@ -324,6 +325,7 @@ private:
     qreal m_distancePerTurn = 0;
     QColor m_lifeColor = QColor(Qt::green);
     bool m_hasInitScore = false;
+    QImage m_defaultAvatar;
 };
 
 #endif // CHARACTER_H

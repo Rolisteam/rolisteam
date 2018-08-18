@@ -856,12 +856,27 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
       if(!shapeList.isEmpty())
       {
           QMenu* actions =  menu->addMenu(tr("Shapes"));
+          int i = 0;
           for(auto charShape : shapeList)
           {
               auto act = actions->addAction(charShape->name());
-              act->setData(charShape->uri());
+              act->setData(i);
               connect(act,&QAction::triggered,this,&CharacterItem::setShape);
+              ++i;
           }
+          auto action = actions->addAction(tr("Clean Shape"));
+          connect(action,&QAction::triggered,this,[=](){
+              if(nullptr == m_character)
+                  return;
+              m_character->setDefaultShape();
+              if(m_thumnails)
+              {
+                  delete m_thumnails;
+                  m_thumnails = nullptr;
+              }
+              update();
+          });
+
       }
   }
 }
@@ -904,10 +919,18 @@ void CharacterItem::runCommand()
 
 void CharacterItem::setShape()
 {
+    if(nullptr == m_character)
+        return;
     auto act = qobject_cast<QAction*>(sender());
-    auto cmd = act->data().toString();
+    auto index = act->data().toInt();
 
-    // FIXME : run the command
+    m_character->setCurrentShape(index);
+    if(m_thumnails)
+    {
+        delete m_thumnails;
+        m_thumnails = nullptr;
+    }
+    update();
 }
 
 void CharacterItem::changeCharacter()
