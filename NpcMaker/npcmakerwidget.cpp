@@ -53,7 +53,7 @@ NpcMakerWidget::NpcMakerWidget(QWidget *parent) :
     m_propertyModel = new GenericModel({QStringLiteral("Name"),QStringLiteral("Value")},this);
     ui->m_propertyList->setModel(m_propertyModel);
     connect(ui->m_addPropertyAct,&QAction::triggered,this,[=](){
-        m_propertyModel->addData(new CharacterAction);
+        m_propertyModel->addData(new CharacterProperty);
     });
     connect(ui->m_removePropertyAct,&QAction::triggered,this,[=](){
         auto index = ui->m_propertyList->currentIndex();
@@ -64,7 +64,7 @@ NpcMakerWidget::NpcMakerWidget(QWidget *parent) :
     m_shapeModel = new GenericModel({QStringLiteral("Name"),QStringLiteral("Uri")},this);
     ui->m_shapeList->setModel(m_shapeModel);
     connect(ui->m_addShapeAct,&QAction::triggered,this,[=](){
-        m_shapeModel->addData(new CharacterAction);
+        m_shapeModel->addData(new CharacterShape);
     });
     connect(ui->m_removeShapeAct,&QAction::triggered,this,[=](){
         auto index = ui->m_shapeList->currentIndex();
@@ -209,12 +209,12 @@ void NpcMakerWidget::exportNpc()
         QJsonObject actJson;
         actJson["name"]=proprety->name();
         actJson["value"]=proprety->value();
-        actionArray.append(actJson);
+        propertyArray.append(actJson);
     }
     jobj["properties"]= propertyArray;
 
     QJsonArray shapeArray;
-    for(auto field : *m_actionModel)
+    for(auto field : *m_shapeModel)
     {
         auto shape = convertField<CharacterShape>(field);
         if(shape == nullptr)
@@ -227,7 +227,7 @@ void NpcMakerWidget::exportNpc()
         QBuffer buf(&data);
         pix.save(&buf,"png");
         actJson["dataImg"]=QString::fromUtf8(data.toBase64());
-        actionArray.append(actJson);
+        shapeArray.append(actJson);
     }
     jobj["shapes"]= shapeArray;
 
