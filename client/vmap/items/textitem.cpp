@@ -40,6 +40,7 @@
 TextLabel::TextLabel(QGraphicsItem* parent)
     : QGraphicsTextItem(parent)
 {
+    setFlag(QGraphicsItem::ItemIsFocusable,true);
     //setAcceptHoverEvents(true);
 }
 void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
@@ -49,7 +50,9 @@ void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
     {
         if(map->getSelectedtool() == VToolsBar::HANDLER)
         {
-            event->accept();
+            //event->accept();
+            setFocus(Qt::OtherFocusReason);
+            QGraphicsTextItem::mousePressEvent(event);
         }
         else if((map->getSelectedtool() == VToolsBar::TEXT)||
                 (map->getSelectedtool() == VToolsBar::TEXTBORDER))
@@ -453,7 +456,7 @@ void TextItem::readItem(NetworkMessageReader* msg)
 {
     blockSignals(true);
     m_id = msg->string16();
-    m_showRect = (bool)msg->uint8();
+    m_showRect = static_cast<bool>(msg->uint8());
     setScale(msg->real());
     setRotation(msg->real());
     m_layer = (VisualItem::Layer)msg->uint8();
@@ -477,7 +480,7 @@ void TextItem::readItem(NetworkMessageReader* msg)
     m_start.setY(msg->real());
     m_doc->setHtml(msg->string32());
     m_color = msg->rgb();
-    m_showRect = (bool)msg->uint8();
+    m_showRect = static_cast<bool>(msg->uint8());
     blockSignals(false);
     m_textItem->setDefaultTextColor(m_color);
 
@@ -552,10 +555,10 @@ void TextItem::setRectSize(qreal x,qreal y,qreal w,qreal h)
 
     updateTextPosition();
 }
-void TextItem::setEditableItem(bool b)
+void TextItem::updateItemFlags()
 {
-    VisualItem::setEditableItem(b);
-    if(!b)
+    VisualItem::updateItemFlags();
+    if(!canBeMoved())
     {
         m_textItem->setTextInteractionFlags(Qt::NoTextInteraction);
     }
@@ -567,7 +570,7 @@ void TextItem::setEditableItem(bool b)
 void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent * event)
 {
     Q_UNUSED(event)
-    if(isEditable())
+    if(canBeMoved())
     {
         VMap* vmap = dynamic_cast<VMap*>(scene());
         if(nullptr!=vmap)
@@ -585,7 +588,7 @@ void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent * event)
 void TextItem::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
 {
     Q_UNUSED(event)
-    if(isEditable())
+    if(canBeMoved())
         QApplication::restoreOverrideCursor();
 
     VisualItem::hoverLeaveEvent(event);

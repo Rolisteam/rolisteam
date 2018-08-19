@@ -29,7 +29,7 @@
 class TextLabel : public QGraphicsTextItem
 {
 public:
-    TextLabel(QGraphicsItem* parent = 0);
+    TextLabel(QGraphicsItem* parent = nullptr);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
@@ -63,11 +63,11 @@ public:
     * @brief Constructor with parameters
     * @param start, starting point, it represents the bottom right rectangle corner where the text willbe displayed
     */
-    TextItem(QPointF& start,quint16 penSize,QColor& penColor,QGraphicsItem * parent = 0);
+    TextItem(QPointF& start,quint16 penSize,QColor& penColor,QGraphicsItem * parent = nullptr);
     /**
     * @brief paint the item into the scene.
     */
-    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr );
     /**
     * @brief accessor to the bounding rect, helpful for focus and collision detection
     */
@@ -119,7 +119,7 @@ public:
     void addActionContextMenu(QMenu* menu);
     void setBorderVisible(bool);
 
-    virtual void setEditableItem(bool b);
+    virtual void updateItemFlags();
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
 
     virtual void endOfGeometryChange();
