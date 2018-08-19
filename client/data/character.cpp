@@ -549,6 +549,7 @@ QString Character::read(NetworkMessageReader& msg)
     if(hasAvatar)
     {
         m_avatar = QImage::fromData(msg.byteArray32());
+        emit avatarChanged();
     }
 
     return parentId;
@@ -747,12 +748,13 @@ void Character::setCurrentShape(int index)
 
     auto shape = m_shapeList[index];
     m_avatar = shape->image();
-
+    emit avatarChanged();
 }
 
 void Character::setDefaultShape()
 {
     m_avatar = m_defaultAvatar;
+    emit avatarChanged();
 }
 void Character::readTokenObj(const QJsonObject& obj)
 {
