@@ -21,7 +21,7 @@
 
 #include "userlist/rolisteammimedata.h"
 #include "data/cleverurimimedata.h"
-
+#include "data/cleveruri.h"
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
 
@@ -55,7 +55,6 @@ void VMap::initMap()
 
     PlayersList* list = PlayersList::instance();
     connect(list,SIGNAL(characterDeleted(Character*)),this,SLOT(characterHasBeenDeleted(Character*)));
-
     connect(this, SIGNAL(selectionChanged()),this,SLOT(selectionHasChanged()));
 
     m_penSize = 1;
@@ -84,6 +83,7 @@ void VMap::initMap()
     m_propertiesHash->insert(VisualItem::PermissionMode,Map::GM_ONLY);
     m_propertiesHash->insert(VisualItem::FogOfWarStatus,false);
     m_propertiesHash->insert(VisualItem::VisibilityMode,VMap::HIDDEN);
+    m_propertiesHash->insert(VisualItem::MapLayer,m_currentLayer);
 }
 
 VToolsBar::SelectableTool VMap::getSelectedtool() const
@@ -675,16 +675,10 @@ bool VMap::editLayer(VisualItem::Layer layer)
     {
         m_currentLayer = layer;
         emit mapChanged();
+        setOption(VisualItem::MapLayer, layer);
         for(VisualItem* item: m_itemMap->values())
         {
-            if(m_currentLayer == item->getLayer())
-            {
-                item->setEditableItem(true);
-            }
-            else
-            {
-                item->setEditableItem(false);
-            }
+            item->updateItemFlags();
         }
         return true;
     }
@@ -692,14 +686,10 @@ bool VMap::editLayer(VisualItem::Layer layer)
 }
 void VMap::checkItemLayer(VisualItem* item)
 {
-    if(item->getLayer() == m_currentLayer)
-    {
-        item->setEditableItem(true);
-    }
-    else
-    {
-        item->setEditableItem(false);
-    }
+    if(nullptr == item)
+        return;
+
+    item->updateItemFlags();
 }
 
 void VMap::sendOffItem(VisualItem* item, bool doInitPoint)
@@ -1299,7 +1289,6 @@ void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwor
             emit npcAdded();
         }
         itemCmd->setUndoable(undoable);
-
     }
 }
 QList<CharacterItem*> VMap::getCharacterOnMap(QString id)
@@ -1363,23 +1352,9 @@ void VMap::keyPressEvent(QKeyEvent* event)
             VisualItem* itemV = dynamic_cast<VisualItem*>(item);
             if(nullptr!=itemV)
             {
-                if(itemV->getType() == VisualItem::CHARACTER)
+                if(itemV->canBeMoved())
                 {
-                    CharacterItem* itemC = dynamic_cast<CharacterItem*>(itemV);
-
-                    if(((getOption(VisualItem::LocalIsGM).toBool())||getOption(VisualItem::PermissionMode).toInt()!=Map::PC_ALL)||
-                            (itemC->isLocal()&&(getOption(VisualItem::PermissionMode).toInt()!=Map::PC_MOVE)))
-                    {
-                        idListToRemove << itemV->getId();
-                    }
-                }
-                else if(itemV->isEditable())
-                {
-                    if((getOption(VisualItem::LocalIsGM).toBool()) || ((!getOption(VisualItem::LocalIsGM).toBool())
-                        &&(getOption(VisualItem::PermissionMode).toInt()!=Map::PC_ALL)))
-                    {
-                        idListToRemove << itemV->getId();
-                    }
+                    idListToRemove << itemV->getId();
                 }
             }
         }
@@ -1395,38 +1370,17 @@ void VMap::keyPressEvent(QKeyEvent* event)
 }
 void VMap::setPermissionMode(Map::PermissionMode mode)
 {
-    if(getOption(VisualItem::PermissionMode).toInt()!=mode)
-    {
-        setOption(VisualItem::PermissionMode,mode);
-        if(!getOption(VisualItem::LocalIsGM).toBool())
-        {
-            if(Map::PC_MOVE == mode)
-            {
-                for(VisualItem* item:m_itemMap->values())
-                {
-                    item->setEditableItem(false);
-                }
-                for(CharacterItem* item:m_characterItemMap->values())
-                {
-                    item->setEditableItem(false);
-                    item->setCharacterIsMovable(true);
-                    //item->setEditableItem(false);
-                }
-            }
-            else
-            {
-                bool value = false;//GM_ONLY
-                if(Map::PC_ALL == mode)
-                {
-                    value = true;
-                }
-                for(VisualItem* item: m_itemMap->values())
-                {
-                    item->setEditableItem(value);
-                }
-            }
-        }
+    if(getOption(VisualItem::PermissionMode).toInt()==mode)
+        return;
 
+
+    setOption(VisualItem::PermissionMode,mode);
+    if(!getOption(VisualItem::LocalIsGM).toBool())
+    {
+        for(VisualItem* item: m_itemMap->values())
+        {
+            item->updateItemFlags();
+        }
     }
 }
 QString VMap::getPermissionModeText()
@@ -1460,7 +1414,7 @@ const QString& VMap::getLocalUserId() const
     return m_localUserId;
 }
 
-#include "data/cleveruri.h"
+
 void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
 { 
     auto data = event->mimeData();

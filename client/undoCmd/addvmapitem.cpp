@@ -166,6 +166,7 @@ void AddVmapItemCommand::initItem()
 {
     m_first = true;
     m_currentItem->setPropertiesHash(m_vmap->getPropertiesHash());
+    m_currentItem->updateItemFlags();
     m_currentItem->setLayer(m_vmap->getCurrentLayer());
     m_currentItem->setMapId(m_vmap->getId());
     m_currentItem->setVisible(isVisible());
@@ -192,37 +193,6 @@ void AddVmapItemCommand::setUndoable(bool undoable)
     m_undoable = undoable;
 }
 
-bool AddVmapItemCommand::isEditable()
-{
-    bool editable = false;
-    if((m_vmap->getOption(VisualItem::LocalIsGM).toBool()))//GM
-    {
-        editable = true;
-    }
-    else
-    {
-        if(m_vmap->getPermissionMode() == Map::PC_ALL)
-        {
-            editable = true;
-        }
-        else if(m_vmap->getPermissionMode() == Map::PC_MOVE)
-        {
-            if(m_currentItem->getType()==VisualItem::CHARACTER)
-            {
-                CharacterItem* charItem = dynamic_cast<CharacterItem*>(m_currentItem);
-                if(nullptr != charItem )
-                {
-                    if(charItem->getParentId() == m_vmap->getLocalUserId())
-                    {
-                        editable = true;
-                        charItem->setCharacterIsMovable(true);
-                    }
-                }
-            }
-        }
-    }
-    return editable;
-}
 bool AddVmapItemCommand::isVisible()
 {
     bool visible = false;
@@ -261,7 +231,7 @@ void AddVmapItemCommand::redo()
 {
     m_vmap->setFocusItem(m_currentItem);
     m_currentItem->setVisible(isVisible());
-    m_currentItem->setEditableItem(isEditable());
+    m_currentItem->updateItemFlags();
     m_vmap->addItemFromData(m_currentItem);
     if(m_first)
     {

@@ -487,8 +487,6 @@ void RGraphicsView::setItemLayer(QList<VisualItem*> list,VisualItem::Layer layer
         if(nullptr != item)
         {
             item->setLayer(layer);
-            item->setEditableItem(layer==m_vmap->getCurrentLayer());
-            item->sendItemLayer();
         }
     }
 }

@@ -61,7 +61,6 @@ public:
 
 protected:
     bool isVisible();
-    bool isEditable();
     void initItem();
 private:
     VMap* m_vmap=nullptr;

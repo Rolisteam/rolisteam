@@ -20,7 +20,6 @@ private:
     VisualItem* m_currentItem = nullptr;
     bool m_sendToAll;
     bool m_visible;
-    bool m_editable;
 };
 
 #endif // ADDMEDIACONTENEUR_H

@@ -188,9 +188,8 @@ public:
     virtual void setSize(QSizeF size);
     /**
      * @brief setCharacterIsMovable if isMovable is true and the character is local then the item is mavable
-     * @param isMovable
      */
-    void setCharacterIsMovable(bool isMovable);
+    void updateItemFlags();
     /**
      * @brief isNpc
      * @return
@@ -228,11 +227,6 @@ public:
      * @param b
      */
     void setChildrenVisible(bool b);
-    /**
-     * @brief setEditableItem
-     * @param b
-     */
-    void setEditableItem(bool b);
     void updateCharacter();
     void readCharacterChanged(NetworkMessageReader &msg);
     void setCharacter(Character *character);
@@ -300,7 +294,7 @@ protected:
      * @brief canBeMoved
      * @return
      */
-    virtual bool canBeMoved() const;
+    //virtual bool canBeMoved() const;
 
     virtual void wheelEvent(QGraphicsSceneWheelEvent *event);
 protected slots:

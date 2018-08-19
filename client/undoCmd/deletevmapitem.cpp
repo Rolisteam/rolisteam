@@ -25,7 +25,6 @@ DeleteVmapItemCommand::DeleteVmapItemCommand(VMap* map, VisualItem* item, bool s
     : QUndoCommand(parent), m_vmap(map), m_currentItem(item), m_sendToAll(sendToAll)
 {
     m_visible = m_currentItem->isVisible();
-    m_editable = m_currentItem->isEditable();
 
     setText(QObject::tr("Delete Item From Map %1").arg(m_vmap->getMapTitle()));
 }
@@ -52,7 +51,7 @@ void DeleteVmapItemCommand::undo()
         m_vmap->setFocusItem(m_currentItem);
         m_vmap->QGraphicsScene::addItem(m_currentItem);
         m_currentItem->setVisible(m_visible);
-        m_currentItem->setEditableItem(m_editable);
+        m_currentItem->updateItemFlags();
         m_vmap->addItemFromData(m_currentItem);
         m_vmap->update();
 

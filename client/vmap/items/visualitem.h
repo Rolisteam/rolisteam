@@ -72,7 +72,8 @@ public:
         GridAbove,
         HideOtherLayers,
         VisibilityMode,
-        ShowHealthBar};
+        ShowHealthBar,
+        MapLayer};
 	/**
 	 * @brief VisualItem default constructor
 	 */
@@ -83,7 +84,7 @@ public:
 	 * @param editable edition status
 	 * @param parent
 	 */
-    VisualItem(QColor& penColor,int size, bool editable,QGraphicsItem * parent = nullptr);
+    VisualItem(QColor& penColor, int size, QGraphicsItem * parent = nullptr);
     /**
      * @brief ~VisualItem
      */
@@ -250,11 +251,11 @@ public:
     virtual void setSize(QSizeF size);
 
 
-    bool isEditable() const;
+    //bool isEditable() const;
     /**
      * @brief setEditableItem
      */
-    virtual void setEditableItem(bool);
+    virtual void updateItemFlags();
     void readOpacityMsg(NetworkMessageReader* msg);
     bool getHoldSize() const;
     void setHoldSize(bool holdSize);
@@ -272,7 +273,12 @@ public:
 
     static QColor getHighlightColor();
     static void setHighlightColor(const QColor &highlightColor);
-
+    virtual bool itemAndMapOnSameLayer() const;
+    /**
+     * @brief canBeMove
+     * @return
+     */
+    virtual bool canBeMoved() const;
 signals:
     /**
      * @brief itemGeometryChanged
@@ -370,12 +376,6 @@ protected:
 	 * @brief createActions
 	 */
     virtual void createActions();
-
-    /**
-     * @brief canBeMove
-     * @return
-     */
-    virtual bool canBeMoved() const;
     /**
      * @brief hasPermissionToMove
      * @return
@@ -391,7 +391,7 @@ protected:
     static int m_highlightWidth;
     QString m_id;
     QString m_mapId;
-    bool m_editable = false;
+    //bool m_editable = false;
     QVector<ChildPointItem*>* m_child = nullptr;
     quint16 m_penWidth = 1;
     QRectF m_rect;
@@ -415,6 +415,7 @@ protected:
 
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash= nullptr;
     bool m_holdSize = false;
+
 private slots:
 	/**
 	 * @brief manageAction

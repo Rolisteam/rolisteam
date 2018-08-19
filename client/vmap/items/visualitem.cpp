@@ -47,8 +47,8 @@ VisualItem::VisualItem()
     init();
 }
 
-VisualItem::VisualItem(QColor& penColor,int penSize, bool b,QGraphicsItem * parent )
-    : QGraphicsObject(parent),m_color(penColor),m_editable(b),m_child(nullptr),m_penWidth(penSize)
+VisualItem::VisualItem(QColor& penColor,int penSize,QGraphicsItem * parent )
+    : QGraphicsObject(parent),m_color(penColor),m_child(nullptr),m_penWidth(penSize)
 {
     m_id = QUuid::createUuid().toString();
     init();
@@ -81,12 +81,12 @@ void VisualItem::init()
     group->addAction(m_putObjectLayer);
     group->addAction(m_putCharacterLayer);
 
-    setEditableItem(m_editable);
+    updateItemFlags();
 }
-void VisualItem::setEditableItem(bool b)
+void VisualItem::updateItemFlags()
 {
-    m_editable=b;
-    if((m_editable)&&(hasPermissionToMove()))
+    bool editable = canBeMoved();
+    if(editable)
     {
         /// @warning if two connected people have editable item, it will lead to endless loop.
         setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
@@ -113,10 +113,16 @@ void VisualItem::setEditableItem(bool b)
     {
         for (ChildPointItem* itemChild : *m_child)
         {
-            itemChild->setEditableItem(m_editable);
+            itemChild->setEditableItem(editable);
         }
     }
 }
+
+bool VisualItem::itemAndMapOnSameLayer() const
+{
+    return m_layer == getOption(VisualItem::MapLayer).toInt();
+}
+
 QColor VisualItem::getColor()
 {
     return m_color;
@@ -169,11 +175,11 @@ QPointF VisualItem::computeClosePoint(QPointF pos)
 }
 void VisualItem::keyPressEvent(QKeyEvent* event)
 {
-    if((event->key ()==Qt::Key_Delete)&&(m_editable)&&(isSelected())&&hasPermissionToMove())
+    if((event->key ()==Qt::Key_Delete)&&(isSelected())&&canBeMoved())
     {
         emit itemRemoved(m_id);
     }
-    else if((event->key() == Qt::Key_C)&&(event->modifiers() == Qt::ControlModifier)&&(m_editable)&&(isSelected()))
+    else if((event->key() == Qt::Key_C)&&(event->modifiers() == Qt::ControlModifier)&&(isSelected()))
     {
         emit duplicateItem(this);
     }
@@ -361,11 +367,13 @@ VisualItem::Layer VisualItem::getLayer()
 
 void VisualItem::setLayer(VisualItem::Layer layer)
 {
-    if(m_layer!=layer)
-    {
-        m_layer = layer;
-        sendItemLayer();
-    }
+    if(m_layer==layer)
+        return;
+
+    m_layer = layer;
+    updateItemFlags();
+    sendItemLayer();
+
 }
 
 void VisualItem::addActionContextMenu(QMenu*)
@@ -643,40 +651,34 @@ void VisualItem::setChildrenVisible(bool b)
 
 bool VisualItem::canBeMoved() const
 {
-    if(!isEditable())
+    if(!itemAndMapOnSameLayer())
     {
         return false;
     } 
-    else if(hasPermissionToMove())
-    {
-        return true;
-    }
     else
     {
-        return false;
+        return hasPermissionToMove();
     }
 }
 bool VisualItem::hasPermissionToMove(bool allowCharacter) const
 {
+    bool movable = false;
     if(getOption(VisualItem::LocalIsGM).toBool())
     {
-        return true;
+        movable = true;
     }
     else if((getOption(VisualItem::PermissionMode).toInt()==Map::PC_MOVE)&&
             (getType() == VisualItem::CHARACTER)&&
             (isLocal())&&
             (allowCharacter))
     {
-        return true;
+        movable = true;
     }
     else if(getOption(VisualItem::PermissionMode).toInt()==Map::PC_ALL)
     {
-        return true;
+        movable = true;
     }
-    else
-    {
-        return false;
-    }
+    return movable;
 }
 
 QColor VisualItem::getHighlightColor()
@@ -718,14 +720,14 @@ void VisualItem::setHoldSize(bool holdSize)
     m_holdSize = holdSize;
 }
 
-bool VisualItem::isEditable() const
+/*bool VisualItem::isEditable() const
 {
     return m_editable;
-}
+}*/
 
 QString VisualItem::getLayerToText(VisualItem::Layer id)
 {
-    if(s_layerName.size()>(int)id)
+    if(s_layerName.size()>static_cast<int>(id))
     {
         return s_layerName.at(id);
     }

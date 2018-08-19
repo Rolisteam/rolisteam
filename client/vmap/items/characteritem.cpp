@@ -94,7 +94,6 @@ CharacterItem::CharacterItem(Character* m,QPointF pos,qreal diameter)
     setCharacter(m);
     setPos(m_center-QPointF(diameter/2,diameter/2));
 	sizeChanged(diameter);
-    connect(m_character,&Character::avatarChanged,this,&CharacterItem::generatedThumbnail);
     createActions();
 }
 
@@ -522,10 +521,10 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     setCharacter(tmp);
     generatedThumbnail();
 
-    if(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)
-    {
-       setCharacterIsMovable(true);
-    }
+
+
+    updateItemFlags();
+
 
 
     if(nullptr!=m_vision)
@@ -869,11 +868,6 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
               if(nullptr == m_character)
                   return;
               m_character->setDefaultShape();
-              if(m_thumnails)
-              {
-                  delete m_thumnails;
-                  m_thumnails = nullptr;
-              }
               update();
           });
 
@@ -925,11 +919,6 @@ void CharacterItem::setShape()
     auto index = act->data().toInt();
 
     m_character->setCurrentShape(index);
-    if(m_thumnails)
-    {
-        delete m_thumnails;
-        m_thumnails = nullptr;
-    }
     update();
 }
 
@@ -1113,18 +1102,27 @@ CharacterVision* CharacterItem::getVision()const
 {
     return m_vision;
 }
-bool CharacterItem::canBeMoved() const
+/*bool CharacterItem::canBeMoved() const
 {
-    PlayersList* model = PlayersList::instance();
-    if((getOption(VisualItem::PermissionMode).toInt()==Map::PC_MOVE) && (model->isLocal(m_character)))
+    bool movable = false;
+    if(getOption(VisualItem::LocalIsGM).toBool())
     {
-            return true;
+        movable = true;
+    }
+    else if((getOption(VisualItem::PermissionMode).toInt()==Map::PC_MOVE) && (isLocal()))
+    {
+        movable = true;
+    }
+    else if(getOption(VisualItem::PermissionMode).toInt()==Map::PC_ALL)
+    {
+        movable = true;
     }
     else
     {
-        return VisualItem::canBeMoved();
+        movable = VisualItem::canBeMoved();
     }
-}
+    return movable;
+}*/
 void CharacterItem::readPositionMsg(NetworkMessageReader* msg)
 {
     auto z = zValue();
@@ -1139,11 +1137,11 @@ void CharacterItem::readPositionMsg(NetworkMessageReader* msg)
 }
 bool CharacterItem::isLocal() const
 {
-    if(getParentId() == PlayersList::instance()->getLocalPlayer()->getUuid())
-    {
-        return true;
-    }
-    return false;
+    PlayersList* model = PlayersList::instance();
+    if(nullptr == model)
+        return false;
+
+    return model->isLocal(m_character);
 }
 void CharacterItem::sendVisionMsg()
 {
@@ -1172,18 +1170,24 @@ void CharacterItem::endOfGeometryChange()
     }
     VisualItem::endOfGeometryChange();
 }
-void CharacterItem::setCharacterIsMovable(bool isMovable)
+void CharacterItem::updateItemFlags()
 {
-    if((getOption(VisualItem::LocalIsGM).toBool())||
-       (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)||
-            (isLocal()&&(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)))
+    VisualItem::updateItemFlags();
+    if(canBeMoved())
     {
-        if(!isEditable())
+
+        if(nullptr!=m_child)
         {
-            setFlag(QGraphicsItem::ItemIsMovable,isMovable);
+            for (ChildPointItem* itemChild: *m_child)
+            {
+                itemChild->setEditableItem(true);
+                itemChild->setMotion(ChildPointItem::ALL);
+                itemChild->setRotationEnable(true);
+            }
+        }
+            setFlag(QGraphicsItem::ItemIsMovable,true);
             connect(this,SIGNAL(xChanged()),this,SLOT(posChange()),Qt::UniqueConnection);
             connect(this,SIGNAL(yChanged()),this,SLOT(posChange()),Qt::UniqueConnection);
-
 
             if(nullptr!=m_child)
             {
@@ -1195,7 +1199,9 @@ void CharacterItem::setCharacterIsMovable(bool isMovable)
                     connect(this,SIGNAL(rotationChanged()),this,SLOT(rotationChange()),Qt::UniqueConnection);
                 }
             }
-        }
+
+
+
     }
     else
     {
@@ -1220,28 +1226,14 @@ void CharacterItem::setCharacter(Character* character)
     if(m_character)
     {
         connect(m_character,&Character::currentHealthPointsChanged,this,&CharacterItem::updateCharacter);
+        connect(m_character,&Character::avatarChanged,this,&CharacterItem::updateCharacter);
+        connect(m_character,&Character::avatarChanged,this,&CharacterItem::generatedThumbnail);
     }
 
 }
 Character* CharacterItem::getCharacter() const
 {
     return m_character;
-}
-void CharacterItem::setEditableItem(bool b)
-{
-    VisualItem::setEditableItem(b);
-    if(b)
-    {
-        if(nullptr!=m_child)
-        {
-            for (ChildPointItem* itemChild: *m_child)
-            {
-                itemChild->setEditableItem(true);
-                itemChild->setMotion(ChildPointItem::ALL);
-                itemChild->setRotationEnable(true);
-            }
-        }
-    }
 }
 
 void CharacterItem::wheelEvent(QGraphicsSceneWheelEvent *event)
