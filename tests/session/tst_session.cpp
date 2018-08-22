@@ -76,35 +76,33 @@ void SessionTest::testModel()
 
     QSignalSpy layout(m_model, &SessionItemModel::layoutChanged);
     QPoint local(10,10);
-    qDebug() <<local << sessionview->indexAt(local);
-    QMouseEvent* event = new QMouseEvent(QEvent::MouseButtonPress,local,Qt::LeftButton,0,0);
+    QMouseEvent* event = new QMouseEvent(QEvent::MouseButtonPress,local,Qt::LeftButton,nullptr,nullptr);
     QApplication::postEvent(m_sessionManager, event);
     QApplication::processEvents();
 
     for(int i = 0; i < 55; ++i)
     {
         QPoint moveMouse(10,10+i);
-        QMouseEvent* eventMove = new QMouseEvent(QEvent::MouseMove,moveMouse,Qt::LeftButton,Qt::LeftButton,0);
+        QMouseEvent* eventMove = new QMouseEvent(QEvent::MouseMove,moveMouse,Qt::LeftButton,Qt::LeftButton,nullptr);
         QApplication::postEvent(m_sessionManager, eventMove);
         QApplication::processEvents();
     }
 
     QPoint moveMouse(10,65);
-    qDebug() <<moveMouse << sessionview->indexAt(moveMouse);
-    QMouseEvent* eventMove = new QMouseEvent(QEvent::MouseMove,moveMouse,Qt::LeftButton,Qt::LeftButton,0);
+    QMouseEvent* eventMove = new QMouseEvent(QEvent::MouseMove,moveMouse,Qt::LeftButton,Qt::LeftButton,nullptr);
     QApplication::postEvent(m_sessionManager, eventMove);
     QApplication::processEvents();
 
     QPoint moveRelease(10,65);
     auto index2 = sessionview->indexAt(moveRelease);
-    qDebug() <<moveRelease << index.internalPointer() << index2;
-    QMouseEvent* eventRelease = new QMouseEvent(QEvent::MouseButtonRelease,moveRelease,Qt::LeftButton,0,0);
+    QMouseEvent* eventRelease = new QMouseEvent(QEvent::MouseButtonRelease,moveRelease,Qt::LeftButton,nullptr,nullptr);
     QApplication::postEvent(m_sessionManager, eventRelease);
     QApplication::processEvents();
 
     qDebug() << m_model->rowCount(index) << chapter << character << uri2 << uri1 ;
 
-    QVERIFY2(m_model->rowCount(index) == 3, "NOT the excepted number of data");
+    qDebug() << "rowCount:" <<m_model->rowCount(index);
+    QVERIFY2(m_model->rowCount(index) == 4, "NOT the excepted number of data");
 
     QVERIFY2(layout.count() == 1, "Drag and drop not working");
 
@@ -114,8 +112,8 @@ void SessionTest::testModel()
 void SessionTest::testManager()
 {
     QSignalSpy spy(m_sessionManager, &SessionManager::sessionChanged);
-    CleverURI resources;
-    m_sessionManager->addRessource(&resources);
+    CleverURI* resources = new CleverURI();
+    m_sessionManager->addRessource(resources);
     QVERIFY2(spy.count() == 1,"no signal about change in session");
 
     QSignalSpy spyOpen(m_sessionManager, &SessionManager::openResource);

@@ -20,23 +20,28 @@
 #include <QtTest/QtTest>
 
 #include <preferencesmanager.h>
+#include <preferenceslistener.h>
 
-class PreferencesTest : public QObject
+class PreferencesTest : public QObject, public PreferencesListener
 {
     Q_OBJECT
 
 public:
     PreferencesTest();
+    void preferencesHasChanged(QString);
 
 private slots:
     void testPreferenceRegisterValue();
     void initTestCase();
     void testNotOverridePreferenceValue();
     void testOverridePreferenceValue();
+    void testLambdaFunction();
+    void testListener();
     void cleanupTestCase();
 
 private:
     PreferencesManager* m_preferences;
+    int m_count = 0;
 };
 
 PreferencesTest::PreferencesTest()
@@ -44,6 +49,12 @@ PreferencesTest::PreferencesTest()
 
 }
 
+void PreferencesTest::preferencesHasChanged(QString key)
+{
+    QVERIFY(key == "keyListener");
+    QVERIFY(m_preferences->value(key,18).toInt() == 25);
+
+}
 
 void PreferencesTest::testPreferenceRegisterValue()
 {
@@ -68,6 +79,28 @@ void PreferencesTest::testOverridePreferenceValue()
 void PreferencesTest::initTestCase()
 {
     m_preferences = PreferencesManager::getInstance();
+}
+
+void PreferencesTest::testLambdaFunction()
+{
+    m_count = 0;
+    m_preferences->registerValue("key",300);
+    auto func = [=](QString key){
+        QVERIFY("key" == key);
+        m_count++;
+    };
+    m_preferences->registerLambda("key",func);
+    m_preferences->registerValue("key",25);
+
+    QVERIFY(m_count==1);
+}
+
+void PreferencesTest::testListener()
+{
+    m_count = 0;
+    m_preferences->registerValue("keyListener",800);
+    m_preferences->registerListener("keyListener",this);
+    m_preferences->registerValue("keyListener",25);
 }
 
 void PreferencesTest::cleanupTestCase()

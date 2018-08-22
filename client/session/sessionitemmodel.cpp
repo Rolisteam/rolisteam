@@ -44,7 +44,10 @@ SessionItemModel::SessionItemModel()
 SessionItemModel::~SessionItemModel()
 {
     if(m_rootItem != nullptr)
+    {
         delete m_rootItem;
+        m_rootItem = nullptr;
+    }
 }
 QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & parent ) const
 {

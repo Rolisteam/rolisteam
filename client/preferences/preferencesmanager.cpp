@@ -143,7 +143,11 @@ void PreferencesManager::notifyListener(QString str)
         tmp->preferencesHasChanged(str);
     }
 
-    auto func = m_lambdaMap[str];
-    if(nullptr != func)
-        func(str);
+    auto it = m_lambdaMap.find(str);
+    if(it!=m_lambdaMap.end())
+    {
+        auto func = it->second;
+        if(nullptr != func)
+            func(str);
+    }
 }

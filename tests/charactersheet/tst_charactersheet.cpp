@@ -46,10 +46,10 @@ private slots:
     void wrongCommandsTest();
 
 private:
-    CharacterSheet* m_sheet;
+    CharacterSheet* m_sheet = nullptr;
     QList<CharacterSheetItem*> m_list;
-    Formula::FormulaManager* m_formulaMan;
-    QHash<QString,QString>* m_variable;
+    Formula::FormulaManager* m_formulaMan = nullptr;
+    QHash<QString,QString>* m_variable = nullptr;
 };
 
 TestCharacterSheet::TestCharacterSheet()
@@ -197,11 +197,11 @@ void TestCharacterSheet::commandsTest()
         QString result = results.at(i);
 
         QVariant a = m_formulaMan->getValue(cmd);
-        if(a.toDouble()!=result.toDouble())
+        if(qFuzzyCompare(a.toDouble(),result.toDouble())==0)
         {
             qDebug() << a.toDouble() << result.toDouble() << cmd;
         }
-        QVERIFY2(a.toDouble()==result.toDouble(),cmd.toStdString().c_str());
+        QVERIFY2(qFuzzyCompare(a.toDouble(),result.toDouble())==1,cmd.toStdString().c_str());
     }
 }
 void TestCharacterSheet::wrongCommandsTest()
@@ -217,9 +217,14 @@ void TestCharacterSheet::wrongCommandsTest()
 }
 void TestCharacterSheet::cleanupTestCase()
 {
-    delete m_sheet;
-    delete m_formulaMan;
-    delete m_variable;
+    if(m_sheet)
+        delete m_sheet;
+
+    if(m_formulaMan)
+        delete m_formulaMan;
+
+  /*  if(m_variable)
+        delete m_variable;*/
     //qDeleteAll(m_list);
 }
 

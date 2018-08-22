@@ -23,3 +23,8 @@
 PreferencesListener::PreferencesListener()
 {
 }
+
+PreferencesListener::~PreferencesListener()
+{
+
+}

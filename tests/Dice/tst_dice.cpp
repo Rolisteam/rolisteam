@@ -23,6 +23,7 @@
 #include <QtCore/QCoreApplication>
 
 #include "die.h"
+#include "dicealias.h"
 #include "diceparser.h"
 
 class TestDice : public QObject
@@ -43,6 +44,7 @@ private slots:
     void wrongCommandsTest();
     void wrongCommandsExecutionTimeTest();
     void scopeDF();
+    void testAlias();
     void cleanupTestCase();
 
 private:
@@ -164,7 +166,6 @@ void TestDice::commandsTest()
             << "10d[0-9]";
     for(QString cmd : commands)
     {
-        qDebug() << cmd;
         bool a = m_diceParser->parseLine(cmd);
         QVERIFY2(a==true,cmd.toStdString().c_str());
 
@@ -185,7 +186,7 @@ void TestDice::wrongCommandsTest()
             << "aiteanetauearuteurn"
             << "pajaejlbnmàw";
 
-    foreach(QString cmd, commands)
+    for(QString cmd: commands)
     {
         bool a = m_diceParser->parseLine(cmd);
 
@@ -203,7 +204,7 @@ void TestDice::wrongCommandsExecutionTimeTest()
              << "10d10k11"
              << "!!!!";
 
-    foreach(QString cmd, commands)
+    for(QString cmd: commands)
     {
         bool test = m_diceParser->parseLine(cmd);
         m_diceParser->start();
@@ -257,6 +258,34 @@ void TestDice::scopeDF()
         index++;
     }
 }
+void TestDice::testAlias()
+{
+    m_diceParser->insertAlias(new DiceAlias("!","3d6c"),0);
+    m_diceParser->insertAlias(new DiceAlias("g","d10k"),1);
+    m_diceParser->insertAlias(new DiceAlias("(.*)C(.*)","\1d10e10c[>=\2]"),2);
+
+
+    QStringList cmds;
+    cmds << "!2"
+         << "${rang}g4"
+         << "${rang}g4 # gerald"
+         << "5C3"
+         << "1d100i:[<101]{\"great!\"}{\"try again\"}";
+
+
+    QStringList expected;
+    expected << "3d6c2" << "${rang}d10k4" << "${rang}d10k4 # gerald" << "5d10e10C[>=3]" << "1d100i:[<101]{\"great!\"}{\"try again\"}";
+
+    int i=0;
+    for(auto cmd : cmds)
+    {
+        auto result = m_diceParser->convertAlias(cmd);
+        QVERIFY2(result == expected[i],result.toLatin1());
+        ++i;
+    }
+
+
+}
 void TestDice::mathPriority()
 {
     QStringList commands;
@@ -280,12 +309,11 @@ void TestDice::mathPriority()
         QVERIFY2(test,cmd.toStdString().c_str());
         m_diceParser->start();
         int index = commands.indexOf(cmd);
-        int expect = results.at(index);
+        auto expect = results.at(index);
         auto resultList = m_diceParser->getLastIntegerResults();
-        qDebug() << resultList.size() << expect << test << resultList;
 
         for(auto result: resultList)
-            QVERIFY2(result == expect,cmd.toStdString().c_str());
+            QVERIFY2(qFuzzyCompare(result, expect)==1,cmd.toStdString().c_str());
     }
 }
 
