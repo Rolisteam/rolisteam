@@ -169,6 +169,7 @@ void TestDice::commandsTest()
         bool a = m_diceParser->parseLine(cmd);
         QVERIFY2(a==true,cmd.toStdString().c_str());
 
+        qDebug() << "before running:" << cmd;
         m_diceParser->start();
         if(!m_diceParser->humanReadableError().isEmpty())
             qDebug() << m_diceParser->humanReadableError();

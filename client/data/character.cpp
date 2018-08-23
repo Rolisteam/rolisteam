@@ -110,7 +110,7 @@ QVariant CharacterShape::getData(int col, int role)
             return uri();
         }
     }
-    else if(Qt::DecorationRole == role)
+    else if(Qt::DecorationRole == role && col == 0)
     {
         return image();
     }
@@ -696,7 +696,11 @@ QList<CharacterState*>* Character::getCharacterStateList()
 }
 void Character::setNpc(bool b)
 {
+    if(m_isNpc == b)
+        return;
+
     m_isNpc = b;
+    emit npcChanged();
 }
 void Character::write(QDataStream& out, bool tag, bool) const
 {

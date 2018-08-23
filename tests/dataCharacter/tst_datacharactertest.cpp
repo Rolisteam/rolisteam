@@ -37,6 +37,9 @@ private Q_SLOTS:
     void testProperty();
     void initTestCase();
     void cleanupTestCase();
+    void testCharacterAction();
+    void testCharacterShape();
+    void testCharacterProperty();
 
 private:
     Character* m_character;
@@ -99,6 +102,8 @@ void DataCharacterTest::testProperty()
     m_character->setInitiativeScore(24);
     QVERIFY(spyInit.count() == 1);
 
+    auto state2 = new CharacterState();
+    m_character->setState(state2);
     QSignalSpy spyState(m_character,&Character::stateChanged);
     auto state = new CharacterState();
     state->setLabel("test");
@@ -107,7 +112,126 @@ void DataCharacterTest::testProperty()
     m_character->setState(state);
     QVERIFY(spyState.count() == 1);
     QVERIFY(m_character->getState() == state);
+    m_character->setState(state);
+    QVERIFY(spyState.count() == 1);
+
+
+    m_character->setAvatarPath("/home/rolisteam");
+    QSignalSpy spyAvatar(m_character,&Character::avatarPathChanged);
+    m_character->setAvatarPath("/dev/null");
+    QVERIFY(spyAvatar.count() == 1);
+    m_character->setAvatarPath("/dev/null");
+    QVERIFY(spyAvatar.count() == 1);
+
+    m_character->setNpc(false);
+    QSignalSpy spyIsNpc(m_character,&Character::npcChanged);
+    m_character->setNpc(true);
+    QVERIFY(spyIsNpc.count() == 1);
+    m_character->setNpc(true);
+    QVERIFY(spyIsNpc.count() == 1);
+
+
+    m_character->setLifeColor(Qt::green);
+    QSignalSpy spyColor(m_character,&Character::lifeColorChanged);
+    m_character->setLifeColor(Qt::red);
+    QVERIFY(spyColor.count() == 1);
+    m_character->setLifeColor(Qt::red);
+    QVERIFY(spyColor.count() == 1);
+
+    m_character->setInitCommand("");
+    QSignalSpy spyInitCommand(m_character,&Character::initCommandChanged);
+    m_character->setInitCommand("8G4");
+    QVERIFY(spyColor.count() == 1);
+    m_character->setInitCommand("8G4");
+    QVERIFY(spyColor.count() == 1);
+
 }
+
+void DataCharacterTest::testCharacterAction()
+{
+    CharacterAction action;
+
+    QString command("8G4");
+    QString name("name");
+    QString name2("name2");
+    QString command2("9G4");
+
+    action.setCommand(command);
+    QVERIFY(action.command() == command);
+
+    action.setName(name);
+    QVERIFY(action.name() == name);
+
+    QVERIFY(action.getType() == CharacterField::Action);
+
+    QVERIFY(action.getData(0,Qt::DisplayRole) == name);
+    QVERIFY(action.getData(1,Qt::DisplayRole) == command);
+
+    action.setData(0,name2,Qt::DisplayRole);
+    action.setData(1,command2,Qt::DisplayRole);
+
+    QVERIFY(action.name() == name2);
+    QVERIFY(action.command() == command2);
+}
+void DataCharacterTest::testCharacterShape()
+{
+    CharacterShape shape;
+
+    QString uri(":/assets/img/girafe.jpg");
+    QString name("name");
+    QString name2("name2");
+    QString uri2(":/assets/img/lion.jpg");
+    QImage img(":/assets/img/girafe.jpg");
+    QImage img2(":/assets/img/lion.jpg");
+
+    shape.setUri(uri);
+    QVERIFY(shape.uri() == uri);
+
+    shape.setName(name);
+    QVERIFY(shape.name() == name);
+
+    shape.setImage(img);
+    QVERIFY(shape.image() == img);
+
+    QVERIFY(shape.getType() == CharacterField::Shape);
+
+    QVERIFY(shape.getData(0,Qt::DisplayRole) == name);
+    QVERIFY(shape.getData(1,Qt::DisplayRole) == uri);
+    QVERIFY(shape.getData(0,Qt::DecorationRole) == img);
+
+    shape.setData(0,name2,Qt::DisplayRole);
+    shape.setData(1,uri2,Qt::DisplayRole);
+
+    QVERIFY(shape.name() == name2);
+    QVERIFY(shape.uri() == uri2);
+}
+void DataCharacterTest::testCharacterProperty()
+{
+    CharacterProperty property;
+
+    QString value("4");
+    QString name("name");
+    QString name2("name2");
+    QString value2("5");
+
+    property.setValue(value);
+    QVERIFY(property.value() == value);
+
+    property.setName(name);
+    QVERIFY(property.name() == name);
+
+    QVERIFY(property.getType() == CharacterField::Property);
+
+    QVERIFY(property.getData(0,Qt::DisplayRole) == name);
+    QVERIFY(property.getData(1,Qt::DisplayRole) == value);
+
+    property.setData(0,name2,Qt::DisplayRole);
+    property.setData(1,value2,Qt::DisplayRole);
+
+    QVERIFY(property.name() == name2);
+    QVERIFY(property.value() == value2);
+}
+
 
 QTEST_MAIN(DataCharacterTest);
 
