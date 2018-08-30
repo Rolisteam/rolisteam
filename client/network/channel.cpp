@@ -276,6 +276,8 @@ void Channel::kick(QString str)
     bool found = false;
     for(TreeItem* item : m_child)
     {
+        if(item == nullptr)
+            continue;
         if(item->getId() == str)
         {
             //child = item;
