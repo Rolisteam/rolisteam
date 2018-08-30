@@ -21,6 +21,13 @@ T* convertField(CharacterField* field)
     return dynamic_cast<T*>(field);
 }
 
+void setAllRowToHeight(GenericModel* model, int height, QTableView* view)
+{
+    for(int i = 0; i < model->rowCount(); ++i)
+    {
+        view->setRowHeight(i,height);
+    }
+}
 
 NpcMakerWidget::NpcMakerWidget(QWidget *parent) :
     QWidget(parent),
@@ -50,6 +57,8 @@ NpcMakerWidget::NpcMakerWidget(QWidget *parent) :
             m_actionModel->removeData(index);
     });
 
+
+
     m_propertyModel = new GenericModel({QStringLiteral("Name"),QStringLiteral("Value")},this);
     ui->m_propertyList->setModel(m_propertyModel);
     connect(ui->m_addPropertyAct,&QAction::triggered,this,[=](){
@@ -65,11 +74,18 @@ NpcMakerWidget::NpcMakerWidget(QWidget *parent) :
     ui->m_shapeList->setModel(m_shapeModel);
     connect(ui->m_addShapeAct,&QAction::triggered,this,[=](){
         m_shapeModel->addData(new CharacterShape);
+        setAllRowToHeight(m_shapeModel, ui->m_sizeEdit->value(), ui->m_shapeList);
     });
     connect(ui->m_removeShapeAct,&QAction::triggered,this,[=](){
         auto index = ui->m_shapeList->currentIndex();
         if(index.isValid())
             m_shapeModel->removeData(index);
+    });
+
+    connect(ui->m_sizeEdit, QOverload<int>::of(&QSpinBox::valueChanged),[=]{
+        auto val = ui->m_sizeEdit->value();
+        ui->m_shapeList->setIconSize(QSize(val,val));
+        setAllRowToHeight(m_shapeModel, val, ui->m_shapeList);
     });
 
     connect(ui->m_avatarEdit, &QLineEdit::textChanged,this, &NpcMakerWidget::updateImage);

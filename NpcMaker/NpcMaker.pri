@@ -8,3 +8,9 @@ HEADERS += \
 SOURCES += \
     $$PWD/npcmakerwidget.cpp \
     $$PWD/genericmodel.cpp
+
+
+UNIT_TEST {
+SOURCES -= $$PWD/npcmakerwidget.cpp
+HEADERS -= $$PWD/npcmakerwidget.h
+}
