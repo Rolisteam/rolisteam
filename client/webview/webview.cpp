@@ -3,24 +3,21 @@
 #include <QVBoxLayout>
 #include "network/networkmessagereader.h"
 
-WebView::WebView(bool localIsOwner,QWidget *parent)
-    : MediaContainer(localIsOwner,parent)
+WebView::WebView(State state,QWidget *parent)
+    : MediaContainer(localIsGM == state,parent), m_currentState(state)
 {
     setObjectName("WebPage");
+    setGeometry(0,0,500,500);
     setWindowIcon(QIcon(":/resources/icons/webPage.svg"));
     m_uri = new CleverURI("Webpage","",CleverURI::WEBVIEW);
     auto wid = new QWidget();
     m_mainLayout = new QVBoxLayout(wid);
 
-
-
     m_view = new QWebEngineView();
 
-    if(localIsOwner)
-    {
-        createActions();
-        creationToolBar();
-    }
+    createActions();
+    creationToolBar();
+
     m_mainLayout->addWidget(m_view);
 
     updateTitle();
@@ -86,15 +83,16 @@ void WebView::fill(NetworkMessageWriter & message)
 {
     message.string8(m_mediaId);
     auto url = m_uri->getUri();
-    message.string32(url);
     message.string16(getUriName());
+    message.string32(url);
 }
 
 void WebView::readMessage(NetworkMessageReader& msg)
 {
-    auto typeMsg = static_cast<ShareType>(msg.uint8());
     setUriName(msg.string16());
+    auto typeMsg = static_cast<ShareType>(msg.uint8());
     auto url = msg.string32();
+    qDebug() << "url: " << url << "name: " << getUriName() << typeMsg <<"action:" <<msg.action();
     if(typeMsg == HTML)
     {
         auto html = msg.string32();
@@ -105,11 +103,12 @@ void WebView::readMessage(NetworkMessageReader& msg)
         m_view->setUrl(QUrl::fromUserInput(url));
     }
     m_uri->setUri(url);
-
 }
 
 void WebView::createActions()
 {
+    if(m_currentState == RemoteView)
+        return;
     m_shareAsLink = new QAction(tr("Share"),this);
     m_shareAsLink->setCheckable(true);
 
@@ -172,6 +171,8 @@ void WebView::createActions()
 
 void WebView::creationToolBar()
 {
+    if(m_currentState == RemoteView)
+        return;
     auto hLayout = new QHBoxLayout();
 
     auto button = new QToolButton(this);
@@ -208,10 +209,10 @@ void WebView::creationToolBar()
     button->setDefaultAction(m_shareAsHtml);
     hLayout->addWidget(button);
 
-    button = new QToolButton(this);
+    /*button = new QToolButton(this);
     button->setAutoRaise(true);
     button->setDefaultAction(m_shareAsView);
-    hLayout->addWidget(button);
+    hLayout->addWidget(button);*/
 
     auto checkbox = new QCheckBox(tr("Keep Sharing"),this);
     connect(checkbox,&QCheckBox::clicked,this,[checkbox,this](){
@@ -267,6 +268,14 @@ void WebView::creationToolBar()
         }
     });
     m_addressEdit->setFocusPolicy(Qt::StrongFocus);
+
+    if(m_currentState == LocalIsPlayer)
+    {
+        m_shareAsHtml->setVisible(false);
+        m_shareAsLink->setVisible(false);
+        checkbox->setVisible(false);
+        //m_shareAsView->setVisible(false);
+    }
 
 }
 void WebView::showEvent(QShowEvent* event)

@@ -15,7 +15,8 @@ class WebView : public MediaContainer
 
 public:
     enum ShareType {URL, HTML};
-    explicit WebView(bool localIsOwner, QWidget *parent = 0);
+    enum State {localIsGM,LocalIsPlayer,RemoteView};
+    explicit WebView(State localIsOwner, QWidget *parent = nullptr);
     virtual ~WebView();
 
     virtual bool readFileFromUri();
@@ -38,14 +39,14 @@ private:
     QWebEngineView* m_view = nullptr;
     QAction* m_shareAsLink = nullptr;
     QAction* m_shareAsHtml = nullptr;
-    QAction* m_shareAsView = nullptr;
+    //QAction* m_shareAsView = nullptr;
     QAction* m_hideAddress = nullptr;
     QAction* m_next = nullptr;
     QAction* m_previous = nullptr;
     QAction* m_reload = nullptr;
     QLineEdit* m_addressEdit = nullptr;
     QVBoxLayout* m_mainLayout = nullptr;
-
+    State m_currentState;
 
 
 };
