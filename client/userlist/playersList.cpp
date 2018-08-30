@@ -871,7 +871,6 @@ void PlayersList::delCharacter(NetworkMessageReader & data)
 
 void PlayersList::setCurrentGM(QString idGm)
 {
-    qDebug() << "idGM: " << idGm;
     m_idCurrentGM = idGm;
 }
 void PlayersList::completeListClean()
