@@ -263,7 +263,7 @@ void TestDice::testAlias()
 {
     m_diceParser->insertAlias(new DiceAlias("!","3d6c"),0);
     m_diceParser->insertAlias(new DiceAlias("g","d10k"),1);
-    m_diceParser->insertAlias(new DiceAlias("(.*)C(.*)","\1d10e10c[>=\2]"),2);
+    m_diceParser->insertAlias(new DiceAlias("(.*)C(.*)",QStringLiteral("\\1d10e10c[>=\\2]"),false),2);
 
 
     QStringList cmds;
@@ -275,12 +275,13 @@ void TestDice::testAlias()
 
 
     QStringList expected;
-    expected << "3d6c2" << "${rang}d10k4" << "${rang}d10k4 # gerald" << "5d10e10C[>=3]" << "1d100i:[<101]{\"great!\"}{\"try again\"}";
+    expected << "3d6c2" << "${rang}d10k4" << "${rang}d10k4 # gerald" << "5d10e10c[>=3]" << "1d100i:[<101]{\"great!\"}{\"try again\"}";
 
     int i=0;
     for(auto cmd : cmds)
     {
         auto result = m_diceParser->convertAlias(cmd);
+        qDebug() << result << expected[i];
         QVERIFY2(result == expected[i],result.toLatin1());
         ++i;
     }

@@ -14,10 +14,11 @@ SUBDIRS = \
     picture \
     session \
     dataCharacter \
+    fieldModelTest \
     sendToServer \
     dataChapter
     #     network \
-    #    MainWindow  picture   map Dice
+    #    MainWindow  picture   map
     #networkServer \
 
 OBJECTS_DIR = obj
