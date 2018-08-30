@@ -870,7 +870,8 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
         #ifdef HAVE_WEBVIEW
         case CleverURI::WEBVIEW:
         {
-            media = new WebView(true);
+            media = new WebView(localIsGM ? WebView::localIsGM :
+                                           WebView::LocalIsPlayer);
             uri->setCurrentMode(CleverURI::Linked);
         }
         #endif
@@ -1531,7 +1532,7 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
 
         case CleverURI::WEBVIEW:
         {
-            auto webv  =  new WebView(false,m_mdiArea);
+            auto webv  =  new WebView(WebView::RemoteView,m_mdiArea);
             webv->setMediaId(msg->string8());
             webv->readMessage(*msg);
             addMediaToMdiArea(webv,false);
@@ -2434,7 +2435,8 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
 #ifdef HAVE_WEBVIEW
     case CleverURI::WEBVIEW:
     {
-        WebView* tmpWeb = new WebView(true);
+        WebView* tmpWeb = new WebView(localIsGM ? WebView::localIsGM :
+                                                  WebView::LocalIsPlayer);
         tmp = tmpWeb;
     }
         break;
