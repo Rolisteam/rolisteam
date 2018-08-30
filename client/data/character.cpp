@@ -26,6 +26,7 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #include <QFileInfo>
+#include <QIcon>
 
 #include "character.h"
 #include "data/player.h"
@@ -110,9 +111,9 @@ QVariant CharacterShape::getData(int col, int role)
             return uri();
         }
     }
-    else if(Qt::DecorationRole == role && col == 0)
+    else if(Qt::DecorationRole == role && col == 0 && !m_image.isNull())
     {
-        return image();
+        return QPixmap::fromImage(m_image).scaled(64,64,Qt::KeepAspectRatio);
     }
     return QVariant();
 }
