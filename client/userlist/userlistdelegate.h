@@ -33,7 +33,7 @@ public:
     /**
     * @brief default construtor
     */
-    explicit UserListDelegate(QObject *parent = 0);
+    explicit UserListDelegate(QObject *parent = nullptr);
     
 protected:
     /**
