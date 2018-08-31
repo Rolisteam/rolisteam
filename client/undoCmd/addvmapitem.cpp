@@ -145,7 +145,7 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
     {
 
         QObject::connect(m_currentItem,SIGNAL(itemGeometryChanged(VisualItem*)),m_vmap,SLOT(sendItemToAll(VisualItem*)));
-        QObject::connect(m_currentItem,SIGNAL(itemRemoved(QString)),m_vmap,SLOT(removeItemFromScene(QString)));
+        QObject::connect(m_currentItem,&VisualItem::itemRemoved,m_vmap,&VMap::removeItemFromScene);
         QObject::connect(m_currentItem,SIGNAL(duplicateItem(VisualItem*)),m_vmap,SLOT(duplicateItem(VisualItem*)));
         QObject::connect(m_currentItem,SIGNAL(itemLayerChanged(VisualItem*)),m_vmap,SLOT(checkItemLayer(VisualItem*)));
         QObject::connect(m_currentItem,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),m_vmap,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));

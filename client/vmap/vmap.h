@@ -352,7 +352,7 @@ public slots:
     /**
      * @brief removeItemFromScene
      */
-    void removeItemFromScene(QString ,bool = true);
+    void removeItemFromScene(QString ,bool sendToAll = true, bool undoable = true);
     /**
      * @brief VMap::computePattern
      */

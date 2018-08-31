@@ -437,8 +437,14 @@ void VMap::addItem()
         m_currentItem = itemCmd->getItem();
         m_currentPath = itemCmd->getPath();
         m_currentItem->setPropertiesHash(m_propertiesHash);
-
-        addNewItem(itemCmd,(VToolsBar::Painting == m_editionMode));
+        bool undoable = true;
+        if(VToolsBar::Painting != m_editionMode
+                || m_selectedtool == VToolsBar::HIGHLIGHTER
+                || m_selectedtool == VToolsBar::RULE)
+        {
+            undoable = false;
+        }
+        addNewItem(itemCmd,undoable);//(VToolsBar::Painting == m_editionMode));
 
         if(VToolsBar::Painting != m_editionMode)
         {
@@ -1275,7 +1281,10 @@ void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwor
 
         if((VToolsBar::Painting == m_editionMode)||(fromNetwork))
         {
-            if((item->type() != VisualItem::ANCHOR)&&(item->type() != VisualItem::GRID))
+            if((item->type() != VisualItem::ANCHOR)
+                    &&(item->type() != VisualItem::GRID)
+                    &&(item->type() != VisualItem::RULE)
+                    &&(item->type() != VisualItem::HIGHLIGHTER))
             {
                 auto id = item->getId();
                 m_itemMap->insert(id,item);
@@ -1319,7 +1328,7 @@ void VMap::promoteItemInType(VisualItem* item, VisualItem::ItemType type)
     }
 }
 #include "undoCmd/deletevmapitem.h"
-void VMap::removeItemFromScene(QString id,bool sendToAll)
+void VMap::removeItemFromScene(QString id,bool sendToAll, bool undoable)
 {
     if(m_sightItem->getId()==id || m_gridItem->getId() == id)
     {
@@ -1330,7 +1339,14 @@ void VMap::removeItemFromScene(QString id,bool sendToAll)
     if(nullptr!=item)
     {
         DeleteVmapItemCommand* cmd = new DeleteVmapItemCommand(this,item,sendToAll);
-        m_undoStack->push(cmd);
+        if(undoable)
+            m_undoStack->push(cmd);
+        else
+        {
+            cmd->redo();
+            delete cmd;
+        }
+
     }
 }
 

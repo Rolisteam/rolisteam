@@ -287,7 +287,7 @@ signals:
 	/**
 	 * @brief itemRemoved
 	 */
-    void itemRemoved(QString);
+    void itemRemoved(QString, bool, bool);
 	/**
 	 * @brief duplicateItem
 	 */

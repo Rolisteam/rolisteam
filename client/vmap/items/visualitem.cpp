@@ -177,7 +177,7 @@ void VisualItem::keyPressEvent(QKeyEvent* event)
 {
     if((event->key ()==Qt::Key_Delete)&&(isSelected())&&canBeMoved())
     {
-        emit itemRemoved(m_id);
+        emit itemRemoved(m_id, true, true);
     }
     else if((event->key() == Qt::Key_C)&&(event->modifiers() == Qt::ControlModifier)&&(isSelected()))
     {
@@ -300,7 +300,7 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         QAction* selectedAction = menu.exec(m_menuPos);
         if(removeAction==selectedAction)
         {
-            emit itemRemoved(m_id);
+            emit itemRemoved(m_id, true ,true);
         }
         else if(resetRotationAct==selectedAction)
         {
@@ -322,7 +322,7 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         }
         else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putGroundLayer))
         {
-            setLayer((VisualItem::Layer)selectedAction->data().toInt());
+            setLayer(static_cast<VisualItem::Layer>(selectedAction->data().toInt()));
             itemLayerChanged(this);
         }
     }
@@ -341,7 +341,7 @@ void VisualItem::promoteItem()
     QAction* act = qobject_cast<QAction*>(sender());
     if(nullptr!=act)
     {
-        VisualItem::ItemType type = (VisualItem::ItemType)act->data().toInt();
+        VisualItem::ItemType type = static_cast<VisualItem::ItemType>(act->data().toInt());
         emit promoteItemTo(this,type);
     }
 }
