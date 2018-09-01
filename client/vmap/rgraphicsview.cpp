@@ -32,7 +32,7 @@
 #include "network/networkmessagereader.h"
 
 #include "items/ruleitem.h"
-//#include "items/childpointitem.h"
+#include "undoCmd/changesizevmapitem.h"
 
 RGraphicsView::RGraphicsView(VMap *vmap,QWidget* parent)
     : QGraphicsView(vmap,parent),m_vmap(vmap),m_centerOnItem(nullptr)
@@ -168,6 +168,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         return;
 
     bool licenseToModify = false;
+    m_menuPoint = event->pos();
     if((m_vmap->getOption(VisualItem::LocalIsGM).toBool())||
             (m_vmap->getOption(VisualItem::PermissionMode).toInt()==Map::PC_ALL))
     {
@@ -253,7 +254,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             menu.addAction(m_zoomNormal);
             menu.addAction(m_zoomOutMax);
             menu.addAction(m_zoomCenterOnItem);
-            m_centerOnItem = dynamic_cast<QGraphicsItem*>(itemAt(event->pos()));
+            m_centerOnItem = dynamic_cast<QGraphicsItem*>(itemAt(m_menuPoint));
             if(nullptr==m_centerOnItem)
             {
                 m_zoomCenterOnItem->setVisible(false);
@@ -338,22 +339,6 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             {
                 setRotation(list,0);
             }
-            else if(selectedAction == m_normalizeSizeAverage)
-            {
-                normalizeSize(list, Average,event->globalPos());
-            }
-            else if(selectedAction == m_normalizeSizeBigger)
-            {
-                normalizeSize(list, Bigger,event->globalPos());
-            }
-            else if(selectedAction == m_normalizeSizeSmaller)
-            {
-                normalizeSize(list, Smaller,event->globalPos());
-            }
-            else if(selectedAction == m_normalizeSizeUnderMouse)
-            {
-                normalizeSize(list, UnderMouse,event->globalPos());
-            }
             else if(selectedAction==rightRotationAct)
             {
                 setRotation(list,90);
@@ -369,11 +354,11 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             }
             else if((backOrderAction == selectedAction)||(frontOrderAction == selectedAction)||(lowerAction == selectedAction)||(raiseAction == selectedAction))
             {
-                changeZValue(list,(VisualItem::StackOrder)selectedAction->data().toInt());
+                changeZValue(list,static_cast<VisualItem::StackOrder>(selectedAction->data().toInt()));
             }
             else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putGroundLayer))
             {
-                setItemLayer(list,(VisualItem::Layer)selectedAction->data().toInt());
+                setItemLayer(list,static_cast<VisualItem::Layer>(selectedAction->data().toInt()));
             }
         }
         else//only one item
@@ -414,69 +399,13 @@ void RGraphicsView::setRotation(QList<VisualItem*> list, int value)
         item->sendRotationMsg();
     }
 }
-void RGraphicsView::normalizeSize(QList<VisualItem*> list,Method method,QPoint point)
+void RGraphicsView::normalizeSize(Method method)
 {
-    QSizeF finalRect;
-    if(Bigger == method)
+    if(nullptr != m_vmap)
     {
-        for(VisualItem* item: list)
-        {
-            if(finalRect.width()*finalRect.height() <= item->boundingRect().size().height()*item->boundingRect().size().width())
-            {
-                finalRect = item->boundingRect().size();
-            }
-        }
-
-    }
-    else if(Smaller == method)
-    {
-        for(VisualItem* item: list)
-        {
-            if(finalRect.isNull())
-            {
-                finalRect = item->boundingRect().size();
-            }
-            else if(finalRect.width()*finalRect.height() >= item->boundingRect().size().height()*item->boundingRect().size().width())
-            {
-                finalRect = item->boundingRect().size();
-            }
-        }
-    }
-    else if(UnderMouse == method)
-    {
-        QGraphicsItem* item = itemAt(mapFromGlobal(point));
-        if(nullptr!=item)
-        {
-            finalRect = item->boundingRect().size();
-        }
-        else
-        {
-            return;
-        }
-    }
-    else if(Average == method)
-    {
-        for(VisualItem* item: list)
-        {
-            if(finalRect.isNull())
-            {
-                finalRect = item->boundingRect().size();
-            }
-            else
-            {
-                finalRect = (item->boundingRect().size()+finalRect)/2;
-            }
-        }
-    }
-
-    for(VisualItem* item: list)
-    {
-        if(nullptr!=item)
-        {
-            item->setSize(finalRect);
-            item->sendRectGeometryMsg();
-        }
-
+        qDebug() << "mapFRomGlobal" << m_menuPoint;
+        auto changeCmd = new ChangeSizeVmapItemCommand(m_vmap, method, mapToScene(m_menuPoint));
+        m_vmap->addCommand(changeCmd);
     }
 }
 
@@ -538,9 +467,21 @@ void RGraphicsView::createAction()
 
 
     m_normalizeSizeAverage = new QAction(tr("Average"),this);
+    connect(m_normalizeSizeAverage,&QAction::triggered, this,[=](){
+            normalizeSize(Average);
+          });
     m_normalizeSizeUnderMouse = new QAction(tr("As undermouse item"),this);
+    connect(m_normalizeSizeUnderMouse,&QAction::triggered, this,[=](){
+            normalizeSize(UnderMouse);
+          });
     m_normalizeSizeBigger = new QAction(tr("As the Bigger"),this);
+    connect(m_normalizeSizeBigger,&QAction::triggered, this,[=](){
+            normalizeSize(Bigger);
+          });
     m_normalizeSizeSmaller = new QAction(tr("As the Smaller"),this);
+    connect(m_normalizeSizeSmaller,&QAction::triggered, this,[=](){
+            normalizeSize(Smaller);
+          });
 
     m_lockSize = new QAction(tr("Lock Item Size"),this);
 

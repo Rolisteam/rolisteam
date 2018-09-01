@@ -51,11 +51,18 @@ GridItem::GridItem()
     setAcceptHoverEvents(false);
     m_layer = GRIDLAYER;
     setFlags(QGraphicsItem::ItemSendsGeometryChanges);
+
 }
 
 GridItem::~GridItem()
 {
 
+}
+
+void GridItem::updateItemFlags()
+{
+    VisualItem::updateItemFlags();
+    setFlag(QGraphicsItem::ItemIsMovable,false);
 }
 QRectF  GridItem::boundingRect() const
 {

@@ -47,7 +47,7 @@ public:
     void setItemLayer(QList<VisualItem*> list,VisualItem::Layer layer);
     void setRotation(QList<VisualItem*> list, int value);
     void changeZValue(QList<VisualItem*> list, VisualItem::StackOrder order);
-    void normalizeSize(QList<VisualItem*> list,Method method, QPoint point);
+    void normalizeSize(Method method);
 
 public slots:
     void addImageToMap();
@@ -124,6 +124,7 @@ private:
 	VToolsBar::SelectableTool m_currentTool;
     PreferencesManager* m_preferences;
     QPoint m_lastPoint;
+    QPoint m_menuPoint;
     QGraphicsItem* m_centerOnItem;
 
 };

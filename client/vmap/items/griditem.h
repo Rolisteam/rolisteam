@@ -123,6 +123,7 @@ public:
     virtual void setVisible(bool visible);
 
     void computePattern();
+    virtual void updateItemFlags();
 public slots:
 
 protected:

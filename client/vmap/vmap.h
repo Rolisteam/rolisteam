@@ -64,7 +64,7 @@ public:
     /**
     * @brief default constructor
     */
-    VMap(QObject * parent = 0);
+    VMap(QObject * parent = nullptr);
     /**
     * @brief constructor with parameters
     * @param witdh of the map
@@ -72,7 +72,7 @@ public:
     * @param title of the subwindow, will be used for saving the map into file.
     * @param bgcolor is the backgound color of the map (commonly white).
     */
-    VMap(int width,int height,QString& title,QColor& m_bgColor,QObject * parent = 0);
+    VMap(int width,int height,QString& title,QColor& m_bgColor,QObject * parent = nullptr);
     /**
     * @brief defines the width
     */
@@ -319,6 +319,7 @@ public:
     void setPropertiesHash(QHash<VisualItem::Properties, QVariant> *propertiesHash);
 
     void addImageItem(QImage img);
+    void addCommand(QUndoCommand *cmd);
 public slots:
     /**
     * @brief defines the current tools

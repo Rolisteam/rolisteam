@@ -128,7 +128,7 @@ void  VMap::initScene()
     m_gridItem->initChildPointItem();
     m_gridItem->setPos(0,0);
     m_gridItem->setZValue(2);
-    m_gridItem->setVisible(true);
+    m_gridItem->setVisible(false);
 }
 
 void VMap::setWidth(int width)
@@ -966,6 +966,7 @@ void VMap::computePattern()
         setBackgroundBrush(QPixmap::fromImage(m_computedPattern));
     }
     m_gridItem->computePattern();
+    m_gridItem->setVisible(getOption(VisualItem::ShowGrid).toBool());
 }
 void VMap::processAddItemMessage(NetworkMessageReader* msg)
 {
@@ -1893,4 +1894,10 @@ void VMap::cleanUpInit(APPLY_ON_CHARACTER zone)
     {
         charac->cleanInit();
     }
+}
+void VMap::addCommand(QUndoCommand* cmd)
+{
+    if(nullptr == m_undoStack || nullptr == cmd)
+        return;
+    m_undoStack->push(cmd);
 }
