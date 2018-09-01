@@ -163,6 +163,7 @@ public:
      * @param a
      */
     FogSingularity*  addFogPolygon(QPolygonF* a,bool adding);
+    virtual void updateItemFlags();
 public slots:
     /**
      * @brief moveVision

@@ -37,7 +37,7 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
                                        VMap* vmap,
                                        QPointF& pos,
                                        QColor& color,
-                                       int penSize,
+                                       quint16 penSize,
                                        QUndoCommand *parent)
     : QUndoCommand(parent),
       m_vmap(vmap),
@@ -213,6 +213,10 @@ bool AddVmapItemCommand::isVisible()
                 }
             }
         }
+        else
+        {
+            visible = true;
+        }
     }
     return visible;
 }
@@ -275,6 +279,18 @@ bool AddVmapItemCommand::isNpc() const
 {
     return (m_tool == VToolsBar::ADDNPC);
 }
+
+bool AddVmapItemCommand::hasToBeDeleted() const
+{
+    if(nullptr == m_currentItem)
+        return true;
+    bool result = true;
+
+    if(m_currentItem->getType() == VisualItem::HIGHLIGHTER)
+        result = false;
+    return result;
+}
+
 template <class T>
 T* AddVmapItemCommand::getItem() const
 {

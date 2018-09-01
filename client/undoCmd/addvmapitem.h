@@ -32,7 +32,7 @@ public:
                        VMap* canvas,
                        QPointF& pos,
                        QColor& color,
-                       int penSize,
+                       quint16 penSize,
                        QUndoCommand *parent= nullptr);
 
     AddVmapItemCommand(VisualItem* item,VMap* map,QUndoCommand *parent = nullptr);
@@ -58,6 +58,7 @@ public:
 
     bool getInitPoint() const;
     void setInitPoint(bool initPoint);
+    bool hasToBeDeleted() const;
 
 protected:
     bool isVisible();
@@ -66,7 +67,7 @@ private:
     VMap* m_vmap=nullptr;
     QPointF m_pos;
     QColor m_color;
-    int m_penSize;
+    quint16 m_penSize;
     VisualItem* m_currentPath = nullptr;
     bool m_error = false;
     VToolsBar::SelectableTool m_tool;

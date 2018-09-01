@@ -144,7 +144,9 @@ void GridItem::computePattern()
             QPointF G(2*radius+radius,radius-offset);
             polygon << C << D << E << F << A << B << A << G;
 
-            m_computedPattern = QImage(getOption(VisualItem::GridSize).toInt()*1.5,2*hlimit,QImage::Format_ARGB32);
+            m_computedPattern = QImage(static_cast<int>(getOption(VisualItem::GridSize).toInt()*1.5),
+                                       static_cast<int>(2*hlimit),
+                                       QImage::Format_ARGB32);
             m_computedPattern.fill(Qt::transparent);
         }
         else if(getOption(VisualItem::GridPattern).toInt() == VMap::SQUARE)

@@ -53,9 +53,10 @@ bool FogSingularity::isAdding() const
 {
     return m_adding;
 }
+
 void FogSingularity::fillMessage(NetworkMessageWriter* msg)
 {
-    msg->uint64(m_poly->size());
+    msg->uint64(static_cast<quint64>(m_poly->size()));
     msg->uint8(m_adding);
     for( auto point : *m_poly)
     {
@@ -67,7 +68,7 @@ void FogSingularity::fillMessage(NetworkMessageWriter* msg)
 void FogSingularity::readItem(NetworkMessageReader* msg)
 {
     quint64 pointCount = msg->uint64();
-    m_adding = (bool)msg->uint8();
+    m_adding = static_cast<bool>(msg->uint8());
 
     m_poly = new QPolygonF();
     for(unsigned int j = 0; j <pointCount; ++j)
@@ -105,6 +106,11 @@ SightItem::SightItem(QMap<QString,CharacterItem*>* characterItemMap)
 SightItem::~SightItem()
 {
 
+}
+void SightItem::updateItemFlags()
+{
+    VisualItem::updateItemFlags();
+    setFlag(QGraphicsItem::ItemIsMovable,false);
 }
 QRectF  SightItem::boundingRect() const
 {
@@ -162,14 +168,14 @@ void SightItem::fillMessage(NetworkMessageWriter* msg)
 
      msg->real(zValue());
 
-    msg->uint64(m_fogHoleList.count());
+    msg->uint64(static_cast<quint64>(m_fogHoleList.count()));
     for(FogSingularity* hole: m_fogHoleList)
     {
 
         hole->fillMessage(msg);
     }
 
-    msg->uint64(m_characterItemMap->keys().size());
+    msg->uint64(static_cast<quint64>(m_characterItemMap->keys().size()));
     for(QString key: m_characterItemMap->keys())
     {
         msg->string8(key);
@@ -273,7 +279,7 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
 
                 QPainterPath subArea;
                 subArea.setFillRule(Qt::WindingFill);
-                int itemRadius = charact->getRadius();
+                auto itemRadius = charact->getRadius();
                 qreal rot = charact->rotation();
                 QMatrix mat;
                 QPointF center = charact->pos()+QPointF(itemRadius,itemRadius);

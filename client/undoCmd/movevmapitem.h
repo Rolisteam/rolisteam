@@ -39,6 +39,7 @@ private:
     QList<VisualItem*> m_selection;
     QList<QPointF> m_oldPoints;
     QList<QPointF> m_newPoints;
+    bool m_valid = false;
 };
 
 #endif //MOVEITEMCOMMAND_H

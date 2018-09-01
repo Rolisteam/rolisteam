@@ -584,11 +584,11 @@ private:
     /**
     * @brief current selected item
     */
-    VisualItem* m_currentItem;
+    VisualItem* m_currentItem = nullptr;
     /**
      * @brief m_currentPath
      */
-	VisualItem* m_currentPath;
+    VisualItem* m_currentPath = nullptr;
     /**
     * @brief color for items
     */
@@ -600,7 +600,7 @@ private:
     /**
     * @brief Items list which are part of the map.
     */
-    QMap<QString,VisualItem*>* m_itemMap;
+    QMap<QString,VisualItem*>* m_itemMap = nullptr;
     /**
      * @brief m_sortedItemList
      */
@@ -612,7 +612,7 @@ private:
     /**
     * @brief Items list which are part of the map.
     */
-    QMap<QString,CharacterItem*>* m_characterItemMap;
+    QMap<QString,CharacterItem*>* m_characterItemMap = nullptr;
     /**
      * @brief m_computedPattern
      */
@@ -647,9 +647,9 @@ private:
     FogSingularity* m_currentFog;
     quint64 m_zIndex;
 
-    QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
+    QHash<VisualItem::Properties,QVariant>* m_propertiesHash = nullptr;
     QUndoStack* m_undoStack = nullptr;
-    AddVmapItemCommand* m_currentAddCmd;
+    AddVmapItemCommand* m_currentAddCmd = nullptr;
     QList<VisualItem*> m_movingItems;
     QList<QPointF> m_oldPos;
 

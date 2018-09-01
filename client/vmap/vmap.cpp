@@ -29,6 +29,7 @@
 #include "undoCmd/addvmapitem.h"
 #include "undoCmd/movevmapitem.h"
 #include "undoCmd/changecoloritem.h"
+#include "undoCmd/deletevmapitem.h"
 
 VMap::VMap(QObject * parent)
     : QGraphicsScene(parent),m_currentLayer(VisualItem::GROUND)
@@ -200,8 +201,8 @@ void VMap::fill(NetworkMessageWriter& msg)
     msg.string8(getId());
     msg.string16(getMapTitle());
     msg.rgb(mapColor().rgb());
-    msg.uint16(mapWidth());
-    msg.uint16(mapHeight());
+    msg.uint16(static_cast<quint16>(mapWidth()));
+    msg.uint16(static_cast<quint16>(mapHeight()));
     msg.uint8(static_cast<quint8>(m_currentLayer));
     msg.string8(m_sightItem->getId());
     msg.uint8(static_cast<quint8>(getPermissionMode()));
@@ -568,8 +569,7 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             {
                 if (m_oldPos.first() != m_movingItems.first()->pos())
                 {
-                    MoveItemCommand* moveCmd = new MoveItemCommand(m_movingItems,m_oldPos);
-                    m_undoStack->push(moveCmd);
+                    m_undoStack->push(new MoveItemCommand(m_movingItems,m_oldPos));
                 }
                 m_movingItems.clear();
                 m_oldPos.clear();
@@ -713,10 +713,13 @@ void VMap::sendOffItem(VisualItem* item, bool doInitPoint)
         else
         {
             m_currentAddCmd->redo();
-            delete m_currentAddCmd;
+            if(m_currentAddCmd->hasToBeDeleted())
+            {
+                delete m_currentAddCmd;
+                m_currentAddCmd = nullptr;
+            }
         }
     }
-    m_currentAddCmd = nullptr;
 }
 
 void VMap::setCurrentChosenColor(QColor& p)
@@ -781,7 +784,7 @@ void VMap::saveFile(QDataStream& out)
     out << m_propertiesHash->count();
     for(VisualItem::Properties property: m_propertiesHash->keys())
     {
-        out << (int)property;
+        out << static_cast<int>(property);
         out << m_propertiesHash->value(property);
     }
 
@@ -818,7 +821,7 @@ void VMap::openFile(QDataStream& in)
             in >> pro;
             QVariant var;
             in >> var;
-            m_propertiesHash->insert((VisualItem::Properties)pro,var);
+            m_propertiesHash->insert(static_cast<VisualItem::Properties>(pro),var);
         }
 
         int numberOfItem;
@@ -832,7 +835,7 @@ void VMap::openFile(QDataStream& in)
             VisualItem::ItemType type;
             int tmptype;
             in >> tmptype;
-            type=(VisualItem::ItemType)tmptype;
+            type=static_cast<VisualItem::ItemType>(tmptype);
 
             switch(type)
             {
@@ -1135,7 +1138,7 @@ void VMap::ensureFogAboveAll()
     }
     if(nullptr!=highest)
     {
-        int z = highest->zValue();
+        auto z = highest->zValue();
         m_sightItem->setZValue(z+1);
         m_gridItem->setZValue(z+2);
     }
@@ -1270,10 +1273,18 @@ void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwor
 {
     if((nullptr!=itemCmd)&&(!itemCmd->hasError()))
     {
+        if(m_currentAddCmd)
+        {
+            delete m_currentAddCmd;
+            m_currentAddCmd = nullptr;
+        }
         m_currentAddCmd = itemCmd;
         VisualItem* item = m_currentAddCmd->getItem();
 
-        if((item!=m_sightItem)&&(item!=m_gridItem)&&(VisualItem::ANCHOR!=item->type())&&(VisualItem::RULE!=item->type()))
+        if((item!=m_sightItem)&&(item!=m_gridItem)
+                &&(VisualItem::ANCHOR!=item->type())
+                &&(VisualItem::RULE!=item->type())
+                &&(VisualItem::HIGHLIGHTER!=item->type()))
         {
             m_orderedItemList.append(item);
         }
@@ -1328,7 +1339,7 @@ void VMap::promoteItemInType(VisualItem* item, VisualItem::ItemType type)
         //sendOffItem(bis);
     }
 }
-#include "undoCmd/deletevmapitem.h"
+
 void VMap::removeItemFromScene(QString id,bool sendToAll, bool undoable)
 {
     if(m_sightItem->getId()==id || m_gridItem->getId() == id)
@@ -1339,15 +1350,15 @@ void VMap::removeItemFromScene(QString id,bool sendToAll, bool undoable)
 
     if(nullptr!=item)
     {
-        DeleteVmapItemCommand* cmd = new DeleteVmapItemCommand(this,item,sendToAll);
         if(undoable)
-            m_undoStack->push(cmd);
+        {
+            m_undoStack->push(new DeleteVmapItemCommand(this,item,sendToAll));
+        }
         else
         {
-            cmd->redo();
-            delete cmd;
+            DeleteVmapItemCommand cmd(this,item,sendToAll);
+            cmd.redo();
         }
-
     }
 }
 

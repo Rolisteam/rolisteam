@@ -25,16 +25,19 @@ MoveItemCommand::MoveItemCommand(QList<VisualItem*> selection,QList<QPointF> old
 {
     if(m_selection.size() == m_oldPoints.size())
     {
+        m_valid = true;
         for(auto item : m_selection)
         {
             m_newPoints.append(item->pos());
         }
+        setText(QObject::tr("Move %n item(s)","",m_selection.size()));
     }
-    setText(QObject::tr("Move %n item(s)","",m_selection.size()));
 }
 
 void MoveItemCommand::redo()
 {
+    if(!m_valid)
+        return;
     int i = 0;
     for(auto item : m_selection)
     {
@@ -45,6 +48,8 @@ void MoveItemCommand::redo()
 
 void MoveItemCommand::undo()
 {
+    if(!m_valid)
+        return;
     int i = 0;
     for(auto item : m_selection)
     {
