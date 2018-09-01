@@ -25,12 +25,6 @@
 #include <QTcpSocket>
 
 #include "network/networklink.h"
-
-//#include "network/networkmanager.h"
-//#include "map/charactertoken.h"
-//#include "Image.h"
-//#include "data/person.h"
-//#include "userlist/playersList.h"
 #include "network/receiveevent.h"
 #include "network/networkmessagewriter.h"
 #include "network/messagedispatcher.h"
@@ -96,7 +90,7 @@ void NetworkLink::sendData(char* data, quint32 size)
     qDebug() << "thread current" << QThread::currentThread() << "thread socket:" << m_socketTcp->thread() << "this thread" << thread();
     #endif
 
-    int t = m_socketTcp->write(data, size);
+    auto t = m_socketTcp->write(data, size);
 
     if (t < 0)
     {
@@ -119,7 +113,7 @@ void NetworkLink::sendData(NetworkMessage* msg)
     }
     //if (but != this)
     {
-        int t = m_socketTcp->write((char*)msg->buffer(), msg->getSize());
+        qint64 t = m_socketTcp->write(reinterpret_cast<char*>(msg->buffer()), static_cast<qint64>(msg->getSize()));
         if (t < 0)
         {
             emit errorMessage(tr("Tranmission error :")+m_socketTcp->errorString());
@@ -139,9 +133,9 @@ void NetworkLink::receivingData()
     {
         if (!m_receivingData)
         {
-            int readDataSize = 0;
-            char* tmp = (char *)&m_header;
-            readDataSize = m_socketTcp->read(tmp+m_headerRead, sizeof(NetworkMessageHeader)-m_headerRead);
+            qint64 readDataSize = 0;
+            char* tmp = reinterpret_cast<char*>(&m_header);
+            readDataSize = m_socketTcp->read(tmp+m_headerRead, static_cast<qint64>(sizeof(NetworkMessageHeader)-m_headerRead));
             readDataSize+=m_headerRead;
 
             if((readDataSize!=sizeof(NetworkMessageHeader)))//||(m_header.category>=NetMsg::LastCategory)
@@ -175,7 +169,7 @@ void NetworkLink::receivingData()
                 event->postToReceiver();
             }
             NetworkMessageReader data(m_header,m_buffer);
-            if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
+            if (ReceiveEvent::hasNetworkReceiverFor(static_cast<NetMsg::Category>(m_header.category)))
             {
                 QList<NetWorkReceiver*> tmpList = ReceiveEvent::getNetWorkReceiverFor(static_cast<NetMsg::Category>(m_header.category));
                 for(NetWorkReceiver* tmp : tmpList)
@@ -193,6 +187,7 @@ void NetworkLink::receivingData()
                     break;
                 case NetMsg::AdministrationCategory:
                     processAdminstrationMessage(&data);
+                    break;
                 default:
                     break;
             }
@@ -286,13 +281,13 @@ void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
             header.category = NetMsg::AdministrationCategory;
             header.action = NetMsg::EndConnectionAction;
             header.dataSize = 0;
-            sendData((char *)&header, sizeof(NetworkMessageHeader));
+            sendData(reinterpret_cast<char *>(&header), sizeof(NetworkMessageHeader));
         }
     }
 }
 void NetworkLink::processSetupMessage(NetworkMessageReader* msg)
 {
-
+    Q_UNUSED(msg);
 }
 
 

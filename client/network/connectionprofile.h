@@ -31,7 +31,7 @@ public:
     /**
      * @brief setPort
      */
-    void setPort(int);
+    void setPort(quint16);
     /**
      * @brief setServerMode
      */
@@ -63,7 +63,7 @@ public:
      * @brief getPort
      * @return
      */
-    int     getPort() const;
+    quint16 getPort() const;
     /**
      * @brief isServer
      * @return
@@ -110,7 +110,7 @@ public:
 private:
     Character* m_character;
     bool    m_server;
-    int     m_port;
+    quint16     m_port;
     Player*  m_player;
     bool    m_isGM;///<
     QString m_title;///< @brief defines the name of the profile. It can be what ever users want.

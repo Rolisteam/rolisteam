@@ -25,7 +25,7 @@ void ConnectionProfile::setAddress(QString str)
 {
     m_address = str;
 }
-void ConnectionProfile::setPort(int i)
+void ConnectionProfile::setPort(quint16 i)
 {
     m_port = i;
 }
@@ -53,7 +53,7 @@ QString ConnectionProfile::getAddress() const
 {
     return m_address;
 }
-int ConnectionProfile::getPort() const
+quint16 ConnectionProfile::getPort() const
 {
     return m_port;
 }

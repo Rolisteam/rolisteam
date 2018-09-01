@@ -146,7 +146,7 @@ private :
     char* m_buffer  = nullptr;
     quint32 m_remainingData;
     QMap<NetMsg::Category,NetWorkReceiver*> m_receiverMap;
-    int m_headerRead;
+    qint64 m_headerRead;
     QHash<QString,int> m_hbCount;
     int m_port;
     QString m_host;
