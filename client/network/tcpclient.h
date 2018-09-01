@@ -160,7 +160,7 @@ private:
     NetworkMessageHeader m_header;
     char* m_buffer= nullptr;
     int m_headerRead;
-    qint64 m_remainingData;
+    quint64 m_remainingData;
 
     QStateMachine* m_stateMachine= nullptr;
     QState* m_incomingConnection= nullptr;

@@ -252,15 +252,14 @@ void TcpClient::receivingData()
         if (!m_receivingData)
         {
             qint64 readDataSize = 0;
-            char* tmp = (char *)&m_header;
+            char* tmp = reinterpret_cast<char *>(&m_header);
 
             // To do only if there is enough data
             readDataSize = m_socket->read(tmp+m_headerRead, sizeof(NetworkMessageHeader)-m_headerRead);
-            //readDataSize+=m_headerRead;
-            if(readDataSize!= sizeof(NetworkMessageHeader))
+
+            if(readDataSize!= sizeof(NetworkMessageHeader) && readDataSize+m_headerRead != sizeof(NetworkMessageHeader) )
             {
                 m_headerRead += readDataSize;
-              //m_headerRead=readDataSize;
                 continue;
             }
             else
@@ -270,7 +269,6 @@ void TcpClient::receivingData()
             m_buffer = new char[m_header.dataSize];
             m_remainingData = m_header.dataSize;
             emit readDataReceived(m_header.dataSize,m_header.dataSize);
-
         }
         // To do only if there is enough data
         dataRead = m_socket->read(&(m_buffer[m_header.dataSize-m_remainingData]), m_remainingData);
