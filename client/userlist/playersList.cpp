@@ -174,15 +174,15 @@ QModelIndex PlayersList::index(int row, int column, const QModelIndex &parent) c
 
     if (parent.isValid())
     {
-        quint32 parentRow = parent.row();
-        if (parentRow >= (quint32)m_playersList.size())
+        auto parentRow = parent.row();
+        if (parentRow >= m_playersList.size())
             return QModelIndex();
 
         Player * player = m_playersList.at(parentRow);
         if (row < 0 || row >= player->getChildrenCount())
             return QModelIndex();
 
-        return QAbstractItemModel::createIndex(row, 0, parentRow);
+        return QAbstractItemModel::createIndex(row, 0, static_cast<quint32>(parentRow));
     }
     else
     {
@@ -208,14 +208,14 @@ QModelIndex PlayersList::parent(const QModelIndex & index) const
     if (!index.isValid())
         return QModelIndex();
 
-    quint32 parentRow = (quint32)(index.internalId() & NoParent);
+    quint32 parentRow = static_cast<quint32>(index.internalId() & NoParent);
 
-    if (parentRow == NoParent || parentRow >= (quint32)m_playersList.size())
+    if (parentRow == NoParent || parentRow >= static_cast<quint32>(m_playersList.size()))
     {
         return QModelIndex();
     }
 
-    return QAbstractItemModel::createIndex(parentRow, 0, NoParent);
+    return QAbstractItemModel::createIndex(static_cast<int>(parentRow), 0, NoParent);
 }
 
 int PlayersList::rowCount(const QModelIndex & index) const
@@ -225,7 +225,7 @@ int PlayersList::rowCount(const QModelIndex & index) const
         return m_playersList.size();
     }
 
-    quint32 parentRow = (quint32)(index.internalId() & NoParent);
+    quint32 parentRow = static_cast<quint32>(index.internalId() & NoParent);
     int row = index.row();
     if (parentRow != NoParent || row < 0 || row >= m_playersList.size())
     {
@@ -254,24 +254,24 @@ QModelIndex PlayersList::mapIndexToMe(const QModelIndex & index) const
     if (!index.isValid())
         return QModelIndex();
 
-    quint32 parentRow = (quint32)(index.internalId() & NoParent);
+    quint32 parentRow = static_cast<quint32>(index.internalId() & NoParent);
     return QAbstractItemModel::createIndex(index.row(), index.column(), parentRow);
 }
 
 QModelIndex PlayersList::createIndex(Person * person) const
 {
-    int size = m_playersList.size();
-    for (int row = 0; row < size; row++)
+    auto size = static_cast<unsigned int>(m_playersList.size());
+    for (unsigned int row = 0; row < size; row++)
     {
-        Player * player = m_playersList.at(row);
+        Player * player = m_playersList.at(static_cast<int>(row));
         if (person == player)
         {
-            return QAbstractItemModel::createIndex(row, 0, NoParent);
+            return QAbstractItemModel::createIndex(static_cast<int>(row), 0, NoParent);
         }
         else
         {
             int c_row;
-            if (player->searchCharacter((Character *)(person), c_row))
+            if (player->searchCharacter(static_cast<Character *>(person), c_row))
                 return QAbstractItemModel::createIndex(c_row, 0, row);
         }
     }
@@ -371,15 +371,15 @@ Person * PlayersList::getPerson(const QModelIndex & index) const
     if (row < 0)
         return nullptr;
 
-    quint32 parentRow = (quint32)(index.internalId() & NoParent);
+    quint32 parentRow = static_cast<quint32>(index.internalId() & NoParent);
     if (parentRow == NoParent)
     {
         if (row < m_playersList.size())
             return m_playersList.at(row);
     }
-    else if (parentRow < (quint32)m_playersList.size())
+    else if (parentRow < static_cast<quint32>(m_playersList.size()))
     {
-        Player * player = m_playersList.at(parentRow);
+        Player * player = m_playersList.at(static_cast<int>(parentRow));
 
         if (row < player->getChildrenCount())
             return player->getCharacterByIndex(row);

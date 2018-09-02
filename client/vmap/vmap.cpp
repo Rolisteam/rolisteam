@@ -183,7 +183,7 @@ const QColor& VMap::mapColor() const
 {
     return m_bgColor;
 }
-void VMap::setPenSize(int p)
+void VMap::setPenSize(quint16 p)
 {
     m_penSize =p;
 }

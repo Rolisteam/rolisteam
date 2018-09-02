@@ -334,7 +334,7 @@ public slots:
     /**
     * @brief defines the pen size (sent off by toolbar).
     */
-    void setPenSize(int);
+    void setPenSize(quint16);
     /**
      * @brief setCurrentNpcName
      * @param text
@@ -596,7 +596,7 @@ private:
     /**
     * @brief pen size
     */
-    int m_penSize;
+    quint16 m_penSize;
     /**
     * @brief Items list which are part of the map.
     */
