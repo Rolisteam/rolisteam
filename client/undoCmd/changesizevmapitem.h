@@ -17,10 +17,11 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-#ifndef ADDVMAPITEMCOMMAND_H
+#ifndef CHANGESIZEVMAPITEMCOMMAND_H
 #define CHANGESIZEVMAPITEMCOMMAND_H
 
 #include <QUndoCommand>
+#include <QPointF>
 #include "vmap/vmap.h"
 #include "vmap/rgraphicsview.h"
 

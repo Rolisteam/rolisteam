@@ -403,9 +403,7 @@ void RGraphicsView::normalizeSize(Method method)
 {
     if(nullptr != m_vmap)
     {
-        qDebug() << "mapFRomGlobal" << m_menuPoint;
-        auto changeCmd = new ChangeSizeVmapItemCommand(m_vmap, method, mapToScene(m_menuPoint));
-        m_vmap->addCommand(changeCmd);
+        m_vmap->addCommand(new ChangeSizeVmapItemCommand(m_vmap, method, mapToScene(m_menuPoint)));
     }
 }
 
