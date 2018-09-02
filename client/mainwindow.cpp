@@ -1189,8 +1189,8 @@ void MainWindow::startReconnection()
     if(m_clientManager->startConnection())
     {
         m_roomPanel->setServerName(m_currentConnectionProfile->getAddress());
-        m_playerList->sendOffLocalPlayerInformations();
-        m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
+        /*m_playerList->sendOffLocalPlayerInformations();
+        m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());*/
         m_ui->m_connectionAction->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
     }

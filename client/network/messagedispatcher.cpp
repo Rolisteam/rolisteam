@@ -41,6 +41,7 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
             emitter->setName(name);
             emitter->setId(uuid);
             saveIt = false;
+            sendToAll = false;
         }
         else if(msg->action() == NetMsg::DelPlayerAction)
         {
