@@ -1,0 +1,92 @@
+language: cpp
+
+os:
+  - linux
+  - osx
+
+dist: trusty
+
+compiler:
+  - clang
+  - gcc
+
+
+env:
+  - QT=5  BREW=
+  - QT=5  BREW=ex   PPA=ubuntu-sdk-team/ppa
+  - QT=51 BREW=ex   PPA=beineri/opt-qt511-trusty
+  - QT=52 BREW=ex   PPA=beineri/opt-qt521-trusty
+  - QT=53 BREW=ex   PPA=beineri/opt-qt532-trusty
+  - QT=54 BREW=ex   PPA=beineri/opt-qt542-trusty
+  - QT=55 BREW=@5.5 PPA=beineri/opt-qt551-trusty
+  - QT=56 BREW=ex   PPA=beineri/opt-qt562-trusty
+  - QT=56 BREW=ex   PPA=beineri/opt-qt563-trusty
+  - QT=57 BREW=ex   PPA=beineri/opt-qt571-trusty
+  - QT=58 BREW=ex   PPA=beineri/opt-qt58-trusty
+  - QT=59 BREW=ex   PPA=beineri/opt-qt593-trusty
+  - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+
+matrix:
+  # Qt no longer supports GCC on OSX.
+  allow_failures:
+    - { os: osx, compiler: gcc, env: QT=5  BREW= }
+  exclude:
+    - { os: osx, env: QT=5  BREW=ex   PPA=ubuntu-sdk-team/ppa      }
+    - { os: osx, env: QT=51 BREW=ex   PPA=beineri/opt-qt511-trusty }
+    - { os: osx, env: QT=52 BREW=ex   PPA=beineri/opt-qt521-trusty }
+    - { os: osx, env: QT=53 BREW=ex   PPA=beineri/opt-qt532-trusty }
+    - { os: osx, env: QT=54 BREW=ex   PPA=beineri/opt-qt542-trusty }
+    - { os: osx, env: QT=56 BREW=ex   PPA=beineri/opt-qt562-trusty }
+    - { os: osx, env: QT=56 BREW=ex   PPA=beineri/opt-qt563-trusty }
+    - { os: osx, env: QT=57 BREW=ex   PPA=beineri/opt-qt571-trusty }
+    - { os: osx, env: QT=58 BREW=ex   PPA=beineri/opt-qt58-trusty  }
+    - { os: osx, env: QT=59 BREW=ex   PPA=beineri/opt-qt593-trusty }
+    - { os: osx, env: QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty }
+
+before_install:
+  - '[[ "$TRAVIS_OS_NAME" != linux || -z "$PPA" ]] || sudo add-apt-repository -y ppa:$PPA'
+  - '[ "$TRAVIS_OS_NAME" != linux ] || sudo apt-get -qy update'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || brew update'
+# - '[ "$TRAVIS_OS_NAME" != osx ] || brew search qt' # Causes Homebrew API rate-limit issues.
+  - git submodule update --init --remote --recursive
+
+install:
+  - '[ "$TRAVIS_OS_NAME" != linux ] || sudo apt-get -qy install cppcheck'
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || sudo apt-get -qy install qt${QT}base qt${QT}xmlpatterns'
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy install qt5-qmake qtbase5-dev libqt5xmlpatterns5-dev'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || brew install cppcheck qt$BREW'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || brew link --force qt$BREW'
+
+before_script:
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$CXX" != clang++ ]] || export QMAKESPEC=linux-clang'
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$CXX" != g++     ]] || export QMAKESPEC=linux-g++'
+  - '[[ "$TRAVIS_OS_NAME" != osx   || "$CXX" != clang++ ]] || export QMAKESPEC=macx-clang'
+  - '[[ "$TRAVIS_OS_NAME" != osx   || "$CXX" != g++     ]] || export QMAKESPEC=macx-g++'
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || . /opt/qt$QT/bin/qt$QT-env.sh'
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || export QT_SELECT=qt5'
+  - mkdir -p "$TRAVIS_BUILD_DIR-build"
+  - pushd "$TRAVIS_BUILD_DIR-build"
+  - qmake -v
+  - qmake -r -Wall -Wlogic -Wparser CONFIG+=debug_and_release "$TRAVIS_BUILD_DIR"
+  - popd
+
+script:
+  - make -C "$TRAVIS_BUILD_DIR-build" -j2
+  - '[ "$TRAVIS_OS_NAME" != osx ] || make -C "$TRAVIS_BUILD_DIR-build/pkg/osx" dmg'
+
+deploy:
+  provider: releases
+  api_key: $RELEASES_API_KEY
+  file_glob: true
+  file: $TRAVIS_BUILD_DIR-build/pkg/$TRAVIS_OS_NAME/rolisteam-*.$TRAVIS_BUILD_NUMBER.dmg
+  on:
+    condition: '"$TRAVIS_OS_NAME" == osx && "$CXX" == clang++ && "$QT" == 5'
+    tags: true
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/2b8ecf97afdf630edcec
+    on_success: change
+    on_failure: always
+on_start: never

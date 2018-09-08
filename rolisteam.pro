@@ -27,5 +27,5 @@ UI_DIR = bin
 
 RESOURCES += rolisteam.qrc
 
-OTHER_FILES += AUTHORS README.md
+OTHER_FILES += AUTHORS README.md .travis.yml
 
