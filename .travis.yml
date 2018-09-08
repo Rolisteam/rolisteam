@@ -4,7 +4,7 @@ os:
   - linux
   - osx
 
-dist: bionic
+dist: trusty
 
 compiler:
   - clang
@@ -12,19 +12,81 @@ compiler:
 
 
 env:
-  - QT=5  BREW=
-  - QT=5  BREW=ex   PPA=ubuntu-sdk-team/ppa
-  - QT=511 BREW=@ex PPA=beineri/opt-qt-5.11.1-bionic
+  - QT=511 BREW=@ex PPA=beineri/opt-qt-5.11.1-trusty
 
 matrix:
   # Qt no longer supports GCC on OSX.
   allow_failures:
     - { os: osx, compiler: gcc, env: QT=5  BREW= }
   exclude:
-    - { os: osx, env: QT=5  BREW=ex   PPA=ubuntu-sdk-team/ppa      }
-    - { os: osx, env: QT=511 BREW=@ex PPA=beineri/opt-qt-5.11.1-bionic }
+    - { os: osx, env: QT=511 BREW=@ex PPA=beineri/opt-qt-5.11.1-trusty }
+  include:
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+      env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env:
+         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - os: osx
+      osx_image: xcode8
+      env:
+        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+
+    - os: osx
+      osx_image: xcode8
+      env:
+        - MATRIX_EVAL="brew install gcc5 && CC=gcc-5 && CXX=g++-5"
+
+    - os: osx
+      osx_image: xcode8
+      env:
+        - MATRIX_EVAL="brew install gcc6 && CC=gcc-6 && CXX=g++-6"
+
+    - os: osx
+      osx_image: xcode8
+      env:
+        - MATRIX_EVAL="brew install gcc && CC=gcc-7 && CXX=g++-7"
+
 
 before_install:
+  - eval "${MATRIX_EVAL}"
   - '[[ "$TRAVIS_OS_NAME" != linux || -z "$PPA" ]] || sudo add-apt-repository -y ppa:$PPA'
   - '[ "$TRAVIS_OS_NAME" != linux ] || sudo apt-get -qy update'
   - '[ "$TRAVIS_OS_NAME" != osx ] || brew update'
