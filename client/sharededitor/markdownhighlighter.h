@@ -1,6 +1,7 @@
 /***************************************************************************
-* Copyright (C) 2014 by Renaud Guezennec                                   *
+* Copyright (C) 2014-2018 by Renaud Guezennec                              *
 * http://www.rolisteam.org/                                                *
+* Copyright (c) 2014-2018 Patrizio Bekerle -- http://www.bekerle.com       *
 *                                                                          *
 *  This file is part of rcse                                               *
 *                                                                          *
@@ -24,39 +25,109 @@
 #define MARKDOWNHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
+#include <QTextCharFormat>
 #include <QRegularExpression>
+
+
+class QTextDocument;
+class QTimer;
 
 class MarkDownHighlighter : public QSyntaxHighlighter
 {
-    Q_OBJECT
+Q_OBJECT
 
 public:
-    MarkDownHighlighter(QTextDocument *parent = 0);
+    enum HighlightingOption{
+        None = 0,
+        FullyHighlightedBlockQuote = 0x01
+    };
+    Q_DECLARE_FLAGS(HighlightingOptions, HighlightingOption)
+
+    MarkDownHighlighter(QTextDocument *parent = nullptr,
+                        HighlightingOptions highlightingOptions =
+                        HighlightingOption::None);
+
+    // we use some predefined numbers here to be compatible with
+    // the peg-markdown parser
+    enum HighlighterState {
+        NoState = -1,
+        Link = 0,
+        Image = 3,
+        CodeBlock,
+        Italic = 7,
+        Bold,
+        List,
+        Comment = 11,
+        H1,
+        H2,
+        H3,
+        H4,
+        H5,
+        H6,
+        BlockQuote,
+        HorizontalRuler = 21,
+        Table,
+        InlineCodeBlock,
+        MaskedSyntax,
+        CurrentLineBackgroundColor,
+        BrokenLink,
+
+        // internal
+        CodeBlockEnd = 100,
+        HeadlineEnd
+    };
+
+    void setTextFormats(QHash<HighlighterState, QTextCharFormat> formats);
+    void setTextFormat(HighlighterState state, QTextCharFormat format);
+    void clearDirtyBlocks();
+    void setHighlightingOptions(HighlightingOptions options);
+    void initHighlightingRules();
+
+signals:
+    void highlightingFinished();
+
+protected slots:
+    void timerTick();
 
 protected:
-    void highlightBlock(const QString &text);
+    struct HighlightingRule {
+        QRegularExpression pattern;
+        HighlighterState state;
+        int capturingGroup;
+        int maskedGroup;
+        bool useStateAsCurrentBlockState;
+        bool disableIfCurrentStateIsSet;
+    };
+
+    void highlightBlock(const QString &text) Q_DECL_OVERRIDE;
+
+    void initTextFormats(int defaultFontSize = 12);
+
+    void highlightMarkdown(QString text);
+
+    void highlightHeadline(QString text);
+
+    void highlightAdditionalRules(QVector<HighlightingRule> &rules,
+                                  QString text);
+
+    void highlightCodeBlock(QString text);
+
+    void highlightCommentBlock(QString text);
+
+    void addDirtyBlock(QTextBlock block);
+
+    void reHighlightDirtyBlocks();
+    void setCurrentBlockMargin(HighlighterState state);
 
 private:
-    struct HighlightingRule
-    {
-        QRegularExpression pattern;
-        QRegularExpression pattern2;
-        QTextCharFormat format;
-        bool isMultiline=false;
-    };
-    QVector<HighlightingRule> highlightingRules;
+    QVector<HighlightingRule> m_highlightingRulesPre;
+    QVector<HighlightingRule> m_highlightingRulesAfter;
+    QVector<QTextBlock> m_dirtyTextBlocks;
+    QHash<HighlighterState, QTextCharFormat> m_formats;
+    QTimer *m_timer;
+    bool m_highlightingFinished;
+    HighlightingOptions m_highlightingOptions;
 
 
-    QTextCharFormat listFormat;
-    QTextCharFormat titleFormat;
-    QTextCharFormat lineReturnFormat;
-    QTextCharFormat boldFormat;
-    QTextCharFormat italicFormat;
-    QTextCharFormat codeFormat;
-    QTextCharFormat quoteFormat;
-    QTextCharFormat linkFormat;
-
-
-    HighlightingRule m_codeRule;
 };
 #endif // MARKDOWNHIGHLIGHTER_H

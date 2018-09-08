@@ -302,6 +302,9 @@ void SharedNote::textHasChanged(int pos, int charsRemoved, int charsAdded)
 }
 void SharedNote::writeToAll(QString string)
 {
+    if(m_networkEditing)
+        return;
+
     if(!string.isEmpty())
     {
         NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updateText);
@@ -312,7 +315,9 @@ void SharedNote::writeToAll(QString string)
 }
 void SharedNote::runUpdateCmd(QString cmd)
 {
+    m_networkEditing = true;
     m_document->runUpdateCmd(cmd);
+    m_networkEditing = false;
 }
 
 void SharedNote::displaySharingPanel()

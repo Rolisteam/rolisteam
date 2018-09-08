@@ -117,10 +117,7 @@ void Document::runUpdateCmd(QString cmd)
             int charsRemoved = rx.cap(2).toInt();
             int charsAdded = rx.cap(3).toInt();
             cmd = rx.cap(4);
-            QTextDocument* doc = m_editor->document();
-            doc->blockSignals(true);
             m_editor->collabTextChange(pos, charsRemoved, charsAdded, cmd);
-            doc->blockSignals(false);
         }
     }
 }

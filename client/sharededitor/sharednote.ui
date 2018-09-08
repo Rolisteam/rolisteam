@@ -59,7 +59,6 @@
       <string>Syntax Highlighting...</string>
      </property>
      <addaction name="m_highlightMarkdownAction"/>
-     <addaction name="actionEdit_None"/>
     </widget>
     <addaction name="actionEdit_Undo"/>
     <addaction name="actionEdit_Redo"/>

@@ -126,6 +126,7 @@ private:
     FindDialog *findDialog;
     QString m_fileName;
     Document* m_document;
+    bool m_networkEditing = false;
     QString m_id; // global name used for connecting to documents
 };
 
