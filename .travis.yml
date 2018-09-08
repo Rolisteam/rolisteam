@@ -14,13 +14,6 @@ compiler:
 env:
   - QT=5  BREW=
   - QT=5  BREW=ex   PPA=ubuntu-sdk-team/ppa
-  - QT=51 BREW=ex   PPA=beineri/opt-qt511-trusty
-  - QT=52 BREW=ex   PPA=beineri/opt-qt521-trusty
-  - QT=53 BREW=ex   PPA=beineri/opt-qt532-trusty
-  - QT=54 BREW=ex   PPA=beineri/opt-qt542-trusty
-  - QT=55 BREW=@5.5 PPA=beineri/opt-qt551-trusty
-  - QT=56 BREW=ex   PPA=beineri/opt-qt562-trusty
-  - QT=56 BREW=ex   PPA=beineri/opt-qt563-trusty
   - QT=57 BREW=ex   PPA=beineri/opt-qt571-trusty
   - QT=58 BREW=ex   PPA=beineri/opt-qt58-trusty
   - QT=59 BREW=ex   PPA=beineri/opt-qt593-trusty
@@ -53,7 +46,8 @@ before_install:
 install:
   - '[ "$TRAVIS_OS_NAME" != linux ] || sudo apt-get -qy install cppcheck'
   - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || sudo apt-get -qy install qt${QT}base qt${QT}xmlpatterns'
-  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy install qt5-qmake qtbase5-dev libqt5xmlpatterns5-dev qtbase5-dev-tools qt5-qmake libqt5network5 zlib1g-dev build-essential git qtmultimedia5-dev libqt5core5a libqt5gui5 qttools5-dev-tools qtdeclarative5-dev'
+  
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy install qt5-qmake qtbase5-dev libqt5xmlpatterns5-dev qtbase5-dev-tools qt5-qmake libqt5network5 zlib1g-dev build-essential git qtmultimedia5-dev libqt5core5a libqt5gui5 qttools5-dev-tools qtdeclarative5-dev libqt5webenginewidgets5 libqt5webenginecore5 libqt5webengine5 libqt5gstreamer-dev libqt5opengl5-dev libqt5svg5-dev libqt5texttospeech5-dev libqt5webchannel5-dev libqt5webkit5-dev libqt5websockets5-dev libqt5webview5-dev libqt5x11extras5-dev libqt5xmlpatterns5-dev'
   - '[ "$TRAVIS_OS_NAME" != osx ] || brew install cppcheck qt$BREW'
   - '[ "$TRAVIS_OS_NAME" != osx ] || brew link --force qt$BREW'
 
