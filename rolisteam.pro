@@ -27,3 +27,5 @@ UI_DIR = bin
 
 RESOURCES += rolisteam.qrc
 
+OTHER_FILES += AUTHORS README.md
+
