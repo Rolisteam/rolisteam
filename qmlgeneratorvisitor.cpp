@@ -163,28 +163,27 @@ bool QmlGeneratorVisitor::generateTextInput(Field *item)
     if(!item)
         return false;
 
-    QString text("%6TextInputField {//%1\n"
-        "%7"
-        "%6    text: %2.value\n"
-        "%6    textColor:\"%3\"\n"
-        "%6    color: \"%4\"\n"+
+    QString text("%5TextInputField {//%1\n"
+        "%6"
+        "%5    text: %2.value\n"
+        "%5    textColor:\"%3\"\n"
+        "%5    color: \"%4\"\n"+
         getPageManagement(item,m_indenSpace)+
-        "%6    readOnly: %2.readOnly\n"+
+        "%5    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
         generateAlignment(item) +
         generateFont(item->font()) +
-        "%6    onTextChanged: {\n"
-        "%6        %2.value = text\n"
-        "%6    }\n"
-     "%6}\n");
+        "%5    onTextChanged: {\n"
+        "%5        %2.value = text\n"
+        "%5    }\n"
+     "%5}\n");
 
      m_out << text.arg(item->getLabel())//%1
                 .arg(getId(item))
                 .arg(item->textColor().name(QColor::HexArgb))
                 .arg(item->bgColor().name(QColor::HexArgb))
-                .arg(item->getPage())//%5
-                .arg(m_indenSpace)
+                .arg(m_indenSpace)//%5
               .arg(m_isTable?QStringLiteral(""):QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
 
     return true;
@@ -194,28 +193,27 @@ bool QmlGeneratorVisitor::generateTextArea(Field *item)
 {    if(!item)
         return false;
 
-    QString text("%6TextAreaField {//%1\n"
-        "%7"
-        "%6    text: %2.value\n"
-        "%6    textColor:\"%3\"\n"
-        "%6    color: \"%4\"\n"+
+    QString text("%5TextAreaField {//%1\n"
+        "%6"
+        "%5    text: %2.value\n"
+        "%5    textColor:\"%3\"\n"
+        "%5    color: \"%4\"\n"+
         getPageManagement(item,m_indenSpace)+
-        "%6    readOnly: %2.readOnly\n"+
+        "%5    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
         generateAlignment(item) +
         generateFont(item->font()) +
-        "%6    onTextChanged: {\n"
-        "%6        %2.value = text\n"
-        "%6    }\n"
-     "%6}\n");
+        "%5    onTextChanged: {\n"
+        "%5        %2.value = text\n"
+        "%5    }\n"
+     "%5}\n");
 
      m_out << text.arg(item->getLabel())//%1
                    .arg(getId(item))
                    .arg(item->textColor().name(QColor::HexArgb))
                    .arg(item->bgColor().name(QColor::HexArgb))
-                   .arg(item->getPage())//%5
-                    .arg(m_indenSpace)
+                   .arg(m_indenSpace)//%5
               .arg(m_isTable?QStringLiteral(""):QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
 
     return true;
@@ -226,29 +224,28 @@ bool QmlGeneratorVisitor::generateTextField(Field *item)
     if(!item)
         return false;
 
-    QString text("%6TextFieldField {//%1\n"
-        "%7"
-        "%6    text: %2.value\n"
-        "%6    textColor:\"%3\"\n"
-        "%6    color: \"%4\"\n"+
+    QString text("%5TextFieldField {//%1\n"
+        "%6"
+        "%5    text: %2.value\n"
+        "%5    textColor:\"%3\"\n"
+        "%5    color: \"%4\"\n"+
         getPageManagement(item,m_indenSpace)+
-        "%6    readOnly: %2.readOnly\n"+
+        "%5    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
         generateAlignment(item) +
         generateFont(item->font()) +
-        "%6    onTextChanged: {\n"
-        "%6        %2.value = text\n"
-        "%6    }\n"
-     "%6}\n");
+        "%5    onTextChanged: {\n"
+        "%5        %2.value = text\n"
+        "%5    }\n"
+     "%5}\n");
 
      m_out << text.arg(item->getLabel())//%1
                    .arg(getId(item))
                    .arg(item->textColor().name(QColor::HexArgb))
                    .arg(item->bgColor().name(QColor::HexArgb))
-                   .arg(item->getPage())//%5
-              .arg(m_indenSpace)
-              .arg(m_isTable?QStringLiteral(""):QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
+                   .arg(m_indenSpace)//%5
+                   .arg(m_isTable?QStringLiteral(""):QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
 
     return true;
 }
@@ -259,30 +256,29 @@ bool QmlGeneratorVisitor::generateSelect(Field *item)
         return false;
 
     // WARNING no aligment and font for selectfield.
-    QString text("%7SelectField {//%1\n"
-        "%8"
-        "%7    selected: %2.value\n"
-        "%7    availableValues:%6\n"
-        "%7    currentIndex: combo.find(text)\n"
-        "%7    textColor:\"%3\"\n"
-        "%7    color: \"%4\"\n"
-        "%7    onCurrentIndexChanged:{\n"
-        "%7        if(%2.value !== currentIndex)\n"
-        "%7        {\n"
-        "%7            %2.value = currentIndex\n"
-        "%7        }\n"
-        "%7    }\n"+
+    QString text("%6SelectField {//%1\n"
+        "%7"
+        "%6    selected: %2.value\n"
+        "%6    availableValues:%5\n"
+        "%6    currentIndex: combo.find(text)\n"
+        "%6    textColor:\"%3\"\n"
+        "%6    color: \"%4\"\n"
+        "%6    onCurrentIndexChanged:{\n"
+        "%6        if(%2.value !== currentIndex)\n"
+        "%6        {\n"
+        "%6            %2.value = currentIndex\n"
+        "%6        }\n"
+        "%6    }\n"+
         getPageManagement(item,m_indenSpace)+
-        "%7    readOnly: %2.readOnly\n"+
+        "%6    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
-     "%7}\n");
+     "%6}\n");
 
      m_out << text.arg(item->getLabel())//%1
                    .arg(getId(item))
                    .arg(item->textColor().name(QColor::HexArgb))
                    .arg(item->bgColor().name(QColor::HexArgb))
-                   .arg(item->getPage())
                    .arg(QStringLiteral("[\"%1\"]").arg(item->getAvailableValue().join("\",\"")))//%5
                    .arg(m_indenSpace)
                    .arg(m_isTable?QStringLiteral(""):QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
@@ -294,27 +290,26 @@ bool QmlGeneratorVisitor::generateCheckBox(Field *item)
     if(!item)
         return false;
 
-    QString text("%6CheckBoxField {//%1\n"
-        "%7"
-        "%6    field: %2\n"
-        "%6    text: %2.value\n"
-        "%6    textColor:\"%3\"\n"
-        "%6    color: \"%4\"\n"+
+    QString text("%5CheckBoxField {//%1\n"
+        "%6"
+        "%5    field: %2\n"
+        "%5    text: %2.value\n"
+        "%5    textColor:\"%3\"\n"
+        "%5    color: \"%4\"\n"+
         getPageManagement(item,m_indenSpace)+
-        "%6    readOnly: %2.readOnly\n"+
+        "%5    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
-        "%6    onTextChanged: {\n"
-        "%6        %2.value = text\n"
-        "%6    }\n"
-     "%6}\n");
+        "%5    onTextChanged: {\n"
+        "%5        %2.value = text\n"
+        "%5    }\n"
+     "%5}\n");
 
      m_out << text.arg(item->getLabel())//%1
                   .arg(getId(item))
                   .arg(item->textColor().name(QColor::HexArgb))
                   .arg(item->bgColor().name(QColor::HexArgb))
-                  .arg(item->getPage())//%5
-                  .arg(m_indenSpace)
+                  .arg(m_indenSpace)//%5
               .arg(m_isTable?QStringLiteral(""):QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
 
     return true;
@@ -325,28 +320,27 @@ bool QmlGeneratorVisitor::generateFuncButton(Field *item)
     if(!item)
         return false;
 
-    QString text("%7DiceButton {//%1\n"
-        "%8"
-        "%7    command: %2.value\n"
-        "%7    text: %2.label\n"
-        "%7    textColor: \"%3\"\n"
-        "%7    color: \"%4\"\n"+
+    QString text("%6DiceButton {//%1\n"
+        "%7"
+        "%6    command: %2.value\n"
+        "%6    text: %2.label\n"
+        "%6    textColor: \"%3\"\n"
+        "%6    color: \"%4\"\n"+
         getPageManagement(item,m_indenSpace)+
-        "%7    readOnly: %2.readOnly\n"+
+        "%6    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
         generateAlignment(item) +
         generateFont(item->font()) +
-        "%7    onClicked: {\n"
-        "%7        %6\n"
-        "%7    }\n"
-     "%7}\n");
+        "%6    onClicked: {\n"
+        "%6        %5\n"
+        "%6    }\n"
+     "%6}\n");
 
      m_out << text.arg(item->getLabel())//%1
                    .arg(getId(item))
                    .arg(item->textColor().name(QColor::HexArgb))
                    .arg(item->bgColor().name(QColor::HexArgb))
-                   .arg(item->getPage())
                    .arg(item->value())//%5
                    .arg(m_indenSpace)
               .arg(m_isTable?QStringLiteral(""):QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
@@ -360,29 +354,28 @@ bool QmlGeneratorVisitor::generateDiceButton(Field *item)
     if(!item)
         return false;
 
-    QString text("%7DiceButton {//%1\n"
-        "%8"
-        "%7    command: %2.value\n"
-        "%7    text: %2.label\n"
-        "%7    textColor: \"%3\"\n"
-        "%7    color: \"%4\"\n"+
+    QString text("%6DiceButton {//%1\n"
+        "%7"
+        "%6    command: %2.value\n"
+        "%6    text: %2.label\n"
+        "%6    textColor: \"%3\"\n"
+        "%6    color: \"%4\"\n"+
         getPageManagement(item,m_indenSpace)+
-        "%7    readOnly: %2.readOnly\n"+
+        "%6    readOnly: %2.readOnly\n"+
         getToolTip(item)+
         generatePosition(item) +
         generateAlignment(item) +
         generateFont(item->font()) +
-        "%7    onClicked:rollDiceCmd(%2.value,%6)\n"
-     "%7}\n");
+        "%6    onClicked:rollDiceCmd(%2.value,%5)\n"
+     "%6}\n");
 
      m_out << text.arg(item->getLabel())//%1
                    .arg(getId(item))
                    .arg(item->textColor().name(QColor::HexArgb))
                    .arg(item->bgColor().name(QColor::HexArgb))
-                   .arg(item->getPage())
-                   .arg(item->getAliasEnabled())//%6
-                    .arg(m_indenSpace)
-              .arg(m_isTable?QStringLiteral(""):QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
+                   .arg(item->getAliasEnabled() ? "true" : "false")//%5
+                   .arg(m_indenSpace)
+                   .arg(m_isTable?QStringLiteral(""):QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
 
     return true;
 }
@@ -392,25 +385,21 @@ bool QmlGeneratorVisitor::generateImage(Field *item)
     if(!item)
         return false;
 
-    QString text("%6ImageField {//%1\n"
-        "%7"
-        "%6    text: %2.value\n"
-        "%6    textColor:\"%3\"\n"
-        "%6    color: \"%4\"\n"+
+    QString text("%5ImageField {//%1\n"
+        "%6"
+        "%5    source: %2.value\n"
+        "%5    textColor:\"%3\"\n"
+        "%5    color: \"%4\"\n"+
         getPageManagement(item,m_indenSpace)+
-        "%6    readOnly: %2.readOnly\n"+
+        "%5    readOnly: %2.readOnly\n"+
         generatePosition(item) +
-        "%6    onTextChanged: {\n"
-        "%6        %2.value = text\n"
-        "%6    }\n"
-     "%6}\n");
+     "%5}\n");
 
      m_out << text.arg(item->getLabel())//%1
                    .arg(getId(item))
                    .arg(item->textColor().name(QColor::HexArgb))
                    .arg(item->bgColor().name(QColor::HexArgb))
-                   .arg(item->getPage())
-                   .arg(m_indenSpace)//%6
+                   .arg(m_indenSpace)//%5
               .arg(m_isTable?QStringLiteral(""):QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
 
     return true;
