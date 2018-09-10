@@ -90,6 +90,10 @@ before_install:
   - '[[ "$TRAVIS_OS_NAME" != linux || -z "$PPA" ]] || sudo add-apt-repository -y ppa:$PPA'
   - '[ "$TRAVIS_OS_NAME" != linux ] || sudo apt-get -qy update'
   - '[ "$TRAVIS_OS_NAME" != osx ] || brew update'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || install ruby-build'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || brew install rbenv'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || rbenv install 2.3'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || rbenv global 2.3'
 # - '[ "$TRAVIS_OS_NAME" != osx ] || brew search qt' # Causes Homebrew API rate-limit issues.
   - git submodule update --init --remote --recursive
 
