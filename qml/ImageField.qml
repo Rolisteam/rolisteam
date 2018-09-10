@@ -2,7 +2,7 @@ import QtQuick 2.4
 
 Rectangle {
     id:root
-    property alias text : image.source
+    property alias source : image.source
     property color textColor : "black"
     property alias hAlign: image.horizontalAlignment
     property alias vAlign: image.verticalAlignment
