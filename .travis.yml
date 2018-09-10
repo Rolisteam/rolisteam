@@ -31,6 +31,7 @@ matrix:
             - g++-4.9
       env:
          - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     # works on Precise and Trusty
     - os: linux
@@ -42,6 +43,7 @@ matrix:
             - g++-5
       env:
          - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+         - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     # works on Precise and Trusty
     - os: linux
@@ -53,6 +55,7 @@ matrix:
             - g++-6
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     # works on Precise and Trusty
     - os: linux
@@ -64,25 +67,30 @@ matrix:
             - g++-7
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
     - os: osx
       osx_image: xcode8
       env:
         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     - os: osx
       osx_image: xcode8
       env:
         - MATRIX_EVAL="brew install gcc5 && CC=gcc-5 && CXX=g++-5"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     - os: osx
       osx_image: xcode8
       env:
         - MATRIX_EVAL="brew install gcc6 && CC=gcc-6 && CXX=g++-6"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     - os: osx
       osx_image: xcode8
       env:
         - MATRIX_EVAL="brew install gcc && CC=gcc-7 && CXX=g++-7"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
 
 before_install:
