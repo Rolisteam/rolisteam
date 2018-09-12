@@ -648,7 +648,7 @@ private:
     quint64 m_zIndex;
 
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash = nullptr;
-    QUndoStack* m_undoStack = nullptr;
+    QPointer<QUndoStack> m_undoStack;
     AddVmapItemCommand* m_currentAddCmd = nullptr;
     QList<VisualItem*> m_movingItems;
     QList<QPointF> m_oldPos;

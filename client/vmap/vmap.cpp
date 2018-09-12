@@ -427,7 +427,8 @@ void VMap::addItem()
                 if(item->getType() != VisualItem::IMAGE)
                 {
                     auto cmd = new ChangeColorItemCmd(item,m_itemColor, m_id);
-                    m_undoStack->push(cmd);
+                    if(!m_undoStack.isNull())
+                        m_undoStack->push(cmd);
                 }
             }
         }
@@ -569,7 +570,8 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             {
                 if (m_oldPos.first() != m_movingItems.first()->pos())
                 {
-                    m_undoStack->push(new MoveItemCommand(m_movingItems,m_oldPos));
+                    if(!m_undoStack.isNull())
+                        m_undoStack->push(new MoveItemCommand(m_movingItems,m_oldPos));
                 }
                 m_movingItems.clear();
                 m_oldPos.clear();
@@ -700,7 +702,7 @@ void VMap::checkItemLayer(VisualItem* item)
 
 void VMap::sendOffItem(VisualItem* item, bool doInitPoint)
 {
-    if(nullptr == m_undoStack)
+    if(m_undoStack.isNull())
         return;
 
     if((nullptr != m_currentAddCmd) && (m_currentAddCmd->getItem() == item))
@@ -1273,11 +1275,11 @@ void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwor
 {
     if((nullptr!=itemCmd)&&(!itemCmd->hasError()))
     {
-        if(m_currentAddCmd)
+       /* if(m_currentAddCmd)
         {
             delete m_currentAddCmd;
             m_currentAddCmd = nullptr;
-        }
+        }*/
         m_currentAddCmd = itemCmd;
         VisualItem* item = m_currentAddCmd->getItem();
 
@@ -1908,7 +1910,7 @@ void VMap::cleanUpInit(APPLY_ON_CHARACTER zone)
 }
 void VMap::addCommand(QUndoCommand* cmd)
 {
-    if(nullptr == m_undoStack || nullptr == cmd)
+    if(m_undoStack.isNull() || nullptr == cmd)
         return;
     m_undoStack->push(cmd);
 }
