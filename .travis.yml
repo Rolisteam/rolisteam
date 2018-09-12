@@ -12,14 +12,14 @@ compiler:
 
 
 env:
-  - QT=511 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+  - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
 matrix:
   # Qt no longer supports GCC on OSX.
   allow_failures:
     - { os: osx, compiler: gcc, env: QT=5  BREW= }
   exclude:
-    - { os: osx, env: QT=511 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty }
+    - { os: osx, env: QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty }
   include:
     # works on Precise and Trusty
     - os: linux
@@ -31,6 +31,7 @@ matrix:
             - g++-4.9
       env:
          - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     # works on Precise and Trusty
     - os: linux
@@ -42,6 +43,7 @@ matrix:
             - g++-5
       env:
          - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+         - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     # works on Precise and Trusty
     - os: linux
@@ -53,6 +55,7 @@ matrix:
             - g++-6
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     # works on Precise and Trusty
     - os: linux
@@ -64,25 +67,30 @@ matrix:
             - g++-7
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
     - os: osx
       osx_image: xcode8
       env:
         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     - os: osx
       osx_image: xcode8
       env:
         - MATRIX_EVAL="brew install gcc5 && CC=gcc-5 && CXX=g++-5"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     - os: osx
       osx_image: xcode8
       env:
         - MATRIX_EVAL="brew install gcc6 && CC=gcc-6 && CXX=g++-6"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     - os: osx
       osx_image: xcode8
       env:
         - MATRIX_EVAL="brew install gcc && CC=gcc-7 && CXX=g++-7"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
 
 before_install:
@@ -90,12 +98,15 @@ before_install:
   - '[[ "$TRAVIS_OS_NAME" != linux || -z "$PPA" ]] || sudo add-apt-repository -y ppa:$PPA'
   - '[ "$TRAVIS_OS_NAME" != linux ] || sudo apt-get -qy update'
   - '[ "$TRAVIS_OS_NAME" != osx ] || brew update'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || brew install ruby-build'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || brew install rbenv'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || rbenv install 2.3'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || rbenv global 2.3'
 # - '[ "$TRAVIS_OS_NAME" != osx ] || brew search qt' # Causes Homebrew API rate-limit issues.
   - git submodule update --init --remote --recursive
 
 install:
-  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || sudo apt-get -qy install qt${QT}quickcontrols  qt${QT}quickcontrols2  qt${QT}webengine  qt${QT}multimedia  qt${QT}imageformats  qt${QT}graphicaleffects  qt${QT}declarative  qt${QT}base qt${QT}-meta   qt${QT}translations  qt${QT}tools  qt${QT}xmlpatterns'
-  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy install qt5-qmake qtbase5-dev libqt5xmlpatterns5-dev qtbase5-dev-tools qt5-qmake libqt5network5 zlib1g-dev build-essential git qtmultimedia5-dev libqt5core5a libqt5gui5 qttools5-dev-tools qtdeclarative5-dev libqt5webenginewidgets5 libqt5webenginecore5 libqt5webengine5 libqt5gstreamer-dev libqt5opengl5-dev libqt5svg5-dev libqt5texttospeech5-dev libqt5webchannel5-dev libqt5webkit5-dev libqt5websockets5-dev libqt5webview5-dev libqt5x11extras5-dev libqt5xmlpatterns5-dev'
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || sudo apt-get -qy install qt${QT}quickcontrols  qt${QT}svg  qt${QT}quickcontrols2  qt${QT}webengine  qt${QT}multimedia  qt${QT}imageformats  qt${QT}graphicaleffects  qt${QT}declarative  qt${QT}base qt${QT}translations  qt${QT}tools  qt${QT}xmlpatterns'
   - '[ "$TRAVIS_OS_NAME" != osx ] || brew link --force qt$BREW'
 
 before_script:
