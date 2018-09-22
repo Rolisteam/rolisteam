@@ -317,7 +317,7 @@ void MainWindow::setupUi()
             m_logController->manageMessage(tr("Server Ip Address:%1\nPort:%2")
                                            .arg(m_connectionAddress)
                                            .arg(m_currentConnectionProfile->getPort()),
-                                           LogController::Features);
+                                           LogController::Hidden);
         }
     });
 }
@@ -563,6 +563,8 @@ void MainWindow::createNotificationZone()
 
     m_logController = new LogController(false,this);
 
+    connect(m_logController, &LogController::sendOffMessage,&m_logScheduler, &LogSenderScheduler::addLog);
+
     m_notifierDisplay = new LogPanel(m_logController,m_dockLogUtil);
 
     layout->addWidget(m_notifierDisplay);
@@ -577,21 +579,25 @@ void MainWindow::createNotificationZone()
 }
 void MainWindow::createPostSettings()
 {
-
     // Log controller
     auto logDebug = m_preferences->value(QStringLiteral("LogDebug"),false).toBool();
     m_notifierDisplay->initSetting();
     m_logController->setMessageHandler(logDebug);
 
     auto LogResearch = m_preferences->value(QStringLiteral("LogResearch"),false).toBool();
-    auto logRoli = m_preferences->value(QStringLiteral("LogRolisteam"),false).toBool();
-    m_logController->setSignalInspection(logDebug && (LogResearch || logRoli));
-    if((LogResearch || logRoli))
+    auto dataCollection = m_preferences->value(QStringLiteral("dataCollection"),false).toBool();
+    m_logController->setSignalInspection(logDebug && (LogResearch || dataCollection));
+
+    LogController::StorageModes mode = LogController::Gui;
+    if((LogResearch && dataCollection))
     {
         m_logController->listenObjects(this);
+        mode = LogController::Gui | LogController::Network;
     }
-    m_logController->setCurrentModes(LogController::Gui);
-    m_logController->setLogLevel(LogController::Info);
+    m_logController->setCurrentModes(mode);
+
+    m_logScheduler.setAppId(0);// Rolisteam 0, RCSE 1, Roliserver 2
+
 }
 
 void MainWindow::linkActionToMenu()
@@ -657,13 +663,11 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_tabViewAction,SIGNAL(triggered(bool)),m_mdiArea,SLOT(setTabbedMode(bool)));
     connect(m_ui->m_tileViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
 
-    addAction(m_ui->m_fullScreenAct);
-    m_mdiArea->addAction(m_ui->m_fullScreenAct);
-
     connect(m_ui->m_fullScreenAct,&QAction::triggered,this,[=](bool enable){
         if(enable)
         {
             showFullScreen();
+            m_mdiArea->addAction(m_ui->m_fullScreenAct);
             menuBar()->setVisible(false);
             m_mdiArea->setMouseTracking(true);
             m_vmapToolBar->setMouseTracking(true);
@@ -676,6 +680,7 @@ void MainWindow::linkActionToMenu()
             m_mdiArea->setMouseTracking(false);
             m_vmapToolBar->setMouseTracking(false);
             setMouseTracking(false);
+            m_mdiArea->removeAction(m_ui->m_fullScreenAct);
         }
     });
 
@@ -1797,6 +1802,8 @@ void MainWindow::postConnection()
         m_preferencesDialog->sendOffAllDiceAlias();
         m_preferencesDialog->sendOffAllState();
     }
+
+    m_logScheduler.setLocalUuid(m_localPlayerId);
 }
 
 
@@ -2635,6 +2642,7 @@ void MainWindow::dropEvent(QDropEvent* event)
         for(int i = 0; i< list.size();++i)
         {
             CleverURI::ContentType type= getContentType(list.at(i).toLocalFile());
+            qInfo() << QStringLiteral("MainWindow: dropEvent for %1").arg(CleverURI::typeToString(type));
             CleverURI* uri = new CleverURI(getShortNameFromPath(list.at(i).toLocalFile()),list.at(i).toLocalFile(),type);
             openCleverURI(uri,true);
         }

@@ -197,6 +197,7 @@ bool ChatWindow::isVisible()
 }
 void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& message,bool alias, bool showResult)
 {
+    qInfo() << QStringLiteral("Start dice command: %1, alias: %2, showResult: %3").arg(str).arg(alias).arg(showResult);
     updateListAlias();
 
     QColor color;
@@ -262,6 +263,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
     
     if(!m_diceParser->humanReadableError().isEmpty())
     {
+        qInfo() << QStringLiteral("Error on dice command: %1 ").arg(str);
         QString messageCorps = m_diceParser->humanReadableError();
         messageTitle = tr("Syntax");
         color = Qt::red;
@@ -318,6 +320,7 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
     {
         chatOperator = m_operatorMap->value(tmpmessage.left(1));
         tmpmessage=tmpmessage.remove(0,1);
+
         switch(chatOperator)
         {
         case DICEROLL:
@@ -337,6 +340,7 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
                 {
                     tmpmessage=tmpmessage.remove(0,pos);
                     message = tmpmessage;
+                    qInfo() << QStringLiteral("Chat Command emote");
                     if (!m_warnedEmoteUnavailable && !m_chat->everyPlayerHasFeature(QString("Emote")))
                     {
                         msgTitle = tr("Warning");
@@ -360,6 +364,7 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
     }
     else//normal text
     {//sending info to others.
+        qInfo() << QStringLiteral("Chat - send normal text on chat: %1").arg(m_chat->name());
         msgTitle = localPerson->name();
         if(!hasHtml)
         {

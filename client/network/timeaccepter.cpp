@@ -19,7 +19,7 @@ bool TimeAccepter::isValid(const QMap<QString, QVariant> &data)
        ((time<start)||(time>end)))
     {
         result = false;
-        qInfo() << QObject::tr("Connection out of time slot. Connection refused");
+        qInfo() << QStringLiteral("Connection out of time slot. Connection refused");
     }
     if(nullptr != m_next)
     {

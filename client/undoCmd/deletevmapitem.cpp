@@ -31,6 +31,7 @@ DeleteVmapItemCommand::DeleteVmapItemCommand(VMap* map, VisualItem* item, bool s
 
 void DeleteVmapItemCommand::redo()
 {
+    qInfo() << QStringLiteral("redo command DeleteVmapItemCommand: %1 ").arg(text());
     m_vmap->removeItem(m_currentItem);
     m_vmap->removeItemFromData(m_currentItem);
     m_vmap->update();
@@ -46,6 +47,7 @@ void DeleteVmapItemCommand::redo()
 
 void DeleteVmapItemCommand::undo()
 {
+    qInfo() << QStringLiteral("undo command DeleteVmapItemCommand: %1 ").arg(text());
     if(nullptr != m_currentItem)
     {
         m_vmap->setFocusItem(m_currentItem);

@@ -49,7 +49,6 @@ public:
 
     enum LoadingMode {Internal,Linked};
     enum State {Unloaded,Hidden,Displayed};
-    enum DataValue {NAME,MODE,STATE,URI};
     /**
     * @brief default constructor
     *

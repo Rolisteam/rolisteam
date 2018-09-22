@@ -7,7 +7,6 @@ IpBanAccepter::IpBanAccepter()
 
 bool IpBanAccepter::isValid(const QMap<QString, QVariant> &data)
 {
-    qInfo() << "IpBanAccepter";
     QStringList bannedIp = data["IpBan"].toStringList();
     QString currentIp = data["currentIp"].toString();
 

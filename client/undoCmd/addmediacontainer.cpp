@@ -41,6 +41,7 @@ AddMediaContainer::AddMediaContainer(MediaContainer* mediac,
 
 void AddMediaContainer::redo()
 {
+    qInfo() << QStringLiteral("Redo command AddMediaContainer: %1 ").arg(text());
     if(nullptr != m_media)
     {
         //add in workspace + add action and add into ressources manager.
@@ -76,6 +77,7 @@ void AddMediaContainer::redo()
 
 void AddMediaContainer::undo()
 {
+    qInfo() << QStringLiteral("Undo command AddMediaContainer: %1 ").arg(text());
     //remove from workspace, action in menu and from resources manager.
     if(nullptr != m_media)
     {

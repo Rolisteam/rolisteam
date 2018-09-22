@@ -46,6 +46,7 @@ DeleteMediaContainerCommand::~DeleteMediaContainerCommand()
 }
 void DeleteMediaContainerCommand::redo()
 {
+    qInfo() << QStringLiteral("redo command DeleteMediaContainerCommand: %1 ").arg(text());
     if(nullptr != m_media)
     {
         auto act = m_media->getAction();
@@ -67,6 +68,7 @@ void DeleteMediaContainerCommand::redo()
 
 void DeleteMediaContainerCommand::undo()
 {
+    qInfo() << QStringLiteral("undo command DeleteMediaContainerCommand: %1 ").arg(text());
     if(nullptr != m_media)
     {
         CleverURI* uri = m_media->getCleverUri();

@@ -1450,6 +1450,7 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
     auto data = event->mimeData();
     if (data->hasFormat("rolisteam/userlist-item"))
     {
+        qInfo() << "VMAP dropEvent character";
         const RolisteamMimeData* rolisteamData = qobject_cast<const RolisteamMimeData*>(data);
         Person* item = rolisteamData->getData();
         Character* character = dynamic_cast<Character*>(item);
@@ -1468,6 +1469,7 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
             {
                 if(resource->getResourcesType() == ResourcesNode::Cleveruri)
                 {
+                    qInfo() << "VMAP dropEvent: image from resources list";
                     auto media = dynamic_cast<CleverURI*>(resource);
                     if(media->getType() == CleverURI::PICTURE)
                     {
@@ -1480,6 +1482,7 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
                 }
                 else if(resource->getResourcesType() == ResourcesNode::Person)
                 {
+                    qInfo() << "VMAP dropEvent: Character from resources list";
                     Person* item = dynamic_cast<Character*>(resource);
                     Character* character = dynamic_cast<Character*>(item);
                     if(character)
@@ -1499,6 +1502,7 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
                 VisualItem* item = nullptr;
                 if(url.isLocalFile() && url.fileName().endsWith("rtok"))
                 {
+                    qInfo() << "VMAP dropEvent: rtok from file";
                     CharacterItem* persona = new CharacterItem();
                     persona->setTokenFile(url.toLocalFile());
                     insertCharacterInMap(persona);
@@ -1506,6 +1510,7 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
                 }
                 else if(url.isLocalFile())
                 {
+                    qInfo() << "VMAP dropEvent: Image from file";
                     ImageItem* led = new ImageItem();
                     led->setImageUri(url.toLocalFile());
                     item=led;

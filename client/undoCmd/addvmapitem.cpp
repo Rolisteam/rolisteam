@@ -222,6 +222,7 @@ bool AddVmapItemCommand::isVisible()
 }
 void AddVmapItemCommand::undo()
 {
+    qInfo() << QStringLiteral("Undo command AddVmapItemCommand: %1 ").arg(text());
     m_vmap->removeItem(m_currentItem);
     m_vmap->update();
     m_vmap->removeItemFromData(m_currentItem);
@@ -233,6 +234,7 @@ void AddVmapItemCommand::undo()
 }
 void AddVmapItemCommand::redo()
 {
+    qInfo() << QStringLiteral("Redo command AddVmapItemCommand: %1 ").arg(text());
     m_vmap->setFocusItem(m_currentItem);
     m_currentItem->setVisible(isVisible());
     m_currentItem->updateItemFlags();

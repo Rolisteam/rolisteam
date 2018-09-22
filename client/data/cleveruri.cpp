@@ -152,7 +152,7 @@ void CleverURI::loadData()
 void CleverURI::init()
 {
      PreferencesManager* preferences=PreferencesManager::getInstance();
-     m_currentMode = (LoadingMode)preferences->value(QStringLiteral("DefaultLoadingMode"),(int)Linked).toInt();
+     m_currentMode = static_cast<LoadingMode>(preferences->value(QStringLiteral("DefaultLoadingMode"),static_cast<int>(Linked)).toInt());
 }
 
 CleverURI::State CleverURI::getState() const
@@ -163,7 +163,7 @@ CleverURI::State CleverURI::getState() const
 void CleverURI::setState(const State &state)
 {
     m_state = state;
-    updateListener(CleverURI::STATE);
+    updateListener(ResourcesNode::DISPLAYED);
 }
 
 bool CleverURI::hasData() const
@@ -214,7 +214,7 @@ void CleverURI::setDisplayed(bool displayed)
     {
         m_state = Hidden;
     }
-    updateListener(CleverURI::STATE);
+    updateListener(ResourcesNode::DISPLAYED);
 }
 
 CleverURI::LoadingMode CleverURI::getCurrentMode() const
@@ -265,7 +265,7 @@ void CleverURI::write(QDataStream &out, bool tag, bool saveData) const
             data = m_data;
         }
     }
-    out << (int)m_type << m_uri << m_name << (int)m_currentMode << m_data << (int)m_state;
+    out << static_cast<int>(m_type) << m_uri << m_name <<static_cast<int>(m_currentMode) << m_data << static_cast<int>(m_state);
 }
 
 void CleverURI::read(QDataStream &in)
@@ -274,41 +274,42 @@ void CleverURI::read(QDataStream &in)
     int mode;
     int state;
     in >> type >> m_uri >> m_name >> mode >> m_data >> state;
-    m_type = (CleverURI::ContentType)type;
-    m_currentMode = (CleverURI::LoadingMode)mode;
-    m_state = (CleverURI::State)state;
+    m_type = static_cast<CleverURI::ContentType>(type);
+    m_currentMode = static_cast<CleverURI::LoadingMode>(mode);
+    m_state = static_cast<CleverURI::State>(state);
     updateListener(CleverURI::NAME);
 }
 
 QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
 {
     PreferencesManager* preferences=PreferencesManager::getInstance();
+    QString filterType;
     switch(type)
     {
     case CleverURI::CHARACTERSHEET:
-       return  QObject::tr("Character Sheets files  (%1)").arg(preferences->value("CharacterSheetFileFilter","*.rcs").toString());
+        filterType =  QObject::tr("Character Sheets files  (%1)").arg(preferences->value("CharacterSheetFileFilter","*.rcs").toString());
         break;
     case CleverURI::PICTURE:
-        return QObject::tr("Supported Image formats (%1)").arg(preferences->value("ImageFileFilter","*.jpg *.jpeg *.png *.bmp *.svg").toString());
+        filterType = QObject::tr("Supported Image formats (%1)").arg(preferences->value("ImageFileFilter","*.jpg *.jpeg *.png *.bmp *.svg").toString());
         break;
     case CleverURI::TEXT:
-        return QObject::tr("Supported Text Files (%1)").arg(preferences->value("TextFileFilter","*.odt *.htm *.html *.txt *.md").toString());
+        filterType = QObject::tr("Supported Text Files (%1)").arg(preferences->value("TextFileFilter","*.odt *.htm *.html *.txt *.md").toString());
         break;
     case CleverURI::SCENARIO:
-        return QObject::tr("Supported Story Files (%1)").arg(preferences->value("StoryFileFilter","*.sce").toString());
+        filterType = QObject::tr("Supported Story Files (%1)").arg(preferences->value("StoryFileFilter","*.sce").toString());
         break;
     case CleverURI::SONG:
-        return QObject::tr("Supported Audio formats (%1)").arg(preferences->value("AudioFileFilter","*.wav *.mp2 *.mp3 *.ogg *.flac").toString());
+        filterType = QObject::tr("Supported Audio formats (%1)").arg(preferences->value("AudioFileFilter","*.wav *.mp2 *.mp3 *.ogg *.flac").toString());
         break;
     case CleverURI::SHAREDNOTE:
-        return QObject::tr("Supported Shared Note formats (%1)").arg(preferences->value("TextFileFilter","*.rsn *.txt *.html *.htm *.md").toString());
+        filterType = QObject::tr("Supported Shared Note formats (%1)").arg(preferences->value("TextFileFilter","*.rsn *.txt *.html *.htm *.md").toString());
         break;
     case CleverURI::WEBVIEW:
-        return QObject::tr("Supported WebPage (%1)").arg(preferences->value("WebPageFilter","*.html *.xhtml *.htm").toString());
+        filterType = QObject::tr("Supported WebPage (%1)").arg(preferences->value("WebPageFilter","*.html *.xhtml *.htm").toString());
         break;
 #ifdef WITH_PDF
     case CleverURI::PDF:
-        return QObject::tr("Pdf File (%1)").arg(preferences->value("PdfFileFilter","*.pdf").toString());;
+        filterType = QObject::tr("Pdf File (%1)").arg(preferences->value("PdfFileFilter","*.pdf").toString());
         break;
 #endif
     case CleverURI::VMAP:
@@ -316,24 +317,25 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
     case CleverURI::CHAT:
     case CleverURI::ONLINEPICTURE:
     default:
-        return QString();
+        filterType = QString();
         break;
     }
+    return filterType;
 }
 QString CleverURI::typeToString(CleverURI::ContentType type)
 {
-    if(m_typeNameList.size()>(int)type)
+    if(m_typeNameList.size()>static_cast<int>(type))
     {
-        return m_typeNameList.at((int)type);
+        return m_typeNameList.at(static_cast<int>(type));
     }
     return QString();
 }
 
 QString CleverURI::getPreferenceDirectoryKey(CleverURI::ContentType type)
 {
-    if(m_typeToPreferenceDirectory.size()>(int)type)
+    if(m_typeToPreferenceDirectory.size()>static_cast<int>(type))
     {
-        return m_typeToPreferenceDirectory.at((int)type);
+        return m_typeToPreferenceDirectory.at(static_cast<int>(type));
     }
     return QString();
 }
@@ -365,16 +367,16 @@ QVariant CleverURI::getData(ResourcesNode::DataValue i)
 
     switch(i)
     {
-    case NAME:
+    case ResourcesNode::NAME:
         return m_name;
-    case MODE:
+    case ResourcesNode::MODE:
         return m_currentMode==Internal ? QObject::tr("Internal") : QObject::tr("Linked");
-    case STATE:
+    case ResourcesNode::DISPLAYED:
     {
         static const std::vector<QString> list({QObject::tr("Closed"),QObject::tr("Hidden"),QObject::tr("Displayed")});
         return list[m_state];
     }
-    case URI:
+    case ResourcesNode::URI:
         return m_uri;
     }
     return {};

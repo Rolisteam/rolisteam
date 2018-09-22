@@ -67,6 +67,7 @@
 
 //log
 #include "common/controller/logcontroller.h"
+#include "common/controller/logsenderscheduler.h"
 
 namespace Ui {
 class MainWindow;
@@ -555,6 +556,8 @@ private:
     QUndoStack m_undoStack;
     LogController* m_logController = nullptr;
     QString m_connectionAddress;
+
+    LogSenderScheduler m_logScheduler;
 };
 
 #endif

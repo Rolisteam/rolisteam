@@ -427,7 +427,7 @@ void PreferencesDialog::save() const
 
     m_preferences->registerValue(QStringLiteral("LogDebug"),ui->m_debugLogInfo->isChecked());
     m_preferences->registerValue(QStringLiteral("LogResearch"),ui->m_logUniversityResearch->isChecked());
-    m_preferences->registerValue(QStringLiteral("LogRolisteam"),ui->m_logRolisteam->isChecked());
+    m_preferences->registerValue(QStringLiteral("dataCollection"),ui->m_enableDataCollection->isChecked());
 
     for(RolisteamTheme* tmp: m_themes)
     {
@@ -532,8 +532,7 @@ void PreferencesDialog::load()
     //LOG
     ui->m_debugLogInfo->setChecked(m_preferences->value(QStringLiteral("LogDebug"),false).toBool());
     ui->m_logUniversityResearch->setChecked(m_preferences->value(QStringLiteral("LogResearch"),false).toBool());
-    ui->m_logRolisteam->setChecked(m_preferences->value(QStringLiteral("LogRolisteam"),false).toBool());
-
+    ui->m_enableDataCollection->setChecked(m_preferences->value(QStringLiteral("dataCollection"),false).toBool());
 
     updateTheme();
 }
