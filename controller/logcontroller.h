@@ -14,10 +14,10 @@ class LogController : public QObject
     Q_OBJECT
     Q_PROPERTY(LogController::LogLevel logLevel READ logLevel WRITE setLogLevel NOTIFY logLevelChanged)
 public:
-    enum LogLevel {Error,Debug,Warning,Info,Features};
+    enum LogLevel {Error,Debug,Warning,Info,Features,Hidden};
     Q_ENUM(LogLevel)
 
-    enum StorageMode {Console=1,File=2,Gui=4,Network=8,Database=16};
+    enum StorageMode {Console=1,File=2,Gui=4,Network=8};
     Q_ENUM(StorageMode)
     Q_DECLARE_FLAGS(StorageModes, StorageMode)
     Q_FLAGS(StorageModes)
@@ -34,10 +34,12 @@ public:
     void setListenOutSide(bool );
 
     void setMessageHandler(bool attachMessage);
+    static QString typeToText(LogController::LogLevel type);
 signals:
     void showMessage(QString,LogController::LogLevel);
-    void sendOffMessage(QString);
+    void sendOffMessage(QString,LogController::LogLevel,QString category, QString timestamps );
     void logLevelChanged();
+
 public slots:
     void listenObjects(const QObject* widget);
     void signalActivated();
@@ -45,8 +47,7 @@ public slots:
     void setLogLevel(const LogLevel& logLevel);
     void setCurrentModes(const StorageModes &currentModes);
 
-private:
-    QString typeToText(LogController::LogLevel type);
+
 private:
     LogLevel m_logLevel = Error;
     StorageModes m_currentModes = Console;

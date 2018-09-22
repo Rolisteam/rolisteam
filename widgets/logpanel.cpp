@@ -43,9 +43,6 @@ void LogPanel::showMessage(QString msg,LogController::LogLevel level)
 {
     static bool alternance = false;
 
-    if(m_controller->logLevel() < level && level !=LogController::Features)
-        return;
-
     QColor color;
     alternance = !alternance;
 
@@ -68,7 +65,12 @@ void LogPanel::showMessage(QString msg,LogController::LogLevel level)
 
 void LogPanel::initSetting()
 {
+    if(m_controller == nullptr || m_prefManager == nullptr)
+        return;
+
     ui->m_logLevel->setCurrentIndex(m_prefManager->value("LogController_LogLevel",0).toInt());
+    auto logLevel = static_cast<LogController::LogLevel>(ui->m_logLevel->currentIndex());
+    m_controller->setLogLevel(logLevel);
 }
 
 void LogPanel::saveLog()
@@ -81,7 +83,3 @@ void LogPanel::saveLog()
         in << ui->m_logview->toPlainText();
     }
 }
-
-
-
-

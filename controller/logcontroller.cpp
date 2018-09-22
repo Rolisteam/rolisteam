@@ -2,6 +2,7 @@
 #include <QMetaObject>
 #include <QMetaMethod>
 #include <QTime>
+#include <QDateTime>
 #include <QMutexLocker>
 #include <iostream>
 
@@ -60,6 +61,7 @@ void LogController::setMessageHandler(bool attachMessage)
     if((controller == nullptr) && (attachMessage))
     {
            qInstallMessageHandler(messageHandler);
+           controller = this;
     }
     else
     {
@@ -100,24 +102,25 @@ void LogController::listenObjects(const QObject* object)
         QList<QAction*> actions = widget->actions();
         for(QAction* action : actions)
         {
-            connect(action,&QAction::triggered,this,&LogController::actionActivated);
+            connect(action,&QAction::triggered,this,&LogController::actionActivated,Qt::QueuedConnection);
         }
     }
 #endif
 
-    if(m_signalInspection)
+    /*if(m_signalInspection)
     {
         auto metaObject = object->metaObject();
 
         for(int i = 0; i < metaObject->methodCount(); ++i)
         {
             auto meth = metaObject->method(i);
+           // qDebug() << meth.name();
             if(meth.methodType() == QMetaMethod::Signal && meth.access() == QMetaMethod::Public)
             {
-                connect(object,SIGNAL(meth.name()),this,SLOT(actionActivated()),Qt::QueuedConnection);
+                connect(object,meth.name(),this,SLOT(actionActivated()),Qt::QueuedConnection);
             }
         }
-    }
+    }*/
 #ifdef QT_WIDGETS_LIB
     if(widget != nullptr)
     {
@@ -149,7 +152,7 @@ void LogController::signalActivated()
 }
 QString LogController::typeToText(LogController::LogLevel type)
 {
-    static QStringList list = {"Error","Debug","Warning","Info","Feature"};
+    static QStringList list = {"Error","Debug","Warning","Info","Feature","Feature"};
     return list.at(type);
 }
 
@@ -170,8 +173,8 @@ void LogController::setListenOutSide(bool val)
 
 void LogController::manageMessage(QString message, LogController::LogLevel type)
 {
-    if(m_logLevel < type && type != Features)
-        return;
+  /*  if(m_logLevel < type && type != Features && type != Hidden)
+        return;*/
 
     QMutexLocker locker(&m_mutex);
     Q_UNUSED(locker)
@@ -179,27 +182,30 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
     QString str("%1 - %2 - %3");
     str=str.arg(QTime::currentTime().toString("hh:mm:ss")).arg(typeToText(type)).arg(message);
 
-    if(m_currentModes & Console)
+    QString timestamps;
+    QString category;// WARNING unused
+    timestamps = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
+
+    if(m_currentModes & Console || type == Debug || m_logLevel >= type || type == Error)
     {
         if(type == Error)
             std::cerr << str.toStdString() << std::endl;
         else
             std::cout << str.toStdString() << std::endl;
     }
-    if(m_currentModes & File)
+    if(m_logLevel >= type || type == Features || type == Hidden)
     {
-        m_file << str;
+        if(m_currentModes & File)
+        {
+            m_file << str;
+        }
+        if(m_currentModes & Gui)
+        {
+            emit showMessage(str,type);
+        }
     }
-    if(m_currentModes & Gui)
+    if((m_currentModes & Network) && (type != Hidden))
     {
-        emit showMessage(str,type);
-    }
-    if(m_currentModes & Network)
-    {
-        emit sendOffMessage(str);
-    }
-    if(m_currentModes & Database)
-    {
-        emit sendOffMessage(str);
+        emit sendOffMessage(str,type,category,timestamps);
     }
 }
