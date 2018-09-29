@@ -69,8 +69,8 @@ void Image::initImage()
         m_imageLabel->setScaledContents(true);
         m_imageLabel->resize(m_pixMap.size());
 
-        m_ratioImage = (double)m_pixMap.size().width()/m_pixMap.size().height();
-        m_ratioImageBis = (double)m_pixMap.size().height()/m_pixMap.size().width();
+        m_ratioImage = static_cast<double>(m_pixMap.size().width())/m_pixMap.size().height();
+        m_ratioImageBis = static_cast<double>(m_pixMap.size().height())/m_pixMap.size().width();
         fitWorkSpace();
         fitWindow();
     }
