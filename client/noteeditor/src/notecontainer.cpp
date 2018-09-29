@@ -44,11 +44,9 @@ void NoteContainer::setFileName(QString str)
 
 void NoteContainer::updateTitle()
 {
-    QString showName;
-    if (nullptr == m_uri || m_uri->name().isEmpty())
+    QString showName = getUriName();
+    if (showName.isEmpty())
         showName = "untitled.txt";
-    else
-        showName = m_uri->name();
     setWindowTitle(tr("%1[*] - (Notes)").arg(showName));
 }
 

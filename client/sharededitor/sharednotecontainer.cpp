@@ -134,9 +134,6 @@ void SharedNoteContainer::saveMedia()
 
 void SharedNoteContainer::updateTitle()
 {
-    if(nullptr == m_edit)
-        return;
-
     m_edit->setFileName(getUriName());// update the title too
 }
 

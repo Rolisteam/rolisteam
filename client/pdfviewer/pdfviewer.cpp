@@ -183,9 +183,7 @@ void PdfViewer::sharePdfTo()
 
 void PdfViewer::updateTitle()
 {
-    if(nullptr == m_uri)
-        return;
-    setWindowTitle(tr("%1 - (PDF)").arg(m_uri->name()));
+    setWindowTitle(tr("%1 - (PDF)").arg(m_name));
 }
 
 void PdfViewer::showOverLay()

@@ -293,9 +293,7 @@ void Image::paintEvent ( QPaintEvent * event )
 
 void Image::updateTitle()
 {
-    if(nullptr == m_uri)
-        return;
-    setWindowTitle(tr("%1 - (Picture)").arg(m_uri->name()));
+    setWindowTitle(tr("%1 - (Picture)").arg(getUriName()));
 }
 void Image::setZoomLevel(double zoomlevel)
 {

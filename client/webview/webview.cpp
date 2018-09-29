@@ -72,8 +72,6 @@ void WebView::putDataIntoCleverUri()
 
 void WebView::updateTitle()
 {
-    if(nullptr == m_uri)
-        return;
     setWindowTitle(tr("%1 - WebPage").arg(getUriName()));
 }
 
