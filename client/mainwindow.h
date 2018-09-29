@@ -255,6 +255,8 @@ protected :
      * @param event
      */
     void closeEvent(QCloseEvent *event);
+    virtual void focusInEvent(QFocusEvent *event);
+    virtual void focusOutEvent(QFocusEvent *event);
     /**
      * @brief prepareImage
      * @param imageFenetre
@@ -556,7 +558,7 @@ private:
     QUndoStack m_undoStack;
     LogController* m_logController = nullptr;
     QString m_connectionAddress;
-
+    bool m_isOut = false;
     LogSenderScheduler m_logScheduler;
 };
 

@@ -593,11 +593,18 @@ void MainWindow::createPostSettings()
     {
         m_logController->listenObjects(this);
         mode = LogController::Gui | LogController::Network;
+        setFocusPolicy(Qt::StrongFocus);
+        auto clipboard = QGuiApplication::clipboard();
+        connect(clipboard, &QClipboard::dataChanged, this, [clipboard,this](){
+           auto text = clipboard->text();
+           auto mime = clipboard->mimeData();
+           text.append(QStringLiteral("\n%1").arg(mime->formats().join("|")));
+           m_logController->manageMessage(QStringLiteral("Clipboard data changed: %1").arg(text),LogController::Search);
+        });
     }
     m_logController->setCurrentModes(mode);
 
     m_logScheduler.setAppId(0);// Rolisteam 0, RCSE 1, Roliserver 2
-
 }
 
 void MainWindow::linkActionToMenu()
@@ -1562,7 +1569,7 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
         case CleverURI::SCENARIO:
         case CleverURI::SONG:
         case CleverURI::SONGLIST:
-        case NONE:
+        case CleverURI::NONE:
             break;
 
         }
@@ -2699,4 +2706,22 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
         destination = img;
     }
     destination->setUriName(title.arg(sourceName));
+}
+void MainWindow::focusInEvent(QFocusEvent *event)
+{
+    QMainWindow::focusInEvent(event);
+    if(m_isOut)
+    {
+        m_logController->manageMessage(QStringLiteral("Rolisteam gets focus."),LogController::Search);
+        m_isOut = false;
+    }
+}
+void MainWindow::focusOutEvent(QFocusEvent *event)
+{
+    QMainWindow::focusOutEvent(event);
+    if(!isActiveWindow())
+    {
+        m_logController->manageMessage(QStringLiteral("User gives focus to another windows."),LogController::Search);
+        m_isOut = true;
+    }
 }
