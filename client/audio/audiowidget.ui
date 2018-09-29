@@ -85,7 +85,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,1,0,0,0">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0,1,0,0,0">
      <property name="spacing">
       <number>0</number>
      </property>
@@ -187,6 +187,13 @@
        </property>
        <property name="checkable">
         <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="m_shuffleBtn">
+       <property name="text">
+        <string>...</string>
        </property>
       </widget>
      </item>

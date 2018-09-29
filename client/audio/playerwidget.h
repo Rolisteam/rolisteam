@@ -25,6 +25,7 @@
 #include <QMediaContent>
 #include <QContextMenuEvent>
 #include <QMenu>
+#include <random>
 
 #include "preferences/preferencesmanager.h"
 #include "musicmodel.h"
@@ -40,7 +41,7 @@ class PlayerWidget : public QWidget
 {
     Q_OBJECT
 public:
-    enum PlayingMode { LOOP, UNIQUE , NEXT };
+    enum PlayingMode { LOOP, UNIQUE , NEXT, SHUFFLE };
     /**
      * @brief PlayerWidget
      * @param parent
@@ -130,10 +131,6 @@ private slots:
      */
     void  savePlaylist();
     /**
-     * @brief updateIcon
-     */
-    void updateIcon();
-    /**
      * @brief setTime
      * @param time
      */
@@ -148,7 +145,7 @@ private slots:
      * @param duration
      */
     void setDuration(qint64 duration);
-
+    void updateIcon();
     /**
      * @brief sourceChanged
      * @param media
@@ -198,11 +195,6 @@ private slots:
      * @brief labelTextChanged
      */
     void labelTextChanged();
-
-    /**
-     * @brief modeHasBeenChanged
-     */
-    void modeHasBeenChanged();
     /**
      * @brief findNext
      */
@@ -268,6 +260,7 @@ private:
     QAction* m_pauseAct;
     QAction* m_uniqueAct;
     QAction* m_repeatAct;
+    QAction* m_shuffleAct;
     QAction* m_changeDirectoryAct;
     QAction* m_volumeMutedAct;
     QAction* m_loadTableTopAudioPlayListAct;
@@ -283,8 +276,10 @@ private:
     QMediaContent* m_currentContent;
     QString m_audioFileFilter;
 
+
     int m_id;
     quint64 m_time;
+    std::mt19937 m_rng;
 
     Ui::AudioWidgetUI* m_ui;
     bool m_isGM;

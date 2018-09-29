@@ -343,6 +343,7 @@
         <file>resources/icons/list.svg</file>
         <file>resources/icons/000000-paint-bucket-512.png</file>
         <file>resources/icons/marker-512.png</file>
+        <file>resources/icons/shuffle_mode.png</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>

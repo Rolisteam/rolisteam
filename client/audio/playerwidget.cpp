@@ -29,7 +29,6 @@
 
 QString getExistingFile(const QString& rootDir, const QString& pathOnGM)
 {
-    qDebug() << rootDir << pathOnGM;
     QFileInfo info(pathOnGM);
 
     auto list = pathOnGM.split("/");
@@ -60,6 +59,9 @@ QString getExistingFile(const QString& rootDir, const QString& pathOnGM)
 PlayerWidget::PlayerWidget(int id, QWidget* parent)
     : QWidget(parent),m_id(id),m_ui(new Ui::AudioWidgetUI),m_isGM(false)
 {
+    auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    m_rng = std::mt19937(quintptr(this)+static_cast<unsigned long long>(seed));
+
     m_preferences = PreferencesManager::getInstance();
     //m_preferences->registerLambda();
     m_ui->setupUi(this);
@@ -98,14 +100,14 @@ void PlayerWidget::positionChanged(qint64 time)
 {
     QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
 
+    m_time = static_cast<quint64>(time);
     if((m_isGM) &&
             ((static_cast<quint64>(time)>m_time+(FACTOR_WAIT*m_player.notifyInterval()))||
              (static_cast<quint64>(time)<m_time)))
     {
-        emit playerPositionChanged(m_id,time);
+        emit playerPositionChanged(m_id,m_time);
     }
-    m_time = time;
-    m_ui->m_timeSlider->setValue(time);
+    m_ui->m_timeSlider->setValue(static_cast<int>(time));
     m_ui->m_timerDisplay->display(displayTime.toString("mm:ss"));
 
 }
@@ -122,7 +124,6 @@ void PlayerWidget::mediaStatusChanged(QMediaPlayer::MediaStatus status)
 }
 void PlayerWidget::findNext()
 {
-    modeHasBeenChanged();
     switch (m_playingMode)
     {
     case NEXT:
@@ -140,6 +141,26 @@ void PlayerWidget::findNext()
     case UNIQUE:
         //nothing
         break;
+    case SHUFFLE:
+    {
+        QModelIndex current = m_model->getCurrentSong();
+        auto size = m_model->rowCount();
+        if(size > 1)
+        {
+            std::uniform_int_distribution<qint64> dist(0,size-1);
+            int value = current.row();
+            while(value == current.row())
+            {
+                value = static_cast<int>(dist(m_rng));
+            }
+            QModelIndex newIndex = current.sibling(value,0);
+            if(newIndex.isValid())
+            {
+                startMediaByModelIndex(newIndex);
+            }
+        }
+    }
+        break;
     case LOOP:
         m_player.play();
         break;
@@ -154,14 +175,22 @@ void PlayerWidget::setupUi()
     m_playAct = new QAction(style()->standardIcon(QStyle::SP_MediaPlay),tr("Play"),this);
     m_pauseAct = new QAction(style()->standardIcon(QStyle::SP_MediaPause),tr("Pause"),this);
     m_stopAct = new QAction(style()->standardIcon(QStyle::SP_MediaStop),tr("Stop"),this);
-    m_uniqueAct = new QAction(QIcon(":/resources/icons/playunique.png"),tr("Next"),this);
+
+    m_uniqueAct = new QAction(QIcon(":/resources/icons/playunique.png"),tr("Stop at the end"),this);
     m_uniqueAct->setShortcut(QKeySequence("Ctrl+U"));
     m_uniqueAct->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_uniqueAct->setCheckable(true);
-    m_repeatAct = new QAction(QIcon(":/resources/icons/playloop.png"),tr("Previous"),this);
+
+    m_repeatAct = new QAction(QIcon(":/resources/icons/playloop.png"),tr("Play in loop"),this);
     m_repeatAct->setCheckable(true);
     m_repeatAct->setShortcut(QKeySequence("Ctrl+R"));
     m_repeatAct->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
+    m_shuffleAct = new QAction(QIcon(":/resources/icons/shuffle_mode.png"),tr("Shuffle Mode"),this);
+    m_shuffleAct->setCheckable(true);
+    m_shuffleAct->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
+
     m_changeDirectoryAct = new QAction(style()->standardIcon(QStyle::SP_DirIcon),tr("Open Directory"),this);
     m_volumeMutedAct = new QAction(tr("Mute Volume"),this);
     m_volumeMutedAct->setCheckable(true);
@@ -197,6 +226,7 @@ void PlayerWidget::setupUi()
 
     addAction(m_uniqueAct);
     addAction(m_repeatAct);
+    addAction(m_shuffleAct);
     addAction(m_volumeMutedAct);
     addAction(m_openPlayList);
     addAction(m_savePlayList);
@@ -225,6 +255,7 @@ void PlayerWidget::setupUi()
     m_ui->m_pauseButton->setDefaultAction(m_pauseAct);
     m_ui->m_stopButton->setDefaultAction(m_stopAct);
     m_ui->m_uniqueMode->setDefaultAction(m_uniqueAct);
+    m_ui->m_shuffleBtn->setDefaultAction(m_shuffleAct);
     m_ui->m_repeatMode->setDefaultAction(m_repeatAct);
     m_ui->m_changeDirectory->setDefaultAction(m_changeDirectoryAct);
     
@@ -257,8 +288,9 @@ void PlayerWidget::setupUi()
     connect(&m_player,SIGNAL(error(QMediaPlayer::Error)),this,SLOT(errorOccurs(QMediaPlayer::Error)));
     connect(m_ui->m_label,SIGNAL(textChanged(QString)),this,SLOT(labelTextChanged()));
 
-    connect(m_repeatAct,SIGNAL(triggered()),this,SLOT(triggeredPlayingModeAction()));
-    connect(m_uniqueAct,SIGNAL(triggered()),this,SLOT(triggeredPlayingModeAction()));
+    connect(m_repeatAct,&QAction::triggered,this,&PlayerWidget::triggeredPlayingModeAction);
+    connect(m_uniqueAct,&QAction::triggered,this,&PlayerWidget::triggeredPlayingModeAction);
+    connect(m_shuffleAct,&QAction::triggered,this,&PlayerWidget::triggeredPlayingModeAction);
 
     connect(m_loadTableTopAudioPlayListAct,SIGNAL(triggered()),this,SLOT(loadPlayList()));
     connect(m_savePlayList,SIGNAL(triggered()),this,SLOT(savePlaylist()));
@@ -267,7 +299,6 @@ void PlayerWidget::setupUi()
 }
 void PlayerWidget::startMediaByModelIndex(QModelIndex p)//double click
 {
-
     startMedia(m_model->getMediaByModelIndex(p),m_model->data(p).toString());
     m_model->setCurrentSong(p);
     //  m_mediaObject->play();
@@ -310,7 +341,6 @@ void PlayerWidget::addFiles()
     if (fileList.isEmpty())
         return;
     QFileInfo fileinfo(fileList[0]);
-    //m_preferences->registerValue(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id),fileinfo.absolutePath());
     m_model->addSong(fileList);
 }
 bool PlayerWidget::askToDeleteAll()
@@ -337,7 +367,6 @@ void PlayerWidget::openPlayList()
         if (filename.isEmpty())
             return;
         QFileInfo fileinfo(filename);
-        //m_preferences->registerValue(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id),fileinfo.absolutePath());
         readM3uPlayList(filename);
     }
 
@@ -402,8 +431,6 @@ void PlayerWidget::addActionsIntoMenu(QMenu* menu)
 void PlayerWidget::updateUi(bool isGM)
 {
     m_isGM = isGM;
-    /* if(isGM)
-    {// Game Master*/
     m_ui->m_playButton->setVisible(isGM);
     m_ui->m_stopButton->setVisible(isGM);
     m_ui->m_pauseButton->setVisible(isGM);
@@ -411,32 +438,11 @@ void PlayerWidget::updateUi(bool isGM)
     m_ui->m_repeatMode->setVisible(isGM);
     m_ui->m_timeSlider->setVisible(isGM);
     m_ui->m_addButton->setVisible(isGM);
-    //m_ui->m_volumeMutedButton->setVisible(true);
     m_ui->m_deleteButton->setVisible(isGM);
     m_ui->m_songList->setVisible(isGM);
     m_ui->m_savePlaylist->setVisible(isGM);
     m_ui->m_changeDirectory->setVisible(!isGM);
     m_ui->m_timerDisplay->setVisible(isGM);
-    // }
-    /* else//Player
-    {
-        m_ui->m_playButton->setVisible(false);
-        m_ui->m_stopButton->setVisible(false);
-        m_ui->m_pauseButton->setVisible(false);
-        m_ui->m_uniqueMode->setVisible(false);
-        m_ui->m_repeatMode->setVisible(false);
-        m_ui->m_timeSlider->setVisible(false);
-        //m_ui->m_volumeMutedButton->setVisible(true);
-        m_ui->m_addButton->setVisible(false);
-        m_ui->m_deleteButton->setVisible(false);
-        m_ui->m_songList->setVisible(false);
-        m_ui->m_savePlaylist->setVisible(false);
-        m_ui->m_changeDirectory->setVisible(true);
-        m_ui->m_timerDisplay->setVisible(false);
-
-        m_ui->m_label->setEchoMode(QLineEdit::Password);
-
-    }*/
     m_ui->m_volumeSlider->setValue(m_preferences->value(QString("volume_player_%1").arg(m_id),50).toInt());
 
 }
@@ -458,15 +464,7 @@ void PlayerWidget::setTime(int time)
 }
 void PlayerWidget::sourceChanged(const QMediaContent & media)
 {
-    /* if(media.canonicalUrl().isLocalFile())
-    {
-        auto path = media.canonicalUrl().toString();
-        emit newSongPlayed(m_id,path);
-    }
-    else
-    {*/
     emit newSongPlayed(m_id,media.canonicalUrl().toString());
-    //}
 }
 void PlayerWidget::playerStatusChanged(QMediaPlayer::State newState)
 {
@@ -535,22 +533,7 @@ void PlayerWidget::changeDirectory()
         m_preferences->registerValue(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id),dir,true);
     }
 }
-void PlayerWidget::modeHasBeenChanged()
-{
-    if(m_repeatAct->isChecked())
-    {
-        m_playingMode = LOOP;
-    }
-    else if(m_uniqueAct->isChecked())
-    {
-        m_playingMode = UNIQUE;
-    }
-    else
-    {
-        m_playingMode = NEXT;
-    }
 
-}
 void PlayerWidget::triggeredPlayingModeAction()
 {
     QAction* act = qobject_cast<QAction*>(sender());
@@ -560,13 +543,35 @@ void PlayerWidget::triggeredPlayingModeAction()
         if(m_uniqueAct == act)
         {
             m_repeatAct->setChecked(false);
+            m_shuffleAct->setChecked(false);
         }
         else if(m_repeatAct == act)
         {
             m_uniqueAct->setChecked(false);
+            m_shuffleAct->setChecked(false);
+        }
+        else if(m_shuffleAct == act)
+        {
+            m_uniqueAct->setChecked(false);
+            m_repeatAct->setChecked(false);
         }
     }
-
+    if(m_repeatAct->isChecked())
+    {
+        m_playingMode = LOOP;
+    }
+    else if(m_uniqueAct->isChecked())
+    {
+        m_playingMode = UNIQUE;
+    }
+    else if(m_shuffleAct->isChecked())
+    {
+        m_playingMode = SHUFFLE;
+    }
+    else
+    {
+        m_playingMode = NEXT;
+    }
 }
 void PlayerWidget::loadPlayList()
 {
