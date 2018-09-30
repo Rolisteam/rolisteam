@@ -40,7 +40,8 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
 
     }
 
-    controller->manageMessage(msgFormated,cLevel);
+    //controller->manageMessage(msgFormated,cLevel);
+    QMetaObject::invokeMethod(controller,"manageMessage",Qt::QueuedConnection,Q_ARG(QString,msgFormated),Q_ARG(LogController::LogLevel,cLevel));
 }
 
 LogController::LogController(bool attachMessage,QObject *parent)
@@ -152,7 +153,7 @@ void LogController::signalActivated()
 }
 QString LogController::typeToText(LogController::LogLevel type)
 {
-    static QStringList list = {"Error","Debug","Warning","Info","Feature","Feature"};
+    static QStringList list = {"Error","Debug","Warning","Info","Feature","Feature","Search"};
     return list.at(type);
 }
 
@@ -186,22 +187,25 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
     QString category;// WARNING unused
     timestamps = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
 
-    if(m_currentModes & Console || type == Debug || m_logLevel >= type || type == Error)
+    if(type != Search)
     {
-        if(type == Error)
-            std::cerr << str.toStdString() << std::endl;
-        else
-            std::cout << str.toStdString() << std::endl;
-    }
-    if(m_logLevel >= type || type == Features || type == Hidden)
-    {
-        if(m_currentModes & File)
+        if(m_currentModes & Console || type == Debug || m_logLevel >= type || type == Error)
         {
-            m_file << str;
+            if(type == Error)
+                std::cerr << str.toStdString() << std::endl;
+            else
+                std::cout << str.toStdString() << std::endl;
         }
-        if(m_currentModes & Gui)
+        if(m_logLevel >= type || type == Features || type == Hidden)
         {
-            emit showMessage(str,type);
+            if(m_currentModes & File)
+            {
+                m_file << str;
+            }
+            if(m_currentModes & Gui)
+            {
+                emit showMessage(str,type);
+            }
         }
     }
     if((m_currentModes & Network) && (type != Hidden))
