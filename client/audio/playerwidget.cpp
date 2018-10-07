@@ -436,6 +436,7 @@ void PlayerWidget::updateUi(bool isGM)
     m_ui->m_pauseButton->setVisible(isGM);
     m_ui->m_uniqueMode->setVisible(isGM);
     m_ui->m_repeatMode->setVisible(isGM);
+    m_ui->m_shuffleBtn->setVisible(isGM);
     m_ui->m_timeSlider->setVisible(isGM);
     m_ui->m_addButton->setVisible(isGM);
     m_ui->m_deleteButton->setVisible(isGM);
