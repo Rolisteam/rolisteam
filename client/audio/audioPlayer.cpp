@@ -150,7 +150,7 @@ void AudioPlayer::onePlayerHasStopped(int id)
     if(m_isGM)
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::StopSong);
-        message.uint8(id);
+        message.uint8(static_cast<quint8>(id));
         message.sendToServer();
     }
 }
@@ -160,7 +160,7 @@ void AudioPlayer::onePlayerIsPaused(int id)
     if(m_isGM)
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::PauseSong);
-        message.uint8(id);
+        message.uint8(static_cast<quint8>(id));
         message.sendToServer();
     }
 }
@@ -170,7 +170,7 @@ void AudioPlayer::onePlayerPlays(int id,quint64 pos)
     if(m_isGM)
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::PlaySong);
-        message.uint8(id);
+        message.uint8(static_cast<quint8>(id));
         message.uint64(pos);
         message.sendToServer();
     }
@@ -182,7 +182,7 @@ void AudioPlayer::onePlayerHasNewSong(int id,QString str)
     if(m_isGM)
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::NewSong);
-        message.uint8(id);
+        message.uint8(static_cast<quint8>(id));
         message.string32(str);
         message.sendToServer();
     }
@@ -193,7 +193,7 @@ void AudioPlayer::onePlayerHasChangedPosition(int id,quint64 pos)
     if(m_isGM)
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::ChangePositionSong);
-        message.uint8(id);
+        message.uint8(static_cast<quint8>(id));
         message.uint64(pos);
         message.sendToServer();
     }
