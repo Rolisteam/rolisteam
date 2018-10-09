@@ -41,7 +41,7 @@ NetworkLink* ClientManager::m_networkLinkToServer = nullptr;
  *****************/
 ClientManager::ClientManager(ConnectionProfile* connection)
     : QObject(),
-      m_connectionProfile(connection)
+      m_connectionProfile(nullptr)
 {
     qRegisterMetaType<NetworkLink*>("NetworkLink*");
     qRegisterMetaType<char*>("char*");
@@ -49,6 +49,7 @@ ClientManager::ClientManager(ConnectionProfile* connection)
     connect(this,&ClientManager::isReady,this,&ClientManager::startConnection);
 
     m_reconnect = new QTimer(this);
+    m_hbSender.setParent(this);
     m_playersList = PlayersList::instance();
 
     m_connecting = new QState();
@@ -96,7 +97,8 @@ ClientManager::ClientManager(ConnectionProfile* connection)
     m_states.setInitialState(m_disconnected);
     connect(&m_states,SIGNAL(started()),this,SIGNAL(isReady()));
 
-    initializeLink();
+    setConnectionProfile(connection);
+    //initializeLink();
 }
 void ClientManager::initializeLink()
 {
@@ -214,9 +216,7 @@ void ClientManager::setConnectionProfile(ConnectionProfile* profile)
     auto localPlayer = m_connectionProfile->getPlayer();
     if(nullptr != localPlayer)
     {
-        if(m_hbSender == nullptr)
-            m_hbSender = new heartBeatSender(this);
-        m_hbSender->setIdLocalUser(localPlayer->getUuid());
+        m_hbSender.setIdLocalUser(localPlayer->getUuid());
     }
 
 }

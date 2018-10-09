@@ -118,7 +118,7 @@ private:
     PreferencesManager* m_preferences= nullptr;
     PlayersList* m_playersList= nullptr;
     QList<QThread*> m_threadList;
-    heartBeatSender* m_hbSender= nullptr;
+    heartBeatSender m_hbSender;
 
     QState* m_connecting= nullptr;
     QState* m_connected= nullptr;

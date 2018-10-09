@@ -14,7 +14,7 @@ class heartBeatSender : public QObject, public PreferencesListener
 {
     Q_OBJECT
 public:
-    explicit heartBeatSender(QObject *parent = 0);
+    explicit heartBeatSender(QObject *parent = nullptr);
 
     void preferencesHasChanged(QString);
     void updateStatus();
@@ -27,9 +27,9 @@ public slots:
     void updateTimer();
 private:
     QTimer m_timer;
-    PreferencesManager* m_preferences;
+    PreferencesManager* m_preferences = nullptr;
     int m_timeOut;
-    QString m_localId;
+    QString m_localId = QStringLiteral("unknown");
     bool m_status;
 };
 
