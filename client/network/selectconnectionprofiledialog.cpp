@@ -89,7 +89,7 @@ void ProfileModel::readSettings(QSettings & settings)
         profile->setAddress(settings.value("address").toString());
         profile->setName( settings.value("name").toString());
         profile->setTitle( settings.value("title").toString());
-        profile->setPort(settings.value("port").toInt());
+        profile->setPort(static_cast<quint16>(settings.value("port").toInt()));
         profile->setServerMode(settings.value("server").toBool());
         profile->setGm(settings.value("gm").toBool());
         profile->setHash(QByteArray::fromBase64(settings.value("password").toByteArray()));
@@ -246,7 +246,7 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWi
 
     connect(ui->m_addProfile,SIGNAL(clicked()),m_model,SLOT(appendProfile()));
     connect(ui->m_cancel,SIGNAL(clicked()),this,SLOT(reject()));
-    connect(ui->m_connect,SIGNAL(clicked()),this,SLOT(connectTo()));
+    connect(ui->m_connect,&QPushButton::clicked,this,&SelectConnectionProfileDialog::connectTo);
     connect(ui->m_selectCharaterAvatar,SIGNAL(clicked()),this,SLOT(openImage()));
     connect(ui->m_delProfileAct,SIGNAL(pressed()),this,SLOT(removeProfile()));
 
@@ -388,6 +388,7 @@ void SelectConnectionProfileDialog::connectToIndex(QModelIndex index)
 }
 void SelectConnectionProfileDialog::connectTo()
 {
+    ui->m_connect->blockSignals(true);
     updateProfile();
     ui->m_progressBar->setVisible(true);
     emit tryConnection();
@@ -397,7 +398,6 @@ void SelectConnectionProfileDialog::openImage()
     m_avatarUri = QFileDialog::getOpenFileName(this,tr("Load Avatar"));
 
     updateProfile();
-    //m_currentProfile->getCharacter()->setAvatar(QImage(m_avatarUri));
     updateGUI();
 }
 void SelectConnectionProfileDialog::checkConnection()
@@ -418,9 +418,16 @@ void SelectConnectionProfileDialog::errorOccurs(QString str)
     ui->m_errorNotification->setStyleSheet("font: 19pt ;\nbackground: rgb(255, 0, 0);\ncolor: rgb(0,0,0);");
     ui->m_errorNotification->setText(str);
     ui->m_progressBar->setVisible(false);
+    endOfConnectionProcess();
 }
 
 void SelectConnectionProfileDialog::disconnection()
 {
     ui->m_progressBar->setVisible(false);
+    endOfConnectionProcess();
+}
+
+void SelectConnectionProfileDialog::endOfConnectionProcess()
+{
+    ui->m_connect->blockSignals(false);
 }

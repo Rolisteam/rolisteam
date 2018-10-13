@@ -1201,8 +1201,6 @@ void MainWindow::startReconnection()
     if(m_clientManager->startConnection())
     {
         m_roomPanel->setServerName(m_currentConnectionProfile->getAddress());
-        /*m_playerList->sendOffLocalPlayerInformations();
-        m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());*/
         m_ui->m_connectionAction->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
     }
@@ -1732,6 +1730,7 @@ void MainWindow::initializedClientManager()
         });
         connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
         connect(m_clientManager,&ClientManager::errorOccur,m_dialog,&SelectConnectionProfileDialog::errorOccurs);
+        connect(m_clientManager,&ClientManager::connectionProcessEnd,m_dialog,&SelectConnectionProfileDialog::endOfConnectionProcess);
         connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(updateWindowTitle()));
         connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
         connect(m_clientManager,SIGNAL(isAuthentified()),this,SLOT(postConnection()));

@@ -73,6 +73,10 @@ public slots:
     * @brief ProfileModel::appendProfile
     */
    void appendProfile();
+   /**
+    * @brief append profile with param
+    * @param profile
+    */
    void appendProfile(ConnectionProfile *profile);
 private:
     QList<ConnectionProfile*> m_connectionProfileList;
@@ -148,6 +152,10 @@ public slots:
     void errorOccurs(QString);
     void checkConnection();
     void disconnection();
+    /**
+     * @brief endOfConnectionProcess
+     */
+    void endOfConnectionProcess();
 private:
 	Ui::SelectConnectionProfileDialog *ui;
     ProfileModel* m_model;

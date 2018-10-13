@@ -350,7 +350,6 @@ void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
         break;
     case QAbstractSocket::ConnectedState:
         emit connected();
-        //setConnectionState(CONNECTED);
         break;
     default:
         break;

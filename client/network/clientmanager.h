@@ -100,6 +100,7 @@ signals :
     void isDisconnected();
     void connectedToServer();
     void clearData();
+    void connectionProcessEnd();
 
 protected:
     void initializeLink();

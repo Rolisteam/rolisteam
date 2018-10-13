@@ -76,17 +76,20 @@ ClientManager::ClientManager(ConnectionProfile* connection)
         qDebug() <<"client disconnected state" ;
         setConnectionState(DISCONNECTED);
         emit isDisconnected();
+        emit connectionProcessEnd();
     });
     connect(m_authentified,&QAbstractState::entered,[=]()
     {
         qDebug() <<"client authentified state" ;
         setConnectionState(AUTHENTIFIED);
         emit isAuthentified();
+        emit connectionProcessEnd();
     });
 
     connect(m_error,&QAbstractState::entered,[=]()
     {
         qDebug() <<"Error state";
+        emit connectionProcessEnd();
     });
 
     m_states.addState(m_connecting);
