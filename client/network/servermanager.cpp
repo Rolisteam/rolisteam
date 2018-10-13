@@ -46,6 +46,39 @@ ServerManager::ServerManager(QObject *parent)
     m_adminAccepter->setNext(nullptr);
 }
 
+ServerManager::~ServerManager()
+{
+    if(nullptr != m_server)
+    {
+        delete m_server;
+        m_server = nullptr;
+    }
+
+    if(nullptr != m_model)
+    {
+        delete m_model;
+        m_model = nullptr;
+    }
+
+    if(nullptr != m_corConnection)
+    {
+        delete m_corConnection;
+        m_corConnection = nullptr;
+    }
+
+    if(nullptr != m_corEndProcess)
+    {
+        delete m_corEndProcess;
+        m_corEndProcess = nullptr;
+    }
+
+    if(nullptr != m_adminAccepter)
+    {
+        delete m_adminAccepter;
+        m_adminAccepter = nullptr;
+    }
+}
+
 int ServerManager::getPort() const
 {
     return m_port;

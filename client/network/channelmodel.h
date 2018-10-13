@@ -32,6 +32,7 @@ class ChannelModel : public QAbstractItemModel, public NetWorkReceiver
     Q_OBJECT
 public:
     ChannelModel();
+    ~ChannelModel();
 
     virtual int rowCount(const QModelIndex &parent) const;
     QModelIndex index(int row, int column, const QModelIndex &parent) const;

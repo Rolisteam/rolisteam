@@ -64,7 +64,21 @@ bool ClientMimeData::hasFormat(const QString & mimeType) const
 ChannelModel::ChannelModel()
 {
     //m_root = new Channel();
-   ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory,this);
+}
+
+ChannelModel::~ChannelModel()
+{
+    ReceiveEvent::removeNetworkReceiver(NetMsg::AdministrationCategory,this);
+    qDeleteAll(m_root);
+    std::vector<Channel*> keys;
+
+    transform(std::begin(m_sizeMap), std::end(m_sizeMap), back_inserter(keys),
+              [](decltype(m_sizeMap)::value_type const& pair) {
+        return pair.first;
+    });
+    m_sizeMap.clear();
+    qDeleteAll(keys);
 }
 
 QModelIndex ChannelModel::index(int row, int column, const QModelIndex &parent) const
@@ -106,7 +120,7 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const
         {
             return tmp->getName();
         }
-        #ifdef QT_WIDGETS_LIB
+#ifdef QT_WIDGETS_LIB
         else if(role == Qt::FontRole)
         {
             if(tmp->isLeaf())
@@ -139,7 +153,7 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const
                 }
             }
         }
-        #endif
+#endif
     }
     return QVariant();
 }
@@ -217,10 +231,10 @@ QModelIndex ChannelModel::addChannelToIndex(Channel* channel,QModelIndex& parent
     int row = -1;
     if(!parent.isValid())
     {
-       beginInsertRows(parent,m_root.size(),m_root.size());
-       m_root.append(channel);
-       endInsertRows();
-       row = m_root.size()-1;
+        beginInsertRows(parent,m_root.size(),m_root.size());
+        m_root.append(channel);
+        endInsertRows();
+        row = m_root.size()-1;
     }
     else
     {
@@ -382,12 +396,12 @@ bool ChannelModel::moveMediaItem(QList<TcpClient*> items,const QModelIndex& pare
             QString id = item->getId();
 
             QByteArray pw;
-            #ifdef QT_WIDGETS_LIB
+#ifdef QT_WIDGETS_LIB
             if(!item->password().isEmpty())
             {
                 pw = QInputDialog::getText(nullptr,tr("Channel Password"),tr("Channel %1 required password:").arg(item->getName()),QLineEdit::Password).toUtf8().toBase64();
             }
-            #endif
+#endif
 
             for(auto client : items)
             {
@@ -406,7 +420,7 @@ bool ChannelModel::moveMediaItem(QList<TcpClient*> items,const QModelIndex& pare
     return false;
 }
 bool ChannelModel::dropMimeData(const QMimeData *data,
-                                    Qt::DropAction action, int row, int column, const QModelIndex &parent)
+                                Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
     Q_UNUSED(column);
 

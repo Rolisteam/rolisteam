@@ -12,6 +12,7 @@ class ConnectionAccepter
 {
 public:
     ConnectionAccepter();
+    virtual ~ConnectionAccepter();
     void setNext(ConnectionAccepter* next);
 
     virtual bool isValid(const QMap<QString,QVariant>& data) = 0;

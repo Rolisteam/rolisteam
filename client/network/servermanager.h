@@ -24,7 +24,8 @@ public:
     enum ServerState {Listening,Off};
     enum Channels {Unique,Several};
 
-    explicit ServerManager(QObject *parent = 0);
+    explicit ServerManager(QObject *parent = nullptr);
+    ~ServerManager();
     void sendMessage(NetworkMessage* msg);
     int getPort() const;
     ServerManager::ServerState getState() const;

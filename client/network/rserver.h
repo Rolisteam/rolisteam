@@ -18,7 +18,7 @@ class RServer : public QTcpServer
 {
     Q_OBJECT
 public:
-    explicit RServer(ServerManager* serverMan, int threadCount, QObject* parent = 0);
+    explicit RServer(ServerManager* serverMan, int threadCount, QObject* parent = nullptr);
     virtual ~RServer();
 
     virtual bool listen(const QHostAddress &address, quint16 port);

@@ -5,7 +5,14 @@ ConnectionAccepter::ConnectionAccepter()
 {
 
 }
-
+ConnectionAccepter::~ConnectionAccepter()
+{
+    if(nullptr != m_next)
+    {
+        delete m_next;
+        m_next = nullptr;
+    }
+}
 void ConnectionAccepter::setNext(ConnectionAccepter* next)
 {
     m_next = next;
