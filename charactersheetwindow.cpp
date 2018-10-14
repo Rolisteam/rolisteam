@@ -166,9 +166,7 @@ void CharacterSheetWindow::setReadOnlyOnSelection()
 
 void CharacterSheetWindow::updateTitle()
 {
-    if(nullptr == m_uri)
-        return;
-    setWindowTitle(tr("%1 - (Character Sheet Viewer)").arg(m_uri->name()));
+    setWindowTitle(tr("%1 - (Character Sheet Viewer)").arg(getUriName()));
 }
 
 void CharacterSheetWindow::displayCustomMenu(const QPoint & pos)
