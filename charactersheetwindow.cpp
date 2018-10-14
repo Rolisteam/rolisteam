@@ -28,6 +28,7 @@
 #include <QJsonObject>
 #include <QQmlProperty>
 #include <QPrinter>
+#include <QToolButton>
 
 #include "charactersheetwindow.h"
 #include "charactersheet/charactersheet.h"
@@ -202,10 +203,11 @@ void CharacterSheetWindow::addSharingMenu(QMenu* share)
 
 }
 
-void CharacterSheetWindow::contextMenuForTabs(const QPoint& pos)
+void CharacterSheetWindow::contextMenuForTabs(int x, int y)
 {
     QMenu menu(this);
 
+    QPoint pos(x,y);
     QWidget* wid = m_tabs->currentWidget();
     QQuickWidget* quickWid=dynamic_cast<QQuickWidget*>(wid);
      m_currentCharacterSheet =  m_characterSheetlist.value(quickWid);
@@ -223,8 +225,7 @@ void CharacterSheetWindow::contextMenuForTabs(const QPoint& pos)
         addActionToMenu(menu);
         menu.addAction(m_printAct);
 
-
-        menu.exec(mapToGlobal(pos));
+        menu.exec(quickWid->mapToGlobal(pos));
     }
 }
 bool CharacterSheetWindow::eventFilter(QObject *object, QEvent *event)
@@ -361,8 +362,6 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
         openQML();
     }
     auto qmlView = new QQuickWidget(this);
-    qmlView->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(qmlView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(contextMenuForTabs(QPoint)));
 
     auto imageProvider = new RolisteamImageProvider();
     imageProvider->setData(m_imgProvider->getData());
@@ -403,11 +402,23 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
 
     QObject* root = qmlView->rootObject();
 
+    // CONNECTION TO SIGNAL FROM QML CHARACTERSHEET
     connect(root,SIGNAL(rollDiceCmd(QString,bool)),this,SLOT(rollDice(QString,bool)));
     connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
+    //connect(root,SIGNAL(showContextMenu(int,int)),this,SLOT(contextMenuForTabs(int,int)));
 
     m_characterSheetlist.insert(qmlView,chSheet);
     int id = m_tabs->addTab(qmlView,chSheet->getTitle());
+    auto tabBar = m_tabs->tabBar();
+    if(nullptr != tabBar)
+    {
+        auto button = new QPushButton(tr("Actions"));
+        button->setFlat(true);
+        tabBar->setTabButton(id,QTabBar::RightSide,button);
+        connect(button,&QPushButton::clicked,this,[button,this](){
+            contextMenuForTabs(button->pos().x(),0);
+        });
+    }
     if(!m_localIsGM)
     {
         m_tabs->setCurrentIndex(id);
