@@ -38,7 +38,7 @@ class ColumnDefinitionDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ColumnDefinitionDialog(QWidget *parent = 0);
+    explicit ColumnDefinitionDialog(QWidget *parent = nullptr);
     ~ColumnDefinitionDialog();
 
 

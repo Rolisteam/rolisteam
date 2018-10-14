@@ -169,7 +169,7 @@ TableCanvasField::TableCanvasField(Field* field)
     m_defineColumns = new QAction(tr("Properties"),this);
 //    m_properties = new QAction(tr("Properties"),this);
 
-    connect(m_defineColumns,SIGNAL(triggered(bool)),this,SLOT(defineColumns()));
+    connect(m_defineColumns,&QAction::triggered,this,&TableCanvasField::defineColumns);
 
     m_addLine->setMsg("+");
     m_addColumn->setMsg("+");
