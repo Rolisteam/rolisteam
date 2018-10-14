@@ -80,26 +80,34 @@ void Section::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         m_value = var.toString();
 }
 
-bool Section::mayHaveChildren()
+bool Section::mayHaveChildren() const
 {
     return true;
 }
 
 void Section::appendChild(CharacterSheetItem* item)
 {
+    if(nullptr != item)
+        return;
     m_dataHash.insert(item->getPath(),item);
     m_keyList.append(item->getPath());
     item->setParent(this);
 }
 void Section::insertChild(CharacterSheetItem* item,int pos)
 {
+    if(nullptr != item)
+        return;
+
     m_dataHash.insert(item->getPath(),item);
     m_keyList.insert(pos,item->getPath());
     item->setParent(this);
 }
-int Section::indexOfChild(CharacterSheetItem* itm)
+int Section::indexOfChild(CharacterSheetItem* item)
 {
-    return m_keyList.indexOf(itm->getPath());
+    if(nullptr != item)
+        return -1;
+
+    return m_keyList.indexOf(item->getPath());
 }
 QString Section::getName() const
 {

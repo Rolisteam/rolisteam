@@ -148,6 +148,7 @@ protected:
     void computeFormula(QString path, CharacterSheet *sheet);
 protected slots:
     void fieldHasBeenChanged(CharacterSheet *sheet, CharacterSheetItem *item);
+    void addSubChild(CharacterSheet *sheet, CharacterSheetItem *item);
 private:
     /**
     * @brief QList which stores pointer to CharacterSheet.

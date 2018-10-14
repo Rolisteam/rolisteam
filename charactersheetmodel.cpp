@@ -22,6 +22,7 @@
 #include "charactersheet.h"
 #include "section.h"
 #include "field.h"
+#include "tablefield.h"
 //#include "charactersheetbutton.h"
 
 #include <QDebug>
@@ -149,7 +150,7 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
                 {
                     QString path = childItem->getPath();
                     CharacterSheet* sheet = m_characterList->at(index.column()-1);
-                    return sheet->getValue(path,(Qt::ItemDataRole)role);
+                    return sheet->getValue(path,static_cast<Qt::ItemDataRole>(role));
                 }
             }
         }
@@ -200,7 +201,7 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
 }
 void CharacterSheetModel::computeFormula(QString path,CharacterSheet* sheet)
 {
-    QList<QString> List = sheet->getAllDependancy(path);
+    QStringList List = sheet->getAllDependancy(path);
 
     for(auto item : List)
     {
@@ -211,8 +212,6 @@ void CharacterSheetModel::computeFormula(QString path,CharacterSheet* sheet)
         m_formulaManager->setConstantHash(&hash);
         formula = sheet->getValue(item,Qt::EditRole).toString();
         valueStr=m_formulaManager->getValue(formula).toString();
-
-
         sheet->setValue(item,valueStr,formula);
     }
 }
@@ -251,12 +250,31 @@ void CharacterSheetModel::checkCharacter(Section *section)
         {
             auto id = section->getChildAt(i);
             auto field = sheet->getFieldFromKey(id->getId());
-            if(nullptr == field)
+            if(nullptr == field && id->getFieldType() != CharacterSheetItem::TABLE)
             {
                 Field* newField = new Field(false);
                 newField->copyField(id,true);
                 sheet->insertCharacterItem(newField);
                 field = newField;
+            }
+            else if(nullptr == field && id->getFieldType() == CharacterSheetItem::TABLE)
+            {
+                TableField* newtablefield = new TableField(false);
+                newtablefield->copyField(id,true);
+                sheet->insertCharacterItem(newtablefield);
+                field = newtablefield;
+            }
+            for(int j = 0; j < id->getChildrenCount(); ++j)
+            {
+                auto childFormat = id->getChildAt(j);
+                auto childCharacter = field->getChildAt(j);
+                if(nullptr != childFormat && nullptr != childCharacter)
+                {
+                    if(childFormat->getId() != childCharacter->getId())
+                    {
+                        childCharacter->setId(childFormat->getId());
+                    }
+                }
             }
             if(field->getFieldType() != id->getFieldType())
             {
@@ -282,7 +300,23 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet, int pos)
 
     emit dataCharacterChange();
     connect(sheet,SIGNAL(updateField(CharacterSheet*,CharacterSheetItem*)),this,SLOT(fieldHasBeenChanged(CharacterSheet*,CharacterSheetItem*)));
+    connect(sheet,&CharacterSheet::addLineToTableField,this,&CharacterSheetModel::addSubChild);
 
+}
+
+void CharacterSheetModel::addSubChild(CharacterSheet* sheet, CharacterSheetItem* item)
+{
+    if(!m_rootSection)
+        return;
+
+    auto c = m_characterList->indexOf(sheet)+1;
+    auto r = m_rootSection->indexOfChild(m_rootSection->getChildAt(item->getPath()));
+    qDebug() << "addSubchil" << r << c;
+    auto index = createIndex(r,c);
+    beginInsertRows(index,item->getChildrenCount(),item->getChildrenCount());
+    //generic method - for tableview the item is built from the last one.
+    item->appendChild(nullptr);
+    endInsertRows();
 }
 void CharacterSheetModel::removeCharacterSheet(CharacterSheet* sheet)
 {

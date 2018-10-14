@@ -57,7 +57,24 @@ int CharacterSheet::getFieldCount()
     return m_valuesMap.size();
 }
 
-CharacterSheetItem* CharacterSheet::getFieldAt(int i)
+CharacterSheetItem* CharacterSheet::getFieldFromIndex(const std::vector<int>& row) const
+{
+    if(row.empty())
+        return nullptr;
+
+    size_t i = 0;
+    auto index = row[i];
+    auto item = getFieldAt(index);
+    ++i;
+    while(nullptr != item && i < row.size())
+    {
+        item = item->getChildAt(index);
+        ++i;
+    }
+    return item;
+}
+
+CharacterSheetItem* CharacterSheet::getFieldAt(int i) const
 {
     if(i<m_valuesMap.size() && i >=0)
     {
@@ -85,6 +102,36 @@ CharacterSheetItem* CharacterSheet::getFieldFromKey(QString key) const
 const  QVariant CharacterSheet::getValue(QString path,Qt::ItemDataRole role) const
 {
     CharacterSheetItem* item = getFieldFromKey(path);
+    if(nullptr!=item)
+    {
+        if(role == Qt::DisplayRole)
+        {
+             return item->value();
+        }
+        else if(role == Qt::EditRole)
+        {
+            QString str = item->getFormula();
+            if(str.isEmpty())
+            {
+                str = item->value();
+            }
+            return str;
+        }
+        else if(role == Qt::UserRole)
+        {
+            return item->getFormula();
+        }
+        else if(role == Qt::BackgroundRole)
+        {
+            return item->isReadOnly() ? QColor(Qt::red) : QVariant();
+        }
+    }
+    return QString();
+}
+
+const  QVariant CharacterSheet::getValueByIndex(const std::vector<int>& row,QString path,Qt::ItemDataRole role) const
+{
+    CharacterSheetItem* item = getFieldFromIndex(row);//getFieldFromKey(path);
     if(nullptr!=item)
     {
         if(role == Qt::DisplayRole)
@@ -240,7 +287,11 @@ void CharacterSheet::load(QJsonObject& json)
         }
         else if(item["type"]== QStringLiteral("TableField"))
         {
-            itemSheet = new TableField();
+            auto table = new TableField();
+            itemSheet = table;
+            connect(table,&TableField::lineMustBeAdded,this,[this](TableField* field){
+                emit addLineToTableField(this,field);
+            });
         }
 
         if(nullptr!=itemSheet)
@@ -309,5 +360,7 @@ QHash<QString, QString> CharacterSheet::getVariableDictionnary()
 
 void CharacterSheet::insertCharacterItem(CharacterSheetItem *item)
 {
+    if(nullptr == item)
+        return;
    insertField(item->getId(),item);
 }

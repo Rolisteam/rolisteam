@@ -247,6 +247,7 @@ int LineModel::getColumnCount() const
 
 Field* LineModel::getField(int line, int col)
 {
+    qDebug() << "lineCount" << m_lines.size();
     if(m_lines.size()>line)
     {
         return m_lines.at(line)->getField(col);
@@ -363,9 +364,13 @@ void TableField::removeLastLine()
 
 void TableField::addLine()
 {
-    m_model->appendLine(this);
+    emit lineMustBeAdded(this);
 }
 
+void TableField::appendChild(CharacterSheetItem*)
+{
+    m_model->appendLine(this);
+}
 
 void TableField::init()
 {
@@ -456,7 +461,9 @@ CharacterSheetItem* TableField::getChildAt(int index) const
     int itemPerLine = m_model->getColumnCount();
     int line = index/itemPerLine;
     int col = index - (line*itemPerLine);
-    return m_model->getField(line,col);
+    auto item = m_model->getField(line,col);
+    qDebug() << "childAt" << col << line << index << item->getId() << item->value() << item->getLabel();
+    return item;
 }
 
 void TableField::save(QJsonObject &json, bool exp)
@@ -630,56 +637,10 @@ bool TableField::mayHaveChildren() const
 
 void TableField::fillModel()
 {
-   /* #ifdef RCSE
-    Q_UNUSED(i)
-    Q_UNUSED(isTable)
-
-    if(nullptr==m_tableCanvasField)
-    {
-        return;
-    }*/
-
-
     m_model->clear();
     #ifdef RCSE
     m_tableCanvasField->fillLineModel(m_model,this);
     #endif
-    /*emit updateNeeded(this);
-    if(sec==CharacterSheetItem::FieldSec)
-    {
-        out << "    ListView{//"<< m_label <<"\n";
-        out << "        id: _" << m_id<<"list\n";
-        out << "        x:" << m_tableCanvasField->pos().x() << "*root.realscale"<<"\n";
-        out << "        y:" <<  m_tableCanvasField->pos().y()<< "*root.realscale"<<"\n";
-        out << "        width:" << m_tableCanvasField->boundingRect().width() <<"*root.realscale"<<"\n";
-        out << "        height:"<< m_tableCanvasField->boundingRect().height()<<"*root.realscale"<<"\n";
-        if(m_page>=0)
-        {
-            out << "    visible: root.page == "<< m_page << "? true : false\n";
-        }
-        out << "        readonly property int maxRow:"<<m_tableCanvasField->lineCount() << "\n";
-        out << "        interactive: count>maxRow?true:false;\n";
-        out << "        clip: true;\n";
-        out << "        model:"<< m_id << ".model\n";
-        out << "        delegate: RowLayout {\n";
-        out << "            height: _"<< m_id<<"list.height/_"<< m_id<<"list.maxRow\n";
-        out << "            width:  _"<< m_id<<"list.width\n";
-        out << "            spacing:0\n";
-        m_tableCanvasField->generateSubFields(out);
-        out << "        }\n";
-        out << "     }\n";
-        out << "     Button {\n";
-        out << computeControlPosition();
-        out << "        text: \""<< tr("Add line") << "\"\n";
-        out << "        onClicked: "<< m_id <<".addLine()\n";
-        out << "     }\n";
-    }
-    #else
-        Q_UNUSED(out)
-        Q_UNUSED(sec)
-        Q_UNUSED(isTable)
-        Q_UNUSED(i)
-    #endif*/
 }
 
 QString TableField::computeControlPosition()

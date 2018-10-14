@@ -83,7 +83,7 @@ public:
      * @param i
      * @return
      */
-    CharacterSheetItem* getFieldAt(int i);
+    CharacterSheetItem* getFieldAt(int i) const;
 
     /**
      * @brief getFieldFromKey
@@ -128,16 +128,19 @@ public:
     void setOrigin(Section*);
 
     QList<QString> getAllDependancy(QString key);
+    CharacterSheetItem *getFieldFromIndex(const std::vector<int> &row) const;
 public slots:
     /**
     * @brief global getter of data.  This function has been written to make easier the MVC architecture.
     * @param QString path : 0 refers to the title of the first section, 1 refers to the first data of the first section....
     */
-    const  QVariant getValue(QString key,Qt::ItemDataRole role = Qt::DisplayRole) const;
+    const  QVariant getValueByIndex(const std::vector<int> &row, QString key, Qt::ItemDataRole role = Qt::DisplayRole) const;
+    const QVariant getValue(QString path, Qt::ItemDataRole role = Qt::DisplayRole) const;
     CharacterSheetItem* setValue(QString key , QString value, QString formula);
 
 signals:
     void updateField(CharacterSheet*,CharacterSheetItem* );
+    void addLineToTableField(CharacterSheet*, CharacterSheetItem* );
 
 protected:
     void insertField(QString key, CharacterSheetItem *itemSheet);

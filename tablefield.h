@@ -106,14 +106,14 @@ class TableField : public Field
 public:
     //enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,BottomRight,BottomMiddle,BottomLeft};
     enum ControlPosition {CtrlLeftTop,CtrlLeftBottom,CtrlTopLeft,CtrlTopRight,CtrlBottomLeft,CtrlBottomRight,CtrlRightTop,CtrlRightBottom};
-    explicit TableField(bool addCount = true,QGraphicsItem* parent = 0);
-    explicit TableField(QPointF topleft,bool addCount = true,QGraphicsItem* parent = 0);
+    explicit TableField(bool addCount = true,QGraphicsItem* parent = nullptr);
+    explicit TableField(QPointF topleft,bool addCount = true,QGraphicsItem* parent = nullptr);
     void fillModel();
     virtual ~TableField();
 
     LineModel* getModel () const;
 
-    virtual bool mayHaveChildren()const;
+    virtual bool mayHaveChildren() const;
 
     virtual void setCanvasField(CanvasField* canvasField);
 
@@ -140,13 +140,14 @@ public:
     int getMaxVisibleRowCount() const;
 
     CharacterSheetItem* getRoot();
-
+    void appendChild(CharacterSheetItem*);
 public slots:
     void addLine();
     void removeLine(int line);
     void removeLastLine();
 signals:
     void updateNeeded(CSItem* c);
+    void lineMustBeAdded(TableField* table);
 
 protected:
     void init();
