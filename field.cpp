@@ -480,7 +480,7 @@ void Field::loadDataItem(QJsonObject &json)
     setLabel(json["label"].toString());
     setFormula(json["formula"].toString());
     setReadOnly(json["readonly"].toBool());
-    m_currentType=(Field::TypeField)json["typefield"].toInt();
+    m_currentType=static_cast<Field::TypeField>(json["typefield"].toInt());
 }
 
 void Field::saveDataItem(QJsonObject &json)

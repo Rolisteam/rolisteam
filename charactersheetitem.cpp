@@ -211,7 +211,7 @@ int CharacterSheetItem::rowInParent()
         return -1;
     return m_parent->indexOfChild(this);
 }
-bool CharacterSheetItem::mayHaveChildren()
+bool CharacterSheetItem::mayHaveChildren() const
 {
     return false;
 }

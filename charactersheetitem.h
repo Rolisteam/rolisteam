@@ -90,7 +90,7 @@ public:
      * @brief mayHaveChildren
      * @return
      */
-    virtual bool mayHaveChildren();
+    virtual bool mayHaveChildren() const;
     /**
      * @brief appendChild
      */

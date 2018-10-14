@@ -49,8 +49,8 @@ public:
 
     enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,BottomRight,BottomMiddle,BottomLeft};
 
-    explicit Field(bool addCount = true,QGraphicsItem* parent = 0);
-    explicit Field(QPointF topleft,bool addCount = true,QGraphicsItem* parent = 0);
+    explicit Field(bool addCount = true,QGraphicsItem* parent = nullptr);
+    explicit Field(QPointF topleft,bool addCount = true,QGraphicsItem* parent = nullptr);
     virtual ~Field();
 
     QSize size() const;
