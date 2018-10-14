@@ -19,20 +19,20 @@
     ***************************************************************************/
 #include "setbackgroundimage.h"
 
-SetBackgroundCommand::SetBackgroundCommand(QGraphicsPixmapItem*& bg,Canvas* canvas,const QUrl& url,QUndoCommand *parent)
-  : QUndoCommand(parent),m_image(new QPixmap(url.toLocalFile())),m_canvas(canvas),m_bgItem(bg)
+SetBackgroundCommand::SetBackgroundCommand(Canvas* canvas,const QUrl& url,QUndoCommand *parent)
+  : QUndoCommand(parent),m_image(new QPixmap(url.toLocalFile())),m_canvas(canvas)
 {
     init();
 }
-SetBackgroundCommand::SetBackgroundCommand(QGraphicsPixmapItem*& bg,Canvas* canvas,QPixmap* pix, QUndoCommand *parent)
- : QUndoCommand(parent),m_image(pix),m_canvas(canvas),m_bgItem(bg)
+SetBackgroundCommand::SetBackgroundCommand(Canvas* canvas,QPixmap* pix, QUndoCommand *parent)
+ : QUndoCommand(parent),m_image(pix),m_canvas(canvas)
 {
    init();
 }
 void SetBackgroundCommand::init()
 {
     m_previousRect = m_canvas->sceneRect();
-
+    m_bgItem = m_canvas->getBg();
     if(nullptr == m_bgItem)
     {
         m_bgItem = new QGraphicsPixmapItem();
@@ -41,6 +41,7 @@ void SetBackgroundCommand::init()
         m_bgItem->setFlag(QGraphicsItem::ItemIsMovable,false);
         m_bgItem->setFlag(QGraphicsItem::ItemIsFocusable,false);
         m_bgItem->setAcceptedMouseButtons(Qt::NoButton);
+        m_canvas->setBg(m_bgItem);
     }
     setText(QObject::tr("Set background on Page #%1").arg(m_canvas->currentPage()+1));
 }
@@ -63,5 +64,5 @@ void SetBackgroundCommand::redo()
    m_canvas->addItem(m_bgItem);
    m_bgItem->setZValue(-1);
    m_canvas->setPixmap(m_image);
-    m_canvas->setSceneRect(m_bgItem->boundingRect());
+   m_canvas->setSceneRect(m_bgItem->boundingRect());
 }

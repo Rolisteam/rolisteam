@@ -64,7 +64,7 @@ void Canvas::dropEvent ( QGraphicsSceneDragDropEvent * event )
         {
             if(url.isLocalFile())
             {
-                SetBackgroundCommand* cmd = new SetBackgroundCommand(m_bg,this,url);
+                SetBackgroundCommand* cmd = new SetBackgroundCommand(this,url);
                 m_undoStack->push(cmd);
                 emit imageChanged();
             }
@@ -171,6 +171,7 @@ QGraphicsPixmapItem* Canvas::getBg() const
 void Canvas::setBg(QGraphicsPixmapItem *bg)
 {
     m_bg = bg;
+    emit imageChanged();
 }
 
 QUndoStack *Canvas::undoStack() const
@@ -259,17 +260,5 @@ QPixmap* Canvas::pixmap()
 void Canvas::setPixmap(QPixmap* pix)
 {
     m_pix = pix;
-   /* if((nullptr!=m_pix)&&(!m_pix->isNull()))
-    {
-        if(nullptr == m_bg)
-        {
-            m_bg = addPixmap(*m_pix);
-            m_bg->setFlag(QGraphicsItem::ItemIsSelectable,false);
-            m_bg->setFlag(QGraphicsItem::ItemSendsGeometryChanges,false);
-            m_bg->setFlag(QGraphicsItem::ItemIsMovable,false);
-            m_bg->setFlag(QGraphicsItem::ItemIsFocusable,false);
-            m_bg->setAcceptedMouseButtons(Qt::NoButton);
-            setSceneRect(m_bg->boundingRect());
-        }
-    }*/
+    emit imageChanged();
 }

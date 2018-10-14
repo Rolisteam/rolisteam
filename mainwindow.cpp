@@ -105,9 +105,6 @@ MainWindow::MainWindow(QWidget *parent) :
     addDockWidget(Qt::BottomDockWidgetArea,wid);
     auto showLogPanel = wid->toggleViewAction();
 
-
-
-
     m_additionnalCode = "";
     m_additionnalImport = "";
     m_fixedScaleSheet = 1.0;
@@ -131,17 +128,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->treeView->setCanvasList(&m_canvasList);
     ui->treeView->setUndoStack(&m_undoStack);
 
-
     DeletePageCommand::setPagesModel(AddPageCommand::getPagesModel());
 
     connect(AddPageCommand::getPagesModel(),SIGNAL(modelReset()),
             this,SLOT(pageCountChanged()));
 
-
     canvas->setModel(m_model);
 
     m_view = new ItemEditor(this);
-    //m_view->setContextMenuPolicy(Qt::CustomContextMenu);
 
     //////////////////////////////////////
     // QAction for Canvas
@@ -161,18 +155,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_sameWidth,SIGNAL(triggered(bool)),this,SLOT(sameGeometry()));
     connect(m_sameHeight,SIGNAL(triggered(bool)),this,SLOT(sameGeometry()));
 
-
     m_view->installEventFilter(this);
 
     ui->m_codeToViewBtn->setDefaultAction(ui->m_codeToViewAct);
     ui->m_generateCodeBtn->setDefaultAction(ui->m_genarateCodeAct);
 
-
     //////////////////////////////////////
     // end of QAction for view
     //////////////////////////////////////
-
-
 
     connect(ui->m_showItemIcon,&QAction::triggered,[=](bool triggered)
     {
@@ -199,16 +189,11 @@ MainWindow::MainWindow(QWidget *parent) :
     undo->setShortcut(QKeySequence::Undo);
     redo->setShortcut(QKeySequence::Redo);
 
-
-    //m_view->setViewport(new QOpenGLWidget());
-
     connect(ui->m_backgroundImageAct,SIGNAL(triggered(bool)),this,SLOT(openImage()));
     connect(m_view, SIGNAL(openContextMenu(QPoint)),this, SLOT(menuRequestedFromView(QPoint)));
 
     m_view->setScene(canvas);
     ui->scrollArea->setWidget(m_view);
-
-    //ui->m_splitter->setStretchFactor(0,1);
 
     ui->m_addCheckBoxAct->setData(Canvas::ADDCHECKBOX);
     ui->m_addTextAreaAct->setData(Canvas::ADDTEXTAREA);
@@ -330,7 +315,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_addCharacter = new QAction(tr("Add character"),this);
 
-
     m_characterModel = new CharacterSheetModel();
     connect(m_characterModel,SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)),this,SLOT(modelChanged()));
     connect(m_characterModel,SIGNAL(columnsInserted(QModelIndex,int,int)),this,SLOT(columnAdded()));
@@ -342,7 +326,13 @@ MainWindow::MainWindow(QWidget *parent) :
         m_undoStack.push(new AddCharacterCommand(m_characterModel));
     });
 
-    connect(ui->m_newAct,SIGNAL(triggered(bool)),this,SLOT(clearData()));
+    connect(ui->m_scaleSlider,&QSlider::valueChanged,this,[this](int val){
+        qreal scale = val/100.0 ;
+        QTransform transform(scale,0,0,0,scale,0,0,0);
+        m_view->setTransform(transform);
+    });
+
+    connect(ui->m_newAct,&QAction::triggered,this,&MainWindow::clearData);
 
     connect(ui->m_openLiberapay,&QAction::triggered,[=]{
         if (!QDesktopServices::openUrl(QUrl("https://liberapay.com/Rolisteam/donate")))
@@ -367,7 +357,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_copyCharacter= new QAction(tr("Copy character"),this);
     m_defineAsTabName= new QAction(tr("Character's Name"),this);
 
-
     m_applyValueOnAllCharacterLines= new QAction(tr("Apply on all lines"),this);
     m_applyValueOnSelectedCharacterLines= new QAction(tr("Apply on Selection"),this);
     m_applyValueOnAllCharacters = new QAction(tr("Apply on all characters"),this);
@@ -378,14 +367,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_aboutRcseAct,SIGNAL(triggered(bool)),this,SLOT(aboutRcse()));
     connect(ui->m_onlineHelpAct, SIGNAL(triggered()), this, SLOT(helpOnLine()));
 
-
     m_imageModel = new ImageModel(m_pixList);
     canvas->setImageModel(m_imageModel);
     ui->m_imageList->setModel(m_imageModel);
 
     ui->m_imageList->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->m_imageList,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequestedForImageModel(QPoint)));
-
 
     m_imageModel->setImageProvider(m_imgProvider);
     auto* view = ui->m_imageList->horizontalHeader();
@@ -394,20 +381,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_imageList->setAlternatingRowColors(true);
 #endif
 
-
     ui->m_addImageBtn->setDefaultAction(ui->m_addImageAct);
     ui->m_removeImgBtn->setDefaultAction(ui->m_deleteImageAct);
-
 
     connect(ui->m_addImageAct,SIGNAL(triggered(bool)),this,SLOT(addImage()));
     connect(ui->m_deleteImageAct,&QAction::triggered,this,[=](){
         auto index = ui->m_imageList->currentIndex();
         m_imageModel->removeImageAt(index);
     });
-
-    // Make the table button invisible
-    //ui->m_tableFieldBtn->setVisible(false);
-
 
     //////////////////////////////////////////
     ///
@@ -654,10 +635,8 @@ void MainWindow::openPDF()
                     if(nullptr!=canvas)
                     {
                         canvas->setPixmap(pix);
-                        auto bg = canvas->getBg();
-                        SetBackgroundCommand* cmd = new SetBackgroundCommand(bg,canvas,pix);
+                        SetBackgroundCommand* cmd = new SetBackgroundCommand(canvas,pix);
                         m_undoStack.push(cmd);
-                        canvas->setBg(bg);
                         QString key = QStringLiteral("%2_background_%1.jpg").arg(lastCanvas+i).arg(id);
                         m_imageModel->insertImage(pix,key,QString("From PDF"),true);
                     }
@@ -702,10 +681,8 @@ void MainWindow::openImage()
             {
                 Canvas* canvas = m_canvasList[m_currentPage];
                 canvas->setPixmap(pix);
-                auto bg = canvas->getBg();
-                SetBackgroundCommand* cmd = new SetBackgroundCommand(bg,canvas,pix);
+                SetBackgroundCommand* cmd = new SetBackgroundCommand(canvas,pix);
                 m_undoStack.push(cmd);
-                canvas->setBg(bg);
                 QString id = QUuid::createUuid().toString();
                 QString key = QStringLiteral("%2_background_%1.jpg").arg(m_currentPage).arg(id);
                 m_imageModel->insertImage(pix,key,img,true);
@@ -1177,11 +1154,8 @@ void MainWindow::open()
                             canvas->setModel(m_model);
                             canvas->setImageModel(m_imageModel);
                             canvas->setUndoStack(&m_undoStack);
-                            auto bg = canvas->getBg();
-                            SetBackgroundCommand cmd(bg,canvas,pix);
+                            SetBackgroundCommand cmd(canvas,pix);
                             cmd.redo();
-                            canvas->setBg(bg);
-
                             canvas->setPixmap(pix);
                             canvas->setCurrentPage(i);
                             m_canvasList.append(canvas);
@@ -1190,10 +1164,8 @@ void MainWindow::open()
                         else
                         {
                             m_canvasList[0]->setPixmap(pix);
-                            auto bg = m_canvasList[0]->getBg();
-                            SetBackgroundCommand cmd(bg,m_canvasList[0],pix);
+                            SetBackgroundCommand cmd(m_canvasList[0],pix);
                             cmd.redo();
-                            m_canvasList[0]->setBg(bg);
                         }
                         ++i;
                     }

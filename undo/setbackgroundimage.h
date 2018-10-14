@@ -29,8 +29,8 @@
 class SetBackgroundCommand : public QUndoCommand
 {
 public:
-  SetBackgroundCommand(QGraphicsPixmapItem*& bg,Canvas* canvas,const QUrl& url, QUndoCommand *parent = 0);
-  SetBackgroundCommand(QGraphicsPixmapItem*& bg,Canvas* canvas,QPixmap* pix, QUndoCommand *parent = 0);
+  SetBackgroundCommand(Canvas* canvas,const QUrl& url, QUndoCommand *parent = nullptr);
+  SetBackgroundCommand(Canvas* canvas,QPixmap* pix, QUndoCommand *parent = nullptr);
 
 
   void undo() override;
