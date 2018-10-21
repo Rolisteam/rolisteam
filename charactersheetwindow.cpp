@@ -29,6 +29,8 @@
 #include <QQmlProperty>
 #include <QPrinter>
 #include <QToolButton>
+#include <QAction>
+#include <QContextMenuEvent>
 
 #include "charactersheetwindow.h"
 #include "charactersheet/charactersheet.h"
@@ -89,6 +91,15 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     m_imgProvider = new RolisteamImageProvider();
     m_pixmapList = QSharedPointer<QHash<QString,QPixmap>>(new QHash<QString,QPixmap>());
     m_imgProvider->setData(m_pixmapList);
+
+
+    auto button = new QToolButton();//tr("Actions")
+    auto act = new QAction(QIcon("://resources/icons/list.svg"), tr("Actions"),this);
+    button->setDefaultAction(act);
+    m_tabs->setCornerWidget(button);
+    connect(button,&QPushButton::clicked,this,[button,this](){
+        contextMenuForTabs(QPoint(button->pos().x(),0));
+    });
 }
 CharacterSheetWindow::~CharacterSheetWindow()
 {
@@ -158,10 +169,10 @@ void CharacterSheetWindow::setReadOnlyOnSelection()
     }
     for(CharacterSheetItem* csitem : listItem)
     {
-         if(nullptr!=csitem)
-         {
+        if(nullptr!=csitem)
+        {
             csitem->setReadOnly(valueToSet);
-         }
+        }
     }
 }
 
@@ -203,14 +214,13 @@ void CharacterSheetWindow::addSharingMenu(QMenu* share)
 
 }
 
-void CharacterSheetWindow::contextMenuForTabs(int x, int y)
+void CharacterSheetWindow::contextMenuForTabs(const QPoint &pos)
 {
     QMenu menu(this);
 
-    QPoint pos(x,y);
     QWidget* wid = m_tabs->currentWidget();
     QQuickWidget* quickWid=dynamic_cast<QQuickWidget*>(wid);
-     m_currentCharacterSheet =  m_characterSheetlist.value(quickWid);
+    m_currentCharacterSheet =  m_characterSheetlist.value(quickWid);
 
     if(nullptr!=m_currentCharacterSheet)
     {
@@ -243,6 +253,21 @@ bool CharacterSheetWindow::eventFilter(QObject *object, QEvent *event)
         }
         return MediaContainer::eventFilter(object,event);
     }
+    /*else if(event->type() == QEvent::MouseButtonPress)
+    {
+        qDebug() << "mouse Press";
+    }
+    else if (event->type() == QEvent::ContextMenu)
+    {
+       // QQuickItem* wid = dynamic_cast<QQuickItem*>(object);
+        auto menuEvent = dynamic_cast<QContextMenuEvent*>(event);
+        if( nullptr != menuEvent)//nullptr != wid &&
+        {
+            contextMenuForTabs(menuEvent->pos());
+        }
+        qDebug() << "Context Menu";
+        return false;
+    }*/
     return MediaContainer::eventFilter(object,event);
 }
 
@@ -397,6 +422,11 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
 
     qmlView->setSource(QUrl::fromLocalFile(fileTemp.fileName()));
     qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    auto window = qmlView->rootObject();
+    if(nullptr != window)
+        //window->installEventFilter(this);
+    //qmlView->setContextMenuPolicy(Qt::CustomContextMenu);
+    //connect(qmlView, &QQuickWidget::customContextMenuRequested,this,&CharacterSheetWindow::contextMenuForTabs);
     readErrorFromQML(qmlView->errors());
     displayError(qmlView->errors());
 
@@ -410,15 +440,10 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     m_characterSheetlist.insert(qmlView,chSheet);
     int id = m_tabs->addTab(qmlView,chSheet->getTitle());
     auto tabBar = m_tabs->tabBar();
-    if(nullptr != tabBar)
+    /* if(nullptr != tabBar)
     {
-        auto button = new QPushButton(tr("Actions"));
-        button->setFlat(true);
-        tabBar->setTabButton(id,QTabBar::RightSide,button);
-        connect(button,&QPushButton::clicked,this,[button,this](){
-            contextMenuForTabs(button->pos().x(),0);
-        });
-    }
+
+    }*/
     if(!m_localIsGM)
     {
         m_tabs->setCurrentIndex(id);
@@ -512,10 +537,10 @@ void  CharacterSheetWindow::saveCharacterSheet()
 {
     if((nullptr!=m_uri)&&(m_uri->getUri().isEmpty()))
     {
-       QString uri = QFileDialog::getSaveFileName(this, tr("Save Character Sheets Data"), m_preferences->value(QString("CharacterSheetDirectory"),QDir::homePath()).toString(),
-                                                 tr("Character Sheets Data files (*.rcs)"));
+        QString uri = QFileDialog::getSaveFileName(this, tr("Save Character Sheets Data"), m_preferences->value(QString("CharacterSheetDirectory"),QDir::homePath()).toString(),
+                                                   tr("Character Sheets Data files (*.rcs)"));
 
-       m_uri->setUri(uri);
+        m_uri->setUri(uri);
     }
     saveMedia();
 
@@ -613,7 +638,7 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
     {
         QFile file(fileUri);
         if(file.open(QIODevice::ReadOnly))
-        {         
+        {
             readData(file.readAll());
         }
         return true;

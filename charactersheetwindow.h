@@ -165,7 +165,7 @@ public slots:
      * @brief contextMenuForTabs
      * @param pos
      */
-    void contextMenuForTabs(int x, int y);
+    void contextMenuForTabs(const QPoint &pos);
     /**
      * @brief detachTab
      */
