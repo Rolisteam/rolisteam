@@ -87,7 +87,7 @@ bool Section::mayHaveChildren() const
 
 void Section::appendChild(CharacterSheetItem* item)
 {
-    if(nullptr != item)
+    if(nullptr == item)
         return;
     m_dataHash.insert(item->getPath(),item);
     m_keyList.append(item->getPath());
@@ -95,7 +95,7 @@ void Section::appendChild(CharacterSheetItem* item)
 }
 void Section::insertChild(CharacterSheetItem* item,int pos)
 {
-    if(nullptr != item)
+    if(nullptr == item)
         return;
 
     m_dataHash.insert(item->getPath(),item);
@@ -104,7 +104,7 @@ void Section::insertChild(CharacterSheetItem* item,int pos)
 }
 int Section::indexOfChild(CharacterSheetItem* item)
 {
-    if(nullptr != item)
+    if(nullptr == item)
         return -1;
 
     return m_keyList.indexOf(item->getPath());
