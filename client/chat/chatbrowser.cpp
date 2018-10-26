@@ -41,7 +41,9 @@ ChatBrowser::ChatBrowser(bool showTimeStatus,QWidget *parent) :
     setReadOnly(true);
     setUndoRedoEnabled(false);
     setWordWrapMode(QTextOption::WordWrap);
-    document()->setDefaultStyleSheet(QString(".dice {color:%1;font-weight: bold;}").arg(PreferencesManager::getInstance()->value("DiceHighlightColor",QColor(Qt::red)).value<QColor>().name()));
+    document()->setDefaultStyleSheet(QString(".dice {color:%1;font-weight: bold;}"
+                                             ".big {font-weight: bold;}"
+                                             ".italic {font-style: italic;}").arg(PreferencesManager::getInstance()->value("DiceHighlightColor",QColor(Qt::red)).value<QColor>().name()));
 }
 void ChatBrowser::backGroundChanged()
 {
