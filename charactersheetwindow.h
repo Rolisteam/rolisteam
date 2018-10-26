@@ -26,7 +26,6 @@
 #include <QHBoxLayout>
 #include <QHBoxLayout>
 #include <QQmlEngine>
-#include <QQuickWidget>
 
 #include "data/mediacontainer.h"
 #include "charactersheetmodel.h"
@@ -52,6 +51,7 @@
 /**
     * @brief herits from SubMdiWindows. It displays and manages all classes required to deal with the character sheet MVC architrecture.
     */
+class SheetWidget;
 class CharacterSheetWindow : public MediaContainer
 {
     Q_OBJECT
@@ -165,7 +165,7 @@ public slots:
      * @brief contextMenuForTabs
      * @param pos
      */
-    void contextMenuForTabs(const QPoint &pos);
+    void contextMenuForTabs(const QPoint pos);
     /**
      * @brief detachTab
      */
@@ -337,7 +337,7 @@ private:
      */
     QTabWidget* m_tabs;
 
-    QMap<QQuickWidget*,CharacterSheet*> m_characterSheetlist;
+    //QMap<SheetWidget*,CharacterSheet*> m_characterSheetlist;
     CharacterSheet* m_currentCharacterSheet;
     RolisteamImageProvider* m_imgProvider;
     QQmlComponent* m_sheetComponent;

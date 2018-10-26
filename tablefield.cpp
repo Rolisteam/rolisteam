@@ -462,7 +462,6 @@ CharacterSheetItem* TableField::getChildAt(int index) const
     int line = index/itemPerLine;
     int col = index - (line*itemPerLine);
     auto item = m_model->getField(line,col);
-    qDebug() << "childAt" << col << line << index << item->getId() << item->value() << item->getLabel();
     return item;
 }
 

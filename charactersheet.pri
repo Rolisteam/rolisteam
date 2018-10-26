@@ -6,6 +6,7 @@ HEADERS += $$PWD/charactersheetwindow.h \
     $$PWD/tablefield.h\
     $$PWD/csitem.h\
     $$PWD/section.h \
+    $$PWD/sheetwidget.h \
     $$PWD/rolisteamimageprovider.h \
     $$PWD/formula/formulamanager.h \
     $$PWD/formula/parsingtoolformula.h \
@@ -27,6 +28,7 @@ SOURCES += $$PWD/charactersheetwindow.cpp \
     $$PWD/field.cpp\
     $$PWD/tablefield.cpp\
     $$PWD/csitem.cpp\
+    $$PWD/sheetwidget.cpp \
     $$PWD/rolisteamimageprovider.cpp \
     $$PWD/formula/formulamanager.cpp \
     $$PWD/formula/parsingtoolformula.cpp \

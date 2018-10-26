@@ -53,15 +53,31 @@ CharacterSheetModel::~CharacterSheetModel()
 
 int CharacterSheetModel::rowCount ( const QModelIndex & parent  ) const
 {
-    if (parent.isValid())
+    int val = 0;
+    if(parent.isValid())
     {
         CharacterSheetItem* tmp = static_cast<CharacterSheetItem*>(parent.internalPointer());
-        return tmp->getChildrenCount();
+        if(tmp->getFieldType() == Field::TABLE)
+        {
+            int max = tmp->getChildrenCount();
+            auto result = std::max_element(m_characterList->begin(),m_characterList->end(), [tmp](CharacterSheet* a, CharacterSheet* b){
+                auto fieldA = a->getFieldFromKey(tmp->getId());
+                auto fieldB = b->getFieldFromKey(tmp->getId());
+                return fieldA->getChildrenCount() < fieldB->getChildrenCount();
+            });
+            auto maxfield = (*result)->getFieldFromKey(tmp->getId());
+            val = std::max(max, maxfield->getChildrenCount());
+        }
+        else if(tmp)
+            val = tmp->getChildrenCount();
+        else
+            qDebug() << "parent is valid but internal pointer is not";
     }
     else
     {
-        return m_rootSection->getChildrenCount();
+        val = m_rootSection->getChildrenCount();
     }
+    return val;
 }
 CharacterSheet*  CharacterSheetModel::getCharacterSheet(int id)
 {
@@ -84,21 +100,38 @@ QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex 
         return QModelIndex();
     
     CharacterSheetItem* parentItem = nullptr;
+    CharacterSheetItem* childItem = nullptr;
+    CharacterSheet* sheet = nullptr;
     
-    if (!parent.isValid())
-        parentItem = m_rootSection;
-    else
+    if (!parent.isValid() && column == 0)
+    {
+            parentItem = m_rootSection;
+            //parentItem->getChildAt(row);
+    }
+    else if(parent.isValid())
+    {
         parentItem = static_cast<CharacterSheetItem*>(parent.internalPointer());
+    }
+    else if(!parent.isValid() && column != 0)
+    {
+        sheet = m_characterList->at(column-1);
+    }
+
+    if(nullptr != parentItem)
+        childItem = parentItem->getChildAt(row);
+    else
+    {
+        childItem = sheet->getFieldAt(row);
+    }
     
-    CharacterSheetItem* childItem = parentItem->getChildAt(row);
     if (childItem)
     {
         return createIndex(row, column, childItem);
     }
     else
-        return QModelIndex();
-    
-    
+    {
+        return createIndex(row, column, nullptr);
+    }
 }
 QModelIndex CharacterSheetModel::parent ( const QModelIndex & index ) const
 {
@@ -107,9 +140,13 @@ QModelIndex CharacterSheetModel::parent ( const QModelIndex & index ) const
         return QModelIndex();
     
     CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
+
+    if(nullptr == childItem)
+        return QModelIndex();
+
     CharacterSheetItem* parentItem = childItem->getParent();
     
-    if (parentItem == m_rootSection)
+    if (parentItem == m_rootSection || parentItem == nullptr)
         return QModelIndex();
     
     return createIndex(parentItem->rowInParent(), 0, parentItem);
@@ -127,6 +164,7 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
         CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
         if(nullptr!=childItem)
         {
+            CharacterSheetItem* parentItem = childItem->getParent();
             if(role == Qt::BackgroundRole)
             {
                 if(0!=index.column())
@@ -148,9 +186,30 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
                 }
                 else
                 {
-                    QString path = childItem->getPath();
-                    CharacterSheet* sheet = m_characterList->at(index.column()-1);
-                    return sheet->getValue(path,static_cast<Qt::ItemDataRole>(role));
+                    if(parentItem && parentItem->getFieldType() == Field::TABLE)
+                    {
+                        QString path = parentItem->getPath();
+                        CharacterSheet* sheet = m_characterList->at(index.column()-1);
+                        auto table = sheet->getFieldFromKey(path);
+                        auto child = table->getChildAt(index.row());
+                        if(child == nullptr )
+                            return {};
+                        if(role == Qt::DisplayRole)
+                            return child->value();
+                        else
+                        {
+                            auto val = child->getFormula();
+                            if(val.isEmpty())
+                                val = child->value();
+                            return val;
+                        }
+                    }
+                    else
+                    {
+                        QString path = childItem->getPath();
+                        CharacterSheet* sheet = m_characterList->at(index.column()-1);
+                        return sheet->getValue(path,static_cast<Qt::ItemDataRole>(role));
+                    }
                 }
             }
         }
@@ -234,7 +293,6 @@ void CharacterSheetModel::clearModel()
     beginResetModel();
     qDeleteAll(*m_characterList);
     m_characterList->clear();
-    //m_characterCount = 0;
     if(nullptr != m_rootSection)
     {
         m_rootSection->removeAll();
@@ -311,8 +369,7 @@ void CharacterSheetModel::addSubChild(CharacterSheet* sheet, CharacterSheetItem*
 
     auto c = m_characterList->indexOf(sheet)+1;
     auto r = m_rootSection->indexOfChild(m_rootSection->getChildAt(item->getPath()));
-    qDebug() << "addSubchil" << r << c;
-    auto index = createIndex(r,c);
+    auto index = createIndex(r,c,item);
     beginInsertRows(index,item->getChildrenCount(),item->getChildrenCount());
     //generic method - for tableview the item is built from the last one.
     item->appendChild(nullptr);
@@ -494,6 +551,9 @@ bool CharacterSheetModel::hasChildren ( const QModelIndex & parent  ) const
     else
     {
         CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(parent.internalPointer());
+        if(nullptr == childItem)
+            return false;
+
         if(childItem->getChildrenCount()==0)
             return false;
         else
