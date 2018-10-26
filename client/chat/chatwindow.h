@@ -77,7 +77,7 @@ public :
      * @param dice
      * @return
      */
-    QString diceToText(QList<ExportedDiceResult>& dice);
+    QStringList diceToText(QList<ExportedDiceResult>& dice);
     /**
      * @brief toggleViewAction
      * @return
