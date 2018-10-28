@@ -436,8 +436,15 @@ void VMap::addItem()
     else
     {
         AddVmapItemCommand* itemCmd = new AddVmapItemCommand(m_selectedtool,this, m_first,m_itemColor,m_penSize);
+        if(itemCmd->hasError())
+        {
+            delete itemCmd;
+            return;
+        }
         m_currentItem = itemCmd->getItem();
         m_currentPath = itemCmd->getPath();
+        if(m_currentItem == nullptr)
+            return;
         m_currentItem->setPropertiesHash(m_propertiesHash);
         bool undoable = true;
         if(VToolsBar::Painting != m_editionMode

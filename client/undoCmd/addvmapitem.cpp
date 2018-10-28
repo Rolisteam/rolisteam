@@ -88,7 +88,6 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
         {
             m_error = true;
         }
-
     }
         break;
     case VToolsBar::TEXTBORDER:
