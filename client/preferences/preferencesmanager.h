@@ -24,6 +24,7 @@
 #include <QString>
 #include <QMap>
 #include <QSettings>
+#include <functional>
 
 class PreferencesListener;
 /**
