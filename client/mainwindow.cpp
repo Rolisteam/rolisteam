@@ -65,6 +65,7 @@
 #include "widgets/shortcuteditordialog.h"
 #include "widgets/gmtoolbox/gamemastertool.h"
 #include "pdfviewer/pdfviewer.h"
+#include "keygeneratordialog.h"
 #ifdef HAVE_WEBVIEW
 #include "webview/webview.h"
 #include <QWebEngineSettings>
@@ -186,6 +187,11 @@ MainWindow::MainWindow()
     m_roomPanelDockWidget->setObjectName(m_roomPanel->objectName());
     m_roomPanelDockWidget->setVisible(false);
     addDockWidget(Qt::RightDockWidgetArea, m_roomPanelDockWidget);
+
+    connect(m_ui->m_keyGeneratorAct, &QAction::triggered,this,[](){
+        KeyGeneratorDialog dialog;
+        dialog.exec();
+    });
 
 }
 MainWindow::~MainWindow()

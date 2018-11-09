@@ -213,7 +213,8 @@ HEADERS += \
         common/task/uploadlogtoserver.h \
         common/controller/logcontroller.h \
     data/diceshortcut.h \
-    common/controller/logsenderscheduler.h
+    common/controller/logsenderscheduler.h \
+    keygeneratordialog.h
 
 
    #     persondialog.cpp \
@@ -314,7 +315,8 @@ SOURCES += \
         common/task/uploadlogtoserver.cpp \
         common/controller/logcontroller.cpp \
     data/diceshortcut.cpp \
-    common/controller/logsenderscheduler.cpp
+    common/controller/logsenderscheduler.cpp \
+    keygeneratordialog.cpp
 
 
 FORMS += \
@@ -332,6 +334,7 @@ FORMS += \
     widgets/tipofdayviewer.ui \
     widgets/shortcuteditordialog.ui\
     common/widgets/logpanel.ui\
+    keygeneratordialog.ui
 
 
 # Installs
