@@ -9,7 +9,7 @@ TcpClient::TcpClient(QTcpSocket* socket,QObject *parent)
 {
     m_remainingData=0;
     m_headerRead = 0;
-
+    qRegisterMetaType<TcpClient::ConnectionEvent>();
 }
 TcpClient::~TcpClient()
 {
