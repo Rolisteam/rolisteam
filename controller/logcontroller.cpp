@@ -59,6 +59,7 @@ LogController::~LogController()
 
 void LogController::setMessageHandler(bool attachMessage)
 {
+#ifndef QT_DEBUG
     if((controller == nullptr) && (attachMessage))
     {
            qInstallMessageHandler(messageHandler);
@@ -69,6 +70,7 @@ void LogController::setMessageHandler(bool attachMessage)
         qInstallMessageHandler(nullptr);
         controller= nullptr;
     }
+#endif
 }
 LogController::StorageModes LogController::currentModes() const
 {
