@@ -35,7 +35,7 @@ public:
      * @param socket
      * @param parent
      */
-    explicit TcpClient(QTcpSocket* socket,QObject *parent = 0);
+    explicit TcpClient(QTcpSocket* socket,QObject *parent = nullptr);
     ~TcpClient();
     /**
      * @brief getParentChannel

@@ -202,7 +202,7 @@ void Map::paintEvent(QPaintEvent *event)
         m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         return;
         
-	paintMap(painter);
+    paintMap(painter);
 
 
    // painter.drawImage(rect(), *m_alphaLayer, m_alphaLayer->rect());
