@@ -226,7 +226,7 @@ private slots :
     /**
      * @brief getMessageResult
      */
-    bool getMessageResult(QString& value, QString& command, QString& list);
+    bool getMessageResult(QString& mainResult, QString& detailedResult);
     /**
      * @brief manageDiceRoll
      * @param str

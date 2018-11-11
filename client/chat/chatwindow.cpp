@@ -201,16 +201,17 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
     updateListAlias();
 
     QColor color;
+    QString cmdLine;
     if(m_diceParser->parseLine(str, alias))
     {
+        cmdLine = m_diceParser->getDiceCommand().toHtmlEscaped();
         m_diceParser->start();
         if(m_diceParser->getErrorMap().isEmpty())
         {
             messageTitle = tr("You");
             QString value;
-            QString cmdLine;
             QString list;
-            getMessageResult(value, cmdLine,list);
+            getMessageResult(value, list);
             color = m_localPerson->getColor();
 
             int maxSizeForCuttingDiceCmd = m_preferences->value("maxSizeForCuttingDiceCmd",100).toInt();
@@ -226,7 +227,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
                 {
                     if(cmdMustBeHidden)
                     {//<span class=\"dice\"> </span> // <span title=\"%3\"> </span>
-                        diceOutput = tr("got %1 at your dice roll [%2]","my dice roll").arg(value).arg(list).arg(cmdLine);
+                        diceOutput = tr("<span title=\"%3\">got %1 at your dice roll [%2]</span>","my dice roll").arg(value).arg(list).arg(cmdLine);
                     }
                     else
                     {
@@ -246,7 +247,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
                 {
                     if(cmdMustBeHidden)
                     {
-                        diceOutput2 = tr("got %1 <span title=\"%3\">[%2]</span>","third person").arg(value).arg(list).arg(cmdLine);
+                        diceOutput2 = tr("<span title=\"%3\">got %1 [%2]</span>","third person").arg(value).arg(list).arg(cmdLine);
                     }
                     else
                     {
@@ -263,7 +264,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
     
     if(!m_diceParser->humanReadableError().isEmpty())
     {
-        qInfo() << QStringLiteral("Error on dice command: %1 ").arg(str);
+        qInfo() << QStringLiteral("Error on dice command: %1 ").arg(cmdLine);
         QString messageCorps = m_diceParser->humanReadableError();
         messageTitle = tr("Syntax");
         color = Qt::red;
@@ -515,16 +516,13 @@ QStringList ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
     return global;
 }
 
-bool ChatWindow::getMessageResult(QString& value, QString& command, QString& list)
+bool ChatWindow::getMessageResult(QString& mainResult, QString& detailedResult)
 {
     QString scalarText;
     QString lastScalarText;
     QString diceText;
     QStringList diceTextList;
-    //QString pattern("");
-
     QStringList rlist;
-
 
     bool hasDiceList = false;
     QList<ExportedDiceResult> diceFullList;
@@ -558,8 +556,7 @@ bool ChatWindow::getMessageResult(QString& value, QString& command, QString& lis
         scalarText = QStringLiteral("%1").arg(rlist.join(','));
     }
 
-    list = diceText.trimmed();
-    command = m_diceParser->getDiceCommand().toHtmlEscaped();
+    detailedResult = diceText.trimmed();
     if(m_diceParser->hasStringResult())
     {
         bool ok;
@@ -586,21 +583,21 @@ bool ChatWindow::getMessageResult(QString& value, QString& command, QString& lis
         if(ok)
         {
             QString patternColor("<span class=\"dice\">%1</span>");
-            value =   patternColor.arg(stringResult);
+            mainResult =   patternColor.arg(stringResult);
         }
         else
         {
             //never called
             auto strResult = m_diceParser->getStringResult().join(" ; ").replace("\n","<br/>");
-            value = QStringLiteral("<span class='italic'>test %1</span>").arg(strResult);
-            list = stringResult;
+            mainResult = QStringLiteral("<span class='italic'>test %1</span>").arg(strResult);
+            detailedResult = stringResult;
             hasDiceList = true;
         }
     }
     else
     {
         // red color arround normal dice
-        value=QStringLiteral("<span class=\"dice\">%1</span>").arg(scalarText);
+        mainResult=QStringLiteral("<span class=\"dice\">%1</span>").arg(scalarText);
     }
 
     return hasDiceList;
@@ -955,16 +952,20 @@ void ChatWindow::contextMenuEvent(QContextMenuEvent *event)
             ++i;
             connect(action,&QAction::triggered,this,[=](){
                 auto act = qobject_cast<QAction*>(sender());
-                auto index = act->data().toInt();
-                auto action = m_actionList[index];
-                m_diceBookMarks.erase(m_diceBookMarks.begin()+index);
-                m_actionList.erase(m_actionList.begin()+index);
-                m_toolBar->removeAction(action);
-                delete action;
+                auto indexInt = act->data().toInt();
+                auto index = static_cast<std::size_t>(indexInt);
+                if(index < m_actionList.size())
+                {
+                    auto action = m_actionList[index];
+                    m_diceBookMarks.erase(m_diceBookMarks.begin()+indexInt);
+                    m_actionList.erase(m_actionList.begin()+indexInt);
+                    m_toolBar->removeAction(action);
+                    delete action;
 
-                int j = 0;
-                for(auto act : m_actionList)
-                    act->setData(j++);
+                    int j = 0;
+                    for(auto act : m_actionList)
+                        act->setData(j++);
+                }
             });
         }
     }
