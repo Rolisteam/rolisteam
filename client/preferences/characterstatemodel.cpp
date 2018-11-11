@@ -222,13 +222,13 @@ void CharacterStateModel::downState(QModelIndex& index)
     if(!index.isValid())
         return;
 
-	if(index.row()==m_stateList->size()-1)
+    if(index.row()==m_stateList->size()-1)
         return;
 
     if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),index.row()+2))
     {
-		m_stateList->swap(index.row(),index.row()+1);
-		moveState(index.row(),index.row()+1);
+        m_stateList->swap(index.row(),index.row()+1);
+        moveState(index.row(),index.row()+1);
         endMoveRows();
     }
 }
@@ -253,13 +253,13 @@ void CharacterStateModel::bottomState(QModelIndex& index)
 {
     if(!index.isValid())
         return;
-	if(index.row()==m_stateList->size()-1)
+    if(index.row()==m_stateList->size()-1)
         return;
-	if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),m_stateList->size()))
+    if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),m_stateList->size()))
     {
-		CharacterState* dice = m_stateList->takeAt(index.row());
-		moveState(index.row(),m_stateList->size());
-		m_stateList->append(dice);
+        CharacterState* dice = m_stateList->takeAt(index.row());
+        moveState(index.row(),m_stateList->size());
+        m_stateList->append(dice);
         endMoveRows();
     }
 }
@@ -290,7 +290,7 @@ void CharacterStateModel::processAddState(NetworkMessageReader* msg)
     quint64 id = msg->uint64();
     state->setLabel(msg->string32());
     state->setColor(msg->rgb());
-    bool hasImage = (bool)msg->uint8();
+    bool hasImage = static_cast<bool>(msg->uint8());
     if(hasImage)
     {
         QByteArray array = msg->byteArray32();
@@ -336,7 +336,7 @@ void CharacterStateModel::sendOffAllCharacterState()
         msg.rgb(state->getColor().rgb());
         if(state->hasImage())
         {
-            msg.uint8((quint8)true);
+            msg.uint8(static_cast<quint8>(true));
 
             QByteArray array;
             QBuffer buffer(&array);
@@ -349,7 +349,7 @@ void CharacterStateModel::sendOffAllCharacterState()
         }
         else
         {
-            msg.uint8((quint8)false);
+            msg.uint8(static_cast<quint8>(false));
         }
         msg.sendToServer();
     }
