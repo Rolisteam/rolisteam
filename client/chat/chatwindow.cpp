@@ -535,7 +535,6 @@ bool ChatWindow::getMessageResult(QString& value, QString& command, QString& lis
         m_diceParser->getLastDiceResult(diceList,ok);//fills the ExportedDiceResult
         m_diceParser->getDiceResultFromAllInstruction(diceFullList);
         diceText = diceToText(diceList).join(" - ");
-        qDebug() << "***** dicetext" << diceText;
         diceTextList = diceToText(diceFullList);
         hasDiceList= true;
     }
@@ -578,24 +577,22 @@ bool ChatWindow::getMessageResult(QString& value, QString& command, QString& lis
             --i;
         }
         i = rlist.size();
-        qDebug() << "\n\n\n\n\n\n\n************diceTextList" << diceTextList;
         for(auto it = diceTextList.rbegin(); it != diceTextList.rend() ; ++it)
         {
             stringResult.replace(QStringLiteral("µ%1").arg(i),(*it));
             --i;
         }
-qDebug() << stringResult;
 
         if(ok)
         {
             QString patternColor("<span class=\"dice\">%1</span>");
-            list =   patternColor.arg(stringResult);
-            value = list;
-            value = stringResult;
+            value =   patternColor.arg(stringResult);
         }
         else
         {
-            value = m_diceParser->getStringResult().join(" ; ").replace("\n","<br/>");
+            //never called
+            auto strResult = m_diceParser->getStringResult().join(" ; ").replace("\n","<br/>");
+            value = QStringLiteral("<span class='italic'>test %1</span>").arg(strResult);
             list = stringResult;
             hasDiceList = true;
         }
