@@ -55,7 +55,7 @@ public:
     enum AVAILABLE_GENDER{Female,Male,BOTH,NONE};
     enum TypeOfGeneration{Chinese,Elves,English,French,Japanese,StarWars,Russian};
 
-    explicit NameGeneratorWidget(QWidget *parent = 0);
+    explicit NameGeneratorWidget(QWidget *parent = nullptr);
     ~NameGeneratorWidget();
 protected:
     void buildAllNames(int count, QHash<QString, DataBase> data);
