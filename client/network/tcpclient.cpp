@@ -27,7 +27,7 @@ void TcpClient::setSocket(QTcpSocket* socket)
     {
         m_stateMachine = new QStateMachine();
         connect(m_socket.data(),&QTcpSocket::disconnected, this, &TcpClient::socketDisconnection,Qt::QueuedConnection);
-        connect(m_socket,QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::error),this,&TcpClient::socketError,Qt::QueuedConnection);
+        connect(m_socket.data(),QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::error),this,&TcpClient::socketError,Qt::QueuedConnection);
 
         connect(m_socket,SIGNAL(readyRead()),this,SLOT(receivingData()));
         connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(connectionError(QAbstractSocket::SocketError)));
