@@ -31,6 +31,7 @@ WebView::WebView(State state,QWidget *parent)
     m_uri = new CleverURI("Webpage","",CleverURI::WEBVIEW);
     auto wid = new QWidget();
     m_mainLayout = new QVBoxLayout(wid);
+    m_mainLayout->setMargin(0);
 
     m_view = new QWebEngineView();
 
