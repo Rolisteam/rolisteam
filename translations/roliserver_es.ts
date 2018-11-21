@@ -2,22 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="es_ES">
 <context>
-    <name>Channel</name>
-    <message>
-        <location filename="../client/network/channel.cpp" line="200"/>
-        <source>Client left!</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ChannelModel</name>
     <message>
-        <location filename="../client/network/channelmodel.cpp" line="388"/>
+        <location filename="../client/network/channelmodel.cpp" line="402"/>
         <source>Channel Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/channelmodel.cpp" line="388"/>
+        <location filename="../client/network/channelmodel.cpp" line="402"/>
         <source>Channel %1 required password:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -25,7 +17,7 @@
 <context>
     <name>Character</name>
     <message>
-        <location filename="../client/data/character.cpp" line="602"/>
+        <location filename="../client/data/character.cpp" line="613"/>
         <source>%1:
 HP: %2/%3
 State: %4
@@ -36,22 +28,22 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/data/character.cpp" line="608"/>
+        <location filename="../client/data/character.cpp" line="619"/>
         <source>Not defined</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/data/character.cpp" line="617"/>
+        <location filename="../client/data/character.cpp" line="628"/>
         <source>NPC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/data/character.cpp" line="617"/>
+        <location filename="../client/data/character.cpp" line="628"/>
         <source>PC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/data/character.cpp" line="743"/>
+        <location filename="../client/data/character.cpp" line="773"/>
         <source>Initiative</source>
         <translation type="unfinished"></translation>
     </message>
@@ -78,51 +70,46 @@ type: %7
         <source>Ask for password and return its hash key.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../client/network/timeaccepter.cpp" line="22"/>
-        <source>Connection out of time slot. Connection refused</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>ServerManager</name>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="63"/>
+        <location filename="../client/network/servermanager.cpp" line="96"/>
         <source>Rolisteam Server is on!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="70"/>
+        <location filename="../client/network/servermanager.cpp" line="103"/>
         <source>Retry start server in %1s!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="75"/>
+        <location filename="../client/network/servermanager.cpp" line="108"/>
         <source>Retry count reached. Server stops trying.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="238"/>
+        <location filename="../client/network/servermanager.cpp" line="271"/>
         <source>Authentification as Admin fails: %2 - %1, Wrong password.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="260"/>
+        <location filename="../client/network/servermanager.cpp" line="293"/>
         <source>Authentification fails: %1 try to connect to the server with wrong password.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="276"/>
+        <location filename="../client/network/servermanager.cpp" line="309"/>
         <source>User has been kick out: %2 - %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="433"/>
+        <location filename="../client/network/servermanager.cpp" line="466"/>
         <source>New Incoming Connection!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="469"/>
+        <location filename="../client/network/servermanager.cpp" line="502"/>
         <source>Disconnected!</source>
         <translation type="unfinished"></translation>
     </message>
