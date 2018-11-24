@@ -25,14 +25,15 @@
 
 #include <QTextStream>
 #include <QFile>
+#include <QPointF>
 
 #ifndef RCSE
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #endif
 #include "formula/formulamanager.h"
+#include "charactersheetitem.h"
 
-class CharacterSheetItem;
 class CharacterSheet;
 class Section;
 /**
@@ -119,7 +120,7 @@ public:
 
     Section* getRootSection() const;
 
-    void addCharacterSheet(CharacterSheet *sheet,int pos = -1);
+    void addCharacterSheet(CharacterSheet *sheet, bool reset, int pos = -1);
 
     CharacterSheet* getCharacterSheetById(QString id);
 
@@ -147,8 +148,10 @@ signals:
 protected:
     void computeFormula(QString path, CharacterSheet *sheet);
 protected slots:
-    void fieldHasBeenChanged(CharacterSheet *sheet, CharacterSheetItem *item);
+    void fieldHasBeenChanged(CharacterSheet *sheet, CharacterSheetItem *item, const QString &);
     void addSubChild(CharacterSheet *sheet, CharacterSheetItem *item);
+private:
+    void checkTableItem();
 private:
     /**
     * @brief QList which stores pointer to CharacterSheet.

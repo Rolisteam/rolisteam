@@ -95,7 +95,6 @@ int CharacterSheetModel::columnCount ( const QModelIndex & parent  ) const
 }
 QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex & parent ) const
 {
-    
     if(row<0)
         return QModelIndex();
     
@@ -105,8 +104,7 @@ QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex 
     
     if (!parent.isValid() && column == 0)
     {
-            parentItem = m_rootSection;
-            //parentItem->getChildAt(row);
+        parentItem = m_rootSection;
     }
     else if(parent.isValid())
     {
@@ -118,7 +116,9 @@ QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex 
     }
 
     if(nullptr != parentItem)
+    {
         childItem = parentItem->getChildAt(row);
+    }
     else
     {
         childItem = sheet->getFieldAt(row);
@@ -130,12 +130,11 @@ QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex 
     }
     else
     {
-        return createIndex(row, column, nullptr);
+        return QModelIndex();
     }
 }
 QModelIndex CharacterSheetModel::parent ( const QModelIndex & index ) const
 {
-    
     if (!index.isValid())
         return QModelIndex();
     
@@ -147,7 +146,9 @@ QModelIndex CharacterSheetModel::parent ( const QModelIndex & index ) const
     CharacterSheetItem* parentItem = childItem->getParent();
     
     if (parentItem == m_rootSection || parentItem == nullptr)
+    {
         return QModelIndex();
+    }
     
     return createIndex(parentItem->rowInParent(), 0, parentItem);
 }
@@ -193,10 +194,14 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
                         auto table = sheet->getFieldFromKey(path);
                         auto child = table->getChildAt(index.row());
                         if(child == nullptr )
+                        {
                             return {};
+                        }
                         if(role == Qt::DisplayRole)
+                        {
                             return child->value();
-                        else
+                        }
+                        else if(role == Qt::EditRole)
                         {
                             auto val = child->getFormula();
                             if(val.isEmpty())
@@ -232,25 +237,47 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
             }
             else
             {
-                QString path = childItem->getPath();
-                CharacterSheet* sheet = m_characterList->at(index.column()-1);
-                QString valueStr = value.toString();
+                CharacterSheetItem* parentItem = childItem->getParent();
                 QString formula;
-                if(valueStr.startsWith('='))
+                auto valueStr = value.toString();
+                if(parentItem && parentItem->getFieldType() == Field::TABLE)
                 {
-                    formula=valueStr;
-                    QHash<QString,QString> hash = sheet->getVariableDictionnary();
-                    m_formulaManager->setConstantHash(&hash);
-                    valueStr=m_formulaManager->getValue(formula).toString();
+                    QString path = parentItem->getPath();
+                    CharacterSheet* sheet = m_characterList->at(index.column()-1);
+                    auto table = sheet->getFieldFromKey(path);
+                    auto child = table->getChildAt(index.row());
+                    if(nullptr == child)
+                        return false;
+                    if(valueStr.startsWith('='))
+                    {
+                        formula=valueStr;
+                        QHash<QString,QString> hash = sheet->getVariableDictionnary();
+                        m_formulaManager->setConstantHash(&hash);
+                        valueStr=m_formulaManager->getValue(formula).toString();
+                        child->setFormula(formula);
+                    }
+                    child->setValue(valueStr);
                 }
+                else
+                {
+                    QString path = childItem->getPath();
+                    CharacterSheet* sheet = m_characterList->at(index.column()-1);
+                    if(valueStr.startsWith('='))
+                    {
+                        formula=valueStr;
+                        QHash<QString,QString> hash = sheet->getVariableDictionnary();
+                        m_formulaManager->setConstantHash(&hash);
+                        valueStr=m_formulaManager->getValue(formula).toString();
+                    }
 
-                CharacterSheetItem* newitem = sheet->setValue(path,valueStr,formula);
-                if(nullptr!=newitem)
-                {
-                    newitem->setLabel(childItem->getLabel());
-                    newitem->setOrig(childItem);
+                    CharacterSheetItem* newitem = sheet->setValue(path,valueStr,formula);
+                    if(nullptr!=newitem)
+                    {
+                        newitem->setLabel(childItem->getLabel());
+                        newitem->setOrig(childItem);
+                    }
+                    computeFormula(childItem->getLabel(),sheet);
                 }
-                computeFormula(childItem->getLabel(),sheet);
                 emit dataCharacterChange();
             }
             return true;
@@ -274,7 +301,7 @@ void CharacterSheetModel::computeFormula(QString path,CharacterSheet* sheet)
         sheet->setValue(item,valueStr,formula);
     }
 }
-void CharacterSheetModel::fieldHasBeenChanged(CharacterSheet* sheet,CharacterSheetItem* item)
+void CharacterSheetModel::fieldHasBeenChanged(CharacterSheet* sheet,CharacterSheetItem* item, const QString&)
 {
    emit dataCharacterChange();
    computeFormula(item->getLabel(),sheet);
@@ -282,7 +309,7 @@ void CharacterSheetModel::fieldHasBeenChanged(CharacterSheet* sheet,CharacterShe
 CharacterSheet* CharacterSheetModel::addCharacterSheet()
 {
     CharacterSheet* sheet = new CharacterSheet;
-    addCharacterSheet(sheet);
+    addCharacterSheet(sheet,false);
 
     sheet->buildDataFromSection(m_rootSection);
     return sheet;
@@ -345,19 +372,23 @@ void CharacterSheetModel::checkCharacter(Section *section)
         }
     }
 }
-void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet, int pos)
+void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet, bool reset, int pos)
 {
     if(pos<0)
     {
         pos = m_characterList->size()+1;
     }
-    beginInsertColumns(QModelIndex(),pos,pos);
+    if(!reset)
+        beginInsertColumns(QModelIndex(),pos,pos);
     m_characterList->insert(pos-1,sheet);
     emit characterSheetHasBeenAdded(sheet);
-    endInsertColumns();
+    if(!reset)
+    {
+        endInsertColumns();
 
-    emit dataCharacterChange();
-    connect(sheet,SIGNAL(updateField(CharacterSheet*,CharacterSheetItem*)),this,SLOT(fieldHasBeenChanged(CharacterSheet*,CharacterSheetItem*)));
+        emit dataCharacterChange();
+    }
+    connect(sheet,&CharacterSheet::updateField,this,&CharacterSheetModel::fieldHasBeenChanged);
     connect(sheet,&CharacterSheet::addLineToTableField,this,&CharacterSheetModel::addSubChild);
 
 }
@@ -368,11 +399,32 @@ void CharacterSheetModel::addSubChild(CharacterSheet* sheet, CharacterSheetItem*
         return;
 
     auto c = m_characterList->indexOf(sheet)+1;
-    auto r = m_rootSection->indexOfChild(m_rootSection->getChildAt(item->getPath()));
+    auto parentItem = m_rootSection->getChildAt(item->getPath());
+    auto r = m_rootSection->indexOfChild(parentItem);
+    auto table = dynamic_cast<TableField*>(item);
+    auto structTable = dynamic_cast<TableField*>(parentItem);
+    if(table == nullptr || structTable == nullptr)
+        return;
+
+    auto lineCount = table->lineNumber();
+    auto structLineCount = structTable->lineNumber();
+    auto addedFieldCount = table->itemPerLine();
+    if(lineCount<0 || structLineCount<0 || addedFieldCount<0)
+        return;
+
+    if(lineCount == structLineCount)
+    {
+        auto index = createIndex(r,0,parentItem);
+        beginInsertRows(index,parentItem->getChildrenCount(),parentItem->getChildrenCount()+addedFieldCount);
+        structTable->appendChild(nullptr);
+        endInsertRows();
+    }
+
     auto index = createIndex(r,c,item);
-    beginInsertRows(index,item->getChildrenCount(),item->getChildrenCount());
+    beginInsertRows(index,item->getChildrenCount(),item->getChildrenCount()+addedFieldCount);
     //generic method - for tableview the item is built from the last one.
-    item->appendChild(nullptr);
+    table->appendChild(nullptr);
+    checkTableItem();
     endInsertRows();
 }
 void CharacterSheetModel::removeCharacterSheet(CharacterSheet* sheet)
@@ -612,7 +664,31 @@ void CharacterSheetModel::readModel(QJsonObject& jsonObj,bool readRootSection)
         CharacterSheet* sheet = new CharacterSheet();
         sheet->load(obj);
         sheet->setOrigin(m_rootSection);
-        addCharacterSheet(sheet);
+        addCharacterSheet(sheet,true);
     }
+    checkTableItem();
     endResetModel();
 }
+
+void CharacterSheetModel::checkTableItem()
+{
+    for(int i = 0; i < m_rootSection->getChildrenCount(); ++i)
+    {
+        auto child = m_rootSection->getChildAt(i);
+        if(CharacterSheetItem::TableItem == child->getItemType())
+        {
+            for(auto character : *m_characterList)
+            {
+                auto childFromCharacter = character->getFieldAt(i);
+                auto table = dynamic_cast<TableField*>(child);
+                while(childFromCharacter->getChildrenCount() > child->getChildrenCount())
+                {
+                    table->appendChild(nullptr);
+                }
+            }
+        }
+    }
+
+
+}
+
