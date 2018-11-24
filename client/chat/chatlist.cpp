@@ -436,8 +436,13 @@ void ChatList::delPlayer(Player * player)
 {
     for (QMdiSubWindow* tmp: m_chatSubWindowList)
     {
-        ChatWindow* chatw = static_cast<ChatWindow*>(tmp->widget());
-        if((nullptr!=chatw) && (chatw->chat()->belongsTo(player)))
+        ChatWindow* chatw = dynamic_cast<ChatWindow*>(tmp->widget());
+        if(nullptr == chatw)
+            continue;
+        if(nullptr == chatw->chat())
+            continue;
+
+        if(chatw->chat()->belongsTo(player))
         {
             int pos = m_chatWindowList.indexOf(chatw);
             if (pos >= 0)
