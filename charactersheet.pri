@@ -1,3 +1,5 @@
+QT += quickwidgets
+
 HEADERS += $$PWD/charactersheetwindow.h \
     $$PWD/charactersheetmodel.h\
     $$PWD/charactersheet.h \
