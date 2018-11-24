@@ -242,12 +242,11 @@ int LineModel::getColumnCount() const
         auto line = m_lines.first();
         return line->getFieldCount();
     }
-    return 0;
+    return -1;
 }
 
 Field* LineModel::getField(int line, int col)
 {
-    qDebug() << "lineCount" << m_lines.size();
     if(m_lines.size()>line)
     {
         return m_lines.at(line)->getField(col);
@@ -302,6 +301,19 @@ void LineModel::loadDataItem(QJsonArray &json, CharacterSheetItem* parent)
         m_lines.append(line);
     }
     endResetModel();
+}
+
+void LineModel::setChildFieldData(QJsonObject &json)
+{
+    for(auto line : m_lines)
+    {
+        auto field = line->getFieldById(json["id"].toString());
+        if(field)
+        {
+            field->loadDataItem(json);
+            return;
+        }
+    }
 }
 
 void LineModel::removeLine(int index)
@@ -634,6 +646,22 @@ bool TableField::mayHaveChildren() const
     return true;
 }
 
+int TableField::lineNumber() const
+{
+    if(nullptr == m_model)
+        return -1;
+
+    return m_model->rowCount(QModelIndex());
+}
+
+int TableField::itemPerLine() const
+{
+    if(nullptr == m_model)
+        return -1;
+
+    return m_model->getColumnCount();
+}
+
 void TableField::fillModel()
 {
     m_model->clear();
@@ -715,6 +743,11 @@ void TableField::loadDataItem(QJsonObject &json)
 
     QJsonArray childArray=json["children"].toArray();
     m_model->loadDataItem(childArray,this);
+}
+
+void TableField::setChildFieldData(QJsonObject &json)
+{
+    m_model->setChildFieldData(json);
 }
 
 void TableField::saveDataItem(QJsonObject &json)

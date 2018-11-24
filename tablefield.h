@@ -90,6 +90,7 @@ public:
     void load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent);
     void saveDataItem(QJsonArray &json);
     void loadDataItem(QJsonArray &json, CharacterSheetItem *parent);
+    void setChildFieldData(QJsonObject &json);
 private:
     QList<LineFieldItem*> m_lines;
 };
@@ -136,11 +137,14 @@ public:
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
     void saveDataItem(QJsonObject &json);
     void loadDataItem(QJsonObject &json);
+    void setChildFieldData(QJsonObject &json);
 
     int getMaxVisibleRowCount() const;
 
     CharacterSheetItem* getRoot();
     void appendChild(CharacterSheetItem*);
+    int lineNumber() const;
+    int itemPerLine() const;
 public slots:
     void addLine();
     void removeLine(int line);
