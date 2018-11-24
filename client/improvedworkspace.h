@@ -70,6 +70,7 @@ public :
      * @param mediac
      */
     void removeMediaContainer(MediaContainer* mediac);
+    QVector<QMdiSubWindow *> getAllSubWindowFromId(const QString& id) const;
 signals:
     void removedAction(QAction*);
 

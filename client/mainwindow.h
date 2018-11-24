@@ -359,7 +359,7 @@ protected slots:
      * @brief closeMediaContainer
      * @param id
      */
-    void closeMediaContainer(QString id);
+    void closeMediaContainer(QString id, bool redo);
     void initializedClientManager();
     void cleanUpData();
     MediaContainer *newDocument(CleverURI::ContentType type);
@@ -498,7 +498,7 @@ private:
      * @param id
      * @return
      */
-    CharacterSheetWindow *findCharacterSheetWindowById(QString id);
+    CharacterSheetWindow *findCharacterSheetWindowById(const QString &idMedia, const QString& idSheet);
     /**
      * @brief getShortNameFromPath generic tool to translate filepath to short name.
      * @param path

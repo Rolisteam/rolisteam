@@ -365,11 +365,11 @@ void MainWindow::closeAllMediaContainer()
     {
         if(nullptr!=tmp)
         {
-            closeMediaContainer(tmp->getMediaId());
+            closeMediaContainer(tmp->getMediaId(), true);
         }
     }
 }
-void MainWindow::closeMediaContainer(QString id)
+void MainWindow::closeMediaContainer(QString id, bool redo)
 {
     if(m_mediaHash.contains(id))
     {
@@ -379,7 +379,13 @@ void MainWindow::closeMediaContainer(QString id)
             auto type = mediaCon->getContentType();
 
             DeleteMediaContainerCommand* cmd = new DeleteMediaContainerCommand(mediaCon,m_sessionManager,m_ui->m_editMenu,this,m_mdiArea,m_currentConnectionProfile->isGM(),m_mediaHash);
-            m_undoStack.push(cmd);
+            if(redo)
+                m_undoStack.push(cmd);
+            else
+            {
+                cmd->redo();// can be undo
+                delete cmd;
+            }
 
             //m_mediaHash.remove(id);
             if(CleverURI::VMAP == type)
@@ -399,7 +405,7 @@ void MainWindow::closeCurrentSubWindow()
     MediaContainer* container = dynamic_cast<MediaContainer*>(subactive);
     if(nullptr != container)
     {
-        closeMediaContainer(container->getMediaId());
+        closeMediaContainer(container->getMediaId(),true);
     }
 }
 void MainWindow::checkUpdate()
@@ -1580,7 +1586,7 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
     }
     else if(msg->action() == NetMsg::closeMedia)
     {
-        closeMediaContainer(msg->string8());
+        closeMediaContainer(msg->string8(),false);
     }
 }
 void MainWindow::processWebPageMessage(NetworkMessageReader* msg)
@@ -1824,7 +1830,7 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
     if(msg->action() == NetMsg::CloseMap)
     {
         QString idMap = msg->string8();
-        closeMediaContainer(idMap);
+        closeMediaContainer(idMap,false);
     }
     else
     {
@@ -2114,26 +2120,45 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::updateFieldCharacterSheet == msg->action())
     {
-        QString idCharacterSheetW = msg->string8();
-        CharacterSheetWindow* sheet = findCharacterSheetWindowById(idCharacterSheetW);
+        QString idMedia = msg->string8();
+        QString idSheet = msg->string8();
+        CharacterSheetWindow* sheet = findCharacterSheetWindowById(idMedia, idSheet);
         if(nullptr!=sheet)
         {
-            sheet->processUpdateFieldMessage(msg);
+            sheet->processUpdateFieldMessage(msg,idSheet);
         }
-
+    }
+    else if(NetMsg::closeCharacterSheet == msg->action())
+    {
+        QString idMedia = msg->string8();
+        QString idSheet = msg->string8();
+        CharacterSheetWindow* sheet = findCharacterSheetWindowById(idMedia,idSheet);
+        if(nullptr == sheet)
+            return;
+        auto sheetbis = m_mediaHash.value(idMedia);
+        if(sheet == sheetbis)
+            m_mediaHash.remove(idMedia);
+        DeleteMediaContainerCommand cmd(sheet,m_sessionManager,m_ui->m_editMenu,this,m_mdiArea,m_currentConnectionProfile->isGM(),m_mediaHash);
+        cmd.redo();
     }
 }
-CharacterSheetWindow*  MainWindow::findCharacterSheetWindowById(QString id)
+CharacterSheetWindow*  MainWindow::findCharacterSheetWindowById(const QString& idMedia, const QString& idSheet)
 {
-    if(m_mediaHash.contains(id))
-    {
-        MediaContainer* media = m_mediaHash.value(id);
-        return dynamic_cast<CharacterSheetWindow*>(media);
-    }
-    else
-    {
+    auto vector = m_mdiArea->getAllSubWindowFromId(idMedia);
+    if(vector.empty())
         return nullptr;
+
+    for(auto mdiWidget : vector)
+    {
+        auto sheetWindow = dynamic_cast<CharacterSheetWindow*>(mdiWidget);
+        if(nullptr == sheetWindow)
+            continue;
+        if(sheetWindow->hasCharacterSheet(idSheet))
+            return sheetWindow;
     }
+
+    return nullptr;
+
 }
 
 void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
@@ -2228,7 +2253,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
     case NetMsg::closeVmap:
     {
         QString vmapId = msg->string8();
-        closeMediaContainer(vmapId);
+        closeMediaContainer(vmapId,false);
     }
         break;
     case NetMsg::addVmap:

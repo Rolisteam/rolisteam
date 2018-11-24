@@ -304,29 +304,40 @@ void ImprovedWorkspace::ensurePresent()
         }
     }
 }
+
+QVector<QMdiSubWindow*> ImprovedWorkspace::getAllSubWindowFromId(const QString& id) const
+{
+    QVector<QMdiSubWindow*> vector;
+
+    for(QMdiSubWindow* tmp: subWindowList())
+    {
+        if(nullptr!=tmp->widget())
+        {
+            MediaContainer* tmpWindow = dynamic_cast<MediaContainer*>(tmp);
+            if(nullptr!=tmpWindow)
+            {
+                if(tmpWindow->getMediaId() == id)
+                {
+                    vector.append(tmp);
+                }
+            }
+        }
+    }
+    return vector;
+}
+
 QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
 {
     for(QMdiSubWindow* tmp: subWindowList())
     {
         if(nullptr!=tmp->widget())
         {
-            MapFrame* tmpWindow = dynamic_cast<MapFrame*>(tmp->widget());
+            MediaContainer* tmpWindow = dynamic_cast<MediaContainer*>(tmp->widget());
             if(nullptr!=tmpWindow)
             {
                 if(tmpWindow->getMediaId() == id)
                 {
                     return tmp;
-                }
-            }
-            else
-            {
-                Image* img = dynamic_cast<Image*>(tmp);
-                if(nullptr!=img)
-                {
-                    if(img->getMediaId() == id)
-                    {
-                        return tmp;
-                    }
                 }
             }
         }
