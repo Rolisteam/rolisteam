@@ -124,7 +124,7 @@ public:
     QString getUuid() const;
     void setUuid(const QString &uuid);
 
-    void setFieldData(QJsonObject& obj);
+    void setFieldData(QJsonObject& obj, const QString &parent);
     void setOrigin(Section*);
 
     QList<QString> getAllDependancy(QString key);
@@ -139,7 +139,7 @@ public slots:
     CharacterSheetItem* setValue(QString key , QString value, QString formula);
 
 signals:
-    void updateField(CharacterSheet*,CharacterSheetItem* );
+    void updateField(CharacterSheet*,CharacterSheetItem*,const QString& path);
     void addLineToTableField(CharacterSheet*, CharacterSheetItem* );
 
 protected:

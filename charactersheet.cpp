@@ -229,13 +229,25 @@ void CharacterSheet::setUuid(const QString &uuid)
     m_uuid = uuid;
 }
 
-void CharacterSheet::setFieldData(QJsonObject &obj)
+void CharacterSheet::setFieldData(QJsonObject &obj,const QString& parent)
 {
     QString id = obj["id"].toString();
     CharacterSheetItem* item = m_valuesMap.value(id);
     if(nullptr!=item)
     {
         item->loadDataItem(obj);
+    }
+    else
+    {
+        auto item = m_valuesMap[parent];
+        if(nullptr==item)
+            return;
+        auto table = dynamic_cast<TableField*>(item);
+        // TODO Make setChildFieldData part of CharacterSheetItem to make this algorithem generic
+        if(table)
+        {
+            table->setChildFieldData(obj);
+        }
     }
 }
 
@@ -324,7 +336,12 @@ void CharacterSheet::insertField(QString key, CharacterSheetItem* itemSheet)
 
     connect(itemSheet,&CharacterSheetItem::sendOffData,
             this,[=](CharacterSheetItem* item){
-        emit updateField(this,item);
+        QString path;
+        auto parent = item->getParent();
+        if(nullptr != parent)
+            path = parent->getPath();
+
+        emit updateField(this,item, path);
     });
 }
 
