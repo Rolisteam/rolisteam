@@ -134,7 +134,7 @@ public:
      * @brief processUpdateFieldMessage
      * @param msg
      */
-    void processUpdateFieldMessage(NetworkMessageReader *msg);
+    void processUpdateFieldMessage(NetworkMessageReader *msg, const QString &idSheet);
 
     bool hasCharacterSheet(QString id);
 signals:
@@ -182,7 +182,7 @@ public slots:
      * @param sheet
      * @param item
      */
-    void updateFieldFrom(CharacterSheet* sheet, CharacterSheetItem* item);
+    void updateFieldFrom(CharacterSheet* sheet, CharacterSheetItem* item, const QString &parentPath);
     /**
      * @brief removeConnection
      */
@@ -244,6 +244,7 @@ protected slots:
      * @brief setReadOnlyOnSelection
      */
     void setReadOnlyOnSelection();
+    void stopSharing();
 
     virtual void updateTitle();
     /**
