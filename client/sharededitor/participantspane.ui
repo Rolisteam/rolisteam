@@ -62,7 +62,7 @@
        <item>
         <widget class="QToolButton" name="m_upToolBtn">
          <property name="text">
-          <string>...</string>
+          <string notr="true">...</string>
          </property>
         </widget>
        </item>
@@ -82,7 +82,7 @@
        <item>
         <widget class="QToolButton" name="m_downToolBtn">
          <property name="text">
-          <string>...</string>
+          <string notr="true">...</string>
          </property>
         </widget>
        </item>
@@ -145,6 +145,7 @@
   </action>
  </widget>
  <resources>
+  <include location="../../rolisteam.qrc"/>
   <include location="../../rolisteam.qrc"/>
  </resources>
  <connections/>

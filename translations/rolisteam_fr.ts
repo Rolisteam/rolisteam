@@ -9,134 +9,90 @@
         <translation>À propos de Rolisteam</translation>
     </message>
     <message>
-        <location filename="../client/widgets/aboutrolisteam.ui" line="76"/>
-        <source>Rolisteam</source>
-        <translation>Rolisteam</translation>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="33"/>
+        <source>English &amp; French</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/widgets/aboutrolisteam.ui" line="83"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Rolisteam helps you to manage a tabletop role playing game with remote friends/players. It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. Existing features : Map sharing (with permission management), Image sharing, background music, dice roll and so on. Rolisteam is written in Qt5 &lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You may modify and redistribute the program under the terms of the GPL (version 2 or later). A copy of the GPL is contained in the &apos;COPYING&apos; file distributed with Rolisteam. Rolisteam is copyrighted by its contributors. See the &apos;COPYRIGHT&apos; file for the complete list of contributors. We provide no warranty for this program.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Web Sites :&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Official Rolisteam Site&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Bug Tracker&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Current developers :&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Renaud Guezennec&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Contributors :&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Joseph Boudou&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Romain Campioni&lt;/span&gt;&lt;/a&gt; (rolistik) &lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Translators&lt;/p&gt;
-&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Renaud Guezennec&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(English &amp;amp; French)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Lorram Lomeu de Souza Rampi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Portuguese)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Juliana Alves de Sousa Rampi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Portuguese)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Gergely Krekó&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Hungarian)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Kaya Zeren&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Turkish)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Alexia Béné&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(French &amp;amp; German)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/Jobava/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Baadur Jobava&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Romanian)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/omik/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Jesus M&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Spanish)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/Vistaus/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Heimen Stoffels&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Dutch)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Rolisteam vous permet de jouer à n&apos;importe quel jeu de rôle avec vos amis distants. Rolisteam vous permet de dessiner des plans, de les partager ainsi que des images, il contient également un système avancé de lancer de dés, bien entendu, il comprend aussi des outils de communication avec vos amis/joueurs. Le but de rolisteam est de permettre une partie aussi amusante qu&apos;elle pourrait l&apos;être autour d&apos;une table. Nous travaillons dans ce but pour vous offrir encore plus de nouvelles fonctions.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Vous pouvez modifier et contribuer à rolisteam en respectant la license the GPL (version 2 ou plus récentes). Une copie de la license GPL est distribué (fichier COPYING) avec rolisteam.&#xa0;Rolisteam appartient à ses contributeurs. Plus d&apos;information dans le fichier &apos;COPYRIGHT&apos; pour une liste complete des contributeurs. Nous ne fournissons aucune garrantie pour ce programme.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Sites Web:&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Site Official Rolisteam &lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Gestion des Bugs&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Developeur :&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Renaud Guezennec&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Contributeurs :&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Joseph Boudou&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Romain Campioni&lt;/span&gt;&lt;/a&gt; (rolistik) &lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Translateurs&lt;/p&gt;
-&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Renaud Guezennec&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Anglais &amp;amp; Français)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Lorram Lomeu de Souza Rampi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Portugais)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Juliana Alves de Sousa Rampi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Portugais)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Gergely Krekó&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Hongrois)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Kaya Zeren&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Turc)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Alexia Béné&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Français &amp;amp; Allemand)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/Jobava/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Baadur Jobava&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Roumain)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/omik/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Jesus M&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Espagnol)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/Vistaus/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Heimen Stoffels&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Néerlandais)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="34"/>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="35"/>
+        <source>Portuguese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="36"/>
+        <source>Hungarian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="37"/>
+        <source>Turkish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="38"/>
+        <source>French &amp; German</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="39"/>
+        <source>Romanian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="40"/>
+        <source>Spanish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="41"/>
+        <source>Dutch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="42"/>
+        <source>Catalan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="56"/>
+        <source>Rolisteam helps you to manage a tabletop role playing game with remote friends/players. It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. Existing features : Map sharing (with permission management), Image sharing, background music, dice roll and so on. Rolisteam is written in Qt5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="57"/>
+        <source>You may modify and redistribute the program under the terms of the GPL (version 2 or later). A copy of the GPL is contained in the &apos;COPYING&apos; file distributed with Rolisteam. Rolisteam is copyrighted by its contributors. See the &apos;COPYRIGHT&apos; file for the complete list of contributors. We provide no warranty for this program.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="58"/>
+        <source>Web Sites:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="59"/>
+        <source>Official Rolisteam Site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="60"/>
+        <source>Bug Tracker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="61"/>
+        <source>Current developers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="61"/>
+        <source>Contributors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/aboutrolisteam.cpp" line="61"/>
+        <source>Translators</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -150,10 +106,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../client/audio/audioPlayer.cpp" line="105"/>
         <source>Show/hide Player %1</source>
         <translation>Montre/Cache le lecteur Audio %1</translation>
-    </message>
-    <message>
-        <source>Select the songs directory</source>
-        <translation type="vanished">Choisissez le dossier musiques</translation>
     </message>
 </context>
 <context>
@@ -187,11 +139,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../client/audio/audiowidget.ui" line="186"/>
         <source>repeat</source>
         <translation>boucle</translation>
-    </message>
-    <message>
-        <location filename="../client/audio/audiowidget.ui" line="196"/>
-        <source>...</source>
-        <translation type="unfinished">...</translation>
     </message>
 </context>
 <context>
@@ -403,22 +350,22 @@ type: %7
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="502"/>
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="523"/>
         <source>Fields name</source>
         <translation>Nom du champ</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="528"/>
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="549"/>
         <source>Empty Section %1</source>
         <translation>Section vide %1</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="536"/>
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="557"/>
         <source>Section_%1</source>
         <translation>Section_%1</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="560"/>
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="581"/>
         <source>Field %1</source>
         <translation>Champ %1</translation>
     </message>
@@ -426,17 +373,9 @@ type: %7
 <context>
     <name>CharacterSheetWindow</name>
     <message>
-        <source>Character Sheet Viewer</source>
-        <translation type="vanished">Visinneur de fiche de personnage</translation>
-    </message>
-    <message>
         <location filename="../client/charactersheet/charactersheetwindow.cpp" line="55"/>
         <source>Add Section</source>
         <translation>Ajouter Section</translation>
-    </message>
-    <message>
-        <source>Add line</source>
-        <translation type="vanished">Ajouter champ</translation>
     </message>
     <message>
         <location filename="../client/charactersheet/charactersheetwindow.cpp" line="57"/>
@@ -484,57 +423,47 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="97"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="98"/>
         <source>Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="181"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="182"/>
         <source>%1 - (Character Sheet Viewer)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="199"/>
-        <source>Share To </source>
-        <translation>Envoyer à</translation>
-    </message>
-    <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="229"/>
+        <location filename="../client/charactersheet/charactersheetwindow.h" line="355"/>
         <source>Share To</source>
         <translation>Envoyer à</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="540"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="569"/>
         <source>QML Errors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="548"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="577"/>
         <source>Save Character Sheets Data</source>
         <translation>Sauvegarder les données des personnages</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="549"/>
-        <source>Character Sheets Data files (*.rcs)</source>
-        <translation>Fichier de Données de personnage (*.rcs)</translation>
-    </message>
-    <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="659"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="688"/>
         <source>Open Character Sheet data</source>
         <translation>Ouvrir les données des personnages</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="660"/>
+        <location filename="../client/charactersheet/charactersheetwindow.h" line="356"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="667"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="696"/>
         <source>Open Character Sheets View</source>
         <translation>Ouvrir une fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="668"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="697"/>
         <source>Character Sheet files (*.qml)</source>
         <translation>Fiche de personnage (*.qml)</translation>
     </message>
@@ -634,8 +563,9 @@ type: %7
     </message>
     <message>
         <location filename="../client/chat/chatlist.cpp" line="340"/>
-        <source>%1 (Chat)</source>
-        <translation>%1 (Chat)</translation>
+        <source>Chat</source>
+        <comment>chat room</comment>
+        <translation type="unfinished">Tchat</translation>
     </message>
 </context>
 <context>
@@ -725,16 +655,6 @@ type: %7
         <translation>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Jeter_les_d%C3%A9s&quot;&gt;http://wiki.rolisteam.org/index.php/Jeter_les_dés&lt;/a&gt;</translation>
     </message>
     <message>
-        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%2)]</source>
-        <comment>my dice roll</comment>
-        <translation type="obsolete">avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%3 (%2)] </translation>
-    </message>
-    <message>
-        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</source>
-        <comment>third person</comment>
-        <translation type="obsolete"> a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</translation>
-    </message>
-    <message>
         <location filename="../client/chat/chatwindow.cpp" line="347"/>
         <source>Warning</source>
         <translation>Attention</translation>
@@ -771,16 +691,6 @@ type: %7
 <context>
     <name>ColorSelector</name>
     <message>
-        <location filename="../client/widgets/colorselector.cpp" line="101"/>
-        <source>Predefine color 1</source>
-        <translation>Couleur Prédéfinie 1</translation>
-    </message>
-    <message>
-        <location filename="../client/widgets/colorselector.cpp" line="128"/>
-        <source>Predefine color %1 </source>
-        <translation>Couleur Prédéfinie %1</translation>
-    </message>
-    <message>
         <location filename="../client/widgets/colorselector.cpp" line="158"/>
         <source>Custom Color %1 </source>
         <translation>Couleur Personnalisée %1</translation>
@@ -816,6 +726,11 @@ type: %7
         <source>Red: %1, Green: %2, Blue: %3</source>
         <translation>Rouge: %1, Vert: %2, Bleu: %3</translation>
     </message>
+    <message>
+        <location filename="../client/widgets/colorselector.h" line="163"/>
+        <source>Predefined color</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectionRetryDialog</name>
@@ -823,11 +738,6 @@ type: %7
         <location filename="../client/network/connectionretrydialog.ui" line="14"/>
         <source>Connection Retry</source>
         <translation>Tentative de connexion</translation>
-    </message>
-    <message>
-        <location filename="../client/network/connectionretrydialog.ui" line="23"/>
-        <source>Connection has failed! Connection Retry in %1s. </source>
-        <translation>La connexion a échoué! Tentative dans %1s.</translation>
     </message>
     <message>
         <location filename="../client/network/connectionretrydialog.cpp" line="36"/>
@@ -1005,12 +915,6 @@ type: %7
         <source>DiceShortCut</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../client/widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.ui" line="40"/>
-        <location filename="../client/widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.ui" line="51"/>
-        <source>...</source>
-        <translation type="unfinished">...</translation>
-    </message>
 </context>
 <context>
     <name>Document</name>
@@ -1122,25 +1026,6 @@ type: %7
         <location filename="../client/sharededitor/findtoolbar.ui" line="35"/>
         <source>✖</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>GMTOOL</name>
-    <message>
-        <source>Currency</source>
-        <translation type="vanished">Monnaie</translation>
-    </message>
-    <message>
-        <source>Distance</source>
-        <translation type="vanished">Distance</translation>
-    </message>
-    <message>
-        <source>Temperature</source>
-        <translation type="vanished">Temperature</translation>
-    </message>
-    <message>
-        <source>MASS</source>
-        <translation type="vanished">Masse</translation>
     </message>
 </context>
 <context>
@@ -1293,10 +1178,6 @@ type: %7
         <comment>Zoom Out</comment>
         <translation>Ctrl+G</translation>
     </message>
-    <message>
-        <source> (Picture)</source>
-        <translation type="vanished"> (Image)</translation>
-    </message>
 </context>
 <context>
     <name>ImagePathEditor</name>
@@ -1368,12 +1249,6 @@ type: %7
         <location filename="../client/common/widgets/logpanel.ui" line="60"/>
         <source>Info</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/common/widgets/logpanel.ui" line="68"/>
-        <location filename="../client/common/widgets/logpanel.ui" line="88"/>
-        <source>...</source>
-        <translation type="unfinished">...</translation>
     </message>
     <message>
         <location filename="../client/common/widgets/logpanel.ui" line="104"/>
@@ -1624,62 +1499,62 @@ type: %7
     <name>MainWindow</name>
     <message>
         <location filename="../client/mainwindow.cpp" line="210"/>
-        <location filename="../client/mainwindow.cpp" line="2679"/>
+        <location filename="../client/mainwindow.cpp" line="2704"/>
         <source>unknown</source>
         <translation>inconnu</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1662"/>
+        <location filename="../client/mainwindow.cpp" line="1668"/>
         <source>Error: Wrong password!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2286"/>
+        <location filename="../client/mainwindow.cpp" line="2311"/>
         <source>Open Map</source>
         <translation>Ouvrir Plan</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2584"/>
+        <location filename="../client/mainwindow.cpp" line="2609"/>
         <source>Connected</source>
         <translation>Connecté</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2584"/>
+        <location filename="../client/mainwindow.cpp" line="2609"/>
         <source>Not Connected</source>
         <translation>Non connecté</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2585"/>
+        <location filename="../client/mainwindow.cpp" line="2610"/>
         <source>Server</source>
         <translation>Serveur</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2585"/>
+        <location filename="../client/mainwindow.cpp" line="2610"/>
         <source>Client</source>
         <translation>Client</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2585"/>
+        <location filename="../client/mainwindow.cpp" line="2610"/>
         <source>GM</source>
         <translation>MJ</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2585"/>
+        <location filename="../client/mainwindow.cpp" line="2610"/>
         <source>Player</source>
         <translation>Joueur</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1039"/>
+        <location filename="../client/mainwindow.cpp" line="1045"/>
         <source>Open scenario</source>
         <translation>Ouvrir Scénario</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1071"/>
+        <location filename="../client/mainwindow.cpp" line="1077"/>
         <source>Save Scenario as</source>
         <translation>Sauvegarder le scénario sous</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1147"/>
+        <location filename="../client/mainwindow.cpp" line="1153"/>
         <source>Save %1</source>
         <translation>Sauvegarder %1</translation>
     </message>
@@ -1689,7 +1564,7 @@ type: %7
         <translation>Sauvegarder Scénario</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1089"/>
+        <location filename="../client/mainwindow.cpp" line="1095"/>
         <source>%1 cannot be opened (saveStory - MainWindow.cpp)</source>
         <translation>%1 ne peut pas être ouvert (saveStory - MainWindow.cpp)</translation>
     </message>
@@ -1699,12 +1574,12 @@ type: %7
         <translation>Boîte à outils</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2282"/>
+        <location filename="../client/mainwindow.cpp" line="2307"/>
         <source>Open Picture</source>
         <translation>Ouvrir Image</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2290"/>
+        <location filename="../client/mainwindow.cpp" line="2315"/>
         <source>Open Minutes</source>
         <translation>Ouvrir Notes</translation>
     </message>
@@ -1741,10 +1616,6 @@ type: %7
         <translation>Plan</translation>
     </message>
     <message>
-        <source>GM ToolBox</source>
-        <translation type="vanished">Boîte à outils du MJ</translation>
-    </message>
-    <message>
         <location filename="../client/mainwindow.ui" line="159"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
@@ -1775,17 +1646,13 @@ type: %7
         <translation>Fermer</translation>
     </message>
     <message>
-        <source>Preferences</source>
-        <translation type="vanished">Préférences</translation>
-    </message>
-    <message>
         <location filename="../client/mainwindow.ui" line="214"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="223"/>
-        <location filename="../client/mainwindow.cpp" line="978"/>
+        <location filename="../client/mainwindow.cpp" line="984"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
@@ -1816,10 +1683,6 @@ type: %7
         <translation>Connexion</translation>
     </message>
     <message>
-        <source>Disconnection</source>
-        <translation type="vanished">Déconnexion</translation>
-    </message>
-    <message>
         <location filename="../client/mainwindow.ui" line="274"/>
         <source>F1</source>
         <translation>F1</translation>
@@ -1833,10 +1696,6 @@ type: %7
         <location filename="../client/mainwindow.ui" line="300"/>
         <source>Chat</source>
         <translation>Tchat</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation type="obsolete">Editer</translation>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="171"/>
@@ -1981,7 +1840,7 @@ type: %7
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="447"/>
-        <location filename="../client/mainwindow.cpp" line="562"/>
+        <location filename="../client/mainwindow.cpp" line="568"/>
         <source>Notification Zone</source>
         <translation>Zone de notification</translation>
     </message>
@@ -2133,10 +1992,6 @@ type: %7
         <translation>F8</translation>
     </message>
     <message>
-        <source>Change Profile</source>
-        <translation type="vanished">Changer de profil</translation>
-    </message>
-    <message>
         <location filename="../client/mainwindow.ui" line="535"/>
         <source>Character Sheet</source>
         <translation>Fiche de personnage</translation>
@@ -2167,17 +2022,9 @@ type: %7
         <translation>Ctrl+U</translation>
     </message>
     <message>
-        <source>Network</source>
-        <translation type="vanished">Réseau</translation>
-    </message>
-    <message>
         <location filename="../client/mainwindow.ui" line="14"/>
         <source>Rolisteam</source>
         <translation>Rolisteam</translation>
-    </message>
-    <message>
-        <source>Sub-Windows</source>
-        <translation type="vanished">Fenêtres</translation>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="83"/>
@@ -2206,71 +2053,59 @@ type: %7
         <translation>Tuile</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1235"/>
+        <location filename="../client/mainwindow.cpp" line="1241"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <source>Image compression error (readImageFromStream - MainWindow.cpp)</source>
-        <translation type="vanished">Erreur durant la compression (readImageFromStream - MainWindow.cpp) </translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.cpp" line="1284"/>
+        <location filename="../client/mainwindow.cpp" line="1290"/>
         <source>Update Notification</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1324"/>
+        <location filename="../client/mainwindow.cpp" line="1330"/>
         <source>%1 has not the right version: %2.</source>
         <translation>%1 n&apos;a pas la même version: %2.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1390"/>
+        <location filename="../client/mainwindow.cpp" line="1396"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Rolisteam utilise le port &lt;port&gt; pour la connexion</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1391"/>
+        <location filename="../client/mainwindow.cpp" line="1397"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Rolisteam se connecte à &lt;server&gt;.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1392"/>
+        <location filename="../client/mainwindow.cpp" line="1398"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation>Définir le &lt;role&gt;: gm ou pc</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1393"/>
+        <location filename="../client/mainwindow.cpp" line="1399"/>
         <source>Erase the settings and use the default parameters</source>
         <translation>Effacer les réglages et utiliser les paramètres par défaut</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1394"/>
+        <location filename="../client/mainwindow.cpp" line="1400"/>
         <source>Define the &lt;username&gt;</source>
         <translation>Définir le nom d&apos;&lt;utilisateur&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1395"/>
+        <location filename="../client/mainwindow.cpp" line="1401"/>
         <source>Remove limit to PDF file size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1649"/>
+        <location filename="../client/mainwindow.cpp" line="1655"/>
         <source>End of the connection process</source>
         <translation>Fin du processus de connexion</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2678"/>
+        <location filename="../client/mainwindow.cpp" line="2703"/>
         <source>Export from %1</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error:</source>
-        <translation type="vanished">Erreur:</translation>
-    </message>
-    <message>
-        <source>Warning:</source>
-        <translation type="vanished">Avertissement:</translation>
     </message>
     <message>
         <location filename="../client/mainwindow.cpp" line="256"/>
@@ -2278,63 +2113,63 @@ type: %7
         <translation>Explorateur de Ressources</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2523"/>
+        <location filename="../client/mainwindow.cpp" line="2548"/>
         <source>Open %1</source>
         <translation>Ouvrir %1</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="986"/>
+        <location filename="../client/mainwindow.cpp" line="992"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>La connexion a été perdue. %1 va s&apos;arrêter </translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="700"/>
+        <location filename="../client/mainwindow.cpp" line="706"/>
         <source>&amp;Redo</source>
         <translation type="unfinished">&amp;Refaire</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="701"/>
+        <location filename="../client/mainwindow.cpp" line="707"/>
         <source>&amp;Undo</source>
         <translation type="unfinished">&amp;Défaire</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="748"/>
+        <location filename="../client/mainwindow.cpp" line="754"/>
         <source>Support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="749"/>
+        <location filename="../client/mainwindow.cpp" line="755"/>
         <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;https://liberapay.com/Rolisteam/donate&quot;&gt;https://liberapay.com/Rolisteam/donate&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="833"/>
+        <location filename="../client/mainwindow.cpp" line="839"/>
         <source>Untitled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="988"/>
+        <location filename="../client/mainwindow.cpp" line="994"/>
         <source>Connection lost</source>
         <translation>Connexion perdue</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="994"/>
+        <location filename="../client/mainwindow.cpp" line="1000"/>
         <source>Quit %1 </source>
         <translation>Quitter %1 </translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1001"/>
+        <location filename="../client/mainwindow.cpp" line="1007"/>
         <source>Do you want to save your minutes before to quit %1?</source>
         <translation>Voulez-vous sauvegarder vos notes avant de quitter %1 ?</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1005"/>
+        <location filename="../client/mainwindow.cpp" line="1011"/>
         <source>Do you want to save your scenario before to quit %1?</source>
         <translation>Voulez-vous sauvegarder votre scénario avant de quitter %1 ?</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1039"/>
-        <location filename="../client/mainwindow.cpp" line="1071"/>
+        <location filename="../client/mainwindow.cpp" line="1045"/>
+        <location filename="../client/mainwindow.cpp" line="1077"/>
         <source>Scenarios (*.sce)</source>
         <translation>Scénarios (*.sce)</translation>
     </message>
@@ -2344,22 +2179,22 @@ type: %7
         <translation>À propos de Rolisteam</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1236"/>
+        <location filename="../client/mainwindow.cpp" line="1242"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>La documentation de %1 est accessible sur le web :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1285"/>
+        <location filename="../client/mainwindow.cpp" line="1291"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>La version %1 est disponible. Pour plus d&apos;informations veuillez consulter &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;la page de téléchargement&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1321"/>
+        <location filename="../client/mainwindow.cpp" line="1327"/>
         <source>%1 just joins the game.</source>
         <translation>%1 vient de rejoindre la partie.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1331"/>
+        <location filename="../client/mainwindow.cpp" line="1337"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 vient de quitter la partie.</translation>
     </message>
@@ -3299,12 +3134,6 @@ Port:%2</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/sharededitor/participantspane.ui" line="65"/>
-        <location filename="../client/sharededitor/participantspane.ui" line="85"/>
-        <source>...</source>
-        <translation type="unfinished">...</translation>
-    </message>
-    <message>
         <location filename="../client/sharededitor/participantspane.ui" line="134"/>
         <source>Promote</source>
         <translation type="unfinished"></translation>
@@ -3434,14 +3263,6 @@ Do you want to continue and share the PDF?</source>
         <location filename="../client/audio/playerwidget.cpp" line="178"/>
         <source>Stop</source>
         <translation>Stop</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Suivant</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Précédent</translation>
     </message>
     <message>
         <location filename="../client/audio/playerwidget.cpp" line="180"/>
@@ -3747,18 +3568,6 @@ Do you want to continue and share the PDF?</source>
         <translation>&lt;h2&gt;Formats Audio supportés:&lt;/h2&gt;&lt;ul&gt;</translation>
     </message>
     <message>
-        <source>&lt;li&gt;Unsupported format: %1&lt;/li&gt;</source>
-        <translation type="vanished">&lt;li&gt;format non supporté: %1&lt;/li&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;Maybe supported format: %1&lt;/li&gt;</source>
-        <translation type="vanished">&lt;li&gt;Format probablement supporté: %1&lt;/li&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;Supported format: %1&lt;/li&gt;</source>
-        <translation type="vanished">&lt;li&gt;Format supporté: %1&lt;/li&gt;</translation>
-    </message>
-    <message>
         <location filename="../client/preferences/preferencesdialog.cpp" line="895"/>
         <source>&lt;/ul&gt;End of Supported Audio file formats</source>
         <translation>&lt;/ul&gt;Fin des Fichiers Audios Supportés</translation>
@@ -3916,10 +3725,6 @@ Do you want to continue and share the PDF?</source>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="522"/>
         <source>Theme</source>
         <translation>Thème</translation>
-    </message>
-    <message>
-        <source>Current Theme</source>
-        <translation type="vanished">Thème actuel</translation>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="539"/>
@@ -4118,14 +3923,6 @@ Do you want to continue and share the PDF?</source>
         <translation>Répertoires</translation>
     </message>
     <message>
-        <source>Music (GM) :</source>
-        <translation type="vanished">Musique (Mj):</translation>
-    </message>
-    <message>
-        <source>Music (Player) :</source>
-        <translation type="vanished">Musique (Joueur):</translation>
-    </message>
-    <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="848"/>
         <source>Pictures :</source>
         <translation>Images:</translation>
@@ -4318,10 +4115,6 @@ Do you want to continue and share the PDF?</source>
         <translation>Erreur de chargement</translation>
     </message>
     <message>
-        <source>Nothing was understood</source>
-        <translation type="vanished">Commande incomprise</translation>
-    </message>
-    <message>
         <location filename="../client/diceparser/diceparser.cpp" line="178"/>
         <source>Nothing was understood. To roll dice: !1d6 - full documation: &lt;a href=&quot;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
@@ -4364,12 +4157,12 @@ Do you want to continue and share the PDF?</source>
         <translation>Liste des alias:</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1396"/>
+        <location filename="../client/mainwindow.cpp" line="1402"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation>chemin vers le fichier de traduction: &lt;traduction&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1397"/>
+        <location filename="../client/mainwindow.cpp" line="1403"/>
         <source>Define URL to connect to server: &lt;url&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4515,12 +4308,6 @@ Do you want to continue and share the PDF?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Rolisteam Dice Parser:
-Full documentation at: %1</source>
-        <translation type="vanished">Système de dés -Rolisteam:
-Documentation complète disponible: %1</translation>
-    </message>
-    <message>
         <location filename="../client/diceparser/node/jumpbackwardnode.cpp" line="126"/>
         <source> The @ operator expects dice result. Please check the documentation to fix your command.</source>
         <translation> L&apos;opérateur @ attend un résultat de dés. Veuillez vérifier la documentation afin de corriger votre commande.</translation>
@@ -4620,21 +4407,6 @@ Documentation complète disponible: %1</translation>
         <translation type="unfinished">Fichier OpenOffice 2.4 format OASIS </translation>
     </message>
     <message>
-        <location filename="../client/noteeditor/src/textedit.cpp" line="88"/>
-        <source> (*.odt *.ott);;</source>
-        <translation type="unfinished">(*.odt *.ott);;</translation>
-    </message>
-    <message>
-        <location filename="../client/noteeditor/src/textedit.cpp" line="88"/>
-        <source>XHTML file format</source>
-        <translation type="unfinished">Fichier XHTML</translation>
-    </message>
-    <message>
-        <location filename="../client/noteeditor/src/textedit.cpp" line="88"/>
-        <source> (*.htm *.html);;</source>
-        <translation type="unfinished">(*.htm *.html);;</translation>
-    </message>
-    <message>
         <location filename="../client/vmap/items/visualitem.cpp" line="40"/>
         <source>Path</source>
         <translation type="unfinished">Chemin</translation>
@@ -4693,7 +4465,7 @@ Documentation complète disponible: %1</translation>
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="9"/>
         <source>Temperature</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Température</translation>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="10"/>
@@ -4982,49 +4754,6 @@ Full documentation at: %1</source>
         <location filename="../client/vmap/rgraphicsview.cpp" line="763"/>
         <source>Open image file</source>
         <translation>Ouvrir une image</translation>
-    </message>
-</context>
-<context>
-    <name>RuleItem</name>
-    <message>
-        <location filename="../client/vmap/items/ruleitem.cpp" line="148"/>
-        <source>m</source>
-        <translation>m</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/ruleitem.cpp" line="151"/>
-        <source>cm</source>
-        <translation>cm</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/ruleitem.cpp" line="154"/>
-        <source>″</source>
-        <translation>″</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/ruleitem.cpp" line="157"/>
-        <source>′</source>
-        <translation>′</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/ruleitem.cpp" line="160"/>
-        <source>yd</source>
-        <translation>yd</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/ruleitem.cpp" line="163"/>
-        <source>mi</source>
-        <translation>mi</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/ruleitem.cpp" line="166"/>
-        <source>km</source>
-        <translation>km</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/ruleitem.cpp" line="169"/>
-        <source>px</source>
-        <translation>px</translation>
     </message>
 </context>
 <context>
@@ -5522,7 +5251,7 @@ Full documentation at: %1</source>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="350"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Préférences </translation>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="355"/>
@@ -5602,13 +5331,6 @@ Full documentation at: %1</source>
     </message>
 </context>
 <context>
-    <name>TableField</name>
-    <message>
-        <source>Add line</source>
-        <translation type="obsolete">Ajouter champ</translation>
-    </message>
-</context>
-<context>
     <name>TextEdit</name>
     <message>
         <location filename="../client/noteeditor/src/textedit.cpp" line="756"/>
@@ -5619,22 +5341,6 @@ Full documentation at: %1</source>
         <location filename="../client/noteeditor/src/textedit.cpp" line="197"/>
         <source>File Actions</source>
         <translation>Actions Fichiers</translation>
-    </message>
-    <message>
-        <source>OpenOffice 2.4 file format OASIS </source>
-        <translation type="vanished">Fichier OpenOffice 2.4 format OASIS </translation>
-    </message>
-    <message>
-        <source> (*.odt *.ott);;</source>
-        <translation type="vanished">(*.odt *.ott);;</translation>
-    </message>
-    <message>
-        <source>XHTML file format</source>
-        <translation type="vanished">Fichier XHTML</translation>
-    </message>
-    <message>
-        <source> (*.htm *.html);;</source>
-        <translation type="vanished">(*.htm *.html);;</translation>
     </message>
     <message>
         <location filename="../client/noteeditor/src/textedit.cpp" line="200"/>
@@ -6178,46 +5884,6 @@ Voulez-vous sauvegarder vos changements ?</translation>
 <context>
     <name>VisualItem</name>
     <message>
-        <source>Path</source>
-        <translation type="vanished">Chemin</translation>
-    </message>
-    <message>
-        <source>Line</source>
-        <translation type="vanished">Ligne</translation>
-    </message>
-    <message>
-        <source>Ellipse</source>
-        <translation type="vanished">Ellipse</translation>
-    </message>
-    <message>
-        <source>Character</source>
-        <translation type="vanished">Personnage</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="vanished">Texte</translation>
-    </message>
-    <message>
-        <source>Rect</source>
-        <translation type="vanished">Rectangle</translation>
-    </message>
-    <message>
-        <source>Rule</source>
-        <translation type="vanished">Règle</translation>
-    </message>
-    <message>
-        <source>Image</source>
-        <translation type="vanished">Image</translation>
-    </message>
-    <message>
-        <source>Ground</source>
-        <translation type="vanished">Sol</translation>
-    </message>
-    <message>
-        <source>Object</source>
-        <translation type="vanished">Objet</translation>
-    </message>
-    <message>
         <location filename="../client/vmap/items/visualitem.cpp" line="233"/>
         <source>Back</source>
         <translation>Tout derrière</translation>
@@ -6345,31 +6011,6 @@ Voulez-vous sauvegarder vos changements ?</translation>
         <location filename="../client/vmap/vmaptoolbar.cpp" line="60"/>
         <source>Hexagon</source>
         <translation>Hexagonal</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/vmaptoolbar.cpp" line="65"/>
-        <source>m</source>
-        <translation>m</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/vmaptoolbar.cpp" line="65"/>
-        <source>km</source>
-        <translation>km</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/vmaptoolbar.cpp" line="65"/>
-        <source>cm</source>
-        <translation>cm</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/vmaptoolbar.cpp" line="65"/>
-        <source>mile</source>
-        <translation>mile</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/vmaptoolbar.cpp" line="65"/>
-        <source>yard</source>
-        <translation>yard</translation>
     </message>
     <message>
         <location filename="../client/vmap/vmaptoolbar.cpp" line="65"/>

@@ -20,7 +20,7 @@
       <locale language="English" country="UnitedStates"/>
      </property>
      <property name="text">
-      <string>Connection has failed! Connection Retry in %1s. </string>
+      <string notr="true">Connection has failed! Connection Retry in %1s. </string>
      </property>
     </widget>
    </item>

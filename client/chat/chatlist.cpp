@@ -337,7 +337,7 @@ void ChatList::addChatWindow(ChatWindow* chatw)
     if(nullptr!=subWindowChat)
     {
         chatw->setSubWindow(subWindowChat);
-        subWindowChat->setWindowTitle(tr("%1 (Chat)").arg(chatw->getTitleFromChat()));
+        subWindowChat->setWindowTitle(QStringLiteral("%1 (%2)").arg(chatw->getTitleFromChat()).arg(tr("Chat","chat room")));
         subWindowChat->setWindowIcon(QIcon(":/chat.png"));
         chatw->setLocalPlayer(PlayersList::instance()->getLocalPlayer());
         subWindowChat->setAttribute(Qt::WA_DeleteOnClose, false);

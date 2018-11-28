@@ -98,7 +98,7 @@ ColorSelector::ColorSelector(QWidget *parent)
 
     m_currentColor->setFixedSize(45,40);
     setBackgroundColorToWidget(m_currentColor, s_selectedColor.color);
-    m_currentColor->setToolTip(tr("Predefine color 1"));
+    m_currentColor->setToolTip(QStringLiteral("%1 1").arg(m_predefineColor));
     m_currentColor->setAutoFillBackground(true);
     m_currentColor->setScaledContents(true);
 
@@ -125,7 +125,7 @@ ColorSelector::ColorSelector(QWidget *parent)
         m_predefinedColor[i]->setAutoFillBackground(true);
         m_predefinedColor[i]->setFixedHeight(5);
         m_predefinedColor[i]->setFixedWidth(5);
-        m_predefinedColor[i]->setToolTip(tr("Predefine color %1 ").arg(i+1));
+        m_predefinedColor[i]->setToolTip(QStringLiteral("%2 %1 ").arg(i+1).arg(m_predefineColor));
         connect(m_predefinedColor[i],SIGNAL(clicked(QColor)),this, SLOT(changeCurrentColor(QColor)));
 
         QColorDialog::setStandardColor(x*6+y, couleur.rgb());

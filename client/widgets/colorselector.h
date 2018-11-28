@@ -160,6 +160,7 @@ private:
     PreferencesManager* m_preferences;
     static SelectedColor s_selectedColor;
     bool m_isGM;
+    const QString m_predefineColor=tr("Predefined color");
 };
 
 #endif

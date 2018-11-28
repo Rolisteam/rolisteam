@@ -62,7 +62,7 @@ void VmapToolBar::setupUi()
 
     m_gridUnit=new QComboBox();
     QStringList listUnit;
-    listUnit << tr("m") <<tr("km") <<tr("cm")<<tr("mile")<<tr("yard")<<tr("inch")<<tr("foot") <<tr("px");
+    listUnit << QStringLiteral("m") <<QStringLiteral("km") <<QStringLiteral("cm")<<QStringLiteral("mi")<<QStringLiteral("yd")<<tr("inch")<<tr("foot") <<tr("px");
     m_gridUnit->addItems(listUnit);
 
     m_currentVisibility=new QComboBox();

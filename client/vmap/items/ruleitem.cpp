@@ -145,28 +145,28 @@ void RuleItem::setUnit(VMap::SCALE_UNIT unit)
     switch(unit)
     {
     case VMap::M:
-        m_unitText = tr("m");
+        m_unitText = QStringLiteral("m");
                 break;
     case VMap::CM:
-        m_unitText = tr("cm");
+        m_unitText = QStringLiteral("cm");
                 break;
     case VMap::INCH:
-        m_unitText = tr("″");
+        m_unitText = QStringLiteral("″");
                 break;
     case VMap::FEET:
-        m_unitText = tr("′");
+        m_unitText = QStringLiteral("′");
                 break;
     case VMap::YARD:
-        m_unitText = tr("yd");
+        m_unitText = QStringLiteral("yd");
                 break;
     case VMap::MILE:
-        m_unitText = tr("mi");
+        m_unitText = QStringLiteral("mi");
                 break;
     case VMap::KM:
-        m_unitText = tr("km");
+        m_unitText = QStringLiteral("km");
                 break;
     case VMap::PX:
-        m_unitText = tr("px");
+        m_unitText = QStringLiteral("px");
         break;
     }
 }
