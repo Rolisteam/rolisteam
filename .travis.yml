@@ -71,25 +71,25 @@ matrix:
     - os: osx
       osx_image: xcode8
       env:
-        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+        - MATRIX_EVAL="brew update && CC=gcc-4.9 && CXX=g++-4.9"
         - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     - os: osx
       osx_image: xcode8
       env:
-        - MATRIX_EVAL="brew install gcc5 && CC=gcc-5 && CXX=g++-5"
+        - MATRIX_EVAL="brew update && brew install gcc5 && CC=gcc-5 && CXX=g++-5"
         - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     - os: osx
       osx_image: xcode8
       env:
-        - MATRIX_EVAL="brew install gcc6 && CC=gcc-6 && CXX=g++-6"
+        - MATRIX_EVAL="brew update && brew install gcc6 && CC=gcc-6 && CXX=g++-6"
         - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
     - os: osx
       osx_image: xcode8
       env:
-        - MATRIX_EVAL="brew install gcc && CC=gcc-7 && CXX=g++-7"
+        - MATRIX_EVAL="brew update && brew install gcc && CC=gcc-7 && CXX=g++-7"
         - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
 
