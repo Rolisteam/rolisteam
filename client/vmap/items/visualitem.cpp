@@ -20,7 +20,7 @@
 #include "visualitem.h"
 #include <QGuiApplication>
 #include <QGraphicsSceneHoverEvent>
-#include <math.h>
+#include <cmath>
 #include <QCursor>
 #include <QDebug>
 #include <QMenu>
