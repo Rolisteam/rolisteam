@@ -109,6 +109,8 @@ before_script:
   - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || export QT_SELECT=qt5'
   - mkdir -p "$TRAVIS_BUILD_DIR-build"
   - pushd "$TRAVIS_BUILD_DIR-build"
+  - lrelease "$TRAVIS_BUILD_DIR/client/client.pro"
+  - lrelease "$TRAVIS_BUILD_DIR/server/server.pro"
   - qmake -v
   - qmake -r -Wall -Wlogic -Wparser CONFIG+=debug_and_release "$TRAVIS_BUILD_DIR"
   - popd
