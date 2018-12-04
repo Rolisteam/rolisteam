@@ -117,8 +117,10 @@ before_script:
 
 script:
   - make -C "$TRAVIS_BUILD_DIR-build" -j2
+  - mkdir -p "$TRAVIS_BUILD_DIR-build/tests"
   - pushd "$TRAVIS_BUILD_DIR-build/tests"
-  - sh runTest.sh
+  - sh "$TRAVIS_BUILD_DIR/tests/runTest.sh"
+  - popd
   #- '[ "$TRAVIS_OS_NAME" != osx ] || make -C "$TRAVIS_BUILD_DIR-build/pkg/osx" dmg'
 
 #deploy:
