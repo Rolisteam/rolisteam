@@ -48,7 +48,7 @@ public:
     * @param role
     * @return
     */
-   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole);
+   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
    /**
    * Load informations from the previous rolisteam's execution
    */
@@ -59,7 +59,7 @@ public:
    */
    void writeSettings(QSettings & settings);
 
-   Qt::ItemFlags flags(const QModelIndex & index);
+   Qt::ItemFlags flags(const QModelIndex & index) const;
    void removeProfile(ConnectionProfile* profile);
 
    ConnectionProfile* getProfile(const QModelIndex&);

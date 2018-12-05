@@ -30,7 +30,7 @@ ProfileModel::~ProfileModel()
     qDeleteAll(m_connectionProfileList);
     m_connectionProfileList.clear();
 }
-QVariant ProfileModel::headerData(int , Qt::Orientation , int )
+QVariant ProfileModel::headerData(int , Qt::Orientation , int ) const
 {
     return QVariant();
 }
@@ -209,7 +209,7 @@ void ProfileModel::writeSettings(QSettings & settings)
     settings.endGroup();
 }
 
-Qt::ItemFlags ProfileModel::flags(const QModelIndex & index)
+Qt::ItemFlags ProfileModel::flags(const QModelIndex & index) const
 {
     Q_UNUSED(index)
     return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
@@ -217,7 +217,7 @@ Qt::ItemFlags ProfileModel::flags(const QModelIndex & index)
 
 /////////////////////////////////
 ///
-///SelectConnectionProfileDialog
+/// SelectConnectionProfileDialog
 ///
 ////////////////////////////////
 
