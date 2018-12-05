@@ -328,6 +328,11 @@ void LineModel::removeLine(int index)
     m_lines.removeAt(index);
     endRemoveRows();
 }
+
+bool LineModel::setData(const QModelIndex& index, QVariant data,int role)
+{
+    return QAbstractListModel::setData(index, data, role);
+}
 ///////////////////////////////////
 /// \brief TableField::TableField
 /// \param addCount

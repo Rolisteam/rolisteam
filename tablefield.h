@@ -76,7 +76,7 @@ public:
     LineModel();
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
-    bool setData(QModelIndex& index, QVariant data,int role);
+    bool setData(const QModelIndex& index, QVariant data,int role);
     QHash<int, QByteArray>  roleNames() const;
     void insertLine(LineFieldItem* line);
     void appendLine(TableField* field);
