@@ -65,7 +65,7 @@
      <item>
       <widget class="QToolButton" name="m_saveBtn">
        <property name="text">
-        <string>...</string>
+        <string notr="true">...</string>
        </property>
       </widget>
      </item>
@@ -85,7 +85,7 @@
      <item>
       <widget class="QToolButton" name="m_eraseBtn">
        <property name="text">
-        <string>...</string>
+        <string notr="true">...</string>
        </property>
       </widget>
      </item>
