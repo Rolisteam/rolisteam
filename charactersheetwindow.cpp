@@ -197,7 +197,7 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint & pos)
     if(index.column()>0)
     {
         m_currentCharacterSheet = m_model.getCharacterSheet(index.column()-1);
-        QMenu* affect = menu.addMenu(tr("Share To "));
+        QMenu* affect = menu.addMenu(m_shareTo);
         addSharingMenu(affect);
     }
 
@@ -227,7 +227,7 @@ void CharacterSheetWindow::contextMenuForTabs(const QPoint pos)
     {
 
         menu.addAction(m_detachTab);
-        QMenu* share = menu.addMenu(tr("Share To"));
+        QMenu* share = menu.addMenu(m_shareTo);
 
         menu.addAction(m_copyTab);
         menu.addAction(m_stopSharingTabAct);
@@ -575,7 +575,7 @@ void  CharacterSheetWindow::saveCharacterSheet()
     if((nullptr!=m_uri)&&(m_uri->getUri().isEmpty()))
     {
         QString uri = QFileDialog::getSaveFileName(this, tr("Save Character Sheets Data"), m_preferences->value(QString("CharacterSheetDirectory"),QDir::homePath()).toString(),
-                                                   tr("Character Sheets Data files (*.rcs)"));
+                                                   m_filterString);
 
         m_uri->setUri(uri);
     }
@@ -686,7 +686,7 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
 void CharacterSheetWindow::openCharacterSheet()
 {
     m_fileUri = QFileDialog::getOpenFileName(this, tr("Open Character Sheet data"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
-                                             tr("Character Sheet Data files (*.rcs)"));
+                                             m_filterString);
     
     openFile(m_fileUri);
     

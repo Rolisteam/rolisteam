@@ -350,6 +350,10 @@ private:
     QJsonObject m_data;
 
     QString m_qmlData;
+
+    // Translation optimisation
+    const QString m_shareTo=tr("Share To");
+    const QString m_filterString=tr("Character Sheet Data files (*.rcs)");
 };
 
 #endif // CHARACTERSHEETWINDOW_H
