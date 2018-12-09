@@ -5,6 +5,7 @@
 
 namespace std {
 
+#ifndef _MSC_VER
 template <>
 pair<GMTOOL::Unit,GMTOOL::Unit>& pair<GMTOOL::Unit,GMTOOL::Unit>::operator=(const pair<GMTOOL::Unit,GMTOOL::Unit>& pairB)
 {
@@ -12,7 +13,7 @@ pair<GMTOOL::Unit,GMTOOL::Unit>& pair<GMTOOL::Unit,GMTOOL::Unit>::operator=(cons
     this->second = std::move(pairB.second);
     return *this;
 }
-
+#endif
 }
 
 namespace GMTOOL
