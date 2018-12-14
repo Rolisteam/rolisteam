@@ -37,7 +37,7 @@
        <item>
         <widget class="QToolButton" name="m_addBtn">
          <property name="text">
-          <string>...</string>
+          <string notr="true">...</string>
          </property>
          <property name="icon">
           <iconset resource="../../../../rolisteam.qrc">
@@ -48,7 +48,7 @@
        <item>
         <widget class="QToolButton" name="m_removeBtn">
          <property name="text">
-          <string>...</string>
+          <string notr="true">...</string>
          </property>
          <property name="icon">
           <iconset resource="../../../../rolisteam.qrc">

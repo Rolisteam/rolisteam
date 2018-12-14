@@ -36,8 +36,8 @@ public:
 
    /* QModelIndex mapToSource(const QModelIndex &proxyIndex) const;
     QModelIndex mapFromSource(const QModelIndex &sourceIndex) const;*/
-    QModelIndex parent(const QModelIndex &child) const;
-    QModelIndex index(int row, int column, const QModelIndex &parent) const;
+    QModelIndex parent(const QModelIndex &child) const override;
+    QModelIndex index(int row, int column, const QModelIndex &parent) const override;
 
 
     // Add data:
@@ -54,12 +54,12 @@ public:
     CategoryModel *units() const;
     void setUnits(CategoryModel* units);
 
-    void setCurrentCategory(const QString &cat, int categoryId);
+    void setCurrentCategoryId(const QString &cat, int categoryId) ;
 
     QHash<QPair<const Unit *, const Unit *>, ConvertorOperator *> *convertionRules() const;
     void setConvertionRules(QHash<QPair<const Unit *, const Unit *>, ConvertorOperator *> *convertionRules);
 
-    QModelIndex buddy(const QModelIndex &index) const;
+    QModelIndex buddy(const QModelIndex &index) const override;
 private:
     //CategoryModel* m_units = nullptr;
     QHash<QPair<const Unit*, const Unit*>,ConvertorOperator*>* m_convertionRules;

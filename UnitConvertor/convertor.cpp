@@ -61,10 +61,10 @@ Convertor::Convertor(QWidget *parent) :
         Unit* hm =m_model->insertData(new Unit(QStringLiteral("hectometer"),QStringLiteral("hm"),Unit::DISTANCE));
         Unit* cm =m_model->insertData(new Unit(QStringLiteral("centimeter"),QStringLiteral("cm"),Unit::DISTANCE));
         Unit* mm =m_model->insertData(new Unit(QStringLiteral("millitimeter"),QStringLiteral("mm"),Unit::DISTANCE));
-        Unit* po =m_model->insertData(new Unit(QStringLiteral("Inch"),QStringLiteral("po"),Unit::DISTANCE));
-        Unit* ft =m_model->insertData(new Unit(QStringLiteral("Foot"),QStringLiteral("ft"),Unit::DISTANCE));
+        Unit* po =m_model->insertData(new Unit(QStringLiteral("Inch"),QStringLiteral("″"),Unit::DISTANCE));
+        Unit* ft =m_model->insertData(new Unit(QStringLiteral("Foot"),QStringLiteral("′"),Unit::DISTANCE));
         Unit* yd = m_model->insertData(new Unit(QStringLiteral("Yard"),QStringLiteral("yd"),Unit::DISTANCE));
-        Unit* mile =m_model->insertData(new Unit(QStringLiteral("Mile"),QStringLiteral("Mile"),Unit::DISTANCE));
+        Unit* mile =m_model->insertData(new Unit(QStringLiteral("Mile"),QStringLiteral("mi"),Unit::DISTANCE));
 
         //kilometer to *
         m_convertorTable.insert(QPair<const Unit*, const Unit*>(km,meter),new ConvertorOperator(1000));
@@ -371,12 +371,13 @@ void Convertor::writeSettings()
 void Convertor::categoryHasChanged(int i)
 {
     ui->m_toLine->clear();
-    m_catModel->setCurrentCategory(m_model->getCatNameFromId((Unit::Category)i));
-    m_toModel->setCurrentCategory(m_model->getCatNameFromId((Unit::Category)i));
+    m_catModel->setCurrentCategory(m_model->getCatNameFromId(static_cast<Unit::Category>(i)));
+    m_toModel->setCurrentCategory(m_model->getCatNameFromId(static_cast<Unit::Category>(i)));
 }
+
 void Convertor::categoryHasChangedOnSecondPanel(int i)
 {
-    m_customRulesModel->setCurrentCategory(m_model->getCatNameFromId(static_cast<Unit::Category>(i)),i);
+    m_customRulesModel->setCurrentCategoryId(m_model->getCatNameFromId(static_cast<Unit::Category>(i)),i);
 }
 
 void Convertor::convert()

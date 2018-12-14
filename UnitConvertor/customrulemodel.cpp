@@ -60,7 +60,7 @@ bool CustomRuleModel::setHeaderData(int section, Qt::Orientation orientation, co
     return false;
 }
 
-void CustomRuleModel::setCurrentCategory(const QString & cat,int currentCateId)
+void CustomRuleModel::setCurrentCategoryId(const QString & cat,int currentCateId)
 {
     beginResetModel();
     m_currentCatId = currentCateId;
