@@ -8,7 +8,7 @@ TARGET= tst_diceParser
 MOC_DIR=trash
 OBJECTS_DIR=trash
 
-
+CONFIG+=testcase
 
 QT += testlib quick qml widgets
 

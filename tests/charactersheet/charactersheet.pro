@@ -11,7 +11,7 @@ OBJECTS_DIR=trash
 
 
 QT += testlib widgets gui
-CONFIG += UNIT_TEST
+CONFIG += UNIT_TEST testcase
 
 INCLUDEPATH += $$ROLISTEAMSRC/
 INCLUDEPATH += $$ROLISTEAMSRC/charactersheet/nodes

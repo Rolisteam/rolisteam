@@ -12,6 +12,7 @@ MOC_DIR=trash
 OBJECTS_DIR=trash
 
 QT += testlib
+CONFIG += testcase
 
 INCLUDEPATH += ../lib/network/
 INCLUDEPATH += ../$$ROLISTEAMSRC/src/network/

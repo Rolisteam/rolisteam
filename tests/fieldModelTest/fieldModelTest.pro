@@ -4,7 +4,7 @@ include(../../client/widgets/gmtoolbox/NpcMaker/NpcMaker.pri)
 QT       += testlib gui
 
 TARGET = tst_fieldmodel
-CONFIG   += console
+CONFIG   += console testcase
 CONFIG   -= app_bundle
 
 INCLUDEPATH += ../../client/widgets/gmtoolbox/NpcMaker/

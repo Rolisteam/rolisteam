@@ -1,7 +1,7 @@
 include(../tests.pri)
 
 TARGET = tst_session
-CONFIG   += console
+CONFIG   += console testcase
 CONFIG   -= app_bundle
 
 QT += testlib widgets gui

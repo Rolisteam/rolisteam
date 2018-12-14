@@ -4,3 +4,4 @@ TEMPLATE = app
 TARGET=mapTest
 MOC_DIR=trash
 OBJECTS_DIR=trash
+CONFIG+=testcase

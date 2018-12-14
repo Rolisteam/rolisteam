@@ -1,7 +1,7 @@
 include(../tests.pri)
 
 TARGET = tst_rolisteamtheme
-CONFIG   += console
+CONFIG   += console testcase
 CONFIG   -= app_bundle
 
 QT += widgets gui

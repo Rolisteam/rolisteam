@@ -44,6 +44,7 @@ private slots:
     void wrongCommandsTest();
     void wrongCommandsExecutionTimeTest();
     void scopeDF();
+    void severalInstruction();
     void testAlias();
     void cleanupTestCase();
 
@@ -125,7 +126,6 @@ void TestDice::commandsTest()
             << "3D100"
             << "4k3"
             << "10D10e[>=6]sc[>=6]"
-            << "100190D6666666s"
             << "10D10e10s"
             << "10D10s"
             << "15D10e10c[8-10]"
@@ -146,7 +146,6 @@ void TestDice::commandsTest()
             << "help"
             << "la"
             << "10D10c[<2|>7]"
-            << "1L[tete,bras droit,bras gauche,jambe droite,jambe gauche,ventre[6-7],buste[8-10]]"
             << "10D6c[=2|=4|=6]"
             <<"10D10e[=1|=10]k4"
             << "10+10s"
@@ -158,6 +157,7 @@ void TestDice::commandsTest()
             << "1d100i[<70]{1d10i[=10]{1d100i[<70]{1d10e10}}}"
             << "10d6c[<2|>5]"
             << "5-5*5+5"
+            << "((3+4)*2)d6"
             << "4d6i[=6]{+1d6}"
             << "10d[-8--1]"
             << "4d6e6i[=4]{-4}+2"
@@ -165,6 +165,8 @@ void TestDice::commandsTest()
             << "5d10g10"
             << "4d6p[4:blue]c[>=4];1d6p[1:#FFFFFF]c6-@c1;1d6p[1:#FF0000]c[>=4]+@c6-@c1"
             << "10d[0-9]";
+            //<< "1L[tete,bras droit,bras gauche,jambe droite,jambe gauche,ventre[6-7],buste[8-10]]"
+            //<< "100190D6666666s"
     for(QString cmd : commands)
     {
         bool a = m_diceParser->parseLine(cmd);
@@ -185,8 +187,8 @@ void TestDice::wrongCommandsTest()
             << "10d10c"
             << "10d10a"
             << "10d0a[>7]"
-            << "aiteanetauearuteurn"
-            << "pajaejlbnmàw";
+            << "aiteanetauearuteurn";
+//            << "pajaejlbnmàw";
 
     for(QString cmd: commands)
     {
@@ -287,6 +289,26 @@ void TestDice::testAlias()
         ++i;
     }
 
+
+}
+void TestDice::severalInstruction()
+{
+
+    QStringList commands;
+
+    commands << "1d10;2d20;$1+$2";
+    
+    QList<int> results;
+    results << 3;
+
+    int i = 0;
+    for(auto cmd : commands)
+    {
+        auto test = m_diceParser->parseLine(cmd);
+        QVERIFY2(test,cmd.toStdString().c_str());
+        QVERIFY2(m_diceParser->getStartNodeCount() == results[i], "Wrong number of instruction");
+
+    }
 
 }
 void TestDice::mathPriority()

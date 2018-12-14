@@ -45,8 +45,16 @@ void ReaderSender::sendData()
                 qDebug()<< "Connected";
                 m_hash.insert(id, tcp);
             }
+            else
+            {
+                qDebug()<< "No server";
+                emit finish();
+                return;
+            }
         }
         auto tcp = m_hash[id];
+        if(nullptr == tcp)
+            return;
 
         QByteArray bytearray;
         bytearray = QByteArray::fromBase64(data.toLatin1());
@@ -55,5 +63,6 @@ void ReaderSender::sendData()
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
 
+    emit finish();
   //  qApp->quit();
 }

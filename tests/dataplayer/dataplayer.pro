@@ -4,7 +4,7 @@ QT       += testlib
 
 
 TARGET = tst_dataplayertest
-CONFIG   += console
+CONFIG   += console testcase
 CONFIG   -= app_bundle
 
 TEMPLATE = app

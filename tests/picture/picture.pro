@@ -8,7 +8,7 @@ MOC_DIR=trash
 OBJECTS_DIR=trash
 
 TARGET = tst_picturetest
-CONFIG   += console
+CONFIG   += console testcase
 CONFIG   -= app_bundle
 
 

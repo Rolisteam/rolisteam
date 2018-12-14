@@ -2,7 +2,7 @@ SOURCES += \
     main.cpp \
     readersender.cpp
 
-CONFIG   += console
+CONFIG   += console testcase
 CONFIG   -= app_bundle
 
 TEMPLATE = app

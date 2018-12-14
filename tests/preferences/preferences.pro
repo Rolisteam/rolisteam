@@ -1,7 +1,7 @@
 include(../tests.pri)
 
 TARGET = tst_preferences
-CONFIG   += console
+CONFIG   += console testcase
 CONFIG   -= app_bundle
 
 TEMPLATE = app

@@ -16,7 +16,7 @@ public:
 
     void sendData();
 signals:
-
+    void finish();
 public slots:
     void readFile();
 

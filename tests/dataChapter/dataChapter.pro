@@ -1,6 +1,7 @@
 include(../tests.pri)
 #include($$ROLISTEAMSRC/src/data/data.pri)
 
+CONFIG += testcase
 QT += widgets
 TEMPLATE = app
 HEADERS = $$ROLISTEAMSRC/data/chapter.h \
