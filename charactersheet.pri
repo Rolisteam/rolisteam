@@ -62,3 +62,6 @@ SOURCES -=$$PWD/charactersheetwindow.cpp\
     $$PWD/charactersheetmodel.cpp\
     $$PWD/rolisteamimageprovider.cpp \
 }
+
+DISTFILES += \
+    $$PWD/qml/Table.qml

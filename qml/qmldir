@@ -9,3 +9,4 @@ DiceButton 1.0 DiceButton.qml
 ImageField 1.0 ImageField.qml
 WebView 1.0 WebView.qml
 PageButton 1.0 PageButton.qml
+Table 1.0 Table.qml
