@@ -520,9 +520,9 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     if (to == playersList->getLocalPlayer()->getUuid())
     {//to one person
         ChatWindow* win = getChatWindowByUuid(from);
-        if((nullptr==win) && (nullptr!=sender->getParent()))
+        if((nullptr==win) && (nullptr!=sender->parentPerson()))
         {
-            win = getChatWindowByUuid(sender->getParent()->getUuid());
+            win = getChatWindowByUuid(sender->parentPerson()->getUuid());
         }
         if(nullptr!=win)
         {

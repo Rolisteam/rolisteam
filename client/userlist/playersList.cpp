@@ -292,7 +292,7 @@ bool PlayersList::isLocal(Person * person) const
     if(nullptr == local)
         return false;
 
-    return (person == local || person->getParent() == local);
+    return (person == local || person->parentPerson() == local);
 }
 
 int PlayersList::getPlayerCount() const
@@ -326,7 +326,7 @@ Person * PlayersList::getPerson(const QString & uuid) const
 Player * PlayersList::getPlayer(const QString & uuid) const
 {
     Person * person = m_uuidMap.value(uuid);
-    if (person == nullptr || person->getParent() != nullptr)//No person or if person has parent return Player
+    if (person == nullptr || person->parentPerson() != nullptr)//No person or if person has parent return Player
         return nullptr;
     return static_cast<Player *>(person);
 }
@@ -334,7 +334,7 @@ Player * PlayersList::getPlayer(const QString & uuid) const
 Character * PlayersList::getCharacter(const QString & uuid) const
 {
     Person * person = m_uuidMap.value(uuid);
-    if (person == nullptr || person->getParent() == nullptr)
+    if (person == nullptr || person->parentPerson() == nullptr)
         return nullptr;
     return static_cast<Character *>(person);
 }
@@ -345,7 +345,7 @@ Player* PlayersList::getParent(const QString & uuid) const
     if (person == nullptr)
         return nullptr;
     
-    Person* parent = person->getParent();
+    Person* parent = person->parentPerson();
     if (parent == nullptr)
     {
         return nullptr;
@@ -564,7 +564,7 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
     {
         NetworkMessageWriter * message;
 
-        if (person->getParent() == nullptr)
+        if (person->parentPerson() == nullptr)
             message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerColorAction);
         else
             message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterColorAction);
@@ -584,7 +584,7 @@ bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
     person->setName(name);
     NetworkMessageWriter * message;
 
-    if (person->getParent() == nullptr)
+    if (person->parentPerson() == nullptr)
         message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerNameAction);
     else
         message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterNameAction);

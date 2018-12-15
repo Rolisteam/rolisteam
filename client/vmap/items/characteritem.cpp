@@ -1038,7 +1038,7 @@ QString CharacterItem::getParentId() const
 {
     if(nullptr!=m_character)
     {
-        Person* pers = m_character->getParent();
+        Person* pers = m_character->parentPerson();
         if(nullptr!=pers)
         {
             return pers->getUuid();

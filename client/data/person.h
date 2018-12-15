@@ -19,8 +19,6 @@
  *   Free Software Foundation, Inc.,                                     *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
-
-
 #ifndef PERSONS_H
 #define PERSONS_H
 
@@ -73,7 +71,7 @@ public:
      * @brief parent
      * @return
      */
-    virtual Person* getParent() const;
+    virtual Person* parentPerson() const;
     void setParentPerson(Person* parent);
 
     /**
@@ -95,7 +93,7 @@ public:
     /**
     * @brief set the person's avatar.
     */
-    virtual bool setAvatar(const QImage& p);
+    virtual void setAvatar(const QImage& p);
     /**
      * @brief setColor
      * @param color
@@ -138,16 +136,10 @@ protected:
     QString m_uuid;
     QColor  m_color;
     QImage  m_avatar;
-    Person* m_parent;
+    Person* m_parentPerson = nullptr;
     Qt::CheckState m_checkState;
 private:
     friend class PlayersList;
 };
-
-
-
-
-
-
 
 #endif

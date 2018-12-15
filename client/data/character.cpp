@@ -428,7 +428,7 @@ QString Character::getParentId() const
 {
     if(nullptr!=m_parent)
     {
-        return m_parent->getUuid();
+        return m_parentPerson->getUuid();
     }
     return QString();
 }
@@ -492,7 +492,7 @@ CharacterState* Character::getStateFromLabel(QString label)
 
 void Character::fill(NetworkMessageWriter & message,bool addAvatar)
 {
-    message.string8(nullptr != m_parent ? m_parent->getUuid() : QStringLiteral("nullptr"));
+    message.string8(nullptr != m_parentPerson ? m_parentPerson->getUuid() : QStringLiteral("nullptr"));
     message.string8(m_uuid);
     message.string16(m_name);
     message.int8(static_cast<qint8>(indexOfState(m_currentState)));
@@ -714,8 +714,8 @@ void Character::write(QDataStream& out, bool tag, bool) const
     out << m_name;
     out << m_uuid;
     out << m_color;
-    if(nullptr != m_parent)
-        out << m_parent->getUuid();
+    if(nullptr != m_parentPerson)
+        out << m_parentPerson->getUuid();
     else
         out << QString();
 

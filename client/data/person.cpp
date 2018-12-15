@@ -33,18 +33,18 @@
  * Person *
  **********/
 Person::Person()
-    : m_uuid(QUuid::createUuid().toString()),m_parent(nullptr)
+    : m_uuid(QUuid::createUuid().toString())
 {
 }
 
 Person::Person(const QString & name, const QColor & color)
-    : m_uuid(QUuid::createUuid().toString()),m_color(color),m_parent(nullptr)
+    : m_uuid(QUuid::createUuid().toString()),m_color(color)
 {
     m_name = name;
 }
 
 Person::Person(const QString & uuid, const QString & name, const QColor & color)
-    : m_uuid(uuid),m_color(color),m_parent(nullptr)
+    : m_uuid(uuid),m_color(color)
 {
     m_name = name;
 }
@@ -62,14 +62,14 @@ QColor Person::getColor() const
     return m_color;
 }
 
-Person *Person::getParent() const
+Person *Person::parentPerson() const
 {
-    return m_parent;
+    return m_parentPerson;
 }
 
 void Person::setParentPerson(Person *parent)
 {
-    m_parent = parent;
+    m_parentPerson = parent;
 }
 
 bool Person::setColor(const QColor & color)
@@ -91,15 +91,9 @@ bool Person::hasAvatar() const
     return !m_avatar.isNull();
 }
 
-bool Person::setAvatar(const QImage& p)
+void Person::setAvatar(const QImage& p)
 {
-    if(m_avatar == p)
-    {
-        return false;
-    }
-
     m_avatar = p;
-    return true;
 }
 Qt::CheckState Person::checkedState()
 {

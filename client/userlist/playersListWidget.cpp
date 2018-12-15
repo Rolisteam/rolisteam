@@ -130,12 +130,12 @@ void PlayersListWidgetModel::changeMap(Map * map)
     for (i = 0 ; i < max ; i++)
     {
         Player * player = playersList->getPlayer(i);
-        int nbCharacters = player->getChildrenCount();
+        int characterCount = player->getChildrenCount();
 
-        if (nbCharacters > 0)
+        if (characterCount > 0)
         {
             begin = createIndex(0, 0, i);
-            end   = createIndex(nbCharacters, 0, i);
+            end   = createIndex(characterCount, 0, i);
             break;
         }
     }
@@ -165,7 +165,7 @@ bool PlayersListWidgetModel::isCheckable(const QModelIndex &index) const
 
     Player* localPlayer = playersList->getLocalPlayer();
 
-    return ((person->getParent() == localPlayer) ||
+    return ((person->parentPerson() == localPlayer) ||
             (localPlayer->isGM() && index.parent().isValid()));
 }
 
