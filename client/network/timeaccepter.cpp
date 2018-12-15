@@ -9,7 +9,7 @@ TimeAccepter::TimeAccepter()
 bool TimeAccepter::isValid(const QMap<QString, QVariant> &data)
 {
     QTime time(QTime::currentTime());
-    const QString format = QStringLiteral("hh:ss");
+    const QString format = QStringLiteral("hh:mm");
 
     QTime start= QTime::fromString(data["TimeStart"].toString(),format);
     QTime end= QTime::fromString(data["TimeEnd"].toString(),format);
