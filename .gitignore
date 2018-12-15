@@ -3,3 +3,6 @@ rolisteam.pro.user
 rolisteam*.qm
 html
 *.user
+*.qm
+*.pro.user.*
+*.pro.user
