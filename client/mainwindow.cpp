@@ -2127,6 +2127,10 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         {
             sheet->processUpdateFieldMessage(msg,idSheet);
         }
+        else
+        {
+            qWarning() << QStringLiteral("No character sheet found - Media Id: %2 - Sheet Id: %1").arg(idSheet).arg(idMedia);
+        }
     }
     else if(NetMsg::closeCharacterSheet == msg->action())
     {
