@@ -129,22 +129,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="416"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="523"/>
         <source>Fields name</source>
         <translation>Nome de Campos</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="442"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="549"/>
         <source>Empty Section %1</source>
         <translation>Seção Vazia %1</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="450"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="557"/>
         <source>Section_%1</source>
         <translation>Seção_%1</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="474"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="581"/>
         <source>Field %1</source>
         <translation>Campo %1</translation>
     </message>
@@ -156,7 +156,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Visualizador de Ficha de Personagem</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="53"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="55"/>
         <source>Add Section</source>
         <translation>Adicionar Seção</translation>
     </message>
@@ -165,102 +165,100 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Adicionar Linha</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="54"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="56"/>
         <source>Add Field</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="55"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="57"/>
         <source>Add CharacterSheet</source>
         <translation>Adicionar Ficha de Personagem</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="56"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="58"/>
         <source>Copy Tab</source>
         <translation>Copiar aba</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="58"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="60"/>
         <source>Stop Sharing</source>
         <translation>Parar compartilhamento</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="60"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="62"/>
         <source>Read Only</source>
         <translation>Somente leitura</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="64"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="66"/>
         <source>Load CharacterSheet View File</source>
         <translation>Carregar Arquivo de Visualização de Ficha de Personagem</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="66"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="68"/>
         <source>Detach Tabs</source>
         <translation>Desanexar Abas</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="67"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="69"/>
         <source>Print Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="76"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="78"/>
         <source>Data</source>
         <translation>Dados</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="170"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="182"/>
         <source>%1 - (Character Sheet Viewer)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="188"/>
         <source>Share To </source>
-        <translation>Compartilhar com</translation>
+        <translation type="vanished">Compartilhar com</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="219"/>
+        <location filename="../charactersheet/charactersheetwindow.h" line="355"/>
         <source>Share To</source>
         <translation>Compartilhar para</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="415"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="98"/>
         <source>Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="507"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="569"/>
         <source>QML Errors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="515"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="577"/>
         <source>Save Character Sheets Data</source>
         <translation>Salvar Dados de Ficha de Personagem</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="516"/>
         <source>Character Sheets Data files (*.rcs)</source>
-        <translation>Arquivo de Dados de Fichas de Personagem (*.rcs)</translation>
+        <translation type="vanished">Arquivo de Dados de Fichas de Personagem (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="626"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="688"/>
         <source>Open Character Sheet data</source>
         <translation>Abrir Dados de Ficha de Personagem</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="627"/>
+        <location filename="../charactersheet/charactersheetwindow.h" line="356"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation>Arquivo de Dados de Ficha de Personagem (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="634"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="696"/>
         <source>Open Character Sheets View</source>
         <translation>Abrir visualização de Fichas de Personagem</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="635"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="697"/>
         <source>Character Sheet files (*.qml)</source>
         <translation>Arquivos de Ficha de Personagem (*.qml)</translation>
     </message>
