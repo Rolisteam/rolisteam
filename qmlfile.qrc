@@ -22,6 +22,7 @@
         <file alias="resources/qml/ImageField.qml">charactersheet/qml/ImageField.qml</file>
         <file alias="resources/qml/WebView.qml">charactersheet/qml/WebView.qml</file>
         <file alias="resources/qml/PageButton.qml">charactersheet/qml/PageButton.qml</file>
+        <file alias="resources/qml/Table.qml">charactersheet/qml/Table.qml</file>
         <file>resources/logo/symbol2.png</file>
         <file>translations/rcse_fr.qm</file>
         <file>translations/rcse_de.qm</file>
