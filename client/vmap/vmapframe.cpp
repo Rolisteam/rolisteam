@@ -199,24 +199,6 @@ void VMapFrame::keyPressEvent ( QKeyEvent * event )
     }
 }
 
-bool VMapFrame::openMedia()
-{
-    MapWizzard wiz(true);
-    wiz.resetData();
-    if(wiz.exec()==QMessageBox::Accepted)
-    {
-        QString path = wiz.getFilepath();
-        QString title = wiz.getTitle();
-        Map::PermissionMode permissionMode = wiz.getPermissionMode();
-        m_vmap->setPermissionMode(permissionMode);
-        m_vmap->setTitle(title);
-        QFileInfo info(path);
-        m_uri->setUri( path);
-        m_preferences->registerValue("MapDirectory",info.absolutePath());
-        return true;
-    }
-    return false;
-}
 void VMapFrame::saveMedia()
 {
     if(nullptr!=m_vmap)

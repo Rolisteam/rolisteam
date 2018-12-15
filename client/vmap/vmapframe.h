@@ -104,11 +104,6 @@ public :
      * @return
      */
     virtual bool readFileFromUri();
-    /**
-     * @brief openMedia
-     * @return
-     */
-    virtual bool openMedia();
 	/**
 	 * @brief processAddItemMessage should add items from Network
 	 * @param msg

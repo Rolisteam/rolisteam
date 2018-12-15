@@ -544,6 +544,9 @@ private:
     //Recent files managment
     int m_maxSizeRecentFile;
     QList<QAction*> m_recentFileActs;
+    CleverUriList m_recentFiles;
+
+
     VmapToolBar* m_vmapToolBar;
 
     ConnectionProfile* m_currentConnectionProfile;
@@ -558,7 +561,6 @@ private:
     QUndoStack m_undoStack;
     LogController* m_logController = nullptr;
     QString m_connectionAddress;
-    CleverUriList m_recentFiles;
     bool m_isOut = false;
     LogSenderScheduler m_logScheduler;
 };

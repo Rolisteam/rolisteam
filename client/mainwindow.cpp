@@ -1358,17 +1358,17 @@ void MainWindow::readSettings()
     /**
       * management of recentFileActs
       * */
+    m_recentFiles = settings.value("recentFileList").value<CleverUriList>();
     m_maxSizeRecentFile = m_preferences->value("recentfilemax",5).toInt();
     for (int i = 0; i < m_maxSizeRecentFile; ++i)
     {
-        m_recentFileActs.insert(i,new QAction(m_ui->m_recentFileMenu));
-        m_recentFileActs[i]->setVisible(false);
-        connect(m_recentFileActs[i], SIGNAL(triggered()),
-                this, SLOT(openRecentFile()));
-
-        m_ui->m_recentFileMenu->addAction(m_recentFileActs[i]);
+        auto act = m_ui->m_recentFileMenu->addAction(QStringLiteral("recentFile %1").arg(i));
+        m_recentFileActs.append(act);
+        act->setVisible(false);
+        connect(act, &QAction::triggered,this, &MainWindow::openRecentFile);
     }
     updateRecentFileActions();
+
     m_preferencesDialog->initializePostSettings();
     m_chatListWidget->readSettings(settings);
 
@@ -1380,6 +1380,7 @@ void MainWindow::writeSettings()
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
     settings.setValue("Maximized", isMaximized());
+    settings.setValue("recentFileList",QVariant::fromValue(m_recentFiles));
     m_preferences->writeSettings(settings);
     m_chatListWidget->writeSettings(settings);
     m_dialog->writeSettings(settings);
@@ -2349,6 +2350,7 @@ void MainWindow::openRecentFile()
     {
         CleverURI* uri = new CleverURI();
         *uri = action->data().value<CleverURI>();
+        uri->setDisplayed(false);
         openCleverURI(uri,true);
     }
 }
@@ -2356,7 +2358,7 @@ void MainWindow::openRecentFile()
 void MainWindow::updateRecentFileActions()
 {   
     std::remove_if(m_recentFiles.begin(),m_recentFiles.end(), [](const CleverURI& uri){
-       return  QFileInfo::exists(uri.getUri());
+       return  !QFileInfo::exists(uri.getUri());
     });
 
     int i = 0;
@@ -2386,7 +2388,7 @@ void MainWindow::setLatestFile(CleverURI* fileName)
     // no online picture because they are handled in a really different way.
     if((nullptr==fileName) ||
        (fileName->getType()==CleverURI::ONLINEPICTURE) ||
-       (fileName->getCurrentMode() == CleverURI::Internal) || QFileInfo::exists(fileName->getUri()))
+       (fileName->getCurrentMode() == CleverURI::Internal) || !QFileInfo::exists(fileName->getUri()))
     {
         return;
     }
@@ -2573,9 +2575,6 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
         case CleverURI::ONLINEPICTURE:
             tmp = new Image(m_mdiArea);
             break;
-        case CleverURI::VMAP:
-            tmp = new VMapFrame(true);
-            break;
         default:
             break;
         }
@@ -2590,10 +2589,6 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
                     if(type==CleverURI::MAP)
                     {
                         prepareMap(static_cast<MapFrame*>(tmp));
-                    }
-                    else if(type == CleverURI::VMAP)
-                    {
-                        prepareVMap(static_cast<VMapFrame*>(tmp));
                     }
                     else if((type==CleverURI::PICTURE)||(type==CleverURI::ONLINEPICTURE))
                     {

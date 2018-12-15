@@ -312,6 +312,8 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
         break;
 #endif
     case CleverURI::VMAP:
+        filterType = QObject::tr("Vectorial Map (%1)").arg(preferences->value("VictorialFilter","*.vmap").toString());
+        break;
     case CleverURI::MAP:
     case CleverURI::CHAT:
     case CleverURI::ONLINEPICTURE:
