@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="en_GB">
 <context>
     <name>AboutRcse</name>
     <message>
@@ -1487,6 +1487,7 @@ Full documentation at: %1</source>
         <source>Delete %n Field(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -1498,6 +1499,7 @@ Full documentation at: %1</source>
         <location filename="../undo/movefieldcommand.cpp" line="32"/>
         <source>Move %n Field(s)</source>
         <translation type="unfinished">
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
