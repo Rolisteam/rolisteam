@@ -231,8 +231,7 @@ bool CleverURI::exists()
     if(m_uri.isEmpty())
         return false;
 
-    QFileInfo info(m_uri);
-    return info.exists();
+   return QFileInfo::exists(m_uri);
 }
 const QString CleverURI::getAbsolueDir() const
 {
