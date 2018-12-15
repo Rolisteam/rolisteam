@@ -31,6 +31,7 @@ class CharacterSheet;
  */
 class Section : public CharacterSheetItem
 {
+    Q_OBJECT
 public:
     /**
      * @brief Section constructor
@@ -164,7 +165,8 @@ public slots:
      * @param character
      */
     void buildDataInto(CharacterSheet* characterSheet);
-    void updateData(CharacterSheet* characterSheet);
+signals:
+    void addLineToTableField(CharacterSheetItem*);
 private:
     QHash<QString,CharacterSheetItem*> m_dataHash;
     QStringList m_keyList;

@@ -390,6 +390,24 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet, bool reset, i
     }
     connect(sheet,&CharacterSheet::updateField,this,&CharacterSheetModel::fieldHasBeenChanged);
     connect(sheet,&CharacterSheet::addLineToTableField,this,&CharacterSheetModel::addSubChild);
+}
+
+void CharacterSheetModel::addSubChildRoot(CharacterSheetItem* item)
+{
+    if(!m_rootSection)
+        return;
+
+    auto parentItem = m_rootSection->getChildAt(item->getPath());
+    auto r = m_rootSection->indexOfChild(parentItem);
+    auto structTable = dynamic_cast<TableField*>(parentItem);
+    if(structTable == nullptr)
+        return;
+
+    auto addedFieldCount = structTable->itemPerLine();
+    auto index = createIndex(r,0,parentItem);
+    beginInsertRows(index,parentItem->getChildrenCount(),parentItem->getChildrenCount()+addedFieldCount);
+    structTable->appendChild(nullptr);
+    endInsertRows();
 
 }
 
@@ -503,9 +521,12 @@ Section* CharacterSheetModel::getRootSection() const
 
 void CharacterSheetModel::setRootSection(Section *rootSection)
 {
+    auto previous = m_rootSection;
     beginResetModel();
     m_rootSection = rootSection;
     endResetModel();
+    if(m_rootSection != previous)
+        connect(m_rootSection,&Section::addLineToTableField,this,&CharacterSheetModel::addSubChildRoot);
 }
 
 

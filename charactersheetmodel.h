@@ -141,6 +141,7 @@ public slots:
     void clearModel();
 
     void checkCharacter(Section* section);
+    void addSubChildRoot(CharacterSheetItem *item);
 signals:
     void characterSheetHasBeenAdded(CharacterSheet* sheet);
     void dataCharacterChange();
