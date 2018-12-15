@@ -103,6 +103,7 @@ void TestDice::diceRollD20Test()
 void TestDice::commandEndlessLoop()
 {
     bool a = m_diceParser->parseLine("1D10e[>0]");
+    qDebug() << m_diceParser->humanReadableError();
     QVERIFY(a==false);
 }
 
@@ -116,7 +117,6 @@ void TestDice::commandsTest()
             << "10d10c[>6]+@c[=10]"
             << "1+1D10"
             << "3d10c[>=5]"
-            << "3nwod"
             << "1+(4*3)D10"
             << "2+4/4"
             << "2D10*2D20*8"
@@ -147,7 +147,8 @@ void TestDice::commandsTest()
             << "la"
             << "10D10c[<2|>7]"
             << "10D6c[=2|=4|=6]"
-            <<"10D10e[=1|=10]k4"
+            << "10D10e[=1|=10]k4"
+            << "1L[tete,bras droit,bras gauche,jambe droite,jambe gauche,ventre[6-7],buste[8-10]]"
             << "10+10s"
             << "1d6e6;1d4e4mk1"
             << "1d6e6;1d4e4mk1"
@@ -165,7 +166,7 @@ void TestDice::commandsTest()
             << "5d10g10"
             << "4d6p[4:blue]c[>=4];1d6p[1:#FFFFFF]c6-@c1;1d6p[1:#FF0000]c[>=4]+@c6-@c1"
             << "10d[0-9]";
-            //<< "1L[tete,bras droit,bras gauche,jambe droite,jambe gauche,ventre[6-7],buste[8-10]]"
+            //
             //<< "100190D6666666s"
     for(QString cmd : commands)
     {
@@ -177,6 +178,10 @@ void TestDice::commandsTest()
         if(!m_diceParser->humanReadableError().isEmpty())
             qDebug() << m_diceParser->humanReadableError();
         QVERIFY2(m_diceParser->humanReadableError().isEmpty(),cmd.toStdString().c_str());
+
+        if(!m_diceParser->humanReadableWarning().isEmpty())
+            qDebug() << m_diceParser->humanReadableWarning();
+        QVERIFY2(m_diceParser->humanReadableWarning().isEmpty(),cmd.toStdString().c_str());
     }
 }
 void TestDice::wrongCommandsTest()
@@ -307,7 +312,6 @@ void TestDice::severalInstruction()
         auto test = m_diceParser->parseLine(cmd);
         QVERIFY2(test,cmd.toStdString().c_str());
         QVERIFY2(m_diceParser->getStartNodeCount() == results[i], "Wrong number of instruction");
-
     }
 
 }
