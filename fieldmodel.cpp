@@ -250,7 +250,7 @@ Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
     if (!index.isValid())
         return Qt::ItemIsEnabled;
 
-    CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
+    //CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
     if(m_colunm[index.column()]->getPos() == CharacterSheetItem::ID)
     {
        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
@@ -259,12 +259,12 @@ Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
     {
          return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
     }
-    else if(!childItem->mayHaveChildren())
+    else //if(!childItem->mayHaveChildren())
     {
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
     }
-    else
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
+    /*else
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable ;*/
 
 }
 void FieldModel::generateQML(QTextStream& out,int indentation,bool isTable)
