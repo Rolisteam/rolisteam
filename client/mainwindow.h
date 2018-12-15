@@ -558,6 +558,7 @@ private:
     QUndoStack m_undoStack;
     LogController* m_logController = nullptr;
     QString m_connectionAddress;
+    CleverUriList m_recentFiles;
     bool m_isOut = false;
     LogSenderScheduler m_logScheduler;
 };

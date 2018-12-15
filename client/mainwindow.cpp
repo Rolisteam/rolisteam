@@ -314,7 +314,7 @@ void MainWindow::setupUi()
     });
 
 
-    connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
+    connect(m_dialog,&SelectConnectionProfileDialog::tryConnection,this,&MainWindow::startConnection);
     connect(m_dialog,&SelectConnectionProfileDialog::rejected,&m_serverThread,&QThread::quit);
     connect(m_ipChecker,&IpChecker::finished,this,[=](QString ip){
         m_connectionAddress = ip;
@@ -1382,6 +1382,7 @@ void MainWindow::writeSettings()
     settings.setValue("Maximized", isMaximized());
     m_preferences->writeSettings(settings);
     m_chatListWidget->writeSettings(settings);
+    m_dialog->writeSettings(settings);
     for(auto gmtool : m_gmToolBoxList)
     {
         gmtool->writeSettings();
@@ -2353,25 +2354,31 @@ void MainWindow::openRecentFile()
 }
 
 void MainWindow::updateRecentFileActions()
-{
-    QVariant var = QVariant::fromValue(CleverUriList());
-    CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList >();
-    int numRecentFiles = qMin(files.size(), m_maxSizeRecentFile);
-    for (int i = 0; i < numRecentFiles; ++i)
+{   
+    std::remove_if(m_recentFiles.begin(),m_recentFiles.end(), [](const CleverURI& uri){
+       return  QFileInfo::exists(uri.getUri());
+    });
+
+    int i = 0;
+    for (auto action : m_recentFileActs)
     {
-        QString text = QStringLiteral("&%1 %2").arg(i + 1).arg(files[i].name());
-        m_recentFileActs[i]->setText(text);
-        QVariant var;
-        var.setValue(files[i]);
-        m_recentFileActs[i]->setData(var);
-        m_recentFileActs[i]->setIcon(QIcon(files[i].getIcon()));
-        m_recentFileActs[i]->setVisible(true);
+        if(i >= m_recentFiles.size())
+        {
+            action->setVisible(false);
+        }
+        else
+        {
+            QString text = QStringLiteral("&%1 %2").arg(i + 1).arg(QFileInfo(m_recentFiles[i].getUri()).fileName());
+            action->setText(text);
+            QVariant var;
+            var.setValue(m_recentFiles[i]);
+            action->setData(var);
+            action->setIcon(QIcon(m_recentFiles[i].getIcon()));
+            action->setVisible(true);
+        }
+        ++i;
     }
-    for (int j = numRecentFiles; j < m_recentFileActs.size() ; ++j)
-    {
-        m_recentFileActs[j]->setVisible(false);
-    }
-    m_ui->m_recentFileMenu->setEnabled(numRecentFiles > 0);
+    m_ui->m_recentFileMenu->setEnabled(!m_recentFiles.empty());
 }
 
 void MainWindow::setLatestFile(CleverURI* fileName)
@@ -2379,21 +2386,16 @@ void MainWindow::setLatestFile(CleverURI* fileName)
     // no online picture because they are handled in a really different way.
     if((nullptr==fileName) ||
        (fileName->getType()==CleverURI::ONLINEPICTURE) ||
-       (fileName->getCurrentMode() == CleverURI::Internal))
+       (fileName->getCurrentMode() == CleverURI::Internal) || QFileInfo::exists(fileName->getUri()))
     {
         return;
     }
-    QVariant var = QVariant::fromValue(CleverUriList());
-    CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList>();
-    files.removeAll(*fileName);
-    files.prepend(*fileName);
-    while (files.size() > m_maxSizeRecentFile)
+    m_recentFiles.removeAll(*fileName);
+    m_recentFiles.prepend(*fileName);
+    while (m_recentFiles.size() > m_maxSizeRecentFile)
     {
-        files.removeLast();
+        m_recentFiles.removeLast();
     }
-    QVariant var3;
-    var3.setValue(files);
-    m_preferences->registerValue("recentFileList", var3,true);
     updateRecentFileActions();
 }
 void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
