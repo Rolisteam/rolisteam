@@ -101,6 +101,10 @@ void ProfileModel::readSettings(QSettings & settings)
         Character* character = new Character();
         character->setName(settings.value("CharacterName").toString());
         character->setAvatar(settings.value("CharacterPix").value<QImage>());
+        auto path = settings.value("CharacterPath").toString();
+        if(!QFileInfo::exists(path))
+            qWarning() << tr("Error: avatar for %2 path is invalid. No file at this path: %1").arg(path).arg(character->name());
+        character->setAvatarPath(settings.value("CharacterPath").toString());
         character->setColor(settings.value("CharacterColor").value<QColor>());
         character->setNpc(false);
         profile->setCharacter(character);
@@ -233,7 +237,9 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWi
     ui->m_profileList->setModel(m_model);
     ui->m_progressBar->setVisible(false);
 
-    connect(ui->m_profileList,SIGNAL(clicked(QModelIndex)),this,SLOT(setCurrentProfile(QModelIndex)));
+    connect(ui->m_profileList->selectionModel(),&QItemSelectionModel::currentChanged,this,[this](const QModelIndex& selected, const QModelIndex&){
+        setCurrentProfile(selected);
+    });
     connect(ui->m_profileList,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(connectToIndex(QModelIndex)));
 
     ui->m_profileList->setCurrentIndex(m_model->index(0, 0));
@@ -267,6 +273,7 @@ void SelectConnectionProfileDialog::setCurrentProfile(QModelIndex index)
 {
     updateProfile();
     m_currentProfile = m_model->getProfile(index);
+    m_avatarUri.clear();
     updateGUI();
 }
 void SelectConnectionProfileDialog::updateGUI()
@@ -285,10 +292,13 @@ void SelectConnectionProfileDialog::updateGUI()
 
         if(nullptr!=m_currentProfile->getCharacter())
         {
-        //character
             ui->m_characterName->setText(m_currentProfile->getCharacter()->name());
             ui->m_characterColor->setColor(m_currentProfile->getCharacter()->getColor());
             ui->m_selectCharaterAvatar->setIcon(QIcon(QPixmap::fromImage(m_currentProfile->getCharacter()->getAvatar())));
+        }
+        else
+        {
+            ui->m_selectCharaterAvatar->setIcon(QIcon());
         }
     }
 }
@@ -343,6 +353,7 @@ void SelectConnectionProfileDialog::updateProfile()
         {
             if(!m_avatarUri.isEmpty())
             {
+                character->setAvatarPath(m_avatarUri);
                 character->setAvatar(QImage(m_avatarUri));
             }
             character->setName(ui->m_characterName->text());
