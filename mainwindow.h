@@ -52,10 +52,10 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
+    Q_PROPERTY(QString currentFile READ currentFile WRITE setCurrentFile NOTIFY currentFileChanged)
 public:
     enum EDITION_TOOL {ADDFIELD,SELECT,NONE};
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
     bool qmlGeneration() const;
@@ -65,14 +65,19 @@ public:
     void readSettings();
     void writeSettings();
     void cleanData();
+
+    QString currentFile() const;
+    void setCurrentFile(const QString& filename);
+
 public slots:
     void openPDF();
     void setCurrentTool();
 
-    void save();
-    void saveAs();
+    bool save();
+    bool saveAs();
 
     void open();
+    void openRecentFile();
     void generateQML(QString& qml);
 
     void showQML();
@@ -80,6 +85,7 @@ public slots:
 
     void saveQML();
     void openQML();
+
     void setImage();
     void rollDice(QString cmd);
     void addPage();
@@ -98,6 +104,10 @@ public slots:
 
     void exportPDF();
     void rollDice(QString cmd, bool b);
+
+signals:
+    void currentFileChanged();
+
 protected:
     bool eventFilter(QObject *, QEvent *);
     bool wheelEventForView(QWheelEvent *event);
@@ -106,7 +116,9 @@ protected:
     void applyValue(QModelIndex &index, bool selection);
     void applyValueOnCharacterSelection(QModelIndex &index, bool selection, bool allCharacter);
     void defineItemCode(QModelIndex &index);
+    void updateRecentFileAction();
 
+    bool saveFile(const QString &filename);
 protected slots:
     void menuRequested(const QPoint &pos);
     //void menuRequestedForFieldModel(const QPoint &pos);
@@ -118,6 +130,7 @@ protected slots:
     void showPreferences();
     void pageCountChanged();
     void checkCharacters();
+    bool loadFile(const QString &file);
 private slots:
     void codeChanged();
     void sameGeometry();
@@ -132,7 +145,7 @@ private:
     QPoint m_startField;
     QHash<QString,QPixmap*> m_pixList;
     FieldModel* m_model;
-    QString m_filename;
+    QString m_currentFile;
     bool m_qmlGeneration;
     RolisteamImageProvider* m_imgProvider;
     CharacterSheetModel* m_characterModel;
@@ -170,6 +183,12 @@ private:
     QAction* m_copyPath;
     QAction* m_replaceImage;
     QAction* m_removeImage;
+
+    //Recent file
+    std::vector<QAction*> m_recentActions;
+    QStringList m_recentFiles;
+    int m_maxRecentFile=5;
+    QAction* m_separatorAction;
 
     QString m_title;
     PreferencesManager* m_preferences;

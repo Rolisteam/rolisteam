@@ -652,7 +652,7 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
+   <widget class="QMenu" name="m_fileMenu">
     <property name="title">
      <string>File</string>
     </property>
@@ -660,10 +660,14 @@
     <addaction name="m_openAct"/>
     <addaction name="m_saveAct"/>
     <addaction name="actionSave_As"/>
-    <addaction name="m_recentFiles"/>
-    <addaction name="separator"/>
     <addaction name="m_preferencesAction"/>
+    <addaction name="separator"/>
     <addaction name="m_exportPdfAct"/>
+    <addaction name="m_recentFileAct1"/>
+    <addaction name="m_recentFileAct2"/>
+    <addaction name="m_recentFileAct3"/>
+    <addaction name="m_recentFileAct4"/>
+    <addaction name="m_recentFileAct5"/>
     <addaction name="separator"/>
     <addaction name="m_quitAction"/>
    </widget>
@@ -691,7 +695,7 @@
     <addaction name="separator"/>
     <addaction name="m_aboutRcseAct"/>
    </widget>
-   <addaction name="menuFile"/>
+   <addaction name="m_fileMenu"/>
    <addaction name="menuEdition"/>
    <addaction name="menuAbout"/>
   </widget>
@@ -996,11 +1000,6 @@
     <string>Export as PDF</string>
    </property>
   </action>
-  <action name="m_recentFiles">
-   <property name="text">
-    <string>Recent files</string>
-   </property>
-  </action>
   <action name="m_webPageAct">
    <property name="checkable">
     <bool>true</bool>
@@ -1035,6 +1034,46 @@
    </property>
    <property name="text">
     <string>Previous Page</string>
+   </property>
+  </action>
+  <action name="m_recentFileAct1">
+   <property name="text">
+    <string>Recent file 1</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="m_recentFileAct2">
+   <property name="text">
+    <string notr="true">Recent file 2</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="m_recentFileAct3">
+   <property name="text">
+    <string notr="true">Recent file 3</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="m_recentFileAct4">
+   <property name="text">
+    <string notr="true">Recent file 4</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="m_recentFileAct5">
+   <property name="text">
+    <string notr="true">Recent file 5</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
  </widget>

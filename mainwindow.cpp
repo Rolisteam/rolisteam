@@ -49,6 +49,7 @@
 #include <QPrintDialog>
 #include <QPagedPaintDevice>
 #include <QQmlProperty>
+#include <QMenu>
 #include <QTimer>
 #include <QDockWidget>
 #include "common/widgets/logpanel.h"
@@ -85,13 +86,20 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pdf(nullptr),
     m_undoStack(new QUndoStack(this))
 {
-    m_title = QStringLiteral("%1[*] - %2");
-    setWindowTitle(m_title.arg("Unknown").arg("RCSE"));
     m_preferences = PreferencesManager::getInstance();
     setWindowModified(false);
     m_qmlGeneration =true;
     setAcceptDrops(true);
     ui->setupUi(this);
+
+    m_separatorAction = ui->m_fileMenu->insertSeparator(ui->m_recentFileAct1);
+    m_separatorAction->setVisible(false);
+
+    m_recentActions = {ui->m_recentFileAct1,ui->m_recentFileAct2,ui->m_recentFileAct3,ui->m_recentFileAct4,ui->m_recentFileAct5};
+    for(auto act : m_recentActions)
+    {
+        connect(act, &QAction::triggered, this, &MainWindow::openRecentFile);
+    }
 
     ui->m_tabWidget->setCurrentIndex(0);
 
@@ -430,8 +438,10 @@ void MainWindow::readSettings()
     {
         restoreGeometry(settings.value("geometry").toByteArray());
     }
-
+    m_recentFiles = settings.value("recentFile").toStringList();
     m_preferences->readSettings(settings);
+
+    updateRecentFileAction();
 }
 void MainWindow::writeSettings()
 {
@@ -439,7 +449,33 @@ void MainWindow::writeSettings()
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
     settings.setValue("Maximized", isMaximized());
+    settings.setValue("recentFile", m_recentFiles);
     m_preferences->writeSettings(settings);
+}
+
+QString MainWindow::currentFile() const
+{
+    return m_currentFile;
+}
+
+void MainWindow::setCurrentFile(const QString &filename)
+{
+    if(filename == m_currentFile)
+        return;
+
+    m_currentFile = filename;
+    setWindowModified(false);
+    auto shortName = tr("Untitled");
+
+    if(!m_currentFile.isEmpty())
+    {
+        shortName = QFileInfo(m_currentFile).fileName();
+        m_recentFiles.removeAll(m_currentFile);
+        m_recentFiles.prepend(m_currentFile);
+        updateRecentFileAction();
+    }
+    setWindowTitle(QStringLiteral("%1[*] - %2").arg(shortName).arg("RCSE"));
+    emit currentFileChanged();
 }
 void MainWindow::clearData()
 {
@@ -994,30 +1030,34 @@ void MainWindow::setCurrentTool()
         canvas->setCurrentTool(static_cast<Canvas::Tool>(action->data().toInt()));
     }
 }
-void MainWindow::saveAs()
+
+bool MainWindow::saveAs()
 {
-    m_filename = QFileDialog::getSaveFileName(this,tr("Save CharacterSheet"),QDir::homePath(),tr("Rolisteam CharacterSheet (*.rcs)"));
-    if(!m_filename.isEmpty())
+    auto filename = QFileDialog::getSaveFileName(this,tr("Save CharacterSheet"),QDir::homePath(),tr("Rolisteam CharacterSheet (*.rcs)"));
+    if(!filename.isEmpty())
     {
-        if(!m_filename.endsWith(".rcs"))
+        if(!filename.endsWith(".rcs"))
         {
-            m_filename.append(QStringLiteral(".rcs"));
+            filename.append(QStringLiteral(".rcs"));
         }
-        save();
+        return saveFile(filename);
     }
+    return false;
 }
-void MainWindow::save()
+
+bool MainWindow::save()
 {
-    if(m_filename.isEmpty())
-        saveAs();
-    else if(!m_filename.isEmpty())
+    if(m_currentFile.isEmpty())
+        return saveAs();
+    else
+        return saveFile(m_currentFile);
+}
+
+bool MainWindow::saveFile(const QString &filename)
+{
+    if(!filename.isEmpty())
     {
-        if(!m_filename.endsWith(".rcs"))
-        {
-            m_filename.append(".rcs");
-            ///@Warning
-        }
-        QFile file(m_filename);
+        QFile file(filename);
         if(file.open(QIODevice::WriteOnly))
         {
             //init Json
@@ -1069,128 +1109,149 @@ void MainWindow::save()
             json.setObject(obj);
             file.write(json.toJson());
 
-
-            setWindowTitle(m_title.arg(QFileInfo(m_filename).fileName()).arg("RCSE"));
-            setWindowModified(false);
-
+            setCurrentFile(filename);
+            return true;
         }
         //
     }
+    return false;
+}
+bool MainWindow::loadFile(const QString& filename)
+{
+    if(!filename.isEmpty())
+    {
+        clearData();
+        QFile file(filename);
+        if(file.open(QIODevice::ReadOnly))
+        {
+            QJsonDocument json = QJsonDocument::fromJson(file.readAll());
+            QJsonObject jsonObj = json.object();
+            QJsonObject data = jsonObj["data"].toObject();
+
+            QString qml = jsonObj["qml"].toString();
+
+            m_additionnalCode = jsonObj["additionnalCode"].toString("");
+            m_additionnalImport = jsonObj["additionnalImport"].toString("");
+            m_fixedScaleSheet = jsonObj["fixedScale"].toDouble(1.0);
+            m_additionnalCodeTop = jsonObj["additionnalCodeTop"].toBool(true);
+            m_flickableSheet = jsonObj["flickable"].toBool(false);
+
+            const auto fonts = jsonObj["fonts"].toArray();
+            for(const auto obj : fonts)
+            {
+                const auto font = obj.toObject();
+                const auto fontData = QByteArray::fromBase64(font["data"].toString("").toLatin1());
+                QFontDatabase::addApplicationFontFromData(fontData);
+            }
+
+            ui->m_codeEdit->setPlainText(qml);
+
+            QJsonArray images = jsonObj["background"].toArray();
+            QList<QJsonObject> objList;
+            for(auto obj : images)
+            {
+                objList.append(obj.toObject());
+            }
+
+            std::sort(objList.begin(),objList.end(),[](const QJsonObject& aObj,const QJsonObject& bObj){
+
+                QRegularExpression exp(".*_background_(\\d+).*");
+                QRegularExpressionMatch match = exp.match(aObj["key"].toString());
+                int bInt = -1;
+                int aInt = -1;
+                if(match.hasMatch())
+                {
+                    aInt = match.captured(1).toInt();
+                }
+                QRegularExpressionMatch match2 = exp.match(bObj["key"].toString());
+                if (match2.hasMatch()) {
+                    bInt = match2.captured(1).toInt();
+                }
+                if((0 != bInt)||(0 != aInt))
+                {
+                    return bInt > aInt;
+                }
+                else
+                {
+                    return bObj["key"].toString() > aObj["key"].toString();
+                }
+            });
+            int i = 0;
+            for(auto jsonpix : objList)
+            {
+
+                QJsonObject oj = jsonpix;//jsonpix.toObject();
+                QString str = oj["bin"].toString();
+                QString id = oj["key"].toString();
+                bool isBg = oj["isBg"].toBool();
+                QByteArray array = QByteArray::fromBase64(str.toUtf8());
+                QPixmap* pix = new QPixmap();
+                pix->loadFromData(array);
+                if(isBg)
+                {
+                    if(i!=0)
+                    {
+                        Canvas* canvas = new Canvas();
+                        canvas->setModel(m_model);
+                        canvas->setImageModel(m_imageModel);
+                        canvas->setUndoStack(&m_undoStack);
+                        SetBackgroundCommand cmd(canvas,pix);
+                        cmd.redo();
+                        canvas->setPixmap(pix);
+                        canvas->setCurrentPage(i);
+                        m_canvasList.append(canvas);
+                        connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
+                    }
+                    else
+                    {
+                        m_canvasList[0]->setPixmap(pix);
+                        SetBackgroundCommand cmd(m_canvasList[0],pix);
+                        cmd.redo();
+                    }
+                    ++i;
+                }
+                m_imageModel->insertImage(pix,id,"from rcs file",isBg);
+            }
+            QList<QGraphicsScene*> list;
+            for(auto canvas : m_canvasList)
+            {
+                list << canvas;
+            }
+            m_model->load(data,list);
+            m_characterModel->setRootSection(m_model->getRootSection());
+            m_characterModel->readModel(jsonObj,false);
+            updatePageSelector();
+            setCurrentFile(filename);
+            return true;
+        }
+    }
+    return false;
 }
 void MainWindow::open()
 {
     if(mayBeSaved())
     {
-        clearData();
-        m_filename = QFileDialog::getOpenFileName(this,tr("Save CharacterSheet"),QDir::homePath(),tr("Rolisteam CharacterSheet (*.rcs)"));
-        if(!m_filename.isEmpty())
+        auto filename = QFileDialog::getOpenFileName(this,tr("Save CharacterSheet"),QDir::homePath(),tr("Rolisteam CharacterSheet (*.rcs)"));
+        if(!filename.isEmpty())
         {
-            QFile file(m_filename);
-            if(file.open(QIODevice::ReadOnly))
-            {
-                QJsonDocument json = QJsonDocument::fromJson(file.readAll());
-                QJsonObject jsonObj = json.object();
-                QJsonObject data = jsonObj["data"].toObject();
-
-                QString qml = jsonObj["qml"].toString();
-
-                m_additionnalCode = jsonObj["additionnalCode"].toString("");
-                m_additionnalImport = jsonObj["additionnalImport"].toString("");
-                m_fixedScaleSheet = jsonObj["fixedScale"].toDouble(1.0);
-                m_additionnalCodeTop = jsonObj["additionnalCodeTop"].toBool(true);
-                m_flickableSheet = jsonObj["flickable"].toBool(false);
-
-                const auto fonts = jsonObj["fonts"].toArray();
-                for(const auto obj : fonts)
-                {
-                    const auto font = obj.toObject();
-                    const auto fontData = QByteArray::fromBase64(font["data"].toString("").toLatin1());
-                    QFontDatabase::addApplicationFontFromData(fontData);
-                }
-
-                ui->m_codeEdit->setPlainText(qml);
-
-                QJsonArray images = jsonObj["background"].toArray();
-                QList<QJsonObject> objList;
-                for(auto obj : images)
-                {
-                    objList.append(obj.toObject());
-                }
-
-                std::sort(objList.begin(),objList.end(),[](const QJsonObject& aObj,const QJsonObject& bObj){
-
-                    QRegularExpression exp(".*_background_(\\d+).*");
-                    QRegularExpressionMatch match = exp.match(aObj["key"].toString());
-                    int bInt = -1;
-                    int aInt = -1;
-                    if(match.hasMatch())
-                    {
-                        aInt = match.captured(1).toInt();
-                    }
-                    QRegularExpressionMatch match2 = exp.match(bObj["key"].toString());
-                    if (match2.hasMatch()) {
-                        bInt = match2.captured(1).toInt();
-                    }
-                    if((0 != bInt)||(0 != aInt))
-                    {
-                        return bInt > aInt;
-                    }
-                    else
-                    {
-                        return bObj["key"].toString() > aObj["key"].toString();
-                    }
-                });
-                int i = 0;
-                for(auto jsonpix : objList)
-                {
-
-                    QJsonObject oj = jsonpix;//jsonpix.toObject();
-                    QString str = oj["bin"].toString();
-                    QString id = oj["key"].toString();
-                    bool isBg = oj["isBg"].toBool();
-                    QByteArray array = QByteArray::fromBase64(str.toUtf8());
-                    QPixmap* pix = new QPixmap();
-                    pix->loadFromData(array);
-                    if(isBg)
-                    {
-                        if(i!=0)
-                        {
-                            Canvas* canvas = new Canvas();
-                            canvas->setModel(m_model);
-                            canvas->setImageModel(m_imageModel);
-                            canvas->setUndoStack(&m_undoStack);
-                            SetBackgroundCommand cmd(canvas,pix);
-                            cmd.redo();
-                            canvas->setPixmap(pix);
-                            canvas->setCurrentPage(i);
-                            m_canvasList.append(canvas);
-                            connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
-                        }
-                        else
-                        {
-                            m_canvasList[0]->setPixmap(pix);
-                            SetBackgroundCommand cmd(m_canvasList[0],pix);
-                            cmd.redo();
-                        }
-                        ++i;
-                    }
-                    m_imageModel->insertImage(pix,id,"from rcs file",isBg);
-                }
-                QList<QGraphicsScene*> list;
-                for(auto canvas : m_canvasList)
-                {
-                    list << canvas;
-                }
-                m_model->load(data,list);
-                m_characterModel->setRootSection(m_model->getRootSection());
-                m_characterModel->readModel(jsonObj,false);
-                updatePageSelector();
-                setWindowTitle(m_title.arg(QFileInfo(m_filename).fileName()).arg("RCSE"));
-                setWindowModified(false);
-            }
+            loadFile(filename);
         }
     }
 }
+
+void MainWindow::openRecentFile()
+{
+    if(mayBeSaved())
+    {
+        QAction* act = qobject_cast<QAction*>(sender());
+        if(act)
+        {
+            loadFile(act->data().toString());
+        }
+    }
+
+}
+
 void MainWindow::updatePageSelector()
 {
     QStringList list;
@@ -1203,6 +1264,32 @@ void MainWindow::updatePageSelector()
     ui->m_selectPageCb->setModel(AddPageCommand::getPagesModel());
     ui->m_selectPageCb->setCurrentIndex(0);
 }
+
+void MainWindow::updateRecentFileAction()
+{
+    std::remove_if(m_recentFiles.begin(),m_recentFiles.end(), [](QString const& f){
+        return !QFile::exists(f);
+    });
+
+    int i = 0;
+    for(auto act : m_recentActions)
+    {
+        if(i>=m_recentFiles.size())
+        {
+            act->setVisible(false);
+            continue;
+        }
+        else
+        {
+            act->setVisible(true);
+            act->setText(QStringLiteral("&%1  %2").arg(i + 1).arg(QFileInfo(m_recentFiles[i]).fileName()));
+            act->setData(m_recentFiles[i]);
+        }
+        ++i;
+    }
+    m_separatorAction->setVisible(!m_recentFiles.empty());
+}
+
 void MainWindow::pageCountChanged()
 {
     if( m_currentPage >= pageCount())
@@ -1462,6 +1549,7 @@ void MainWindow::showQMLFromCode()
     QObject* root = ui->m_quickview->rootObject();
     connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
 }
+
 void MainWindow::saveQML()
 {
     QString qmlFile = QFileDialog::getOpenFileName(this,tr("Save CharacterSheet View"),QDir::homePath(),tr("CharacterSheet View (*.qml)"));
@@ -1479,12 +1567,13 @@ void MainWindow::saveQML()
         }
     }
 }
+
 void MainWindow::openQML()
 {
     QString qmlFile = QFileDialog::getOpenFileName(this,tr("Save CharacterSheet View"),QDir::homePath(),tr("Rolisteam CharacterSheet View (*.qml)"));
     if(!qmlFile.isEmpty())
     {
-        QFile file(m_filename);
+        QFile file(qmlFile);
         if(file.open(QIODevice::ReadOnly))
         {
             QString qmlContent = file.readAll();
