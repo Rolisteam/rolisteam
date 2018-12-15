@@ -286,6 +286,7 @@ void SelectConnectionProfileDialog::updateGUI()
         ui->m_port->setValue(m_currentProfile->getPort());
         ui->m_isServerCheckbox->setChecked(m_currentProfile->isServer());
         ui->m_isGmCheckbox->setChecked(m_currentProfile->isGM());
+        ui->m_addresseLineEdit->setEnabled(!m_currentProfile->isServer());
         ui->m_colorBtn->setColor(m_currentProfile->getPlayer()->getColor());
         m_passChanged = false;
         ui->m_passwordEdit->setText(m_currentProfile->getPassword());
