@@ -406,6 +406,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     readSettings();
     m_logPanel->initSetting();
+
+    // TODO REMOVE THIS LINE
+ /*   auto pixMapDebug = new QPixmap("/home/renaud/documents/rolisteam/fiche/L5R-4E-Character-Sheet-LoRes-page-001.jpg");
+    SetBackgroundCommand* cmd = new SetBackgroundCommand(canvas,pixMapDebug);
+    m_undoStack.push(cmd);*/
 }
 MainWindow::~MainWindow()
 {
