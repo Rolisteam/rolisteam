@@ -30,7 +30,7 @@ DeleteFieldCommand::DeleteFieldCommand(Field* field, Canvas* canvas,FieldModel* 
 
 }
 DeleteFieldCommand::DeleteFieldCommand(QList<CharacterSheetItem*> fields, QList<Canvas*> canvas, FieldModel* model,QList<int> currentPage,QUndoCommand *parent)
-: QUndoCommand(parent),m_canvas(canvas),m_model(model),m_currentPage(currentPage)
+    : QUndoCommand(parent),m_canvas(canvas),m_model(model),m_currentPage(currentPage)
 {
     for(auto item : fields)
     {
@@ -46,10 +46,11 @@ void DeleteFieldCommand::init()
     {
         if(nullptr != field->getCanvasField())
         {
-           auto parent = field->getParent();
-           m_parent.append(field->getParent());
-           m_points.append(field->getCanvasField()->pos());
-           m_posInModel.append(parent->indexOfChild(field));
+            auto parent = field->getParent();
+            m_parent.append(field->getParent());
+            m_points.append(field->getCanvasField()->pos());
+            if(nullptr != parent)
+                m_posInModel.append(parent->indexOfChild(field));
         }
     }
 
