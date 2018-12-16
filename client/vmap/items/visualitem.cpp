@@ -222,7 +222,7 @@ void VisualItem::updateChildPosition()
 void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     bool licenseToModify = false;
-    if((m_propertiesHash->contains(VisualItem::LocalIsGM))&&(m_propertiesHash->value(VisualItem::LocalIsGM).toBool() == true))
+    if(getOption(VisualItem::LocalIsGM).toBool())
     {
         licenseToModify = true;
     }
@@ -651,14 +651,7 @@ void VisualItem::setChildrenVisible(bool b)
 
 bool VisualItem::canBeMoved() const
 {
-    if(!itemAndMapOnSameLayer())
-    {
-        return false;
-    } 
-    else
-    {
-        return hasPermissionToMove();
-    }
+    return itemAndMapOnSameLayer() && hasPermissionToMove();
 }
 bool VisualItem::hasPermissionToMove(bool allowCharacter) const
 {
