@@ -178,7 +178,6 @@ bool VMapFrame::openFile(const QString& filepath)
         m_vmap->openFile(in);
         m_vmap->setVisibilityMode(VMap::HIDDEN);
         updateMap();
-        //m_vmap->openItemsInFile(in);
         return true;
     }
     return false;
@@ -424,7 +423,6 @@ bool VMapFrame::readFileFromUri()
         if((nullptr!=m_vmap)&&(read))
         {
             NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
-            //m_vmap->fill(msg);
             fill(msg);
             m_vmap->sendAllItems(msg);
             msg.sendToServer();
