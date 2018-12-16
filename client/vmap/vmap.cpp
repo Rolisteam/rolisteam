@@ -1896,3 +1896,15 @@ void VMap::addCommand(QUndoCommand* cmd)
         return;
     m_undoStack->push(cmd);
 }
+int VMap::getItemCount()
+{
+    return m_itemMap->size();
+}
+int VMap::getSortedItemCount()
+{
+    return m_sortedItemList.size();
+}
+int VMap::getOrderedItemCount()
+{
+    return m_orderedItemList.size();
+}

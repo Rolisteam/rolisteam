@@ -318,6 +318,10 @@ public:
 
     void addImageItem(QImage img);
     void addCommand(QUndoCommand *cmd);
+
+    int getItemCount();
+    int getSortedItemCount();
+    int getOrderedItemCount();
 public slots:
     /**
     * @brief defines the current tools
