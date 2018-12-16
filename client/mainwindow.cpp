@@ -36,6 +36,7 @@
 #include <QUuid>
 #include <QStatusBar>
 #include <QCommandLineParser>
+#include <algorithm>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -2359,9 +2360,9 @@ void MainWindow::openRecentFile()
 
 void MainWindow::updateRecentFileActions()
 {   
-    std::remove_if(m_recentFiles.begin(),m_recentFiles.end(), [](const CleverURI& uri){
+    m_recentFiles.erase(std::remove_if(m_recentFiles.begin(),m_recentFiles.end(), [](const CleverURI& uri){
        return  !QFileInfo::exists(uri.getUri());
-    });
+    }), m_recentFiles.end());
 
     int i = 0;
     for (auto action : m_recentFileActs)
