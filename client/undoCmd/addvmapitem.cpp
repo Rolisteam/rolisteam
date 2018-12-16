@@ -195,7 +195,11 @@ void AddVmapItemCommand::setUndoable(bool undoable)
 bool AddVmapItemCommand::isVisible()
 {
     bool visible = false;
-    if((m_vmap->getOption(VisualItem::LocalIsGM).toBool())||(m_vmap->getOption(VisualItem::VisibilityMode) == VMap::ALL))
+    if((m_currentItem->getType() == VisualItem::SIGHT)&&(m_vmap->getOption(VisualItem::VisibilityMode) != VMap::FOGOFWAR))
+    {
+        visible = false;
+    }
+    else if((m_vmap->getOption(VisualItem::LocalIsGM).toBool())||(m_vmap->getOption(VisualItem::VisibilityMode) == VMap::ALL))
     {
         visible = true;
     }
