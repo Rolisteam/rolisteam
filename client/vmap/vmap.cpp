@@ -70,21 +70,28 @@ void VMap::initMap()
     m_sightItem = new SightItem(m_characterItemMap);
     m_gridItem = new GridItem();
 
-
-    m_propertiesHash->insert(VisualItem::ShowNpcName,false);
-    m_propertiesHash->insert(VisualItem::ShowPcName,false);
-    m_propertiesHash->insert(VisualItem::ShowNpcNumber,false);
-    m_propertiesHash->insert(VisualItem::ShowHealthStatus,false);
-    m_propertiesHash->insert(VisualItem::ShowInitScore,true);
-    m_propertiesHash->insert(VisualItem::ShowHealthBar,true);
-    m_propertiesHash->insert(VisualItem::ShowGrid,false);
-    m_propertiesHash->insert(VisualItem::LocalIsGM,false);
-    m_propertiesHash->insert(VisualItem::EnableCharacterVision,false);
-    m_propertiesHash->insert(VisualItem::CollisionStatus,false);
-    m_propertiesHash->insert(VisualItem::PermissionMode,Map::GM_ONLY);
-    m_propertiesHash->insert(VisualItem::FogOfWarStatus,false);
-    m_propertiesHash->insert(VisualItem::VisibilityMode,VMap::HIDDEN);
-    m_propertiesHash->insert(VisualItem::MapLayer,m_currentLayer);
+    //Set default value
+    setOption(VisualItem::ShowNpcName,false);
+    setOption(VisualItem::ShowPcName,false);
+    setOption(VisualItem::ShowNpcNumber,false);
+    setOption(VisualItem::ShowHealthStatus,false);
+    setOption(VisualItem::ShowInitScore,false);
+    setOption(VisualItem::ShowHealthBar,false);
+    setOption(VisualItem::ShowGrid,false);
+    setOption(VisualItem::LocalIsGM,false);
+    setOption(VisualItem::EnableCharacterVision,false);
+    setOption(VisualItem::CollisionStatus,false);
+    setOption(VisualItem::PermissionMode,Map::GM_ONLY);
+    setOption(VisualItem::FogOfWarStatus,false);
+    setOption(VisualItem::VisibilityMode,VMap::HIDDEN);
+    setOption(VisualItem::MapLayer,m_currentLayer);
+    setOption(VisualItem::GridPattern,VMap::NONE);
+    setOption(VisualItem::GridColor, QColor(Qt::black));
+    setOption(VisualItem::GridSize,50);
+    setOption(VisualItem::Scale,1.0);
+    setOption(VisualItem::Unit,VMap::M);
+    setOption(VisualItem::GridAbove,false);
+    setOption(VisualItem::HideOtherLayers,false);
 }
 
 VToolsBar::SelectableTool VMap::getSelectedtool() const
@@ -784,9 +791,6 @@ void VMap::saveFile(QDataStream& out)
     out<< m_bgColor;
     out << m_zIndex;
 
-
-
-
     out << m_propertiesHash->count();
     for(VisualItem::Properties property: m_propertiesHash->keys())
     {
@@ -794,9 +798,8 @@ void VMap::saveFile(QDataStream& out)
         out << m_propertiesHash->value(property);
     }
 
-
-    out << m_itemMap->size();
-    for(QString key: m_sortedItemList)//m_itemMap->values()
+    out << m_sortedItemList.size();
+    for(QString key : m_sortedItemList)//m_itemMap->values()
     {
         VisualItem* tmp = m_itemMap->value(key);
         if(nullptr!=tmp)
@@ -808,105 +811,108 @@ void VMap::saveFile(QDataStream& out)
 //read
 void VMap::openFile(QDataStream& in)
 {
-    if(m_itemMap!=nullptr)
+    if(m_itemMap==nullptr)
+        return;
+
+    in >> m_width;
+    in >> m_height;
+
+    setSceneRect();
+    in>> m_title;
+    in>> m_bgColor;
+    in>> m_zIndex;
+
+    int propertyCount;
+    in >> propertyCount;
+
+    for(int i = 0; i < propertyCount;++i)
     {
-        in >> m_width;
-        in >> m_height;
-
-        setSceneRect();
-        in>> m_title;
-        in>> m_bgColor;
-        in>> m_zIndex;
-
-        int propertyCount;
-        in >> propertyCount;
-
-        for(int i = 0; i < propertyCount;++i)
-        {
-            int pro;
-            in >> pro;
-            QVariant var;
-            in >> var;
-            m_propertiesHash->insert(static_cast<VisualItem::Properties>(pro),var);
-        }
-
-        int numberOfItem;
-        in >> numberOfItem;
-
-        for(int i =0 ; i<numberOfItem;++i)
-        {
-            VisualItem* item;
-            CharacterItem* charItem = nullptr;
-            item=nullptr;
-            VisualItem::ItemType type;
-            int tmptype;
-            in >> tmptype;
-            type=static_cast<VisualItem::ItemType>(tmptype);
-
-            switch(type)
-            {
-            case VisualItem::TEXT:
-                item=new TextItem();
-                break;
-            case VisualItem::CHARACTER:
-                charItem=new CharacterItem();
-                item = charItem;
-                break;
-            case VisualItem::LINE:
-                item=new LineItem();
-
-                break;
-            case VisualItem::RECT:
-                item=new RectItem();
-                break;
-            case VisualItem::ELLISPE:
-                item=new EllipsItem();
-
-                break;
-            case VisualItem::PATH:
-                item=new PathItem();
-                break;
-            case VisualItem::SIGHT:
-                //remove the old one
-                m_orderedItemList.removeAll(m_sightItem);
-                m_sortedItemList.removeAll(m_sightItem->getId());
-                m_itemMap->remove(m_sightItem->getId());
-                //add new
-                item= m_sightItem;
-                break;
-            case VisualItem::GRID:
-                //remove the old one
-                m_orderedItemList.removeAll(m_gridItem);
-                m_sortedItemList.removeAll(m_gridItem->getId());
-                m_itemMap->remove(m_gridItem->getId());
-                //add new
-                item= m_gridItem;
-                break;
-            case VisualItem::IMAGE:
-                item= new ImageItem();
-                break;
-            default:
-                break;
-
-            }
-            if(nullptr!=item)
-            {
-                in >> *item;
-
-                qreal x,y;
-                in >> x;
-                in >> y;
-                addNewItem(new AddVmapItemCommand(item,this),false);
-                item->setPos(x,y);
-                item->initChildPointItem();
-                if(nullptr!=charItem)
-                {
-                    insertCharacterInMap(charItem);
-                }
-            }
-        }
-        ensureFogAboveAll();
+        int pro;
+        in >> pro;
+        QVariant var;
+        in >> var;
+        setOption(static_cast<VisualItem::Properties>(pro),var);
     }
+
+    int numberOfItem;
+    in >> numberOfItem;
+
+    for(int i =0 ; i<numberOfItem;++i)
+    {
+        VisualItem* item;
+        CharacterItem* charItem = nullptr;
+        item=nullptr;
+        VisualItem::ItemType type = VisualItem::ANCHOR;
+        int tmptype;
+        in >> tmptype;
+        type=static_cast<VisualItem::ItemType>(tmptype);
+
+        switch(type)
+        {
+        case VisualItem::TEXT:
+            item=new TextItem();
+            break;
+        case VisualItem::CHARACTER:
+            charItem=new CharacterItem();
+            item = charItem;
+            break;
+        case VisualItem::LINE:
+            item=new LineItem();
+
+            break;
+        case VisualItem::RECT:
+            item=new RectItem();
+            break;
+        case VisualItem::ELLISPE:
+            item=new EllipsItem();
+
+            break;
+        case VisualItem::PATH:
+            item=new PathItem();
+            break;
+        case VisualItem::SIGHT:
+            //remove the old one
+            m_orderedItemList.removeAll(m_sightItem);
+            m_sortedItemList.removeAll(m_sightItem->getId());
+            m_itemMap->remove(m_sightItem->getId());
+            //add new
+            item= m_sightItem;
+            break;
+        case VisualItem::GRID:
+            //remove the old one
+            m_orderedItemList.removeAll(m_gridItem);
+            m_sortedItemList.removeAll(m_gridItem->getId());
+            m_itemMap->remove(m_gridItem->getId());
+            //add new
+            item= m_gridItem;
+            break;
+        case VisualItem::IMAGE:
+            item= new ImageItem();
+            break;
+        default:
+            break;
+
+        }
+        if(nullptr!=item)
+        {
+            in >> *item;
+
+
+            qreal x,y;
+            in >> x;
+            in >> y;
+            addNewItem(new AddVmapItemCommand(item,this),false);
+            item->setPos(x,y);
+            item->initChildPointItem();
+            if(nullptr!=charItem)
+            {
+                insertCharacterInMap(charItem);
+            }
+        }
+    }
+    ensureFogAboveAll();
+    computePattern();
+    update();
 }
 
 void VMap::addCharacter(Character* p, QPointF pos)
@@ -1288,9 +1294,9 @@ void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwor
         VisualItem* item = m_currentAddCmd->getItem();
 
         if((item!=m_sightItem)&&(item!=m_gridItem)
-                &&(VisualItem::ANCHOR!=item->type())
-                &&(VisualItem::RULE!=item->type())
-                &&(VisualItem::HIGHLIGHTER!=item->type()))
+                &&(VisualItem::ANCHOR!=item->getType())
+                &&(VisualItem::RULE!=item->getType())
+                &&(VisualItem::HIGHLIGHTER!=item->getType()))
         {
             m_orderedItemList.append(item);
         }
@@ -1299,14 +1305,15 @@ void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwor
 
         if((VToolsBar::Painting == m_editionMode)||(fromNetwork))
         {
-            if((item->type() != VisualItem::ANCHOR)
-                    &&(item->type() != VisualItem::GRID)
-                    &&(item->type() != VisualItem::RULE)
-                    &&(item->type() != VisualItem::HIGHLIGHTER))
+            if((item->getType() != VisualItem::ANCHOR)
+                    &&(item->getType() != VisualItem::GRID)
+                    &&(item->getType() != VisualItem::SIGHT)
+                    &&(item->getType() != VisualItem::RULE)
+                    &&(item->getType() != VisualItem::HIGHLIGHTER))
             {
                 auto id = item->getId();
                 m_itemMap->insert(id,item);
-                if(m_sortedItemList.contains(id))
+                if(!m_sortedItemList.contains(id))
                     m_sortedItemList << id;
             }
         }
