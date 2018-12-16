@@ -120,7 +120,6 @@ void VMap::setCurrentLayer(const VisualItem::Layer &currentLayer)
     {
         emit mapChanged();
     }
-
 }
 
 void  VMap::initScene()
@@ -138,7 +137,7 @@ void  VMap::initScene()
     m_gridItem->setZValue(2);
     m_gridItem->setVisible(false);
 }
-
+// TODO remove those two value.
 void VMap::setWidth(int width)
 {
     m_width = width;
@@ -810,10 +809,9 @@ void VMap::openFile(QDataStream& in)
         VisualItem* item;
         CharacterItem* charItem = nullptr;
         item=nullptr;
-        VisualItem::ItemType type = VisualItem::ANCHOR;
         int tmptype;
         in >> tmptype;
-        type=static_cast<VisualItem::ItemType>(tmptype);
+        VisualItem::ItemType type = static_cast<VisualItem::ItemType>(tmptype);
 
         switch(type)
         {

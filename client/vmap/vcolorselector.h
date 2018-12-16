@@ -41,7 +41,7 @@ public:
     /**
     * @brief default constructor
     */
-    VColorLabel(QWidget * parent = 0);
+    explicit VColorLabel(QWidget * parent = nullptr);
     int heightForWidth(int width) const;
 
 signals:
@@ -84,7 +84,7 @@ public:
     * @brief constructor with arguments
     * @param pixmap
     */
-    BackgroundButton(QPixmap* p,QWidget * parent = 0);
+    BackgroundButton(QPixmap* p,QWidget * parent = nullptr);
     
 protected:
     /**
@@ -115,7 +115,7 @@ public:
     /**
     * @brief Constructor compliant with QWidget constructor
     */
-    VColorSelector(QWidget *parent = 0);
+    explicit VColorSelector(QWidget *parent = nullptr);
     /**
     * @brief define the current color
     * @param new color

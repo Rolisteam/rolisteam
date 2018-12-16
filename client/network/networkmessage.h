@@ -205,7 +205,7 @@ public:
      * @brief NetworkMessage
      * @param server
      */
-    NetworkMessage(NetworkLink* server = nullptr);
+    explicit NetworkMessage(NetworkLink* server = nullptr);
     /**
      * @brief ~NetworkMessage
      */

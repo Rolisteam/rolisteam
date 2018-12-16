@@ -14,7 +14,7 @@ public:
 	* @brief paint the current rectangle into the scene.
 	* @see Qt documentation
 	*/
-	void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr );
 
 	/**
 	* @brief gives bounding rect. Return rect geometry into the QRectF

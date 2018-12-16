@@ -44,11 +44,11 @@ public :
     /**
       * @brief constructor for Qt widget
       */
-    VToolsBar(QWidget *parent = 0);
+    VToolsBar(QWidget *parent = nullptr);
     /**
       * @brief part of the singleton pattern
       */
-    static VToolsBar* getInstance(QWidget* parent=0);
+    static VToolsBar* getInstance(QWidget* parent=nullptr);
     /**
       * @brief accessor to the current color
       */

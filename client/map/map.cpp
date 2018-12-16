@@ -853,7 +853,7 @@ void Map::processNpcActionReleased(QPoint positionSouris)
                 showHideNPC(m_selectedNpc);
                 m_lastSelectedNpc = m_selectedNpc;
                 sendCharacterPath();
-                m_selectedNpc = 0;
+                m_selectedNpc = nullptr;
             }
 
         }
@@ -1078,11 +1078,9 @@ void Map::toggleCharacterView(Character * character)
 
 }
 
-
 void Map::showPc(QString idPerso, bool show)
 {
     CharacterToken *pj = findCharacter(idPerso);
-    // @Todo @warning Pc ID not found
     if (nullptr==pj)
     {
         qWarning() << (tr("PC ID %1 not found (showPc - map.cpp)").arg(idPerso));
@@ -1137,8 +1135,7 @@ void Map::delCharacter(Character * person)
     CharacterToken * pj = findCharacter(person->getUuid());
     if (pj == nullptr)
     {
-		qWarning() << ( tr("Person %s %s unknown in Carte::changePerson"),
-                qPrintable(person->getUuid()), qPrintable(person->name()) );
+        qWarning() << tr("Person %s %s unknown in Carte::changePerson").arg(qPrintable(person->getUuid())).arg(qPrintable(person->name()));
         return;
     }
 

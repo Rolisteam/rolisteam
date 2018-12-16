@@ -61,7 +61,7 @@ public :
 
     enum PermissionMode{GM_ONLY, PC_MOVE,PC_ALL };
 
-    void showHideNPC(CharacterToken *pnjSeul = 0);
+    void showHideNPC(CharacterToken *pnjSeul = nullptr);
     void toggleCharacterView(Character * character);
 	void showPc(QString idPerso, bool afficher);
 	void changePcSize(int nouvelleTaille, bool updatePj = true);

@@ -54,7 +54,6 @@ VMapFrame::~VMapFrame()
 
 }
 
-
 void VMapFrame::closeEvent(QCloseEvent *event)
 {
     hide();

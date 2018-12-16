@@ -64,7 +64,7 @@ public:
     /**
     * @brief default constructor
     */
-    VMap(QObject * parent = nullptr);
+    explicit VMap(QObject * parent = nullptr);
     /**
     * @brief constructor with parameters
     * @param witdh of the map
@@ -649,8 +649,5 @@ private:
     AddVmapItemCommand* m_currentAddCmd = nullptr;
     QList<VisualItem*> m_movingItems;
     QList<QPointF> m_oldPos;
-
-    friend QDataStream& operator<<(QDataStream& os,const VMap&);
-    friend QDataStream& operator>>(QDataStream& is,VMap&);
 };
 #endif // VMAP_H

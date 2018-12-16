@@ -143,10 +143,10 @@ void SessionItemModel::updateNode(ResourcesNode* node)
 void SessionItemModel::removeNode(ResourcesNode* node)
 {
     QModelIndex parent;
-    int row=-1;
     QList<ResourcesNode*> path;
     if(m_rootItem->seekNode(path,node))
     {
+        int row=-1;
         ResourcesNode* parentItem=nullptr;
         ResourcesNode* tmpItem=nullptr;
 
@@ -289,14 +289,13 @@ bool SessionItemModel::moveMediaItem(QList<ResourcesNode*> items,const QModelInd
 
             parentItem->insertChildAt(orignRow,item);//row
             //---
-
+            // WARNING test move item and remove this code
             int oldRow = formerPositionIndex.row();
             if(oldRow > orignRow && parentItem == m_rootItem && parent == m_rootItem)
             {
                 oldRow += items.size()-1-i;
             }
             listRow.append(row);
-
         }
     }
 
