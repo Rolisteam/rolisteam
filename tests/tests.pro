@@ -16,7 +16,9 @@ SUBDIRS = \
     dataCharacter \
     fieldModelTest \
     sendToServer \
-    dataChapter
+    dataChapter \
+    vmap
+
     #     network \
     #    MainWindow  picture   map
     #networkServer \
