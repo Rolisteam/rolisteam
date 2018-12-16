@@ -179,10 +179,7 @@ const QString& VMap::getMapTitle() const
 {
     return m_title;
 }
-const QColor& VMap::mapColor() const
-{
-    return m_bgColor;
-}
+
 void VMap::setPenSize(quint16 p)
 {
     m_penSize =p;
@@ -200,7 +197,7 @@ void VMap::fill(NetworkMessageWriter& msg)
 {
     msg.string8(getId());
     msg.string16(getMapTitle());
-    msg.rgb(mapColor().rgb());
+    msg.rgb(getBackGroundColor().rgb());
     msg.uint16(static_cast<quint16>(mapWidth()));
     msg.uint16(static_cast<quint16>(mapHeight()));
     msg.uint8(static_cast<quint8>(m_currentLayer));

@@ -107,10 +107,6 @@ public:
     */
     const QString& getMapTitle() const;
     /**
-    * @brief accessor to the background color
-    */
-    const QColor& mapColor() const;
-    /**
      * @brief saveFile
      */
     void saveFile(QDataStream& );
