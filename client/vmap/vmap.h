@@ -548,6 +548,7 @@ protected:
      */
     void ensureFogAboveAll();
     bool isNormalItem(QGraphicsItem *item);
+    bool isItemStorable(VisualItem *item);
 private:
     /**
     * @brief width of the map

@@ -1197,9 +1197,12 @@ void VMap::addItemFromData(VisualItem *item)
         return;
 
     auto id = item->getId();
-    m_itemMap->insert(id,item);
-    if(!m_sortedItemList.contains(id))
-        m_sortedItemList.append(id);
+    if(isItemStorable(item))
+    {
+        m_itemMap->insert(id,item);
+        if(!m_sortedItemList.contains(id))
+            m_sortedItemList.append(id);
+    }
 }
 
 void VMap::insertItemFromData(VisualItem *, int )
@@ -1281,22 +1284,32 @@ void VMap::processMovePointMsg(NetworkMessageReader* msg)
         }
     }
 }
+
+bool VMap::isItemStorable(VisualItem* item)
+{
+    if((item->getType() == VisualItem::ANCHOR)
+        ||(item->getType() == VisualItem::GRID)
+        ||(item->getType() == VisualItem::SIGHT)
+        ||(item->getType() == VisualItem::RULE)
+        ||(item->getType() == VisualItem::HIGHLIGHTER))
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
 void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwork)
 {
     if((nullptr!=itemCmd)&&(!itemCmd->hasError()))
     {
-       /* if(m_currentAddCmd)
-        {
-            delete m_currentAddCmd;
-            m_currentAddCmd = nullptr;
-        }*/
+        itemCmd->setUndoable(undoable);
         m_currentAddCmd = itemCmd;
         VisualItem* item = m_currentAddCmd->getItem();
 
-        if((item!=m_sightItem)&&(item!=m_gridItem)
-                &&(VisualItem::ANCHOR!=item->getType())
-                &&(VisualItem::RULE!=item->getType())
-                &&(VisualItem::HIGHLIGHTER!=item->getType()))
+        if(isItemStorable(item))
         {
             m_orderedItemList.append(item);
         }
@@ -1305,11 +1318,7 @@ void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwor
 
         if((VToolsBar::Painting == m_editionMode)||(fromNetwork))
         {
-            if((item->getType() != VisualItem::ANCHOR)
-                    &&(item->getType() != VisualItem::GRID)
-                    &&(item->getType() != VisualItem::SIGHT)
-                    &&(item->getType() != VisualItem::RULE)
-                    &&(item->getType() != VisualItem::HIGHLIGHTER))
+            if(isItemStorable(item))
             {
                 auto id = item->getId();
                 m_itemMap->insert(id,item);
@@ -1322,7 +1331,6 @@ void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwor
         {
             emit npcAdded();
         }
-        itemCmd->setUndoable(undoable);
     }
 }
 QList<CharacterItem*> VMap::getCharacterOnMap(QString id)
