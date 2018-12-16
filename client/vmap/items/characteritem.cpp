@@ -202,9 +202,9 @@ void CharacterItem::setChildrenVisible(bool b)
 {
     VisualItem::setChildrenVisible(b);
 
-    if(m_propertiesHash->value(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)
+    if(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)
     {
-        if(!m_propertiesHash->value(VisualItem::LocalIsGM,false).toBool())
+        if(!getOption(VisualItem::LocalIsGM).toBool())
         {
             if(!m_child->isEmpty() && m_child->size() > DIRECTION_RADIUS_HANDLE)
             {
