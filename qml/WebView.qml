@@ -1,4 +1,4 @@
-import QtQuick 2.7
+import QtQuick 2.10
 import QtWebEngine 1.5
 
 WebEngineView {
