@@ -350,14 +350,6 @@ void VMap::updateItem()
         break;
     }
 }
-void VMap::addImageItem(QString file)
-{
-    ImageItem* led = new ImageItem();
-    led->setImageUri(file);
-    //led->initChildPointItem();
-    addNewItem(new AddVmapItemCommand(led,this),true);
-    sendOffItem(led);
-}
 void VMap::addImageItem(QImage img)
 {
     ImageItem* led = new ImageItem();

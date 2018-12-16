@@ -766,6 +766,6 @@ void RGraphicsView::addImageToMap()
 
     if(nullptr!=m_vmap)
     {
-        m_vmap->addImageItem(imageToLoad);
+        m_vmap->addImageItem(QImage(imageToLoad));
     }
 }

@@ -90,6 +90,12 @@ public:
     */
     void setBackGroundColor(QColor bgcolor);
     /**
+     * @brief getBackGroundColor
+     * @return
+     */
+    QColor getBackGroundColor()const;
+
+    /**
     * @brief  unused ?
     * @todo check the relevance of this function
     */
@@ -204,11 +210,7 @@ public:
 	 * @return
 	 */
 	QString getVisibilityModeText();
-	/**
-	 * @brief getBackGroundColor
-	 * @return
-	 */
-    QColor getBackGroundColor()const;
+
 	/**
 	 * @brief editLayer
 	 * @param layer
@@ -267,7 +269,7 @@ public:
      * @brief getSelectedtool
      * @return
      */
-  VToolsBar::SelectableTool getSelectedtool() const;
+    VToolsBar::SelectableTool getSelectedtool() const;
     /**
      * @brief processZValueMsg
      * @param msg
@@ -399,11 +401,6 @@ public slots:
      * @param op operation to be done.
      */
     void changeStackOrder(VisualItem* item,VisualItem::StackOrder op);
-    /**
-     * @brief addImageItem
-     * @param file
-     */
-    void addImageItem(QString file);
     /**
      * @brief setCurrentItemOpacity
      */
