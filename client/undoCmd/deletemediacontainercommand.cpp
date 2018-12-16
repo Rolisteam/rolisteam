@@ -19,17 +19,15 @@
  ***************************************************************************/
 #include "deletemediacontainercommand.h"
 #include "session/sessionmanager.h"
-#include "mainwindow.h"
 #include "network/networkmessagewriter.h"
 #include "improvedworkspace.h"
 
 
-DeleteMediaContainerCommand::DeleteMediaContainerCommand(MediaContainer* media, SessionManager* manager,QMenu* menu, MainWindow* main,ImprovedWorkspace* workspace,bool isGM,QHash<QString,MediaContainer*>& hash, QUndoCommand* parent)
+DeleteMediaContainerCommand::DeleteMediaContainerCommand(MediaContainer* media, SessionManager* manager,QMenu* menu,ImprovedWorkspace* workspace,bool isGM,QHash<QString,MediaContainer*>& hash, QUndoCommand* parent)
     : QUndoCommand (parent),
       m_media(media),
       m_manager(manager),
       m_menu(menu),
-      m_main(main),
       m_mdiArea(workspace),
       m_hash(hash),
       m_gm(isGM)
@@ -74,7 +72,6 @@ void DeleteMediaContainerCommand::undo()
         CleverURI* uri = m_media->getCleverUri();
         if(nullptr!=uri)
         {
-            m_main->setLatestFile(uri);
             m_manager->addRessource(m_media->getCleverUri());
             uri->setDisplayed(true);
         }

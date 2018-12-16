@@ -24,7 +24,6 @@
 AddMediaContainer::AddMediaContainer(MediaContainer* mediac,
                                      SessionManager* manager,
                                      QMenu* menu,
-                                     MainWindow* main,
                                      ImprovedWorkspace* workspace,
                                      bool gm,
                                      QUndoCommand* parent)
@@ -32,7 +31,6 @@ AddMediaContainer::AddMediaContainer(MediaContainer* mediac,
       m_media(mediac),
       m_manager(manager),
       m_menu(menu),
-      m_main(main),
       m_mdiArea(workspace),
       m_gm(gm)
 {
@@ -48,7 +46,6 @@ void AddMediaContainer::redo()
         CleverURI* uri = m_media->getCleverUri();
         if(nullptr!=uri)
         {
-            m_main->setLatestFile(uri);
             m_manager->addRessource(m_media->getCleverUri());
             uri->setDisplayed(true);
         }

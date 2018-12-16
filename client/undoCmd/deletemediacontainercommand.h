@@ -24,7 +24,6 @@
 #include "data/mediacontainer.h"
 
 class SessionManager;
-class MainWindow;
 class ImprovedWorkspace;
 class DeleteMediaContainerCommand : public QUndoCommand
 {
@@ -32,7 +31,6 @@ public:
     DeleteMediaContainerCommand(MediaContainer* media,
                                 SessionManager* manager,
                                 QMenu* menu,
-                                MainWindow* main,
                                 ImprovedWorkspace* workspace,
                                 bool isGM,
                                 QHash<QString,MediaContainer*>& hash,
@@ -48,7 +46,6 @@ private:
     MediaContainer* m_media = nullptr;
     SessionManager* m_manager = nullptr;
     QMenu* m_menu = nullptr;
-    MainWindow* m_main = nullptr;
     ImprovedWorkspace* m_mdiArea = nullptr;
     QHash<QString,MediaContainer*>& m_hash;
     bool m_gm;

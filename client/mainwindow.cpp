@@ -332,7 +332,7 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac,bool redoable)
 {
     if(nullptr != m_currentConnectionProfile)
     {
-        AddMediaContainer* addMedia = new AddMediaContainer(mediac,m_sessionManager,m_ui->m_menuSubWindows,this,m_mdiArea,m_currentConnectionProfile->isGM());
+        AddMediaContainer* addMedia = new AddMediaContainer(mediac,m_sessionManager,m_ui->m_menuSubWindows,m_mdiArea,m_currentConnectionProfile->isGM());
         if(!m_mediaHash.contains(mediac->getMediaId()))
         {
             m_mediaHash.insert(mediac->getMediaId(),mediac);
@@ -378,7 +378,7 @@ void MainWindow::closeMediaContainer(QString id, bool redo)
         {
             auto type = mediaCon->getContentType();
 
-            DeleteMediaContainerCommand* cmd = new DeleteMediaContainerCommand(mediaCon,m_sessionManager,m_ui->m_editMenu,this,m_mdiArea,m_currentConnectionProfile->isGM(),m_mediaHash);
+            DeleteMediaContainerCommand* cmd = new DeleteMediaContainerCommand(mediaCon,m_sessionManager,m_ui->m_editMenu,m_mdiArea,m_currentConnectionProfile->isGM(),m_mediaHash);
             if(redo)
                 m_undoStack.push(cmd);
             else
@@ -2146,7 +2146,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         auto sheetbis = m_mediaHash.value(idMedia);
         if(sheet == sheetbis)
             m_mediaHash.remove(idMedia);
-        DeleteMediaContainerCommand cmd(sheet,m_sessionManager,m_ui->m_editMenu,this,m_mdiArea,m_currentConnectionProfile->isGM(),m_mediaHash);
+        DeleteMediaContainerCommand cmd(sheet,m_sessionManager,m_ui->m_editMenu,m_mdiArea,m_currentConnectionProfile->isGM(),m_mediaHash);
         cmd.redo();
     }
 }

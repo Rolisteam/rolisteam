@@ -24,14 +24,13 @@
 
 #include "data/mediacontainer.h"
 #include "session/sessionmanager.h"
-#include "mainwindow.h"
 
 class ImprovedWorkspace;
 
 class AddMediaContainer : public QUndoCommand
 {
 public:
-    AddMediaContainer(MediaContainer* mediac,SessionManager* manager,QMenu* menu, MainWindow* main, ImprovedWorkspace* workspace, bool isGM, QUndoCommand* parent = nullptr);
+    AddMediaContainer(MediaContainer* mediac,SessionManager* manager,QMenu* menu, ImprovedWorkspace* workspace, bool isGM, QUndoCommand* parent = nullptr);
 
     void redo() override;
     void undo() override;
@@ -41,7 +40,6 @@ private:
     MediaContainer* m_media = nullptr;
     SessionManager* m_manager = nullptr;
     QMenu* m_menu = nullptr;
-    MainWindow* m_main = nullptr;
     ImprovedWorkspace* m_mdiArea = nullptr;
     bool m_gm;
 };
