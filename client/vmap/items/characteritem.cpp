@@ -433,6 +433,9 @@ qreal CharacterItem::getRadius() const
 }
 void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 {
+    if(nullptr == m_character || nullptr == m_vision || nullptr == msg)
+        return;
+
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
