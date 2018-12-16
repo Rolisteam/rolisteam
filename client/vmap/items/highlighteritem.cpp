@@ -59,7 +59,9 @@ void HighlighterItem::initAnimation()
     m_animation->start();
 
     connect(m_animation,&QPropertyAnimation::finished,this,[this](){
-            emit itemRemoved(m_id, true, false);
+        //setVisible(false);
+        //emit itemRemoved(m_id, true, false);
+        deleteLater();
     });
 }
 QRectF HighlighterItem::boundingRect() const
