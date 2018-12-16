@@ -748,38 +748,6 @@ void VMap::setId(QString id)
     m_id = id;
 }
 //write
-QDataStream& operator<<(QDataStream& out, const VMap& con)
-{
-    out << con.m_width;
-    out << con.m_height;
-    out << con.m_title;
-    out << con.m_bgColor;
-    out << con.m_zIndex;
-    
-    out << con.m_itemMap->size();
-    for(int i = 0; i< con.m_itemMap->size();i++)
-    {
-        VisualItem* item = con.m_itemMap->values().at(i);
-        out << *item ;
-    }
-    return out;
-}
-//read
-/// @todo not symetric with operator<<
-QDataStream& operator>>(QDataStream& is,VMap& con)
-{
-    is >>(con.m_width);
-    is >>(con.m_height);
-    is >>(con.m_title);
-    is >>(con.m_bgColor);
-    is >> (con.m_zIndex);
-
-    int size;
-    is >> size;
-    
-    return is;
-}
-//write
 void VMap::saveFile(QDataStream& out)
 {
     if(m_itemMap->isEmpty())

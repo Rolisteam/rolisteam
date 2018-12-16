@@ -23,8 +23,8 @@
 #include <QtGui>
 
 #include "improvedworkspace.h"
-#include "map/mapframe.h"
-#include "image.h"
+//#include "map/mapframe.h"
+//#include "image.h"
 
 #define GRAY_SCALE 191
 /********************************************************************/
