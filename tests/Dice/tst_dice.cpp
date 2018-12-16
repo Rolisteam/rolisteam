@@ -41,7 +41,10 @@ private slots:
     void commandEndlessLoop();
     void mathPriority();
     void commandsTest();
+
     void wrongCommandsTest();
+    void wrongCommandsTest_data();
+
     void wrongCommandsExecutionTimeTest();
     void scopeDF();
     void severalInstruction();
@@ -186,22 +189,26 @@ void TestDice::commandsTest()
 }
 void TestDice::wrongCommandsTest()
 {
-    QStringList commands;
-
-    commands << "1L[cheminée,chocolat,épée,arc,chute de pierre"
-            << "10d10c"
-            << "10d10a"
-            << "10d0a[>7]"
-            << "aiteanetauearuteurn";
 //            << "pajaejlbnmàw";
-
-    for(QString cmd: commands)
-    {
-        bool a = m_diceParser->parseLine(cmd);
-
-        QVERIFY2(a==false,cmd.toStdString().c_str());
-    }
+    QFETCH(QString, cmd);
+    QFETCH(bool, valid);
+    bool a = m_diceParser->parseLine(cmd);
+    QVERIFY2(a==valid,cmd.toStdString().c_str());
 }
+
+
+void TestDice::wrongCommandsTest_data()
+{
+    QTest::addColumn<QString>("cmd");
+    QTest::addColumn<bool>("valid");
+
+    QTest::newRow("test1") << "1L[cheminée,chocolat,épée,arc,chute de pierre" << false;
+    QTest::newRow("test2") << "10d10c" << false;
+    QTest::newRow("test3") << "10d10a" << false;
+    QTest::newRow("test4") << "10d0a[>7]" << false;
+    QTest::newRow("test5") << "aiteanetauearuteurn" << false;
+}
+
 void TestDice::wrongCommandsExecutionTimeTest()
 {
     QStringList commands;
