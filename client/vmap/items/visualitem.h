@@ -84,7 +84,7 @@ public:
 	 * @param editable edition status
 	 * @param parent
 	 */
-    VisualItem(QColor& penColor, int size, QGraphicsItem * parent = nullptr);
+    VisualItem(const QColor &penColor, int size, QGraphicsItem * parent = nullptr);
     /**
      * @brief ~VisualItem
      */

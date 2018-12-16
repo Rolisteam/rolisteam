@@ -88,7 +88,7 @@ CharacterItem::CharacterItem()
     createActions();
 }
 
-CharacterItem::CharacterItem(Character* m,QPointF pos,qreal diameter)
+CharacterItem::CharacterItem(Character* m,const QPointF& pos,qreal diameter)
     : VisualItem(),m_center(pos),m_diameter(diameter),m_thumnails(nullptr),m_protectGeometryChange(false),m_visionChanged(false)
 {
     setCharacter(m);

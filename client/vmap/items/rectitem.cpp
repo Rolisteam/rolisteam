@@ -34,7 +34,7 @@ RectItem::RectItem()
 
 }
 
-RectItem::RectItem(QPointF& topleft,QPointF& buttomright,bool filled,quint16 penSize,QColor& penColor,QGraphicsItem * parent)
+RectItem::RectItem(const QPointF& topleft,const QPointF& buttomright,bool filled,quint16 penSize,const QColor& penColor,QGraphicsItem * parent)
     : VisualItem(penColor,penSize,parent),m_initialized(false),m_filled(filled)
 {
     m_rect.setBottomRight(buttomright);

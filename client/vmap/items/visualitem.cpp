@@ -47,7 +47,7 @@ VisualItem::VisualItem()
     init();
 }
 
-VisualItem::VisualItem(QColor& penColor,int penSize,QGraphicsItem * parent )
+VisualItem::VisualItem(const QColor& penColor,int penSize,QGraphicsItem * parent )
     : QGraphicsObject(parent),m_color(penColor),m_child(nullptr),m_penWidth(penSize)
 {
     m_id = QUuid::createUuid().toString();

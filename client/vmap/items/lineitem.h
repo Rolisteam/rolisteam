@@ -32,11 +32,11 @@ public:
     /**
     * @brief constructor with parameters
     */
-    LineItem(QPointF& p,QColor& penColor,int penSize,QGraphicsItem * parent = 0);
+    LineItem(const QPointF& p,const QColor& penColor,int penSize,QGraphicsItem * parent = nullptr);
     /**
     * @brief paint the line
     */
-    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr );
     /**
     * @brief gives bounding rect of the line
     */

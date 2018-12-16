@@ -46,7 +46,7 @@ public:
      * @param center
      * @param diameter
      */
-    CharacterItem(Character* m,QPointF center,qreal diameter = 40.0);
+    CharacterItem(Character* m,const QPointF& center,qreal diameter = 40.0);
     /**
     * @brief serialisation function to write data
     */

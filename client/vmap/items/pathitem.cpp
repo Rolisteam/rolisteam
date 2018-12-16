@@ -60,7 +60,7 @@ PathItem::PathItem()
     createActions();
 }
 
-PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,bool penMode,QGraphicsItem * parent)
+PathItem::PathItem(const QPointF &start, const QColor &penColor, int penSize, bool penMode, QGraphicsItem * parent)
     : VisualItem(penColor,penSize,parent),m_penMode(penMode),m_filled(false)
 {
     m_closed=false;

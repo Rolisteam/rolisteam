@@ -37,12 +37,12 @@ public:
     * @param penSize, width of the pen
     * @param parent
     */
-    PathItem(QPointF& nend,QColor& penColor,int penSize,bool penMode = false,QGraphicsItem * parent = 0);
+    PathItem(const QPointF& nend, const QColor& penColor,int penSize,bool penMode = false,QGraphicsItem * parent = nullptr);
     
     /**
     * @brief override function to paint itself.
     */
-    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr );
     /**
     * @brief defines the  boundrect of path. Useful for mouse selection or collision detection
     */

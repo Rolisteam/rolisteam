@@ -33,11 +33,11 @@ public:
     * @param either the shape is filled or not
     * @param color used for drawing it.
     */
-    EllipsItem(QPointF& center,bool filled,int penSize,QColor& penColor,QGraphicsItem * parent = 0);
+    EllipsItem(const QPointF& center,bool filled,int penSize,const QColor& penColor,QGraphicsItem * parent = nullptr);
     /**
     * @brief paint the ellipse at the correct position
     */
-    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr );
 
 	virtual QPainterPath shape() const;
     /**

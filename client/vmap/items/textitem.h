@@ -63,7 +63,7 @@ public:
     * @brief Constructor with parameters
     * @param start, starting point, it represents the bottom right rectangle corner where the text willbe displayed
     */
-    TextItem(QPointF& start,quint16 penSize,QColor& penColor,QGraphicsItem * parent = nullptr);
+    TextItem(const QPointF& start,quint16 penSize,const QColor& penColor,QGraphicsItem * parent = nullptr);
     /**
     * @brief paint the item into the scene.
     */

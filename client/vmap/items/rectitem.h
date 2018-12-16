@@ -35,12 +35,12 @@ public:
     * @param filled either we paint filled rectange or just uts border
     * @param color
     */
-    RectItem(QPointF& topleft,QPointF& buttomright,bool filled,quint16 penSize,QColor& penColor,QGraphicsItem * parent = 0);
+    RectItem(const QPointF& topleft,const QPointF& buttomright,bool filled,quint16 penSize,const QColor& penColor,QGraphicsItem * parent = nullptr);
     /**
     * @brief paint the current rectangle into the scene.
     * @see Qt documentation
     */
-    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr );
 
     /**
     * @brief gives bounding rect. Return rect geometry into the QRectF

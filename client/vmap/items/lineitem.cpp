@@ -36,7 +36,7 @@ LineItem::LineItem()
     
 }
 
-LineItem::LineItem(QPointF& p,QColor& penColor,int penSize,QGraphicsItem * parent)
+LineItem::LineItem(const QPointF& p,const QColor& penColor,int penSize,QGraphicsItem * parent)
     :  VisualItem(penColor,penSize,parent)
 {
     m_startPoint = p;

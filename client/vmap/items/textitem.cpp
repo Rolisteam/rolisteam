@@ -114,7 +114,7 @@ TextItem::TextItem()
     createActions();
 }
 
-TextItem::TextItem(QPointF& start,quint16 penSize,QColor& penColor,QGraphicsItem * parent)
+TextItem::TextItem(const QPointF& start, quint16 penSize, const QColor &penColor, QGraphicsItem * parent)
     : VisualItem(penColor,penSize,parent),m_offset(QPointF(100,30))
 {
     m_start = start;
