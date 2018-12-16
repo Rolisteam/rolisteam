@@ -176,11 +176,6 @@ public slots:
      * @param item
      */
     void removeVision(CharacterItem* item);
-    /**
-     * @brief setGM
-     */
-    void setGM(bool);
-
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
@@ -194,7 +189,6 @@ private:
     QImage m_image;
     qreal m_count;
     QList<FogSingularity*> m_fogHoleList;
-    bool m_isGM;
     QPainterPath m_path;
     QRectF m_rectOfVeil;
 };
