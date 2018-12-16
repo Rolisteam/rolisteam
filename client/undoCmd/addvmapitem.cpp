@@ -31,6 +31,7 @@
 #include "vmap/items/highlighteritem.h"
 
 #include "data/character.h"
+#include "network/networkmessagewriter.h"
 
 
 AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
