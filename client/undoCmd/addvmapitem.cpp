@@ -225,6 +225,9 @@ bool AddVmapItemCommand::isVisible()
 }
 void AddVmapItemCommand::undo()
 {
+    if(!isUndoable())
+        return;
+
     qInfo() << QStringLiteral("Undo command AddVmapItemCommand: %1 ").arg(text());
     m_vmap->removeItem(m_currentItem);
     m_vmap->update();
