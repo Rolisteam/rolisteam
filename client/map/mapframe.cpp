@@ -161,6 +161,7 @@ bool MapFrame::openUriAndLoadMap(QString uri)
         return false;
     }
     QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_5_7);
     if(!readMapAndNpc(in, m_isHidden))
     {
         error(tr("Wrong Map Format"),this);
@@ -176,6 +177,7 @@ bool MapFrame::readFileFromUri()
     {//load from uri data
         QByteArray array = m_uri->getData();
         QDataStream in(&array,QIODevice::ReadOnly);
+        in.setVersion(QDataStream::Qt_5_7);
         m_isHidden = false;
         readMapAndNpc(in,m_isHidden);
 
@@ -500,6 +502,7 @@ void MapFrame::saveMedia()
                 return;
             }
             QDataStream out(&file);
+            out.setVersion(QDataStream::Qt_5_7);
             m_map->saveMap(out);
             file.close();
         }
@@ -512,6 +515,7 @@ void MapFrame::putDataIntoCleverUri()
     {
         QByteArray data;
         QDataStream out(&data,QIODevice::WriteOnly);
+        out.setVersion(QDataStream::Qt_5_7);
         //out << m_isHidden;
         m_map->saveMap(out);
         if(nullptr!=m_uri)

@@ -85,6 +85,7 @@ void Player::readFromMsg(NetworkMessageReader& data)
     }
     QByteArray array = data.byteArray32();
     QDataStream in(&array,QIODevice::ReadOnly);
+    in.setVersion(QDataStream::Qt_5_7);
     in >> m_features;
 }
 void Player::fill(NetworkMessageWriter & message,bool addAvatar)
@@ -104,6 +105,7 @@ void Player::fill(NetworkMessageWriter & message,bool addAvatar)
 
     QByteArray array;
     QDataStream out(&array,QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_5_7);
     out << m_features;
 
     message.byteArray32(array);

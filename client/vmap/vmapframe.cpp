@@ -174,6 +174,7 @@ bool VMapFrame::openFile(const QString& filepath)
         if (!input.open(QIODevice::ReadOnly))
             return false;
         QDataStream in(&input);
+        in.setVersion(QDataStream::Qt_5_7);
         createView();
         m_vmap->openFile(in);
         m_vmap->setVisibilityMode(VMap::HIDDEN);
@@ -216,6 +217,7 @@ void VMapFrame::saveMedia()
                 return;
             }
             QDataStream out(&file);
+            out.setVersion(QDataStream::Qt_5_7);
             m_vmap->saveFile(out);
             file.close();
         }
@@ -227,6 +229,7 @@ void VMapFrame::putDataIntoCleverUri()
     {
         QByteArray data;
         QDataStream out(&data,QIODevice::WriteOnly);
+        out.setVersion(QDataStream::Qt_5_7);
         m_vmap->saveFile(out);
         if(nullptr!=m_uri)
         {
@@ -409,6 +412,7 @@ bool VMapFrame::readFileFromUri()
         {
             QByteArray data = m_uri->getData();
             QDataStream in(&data,QIODevice::ReadOnly);
+            in.setVersion(QDataStream::Qt_5_7);
             createView();
             m_vmap->openFile(in);
             m_vmap->setVisibilityMode(VMap::HIDDEN);

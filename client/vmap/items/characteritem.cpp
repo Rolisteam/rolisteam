@@ -459,6 +459,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     //path
     QByteArray data;
     QDataStream in(&data,QIODevice::WriteOnly);
+    in.setVersion(QDataStream::Qt_5_7);
     if((m_thumnails==nullptr)||(m_thumnails->isNull()))
     {
         generatedThumbnail();
@@ -502,6 +503,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     data = msg->byteArray32();
 
     QDataStream out(&data,QIODevice::ReadOnly);
+    out.setVersion(QDataStream::Qt_5_7);
     m_thumnails = new QPixmap();
     out >> *m_thumnails;
 

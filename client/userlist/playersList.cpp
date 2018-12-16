@@ -549,6 +549,7 @@ bool PlayersList::setLocalPersonAvatar(Person* person,const QImage& image)
 
         QByteArray data;
         QDataStream in(&data,QIODevice::WriteOnly);
+        in.setVersion(QDataStream::Qt_5_7);
         in << image;
         message->byteArray32(data);
         message->sendToServer();
@@ -822,6 +823,7 @@ void PlayersList::setPersonAvatar(NetworkMessageReader & data)
      QByteArray imageBuffer = data.byteArray32();
      Person * person = m_uuidMap.value(uuid);
      QDataStream out(&imageBuffer,QIODevice::ReadOnly);
+     out.setVersion(QDataStream::Qt_5_7);
      QImage img;
      out >> img;
 

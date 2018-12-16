@@ -76,6 +76,7 @@ bool SharedNoteContainer::readFileFromUri()
     {
         QByteArray array =m_uri->getData();
         QDataStream in(&array,QIODevice::ReadOnly);
+        in.setVersion(QDataStream::Qt_5_7);
         readFromFile(in);
         val = true;
     }
@@ -143,6 +144,7 @@ void SharedNoteContainer::putDataIntoCleverUri()
     {
         QByteArray data;
         QDataStream out(&data,QIODevice::WriteOnly);
+        out.setVersion(QDataStream::Qt_5_7);
         m_edit->saveFile(out);
         if(nullptr!=m_uri)
         {

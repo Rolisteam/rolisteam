@@ -61,6 +61,7 @@ bool NoteContainer::readFileFromUri()
     {
         QByteArray array =m_uri->getData();
         QDataStream in(&array,QIODevice::ReadOnly);
+        in.setVersion(QDataStream::Qt_5_7);
         readFromFile(in);
         val = true;
     }
@@ -87,6 +88,7 @@ void NoteContainer::putDataIntoCleverUri()
     {
         QByteArray data;
         QDataStream out(&data,QIODevice::WriteOnly);
+        out.setVersion(QDataStream::Qt_5_7);
         m_edit->saveFileAsBinary(out);
         if(nullptr!=m_uri)
         {

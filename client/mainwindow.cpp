@@ -1059,6 +1059,7 @@ void MainWindow::readStory(QString fileName)
     }
     m_sessionManager->setSessionName(info.baseName());
     QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_5_7);
     m_sessionManager->loadSession(in);
     file.close();
     m_currentStory = new  CleverURI(getShortNameFromPath(fileName),fileName,CleverURI::SCENARIO);
@@ -1099,6 +1100,7 @@ bool MainWindow::saveStory(bool saveAs)
     saveAllMediaContainer();
 
     QDataStream out(&file);
+    out.setVersion(QDataStream::Qt_5_7);
     m_sessionManager->saveSession(out);
     file.close();
     m_sessionManager->setSessionName(m_currentStory->getData(ResourcesNode::NAME).toString());
