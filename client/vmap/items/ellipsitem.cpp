@@ -117,13 +117,13 @@ void EllipsItem::writeData(QDataStream& out) const
 {
     out << m_rx;
     out << m_ry;
-    out << (int)m_layer;
+    out << static_cast<int>(m_layer);
     out << opacity();
     out << m_center;
     out << m_filled;
     out << m_color;
     out << m_penWidth;
-    //out << zValue();
+
     out << pos();
     out << scale();
     out << rotation();
@@ -135,7 +135,7 @@ void EllipsItem::readData(QDataStream& in)
     in >> m_ry;
     int lay;
     in >> lay;
-    m_layer = (VisualItem::Layer)lay;
+    m_layer = static_cast<VisualItem::Layer>(lay);
     qreal opa=0;
     in >> opa;
     setOpacity(opa);
@@ -143,9 +143,7 @@ void EllipsItem::readData(QDataStream& in)
     in >> m_filled;
     in >> m_color;
     in >> m_penWidth;
-//    qreal zVal;
-//    in >> zVal;
-//    setZValue(zVal);
+
     QPointF position;
     in >> position;
     setPos(position);
@@ -157,7 +155,7 @@ void EllipsItem::readData(QDataStream& in)
     qreal rotation;
     in >> rotation;
     setRotation(rotation);
-
+    m_rect.setRect(-m_rx,-m_ry,m_rx*2,m_ry*2);
 }
 void EllipsItem::fillMessage(NetworkMessageWriter* msg)
 {
@@ -207,9 +205,9 @@ void EllipsItem::readItem(NetworkMessageReader* msg)
     m_color = msg->rgb();
     m_penWidth = msg->int16();
 
-
+    m_rect.setRect(-m_rx,-m_ry,m_rx*2,m_ry*2);
     setPos(posx,posy);
-
+    update();
 }
 void EllipsItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
