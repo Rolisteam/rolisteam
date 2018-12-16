@@ -130,7 +130,7 @@ void RectItem::writeData(QDataStream& out) const
     out << rotation();
     out << pos();
     //out << zValue();
-    out << (int)m_layer;
+    out << static_cast<int>(m_layer);
 }
 
 void RectItem::readData(QDataStream& in)
@@ -156,14 +156,9 @@ void RectItem::readData(QDataStream& in)
     in >> p;
     setPos(p);
 
-
-    /*qreal zvalue;
-    in >> zvalue;
-    setZValue(zvalue);*/
-
     int i;
     in >> i;
-    m_layer = (VisualItem::Layer)i;
+    m_layer = static_cast<VisualItem::Layer>(i);
 }
 void RectItem::fillMessage(NetworkMessageWriter* msg)
 {
