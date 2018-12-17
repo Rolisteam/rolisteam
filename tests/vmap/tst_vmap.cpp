@@ -14,6 +14,7 @@
 #include "vmap/items/highlighteritem.h"
 #include "undoCmd/addvmapitem.h"
 #include "data/character.h"
+#include "data/player.h"
 
 class VMapTest : public QObject
 {
@@ -42,8 +43,16 @@ private slots:
     void saveAndLoad();
     void saveAndLoad_data();
 
+    void zOrderTest();
+
+    void fogTest();
+    void fogTest_data();
+
     void testOption();
     void testOption_data();
+
+    void testMovableItems();
+    void testMovableItems_data();
 private:
     std::unique_ptr<VMap> m_vmap;
 };
@@ -52,6 +61,7 @@ Q_DECLARE_METATYPE(VMap::GRID_PATTERN);
 Q_DECLARE_METATYPE(VMap::SCALE_UNIT);
 Q_DECLARE_METATYPE(VMap::VisibilityMode);
 Q_DECLARE_METATYPE(VisualItem::Layer);
+Q_DECLARE_METATYPE(VisualItem*);
 Q_DECLARE_METATYPE(VisualItem::Properties);
 Q_DECLARE_METATYPE(Map::PermissionMode);
 
@@ -202,8 +212,10 @@ void  VMapTest::saveAndLoad()
     in.setVersion(QDataStream::Qt_5_7);
     map.saveFile(in2);
 
+    if(array.size() != array2.size())
+        qDebug() << "arrays size"<<array.size() << array2.size();
+
     QCOMPARE(array.size(), array2.size());
-    qDebug() << "arrays size"<<array.size() << array2.size();
 
     delete item;
 }
@@ -264,15 +276,15 @@ void VMapTest::addRect()
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QVERIFY(m_vmap->getItemCount() == 1);
-    QVERIFY(m_vmap->getSortedItemCount() == 1);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount() , 1);
+    QCOMPARE(m_vmap->getSortedItemCount() , 1);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
     cmd.undo();
 
-    QVERIFY(m_vmap->getItemCount() == 0);
-    QVERIFY(m_vmap->getSortedItemCount() == 0);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount(), 0);
+    QCOMPARE(m_vmap->getSortedItemCount(), 0);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addEllipse()
 {
@@ -281,15 +293,15 @@ void VMapTest::addEllipse()
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QVERIFY(m_vmap->getItemCount() == 1);
-    QVERIFY(m_vmap->getSortedItemCount() == 1);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount() , 1);
+    QCOMPARE(m_vmap->getSortedItemCount() , 1);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
     cmd.undo();
 
-    QVERIFY(m_vmap->getItemCount() == 0);
-    QVERIFY(m_vmap->getSortedItemCount() == 0);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount(), 0);
+    QCOMPARE(m_vmap->getSortedItemCount(), 0);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addPath()
 {
@@ -298,15 +310,15 @@ void VMapTest::addPath()
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QVERIFY(m_vmap->getItemCount() == 1);
-    QVERIFY(m_vmap->getSortedItemCount() == 1);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount() , 1);
+    QCOMPARE(m_vmap->getSortedItemCount() , 1);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
     cmd.undo();
 
-    QVERIFY(m_vmap->getItemCount() == 0);
-    QVERIFY(m_vmap->getSortedItemCount() == 0);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount(), 0);
+    QCOMPARE(m_vmap->getSortedItemCount(), 0);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addLine()
 {
@@ -315,15 +327,15 @@ void VMapTest::addLine()
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QVERIFY(m_vmap->getItemCount() == 1);
-    QVERIFY(m_vmap->getSortedItemCount() == 1);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount() , 1);
+    QCOMPARE(m_vmap->getSortedItemCount() , 1);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
     cmd.undo();
 
-    QVERIFY(m_vmap->getItemCount() == 0);
-    QVERIFY(m_vmap->getSortedItemCount() == 0);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount(), 0);
+    QCOMPARE(m_vmap->getSortedItemCount(), 0);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addImage()
 {
@@ -332,15 +344,15 @@ void VMapTest::addImage()
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QVERIFY(m_vmap->getItemCount() == 1);
-    QVERIFY(m_vmap->getSortedItemCount() == 1);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount() , 1);
+    QCOMPARE(m_vmap->getSortedItemCount() , 1);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
     cmd.undo();
 
-    QVERIFY(m_vmap->getItemCount() == 0);
-    QVERIFY(m_vmap->getSortedItemCount() == 0);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount(), 0);
+    QCOMPARE(m_vmap->getSortedItemCount(), 0);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addCharacter()
 {
@@ -350,16 +362,16 @@ void VMapTest::addCharacter()
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QVERIFY(m_vmap->getItemCount() == 1);
-    QVERIFY(m_vmap->getSortedItemCount() == 1);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount() , 1);
+    QCOMPARE(m_vmap->getSortedItemCount() , 1);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
     QCOMPARE(spy.count(), 0);
 
     cmd.undo();
 
-    QVERIFY(m_vmap->getItemCount() == 0);
-    QVERIFY(m_vmap->getSortedItemCount() == 0);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount(), 0);
+    QCOMPARE(m_vmap->getSortedItemCount(), 0);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addText()
 {
@@ -368,15 +380,15 @@ void VMapTest::addText()
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QVERIFY(m_vmap->getItemCount() == 1);
-    QVERIFY(m_vmap->getSortedItemCount() == 1);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount() , 1);
+    QCOMPARE(m_vmap->getSortedItemCount() , 1);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
     cmd.undo();
 
-    QVERIFY(m_vmap->getItemCount() == 0);
-    QVERIFY(m_vmap->getSortedItemCount() == 0);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount(), 0);
+    QCOMPARE(m_vmap->getSortedItemCount(), 0);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addHighLighter()
 {
@@ -384,9 +396,9 @@ void VMapTest::addHighLighter()
     AddVmapItemCommand cmd(&item,m_vmap.get());
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QVERIFY(m_vmap->getItemCount() == 0);
-    QVERIFY(m_vmap->getSortedItemCount() == 0);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount(), 0);
+    QCOMPARE(m_vmap->getSortedItemCount(), 0);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 }
 void VMapTest::addRule()
 {
@@ -394,9 +406,155 @@ void VMapTest::addRule()
     AddVmapItemCommand cmd(&item,m_vmap.get());
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QVERIFY(m_vmap->getItemCount() == 0);
-    QVERIFY(m_vmap->getSortedItemCount() == 0);
-    QVERIFY(m_vmap->getOrderedItemCount() == 0);
+    QCOMPARE(m_vmap->getItemCount(), 0);
+    QCOMPARE(m_vmap->getSortedItemCount(), 0);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
+}
+
+void VMapTest::zOrderTest()
+{
+   auto item = new RectItem(QPointF(100,100),QPointF(200,200),true,18,QColor(Qt::red));
+   auto item1 = new RectItem(QPointF(100,100),QPointF(200,200),true,18,QColor(Qt::blue));
+   auto item2 = new RectItem(QPointF(100,100),QPointF(200,200),true,18,QColor(Qt::green));
+   item->setVisible(true);
+   item1->setVisible(true);
+   item2->setVisible(true);
+
+   m_vmap->setVisibilityMode(VMap::ALL);
+
+
+   AddVmapItemCommand cmd(item,m_vmap.get());
+   cmd.redo();
+
+   QCOMPARE(m_vmap->getItemCount(), 1);
+   QCOMPARE(m_vmap->getSortedItemCount(), 1);
+   QCOMPARE(m_vmap->getOrderedItemCount(), 0);
+
+   AddVmapItemCommand cmd1(item1,m_vmap.get());
+   cmd1.redo();
+
+   QCOMPARE(m_vmap->getItemCount(), 2);
+   QCOMPARE(m_vmap->getSortedItemCount(), 2);
+   QCOMPARE(m_vmap->getOrderedItemCount(), 0);
+
+
+   AddVmapItemCommand cmd2(item2,m_vmap.get());
+   cmd2.redo();
+
+   QCOMPARE(m_vmap->getItemCount(), 3);
+   QCOMPARE(m_vmap->getSortedItemCount(), 3);
+   QCOMPARE(m_vmap->getOrderedItemCount(), 0);
+
+
+   m_vmap->changeStackOrder(item, VisualItem::FRONT);
+
+   // item is in the front
+   QVERIFY(item->zValue() > item1->zValue());
+   QVERIFY(item->zValue() > item2->zValue());
+   QVERIFY(item1->zValue() < item2->zValue());
+
+   m_vmap->changeStackOrder(item, VisualItem::BACK);
+
+   QVERIFY(item->zValue() < item1->zValue());
+   QVERIFY(item->zValue() < item2->zValue());
+   QVERIFY(item1->zValue() < item2->zValue());
+
+
+   item2->setPos(800,800);//move away the item
+   m_vmap->changeStackOrder(item, VisualItem::RAISE);
+
+   QVERIFY(item->isVisible());
+   QVERIFY(item1->isVisible());
+   QVERIFY(item2->isVisible());
+
+   QVERIFY(item->zValue() > item1->zValue());
+   QVERIFY(item->zValue() < item2->zValue());
+   QVERIFY(item1->zValue() < item2->zValue());
+
+   m_vmap->changeStackOrder(item, VisualItem::LOWER);
+
+   QVERIFY(item->zValue() < item1->zValue());
+   QVERIFY(item->zValue() < item2->zValue());
+   QVERIFY(item1->zValue() < item2->zValue());
+
+
+   delete item;
+   delete item1;
+   delete item2;
+}
+
+void VMapTest::fogTest()
+{
+    auto sightItem = m_vmap->getFogItem();
+
+    QFETCH(VMap::VisibilityMode, mode);
+    QFETCH(bool, visibility);
+
+    m_vmap->setVisibilityMode(mode);
+    QCOMPARE(sightItem->isVisible(),visibility);
+}
+void VMapTest::fogTest_data()
+{
+    QTest::addColumn<VMap::VisibilityMode>("mode");
+    QTest::addColumn<bool>("visibility");
+
+    QTest::addRow("Hidden") << VMap::HIDDEN << false;
+    QTest::addRow("FogOfWar") << VMap::FOGOFWAR << true;
+    QTest::addRow("All") << VMap::ALL << false;
+}
+
+void VMapTest::testMovableItems()
+{
+    QFETCH(Map::PermissionMode, mode);
+    QFETCH(bool, movable);
+    QFETCH(bool, isGM);
+    QFETCH(VisualItem*, item);
+
+    m_vmap->setPermissionMode(mode);
+    m_vmap->setOption(VisualItem::LocalIsGM, isGM);
+
+    AddVmapItemCommand cmd(item,m_vmap.get());
+    cmd.redo();
+
+    QCOMPARE(m_vmap->getItemCount(), 1);
+    QCOMPARE(m_vmap->getSortedItemCount(), 1);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
+
+    QCOMPARE(item->flags() & QGraphicsItem::ItemIsMovable , movable);
+}
+
+
+void VMapTest::testMovableItems_data()
+{
+    QTest::addColumn<Map::PermissionMode>("mode");
+    QTest::addColumn<bool>("movable");
+    QTest::addColumn<bool>("isGM");
+    QTest::addColumn<VisualItem*>("item");
+
+
+    //rectangle for player
+    QTest::addRow("Player wants to move GM item") << Map::GM_ONLY << false << false << getItemFromId(1);
+    QTest::addRow("Player thinks item is his character") << Map::PC_MOVE << false << false << getItemFromId(1);
+    QTest::addRow("Player move items") << Map::PC_ALL << true << false << getItemFromId(1);
+
+    //rectangle for GM
+    QTest::addRow("GM moves GM item") << Map::GM_ONLY << true << true << getItemFromId(1);
+    QTest::addRow("GM moves even when player can move") << Map::PC_MOVE << true << true << getItemFromId(1);
+    QTest::addRow("GM moves even when all permission") << Map::PC_ALL << true << true << getItemFromId(1);
+
+   // PlayersList* model = PlayersList::instance();
+
+    /*auto localPlayer = new Player(QStringLiteral("Obi"),QColor(Qt::darkBlue),false);
+    auto localCharacter = new Character("Lynn Gray-Rike",QColor(Qt::darkBlue),false);
+    auto item = new CharacterItem(localCharacter,QPoint(100,100));
+    localPlayer->addCharacter(localCharacter);
+    model->setLocalPlayer(localPlayer);
+
+    VisualItem* itemVisual = item;
+    //CharacterItem for GM
+    QTest::addRow("PC can't move his character") << Map::GM_ONLY << false << false << itemVisual;
+    QTest::addRow("PC can move his character") << Map::PC_MOVE << true << false << itemVisual;
+    QTest::addRow("PC can move his character as all items") << Map::PC_ALL << true << false << itemVisual;*/
 }
 
 QTEST_MAIN(VMapTest);
