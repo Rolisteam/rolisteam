@@ -1,10 +1,12 @@
-include(../UnitTestRolisteam.pri)
+include(../tests.pri)
 
 SOURCES += \
     tst_network.cpp \
-    ../$$ROLISTEAMSRC/src/network/networkmessagewriter.cpp
+    $$ROLISTEAMSRC/network/networkmessagewriter.cpp\
+    $$ROLISTEAMSRC/network/networkmessage.cpp\
 
-HEADERS += ../$$ROLISTEAMSRC/src/network/networkmessagewriter.h
+HEADERS += $$ROLISTEAMSRC/network/networkmessagewriter.h \
+        $$ROLISTEAMSRC/network/networkmessage.h
 
 TEMPLATE = app
 TARGET=networkTest
@@ -14,8 +16,7 @@ OBJECTS_DIR=trash
 QT += testlib
 CONFIG += testcase
 
-INCLUDEPATH += ../lib/network/
-INCLUDEPATH += ../$$ROLISTEAMSRC/src/network/
-INCLUDEPATH += ../$$ROLISTEAMSRC/src/
+INCLUDEPATH += ../network/
+INCLUDEPATH += ../$$ROLISTEAMSRC/network/
+INCLUDEPATH += ../$$ROLISTEAMSRC/
 
-#include(../lib/diceparser/diceparser.pri)

@@ -23,7 +23,7 @@
 #include <QtCore/QCoreApplication>
 
 #include <networkmessagewriter.h>
-#include <networkmessage.h>
+//#include <networkmessage.h>
 
 class TestNetwork : public QObject
 {
@@ -33,9 +33,10 @@ public:
     TestNetwork();
 
 private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    void init();
+    void cleanup();
     void writeTest();
+    void writeAndReadTest();
 private:
     NetworkMessageWriter* m_writer;
 };
@@ -44,21 +45,24 @@ TestNetwork::TestNetwork()
 {
 }
 
-void TestNetwork::initTestCase()
+void TestNetwork::init()
 {
     m_writer = new NetworkMessageWriter(NetMsg::ChatCategory,NetMsg::AddEmptyMap);
 }
 void TestNetwork::writeTest()
 {
-    for(int i = 0;i<256;++i)
+    for(int i = 0;i<255;++i)
     {
-        m_writer->int8(i);
-        QVERIFY2(m_writer->getDataSize()==i*sizeof(qint8),"");
+        m_writer->uint8(i);
+        QCOMPARE(m_writer->getDataSize(), (1+i)*sizeof(quint8)+1);//+sizeof(NetworkMessageHeader)
     }
 }
+void TestNetwork::writeAndReadTest()
+{
 
+}
 
-void TestNetwork::cleanupTestCase()
+void TestNetwork::cleanup()
 {
     delete m_writer;
 }
