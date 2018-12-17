@@ -31,10 +31,9 @@ class CircleDisplayer : public QWidget
     Q_OBJECT
 
 public :
-	CircleDisplayer(QWidget *parent = 0, bool plein = true, int minimum = 1,int maximum=50);
+    CircleDisplayer(QWidget *parent = nullptr, bool filled = true, int minimum = 1, int maximum=50);
 public slots :
 	void changeDiameter(int diametre);
-
 
 signals:
 	void diameterChanged(int);

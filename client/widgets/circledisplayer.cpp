@@ -18,8 +18,6 @@
 *   Free Software Foundation, Inc.,                                       *
 *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
 ***************************************************************************/
-
-
 #include <QtGui>
 #include <QDebug>
 
@@ -27,30 +25,16 @@
 
 #define MARGIN_NPC 10
 #define MARGIN_PC 5
-
 #define PEN_SIZE 4
 
-
-
-
-CircleDisplayer::CircleDisplayer(QWidget *parent, bool plein, int minimum,int maximum)
+CircleDisplayer::CircleDisplayer(QWidget *parent, bool filled, int minimum,int maximum)
     : QWidget(parent)
 {
-    // Initialisation des variables de la classe
 	m_currentDiameter = minimum;
 	m_minimumDiameter = minimum;
 	m_maximumDiameter = maximum;
 
-
-	m_full = plein;
-
-	/*int marge=MARGIN_NPC;
-	if (m_full)
-	{
-		marge=MARGIN_PC;
-	}*/
-	//m_scale = (float)(width()-marge)/(float)(m_maximumDiameter*2+PEN_SIZE*2);
-
+    m_full = filled;
 }
 
 void CircleDisplayer::paintEvent(QPaintEvent *event)
@@ -92,10 +76,6 @@ void CircleDisplayer::wheelEvent ( QWheelEvent * event )
 void CircleDisplayer::changeDiameter(int diameter)
 {
 	m_currentDiameter = diameter;
-//	if (m_full)
-//		g_currentDiameterLine = diameter;
-//	else
-//		g_currentNPCDiameter = diameter;
 	update();
 }
 
