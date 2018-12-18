@@ -25,5 +25,5 @@ bool TimeAccepter::isValid(const QMap<QString, QVariant> &data)
     {
         result &= m_next->isValid(data);
     }
-    return true;
+    return result;
 }
