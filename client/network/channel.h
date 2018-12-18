@@ -23,7 +23,7 @@ class Channel : public TreeItem
     Q_OBJECT
 public:
     Channel();
-    Channel(QString name);
+    explicit Channel(QString name);
     virtual ~Channel();
 
     QByteArray password() const;
@@ -82,7 +82,7 @@ protected:
 private:
     QByteArray m_password;
     QString m_description;
-    bool m_usersListed;
+    bool m_usersListed = false;
 
     QList<QPointer<TreeItem>> m_child;
     QList<NetworkMessage*> m_dataToSend;
