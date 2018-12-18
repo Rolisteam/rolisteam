@@ -62,7 +62,7 @@ void RealSlider::internalValueChanged(int x)
 {
    if(0!=maximum())
    {
-        qreal y = (qreal)x/(qreal)maximum();
+        qreal y = static_cast<qreal>(x)/static_cast<qreal>(maximum());
         emit valueChanged(y);
    }
 }

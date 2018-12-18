@@ -18,7 +18,7 @@ class MessageDispatcher : public QObject
     Q_OBJECT
 
 public:
-    explicit MessageDispatcher(QObject *parent = 0);
+    explicit MessageDispatcher(QObject *parent = nullptr);
 
     static QString cat2String(NetworkMessageHeader *head);
     static QString act2String(NetworkMessageHeader *head);

@@ -1180,7 +1180,6 @@ void CharacterItem::updateItemFlags()
     VisualItem::updateItemFlags();
     if(canBeMoved())
     {
-
         if(nullptr!=m_child)
         {
             for (ChildPointItem* itemChild: *m_child)

@@ -76,28 +76,16 @@ void SessionTest::testModel()
 
     QSignalSpy layout(m_model, &SessionItemModel::layoutChanged);
     QPoint local(10,10);
-    QMouseEvent* event = new QMouseEvent(QEvent::MouseButtonPress,local,Qt::LeftButton,nullptr,nullptr);
-    QApplication::postEvent(m_sessionManager, event);
-    QApplication::processEvents();
+    QTest::mouseClick(m_sessionManager,Qt::LeftButton,Qt::KeyboardModifiers(),local);
 
     for(int i = 0; i < 55; ++i)
     {
         QPoint moveMouse(10,10+i);
-        QMouseEvent* eventMove = new QMouseEvent(QEvent::MouseMove,moveMouse,Qt::LeftButton,Qt::LeftButton,nullptr);
-        QApplication::postEvent(m_sessionManager, eventMove);
-        QApplication::processEvents();
+        QTest::mouseMove(m_sessionManager,moveMouse);
     }
 
-    QPoint moveMouse(10,65);
-    QMouseEvent* eventMove = new QMouseEvent(QEvent::MouseMove,moveMouse,Qt::LeftButton,Qt::LeftButton,nullptr);
-    QApplication::postEvent(m_sessionManager, eventMove);
-    QApplication::processEvents();
-
-    QPoint moveRelease(10,65);
-    auto index2 = sessionview->indexAt(moveRelease);
-    QMouseEvent* eventRelease = new QMouseEvent(QEvent::MouseButtonRelease,moveRelease,Qt::LeftButton,nullptr,nullptr);
-    QApplication::postEvent(m_sessionManager, eventRelease);
-    QApplication::processEvents();
+    QTest::mouseMove(m_sessionManager,QPoint(10,65));
+    QTest::mouseRelease(m_sessionManager,Qt::LeftButton,Qt::KeyboardModifiers(),QPoint(10,65));
 
     qDebug() << m_model->rowCount(index) << chapter << character << uri2 << uri1 ;
 

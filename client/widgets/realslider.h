@@ -7,7 +7,7 @@ class RealSlider : public QSlider
 {
     Q_OBJECT
 public:
-    RealSlider(QWidget* parent = 0);
+    explicit RealSlider(QWidget* parent = nullptr);
 
     qreal start() const;
     void setStart(const qreal &start);

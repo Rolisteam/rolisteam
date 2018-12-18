@@ -1,5 +1,7 @@
 #include "ipbanaccepter.h"
 #include <QDebug>
+#include <QHostAddress>
+
 IpBanAccepter::IpBanAccepter()
 {
 
@@ -10,21 +12,16 @@ bool IpBanAccepter::isValid(const QMap<QString, QVariant> &data)
     QStringList bannedIp = data["IpBan"].toStringList();
     QString currentIp = data["currentIp"].toString();
 
-    // Cut current ip
-    bool result = !bannedIp.contains(currentIp);
-
-    auto pos = currentIp.lastIndexOf(':');
-    if(pos>-1)
+    QString currentIpV4;
+    QString currentIpV6;
+    if(currentIp.count(':') == 8)
     {
-        ++pos;
-        auto ipV4 = currentIp.right(currentIp.size()-(pos));
-        auto ipV6 = currentIp.left(pos);
-
-        result &= !bannedIp.contains(ipV4);
-        result &= !bannedIp.contains(ipV6);
-
-        qInfo() << "bannedIp" << bannedIp << " result" << result ;
+        currentIpV6 = currentIp.left(currentIp.lastIndexOf(':'));
+        currentIpV4 = currentIp.mid(currentIp.lastIndexOf(':')+1);
     }
+
+    // Cut current ip
+    bool result = ((!bannedIp.contains(currentIp)) && (!bannedIp.contains(currentIpV4)) && (!bannedIp.contains(currentIpV6)));
 
     if(nullptr != m_next)
     {

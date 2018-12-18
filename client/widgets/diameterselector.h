@@ -45,7 +45,7 @@ public :
    * @param minimum value
    * @param maximum value
    */
-    DiameterSelector(QWidget *parent = 0, bool plein = true, int minimum = 1, int maximum = 50);
+    DiameterSelector(QWidget *parent = nullptr, bool filled = true, int minimum = 1, int maximum = 50);
     void setDiameter(int diameter);
     int getCurrentValue()const ;
 

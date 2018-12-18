@@ -17,9 +17,11 @@ SUBDIRS = \
     fieldModelTest \
     sendToServer \
     dataChapter \
-    vmap
+    vmap \
+    widgets \
+    network \
 
-    #     network \
+
     #    MainWindow  picture   map
     #networkServer \
 
