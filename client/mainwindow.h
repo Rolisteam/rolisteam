@@ -156,7 +156,7 @@ public :
      * @param id
      * @return
      */
-    Map::PermissionMode getPermission(int id);
+    //Map::PermissionMode getPermission(int id);
     /**
      * @brief readSettings
      */

@@ -530,7 +530,7 @@ void MainWindow::sendGoodBye()
     NetworkMessageWriter message (NetMsg::AdministrationCategory, NetMsg::Goodbye);
     message.sendToServer();
 }
-Map::PermissionMode MainWindow::getPermission(int id)
+/*Map::PermissionMode MainWindow::getPermission(int id)
 {
     switch(id)
     {
@@ -544,7 +544,7 @@ Map::PermissionMode MainWindow::getPermission(int id)
         return Map::GM_ONLY;
     }
 
-}
+}*/
 
 void MainWindow::receiveData(quint64 readData,quint64 size)
 {
