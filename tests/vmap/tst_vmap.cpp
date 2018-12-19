@@ -209,7 +209,7 @@ void  VMapTest::saveAndLoad()
 
     QByteArray array2;
     QDataStream in2(&array2, QIODevice::WriteOnly);
-    in.setVersion(QDataStream::Qt_5_7);
+    in2.setVersion(QDataStream::Qt_5_7);
     map.saveFile(in2);
 
     if(array.size() != array2.size())
