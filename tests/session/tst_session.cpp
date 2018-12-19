@@ -22,6 +22,7 @@
 #include <sessionmanager.h>
 #include <sessionitemmodel.h>
 #include <character.h>
+#include "data/cleveruri.h"
 #include <QMouseEvent>
 
 class SessionTest : public QObject
@@ -32,24 +33,28 @@ public:
     SessionTest();
 
 private slots:
-    void initTestCase();
+    void init();
     void testModel();
     void testManager();
     void cleanupTestCase();
+    void saveAndLoadTest();
+    void saveAndLoadTest_data();
 
 private:
-    SessionManager* m_sessionManager;
+    std::unique_ptr<SessionManager> m_sessionManager;
     SessionItemModel* m_model;
 };
 
+Q_DECLARE_METATYPE(std::vector<CleverURI::ContentType>);
+
 SessionTest::SessionTest()
 {
-
+    qRegisterMetaType<ResourcesNode*>("ResourcesNode*");
 }
 
-void SessionTest::initTestCase()
+void SessionTest::init()
 {
-    m_sessionManager = new SessionManager(nullptr);
+    m_sessionManager.reset(new SessionManager(nullptr));
     m_model = m_sessionManager->getModel();
 }
 
@@ -76,16 +81,16 @@ void SessionTest::testModel()
 
     QSignalSpy layout(m_model, &SessionItemModel::layoutChanged);
     QPoint local(10,10);
-    QTest::mouseClick(m_sessionManager,Qt::LeftButton,Qt::KeyboardModifiers(),local);
+    QTest::mouseClick(m_sessionManager.get(),Qt::LeftButton,Qt::KeyboardModifiers(),local);
 
     for(int i = 0; i < 55; ++i)
     {
         QPoint moveMouse(10,10+i);
-        QTest::mouseMove(m_sessionManager,moveMouse);
+        QTest::mouseMove(m_sessionManager.get(),moveMouse);
     }
 
-    QTest::mouseMove(m_sessionManager,QPoint(10,65));
-    QTest::mouseRelease(m_sessionManager,Qt::LeftButton,Qt::KeyboardModifiers(),QPoint(10,65));
+    QTest::mouseMove(m_sessionManager.get(),QPoint(10,65));
+    QTest::mouseRelease(m_sessionManager.get(),Qt::LeftButton,Qt::KeyboardModifiers(),QPoint(10,65));
 
     qDebug() << m_model->rowCount(index) << chapter << character << uri2 << uri1 ;
 
@@ -99,20 +104,157 @@ void SessionTest::testModel()
 
 void SessionTest::testManager()
 {
-    QSignalSpy spy(m_sessionManager, &SessionManager::sessionChanged);
+    QSignalSpy spy(m_sessionManager.get(), &SessionManager::sessionChanged);
     CleverURI* resources = new CleverURI();
     m_sessionManager->addRessource(resources);
     QVERIFY2(spy.count() == 1,"no signal about change in session");
 
-    QSignalSpy spyOpen(m_sessionManager, &SessionManager::openResource);
+    QSignalSpy spyOpen(m_sessionManager.get(), &SessionManager::openResource);
     auto index = m_model->index(0,0);
     m_sessionManager->openResources(index);
     QVERIFY2(spyOpen.count() == 1,"no signal about change in session");
 }
 
+void SessionTest::saveAndLoadTest()
+{
+    QFETCH(std::vector<CleverURI::ContentType>, list);
+
+
+    auto imageUri = new CleverURI("Girafe",":/assets/img/girafe.jpg",CleverURI::PICTURE);
+    auto characterSheet = new CleverURI("bitume",":/assets/charactersheet/bitume_fixed.rcs",CleverURI::CHARACTERSHEET);
+    auto vmap = new CleverURI("vmap",":/assets/vmap/test.vmap",CleverURI::VMAP);
+    auto text = new CleverURI("text",":/assets/notes/test.odt",CleverURI::TEXT);
+    auto sharednote = new CleverURI("sharednote",":/assets/sharednotes/test.rsn",CleverURI::SHAREDNOTE);
+    auto playlist = new CleverURI("playlist",":/assets/list/list.m3u",CleverURI::SONGLIST);
+    auto webview = new CleverURI("webview","http://www.rolisteam.org",CleverURI::WEBVIEW);
+
+    std::vector<CleverURI*> data;
+    for(auto id : list)
+    {
+        CleverURI* uri=nullptr;
+        switch(id)
+        {
+        case CleverURI::PICTURE:
+            uri = imageUri;
+            break;
+        case CleverURI::CHARACTERSHEET:
+            uri = characterSheet;
+            break;
+        case CleverURI::TEXT:
+            uri = text;
+            break;
+        case CleverURI::VMAP:
+            uri = vmap;
+            break;
+        case CleverURI::SHAREDNOTE:
+            uri = sharednote;
+            break;
+        case CleverURI::SONGLIST:
+            uri = playlist;
+            break;
+        case CleverURI::WEBVIEW:
+            uri = webview;
+            break;
+        }
+        data.push_back(uri);
+    }
+
+    QSignalSpy spy(m_sessionManager.get(),&SessionManager::sessionChanged);
+    for(auto uri : data)
+    {
+        m_sessionManager->addRessource(uri);
+    }
+    QCOMPARE(spy.count(), list.size());
+
+    QByteArray array;
+    QDataStream in(&array, QIODevice::WriteOnly);
+    in.setVersion(QDataStream::Qt_5_7);
+
+    m_sessionManager->saveSession(in);
+
+
+    std::unique_ptr<SessionManager> sessionManager(new SessionManager(nullptr));
+    QDataStream out(&array, QIODevice::ReadOnly);
+    out.setVersion(QDataStream::Qt_5_7);
+    sessionManager->loadSession(out);
+
+    QCOMPARE(sessionManager->getModel()->rowCount(QModelIndex()), m_sessionManager->getModel()->rowCount(QModelIndex()));
+    QByteArray array2;
+    QDataStream in2(&array2, QIODevice::WriteOnly);
+    in2.setVersion(QDataStream::Qt_5_7);
+    sessionManager->saveSession(in2);
+
+    QCOMPARE(array.size(), array2.size());
+}
+
+template <typename Iterator>
+bool next_combination(const Iterator first, Iterator k, const Iterator last)
+{
+   /* Credits: Mark Nelson http://marknelson.us */
+   if ((first == last) || (first == k) || (last == k))
+      return false;
+   Iterator i1 = first;
+   Iterator i2 = last;
+   ++i1;
+   if (last == i1)
+      return false;
+   i1 = last;
+   --i1;
+   i1 = k;
+   --i2;
+   while (first != i1)
+   {
+      if (*--i1 < *i2)
+      {
+         Iterator j = k;
+         while (!(*i1 < *j)) ++j;
+         std::iter_swap(i1,j);
+         ++i1;
+         ++j;
+         i2 = k;
+         std::rotate(i1,j,last);
+         while (last != j)
+         {
+            ++j;
+            ++i2;
+         }
+         std::rotate(k,i2,last);
+         return true;
+      }
+   }
+   std::rotate(first,k,last);
+   return false;
+}
+
+void SessionTest::saveAndLoadTest_data()
+{
+    QTest::addColumn<std::vector<CleverURI::ContentType>>("list");
+
+    std::vector<CleverURI::ContentType> data({CleverURI::VMAP,CleverURI::SHAREDNOTE,CleverURI::CHARACTERSHEET,CleverURI::TEXT,CleverURI::PICTURE,CleverURI::SONGLIST,CleverURI::WEBVIEW});//
+
+   // auto list = new std::vector<CleverURI*>();
+    std::vector<CleverURI::ContentType> list;
+
+    int index = 0;
+    for(int i = 0; i < data.size();++i)
+    {
+        std::size_t comb_size = i+1;
+        do
+        {
+            list.clear();
+            for(auto it = data.begin(); it < data.begin()+comb_size ; ++it)
+            {
+                list.push_back(*it);
+            }
+            auto title = QStringLiteral("save%1").arg(++index);
+            QTest::addRow(title.toStdString().c_str()) << list;
+        }
+        while (next_combination(data.begin(), data.begin() + comb_size, data.end()));
+    }
+}
+
 void SessionTest::cleanupTestCase()
 {
-    delete m_sessionManager;
 }
 QTEST_MAIN(SessionTest);
 
