@@ -44,7 +44,9 @@ private slots:
     void init();
     void cleanup();
     void writeTest();
-    void writeAndReadTest();
+   /* void writeAndReadTest();
+    void writeAndReadTest_data();*/
+    void messageRecipiantTest();
     void ipBanAccepterTest();
     void ipBanAccepterTest_data();
     void passwordAccepterTest();
@@ -87,19 +89,36 @@ void TestNetwork::init()
 }
 void TestNetwork::writeTest()
 {
-    for(int i = 0;i<255;++i)
+    for(quint8 i = 0;i<255;++i)
     {
         m_writer->uint8(i);
         QCOMPARE(m_writer->getDataSize(), (1+i)*sizeof(quint8)+1);//+sizeof(NetworkMessageHeader)
     }
 }
+/*
 void TestNetwork::writeAndReadTest()
 {
 
 }
 
+void TestNetwork::writeAndReadTest_data()
+{
+    QTest::addColumn<QString>("currentIp");
+    QTest::addColumn<QStringList>("ipBan");
+}*/
+
 void TestNetwork::cleanup()
 {
+}
+
+void TestNetwork::messageRecipiantTest()
+{
+    QStringList list = {"client1","client2"};
+    QCOMPARE(m_writer->getRecipientMode(), NetworkMessage::All);
+
+    m_writer->setRecipientList(list,NetworkMessage::OneOrMany);
+
+    QCOMPARE(m_writer->getRecipientMode(), NetworkMessage::OneOrMany);
 }
 
 
@@ -124,9 +143,9 @@ void TestNetwork::ipBanAccepterTest_data()
     QTest::addColumn<QStringList>("ipBan");
     QTest::addColumn<bool>("expected");
 
-   // QTest::addRow("localhost") << "127.0.0.1" << QStringList() << true;
-   /* QTest::addRow("ipv4 ban") << "192.168.0.25" << QStringList({"192.168.0.25"}) << false;
-    QTest::addRow("ipv4") << "192.168.0.24" << QStringList() << true;*/
+    QTest::addRow("localhost") << "127.0.0.1" << QStringList() << true;
+    QTest::addRow("ipv4 ban") << "192.168.0.25" << QStringList({"192.168.0.25"}) << false;
+    QTest::addRow("ipv4") << "192.168.0.24" << QStringList() << true;
     QTest::addRow("ipv6") << "2001:0db8:85a3:0000:0000:8a2e:0370:7334" << QStringList() << true;
     QTest::addRow("ipv6 ban") << "2001:0db8:85a3:0000:0000:8a2e:0370:7334" << QStringList({"2001:0db8:85a3:0000:0000:8a2e:0370:7334"}) << false;
     QTest::addRow("any") << "2001:0db8:85a3:0000:0000:8a2e:0370:7334:192.168.0.27" << QStringList() << true;
