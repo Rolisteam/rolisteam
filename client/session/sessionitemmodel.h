@@ -22,6 +22,7 @@
 
 #include <QAbstractItemModel>
 #include <QMimeData>
+#include <memory>
 
 #include "data/cleveruri.h"
 #include "data/chapter.h"
@@ -126,7 +127,7 @@ protected:
     bool moveMediaItem(QList<ResourcesNode*> items, const QModelIndex &parentToBe, int row, QList<QModelIndex> &formerPosition);
 
 private:
-    Chapter* m_rootItem;/// root item address
+    std::unique_ptr<Chapter> m_rootItem;/// root item address
     QStringList m_header;
 };
 

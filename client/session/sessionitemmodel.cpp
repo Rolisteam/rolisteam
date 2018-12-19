@@ -33,21 +33,18 @@
 /////////////////////////////////////
 
 SessionItemModel::SessionItemModel()
+    : m_rootItem(new Chapter())
 {
     m_header << tr("Name")<< tr("Loading Mode")<< tr("Displayed")<< tr("Path");
-    m_rootItem = new Chapter();
+
     m_rootItem->setParentNode(nullptr);
 
-    connect(m_rootItem,&Chapter::openResource,this,&SessionItemModel::openResource);
+    connect(m_rootItem.get(),&Chapter::openResource,this,&SessionItemModel::openResource);
 }
 
 SessionItemModel::~SessionItemModel()
 {
-    if(m_rootItem != nullptr)
-    {
-        delete m_rootItem;
-        m_rootItem = nullptr;
-    }
+
 }
 QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & parent ) const
 {
@@ -57,7 +54,7 @@ QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & pa
     ResourcesNode* parentItem = nullptr;
 
     if (!parent.isValid())
-        parentItem = m_rootItem;
+        parentItem = m_rootItem.get();
     else
         parentItem = static_cast<ResourcesNode*>(parent.internalPointer());
     
@@ -227,7 +224,7 @@ bool SessionItemModel::moveMediaItem(QList<ResourcesNode*> items,const QModelInd
 
     if(nullptr==parentItem)
     {
-        parentItem = m_rootItem;
+        parentItem = m_rootItem.get();
     }
     int orignRow = row;
 
@@ -276,7 +273,7 @@ bool SessionItemModel::moveMediaItem(QList<ResourcesNode*> items,const QModelInd
         {
 
             parent->removeChild(item);
-            if( (orignRow == -1 && parentItem == m_rootItem ) )
+            if( (orignRow == -1 && parentItem == m_rootItem.get() ) )
             {
                 orignRow = parentItem->getChildrenCount();
                 row = orignRow;
@@ -291,7 +288,7 @@ bool SessionItemModel::moveMediaItem(QList<ResourcesNode*> items,const QModelInd
             //---
             // WARNING test move item and remove this code
             int oldRow = formerPositionIndex.row();
-            if(oldRow > orignRow && parentItem == m_rootItem && parent == m_rootItem)
+            if(oldRow > orignRow && parentItem == m_rootItem.get() && parent == m_rootItem.get())
             {
                 oldRow += items.size()-1-i;
             }
@@ -310,7 +307,7 @@ QModelIndex SessionItemModel::parent( const QModelIndex & index ) const
     ResourcesNode *childItem = static_cast<ResourcesNode*>(index.internalPointer());
     ResourcesNode *parentItem = childItem->getParentNode();
     
-    if (parentItem == m_rootItem)
+    if (parentItem == m_rootItem.get())
         return QModelIndex();
     
     return createIndex(parentItem->rowInParent(), 0, parentItem);
@@ -376,7 +373,7 @@ void SessionItemModel::addResource(ResourcesNode* node,QModelIndex& parent)
     Chapter* parentItem=nullptr;
     if(!parent.isValid())
     {
-        parentItem=m_rootItem;
+        parentItem=m_rootItem.get();
     }
     else
     {
@@ -403,7 +400,7 @@ void SessionItemModel::remove(QModelIndex& index)
     ResourcesNode* parentItem=nullptr;
     
     if(!parent.isValid())
-        parentItem=m_rootItem;
+        parentItem=m_rootItem.get();
     else
         parentItem= static_cast<ResourcesNode*>(parent.internalPointer());
 
