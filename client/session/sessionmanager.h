@@ -41,7 +41,7 @@ public:
     /**
     * @brief default constructor
     */
-    SessionManager(QWidget* parent);
+    explicit SessionManager(QWidget* parent);
     /**
      * @brief ~SessionManager
      */
@@ -57,10 +57,6 @@ public:
     * @param type : type of content: picture, maps etc...
     */
     void addRessource(ResourcesNode* uri);
-    /**
-    * @brief accessor to the recent files list
-    */
-    const QList<CleverURI*>& getRecentFiles();
     /**
      * @brief updateCleverUri
      */

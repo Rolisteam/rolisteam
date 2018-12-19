@@ -88,6 +88,9 @@ Chapter* SessionManager::getCurrentChapter()
 }
 void SessionManager::addRessource(ResourcesNode* tp)
 {
+    if(nullptr == tp || nullptr == m_view)
+        return;
+
     QModelIndex index = m_view->currentIndex();
     if(tp->getResourcesType() == ResourcesNode::Cleveruri)
     {
