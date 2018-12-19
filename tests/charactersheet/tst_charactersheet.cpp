@@ -43,6 +43,7 @@ private slots:
     void changeLabel();
     void insertField();
     void commandsTest();
+    void commandsTest_data();
     void wrongCommandsTest();
 
 private:
@@ -138,71 +139,42 @@ void TestCharacterSheet::changeLabel()
 }
 void TestCharacterSheet::commandsTest()
 {
-    QStringList commands;
+    QFETCH(QString, cmd);
+    QFETCH(qreal, result);
 
-    commands << "=4*4"
-            << "=10+8"
-            << "=10-7"
-            << "=50/5"
-            << "=25-52"
-            << "=${speed}+10"
-            << "=${size}*10"
-            << "=${level}-100"
-            << "=2+4/4"
-            << "=${manipulation}/100"
-            << "=${size}*${speed}"
-            << "=${agility}-100"
-            << "=${agility}*100"
-            << "=min(${intelligence},${strenght})"
-            << "=max(${intelligence},${strenght})"
-            << "=abs(${size})"
-            << "=18*1.69-10/-1"
-            << "=avg(${age},20})"
-            << "=(10+2)*3"
-            << "=(10-4)*3"
-            << "=((10-4)+6)*2"
-            << "=(10+2)*(10-8)";
+    auto a = m_formulaMan->getValue(cmd).toDouble();
+    QVERIFY(qFuzzyCompare(a,result));
+}
 
+void TestCharacterSheet::commandsTest_data()
+{
+    QTest::addColumn<QString>("cmd");
+    QTest::addColumn<qreal>("result");
+    QTest::addColumn<bool>("expected");
 
+    QTest::addRow("cmd1") << "=4*4" << 16 << true;
+    QTest::addRow("cmd2") << "=10+8" << 18 << true;
+    QTest::addRow("cmd3") << "=10-7" << 3 << true;
+    QTest::addRow("cmd4") << "=50/5" << 10 << true;
+    QTest::addRow("cmd5") << "=25-52" << -27 << true;
+    QTest::addRow("cmd6") << "=${speed}+10" << 69 << true;
+    QTest::addRow("cmd7") << "=${size}*10" << 16.9 << true;
+    QTest::addRow("cmd8") << "=${level}-100" << -101 << true;
+    QTest::addRow("cmd9") << "=2+4/4" << 3 << true;
+    QTest::addRow("cmd10") << "=${manipulation}/100" << 0.1 << true;
+    QTest::addRow("cmd11") << "=${size}*${speed}" << 99.71 << true;
+    QTest::addRow("cmd12") << "=${agility}-100" << -102.5 << true;
+    QTest::addRow("cmd13") << "=${agility}*100" << -250 << true;
+    QTest::addRow("cmd14") << "=min(${intelligence},${strenght})" << 4 << true;
+    QTest::addRow("cmd15") << "=max(${intelligence},${strenght})" << 5 << true;
+    QTest::addRow("cmd16") << "=abs(${size})" << 1.69 << true;
+    QTest::addRow("cmd17") << "=18*1.69-10/-1" << 40.42 << true;
+    QTest::addRow("cmd18") << "=avg(${age},20})" << 19 << true;
+    QTest::addRow("cmd19") << "=(10+2)*3" << 36 << true;
+    QTest::addRow("cmd20") << "=(10-4)*3" << 18 << true;
+    QTest::addRow("cmd21") << "=((10-4)+6)*2" << 24 << true;
+    QTest::addRow("cmd22") << "=(10+2)*(10-8)" << 24 << true;
 
-
-    QStringList results;
-    results << "16"
-           << "18"
-           << "3"
-           << "10"
-           << "-27"
-           << "69"
-           << "16.9"
-           << "-101"
-           << "3"
-           << "0.1"
-           << "99.71"
-           << "-102.5"
-           << "-250"
-           << "4"
-           << "5"
-           << "1.69"
-           << "40.42"
-           << "19"
-           << "36"
-           << "18"
-           << "24"
-           << "24";
-
-
-    for(int i = 0; i< commands.size(); ++i)
-    {
-        QString cmd = commands.at(i);
-        QString result = results.at(i);
-
-        QVariant a = m_formulaMan->getValue(cmd);
-        if(qFuzzyCompare(a.toDouble(),result.toDouble())==0)
-        {
-            qDebug() << a.toDouble() << result.toDouble() << cmd;
-        }
-        QVERIFY2(qFuzzyCompare(a.toDouble(),result.toDouble())==1,cmd.toStdString().c_str());
-    }
 }
 void TestCharacterSheet::wrongCommandsTest()
 {
@@ -212,7 +184,7 @@ void TestCharacterSheet::wrongCommandsTest()
     {
         QVariant a = m_formulaMan->getValue(cmd);
 
-        //QVERIFY2(a==,cmd.toStdString().c_str());
+        QCOMPARE(a.toString(),cmd.toStdString().c_str());
     }
 }
 void TestCharacterSheet::cleanupTestCase()
