@@ -117,6 +117,7 @@ before_script:
 
 script:
   - make -C "$TRAVIS_BUILD_DIR-build" -j2
+  - qmake -r -Wall -Wlogic -Wparser CONFIG+=debug CONFIG+=TESTS "$TRAVIS_BUILD_DIR"
   - make check -C "$TRAVIS_BUILD_DIR-build"
   #- '[ "$TRAVIS_OS_NAME" != osx ] || make -C "$TRAVIS_BUILD_DIR-build/pkg/osx" dmg'
 
