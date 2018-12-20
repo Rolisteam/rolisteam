@@ -122,7 +122,7 @@ script:
   - lrelease "$TRAVIS_BUILD_DIR/client/client.pro"
   - lrelease "$TRAVIS_BUILD_DIR/server/server.pro"
   - qmake -r -Wall -Wlogic -Wparser CONFIG+=debug CONFIG+=TESTS "$TRAVIS_BUILD_DIR"
-  - make check -C "$TRAVIS_BUILD_DIR-build2"
+  - xvfb-run make check -C "$TRAVIS_BUILD_DIR-build2"
   - popd
   #- '[ "$TRAVIS_OS_NAME" != osx ] || make -C "$TRAVIS_BUILD_DIR-build/pkg/osx" dmg'
 
