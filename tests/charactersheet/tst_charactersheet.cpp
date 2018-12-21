@@ -152,28 +152,28 @@ void TestCharacterSheet::commandsTest_data()
     QTest::addColumn<qreal>("result");
     QTest::addColumn<bool>("expected");
 
-    QTest::addRow("cmd1") << "=4*4" << 16 << true;
-    QTest::addRow("cmd2") << "=10+8" << 18 << true;
-    QTest::addRow("cmd3") << "=10-7" << 3 << true;
-    QTest::addRow("cmd4") << "=50/5" << 10 << true;
-    QTest::addRow("cmd5") << "=25-52" << -27 << true;
-    QTest::addRow("cmd6") << "=${speed}+10" << 69 << true;
+    QTest::addRow("cmd1") << "=4*4" << 16. << true;
+    QTest::addRow("cmd2") << "=10+8" << 18. << true;
+    QTest::addRow("cmd3") << "=10-7" << 3. << true;
+    QTest::addRow("cmd4") << "=50/5" << 10. << true;
+    QTest::addRow("cmd5") << "=25-52" << -27. << true;
+    QTest::addRow("cmd6") << "=${speed}+10" << 69. << true;
     QTest::addRow("cmd7") << "=${size}*10" << 16.9 << true;
-    QTest::addRow("cmd8") << "=${level}-100" << -101 << true;
-    QTest::addRow("cmd9") << "=2+4/4" << 3 << true;
+    QTest::addRow("cmd8") << "=${level}-100" << -101. << true;
+    QTest::addRow("cmd9") << "=2+4/4" << 3. << true;
     QTest::addRow("cmd10") << "=${manipulation}/100" << 0.1 << true;
     QTest::addRow("cmd11") << "=${size}*${speed}" << 99.71 << true;
     QTest::addRow("cmd12") << "=${agility}-100" << -102.5 << true;
-    QTest::addRow("cmd13") << "=${agility}*100" << -250 << true;
-    QTest::addRow("cmd14") << "=min(${intelligence},${strenght})" << 4 << true;
-    QTest::addRow("cmd15") << "=max(${intelligence},${strenght})" << 5 << true;
+    QTest::addRow("cmd13") << "=${agility}*100" << -250. << true;
+    QTest::addRow("cmd14") << "=min(${intelligence},${strenght})" << 4. << true;
+    QTest::addRow("cmd15") << "=max(${intelligence},${strenght})" << 5. << true;
     QTest::addRow("cmd16") << "=abs(${size})" << 1.69 << true;
     QTest::addRow("cmd17") << "=18*1.69-10/-1" << 40.42 << true;
-    QTest::addRow("cmd18") << "=avg(${age},20})" << 19 << true;
-    QTest::addRow("cmd19") << "=(10+2)*3" << 36 << true;
-    QTest::addRow("cmd20") << "=(10-4)*3" << 18 << true;
-    QTest::addRow("cmd21") << "=((10-4)+6)*2" << 24 << true;
-    QTest::addRow("cmd22") << "=(10+2)*(10-8)" << 24 << true;
+    QTest::addRow("cmd18") << "=avg(${age},20})" << 19. << true;
+    QTest::addRow("cmd19") << "=(10+2)*3" << 36. << true;
+    QTest::addRow("cmd20") << "=(10-4)*3" << 18. << true;
+    QTest::addRow("cmd21") << "=((10-4)+6)*2" << 24. << true;
+    QTest::addRow("cmd22") << "=(10+2)*(10-8)" << 24. << true;
 
 }
 void TestCharacterSheet::wrongCommandsTest()
