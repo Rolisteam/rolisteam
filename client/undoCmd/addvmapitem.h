@@ -71,8 +71,8 @@ private:
     VisualItem* m_currentPath = nullptr;
     bool m_error = false;
     VToolsBar::SelectableTool m_tool;
-    bool m_first;
-    bool m_undoable;
+    bool m_first = true;
+    bool m_undoable = true;
     bool m_initPoint = true;
     VisualItem* m_currentItem = nullptr;
 };

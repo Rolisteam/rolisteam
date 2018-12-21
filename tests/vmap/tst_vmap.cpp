@@ -394,8 +394,9 @@ void VMapTest::addHighLighter()
 {
     HighlighterItem item;
     AddVmapItemCommand cmd(&item,m_vmap.get());
+    cmd.setUndoable(false);
     cmd.redo();
-    QVERIFY(cmd.isUndoable());
+    QVERIFY(!cmd.isUndoable());
     QCOMPARE(m_vmap->getItemCount(), 0);
     QCOMPARE(m_vmap->getSortedItemCount(), 0);
     QCOMPARE(m_vmap->getOrderedItemCount(), 0);
@@ -404,8 +405,9 @@ void VMapTest::addRule()
 {
     RuleItem item;
     AddVmapItemCommand cmd(&item,m_vmap.get());
+    cmd.setUndoable(false);
     cmd.redo();
-    QVERIFY(cmd.isUndoable());
+    QVERIFY(!cmd.isUndoable());
     QCOMPARE(m_vmap->getItemCount(), 0);
     QCOMPARE(m_vmap->getSortedItemCount(), 0);
     QCOMPARE(m_vmap->getOrderedItemCount(), 0);
