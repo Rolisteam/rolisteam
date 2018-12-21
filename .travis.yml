@@ -122,8 +122,8 @@ script:
   - lrelease "$TRAVIS_BUILD_DIR/client/client.pro"
   - lrelease "$TRAVIS_BUILD_DIR/server/server.pro"
   - qmake -r -Wall -Wlogic -Wparser CONFIG+=debug CONFIG+=TESTS "$TRAVIS_BUILD_DIR"
-  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then ( sudo Xvfb :99 -ac -screen 0 1024x768x8; make check -C "$TRAVIS_BUILD_DIR-build2" )& fi
-  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then (xvfb-run make check -C "$TRAVIS_BUILD_DIR-build2")& fi
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then ( sudo Xvfb :99 -ac -screen 0 1024x768x8; make check -C "$TRAVIS_BUILD_DIR-build2" ) fi
+  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then (xvfb-run make check -C "$TRAVIS_BUILD_DIR-build2") fi
   - popd
   #- '[ "$TRAVIS_OS_NAME" != osx ] || make -C "$TRAVIS_BUILD_DIR-build/pkg/osx" dmg'
 
