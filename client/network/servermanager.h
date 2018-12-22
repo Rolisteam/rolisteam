@@ -75,7 +75,6 @@ private:
     int m_port;
     RServer* m_server = nullptr;
     ChannelModel* m_model = nullptr;
-    int m_defaultChannelIndex = 0;
     ConnectionAccepter* m_corEndProcess = nullptr;
     ConnectionAccepter* m_corConnection = nullptr;
     ConnectionAccepter* m_adminAccepter = nullptr;

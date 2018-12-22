@@ -26,7 +26,7 @@ ServerManager::ServerManager(QObject *parent)
     connect(this,&ServerManager::messageMustBeDispatched,m_msgDispatcher,&MessageDispatcher::dispatchMessage,Qt::QueuedConnection);
 
     connect(m_msgDispatcher, SIGNAL(messageForAdmin(NetworkMessageReader*,Channel*,TcpClient*)),this,SLOT(processMessageAdmin(NetworkMessageReader*,Channel*,TcpClient*)));
-    m_defaultChannelIndex = m_model->addChannel("default","");
+    m_model->addChannel("default","");
 
     PasswordAccepter* tmp2 = new PasswordAccepter();
 
