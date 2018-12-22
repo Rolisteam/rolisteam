@@ -40,7 +40,12 @@ private slots:
     void diceRollD20Test();
     void commandEndlessLoop();
     void mathPriority();
+
     void commandsTest();
+    void commandsTest_data();
+
+    void dangerousCommandsTest();
+    void dangerousCommandsTest_data();
 
     void wrongCommandsTest();
     void wrongCommandsTest_data();
@@ -52,8 +57,8 @@ private slots:
     void cleanupTestCase();
 
 private:
-    Die* m_die;
-    DiceParser* m_diceParser;
+    std::unique_ptr<Die> m_die;
+    std::unique_ptr<DiceParser> m_diceParser;
 };
 
 TestDice::TestDice()
@@ -62,8 +67,8 @@ TestDice::TestDice()
 
 void TestDice::initTestCase()
 {
-    m_die = new Die();
-    m_diceParser = new DiceParser();
+    m_die.reset(new Die());
+    m_diceParser.reset(new DiceParser());
 }
 
 void TestDice::getAndSetTest()
@@ -106,90 +111,88 @@ void TestDice::diceRollD20Test()
 void TestDice::commandEndlessLoop()
 {
     bool a = m_diceParser->parseLine("1D10e[>0]");
-    qDebug() << m_diceParser->humanReadableError();
-    QVERIFY(a==false);
+    QVERIFY(!a);
 }
 
 void TestDice::commandsTest()
 {
-    QStringList commands;
+    QFETCH(QString, cmd);
 
-   commands << "1L[cheminée,chocolat,épée,arc,chute de pierre]"
-            << "10d10c[>=6]-@c[=1]"
-            << "10d10c[>=6]-@c[=1]-@c[=1]"
-            << "10d10c[>6]+@c[=10]"
-            << "1+1D10"
-            << "3d10c[>=5]"
-            << "1+(4*3)D10"
-            << "2+4/4"
-            << "2D10*2D20*8"
-            <<"1+(4*3)D10"
-            <<"(4D6)D10"
-            << "1D100a[>=95]a[>=96]a[>=97]a[>=98]a[>=99]e[>=100]"
-            << "3D100"
-            << "4k3"
-            << "10D10e[>=6]sc[>=6]"
-            << "10D10e10s"
-            << "10D10s"
-            << "15D10e10c[8-10]"
-            << "10d10e10"
-            << "(4+4)^4"
-            << "(1d20+20)*7/10"
-            << "20*7/10"
-            << "1D8+2D6+7"
-            << "D25"
-            << "1L[tete[10],ventre[50],jambe[40]]"
-            << "2d6c[%2=0]"
-            << "D25+D10"
-            << "D25;D10"
-            << "8+8+8"
-            << "1D20-88"
-            << "100*1D20*2D6"
-            << "2D6 # two 6sided dice"
-            << "100/28*3"
-            << "100/8"
-            << "100*3*8"
-            << "help"
-            << "la"
-            << "10D10c[<2|>7]"
-            << "10D6c[=2|=4|=6]"
-            << "10D10e[=1|=10]k4"
-            << "1L[tete,bras droit,bras gauche,jambe droite,jambe gauche,ventre[6-7],buste[8-10]]"
-            << "10+10s"
-            << "1d6e6;1d4e4mk1"
-            << "1d6e6;1d4e4mk1"
-            << "400000D20/400000"
-            << "1d100e[>=95]i[<5]{-1d100e95}"
-            << "100*3*8"
-            << "1d100i[<70]{1d10i[=10]{1d100i[<70]{1d10e10}}}"
-            << "10d6c[<2|>5]"
-            << "5-5*5+5"
-            << "((3+4)*2)d6"
-            << "4d6i[=6]{+1d6}"
-            << "10d[-8--1]"
-            << "4d6e6i[=4]{-4}+2"
-            << "4d6e6f[!=4]+2"
-            << "5d10g10"
-            << "4d6p[4:blue]c[>=4];1d6p[1:#FFFFFF]c6-@c1;1d6p[1:#FF0000]c[>=4]+@c6-@c1"
-            << "10d[0-9]";
-            //
-            //<< "100190D6666666s"
-    for(QString cmd : commands)
-    {
-        bool a = m_diceParser->parseLine(cmd);
-        QVERIFY2(a==true,cmd.toStdString().c_str());
+    bool a = m_diceParser->parseLine(cmd);
+    QVERIFY2(a,"parsing");
 
-        qDebug() << "before running:" << cmd;
-        m_diceParser->start();
-        if(!m_diceParser->humanReadableError().isEmpty())
-            qDebug() << m_diceParser->humanReadableError();
-        QVERIFY2(m_diceParser->humanReadableError().isEmpty(),cmd.toStdString().c_str());
+    m_diceParser->start();
+    QVERIFY2(m_diceParser->humanReadableError().isEmpty(),"no error");
 
-        if(!m_diceParser->humanReadableWarning().isEmpty())
-            qDebug() << m_diceParser->humanReadableWarning();
-        QVERIFY2(m_diceParser->humanReadableWarning().isEmpty(),cmd.toStdString().c_str());
-    }
+    QVERIFY2(m_diceParser->humanReadableWarning().isEmpty(),"no warning");
 }
+
+void TestDice::commandsTest_data()
+{
+     QTest::addColumn<QString>("cmd");
+
+
+    QTest::addRow("cmd1") << "1L[cheminée,chocolat,épée,arc,chute de pierre]";
+    QTest::addRow("cmd2") << "10d10c[>=6]-@c[=1]";
+    QTest::addRow("cmd3") << "10d10c[>=6]-@c[=1]-@c[=1]";
+    QTest::addRow("cmd4") << "10d10c[>6]+@c[=10]";
+    QTest::addRow("cmd5") << "1+1D10";
+    QTest::addRow("cmd6") << "3d10c[>=5]";
+    QTest::addRow("cmd7") << "1+(4*3)D10";
+    QTest::addRow("cmd8") << "2+4/4";
+    QTest::addRow("cmd9") << "2D10*2D20*8";
+    QTest::addRow("cmd10") <<"1+(4*3)D10";
+    QTest::addRow("cmd11") <<"(4D6)D10";
+    QTest::addRow("cmd12") << "1D100a[>=95]a[>=96]a[>=97]a[>=98]a[>=99]e[>=100]";
+    QTest::addRow("cmd13") << "3D100";
+    QTest::addRow("cmd14") << "4k3";
+    QTest::addRow("cmd15") << "10D10e[>=6]sc[>=6]";
+    QTest::addRow("cmd16") << "10D10e10s";
+    QTest::addRow("cmd17") << "10D10s";
+    QTest::addRow("cmd18") << "15D10e10c[8-10]";
+    QTest::addRow("cmd19") << "10d10e10";
+    QTest::addRow("cmd30") << "(4+4)^4";
+    QTest::addRow("cmd31") << "(1d20+20)*7/10";
+    QTest::addRow("cmd32") << "20*7/10";
+    QTest::addRow("cmd33") << "1D8+2D6+7";
+    QTest::addRow("cmd34") << "D25";
+    QTest::addRow("cmd35") << "1L[tete[10],ventre[50],jambe[40]]";
+    QTest::addRow("cmd36") << "2d6c[%2=0]";
+    QTest::addRow("cmd37") << "D25+D10";
+    QTest::addRow("cmd38") << "D25;D10";
+    QTest::addRow("cmd39") << "8+8+8";
+    QTest::addRow("cmd40") << "1D20-88";
+    QTest::addRow("cmd41") << "100*1D20*2D6";
+    QTest::addRow("cmd42") << "2D6 # two 6sided dice";
+    QTest::addRow("cmd43") << "100/28*3";
+    QTest::addRow("cmd44") << "100/8";
+    QTest::addRow("cmd45") << "100*3*8";
+    QTest::addRow("cmd46") << "help";
+    QTest::addRow("cmd47") << "la";
+    QTest::addRow("cmd48") << "10D10c[<2|>7]";
+    QTest::addRow("cmd49") << "10D6c[=2|=4|=6]";
+    QTest::addRow("cmd50") << "10D10e[=1|=10]k4";
+    QTest::addRow("cmd51") << "1L[tete,bras droit,bras gauche,jambe droite,jambe gauche,ventre[6-7],buste[8-10]]";
+    QTest::addRow("cmd52") << "10+10s";
+    QTest::addRow("cmd53") << "1d6e6;1d4e4mk1";
+    QTest::addRow("cmd54") << "1d6e6;1d4e4mk1";
+    QTest::addRow("cmd55") << "400D20/400000";
+    QTest::addRow("cmd56") << "1d100e[>=95]i[<5]{-1d100e95}";
+    QTest::addRow("cmd57") << "100*3*8";
+    QTest::addRow("cmd58") << "1d100i[<70]{1d10i[=10]{1d100i[<70]{1d10e10}}}";
+    QTest::addRow("cmd59") << "10d6c[<2|>5]";
+    QTest::addRow("cmd60") << "5-5*5+5";
+    QTest::addRow("cmd61") << "((3+4)*2)d6";
+    QTest::addRow("cmd62") << "4d6i[=6]{+1d6}";
+    QTest::addRow("cmd63") << "10d[-8--1]";
+    QTest::addRow("cmd64") << "4d6e6i[=4]{-4}+2";
+    QTest::addRow("cmd65") << "4d6e6f[!=4]+2";
+    QTest::addRow("cmd66") << "5d10g10";
+    QTest::addRow("cmd67") << "4d6p[4:blue]c[>=4];1d6p[1:#FFFFFF]c6-@c1;1d6p[1:#FF0000]c[>=4]+@c6-@c1";
+    QTest::addRow("cmd68") << "10d[0-9]";
+}
+
+
 void TestDice::wrongCommandsTest()
 {
 //            << "pajaejlbnmàw";
@@ -299,7 +302,6 @@ void TestDice::testAlias()
     for(auto cmd : cmds)
     {
         auto result = m_diceParser->convertAlias(cmd);
-        qDebug() << result << expected[i];
         QVERIFY2(result == expected[i],result.toLatin1());
         ++i;
     }
@@ -356,9 +358,32 @@ void TestDice::mathPriority()
     }
 }
 
+void TestDice::dangerousCommandsTest()
+{
+    QFETCH(QString, cmd);
+
+    for(int i = 0; i < 1000 ; ++i)
+    {
+        auto b = m_diceParser->parseLine(cmd);
+        QVERIFY(b);
+        m_diceParser->start();
+    }
+}
+void TestDice::dangerousCommandsTest_data()
+{
+    QTest::addColumn<QString>("cmd");
+
+
+    QTest::addRow("cmd1") << "10d6g10";
+    QTest::addRow("cmd2") << "10d2g10";
+    QTest::addRow("cmd3") << "10d10g10";
+    //QTest::addRow("cmd4") << "10d10g10";
+    //QTest::addRow("cmd5") << "10d10g10";
+
+}
+
 void TestDice::cleanupTestCase()
 {
-    delete m_die;
 }
 
 QTEST_MAIN(TestDice);
