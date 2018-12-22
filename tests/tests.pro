@@ -21,6 +21,14 @@ SUBDIRS = \
     widgets \
     network \
     map \
+    musicmodel \
+    channelmodel\
+#    characterstatemodel \
+#    dicebookmarkmodel   \
+#    unitmodel           \
+#    shortcutmodel       \
+#    genericmodel        \
+#    charactermodel      \
 
 
     #    MainWindow  picture
