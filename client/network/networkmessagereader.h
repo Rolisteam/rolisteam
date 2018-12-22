@@ -42,7 +42,7 @@ public:
 
     void reset();
 
-    void setData(QByteArray& bytes);
+    void setData(const QByteArray &bytes);
 
     size_t left() const;
 

@@ -254,3 +254,9 @@ void NetworkMessageWriter::sendToServer()
 {
     NetworkMessage::sendToServer();
 }
+
+QByteArray NetworkMessageWriter::getData()
+{
+    QByteArray array(m_buffer,m_sizeBuffer);
+    return array;
+}

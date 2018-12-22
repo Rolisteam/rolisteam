@@ -67,7 +67,7 @@ bool NetworkMessageReader::isValid()
 {
     return !m_outMemory;
 }
-void NetworkMessageReader::setData(QByteArray& bytes)
+void NetworkMessageReader::setData(const QByteArray& bytes)
 {
     int size = bytes.size();
     const char* data = bytes.data();

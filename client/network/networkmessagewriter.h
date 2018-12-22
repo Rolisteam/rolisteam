@@ -69,6 +69,12 @@ public:
     void setRecipientList(QStringList,NetworkMessage::RecipientMode mode);
     virtual QStringList getRecipientList() const;
     NetworkMessage::RecipientMode getRecipientMode() const;
+
+    /**
+     * @brief getData - for testing only
+     * @return  data as QByteArray
+     */
+    QByteArray getData();
 protected:
     NetworkMessageHeader * buffer();
 

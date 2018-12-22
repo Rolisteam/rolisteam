@@ -66,7 +66,7 @@ void TcpClient::setSocket(QTcpSocket* socket)
             }
         });
         connect(m_controlConnection,&QState::activeChanged,this,[=](bool b){
-            qDebug() << "controle state";
+            qDebug() << "control state";
             if(b)
             {
                 m_currentState = m_controlConnection;
