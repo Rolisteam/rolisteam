@@ -21,6 +21,9 @@
 
 #include <image.h>
 #include <cleveruri.h>
+#include <memory>
+#include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 
 class PictureTest : public QObject
 {
@@ -30,36 +33,59 @@ public:
     PictureTest();
 
 private slots:
-    void initTestCase();
+    void init();
     void cleanupTestCase();
     void testGetSet();
+    void writeAndReadNetworkTest();
 private:
-    Image* m_image;
+    std::unique_ptr<Image> m_image;
 };
 
 PictureTest::PictureTest()
 {
 }
 
-void PictureTest::initTestCase()
+void PictureTest::init()
 {
-    m_image = new Image();
+    m_image.reset(new Image());
 }
 
 void PictureTest::cleanupTestCase()
 {
-    delete m_image;
 }
 
 void PictureTest::testGetSet()
 {
-    auto uri = new CleverURI("girafe",":/assets/img/girafe.jpg",CleverURI::PICTURE);
-    m_image->setCleverUri(uri);
-    QVERIFY2(m_image->getCleverUri() == uri, "not the same image");
+    CleverURI uri("girafe",":/assets/img/girafe.jpg",CleverURI::PICTURE);
+    m_image->setCleverUri(&uri);
+    QVERIFY2(*m_image->getCleverUri() == uri, "not the same image");
 
     QString ownerId("owner");
     m_image->setIdOwner(ownerId);
     QVERIFY2(m_image->isImageOwner(ownerId), "not the rigth owner");
+}
+void PictureTest::writeAndReadNetworkTest()
+{
+    CleverURI uri("girafe",":/assets/img/girafe.jpg",CleverURI::PICTURE);
+    m_image->setCleverUri(&uri);
+    NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
+
+    m_image->fill(msg);
+
+    auto const array = msg.getData();
+
+    NetworkMessageReader msg2;
+    msg2.setData(array);
+
+    Image image2;
+    image2.readMessage(msg2);
+    msg2.reset();
+    msg.reset();
+
+    //QCOMPARE( msg2.getSize() , msg.getSize() );
+
+    QCOMPARE( m_image->getUriName(), image2.getUriName());
+    QCOMPARE( m_image->getMediaId(), image2.getMediaId());
 }
 
 
