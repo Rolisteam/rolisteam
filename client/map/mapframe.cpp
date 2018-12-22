@@ -29,6 +29,7 @@
 #include "map/newemptymapdialog.h"
 #include "map/map.h"
 #include "map/mapwizzard.h"
+#include "map/charactertoken.h"
 
 #include <QScrollBar>
 #include <QMessageBox>
@@ -79,6 +80,9 @@ void MapFrame::initMap()
 }
 void MapFrame::updateTitle()
 {
+    if(nullptr == m_map)
+        return;
+
     QString permission = tr("Unknown");
     if(m_map->getPermissionMode()==Map::GM_ONLY)
     {
@@ -230,7 +234,7 @@ bool MapFrame::readFileFromUri()
             bool ok = image.save(&buffer, "jpeg", 60);
             if (!ok)
             {
-                error(tr("Compressing image goes wrong (ouvrirPlan - MainWindow.cpp)"),this);
+                error(tr("Compressing image goes wrong (ouvrirPlan - mapframe.cpp)"),this);
                 return false;
             }
 
@@ -413,8 +417,6 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
 {
     auto title = msg->string16();
     QString idMap = msg->string8();
-    setUriName(title);
-
 
     if(msg->action() == NetMsg::LoadMap)
     {
@@ -445,21 +447,21 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
         QImage originalBackgroundImage;
         if (!originalBackgroundImage.loadFromData(originBackground, "jpeg"))
         {
-            error(tr("Extract original background information Failed (processMapMessage - mainwindow.cpp)"),this);
+            error(tr("Extract original background information Failed (processMapMessage - mapframe.cpp)"),this);
             return false;
         }
         // Creation de l'image de fond
         QImage backgroundImage;
         if (!backgroundImage.loadFromData(background, "jpeg"))
         {
-            error(tr("Extract background information Failed (processMapMessage - mainwindow.cpp)"),this);
+            error(tr("Extract background information Failed (processMapMessage - mapframe.cpp)"),this);
             return false;
         }
         // Creation de la couche alpha
         QImage alphaImage;
         if (!alphaImage.loadFromData(bgAlpha, "jpeg"))
         {
-            error(tr("Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)"),this);
+            error(tr("Extract alpha layer information Failed (processMapMessage - mapframe.cpp)"),this);
             return false;
         }
 

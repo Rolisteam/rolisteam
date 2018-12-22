@@ -20,9 +20,10 @@ SUBDIRS = \
     vmap \
     widgets \
     network \
+    map \
 
 
-    #    MainWindow  picture   map
+    #    MainWindow  picture
     #networkServer \
 
 OBJECTS_DIR = obj

@@ -32,7 +32,6 @@
 #include <QAction>
 #include <QScrollArea>
 
-#include "mainwindow.h"
 #include "map/mapwizzard.h"
 #include "data/mediacontainer.h"
 
