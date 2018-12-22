@@ -218,13 +218,13 @@ int ChannelModel::columnCount(const QModelIndex &) const
     return 1;
 }
 
-int ChannelModel::addChannel(QString name, QByteArray password)
+QString ChannelModel::addChannel(QString name, QByteArray password)
 {
     Channel* chan = new Channel(name);
     chan->setPassword(password);
     QModelIndex index;
     addChannelToIndex(chan,index);
-    return m_root.indexOf(chan);
+    return chan->getId();
 }
 QModelIndex ChannelModel::addChannelToIndex(Channel* channel,QModelIndex& parent)
 {

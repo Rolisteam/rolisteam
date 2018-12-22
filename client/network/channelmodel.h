@@ -43,7 +43,7 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
 
-    int addChannel(QString name, QByteArray password);
+    QString addChannel(QString name, QByteArray password);
     bool addConnectionToChannel(QString chanId, TcpClient* client);
 
     void readDataJson(const QJsonObject &);
