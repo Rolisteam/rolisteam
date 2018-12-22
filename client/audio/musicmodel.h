@@ -38,7 +38,7 @@ public:
      * @brief MusicModel
      * @param parent
      */
-    explicit MusicModel(QObject *parent = 0);
+    explicit MusicModel(QObject *parent = nullptr);
     /**
      * @brief rowCount
      * @param parent
@@ -80,7 +80,7 @@ public:
      * @brief getMediaByModelIndex
      * @return
      */
-    QMediaContent* getMediaByModelIndex(QModelIndex);
+    QMediaContent* getMediaByModelIndex(const QModelIndex &);
     /**
      * @brief removeAll
      */
@@ -89,12 +89,12 @@ public:
      * @brief removeSong
      * @param list
      */
-    void removeSong(QModelIndexList& list);
+    void removeSong(const QModelIndexList& list);
     /**
      * @brief setCurrentSong
      * @param p
      */
-    void setCurrentSong(QModelIndex& p);
+    void setCurrentSong(const QModelIndex &p);
     /**
      * @brief getCurrentSong
      * @return

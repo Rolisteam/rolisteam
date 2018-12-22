@@ -130,7 +130,7 @@ void MusicModel::insertSong(int i,QString str)
     }
     endInsertRows();
 }
-QMediaContent* MusicModel::getMediaByModelIndex(QModelIndex index)
+QMediaContent* MusicModel::getMediaByModelIndex(const QModelIndex& index)
 {
     return m_data.at(index.row());
 }
@@ -140,7 +140,7 @@ void MusicModel::removeAll()
     m_data.clear();
     endResetModel();
 }
-void MusicModel::removeSong(QModelIndexList& list)
+void MusicModel::removeSong(const QModelIndexList& list)
 {
     if(list.isEmpty())
         return;
@@ -155,7 +155,7 @@ void MusicModel::removeSong(QModelIndexList& list)
     }
     endRemoveRows();
 }
-void MusicModel::setCurrentSong(QModelIndex& p)
+void MusicModel::setCurrentSong(const QModelIndex& p)
 {
     m_currentSong = p;
     dataChanged(p,p);
