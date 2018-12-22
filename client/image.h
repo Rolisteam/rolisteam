@@ -184,7 +184,7 @@ private :
     double m_ratioImage;
     double m_ratioImageBis;
 
-    ToolsBar::SelectableTool m_currentTool;
+    ToolsBar::SelectableTool m_currentTool = ToolsBar::Handler;
 
     QScrollArea* m_widgetArea;
 
