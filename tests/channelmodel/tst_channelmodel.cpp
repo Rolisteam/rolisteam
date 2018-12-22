@@ -110,6 +110,7 @@ void TestChannelModel::moveTest()
     auto idC = m_model->addChannel("channel1","password");
     auto idC2 = m_model->addChannel("channel2","password");
     QCOMPARE(m_model->rowCount(QModelIndex()), 2);
+    m_model->setAdmin(true);
 
     TcpClient client(nullptr,nullptr);
     auto id = client.getId();

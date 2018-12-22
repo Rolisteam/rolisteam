@@ -93,7 +93,7 @@ private:
     std::map<Channel*,quint64> m_sizeMap;
     QString m_defaultChannel;
     QString m_localPlayerId;
-    bool m_admin;
+    bool m_admin = false;
     bool m_shield = false;
 };
 
