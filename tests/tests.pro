@@ -23,7 +23,9 @@ SUBDIRS = \
     map \
     musicmodel \
     channelmodel\
-#    characterstatemodel \
+    characterstatemodel \
+
+
 #    dicebookmarkmodel   \
 #    unitmodel           \
 #    shortcutmodel       \
