@@ -81,7 +81,7 @@ private:
     QString m_label;
     QColor m_color;
     QPixmap m_image;
-    bool m_local;
+    bool m_local = true;
 };
 
 #endif // CHARACTERSTATE_H

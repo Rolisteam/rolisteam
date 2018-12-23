@@ -184,7 +184,7 @@ protected slots:
     virtual void updateTitle() = 0;
 protected:
     QString m_localPlayerId;
-	CleverURI* m_uri;
+    CleverURI* m_uri = nullptr;
     QString m_filter;
     PreferencesManager* m_preferences;
     QAction* m_action;
