@@ -39,7 +39,7 @@ public:
     /**
      * @brief CharacterStateModel
      */
-    CharacterStateModel(QObject* parent=nullptr);
+    explicit CharacterStateModel(QObject* parent=nullptr);
     /**
       *
       * */
@@ -57,13 +57,13 @@ public:
      * @param parent
      * @return
      */
-    int rowCount(const QModelIndex &parent) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
     /**
      * @brief columnCount
      * @param parent
      * @return
      */
-    int columnCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const;
     /**
      * @brief headerData
      * @param section
@@ -120,7 +120,7 @@ public:
 private:
     QList<CharacterState*>* m_stateList;
     QList<CharacterState*>* m_stateListFromGM;
-    bool m_isGM;
+    bool m_isGM = false;
     QStringList m_header;
 };
 
