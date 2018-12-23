@@ -66,26 +66,29 @@ void PictureTest::testGetSet()
 }
 void PictureTest::writeAndReadNetworkTest()
 {
-    CleverURI uri("girafe",":/assets/img/girafe.jpg",CleverURI::PICTURE);
-    m_image->setCleverUri(&uri);
-    NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
+    for(int i = 0 ; i < 1000 ; ++i)
+    {
+        CleverURI uri("girafe",":/assets/img/girafe.jpg",CleverURI::PICTURE);
+        m_image->setCleverUri(&uri);
+        NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
 
-    m_image->fill(msg);
+        m_image->fill(msg);
 
-    auto const array = msg.getData();
+        auto const array = msg.getData();
 
-    NetworkMessageReader msg2;
-    msg2.setData(array);
+        NetworkMessageReader msg2;
+        msg2.setData(array);
 
-    Image image2;
-    image2.readMessage(msg2);
-    msg2.reset();
-    msg.reset();
+        Image image2;
+        image2.readMessage(msg2);
+        msg2.reset();
+        msg.reset();
 
-    //QCOMPARE( msg2.getSize() , msg.getSize() );
+        //QCOMPARE( msg2.getSize() , msg.getSize() );
 
-    QCOMPARE( m_image->getUriName(), image2.getUriName());
-    QCOMPARE( m_image->getMediaId(), image2.getMediaId());
+        QCOMPARE( m_image->getUriName(), image2.getUriName());
+        QCOMPARE( m_image->getMediaId(), image2.getMediaId());
+    }
 }
 
 
