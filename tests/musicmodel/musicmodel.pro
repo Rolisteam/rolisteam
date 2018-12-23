@@ -1,7 +1,7 @@
 include(../tests.pri)
 
 TEMPLATE = app
-TARGET=mapTest
+TARGET=musicModelTest
 MOC_DIR=trash
 OBJECTS_DIR=trash
 CONFIG+=testcase
