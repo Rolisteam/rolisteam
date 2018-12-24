@@ -22,7 +22,7 @@
 
 #include <QAbstractListModel>
 
-#include "dicealias.h"
+#include "diceparser/dicealias.h"
 #include "network/networkreceiver.h"
 #include "preferenceslistener.h"
 /**
@@ -39,7 +39,7 @@ public:
     /**
      * @brief DiceAliasModel
      */
-    DiceAliasModel(QObject* parent);
+    explicit DiceAliasModel(QObject* parent = nullptr);
     /**
       *
       * */
@@ -57,7 +57,7 @@ public:
      * @param parent
      * @return
      */
-    int rowCount(const QModelIndex &parent) const;
+    int rowCount(const QModelIndex &parent= QModelIndex()) const;
     /**
      * @brief columnCount
      * @param parent

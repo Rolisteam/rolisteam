@@ -24,6 +24,7 @@ SUBDIRS = \
     musicmodel \
     channelmodel\
     characterstatemodel \
+    dicealiasmodel \
 
 
 #    dicebookmarkmodel   \
