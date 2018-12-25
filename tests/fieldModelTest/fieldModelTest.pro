@@ -12,11 +12,11 @@ INCLUDEPATH += ../../client/widgets/gmtoolbox/NpcMaker/
 TEMPLATE = app
 
 HEADERS += $$ROLISTEAMSRC/data/character.h \
-$$ROLISTEAMSRC/data/player.h \
-$$ROLISTEAMSRC/data/characterstate.h \
-$$ROLISTEAMSRC/network/networkmessagewriter.h \
-$$ROLISTEAMSRC/network/networkmessagereader.h \
-$$ROLISTEAMSRC/network/networkmessage.h \
+            $$ROLISTEAMSRC/data/player.h \
+            $$ROLISTEAMSRC/data/characterstate.h \
+            $$ROLISTEAMSRC/network/networkmessagewriter.h \
+            $$ROLISTEAMSRC/network/networkmessagereader.h \
+            $$ROLISTEAMSRC/network/networkmessage.h \
             $$ROLISTEAMSRC/data/person.h
 
 SOURCES += tst_fieldmodel.cpp \

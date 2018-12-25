@@ -25,12 +25,12 @@ SUBDIRS = \
     channelmodel\
     characterstatemodel \
     dicealiasmodel \
+    genericmodel   \
 
 
 #    dicebookmarkmodel   \
 #    unitmodel           \
 #    shortcutmodel       \
-#    genericmodel        \
 #    charactermodel      \
 
 
