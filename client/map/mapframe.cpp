@@ -184,7 +184,6 @@ bool MapFrame::readFileFromUri()
         in.setVersion(QDataStream::Qt_5_7);
         m_isHidden = false;
         readMapAndNpc(in,m_isHidden);
-
     }
     else if((nullptr!=m_uri)&&(m_uri->exists()))
     {
@@ -256,7 +255,6 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 {
     QString title;
     in >> title;
-    setUriName(title);
 
 	QPoint pos;
 	in >>pos;
@@ -323,6 +321,7 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 
 	m_map = new Map(m_localPlayerId,idCarte, &fondOriginal, &fond, &alpha);
 	m_map->setPermissionMode(myPermission);
+    setUriName(title);
 	//m_map->setPointeur(m_toolBar->getCurrentTool());
 
     initMap();
@@ -505,7 +504,7 @@ void MapFrame::saveMedia()
             }
             QDataStream out(&file);
             out.setVersion(QDataStream::Qt_5_7);
-            m_map->saveMap(out);
+            m_map->saveMap(out, m_uri->name());
             file.close();
         }
     }
@@ -513,18 +512,16 @@ void MapFrame::saveMedia()
 
 void MapFrame::putDataIntoCleverUri()
 {
-    if(nullptr!=m_map)
-    {
-        QByteArray data;
-        QDataStream out(&data,QIODevice::WriteOnly);
-        out.setVersion(QDataStream::Qt_5_7);
-        //out << m_isHidden;
-        m_map->saveMap(out);
-        if(nullptr!=m_uri)
-        {
-            m_uri->setData(data);
-        }
-    }
+    if(nullptr==m_map || nullptr == m_uri)
+        return;
+
+    QByteArray data;
+    QDataStream out(&data,QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_5_7);
+
+    m_map->saveMap(out, m_uri->name());
+    m_uri->setData(data);
+
 }
 
 void MapFrame::fill(NetworkMessageWriter &msg)

@@ -2440,7 +2440,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         if(m_mdiArea->showCleverUri(uri))
             return;
     }
-    else if(uri->getState() == CleverURI::Displayed)
+    else if((uri->getState() == CleverURI::Displayed)&&(!force))
         return;
 
     auto localIsGM = false;
