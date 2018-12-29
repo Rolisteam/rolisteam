@@ -1125,15 +1125,6 @@ void MainWindow::saveCurrentMedia()
         MediaContainer* currentMedia = dynamic_cast<MediaContainer*>(active);
         if(nullptr!=currentMedia)
         {
-            auto uri = currentMedia->getCleverUri();
-            if(nullptr != uri && !saveAs)
-            {
-                if(uri->getCurrentMode() == CleverURI::Internal)
-                {
-                    saveStory(false);
-                    return;
-                }
-            }
             saveMedia(currentMedia,saveAs);
         }
     }

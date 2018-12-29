@@ -46,7 +46,6 @@
      <addaction name="m_openPictureAction"/>
      <addaction name="m_openOnlinePictureAction"/>
      <addaction name="m_openNoteAction"/>
-     <addaction name="m_openStoryAction"/>
      <addaction name="m_openVectorialMap"/>
      <addaction name="m_openCharacterSheet"/>
      <addaction name="m_openShareNote"/>
@@ -57,14 +56,21 @@
       <string>Recent Files</string>
      </property>
     </widget>
+    <widget class="QMenu" name="menuSave">
+     <property name="title">
+      <string>Save</string>
+     </property>
+     <addaction name="m_saveAction"/>
+     <addaction name="m_saveAsAction"/>
+     <addaction name="m_saveAllAction"/>
+    </widget>
     <addaction name="menu_New"/>
     <addaction name="menu_Open"/>
     <addaction name="m_recentFileMenu"/>
     <addaction name="separator"/>
-    <addaction name="m_saveAction"/>
-    <addaction name="m_saveAsAction"/>
-    <addaction name="m_saveAllAction"/>
+    <addaction name="menuSave"/>
     <addaction name="separator"/>
+    <addaction name="m_openStoryAction"/>
     <addaction name="m_saveScenarioAction"/>
     <addaction name="m_saveScenarioAsAction"/>
     <addaction name="separator"/>
@@ -156,10 +162,10 @@
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-    <string>Save</string>
+    <string>Current Media</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+S</string>
+    <string>Alt+S</string>
    </property>
   </action>
   <action name="m_saveAsAction">
@@ -168,18 +174,15 @@
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-    <string>Save as…</string>
+    <string>Current Media as…</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
+    <string>Alt+Shift+S</string>
    </property>
   </action>
   <action name="m_saveAllAction">
    <property name="text">
-    <string>Save All</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+A</string>
+    <string>All Media</string>
    </property>
   </action>
   <action name="m_saveScenarioAsAction">
@@ -191,7 +194,7 @@
     <string>Save Scenario As…</string>
    </property>
    <property name="shortcut">
-    <string>Alt+Shift+A</string>
+    <string>Ctrl+Shift+S</string>
    </property>
   </action>
   <action name="m_closeAction">
@@ -357,7 +360,7 @@
      <normaloff>:/story.png</normaloff>:/story.png</iconset>
    </property>
    <property name="text">
-    <string>Scenario</string>
+    <string>Open Scenario</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
@@ -547,7 +550,7 @@
     <string>Save Scenario</string>
    </property>
    <property name="shortcut">
-    <string>Alt+S</string>
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="m_roomListAct">
@@ -653,6 +656,11 @@
   <action name="m_keyGeneratorAct">
    <property name="text">
     <string>Key generator</string>
+   </property>
+  </action>
+  <action name="actionCurrent_Media_as">
+   <property name="text">
+    <string>Current Media as…</string>
    </property>
   </action>
  </widget>
