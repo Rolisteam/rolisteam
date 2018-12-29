@@ -181,7 +181,7 @@ Qt::DropActions MusicModel::supportedDropActions() const
 {
     return Qt::CopyAction | Qt::MoveAction;
 }
-bool MusicModel::dropMimeData(const QMimeData *data,Qt::DropAction action, int row)
+bool MusicModel::dropMimeData(const QMimeData *data,Qt::DropAction action, int row, int , const QModelIndex& )
 {
     if (action == Qt::IgnoreAction)
         return true;

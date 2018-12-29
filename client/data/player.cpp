@@ -23,7 +23,6 @@
 
 #include <QDebug>
 Player::Player()
-    : m_gameMaster(nullptr),m_link(nullptr)
 {
 
 }
