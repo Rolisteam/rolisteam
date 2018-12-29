@@ -140,12 +140,32 @@ void SightItem::setNewEnd(QPointF& nend)
 }
 void SightItem::writeData(QDataStream& out) const
 {
-    Q_UNUSED(out)
+    out << m_fogHoleList.count();
+    qDebug() << "count write data" << m_fogHoleList.count();
+    for(auto fog : m_fogHoleList)
+    {
+        out << *fog->getPolygon();
+        out << fog->isAdding();
+    }
 }
 
 void SightItem::readData(QDataStream& in)
 {
-    Q_UNUSED(in)
+    int count;
+    in >> count;
+    qDebug() << "count read data" << count;
+    for(int i = 0; i < count; ++i)
+    {
+        bool adding;
+        auto poly = new QPolygonF();
+        in >> *poly;
+        in >> adding;
+
+        auto hole = new FogSingularity(poly,adding);
+        m_fogHoleList.append(hole);
+    }
+    updateVeil();
+    update();
 }
 VisualItem::ItemType SightItem::getType() const
 {

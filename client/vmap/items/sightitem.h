@@ -55,7 +55,7 @@ public:
      * @brief SightItem
      * @param characterItemMap
      */
-    SightItem(QMap<QString,CharacterItem*>* characterItemMap);
+    explicit SightItem(QMap<QString,CharacterItem*>* characterItemMap);
     /**
      * @brief ~SightItem
      */

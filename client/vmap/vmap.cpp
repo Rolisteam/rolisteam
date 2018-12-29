@@ -201,6 +201,9 @@ void VMap::characterHasBeenDeleted(Character* character)
 
 void VMap::fill(NetworkMessageWriter& msg)
 {
+    if(m_sightItem == nullptr || m_itemMap == nullptr)
+        return;
+
     msg.string8(getId());
     msg.string16(getMapTitle());
     msg.rgb(getBackGroundColor().rgb());
@@ -218,9 +221,13 @@ void VMap::fill(NetworkMessageWriter& msg)
     msg.uint8(getOption(VisualItem::GridAbove).toBool());
     msg.rgb(getOption(VisualItem::GridColor).value<QColor>().rgb());
     msg.uint64(static_cast<quint64>(m_itemMap->values().size()));
+    m_sightItem->fillMessage(&msg);
 }
 void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
 {
+    if(nullptr == m_sightItem)
+        return;
+
     m_id = msg.string8();
     m_title = msg.string16();
     m_bgColor = msg.rgb();
@@ -242,6 +249,8 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
     QColor colorGrid = msg.rgb();
 
     quint64 itemCount = msg.uint64();
+
+    m_sightItem->readItem(&msg);
 
     if(readCharacter)
     {
@@ -757,6 +766,9 @@ void VMap::saveFile(QDataStream& out)
         out << m_propertiesHash->value(property);
     }
 
+    //FOG
+    out << *m_sightItem;
+
     out << m_sortedItemList.size();
     for(QString key : m_sortedItemList)//m_itemMap->values()
     {
@@ -792,6 +804,9 @@ void VMap::openFile(QDataStream& in)
         in >> var;
         setOption(static_cast<VisualItem::Properties>(pro),var);
     }
+
+    //FOG
+    in >> *m_sightItem;
 
     int numberOfItem;
     in >> numberOfItem;
