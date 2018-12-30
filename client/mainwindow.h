@@ -92,6 +92,12 @@ class CharacterSheetWindow;
 class GameMasterTool;
 class LogPanel;
 class ServerManager;
+
+struct CommandLineProfile {
+    QString m_ip;
+    int m_port;
+    QByteArray m_pass;
+};
 /**
  * @brief Main widget for rolisteam, it herits from QMainWindow.
  */
@@ -563,6 +569,8 @@ private:
     QString m_connectionAddress;
     bool m_isOut = false;
     LogSenderScheduler m_logScheduler;
+
+    std::unique_ptr<CommandLineProfile> m_commandLineProfile;
 };
 
 #endif

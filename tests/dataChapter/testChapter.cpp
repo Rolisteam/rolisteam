@@ -22,7 +22,7 @@
 #include <QtTest/QtTest>
 #include <data/chapter.h>
 #include <resourcesnode.h>
-
+#include <chrono>
 
 #define COUNT_TURN 2000
 class TestChapter : public QObject
@@ -127,12 +127,15 @@ void TestChapter::testAddCleverURIToChapter()
 
 void TestChapter::testInsertAtAndIndexOf()
 {
+    auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    auto rng = std::mt19937(quintptr(this)+seed);
     for(int i = 0; i< COUNT_TURN; i++)
     {
         CleverURI* temp = new CleverURI();
-        int j = std::rand()/((RAND_MAX + 1u)/m_chapter->getChildrenCount());
+        std::uniform_int_distribution<int> dist(0,m_chapter->getChildrenCount());
+        int j = dist(rng);
         m_chapter->insertChildAt(j,temp);
-        QVERIFY2(m_chapter->indexOf(temp) == j,"Not in the proper index");
+        QCOMPARE(m_chapter->indexOf(temp), j);
     }
 }
 
