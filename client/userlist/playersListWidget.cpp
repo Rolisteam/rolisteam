@@ -268,7 +268,7 @@ void PlayersListWidget::setUI()
     // PlayersListView
     m_playersListView = new UserListView();//= new PlayersListView(centralWidget);
     m_model = new PlayersListWidgetModel;
-    m_playersListView->setModel(m_model);
+    m_playersListView->setPlayersListModel(m_model);
     m_selectionModel = m_playersListView->selectionModel();
     m_playersListView->setHeaderHidden(true);
 

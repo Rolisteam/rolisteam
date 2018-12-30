@@ -40,9 +40,9 @@ public:
     /**
     * @brief default constructor
     */
-    explicit UserListView(QWidget *parent = 0);
+    explicit UserListView(QWidget *parent = nullptr);
     
-    virtual void setModel(PlayersListWidgetModel* model);
+    virtual void setPlayersListModel(PlayersListWidgetModel* model);
 signals:
     /**
     * @brief emited when user selects another item

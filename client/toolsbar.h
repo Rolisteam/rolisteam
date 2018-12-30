@@ -47,7 +47,7 @@ class ToolsBar : public QWidget
     Q_OBJECT
     
 public :
-	ToolsBar(QWidget *parent = 0);
+    explicit ToolsBar(QWidget *parent = nullptr);
 	virtual ~ToolsBar();
     void updatePersonalColor();
     QColor getPersonalColor(int numero);

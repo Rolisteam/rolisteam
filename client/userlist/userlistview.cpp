@@ -171,7 +171,7 @@ void UserListView::onEditCurrentItemColor()
     }
 
 }
-void UserListView::setModel(PlayersListWidgetModel* model)
+void UserListView::setPlayersListModel(PlayersListWidgetModel* model)
 {
     QTreeView::setModel(model);
     m_model = model;
