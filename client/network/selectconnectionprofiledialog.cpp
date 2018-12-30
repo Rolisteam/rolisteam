@@ -199,7 +199,8 @@ void ProfileModel::writeSettings(QSettings & settings)
         settings.setValue("gm",profile->isGM());
         settings.setValue("password",profile->getPassword().toBase64());
         settings.setValue("PlayerColor",player->getColor());
-
+        if(nullptr == character)
+            continue;
         settings.setValue("CharacterColor",character->getColor());
         QImage img = character->getAvatar();
         QVariant var;

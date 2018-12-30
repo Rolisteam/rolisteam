@@ -77,9 +77,6 @@
 *
 */
 
-
-
-
 /**
  * @brief main
  * @param argc
@@ -102,6 +99,7 @@ int main(int argc, char *argv[])
     QString appName("rolisteam");
 
     app.setApplicationName(appName);
+    app.setOrganizationName(appName);
     QString version = QObject::tr("Unknown");
     #ifdef VERSION_MINOR
         #ifdef VERSION_MAJOR
@@ -153,13 +151,19 @@ int main(int argc, char *argv[])
     settings.beginGroup("rolisteam/preferences");
 
 #ifdef Q_OS_WIN
+    {
     QString cmdLine("\"%2\rolisteam.exe\" \"-l %1\"");
     QSettings fooKey("HKEY_CLASSES_ROOT\\rolisteam", QSettings::NativeFormat);
     fooKey.setValue(".", "URL:rolisteam Protocol");
     fooKey.setValue("URL Protocol", "");
+    fooKey.sync();
+    qDebug() << fooKey.status();
     QSettings fooOpenKey("HKEY_CLASSES_ROOT\\rolisteam\\shell\\open\\command", QSettings::NativeFormat);
     QFileInfo info(QCoreApplication::applicationFilePath());
     fooOpenKey.setValue(".", cmdLine.arg("%1").arg(info.absoluteFilePath()));
+    fooOpenKey.sync();
+    qDebug() << fooOpenKey.status();
+    }
 #endif
 
     QMap<QString,QVariant> map;

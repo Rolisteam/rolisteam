@@ -217,6 +217,10 @@ void MainWindow::setupUi()
 #endif
 #endif
     m_dialog = new SelectConnectionProfileDialog(m_version,this);
+    if(m_commandLineProfile)
+    {
+        m_dialog->setArgumentProfile(m_commandLineProfile->m_ip,m_commandLineProfile->m_port, m_commandLineProfile->m_pass);
+    }
 
     //setAnimated(false);
     m_mdiArea = new ImprovedWorkspace(this);
@@ -530,21 +534,6 @@ void MainWindow::sendGoodBye()
     NetworkMessageWriter message (NetMsg::AdministrationCategory, NetMsg::Goodbye);
     message.sendToServer();
 }
-/*Map::PermissionMode MainWindow::getPermission(int id)
-{
-    switch(id)
-    {
-    case 0:
-        return Map::GM_ONLY;
-    case 1:
-        return Map::PC_MOVE;
-    case 2:
-        return Map::PC_ALL;
-    default:
-        return Map::GM_ONLY;
-    }
-
-}*/
 
 void MainWindow::receiveData(quint64 readData,quint64 size)
 {
@@ -1304,7 +1293,8 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
     case ClientManager::DISCONNECTED:
         m_ui->m_connectionAction->setEnabled(true);
         m_ui->m_disconnectAction->setEnabled(false);
-        m_dialog->open();
+        if(this->isVisible())
+            m_dialog->open();
         break;
     case ClientManager::AUTHENTIFIED:
         m_roomPanel->sendOffLoginAdmin(m_currentConnectionProfile->getPassword());
@@ -1441,22 +1431,20 @@ void MainWindow::parseCommandLineArguments(QStringList list)
     if(hasUrl)
     {
         urlString = parser.value(url);
-        auto list = urlString.split("/",QString::SkipEmptyParts);
+        //auto list = urlString.split("/",QString::SkipEmptyParts);
+        QRegularExpression ex("^rolisteam://(.*)/([0-9]+)/(.*)$");
+        QRegularExpressionMatch match = ex.match(urlString);
         //rolisteam://IP/port/password
-        if(list.size() ==  4)
+        //if(list.size() ==  4)
+        if(match.hasMatch())
         {
-            hostnameValue = list[1];
-            portValue = list[2];
-            passwordValue = list[3];
+            hostnameValue = match.captured(1);
+            portValue = match.captured(2);
+            passwordValue = match.captured(3);
             QByteArray pass = QByteArray::fromBase64(passwordValue.toUtf8());
-            m_dialog->setArgumentProfile(hostnameValue,portValue.toInt(),pass);
+            m_commandLineProfile.reset(new CommandLineProfile({hostnameValue,portValue.toInt(),pass}));
         }
     }
-
-  /*  if(!(roleValue.isNull()&&hostnameValue.isNull()&&portValue.isNull()&&username.isNull()))
-    {
-
-    }*/
 }
 NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
 {
