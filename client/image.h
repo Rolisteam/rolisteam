@@ -30,7 +30,6 @@
 #include <QString>
 #include <QLabel>
 
-#include "toolsbar.h"
 #include "preferences/preferencesmanager.h"
 
 #include "data/mediacontainer.h"
@@ -46,7 +45,7 @@ class Image : public MediaContainer
     Q_OBJECT
 public :
     //Image(QString title, QString identImage, QString identJoueur, QImage *image, QAction *action = 0, ImprovedWorkspace *parent = 0);
-    Image(QWidget* parent = nullptr);
+    explicit Image(QWidget* parent = nullptr);
     /**
      * @brief ~Image destructor.
      */
@@ -183,8 +182,6 @@ private :
 
     double m_ratioImage;
     double m_ratioImageBis;
-
-    ToolsBar::SelectableTool m_currentTool = ToolsBar::Handler;
 
     QScrollArea* m_widgetArea;
 

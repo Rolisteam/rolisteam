@@ -137,7 +137,7 @@ void Image::saveImageToFile(QDataStream &out)
 
 void Image::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton && m_currentTool == ToolsBar::Handler)
+    if (event->button() == Qt::LeftButton)
     {
         m_allowedMove = true;
         m_startingPoint = event->pos();
@@ -464,10 +464,8 @@ void Image::setParent(QWidget *parent)
 
 void Image::setCurrentTool(ToolsBar::SelectableTool tool)
 {
-    m_currentTool = tool;
-
     /// @todo code inline to remove useless functions.
-    switch(m_currentTool)
+    switch(tool)
     {
     case ToolsBar::Handler :
         m_imageLabel->setCursor(Qt::OpenHandCursor);
