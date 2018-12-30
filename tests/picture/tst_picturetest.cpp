@@ -80,6 +80,7 @@ void PictureTest::writeAndReadNetworkTest()
         msg2.setData(array);
 
         Image image2;
+        image2.setCleverUriType(CleverURI::PICTURE);
         image2.readMessage(msg2);
         msg2.reset();
         msg.reset();

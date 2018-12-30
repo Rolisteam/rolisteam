@@ -74,6 +74,7 @@ void TestMap::networkSaveAndLoadTest()
     msg2.setData(array);
 
     MapFrame frame2;
+    frame2.setCleverUriType(CleverURI::MAP);
     frame2.readMessage(msg2);
 
     auto map = m_mapFrame->getMap();
@@ -98,6 +99,8 @@ void TestMap::fileSaveAndLoadTest()
     m_mapFrame->setMap(m_map);
 
     auto title = QStringLiteral("title");
+    m_mapFrame->setUriName(title);
+
     QByteArray array;
     QDataStream out(&array, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_7);
@@ -110,7 +113,7 @@ void TestMap::fileSaveAndLoadTest()
 
     //auto map = m_mapFrame->getMap();
 
-    //QCOMPARE(frame2.windowTitle(),m_mapFrame->windowTitle());
+    QCOMPARE(frame2.windowTitle(),m_mapFrame->windowTitle());
 }
 
 QTEST_MAIN(TestMap);
