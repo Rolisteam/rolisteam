@@ -2532,17 +2532,18 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
 void MainWindow::openContentFromType(CleverURI::ContentType type)
 {
     QString filter = CleverURI::getFilterForType(type);
+    std::vector<CleverURI*> uriList;
     if(!filter.isEmpty())
     {
         QString folder = m_preferences->value(CleverURI::getPreferenceDirectoryKey(type),".").toString();
         QString title = tr("Open %1").arg(CleverURI::typeToString(type));
         QStringList filepath = QFileDialog::getOpenFileNames(this,title,folder,filter);
         QStringList list = filepath;
-        QStringList::Iterator it = list.begin();
-        while(it != list.end())
+        for(auto const& path: list )
         {
-            openCleverURI(new CleverURI(getShortNameFromPath(*it),*it,type));
-            ++it;
+            auto uri = new CleverURI(getShortNameFromPath(path),path,type);
+            openCleverURI(uri);
+            uriList.push_back(uri);
         }
     }
     else
@@ -2577,10 +2578,16 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
                         prepareImage(static_cast<Image*>(tmp));
                     }
                     addMediaToMdiArea(tmp);
+                    uriList.push_back(tmp->getCleverUri());
                     tmp->setVisible(true);
                 }
             }
         }
+    }
+
+    for(auto const& uri : uriList)
+    {
+        setLatestFile(uri);
     }
 }
 void MainWindow::updateWindowTitle()
