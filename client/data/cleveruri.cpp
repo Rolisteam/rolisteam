@@ -145,8 +145,8 @@ void CleverURI::loadData()
     {
         loadFileFromUri(m_data);
     }
-    else
-        m_data.clear();
+    /*else
+        m_data.clear();*/
 }
 
 void CleverURI::init()
@@ -225,6 +225,8 @@ CleverURI::LoadingMode CleverURI::getCurrentMode() const
 void CleverURI::setCurrentMode(const LoadingMode &currentMode)
 {
     m_currentMode = currentMode;
+
+    loadData();
 }
 bool CleverURI::exists()
 {
