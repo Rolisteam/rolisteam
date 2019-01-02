@@ -135,7 +135,11 @@ public:
      * @param msg
      */
     void processUpdateFieldMessage(NetworkMessageReader *msg, const QString &idSheet);
-
+    /**
+     * @brief hasCharacterSheet
+     * @param id
+     * @return
+     */
     bool hasCharacterSheet(QString id);
 signals:
     /**
@@ -149,6 +153,10 @@ signals:
      * @param label
      */
     void rollDiceCmd(QString str,QString label, bool withAlias);
+    /**
+     * @brief showText
+     * @param str
+     */
     void showText(QString str);
     /**
      * @brief errorOccurs
@@ -220,14 +228,6 @@ protected slots:
     */
     void displayCustomMenu(const QPoint & pos);
     /**
-     * @brief openCharacterSheet
-     */
-    void openCharacterSheet();
-    /**
-     * @brief saveCharacterSheet
-     */
-    void saveCharacterSheet();
-    /**
      * @brief affectSheetToCharacter
      */
     void affectSheetToCharacter();
@@ -244,8 +244,13 @@ protected slots:
      * @brief setReadOnlyOnSelection
      */
     void setReadOnlyOnSelection();
+    /**
+     * @brief stopSharing
+     */
     void stopSharing();
-
+    /**
+     * @brief updateTitle
+     */
     virtual void updateTitle();
     /**
     * @brief copyTab
@@ -326,10 +331,6 @@ private:
     */
     QVBoxLayout m_vertiLayout;
     /**
-     * @brief main data info, uri to reach data
-     */
-    QString m_fileUri;
-    /**
      * @brief may no longer used.
      */
     QString m_qmlUri;
@@ -350,6 +351,7 @@ private:
     QJsonObject m_data;
 
     QString m_qmlData;
+    QList<QQmlError> m_errorList;
 
     // Translation optimisation
     const QString m_shareTo=tr("Share To");

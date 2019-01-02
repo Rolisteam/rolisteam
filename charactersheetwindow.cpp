@@ -417,7 +417,9 @@ void CharacterSheetWindow::addSection()
 }
 void CharacterSheetWindow::addCharacterSheet()
 {
+    m_errorList.clear();
     m_model.addCharacterSheet();
+    displayError(m_errorList);
 }
 void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
 {
@@ -459,14 +461,10 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
         fileTemp.close();
     }
 
-
     qmlView->setSource(QUrl::fromLocalFile(fileTemp.fileName()));
     qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    //window->installEventFilter(this);
-    //qmlView->setContextMenuPolicy(Qt::CustomContextMenu);
-    //connect(qmlView, &QQuickWidget::customContextMenuRequested,this,&CharacterSheetWindow::contextMenuForTabs);
     readErrorFromQML(qmlView->errors());
-    displayError(qmlView->errors());
+    m_errorList.append(qmlView->errors());
 
     QObject* root = qmlView->rootObject();
 
@@ -570,45 +568,55 @@ void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
     }
 }
 
-void  CharacterSheetWindow::saveCharacterSheet()
-{
-    if((nullptr!=m_uri)&&(m_uri->getUri().isEmpty()))
-    {
-        QString uri = QFileDialog::getSaveFileName(this, tr("Save Character Sheets Data"), m_preferences->value(QString("CharacterSheetDirectory"),QDir::homePath()).toString(),
-                                                   m_filterString);
-
-        m_uri->setUri(uri);
-    }
-    saveMedia();
-
-}
 QJsonDocument CharacterSheetWindow::saveFile()
 {
+    if(nullptr == m_uri)
+    {
+        qWarning() << "no uri for charactersheet";
+        return {};
+    }
+
     QJsonDocument json;
     QJsonObject obj;
+    auto path = m_uri->getUri();
 
-    if(!m_fileUri.isEmpty())
+    QByteArray data;
+    if(path.isEmpty())
     {
-        QFile file(m_fileUri);
+        data = m_uri->getData();
+    }
+    else
+    {
+        QFile file(path);
         if(file.open(QIODevice::ReadOnly))
         {
-            json = QJsonDocument::fromJson(file.readAll());
+            data = file.readAll();
+            file.close();
         }
-        obj = json.object();
     }
+
+    if(data.isEmpty())
+    {
+        qWarning() << "Charactersheet with empty data";
+        return {};
+    }
+
+    json = QJsonDocument::fromJson(data);
+    obj = json.object();
 
     //Get datamodel
     obj["data"]=m_data;
 
     //qml file
-    obj["qml"]=m_qmlData;
+    //obj["qml"]=m_qmlData;
 
     //background
-    QJsonArray images;
+    /*QJsonArray images = obj["background"].toArray();
     for(auto key : m_pixmapList->keys())
     {
         QJsonObject obj;
         obj["key"]=key;
+        obj["isBg"]=;
         QPixmap pix = m_pixmapList->value(key);
         if(!pix.isNull())
         {
@@ -620,7 +628,7 @@ QJsonDocument CharacterSheetWindow::saveFile()
             images.append(obj);
         }
     }
-    obj["background"]=images;
+    obj["background"]=images;*/
     m_model.writeModel(obj,false);
     json.setObject(obj);
     return json;
@@ -636,7 +644,6 @@ bool CharacterSheetWindow::readData(QByteArray data)
     m_qmlData = jsonObj["qml"].toString();
 
     QJsonArray images = jsonObj["background"].toArray();
-    int i = 0;
     for(auto jsonpix : images)
     {
         QJsonObject obj = jsonpix.toObject();
@@ -646,7 +653,6 @@ bool CharacterSheetWindow::readData(QByteArray data)
         QPixmap* pix = new QPixmap();
         pix->loadFromData(array);
         m_imgProvider->insertPix(key,*pix);
-        ++i;
     }
 
     const auto fonts = jsonObj["fonts"].toArray();
@@ -657,7 +663,10 @@ bool CharacterSheetWindow::readData(QByteArray data)
         QFontDatabase::addApplicationFontFromData(fontData);
     }
 
+    m_errorList.clear();
     m_model.readModel(jsonObj,true);
+    displayError(m_errorList);
+
     for(int j = 0; j< m_model.getCharacterSheetCount(); ++j)
     {
         CharacterSheet* sheet = m_model.getCharacterSheet(j);
@@ -683,14 +692,6 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
     return false;
 }
 
-void CharacterSheetWindow::openCharacterSheet()
-{
-    m_fileUri = QFileDialog::getOpenFileName(this, tr("Open Character Sheet data"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
-                                             m_filterString);
-    
-    openFile(m_fileUri);
-    
-}
 void CharacterSheetWindow::openQML()
 {
     m_qmlUri = QFileDialog::getOpenFileName(this, tr("Open Character Sheets View"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
@@ -791,10 +792,10 @@ void CharacterSheetWindow::saveMedia()
             {
                 uri += QLatin1String(".rcs");
             }
+            QJsonDocument doc = saveFile();
             QFile file(uri);
             if(file.open(QIODevice::WriteOnly))
             {
-                QJsonDocument doc = saveFile();
                 file.write(doc.toJson());
                 file.close();
             }
