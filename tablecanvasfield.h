@@ -23,6 +23,8 @@
 #define TABLECANVASFIELD_H
 
 #include <QObject>
+#include <memory>
+
 #include "canvasfield.h"
 #include "charactersheetitem.h"
 #include "columndefinitiondialog.h"
@@ -39,7 +41,7 @@ public:
      * @param point
      * @param parent
      */
-    HandleItem(QGraphicsObject* parent = nullptr);
+    explicit HandleItem(QGraphicsObject* parent = nullptr);
     /**
      * @brief ~HandleItem
      */
@@ -80,7 +82,6 @@ protected:
 
 private:
    QPointF m_startPoint;
-   TableCanvasField* m_parent;
    bool m_posHasChanged;
    MOTION m_currentMotion;
  };
@@ -111,10 +112,10 @@ class TableCanvasField : public CanvasField
 {
     Q_OBJECT
 public:
-    TableCanvasField(Field* field);
+    explicit TableCanvasField(Field* field);
     virtual ~TableCanvasField();
 
-    void paint (QPainter * painter, const QStyleOptionGraphicsItem *, QWidget * = 0);
+    void paint (QPainter * painter, const QStyleOptionGraphicsItem *, QWidget * = nullptr);
 
     bool hasFocusOrChild();
 
@@ -137,9 +138,6 @@ public:
     void load(QJsonObject &json, QList<QGraphicsScene *> scene);
     void save(QJsonObject &json);
 
-    void setPositionAddLine(int pos);
-    int getPosition() const;
-
     CharacterSheetItem* getRoot();
 
 public slots:
@@ -159,12 +157,10 @@ private:
 
     ButtonCanvas* m_addColumn;
     ButtonCanvas* m_addLine;
-    ButtonCanvas* m_addLineInGame;
     QAction* m_defineColumns;
 
-    ColumnDefinitionDialog* m_dialog;
+    std::unique_ptr<ColumnDefinitionDialog> m_dialog;
     bool m_dataReset;
-    int m_position;
     bool m_columnDefined = false;
 };
 

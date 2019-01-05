@@ -127,14 +127,14 @@ bool compareHandles(HandleItem* first, HandleItem* two)
 
 
 TableCanvasField::TableCanvasField(Field* field)
- :CanvasField(field),m_colunmCount(1),m_lineCount(1),m_dataReset(true),m_position(0)
+ :CanvasField(field),m_colunmCount(1),m_lineCount(1),m_dataReset(true)
 {
     m_addColumn= new ButtonCanvas();
     m_addColumn->setParentItem(this);
 
-    m_dialog = new ColumnDefinitionDialog();
+    m_dialog.reset(new ColumnDefinitionDialog());
 
-    connect(m_dialog,&ColumnDefinitionDialog::columnCountChanged,this,[=](int i)
+    connect(m_dialog.get(),&ColumnDefinitionDialog::columnCountChanged,this,[=](int i)
     {
         while(i>m_colunmCount)
         {
@@ -146,25 +146,14 @@ TableCanvasField::TableCanvasField(Field* field)
         }
     });
 
-    connect(m_dialog,&ColumnDefinitionDialog::lineCountChanged,this,[=](int i)
+    connect(m_dialog.get(),&ColumnDefinitionDialog::lineCountChanged,this,[=](int i)
     {
         m_lineCount=i;
         update();
     });
 
-    connect(m_dialog,&ColumnDefinitionDialog::positionChanged,this,[=](int i)
-    {
-        m_position=i;
-        update();
-    });
-
     m_addLine = new ButtonCanvas();
     m_addLine->setParentItem(this);
-    m_addLineInGame = new ButtonCanvas();
-    m_addLineInGame->setParentItem(this);
-
-    QRectF rect(0,0,SQUARE_SIZE*6,SQUARE_SIZE*2);
-    m_addLineInGame->setRect(rect);
 
     m_defineColumns = new QAction(tr("Properties"),this);
 //    m_properties = new QAction(tr("Properties"),this);
@@ -173,8 +162,6 @@ TableCanvasField::TableCanvasField(Field* field)
 
     m_addLine->setMsg("+");
     m_addColumn->setMsg("+");
-    m_addLineInGame->setMsg(tr("Add Line"));
-
 
     m_addLine->setPos(24,200);
     m_addColumn->setPos(200,24);
@@ -184,11 +171,7 @@ TableCanvasField::TableCanvasField(Field* field)
 }
 TableCanvasField::~TableCanvasField()
 {
-    if(nullptr != m_dialog)
-    {
-        delete m_dialog;
-        m_dialog = nullptr;
-    }
+
 }
 void TableCanvasField::addColumn()
 {
@@ -260,11 +243,6 @@ void TableCanvasField::setMenu(QMenu &menu)
     menu.addAction(m_defineColumns);
 }
 
-int TableCanvasField::getPosition() const
-{
-    return m_position;
-}
-
 int TableCanvasField::lineCount() const
 {
     return m_lineCount;
@@ -287,44 +265,6 @@ void TableCanvasField::setColunmCount(int colunmCount)
 
 void TableCanvasField::paint(QPainter *painter, const QStyleOptionGraphicsItem*,QWidget*)
 {
-    QPointF position;
-    switch(static_cast<TableField::ControlPosition>(m_position))
-    {
-        case TableField::CtrlLeftTop:
-            position.setY(0);
-            position.setX(-m_addLineInGame->boundingRect().width());
-        break;
-        case TableField::CtrlTopLeft:
-            position.setY(-m_addLineInGame->boundingRect().height());
-            position.setX(0);
-        break;
-        case TableField::CtrlLeftBottom:
-            position.setY(boundingRect().height()-m_addLineInGame->boundingRect().height());
-            position.setX(-m_addLineInGame->boundingRect().width());
-        break;
-        case TableField::CtrlBottomLeft:
-            position.setY(boundingRect().height());
-            position.setX(0);
-        break;
-        case TableField::CtrlBottomRight:
-            position.setY(boundingRect().height());
-            position.setX(boundingRect().width()-m_addLineInGame->boundingRect().width());
-        break;
-        case TableField::CtrlRightTop:
-            position.setY(0);
-            position.setX(boundingRect().width());
-        break;
-        case TableField::CtrlTopRight:
-            position.setY(-m_addLineInGame->boundingRect().height());
-            position.setX(boundingRect().width()-m_addLineInGame->boundingRect().width());
-        break;
-        case TableField::CtrlRightBottom:
-            position.setY(boundingRect().height()-m_addLineInGame->boundingRect().height());
-            position.setX(boundingRect().width());
-        break;
-    }
-    m_addLineInGame->setPos(position);
-    
     if(nullptr==m_field)
         return;
     painter->save();
@@ -506,10 +446,6 @@ void TableCanvasField::save(QJsonObject &json)
     json["dialog"] = dialog;
 }
 
-void TableCanvasField::setPositionAddLine(int pos)
-{
-    m_position = pos;
-}
 //////////////////////////////////////////////////////
 //
 //

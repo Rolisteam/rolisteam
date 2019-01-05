@@ -27,7 +27,7 @@
 class AddCharacterCommand : public QUndoCommand
 {
 public:
-  AddCharacterCommand(CharacterSheetModel* characterModel,QUndoCommand *parent = 0);
+  AddCharacterCommand(CharacterSheetModel* characterModel,QUndoCommand *parent = nullptr);
 
   void undo() override;
   void redo() override;
@@ -35,7 +35,6 @@ public:
 private:
     CharacterSheetModel* m_characterSheetModel;
     CharacterSheet* m_character;
-    int m_indexModel;
 };
 
 #endif // ADDCHARACTERCOMMAND_H

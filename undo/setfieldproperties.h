@@ -30,7 +30,7 @@
 class SetFieldPropertyCommand : public QUndoCommand
 {
 public:
-  SetFieldPropertyCommand(FieldModel* model, QList<CharacterSheetItem*> selection, QVariant value, int col, QUndoCommand *parent = 0);
+  SetFieldPropertyCommand(QList<CharacterSheetItem*> selection, QVariant value, int col, QUndoCommand *parent = nullptr);
 
   void undo() override;
   void redo() override;
@@ -40,7 +40,6 @@ private:
   QList<QVariant> m_oldValues;
   QList<CharacterSheetItem*> m_selection;
   int m_col;
-  FieldModel* m_model;
 };
 
 #endif // SETFIELDPROPERTYCOMMAND_H

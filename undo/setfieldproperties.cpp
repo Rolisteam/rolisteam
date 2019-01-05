@@ -19,8 +19,8 @@
     ***************************************************************************/
 #include "setfieldproperties.h"
 
-SetFieldPropertyCommand::SetFieldPropertyCommand(FieldModel* model,QList<CharacterSheetItem*> selection, QVariant value, int col, QUndoCommand *parent)
-  : QUndoCommand(parent),m_newValue(value),m_selection(selection),m_col(col),m_model(model)
+SetFieldPropertyCommand::SetFieldPropertyCommand(QList<CharacterSheetItem*> selection, QVariant value, int col, QUndoCommand *parent)
+  : QUndoCommand(parent),m_newValue(value),m_selection(selection),m_col(col)
 {
     for(auto index : m_selection)
     {

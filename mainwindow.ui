@@ -22,7 +22,7 @@
     <item>
      <widget class="QTabWidget" name="m_tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="editor">
        <attribute name="title">
@@ -535,7 +535,7 @@
             <enum>QQuickWidget::SizeRootObjectToView</enum>
            </property>
           </widget>
-          <widget class="QWidget" name="layoutWidget">
+          <widget class="QWidget" name="layoutWidget2">
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -927,7 +927,7 @@
      <normaloff>:/resources/icons/function.png</normaloff>:/resources/icons/function.png</iconset>
    </property>
    <property name="text">
-    <string>Function Button</string>
+    <string>Function Button</string>
    </property>
   </action>
   <action name="m_showItemIcon">

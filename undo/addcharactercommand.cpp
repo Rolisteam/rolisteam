@@ -36,5 +36,5 @@ void AddCharacterCommand::undo()
 
 void AddCharacterCommand::redo()
 {
-    m_characterSheetModel->addCharacterSheet(m_character,true);
+    m_characterSheetModel->addCharacterSheet(m_character,false);
 }

@@ -241,11 +241,11 @@ void FieldView::applyValue(QModelIndex& index, bool selection)
                 listField.append(field);
             }
         }
-        cmd = new SetFieldPropertyCommand(m_model,listField,var,col);
+        cmd = new SetFieldPropertyCommand(listField,var,col);
     }
     else
     {
-        cmd = new SetFieldPropertyCommand(m_model,m_model->children(),var,col);
+        cmd = new SetFieldPropertyCommand(m_model->children(),var,col);
         m_model->setValueForAll(index);
     }
     m_undoStack->push(cmd);

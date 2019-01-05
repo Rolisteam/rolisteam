@@ -1539,7 +1539,6 @@ void MainWindow::showQMLFromCode()
     QList<CharacterSheetItem *> list = m_model->children();
     for(CharacterSheetItem* item : list)
     {
-        //qDebug() <<"add item into qml" << item->getId();
         ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
     }
     ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
