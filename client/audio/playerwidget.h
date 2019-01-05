@@ -110,7 +110,8 @@ protected:
          * @brief contextMenuEvent
          * @param ev
          */
-        void contextMenuEvent(QContextMenuEvent* ev);
+    void contextMenuEvent(QContextMenuEvent* ev);
+    void dropEvent(QDropEvent *event);
 protected slots:
         /**
          * @brief setCurrentFile
@@ -250,6 +251,7 @@ signals:
      * @brief playerPositionChanged
      */
     void playerPositionChanged(int,quint64);
+    void newPlaylistLoaded(QString path);
 private:
     QSlider* m_volume;
     QSlider* m_seek;

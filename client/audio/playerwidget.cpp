@@ -20,6 +20,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QInputDialog>
+#include <QMimeData>
 #include <chrono>
 
 #include "playerwidget.h"
@@ -61,6 +62,7 @@ PlayerWidget::PlayerWidget(int id, QWidget* parent)
 {
     auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
     m_rng = std::mt19937(quintptr(this)+static_cast<unsigned long long>(seed));
+    setAcceptDrops(true);
 
     m_preferences = PreferencesManager::getInstance();
     //m_preferences->registerLambda();
@@ -72,6 +74,8 @@ PlayerWidget::PlayerWidget(int id, QWidget* parent)
     m_ui->m_songList->setModel(m_model);
     updateUi(true);
 }
+
+
 
 void PlayerWidget::startMedia(QMediaContent* p,QString title,bool play)
 {
@@ -403,7 +407,7 @@ void PlayerWidget::readM3uPlayList(QString filepath)
             }
         }
         m_model->addSong(result);
-
+        emit newPlaylistLoaded(filepath);
     }
 }
 void PlayerWidget::contextMenuEvent(QContextMenuEvent* ev)
@@ -696,3 +700,23 @@ void PlayerWidget::labelTextChanged()
     }
 }
 
+void PlayerWidget::dropEvent(QDropEvent* event)
+{
+    const QMimeData* data = event->mimeData();
+    if(data->hasUrls())
+    {
+        QList<QUrl> list = data->urls();
+        for(auto& url : list)
+        {
+            if(url.toLocalFile().endsWith(".m3u"))//play list
+            {
+                readM3uPlayList(url.toLocalFile());
+            }
+            else
+            {
+                addSongIntoModel(url.toLocalFile());
+            }
+        }
+        event->acceptProposedAction();
+    }
+}
