@@ -191,7 +191,10 @@ void TestDice::commandsTest_data()
     QTest::addRow("cmd67") << "4d6p[4:blue]c[>=4];1d6p[1:#FFFFFF]c6-@c1;1d6p[1:#FF0000]c[>=4]+@c6-@c1";
     QTest::addRow("cmd68") << "10d[0-9]";
     QTest::addRow("cmd69") << "1d8e8;1d6e6mk1+2";
-    QTest::addRow("cmd70") << "1d8e8+2;1d6e6+2mk1";
+    QTest::addRow("cmd70") << "3d100g50";
+    QTest::addRow("cmd71") << "3d100g33";
+    QTest::addRow("cmd72") << "3d100g5";
+    QTest::addRow("cmd73") << "3d100g40";
 }
 
 
