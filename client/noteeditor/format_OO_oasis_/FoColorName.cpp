@@ -164,7 +164,7 @@ FopColor::FopColor( const QString colorchunk , FopColor::AlternateColor col )
 
     
     QStringList colorNames = QColor::colorNames();
-    for (QString name: colorNames) {
+    for (QString& name: colorNames) {
         record(name,QColor(name));
         /*  qt overwrite color ? */
     }
@@ -312,51 +312,51 @@ qreal Unit( const QString datain )
     }
     if ( data.endsWith( "pt" ) ||  data.endsWith( "px" ) )
     {
-        points = data.left( data.length() - 2 ).toDouble();
+        points = data.leftRef( data.length() - 2 ).toDouble();
         return points;
     }
     else if ( data.endsWith( "cm" ) )
     {
-        double value = data.left( data.length() - 2 ).toDouble();
+        double value = data.leftRef( data.length() - 2 ).toDouble();
         points = CM_TO_POINT( value );
     }
     else if ( data.endsWith( "em" ) )
     {
-        points = data.left( data.length() - 2 ).toDouble();
+        points = data.leftRef( data.length() - 2 ).toDouble();
     }
     else if ( data.endsWith( "mm" ) )
     {
-        double value = data.left( data.length() - 2 ).toDouble();
+        double value = data.leftRef( data.length() - 2 ).toDouble();
         points = MM_TO_POINT( value );
     }
     else if ( data.endsWith( "dm" ) )
     {
-        double value = data.left( data.length() - 2 ).toDouble();
+        double value = data.leftRef( data.length() - 2 ).toDouble();
         points = DM_TO_POINT( value );
     }
     else if ( data.endsWith( "in" ) )
     {
-        double value = data.left( data.length() - 2 ).toDouble();
+        double value = data.leftRef( data.length() - 2 ).toDouble();
         points = INCH_TO_POINT( value );
     }
     else if ( data.endsWith( "inch" ) )
     {
-        double value = data.left( data.length() - 4 ).toDouble();
+        double value = data.leftRef( data.length() - 4 ).toDouble();
         points = INCH_TO_POINT( value );
     }
     else if ( data.endsWith( "pi" ) )
     {
-        double value = data.left( data.length() - 4 ).toDouble();
+        double value = data.leftRef( data.length() - 4 ).toDouble();
         points = PI_TO_POINT( value );
     }
     else if ( data.endsWith( "dd" ) )
     {
-        double value = data.left( data.length() - 4 ).toDouble();
+        double value = data.leftRef( data.length() - 4 ).toDouble();
         points = DD_TO_POINT( value );
     }
     else if ( data.endsWith( "cc" ) )
     {
-        double value = data.left( data.length() - 4 ).toDouble();
+        double value = data.leftRef( data.length() - 4 ).toDouble();
         points = CC_TO_POINT( value );
     }
     else
@@ -559,19 +559,12 @@ void FoRegion::styleReadDocument( const QTextDocument *doc )
     padding = formatibb.padding();
 }
 
-
-
-
-
-
-
 QString FoRegion::hash() const
 {
         QByteArray unique("Hash-Forerin:");
         const QString header = QString("%1|%2|%3|%4|").arg(margin_top).arg(margin_bottom)
                                .arg(margin_right).arg(margin_left);
-        const QString margin = QString("%1|%2|%3").arg(bg.name()).arg(bog.name())
-                               .arg(border);
+        const QString margin = QString("%1|%2|%3").arg(bg.name(), bog.name()).arg(border);
          QString  position = "Disable";
          if (enable) {
              position = "Enable";

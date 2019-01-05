@@ -34,14 +34,13 @@ QString getExistingFile(const QString& rootDir, const QString& pathOnGM)
 
     auto list = pathOnGM.split("/");
     QStringList result;
-    for(auto item : list)
+    for(auto& item : list)
     {
         result.prepend(item);
     }
     QString consumedPath = "";
-    QString totalPath;
 
-    for(auto item : result)
+    for(auto& item : result)
     {
         if(consumedPath.isEmpty())
             consumedPath = item;
@@ -341,7 +340,6 @@ void PlayerWidget::addFiles()
     QStringList fileList = QFileDialog::getOpenFileNames(this, tr("Add song"), m_preferences->value(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id),QDir::homePath()).toString(), tr("Audio files (%1)").arg(m_audioFileFilter));
     if (fileList.isEmpty())
         return;
-    QFileInfo fileinfo(fileList[0]);
     m_model->addSong(fileList);
 }
 bool PlayerWidget::askToDeleteAll()
@@ -367,7 +365,6 @@ void PlayerWidget::openPlayList()
         QString filename = QFileDialog::getOpenFileName(this, tr("Open Play List"), m_preferences->value(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id),QDir::homePath()).toString(), tr("PlayList (*.m3u)"));
         if (filename.isEmpty())
             return;
-        QFileInfo fileinfo(filename);
         readM3uPlayList(filename);
     }
 
@@ -514,13 +511,11 @@ void PlayerWidget::setPositionAt(quint64 pos)
 
 void PlayerWidget::setSourceSong(QString file)
 {
-    QString path("%1/%2");
     QString dir = m_preferences->value(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id),QDir::homePath()).toString();
     QUrl url(file,QUrl::StrictMode);
     if((!url.isValid())||(url.isRelative())||url.isLocalFile())
     {
         url = QUrl::fromLocalFile(getExistingFile(dir,file));
-        qDebug() << url;
     }
     QMediaContent currentContent(url);
 
@@ -682,7 +677,7 @@ void PlayerWidget::errorOccurs(QMediaPlayer::Error e)
         return;
 
     QString Error("Error %1 : %2");
-    m_ui->m_label->setText(Error.arg(m_player.errorString()).arg(m_player.currentMedia().canonicalUrl().toString()));
+    m_ui->m_label->setText(Error.arg(m_player.errorString(), m_player.currentMedia().canonicalUrl().toString()));
 }
 void PlayerWidget::labelTextChanged()
 {

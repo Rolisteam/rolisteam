@@ -39,7 +39,9 @@ private slots:
     void diceRollD10Test();
     void diceRollD20Test();
     void commandEndlessLoop();
+
     void mathPriority();
+    void mathPriority_data();
 
     void commandsTest();
     void commandsTest_data();
@@ -344,33 +346,32 @@ void TestDice::severalInstruction()
 }
 void TestDice::mathPriority()
 {
-    QStringList commands;
+    QFETCH(QString, cmd);
+    QFETCH(int, expected);
 
-    commands << "10+2"
-             << "2-10"
-             << "5+2*3"
-             << "5-5*5+5"
-             << "5-5/5+5"
-             << "10*(3*2)"
-             << "60/(3*2)"
-             << "5-(5*5+5)";
+    bool test = m_diceParser->parseLine(cmd);
+    QVERIFY(test);
+    m_diceParser->start();
+    auto resultList = m_diceParser->getLastIntegerResults();
+    QCOMPARE(resultList.size(),1);
 
-    QList<qreal> results;
-    results <<12 <<-8 << 11 << -15 << 9 << 60 << 10 << -25;
+    auto value = resultList.first();
+    QVERIFY(qFuzzyCompare(value, expected)==1);
+}
 
+void TestDice::mathPriority_data()
+{
+    QTest::addColumn<QString>("cmd");
+    QTest::addColumn<int>("expected");
 
-    for(QString cmd:  commands)
-    {
-        bool test = m_diceParser->parseLine(cmd);
-        QVERIFY2(test,cmd.toStdString().c_str());
-        m_diceParser->start();
-        int index = commands.indexOf(cmd);
-        auto expect = results.at(index);
-        auto resultList = m_diceParser->getLastIntegerResults();
-
-        for(auto result: resultList)
-            QVERIFY2(qFuzzyCompare(result, expect)==1,cmd.toStdString().c_str());
-    }
+    QTest::addRow("cmd1") << "10+2"<<12 ;
+    QTest::addRow("cmd2")  << "2-10"<<-8 ;
+    QTest::addRow("cmd3")  << "5+2*3"<< 11 ;
+    QTest::addRow("cmd4")  << "5-5*5+5"<< -15 ;
+    QTest::addRow("cmd5")  << "5-5/5+5"<< 9 ;
+    QTest::addRow("cmd6")  << "10*(3*2)"<< 60 ;
+    QTest::addRow("cmd7")  << "60/(3*2)"<< 10 ;
+    QTest::addRow("cmd8")  << "5-(5*5+5)" << -25;
 }
 
 void TestDice::dangerousCommandsTest()

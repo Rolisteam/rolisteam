@@ -196,7 +196,7 @@ QList<Character*> PlayersList::getCharacterList()
 {
 	QList<Character*> list;
 
-    for(Player* player:m_playersList)
+    for(auto& player:m_playersList)
 	{
 		list << player->getChildrenCharacter();
 	}
@@ -490,7 +490,7 @@ void PlayersList::setLocalPlayer(Player * player)
 void PlayersList::cleanListButLocal()
 {
     beginResetModel();
-    for(Player* tmp : m_playersList )
+    for(auto& tmp : m_playersList )
     {
         if(tmp != m_localPlayer)
         {
@@ -915,7 +915,7 @@ void PlayersList::completeListClean()
 }*/
 Player* PlayersList::getGM()
 {
-    for(auto player : m_playersList)
+    for(auto& player : m_playersList)
     {
         if(player->isGM())
         {

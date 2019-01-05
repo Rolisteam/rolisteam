@@ -212,7 +212,7 @@ void ParticipantsModel::setOwner(Player* owner)
 ParticipantsModel::Permission ParticipantsModel::getPermissionFor(Player* player)
 {
     int permission = 3;
-    for(auto list : m_data)
+    for(auto& list : m_data)
     {
         if(list->contains(player))
         {
@@ -261,17 +261,17 @@ void ParticipantsModel::saveModel(QJsonObject& root)
     QJsonArray readOnly;
     QJsonArray readWrite;
 
-    for(auto player : m_hidden)
+    for(auto& player : m_hidden)
     {
         hidden << player->getUuid();
     }
 
-    for(auto player : m_readOnly)
+    for(auto& player : m_readOnly)
     {
         readOnly << player->getUuid();
     }
 
-    for(auto player : m_readWrite)
+    for(auto& player : m_readWrite)
     {
         readWrite << player->getUuid();
     }
@@ -316,7 +316,7 @@ void ParticipantsModel::loadModel(QJsonObject& root)
 }
 QList<Player*>* ParticipantsModel::getListByChild(Player* owner)
 {
-    for(auto list : m_data)
+    for(auto& list : m_data)
     {
         if(list->contains(owner))
         {

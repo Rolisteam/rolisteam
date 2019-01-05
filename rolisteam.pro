@@ -7,7 +7,7 @@
 CONFIG +=  -console
 #-console
 #
-
+QMAKE_CXXFLAGS += -isystem $$[QT_INSTALL_HEADERS]
 # Version
 DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=9 VERSION_MINOR=0
 

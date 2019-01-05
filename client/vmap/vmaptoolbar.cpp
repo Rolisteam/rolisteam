@@ -115,7 +115,7 @@ void VmapToolBar::setupUi()
 
     connect(m_showOnlyItemsFromThisLayer,SIGNAL(clicked(bool)),this,SLOT(managedAction()));
     connect(m_showGridAct,SIGNAL(triggered()),this,SLOT(triggerGrid()));
-    connect(m_gridAbove,&QCheckBox::toggled,[=](bool b){
+    connect(m_gridAbove,&QCheckBox::toggled, this, [=](bool b){
         if(nullptr!=m_vmap)
         {
             m_vmap->setOption(VisualItem::GridAbove,b);

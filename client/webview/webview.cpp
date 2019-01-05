@@ -130,7 +130,7 @@ void WebView::createActions()
     m_shareAsLink = new QAction(tr("Share"),this);
     m_shareAsLink->setCheckable(true);
 
-    connect(m_shareAsLink,&QAction::triggered,[=](bool checked){
+    connect(m_shareAsLink,&QAction::triggered,this,[=](bool checked){
         m_shareAsHtml->setEnabled(!checked);
         if(checked)
         {
@@ -152,7 +152,7 @@ void WebView::createActions()
     m_shareAsHtml->setCheckable(true);
 
 
-    connect(m_shareAsHtml, &QAction::triggered,[=](bool checked){
+    connect(m_shareAsHtml, &QAction::triggered,this,[=](bool checked){
         m_shareAsLink->setEnabled(!checked);
         if(checked)
         {
@@ -242,13 +242,13 @@ void WebView::creationToolBar()
     m_mainLayout->addLayout(hLayout);
 
 
-    connect(m_addressEdit,&QLineEdit::editingFinished,[=](){
+    connect(m_addressEdit,&QLineEdit::editingFinished,this,[=](){
         m_view->setUrl(QUrl::fromUserInput(m_addressEdit->text()));
     });
     connect(m_reload,&QAction::triggered,m_view,&QWebEngineView::reload);
     connect(m_next,&QAction::triggered,m_view,&QWebEngineView::forward);
     connect(m_previous,&QAction::triggered,m_view,&QWebEngineView::back);
-    connect(m_view,&QWebEngineView::titleChanged,[=](){
+    connect(m_view,&QWebEngineView::titleChanged,this,[=](){
         m_uri->setName(m_view->title());
     });
     connect(m_hideAddress,&QAction::triggered,this,[=](bool b){
@@ -257,7 +257,7 @@ void WebView::creationToolBar()
         else
             m_addressEdit->setEchoMode(QLineEdit::Normal);
     });
-    connect(m_view,&QWebEngineView::urlChanged,[=](){
+    connect(m_view,&QWebEngineView::urlChanged,this,[=](){
         auto url = m_view->url().toString();
         m_uri->setUri(url);
         if((m_shareAsHtml->isChecked() || m_shareAsLink->isChecked() ) && m_keepSharing)

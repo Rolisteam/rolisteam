@@ -103,7 +103,7 @@ void ProfileModel::readSettings(QSettings & settings)
         character->setAvatar(settings.value("CharacterPix").value<QImage>());
         auto path = settings.value("CharacterPath").toString();
         if(!QFileInfo::exists(path))
-            qWarning() << tr("Error: avatar for %2 path is invalid. No file at this path: %1").arg(path).arg(character->name());
+            qWarning() << tr("Error: avatar for %2 path is invalid. No file at this path: %1").arg(path,character->name());
         character->setAvatarPath(settings.value("CharacterPath").toString());
         character->setColor(settings.value("CharacterColor").value<QColor>());
         character->setNpc(false);

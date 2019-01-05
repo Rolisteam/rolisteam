@@ -48,7 +48,7 @@ void MarkDownHighlighter::timerTick()
     if(m_highlightingFinished)
     {
         m_highlightingFinished = false;
-        emit(highlightingFinished());
+        emit highlightingFinished();
     }
 }
 
@@ -307,13 +307,13 @@ void MarkDownHighlighter::initTextFormats(int defaultFontSize)
 
     // set character format for masked syntax
     format = QTextCharFormat();
-    format.setForeground(QBrush("#cccccc"));
+    format.setForeground(QBrush(QColor(204,204,204)));
     m_formats[MaskedSyntax] = format;
 
     // set character format for tables
     format = QTextCharFormat();
     format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
-    format.setForeground(QBrush(QColor("#649449")));
+    format.setForeground(QBrush(QColor(100, 148, 73)));
     m_formats[Table] = format;
 
     // set character format for block quotes

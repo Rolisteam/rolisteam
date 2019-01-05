@@ -301,9 +301,9 @@ void PlayersListWidget::setUI()
     setWidget(centralWidget);
 
     // Actions
-    connect(m_selectionModel, SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),
-            this, SLOT(selectAnotherPerson(const QModelIndex &)));
-    connect(m_model, SIGNAL(rowsRemoved( const QModelIndex &, int, int)),
+    connect(m_selectionModel, SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+            this, SLOT(selectAnotherPerson(QModelIndex)));
+    connect(m_model, SIGNAL(rowsRemoved(QModelIndex,int,int)),
             m_playersListView, SLOT(clearSelection()));
     connect(m_addPlayerButton, SIGNAL(clicked()), this, SLOT(createLocalCharacter()));
     connect(m_delButton, SIGNAL(clicked()), this, SLOT(deleteSelected()));

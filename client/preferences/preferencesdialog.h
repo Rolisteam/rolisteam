@@ -51,7 +51,7 @@ public:
      * @param aRedCheckBox
      * @param parent
      */
-    CheckBoxDelegate(bool aRedCheckBox = false, QObject *parent = 0);
+    CheckBoxDelegate(bool aRedCheckBox = false, QObject *parent = nullptr);
     /**
      * @brief createEditor
      * @param parent
@@ -92,7 +92,7 @@ public slots:
     void commitEditor();
 
 private:
-    CenteredCheckBox* m_editor;
+    CenteredCheckBox* m_editor = nullptr;
 };
 
 
@@ -102,14 +102,16 @@ private:
 class ColorListEditor : public QComboBox
 {
     Q_OBJECT
-    Q_PROPERTY(QColor color READ color WRITE setColor USER true)
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged USER true)
 
 public:
-    ColorListEditor(QWidget *widget = 0);
+    ColorListEditor(QWidget *widget = nullptr);
 
-public:
     QColor color() const;
     void setColor(QColor c);
+
+signals:
+    void colorChanged();
 
 private:
     void populateList();
@@ -130,7 +132,7 @@ public:
      * @param aRedCheckBox
      * @param parent
      */
-    ColorDelegate(QObject *parent = 0);
+    ColorDelegate(QObject *parent = nullptr);
     /**
      * @brief createEditor
      * @param parent

@@ -139,6 +139,7 @@ QColor ColorListEditor::color() const
 void ColorListEditor::setColor(QColor color)
 {
     setCurrentIndex(findData(color, int(Qt::DecorationRole)));
+    emit colorChanged();
 }
 
 void ColorListEditor::populateList()
@@ -610,7 +611,7 @@ void PreferencesDialog::initializePostSettings()
     }
     ui->m_themeComboBox->clear();
 
-    for (RolisteamTheme* theme: m_themes)
+    for (auto& theme: m_themes)
     {
         ui->m_themeComboBox->addItem(theme->getName());
         if(!theme->isRemovable())
@@ -849,7 +850,7 @@ void PreferencesDialog::performDiag()
     QFontDatabase database;
     htmlResult+= tr("<h2>Font families:</h2><ul>");
     linePattern = "<li>%1</li>";
-    for(const QString &family: database.families())
+    for(auto& family: database.families())
     {
         result+= linePattern.arg(family);
     }

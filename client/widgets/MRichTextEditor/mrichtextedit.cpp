@@ -163,7 +163,7 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     // font size
 
     QFontDatabase db;
-    for(int size: db.standardSizes())
+    for(int& size: db.standardSizes())
         f_fontsize->addItem(QString::number(size));
 
     connect(f_fontsize, SIGNAL(activated(QString)),

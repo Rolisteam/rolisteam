@@ -55,7 +55,7 @@ VToolsBar::VToolsBar(QWidget *parent)
     connect(m_colorSelector,SIGNAL(currentColorChanged(QColor&)),this,SIGNAL(currentColorChanged(QColor&)));
     connect(m_colorSelector,SIGNAL(currentModeChanged(int)),this,SIGNAL(currentModeChanged(int)));
     connect(m_resetCountAct, SIGNAL(triggered(bool)), this, SLOT(resetNpcCount()));
-    connect(m_npcNameTextEdit, SIGNAL(textEdited(const QString &)), this, SLOT(npcNameChange(const QString &)));
+    connect(m_npcNameTextEdit, SIGNAL(textEdited(QString)), this, SLOT(npcNameChange(QString)));
     connect(m_toolsGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentActionChanged(QAction*)));
 
 

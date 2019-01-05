@@ -269,8 +269,7 @@ void ServerManager::sendOffAdminAuthFail()
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)),Q_ARG(bool,true));
     }
     emit sendLog(tr("Authentification as Admin fails: %2 - %1, Wrong password.")
-                 .arg(client->getName())
-                 .arg(client->getIpAddress()), LogController::Info);
+                 .arg(client->getName(), client->getIpAddress()), LogController::Info);
 }
 void ServerManager::sendOffAuthSuccessed()
 {
@@ -298,7 +297,8 @@ void ServerManager::kickClient(QString id)
     sendOffModelToAll();
 
     TcpClient* client = nullptr;
-    for(auto key : m_connections.keys())
+    auto keys = m_connections.keys();
+    for(auto& key : keys)
     {
         auto value = m_connections[key];
         if(value->getId() == id)
@@ -307,8 +307,7 @@ void ServerManager::kickClient(QString id)
         }
     }
     emit sendLog(tr("User has been kick out: %2 - %1.")
-                 .arg(client->getName())
-                 .arg(client->getIpAddress()), LogController::Info);
+                 .arg(client->getName(), client->getIpAddress()), LogController::Info);
 
     if(nullptr != client)
     {
@@ -491,7 +490,8 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
 
 void ServerManager::sendOffModelToAll()
 {
-    for( auto connection : m_connections.values())
+    auto values = m_connections.values();
+    for( auto& connection : values)
     {
         sendOffModel(connection);
     }
@@ -510,7 +510,7 @@ void ServerManager::disconnected()
 
 void ServerManager::removeClient(TcpClient* client)
 {
-    client->isReady();
+    emit client->isReady();
 
     auto socket = client->getSocket();
     m_connections.remove(socket);

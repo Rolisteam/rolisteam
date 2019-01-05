@@ -27,7 +27,7 @@ class QPropertyAnimation;
 class HighlighterItem : public VisualItem
 {
     Q_OBJECT
-    Q_PROPERTY(qreal radius READ getRadius WRITE setRadius)
+    Q_PROPERTY(qreal radius READ getRadius WRITE setRadius NOTIFY radiusChanged)
 public:
     HighlighterItem();
     /**
@@ -83,6 +83,9 @@ public:
     void setGeometryPoint(qreal,QPointF&);
     void initChildPointItem();
     VisualItem* getItemCopy();
+
+signals:
+    void radiusChanged();
 
 protected:
     void initAnimation();

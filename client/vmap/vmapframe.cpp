@@ -84,10 +84,7 @@ void VMapFrame::updateMap()
 void VMapFrame::updateTitle()
 {
     m_vmap->setTitle(getUriName());
-    setWindowTitle(tr("%1 - visibility: %2 - permission: %3 - layer: %4").arg(getUriName())
-                   .arg(m_vmap->getVisibilityModeText())
-                   .arg(m_vmap->getPermissionModeText())
-                   .arg(m_vmap->getCurrentLayerText()));
+    setWindowTitle(tr("%1 - visibility: %2 - permission: %3 - layer: %4").arg(getUriName(), m_vmap->getVisibilityModeText(),m_vmap->getPermissionModeText(), m_vmap->getCurrentLayerText()));
 }
 
 VMap* VMapFrame::getMap()

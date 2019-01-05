@@ -472,7 +472,7 @@ bool ChannelModel::addConnectionToDefaultChannel(TcpClient* client)
 bool ChannelModel::addConnectionToChannel(QString chanId, TcpClient* client)
 {
     bool found=false;
-    for(auto item : m_root)
+    for(auto& item : m_root)
     {
         if(nullptr != item)
         {
@@ -484,7 +484,7 @@ bool ChannelModel::addConnectionToChannel(QString chanId, TcpClient* client)
 void ChannelModel::readDataJson(const QJsonObject& obj)
 {
     beginResetModel();
-    for(auto item : m_root)
+    for(auto& item : m_root)
     {
         item->clear();
     }
@@ -515,7 +515,7 @@ void ChannelModel::readDataJson(const QJsonObject& obj)
 void ChannelModel::writeDataJson(QJsonObject& obj)
 {
     QJsonArray array;
-    for(auto item : m_root) //int i = 0; i< m_root->childCount(); ++i)
+    for(auto& item : m_root) //int i = 0; i< m_root->childCount(); ++i)
     {
         if(nullptr != item)
         {
@@ -548,7 +548,7 @@ void ChannelModel::writeSettings()
 
 void ChannelModel::kick(QString id)
 {
-    for(auto item : m_root)
+    for(auto& item : m_root)
     {
         if(nullptr != item)
         {
@@ -568,7 +568,7 @@ void ChannelModel::setAdmin(bool admin)
 }
 TreeItem* ChannelModel::getItemById(QString id)
 {
-    for(auto item : m_root)
+    for(auto& item : m_root)
     {
         if(nullptr != item)
         {
@@ -591,7 +591,7 @@ TreeItem* ChannelModel::getItemById(QString id)
 
 TcpClient* ChannelModel::getPlayerById(QString id)
 {
-    for(auto item : m_root)
+    for(auto& item : m_root)
     {
         if(nullptr == item)
             continue;

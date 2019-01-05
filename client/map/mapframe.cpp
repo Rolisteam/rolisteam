@@ -96,7 +96,7 @@ void MapFrame::updateTitle()
     {
         permission=tr("Pc Move");
     }
-    setWindowTitle(tr("%1 - Permission: %2").arg(getUriName()).arg(permission));
+    setWindowTitle(tr("%1 - Permission: %2").arg(getUriName(), permission));
 }
 
 Map* MapFrame::getMap()
@@ -499,7 +499,7 @@ void MapFrame::saveMedia()
             QFile file(m_uri->getUri());
             if (!file.open(QIODevice::WriteOnly))
             {
-                notifyUser("could not open file for writting (saveMap - MapFrame.cpp)");
+                emit notifyUser(QStringLiteral("could not open file for writting (saveMap - MapFrame.cpp)"));
                 return;
             }
             QDataStream out(&file);

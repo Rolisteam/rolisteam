@@ -32,7 +32,7 @@
 /******************
  * Local Features *
  ******************/
-
+// clazy:skip
 #define LENGTH(X) (sizeof X / sizeof X[0])
 
 static struct {

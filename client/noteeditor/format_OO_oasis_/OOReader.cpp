@@ -3,7 +3,7 @@
 /*  Save file as OOReader.cpp  */
 /*  incomming class name OOReader */
 //
-
+// clazy:skip
 
 #include "GZipWriter.h"
 #include "GZipReader.h"
@@ -1412,7 +1412,6 @@ QTextFrameFormat OOReader::FrameFormat( const QString name )
 {
 	QTextFrameFormat init;
 	init.setWidth ( -1 );
-	QTextFrameFormat base;
 	if (css2[name].valid) {
 		return css2[name].of.toFrameFormat();
 	}

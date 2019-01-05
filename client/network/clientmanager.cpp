@@ -58,27 +58,27 @@ ClientManager::ClientManager(ConnectionProfile* connection)
     m_error= new QState();
     m_disconnected= new QState();
 
-    connect(m_connected,&QAbstractState::entered,[=]()
+    connect(m_connected,&QAbstractState::entered,this,[=]()
     {
         qDebug() <<"client connected state" ;
         setConnectionState(CONNECTED);
         emit connectedToServer();
         sendOffConnectionInfo();
     });
-    connect(m_connecting,&QAbstractState::entered,[=]()
+    connect(m_connecting,&QAbstractState::entered,this,[=]()
     {
         qDebug() <<"client connecting state" ;
         setConnectionState(CONNECTING);
         emit isConnecting();
     });
-    connect(m_disconnected,&QAbstractState::entered,[=]()
+    connect(m_disconnected,&QAbstractState::entered,this,[=]()
     {
         qDebug() <<"client disconnected state" ;
         setConnectionState(DISCONNECTED);
         emit isDisconnected();
         emit connectionProcessEnd();
     });
-    connect(m_authentified,&QAbstractState::entered,[=]()
+    connect(m_authentified,&QAbstractState::entered,this,[=]()
     {
         qDebug() <<"client authentified state" ;
         setConnectionState(AUTHENTIFIED);
@@ -86,7 +86,7 @@ ClientManager::ClientManager(ConnectionProfile* connection)
         emit connectionProcessEnd();
     });
 
-    connect(m_error,&QAbstractState::entered,[=]()
+    connect(m_error,&QAbstractState::entered,this,[=]()
     {
         qDebug() <<"Error state";
         emit connectionProcessEnd();

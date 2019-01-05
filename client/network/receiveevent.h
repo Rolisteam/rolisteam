@@ -101,7 +101,6 @@ public:
     static void removeNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver);
 private:
     NetworkMessageReader m_data;
-    ClientManager* m_manager;
     NetworkLink * m_link;
     quint8 m_repost;
 

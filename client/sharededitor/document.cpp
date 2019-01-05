@@ -56,11 +56,11 @@ Document::Document(QWidget *parent) :
     setParticipantsHidden(true);
     m_editor->setReadOnly(true);
 
-    connect(m_participantPane,&ParticipantsPane::localPlayerIsOwner,[=](bool isOwner){
+    connect(m_participantPane,&ParticipantsPane::localPlayerIsOwner,this,[=](bool isOwner){
       setParticipantsHidden(!isOwner);
     });
 
-    connect(m_participantPane,&ParticipantsPane::localPlayerPermissionChanged,[=](ParticipantsModel::Permission perm){
+    connect(m_participantPane,&ParticipantsPane::localPlayerPermissionChanged,this,[=](ParticipantsModel::Permission perm){
       if(ParticipantsModel::readOnly == perm)
       {
           m_editor->setReadOnly(true);

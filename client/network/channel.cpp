@@ -152,7 +152,7 @@ void Channel::sendToMany(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
 { 
     auto const recipient = msg->getRecipientList();
     int i = 0;
-    for(auto client : m_child)
+    for(auto& client : m_child)
     {
         TcpClient* other = dynamic_cast<TcpClient*>(client.data());
 
@@ -170,7 +170,7 @@ void Channel::sendToMany(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
 void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
 {
     int i = 0;
-    for(auto client : m_child)
+    for(auto& client : m_child)
     {
         TcpClient* other = dynamic_cast<TcpClient*>(client.data());
         if((nullptr != other)&&(other!=tcp))
@@ -223,7 +223,7 @@ bool Channel::addChildInto(QString id, TreeItem* child)
     }
     else
     {
-        for(TreeItem* item : m_child)
+        for(auto& item : m_child)
         {
             if(item->addChildInto(id, child))
             {
@@ -240,7 +240,7 @@ void Channel::updateNewClient(TcpClient* newComer)
     msg1->string8(newComer->getId());
     QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg1),Q_ARG(bool,true));
     //Sending players infos
-    for(auto child : m_child)
+    for(auto& child : m_child)
     {
         if(child->isLeaf())
         {
@@ -261,7 +261,7 @@ void Channel::updateNewClient(TcpClient* newComer)
         }
     }
     //resend all previous data received
-    for(auto msg : m_dataToSend)
+    for(auto & msg : m_dataToSend)
     {
         //tcp->sendMessage(msg);
         QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg),Q_ARG(bool,false));
@@ -271,7 +271,7 @@ void Channel::updateNewClient(TcpClient* newComer)
 void Channel::kick(QString str)
 {
     bool found = false;
-    for(TreeItem* item : m_child)
+    for(auto& item : m_child)
     {
         if(item == nullptr)
             continue;
@@ -282,14 +282,14 @@ void Channel::kick(QString str)
             m_child.removeAll(item);
             emit itemChanged();
 
-            TcpClient* client = dynamic_cast<TcpClient*>(item);
+            TcpClient* client = dynamic_cast<TcpClient*>(item.data());
             removeClient(client);
             QMetaObject::invokeMethod(client,"closeConnection",Qt::QueuedConnection);
         }
     }
     if(!found)
     {
-        for(TreeItem* item : m_child)
+        for(auto& item : m_child)
         {
             item->kick(str);
         }
@@ -300,7 +300,7 @@ void Channel::kick(QString str)
 
 void Channel::clear()
 {
-    for(TreeItem* item : m_child)
+    for(auto& item : m_child)
     {
         item->clear();
     }
@@ -309,7 +309,7 @@ void Channel::clear()
 }
 TreeItem* Channel::getChildById(QString id)
 {
-    for(TreeItem* item : m_child)
+    for(auto& item : m_child)
     {
         if(item->getId() == id)
         {
@@ -329,7 +329,7 @@ TreeItem* Channel::getChildById(QString id)
 
 TcpClient* Channel::getPlayerById(QString id)
 {
-    for(auto item : m_child)
+    for(auto& item : m_child)
     {
         if(nullptr == item)
             continue;
@@ -421,7 +421,7 @@ bool Channel::removeChild(TreeItem* itm)
 bool Channel::hasNoClient()
 {
     bool hasNoClient = true;
-    for(auto child : m_child)
+    for(auto& child : m_child)
     {
         if(child->isLeaf())
         {

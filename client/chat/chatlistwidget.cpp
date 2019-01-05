@@ -54,11 +54,11 @@ ChatListWidget::ChatListWidget(MainWindow * parent)
     m_listView->setItemDelegateForColumn(0,blinkingDelegate);
     m_listView->setModel(m_chatList);
     m_listView->setIconSize(QSize(28,20));
-    connect(m_listView, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(editChat(const QModelIndex &)));
+    connect(m_listView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editChat(QModelIndex)));
 
     m_selectionModel = m_listView->selectionModel();
-    connect(m_selectionModel, SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),
-            this, SLOT(selectAnotherChat(const QModelIndex &)));
+    connect(m_selectionModel, SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+            this, SLOT(selectAnotherChat(QModelIndex)));
 //    listView->installEventFilter(this);
 
     QPushButton * addChatButton = new QPushButton(tr("Add a chat"));

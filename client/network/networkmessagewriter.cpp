@@ -234,7 +234,7 @@ void NetworkMessageWriter::setRecipientList(QStringList list,NetworkMessage::Rec
     if(mode != NetworkMessage::All)
     {
         uint8(list.size());
-        for(auto string : list)
+        for(auto& string : list)
         {
             string8(string);
         }

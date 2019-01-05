@@ -21,7 +21,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
+// clazy:skip
 #include "map/map.h"
 
 #include <QMessageBox>
@@ -620,15 +620,12 @@ QRect Map::zoneToRefresh()
 {
     QRect resultat;
 
-
-    QPoint supGauche, infDroit;
     int gauche = m_originPoint.x()<m_mousePoint.x()?m_originPoint.x():m_mousePoint.x();
     int haut = m_originPoint.y()<m_mousePoint.y()?m_originPoint.y():m_mousePoint.y();
     int droit = m_originPoint.x()>m_mousePoint.x()?m_originPoint.x():m_mousePoint.x();
     int bas = m_originPoint.y()>m_mousePoint.y()?m_originPoint.y():m_mousePoint.y();
     int largeur = droit - gauche + 1;
     int hauteur = bas - haut + 1;
-
 
     if (m_currentTool == ToolsBar::Pen)
     {

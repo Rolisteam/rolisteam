@@ -227,16 +227,16 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
                 {
                     if(cmdMustBeHidden)
                     {//<span class=\"dice\"> </span> // <span title=\"%3\"> </span>
-                        diceOutput = tr("<span title=\"%3\">got %1 at your dice roll [%2]</span>","my dice roll").arg(value).arg(list).arg(cmdLine);
+                        diceOutput = tr("<span title=\"%3\">got %1 at your dice roll [%2]</span>","my dice roll").arg(value, list, cmdLine);
                     }
                     else
                     {
-                        diceOutput = tr("got %1 at your dice roll [%3 (%2)]","my dice roll").arg(value).arg(list).arg(cmdLine);
+                        diceOutput = tr("got %1 at your dice roll [%3 (%2)]","my dice roll").arg(value, list, cmdLine);
                     }
                 }
                 else
                 {
-                    diceOutput = tr("got %1 at your dice roll [%2]","my dice roll").arg(value).arg(cmdLine);
+                    diceOutput = tr("got %1 at your dice roll [%2]","my dice roll").arg(value, cmdLine);
                 }
                 if(showResult)
                 {
@@ -247,16 +247,16 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
                 {
                     if(cmdMustBeHidden)
                     {
-                        diceOutput2 = tr("<span title=\"%3\">got %1 [%2]</span>","third person").arg(value).arg(list).arg(cmdLine);
+                        diceOutput2 = tr("<span title=\"%3\">got %1 [%2]</span>","third person").arg(value,list,cmdLine);
                     }
                     else
                     {
-                        diceOutput2 = tr("got %1 [%3 (%2)]","third person").arg(value).arg(list).arg(cmdLine);
+                        diceOutput2 = tr("got %1 [%3 (%2)]","third person").arg(value,list,cmdLine);
                     }
                 }
                 else
                 {
-                    diceOutput2 = tr("got %1 [%2]","third person").arg(value).arg(cmdLine);
+                    diceOutput2 = tr("got %1 [%2]","third person").arg(value,cmdLine);
                 }
                 message = diceOutput2;
         }
@@ -317,9 +317,9 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
     setProperDictionnary(localPersonIdentifier);
     CHAT_OPERATOR chatOperator = NONE;
 
-    if(m_operatorMap->contains(tmpmessage.left(1)))
+    if(m_operatorMap->contains(tmpmessage.at(0)))
     {
-        chatOperator = m_operatorMap->value(tmpmessage.left(1));
+        chatOperator = m_operatorMap->value(tmpmessage.at(0));
         tmpmessage=tmpmessage.remove(0,1);
 
         switch(chatOperator)
@@ -411,10 +411,11 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
 QStringList ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
 {
     QStringList global;
-    for(auto dice : diceList)
+    for(auto& dice : diceList)
     {
         QStringList resultGlobal;
-        for(int face : dice.keys())
+        auto const& keys = dice.keys();
+        for(auto const& face : keys)
         {
             QStringList result;
             QStringList currentStreak;
@@ -423,7 +424,7 @@ QStringList ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
             bool previousHighlight=false;
             QString previousColor;
             QString patternColor("<span class=\"dice\">");
-            for (HighLightDice tmp : diceResult)
+            for (auto& tmp : diceResult)
             {
                 if(previousColor != tmp.getColor())
                 {
@@ -467,15 +468,15 @@ QStringList ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
                 }
                 previousHighlight = tmp.isHighlighted();
                 previousColor = tmp.getColor();
-                for(int i =0; i < tmp.getResult().size(); ++i)
+                auto const& result = tmp.getResult();
+                for(auto& dievalue : result)
                 {
-                    qint64 dievalue = tmp.getResult()[i];
                     diceListStr << QString::number(dievalue);
                 }
                 if(diceListStr.size()>1)
                 {
                     QString first = diceListStr.takeFirst();
-                    first = QString("%1 [%2]").arg(first).arg(diceListStr.join(','));
+                    first = QString("%1 [%2]").arg(first, diceListStr.join(','));
                     diceListStr.clear();
                     diceListStr << first;
                 }
@@ -498,11 +499,12 @@ QStringList ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
                     //currentStreak.clear();
                 }
             }
-            for(QStringList a : allStreakList)
+            for(auto& a : allStreakList)
             {
                 result << a;
             }
-            if(dice.keys().size()>1)
+
+            if(keys.size()>1)
             {
                 resultGlobal << QString(" d%2:(%1)").arg(result.join(",")).arg(face);
             }
@@ -626,14 +628,14 @@ void ChatWindow::showMessage(const QString& user, const QColor& color, const QSt
 
 
     QString userSpan("<span style=\"color:%2;\">%1</span>");
-    userSpan = userSpan.arg(user).arg(color.name());
+    userSpan = userSpan.arg(user, color.name());
 
     //
     if(m_showTime)
     {
         QColor color = m_preferences->value("MessagingColorTime",QColor(Qt::darkGreen)).value<QColor>();
         QString time("<span style=\"color:%2;font-size: small;\">[%1]</span> ");
-        time = time.arg(QTime::currentTime().toString("hh:mm")).arg(color.name());
+        time = time.arg(QTime::currentTime().toString("hh:mm"), color.name());
         userSpan.prepend(time);
     }
 
@@ -645,7 +647,7 @@ void ChatWindow::showMessage(const QString& user, const QColor& color, const QSt
         m_displayZone->setAlignment(Qt::AlignCenter);//<span style=\"font-size: strong;\"></span>
     }
 
-    m_displayZone->append(pattern.arg(userSpan).arg(msg));
+    m_displayZone->append(pattern.arg(userSpan, msg));
     m_displayZone->setAlignment(align);
     setUpdatesEnabled(true);
     if (!m_editionZone->hasFocus() && !m_hasUnseenMessage)
@@ -920,7 +922,7 @@ void ChatWindow::removeAllShortcut()
 
 void ChatWindow::updateAction()
 {
-    for(auto shortCutPair : m_diceBookMarks)
+    for(auto& shortCutPair : m_diceBookMarks)
     {
         createAction(shortCutPair);
     }
@@ -950,7 +952,7 @@ void ChatWindow::contextMenuEvent(QContextMenuEvent *event)
             QAction* action = remove->addAction(pair.text());
             action->setData(i);
             ++i;
-            connect(action,&QAction::triggered,this,[=](){
+            connect(action,&QAction::triggered,this,[this](){
                 auto act = qobject_cast<QAction*>(sender());
                 auto indexInt = act->data().toInt();
                 auto index = static_cast<std::size_t>(indexInt);

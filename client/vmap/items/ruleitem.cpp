@@ -95,7 +95,7 @@ void RuleItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     f.setPixelSize(FONT_SIZE*1/m_zoomFactor);
     painter->setFont(f);
 
-    painter->drawText(m_endPoint,QString("%1 %2").arg(QString::number(unitCount,'f',2)).arg(m_unitText));
+    painter->drawText(m_endPoint,QString("%1 %2").arg(QString::number(unitCount,'f',2), m_unitText));
 }
 void RuleItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {

@@ -173,7 +173,7 @@ bool CleverURI::hasData() const
 
 void CleverURI::updateListener(CleverURI::DataValue value)
 {
-    for(CleverURIListener* listener : m_listenerList)
+    for(auto& listener : m_listenerList)
     {
         listener->cleverURIHasChanged(this,value);
     }

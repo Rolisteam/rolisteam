@@ -55,8 +55,8 @@ QStringList AbstractChat::getRecipientList() const
 PublicChat::PublicChat()
 {
     PlayersList* g_playersList = PlayersList::instance();
-    connect(g_playersList, SIGNAL(playerAdded(Player *)), this, SIGNAL(changedMembers()));
-    connect(g_playersList, SIGNAL(playerDeleted(Player *)), this, SIGNAL(changedMembers()));
+    connect(g_playersList, SIGNAL(playerAdded(Player*)), this, SIGNAL(changedMembers()));
+    connect(g_playersList, SIGNAL(playerDeleted(Player*)), this, SIGNAL(changedMembers()));
 }
 
 PublicChat::~PublicChat()
@@ -103,8 +103,8 @@ PlayerChat::PlayerChat(Player * player)
 {
     if (m_player == nullptr)
         qFatal("PlayerChat with nullptr player");
-    connect(PlayersList::instance(), SIGNAL(playerChanged(Player *)),
-            this, SLOT(verifyName(Player *)));
+    connect(PlayersList::instance(), SIGNAL(playerChanged(Player*)),
+            this, SLOT(verifyName(Player*)));
 }
 
 PlayerChat::~PlayerChat()

@@ -35,7 +35,7 @@ TipOfDayViewer::TipOfDayViewer(QString title, QString msg, QString url,QWidget *
 
     if(!url.isEmpty())
     {
-        connect(m_ui->m_buttonBox,&QDialogButtonBox::clicked,[&](QAbstractButton* btn){
+        connect(m_ui->m_buttonBox,&QDialogButtonBox::clicked,this,[&](QAbstractButton* btn){
             auto standard = m_ui->m_buttonBox->standardButton(btn);
             if(QDialogButtonBox::Open == standard)
             {

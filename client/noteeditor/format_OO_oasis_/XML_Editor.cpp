@@ -133,19 +133,7 @@ bool XMLTextEdit::event( QEvent *event )
     return QTextEdit::event(event);
 } 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+// clazy:skip
 
 static const QColor DEFAULT_SYNTAX_CHAR		= Qt::blue;
 static const QColor DEFAULT_ELEMENT_NAME	= Qt::darkRed;

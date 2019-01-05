@@ -362,7 +362,7 @@ void Character::setAvatarPath(const QString &avatarPath)
 void Character::setCurrentState(QString name, QColor color, QString image)
 {
     CharacterState* tmpState=nullptr;
-    for(auto state: *m_stateList)
+    for(auto& state: *m_stateList)
     {
         if(state->getLabel() == name && color == state->getColor() )
         {
@@ -444,7 +444,7 @@ QHash<QString, QString> Character::getVariableDictionnary()
     }
     else if(!m_propertyList.isEmpty())
     {
-        for(auto property : m_propertyList)
+        for(auto& property : m_propertyList)
         {
             if(property != nullptr)
                 variables.insert(property->name(),property->value());
@@ -480,7 +480,7 @@ int Character::indexOfState(CharacterState* state)
 
 CharacterState* Character::getStateFromLabel(QString label)
 {
-    for(CharacterState* state: *m_stateList)
+    for(auto& state: *m_stateList)
     {
         if(state->getLabel() == label)
         {

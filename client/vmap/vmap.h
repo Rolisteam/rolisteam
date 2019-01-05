@@ -322,6 +322,11 @@ public:
     int getItemCount();
     int getSortedItemCount();
     int getOrderedItemCount();
+    /**
+     * @brief getFogItem
+     * @return
+     */
+    SightItem* getFogItem() const;
 public slots:
     /**
     * @brief defines the current tools
@@ -382,11 +387,6 @@ public slots:
      */
     QList<CharacterItem*> getCharacterOnMap(QString id);
     /**
-     * @brief getFogItem
-     * @return
-     */
-    SightItem* getFogItem() const;
-    /**
      * @brief setEditionMode
      */
     void setEditionMode(VToolsBar::EditionMode);
@@ -430,8 +430,8 @@ public slots:
     //void selectionPositionHasChanged();
     void showTransparentItems();
     //void selectionPositionAboutToChange();
-    void cleanUpInit(APPLY_ON_CHARACTER zone);
-    void rollInit(APPLY_ON_CHARACTER zone);
+    void cleanUpInit(VMap::APPLY_ON_CHARACTER zone);
+    void rollInit(VMap::APPLY_ON_CHARACTER zone);
 signals:
     /**
      * @brief npcAdded

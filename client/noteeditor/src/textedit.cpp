@@ -70,28 +70,10 @@
 
 ////// #include "OOReader.h"
 
-
-
-static inline QString FileFilterHaving()
-{
-    QString filter;
-    filter = "";
-    ///////filter += QString( "FOP file" ) + " (*.fop *.fop.gz *.fo *.fo.gz *.xml);;";
-    /////filter+= QString( "MiniScribus binary stream file" ) + " (*.page);;";
-    //////filter+= QString( "OpenOffice 1.1 file format" ) + " (*.sxw *.stw);;";
-    filter+= QString( "OpenOffice 2.4 file format OASIS " ) + " (*.odt *.ott);;";
-    filter+= QString( "XHTML file format" ) + " (*.htm *.html);;";
-    //////filter += ")";
-    return filter;
-}
-
-QString TextEdit::m_filter = QString("%1 %2 %3 %4").arg(QObject::tr("OpenOffice 2.4 file format OASIS ")).arg(QStringLiteral(" (*.odt *.ott);;")).arg(QStringLiteral("XHTML file format")).arg(QStringLiteral(" (*.htm *.html);;"));
-
-
 #ifdef Q_WS_MAC
-const QString rsrcPath = ":/images/mac";
+const QString TextEdit::rsrcPath = QStringLiteral(":/images/mac");
 #else
-const QString rsrcPath = ":/images/win";
+const QString TextEdit::rsrcPath = QStringLiteral(":/images/win");
 #endif
 
 TextEdit::TextEdit(QWidget *parent)
@@ -111,8 +93,8 @@ TextEdit::TextEdit(QWidget *parent)
     //    }
 
     textEdit = new QTextEdit(this);
-    connect(textEdit, SIGNAL(currentCharFormatChanged(const QTextCharFormat &)),
-            this, SLOT(currentCharFormatChanged(const QTextCharFormat &)));
+    connect(textEdit, SIGNAL(currentCharFormatChanged(QTextCharFormat)),
+            this, SLOT(currentCharFormatChanged(QTextCharFormat)));
     connect(textEdit, SIGNAL(cursorPositionChanged()),
             this, SLOT(cursorPositionChanged()));
 
@@ -328,7 +310,7 @@ void TextEdit::setupTextActions()
     menu->addSeparator();
 
     QActionGroup *grp = new QActionGroup(this);
-    connect(grp, SIGNAL(triggered(QAction *)), this, SLOT(textAlign(QAction *)));
+    connect(grp, SIGNAL(triggered(QAction*)), this, SLOT(textAlign(QAction*)));
 
     actionAlignLeft = new QAction(QIcon(rsrcPath + "/textleft.png"), tr("&Left"), grp);
     actionAlignLeft->setShortcut(Qt::CTRL + Qt::Key_L);
@@ -376,8 +358,8 @@ void TextEdit::setupTextActions()
 
     comboFont = new QFontComboBox(tb);
     tb->addWidget(comboFont);
-    connect(comboFont, SIGNAL(activated(const QString &)),
-            this, SLOT(textFamily(const QString &)));
+    connect(comboFont, SIGNAL(activated(QString)),
+            this, SLOT(textFamily(QString)));
 
     comboSize = new QComboBox(tb);
     comboSize->setObjectName("comboSize");
@@ -385,11 +367,11 @@ void TextEdit::setupTextActions()
     comboSize->setEditable(true);
 
     QFontDatabase db;
-    for(int size : db.standardSizes())
+    for(int& size : db.standardSizes())
         comboSize->addItem(QString::number(size));
 
-    connect(comboSize, SIGNAL(activated(const QString &)),
-            this, SLOT(textSize(const QString &)));
+    connect(comboSize, SIGNAL(activated(QString)),
+            this, SLOT(textSize(QString)));
     comboSize->setCurrentIndex(comboSize->findText(QString::number(QApplication::font()
                                                                    .pointSize())));
 }
@@ -493,8 +475,7 @@ void TextEdit::fileNew()
 
 void TextEdit::fileOpen()
 {
-    QString fn = QFileDialog::getOpenFileName(this, tr("Open File..."),
-                                              QString(setter.value("LastDir").toString()), m_filter );
+    QString fn = QFileDialog::getOpenFileName(this, tr("Open File..."),QString(setter.value("LastDir").toString()), getFilter());
     if (!fn.isEmpty())  {
         QFileInfo fi(fn);
         setter.setValue("LastDir",fi.absolutePath() +"/");
@@ -590,7 +571,7 @@ void TextEdit::filePrintPreview()
     QPrinter printer(QPrinter::HighResolution);
     QPrintPreviewDialog preview(&printer, this);
     preview.setWindowFlags ( Qt::Window );
-    connect(&preview, SIGNAL(paintRequested(QPrinter *)), SLOT(printPreview(QPrinter *)));
+    connect(&preview, SIGNAL(paintRequested(QPrinter*)), SLOT(printPreview(QPrinter*)));
     preview.exec();
 #endif
 }
@@ -801,7 +782,8 @@ QString TextEdit::getFileName() const
     return fileName;
 }
 
-QString TextEdit::getFilter()
+QString TextEdit::getFilter() const
 {
-    return m_filter;
+    return QString("%1 %2 %3 %4").arg(tr("OpenOffice 2.4 file format OASIS "), QStringLiteral(" (*.odt *.ott);;"),
+                                  QStringLiteral("XHTML file format"), QStringLiteral(" (*.htm *.html);;"));
 }

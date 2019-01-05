@@ -11,7 +11,7 @@ RServer::RServer(ServerManager* serverMan,int threadCount,QObject *parent)
 
 RServer::~RServer()
 {
-    for(auto thread : m_threadPool)
+    for(auto& thread : m_threadPool)
     {
         thread.first->quit();
         thread.first->wait(1000);

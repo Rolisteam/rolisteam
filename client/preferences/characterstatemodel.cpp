@@ -335,7 +335,7 @@ void CharacterStateModel::processRemoveState(NetworkMessageReader* msg)
 
 void CharacterStateModel::sendOffAllCharacterState()
 {
-    for(CharacterState* state : *m_stateList)
+    for(auto& state : *m_stateList)
     {
         NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addState);
         msg.uint64(m_stateList->indexOf(state));
@@ -398,7 +398,7 @@ void CharacterStateModel::load(const QJsonObject &obj)
 void CharacterStateModel::save(QJsonObject &obj)
 {
     QJsonArray states;
-    for(auto state : *m_stateList)
+    for(auto& state : *m_stateList)
     {
         QJsonObject stateObj;
         stateObj["label"]=state->getLabel();

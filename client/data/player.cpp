@@ -96,7 +96,7 @@ void Player::fill(NetworkMessageWriter & message,bool addAvatar)
     message.string16(QCoreApplication::instance()->applicationVersion());
     message.int32(m_characters.size());
 
-    for(Character* item : m_characters)
+    for(auto& item : m_characters)
     {
         item->fill(message,addAvatar);
         message.uint8(1); // add it to the map
@@ -162,7 +162,7 @@ void Player::addCharacter(Character* character)
 }
 void Player::clearCharacterList()
 {
-    for(auto character : m_characters)
+    for(auto& character : m_characters)
     {
         character->setParentPerson(nullptr);
     }

@@ -94,7 +94,7 @@ void MusicModel::addSong(QStringList list)
         return;
 
     beginInsertRows(QModelIndex(),m_data.size(),m_data.size()+list.size()-1);
-    for ( QString tmp: list)
+    for ( auto& tmp: list)
     {
         //QMediaContent* tmpMedia = new QMediaContent(tmp);
         QUrl tmpUrl= QUrl::fromUserInput(tmp);//,QUrl::StrictMode
@@ -158,7 +158,7 @@ void MusicModel::removeSong(const QModelIndexList& list)
 void MusicModel::setCurrentSong(const QModelIndex& p)
 {
     m_currentSong = p;
-    dataChanged(p,p);
+    emit dataChanged(p,p);
 }
 QModelIndex MusicModel::getCurrentSong()
 {
@@ -166,7 +166,7 @@ QModelIndex MusicModel::getCurrentSong()
 }
 void MusicModel::saveIn(QTextStream& file)
 {
-    for (QMediaContent* tmp: m_data)
+    for (auto& tmp: m_data)
     {
         file << tmp->canonicalUrl().toString(QUrl::PreferLocalFile) << "\n";
     }

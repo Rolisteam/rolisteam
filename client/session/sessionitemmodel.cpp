@@ -125,7 +125,7 @@ void SessionItemModel::updateNode(ResourcesNode* node)
     if(m_rootItem->seekNode(path,node))
     {
         ResourcesNode* parentItem=nullptr;
-        for(auto i : path)
+        for(auto& i : path)
         {
             if(nullptr!=parentItem)
             {
@@ -201,7 +201,7 @@ bool SessionItemModel::dropMimeData(const QMimeData *data,
     else if((data->hasUrls())&&(!added))
     {
         QList<QUrl> list = data->urls();
-        for(QUrl url: list)
+        for(QUrl& url: list)
         {
             if(url.isLocalFile())
             {

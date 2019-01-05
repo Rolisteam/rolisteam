@@ -63,7 +63,7 @@ ImprovedWorkspace::~ImprovedWorkspace()
 }
 bool ImprovedWorkspace::showCleverUri(CleverURI* uri)
 {
-    for(auto i : m_actionSubWindowMap->values())
+    for(auto& i : *m_actionSubWindowMap)
     {
         auto media = dynamic_cast<MediaContainer*>(i);
         if(nullptr != media)
@@ -124,16 +124,16 @@ void ImprovedWorkspace::updateBackGround()
         break;
     case Scaled:
     {
-        qreal rd=(qreal)w/(qreal)h;
+        qreal rd=static_cast<qreal>(w)/static_cast<qreal>(h);
         if(rd>1)
         {
             w=m_variableSizeBackground.width();
-            h=w/rd;
+            h=static_cast<int>(w/rd);
         }
         else
         {
             h=m_variableSizeBackground.height();
-            w=h/rd;
+            w=static_cast<int>(h/rd);
         }
         x = m_variableSizeBackground.width()/2-w/2;
         y = m_variableSizeBackground.height()/2-h/2;
@@ -226,7 +226,8 @@ void ImprovedWorkspace::setTabbedMode(bool isTabbed)
         setTabsMovable ( true );
         setTabPosition(QTabWidget::North);
         /// make all subwindows visible.
-        for(QAction* act : m_actionSubWindowMap->keys())
+        auto keys = m_actionSubWindowMap->keys();
+        for(QAction* act : keys)
         {
             auto tmp = m_actionSubWindowMap->value(act);
             if(nullptr == tmp)
@@ -255,7 +256,8 @@ bool ImprovedWorkspace::updateTitleTab()
     int textLength = m_preferences->value("MaxLengthTabName",10).toInt();
     if((viewMode() == QMdiArea::TabbedView)&&(shortName))
     {
-        for(auto subwindow : m_actionSubWindowMap->values())
+        auto values = m_actionSubWindowMap->values();
+        for(auto& subwindow : values)
         {
             auto title = subwindow->windowTitle();
             if(title.size() > textLength)
@@ -268,8 +270,8 @@ bool ImprovedWorkspace::updateTitleTab()
     }
     else
     {
-
-        for(auto key : m_titleBar.keys())
+        auto keys = m_titleBar.keys();
+        for(auto& key : keys)
         {
             auto title = m_titleBar.value(key);
             key->setWindowTitle(title);
@@ -309,7 +311,7 @@ QVector<QMdiSubWindow*> ImprovedWorkspace::getAllSubWindowFromId(const QString& 
 {
     QVector<QMdiSubWindow*> vector;
 
-    for(QMdiSubWindow* tmp: subWindowList())
+    for(auto& tmp: subWindowList())
     {
         if(nullptr!=tmp->widget())
         {
@@ -328,7 +330,7 @@ QVector<QMdiSubWindow*> ImprovedWorkspace::getAllSubWindowFromId(const QString& 
 
 QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
 {
-    for(QMdiSubWindow* tmp: subWindowList())
+    for(auto& tmp: subWindowList())
     {
         if(nullptr!=tmp->widget())
         {

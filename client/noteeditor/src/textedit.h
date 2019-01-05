@@ -70,7 +70,7 @@ class TextEdit : public QMainWindow
 
 public:
     TextEdit(QWidget *parent = 0);
-    QString getFilter();
+    QString getFilter() const;
 
     QString getFileName() const;
 
@@ -158,7 +158,7 @@ private:
     QString fileName;
     QTextEdit *textEdit;
 
-    static QString m_filter;
+    static const QString rsrcPath;
 };
 
 #endif

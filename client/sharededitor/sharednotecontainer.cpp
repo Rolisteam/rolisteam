@@ -107,7 +107,7 @@ void SharedNoteContainer::saveMedia()
             QStringList list = filter.split(' ',QString::SkipEmptyParts);
 
             bool hasEnd=false;
-            for(auto end : list)
+            for(auto& end : list)
             {
                 if(m_uri->getUri().endsWith(end))
                 {

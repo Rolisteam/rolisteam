@@ -20,6 +20,7 @@
 #include "pdfjsbridge.h"
 #include "qpdfwidget.h"
 
+// clazy:skip
 // NOTE:
 // There is this bug in Qt https://bugreports.qt.io/browse/QTBUG-46973
 // which causes the application to crash when loading from qrc:/ resources.

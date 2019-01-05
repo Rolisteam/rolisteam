@@ -58,7 +58,7 @@ public slots:
     int promotePlayer(Player*);
     int demotePlayer(Player*);
 
-    void setPlayerInto(Player *player, Permission level);
+    void setPlayerInto(Player *player, ParticipantsModel::Permission level);
 private:
     void debugModel() const;
     QList<Player*> m_hidden;

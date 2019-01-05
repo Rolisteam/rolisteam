@@ -90,8 +90,12 @@ void HighlighterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem
 }
 void HighlighterItem::setRadius(qreal radius)
 {
+    if(radius == m_radius)
+        return;
+
     m_radius = radius;
     update();
+    emit radiusChanged();
 }
 qreal HighlighterItem::getRadius() const
 {
@@ -122,7 +126,7 @@ void HighlighterItem::fillMessage(NetworkMessageWriter* msg)
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
-    msg->uint8((int)m_layer);
+    msg->uint8(static_cast<int>(m_layer));
     msg->real(zValue());
     msg->real(opacity());
     msg->real(pos().x());

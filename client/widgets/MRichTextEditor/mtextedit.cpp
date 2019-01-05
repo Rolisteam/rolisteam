@@ -68,9 +68,7 @@ void MTextEdit::dropImage(const QImage& image, const QString& format) {
     imageFormat.setWidth  ( image.width() );
     imageFormat.setHeight ( image.height() );
     imageFormat.setName   ( QString("data:image/%1;base64,%2")
-                                .arg(QString("%1.%2").arg(rand()).arg(format))
-                                .arg(base64l.data())
-                                );
+                                .arg(QString("%1.%2").arg(rand()).arg(format), base64l.data()));
     cursor.insertImage    ( imageFormat );
 }
 

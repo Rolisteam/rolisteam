@@ -271,7 +271,7 @@ void DiceAliasModel::clear()
 }
 void DiceAliasModel::sendOffAllDiceAlias()
 {
-    for(DiceAlias* alias : *m_diceAliasList)
+    for(auto& alias : *m_diceAliasList)
     {
         NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addDiceAlias);
         msg.int64(m_diceAliasList->indexOf(alias));
@@ -300,7 +300,7 @@ void DiceAliasModel::load(const QJsonObject &obj)
 void DiceAliasModel::save(QJsonObject &obj)
 {
     QJsonArray dices;
-    for(auto dice : *m_diceAliasList)
+    for(auto& dice : *m_diceAliasList)
     {
         QJsonObject diceObj;
         diceObj["command"]=dice->getCommand();

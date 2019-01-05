@@ -162,7 +162,7 @@ MainWindow::MainWindow()
     m_gmToolBoxList.append(new NpcMakerWidget(this));
     //m_gmToolBoxList.append(new DiceBookMarkWidget(this));
 
-    for (auto gmTool : m_gmToolBoxList)
+    for (auto& gmTool : m_gmToolBoxList)
     {
         QWidget* wid  = dynamic_cast<QWidget*>(gmTool);
 
@@ -225,7 +225,7 @@ void MainWindow::setupUi()
     //setAnimated(false);
     m_mdiArea = new ImprovedWorkspace(this);
     setCentralWidget(m_mdiArea);
-    connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(activeWindowChanged(QMdiSubWindow *)));
+    connect(m_mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(activeWindowChanged(QMdiSubWindow*)));
 
     m_toolBar = new ToolsBar(this);
 
@@ -308,8 +308,8 @@ void MainWindow::setupUi()
     // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
     m_playerList = PlayersList::instance();
 
-    connect(m_playerList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
-    connect(m_playerList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
+    connect(m_playerList, SIGNAL(playerAdded(Player*)), this, SLOT(notifyAboutAddedPlayer(Player*)));
+    connect(m_playerList, SIGNAL(playerDeleted(Player*)), this, SLOT(notifyAboutDeletedPlayer(Player*)));
     connect(m_roomPanel,&ChannelListPanel::CurrentChannelGmIdChanged,m_playerList,&PlayersList::setCurrentGM);
     connect(m_playerList, &PlayersList::characterAdded,this,[=](Character* character){
         if(character->isNpc())
@@ -366,7 +366,8 @@ void  MainWindow::closeConnection()
 }
 void MainWindow::closeAllMediaContainer()
 {
-    for(MediaContainer* tmp : m_mediaHash.values())
+    auto const& values = m_mediaHash.values();
+    for(auto& tmp : values)
     {
         if(nullptr!=tmp)
         {
@@ -736,7 +737,7 @@ void MainWindow::linkActionToMenu()
         diag.exec();
     });
     connect(m_ui->m_onlineHelpAction, SIGNAL(triggered()), this, SLOT(helpOnLine()));
-    connect(m_ui->m_supportRolisteam,&QAction::triggered,[=]{
+    connect(m_ui->m_supportRolisteam,&QAction::triggered,this,[=]{
         if (!QDesktopServices::openUrl(QUrl("https://liberapay.com/Rolisteam/donate")))
         {
             QMessageBox * msgBox = new QMessageBox(
@@ -788,7 +789,7 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
 
     connect(map, SIGNAL(changeCurrentColor(QColor)), m_toolBar, SLOT(changeCurrentColor(QColor)));
     connect(map, SIGNAL(increaseNpcNumber()), m_toolBar, SLOT(incrementNpcNumber()));
-    connect(map, SIGNAL(updateNPC(int, QString)), m_toolBar, SLOT(updateNpc(int,QString)));
+    connect(map, SIGNAL(updateNPC(int,QString)), m_toolBar, SLOT(updateNpc(int,QString)));
 
     connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map, SLOT(setPcNameVisible(bool)));
     connect(m_ui->m_showNpcNameAction, SIGNAL(triggered(bool)), map, SLOT(setNpcNameVisible(bool)));
@@ -805,8 +806,8 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
     map->setPenSize(m_toolBar->getCurrentPenSize());
 
     // new PlayersList connection
-    connect(mapFrame, SIGNAL(activated(Map *)), m_playersListWidget->model(), SLOT(changeMap(Map *)));
-    connect(mapFrame, SIGNAL(activated(Map *)), m_toolBar, SLOT(changeMap(Map *)));
+    connect(mapFrame, SIGNAL(activated(Map*)), m_playersListWidget->model(), SLOT(changeMap(Map*)));
+    connect(mapFrame, SIGNAL(activated(Map*)), m_toolBar, SLOT(changeMap(Map*)));
 }
 void MainWindow::prepareImage(Image* imageFrame)
 {
@@ -903,7 +904,7 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
 
 void MainWindow::sendOffAllMaps(Player* player)
 {
-    for(auto mediaC : m_mediaHash)
+    for(auto& mediaC : m_mediaHash)
     {
         if(CleverURI::VMAP == mediaC->getContentType())
         {
@@ -937,7 +938,8 @@ void MainWindow::sendOffAllMaps(Player* player)
 void MainWindow::sendOffAllImages(Player* player)
 {
     NetworkMessageWriter message = NetworkMessageWriter(NetMsg::MediaCategory, NetMsg::addMedia);
-    for(MediaContainer* sub: m_mediaHash.values())
+    auto const& values = m_mediaHash.values();
+    for(auto& sub : values)
     {
         if(sub->getContentType() == CleverURI::PICTURE)
         {
@@ -1155,7 +1157,8 @@ void MainWindow::saveMedia(MediaContainer* mediaC, bool saveAs)
 
 bool MainWindow::saveMinutes()
 {
-    for(MediaContainer* edit : m_mediaHash.values())
+    auto const& values = m_mediaHash.values();
+    for(auto& edit : values)
     {
         if(CleverURI::TEXT == edit->getContentType())
         {
@@ -1171,8 +1174,7 @@ bool MainWindow::saveMinutes()
 
 void MainWindow::saveAllMediaContainer()
 {
-    //new fashion
-    for(auto media : m_mediaHash.values())
+    for(auto& media : m_mediaHash)
     {
         saveMedia(media,false);
     }
@@ -1311,8 +1313,7 @@ void MainWindow::notifyAboutAddedPlayer(Player * player) const
     m_logController->manageMessage(tr("%1 just joins the game.").arg(player->name()),LogController::Features);
     if(player->getUserVersion().compare(m_version)!=0)
     {
-        m_logController->manageMessage(tr("%1 has not the right version: %2.").arg(player->name())
-                   .arg(player->getUserVersion()),LogController::Error);
+        m_logController->manageMessage(tr("%1 has not the right version: %2.").arg(player->name(), player->getUserVersion()),LogController::Error);
     }
 }
 
@@ -1368,7 +1369,7 @@ void MainWindow::writeSettings()
     m_preferences->writeSettings(settings);
     m_chatListWidget->writeSettings(settings);
     m_dialog->writeSettings(settings);
-    for(auto gmtool : m_gmToolBoxList)
+    for(auto& gmtool : m_gmToolBoxList)
     {
         gmtool->writeSettings();
     }
@@ -1579,7 +1580,7 @@ void MainWindow::processWebPageMessage(NetworkMessageReader* msg)
     if(msg->action() == NetMsg::UpdateContent)
     {
         QString idMedia = msg->string8();
-        if(m_mediaHash.keys().contains(idMedia))
+        if(m_mediaHash.contains(idMedia))
         {
             MediaContainer* mediaContainer = m_mediaHash.value(idMedia);
             WebView* note = dynamic_cast<WebView*>(mediaContainer);
@@ -1590,10 +1591,11 @@ void MainWindow::processWebPageMessage(NetworkMessageReader* msg)
 }
 void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
 {
+    auto keys = m_mediaHash.keys();
     if(msg->action() == NetMsg::updatePermissionOneUser)
     {
         QString idMedia = msg->string8();
-        if(m_mediaHash.keys().contains(idMedia))
+        if(keys.contains(idMedia))
         {
             MediaContainer* mediaContainer = m_mediaHash.value(idMedia);
             SharedNoteContainer* note = dynamic_cast<SharedNoteContainer*>(mediaContainer);
@@ -1603,7 +1605,7 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
     else if(msg->action() == NetMsg::updateText)
     {
         QString idMedia = msg->string8();
-        if(m_mediaHash.keys().contains(idMedia))
+        if(keys.contains(idMedia))
         {
             MediaContainer* mediaContainer = m_mediaHash.value(idMedia);
             SharedNoteContainer* note = dynamic_cast<SharedNoteContainer*>(mediaContainer);
@@ -1615,7 +1617,7 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
     {
         QString idMedia = msg->string8();
 
-        if(m_mediaHash.keys().contains(idMedia))
+        if(keys.contains(idMedia))
         {
             MediaContainer* mediaContainer = m_mediaHash.value(idMedia);
             SharedNoteContainer* note = dynamic_cast<SharedNoteContainer*>(mediaContainer);
@@ -2113,7 +2115,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         }
         else
         {
-            qWarning() << QStringLiteral("No character sheet found - Media Id: %2 - Sheet Id: %1").arg(idSheet).arg(idMedia);
+            qWarning() << QStringLiteral("No character sheet found - Media Id: %2 - Sheet Id: %1").arg(idSheet, idMedia);
         }
     }
     else if(NetMsg::closeCharacterSheet == msg->action())
@@ -2204,20 +2206,20 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     });
 
     // menu to Map
-    connect(m_ui->m_showNpcNameAction, &QAction::triggered,[=](bool b){
+    connect(m_ui->m_showNpcNameAction, &QAction::triggered,this,[=](bool b){
         map->setOption(VisualItem::ShowNpcName,b);
     });
-    connect(m_ui->m_showNpcNumberAction, &QAction::triggered,[=](bool b){
+    connect(m_ui->m_showNpcNumberAction, &QAction::triggered,this,[=](bool b){
         map->setOption(VisualItem::ShowNpcNumber,b);
     });
-    connect(m_ui->m_showPcNameAction, &QAction::triggered,[=](bool b){
+    connect(m_ui->m_showPcNameAction, &QAction::triggered,this,[=](bool b){
         map->setOption(VisualItem::ShowPcName,b);
     });
-    connect(m_ui->m_showHealtStatusAction, &QAction::triggered,[=](bool b){
+    connect(m_ui->m_showHealtStatusAction, &QAction::triggered,this,[=](bool b){
         map->setOption(VisualItem::ShowHealthStatus,b);
     });
 
-    connect(m_ui->m_healthBarAct,&QAction::triggered,[=](bool b){
+    connect(m_ui->m_healthBarAct,&QAction::triggered,this,[=](bool b){
         map->setOption(VisualItem::ShowHealthBar,b);
     });
     map->setOption(VisualItem::ShowNpcName,m_ui->m_showNpcNameAction->isChecked());
@@ -2344,7 +2346,7 @@ void MainWindow::updateRecentFileActions()
     }), m_recentFiles.end());
 
     int i = 0;
-    for (auto action : m_recentFileActs)
+    for (auto& action : m_recentFileActs)
     {
         if(i >= m_recentFiles.size())
         {
@@ -2388,9 +2390,9 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
     {
         window->setLocalIsGM(m_currentConnectionProfile->isGM());
     }
-    connect(window,SIGNAL(addWidgetToMdiArea(QWidget*,QString )),m_mdiArea,SLOT(addWidgetToMdi(QWidget*,QString)));
+    connect(window,SIGNAL(addWidgetToMdiArea(QWidget*,QString)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*,QString)));
     connect(window,SIGNAL(rollDiceCmd(QString,QString,bool)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString,bool)));
-    connect(window,&CharacterSheetWindow::errorOccurs,this,[=](QString msg){
+    connect(window,&CharacterSheetWindow::errorOccurs,this,[this](QString msg){
       m_logController->manageMessage(msg,LogController::Error);
     });
     connect(m_playerList,SIGNAL(playerDeleted(Player*)),window,SLOT(removeConnection(Player*)));
@@ -2594,11 +2596,12 @@ void MainWindow::updateWindowTitle()
 {
     if(nullptr != m_currentConnectionProfile)
     {
-        setWindowTitle(QStringLiteral("%6[*] - v%2 - %3 - %4 - %5 - %1").arg(m_preferences->value("applicationName","Rolisteam").toString())
-                       .arg(m_version)
-                       .arg(m_clientManager->isConnected() ? tr("Connected") : tr("Not Connected"))
-                       .arg(m_currentConnectionProfile->isServer() ? tr("Server") : tr("Client")).arg(m_currentConnectionProfile->isGM() ? tr("GM") : tr("Player"))
-                       .arg(m_sessionManager->getSessionName()));
+        auto const connectionStatus = m_clientManager->isConnected() ? tr("Connected") : tr("Not Connected");
+        auto const networkStatus = m_currentConnectionProfile->isServer() ? tr("Server") : tr("Client");
+        auto const profileStatus = m_currentConnectionProfile->isGM() ? tr("GM") : tr("Player");
+
+        setWindowTitle(QStringLiteral("%6[*] - v%2 - %3 - %4 - %5 - %1").arg(m_preferences->value("applicationName","Rolisteam").toString(),
+                       m_version, connectionStatus, networkStatus, profileStatus, m_sessionManager->getSessionName()));
     }
 }
 

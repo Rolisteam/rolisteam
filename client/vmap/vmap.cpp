@@ -220,7 +220,7 @@ void VMap::fill(NetworkMessageWriter& msg)
     msg.uint32(static_cast<quint8>(getOption(VisualItem::GridSize).toInt()));
     msg.uint8(getOption(VisualItem::GridAbove).toBool());
     msg.rgb(getOption(VisualItem::GridColor).value<QColor>().rgb());
-    msg.uint64(static_cast<quint64>(m_itemMap->values().size()));
+    msg.uint64(static_cast<quint64>(m_itemMap->size()));
     m_sightItem->fillMessage(&msg);
 }
 void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
@@ -319,7 +319,7 @@ QString VMap::getCurrentLayerText() const
 }
 void VMap::sendAllItems(NetworkMessageWriter& msg)
 {
-    for(QString key : m_sortedItemList)
+    for(QString& key : m_sortedItemList)
     {
         VisualItem* item = m_itemMap->value(key);
         if(nullptr!=item)
@@ -695,7 +695,8 @@ bool VMap::editLayer(VisualItem::Layer layer)
         m_currentLayer = layer;
         emit mapChanged();
         setOption(VisualItem::MapLayer, layer);
-        for(VisualItem* item: m_itemMap->values())
+        auto const& values = m_itemMap->values();
+        for(auto& item: values)
         {
             item->updateItemFlags();
         }
@@ -760,7 +761,8 @@ void VMap::saveFile(QDataStream& out)
     out << m_zIndex;
 
     out << m_propertiesHash->count();
-    for(VisualItem::Properties property: m_propertiesHash->keys())
+    auto keys = m_propertiesHash->keys();
+    for(VisualItem::Properties& property: keys)
     {
         out << static_cast<int>(property);
         out << m_propertiesHash->value(property);
@@ -770,7 +772,7 @@ void VMap::saveFile(QDataStream& out)
     out << *m_sightItem;
 
     out << m_sortedItemList.size();
-    for(QString key : m_sortedItemList)//m_itemMap->values()
+    for(QString& key : m_sortedItemList)//m_itemMap->values()
     {
         VisualItem* tmp = m_itemMap->value(key);
         if(nullptr!=tmp)
@@ -1114,7 +1116,7 @@ void VMap::ensureFogAboveAll()
     });
     m_orderedItemList = list;
     VisualItem* highest = nullptr;
-    for(auto item : m_orderedItemList)
+    for(auto& item : m_orderedItemList)
     {
         if(item!=m_sightItem)
         {
@@ -1309,7 +1311,8 @@ void VMap::addNewItem(AddVmapItemCommand* itemCmd,bool undoable, bool fromNetwor
 QList<CharacterItem*> VMap::getCharacterOnMap(QString id)
 {
     QList<CharacterItem*> result;
-    for(CharacterItem* item: m_characterItemMap->values())
+    auto const& values = m_characterItemMap->values();
+    for(auto& item: values)
     {
         if(nullptr!=item)
         {
@@ -1369,7 +1372,7 @@ void VMap::keyPressEvent(QKeyEvent* event)
     if(event->key ()==Qt::Key_Delete)
     {
         QStringList idListToRemove;
-        for(QGraphicsItem* item : selectedItems())
+        for(auto& item : selectedItems())
         {
             VisualItem* itemV = dynamic_cast<VisualItem*>(item);
             if(nullptr!=itemV)
@@ -1380,7 +1383,7 @@ void VMap::keyPressEvent(QKeyEvent* event)
                 }
             }
         }
-        for(auto id : idListToRemove)
+        for(auto& id : idListToRemove)
         {
             removeItemFromScene(id);
         }
@@ -1399,7 +1402,8 @@ void VMap::setPermissionMode(Map::PermissionMode mode)
     setOption(VisualItem::PermissionMode,mode);
     if(!getOption(VisualItem::LocalIsGM).toBool())
     {
-        for(VisualItem* item: m_itemMap->values())
+        auto const& values = m_itemMap->values();
+        for(auto& item: values)
         {
             item->updateItemFlags();
         }
@@ -1489,7 +1493,7 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
     {
         if(data->hasUrls())
         {
-            for(QUrl url: data->urls())
+            for(QUrl& url: data->urls())
             {
                 VisualItem* item = nullptr;
                 if(url.isLocalFile() && url.fileName().endsWith("rtok"))
@@ -1650,7 +1654,8 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
             visibilitySight = false;
         }
     }
-    for(VisualItem* item: m_itemMap->values())
+    auto const& values = m_itemMap->values();
+    for(auto& item: values)
     {
         item->setVisible(visibilityItems);
     }
@@ -1660,7 +1665,7 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
         m_propertiesHash->insert(VisualItem::FogOfWarStatus,visibilitySight);
         if((visibilitySight)&&(m_propertiesHash->value(VisualItem::LocalIsGM).toBool() == false))
         {
-            for(auto item : m_itemMap->values())
+            for(auto& item : values)
             {
                 if(item->getType() == VisualItem::CHARACTER)
                 {
@@ -1673,7 +1678,8 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
 }
 void VMap::hideOtherLayers(bool b)
 {
-    for( auto item : m_itemMap->values())
+    auto const& values = m_itemMap->values();
+    for( auto& item : values)
     {
         if(item == m_sightItem || item == m_gridItem)
             continue;
@@ -1791,7 +1797,7 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
     m_sortedItemList.append(m_gridItem->getId());
 
     quint64 z =0;
-    for(QString key : m_sortedItemList)
+    for(QString& key : m_sortedItemList)
     {
         VisualItem* item = m_itemMap->value(key);
         if(nullptr!=item)
@@ -1806,7 +1812,8 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
 }
 void VMap::showTransparentItems()
 {
-    for(auto item : m_itemMap->values())
+    auto const& values = m_itemMap->values();
+    for(auto& item : values)
     {
         if(qFuzzyCompare(item->opacity(), 0))
         {
@@ -1818,7 +1825,8 @@ void VMap::showTransparentItems()
 QRectF VMap::itemsBoundingRectWithoutSight()
 {
     QRectF result;
-    for(auto item : m_itemMap->values())
+    auto const& values = m_itemMap->values();
+    for(auto item : values)
     {
         if(item != m_sightItem && item != m_gridItem)
         {
@@ -1841,8 +1849,8 @@ void VMap::rollInit(APPLY_ON_CHARACTER zone)
     }
     else if(zone == AllNPC)
     {
-        auto all = m_characterItemMap->values();
-        for(auto i : all)
+        auto const& all = m_characterItemMap->values();
+        for(auto& i : all)
         {
             if(i->isNpc())
             {
@@ -1853,7 +1861,7 @@ void VMap::rollInit(APPLY_ON_CHARACTER zone)
     else
     {
         auto selection = selectedItems();
-        for(auto sel : selection)
+        for(auto& sel : selection)
         {
             auto item = dynamic_cast<CharacterItem*>(sel);
             if(nullptr != item)
@@ -1863,7 +1871,7 @@ void VMap::rollInit(APPLY_ON_CHARACTER zone)
         }
     }
 
-    for(auto charac : list)
+    for(auto& charac : list)
     {
         charac->runInit();
     }
@@ -1879,7 +1887,7 @@ void VMap::cleanUpInit(APPLY_ON_CHARACTER zone)
     else if(zone == AllNPC)
     {
         auto all = m_characterItemMap->values();
-        for(auto i : all)
+        for(auto& i : all)
         {
             if(i->isNpc())
             {
@@ -1890,7 +1898,7 @@ void VMap::cleanUpInit(APPLY_ON_CHARACTER zone)
     else
     {
         auto selection = selectedItems();
-        for(auto sel : selection)
+        for(auto& sel : selection)
         {
             auto item = dynamic_cast<CharacterItem*>(sel);
             if(nullptr != item)
@@ -1900,7 +1908,7 @@ void VMap::cleanUpInit(APPLY_ON_CHARACTER zone)
         }
     }
 
-    for(auto charac : list)
+    for(auto& charac : list)
     {
         charac->cleanInit();
     }

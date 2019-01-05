@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
     QStringList translationCLI;
     translationCLI << "-t"<<"--translation";
     QStringList argList = app.arguments();
-    for(QString str: translationCLI)
+    for(auto& str: translationCLI)
     {
         int pos = argList.indexOf(str);
         if(pos!=-1)

@@ -303,7 +303,7 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
             painter->drawEllipse(square);
             painter->restore();
             painter->drawText(rect,Qt::AlignCenter,init);
-            toShow += QString(" %1: %2").arg(tr("Init","short for Initiative")).arg(init);
+            toShow += QString(" %1: %2").arg(tr("Init","short for Initiative"), init);
             painter->restore();
         }
 	}
@@ -803,14 +803,14 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
 {
   QMenu* stateMenu =  menu->addMenu(tr("Change State"));
   QList<CharacterState*>* listOfState =  Character::getCharacterStateList();
-  for(CharacterState* state: *listOfState)
+  for(auto& state: *listOfState)
   {
 	QAction* act = stateMenu->addAction(QIcon(*state->getPixmap()),state->getLabel(),this,SLOT(characterStateChange()));
 	act->setData(listOfState->indexOf(state));
   }
 
   QMenu* user =  menu->addMenu(tr("Affect to"));
-  for(Character* character: PlayersList::instance()->getCharacterList())
+  for(auto& character: PlayersList::instance()->getCharacterList())
   {
     QAction* act = user->addAction(character->name());
     act->setData(character->getUuid());
@@ -847,7 +847,7 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
 
       if(!actionlist.isEmpty())
       {
-          for(auto charAction : actionlist)
+          for(auto& charAction : actionlist)
           {
               auto act = actions->addAction(charAction->name());
               act->setData(charAction->command());
@@ -861,7 +861,7 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
       {
           QMenu* actions =  menu->addMenu(tr("Shapes"));
           int i = 0;
-          for(auto charShape : shapeList)
+          for(auto& charShape : shapeList)
           {
               auto act = actions->addAction(charShape->name());
               act->setData(i);
@@ -1182,7 +1182,7 @@ void CharacterItem::updateItemFlags()
     {
         if(nullptr!=m_child)
         {
-            for (ChildPointItem* itemChild: *m_child)
+            for (auto& itemChild: *m_child)
             {
                 itemChild->setEditableItem(true);
                 itemChild->setMotion(ChildPointItem::ALL);
@@ -1195,7 +1195,7 @@ void CharacterItem::updateItemFlags()
 
             if(nullptr!=m_child)
             {
-                for (ChildPointItem* itemChild: *m_child)
+                for (auto& itemChild: *m_child)
                 {
                     itemChild->setEditableItem(true);
                     itemChild->setMotion(ChildPointItem::NONE);

@@ -58,7 +58,7 @@ void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
     QMenu menu;
     if(m_isGM)
     {
-        for(PlayerWidget* tmp:m_players)
+        for(auto& tmp : m_players)
         {
             if((tmp->geometry().contains(ev->pos(),true))&&(tmp->isVisible()))
             {
@@ -67,7 +67,7 @@ void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
             }
         }
     }
-    for(QAction* act:m_playerActionsList)
+    for(auto& act : m_playerActionsList)
     {
         menu.addAction(act);
     }
@@ -132,7 +132,7 @@ void AudioPlayer::showMusicPlayer(bool status)
 void AudioPlayer::updateUi(bool isGM)
 {
     m_isGM = isGM;
-    for(PlayerWidget* tmp:m_players)
+    for(auto& tmp : m_players)
     {
         tmp->updateUi(isGM);
     }

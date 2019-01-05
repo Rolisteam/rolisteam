@@ -34,6 +34,7 @@
 #include <QMdiSubWindow>
 #include <QStackedWidget>
 #include <QUndoStack>
+#include <memory>
 
 #include "data/cleveruri.h"
 #include "data/mediacontainer.h"

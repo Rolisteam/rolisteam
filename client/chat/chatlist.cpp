@@ -74,8 +74,8 @@ ChatList::ChatList(MainWindow * mainWindow)
 
     // Stay sync with g_playersList
     PlayersList * g_playersList = PlayersList::instance();
-    connect(g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(addPlayerChat(Player *)));
-    connect(g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(delPlayer(Player *)));
+    connect(g_playersList, SIGNAL(playerAdded(Player*)), this, SLOT(addPlayerChat(Player*)));
+    connect(g_playersList, SIGNAL(playerDeleted(Player*)), this, SLOT(delPlayer(Player*)));
 
     // Allready there player's chat
     int maxPlayerIndex = g_playersList->getPlayerCount();
@@ -321,7 +321,7 @@ void ChatList::addChatWindow(ChatWindow* chatw)
 
 
     m_chatMenu.addAction(chatw->toggleViewAction());
-    connect(chatw, SIGNAL(ChatWindowHasChanged(ChatWindow *)), this, SLOT(changeChatWindow(ChatWindow *)));
+    connect(chatw, SIGNAL(ChatWindowHasChanged(ChatWindow*)), this, SLOT(changeChatWindow(ChatWindow*)));
 
     QMdiSubWindow* subWindowChat = static_cast<QMdiSubWindow*>(m_mainWindow->registerSubWindow(chatw,chatw->toggleViewAction()));
 
@@ -337,7 +337,7 @@ void ChatList::addChatWindow(ChatWindow* chatw)
     if(nullptr!=subWindowChat)
     {
         chatw->setSubWindow(subWindowChat);
-        subWindowChat->setWindowTitle(QStringLiteral("%1 (%2)").arg(chatw->getTitleFromChat()).arg(tr("Chat","chat room")));
+        subWindowChat->setWindowTitle(QStringLiteral("%1 (%2)").arg(chatw->getTitleFromChat(), tr("Chat","chat room")));
         subWindowChat->setWindowIcon(QIcon(":/chat.png"));
         chatw->setLocalPlayer(PlayersList::instance()->getLocalPlayer());
         subWindowChat->setAttribute(Qt::WA_DeleteOnClose, false);
@@ -371,7 +371,7 @@ void ChatList::cleanChat()
     beginResetModel();
     m_chatMenu.clear();
     m_chatWindowList.clear();
-    for(auto chatw : m_chatSubWindowList)
+    for(auto& chatw : m_chatSubWindowList)
     {
         chatw->setVisible(false);
 
@@ -434,7 +434,7 @@ void ChatList::addPlayerChat(Player * player)
 
 void ChatList::delPlayer(Player * player)
 {
-    for (QMdiSubWindow* tmp: m_chatSubWindowList)
+    for (auto& tmp: m_chatSubWindowList)
     {
         ChatWindow* chatw = dynamic_cast<ChatWindow*>(tmp->widget());
         if(nullptr == chatw)
@@ -623,7 +623,7 @@ void ChatList::deletePrivateChat(ReceiveEvent * event)
 }
 void ChatList::updateDiceAliases(QList<DiceAlias*>* map)
 {
-    for(ChatWindow* tmp: m_chatWindowList)
+    for(auto& tmp: m_chatWindowList)
     {
         tmp->updateDiceAliases(map);
     }

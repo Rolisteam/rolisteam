@@ -36,7 +36,7 @@ SessionView::SessionView(QWidget *parent) :
     connect(m_defineAsCurrent,SIGNAL(triggered()),this,SIGNAL(defineCurrentChapter()));
 
     m_switchLoadingMode = new QAction("",this);
-    connect(m_switchLoadingMode,&QAction::triggered,[=](){
+    connect(m_switchLoadingMode,&QAction::triggered,this, [=](){
         auto index = currentIndex();
         if(!index.isValid())
             return;
@@ -52,28 +52,28 @@ SessionView::SessionView(QWidget *parent) :
 
     m_loadingModeColumn = new QAction(tr("Loading Mode"),this);
     m_loadingModeColumn->setCheckable(true);
-    connect(m_loadingModeColumn,&QAction::toggled,[=](){
+    connect(m_loadingModeColumn,&QAction::toggled,this,[=](){
         setColumnHidden(1,!m_loadingModeColumn->isChecked());
     });
     m_loadingModeColumn->setChecked(false);
 
     m_displayedColumn= new QAction(tr("Displayed Status"),this);
     m_displayedColumn->setCheckable(true);
-    connect(m_displayedColumn,&QAction::toggled,[=](){
+    connect(m_displayedColumn,&QAction::toggled,this,[=](){
         setColumnHidden(2,!m_displayedColumn->isChecked());
     });
     m_displayedColumn->setChecked(false);
 
     m_pathColumn= new QAction(tr("Path"),this);
     m_pathColumn->setCheckable(true);
-    connect(m_pathColumn,&QAction::toggled,[=](){
+    connect(m_pathColumn,&QAction::toggled,this,[=](){
         setColumnHidden(3,!m_pathColumn->isChecked());
     });
     m_pathColumn->setChecked(false);
 
     m_rename = new QAction(tr("Rename"),this);
     m_rename->setShortcut(QKeySequence(Qt::Key_F2));
-    connect(m_rename,&QAction::triggered,[=](){
+    connect(m_rename,&QAction::triggered,this,[=](){
         edit(currentIndex());
     });
 

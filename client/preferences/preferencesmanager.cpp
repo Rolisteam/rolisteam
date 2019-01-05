@@ -104,7 +104,7 @@ void PreferencesManager::readSettings(QSettings & settings)
     settings.endArray();
     settings.endGroup();
 
-    for(auto p : m_lambdaMap)
+    for(auto& p : m_lambdaMap)
     {
         p.second(p.first);
     }
@@ -116,10 +116,11 @@ void PreferencesManager::writeSettings(QSettings & settings)
 
     settings.beginGroup("rolisteam/preferences");
     settings.beginWriteArray("preferenceMap");
+    auto const& keys = m_optionDictionary->keys();
     for (int i = 0; i < m_optionDictionary->size(); ++i)
     {
         settings.setArrayIndex(i);
-        QString key = m_optionDictionary->keys().at(i);
+        QString key = keys.at(i);
         QVariant var = m_optionDictionary->value(key);
         settings.setValue("key", key);
         settings.setValue("value",var);

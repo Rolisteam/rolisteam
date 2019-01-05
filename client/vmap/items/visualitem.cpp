@@ -111,7 +111,7 @@ void VisualItem::updateItemFlags()
     }
     if(nullptr!=m_child)
     {
-        for (ChildPointItem* itemChild : *m_child)
+        for (auto& itemChild : *m_child)
         {
             itemChild->setEditableItem(editable);
         }
@@ -232,27 +232,27 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         addActionContextMenu(&menu);
         QAction* backOrderAction = menu.addAction(tr("Back"));
         backOrderAction->setIcon(QIcon(":/resources/icons/action-order-back.png"));
-        connect(backOrderAction,&QAction::triggered,[&](){
+        connect(backOrderAction,&QAction::triggered,this, [&](){
             emit changeStackPosition(this,VisualItem::BACK);
         });
 
 
         QAction* frontOrderAction = menu.addAction(tr("Front"));
         frontOrderAction->setIcon(QIcon(":/resources/icons/action-order-front.png"));
-        connect(frontOrderAction,&QAction::triggered,[&](){
+        connect(frontOrderAction,&QAction::triggered,this, [&](){
             emit changeStackPosition(this,VisualItem::FRONT);
         });
 
 
         QAction* lowerAction = menu.addAction(tr("Lower"));
         lowerAction->setIcon(QIcon(":/resources/icons/action-order-lower.png"));
-        connect(lowerAction,&QAction::triggered,[&](){
+        connect(lowerAction,&QAction::triggered,this, [&](){
             emit changeStackPosition(this,VisualItem::LOWER);
         });
 
         QAction* raiseAction = menu.addAction(tr("Raise"));
         raiseAction->setIcon(QIcon(":/resources/icons/action-order-raise.png"));
-        connect(raiseAction,&QAction::triggered,[&](){
+        connect(raiseAction,&QAction::triggered,this, [&](){
             emit changeStackPosition(this,VisualItem::RAISE);
         });
 
@@ -323,13 +323,13 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putGroundLayer))
         {
             setLayer(static_cast<VisualItem::Layer>(selectedAction->data().toInt()));
-            itemLayerChanged(this);
+            emit itemLayerChanged(this);
         }
     }
 }
 void VisualItem::addPromoteItemMenu(QMenu* menu)
 {
-    for(ItemType type: m_promoteTypeList)
+    for(ItemType& type: m_promoteTypeList)
     {
         QAction* action = menu->addAction(s_type2NameList[type]);
         action->setData(type);
@@ -476,7 +476,7 @@ void VisualItem::sendPositionMsg()
         msg.string8(m_mapId);
         msg.string16(m_id);
         msg.uint64(m_pointList.size());
-        for(auto point : m_pointList)
+        for(auto& point : m_pointList)
         {
             msg.real(point.x());
             msg.real(point.y());
@@ -633,7 +633,7 @@ void VisualItem::setChildrenVisible(bool b)
     {
         if(nullptr!=m_child)
         {
-            for(ChildPointItem* item: *m_child)
+            for(auto& item: *m_child)
             {
                 bool isVisionAndFog = m_propertiesHash->value(VisualItem::FogOfWarStatus).toBool() & m_propertiesHash->value(VisualItem::EnableCharacterVision).toBool();
                 if((!item->isVisionHandler())||(isVisionAndFog)||(!b))

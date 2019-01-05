@@ -479,5 +479,5 @@ void SharedNote::updateWindowTitle()
 {
     PlayersList* list = PlayersList::instance();
     Player* player = list->getLocalPlayer();
-    setWindowTitle(tr("%1[*] - SharedNote - %2").arg(m_fileName).arg(m_document->canWrite(player) ? tr("ReadWrite"):tr("ReadOnly")));
+    setWindowTitle(tr("%1[*] - SharedNote - %2").arg(m_fileName, m_document->canWrite(player) ? tr("ReadWrite"):tr("ReadOnly")));
 }

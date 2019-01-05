@@ -226,7 +226,7 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
 
     //path
     msg->uint32(m_pointVector.size());
-    for(QPointF pos:m_pointVector)
+    for(QPointF& pos:m_pointVector)
     {
         msg->real(pos.x());
         msg->real(pos.y());
@@ -315,13 +315,13 @@ void PathItem::setGeometryPoint(qreal pointId, QPointF &pos)
 void PathItem::initRealPoints()
 {
     QPointF median = m_start;
-    for(auto point : m_pointVector)
+    for(auto& point : m_pointVector)
     {
         median = (median+point)/2;
     }
     m_pointVectorBary.clear();
     m_pointVectorBary.append(m_start-median);
-    for(auto point : m_pointVector)
+    for(auto& point : m_pointVector)
     {
         m_pointVectorBary.append(point-median);
     }
@@ -343,7 +343,7 @@ void PathItem::initChildPointItem()
     if(!m_penMode)
     {
         int i = 0;
-        for(auto p : m_pointVectorBary)
+        for(auto& p : m_pointVectorBary)
         {
             ChildPointItem* tmp = new ChildPointItem(i,this);
             tmp->setMotion(ChildPointItem::ALL);

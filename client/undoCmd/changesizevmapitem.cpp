@@ -95,7 +95,7 @@ void ChangeSizeVmapItemCommand::undo()
     qInfo() << QStringLiteral("undo command ChangeSizeVmapItemCommand: %1 ").arg(text());
     Q_ASSERT(m_targetItem.size() == m_originalSize.size());
     int i = 0;
-    for(auto item : m_targetItem)
+    for(auto& item : m_targetItem)
     {
         if(item == nullptr)
             continue;
@@ -113,7 +113,7 @@ void ChangeSizeVmapItemCommand::redo()
     if(!m_newSize.isValid())
         return;
 
-    for(auto item : m_targetItem)
+    for(auto& item : m_targetItem)
     {
         item->setSize(m_newSize);
         item->sendRectGeometryMsg();

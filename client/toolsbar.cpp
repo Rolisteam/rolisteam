@@ -53,14 +53,13 @@ ToolsBar::ToolsBar(QWidget *parent)
     createActions();
     createTools();
 
-    connect(m_resetCountAct, SIGNAL(triggered(bool)), this, SLOT(resetNpcNumber()));
-	connect(m_textEdit, SIGNAL(textEdited(const QString &)), this, SIGNAL(currentTextChanged(QString)));
-	connect(m_npcNameEdit, SIGNAL(textEdited(const QString &)), this, SIGNAL(currentNpcNameChanged(QString)));
+    connect(m_resetCountAct, &QAction::triggered, this, &ToolsBar::resetNpcNumber);
+    connect(m_textEdit, &QLineEdit::textEdited, this, &ToolsBar::currentTextChanged);
+    connect(m_npcNameEdit, &QLineEdit::textEdited, this, &ToolsBar::currentNpcNameChanged);
 }
 ToolsBar::~ToolsBar()
 {
-	delete m_textEdit;
-	delete m_npcNameEdit;
+
 }
 
 void ToolsBar::updateUi()

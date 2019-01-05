@@ -51,10 +51,10 @@ class ConnectionProfile;
 class ClientManager : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(ConnectionState)
 
 public:
     enum ConnectionState {DISCONNECTED,CONNECTING,CONNECTED,AUTHENTIFIED};
+    Q_ENUM(ConnectionState)
     /**
      * @brief NetworkManager
      */
@@ -71,7 +71,7 @@ public:
     void setConnectionProfile(ConnectionProfile*);
     static NetworkLink* getLinkToServer();
 public slots:
-    void setConnectionState(ConnectionState);
+    void setConnectionState(ClientManager::ConnectionState);
     void disconnectAndClose();
     /**
      * @brief startConnection try to connect to the server or to start it.

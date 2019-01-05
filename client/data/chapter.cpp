@@ -104,7 +104,7 @@ bool Chapter::seekNode(QList<ResourcesNode *> &path, ResourcesNode *node)
     }
     else
     {
-        for(auto child : m_children)
+        for(auto& child : m_children)
         {
             if((child->hasChildren()) && (child->seekNode(path,node)))
             {
@@ -135,7 +135,7 @@ bool Chapter::contains(ResourcesNode* node)
     }
     else
     {
-        for(ResourcesNode* child: m_children)
+        for(auto& child: m_children)
         {
             if(child->contains(node))
             {
@@ -206,7 +206,7 @@ bool Chapter::removeChild(ResourcesNode* item)
     }
     else
     {
-        for(ResourcesNode* child : m_children)
+        for(auto& child : m_children)
         {
             if(child->mayHaveChildren())
             {

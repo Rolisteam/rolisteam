@@ -4,14 +4,8 @@
 
 static QString txtcapitalize( QString & s)
 {
-    return (s.isEmpty()) ? s : s.left(1).toUpper() + s.mid(1).toLower();
+    return (s.isEmpty()) ? s : s.at(0).toUpper() + s.mid(1).toLower();
 }
-
-
-
-
-
-
 
 QByteArray CatDomElement( const QDomElement e )
 {
