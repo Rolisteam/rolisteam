@@ -136,7 +136,7 @@ void Section::save(QJsonObject& json,bool exp)
     json["items"] = fieldArray;
 }
 
-void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
+void Section::load(const QJsonObject &json, QList<QGraphicsScene*> scenes)
 {
     m_name = json["name"].toString();
     QJsonArray fieldArray = json["items"].toArray();
@@ -336,7 +336,7 @@ void Section::setValueForAll(CharacterSheetItem* itemSrc,int col)
         CharacterSheetItem* item = m_dataHash.value(key);
         if(nullptr!=item)
         {
-            item->setValueFrom((ColumnId)col,itemSrc->getValueFrom((ColumnId)col,Qt::DisplayRole));
+            item->setValueFrom(static_cast<ColumnId>(col),itemSrc->getValueFrom(static_cast<ColumnId>(col),Qt::DisplayRole));
         }
     }
 }
@@ -346,7 +346,7 @@ void Section::saveDataItem(QJsonObject &json)
     save(json);
 }
 
-void Section::loadDataItem(QJsonObject &json)
+void Section::loadDataItem(const QJsonObject &json)
 {
     load(json,QList<QGraphicsScene*>());
 }

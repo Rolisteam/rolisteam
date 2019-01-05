@@ -354,7 +354,7 @@ void Field::save(QJsonObject& json,bool exp)
     json["values"]=valuesArray;
 }
 
-void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
+void Field::load(const QJsonObject &json,QList<QGraphicsScene*> scene)
 {
     Q_UNUSED(scene);
     m_id = json["id"].toString();
@@ -473,7 +473,7 @@ qreal Field::getY() const
 {
     return getValueFrom(CharacterSheetItem::Y, Qt::DisplayRole).toReal();
 }
-void Field::loadDataItem(QJsonObject &json)
+void Field::loadDataItem(const QJsonObject &json)
 {
     m_id = json["id"].toString();
     setValue(json["value"].toString(),true);

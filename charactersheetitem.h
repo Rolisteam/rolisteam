@@ -127,7 +127,7 @@ public:
      * @param json
      * @param scene
      */
-    virtual void load(QJsonObject& json,QList<QGraphicsScene*> scene)=0;
+    virtual void load(const QJsonObject& json,QList<QGraphicsScene*> scene)=0;
 
     /**
      * @brief save
@@ -140,7 +140,7 @@ public:
      * @param json
      * @param scene
      */
-    virtual void loadDataItem(QJsonObject& json)=0;   
+    virtual void loadDataItem(const QJsonObject& json)=0;
     /**
      * @brief setNewEnd
      * @param nend

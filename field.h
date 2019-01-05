@@ -65,7 +65,7 @@ public:
     virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var);
 
     virtual void save(QJsonObject& json,bool exp=false);
-    virtual void load(QJsonObject &json,QList<QGraphicsScene*> scene);
+    virtual void load(const QJsonObject &json,QList<QGraphicsScene*> scene);
     /**
      * @brief saveDataItem
      * @param json
@@ -76,7 +76,7 @@ public:
      * @param json
      * @param scene
      */
-    virtual void loadDataItem(QJsonObject& json);
+    virtual void loadDataItem(const QJsonObject& json);
 
     virtual QPointF mapFromScene(QPointF);
 
@@ -100,8 +100,6 @@ public:
     virtual void setCanvasField(CanvasField* canvasField);
 
     void initGraphicsItem();
-
-    virtual void setFieldInDictionnary(QHash<QString, QString> & dict) const;
 
     virtual qreal getWidth() const;
     virtual void setWidth(qreal width);

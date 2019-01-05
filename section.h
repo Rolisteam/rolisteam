@@ -107,7 +107,7 @@ public:
      * @param json
      * @param scene
      */
-    virtual void load(QJsonObject& json,QList<QGraphicsScene*> scene);
+    virtual void load(const QJsonObject& json,QList<QGraphicsScene*> scene);
     /**
      * @brief setNewEnd
      */
@@ -144,7 +144,7 @@ public:
      * @brief loadDataItem load core data: id, value, label.
      * @param json
      */
-    virtual void loadDataItem(QJsonObject& json);
+    virtual void loadDataItem(const QJsonObject& json);
     /**
      * @brief removeAll
      */
