@@ -228,9 +228,10 @@ bool ParsingToolFormula::readStringValue(QString& str, FormulaNode*& previous)
 bool ParsingToolFormula::readOperator(QString& str, FormulaNode* & previous)
 {
     bool found = false;
-    for(int i = 0; i < m_hashOp->keys().size() && !found ; ++i)
+    auto const& keys = m_hashOp->keys();
+    for(int i = 0; i < keys.size() && !found ; ++i)
     {
-        QString key = m_hashOp->keys().at(i);
+        QString key = keys.at(i);
         if(str.startsWith(key))
         {
             str=str.remove(0,key.size());

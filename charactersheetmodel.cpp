@@ -289,7 +289,7 @@ void CharacterSheetModel::computeFormula(QString path,CharacterSheet* sheet)
 {
     QStringList List = sheet->getAllDependancy(path);
 
-    for(auto item : List)
+    for(auto& item : List)
     {
         QString formula;
         QString valueStr;
@@ -329,7 +329,7 @@ void CharacterSheetModel::clearModel()
 
 void CharacterSheetModel::checkCharacter(Section *section)
 {
-    for(CharacterSheet* sheet : *m_characterList)
+    for(auto& sheet : *m_characterList)
     {
         for(int i = 0; i <  section->getChildrenCount(); ++i)
         {
@@ -471,7 +471,7 @@ void CharacterSheetModel::removeCharacterSheet(QModelIndex & index)
 
 CharacterSheet *CharacterSheetModel::getCharacterSheetById(QString id)
 {
-    for(CharacterSheet* sheet :*m_characterList)
+    for(auto& sheet :*m_characterList)
     {
         if(sheet->getUuid() == id)
         {
@@ -660,7 +660,7 @@ bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool writeData)
     jsonObj["characterCount"]=m_characterList->size();//m_characterCount;
 
     QJsonArray characters;
-    for(CharacterSheet* item : *m_characterList)
+    for(auto& item : *m_characterList)
     {
         QJsonObject charObj;
         item->save(charObj);
@@ -698,7 +698,7 @@ void CharacterSheetModel::checkTableItem()
         auto child = m_rootSection->getChildAt(i);
         if(CharacterSheetItem::TableItem == child->getItemType())
         {
-            for(auto character : *m_characterList)
+            for(auto& character : *m_characterList)
             {
                 auto childFromCharacter = character->getFieldAt(i);
                 auto table = dynamic_cast<TableField*>(child);

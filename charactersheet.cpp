@@ -78,7 +78,8 @@ CharacterSheetItem* CharacterSheet::getFieldAt(int i) const
 {
     if(i<m_valuesMap.size() && i >=0)
     {
-        return m_valuesMap.value(m_valuesMap.keys().at(i));
+        auto const& keys = m_valuesMap.keys();
+        return m_valuesMap.value(keys.at(i));
     }
     return nullptr;
 }
@@ -131,6 +132,7 @@ const  QVariant CharacterSheet::getValue(QString path,Qt::ItemDataRole role) con
 
 const  QVariant CharacterSheet::getValueByIndex(const std::vector<int>& row,QString path,Qt::ItemDataRole role) const
 {
+    Q_UNUSED(path)
     CharacterSheetItem* item = getFieldFromIndex(row);//getFieldFromKey(path);
     if(nullptr!=item)
     {
@@ -184,7 +186,8 @@ CharacterSheetItem* CharacterSheet::setValue(QString key, QString value, QString
 QList<QString> CharacterSheet::getAllDependancy(QString key)
 {
     QList<QString> list;
-    for(auto field : m_valuesMap.values())
+    auto const& values = m_valuesMap.values();
+    for(auto& field : values)
     {
         if(field->hasFormula())
         {
@@ -206,11 +209,11 @@ const QString CharacterSheet::getkey(int index)
     else
     {
         --index;
-        if((index<m_valuesMap.keys().size())&&(index>=0)&&(!m_valuesMap.isEmpty()))
+        auto const& keys = m_valuesMap.keys();
+        if((index<keys.size())&&(index>=0)&&(!m_valuesMap.isEmpty()))
         {
-            return m_valuesMap.keys().at(--index);
+            return keys.at(--index);
         }
-
     }
     return QString();
 }
@@ -275,7 +278,8 @@ void CharacterSheet::save(QJsonObject& json)
     json["name"]= m_name;
     json["idSheet"]= m_uuid;
     QJsonObject array=QJsonObject();
-    for (QString key : m_valuesMap.keys())
+    auto const& keys = m_valuesMap.keys();
+    for (const QString& key : keys)
     {
         QJsonObject item;
         m_valuesMap[key]->saveDataItem(item);
@@ -289,7 +293,7 @@ void CharacterSheet::load(QJsonObject& json)
     m_name = json["name"].toString();
     m_uuid = json["idSheet"].toString();
     QJsonObject array = json["values"].toObject();
-    for(QString key : array.keys() )
+    for(auto& key : array.keys() )
     {
         QJsonObject item = array[key].toObject();
         CharacterSheetItem* itemSheet=nullptr;
@@ -316,7 +320,8 @@ void CharacterSheet::load(QJsonObject& json)
 }
 void CharacterSheet::setOrigin(Section* sec)
 {
-    for(auto key : m_valuesMap.keys())
+    auto const& keys = m_valuesMap.keys();
+    for(auto& key : keys)
     {
         auto value = m_valuesMap.value(key);
         if(nullptr != value)
@@ -364,7 +369,8 @@ void CharacterSheet::read(NetworkMessageReader& msg)
 QHash<QString, QString> CharacterSheet::getVariableDictionnary()
 {
     QHash<QString, QString> dataDict;
-    for(QString key : m_valuesMap.keys())
+    auto const& keys = m_valuesMap.keys();
+    for(const QString& key : keys)
     {
         if(nullptr!=m_valuesMap[key])
         {

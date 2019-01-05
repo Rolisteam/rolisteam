@@ -124,7 +124,7 @@ public:
      * @param sheet
      * @param idChar
      */
-    void fill(NetworkMessageWriter *msg, CharacterSheet* sheet, QString idChar);
+    void fillMessage(NetworkMessageWriter *msg, CharacterSheet* sheet, QString idChar);
     /**
      * @brief read
      * @param msg

@@ -129,13 +129,13 @@ public:
 
     QList<QString> getAllDependancy(QString key);
     CharacterSheetItem *getFieldFromIndex(const std::vector<int> &row) const;
-public slots:
     /**
     * @brief global getter of data.  This function has been written to make easier the MVC architecture.
     * @param QString path : 0 refers to the title of the first section, 1 refers to the first data of the first section....
     */
-    const  QVariant getValueByIndex(const std::vector<int> &row, QString key, Qt::ItemDataRole role = Qt::DisplayRole) const;
+    const QVariant getValueByIndex(const std::vector<int> &row, QString key, Qt::ItemDataRole role = Qt::DisplayRole) const;
     const QVariant getValue(QString path, Qt::ItemDataRole role = Qt::DisplayRole) const;
+public slots:
     CharacterSheetItem* setValue(QString key , QString value, QString formula);
 
 signals:

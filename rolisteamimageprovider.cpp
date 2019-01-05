@@ -61,7 +61,8 @@ void RolisteamImageProvider::setData( QSharedPointer<QHash<QString, QPixmap>> da
 void RolisteamImageProvider::fill(NetworkMessageWriter &msg)
 {
     msg.uint16(m_data->count());
-    for(auto key : m_data->keys())
+    auto const& keys =  m_data->keys();
+    for(auto& key : keys)
     {
         msg.string16(key);
         QByteArray array;

@@ -87,7 +87,7 @@ int LineFieldItem::getFieldCount() const
 }
 Field* LineFieldItem::getFieldById(const QString& id)
 {
-   for(const auto field : m_fields)
+   for(auto& field : m_fields)
    {
        if(field->getId() == id)
        {
@@ -98,7 +98,7 @@ Field* LineFieldItem::getFieldById(const QString& id)
 }
 Field* LineFieldItem::getFieldByLabel(const QString& label)
 {
-   for(const auto field : m_fields)
+   for(auto& field : m_fields)
    {
        if(field->getLabel() == label)
        {
@@ -109,7 +109,7 @@ Field* LineFieldItem::getFieldByLabel(const QString& label)
 }
 void LineFieldItem::save(QJsonArray &json)
 {
-    for(const auto field : m_fields)
+    for(auto& field : m_fields)
     {
         QJsonObject obj;
         field->save(obj);
@@ -118,7 +118,7 @@ void LineFieldItem::save(QJsonArray &json)
 }
 void LineFieldItem::saveDataItem(QJsonArray &json)
 {
-    for(const auto field : m_fields)
+    for(auto& field : m_fields)
     {
         QJsonObject obj;
         field->saveDataItem(obj);
@@ -127,7 +127,7 @@ void LineFieldItem::saveDataItem(QJsonArray &json)
 }
 void LineFieldItem::load(QJsonArray &json, QList<QGraphicsScene *> scene,  CharacterSheetItem* parent)
 {
-    for( auto value : json)
+    for( auto const& value : json)
     {
         Field* field = new Field();
         field->setParent(parent);
@@ -138,7 +138,7 @@ void LineFieldItem::load(QJsonArray &json, QList<QGraphicsScene *> scene,  Chara
 }
 void LineFieldItem::loadDataItem(QJsonArray &json, CharacterSheetItem* parent)
 {
-    for( auto value : json)
+    for( auto const& value : json)
     {
         Field* field = new Field();
         field->setParent(parent);
@@ -187,7 +187,7 @@ QHash<int, QByteArray>  LineModel::roleNames() const
     roles[LineRole] = "line";
     int i = 1;
     auto first = m_lines.first();
-    for(auto fieldLine : first->getFields() )
+    for(auto& fieldLine : first->getFields() )
     {
         roles[LineRole+i]=fieldLine->getId().toUtf8();
         i++;
@@ -236,7 +236,7 @@ int LineModel::getChildrenCount() const
 
 Field*  LineModel::getFieldById(const QString& id)
 {
-    for(const auto& line : m_lines)
+    for(auto& line : m_lines)
     {
         auto item = line->getFieldById(id);
         if(nullptr != item)
@@ -267,7 +267,7 @@ Field* LineModel::getField(int line, int col)
 
 void LineModel::save(QJsonArray &json)
 {
-    for(const auto& line : m_lines)
+    for(auto& line : m_lines)
     {
         QJsonArray lineJson;
         line->save(lineJson);
@@ -277,7 +277,7 @@ void LineModel::save(QJsonArray &json)
 
 void LineModel::saveDataItem(QJsonArray &json)
 {
-    for(const auto& line : m_lines)
+    for(auto& line : m_lines)
     {
         QJsonArray lineJson;
         line->saveDataItem(lineJson);
@@ -316,7 +316,7 @@ void LineModel::loadDataItem(QJsonArray &json, CharacterSheetItem* parent)
 
 void LineModel::setChildFieldData(QJsonObject &json)
 {
-    for(auto line : m_lines)
+    for(auto& line : m_lines)
     {
         auto field = line->getFieldById(json["id"].toString());
         if(field)
@@ -627,7 +627,8 @@ void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
     m_page=json["page"].toInt();
 
     QJsonArray valuesArray=json["values"].toArray();
-    for(auto value : valuesArray.toVariantList())
+    auto const& list = valuesArray.toVariantList();
+    for(auto& value : list)
     {
         m_availableValue << value.toString();
     }

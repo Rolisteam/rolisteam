@@ -188,7 +188,7 @@ void CharacterSheetItem::setLabel(const QString &label)
     if(m_label != label)
     {
         m_label = label;
-        labelChanged();
+        emit labelChanged();
     }
 }
 void CharacterSheetItem::setId(const QString &id)

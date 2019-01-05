@@ -36,8 +36,7 @@ Section::Section()
 }
 Section::~Section()
 {
-    qDeleteAll(m_dataHash.values());
-    m_dataHash.clear();
+    qDeleteAll(m_dataHash);
 }
 
 bool Section::hasChildren()
@@ -124,7 +123,7 @@ void Section::save(QJsonObject& json,bool exp)
     json["name"] = m_name;
     json["type"] = QStringLiteral("Section");
     QJsonArray fieldArray;
-    for (QString key : m_keyList)
+    for (auto& key : m_keyList)
     {
         CharacterSheetItem* item = m_dataHash.value(key);
         if(nullptr != item)
@@ -252,7 +251,7 @@ void Section::resetAllId(int& i)
 {
   QString id("id_%1");
 
-  for(QString key : m_keyList)
+  for(auto& key : m_keyList)
   {
       CharacterSheetItem* item = m_dataHash.value(key);
 
@@ -272,7 +271,8 @@ void Section::resetAllId(int& i)
 void Section::setOrig(CharacterSheetItem* orig)
 {
     CharacterSheetItem::setOrig(orig);
-    for(auto key : m_dataHash.keys())
+    auto const& keys = m_dataHash.keys();
+    for(auto& key : keys)
     {
         auto value = m_dataHash.value(key);
         if(nullptr != value)
@@ -331,7 +331,7 @@ void Section::buildDataInto( CharacterSheet* character)
 }
 void Section::setValueForAll(CharacterSheetItem* itemSrc,int col)
 {
-    for(auto key : m_keyList)
+    for(auto& key : m_keyList)
     {
         CharacterSheetItem* item = m_dataHash.value(key);
         if(nullptr!=item)

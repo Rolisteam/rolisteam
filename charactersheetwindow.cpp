@@ -206,7 +206,7 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint & pos)
 }
 void CharacterSheetWindow::addSharingMenu(QMenu* share)
 {
-    for(Character* character : PlayersList::instance()->getCharacterList())
+    for(auto& character : PlayersList::instance()->getCharacterList())
     {
         QAction* action = share->addAction(QPixmap::fromImage(character->getAvatar()),character->name());
         action->setData(character->getUuid());
@@ -361,7 +361,7 @@ void CharacterSheetWindow::affectSheetToCharacter()
                 idList << person->getUuid();
                 msg.setRecipientList(idList,NetworkMessage::OneOrMany);
                 msg.string8(parent->getUuid());
-                fill(&msg,sheet,character->getUuid());
+                fillMessage(&msg,sheet,character->getUuid());
                 msg.sendToServer();
             }
         }
@@ -481,7 +481,7 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
 }
 void CharacterSheetWindow::readErrorFromQML(QList<QQmlError> list)
 {
-    for(auto error : list)
+    for(auto& error : list)
     {
         emit errorOccurs(error.toString());
     }
@@ -558,7 +558,7 @@ void CharacterSheetWindow::processUpdateFieldMessage(NetworkMessageReader* msg,c
 void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
 {
     QString result="";
-    for(auto error : warnings)
+    for(auto& error : warnings)
     {
         result += error.toString();
     }
@@ -656,7 +656,7 @@ bool CharacterSheetWindow::readData(QByteArray data)
     }
 
     const auto fonts = jsonObj["fonts"].toArray();
-    for(const auto obj : fonts)
+    for(const auto& obj : fonts)
     {
         const auto font = obj.toObject();
         const auto fontData = QByteArray::fromBase64(font["data"].toString("").toLatin1());
@@ -802,7 +802,7 @@ void CharacterSheetWindow::saveMedia()
         }
     }
 }
-void CharacterSheetWindow::fill(NetworkMessageWriter* msg,CharacterSheet* sheet,QString idChar)
+void CharacterSheetWindow::fillMessage(NetworkMessageWriter* msg,CharacterSheet* sheet,QString idChar)
 {
 
     msg->string8(m_mediaId);

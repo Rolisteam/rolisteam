@@ -159,7 +159,6 @@ public slots:
     void removeLastLine();
 
 signals:
-    void updateNeeded(CSItem* c);
     void lineMustBeAdded(TableField* table);
 
 protected:

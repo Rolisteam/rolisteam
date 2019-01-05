@@ -397,8 +397,8 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
     m_page=json["page"].toInt();
     m_generatedCode = json["generatedCode"].toString();
 
-    QJsonArray valuesArray=json["values"].toArray();
-    for(auto value : valuesArray.toVariantList())
+    auto const& valuesArray=json["values"].toArray().toVariantList();
+    for(auto& value : valuesArray)
     {
         m_availableValue << value.toString();
     }
