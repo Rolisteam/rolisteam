@@ -74,7 +74,7 @@ void PictureTest::writeAndReadNetworkTest()
 
         m_image->fill(msg);
 
-        auto const array = msg.getData();
+        const QByteArray& array = msg.getData();
 
         NetworkMessageReader msg2;
         msg2.setData(array);
@@ -86,6 +86,10 @@ void PictureTest::writeAndReadNetworkTest()
         msg.reset();
 
         //QCOMPARE( msg2.getSize() , msg.getSize() );
+        if(m_image->getUriName() != image2.getUriName())
+        {
+            qDebug() << "not equal" << i;
+        }
 
         QCOMPARE( m_image->getUriName(), image2.getUriName());
         QCOMPARE( m_image->getMediaId(), image2.getMediaId());
