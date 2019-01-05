@@ -96,6 +96,17 @@ Field* LineFieldItem::getFieldById(const QString& id)
    }
    return nullptr;
 }
+Field* LineFieldItem::getFieldByLabel(const QString& label)
+{
+   for(const auto field : m_fields)
+   {
+       if(field->getLabel() == label)
+       {
+           return field;
+       }
+   }
+   return nullptr;
+}
 void LineFieldItem::save(QJsonArray &json)
 {
     for(const auto field : m_fields)
@@ -329,9 +340,28 @@ void LineModel::removeLine(int index)
     endRemoveRows();
 }
 
-bool LineModel::setData(const QModelIndex& index, QVariant data,int role)
+bool LineModel::setData(const QModelIndex& index, const QVariant &data, int role)
 {
     return QAbstractListModel::setData(index, data, role);
+}
+
+int LineModel::sumColumn(const QString& name) const
+{
+    int sum = 0;
+    for(auto line : m_lines)
+    {
+        auto field = line->getFieldByLabel(name);
+        if(nullptr == field)
+        {
+            //should not happen
+            field = line->getFieldById(name);
+        }
+        if(nullptr == field)
+            continue;
+
+        sum += field->value().toInt();
+    }
+    return sum;
 }
 ///////////////////////////////////
 /// \brief TableField::TableField
@@ -768,4 +798,8 @@ void TableField::saveDataItem(QJsonObject &json)
     QJsonArray childArray;
     m_model->saveDataItem(childArray);
     json["children"]=childArray;
+}
+int TableField::sumColumn(const QString& name ) const
+{
+    return m_model->sumColumn(name);
 }

@@ -56,7 +56,10 @@ public:
     void setFields(const QList<Field *> &fields);
 
     int getFieldCount() const;
+
     Field* getFieldById(const QString& id);
+    Field *getFieldByLabel(const QString &label);
+
     void save(QJsonArray& json);
     void load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent);
     void saveDataItem(QJsonArray &json);
@@ -76,7 +79,7 @@ public:
     LineModel();
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
-    bool setData(const QModelIndex& index, QVariant data,int role);
+    bool setData(const QModelIndex& index, const QVariant& data,int role);
     QHash<int, QByteArray>  roleNames() const;
     void insertLine(LineFieldItem* line);
     void appendLine(TableField* field);
@@ -91,6 +94,8 @@ public:
     void saveDataItem(QJsonArray &json);
     void loadDataItem(QJsonArray &json, CharacterSheetItem *parent);
     void setChildFieldData(QJsonObject &json);
+    int sumColumn(const QString& name) const;
+
 private:
     QList<LineFieldItem*> m_lines;
 };
@@ -145,10 +150,14 @@ public:
     void appendChild(CharacterSheetItem*);
     int lineNumber() const;
     int itemPerLine() const;
+
+    Q_INVOKABLE int sumColumn(const QString& name ) const;
+
 public slots:
     void addLine();
     void removeLine(int line);
     void removeLastLine();
+
 signals:
     void updateNeeded(CSItem* c);
     void lineMustBeAdded(TableField* table);
