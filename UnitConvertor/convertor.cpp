@@ -340,7 +340,8 @@ void Convertor::writeSettings()
 
     setting.beginWriteArray(QStringLiteral("convertor"), m_convertorTable.size());
     int i = 0;
-    for(auto pair : m_convertorTable.keys())
+    auto const& keys = m_convertorTable.keys();
+    for(auto& pair : keys)
     {
         auto convertor = m_convertorTable[pair];
 

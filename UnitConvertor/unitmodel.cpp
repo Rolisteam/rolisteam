@@ -85,7 +85,7 @@ QVariant UnitModel::data(const QModelIndex &index, int role) const
 int UnitModel::rowCount(const QModelIndex&) const
 {
     int sum = 0;
-    for(auto list : m_data)
+    for(auto& list : m_data)
     {
         sum += list.size();
     }
@@ -135,7 +135,8 @@ QString UnitModel::getCatNameFromId(Unit::Category id) const
 bool UnitModel::insertUnit(Unit::Category cat)
 {
     int sum=0;
-    for(auto key:m_data.keys())
+    auto const& keys = m_data.keys();
+    for(auto& key : keys)
     {
         const auto& list = m_data[key];
         if(key <= cat)
@@ -182,9 +183,9 @@ void UnitModel::writeSettings()
 
     setting.beginWriteArray("units");
     int i =  0;
-    for(auto list : m_data)
+    for(auto& list : m_data)
     {
-        for(auto unit : list)
+        for(auto& unit : list)
         {
             setting.setArrayIndex(i);
             setting.setValue("name",unit->name());
@@ -201,7 +202,7 @@ void UnitModel::writeSettings()
 int UnitModel::getIndex(Unit* unit)
 {
     int i = 0;
-    for(auto list : m_data)
+    for(auto& list : m_data)
     {
         auto pos = list.indexOf(unit);
         if(pos<0)
@@ -218,7 +219,7 @@ int UnitModel::getIndex(Unit* unit)
 }
 Unit* UnitModel::getUnitByIndex(int r) const
 {
-    for(auto list : m_data)
+    for(auto& list : m_data)
     {
         if(r>=list.size())
         {

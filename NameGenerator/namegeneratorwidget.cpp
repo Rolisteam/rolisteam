@@ -207,7 +207,7 @@ void NameGeneratorWidget::buildAllNames(int count,QHash<QString,DataBase> data)
     QList<QJsonDocument> generationData;
     QList<QStringList> pickUpData;
 
-    for(auto database : list)
+    for(auto& database : list)
     {
         QFile loadFile(database.filepath);
 
@@ -242,7 +242,7 @@ void NameGeneratorWidget::buildAllNames(int count,QHash<QString,DataBase> data)
         int indexGenerated = 0;
         int indexPickUp = 0;
         QString result("");
-        for(auto database : list)
+        for(auto& database : list)
         {
             QString tmpresult;
 
@@ -311,7 +311,8 @@ QString NameGeneratorWidget::buildName(const QJsonObject& json)
     qreal first = (qreal)qrand()/(qreal)RAND_MAX;
     qreal sum=0;
 
-    for (QString key: firstLetter.keys())
+    auto keys = firstLetter.keys();
+    for (auto& key: keys)
     {
         sum += firstLetter[key].toDouble();
         if((sum > first)&&(result.isEmpty()))
@@ -352,7 +353,7 @@ QString NameGeneratorWidget::buildName(const QJsonObject& json)
         {
             if(i.key()!="0")
             {
-                if(nextIsPossible(json,QStringLiteral("%1%2").arg(lastestChar).arg(i.key()),beforeLast))
+                if(nextIsPossible(json,QStringLiteral("%1%2").arg(lastestChar, i.key()),beforeLast))
                 {
                     sumDict += i.value().toInt();
                 }
@@ -368,7 +369,7 @@ QString NameGeneratorWidget::buildName(const QJsonObject& json)
                 if(i.key()!="0")
                 {
 
-                    if(nextIsPossible(json,QStringLiteral("%1%2").arg(lastestChar).arg(i.key()),beforeLast))
+                    if(nextIsPossible(json,QStringLiteral("%1%2").arg(lastestChar, i.key()),beforeLast))
                     {
                         sumDict += i.value().toInt();
                         if(sumDict > value)

@@ -50,7 +50,7 @@ bool GenericModel::setData(const QModelIndex &index, const QVariant &value, int 
     auto item = m_data.at(index.row());
     if(item->setData(index.column(), value, role))
     {
-        dataChanged(index,index,QVector<int>() << role);
+        emit dataChanged(index,index,QVector<int>() << role);
         return true;
     }
     return false;

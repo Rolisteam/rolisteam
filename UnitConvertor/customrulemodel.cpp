@@ -181,9 +181,9 @@ bool CustomRuleModel::setData(const QModelIndex &idx, const QVariant &value, int
             auto valueStr = value.toString();
             auto pos = valueStr.indexOf("x+");
             bool ok,ok1;
-            auto a = valueStr.left(pos).toDouble(&ok);
+            auto a = valueStr.leftRef(pos).toDouble(&ok);
 
-            auto b = valueStr.right(valueStr.length()-pos).toDouble(&ok1);
+            auto b = valueStr.rightRef(valueStr.length()-pos).toDouble(&ok1);
 
             ConvertorOperator* convertor = nullptr;
 
@@ -245,12 +245,12 @@ Qt::ItemFlags CustomRuleModel::flags(const QModelIndex &idx) const
 
 }
 
-QModelIndex CustomRuleModel::parent(const QModelIndex &child) const
+QModelIndex CustomRuleModel::parent(const QModelIndex &) const
 {
     return {};
 }
 
-QModelIndex CustomRuleModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex CustomRuleModel::index(int row, int column, const QModelIndex &) const
 {
     if(rowCount()>row && column<rowCount()+PERMANENT_COL_COUNT)
     {
@@ -286,7 +286,8 @@ bool CustomRuleModel::removeUnit(const QModelIndex &index)
     beginRemoveColumns(QModelIndex(), rowCount()+PERMANENT_COL_COUNT,rowCount()+PERMANENT_COL_COUNT);
 
     const auto unit = data(index, UnitModel::UnitRole).value<Unit*>();
-    for(auto key : m_convertionRules->keys())
+    const auto& keys = m_convertionRules->keys();
+    for(auto key : keys)
     {
         if((key.first == unit)||(key.second == unit))
         {

@@ -82,7 +82,7 @@ NpcMakerWidget::NpcMakerWidget(QWidget *parent) :
             m_shapeModel->removeData(index);
     });
 
-    connect(ui->m_sizeEdit, QOverload<int>::of(&QSpinBox::valueChanged),[=]{
+    connect(ui->m_sizeEdit, QOverload<int>::of(&QSpinBox::valueChanged),this,[=]{
         auto val = ui->m_sizeEdit->value();
         ui->m_shapeList->setIconSize(QSize(val,val));
         setAllRowToHeight(m_shapeModel, val, ui->m_shapeList);
