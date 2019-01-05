@@ -226,7 +226,10 @@ void CleverURI::setCurrentMode(const LoadingMode &currentMode)
 {
     m_currentMode = currentMode;
 
-    loadData();
+    if(m_currentMode == Linked)
+        loadData();
+    else  if(m_currentMode == Internal)
+        m_data.clear();
 }
 bool CleverURI::exists()
 {
