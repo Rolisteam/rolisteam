@@ -602,7 +602,7 @@ CharacterSheetItem::CharacterSheetItemType TableField::getItemType() const
 {
     return CharacterSheetItemType::TableItem;
 }
-void TableField::load(QJsonObject &json, QList<QGraphicsScene *> scene)
+void TableField::load(const QJsonObject &json, QList<QGraphicsScene *> scene)
 {
     Q_UNUSED(scene);
     m_id = json["id"].toString();
@@ -727,7 +727,7 @@ void TableField::fillModel()
     #endif
 }
 
-void TableField::loadDataItem(QJsonObject &json)
+void TableField::loadDataItem(const QJsonObject &json)
 {
     m_id = json["id"].toString();
     setValue(json["value"].toString(),true);

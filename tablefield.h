@@ -131,7 +131,7 @@ public:
     virtual CharacterSheetItem* getChildAt(QString ) const;
     virtual CharacterSheetItem* getChildAt(int ) const;
     virtual void save(QJsonObject& json,bool exp=false);
-    virtual void load(QJsonObject& json,QList<QGraphicsScene*> scene);
+    virtual void load(const QJsonObject& json,QList<QGraphicsScene*> scene);
     virtual void copyField(CharacterSheetItem* oldItem,bool copyData, bool sameId = true);
 
 
@@ -140,7 +140,7 @@ public:
 
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
     void saveDataItem(QJsonObject &json);
-    void loadDataItem(QJsonObject &json);
+    void loadDataItem(const QJsonObject &json);
     void setChildFieldData(QJsonObject &json);
 
     int getMaxVisibleRowCount() const;

@@ -40,7 +40,7 @@ public:
     virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var);
 
     virtual void save(QJsonObject& json,bool exp=false);
-    virtual void load(QJsonObject &json,QList<QGraphicsScene*> scene);
+    virtual void load(const QJsonObject &json,QList<QGraphicsScene*> scene);
 
     virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec);
 
@@ -65,7 +65,7 @@ public:
      * @param json
      * @param scene
      */
-    virtual void loadDataItem(QJsonObject& json);
+    virtual void loadDataItem(const QJsonObject& json);
 
     void copyField(CharacterSheetItem *newField);
     /**
