@@ -21,7 +21,7 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
         return;
 
     QByteArray localMsg = msg.toLocal8Bit();
-    auto msgFormated = QStringLiteral("%1 (%2:%3), %4").arg(localMsg.constData()).arg(context.file).arg(context.line).arg(context.function);
+    auto msgFormated = QStringLiteral("%1 (%2:%3), %4").arg(QString(localMsg.constData()),QString(context.file),QString(context.line),QString(context.function));
     LogController::LogLevel cLevel = LogController::Error;
     switch (type) {
     case QtDebugMsg:
@@ -70,6 +70,8 @@ void LogController::setMessageHandler(bool attachMessage)
         qInstallMessageHandler(nullptr);
         controller= nullptr;
     }
+#else
+    Q_UNUSED(attachMessage)
 #endif
 }
 LogController::StorageModes LogController::currentModes() const
@@ -109,7 +111,7 @@ void LogController::listenObjects(const QObject* object)
         }
     }
 #endif
-
+    Q_UNUSED(object)
     /*if(m_signalInspection)
     {
         auto metaObject = object->metaObject();
@@ -141,7 +143,7 @@ void LogController::actionActivated()
 {
     #ifdef QT_WIDGETS_LIB
     auto act = qobject_cast<QAction*>(sender());
-    manageMessage(QStringLiteral("[Action] - %1 - %2").arg(act->text()).arg(act->objectName()),Info);
+    manageMessage(QStringLiteral("[Action] - %1 - %2").arg(act->text(), act->objectName()),Info);
     #endif
 }
 
@@ -183,7 +185,7 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
     Q_UNUSED(locker)
 
     QString str("%1 - %2 - %3");
-    str=str.arg(QTime::currentTime().toString("hh:mm:ss")).arg(typeToText(type)).arg(message);
+    str=str.arg(QTime::currentTime().toString("hh:mm:ss"),typeToText(type),message);
 
     QString timestamps;
     QString category;// WARNING unused

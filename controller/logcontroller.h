@@ -44,8 +44,8 @@ public slots:
     void listenObjects(const QObject* widget);
     void signalActivated();
     void actionActivated();
-    void setLogLevel(const LogLevel& logLevel);
-    void setCurrentModes(const StorageModes &currentModes);
+    void setLogLevel(const LogController::LogLevel& logLevel);
+    void setCurrentModes(const LogController::StorageModes &currentModes);
 
 
 private:

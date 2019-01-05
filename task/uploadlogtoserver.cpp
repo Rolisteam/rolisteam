@@ -84,7 +84,7 @@ void LogUploader::uploadLog()
     obj["conf"] = m_conf;
 
     QJsonArray array;
-    for(auto log : m_logs)
+    for(auto& log : m_logs)
     {
         QJsonObject logObj;
         logObj["level"] = log.m_level;
