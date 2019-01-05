@@ -95,7 +95,7 @@ public:
     void loadDataItem(QJsonArray &json, CharacterSheetItem *parent);
     void setChildFieldData(QJsonObject &json);
     int sumColumn(const QString& name) const;
-
+    void setFieldInDictionnary(QHash<QString, QString> &dict) const;
 private:
     QList<LineFieldItem*> m_lines;
 };
@@ -110,7 +110,6 @@ class TableField : public Field
     Q_PROPERTY (QAbstractItemModel* model READ getModel CONSTANT)
 
 public:
-    //enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,BottomRight,BottomMiddle,BottomLeft};
     enum ControlPosition {CtrlLeftTop,CtrlLeftBottom,CtrlTopLeft,CtrlTopRight,CtrlBottomLeft,CtrlBottomRight,CtrlRightTop,CtrlRightBottom};
     explicit TableField(bool addCount = true,QGraphicsItem* parent = nullptr);
     explicit TableField(QPointF topleft,bool addCount = true,QGraphicsItem* parent = nullptr);
@@ -152,6 +151,7 @@ public:
     int itemPerLine() const;
 
     Q_INVOKABLE int sumColumn(const QString& name ) const;
+    void setFieldInDictionnary(QHash<QString, QString> &dict) const;
 
 public slots:
     void addLine();
@@ -163,8 +163,6 @@ signals:
 
 protected:
     void init();
-    QString computeControlPosition();
-
 
 protected:
     ControlPosition m_position;

@@ -306,14 +306,6 @@ void CharacterSheetModel::fieldHasBeenChanged(CharacterSheet* sheet,CharacterShe
    emit dataCharacterChange();
    computeFormula(item->getLabel(),sheet);
 }
-CharacterSheet* CharacterSheetModel::addCharacterSheet()
-{
-    CharacterSheet* sheet = new CharacterSheet;
-    addCharacterSheet(sheet,false);
-
-    sheet->buildDataFromSection(m_rootSection);
-    return sheet;
-}
 
 void CharacterSheetModel::clearModel()
 {

@@ -268,6 +268,13 @@ void CharacterSheetItem::setCurrentType(const CharacterSheetItem::TypeField &cur
     }
 }
 
+void CharacterSheetItem::setFieldInDictionnary(QHash<QString, QString> & dict) const
+{
+    auto val = value();
+    dict[m_id] = val;
+    dict[getLabel()] = val;
+}
+
 void CharacterSheetItem::initGraphicsItem()
 {
 

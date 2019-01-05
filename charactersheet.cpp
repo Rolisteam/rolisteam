@@ -374,8 +374,7 @@ QHash<QString, QString> CharacterSheet::getVariableDictionnary()
     {
         if(nullptr!=m_valuesMap[key])
         {
-            dataDict[key] = m_valuesMap[key]->value();
-            dataDict[m_valuesMap[key]->getLabel()] = m_valuesMap[key]->value();
+            m_valuesMap[key]->setFieldInDictionnary(dataDict);
         }
     }
     return dataDict;

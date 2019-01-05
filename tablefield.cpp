@@ -327,6 +327,11 @@ void LineModel::setChildFieldData(QJsonObject &json)
     }
 }
 
+void LineModel::setFieldInDictionnary(QHash<QString, QString> &dict) const
+{
+
+}
+
 void LineModel::removeLine(int index)
 {
     if(m_lines.isEmpty())
@@ -706,68 +711,6 @@ void TableField::fillModel()
     #endif
 }
 
-QString TableField::computeControlPosition()
-{
-    #ifdef RCSE
-    QString Line1("anchors.%1: _%5list.%2\nanchors.%3: _%5list.%4\n");//top,button//left,right
-
-    m_position = static_cast<ControlPosition>(m_tableCanvasField->getPosition());
-    switch (m_position)
-    {
-        case TableField::CtrlLeftTop:
-            Line1=Line1.arg(QLatin1String("top"))
-                    .arg(QLatin1String("top"))
-                    .arg(QLatin1String("right"))
-                    .arg(QLatin1String("left"));
-        break;
-        case TableField::CtrlTopLeft:
-            Line1=Line1.arg(QLatin1String("bottom"))
-                    .arg(QLatin1String("top"))
-                    .arg(QLatin1String("left"))
-                    .arg(QLatin1String("left"));
-        break;
-        case TableField::CtrlLeftBottom:
-            Line1=Line1.arg(QLatin1String("bottom"))
-                    .arg(QLatin1String("bottom"))
-                    .arg(QLatin1String("right"))
-                    .arg(QLatin1String("left"));
-        break;
-        case TableField::CtrlBottomLeft:
-        Line1=Line1.arg(QLatin1String("top"))
-                .arg(QLatin1String("bottom"))
-                .arg(QLatin1String("left"))
-                .arg(QLatin1String("left"));
-        break;
-        case TableField::CtrlBottomRight:
-        Line1=Line1.arg(QLatin1String("top"))
-                .arg(QLatin1String("bottom"))
-                .arg(QLatin1String("right"))
-                .arg(QLatin1String("right"));
-        break;
-        case TableField::CtrlRightTop:
-        Line1=Line1.arg(QLatin1String("top"))
-                .arg(QLatin1String("top"))
-                .arg(QLatin1String("left"))
-                .arg(QLatin1String("right"));
-        break;
-        case TableField::CtrlTopRight:
-        Line1=Line1.arg(QLatin1String("bottom"))
-                .arg(QLatin1String("top"))
-                .arg(QLatin1String("right"))
-                .arg(QLatin1String("right"));
-        break;
-        case TableField::CtrlRightBottom:
-        Line1=Line1.arg(QLatin1String("bottom"))
-                .arg(QLatin1String("bottom"))
-                .arg(QLatin1String("left"))
-                .arg(QLatin1String("right"));
-        break;
-    }
-    return Line1.arg(m_id);
-    #else
-    return {};
-    #endif
-}
 void TableField::loadDataItem(QJsonObject &json)
 {
     m_id = json["id"].toString();
@@ -784,6 +727,16 @@ void TableField::loadDataItem(QJsonObject &json)
 void TableField::setChildFieldData(QJsonObject &json)
 {
     m_model->setChildFieldData(json);
+}
+
+void TableField::setFieldInDictionnary(QHash<QString, QString> & dict) const
+{
+    Field::setFieldInDictionnary(dict);
+
+    m_model->setFieldInDictionnary(dict);
+    auto val = value();
+    dict[m_id] = val;
+    dict[getLabel()] = val;
 }
 
 void TableField::saveDataItem(QJsonObject &json)

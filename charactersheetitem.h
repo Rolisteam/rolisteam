@@ -181,6 +181,7 @@ public:
     Q_INVOKABLE QString getFormula() const;
 
 
+    virtual void setFieldInDictionnary(QHash<QString, QString> & dict) const;
     bool hasFormula() const;
 
     CharacterSheetItem::TypeField getFieldType() const;

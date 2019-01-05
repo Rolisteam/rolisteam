@@ -101,6 +101,7 @@ public:
 
     void initGraphicsItem();
 
+    virtual void setFieldInDictionnary(QHash<QString, QString> & dict) const;
 
     virtual qreal getWidth() const;
     virtual void setWidth(qreal width);
