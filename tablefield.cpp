@@ -285,13 +285,13 @@ void LineModel::saveDataItem(QJsonArray &json)
     }
 }
 
-void LineModel::load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent)
+void LineModel::load(const QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent)
 {
     beginResetModel();
     QJsonArray::Iterator it;
-    for(it = json.begin(); it != json.end(); ++it)
+    for(auto const& array : json)
     {
-        QJsonArray obj = (*it).toArray();
+        QJsonArray obj = array.toArray();
         LineFieldItem* line = new LineFieldItem();
         line->load(obj,scene,parent);
         m_lines.append(line);
@@ -299,14 +299,13 @@ void LineModel::load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterS
     endResetModel();
 }
 
-void LineModel::loadDataItem(QJsonArray &json, CharacterSheetItem* parent)
+void LineModel::loadDataItem(const QJsonArray &json, CharacterSheetItem* parent)
 {
     beginResetModel();
     m_lines.clear();
-    QJsonArray::Iterator it;
-    for(it = json.begin(); it != json.end(); ++it)
+    for(auto const& array : json)
     {
-        QJsonArray obj = (*it).toArray();
+        QJsonArray obj = array.toArray();
         LineFieldItem* line = new LineFieldItem();
         line->loadDataItem(obj,parent);
         m_lines.append(line);
@@ -314,7 +313,7 @@ void LineModel::loadDataItem(QJsonArray &json, CharacterSheetItem* parent)
     endResetModel();
 }
 
-void LineModel::setChildFieldData(QJsonObject &json)
+void LineModel::setChildFieldData(const QJsonObject &json)
 {
     for(auto& line : m_lines)
     {
@@ -327,9 +326,26 @@ void LineModel::setChildFieldData(QJsonObject &json)
     }
 }
 
-void LineModel::setFieldInDictionnary(QHash<QString, QString> &dict) const
+void LineModel::setFieldInDictionnary(QHash<QString, QString> &dict, const QString& id, const QString& label) const
 {
+    if(m_lines.isEmpty())
+        return;
 
+    auto line = m_lines.at(0);
+    auto fields = line->getFields();
+    int i = 1; // count as user
+    for(auto field : fields)
+    {
+        auto sum = sumColumn(field->getLabel());
+        QString key = QStringLiteral("%1:sumcol%2").arg(id).arg(i);
+        dict[key]=QString::number(sum);
+        if(!label.isEmpty())
+        {
+            key = QStringLiteral("%1:sumcol%2").arg(label).arg(i);
+            dict[key]=QString::number(sum);
+        }
+        ++i;
+    }
 }
 
 void LineModel::removeLine(int index)
@@ -732,11 +748,7 @@ void TableField::setChildFieldData(QJsonObject &json)
 void TableField::setFieldInDictionnary(QHash<QString, QString> & dict) const
 {
     Field::setFieldInDictionnary(dict);
-
-    m_model->setFieldInDictionnary(dict);
-    auto val = value();
-    dict[m_id] = val;
-    dict[getLabel()] = val;
+    m_model->setFieldInDictionnary(dict, m_id, m_label);
 }
 
 void TableField::saveDataItem(QJsonObject &json)

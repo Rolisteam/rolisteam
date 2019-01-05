@@ -90,12 +90,12 @@ public:
     Field* getFieldById(const QString& id);
     void removeLine(int index);
     void save(QJsonArray& json);
-    void load(QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent);
+    void load(const QJsonArray &json, QList<QGraphicsScene *> scene, CharacterSheetItem* parent);
     void saveDataItem(QJsonArray &json);
-    void loadDataItem(QJsonArray &json, CharacterSheetItem *parent);
-    void setChildFieldData(QJsonObject &json);
+    void loadDataItem(const QJsonArray &json, CharacterSheetItem *parent);
+    void setChildFieldData(const QJsonObject &json);
     int sumColumn(const QString& name) const;
-    void setFieldInDictionnary(QHash<QString, QString> &dict) const;
+    void setFieldInDictionnary(QHash<QString, QString> &dict, const QString &id, const QString &label) const;
 private:
     QList<LineFieldItem*> m_lines;
 };
