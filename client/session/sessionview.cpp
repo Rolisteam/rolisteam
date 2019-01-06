@@ -55,7 +55,7 @@ SessionView::SessionView(QWidget *parent) :
     connect(m_loadingModeColumn,&QAction::toggled,this,[=](){
         setColumnHidden(1,!m_loadingModeColumn->isChecked());
     });
-    m_loadingModeColumn->setChecked(false);
+    m_loadingModeColumn->setChecked(true);
 
     m_displayedColumn= new QAction(tr("Displayed Status"),this);
     m_displayedColumn->setCheckable(true);

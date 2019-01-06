@@ -420,11 +420,22 @@ void SessionItemModel::clearData()
 
 QVariant SessionItemModel::headerData ( int section, Qt::Orientation orientation, int role  ) const
 {
-    if((role==Qt::DisplayRole)&&(orientation==Qt::Horizontal))
+    QVariant var;
+    if(orientation == Qt::Horizontal)
     {
-        return m_header.at(section);
+        switch(role)
+        {
+        case Qt::DisplayRole:
+            var = m_header.at(section);
+            break;
+        case Qt::TextAlignmentRole:
+            var = Qt::AlignHCenter;
+            break;
+        default:
+            break;
+        }
     }
-    return QVariant();
+    return var;
 }
 void SessionItemModel::saveModel(QDataStream& out)
 {

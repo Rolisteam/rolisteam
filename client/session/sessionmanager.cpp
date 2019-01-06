@@ -67,7 +67,7 @@ SessionManager::SessionManager(QWidget* parent)
     hHeader->setSectionResizeMode(SessionItemModel::Path,QHeaderView::ResizeToContents);
     m_view->setHeader(hHeader);
 
-    m_view->setColumnHidden(SessionItemModel::LoadingMode,true);
+    //m_view->setColumnHidden(SessionItemModel::LoadingMode,true);
     m_view->setColumnHidden(SessionItemModel::Displayed,true);
     m_view->setColumnHidden(SessionItemModel::Path,true);
 
