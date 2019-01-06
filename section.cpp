@@ -171,7 +171,7 @@ void Section::load(const QJsonObject &json, QList<QGraphicsScene*> scenes)
         if(!m_dataHash.contains(item->getPath()))
         {
             item->setParent(this);
-            if(scenes.size()>item->getPage())
+            if(scenes.size()>item->getPage() && !scenes.isEmpty())
             {
                 auto page = std::max(0, item->getPage());//add item for all pages on the first canvas.
                 QGraphicsScene* scene = scenes.at(page);
@@ -301,7 +301,9 @@ void Section::buildDataInto( CharacterSheet* character)
     for(int i = 0; i< getChildrenCount();++i)
     {
         CharacterSheetItem* childItem = getChildAt(i);
-        if(nullptr!=childItem)
+        auto path = childItem->getPath();
+        auto field = character->getFieldFromKey(path);
+        if(nullptr!=childItem && nullptr == field)
         {
             CharacterSheetItem* newItem = nullptr;
             if(CharacterSheetItem::FieldItem == childItem->getItemType())
