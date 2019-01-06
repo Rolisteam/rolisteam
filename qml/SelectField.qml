@@ -4,7 +4,7 @@ import QtQuick.Controls 2.3
 Rectangle {
     id:root
     property int selected
-    property var selectedValue: 0
+    property var selectedValue
     property int valueRole: 0
     property bool defined: false
     property alias currentIndex : selectvalues.currentIndex
@@ -44,6 +44,17 @@ Rectangle {
             currentIndex=selected
         }
 
+        contentItem: Text {
+                  leftPadding: 0
+                  rightPadding: 0
+
+                  text: selectvalues.displayText
+                  font: selectvalues.font
+                  verticalAlignment: Text.AlignVCenter
+                  horizontalAlignment: Text.AlignHCenter
+                  elide: Text.ElideRight
+              }
+
         indicator: Canvas {
                   id: canvas
                   x: selectvalues.width - width
@@ -67,7 +78,6 @@ Rectangle {
                       context.fill();
                   }
               }
-
     }
     /*onTextChanged: {
         if(selectvalues.count>0)
