@@ -132,6 +132,10 @@ public:
 #endif
     void removeCharacterSheet(QModelIndex &index);
     void removeCharacterSheet(CharacterSheet *sheet);
+    /**
+       * @brief adds an empty CharacterSheet into the model.
+       */
+    CharacterSheet* addCharacterSheet();
 public slots:
     void clearModel();
 

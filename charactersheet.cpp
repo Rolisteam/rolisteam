@@ -118,6 +118,10 @@ const  QVariant CharacterSheet::getValue(QString path,Qt::ItemDataRole role) con
             }
             return str;
         }
+        else if(role == Qt::ToolTipRole)
+        {
+            return item->getId();
+        }
         else if(role == Qt::UserRole)
         {
             return item->getFormula();

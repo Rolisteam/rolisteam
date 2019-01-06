@@ -166,7 +166,9 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
     
     if((role == Qt::TextAlignmentRole) && (index.column()!=0))
         return Qt::AlignHCenter;
-    if((role == Qt::DisplayRole)||(role == Qt::EditRole)||(role == Qt::BackgroundRole))
+
+    QVariant var;
+    if((role == Qt::DisplayRole)||(role == Qt::EditRole)||(role == Qt::BackgroundRole)||(role == Qt::ToolTipRole))
     {
         CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
         if(nullptr!=childItem)
@@ -181,7 +183,7 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
                     bool isReadOnly = sheet->getValue(path,Qt::BackgroundRole).toBool();
                     if(isReadOnly)
                     {
-                        return QColor(128,128,128);
+                        var = QColor(128,128,128);
                     }
                 }
             }
@@ -189,7 +191,7 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
             {
                 if(index.column()==0)
                 {
-                    return childItem->getLabel();
+                    var = childItem->getLabel();
                 }
                 else
                 {
@@ -199,33 +201,38 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
                         CharacterSheet* sheet = m_characterList->at(index.column()-1);
                         auto table = sheet->getFieldFromKey(path);
                         auto child = table->getChildAt(index.row());
-                        if(child == nullptr )
+                        if(child != nullptr )
                         {
-                            return {};
-                        }
-                        if(role == Qt::DisplayRole)
-                        {
-                            return child->value();
-                        }
-                        else if(role == Qt::EditRole)
-                        {
-                            auto val = child->getFormula();
-                            if(val.isEmpty())
-                                val = child->value();
-                            return val;
+                            switch(role)
+                            {
+                            case Qt::DisplayRole:
+                                var = child->value();
+                                break;
+                            case Qt::EditRole:
+                            {
+                                auto val = child->getFormula();
+                                if(val.isEmpty())
+                                    val = child->value();
+                                var = val;
+                            }
+                                break;
+                            case Qt::ToolTipRole:
+                                var = child->getId();
+                                break;
+                            }
                         }
                     }
                     else
                     {
                         QString path = childItem->getPath();
                         CharacterSheet* sheet = m_characterList->at(index.column()-1);
-                        return sheet->getValue(path,static_cast<Qt::ItemDataRole>(role));
+                        var = sheet->getValue(path,static_cast<Qt::ItemDataRole>(role));
                     }
                 }
             }
         }
     }
-    return QVariant();
+    return var;
 }
 
 bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & value, int role  )
@@ -712,7 +719,13 @@ void CharacterSheetModel::checkTableItem()
             }
         }
     }
-
-
 }
 
+CharacterSheet* CharacterSheetModel::addCharacterSheet()
+{
+    CharacterSheet* sheet = new CharacterSheet;
+    addCharacterSheet(sheet,false);
+
+    sheet->buildDataFromSection(m_rootSection);
+    return sheet;
+}
