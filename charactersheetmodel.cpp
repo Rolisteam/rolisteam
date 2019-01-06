@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
     *	 Copyright (C) 2009 by Renaud Guezennec                                *
     *   http://www.rolisteam.org/contact                   *
     *                                                                         *
@@ -99,10 +99,10 @@ QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex 
         return QModelIndex();
     
     CharacterSheetItem* parentItem = nullptr;
+    CharacterSheetItem* structureItem = nullptr;
     CharacterSheetItem* childItem = nullptr;
-    CharacterSheet* sheet = nullptr;
     
-    if (!parent.isValid() && column == 0)
+    if (!parent.isValid())
     {
         parentItem = m_rootSection;
     }
@@ -110,18 +110,24 @@ QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex 
     {
         parentItem = static_cast<CharacterSheetItem*>(parent.internalPointer());
     }
-    else if(!parent.isValid() && column != 0)
-    {
-        sheet = m_characterList->at(column-1);
-    }
 
-    if(nullptr != parentItem)
+    if(parentItem == nullptr)
+        return {};
+
+    structureItem = parentItem->getChildAt(row);
+
+    if(structureItem == nullptr)
+        return {};
+
+    if(column != 0 && !parent.isValid())
     {
-        childItem = parentItem->getChildAt(row);
+        auto path = structureItem->getPath();
+        auto sheet = m_characterList->at(column-1);
+        childItem = sheet->getFieldFromKey(path);
     }
     else
     {
-        childItem = sheet->getFieldAt(row);
+        childItem = structureItem;
     }
     
     if (childItem)
@@ -519,6 +525,11 @@ void CharacterSheetModel::setRootSection(Section *rootSection)
     endResetModel();
     if(m_rootSection != previous)
         connect(m_rootSection,&Section::addLineToTableField,this,&CharacterSheetModel::addSubChildRoot);
+
+    for(auto& character : *m_characterList)
+    {
+        character->buildDataFromSection(rootSection);
+    }
 }
 
 
