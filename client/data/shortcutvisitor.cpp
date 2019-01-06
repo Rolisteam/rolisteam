@@ -45,7 +45,7 @@ bool ShortcutVisitor::registerWidget(QWidget* widget, const QString& categoryNam
 
     const QString& categoryIndex = m_categoriesNames[widget];
 
-    if(categoryIndex.isNull())
+    if(!categoryIndex.isNull())
         return false; // Error during creation (category name already used)
 
     m_categoriesNames[widget] = categoryName;
