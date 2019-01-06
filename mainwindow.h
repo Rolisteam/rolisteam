@@ -69,6 +69,9 @@ public:
     QString currentFile() const;
     void setCurrentFile(const QString& filename);
 
+    QString currentUuid() const;
+    void setCurrentUuid(const QString &currentUuid);
+
 public slots:
     void openPDF();
     void setCurrentTool();
@@ -153,6 +156,7 @@ private:
     bool m_editedTextByHand;
     int m_counterZoom;
     QString m_pdfPath;
+    QString m_currentUuid;
     PdfManager* m_pdf;
 
     ImageModel* m_imageModel;

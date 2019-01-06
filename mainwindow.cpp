@@ -1303,6 +1303,16 @@ int MainWindow::pageCount()
     auto model = AddPageCommand::getPagesModel();
     return model->rowCount();
 }
+
+QString MainWindow::currentUuid() const
+{
+    return m_currentUuid;
+}
+
+void MainWindow::setCurrentUuid(const QString &currentUuid)
+{
+    m_currentUuid = currentUuid;
+}
 void MainWindow::currentPageChanged(int i)
 {
     if((i>=0)&&(i<m_canvasList.size()))
