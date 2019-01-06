@@ -92,8 +92,15 @@ bool QmlGeneratorVisitor::generateCharacterSheetItem()
         else if(child->getItemType() == CharacterSheetItem::TableItem)
         {
             auto field = dynamic_cast<TableField*>(child);
-            if(field)
-                generateTable(field);
+            if(nullptr != field)
+            {
+                if(field->getGeneratedCode().isEmpty())
+                {
+                    generateTable(field);
+                }
+                else
+                    m_out << field->getGeneratedCode();
+            }
         }
 
     }
@@ -484,7 +491,7 @@ bool QmlGeneratorVisitor::generateWebPage(Field* item)
     "%1    url:%3.value\n"+
     getToolTip(item)+
     generatePosition(item)+
-    "%1    visible: root.page == 0? true : false\n"
+    getPageManagement(item,m_indenSpace)+
     "%1    readOnly: %3.readOnly\n"
     "%1}\n");
 
