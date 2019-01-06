@@ -25,4 +25,5 @@ void ShortCutEditorDialog::setModel(QAbstractItemModel* model)
 {
     m_model = model;
     ui->m_shortCutView->setModel(m_model);
+    ui->m_shortCutView->expandAll();
 }

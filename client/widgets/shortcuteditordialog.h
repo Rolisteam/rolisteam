@@ -12,7 +12,7 @@ class ShortCutEditorDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ShortCutEditorDialog(QWidget *parent = 0);
+    explicit ShortCutEditorDialog(QWidget *parent = nullptr);
     ~ShortCutEditorDialog();
 
     QAbstractItemModel* model() const;
