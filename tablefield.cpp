@@ -243,7 +243,6 @@ Field*  LineModel::getFieldById(const QString& id)
             return item;
     }
     return nullptr;
-
 }
 
 int LineModel::getColumnCount() const
@@ -555,6 +554,8 @@ void TableField::save(QJsonObject &json, bool exp)
     json["border"]=m_border;
     json["page"]=m_page;
     json["formula"]=m_formula;
+    json["tooltip"]=m_tooltip;
+    json["generatedCode"]=m_generatedCode;
 
     json["clippedText"]=m_clippedText;
 
@@ -573,6 +574,7 @@ void TableField::save(QJsonObject &json, bool exp)
     textcolor["b"]=m_textColor.blue();
     textcolor["a"]=m_textColor.alpha();
     json["textcolor"]=textcolor;
+
 
     json["font"]=m_font.toString();
     json["textalign"]=m_textAlign;
@@ -605,10 +607,12 @@ CharacterSheetItem::CharacterSheetItemType TableField::getItemType() const
 void TableField::load(const QJsonObject &json, QList<QGraphicsScene *> scene)
 {
     Q_UNUSED(scene);
+    // TODO dupplicate from Field
     m_id = json["id"].toString();
     m_border = static_cast<BorderLine>(json["border"].toInt());
     m_value= json["value"].toString();
     m_label = json["label"].toString();
+    m_tooltip = json["tooltip"].toString();
 
     m_currentType=static_cast<Field::TypeField>(json["typefield"].toInt());
     m_clippedText=json["clippedText"].toBool();
@@ -646,6 +650,7 @@ void TableField::load(const QJsonObject &json, QList<QGraphicsScene *> scene)
     w=json["width"].toDouble();
     h=json["height"].toDouble();
     m_page=json["page"].toInt();
+    m_generatedCode = json["generatedCode"].toString();
 
     QJsonArray valuesArray=json["values"].toArray();
     auto const& list = valuesArray.toVariantList();
