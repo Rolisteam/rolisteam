@@ -29,7 +29,7 @@ class AddFieldCommand : public QUndoCommand
 {
 public:
   AddFieldCommand(Canvas::Tool tool, Canvas* graphicsScene,FieldModel* model,int currentPage,ImageModel* imageModel, QPointF pos,
-                  QUndoCommand *parent = 0);
+                  QUndoCommand *parent = nullptr);
 
   void undo() override;
   void redo() override;

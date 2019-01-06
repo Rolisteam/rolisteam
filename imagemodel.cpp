@@ -114,7 +114,7 @@ QJsonArray ImageModel::save()
 {
     QJsonArray images;
     int i = 0;
-    for(auto key : m_keyList)
+    for(auto& key : m_keyList)
     {
         auto pix = m_list[key];
         bool bg = m_background[static_cast<size_t>(i)];
