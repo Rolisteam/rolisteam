@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>576</width>
-    <height>545</height>
+    <width>698</width>
+    <height>673</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -112,7 +112,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Additionnal Function Code:</string>
+        <string>Additionnal Head Code:</string>
        </property>
       </widget>
      </item>
@@ -132,33 +132,19 @@
     </layout>
    </item>
    <item>
-    <widget class="CodeEditor" name="m_additionnalCode"/>
+    <widget class="CodeEditor" name="m_additionnalHeadCode"/>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>Place to add the code</string>
+        <string>Additionnal Bottom Code:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="m_placeToAdditionnal">
-       <item>
-        <property name="text">
-         <string>At the beginning</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>At the end</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_4">
+      <spacer name="horizontalSpacer_6">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -171,6 +157,9 @@
       </spacer>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="CodeEditor" name="m_additionnalBottomCode"/>
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox">

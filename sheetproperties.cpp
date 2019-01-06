@@ -49,14 +49,24 @@ void SheetProperties::setNoAdaptation(bool noAdaptation)
     ui->m_flickable->setChecked(noAdaptation);
 }
 
-QString SheetProperties::getAdditionalCode() const
+QString SheetProperties::getAdditionalHeadCode() const
 {
-    return  ui->m_additionnalCode->document()->toPlainText();
+    return  ui->m_additionnalHeadCode->document()->toPlainText();
 }
 
-void SheetProperties::setAdditionalCode(const QString &additionalCode)
+void SheetProperties::setAdditionalHeadCode(const QString &additionalHeadCode)
 {
-    ui->m_additionnalCode->document()->setPlainText(additionalCode);
+    ui->m_additionnalHeadCode->document()->setPlainText(additionalHeadCode);
+}
+
+QString SheetProperties::getAdditionalBottomCode() const
+{
+    return  ui->m_additionnalBottomCode->document()->toPlainText();
+}
+
+void SheetProperties::setAdditionalBottomCode(const QString &additionalBottomCode)
+{
+    ui->m_additionnalBottomCode->document()->setPlainText(additionalBottomCode);
 }
 
 QString SheetProperties::getAdditionalImport() const
@@ -79,29 +89,12 @@ void SheetProperties::setFixedScale(const qreal &fixedScale)
     ui->m_fixedScale->setValue(fixedScale);
 }
 
-bool SheetProperties::getAdditionCodeAtTheBeginning() const
-{
-    return  (ui->m_placeToAdditionnal->currentIndex() == 0);
-}
-
-void SheetProperties::setAdditionCodeAtTheBeginning(bool additionCodeAtTheBeginning)
-{
-    if(additionCodeAtTheBeginning)
-    {
-         ui->m_placeToAdditionnal->setCurrentIndex(0);
-    }
-    else
-    {
-        ui->m_placeToAdditionnal->setCurrentIndex(1);
-    }
-}
-
 void SheetProperties::reset()
 {
-    ui->m_additionnalCode->clear();
+    ui->m_additionnalHeadCode->clear();
+    ui->m_additionnalBottomCode->clear();
     ui->m_flickable->setChecked(false);
     ui->m_fixedScale->setValue(1.0);
-    ui->m_placeToAdditionnal->setCurrentIndex(0);
 }
 
 QStringList SheetProperties::getFontUri() const

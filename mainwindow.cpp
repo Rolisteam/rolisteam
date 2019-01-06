@@ -256,21 +256,21 @@ MainWindow::MainWindow(QWidget *parent) :
     QmlHighlighter* highlighter = new QmlHighlighter(ui->m_codeEdit->document());
     highlighter->setObjectName("HighLighterForQML");
 
-    m_sheetProperties = new SheetProperties();
+    m_sheetProperties = new SheetProperties(this);
 
 
     connect(ui->m_sheetProperties,&QAction::triggered,[=](bool){
-        m_sheetProperties->setAdditionCodeAtTheBeginning(m_additionnalCodeTop);
-        m_sheetProperties->setAdditionalCode(m_additionnalCode);
+        m_sheetProperties->setAdditionalHeadCode(m_additionnalHeadCode);
+        m_sheetProperties->setAdditionalBottomCode(m_additionnalBottomCode);
         m_sheetProperties->setAdditionalImport(m_additionnalImport);
         m_sheetProperties->setFixedScale(m_fixedScaleSheet);
         m_sheetProperties->setNoAdaptation(m_flickableSheet);
 
         if(QDialog::Accepted == m_sheetProperties->exec())
         {
-            m_additionnalCode = m_sheetProperties->getAdditionalCode();
+            m_additionnalHeadCode = m_sheetProperties->getAdditionalHeadCode();
+            m_additionnalBottomCode = m_sheetProperties->getAdditionalBottomCode();
             m_fixedScaleSheet = m_sheetProperties->getFixedScale();
-            m_additionnalCodeTop = m_sheetProperties->getAdditionCodeAtTheBeginning();
             m_additionnalImport = m_sheetProperties->getAdditionalImport();
             m_flickableSheet = m_sheetProperties->isNoAdaptation();
 
@@ -1395,9 +1395,9 @@ void MainWindow::generateQML(QString& qml)
     text << "    onPageChanged: {\n";
     text << "        page=page>maxPage ? maxPage : page<0 ? 0 : page\n";
     text << "    }\n";
-    if(m_additionnalCodeTop && (!m_additionnalCode.isEmpty()))
+    if(!m_additionnalHeadCode.isEmpty())
     {
-        text << "   "<< m_additionnalCode<< "\n";
+        text << "   "<< m_additionnalHeadCode<< "\n";
     }
     text << "    Keys.onLeftPressed: --page\n";
     text << "    Keys.onRightPressed: ++page\n";
@@ -1443,9 +1443,9 @@ void MainWindow::generateQML(QString& qml)
         }
         m_model->generateQML(text,1,false);
     }
-    if((!m_additionnalCodeTop) && (!m_additionnalCode.isEmpty()))
+    if(!m_additionnalBottomCode.isEmpty())
     {
-        text << "   "<< m_additionnalCode << "\n";
+        text << "   "<< m_additionnalBottomCode << "\n";
     }
     text << "}\n";
     text.flush();

@@ -12,14 +12,17 @@ class SheetProperties : public QDialog
     Q_OBJECT
 
 public:
-    explicit SheetProperties(QWidget *parent = 0);
+    explicit SheetProperties(QWidget *parent = nullptr);
     ~SheetProperties();
 
     bool isNoAdaptation() const;
     void setNoAdaptation(bool noAdaptation);
 
-    QString getAdditionalCode() const;
-    void setAdditionalCode(const QString &additionalCode);
+    QString getAdditionalHeadCode() const;
+    void setAdditionalHeadCode(const QString &additionalCode);
+
+    QString getAdditionalBottomCode() const;
+    void setAdditionalBottomCode(const QString &additionalBottomCode);
 
     QString getAdditionalImport() const;
     void setAdditionalImport(const QString &additionalImport);
@@ -27,10 +30,6 @@ public:
     qreal getFixedScale() const;
     void setFixedScale(const qreal &fixedScale);
 
-
-
-    bool getAdditionCodeAtTheBeginning() const;
-    void setAdditionCodeAtTheBeginning(bool additionCodeAtTheBeginning);
 
     void reset();
 

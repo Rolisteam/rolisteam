@@ -194,10 +194,10 @@ private:
     PreferencesManager* m_preferences;
     /// Sheet properties
     SheetProperties* m_sheetProperties;
-    QString m_additionnalCode;
+    QString m_additionnalHeadCode;
+    QString m_additionnalBottomCode;
     QString m_additionnalImport;
 
-    bool m_additionnalCodeTop;
     bool m_flickableSheet;
     qreal m_fixedScaleSheet;
 
