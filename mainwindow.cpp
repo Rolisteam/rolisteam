@@ -113,12 +113,6 @@ MainWindow::MainWindow(QWidget *parent) :
     addDockWidget(Qt::BottomDockWidgetArea,wid);
     auto showLogPanel = wid->toggleViewAction();
 
-    m_additionnalCode = "";
-    m_additionnalImport = "";
-    m_fixedScaleSheet = 1.0;
-    m_additionnalCodeTop = true;
-    m_flickableSheet = false;
-
     Canvas* canvas = new Canvas();
     canvas->setCurrentPage(m_currentPage);
     canvas->setUndoStack(&m_undoStack);
@@ -358,8 +352,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     canvas->setCurrentTool(Canvas::MOVE);
 
-
-
     // Character table
     m_deleteCharacter= new QAction(tr("Delete character"),this);
     m_copyCharacter= new QAction(tr("Copy character"),this);
@@ -419,6 +411,7 @@ MainWindow::MainWindow(QWidget *parent) :
  /*   auto pixMapDebug = new QPixmap("/home/renaud/documents/rolisteam/fiche/L5R-4E-Character-Sheet-LoRes-page-001.jpg");
     SetBackgroundCommand* cmd = new SetBackgroundCommand(canvas,pixMapDebug);
     m_undoStack.push(cmd);*/
+    clearData();
 }
 MainWindow::~MainWindow()
 {
@@ -460,11 +453,11 @@ QString MainWindow::currentFile() const
 
 void MainWindow::setCurrentFile(const QString &filename)
 {
+    setWindowModified(false);
     if(filename == m_currentFile)
         return;
 
     m_currentFile = filename;
-    setWindowModified(false);
     auto shortName = tr("Untitled");
 
     if(!m_currentFile.isEmpty())
@@ -477,28 +470,44 @@ void MainWindow::setCurrentFile(const QString &filename)
     setWindowTitle(QStringLiteral("%1[*] - %2").arg(shortName).arg("RCSE"));
     emit currentFileChanged();
 }
-void MainWindow::clearData()
+void MainWindow::clearData(bool addDefaultCanvas)
 {
+    m_additionnalHeadCode = "";
+    m_additionnalImport = "";
+    m_fixedScaleSheet = 1.0;
+    m_additionnalBottomCode = "";
+    m_flickableSheet = false;
+
     qDeleteAll(m_canvasList);
     m_canvasList.clear();
-    Canvas* canvas = new Canvas();
-    CSItem::resetCount();
-    m_currentPage = 0;
-    canvas->setCurrentPage(m_currentPage);
-    canvas->setUndoStack(&m_undoStack);
-    m_canvasList.append(canvas);
-    m_view->setScene(canvas);
+    setCurrentUuid(QUuid::createUuid().toString(QUuid::WithoutBraces));
+    Canvas* canvas = nullptr;
+    if(addDefaultCanvas)
+    {
+        canvas = new Canvas();
+        CSItem::resetCount();
+        m_currentPage = 0;
+        canvas->setCurrentPage(m_currentPage);
+        canvas->setUndoStack(&m_undoStack);
+        m_canvasList.append(canvas);
+        m_view->setScene(canvas);
+    }
+    else
+    {
+        m_view->setScene(nullptr);
+    }
 
     m_imageModel->clear();
-
     m_model->clearModel();
     m_characterModel->clearModel();
-
     ui->m_codeEdit->clear();
 
-    connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
-    canvas->setModel(m_model);
-    canvas->setImageModel(m_imageModel);
+    if(nullptr != canvas)
+    {
+        connect(canvas,&Canvas::imageChanged,this,&MainWindow::setImage);
+        canvas->setModel(m_model);
+        canvas->setImageModel(m_imageModel);
+    }
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* event)
@@ -990,7 +999,6 @@ void MainWindow::setImage()
 {
     int i = 0;
     m_imageModel->clear();
-    QString id = QUuid::createUuid().toString();//one id for all images.
     QSize previous;
     bool issue = false;
     for(auto canvas : m_canvasList)
@@ -1012,7 +1020,7 @@ void MainWindow::setImage()
         {
             pix=new QPixmap();
         }
-        QString idList = QStringLiteral("%2_background_%1.jpg").arg(i).arg(id);
+        QString idList = QStringLiteral("%2_background_%1.jpg").arg(i).arg(m_currentUuid);
         m_imageModel->insertImage(pix,idList,"from canvas",true);
         ++i;
     }
@@ -1064,8 +1072,6 @@ bool MainWindow::saveFile(const QString &filename)
             QJsonDocument json;
             QJsonObject obj;
 
-
-
             //Get datamodel
             QJsonObject data;
             m_model->save(data);
@@ -1079,11 +1085,13 @@ bool MainWindow::saveFile(const QString &filename)
             }
             obj["qml"]=qmlFile;
 
-            obj["additionnalCode"] = m_additionnalCode;
+            obj["additionnalHeadCode"] = m_additionnalHeadCode;
             obj["additionnalImport"] = m_additionnalImport;
             obj["fixedScale"] = m_fixedScaleSheet;
-            obj["additionnalCodeTop"] = m_additionnalCodeTop;
+            obj["additionnalBottomCode"] = m_additionnalBottomCode;
             obj["flickable"] = m_flickableSheet;
+            obj["pageCount"] = m_canvasList.size();
+            obj["uuid"] = m_currentUuid;
 
             QJsonArray fonts;
             QStringList list = m_sheetProperties->getFontUri();
@@ -1103,12 +1111,10 @@ bool MainWindow::saveFile(const QString &filename)
 
             //background
             QJsonArray images = m_imageModel->save();
-
             obj["background"]=images;
             m_characterModel->writeModel(obj,true);
             json.setObject(obj);
             file.write(json.toJson());
-
             setCurrentFile(filename);
             return true;
         }
@@ -1120,7 +1126,7 @@ bool MainWindow::loadFile(const QString& filename)
 {
     if(!filename.isEmpty())
     {
-        clearData();
+        clearData(false);
         QFile file(filename);
         if(file.open(QIODevice::ReadOnly))
         {
@@ -1130,11 +1136,15 @@ bool MainWindow::loadFile(const QString& filename)
 
             QString qml = jsonObj["qml"].toString();
 
-            m_additionnalCode = jsonObj["additionnalCode"].toString("");
+            m_additionnalHeadCode = jsonObj["additionnalHeadCode"].toString("");
+            if(m_additionnalHeadCode.isEmpty())
+                m_additionnalHeadCode = jsonObj["additionnalCode"].toString("");
             m_additionnalImport = jsonObj["additionnalImport"].toString("");
             m_fixedScaleSheet = jsonObj["fixedScale"].toDouble(1.0);
-            m_additionnalCodeTop = jsonObj["additionnalCodeTop"].toBool(true);
+            m_additionnalBottomCode = jsonObj["additionnalBottomCode"].toString("");
             m_flickableSheet = jsonObj["flickable"].toBool(false);
+            int pageCount = jsonObj["pageCount"].toInt();
+            m_currentUuid = jsonObj["uuid"].toString(m_currentUuid);
 
             const auto fonts = jsonObj["fonts"].toArray();
             for(const auto obj : fonts)
@@ -1153,8 +1163,9 @@ bool MainWindow::loadFile(const QString& filename)
                 objList.append(obj.toObject());
             }
 
-            std::sort(objList.begin(),objList.end(),[](const QJsonObject& aObj,const QJsonObject& bObj){
 
+
+            std::sort(objList.begin(),objList.end(),[](const QJsonObject& aObj,const QJsonObject& bObj){
                 QRegularExpression exp(".*_background_(\\d+).*");
                 QRegularExpressionMatch match = exp.match(aObj["key"].toString());
                 int bInt = -1;
@@ -1177,9 +1188,9 @@ bool MainWindow::loadFile(const QString& filename)
                 }
             });
             int i = 0;
+            QPixmap* refBgImage=nullptr;
             for(auto jsonpix : objList)
             {
-
                 QJsonObject oj = jsonpix;//jsonpix.toObject();
                 QString str = oj["bin"].toString();
                 QString id = oj["key"].toString();
@@ -1189,29 +1200,37 @@ bool MainWindow::loadFile(const QString& filename)
                 pix->loadFromData(array);
                 if(isBg)
                 {
-                    if(i!=0)
-                    {
-                        Canvas* canvas = new Canvas();
-                        canvas->setModel(m_model);
-                        canvas->setImageModel(m_imageModel);
-                        canvas->setUndoStack(&m_undoStack);
-                        SetBackgroundCommand cmd(canvas,pix);
-                        cmd.redo();
-                        canvas->setPixmap(pix);
-                        canvas->setCurrentPage(i);
-                        m_canvasList.append(canvas);
-                        connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
-                    }
-                    else
-                    {
-                        m_canvasList[0]->setPixmap(pix);
-                        SetBackgroundCommand cmd(m_canvasList[0],pix);
-                        cmd.redo();
-                    }
-                    ++i;
+                    if(nullptr == refBgImage)
+                        refBgImage = pix;
+                    Canvas* canvas = new Canvas();
+                    canvas->setModel(m_model);
+                    canvas->setImageModel(m_imageModel);
+                    canvas->setUndoStack(&m_undoStack);
+                    SetBackgroundCommand cmd(canvas,pix);
+                    cmd.redo();
+                    canvas->setCurrentPage(++i);
+                    m_canvasList.append(canvas);
+                    connect(canvas,&Canvas::imageChanged,this,&MainWindow::setImage);
                 }
-                m_imageModel->insertImage(pix,id,"from rcs file",isBg);
+                m_imageModel->insertImage(pix,id,tr("from rcs file"),isBg);
             }
+
+            while(pageCount > i)
+            {
+                Canvas* canvas = new Canvas();
+                canvas->setModel(m_model);
+                canvas->setImageModel(m_imageModel);
+                canvas->setUndoStack(&m_undoStack);
+                QPixmap* copy = new QPixmap();
+                *copy = refBgImage->copy();
+                copy->fill();
+                canvas->setPixmap(copy);
+                canvas->setCurrentPage(++i);
+                m_canvasList.append(canvas);
+                m_imageModel->insertImage(copy,QStringLiteral("%1_background_%2.jpg").arg(m_currentUuid).arg(i),tr("blank page"),true);
+                connect(canvas,&Canvas::imageChanged,this,&MainWindow::setImage);
+            }
+
             QList<QGraphicsScene*> list;
             for(auto canvas : m_canvasList)
             {

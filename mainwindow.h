@@ -129,7 +129,7 @@ protected slots:
     void menuRequestedForImageModel(const QPoint &pos);
     void columnAdded();
     void alignOn();
-    void clearData();
+    void clearData(bool addDefaultCanvas = true);
     void showPreferences();
     void pageCountChanged();
     void checkCharacters();
