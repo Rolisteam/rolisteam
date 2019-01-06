@@ -56,7 +56,6 @@ void Canvas::dragMoveEvent(QGraphicsSceneDragDropEvent* event)
 }
 void Canvas::dropEvent ( QGraphicsSceneDragDropEvent * event )
 {
-
     const QMimeData* mimeData =  event->mimeData();
     if(mimeData->hasUrls())
     {

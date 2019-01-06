@@ -28,8 +28,6 @@
 AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas,FieldModel* model,int currentPage,ImageModel* imageModel,QPointF pos,QUndoCommand *parent)
   : QUndoCommand(parent),m_tool(tool),m_canvas(canvas),m_model(model),m_currentPage(currentPage),m_imageModel(imageModel)
 {
-
-
   if(Canvas::ADDTABLE == tool)
   {
       m_field = new TableField();
