@@ -450,9 +450,8 @@ void ChatList::delPlayer(Player * player)
                 beginRemoveRows(QModelIndex(), pos, pos);
                 m_chatSubWindowList.removeOne(tmp);
                 m_chatWindowList.removeOne(chatw);
-                chatw->deleteLater();
                 endRemoveRows();
-                delete tmp;
+                tmp->deleteLater();
             }
         }
     }
