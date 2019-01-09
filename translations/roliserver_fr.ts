@@ -94,7 +94,7 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="293"/>
+        <location filename="../client/network/servermanager.cpp" line="292"/>
         <source>Authentification fails: %1 try to connect to the server with wrong password.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -104,7 +104,7 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="466"/>
+        <location filename="../client/network/servermanager.cpp" line="465"/>
         <source>New Incoming Connection!</source>
         <translation type="unfinished"></translation>
     </message>
