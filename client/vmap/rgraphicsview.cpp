@@ -417,13 +417,12 @@ void RGraphicsView::setItemLayer(QList<VisualItem*> list,VisualItem::Layer layer
 }
 void RGraphicsView::deleteItem(QList<VisualItem*> list)
 {
-    for(VisualItem* vItem: list)
-    {
-        if((nullptr!=m_vmap)&&(nullptr!=vItem))
-        {
-            m_vmap->removeItemFromScene(vItem->getId());
-        }
-    }
+    if(!m_vmap)
+        return;
+
+    std::for_each(list.begin(), list.end(),[this](VisualItem* vItem){
+        m_vmap->removeItemFromScene(vItem->getId());
+    });
 }
 void RGraphicsView::changeZValue(QList<VisualItem*> list,VisualItem::StackOrder order)
 {
