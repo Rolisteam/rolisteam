@@ -818,6 +818,7 @@ void VMap::openFile(QDataStream& in)
         in >> var;
         setOption(static_cast<VisualItem::Properties>(pro),var);
     }
+    editLayer(getOption(VisualItem::MapLayer).value<VisualItem::Layer>());
 
     //FOG
     in >> *m_sightItem;
