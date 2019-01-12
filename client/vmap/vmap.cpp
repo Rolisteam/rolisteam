@@ -651,14 +651,26 @@ void VMap::setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send)
         }
     }
 }
-bool VMap::isNormalItem(QGraphicsItem* item)
+
+bool VMap::isNormalItem(const QGraphicsItem* item)
 {
+    if(!item)
+        return false;
+
     if((item == m_gridItem)||(item == m_fogItem))
     {
         return false;
     }
+    auto vItem = dynamic_cast<const VisualItem*>(item);
+    if(!vItem)
+        return false;
+
+    if(vItem->getLayer() != m_currentLayer)
+        return false;
+
     return true;
 }
+
 void VMap::manageAnchor()
 {
     AnchorItem* tmp = dynamic_cast< AnchorItem*>(m_currentItem);
@@ -670,7 +682,7 @@ void VMap::manageAnchor()
         QList<QGraphicsItem*> item1 = items(tmp->getStart());
         for (QGraphicsItem* item: item1)
         {
-            if((nullptr==child)&&(isNormalItem(item))&&(item!=m_sightItem))
+            if((nullptr==child)&&(isNormalItem(item)))
             {
                 child = item;
             }
@@ -678,7 +690,7 @@ void VMap::manageAnchor()
         QList<QGraphicsItem*> item2 = items(tmp->getEnd());
         for (QGraphicsItem* item: item2)
         {
-            if((nullptr==parent)&&(isNormalItem(item))&&(item!=m_sightItem))
+            if((nullptr==parent)&&(isNormalItem(item)))
             {
                 parent = item;
             }

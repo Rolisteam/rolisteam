@@ -327,6 +327,7 @@ public:
      * @return
      */
     SightItem* getFogItem() const;
+    bool isNormalItem(const QGraphicsItem *item);
 public slots:
     /**
     * @brief defines the current tools
@@ -548,7 +549,6 @@ protected:
      * @brief ensureFogAboveAll
      */
     void ensureFogAboveAll();
-    bool isNormalItem(QGraphicsItem *item);
     bool isItemStorable(VisualItem *item);
 private:
     /**

@@ -69,16 +69,14 @@ void RGraphicsView::mousePressEvent ( QMouseEvent * event)
             QList<QGraphicsItem*> list = items(event->pos());
             if(nullptr!=m_vmap)
             {
-                list.removeAll(m_vmap->getFogItem());
-                //VisualItem::Layer layer = m_vmap->getCurrentLayer();
+                //list.removeAll(m_vmap->getFogItem());
+                list.erase(std::remove_if(list.begin(), list.end(),[this](const QGraphicsItem* item){
+                    return !m_vmap->isNormalItem(item);
+                }), list.end());
                 bool rubber = true;
-                for( QGraphicsItem* item : list)
+                if(!list.isEmpty())
                 {
-                    ChildPointItem* point = dynamic_cast<ChildPointItem*>(item);
-                    if(nullptr!=point)
-                    {
-                        rubber = false;
-                    }
+                    rubber = false;
                 }
                 if(!rubber)
                 {
