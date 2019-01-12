@@ -40,15 +40,19 @@ public:
      * @brief The ItemType enum
      */
     enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT,RULE,IMAGE,SIGHT,ANCHOR,GRID,HIGHLIGHTER};
+    Q_ENUM(ItemType)
     /**
      * @brief The Layer enum
      */
     enum Layer{GROUND,OBJECT,CHARACTER_LAYER,FOG,GRIDLAYER,NONE};
+    Q_ENUM(Layer)
     /**
      * @brief The StackOrder enum
      */
     enum StackOrder{FRONT,RAISE,LOWER,BACK};
+    Q_ENUM(StackOrder)
     enum TransformType {NoTransform,KeepRatio,Sticky};
+    Q_ENUM(TransformType)
     /**
      * @brief The Properties enum
      */
@@ -74,6 +78,7 @@ public:
         VisibilityMode,
         ShowHealthBar,
         MapLayer};
+    Q_ENUM(Properties)
 	/**
 	 * @brief VisualItem default constructor
 	 */
@@ -217,7 +222,7 @@ public:
 	 * @brief getLayer
 	 * @return
 	 */
-    virtual VisualItem::Layer getLayer();
+    virtual VisualItem::Layer getLayer() const;
 	/**
 	 * @brief setLayer
 	 */

@@ -90,24 +90,26 @@ void VisualItem::updateItemFlags()
     {
         /// @warning if two connected people have editable item, it will lead to endless loop.
         setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
-        connect(this,SIGNAL(xChanged()),this,SLOT(posChange()));
-        connect(this,SIGNAL(yChanged()),this,SLOT(posChange()));
-        connect(this,SIGNAL(zChanged()),this,SLOT(sendZValueMsg()));
-        connect(this,SIGNAL(heightChanged()),this,SLOT(rectChange()));
-        connect(this,SIGNAL(widthChanged()),this,SLOT(rectChange()));
-        connect(this,SIGNAL(rotationChanged()),this,SLOT(rotationChange()));//sendRotationMsg
-        connect(this,SIGNAL(opacityChanged()),this,SLOT(sendOpacityMsg()));
+        setAcceptedMouseButtons(Qt::AllButtons);
+        connect(this,&VisualItem::xChanged,this,&VisualItem::posChange);
+        connect(this,&VisualItem::yChanged,this,&VisualItem::posChange);
+        connect(this,&VisualItem::zChanged,this,&VisualItem::sendZValueMsg);
+        connect(this,&VisualItem::heightChanged,this,&VisualItem::rectChange);
+        connect(this,&VisualItem::widthChanged,this,&VisualItem::rectChange);
+        connect(this,&VisualItem::rotationChanged,this,&VisualItem::rotationChange);//sendRotationMsg
+        connect(this,&VisualItem::opacityChanged,this,&VisualItem::sendOpacityMsg);
     }
     else
     {
-        setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsFocusable);
-        disconnect(this,SIGNAL(xChanged()),this,SLOT(posChange()));
-        disconnect(this,SIGNAL(yChanged()),this,SLOT(posChange()));
-        disconnect(this,SIGNAL(zChanged()),this,SLOT(sendZValueMsg()));
-        disconnect(this,SIGNAL(widthChanged()),this,SLOT(rectChange()));
-        disconnect(this,SIGNAL(heightChanged()),this,SLOT(rectChange()));
-        disconnect(this,SIGNAL(rotationChanged()),this,SLOT(rotationChange()));
-        disconnect(this,SIGNAL(opacityChanged()),this,SLOT(sendOpacityMsg()));
+        setFlags(QGraphicsItem::ItemIsFocusable|QGraphicsItem::ItemIsSelectable);
+        setAcceptedMouseButtons(Qt::NoButton);
+        disconnect(this,&VisualItem::xChanged,this,&VisualItem::posChange);
+        disconnect(this,&VisualItem::yChanged,this,&VisualItem::posChange);
+        disconnect(this,&VisualItem::zChanged,this,&VisualItem::sendZValueMsg);
+        disconnect(this,&VisualItem::widthChanged,this,&VisualItem::rectChange);
+        disconnect(this,&VisualItem::heightChanged,this,&VisualItem::rectChange);
+        disconnect(this,&VisualItem::rotationChanged,this,&VisualItem::rotationChange);
+        disconnect(this,&VisualItem::opacityChanged,this,&VisualItem::sendOpacityMsg);
     }
     if(nullptr!=m_child)
     {
@@ -360,7 +362,7 @@ void VisualItem::manageAction()
         emit duplicateItem(this);
     }
 }
-VisualItem::Layer VisualItem::getLayer()
+VisualItem::Layer VisualItem::getLayer() const
 {
     return m_layer;
 }
