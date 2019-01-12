@@ -25,6 +25,7 @@
 #include <QMenu>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QGraphicsDropShadowEffect>
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
@@ -946,6 +947,10 @@ void CharacterItem::changeCharacter()
 
 void CharacterItem::createActions()
 {
+    auto effect = new QGraphicsDropShadowEffect();
+    effect->setOffset(2.,2.);
+    effect->setColor(QColor(0,0,0,191));
+    setGraphicsEffect(effect);
     updateListAlias(m_diceParser.getAliases());
     m_vision = new CharacterVision(this);
 
