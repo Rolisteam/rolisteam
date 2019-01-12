@@ -39,7 +39,7 @@ class ImprovedWorkspace : public QMdiArea,public PreferencesListener
     Q_OBJECT
 public :
     enum Positioning {TopLeft,BottomLeft,Center,TopRight,BottomRight,Scaled,Filled,Repeated};
-	ImprovedWorkspace(QWidget *parent = 0);
+    ImprovedWorkspace(QWidget *parent = nullptr);
 	~ImprovedWorkspace();
 
     QWidget* addWindow(QWidget*,QAction* action);
