@@ -152,6 +152,7 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
         QObject::connect(m_currentItem,SIGNAL(changeStackPosition(VisualItem*,VisualItem::StackOrder)),m_vmap,SLOT(changeStackOrder(VisualItem*,VisualItem::StackOrder)));
 
         initItem();
+        m_currentItem->setLayer(m_vmap->getCurrentLayer());
 
         setText(QObject::tr("Add vmap item"));
     }
@@ -167,10 +168,10 @@ void AddVmapItemCommand::initItem()
     m_first = true;
     m_currentItem->setPropertiesHash(m_vmap->getPropertiesHash());
     m_currentItem->updateItemFlags();
-    m_currentItem->setLayer(m_vmap->getCurrentLayer());
     m_currentItem->setMapId(m_vmap->getId());
     m_currentItem->setVisible(isVisible());
     m_vmap->QGraphicsScene::addItem(m_currentItem);
+    m_currentItem->update();
 }
 
 bool AddVmapItemCommand::getInitPoint() const
