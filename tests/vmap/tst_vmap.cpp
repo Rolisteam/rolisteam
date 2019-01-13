@@ -253,6 +253,7 @@ case 2:
     }
         break;
     }
+    item->setLayer(m_vmap->currentLayer());
     return item;
 }
 
