@@ -31,6 +31,7 @@
 #include <QTextBrowser>
 #include <QMdiSubWindow>
 #include <QToolBar>
+#include <QPointer>
 
 #include "network/networkmessage.h"
 #include "preferences/preferencesmanager.h"
@@ -53,7 +54,7 @@ class ImprovedTextEdit;
  */    
 class ChatWindow : public QWidget
 {
-Q_OBJECT
+    Q_OBJECT
 
 public :
     enum CHAT_OPERATOR {NONE,DICEROLL,SECRET_DICEROLL,COMMAND,TO_GM_DICEROLL};
@@ -236,7 +237,7 @@ private slots :
 private :
     static QStringList m_keyWordList;
     QMdiSubWindow* m_window;
-    AbstractChat* m_chat;
+    QPointer<AbstractChat> m_chat;
     QString m_filename;
     bool m_warnedEmoteUnavailable;
     bool m_hasUnseenMessage;
