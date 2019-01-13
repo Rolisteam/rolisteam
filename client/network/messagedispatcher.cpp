@@ -14,7 +14,7 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
 
     msg->setData(data);
 
-    qDebug() << "[Server][Received Message]" <<cat2String(msg->header()) << act2String(msg->header()) << channel << emitter->getName() << msg->getSize();
+    qInfo() << "[Server][Received Message]" <<cat2String(msg->header()) << act2String(msg->header()) << channel << emitter->getName() << msg->getSize();
 
     if(msg->category()== NetMsg::AdministrationCategory)
     {
