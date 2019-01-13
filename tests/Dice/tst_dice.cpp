@@ -18,13 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <QtCore/QCoreApplication>
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <QtCore/QCoreApplication>
 
-#include "die.h"
 #include "dicealias.h"
 #include "diceparser.h"
+#include "die.h"
 
 class TestDice : public QObject
 {
@@ -63,9 +63,7 @@ private:
     std::unique_ptr<DiceParser> m_diceParser;
 };
 
-TestDice::TestDice()
-{
-}
+TestDice::TestDice() {}
 
 void TestDice::initTestCase()
 {
@@ -75,44 +73,42 @@ void TestDice::initTestCase()
 
 void TestDice::getAndSetTest()
 {
-    for(unsigned int i = 0; i<2000;i++)
+    for(unsigned int i= 0; i < 2000; i++)
     {
         m_die->setMaxValue(i);
-        QVERIFY(m_die->getMaxValue()==i);
+        QVERIFY(m_die->getMaxValue() == i);
     }
 
     m_die->setSelected(true);
-    QVERIFY(m_die->isSelected()==true);
+    QVERIFY(m_die->isSelected() == true);
 
     m_die->setSelected(false);
-    QVERIFY(m_die->isSelected()==false);
-
+    QVERIFY(m_die->isSelected() == false);
 }
 
 void TestDice::diceRollD10Test()
 {
     m_die->setMaxValue(10);
-    for(int i = 0; i< 2000; i++)
+    for(int i= 0; i < 2000; i++)
     {
         m_die->roll(false);
-        QVERIFY(m_die->getValue()>0);
-        QVERIFY(m_die->getValue()<11);
+        QVERIFY(m_die->getValue() > 0);
+        QVERIFY(m_die->getValue() < 11);
     }
-
 }
 void TestDice::diceRollD20Test()
 {
     m_die->setMaxValue(20);
-    for(int i = 0; i< 2000; i++)
+    for(int i= 0; i < 2000; i++)
     {
         m_die->roll(false);
-        QVERIFY(m_die->getValue()>0);
-        QVERIFY(m_die->getValue()<21);
+        QVERIFY(m_die->getValue() > 0);
+        QVERIFY(m_die->getValue() < 21);
     }
 }
 void TestDice::commandEndlessLoop()
 {
-    bool a = m_diceParser->parseLine("1D10e[>0]");
+    bool a= m_diceParser->parseLine("1D10e[>0]");
     QVERIFY(!a);
 }
 
@@ -120,19 +116,18 @@ void TestDice::commandsTest()
 {
     QFETCH(QString, cmd);
 
-    bool a = m_diceParser->parseLine(cmd);
-    QVERIFY2(a,"parsing");
+    bool a= m_diceParser->parseLine(cmd);
+    QVERIFY2(a, "parsing");
 
     m_diceParser->start();
-    QVERIFY2(m_diceParser->humanReadableError().isEmpty(),"no error");
+    QVERIFY2(m_diceParser->humanReadableError().isEmpty(), "no error");
 
-    QVERIFY2(m_diceParser->humanReadableWarning().isEmpty(),"no warning");
+    QVERIFY2(m_diceParser->humanReadableWarning().isEmpty(), "no warning");
 }
 
 void TestDice::commandsTest_data()
 {
-     QTest::addColumn<QString>("cmd");
-
+    QTest::addColumn<QString>("cmd");
 
     QTest::addRow("cmd1") << "1L[cheminée,chocolat,épée,arc,chute de pierre]";
     QTest::addRow("cmd2") << "10d10c[>=6]-@c[=1]";
@@ -143,8 +138,8 @@ void TestDice::commandsTest_data()
     QTest::addRow("cmd7") << "1+(4*3)D10";
     QTest::addRow("cmd8") << "2+4/4";
     QTest::addRow("cmd9") << "2D10*2D20*8";
-    QTest::addRow("cmd10") <<"1+(4*3)D10";
-    QTest::addRow("cmd11") <<"(4D6)D10";
+    QTest::addRow("cmd10") << "1+(4*3)D10";
+    QTest::addRow("cmd11") << "(4D6)D10";
     QTest::addRow("cmd12") << "1D100a[>=95]a[>=96]a[>=97]a[>=98]a[>=99]e[>=100]";
     QTest::addRow("cmd13") << "3D100";
     QTest::addRow("cmd14") << "4k3";
@@ -199,22 +194,20 @@ void TestDice::commandsTest_data()
     QTest::addRow("cmd73") << "3d100g40";
 }
 
-
 void TestDice::wrongCommandsTest()
 {
-//            << "pajaejlbnmàw";
+    //            << "pajaejlbnmàw";
     QFETCH(QString, cmd);
     QFETCH(bool, valid);
-    bool a = m_diceParser->parseLine(cmd);
+    bool a= m_diceParser->parseLine(cmd);
     if(a)
     {
         m_diceParser->start();
-        auto map = m_diceParser->getErrorMap();
-        a = !map.isEmpty();
+        auto map= m_diceParser->getErrorMap();
+        a= map.isEmpty();
     }
-    QCOMPARE(a,valid);
+    QCOMPARE(a, valid);
 }
-
 
 void TestDice::wrongCommandsTest_data()
 {
@@ -229,7 +222,7 @@ void TestDice::wrongCommandsTest_data()
     QTest::newRow("test6") << "meregue" << false;
     QTest::newRow("test7") << "p i follow rivers" << false;
     QTest::newRow("test8") << "manga violet evergarden" << false;
-    QTest::newRow("test9") << "((1d8e8+2);(1d6e6+2))" << false;
+    QTest::newRow("test9") << "((1d8e8+2);(1d6e6+2))" << true;
 }
 
 void TestDice::wrongCommandsExecutionTimeTest()
@@ -243,12 +236,12 @@ void TestDice::wrongCommandsExecutionTimeTest()
              << "10d10k11"
              << "!!!!";
 
-    for(QString cmd: commands)
+    for(QString cmd : commands)
     {
-        bool test = m_diceParser->parseLine(cmd);
+        bool test= m_diceParser->parseLine(cmd);
         m_diceParser->start();
 
-        QVERIFY2(m_diceParser->getErrorMap().isEmpty() == false || !test,cmd.toStdString().c_str());
+        QVERIFY2(m_diceParser->getErrorMap().isEmpty() == false || !test, cmd.toStdString().c_str());
     }
 }
 void TestDice::scopeDF()
@@ -267,42 +260,33 @@ void TestDice::scopeDF()
              << "6d10c[>=6]-@c1"
              << "1D[-2-50]";
 
-    QList< QPair<int,int> > pairMinMax;
-    pairMinMax  << QPair<int,int>(-1,1)
-                << QPair<int,int>(-10,-5)
-                << QPair<int,int>(-100,100)
-                << QPair<int,int>(-1,0)
-                << QPair<int,int>(10,20)
-                << QPair<int,int>(30,100)
-                << QPair<int,int>(0,99)
-                << QPair<int,int>(-15,-15)
-                << QPair<int,int>(0,4)
-                << QPair<int,int>(-6,6)
-                << QPair<int,int>(-2,50);
+    QList<QPair<int, int>> pairMinMax;
+    pairMinMax << QPair<int, int>(-1, 1) << QPair<int, int>(-10, -5) << QPair<int, int>(-100, 100)
+               << QPair<int, int>(-1, 0) << QPair<int, int>(10, 20) << QPair<int, int>(30, 100)
+               << QPair<int, int>(0, 99) << QPair<int, int>(-15, -15) << QPair<int, int>(0, 4) << QPair<int, int>(-6, 6)
+               << QPair<int, int>(-2, 50);
 
-
-    int index = 0;
-    for(QString cmd: commands)
+    int index= 0;
+    for(QString cmd : commands)
     {
-        bool test = m_diceParser->parseLine(cmd);
-        QVERIFY2(test,cmd.toStdString().c_str());
+        bool test= m_diceParser->parseLine(cmd);
+        QVERIFY2(test, cmd.toStdString().c_str());
         m_diceParser->start();
-        QPair<int,int> expect = pairMinMax.at(index);
-        int min = expect.first;
-        int max = expect.second;
-        auto  results = m_diceParser->getLastIntegerResults();
+        QPair<int, int> expect= pairMinMax.at(index);
+        int min= expect.first;
+        int max= expect.second;
+        auto results= m_diceParser->getLastIntegerResults();
 
-        for(auto result: results)
-            QVERIFY2(result >= min && result <= max,cmd.toStdString().c_str());
+        for(auto result : results)
+            QVERIFY2(result >= min && result <= max, cmd.toStdString().c_str());
         index++;
     }
 }
 void TestDice::testAlias()
 {
-    m_diceParser->insertAlias(new DiceAlias("!","3d6c"),0);
-    m_diceParser->insertAlias(new DiceAlias("g","d10k"),1);
-    m_diceParser->insertAlias(new DiceAlias("(.*)C(.*)",QStringLiteral("\\1d10e10c[>=\\2]"),false),2);
-
+    m_diceParser->insertAlias(new DiceAlias("!", "3d6c"), 0);
+    m_diceParser->insertAlias(new DiceAlias("g", "d10k"), 1);
+    m_diceParser->insertAlias(new DiceAlias("(.*)C(.*)", QStringLiteral("\\1d10e10c[>=\\2]"), false), 2);
 
     QStringList cmds;
     cmds << "!2"
@@ -311,52 +295,51 @@ void TestDice::testAlias()
          << "5C3"
          << "1d100i:[<101]{\"great!\"}{\"try again\"}";
 
-
     QStringList expected;
-    expected << "3d6c2" << "${rang}d10k4" << "${rang}d10k4 # gerald" << "5d10e10c[>=3]" << "1d100i:[<101]{\"great!\"}{\"try again\"}";
+    expected << "3d6c2"
+             << "${rang}d10k4"
+             << "${rang}d10k4 # gerald"
+             << "5d10e10c[>=3]"
+             << "1d100i:[<101]{\"great!\"}{\"try again\"}";
 
-    int i=0;
+    int i= 0;
     for(auto cmd : cmds)
     {
-        auto result = m_diceParser->convertAlias(cmd);
-        QVERIFY2(result == expected[i],result.toLatin1());
+        auto result= m_diceParser->convertAlias(cmd);
+        QVERIFY2(result == expected[i], result.toLatin1());
         ++i;
     }
-
-
 }
 void TestDice::severalInstruction()
 {
-
     QStringList commands;
 
     commands << "1d10;2d20;$1+$2";
-    
+
     QList<int> results;
     results << 3;
 
-    int i = 0;
+    int i= 0;
     for(auto cmd : commands)
     {
-        auto test = m_diceParser->parseLine(cmd);
-        QVERIFY2(test,cmd.toStdString().c_str());
+        auto test= m_diceParser->parseLine(cmd);
+        QVERIFY2(test, cmd.toStdString().c_str());
         QVERIFY2(m_diceParser->getStartNodeCount() == results[i], "Wrong number of instruction");
     }
-
 }
 void TestDice::mathPriority()
 {
     QFETCH(QString, cmd);
     QFETCH(int, expected);
 
-    bool test = m_diceParser->parseLine(cmd);
+    bool test= m_diceParser->parseLine(cmd);
     QVERIFY(test);
     m_diceParser->start();
-    auto resultList = m_diceParser->getLastIntegerResults();
-    QCOMPARE(resultList.size(),1);
+    auto resultList= m_diceParser->getLastIntegerResults();
+    QCOMPARE(resultList.size(), 1);
 
-    auto value = resultList.first();
-    QVERIFY(qFuzzyCompare(value, expected)==1);
+    auto value= resultList.first();
+    QVERIFY(qFuzzyCompare(value, expected) == 1);
 }
 
 void TestDice::mathPriority_data()
@@ -364,23 +347,23 @@ void TestDice::mathPriority_data()
     QTest::addColumn<QString>("cmd");
     QTest::addColumn<int>("expected");
 
-    QTest::addRow("cmd1") << "10+2"<<12 ;
-    QTest::addRow("cmd2")  << "2-10"<<-8 ;
-    QTest::addRow("cmd3")  << "5+2*3"<< 11 ;
-    QTest::addRow("cmd4")  << "5-5*5+5"<< -15 ;
-    QTest::addRow("cmd5")  << "5-5/5+5"<< 9 ;
-    QTest::addRow("cmd6")  << "10*(3*2)"<< 60 ;
-    QTest::addRow("cmd7")  << "60/(3*2)"<< 10 ;
-    QTest::addRow("cmd8")  << "5-(5*5+5)" << -25;
+    QTest::addRow("cmd1") << "10+2" << 12;
+    QTest::addRow("cmd2") << "2-10" << -8;
+    QTest::addRow("cmd3") << "5+2*3" << 11;
+    QTest::addRow("cmd4") << "5-5*5+5" << -15;
+    QTest::addRow("cmd5") << "5-5/5+5" << 9;
+    QTest::addRow("cmd6") << "10*(3*2)" << 60;
+    QTest::addRow("cmd7") << "60/(3*2)" << 10;
+    QTest::addRow("cmd8") << "5-(5*5+5)" << -25;
 }
 
 void TestDice::dangerousCommandsTest()
 {
     QFETCH(QString, cmd);
 
-    for(int i = 0; i < 1000 ; ++i)
+    for(int i= 0; i < 1000; ++i)
     {
-        auto b = m_diceParser->parseLine(cmd);
+        auto b= m_diceParser->parseLine(cmd);
         QVERIFY(b);
         m_diceParser->start();
     }
@@ -389,18 +372,14 @@ void TestDice::dangerousCommandsTest_data()
 {
     QTest::addColumn<QString>("cmd");
 
-
     QTest::addRow("cmd1") << "10d6g10";
     QTest::addRow("cmd2") << "10d2g10";
     QTest::addRow("cmd3") << "10d10g10";
-    //QTest::addRow("cmd4") << "10d10g10";
-    //QTest::addRow("cmd5") << "10d10g10";
-
+    // QTest::addRow("cmd4") << "10d10g10";
+    // QTest::addRow("cmd5") << "10d10g10";
 }
 
-void TestDice::cleanupTestCase()
-{
-}
+void TestDice::cleanupTestCase() {}
 
 QTEST_MAIN(TestDice);
 
