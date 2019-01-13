@@ -49,7 +49,7 @@ ChatListWidget::ChatListWidget(MainWindow * parent)
 
     m_listView = new QListView(this);
     BlinkingDecorationDelegate* blinkingDelegate = new BlinkingDecorationDelegate();
-    connect(blinkingDelegate,SIGNAL(refresh()),this,SLOT(updateAllUnreadChat()));
+    connect(blinkingDelegate,&BlinkingDecorationDelegate::refresh,this,&ChatListWidget::updateAllUnreadChat,Qt::QueuedConnection);
 
     m_listView->setItemDelegateForColumn(0,blinkingDelegate);
     m_listView->setModel(m_chatList);
