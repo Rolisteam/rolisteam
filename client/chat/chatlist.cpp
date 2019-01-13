@@ -23,70 +23,69 @@
 #include <QAbstractItemModel>
 #include <QApplication>
 #include <QDebug>
+#include <QTimer>
 
 #include "chat/chat.h"
-#include "network/networkmessagereader.h"
+#include "chatwindow.h"
 #include "data/person.h"
 #include "data/player.h"
-#include "userlist/playersList.h"
-#include "network/receiveevent.h"
-#include "chatwindow.h"
 #include "mainwindow.h"
+#include "network/networkmessagereader.h"
+#include "network/receiveevent.h"
 #include "preferences/preferencesmanager.h"
+#include "userlist/playersList.h"
 
 BlinkingDecorationDelegate::BlinkingDecorationDelegate()
 {
-    m_timer = new QTimer(this);
+    m_timer= new QTimer(this);
     m_timer->start(1000);
-    connect(m_timer,SIGNAL(timeout()),this,SIGNAL(refresh()));
-    connect(m_timer,SIGNAL(timeout()),this,SLOT(timeOutCount()));
-    m_red=true;
+    connect(m_timer, SIGNAL(timeout()), this, SIGNAL(refresh()));
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(timeOutCount()));
+    m_red= true;
 }
 
-void BlinkingDecorationDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void BlinkingDecorationDelegate::paint(
+    QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    QStyledItemDelegate::paint(painter,option,index);
-    QVariant var = index.data(Qt::DecorationRole);
-    QColor color = var.value<QColor>();
-    if((color.red()==255)&&(!m_red))
+    QStyledItemDelegate::paint(painter, option, index);
+    QVariant var= index.data(Qt::DecorationRole);
+    QColor color= var.value<QColor>();
+    if((color.red() == 255) && (!m_red))
     {
-       QStyleOptionViewItemV4 opt = option;
-       QStyledItemDelegate::initStyleOption(&opt, index);
-       QStyle* style = opt.widget ? opt.widget->style() : QApplication::style();
+        QStyleOptionViewItemV4 opt= option;
+        QStyledItemDelegate::initStyleOption(&opt, index);
+        QStyle* style= opt.widget ? opt.widget->style() : QApplication::style();
 
-       QRect rect = style->subElementRect( QStyle::SE_ItemViewItemDecoration ,&opt);
+        QRect rect= style->subElementRect(QStyle::SE_ItemViewItemDecoration, &opt);
 
-       painter->fillRect(rect,QColor(Qt::darkGreen));
-
+        painter->fillRect(rect, QColor(Qt::darkGreen));
     }
 }
 void BlinkingDecorationDelegate::timeOutCount()
 {
-    m_red=!m_red;
+    m_red= !m_red;
 }
 ////////////////////////////////
 // Code for ChatList class
 ////////////////////////////////
-ChatList::ChatList(MainWindow * mainWindow)
-    : QAbstractItemModel(nullptr), m_chatWindowList(), m_chatMenu(),m_mainWindow(mainWindow)
+ChatList::ChatList(MainWindow* mainWindow) : QAbstractItemModel(nullptr), m_chatMenu(), m_mainWindow(mainWindow)
 {
     m_chatMenu.setTitle(tr("ChatWindows"));
 
     // Stay sync with g_playersList
-    PlayersList * g_playersList = PlayersList::instance();
-    connect(g_playersList, SIGNAL(playerAdded(Player*)), this, SLOT(addPlayerChat(Player*)));
-    connect(g_playersList, SIGNAL(playerDeleted(Player*)), this, SLOT(delPlayer(Player*)));
+    PlayersList* playersList= PlayersList::instance();
+    connect(playersList, &PlayersList::playerAdded, this, &ChatList::addPlayerChat);
+    connect(playersList, &PlayersList::playerDeleted, this, &ChatList::deletePlayerChat);
 
     // Allready there player's chat
-    int maxPlayerIndex = g_playersList->getPlayerCount();
-    Player * localPlayer = g_playersList->getLocalPlayer();
-    for (int i = 0 ; i < maxPlayerIndex ; i++)
+    int maxPlayerIndex = playersList->getPlayerCount();
+    Player* localPlayer= playersList->getLocalPlayer();
+    for(int i= 0; i < maxPlayerIndex; i++)
     {
-        Player * player = g_playersList->getPlayer(i);
-
-        if (player != localPlayer)
+        Player* player= playersList->getPlayer(i);
+        if(player != localPlayer)
         {
-            addPlayerChat(player);//m_mainWindow
+            addPlayerChat(player); // m_mainWindow
         }
     }
 
@@ -101,17 +100,14 @@ ChatList::ChatList(MainWindow * mainWindow)
 ChatList::~ChatList()
 {
     m_chatMenu.clear();
-
-    int maxChatIndex = m_chatWindowList.size();
-    for (int i = 0 ; i < maxChatIndex ; i++)
-    {
-        delete m_chatWindowList.at(i);
-    }
+    std::for_each(m_data.begin(), m_data.end(),
+        [this](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { pair.first->deleteLater(); });
+    m_data.clear();
 }
 void ChatList::addPublicChat()
 {
     // main (public) chat
-    auto chat = new ChatWindow(new PublicChat(), m_mainWindow);
+    auto chat= new ChatWindow(new PublicChat(), m_mainWindow);
     for(auto& diceBookmark : m_pairList)
     {
         chat->appendDiceShortCut(diceBookmark);
@@ -120,9 +116,9 @@ void ChatList::addPublicChat()
 }
 void ChatList::readSettings(QSettings& settings)
 {
-    int size = settings.beginReadArray(QStringLiteral("dicebookmarks"));
+    int size= settings.beginReadArray(QStringLiteral("dicebookmarks"));
     m_pairList.clear();
-    for(int i = 0; i<size; ++i)
+    for(int i= 0; i < size; ++i)
     {
         settings.setArrayIndex(i);
         DiceShortCut cut;
@@ -135,56 +131,57 @@ void ChatList::readSettings(QSettings& settings)
 }
 void ChatList::writeSettings(QSettings& settings)
 {
-    if(!m_chatWindowList.isEmpty())
+    if(m_data.empty())
+        return;
+
+    auto chat= m_data.begin()->second;
+
+    std::vector<DiceShortCut> pairList= chat->getDiceShortCuts();
+    settings.beginWriteArray(QStringLiteral("dicebookmarks"));
+    int i= 0;
+    for(auto& pair : pairList)
     {
-        auto chat = m_chatWindowList.first();
-        std::vector<DiceShortCut> pairList = chat->getDiceShortCuts();
-        settings.beginWriteArray(QStringLiteral("dicebookmarks"));
-        int i = 0;
-        for(auto& pair : pairList)
-        {
-            settings.setArrayIndex(i);
-            settings.setValue(QStringLiteral("title"),pair.text());
-            settings.setValue(QStringLiteral("command"),pair.command());
-            settings.setValue(QStringLiteral("alias"),pair.alias());
-            ++i;
-        }
-        settings.endArray();
+        settings.setArrayIndex(i);
+        settings.setValue(QStringLiteral("title"), pair.text());
+        settings.setValue(QStringLiteral("command"), pair.command());
+        settings.setValue(QStringLiteral("alias"), pair.alias());
+        ++i;
     }
+    settings.endArray();
 }
-void ChatList::rollDiceCmd(QString cmd, QString owner,bool alias)
+void ChatList::rollDiceCmd(QString cmd, QString owner, bool alias)
 {
-    if(!m_chatWindowList.isEmpty())
+    if(m_data.empty())
+        return;
+
+    ChatWindow* wid= m_data.begin()->second;
+    if(nullptr != wid)
     {
-        ChatWindow* wid = m_chatWindowList.first();
-        if(nullptr!=wid)
-        {
-            wid->rollDiceCmd(cmd,owner,alias);
-        }
+        wid->rollDiceCmd(cmd, owner, alias);
     }
 }
 
-void ChatList::rollDiceCmdForCharacter(QString cmd, QString uuid,bool alias)
+void ChatList::rollDiceCmdForCharacter(QString cmd, QString uuid, bool alias)
 {
-    if(!m_chatWindowList.isEmpty())
+    if(m_data.empty())
+        return;
+
+    ChatWindow* wid= m_data.begin()->second;
+    if(nullptr != wid)
     {
-        ChatWindow* wid = m_chatWindowList.first();
-        if(nullptr!=wid)
-        {
-            wid->rollDiceCmdForCharacter(cmd,uuid,alias);
-        }
+        wid->rollDiceCmdForCharacter(cmd, uuid, alias);
     }
 }
 
-bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role)
+bool ChatList::setData(const QModelIndex& index, const QVariant& value, int role)
 {
     Q_UNUSED(value)
 
-    QMdiSubWindow* chatw = getChatSubWindowByIndex(index);
-    if (chatw == nullptr)
+    QMdiSubWindow* chatw= getChatSubWindowByIndex(index);
+    if(chatw == nullptr)
         return false;
 
-    switch (role)
+    switch(role)
     {
     default:
     case Qt::DisplayRole:
@@ -193,30 +190,28 @@ bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role
         return false;
     case Qt::CheckStateRole:
     {
-        bool visible = chatw->isVisible();
+        bool visible= chatw->isVisible();
         chatw->widget()->setVisible(!visible);
         chatw->setVisible(!visible);
-
     }
         return true;
     }
-
-
-
 }
 
-QVariant ChatList::data(const QModelIndex &index, int role) const
+QVariant ChatList::data(const QModelIndex& index, int role) const
 {
-    QMdiSubWindow * chatw2 = getChatSubWindowByIndex(index);
-    ChatWindow * chatw = getChatWindowByIndex(index);
+    QMutexLocker locker(&m_mutex);
+    auto pair            = getPairByIndex(index);
+    QMdiSubWindow* chatw2= pair.first;
+    ChatWindow* chatw    = pair.second;
 
-    if (chatw == nullptr)
+    if(chatw == nullptr)
         return QVariant();
 
-    if (chatw->chat() == nullptr)
+    if(chatw->chat() == nullptr)
         return QVariant();
 
-    switch (role)
+    switch(role)
     {
     case Qt::DisplayRole:
     case Qt::EditRole:
@@ -226,11 +221,10 @@ QVariant ChatList::data(const QModelIndex &index, int role) const
     case Qt::CheckStateRole:
         return QVariant(chatw2->isVisible());
     }
-
     return QVariant();
 }
 
-Qt::ItemFlags ChatList::flags(const QModelIndex &index) const
+Qt::ItemFlags ChatList::flags(const QModelIndex& index) const
 {
     Q_UNUSED(index);
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
@@ -244,65 +238,65 @@ QVariant ChatList::headerData(int section, Qt::Orientation orientation, int role
     return QVariant();
 }
 
-QModelIndex ChatList::index(int row, int column, const QModelIndex &parent) const
+QModelIndex ChatList::index(int row, int column, const QModelIndex& parent) const
 {
-    if (parent.isValid() || column != 0 || row < 0 || row >= m_chatWindowList.size())
+    if(parent.isValid() || column != 0 || row < 0 || row >= static_cast<int>(m_data.size()))
         return QModelIndex();
 
     return createIndex(row, column);
 }
 
-QModelIndex ChatList::parent(const QModelIndex &index) const
+QModelIndex ChatList::parent(const QModelIndex& index) const
 {
     Q_UNUSED(index);
     return QModelIndex();
 }
 
-int ChatList::rowCount(const QModelIndex &parent) const
+int ChatList::rowCount(const QModelIndex& parent) const
 {
-    if (parent.isValid())
+    if(parent.isValid())
         return 0;
 
-    return m_chatWindowList.size();
+    return static_cast<int>(m_data.size());
 }
 
-int ChatList::columnCount(const QModelIndex &parent) const
+int ChatList::columnCount(const QModelIndex& parent) const
 {
-    if (parent.isValid())
+    if(parent.isValid())
         return 0;
 
     return 1;
 }
 
-QMenu * ChatList::chatMenu()
+QMenu* ChatList::chatMenu()
 {
     return &m_chatMenu;
 }
 
-AbstractChat * ChatList::chat(const QModelIndex & index)
+AbstractChat* ChatList::chat(const QModelIndex& index)
 {
-    ChatWindow * chatw = getChatWindowByIndex(index);
-    if (chatw == nullptr)
+    ChatWindow* chatw= getChatWindowByIndex(index);
+    if(chatw == nullptr)
         return nullptr;
     return chatw->chat();
 }
 
-bool ChatList::addLocalChat(PrivateChat * chat)
+bool ChatList::addLocalChat(PrivateChat* chat)
 {
-    if (!chat->belongsToLocalPlayer())
+    if(!chat->belongsToLocalPlayer())
         return false;
 
-    addChatWindow(new ChatWindow(chat,m_mainWindow));
+    addChatWindow(new ChatWindow(chat, m_mainWindow));
     return true;
 }
 
-bool ChatList::delLocalChat(const QModelIndex & index)
+bool ChatList::delLocalChat(const QModelIndex& index)
 {
-    ChatWindow * chatw =  getChatWindowByIndex(index);
-    PrivateChat * chat = qobject_cast<PrivateChat *>(chatw->chat());
-    if (chat == nullptr || !chat->belongsToLocalPlayer())
+    ChatWindow* chatw= getChatWindowByIndex(index);
+    PrivateChat* chat= qobject_cast<PrivateChat*>(chatw->chat());
+    if(chat == nullptr || !chat->belongsToLocalPlayer())
         return false;
-    
+
     chat->sendDel();
     delChatWindow(chatw);
     /// @warning dead code
@@ -316,164 +310,211 @@ bool ChatList::delLocalChat(const QModelIndex & index)
 
 void ChatList::addChatWindow(ChatWindow* chatw)
 {
-    int listSize = m_chatWindowList.size();
-    beginInsertRows(QModelIndex(), listSize, listSize);
+    if(!chatw)
+        return;
 
+    // TODO remove that
+    auto window= qobject_cast<QMdiSubWindow*>(m_mainWindow->registerSubWindow(chatw, chatw->toggleViewAction()));
+
+    if(!window)
+        return;
+    window->setObjectName("MdiChatWindow");
+
+    int insertPos= static_cast<int>(m_data.size());
+    beginInsertRows(QModelIndex(), insertPos, insertPos);
 
     m_chatMenu.addAction(chatw->toggleViewAction());
+
     connect(chatw, SIGNAL(ChatWindowHasChanged(ChatWindow*)), this, SLOT(changeChatWindow(ChatWindow*)));
+    connect(chatw->chat(), SIGNAL(changedName(QString)), window, SLOT(setWindowTitle(QString)));
 
-    QMdiSubWindow* subWindowChat = static_cast<QMdiSubWindow*>(m_mainWindow->registerSubWindow(chatw,chatw->toggleViewAction()));
-
-    connect(chatw->chat(), SIGNAL(changedName(QString)), subWindowChat, SLOT(setWindowTitle(QString)));
-    m_chatWindowList.append(chatw);
-    m_chatSubWindowList.append(subWindowChat);
-
-    if((subWindowChat->height()<451)||(subWindowChat->width()<264))
-    {
-        subWindowChat->resize(264,451);
-    }
-
-    if(nullptr!=subWindowChat)
-    {
-        chatw->setSubWindow(subWindowChat);
-        subWindowChat->setWindowTitle(QStringLiteral("%1 (%2)").arg(chatw->getTitleFromChat(), tr("Chat","chat room")));
-        subWindowChat->setWindowIcon(QIcon(":/chat.png"));
-        chatw->setLocalPlayer(PlayersList::instance()->getLocalPlayer());
-        subWindowChat->setAttribute(Qt::WA_DeleteOnClose, false);
-        chatw->setAttribute(Qt::WA_DeleteOnClose, false);
-        subWindowChat->setVisible(chatw->toggleViewAction()->isChecked());
-    }
+    m_data.push_back({window, chatw});
     endInsertRows();
+
+    if((window->height() < 451) || (window->width() < 264))
+    {
+        window->resize(264, 451);
+    }
+
+    /*connect(window, &QMdiSubWindow::destroyed, this, [this]() {
+        qDebug() << "mdi subwindow destroyed";
+        auto window= qobject_cast<QMdiSubWindow*>(sender());
+        auto pairIt= std::find_if(m_data.begin(), m_data.end(),
+            [window](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { return pair.first == window; });
+        auto idx   = static_cast<int>(std::distance(m_data.begin(), pairIt));
+        beginRemoveRows(QModelIndex(), idx, idx);
+        m_data.erase(pairIt);
+        endRemoveRows();
+    });*/
+
+    /*connect(chatw, &ChatWindow::destroyed, this, [this]() {
+        qDebug() << "chatwindow destroyed";
+        auto chat  = qobject_cast<ChatWindow*>(sender());
+        auto pairIt= std::find_if(m_data.begin(), m_data.end(),
+            [chat](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { return pair.second == chat; });
+        auto idx   = static_cast<int>(std::distance(m_data.begin(), pairIt));
+        beginRemoveRows(QModelIndex(), idx, idx);
+        m_data.erase(pairIt);
+        endRemoveRows();
+    });*/
+
+    if(nullptr != window)
+    {
+        // TODO remove that
+        chatw->setSubWindow(window);
+        window->setWindowTitle(QStringLiteral("%1 (%2)").arg(chatw->getTitleFromChat(), tr("Chat", "chat room")));
+        window->setWindowIcon(QIcon(":/chat.png"));
+        chatw->setLocalPlayer(PlayersList::instance()->getLocalPlayer());
+        window->setAttribute(Qt::WA_DeleteOnClose, false);
+        chatw->setAttribute(Qt::WA_DeleteOnClose, false);
+        window->setVisible(chatw->toggleViewAction()->isChecked());
+    }
 }
 
 void ChatList::delChatWindow(ChatWindow* chatw)
 {
-    int pos = m_chatWindowList.indexOf(chatw);
-    if (pos < 0)
+    QMutexLocker locker(&m_mutex);
+    auto it= std::find_if(m_data.begin(), m_data.end(),
+        [chatw](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { return pair.second == chatw; });
+
+    if(it == m_data.end())
         return;
 
-    beginRemoveRows(QModelIndex(), pos, pos);
-
     m_chatMenu.removeAction(chatw->toggleViewAction());
-    m_chatWindowList.removeOne(chatw);
-
-    QMdiSubWindow* subWindow = m_chatSubWindowList.takeAt(pos);
-    subWindow->setVisible(false);
-
-    delete chatw;
-    delete subWindow;
-
+    auto index = static_cast<int>(std::distance(m_data.begin(), it));
+    auto window= it->first;
+    beginRemoveRows(QModelIndex(), index, index);
+    m_data.erase(it);
     endRemoveRows();
+
+    window->setVisible(false);
+    window->deleteLater();
 }
 void ChatList::cleanChat()
 {
+    QMutexLocker locker(&m_mutex);
     beginResetModel();
     m_chatMenu.clear();
-    m_chatWindowList.clear();
-    for(auto& chatw : m_chatSubWindowList)
+    for(auto& pair : m_data)
     {
-        chatw->setVisible(false);
-
+        pair.first->deleteLater();
     }
-    qDeleteAll(m_chatSubWindowList.begin(),m_chatSubWindowList.end());
-    m_chatSubWindowList.clear();
-    qDeleteAll(m_chatWindowList.begin(),m_chatWindowList.end());
-    m_chatWindowList.clear();
-
-
+    m_data.clear();
     endResetModel();
 }
 
-ChatWindow* ChatList::getChatWindowByUuid(const QString & uuid) const
+ChatWindow* ChatList::getChatWindowByUuid(const QString& uuid) const
 {
-    int maxChatIndex = m_chatWindowList.size();
-    for (int i = 0 ; i < maxChatIndex ; i++)
-    {
-        ChatWindow * chatw = m_chatWindowList.at(i);
-        if (uuid == chatw->chat()->identifier())
-            return chatw;
-    }
-    return nullptr;
+    auto it= std::find_if(m_data.begin(), m_data.end(), [uuid](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) {
+        auto window= pair.second;
+        if(!window)
+            return false;
+        auto chat= window->chat();
+        if(!chat)
+            return false;
+        return uuid == chat->identifier();
+    });
+
+    if(it == m_data.end())
+        return nullptr;
+
+    return it->second;
 }
 
-ChatWindow * ChatList::getChatWindowByIndex(const QModelIndex & index) const
+const std::pair<QMdiSubWindow*, ChatWindow*> ChatList::getPairByIndex(const QModelIndex& index) const
 {
-    if (!index.isValid() || index.parent().isValid() || index.column() != 0)
-        return nullptr;
+    if(!index.isValid() || index.parent().isValid() || index.column() != 0)
+        return std::make_pair<QMdiSubWindow*, ChatWindow*>(nullptr, nullptr);
 
-    int row = index.row();
-    if (row < 0 || row >= m_chatWindowList.size())
-        return nullptr;
+    size_t row= static_cast<size_t>(index.row());
+    if(row >= m_data.size())
+        return std::make_pair<QMdiSubWindow*, ChatWindow*>(nullptr, nullptr);
 
-    return m_chatWindowList.at(row);
+    return m_data[row];
 }
-QMdiSubWindow * ChatList::getChatSubWindowByIndex(const QModelIndex & index) const
+
+ChatWindow* ChatList::getChatWindowByIndex(const QModelIndex& index) const
 {
-    if (!index.isValid() || index.parent().isValid() || index.column() != 0)
-        return nullptr;
-
-    int row = index.row();
-    if (row < 0 || row >= m_chatSubWindowList.size())
-        return nullptr;
-
-    return m_chatSubWindowList.at(row);
+    auto pair= getPairByIndex(index);
+    return pair.second;
 }
-void ChatList::addPlayerChat(Player * player)
+QMdiSubWindow* ChatList::getChatSubWindowByIndex(const QModelIndex& index) const
+{
+    auto pair= getPairByIndex(index);
+    return pair.first;
+}
+void ChatList::addPlayerChat(Player* player)
 {
     if(player != PlayersList::instance()->getLocalPlayer())
     {
-        ChatWindow * chatw = getChatWindowByUuid(player->getUuid());
-        if (chatw == nullptr)
+        ChatWindow* chatw= getChatWindowByUuid(player->getUuid());
+        if(chatw == nullptr)
         {
             addChatWindow(new ChatWindow(new PlayerChat(player), m_mainWindow));
         }
     }
 }
 
-
-void ChatList::delPlayer(Player * player)
+void ChatList::deletePlayerChat(Player* player)
 {
-    for (auto& tmp: m_chatSubWindowList)
-    {
-        ChatWindow* chatw = dynamic_cast<ChatWindow*>(tmp->widget());
-        if(nullptr == chatw)
-            continue;
-        if(nullptr == chatw->chat())
-            continue;
+    QMutexLocker locker(&m_mutex);
+    std::vector<std::pair<QMdiSubWindow*, ChatWindow*>> toRemove;
+    std::copy_if(m_data.begin(), m_data.end(), std::back_inserter(toRemove),
+        [player](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) {
+            auto widget= pair.second;
+            if(!widget)
+                return false;
 
-        if(chatw->chat()->belongsTo(player))
-        {
-            int pos = m_chatWindowList.indexOf(chatw);
-            if (pos >= 0)
-            {
-                beginRemoveRows(QModelIndex(), pos, pos);
-                m_chatSubWindowList.removeOne(tmp);
-                m_chatWindowList.removeOne(chatw);
-                endRemoveRows();
-                tmp->deleteLater();
-            }
-        }
-    }
+            auto chat= widget->chat();
+            if(!chat)
+                return false;
+
+            return chat->belongsTo(player);
+        });
+
+    Q_ASSERT(toRemove.size() < 2);
+
+    std::for_each(toRemove.begin(), toRemove.end(), [this](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) {
+        auto it= std::find_if(
+            m_data.begin(), m_data.end(), [pair](const std::pair<QMdiSubWindow*, ChatWindow*>& dataPair) {
+                return (pair.first == dataPair.first && pair.second == dataPair.second);
+            });
+        if(it == m_data.end())
+            return;
+        auto index= static_cast<int>(std::distance(m_data.begin(), it));
+        beginRemoveRows(QModelIndex(), index, index);
+        auto size= m_data.size();
+        m_data.erase(it);
+        Q_ASSERT(size > m_data.size());
+        endRemoveRows();
+        pair.first->deleteLater();
+    });
 }
 
-void ChatList::changeChatWindow(ChatWindow * chat)
+void ChatList::changeChatWindow(ChatWindow* chat)
 {
-    QModelIndex modelIndex = createIndex(m_chatWindowList.indexOf(chat), 0);
+    auto it= std::find_if(m_data.begin(), m_data.end(),
+        [chat](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { return (chat == pair.second); });
+    if(it == m_data.end())
+        return;
+
+    auto index= static_cast<int>(std::distance(m_data.begin(), it));
+
+    auto modelIndex= createIndex(index, 0);
     emit dataChanged(modelIndex, modelIndex);
 }
 
-bool ChatList::event(QEvent * event)
+bool ChatList::event(QEvent* event)
 {
-    if (event->type() == ReceiveEvent::Type)
+    if(event->type() == ReceiveEvent::Type)
     {
-        ReceiveEvent * netEvent = static_cast<ReceiveEvent *>(event);
-        NetworkMessageReader & data = netEvent->data();
+        ReceiveEvent* netEvent    = static_cast<ReceiveEvent*>(event);
+        NetworkMessageReader& data= netEvent->data();
 
-        if ( data.category() == NetMsg::ChatCategory)
+        if(data.category() == NetMsg::ChatCategory)
         {
-            NetMsg::Action action = data.action();
-            switch (action)
+            NetMsg::Action action= data.action();
+            switch(action)
             {
             case NetMsg::ChatMessageAction:
             case NetMsg::DiceMessageAction:
@@ -495,53 +536,52 @@ bool ChatList::event(QEvent * event)
     return QObject::event(event);
 }
 
-void ChatList::dispatchMessage(ReceiveEvent * event)
+void ChatList::dispatchMessage(ReceiveEvent* event)
 {
-    NetworkMessageReader & data = event->data();
-    QString from = data.string8();
-    QString to   = data.string8();
-    QString msg  = data.string32();
+    NetworkMessageReader& data= event->data();
+    QString from              = data.string8();
+    QString to                = data.string8();
+    QString msg               = data.string32();
     QString comment;
     if(data.action() == NetMsg::DiceMessageAction)
     {
-        comment  = data.string32();
+        comment= data.string32();
     }
 
-    PlayersList* playersList = PlayersList::instance();
+    PlayersList* playersList= PlayersList::instance();
 
-    Person* sender = playersList->getPerson(from);
-    if (sender == nullptr)
+    Person* sender= playersList->getPerson(from);
+    if(sender == nullptr)
     {
         qWarning("Message from unknown person %s", qPrintable(from));
         return;
     }
 
-    if (to == playersList->getLocalPlayer()->getUuid())
-    {//to one person
-        ChatWindow* win = getChatWindowByUuid(from);
-        if((nullptr==win) && (nullptr!=sender->parentPerson()))
+    if(to == playersList->getLocalPlayer()->getUuid())
+    { // to one person
+        ChatWindow* win= getChatWindowByUuid(from);
+        if((nullptr == win) && (nullptr != sender->parentPerson()))
         {
-            win = getChatWindowByUuid(sender->parentPerson()->getUuid());
+            win= getChatWindowByUuid(sender->parentPerson()->getUuid());
         }
-        if(nullptr!=win)
+        if(nullptr != win)
         {
-            win->showMessage(sender->name(), sender->getColor(), msg,comment, data.action());
+            win->showMessage(sender->name(), sender->getColor(), msg, comment, data.action());
         }
         return;
     }
 
-
-    ChatWindow * chatw = getChatWindowByUuid(to);
-    if (nullptr != chatw)
+    ChatWindow* chatw= getChatWindowByUuid(to);
+    if(nullptr != chatw)
     {
-        chatw->showMessage(sender->name(), sender->getColor(), msg,comment, data.action());
+        chatw->showMessage(sender->name(), sender->getColor(), msg, comment, data.action());
     }
 }
 
-void ChatList::updatePrivateChat(ReceiveEvent * event)
+void ChatList::updatePrivateChat(ReceiveEvent* event)
 {
-    PrivateChat * newChat = new PrivateChat(*event);
-    if (newChat->identifier().isNull())
+    PrivateChat* newChat= new PrivateChat(*event);
+    if(newChat->identifier().isNull())
     {
         qWarning("Bad PrivateChat, removed");
         delete newChat;
@@ -564,13 +604,13 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
         }
     }*/
 
-    ChatWindow * chatw = getChatWindowByUuid(newChat->identifier());
-    if (chatw != nullptr)
+    ChatWindow* chatw= getChatWindowByUuid(newChat->identifier());
+    if(chatw != nullptr)
     {
-        if (newChat->includeLocalPlayer())
+        if(newChat->includeLocalPlayer())
         {
-            PrivateChat * oldChat = qobject_cast<PrivateChat *>(chatw->chat());
-            if (oldChat == nullptr)
+            PrivateChat* oldChat= qobject_cast<PrivateChat*>(chatw->chat());
+            if(oldChat == nullptr)
             {
                 qWarning("%s is not a private chat", qPrintable(newChat->identifier()));
                 return;
@@ -582,9 +622,9 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
             delChatWindow(chatw);
     }
 
-    else if (newChat->includeLocalPlayer())
+    else if(newChat->includeLocalPlayer())
     {
-        addChatWindow(new ChatWindow(newChat,m_mainWindow));
+        addChatWindow(new ChatWindow(newChat, m_mainWindow));
     }
     else
     {
@@ -592,9 +632,9 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
     }
 }
 
-void ChatList::deletePrivateChat(ReceiveEvent * event)
+void ChatList::deletePrivateChat(ReceiveEvent* event)
 {
-    QString uuid = event->data().string8();
+    QString uuid= event->data().string8();
     /// @warning dead code
     /*if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
@@ -603,7 +643,7 @@ void ChatList::deletePrivateChat(ReceiveEvent * event)
             qWarning("Can't delete a unknown chat %s", qPrintable(uuid));
             return;
         }
-        
+
         PrivateChat * chat = m_privateChatMap.value(uuid);
         if (!chat->sameLink(event->link()))
         {
@@ -616,15 +656,16 @@ void ChatList::deletePrivateChat(ReceiveEvent * event)
         m_privateChatMap.remove(uuid);
     }*/
 
-    ChatWindow * chatw = getChatWindowByUuid(uuid);
-    if (chatw != nullptr)
+    ChatWindow* chatw= getChatWindowByUuid(uuid);
+    if(chatw != nullptr)
         delChatWindow(chatw);
 }
 void ChatList::updateDiceAliases(QList<DiceAlias*>* map)
 {
-    for(auto& tmp: m_chatWindowList)
+    for(auto& tmp : m_data)
     {
-        tmp->updateDiceAliases(map);
+        if(!tmp.second)
+            continue;
+        tmp.second->updateDiceAliases(map);
     }
-
 }
