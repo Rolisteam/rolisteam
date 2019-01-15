@@ -151,23 +151,24 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
         QObject::connect(m_currentItem,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),m_vmap,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
         QObject::connect(m_currentItem,SIGNAL(changeStackPosition(VisualItem*,VisualItem::StackOrder)),m_vmap,SLOT(changeStackOrder(VisualItem*,VisualItem::StackOrder)));
 
-        initItem();
-        m_currentItem->setLayer(m_vmap->getCurrentLayer());
+        initItem(true);
 
         setText(QObject::tr("Add vmap item"));
     }
 }
-AddVmapItemCommand::AddVmapItemCommand(VisualItem* item,VMap* map,QUndoCommand *parent)
+AddVmapItemCommand::AddVmapItemCommand(VisualItem* item,bool addMapLayer, VMap* map,QUndoCommand *parent)
     : QUndoCommand(parent),m_vmap(map),m_currentItem(item)
 {
     initItem();
 }
 
-void AddVmapItemCommand::initItem()
+void AddVmapItemCommand::initItem(bool addMapLayer)
 {
     m_first = true;
     m_currentItem->setPropertiesHash(m_vmap->getPropertiesHash());
     m_currentItem->updateItemFlags();
+    if(addMapLayer)
+      m_currentItem->setLayer(m_vmap->getCurrentLayer());
     m_currentItem->setMapId(m_vmap->getId());
     m_currentItem->setVisible(isVisible());
     m_vmap->QGraphicsScene::addItem(m_currentItem);
