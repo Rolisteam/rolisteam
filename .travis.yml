@@ -1,0 +1,145 @@
+language: cpp
+
+os:
+  - linux
+  - osx
+
+dist: trusty
+
+compiler:
+  - clang
+  - gcc
+
+
+env:
+  - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+
+matrix:
+  # Qt no longer supports GCC on OSX.
+  allow_failures:
+    - { os: osx, compiler: gcc, env: QT=5  BREW= }
+  exclude:
+    - { os: osx, env: QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty }
+  include:
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+      env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env:
+         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+         - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+    - os: osx
+      osx_image: xcode10
+      env:
+        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+
+    - os: osx
+      osx_image: xcode10
+      env:
+        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+
+    - os: osx
+      osx_image: xcode10
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+  - '[[ "$TRAVIS_OS_NAME" != linux || -z "$PPA" ]] || sudo add-apt-repository -y ppa:$PPA'
+  - '[ "$TRAVIS_OS_NAME" != linux ] || sudo apt-get -qy update'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || brew update'
+  - git submodule update --init --remote --recursive
+
+install:
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || sudo apt-get -qy install qt${QT}quickcontrols  qt${QT}svg  qt${QT}quickcontrols2  qt${QT}webengine  qt${QT}multimedia  qt${QT}imageformats  qt${QT}graphicaleffects  qt${QT}declarative  qt${QT}base qt${QT}translations  qt${QT}tools  qt${QT}xmlpatterns'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || brew install cppcheck'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || travis_wait 30 brew install qt5'
+  - '[ "$TRAVIS_OS_NAME" != osx ] || brew link --force qt'
+
+before_script:
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$CXX" != clang++ ]] || export QMAKESPEC=linux-clang'
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$CXX" != g++     ]] || export QMAKESPEC=linux-g++'
+  - '[[ "$TRAVIS_OS_NAME" != osx   || "$CXX" != clang++ ]] || export QMAKESPEC=macx-clang'
+  - '[[ "$TRAVIS_OS_NAME" != osx   || "$CXX" != g++     ]] || export QMAKESPEC=macx-g++'
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || . /opt/qt$QT/bin/qt$QT-env.sh'
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || export QT_SELECT=qt5'
+  - mkdir -p "$TRAVIS_BUILD_DIR-build"
+  - pushd "$TRAVIS_BUILD_DIR-build"
+  - lrelease "$TRAVIS_BUILD_DIR/rcse.pro"
+  - qmake -v
+  - qmake -r -Wall -Wlogic -Wparser CONFIG+=debug_and_release "$TRAVIS_BUILD_DIR"
+  - popd
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then (sudo Xvfb :99 -ac -screen 0 1024x768x8 )& fi
+  - sleep 1
+
+script:
+# - make -C "$TRAVIS_BUILD_DIR-build" -j2
+# - mkdir -p "$TRAVIS_BUILD_DIR-build2"
+# - pushd "$TRAVIS_BUILD_DIR-build2"
+# - lrelease "$TRAVIS_BUILD_DIR/rcse.pro"
+# - qmake -r -Wall -Wlogic -Wparser CONFIG+=debug CONFIG+=TESTS "$TRAVIS_BUILD_DIR"
+# - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then (xvfb-run make -s check -C "$TRAVIS_BUILD_DIR-build2") fi
+# - if [ "$TRAVIS_OS_NAME" = osx   ] ; then (make -s -j2 check -C "$TRAVIS_BUILD_DIR-build2") fi
+#  popd
+  #- '[ "$TRAVIS_OS_NAME" != osx ] || make -C "$TRAVIS_BUILD_DIR-build/pkg/osx" dmg'
+
+#deploy:
+#  provider: releases
+#  api_key: $RELEASES_API_KEY
+#  file_glob: true
+#  file: $TRAVIS_BUILD_DIR-build/pkg/$TRAVIS_OS_NAME/rolisteam-*.$TRAVIS_BUILD_NUMBER.dmg
+#  on:
+#    condition: '"$TRAVIS_OS_NAME" == osx && "$CXX" == clang++ && "$QT" == 5'
+#    tags: true
+
+#notifications:
+#  webhooks:
+#    urls:
+#      - https://webhooks.gitter.im/e/2b8ecf97afdf630edcec
+#    on_success: never
+#    on_failure: never
+#    on_start: never
