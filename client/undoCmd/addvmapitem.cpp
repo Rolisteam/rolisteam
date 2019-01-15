@@ -159,7 +159,7 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool,
 AddVmapItemCommand::AddVmapItemCommand(VisualItem* item,bool addMapLayer, VMap* map,QUndoCommand *parent)
     : QUndoCommand(parent),m_vmap(map),m_currentItem(item)
 {
-    initItem();
+    initItem(addMapLayer);
 }
 
 void AddVmapItemCommand::initItem(bool addMapLayer)

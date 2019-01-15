@@ -124,14 +124,14 @@ void VMap::setCurrentLayer(const VisualItem::Layer &currentLayer)
 
 void  VMap::initScene()
 {
-    addNewItem(new AddVmapItemCommand(m_sightItem,this),false);
+    addNewItem(new AddVmapItemCommand(m_sightItem,true,this),false);
     m_sightItem->initChildPointItem();
     m_sightItem->setPos(0,0);
     m_sightItem->setZValue(1);
     m_sightItem->setVisible(false);
 
 
-    addNewItem(new AddVmapItemCommand(m_gridItem,this),false);
+    addNewItem(new AddVmapItemCommand(m_gridItem,true,this),false);
     m_gridItem->initChildPointItem();
     m_gridItem->setPos(0,0);
     m_gridItem->setZValue(2);
@@ -366,7 +366,7 @@ void VMap::addImageItem(QImage img)
     QPointF size(img.width(),img.height());
     led->setNewEnd(size);
     //led->initChildPointItem();
-    addNewItem(new AddVmapItemCommand(led,this),true);
+    addNewItem(new AddVmapItemCommand(led,true,this),true);
     sendOffItem(led);
 }
 void VMap::setCurrentItemOpacity(qreal a)
@@ -889,7 +889,7 @@ void VMap::openFile(QDataStream& in)
             qreal x,y;
             in >> x;
             in >> y;
-            addNewItem(new AddVmapItemCommand(item,this),false);
+            addNewItem(new AddVmapItemCommand(item,false,this),false);
             item->setPos(x,y);
             item->initChildPointItem();
             if(nullptr!=charItem)
@@ -910,7 +910,7 @@ void VMap::addCharacter(Character* p, QPointF pos)
     {
         item->setZValue(m_zIndex);
         item->initChildPointItem();
-        addNewItem(new AddVmapItemCommand(item,this),true);
+        addNewItem(new AddVmapItemCommand(item,true,this),true);
         insertCharacterInMap(item);
         sendOffItem(item);
     }
@@ -1019,7 +1019,7 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
             item->readItem(msg);
             QPointF pos = item->pos();
             qreal z = item->zValue();
-            addNewItem(new AddVmapItemCommand(item,this),false,true);
+            addNewItem(new AddVmapItemCommand(item,false,this),false,true);
             item->initChildPointItem();
             if(nullptr!=charItem)
             {
@@ -1343,10 +1343,12 @@ void VMap::promoteItemInType(VisualItem* item, VisualItem::ItemType type)
     if(nullptr!=item)
     {
         VisualItem* bis = item->promoteTo(type);
+        if(bis == nullptr)
+            return;
+        //bis->setLayer(item->getLayer());
         removeItemFromScene(item->getId());
-        addNewItem(new AddVmapItemCommand(bis,this),true);
+        addNewItem(new AddVmapItemCommand(bis,false,this),true);
         bis->initChildPointItem();
-        //sendOffItem(bis);
     }
 }
 
@@ -1484,7 +1486,7 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
                     {
                         ImageItem* led = new ImageItem();
                         led->setImageUri(media->getUri());
-                        addNewItem(new AddVmapItemCommand(led,this),true);
+                        addNewItem(new AddVmapItemCommand(led,true,this),true);
                         led->setPos(event->scenePos());
                         sendOffItem(led);
                     }
@@ -1526,7 +1528,7 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
                 }
                 if(nullptr != item)
                 {
-                    addNewItem(new AddVmapItemCommand(item,this),true);
+                    addNewItem(new AddVmapItemCommand(item,true,this),true);
                     item->setPos(event->scenePos());
                     sendOffItem(item);
                 }
@@ -1559,7 +1561,8 @@ void VMap::duplicateItem(VisualItem* item)
     if(nullptr!=copy)
     {
         copy->initChildPointItem();
-        addNewItem(new AddVmapItemCommand(copy,this),true);
+        copy->setLayer(item->getLayer());
+        addNewItem(new AddVmapItemCommand(copy,false,this),true);
         copy->setPos(item->pos());
         clearSelection();
         item->clearFocus();
