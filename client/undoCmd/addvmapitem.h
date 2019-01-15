@@ -35,7 +35,7 @@ public:
                        quint16 penSize,
                        QUndoCommand *parent= nullptr);
 
-    AddVmapItemCommand(VisualItem* item,VMap* map,QUndoCommand *parent = nullptr);
+    AddVmapItemCommand(VisualItem* item, bool addMapLayer, VMap* map,QUndoCommand *parent = nullptr);
 
     void undo() override;
     void redo() override;
@@ -62,7 +62,7 @@ public:
 
 protected:
     bool isVisible();
-    void initItem();
+    void initItem(bool addMapLayer);
 private:
     VMap* m_vmap=nullptr;
     QPointF m_pos;
