@@ -26,12 +26,13 @@ SUBDIRS = \
     characterstatemodel \
     dicealiasmodel \
     genericmodel   \
+    charactersheetmodel      \
+
 
 
 #    dicebookmarkmodel   \
 #    unitmodel           \
 #    shortcutmodel       \
-#    charactermodel      \
 
 
     #    MainWindow  picture

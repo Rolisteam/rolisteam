@@ -20,12 +20,12 @@ HEADERS += $$ROLISTEAMSRC/data/character.h \
             $$ROLISTEAMSRC/data/person.h
 
 SOURCES += tst_fieldmodel.cpp \
-$$ROLISTEAMSRC/data/player.cpp \
+    $$ROLISTEAMSRC/data/player.cpp \
     $$ROLISTEAMSRC/data/resourcesnode.cpp\
-$$ROLISTEAMSRC/data/characterstate.cpp \
-$$ROLISTEAMSRC/network/networkmessagewriter.cpp \
-$$ROLISTEAMSRC/network/networkmessagereader.cpp \
-$$ROLISTEAMSRC/network/networkmessage.cpp \
+    $$ROLISTEAMSRC/data/characterstate.cpp \
+    $$ROLISTEAMSRC/network/networkmessagewriter.cpp \
+    $$ROLISTEAMSRC/network/networkmessagereader.cpp \
+    $$ROLISTEAMSRC/network/networkmessage.cpp \
     $$ROLISTEAMSRC/data/character.cpp \
     $$ROLISTEAMSRC/data/person.cpp
 
