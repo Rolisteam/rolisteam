@@ -184,7 +184,7 @@ void  VMapTest::saveAndLoad()
 
     QFETCH(int, id);
     auto item = getItemFromId(id);
-    AddVmapItemCommand cmd(item,m_vmap.get());
+    AddVmapItemCommand cmd(item,true,m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(itemCountAtStart != m_vmap->items().size());
@@ -273,7 +273,7 @@ void VMapTest::saveAndLoad_data()
 void VMapTest::addRect()
 {
     RectItem item;
-    AddVmapItemCommand cmd(&item,m_vmap.get());
+    AddVmapItemCommand cmd(&item,true,m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
@@ -290,7 +290,7 @@ void VMapTest::addRect()
 void VMapTest::addEllipse()
 {
     EllipsItem item;
-    AddVmapItemCommand cmd(&item,m_vmap.get());
+    AddVmapItemCommand cmd(&item,true,m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
@@ -307,7 +307,7 @@ void VMapTest::addEllipse()
 void VMapTest::addPath()
 {
     PathItem item;
-    AddVmapItemCommand cmd(&item,m_vmap.get());
+    AddVmapItemCommand cmd(&item,true,m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
@@ -324,7 +324,7 @@ void VMapTest::addPath()
 void VMapTest::addLine()
 {
     LineItem item;
-    AddVmapItemCommand cmd(&item,m_vmap.get());
+    AddVmapItemCommand cmd(&item,true,m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
@@ -341,7 +341,7 @@ void VMapTest::addLine()
 void VMapTest::addImage()
 {
     ImageItem item;
-    AddVmapItemCommand cmd(&item,m_vmap.get());
+    AddVmapItemCommand cmd(&item,true,m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
@@ -359,7 +359,7 @@ void VMapTest::addCharacter()
 {
     QSignalSpy spy(m_vmap.get(),&VMap::npcAdded);
     CharacterItem item;
-    AddVmapItemCommand cmd(&item,m_vmap.get());
+    AddVmapItemCommand cmd(&item,true,m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
@@ -377,7 +377,7 @@ void VMapTest::addCharacter()
 void VMapTest::addText()
 {
     TextItem item;
-    AddVmapItemCommand cmd(&item,m_vmap.get());
+    AddVmapItemCommand cmd(&item,true,m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
@@ -394,7 +394,7 @@ void VMapTest::addText()
 void VMapTest::addHighLighter()
 {
     HighlighterItem item;
-    AddVmapItemCommand cmd(&item,m_vmap.get());
+    AddVmapItemCommand cmd(&item,true,m_vmap.get());
     cmd.setUndoable(false);
     cmd.redo();
     QVERIFY(!cmd.isUndoable());
@@ -405,7 +405,7 @@ void VMapTest::addHighLighter()
 void VMapTest::addRule()
 {
     RuleItem item;
-    AddVmapItemCommand cmd(&item,m_vmap.get());
+    AddVmapItemCommand cmd(&item,true,m_vmap.get());
     cmd.setUndoable(false);
     cmd.redo();
     QVERIFY(!cmd.isUndoable());
@@ -426,14 +426,14 @@ void VMapTest::zOrderTest()
    m_vmap->setVisibilityMode(VMap::ALL);
 
 
-   AddVmapItemCommand cmd(item,m_vmap.get());
+   AddVmapItemCommand cmd(item,true,m_vmap.get());
    cmd.redo();
 
    QCOMPARE(m_vmap->getItemCount(), 1);
    QCOMPARE(m_vmap->getSortedItemCount(), 1);
    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
-   AddVmapItemCommand cmd1(item1,m_vmap.get());
+   AddVmapItemCommand cmd1(item1,true,m_vmap.get());
    cmd1.redo();
 
    QCOMPARE(m_vmap->getItemCount(), 2);
@@ -441,7 +441,7 @@ void VMapTest::zOrderTest()
    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
 
-   AddVmapItemCommand cmd2(item2,m_vmap.get());
+   AddVmapItemCommand cmd2(item2,true,m_vmap.get());
    cmd2.redo();
 
    QCOMPARE(m_vmap->getItemCount(), 3);
@@ -516,7 +516,7 @@ void VMapTest::testMovableItems()
     m_vmap->setPermissionMode(mode);
     m_vmap->setOption(VisualItem::LocalIsGM, isGM);
 
-    AddVmapItemCommand cmd(item,m_vmap.get());
+    AddVmapItemCommand cmd(item,true,m_vmap.get());
     cmd.redo();
 
     QCOMPARE(m_vmap->getItemCount(), 1);
