@@ -522,35 +522,38 @@ void Character::fill(NetworkMessageWriter & message,bool addAvatar)
     {
         message.uint8(static_cast<quint8>(false));
     }
-
 }
 QString Character::read(NetworkMessageReader& msg)
 {
     if(!msg.isValid())
         return {};
-    QString parentId = msg.string8();
-    m_uuid = msg.string8();
-    m_name = msg.string16();
-    int currentStateIndex = msg.int8();
-    if(currentStateIndex>=0)
+    QString parentId= msg.string8();
+    m_uuid= msg.string8();
+    m_name= msg.string16();
+    int currentStateIndex= msg.int8();
+    if(currentStateIndex >= 0)
     {
-        m_currentState = getStateFromIndex(currentStateIndex);
+        m_currentState= getStateFromIndex(currentStateIndex);
     }
-    m_isNpc = static_cast<bool>(msg.uint8());
-    m_number = msg.int32();
-    m_color = QColor(msg.rgb());
-    m_healthPointsCurrent = msg.int32();
-    m_healthPointsMin = msg.int32();
-    m_healthPointsMax = msg.int32();
-    m_initiativeScore = msg.int32();
-    m_distancePerTurn = msg.real();
+    m_isNpc= static_cast<bool>(msg.uint8());
+    m_number= msg.int32();
+    m_color= QColor(msg.rgb());
+    m_healthPointsCurrent= msg.int32();
+    m_healthPointsMin= msg.int32();
+    m_healthPointsMax= msg.int32();
+    m_initiativeScore= msg.int32();
+    m_distancePerTurn= msg.real();
 
-    bool hasAvatar = static_cast<bool>(msg.uint8());
+    bool hasAvatar= static_cast<bool>(msg.uint8());
 
     if(hasAvatar)
     {
-        m_avatar = QImage::fromData(msg.byteArray32());
-        emit avatarChanged();
+        auto avatar= QImage::fromData(msg.byteArray32());
+        if(m_avatar != avatar)
+        {
+            m_avatar= avatar;
+            emit avatarChanged();
+        }
     }
 
     return parentId;
