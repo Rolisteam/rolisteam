@@ -113,11 +113,11 @@ before_script:
   - qmake -v
   - qmake -r -Wall -Wlogic -Wparser CONFIG+=debug_and_release "$TRAVIS_BUILD_DIR"
   - popd
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then (sudo Xvfb :99 -ac -screen 0 1024x768x8 )& fi
-  - sleep 1
+#  - if [ $TRAVIS_OS_NAME = "osx" ]; then (sudo Xvfb :99 -ac -screen 0 1024x768x8 )& fi
+#  - sleep 1
 
 script:
-# - make -C "$TRAVIS_BUILD_DIR-build" -j2
+ - make -C "$TRAVIS_BUILD_DIR-build" -j2
 # - mkdir -p "$TRAVIS_BUILD_DIR-build2"
 # - pushd "$TRAVIS_BUILD_DIR-build2"
 # - lrelease "$TRAVIS_BUILD_DIR/rcse.pro"
