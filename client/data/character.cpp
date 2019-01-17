@@ -1,32 +1,32 @@
 /***************************************************************************
-    *   Copyright (C) 2015 by Renaud Guezennec                                *
-    *   http://www.rolisteam.org/contact                   *
-    *                                                                         *
-    *   rolisteam is free software; you can redistribute it and/or modify     *
-    *   it under the terms of the GNU General Public License as published by  *
-    *   the Free Software Foundation; either version 2 of the License, or     *
-    *   (at your option) any later version.                                   *
-    *                                                                         *
-    *   This program is distributed in the hope that it will be useful,       *
-    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-    *   GNU General Public License for more details.                          *
-    *                                                                         *
-    *   You should have received a copy of the GNU General Public License     *
-    *   along with this program; if not, write to the                         *
-    *   Free Software Foundation, Inc.,                                       *
-    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-    ***************************************************************************/
-#include <QColor>
-#include <QUuid>
-#include <QDebug>
-#include <QPixmap>
+ *   Copyright (C) 2015 by Renaud Guezennec                                *
+ *   http://www.rolisteam.org/contact                   *
+ *                                                                         *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 #include <QBuffer>
-#include <QJsonObject>
-#include <QJsonValue>
-#include <QJsonArray>
+#include <QColor>
+#include <QDebug>
 #include <QFileInfo>
 #include <QIcon>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QPixmap>
+#include <QUuid>
 
 #include "character.h"
 #include "data/player.h"
@@ -34,30 +34,20 @@
 #include "network/networkmessagewriter.h"
 
 //  Begin character field
-CharacterField::CharacterField()
-{
+CharacterField::CharacterField() {}
 
-}
+CharacterField::~CharacterField() {}
 
-CharacterField::~CharacterField()
-{
-
-}
-
-
-CharacterShape::CharacterShape()
-{
-
-}
+CharacterShape::CharacterShape() {}
 
 QString CharacterShape::name() const
 {
     return m_name;
 }
 
-void CharacterShape::setName(const QString &name)
+void CharacterShape::setName(const QString& name)
 {
-    m_name = name;
+    m_name= name;
 }
 
 QImage CharacterShape::image() const
@@ -65,9 +55,9 @@ QImage CharacterShape::image() const
     return m_image;
 }
 
-void CharacterShape::setImage(const QImage &image)
+void CharacterShape::setImage(const QImage& image)
 {
-    m_image = image;
+    m_image= image;
 }
 
 const QMovie& CharacterShape::movie() const
@@ -75,7 +65,7 @@ const QMovie& CharacterShape::movie() const
     return m_movie;
 }
 
-void CharacterShape::setMovie(const QMovie &movie)
+void CharacterShape::setMovie(const QMovie& movie)
 {
     m_movie.setFileName(movie.fileName());
 }
@@ -85,17 +75,17 @@ QString CharacterShape::uri() const
     return m_uri;
 }
 
-void CharacterShape::setUri(const QString &uri)
+void CharacterShape::setUri(const QString& uri)
 {
     if(m_uri == uri)
         return;
 
-    m_uri = uri;
+    m_uri= uri;
 
     if(QFileInfo::exists(m_uri))
-        m_image = QImage(m_uri);
+        m_image= QImage(m_uri);
     else
-        m_image = QImage();
+        m_image= QImage();
 }
 
 QVariant CharacterShape::getData(int col, int role)
@@ -113,43 +103,40 @@ QVariant CharacterShape::getData(int col, int role)
     }
     else if(Qt::DecorationRole == role && col == 0 && !m_image.isNull())
     {
-        return QPixmap::fromImage(m_image).scaled(64,64,Qt::KeepAspectRatio);
+        return QPixmap::fromImage(m_image).scaled(64, 64, Qt::KeepAspectRatio);
     }
     return QVariant();
 }
 
 bool CharacterShape::setData(int col, QVariant value, int role)
 {
-    bool set = false;
+    bool set= false;
     if(Qt::DisplayRole == role || Qt::EditRole == role)
     {
         if(col == 0)
         {
             setName(value.toString());
-            set = true;
+            set= true;
         }
         else if(col == 1)
         {
             setUri(value.toString());
-            set = true;
+            set= true;
         }
     }
     return set;
 }
 
-CharacterAction::CharacterAction()
-{
-
-}
+CharacterAction::CharacterAction() {}
 
 QString CharacterAction::name() const
 {
     return m_name;
 }
 
-void CharacterAction::setName(const QString &name)
+void CharacterAction::setName(const QString& name)
 {
-    m_name = name;
+    m_name= name;
 }
 
 QString CharacterAction::command() const
@@ -157,9 +144,9 @@ QString CharacterAction::command() const
     return m_command;
 }
 
-void CharacterAction::setCommand(const QString &command)
+void CharacterAction::setCommand(const QString& command)
 {
-    m_command = command;
+    m_command= command;
 }
 
 QVariant CharacterAction::getData(int col, int role)
@@ -180,36 +167,33 @@ QVariant CharacterAction::getData(int col, int role)
 
 bool CharacterAction::setData(int col, QVariant value, int role)
 {
-    bool set = false;
+    bool set= false;
     if(Qt::DisplayRole == role || Qt::EditRole == role)
     {
         if(col == 0)
         {
             setName(value.toString());
-            set = true;
+            set= true;
         }
         else if(col == 1)
         {
             setCommand(value.toString());
-            set = true;
+            set= true;
         }
     }
     return set;
 }
 
-CharacterProperty::CharacterProperty()
-{
-
-}
+CharacterProperty::CharacterProperty() {}
 
 QString CharacterProperty::name() const
 {
     return m_name;
 }
 
-void CharacterProperty::setName(const QString &name)
+void CharacterProperty::setName(const QString& name)
 {
-    m_name = name;
+    m_name= name;
 }
 
 QString CharacterProperty::value() const
@@ -217,9 +201,9 @@ QString CharacterProperty::value() const
     return m_value;
 }
 
-void CharacterProperty::setValue(const QString &value)
+void CharacterProperty::setValue(const QString& value)
 {
-    m_value = value;
+    m_value= value;
 }
 
 QVariant CharacterProperty::getData(int col, int role)
@@ -240,82 +224,78 @@ QVariant CharacterProperty::getData(int col, int role)
 
 bool CharacterProperty::setData(int col, QVariant value, int role)
 {
-    bool set = false;
+    bool set= false;
     if(Qt::DisplayRole == role || Qt::EditRole == role)
     {
         if(col == 0)
         {
             setName(value.toString());
-            set = true;
+            set= true;
         }
         else if(col == 1)
         {
             setValue(value.toString());
-            set = true;
+            set= true;
         }
     }
     return set;
 }
 
-//end character field
+// end character field
 
-QList<CharacterState*>* Character::m_stateList = nullptr;
+QList<CharacterState*>* Character::m_stateList= nullptr;
 
-Character::Character()
-    :Person(), m_currentState(nullptr),m_sheet(nullptr)
+Character::Character() : Person(), m_currentState(nullptr), m_sheet(nullptr)
 {
-	init();
+    init();
 }
 
-Character::Character(const QString & nom, const QColor & color,bool npc,int number)
-    : Person(nom, color), m_isNpc(npc),m_number(number),m_currentState(nullptr),m_sheet(nullptr)
+Character::Character(const QString& nom, const QColor& color, bool npc, int number)
+    : Person(nom, color), m_isNpc(npc), m_number(number), m_currentState(nullptr), m_sheet(nullptr)
 {
-	init();
+    init();
 }
 
-Character::Character(const QString & uuid, const QString & nom, const QColor & color,bool npc,int number)
-    : Person(uuid, nom, color),m_isNpc(npc),m_number(number),m_currentState(nullptr),m_sheet(nullptr)
+Character::Character(const QString& uuid, const QString& nom, const QColor& color, bool npc, int number)
+    : Person(uuid, nom, color), m_isNpc(npc), m_number(number), m_currentState(nullptr), m_sheet(nullptr)
 {
-	init();
+    init();
 }
 
-Character::Character(NetworkMessageReader & data)
-    : Person(), m_currentState(nullptr),m_sheet(nullptr)
+Character::Character(NetworkMessageReader& data) : Person(), m_currentState(nullptr), m_sheet(nullptr)
 {
     read(data);
 
     init();
 }
 
-Character::~Character()
-{
-}
+Character::~Character() {}
 void Character::init()
 {
-	if((nullptr != m_stateList)&&(nullptr == m_currentState)&&(!m_stateList->isEmpty()))
-	{
-		m_currentState = m_stateList->first();
-	}
+    if((nullptr != m_stateList) && (nullptr == m_currentState) && (!m_stateList->isEmpty()))
+    {
+        m_currentState= m_stateList->first();
+    }
 }
 
-QList<CharacterShape *> Character::getShapeList() const
+QList<CharacterShape*> Character::getShapeList() const
 {
     return m_shapeList;
 }
 
-QList<CharacterAction *> Character::getActionList() const
+QList<CharacterAction*> Character::getActionList() const
 {
     return m_actionList;
 }
 
-RolisteamImageProvider *Character::getImageProvider() const
+RolisteamImageProvider* Character::getImageProvider() const
 {
     return m_imageProvider;
 }
 
-void Character::setImageProvider(RolisteamImageProvider *imageProvider)
+void Character::setImageProvider(RolisteamImageProvider* imageProvider)
 {
-    m_imageProvider = imageProvider;
+    m_imageProvider= imageProvider;
 }
 
 qreal Character::getDistancePerTurn() const
@@ -323,11 +303,11 @@ qreal Character::getDistancePerTurn() const
     return m_distancePerTurn;
 }
 
-void Character::setDistancePerTurn(const qreal &distancePerTurn)
+void Character::setDistancePerTurn(const qreal& distancePerTurn)
 {
     if(qFuzzyCompare(m_distancePerTurn, distancePerTurn))
         return;
-    m_distancePerTurn = distancePerTurn;
+    m_distancePerTurn= distancePerTurn;
     emit distancePerTurnChanged();
 }
 
@@ -340,8 +320,8 @@ void Character::setInitiativeScore(int intiativeScore)
 {
     if(m_initiativeScore == intiativeScore)
         return;
-    m_hasInitScore = true;
-    m_initiativeScore = intiativeScore;
+    m_hasInitScore= true;
+    m_initiativeScore= intiativeScore;
     emit initiativeChanged();
 }
 
@@ -350,38 +330,38 @@ QString Character::getAvatarPath() const
     return m_avatarPath;
 }
 
-void Character::setAvatarPath(const QString &avatarPath)
+void Character::setAvatarPath(const QString& avatarPath)
 {
     if(m_avatarPath == avatarPath)
         return;
 
-    m_avatarPath = avatarPath;
+    m_avatarPath= avatarPath;
     emit avatarPathChanged();
 }
 
 void Character::setCurrentState(QString name, QColor color, QString image)
 {
-    CharacterState* tmpState=nullptr;
-    for(auto& state: *m_stateList)
+    CharacterState* tmpState= nullptr;
+    for(auto& state : *m_stateList)
     {
-        if(state->getLabel() == name && color == state->getColor() )
+        if(state->getLabel() == name && color == state->getColor())
         {
-            tmpState = state;
+            tmpState= state;
         }
     }
 
     if(tmpState == nullptr)
     {
-        tmpState = new CharacterState();
+        tmpState= new CharacterState();
         tmpState->setLabel(name);
         tmpState->setColor(color);
         QPixmap pix(image);
         if(!pix.isNull())
-          tmpState->setImage(pix);
+            tmpState->setImage(pix);
         m_stateList->append(tmpState);
     }
 
-    //m_currentState = tmpState;
+    // m_currentState = tmpState;
     setState(tmpState);
 }
 
@@ -394,7 +374,7 @@ void Character::setHealthPointsCurrent(int hpCurrent)
 {
     if(hpCurrent == m_healthPointsCurrent)
         return;
-    m_healthPointsCurrent = qBound(m_healthPointsMin, hpCurrent, m_healthPointsMax);
+    m_healthPointsCurrent= qBound(m_healthPointsMin, hpCurrent, m_healthPointsMax);
     emit currentHealthPointsChanged();
 }
 
@@ -407,7 +387,7 @@ void Character::setHealthPointsMin(int hpMin)
 {
     if(hpMin == m_healthPointsMin)
         return;
-    m_healthPointsMin = hpMin;
+    m_healthPointsMin= hpMin;
     emit minHPChanged();
 }
 
@@ -420,13 +400,13 @@ void Character::setHealthPointsMax(int hpMax)
 {
     if(hpMax == m_healthPointsMax)
         return;
-    m_healthPointsMax = hpMax;
+    m_healthPointsMax= hpMax;
     emit maxHPChanged();
 }
 
 QString Character::getParentId() const
 {
-    if(nullptr!=m_parent)
+    if(nullptr != m_parent)
     {
         return m_parentPerson->getUuid();
     }
@@ -435,36 +415,36 @@ QString Character::getParentId() const
 
 QHash<QString, QString> Character::getVariableDictionnary()
 {
-    QHash<QString,QString> variables;
-    if(nullptr!=m_sheet)
+    QHash<QString, QString> variables;
+    if(nullptr != m_sheet)
     {
-        #ifndef UNIT_TEST
-        variables = m_sheet->getVariableDictionnary();
-        #endif
+#ifndef UNIT_TEST
+        variables= m_sheet->getVariableDictionnary();
+#endif
     }
     else if(!m_propertyList.isEmpty())
     {
         for(auto& property : m_propertyList)
         {
             if(property != nullptr)
-                variables.insert(property->name(),property->value());
+                variables.insert(property->name(), property->value());
         }
     }
     return variables;
 }
 
-CharacterSheet *Character::getSheet() const
+CharacterSheet* Character::getSheet() const
 {
     return m_sheet;
 }
 
-void Character::setSheet(CharacterSheet *sheet)
+void Character::setSheet(CharacterSheet* sheet)
 {
-    m_sheet = sheet;
+    m_sheet= sheet;
 }
 void Character::setListOfCharacterState(QList<CharacterState*>* list)
 {
-    m_stateList = list;
+    m_stateList= list;
 }
 int Character::indexOfState(CharacterState* state)
 {
@@ -480,7 +460,7 @@ int Character::indexOfState(CharacterState* state)
 
 CharacterState* Character::getStateFromLabel(QString label)
 {
-    for(auto& state: *m_stateList)
+    for(auto& state : *m_stateList)
     {
         if(state->getLabel() == label)
         {
@@ -490,7 +470,7 @@ CharacterState* Character::getStateFromLabel(QString label)
     return nullptr;
 }
 
-void Character::fill(NetworkMessageWriter & message,bool addAvatar)
+void Character::fill(NetworkMessageWriter& message, bool addAvatar)
 {
     message.string8(nullptr != m_parentPerson ? m_parentPerson->getUuid() : QStringLiteral("nullptr"));
     message.string8(m_uuid);
@@ -561,11 +541,11 @@ QString Character::read(NetworkMessageReader& msg)
 CharacterState* Character::getStateFromIndex(int i)
 {
     if(nullptr == m_stateList)
-       return nullptr;
+        return nullptr;
 
     if(m_stateList->empty())
         return nullptr;
-    if(m_stateList->size()>i)
+    if(m_stateList->size() > i)
     {
         return m_stateList->at(i);
     }
@@ -584,7 +564,7 @@ int Character::number() const
 
 void Character::setNumber(int n)
 {
-    m_number = n;
+    m_number= n;
 }
 QColor Character::getLifeColor() const
 {
@@ -595,11 +575,11 @@ void Character::setLifeColor(QColor color)
     if(m_lifeColor == color)
         return;
 
-    m_lifeColor = color;
+    m_lifeColor= color;
     emit lifeColorChanged();
 }
 
-void Character::setInitCommand(const QString &init)
+void Character::setInitCommand(const QString& init)
 {
     if(m_initiativeRoll.command() == init)
         return;
@@ -621,24 +601,25 @@ QString Character::getToolTip() const
                        "type: %7\n"));
     QString stateName(tr("Not defined"));
     if(m_currentState)
-        stateName = m_currentState->getLabel();
+        stateName= m_currentState->getLabel();
 
-    return tooltip.arg(m_name).arg(m_healthPointsCurrent)
-            .arg(m_healthPointsMax)
-            .arg(stateName)
-            .arg(m_initiativeScore)
-            .arg(m_distancePerTurn)
-            .arg(m_isNpc ? tr("NPC") : tr("PC"));
+    return tooltip.arg(m_name)
+        .arg(m_healthPointsCurrent)
+        .arg(m_healthPointsMax)
+        .arg(stateName)
+        .arg(m_initiativeScore)
+        .arg(m_distancePerTurn)
+        .arg(m_isNpc ? tr("NPC") : tr("PC"));
 }
 bool Character::isNpc() const
 {
     return m_isNpc;
 }
-void  Character::setState(CharacterState*  h)
+void Character::setState(CharacterState* h)
 {
     if(h == m_currentState)
         return;
-    m_currentState = h;
+    m_currentState= h;
     emit stateChanged();
 }
 
@@ -649,7 +630,7 @@ bool Character::hasInitScore()
 
 void Character::clearInitScore()
 {
-    m_hasInitScore = false;
+    m_hasInitScore= false;
 }
 CharacterState* Character::getState() const
 {
@@ -659,7 +640,7 @@ void Character::writeData(QDataStream& out) const
 {
     out << m_uuid;
     out << m_name;
-    if(nullptr!=m_currentState)
+    if(nullptr != m_currentState)
     {
         out << true;
         out << m_currentState->getLabel();
@@ -687,7 +668,7 @@ void Character::readData(QDataStream& in)
     }
     else
     {
-        m_currentState = nullptr;
+        m_currentState= nullptr;
     }
     in >> m_isNpc;
     in >> m_number;
@@ -696,14 +677,14 @@ void Character::readData(QDataStream& in)
 }
 QList<CharacterState*>* Character::getCharacterStateList()
 {
-	return m_stateList;
+    return m_stateList;
 }
 void Character::setNpc(bool b)
 {
     if(m_isNpc == b)
         return;
 
-    m_isNpc = b;
+    m_isNpc= b;
     emit npcChanged();
 }
 void Character::write(QDataStream& out, bool tag, bool) const
@@ -727,9 +708,8 @@ void Character::write(QDataStream& out, bool tag, bool) const
     QByteArray array;
     QBuffer buffer(&array);
     buffer.open(QIODevice::WriteOnly);
-    m_avatar.save(&buffer,"PNG");
+    m_avatar.save(&buffer, "PNG");
     out << array;
-
 }
 void Character::read(QDataStream& in)
 {
@@ -742,76 +722,73 @@ void Character::read(QDataStream& in)
     in >> parentId;
     int checkState;
     in >> checkState;
-    m_checkState = static_cast<Qt::CheckState>(checkState);
+    m_checkState= static_cast<Qt::CheckState>(checkState);
     QByteArray array;
     in >> array;
-    m_avatar = QImage::fromData(array);
-
+    m_avatar= QImage::fromData(array);
 }
 
 void Character::setCurrentShape(int index)
 {
-    if(qBound(0,index, m_shapeList.size()) != index)
+    if(qBound(0, index, m_shapeList.size()) != index)
         return;
 
-    auto shape = m_shapeList[index];
-    m_avatar = shape->image();
+    auto shape= m_shapeList[index];
+    m_avatar= shape->image();
     emit avatarChanged();
 }
 
 void Character::setDefaultShape()
 {
-    m_avatar = m_defaultAvatar;
+    m_avatar= m_defaultAvatar;
     emit avatarChanged();
 }
 void Character::readTokenObj(const QJsonObject& obj)
 {
-    m_isNpc = true;
-    m_name = obj["name"].toString();
+    m_isNpc= true;
+    m_name= obj["name"].toString();
     m_color.setNamedColor(obj["color"].toString());
-    m_healthPointsMax = obj["lifeMax"].toInt();
-    m_healthPointsMin = obj["lifeMin"].toInt();
-    m_healthPointsCurrent = obj["lifeCurrent"].toInt();
-    m_initiativeScore = obj["initValue"].toInt();
+    m_healthPointsMax= obj["lifeMax"].toInt();
+    m_healthPointsMin= obj["lifeMin"].toInt();
+    m_healthPointsCurrent= obj["lifeCurrent"].toInt();
+    m_initiativeScore= obj["initValue"].toInt();
     m_initiativeRoll.setName(tr("Initiative"));
     m_initiativeRoll.setCommand(obj["initCommand"].toString());
-    m_avatarPath = obj["avatarUri"].toString();
-    auto array = QByteArray::fromBase64(obj["avatarImg"].toString().toUtf8());
-    m_avatar = QImage::fromData(array);
-    m_defaultAvatar = m_avatar;
+    m_avatarPath= obj["avatarUri"].toString();
+    auto array= QByteArray::fromBase64(obj["avatarImg"].toString().toUtf8());
+    m_avatar= QImage::fromData(array);
+    m_defaultAvatar= m_avatar;
 
-    auto actionArray = obj["actions"].toArray();
+    auto actionArray= obj["actions"].toArray();
     for(auto act : actionArray)
     {
-        auto actObj = act.toObject();
-        auto action = new CharacterAction();
+        auto actObj= act.toObject();
+        auto action= new CharacterAction();
         action->setName(actObj["name"].toString());
         action->setCommand(actObj["command"].toString());
         m_actionList.append(action);
     }
 
-    auto propertyArray = obj["properties"].toArray();
+    auto propertyArray= obj["properties"].toArray();
     for(auto pro : propertyArray)
     {
-        auto proObj = pro.toObject();
-        auto property = new CharacterProperty();
+        auto proObj= pro.toObject();
+        auto property= new CharacterProperty();
         property->setName(proObj["name"].toString());
         property->setValue(proObj["value"].toString());
         m_propertyList.append(property);
     }
 
-    auto shapeArray = obj["shapes"].toArray();
+    auto shapeArray= obj["shapes"].toArray();
     for(auto sha : shapeArray)
     {
-        auto objSha = sha.toObject();
-        auto shape = new CharacterShape();
+        auto objSha= sha.toObject();
+        auto shape= new CharacterShape();
         shape->setName(objSha["name"].toString());
         shape->setUri(objSha["uri"].toString());
-        auto avatarData = QByteArray::fromBase64(objSha["dataImg"].toString().toUtf8());
-        QImage img = QImage::fromData(avatarData);
+        auto avatarData= QByteArray::fromBase64(objSha["dataImg"].toString().toUtf8());
+        QImage img= QImage::fromData(avatarData);
         shape->setImage(img);
         m_shapeList.append(shape);
     }
-
 }
-
