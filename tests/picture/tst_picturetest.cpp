@@ -19,11 +19,11 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
-#include <image.h>
-#include <cleveruri.h>
-#include <memory>
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#include <cleveruri.h>
+#include <image.h>
+#include <memory>
 
 class PictureTest : public QObject
 {
@@ -37,26 +37,23 @@ private slots:
     void cleanupTestCase();
     void testGetSet();
     void writeAndReadNetworkTest();
+
 private:
     std::unique_ptr<Image> m_image;
 };
 
-PictureTest::PictureTest()
-{
-}
+PictureTest::PictureTest() {}
 
 void PictureTest::init()
 {
     m_image.reset(new Image());
 }
 
-void PictureTest::cleanupTestCase()
-{
-}
+void PictureTest::cleanupTestCase() {}
 
 void PictureTest::testGetSet()
 {
-    CleverURI uri("girafe",":/assets/img/girafe.jpg",CleverURI::PICTURE);
+    CleverURI uri("girafe", ":/assets/img/girafe.jpg", CleverURI::PICTURE);
     m_image->setCleverUri(&uri);
     QVERIFY2(*m_image->getCleverUri() == uri, "not the same image");
 
@@ -66,15 +63,15 @@ void PictureTest::testGetSet()
 }
 void PictureTest::writeAndReadNetworkTest()
 {
-    for(int i = 0 ; i < 1000 ; ++i)
+    for(int i= 0; i < 1000; ++i)
     {
-        CleverURI uri("girafe",":/assets/img/girafe.jpg",CleverURI::PICTURE);
+        CleverURI uri("girafe", ":/assets/img/girafe.jpg", CleverURI::PICTURE);
         m_image->setCleverUri(&uri);
-        NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::addMedia);
+        NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
 
         m_image->fill(msg);
 
-        const QByteArray& array = msg.getData();
+        const QByteArray& array= msg.getData();
 
         NetworkMessageReader msg2;
         msg2.setData(array);
@@ -82,20 +79,30 @@ void PictureTest::writeAndReadNetworkTest()
         Image image2;
         image2.setCleverUriType(CleverURI::PICTURE);
         image2.readMessage(msg2);
-        msg2.reset();
+        msg2.resetToData();
         msg.reset();
 
-        //QCOMPARE( msg2.getSize() , msg.getSize() );
+        auto name= msg2.string16();
+        QCOMPARE(name, "girafe");
+
+        msg2.resetToData();
+        name= msg2.string16();
+        QCOMPARE(name, "girafe");
+
+        auto mediaId= msg2.string8();
+        auto idPlayer= msg2.string8();
+
+        // QCOMPARE( msg2.getSize() , msg.getSize() );
         if(m_image->getUriName() != image2.getUriName())
         {
             qDebug() << "not equal" << i;
         }
 
-        QCOMPARE( m_image->getUriName(), image2.getUriName());
-        QCOMPARE( m_image->getMediaId(), image2.getMediaId());
+        QCOMPARE(m_image->getUriName(), "girafe");
+        QCOMPARE(image2.getUriName(), "girafe");
+        QCOMPARE(m_image->getMediaId(), image2.getMediaId());
     }
 }
-
 
 QTEST_MAIN(PictureTest);
 
