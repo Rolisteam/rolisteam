@@ -83,6 +83,8 @@ void PictureTest::writeAndReadNetworkTest()
         msg.reset();
 
         auto name= msg2.string16();
+        if(name != "girafe")
+            qDebug() << i << name;
         QCOMPARE(name, "girafe");
 
         msg2.resetToData();
