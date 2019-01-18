@@ -12,14 +12,14 @@ compiler:
 
 
 env:
-  - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+  - QT=512 BREW=@ex PPA=beineri/opt-qt-5.12.0-xenial
 
 matrix:
   # Qt no longer supports GCC on OSX.
   allow_failures:
     - { os: osx, compiler: gcc, env: QT=5  BREW= }
   exclude:
-    - { os: osx, env: QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty }
+    - { os: osx, env: QT=512 BREW=@ex PPA=beineri/opt-qt-5.12.0-xenial }
   include:
     # works on Precise and Trusty
     - os: linux
@@ -31,7 +31,7 @@ matrix:
             - g++-4.9
       env:
          - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
-         - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+         - QT=512 BREW=@ex PPA=beineri/opt-qt-5.12.0-xenial
 
     # works on Precise and Trusty
     - os: linux
@@ -43,7 +43,7 @@ matrix:
             - g++-5
       env:
          - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
-         - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+         - QT=512 BREW=@ex PPA=beineri/opt-qt-5.12.0-xenial
 
     # works on Precise and Trusty
     - os: linux
@@ -55,7 +55,7 @@ matrix:
             - g++-6
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
-        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+        - QT=512 BREW=@ex PPA=beineri/opt-qt-5.12.0-xenial
 
     # works on Precise and Trusty
     - os: linux
@@ -67,24 +67,24 @@ matrix:
             - g++-7
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+        - QT=512 BREW=@ex PPA=beineri/opt-qt-5.12.0-xenial
     - os: osx
       osx_image: xcode10
       env:
         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
-        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+        - QT=512 BREW=@ex PPA=beineri/opt-qt-5.12.0-xenial
 
     - os: osx
       osx_image: xcode10
       env:
         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
-        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+        - QT=512 BREW=@ex PPA=beineri/opt-qt-5.12.0-xenial
 
     - os: osx
       osx_image: xcode10
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
-        - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
+        - QT=512 BREW=@ex PPA=beineri/opt-qt-5.12.0-xenial
 
 
 before_install:
