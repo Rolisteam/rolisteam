@@ -54,8 +54,11 @@ QVariant ImageModel::data(const QModelIndex& index, int role) const
             var= QVariant::fromValue(m_filename.at(index.row()));
             break;
         case Background:
-            var= QVariant::fromValue(m_background.at(static_cast<size_t>(index.row())));
-            break;
+        {
+            bool value= m_background.at(static_cast<size_t>(index.row()));
+            var= QVariant::fromValue(value);
+        }
+        break;
         }
     }
     else if(Qt::EditRole == role)
@@ -69,8 +72,11 @@ QVariant ImageModel::data(const QModelIndex& index, int role) const
             var= QVariant::fromValue(m_filename.at(index.row()));
             break;
         case Background:
-            var= QVariant::fromValue(m_background.at(static_cast<size_t>(index.row())));
-            break;
+        {
+            bool value= m_background.at(static_cast<size_t>(index.row()));
+            var= QVariant::fromValue(value);
+        }
+        break;
         }
     }
     else if(Qt::ToolTipRole == role)
