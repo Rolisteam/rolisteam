@@ -1,27 +1,27 @@
 /***************************************************************************
-    *	 Copyright (C) 2009 by Renaud Guezennec                                *
-    *   http://www.rolisteam.org/contact                   *
-    *                                                                         *
-    *   This program is free software; you can redistribute it and/or modify  *
-    *   it under the terms of the GNU General Public License as published by  *
-    *   the Free Software Foundation; either version 2 of the License, or     *
-    *   (at your option) any later version.                                   *
-    *                                                                         *
-    *   This program is distributed in the hope that it will be useful,       *
-    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-    *   GNU General Public License for more details.                          *
-    *                                                                         *
-    *   You should have received a copy of the GNU General Public License     *
-    *   along with this program; if not, write to the                         *
-    *   Free Software Foundation, Inc.,                                       *
-    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-    ***************************************************************************/
+ *	 Copyright (C) 2009 by Renaud Guezennec                                *
+ *   http://www.rolisteam.org/contact                   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
 #ifndef CHARACTERSHEET_H
 #define CHARACTERSHEET_H
-#include <QString>
 #include <QMap>
+#include <QString>
 #include <QVariant>
 
 #include "field.h"
@@ -34,24 +34,24 @@ class Section;
 #include "charactersheetitem.h"
 
 /**
-    * @brief the characterSheet stores Section as many as necessary
-    */
+ * @brief the characterSheet stores Section as many as necessary
+ */
 class CharacterSheet : public QObject
 {
     Q_OBJECT
 
-    //Q_PROPERTY(QString values NOTIFY valuesChanged)
+    // Q_PROPERTY(QString values NOTIFY valuesChanged)
 public:
-    
     /**
-    * Constructor
-    */
+     * Constructor
+     */
     CharacterSheet();
     ~CharacterSheet();
     /**
-    * @brief allows to get the key, this function is used for displaying the meaning of fields
-    * @param int index : 0 refers to the title of the section, 1 refers to key of the first data of the first section...
-    */
+     * @brief allows to get the key, this function is used for displaying the meaning of fields
+     * @param int index : 0 refers to the title of the section, 1 refers to key of the first data of the first
+     * section...
+     */
     const QString getkey(int index);
     /**
      * @brief save
@@ -64,10 +64,10 @@ public:
      */
     virtual void load(QJsonObject& json);
 
-    #ifndef RCSE
-    void fill(NetworkMessageWriter & message);
-    void read(NetworkMessageReader &msg);
-    #endif
+#ifndef RCSE
+    void fill(NetworkMessageWriter& message);
+    void read(NetworkMessageReader& msg);
+#endif
     /**
      * @brief getTitle
      * @return
@@ -90,7 +90,7 @@ public:
      * @param key
      * @return
      */
-    CharacterSheetItem *getFieldFromKey(QString key) const;
+    CharacterSheetItem* getFieldFromKey(QString key) const;
 
     /**
      * @brief getRootSection
@@ -112,7 +112,7 @@ public:
      * @brief setName
      * @param name
      */
-    void setName(const QString &name);
+    void setName(const QString& name);
     /**
      * @brief getVariableDictionnary
      * @return
@@ -122,42 +122,45 @@ public:
     void insertCharacterItem(CharacterSheetItem* item);
 
     QString getUuid() const;
-    void setUuid(const QString &uuid);
+    void setUuid(const QString& uuid);
 
-    void setFieldData(QJsonObject& obj, const QString &parent);
+    void setFieldData(QJsonObject& obj, const QString& parent);
     void setOrigin(Section*);
 
     QList<QString> getAllDependancy(QString key);
-    CharacterSheetItem *getFieldFromIndex(const std::vector<int> &row) const;
+    CharacterSheetItem* getFieldFromIndex(const std::vector<int>& row) const;
     /**
-    * @brief global getter of data.  This function has been written to make easier the MVC architecture.
-    * @param QString path : 0 refers to the title of the first section, 1 refers to the first data of the first section....
-    */
-    const QVariant getValueByIndex(const std::vector<int> &row, QString key, Qt::ItemDataRole role = Qt::DisplayRole) const;
-    const QVariant getValue(QString path, Qt::ItemDataRole role = Qt::DisplayRole) const;
+     * @brief global getter of data.  This function has been written to make easier the MVC architecture.
+     * @param QString path : 0 refers to the title of the first section, 1 refers to the first data of the first
+     * section....
+     */
+    const QVariant getValueByIndex(
+        const std::vector<int>& row, QString key, Qt::ItemDataRole role= Qt::DisplayRole) const;
+    const QVariant getValue(QString path, Qt::ItemDataRole role= Qt::DisplayRole) const;
+
+    bool removeField(const QString& path);
 public slots:
-    CharacterSheetItem* setValue(QString key , QString value, QString formula);
+    CharacterSheetItem* setValue(QString key, QString value, QString formula);
 
 signals:
-    void updateField(CharacterSheet*,CharacterSheetItem*,const QString& path);
-    void addLineToTableField(CharacterSheet*, CharacterSheetItem* );
+    void updateField(CharacterSheet*, CharacterSheetItem*, const QString& path);
+    void addLineToTableField(CharacterSheet*, CharacterSheetItem*);
 
 protected:
-    void insertField(QString key, CharacterSheetItem *itemSheet);
+    void insertField(QString key, CharacterSheetItem* itemSheet);
+
 private:
     QStringList explosePath(QString);
 
-
 private:
-    QMap<QString,CharacterSheetItem*> m_valuesMap;
+    QMap<QString, CharacterSheetItem*> m_valuesMap;
     /**
-    *@brief User Id of the owner
-    */
+     *@brief User Id of the owner
+     */
     QString m_name;
     static int m_count;
     Section* m_rootSection;
     QString m_uuid;
-
 };
 
 #endif // CHARACTERSHEET_H
