@@ -18,12 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtCore/QString>
 #include <QColor>
-#include <QtTest/QtTest>
 #include <QtCore/QCoreApplication>
-#include <data/player.h>
+#include <QtCore/QString>
+#include <QtTest/QtTest>
 #include <data/character.h>
+#include <data/player.h>
 
 #define COUNT_TURN 2000
 
@@ -39,17 +39,16 @@ private Q_SLOTS:
     void cleanupTestCase();
     void testGetSet();
     void testChildrenAddAndRemove();
+
 private:
     Player* m_player;
 };
 
-DataplayerTest::DataplayerTest()
-{
-}
+DataplayerTest::DataplayerTest() {}
 
 void DataplayerTest::initTestCase()
 {
-    m_player = new Player();
+    m_player= new Player();
 }
 
 void DataplayerTest::cleanupTestCase()
@@ -61,30 +60,29 @@ void DataplayerTest::testGetSet()
 {
     QColor tmpcolor(Qt::green);
     m_player->setColor(tmpcolor);
-    QVERIFY2(m_player->getColor()==tmpcolor, "Colors are not the same! Failure");
+    QVERIFY2(m_player->getColor() == tmpcolor, "Colors are not the same! Failure");
 
     QString tmpname("nametest");
     m_player->setName(tmpname);
-    QVERIFY2(m_player->name()==tmpname, "Names are different! Failure");
+    QVERIFY2(m_player->name() == tmpname, "Names are different! Failure");
 }
 void DataplayerTest::testChildrenAddAndRemove()
 {
-        QVERIFY2(m_player->isLeaf()==false, "It has children! Failure");
-        QList<Character*> list;
-        m_player->clearCharacterList();
-        for(int i = 0; i<COUNT_TURN; i++)
-        {
-            Character* tmp = new Character("Unknown",Qt::blue,"/fake/path/");
-            list.append(tmp);
-            m_player->addCharacter(tmp);
-            QVERIFY2(m_player->getChildrenCount()==list.size(), "The children count is not as expected! Failure");
-        }
+    QVERIFY2(m_player->isLeaf() == false, "It has children! Failure");
+    QList<Character*> list;
+    m_player->clearCharacterList();
+    for(int i= 0; i < COUNT_TURN; i++)
+    {
+        Character* tmp= new Character("Unknown", Qt::blue, "/fake/path/");
+        list.append(tmp);
+        m_player->addCharacter(tmp);
+        QVERIFY2(m_player->getChildrenCount() == list.size(), "The children count is not as expected! Failure");
+    }
 
-        m_player->removeChild(list.at(0));
-        QVERIFY2(m_player->getChildrenCount()==(list.size()-1), "The children count is not as expected! Failure");
-        m_player->clearCharacterList();
-        QVERIFY2(m_player->getChildrenCount()==0, "The children count is not as expected! 0 Failure");
-
+    m_player->removeChild(list.at(0));
+    QVERIFY2(m_player->getChildrenCount() == (list.size() - 1), "The children count is not as expected! Failure");
+    m_player->clearCharacterList();
+    QVERIFY2(m_player->getChildrenCount() == 0, "The children count is not as expected! 0 Failure");
 }
 
 QTEST_MAIN(DataplayerTest);

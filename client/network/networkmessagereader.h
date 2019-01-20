@@ -18,12 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef DATA_READER_H
 #define DATA_READER_H
 
-#include <QString>
 #include "network/networkmessage.h"
+#include <QString>
 /**
  * @brief The NetworkMessageReader class
  */
@@ -31,8 +30,8 @@ class NetworkMessageReader : public NetworkMessage
 {
 public:
     NetworkMessageReader();
-    NetworkMessageReader(const NetworkMessageHeader & header, const char * buffer);
-    NetworkMessageReader(const NetworkMessageReader & other);
+    NetworkMessageReader(const NetworkMessageHeader& header, const char* buffer);
+    NetworkMessageReader(const NetworkMessageReader& other);
     virtual ~NetworkMessageReader();
 
     bool isValid();
@@ -42,11 +41,11 @@ public:
 
     void reset();
 
-    void setData(const QByteArray &bytes);
+    void setData(const QByteArray& bytes);
 
     size_t left() const;
 
-    quint8  uint8();
+    quint8 uint8();
     quint16 uint16();
     quint32 uint32();
     quint64 uint64();
@@ -59,8 +58,8 @@ public:
 
     QString string(quint64 size);
     unsigned int rgb();
-    qreal  real();
-    qint8  int8();
+    qreal real();
+    qint8 int8();
     qint16 int16();
     qint32 int32();
     qint64 int64();
@@ -80,17 +79,18 @@ public:
 
     virtual QStringList getRecipientList() const;
 
+    void setInternalData(const QByteArray& bytes);
+
 protected:
-    NetworkMessageHeader * buffer();
+    NetworkMessageHeader* buffer();
     bool isSizeReadable(size_t size);
 
-
 private:
-    NetworkMessageHeader * m_header =nullptr;
-    bool m_outMemory = false;
-    char* m_buffer =nullptr;
-    const char * m_pos =nullptr;
-    const char * m_end =nullptr;
+    NetworkMessageHeader* m_header= nullptr;
+    bool m_outMemory= false;
+    char* m_buffer= nullptr;
+    const char* m_pos= nullptr;
+    const char* m_end= nullptr;
     RecipientMode m_mode;
     QStringList m_recipientList;
 };

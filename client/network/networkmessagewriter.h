@@ -18,12 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef NETWORK_MESSAGE_WRITER_H
 #define NETWORK_MESSAGE_WRITER_H
 
-#include <QString>
 #include "network/networkmessage.h"
+#include <QString>
 
 /**
  * @brief The NetworkMessageWriter class
@@ -31,7 +30,8 @@
 class NetworkMessageWriter : public NetworkMessage
 {
 public:
-    NetworkMessageWriter(NetMsg::Category categorie, NetMsg::Action action,NetworkMessage::RecipientMode mode = NetworkMessage::All, int size = 128);
+    NetworkMessageWriter(NetMsg::Category categorie, NetMsg::Action action,
+        NetworkMessage::RecipientMode mode= NetworkMessage::All, int size= 128);
     virtual ~NetworkMessageWriter();
 
     NetMsg::Category category() const;
@@ -44,11 +44,11 @@ public:
     void uint32(quint32 data);
     void uint64(quint64 data);
 
-    void string8(const QString & data);
-    void string16(const QString & data);
-    void string32(const QString & data);
+    void string8(const QString& data);
+    void string16(const QString& data);
+    void string32(const QString& data);
 
-    void byteArray32(const QByteArray & data);
+    void byteArray32(const QByteArray& data);
 
     void rgb(unsigned int color);
 
@@ -66,7 +66,7 @@ public:
      * @brief getRecipientList
      * @return
      */
-    void setRecipientList(QStringList,NetworkMessage::RecipientMode mode);
+    void setRecipientList(QStringList, NetworkMessage::RecipientMode mode);
     virtual QStringList getRecipientList() const;
     NetworkMessage::RecipientMode getRecipientMode() const;
 
@@ -75,19 +75,20 @@ public:
      * @return  data as QByteArray
      */
     QByteArray getData();
+
 protected:
-    NetworkMessageHeader * buffer();
+    NetworkMessageHeader* buffer();
 
 private:
-    NetworkMessageHeader * m_header;
-    char * m_buffer;
-    char * m_begin;
-    char * m_currentPos;
-    char * m_end;
+    NetworkMessageHeader* m_header;
+    char* m_buffer;
+    char* m_begin;
+    char* m_currentPos;
+    char* m_end;
 
-    void string(const QString & data, int sizeQChar);
+    void string(const QString& data, int sizeQChar);
     void makeRoom(int size);
-    int m_sizeBuffer      ;
+    int m_sizeBuffer;
     int m_sizeData;
     QStringList m_recipientList;
     NetworkMessage::RecipientMode m_mode;

@@ -22,12 +22,12 @@
 #include <QtTest/QtTest>
 #include <memory>
 
-#include "mapframe.h"
 #include "map.h"
+#include "mapframe.h"
 
+#include "network/networkmessage.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "network/networkmessage.h"
 
 class TestMap : public QObject
 {
@@ -37,7 +37,6 @@ public:
 
 private slots:
     void init();
-
 
     void getAndSetTest();
 
@@ -49,10 +48,7 @@ private:
     Map* m_map;
 };
 
-TestMap::TestMap()
-{
-
-}
+TestMap::TestMap() {}
 
 void TestMap::init()
 {
@@ -61,44 +57,41 @@ void TestMap::init()
 void TestMap::networkSaveAndLoadTest()
 {
     QImage img(800, 600, QImage::Format_ARGB32_Premultiplied);
-    m_map = new Map("id","idcarte",&img,false);
+    m_map= new Map("id", "idcarte", &img, false);
 
     m_mapFrame->setMap(m_map);
 
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
     m_mapFrame->fill(msg);
 
-    auto const array = msg.getData();
+    auto const array= msg.getData();
 
     NetworkMessageReader msg2;
     msg2.setData(array);
+    msg2.resetToData();
 
     MapFrame frame2;
     frame2.setCleverUriType(CleverURI::MAP);
     frame2.readMessage(msg2);
 
-    auto map = m_mapFrame->getMap();
-    auto map2 = frame2.getMap();
+    auto map= m_mapFrame->getMap();
+    auto map2= frame2.getMap();
 
-    QCOMPARE(map->getMapId(),map2->getMapId());
-    QCOMPARE(m_mapFrame->getMediaId(),frame2.getMediaId());
-    QCOMPARE(m_mapFrame->getUriName(),frame2.getUriName());
+    QCOMPARE(map->getMapId(), map2->getMapId());
+    QCOMPARE(m_mapFrame->getMediaId(), frame2.getMediaId());
+    QCOMPARE(m_mapFrame->getUriName(), frame2.getUriName());
 }
 
-void TestMap::getAndSetTest()
-{
-
-
-}
+void TestMap::getAndSetTest() {}
 
 void TestMap::fileSaveAndLoadTest()
 {
     QImage img(800, 600, QImage::Format_ARGB32_Premultiplied);
-    m_map = new Map("id","idcarte",&img,false);
+    m_map= new Map("id", "idcarte", &img, false);
 
     m_mapFrame->setMap(m_map);
 
-    auto title = QStringLiteral("title");
+    auto title= QStringLiteral("title");
     m_mapFrame->setUriName(title);
 
     QByteArray array;
@@ -111,9 +104,9 @@ void TestMap::fileSaveAndLoadTest()
     QDataStream in(&array, QIODevice::ReadOnly);
     frame2.readMapAndNpc(in, false);
 
-    //auto map = m_mapFrame->getMap();
+    // auto map = m_mapFrame->getMap();
 
-    QCOMPARE(frame2.windowTitle(),m_mapFrame->windowTitle());
+    QCOMPARE(frame2.windowTitle(), m_mapFrame->windowTitle());
 }
 
 QTEST_MAIN(TestMap);

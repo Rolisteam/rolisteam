@@ -20,15 +20,19 @@
 
 #include <QModelIndex>
 #include <QModelIndexList>
-#include <QtCore/QString>
-#include <QtTest/QtTest>
+#include <QString>
+#include <QVector>
+#include <QtTest>
 #include <memory>
 
 #include "charactersheetitem.h"
 #include "charactersheetmodel.h"
 #include "field.h"
+#include "networkmessagereader.h"
+#include "networkmessagewriter.h"
 #include "section.h"
 #include "tablefield.h"
+#include <helper.h>
 
 class TestCharacterSheetModel : public QObject
 {
@@ -45,17 +49,18 @@ private slots:
     void addField_data();
 
     void addCharacter();
-    void addCharacter_data();
-
-    void addFieldOnCharacter();
-    void addFieldOnCharacter_data();
 
     void removeDataTest();
+    void removeDataTest_data();
 
     void saveModelTest();
+    void saveModelTest_data();
+
     void readAndWriteModelTest();
+    void readAndWriteModelTest_data();
 
     void clearModel();
+    void clearModel_data();
 
 private:
     std::unique_ptr<CharacterSheetModel> m_model;
@@ -63,6 +68,13 @@ private:
 Q_DECLARE_METATYPE(CharacterSheetItem*);
 
 TestCharacterSheetModel::TestCharacterSheetModel() {}
+
+Field* fieldFactory(const CharacterSheetItem::TypeField& currentType)
+{
+    auto field= new Field(true);
+    field->setCurrentType(currentType);
+    return field;
+}
 
 void TestCharacterSheetModel::init()
 {
@@ -76,7 +88,7 @@ void TestCharacterSheetModel::creationTest()
 
 void TestCharacterSheetModel::addField()
 {
-    QFETCH(CharacterSheetItem*, field);
+    QFETCH(Field*, field);
     QFETCH(int, expected);
 
     QVERIFY(m_model->rowCount() == 0);
@@ -91,71 +103,265 @@ void TestCharacterSheetModel::addField()
 
 void TestCharacterSheetModel::addField_data()
 {
-    QTest::addColumn<CharacterSheetItem*>("field");
+    QTest::addColumn<Field*>("field");
     QTest::addColumn<int>("expected");
 
-    CharacterSheetItem* field= new Field(true);
-    field->setCurrentType(CharacterSheetItem::TEXTINPUT);
-    QTest::addRow("list1") << field << 1;
-
-    field= new Field(true);
-    field->setCurrentType(CharacterSheetItem::TEXTFIELD);
-    QTest::addRow("list2") << field << 1;
-
-    field= new Field(true);
-    field->setCurrentType(CharacterSheetItem::TEXTAREA);
-    QTest::addRow("list3") << field << 1;
-
-    field= new Field(true);
-    field->setCurrentType(CharacterSheetItem::SELECT);
-    QTest::addRow("list4") << field << 1;
-
-    field= new Field(true);
-    field->setCurrentType(CharacterSheetItem::CHECKBOX);
-    QTest::addRow("list5") << field << 1;
-
-    field= new Field(true);
-    field->setCurrentType(CharacterSheetItem::IMAGE);
-    QTest::addRow("list6") << field << 1;
-
-    field= new Field(true);
-    field->setCurrentType(CharacterSheetItem::DICEBUTTON);
-    QTest::addRow("list7") << field << 1;
-
-    field= new Field(true);
-    field->setCurrentType(CharacterSheetItem::FUNCBUTTON);
-    QTest::addRow("list8") << field << 1;
-
-    field= new Field(true);
-    field->setCurrentType(CharacterSheetItem::WEBPAGE);
-    QTest::addRow("list9") << field << 1;
-
-    field= new Field(true);
-    field->setCurrentType(CharacterSheetItem::NEXTPAGE);
-    QTest::addRow("list10") << field << 1;
-
-    field= new Field(true);
-    field->setCurrentType(CharacterSheetItem::PREVIOUSPAGE);
-    QTest::addRow("list11") << field << 1;
-
-    field= new TableField(true);
-    field->setCurrentType(CharacterSheetItem::TABLE);
-    QTest::addRow("list12") << field << 1;
+    QTest::addRow("list1") << fieldFactory(CharacterSheetItem::TEXTINPUT) << 1;
+    QTest::addRow("list2") << fieldFactory(CharacterSheetItem::TEXTFIELD) << 1;
+    QTest::addRow("list3") << fieldFactory(CharacterSheetItem::TEXTAREA) << 1;
+    QTest::addRow("list4") << fieldFactory(CharacterSheetItem::SELECT) << 1;
+    QTest::addRow("list5") << fieldFactory(CharacterSheetItem::CHECKBOX) << 1;
+    QTest::addRow("list6") << fieldFactory(CharacterSheetItem::IMAGE) << 1;
+    QTest::addRow("list7") << fieldFactory(CharacterSheetItem::DICEBUTTON) << 1;
+    QTest::addRow("list8") << fieldFactory(CharacterSheetItem::FUNCBUTTON) << 1;
+    QTest::addRow("list9") << fieldFactory(CharacterSheetItem::WEBPAGE) << 1;
+    QTest::addRow("list10") << fieldFactory(CharacterSheetItem::NEXTPAGE) << 1;
+    QTest::addRow("list11") << fieldFactory(CharacterSheetItem::PREVIOUSPAGE) << 1;
+    QTest::addRow("list12") << fieldFactory(CharacterSheetItem::TABLE) << 1;
 }
 
-void TestCharacterSheetModel::addCharacter() {}
-void TestCharacterSheetModel::addCharacter_data() {}
+void TestCharacterSheetModel::addCharacter()
+{
+    auto sheet= m_model->addCharacterSheet();
+    auto uuid= sheet->getUuid();
+    QCOMPARE(m_model->getCharacterSheetCount(), 1);
 
-void TestCharacterSheetModel::addFieldOnCharacter() {}
-void TestCharacterSheetModel::addFieldOnCharacter_data() {}
+    auto sheet2= m_model->getCharacterSheetById(uuid);
+    QCOMPARE(sheet, sheet2);
 
-void TestCharacterSheetModel::removeDataTest() {}
+    m_model->removeCharacterSheet(sheet);
+    QCOMPARE(m_model->getCharacterSheetCount(), 0);
+}
 
-void TestCharacterSheetModel::saveModelTest() {}
-void TestCharacterSheetModel::readAndWriteModelTest() {}
+void TestCharacterSheetModel::removeDataTest()
+{
+    QFETCH(QVector<Field*>, fields);
+    QFETCH(int, expected);
 
-void TestCharacterSheetModel::clearModel() {}
+    auto sheet= m_model->addCharacterSheet();
 
+    auto root= new Section();
+    for(auto field : fields)
+    {
+        root->appendChild(field);
+    }
+    m_model->setRootSection(root);
+
+    QCOMPARE(sheet->getFieldCount(), expected);
+
+    for(auto field : fields)
+    {
+        root->removeChild(field);
+    }
+    m_model->setRootSection(root);
+    QCOMPARE(sheet->getFieldCount(), 0);
+}
+void TestCharacterSheetModel::removeDataTest_data()
+{
+    QTest::addColumn<QVector<Field*>>("fields");
+    QTest::addColumn<int>("expected");
+
+    QTest::addRow("remove0") << QVector<Field*>() << 0;
+
+    std::vector<CharacterSheetItem::TypeField> data(
+        {CharacterSheetItem::TEXTINPUT, CharacterSheetItem::TEXTFIELD, CharacterSheetItem::TEXTAREA,
+            CharacterSheetItem::SELECT, CharacterSheetItem::CHECKBOX, CharacterSheetItem::IMAGE,
+            CharacterSheetItem::DICEBUTTON, CharacterSheetItem::FUNCBUTTON, CharacterSheetItem::WEBPAGE,
+            CharacterSheetItem::NEXTPAGE, CharacterSheetItem::PREVIOUSPAGE, CharacterSheetItem::TABLE});
+
+    QVector<Field*> list;
+
+    int index= 0;
+    for(std::size_t i= 0; i < data.size(); ++i)
+    {
+        std::size_t comb_size= i + 1;
+        do
+        {
+            list.clear();
+            for(auto it= data.begin(); it < data.begin() + comb_size; ++it)
+            {
+                list.push_back(fieldFactory(*it));
+            }
+            auto title= QStringLiteral("remove%1").arg(++index);
+            QTest::addRow(title.toStdString().c_str()) << list << list.size();
+        } while(Helper::next_combination(data.begin(), data.begin() + comb_size, data.end()));
+    }
+}
+void TestCharacterSheetModel::saveModelTest()
+{
+    QJsonObject obj;
+    {
+        QFETCH(QVector<Field*>, fields);
+        QFETCH(int, expected);
+
+        auto sheet= m_model->addCharacterSheet();
+
+        auto root= new Section();
+        for(auto field : fields)
+        {
+            root->appendChild(field);
+        }
+        m_model->setRootSection(root);
+
+        QCOMPARE(sheet->getFieldCount(), expected);
+
+        m_model->writeModel(obj, true);
+    }
+    CharacterSheetModel model;
+    model.readModel(obj, true);
+
+    QCOMPARE(model.getCharacterSheetCount(), m_model->getCharacterSheetCount());
+    auto rootSec= model.getRootSection();
+    auto rootSec2= m_model->getRootSection();
+    QCOMPARE(rootSec->getChildrenCount(), rootSec2->getChildrenCount());
+}
+
+void TestCharacterSheetModel::saveModelTest_data()
+{
+    QTest::addColumn<QVector<Field*>>("fields");
+    QTest::addColumn<int>("expected");
+
+    QTest::addRow("save0") << QVector<Field*>() << 0;
+
+    std::vector<CharacterSheetItem::TypeField> data(
+        {CharacterSheetItem::TEXTINPUT, CharacterSheetItem::TEXTFIELD, CharacterSheetItem::TEXTAREA,
+            CharacterSheetItem::SELECT, CharacterSheetItem::CHECKBOX, CharacterSheetItem::IMAGE,
+            CharacterSheetItem::DICEBUTTON, CharacterSheetItem::FUNCBUTTON, CharacterSheetItem::WEBPAGE,
+            CharacterSheetItem::NEXTPAGE, CharacterSheetItem::PREVIOUSPAGE, CharacterSheetItem::TABLE});
+
+    QVector<Field*> list;
+
+    int index= 0;
+    for(std::size_t i= 0; i < data.size(); ++i)
+    {
+        std::size_t comb_size= i + 1;
+        do
+        {
+            list.clear();
+            for(auto it= data.begin(); it < data.begin() + comb_size; ++it)
+            {
+                list.push_back(fieldFactory(*it));
+            }
+            auto title= QStringLiteral("save%1").arg(++index);
+            QTest::addRow(title.toStdString().c_str()) << list << list.size();
+        } while(Helper::next_combination(data.begin(), data.begin() + comb_size, data.end()));
+    }
+}
+
+void TestCharacterSheetModel::readAndWriteModelTest()
+{
+    NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::addCharacterSheet);
+    {
+        QFETCH(QVector<Field*>, fields);
+        QFETCH(int, expected);
+
+        auto sheet= m_model->addCharacterSheet();
+
+        auto root= new Section();
+        for(auto field : fields)
+        {
+            root->appendChild(field);
+        }
+        m_model->setRootSection(root);
+
+        QCOMPARE(sheet->getFieldCount(), expected);
+
+        m_model->fillRootSection(&msg);
+    }
+    CharacterSheetModel model;
+    NetworkMessageReader reader;
+    auto const array= msg.getData();
+    reader.setInternalData(array);
+    reader.resetToData();
+    model.readRootSection(&reader);
+
+    auto rootSec= model.getRootSection();
+    auto rootSec2= m_model->getRootSection();
+    QCOMPARE(rootSec->getChildrenCount(), rootSec2->getChildrenCount());
+}
+void TestCharacterSheetModel::readAndWriteModelTest_data()
+{
+    QTest::addColumn<QVector<Field*>>("fields");
+    QTest::addColumn<int>("expected");
+
+    QTest::addRow("network0") << QVector<Field*>() << 0;
+
+    std::vector<CharacterSheetItem::TypeField> data(
+        {CharacterSheetItem::TEXTINPUT, CharacterSheetItem::TEXTFIELD, CharacterSheetItem::TEXTAREA,
+            CharacterSheetItem::SELECT, CharacterSheetItem::CHECKBOX, CharacterSheetItem::IMAGE,
+            CharacterSheetItem::DICEBUTTON, CharacterSheetItem::FUNCBUTTON, CharacterSheetItem::WEBPAGE,
+            CharacterSheetItem::NEXTPAGE, CharacterSheetItem::PREVIOUSPAGE, CharacterSheetItem::TABLE});
+
+    QVector<Field*> list;
+
+    int index= 0;
+    for(std::size_t i= 0; i < data.size(); ++i)
+    {
+        std::size_t comb_size= i + 1;
+        do
+        {
+            list.clear();
+            for(auto it= data.begin(); it < data.begin() + comb_size; ++it)
+            {
+                list.push_back(fieldFactory(*it));
+            }
+            auto title= QStringLiteral("network%1").arg(++index);
+            QTest::addRow(title.toStdString().c_str()) << list << list.size();
+        } while(Helper::next_combination(data.begin(), data.begin() + comb_size, data.end()));
+    }
+}
+void TestCharacterSheetModel::clearModel()
+{
+    QFETCH(QVector<Field*>, fields);
+    QFETCH(int, expected);
+
+    QPointer<CharacterSheet> sheet= m_model->addCharacterSheet();
+
+    auto root= new Section();
+    for(auto field : fields)
+    {
+        root->appendChild(field);
+    }
+    m_model->setRootSection(root);
+
+    QCOMPARE(sheet->getFieldCount(), expected);
+
+    m_model->clearModel();
+    QCOMPARE(sheet.isNull(), true);
+    QCOMPARE(m_model->getCharacterSheetCount(), 0);
+    QCOMPARE(m_model->getRootSection()->getChildrenCount(), 0);
+}
+void TestCharacterSheetModel::clearModel_data()
+{
+    QTest::addColumn<QVector<Field*>>("fields");
+    QTest::addColumn<int>("expected");
+
+    QTest::addRow("clear0") << QVector<Field*>() << 0;
+
+    std::vector<CharacterSheetItem::TypeField> data(
+        {CharacterSheetItem::TEXTINPUT, CharacterSheetItem::TEXTFIELD, CharacterSheetItem::TEXTAREA,
+            CharacterSheetItem::SELECT, CharacterSheetItem::CHECKBOX, CharacterSheetItem::IMAGE,
+            CharacterSheetItem::DICEBUTTON, CharacterSheetItem::FUNCBUTTON, CharacterSheetItem::WEBPAGE,
+            CharacterSheetItem::NEXTPAGE, CharacterSheetItem::PREVIOUSPAGE, CharacterSheetItem::TABLE});
+
+    QVector<Field*> list;
+
+    int index= 0;
+    for(std::size_t i= 0; i < data.size(); ++i)
+    {
+        std::size_t comb_size= i + 1;
+        do
+        {
+            list.clear();
+            for(auto it= data.begin(); it < data.begin() + comb_size; ++it)
+            {
+                list.push_back(fieldFactory(*it));
+            }
+            auto title= QStringLiteral("clear%1").arg(++index);
+            QTest::addRow(title.toStdString().c_str()) << list << list.size();
+        } while(Helper::next_combination(data.begin(), data.begin() + comb_size, data.end()));
+    }
+}
 QTEST_MAIN(TestCharacterSheetModel);
 
 #include "tst_charactersheetmodel.moc"

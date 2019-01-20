@@ -48,3 +48,9 @@ QT += core \
 
 RESOURCES += \
     $$PWD/resources.qrc
+
+SOURCES += $$PWD/helper/helper.cpp
+HEADERS += $$PWD/helper/helper.h
+
+INCLUDEPATH += $$PWD/helper
+DEPENDPATH += $$PWD/helper
