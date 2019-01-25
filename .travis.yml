@@ -95,7 +95,7 @@ before_install:
   - git submodule update --init --remote --recursive
 
 install:
-  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || sudo apt-get -qy install qt${QT}quickcontrols  qt${QT}svg  qt${QT}quickcontrols2  qt${QT}webengine  qt${QT}multimedia  qt${QT}imageformats  qt${QT}graphicaleffects  qt${QT}declarative  qt${QT}base qt${QT}translations  qt${QT}tools  qt${QT}xmlpatterns'
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || sudo apt-get -qy install qt${QT}quickcontrols  qt${QT}svg  qt${QT}quickcontrols2  qt${QT}webengine  qt${QT}multimedia  qt${QT}imageformats  qt${QT}graphicaleffects  qt${QT}declarative  qt${QT}base qt${QT}translations  qt${QT}tools  qt${QT}xmlpatterns libmesa-dev'
   - '[ "$TRAVIS_OS_NAME" != osx ] || brew install cppcheck'
   - '[ "$TRAVIS_OS_NAME" != osx ] || travis_wait 30 brew install qt5'
   - '[ "$TRAVIS_OS_NAME" != osx ] || brew link --force qt'
