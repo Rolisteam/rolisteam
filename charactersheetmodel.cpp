@@ -21,10 +21,12 @@
 #include "charactersheetmodel.h"
 #include "charactersheet.h"
 #include "field.h"
-#include "network/networkmessagereader.h"
+
 #include "section.h"
 #include "tablefield.h"
-//#include "charactersheetbutton.h"
+#ifndef RCSE
+#include "network/networkmessagereader.h"
+#endif
 
 #include <QDebug>
 
