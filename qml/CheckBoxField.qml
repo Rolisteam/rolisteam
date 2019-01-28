@@ -48,9 +48,8 @@ Item {
             }
         }
 
-        onClicked: {
+        onToggled: {
             field.value = checked ? "1": "0"
-            checked = Qt.binding(function() { return field.value === "1" ? true : false })
         }
     }
 }
