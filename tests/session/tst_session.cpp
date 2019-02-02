@@ -155,6 +155,8 @@ void SessionTest::saveAndLoadTest()
         case CleverURI::WEBVIEW:
             uri= webview;
             break;
+        default:
+            break;
         }
         data.push_back(uri);
     }
