@@ -237,7 +237,7 @@
     <string>Tab</string>
    </property>
    <property name="shortcut">
-    <string>Alt+O</string>
+    <string>F2</string>
    </property>
   </action>
   <action name="m_cascadeViewAction">
@@ -377,7 +377,7 @@
     <string>Show PC Name</string>
    </property>
    <property name="shortcut">
-    <string>F5</string>
+    <string>F3</string>
    </property>
   </action>
   <action name="m_showNpcNameAction">
@@ -391,7 +391,7 @@
     <string>Show Npc Name</string>
    </property>
    <property name="shortcut">
-    <string>F6</string>
+    <string>F4</string>
    </property>
   </action>
   <action name="m_showNpcNumberAction">
@@ -405,7 +405,7 @@
     <string>Show Npc Number</string>
    </property>
    <property name="shortcut">
-    <string>F7</string>
+    <string>F5</string>
    </property>
   </action>
   <action name="m_showMinutesEditorAction">
@@ -483,7 +483,7 @@
     <string>ToolBar</string>
    </property>
    <property name="shortcut">
-    <string>Alt+T</string>
+    <string>F8</string>
    </property>
   </action>
   <action name="m_addVectorialMap">
@@ -518,15 +518,12 @@
     <string>Show Health State</string>
    </property>
    <property name="shortcut">
-    <string>F8</string>
+    <string>F6</string>
    </property>
   </action>
   <action name="m_changeProfileAct">
    <property name="text">
     <string>Change Profile…</string>
-   </property>
-   <property name="shortcut">
-    <string>F10</string>
    </property>
   </action>
   <action name="m_openCharacterSheet">
@@ -559,6 +556,9 @@
    </property>
    <property name="text">
     <string>Room List</string>
+   </property>
+   <property name="shortcut">
+    <string>F10</string>
    </property>
   </action>
   <action name="m_newSharedNote">
@@ -651,6 +651,9 @@
    </property>
    <property name="text">
     <string>Show Health Bar</string>
+   </property>
+   <property name="shortcut">
+    <string>F7</string>
    </property>
   </action>
   <action name="m_keyGeneratorAct">
