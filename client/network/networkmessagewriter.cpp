@@ -260,6 +260,7 @@ void NetworkMessageWriter::sendToServer()
 QByteArray NetworkMessageWriter::getData()
 {
     auto size= getDataSize() + sizeof(NetworkMessageHeader);
+    m_header->dataSize = getDataSize();
     QByteArray array(m_buffer, size);
     return array;
 }
