@@ -1,14 +1,14 @@
 #ifndef CHANNEL_H
 #define CHANNEL_H
 
-#include <QString>
 #include "treeitem.h"
+#include <QString>
 
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QList>
-#include <QString>
 #include <QPointer>
+#include <QString>
 
 #include "networkmessagewriter.h"
 
@@ -27,36 +27,35 @@ public:
     virtual ~Channel();
 
     QByteArray password() const;
-    void setPassword(const QByteArray &password);
+    void setPassword(const QByteArray& password);
 
     virtual int childCount() const;
 
     int indexOf(TreeItem* child);
 
     QString description() const;
-    void setDescription(const QString &description);
+    void setDescription(const QString& description);
 
     bool usersListed() const;
     void setUsersListed(bool usersListed);
 
     bool isLeaf() const;
 
-    void sendMessage(NetworkMessage*, TcpClient *, bool mustBeSaved);
-    void sendToAll(NetworkMessage*, TcpClient* sender, bool deleteMsg = false);
-    void sendToMany(NetworkMessage* msg, TcpClient* sender, bool deleteMsg = false);
+    void sendMessage(NetworkMessage*, TcpClient*, bool mustBeSaved);
+    void sendToAll(NetworkMessage*, TcpClient* sender, bool deleteMsg= false);
+    void sendToMany(NetworkMessage* msg, TcpClient* sender, bool deleteMsg= false);
 
-
-    void readFromJson(QJsonObject &json);
+    void readFromJson(QJsonObject& json);
     void writeIntoJson(QJsonObject& json);
     TreeItem* getChildAt(int row);
 
-    int addChild(TreeItem* );
+    int addChild(TreeItem*);
 
     bool addChildInto(QString id, TreeItem* child);
 
     virtual void clear();
 
-    void updateNewClient(TcpClient *newComer);
+    void updateNewClient(TcpClient* newComer);
 
     bool removeClient(TcpClient* client);
     bool removeChild(TreeItem*);
@@ -73,20 +72,23 @@ public:
 
 public slots:
     void clearData();
+    void renamePlayer(const QString& id, const QString& name);
 signals:
     void memorySizeChanged(quint64 memorySize, Channel* id);
+
 protected:
     bool hasNoClient();
-    void sendOffGmStatus(TcpClient *client);
+    void sendOffGmStatus(TcpClient* client);
     void findNewGM();
+
 private:
     QByteArray m_password;
     QString m_description;
-    bool m_usersListed = false;
+    bool m_usersListed= false;
 
     QList<QPointer<TreeItem>> m_child;
     QList<NetworkMessage*> m_dataToSend;
-    quint64 m_memorySize = 0;
+    quint64 m_memorySize= 0;
     QPointer<TcpClient> m_currentGm;
 };
 

@@ -1,12 +1,11 @@
 #ifndef MESSAGEDISPATCHER_H
 #define MESSAGEDISPATCHER_H
 
-#include <QObject>
-#include <QByteArray>
 #include "channelmodel.h"
-#include "tcpclient.h"
 #include "networkmessage.h"
-
+#include "tcpclient.h"
+#include <QByteArray>
+#include <QObject>
 
 class NetworkLink;
 class NetworkMessageReader;
@@ -18,17 +17,16 @@ class MessageDispatcher : public QObject
     Q_OBJECT
 
 public:
-    explicit MessageDispatcher(QObject *parent = nullptr);
+    explicit MessageDispatcher(QObject* parent= nullptr);
 
-    static QString cat2String(NetworkMessageHeader *head);
-    static QString act2String(NetworkMessageHeader *head);
+    static QString cat2String(NetworkMessageHeader* head);
+    static QString act2String(NetworkMessageHeader* head);
 signals:
-    void messageForAdmin(NetworkMessageReader* , Channel* channel, TcpClient* emitter );
-
+    void messageForAdmin(NetworkMessageReader*, Channel* channel, TcpClient* emitter);
+    void playerNameChanged(const QString& uuid, const QString& name);
 
 public slots:
     void dispatchMessage(QByteArray msg, Channel* channel, TcpClient* emitter);
-
 };
 
 #endif // MESSAGEDISPATCHER_H

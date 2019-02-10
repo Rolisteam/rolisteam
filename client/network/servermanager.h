@@ -1,17 +1,16 @@
 #ifndef SERVERMANAGER_H
 #define SERVERMANAGER_H
 
-
 #include <QObject>
 #include <QThread>
 
-#include "networkmessage.h"
-#include "tcpclient.h"
 #include "channelmodel.h"
+#include "common/controller/logcontroller.h"
 #include "connectionaccepter.h"
 #include "messagedispatcher.h"
+#include "networkmessage.h"
 #include "rserver.h"
-#include "common/controller/logcontroller.h"
+#include "tcpclient.h"
 /**
  * @brief The ServerManager class
  *
@@ -21,16 +20,24 @@ class ServerManager : public QObject
 {
     Q_OBJECT
 public:
-    enum ServerState {Listening,Off};
-    enum Channels {Unique,Several};
+    enum ServerState
+    {
+        Listening,
+        Off
+    };
+    enum Channels
+    {
+        Unique,
+        Several
+    };
 
-    explicit ServerManager(QObject *parent = nullptr);
+    explicit ServerManager(QObject* parent= nullptr);
     ~ServerManager();
     void sendMessage(NetworkMessage* msg);
     int getPort() const;
     ServerManager::ServerState getState() const;
-    void setState(const ServerManager::ServerState &state);
-    void insertField(QString,QVariant, bool erase = true);
+    void setState(const ServerManager::ServerState& state);
+    void insertField(QString, QVariant, bool erase= true);
     void initServerManager();
     QVariant getValue(QString key) const;
     void kickClient(QString id);
@@ -38,7 +45,7 @@ public:
 signals:
     void stateChanged(ServerManager::ServerState);
     void sendLog(QString, LogController::LogLevel);
-    void messageMustBeDispatched(QByteArray array, Channel* channel,TcpClient* client);
+    void messageMustBeDispatched(QByteArray array, Channel* channel, TcpClient* client);
     void finished();
     void listening();
     void clientAccepted();
@@ -47,7 +54,7 @@ public slots:
     void startListening();
     void messageReceived(QByteArray);
     void stopListening();
-    void processMessageAdmin(NetworkMessageReader *msg,Channel* chan, TcpClient* tcp);
+    void processMessageAdmin(NetworkMessageReader* msg, Channel* chan, TcpClient* tcp);
     void initClient();
     void sendOffAuthSuccessed();
     void sendOffAuthFail();
@@ -61,31 +68,33 @@ public slots:
     void sendOffAdminAuthFail();
     void sendOffAdminAuthSuccessed();
 
-    //Connection proccess tests
+    // Connection proccess tests
     void serverAcceptClient(TcpClient* client);
     void checkAuthToServer(TcpClient* client);
     void checkAuthToChannel(TcpClient* client, QString channelId, QByteArray password);
     void checkAuthAsAdmin(TcpClient* client);
 
-    //memory
+    // memory
     void memoryChannelChanged(quint64);
+
 protected:
-    void sendEventToClient(TcpClient *client, TcpClient::ConnectionEvent event);
+    void sendEventToClient(TcpClient* client, TcpClient::ConnectionEvent event);
+
 private:
     int m_port;
-    RServer* m_server = nullptr;
-    ChannelModel* m_model = nullptr;
-    ConnectionAccepter* m_corEndProcess = nullptr;
-    ConnectionAccepter* m_corConnection = nullptr;
-    ConnectionAccepter* m_adminAccepter = nullptr;
-    ConnectionAccepter* m_enterInRoomAccepter = nullptr;
+    RServer* m_server= nullptr;
+    ChannelModel* m_model= nullptr;
+    ConnectionAccepter* m_corEndProcess= nullptr;
+    ConnectionAccepter* m_corConnection= nullptr;
+    ConnectionAccepter* m_adminAccepter= nullptr;
+    ConnectionAccepter* m_enterInRoomAccepter= nullptr;
 
-    QMap<QString,QVariant> m_parameters;
+    QMap<QString, QVariant> m_parameters;
 
-    MessageDispatcher* m_msgDispatcher = nullptr;
-    QHash<QTcpSocket*,TcpClient*> m_connections;
-    ServerState m_state = Off;
-    int m_tryCount  = 0;
+    MessageDispatcher* m_msgDispatcher= nullptr;
+    QHash<QTcpSocket*, TcpClient*> m_connections;
+    ServerState m_state= Off;
+    int m_tryCount= 0;
 };
 
 #endif // SERVERMANAGER_H

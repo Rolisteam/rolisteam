@@ -1,32 +1,30 @@
 #include "messagedispatcher.h"
 #include "network/networkmessagereader.h"
 
-MessageDispatcher::MessageDispatcher(QObject *parent) : QObject(parent)
-{
-
-}
+MessageDispatcher::MessageDispatcher(QObject* parent) : QObject(parent) {}
 
 void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpClient* emitter)
 {
-    bool sendToAll = true;
-    bool saveIt = true;
-    NetworkMessageReader* msg = new NetworkMessageReader();
+    bool sendToAll= true;
+    bool saveIt= true;
+    NetworkMessageReader* msg= new NetworkMessageReader();
 
     msg->setData(data);
 
-    qInfo() << "[Server][Received Message]" <<cat2String(msg->header()) << act2String(msg->header()) << channel << emitter->getName() << msg->getSize();
+    qInfo() << "[Server][Received Message]" << cat2String(msg->header()) << act2String(msg->header()) << channel
+            << emitter->getName() << msg->getSize();
 
-    if(msg->category()== NetMsg::AdministrationCategory)
+    if(msg->category() == NetMsg::AdministrationCategory)
     {
-        emit messageForAdmin(msg,channel,emitter);
-        sendToAll = false;
+        emit messageForAdmin(msg, channel, emitter);
+        sendToAll= false;
         if((NetMsg::ClearTable == msg->action()) || (NetMsg::AddChannel == msg->action()))
         {
-            sendToAll = true;
-            saveIt = false;
+            sendToAll= true;
+            saveIt= false;
         }
     }
-    else if(msg->category()== NetMsg::PlayerCategory)
+    else if(msg->category() == NetMsg::PlayerCategory)
     {
         if(msg->action() == NetMsg::PlayerConnectionAction)
         {
@@ -34,92 +32,102 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
 
             msg->resetToData();
 
-            QString name = msg->string16();
-            QString uuid = msg->string8();
+            QString name= msg->string16();
+            QString uuid= msg->string8();
             msg->rgb();
             msg->uint8();
             emitter->setName(name);
             emitter->setId(uuid);
-            saveIt = false;
-            sendToAll = false;
+            saveIt= false;
+            sendToAll= false;
         }
         else if(msg->action() == NetMsg::DelPlayerAction)
         {
-            saveIt = false;
-            sendToAll = false;
+            saveIt= false;
+            sendToAll= false;
             if(channel != nullptr)
                 channel->removeClient(emitter);
+        }
+        else if(msg->action() == NetMsg::ChangePlayerNameAction)
+        {
+            auto name= msg->string16();
+            auto uuid= msg->string8();
+
+            if(channel != nullptr)
+            {
+                QMetaObject::invokeMethod(
+                    channel, "renamePlayer", Qt::QueuedConnection, Q_ARG(QString, uuid), Q_ARG(QString, name));
+            }
         }
     }
     else if(msg->category() == NetMsg::SetupCategory)
     {
         if(msg->action() == NetMsg::AddFeatureAction)
         {
-            QString uuid   = msg->string8();
-            QString name   = msg->string8();
-            quint8 version = msg->uint8();
-            emitter->addPlayerFeature(uuid,name,version);
-            saveIt = false;
+            QString uuid= msg->string8();
+            QString name= msg->string8();
+            quint8 version= msg->uint8();
+            emitter->addPlayerFeature(uuid, name, version);
+            saveIt= false;
         }
     }
 
-    if((sendToAll)&&(nullptr != channel))
+    if((sendToAll) && (nullptr != channel))
     {
-        channel->sendMessage(msg,emitter,saveIt);
+        channel->sendMessage(msg, emitter, saveIt);
     }
-
 }
 
 QString MessageDispatcher::cat2String(NetworkMessageHeader* head)
 {
     QString str;
-    NetMsg::Category cat = NetMsg::Category(head->category);
-    switch (cat)
+    NetMsg::Category cat= NetMsg::Category(head->category);
+    switch(cat)
     {
     case NetMsg::AdministrationCategory:
-        str = QStringLiteral("AdministrationCategory");
+        str= QStringLiteral("AdministrationCategory");
         break;
     case NetMsg::PlayerCategory:
-        str = QStringLiteral("PlayerCategory");
+        str= QStringLiteral("PlayerCategory");
         break;
     case NetMsg::CharacterPlayerCategory:
-        str = QStringLiteral("CharacterPlayerCategory");
+        str= QStringLiteral("CharacterPlayerCategory");
         break;
     case NetMsg::NPCCategory:
-        str = QStringLiteral("NPCCategory");
+        str= QStringLiteral("NPCCategory");
         break;
     case NetMsg::CharacterCategory:
-        str = QStringLiteral("CharacterCategory");
+        str= QStringLiteral("CharacterCategory");
         break;
     case NetMsg::DrawCategory:
-        str = QStringLiteral("DrawCategory");
+        str= QStringLiteral("DrawCategory");
         break;
     case NetMsg::MapCategory:
-        str = QStringLiteral("MapCategory");
+        str= QStringLiteral("MapCategory");
         break;
     case NetMsg::ChatCategory:
-        str = QStringLiteral("ChatCategory");
+        str= QStringLiteral("ChatCategory");
         break;
     case NetMsg::MusicCategory:
-        str = QStringLiteral("MusicCategory");
+        str= QStringLiteral("MusicCategory");
         break;
     case NetMsg::SetupCategory:
-        str = QStringLiteral("SetupCategory");
+        str= QStringLiteral("SetupCategory");
         break;
     case NetMsg::SharePreferencesCategory:
-        str = QStringLiteral("SharePreferencesCategory");
+        str= QStringLiteral("SharePreferencesCategory");
         break;
     case NetMsg::VMapCategory:
-        str = QStringLiteral("VMapCategory");
+        str= QStringLiteral("VMapCategory");
         break;
     case NetMsg::MediaCategory:
-        str = QStringLiteral("MediaCategory");
+        str= QStringLiteral("MediaCategory");
         break;
     case NetMsg::SharedNoteCategory:
-        str = QStringLiteral("SharedNoteCategory");
+        str= QStringLiteral("SharedNoteCategory");
         break;
     case NetMsg::WebPageCategory:
-        str = QStringLiteral("WebPageCategory");
+        str= QStringLiteral("WebPageCategory");
         break;
     }
     return str;
@@ -128,431 +136,429 @@ QString MessageDispatcher::cat2String(NetworkMessageHeader* head)
 QString MessageDispatcher::act2String(NetworkMessageHeader* head)
 {
     QString str;
-    NetMsg::Action act = NetMsg::Action(head->action);
-    NetMsg::Category cat = NetMsg::Category(head->category);
+    NetMsg::Action act= NetMsg::Action(head->action);
+    NetMsg::Category cat= NetMsg::Category(head->category);
     if(cat == NetMsg::AdministrationCategory)
     {
-        switch (act)
+        switch(act)
         {
-        case  NetMsg::EndConnectionAction:
-            str = QStringLiteral("EndConnectionAction");
+        case NetMsg::EndConnectionAction:
+            str= QStringLiteral("EndConnectionAction");
             break;
-        case  NetMsg::Heartbeat:
-            str = QStringLiteral("heartbeat");
+        case NetMsg::Heartbeat:
+            str= QStringLiteral("heartbeat");
             break;
-        case  NetMsg::ConnectionInfo:
-            str = QStringLiteral("ConnectionInfo");
+        case NetMsg::ConnectionInfo:
+            str= QStringLiteral("ConnectionInfo");
             break;
-        case  NetMsg::Goodbye:
-            str = QStringLiteral("Goodbye");
+        case NetMsg::Goodbye:
+            str= QStringLiteral("Goodbye");
             break;
-        case  NetMsg::Kicked:
-            str = QStringLiteral("Kicked");
+        case NetMsg::Kicked:
+            str= QStringLiteral("Kicked");
             break;
-        case  NetMsg::MoveChannel:
-            str = QStringLiteral("MoveChannel");
+        case NetMsg::MoveChannel:
+            str= QStringLiteral("MoveChannel");
             break;
-        case  NetMsg::SetChannelList:
-            str = QStringLiteral("SetChannelList");
+        case NetMsg::SetChannelList:
+            str= QStringLiteral("SetChannelList");
             break;
-        case  NetMsg::ChannelPassword:
-            str = QStringLiteral("ChannelPassword");
+        case NetMsg::ChannelPassword:
+            str= QStringLiteral("ChannelPassword");
             break;
-        case  NetMsg::JoinChannel:
-            str = QStringLiteral("Join Channel");
+        case NetMsg::JoinChannel:
+            str= QStringLiteral("Join Channel");
             break;
-        case  NetMsg::ClearTable:
-            str = QStringLiteral("Clear Table");
+        case NetMsg::ClearTable:
+            str= QStringLiteral("Clear Table");
             break;
-        case  NetMsg::AddChannel:
-            str = QStringLiteral("AddChannel");
+        case NetMsg::AddChannel:
+            str= QStringLiteral("AddChannel");
             break;
-        case  NetMsg::DeleteChannel:
-            str = QStringLiteral("DeleteChannel");
+        case NetMsg::DeleteChannel:
+            str= QStringLiteral("DeleteChannel");
             break;
-        case  NetMsg::AuthentificationSucessed:
-            str = QStringLiteral("AuthentificationSucessed");
+        case NetMsg::AuthentificationSucessed:
+            str= QStringLiteral("AuthentificationSucessed");
             break;
-        case  NetMsg::AuthentificationFail:
-            str = QStringLiteral("AuthentificationFail");
+        case NetMsg::AuthentificationFail:
+            str= QStringLiteral("AuthentificationFail");
             break;
-        case  NetMsg::LockChannel:
-            str = QStringLiteral("LockChannel");
+        case NetMsg::LockChannel:
+            str= QStringLiteral("LockChannel");
             break;
-        case  NetMsg::BanUser:
-            str = QStringLiteral("BanUser");
+        case NetMsg::BanUser:
+            str= QStringLiteral("BanUser");
             break;
-        case  NetMsg::AdminPassword:
-            str = QStringLiteral("AdminPassword");
+        case NetMsg::AdminPassword:
+            str= QStringLiteral("AdminPassword");
             break;
-        case  NetMsg::AdminAuthSucessed:
-            str = QStringLiteral("AdminPassword");
+        case NetMsg::AdminAuthSucessed:
+            str= QStringLiteral("AdminPassword");
             break;
-        case  NetMsg::AdminAuthFail:
-            str = QStringLiteral("AdminPassword");
+        case NetMsg::AdminAuthFail:
+            str= QStringLiteral("AdminPassword");
             break;
-        case  NetMsg::MovedIntoChannel:
-            str = QStringLiteral("MovedIntoChannel");
+        case NetMsg::MovedIntoChannel:
+            str= QStringLiteral("MovedIntoChannel");
             break;
-        case  NetMsg::GMStatus:
-            str = QStringLiteral("GMStatus");
+        case NetMsg::GMStatus:
+            str= QStringLiteral("GMStatus");
             break;
         default:
-            str = QStringLiteral("Unknown Action");
+            str= QStringLiteral("Unknown Action");
             break;
         }
     }
     else if(cat == NetMsg::PlayerCategory)
     {
-        switch (act)
+        switch(act)
         {
-        case  NetMsg::PlayerConnectionAction:
-            str = QStringLiteral("PlayerConnectionAction");
+        case NetMsg::PlayerConnectionAction:
+            str= QStringLiteral("PlayerConnectionAction");
             break;
-        case  NetMsg::DelPlayerAction:
-            str = QStringLiteral("DelPlayerAction");
+        case NetMsg::DelPlayerAction:
+            str= QStringLiteral("DelPlayerAction");
             break;
-        case  NetMsg::ChangePlayerNameAction:
-            str = QStringLiteral("ChangePlayerNameAction");
+        case NetMsg::ChangePlayerNameAction:
+            str= QStringLiteral("ChangePlayerNameAction");
             break;
-        case  NetMsg::ChangePlayerColorAction:
-            str = QStringLiteral("ChangePlayerColorAction");
+        case NetMsg::ChangePlayerColorAction:
+            str= QStringLiteral("ChangePlayerColorAction");
             break;
-        case  NetMsg::ChangePlayerAvatarAction:
-            str = QStringLiteral("ChangePlayerAvatarAction");
+        case NetMsg::ChangePlayerAvatarAction:
+            str= QStringLiteral("ChangePlayerAvatarAction");
             break;
         default:
-            str = QStringLiteral("Unknown Action");
+            str= QStringLiteral("Unknown Action");
             break;
         }
     }
     else if(cat == NetMsg::CharacterPlayerCategory)
     {
-        switch (act)
+        switch(act)
         {
-        case  NetMsg::AddPlayerCharacterAction:
-            str = QStringLiteral("AddPlayerCharacterAction");
+        case NetMsg::AddPlayerCharacterAction:
+            str= QStringLiteral("AddPlayerCharacterAction");
             break;
-        case  NetMsg::DelPlayerCharacterAction:
-            str = QStringLiteral("DelPlayerCharacterAction");
+        case NetMsg::DelPlayerCharacterAction:
+            str= QStringLiteral("DelPlayerCharacterAction");
             break;
-        case  NetMsg::ToggleViewPlayerCharacterAction:
-            str = QStringLiteral("ToggleViewPlayerCharacterAction");
+        case NetMsg::ToggleViewPlayerCharacterAction:
+            str= QStringLiteral("ToggleViewPlayerCharacterAction");
             break;
-        case  NetMsg::ChangePlayerCharacterSizeAction:
-            str = QStringLiteral("ChangePlayerCharacterSizeAction");
+        case NetMsg::ChangePlayerCharacterSizeAction:
+            str= QStringLiteral("ChangePlayerCharacterSizeAction");
             break;
-        case  NetMsg::ChangePlayerCharacterNameAction:
-            str = QStringLiteral("ChangePlayerCharacterNameAction");
+        case NetMsg::ChangePlayerCharacterNameAction:
+            str= QStringLiteral("ChangePlayerCharacterNameAction");
             break;
-        case  NetMsg::ChangePlayerCharacterColorAction:
-            str = QStringLiteral("ChangePlayerCharacterColorAction");
+        case NetMsg::ChangePlayerCharacterColorAction:
+            str= QStringLiteral("ChangePlayerCharacterColorAction");
             break;
-        case  NetMsg::ChangePlayerCharacterAvatarAction:
-            str = QStringLiteral("ChangePlayerCharacterAvatarAction");
+        case NetMsg::ChangePlayerCharacterAvatarAction:
+            str= QStringLiteral("ChangePlayerCharacterAvatarAction");
             break;
         default:
-            str = QStringLiteral("Unknown Action");
+            str= QStringLiteral("Unknown Action");
             break;
         }
     }
     else if(cat == NetMsg::NPCCategory)
     {
-        switch (act)
+        switch(act)
         {
-        case  NetMsg::addNpc:
-            str = QStringLiteral("addNpc");
+        case NetMsg::addNpc:
+            str= QStringLiteral("addNpc");
             break;
-        case  NetMsg::delNpc:
-            str = QStringLiteral("delNpc");
+        case NetMsg::delNpc:
+            str= QStringLiteral("delNpc");
             break;
 
         default:
-            str = QStringLiteral("Unknown Action");
+            str= QStringLiteral("Unknown Action");
             break;
         }
     }
     else if(cat == NetMsg::CharacterCategory)
     {
-        switch (act)
+        switch(act)
         {
-        case  NetMsg::addCharacterList:
-            str = QStringLiteral("addCharacterList");
+        case NetMsg::addCharacterList:
+            str= QStringLiteral("addCharacterList");
             break;
-        case  NetMsg::moveCharacter:
-            str = QStringLiteral("moveCharacter");
+        case NetMsg::moveCharacter:
+            str= QStringLiteral("moveCharacter");
             break;
-        case  NetMsg::changeCharacterState:
-            str = QStringLiteral("changeCharacterState");
+        case NetMsg::changeCharacterState:
+            str= QStringLiteral("changeCharacterState");
             break;
-        case  NetMsg::changeCharacterOrientation:
-            str = QStringLiteral("changeCharacterOrientation");
+        case NetMsg::changeCharacterOrientation:
+            str= QStringLiteral("changeCharacterOrientation");
             break;
-        case  NetMsg::showCharecterOrientation:
-            str = QStringLiteral("showCharecterOrientation");
+        case NetMsg::showCharecterOrientation:
+            str= QStringLiteral("showCharecterOrientation");
             break;
-        case  NetMsg::addCharacterSheet:
-            str = QStringLiteral("addCharacterSheet");
+        case NetMsg::addCharacterSheet:
+            str= QStringLiteral("addCharacterSheet");
             break;
-        case  NetMsg::updateFieldCharacterSheet:
-            str = QStringLiteral("updateFieldCharacterSheet");
+        case NetMsg::updateFieldCharacterSheet:
+            str= QStringLiteral("updateFieldCharacterSheet");
             break;
-        case  NetMsg::closeCharacterSheet:
-            str = QStringLiteral("closeCharacterSheet");
+        case NetMsg::closeCharacterSheet:
+            str= QStringLiteral("closeCharacterSheet");
             break;
         default:
-            str = QStringLiteral("Unknown Action");
+            str= QStringLiteral("Unknown Action");
             break;
         }
     }
     else if(cat == NetMsg::DrawCategory)
     {
-        switch (act)
+        switch(act)
         {
-        case  NetMsg::penPainting:
-            str = QStringLiteral("penPainting");
+        case NetMsg::penPainting:
+            str= QStringLiteral("penPainting");
             break;
-        case  NetMsg::linePainting:
-            str = QStringLiteral("linePainting");
+        case NetMsg::linePainting:
+            str= QStringLiteral("linePainting");
             break;
-        case  NetMsg::emptyRectanglePainting:
-            str = QStringLiteral("emptyRectanglePainting");
+        case NetMsg::emptyRectanglePainting:
+            str= QStringLiteral("emptyRectanglePainting");
             break;
-        case  NetMsg::filledRectanglePainting:
-            str = QStringLiteral("filledRectanglePainting");
+        case NetMsg::filledRectanglePainting:
+            str= QStringLiteral("filledRectanglePainting");
             break;
-        case  NetMsg::emptyEllipsePainting:
-            str = QStringLiteral("emptyEllipsePainting");
+        case NetMsg::emptyEllipsePainting:
+            str= QStringLiteral("emptyEllipsePainting");
             break;
-        case  NetMsg::filledEllipsePainting:
-            str = QStringLiteral("filledEllipsePainting");
+        case NetMsg::filledEllipsePainting:
+            str= QStringLiteral("filledEllipsePainting");
             break;
-        case  NetMsg::textPainting:
-            str = QStringLiteral("textPainting");
+        case NetMsg::textPainting:
+            str= QStringLiteral("textPainting");
             break;
-        case  NetMsg::handPainting:
-            str = QStringLiteral("handPainting");
+        case NetMsg::handPainting:
+            str= QStringLiteral("handPainting");
             break;
         default:
-            str = QStringLiteral("Unknown Action");
+            str= QStringLiteral("Unknown Action");
             break;
         }
     }
     else if(cat == NetMsg::MapCategory)
     {
-        switch (act)
+        switch(act)
         {
-        case  NetMsg::AddEmptyMap:
-            str = QStringLiteral("AddEmptyMap");
+        case NetMsg::AddEmptyMap:
+            str= QStringLiteral("AddEmptyMap");
             break;
-        case  NetMsg::LoadMap:
-            str = QStringLiteral("LoadMap");
+        case NetMsg::LoadMap:
+            str= QStringLiteral("LoadMap");
             break;
-        case  NetMsg::ImportMap:
-            str = QStringLiteral("ImportMap");
+        case NetMsg::ImportMap:
+            str= QStringLiteral("ImportMap");
             break;
-        case  NetMsg::CloseMap:
-            str = QStringLiteral("CloseMap");
+        case NetMsg::CloseMap:
+            str= QStringLiteral("CloseMap");
             break;
         default:
-            str = QStringLiteral("Unknown Action");
+            str= QStringLiteral("Unknown Action");
             break;
         }
     }
     else if(cat == NetMsg::ChatCategory)
     {
-        switch (act)
+        switch(act)
         {
-        case  NetMsg::ChatMessageAction:
-            str = QStringLiteral("ChatMessageAction");
+        case NetMsg::ChatMessageAction:
+            str= QStringLiteral("ChatMessageAction");
             break;
-        case  NetMsg::DiceMessageAction:
-            str = QStringLiteral("DiceMessageAction");
+        case NetMsg::DiceMessageAction:
+            str= QStringLiteral("DiceMessageAction");
             break;
-        case  NetMsg::EmoteMessageAction:
-            str = QStringLiteral("EmoteMessageAction");
+        case NetMsg::EmoteMessageAction:
+            str= QStringLiteral("EmoteMessageAction");
             break;
-        case  NetMsg::UpdateChatAction:
-            str = QStringLiteral("UpdateChatAction");
+        case NetMsg::UpdateChatAction:
+            str= QStringLiteral("UpdateChatAction");
             break;
-        case  NetMsg::DelChatAction:
-            str = QStringLiteral("DelChatAction");
+        case NetMsg::DelChatAction:
+            str= QStringLiteral("DelChatAction");
             break;
         default:
-            str = QStringLiteral("Unknown Action");
+            str= QStringLiteral("Unknown Action");
             break;
         }
     }
     else if(cat == NetMsg::MusicCategory)
     {
-        switch (act)
+        switch(act)
         {
-        case  NetMsg::StopSong:
-            str = QStringLiteral("StopSong");
+        case NetMsg::StopSong:
+            str= QStringLiteral("StopSong");
             break;
-        case  NetMsg::PlaySong:
-            str = QStringLiteral("PlaySong");
+        case NetMsg::PlaySong:
+            str= QStringLiteral("PlaySong");
             break;
-        case  NetMsg::PauseSong:
-            str = QStringLiteral("PauseSong");
+        case NetMsg::PauseSong:
+            str= QStringLiteral("PauseSong");
             break;
-        case  NetMsg::NewSong:
-            str = QStringLiteral("NewSong");
+        case NetMsg::NewSong:
+            str= QStringLiteral("NewSong");
             break;
-        case  NetMsg::ChangePositionSong:
-            str = QStringLiteral("ChangePositionSong");
+        case NetMsg::ChangePositionSong:
+            str= QStringLiteral("ChangePositionSong");
             break;
         default:
-            str = QStringLiteral("Unknown Action");
+            str= QStringLiteral("Unknown Action");
             break;
         }
     }
     else if(cat == NetMsg::SetupCategory)
     {
-        switch (act)
+        switch(act)
         {
-        case  NetMsg::AddFeatureAction:
-            str = QStringLiteral("AddFeatureAction");
+        case NetMsg::AddFeatureAction:
+            str= QStringLiteral("AddFeatureAction");
             break;
 
         default:
-            str = QStringLiteral("Unknown Action");
+            str= QStringLiteral("Unknown Action");
             break;
         }
     }
     else if(cat == NetMsg::SharePreferencesCategory)
     {
-        switch (act)
+        switch(act)
         {
-        case  NetMsg::addDiceAlias:
-            str = QStringLiteral("addDiceAlias");
+        case NetMsg::addDiceAlias:
+            str= QStringLiteral("addDiceAlias");
             break;
-        case  NetMsg::moveDiceAlias:
-            str = QStringLiteral("moveDiceAlias");
+        case NetMsg::moveDiceAlias:
+            str= QStringLiteral("moveDiceAlias");
             break;
-        case  NetMsg::removeDiceAlias:
-            str = QStringLiteral("removeDiceAlias");
+        case NetMsg::removeDiceAlias:
+            str= QStringLiteral("removeDiceAlias");
             break;
-        case  NetMsg::addState:
-            str = QStringLiteral("addState");
+        case NetMsg::addState:
+            str= QStringLiteral("addState");
             break;
-        case  NetMsg::moveState:
-            str = QStringLiteral("moveState");
+        case NetMsg::moveState:
+            str= QStringLiteral("moveState");
             break;
-        case  NetMsg::removeState:
-            str = QStringLiteral("removeState");
+        case NetMsg::removeState:
+            str= QStringLiteral("removeState");
             break;
         default:
-            str = QStringLiteral("Unknown Action");
+            str= QStringLiteral("Unknown Action");
             break;
         }
     }
     else if(cat == NetMsg::VMapCategory)
     {
-        switch (act)
+        switch(act)
         {
-        case  NetMsg::addVmap:
-            str = QStringLiteral("addVmap");
+        case NetMsg::addVmap:
+            str= QStringLiteral("addVmap");
             break;
-        case  NetMsg::vmapChanges:
-            str = QStringLiteral("vmapChanges");
+        case NetMsg::vmapChanges:
+            str= QStringLiteral("vmapChanges");
             break;
-        case  NetMsg::loadVmap:
-            str = QStringLiteral("loadVmap");
+        case NetMsg::loadVmap:
+            str= QStringLiteral("loadVmap");
             break;
-        case  NetMsg::closeVmap:
-            str = QStringLiteral("closeVmap");
+        case NetMsg::closeVmap:
+            str= QStringLiteral("closeVmap");
             break;
-        case  NetMsg::AddItem:
-            str = QStringLiteral("addItem");
+        case NetMsg::AddItem:
+            str= QStringLiteral("addItem");
             break;
-        case  NetMsg::DelItem:
-            str = QStringLiteral("DelItem");
+        case NetMsg::DelItem:
+            str= QStringLiteral("DelItem");
             break;
-        case  NetMsg::MoveItem:
-            str = QStringLiteral("MoveItem");
+        case NetMsg::MoveItem:
+            str= QStringLiteral("MoveItem");
             break;
-        case  NetMsg::ZValueItem:
-            str = QStringLiteral("ZValueItem");
+        case NetMsg::ZValueItem:
+            str= QStringLiteral("ZValueItem");
             break;
-        case  NetMsg::RotationItem:
-            str = QStringLiteral("RotationItem");
+        case NetMsg::RotationItem:
+            str= QStringLiteral("RotationItem");
             break;
-        case  NetMsg::RectGeometryItem:
-            str = QStringLiteral("RectGeometryItem");
+        case NetMsg::RectGeometryItem:
+            str= QStringLiteral("RectGeometryItem");
             break;
-        case  NetMsg::DelPoint:
-            str = QStringLiteral("DelPoint");
+        case NetMsg::DelPoint:
+            str= QStringLiteral("DelPoint");
             break;
-        case  NetMsg::OpacityItemChanged:
-            str = QStringLiteral("OpacityItemChanged");
+        case NetMsg::OpacityItemChanged:
+            str= QStringLiteral("OpacityItemChanged");
             break;
-        case  NetMsg::LayerItemChanged:
-            str = QStringLiteral("LayerItemChanged");
+        case NetMsg::LayerItemChanged:
+            str= QStringLiteral("LayerItemChanged");
             break;
-        case  NetMsg::GeometryItemChanged:
-            str = QStringLiteral("GeometryItemChanged");
+        case NetMsg::GeometryItemChanged:
+            str= QStringLiteral("GeometryItemChanged");
             break;
-        case  NetMsg::AddPoint:
-            str = QStringLiteral("AddPoint");
+        case NetMsg::AddPoint:
+            str= QStringLiteral("AddPoint");
             break;
-        case  NetMsg::GeometryViewChanged:
-            str = QStringLiteral("GeometryViewChanged");
+        case NetMsg::GeometryViewChanged:
+            str= QStringLiteral("GeometryViewChanged");
             break;
-        case  NetMsg::CharacterStateChanged:
-            str = QStringLiteral("CharacterStateChanged");
+        case NetMsg::CharacterStateChanged:
+            str= QStringLiteral("CharacterStateChanged");
             break;
-        case  NetMsg::CharacterChanged:
-            str = QStringLiteral("CharacterChanged");
+        case NetMsg::CharacterChanged:
+            str= QStringLiteral("CharacterChanged");
             break;
-        case  NetMsg::SetParentItem:
-            str = QStringLiteral("SetParentItem");
+        case NetMsg::SetParentItem:
+            str= QStringLiteral("SetParentItem");
             break;
-        case  NetMsg::MovePoint:
-            str = QStringLiteral("MovePoint");
+        case NetMsg::MovePoint:
+            str= QStringLiteral("MovePoint");
             break;
-        case  NetMsg::VisionChanged:
-            str = QStringLiteral("VisionChanged");
+        case NetMsg::VisionChanged:
+            str= QStringLiteral("VisionChanged");
             break;
         default:
-            str = QStringLiteral("Unknown Action");
+            str= QStringLiteral("Unknown Action");
             break;
         }
     }
     else if(cat == NetMsg::MediaCategory)
     {
-
-        switch (act)
+        switch(act)
         {
-        case  NetMsg::addMedia:
-            str = QStringLiteral("AddMedia");
+        case NetMsg::addMedia:
+            str= QStringLiteral("AddMedia");
             break;
-        case  NetMsg::closeMedia:
-            str = QStringLiteral("closeMedia");
+        case NetMsg::closeMedia:
+            str= QStringLiteral("closeMedia");
             break;
 
         default:
-            str = QStringLiteral("Unknown Action");
+            str= QStringLiteral("Unknown Action");
             break;
         }
     }
     else if(cat == NetMsg::SharedNoteCategory)
     {
-
-        switch (act)
+        switch(act)
         {
-        case  NetMsg::updateText:
-            str = QStringLiteral("Update Text");
+        case NetMsg::updateText:
+            str= QStringLiteral("Update Text");
             break;
-        case  NetMsg::updateTextAndPermission:
-            str = QStringLiteral("Update Text and permission");
+        case NetMsg::updateTextAndPermission:
+            str= QStringLiteral("Update Text and permission");
             break;
-        case  NetMsg::updatePermissionOneUser:
-            str = QStringLiteral("Update permission on user");
+        case NetMsg::updatePermissionOneUser:
+            str= QStringLiteral("Update permission on user");
             break;
 
         default:
-            str = QStringLiteral("Unknown Action");
+            str= QStringLiteral("Unknown Action");
             break;
         }
     }
