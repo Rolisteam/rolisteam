@@ -196,11 +196,11 @@ bool QmlGeneratorVisitor::generateTextArea(Field* item)
     QString text("%5TextAreaField {//%1\n"
                  "%6"
                  "%5    text: %2.value\n"
-                 "%5    textColor:\"%3\"\n"
-                 "%5    color: \"%4\"\n"
+                 "%5    color:\"%3\"\n"
+                 "%5    backgroundColor: \"%4\"\n"
                  + getPageManagement(item, m_indenSpace) + "%5    readOnly: %2.readOnly\n" + getToolTip(item)
                  + generatePosition(item) + generateAlignment(item) + generateFont(item->font())
-                 + "%5    onTextChanged: {\n"
+                 + "%5    onEditingFinished: {\n"
                    "%5        %2.value = text\n"
                    "%5    }\n"
                    "%5}\n");
@@ -224,8 +224,8 @@ bool QmlGeneratorVisitor::generateTextField(Field* item)
     QString text("%5TextFieldField {//%1\n"
                  "%6"
                  "%5    text: %2.value\n"
-                 "%5    textColor:\"%3\"\n"
-                 "%5    color: \"%4\"\n"
+                 "%5    color:\"%3\"\n"
+                 "%5    backgroundColor: \"%4\"\n"
                  + getPageManagement(item, m_indenSpace) + "%5    readOnly: %2.readOnly\n" + getToolTip(item)
                  + generatePosition(item) + generateAlignment(item) + generateFont(item->font())
                  + "%5    onTextEdited: {\n"
@@ -286,14 +286,10 @@ bool QmlGeneratorVisitor::generateCheckBox(Field* item)
                  "%6"
                  "%5    field: %2\n"
                  "%5    text: %2.value\n"
-                 "%5    textColor:\"%3\"\n"
-                 "%5    color: \"%4\"\n"
+                 "%5    color:\"%3\"\n"
+                 "%5    borderColor: \"%4\"\n"
                  + getPageManagement(item, m_indenSpace) + "%5    readOnly: %2.readOnly\n" + getToolTip(item)
-                 + generatePosition(item)
-                 + "%5    onTextChanged: {\n"
-                   "%5        %2.value = text\n"
-                   "%5    }\n"
-                   "%5}\n");
+                 + generatePosition(item) + "%5}\n");
 
     m_out << text.arg(item->getLabel()) //%1
                  .arg(getId(item))
@@ -344,8 +340,8 @@ bool QmlGeneratorVisitor::generateDiceButton(Field* item)
     QString text("%6DiceButton {//%1\n"
                  "%7"
                  "%6    command: %2.value\n"
-                 "%6    text: %2.label\n"
-                 "%6    textColor: \"%3\"\n"
+                 "%6    text: %2.label ? %2.label: \"Dice\"\n"
+                 "%6    pressedColor: \"%3\"\n"
                  "%6    color: \"%4\"\n"
                  + getPageManagement(item, m_indenSpace) + "%6    readOnly: %2.readOnly\n" + getToolTip(item)
                  + generatePosition(item) + generateAlignment(item) + generateFont(item->font())
