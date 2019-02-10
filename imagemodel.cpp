@@ -1,5 +1,6 @@
 #include "imagemodel.h"
 #include <QBuffer>
+#include <QDebug>
 #include <QIcon>
 #include <QVariant>
 
@@ -208,6 +209,30 @@ void ImageModel::removeImageAt(const QModelIndex& index)
 
     auto i= index.row();
     removeImage(i);
+}
+
+void ImageModel::setPathFor(const QModelIndex& idx, const QString& path)
+{
+    if(!idx.isValid())
+        return;
+
+    auto row= idx.row();
+    if(row < 0 || m_keyList.size() <= row)
+        return;
+
+    QPixmap pix(path);
+    if(pix.isNull())
+    {
+        qWarning() << "Can't open image: " << path;
+        return;
+    }
+    auto key= m_keyList[row];
+    m_provider->insertPix(key, pix);
+    m_filename.replace(row, path);
+    m_list.insert(key, new QPixmap(pix));
+    auto first= index(row, 0);
+    auto last= index(row, columnCount());
+    emit dataChanged(first, last, QVector<int>() << Qt::DisplayRole);
 }
 
 void ImageModel::removeImageByKey(const QString& key)

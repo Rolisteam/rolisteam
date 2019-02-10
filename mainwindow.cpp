@@ -1,101 +1,100 @@
 /***************************************************************************
-* Copyright (C) 2014 by Renaud Guezennec                                   *
-* http://www.rolisteam.org/                                                *
-*                                                                          *
-*  This file is part of rcse                                               *
-*                                                                          *
-* rcse is free software; you can redistribute it and/or modify             *
-* it under the terms of the GNU General Public License as published by     *
-* the Free Software Foundation; either version 2 of the License, or        *
-* (at your option) any later version.                                      *
-*                                                                          *
-* rcse is distributed in the hope that it will be useful,                  *
-* but WITHOUT ANY WARRANTY; without even the implied warranty of           *
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
-* GNU General Public License for more details.                             *
-*                                                                          *
-* You should have received a copy of the GNU General Public License        *
-* along with this program; if not, write to the                            *
-* Free Software Foundation, Inc.,                                          *
-* 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
-***************************************************************************/
+ * Copyright (C) 2014 by Renaud Guezennec                                   *
+ * http://www.rolisteam.org/                                                *
+ *                                                                          *
+ *  This file is part of rcse                                               *
+ *                                                                          *
+ * rcse is free software; you can redistribute it and/or modify             *
+ * it under the terms of the GNU General Public License as published by     *
+ * the Free Software Foundation; either version 2 of the License, or        *
+ * (at your option) any later version.                                      *
+ *                                                                          *
+ * rcse is distributed in the hope that it will be useful,                  *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
+ * GNU General Public License for more details.                             *
+ *                                                                          *
+ * You should have received a copy of the GNU General Public License        *
+ * along with this program; if not, write to the                            *
+ * Free Software Foundation, Inc.,                                          *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
+ ***************************************************************************/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "common/controller/logcontroller.h"
+#include "common/widgets/logpanel.h"
+#include <QBuffer>
+#include <QButtonGroup>
+#include <QClipboard>
 #include <QColorDialog>
 #include <QDebug>
-#include <QMimeData>
-#include <QUrl>
-#include <QOpenGLWidget>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QDir>
-#include <QBuffer>
-#include <QJsonDocument>
-#include <QTemporaryFile>
-#include <QQmlError>
-#include <QQmlEngine>
-#include <QQmlContext>
-#include <QQuickItem>
-#include <QQmlComponent>
-#include <QJsonArray>
-#include <QButtonGroup>
-#include <QUuid>
 #include <QDesktopServices>
+#include <QDir>
+#include <QDockWidget>
+#include <QFileDialog>
+#include <QJsonArray>
+#include <QJsonDocument>
 #include <QJsonValue>
 #include <QJsonValueRef>
-#include <QClipboard>
-#include <QPrinter>
-#include <QPrintDialog>
-#include <QPagedPaintDevice>
-#include <QQmlProperty>
 #include <QMenu>
+#include <QMessageBox>
+#include <QMimeData>
+#include <QOpenGLWidget>
+#include <QPagedPaintDevice>
+#include <QPrintDialog>
+#include <QPrinter>
+#include <QQmlComponent>
+#include <QQmlContext>
+#include <QQmlEngine>
+#include <QQmlError>
+#include <QQmlProperty>
+#include <QQuickItem>
+#include <QTemporaryFile>
 #include <QTimer>
-#include <QDockWidget>
-#include "common/widgets/logpanel.h"
-#include "common/controller/logcontroller.h"
+#include <QUrl>
+#include <QUuid>
 
 #ifdef WITH_PDF
 #include <poppler-qt5.h>
 #endif
 
-
-#include "qmlhighlighter.h"
 #include "aboutrcse.h"
-#include "preferencesdialog.h"
 #include "codeeditordialog.h"
+#include "preferencesdialog.h"
+#include "qmlhighlighter.h"
 
 #include "delegate/pagedelegate.h"
 
-//Undo
-#include "undo/setfieldproperties.h"
+// Undo
+#include "undo/addcharactercommand.h"
 #include "undo/addpagecommand.h"
+#include "undo/deletecharactercommand.h"
+#include "undo/deletefieldcommand.h"
 #include "undo/deletepagecommand.h"
 #include "undo/setbackgroundimage.h"
-#include "undo/addcharactercommand.h"
-#include "undo/deletecharactercommand.h"
-#include "undo/deletepagecommand.h"
-#include "undo/deletefieldcommand.h"
+#include "undo/setfieldproperties.h"
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    m_currentPage(0),
-    m_editedTextByHand(false),
-    m_counterZoom(0),
-    m_pdf(nullptr),
-    m_undoStack(new QUndoStack(this))
+MainWindow::MainWindow(QWidget* parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+    , m_currentPage(0)
+    , m_editedTextByHand(false)
+    , m_counterZoom(0)
+    , m_pdf(nullptr)
+    , m_undoStack(new QUndoStack(this))
 {
-    m_preferences = PreferencesManager::getInstance();
+    m_preferences= PreferencesManager::getInstance();
     setWindowModified(false);
-    m_qmlGeneration =true;
+    m_qmlGeneration= true;
     setAcceptDrops(true);
     ui->setupUi(this);
 
-    m_separatorAction = ui->m_fileMenu->insertSeparator(ui->m_recentFileAct1);
+    m_separatorAction= ui->m_fileMenu->insertSeparator(ui->m_recentFileAct1);
     m_separatorAction->setVisible(false);
 
-    m_recentActions = {ui->m_recentFileAct1,ui->m_recentFileAct2,ui->m_recentFileAct3,ui->m_recentFileAct4,ui->m_recentFileAct5};
+    m_recentActions= {
+        ui->m_recentFileAct1, ui->m_recentFileAct2, ui->m_recentFileAct3, ui->m_recentFileAct4, ui->m_recentFileAct5};
     for(auto act : m_recentActions)
     {
         connect(act, &QAction::triggered, this, &MainWindow::openRecentFile);
@@ -103,28 +102,28 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->m_tabWidget->setCurrentIndex(0);
 
-    //LOG
-    m_logManager = new LogController(false,this);
+    // LOG
+    m_logManager= new LogController(false, this);
     m_logManager->setCurrentModes(LogController::Gui);
-    QDockWidget* wid = new QDockWidget(tr("Log panel"),this);
+    QDockWidget* wid= new QDockWidget(tr("Log panel"), this);
     wid->setObjectName(QStringLiteral("logpanel"));
-    m_logPanel = new LogPanel(m_logManager);
+    m_logPanel= new LogPanel(m_logManager);
     wid->setWidget(m_logPanel);
-    addDockWidget(Qt::BottomDockWidgetArea,wid);
-    auto showLogPanel = wid->toggleViewAction();
+    addDockWidget(Qt::BottomDockWidgetArea, wid);
+    auto showLogPanel= wid->toggleViewAction();
 
-    Canvas* canvas = new Canvas();
+    Canvas* canvas= new Canvas();
     canvas->setCurrentPage(m_currentPage);
     canvas->setUndoStack(&m_undoStack);
 
-    auto model = AddPageCommand::getPagesModel();
-    auto data = model->stringList();
+    auto model= AddPageCommand::getPagesModel();
+    auto data= model->stringList();
     data.append(tr("Page 1"));
     model->setStringList(data);
 
     m_canvasList.append(canvas);
-    m_model = new FieldModel();
-    connect(m_model,SIGNAL(modelChanged()),this,SLOT(modelChanged()));
+    m_model= new FieldModel();
+    connect(m_model, SIGNAL(modelChanged()), this, SLOT(modelChanged()));
     ui->treeView->setFieldModel(m_model);
     ui->treeView->setCurrentPage(&m_currentPage);
     ui->treeView->setCanvasList(&m_canvasList);
@@ -132,30 +131,29 @@ MainWindow::MainWindow(QWidget *parent) :
 
     DeletePageCommand::setPagesModel(AddPageCommand::getPagesModel());
 
-    connect(AddPageCommand::getPagesModel(),SIGNAL(modelReset()),
-            this,SLOT(pageCountChanged()));
+    connect(AddPageCommand::getPagesModel(), SIGNAL(modelReset()), this, SLOT(pageCountChanged()));
 
     canvas->setModel(m_model);
 
-    m_view = new ItemEditor(this);
+    m_view= new ItemEditor(this);
 
     //////////////////////////////////////
     // QAction for Canvas
     //////////////////////////////////////
-    m_fitInView = new QAction(tr("Fit the view"),m_view);
+    m_fitInView= new QAction(tr("Fit the view"), m_view);
     m_fitInView->setCheckable(true);
 
-    m_alignOnY = new QAction(tr("Align on Y"),m_view);
-    m_alignOnX = new QAction(tr("Align on X"),m_view);
-    m_sameWidth= new QAction(tr("Same Width"),m_view);
-    m_sameHeight = new QAction(tr("Same Height"),m_view);
-    m_dupplicate = new QAction(tr("Dupplicate"),m_view);
+    m_alignOnY= new QAction(tr("Align on Y"), m_view);
+    m_alignOnX= new QAction(tr("Align on X"), m_view);
+    m_sameWidth= new QAction(tr("Same Width"), m_view);
+    m_sameHeight= new QAction(tr("Same Height"), m_view);
+    m_dupplicate= new QAction(tr("Dupplicate"), m_view);
 
-    connect(m_fitInView,SIGNAL(triggered(bool)),this,SLOT(setFitInView()));
-    connect(m_alignOnY,SIGNAL(triggered(bool)),this,SLOT(alignOn()));
-    connect(m_alignOnX,SIGNAL(triggered(bool)),this,SLOT(alignOn()));
-    connect(m_sameWidth,SIGNAL(triggered(bool)),this,SLOT(sameGeometry()));
-    connect(m_sameHeight,SIGNAL(triggered(bool)),this,SLOT(sameGeometry()));
+    connect(m_fitInView, SIGNAL(triggered(bool)), this, SLOT(setFitInView()));
+    connect(m_alignOnY, SIGNAL(triggered(bool)), this, SLOT(alignOn()));
+    connect(m_alignOnX, SIGNAL(triggered(bool)), this, SLOT(alignOn()));
+    connect(m_sameWidth, SIGNAL(triggered(bool)), this, SLOT(sameGeometry()));
+    connect(m_sameHeight, SIGNAL(triggered(bool)), this, SLOT(sameGeometry()));
 
     m_view->installEventFilter(this);
 
@@ -166,8 +164,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // end of QAction for view
     //////////////////////////////////////
 
-    connect(ui->m_showItemIcon,&QAction::triggered,[=](bool triggered)
-    {
+    connect(ui->m_showItemIcon, &QAction::triggered, [=](bool triggered) {
         CanvasField::setShowImageField(triggered);
         QList<QRectF> list;
         list << m_view->sceneRect();
@@ -178,12 +175,11 @@ MainWindow::MainWindow(QWidget *parent) :
     // undo / redo
     ////////////////////
 
+    QAction* undo= m_undoStack.createUndoAction(this, tr("&Undo"));
+    ui->menuEdition->insertAction(ui->m_genarateCodeAct, undo);
 
-    QAction* undo = m_undoStack.createUndoAction(this,tr("&Undo"));
-    ui->menuEdition->insertAction(ui->m_genarateCodeAct,undo);
-
-    QAction* redo = m_undoStack.createRedoAction(this,tr("&Redo"));
-    ui->menuEdition->insertAction(ui->m_genarateCodeAct,redo);
+    QAction* redo= m_undoStack.createRedoAction(this, tr("&Redo"));
+    ui->menuEdition->insertAction(ui->m_genarateCodeAct, redo);
 
     ui->menuEdition->addSeparator();
     ui->menuEdition->addAction(showLogPanel);
@@ -191,8 +187,8 @@ MainWindow::MainWindow(QWidget *parent) :
     undo->setShortcut(QKeySequence::Undo);
     redo->setShortcut(QKeySequence::Redo);
 
-    connect(ui->m_backgroundImageAct,SIGNAL(triggered(bool)),this,SLOT(openImage()));
-    connect(m_view, SIGNAL(openContextMenu(QPoint)),this, SLOT(menuRequestedFromView(QPoint)));
+    connect(ui->m_backgroundImageAct, SIGNAL(triggered(bool)), this, SLOT(openImage()));
+    connect(m_view, SIGNAL(openContextMenu(QPoint)), this, SLOT(menuRequestedFromView(QPoint)));
 
     m_view->setScene(canvas);
     ui->scrollArea->setWidget(m_view);
@@ -207,7 +203,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_webPageAct->setData(Canvas::ADDWEBPAGE);
     ui->m_nextPageAct->setData(Canvas::NEXTPAGE);
     ui->m_previousPageAct->setData(Canvas::PREVIOUSPAGE);
-
 
     ui->m_moveAct->setData(Canvas::MOVE);
     ui->m_moveAct->setShortcut(QKeySequence(Qt::Key_Escape));
@@ -226,7 +221,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_nextPageBtn->setDefaultAction(ui->m_nextPageAct);
     ui->m_previousPageBtn->setDefaultAction(ui->m_previousPageAct);
 
-    QButtonGroup* group = new QButtonGroup();
+    QButtonGroup* group= new QButtonGroup();
     group->addButton(ui->m_addTextInput);
     group->addButton(ui->m_addTextArea);
     group->addButton(ui->m_addTextField);
@@ -247,13 +242,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_deleteBtn->setDefaultAction(ui->m_deleteAct);
     ui->m_addButtonBtn->setDefaultAction(ui->m_addButtonAct);
 
-    QmlHighlighter* highlighter = new QmlHighlighter(ui->m_codeEdit->document());
+    QmlHighlighter* highlighter= new QmlHighlighter(ui->m_codeEdit->document());
     highlighter->setObjectName("HighLighterForQML");
 
-    m_sheetProperties = new SheetProperties(this);
+    m_sheetProperties= new SheetProperties(this);
 
-
-    connect(ui->m_sheetProperties,&QAction::triggered,[=](bool){
+    connect(ui->m_sheetProperties, &QAction::triggered, [=](bool) {
         m_sheetProperties->setAdditionalHeadCode(m_additionnalHeadCode);
         m_sheetProperties->setAdditionalBottomCode(m_additionnalBottomCode);
         m_sheetProperties->setAdditionalImport(m_additionnalImport);
@@ -262,121 +256,120 @@ MainWindow::MainWindow(QWidget *parent) :
 
         if(QDialog::Accepted == m_sheetProperties->exec())
         {
-            m_additionnalHeadCode = m_sheetProperties->getAdditionalHeadCode();
-            m_additionnalBottomCode = m_sheetProperties->getAdditionalBottomCode();
-            m_fixedScaleSheet = m_sheetProperties->getFixedScale();
-            m_additionnalImport = m_sheetProperties->getAdditionalImport();
-            m_flickableSheet = m_sheetProperties->isNoAdaptation();
-
+            m_additionnalHeadCode= m_sheetProperties->getAdditionalHeadCode();
+            m_additionnalBottomCode= m_sheetProperties->getAdditionalBottomCode();
+            m_fixedScaleSheet= m_sheetProperties->getFixedScale();
+            m_additionnalImport= m_sheetProperties->getAdditionalImport();
+            m_flickableSheet= m_sheetProperties->isNoAdaptation();
         }
     });
 
     connect(ui->m_quitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
 
-    connect(ui->m_addCheckBoxAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
-    connect(ui->m_addTextAreaAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
-    connect(ui->m_addTextFieldAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
-    connect(ui->m_addTextInputAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
-    connect(ui->m_addImageAction,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
-    connect(ui->m_functionButtonAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
-    connect(ui->m_tableFieldAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
-    connect(ui->m_webPageAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
-    connect(ui->m_nextPageAct,&QAction::triggered,this,&MainWindow::setCurrentTool);
-    connect(ui->m_previousPageAct,&QAction::triggered,this,&MainWindow::setCurrentTool);
+    connect(ui->m_addCheckBoxAct, SIGNAL(triggered(bool)), this, SLOT(setCurrentTool()));
+    connect(ui->m_addTextAreaAct, SIGNAL(triggered(bool)), this, SLOT(setCurrentTool()));
+    connect(ui->m_addTextFieldAct, SIGNAL(triggered(bool)), this, SLOT(setCurrentTool()));
+    connect(ui->m_addTextInputAct, SIGNAL(triggered(bool)), this, SLOT(setCurrentTool()));
+    connect(ui->m_addImageAction, SIGNAL(triggered(bool)), this, SLOT(setCurrentTool()));
+    connect(ui->m_functionButtonAct, SIGNAL(triggered(bool)), this, SLOT(setCurrentTool()));
+    connect(ui->m_tableFieldAct, SIGNAL(triggered(bool)), this, SLOT(setCurrentTool()));
+    connect(ui->m_webPageAct, SIGNAL(triggered(bool)), this, SLOT(setCurrentTool()));
+    connect(ui->m_nextPageAct, &QAction::triggered, this, &MainWindow::setCurrentTool);
+    connect(ui->m_previousPageAct, &QAction::triggered, this, &MainWindow::setCurrentTool);
 
-    connect(ui->m_moveAct,&QAction::triggered,[=](bool triggered){
-        m_view->setHandle(triggered);
-    });
+    connect(ui->m_moveAct, &QAction::triggered, [=](bool triggered) { m_view->setHandle(triggered); });
 
-    connect(ui->m_exportPdfAct,&QAction::triggered,this,&MainWindow::exportPDF);
+    connect(ui->m_exportPdfAct, &QAction::triggered, this, &MainWindow::exportPDF);
 
-    connect(ui->m_moveAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
-    connect(ui->m_deleteAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
-    connect(ui->m_addButtonAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_moveAct, SIGNAL(triggered(bool)), this, SLOT(setCurrentTool()));
+    connect(ui->m_deleteAct, SIGNAL(triggered(bool)), this, SLOT(setCurrentTool()));
+    connect(ui->m_addButtonAct, SIGNAL(triggered(bool)), this, SLOT(setCurrentTool()));
 
-    connect(ui->m_genarateCodeAct,SIGNAL(triggered(bool)),this,SLOT(showQML()));
-    connect(ui->m_codeToViewAct,SIGNAL(triggered(bool)),this,SLOT(showQMLFromCode()));
-
+    connect(ui->m_genarateCodeAct, SIGNAL(triggered(bool)), this, SLOT(showQML()));
+    connect(ui->m_codeToViewAct, SIGNAL(triggered(bool)), this, SLOT(showQMLFromCode()));
 
     ///////////////////////
     /// @brief action menu
     ///////////////////////
-    connect(ui->m_saveAct,SIGNAL(triggered(bool)),this,SLOT(save()));
-    connect(ui->actionSave_As,SIGNAL(triggered(bool)),this,SLOT(saveAs()));
-    connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
-    connect(ui->m_checkValidityAct,SIGNAL(triggered(bool)),this,SLOT(checkCharacters()));
-    connect(ui->m_addPage,SIGNAL(clicked(bool)),this,SLOT(addPage()));
-    connect(ui->m_removePage,SIGNAL(clicked(bool)),this,SLOT(removePage()));
-    connect(ui->m_selectPageCb,SIGNAL(currentIndexChanged(int)),this,SLOT(currentPageChanged(int)));
-    connect(ui->m_resetIdAct,SIGNAL(triggered(bool)),m_model,SLOT(resetAllId()));
-    connect(ui->m_preferencesAction,SIGNAL(triggered(bool)),this,SLOT(showPreferences()));
+    connect(ui->m_saveAct, SIGNAL(triggered(bool)), this, SLOT(save()));
+    connect(ui->actionSave_As, SIGNAL(triggered(bool)), this, SLOT(saveAs()));
+    connect(ui->m_openAct, SIGNAL(triggered(bool)), this, SLOT(open()));
+    connect(ui->m_checkValidityAct, SIGNAL(triggered(bool)), this, SLOT(checkCharacters()));
+    connect(ui->m_addPage, SIGNAL(clicked(bool)), this, SLOT(addPage()));
+    connect(ui->m_removePage, SIGNAL(clicked(bool)), this, SLOT(removePage()));
+    connect(ui->m_selectPageCb, SIGNAL(currentIndexChanged(int)), this, SLOT(currentPageChanged(int)));
+    connect(ui->m_resetIdAct, SIGNAL(triggered(bool)), m_model, SLOT(resetAllId()));
+    connect(ui->m_preferencesAction, SIGNAL(triggered(bool)), this, SLOT(showPreferences()));
 
-    m_imgProvider = new RolisteamImageProvider();
+    m_imgProvider= new RolisteamImageProvider();
 
-    connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
+    connect(canvas, SIGNAL(imageChanged()), this, SLOT(setImage()));
 
-    m_addCharacter = new QAction(tr("Add character"),this);
+    m_addCharacter= new QAction(tr("Add character"), this);
 
-    m_characterModel = new CharacterSheetModel();
-    connect(m_characterModel,SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)),this,SLOT(modelChanged()));
-    connect(m_characterModel,SIGNAL(columnsInserted(QModelIndex,int,int)),this,SLOT(columnAdded()));
+    m_characterModel= new CharacterSheetModel();
+    connect(m_characterModel, SIGNAL(dataChanged(QModelIndex, QModelIndex, QVector<int>)), this, SLOT(modelChanged()));
+    connect(m_characterModel, SIGNAL(columnsInserted(QModelIndex, int, int)), this, SLOT(columnAdded()));
     ui->m_characterView->setModel(m_characterModel);
     m_characterModel->setRootSection(m_model->getRootSection());
     ui->m_characterView->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->m_characterView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequested(QPoint)));
-    connect(m_addCharacter,&QAction::triggered,[&](){
-        m_undoStack.push(new AddCharacterCommand(m_characterModel));
-    });
+    connect(ui->m_characterView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(menuRequested(QPoint)));
+    connect(
+        m_addCharacter, &QAction::triggered, [&]() { m_undoStack.push(new AddCharacterCommand(m_characterModel)); });
 
-    connect(ui->m_scaleSlider,&QSlider::valueChanged,this,[this](int val){
-        qreal scale = val/100.0 ;
-        QTransform transform(scale,0,0,0,scale,0,0,0);
+    connect(ui->m_scaleSlider, &QSlider::valueChanged, this, [this](int val) {
+        qreal scale= val / 100.0;
+        QTransform transform(scale, 0, 0, 0, scale, 0, 0, 0);
         m_view->setTransform(transform);
     });
 
-    connect(ui->m_newAct,&QAction::triggered,this,&MainWindow::clearData);
+    connect(ui->m_newAct, &QAction::triggered, this, &MainWindow::clearData);
 
-    connect(ui->m_openLiberapay,&QAction::triggered,[=]{
-        if (!QDesktopServices::openUrl(QUrl("https://liberapay.com/Rolisteam/donate")))
+    connect(ui->m_openLiberapay, &QAction::triggered, [=] {
+        if(!QDesktopServices::openUrl(QUrl("https://liberapay.com/Rolisteam/donate")))
         {
-            QMessageBox * msgBox = new QMessageBox(
-                        QMessageBox::Information,
-                        tr("Support"),
-                        tr("The %1 donation page can be found online at :<br> <a href=\"https://liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>").arg(m_preferences->value("Application_Name","rolisteam").toString()),
-                        QMessageBox::Ok
-                        );
+            QMessageBox* msgBox= new QMessageBox(QMessageBox::Information, tr("Support"),
+                tr("The %1 donation page can be found online at :<br> <a "
+                   "href=\"https://liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>")
+                    .arg(m_preferences->value("Application_Name", "rolisteam").toString()),
+                QMessageBox::Ok);
             msgBox->exec();
         }
     });
 
-
     canvas->setCurrentTool(Canvas::MOVE);
 
     // Character table
-    m_deleteCharacter= new QAction(tr("Delete character"),this);
-    m_copyCharacter= new QAction(tr("Copy character"),this);
-    m_defineAsTabName= new QAction(tr("Character's Name"),this);
+    m_deleteCharacter= new QAction(tr("Delete character"), this);
+    m_copyCharacter= new QAction(tr("Copy character"), this);
+    m_defineAsTabName= new QAction(tr("Character's Name"), this);
 
-    m_applyValueOnAllCharacterLines= new QAction(tr("Apply on all lines"),this);
-    m_applyValueOnSelectedCharacterLines= new QAction(tr("Apply on Selection"),this);
-    m_applyValueOnAllCharacters = new QAction(tr("Apply on all characters"),this);
+    m_applyValueOnAllCharacterLines= new QAction(tr("Apply on all lines"), this);
+    m_applyValueOnSelectedCharacterLines= new QAction(tr("Apply on Selection"), this);
+    m_applyValueOnAllCharacters= new QAction(tr("Apply on all characters"), this);
 
-    connect(ui->m_codeEdit,SIGNAL(textChanged()),this,SLOT(codeChanged()));
+    connect(ui->m_codeEdit, SIGNAL(textChanged()), this, SLOT(codeChanged()));
 
     // Help Menu
-    connect(ui->m_aboutRcseAct,SIGNAL(triggered(bool)),this,SLOT(aboutRcse()));
+    connect(ui->m_aboutRcseAct, SIGNAL(triggered(bool)), this, SLOT(aboutRcse()));
     connect(ui->m_onlineHelpAct, SIGNAL(triggered()), this, SLOT(helpOnLine()));
 
-    m_imageModel = new ImageModel(m_pixList);
+    m_imageModel= new ImageModel(m_pixList);
     canvas->setImageModel(m_imageModel);
     ui->m_imageList->setModel(m_imageModel);
 
     ui->m_imageList->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->m_imageList,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequestedForImageModel(QPoint)));
+    connect(
+        ui->m_imageList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(menuRequestedForImageModel(QPoint)));
 
     m_imageModel->setImageProvider(m_imgProvider);
-    auto* view = ui->m_imageList->horizontalHeader();
-    view->setSectionResizeMode(0,QHeaderView::Stretch);
+    auto* view= ui->m_imageList->horizontalHeader();
+    view->setStretchLastSection(true);
+    connect(m_imageModel, &ImageModel::rowsInserted, this, [this]() {
+        auto* view= ui->m_imageList->horizontalHeader();
+        view->resizeSections(QHeaderView::ResizeToContents);
+    });
+
 #ifndef Q_OS_OSX
     ui->m_imageList->setAlternatingRowColors(true);
 #endif
@@ -384,9 +377,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_addImageBtn->setDefaultAction(ui->m_addImageAct);
     ui->m_removeImgBtn->setDefaultAction(ui->m_deleteImageAct);
 
-    connect(ui->m_addImageAct,SIGNAL(triggered(bool)),this,SLOT(addImage()));
-    connect(ui->m_deleteImageAct,&QAction::triggered,this,[=](){
-        auto index = ui->m_imageList->currentIndex();
+    connect(ui->m_addImageAct, SIGNAL(triggered(bool)), this, SLOT(addImage()));
+    connect(ui->m_deleteImageAct, &QAction::triggered, this, [=]() {
+        auto index= ui->m_imageList->currentIndex();
         m_imageModel->removeImageAt(index);
     });
 
@@ -395,22 +388,30 @@ MainWindow::MainWindow(QWidget *parent) :
     /// contextual action for image model
     ///
     //////////////////////////////////////////
-    m_copyPath = new QAction(tr("Copy Path"),ui->m_imageList);
+    m_copyPath= new QAction(tr("Copy Path"), ui->m_imageList);
     m_copyPath->setShortcut(QKeySequence("CTRL+c"));
-    m_replaceImage= new QAction(tr("Change Image"),ui->m_imageList);
+    m_replaceImage= new QAction(tr("Change Image"), ui->m_imageList);
 
     ui->m_imageList->addAction(m_copyPath);
-    connect(m_copyPath,SIGNAL(triggered(bool)),this,SLOT(copyPath()));
+    connect(m_copyPath, SIGNAL(triggered(bool)), this, SLOT(copyPath()));
     ui->m_imageList->addAction(m_replaceImage);
-
+    connect(m_replaceImage, &QAction::triggered, this, [this]() {
+        auto index= ui->m_imageList->currentIndex();
+        auto filepath= QFileDialog::getOpenFileName(
+            this, tr("Load Image"), QDir::homePath(), tr("Supported Image Format (*.jpg *.png *.svg *.gif)"));
+        if(filepath.isEmpty())
+            return;
+        m_imageModel->setPathFor(index, filepath);
+    });
 
     readSettings();
     m_logPanel->initSetting();
 
     // TODO REMOVE THIS LINE
- /*   auto pixMapDebug = new QPixmap("/home/renaud/documents/rolisteam/fiche/L5R-4E-Character-Sheet-LoRes-page-001.jpg");
-    SetBackgroundCommand* cmd = new SetBackgroundCommand(canvas,pixMapDebug);
-    m_undoStack.push(cmd);*/
+    /*   auto pixMapDebug = new
+       QPixmap("/home/renaud/documents/rolisteam/fiche/L5R-4E-Character-Sheet-LoRes-page-001.jpg");
+       SetBackgroundCommand* cmd = new SetBackgroundCommand(canvas,pixMapDebug);
+       m_undoStack.push(cmd);*/
     clearData();
 }
 MainWindow::~MainWindow()
@@ -424,21 +425,21 @@ void MainWindow::checkCharacters()
 
 void MainWindow::readSettings()
 {
-    QSettings settings("rolisteam",QString("rcse/preferences"));
+    QSettings settings("rolisteam", QString("rcse/preferences"));
     restoreState(settings.value("windowState").toByteArray());
     settings.value("Maximized", false).toBool();
     // if(!maxi)
     {
         restoreGeometry(settings.value("geometry").toByteArray());
     }
-    m_recentFiles = settings.value("recentFile").toStringList();
+    m_recentFiles= settings.value("recentFile").toStringList();
     m_preferences->readSettings(settings);
 
     updateRecentFileAction();
 }
 void MainWindow::writeSettings()
 {
-    QSettings settings("rolisteam",QString("rcse/preferences"));
+    QSettings settings("rolisteam", QString("rcse/preferences"));
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
     settings.setValue("Maximized", isMaximized());
@@ -451,18 +452,18 @@ QString MainWindow::currentFile() const
     return m_currentFile;
 }
 
-void MainWindow::setCurrentFile(const QString &filename)
+void MainWindow::setCurrentFile(const QString& filename)
 {
     setWindowModified(false);
     if(filename == m_currentFile)
         return;
 
-    m_currentFile = filename;
-    auto shortName = tr("Untitled");
+    m_currentFile= filename;
+    auto shortName= tr("Untitled");
 
     if(!m_currentFile.isEmpty())
     {
-        shortName = QFileInfo(m_currentFile).fileName();
+        shortName= QFileInfo(m_currentFile).fileName();
         m_recentFiles.removeAll(m_currentFile);
         m_recentFiles.prepend(m_currentFile);
         updateRecentFileAction();
@@ -472,21 +473,21 @@ void MainWindow::setCurrentFile(const QString &filename)
 }
 void MainWindow::clearData(bool addDefaultCanvas)
 {
-    m_additionnalHeadCode = "";
-    m_additionnalImport = "";
-    m_fixedScaleSheet = 1.0;
-    m_additionnalBottomCode = "";
-    m_flickableSheet = false;
+    m_additionnalHeadCode= "";
+    m_additionnalImport= "";
+    m_fixedScaleSheet= 1.0;
+    m_additionnalBottomCode= "";
+    m_flickableSheet= false;
 
     qDeleteAll(m_canvasList);
     m_canvasList.clear();
     setCurrentUuid(QUuid::createUuid().toString(QUuid::WithoutBraces));
-    Canvas* canvas = nullptr;
+    Canvas* canvas= nullptr;
     if(addDefaultCanvas)
     {
-        canvas = new Canvas();
+        canvas= new Canvas();
         CSItem::resetCount();
-        m_currentPage = 0;
+        m_currentPage= 0;
         canvas->setCurrentPage(m_currentPage);
         canvas->setUndoStack(&m_undoStack);
         m_canvasList.append(canvas);
@@ -504,7 +505,7 @@ void MainWindow::clearData(bool addDefaultCanvas)
 
     if(nullptr != canvas)
     {
-        connect(canvas,&Canvas::imageChanged,this,&MainWindow::setImage);
+        connect(canvas, &Canvas::imageChanged, this, &MainWindow::setImage);
         canvas->setModel(m_model);
         canvas->setImageModel(m_imageModel);
     }
@@ -512,15 +513,14 @@ void MainWindow::clearData(bool addDefaultCanvas)
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* event)
 {
-    if((obj==m_view)&&(event->type() == QEvent::Wheel))
+    if((obj == m_view) && (event->type() == QEvent::Wheel))
     {
         return wheelEventForView(dynamic_cast<QWheelEvent*>(event));
-
     }
     else
-        return QMainWindow::eventFilter(obj,event);
+        return QMainWindow::eventFilter(obj, event);
 }
-void MainWindow::closeEvent(QCloseEvent *event)
+void MainWindow::closeEvent(QCloseEvent* event)
 {
     if(mayBeSaved())
     {
@@ -534,13 +534,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 void MainWindow::helpOnLine()
 {
-    if (!QDesktopServices::openUrl(QUrl("http://wiki.rolisteam.org/")))
+    if(!QDesktopServices::openUrl(QUrl("http://wiki.rolisteam.org/")))
     {
-        QMessageBox * msgBox = new QMessageBox(
-                    QMessageBox::Information,
-                    tr("Help"),
-                    tr("Documentation of Rcse can be found online at :<br> <a href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>")
-                    );
+        QMessageBox* msgBox= new QMessageBox(QMessageBox::Information, tr("Help"),
+            tr("Documentation of Rcse can be found online at :<br> <a "
+               "href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>"));
         msgBox->exec();
     }
 }
@@ -551,7 +549,7 @@ bool MainWindow::mayBeSaved()
         QMessageBox msgBox(this);
 
         QString message(tr("The charactersheet has unsaved changes."));
-        QString msg =QStringLiteral("RCSE");
+        QString msg= QStringLiteral("RCSE");
 
         msgBox.setIcon(QMessageBox::Question);
         msgBox.addButton(QMessageBox::Cancel);
@@ -559,14 +557,13 @@ bool MainWindow::mayBeSaved()
         msgBox.addButton(QMessageBox::Discard);
         msgBox.setWindowTitle(tr("Quit %1 ").arg(msg));
 
-
         msgBox.setText(message);
-        int value = msgBox.exec();
-        if (QMessageBox::Cancel == value)
+        int value= msgBox.exec();
+        if(QMessageBox::Cancel == value)
         {
             return false;
         }
-        else if (QMessageBox::Save == value) //saving
+        else if(QMessageBox::Save == value) // saving
         {
             save();
             return true;
@@ -581,15 +578,15 @@ bool MainWindow::mayBeSaved()
 
 void MainWindow::modelChanged()
 {
-    if((nullptr != m_characterModel)&&(nullptr!=m_model))
+    if((nullptr != m_characterModel) && (nullptr != m_model))
     {
         m_characterModel->setRootSection(m_model->getRootSection());
     }
     setWindowModified(true);
 }
-bool MainWindow::wheelEventForView(QWheelEvent *event)
+bool MainWindow::wheelEventForView(QWheelEvent* event)
 {
-    if(nullptr==event)
+    if(nullptr == event)
         return false;
 
     if(event->modifiers() & Qt::ShiftModifier)
@@ -597,14 +594,14 @@ bool MainWindow::wheelEventForView(QWheelEvent *event)
         m_view->setResizeAnchor(QGraphicsView::AnchorUnderMouse);
         m_view->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
         // Scale the view / do the zoom
-        double scaleFactor = 1.1;
+        double scaleFactor= 1.1;
 
-        if((event->delta() > 0)&&(m_counterZoom<20))
+        if((event->delta() > 0) && (m_counterZoom < 20))
         {
             m_view->scale(scaleFactor, scaleFactor);
             ++m_counterZoom;
         }
-        else if(m_counterZoom>-20)
+        else if(m_counterZoom > -20)
         {
             --m_counterZoom;
             m_view->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
@@ -618,18 +615,20 @@ bool MainWindow::wheelEventForView(QWheelEvent *event)
 void MainWindow::openPDF()
 {
 #ifdef WITH_PDF
-    Poppler::Document* document = Poppler::Document::load(m_pdfPath);
-    if (nullptr==document || document->isLocked()) {
-        QMessageBox::warning(this,tr("Error! this PDF file can not be read!"),tr("This PDF document can not be read: %1").arg(m_pdfPath),QMessageBox::Ok);
+    Poppler::Document* document= Poppler::Document::load(m_pdfPath);
+    if(nullptr == document || document->isLocked())
+    {
+        QMessageBox::warning(this, tr("Error! this PDF file can not be read!"),
+            tr("This PDF document can not be read: %1").arg(m_pdfPath), QMessageBox::Ok);
         delete document;
         return;
     }
-    if(nullptr!=m_pdf)
+    if(nullptr != m_pdf)
     {
-        qreal res = m_pdf->getDpi();
+        qreal res= m_pdf->getDpi();
         m_imageModel->clear();
-        QString id = QUuid::createUuid().toString();
-        static int lastCanvas=m_canvasList.size()-1;
+        QString id= QUuid::createUuid().toString();
+        static int lastCanvas= m_canvasList.size() - 1;
 
         QSize previous;
         if(m_pdf->hasResolution())
@@ -637,23 +636,25 @@ void MainWindow::openPDF()
             previous.setHeight(m_pdf->getHeight());
             previous.setWidth(m_pdf->getWidth());
         }
-        for(int i = 0; i<document->numPages();++i)
+        for(int i= 0; i < document->numPages(); ++i)
         {
-            Poppler::Page* pdfPage = document->page(i);  // Document starts at page 0
-            if (nullptr == pdfPage)
+            Poppler::Page* pdfPage= document->page(i); // Document starts at page 0
+            if(nullptr == pdfPage)
             {
-                QMessageBox::warning(this,tr("Error! This PDF file seems empty!"),tr("This PDF document has no page."),QMessageBox::Ok);
+                QMessageBox::warning(this, tr("Error! This PDF file seems empty!"),
+                    tr("This PDF document has no page."), QMessageBox::Ok);
                 return;
             }
             // Generate a QImage of the rendered page
 
-            QImage image = pdfPage->renderToImage(res,res);//xres, yres, x, y, width, height
-            if (image.isNull())
+            QImage image= pdfPage->renderToImage(res, res); // xres, yres, x, y, width, height
+            if(image.isNull())
             {
-                QMessageBox::warning(this,tr("Error! Can not make image!"),tr("System has failed while making image of the pdf page."),QMessageBox::Ok);
+                QMessageBox::warning(this, tr("Error! Can not make image!"),
+                    tr("System has failed while making image of the pdf page."), QMessageBox::Ok);
                 return;
             }
-            QPixmap* pix = new QPixmap();
+            QPixmap* pix= new QPixmap();
             if(!m_pdf->hasResolution())
             {
                 m_pdf->setWidth(image.size().width());
@@ -661,34 +662,35 @@ void MainWindow::openPDF()
             }
             if(!previous.isValid())
             {
-                previous = image.size();
-                *pix=QPixmap::fromImage(image);
+                previous= image.size();
+                *pix= QPixmap::fromImage(image);
             }
             else if(previous != image.size())
             {
-                *pix=QPixmap::fromImage(image.scaled(previous.width(),previous.height(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
+                *pix= QPixmap::fromImage(
+                    image.scaled(previous.width(), previous.height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
             }
             else
             {
-                *pix=QPixmap::fromImage(image);
+                *pix= QPixmap::fromImage(image);
             }
 
             if(!pix->isNull())
             {
-                if(i>=m_canvasList.size())
+                if(i >= m_canvasList.size())
                 {
                     addPage();
                 }
-                if(i<m_canvasList.size())
+                if(i < m_canvasList.size())
                 {
-                    Canvas* canvas = m_canvasList[i];
-                    if(nullptr!=canvas)
+                    Canvas* canvas= m_canvasList[i];
+                    if(nullptr != canvas)
                     {
                         canvas->setPixmap(pix);
-                        SetBackgroundCommand* cmd = new SetBackgroundCommand(canvas,pix);
+                        SetBackgroundCommand* cmd= new SetBackgroundCommand(canvas, pix);
                         m_undoStack.push(cmd);
-                        QString key = QStringLiteral("%2_background_%1.jpg").arg(lastCanvas+i).arg(id);
-                        m_imageModel->insertImage(pix,key,QString("From PDF"),true);
+                        QString key= QStringLiteral("%2_background_%1.jpg").arg(lastCanvas + i).arg(id);
+                        m_imageModel->insertImage(pix, key, QString("From PDF"), true);
                     }
                 }
             }
@@ -700,12 +702,11 @@ void MainWindow::openPDF()
 }
 void MainWindow::managePDFImport()
 {
-    m_pdf =new PdfManager(this);
-    connect(m_pdf,SIGNAL(apply()),this,SLOT(openPDF()));
-    connect(m_pdf,SIGNAL(accepted()),this,SLOT(openPDF()));
+    m_pdf= new PdfManager(this);
+    connect(m_pdf, SIGNAL(apply()), this, SLOT(openPDF()));
+    connect(m_pdf, SIGNAL(accepted()), this, SLOT(openPDF()));
     openPDF();
     m_pdf->exec();
-
 }
 
 void MainWindow::openImage()
@@ -715,55 +716,53 @@ void MainWindow::openImage()
 #else
     QString supportedFormat("Supported files (*.jpg *.png);;All Files (*.*)");
 #endif
-    QString img = QFileDialog::getOpenFileName(this,tr("Open Background Image"),QDir::homePath(),supportedFormat);
+    QString img= QFileDialog::getOpenFileName(this, tr("Open Background Image"), QDir::homePath(), supportedFormat);
     if(!img.isEmpty())
     {
         if(img.endsWith("pdf"))
         {
-            //openPDF(img);
-            m_pdfPath = img;
+            // openPDF(img);
+            m_pdfPath= img;
             managePDFImport();
         }
         else
         {
-            QPixmap* pix = new QPixmap(img);
+            QPixmap* pix= new QPixmap(img);
             if(!pix->isNull())
             {
-                Canvas* canvas = m_canvasList[m_currentPage];
+                Canvas* canvas= m_canvasList[m_currentPage];
                 canvas->setPixmap(pix);
-                SetBackgroundCommand* cmd = new SetBackgroundCommand(canvas,pix);
+                SetBackgroundCommand* cmd= new SetBackgroundCommand(canvas, pix);
                 m_undoStack.push(cmd);
-                QString id = QUuid::createUuid().toString();
-                QString key = QStringLiteral("%2_background_%1.jpg").arg(m_currentPage).arg(id);
-                m_imageModel->insertImage(pix,key,img,true);
+                QString id= QUuid::createUuid().toString();
+                QString key= QStringLiteral("%2_background_%1.jpg").arg(m_currentPage).arg(id);
+                m_imageModel->insertImage(pix, key, img, true);
             }
         }
     }
-
 }
 
 void MainWindow::sameGeometry()
 {
-    auto action = qobject_cast<QAction*>(sender());
-    bool width = false;
+    auto action= qobject_cast<QAction*>(sender());
+    bool width= false;
     if(m_sameWidth == action)
     {
-        width = true;
+        width= true;
     }
-    QList<QGraphicsItem*> items = m_view->scene()->selectedItems();
-    QGraphicsItem* reference = m_view->itemAt(m_posMenu);
+    QList<QGraphicsItem*> items= m_view->scene()->selectedItems();
+    QGraphicsItem* reference= m_view->itemAt(m_posMenu);
     if(nullptr != reference)
     {
-        qreal value = reference->boundingRect().height();
+        qreal value= reference->boundingRect().height();
         if(width)
         {
-            value = reference->boundingRect().width();
+            value= reference->boundingRect().width();
         }
-
 
         for(auto item : items)
         {
-            auto field = dynamic_cast<CanvasField*>(item);
+            auto field= dynamic_cast<CanvasField*>(item);
             if(width)
             {
                 field->setWidth(value);
@@ -778,34 +777,32 @@ void MainWindow::sameGeometry()
 
 void MainWindow::alignOn()
 {
-    auto action = qobject_cast<QAction*>(sender());
-    bool onX = false;
+    auto action= qobject_cast<QAction*>(sender());
+    bool onX= false;
     if(m_alignOnX == action)
     {
-        onX = true;
+        onX= true;
     }
 
-    QList<QGraphicsItem*> items = m_view->scene()->selectedItems();
-    QGraphicsItem* reference = m_view->itemAt(m_posMenu);
+    QList<QGraphicsItem*> items= m_view->scene()->selectedItems();
+    QGraphicsItem* reference= m_view->itemAt(m_posMenu);
     if(nullptr != reference)
     {
-        qreal value = reference->pos().y();
+        qreal value= reference->pos().y();
         if(onX)
         {
-            value = reference->pos().x();
+            value= reference->pos().x();
         }
-
 
         for(auto item : items)
         {
             if(onX)
             {
-                item->setPos(value,item->pos().y());
+                item->setPos(value, item->pos().y());
             }
             else
             {
-                item->setPos(item->pos().x(),value);
-
+                item->setPos(item->pos().x(), value);
             }
         }
     }
@@ -815,11 +812,11 @@ void MainWindow::setFitInView()
 {
     if(m_fitInView->isChecked())
     {
-        Canvas* canvas = m_canvasList[m_currentPage];
-        QPixmap* pix = canvas->pixmap();
+        Canvas* canvas= m_canvasList[m_currentPage];
+        QPixmap* pix= canvas->pixmap();
         if(nullptr != pix)
         {
-            m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
+            m_view->fitInView(QRectF(pix->rect()), Qt::KeepAspectRatioByExpanding);
         }
     }
     else
@@ -830,28 +827,27 @@ void MainWindow::setFitInView()
 void MainWindow::showPreferences()
 {
     PreferencesDialog dialog;
-    if(m_preferences->value("hasCustomPath",false).toBool())
+    if(m_preferences->value("hasCustomPath", false).toBool())
     {
-        dialog.setGenerationPath(m_preferences->value("GenerationCustomPath",QDir::homePath()).toString());
+        dialog.setGenerationPath(m_preferences->value("GenerationCustomPath", QDir::homePath()).toString());
     }
     if(QDialog::Accepted == dialog.exec())
     {
-        m_preferences->registerValue("hasCustomPath",dialog.hasCustomPath());
-        m_preferences->registerValue("GenerationCustomPath",dialog.generationPath());
+        m_preferences->registerValue("hasCustomPath", dialog.hasCustomPath());
+        m_preferences->registerValue("GenerationCustomPath", dialog.generationPath());
     }
 }
 
-void MainWindow::menuRequestedFromView(const QPoint & pos)
+void MainWindow::menuRequestedFromView(const QPoint& pos)
 {
     Q_UNUSED(pos);
     QMenu menu(this);
 
-
-    auto list = m_view->items(pos);
+    auto list= m_view->items(pos);
 
     for(auto item : list)
     {
-        auto field = dynamic_cast<CanvasField*>(item);
+        auto field= dynamic_cast<CanvasField*>(item);
         if(nullptr != field)
         {
             field->setMenu(menu);
@@ -867,16 +863,16 @@ void MainWindow::menuRequestedFromView(const QPoint & pos)
     menu.addSeparator();
     menu.addAction(m_dupplicate);
 
-    m_posMenu = pos;
+    m_posMenu= pos;
     menu.exec(QCursor::pos());
 }
 #include "undo/setpropertyonallcharacters.h"
-void MainWindow::menuRequested(const QPoint & pos)
+void MainWindow::menuRequested(const QPoint& pos)
 {
     Q_UNUSED(pos);
     QMenu menu(this);
 
-    QModelIndex index = ui->m_characterView->currentIndex();
+    QModelIndex index= ui->m_characterView->currentIndex();
 
     menu.addAction(m_addCharacter);
     // menu.addAction(m_copyCharacter);
@@ -887,49 +883,48 @@ void MainWindow::menuRequested(const QPoint & pos)
     menu.addAction(m_defineAsTabName);
     menu.addSeparator();
     menu.addAction(m_deleteCharacter);
-    QAction* act = menu.exec(QCursor::pos());
+    QAction* act= menu.exec(QCursor::pos());
 
     if(act == m_deleteCharacter)
     {
-        DeleteCharacterCommand* cmd = new DeleteCharacterCommand(index,m_characterModel);
+        DeleteCharacterCommand* cmd= new DeleteCharacterCommand(index, m_characterModel);
         m_undoStack.push(cmd);
     }
-    else if( act == m_defineAsTabName)
+    else if(act == m_defineAsTabName)
     {
-        QString name = index.data().toString();
+        QString name= index.data().toString();
         if(!name.isEmpty())
         {
-            CharacterSheet* sheet = m_characterModel->getCharacterSheet(index.column()-1);
+            CharacterSheet* sheet= m_characterModel->getCharacterSheet(index.column() - 1);
             sheet->setName(name);
         }
     }
     else if(act == m_applyValueOnAllCharacters)
     {
-        QString value = index.data().toString();
-        QString formula = index.data(Qt::UserRole).toString();
-        auto characterItem = m_characterModel->indexToSection(index);
-        if((!value.isEmpty())&&(nullptr!=characterItem))
+        QString value= index.data().toString();
+        QString formula= index.data(Qt::UserRole).toString();
+        auto characterItem= m_characterModel->indexToSection(index);
+        if((!value.isEmpty()) && (nullptr != characterItem))
         {
-            QString key = characterItem->getId();
-            SetPropertyOnCharactersCommand* cmd = new SetPropertyOnCharactersCommand(key,value,formula,m_characterModel);
+            QString key= characterItem->getId();
+            SetPropertyOnCharactersCommand* cmd
+                = new SetPropertyOnCharactersCommand(key, value, formula, m_characterModel);
             m_undoStack.push(cmd);
         }
     }
     else if(act == m_applyValueOnSelectedCharacterLines)
     {
-        applyValueOnCharacterSelection(index,true,false);
-    }/// TODO these functions
+        applyValueOnCharacterSelection(index, true, false);
+    } /// TODO these functions
     else if(act == m_applyValueOnAllCharacterLines)
     {
-
     }
     else if(act == m_copyCharacter)
     {
-
     }
 }
 
-void MainWindow::applyValueOnCharacterSelection(QModelIndex& index, bool selection,bool allCharacter)
+void MainWindow::applyValueOnCharacterSelection(QModelIndex& index, bool selection, bool allCharacter)
 {
     Q_UNUSED(allCharacter);
     if(!index.isValid())
@@ -937,30 +932,30 @@ void MainWindow::applyValueOnCharacterSelection(QModelIndex& index, bool selecti
 
     if(selection)
     {
-        QVariant var = index.data(Qt::DisplayRole);
-        QVariant editvar = index.data(Qt::EditRole);
+        QVariant var= index.data(Qt::DisplayRole);
+        QVariant editvar= index.data(Qt::EditRole);
         if(editvar != var)
         {
-            var = editvar;
+            var= editvar;
         }
-        int col = index.column();
-        QModelIndexList list = ui->m_characterView->selectionModel()->selectedIndexes();
+        int col= index.column();
+        QModelIndexList list= ui->m_characterView->selectionModel()->selectedIndexes();
         for(QModelIndex modelIndex : list)
         {
             if(modelIndex.column() == col)
             {
-                m_characterModel->setData(modelIndex,var,Qt::EditRole);
+                m_characterModel->setData(modelIndex, var, Qt::EditRole);
             }
         }
     }
 }
 
-void MainWindow::menuRequestedForImageModel(const QPoint & pos)
+void MainWindow::menuRequestedForImageModel(const QPoint& pos)
 {
     Q_UNUSED(pos);
     QMenu menu(this);
 
-    QModelIndex index = ui->m_imageList->currentIndex();
+    QModelIndex index= ui->m_imageList->currentIndex();
     if(index.isValid())
     {
         menu.addAction(m_copyPath);
@@ -968,71 +963,66 @@ void MainWindow::menuRequestedForImageModel(const QPoint & pos)
         menu.addAction(m_replaceImage);
         menu.addAction(ui->m_deleteImageAct);
 
-        m_copyPath->setEnabled(index.column()==1);
+        m_copyPath->setEnabled(index.column() == 1);
     }
 
-    QAction* act = menu.exec(QCursor::pos());
-
-    if( m_replaceImage == act)
-    {
-    }
-
+    menu.exec(QCursor::pos());
 }
 void MainWindow::copyPath()
 {
-    QModelIndex index = ui->m_imageList->currentIndex();
+    QModelIndex index= ui->m_imageList->currentIndex();
     if(index.column() == 1)
     {
-        QString path = index.data().toString();
-        QClipboard* clipboard = QGuiApplication::clipboard();
+        QString path= index.data().toString();
+        QClipboard* clipboard= QGuiApplication::clipboard();
         clipboard->setText(path);
     }
 }
 
 void MainWindow::columnAdded()
 {
-    int col = m_characterModel->columnCount();
-    ui->m_characterView->resizeColumnToContents(col-2);
+    int col= m_characterModel->columnCount();
+    ui->m_characterView->resizeColumnToContents(col - 2);
 }
 
 void MainWindow::setImage()
 {
-    int i = 0;
+    int i= 0;
     m_imageModel->clear();
     QSize previous;
-    bool issue = false;
+    bool issue= false;
     for(auto canvas : m_canvasList)
     {
-        QPixmap* pix = canvas->pixmap();
-        if(pix!=nullptr)
+        QPixmap* pix= canvas->pixmap();
+        if(pix != nullptr)
         {
             if(!previous.isValid())
             {
-                previous = pix->size();
+                previous= pix->size();
             }
-            if(previous!=pix->size())
+            if(previous != pix->size())
             {
-                issue = true;
+                issue= true;
             }
             setFitInView();
         }
         else if(nullptr == pix)
         {
-            pix=new QPixmap();
+            pix= new QPixmap();
         }
-        QString idList = QStringLiteral("%2_background_%1.jpg").arg(i).arg(m_currentUuid);
-        m_imageModel->insertImage(pix,idList,"from canvas",true);
+        QString idList= QStringLiteral("%2_background_%1.jpg").arg(i).arg(m_currentUuid);
+        m_imageModel->insertImage(pix, idList, "from canvas", true);
         ++i;
     }
     if(issue)
     {
-        QMessageBox::warning(this,tr("Error!"),tr("Background images have to be of the same size"),QMessageBox::Ok);
+        QMessageBox::warning(this, tr("Error!"), tr("Background images have to be of the same size"), QMessageBox::Ok);
     }
 }
 
 void MainWindow::setCurrentTool()
 {
-    QAction* action = dynamic_cast<QAction*>(sender());
+    QAction* action= dynamic_cast<QAction*>(sender());
     for(auto canvas : m_canvasList)
     {
         canvas->setCurrentTool(static_cast<Canvas::Tool>(action->data().toInt()));
@@ -1041,7 +1031,8 @@ void MainWindow::setCurrentTool()
 
 bool MainWindow::saveAs()
 {
-    auto filename = QFileDialog::getSaveFileName(this,tr("Save CharacterSheet"),QDir::homePath(),tr("Rolisteam CharacterSheet (*.rcs)"));
+    auto filename= QFileDialog::getSaveFileName(
+        this, tr("Save CharacterSheet"), QDir::homePath(), tr("Rolisteam CharacterSheet (*.rcs)"));
     if(!filename.isEmpty())
     {
         if(!filename.endsWith(".rcs"))
@@ -1061,58 +1052,58 @@ bool MainWindow::save()
         return saveFile(m_currentFile);
 }
 
-bool MainWindow::saveFile(const QString &filename)
+bool MainWindow::saveFile(const QString& filename)
 {
     if(!filename.isEmpty())
     {
         QFile file(filename);
         if(file.open(QIODevice::WriteOnly))
         {
-            //init Json
+            // init Json
             QJsonDocument json;
             QJsonObject obj;
 
-            //Get datamodel
+            // Get datamodel
             QJsonObject data;
             m_model->save(data);
-            obj["data"]=data;
+            obj["data"]= data;
 
-            //qml file
-            QString qmlFile=ui->m_codeEdit->document()->toPlainText();
+            // qml file
+            QString qmlFile= ui->m_codeEdit->document()->toPlainText();
             if(qmlFile.isEmpty())
             {
                 generateQML(qmlFile);
             }
-            obj["qml"]=qmlFile;
+            obj["qml"]= qmlFile;
 
-            obj["additionnalHeadCode"] = m_additionnalHeadCode;
-            obj["additionnalImport"] = m_additionnalImport;
-            obj["fixedScale"] = m_fixedScaleSheet;
-            obj["additionnalBottomCode"] = m_additionnalBottomCode;
-            obj["flickable"] = m_flickableSheet;
-            obj["pageCount"] = m_canvasList.size();
-            obj["uuid"] = m_currentUuid;
+            obj["additionnalHeadCode"]= m_additionnalHeadCode;
+            obj["additionnalImport"]= m_additionnalImport;
+            obj["fixedScale"]= m_fixedScaleSheet;
+            obj["additionnalBottomCode"]= m_additionnalBottomCode;
+            obj["flickable"]= m_flickableSheet;
+            obj["pageCount"]= m_canvasList.size();
+            obj["uuid"]= m_currentUuid;
 
             QJsonArray fonts;
-            QStringList list = m_sheetProperties->getFontUri();
+            QStringList list= m_sheetProperties->getFontUri();
             for(QString fontUri : list)
             {
                 QFile file(fontUri);
                 if(file.open(QIODevice::ReadOnly))
                 {
                     QJsonObject font;
-                    font["name"] = fontUri;
-                    QByteArray array = file.readAll();
-                    font["data"] = QString(array.toBase64());
+                    font["name"]= fontUri;
+                    QByteArray array= file.readAll();
+                    font["data"]= QString(array.toBase64());
                     fonts.append(font);
                 }
             }
-            obj["fonts"]=fonts;
+            obj["fonts"]= fonts;
 
-            //background
-            QJsonArray images = m_imageModel->save();
-            obj["background"]=images;
-            m_characterModel->writeModel(obj,true);
+            // background
+            QJsonArray images= m_imageModel->save();
+            obj["background"]= images;
+            m_characterModel->writeModel(obj, true);
             json.setObject(obj);
             file.write(json.toJson());
             setCurrentFile(filename);
@@ -1130,55 +1121,54 @@ bool MainWindow::loadFile(const QString& filename)
         QFile file(filename);
         if(file.open(QIODevice::ReadOnly))
         {
-            QJsonDocument json = QJsonDocument::fromJson(file.readAll());
-            QJsonObject jsonObj = json.object();
-            QJsonObject data = jsonObj["data"].toObject();
+            QJsonDocument json= QJsonDocument::fromJson(file.readAll());
+            QJsonObject jsonObj= json.object();
+            QJsonObject data= jsonObj["data"].toObject();
 
-            QString qml = jsonObj["qml"].toString();
+            QString qml= jsonObj["qml"].toString();
 
-            m_additionnalHeadCode = jsonObj["additionnalHeadCode"].toString("");
+            m_additionnalHeadCode= jsonObj["additionnalHeadCode"].toString("");
             if(m_additionnalHeadCode.isEmpty())
-                m_additionnalHeadCode = jsonObj["additionnalCode"].toString("");
-            m_additionnalImport = jsonObj["additionnalImport"].toString("");
-            m_fixedScaleSheet = jsonObj["fixedScale"].toDouble(1.0);
-            m_additionnalBottomCode = jsonObj["additionnalBottomCode"].toString("");
-            m_flickableSheet = jsonObj["flickable"].toBool(false);
-            int pageCount = jsonObj["pageCount"].toInt();
-            m_currentUuid = jsonObj["uuid"].toString(m_currentUuid);
+                m_additionnalHeadCode= jsonObj["additionnalCode"].toString("");
+            m_additionnalImport= jsonObj["additionnalImport"].toString("");
+            m_fixedScaleSheet= jsonObj["fixedScale"].toDouble(1.0);
+            m_additionnalBottomCode= jsonObj["additionnalBottomCode"].toString("");
+            m_flickableSheet= jsonObj["flickable"].toBool(false);
+            int pageCount= jsonObj["pageCount"].toInt();
+            m_currentUuid= jsonObj["uuid"].toString(m_currentUuid);
 
-            const auto fonts = jsonObj["fonts"].toArray();
+            const auto fonts= jsonObj["fonts"].toArray();
             for(const auto obj : fonts)
             {
-                const auto font = obj.toObject();
-                const auto fontData = QByteArray::fromBase64(font["data"].toString("").toLatin1());
+                const auto font= obj.toObject();
+                const auto fontData= QByteArray::fromBase64(font["data"].toString("").toLatin1());
                 QFontDatabase::addApplicationFontFromData(fontData);
             }
 
             ui->m_codeEdit->setPlainText(qml);
 
-            QJsonArray images = jsonObj["background"].toArray();
+            QJsonArray images= jsonObj["background"].toArray();
             QList<QJsonObject> objList;
             for(auto obj : images)
             {
                 objList.append(obj.toObject());
             }
 
-
-
-            std::sort(objList.begin(),objList.end(),[](const QJsonObject& aObj,const QJsonObject& bObj){
+            std::sort(objList.begin(), objList.end(), [](const QJsonObject& aObj, const QJsonObject& bObj) {
                 QRegularExpression exp(".*_background_(\\d+).*");
-                QRegularExpressionMatch match = exp.match(aObj["key"].toString());
-                int bInt = -1;
-                int aInt = -1;
+                QRegularExpressionMatch match= exp.match(aObj["key"].toString());
+                int bInt= -1;
+                int aInt= -1;
                 if(match.hasMatch())
                 {
-                    aInt = match.captured(1).toInt();
+                    aInt= match.captured(1).toInt();
                 }
-                QRegularExpressionMatch match2 = exp.match(bObj["key"].toString());
-                if (match2.hasMatch()) {
-                    bInt = match2.captured(1).toInt();
+                QRegularExpressionMatch match2= exp.match(bObj["key"].toString());
+                if(match2.hasMatch())
+                {
+                    bInt= match2.captured(1).toInt();
                 }
-                if((0 != bInt)||(0 != aInt))
+                if((0 != bInt) || (0 != aInt))
                 {
                     return bInt > aInt;
                 }
@@ -1187,48 +1177,49 @@ bool MainWindow::loadFile(const QString& filename)
                     return bObj["key"].toString() > aObj["key"].toString();
                 }
             });
-            int i = 0;
-            QPixmap* refBgImage=nullptr;
+            int i= 0;
+            QPixmap* refBgImage= nullptr;
             for(auto jsonpix : objList)
             {
-                QJsonObject oj = jsonpix;//jsonpix.toObject();
-                QString str = oj["bin"].toString();
-                QString id = oj["key"].toString();
-                bool isBg = oj["isBg"].toBool();
-                QByteArray array = QByteArray::fromBase64(str.toUtf8());
-                QPixmap* pix = new QPixmap();
+                QJsonObject oj= jsonpix; // jsonpix.toObject();
+                QString str= oj["bin"].toString();
+                QString id= oj["key"].toString();
+                bool isBg= oj["isBg"].toBool();
+                QByteArray array= QByteArray::fromBase64(str.toUtf8());
+                QPixmap* pix= new QPixmap();
                 pix->loadFromData(array);
                 if(isBg)
                 {
                     if(nullptr == refBgImage)
-                        refBgImage = pix;
-                    Canvas* canvas = new Canvas();
+                        refBgImage= pix;
+                    Canvas* canvas= new Canvas();
                     canvas->setModel(m_model);
                     canvas->setImageModel(m_imageModel);
                     canvas->setUndoStack(&m_undoStack);
-                    SetBackgroundCommand cmd(canvas,pix);
+                    SetBackgroundCommand cmd(canvas, pix);
                     cmd.redo();
                     canvas->setCurrentPage(++i);
                     m_canvasList.append(canvas);
-                    connect(canvas,&Canvas::imageChanged,this,&MainWindow::setImage);
+                    connect(canvas, &Canvas::imageChanged, this, &MainWindow::setImage);
                 }
-                m_imageModel->insertImage(pix,id,tr("from rcs file"),isBg);
+                m_imageModel->insertImage(pix, id, tr("from rcs file"), isBg);
             }
 
             while(pageCount > i)
             {
-                Canvas* canvas = new Canvas();
+                Canvas* canvas= new Canvas();
                 canvas->setModel(m_model);
                 canvas->setImageModel(m_imageModel);
                 canvas->setUndoStack(&m_undoStack);
-                QPixmap* copy = new QPixmap();
-                *copy = refBgImage->copy();
+                QPixmap* copy= new QPixmap();
+                *copy= refBgImage->copy();
                 copy->fill();
                 canvas->setPixmap(copy);
                 canvas->setCurrentPage(++i);
                 m_canvasList.append(canvas);
-                m_imageModel->insertImage(copy,QStringLiteral("%1_background_%2.jpg").arg(m_currentUuid).arg(i),tr("blank page"),true);
-                connect(canvas,&Canvas::imageChanged,this,&MainWindow::setImage);
+                m_imageModel->insertImage(
+                    copy, QStringLiteral("%1_background_%2.jpg").arg(m_currentUuid).arg(i), tr("blank page"), true);
+                connect(canvas, &Canvas::imageChanged, this, &MainWindow::setImage);
             }
 
             QList<QGraphicsScene*> list;
@@ -1236,9 +1227,9 @@ bool MainWindow::loadFile(const QString& filename)
             {
                 list << canvas;
             }
-            m_model->load(data,list);
+            m_model->load(data, list);
             m_characterModel->setRootSection(m_model->getRootSection());
-            m_characterModel->readModel(jsonObj,false);
+            m_characterModel->readModel(jsonObj, false);
             updatePageSelector();
             setCurrentFile(filename);
             return true;
@@ -1250,7 +1241,8 @@ void MainWindow::open()
 {
     if(mayBeSaved())
     {
-        auto filename = QFileDialog::getOpenFileName(this,tr("Save CharacterSheet"),QDir::homePath(),tr("Rolisteam CharacterSheet (*.rcs)"));
+        auto filename= QFileDialog::getOpenFileName(
+            this, tr("Save CharacterSheet"), QDir::homePath(), tr("Rolisteam CharacterSheet (*.rcs)"));
         if(!filename.isEmpty())
         {
             loadFile(filename);
@@ -1262,23 +1254,22 @@ void MainWindow::openRecentFile()
 {
     if(mayBeSaved())
     {
-        QAction* act = qobject_cast<QAction*>(sender());
+        QAction* act= qobject_cast<QAction*>(sender());
         if(act)
         {
             loadFile(act->data().toString());
         }
     }
-
 }
 
 void MainWindow::updatePageSelector()
 {
     QStringList list;
-    for(int i = 0; i < m_canvasList.size() ; ++i)
+    for(int i= 0; i < m_canvasList.size(); ++i)
     {
-        list << QStringLiteral("Page %1").arg(i+1);
+        list << QStringLiteral("Page %1").arg(i + 1);
     }
-    auto model = AddPageCommand::getPagesModel();
+    auto model= AddPageCommand::getPagesModel();
     model->setStringList(list);
     ui->m_selectPageCb->setModel(AddPageCommand::getPagesModel());
     ui->m_selectPageCb->setCurrentIndex(0);
@@ -1286,14 +1277,12 @@ void MainWindow::updatePageSelector()
 
 void MainWindow::updateRecentFileAction()
 {
-    std::remove_if(m_recentFiles.begin(),m_recentFiles.end(), [](QString const& f){
-        return !QFile::exists(f);
-    });
+    std::remove_if(m_recentFiles.begin(), m_recentFiles.end(), [](QString const& f) { return !QFile::exists(f); });
 
-    int i = 0;
+    int i= 0;
     for(auto act : m_recentActions)
     {
-        if(i>=m_recentFiles.size())
+        if(i >= m_recentFiles.size())
         {
             act->setVisible(false);
             continue;
@@ -1311,15 +1300,15 @@ void MainWindow::updateRecentFileAction()
 
 void MainWindow::pageCountChanged()
 {
-    if( m_currentPage >= pageCount())
+    if(m_currentPage >= pageCount())
     {
-        ui->m_selectPageCb->setCurrentIndex(pageCount()-1);
+        ui->m_selectPageCb->setCurrentIndex(pageCount() - 1);
     }
     PageDelegate::setPageNumber(pageCount());
 }
 int MainWindow::pageCount()
 {
-    auto model = AddPageCommand::getPagesModel();
+    auto model= AddPageCommand::getPagesModel();
     return model->rowCount();
 }
 
@@ -1328,15 +1317,15 @@ QString MainWindow::currentUuid() const
     return m_currentUuid;
 }
 
-void MainWindow::setCurrentUuid(const QString &currentUuid)
+void MainWindow::setCurrentUuid(const QString& currentUuid)
 {
-    m_currentUuid = currentUuid;
+    m_currentUuid= currentUuid;
 }
 void MainWindow::currentPageChanged(int i)
 {
-    if((i>=0)&&(i<m_canvasList.size()))
+    if((i >= 0) && (i < m_canvasList.size()))
     {
-        m_currentPage = i;
+        m_currentPage= i;
         m_view->setScene(m_canvasList[i]);
     }
 }
@@ -1344,17 +1333,16 @@ void MainWindow::codeChanged()
 {
     if(!ui->m_codeEdit->toPlainText().isEmpty())
     {
-        m_editedTextByHand = true;
+        m_editedTextByHand= true;
         setWindowModified(true);
     }
 }
 
 void MainWindow::generateQML(QString& qml)
 {
-
     QTextStream text(&qml);
-    QPixmap* pix = nullptr;
-    bool allTheSame=true;
+    QPixmap* pix= nullptr;
+    bool allTheSame= true;
     QSize size;
 
     QList<QPixmap*> imageList;
@@ -1371,26 +1359,26 @@ void MainWindow::generateQML(QString& qml)
         if(size != pix2->size())
         {
             if(size.isValid())
-                allTheSame=false;
-            size = pix2->size();
+                allTheSame= false;
+            size= pix2->size();
         }
-        pix = pix2;
+        pix= pix2;
     }
-    qreal ratio = 1;
+    qreal ratio= 1;
     qreal ratioBis= 1;
     bool hasImage= false;
-    if((allTheSame)&&(nullptr!=pix)&&(!pix->isNull()))
+    if((allTheSame) && (nullptr != pix) && (!pix->isNull()))
     {
-        ratio = static_cast<qreal>(pix->width())/static_cast<qreal>(pix->height());
-        ratioBis = static_cast<qreal>(pix->height())/static_cast<qreal>(pix->width());
-        hasImage=true;
+        ratio= static_cast<qreal>(pix->width()) / static_cast<qreal>(pix->height());
+        ratioBis= static_cast<qreal>(pix->height()) / static_cast<qreal>(pix->width());
+        hasImage= true;
     }
 
-    QString key = m_pixList.key(pix);
-    QStringList keyParts = key.split('_');
+    QString key= m_pixList.key(pix);
+    QStringList keyParts= key.split('_');
     if(!keyParts.isEmpty())
     {
-        key = keyParts[0];
+        key= keyParts[0];
     }
     text << "import QtQuick 2.4\n";
     text << "import QtQuick.Layouts 1.3\n";
@@ -1399,7 +1387,7 @@ void MainWindow::generateQML(QString& qml)
     text << "import \"qrc:/resources/qml/\"\n";
     if(!m_additionnalImport.isEmpty())
     {
-        text << "   "<< m_additionnalImport<< "\n";
+        text << "   " << m_additionnalImport << "\n";
     }
     text << "\n";
     if(m_flickableSheet)
@@ -1420,13 +1408,13 @@ void MainWindow::generateQML(QString& qml)
     }
     text << "    focus: true\n";
     text << "    property int page: 0\n";
-    text << "    property int maxPage:"<< m_canvasList.size()-1 <<"\n";
+    text << "    property int maxPage:" << m_canvasList.size() - 1 << "\n";
     text << "    onPageChanged: {\n";
     text << "        page=page>maxPage ? maxPage : page<0 ? 0 : page\n";
     text << "    }\n";
     if(!m_additionnalHeadCode.isEmpty())
     {
-        text << "   "<< m_additionnalHeadCode<< "\n";
+        text << "   " << m_additionnalHeadCode << "\n";
     }
     text << "    Keys.onLeftPressed: --page\n";
     text << "    Keys.onRightPressed: ++page\n";
@@ -1439,24 +1427,31 @@ void MainWindow::generateQML(QString& qml)
     if(hasImage)
     {
         text << "    Image {\n";
-        text << "        id:imagebg" << "\n";
-        text << "        objectName:\"imagebg\"" << "\n";
+        text << "        id:imagebg"
+             << "\n";
+        text << "        objectName:\"imagebg\""
+             << "\n";
         text << "        property real iratio :" << ratio << "\n";
         text << "        property real iratiobis :" << ratioBis << "\n";
         if(m_flickableSheet)
         {
-            text << "       property real realscale: "<< m_fixedScaleSheet << "\n";
-            text << "       width: sourceSize.width*realscale" << "\n";
-            text << "       height: sourceSize.height*realscale" << "\n";
+            text << "       property real realscale: " << m_fixedScaleSheet << "\n";
+            text << "       width: sourceSize.width*realscale"
+                 << "\n";
+            text << "       height: sourceSize.height*realscale"
+                 << "\n";
         }
         else
         {
-            text << "       property real realscale: width/"<< pix->width() << "\n";
-            text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width" << "\n";
-            text << "       height:(parent.width>parent.height*iratio)?parent.height:iratiobis*parent.width" << "\n";
+            text << "       property real realscale: width/" << pix->width() << "\n";
+            text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width"
+                 << "\n";
+            text << "       height:(parent.width>parent.height*iratio)?parent.height:iratiobis*parent.width"
+                 << "\n";
         }
-        text << "       source: \"image://rcs/"+key+"_background_%1.jpg\".arg(root.page)" << "\n";
-        m_model->generateQML(text,1,false);
+        text << "       source: \"image://rcs/" + key + "_background_%1.jpg\".arg(root.page)"
+             << "\n";
+        m_model->generateQML(text, 1, false);
         text << "\n";
         text << "  }\n";
     }
@@ -1464,32 +1459,30 @@ void MainWindow::generateQML(QString& qml)
     {
         if(m_flickableSheet)
         {
-            text << "    property real realscale: "<< m_fixedScaleSheet << "\n";
+            text << "    property real realscale: " << m_fixedScaleSheet << "\n";
         }
         else
         {
             text << "    property real realscale: 1\n";
         }
-        m_model->generateQML(text,1,false);
+        m_model->generateQML(text, 1, false);
     }
     if(!m_additionnalBottomCode.isEmpty())
     {
-        text << "   "<< m_additionnalBottomCode << "\n";
+        text << "   " << m_additionnalBottomCode << "\n";
     }
     text << "}\n";
     text.flush();
-
-
 }
-
 
 void MainWindow::showQML()
 {
     if(m_editedTextByHand)
     {
-        QMessageBox::StandardButton btn = QMessageBox::question(this,tr("Do you want to erase current QML code ?"),
-                                                                tr("Generate QML code will override any change you made in the QML.<br/>Do you really want to generate QML code ?"),
-                                                                QMessageBox::Yes | QMessageBox::Cancel,QMessageBox::Cancel);
+        QMessageBox::StandardButton btn= QMessageBox::question(this, tr("Do you want to erase current QML code ?"),
+            tr("Generate QML code will override any change you made in the QML.<br/>Do you really want to generate QML "
+               "code ?"),
+            QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel);
 
         if(btn == QMessageBox::Cancel)
         {
@@ -1499,11 +1492,11 @@ void MainWindow::showQML()
     QString data;
     generateQML(data);
     ui->m_codeEdit->setPlainText(data);
-    m_editedTextByHand=false;
-    QSharedPointer<QHash<QString,QPixmap>> imgdata = m_imgProvider->getData();
+    m_editedTextByHand= false;
+    QSharedPointer<QHash<QString, QPixmap>> imgdata= m_imgProvider->getData();
 
     QTemporaryFile file;
-    if(file.open())//QIODevice::WriteOnly
+    if(file.open()) // QIODevice::WriteOnly
     {
         file.write(data.toUtf8());
         file.close();
@@ -1518,23 +1511,22 @@ void MainWindow::showQML()
 
     }*/
     ui->m_quickview->engine()->clearComponentCache();
-    m_imgProvider = new RolisteamImageProvider();
+    m_imgProvider= new RolisteamImageProvider();
     m_imgProvider->setData(imgdata);
-    ui->m_quickview->engine()->addImageProvider(QLatin1String("rcs"),m_imgProvider);
-    QList<CharacterSheetItem *> list = m_model->children();
+    ui->m_quickview->engine()->addImageProvider(QLatin1String("rcs"), m_imgProvider);
+    QList<CharacterSheetItem*> list= m_model->children();
     for(CharacterSheetItem* item : list)
     {
-        ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
+        ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(), item);
     }
-    connect(ui->m_quickview->engine(),&QQmlEngine::warnings,this,[=](const QList<QQmlError> &warning){
-        displayWarningsQML(warning,LogController::Warning);
-    });
+    connect(ui->m_quickview->engine(), &QQmlEngine::warnings, this,
+        [=](const QList<QQmlError>& warning) { displayWarningsQML(warning, LogController::Warning); });
     ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
     displayWarningsQML(ui->m_quickview->errors());
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    QObject* root = ui->m_quickview->rootObject();
-    connect(root,SIGNAL(rollDiceCmd(QString,bool)),this,SLOT(rollDice(QString,bool)));
-    connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
+    QObject* root= ui->m_quickview->rootObject();
+    connect(root, SIGNAL(rollDiceCmd(QString, bool)), this, SLOT(rollDice(QString, bool)));
+    connect(root, SIGNAL(rollDiceCmd(QString)), this, SLOT(rollDice(QString)));
 }
 void MainWindow::displayWarningsQML(QList<QQmlError> list, LogController::LogLevel level)
 {
@@ -1549,41 +1541,42 @@ void MainWindow::displayWarningsQML(QList<QQmlError> list, LogController::LogLev
 
 void MainWindow::showQMLFromCode()
 {
-    QString data = ui->m_codeEdit->document()->toPlainText();
+    QString data= ui->m_codeEdit->document()->toPlainText();
 
     QTemporaryFile file;
-    if(file.open())//QIODevice::WriteOnly
+    if(file.open()) // QIODevice::WriteOnly
     {
         file.write(data.toUtf8());
         file.close();
     }
 
-    //delete ui->m_quickview;
+    // delete ui->m_quickview;
     ui->m_quickview->engine()->clearComponentCache();
-    QSharedPointer<QHash<QString,QPixmap>> imgdata = m_imgProvider->getData();
-    m_imgProvider = new RolisteamImageProvider();
+    QSharedPointer<QHash<QString, QPixmap>> imgdata= m_imgProvider->getData();
+    m_imgProvider= new RolisteamImageProvider();
     m_imgProvider->setData(imgdata);
-    ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
+    ui->m_quickview->engine()->addImageProvider("rcs", m_imgProvider);
 
-    QList<CharacterSheetItem *> list = m_model->children();
+    QList<CharacterSheetItem*> list= m_model->children();
     for(CharacterSheetItem* item : list)
     {
-        ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
+        ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(), item);
     }
     ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
     displayWarningsQML(ui->m_quickview->errors());
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
-    QObject* root = ui->m_quickview->rootObject();
-    connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
+    QObject* root= ui->m_quickview->rootObject();
+    connect(root, SIGNAL(rollDiceCmd(QString)), this, SLOT(rollDice(QString)));
 }
 
 void MainWindow::saveQML()
 {
-    QString qmlFile = QFileDialog::getOpenFileName(this,tr("Save CharacterSheet View"),QDir::homePath(),tr("CharacterSheet View (*.qml)"));
+    QString qmlFile= QFileDialog::getOpenFileName(
+        this, tr("Save CharacterSheet View"), QDir::homePath(), tr("CharacterSheet View (*.qml)"));
     if(!qmlFile.isEmpty())
     {
-        QString data=ui->m_codeEdit->toPlainText();
+        QString data= ui->m_codeEdit->toPlainText();
         generateQML(data);
         ui->m_codeEdit->setPlainText(data);
 
@@ -1598,16 +1591,16 @@ void MainWindow::saveQML()
 
 void MainWindow::openQML()
 {
-    QString qmlFile = QFileDialog::getOpenFileName(this,tr("Save CharacterSheet View"),QDir::homePath(),tr("Rolisteam CharacterSheet View (*.qml)"));
+    QString qmlFile= QFileDialog::getOpenFileName(
+        this, tr("Save CharacterSheet View"), QDir::homePath(), tr("Rolisteam CharacterSheet View (*.qml)"));
     if(!qmlFile.isEmpty())
     {
         QFile file(qmlFile);
         if(file.open(QIODevice::ReadOnly))
         {
-            QString qmlContent = file.readAll();
+            QString qmlContent= file.readAll();
             ui->m_codeEdit->setPlainText(qmlContent);
             showQMLFromCode();
-
         }
     }
 }
@@ -1619,7 +1612,7 @@ bool MainWindow::qmlGeneration() const
 
 void MainWindow::setQmlGeneration(bool qmlGeneration)
 {
-    m_qmlGeneration = qmlGeneration;
+    m_qmlGeneration= qmlGeneration;
 }
 
 void MainWindow::rollDice(QString cmd)
@@ -1634,24 +1627,24 @@ void MainWindow::rollDice(QString cmd, bool b)
 
 void MainWindow::addPage()
 {
-    Canvas* previous = m_canvasList[m_currentPage];
+    Canvas* previous= m_canvasList[m_currentPage];
     ui->m_selectPageCb->setModel(AddPageCommand::getPagesModel());
-    AddPageCommand* cmd = new AddPageCommand(++m_currentPage,m_canvasList,previous->currentTool());
-    auto canvas = cmd->canvas();
+    AddPageCommand* cmd= new AddPageCommand(++m_currentPage, m_canvasList, previous->currentTool());
+    auto canvas= cmd->canvas();
     canvas->setUndoStack(&m_undoStack);
     m_undoStack.push(cmd);
-    connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
+    connect(canvas, SIGNAL(imageChanged()), this, SLOT(setImage()));
     canvas->setModel(m_model);
     canvas->setImageModel(m_imageModel);
-    ui->m_selectPageCb->setCurrentIndex(pageCount()-1);
+    ui->m_selectPageCb->setCurrentIndex(pageCount() - 1);
     setWindowModified(true);
 }
 
 void MainWindow::removePage()
 {
-    if(m_canvasList.size()>1)
+    if(m_canvasList.size() > 1)
     {
-        DeletePageCommand* cmd = new DeletePageCommand(m_currentPage,m_canvasList,m_model);
+        DeletePageCommand* cmd= new DeletePageCommand(m_currentPage, m_canvasList, m_model);
         m_undoStack.push(cmd);
     }
 }
@@ -1660,42 +1653,42 @@ void MainWindow::aboutRcse()
 {
     QString version("%1.%2.%3");
 
-    AboutRcse dialog(version.arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR),this);
+    AboutRcse dialog(version.arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR), this);
     dialog.exec();
 }
 void MainWindow::addImage()
 {
     QString supportedFormat("Supported files (*.jpg *.png);;All Files (*.*)");
-    QString img = QFileDialog::getOpenFileName(this,tr("Open Background Image"),QDir::homePath(),supportedFormat);
+    QString img= QFileDialog::getOpenFileName(this, tr("Open Background Image"), QDir::homePath(), supportedFormat);
     if(!img.isEmpty())
     {
-        QPixmap* pix = new QPixmap(img);
+        QPixmap* pix= new QPixmap(img);
         if(!pix->isNull())
         {
-            QString fileName = QFileInfo(img).fileName();
-            m_imageModel->insertImage(pix,fileName,img,false);
+            QString fileName= QFileInfo(img).fileName();
+            m_imageModel->insertImage(pix, fileName, img, false);
         }
     }
 }
 
 void MainWindow::exportPDF()
 {
-    QObject* root = ui->m_quickview->rootObject();
+    QObject* root= ui->m_quickview->rootObject();
     if(nullptr == root)
         return;
 
-    auto maxPage =  QQmlProperty::read(root, "maxPage").toInt();
-    auto currentPage =  QQmlProperty::read(root, "page").toInt();
-    auto sheetW =  QQmlProperty::read(root, "width").toReal();
-    auto sheetH =  QQmlProperty::read(root, "height").toReal();
+    auto maxPage= QQmlProperty::read(root, "maxPage").toInt();
+    auto currentPage= QQmlProperty::read(root, "page").toInt();
+    auto sheetW= QQmlProperty::read(root, "width").toReal();
+    auto sheetH= QQmlProperty::read(root, "height").toReal();
 
     ui->m_tabWidget->setCurrentWidget(ui->m_qml);
 
-    QObject *imagebg = root->findChild<QObject*>("imagebg");
-    if (nullptr != imagebg)
+    QObject* imagebg= root->findChild<QObject*>("imagebg");
+    if(nullptr != imagebg)
     {
-        sheetW =  QQmlProperty::read(imagebg, "width").toReal();
-        sheetH =  QQmlProperty::read(imagebg, "height").toReal();
+        sheetW= QQmlProperty::read(imagebg, "width").toReal();
+        sheetH= QQmlProperty::read(imagebg, "height").toReal();
     }
 
     QPrinter printer;
@@ -1703,29 +1696,28 @@ void MainWindow::exportPDF()
     if(dialog.exec() == QDialog::Accepted)
     {
         QPainter painter;
-        if (painter.begin(&printer))
+        if(painter.begin(&printer))
         {
-            for(int i = 0 ; i <= maxPage ; ++i)
+            for(int i= 0; i <= maxPage; ++i)
             {
-                root->setProperty("page",i);
+                root->setProperty("page", i);
                 ui->m_quickview->repaint();
                 QTimer timer;
                 timer.setSingleShot(true);
                 QEventLoop loop;
                 connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
-                timer.start(m_preferences->value("waitingTimeBetweenPage",300).toInt());
+                timer.start(m_preferences->value("waitingTimeBetweenPage", 300).toInt());
                 loop.exec();
 
-                auto image = ui->m_quickview->grabFramebuffer();
-                QRectF rect(0,0,printer.width(),printer.height());
+                auto image= ui->m_quickview->grabFramebuffer();
+                QRectF rect(0, 0, printer.width(), printer.height());
                 QRectF source(0.0, 0.0, sheetW, sheetH);
-                painter.drawImage(rect,image, source);
+                painter.drawImage(rect, image, source);
                 if(i != maxPage)
                     printer.newPage();
             }
             painter.end();
         }
     }
-    root->setProperty("page",currentPage);
-
+    root->setProperty("page", currentPage);
 }
