@@ -402,7 +402,7 @@ void MainWindow::closeMediaContainer(QString id, bool redo)
             }
             else if(CleverURI::MAP == type)
             {
-                m_playersListWidget->model()->changeMap(nullptr);
+                m_playersListWidget->model()->setCurrentMap(nullptr);
             }
         }
     }
@@ -448,61 +448,61 @@ void MainWindow::tipChecker()
 
 void MainWindow::activeWindowChanged(QMdiSubWindow* subWindow)
 {
-    if(nullptr != m_currentConnectionProfile)
-    {
-        bool localPlayerIsGM= m_currentConnectionProfile->isGM();
-        if(nullptr != subWindow)
-        {
-            if(subWindow->objectName() == QString("MapFrame") && (localPlayerIsGM))
-            {
-                m_toolBarStack->setCurrentWidget(m_toolBar);
-                m_ui->m_closeAction->setEnabled(true);
-                m_ui->m_saveAction->setEnabled(true);
-                m_ui->m_saveAsAction->setEnabled(true);
-                m_vmapToolBar->setEnabled(false);
-                subWindow->setFocus();
-            }
-            else if(subWindow->objectName() == QString("Image") && (localPlayerIsGM))
-            {
-                m_playersListWidget->model()->changeMap(nullptr);
-                m_ui->m_closeAction->setEnabled(true);
-                m_ui->m_saveAction->setEnabled(true);
-                m_ui->m_saveAsAction->setEnabled(true);
-                m_vmapToolBar->setEnabled(false);
-            }
-            else if(subWindow->objectName() == QString("VMapFrame") && (localPlayerIsGM))
-            {
-                m_playersListWidget->model()->changeMap(nullptr);
-                m_toolBarStack->setCurrentWidget(m_vToolBar);
-                m_vmapToolBar->setEnabled(true);
-                m_ui->m_closeAction->setEnabled(true);
-                m_ui->m_saveAction->setEnabled(true);
-                m_ui->m_saveAsAction->setEnabled(true);
-
-                VMapFrame* frame= dynamic_cast<VMapFrame*>(subWindow);
-                m_vmapToolBar->setCurrentMap(frame->getMap());
-                m_vToolBar->updateUi(frame->getMap()->getPermissionMode());
-            }
-            else if(subWindow->objectName() == QString("CharacterSheetViewer") && (localPlayerIsGM))
-            {
-                m_playersListWidget->model()->changeMap(nullptr);
-                m_ui->m_closeAction->setEnabled(true);
-                m_ui->m_saveAction->setEnabled(true);
-                m_ui->m_saveAsAction->setEnabled(true);
-                m_vmapToolBar->setEnabled(false);
-            }
-        }
-        else
-        {
-            m_ui->m_closeAction->setEnabled(false);
-            m_ui->m_saveAction->setEnabled(false);
-        }
-    }
-    else
+    if((nullptr == m_currentConnectionProfile) || (nullptr == subWindow))
     {
         m_ui->m_closeAction->setEnabled(false);
         m_ui->m_saveAction->setEnabled(false);
         m_ui->m_saveAsAction->setEnabled(false);
+        return;
+    }
+
+    bool localPlayerIsGM= m_currentConnectionProfile->isGM();
+    m_ui->m_closeAction->setEnabled(localPlayerIsGM);
+    m_ui->m_saveAction->setEnabled(localPlayerIsGM);
+    m_ui->m_saveAsAction->setEnabled(localPlayerIsGM);
+
+    if(subWindow->objectName() == QString("MapFrame"))
+    {
+        m_toolBarStack->setCurrentWidget(m_toolBar);
+        subWindow->setFocus();
+    }
+    else
+    {
+        m_playersListWidget->model()->setCurrentMap(nullptr);
+    }
+
+    if(subWindow->objectName() == QString("VMapFrame"))
+    {
+        m_playersListWidget->model()->setCurrentMap(nullptr);
+        m_vmapToolBar->setEnabled(true);
+
+        if(localPlayerIsGM)
+            m_toolBarStack->setCurrentWidget(m_vToolBar);
+
+        VMapFrame* frame= dynamic_cast<VMapFrame*>(subWindow);
+        if(frame)
+        {
+            auto map= frame->getMap();
+            m_vmapToolBar->setCurrentMap(map);
+            if(map)
+            {
+                auto mode= map->getPermissionMode();
+                switch(mode)
+                {
+                case Map::PC_ALL:
+                    m_toolBarStack->setCurrentWidget(m_vToolBar);
+                    break;
+                default:
+                    break;
+                }
+                m_vToolBar->setCurrentTool(VToolsBar::HANDLER);
+                m_vToolBar->updateUi(mode);
+            }
+        }
+    }
+    else
+    {
+        m_vmapToolBar->setEnabled(false);
     }
 }
 void MainWindow::closeEvent(QCloseEvent* event)
