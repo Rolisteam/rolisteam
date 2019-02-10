@@ -1364,7 +1364,7 @@ void MainWindow::writeSettings()
     settings.setValue("recentFileList", QVariant::fromValue(m_recentFiles));
     m_preferences->writeSettings(settings);
     m_chatListWidget->writeSettings(settings);
-    m_dialog->writeSettings(settings);
+    m_dialog->writeSettings();
     for(auto& gmtool : m_gmToolBoxList)
     {
         gmtool->writeSettings();
@@ -1678,10 +1678,9 @@ void MainWindow::showConnectionDialog(bool forced)
 void MainWindow::startConnection()
 {
     m_chatListWidget->cleanChatList();
-    QSettings settings("rolisteam", "rolisteam");
     if(nullptr != m_dialog)
     {
-        m_dialog->writeSettings(settings);
+        m_dialog->writeSettings();
         m_currentConnectionProfile= m_dialog->getSelectedProfile();
 
         if(nullptr != m_currentConnectionProfile)

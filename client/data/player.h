@@ -1,29 +1,29 @@
 /***************************************************************************
-    *   Copyright (C) 2015 by Renaud Guezennec                                *
-    *   http://www.rolisteam.org/contact                   *
-    *                                                                         *
-    *   rolisteam is free software; you can redistribute it and/or modify     *
-    *   it under the terms of the GNU General Public License as published by  *
-    *   the Free Software Foundation; either version 2 of the License, or     *
-    *   (at your option) any later version.                                   *
-    *                                                                         *
-    *   This program is distributed in the hope that it will be useful,       *
-    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-    *   GNU General Public License for more details.                          *
-    *                                                                         *
-    *   You should have received a copy of the GNU General Public License     *
-    *   along with this program; if not, write to the                         *
-    *   Free Software Foundation, Inc.,                                       *
-    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-    ***************************************************************************/
+ *   Copyright (C) 2015 by Renaud Guezennec                                *
+ *   http://www.rolisteam.org/contact                   *
+ *                                                                         *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
 #ifndef PLAYER_H
 #define PLAYER_H
-#include <QMetaType>
-#include "person.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#include "person.h"
+#include <QMetaType>
 
 class NetworkLink;
 /**
@@ -33,7 +33,6 @@ class NetworkLink;
  */
 class Player : public Person
 {
-
 public:
     Player();
     /**
@@ -43,7 +42,7 @@ public:
      * @param master
      * @param link
      */
-    Player(const QString & getName, const QColor & getColor, bool master = false, NetworkLink * link = nullptr);
+    Player(const QString& getName, const QColor& getColor, bool master= false, NetworkLink* link= nullptr);
     /**
      * @brief Player
      * @param uuid
@@ -52,13 +51,14 @@ public:
      * @param master
      * @param link
      */
-    Player(const QString & uuid, const QString & getName, const QColor & getColor, bool master = false, NetworkLink * link = nullptr);
+    Player(const QString& uuid, const QString& getName, const QColor& getColor, bool master= false,
+        NetworkLink* link= nullptr);
     /**
      * @brief Player
      * @param data
      * @param link
      */
-    Player(NetworkMessageReader & data, NetworkLink * link = nullptr);
+    Player(NetworkMessageReader& data, NetworkLink* link= nullptr);
     /**
      * @brief ~Player
      */
@@ -67,23 +67,23 @@ public:
      * @brief fill
      * @param message
      */
-    void fill(NetworkMessageWriter & message,bool addAvatar = true);
+    void fill(NetworkMessageWriter& message, bool addAvatar= true);
     /**
      * @brief readFromMsg
      * @param data
      */
-    void readFromMsg(NetworkMessageReader &data);
+    void readFromMsg(NetworkMessageReader& data);
     /**
      * @brief link
      * @return
      */
-    NetworkLink * link() const;
+    NetworkLink* link() const;
 
     /**
      * @brief getCharactersCount
      * @return
      */
-    virtual int  getChildrenCount() const;
+    virtual int getChildrenCount() const;
     /**
      * @brief getCharacterByIndex
      * @param index
@@ -94,19 +94,19 @@ public:
      * @brief getChildrenCharacter
      * @return
      */
-	QList<Character*> getChildrenCharacter();
+    QList<Character*> getChildrenCharacter();
     /**
      * @brief getIndexOfCharacter
      * @param character
      * @return
      */
-    int         getIndexOfCharacter(Character * character) const;
+    int getIndexOfCharacter(Character* character) const;
     /**
      * @brief getIndexOf
      * @param id
      * @return
      */
-    int         getIndexOf(QString id) const;
+    int getIndexOf(QString id) const;
 
     /**
      * @brief isGM
@@ -130,18 +130,18 @@ public:
      * @param version
      * @return
      */
-    bool hasFeature(const QString & getName, quint8 version = 0) const;
+    bool hasFeature(const QString& getName, quint8 version= 0) const;
     /**
      * @brief setFeature
      * @param name
      * @param version
      */
-    void setFeature(const QString & getName, quint8 version = 0);
+    void setFeature(const QString& getName, quint8 version= 0);
     /**
      * @brief addCharacter
      * @param character
      */
-    void addCharacter(Character * character);
+    void addCharacter(Character* character);
     /**
      * @brief setGM
      * @param value
@@ -160,27 +160,27 @@ public:
      * @param index
      * @return
      */
-    bool searchCharacter(Character * character, int & index) const;
+    bool searchCharacter(Character* character, int& index) const;
 
-    virtual QHash<QString,QString> getVariableDictionnary();
+    virtual QHash<QString, QString> getVariableDictionnary();
 
     virtual bool isLeaf() const;
 
     bool isFullyDefined();
 
     void copyPlayer(Player* player);
+
 private:
     friend class PlayersList;
     friend class SendFeaturesIterator;
 
-
 private:
-    bool m_gameMaster = false;
-    NetworkLink * m_link = nullptr;
-    QList<Character *> m_characters;
+    bool m_gameMaster= false;
+    NetworkLink* m_link= nullptr;
+    QList<Character*> m_characters;
     QMap<QString, quint8> m_features;
     QString m_softVersion;
 };
 
-Q_DECLARE_METATYPE(Player)
+// Q_DECLARE_METATYPE(Player)
 #endif // PLAYER_H

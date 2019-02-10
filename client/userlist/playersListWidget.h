@@ -25,10 +25,10 @@
 #include <QAbstractProxyModel>
 #include <QDockWidget>
 #include <QItemSelectionModel>
+#include <QPointer>
 #include <QPushButton>
 #include <QSet>
 #include <QTreeView>
-#include <QPointer>
 
 #include "userlist/playerslistproxy.h"
 class UserListView;
@@ -43,33 +43,33 @@ class PlayersListWidgetModel : public PlayersListProxyModel
     Q_OBJECT
 
 public:
-    PlayersListWidgetModel(QObject * parent = 0);
+    PlayersListWidgetModel(QObject* parent= nullptr);
 
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
+    Qt::ItemFlags flags(const QModelIndex& index) const;
+    QVariant data(const QModelIndex& index, int role) const;
+    bool setData(const QModelIndex& index, const QVariant& value, int role);
 
 public slots:
-    void changeMap(Map * map);
+    void changeMap(Map* map);
 
 private:
-   QPointer<Map> m_map;
-
-   bool isCheckable(const QModelIndex &index) const;
+    QPointer<Map> m_map;
+    bool isCheckable(const QModelIndex& index) const;
 };
 
 /**
- * @brief The PlayersListWidget class is the QDockWidget which display the PlayersListView. It is part of the MVC pattern as the Controler.
+ * @brief The PlayersListWidget class is the QDockWidget which display the PlayersListView. It is part of the MVC
+ * pattern as the Controler.
  *
  */
 class PlayersListWidget : public QDockWidget
 {
     Q_OBJECT
 public:
-    PlayersListWidget(QWidget * parent = nullptr);
+    PlayersListWidget(QWidget* parent= nullptr);
     ~PlayersListWidget();
 
-    PlayersListWidgetModel * model() const;
+    PlayersListWidgetModel* model() const;
 
 public slots:
     void updateUi(bool isGM);
@@ -78,11 +78,10 @@ private:
     void setUI();
 
 private slots:
-    void editIndex(const QModelIndex & index);
+    void editIndex(const QModelIndex& index);
     void createLocalCharacter();
-    void selectAnotherPerson(const QModelIndex & current);
+    void selectAnotherPerson(const QModelIndex& current);
     void deleteSelected();
-
 
 private:
     PersonDialog* m_personDialog;
@@ -91,7 +90,6 @@ private:
     UserListView* m_playersListView;
     QPushButton* m_delButton;
     QPushButton* m_addPlayerButton;
-
 };
 
 #endif

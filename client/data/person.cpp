@@ -20,41 +20,41 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #include "data/person.h"
 
 #include <QUuid>
 
+#include "cleveruri.h"
 #include "network/networkmessagewriter.h"
 #include "resourcesnode.h"
-#include "cleveruri.h"
 
 /**********
  * Person *
  **********/
-Person::Person()
-    : m_uuid(QUuid::createUuid().toString())
+Person::Person() : m_uuid(QUuid::createUuid().toString()) {}
+
+Person::Person(const QString& name, const QColor& color) : m_uuid(QUuid::createUuid().toString()), m_color(color)
 {
+    m_name= name;
 }
 
-Person::Person(const QString & name, const QColor & color)
-    : m_uuid(QUuid::createUuid().toString()),m_color(color)
+Person::Person(const QString& uuid, const QString& name, const QColor& color) : m_uuid(uuid), m_color(color)
 {
-    m_name = name;
+    m_name= name;
 }
 
-Person::Person(const QString & uuid, const QString & name, const QColor & color)
-    : m_uuid(uuid),m_color(color)
-{
-    m_name = name;
-}
-
-Person::~Person()
-{
-}
+Person::~Person() {}
 const QString Person::getUuid() const
 {
     return m_uuid;
+}
+
+void Person::setName(const QString& name)
+{
+    if(name == m_name)
+        return;
+    m_name= name;
+    emit nameChanged();
 }
 
 QColor Person::getColor() const
@@ -62,22 +62,23 @@ QColor Person::getColor() const
     return m_color;
 }
 
-Person *Person::parentPerson() const
+Person* Person::parentPerson() const
 {
     return m_parentPerson;
 }
 
-void Person::setParentPerson(Person *parent)
+void Person::setParentPerson(Person* parent)
 {
-    m_parentPerson = parent;
+    m_parentPerson= parent;
 }
 
-bool Person::setColor(const QColor & color)
+bool Person::setColor(const QColor& color)
 {
-    if (color == m_color)
+    if(color == m_color)
         return false;
 
-    m_color = color;
+    m_color= color;
+    emit colorChanged();
     return true;
 }
 
@@ -85,15 +86,17 @@ const QImage& Person::getAvatar() const
 {
     return m_avatar;
 }
+void Person::setAvatar(const QImage& p)
+{
+    if(p == m_avatar)
+        return;
 
+    m_avatar= p;
+    emit avatarChanged();
+}
 bool Person::hasAvatar() const
 {
     return !m_avatar.isNull();
-}
-
-void Person::setAvatar(const QImage& p)
-{
-    m_avatar = p;
 }
 Qt::CheckState Person::checkedState()
 {
@@ -106,7 +109,7 @@ bool Person::isLeaf() const
 }
 void Person::setState(Qt::CheckState c)
 {
-    m_checkState = c;
+    m_checkState= c;
 }
 ResourcesNode::TypeResource Person::getResourcesType() const
 {
@@ -134,16 +137,16 @@ QString Person::getToolTip() const
 }
 void Person::write(QDataStream&, bool, bool) const
 {
-    //default implement does nothing [virtual]
+    // default implement does nothing [virtual]
 }
 void Person::read(QDataStream&)
 {
-    //default implement does nothing [virtual]
+    // default implement does nothing [virtual]
 }
 
-bool Person::seekNode(QList<ResourcesNode *>&, ResourcesNode*)
+bool Person::seekNode(QList<ResourcesNode*>&, ResourcesNode*)
 {
-    //default implement does nothing [virtual]
+    // default implement does nothing [virtual]
     return false;
 }
 QIcon Person::getIcon()

@@ -3,7 +3,8 @@
 
 #include "data/player.h"
 /**
- * @brief The ConnectionProfile class stores any data about the connection: Mode (client or server) or role (GM or Player)
+ * @brief The ConnectionProfile class stores any data about the connection: Mode (client or server) or role (GM or
+ * Player)
  */
 class ConnectionProfile
 {
@@ -48,7 +49,7 @@ public:
      * @brief getTitle
      * @return
      */
-    QString getTitle()const;
+    QString getTitle() const;
     /**
      * @brief getName
      * @return
@@ -68,7 +69,7 @@ public:
      * @brief isServer
      * @return
      */
-    bool    isServer() const;
+    bool isServer() const;
     /**
      * @brief getPlayer
      * @return
@@ -78,7 +79,7 @@ public:
      * @brief isGM
      * @return
      */
-    bool    isGM() const;
+    bool isGM() const;
     /**
      * @brief getCharacter
      * @return
@@ -87,7 +88,7 @@ public:
     /**
      * @brief setCharacter
      */
-    void setCharacter(Character* );
+    void setCharacter(Character*);
 
     /**
      * @brief getPassword
@@ -98,8 +99,8 @@ public:
      * @brief setPassword
      * @param password
      */
-    void setPassword(const QString &password);
-    void setHash(const QByteArray &password);
+    void setPassword(const QString& password);
+    void setHash(const QByteArray& password);
 
     /**
      * @brief cloneProfile
@@ -109,15 +110,14 @@ public:
 
 private:
     Character* m_character;
-    bool    m_server;
-    quint16     m_port;
-    Player*  m_player;
-    bool    m_isGM;///<
-    QString m_title;///< @brief defines the name of the profile. It can be what ever users want.
+    bool m_server;
+    quint16 m_port;
+    Player* m_player;
+    bool m_isGM;     ///<
+    QString m_title; ///< @brief defines the name of the profile. It can be what ever users want.
     QString m_name;
     QString m_address;
     QByteArray m_password;
 };
-
 
 #endif // CONNECTIONPROFILE_H

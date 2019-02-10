@@ -1,29 +1,29 @@
 /***************************************************************************
-    *   Copyright (C) 2015 by Renaud Guezennec                                *
-    *   http://www.rolisteam.org/contact                   *
-    *                                                                         *
-    *   rolisteam is free software; you can redistribute it and/or modify     *
-    *   it under the terms of the GNU General Public License as published by  *
-    *   the Free Software Foundation; either version 2 of the License, or     *
-    *   (at your option) any later version.                                   *
-    *                                                                         *
-    *   This program is distributed in the hope that it will be useful,       *
-    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-    *   GNU General Public License for more details.                          *
-    *                                                                         *
-    *   You should have received a copy of the GNU General Public License     *
-    *   along with this program; if not, write to the                         *
-    *   Free Software Foundation, Inc.,                                       *
-    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-    ***************************************************************************/
+ *   Copyright (C) 2015 by Renaud Guezennec                                *
+ *   http://www.rolisteam.org/contact                   *
+ *                                                                         *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "person.h"
 #include "characterstate.h"
 #include "network/networkmessagereader.h"
+#include "person.h"
 
 #ifdef QT_QUICK_LIB
 #include "charactersheet/charactersheet.h"
@@ -31,11 +31,9 @@
 #else
 class RolisteamImageProvider
 {
-
 };
 class CharacterSheet
 {
-
 };
 #endif
 
@@ -45,36 +43,41 @@ class CharacterSheet
 class CharacterField
 {
 public:
-    enum Type {Shape, Action, Property};
+    enum Type
+    {
+        Shape,
+        Action,
+        Property
+    };
     CharacterField();
     virtual ~CharacterField();
 
-    virtual Type getType() = 0;
-    virtual QVariant getData(int col,int role) = 0;
-    virtual bool setData(int col,QVariant value, int role ) = 0;
+    virtual Type getType()= 0;
+    virtual QVariant getData(int col, int role)= 0;
+    virtual bool setData(int col, QVariant value, int role)= 0;
 };
 
 class CharacterShape : public CharacterField
 {
 public:
-	CharacterShape();
-	
-	bool hasMovie();
-	
+    CharacterShape();
+
+    bool hasMovie();
+
     QString name() const;
-    void setName(const QString &name);
+    void setName(const QString& name);
 
     QImage image() const;
-    void setImage(const QImage &image);
+    void setImage(const QImage& image);
 
     const QMovie& movie() const;
-    void setMovie(const QMovie &movie);
+    void setMovie(const QMovie& movie);
 
     QString uri() const;
-    void setUri(const QString &uri);
+    void setUri(const QString& uri);
 
-    virtual QVariant getData(int col,int role);
-    virtual bool setData(int col,QVariant value, int role );
+    virtual QVariant getData(int col, int role);
+    virtual bool setData(int col, QVariant value, int role);
 
     virtual Type getType() { return Shape; }
 
@@ -91,15 +94,15 @@ public:
     CharacterAction();
 
     QString name() const;
-    void setName(const QString &name);
+    void setName(const QString& name);
 
     QString command() const;
-    void setCommand(const QString &command);
+    void setCommand(const QString& command);
 
-    bool isValid(){ return !m_command.isEmpty(); }
+    bool isValid() { return !m_command.isEmpty(); }
 
-    virtual QVariant getData(int col,int role);
-    virtual bool setData(int col,QVariant value, int role );
+    virtual QVariant getData(int col, int role);
+    virtual bool setData(int col, QVariant value, int role);
 
     virtual Type getType() { return Action; }
 
@@ -114,15 +117,15 @@ public:
     CharacterProperty();
 
     QString name() const;
-    void setName(const QString &name);
+    void setName(const QString& name);
 
     QString value() const;
-    void setValue(const QString &value);
+    void setValue(const QString& value);
 
-    virtual QVariant getData(int col,int role);
-    virtual bool setData(int col,QVariant value, int role );
+    virtual QVariant getData(int col, int role);
+    virtual bool setData(int col, QVariant value, int role);
 
-     virtual Type getType() { return Property; }
+    virtual Type getType() { return Property; }
 
 private:
     QString m_name;
@@ -134,10 +137,11 @@ private:
  *
  * They are stored inside the Player who own them.
  */
-class Character : public QObject,public Person
+class Character : public Person // public QObject,
 {
     Q_OBJECT
-    Q_PROPERTY(int healthPoints READ getHealthPointsCurrent WRITE setHealthPointsCurrent NOTIFY currentHealthPointsChanged)
+    Q_PROPERTY(
+        int healthPoints READ getHealthPointsCurrent WRITE setHealthPointsCurrent NOTIFY currentHealthPointsChanged)
     Q_PROPERTY(int maxHP READ getHealthPointsMax WRITE setHealthPointsMax NOTIFY maxHPChanged)
     Q_PROPERTY(int minHP READ getHealthPointsMin WRITE setHealthPointsMin NOTIFY minHPChanged)
     Q_PROPERTY(QString avatarPath READ getAvatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
@@ -149,24 +153,24 @@ class Character : public QObject,public Person
     Q_PROPERTY(QString initCommand READ getInitCommand WRITE setInitCommand NOTIFY initCommandChanged)
 
 public:
-   // enum HeathState {Healthy,Lightly,Seriously,Dead,Sleeping,Bewitched};
+    // enum HeathState {Healthy,Lightly,Seriously,Dead,Sleeping,Bewitched};
     Character();
     /**
      * @brief construtor
      */
-    Character(const QString & getName, const QColor & getColor,bool NPC = false, int number = 0);
+    Character(const QString& getName, const QColor& getColor, bool NPC= false, int number= 0);
     /**
      * @brief Character
      * @param uuid
      * @param name
      * @param color
      */
-    Character(const QString & uuid, const QString & getName, const QColor & getColor,bool NPC = false, int number = 0);
+    Character(const QString& uuid, const QString& getName, const QColor& getColor, bool NPC= false, int number= 0);
     /**
      * @brief Character
      * @param data
      */
-    Character(NetworkMessageReader & data);
+    Character(NetworkMessageReader& data);
     /**
      * @brief ~Character
      */
@@ -175,7 +179,7 @@ public:
      * @brief fill
      * @param message
      */
-    void fill(NetworkMessageWriter & message,bool addAvatar = true);
+    void fill(NetworkMessageWriter& message, bool addAvatar= true);
     /**
      * @brief read
      * @param msg
@@ -204,12 +208,12 @@ public:
     CharacterState* getState() const;
 
     /**
-    * @brief serialisation function to write data
-    */
+     * @brief serialisation function to write data
+     */
     virtual void writeData(QDataStream& out) const;
     /**
-    * @brief serialisation function to read data.
-    */
+     * @brief serialisation function to read data.
+     */
     virtual void readData(QDataStream& in);
 
     /**
@@ -228,27 +232,26 @@ public:
      * @return
      */
     CharacterState* getStateFromLabel(QString label);
-    void  setState(CharacterState*  h);
+    void setState(CharacterState* h);
 
     bool hasInitScore();
-
 
     CharacterSheet* getSheet() const;
     void setSheet(CharacterSheet* sheet);
 
-    Player *getParentPlayer() const;
+    Player* getParentPlayer() const;
     QString getParentId() const;
 
-    virtual QHash<QString,QString> getVariableDictionnary();
+    virtual QHash<QString, QString> getVariableDictionnary();
 
-    int indexOfState(CharacterState *state);
+    int indexOfState(CharacterState* state);
 
-	void insertAction(const QString& name, const QImage& img, const QKeySequence& seq);
-	void removeAction(const QString& name);
-	void clearActions();
+    void insertAction(const QString& name, const QImage& img, const QKeySequence& seq);
+    void removeAction(const QString& name);
+    void clearActions();
 
-    virtual void write(QDataStream &out, bool tag, bool saveData = true) const;
-    virtual void read(QDataStream &in);
+    virtual void write(QDataStream& out, bool tag, bool saveData= true) const;
+    virtual void read(QDataStream& in);
 
     int getHealthPointsMax() const;
     void setHealthPointsMax(int hpMax);
@@ -260,18 +263,18 @@ public:
     void setHealthPointsCurrent(int hpCurrent);
 
     QString getAvatarPath() const;
-    void setAvatarPath(const QString &avatarPath);
+    void setAvatarPath(const QString& avatarPath);
 
-    void setCurrentState(QString name,QColor color, QString image);
+    void setCurrentState(QString name, QColor color, QString image);
 
     int getInitiativeScore() const;
     void setInitiativeScore(int intiativeScore);
 
     qreal getDistancePerTurn() const;
-    void setDistancePerTurn(const qreal &distancePerTurn);
+    void setDistancePerTurn(const qreal& distancePerTurn);
 
-    RolisteamImageProvider *getImageProvider() const;
-    void setImageProvider(RolisteamImageProvider *imageProvider);
+    RolisteamImageProvider* getImageProvider() const;
+    void setImageProvider(RolisteamImageProvider* imageProvider);
 
     QColor getLifeColor() const;
     void setLifeColor(QColor color);
@@ -279,11 +282,11 @@ public:
     virtual QString getToolTip() const;
     void readTokenObj(const QJsonObject& obj);
 
-    QString getInitCommand()const;
+    QString getInitCommand() const;
     void setInitCommand(const QString& init);
 
-    QList<CharacterAction *> getActionList() const;
-    QList<CharacterShape *> getShapeList() const;
+    QList<CharacterAction*> getActionList() const;
+    QList<CharacterShape*> getShapeList() const;
 public slots:
     void clearInitScore();
     void setDefaultShape();
@@ -303,28 +306,29 @@ signals:
 
 protected:
     CharacterState* getStateFromIndex(int i);
+
 private:
     void init();
 
 private:
-    bool m_isNpc = true;
-    int m_number = 0;
+    bool m_isNpc= true;
+    int m_number= 0;
     static QList<CharacterState*>* m_stateList;
     QList<CharacterShape*> m_shapeList;
     QList<CharacterAction*> m_actionList;
     QList<CharacterProperty*> m_propertyList;
-    CharacterState* m_currentState = nullptr;
-    CharacterSheet* m_sheet = nullptr;
-    int m_healthPointsMax=100;
-    int m_healthPointsMin=0;
-    int m_healthPointsCurrent=100;
+    CharacterState* m_currentState= nullptr;
+    CharacterSheet* m_sheet= nullptr;
+    int m_healthPointsMax= 100;
+    int m_healthPointsMin= 0;
+    int m_healthPointsCurrent= 100;
     QString m_avatarPath;
-    RolisteamImageProvider* m_imageProvider = nullptr;
-    int m_initiativeScore = 0;
+    RolisteamImageProvider* m_imageProvider= nullptr;
+    int m_initiativeScore= 0;
     CharacterAction m_initiativeRoll;
-    qreal m_distancePerTurn = 0;
-    QColor m_lifeColor = QColor(Qt::green);
-    bool m_hasInitScore = false;
+    qreal m_distancePerTurn= 0;
+    QColor m_lifeColor= QColor(Qt::green);
+    bool m_hasInitScore= false;
     QImage m_defaultAvatar;
 };
 
