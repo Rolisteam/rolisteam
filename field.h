@@ -1,29 +1,29 @@
 /***************************************************************************
-* Copyright (C) 2014 by Renaud Guezennec                                   *
-* http://www.rolisteam.org/                                                *
-*                                                                          *
-*  This file is part of rcse                                               *
-*                                                                          *
-* rcse is free software; you can redistribute it and/or modify             *
-* it under the terms of the GNU General Public License as published by     *
-* the Free Software Foundation; either version 2 of the License, or        *
-* (at your option) any later version.                                      *
-*                                                                          *
-* rcse is distributed in the hope that it will be useful,                  *
-* but WITHOUT ANY WARRANTY; without even the implied warranty of           *
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
-* GNU General Public License for more details.                             *
-*                                                                          *
-* You should have received a copy of the GNU General Public License        *
-* along with this program; if not, write to the                            *
-* Free Software Foundation, Inc.,                                          *
-* 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
-***************************************************************************/
+ * Copyright (C) 2014 by Renaud Guezennec                                   *
+ * http://www.rolisteam.org/                                                *
+ *                                                                          *
+ *  This file is part of rcse                                               *
+ *                                                                          *
+ * rcse is free software; you can redistribute it and/or modify             *
+ * it under the terms of the GNU General Public License as published by     *
+ * the Free Software Foundation; either version 2 of the License, or        *
+ * (at your option) any later version.                                      *
+ *                                                                          *
+ * rcse is distributed in the hope that it will be useful,                  *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
+ * GNU General Public License for more details.                             *
+ *                                                                          *
+ * You should have received a copy of the GNU General Public License        *
+ * along with this program; if not, write to the                            *
+ * Free Software Foundation, Inc.,                                          *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
+ ***************************************************************************/
 #ifndef FIELD_H
 #define FIELD_H
 
-#include <QMouseEvent>
 #include <QFont>
+#include <QMouseEvent>
 
 #include "charactersheetitem.h"
 #include "csitem.h"
@@ -37,8 +37,6 @@ class CanvasField : public QGraphicsObject
 };
 #endif
 
-
-
 /**
  * @brief The Field class managed text field in qml and datamodel.
  */
@@ -46,26 +44,36 @@ class Field : public CSItem
 {
     Q_OBJECT
 public:
+    enum TextAlign
+    {
+        TopRight,
+        TopMiddle,
+        TopLeft,
+        CenterRight,
+        CenterMiddle,
+        CenterLeft,
+        BottomRight,
+        BottomMiddle,
+        BottomLeft
+    };
 
-    enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,BottomRight,BottomMiddle,BottomLeft};
-
-    explicit Field(bool addCount = true,QGraphicsItem* parent = nullptr);
-    explicit Field(QPointF topleft,bool addCount = true,QGraphicsItem* parent = nullptr);
+    explicit Field(bool addCount= true, QGraphicsItem* parent= nullptr);
+    explicit Field(QPointF topleft, bool addCount= true, QGraphicsItem* parent= nullptr);
     virtual ~Field();
 
     QSize size() const;
-    void setSize(const QSize &size);
+    void setSize(const QSize& size);
 
     QFont font() const;
-    void setFont(const QFont &font);
+    void setFont(const QFont& font);
 
     CharacterSheetItem* getChildAt(QString) const;
 
-    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId,int role) const;
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const;
     virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var);
 
-    virtual void save(QJsonObject& json,bool exp=false);
-    virtual void load(const QJsonObject &json,QList<QGraphicsScene*> scene);
+    virtual void save(QJsonObject& json, bool exp= false);
+    virtual void load(const QJsonObject& json, QList<QGraphicsScene*> scene);
     /**
      * @brief saveDataItem
      * @param json
@@ -81,16 +89,16 @@ public:
     virtual QPointF mapFromScene(QPointF);
 
     QStringList getAvailableValue() const;
-    void setAvailableValue(const QStringList &availableValue);
+    void setAvailableValue(const QStringList& availableValue);
 
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
 
-    void copyField(CharacterSheetItem* ,bool copyData, bool sameId = true);
+    void copyField(CharacterSheetItem*, bool copyData, bool sameId= true);
 
     bool getClippedText() const;
     void setClippedText(bool clippedText);
 
-    void setTextAlign(const TextAlign &textAlign);
+    void setTextAlign(const TextAlign& textAlign);
 
     Field::TextAlign getTextAlignValue();
 
@@ -114,7 +122,7 @@ public:
     virtual qreal getY() const;
 
     QString getGeneratedCode() const;
-    void setGeneratedCode(const QString &generatedCode);
+    void setGeneratedCode(const QString& generatedCode);
 
     bool getAliasEnabled() const;
     void setAliasEnabled(bool aliasEnabled);
@@ -127,18 +135,17 @@ signals:
 
 protected:
     void init();
-    void mousePressEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent* ev);
 
 protected:
-    QFont  m_font;
-    TextAlign m_textAlign;
+    QFont m_font;
+    TextAlign m_textAlign= CenterMiddle;
     QStringList m_availableValue;
     bool m_clippedText;
     CanvasField* m_canvasField;
     QString m_generatedCode;
-    bool m_aliasEnabled = true;
-
+    bool m_aliasEnabled= true;
 };
 
 #endif // FIELD_H
