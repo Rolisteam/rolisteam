@@ -50,7 +50,7 @@ public:
     bool setData(const QModelIndex& index, const QVariant& value, int role);
 
 public slots:
-    void changeMap(Map* map);
+    void setCurrentMap(Map* map);
 
 private:
     QPointer<Map> m_map;
