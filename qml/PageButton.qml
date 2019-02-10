@@ -1,21 +1,15 @@
 import QtQuick 2.10
-import QtQuick.Controls 2.3
-
-
+import QtQuick.Controls 2.4
 
 Button {
     id:root
     property bool readOnly: false
     property string tooltip: ""
     property bool next: false
-    property alias showImage: icon.visible
+    property bool showImage: true
 
-    display: AbstractButton.TextBesideIcon
-    Image {
-        id: icon
-        anchors.fill: parent
-        fillMode: Image.PreserveAspectFit
-        source: root.next ? "image://rcs/nextpagebtn.png" : "image://rcs/previouspagebtn.png";
-        horizontalAlignment: root.next ? Image.AlignLeft : Image.AlignRight
-    }
+    display: showImage ? AbstractButton.TextBesideIcon : AbstractButton.TextOnly
+
+    icon.color: "transparent"
+    icon.source: root.next ? "image://rcs/nextpagebtn.png" : "image://rcs/previouspagebtn.png"
 }

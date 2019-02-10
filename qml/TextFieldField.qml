@@ -1,24 +1,19 @@
 import QtQuick 2.10
-import QtQuick.Controls 2.3
+import QtQuick.Controls 2.4
 
-Rectangle {
+TextField {
     id:root
-    property alias text : textField.text
-    property alias textColor: textField.color
-    property alias hAlign: textField.horizontalAlignment
-    property alias font : textField.font
-    property alias vAlign: textField.verticalAlignment
+    property alias backgroundColor: rect.color
+    property alias hAlign: root.horizontalAlignment
+    property alias vAlign: root.verticalAlignment
     property bool clippedText: false
     property bool readOnly: false
-    property alias placeholderText: textField.placeholderText
     property string tooltip: ""
-    TextField {
-        id: textField
-        anchors.fill: parent
-        selectByMouse: true
-        ToolTip.text: root.tooltip
-        ToolTip.visible: root.tooltip.length >0 && activeFocus
-        readOnly: root.readOnly
+    selectByMouse: true
+    ToolTip.text: root.tooltip
+    ToolTip.visible: root.tooltip.length >0 && activeFocus
+    background: Rectangle {
+        id:rect
     }
 }
 
