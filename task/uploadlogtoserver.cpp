@@ -19,18 +19,17 @@
  ***************************************************************************/
 #include "uploadlogtoserver.h"
 
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
 #include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QNetworkRequest>
-#include <QNetworkReply>
 #include <iostream>
 
-LogUploader::LogUploader()
-    : QObject(nullptr),m_accessManager(new QNetworkAccessManager(this))
+LogUploader::LogUploader() : QObject(nullptr), m_accessManager(new QNetworkAccessManager(this))
 {
     connect(m_accessManager, &QNetworkAccessManager::finished, this, &LogUploader::finished);
 }
@@ -42,7 +41,7 @@ int LogUploader::appId() const
 
 void LogUploader::setAppId(int appId)
 {
-    m_appId = appId;
+    m_appId= appId;
 }
 
 QString LogUploader::version() const
@@ -50,9 +49,9 @@ QString LogUploader::version() const
     return m_version;
 }
 
-void LogUploader::setVersion(const QString &version)
+void LogUploader::setVersion(const QString& version)
 {
-    m_version = version;
+    m_version= version;
 }
 
 QString LogUploader::uuid() const
@@ -60,9 +59,9 @@ QString LogUploader::uuid() const
     return m_uuid;
 }
 
-void LogUploader::setUuid(const QString &uuid)
+void LogUploader::setUuid(const QString& uuid)
 {
-    m_uuid = uuid;
+    m_uuid= uuid;
 }
 
 std::vector<Log> LogUploader::logs() const
@@ -70,31 +69,31 @@ std::vector<Log> LogUploader::logs() const
     return m_logs;
 }
 
-void LogUploader::setLogs(const std::vector<Log> &logs)
+void LogUploader::setLogs(const std::vector<Log>& logs)
 {
-    m_logs = logs;
+    m_logs= logs;
 }
 
 void LogUploader::uploadLog()
 {
     QJsonObject obj;
-    obj["uuid"] = m_uuid;
-    obj["version"] = m_version;
-    obj["app"] = m_appId;
-    obj["conf"] = m_conf;
+    obj["uuid"]= m_uuid;
+    obj["version"]= m_version;
+    obj["app"]= m_appId;
+    obj["conf"]= m_conf;
 
     QJsonArray array;
     for(auto& log : m_logs)
     {
         QJsonObject logObj;
-        logObj["level"] = log.m_level;
-        logObj["log"] = log.m_message;
-        logObj["category"] = log.m_category;
-        logObj["timestamp"] = log.m_timestamp;
+        logObj["level"]= log.m_level;
+        logObj["log"]= log.m_message;
+        logObj["category"]= log.m_category;
+        logObj["timestamp"]= log.m_timestamp;
 
         array.append(logObj);
     }
-    obj["logs"] = array;
+    obj["logs"]= array;
 
     QJsonDocument doc;
     doc.setObject(obj);
@@ -114,8 +113,7 @@ QString LogUploader::conf() const
     return m_conf;
 }
 
-void LogUploader::setConf(const QString &conf)
+void LogUploader::setConf(const QString& conf)
 {
-    m_conf = conf;
+    m_conf= conf;
 }
-

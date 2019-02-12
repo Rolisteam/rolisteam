@@ -19,20 +19,17 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
 #include "colorbutton.h"
 
 #include <QColorDialog>
-#include <QPaintEvent>
-#include <QStyleOptionFocusRect>
 #include <QDebug>
+#include <QPaintEvent>
 #include <QStyleFactory>
+#include <QStyleOptionFocusRect>
 
-
-ColorButton::ColorButton(QWidget * parent,bool transparency)
-    : QPushButton(parent), m_color(QColor("tan")),m_hasTransparency(transparency)
+ColorButton::ColorButton(QWidget* parent, bool transparency)
+    : QPushButton(parent), m_color(QColor("tan")), m_hasTransparency(transparency)
 {
-
     setStyle(QStyleFactory::create("fusion"));
     //}
     setColor(m_color);
@@ -42,16 +39,15 @@ ColorButton::ColorButton(QWidget * parent,bool transparency)
     // should never be the default button
     setDefault(false);
     setAutoDefault(false);
-  //  m_dialog.setCurrentColor(m_color);
+    //  m_dialog.setCurrentColor(m_color);
 
     connect(this, SIGNAL(pressed()), this, SLOT(openDialog()));
-    //connect(&m_dialog, SIGNAL(colorSelected(const QColor &)), this, SLOT(setColor(const QColor &)));
+    // connect(&m_dialog, SIGNAL(colorSelected(const QColor &)), this, SLOT(setColor(const QColor &)));
 }
 
-ColorButton::ColorButton(const QColor & color, QWidget * parent)
-    : QPushButton(parent), m_color(color)//, m_dialog(color, this)
+ColorButton::ColorButton(const QColor& color, QWidget* parent)
+    : QPushButton(parent), m_color(color) //, m_dialog(color, this)
 {
-
     setStyle(QStyleFactory::create("fusion"));
 
     setColor(m_color);
@@ -60,21 +56,17 @@ ColorButton::ColorButton(const QColor & color, QWidget * parent)
 
     setDefault(false);
     setAutoDefault(false);
-   // m_dialog.setCurrentColor(m_color);
+    // m_dialog.setCurrentColor(m_color);
     connect(this, SIGNAL(clicked()), this, SLOT(openDialog()));
-   // connect(&m_dialog, SIGNAL(colorSelected(const QColor &)), this, SLOT(setColor(const QColor &)));
+    // connect(&m_dialog, SIGNAL(colorSelected(const QColor &)), this, SLOT(setColor(const QColor &)));
 }
-ColorButton::~ColorButton()
-{
-
-
-}
+ColorButton::~ColorButton() {}
 void ColorButton::openDialog()
 {
     QColorDialog dialog(this);
     dialog.setCurrentColor(m_color);
-    dialog.setOption(QColorDialog::ShowAlphaChannel,m_hasTransparency);
-    if(QDialog::Accepted==dialog.exec())
+    dialog.setOption(QColorDialog::ShowAlphaChannel, m_hasTransparency);
+    if(QDialog::Accepted == dialog.exec())
     {
         setColor(dialog.currentColor());
     }
@@ -86,28 +78,28 @@ QColor ColorButton::color() const
 }
 void ColorButton::setTransparency(bool state)
 {
-
-  m_hasTransparency = state;
+    m_hasTransparency= state;
 }
 
 QSize ColorButton::sizeHint() const
 {
-    return QSize(28,20);
+    return QSize(28, 20);
 }
 
-void ColorButton::setColor(const QColor & color)
+void ColorButton::setColor(const QColor& color)
 {
-    if(m_color!=color)
+    if(m_color != color)
     {
-        m_color = color;
-        QPalette tmp = palette();
-        tmp.setColor(QPalette::Button,m_color);
-        tmp.setColor(QPalette::Window,m_color);
+        m_color= color;
+        QPalette tmp= palette();
+        tmp.setColor(QPalette::Button, m_color);
+        tmp.setColor(QPalette::Window, m_color);
         setPalette(tmp);
         setAutoFillBackground(true);
-        setStyleSheet(QString("ColorButton { background-color: rgb(%1,%2,%3);}").arg(color.red()).arg(color.green()).arg(color.blue()));
+        setStyleSheet(QString("ColorButton { background-color: rgb(%1,%2,%3);}")
+                          .arg(color.red())
+                          .arg(color.green())
+                          .arg(color.blue()));
         emit colorChanged(m_color);
     }
 }
-
-

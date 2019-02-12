@@ -18,12 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
 #ifndef COLORBUTTON_H
 #define COLORBUTTON_H
 
-#include <QPushButton>
 #include <QColorDialog>
+#include <QPushButton>
 
 /**
  * @brief A button to choose a color.
@@ -38,13 +37,13 @@ public:
      * @param parent
      * @param transparency
      */
-    ColorButton(QWidget * parent, bool transparency=false);
+    ColorButton(QWidget* parent, bool transparency= false);
     /**
      * @brief ColorButton
      * @param color
      * @param parent
      */
-    ColorButton(const QColor & color = QColor("tan"), QWidget * parent = nullptr);
+    ColorButton(const QColor& color= QColor("tan"), QWidget* parent= nullptr);
     virtual ~ColorButton();
     /**
      * @brief color
@@ -66,20 +65,21 @@ signals:
      * @brief colorChanged
      * @param color
      */
-    void colorChanged(const QColor & color);
+    void colorChanged(const QColor& color);
 
 public slots:
     /**
      * @brief setColor
      * @param color
      */
-    void setColor(const QColor & color);
+    void setColor(const QColor& color);
 
     void openDialog();
+
 private:
-    QColor       m_color;
+    QColor m_color;
     bool m_hasTransparency;
-    //QColorDialog m_dialog;
+    // QColorDialog m_dialog;
 };
 
 #endif

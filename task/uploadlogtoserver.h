@@ -23,11 +23,12 @@
 #include <QObject>
 #include <vector>
 
-struct Log {
-   QString m_category;
-   QString m_message;
-   QString m_timestamp;
-   QString m_level;
+struct Log
+{
+    QString m_category;
+    QString m_message;
+    QString m_timestamp;
+    QString m_level;
 };
 class QNetworkAccessManager;
 /**
@@ -43,30 +44,30 @@ public:
     void setAppId(int appId);
 
     QString version() const;
-    void setVersion(const QString &version);
+    void setVersion(const QString& version);
 
     QString uuid() const;
-    void setUuid(const QString &uuid);
+    void setUuid(const QString& uuid);
 
     std::vector<Log> logs() const;
-    void setLogs(const std::vector<Log> &logs);
+    void setLogs(const std::vector<Log>& logs);
 
     QString conf() const;
-    void setConf(const QString &conf);
+    void setConf(const QString& conf);
 
 public slots:
     void uploadLog();
 signals:
     void finished();
+
 private:
     std::vector<Log> m_logs;
-    int m_appId = 0;
+    int m_appId= 0;
     QString m_version;
     QString m_uuid;
     QString m_conf;
-    QNetworkAccessManager* m_accessManager = nullptr;
+    QNetworkAccessManager* m_accessManager= nullptr;
     QByteArray m_postData;
 };
-
 
 #endif // UPLOADTOSERVER_H
