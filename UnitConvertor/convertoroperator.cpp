@@ -1,58 +1,42 @@
 #include "convertoroperator.h"
 namespace GMTOOL
 {
-ConvertorOperator::ConvertorOperator(double a,double b,bool fraction,bool readOnly)
-    : m_a(a),m_b(b),m_fraction(fraction),m_readOnly(readOnly)
-{
-
-}
-
-qreal ConvertorOperator::convert(qreal convert) const
-{
-    if(m_fraction)
+    ConvertorOperator::ConvertorOperator(double a, double b, bool fraction, bool readOnly)
+        : m_a(a), m_b(b), m_fraction(fraction), m_readOnly(readOnly)
     {
-        return (convert+m_b)/m_a;
     }
-    return m_a*convert+m_b;
-}
 
-double ConvertorOperator::a() const
-{
-    return m_a;
-}
+    qreal ConvertorOperator::convert(qreal convert) const
+    {
+        if(m_fraction)
+        {
+            return (convert + m_b) / m_a;
+        }
+        return m_a * convert + m_b;
+    }
 
-void ConvertorOperator::setA(double a)
-{
-    if(m_readOnly)
-        return;
-    m_a = a;
-}
+    double ConvertorOperator::a() const { return m_a; }
 
-bool ConvertorOperator::isReadOnly()const
-{
-    return m_readOnly;
-}
+    void ConvertorOperator::setA(double a)
+    {
+        if(m_readOnly)
+            return;
+        m_a= a;
+    }
 
-double ConvertorOperator::b() const
-{
-    return m_b;
-}
+    bool ConvertorOperator::isReadOnly() const { return m_readOnly; }
 
-void ConvertorOperator::setB(double b)
-{
-    if(m_readOnly)
-        return;
-    m_b = b;
-}
+    double ConvertorOperator::b() const { return m_b; }
 
-bool ConvertorOperator::fraction() const
-{
-    return m_fraction;
-}
+    void ConvertorOperator::setB(double b)
+    {
+        if(m_readOnly)
+            return;
+        m_b= b;
+    }
 
-void ConvertorOperator::setFraction(bool fraction)
-{
-    m_fraction = fraction;
-}
+    bool ConvertorOperator::fraction() const { return m_fraction; }
 
-}
+    void ConvertorOperator::setFraction(bool fraction) { m_fraction= fraction; }
+
+} // namespace GMTOOL

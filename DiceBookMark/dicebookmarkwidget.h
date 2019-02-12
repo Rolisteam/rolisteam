@@ -1,14 +1,15 @@
 #ifndef DICEBOOKMARKWIDGET_H
 #define DICEBOOKMARKWIDGET_H
 
-#include <QWidget>
-#include <QDialog>
-#include <QSettings>
+#include "data/diceshortcut.h"
 #include "dicebookmarkmodel.h"
 #include "widgets/gmtoolbox/gamemastertool.h"
-#include "data/diceshortcut.h"
-namespace Ui {
-class DiceBookMarkWidget;
+#include <QDialog>
+#include <QSettings>
+#include <QWidget>
+namespace Ui
+{
+    class DiceBookMarkWidget;
 }
 
 class DiceBookMarkWidget : public QDialog
@@ -16,15 +17,14 @@ class DiceBookMarkWidget : public QDialog
     Q_OBJECT
 
 public:
-    explicit DiceBookMarkWidget(std::vector<DiceShortCut>& data,QWidget *parent = 0);
+    explicit DiceBookMarkWidget(std::vector<DiceShortCut>& data, QWidget* parent= 0);
     ~DiceBookMarkWidget();
 
     virtual void writeSettings();
     virtual void readSettings();
 
-
 private:
-    Ui::DiceBookMarkWidget *ui;
+    Ui::DiceBookMarkWidget* ui;
     DiceBookMarkModel* m_model;
 };
 

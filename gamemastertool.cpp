@@ -1,14 +1,7 @@
 #include "gamemastertool.h"
 
-GameMasterTool::GameMasterTool()
-{
+GameMasterTool::GameMasterTool() {}
 
-}
+void GameMasterTool::readSettings() {}
 
-void GameMasterTool::readSettings()
-{
-}
-
-void GameMasterTool::writeSettings()
-{
-}
+void GameMasterTool::writeSettings() {}

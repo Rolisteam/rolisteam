@@ -1,70 +1,68 @@
 #ifndef CUSTOMRULEMODEL_H
 #define CUSTOMRULEMODEL_H
 
+#include "convertoroperator.h"
+#include "unit.h"
+#include "unitmodel.h"
 #include <QAbstractTableModel>
 #include <vector>
-#include "unit.h"
-#include "convertoroperator.h"
-#include "unitmodel.h"
 
-namespace GMTOOL {
-
-
-class CustomRuleModel : public CategoryModel
+namespace GMTOOL
 {
-    Q_OBJECT
+    class CustomRuleModel : public CategoryModel
+    {
+        Q_OBJECT
 
-public:
-    explicit CustomRuleModel(QObject *parent = nullptr);
+    public:
+        explicit CustomRuleModel(QObject* parent= nullptr);
 
-    // Header:
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+        // Header:
+        QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const override;
 
-    bool setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role = Qt::EditRole) override;
+        bool setHeaderData(
+            int section, Qt::Orientation orientation, const QVariant& value, int role= Qt::EditRole) override;
 
-    // Basic functionality:
-    //int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+        // Basic functionality:
+        // int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+        int columnCount(const QModelIndex& parent= QModelIndex()) const override;
 
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+        QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
 
-    // Editable:
-    bool setData(const QModelIndex &index, const QVariant &value,
-                 int role = Qt::EditRole) override;
+        // Editable:
+        bool setData(const QModelIndex& index, const QVariant& value, int role= Qt::EditRole) override;
 
-    Qt::ItemFlags flags(const QModelIndex& index) const override;
+        Qt::ItemFlags flags(const QModelIndex& index) const override;
 
-   /* QModelIndex mapToSource(const QModelIndex &proxyIndex) const;
-    QModelIndex mapFromSource(const QModelIndex &sourceIndex) const;*/
-    QModelIndex parent(const QModelIndex &child) const override;
-    QModelIndex index(int row, int column, const QModelIndex &parent) const override;
+        /* QModelIndex mapToSource(const QModelIndex &proxyIndex) const;
+         QModelIndex mapFromSource(const QModelIndex &sourceIndex) const;*/
+        QModelIndex parent(const QModelIndex& child) const override;
+        QModelIndex index(int row, int column, const QModelIndex& parent) const override;
 
+        // Add data:
+        bool insertUnit();
 
-    // Add data:
-    bool insertUnit();
+        // Remove data:
+        bool removeUnit(const QModelIndex& index);
 
+        qreal convert(QPair<const Unit*, const Unit*> pair, qreal value) const;
 
-    // Remove data:
-    bool removeUnit(const QModelIndex &index);
+        QPair<const Unit*, const Unit*> makePair(const QModelIndex& index) const;
 
-    qreal convert(QPair<const Unit*,const Unit*> pair, qreal value) const;
+        CategoryModel* units() const;
+        void setUnits(CategoryModel* units);
 
-    QPair<const Unit *, const Unit *> makePair(const QModelIndex &index) const;
+        void setCurrentCategoryId(const QString& cat, int categoryId);
 
-    CategoryModel *units() const;
-    void setUnits(CategoryModel* units);
+        QHash<QPair<const Unit*, const Unit*>, ConvertorOperator*>* convertionRules() const;
+        void setConvertionRules(QHash<QPair<const Unit*, const Unit*>, ConvertorOperator*>* convertionRules);
 
-    void setCurrentCategoryId(const QString &cat, int categoryId) ;
+        QModelIndex buddy(const QModelIndex& index) const override;
 
-    QHash<QPair<const Unit *, const Unit *>, ConvertorOperator *> *convertionRules() const;
-    void setConvertionRules(QHash<QPair<const Unit *, const Unit *>, ConvertorOperator *> *convertionRules);
+    private:
+        // CategoryModel* m_units = nullptr;
+        QHash<QPair<const Unit*, const Unit*>, ConvertorOperator*>* m_convertionRules;
+        int m_currentCatId= 0;
+    };
 
-    QModelIndex buddy(const QModelIndex &index) const override;
-private:
-    //CategoryModel* m_units = nullptr;
-    QHash<QPair<const Unit*, const Unit*>,ConvertorOperator*>* m_convertionRules;
-    int m_currentCatId = 0;
-};
-
-}
+} // namespace GMTOOL
 #endif // CUSTOMRULEMODEL_H

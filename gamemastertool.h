@@ -8,7 +8,6 @@ public:
 
     virtual void readSettings();
     virtual void writeSettings();
-
 };
 
 #endif // GAMEMASTERTOOL_H
