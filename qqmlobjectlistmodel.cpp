@@ -63,7 +63,6 @@
     \sa list() const
 */
 
-
 /*!
     \details Returns the data in a specific index for a given role.
 
@@ -104,7 +103,6 @@
     \return The matching role, \c -1 if not found
 */
 
-
 /*!
     \details Counts the items in the model.
 
@@ -143,7 +141,6 @@
     only if they have no parent (because the model took the ownership).
 */
 
-
 /*!
     \details Adds the given item at the end of the model.
 
@@ -152,7 +149,6 @@
     \sa prepend(QObject*), insert(int,QObject*)
 */
 
-
 /*!
     \details Adds the given item at the beginning of the model.
 
@@ -160,7 +156,6 @@
 
     \sa append(QObject*), insert(int,QObject*)
 */
-
 
 /*!
     \details Adds the given item at a certain position in the model.
@@ -171,7 +166,6 @@
     \sa append(QObject*), prepend(QObject*)
 */
 
-
 /*!
     \details Adds the given list of items at the end of the model.
 
@@ -180,7 +174,6 @@
     \sa prepend(QObjectList), insert(int, QObjectList)
 */
 
-
 /*!
     \details Adds the given list of items at the beginning of the model.
 
@@ -188,7 +181,6 @@
 
     \sa append(QObjectList), insert(int, QObjectList)
 */
-
 
 /*!
     \details Adds the given list of items at a certain position in the model.
@@ -206,20 +198,17 @@
     \param pos The position where it willl be after the move
 */
 
-
 /*!
     \details Remove an item from the model.
 
     \param item The pointer to the item object
 */
 
-
 /*!
     \details Remove an item from the model.
 
     \param idx The position of the item in the model
 */
-
 
 /*!
     \details Retreives a model item as standard Qt object pointer.

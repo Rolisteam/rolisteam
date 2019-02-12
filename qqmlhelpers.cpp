@@ -8,7 +8,6 @@
     which is largely error-prone and not productive at all.
 */
 
-
 /*!
     \def QML_WRITABLE_PROPERTY(type, name)
     \ingroup QT_QML_HELPERS
@@ -28,7 +27,6 @@
 
     \b Note : Any change from either C++ or QML side will trigger the notification.
 */
-
 
 /*!
     \def QML_READONLY_PROPERTY(type, name)
@@ -50,7 +48,6 @@
     \b Note : Any change from C++ side will trigger the notification to QML.
 */
 
-
 /*!
     \def QML_CONSTANT_PROPERTY(type, name)
     \ingroup QT_QML_HELPERS
@@ -68,7 +65,6 @@
 
     \b Note : There is no change notifier because value is constant.
 */
-
 
 /*!
     \def QML_ENUM_CLASS(name, ...)

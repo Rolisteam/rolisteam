@@ -1,32 +1,32 @@
 /***************************************************************************
-* Copyright (C) 2014 by Renaud Guezennec                                   *
-* http://www.rolisteam.org/                                                *
-*                                                                          *
-*  This file is part of rcse                                               *
-*                                                                          *
-* rcse is free software; you can redistribute it and/or modify             *
-* it under the terms of the GNU General Public License as published by     *
-* the Free Software Foundation; either version 2 of the License, or        *
-* (at your option) any later version.                                      *
-*                                                                          *
-* rcse is distributed in the hope that it will be useful,                  *
-* but WITHOUT ANY WARRANTY; without even the implied warranty of           *
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
-* GNU General Public License for more details.                             *
-*                                                                          *
-* You should have received a copy of the GNU General Public License        *
-* along with this program; if not, write to the                            *
-* Free Software Foundation, Inc.,                                          *
-* 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
-***************************************************************************/
+ * Copyright (C) 2014 by Renaud Guezennec                                   *
+ * http://www.rolisteam.org/                                                *
+ *                                                                          *
+ *  This file is part of rcse                                               *
+ *                                                                          *
+ * rcse is free software; you can redistribute it and/or modify             *
+ * it under the terms of the GNU General Public License as published by     *
+ * the Free Software Foundation; either version 2 of the License, or        *
+ * (at your option) any later version.                                      *
+ *                                                                          *
+ * rcse is distributed in the hope that it will be useful,                  *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
+ * GNU General Public License for more details.                             *
+ *                                                                          *
+ * You should have received a copy of the GNU General Public License        *
+ * along with this program; if not, write to the                            *
+ * Free Software Foundation, Inc.,                                          *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
+ ***************************************************************************/
 #include "charactersheetitem.h"
 #include <QDebug>
 #include <QTextDocument>
 //////////////////////////////
-//Item
+// Item
 /////////////////////////////
 CharacterSheetItem::CharacterSheetItem()
-    : m_parent(nullptr),m_orig(nullptr),m_page(0),m_readOnly(false),m_hasDefaultValue(false)
+    : m_parent(nullptr), m_orig(nullptr), m_page(0), m_readOnly(false), m_hasDefaultValue(false)
 {
 }
 
@@ -40,13 +40,12 @@ int CharacterSheetItem::getChildrenCount() const
     return 0;
 }
 
-QVariant CharacterSheetItem::getValueFrom(CharacterSheetItem::ColumnId i,int role) const
+QVariant CharacterSheetItem::getValueFrom(CharacterSheetItem::ColumnId i, int role) const
 {
     Q_UNUSED(i);
     Q_UNUSED(role);
     return QVariant();
 }
-
 
 bool CharacterSheetItem::isReadOnly() const
 {
@@ -57,7 +56,7 @@ void CharacterSheetItem::setReadOnly(bool readOnly)
 {
     if(m_readOnly != readOnly)
     {
-        m_readOnly = readOnly;
+        m_readOnly= readOnly;
         emit readOnlyChanged();
         emit sendOffData(this);
     }
@@ -72,7 +71,7 @@ void CharacterSheetItem::setPage(int page)
 {
     if(page != m_page)
     {
-        m_page = page;
+        m_page= page;
         emit pageChanged();
     }
 }
@@ -82,54 +81,51 @@ QString CharacterSheetItem::getFormula() const
     return m_formula;
 }
 
-void CharacterSheetItem::setFormula(const QString &formula)
+void CharacterSheetItem::setFormula(const QString& formula)
 {
-    m_formula = formula;
+    m_formula= formula;
 }
 
-CharacterSheetItem *CharacterSheetItem::getOrig() const
+CharacterSheetItem* CharacterSheetItem::getOrig() const
 {
     return m_orig;
 }
 
 void CharacterSheetItem::setOrig(CharacterSheetItem* orig)
 {
-    m_orig = orig;
+    m_orig= orig;
     if(nullptr != m_orig)
     {
-        connect(m_orig,SIGNAL(labelChanged()),this,SLOT(updateLabelFromOrigin()));
+        connect(m_orig, SIGNAL(labelChanged()), this, SLOT(updateLabelFromOrigin()));
     }
 }
 void CharacterSheetItem::updateLabelFromOrigin()
 {
-    if(nullptr!=m_orig)
+    if(nullptr != m_orig)
     {
-      QString oldKey =m_label;
+        QString oldKey= m_label;
 
-      setLabel(m_orig->getLabel());
+        setLabel(m_orig->getLabel());
 
-      if(nullptr != m_parent)
-      {
-        m_parent->changeKeyChild(oldKey,m_label,this);
-      }
+        if(nullptr != m_parent)
+        {
+            m_parent->changeKeyChild(oldKey, m_label, this);
+        }
     }
 }
 
-void CharacterSheetItem::updateNeeded()
-{
-
-}
+void CharacterSheetItem::updateNeeded() {}
 
 QString CharacterSheetItem::getTooltip() const
 {
     return m_tooltip;
 }
 
-void CharacterSheetItem::setTooltip(const QString &tooltip)
+void CharacterSheetItem::setTooltip(const QString& tooltip)
 {
-    m_tooltip = tooltip;
+    m_tooltip= tooltip;
 }
-void CharacterSheetItem::changeKeyChild(QString oldkey, QString newKey,CharacterSheetItem* child)
+void CharacterSheetItem::changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem* child)
 {
     Q_UNUSED(oldkey);
     Q_UNUSED(newKey);
@@ -141,30 +137,30 @@ QString CharacterSheetItem::value() const
     return m_value;
 }
 
-void CharacterSheetItem::setValue(const QString &value,bool fromNetwork)
+void CharacterSheetItem::setValue(const QString& value, bool fromNetwork)
 {
     /// @warning ugly solution to prevent html rich text to break the change check.
-    m_hasDefaultValue = false;
+    m_hasDefaultValue= false;
     QString newValue;
     QString currentValue;
     if(m_currentType <= SELECT)
     {
         QTextDocument doc;
         doc.setHtml(value);
-        newValue = doc.toPlainText();
+        newValue= doc.toPlainText();
 
         doc.setHtml(m_value);
-        currentValue = doc.toPlainText();
+        currentValue= doc.toPlainText();
     }
     else
     {
-        newValue = value;
-        currentValue = m_value;
+        newValue= value;
+        currentValue= m_value;
     }
 
-    if(currentValue!=newValue)
+    if(currentValue != newValue)
     {
-        m_value = value;
+        m_value= value;
         emit valueChanged();
         if(!fromNetwork)
         {
@@ -183,27 +179,27 @@ QString CharacterSheetItem::getLabel() const
     return m_label;
 }
 
-void CharacterSheetItem::setLabel(const QString &label)
+void CharacterSheetItem::setLabel(const QString& label)
 {
     if(m_label != label)
     {
-        m_label = label;
+        m_label= label;
         emit labelChanged();
     }
 }
-void CharacterSheetItem::setId(const QString &id)
+void CharacterSheetItem::setId(const QString& id)
 {
-  m_id = id;
+    m_id= id;
 }
 
-bool CharacterSheetItem::removeChild(CharacterSheetItem *)
+bool CharacterSheetItem::removeChild(CharacterSheetItem*)
 {
-  return false;
+    return false;
 }
 
-bool CharacterSheetItem::deleteChild(CharacterSheetItem *)
+bool CharacterSheetItem::deleteChild(CharacterSheetItem*)
 {
-  return false;
+    return false;
 }
 int CharacterSheetItem::rowInParent()
 {
@@ -215,16 +211,16 @@ bool CharacterSheetItem::mayHaveChildren() const
 {
     return false;
 }
-CharacterSheetItem*  CharacterSheetItem::getChildAt(int) const
+CharacterSheetItem* CharacterSheetItem::getChildAt(int) const
 {
     return nullptr;
 }
 QString CharacterSheetItem::getPath()
 {
     QString path;
-    if(nullptr!=m_parent)
+    if(nullptr != m_parent)
     {
-        path=m_parent->getPath();
+        path= m_parent->getPath();
         if(!path.isEmpty())
         {
             path.append('.');
@@ -232,18 +228,15 @@ QString CharacterSheetItem::getPath()
     }
     return path.append(m_id);
 }
-void CharacterSheetItem::appendChild(CharacterSheetItem *)
-{
-
-}
-CharacterSheetItem *CharacterSheetItem::getParent() const
+void CharacterSheetItem::appendChild(CharacterSheetItem*) {}
+CharacterSheetItem* CharacterSheetItem::getParent() const
 {
     return m_parent;
 }
 
-void CharacterSheetItem::setParent(CharacterSheetItem *parent)
+void CharacterSheetItem::setParent(CharacterSheetItem* parent)
 {
-    m_parent = parent;
+    m_parent= parent;
 }
 int CharacterSheetItem::indexOfChild(CharacterSheetItem* itm)
 {
@@ -259,23 +252,20 @@ CharacterSheetItem::TypeField CharacterSheetItem::getFieldType() const
     return m_currentType;
 }
 
-void CharacterSheetItem::setCurrentType(const CharacterSheetItem::TypeField &currentType)
+void CharacterSheetItem::setCurrentType(const CharacterSheetItem::TypeField& currentType)
 {
-    m_currentType = currentType;
+    m_currentType= currentType;
     if(m_currentType == CharacterSheetItem::FUNCBUTTON && m_hasDefaultValue)
     {
-        m_value = "";
+        m_value= "";
     }
 }
 
-void CharacterSheetItem::setFieldInDictionnary(QHash<QString, QString> & dict) const
+void CharacterSheetItem::setFieldInDictionnary(QHash<QString, QString>& dict) const
 {
-    auto val = value();
-    dict[m_id] = val;
-    dict[getLabel()] = val;
+    auto val= value();
+    dict[m_id]= val;
+    dict[getLabel()]= val;
 }
 
-void CharacterSheetItem::initGraphicsItem()
-{
-
-}
+void CharacterSheetItem::initGraphicsItem() {}

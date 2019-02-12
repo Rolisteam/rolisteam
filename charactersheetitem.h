@@ -1,30 +1,30 @@
 /***************************************************************************
-* Copyright (C) 2014 by Renaud Guezennec                                   *
-* http://www.rolisteam.org/                                                *
-*                                                                          *
-*  This file is part of rcse                                               *
-*                                                                          *
-* rcse is free software; you can redistribute it and/or modify             *
-* it under the terms of the GNU General Public License as published by     *
-* the Free Software Foundation; either version 2 of the License, or        *
-* (at your option) any later version.                                      *
-*                                                                          *
-* rcse is distributed in the hope that it will be useful,                  *
-* but WITHOUT ANY WARRANTY; without even the implied warranty of           *
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
-* GNU General Public License for more details.                             *
-*                                                                          *
-* You should have received a copy of the GNU General Public License        *
-* along with this program; if not, write to the                            *
-* Free Software Foundation, Inc.,                                          *
-* 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
-***************************************************************************/
+ * Copyright (C) 2014 by Renaud Guezennec                                   *
+ * http://www.rolisteam.org/                                                *
+ *                                                                          *
+ *  This file is part of rcse                                               *
+ *                                                                          *
+ * rcse is free software; you can redistribute it and/or modify             *
+ * it under the terms of the GNU General Public License as published by     *
+ * the Free Software Foundation; either version 2 of the License, or        *
+ * (at your option) any later version.                                      *
+ *                                                                          *
+ * rcse is distributed in the hope that it will be useful,                  *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
+ * GNU General Public License for more details.                             *
+ *                                                                          *
+ * You should have received a copy of the GNU General Public License        *
+ * along with this program; if not, write to the                            *
+ * Free Software Foundation, Inc.,                                          *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
+ ***************************************************************************/
 #ifndef CHARACTERSHEETITEM_H
 #define CHARACTERSHEETITEM_H
 
-#include <QVariant>
 #include <QJsonObject>
 #include <QTextStream>
+#include <QVariant>
 
 class QGraphicsScene;
 /**
@@ -40,11 +40,53 @@ class CharacterSheetItem : public QObject
     Q_PROPERTY(QString formula READ getFormula WRITE setFormula NOTIFY formulaChanged)
     Q_PROPERTY(QString label READ getLabel WRITE setLabel NOTIFY labelChanged)
 public:
-    enum CharacterSheetItemType {SectionItem,FieldItem,TableItem};
+    enum CharacterSheetItemType
+    {
+        SectionItem,
+        FieldItem,
+        TableItem
+    };
 
-    enum ColumnId {ID,LABEL,VALUE,VALUES,TYPE,X,Y,WIDTH,HEIGHT,CLIPPED,FONT,TEXT_ALIGN,TEXTCOLOR,BGCOLOR,BORDER,PAGE,TOOLTIP};
-    enum QMLSection {FieldSec,ConnectionSec};
-    enum TypeField {TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,DICEBUTTON,FUNCBUTTON,WEBPAGE,NEXTPAGE,PREVIOUSPAGE,TABLE};
+    enum ColumnId
+    {
+        ID,
+        LABEL,
+        VALUE,
+        VALUES,
+        TYPE,
+        X,
+        Y,
+        WIDTH,
+        HEIGHT,
+        CLIPPED,
+        FONT,
+        TEXT_ALIGN,
+        TEXTCOLOR,
+        BGCOLOR,
+        BORDER,
+        PAGE,
+        TOOLTIP
+    };
+    enum QMLSection
+    {
+        FieldSec,
+        ConnectionSec
+    };
+    enum TypeField
+    {
+        TEXTINPUT,
+        TEXTFIELD,
+        TEXTAREA,
+        SELECT,
+        CHECKBOX,
+        IMAGE,
+        DICEBUTTON,
+        FUNCBUTTON,
+        WEBPAGE,
+        NEXTPAGE,
+        PREVIOUSPAGE,
+        TABLE
+    };
     /**
      * @brief CharacterSheetItem
      */
@@ -63,7 +105,7 @@ public:
      * @brief getChildAt
      * @return
      */
-    virtual CharacterSheetItem* getChildAt(QString) const=0;
+    virtual CharacterSheetItem* getChildAt(QString) const= 0;
     /**
      * @brief getChildAt
      * @return
@@ -74,12 +116,12 @@ public:
      * @brief getValueFrom
      * @return
      */
-    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId,int role) const;
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const;
     /**
      * @brief setValueFrom
      * @param data
      */
-    virtual void setValueFrom(CharacterSheetItem::ColumnId,QVariant data)=0;
+    virtual void setValueFrom(CharacterSheetItem::ColumnId, QVariant data)= 0;
 
     /**
      * @brief getPath
@@ -99,12 +141,12 @@ public:
      * @brief getParent
      * @return
      */
-    CharacterSheetItem *getParent() const;
+    CharacterSheetItem* getParent() const;
     /**
      * @brief setParent
      * @param parent
      */
-    void setParent(CharacterSheetItem *parent);
+    void setParent(CharacterSheetItem* parent);
     /**
      * @brief rowInParent
      * @return
@@ -115,37 +157,37 @@ public:
      * @param itm
      * @return
      */
-    virtual int indexOfChild(CharacterSheetItem *itm);
+    virtual int indexOfChild(CharacterSheetItem* itm);
     /**
      * @brief save
      * @param json
      * @param exp
      */
-    virtual void save(QJsonObject& json,bool exp=false)=0;
+    virtual void save(QJsonObject& json, bool exp= false)= 0;
     /**
      * @brief load
      * @param json
      * @param scene
      */
-    virtual void load(const QJsonObject& json,QList<QGraphicsScene*> scene)=0;
+    virtual void load(const QJsonObject& json, QList<QGraphicsScene*> scene)= 0;
 
     /**
      * @brief save
      * @param json
      * @param exp
      */
-    virtual void saveDataItem(QJsonObject& json)=0;
+    virtual void saveDataItem(QJsonObject& json)= 0;
     /**
      * @brief load
      * @param json
      * @param scene
      */
-    virtual void loadDataItem(const QJsonObject& json)=0;
+    virtual void loadDataItem(const QJsonObject& json)= 0;
     /**
      * @brief setNewEnd
      * @param nend
      */
-    virtual void setNewEnd(QPointF nend)=0;
+    virtual void setNewEnd(QPointF nend)= 0;
     /**
      * @brief getId
      * @return
@@ -155,12 +197,12 @@ public:
      * @brief setId
      * @param id
      */
-    void setId(const QString &id);
+    void setId(const QString& id);
     /**
      * @brief getItemType
      * @return
      */
-    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const = 0;
+    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const= 0;
     /**
      * @brief removeChild
      * @return
@@ -180,28 +222,27 @@ public:
 
     Q_INVOKABLE QString getFormula() const;
 
-
-    virtual void setFieldInDictionnary(QHash<QString, QString> & dict) const;
+    virtual void setFieldInDictionnary(QHash<QString, QString>& dict) const;
     bool hasFormula() const;
 
     CharacterSheetItem::TypeField getFieldType() const;
-    void setCurrentType(const CharacterSheetItem::TypeField &currentType);
+    void setCurrentType(const CharacterSheetItem::TypeField& currentType);
 
     virtual void initGraphicsItem();
 
     CharacterSheetItem* getOrig() const;
-    virtual void setOrig(CharacterSheetItem *orig);
+    virtual void setOrig(CharacterSheetItem* orig);
 
-    virtual void changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem *child);
+    virtual void changeKeyChild(QString oldkey, QString newKey, CharacterSheetItem* child);
     QString getTooltip() const;
-    void setTooltip(const QString &tooltip);
+    void setTooltip(const QString& tooltip);
 
 public slots:
     /**
      * @brief setValue
      * @param value
      */
-    virtual void setValue(const QString &value,bool fromNetwork=false);
+    virtual void setValue(const QString& value, bool fromNetwork= false);
     /**
      * @brief setReadOnly
      * @param readOnly
@@ -216,15 +257,14 @@ public slots:
      * @brief setLabel
      * @param label
      */
-     void setLabel(const QString &label);
+    void setLabel(const QString& label);
 
-    void setFormula(const QString &formula);
+    void setFormula(const QString& formula);
 
     void updateLabelFromOrigin();
 
     // WARNING make implementation
     void updateNeeded();
-
 
 signals:
     void valueChanged();

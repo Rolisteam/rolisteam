@@ -15,13 +15,13 @@ class RolisteamImageProvider : public QQuickImageProvider
 public:
     RolisteamImageProvider();
     virtual ~RolisteamImageProvider();
-    virtual QPixmap requestPixmap(const QString &id, QSize *size, const QSize& requestedSize);
+    virtual QPixmap requestPixmap(const QString& id, QSize* size, const QSize& requestedSize);
 
-    void insertPix(QString key,QPixmap img);
-    QSharedPointer<QHash<QString,QPixmap>> getData();
+    void insertPix(QString key, QPixmap img);
+    QSharedPointer<QHash<QString, QPixmap>> getData();
     void cleanData();
 
-    void setData( QSharedPointer<QHash<QString, QPixmap>> data);
+    void setData(QSharedPointer<QHash<QString, QPixmap>> data);
 
     void removeImg(QString key);
 
@@ -30,7 +30,7 @@ public:
     void read(NetworkMessageReader& msg);
 #endif
 private:
-    QSharedPointer< QHash<QString,QPixmap>> m_data;
+    QSharedPointer<QHash<QString, QPixmap>> m_data;
 };
 
 #endif // ROLISTEAMIMAGEPROVIDER_H

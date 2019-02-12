@@ -1,9 +1,9 @@
 #ifndef SHEETWIDGET_H
 #define SHEETWIDGET_H
 
-#include <QQuickWidget>
-#include <QPointF>
 #include <QMouseEvent>
+#include <QPointF>
+#include <QQuickWidget>
 
 class CharacterSheet;
 class SheetWidget : public QQuickWidget
@@ -11,7 +11,7 @@ class SheetWidget : public QQuickWidget
     Q_OBJECT
     Q_PROPERTY(CharacterSheet* sheet READ sheet WRITE setSheet NOTIFY sheetChanged)
 public:
-    SheetWidget(QWidget* parent = nullptr);
+    SheetWidget(QWidget* parent= nullptr);
 
     void setSheet(CharacterSheet* sheet);
     CharacterSheet* sheet() const;
@@ -19,6 +19,7 @@ public:
 signals:
     void customMenuRequested(const QPoint pos);
     void sheetChanged();
+
 protected:
     virtual void mousePressEvent(QMouseEvent* event);
 

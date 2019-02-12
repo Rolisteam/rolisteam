@@ -1,53 +1,37 @@
 #include "parenthesesfnode.h"
 namespace Formula
 {
-ParenthesesFNode::ParenthesesFNode()
-{
+    ParenthesesFNode::ParenthesesFNode() {}
 
-}
+    FormulaNode* ParenthesesFNode::internalNode() const { return m_internalNode; }
 
-FormulaNode *ParenthesesFNode::internalNode() const
-{
-    return m_internalNode;
-}
+    void ParenthesesFNode::setInternalNode(FormulaNode* internalNode) { m_internalNode= internalNode; }
+    QVariant ParenthesesFNode::getResult() { return m_result; }
 
-void ParenthesesFNode::setInternalNode(FormulaNode *internalNode)
-{
-    m_internalNode = internalNode;
-}
-QVariant ParenthesesFNode::getResult()
-{
-    return m_result;
-}
-
-bool ParenthesesFNode::run(FormulaNode* /*previous*/)
-{
-    bool result = false;
-    if(nullptr!=m_internalNode)
+    bool ParenthesesFNode::run(FormulaNode* /*previous*/)
     {
-        m_internalNode->run(this);
-        FormulaNode* temp=m_internalNode;
-       while(nullptr!=temp->next())
-       {
-            temp=temp->next();
-       }
-       m_result = temp->getResult();
-       result = true;
-    }
+        bool result= false;
+        if(nullptr != m_internalNode)
+        {
+            m_internalNode->run(this);
+            FormulaNode* temp= m_internalNode;
+            while(nullptr != temp->next())
+            {
+                temp= temp->next();
+            }
+            m_result= temp->getResult();
+            result= true;
+        }
 
-
-    if(nullptr!=m_next)
-    {
-        return m_next->run(this);
+        if(nullptr != m_next)
+        {
+            return m_next->run(this);
+        }
+        else
+        {
+            return result;
+        }
     }
-    else
-    {
-        return result;
-    }
-}
-int ParenthesesFNode::getPriority()
-{
-    return 3;
-}
+    int ParenthesesFNode::getPriority() { return 3; }
 
-}
+} // namespace Formula

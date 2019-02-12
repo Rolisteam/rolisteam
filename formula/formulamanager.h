@@ -1,22 +1,22 @@
 /***************************************************************************
-    *   Copyright (C) 2016 by Renaud Guezennec                                *
-    *   http://www.rolisteam.org/contact                                      *
-    *                                                                         *
-    *   rolisteam is free software; you can redistribute it and/or modify     *
-    *   it under the terms of the GNU General Public License as published by  *
-    *   the Free Software Foundation; either version 2 of the License, or     *
-    *   (at your option) any later version.                                   *
-    *                                                                         *
-    *   This program is distributed in the hope that it will be useful,       *
-    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-    *   GNU General Public License for more details.                          *
-    *                                                                         *
-    *   You should have received a copy of the GNU General Public License     *
-    *   along with this program; if not, write to the                         *
-    *   Free Software Foundation, Inc.,                                       *
-    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-    ***************************************************************************/
+ *   Copyright (C) 2016 by Renaud Guezennec                                *
+ *   http://www.rolisteam.org/contact                                      *
+ *                                                                         *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 #ifndef FORMULAMANAGER_H
 #define FORMULAMANAGER_H
 
@@ -43,41 +43,35 @@
  *
  */
 
-#include "parsingtoolformula.h"
 #include "nodes/startnode.h"
+#include "parsingtoolformula.h"
 /**
  * Formala namespace is gathering all classes required for formula management.
  */
 namespace Formula
 {
-/**
- * @brief The FormulaManager class
- */
-class FormulaManager
-{
-public:
-    FormulaManager();
-    ~FormulaManager();
+    /**
+     * @brief The FormulaManager class
+     */
+    class FormulaManager
+    {
+    public:
+        FormulaManager();
+        ~FormulaManager();
 
-    QVariant getValue(QString i);
-    void setConstantHash(QHash<QString,QString>* hash);
+        QVariant getValue(QString i);
+        void setConstantHash(QHash<QString, QString>* hash);
 
-protected:
-    bool parseLine(QString& str);
-    QVariant startComputing();
+    protected:
+        bool parseLine(QString& str);
+        QVariant startComputing();
 
+        bool readFormula(QString& str);
 
-    bool readFormula(QString& str);
-
-
-
-
-
-private:
-    QString m_formula;
-    ParsingToolFormula* m_parsingTool;
-    StartNode* m_startingNode;
-
-};
-}
+    private:
+        QString m_formula;
+        ParsingToolFormula* m_parsingTool;
+        StartNode* m_startingNode;
+    };
+} // namespace Formula
 #endif // FORMULAMANAGER_H

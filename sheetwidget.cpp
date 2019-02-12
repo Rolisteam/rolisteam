@@ -3,10 +3,7 @@
 #include "charactersheet/charactersheet.h"
 #include <QContextMenuEvent>
 
-SheetWidget::SheetWidget(QWidget* parent)
-    : QQuickWidget(parent)
-{
-}
+SheetWidget::SheetWidget(QWidget* parent) : QQuickWidget(parent) {}
 
 void SheetWidget::mousePressEvent(QMouseEvent* event)
 {
@@ -21,7 +18,7 @@ void SheetWidget::setSheet(CharacterSheet* sheet)
     if(sheet == m_characterSheet)
         return;
 
-    m_characterSheet = sheet;
+    m_characterSheet= sheet;
     emit sheetChanged();
 }
 CharacterSheet* SheetWidget::sheet() const
