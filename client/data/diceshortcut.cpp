@@ -1,17 +1,14 @@
 #include "diceshortcut.h"
 
-DiceShortCut::DiceShortCut()
-{
-
-}
+DiceShortCut::DiceShortCut() {}
 QString DiceShortCut::text() const
 {
     return m_text;
 }
 
-void DiceShortCut::setText(const QString &text)
+void DiceShortCut::setText(const QString& text)
 {
-    m_text = text;
+    m_text= text;
 }
 
 QString DiceShortCut::command() const
@@ -19,9 +16,9 @@ QString DiceShortCut::command() const
     return m_command;
 }
 
-void DiceShortCut::setCommand(const QString &command)
+void DiceShortCut::setCommand(const QString& command)
 {
-    m_command = command;
+    m_command= command;
 }
 
 bool DiceShortCut::alias() const
@@ -31,6 +28,5 @@ bool DiceShortCut::alias() const
 
 void DiceShortCut::setAlias(bool alias)
 {
-    m_alias = alias;
+    m_alias= alias;
 }
-

@@ -19,8 +19,8 @@
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
 
-#include <QPlainTextEdit>
 #include <QObject>
+#include <QPlainTextEdit>
 #include <QSettings>
 
 #include "enu.h"
@@ -32,15 +32,14 @@ class QWidget;
 
 class LineNumberArea;
 
-
 class CodeEditor : public QPlainTextEdit
 {
     Q_OBJECT
 
 public:
-    CodeEditor(QWidget *parent = 0);
+    CodeEditor(QWidget* parent= 0);
 
-    void lineNumberAreaPaintEvent(QPaintEvent *event);
+    void lineNumberAreaPaintEvent(QPaintEvent* event);
     int lineNumberAreaWidth();
 
     void collabTextChange(int pos, int charsRemoved, int charsAdded, QString data);
@@ -54,44 +53,38 @@ public:
     bool findPrev(QString searchString, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode);
     bool replaceAll(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, Enu::FindMode mode);
     bool replace(QString replaceString);
-    bool findReplace(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode);
+    bool findReplace(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, bool wrapAround,
+        Enu::FindMode mode);
 
 public slots:
     bool findAll(QString searchString);
 
 protected:
-    void resizeEvent(QResizeEvent *event);
+    void resizeEvent(QResizeEvent* event);
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
     void highlightCurrentLine();
-    void updateLineNumberArea(const QRect &, int);
+    void updateLineNumberArea(const QRect&, int);
 
 private:
     bool isFirstTime;
-    
-    QWidget *lineNumberArea;
-};
 
+    QWidget* lineNumberArea;
+};
 
 class LineNumberArea : public QWidget
 {
 public:
-    LineNumberArea(CodeEditor *editor) : QWidget(editor) {
-        codeEditor = editor;
-    }
+    LineNumberArea(CodeEditor* editor) : QWidget(editor) { codeEditor= editor; }
 
-    QSize sizeHint() const {
-        return QSize(codeEditor->lineNumberAreaWidth(), 0);
-    }
+    QSize sizeHint() const { return QSize(codeEditor->lineNumberAreaWidth(), 0); }
 
 protected:
-    void paintEvent(QPaintEvent *event) {
-        codeEditor->lineNumberAreaPaintEvent(event);
-    }
+    void paintEvent(QPaintEvent* event) { codeEditor->lineNumberAreaPaintEvent(event); }
 
 private:
-    CodeEditor *codeEditor;
+    CodeEditor* codeEditor;
 };
 
 #endif // CODEEDITOR_H

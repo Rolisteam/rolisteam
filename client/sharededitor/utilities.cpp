@@ -21,12 +21,13 @@
 #include <QString>
 
 // Fonts
- QString Utilities::s_codeFont;// = getSystem() == "Windows" ? "Courier New" : (getSystem() == "Mac" ? "Monaco" : "Courier 10 Pitch");
- int Utilities::s_codeFontSize= 8;// = getSystem() == "Mac" ? 11 : 9;
- QString Utilities::s_labelFont;// = getSystem() == "Mac" ? "Lucida Grande" : "Verdana";
- int Utilities::s_labelFontSize = 8;// = getSystem() == "Mac" ? 11 : 8;
- QString Utilities::s_chatFont;// = getSystem() == "Mac" ? "Lucida Grande" : "Verdana";
- int Utilities::s_chatFontSize= 8;// = getSystem() == "Mac" ? 11 : 8;
+QString Utilities::s_codeFont;     // = getSystem() == "Windows" ? "Courier New" : (getSystem() == "Mac" ? "Monaco" :
+                                   // "Courier 10 Pitch");
+int Utilities::s_codeFontSize= 8;  // = getSystem() == "Mac" ? 11 : 9;
+QString Utilities::s_labelFont;    // = getSystem() == "Mac" ? "Lucida Grande" : "Verdana";
+int Utilities::s_labelFontSize= 8; // = getSystem() == "Mac" ? 11 : 8;
+QString Utilities::s_chatFont;     // = getSystem() == "Mac" ? "Lucida Grande" : "Verdana";
+int Utilities::s_chatFontSize= 8;  // = getSystem() == "Mac" ? 11 : 8;
 
 Utilities::Utilities()
 {
@@ -35,12 +36,11 @@ Utilities::Utilities()
 
 QString Utilities::getSystem()
 {
-    s_codeFont = QStringLiteral("Courier 10 Pitch");
-    s_codeFontSize = 9;
-    s_labelFont =  QStringLiteral("Verdana");
-    s_labelFontSize = 8;
-    s_chatFont = QStringLiteral("Verdana");
-    s_chatFontSize = 8;
+    s_codeFont= QStringLiteral("Courier 10 Pitch");
+    s_codeFontSize= 9;
+    s_labelFont= QStringLiteral("Verdana");
+    s_labelFontSize= 8;
+    s_chatFont= QStringLiteral("Verdana");
+    s_chatFontSize= 8;
     return QStringLiteral("Windows");
 }
-

@@ -20,17 +20,14 @@
 #ifndef MEDIACONTAINER_H
 #define MEDIACONTAINER_H
 
-
-
-#include <QString>
-#include <QMdiSubWindow>
 #include <QAction>
+#include <QMdiSubWindow>
+#include <QString>
 
-
+#include "cleveruri.h"
 #include "data/cleveruri.h"
 #include "preferences/preferencesmanager.h"
 #include "vmap/vtoolbar.h"
-#include "cleveruri.h"
 
 #include "network/networkmessagewriter.h"
 
@@ -44,7 +41,7 @@ public:
     /**
      * @brief MediaContainer
      */
-    MediaContainer(bool localIsGM, QWidget* parent = nullptr);
+    MediaContainer(bool localIsGM, QWidget* parent= nullptr);
     /**
      * @brief ~MediaContainer
      */
@@ -61,11 +58,11 @@ public:
      */
     QString getLocalPlayerId();
 
-	/**
-	 * @brief setCleverUri
-	 * @param uri
-	 */
-	virtual void setCleverUri(CleverURI* uri);
+    /**
+     * @brief setCleverUri
+     * @param uri
+     */
+    virtual void setCleverUri(CleverURI* uri);
     /**
      * @brief getCleverUri
      * @return
@@ -77,21 +74,21 @@ public:
      */
     virtual bool isUriEndWith(QString);
 
-	/**
-	 * @brief readFile
-	 * @return
-	 */
-	virtual bool readFileFromUri()=0;
-	/**
-	 * @brief openFile
-	 * @return
-	 */
+    /**
+     * @brief readFile
+     * @return
+     */
+    virtual bool readFileFromUri()= 0;
+    /**
+     * @brief openFile
+     * @return
+     */
     virtual bool openMedia();
     /**
      * @brief error
      * @param err - error message to display
      */
-    void error(QString err,QWidget* parent);
+    void error(QString err, QWidget* parent);
     /**
      * @brief setAction
      */
@@ -114,26 +111,26 @@ public:
     /**
      * @brief saveMedia must be implemented for each media container.
      */
-    virtual void saveMedia() =0;
+    virtual void saveMedia()= 0;
     /**
      * @brief putDataIntoCleverUri when the uri is empty, save media into cleverURI data
      */
-    virtual void putDataIntoCleverUri() = 0;
+    virtual void putDataIntoCleverUri()= 0;
     /**
-    * @brief is called when the selected tool changes.
-    * @param the current tool.
-    */
+     * @brief is called when the selected tool changes.
+     * @param the current tool.
+     */
     virtual void currentToolChanged(VToolsBar::SelectableTool);
     /**
-    * @brief is called when the cursor must be changed.
-    * @param the new cursor.
-    * @todo gathering this function and currentToolChanged should be a better choice.
-    */
+     * @brief is called when the cursor must be changed.
+     * @param the new cursor.
+     * @todo gathering this function and currentToolChanged should be a better choice.
+     */
     virtual void currentCursorChanged(QCursor*);
     /**
-    * @brief is called when the user has changed the selected color.
-    * @param the new color.
-    */
+     * @brief is called when the user has changed the selected color.
+     * @param the new color.
+     */
     virtual void currentColorChanged(QColor&);
 
     /**
@@ -148,13 +145,12 @@ public:
      */
     virtual void setMediaId(QString);
 
-    virtual void cleverURIHasChanged(CleverURI*,CleverURI::DataValue field);
+    virtual void cleverURIHasChanged(CleverURI*, CleverURI::DataValue field);
 
     void addActionToMenu(QMenu& menu);
 
     virtual QUndoStack* getUndoStack() const;
     virtual void setUndoStack(QUndoStack* undoStack);
-
 
     virtual void fill(NetworkMessageWriter& msg);
     virtual void readMessage(NetworkMessageReader& msg);
@@ -181,22 +177,23 @@ public slots:
     void detachView(bool b);
 
 protected slots:
-    virtual void updateTitle() = 0;
+    virtual void updateTitle()= 0;
+
 protected:
     QString m_localPlayerId;
-    CleverURI* m_uri = nullptr;
+    CleverURI* m_uri= nullptr;
     QString m_filter;
     PreferencesManager* m_preferences;
     QAction* m_action;
     QString m_name;
     QCursor* m_currentCursor;
     /**
-    * @brief the current tool, it is an enum item.
-    */
+     * @brief the current tool, it is an enum item.
+     */
     VToolsBar::SelectableTool m_currentTool;
     /**
-    * @brief the current color of the pen.
-    */
+     * @brief the current color of the pen.
+     */
     QColor m_penColor;
     /**
      * @brief m_mediaId stores the unique id to identify this media. Helpful with network message.
@@ -204,9 +201,8 @@ protected:
      */
     QString m_mediaId;
     QAction* m_detachedDialog;
-    bool m_remote = false;
-    bool m_localIsGM = false;
-
+    bool m_remote= false;
+    bool m_localIsGM= false;
 };
 
 #endif // MEDIACONTAINER_H

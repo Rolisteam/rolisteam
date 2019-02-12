@@ -45,22 +45,20 @@ private:
     CharacterProperty propriety2;
 };
 
-FieldModelTest::FieldModelTest()
-{
-
-}
+FieldModelTest::FieldModelTest() {}
 void FieldModelTest::initTestCase()
 {
     QStringList list;
-    list << "column1" << "column2" ;
-     m_model = new GenericModel(list,this);
+    list << "column1"
+         << "column2";
+    m_model= new GenericModel(list, this);
 }
 
 void FieldModelTest::testHeader()
 {
     QVERIFY(m_model->columnCount() == 2);
-    auto col1 = m_model->headerData(0,Qt::Horizontal, Qt::DisplayRole).toString();
-    auto col2 = m_model->headerData(1,Qt::Horizontal, Qt::DisplayRole).toString();
+    auto col1= m_model->headerData(0, Qt::Horizontal, Qt::DisplayRole).toString();
+    auto col2= m_model->headerData(1, Qt::Horizontal, Qt::DisplayRole).toString();
 
     QVERIFY(col1 == "column1");
     QVERIFY(col2 == "column2");
@@ -77,26 +75,21 @@ void FieldModelTest::testAdd()
     QVERIFY(m_model->rowCount() == 3);
 
     QVERIFY(spy.count() == 3);
-
 }
 void FieldModelTest::testDelete()
 {
     QSignalSpy spy(m_model, &GenericModel::rowsAboutToBeRemoved);
     QVERIFY(m_model->rowCount() == 3);
 
-    m_model->removeData(m_model->index(0,0));
+    m_model->removeData(m_model->index(0, 0));
     QVERIFY(m_model->rowCount() == 2);
-    m_model->removeData(m_model->index(0,0));
+    m_model->removeData(m_model->index(0, 0));
     QVERIFY(m_model->rowCount() == 1);
-    m_model->removeData(m_model->index(0,0));
+    m_model->removeData(m_model->index(0, 0));
     QVERIFY(m_model->rowCount() == 0);
 
     QVERIFY(spy.count() == 3);
-
 }
-
-
-
 
 QTEST_MAIN(FieldModelTest);
 

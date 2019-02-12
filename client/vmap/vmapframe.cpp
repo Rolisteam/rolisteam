@@ -1,70 +1,65 @@
 /***************************************************************************
-    *	Copyright (C) 2009 by Renaud Guezennec                                 *
-    *   http://www.rolisteam.org/contact                    *
-    *                                                                          *
-    *   rolisteam is free software; you can redistribute it and/or modify      *
-    *   it under the terms of the GNU General Public License as published by   *
-    *   the Free Software Foundation; either version 2 of the License, or      *
-    *   (at your option) any later version.                                    *
-    *                                                                          *
-    *   This program is distributed in the hope that it will be useful,        *
-    *   but WITHOUT ANY WARRANTY; without even the implied warranty of         *
-    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          *
-    *   GNU General Public License for more details.                           *
-    *                                                                          *
-    *   You should have received a copy of the GNU General Public License      *
-    *   along with this program; if not, write to the                          *
-    *   Free Software Foundation, Inc.,                                        *
-    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.              *
-    ***************************************************************************/
+ *	Copyright (C) 2009 by Renaud Guezennec                                 *
+ *   http://www.rolisteam.org/contact                    *
+ *                                                                          *
+ *   rolisteam is free software; you can redistribute it and/or modify      *
+ *   it under the terms of the GNU General Public License as published by   *
+ *   the Free Software Foundation; either version 2 of the License, or      *
+ *   (at your option) any later version.                                    *
+ *                                                                          *
+ *   This program is distributed in the hope that it will be useful,        *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of         *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          *
+ *   GNU General Public License for more details.                           *
+ *                                                                          *
+ *   You should have received a copy of the GNU General Public License      *
+ *   along with this program; if not, write to the                          *
+ *   Free Software Foundation, Inc.,                                        *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.              *
+ ***************************************************************************/
 
-
+#include <QHBoxLayout>
 #include <QScrollArea>
 #include <QScrollBar>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <QUuid>
+#include <QVBoxLayout>
 
-#include "vmapframe.h"
 #include "map/mapwizzard.h"
+#include "vmapframe.h"
 
-#include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 
-VMapFrame::VMapFrame(bool localIsGM,QWidget* parent)
-    : MediaContainer(localIsGM,parent),m_graphicView(nullptr),m_currentEditingMode(0)
+VMapFrame::VMapFrame(bool localIsGM, QWidget* parent)
+    : MediaContainer(localIsGM, parent), m_graphicView(nullptr), m_currentEditingMode(0)
 {
     setObjectName("VMapFrame");
-    m_vmap = new VMap();
+    m_vmap= new VMap();
 }
 
-VMapFrame::VMapFrame(bool localIsGM,CleverURI* uri,VMap *map,QWidget* parent)
-    : MediaContainer(localIsGM,parent),m_vmap(map),m_graphicView(nullptr),m_currentEditingMode(0)
+VMapFrame::VMapFrame(bool localIsGM, CleverURI* uri, VMap* map, QWidget* parent)
+    : MediaContainer(localIsGM, parent), m_vmap(map), m_graphicView(nullptr), m_currentEditingMode(0)
 {
     setObjectName("VMapFrame");
     setCleverUri(uri);
-    
+
     createView();
     updateMap();
 }
 
+VMapFrame::~VMapFrame() {}
 
-VMapFrame::~VMapFrame()
-{
-
-}
-
-void VMapFrame::closeEvent(QCloseEvent *event)
+void VMapFrame::closeEvent(QCloseEvent* event)
 {
     hide();
     event->accept();
 }
-void  VMapFrame::createView()
+void VMapFrame::createView()
 {
-    m_graphicView = new RGraphicsView(m_vmap,this);
+    m_graphicView= new RGraphicsView(m_vmap, this);
 
-    connect(m_vmap,SIGNAL(mapStatutChanged()),this,SLOT(updateTitle()));
-    connect(m_vmap,SIGNAL(mapChanged()),this,SLOT(updateTitle()));
+    connect(m_vmap, SIGNAL(mapStatutChanged()), this, SLOT(updateTitle()));
+    connect(m_vmap, SIGNAL(mapChanged()), this, SLOT(updateTitle()));
 }
 void VMapFrame::updateMap()
 {
@@ -73,8 +68,8 @@ void VMapFrame::updateMap()
         setUriName(tr("Unknown Map"));
     }
     setUriName(m_vmap->getMapTitle());
-    m_graphicView->setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
-    setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
+    m_graphicView->setGeometry(0, 0, m_vmap->mapWidth(), m_vmap->mapHeight());
+    setGeometry(0, 0, m_vmap->mapWidth(), m_vmap->mapHeight());
     setWidget(m_graphicView);
     setWindowIcon(QIcon(":/vmap.png"));
     m_vmap->setVisibilityMode(static_cast<VMap::VisibilityMode>(m_vmap->getOption(VisualItem::VisibilityMode).toInt()));
@@ -84,7 +79,9 @@ void VMapFrame::updateMap()
 void VMapFrame::updateTitle()
 {
     m_vmap->setTitle(getUriName());
-    setWindowTitle(tr("%1 - visibility: %2 - permission: %3 - layer: %4").arg(getUriName(), m_vmap->getVisibilityModeText(),m_vmap->getPermissionModeText(), m_vmap->getCurrentLayerText()));
+    setWindowTitle(tr("%1 - visibility: %2 - permission: %3 - layer: %4")
+                       .arg(getUriName(), m_vmap->getVisibilityModeText(), m_vmap->getPermissionModeText(),
+                           m_vmap->getCurrentLayerText()));
 }
 
 VMap* VMapFrame::getMap()
@@ -98,21 +95,21 @@ int VMapFrame::editingMode()
 
 void VMapFrame::currentCursorChanged(QCursor* cursor)
 {
-    m_currentCursor = cursor;
+    m_currentCursor= cursor;
     m_graphicView->setCursor(*cursor);
 }
 void VMapFrame::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 {
-    m_currentTool = selectedtool;
+    m_currentTool= selectedtool;
     if(m_vmap != nullptr)
     {
         m_vmap->setCurrentTool(selectedtool);
     }
-    if(nullptr!=m_graphicView)
+    if(nullptr != m_graphicView)
     {
         m_graphicView->currentToolChanged(selectedtool);
 
-        switch (m_currentTool)
+        switch(m_currentTool)
         {
         case VToolsBar::HANDLER:
             m_graphicView->setDragMode(QGraphicsView::RubberBandDrag);
@@ -146,16 +143,16 @@ void VMapFrame::setCurrentNpcNumberChanged(int str)
 }
 void VMapFrame::currentColorChanged(QColor& penColor)
 {
-    m_penColor = penColor;
-    
-    if(m_vmap !=nullptr)
+    m_penColor= penColor;
+
+    if(m_vmap != nullptr)
     {
         m_vmap->setCurrentChosenColor(m_penColor);
     }
 }
 void VMapFrame::setEditingMode(int mode)
 {
-    m_currentEditingMode = mode;
+    m_currentEditingMode= mode;
 }
 bool VMapFrame::defineMenu(QMenu* /*menu*/)
 {
@@ -167,7 +164,7 @@ bool VMapFrame::openFile(const QString& filepath)
     if(!filepath.isEmpty())
     {
         QFile input(filepath);
-        if (!input.open(QIODevice::ReadOnly))
+        if(!input.open(QIODevice::ReadOnly))
             return false;
         QDataStream in(&input);
         in.setVersion(QDataStream::Qt_5_7);
@@ -179,15 +176,15 @@ bool VMapFrame::openFile(const QString& filepath)
     }
     return false;
 }
-void VMapFrame::keyPressEvent ( QKeyEvent * event )
+void VMapFrame::keyPressEvent(QKeyEvent* event)
 {
-    switch (event->key())
+    switch(event->key())
     {
     case Qt::Key_Delete:
         /// @todo remove selected item
         break;
     case Qt::Key_Escape:
-        //m_toolsbar->setCurrentTool(VToolsBar::HANDLER);
+        // m_toolsbar->setCurrentTool(VToolsBar::HANDLER);
         emit defineCurrentTool(VToolsBar::HANDLER);
         break;
     default:
@@ -197,18 +194,18 @@ void VMapFrame::keyPressEvent ( QKeyEvent * event )
 
 void VMapFrame::saveMedia()
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
-        if(nullptr!=m_uri)
+        if(nullptr != m_uri)
         {
             if(!m_uri->getUri().endsWith(".vmap"))
             {
-                QString str = m_uri->getUri()+".vmap";
+                QString str= m_uri->getUri() + ".vmap";
                 m_uri->setUri(str);
             }
 
             QFile file(m_uri->getUri());
-            if (!file.open(QIODevice::WriteOnly))
+            if(!file.open(QIODevice::WriteOnly))
             {
                 return;
             }
@@ -221,13 +218,13 @@ void VMapFrame::saveMedia()
 }
 void VMapFrame::putDataIntoCleverUri()
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         QByteArray data;
-        QDataStream out(&data,QIODevice::WriteOnly);
+        QDataStream out(&data, QIODevice::WriteOnly);
         out.setVersion(QDataStream::Qt_5_7);
         m_vmap->saveFile(out);
-        if(nullptr!=m_uri)
+        if(nullptr != m_uri)
         {
             m_uri->setData(data);
         }
@@ -240,120 +237,120 @@ bool VMapFrame::hasDockWidget() const
 QDockWidget* VMapFrame::getDockWidget()
 {
     return nullptr;
-    //return m_toolsbar;
+    // return m_toolsbar;
 }
 
 NetWorkReceiver::SendType VMapFrame::processMessage(NetworkMessageReader* msg)
 {
-    NetWorkReceiver::SendType type = NetWorkReceiver::NONE;
-    if(nullptr==m_vmap)
+    NetWorkReceiver::SendType type= NetWorkReceiver::NONE;
+    if(nullptr == m_vmap)
         return type;
 
     switch(msg->action())
     {
-        case NetMsg::DelPoint:
-            break;
-        case NetMsg::AddItem:
-        {
-            m_vmap->processAddItemMessage(msg);
-            type = NetWorkReceiver::AllExceptSender;
-        }
-            break;
-        case NetMsg::DelItem:
-        {
-            m_vmap->processDelItemMessage(msg);
-            type = NetWorkReceiver::AllExceptSender;
-        }
-            break;
-        case NetMsg::MoveItem:
-        {
-            m_vmap->processMoveItemMessage(msg);
-            type = NetWorkReceiver::AllExceptSender;
-        }
-            break;
-        case NetMsg::GeometryItemChanged:
-        {
-            m_vmap->processGeometryChangeItem(msg);
-            type = NetWorkReceiver::AllExceptSender;
-        }
-            break;
-        case NetMsg::OpacityItemChanged:
-        {
-            m_vmap->processOpacityMessage(msg);
-            type = NetWorkReceiver::AllExceptSender;
-        }
-            break;
-        case NetMsg::LayerItemChanged:
-        {
-            m_vmap->processLayerMessage(msg);
-            type = NetWorkReceiver::AllExceptSender;
-        }
-            break;
-        case NetMsg::vmapChanges:
-        {
-            //m_vmap->processMapPropertyChange(msg);
-            m_vmap->readMessage(*msg,false);
-            type = NetWorkReceiver::AllExceptSender;
-        }
-            break;
-        case NetMsg::GeometryViewChanged:
-        {
-            //m_vmap->processGeometryViewChange(msg);
-            m_graphicView->readMessage(msg);
-            type = NetWorkReceiver::AllExceptSender;
-        }
-            break;
-        case NetMsg::CharacterStateChanged:
-            m_vmap->processCharacterStateHasChanged(*msg);
-            type = NetWorkReceiver::AllExceptSender;
-            break;
-        case NetMsg::CharacterChanged:
-            m_vmap->processCharacterHasChanged(*msg);
-            type = NetWorkReceiver::AllExceptSender;
+    case NetMsg::DelPoint:
         break;
-        case NetMsg::SetParentItem:
-        {
-            m_vmap->processSetParentItem(msg);
-            type = NetWorkReceiver::AllExceptSender;
-        }
-            break;
-        case NetMsg::ZValueItem:
-        {
-            m_vmap->processZValueMsg(msg);
-            type = NetWorkReceiver::AllExceptSender;
-        }
-            break;
-        case NetMsg::RectGeometryItem:
-        {
-            m_vmap->processRectGeometryMsg(msg);
-            type = NetWorkReceiver::AllExceptSender;
-        }
-            break;
-        case NetMsg::RotationItem:
-        {
-            m_vmap->processRotationMsg(msg);
-            type = NetWorkReceiver::AllExceptSender;
-        }
+    case NetMsg::AddItem:
+    {
+        m_vmap->processAddItemMessage(msg);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    case NetMsg::DelItem:
+    {
+        m_vmap->processDelItemMessage(msg);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    case NetMsg::MoveItem:
+    {
+        m_vmap->processMoveItemMessage(msg);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    case NetMsg::GeometryItemChanged:
+    {
+        m_vmap->processGeometryChangeItem(msg);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    case NetMsg::OpacityItemChanged:
+    {
+        m_vmap->processOpacityMessage(msg);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    case NetMsg::LayerItemChanged:
+    {
+        m_vmap->processLayerMessage(msg);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    case NetMsg::vmapChanges:
+    {
+        // m_vmap->processMapPropertyChange(msg);
+        m_vmap->readMessage(*msg, false);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    case NetMsg::GeometryViewChanged:
+    {
+        // m_vmap->processGeometryViewChange(msg);
+        m_graphicView->readMessage(msg);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    case NetMsg::CharacterStateChanged:
+        m_vmap->processCharacterStateHasChanged(*msg);
+        type= NetWorkReceiver::AllExceptSender;
         break;
-        case NetMsg::MovePoint:
-        {
-            m_vmap->processMovePointMsg(msg);
-            type = NetWorkReceiver::AllExceptSender;
-        }
+    case NetMsg::CharacterChanged:
+        m_vmap->processCharacterHasChanged(*msg);
+        type= NetWorkReceiver::AllExceptSender;
         break;
-        case NetMsg::VisionChanged:
-        {
-            m_vmap->processVisionMsg(msg);
-            type = NetWorkReceiver::AllExceptSender;
-        }
-        break;
-        case NetMsg::ColorChanged:
-        {
-            m_vmap->processColorMsg(msg);
-            type = NetWorkReceiver::AllExceptSender;
-        }
-        break;
-        default:
+    case NetMsg::SetParentItem:
+    {
+        m_vmap->processSetParentItem(msg);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    case NetMsg::ZValueItem:
+    {
+        m_vmap->processZValueMsg(msg);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    case NetMsg::RectGeometryItem:
+    {
+        m_vmap->processRectGeometryMsg(msg);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    case NetMsg::RotationItem:
+    {
+        m_vmap->processRotationMsg(msg);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    case NetMsg::MovePoint:
+    {
+        m_vmap->processMovePointMsg(msg);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    case NetMsg::VisionChanged:
+    {
+        m_vmap->processVisionMsg(msg);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    case NetMsg::ColorChanged:
+    {
+        m_vmap->processColorMsg(msg);
+        type= NetWorkReceiver::AllExceptSender;
+    }
+    break;
+    default:
         break;
     }
 
@@ -361,11 +358,11 @@ NetWorkReceiver::SendType VMapFrame::processMessage(NetworkMessageReader* msg)
 }
 void VMapFrame::fill(NetworkMessageWriter& msg)
 {
-    if(nullptr!=m_graphicView)
+    if(nullptr != m_graphicView)
     {
         if(msg.action() == NetMsg::addMedia)
         {
-            QRectF rect = m_graphicView->sceneRect();
+            QRectF rect= m_graphicView->sceneRect();
             msg.real(rect.x());
             msg.real(rect.y());
             msg.real(rect.width());
@@ -380,117 +377,116 @@ void VMapFrame::readMessage(NetworkMessageReader& msg)
 {
     if(msg.action() == NetMsg::addMedia)
     {
-        qreal x = msg.real();
-        qreal y = msg.real();
-        qreal w = msg.real();
-        qreal h = msg.real();
+        qreal x= msg.real();
+        qreal y= msg.real();
+        qreal w= msg.real();
+        qreal h= msg.real();
         if(nullptr == m_vmap)
         {
-            m_vmap = new VMap();
+            m_vmap= new VMap();
         }
         m_vmap->readMessage(msg);
-        m_vmap->setOption(VisualItem::LocalIsGM,false);
-        if(nullptr==m_graphicView)
+        m_vmap->setOption(VisualItem::LocalIsGM, false);
+        if(nullptr == m_graphicView)
         {
             createView();
             updateMap();
         }
-        m_graphicView->setSceneRect(x,y,w,h);
+        m_graphicView->setSceneRect(x, y, w, h);
     }
 }
 
 bool VMapFrame::readFileFromUri()
 {
-    if(nullptr!=m_uri)
+    if(nullptr != m_uri)
     {
-        bool read=false;
-        if(!m_uri->exists())//have not been saved outside story
+        bool read= false;
+        if(!m_uri->exists()) // have not been saved outside story
         {
-            QByteArray data = m_uri->getData();
-            QDataStream in(&data,QIODevice::ReadOnly);
+            QByteArray data= m_uri->getData();
+            QDataStream in(&data, QIODevice::ReadOnly);
             in.setVersion(QDataStream::Qt_5_7);
             createView();
             m_vmap->openFile(in);
             m_vmap->setVisibilityMode(VMap::HIDDEN);
             updateMap();
-            read=true;
+            read= true;
         }
         else if(openFile(m_uri->getUri()))
         {
-            read=true;
+            read= true;
         }
 
-        if((nullptr!=m_vmap)&&(read))
+        if((nullptr != m_vmap) && (read))
         {
-            NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
+            NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::addVmap);
             fill(msg);
             m_vmap->sendAllItems(msg);
             msg.sendToServer();
             return true;
         }
-
     }
-    return  false;
+    return false;
 }
 void VMapFrame::processAddItemMessage(NetworkMessageReader* msg)
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         m_vmap->processAddItemMessage(msg);
     }
 }
 void VMapFrame::processMoveItemMessage(NetworkMessageReader* msg)
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         m_vmap->processMoveItemMessage(msg);
     }
 }
-void  VMapFrame::processOpacityMessage(NetworkMessageReader* msg)
+void VMapFrame::processOpacityMessage(NetworkMessageReader* msg)
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         m_vmap->processOpacityMessage(msg);
     }
 }
-void  VMapFrame::processLayerMessage(NetworkMessageReader* msg)
+void VMapFrame::processLayerMessage(NetworkMessageReader* msg)
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         m_vmap->processLayerMessage(msg);
     }
 }
 void VMapFrame::processGeometryChangeItem(NetworkMessageReader* msg)
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         m_vmap->processGeometryChangeItem(msg);
     }
 }
 void VMapFrame::processMapPropertyChange(NetworkMessageReader* msg)
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
-        m_vmap->readMessage(*msg,false);
+        m_vmap->readMessage(*msg, false);
     }
 }
 void VMapFrame::processGeometryViewChange(NetworkMessageReader* msg)
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         m_graphicView->readMessage(msg);
     }
 }
 void VMapFrame::processDelItemMessage(NetworkMessageReader* msg)
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         m_vmap->processDelItemMessage(msg);
     }
 }
 void VMapFrame::processSetParentItem(NetworkMessageReader* msg)
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         m_vmap->processSetParentItem(msg);
     }
@@ -498,7 +494,7 @@ void VMapFrame::processSetParentItem(NetworkMessageReader* msg)
 
 QString VMapFrame::getMediaId()
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         return m_vmap->getId();
     }
@@ -506,28 +502,28 @@ QString VMapFrame::getMediaId()
 }
 void VMapFrame::processsZValueMsg(NetworkMessageReader* msg)
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         m_vmap->processZValueMsg(msg);
     }
 }
 void VMapFrame::processsRotationMsg(NetworkMessageReader* msg)
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         m_vmap->processRotationMsg(msg);
     }
 }
 void VMapFrame::processsRectGeometryMsg(NetworkMessageReader* msg)
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         m_vmap->processRectGeometryMsg(msg);
     }
 }
 QUndoStack* VMapFrame::getUndoStack() const
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         return m_vmap->getUndoStack();
     }
@@ -536,9 +532,8 @@ QUndoStack* VMapFrame::getUndoStack() const
 
 void VMapFrame::setUndoStack(QUndoStack* undoStack)
 {
-    if(nullptr!=m_vmap)
+    if(nullptr != m_vmap)
     {
         return m_vmap->setUndoStack(undoStack);
     }
 }
-

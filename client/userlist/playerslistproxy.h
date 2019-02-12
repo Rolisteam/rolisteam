@@ -20,7 +20,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef PLAYERS_LIST_PROXY_MODEL_H
 #define PLAYERS_LIST_PROXY_MODEL_H
 
@@ -36,30 +35,30 @@ class PlayersListProxyModel : public QAbstractProxyModel
 {
     Q_OBJECT
 
-    public:
-        PlayersListProxyModel(QObject * parent = 0);
+public:
+    PlayersListProxyModel(QObject* parent= 0);
 
-        QModelIndex mapFromSource(const QModelIndex & sourceIndex) const;
-        QModelIndex mapToSource(const QModelIndex & proxyIndex) const;
+    QModelIndex mapFromSource(const QModelIndex& sourceIndex) const;
+    QModelIndex mapToSource(const QModelIndex& proxyIndex) const;
 
-        QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-        QModelIndex parent(const QModelIndex &index) const;
-        int rowCount(const QModelIndex &parent = QModelIndex()) const;
-        int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    QModelIndex index(int row, int column, const QModelIndex& parent= QModelIndex()) const;
+    QModelIndex parent(const QModelIndex& index) const;
+    int rowCount(const QModelIndex& parent= QModelIndex()) const;
+    int columnCount(const QModelIndex& parent= QModelIndex()) const;
 
-    protected:
-        virtual bool filterChangingRows(QModelIndex & parent, int & start, int & end);
+protected:
+    virtual bool filterChangingRows(QModelIndex& parent, int& start, int& end);
 
-    private:
-        bool m_rowsAboutToBeInserted;
-        bool m_rowsAboutToBeRemoved;
+private:
+    bool m_rowsAboutToBeInserted;
+    bool m_rowsAboutToBeRemoved;
 
-    private slots:
-        void p_rowsAboutToBeInserted(const QModelIndex & parent, int start, int end);
-        void p_rowsInserted();
-        void p_rowsAboutToBeRemoved(const QModelIndex & parent, int start, int end);
-        void p_rowsRemoved();
-        void p_dataChanged(const QModelIndex & from, const QModelIndex & to);
+private slots:
+    void p_rowsAboutToBeInserted(const QModelIndex& parent, int start, int end);
+    void p_rowsInserted();
+    void p_rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end);
+    void p_rowsRemoved();
+    void p_dataChanged(const QModelIndex& from, const QModelIndex& to);
 };
 
 #endif

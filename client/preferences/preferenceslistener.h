@@ -31,7 +31,7 @@ class PreferencesListener
 public:
     PreferencesListener();
     virtual ~PreferencesListener();
-    virtual void preferencesHasChanged(QString) = 0;
+    virtual void preferencesHasChanged(QString)= 0;
 };
 
 #endif // PREFERENCESLISTENER_H

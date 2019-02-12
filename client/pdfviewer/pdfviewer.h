@@ -21,16 +21,16 @@
 #ifndef PDFVIEWER_H
 #define PDFVIEWER_H
 
-#include <QWidget>
 #include <QAction>
 #include <QFile>
-#include <QString>
 #include <QLabel>
+#include <QString>
+#include <QWidget>
 
 #include "improvedworkspace.h"
 #include "mainwindow.h"
-#include "toolsbar.h"
 #include "preferences/preferencesmanager.h"
+#include "toolsbar.h"
 
 #include "data/mediacontainer.h"
 
@@ -43,36 +43,33 @@ class Overlay;
  */
 class PdfViewer : public MediaContainer
 {
-Q_OBJECT
+    Q_OBJECT
 
-public :
-    PdfViewer(ImprovedWorkspace* parent = nullptr);
+public:
+    PdfViewer(ImprovedWorkspace* parent= nullptr);
     /**
      * @brief ~PdfViewer destructor.
      */
     virtual ~PdfViewer();
 
-    void savePdfToFile(QFile &file);
+    void savePdfToFile(QFile& file);
     void savePdfToFile(QDataStream& out);
     bool isPdfOwner(QString id);
-    void setParent(ImprovedWorkspace *parent);
+    void setParent(ImprovedWorkspace* parent);
     void setIdOwner(QString);
 
-	virtual bool readFileFromUri();
+    virtual bool readFileFromUri();
     virtual bool openMedia();
     virtual void saveMedia();
 
     virtual void putDataIntoCleverUri();
 
-
     virtual void fill(NetworkMessageWriter& msg);
     virtual void readMessage(NetworkMessageReader& msg);
 
-
-    void contextMenuEvent(QContextMenuEvent *event);
+    void contextMenuEvent(QContextMenuEvent* event);
 signals:
     void openImageAs(const QPixmap&, CleverURI::ContentType);
-
 
 protected:
     void createActions();
@@ -83,22 +80,21 @@ protected slots:
     void sharePdfTo();
     void updateTitle();
 
-private :
+private:
     QString m_owner;
-    QVBoxLayout* m_mainLayout = nullptr;
+    QVBoxLayout* m_mainLayout= nullptr;
 
-    QAction* m_cropCurrentView =nullptr;
-    QAction* m_shareDocument =nullptr;
+    QAction* m_cropCurrentView= nullptr;
+    QAction* m_shareDocument= nullptr;
 
-    QAction* m_toMap =nullptr;
-    QAction* m_toVmap =nullptr;
-    QAction* m_image =nullptr;
+    QAction* m_toMap= nullptr;
+    QAction* m_toVmap= nullptr;
+    QAction* m_image= nullptr;
 
     std::vector<QAction*> m_cropOption;
 
-
-    QPdfWidget* m_pdfWidget =nullptr;
-    Overlay* m_overlay = nullptr;
+    QPdfWidget* m_pdfWidget= nullptr;
+    Overlay* m_overlay= nullptr;
 };
 
 #endif

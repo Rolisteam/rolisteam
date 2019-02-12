@@ -54,6 +54,8 @@ private slots:
 
     void wrongCommandsExecutionTimeTest();
     void scopeDF();
+    void scopeDF_data();
+
     void severalInstruction();
     void testAlias();
     void cleanupTestCase();
@@ -192,6 +194,7 @@ void TestDice::commandsTest_data()
     QTest::addRow("cmd71") << "3d100g33";
     QTest::addRow("cmd72") << "3d100g5";
     QTest::addRow("cmd73") << "3d100g40";
+    QTest::addRow("cmd74") << "2d10k1+2d10k1+2d10k1";
 }
 
 void TestDice::wrongCommandsTest()
@@ -246,41 +249,39 @@ void TestDice::wrongCommandsExecutionTimeTest()
 }
 void TestDice::scopeDF()
 {
-    QStringList commands;
+    QFETCH(QString, cmd);
+    QFETCH(int, min);
+    QFETCH(int, max);
+    QFETCH(bool, valid);
 
-    commands << "1D[-1-1]"
-             << "1D[-10--5]"
-             << "1D[-100-100]"
-             << "1D[-1-0]"
-             << "1D[10-20]"
-             << "1D[30-100]"
-             << "1D[0-99]"
-             << "5-5*5+5"
-             << "2d20c[<=13]+@c[<=3]"
-             << "6d10c[>=6]-@c1"
-             << "1D[-2-50]";
+    bool test= m_diceParser->parseLine(cmd);
+    QVERIFY2(test == valid, cmd.toStdString().c_str());
+    m_diceParser->start();
+    auto results= m_diceParser->getLastIntegerResults();
 
-    QList<QPair<int, int>> pairMinMax;
-    pairMinMax << QPair<int, int>(-1, 1) << QPair<int, int>(-10, -5) << QPair<int, int>(-100, 100)
-               << QPair<int, int>(-1, 0) << QPair<int, int>(10, 20) << QPair<int, int>(30, 100)
-               << QPair<int, int>(0, 99) << QPair<int, int>(-15, -15) << QPair<int, int>(0, 4) << QPair<int, int>(-6, 6)
-               << QPair<int, int>(-2, 50);
+    for(auto result : results)
+        QVERIFY(result >= min && result <= max);
+}
 
-    int index= 0;
-    for(QString cmd : commands)
-    {
-        bool test= m_diceParser->parseLine(cmd);
-        QVERIFY2(test, cmd.toStdString().c_str());
-        m_diceParser->start();
-        QPair<int, int> expect= pairMinMax.at(index);
-        int min= expect.first;
-        int max= expect.second;
-        auto results= m_diceParser->getLastIntegerResults();
+void TestDice::scopeDF_data()
+{
+    QTest::addColumn<QString>("cmd");
+    QTest::addColumn<int>("min");
+    QTest::addColumn<int>("max");
+    QTest::addColumn<bool>("valid");
 
-        for(auto result : results)
-            QVERIFY2(result >= min && result <= max, cmd.toStdString().c_str());
-        index++;
-    }
+    QTest::newRow("test1") << "1D[-1-1]" << -1 << 1 << true;
+    QTest::newRow("test2") << "1D[-10--5]" << -10 << -5 << true;
+    QTest::newRow("test3") << "1D[-100-100]" << -100 << 100 << true;
+    QTest::newRow("test4") << "1D[-1-0]" << -1 << 0 << true;
+    QTest::newRow("test5") << "1D[10-20]" << 10 << 20 << true;
+    QTest::newRow("test6") << "1D[30-100]" << 30 << 100 << true;
+    QTest::newRow("test7") << "1D[0-99]" << 0 << 99 << true;
+    QTest::newRow("test8") << "5-5*5+5" << -15 << -15 << true;
+    QTest::newRow("test9") << "2d20c[<=13]+@c[<=3]" << 0 << 4 << true;
+    QTest::newRow("test10") << "6d10c[>=6]-@c1" << -6 << 6 << true;
+    QTest::newRow("test11") << "2d6k1+2d8k1+2d10k1" << 3 << 30 << true;
+    QTest::newRow("test12") << "1D[-2-50]" << -2 << 50 << true;
 }
 void TestDice::testAlias()
 {

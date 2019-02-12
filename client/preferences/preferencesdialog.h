@@ -22,36 +22,35 @@
 #ifndef PREFERENCES_DIALOG_H
 #define PREFERENCES_DIALOG_H
 
-#include <QDialog>
-#include <QLineEdit>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QDialog>
+#include <QLineEdit>
 #include <QStyledItemDelegate>
 
-
-#include "preferences/dicealiasmodel.h"
-#include "preferences/preferencesmanager.h"
-#include "diceparser/diceparser.h"
 #include "common/widgets/colorbutton.h"
-#include "widgets/filedirchooser.h"
-#include "widgets/centeredcheckbox.h"
-#include "preferences/palettemodel.h"
-#include "preferences/rolisteamtheme.h"
+#include "diceparser/diceparser.h"
 #include "preferences/characterstatemodel.h"
+#include "preferences/dicealiasmodel.h"
+#include "preferences/palettemodel.h"
+#include "preferences/preferencesmanager.h"
+#include "preferences/rolisteamtheme.h"
+#include "widgets/centeredcheckbox.h"
+#include "widgets/filedirchooser.h"
 
 /**
  * @brief The CheckBoxDelegate class
  */
 class CheckBoxDelegate : public QStyledItemDelegate
 {
-     Q_OBJECT
+    Q_OBJECT
 public:
     /**
      * @brief CheckBoxDelegate
      * @param aRedCheckBox
      * @param parent
      */
-    CheckBoxDelegate(bool aRedCheckBox = false, QObject *parent = nullptr);
+    CheckBoxDelegate(bool aRedCheckBox= false, QObject* parent= nullptr);
     /**
      * @brief createEditor
      * @param parent
@@ -59,42 +58,41 @@ public:
      * @param index
      * @return
      */
-    virtual QWidget*	createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const;
+    virtual QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;
     /**
      * @brief setEditorData
      * @param editor
      * @param index
      */
-    virtual void	setEditorData(QWidget * editor, const QModelIndex & index) const;
+    virtual void setEditorData(QWidget* editor, const QModelIndex& index) const;
     /**
      * @brief setModelData
      * @param editor
      * @param model
      * @param index
      */
-    virtual void	setModelData(QWidget * editor, QAbstractItemModel * model, const QModelIndex & index) const;
+    virtual void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const;
     /**
      * @brief sizeHint
      * @param option
      * @param index
      * @return
      */
-    QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+    QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
     /**
      * @brief paint
      * @param painter
      * @param option
      * @param index
      */
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
 public slots:
     void commitEditor();
 
 private:
-    CenteredCheckBox* m_editor = nullptr;
+    CenteredCheckBox* m_editor= nullptr;
 };
-
 
 /**
  * @brief The ColorListEditor class
@@ -105,7 +103,7 @@ class ColorListEditor : public QComboBox
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged USER true)
 
 public:
-    ColorListEditor(QWidget *widget = nullptr);
+    ColorListEditor(QWidget* widget= nullptr);
 
     QColor color() const;
     void setColor(QColor c);
@@ -117,22 +115,23 @@ private:
     void populateList();
 };
 
-namespace Ui {
-class PreferencesDialogBox;
+namespace Ui
+{
+    class PreferencesDialogBox;
 }
 /**
  * @brief The ColorDelegate class
  */
 class ColorDelegate : public QStyledItemDelegate
 {
-     Q_OBJECT
+    Q_OBJECT
 public:
     /**
      * @brief CheckBoxDelegate
      * @param aRedCheckBox
      * @param parent
      */
-    ColorDelegate(QObject *parent = nullptr);
+    ColorDelegate(QObject* parent= nullptr);
     /**
      * @brief createEditor
      * @param parent
@@ -140,24 +139,23 @@ public:
      * @param index
      * @return
      */
-    virtual QWidget*	createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const;
+    virtual QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;
     /**
      * @brief setEditorData
      * @param editor
      * @param index
      */
-    virtual void	setEditorData(QWidget * editor, const QModelIndex & index) const;
+    virtual void setEditorData(QWidget* editor, const QModelIndex& index) const;
     /**
      * @brief setModelData
      * @param editor
      * @param model
      * @param index
      */
-    virtual void	setModelData(QWidget * editor, QAbstractItemModel * model, const QModelIndex & index) const;
-
+    virtual void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const;
 
 private:
-    //ColorListEditor* m_editor;
+    // ColorListEditor* m_editor;
 };
 /**
  * @brief Actually only to change directories.
@@ -172,7 +170,7 @@ public:
      * @param parent
      * @param f
      */
-    PreferencesDialog(QWidget * parent = nullptr, Qt::WindowFlags f = 0);
+    PreferencesDialog(QWidget* parent= nullptr, Qt::WindowFlags f= 0);
     /**
      * @brief ~PreferencesDialog
      */
@@ -188,8 +186,8 @@ public:
      */
     void initializePostSettings();
 
-    CharacterStateModel *getStateModel() const;
-    void setStateModel(CharacterStateModel *stateModel);
+    CharacterStateModel* getStateModel() const;
+    void setStateModel(CharacterStateModel* stateModel);
 
 public slots:
     /**
@@ -221,7 +219,7 @@ private slots:
      * @brief performDiag start diagnostic and Display some value about current qt version.
      */
     void performDiag();
-	//Management of DiceAliases
+    // Management of DiceAliases
     /**
      * @brief managedAction
      */
@@ -245,7 +243,7 @@ private slots:
     /**
      * @brief dupplicateTheme
      */
-    void dupplicateTheme(bool selectNew = true);
+    void dupplicateTheme(bool selectNew= true);
     /**
      * @brief setTitleAtCurrentTheme
      */
@@ -276,18 +274,17 @@ private slots:
      */
     void deleteTheme();
 
-
 private:
-     /**
+    /**
      *  @brief getCurrentRemovableTheme should return the current theme which can be modified.
      */
     RolisteamTheme* getCurrentRemovableTheme(bool selectNew= true);
 
 private:
-    PreferencesManager* m_preferences = nullptr;
+    PreferencesManager* m_preferences= nullptr;
     Ui::PreferencesDialogBox* ui;
-	DiceParser* m_diceParser;
-	DiceAliasModel* m_aliasModel;
+    DiceParser* m_diceParser;
+    DiceAliasModel* m_aliasModel;
     QPushButton* m_applyBtn;
     PaletteModel* m_paletteModel;
     QList<RolisteamTheme*> m_themes;

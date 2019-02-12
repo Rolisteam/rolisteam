@@ -13,12 +13,12 @@
     Lesser General Public License for more details.
 */
 
+#include "qpdfwidget.h"
+#include "pdfjsbridge.h"
 #include <QDebug>
 #include <QFile>
 #include <QFileInfo>
 #include <QVBoxLayout>
-#include "pdfjsbridge.h"
-#include "qpdfwidget.h"
 
 // clazy:skip
 // NOTE:
@@ -31,27 +31,26 @@ const QString cPdfViewerUrl("qrc:/resources/js/pdfview/viewer.html");
 // class private members
 struct QPdfWidgetPrivate
 {
-    PdfJsBridge *pPdfJsBridge;
+    PdfJsBridge* pPdfJsBridge;
     bool ready;
     QByteArray pdfData;
     QString pdfFile;
 };
 
-QPdfWidget::QPdfWidget(QWidget *pParent)
-    : QWidget(pParent)
+QPdfWidget::QPdfWidget(QWidget* pParent) : QWidget(pParent)
 {
-    m = new QPdfWidgetPrivate;
-    m->pPdfJsBridge = new PdfJsBridge(this);
+    m= new QPdfWidgetPrivate;
+    m->pPdfJsBridge= new PdfJsBridge(this);
     connect(m->pPdfJsBridge, &PdfJsBridge::loadFinished, this, &QPdfWidget::onLoadFinished);
     connect(m->pPdfJsBridge, &PdfJsBridge::pdfDocumentloaded, this, &QPdfWidget::onRenderPdfFinished);
-    m->ready = false;
+    m->ready= false;
 
     // Initialize pdf.js viewer
-    QUrl url = QUrl::fromUserInput(cPdfViewerUrl);
+    QUrl url= QUrl::fromUserInput(cPdfViewerUrl);
     m->pPdfJsBridge->setUrl(url);
 
     // widget layout
-    QVBoxLayout *pLayout = new QVBoxLayout();
+    QVBoxLayout* pLayout= new QVBoxLayout();
     pLayout->setMargin(0);
     pLayout->addWidget(m->pPdfJsBridge);
     setLayout(pLayout);
@@ -62,11 +61,12 @@ QPdfWidget::~QPdfWidget()
     delete m;
 }
 
-bool QPdfWidget::loadFile(const QString &path)
+bool QPdfWidget::loadFile(const QString& path)
 {
     QFileInfo fi(path);
-    if (fi.exists()) {
-        m->pdfFile = path;
+    if(fi.exists())
+    {
+        m->pdfFile= path;
         renderPdfFile(path);
         return true;
     }
@@ -74,12 +74,12 @@ bool QPdfWidget::loadFile(const QString &path)
     return false;
 }
 
-bool QPdfWidget::loadData(const QByteArray &data)
+bool QPdfWidget::loadData(const QByteArray& data)
 {
     if(data.isEmpty())
         return false;
 
-    m->pdfData = data;
+    m->pdfData= data;
     renderPdfData();
     return true;
 }
@@ -91,15 +91,15 @@ void QPdfWidget::close()
 
 void QPdfWidget::setPage(int page)
 {
-    QString script = QString("PDFViewerApplication.page = %1")
-                        .arg(page);
+    QString script= QString("PDFViewerApplication.page = %1").arg(page);
     m->pPdfJsBridge->invokeJavaScript(script);
 }
 
 int QPdfWidget::page() const
 {
-    QVariant res = m->pPdfJsBridge->invokeJavaScriptAndWaitForResult("PDFViewerApplication.page");
-    if (res.isValid()) {
+    QVariant res= m->pPdfJsBridge->invokeJavaScriptAndWaitForResult("PDFViewerApplication.page");
+    if(res.isValid())
+    {
         return res.toInt();
     }
     return 0;
@@ -107,8 +107,9 @@ int QPdfWidget::page() const
 
 int QPdfWidget::pagesCount() const
 {
-    QVariant res = m->pPdfJsBridge->invokeJavaScriptAndWaitForResult("PDFViewerApplication.pagesCount");
-    if (res.isValid()) {
+    QVariant res= m->pPdfJsBridge->invokeJavaScriptAndWaitForResult("PDFViewerApplication.pagesCount");
+    if(res.isValid())
+    {
         return res.toInt();
     }
     return 0;
@@ -116,26 +117,25 @@ int QPdfWidget::pagesCount() const
 
 void QPdfWidget::rotatePages(int degrees)
 {
-    QString script = QString("PDFViewerApplication.rotatePages(%1)")
-                        .arg(degrees);
+    QString script= QString("PDFViewerApplication.rotatePages(%1)").arg(degrees);
     m->pPdfJsBridge->invokeJavaScript(script);
 }
 
 void QPdfWidget::zoomIn(int ticks)
 {
-    QString script = QString("PDFViewerApplication.zoomIn(%1)").arg(ticks);
+    QString script= QString("PDFViewerApplication.zoomIn(%1)").arg(ticks);
     m->pPdfJsBridge->invokeJavaScript(script);
 }
 
 void QPdfWidget::zoomOut(int ticks)
 {
-    QString script = QString("PDFViewerApplication.zoomOut(%1)").arg(ticks);
+    QString script= QString("PDFViewerApplication.zoomOut(%1)").arg(ticks);
     m->pPdfJsBridge->invokeJavaScript(script);
 }
 
 void QPdfWidget::zoomReset(qreal scale)
 {
-    QString script = QString("PDFViewerApplication.pdfViewer.currentScaleValue=%1").arg(scale);
+    QString script= QString("PDFViewerApplication.pdfViewer.currentScaleValue=%1").arg(scale);
     m->pPdfJsBridge->invokeJavaScript(script);
 }
 
@@ -151,14 +151,14 @@ void QPdfWidget::setToolbarVisible(bool v)
 
 void QPdfWidget::setFindBarVisible(bool v)
 {
-    QString script = QString("PDFViewerApplication.findBar.%1()")
-            .arg(v ? "open" : "close");
+    QString script= QString("PDFViewerApplication.findBar.%1()").arg(v ? "open" : "close");
     m->pPdfJsBridge->invokeJavaScript(script);
 }
 
-void QPdfWidget::findText(const QString &text)
+void QPdfWidget::findText(const QString& text)
 {
-    if (!text.isEmpty()) {
+    if(!text.isEmpty())
+    {
         setFindFieldText(text);
     }
     // Sending an empty event will actually send 'find' since it will be prepended to
@@ -183,19 +183,19 @@ void QPdfWidget::findPrevious()
 
 int QPdfWidget::findResultsCount() const
 {
-    QVariant res = m->pPdfJsBridge->invokeJavaScriptAndWaitForResult("PDFViewerApplication.findController.matchCount");
-    if (res.isValid()) {
+    QVariant res= m->pPdfJsBridge->invokeJavaScriptAndWaitForResult("PDFViewerApplication.findController.matchCount");
+    if(res.isValid())
+    {
         return res.toInt();
     }
     return 0;
 }
 
-void QPdfWidget::navigateTo(const QString &dest)
+void QPdfWidget::navigateTo(const QString& dest)
 {
-    QString escapedDest = dest;
+    QString escapedDest= dest;
     escapedDest.replace("\"", "\\\"");
-    QString script = QString("PDFViewerApplication.pdfLinkService.navigateTo(\"%1\")")
-            .arg(escapedDest);
+    QString script= QString("PDFViewerApplication.pdfLinkService.navigateTo(\"%1\")").arg(escapedDest);
     m->pPdfJsBridge->invokeJavaScript(script);
 }
 
@@ -211,28 +211,32 @@ QWebEngineView* QPdfWidget::internalWebEngineView() const
 
 void QPdfWidget::onLoadFinished(bool status)
 {
-    if (!status) {
+    if(!status)
+    {
         qCritical() << "Unable to initialize the web view";
         return;
     }
 
-    m->ready = true;
-    if (!m->pdfData.isEmpty()) {
+    m->ready= true;
+    if(!m->pdfData.isEmpty())
+    {
         renderPdfData();
-    } else if (!m->pdfFile.isEmpty()) {
+    }
+    else if(!m->pdfFile.isEmpty())
+    {
         renderPdfFile(m->pdfFile);
     }
 }
 
 void QPdfWidget::renderPdfData()
 {
-    if (!m->ready) {
+    if(!m->ready)
+    {
         return;
     }
 
-    m->pdfData = m->pdfData.toBase64();
-    QString script = QString("qpdf_ShowPdfFileBase64('%1')")
-                        .arg(QString::fromUtf8(m->pdfData));
+    m->pdfData= m->pdfData.toBase64();
+    QString script= QString("qpdf_ShowPdfFileBase64('%1')").arg(QString::fromUtf8(m->pdfData));
 
     m->pPdfJsBridge->invokeJavaScript(script);
 
@@ -240,37 +244,35 @@ void QPdfWidget::renderPdfData()
     m->pdfData.clear();
 }
 
-void QPdfWidget::renderPdfFile(const QString &file)
+void QPdfWidget::renderPdfFile(const QString& file)
 {
-    if (!m->ready) {
+    if(!m->ready)
+    {
         return;
     }
 
-    m->pdfData = m->pdfData.toBase64();
-    QString script = QString("qpdf_ShowPdfFile('file://%1')")
-                        .arg(file);
+    m->pdfData= m->pdfData.toBase64();
+    QString script= QString("qpdf_ShowPdfFile('file://%1')").arg(file);
 
     m->pPdfJsBridge->invokeJavaScript(script);
 
     // Clear pdf data
     m->pdfData.clear();
 }
-
 
 void QPdfWidget::onRenderPdfFinished()
 {
     emit pdfDocumentLoaded();
 }
 
-void QPdfWidget::setFindFieldText(const QString &text)
+void QPdfWidget::setFindFieldText(const QString& text)
 {
     // Reset find controller.
     m->pPdfJsBridge->invokeJavaScriptAndWaitForResult("PDFViewerApplication.findController.reset()");
 
     // Fill-in the find field.
-    QString escapedText = text;
+    QString escapedText= text;
     escapedText.replace("\"", "\\\"");
-    QString script = QString("PDFViewerApplication.findBar.findField.value=\"%1\"")
-            .arg(escapedText);
+    QString script= QString("PDFViewerApplication.findBar.findField.value=\"%1\"").arg(escapedText);
     m->pPdfJsBridge->invokeJavaScript(script);
 }

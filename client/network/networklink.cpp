@@ -1,58 +1,57 @@
 /************************************************************************
-*   Copyright (C) 2007 by Romain Campioni                               *
-*   Copyright (C) 2009 by Renaud Guezennec                              *
-*   Copyright (C) 2011 by Joseph Boudou                                 *
-*                                                                       *
-*     http://www.rolisteam.org/                                         *
-*                                                                       *
-*   Rolisteam is free software; you can redistribute it and/or modify   *
-*   it under the terms of the GNU General Public License as published   *
-*   by the Free Software Foundation; either version 2 of the License,   *
-*   or (at your option) any later version.                              *
-*                                                                       *
-*   This program is distributed in the hope that it will be useful,     *
-*   but WITHOUT ANY WARRANTY; without even the implied warranty of      *
-*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the       *
-*   GNU General Public License for more details.                        *
-*                                                                       *
-*   You should have received a copy of the GNU General Public License   *
-*   along with this program; if not, write to the                       *
-*   Free Software Foundation, Inc.,                                     *
-*   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
-*************************************************************************/
+ *   Copyright (C) 2007 by Romain Campioni                               *
+ *   Copyright (C) 2009 by Renaud Guezennec                              *
+ *   Copyright (C) 2011 by Joseph Boudou                                 *
+ *                                                                       *
+ *     http://www.rolisteam.org/                                         *
+ *                                                                       *
+ *   Rolisteam is free software; you can redistribute it and/or modify   *
+ *   it under the terms of the GNU General Public License as published   *
+ *   by the Free Software Foundation; either version 2 of the License,   *
+ *   or (at your option) any later version.                              *
+ *                                                                       *
+ *   This program is distributed in the hope that it will be useful,     *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of      *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the       *
+ *   GNU General Public License for more details.                        *
+ *                                                                       *
+ *   You should have received a copy of the GNU General Public License   *
+ *   along with this program; if not, write to the                       *
+ *   Free Software Foundation, Inc.,                                     *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
+ *************************************************************************/
 
 #include <QCoreApplication>
 #include <QTcpSocket>
 
-#include "network/networklink.h"
-#include "network/receiveevent.h"
-#include "network/networkmessagewriter.h"
 #include "network/messagedispatcher.h"
+#include "network/networklink.h"
+#include "network/networkmessagewriter.h"
+#include "network/receiveevent.h"
 
 NetworkLink::NetworkLink(ConnectionProfile* connection)
 {
     setConnection(connection);
     setSocket(new QTcpSocket(this));
-    m_receivingData = false;
+    m_receivingData= false;
     m_headerRead= 0;
 }
 void NetworkLink::initialize()
 {
-    m_socketTcp->setSocketOption(QAbstractSocket::KeepAliveOption,1);
+    m_socketTcp->setSocketOption(QAbstractSocket::KeepAliveOption, 1);
     makeSignalConnection();
 }
 
-NetworkLink::~NetworkLink()
-{
-}
+NetworkLink::~NetworkLink() {}
 void NetworkLink::makeSignalConnection()
 {
-    connect(m_socketTcp, SIGNAL(readyRead()),this, SLOT(receivingData()));
-    connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(connectionError(QAbstractSocket::SocketError)));
+    connect(m_socketTcp, SIGNAL(readyRead()), this, SLOT(receivingData()));
+    connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)), this,
+        SLOT(connectionError(QAbstractSocket::SocketError)));
     connect(m_socketTcp, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
-    connect(m_socketTcp,SIGNAL(stateChanged(QAbstractSocket::SocketState)),this,SLOT(socketStateChanged(QAbstractSocket::SocketState)));
+    connect(m_socketTcp, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this,
+        SLOT(socketStateChanged(QAbstractSocket::SocketState)));
 }
-
 
 void NetworkLink::connectionError(QAbstractSocket::SocketError error)
 {
@@ -64,10 +63,9 @@ void NetworkLink::connectionError(QAbstractSocket::SocketError error)
     emit errorMessage(m_socketTcp->errorString());
 }
 
-
 void NetworkLink::sendData(char* data, quint32 size)
 {
-    if(nullptr==m_socketTcp)
+    if(nullptr == m_socketTcp)
     {
         emit errorMessage(tr("Socket is null"));
         return;
@@ -78,30 +76,31 @@ void NetworkLink::sendData(char* data, quint32 size)
         return;
     }
 
-        // sending data
-   #ifdef DEBUG_MODE
+    // sending data
+#ifdef DEBUG_MODE
     NetworkMessageHeader header;
-    memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
-    qDebug() << "send Data Categorie 1:" << MessageDispatcher::cat2String((NetworkMessageHeader*)data) << "Action" << MessageDispatcher::act2String((NetworkMessageHeader*)data);
+    memcpy((char*)&header, data, sizeof(NetworkMessageHeader));
+    qDebug() << "send Data Categorie 1:" << MessageDispatcher::cat2String((NetworkMessageHeader*)data) << "Action"
+             << MessageDispatcher::act2String((NetworkMessageHeader*)data);
 
-    qDebug() << "header: cat" << header.category << "act:"<< header.action << "datasize:" << header.dataSize <<  "size"<<size << (int)data[0]
-             << "socket" << m_socketTcp;
+    qDebug() << "header: cat" << header.category << "act:" << header.action << "datasize:" << header.dataSize << "size"
+             << size << (int)data[0] << "socket" << m_socketTcp;
 
-    qDebug() << "thread current" << QThread::currentThread() << "thread socket:" << m_socketTcp->thread() << "this thread" << thread();
-    #endif
+    qDebug() << "thread current" << QThread::currentThread() << "thread socket:" << m_socketTcp->thread()
+             << "this thread" << thread();
+#endif
 
-    auto t = m_socketTcp->write(data, size);
+    auto t= m_socketTcp->write(data, size);
 
-    if (t < 0)
+    if(t < 0)
     {
-        emit errorMessage(tr("Tranmission error :")+m_socketTcp->errorString());
+        emit errorMessage(tr("Tranmission error :") + m_socketTcp->errorString());
     }
-
 }
 
 void NetworkLink::sendData(NetworkMessage* msg)
 {
-    if(nullptr==m_socketTcp)
+    if(nullptr == m_socketTcp)
     {
         emit errorMessage(tr("Socket is null"));
         return;
@@ -111,67 +110,68 @@ void NetworkLink::sendData(NetworkMessage* msg)
         emit errorMessage(tr("Socket is not writable"));
         return;
     }
-    //if (but != this)
+    // if (but != this)
     {
-        qint64 t = m_socketTcp->write(reinterpret_cast<char*>(msg->buffer()), static_cast<qint64>(msg->getSize()));
-        if (t < 0)
+        qint64 t= m_socketTcp->write(reinterpret_cast<char*>(msg->buffer()), static_cast<qint64>(msg->getSize()));
+        if(t < 0)
         {
-            emit errorMessage(tr("Tranmission error :")+m_socketTcp->errorString());
+            emit errorMessage(tr("Tranmission error :") + m_socketTcp->errorString());
         }
     }
 }
 
 void NetworkLink::receivingData()
 {
-    if(nullptr==m_socketTcp)
+    if(nullptr == m_socketTcp)
     {
         return;
     }
-    quint32 readData=0;
+    quint32 readData= 0;
 
-    while (m_socketTcp->bytesAvailable())
+    while(m_socketTcp->bytesAvailable())
     {
-        if (!m_receivingData)
+        if(!m_receivingData)
         {
-            qint64 readDataSize = 0;
-            char* tmp = reinterpret_cast<char*>(&m_header);
-            readDataSize = m_socketTcp->read(tmp+m_headerRead, static_cast<qint64>(sizeof(NetworkMessageHeader)-m_headerRead));
-            readDataSize+=m_headerRead;
+            qint64 readDataSize= 0;
+            char* tmp= reinterpret_cast<char*>(&m_header);
+            readDataSize= m_socketTcp->read(
+                tmp + m_headerRead, static_cast<qint64>(sizeof(NetworkMessageHeader) - m_headerRead));
+            readDataSize+= m_headerRead;
 
-            if((readDataSize!=sizeof(NetworkMessageHeader)))//||(m_header.category>=NetMsg::LastCategory)
+            if((readDataSize != sizeof(NetworkMessageHeader))) //||(m_header.category>=NetMsg::LastCategory)
             {
-                m_headerRead=readDataSize;
+                m_headerRead= readDataSize;
                 return;
             }
             else
             {
-               m_headerRead=0;
+                m_headerRead= 0;
             }
-            m_buffer = new char[m_header.dataSize];
-            m_remainingData = m_header.dataSize;
-            emit readDataReceived(m_header.dataSize,m_header.dataSize);
-
+            m_buffer= new char[m_header.dataSize];
+            m_remainingData= m_header.dataSize;
+            emit readDataReceived(m_header.dataSize, m_header.dataSize);
         }
-        readData = m_socketTcp->read(&(m_buffer[m_header.dataSize-m_remainingData]), m_remainingData);
-        if (readData < m_remainingData)
+        readData= m_socketTcp->read(&(m_buffer[m_header.dataSize - m_remainingData]), m_remainingData);
+        if(readData < m_remainingData)
         {
-            m_remainingData -= readData;
-            m_receivingData = true;
-            emit readDataReceived(m_remainingData,m_header.dataSize);
+            m_remainingData-= readData;
+            m_receivingData= true;
+            emit readDataReceived(m_remainingData, m_header.dataSize);
         }
         else
         {
-            emit readDataReceived(0,0);
+            emit readDataReceived(0, 0);
 
-            if (ReceiveEvent::hasReceiverFor(m_header.category, m_header.action))
+            if(ReceiveEvent::hasReceiverFor(m_header.category, m_header.action))
             {
-                ReceiveEvent * event = new ReceiveEvent(m_header, m_buffer, this);
+                ReceiveEvent* event= new ReceiveEvent(m_header, m_buffer, this);
                 event->postToReceiver();
             }
-            NetworkMessageReader data(m_header,m_buffer);
-            if (ReceiveEvent::hasNetworkReceiverFor(static_cast<NetMsg::Category>(m_header.category)))
+            NetworkMessageReader data(m_header, m_buffer);
+            if(ReceiveEvent::hasNetworkReceiverFor(static_cast<NetMsg::Category>(m_header.category)))
             {
-                QList<NetWorkReceiver*> tmpList = ReceiveEvent::getNetWorkReceiverFor(static_cast<NetMsg::Category>(m_header.category));
+                QList<NetWorkReceiver*> tmpList
+                    = ReceiveEvent::getNetWorkReceiverFor(static_cast<NetMsg::Category>(m_header.category));
                 for(NetWorkReceiver* tmp : tmpList)
                 {
                     tmp->processMessage(&data);
@@ -179,37 +179,36 @@ void NetworkLink::receivingData()
             }
             switch(data.category())
             {
-                case NetMsg::PlayerCategory :
-                    processPlayerMessage(&data);
-                    break;
-                case NetMsg::SetupCategory :
-                    processSetupMessage(&data);
-                    break;
-                case NetMsg::AdministrationCategory:
-                    processAdminstrationMessage(&data);
-                    break;
-                default:
-                    break;
+            case NetMsg::PlayerCategory:
+                processPlayerMessage(&data);
+                break;
+            case NetMsg::SetupCategory:
+                processSetupMessage(&data);
+                break;
+            case NetMsg::AdministrationCategory:
+                processAdminstrationMessage(&data);
+                break;
+            default:
+                break;
             }
             delete[] m_buffer;
-            m_remainingData = 0;
-            m_receivingData = false;
+            m_remainingData= 0;
+            m_receivingData= false;
         }
-
     }
 }
 void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
 {
     if(NetMsg::Heartbeat == msg->action())
     {
-        QString id = msg->string8();
+        QString id= msg->string8();
         if(!m_hbCount.contains(id))
         {
-            m_hbCount[id]=0;
+            m_hbCount[id]= 0;
         }
         else
         {
-            m_hbCount[id]+=1;
+            m_hbCount[id]+= 1;
         }
     }
     else if(NetMsg::AuthentificationSucessed == msg->action())
@@ -245,7 +244,7 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
     {
         if(nullptr != m_connection)
         {
-            const auto pw = m_connection->getPassword();
+            const auto pw= m_connection->getPassword();
             if(pw.isEmpty())
             {
                 emit errorMessage(tr("Authentification Fail"));
@@ -261,27 +260,27 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::GMStatus == msg->action())
     {
-        bool status = static_cast<bool>(msg->int8());
+        bool status= static_cast<bool>(msg->int8());
         emit gameMasterStatusChanged(status);
     }
     else if(NetMsg::SetChannelList == msg->action())
     {
     }
     else
-        qDebug() <<   "processAdminstrationMessage "<< msg->action();
+        qDebug() << "processAdminstrationMessage " << msg->action();
 }
 
 void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
 {
-    if(NetMsg::PlayerCategory==msg->category())
+    if(NetMsg::PlayerCategory == msg->category())
     {
         if(NetMsg::PlayerConnectionAction == msg->action())
         {
             NetworkMessageHeader header;
-            header.category = NetMsg::AdministrationCategory;
-            header.action = NetMsg::EndConnectionAction;
-            header.dataSize = 0;
-            sendData(reinterpret_cast<char *>(&header), sizeof(NetworkMessageHeader));
+            header.category= NetMsg::AdministrationCategory;
+            header.action= NetMsg::EndConnectionAction;
+            header.dataSize= 0;
+            sendData(reinterpret_cast<char*>(&header), sizeof(NetworkMessageHeader));
         }
     }
 }
@@ -290,15 +289,14 @@ void NetworkLink::processSetupMessage(NetworkMessageReader* msg)
     Q_UNUSED(msg);
 }
 
-
-ConnectionProfile *NetworkLink::getConnection() const
+ConnectionProfile* NetworkLink::getConnection() const
 {
     return m_connection;
 }
 
 void NetworkLink::setConnection(ConnectionProfile* value)
 {
-    m_connection = value;
+    m_connection= value;
 }
 void NetworkLink::disconnectAndClose()
 {
@@ -310,34 +308,33 @@ void NetworkLink::disconnectAndClose()
 }
 void NetworkLink::setSocket(QTcpSocket* socket, bool makeConnection)
 {
-    m_socketTcp=socket;
+    m_socketTcp= socket;
     if(makeConnection)
     {
         initialize();
     }
-
 }
-void NetworkLink::insertNetWortReceiver(NetWorkReceiver* receiver,NetMsg::Category cat)
+void NetworkLink::insertNetWortReceiver(NetWorkReceiver* receiver, NetMsg::Category cat)
 {
-    m_receiverMap.insert(cat,receiver);
+    m_receiverMap.insert(cat, receiver);
 }
 void NetworkLink::connectTo()
 {
-   if(!m_socketTcp.isNull())
-   {
-       if(nullptr != m_connection)
-       {
+    if(!m_socketTcp.isNull())
+    {
+        if(nullptr != m_connection)
+        {
             m_socketTcp->connectToHost(m_connection->getAddress(), m_connection->getPort());
-       }
-       else
-       {
-           emit errorMessage(tr("Connection Profile is not defined"));
-       }
-   }
+        }
+        else
+        {
+            emit errorMessage(tr("Connection Profile is not defined"));
+        }
+    }
 }
 void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
 {
-    switch (state)
+    switch(state)
     {
     case QAbstractSocket::ClosingState:
     case QAbstractSocket::UnconnectedState:
@@ -346,7 +343,7 @@ void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
     case QAbstractSocket::HostLookupState:
     case QAbstractSocket::ConnectingState:
     case QAbstractSocket::BoundState:
-        emit connecting();//setConnectionState(CONNECTING);
+        emit connecting(); // setConnectionState(CONNECTING);
         break;
     case QAbstractSocket::ConnectedState:
         emit connected();

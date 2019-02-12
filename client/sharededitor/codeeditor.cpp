@@ -2,35 +2,35 @@
 
 #include <QTextCursor>
 
-#include "enu.h"
 #include "codeeditor.h"
+#include "enu.h"
 #include "utilities.h"
 
 CodeEditor::CodeEditor(QWidget* parent) : QPlainTextEdit(parent)
 {
-    lineNumberArea = new LineNumberArea(this);
+    lineNumberArea= new LineNumberArea(this);
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
-    connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
+    connect(this, SIGNAL(updateRequest(QRect, int)), this, SLOT(updateLineNumberArea(QRect, int)));
     connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
 
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
 
-    isFirstTime = true;
+    isFirstTime= true;
 }
 
 int CodeEditor::lineNumberAreaWidth()
 {
-    int digits = 1;
-    int max = qMax(1, blockCount());
+    int digits= 1;
+    int max= qMax(1, blockCount());
     while(max >= 10)
     {
-        max /= 10;
+        max/= 10;
         ++digits;
     }
 
-    int space = 4 + fontMetrics().width(QLatin1Char('9')) * digits;
+    int space= 4 + fontMetrics().width(QLatin1Char('9')) * digits;
 
     return space;
 }
@@ -39,21 +39,21 @@ void CodeEditor::collabTextChange(int pos, int charsRemoved, int charsAdded, QSt
 {
     if(charsRemoved > 0 && charsAdded == 0)
     {
-        QTextCursor cursor = textCursor();
+        QTextCursor cursor= textCursor();
         cursor.setPosition(pos);
         cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, charsRemoved);
         cursor.removeSelectedText();
     }
     else if(charsRemoved > 0 && charsAdded > 0)
     {
-        QTextCursor cursor = textCursor();
+        QTextCursor cursor= textCursor();
         cursor.setPosition(pos);
         cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, charsRemoved);
         cursor.insertText(data);
     }
     else if(charsRemoved == 0 && charsAdded > 0)
     {
-        QTextCursor cursor = textCursor();
+        QTextCursor cursor= textCursor();
         cursor.setPosition(pos);
         cursor.insertText(data);
     }
@@ -61,62 +61,62 @@ void CodeEditor::collabTextChange(int pos, int charsRemoved, int charsAdded, QSt
 
 void CodeEditor::unCommentSelection()
 {
-    QTextCursor cursor = textCursor();
-    QTextDocument* doc = cursor.document();
+    QTextCursor cursor= textCursor();
+    QTextDocument* doc= cursor.document();
     cursor.beginEditBlock();
 
-    int pos = cursor.position();
-    int anchor = cursor.anchor();
-    int start = qMin(anchor, pos);
-    int end = qMax(anchor, pos);
-    bool anchorIsStart = (anchor == start);
+    int pos= cursor.position();
+    int anchor= cursor.anchor();
+    int start= qMin(anchor, pos);
+    int end= qMax(anchor, pos);
+    bool anchorIsStart= (anchor == start);
 
-    QTextBlock startBlock = doc->findBlock(start);
-    QTextBlock endBlock = doc->findBlock(end);
+    QTextBlock startBlock= doc->findBlock(start);
+    QTextBlock endBlock= doc->findBlock(end);
 
     if(end > start && endBlock.position() == end)
     {
         --end;
-        endBlock = endBlock.previous();
+        endBlock= endBlock.previous();
     }
 
-    bool doCStyleUncomment = false;
-    bool doCStyleComment = false;
-    bool doCppStyleUncomment = false;
+    bool doCStyleUncomment= false;
+    bool doCStyleComment= false;
+    bool doCppStyleUncomment= false;
 
-    bool hasSelection = cursor.hasSelection();
+    bool hasSelection= cursor.hasSelection();
 
     if(hasSelection)
     {
-        QString startText = startBlock.text();
-        int startPos = start - startBlock.position();
-        bool hasLeadingCharacters = !startText.left(startPos).trimmed().isEmpty();
+        QString startText= startBlock.text();
+        int startPos= start - startBlock.position();
+        bool hasLeadingCharacters= !startText.left(startPos).trimmed().isEmpty();
         if((startPos >= 2 && startText.at(startPos - 2) == QLatin1Char('/')
                && startText.at(startPos - 1) == QLatin1Char('*')))
         {
-            startPos -= 2;
-            start -= 2;
+            startPos-= 2;
+            start-= 2;
         }
 
-        bool hasSelStart = (startPos < startText.length() - 2 && startText.at(startPos) == QLatin1Char('/')
-                            && startText.at(startPos + 1) == QLatin1Char('*'));
+        bool hasSelStart= (startPos < startText.length() - 2 && startText.at(startPos) == QLatin1Char('/')
+                           && startText.at(startPos + 1) == QLatin1Char('*'));
 
-        QString endText = endBlock.text();
-        int endPos = end - endBlock.position();
-        bool hasTrailingCharacters = !endText.left(endPos).remove(QStringLiteral("//")).trimmed().isEmpty()
-                                     && !endText.mid(endPos).trimmed().isEmpty();
+        QString endText= endBlock.text();
+        int endPos= end - endBlock.position();
+        bool hasTrailingCharacters= !endText.left(endPos).remove(QStringLiteral("//")).trimmed().isEmpty()
+                                    && !endText.mid(endPos).trimmed().isEmpty();
         if((endPos <= endText.length() - 2 && endText.at(endPos) == QLatin1Char('*')
                && endText.at(endPos + 1) == QLatin1Char('/')))
         {
-            endPos += 2;
-            end += 2;
+            endPos+= 2;
+            end+= 2;
         }
 
         bool hasSelEnd
             = (endPos >= 2 && endText.at(endPos - 2) == QLatin1Char('*') && endText.at(endPos - 1) == QLatin1Char('/'));
 
-        doCStyleUncomment = hasSelStart && hasSelEnd;
-        doCStyleComment = !doCStyleUncomment && (hasLeadingCharacters || hasTrailingCharacters);
+        doCStyleUncomment= hasSelStart && hasSelEnd;
+        doCStyleComment= !doCStyleUncomment && (hasLeadingCharacters || hasTrailingCharacters);
     }
 
     if(doCStyleUncomment)
@@ -137,23 +137,23 @@ void CodeEditor::unCommentSelection()
     }
     else
     {
-        endBlock = endBlock.next();
-        doCppStyleUncomment = true;
-        for(QTextBlock block = startBlock; block != endBlock; block = block.next())
+        endBlock= endBlock.next();
+        doCppStyleUncomment= true;
+        for(QTextBlock block= startBlock; block != endBlock; block= block.next())
         {
-            QString text = block.text();
+            QString text= block.text();
             if(!text.trimmed().startsWith(QStringLiteral("//")))
             {
-                doCppStyleUncomment = false;
+                doCppStyleUncomment= false;
                 break;
             }
         }
-        for(QTextBlock block = startBlock; block != endBlock; block = block.next())
+        for(QTextBlock block= startBlock; block != endBlock; block= block.next())
         {
             if(doCppStyleUncomment)
             {
-                QString text = block.text();
-                int i = 0;
+                QString text= block.text();
+                int i= 0;
                 while(i < text.size() - 1)
                 {
                     if(text.at(i) == QLatin1Char('/') && text.at(i + 1) == QLatin1Char('/'))
@@ -179,10 +179,10 @@ void CodeEditor::unCommentSelection()
     // adjust selection when commenting out
     if(hasSelection && !doCStyleUncomment && !doCppStyleUncomment)
     {
-        cursor = textCursor();
+        cursor= textCursor();
         if(!doCStyleComment)
-            start = startBlock.position(); // move the double slashes into the selection
-        int lastSelPos = anchorIsStart ? cursor.position() : cursor.anchor();
+            start= startBlock.position(); // move the double slashes into the selection
+        int lastSelPos= anchorIsStart ? cursor.position() : cursor.anchor();
         if(anchorIsStart)
         {
             cursor.setPosition(start);
@@ -201,25 +201,25 @@ void CodeEditor::unCommentSelection()
 
 void CodeEditor::shiftLeft()
 {
-    QTextCursor cursor = textCursor();
+    QTextCursor cursor= textCursor();
     if(cursor.hasSelection())
     {
-        int start = cursor.selectionStart();
-        int end = cursor.selectionEnd();
+        int start= cursor.selectionStart();
+        int end= cursor.selectionEnd();
         cursor.setPosition(start);
-        int i = cursor.position();
+        int i= cursor.position();
         cursor.beginEditBlock();
         while(i < end)
         {
             cursor.movePosition(QTextCursor::StartOfLine);
             cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-            QString line = cursor.selectedText();
+            QString line= cursor.selectedText();
             cursor.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
             if(line.startsWith("    "))
             {
                 cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 4);
                 cursor.removeSelectedText();
-                end -= 4;
+                end-= 4;
             }
             else if(line.startsWith("\t"))
             {
@@ -234,7 +234,7 @@ void CodeEditor::shiftLeft()
             {
                 cursor.movePosition(QTextCursor::StartOfLine);
                 cursor.movePosition(QTextCursor::Down);
-                i = cursor.position();
+                i= cursor.position();
             }
         }
         cursor.endEditBlock();
@@ -243,7 +243,7 @@ void CodeEditor::shiftLeft()
     {
         cursor.movePosition(QTextCursor::StartOfLine);
         cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-        QString line = cursor.selectedText();
+        QString line= cursor.selectedText();
         cursor.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
         if(line.startsWith("    "))
         {
@@ -259,20 +259,20 @@ void CodeEditor::shiftLeft()
 
 void CodeEditor::shiftRight()
 {
-    QTextCursor cursor = textCursor();
-    int end = cursor.selectionEnd();
-    int start = cursor.selectionStart();
+    QTextCursor cursor= textCursor();
+    int end= cursor.selectionEnd();
+    int start= cursor.selectionStart();
     if(cursor.hasSelection())
     {
         //        setWordWrapMode(QTextOption::NoWrap);    //I need to figure out how to handle if WordWrap is enabled
         cursor.setPosition(start);
         cursor.movePosition(QTextCursor::StartOfLine);
-        int i = cursor.position();
+        int i= cursor.position();
         cursor.beginEditBlock();
         while(i < end)
         {
             cursor.insertText("    ");
-            end += 4;
+            end+= 4;
             cursor.movePosition(QTextCursor::EndOfLine);
             if(cursor.atEnd())
             {
@@ -282,14 +282,14 @@ void CodeEditor::shiftRight()
             {
                 cursor.movePosition(QTextCursor::StartOfLine);
                 cursor.movePosition(QTextCursor::Down);
-                i = cursor.position();
+                i= cursor.position();
             }
             //            if (wordWrapMode()) {
             //
             //            }
             //            Need to figure out what to do here
         }
-        start += 4;
+        start+= 4;
         cursor.endEditBlock();
     }
     else
@@ -304,54 +304,54 @@ void CodeEditor::shiftRight()
 
 bool CodeEditor::findNext(QString searchString, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode)
 {
-    QString documentString = document()->toPlainText();
+    QString documentString= document()->toPlainText();
     QTextCursor cursor(document());
     int position;
-    bool found = false;
+    bool found= false;
 
     QRegExp rx;
     switch(mode)
     {
     case Enu::Contains:
-        rx = QRegExp(searchString, sensitivity);
+        rx= QRegExp(searchString, sensitivity);
         break;
     case Enu::StartsWith:
-        rx = QRegExp("\\b" + searchString, sensitivity);
+        rx= QRegExp("\\b" + searchString, sensitivity);
         break;
     case Enu::EntireWord:
-        rx = QRegExp("\\b" + searchString + "\\b", sensitivity);
+        rx= QRegExp("\\b" + searchString + "\\b", sensitivity);
     }
 
-    position = textCursor().position();
+    position= textCursor().position();
 
-    position = documentString.indexOf(rx, position);
-    int length = searchString.size();
+    position= documentString.indexOf(rx, position);
+    int length= searchString.size();
 
     if(position != -1)
     {
         cursor.setPosition(position, QTextCursor::MoveAnchor);
-        for(int i = 0; i < length; i++)
+        for(int i= 0; i < length; i++)
         {
             cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
         }
         setTextCursor(cursor);
-        found = true;
+        found= true;
     }
     else if(wrapAround)
     {
-        position = 0; // move cursor to the beginning and begin searching again
-        position = documentString.indexOf(rx, position);
-        length = searchString.size();
+        position= 0; // move cursor to the beginning and begin searching again
+        position= documentString.indexOf(rx, position);
+        length= searchString.size();
 
         if(position != -1)
         {
             cursor.setPosition(position, QTextCursor::MoveAnchor);
-            for(int i = 0; i < length; i++)
+            for(int i= 0; i < length; i++)
             {
                 cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
             }
             setTextCursor(cursor);
-            found = true;
+            found= true;
         }
     }
 
@@ -360,41 +360,41 @@ bool CodeEditor::findNext(QString searchString, Qt::CaseSensitivity sensitivity,
 
 bool CodeEditor::findPrev(QString searchString, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode)
 {
-    QString documentString = document()->toPlainText();
+    QString documentString= document()->toPlainText();
     QTextCursor cursor(document());
     int position;
-    bool found = false;
+    bool found= false;
 
     QRegExp rx;
     switch(mode)
     {
     case Enu::Contains:
-        rx = QRegExp(searchString, sensitivity);
+        rx= QRegExp(searchString, sensitivity);
         break;
     case Enu::StartsWith:
-        rx = QRegExp("\\b" + searchString, sensitivity);
+        rx= QRegExp("\\b" + searchString, sensitivity);
         break;
     case Enu::EntireWord:
-        rx = QRegExp("\\b" + searchString + "\\b", sensitivity);
+        rx= QRegExp("\\b" + searchString + "\\b", sensitivity);
     }
 
     if(textCursor().hasSelection())
     {
-        position = textCursor().selectionStart() - 1;
+        position= textCursor().selectionStart() - 1;
     }
     else
     {
-        position = textCursor().position();
+        position= textCursor().position();
     }
 
-    position = documentString.lastIndexOf(rx, position);
-    int length = searchString.size();
+    position= documentString.lastIndexOf(rx, position);
+    int length= searchString.size();
 
     if(position != -1)
     {
-        found = true;
+        found= true;
         cursor.setPosition(position, QTextCursor::MoveAnchor);
-        for(int i = 0; i < length; i++)
+        for(int i= 0; i < length; i++)
         {
             cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
         }
@@ -404,12 +404,12 @@ bool CodeEditor::findPrev(QString searchString, Qt::CaseSensitivity sensitivity,
     {
         // Move position to the end of the document.
         // magic # 2 is magic, anything less and it's beyond the scope of the document?
-        position = documentString.lastIndexOf(rx, document()->characterCount() - 2);
+        position= documentString.lastIndexOf(rx, document()->characterCount() - 2);
         if(position != -1)
         {
-            found = true;
+            found= true;
             cursor.setPosition(position, QTextCursor::MoveAnchor);
-            for(int i = 0; i < length; i++)
+            for(int i= 0; i < length; i++)
             {
                 cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
             }
@@ -423,27 +423,27 @@ bool CodeEditor::findPrev(QString searchString, Qt::CaseSensitivity sensitivity,
 bool CodeEditor::replaceAll(
     QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, Enu::FindMode mode)
 {
-    QString documentString = document()->toPlainText();
-    bool isFound = false;
-    bool isReplaced = false;
+    QString documentString= document()->toPlainText();
+    bool isFound= false;
+    bool isReplaced= false;
 
     QTextCursor cursor(document());
-    int position = 0;
+    int position= 0;
     cursor.setPosition(position);
 
-    int length = searchString.size();
+    int length= searchString.size();
 
     QRegExp rx;
     switch(mode)
     {
     case Enu::Contains:
-        rx = QRegExp(searchString, sensitivity);
+        rx= QRegExp(searchString, sensitivity);
         break;
     case Enu::StartsWith:
-        rx = QRegExp("\\b" + searchString, sensitivity);
+        rx= QRegExp("\\b" + searchString, sensitivity);
         break;
     case Enu::EntireWord:
-        rx = QRegExp("\\b" + searchString + "\\b", sensitivity);
+        rx= QRegExp("\\b" + searchString + "\\b", sensitivity);
     }
 
     //    int count = documentString.count(rx);
@@ -452,18 +452,18 @@ bool CodeEditor::replaceAll(
 
     while(position != -1)
     {
-        position = documentString.indexOf(rx, position + 1);
+        position= documentString.indexOf(rx, position + 1);
 
         if(position != -1)
         {
             cursor.setPosition(position, QTextCursor::MoveAnchor);
-            for(int i = 0; i < length; i++)
+            for(int i= 0; i < length; i++)
             {
                 cursor.deleteChar();
             }
-            isFound = true;
+            isFound= true;
             cursor.insertText(replaceString);
-            isReplaced = true;
+            isReplaced= true;
         }
     }
 
@@ -493,8 +493,8 @@ bool CodeEditor::replace(QString replaceString)
 bool CodeEditor::findReplace(
     QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode)
 {
-    bool isReplaced = replace(replaceString);
-    bool isFound = findNext(searchString, sensitivity, wrapAround, mode);
+    bool isReplaced= replace(replaceString);
+    bool isFound= findNext(searchString, sensitivity, wrapAround, mode);
     if(isReplaced && isFound)
     {
         return true;
@@ -504,8 +504,8 @@ bool CodeEditor::findReplace(
 
 bool CodeEditor::findAll(QString searchString)
 {
-    QString documentString = document()->toPlainText();
-    bool isFound = false;
+    QString documentString= document()->toPlainText();
+    bool isFound= false;
     if(!isFirstTime)
     {
         undo();
@@ -519,35 +519,35 @@ bool CodeEditor::findAll(QString searchString)
     cursor.mergeCharFormat(format);
 
     QTextCharFormat plainFormat(cursor.charFormat());
-    QTextCharFormat colorFormat = plainFormat;
+    QTextCharFormat colorFormat= plainFormat;
     colorFormat.setBackground(Qt::yellow);
 
-    int position = 0;
+    int position= 0;
     cursor.setPosition(position);
 
-    int length = searchString.size();
+    int length= searchString.size();
 
     cursor.beginEditBlock();
 
     while(position != -1)
     {
-        position = documentString.indexOf(searchString, position + 1, Qt::CaseInsensitive);
+        position= documentString.indexOf(searchString, position + 1, Qt::CaseInsensitive);
 
         if(position != -1)
         {
             cursor.setPosition(position, QTextCursor::MoveAnchor);
-            for(int i = 0; i < length; i++)
+            for(int i= 0; i < length; i++)
             {
                 cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
                 cursor.mergeCharFormat(colorFormat);
             }
             setTextCursor(cursor);
-            isFound = true;
+            isFound= true;
         }
     }
 
     cursor.endEditBlock();
-    isFirstTime = false;
+    isFirstTime= false;
 
     return isFound;
 }
@@ -572,7 +572,7 @@ void CodeEditor::resizeEvent(QResizeEvent* e)
 {
     QPlainTextEdit::resizeEvent(e);
 
-    QRect cr = contentsRect();
+    QRect cr= contentsRect();
     lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
 }
 
@@ -584,11 +584,11 @@ void CodeEditor::highlightCurrentLine()
     {
         QTextEdit::ExtraSelection selection;
 
-        QColor lineColor = QColor(233, 243, 255); // light blue
+        QColor lineColor= QColor(233, 243, 255); // light blue
 
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);
-        selection.cursor = textCursor();
+        selection.cursor= textCursor();
         selection.cursor.clearSelection();
         extraSelections.append(selection);
     }
@@ -601,23 +601,23 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
     QPainter painter(lineNumberArea);
     painter.fillRect(event->rect(), QColor(232, 232, 232)); // light grey
 
-    QTextBlock block = firstVisibleBlock();
-    int blockNumber = block.blockNumber();
-    int top = static_cast<int>(blockBoundingGeometry(block).translated(contentOffset()).top());
-    int bottom = top + static_cast<int>(blockBoundingRect(block).height());
+    QTextBlock block= firstVisibleBlock();
+    int blockNumber= block.blockNumber();
+    int top= static_cast<int>(blockBoundingGeometry(block).translated(contentOffset()).top());
+    int bottom= top + static_cast<int>(blockBoundingRect(block).height());
 
     while(block.isValid() && top <= event->rect().bottom())
     {
         if(block.isVisible() && bottom >= event->rect().top())
         {
-            QString number = QString::number(blockNumber + 1);
+            QString number= QString::number(blockNumber + 1);
             painter.setPen(QColor(128, 128, 130)); // grey
             painter.drawText(-1, top, lineNumberArea->width(), fontMetrics().height(), Qt::AlignRight, number);
         }
 
-        block = block.next();
-        top = bottom;
-        bottom = top + static_cast<int>(blockBoundingRect(block).height());
+        block= block.next();
+        top= bottom;
+        bottom= top + static_cast<int>(blockBoundingRect(block).height());
         ++blockNumber;
     }
 }

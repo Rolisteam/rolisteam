@@ -7,8 +7,7 @@ class IpBanAccepter : public ConnectionAccepter
 public:
     IpBanAccepter();
 
-    bool isValid(const QMap<QString,QVariant>& data);
-
+    bool isValid(const QMap<QString, QVariant>& data);
 };
 
 #endif // IPBANACCEPTER_H

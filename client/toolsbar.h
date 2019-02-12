@@ -21,20 +21,18 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 /********************************************************************/
 /* DockWidget contenant la barre d'outils.                          */
 /********************************************************************/
-
 
 #ifndef BARRE_OUTILS_H
 #define BARRE_OUTILS_H
 
 #include <QAction>
-#include <QLineEdit>
-#include <QLCDNumber>
-#include <QDockWidget>
 #include <QActionGroup>
+#include <QDockWidget>
+#include <QLCDNumber>
+#include <QLineEdit>
 
 class ColorSelector;
 class DiameterSelector;
@@ -45,65 +43,78 @@ class Map;
 class ToolsBar : public QWidget
 {
     Q_OBJECT
-    
-public :
-    explicit ToolsBar(QWidget *parent = nullptr);
-	virtual ~ToolsBar();
+
+public:
+    explicit ToolsBar(QWidget* parent= nullptr);
+    virtual ~ToolsBar();
     void updatePersonalColor();
     QColor getPersonalColor(int numero);
     void updateUi();
     int getCurrentNpcNumber() const;
-    int getCurrentPenSize()const;
-
+    int getCurrentPenSize() const;
 
     // Outils selectionnables par l'utilisateur
-	enum SelectableTool {Pen, Line, EmptyRect, FilledRect, EmptyEllipse, FilledEllipse, Text, Handler, AddNpc, DelNpc, MoveCharacterToken, ChangeCharacterState};
+    enum SelectableTool
+    {
+        Pen,
+        Line,
+        EmptyRect,
+        FilledRect,
+        EmptyEllipse,
+        FilledEllipse,
+        Text,
+        Handler,
+        AddNpc,
+        DelNpc,
+        MoveCharacterToken,
+        ChangeCharacterState
+    };
 
-	ToolsBar::SelectableTool getCurrentTool() const;
+    ToolsBar::SelectableTool getCurrentTool() const;
 signals:
-	/**
-	* @brief emited when current tool has been changed by user
-	*/
-	void currentToolChanged(ToolsBar::SelectableTool);
-	/**
-	* @brief emitted when current color has been changed by user
-	*/
-	void currentColorChanged(QColor&);
-	/**
-	* @brief emitted when user has changed the pen size.
-	*/
-	void currentPenSizeChanged(int);
-	/**
-	* @brief emitted when current NPC size has changed
-	*/
-	void currentNpcSizeChanged(int);
-	/**
-	* @brief emitted when current mode has changed
-	*/
-	void currentModeChanged(int);
+    /**
+     * @brief emited when current tool has been changed by user
+     */
+    void currentToolChanged(ToolsBar::SelectableTool);
+    /**
+     * @brief emitted when current color has been changed by user
+     */
+    void currentColorChanged(QColor&);
+    /**
+     * @brief emitted when user has changed the pen size.
+     */
+    void currentPenSizeChanged(int);
+    /**
+     * @brief emitted when current NPC size has changed
+     */
+    void currentNpcSizeChanged(int);
+    /**
+     * @brief emitted when current mode has changed
+     */
+    void currentModeChanged(int);
     /**
      * @brief currentTextChanged
      */
-	void currentTextChanged(QString);
+    void currentTextChanged(QString);
     /**
      * @brief currentNpcNameChanged
      */
-	void currentNpcNameChanged(QString);
+    void currentNpcNameChanged(QString);
     /**
      * @brief currentNpcNumberChanged
      */
     void currentNpcNumberChanged(int);
 
-public slots :
+public slots:
     /**
      * @brief incrementNpcNumber
      */
-	void incrementNpcNumber();
+    void incrementNpcNumber();
     /**
      * @brief changeCurrentColor
      * @param coul
      */
-	void changeCurrentColor(QColor coul);
+    void changeCurrentColor(QColor coul);
     /**
      * @brief updateNpc
      * @param diametre
@@ -114,11 +125,11 @@ public slots :
      * @brief changeMap
      * @param map
      */
-    void changeMap(Map * map);
+    void changeMap(Map* map);
 
-    
     void updateUi(bool isGM);
-private :
+
+private:
     void createActions();
     void createTools();
 
@@ -127,33 +138,33 @@ private :
     QLineEdit* m_npcNameEdit;
     QLCDNumber* m_showPnjNumber;
     ColorSelector* m_color;
-	DiameterSelector *m_lineDiameter;
-    DiameterSelector *m_npcDiameter;
+    DiameterSelector* m_lineDiameter;
+    DiameterSelector* m_npcDiameter;
 
-private slots :
+private slots:
     void resetNpcNumber();
     void currentToolHasChanged(QAction*);
 
 private:
-	QString m_currentNPCName;
-	QString m_currentText;
+    QString m_currentNPCName;
+    QString m_currentText;
 
-	int m_currentNpcNumber;
+    int m_currentNpcNumber;
     QActionGroup* m_actionGroup;
-	ToolsBar::SelectableTool m_currentTool;
-	QAction* m_pencilAct;
-	QAction* m_lineAct;
-	QAction* m_rectAct;
-	QAction* m_filledRectAct;
-	QAction* m_ellipseAct;
-	QAction* m_filledEllipseAct;
-	QAction* m_textAct;
-	QAction* m_handAct;
-	QAction* m_addNpcAct;
-	QAction* m_delNpcAct;
-	QAction* m_moveCharacterAct;
-	QAction* m_changeCharacterState;
-	QAction* m_resetCountAct;
+    ToolsBar::SelectableTool m_currentTool;
+    QAction* m_pencilAct;
+    QAction* m_lineAct;
+    QAction* m_rectAct;
+    QAction* m_filledRectAct;
+    QAction* m_ellipseAct;
+    QAction* m_filledEllipseAct;
+    QAction* m_textAct;
+    QAction* m_handAct;
+    QAction* m_addNpcAct;
+    QAction* m_delNpcAct;
+    QAction* m_moveCharacterAct;
+    QAction* m_changeCharacterState;
+    QAction* m_resetCountAct;
 };
 
 #endif

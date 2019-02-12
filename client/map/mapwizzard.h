@@ -3,13 +3,12 @@
 
 #include <QDialog>
 
-
-
-#include "preferences/preferencesmanager.h"
 #include "map/map.h"
+#include "preferences/preferencesmanager.h"
 
-namespace Ui {
-class MapWizzard;
+namespace Ui
+{
+    class MapWizzard;
 }
 /**
  * @brief The MapWizzard class
@@ -23,10 +22,10 @@ public:
      * @brief MapWizzard
      * @param parent
      */
-    explicit MapWizzard(bool vmap = false,QWidget *parent = 0);
+    explicit MapWizzard(bool vmap= false, QWidget* parent= 0);
     /**
-      * @brief ~MapWizzard destructor
-      */
+     * @brief ~MapWizzard destructor
+     */
     ~MapWizzard();
     /**
      * @brief getPermissionMode

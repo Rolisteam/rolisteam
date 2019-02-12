@@ -22,17 +22,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
-#include <QMainWindow>
 #include <QAction>
-#include <QTextEdit>
+#include <QMainWindow>
+#include <QMdiSubWindow>
 #include <QMenu>
 #include <QProgressBar>
-#include <QMdiSubWindow>
 #include <QStackedWidget>
+#include <QTextEdit>
 #include <QUndoStack>
 #include <memory>
 
@@ -46,32 +45,33 @@
 
 #include "services/ipchecker.h"
 
-#include "network/networkreceiver.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#include "network/networkreceiver.h"
 
-#include "vmap/vtoolbar.h"
 #include "vmap/vmap.h"
 #include "vmap/vmapframe.h"
 #include "vmap/vmaptoolbar.h"
+#include "vmap/vtoolbar.h"
 
+#include "network/selectconnectionprofiledialog.h"
 #include "notecontainer.h"
 #include "sharededitor/sharednotecontainer.h"
-#include "network/selectconnectionprofiledialog.h"
 
 #ifndef NULL_PLAYER
 #include "audio/audioPlayer.h"
 #endif
 
+#include "network/channellistpanel.h"
 #include "network/clientmanager.h"
-#include  "network/channellistpanel.h"
 
-//log
+// log
 #include "common/controller/logcontroller.h"
 #include "common/controller/logsenderscheduler.h"
 
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+    class MainWindow;
 }
 
 class UpdateChecker;
@@ -94,7 +94,8 @@ class GameMasterTool;
 class LogPanel;
 class ServerManager;
 
-struct CommandLineProfile {
+struct CommandLineProfile
+{
     QString m_ip;
     int m_port;
     QByteArray m_pass;
@@ -106,7 +107,7 @@ class MainWindow : public QMainWindow, public NetWorkReceiver
 {
     Q_OBJECT
 
-public :
+public:
     /**
      * @brief MainWindow
      */
@@ -116,15 +117,14 @@ public :
      */
     virtual ~MainWindow();
 
-
     /**
      * @brief addMap
-	 * @param BipMapWindow
+     * @param BipMapWindow
      * @param titre
      * @param mapsize
      * @param pos
      */
-	QWidget* addMap(MapFrame *MapFrame, QString titre,QSize mapsize=QSize(),QPoint pos=QPoint());
+    QWidget* addMap(MapFrame* MapFrame, QString titre, QSize mapsize= QSize(), QPoint pos= QPoint());
     /**
      * @brief mettreAJourEspaceTravail
      */
@@ -163,7 +163,7 @@ public :
      * @param id
      * @return
      */
-    //Map::PermissionMode getPermission(int id);
+    // Map::PermissionMode getPermission(int id);
     /**
      * @brief readSettings
      */
@@ -176,20 +176,20 @@ public :
      * @brief setUpNetworkConnection
      */
     void setUpNetworkConnection();
-	/**
-	 * @brief getNetWorkManager
-	 * @return
-	 */
+    /**
+     * @brief getNetWorkManager
+     * @return
+     */
     ClientManager* getNetWorkManager();
-	/**
-	 * @brief parseCommandLineArguments
-	 */
+    /**
+     * @brief parseCommandLineArguments
+     */
     void parseCommandLineArguments(QStringList);
 
-	/**
-	 * @brief processMessage
-	 * @param msg
-	 */
+    /**
+     * @brief processMessage
+     * @param msg
+     */
     virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 
     /**
@@ -206,7 +206,7 @@ public :
      * @brief addMediaToMdiArea
      * @param mediac
      */
-    void addMediaToMdiArea(MediaContainer* mediac, bool undoable = true);
+    void addMediaToMdiArea(MediaContainer* mediac, bool undoable= true);
 
     /**
      * @brief setLatestFile
@@ -214,12 +214,12 @@ public :
      */
     void setLatestFile(CleverURI* fileName);
 
-public slots :
+public slots:
     /**
      * @brief
      * @param
      */
-    bool mayBeSaved(bool connectionLost = false);
+    bool mayBeSaved(bool connectionLost= false);
     /**
      * @brief checkUpdate
      */
@@ -237,10 +237,10 @@ public slots :
      */
     void closeAllMediaContainer();
 
-	/**
+    /**
      * @brief showConnectionDialog
-	 */
-    void showConnectionDialog(bool forced = false);
+     */
+    void showConnectionDialog(bool forced= false);
 
     /**
      * @brief startConnection
@@ -256,24 +256,25 @@ public slots :
      * @param type
      */
     void openImageAs(const QPixmap pix, CleverURI::ContentType type);
-protected :
+
+protected:
     /**
      * @brief closeEvent
      * @param event
      */
-    void closeEvent(QCloseEvent *event);
-    virtual void focusInEvent(QFocusEvent *event);
-    virtual void focusOutEvent(QFocusEvent *event);
+    void closeEvent(QCloseEvent* event);
+    virtual void focusInEvent(QFocusEvent* event);
+    virtual void focusOutEvent(QFocusEvent* event);
     /**
      * @brief prepareImage
      * @param imageFenetre
      */
-    void prepareImage(Image *imageFenetre);
+    void prepareImage(Image* imageFenetre);
     /**
      * @brief processImageMessage
      * @param msg
      */
-	void processImageMessage(NetworkMessageReader* msg);
+    void processImageMessage(NetworkMessageReader* msg);
     /**
      * @brief processMapMessage
      * @param msg
@@ -308,8 +309,8 @@ protected :
      * @brief processMediaMessage
      * @param msg
      */
-    void processMediaMessage(NetworkMessageReader *msg);
-    void processWebPageMessage(NetworkMessageReader *msg);
+    void processMediaMessage(NetworkMessageReader* msg);
+    void processWebPageMessage(NetworkMessageReader* msg);
     /**
      * @brief processVMapMessage
      * @param msg
@@ -321,14 +322,14 @@ protected :
      * @param map
      * @param msg
      */
-    void extractCharacter(Map* map,NetworkMessageReader* msg);
+    void extractCharacter(Map* map, NetworkMessageReader* msg);
     /**
      * @brief contentToPath
      * @param type
      * @param save
      * @return
      */
-    CleverURI* contentToPath(CleverURI::ContentType type,bool save);
+    CleverURI* contentToPath(CleverURI::ContentType type, bool save);
     /**
      * @brief dropEvent
      * @param event
@@ -343,7 +344,7 @@ protected :
      * @brief prepareCharacterSheetWindow
      * @param window
      */
-    void prepareCharacterSheetWindow(CharacterSheetWindow *window);
+    void prepareCharacterSheetWindow(CharacterSheetWindow* window);
     /**
      * @brief saveAllMediaContainer
      */
@@ -354,11 +355,11 @@ protected :
      * @param AskPath
      * @param saveAs
      */
-    void saveMedia(MediaContainer *mediaC, bool saveAs);
+    void saveMedia(MediaContainer* mediaC, bool saveAs);
     void readStory(QString fileName);
-    void processSharedNoteMessage(NetworkMessageReader *msg);
+    void processSharedNoteMessage(NetworkMessageReader* msg);
     void tipChecker();
-    virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent* event);
     void createPostSettings();
     void sendGoodBye();
 protected slots:
@@ -369,8 +370,8 @@ protected slots:
     void closeMediaContainer(QString id, bool redo);
     void initializedClientManager();
     void cleanUpData();
-    MediaContainer *newDocument(CleverURI::ContentType type);
-private slots :
+    MediaContainer* newDocument(CleverURI::ContentType type);
+private slots:
     /**
      * @brief userNatureChange
      * @param isGM
@@ -408,17 +409,17 @@ private slots :
      * @param readData
      * @param size
      */
-    void receiveData(quint64 readData,quint64 size);
+    void receiveData(quint64 readData, quint64 size);
     /**
      * @brief openContent
      */
     void openContent();
-    //save methods
+    // save methods
     /**
      * @brief saveCurrentMedia
      */
     void saveCurrentMedia();
-    //Network private Slot
+    // Network private Slot
     /**
      * @brief stopReconnection
      */
@@ -446,8 +447,8 @@ private slots :
      * @param uri
      * @param force
      */
-    void openCleverURI(CleverURI* uri,bool force = false);
-    void openResource(ResourcesNode *node, bool force);
+    void openCleverURI(CleverURI* uri, bool force= false);
+    void openResource(ResourcesNode* node, bool force);
     /**
      * @brief updateRecentFileActions
      */
@@ -476,12 +477,12 @@ private slots :
      * @brief notifyAboutAddedPlayer
      * @param player
      */
-    void notifyAboutAddedPlayer(Player * player) const;
+    void notifyAboutAddedPlayer(Player* player) const;
     /**
      * @brief notifyAboutDeletedPlayer
      * @param player
      */
-    void notifyAboutDeletedPlayer(Player * player) const;
+    void notifyAboutDeletedPlayer(Player* player) const;
 
     void showShortCutEditor();
 
@@ -505,31 +506,32 @@ private:
      * @param id
      * @return
      */
-    CharacterSheetWindow *findCharacterSheetWindowById(const QString &idMedia, const QString& idSheet);
+    CharacterSheetWindow* findCharacterSheetWindowById(const QString& idMedia, const QString& idSheet);
     /**
      * @brief getShortNameFromPath generic tool to translate filepath to short name.
      * @param path
      * @return
      */
     QString getShortNameFromPath(QString path);
+
 private:
     static MainWindow* m_singleton;
-	ImprovedWorkspace* m_mdiArea;
+    ImprovedWorkspace* m_mdiArea;
     PlayersListWidget* m_playersListWidget;
 
-    //toolbar
+    // toolbar
     ToolsBar* m_toolBar;
     VToolsBar* m_vToolBar;
     QStackedWidget* m_toolBarStack;
 
-    QHash<QString,MediaContainer*> m_mediaHash;
-    QMap<MediaContainer*,QAction*>* m_mapAction;
-#ifndef NULL_PLAYER   
+    QHash<QString, MediaContainer*> m_mediaHash;
+    QMap<MediaContainer*, QAction*>* m_mapAction;
+#ifndef NULL_PLAYER
     AudioPlayer* m_audioPlayer;
 #endif
 
     PreferencesDialog* m_preferencesDialog;
-	PreferencesManager* m_preferences;
+    PreferencesManager* m_preferences;
     ChatListWidget* m_chatListWidget;
     UpdateChecker* m_updateChecker;
 
@@ -540,7 +542,7 @@ private:
     PlayersList* m_playerList;
     IpChecker* m_ipChecker; /// @brief get the server IP.
 
-    //subwindow
+    // subwindow
     QProgressBar* m_downLoadProgressbar;
     bool m_shownProgress;
     QString m_localPlayerId;
@@ -548,27 +550,26 @@ private:
     SessionManager* m_sessionManager;
     bool m_resetSettings;
 
-    //Recent files managment
+    // Recent files managment
     int m_maxSizeRecentFile;
     QList<QAction*> m_recentFileActs;
     CleverUriList m_recentFiles;
-
 
     VmapToolBar* m_vmapToolBar;
 
     ConnectionProfile* m_currentConnectionProfile;
     QList<GameMasterTool*> m_gmToolBoxList;
-    SelectConnectionProfileDialog* m_dialog = nullptr;
+    SelectConnectionProfileDialog* m_dialog= nullptr;
     bool m_profileDefined;
     CleverURI* m_currentStory;
     QDockWidget* m_roomPanelDockWidget;
     QThread m_serverThread;
-    ServerManager* m_server = nullptr;
+    ServerManager* m_server= nullptr;
     ChannelListPanel* m_roomPanel;
     QUndoStack m_undoStack;
-    LogController* m_logController = nullptr;
+    LogController* m_logController= nullptr;
     QString m_connectionAddress;
-    bool m_isOut = false;
+    bool m_isOut= false;
     LogSenderScheduler m_logScheduler;
 
     std::unique_ptr<CommandLineProfile> m_commandLineProfile;

@@ -19,12 +19,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef LOCAL_PERSON_MODEL_H
 #define LOCAL_PERSON_MODEL_H
 
-#include "userlist/playerslistproxy.h"
 #include "userlist/playersList.h"
+#include "userlist/playerslistproxy.h"
 
 /**
  * @brief The LocalPersonModel class
@@ -35,59 +34,59 @@ class LocalPersonModel : public PlayersListProxyModel
 
 public:
     /**
-         * @brief instance
-         * @return
-         */
-    static LocalPersonModel & instance();
+     * @brief instance
+     * @return
+     */
+    static LocalPersonModel& instance();
     /**
-         * @brief mapFromSource
-         * @param sourceIndex
-         * @return
-         */
-    QModelIndex mapFromSource(const QModelIndex & sourceIndex) const;
+     * @brief mapFromSource
+     * @param sourceIndex
+     * @return
+     */
+    QModelIndex mapFromSource(const QModelIndex& sourceIndex) const;
     /**
-         * @brief mapToSource
-         * @param proxyIndex
-         * @return
-         */
-    QModelIndex mapToSource(const QModelIndex & proxyIndex) const;
+     * @brief mapToSource
+     * @param proxyIndex
+     * @return
+     */
+    QModelIndex mapToSource(const QModelIndex& proxyIndex) const;
     /**
-         * @brief data
-         * @param index
-         * @param role
-         * @return
-         */
-    QVariant data(const QModelIndex &index, int role) const;
+     * @brief data
+     * @param index
+     * @param role
+     * @return
+     */
+    QVariant data(const QModelIndex& index, int role) const;
     /**
-         * @brief index
-         * @param row
-         * @param column
-         * @param parent
-         * @return
-         */
-    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+     * @brief index
+     * @param row
+     * @param column
+     * @param parent
+     * @return
+     */
+    QModelIndex index(int row, int column, const QModelIndex& parent= QModelIndex()) const;
     /**
-         * @brief parent
-         * @param index
-         * @return
-         */
-    QModelIndex parent(const QModelIndex &index) const;
+     * @brief parent
+     * @param index
+     * @return
+     */
+    QModelIndex parent(const QModelIndex& index) const;
     /**
-         * @brief rowCount
-         * @param parent
-         * @return
-         */
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+     * @brief rowCount
+     * @param parent
+     * @return
+     */
+    int rowCount(const QModelIndex& parent= QModelIndex()) const;
 
 protected:
     /**
-         * @brief filterChangingRows
-         * @param parent
-         * @param start
-         * @param end
-         * @return
-         */
-    bool filterChangingRows(QModelIndex & parent, int & start, int & end);
+     * @brief filterChangingRows
+     * @param parent
+     * @param start
+     * @param end
+     * @return
+     */
+    bool filterChangingRows(QModelIndex& parent, int& start, int& end);
 
 private:
     LocalPersonModel();

@@ -19,7 +19,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
 #include <QtGui>
 
 #include "improvedworkspace.h"
@@ -29,43 +28,42 @@
 #define GRAY_SCALE 191
 /********************************************************************/
 /* Constructeur                                                     */
-/********************************************************************/	
-ImprovedWorkspace::ImprovedWorkspace(QWidget *parent)
-: QMdiArea(parent),m_variableSizeBackground(size()),m_actionSubWindowMap(new QMap<QAction*,QMdiSubWindow*>())
+/********************************************************************/
+ImprovedWorkspace::ImprovedWorkspace(QWidget* parent)
+    : QMdiArea(parent), m_variableSizeBackground(size()), m_actionSubWindowMap(new QMap<QAction*, QMdiSubWindow*>())
 {
-    m_preferences =  PreferencesManager::getInstance();
+    m_preferences= PreferencesManager::getInstance();
 
-    m_preferences->registerListener("BackGroundPositioning",this);
-    m_preferences->registerListener("PathOfBackgroundImage",this);
-    m_preferences->registerListener("BackGroundColor",this);
-    m_preferences->registerListener("shortNameInTabMode",this);
-    m_preferences->registerListener("MaxLengthTabName",this);
+    m_preferences->registerListener("BackGroundPositioning", this);
+    m_preferences->registerListener("PathOfBackgroundImage", this);
+    m_preferences->registerListener("BackGroundColor", this);
+    m_preferences->registerListener("shortNameInTabMode", this);
+    m_preferences->registerListener("MaxLengthTabName", this);
 
-    m_backgroundPicture = new QPixmap(size());
+    m_backgroundPicture= new QPixmap(size());
 
     updateBackGround();
-
 }
 
 ImprovedWorkspace::~ImprovedWorkspace()
 {
-    if(nullptr!=m_backgroundPicture)
-	{
-		delete m_backgroundPicture;
-        m_backgroundPicture = nullptr;
-	}
+    if(nullptr != m_backgroundPicture)
+    {
+        delete m_backgroundPicture;
+        m_backgroundPicture= nullptr;
+    }
 
-    if(nullptr!=m_actionSubWindowMap)
-	{
+    if(nullptr != m_actionSubWindowMap)
+    {
         delete m_actionSubWindowMap;
-        m_actionSubWindowMap = nullptr;
-	}
+        m_actionSubWindowMap= nullptr;
+    }
 }
 bool ImprovedWorkspace::showCleverUri(CleverURI* uri)
 {
     for(auto& i : *m_actionSubWindowMap)
     {
-        auto media = dynamic_cast<MediaContainer*>(i);
+        auto media= dynamic_cast<MediaContainer*>(i);
         if(nullptr != media)
         {
             if(media->getCleverUri() == uri)
@@ -78,78 +76,78 @@ bool ImprovedWorkspace::showCleverUri(CleverURI* uri)
     return false;
 }
 
-
 void ImprovedWorkspace::updateBackGround()
 {
-    m_color = m_preferences->value("BackGroundColor",QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE)).value<QColor>();
+    m_color= m_preferences->value("BackGroundColor", QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE)).value<QColor>();
     m_background.setColor(m_color);
     setBackground(m_background);
 
-    QString fileName = m_preferences->value("PathOfBackgroundImage",":/resources/icons/workspacebackground.jpg").toString();
-    m_variableSizeBackground = m_variableSizeBackground.scaled(size());
+    QString fileName
+        = m_preferences->value("PathOfBackgroundImage", ":/resources/icons/workspacebackground.jpg").toString();
+    m_variableSizeBackground= m_variableSizeBackground.scaled(size());
     m_variableSizeBackground.fill(m_color);
     QPainter painter(&m_variableSizeBackground);
 
-    if(m_fileName!=fileName)
+    if(m_fileName != fileName)
     {
-        m_fileName = fileName;
-        if(nullptr!=m_backgroundPicture)
+        m_fileName= fileName;
+        if(nullptr != m_backgroundPicture)
         {
             delete m_backgroundPicture;
         }
-        m_backgroundPicture = new QPixmap(m_fileName);
+        m_backgroundPicture= new QPixmap(m_fileName);
     }
-    int x=0;
-    int y=0;
-    int w = m_backgroundPicture->width();
-    int h = m_backgroundPicture->height();
-    bool repeated=false;
-    switch(static_cast<Positioning>(m_preferences->value("BackGroundPositioning",0).toInt()))
+    int x= 0;
+    int y= 0;
+    int w= m_backgroundPicture->width();
+    int h= m_backgroundPicture->height();
+    bool repeated= false;
+    switch(static_cast<Positioning>(m_preferences->value("BackGroundPositioning", 0).toInt()))
     {
     case TopLeft:
         break;
     case BottomLeft:
-        y = m_variableSizeBackground.size().height()-h;
+        y= m_variableSizeBackground.size().height() - h;
         break;
     case Center:
-        x = m_variableSizeBackground.width()/2-w/2;
-        y = m_variableSizeBackground.height()/2-h/2;
+        x= m_variableSizeBackground.width() / 2 - w / 2;
+        y= m_variableSizeBackground.height() / 2 - h / 2;
         break;
     case TopRight:
-        x = m_variableSizeBackground.width()-w;
+        x= m_variableSizeBackground.width() - w;
         break;
     case BottomRight:
-        x = m_variableSizeBackground.width()-w;
-        y = m_variableSizeBackground.height()-h;
+        x= m_variableSizeBackground.width() - w;
+        y= m_variableSizeBackground.height() - h;
         break;
     case Scaled:
     {
-        qreal rd=static_cast<qreal>(w)/static_cast<qreal>(h);
-        if(rd>1)
+        qreal rd= static_cast<qreal>(w) / static_cast<qreal>(h);
+        if(rd > 1)
         {
-            w=m_variableSizeBackground.width();
-            h=static_cast<int>(w/rd);
+            w= m_variableSizeBackground.width();
+            h= static_cast<int>(w / rd);
         }
         else
         {
-            h=m_variableSizeBackground.height();
-            w=static_cast<int>(h/rd);
+            h= m_variableSizeBackground.height();
+            w= static_cast<int>(h / rd);
         }
-        x = m_variableSizeBackground.width()/2-w/2;
-        y = m_variableSizeBackground.height()/2-h/2;
+        x= m_variableSizeBackground.width() / 2 - w / 2;
+        y= m_variableSizeBackground.height() / 2 - h / 2;
     }
-        break;
+    break;
     case Filled:
-        w = m_variableSizeBackground.width();
-        h = m_variableSizeBackground.height();
+        w= m_variableSizeBackground.width();
+        h= m_variableSizeBackground.height();
         break;
     case Repeated:
-        repeated = true;
+        repeated= true;
         break;
     }
     if(!repeated)
     {
-        painter.drawPixmap(x,y,w,h,*m_backgroundPicture);
+        painter.drawPixmap(x, y, w, h, *m_backgroundPicture);
         setBackground(QBrush(m_variableSizeBackground));
     }
     else
@@ -159,10 +157,10 @@ void ImprovedWorkspace::updateBackGround()
     update();
 }
 
-void ImprovedWorkspace::resizeEvent ( QResizeEvent * event )
+void ImprovedWorkspace::resizeEvent(QResizeEvent* event)
 {
     Q_UNUSED(event);
-    if((m_variableSizeBackground.size()==this->size()))
+    if((m_variableSizeBackground.size() == this->size()))
     {
         return;
     }
@@ -171,17 +169,17 @@ void ImprovedWorkspace::resizeEvent ( QResizeEvent * event )
 
     QMdiArea::resizeEvent(event);
 }
-QWidget*  ImprovedWorkspace::addWindow(QWidget* child,QAction* action)
+QWidget* ImprovedWorkspace::addWindow(QWidget* child, QAction* action)
 {
-    QMdiSubWindow* sub = addSubWindow(child);
-    if(viewMode()==QMdiArea::TabbedView)
+    QMdiSubWindow* sub= addSubWindow(child);
+    if(viewMode() == QMdiArea::TabbedView)
     {
         action->setChecked(true);
         sub->setVisible(true);
         child->setVisible(true);
     }
-    insertActionAndSubWindow(action,sub);
-    connect(action,SIGNAL(triggered()),this,SLOT(ensurePresent()));
+    insertActionAndSubWindow(action, sub);
+    connect(action, SIGNAL(triggered()), this, SLOT(ensurePresent()));
     sub->setAttribute(Qt::WA_DeleteOnClose, false);
     child->setAttribute(Qt::WA_DeleteOnClose, false);
     sub->setObjectName(child->objectName());
@@ -191,16 +189,16 @@ QWidget*  ImprovedWorkspace::addWindow(QWidget* child,QAction* action)
 }
 void ImprovedWorkspace::addContainerMedia(MediaContainer* mediac)
 {
-    if(nullptr!=mediac)
+    if(nullptr != mediac)
     {
         addSubWindow(mediac);
-        insertActionAndSubWindow(mediac->getAction(),mediac);
-        if(viewMode()==QMdiArea::TabbedView)
+        insertActionAndSubWindow(mediac->getAction(), mediac);
+        if(viewMode() == QMdiArea::TabbedView)
         {
             mediac->setVisible(true);
         }
         mediac->setAttribute(Qt::WA_DeleteOnClose, false);
-        if(nullptr!=mediac->widget())
+        if(nullptr != mediac->widget())
         {
             mediac->widget()->setAttribute(Qt::WA_DeleteOnClose, false);
         }
@@ -215,29 +213,29 @@ void ImprovedWorkspace::removeMediaContainer(MediaContainer* mediac)
 }
 void ImprovedWorkspace::insertActionAndSubWindow(QAction* act, QMdiSubWindow* sub)
 {
-    m_actionSubWindowMap->insert(act,sub);
+    m_actionSubWindowMap->insert(act, sub);
 }
 void ImprovedWorkspace::setTabbedMode(bool isTabbed)
 {
     if(isTabbed)
     {
         setViewMode(QMdiArea::TabbedView);
-        //setTabsClosable ( true );
-        setTabsMovable ( true );
+        // setTabsClosable ( true );
+        setTabsMovable(true);
         setTabPosition(QTabWidget::North);
         /// make all subwindows visible.
-        auto keys = m_actionSubWindowMap->keys();
+        auto keys= m_actionSubWindowMap->keys();
         for(QAction* act : keys)
         {
-            auto tmp = m_actionSubWindowMap->value(act);
+            auto tmp= m_actionSubWindowMap->value(act);
             if(nullptr == tmp)
             {
                 tmp->setVisible(true);
-                if(nullptr!=act)
+                if(nullptr != act)
                 {
                     act->setChecked(true);
                 }
-                if(nullptr!=tmp->widget())
+                if(nullptr != tmp->widget())
                 {
                     tmp->widget()->setVisible(true);
                 }
@@ -252,52 +250,52 @@ void ImprovedWorkspace::setTabbedMode(bool isTabbed)
 }
 bool ImprovedWorkspace::updateTitleTab()
 {
-    bool shortName = m_preferences->value("shortNameInTabMode",false).toBool();
-    int textLength = m_preferences->value("MaxLengthTabName",10).toInt();
-    if((viewMode() == QMdiArea::TabbedView)&&(shortName))
+    bool shortName= m_preferences->value("shortNameInTabMode", false).toBool();
+    int textLength= m_preferences->value("MaxLengthTabName", 10).toInt();
+    if((viewMode() == QMdiArea::TabbedView) && (shortName))
     {
-        auto values = m_actionSubWindowMap->values();
+        auto values= m_actionSubWindowMap->values();
         for(auto& subwindow : values)
         {
-            auto title = subwindow->windowTitle();
+            auto title= subwindow->windowTitle();
             if(title.size() > textLength)
             {
-                m_titleBar.insert(subwindow,title);
-                title = title.left(textLength);
+                m_titleBar.insert(subwindow, title);
+                title= title.left(textLength);
                 subwindow->setWindowTitle(title);
             }
         }
     }
     else
     {
-        auto keys = m_titleBar.keys();
+        auto keys= m_titleBar.keys();
         for(auto& key : keys)
         {
-            auto title = m_titleBar.value(key);
+            auto title= m_titleBar.value(key);
             key->setWindowTitle(title);
         }
         m_titleBar.clear();
     }
     return true;
 }
-bool ImprovedWorkspace::eventFilter(QObject *object, QEvent *event)
+bool ImprovedWorkspace::eventFilter(QObject* object, QEvent* event)
 {
-    if(event->type()==QEvent::Close)
+    if(event->type() == QEvent::Close)
     {
-        QMdiSubWindow* sub = dynamic_cast<QMdiSubWindow*>(object);
-        if(nullptr!=sub)
+        QMdiSubWindow* sub= dynamic_cast<QMdiSubWindow*>(object);
+        if(nullptr != sub)
         {
             sub->setVisible(false);
             event->accept();
             return true;
         }
     }
-    return QMdiArea::eventFilter(object,event);
+    return QMdiArea::eventFilter(object, event);
 }
 void ImprovedWorkspace::ensurePresent()
 {
-    QAction* act = qobject_cast<QAction*>(sender());
-    if(nullptr!=act)
+    QAction* act= qobject_cast<QAction*>(sender());
+    if(nullptr != act)
     {
         if(!subWindowList().contains(m_actionSubWindowMap->value(act)))
         {
@@ -311,12 +309,12 @@ QVector<QMdiSubWindow*> ImprovedWorkspace::getAllSubWindowFromId(const QString& 
 {
     QVector<QMdiSubWindow*> vector;
 
-    for(auto& tmp: subWindowList())
+    for(auto& tmp : subWindowList())
     {
-        if(nullptr!=tmp->widget())
+        if(nullptr != tmp->widget())
         {
-            MediaContainer* tmpWindow = dynamic_cast<MediaContainer*>(tmp);
-            if(nullptr!=tmpWindow)
+            MediaContainer* tmpWindow= dynamic_cast<MediaContainer*>(tmp);
+            if(nullptr != tmpWindow)
             {
                 if(tmpWindow->getMediaId() == id)
                 {
@@ -330,12 +328,12 @@ QVector<QMdiSubWindow*> ImprovedWorkspace::getAllSubWindowFromId(const QString& 
 
 QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
 {
-    for(auto& tmp: subWindowList())
+    for(auto& tmp : subWindowList())
     {
-        if(nullptr!=tmp->widget())
+        if(nullptr != tmp->widget())
         {
-            MediaContainer* tmpWindow = dynamic_cast<MediaContainer*>(tmp->widget());
-            if(nullptr!=tmpWindow)
+            MediaContainer* tmpWindow= dynamic_cast<MediaContainer*>(tmp->widget());
+            if(nullptr != tmpWindow)
             {
                 if(tmpWindow->getMediaId() == id)
                 {
@@ -353,10 +351,10 @@ void ImprovedWorkspace::preferencesHasChanged(QString)
     update();
     updateTitleTab();
 }
-void ImprovedWorkspace::addWidgetToMdi(QWidget* wid,QString title)
+void ImprovedWorkspace::addWidgetToMdi(QWidget* wid, QString title)
 {
     wid->setParent(this);
-    QMdiSubWindow* sub = addSubWindow(wid);
+    QMdiSubWindow* sub= addSubWindow(wid);
     sub->setWindowTitle(title);
     wid->setWindowTitle(title);
     sub->setVisible(true);

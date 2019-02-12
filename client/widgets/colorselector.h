@@ -22,11 +22,10 @@
 #ifndef SELECTEUR_COULEUR_H
 #define SELECTEUR_COULEUR_H
 
-#include <QWidget>
-#include <QFrame>
 #include <QColor>
+#include <QFrame>
 #include <QLabel>
-
+#include <QWidget>
 
 #include "preferences/preferencesmanager.h"
 //#include "types.h"
@@ -36,11 +35,18 @@ class QHBoxLayout;
 class QGridLayout;
 class QVBoxLayout;
 
-enum ColorKind {ColorType, Erase, Veil, Unveil};
+enum ColorKind
+{
+    ColorType,
+    Erase,
+    Veil,
+    Unveil
+};
 
 /**
-  * @brief SelectedColor is used to store the current color and its kind. It must disappear form the software in future release.
-  */
+ * @brief SelectedColor is used to store the current color and its kind. It must disappear form the software in future
+ * release.
+ */
 typedef struct
 {
     ColorKind type;
@@ -58,7 +64,7 @@ public:
      * @brief ColorWidget
      * @param parent
      */
-    ColorWidget(QWidget* parent = nullptr);
+    ColorWidget(QWidget* parent= nullptr);
     /**
      * @brief setColor
      */
@@ -68,7 +74,6 @@ public:
      * @return
      */
     QColor getColor();
-
 
 signals:
     void clicked(QColor);
@@ -85,7 +90,6 @@ protected:
      */
     void paintEvent(QPaintEvent* event);
 
-
 private:
     QColor m_color;
 };
@@ -101,10 +105,10 @@ public:
      * @brief ColorSelector
      * @param parent
      */
-    ColorSelector(QWidget *parent = 0);
+    ColorSelector(QWidget* parent= 0);
     /**
-      *
-      */
+     *
+     */
     ~ColorSelector();
     /**
      * @brief majCouleursPersonnelles
@@ -125,12 +129,12 @@ public:
      * @param wid
      * @param color
      */
-    void setBackgroundColorToWidget(QWidget* wid,QColor color);
+    void setBackgroundColorToWidget(QWidget* wid, QColor color);
     /**
      * @brief eventFilter
      * @return
      */
-    virtual bool eventFilter(QObject *, QEvent *);
+    virtual bool eventFilter(QObject*, QEvent*);
 
     static SelectedColor& getSelectedColor();
 public slots:
@@ -140,6 +144,7 @@ public slots:
      */
     void changeCurrentColor(QColor couleur);
     void updateUi(bool isGM);
+
 private:
     QLabel* m_currentColor;
     QLabel* m_eraseColor;
@@ -147,20 +152,20 @@ private:
     QLabel* m_unveilColor;
     QList<ColorWidget*> m_predefinedColor;
     QList<ColorWidget*> m_personalColor;
-    QWidget *m_separator1;
-    QWidget *m_separator2;
-    QPixmap *m_pixelErase;
-    QPixmap *m_maskPixel;
-    QPixmap *m_unveilPixel;
-    QHBoxLayout *m_specialColor;
-    QGridLayout *m_characterGrid;
-    FlowLayout *m_layoutSelector;
-    QGridLayout *m_predefinedGrid;
+    QWidget* m_separator1;
+    QWidget* m_separator2;
+    QPixmap* m_pixelErase;
+    QPixmap* m_maskPixel;
+    QPixmap* m_unveilPixel;
+    QHBoxLayout* m_specialColor;
+    QGridLayout* m_characterGrid;
+    FlowLayout* m_layoutSelector;
+    QGridLayout* m_predefinedGrid;
     bool m_pressedButton;
     PreferencesManager* m_preferences;
     static SelectedColor s_selectedColor;
     bool m_isGM;
-    const QString m_predefineColor=tr("Predefined color");
+    const QString m_predefineColor= tr("Predefined color");
 };
 
 #endif

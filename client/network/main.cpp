@@ -20,63 +20,59 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
-#include <QCoreApplication>
-#include <QTextCodec>
-#include <QResource>
-#include <QTranslator>
-#include <QDateTime>
-#include <QUuid>
-#include <QCommandLineParser>
 #include <QCommandLineOption>
+#include <QCommandLineParser>
+#include <QCoreApplication>
+#include <QDateTime>
+#include <QResource>
+#include <QTextCodec>
+#include <QTranslator>
+#include <QUuid>
 #include <time.h>
 
-#include "rolisteamdaemon.h"
 #include "preferences/preferencesmanager.h"
+#include "rolisteamdaemon.h"
 
 /**
-* @page Roliserver
-* @tableofcontents
-* @author Renaud Guezennec
-*
-*  @section intro_sec Introduction
-* Rolisteam help you to manage role playing games with your friend all over the world.<br/>
-* Rolisteam is a free software under GNU/GPL. Its purpose is to provide all features required to<br/>
-* perform Role playing games with remote friends.<br/>
-* It is based on Client/server architecture and it is written in C++ with Qt.<br/>
-*
-* @section features_sec Features:
-* - Chat with one, many and all players
-* - Sharing images and many other media type
-* - Drawing maps on the fly
-* - Sharing environment sound
-* - Multi-platform: Windows, Linux and Mac OS X
-* - Powerful die rolling syntax
-* - Theme and skin: make your own skin, save it, share it.
-* - Useful preferences systems
-*
-*
-*
-* @section install_sec Installation
-* To get documentation on how to install rolisteam: http://wiki.rolisteam.org/
-*
-* @section How to stay in touch ?
-* Please, visit: http://www.rolisteam.org/
-*
-* @section tools_subsec Dependencies:
-* Qt5, zlib, QML,
-* @subpage DiceParser
-*
-* @section copyright Copyright and License
-* GNU/GPLv2
-*
-* <BR><BR>
-*
-*
-*/
-
-
-
+ * @page Roliserver
+ * @tableofcontents
+ * @author Renaud Guezennec
+ *
+ *  @section intro_sec Introduction
+ * Rolisteam help you to manage role playing games with your friend all over the world.<br/>
+ * Rolisteam is a free software under GNU/GPL. Its purpose is to provide all features required to<br/>
+ * perform Role playing games with remote friends.<br/>
+ * It is based on Client/server architecture and it is written in C++ with Qt.<br/>
+ *
+ * @section features_sec Features:
+ * - Chat with one, many and all players
+ * - Sharing images and many other media type
+ * - Drawing maps on the fly
+ * - Sharing environment sound
+ * - Multi-platform: Windows, Linux and Mac OS X
+ * - Powerful die rolling syntax
+ * - Theme and skin: make your own skin, save it, share it.
+ * - Useful preferences systems
+ *
+ *
+ *
+ * @section install_sec Installation
+ * To get documentation on how to install rolisteam: http://wiki.rolisteam.org/
+ *
+ * @section How to stay in touch ?
+ * Please, visit: http://www.rolisteam.org/
+ *
+ * @section tools_subsec Dependencies:
+ * Qt5, zlib, QML,
+ * @subpage DiceParser
+ *
+ * @section copyright Copyright and License
+ * GNU/GPLv2
+ *
+ * <BR><BR>
+ *
+ *
+ */
 
 /**
  * @brief main
@@ -84,7 +80,7 @@
  * @param argv
  * @return
  */
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     // Application creation
     QCoreApplication app(argc, argv);
@@ -92,44 +88,44 @@ int main(int argc, char *argv[])
     QString appName("roliserver");
 
     app.setApplicationName(appName);
-    QString version = QObject::tr("Unknown");
-    #ifdef VERSION_MINOR
-        #ifdef VERSION_MAJOR
-            #ifdef VERSION_MIDDLE
-                version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-            #endif
-        #endif
-    #endif
+    QString version= QObject::tr("Unknown");
+#ifdef VERSION_MINOR
+#ifdef VERSION_MAJOR
+#ifdef VERSION_MIDDLE
+    version= QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+#endif
+#endif
+#endif
     app.setApplicationVersion(version);
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-    //QString locale = QLocale::system().name();
-
+    // QString locale = QLocale::system().name();
 
     QCommandLineParser parser;
     parser.addHelpOption();
     parser.addVersionOption();
 
-    QCommandLineOption configuration(QStringList() << "c"<< "config", QObject::tr("Set the path to configuration file [mandatory]"),"config");
-    QCommandLineOption print(QStringList() << "p"<< "print", QObject::tr("Print a default configuration file into Standard output"));
-
+    QCommandLineOption configuration(QStringList() << "c"
+                                                   << "config",
+        QObject::tr("Set the path to configuration file [mandatory]"), "config");
+    QCommandLineOption print(QStringList() << "p"
+                                           << "print",
+        QObject::tr("Print a default configuration file into Standard output"));
 
     parser.addOption(configuration);
     parser.addOption(print);
 
     parser.parse(app.arguments());
 
-    bool hasConfig = parser.isSet(configuration);
-    bool askPrint = parser.isSet(print);
-
+    bool hasConfig= parser.isSet(configuration);
+    bool askPrint= parser.isSet(print);
 
     QString configPath;
 
     if(hasConfig)
     {
-        configPath = parser.value(configuration);
+        configPath= parser.value(configuration);
     }
-
 
     if(configPath.isEmpty())
     {
@@ -145,11 +141,5 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-
-
-
-
-
-
     return app.exec();
-} 
+}

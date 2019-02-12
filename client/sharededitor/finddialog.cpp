@@ -21,9 +21,7 @@
 
 #include "enu.h"
 
-FindDialog::FindDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::FindDialog)
+FindDialog::FindDialog(QWidget* parent) : QDialog(parent), ui(new Ui::FindDialog)
 {
     ui->setupUi(this);
 }
@@ -33,10 +31,11 @@ FindDialog::~FindDialog()
     delete ui;
 }
 
-void FindDialog::changeEvent(QEvent *e)
+void FindDialog::changeEvent(QEvent* e)
 {
     QDialog::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type())
+    {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;
@@ -47,102 +46,120 @@ void FindDialog::changeEvent(QEvent *e)
 
 void FindDialog::on_findNextPushButton_clicked()
 {
-    QString searchString = ui->findTextEdit->toPlainText();
+    QString searchString= ui->findTextEdit->toPlainText();
     Qt::CaseSensitivity sensitivity;
-    if (ui->ignoreCaseCheckBox->isChecked()) {
-        sensitivity = Qt::CaseInsensitive;
+    if(ui->ignoreCaseCheckBox->isChecked())
+    {
+        sensitivity= Qt::CaseInsensitive;
     }
-    else {
-        sensitivity = Qt::CaseSensitive;
+    else
+    {
+        sensitivity= Qt::CaseSensitive;
     }
-    Enu::FindMode mode = Enu::Contains;
-    if (ui->findModeComboBox->currentText() == "Contains") {
-        mode = Enu::Contains;
+    Enu::FindMode mode= Enu::Contains;
+    if(ui->findModeComboBox->currentText() == "Contains")
+    {
+        mode= Enu::Contains;
     }
-    else if (ui->findModeComboBox->currentText() == "Starts With") {
-        mode = Enu::StartsWith;
+    else if(ui->findModeComboBox->currentText() == "Starts With")
+    {
+        mode= Enu::StartsWith;
     }
-    else if (ui->findModeComboBox->currentText() == "Entire Word") {
-        mode = Enu::EntireWord;
+    else if(ui->findModeComboBox->currentText() == "Entire Word")
+    {
+        mode= Enu::EntireWord;
     }
     emit findDialogFindNext(searchString, sensitivity, ui->wrapAroundCheckBox->isChecked(), mode);
 }
 
-
 void FindDialog::on_findPreviousPushButton_clicked()
 {
-    QString searchString = ui->findTextEdit->toPlainText();
+    QString searchString= ui->findTextEdit->toPlainText();
     Qt::CaseSensitivity sensitivity;
-    if (ui->ignoreCaseCheckBox->isChecked()) {
-        sensitivity = Qt::CaseInsensitive;
+    if(ui->ignoreCaseCheckBox->isChecked())
+    {
+        sensitivity= Qt::CaseInsensitive;
     }
-    else {
-        sensitivity = Qt::CaseSensitive;
+    else
+    {
+        sensitivity= Qt::CaseSensitive;
     }
-    Enu::FindMode mode = Enu::Contains;
-    if (ui->findModeComboBox->currentText() == "Contains") {
-        mode = Enu::Contains;
+    Enu::FindMode mode= Enu::Contains;
+    if(ui->findModeComboBox->currentText() == "Contains")
+    {
+        mode= Enu::Contains;
     }
-    else if (ui->findModeComboBox->currentText() == "Starts With") {
-        mode = Enu::StartsWith;
+    else if(ui->findModeComboBox->currentText() == "Starts With")
+    {
+        mode= Enu::StartsWith;
     }
-    else if (ui->findModeComboBox->currentText() == "Entire Word") {
-        mode = Enu::EntireWord;
+    else if(ui->findModeComboBox->currentText() == "Entire Word")
+    {
+        mode= Enu::EntireWord;
     }
     emit findDialogFindPrev(searchString, sensitivity, ui->wrapAroundCheckBox->isChecked(), mode);
 }
 
 void FindDialog::on_replaceAllPushButton_clicked()
 {
-    QString searchString = ui->findTextEdit->toPlainText();
-    QString replaceString = ui->replaceTextEdit->toPlainText();
+    QString searchString= ui->findTextEdit->toPlainText();
+    QString replaceString= ui->replaceTextEdit->toPlainText();
     Qt::CaseSensitivity sensitivity;
-    if (ui->ignoreCaseCheckBox->isChecked()) {
-        sensitivity = Qt::CaseInsensitive;
+    if(ui->ignoreCaseCheckBox->isChecked())
+    {
+        sensitivity= Qt::CaseInsensitive;
     }
-    else {
-        sensitivity = Qt::CaseSensitive;
+    else
+    {
+        sensitivity= Qt::CaseSensitive;
     }
-    Enu::FindMode mode = Enu::Contains;
-    if (ui->findModeComboBox->currentText() == "Contains") {
-        mode = Enu::Contains;
+    Enu::FindMode mode= Enu::Contains;
+    if(ui->findModeComboBox->currentText() == "Contains")
+    {
+        mode= Enu::Contains;
     }
-    else if (ui->findModeComboBox->currentText() == "Starts With") {
-        mode = Enu::StartsWith;
+    else if(ui->findModeComboBox->currentText() == "Starts With")
+    {
+        mode= Enu::StartsWith;
     }
-    else if (ui->findModeComboBox->currentText() == "Entire Word") {
-        mode = Enu::EntireWord;
+    else if(ui->findModeComboBox->currentText() == "Entire Word")
+    {
+        mode= Enu::EntireWord;
     }
     emit findDialogReplaceAll(searchString, replaceString, sensitivity, mode);
 }
 
 void FindDialog::on_replacePushButton_clicked()
 {
-    QString replaceString = ui->replaceTextEdit->toPlainText();
+    QString replaceString= ui->replaceTextEdit->toPlainText();
     emit findDialogReplace(replaceString);
 }
 
 void FindDialog::on_findReplacePushButton_clicked()
 {
-    QString searchString = ui->findTextEdit->toPlainText();
-    QString replaceString = ui->replaceTextEdit->toPlainText();
+    QString searchString= ui->findTextEdit->toPlainText();
+    QString replaceString= ui->replaceTextEdit->toPlainText();
     Qt::CaseSensitivity sensitivity;
-    if (ui->ignoreCaseCheckBox->isChecked()) {
-        sensitivity = Qt::CaseInsensitive;
+    if(ui->ignoreCaseCheckBox->isChecked())
+    {
+        sensitivity= Qt::CaseInsensitive;
     }
-    else {
-        sensitivity = Qt::CaseSensitive;
+    else
+    {
+        sensitivity= Qt::CaseSensitive;
     }
-    Enu::FindMode mode = Enu::Contains;
-    if (ui->findModeComboBox->currentText() == "Contains") {
-        mode = Enu::Contains;
+    Enu::FindMode mode= Enu::Contains;
+    if(ui->findModeComboBox->currentText() == "Contains")
+    {
+        mode= Enu::Contains;
     }
-    else if (ui->findModeComboBox->currentText() == "Starts With") {
-        mode = Enu::StartsWith;
+    else if(ui->findModeComboBox->currentText() == "Starts With")
+    {
+        mode= Enu::StartsWith;
     }
-    else if (ui->findModeComboBox->currentText() == "Entire Word") {
-        mode = Enu::EntireWord;
+    else if(ui->findModeComboBox->currentText() == "Entire Word")
+    {
+        mode= Enu::EntireWord;
     }
     emit findDiaalogFindReplace(searchString, replaceString, sensitivity, ui->wrapAroundCheckBox->isChecked(), mode);
 }
-

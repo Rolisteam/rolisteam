@@ -19,8 +19,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QSettings>
 #include <QMainWindow>
+#include <QSettings>
 #include <QTextStream>
 
 #include "document.h"
@@ -42,33 +42,32 @@ class SharedNote : public QMainWindow
     Q_OBJECT
 
 public:
-    SharedNote(QWidget *parent = 0);
+    SharedNote(QWidget* parent= 0);
     ~SharedNote();
 
     bool saveFileAsText(QTextStream& out);
     bool loadFileAsText(QTextStream& out);
 
     bool saveFile(QDataStream& out);
-    bool loadFile(QDataStream &fileName);
+    bool loadFile(QDataStream& fileName);
 
-    void setCurrentFile(const QString &fileName);
-    QString strippedName(const QString &fullFileName);
+    void setCurrentFile(const QString& fileName);
+    QString strippedName(const QString& fullFileName);
 
     void readSettings();
     void writeSettings();
 
     void displaySharingPanel();
-    void setOwner(Player *player);
+    void setOwner(Player* player);
 
     QString id() const;
-    void setId(const QString &id);
+    void setId(const QString& id);
 
-    void readFromMsg(NetworkMessageReader *msg);
+    void readFromMsg(NetworkMessageReader* msg);
     void runUpdateCmd(QString cmd);
 
-
     QString fileName() const;
-    void setFileName(const QString &fileName);
+    void setFileName(const QString& fileName);
 
 public slots:
     void updateDocumentToAll(NetworkMessageWriter* msg);
@@ -78,14 +77,14 @@ public slots:
     void writeToAll(QString string);
     void populateDocumentForUser(QString id);
     void closeEditorFor(QString idplayer);
+
 protected:
-    void closeEvent(QCloseEvent *event);
-    bool eventFilter(QObject *, QEvent *event);
+    void closeEvent(QCloseEvent* event);
+    bool eventFilter(QObject*, QEvent* event);
 
     void updateWindowTitle();
 private slots:
-  //  bool fileSaveAs();
-
+    //  bool fileSaveAs();
 
     void on_actionFile_Print_triggered();
 
@@ -114,7 +113,8 @@ private slots:
     void findPrevTriggered(QString str, Qt::CaseSensitivity, bool wrapAround, Enu::FindMode mode);
     void replaceAllTriggered(QString find, QString replace, Qt::CaseSensitivity sensitivity, Enu::FindMode mode);
     void replaceTriggered(QString replace);
-    void findReplaceTriggered(QString find, QString replace, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode);
+    void findReplaceTriggered(
+        QString find, QString replace, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode);
 
     void setEditorFont(QFont font);
     void setParticipantsFont(QFont font);
@@ -122,11 +122,11 @@ private slots:
     void setMarkdownAsHighlight();
 
 private:
-    Ui::SharedNote *ui;
-    FindDialog *findDialog;
+    Ui::SharedNote* ui;
+    FindDialog* findDialog;
     QString m_fileName;
     Document* m_document;
-    bool m_networkEditing = false;
+    bool m_networkEditing= false;
     QString m_id; // global name used for connecting to documents
 };
 

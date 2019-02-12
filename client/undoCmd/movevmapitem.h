@@ -19,27 +19,26 @@
  ***************************************************************************/
 #ifndef MOVEITEMCOMMAND_H
 #define MOVEITEMCOMMAND_H
+#include <QGraphicsItem>
+#include <QList>
 #include <QPointF>
 #include <QUndoCommand>
-#include <QList>
-#include <QGraphicsItem>
 
 class VisualItem;
 
 class MoveItemCommand : public QUndoCommand
 {
-
 public:
-    MoveItemCommand(QList<VisualItem*> item,QList<QPointF> oldPos, QUndoCommand* parent = nullptr);
+    MoveItemCommand(QList<VisualItem*> item, QList<QPointF> oldPos, QUndoCommand* parent= nullptr);
 
     void redo() override;
-	void undo() override;
+    void undo() override;
 
 private:
     QList<VisualItem*> m_selection;
     QList<QPointF> m_oldPoints;
     QList<QPointF> m_newPoints;
-    bool m_valid = false;
+    bool m_valid= false;
 };
 
-#endif //MOVEITEMCOMMAND_H
+#endif // MOVEITEMCOMMAND_H

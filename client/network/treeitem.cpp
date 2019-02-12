@@ -1,17 +1,10 @@
 #include "treeitem.h"
-#include <QUuid>
 #include <QDebug>
+#include <QUuid>
 
-TreeItem::TreeItem(QObject* parent)
-    : QObject(parent), m_id(QUuid::createUuid().toString()),m_parentItem(nullptr)
-{
+TreeItem::TreeItem(QObject* parent) : QObject(parent), m_id(QUuid::createUuid().toString()), m_parentItem(nullptr) {}
 
-}
-
-void TreeItem::addChild()
-{
-
-}
+void TreeItem::addChild() {}
 
 bool TreeItem::isLeaf() const
 {
@@ -23,26 +16,26 @@ int TreeItem::childCount() const
     return 0;
 }
 
-int TreeItem::addChild(TreeItem *)
+int TreeItem::addChild(TreeItem*)
 {
     return 0;
 }
 
-TreeItem *TreeItem::getChildAt(int)
+TreeItem* TreeItem::getChildAt(int)
 {
     return nullptr;
 }
 
-TreeItem *TreeItem::getParentItem() const
+TreeItem* TreeItem::getParentItem() const
 {
     return m_parentItem;
 }
 
-void TreeItem::setParentItem(TreeItem *parent)
+void TreeItem::setParentItem(TreeItem* parent)
 {
-    if(m_parentItem!=parent)
+    if(m_parentItem != parent)
     {
-        m_parentItem=parent;
+        m_parentItem= parent;
         emit itemChanged();
     }
 }
@@ -52,11 +45,11 @@ QString TreeItem::getName() const
     return m_name;
 }
 
-void TreeItem::setName(const QString &name)
+void TreeItem::setName(const QString& name)
 {
-    if(m_name!=name)
+    if(m_name != name)
     {
-        m_name = name;
+        m_name= name;
         emit itemChanged();
     }
 }
@@ -72,36 +65,30 @@ QString TreeItem::getId() const
 {
     return m_id;
 }
-TreeItem* TreeItem::getChildById(QString )
+TreeItem* TreeItem::getChildById(QString)
 {
     return nullptr;
 }
 
-bool TreeItem::removeChild(TreeItem *)
+bool TreeItem::removeChild(TreeItem*)
 {
     return false;
 }
 
-void TreeItem::setId(const QString &id)
+void TreeItem::setId(const QString& id)
 {
-    if(m_id!=id)
+    if(m_id != id)
     {
-        m_id=id;
+        m_id= id;
         emit itemChanged();
     }
 }
 
-bool TreeItem::addChildInto(QString , TreeItem *)
+bool TreeItem::addChildInto(QString, TreeItem*)
 {
     return false;
 }
 
-void TreeItem::clear()
-{
+void TreeItem::clear() {}
 
-}
-
-void TreeItem::kick(QString)
-{
-
-}
+void TreeItem::kick(QString) {}

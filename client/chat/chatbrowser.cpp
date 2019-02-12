@@ -6,59 +6,62 @@
 
 #define MAX_COLOR_CHANNEL 255
 
-ChatBrowser::ChatBrowser(bool showTimeStatus,QWidget *parent) :
-    QTextBrowser(parent),m_bgColor(MAX_COLOR_CHANNEL,MAX_COLOR_CHANNEL,MAX_COLOR_CHANNEL),m_parent(parent)
+ChatBrowser::ChatBrowser(bool showTimeStatus, QWidget* parent)
+    : QTextBrowser(parent), m_bgColor(MAX_COLOR_CHANNEL, MAX_COLOR_CHANNEL, MAX_COLOR_CHANNEL), m_parent(parent)
 {
-    //setOpenLinks(true);
-    m_bgColorAct= new QAction(tr("Background Color"),this); //toolBar->addWidget(m_bgColorSelector);
+    // setOpenLinks(true);
+    m_bgColorAct= new QAction(tr("Background Color"), this); // toolBar->addWidget(m_bgColorSelector);
     m_bgColorAct->setToolTip(tr("Background Color"));
-    connect(m_bgColorAct,SIGNAL(triggered()),this, SLOT(backGroundChanged()));
+    connect(m_bgColorAct, SIGNAL(triggered()), this, SLOT(backGroundChanged()));
 
-    m_clearChat = new QAction(tr("Clear chat"),this);
+    m_clearChat= new QAction(tr("Clear chat"), this);
 
-
-    m_detachedDialog = new QAction(tr("Detach the view"),this);
+    m_detachedDialog= new QAction(tr("Detach the view"), this);
     m_detachedDialog->setCheckable(true);
-    m_wordWarp = new QAction(tr("Word Wrap"),this);
+    m_wordWarp= new QAction(tr("Word Wrap"), this);
     m_wordWarp->setCheckable(true);
     m_wordWarp->setChecked(true);
 
-    m_showTime = new QAction(tr("Display time"),this);
+    m_showTime= new QAction(tr("Display time"), this);
     m_showTime->setCheckable(true);
     m_showTime->setChecked(showTimeStatus);
 
-    connect(m_detachedDialog,SIGNAL(triggered()),this, SLOT(detachedView()));
-    connect(m_showTime,SIGNAL(triggered(bool)),this, SIGNAL(showTimeChanged(bool)));
-    connect(m_wordWarp,SIGNAL(triggered()),this, SLOT(setWordWrap()));
-    connect(m_clearChat,&QAction::triggered,this,&ChatBrowser::clear);
+    connect(m_detachedDialog, SIGNAL(triggered()), this, SLOT(detachedView()));
+    connect(m_showTime, SIGNAL(triggered(bool)), this, SIGNAL(showTimeChanged(bool)));
+    connect(m_wordWarp, SIGNAL(triggered()), this, SLOT(setWordWrap()));
+    connect(m_clearChat, &QAction::triggered, this, &ChatBrowser::clear);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(showContextMenu(QPoint)));
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 
     setAcceptRichText(false);
-    //setContextMenuPolicy(Qt::NoContextMenu);
+    // setContextMenuPolicy(Qt::NoContextMenu);
     setOpenLinks(true);
     setReadOnly(true);
     setUndoRedoEnabled(false);
     setWordWrapMode(QTextOption::WordWrap);
     document()->setDefaultStyleSheet(QString(".dice {color:%1;font-weight: bold;}"
                                              ".big {font-weight: bold;}"
-                                             ".italic {font-style: italic;}").arg(PreferencesManager::getInstance()->value("DiceHighlightColor",QColor(Qt::red)).value<QColor>().name()));
+                                             ".italic {font-style: italic;}")
+                                         .arg(PreferencesManager::getInstance()
+                                                  ->value("DiceHighlightColor", QColor(Qt::red))
+                                                  .value<QColor>()
+                                                  .name()));
 }
 void ChatBrowser::backGroundChanged()
 {
     QColorDialog dialog;
     dialog.setCurrentColor(m_bgColor);
 
-    if(dialog.exec()==QDialog::Accepted)
+    if(dialog.exec() == QDialog::Accepted)
     {
-        m_bgColor=dialog.currentColor();
+        m_bgColor= dialog.currentColor();
         setStyleSheet(QString("QTextBrowser { background:%1;}").arg(m_bgColor.name()));
     }
 }
 void ChatBrowser::showContextMenu(QPoint pos)
 {
-    QMenu* menu = createStandardContextMenu(pos);
+    QMenu* menu= createStandardContextMenu(pos);
     menu->addAction(m_bgColorAct);
     menu->addAction(m_detachedDialog);
     menu->addAction(m_showTime);
@@ -68,7 +71,7 @@ void ChatBrowser::showContextMenu(QPoint pos)
     menu->exec(mapToGlobal(pos));
 }
 
-void ChatBrowser::resizeEvent(QResizeEvent *e)
+void ChatBrowser::resizeEvent(QResizeEvent* e)
 {
     QTextBrowser::resizeEvent(e);
 }

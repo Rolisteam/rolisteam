@@ -19,16 +19,15 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef NetworkLink_H
 #define NetworkLink_H
 
-#include <QtNetwork>
-#include <QTcpSocket>
 #include <QPointer>
+#include <QTcpSocket>
+#include <QtNetwork>
 
-#include "network/networkmessage.h"
 #include "connectionprofile.h"
+#include "network/networkmessage.h"
 #include "networkreceiver.h"
 
 class Map;
@@ -40,7 +39,7 @@ class NetworkLink : public QObject
 {
     Q_OBJECT
 
-public :
+public:
     /**
      * @brief NetworkLink
      * @param m_connection
@@ -55,7 +54,7 @@ public :
      * @param socket
      * @param makeConnection
      */
-    void setSocket(QTcpSocket* socket, bool makeConnection = true);
+    void setSocket(QTcpSocket* socket, bool makeConnection= true);
     /**
      * @brief disconnectAndClose
      */
@@ -68,7 +67,7 @@ public :
      * @brief insertNetWortReceiver
      * @param cat
      */
-    void insertNetWortReceiver(NetWorkReceiver*,NetMsg::Category cat);
+    void insertNetWortReceiver(NetWorkReceiver*, NetMsg::Category cat);
     /**
      * @brief processPlayerMessage
      * @param msg
@@ -79,21 +78,21 @@ public :
      * @param msg
      */
     void processSetupMessage(NetworkMessageReader* msg);
-    ConnectionProfile *getConnection() const;
-    void setConnection(ConnectionProfile *value);
+    ConnectionProfile* getConnection() const;
+    void setConnection(ConnectionProfile* value);
 
     bool isOpen() const;
 
-public slots :
+public slots:
     void sendData(char* data, quint32 size);
     void connectTo();
-    void sendData(NetworkMessage *msg);
-    void processAdminstrationMessage(NetworkMessageReader *msg);
+    void sendData(NetworkMessage* msg);
+    void processAdminstrationMessage(NetworkMessageReader* msg);
 signals:
     /**
      * @brief readDataReceived
      */
-    void readDataReceived(quint64,quint64);
+    void readDataReceived(quint64, quint64);
     void errorMessage(QString);
     void connnectionStateChanged(QAbstractSocket::SocketState);
     void gameMasterStatusChanged(bool status);
@@ -115,13 +114,13 @@ signals:
     void adminAuthFailed();
     void moveToAnotherChannel();
 
-
 protected slots:
     void socketStateChanged(QAbstractSocket::SocketState state);
-private slots :
+private slots:
     void receivingData();
     void connectionError(QAbstractSocket::SocketError error);
-private :
+
+private:
     /**
      * @brief makeSignalConnection
      */
@@ -130,28 +129,26 @@ private :
      * @brief postTo
      * @param obj
      */
-    void postTo(QObject * obj) const;
+    void postTo(QObject* obj) const;
     /**
      * @brief extractCharacter
      * @param map
      * @param m_buffer
      * @return
      */
-    int extractCharacter(Map* map, char *m_buffer);
-
+    int extractCharacter(Map* map, char* m_buffer);
 
     QPointer<QTcpSocket> m_socketTcp;
     NetworkMessageHeader m_header;
     bool m_receivingData;
-    char* m_buffer  = nullptr;
+    char* m_buffer= nullptr;
     quint32 m_remainingData;
-    QMap<NetMsg::Category,NetWorkReceiver*> m_receiverMap;
+    QMap<NetMsg::Category, NetWorkReceiver*> m_receiverMap;
     qint64 m_headerRead;
-    QHash<QString,int> m_hbCount;
+    QHash<QString, int> m_hbCount;
     int m_port;
     QString m_host;
-    ConnectionProfile* m_connection = nullptr;
-
+    ConnectionProfile* m_connection= nullptr;
 };
 
 #endif

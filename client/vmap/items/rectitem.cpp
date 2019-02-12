@@ -1,41 +1,38 @@
 /***************************************************************************
-    *      Copyright (C) 2010 by Renaud Guezennec                             *
-    *                                                                         *
-    *   rolisteam is free software; you can redistribute it and/or modify     *
-    *   it under the terms of the GNU General Public License as published by  *
-    *   the Free Software Foundation; either version 2 of the License, or     *
-    *   (at your option) any later version.                                   *
-    *                                                                         *
-    *   This program is distributed in the hope that it will be useful,       *
-    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-    *   GNU General Public License for more details.                          *
-    *                                                                         *
-    *   You should have received a copy of the GNU General Public License     *
-    *   along with this program; if not, write to the                         *
-    *   Free Software Foundation, Inc.,                                       *
-    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-    ***************************************************************************/
+ *      Copyright (C) 2010 by Renaud Guezennec                             *
+ *                                                                         *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
 #include "rectitem.h"
-#include <QStyle>
+#include <QDebug>
 #include <QPainter>
 #include <QPen>
+#include <QStyle>
 #include <QStyleOptionGraphicsItem>
-#include <QDebug>
 #include <QStylePainter>
 
-#include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 
-RectItem::RectItem()
-    : VisualItem(),m_initialized(false),m_filled(false)
-{
+RectItem::RectItem() : VisualItem(), m_initialized(false), m_filled(false) {}
 
-}
-
-RectItem::RectItem(const QPointF& topleft,const QPointF& buttomright,bool filled,quint16 penSize,const QColor& penColor,QGraphicsItem * parent)
-    : VisualItem(penColor,penSize,parent),m_initialized(false),m_filled(filled)
+RectItem::RectItem(const QPointF& topleft, const QPointF& buttomright, bool filled, quint16 penSize,
+    const QColor& penColor, QGraphicsItem* parent)
+    : VisualItem(penColor, penSize, parent), m_initialized(false), m_filled(filled)
 {
     m_rect.setBottomRight(buttomright);
     m_rect.setTopLeft(topleft);
@@ -51,38 +48,36 @@ QPainterPath RectItem::shape() const
     if(!m_filled)
     {
         QPainterPath path;
-        qreal halfPenSize = m_penWidth/2.0;
-        qreal off = 0.5 * halfPenSize;
+        qreal halfPenSize= m_penWidth / 2.0;
+        qreal off= 0.5 * halfPenSize;
 
+        path.moveTo(m_rect.topLeft().x() - off, m_rect.topLeft().y() - off);
 
-        path.moveTo(m_rect.topLeft().x()-off,m_rect.topLeft().y()-off);
+        path.lineTo(m_rect.topRight().x() + off, m_rect.topRight().y() - off);
+        path.lineTo(m_rect.bottomRight().x() + off, m_rect.bottomRight().y() + off);
+        path.lineTo(m_rect.bottomLeft().x() - off, m_rect.bottomLeft().y() + off);
+        path.lineTo(m_rect.topLeft().x() - off, m_rect.topLeft().y() - off);
 
-        path.lineTo(m_rect.topRight().x()+off,m_rect.topRight().y()-off);
-        path.lineTo(m_rect.bottomRight().x()+off,m_rect.bottomRight().y()+off);
-        path.lineTo(m_rect.bottomLeft().x()-off,m_rect.bottomLeft().y()+off);
-        path.lineTo(m_rect.topLeft().x()-off,m_rect.topLeft().y()-off);
-
-        path.lineTo(m_rect.topLeft().x()+off,m_rect.topLeft().y()+off);
-        path.lineTo(m_rect.topRight().x()-off,m_rect.topRight().y()+off);
-        path.lineTo(m_rect.bottomRight().x()-off,m_rect.bottomRight().y()-off);
-        path.lineTo(m_rect.bottomLeft().x()+off,m_rect.bottomLeft().y()-off);
-        path.lineTo(m_rect.topLeft().x()+off,m_rect.topLeft().y()+off);
+        path.lineTo(m_rect.topLeft().x() + off, m_rect.topLeft().y() + off);
+        path.lineTo(m_rect.topRight().x() - off, m_rect.topRight().y() + off);
+        path.lineTo(m_rect.bottomRight().x() - off, m_rect.bottomRight().y() - off);
+        path.lineTo(m_rect.bottomLeft().x() + off, m_rect.bottomLeft().y() - off);
+        path.lineTo(m_rect.topLeft().x() + off, m_rect.topLeft().y() + off);
         return path;
-
     }
     else
     {
         return VisualItem::shape();
     }
 }
-void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
+void RectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
     painter->save();
     if(!m_filled)
     {
-        QPen pen = painter->pen();
+        QPen pen= painter->pen();
         pen.setColor(m_color);
         pen.setWidth(m_penWidth);
         painter->setPen(pen);
@@ -96,11 +91,10 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     setChildrenVisible(hasFocusOrChild());
     painter->restore();
 
-
     if(option->state & QStyle::State_MouseOver || isUnderMouse())
     {
         painter->save();
-        QPen pen = painter->pen();
+        QPen pen= painter->pen();
         pen.setColor(m_highlightColor);
         pen.setWidth(m_highlightWidth);
         painter->setPen(pen);
@@ -129,7 +123,7 @@ void RectItem::writeData(QDataStream& out) const
     out << scale();
     out << rotation();
     out << pos();
-    //out << zValue();
+    // out << zValue();
     out << static_cast<int>(m_layer);
 }
 
@@ -140,7 +134,7 @@ void RectItem::readData(QDataStream& in)
     in >> m_color;
     in >> m_id;
     in >> m_penWidth;
-    qreal opa=0;
+    qreal opa= 0;
     in >> opa;
     setOpacity(opa);
     in >> m_initialized;
@@ -158,13 +152,13 @@ void RectItem::readData(QDataStream& in)
 
     int i;
     in >> i;
-    m_layer = static_cast<VisualItem::Layer>(i);
+    m_layer= static_cast<VisualItem::Layer>(i);
 }
 void RectItem::fillMessage(NetworkMessageWriter* msg)
 {
     msg->string16(m_id);
 
-    //rect
+    // rect
     msg->real(m_rect.x());
     msg->real(m_rect.y());
     msg->real(m_rect.width());
@@ -174,51 +168,47 @@ void RectItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(zValue());
     msg->real(opacity());
 
-    //pos
+    // pos
     msg->real(pos().x());
     msg->real(pos().y());
 
-    //others
+    // others
     msg->int8(m_filled);
     msg->rgb(m_color.rgb());
     msg->uint16(m_penWidth);
 
-
     msg->real(scale());
     msg->real(rotation());
-
 }
 void RectItem::readItem(NetworkMessageReader* msg)
 {
-    m_id = msg->string16();
-    //rect
+    m_id= msg->string16();
+    // rect
     m_rect.setX(msg->real());
     m_rect.setY(msg->real());
     m_rect.setWidth(msg->real());
     m_rect.setHeight(msg->real());
 
-    m_layer = (VisualItem::Layer)msg->uint8();
+    m_layer= (VisualItem::Layer)msg->uint8();
     setZValue(msg->real());
     setOpacity(msg->real());
 
+    // pos
+    qreal x= msg->real();
+    qreal y= msg->real();
+    setPos(x, y);
 
-    //pos
-    qreal x  = msg->real();
-    qreal y = msg->real();
-    setPos(x,y);
+    m_filled= msg->int8();
+    m_color= msg->rgb();
+    m_penWidth= msg->uint16();
 
-
-    m_filled = msg->int8();
-    m_color = msg->rgb();
-    m_penWidth = msg->uint16();
-
-    //setTransformOriginPoint(m_rect.center());
+    // setTransformOriginPoint(m_rect.center());
     setScale(msg->real());
     setRotation(msg->real());
 }
-void RectItem::setGeometryPoint(qreal pointId, QPointF &pos)
+void RectItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
-    switch ((int)pointId)
+    switch((int)pointId)
     {
     case 0:
         m_rect.setTopLeft(pos);
@@ -228,7 +218,7 @@ void RectItem::setGeometryPoint(qreal pointId, QPointF &pos)
         break;
     case 1:
         m_rect.setTopRight(pos);
-         m_child->value(0)->setPos(m_rect.topLeft());
+        m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         break;
@@ -248,28 +238,28 @@ void RectItem::setGeometryPoint(qreal pointId, QPointF &pos)
         break;
     }
     setTransformOriginPoint(m_rect.center());
-    //updateChildPosition();
+    // updateChildPosition();
 }
 void RectItem::initChildPointItem()
 {
     if(!m_initialized)
     {
         setPos(m_rect.center());
-        m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
-        m_initialized=true;
+        m_rect.setCoords(-m_rect.width() / 2, -m_rect.height() / 2, m_rect.width() / 2, m_rect.height() / 2);
+        m_initialized= true;
     }
-    m_rect = m_rect.normalized();
+    m_rect= m_rect.normalized();
     setTransformOriginPoint(m_rect.center());
-    m_child = new QVector<ChildPointItem*>();
+    m_child= new QVector<ChildPointItem*>();
 
-    for(int i = 0; i< 4 ; ++i)
+    for(int i= 0; i < 4; ++i)
     {
-        ChildPointItem* tmp = new ChildPointItem(i,this);
+        ChildPointItem* tmp= new ChildPointItem(i, this);
         tmp->setMotion(ChildPointItem::MOUSE);
         m_child->append(tmp);
-        //tmp->setFlag(QGraphicsItem::ItemIgnoresParentOpacity,true);
+        // tmp->setFlag(QGraphicsItem::ItemIgnoresParentOpacity,true);
     }
-   updateChildPosition();
+    updateChildPosition();
 }
 void RectItem::updateChildPosition()
 {
@@ -288,13 +278,13 @@ void RectItem::updateChildPosition()
 }
 VisualItem* RectItem::getItemCopy()
 {
-    QPointF topLeft = m_rect.topLeft();
-    QPointF bottomRight = m_rect.bottomRight();
-    RectItem* rectItem = new RectItem(topLeft,bottomRight,m_filled,m_penWidth,m_color);
+    QPointF topLeft= m_rect.topLeft();
+    QPointF bottomRight= m_rect.bottomRight();
+    RectItem* rectItem= new RectItem(topLeft, bottomRight, m_filled, m_penWidth, m_color);
     rectItem->setPos(pos());
     return rectItem;
 }
-void RectItem::resizeContents(const QRectF& rect ,TransformType b)
+void RectItem::resizeContents(const QRectF& rect, TransformType b)
 {
-    VisualItem::resizeContents(rect,b);
+    VisualItem::resizeContents(rect, b);
 }

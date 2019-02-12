@@ -22,12 +22,11 @@
 
 #include "Features.h"
 
-#include "network/networkmessagereader.h"
 #include "data/person.h"
 #include "data/player.h"
-#include "userlist/playersList.h"
+#include "network/networkmessagereader.h"
 #include "network/receiveevent.h"
-
+#include "userlist/playersList.h"
 
 /******************
  * Local Features *
@@ -35,41 +34,37 @@
 // clazy:skip
 #define LENGTH(X) (sizeof X / sizeof X[0])
 
-static struct {
+static struct
+{
     QString name;
-    quint8  version;
-} localFeatures[] = {
-    {QString("Emote"), 0},
-    {QString("MultiChat"), 0},
-    {QString("RichTextChat"), 0},
-    {QString("MapPermission"), 0}
-};
-
+    quint8 version;
+} localFeatures[]
+    = {{QString("Emote"), 0}, {QString("MultiChat"), 0}, {QString("RichTextChat"), 0}, {QString("MapPermission"), 0}};
 
 /*************
  * Functions *
  *************/
 
-void setLocalFeatures(Player & player)
+void setLocalFeatures(Player& player)
 {
-    int nbFeatures = LENGTH(localFeatures);
-    for (int i = 0; i < nbFeatures; i++)
+    int nbFeatures= LENGTH(localFeatures);
+    for(int i= 0; i < nbFeatures; i++)
     {
         player.setFeature(localFeatures[i].name, localFeatures[i].version);
     }
 }
 
-void addFeature(ReceiveEvent & event)
+void addFeature(ReceiveEvent& event)
 {
-    NetworkMessageReader & data = event.data();
-    QString uuid   = data.string8();
-    QString name   = data.string8();
-    quint8 version = data.uint8();
+    NetworkMessageReader& data= event.data();
+    QString uuid= data.string8();
+    QString name= data.string8();
+    quint8 version= data.uint8();
 
-    Player * player = PlayersList::instance()->getPlayer(uuid);
-    if (player == nullptr)
+    Player* player= PlayersList::instance()->getPlayer(uuid);
+    if(player == nullptr)
     {
-        qWarning()<< QString("Feature %1 for unknown player %2").arg(name).arg(uuid);
+        qWarning() << QString("Feature %1 for unknown player %2").arg(name).arg(uuid);
         event.repostLater();
         return;
     }
@@ -82,32 +77,34 @@ void addFeature(ReceiveEvent & event)
  ************************/
 
 SendFeaturesIterator::SendFeaturesIterator()
-    : QMapIterator<QString, quint8>(QMap<QString, quint8>()), m_player(nullptr), m_message(NetMsg::SetupCategory, NetMsg::AddFeatureAction)
+    : QMapIterator<QString, quint8>(QMap<QString, quint8>())
+    , m_player(nullptr)
+    , m_message(NetMsg::SetupCategory, NetMsg::AddFeatureAction)
 {
 }
 
-SendFeaturesIterator::SendFeaturesIterator(const Player & player)
-    : QMapIterator<QString, quint8>(player.m_features), m_player(&player), m_message(NetMsg::SetupCategory, NetMsg::AddFeatureAction)
+SendFeaturesIterator::SendFeaturesIterator(const Player& player)
+    : QMapIterator<QString, quint8>(player.m_features)
+    , m_player(&player)
+    , m_message(NetMsg::SetupCategory, NetMsg::AddFeatureAction)
 {
 }
 
-SendFeaturesIterator & SendFeaturesIterator::operator=(const Player * player)
+SendFeaturesIterator& SendFeaturesIterator::operator=(const Player* player)
 {
-    if (player != nullptr)
+    if(player != nullptr)
         QMapIterator<QString, quint8>::operator=(player->m_features);
 
-    m_player = player;
+    m_player= player;
     return *this;
 }
 
-SendFeaturesIterator::~SendFeaturesIterator()
-{
-}
+SendFeaturesIterator::~SendFeaturesIterator() {}
 
-NetworkMessageWriter & SendFeaturesIterator::message()
+NetworkMessageWriter& SendFeaturesIterator::message()
 {
     m_message.reset();
-    if (m_player != nullptr)
+    if(m_player != nullptr)
     {
         m_message.string8(m_player->getUuid());
         m_message.string8(key());

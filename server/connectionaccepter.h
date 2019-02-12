@@ -14,7 +14,7 @@ public:
     ConnectionAccepter();
     void setNext(ConnectionAccepter* next);
 
-    virtual bool isValid(const QMap<QString,QVariant>& data) = 0;
+    virtual bool isValid(const QMap<QString, QVariant>& data)= 0;
 
     bool isActive() const;
     void setIsActive(bool isActive);

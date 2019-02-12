@@ -3,8 +3,9 @@
 
 #include <QWidget>
 
-namespace Ui {
-class ChannelListPanel;
+namespace Ui
+{
+    class ChannelListPanel;
 }
 #include "network/channelmodel.h"
 #include "network/networkmessagereader.h"
@@ -15,22 +16,26 @@ class ChannelListPanel : public QWidget
     Q_OBJECT
 
 public:
-    enum GROUP {VIEWER,ADMIN};
-    explicit ChannelListPanel(QWidget *parent = 0);
+    enum GROUP
+    {
+        VIEWER,
+        ADMIN
+    };
+    explicit ChannelListPanel(QWidget* parent= 0);
     virtual ~ChannelListPanel();
 
     void processMessage(NetworkMessageReader* msg);
     void sendOffModel();
 
     ChannelListPanel::GROUP currentGRoup() const;
-    void setCurrentGRoup(const GROUP &currentGRoup);
+    void setCurrentGRoup(const GROUP& currentGRoup);
 
     bool isAdmin();
     template <typename T>
     T indexToPointer(QModelIndex index);
 
     QString serverName() const;
-    void setServerName(const QString &serverName);
+    void setServerName(const QString& serverName);
 
     void setLocalPlayerId(const QString& id);
 
@@ -39,11 +44,9 @@ public:
 signals:
     void CurrentChannelGmIdChanged(QString gm);
 
-
-
 public slots:
     void showCustomMenu(QPoint pos);
-    void sendOffLoginAdmin(QByteArray str = QByteArray());
+    void sendOffLoginAdmin(QByteArray str= QByteArray());
 
 protected slots:
     void addChannelAsSibbling();
@@ -56,21 +59,21 @@ protected slots:
     void joinChannel();
     void editChannel();
     void logAsAdmin();
+
 private:
-    Ui::ChannelListPanel *ui;
-    ChannelModel* m_model = nullptr;
+    Ui::ChannelListPanel* ui;
+    ChannelModel* m_model= nullptr;
 
-    QAction* m_edit = nullptr;
-    QAction* m_lock = nullptr;
-    QAction* m_join = nullptr;
-    QAction* m_channelPassword = nullptr;
-    QAction* m_addChannel = nullptr;
-    QAction* m_addSubchannel = nullptr;
-    QAction* m_deleteChannel = nullptr;
-    QAction* m_setDefault = nullptr;
-    QAction* m_admin = nullptr;
-    QAction* m_kick = nullptr;
-
+    QAction* m_edit= nullptr;
+    QAction* m_lock= nullptr;
+    QAction* m_join= nullptr;
+    QAction* m_channelPassword= nullptr;
+    QAction* m_addChannel= nullptr;
+    QAction* m_addSubchannel= nullptr;
+    QAction* m_deleteChannel= nullptr;
+    QAction* m_setDefault= nullptr;
+    QAction* m_admin= nullptr;
+    QAction* m_kick= nullptr;
 
     GROUP m_currentGroup;
     QModelIndex m_index;

@@ -16,9 +16,9 @@
 #ifndef PDFJSBRIDGE_H
 #define PDFJSBRIDGE_H
 
-#include <QWebEngineView>
 #include <QPointer>
 #include <QSemaphore>
+#include <QWebEngineView>
 
 class BridgeObject;
 
@@ -29,13 +29,12 @@ class PdfJsBridge : public QWebEngineView
     friend class BridgeObject;
 
 public:
-
-    explicit PdfJsBridge(QWidget *pParent = nullptr);
+    explicit PdfJsBridge(QWidget* pParent= nullptr);
     ~PdfJsBridge();
 
-    void invokeJavaScript(const QString &script);
+    void invokeJavaScript(const QString& script);
 
-    QVariant invokeJavaScriptAndWaitForResult(const QString &script);
+    QVariant invokeJavaScriptAndWaitForResult(const QString& script);
 
     QStringList fetchPdfDocumentDestinations();
 
@@ -48,48 +47,44 @@ signals:
     void pdfDocumentloaded();
 
 protected:
-    void contextMenuEvent(QContextMenuEvent *pEvent);
+    void contextMenuEvent(QContextMenuEvent* pEvent);
 
 private slots:
 
     void onLoadFinished(bool ok);
 
 private:
-
     void jsInitialized();
-    void jsReportDestinations(const QStringList &destinations);
+    void jsReportDestinations(const QStringList& destinations);
     void jsLoaded();
     void jsClosed();
 
     void establishWebChannel();
 
-    QWebChannel *m_pWebChannel;
+    QWebChannel* m_pWebChannel;
     QSemaphore m_pdfDestinationsSema;
 
     QStringList m_pdfDocumentDestinations;
 
     QSemaphore m_pdfCloseSema;
 
-    BridgeObject *m_pBridgeObject;
-
+    BridgeObject* m_pBridgeObject;
 };
 
 class BridgeObject : public QObject
 {
     Q_OBJECT
 public:
-
-    explicit BridgeObject(PdfJsBridge *pBridge);
+    explicit BridgeObject(PdfJsBridge* pBridge);
 
 public slots:
 
     void jsInitialized();
-    void jsReportDestinations(const QStringList &destinations);
+    void jsReportDestinations(const QStringList& destinations);
     void jsLoaded();
     void jsClosed();
 
 private:
-
     QPointer<PdfJsBridge> m_bridgePtr;
 };
 

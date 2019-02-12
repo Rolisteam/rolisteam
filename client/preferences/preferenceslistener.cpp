@@ -20,11 +20,6 @@
  *************************************************************************/
 #include "preferenceslistener.h"
 
-PreferencesListener::PreferencesListener()
-{
-}
+PreferencesListener::PreferencesListener() {}
 
-PreferencesListener::~PreferencesListener()
-{
-
-}
+PreferencesListener::~PreferencesListener() {}

@@ -24,43 +24,44 @@
 #ifndef _MRICHTEXTEDIT_H_
 #define _MRICHTEXTEDIT_H_
 
-#include <QPointer>
 #include "ui_mrichtextedit.h"
+#include <QPointer>
 
 /**
  * @Brief A simple rich-text editor
  */
-class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit {
+class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit
+{
     Q_OBJECT
-  public:
-    MRichTextEdit(QWidget *parent = 0);
+public:
+    MRichTextEdit(QWidget* parent= 0);
 
     QString toPlainText() const { return f_textedit->toPlainText(); }
     QString toHtml() const;
-    QTextDocument *document() { return f_textedit->document(); }
-    QTextCursor    textCursor() const { return f_textedit->textCursor(); }
-    void           setTextCursor(const QTextCursor& cursor) { f_textedit->setTextCursor(cursor); }
+    QTextDocument* document() { return f_textedit->document(); }
+    QTextCursor textCursor() const { return f_textedit->textCursor(); }
+    void setTextCursor(const QTextCursor& cursor) { f_textedit->setTextCursor(cursor); }
 
-  public slots:
-    void setText(const QString &text);
+public slots:
+    void setText(const QString& text);
 
-  protected slots:
-    void setPlainText(const QString &text) { f_textedit->setPlainText(text); }
-    void setHtml(const QString &text)      { f_textedit->setHtml(text); }
+protected slots:
+    void setPlainText(const QString& text) { f_textedit->setPlainText(text); }
+    void setHtml(const QString& text) { f_textedit->setHtml(text); }
     void textRemoveFormat();
     void textRemoveAllFormat();
     void textBold();
     void textUnderline();
     void textStrikeout();
     void textItalic();
-    void textSize(const QString &p);
+    void textSize(const QString& p);
     void textLink(bool checked);
     void textStyle(int index);
     void textFgColor();
     void textBgColor();
     void listBullet(bool checked);
     void listOrdered(bool checked);
-    void slotCurrentCharFormatChanged(const QTextCharFormat &format);
+    void slotCurrentCharFormatChanged(const QTextCharFormat& format);
     void slotCursorPositionChanged();
     void slotClipboardDataChanged();
     void increaseIndentation();
@@ -68,14 +69,14 @@ class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit {
     void insertImage();
     void textSource();
 
-  protected:
-    void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
-    void fontChanged(const QFont &f);
-    void fgColorChanged(const QColor &c);
-    void bgColorChanged(const QColor &c);
+protected:
+    void mergeFormatOnWordOrSelection(const QTextCharFormat& format);
+    void fontChanged(const QFont& f);
+    void fgColorChanged(const QColor& c);
+    void bgColorChanged(const QColor& c);
     void list(bool checked, QTextListFormat::Style style);
     void indent(int delta);
-    void focusInEvent(QFocusEvent *event);
+    void focusInEvent(QFocusEvent* event);
 
     QStringList m_paragraphItems;
     int m_fontsize_h1;
@@ -83,12 +84,15 @@ class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit {
     int m_fontsize_h3;
     int m_fontsize_h4;
 
-    enum ParagraphItems { ParagraphStandard = 0,
-                          ParagraphHeading1,
-                          ParagraphHeading2,
-                          ParagraphHeading3,
-                          ParagraphHeading4,
-                          ParagraphMonospace };
+    enum ParagraphItems
+    {
+        ParagraphStandard= 0,
+        ParagraphHeading1,
+        ParagraphHeading2,
+        ParagraphHeading3,
+        ParagraphHeading4,
+        ParagraphMonospace
+    };
 
     QPointer<QTextList> m_lastBlockList;
 };

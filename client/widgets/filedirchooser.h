@@ -21,14 +21,14 @@
 #ifndef DIRCHOOSER_H
 #define DIRCHOOSER_H
 
-#include <QWidget>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QStringList>
+#include <QWidget>
 
 /**
- * @brief A LineEdit with a button to choose a file or directory. It displays a QLineEdit and a QPushButton allowing to show the
- * current selection and to browse to select something else.
+ * @brief A LineEdit with a button to choose a file or directory. It displays a QLineEdit and a QPushButton allowing to
+ * show the current selection and to browse to select something else.
  *
  */
 class FileDirChooser : public QWidget
@@ -40,13 +40,13 @@ public:
      * @param isDirectory
      * @param parent
      */
-    FileDirChooser(bool isDirectory = true,QWidget * parent = nullptr);
+    FileDirChooser(bool isDirectory= true, QWidget* parent= nullptr);
     ~FileDirChooser();
     /**
      * @brief setPath define the value of the widget. Current selection.
      * @param dirname
      */
-    void setPath(const QString & dirname);
+    void setPath(const QString& dirname);
     /**
      * @brief path
      * @return the path selected by the user.
@@ -74,7 +74,6 @@ signals:
      */
     void pathChanged();
 
-
 private slots:
     /**
      * @brief browse
@@ -85,8 +84,6 @@ private:
     QLineEdit* m_lineEdit;
     QString m_filter;
     bool m_directory;
-
-
 };
 
 #endif // DIRCHOOSER_H

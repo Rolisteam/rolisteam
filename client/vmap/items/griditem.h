@@ -1,34 +1,32 @@
 /***************************************************************************
-    *   Copyright (C) 2015 by Renaud Guezennec                                *
-    *   http://www.rolisteam.org/contact                   *
-    *                                                                         *
-    *   rolisteam is free software; you can redistribute it and/or modify     *
-    *   it under the terms of the GNU General Public License as published by  *
-    *   the Free Software Foundation; either version 2 of the License, or     *
-    *   (at your option) any later version.                                   *
-    *                                                                         *
-    *   This program is distributed in the hope that it will be useful,       *
-    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-    *   GNU General Public License for more details.                          *
-    *                                                                         *
-    *   You should have received a copy of the GNU General Public License     *
-    *   along with this program; if not, write to the                         *
-    *   Free Software Foundation, Inc.,                                       *
-    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-    ***************************************************************************/
+ *   Copyright (C) 2015 by Renaud Guezennec                                *
+ *   http://www.rolisteam.org/contact                   *
+ *                                                                         *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
 #ifndef GRIDITEM_H
 #define GRIDITEM_H
 
-#include <QGradient>
-#include <QConicalGradient>
-#include <QRadialGradient>
-#include "visualitem.h"
 #include "characteritem.h"
 #include "data/charactervision.h"
-
-
+#include "visualitem.h"
+#include <QConicalGradient>
+#include <QGradient>
+#include <QRadialGradient>
 
 /**
  * @brief The SightItem class
@@ -81,16 +79,16 @@ public:
      * @param pointId
      * @param pos
      */
-    virtual void setGeometryPoint(qreal pointId,QPointF& pos) ;
+    virtual void setGeometryPoint(qreal pointId, QPointF& pos);
     /**
      * @brief initChildPointItem
      */
-    virtual void initChildPointItem() ;
+    virtual void initChildPointItem();
     /**
      * @brief getItemCopy
      * @return
      */
-    virtual VisualItem* getItemCopy() ;
+    virtual VisualItem* getItemCopy();
     /**
      * @brief boundingRect
      * @return
@@ -102,7 +100,7 @@ public:
      * @param option
      * @param widget
      */
-    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     /**
      * @brief updateChildPosition
      */
@@ -127,7 +125,7 @@ public:
 public slots:
 
 protected:
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
 
 private:
     bool m_isGM;

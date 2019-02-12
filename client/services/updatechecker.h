@@ -22,8 +22,8 @@
 #ifndef UPDATECHECKER_H
 #define UPDATECHECKER_H
 
-#include <QString>
 #include <QNetworkAccessManager>
+#include <QString>
 /**
  * @brief The UpdateChecker class is dedicated to check if there is new release of rolisteam.
  */
@@ -31,7 +31,7 @@ class UpdateChecker : public QObject
 {
     Q_OBJECT
 public:
-    UpdateChecker(QObject* obj = nullptr);
+    UpdateChecker(QObject* obj= nullptr);
 
     bool mustBeUpdated();
     void startChecking();

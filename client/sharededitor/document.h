@@ -21,19 +21,18 @@
 
 #include <QWidget>
 
-#include <QSyntaxHighlighter>
 #include "codeeditor.h"
-#include "participantspane.h"
 #include "enu.h"
 #include "findtoolbar.h"
 #include "network/networkmessagewriter.h"
-
+#include "participantspane.h"
+#include <QSyntaxHighlighter>
 
 //#include "client.h"
 //#include "server.h"
 
-
-namespace Ui {
+namespace Ui
+{
     class Document;
 }
 
@@ -41,7 +40,7 @@ class Document : public QWidget
 {
     Q_OBJECT
 public:
-    Document(QWidget *parent = 0);
+    Document(QWidget* parent= 0);
     ~Document();
 
     // This sets up the document so people can connect to it.
@@ -68,11 +67,15 @@ public:
 
     // User wants to resynchronize the document with the owner
     void fill(NetworkMessageWriter* msg);
-    void readFromMsg(NetworkMessageReader *msg);
+    void readFromMsg(NetworkMessageReader* msg);
 
     // Sets the highlighting style to the below Highlighter
     void setHighlighter(int Highlighter);
-    enum Highlighter {None, MarkDown};
+    enum Highlighter
+    {
+        None,
+        MarkDown
+    };
 
     // returns if the editor is undable
     bool isUndoable();
@@ -89,9 +92,10 @@ public:
     void findAll();
     void findNext(QString searchString, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode);
     void findPrev(QString searchString, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode);
-    void replaceAll(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity,Enu::FindMode mode);
+    void replaceAll(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, Enu::FindMode mode);
     void replace(QString replaceString);
-    void findReplace(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode);
+    void findReplace(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, bool wrapAround,
+        Enu::FindMode mode);
 
     QString getPlainText();
     void setPlainText(QString text);
@@ -105,13 +109,11 @@ public:
 
     void setOwnerName(QString name);
 
-
     void setOwner(Player* player);
     bool canWrite(Player* player);
 
     ParticipantsPane* getParticipantPane() const;
     void setParticipantPane(ParticipantsPane* participantPane);
-
 
 public slots:
     void runUpdateCmd(QString cmd);
@@ -127,10 +129,10 @@ private slots:
     void findPrevious(QString string);
 
 private:
-    Ui::Document *ui;
+    Ui::Document* ui;
     CodeEditor* m_editor;
     bool startedCollaborating;
-    FindToolBar *findAllToolbar;
+    FindToolBar* findAllToolbar;
     ParticipantsPane* m_participantPane;
     QSyntaxHighlighter* m_highlighter;
 };

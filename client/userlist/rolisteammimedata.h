@@ -13,26 +13,26 @@ class RolisteamMimeData : public QMimeData
     Q_OBJECT
 public:
     /**
-      *  @brief default constructor
-      */
+     *  @brief default constructor
+     */
     RolisteamMimeData();
     /**
-      *  @brief return true when given parameter describe a format is stored into the class
-      */
-    bool hasFormat ( const QString & mimeType ) const;
-    //QStringList QMimeData::formats () const;
-    
+     *  @brief return true when given parameter describe a format is stored into the class
+     */
+    bool hasFormat(const QString& mimeType) const;
+    // QStringList QMimeData::formats () const;
+
     /**
-      *  @brief to define the draged and droped person.
-      */
+     *  @brief to define the draged and droped person.
+     */
     void setPerson(Person*);
     /**
-      *  @brief same utility of hasformat except is dedicated to person instance.
-      */
+     *  @brief same utility of hasformat except is dedicated to person instance.
+     */
     bool hasPerson() const;
     /**
-      *  @brief return the person instance.
-      */
+     *  @brief return the person instance.
+     */
     Person* getData() const;
 
     /**
@@ -40,11 +40,11 @@ public:
      * @return
      */
     DiceShortCut getAlias() const;
-    void setAlias(QString,QString,bool);
+    void setAlias(QString, QString, bool);
 
 private:
-    QString m_format; /// const string representing the minetype of person
-    Person* m_data; /// pointer to stored data
+    QString m_format;     /// const string representing the minetype of person
+    Person* m_data;       /// pointer to stored data
     DiceShortCut m_alias; /// alias
 };
 #endif // ROLISTEAMMIMEDATA_H

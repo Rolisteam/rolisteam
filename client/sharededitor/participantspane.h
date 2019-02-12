@@ -19,15 +19,16 @@
 #ifndef PARTICIPANTSPANE_H
 #define PARTICIPANTSPANE_H
 
-#include <QWidget>
-#include <QTreeWidgetItem>
 #include <QHostAddress>
+#include <QTreeWidgetItem>
+#include <QWidget>
 
-#include "userlist/playersList.h"
-#include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
+#include "userlist/playersList.h"
 
-namespace Ui {
+namespace Ui
+{
     class ParticipantsPane;
 }
 
@@ -35,22 +36,27 @@ class ParticipantsModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    enum Permission {readWrite,readOnly,hidden};
+    enum Permission
+    {
+        readWrite,
+        readOnly,
+        hidden
+    };
     ParticipantsModel(PlayersList* m_playerList);
-    virtual int rowCount(const QModelIndex &parent) const;
-    virtual int columnCount(const QModelIndex &parent) const;
-    virtual QVariant data(const QModelIndex &index, int role) const;
-    virtual QModelIndex parent(const QModelIndex &child) const;
-    virtual QModelIndex index(int row, int column, const QModelIndex & parent) const;
-    virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+    virtual int rowCount(const QModelIndex& parent) const;
+    virtual int columnCount(const QModelIndex& parent) const;
+    virtual QVariant data(const QModelIndex& index, int role) const;
+    virtual QModelIndex parent(const QModelIndex& child) const;
+    virtual QModelIndex index(int row, int column, const QModelIndex& parent) const;
+    virtual Qt::ItemFlags flags(const QModelIndex& index) const;
 
     Player* getOwner() const;
-    void setOwner(Player *owner);
+    void setOwner(Player* owner);
 
     void saveModel(QJsonObject& root);
-    QList<Player *> *getListByChild(Player *owner);
+    QList<Player*>* getListByChild(Player* owner);
 
-    ParticipantsModel::Permission getPermissionFor(Player *player);
+    ParticipantsModel::Permission getPermissionFor(Player* player);
     void loadModel(QJsonObject& root);
 public slots:
     virtual void addHiddenPlayer(Player*);
@@ -58,7 +64,8 @@ public slots:
     int promotePlayer(Player*);
     int demotePlayer(Player*);
 
-    void setPlayerInto(Player *player, ParticipantsModel::Permission level);
+    void setPlayerInto(Player* player, ParticipantsModel::Permission level);
+
 private:
     void debugModel() const;
     QList<Player*> m_hidden;
@@ -75,7 +82,7 @@ class ParticipantsPane : public QWidget
 {
     Q_OBJECT
 public:
-    ParticipantsPane(QWidget *parent = 0);
+    ParticipantsPane(QWidget* parent= 0);
     virtual ~ParticipantsPane();
 
     bool canWrite(Player* idPlayer);
@@ -84,12 +91,12 @@ public:
     bool isOwner() const;
 
     void fill(NetworkMessageWriter* msg);
-    void readFromMsg(NetworkMessageReader *msg);
+    void readFromMsg(NetworkMessageReader* msg);
 
     Player* getOwner() const;
     void setOwner(Player* owner);
 
-    void readPermissionChanged(NetworkMessageReader *msg);
+    void readPermissionChanged(NetworkMessageReader* msg);
 
 signals:
     void memberCanNowRead(QString name);
@@ -102,7 +109,7 @@ private slots:
     void promoteCurrentItem();
     void demoteCurrentItem();
     void addNewPlayer(Player*);
-    void removePlayer(Player *player);
+    void removePlayer(Player* player);
 
 private:
     Ui::ParticipantsPane* ui;

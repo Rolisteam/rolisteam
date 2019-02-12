@@ -21,25 +21,30 @@
 
 namespace Enu
 {
-   // Instruction mnemonics
-   enum Connection
-   {
-        GET, JOIN, LEAVE,
+    // Instruction mnemonics
+    enum Connection
+    {
+        GET,
+        JOIN,
+        LEAVE,
     };
 
-   enum FindMode
-   {
-       Contains, StartsWith, EntireWord,
-   };
+    enum FindMode
+    {
+        Contains,
+        StartsWith,
+        EntireWord,
+    };
 
-   enum Permissions {
-       ReadWrite = 2,
-       ReadOnly = 1,
-       Waiting = 0,
+    enum Permissions
+    {
+        ReadWrite= 2,
+        ReadOnly= 1,
+        Waiting= 0,
 
-       Owner = 1,
-   };
+        Owner= 1,
+    };
 
-}
+} // namespace Enu
 
 #endif // ENU_H

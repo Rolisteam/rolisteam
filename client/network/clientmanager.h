@@ -21,25 +21,23 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef NETWORKMANAGER_H
 #define NETWORKMANAGER_H
 
-#include <QTcpServer>
 #include <QList>
+#include <QTcpServer>
 
+#include <QState>
 #include <QStateMachine>
 #include <QTimer>
-#include <QState>
-
 
 //#include "connectiondialog.h"
 //#include "connectionretrydialog.h"
+#include "heartbeatsender.h"
+#include "network/networklink.h"
+#include "network/networkmessagewriter.h"
 #include "preferences/preferencesmanager.h"
 #include "userlist/playersList.h"
-#include "heartbeatsender.h"
-#include "network/networkmessagewriter.h"
-#include "network/networklink.h"
 
 class Player;
 class ConnectionProfile;
@@ -53,15 +51,21 @@ class ClientManager : public QObject
     Q_OBJECT
 
 public:
-    enum ConnectionState {DISCONNECTED,CONNECTING,CONNECTED,AUTHENTIFIED};
+    enum ConnectionState
+    {
+        DISCONNECTED,
+        CONNECTING,
+        CONNECTED,
+        AUTHENTIFIED
+    };
     Q_ENUM(ConnectionState)
     /**
      * @brief NetworkManager
      */
     ClientManager(ConnectionProfile* connection);
-	/**
-	 * @brief ~NetworkManager
-	 */
+    /**
+     * @brief ~NetworkManager
+     */
     virtual ~ClientManager();
     /**
      * @brief isConnected
@@ -81,18 +85,18 @@ public slots:
 
     void sendOffConnectionInfo();
     void reset();
-signals :
+signals:
     void sendData(char* data, quint32 size, NetworkLink* but);
 
-    void linkAdded(NetworkLink * link);
-    void dataReceived(quint64,quint64);
+    void linkAdded(NetworkLink* link);
+    void dataReceived(quint64, quint64);
     void stopConnectionTry();
     void connectionStateChanged(ClientManager::ConnectionState);
     void notifyUser(QString);
     void errorOccur(QString);
     void gameMasterStatusChanged(bool status);
 
-    //State signal
+    // State signal
     void isReady();
     void isAuthentified();
     void isConnectedSig();
@@ -104,14 +108,14 @@ signals :
 
 protected:
     void initializeLink();
-private slots :
+private slots:
     void endingNetworkLink();
     void startConnectionToServer();
 
 private:
     static NetworkLink* m_networkLinkToServer;
-    ConnectionProfile* m_connectionProfile = nullptr;
-    ConnectionState m_connectionState = DISCONNECTED;
+    ConnectionProfile* m_connectionProfile= nullptr;
+    ConnectionState m_connectionState= DISCONNECTED;
     bool m_disconnectAsked= false;
     QTimer* m_reconnect= nullptr;
     bool m_isAdmin;

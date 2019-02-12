@@ -18,14 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtCore/QString>
-#include <QtTest/QtTest>
 #include <QModelIndex>
 #include <QModelIndexList>
+#include <QtCore/QString>
+#include <QtTest/QtTest>
 #include <memory>
 
-#include "network/channelmodel.h"
 #include "network/channel.h"
+#include "network/channelmodel.h"
 #include "network/tcpclient.h"
 
 class TestChannelModel : public QObject
@@ -45,20 +45,17 @@ private slots:
 
     void writeAndRead();
     void writeAndRead_data();
+
 private:
     std::unique_ptr<ChannelModel> m_model;
 };
 
-TestChannelModel::TestChannelModel()
-{
-
-}
+TestChannelModel::TestChannelModel() {}
 
 void TestChannelModel::init()
 {
     m_model.reset(new ChannelModel());
 }
-
 
 void TestChannelModel::addTest()
 {
@@ -75,28 +72,28 @@ void TestChannelModel::addTest()
 
 void TestChannelModel::addTest_data()
 {
-   QTest::addColumn<QStringList>("channels");
-   QTest::addColumn<QByteArray>("password");
-   QTest::addColumn<int>("expected");
+    QTest::addColumn<QStringList>("channels");
+    QTest::addColumn<QByteArray>("password");
+    QTest::addColumn<int>("expected");
 
-   QByteArray array("password");
-   QTest::addRow("list1") << QStringList() << array << 0;
-   QTest::addRow("list2") << QStringList({"channel"}) << array << 1;
-   QTest::addRow("list3") << QStringList({"channel1","channel2"})<< array << 2;
-   QTest::addRow("list3") << QStringList({"channel1","channel2","channel3"})<< array << 3;
+    QByteArray array("password");
+    QTest::addRow("list1") << QStringList() << array << 0;
+    QTest::addRow("list2") << QStringList({"channel"}) << array << 1;
+    QTest::addRow("list3") << QStringList({"channel1", "channel2"}) << array << 2;
+    QTest::addRow("list3") << QStringList({"channel1", "channel2", "channel3"}) << array << 3;
 }
 
 void TestChannelModel::removeTest()
 {
-    m_model->addChannel("channel1","password");
-    m_model->addChannel("channel2","password");
+    m_model->addChannel("channel1", "password");
+    m_model->addChannel("channel2", "password");
     QCOMPARE(m_model->rowCount(QModelIndex()), 2);
 
     m_model->cleanUp();
     QCOMPARE(m_model->rowCount(QModelIndex()), 0);
 
-    m_model->addChannel("channel1","password");
-    auto id1 = m_model->addChannel("channel2","password");
+    m_model->addChannel("channel1", "password");
+    auto id1= m_model->addChannel("channel2", "password");
     QCOMPARE(m_model->rowCount(QModelIndex()), 2);
 
     m_model->removeChild(id1);
@@ -107,24 +104,24 @@ void TestChannelModel::removeTest()
 
 void TestChannelModel::moveTest()
 {
-    auto idC = m_model->addChannel("channel1","password");
-    auto idC2 = m_model->addChannel("channel2","password");
+    auto idC= m_model->addChannel("channel1", "password");
+    auto idC2= m_model->addChannel("channel2", "password");
     QCOMPARE(m_model->rowCount(QModelIndex()), 2);
     m_model->setAdmin(true);
 
-    TcpClient client(nullptr,nullptr);
-    auto id = client.getId();
+    TcpClient client(nullptr, nullptr);
+    auto id= client.getId();
 
     m_model->addConnectionToDefaultChannel(&client);
-    auto channel = m_model->getItemById(idC);
+    auto channel= m_model->getItemById(idC);
     QCOMPARE(client.getParentChannel(), channel);
 
     ClientMimeData data;
-    auto parent = m_model->index(0,0, QModelIndex());
-    auto clientIndex = m_model->index(0,0, parent);
+    auto parent= m_model->index(0, 0, QModelIndex());
+    auto clientIndex= m_model->index(0, 0, parent);
 
-    data.addClient(&client,clientIndex);
-    auto b = m_model->dropMimeData(&data,Qt::MoveAction, 1,1, m_model->index(1,0,QModelIndex()));
+    data.addClient(&client, clientIndex);
+    auto b= m_model->dropMimeData(&data, Qt::MoveAction, 1, 1, m_model->index(1, 0, QModelIndex()));
 
     QVERIFY(b);
 }
@@ -144,7 +141,6 @@ void TestChannelModel::writeAndRead()
     QJsonObject obj;
     m_model->writeDataJson(obj);
 
-
     ChannelModel model1;
     model1.readDataJson(obj);
 
@@ -153,15 +149,15 @@ void TestChannelModel::writeAndRead()
 
 void TestChannelModel::writeAndRead_data()
 {
-   QTest::addColumn<QStringList>("channels");
-   QTest::addColumn<QByteArray>("password");
-   QTest::addColumn<int>("expected");
+    QTest::addColumn<QStringList>("channels");
+    QTest::addColumn<QByteArray>("password");
+    QTest::addColumn<int>("expected");
 
-   QByteArray array("password");
-   QTest::addRow("list1") << QStringList() << array << 0;
-   QTest::addRow("list2") << QStringList({"channel"}) << array << 1;
-   QTest::addRow("list3") << QStringList({"channel1","channel2"})<< array << 2;
-   QTest::addRow("list3") << QStringList({"channel1","channel2","channel3"})<< array << 3;
+    QByteArray array("password");
+    QTest::addRow("list1") << QStringList() << array << 0;
+    QTest::addRow("list2") << QStringList({"channel"}) << array << 1;
+    QTest::addRow("list3") << QStringList({"channel1", "channel2"}) << array << 2;
+    QTest::addRow("list3") << QStringList({"channel1", "channel2", "channel3"}) << array << 3;
 }
 QTEST_MAIN(TestChannelModel);
 

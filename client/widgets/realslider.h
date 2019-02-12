@@ -7,17 +7,16 @@ class RealSlider : public QSlider
 {
     Q_OBJECT
 public:
-    explicit RealSlider(QWidget* parent = nullptr);
+    explicit RealSlider(QWidget* parent= nullptr);
 
     qreal start() const;
-    void setStart(const qreal &start);
+    void setStart(const qreal& start);
 
     qreal end() const;
-    void setEnd(const qreal &end);
+    void setEnd(const qreal& end);
 
     qreal step() const;
-    void setStep(const qreal &step);
-
+    void setStep(const qreal& step);
 
     void updateRange();
 public slots:
@@ -25,7 +24,8 @@ public slots:
 private slots:
     void internalValueChanged(int);
 signals:
-    void valueChanged(qreal );
+    void valueChanged(qreal);
+
 private:
     qreal m_start;
     qreal m_end;

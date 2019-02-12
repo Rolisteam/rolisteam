@@ -26,15 +26,14 @@ class Utilities
 public:
     Utilities();
     // Fonts:
-    static  QString s_codeFont;
-    static  int s_codeFontSize;
-    static  QString s_labelFont;
-    static  int s_labelFontSize;
-    static  QString s_chatFont;
-    static  int s_chatFontSize;
+    static QString s_codeFont;
+    static int s_codeFontSize;
+    static QString s_labelFont;
+    static int s_labelFontSize;
+    static QString s_chatFont;
+    static int s_chatFontSize;
 
     static QString getSystem();
-
 };
 
 #endif // UTILITIES_H

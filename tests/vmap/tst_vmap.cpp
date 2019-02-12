@@ -1,20 +1,20 @@
-#include <QtTest/QtTest>
-#include <QtCore/QCoreApplication>
 #include <QObject>
+#include <QtCore/QCoreApplication>
+#include <QtTest/QtTest>
 
-#include "vmap/vmap.h"
-#include "vmap/items/rectitem.h"
-#include "vmap/items/ellipsitem.h"
-#include "vmap/items/pathitem.h"
-#include "vmap/items/ruleitem.h"
-#include "vmap/items/textitem.h"
-#include "vmap/items/lineitem.h"
-#include "vmap/items/imageitem.h"
-#include "vmap/items/characteritem.h"
-#include "vmap/items/highlighteritem.h"
-#include "undoCmd/addvmapitem.h"
 #include "data/character.h"
 #include "data/player.h"
+#include "undoCmd/addvmapitem.h"
+#include "vmap/items/characteritem.h"
+#include "vmap/items/ellipsitem.h"
+#include "vmap/items/highlighteritem.h"
+#include "vmap/items/imageitem.h"
+#include "vmap/items/lineitem.h"
+#include "vmap/items/pathitem.h"
+#include "vmap/items/rectitem.h"
+#include "vmap/items/ruleitem.h"
+#include "vmap/items/textitem.h"
+#include "vmap/vmap.h"
 
 class VMapTest : public QObject
 {
@@ -53,6 +53,7 @@ private slots:
 
     void testMovableItems();
     void testMovableItems_data();
+
 private:
     std::unique_ptr<VMap> m_vmap;
 };
@@ -65,43 +66,31 @@ Q_DECLARE_METATYPE(VisualItem*);
 Q_DECLARE_METATYPE(VisualItem::Properties);
 Q_DECLARE_METATYPE(Map::PermissionMode);
 
-VMapTest::VMapTest()
-{
+VMapTest::VMapTest() {}
 
-}
+void VMapTest::initTestCase() {}
 
-void VMapTest::initTestCase()
-{
-
-}
-
-void VMapTest::cleanupTestCase()
-{
-
-}
+void VMapTest::cleanupTestCase() {}
 void VMapTest::init()
 {
     m_vmap.reset(new VMap());
 }
-void VMapTest::cleanup()
-{
-
-}
+void VMapTest::cleanup() {}
 void VMapTest::getAndSetTest()
 {
-    VToolsBar::EditionMode mode = VToolsBar::Painting;
+    VToolsBar::EditionMode mode= VToolsBar::Painting;
     m_vmap->setEditionMode(mode);
     QVERIFY2(m_vmap->getEditionMode() == mode, "Normal edition mode");
 
-    mode = VToolsBar::Mask;
+    mode= VToolsBar::Mask;
     m_vmap->setEditionMode(mode);
     QVERIFY2(m_vmap->getEditionMode() == mode, "Mask edition mode");
 
-    int height = 800;
+    int height= 800;
     m_vmap->setHeight(height);
     QVERIFY(m_vmap->mapHeight() == height);
 
-    int width = 1200;
+    int width= 1200;
     m_vmap->setWidth(width);
     QVERIFY(m_vmap->mapWidth() == width);
 
@@ -113,7 +102,7 @@ void VMapTest::getAndSetTest()
     m_vmap->setTitle(title);
     QVERIFY(m_vmap->getMapTitle() == title);
 
-    Map::PermissionMode permission = Map::PC_ALL;
+    Map::PermissionMode permission= Map::PC_ALL;
     m_vmap->setPermissionMode(permission);
     QVERIFY(m_vmap->getPermissionMode() == permission);
     m_vmap->setPermissionMode(Map::GM_ONLY);
@@ -123,29 +112,29 @@ void VMapTest::getAndSetTest()
     m_vmap->setPermissionMode(Map::PC_ALL);
     QVERIFY(m_vmap->getPermissionModeText() == "All Permissions");
 
-    VMap::VisibilityMode visiMode = VMap::HIDDEN;
+    VMap::VisibilityMode visiMode= VMap::HIDDEN;
     m_vmap->setVisibilityMode(visiMode);
     QVERIFY(m_vmap->getVisibilityModeText() == "Hidden");
-    visiMode = VMap::FOGOFWAR;
+    visiMode= VMap::FOGOFWAR;
     m_vmap->setVisibilityMode(visiMode);
     QVERIFY(m_vmap->getVisibilityModeText() == "Fog Of War");
-    visiMode = VMap::ALL;
+    visiMode= VMap::ALL;
     m_vmap->setVisibilityMode(visiMode);
     QVERIFY(m_vmap->getVisibilityModeText() == "All visible");
 }
 
 void VMapTest::testOption()
 {
-    QFETCH(VisualItem::Properties,key);
-    QFETCH(QVariant,value);
+    QFETCH(VisualItem::Properties, key);
+    QFETCH(QVariant, value);
 
-    VisualItem::Properties pop = static_cast<VisualItem::Properties>(key);
+    VisualItem::Properties pop= static_cast<VisualItem::Properties>(key);
 
-    m_vmap->setOption(pop,value);
+    m_vmap->setOption(pop, value);
     QVERIFY(m_vmap->getOption(pop) == value);
 
-    QFETCH(QVariant,value1);
-    bool b = m_vmap->setOption(pop,value1);
+    QFETCH(QVariant, value1);
+    bool b= m_vmap->setOption(pop, value1);
     QVERIFY(b);
     QVERIFY(m_vmap->getOption(pop) == value1);
 }
@@ -155,44 +144,57 @@ void VMapTest::testOption_data()
     QTest::addColumn<QVariant>("value");
     QTest::addColumn<QVariant>("value1");
 
-    QTest::newRow("ShowNpcName")     << VisualItem::ShowNpcName          << QVariant(true) << QVariant::fromValue(false);
-    QTest::newRow("ShowPcName")      << VisualItem::ShowPcName           << QVariant::fromValue(true) << QVariant::fromValue(false);
-    QTest::newRow("ShowNpcNumber")   << VisualItem::ShowNpcNumber        << QVariant::fromValue(true) << QVariant::fromValue(false);
-    QTest::newRow("ShowHealthStatus")<< VisualItem::ShowHealthStatus     << QVariant::fromValue(true) << QVariant::fromValue(false);
-    QTest::newRow("ShowInitScore")   << VisualItem::ShowInitScore        << QVariant::fromValue(true) << QVariant::fromValue(false);
-    QTest::newRow("ShowGrid")        << VisualItem::ShowGrid             << QVariant::fromValue(true) << QVariant::fromValue(false);
-    QTest::newRow("LocalIsGM")       << VisualItem::LocalIsGM            << QVariant::fromValue(true) << QVariant::fromValue(false);
-    QTest::newRow("GridPattern")     << VisualItem::GridPattern          << QVariant::fromValue(VMap::SQUARE) << QVariant::fromValue(VMap::NONE);
-    QTest::newRow("GridColor")       << VisualItem::GridColor            << QVariant::fromValue(QColor(Qt::blue)) << QVariant::fromValue(QColor(Qt::yellow));
-    QTest::newRow("GridSize")        << VisualItem::GridSize             << QVariant::fromValue(50) << QVariant::fromValue(100);
-    QTest::newRow("Scale")           << VisualItem::Scale                << QVariant::fromValue(1.0) << QVariant::fromValue(0.5);
-    QTest::newRow("Unit")            << VisualItem::Unit                 << QVariant::fromValue(VMap::M) << QVariant::fromValue(VMap::KM);
-    QTest::newRow("CharacterVision") << VisualItem::EnableCharacterVision<< QVariant::fromValue(true) << QVariant::fromValue(false);
-    QTest::newRow("PermissionMode")  << VisualItem::PermissionMode       << QVariant::fromValue(Map::PC_ALL) << QVariant::fromValue(Map::GM_ONLY);
-    QTest::newRow("FogOfWarStatus")  << VisualItem::FogOfWarStatus       << QVariant::fromValue(true) << QVariant::fromValue(false);
-    QTest::newRow("CollisionStatus") << VisualItem::CollisionStatus      << QVariant::fromValue(true) << QVariant::fromValue(false);
-    QTest::newRow("GridAbove")       << VisualItem::GridAbove            << QVariant::fromValue(true) << QVariant::fromValue(false);
-    QTest::newRow("HideOtherLayers") << VisualItem::HideOtherLayers      << QVariant::fromValue(true) << QVariant::fromValue(false);
-    QTest::newRow("VisibilityMode")  << VisualItem::VisibilityMode       << QVariant::fromValue(VMap::HIDDEN) << QVariant::fromValue(VMap::ALL);
-    QTest::newRow("ShowHealthBar")   << VisualItem::ShowHealthBar        << QVariant::fromValue(true) << QVariant::fromValue(false);
-    QTest::newRow("MapLayer")        << VisualItem::MapLayer             <<  QVariant::fromValue(VisualItem::GROUND) <<  QVariant::fromValue(VisualItem::OBJECT);
+    QTest::newRow("ShowNpcName") << VisualItem::ShowNpcName << QVariant(true) << QVariant::fromValue(false);
+    QTest::newRow("ShowPcName") << VisualItem::ShowPcName << QVariant::fromValue(true) << QVariant::fromValue(false);
+    QTest::newRow("ShowNpcNumber") << VisualItem::ShowNpcNumber << QVariant::fromValue(true)
+                                   << QVariant::fromValue(false);
+    QTest::newRow("ShowHealthStatus") << VisualItem::ShowHealthStatus << QVariant::fromValue(true)
+                                      << QVariant::fromValue(false);
+    QTest::newRow("ShowInitScore") << VisualItem::ShowInitScore << QVariant::fromValue(true)
+                                   << QVariant::fromValue(false);
+    QTest::newRow("ShowGrid") << VisualItem::ShowGrid << QVariant::fromValue(true) << QVariant::fromValue(false);
+    QTest::newRow("LocalIsGM") << VisualItem::LocalIsGM << QVariant::fromValue(true) << QVariant::fromValue(false);
+    QTest::newRow("GridPattern") << VisualItem::GridPattern << QVariant::fromValue(VMap::SQUARE)
+                                 << QVariant::fromValue(VMap::NONE);
+    QTest::newRow("GridColor") << VisualItem::GridColor << QVariant::fromValue(QColor(Qt::blue))
+                               << QVariant::fromValue(QColor(Qt::yellow));
+    QTest::newRow("GridSize") << VisualItem::GridSize << QVariant::fromValue(50) << QVariant::fromValue(100);
+    QTest::newRow("Scale") << VisualItem::Scale << QVariant::fromValue(1.0) << QVariant::fromValue(0.5);
+    QTest::newRow("Unit") << VisualItem::Unit << QVariant::fromValue(VMap::M) << QVariant::fromValue(VMap::KM);
+    QTest::newRow("CharacterVision") << VisualItem::EnableCharacterVision << QVariant::fromValue(true)
+                                     << QVariant::fromValue(false);
+    QTest::newRow("PermissionMode") << VisualItem::PermissionMode << QVariant::fromValue(Map::PC_ALL)
+                                    << QVariant::fromValue(Map::GM_ONLY);
+    QTest::newRow("FogOfWarStatus") << VisualItem::FogOfWarStatus << QVariant::fromValue(true)
+                                    << QVariant::fromValue(false);
+    QTest::newRow("CollisionStatus") << VisualItem::CollisionStatus << QVariant::fromValue(true)
+                                     << QVariant::fromValue(false);
+    QTest::newRow("GridAbove") << VisualItem::GridAbove << QVariant::fromValue(true) << QVariant::fromValue(false);
+    QTest::newRow("HideOtherLayers") << VisualItem::HideOtherLayers << QVariant::fromValue(true)
+                                     << QVariant::fromValue(false);
+    QTest::newRow("VisibilityMode") << VisualItem::VisibilityMode << QVariant::fromValue(VMap::HIDDEN)
+                                    << QVariant::fromValue(VMap::ALL);
+    QTest::newRow("ShowHealthBar") << VisualItem::ShowHealthBar << QVariant::fromValue(true)
+                                   << QVariant::fromValue(false);
+    QTest::newRow("MapLayer") << VisualItem::MapLayer << QVariant::fromValue(VisualItem::GROUND)
+                              << QVariant::fromValue(VisualItem::OBJECT);
 }
 
-void  VMapTest::saveAndLoad()
+void VMapTest::saveAndLoad()
 {
-    auto itemCountAtStart = m_vmap->items().size();
+    auto itemCountAtStart= m_vmap->items().size();
 
     QFETCH(int, id);
-    auto item = getItemFromId(id);
-    AddVmapItemCommand cmd(item,true,m_vmap.get());
+    auto item= getItemFromId(id);
+    AddVmapItemCommand cmd(item, true, m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(itemCountAtStart != m_vmap->items().size());
-    QCOMPARE(m_vmap->getItemCount() , 1);
-    QCOMPARE(m_vmap->getSortedItemCount() , 1);
-    QCOMPARE(m_vmap->getOrderedItemCount() , 0);
+    QCOMPARE(m_vmap->getItemCount(), 1);
+    QCOMPARE(m_vmap->getSortedItemCount(), 1);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
-    auto itemCountAfterInsertion = m_vmap->items().size();
+    auto itemCountAfterInsertion= m_vmap->items().size();
 
     QByteArray array;
     QDataStream in(&array, QIODevice::WriteOnly);
@@ -213,7 +215,7 @@ void  VMapTest::saveAndLoad()
     map.saveFile(in2);
 
     if(array.size() != array2.size())
-        qDebug() << "arrays size"<<array.size() << array2.size();
+        qDebug() << "arrays size" << array.size() << array2.size();
 
     QCOMPARE(array.size(), array2.size());
 
@@ -221,37 +223,37 @@ void  VMapTest::saveAndLoad()
 }
 VisualItem* VMapTest::getItemFromId(int i)
 {
-    VisualItem* item = nullptr;
+    VisualItem* item= nullptr;
     switch(i)
     {
     case 1:
-        item = new RectItem(QPointF(100,100),QPointF(200,200),true,18,QColor(Qt::red));
+        item= new RectItem(QPointF(100, 100), QPointF(200, 200), true, 18, QColor(Qt::red));
         break;
-case 2:
-        item = new PathItem(QPointF(100,100),QColor(Qt::red),true,18);
+    case 2:
+        item= new PathItem(QPointF(100, 100), QColor(Qt::red), true, 18);
         break;
     case 3:
-        item =  new LineItem(QPointF(100,100),QColor(Qt::red),18);
+        item= new LineItem(QPointF(100, 100), QColor(Qt::red), 18);
         break;
     case 4:
-        item = new TextItem(QPointF(100,100),18,QColor(Qt::red));
+        item= new TextItem(QPointF(100, 100), 18, QColor(Qt::red));
         break;
     case 5:
-        item = new EllipsItem(QPointF(100,100),true,18,QColor(Qt::red));
+        item= new EllipsItem(QPointF(100, 100), true, 18, QColor(Qt::red));
         break;
     case 6:
     {
-        auto img = new ImageItem();
+        auto img= new ImageItem();
         img->setImageUri(":/assets/img/girafe.jpg");
-        item = img;
+        item= img;
     }
-        break;
+    break;
     case 7:
     {
-        auto character = new Character("Obi",QColor(Qt::darkBlue),false);
-        item = new CharacterItem(character,QPoint(100,100));
+        auto character= new Character("Obi", QColor(Qt::darkBlue), false);
+        item= new CharacterItem(character, QPoint(100, 100));
     }
-        break;
+    break;
     }
     item->setLayer(m_vmap->currentLayer());
     return item;
@@ -261,9 +263,9 @@ void VMapTest::saveAndLoad_data()
 {
     QTest::addColumn<int>("id");
 
-    QTest::newRow("RectItem") <<1;
+    QTest::newRow("RectItem") << 1;
     QTest::newRow("PathItem") << 2;
-    QTest::newRow("LineItem") <<3;
+    QTest::newRow("LineItem") << 3;
     QTest::newRow("TextItem") << 4;
     QTest::newRow("EllipsItem") << 5;
     QTest::newRow("ImageItem") << 6;
@@ -273,12 +275,12 @@ void VMapTest::saveAndLoad_data()
 void VMapTest::addRect()
 {
     RectItem item;
-    AddVmapItemCommand cmd(&item,true,m_vmap.get());
+    AddVmapItemCommand cmd(&item, true, m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QCOMPARE(m_vmap->getItemCount() , 1);
-    QCOMPARE(m_vmap->getSortedItemCount() , 1);
+    QCOMPARE(m_vmap->getItemCount(), 1);
+    QCOMPARE(m_vmap->getSortedItemCount(), 1);
     QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
     cmd.undo();
@@ -290,12 +292,12 @@ void VMapTest::addRect()
 void VMapTest::addEllipse()
 {
     EllipsItem item;
-    AddVmapItemCommand cmd(&item,true,m_vmap.get());
+    AddVmapItemCommand cmd(&item, true, m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QCOMPARE(m_vmap->getItemCount() , 1);
-    QCOMPARE(m_vmap->getSortedItemCount() , 1);
+    QCOMPARE(m_vmap->getItemCount(), 1);
+    QCOMPARE(m_vmap->getSortedItemCount(), 1);
     QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
     cmd.undo();
@@ -307,12 +309,12 @@ void VMapTest::addEllipse()
 void VMapTest::addPath()
 {
     PathItem item;
-    AddVmapItemCommand cmd(&item,true,m_vmap.get());
+    AddVmapItemCommand cmd(&item, true, m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QCOMPARE(m_vmap->getItemCount() , 1);
-    QCOMPARE(m_vmap->getSortedItemCount() , 1);
+    QCOMPARE(m_vmap->getItemCount(), 1);
+    QCOMPARE(m_vmap->getSortedItemCount(), 1);
     QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
     cmd.undo();
@@ -324,12 +326,12 @@ void VMapTest::addPath()
 void VMapTest::addLine()
 {
     LineItem item;
-    AddVmapItemCommand cmd(&item,true,m_vmap.get());
+    AddVmapItemCommand cmd(&item, true, m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QCOMPARE(m_vmap->getItemCount() , 1);
-    QCOMPARE(m_vmap->getSortedItemCount() , 1);
+    QCOMPARE(m_vmap->getItemCount(), 1);
+    QCOMPARE(m_vmap->getSortedItemCount(), 1);
     QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
     cmd.undo();
@@ -341,12 +343,12 @@ void VMapTest::addLine()
 void VMapTest::addImage()
 {
     ImageItem item;
-    AddVmapItemCommand cmd(&item,true,m_vmap.get());
+    AddVmapItemCommand cmd(&item, true, m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QCOMPARE(m_vmap->getItemCount() , 1);
-    QCOMPARE(m_vmap->getSortedItemCount() , 1);
+    QCOMPARE(m_vmap->getItemCount(), 1);
+    QCOMPARE(m_vmap->getSortedItemCount(), 1);
     QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
     cmd.undo();
@@ -357,14 +359,14 @@ void VMapTest::addImage()
 }
 void VMapTest::addCharacter()
 {
-    QSignalSpy spy(m_vmap.get(),&VMap::npcAdded);
+    QSignalSpy spy(m_vmap.get(), &VMap::npcAdded);
     CharacterItem item;
-    AddVmapItemCommand cmd(&item,true,m_vmap.get());
+    AddVmapItemCommand cmd(&item, true, m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QCOMPARE(m_vmap->getItemCount() , 1);
-    QCOMPARE(m_vmap->getSortedItemCount() , 1);
+    QCOMPARE(m_vmap->getItemCount(), 1);
+    QCOMPARE(m_vmap->getSortedItemCount(), 1);
     QCOMPARE(m_vmap->getOrderedItemCount(), 0);
     QCOMPARE(spy.count(), 0);
 
@@ -377,12 +379,12 @@ void VMapTest::addCharacter()
 void VMapTest::addText()
 {
     TextItem item;
-    AddVmapItemCommand cmd(&item,true,m_vmap.get());
+    AddVmapItemCommand cmd(&item, true, m_vmap.get());
     cmd.setUndoable(true);
     cmd.redo();
     QVERIFY(cmd.isUndoable());
-    QCOMPARE(m_vmap->getItemCount() , 1);
-    QCOMPARE(m_vmap->getSortedItemCount() , 1);
+    QCOMPARE(m_vmap->getItemCount(), 1);
+    QCOMPARE(m_vmap->getSortedItemCount(), 1);
     QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
     cmd.undo();
@@ -394,7 +396,7 @@ void VMapTest::addText()
 void VMapTest::addHighLighter()
 {
     HighlighterItem item;
-    AddVmapItemCommand cmd(&item,true,m_vmap.get());
+    AddVmapItemCommand cmd(&item, true, m_vmap.get());
     cmd.setUndoable(false);
     cmd.redo();
     QVERIFY(!cmd.isUndoable());
@@ -405,7 +407,7 @@ void VMapTest::addHighLighter()
 void VMapTest::addRule()
 {
     RuleItem item;
-    AddVmapItemCommand cmd(&item,true,m_vmap.get());
+    AddVmapItemCommand cmd(&item, true, m_vmap.get());
     cmd.setUndoable(false);
     cmd.redo();
     QVERIFY(!cmd.isUndoable());
@@ -416,85 +418,80 @@ void VMapTest::addRule()
 
 void VMapTest::zOrderTest()
 {
-   auto item = new RectItem(QPointF(100,100),QPointF(200,200),true,18,QColor(Qt::red));
-   auto item1 = new RectItem(QPointF(100,100),QPointF(200,200),true,18,QColor(Qt::blue));
-   auto item2 = new RectItem(QPointF(100,100),QPointF(200,200),true,18,QColor(Qt::green));
-   item->setVisible(true);
-   item1->setVisible(true);
-   item2->setVisible(true);
+    auto item= new RectItem(QPointF(100, 100), QPointF(200, 200), true, 18, QColor(Qt::red));
+    auto item1= new RectItem(QPointF(100, 100), QPointF(200, 200), true, 18, QColor(Qt::blue));
+    auto item2= new RectItem(QPointF(100, 100), QPointF(200, 200), true, 18, QColor(Qt::green));
+    item->setVisible(true);
+    item1->setVisible(true);
+    item2->setVisible(true);
 
-   m_vmap->setVisibilityMode(VMap::ALL);
+    m_vmap->setVisibilityMode(VMap::ALL);
 
+    AddVmapItemCommand cmd(item, true, m_vmap.get());
+    cmd.redo();
 
-   AddVmapItemCommand cmd(item,true,m_vmap.get());
-   cmd.redo();
+    QCOMPARE(m_vmap->getItemCount(), 1);
+    QCOMPARE(m_vmap->getSortedItemCount(), 1);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
-   QCOMPARE(m_vmap->getItemCount(), 1);
-   QCOMPARE(m_vmap->getSortedItemCount(), 1);
-   QCOMPARE(m_vmap->getOrderedItemCount(), 0);
+    AddVmapItemCommand cmd1(item1, true, m_vmap.get());
+    cmd1.redo();
 
-   AddVmapItemCommand cmd1(item1,true,m_vmap.get());
-   cmd1.redo();
+    QCOMPARE(m_vmap->getItemCount(), 2);
+    QCOMPARE(m_vmap->getSortedItemCount(), 2);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
-   QCOMPARE(m_vmap->getItemCount(), 2);
-   QCOMPARE(m_vmap->getSortedItemCount(), 2);
-   QCOMPARE(m_vmap->getOrderedItemCount(), 0);
+    AddVmapItemCommand cmd2(item2, true, m_vmap.get());
+    cmd2.redo();
 
+    QCOMPARE(m_vmap->getItemCount(), 3);
+    QCOMPARE(m_vmap->getSortedItemCount(), 3);
+    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
-   AddVmapItemCommand cmd2(item2,true,m_vmap.get());
-   cmd2.redo();
+    m_vmap->changeStackOrder(item, VisualItem::FRONT);
 
-   QCOMPARE(m_vmap->getItemCount(), 3);
-   QCOMPARE(m_vmap->getSortedItemCount(), 3);
-   QCOMPARE(m_vmap->getOrderedItemCount(), 0);
+    // item is in the front
+    QVERIFY(item->zValue() > item1->zValue());
+    QVERIFY(item->zValue() > item2->zValue());
+    QVERIFY(item1->zValue() < item2->zValue());
 
+    m_vmap->changeStackOrder(item, VisualItem::BACK);
 
-   m_vmap->changeStackOrder(item, VisualItem::FRONT);
+    QVERIFY(item->zValue() < item1->zValue());
+    QVERIFY(item->zValue() < item2->zValue());
+    QVERIFY(item1->zValue() < item2->zValue());
 
-   // item is in the front
-   QVERIFY(item->zValue() > item1->zValue());
-   QVERIFY(item->zValue() > item2->zValue());
-   QVERIFY(item1->zValue() < item2->zValue());
+    item2->setPos(800, 800); // move away the item
+    m_vmap->changeStackOrder(item, VisualItem::RAISE);
 
-   m_vmap->changeStackOrder(item, VisualItem::BACK);
+    QVERIFY(item->isVisible());
+    QVERIFY(item1->isVisible());
+    QVERIFY(item2->isVisible());
 
-   QVERIFY(item->zValue() < item1->zValue());
-   QVERIFY(item->zValue() < item2->zValue());
-   QVERIFY(item1->zValue() < item2->zValue());
+    QVERIFY(item->zValue() > item1->zValue());
+    QVERIFY(item->zValue() < item2->zValue());
+    QVERIFY(item1->zValue() < item2->zValue());
 
+    m_vmap->changeStackOrder(item, VisualItem::LOWER);
 
-   item2->setPos(800,800);//move away the item
-   m_vmap->changeStackOrder(item, VisualItem::RAISE);
+    QVERIFY(item->zValue() < item1->zValue());
+    QVERIFY(item->zValue() < item2->zValue());
+    QVERIFY(item1->zValue() < item2->zValue());
 
-   QVERIFY(item->isVisible());
-   QVERIFY(item1->isVisible());
-   QVERIFY(item2->isVisible());
-
-   QVERIFY(item->zValue() > item1->zValue());
-   QVERIFY(item->zValue() < item2->zValue());
-   QVERIFY(item1->zValue() < item2->zValue());
-
-   m_vmap->changeStackOrder(item, VisualItem::LOWER);
-
-   QVERIFY(item->zValue() < item1->zValue());
-   QVERIFY(item->zValue() < item2->zValue());
-   QVERIFY(item1->zValue() < item2->zValue());
-
-
-   delete item;
-   delete item1;
-   delete item2;
+    delete item;
+    delete item1;
+    delete item2;
 }
 
 void VMapTest::fogTest()
 {
-    auto sightItem = m_vmap->getFogItem();
+    auto sightItem= m_vmap->getFogItem();
 
     QFETCH(VMap::VisibilityMode, mode);
     QFETCH(bool, visibility);
 
     m_vmap->setVisibilityMode(mode);
-    QCOMPARE(sightItem->isVisible(),visibility);
+    QCOMPARE(sightItem->isVisible(), visibility);
 }
 void VMapTest::fogTest_data()
 {
@@ -516,16 +513,15 @@ void VMapTest::testMovableItems()
     m_vmap->setPermissionMode(mode);
     m_vmap->setOption(VisualItem::LocalIsGM, isGM);
 
-    AddVmapItemCommand cmd(item,true,m_vmap.get());
+    AddVmapItemCommand cmd(item, true, m_vmap.get());
     cmd.redo();
 
     QCOMPARE(m_vmap->getItemCount(), 1);
     QCOMPARE(m_vmap->getSortedItemCount(), 1);
     QCOMPARE(m_vmap->getOrderedItemCount(), 0);
 
-    QCOMPARE(item->flags() & QGraphicsItem::ItemIsMovable , movable);
+    QCOMPARE(item->flags() & QGraphicsItem::ItemIsMovable, movable);
 }
-
 
 void VMapTest::testMovableItems_data()
 {
@@ -534,18 +530,17 @@ void VMapTest::testMovableItems_data()
     QTest::addColumn<bool>("isGM");
     QTest::addColumn<VisualItem*>("item");
 
-
-    //rectangle for player
+    // rectangle for player
     QTest::addRow("Player wants to move GM item") << Map::GM_ONLY << false << false << getItemFromId(1);
     QTest::addRow("Player thinks item is his character") << Map::PC_MOVE << false << false << getItemFromId(1);
     QTest::addRow("Player move items") << Map::PC_ALL << true << false << getItemFromId(1);
 
-    //rectangle for GM
+    // rectangle for GM
     QTest::addRow("GM moves GM item") << Map::GM_ONLY << true << true << getItemFromId(1);
     QTest::addRow("GM moves even when player can move") << Map::PC_MOVE << true << true << getItemFromId(1);
     QTest::addRow("GM moves even when all permission") << Map::PC_ALL << true << true << getItemFromId(1);
 
-   // PlayersList* model = PlayersList::instance();
+    // PlayersList* model = PlayersList::instance();
 
     /*auto localPlayer = new Player(QStringLiteral("Obi"),QColor(Qt::darkBlue),false);
     auto localCharacter = new Character("Lynn Gray-Rike",QColor(Qt::darkBlue),false);

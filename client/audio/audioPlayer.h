@@ -18,52 +18,48 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
 /**!
-* @brief
-* This player can be used by the GM to play song.   
-* Regular players can just change the volume level.
-*/
-
+ * @brief
+ * This player can be used by the GM to play song.
+ * Regular players can just change the volume level.
+ */
 
 #ifndef AUDIO_PLAYER_H
 #define AUDIO_PLAYER_H
 
-#include <QWidget>
-#include <QDockWidget>
-#include <QLineEdit>
-#include <QSlider>
 #include <QAction>
+#include <QDockWidget>
+#include <QEvent>
 #include <QLCDNumber>
-#include <QListView>
+#include <QLineEdit>
 #include <QList>
+#include <QListView>
+#include <QMediaPlayer>
+#include <QMutex>
+#include <QSlider>
 #include <QString>
 #include <QVBoxLayout>
-#include <QMutex>
-#include <QMediaPlayer>
-#include <QEvent>
+#include <QWidget>
 
-#include "preferences/preferencesmanager.h"
 #include "musicmodel.h"
-#include "playerwidget.h"
 #include "network/networkreceiver.h"
+#include "playerwidget.h"
+#include "preferences/preferencesmanager.h"
 class NetworkLink;
 /**
-    * @brief This player can be used by the GM to play songs.
-    * Regular players can just change the volume level.
-    */
+ * @brief This player can be used by the GM to play songs.
+ * Regular players can just change the volume level.
+ */
 class AudioPlayer : public QDockWidget, public NetWorkReceiver
 {
     Q_OBJECT
 
-public :
-
-
+public:
     ~AudioPlayer();
     /**
-    * @brief return a pointer to the unique audio player. Sigleton pattern
-    */
-    static AudioPlayer*  getInstance(QWidget *parent = 0);
+     * @brief return a pointer to the unique audio player. Sigleton pattern
+     */
+    static AudioPlayer* getInstance(QWidget* parent= 0);
     /**
      * @brief updateUi
      */
@@ -86,7 +82,6 @@ public :
      */
     virtual void openSong(QString str);
 
-
 public slots:
     /**
      * @brief onePlayerHasStopped
@@ -99,16 +94,15 @@ public slots:
     /**
      * @brief onePlayerPlays
      */
-    void onePlayerPlays(int,quint64);
+    void onePlayerPlays(int, quint64);
     /**
      * @brief onePlayerHasNewSong
      */
-    void onePlayerHasNewSong(int,QString);
+    void onePlayerHasNewSong(int, QString);
     /**
      * @brief onePlayerHasChangedPosition
      */
-    void onePlayerHasChangedPosition(int,quint64);
-
+    void onePlayerHasChangedPosition(int, quint64);
 
 protected:
     /**
@@ -117,16 +111,17 @@ protected:
      */
     void contextMenuEvent(QContextMenuEvent* ev);
 
-private slots :
+private slots:
     /**
      * @brief showMusicPlayer
      */
     void showMusicPlayer(bool);
-private :
-        /**
-        * @brief private constructor
-        */
-    AudioPlayer(QWidget *parent = 0);
+
+private:
+    /**
+     * @brief private constructor
+     */
+    AudioPlayer(QWidget* parent= 0);
     /**
      * @brief playerWidget
      */
@@ -134,17 +129,16 @@ private :
     /**
      * @brief m_singleton
      */
-    static AudioPlayer* m_singleton;//!< @brief static pointer to the unique instance of this audioplayer
-	/**
-    * @brief set the UI
-	*/
+    static AudioPlayer* m_singleton; //!< @brief static pointer to the unique instance of this audioplayer
+                                     /**
+                                      * @brief set the UI
+                                      */
     void setupUi();
 
-// ################ MEMBERS ########################## //
+    // ################ MEMBERS ########################## //
 private:
-    QWidget* m_mainWidget;        //!< @brief brings together all subwidget
+    QWidget* m_mainWidget; //!< @brief brings together all subwidget
     QVBoxLayout* m_mainLayout;
-
 
     PlayerWidget* m_mainPlayer;
     PlayerWidget* m_secondPlayer;
@@ -153,10 +147,9 @@ private:
     QList<PlayerWidget*> m_players;
     QList<QAction*> m_playerActionsList;
 
-
     PreferencesManager* m_preferences;
     QMutex m_mutex;
-    qint64 m_time;//!< @brief current time
+    qint64 m_time; //!< @brief current time
     bool m_isGM;
 };
 

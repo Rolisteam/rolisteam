@@ -1,36 +1,38 @@
 /***************************************************************************
-* Copyright (C) 2015 by Renaud Guezennec                                   *
-* http://www.rolisteam.org/contact                      *
-*                                                                          *
-*  This file is part of rcm                                                *
-*                                                                          *
-* Rolisteam is free software; you can redistribute it and/or modify              *
-* it under the terms of the GNU General Public License as published by     *
-* the Free Software Foundation; either version 2 of the License, or        *
-* (at your option) any later version.                                      *
-*                                                                          *
-* This program is distributed in the hope that it will be useful,          *
-* but WITHOUT ANY WARRANTY; without even the implied warranty of           *
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
-* GNU General Public License for more details.                             *
-*                                                                          *
-* You should have received a copy of the GNU General Public License        *
-* along with this program; if not, write to the                            *
-* Free Software Foundation, Inc.,                                          *
-* 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
-***************************************************************************/
+ * Copyright (C) 2015 by Renaud Guezennec                                   *
+ * http://www.rolisteam.org/contact                      *
+ *                                                                          *
+ *  This file is part of rcm                                                *
+ *                                                                          *
+ * Rolisteam is free software; you can redistribute it and/or modify              *
+ * it under the terms of the GNU General Public License as published by     *
+ * the Free Software Foundation; either version 2 of the License, or        *
+ * (at your option) any later version.                                      *
+ *                                                                          *
+ * This program is distributed in the hope that it will be useful,          *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
+ * GNU General Public License for more details.                             *
+ *                                                                          *
+ * You should have received a copy of the GNU General Public License        *
+ * along with this program; if not, write to the                            *
+ * Free Software Foundation, Inc.,                                          *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
+ ***************************************************************************/
 #ifndef ONLINEPICTUREDIALOG_H
 #define ONLINEPICTUREDIALOG_H
 
 #include <QDialog>
 #include <QLabel>
 #include <QNetworkAccessManager>
-namespace Ui {
-class OnlinePictureDialog;
+namespace Ui
+{
+    class OnlinePictureDialog;
 }
 /**
- * @brief The OnlinePictureDialog class is dedicated to download image from the Internet. The user copies/pastes the url, then the download starts. A preview of the image shows the image to the user.
- * If the user valids the picture is added in rolisteam. otherwise, the image is dropped.
+ * @brief The OnlinePictureDialog class is dedicated to download image from the Internet. The user copies/pastes the
+ * url, then the download starts. A preview of the image shows the image to the user. If the user valids the picture is
+ * added in rolisteam. otherwise, the image is dropped.
  */
 class OnlinePictureDialog : public QDialog
 {
@@ -41,7 +43,7 @@ public:
      * @brief OnlinePictureDialog
      * @param parent
      */
-    explicit OnlinePictureDialog(QWidget *parent = 0);
+    explicit OnlinePictureDialog(QWidget* parent= 0);
     /**
      * @brief ~OnlinePictureDialog
      */
@@ -81,7 +83,7 @@ protected:
      * @brief resizeEvent
      * @param event
      */
-    void resizeEvent(QResizeEvent *event);
+    void resizeEvent(QResizeEvent* event);
 
 private:
     Ui::OnlinePictureDialog* ui;

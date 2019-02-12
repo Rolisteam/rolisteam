@@ -20,108 +20,103 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #include "localpersonmodel.h"
 
 #include "data/person.h"
 #include "data/player.h"
 
-LocalPersonModel::LocalPersonModel()
-    : PlayersListProxyModel()
+LocalPersonModel::LocalPersonModel() : PlayersListProxyModel()
 {
-    m_playersList = PlayersList::instance();
+    m_playersList= PlayersList::instance();
 }
 
-LocalPersonModel & LocalPersonModel::instance()
+LocalPersonModel& LocalPersonModel::instance()
 {
     static LocalPersonModel s_model;
     return s_model;
 }
 
-QModelIndex LocalPersonModel::mapFromSource(const QModelIndex & sourceIndex) const
+QModelIndex LocalPersonModel::mapFromSource(const QModelIndex& sourceIndex) const
 {
-    if (!sourceIndex.isValid())
+    if(!sourceIndex.isValid())
         return QModelIndex();
 
-    quint32 parentRow = (quint32)(sourceIndex.internalId() & PlayersList::NoParent);
-    switch (parentRow)
+    quint32 parentRow= (quint32)(sourceIndex.internalId() & PlayersList::NoParent);
+    switch(parentRow)
     {
-        case 0:
-            return createIndex(sourceIndex.row() + 1, sourceIndex.column(), parentRow);
-        case PlayersList::NoParent:
-            if (sourceIndex.row() == 0)
-                return createIndex(0, sourceIndex.column(), parentRow);
-        default:
-            return QModelIndex();
+    case 0:
+        return createIndex(sourceIndex.row() + 1, sourceIndex.column(), parentRow);
+    case PlayersList::NoParent:
+        if(sourceIndex.row() == 0)
+            return createIndex(0, sourceIndex.column(), parentRow);
+    default:
+        return QModelIndex();
     }
 }
 
-QModelIndex LocalPersonModel::mapToSource(const QModelIndex & proxyIndex) const
+QModelIndex LocalPersonModel::mapToSource(const QModelIndex& proxyIndex) const
 {
-    if (!proxyIndex.isValid())
+    if(!proxyIndex.isValid())
         return QModelIndex();
 
-
-    quint32 parentRow = (quint32)(proxyIndex.internalId() & PlayersList::NoParent);
-    if (parentRow == 0)
+    quint32 parentRow= (quint32)(proxyIndex.internalId() & PlayersList::NoParent);
+    if(parentRow == 0)
     {
         return m_playersList->mapIndexToMe(createIndex(proxyIndex.row() - 1, proxyIndex.column(), parentRow));
     }
     return m_playersList->mapIndexToMe(proxyIndex);
 }
 
-
-QVariant LocalPersonModel::data(const QModelIndex &index, int role) const
+QVariant LocalPersonModel::data(const QModelIndex& index, int role) const
 {
-    if (!index.isValid() || role == Qt::DecorationRole)
+    if(!index.isValid() || role == Qt::DecorationRole)
         return QVariant();
     return QAbstractProxyModel::data(index, role);
 }
 
-QModelIndex LocalPersonModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex LocalPersonModel::index(int row, int column, const QModelIndex& parent) const
 {
-    if (parent.isValid() || column != 0)
+    if(parent.isValid() || column != 0)
         return QModelIndex();
 
-    QModelIndex sourceLocalPlayer = sourceModel()->index(0, 0, QModelIndex());
-    if (row == 0)
+    QModelIndex sourceLocalPlayer= sourceModel()->index(0, 0, QModelIndex());
+    if(row == 0)
         return mapFromSource(sourceLocalPlayer);
     else
         return mapFromSource(sourceModel()->index(row - 1, 0, sourceLocalPlayer));
 }
 
-QModelIndex LocalPersonModel::parent(const QModelIndex &index) const
+QModelIndex LocalPersonModel::parent(const QModelIndex& index) const
 {
     Q_UNUSED(index);
     return QModelIndex();
 }
 
-int LocalPersonModel::rowCount(const QModelIndex &parent) const
+int LocalPersonModel::rowCount(const QModelIndex& parent) const
 {
-    if (parent.isValid())
+    if(parent.isValid())
         return 0;
-    Player* tmp = m_playersList->getLocalPlayer();
-    if(nullptr!=tmp)
+    Player* tmp= m_playersList->getLocalPlayer();
+    if(nullptr != tmp)
     {
-       return 1 + tmp->getChildrenCount();
+        return 1 + tmp->getChildrenCount();
     }
     else
     {
         return 0;
     }
-
 }
 
-bool LocalPersonModel::filterChangingRows(QModelIndex & parent, int & start, int & end)
+bool LocalPersonModel::filterChangingRows(QModelIndex& parent, int& start, int& end)
 {
-    if (parent.isValid() && parent.row() == 0)
+    if(parent.isValid() && parent.row() == 0)
     {
-        parent = QModelIndex();
-        start += 1;
-        end   += 1;
-        //qDebug("LPM filterChangingRows true %d %d", start, end);
+        parent= QModelIndex();
+        start+= 1;
+        end+= 1;
+        // qDebug("LPM filterChangingRows true %d %d", start, end);
         return true;
     }
-    //qDebug("LPM filterChangingRows false %d %d", start, end);
+    // qDebug("LPM filterChangingRows false %d %d", start, end);
     return false;
 }

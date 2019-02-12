@@ -21,17 +21,17 @@
 #include "vmap/items/visualitem.h"
 #include <QDebug>
 
-MoveItemCommand::MoveItemCommand(QList<VisualItem*> selection,QList<QPointF> oldPosition, QUndoCommand* parent)
-    : QUndoCommand (parent), m_selection(selection), m_oldPoints(oldPosition)
+MoveItemCommand::MoveItemCommand(QList<VisualItem*> selection, QList<QPointF> oldPosition, QUndoCommand* parent)
+    : QUndoCommand(parent), m_selection(selection), m_oldPoints(oldPosition)
 {
     if(m_selection.size() == m_oldPoints.size())
     {
-        m_valid = true;
+        m_valid= true;
         for(auto& item : m_selection)
         {
             m_newPoints.append(item->pos());
         }
-        setText(QObject::tr("Move %n item(s)","",m_selection.size()));
+        setText(QObject::tr("Move %n item(s)", "", m_selection.size()));
     }
 }
 
@@ -40,7 +40,7 @@ void MoveItemCommand::redo()
     qInfo() << QStringLiteral("redo command MoveItemCommand: %1 ").arg(text());
     if(!m_valid)
         return;
-    int i = 0;
+    int i= 0;
     for(auto& item : m_selection)
     {
         item->setPos(m_newPoints.at(i));
@@ -53,7 +53,7 @@ void MoveItemCommand::undo()
     qInfo() << QStringLiteral("undo command MoveItemCommand: %1 ").arg(text());
     if(!m_valid)
         return;
-    int i = 0;
+    int i= 0;
     for(auto& item : m_selection)
     {
         item->setPos(m_oldPoints.at(i));

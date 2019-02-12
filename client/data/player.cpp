@@ -1,44 +1,40 @@
 /***************************************************************************
-    *   Copyright (C) 2015 by Renaud Guezennec                                *
-    *   http://www.rolisteam.org/contact                   *
-    *                                                                         *
-    *   rolisteam is free software; you can redistribute it and/or modify     *
-    *   it under the terms of the GNU General Public License as published by  *
-    *   the Free Software Foundation; either version 2 of the License, or     *
-    *   (at your option) any later version.                                   *
-    *                                                                         *
-    *   This program is distributed in the hope that it will be useful,       *
-    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-    *   GNU General Public License for more details.                          *
-    *                                                                         *
-    *   You should have received a copy of the GNU General Public License     *
-    *   along with this program; if not, write to the                         *
-    *   Free Software Foundation, Inc.,                                       *
-    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-    ***************************************************************************/
+ *   Copyright (C) 2015 by Renaud Guezennec                                *
+ *   http://www.rolisteam.org/contact                   *
+ *                                                                         *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
 #include "player.h"
 #include "data/character.h"
 
 #include <QDebug>
-Player::Player()
-{
+Player::Player() {}
 
-}
-
-Player::Player(const QString & nom, const QColor & color, bool master, NetworkLink * link)
+Player::Player(const QString& nom, const QColor& color, bool master, NetworkLink* link)
     : Person(nom, color), m_gameMaster(master), m_link(link)
 {
 }
 
-Player::Player(const QString & uuid, const QString & nom, const QColor & color, bool master, NetworkLink * link)
+Player::Player(const QString& uuid, const QString& nom, const QColor& color, bool master, NetworkLink* link)
     : Person(uuid, nom, color), m_gameMaster(master), m_link(link)
 {
 }
 
-Player::Player(NetworkMessageReader & data, NetworkLink * link)
-    : Person(), m_link(link)
+Player::Player(NetworkMessageReader& data, NetworkLink* link) : Person(), m_link(link)
 {
     readFromMsg(data);
 }
@@ -55,26 +51,27 @@ void Player::readFromMsg(NetworkMessageReader& data)
         qWarning() << "Network message OUT OF MEMORY";
         return;
     }
-    m_name = data.string16();
-    m_uuid = data.string8();
+    m_name= data.string16();
+    m_uuid= data.string8();
 
-    m_color = QColor(data.rgb());
-    m_gameMaster  = (data.uint8() != 0);
-    m_softVersion = data.string16();
-    int childCount = data.int32();
-    for(int i = 0;( i < childCount && data.isValid() );++i)
+    m_color= QColor(data.rgb());
+    m_gameMaster= (data.uint8() != 0);
+    m_softVersion= data.string16();
+    int childCount= data.int32();
+    for(int i= 0; (i < childCount && data.isValid()); ++i)
     {
-        try {
-            Character* child = new Character();
+        try
+        {
+            Character* child= new Character();
             child->read(data);
             m_characters.append(child);
             child->setParentPerson(this);
             data.uint8();
         }
-        catch(std::bad_alloc &)
+        catch(std::bad_alloc&)
         {
             qWarning() << "Bad alloc";
-             return;
+            return;
         }
     }
     if(!data.isValid())
@@ -82,12 +79,12 @@ void Player::readFromMsg(NetworkMessageReader& data)
         qWarning() << "Network message OUT OF MEMORY";
         return;
     }
-    QByteArray array = data.byteArray32();
-    QDataStream in(&array,QIODevice::ReadOnly);
+    QByteArray array= data.byteArray32();
+    QDataStream in(&array, QIODevice::ReadOnly);
     in.setVersion(QDataStream::Qt_5_7);
     in >> m_features;
 }
-void Player::fill(NetworkMessageWriter & message,bool addAvatar)
+void Player::fill(NetworkMessageWriter& message, bool addAvatar)
 {
     message.string16(m_name);
     message.string8(m_uuid);
@@ -98,19 +95,19 @@ void Player::fill(NetworkMessageWriter & message,bool addAvatar)
 
     for(auto& item : m_characters)
     {
-        item->fill(message,addAvatar);
+        item->fill(message, addAvatar);
         message.uint8(1); // add it to the map
     }
 
     QByteArray array;
-    QDataStream out(&array,QIODevice::WriteOnly);
+    QDataStream out(&array, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_7);
     out << m_features;
 
     message.byteArray32(array);
 }
 
-NetworkLink * Player::link() const
+NetworkLink* Player::link() const
 {
     return m_link;
 }
@@ -120,23 +117,23 @@ int Player::getChildrenCount() const
     return m_characters.size();
 }
 
-Character * Player::getCharacterByIndex(int index) const
+Character* Player::getCharacterByIndex(int index) const
 {
     return m_characters[index];
 }
 QList<Character*> Player::getChildrenCharacter()
 {
-	return m_characters;
+    return m_characters;
 }
-int Player::getIndexOfCharacter(Character * character) const
+int Player::getIndexOfCharacter(Character* character) const
 {
     return m_characters.indexOf(character);
 }
 int Player::getIndexOf(QString id) const
 {
-    for(int i =0; i< m_characters.size() ; i++)
+    for(int i= 0; i < m_characters.size(); i++)
     {
-        if(m_characters[i]->getUuid()==id)
+        if(m_characters[i]->getUuid() == id)
             return i;
     }
 
@@ -149,7 +146,7 @@ bool Player::isGM() const
 
 void Player::setGM(bool value)
 {
-    m_gameMaster = value;
+    m_gameMaster= value;
 }
 
 void Player::addCharacter(Character* character)
@@ -171,8 +168,8 @@ void Player::clearCharacterList()
 
 bool Player::removeChild(ResourcesNode* node)
 {
-    auto character = static_cast<Character*>(node);
-    if (!m_characters.contains(character))
+    auto character= static_cast<Character*>(node);
+    if(!m_characters.contains(character))
         return false;
 
     m_characters.removeOne(character);
@@ -187,13 +184,13 @@ bool Player::removeChild(ResourcesNode* node)
     return true;
 }
 
-bool Player::searchCharacter(Character * character, int & index) const
+bool Player::searchCharacter(Character* character, int& index) const
 {
-    for (int i=0; i < m_characters.size(); i++)
+    for(int i= 0; i < m_characters.size(); i++)
     {
-        if (m_characters.at(i) == character)
+        if(m_characters.at(i) == character)
         {
-            index = i;
+            index= i;
             return true;
         }
     }
@@ -210,14 +207,14 @@ bool Player::isLeaf() const
     return false;
 }
 
-bool Player::hasFeature(const QString & name, quint8 version) const
+bool Player::hasFeature(const QString& name, quint8 version) const
 {
     return m_features.contains(name) && m_features.value(name) >= version;
 }
 
-void Player::setFeature(const QString & name, quint8 version)
+void Player::setFeature(const QString& name, quint8 version)
 {
-    if (hasFeature(name, version))
+    if(hasFeature(name, version))
         return;
 
     m_features.insert(name, version);
@@ -229,7 +226,7 @@ QString Player::getUserVersion() const
 
 void Player::setUserVersion(QString softV)
 {
-    m_softVersion = softV;
+    m_softVersion= softV;
 }
 void Player::copyPlayer(Player* player)
 {

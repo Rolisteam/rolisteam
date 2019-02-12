@@ -21,108 +21,105 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
-#include <QRegularExpression>
 #include "chat/improvedtextedit.h"
 #include <QDebug>
+#include <QRegularExpression>
 
-static const int MaxHistorySize = 100;
+static const int MaxHistorySize= 100;
 
-ImprovedTextEdit::ImprovedTextEdit(QWidget *parent)
-    : QTextEdit(parent)
+ImprovedTextEdit::ImprovedTextEdit(QWidget* parent) : QTextEdit(parent) {}
+
+void ImprovedTextEdit::keyPressEvent(QKeyEvent* e)
 {
-}
-
-void ImprovedTextEdit::keyPressEvent(QKeyEvent *e)
-{
-    switch (e->key())
+    switch(e->key())
     {
-        case Qt::Key_Return:
-        case Qt::Key_Enter:
-        {
+    case Qt::Key_Return:
+    case Qt::Key_Enter:
+    {
         /// @warning changing the method to get the text
-			//QString textHtml = toHtml().trimmed();
-            QString text = toPlainText().trimmed();
-            if (!text.isEmpty())
+        // QString textHtml = toHtml().trimmed();
+        QString text= toPlainText().trimmed();
+        if(!text.isEmpty())
+        {
+            bool hasHtml= false;
+            m_history.append(text);
+            while(m_history.size() > MaxHistorySize)
             {
-				bool hasHtml = false;
-                m_history.append(text);
-                while (m_history.size() > MaxHistorySize)
-                {
-                    m_history.removeFirst();
-                }
-                m_histPos = m_history.size();
-
-                QString result = text;
-                QString result2 = text.replace(QRegularExpression("((?:https?)://\\S+)"), "<a href=\"\\1\">\\1</a>");
-				Q_UNUSED(result2);
-                if(text==result)
-                {
-                    text.replace(QRegularExpression("((?:www)\\S+)"), "<a href=\"http://\\1\">\\1</a>");
-                }
-				if(text!=toPlainText().trimmed())
-				{
-					hasHtml = true;
-				}
-				emit textValidated(hasHtml,text);
-                clear();
+                m_history.removeFirst();
             }
-        } break;
+            m_histPos= m_history.size();
 
-        case Qt::Key_Up:
-            if (e->modifiers() & Qt::ControlModifier)
+            QString result= text;
+            QString result2= text.replace(QRegularExpression("((?:https?)://\\S+)"), "<a href=\"\\1\">\\1</a>");
+            Q_UNUSED(result2);
+            if(text == result)
             {
-                emit ctrlUp();
+                text.replace(QRegularExpression("((?:www)\\S+)"), "<a href=\"http://\\1\">\\1</a>");
             }
-            else if ((m_histPos > 0)&&(!m_history.empty()))
+            if(text != toPlainText().trimmed())
             {
-                /// @warning changing the method to get the text
-                QString text = toHtml().trimmed();
-                if (!text.isEmpty())
-                {
-                    if (m_histPos == m_history.size())
-                        m_history.append(text);
-                    else
-                        m_history.replace(m_histPos, text);
-                }
-
-                m_histPos -= 1;
-                //setHtml(m_history[m_histPos]);
-                setText(m_history[m_histPos]);
+                hasHtml= true;
             }
-            break;
+            emit textValidated(hasHtml, text);
+            clear();
+        }
+    }
+    break;
 
-        case Qt::Key_Down:
-            if (e->modifiers() & Qt::ControlModifier)
+    case Qt::Key_Up:
+        if(e->modifiers() & Qt::ControlModifier)
+        {
+            emit ctrlUp();
+        }
+        else if((m_histPos > 0) && (!m_history.empty()))
+        {
+            /// @warning changing the method to get the text
+            QString text= toHtml().trimmed();
+            if(!text.isEmpty())
             {
-                emit ctrlDown();
-            }
-            else if(!m_history.empty())
-            {
-                /// @warning changing the method to get the text
-                QString text = toHtml().trimmed();
-                if((!text.isEmpty()))
-                {
-                    if (m_histPos == m_history.size())
-                        m_history.append(text);
-                    else
-                        m_history.replace(m_histPos, text);
-                }
-
-                if (m_histPos < m_history.size())
-                    m_histPos += 1;
-                if (m_histPos < m_history.size())
-                    setText(m_history[m_histPos]);
+                if(m_histPos == m_history.size())
+                    m_history.append(text);
                 else
-                    clear();
+                    m_history.replace(m_histPos, text);
             }
-            break;
 
-        default:
-            QTextEdit::keyPressEvent(e);
+            m_histPos-= 1;
+            // setHtml(m_history[m_histPos]);
+            setText(m_history[m_histPos]);
+        }
+        break;
+
+    case Qt::Key_Down:
+        if(e->modifiers() & Qt::ControlModifier)
+        {
+            emit ctrlDown();
+        }
+        else if(!m_history.empty())
+        {
+            /// @warning changing the method to get the text
+            QString text= toHtml().trimmed();
+            if((!text.isEmpty()))
+            {
+                if(m_histPos == m_history.size())
+                    m_history.append(text);
+                else
+                    m_history.replace(m_histPos, text);
+            }
+
+            if(m_histPos < m_history.size())
+                m_histPos+= 1;
+            if(m_histPos < m_history.size())
+                setText(m_history[m_histPos]);
+            else
+                clear();
+        }
+        break;
+
+    default:
+        QTextEdit::keyPressEvent(e);
     }
 }
-void ImprovedTextEdit::focusInEvent(QFocusEvent *e)
+void ImprovedTextEdit::focusInEvent(QFocusEvent* e)
 {
     if(e->gotFocus())
     {

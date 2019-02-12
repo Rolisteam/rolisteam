@@ -22,8 +22,8 @@
 
 #include "network/networkmessagereader.h"
 /**
- * @brief The NetWorkReceiver class is an abstract class. It is part of the listener pattern. Any class which need to be process some network message should
- * subclass this class.
+ * @brief The NetWorkReceiver class is an abstract class. It is part of the listener pattern. Any class which need to be
+ * process some network message should subclass this class.
  */
 class NetWorkReceiver
 {
@@ -31,13 +31,19 @@ public:
     /**
      * @brief The SendType enum describes how the server should opperate the message. The decision is taken by the GM.
      */
-    enum SendType { NONE, ALL,AllExceptSender};
+    enum SendType
+    {
+        NONE,
+        ALL,
+        AllExceptSender
+    };
     /**
-     * @brief processMessage virtual pure method, it must be implemented by any classes which subclass NetWorkReceiver. The goals is to read the message and trigger the right actions.
+     * @brief processMessage virtual pure method, it must be implemented by any classes which subclass NetWorkReceiver.
+     * The goals is to read the message and trigger the right actions.
      * @param msg is the received network message, it stores the important data.
      * @return How the Server should do with this package.
      */
-    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) = 0;
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg)= 0;
 };
 
 #endif // NETWORKRECEIVER_H

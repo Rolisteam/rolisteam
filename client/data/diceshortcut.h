@@ -9,10 +9,10 @@ public:
     DiceShortCut();
 
     QString text() const;
-    void setText(const QString &text);
+    void setText(const QString& text);
 
     QString command() const;
-    void setCommand(const QString &command);
+    void setCommand(const QString& command);
 
     bool alias() const;
     void setAlias(bool alias);

@@ -1,30 +1,30 @@
 /***************************************************************************
-*	Copyright (C) 2015 by Renaud Guezennec                                *
-*   http://www.rolisteam.org/contact                   *
-*                                                                         *
-*   Rolisteam is free software; you can redistribute it and/or modify     *
-*   it under the terms of the GNU General Public License as published by  *
-*   the Free Software Foundation; either version 2 of the License, or     *
-*   (at your option) any later version.                                   *
-*                                                                         *
-*   This program is distributed in the hope that it will be useful,       *
-*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-*   GNU General Public License for more details.                          *
-*                                                                         *
-*   You should have received a copy of the GNU General Public License     *
-*   along with this program; if not, write to the                         *
-*   Free Software Foundation, Inc.,                                       *
-*   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-***************************************************************************/
+ *	Copyright (C) 2015 by Renaud Guezennec                                *
+ *   http://www.rolisteam.org/contact                   *
+ *                                                                         *
+ *   Rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 #ifndef ROLISTEAMTHEME_H
 #define ROLISTEAMTHEME_H
 
+#include <QJsonObject>
 #include <QObject>
 #include <QPalette>
 #include <QString>
 #include <QStyle>
-#include <QJsonObject>
 
 /**
  * @brief The RolisteamTheme class should store all data required for theme.
@@ -38,7 +38,8 @@ public:
      * @param name
      * @param css
      */
-    RolisteamTheme(QPalette pal,QString name,QString css,QStyle* style,QString bgPath,int pos, QColor bgColor,bool);
+    RolisteamTheme(
+        QPalette pal, QString name, QString css, QStyle* style, QString bgPath, int pos, QColor bgColor, bool);
     /**
      * @brief ~RolisteamTheme
      */
@@ -92,7 +93,6 @@ public:
      */
     void setStyle(QStyle* style);
 
-
     void setBackgroundColor(QColor);
     void setBackgroundPosition(int);
     void setBackgroundImage(QString img);
@@ -102,7 +102,7 @@ public:
     QColor getBackgroundColor() const;
 
     QColor getDiceHighlightColor() const;
-    void  setDiceHighlightColor(QColor c);
+    void setDiceHighlightColor(QColor c);
 
     QString getStyleName() const;
 

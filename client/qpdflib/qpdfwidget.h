@@ -33,8 +33,7 @@ class QPdfWidget : public QWidget
 {
     Q_OBJECT
 public:
-
-    QPdfWidget(QWidget *pParent = nullptr);
+    QPdfWidget(QWidget* pParent= nullptr);
     ~QPdfWidget();
 
     /**
@@ -42,13 +41,13 @@ public:
      * @param path Absolute path to a pdf file.
      * @return true if loaded Ok, false if unable to load.
      */
-    bool loadFile(const QString &path);
+    bool loadFile(const QString& path);
 
     /**
      * @brief Load raw pdf data.
      * @param data PDF data.
      */
-    bool loadData(const QByteArray &data);
+    bool loadData(const QByteArray& data);
 
     /**
      * @brief Close PDF document.
@@ -97,7 +96,7 @@ public:
      *
      * @param ticks Number of zooming ticks.
      */
-    void zoomIn(int ticks = 1);
+    void zoomIn(int ticks= 1);
 
     /**
      * @brief Zoom the view out.
@@ -107,13 +106,13 @@ public:
      *
      * @param ticks Number of zooming ticks.
      */
-    void zoomOut(int ticks = 1);
+    void zoomOut(int ticks= 1);
 
     /**
      * @brief Reset zoom factor.
      * @param scale Zoom scale to be set.
      */
-    void zoomReset(qreal scale = 1.0);
+    void zoomReset(qreal scale= 1.0);
 
     /**
      * @brief Show PDF document properties pop-up window.
@@ -147,7 +146,7 @@ public:
      * @see findNext
      * @see findPrevious
      */
-    void findText(const QString &text = QString());
+    void findText(const QString& text= QString());
 
     /**
      * @brief Find a next occurrence of the search string.
@@ -185,7 +184,7 @@ public:
      * @brief Navigate to destination object.
      * @param dest PDF destination object.
      */
-    void navigateTo(const QString &dest);
+    void navigateTo(const QString& dest);
 
     /**
      * @brief Returns a list of available destinations.
@@ -216,15 +215,14 @@ private slots:
 
     void onLoadFinished(bool status);
     void renderPdfData();
-    void renderPdfFile(const QString &file);
+    void renderPdfFile(const QString& file);
     void onRenderPdfFinished();
 
 private:
-
-    void setFindFieldText(const QString &text);
+    void setFindFieldText(const QString& text);
 
     /// Private members.
-    QPdfWidgetPrivate *m;
+    QPdfWidgetPrivate* m;
 };
 
 #endif // QPDFWIDGET_H

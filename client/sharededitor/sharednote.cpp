@@ -18,62 +18,58 @@
 */
 #include "sharednote.h"
 
-#include <QTextDocumentFragment>
-#include <QMessageBox>
-#include <QFileDialog>
-#include <QTextCodec>
-#include <QFontDialog>
-#include <QTextDocument>
-#include <QPrinter>
-#include <QPrintDialog>
-#include <QDebug>
-#include <QCloseEvent>
-#include <QDesktopWidget>
-#include <QDesktopServices>
 #include "ui_sharednote.h"
+#include <QCloseEvent>
+#include <QDebug>
+#include <QDesktopServices>
+#include <QDesktopWidget>
+#include <QFileDialog>
+#include <QFontDialog>
+#include <QMessageBox>
+#include <QPrintDialog>
+#include <QPrinter>
+#include <QTextCodec>
+#include <QTextDocument>
+#include <QTextDocumentFragment>
 
-#include "utilities.h"
 #include "enu.h"
-SharedNote::SharedNote(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::SharedNote)
+#include "utilities.h"
+SharedNote::SharedNote(QWidget* parent) : QMainWindow(parent), ui(new Ui::SharedNote)
 {
     ui->setupUi(this);
 
+    m_document= new Document(ui->m_documentSupport);
+    connect(
+        m_document->getDocument(), SIGNAL(contentsChange(int, int, int)), this, SLOT(textHasChanged(int, int, int)));
+    connect(m_document->getParticipantPane(), SIGNAL(memberCanNowRead(QString)), this,
+        SLOT(populateDocumentForUser(QString)));
+    connect(m_document->getParticipantPane(), SIGNAL(memberPermissionsChanged(QString, int)), this,
+        SLOT(playerPermissionsChanged(QString, int)));
+    connect(m_document->getParticipantPane(), SIGNAL(closeMediaToPlayer(QString)), this, SLOT(closeEditorFor(QString)));
+    connect(m_document, &Document::contentChanged, this, [=]() { setWindowModified(true); });
 
-    m_document = new Document(ui->m_documentSupport);
-    connect(m_document->getDocument(), SIGNAL(contentsChange(int,int,int)), this, SLOT(textHasChanged(int,int,int)));
-    connect(m_document->getParticipantPane(), SIGNAL(memberCanNowRead(QString)), this, SLOT(populateDocumentForUser(QString)));
-    connect(m_document->getParticipantPane(), SIGNAL(memberPermissionsChanged(QString,int)), this, SLOT(playerPermissionsChanged(QString,int)));
-    connect(m_document->getParticipantPane(),SIGNAL(closeMediaToPlayer(QString)),this,SLOT(closeEditorFor(QString)));
-    connect(m_document, &Document::contentChanged, this, [=](){
-        setWindowModified(true);
-    });
+    findDialog= new FindDialog(this);
+    connect(findDialog, SIGNAL(findDialogFindNext(QString, Qt::CaseSensitivity, bool, Enu::FindMode)), this,
+        SLOT(findNextTriggered(QString, Qt::CaseSensitivity, bool, Enu::FindMode)));
+    connect(findDialog, SIGNAL(findDialogFindPrev(QString, Qt::CaseSensitivity, bool, Enu::FindMode)), this,
+        SLOT(findPrevTriggered(QString, Qt::CaseSensitivity, bool, Enu::FindMode)));
+    connect(findDialog, SIGNAL(findDialogReplaceAll(QString, QString, Qt::CaseSensitivity, Enu::FindMode)), this,
+        SLOT(replaceAllTriggered(QString, QString, Qt::CaseSensitivity, Enu::FindMode)));
+    connect(findDialog, SIGNAL(findDialogReplace(QString)), this, SLOT(replaceTriggered(QString)));
+    connect(findDialog, SIGNAL(findDiaalogFindReplace(QString, QString, Qt::CaseSensitivity, bool, Enu::FindMode)),
+        this, SLOT(findReplaceTriggered(QString, QString, Qt::CaseSensitivity, bool, Enu::FindMode)));
 
-
-    findDialog = new FindDialog(this);
-    connect(findDialog, SIGNAL(findDialogFindNext(QString,Qt::CaseSensitivity,bool,Enu::FindMode)), this,
-            SLOT(findNextTriggered(QString,Qt::CaseSensitivity,bool,Enu::FindMode)));
-    connect(findDialog, SIGNAL(findDialogFindPrev(QString,Qt::CaseSensitivity,bool,Enu::FindMode)), this,
-            SLOT(findPrevTriggered(QString,Qt::CaseSensitivity,bool,Enu::FindMode)));
-    connect(findDialog, SIGNAL(findDialogReplaceAll(QString,QString,Qt::CaseSensitivity,Enu::FindMode)), this,
-            SLOT(replaceAllTriggered(QString,QString,Qt::CaseSensitivity,Enu::FindMode)));
-    connect(findDialog, SIGNAL(findDialogReplace(QString)), this,
-            SLOT(replaceTriggered(QString)));
-    connect(findDialog, SIGNAL(findDiaalogFindReplace(QString,QString,Qt::CaseSensitivity,bool,Enu::FindMode)), this,
-            SLOT(findReplaceTriggered(QString,QString,Qt::CaseSensitivity,bool,Enu::FindMode)));
-
-
-    QGridLayout *tabLayout = new QGridLayout;
+    QGridLayout* tabLayout= new QGridLayout;
     ui->m_documentSupport->setLayout(tabLayout);
     tabLayout->addWidget(m_document);
-    tabLayout->setContentsMargins(0,0,0,0);
+    tabLayout->setContentsMargins(0, 0, 0, 0);
 
-    //ui->tab->setVisible(false);
-    //ui->tabWidget->setVisible(false);
+    // ui->tab->setVisible(false);
+    // ui->tabWidget->setVisible(false);
 
     connect(m_document, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(m_document, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
-    connect(ui->m_highlightMarkdownAction,SIGNAL(triggered(bool)),this,SLOT(setMarkdownAsHighlight()));
+    connect(ui->m_highlightMarkdownAction, SIGNAL(triggered(bool)), this, SLOT(setMarkdownAsHighlight()));
 
     readSettings();
 
@@ -90,13 +86,13 @@ SharedNote::~SharedNote()
 void SharedNote::readSettings()
 {
     QSettings settings("rolisteam", "SharedNote");
-    QDesktopWidget *desktop = QApplication::desktop();
-    int width = static_cast<int>(desktop->width() * 0.80);
-    int height = static_cast<int>(desktop->height() * 0.70);
-    int screenWidth = desktop->width();
-    int screenHeight = desktop->height();
-    QPoint pos = settings.value("pos", QPoint((screenWidth - width) / 2, (screenHeight - height) / 2)).toPoint();
-    QSize size = settings.value("size", QSize(width, height)).toSize();
+    QDesktopWidget* desktop= QApplication::desktop();
+    int width= static_cast<int>(desktop->width() * 0.80);
+    int height= static_cast<int>(desktop->height() * 0.70);
+    int screenWidth= desktop->width();
+    int screenHeight= desktop->height();
+    QPoint pos= settings.value("pos", QPoint((screenWidth - width) / 2, (screenHeight - height) / 2)).toPoint();
+    QSize size= settings.value("size", QSize(width, height)).toSize();
     resize(size);
     move(pos);
 }
@@ -110,17 +106,17 @@ void SharedNote::writeSettings()
 }
 
 // Protected closeEvent
-void SharedNote::closeEvent(QCloseEvent* )
+void SharedNote::closeEvent(QCloseEvent*)
 {
-    //bool okToQuit = true;
+    // bool okToQuit = true;
     /// @warning do something
 }
 void SharedNote::populateDocumentForUser(QString id)
 {
-    NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updateTextAndPermission,NetworkMessage::OneOrMany);
+    NetworkMessageWriter msg(NetMsg::SharedNoteCategory, NetMsg::updateTextAndPermission, NetworkMessage::OneOrMany);
     QStringList ids;
     ids << id;
-    msg.setRecipientList(ids,NetworkMessage::OneOrMany);
+    msg.setRecipientList(ids, NetworkMessage::OneOrMany);
     msg.string8(m_id);
     m_document->fill(&msg);
     msg.sendToServer();
@@ -131,15 +127,14 @@ void SharedNote::setOwner(Player* player)
     m_document->setOwner(player);
     updateWindowTitle();
 }
-bool SharedNote::eventFilter(QObject *, QEvent *event)
+bool SharedNote::eventFilter(QObject*, QEvent* event)
 {
-    if (event->type() == QEvent::FileOpen) {
-        QString fileName = static_cast<QFileOpenEvent *>(event)->file(); // for the sake of mirroring code in our open slot
-        if (!fileName.isEmpty())
+    if(event->type() == QEvent::FileOpen)
+    {
+        QString fileName
+            = static_cast<QFileOpenEvent*>(event)->file(); // for the sake of mirroring code in our open slot
+        if(!fileName.isEmpty())
         {
-
-
-
         }
         event->accept();
         return true;
@@ -149,10 +144,10 @@ bool SharedNote::eventFilter(QObject *, QEvent *event)
 
 void SharedNote::closeEditorFor(QString idplayer)
 {
-    NetworkMessageWriter msg(NetMsg::MediaCategory,NetMsg::closeMedia);
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::closeMedia);
     QStringList list;
     list << idplayer;
-    msg.setRecipientList(list,NetworkMessage::OneOrMany);
+    msg.setRecipientList(list, NetworkMessage::OneOrMany);
     msg.string8(m_id);
     msg.sendToServer();
 }
@@ -170,7 +165,7 @@ bool SharedNote::saveFile(QDataStream& out)
     return true;
 }
 
-bool SharedNote::saveFileAsText(QTextStream &out)
+bool SharedNote::saveFileAsText(QTextStream& out)
 {
     if(nullptr == m_document)
         return false;
@@ -181,12 +176,12 @@ bool SharedNote::saveFileAsText(QTextStream &out)
     return true;
 }
 
-bool SharedNote::loadFileAsText(QTextStream &in)
+bool SharedNote::loadFileAsText(QTextStream& in)
 {
     if(nullptr == m_document)
         return false;
     QString data;
-    data = in.readAll();
+    data= in.readAll();
     m_document->setPlainText(data);
     return true;
 }
@@ -201,18 +196,15 @@ bool SharedNote::loadFile(QDataStream& in)
     m_document->setPlainText(data);
     return true;
 }
-void SharedNote::setCurrentFile(const QString &fileName)
+void SharedNote::setCurrentFile(const QString& fileName)
 {
-    m_fileName = fileName;
+    m_fileName= fileName;
 }
 
-QString SharedNote::strippedName(const QString &fullFileName)
+QString SharedNote::strippedName(const QString& fullFileName)
 {
-     return QFileInfo(fullFileName).fileName();
+    return QFileInfo(fullFileName).fileName();
 }
-
-
-
 
 void SharedNote::on_actionFile_Print_triggered()
 {
@@ -221,9 +213,10 @@ void SharedNote::on_actionFile_Print_triggered()
 
     QPrinter printer(QPrinter::HighResolution);
 
-    QPrintDialog *dialog = new QPrintDialog(&printer, this);
+    QPrintDialog* dialog= new QPrintDialog(&printer, this);
     dialog->setWindowTitle("Print");
-    if (dialog->exec() == QDialog::Accepted) {
+    if(dialog->exec() == QDialog::Accepted)
+    {
         document.print(&printer);
     }
 }
@@ -276,26 +269,26 @@ void SharedNote::on_actionView_Hide_Show_Participants_triggered()
 //#include "userlist/playersList.h"
 void SharedNote::textHasChanged(int pos, int charsRemoved, int charsAdded)
 {
-    PlayersList* list = PlayersList::instance();
-    Player* player = list->getLocalPlayer();
+    PlayersList* list= PlayersList::instance();
+    Player* player= list->getLocalPlayer();
     if(m_document->canWrite(player))
     {
         QString toSend;
         QString data;
 
-        if (charsRemoved > 0 && charsAdded == 0)
+        if(charsRemoved > 0 && charsAdded == 0)
         {
-            data = "";
+            data= "";
         }
-        else if (charsAdded > 0)
+        else if(charsAdded > 0)
         {
-            QTextCursor cursor = QTextCursor(m_document->getDocument());
+            QTextCursor cursor= QTextCursor(m_document->getDocument());
             cursor.setPosition(pos, QTextCursor::MoveAnchor);
             cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, charsAdded);
-            data = cursor.selection().toPlainText();
+            data= cursor.selection().toPlainText();
         }
 
-        toSend = QString("doc:%1 %2 %3 %4").arg(pos).arg(charsRemoved).arg(charsAdded).arg(data);
+        toSend= QString("doc:%1 %2 %3 %4").arg(pos).arg(charsRemoved).arg(charsAdded).arg(data);
 
         writeToAll(toSend);
     }
@@ -307,7 +300,7 @@ void SharedNote::writeToAll(QString string)
 
     if(!string.isEmpty())
     {
-        NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updateText);
+        NetworkMessageWriter msg(NetMsg::SharedNoteCategory, NetMsg::updateText);
         msg.string8(m_id);
         msg.string32(string);
         msg.sendToServer();
@@ -315,9 +308,9 @@ void SharedNote::writeToAll(QString string)
 }
 void SharedNote::runUpdateCmd(QString cmd)
 {
-    m_networkEditing = true;
+    m_networkEditing= true;
     m_document->runUpdateCmd(cmd);
-    m_networkEditing = false;
+    m_networkEditing= false;
 }
 
 void SharedNote::displaySharingPanel()
@@ -326,7 +319,7 @@ void SharedNote::displaySharingPanel()
 }
 void SharedNote::readFromMsg(NetworkMessageReader* msg)
 {
-    if(nullptr!=m_document)
+    if(nullptr != m_document)
     {
         m_document->readFromMsg(msg);
         updateWindowTitle();
@@ -334,7 +327,7 @@ void SharedNote::readFromMsg(NetworkMessageReader* msg)
 }
 void SharedNote::on_actionTools_Preview_as_Html_triggered()
 {
-    if(nullptr!=m_document)
+    if(nullptr != m_document)
     {
         m_document->previewAsHtml();
     }
@@ -342,7 +335,7 @@ void SharedNote::on_actionTools_Preview_as_Html_triggered()
 
 void SharedNote::updateDocumentToAll(NetworkMessageWriter* msg)
 {
-    if(nullptr!=m_document)
+    if(nullptr != m_document)
     {
         m_document->fill(msg);
     }
@@ -365,40 +358,43 @@ void SharedNote::on_actionText_Comment_Line_triggered()
 
 void SharedNote::setUndoability(bool b)
 {
-    if (sender() == m_document) {
+    if(sender() == m_document)
+    {
         ui->actionEdit_Undo->setEnabled(b);
     }
 }
 
 void SharedNote::setRedoability(bool b)
 {
-    if (sender() == m_document) {
+    if(sender() == m_document)
+    {
         ui->actionEdit_Redo->setEnabled(b);
     }
 }
 
 void SharedNote::documentChanged()
 {
-    Document *document = m_document;
+    Document* document= m_document;
     ui->actionEdit_Undo->setEnabled(document->isUndoable());
     ui->actionEdit_Redo->setEnabled(document->isRedoable());
-    //ui->actionWindow_Split->setDisabled(document->isEditorSplit() && !document->isEditorSplitSideBySide());
-   // ui->actionWindow_Split_Side_by_Side->setDisabled(document->isEditorSplit() && document->isEditorSplitSideBySide());
+    // ui->actionWindow_Split->setDisabled(document->isEditorSplit() && !document->isEditorSplitSideBySide());
+    // ui->actionWindow_Split_Side_by_Side->setDisabled(document->isEditorSplit() &&
+    // document->isEditorSplitSideBySide());
 
-   // ui->actionWindow_Remove_Split->setEnabled(document->isEditorSplit());
+    // ui->actionWindow_Remove_Split->setEnabled(document->isEditorSplit());
     ui->actionTools_Announce_Document->setDisabled(document->docHasCollaborated());
 }
 
 void SharedNote::tabCloseClicked()
 {
- /*   if (maybeSave(index)) {
-        if (ui->tabWidget->count() == 1) {
-            on_actionFile_New_triggered();
-        }
-        ui->tabWidget->widget(index)->deleteLater();
-        tabWidgetToDocumentMap.remove(ui->tabWidget->widget(index));
-        ui->tabWidget->removeTab(index);
-    }*/
+    /*   if (maybeSave(index)) {
+           if (ui->tabWidget->count() == 1) {
+               on_actionFile_New_triggered();
+           }
+           ui->tabWidget->widget(index)->deleteLater();
+           tabWidgetToDocumentMap.remove(ui->tabWidget->widget(index));
+           ui->tabWidget->removeTab(index);
+       }*/
 }
 
 void SharedNote::findNextTriggered(QString str, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode)
@@ -421,21 +417,21 @@ void SharedNote::replaceTriggered(QString replace)
     m_document->replace(replace);
 }
 
-void SharedNote::findReplaceTriggered(QString find, QString replace, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode)
+void SharedNote::findReplaceTriggered(
+    QString find, QString replace, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode)
 {
     m_document->findReplace(find, replace, sensitivity, wrapAround, mode);
 }
 
-void SharedNote::playerPermissionsChanged(QString id,int perm)
+void SharedNote::playerPermissionsChanged(QString id, int perm)
 {
-    //QString toSend = QString("updateperm:%1").arg(permissions);
-    NetworkMessageWriter msg(NetMsg::SharedNoteCategory,NetMsg::updatePermissionOneUser);
-    msg.string8(m_id);//MediaId
-    msg.string8(id);//playerId
-    msg.int8(perm);//Permission
+    // QString toSend = QString("updateperm:%1").arg(permissions);
+    NetworkMessageWriter msg(NetMsg::SharedNoteCategory, NetMsg::updatePermissionOneUser);
+    msg.string8(m_id); // MediaId
+    msg.string8(id);   // playerId
+    msg.int8(perm);    // Permission
     msg.sendToServer();
 }
-
 
 void SharedNote::setEditorFont(QFont font)
 {
@@ -452,14 +448,14 @@ QString SharedNote::id() const
     return m_id;
 }
 
-void SharedNote::setId(const QString &id)
+void SharedNote::setId(const QString& id)
 {
-    m_id = id;
+    m_id= id;
 }
 
 void SharedNote::setMarkdownAsHighlight()
 {
-    QAction* act = qobject_cast<QAction*>(sender());
+    QAction* act= qobject_cast<QAction*>(sender());
 
     m_document->setHighlighter(act->data().toInt());
 }
@@ -469,15 +465,16 @@ QString SharedNote::fileName() const
     return m_fileName;
 }
 
-void SharedNote::setFileName(const QString &fileName)
+void SharedNote::setFileName(const QString& fileName)
 {
-    m_fileName = fileName;
+    m_fileName= fileName;
     updateWindowTitle();
 }
 
 void SharedNote::updateWindowTitle()
 {
-    PlayersList* list = PlayersList::instance();
-    Player* player = list->getLocalPlayer();
-    setWindowTitle(tr("%1[*] - SharedNote - %2").arg(m_fileName, m_document->canWrite(player) ? tr("ReadWrite"):tr("ReadOnly")));
+    PlayersList* list= PlayersList::instance();
+    Player* player= list->getLocalPlayer();
+    setWindowTitle(
+        tr("%1[*] - SharedNote - %2").arg(m_fileName, m_document->canWrite(player) ? tr("ReadWrite") : tr("ReadOnly")));
 }

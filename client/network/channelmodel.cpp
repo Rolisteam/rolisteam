@@ -1,32 +1,31 @@
 #include "channelmodel.h"
 
-#include "treeitem.h"
 #include "tcpclient.h"
+#include "treeitem.h"
 
-#include <QSettings>
-#include <QList>
 #include <QIcon>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
-
+#include <QList>
+#include <QSettings>
 
 #ifdef QT_WIDGETS_LIB
-#include <QInputDialog>
 #include <QApplication>
-#include <QStyle>
 #include <QFont>
+#include <QInputDialog>
+#include <QStyle>
 #endif
 
 #include "channel.h"
 #include "receiveevent.h"
 
-quint64 computeTotalSize(const std::map<Channel*,quint64>& map)
+quint64 computeTotalSize(const std::map<Channel*, quint64>& map)
 {
-    quint64 totalSize = 0;
+    quint64 totalSize= 0;
     for(auto pair : map)
     {
-        totalSize += pair.second;
+        totalSize+= pair.second;
     }
     return totalSize;
 }
@@ -37,70 +36,67 @@ quint64 computeTotalSize(const std::map<Channel*,quint64>& map)
 
 ClientMimeData::ClientMimeData()
 {
-    setData("application/rolisteam.networkclient.list",QByteArray());
+    setData("application/rolisteam.networkclient.list", QByteArray());
 }
 
-void ClientMimeData::addClient(TcpClient* m,const QModelIndex index)
+void ClientMimeData::addClient(TcpClient* m, const QModelIndex index)
 {
-    if(nullptr!=m)
+    if(nullptr != m)
     {
-        m_clientList.insert(index,m);
+        m_clientList.insert(index, m);
     }
 }
-const QMap<QModelIndex,TcpClient*>& ClientMimeData::getList() const
+const QMap<QModelIndex, TcpClient*>& ClientMimeData::getList() const
 {
     return m_clientList;
 }
-bool ClientMimeData::hasFormat(const QString & mimeType) const
+bool ClientMimeData::hasFormat(const QString& mimeType) const
 {
-    return ((mimeType=="application/rolisteam.networkclient.list") | QMimeData::hasFormat(mimeType));
+    return ((mimeType == "application/rolisteam.networkclient.list") | QMimeData::hasFormat(mimeType));
 }
 
 //////////////////////////////////////
 /// ChannelModel
 /////////////////////////////////////
 
-
 ChannelModel::ChannelModel()
 {
-    //m_root = new Channel();
-    ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory,this);
+    // m_root = new Channel();
+    ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory, this);
 }
 
 ChannelModel::~ChannelModel()
 {
-    ReceiveEvent::removeNetworkReceiver(NetMsg::AdministrationCategory,this);
+    ReceiveEvent::removeNetworkReceiver(NetMsg::AdministrationCategory, this);
     qDeleteAll(m_root);
     std::vector<Channel*> keys;
 
     transform(std::begin(m_sizeMap), std::end(m_sizeMap), back_inserter(keys),
-              [](decltype(m_sizeMap)::value_type const& pair) {
-        return pair.first;
-    });
+        [](decltype(m_sizeMap)::value_type const& pair) { return pair.first; });
     m_sizeMap.clear();
     qDeleteAll(keys);
 }
 
-QModelIndex ChannelModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex ChannelModel::index(int row, int column, const QModelIndex& parent) const
 {
-    if(row<0)
+    if(row < 0)
         return QModelIndex();
-    if(column<0)
+    if(column < 0)
         return QModelIndex();
 
-    TreeItem* childItem = nullptr;
-    if (!parent.isValid())
+    TreeItem* childItem= nullptr;
+    if(!parent.isValid())
     {
-        if(m_root.size()>row)
-            childItem = m_root.at(row);
+        if(m_root.size() > row)
+            childItem= m_root.at(row);
     }
     else
     {
-        TreeItem* parentItem = static_cast<TreeItem*>(parent.internalPointer());
-        childItem = parentItem->getChildAt(row);
+        TreeItem* parentItem= static_cast<TreeItem*>(parent.internalPointer());
+        childItem= parentItem->getChildAt(row);
     }
 
-    if (childItem)
+    if(childItem)
     {
         return createIndex(row, column, childItem);
     }
@@ -108,15 +104,15 @@ QModelIndex ChannelModel::index(int row, int column, const QModelIndex &parent) 
         return QModelIndex();
 }
 
-QVariant ChannelModel::data(const QModelIndex &index, int role) const
+QVariant ChannelModel::data(const QModelIndex& index, int role) const
 {
     if(!index.isValid())
         return QVariant();
 
-    TreeItem* tmp = static_cast<TreeItem*>(index.internalPointer());
-    if(tmp!=nullptr)
+    TreeItem* tmp= static_cast<TreeItem*>(index.internalPointer());
+    if(tmp != nullptr)
     {
-        if((role == Qt::DisplayRole)||(Qt::EditRole==role))
+        if((role == Qt::DisplayRole) || (Qt::EditRole == role))
         {
             return tmp->getName();
         }
@@ -125,10 +121,10 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const
         {
             if(tmp->isLeaf())
             {
-                auto parent = tmp->getParentItem();
+                auto parent= tmp->getParentItem();
                 if(parent)
                 {
-                    auto channel = dynamic_cast<Channel*>(parent);
+                    auto channel= dynamic_cast<Channel*>(parent);
                     if(channel->isCurrentGm(tmp))
                     {
                         QFont font;
@@ -142,8 +138,8 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const
         {
             if(!tmp->isLeaf())
             {
-                auto channel = dynamic_cast<Channel*>(tmp);
-                QStyle* style = qApp->style();
+                auto channel= dynamic_cast<Channel*>(tmp);
+                QStyle* style= qApp->style();
                 if(nullptr != style)
                 {
                     if(channel->password().isEmpty())
@@ -158,13 +154,13 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool ChannelModel::setData(const QModelIndex &index, const QVariant &value, int )
+bool ChannelModel::setData(const QModelIndex& index, const QVariant& value, int)
 {
     if(!index.isValid())
         return false;
 
-    TreeItem* tmp = static_cast<TreeItem*>(index.internalPointer());
-    if(tmp!=nullptr)
+    TreeItem* tmp= static_cast<TreeItem*>(index.internalPointer());
+    if(tmp != nullptr)
     {
         tmp->setName(value.toString());
         return true;
@@ -172,15 +168,15 @@ bool ChannelModel::setData(const QModelIndex &index, const QVariant &value, int 
     return false;
 }
 
-QModelIndex ChannelModel::parent(const QModelIndex &child) const
+QModelIndex ChannelModel::parent(const QModelIndex& child) const
 {
-    if (!child.isValid())
+    if(!child.isValid())
         return QModelIndex();
 
-    TreeItem* childItem = static_cast<TreeItem*>(child.internalPointer());
-    if(nullptr!=childItem)
+    TreeItem* childItem= static_cast<TreeItem*>(child.internalPointer());
+    if(nullptr != childItem)
     {
-        TreeItem* parentItem = childItem->getParentItem();
+        TreeItem* parentItem= childItem->getParentItem();
 
         if(m_root.contains(childItem))
         {
@@ -195,123 +191,122 @@ QModelIndex ChannelModel::parent(const QModelIndex &child) const
     return QModelIndex();
 }
 
-int ChannelModel::rowCount(const QModelIndex &parent) const
+int ChannelModel::rowCount(const QModelIndex& parent) const
 {
-    int result = 0;
+    int result= 0;
     if(!parent.isValid())
     {
-        result = m_root.size();
+        result= m_root.size();
     }
     else
     {
-        TreeItem* item = static_cast<TreeItem*>(parent.internalPointer());
-        if(nullptr!=item)
+        TreeItem* item= static_cast<TreeItem*>(parent.internalPointer());
+        if(nullptr != item)
         {
-            result = item->childCount();
+            result= item->childCount();
         }
     }
     return result;
 }
 
-int ChannelModel::columnCount(const QModelIndex &) const
+int ChannelModel::columnCount(const QModelIndex&) const
 {
     return 1;
 }
 
 QString ChannelModel::addChannel(QString name, QByteArray password)
 {
-    Channel* chan = new Channel(name);
+    Channel* chan= new Channel(name);
     chan->setPassword(password);
     QModelIndex index;
-    addChannelToIndex(chan,index);
+    addChannelToIndex(chan, index);
     return chan->getId();
 }
-QModelIndex ChannelModel::addChannelToIndex(Channel* channel,QModelIndex& parent)
+QModelIndex ChannelModel::addChannelToIndex(Channel* channel, QModelIndex& parent)
 {
-    int row = -1;
+    int row= -1;
     if(!parent.isValid())
     {
-        beginInsertRows(parent,m_root.size(),m_root.size());
+        beginInsertRows(parent, m_root.size(), m_root.size());
         m_root.append(channel);
         endInsertRows();
-        row = m_root.size()-1;
+        row= m_root.size() - 1;
     }
     else
     {
-        Channel* item = static_cast<Channel*>(parent.internalPointer());
-        if(nullptr!=item)
+        Channel* item= static_cast<Channel*>(parent.internalPointer());
+        if(nullptr != item)
         {
-            beginInsertRows(parent,item->childCount(),item->childCount());
+            beginInsertRows(parent, item->childCount(), item->childCount());
             item->addChild(channel);
             endInsertRows();
-            row = item->childCount()-1;
+            row= item->childCount() - 1;
         }
     }
-    return index(row,0,parent);
+    return index(row, 0, parent);
 }
 bool ChannelModel::addChannelToChannel(Channel* child, Channel* parent)
 {
-    bool result = false;
+    bool result= false;
     if(nullptr == parent)
     {
-        beginInsertRows(QModelIndex(),m_root.size(),m_root.size());
+        beginInsertRows(QModelIndex(), m_root.size(), m_root.size());
         m_root.append(child);
         endInsertRows();
-        result = true;
+        result= true;
     }
     else
     {
-
-        QModelIndex index = channelToIndex(parent);
-        beginInsertRows(index,parent->childCount(),parent->childCount());
+        QModelIndex index= channelToIndex(parent);
+        beginInsertRows(index, parent->childCount(), parent->childCount());
         parent->addChild(child);
         endInsertRows();
-        result = true;
+        result= true;
     }
-    return  result;
+    return result;
 }
 QModelIndex ChannelModel::channelToIndex(Channel* channel)
 {
     QList<TreeItem*> listOfParent;
-    TreeItem* tmp = channel;
+    TreeItem* tmp= channel;
     while(nullptr != tmp)
     {
         listOfParent.prepend(tmp);
-        tmp = tmp->getParentItem();
+        tmp= tmp->getParentItem();
     }
     QModelIndex parent;
     for(auto item : listOfParent)
     {
-        if(nullptr==item->getParentItem())
+        if(nullptr == item->getParentItem())
         {
-            parent = parent.child(m_root.indexOf(item),0);
+            parent= parent.child(m_root.indexOf(item), 0);
         }
         else
         {
-            parent = parent.child(item->rowInParent(),0);
+            parent= parent.child(item->rowInParent(), 0);
         }
     }
     return parent;
 }
 
-void ChannelModel::setLocalPlayerId(const QString &id)
+void ChannelModel::setLocalPlayerId(const QString& id)
 {
-    m_localPlayerId = id;
+    m_localPlayerId= id;
 }
 
-NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader *msg)
+NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader* msg)
 {
     if(NetMsg::AddChannel == msg->action())
     {
-        QString idParent = msg->string8();
-        auto parent = getItemById(idParent);
+        QString idParent= msg->string8();
+        auto parent= getItemById(idParent);
         if(nullptr == parent)
         {
-            Channel* channel = new Channel();
+            Channel* channel= new Channel();
             channel->read(*msg);
 
-            auto item = getItemById(idParent);
-            Channel* parent = static_cast<Channel*>(item);
+            auto item= getItemById(idParent);
+            Channel* parent= static_cast<Channel*>(item);
 
             addChannelToChannel(channel, parent);
         }
@@ -323,37 +318,36 @@ NetWorkReceiver::SendType ChannelModel::processMessage(NetworkMessageReader *msg
     }
     return NetWorkReceiver::NONE;
 }
-Qt::ItemFlags ChannelModel::flags(const QModelIndex &index) const
+Qt::ItemFlags ChannelModel::flags(const QModelIndex& index) const
 {
-    if (!index.isValid())
+    if(!index.isValid())
         return Qt::NoItemFlags;
 
-    TreeItem* item = static_cast<TreeItem*>(index.internalPointer());
+    TreeItem* item= static_cast<TreeItem*>(index.internalPointer());
 
     if(isAdmin() && item->isLeaf())
     {
-        return Qt::ItemIsEnabled  | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled ;
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled;
     }
     else if(isAdmin() && !item->isLeaf())
     {
-        return Qt::ItemIsEnabled  | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDropEnabled ;
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
     }
     else
     {
-        return Qt::ItemIsEnabled  | Qt::ItemIsSelectable;
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     }
 }
-bool ChannelModel::hasChildren ( const QModelIndex & parent  ) const
+bool ChannelModel::hasChildren(const QModelIndex& parent) const
 {
-
-    if(!parent.isValid())//root
+    if(!parent.isValid()) // root
     {
-        return  !m_root.isEmpty();//==0?false:true;
+        return !m_root.isEmpty(); //==0?false:true;
     }
     else
     {
-        TreeItem* childItem = static_cast<TreeItem*>(parent.internalPointer());
-        if(childItem->childCount()==0)
+        TreeItem* childItem= static_cast<TreeItem*>(parent.internalPointer());
+        if(childItem->childCount() == 0)
             return false;
         else
             return true;
@@ -369,22 +363,23 @@ Qt::DropActions ChannelModel::supportedDropActions() const
 {
     return Qt::MoveAction;
 }
-QMimeData* ChannelModel::mimeData(const QModelIndexList &indexes) const
+QMimeData* ChannelModel::mimeData(const QModelIndexList& indexes) const
 {
-    ClientMimeData* mimeData = new ClientMimeData();
+    ClientMimeData* mimeData= new ClientMimeData();
 
-    for(const QModelIndex & index: indexes)
+    for(const QModelIndex& index : indexes)
     {
-        if((index.isValid())&&(index.column()==0))
+        if((index.isValid()) && (index.column() == 0))
         {
-            TcpClient* item = static_cast<TcpClient*>(index.internalPointer());
-            mimeData->addClient(item,index);
+            TcpClient* item= static_cast<TcpClient*>(index.internalPointer());
+            mimeData->addClient(item, index);
         }
     }
     return mimeData;
 }
 
-bool ChannelModel::moveMediaItem(QList<TcpClient*> items,const QModelIndex& parentToBe,int row, QList<QModelIndex>& formerPosition)
+bool ChannelModel::moveMediaItem(
+    QList<TcpClient*> items, const QModelIndex& parentToBe, int row, QList<QModelIndex>& formerPosition)
 {
     Q_UNUSED(row)
     Q_UNUSED(formerPosition)
@@ -392,14 +387,17 @@ bool ChannelModel::moveMediaItem(QList<TcpClient*> items,const QModelIndex& pare
     {
         if(parentToBe.isValid())
         {
-            Channel* item = static_cast<Channel*>(parentToBe.internalPointer());
-            QString id = item->getId();
+            Channel* item= static_cast<Channel*>(parentToBe.internalPointer());
+            QString id= item->getId();
 
             QByteArray pw;
 #ifdef QT_WIDGETS_LIB
             if(!item->password().isEmpty())
             {
-                pw = QInputDialog::getText(nullptr,tr("Channel Password"),tr("Channel %1 required password:").arg(item->getName()),QLineEdit::Password).toUtf8().toBase64();
+                pw= QInputDialog::getText(nullptr, tr("Channel Password"),
+                    tr("Channel %1 required password:").arg(item->getName()), QLineEdit::Password)
+                        .toUtf8()
+                        .toBase64();
             }
 #endif
 
@@ -407,7 +405,7 @@ bool ChannelModel::moveMediaItem(QList<TcpClient*> items,const QModelIndex& pare
             {
                 if(!id.isEmpty())
                 {
-                    NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::JoinChannel);
+                    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::JoinChannel);
                     msg.string8(id);
                     msg.string8(client->getId());
                     msg.byteArray32(pw);
@@ -419,28 +417,28 @@ bool ChannelModel::moveMediaItem(QList<TcpClient*> items,const QModelIndex& pare
     }
     return false;
 }
-bool ChannelModel::dropMimeData(const QMimeData *data,
-                                Qt::DropAction action, int row, int column, const QModelIndex &parent)
+bool ChannelModel::dropMimeData(
+    const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
 {
     Q_UNUSED(column);
 
-    if (action == Qt::IgnoreAction)
+    if(action == Qt::IgnoreAction)
         return false;
 
-    bool added=false;
+    bool added= false;
 
-    if (data->hasFormat("application/rolisteam.networkclient.list"))
+    if(data->hasFormat("application/rolisteam.networkclient.list"))
     {
-        const  ClientMimeData* clientData = qobject_cast<const ClientMimeData*>(data);
+        const ClientMimeData* clientData= qobject_cast<const ClientMimeData*>(data);
 
-        if(nullptr!=clientData)
+        if(nullptr != clientData)
         {
-            QList<TcpClient*> clientList = clientData->getList().values();
-            QList<QModelIndex> indexList = clientData->getList().keys();
+            QList<TcpClient*> clientList= clientData->getList().values();
+            QList<QModelIndex> indexList= clientData->getList().keys();
             {
-                if (action == Qt::MoveAction)
+                if(action == Qt::MoveAction)
                 {
-                    added = moveMediaItem(clientList,parent,row,indexList);
+                    added= moveMediaItem(clientList, parent, row, indexList);
                 }
             }
         }
@@ -453,10 +451,10 @@ bool ChannelModel::addConnectionToDefaultChannel(TcpClient* client)
     {
         if(!m_root.isEmpty())
         {
-            auto item = m_root.at(0);
+            auto item= m_root.at(0);
             if(nullptr != item)
             {
-                m_defaultChannel = item->getId();
+                m_defaultChannel= item->getId();
             }
         }
         else
@@ -465,18 +463,17 @@ bool ChannelModel::addConnectionToDefaultChannel(TcpClient* client)
         }
     }
 
-    return addConnectionToChannel(m_defaultChannel,client);
-
+    return addConnectionToChannel(m_defaultChannel, client);
 }
 
 bool ChannelModel::addConnectionToChannel(QString chanId, TcpClient* client)
 {
-    bool found=false;
+    bool found= false;
     for(auto& item : m_root)
     {
         if(nullptr != item)
         {
-            found = item->addChildInto(chanId,client);
+            found= item->addChildInto(chanId, client);
         }
     }
     return found;
@@ -489,21 +486,21 @@ void ChannelModel::readDataJson(const QJsonObject& obj)
         item->clear();
     }
     m_root.clear();
-    QJsonArray channels = obj["channel"].toArray();
+    QJsonArray channels= obj["channel"].toArray();
     for(auto channelJson : channels)
     {
-        Channel* tmp = new Channel();
-        QJsonObject obj = channelJson.toObject();
+        Channel* tmp= new Channel();
+        QJsonObject obj= channelJson.toObject();
         tmp->setParentItem(nullptr);
         tmp->readFromJson(obj);
         m_root.append(tmp);
     }
     endResetModel();
 
-    auto item = getPlayerById(m_localPlayerId);
+    auto item= getPlayerById(m_localPlayerId);
     if(nullptr != item)
     {
-        auto parent = dynamic_cast<Channel*>(item->getParentItem());// channel
+        auto parent= dynamic_cast<Channel*>(item->getParentItem()); // channel
         if(nullptr != parent)
         {
             qDebug() << parent->getName() << "name of parent";
@@ -515,7 +512,7 @@ void ChannelModel::readDataJson(const QJsonObject& obj)
 void ChannelModel::writeDataJson(QJsonObject& obj)
 {
     QJsonArray array;
-    for(auto& item : m_root) //int i = 0; i< m_root->childCount(); ++i)
+    for(auto& item : m_root) // int i = 0; i< m_root->childCount(); ++i)
     {
         if(nullptr != item)
         {
@@ -524,26 +521,25 @@ void ChannelModel::writeDataJson(QJsonObject& obj)
             array.append(jsonObj);
         }
     }
-    obj["channel"]=array;
+    obj["channel"]= array;
 }
 
 void ChannelModel::readSettings()
 {
-    QSettings settings("Rolisteam","roliserver");
-    QJsonDocument doc= QJsonDocument::fromVariant(settings.value("channeldata",""));
-    QJsonObject obj = doc.object();
+    QSettings settings("Rolisteam", "roliserver");
+    QJsonDocument doc= QJsonDocument::fromVariant(settings.value("channeldata", ""));
+    QJsonObject obj= doc.object();
     readDataJson(obj);
 }
 
-
 void ChannelModel::writeSettings()
 {
-    QSettings settings("Rolisteam","roliserver");
+    QSettings settings("Rolisteam", "roliserver");
     QJsonDocument doc;
     QJsonObject obj;
     writeDataJson(obj);
     doc.setObject(obj);
-    settings.setValue("channeldata",doc);
+    settings.setValue("channeldata", doc);
 }
 
 void ChannelModel::kick(QString id)
@@ -564,7 +560,7 @@ bool ChannelModel::isAdmin() const
 
 void ChannelModel::setAdmin(bool admin)
 {
-    m_admin = admin;
+    m_admin= admin;
 }
 TreeItem* ChannelModel::getItemById(QString id)
 {
@@ -578,8 +574,8 @@ TreeItem* ChannelModel::getItemById(QString id)
             }
             else
             {
-                TreeItem* child = item->getChildById(id);
-                if(nullptr!= child)
+                TreeItem* child= item->getChildById(id);
+                if(nullptr != child)
                 {
                     return child;
                 }
@@ -596,7 +592,7 @@ TcpClient* ChannelModel::getPlayerById(QString id)
         if(nullptr == item)
             continue;
 
-        auto client = dynamic_cast<TcpClient*>(item);
+        auto client= dynamic_cast<TcpClient*>(item);
         if(client)
         {
             if(client->getPlayerId() == id)
@@ -606,30 +602,29 @@ TcpClient* ChannelModel::getPlayerById(QString id)
         }
         else
         {
-            auto channel = dynamic_cast<Channel*>(item);
-            if(nullptr!= channel)
+            auto channel= dynamic_cast<Channel*>(item);
+            if(nullptr != channel)
             {
                 return channel->getPlayerById(id);
             }
         }
-
     }
     return nullptr;
 }
 
 void ChannelModel::removeChild(QString id)
 {
-    auto item = getItemById(id);
-    if((nullptr != item))//&&(!item->isLeaf())
+    auto item= getItemById(id);
+    if((nullptr != item)) //&&(!item->isLeaf())
     {
-        auto parent = item->getParentItem();
+        auto parent= item->getParentItem();
         if(nullptr != parent)
         {
-            Channel* channel = dynamic_cast<Channel*>(parent);
+            Channel* channel= dynamic_cast<Channel*>(parent);
             if(nullptr != channel)
             {
-                QModelIndex index = channelToIndex(channel);
-                beginRemoveRows(index,channel->indexOf(item),channel->indexOf(item));
+                QModelIndex index= channelToIndex(channel);
+                beginRemoveRows(index, channel->indexOf(item), channel->indexOf(item));
                 channel->removeChild(item);
                 endRemoveRows();
             }
@@ -637,7 +632,7 @@ void ChannelModel::removeChild(QString id)
         else
         {
             QModelIndex index;
-            beginRemoveRows(index,m_root.indexOf(item),m_root.indexOf(item));
+            beginRemoveRows(index, m_root.indexOf(item), m_root.indexOf(item));
             m_root.removeAll(item);
             endRemoveRows();
         }
@@ -654,18 +649,18 @@ void ChannelModel::setChannelMemorySize(Channel* chan, quint64 size)
 {
     if(m_shield)
         return;
-    m_sizeMap[chan] = size;
+    m_sizeMap[chan]= size;
 
     emit totalSizeChanged(computeTotalSize(m_sizeMap));
 }
 
 void ChannelModel::emptyChannelMemory()
 {
-    m_shield = true;
+    m_shield= true;
     for(auto pair : m_sizeMap)
     {
-        QMetaObject::invokeMethod(pair.first,"clearData",Qt::QueuedConnection);
-        pair.second = 0;
+        QMetaObject::invokeMethod(pair.first, "clearData", Qt::QueuedConnection);
+        pair.second= 0;
     }
-    m_shield = false;
+    m_shield= false;
 }

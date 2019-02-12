@@ -19,31 +19,25 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #include "delegate.h"
 
-Delegate::Delegate(QObject * parent)
-    : QItemDelegate(parent)
-{
-}
+Delegate::Delegate(QObject* parent) : QItemDelegate(parent) {}
 
-Delegate::~Delegate()
-{
-}
+Delegate::~Delegate() {}
 
-int Delegate::roleAt(const QStyleOptionViewItem &option, const QModelIndex &index, QPoint pos) const
+int Delegate::roleAt(const QStyleOptionViewItem& option, const QModelIndex& index, QPoint pos) const
 {
-    QRect decorationRect = rect(option, index, Qt::DecorationRole);
-    QRect displayRect = rect(option, index, Qt::DisplayRole);
-    QRect checkRect = rect(option, index, Qt::CheckStateRole);
+    QRect decorationRect= rect(option, index, Qt::DecorationRole);
+    QRect displayRect= rect(option, index, Qt::DisplayRole);
+    QRect checkRect= rect(option, index, Qt::CheckStateRole);
 
     doLayout(option, &checkRect, &decorationRect, &displayRect, true);
 
-    if (decorationRect.contains(pos))
+    if(decorationRect.contains(pos))
         return Qt::DecorationRole;
-    if (displayRect.contains(pos))
+    if(displayRect.contains(pos))
         return Qt::DisplayRole;
-    if (checkRect.contains(pos))
+    if(checkRect.contains(pos))
         return Qt::CheckStateRole;
 
     return -1;

@@ -33,31 +33,34 @@ public:
     /**
      * @brief The COLUMN enum
      */
-    enum COLUMN { TITLE };
+    enum COLUMN
+    {
+        TITLE
+    };
     /**
      * @brief MusicModel
      * @param parent
      */
-    explicit MusicModel(QObject *parent = nullptr);
+    explicit MusicModel(QObject* parent= nullptr);
     /**
      * @brief rowCount
      * @param parent
      * @return
      */
-    virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
+    virtual int rowCount(const QModelIndex& parent= QModelIndex()) const;
     /**
      * @brief columnCount
      * @param parent
      * @return
      */
-    virtual int columnCount(const QModelIndex & parent= QModelIndex()) const;
+    virtual int columnCount(const QModelIndex& parent= QModelIndex()) const;
     /**
      * @brief data
      * @param index
      * @param role
      * @return
      */
-    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    virtual QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const;
     /**
      * @brief headerData
      * @param section
@@ -69,18 +72,18 @@ public:
     /**
      * @brief addSong
      */
-    void addSong(QStringList );
+    void addSong(QStringList);
     /**
      * @brief insertSong
      * @param i
      * @param str
      */
-    void insertSong(int i,QString str);
+    void insertSong(int i, QString str);
     /**
      * @brief getMediaByModelIndex
      * @return
      */
-    QMediaContent* getMediaByModelIndex(const QModelIndex &);
+    QMediaContent* getMediaByModelIndex(const QModelIndex&);
     /**
      * @brief removeAll
      */
@@ -94,7 +97,7 @@ public:
      * @brief setCurrentSong
      * @param p
      */
-    void setCurrentSong(const QModelIndex &p);
+    void setCurrentSong(const QModelIndex& p);
     /**
      * @brief getCurrentSong
      * @return
@@ -110,14 +113,15 @@ public:
      * @param index
      * @return
      */
-    Qt::ItemFlags flags(const QModelIndex &index) const;
+    Qt::ItemFlags flags(const QModelIndex& index) const;
     /**
      * @brief ​mimeTypes
      */
     QStringList mimeTypes() const;
+
 protected:
     Qt::DropActions supportedDropActions() const;
-    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex& index);
+    bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& index);
 
 private:
     QStringList m_header;

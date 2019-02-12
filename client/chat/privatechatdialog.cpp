@@ -20,7 +20,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #include "privatechatdialog.h"
 
 #include <QFormLayout>
@@ -32,42 +31,38 @@
 #include "data/player.h"
 #include "userlist/playersList.h"
 
-
 /**************************
  * PrivateChatDialogModel *
  **************************/
 
-PrivateChatDialogModel::PrivateChatDialogModel(QObject * parent)
-	: PlayersListProxyModel(parent),m_isEditable(false)
-{
-}
+PrivateChatDialogModel::PrivateChatDialogModel(QObject* parent) : PlayersListProxyModel(parent), m_isEditable(false) {}
 
-Qt::ItemFlags PrivateChatDialogModel::flags(const QModelIndex &index) const
+Qt::ItemFlags PrivateChatDialogModel::flags(const QModelIndex& index) const
 {
-    if (!index.isValid())
+    if(!index.isValid())
         return Qt::NoItemFlags;
 
-    if (!m_isEditable)
+    if(!m_isEditable)
         return Qt::ItemIsEnabled;
 
-    PlayersList* g_playersList = PlayersList::instance();
-    Player* player = g_playersList->getPlayer(index);
+    PlayersList* g_playersList= PlayersList::instance();
+    Player* player= g_playersList->getPlayer(index);
 
     // We should return Qt::NoItemFlags when (player == nullptr),
     // but this cause an infinite loop when the last entry is deleted.
     // This is a workaround of a Qt's bug.
-    if (player == nullptr || player == g_playersList->getLocalPlayer())
+    if(player == nullptr || player == g_playersList->getLocalPlayer())
         return Qt::ItemIsEnabled;
 
-    if (player->hasFeature("MultiChat"))
+    if(player->hasFeature("MultiChat"))
         return Qt::ItemIsEnabled | Qt::ItemIsUserCheckable;
 
     return Qt::NoItemFlags;
 }
 
-QVariant PrivateChatDialogModel::data(const QModelIndex &index, int role) const
+QVariant PrivateChatDialogModel::data(const QModelIndex& index, int role) const
 {
-    if (role == Qt::CheckStateRole)
+    if(role == Qt::CheckStateRole)
     {
         return QVariant(m_set.contains(PlayersList::instance()->getPlayer(index)));
     }
@@ -75,15 +70,15 @@ QVariant PrivateChatDialogModel::data(const QModelIndex &index, int role) const
     return QAbstractProxyModel::data(index, role);
 }
 
-bool PrivateChatDialogModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool PrivateChatDialogModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    if (!m_isEditable)
+    if(!m_isEditable)
         return false;
 
-    if (role == Qt::CheckStateRole && (index.flags() & Qt::ItemIsUserCheckable))
+    if(role == Qt::CheckStateRole && (index.flags() & Qt::ItemIsUserCheckable))
     {
-        Player * player = PlayersList::instance()->getPlayer(index);
-        if (!m_set.remove(player))
+        Player* player= PlayersList::instance()->getPlayer(index);
+        if(!m_set.remove(player))
             m_set.insert(player);
         emit dataChanged(index, index);
         return true;
@@ -92,49 +87,48 @@ bool PrivateChatDialogModel::setData(const QModelIndex &index, const QVariant &v
     return QAbstractProxyModel::setData(index, value, role);
 }
 
-QSet<Player *> & PrivateChatDialogModel::playersSet()
+QSet<Player*>& PrivateChatDialogModel::playersSet()
 {
     return m_set;
 }
 
-void PrivateChatDialogModel::setPlayersSet(const QSet<Player *> & set)
+void PrivateChatDialogModel::setPlayersSet(const QSet<Player*>& set)
 {
-    m_set = set;
+    m_set= set;
     m_set.insert(PlayersList::instance()->getLocalPlayer());
     emit dataChanged(createIndex(0, 0, PlayersList::NoParent),
-            createIndex(PlayersList::instance()->getPlayerCount() - 1, 0, PlayersList::NoParent));
+        createIndex(PlayersList::instance()->getPlayerCount() - 1, 0, PlayersList::NoParent));
 }
 
 void PrivateChatDialogModel::setEditable(bool isEditable)
 {
-    m_isEditable = isEditable;
+    m_isEditable= isEditable;
 }
 
 /*********************
  * PrivateChatDialog *
  *********************/
 
-PrivateChatDialog::PrivateChatDialog(QWidget * parent)
-    : QDialog(parent)
+PrivateChatDialog::PrivateChatDialog(QWidget* parent) : QDialog(parent)
 {
-    m_name_w = new QLineEdit;
+    m_name_w= new QLineEdit;
 
-    m_owner_w = new QLineEdit;
+    m_owner_w= new QLineEdit;
     m_owner_w->setReadOnly(true);
 
-    QListView * listView = new QListView;
+    QListView* listView= new QListView;
     listView->setModel(&m_model);
 
-    QFormLayout * formLayout = new QFormLayout;
+    QFormLayout* formLayout= new QFormLayout;
     formLayout->addRow(tr("&Name : "), m_name_w);
     formLayout->addRow(tr("&Owner : "), m_owner_w);
     formLayout->addRow(tr("&Player : "), listView);
 
-    m_buttonBox = new QDialogButtonBox;
+    m_buttonBox= new QDialogButtonBox;
     connect(m_buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(m_buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QVBoxLayout * mainLayout = new QVBoxLayout;
+    QVBoxLayout* mainLayout= new QVBoxLayout;
     mainLayout->addLayout(formLayout);
     mainLayout->addWidget(m_buttonBox);
 
@@ -148,31 +142,31 @@ QSize PrivateChatDialog::sizeHint() const
     return minimumSizeHint() * 1.4;
 }
 
-int PrivateChatDialog::edit(PrivateChat * chat)
+int PrivateChatDialog::edit(PrivateChat* chat)
 {
-    if (chat == nullptr)
+    if(chat == nullptr)
     {
         return QDialog::Rejected;
     }
-    if(nullptr==chat->owner())
+    if(nullptr == chat->owner())
     {
-         return QDialog::Rejected;
+        return QDialog::Rejected;
     }
 
-    bool isEditable = chat->belongsToLocalPlayer();
+    bool isEditable= chat->belongsToLocalPlayer();
     m_name_w->setText(chat->name());
     m_name_w->setReadOnly(!isEditable);
     m_owner_w->setText(chat->owner()->name());
     m_model.setPlayersSet(chat->players());
     m_model.setEditable(isEditable);
 
-    if (isEditable)
+    if(isEditable)
         m_buttonBox->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     else
         m_buttonBox->setStandardButtons(QDialogButtonBox::Cancel);
 
-    int ret = exec();
-    if (ret == QDialog::Accepted)
+    int ret= exec();
+    if(ret == QDialog::Accepted)
         chat->set(m_name_w->text(), m_model.playersSet());
 
     return ret;

@@ -41,16 +41,12 @@ private slots:
     void fileDirChooserTest();
     void diameterSelectorTest();
 
-
 private:
     std::unique_ptr<RealSlider> m_realSlider;
     std::unique_ptr<FileDirChooser> m_fileDirChooser;
     std::unique_ptr<DiameterSelector> m_diameter;
 };
-WidgetsTest::WidgetsTest()
-{
-
-}
+WidgetsTest::WidgetsTest() {}
 void WidgetsTest::initTestCase()
 {
     m_realSlider.reset(new RealSlider());
@@ -58,22 +54,19 @@ void WidgetsTest::initTestCase()
     m_diameter.reset(new DiameterSelector());
 }
 
-void WidgetsTest::cleanupTestCase()
-{
-
-}
+void WidgetsTest::cleanupTestCase() {}
 
 void WidgetsTest::realSliderTest()
 {
-    qreal step=0.01;
+    qreal step= 0.01;
     m_realSlider->setStep(step);
     QCOMPARE(m_realSlider->step(), step);
 
-    qreal end=100.;
+    qreal end= 100.;
     m_realSlider->setEnd(end);
     QCOMPARE(m_realSlider->end(), end);
 
-    qreal start=0.;
+    qreal start= 0.;
     m_realSlider->setStart(start);
     QCOMPARE(m_realSlider->start(), start);
 
@@ -94,26 +87,23 @@ void WidgetsTest::realSliderTest()
     QVERIFY(qFuzzyCompare(args.at(0).toReal(),50.0));*/
 }
 
-void  WidgetsTest::fileDirChooserTest()
+void WidgetsTest::fileDirChooserTest()
 {
     QString path("/home/path/place");
     m_fileDirChooser->setPath(path);
-    QCOMPARE(m_fileDirChooser->path() , path);
-
+    QCOMPARE(m_fileDirChooser->path(), path);
 
     QString filter("*.png");
     m_fileDirChooser->setFilter(filter);
-    QCOMPARE(m_fileDirChooser->getFilter() , filter); 
+    QCOMPARE(m_fileDirChooser->getFilter(), filter);
 }
-
 
 void WidgetsTest::diameterSelectorTest()
 {
-    auto val = 50;
+    auto val= 50;
     m_diameter->setDiameter(val);
     QCOMPARE(m_diameter->getCurrentValue(), val);
 }
-
 
 QTEST_MAIN(WidgetsTest);
 

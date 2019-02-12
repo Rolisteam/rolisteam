@@ -1,35 +1,34 @@
 /***************************************************************************
-    *   Copyright (C) 2010 by Renaud Guezennec                                *
-    *   http://www.rolisteam.org/contact                   *
-    *                                                                         *
-    *   rolisteam is free software; you can redistribute it and/or modify     *
-    *   it under the terms of the GNU General Public License as published by  *
-    *   the Free Software Foundation; either version 2 of the License, or     *
-    *   (at your option) any later version.                                   *
-    *                                                                         *
-    *   This program is distributed in the hope that it will be useful,       *
-    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-    *   GNU General Public License for more details.                          *
-    *                                                                         *
-    *   You should have received a copy of the GNU General Public License     *
-    *   along with this program; if not, write to the                         *
-    *   Free Software Foundation, Inc.,                                       *
-    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-    ***************************************************************************/
+ *   Copyright (C) 2010 by Renaud Guezennec                                *
+ *   http://www.rolisteam.org/contact                   *
+ *                                                                         *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 #ifndef VMAP_H
 #define VMAP_H
 
-#include <QGraphicsScene>
-#include <QColor>
-#include <QUndoStack>
-#include "vtoolbar.h"
-#include "map/map.h"
 #include "data/person.h"
-#include "vmap/items/visualitem.h"
-#include "vmap/items/sightitem.h"
+#include "map/map.h"
 #include "vmap/items/griditem.h"
-
+#include "vmap/items/sightitem.h"
+#include "vmap/items/visualitem.h"
+#include "vtoolbar.h"
+#include <QColor>
+#include <QGraphicsScene>
+#include <QUndoStack>
 
 /**
  * @page VMap
@@ -50,76 +49,102 @@
 class CharacterItem;
 class AddVmapItemCommand;
 /**
-    * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...
-    * It is using the QGraphicsScene from Qt.
-    */
+ * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...
+ * It is using the QGraphicsScene from Qt.
+ */
 class VMap : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    enum GRID_PATTERN{NONE,SQUARE,HEXAGON,OCTOGON};
-    enum SCALE_UNIT{M,KM,CM,MILE,YARD,INCH,FEET,PX};
-    enum VisibilityMode {HIDDEN,FOGOFWAR,ALL};
-    enum APPLY_ON_CHARACTER {SelectionOnly, AllCharacter, AllNPC};
+    enum GRID_PATTERN
+    {
+        NONE,
+        SQUARE,
+        HEXAGON,
+        OCTOGON
+    };
+    enum SCALE_UNIT
+    {
+        M,
+        KM,
+        CM,
+        MILE,
+        YARD,
+        INCH,
+        FEET,
+        PX
+    };
+    enum VisibilityMode
+    {
+        HIDDEN,
+        FOGOFWAR,
+        ALL
+    };
+    enum APPLY_ON_CHARACTER
+    {
+        SelectionOnly,
+        AllCharacter,
+        AllNPC
+    };
     /**
-    * @brief default constructor
-    */
-    explicit VMap(QObject * parent = nullptr);
+     * @brief default constructor
+     */
+    explicit VMap(QObject* parent= nullptr);
     /**
-    * @brief constructor with parameters
-    * @param witdh of the map
-    * @param height of the map
-    * @param title of the subwindow, will be used for saving the map into file.
-    * @param bgcolor is the backgound color of the map (commonly white).
-    */
-    VMap(int width,int height,QString& title,QColor& m_bgColor,QObject * parent = nullptr);
+     * @brief constructor with parameters
+     * @param witdh of the map
+     * @param height of the map
+     * @param title of the subwindow, will be used for saving the map into file.
+     * @param bgcolor is the backgound color of the map (commonly white).
+     */
+    VMap(int width, int height, QString& title, QColor& m_bgColor, QObject* parent= nullptr);
     /**
-    * @brief defines the width
-    */
+     * @brief defines the width
+     */
     void setWidth(int width);
     /**
-    * @brief defines the height
-    */
+     * @brief defines the height
+     */
     void setHeight(int height);
     /**
-    * @brief defines the title
-    */
+     * @brief defines the title
+     */
     void setTitle(QString title);
     /**
-    * @brief defines the background color
-    */
+     * @brief defines the background color
+     */
     void setBackGroundColor(QColor bgcolor);
     /**
      * @brief getBackGroundColor
      * @return
      */
-    QColor getBackGroundColor()const;
+    QColor getBackGroundColor() const;
 
     /**
-    * @brief  unused ?
-    * @todo check the relevance of this function
-    */
+     * @brief  unused ?
+     * @todo check the relevance of this function
+     */
     void setSceneRect();
     /**
-    * @brief accessor to width
-    */
+     * @brief accessor to width
+     */
     int mapWidth() const;
     /**
-    * @brief accessor to height
-    */
+     * @brief accessor to height
+     */
     int mapHeight() const;
     /**
-    * @brief accessor to the title
-    */
+     * @brief accessor to the title
+     */
     const QString& getMapTitle() const;
     /**
      * @brief saveFile
      */
-    void saveFile(QDataStream& );
+    void saveFile(QDataStream&);
     /**
      * @brief openFile
      */
-    void openFile(QDataStream& );
+    void openFile(QDataStream&);
     /**
      * @brief itemsBoundingRectWithoutSight
      * @return
@@ -161,11 +186,11 @@ public:
      * @param msg
      */
     void processSetParentItem(NetworkMessageReader* msg);
-	/**
-	 * @brief setPermissionMode
-	 * @param mode
-	 */
-	void setPermissionMode(Map::PermissionMode mode);
+    /**
+     * @brief setPermissionMode
+     * @param mode
+     */
+    void setPermissionMode(Map::PermissionMode mode);
     /**
      * @brief setVisibilityMode
      * @param mode
@@ -185,10 +210,10 @@ public:
      * @brief manageAnchor
      */
     void manageAnchor();
-	/**
-	 * @brief getPermissionMode
-	 * @return
-	 */
+    /**
+     * @brief getPermissionMode
+     * @return
+     */
     Map::PermissionMode getPermissionMode();
     /**
      * @brief fill
@@ -200,38 +225,38 @@ public:
      * @param msg
      */
     void sendAllItems(NetworkMessageWriter& msg);
-	/**
-	 * @brief getPermissionModeText
-	 * @return
-	 */
-	QString getPermissionModeText();
-	/**
-	 * @brief getVisibilityModeText
-	 * @return
-	 */
-	QString getVisibilityModeText();
+    /**
+     * @brief getPermissionModeText
+     * @return
+     */
+    QString getPermissionModeText();
+    /**
+     * @brief getVisibilityModeText
+     * @return
+     */
+    QString getVisibilityModeText();
 
-	/**
-	 * @brief editLayer
-	 * @param layer
-	 * @return
-	 */
+    /**
+     * @brief editLayer
+     * @param layer
+     * @return
+     */
     bool editLayer(VisualItem::Layer layer);
-	/**
-	 * @brief getCurrentLayer
-	 * @return
-	 */
+    /**
+     * @brief getCurrentLayer
+     * @return
+     */
     VisualItem::Layer getCurrentLayer() const;
-	/**
-	 * @brief isIdle
-	 * @return
-	 */
-    bool isIdle() const ;
-	/**
-	 * @brief VMap::getCurrentLayerText
-	 * @return
-	 */
-	QString getCurrentLayerText() const;
+    /**
+     * @brief isIdle
+     * @return
+     */
+    bool isIdle() const;
+    /**
+     * @brief VMap::getCurrentLayerText
+     * @return
+     */
+    QString getCurrentLayerText() const;
     /**
      * @brief initScene
      */
@@ -241,7 +266,7 @@ public:
      * @param pop
      * @param value
      */
-    bool setOption(VisualItem::Properties pop,QVariant value);
+    bool setOption(VisualItem::Properties pop, QVariant value);
     /**
      * @brief getOption
      * @param pop
@@ -254,7 +279,7 @@ public:
      * @param parent
      * @param send
      */
-    void setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send = true);
+    void setAnchor(QGraphicsItem* child, QGraphicsItem* parent, bool send= true);
     /**
      * @brief currentLayer
      * @return
@@ -264,7 +289,7 @@ public:
      * @brief setCurrentLayer
      * @param currentLayer
      */
-    void setCurrentLayer(const VisualItem::Layer &currentLayer);
+    void setCurrentLayer(const VisualItem::Layer& currentLayer);
     /**
      * @brief getSelectedtool
      * @return
@@ -274,32 +299,32 @@ public:
      * @brief processZValueMsg
      * @param msg
      */
-    void processZValueMsg(NetworkMessageReader *msg);
+    void processZValueMsg(NetworkMessageReader* msg);
     /**
      * @brief processRotationMsg
      * @param msg
      */
-    void processRotationMsg(NetworkMessageReader *msg);
+    void processRotationMsg(NetworkMessageReader* msg);
     /**
      * @brief processRectGeometryMsg
      * @param msg
      */
-    void processRectGeometryMsg(NetworkMessageReader *msg);
+    void processRectGeometryMsg(NetworkMessageReader* msg);
     /**
      * @brief processCharacterStateHasChanged
      * @param msg
      */
-    void processCharacterStateHasChanged(NetworkMessageReader &msg);
+    void processCharacterStateHasChanged(NetworkMessageReader& msg);
     /**
      * @brief processCharacterHasChanged
      * @param msg
      */
-    void processCharacterHasChanged(NetworkMessageReader &msg);
+    void processCharacterHasChanged(NetworkMessageReader& msg);
     /**
      * @brief processVisionMsg
      * @param msg
      */
-    void processVisionMsg(NetworkMessageReader *msg);
+    void processVisionMsg(NetworkMessageReader* msg);
     void processColorMsg(NetworkMessageReader* msg);
     const QString& getLocalUserId() const;
     int getCurrentNpcNumber() const;
@@ -308,16 +333,16 @@ public:
 
     void removeItemFromData(VisualItem* item);
     void addItemFromData(VisualItem* item);
-    void insertItemFromData(VisualItem* item,int pos);
+    void insertItemFromData(VisualItem* item, int pos);
 
     QUndoStack* getUndoStack() const;
     void setUndoStack(QUndoStack* undoStack);
 
-    QHash<VisualItem::Properties, QVariant> *getPropertiesHash() const;
-    void setPropertiesHash(QHash<VisualItem::Properties, QVariant> *propertiesHash);
+    QHash<VisualItem::Properties, QVariant>* getPropertiesHash() const;
+    void setPropertiesHash(QHash<VisualItem::Properties, QVariant>* propertiesHash);
 
     void addImageItem(QImage img);
-    void addCommand(QUndoCommand *cmd);
+    void addCommand(QUndoCommand* cmd);
 
     int getItemCount();
     int getSortedItemCount();
@@ -327,21 +352,21 @@ public:
      * @return
      */
     SightItem* getFogItem() const;
-    bool isNormalItem(const QGraphicsItem *item);
+    bool isNormalItem(const QGraphicsItem* item);
 public slots:
     /**
-    * @brief defines the current tools
-    * @param new tool
-    */
+     * @brief defines the current tools
+     * @param new tool
+     */
     void setCurrentTool(VToolsBar::SelectableTool selectedtool);
     /**
-    * @brief defines the current color for painting
-    * @param new color
-    */
+     * @brief defines the current color for painting
+     * @param new color
+     */
     void setCurrentChosenColor(QColor&);
     /**
-    * @brief defines the pen size (sent off by toolbar).
-    */
+     * @brief defines the pen size (sent off by toolbar).
+     */
     void setPenSize(quint16);
     /**
      * @brief setCurrentNpcName
@@ -361,7 +386,7 @@ public slots:
     /**
      * @brief removeItemFromScene
      */
-    void removeItemFromScene(QString ,bool sendToAll = true, bool undoable = true);
+    void removeItemFromScene(QString, bool sendToAll= true, bool undoable= true);
     /**
      * @brief VMap::computePattern
      */
@@ -370,13 +395,13 @@ public slots:
      * @brief duplicateItem
      * @param item
      */
-	void duplicateItem(VisualItem* item);
+    void duplicateItem(VisualItem* item);
     /**
      * @brief readMessage
      * @param msg
      * @param readCharacter
      */
-    void readMessage(NetworkMessageReader& msg,bool readCharacter = true);
+    void readMessage(NetworkMessageReader& msg, bool readCharacter= true);
     /**
      * @brief setLocalId
      */
@@ -401,11 +426,12 @@ public slots:
      */
     void cleanFogEdition();
     /**
-     * @brief changeStackOrder triggered when VisualItem should change its z order. It recompute the zvalue of all items.
+     * @brief changeStackOrder triggered when VisualItem should change its z order. It recompute the zvalue of all
+     * items.
      * @param item to move
      * @param op operation to be done.
      */
-    void changeStackOrder(VisualItem* item,VisualItem::StackOrder op);
+    void changeStackOrder(VisualItem* item, VisualItem::StackOrder op);
     /**
      * @brief setCurrentItemOpacity
      */
@@ -418,19 +444,19 @@ public slots:
      * @brief processLayerMessage
      * @param msg
      */
-    void processLayerMessage(NetworkMessageReader *msg);
+    void processLayerMessage(NetworkMessageReader* msg);
     /**
      * @brief ownerHasChangedForCharacterItem
      * @param item
      * @param cItem
      */
-    void ownerHasChangedForCharacterItem(Character *item, CharacterItem *cItem);
+    void ownerHasChangedForCharacterItem(Character* item, CharacterItem* cItem);
     /**
      * @brief selectionPositionHasChanged
      */
-    //void selectionPositionHasChanged();
+    // void selectionPositionHasChanged();
     void showTransparentItems();
-    //void selectionPositionAboutToChange();
+    // void selectionPositionAboutToChange();
     void cleanUpInit(VMap::APPLY_ON_CHARACTER zone);
     void rollInit(VMap::APPLY_ON_CHARACTER zone);
 signals:
@@ -438,10 +464,10 @@ signals:
      * @brief npcAdded
      */
     void npcAdded();
-	/**
-	 * @brief mapChanged is emitted after some changes on map has been made.
-	 */
-	void mapChanged();
+    /**
+     * @brief mapChanged is emitted after some changes on map has been made.
+     */
+    void mapChanged();
     /**
      * @brief mapStatutChanged
      */
@@ -471,11 +497,11 @@ private slots:
      * @brief sendOffItem
      * @param item
      */
-    void sendOffItem(VisualItem* item, bool doInitPoint = true);
+    void sendOffItem(VisualItem* item, bool doInitPoint= true);
     /**
      * @brief updateItem
      */
-	void updateItem();
+    void updateItem();
     /**
      * @brief checkItemLayer
      */
@@ -492,50 +518,51 @@ private slots:
     /**
      * @brief characterHasBeenDeleted
      */
-    void characterHasBeenDeleted(Character* );
+    void characterHasBeenDeleted(Character*);
+
 protected:
     /**
-    * @brief catches move event with the mouse, useful for allowing move of item
-    */
-    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+     * @brief catches move event with the mouse, useful for allowing move of item
+     */
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent);
     /**
-    * @brief catches mouse Press event, defines the first point of the next added item.
-    */
-    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+     * @brief catches mouse Press event, defines the first point of the next added item.
+     */
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);
     /**
-    * @brief  catches release event, defines the last point of the next added item.
-    */
-    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+     * @brief  catches release event, defines the last point of the next added item.
+     */
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
     /**
      * @brief keyPressEvent
      * @param event
      */
     virtual void keyPressEvent(QKeyEvent* event);
     /**
-    * @brief adds item depending of the current tool.
-    */
+     * @brief adds item depending of the current tool.
+     */
     void addItem();
     /**
      * @brief addNewItem
      * @param item to add
      * @param fromNetwork, true when item is added from network, false by default.
      */
-    void addNewItem(AddVmapItemCommand* item, bool undoable, bool fromNetwork = false);
+    void addNewItem(AddVmapItemCommand* item, bool undoable, bool fromNetwork= false);
     /**
      * @brief dragEnterEvent
      * @param event
      */
-	void dragEnterEvent ( QGraphicsSceneDragDropEvent * event );
+    void dragEnterEvent(QGraphicsSceneDragDropEvent* event);
     /**
      * @brief dropEvent
      * @param event
      */
-    void dropEvent ( QGraphicsSceneDragDropEvent * event );
+    void dropEvent(QGraphicsSceneDragDropEvent* event);
     /**
      * @brief dragMoveEvent
      * @param event
      */
-	void dragMoveEvent( QGraphicsSceneDragDropEvent * event );
+    void dragMoveEvent(QGraphicsSceneDragDropEvent* event);
     /**
      * @brief initMap
      */
@@ -549,68 +576,69 @@ protected:
      * @brief ensureFogAboveAll
      */
     void ensureFogAboveAll();
-    bool isItemStorable(VisualItem *item);
+    bool isItemStorable(VisualItem* item);
+
 private:
     /**
-    * @brief width of the map
-    */
+     * @brief width of the map
+     */
     int m_width;
     /**
-    * @brief height of the map
-    */
+     * @brief height of the map
+     */
     int m_height;
     /**
-    * @brief title of the map
-    */
+     * @brief title of the map
+     */
     QString m_title;
     /**
-    * @brief background color
-    */
+     * @brief background color
+     */
     QColor m_bgColor;
     /**
-    * @brief current tool
-    */
+     * @brief current tool
+     */
     VToolsBar::SelectableTool m_selectedtool;
     /**
-    * @brief first point of the next item
-    */
+     * @brief first point of the next item
+     */
     QPointF m_first;
     /**
-    * @brief last point of the next item
-    */
+     * @brief last point of the next item
+     */
     QPointF m_end;
     /**
-    * @brief current selected item
-    */
-    VisualItem* m_currentItem = nullptr;
+     * @brief current selected item
+     */
+    VisualItem* m_currentItem= nullptr;
     /**
      * @brief m_currentPath
      */
-    VisualItem* m_currentPath = nullptr;
+    VisualItem* m_currentPath= nullptr;
     /**
-    * @brief color for items
-    */
+     * @brief color for items
+     */
     QColor m_itemColor;
     /**
-    * @brief pen size
-    */
+     * @brief pen size
+     */
     quint16 m_penSize;
     /**
-    * @brief Items list which are part of the map.
-    */
-    QMap<QString,VisualItem*>* m_itemMap = nullptr;
+     * @brief Items list which are part of the map.
+     */
+    QMap<QString, VisualItem*>* m_itemMap= nullptr;
     /**
      * @brief m_sortedItemList
      */
-    QStringList m_sortedItemList;//sorted by time of insertion
+    QStringList m_sortedItemList; // sorted by time of insertion
     /**
      * @brief m_orderedItemList is used to store zorder of all items.
      */
     QList<VisualItem*> m_orderedItemList;
     /**
-    * @brief Items list which are part of the map.
-    */
-    QMap<QString,CharacterItem*>* m_characterItemMap = nullptr;
+     * @brief Items list which are part of the map.
+     */
+    QMap<QString, CharacterItem*>* m_characterItemMap= nullptr;
     /**
      * @brief m_computedPattern
      */
@@ -645,9 +673,9 @@ private:
     FogSingularity* m_currentFog;
     quint64 m_zIndex;
 
-    QHash<VisualItem::Properties,QVariant>* m_propertiesHash = nullptr;
+    QHash<VisualItem::Properties, QVariant>* m_propertiesHash= nullptr;
     QPointer<QUndoStack> m_undoStack;
-    AddVmapItemCommand* m_currentAddCmd = nullptr;
+    AddVmapItemCommand* m_currentAddCmd= nullptr;
     QList<VisualItem*> m_movingItems;
     QList<QPointF> m_oldPos;
 };

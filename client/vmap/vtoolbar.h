@@ -19,54 +19,76 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
 #ifndef TOOLS_BAR_H
 #define TOOLS_BAR_H
 
 #include <QAction>
-#include <QLineEdit>
-#include <QLCDNumber>
 #include <QDockWidget>
+#include <QLCDNumber>
+#include <QLineEdit>
 #include <QResizeEvent>
 
+#include "map/map.h"
 #include "vcolorselector.h"
 #include "widgets/diameterselector.h"
 #include "widgets/realslider.h"
-#include "map/map.h"
 /**
-  *  @brief toolbar is a QWidget subclass which gathering all tool required for drawing maps.
-  */
+ *  @brief toolbar is a QWidget subclass which gathering all tool required for drawing maps.
+ */
 class VToolsBar : public QWidget
 {
-Q_OBJECT
+    Q_OBJECT
 
-public :
+public:
     /**
-      * @brief constructor for Qt widget
-      */
-    VToolsBar(QWidget *parent = nullptr);
+     * @brief constructor for Qt widget
+     */
+    VToolsBar(QWidget* parent= nullptr);
     /**
-      * @brief part of the singleton pattern
-      */
-    static VToolsBar* getInstance(QWidget* parent=nullptr);
+     * @brief part of the singleton pattern
+     */
+    static VToolsBar* getInstance(QWidget* parent= nullptr);
     /**
-      * @brief accessor to the current color
-      */
+     * @brief accessor to the current color
+     */
     QColor& currentColor();
-    
+
     // Selectable tools
     /**
-      * @brief tools id
-      */
-    enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC,RULE,PATH,ANCHOR,TEXTBORDER,PIPETTE,BUCKET,HIGHLIGHTER};
+     * @brief tools id
+     */
+    enum SelectableTool
+    {
+        PEN,
+        LINE,
+        EMPTYRECT,
+        FILLRECT,
+        EMPTYELLIPSE,
+        FILLEDELLIPSE,
+        TEXT,
+        HANDLER,
+        ADDNPC,
+        RULE,
+        PATH,
+        ANCHOR,
+        TEXTBORDER,
+        PIPETTE,
+        BUCKET,
+        HIGHLIGHTER
+    };
     /**
      * @brief The EditionMode enum
      */
-    enum EditionMode {Painting,Mask,Unmask};
+    enum EditionMode
+    {
+        Painting,
+        Mask,
+        Unmask
+    };
 
     /**
-      * @brief accessor to the current tool
-      */
+     * @brief accessor to the current tool
+     */
     VToolsBar::SelectableTool getCurrentTool();
     /**
      * @brief getCurrentPenSize
@@ -74,18 +96,18 @@ public :
      */
     int getCurrentPenSize();
 
-public slots :
+public slots:
     /**
      * @brief setCurrentTool
      */
     void setCurrentTool(VToolsBar::SelectableTool);
     /**
-      * @brief increase NPC number
-      */
+     * @brief increase NPC number
+     */
     void increaseNpcNumber();
     /**
-      * @brief accessor to set the current color
-      */
+     * @brief accessor to set the current color
+     */
     void changeCurrentColor(QColor color);
     /**
      * @brief updateUi
@@ -105,20 +127,20 @@ public slots :
     void setCurrentColor(QColor);
 signals:
     /**
-      * @brief emited when current tool has been changed by user
-      */
+     * @brief emited when current tool has been changed by user
+     */
     void currentToolChanged(VToolsBar::SelectableTool);
     /**
-      * @brief emitted when current color has been changed by user
-      */
+     * @brief emitted when current color has been changed by user
+     */
     void currentColorChanged(QColor&);
     /**
-      * @brief emitted when user has changed the pen size.
-      */
+     * @brief emitted when user has changed the pen size.
+     */
     void currentPenSizeChanged(int);
     /**
-      * @brief emitted when current mode has changed
-      */
+     * @brief emitted when current mode has changed
+     */
     void currentModeChanged(int);
     /**
      * @brief currentNpcNameChanged
@@ -135,33 +157,31 @@ signals:
 
     void opacityChanged(qreal);
 
-
-private slots :
+private slots:
     void resetNpcCount();
-    void npcNameChange(const QString &texte);
+    void npcNameChange(const QString& texte);
     void currentActionChanged(QAction* p);
     void currentEditionModeChange();
 
-
 private:
-    static VToolsBar* m_sigleton;/// address of single instance
-    void createActions(); /// utility function
-    void makeTools(); /// utility function
+    static VToolsBar* m_sigleton; /// address of single instance
+    void createActions();         /// utility function
+    void makeTools();             /// utility function
 
-    QWidget* m_centralWidget; /// address to the main widget
-    QLineEdit* m_npcNameTextEdit;/// text line to define the npc name
-    QLCDNumber* m_displayNPCCounter; /// count how many npc have been created
-    VColorSelector* m_colorSelector; /// select a color
-    DiameterSelector* m_lineDiameter;/// select pen diameter
-    QActionGroup* m_toolsGroup;/// group all tools and manage which one is the current one
-    SelectableTool m_currentTool; /// current tool
+    QWidget* m_centralWidget;         /// address to the main widget
+    QLineEdit* m_npcNameTextEdit;     /// text line to define the npc name
+    QLCDNumber* m_displayNPCCounter;  /// count how many npc have been created
+    VColorSelector* m_colorSelector;  /// select a color
+    DiameterSelector* m_lineDiameter; /// select pen diameter
+    QActionGroup* m_toolsGroup;       /// group all tools and manage which one is the current one
+    SelectableTool m_currentTool;     /// current tool
     EditionMode m_currentEditionMode;
-    //paiting or fow edition
+    // paiting or fow edition
     QAction* m_paintingModeAct;
     QAction* m_veilModeAct;
     QAction* m_unveilModeAct;
 
-    //tools
+    // tools
     QAction* m_pencilAct;
     QAction* m_lineAct;
     QAction* m_rectAct;
@@ -172,23 +192,21 @@ private:
     QAction* m_handAct;
     QAction* m_addPCAct;
     QAction* m_resetCountAct;
-	QAction* m_ruleAct;
-	QAction* m_pathAct;
+    QAction* m_ruleAct;
+    QAction* m_pathAct;
     QAction* m_anchorAct;
     QAction* m_pipette;
     QAction* m_bucketAct;
     QAction* m_highlighterAct;
-  //  QAction* m_unmaskPathAct;
+    //  QAction* m_unmaskPathAct;
     QAction* m_textWithBorderAct;
     QComboBox* m_editionModeCombo;
     RealSlider* m_opacitySlider;
-    
+
     QString m_currentNPCName;
     int m_currentNPCNumber;
 
     bool m_isGM;
-    
-
 };
-    
+
 #endif

@@ -40,107 +40,102 @@ private slots:
     void getAndSetColorNameTest();
     void paletteColorConstructor();
 
-
 private:
     PaletteModel* m_paletteModel;
     PaletteColor* m_paletteColor;
 };
-PaletteModelTest::PaletteModelTest()
-{
-
-}
+PaletteModelTest::PaletteModelTest() {}
 void PaletteModelTest::initTestCase()
 {
-    m_paletteModel=new PaletteModel(this);
-    m_paletteColor=new PaletteColor(QColor(),"WindowText",QPalette::Active,QPalette::WindowText);
+    m_paletteModel= new PaletteModel(this);
+    m_paletteColor= new PaletteColor(QColor(), "WindowText", QPalette::Active, QPalette::WindowText);
 }
 
 void PaletteModelTest::getAndSetTest()
 {
-    QPalette  test_palette;
+    QPalette test_palette;
     m_paletteModel->setPalette(test_palette);
-    QPalette result=m_paletteModel->getPalette();
+    QPalette result= m_paletteModel->getPalette();
 
-    bool equal = true;
-    for(int grp = 0; grp <  QPalette::NColorGroups; grp++)
+    bool equal= true;
+    for(int grp= 0; grp < QPalette::NColorGroups; grp++)
     {
-        for(int role = 0; role < QPalette::NColorRoles; role++)
+        for(int role= 0; role < QPalette::NColorRoles; role++)
         {
-             if((result.color((QPalette::ColorGroup)grp,(QPalette::ColorRole)role) != test_palette.color((QPalette::ColorGroup)grp,(QPalette::ColorRole)role)))
-             {
-                 equal = false;
-             }
+            if((result.color((QPalette::ColorGroup)grp, (QPalette::ColorRole)role)
+                   != test_palette.color((QPalette::ColorGroup)grp, (QPalette::ColorRole)role)))
+            {
+                equal= false;
+            }
         }
     }
     QVERIFY(equal);
 }
 void PaletteModelTest::paletteColorChangedTest()
 {
-    QPalette  test_palette;
+    QPalette test_palette;
     m_paletteModel->setPalette(test_palette);
-    QColor test_color(1,87,42);
-    QModelIndex firstIndex=m_paletteModel->index(0,0);
-    m_paletteModel->setColor(firstIndex,test_color);
-    QColor result_color=m_paletteModel->data(firstIndex,Qt::DecorationRole).value<QColor>();
-    QVERIFY(result_color==test_color);
+    QColor test_color(1, 87, 42);
+    QModelIndex firstIndex= m_paletteModel->index(0, 0);
+    m_paletteModel->setColor(firstIndex, test_color);
+    QColor result_color= m_paletteModel->data(firstIndex, Qt::DecorationRole).value<QColor>();
+    QVERIFY(result_color == test_color);
 }
 void PaletteModelTest::paletteColorChangedTest2()
 {
-    QPalette  test_palette;
+    QPalette test_palette;
     m_paletteModel->setPalette(test_palette);
-    QColor test_color(1,87,42);
-    QModelIndex firstIndex=m_paletteModel->index(10,0);
-    m_paletteModel->setColor(firstIndex,test_color);
-    QColor result_color=m_paletteModel->data(firstIndex,Qt::DecorationRole).value<QColor>();
-    QVERIFY(result_color==test_color);
+    QColor test_color(1, 87, 42);
+    QModelIndex firstIndex= m_paletteModel->index(10, 0);
+    m_paletteModel->setColor(firstIndex, test_color);
+    QColor result_color= m_paletteModel->data(firstIndex, Qt::DecorationRole).value<QColor>();
+    QVERIFY(result_color == test_color);
 }
 void PaletteModelTest::paletteColorChangedTest3()
 {
-    QPalette  test_palette;
+    QPalette test_palette;
     m_paletteModel->setPalette(test_palette);
-    QColor test_color(201,7,252);
-    QModelIndex firstIndex=m_paletteModel->index(20,0);
-    m_paletteModel->setColor(firstIndex,test_color);
-    QColor result_color=m_paletteModel->data(firstIndex,Qt::DecorationRole).value<QColor>();
-    QVERIFY(result_color==test_color);
+    QColor test_color(201, 7, 252);
+    QModelIndex firstIndex= m_paletteModel->index(20, 0);
+    m_paletteModel->setColor(firstIndex, test_color);
+    QColor result_color= m_paletteModel->data(firstIndex, Qt::DecorationRole).value<QColor>();
+    QVERIFY(result_color == test_color);
 }
 void PaletteModelTest::paletteColorChangedTest4()
 {
-    QPalette  test_palette;
+    QPalette test_palette;
     m_paletteModel->setPalette(test_palette);
-    QColor test_color(102,87,42);
-    QModelIndex firstIndex=m_paletteModel->index(30,0);
-    m_paletteModel->setColor(firstIndex,test_color);
-    QColor result_color=m_paletteModel->data(firstIndex,Qt::DecorationRole).value<QColor>();
-    QVERIFY(result_color==test_color);
+    QColor test_color(102, 87, 42);
+    QModelIndex firstIndex= m_paletteModel->index(30, 0);
+    m_paletteModel->setColor(firstIndex, test_color);
+    QColor result_color= m_paletteModel->data(firstIndex, Qt::DecorationRole).value<QColor>();
+    QVERIFY(result_color == test_color);
 }
 void PaletteModelTest::getAndSetColorTest()
 {
-    QColor  test_color(1,2,3);
+    QColor test_color(1, 2, 3);
     m_paletteColor->setColor(test_color);
-    QColor result=m_paletteColor->getColor();
-    QVERIFY(result==test_color);
+    QColor result= m_paletteColor->getColor();
+    QVERIFY(result == test_color);
 }
 void PaletteModelTest::getAndSetColorNameTest()
 {
-    QString  test_colorName("rouge");
+    QString test_colorName("rouge");
     m_paletteColor->setName(test_colorName);
-    QString result=m_paletteColor->getName();
-    QVERIFY(result==test_colorName);
+    QString result= m_paletteColor->getName();
+    QVERIFY(result == test_colorName);
 }
 void PaletteModelTest::paletteColorConstructor()
 {
-    PaletteColor test_paletteColor(QColor(1,2,4),"texte",QPalette::Active,QPalette::Highlight);
-    QVERIFY2(test_paletteColor.getColor()==QColor(1,2,4),"color is not equal");
+    PaletteColor test_paletteColor(QColor(1, 2, 4), "texte", QPalette::Active, QPalette::Highlight);
+    QVERIFY2(test_paletteColor.getColor() == QColor(1, 2, 4), "color is not equal");
 }
-
 
 void PaletteModelTest::cleanupTestCase()
 {
     delete m_paletteModel;
     delete m_paletteColor;
 }
-
 
 QTEST_MAIN(PaletteModelTest);
 

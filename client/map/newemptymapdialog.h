@@ -20,14 +20,15 @@
 #ifndef NEWEMPTYMAPDIALOG_H
 #define NEWEMPTYMAPDIALOG_H
 
-#include <QDialog>
 #include "common/widgets/colorbutton.h"
+#include <QDialog>
 
 #include "map/map.h"
 #include <QMessageBox>
 
-namespace Ui {
-class NewEmptyMapDialog;
+namespace Ui
+{
+    class NewEmptyMapDialog;
 }
 /**
  * @brief The NewEmptyMapDialog class is the dialog displayed to the user to select properties of the map he wants.
@@ -37,12 +38,12 @@ class NewEmptyMapDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit NewEmptyMapDialog(QWidget *parent = 0);
+    explicit NewEmptyMapDialog(QWidget* parent= 0);
     ~NewEmptyMapDialog();
 
     Map::PermissionMode getPermission() const;
-    QString getTitle( ) const;
-    QColor getColor( ) const;
+    QString getTitle() const;
+    QColor getColor() const;
     QSize getSize() const;
     QStringList getPermissionData();
 
@@ -57,10 +58,10 @@ public slots:
     void resetData();
 
 private:
-    Ui::NewEmptyMapDialog *ui;
+    Ui::NewEmptyMapDialog* ui;
 
-    QStringList  m_labelModel;
-    QStringList  m_permissionData;
+    QStringList m_labelModel;
+    QStringList m_permissionData;
     QList<QSize> m_landscapeModel;
     QList<QSize> m_portraitModel;
     QList<QSize> m_squareModel;

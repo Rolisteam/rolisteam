@@ -22,13 +22,13 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include <QWidget>
-#include <QImage>
-#include <QScrollArea>
 #include <QAction>
 #include <QFile>
-#include <QString>
+#include <QImage>
 #include <QLabel>
+#include <QScrollArea>
+#include <QString>
+#include <QWidget>
 
 #include "preferences/preferencesmanager.h"
 
@@ -43,9 +43,10 @@ class QShortcut;
 class Image : public MediaContainer
 {
     Q_OBJECT
-public :
-    //Image(QString title, QString identImage, QString identJoueur, QImage *image, QAction *action = 0, ImprovedWorkspace *parent = 0);
-    explicit Image(QWidget* parent = nullptr);
+public:
+    // Image(QString title, QString identImage, QString identJoueur, QImage *image, QAction *action = 0,
+    // ImprovedWorkspace *parent = 0);
+    explicit Image(QWidget* parent= nullptr);
     /**
      * @brief ~Image destructor.
      */
@@ -54,83 +55,82 @@ public :
      * @brief setInternalAction may not be useful anymore.
      * @param action
      */
-    void setInternalAction(QAction *action);
+    void setInternalAction(QAction* action);
     QAction* getAssociatedAction() const;
 
-    void saveImageToFile(QFile &file);
+    void saveImageToFile(QFile& file);
     void saveImageToFile(QDataStream& out);
     bool isImageOwner(QString id);
-    void setParent(QWidget *parent);
+    void setParent(QWidget* parent);
     void setImage(QImage& img);
     void setIdOwner(QString);
 
-	virtual bool readFileFromUri();
+    virtual bool readFileFromUri();
     virtual bool openMedia();
     virtual void saveMedia();
 
     virtual void putDataIntoCleverUri();
 
-
     virtual void fill(NetworkMessageWriter& msg);
     virtual void readMessage(NetworkMessageReader& msg);
 
-public slots :
+public slots:
     void setCurrentTool(ToolsBar::SelectableTool tool);
 
 protected:
     /**
-    * @brief called when users roll the wheel of their mouse
-    * @param event : define few parameters about the action (way,..)
-    */
-    void wheelEvent(QWheelEvent *event);
+     * @brief called when users roll the wheel of their mouse
+     * @param event : define few parameters about the action (way,..)
+     */
+    void wheelEvent(QWheelEvent* event);
 
     /**
      * @brief resizeEvent make sure the window keep the right ratio.
      */
-    void resizeEvent(QResizeEvent *event);
+    void resizeEvent(QResizeEvent* event);
 
-   // void closeEvent(QCloseEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void contextMenuEvent ( QContextMenuEvent * event );
-    void paintEvent ( QPaintEvent * event );
+    // void closeEvent(QCloseEvent *event);
+    void mousePressEvent(QMouseEvent* event);
+    void mouseReleaseEvent(QMouseEvent* event);
+    void mouseMoveEvent(QMouseEvent* event);
+    void contextMenuEvent(QContextMenuEvent* event);
+    void paintEvent(QPaintEvent* event);
 
 protected slots:
     virtual void updateTitle();
 private slots:
     /**
-    * @brief generic function to set the zoom level and refresh the picture
-    * @param zoomlevel : new zoomlevel value
-    */
+     * @brief generic function to set the zoom level and refresh the picture
+     * @param zoomlevel : new zoomlevel value
+     */
     void setZoomLevel(double zoomlevel);
     /**
-    * @brief default function to zoomIn, Add 0.2 to the zoom level and then refresh the picture
-    */
+     * @brief default function to zoomIn, Add 0.2 to the zoom level and then refresh the picture
+     */
     void zoomIn();
     /**
-    * @brief default function to zoomOut, substract 0.2 to the zoom level and then refresh the picture
-    */
+     * @brief default function to zoomOut, substract 0.2 to the zoom level and then refresh the picture
+     */
     void zoomOut();
     /**
-    * @brief refresh the size of the label (which embeds the picture)
-    */
+     * @brief refresh the size of the label (which embeds the picture)
+     */
     void resizeLabel();
     /**
-    * @brief sets the zoomlevel to 0.2
-    */
+     * @brief sets the zoomlevel to 0.2
+     */
     void zoomLittle();
     /**
-    * @brief sets the zoom level to 1
-    */
+     * @brief sets the zoom level to 1
+     */
     void zoomNormal();
     /**
-    * @brief sets the zoom level to 4
-    */
+     * @brief sets the zoom level to 4
+     */
     void zoomBig();
     /**
-    * @brief resize the window and sets current size as zoomlevel 1.
-    */
+     * @brief resize the window and sets current size as zoomlevel 1.
+     */
     void onFitWorkSpace();
 
     /**
@@ -138,14 +138,15 @@ private slots:
      */
     void fitWindow();
 
-private :
+private:
     /**
-    * @brief adapt the size window to fit the MdiArea size and no scrollbar (if possible)
-    */
+     * @brief adapt the size window to fit the MdiArea size and no scrollbar (if possible)
+     */
     void fitWorkSpace();
     void createActions();
     void initImage();
-private :
+
+private:
     QString m_idPlayer;
     QLabel* m_imageLabel;
     QPoint m_startingPoint;
@@ -155,7 +156,7 @@ private :
     double m_zoomLevel;
     QSize m_NormalSize;
     QSize m_windowSize;
-    QPixmap  m_pixMap;
+    QPixmap m_pixMap;
 
     QAction* m_actionZoomIn;
     QShortcut* m_zoomInShort;
@@ -163,28 +164,26 @@ private :
     QAction* m_actionZoomOut;
     QShortcut* m_zoomOutShort;
 
-
     QAction* m_actionfitWorkspace;
     QShortcut* m_fitShort;
 
     QAction* m_actionNormalZoom; // *1
     QShortcut* m_normalShort;
 
-    QAction* m_actionBigZoom;// * 4
+    QAction* m_actionBigZoom; // * 4
     QShortcut* m_bigShort;
 
-    QAction* m_actionlittleZoom;// * 0.2
+    QAction* m_actionlittleZoom; // * 0.2
     QShortcut* m_littleShort;
 
-    //fit window keeping ratio
-    QAction* m_fitWindowAct;// * 0.2
+    // fit window keeping ratio
+    QAction* m_fitWindowAct; // * 0.2
     QShortcut* m_fitWindowShort;
 
     double m_ratioImage;
     double m_ratioImageBis;
 
     QScrollArea* m_widgetArea;
-
 };
 
 #endif

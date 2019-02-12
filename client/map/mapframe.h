@@ -24,16 +24,16 @@
 #ifndef CARTE_FENETRE_H
 #define CARTE_FENETRE_H
 
-#include <QWidget>
-#include <QImage>
-#include <QPaintEvent>
-#include <QMouseEvent>
-#include <QPoint>
 #include <QAction>
+#include <QImage>
+#include <QMouseEvent>
+#include <QPaintEvent>
+#include <QPoint>
 #include <QScrollArea>
+#include <QWidget>
 
-#include "map/mapwizzard.h"
 #include "data/mediacontainer.h"
+#include "map/mapwizzard.h"
 
 class Map;
 
@@ -42,15 +42,15 @@ class Map;
  */
 class MapFrame : public MediaContainer
 {
-Q_OBJECT
+    Q_OBJECT
 
-public :
+public:
     /**
      * @brief BipMapWindow
      * @param uneCarte - the embedded map
      * @param parent - parent QWidget
      */
-	MapFrame(Map* map =nullptr, QWidget* parent = nullptr);
+    MapFrame(Map* map= nullptr, QWidget* parent= nullptr);
     /**
      *
      */
@@ -59,25 +59,25 @@ public :
      * @brief carte
      * @return
      */
-	Map* getMap();
-	/**
-	 * @brief setMap
-	 */
-	void setMap(Map*);
+    Map* getMap();
+    /**
+     * @brief setMap
+     */
+    void setMap(Map*);
     /**
      * @brief getMapId
      * @return
      */
     virtual QString getMediaId();
 
-	/**
-	 * @brief setCleverUri
-	 * @param uri
-	 */
-	bool readFileFromUri();
-	/**
-	 * @brief openMedia
-	 */
+    /**
+     * @brief setCleverUri
+     * @param uri
+     */
+    bool readFileFromUri();
+    /**
+     * @brief openMedia
+     */
     bool openMedia();
     /**
      * @brief createMap
@@ -89,7 +89,7 @@ public :
      * @param msg
      * @return
      */
-    bool processMapMessage(NetworkMessageReader* msg,bool localIsPlayer);
+    bool processMapMessage(NetworkMessageReader* msg, bool localIsPlayer);
     /**
      * @brief readMapAndNpc
      * @param in
@@ -97,7 +97,7 @@ public :
      * @param nomFichier
      * @return
      */
-    bool readMapAndNpc(QDataStream &in, bool hidden=false);
+    bool readMapAndNpc(QDataStream& in, bool hidden= false);
     /**
      * @brief saveMedia
      */
@@ -107,18 +107,15 @@ public :
      */
     void putDataIntoCleverUri();
 
-
-
     virtual void fill(NetworkMessageWriter& msg);
     virtual void readMessage(NetworkMessageReader& msg);
-
 
 signals:
     /**
      * @brief activated
      * @param carte
      */
-	void activated(Map * getMap);
+    void activated(Map* getMap);
 
     /**
      * @brief notifyUser
@@ -126,7 +123,7 @@ signals:
      */
     void notifyUser(QString str);
 
-public slots :
+public slots:
     /**
      * @brief commencerDeplacement
      * @param position
@@ -143,11 +140,11 @@ protected:
      * @brief focusInEvent
      * @param event
      */
-    void focusInEvent(QFocusEvent * event);
-	/**
-	 * @brief initMap
-	 */
-	void initMap();
+    void focusInEvent(QFocusEvent* event);
+    /**
+     * @brief initMap
+     */
+    void initMap();
     /**
      * @brief openUriAndLoadMap - open file and call method to read it and sent it over network.
      * @param uri
@@ -156,20 +153,19 @@ protected:
     bool openUriAndLoadMap(QString uri);
     virtual void updateTitle();
 
-private :
-	Map* m_map;
+private:
+    Map* m_map;
     QPoint pointDepart;
     int horizontalDepart;
     int verticalDepart;
     QSize m_originalSize;
-	MapWizzard* m_mapWizzard;
+    MapWizzard* m_mapWizzard;
     QScrollArea* m_widgetArea;
     bool m_isHidden;
 
     quint16 m_width;
     quint16 m_height;
     QColor m_color;
-
 };
 
 #endif

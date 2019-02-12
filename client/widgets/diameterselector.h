@@ -21,15 +21,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef SELECTEUR_DIAMETRE_H
 #define SELECTEUR_DIAMETRE_H
 
-#include <QWidget>
 #include <QSlider>
+#include <QWidget>
 
 class CircleDisplayer;
-
 
 /**
  * @brief Dessine un disque dont le diamêtre varie grace a un QSlider.
@@ -37,29 +35,29 @@ class CircleDisplayer;
 class DiameterSelector : public QWidget
 {
     Q_OBJECT
-public :
-	/**
-   * @brief constuctor with arguments
-   * @param parent widget
-   * @param full or not
-   * @param minimum value
-   * @param maximum value
-   */
-    DiameterSelector(QWidget *parent = nullptr, bool filled = true, int minimum = 1, int maximum = 50);
+public:
+    /**
+     * @brief constuctor with arguments
+     * @param parent widget
+     * @param full or not
+     * @param minimum value
+     * @param maximum value
+     */
+    DiameterSelector(QWidget* parent= nullptr, bool filled= true, int minimum= 1, int maximum= 50);
     void setDiameter(int diameter);
-    int getCurrentValue()const ;
+    int getCurrentValue() const;
 
 signals:
-	/**
-   * @brief is emited when the value has been changed
-   */
-	void diameterChanged(int);
+    /**
+     * @brief is emited when the value has been changed
+     */
+    void diameterChanged(int);
 
-private :
+private:
     int minimum;
     int maximum;
     CircleDisplayer* m_circle;
-	QSlider* m_diameterSlider;
+    QSlider* m_diameterSlider;
 };
 
 #endif

@@ -30,23 +30,24 @@ class CircleDisplayer : public QWidget
 {
     Q_OBJECT
 
-public :
-    CircleDisplayer(QWidget *parent = nullptr, bool filled = true, int minimum = 1, int maximum=50);
-public slots :
-	void changeDiameter(int diametre);
+public:
+    CircleDisplayer(QWidget* parent= nullptr, bool filled= true, int minimum= 1, int maximum= 50);
+public slots:
+    void changeDiameter(int diametre);
 
 signals:
-	void diameterChanged(int);
+    void diameterChanged(int);
 
 protected:
-	void paintEvent(QPaintEvent *event);
-	void wheelEvent ( QWheelEvent * event );
-private :
-	int m_currentDiameter;
-	int m_minimumDiameter;
-	int m_maximumDiameter;
-	float m_scale;
-	bool m_full;
+    void paintEvent(QPaintEvent* event);
+    void wheelEvent(QWheelEvent* event);
+
+private:
+    int m_currentDiameter;
+    int m_minimumDiameter;
+    int m_maximumDiameter;
+    float m_scale;
+    bool m_full;
 };
 
 #endif

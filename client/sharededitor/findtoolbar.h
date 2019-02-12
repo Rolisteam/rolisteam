@@ -19,26 +19,28 @@
 #ifndef FINDTOOLBAR_H
 #define FINDTOOLBAR_H
 
-#include <QWidget>
 #include <QKeyEvent>
+#include <QWidget>
 
 #include "codeeditor.h"
 
-namespace Ui {
+namespace Ui
+{
     class FindToolBar;
 }
 
-class FindToolBar : public QWidget {
+class FindToolBar : public QWidget
+{
     Q_OBJECT
 public:
-    FindToolBar(QWidget *parent = 0);
+    FindToolBar(QWidget* parent= 0);
     ~FindToolBar();
 
     void giveFocus();
 
 private:
-    Ui::FindToolBar *ui;
-    CodeEditor *codeEditor;
+    Ui::FindToolBar* ui;
+    CodeEditor* codeEditor;
 
 private slots:
     void findTriggered(QString string);
@@ -48,7 +50,7 @@ private slots:
     void closeButtonClicked();
 
 protected:
-    void keyPressEvent(QKeyEvent *e);
+    void keyPressEvent(QKeyEvent* e);
 
 signals:
     void findAll(QString);

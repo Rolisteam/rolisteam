@@ -21,11 +21,11 @@
 
 //#include "networklink.h"
 
-#include <improvedtextedit.h>
-#include <chatwindow.h>
 #include <chat.h>
+#include <chatwindow.h>
 #include <data/person.h>
 #include <data/player.h>
+#include <improvedtextedit.h>
 #include <userlist/playersList.h>
 
 class Player;
@@ -40,79 +40,73 @@ public:
     ChatWindowTest();
 
 private slots:
-	void initTestCase();
+    void initTestCase();
     void cleanupTestCase();
     void changeUser();
-	void showMessage();
+    void showMessage();
     void enterText();
     void resendPrevious();
 
 private:
     ImprovedTextEdit* m_impTextEditor;
     ChatWindow* m_chatWindow;
-	Player*	    m_player;
+    Player* m_player;
 };
-ChatWindowTest::ChatWindowTest()
-{
-
-}
+ChatWindowTest::ChatWindowTest() {}
 void ChatWindowTest::initTestCase()
 {
-    m_player = new Player("bob",Qt::black,false);
+    m_player= new Player("bob", Qt::black, false);
     PlayersList::instance()->setLocalPlayer(m_player);
 
-	m_chatWindow = new ChatWindow(new PublicChat());
+    m_chatWindow= new ChatWindow(new PublicChat());
     m_chatWindow->setLocalPlayer(m_player);
-    m_impTextEditor = m_chatWindow->getEditionZone();
+    m_impTextEditor= m_chatWindow->getEditionZone();
 }
 
-//void ChatWindowTest::getAndSetTest()
+// void ChatWindowTest::getAndSetTest()
 //{
-
 
 //}
 void ChatWindowTest::enterText()
 {
-    QString test = QStringLiteral("Text Test Text Test");
+    QString test= QStringLiteral("Text Test Text Test");
     m_impTextEditor->setText(test);
-    QSignalSpy spy(m_impTextEditor, SIGNAL(textValidated(bool,QString)));
-    QTest::keyPress(m_impTextEditor,Qt::Key_Enter);
+    QSignalSpy spy(m_impTextEditor, SIGNAL(textValidated(bool, QString)));
+    QTest::keyPress(m_impTextEditor, Qt::Key_Enter);
     QCOMPARE(spy.count(), 1);
 }
 void ChatWindowTest::changeUser()
 {
     QSignalSpy spy(m_impTextEditor, SIGNAL(ctrlUp()));
-    QTest::keyPress(m_impTextEditor,Qt::Key_Up,Qt::ControlModifier);
-    QTest::keyPress(m_impTextEditor,Qt::Key_Enter);
+    QTest::keyPress(m_impTextEditor, Qt::Key_Up, Qt::ControlModifier);
+    QTest::keyPress(m_impTextEditor, Qt::Key_Enter);
     QCOMPARE(spy.count(), 1);
 }
 void ChatWindowTest::resendPrevious()
 {
-    QSignalSpy spy(m_impTextEditor, SIGNAL(textValidated(bool,QString)));
-    QTest::keyPress(m_impTextEditor,Qt::Key_Up);
-    QString txt = m_impTextEditor->document()->toPlainText();
-    QCOMPARE(txt,QStringLiteral("Text Test Text Test"));
-        QTest::keyPress(m_impTextEditor,Qt::Key_Enter);
+    QSignalSpy spy(m_impTextEditor, SIGNAL(textValidated(bool, QString)));
+    QTest::keyPress(m_impTextEditor, Qt::Key_Up);
+    QString txt= m_impTextEditor->document()->toPlainText();
+    QCOMPARE(txt, QStringLiteral("Text Test Text Test"));
+    QTest::keyPress(m_impTextEditor, Qt::Key_Enter);
     QCOMPARE(spy.count(), 1);
 }
 void ChatWindowTest::showMessage()
 {
-	QSignalSpy spy(m_chatWindow, SIGNAL(ChatWindowHasChanged(ChatWindow*)));
-    QTest::keyPress(m_impTextEditor,Qt::Key_Up,Qt::ControlModifier);
-	QString test = QStringLiteral("/me draws his weapons");
-	m_impTextEditor->setText(test);
-	QSignalSpy spy2(m_impTextEditor, SIGNAL(textValidated(bool,QString)));
-	QTest::keyPress(m_impTextEditor,Qt::Key_Enter);
+    QSignalSpy spy(m_chatWindow, SIGNAL(ChatWindowHasChanged(ChatWindow*)));
+    QTest::keyPress(m_impTextEditor, Qt::Key_Up, Qt::ControlModifier);
+    QString test= QStringLiteral("/me draws his weapons");
+    m_impTextEditor->setText(test);
+    QSignalSpy spy2(m_impTextEditor, SIGNAL(textValidated(bool, QString)));
+    QTest::keyPress(m_impTextEditor, Qt::Key_Enter);
 
-
-	QCOMPARE(spy.count(), 1);
-	QCOMPARE(spy2.count(), 1);
+    QCOMPARE(spy.count(), 1);
+    QCOMPARE(spy2.count(), 1);
 }
 void ChatWindowTest::cleanupTestCase()
 {
     delete m_impTextEditor;
 }
-
 
 QTEST_MAIN(ChatWindowTest);
 

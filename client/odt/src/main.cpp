@@ -1,8 +1,6 @@
 #include "textedit.h"
 #include <QApplication>
 
-
-
 #if defined _COMPOSE_STATIC_
 #include <QtPlugin>
 #if defined _USE_qjpeg
@@ -19,22 +17,18 @@ Q_IMPORT_PLUGIN(qtiff)
 #endif
 #endif
 
-
-
-
-
-int main( int argc, char ** argv )
+int main(int argc, char** argv)
 {
-    QApplication a( argc, argv );
+    QApplication a(argc, argv);
     a.setOrganizationName("Oasis Test Reader");
     a.setOrganizationDomain("QTuser");
     a.setApplicationName("Mini Office");
-    #if QT_VERSION >= 0x040500
+#if QT_VERSION >= 0x040500
     qDebug() << "### QT_VERSION main  -> " << QT_VERSION;
     qDebug() << "### QT_VERSION_STR main -> " << QT_VERSION_STR;
-    #endif
+#endif
     TextEdit mw;
-    mw.resize( 700, 450 );
+    mw.resize(700, 450);
     mw.show();
     QObject::connect(&a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()));
     return a.exec();

@@ -1,74 +1,71 @@
 /***************************************************************************
-    *      Copyright (C) 2010 by Renaud Guezennec                             *
-    *                                                                         *
-    *                                                                         *
-    *   rolisteam is free software; you can redistribute it and/or modify     *
-    *   it under the terms of the GNU General Public License as published by  *
-    *   the Free Software Foundation; either version 2 of the License, or     *
-    *   (at your option) any later version.                                   *
-    *                                                                         *
-    *   This program is distributed in the hope that it will be useful,       *
-    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-    *   GNU General Public License for more details.                          *
-    *                                                                         *
-    *   You should have received a copy of the GNU General Public License     *
-    *   along with this program; if not, write to the                         *
-    *   Free Software Foundation, Inc.,                                       *
-    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-    ***************************************************************************/
+ *      Copyright (C) 2010 by Renaud Guezennec                             *
+ *                                                                         *
+ *                                                                         *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 #include "visualitem.h"
-#include <QGuiApplication>
-#include <QGraphicsSceneHoverEvent>
-#include <cmath>
 #include <QCursor>
 #include <QDebug>
+#include <QGraphicsSceneHoverEvent>
+#include <QGuiApplication>
+#include <QKeyEvent>
 #include <QMenu>
 #include <QUuid>
-#include <QKeyEvent>
-
+#include <cmath>
 
 #include "map/map.h"
 
-#include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 
-QColor VisualItem::m_highlightColor = QColor(Qt::red);
-int VisualItem::m_highlightWidth = 6;
+QColor VisualItem::m_highlightColor= QColor(Qt::red);
+int VisualItem::m_highlightWidth= 6;
 
+QStringList VisualItem::s_type2NameList
+    = QStringList() << QObject::tr("Path") << QObject::tr("Line") << QObject::tr("Ellipse") << QObject::tr("Character")
+                    << QObject::tr("Text") << QObject::tr("Rect") << QObject::tr("Rule") << QObject::tr("Image");
+QStringList VisualItem::s_layerName= QStringList()
+                                     << QObject::tr("Ground") << QObject::tr("Object") << QObject::tr("Character");
 
-QStringList VisualItem::s_type2NameList =  QStringList() << QObject::tr("Path")<< QObject::tr("Line")<< QObject::tr("Ellipse")<< QObject::tr("Character")<< QObject::tr("Text")<< QObject::tr("Rect")<< QObject::tr("Rule")<< QObject::tr("Image");
-QStringList VisualItem::s_layerName = QStringList() << QObject::tr("Ground")<< QObject::tr("Object")<< QObject::tr("Character");
-
-VisualItem::VisualItem()
-    : QGraphicsObject()
+VisualItem::VisualItem() : QGraphicsObject()
 {
-    m_id = QUuid::createUuid().toString();
+    m_id= QUuid::createUuid().toString();
     init();
 }
 
-VisualItem::VisualItem(const QColor& penColor,int penSize,QGraphicsItem * parent )
-    : QGraphicsObject(parent),m_color(penColor),m_child(nullptr),m_penWidth(penSize)
+VisualItem::VisualItem(const QColor& penColor, int penSize, QGraphicsItem* parent)
+    : QGraphicsObject(parent), m_color(penColor), m_child(nullptr), m_penWidth(penSize)
 {
-    m_id = QUuid::createUuid().toString();
+    m_id= QUuid::createUuid().toString();
     init();
 }
-VisualItem::~VisualItem()
-{
-
-}
+VisualItem::~VisualItem() {}
 
 void VisualItem::init()
 {
     createActions();
     setAcceptHoverEvents(true);
-    setFlag(QGraphicsItem::ItemUsesExtendedStyleOption,true);
-    QActionGroup* group = new QActionGroup(this);
-    m_putGroundLayer = new QAction(s_layerName[0],this);
+    setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
+    QActionGroup* group= new QActionGroup(this);
+    m_putGroundLayer= new QAction(s_layerName[0], this);
     m_putGroundLayer->setData(VisualItem::GROUND);
-    m_putObjectLayer = new QAction(s_layerName[1],this);
+    m_putObjectLayer= new QAction(s_layerName[1], this);
     m_putObjectLayer->setData(VisualItem::OBJECT);
-    m_putCharacterLayer= new QAction(s_layerName[2],this);
+    m_putCharacterLayer= new QAction(s_layerName[2], this);
     m_putCharacterLayer->setData(VisualItem::CHARACTER_LAYER);
 
     m_putGroundLayer->setCheckable(true);
@@ -85,35 +82,36 @@ void VisualItem::init()
 }
 void VisualItem::updateItemFlags()
 {
-    bool editable = canBeMoved();
+    bool editable= canBeMoved();
     if(editable)
     {
         /// @warning if two connected people have editable item, it will lead to endless loop.
-        setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
+        setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges
+                 | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
         setAcceptedMouseButtons(Qt::AllButtons);
-        connect(this,&VisualItem::xChanged,this,&VisualItem::posChange);
-        connect(this,&VisualItem::yChanged,this,&VisualItem::posChange);
-        connect(this,&VisualItem::zChanged,this,&VisualItem::sendZValueMsg);
-        connect(this,&VisualItem::heightChanged,this,&VisualItem::rectChange);
-        connect(this,&VisualItem::widthChanged,this,&VisualItem::rectChange);
-        connect(this,&VisualItem::rotationChanged,this,&VisualItem::rotationChange);//sendRotationMsg
-        connect(this,&VisualItem::opacityChanged,this,&VisualItem::sendOpacityMsg);
+        connect(this, &VisualItem::xChanged, this, &VisualItem::posChange);
+        connect(this, &VisualItem::yChanged, this, &VisualItem::posChange);
+        connect(this, &VisualItem::zChanged, this, &VisualItem::sendZValueMsg);
+        connect(this, &VisualItem::heightChanged, this, &VisualItem::rectChange);
+        connect(this, &VisualItem::widthChanged, this, &VisualItem::rectChange);
+        connect(this, &VisualItem::rotationChanged, this, &VisualItem::rotationChange); // sendRotationMsg
+        connect(this, &VisualItem::opacityChanged, this, &VisualItem::sendOpacityMsg);
     }
     else
     {
-        setFlags(QGraphicsItem::ItemIsFocusable|QGraphicsItem::ItemIsSelectable);
+        setFlags(QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
         setAcceptedMouseButtons(Qt::NoButton);
-        disconnect(this,&VisualItem::xChanged,this,&VisualItem::posChange);
-        disconnect(this,&VisualItem::yChanged,this,&VisualItem::posChange);
-        disconnect(this,&VisualItem::zChanged,this,&VisualItem::sendZValueMsg);
-        disconnect(this,&VisualItem::widthChanged,this,&VisualItem::rectChange);
-        disconnect(this,&VisualItem::heightChanged,this,&VisualItem::rectChange);
-        disconnect(this,&VisualItem::rotationChanged,this,&VisualItem::rotationChange);
-        disconnect(this,&VisualItem::opacityChanged,this,&VisualItem::sendOpacityMsg);
+        disconnect(this, &VisualItem::xChanged, this, &VisualItem::posChange);
+        disconnect(this, &VisualItem::yChanged, this, &VisualItem::posChange);
+        disconnect(this, &VisualItem::zChanged, this, &VisualItem::sendZValueMsg);
+        disconnect(this, &VisualItem::widthChanged, this, &VisualItem::rectChange);
+        disconnect(this, &VisualItem::heightChanged, this, &VisualItem::rectChange);
+        disconnect(this, &VisualItem::rotationChanged, this, &VisualItem::rotationChange);
+        disconnect(this, &VisualItem::opacityChanged, this, &VisualItem::sendOpacityMsg);
     }
-    if(nullptr!=m_child)
+    if(nullptr != m_child)
     {
-        for (auto& itemChild : *m_child)
+        for(auto& itemChild : *m_child)
         {
             itemChild->setEditableItem(editable);
         }
@@ -132,31 +130,31 @@ QColor VisualItem::getColor()
 
 void VisualItem::setPenColor(QColor& penColor)
 {
-    m_color = penColor;
+    m_color= penColor;
     update();
 }
-void VisualItem::mousePressEvent ( QGraphicsSceneMouseEvent * event )
+void VisualItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     update();
     QGraphicsItem::mousePressEvent(event);
 }
-void VisualItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
+void VisualItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
     update();
     QGraphicsItem::mouseMoveEvent(event);
 }
-void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
     update();
     QGraphicsItem::mouseReleaseEvent(event);
     endOfGeometryChange();
 }
 
-QVariant VisualItem::itemChange(GraphicsItemChange change, const QVariant &value)
+QVariant VisualItem::itemChange(GraphicsItemChange change, const QVariant& value)
 {
-    if (change == ItemPositionChange )
+    if(change == ItemPositionChange)
     {
-        QPointF newPos = computeClosePoint(value.toPointF());
+        QPointF newPos= computeClosePoint(value.toPointF());
         if(newPos != value.toPointF())
         {
             return newPos;
@@ -169,19 +167,19 @@ QPointF VisualItem::computeClosePoint(QPointF pos)
 {
     if(Qt::AltModifier & QGuiApplication::keyboardModifiers())
     {
-        int size = getOption(GridSize).toInt();
-        pos.setX(std::round(pos.x()/size)*size);
-        pos.setY(std::round(pos.y()/size)*size);
+        int size= getOption(GridSize).toInt();
+        pos.setX(std::round(pos.x() / size) * size);
+        pos.setY(std::round(pos.y() / size) * size);
     }
     return pos;
 }
 void VisualItem::keyPressEvent(QKeyEvent* event)
 {
-    if((event->key ()==Qt::Key_Delete)&&(isSelected())&&canBeMoved())
+    if((event->key() == Qt::Key_Delete) && (isSelected()) && canBeMoved())
     {
         emit itemRemoved(m_id, true, true);
     }
-    else if((event->key() == Qt::Key_C)&&(event->modifiers() == Qt::ControlModifier)&&(isSelected()))
+    else if((event->key() == Qt::Key_C) && (event->modifiers() == Qt::ControlModifier) && (isSelected()))
     {
         emit duplicateItem(this);
     }
@@ -190,25 +188,25 @@ void VisualItem::keyPressEvent(QKeyEvent* event)
 
 void VisualItem::setId(QString id)
 {
-    m_id = id;
+    m_id= id;
 }
 
 void VisualItem::resizeContents(const QRectF& rect, TransformType transformType)
 {
-    if (!rect.isValid())
+    if(!rect.isValid())
     {
         return;
     }
     prepareGeometryChange();
-    auto width = m_rect.width();
-    auto height = m_rect.height();
-    //sendRectGeometryMsg();
-    m_resizing = true;
-    m_rect = rect;
-    if (transformType == VisualItem::KeepRatio)
+    auto width= m_rect.width();
+    auto height= m_rect.height();
+    // sendRectGeometryMsg();
+    m_resizing= true;
+    m_rect= rect;
+    if(transformType == VisualItem::KeepRatio)
     {
-        auto hfw = height * rect.width() / width;
-        if (hfw > 1)
+        auto hfw= height * rect.width() / width;
+        if(hfw > 1)
         {
             m_rect.setTop(-hfw / 2);
             m_rect.setHeight(hfw);
@@ -217,72 +215,59 @@ void VisualItem::resizeContents(const QRectF& rect, TransformType transformType)
 
     updateChildPosition();
 }
-void VisualItem::updateChildPosition()
+void VisualItem::updateChildPosition() {}
+void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
-
-}
-void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
-{
-    bool licenseToModify = false;
+    bool licenseToModify= false;
     if(getOption(VisualItem::LocalIsGM).toBool())
     {
-        licenseToModify = true;
+        licenseToModify= true;
     }
     QMenu menu;
     if(licenseToModify)
     {
         addActionContextMenu(&menu);
-        QAction* backOrderAction = menu.addAction(tr("Back"));
+        QAction* backOrderAction= menu.addAction(tr("Back"));
         backOrderAction->setIcon(QIcon(":/resources/icons/action-order-back.png"));
-        connect(backOrderAction,&QAction::triggered,this, [&](){
-            emit changeStackPosition(this,VisualItem::BACK);
-        });
+        connect(
+            backOrderAction, &QAction::triggered, this, [&]() { emit changeStackPosition(this, VisualItem::BACK); });
 
-
-        QAction* frontOrderAction = menu.addAction(tr("Front"));
+        QAction* frontOrderAction= menu.addAction(tr("Front"));
         frontOrderAction->setIcon(QIcon(":/resources/icons/action-order-front.png"));
-        connect(frontOrderAction,&QAction::triggered,this, [&](){
-            emit changeStackPosition(this,VisualItem::FRONT);
-        });
+        connect(
+            frontOrderAction, &QAction::triggered, this, [&]() { emit changeStackPosition(this, VisualItem::FRONT); });
 
-
-        QAction* lowerAction = menu.addAction(tr("Lower"));
+        QAction* lowerAction= menu.addAction(tr("Lower"));
         lowerAction->setIcon(QIcon(":/resources/icons/action-order-lower.png"));
-        connect(lowerAction,&QAction::triggered,this, [&](){
-            emit changeStackPosition(this,VisualItem::LOWER);
-        });
+        connect(lowerAction, &QAction::triggered, this, [&]() { emit changeStackPosition(this, VisualItem::LOWER); });
 
-        QAction* raiseAction = menu.addAction(tr("Raise"));
+        QAction* raiseAction= menu.addAction(tr("Raise"));
         raiseAction->setIcon(QIcon(":/resources/icons/action-order-raise.png"));
-        connect(raiseAction,&QAction::triggered,this, [&](){
-            emit changeStackPosition(this,VisualItem::RAISE);
-        });
-
+        connect(raiseAction, &QAction::triggered, this, [&]() { emit changeStackPosition(this, VisualItem::RAISE); });
 
         menu.addSeparator();
-        QAction* removeAction = menu.addAction(tr("Remove"));
+        QAction* removeAction= menu.addAction(tr("Remove"));
         menu.addAction(m_duplicateAct);
 
-        QMenu* rotationMenu = menu.addMenu(tr("Rotate"));
-        QAction* resetRotationAct = rotationMenu->addAction(tr("To 360"));
-        QAction* rightRotationAct =rotationMenu->addAction(tr("Right"));
-        QAction* leftRotationAct =rotationMenu->addAction(tr("Left"));
-        //QAction* angleRotationAct =rotationMenu->addAction(tr("Set Angle…"));
+        QMenu* rotationMenu= menu.addMenu(tr("Rotate"));
+        QAction* resetRotationAct= rotationMenu->addAction(tr("To 360"));
+        QAction* rightRotationAct= rotationMenu->addAction(tr("Right"));
+        QAction* leftRotationAct= rotationMenu->addAction(tr("Left"));
+        // QAction* angleRotationAct =rotationMenu->addAction(tr("Set Angle…"));
         event->accept();
 
         if(!m_promoteTypeList.isEmpty())
         {
-            QMenu* promoteMenu = menu.addMenu(tr("Promote to"));
+            QMenu* promoteMenu= menu.addMenu(tr("Promote to"));
             addPromoteItemMenu(promoteMenu);
         }
 
-
-        QMenu* setLayerMenu = menu.addMenu(tr("Set Layer"));
+        QMenu* setLayerMenu= menu.addMenu(tr("Set Layer"));
         setLayerMenu->addAction(m_putGroundLayer);
         setLayerMenu->addAction(m_putObjectLayer);
         setLayerMenu->addAction(m_putCharacterLayer);
 
-        switch (m_layer)
+        switch(m_layer)
         {
         case OBJECT:
             m_putObjectLayer->setChecked(true);
@@ -296,33 +281,33 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         default:
             break;
         }
-        m_menuPos = event->screenPos();
+        m_menuPos= event->screenPos();
 
-
-        QAction* selectedAction = menu.exec(m_menuPos);
-        if(removeAction==selectedAction)
+        QAction* selectedAction= menu.exec(m_menuPos);
+        if(removeAction == selectedAction)
         {
-            emit itemRemoved(m_id, true ,true);
+            emit itemRemoved(m_id, true, true);
         }
-        else if(resetRotationAct==selectedAction)
+        else if(resetRotationAct == selectedAction)
         {
             setRotation(0);
-            m_rotating = true;
+            m_rotating= true;
             endOfGeometryChange();
         }
-        else if(selectedAction==rightRotationAct)
+        else if(selectedAction == rightRotationAct)
         {
             setRotation(90);
-            m_rotating = true;
+            m_rotating= true;
             endOfGeometryChange();
         }
-        else if(selectedAction==leftRotationAct)
+        else if(selectedAction == leftRotationAct)
         {
             setRotation(270);
-            m_rotating = true;
+            m_rotating= true;
             endOfGeometryChange();
         }
-        else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putGroundLayer))
+        else if((selectedAction == m_putCharacterLayer) || (selectedAction == m_putObjectLayer)
+                || (selectedAction == m_putGroundLayer))
         {
             setLayer(static_cast<VisualItem::Layer>(selectedAction->data().toInt()));
             emit itemLayerChanged(this);
@@ -331,32 +316,32 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 }
 void VisualItem::addPromoteItemMenu(QMenu* menu)
 {
-    for(ItemType& type: m_promoteTypeList)
+    for(ItemType& type : m_promoteTypeList)
     {
-        QAction* action = menu->addAction(s_type2NameList[type]);
+        QAction* action= menu->addAction(s_type2NameList[type]);
         action->setData(type);
-        connect(action,SIGNAL(triggered()),this,SLOT(promoteItem()));
+        connect(action, SIGNAL(triggered()), this, SLOT(promoteItem()));
     }
 }
 void VisualItem::promoteItem()
 {
-    QAction* act = qobject_cast<QAction*>(sender());
-    if(nullptr!=act)
+    QAction* act= qobject_cast<QAction*>(sender());
+    if(nullptr != act)
     {
-        VisualItem::ItemType type = static_cast<VisualItem::ItemType>(act->data().toInt());
-        emit promoteItemTo(this,type);
+        VisualItem::ItemType type= static_cast<VisualItem::ItemType>(act->data().toInt());
+        emit promoteItemTo(this, type);
     }
 }
 
 void VisualItem::createActions()
 {
-    m_duplicateAct = new QAction(tr("Duplicate Item"),this);
+    m_duplicateAct= new QAction(tr("Duplicate Item"), this);
     m_duplicateAct->setShortcut(QKeySequence("Ctrl+C"));
-    connect(m_duplicateAct,SIGNAL(triggered()),this,SLOT(manageAction()),Qt::QueuedConnection);
+    connect(m_duplicateAct, SIGNAL(triggered()), this, SLOT(manageAction()), Qt::QueuedConnection);
 }
 void VisualItem::manageAction()
 {
-    QAction* tmp = qobject_cast<QAction*>(sender());
+    QAction* tmp= qobject_cast<QAction*>(sender());
     if(m_duplicateAct == tmp)
     {
         emit duplicateItem(this);
@@ -369,13 +354,12 @@ VisualItem::Layer VisualItem::getLayer() const
 
 void VisualItem::setLayer(VisualItem::Layer layer)
 {
-    if(m_layer==layer)
+    if(m_layer == layer)
         return;
 
-    m_layer = layer;
+    m_layer= layer;
     updateItemFlags();
     sendItemLayer();
-
 }
 
 void VisualItem::addActionContextMenu(QMenu*)
@@ -398,13 +382,13 @@ bool VisualItem::hasFocusOrChild()
         }
         else
         {
-            if(m_child==nullptr)
+            if(m_child == nullptr)
             {
                 return false;
             }
-            for(int i = 0; i< m_child->size();++i)
+            for(int i= 0; i < m_child->size(); ++i)
             {
-                if((m_child->at(i)!=nullptr)&&(m_child->at(i)->isSelected()))
+                if((m_child->at(i) != nullptr) && (m_child->at(i)->isSelected()))
                 {
                     return true;
                 }
@@ -415,9 +399,9 @@ bool VisualItem::hasFocusOrChild()
 }
 void VisualItem::sendItemLayer()
 {
-    if(hasPermissionToMove(true))//getOption PermissionMode
+    if(hasPermissionToMove(true)) // getOption PermissionMode
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::LayerItemChanged);
+        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::LayerItemChanged);
         msg.string8(m_mapId);
         msg.string16(m_id);
         msg.uint8(m_layer);
@@ -427,9 +411,9 @@ void VisualItem::sendItemLayer()
 
 void VisualItem::sendOpacityMsg()
 {
-    if(hasPermissionToMove(false))//getOption PermissionMode
+    if(hasPermissionToMove(false)) // getOption PermissionMode
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::OpacityItemChanged);
+        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::OpacityItemChanged);
         msg.string8(m_mapId);
         msg.string16(m_id);
         msg.real(opacity());
@@ -438,14 +422,14 @@ void VisualItem::sendOpacityMsg()
 }
 void VisualItem::readOpacityMsg(NetworkMessageReader* msg)
 {
-    qreal opa = msg->real();
+    qreal opa= msg->real();
     blockSignals(true);
     setOpacity(opa);
     blockSignals(false);
 }
 void VisualItem::readLayerMsg(NetworkMessageReader* msg)
 {
-    quint8 lay = msg->uint8();
+    quint8 lay= msg->uint8();
     blockSignals(true);
     setLayer((VisualItem::Layer)lay);
     blockSignals(false);
@@ -460,11 +444,11 @@ void VisualItem::posChange()
 }
 void VisualItem::rectChange()
 {
-    m_resizing = true;//not used
+    m_resizing= true; // not used
 }
 void VisualItem::rotationChange()
 {
-    m_rotating = true;
+    m_rotating= true;
 }
 
 void VisualItem::sendPositionMsg()
@@ -472,9 +456,9 @@ void VisualItem::sendPositionMsg()
     if(m_pointList.isEmpty())
         return;
 
-    if(hasPermissionToMove())//getOption PermissionMode
+    if(hasPermissionToMove()) // getOption PermissionMode
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
+        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::MoveItem);
         msg.string8(m_mapId);
         msg.string16(m_id);
         msg.uint64(m_pointList.size());
@@ -488,22 +472,22 @@ void VisualItem::sendPositionMsg()
 }
 void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 {
-    quint64 size = msg->uint64();
-    for(quint64 i = 0; i < size;++i)
+    quint64 size= msg->uint64();
+    for(quint64 i= 0; i < size; ++i)
     {
-        qreal x = msg->real();
-        qreal y = msg->real();
+        qreal x= msg->real();
+        qreal y= msg->real();
         blockSignals(true);
-        setPos(x,y);
+        setPos(x, y);
         blockSignals(false);
     }
     update();
 }
 void VisualItem::sendZValueMsg()
 {
-    if(hasPermissionToMove() && !m_receivingZValue)//getOption PermissionMode
+    if(hasPermissionToMove() && !m_receivingZValue) // getOption PermissionMode
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::ZValueItem);
+        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::ZValueItem);
         msg.string8(m_mapId);
         msg.string16(m_id);
         msg.real(zValue());
@@ -514,19 +498,19 @@ void VisualItem::readZValueMsg(NetworkMessageReader* msg)
 {
     if(nullptr != msg)
     {
-        qreal z = msg->real();
-        m_receivingZValue = true;
+        qreal z= msg->real();
+        m_receivingZValue= true;
         setZValue(z);
-        m_receivingZValue =false;
-        //blockSignals(false);
+        m_receivingZValue= false;
+        // blockSignals(false);
         update();
     }
 }
 void VisualItem::sendRotationMsg()
 {
-    if(hasPermissionToMove())//getOption PermissionMode
+    if(hasPermissionToMove()) // getOption PermissionMode
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::RotationItem);
+        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::RotationItem);
         msg.string8(m_mapId);
         msg.string16(m_id);
         msg.real(rotation());
@@ -535,7 +519,7 @@ void VisualItem::sendRotationMsg()
 }
 void VisualItem::readRotationMsg(NetworkMessageReader* msg)
 {
-    qreal rot = msg->real();
+    qreal rot= msg->real();
     blockSignals(true);
     setRotation(rot);
     blockSignals(false);
@@ -543,9 +527,9 @@ void VisualItem::readRotationMsg(NetworkMessageReader* msg)
 }
 void VisualItem::sendRectGeometryMsg()
 {
-    if(hasPermissionToMove())//getOption PermissionMode
+    if(hasPermissionToMove()) // getOption PermissionMode
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::RectGeometryItem);
+        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::RectGeometryItem);
         msg.string8(m_mapId);
         msg.string16(m_id);
         msg.real(m_rect.x());
@@ -557,22 +541,22 @@ void VisualItem::sendRectGeometryMsg()
 }
 void VisualItem::readRectGeometryMsg(NetworkMessageReader* msg)
 {
-    qreal xR = msg->real();
-    qreal yR = msg->real();
-    qreal w = msg->real();
-    qreal h = msg->real();
+    qreal xR= msg->real();
+    qreal yR= msg->real();
+    qreal w= msg->real();
+    qreal h= msg->real();
     blockSignals(true);
-    setRectSize(xR,yR,w,h);
+    setRectSize(xR, yR, w, h);
     blockSignals(false);
     update();
 }
 void VisualItem::readMovePointMsg(NetworkMessageReader* msg)
 {
-    //Do nothing - only used for now on by pathItem.
+    // Do nothing - only used for now on by pathItem.
     Q_UNUSED(msg)
 }
 
-void VisualItem::setRectSize(qreal x,qreal y,qreal w,qreal h)
+void VisualItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
 {
     m_rect.setX(x);
     m_rect.setY(y);
@@ -580,14 +564,14 @@ void VisualItem::setRectSize(qreal x,qreal y,qreal w,qreal h)
     m_rect.setHeight(h);
 }
 
-void VisualItem::setPropertiesHash(QHash<VisualItem::Properties,QVariant>* hash)
+void VisualItem::setPropertiesHash(QHash<VisualItem::Properties, QVariant>* hash)
 {
-    m_propertiesHash = hash;
+    m_propertiesHash= hash;
 }
 
 void VisualItem::setMapId(QString id)
 {
-    m_mapId = id;
+    m_mapId= id;
 }
 
 QString VisualItem::getMapId()
@@ -596,7 +580,7 @@ QString VisualItem::getMapId()
 }
 void VisualItem::endOfGeometryChange()
 {
-    //emit itemGeometryChanged(this);
+    // emit itemGeometryChanged(this);
     if(!m_pointList.isEmpty())
     {
         sendPositionMsg();
@@ -606,13 +590,13 @@ void VisualItem::endOfGeometryChange()
     if(m_resizing)
     {
         sendRectGeometryMsg();
-        m_resizing=false;
+        m_resizing= false;
     }
 
     if(m_rotating)
     {
         sendRotationMsg();
-        m_rotating = false;
+        m_rotating= false;
     }
 }
 
@@ -631,14 +615,15 @@ VisualItem* VisualItem::promoteTo(VisualItem::ItemType type)
 
 void VisualItem::setChildrenVisible(bool b)
 {
-    if((!b)||(canBeMoved()))
+    if((!b) || (canBeMoved()))
     {
-        if(nullptr!=m_child)
+        if(nullptr != m_child)
         {
-            for(auto& item: *m_child)
+            for(auto& item : *m_child)
             {
-                bool isVisionAndFog = m_propertiesHash->value(VisualItem::FogOfWarStatus).toBool() & m_propertiesHash->value(VisualItem::EnableCharacterVision).toBool();
-                if((!item->isVisionHandler())||(isVisionAndFog)||(!b))
+                bool isVisionAndFog= m_propertiesHash->value(VisualItem::FogOfWarStatus).toBool()
+                                     & m_propertiesHash->value(VisualItem::EnableCharacterVision).toBool();
+                if((!item->isVisionHandler()) || (isVisionAndFog) || (!b))
                 {
                     item->setVisible(b);
                 }
@@ -657,21 +642,19 @@ bool VisualItem::canBeMoved() const
 }
 bool VisualItem::hasPermissionToMove(bool allowCharacter) const
 {
-    bool movable = false;
+    bool movable= false;
     if(getOption(VisualItem::LocalIsGM).toBool())
     {
-        movable = true;
+        movable= true;
     }
-    else if((getOption(VisualItem::PermissionMode).toInt()==Map::PC_MOVE)&&
-            (getType() == VisualItem::CHARACTER)&&
-            (isLocal())&&
-            (allowCharacter))
+    else if((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE) && (getType() == VisualItem::CHARACTER)
+            && (isLocal()) && (allowCharacter))
     {
-        movable = true;
+        movable= true;
     }
-    else if(getOption(VisualItem::PermissionMode).toInt()==Map::PC_ALL)
+    else if(getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)
     {
-        movable = true;
+        movable= true;
     }
     return movable;
 }
@@ -681,9 +664,9 @@ QColor VisualItem::getHighlightColor()
     return m_highlightColor;
 }
 
-void VisualItem::setHighlightColor(const QColor &highlightColor)
+void VisualItem::setHighlightColor(const QColor& highlightColor)
 {
-    m_highlightColor = highlightColor;
+    m_highlightColor= highlightColor;
 }
 
 int VisualItem::getHighlightWidth()
@@ -693,7 +676,7 @@ int VisualItem::getHighlightWidth()
 
 void VisualItem::setHighlightWidth(int highlightWidth)
 {
-    m_highlightWidth = highlightWidth;
+    m_highlightWidth= highlightWidth;
 }
 
 quint16 VisualItem::getPenWidth() const
@@ -701,9 +684,9 @@ quint16 VisualItem::getPenWidth() const
     return m_penWidth;
 }
 
-void VisualItem::setPenWidth(const quint16 &penWidth)
+void VisualItem::setPenWidth(const quint16& penWidth)
 {
-    m_penWidth = penWidth;
+    m_penWidth= penWidth;
 }
 bool VisualItem::getHoldSize() const
 {
@@ -712,7 +695,7 @@ bool VisualItem::getHoldSize() const
 
 void VisualItem::setHoldSize(bool holdSize)
 {
-    m_holdSize = holdSize;
+    m_holdSize= holdSize;
 }
 
 /*bool VisualItem::isEditable() const
@@ -722,7 +705,7 @@ void VisualItem::setHoldSize(bool holdSize)
 
 QString VisualItem::getLayerToText(VisualItem::Layer id)
 {
-    if(s_layerName.size()>static_cast<int>(id))
+    if(s_layerName.size() > static_cast<int>(id))
     {
         return s_layerName.at(id);
     }
@@ -731,7 +714,7 @@ QString VisualItem::getLayerToText(VisualItem::Layer id)
 
 QVariant VisualItem::getOption(VisualItem::Properties pop) const
 {
-    if(nullptr!=m_propertiesHash)
+    if(nullptr != m_propertiesHash)
     {
         return m_propertiesHash->value(pop);
     }
@@ -744,13 +727,13 @@ void VisualItem::setSize(QSizeF size)
     updateChildPosition();
     update();
 }
-//friend functions
-QDataStream& operator<<(QDataStream& os,const VisualItem& c)
+// friend functions
+QDataStream& operator<<(QDataStream& os, const VisualItem& c)
 {
     c.writeData(os);
     return os;
 }
-QDataStream& operator>>(QDataStream& is,VisualItem& c)
+QDataStream& operator>>(QDataStream& is, VisualItem& c)
 {
     c.readData(is);
     return is;

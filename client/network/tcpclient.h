@@ -2,10 +2,10 @@
 #define TCPCLIENT_H
 
 #include <QObject>
-#include <QTcpSocket>
-#include <QStateMachine>
-#include <QState>
 #include <QPointer>
+#include <QState>
+#include <QStateMachine>
+#include <QTcpSocket>
 
 #include "channelmodel.h"
 
@@ -22,32 +22,42 @@ class TcpClient : public TreeItem
 {
     Q_OBJECT
 public:
-    enum ConnectionEvent {CheckSuccessEvent,CheckFailEvent,
-                          ControlFailEvent,ControlSuccessEvent,
-                          ServerAuthDataReceivedEvent,
-                          ServerAuthFailEvent, ServerAuthSuccessEvent,
-                          AdminAuthFailEvent,AdminAuthSuccessEvent,
-                          ChannelAuthSuccessEvent,ChannelAuthFailEvent,ChannelAuthDataReceivedEvent,
-                          ChannelChanged, MoveChanEvent};
+    enum ConnectionEvent
+    {
+        CheckSuccessEvent,
+        CheckFailEvent,
+        ControlFailEvent,
+        ControlSuccessEvent,
+        ServerAuthDataReceivedEvent,
+        ServerAuthFailEvent,
+        ServerAuthSuccessEvent,
+        AdminAuthFailEvent,
+        AdminAuthSuccessEvent,
+        ChannelAuthSuccessEvent,
+        ChannelAuthFailEvent,
+        ChannelAuthDataReceivedEvent,
+        ChannelChanged,
+        MoveChanEvent
+    };
     Q_ENUM(ConnectionEvent)
     /**
      * @brief TcpClient
      * @param socket
      * @param parent
      */
-    explicit TcpClient(QTcpSocket* socket,QObject *parent = nullptr);
+    explicit TcpClient(QTcpSocket* socket, QObject* parent= nullptr);
     ~TcpClient();
     /**
      * @brief getParentChannel
      * @return
      */
-    Channel *getParentChannel() const;
+    Channel* getParentChannel() const;
     /**
      * @brief setParentChannel
      * @param parent
      */
-    void setParentChannel(Channel *parent);
-    void readFromJson(QJsonObject &json);
+    void setParentChannel(Channel* parent);
+    void readFromJson(QJsonObject& json);
     void writeIntoJson(QJsonObject& json);
     virtual int indexOf(TreeItem*);
     /**
@@ -57,7 +67,7 @@ public:
     QTcpSocket* getSocket();
     void setSocket(QTcpSocket* socket);
     qintptr getSocketHandleId() const;
-    void setSocketHandleId(const qintptr &socketHandleId);
+    void setSocketHandleId(const qintptr& socketHandleId);
 
     bool isGM() const;
 
@@ -66,15 +76,13 @@ public:
     void setInfoPlayer(NetworkMessageReader* msg);
     void fill(NetworkMessageWriter* msg);
 
-
-
-    void addPlayerFeature(QString uuid,QString  name,quint8 version);
+    void addPlayerFeature(QString uuid, QString name, quint8 version);
 
     bool isFullyDefined();
 
     bool isAdmin() const;
     void setIsAdmin(bool isAdmin);
-    bool isConnected()const;
+    bool isConnected() const;
     QString getIpAddress();
     QString getWantedChannel();
     QString getServerPassword() const;
@@ -84,7 +92,7 @@ signals:
     /**
      * @brief readDataReceived
      */
-    void readDataReceived(quint64,quint64);
+    void readDataReceived(quint64, quint64);
     /**
      * @brief dataReceived
      */
@@ -113,19 +121,18 @@ signals:
     void clientSaysGoodBye();
     void playerStatusChanged();
 
-
-    //Signal to check
+    // Signal to check
     void checkServerAcceptClient(TcpClient* client);
     void checkServerPassword(TcpClient* client);
     void checkAdminPassword(TcpClient* client);
-    void checkChannelPassword(TcpClient* client,QString channelId, QByteArray password);
+    void checkChannelPassword(TcpClient* client, QString channelId, QByteArray password);
     void channelPassword(QString channelId, QByteArray password);
 
     void isReady();
     void hasNoRestriction();
     void hasRestriction();
     void socketDisconnection();
-    void socketError(QAbstractSocket::SocketError );
+    void socketError(QAbstractSocket::SocketError);
     void socketInitiliazed();
     void protocolViolation();
 public slots:
@@ -141,7 +148,7 @@ public slots:
      * @brief sendMessage
      * @param msg
      */
-    void sendMessage(NetworkMessage* msg,bool deleteMsg);
+    void sendMessage(NetworkMessage* msg, bool deleteMsg);
     /**
      * @brief connectionError
      * @param error
@@ -152,12 +159,13 @@ public slots:
     void closeConnection();
 
 protected:
-    bool isCurrentState(QState *state);
+    bool isCurrentState(QState* state);
     void readAdministrationMessages(NetworkMessageReader& msg);
     void sendOffChannelChanged();
+
 private:
     QPointer<QTcpSocket> m_socket;
-    NetworkMessageHeader m_header = {0,0,0};
+    NetworkMessageHeader m_header= {0, 0, 0};
     char* m_buffer= nullptr;
     int m_headerRead;
     quint64 m_remainingData;
@@ -172,14 +180,14 @@ private:
     QState* m_inChannel= nullptr;
     QState* m_wantToGoToChannel= nullptr;
 
-    QState* m_currentState = nullptr;
+    QState* m_currentState= nullptr;
 
-    bool m_isAdmin = false;
-    bool m_forwardMessage = false;
+    bool m_isAdmin= false;
+    bool m_forwardMessage= false;
 
-    bool m_waitingData = false;
-    bool m_receivingData = false;
-    quint32 m_dataReceivedTotal=0;
+    bool m_waitingData= false;
+    bool m_receivingData= false;
+    quint32 m_dataReceivedTotal= 0;
     Player* m_player= nullptr;
     QString m_playerId;
     qintptr m_socketHandleId;
@@ -188,7 +196,6 @@ private:
     QString m_serverPassword;
     QString m_adminPassword;
     QString m_channelPassword;
-
 };
 Q_DECLARE_METATYPE(TcpClient::ConnectionEvent)
 #endif // TCPCLIENT_H

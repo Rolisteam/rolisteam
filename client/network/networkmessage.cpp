@@ -23,45 +23,36 @@
 #include "networkmessage.h"
 
 #ifndef UNIT_TEST
-#include "network/networklink.h"
 #include "network/clientmanager.h"
+#include "network/networklink.h"
 #endif
 
+NetworkMessage::NetworkMessage(NetworkLink* linkToServer) : m_linkToServer(linkToServer) {}
 
-
-NetworkMessage::NetworkMessage(NetworkLink* linkToServer)
-    : m_linkToServer(linkToServer)
-{
-
-}
-
-NetworkMessage::~NetworkMessage()
-{
-
-}
+NetworkMessage::~NetworkMessage() {}
 
 void NetworkMessage::sendToServer()
 {
-    //NetworkMessageHeader* header = buffer();
+    // NetworkMessageHeader* header = buffer();
 #ifndef UNIT_TEST
-    m_linkToServer = ClientManager::getLinkToServer();
+    m_linkToServer= ClientManager::getLinkToServer();
     if(nullptr != m_linkToServer)
     {
-        //m_linkToServer->sendData(reinterpret_cast<char*>(header), header->dataSize + sizeof(NetworkMessageHeader));
+        // m_linkToServer->sendData(reinterpret_cast<char*>(header), header->dataSize + sizeof(NetworkMessageHeader));
         m_linkToServer->sendData(this);
     }
 #endif
 }
 quint64 NetworkMessage::getSize()
 {
-    if(buffer()!=nullptr)
+    if(buffer() != nullptr)
     {
-        NetworkMessageHeader* header = buffer();
-        return  header->dataSize + sizeof(NetworkMessageHeader);
+        NetworkMessageHeader* header= buffer();
+        return header->dataSize + sizeof(NetworkMessageHeader);
     }
     return 0;
 }
 void NetworkMessage::setLinkToServer(NetworkLink* linkToServer)
 {
-    m_linkToServer = linkToServer;
+    m_linkToServer= linkToServer;
 }

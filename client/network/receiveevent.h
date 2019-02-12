@@ -20,14 +20,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef RECEIVE_EVENT_H
 #define RECEIVE_EVENT_H
 
 #include <QEvent>
-#include <QString>
 #include <QMap>
 #include <QObject>
+#include <QString>
 
 #include "network/networkmessagereader.h"
 #include "network/networkreceiver.h"
@@ -39,8 +38,8 @@ class NetworkLink;
 class ReceiveEvent : public QEvent
 {
 public:
-    ReceiveEvent(const NetworkMessageHeader & header, const char * buffer, NetworkLink * link);
-    ReceiveEvent(const ReceiveEvent & other);
+    ReceiveEvent(const NetworkMessageHeader& header, const char* buffer, NetworkLink* link);
+    ReceiveEvent(const ReceiveEvent& other);
     ~ReceiveEvent();
 
     static const int Type;
@@ -57,12 +56,12 @@ public:
      * @brief link
      * @return
      */
-    NetworkLink * link() const;
+    NetworkLink* link() const;
     /**
      * @brief data
      * @return
      */
-    NetworkMessageReader & data();
+    NetworkMessageReader& data();
 
     /**
      * @brief hasReceiverFor
@@ -77,7 +76,7 @@ public:
      * @param action
      * @param receiver
      */
-    static void registerReceiver(NetMsg::Category categorie, NetMsg::Action action, QObject * receiver);
+    static void registerReceiver(NetMsg::Category categorie, NetMsg::Action action, QObject* receiver);
 
     /**
      * @brief hasNetworkReceiverFor
@@ -99,13 +98,14 @@ public:
     static void registerNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver);
 
     static void removeNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver);
+
 private:
     NetworkMessageReader m_data;
-    NetworkLink * m_link;
+    NetworkLink* m_link;
     quint8 m_repost;
 
-    static QMap<quint16, QObject *> s_receiverMap;
-    static QMap<NetMsg::Category, NetWorkReceiver *> ms_netWorkReceiverMap;
+    static QMap<quint16, QObject*> s_receiverMap;
+    static QMap<NetMsg::Category, NetWorkReceiver*> ms_netWorkReceiverMap;
 };
 /**
  * @brief The DelayReceiveEvent class
@@ -114,15 +114,15 @@ class DelayReceiveEvent : public QObject
 {
     Q_OBJECT
 
-    public:
-        DelayReceiveEvent(const ReceiveEvent & event);
-        ~DelayReceiveEvent();
+public:
+    DelayReceiveEvent(const ReceiveEvent& event);
+    ~DelayReceiveEvent();
 
-    private:
-        ReceiveEvent * m_event;
+private:
+    ReceiveEvent* m_event;
 
-    private slots:
-        void postEvent();
+private slots:
+    void postEvent();
 };
 
 #endif

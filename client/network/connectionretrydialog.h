@@ -24,8 +24,9 @@
 #include <QDialog>
 #include <QTimer>
 
-namespace Ui {
-class ConnectionRetryDialog;
+namespace Ui
+{
+    class ConnectionRetryDialog;
 }
 /**
  * @brief The ConnectionRetryDialog class
@@ -33,25 +34,24 @@ class ConnectionRetryDialog;
 class ConnectionRetryDialog : public QDialog
 {
     Q_OBJECT
-    
+
 public:
-    explicit ConnectionRetryDialog(QWidget *parent = 0);
+    explicit ConnectionRetryDialog(QWidget* parent= 0);
     ~ConnectionRetryDialog();
 
 public slots:
     void resetCounter();
     void startTimer();
-    void setTimeOut(int );
+    void setTimeOut(int);
 
 private slots:
     void decreaseCounter();
 
-
 signals:
     void tryConnection();
-    
+
 private:
-    Ui::ConnectionRetryDialog *ui;
+    Ui::ConnectionRetryDialog* ui;
     int m_timeoutValue;
     int m_counter;
     QTimer* m_timer;

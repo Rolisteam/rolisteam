@@ -18,15 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef CHATLISTWIDGET_H
 #define CHATLISTWIDGET_H
 
 #include <QDockWidget>
 #include <QItemSelectionModel>
+#include <QListView>
 #include <QMenu>
 #include <QPushButton>
-#include <QListView>
 #include <QSettings>
 
 #include "network/networkreceiver.h"
@@ -43,48 +42,46 @@ class ChatListWidget : public QDockWidget, public NetWorkReceiver
     Q_OBJECT
 
 public:
-    ChatListWidget(MainWindow * parent=0);
+    ChatListWidget(MainWindow* parent= 0);
     ~ChatListWidget();
 
-    QMenu * chatMenu() const;
+    QMenu* chatMenu() const;
 
     // for connect, QObject is enought
-    QObject * chatList() const;
+    QObject* chatList() const;
 
-    bool eventFilter(QObject * object, QEvent * event);
+    bool eventFilter(QObject* object, QEvent* event);
 
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 
     void cleanChatList();
 
-    void readSettings(QSettings &setting);
+    void readSettings(QSettings& setting);
     void writeSettings(QSettings& setting);
 public slots:
     void createPrivateChat();
-	void addPublicChat();
+    void addPublicChat();
     /**
      * @brief rollDiceCmd into the global  chat
      * @param cmd
      * @param owner
      */
-    void rollDiceCmd(QString cmd,QString owner, bool alias);
-    void rollDiceCmdForCharacter(QString cmd,QString uuid, bool alias = true);
+    void rollDiceCmd(QString cmd, QString owner, bool alias);
+    void rollDiceCmdForCharacter(QString cmd, QString uuid, bool alias= true);
 private slots:
-    void selectAnotherChat(const QModelIndex & index);
-    void editChat(const QModelIndex & index);
+    void selectAnotherChat(const QModelIndex& index);
+    void editChat(const QModelIndex& index);
     void deleteSelectedChat();
     void updateAllUnreadChat();
     void processAddDiceAlias(NetworkMessageReader* msg);
     void processRemoveDiceALias(NetworkMessageReader* msg);
     void processMoveDiceALias(NetworkMessageReader* msg);
 
-
-
 private:
-	ChatList* m_chatList;
-    PrivateChatDialog * m_privateChatDialog;
-    QItemSelectionModel * m_selectionModel;
-    QPushButton * m_deleteButton;
+    ChatList* m_chatList;
+    PrivateChatDialog* m_privateChatDialog;
+    QItemSelectionModel* m_selectionModel;
+    QPushButton* m_deleteButton;
     QListView* m_listView;
     QList<DiceAlias*>* m_diceAliasMapFromGM;
 };

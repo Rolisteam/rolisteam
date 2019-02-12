@@ -20,62 +20,61 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #include <QApplication>
-#include <QTextCodec>
-#include <QResource>
-#include <QTranslator>
-#include <QDateTime>
-#include <QUuid>
-#include <QCommandLineParser>
 #include <QCommandLineOption>
-#include <time.h>
+#include <QCommandLineParser>
+#include <QDateTime>
 #include <QDebug>
+#include <QResource>
+#include <QTextCodec>
+#include <QTranslator>
+#include <QUuid>
+#include <time.h>
 
-#include "mainwindow.h"
 #include "data/person.h"
+#include "mainwindow.h"
 #include "preferences/preferencesmanager.h"
 
 /**
-* @mainpage Rolisteam
-* @tableofcontents
-* @author Renaud Guezennec
-*
-*  @section intro_sec Introduction
-* Rolisteam help you to manage role playing games with your friend all over the world.<br/>
-* Rolisteam is a free software under GNU/GPL. Its purpose is to provide all features required to<br/>
-* perform Role playing games with remote friends.<br/>
-* It is based on Client/server architecture and it is written in C++ with Qt.<br/>
-*
-* @section features_sec Features:
-* - Chat with one, many and all players
-* - Sharing images and many other media type
-* - Drawing maps on the fly
-* - Sharing environment sound
-* - Multi-platform: Windows, Linux and Mac OS X
-* - Powerful die rolling syntax
-* - Theme and skin: make your own skin, save it, share it.
-* - Useful preferences systems
-*
-*
-*
-* @section install_sec Installation
-* To get documentation on how to install rolisteam: http://wiki.rolisteam.org/
-*
-* @section How to stay in touch ?
-* Please, visit: http://www.rolisteam.org/
-*
-* @section tools_subsec Dependencies:
-* Qt5, zlib, QML,
-* @subpage DiceParser
-*
-* @section copyright Copyright and License
-* GNU/GPLv2
-*
-* <BR><BR>
-*
-*
-*/
+ * @mainpage Rolisteam
+ * @tableofcontents
+ * @author Renaud Guezennec
+ *
+ *  @section intro_sec Introduction
+ * Rolisteam help you to manage role playing games with your friend all over the world.<br/>
+ * Rolisteam is a free software under GNU/GPL. Its purpose is to provide all features required to<br/>
+ * perform Role playing games with remote friends.<br/>
+ * It is based on Client/server architecture and it is written in C++ with Qt.<br/>
+ *
+ * @section features_sec Features:
+ * - Chat with one, many and all players
+ * - Sharing images and many other media type
+ * - Drawing maps on the fly
+ * - Sharing environment sound
+ * - Multi-platform: Windows, Linux and Mac OS X
+ * - Powerful die rolling syntax
+ * - Theme and skin: make your own skin, save it, share it.
+ * - Useful preferences systems
+ *
+ *
+ *
+ * @section install_sec Installation
+ * To get documentation on how to install rolisteam: http://wiki.rolisteam.org/
+ *
+ * @section How to stay in touch ?
+ * Please, visit: http://www.rolisteam.org/
+ *
+ * @section tools_subsec Dependencies:
+ * Qt5, zlib, QML,
+ * @subpage DiceParser
+ *
+ * @section copyright Copyright and License
+ * GNU/GPLv2
+ *
+ * <BR><BR>
+ *
+ *
+ */
 
 /**
  * @brief main
@@ -83,38 +82,39 @@
  * @param argv
  * @return
  */
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    //Ugly patch to allow loading huge file.
-    int nargs = argc + 1;
-    char** args = new char*[nargs];
-    for (int i = 0; i < argc; i++) {
-        args[i] = argv[i];
+    // Ugly patch to allow loading huge file.
+    int nargs= argc + 1;
+    char** args= new char*[nargs];
+    for(int i= 0; i < argc; i++)
+    {
+        args[i]= argv[i];
     }
-    args[argc] = (char*)"--disable-web-security";
+    args[argc]= (char*)"--disable-web-security";
     // Application creation
     QApplication app(nargs, args);
-    app.setAttribute(Qt::AA_DontUseNativeMenuBar,true);
+    app.setAttribute(Qt::AA_DontUseNativeMenuBar, true);
 
     QString appName("rolisteam");
 
     app.setApplicationName(appName);
     app.setOrganizationName(appName);
-    QString version = QObject::tr("Unknown");
-    #ifdef VERSION_MINOR
-        #ifdef VERSION_MAJOR
-            #ifdef VERSION_MIDDLE
-                version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-            #endif
-        #endif
-    #endif
+    QString version= QObject::tr("Unknown");
+#ifdef VERSION_MINOR
+#ifdef VERSION_MAJOR
+#ifdef VERSION_MIDDLE
+    version= QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+#endif
+#endif
+#endif
     app.setApplicationVersion(version);
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-    QString locale = QLocale::system().name();
+    QString locale= QLocale::system().name();
 
     // Ressources
-    QResource::registerResource(appName+".rcc");
+    QResource::registerResource(appName + ".rcc");
 
     QTranslator rolisteamTranslator;
     rolisteamTranslator.load(":/translations/rolisteam_" + locale);
@@ -124,91 +124,89 @@ int main(int argc, char *argv[])
     qtTranslator.load(":/translations/qt_" + locale);
     app.installTranslator(&qtTranslator);
 
-
     QStringList translationCLI;
-    translationCLI << "-t"<<"--translation";
-    QStringList argList = app.arguments();
-    for(auto& str: translationCLI)
+    translationCLI << "-t"
+                   << "--translation";
+    QStringList argList= app.arguments();
+    for(auto& str : translationCLI)
     {
-        int pos = argList.indexOf(str);
-        if(pos!=-1)
+        int pos= argList.indexOf(str);
+        if(pos != -1)
         {
-            if(argList.size()>pos+1)
+            if(argList.size() > pos + 1)
             {
-				QTranslator* cliTranslator = new QTranslator();
-				cliTranslator->load(argList.at(pos+1));
-				app.installTranslator(cliTranslator);
+                QTranslator* cliTranslator= new QTranslator();
+                cliTranslator->load(argList.at(pos + 1));
+                app.installTranslator(cliTranslator);
             }
         }
     }
-
 
     qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
     qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
 
     // Settings
-    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(version));
+    QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(version));
     settings.beginGroup("rolisteam/preferences");
 
 #ifdef Q_OS_WIN
     {
-    QString cmdLine("\"%2\rolisteam.exe\" \"-l %1\"");
-    QSettings fooKey("HKEY_CLASSES_ROOT\\rolisteam", QSettings::NativeFormat);
-    fooKey.setValue(".", "URL:rolisteam Protocol");
-    fooKey.setValue("URL Protocol", "");
-    fooKey.sync();
-    qDebug() << fooKey.status();
-    QSettings fooOpenKey("HKEY_CLASSES_ROOT\\rolisteam\\shell\\open\\command", QSettings::NativeFormat);
-    QFileInfo info(QCoreApplication::applicationFilePath());
-    fooOpenKey.setValue(".", cmdLine.arg("%1").arg(info.absoluteFilePath()));
-    fooOpenKey.sync();
-    qDebug() << fooOpenKey.status();
+        QString cmdLine("\"%2\rolisteam.exe\" \"-l %1\"");
+        QSettings fooKey("HKEY_CLASSES_ROOT\\rolisteam", QSettings::NativeFormat);
+        fooKey.setValue(".", "URL:rolisteam Protocol");
+        fooKey.setValue("URL Protocol", "");
+        fooKey.sync();
+        qDebug() << fooKey.status();
+        QSettings fooOpenKey("HKEY_CLASSES_ROOT\\rolisteam\\shell\\open\\command", QSettings::NativeFormat);
+        QFileInfo info(QCoreApplication::applicationFilePath());
+        fooOpenKey.setValue(".", cmdLine.arg("%1").arg(info.absoluteFilePath()));
+        fooOpenKey.sync();
+        qDebug() << fooOpenKey.status();
     }
 #endif
 
-    QMap<QString,QVariant> map;
+    QMap<QString, QVariant> map;
 
-    int size = settings.beginReadArray("preferenceMap");
-    for (int i = 0; i < size; ++i)
+    int size= settings.beginReadArray("preferenceMap");
+    for(int i= 0; i < size; ++i)
     {
         settings.setArrayIndex(i);
-        QString key = settings.value("key").toString();
-        QVariant value = settings.value("value");
-        map.insert(key,value);
+        QString key= settings.value("key").toString();
+        QVariant value= settings.value("value");
+        map.insert(key, value);
     }
     settings.endArray();
     settings.endGroup();
 
-    QString file = map.value("currentTranslationFile","").toString();
+    QString file= map.value("currentTranslationFile", "").toString();
     if(!file.isEmpty())
     {
-        QTranslator* currentTranslator = new QTranslator();
+        QTranslator* currentTranslator= new QTranslator();
         currentTranslator->load(file);
         app.installTranslator(currentTranslator);
     }
 
-
     // Create the main window
-    MainWindow* mainWindow = new MainWindow();
+    MainWindow* mainWindow= new MainWindow();
     mainWindow->parseCommandLineArguments(app.arguments());
 
     mainWindow->setupUi();
     mainWindow->readSettings();
 
-	int value = 0;
-	if(PreferencesManager::getInstance()->value("FullScreenAtStarting",true).toBool())
-	{
-		mainWindow->showMaximized();
-	}
-	else
-	{
-		mainWindow->show();
-	}
+    int value= 0;
+    if(PreferencesManager::getInstance()->value("FullScreenAtStarting", true).toBool())
+    {
+        mainWindow->showMaximized();
+    }
+    else
+    {
+        mainWindow->show();
+    }
     mainWindow->showConnectionDialog();
-	value = app.exec();
+    value= app.exec();
     QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
 
     delete mainWindow;
     delete[] args;
     return value;
-} 
+}

@@ -55,8 +55,6 @@
 #include <QTextDocumentWriter>
 #endif
 
-
-
 QT_FORWARD_DECLARE_CLASS(QAction)
 QT_FORWARD_DECLARE_CLASS(QComboBox)
 QT_FORWARD_DECLARE_CLASS(QFontComboBox)
@@ -69,19 +67,19 @@ class TextEdit : public QMainWindow
     Q_OBJECT
 
 public:
-    TextEdit(QWidget *parent = 0);
+    TextEdit(QWidget* parent= 0);
     QString getFilter() const;
 
     QString getFileName() const;
 
     QString getShowName() const;
-    void setShowName(const QString &showName);
+    void setShowName(const QString& showName);
 
 public slots:
-    bool load(const QString &f);
+    bool load(const QString& f);
     bool fileSave();
-    void setCurrentFileName(const QString &fileName);
-    void saveFileAsBinary(QDataStream& data );
+    void setCurrentFileName(const QString& fileName);
+    void saveFileAsBinary(QDataStream& data);
     void readFromBinary(QDataStream& data);
     void fileNew();
 
@@ -90,9 +88,9 @@ signals:
     void fileNameChanged(QString);
 
 protected:
-    virtual void closeEvent(QCloseEvent *e);
-    virtual void showEvent(QShowEvent *e);
-    virtual void hideEvent(QHideEvent *e);
+    virtual void closeEvent(QCloseEvent* e);
+    virtual void showEvent(QShowEvent* e);
+    virtual void hideEvent(QHideEvent* e);
 
 private:
     void setupFileActions();
@@ -112,51 +110,40 @@ private slots:
     void textBold();
     void textUnderline();
     void textItalic();
-    void textFamily(const QString &f);
-    void textSize(const QString &p);
+    void textFamily(const QString& f);
+    void textSize(const QString& p);
     void textStyle(int styleIndex);
     void textColor();
-    void textAlign(QAction *a);
-    void onRead( int now ,int tot );
-    void currentCharFormatChanged(const QTextCharFormat &format);
+    void textAlign(QAction* a);
+    void onRead(int now, int tot);
+    void currentCharFormatChanged(const QTextCharFormat& format);
     void cursorPositionChanged();
 
     void clipboardDataChanged();
     void about();
-    void printPreview(QPrinter *);
+    void printPreview(QPrinter*);
 
 private:
-    void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
-    void fontChanged(const QFont &f);
-    void colorChanged(const QColor &c);
+    void mergeFormatOnWordOrSelection(const QTextCharFormat& format);
+    void fontChanged(const QFont& f);
+    void colorChanged(const QColor& c);
     void alignmentChanged(Qt::Alignment a);
 
-    QAction *actionSave,
-        *actionTextBold,
-        *actionTextUnderline,
-        *actionTextItalic,
-        *actionTextColor,
-        *actionAlignLeft,
-        *actionAlignCenter,
-        *actionAlignRight,
-        *actionAlignJustify,
-        *actionUndo,
-        *actionRedo,
-        *actionCut,
-        *actionCopy,
+    QAction *actionSave, *actionTextBold, *actionTextUnderline, *actionTextItalic, *actionTextColor, *actionAlignLeft,
+        *actionAlignCenter, *actionAlignRight, *actionAlignJustify, *actionUndo, *actionRedo, *actionCut, *actionCopy,
         *actionPaste;
 
-    QStatusBar *statusbar;
-    OOReader *Ooo;
-    PushDoc *force;
+    QStatusBar* statusbar;
+    OOReader* Ooo;
+    PushDoc* force;
     QSettings setter;
-    QComboBox *comboStyle;
-    QFontComboBox *comboFont;
-    QComboBox *comboSize;
+    QComboBox* comboStyle;
+    QFontComboBox* comboFont;
+    QComboBox* comboSize;
 
-    QToolBar *tb;
+    QToolBar* tb;
     QString fileName;
-    QTextEdit *textEdit;
+    QTextEdit* textEdit;
 
     static const QString rsrcPath;
 };

@@ -20,21 +20,16 @@
 #ifndef DELETEMEDIACONTAINERCOMMAND_H
 #define DELETEMEDIACONTAINERCOMMAND_H
 
-#include <QUndoCommand>
 #include "data/mediacontainer.h"
+#include <QUndoCommand>
 
 class SessionManager;
 class ImprovedWorkspace;
 class DeleteMediaContainerCommand : public QUndoCommand
 {
 public:
-    DeleteMediaContainerCommand(MediaContainer* media,
-                                SessionManager* manager,
-                                QMenu* menu,
-                                ImprovedWorkspace* workspace,
-                                bool isGM,
-                                QHash<QString,MediaContainer*>& hash,
-                                QUndoCommand* parent = nullptr);
+    DeleteMediaContainerCommand(MediaContainer* media, SessionManager* manager, QMenu* menu,
+        ImprovedWorkspace* workspace, bool isGM, QHash<QString, MediaContainer*>& hash, QUndoCommand* parent= nullptr);
 
     ~DeleteMediaContainerCommand();
 
@@ -42,12 +37,13 @@ public:
     void undo() override;
 
     bool sendAtOpening();
+
 private:
-    MediaContainer* m_media = nullptr;
-    SessionManager* m_manager = nullptr;
-    QMenu* m_menu = nullptr;
-    ImprovedWorkspace* m_mdiArea = nullptr;
-    QHash<QString,MediaContainer*>& m_hash;
+    MediaContainer* m_media= nullptr;
+    SessionManager* m_manager= nullptr;
+    QMenu* m_menu= nullptr;
+    ImprovedWorkspace* m_mdiArea= nullptr;
+    QHash<QString, MediaContainer*>& m_hash;
     bool m_gm;
 };
 

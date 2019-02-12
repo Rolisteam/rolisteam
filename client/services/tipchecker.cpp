@@ -20,36 +20,34 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #include "tipchecker.h"
 
-#include <QUrl>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QRegExp>
-#include <QStringList>
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QRegExp>
+#include <QStringList>
+#include <QUrl>
 /*****************
  * UpdateChecker *
  *****************/
 
-TipChecker::TipChecker(QObject* obj)
-    : QObject(obj)
+TipChecker::TipChecker(QObject* obj) : QObject(obj)
 {
-    m_noErrror = true;
+    m_noErrror= true;
 }
 
 bool TipChecker::hasArticle()
 {
-   return m_state;
+    return m_state;
 }
 
 void TipChecker::startChecking()
 {
-    m_manager = new QNetworkAccessManager(this);
-    connect(m_manager,&QNetworkAccessManager::finished,this, &TipChecker::readJSon);
+    m_manager= new QNetworkAccessManager(this);
+    connect(m_manager, &QNetworkAccessManager::finished, this, &TipChecker::readJSon);
     m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/tips.json")));
 }
 
@@ -69,48 +67,46 @@ QString TipChecker::getArticleTitle()
 }
 void TipChecker::readJSon(QNetworkReply* p)
 {
-    if(p->error()!=QNetworkReply::NoError)
+    if(p->error() != QNetworkReply::NoError)
     {
-        m_noErrror = false;
+        m_noErrror= false;
         emit checkFinished();
         return;
     }
 
-    QByteArray a = p->readAll();
+    QByteArray a= p->readAll();
     QJsonParseError error;
-    QJsonDocument doc(QJsonDocument::fromJson(a,&error));
+    QJsonDocument doc(QJsonDocument::fromJson(a, &error));
     if(error.error != QJsonParseError::NoError)
     {
-        m_noErrror = false;
+        m_noErrror= false;
         emit checkFinished();
         return;
     }
 
-    QJsonObject obj = doc.object();
-    QString locale = QLocale::system().name();
-    int pos = locale.indexOf('_');
-    if(pos>=0)
+    QJsonObject obj= doc.object();
+    QString locale= QLocale::system().name();
+    int pos= locale.indexOf('_');
+    if(pos >= 0)
     {
-        locale.remove(locale.indexOf(pos,1));
+        locale.remove(locale.indexOf(pos, 1));
     }
-
 
     if(!obj.contains(locale))
     {
-        locale = "en";
+        locale= "en";
     }
     if(obj.contains(locale))
     {
-        QJsonObject lang = obj[locale].toObject();
-        m_title = lang["title"].toString();
-        m_msg = lang["msg"].toString();
-        m_url = lang["url"].toString();
-        m_id = lang["id"].toInt();
+        QJsonObject lang= obj[locale].toObject();
+        m_title= lang["title"].toString();
+        m_msg= lang["msg"].toString();
+        m_url= lang["url"].toString();
+        m_id= lang["id"].toInt();
         if(!m_msg.isEmpty() && !m_title.isEmpty())
         {
-            m_state = true;
+            m_state= true;
         }
-
     }
     emit checkFinished();
 }
@@ -122,6 +118,5 @@ int TipChecker::getId() const
 
 void TipChecker::setId(int value)
 {
-    m_id = value;
+    m_id= value;
 }
-

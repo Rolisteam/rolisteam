@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <QtTest/QtTest>
 #include <QObject>
+#include <QtTest/QtTest>
 #include <rolisteamtheme.h>
 
 class RolisteamThemeTest : public QObject
@@ -38,34 +38,14 @@ private slots:
 private:
     RolisteamTheme* m_theme;
 };
-RolisteamThemeTest::RolisteamThemeTest()
-{
+RolisteamThemeTest::RolisteamThemeTest() {}
 
-}
+void RolisteamThemeTest::testPreferenceRegisterValue() {}
+void RolisteamThemeTest::testNotOverridePreferenceValue() {}
+void RolisteamThemeTest::testOverridePreferenceValue() {}
+void RolisteamThemeTest::initTestCase() {}
 
-
-void RolisteamThemeTest::testPreferenceRegisterValue()
-{
-
-}
-void RolisteamThemeTest::testNotOverridePreferenceValue()
-{
-
-}
-void RolisteamThemeTest::testOverridePreferenceValue()
-{
-
-}
-void RolisteamThemeTest::initTestCase()
-{
-
-}
-
-void RolisteamThemeTest::cleanupTestCase()
-{
-
-}
-
+void RolisteamThemeTest::cleanupTestCase() {}
 
 QTEST_MAIN(RolisteamThemeTest);
 

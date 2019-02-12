@@ -19,7 +19,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef FEATURES_H
 #define FEATURES_H
 
@@ -31,25 +30,25 @@
 class ReceiveEvent;
 class Player;
 
-
-extern void setLocalFeatures(Player & player);
-extern void addFeature(ReceiveEvent & data);
+extern void setLocalFeatures(Player& player);
+extern void addFeature(ReceiveEvent& data);
 /**
- * @brief The SendFeaturesIterator class is use to check if all players connected to the same server have the same features.
+ * @brief The SendFeaturesIterator class is use to check if all players connected to the same server have the same
+ * features.
  */
 class SendFeaturesIterator : public QMapIterator<QString, quint8>
 {
 public:
     SendFeaturesIterator();
-    SendFeaturesIterator(const Player & player);
+    SendFeaturesIterator(const Player& player);
     ~SendFeaturesIterator();
 
-    NetworkMessageWriter & message();
+    NetworkMessageWriter& message();
 
-    SendFeaturesIterator & operator=(const Player * player);
+    SendFeaturesIterator& operator=(const Player* player);
 
 private:
-    const Player * m_player;
+    const Player* m_player;
     NetworkMessageWriter m_message;
 };
 

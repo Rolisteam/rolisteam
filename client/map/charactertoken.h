@@ -22,12 +22,11 @@
 #ifndef CHARACTER_TOKEN_H
 #define CHARACTER_TOKEN_H
 
-
+#include <QColor>
 #include <QLabel>
+#include <QPoint>
 #include <QString>
 #include <QWidget>
-#include <QColor>
-#include <QPoint>
 
 #include "network/networkmessagewriter.h"
 //#include "userlist/playersList.h"
@@ -38,8 +37,12 @@ class CharacterToken : public QWidget
 {
     Q_OBJECT
 
-public :
-    enum typePersonnage {pj, pnj};
+public:
+    enum typePersonnage
+    {
+        pj,
+        pnj
+    };
 
     typedef struct
     {
@@ -47,15 +50,16 @@ public :
         QString stateName;
     } StateOfHealth;
 
-    CharacterToken(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType, bool showNpcNumber,bool showName,int numero = 0,bool isLocal=false);
+    CharacterToken(QWidget* parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position,
+        typePersonnage leType, bool showNpcNumber, bool showName, int numero= 0, bool isLocal= false);
     void moveCharacter(QPoint position);
     void moveCharacter(int x, int y);
-    void defineToken(int *diam, QColor *coul, QString *nom);
+    void defineToken(int* diam, QColor* coul, QString* nom);
     void moveCharaterCenter(QPoint position);
     void showCharacter();
     void hideCharater();
-    void diskBorder(QPoint *coordonnees);
-    void drawCharacter(QPoint positionSouris = QPoint(0,0));
+    void diskBorder(QPoint* coordonnees);
+    void drawCharacter(QPoint positionSouris= QPoint(0, 0));
     void showOrHideOrientation();
     void changeState();
     void renameCharacter(QString nouveauNom);
@@ -72,53 +76,49 @@ public :
     QString getCharacterId();
     QPoint getCharacterCenter();
     QPoint getCharacterOrientation();
-    void prepareToSendOff(NetworkMessageWriter* msg, bool convertirEnPnj = false);
+    void prepareToSendOff(NetworkMessageWriter* msg, bool convertirEnPnj= false);
     int getSizeForEmiting();
     int getHealtState();
-    void write(QDataStream &out);
+    void write(QDataStream& out);
 
     /*void setCharacter(Character* tmp);
     Character* getCharacter();*/
 
-public slots :
+public slots:
     void showPcName(bool afficher);
     void showNpcName(bool afficher);
     void showNpcNumber(bool afficher);
     void setPcSize(int nouvelleTaille);
 
-
-
-private :
+private:
     void updateTitle();
-    void initializeBorder(QImage &disque);
-	void AddHealthState(const QColor &color, const QString &label);
+    void initializeBorder(QImage& disque);
+    void AddHealthState(const QColor& color, const QString& label);
 
 private:
-    typePersonnage type;		// Indique si le personnage est un PJ ou un PNJ
-    StateOfHealth etat;			// Etat se sante actuel du personnage
-    int numeroEtat;				// Numero de l'etat de sante dans la liste G_etatsDeSante
-    QString nomPerso;			// Nom du personnage
-    QString identifiant;		// Identifiant servant a differencier les personnages
-    uchar numeroPnj;			// Numero du PNJ
-    uchar diametre;				// Diametre du personnage
-    QColor m_color;				// Couleur du personnage
-    QLabel *disquePerso;		// Contient le pixmap d'un disque representant le personnage
-    QLabel *intitulePerso;		// Affiche le nom et le numero du personnage
-    bool m_showNpcName;			// True si le nom du personnage est actuellement affiche
+    typePersonnage type;   // Indique si le personnage est un PJ ou un PNJ
+    StateOfHealth etat;    // Etat se sante actuel du personnage
+    int numeroEtat;        // Numero de l'etat de sante dans la liste G_etatsDeSante
+    QString nomPerso;      // Nom du personnage
+    QString identifiant;   // Identifiant servant a differencier les personnages
+    uchar numeroPnj;       // Numero du PNJ
+    uchar diametre;        // Diametre du personnage
+    QColor m_color;        // Couleur du personnage
+    QLabel* disquePerso;   // Contient le pixmap d'un disque representant le personnage
+    QLabel* intitulePerso; // Affiche le nom et le numero du personnage
+    bool m_showNpcName;    // True si le nom du personnage est actuellement affiche
     bool m_showPcName;
-    bool m_showNpcNumber;			// True si le numero du PNJ est actuellement affiche
-    bool visible;				// True si le personnage est actuellement affiche
-    bool orientationAffichee;	// True si l'orientation du personnage est actuellement affichee
-    QPoint contour[8];			// 8 points formant le contour du disque (dans l'espace de coordonnees de disquePerso)
-    QPoint orientation;			// Orientation du personnage (difference entre le centre du disque et la souris)
-    QPoint centre;				// Sert a memoriser la position du centre pendant que le personnage est cache
+    bool m_showNpcNumber;     // True si le numero du PNJ est actuellement affiche
+    bool visible;             // True si le personnage est actuellement affiche
+    bool orientationAffichee; // True si l'orientation du personnage est actuellement affichee
+    QPoint contour[8];        // 8 points formant le contour du disque (dans l'espace de coordonnees de disquePerso)
+    QPoint orientation;       // Orientation du personnage (difference entre le centre du disque et la souris)
+    QPoint centre;            // Sert a memoriser la position du centre pendant que le personnage est cache
     bool m_localPerso;
 
     QList<CharacterToken::StateOfHealth> m_healtStateList;
 
-    //Character * person;
-
-
+    // Character * person;
 };
 
 #endif

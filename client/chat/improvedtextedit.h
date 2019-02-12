@@ -20,44 +20,43 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef TEXTEDIT_AMELIORE_H
 #define TEXTEDIT_AMELIORE_H
 
-#include <QTextEdit>
 #include <QKeyEvent>
+#include <QTextEdit>
 
 /**
  * @brief The ImprovedTextEdit class
  */
 class ImprovedTextEdit : public QTextEdit
 {
-Q_OBJECT
+    Q_OBJECT
 
-public :
+public:
     /**
      * @brief ImprovedTextEdit
      * @param parent
      */
-    ImprovedTextEdit(QWidget *parent = 0);
+    ImprovedTextEdit(QWidget* parent= 0);
 
-signals :
-	void textValidated(bool hasHtml,QString text);
+signals:
+    void textValidated(bool hasHtml, QString text);
     void ctrlUp();
     void ctrlDown();
     void receivedFocus();
 
-protected :
+protected:
     /**
      * @brief keyPressEvent
      * @param e
      */
-    void keyPressEvent(QKeyEvent *e);
+    void keyPressEvent(QKeyEvent* e);
     /**
      * @brief focusInEvent
      * @param e
      */
-    void focusInEvent(QFocusEvent *e);
+    void focusInEvent(QFocusEvent* e);
 
 private:
     QStringList m_history;

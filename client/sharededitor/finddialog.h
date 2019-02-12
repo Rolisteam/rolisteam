@@ -21,10 +21,11 @@
 
 #include <QDialog>
 
-#include "utilities.h"
 #include "enu.h"
+#include "utilities.h"
 // clazy:skip
-namespace Ui {
+namespace Ui
+{
     class FindDialog;
 }
 
@@ -32,14 +33,14 @@ class FindDialog : public QDialog
 {
     Q_OBJECT
 public:
-    FindDialog(QWidget *parent = nullptr);
+    FindDialog(QWidget* parent= nullptr);
     ~FindDialog();
 
 protected:
-    void changeEvent(QEvent *e);
+    void changeEvent(QEvent* e);
 
 private:
-    Ui::FindDialog *ui;
+    Ui::FindDialog* ui;
 
 private slots:
     void on_findNextPushButton_clicked();
@@ -53,7 +54,8 @@ signals:
     void findDialogFindPrev(QString str, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode findMode);
     void findDialogReplaceAll(QString find, QString replace, Qt::CaseSensitivity sensitivity, Enu::FindMode findMode);
     void findDialogReplace(QString replace);
-    void findDiaalogFindReplace(QString find, QString replace, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode findMode);
+    void findDiaalogFindReplace(
+        QString find, QString replace, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode findMode);
 };
 
 #endif // FINDDIALOG_H

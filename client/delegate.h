@@ -19,7 +19,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef DELEGATE_H
 #define DELEGATE_H
 
@@ -31,11 +30,11 @@ class Delegate : public QItemDelegate
 {
     Q_OBJECT
 
-    public:
-        Delegate(QObject * parent = nullptr);
-        ~Delegate();
+public:
+    Delegate(QObject* parent= nullptr);
+    ~Delegate();
 
-        int roleAt(const QStyleOptionViewItem &option, const QModelIndex &index, QPoint pos) const;
+    int roleAt(const QStyleOptionViewItem& option, const QModelIndex& index, QPoint pos) const;
 };
 
 #endif

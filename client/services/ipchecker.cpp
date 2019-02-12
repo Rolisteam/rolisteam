@@ -18,32 +18,27 @@
  *   Free Software Foundation, Inc.,                                     *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
-#include <QUrl>
-#include <QNetworkRequest>
-#include <QNetworkReply>
 #include "ipchecker.h"
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QUrl>
 
-IpChecker::IpChecker(QObject *parent) :
-	QObject(parent),m_manager(nullptr)
-{
-
-}
+IpChecker::IpChecker(QObject* parent) : QObject(parent), m_manager(nullptr) {}
 void IpChecker::readText(QNetworkReply* p)
 {
-    if(p->error()!=QNetworkReply::NoError)
+    if(p->error() != QNetworkReply::NoError)
     {
-        m_ip = tr("Error to read server IP.");
+        m_ip= tr("Error to read server IP.");
     }
     else
     {
-        m_ip = p->readAll();
+        m_ip= p->readAll();
         emit finished(m_ip);
     }
 }
 void IpChecker::startCheck()
 {
-    m_manager = new QNetworkAccessManager(this);
-    connect(m_manager, SIGNAL(finished(QNetworkReply*)),
-             this, SLOT(readText(QNetworkReply*)));
-     m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/ip.php")));
+    m_manager= new QNetworkAccessManager(this);
+    connect(m_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(readText(QNetworkReply*)));
+    m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/ip.php")));
 }

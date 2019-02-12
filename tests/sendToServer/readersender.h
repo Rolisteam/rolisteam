@@ -1,10 +1,10 @@
 #ifndef READERSENDER_H
 #define READERSENDER_H
 
-#include <QObject>
 #include <QFile>
-#include <QTextStream>
 #include <QHash>
+#include <QObject>
+#include <QTextStream>
 
 class QTcpSocket;
 
@@ -12,7 +12,7 @@ class ReaderSender : public QObject
 {
     Q_OBJECT
 public:
-    explicit ReaderSender(QObject *parent = nullptr);
+    explicit ReaderSender(QObject* parent= nullptr);
 
     void sendData();
 signals:

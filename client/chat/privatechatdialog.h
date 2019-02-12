@@ -20,7 +20,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef PRIVATE_CHAT_DIALOG_H
 #define PRIVATE_CHAT_DIALOG_H
 
@@ -45,20 +44,20 @@ public:
      * @brief PrivateChatDialogModel
      * @param parent
      */
-    PrivateChatDialogModel(QObject * parent = 0);
+    PrivateChatDialogModel(QObject* parent= 0);
     /**
      * @brief flags
      * @param index
      * @return
      */
-    Qt::ItemFlags flags(const QModelIndex &index) const;
+    Qt::ItemFlags flags(const QModelIndex& index) const;
     /**
      * @brief data
      * @param index
      * @param role
      * @return
      */
-    QVariant data(const QModelIndex &index, int role) const;
+    QVariant data(const QModelIndex& index, int role) const;
     /**
      * @brief setData
      * @param index
@@ -66,17 +65,17 @@ public:
      * @param role
      * @return
      */
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
+    bool setData(const QModelIndex& index, const QVariant& value, int role);
     /**
      * @brief playersSet
      * @return
      */
-    QSet<Player *> & playersSet();
+    QSet<Player*>& playersSet();
     /**
      * @brief setPlayersSet
      * @param set
      */
-    void setPlayersSet(const QSet<Player *> & set);
+    void setPlayersSet(const QSet<Player*>& set);
     /**
      * @brief setEditable
      * @param isEditable
@@ -84,8 +83,8 @@ public:
     void setEditable(bool isEditable);
 
 private:
-   QSet<Player *> m_set;
-   bool m_isEditable;
+    QSet<Player*> m_set;
+    bool m_isEditable;
 };
 /**
  * @brief The PrivateChatDialog class is the dialog box displayed when the user wants to create new chat room.
@@ -99,7 +98,7 @@ public:
      * @brief PrivateChatDialog
      * @param parent
      */
-    PrivateChatDialog(QWidget * parent = nullptr);
+    PrivateChatDialog(QWidget* parent= nullptr);
     /**
      * @brief sizeHint
      * @return
@@ -112,13 +111,13 @@ public slots:
      * @param chat
      * @return
      */
-    int edit(PrivateChat * chat = nullptr);
+    int edit(PrivateChat* chat= nullptr);
 
 private:
-    QLineEdit * m_name_w;
-    QLineEdit * m_owner_w;
+    QLineEdit* m_name_w;
+    QLineEdit* m_owner_w;
     PrivateChatDialogModel m_model;
-    QDialogButtonBox * m_buttonBox;
+    QDialogButtonBox* m_buttonBox;
 };
 
 #endif

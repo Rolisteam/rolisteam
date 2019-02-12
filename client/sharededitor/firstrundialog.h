@@ -21,18 +21,20 @@
 
 #include <QDialog>
 
-namespace Ui {
+namespace Ui
+{
     class FirstRunDialog;
 }
 
-class FirstRunDialog : public QDialog {
+class FirstRunDialog : public QDialog
+{
     Q_OBJECT
 public:
-    FirstRunDialog(QWidget *parent = 0);
+    FirstRunDialog(QWidget* parent= 0);
     ~FirstRunDialog();
 
 private:
-    Ui::FirstRunDialog *ui;
+    Ui::FirstRunDialog* ui;
 
 private slots:
     void dialogAccepted();

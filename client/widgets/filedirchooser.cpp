@@ -21,37 +21,34 @@
 #include "filedirchooser.h"
 
 #include <QDir>
-#include <QHBoxLayout>
 #include <QFileDialog>
+#include <QHBoxLayout>
 
 /**************
  * FileDirChooser *
  **************/
 
-FileDirChooser::FileDirChooser(bool isDirectory ,QWidget * parent)
- : QWidget(parent),m_directory(isDirectory)
+FileDirChooser::FileDirChooser(bool isDirectory, QWidget* parent) : QWidget(parent), m_directory(isDirectory)
 {
-
-
     // Childrens
-    m_lineEdit = new QLineEdit(this);
+    m_lineEdit= new QLineEdit(this);
     m_lineEdit->setText(QDir::homePath());
-    QPushButton * button = new QPushButton(QStringLiteral("..."), this);
+    QPushButton* button= new QPushButton(QStringLiteral("..."), this);
 
     // Layout
-    QHBoxLayout * layout = new QHBoxLayout;
+    QHBoxLayout* layout= new QHBoxLayout;
     layout->addWidget(m_lineEdit, 1);
     layout->addWidget(button, 0);
     setLayout(layout);
 
     // Connections
     connect(button, SIGNAL(clicked()), this, SLOT(browse()));
-    connect(m_lineEdit,SIGNAL(editingFinished()),this,SIGNAL(pathChanged()));
+    connect(m_lineEdit, SIGNAL(editingFinished()), this, SIGNAL(pathChanged()));
 
     // Misc
     button->setMaximumWidth(28);
-    setContentsMargins(0,0,0,0);
-    layout->setContentsMargins(0,0,0,0);
+    setContentsMargins(0, 0, 0, 0);
+    layout->setContentsMargins(0, 0, 0, 0);
 }
 
 FileDirChooser::~FileDirChooser()
@@ -60,10 +57,10 @@ FileDirChooser::~FileDirChooser()
 }
 void FileDirChooser::setMode(bool isDirectory)
 {
-    m_directory=isDirectory;
+    m_directory= isDirectory;
 }
 
-void FileDirChooser::setPath(const QString & path)
+void FileDirChooser::setPath(const QString& path)
 {
     m_lineEdit->setText(path);
 }
@@ -74,7 +71,7 @@ QString FileDirChooser::path() const
 }
 void FileDirChooser::setFilter(const QString& filter)
 {
-    m_filter=filter;
+    m_filter= filter;
 }
 
 QString FileDirChooser::getFilter()
@@ -84,22 +81,17 @@ QString FileDirChooser::getFilter()
 
 void FileDirChooser::browse()
 {
-     QString result;
+    QString result;
     if(m_directory)
     {
-    result = QFileDialog::getExistingDirectory(this,
-            tr("Select directory"),
-            m_lineEdit->text(),
-            QFileDialog::ShowDirsOnly  | QFileDialog::DontResolveSymlinks);
+        result= QFileDialog::getExistingDirectory(this, tr("Select directory"), m_lineEdit->text(),
+            QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     }
     else
     {
-        result = QFileDialog::getOpenFileName(this,
-                tr("Open File"),
-                m_lineEdit->text(),
-                m_filter );
+        result= QFileDialog::getOpenFileName(this, tr("Open File"), m_lineEdit->text(), m_filter);
     }
-    if (!result.isEmpty())
+    if(!result.isEmpty())
     {
         m_lineEdit->setText(result);
         emit pathChanged();

@@ -1,10 +1,10 @@
 #ifndef TREEITEM_H
 #define TREEITEM_H
 
-#include <QString>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QObject>
+#include <QString>
 /**
  * @brief The TreeItem class
  */
@@ -12,7 +12,7 @@ class TreeItem : public QObject
 {
     Q_OBJECT
 public:
-    TreeItem(QObject* parent = nullptr);
+    TreeItem(QObject* parent= nullptr);
 
     virtual void addChild();
     virtual bool isLeaf() const;
@@ -24,19 +24,19 @@ public:
     void setParentItem(TreeItem* parent);
 
     QString getName() const;
-    void setName(const QString &name);
+    void setName(const QString& name);
 
-    virtual int indexOf(TreeItem*) = 0;
+    virtual int indexOf(TreeItem*)= 0;
     int rowInParent();
 
     QString getId() const;
-    void setId(const QString &id);
+    void setId(const QString& id);
 
     virtual bool addChildInto(QString id, TreeItem* child);
 
-    //serialization
-    virtual void readFromJson(QJsonObject &json)=0;
-    virtual void writeIntoJson(QJsonObject& json) =0;
+    // serialization
+    virtual void readFromJson(QJsonObject& json)= 0;
+    virtual void writeIntoJson(QJsonObject& json)= 0;
 
     virtual void clear();
 
@@ -51,7 +51,7 @@ signals:
 protected:
     QString m_id;
     QString m_name;
-    TreeItem* m_parentItem = nullptr;
+    TreeItem* m_parentItem= nullptr;
 };
 
 #endif // TREEITEM_H

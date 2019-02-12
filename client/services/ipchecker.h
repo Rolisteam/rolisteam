@@ -21,9 +21,9 @@
 #ifndef IPCHECKER_H
 #define IPCHECKER_H
 
+#include <QNetworkAccessManager>
 #include <QObject>
 #include <QString>
-#include <QNetworkAccessManager>
 
 /**
  * @brief The IpChecker class is dedicated to reach http://www.rolisteam.org/ip.php to read the public ip.
@@ -36,8 +36,8 @@ public:
      * @brief IpChecker
      * @param parent
      */
-    explicit IpChecker(QObject *parent = 0);
-    
+    explicit IpChecker(QObject* parent= 0);
+
 signals:
     /**
      * @brief finished
@@ -60,7 +60,6 @@ private slots:
 private:
     QNetworkAccessManager* m_manager;
     QString m_ip;
-    
 };
 
 #endif // IPCHECKER_H

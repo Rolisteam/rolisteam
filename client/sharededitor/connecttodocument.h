@@ -25,14 +25,16 @@
 
 #include <QListWidget>
 
-namespace Ui {
+namespace Ui
+{
     class ConnectToDocument;
 }
 
-class ConnectToDocument : public QDialog {
+class ConnectToDocument : public QDialog
+{
     Q_OBJECT
 public:
-    ConnectToDocument(QWidget *parent = 0);
+    ConnectToDocument(QWidget* parent= 0);
     ~ConnectToDocument();
 
     void setName(QString name);
@@ -40,13 +42,13 @@ public:
     QStringList previousInfo; // Public list to store previous names; addresses; ports
 
 private:
-    Ui::ConnectToDocument *ui;
+    Ui::ConnectToDocument* ui;
 
     QRegExpValidator* nameValidator;
     QRegExpValidator* addressValidator;
     QRegExpValidator* portValidator;
 
-    QUdpSocket *udpSocket;
+    QUdpSocket* udpSocket;
 
     QList<QTimer*> timerList;
     QList<QListWidgetItem*> itemList;
@@ -61,11 +63,10 @@ private slots:
     void on_previousDocsComboBox_currentIndexChanged();
     void processPendingDatagrams();
     void timerTimedOut();
-    void listWidgetItemClicked(QListWidgetItem *current);
+    void listWidgetItemClicked(QListWidgetItem* current);
 
 signals:
     void connectToDocumentClicked(QStringList list);
-
 };
 
 #endif // CONNECTTODOCUMENT_H

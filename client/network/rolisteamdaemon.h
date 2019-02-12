@@ -4,8 +4,8 @@
 #include <QObject>
 #include <QThread>
 
-#include "servermanager.h"
 #include "../client/common/controller/logcontroller.h"
+#include "servermanager.h"
 /**
  * @brief The RolisteamDaemon class
  */
@@ -13,8 +13,7 @@ class RolisteamDaemon : public QObject
 {
     Q_OBJECT
 public:
-    explicit RolisteamDaemon(QObject *parent = 0);
-
+    explicit RolisteamDaemon(QObject* parent= 0);
 
     void start();
 signals:
@@ -26,7 +25,7 @@ public slots:
 
 private:
     ServerManager m_serverManager;
-    LogController* m_logController = nullptr;
+    LogController* m_logController= nullptr;
     QThread m_thread;
 };
 

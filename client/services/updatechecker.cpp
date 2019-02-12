@@ -20,52 +20,50 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #include "updatechecker.h"
 
-#include <QUrl>
-#include <QNetworkRequest>
+#include <QDebug>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QRegExp>
 #include <QStringList>
-#include <QDebug>
+#include <QUrl>
 /*****************
  * UpdateChecker *
  *****************/
 
 UpdateChecker::UpdateChecker(QObject* obj)
-    : QObject(obj), m_state(false),m_versionMinor(0),m_versionMajor(0),m_versionMiddle(0),m_manager(nullptr)
+    : QObject(obj), m_state(false), m_versionMinor(0), m_versionMajor(0), m_versionMiddle(0), m_manager(nullptr)
 {
-    m_noErrror = true;
+    m_noErrror= true;
 #ifdef VERSION_MINOR
-    #ifdef VERSION_MAJOR
-        #ifdef VERSION_MIDDLE
-			m_versionMinor=VERSION_MINOR;
-			m_versionMajor=VERSION_MAJOR;
-			m_versionMiddle=VERSION_MIDDLE;
-        #endif
-    #endif
+#ifdef VERSION_MAJOR
+#ifdef VERSION_MIDDLE
+    m_versionMinor= VERSION_MINOR;
+    m_versionMajor= VERSION_MAJOR;
+    m_versionMiddle= VERSION_MIDDLE;
+#endif
+#endif
 #endif
 }
 
 bool UpdateChecker::mustBeUpdated()
 {
-   return m_state;
+    return m_state;
 }
 
 void UpdateChecker::startChecking()
 {
 #ifdef VERSION_MINOR
-    #ifdef VERSION_MAJOR
-        #ifdef VERSION_MIDDLE
-            m_manager = new QNetworkAccessManager(this);
-            connect(m_manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(readXML(QNetworkReply*)));
+#ifdef VERSION_MAJOR
+#ifdef VERSION_MIDDLE
+    m_manager= new QNetworkAccessManager(this);
+    connect(m_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(readXML(QNetworkReply*)));
 
-             m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/version.xml")));
-        #endif
-    #endif
+    m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/version.xml")));
 #endif
-
+#endif
+#endif
 }
 
 QString UpdateChecker::getLatestVersion()
@@ -79,14 +77,14 @@ QString UpdateChecker::getLatestVersionDate()
 }
 void UpdateChecker::readXML(QNetworkReply* p)
 {
-    if(p->error()!=QNetworkReply::NoError)
+    if(p->error() != QNetworkReply::NoError)
     {
-        m_noErrror = false;
+        m_noErrror= false;
         return;
     }
 #ifdef VERSION_MINOR
-    #ifdef VERSION_MAJOR
-        #ifdef VERSION_MIDDLE
+#ifdef VERSION_MAJOR
+#ifdef VERSION_MIDDLE
     QByteArray a= p->readAll();
 
     QRegExp versionMajor("<version_major>(.*)</version_major>");
@@ -96,47 +94,47 @@ void UpdateChecker::readXML(QNetworkReply* p)
     QRegExp changelog("<date>(.*)</date>");
 
     QString string(a);
-    int pos = versionMajor.indexIn(string);
-    if(pos!=-1)
+    int pos= versionMajor.indexIn(string);
+    if(pos != -1)
     {
-        m_versionMajor = versionMajor.capturedTexts().at(1).toInt();
+        m_versionMajor= versionMajor.capturedTexts().at(1).toInt();
     }
-    pos = versionMiddle.indexIn(string);
-    if(pos!=-1)
+    pos= versionMiddle.indexIn(string);
+    if(pos != -1)
     {
-        m_versionMiddle = versionMiddle.capturedTexts().at(1).toInt();
+        m_versionMiddle= versionMiddle.capturedTexts().at(1).toInt();
     }
-    pos = versionMinor.indexIn(string);
-    if(pos!=-1)
+    pos= versionMinor.indexIn(string);
+    if(pos != -1)
     {
-        m_versionMinor = versionMinor.capturedTexts().at(1).toInt();
+        m_versionMinor= versionMinor.capturedTexts().at(1).toInt();
     }
-     pos = date.indexIn(string);
-     if(pos!=-1)
-     {
-          m_versionDate = date.capturedTexts().at(1);
-     }
-     pos = changelog.indexIn(string);
-     if(pos!=-1)
-     {
-          m_versionChangelog = changelog.capturedTexts().at(1);
-     }
-     m_state = inferiorVersion();
-     m_version = QString("%1.%2.%3").arg(m_versionMajor).arg(m_versionMiddle).arg(m_versionMinor);
-     emit checkFinished();
-     m_manager->deleteLater();
-        #endif
-    #endif
+    pos= date.indexIn(string);
+    if(pos != -1)
+    {
+        m_versionDate= date.capturedTexts().at(1);
+    }
+    pos= changelog.indexIn(string);
+    if(pos != -1)
+    {
+        m_versionChangelog= changelog.capturedTexts().at(1);
+    }
+    m_state= inferiorVersion();
+    m_version= QString("%1.%2.%3").arg(m_versionMajor).arg(m_versionMiddle).arg(m_versionMinor);
+    emit checkFinished();
+    m_manager->deleteLater();
 #endif
-
+#endif
+#endif
 }
 bool UpdateChecker::inferiorVersion()
 {
-    if(m_versionMajor>VERSION_MAJOR)
+    if(m_versionMajor > VERSION_MAJOR)
         return true;
-    else if((m_versionMajor==VERSION_MAJOR)&&(m_versionMiddle>VERSION_MIDDLE))
+    else if((m_versionMajor == VERSION_MAJOR) && (m_versionMiddle > VERSION_MIDDLE))
         return true;
-    else if((m_versionMajor==VERSION_MAJOR)&&(m_versionMiddle==VERSION_MIDDLE)&&(m_versionMinor>VERSION_MINOR))
+    else if((m_versionMajor == VERSION_MAJOR) && (m_versionMiddle == VERSION_MIDDLE)
+            && (m_versionMinor > VERSION_MINOR))
         return true;
     else
         return false;

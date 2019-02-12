@@ -13,18 +13,17 @@
     Lesser General Public License for more details.
 */
 
-#include <QApplication>
-#include <QWebChannel>
-#include <QContextMenuEvent>
-#include <QWebEngineSettings>
-#include <QSemaphore>
 #include "pdfjsbridge.h"
+#include <QApplication>
+#include <QContextMenuEvent>
+#include <QSemaphore>
+#include <QWebChannel>
+#include <QWebEngineSettings>
 
-PdfJsBridge::PdfJsBridge(QWidget *pParent)
-    : QWebEngineView(pParent)
+PdfJsBridge::PdfJsBridge(QWidget* pParent) : QWebEngineView(pParent)
 {
-    m_pWebChannel = new QWebChannel(this);
-    m_pBridgeObject = new BridgeObject(this);
+    m_pWebChannel= new QWebChannel(this);
+    m_pBridgeObject= new BridgeObject(this);
 
     connect(this, &QWebEngineView::loadFinished, this, &PdfJsBridge::onLoadFinished);
 }
@@ -34,27 +33,29 @@ PdfJsBridge::~PdfJsBridge()
     delete m_pWebChannel;
 }
 
-void PdfJsBridge::invokeJavaScript(const QString &script)
+void PdfJsBridge::invokeJavaScript(const QString& script)
 {
-    QWebEnginePage *pPage = page();
-    if (pPage != nullptr) {
+    QWebEnginePage* pPage= page();
+    if(pPage != nullptr)
+    {
         pPage->runJavaScript(script);
     }
 }
 
-QVariant PdfJsBridge::invokeJavaScriptAndWaitForResult(const QString &script)
+QVariant PdfJsBridge::invokeJavaScriptAndWaitForResult(const QString& script)
 {
     QVariant result;
-    QWebEnginePage *pPage = page();
-    if (pPage != nullptr) {
-
+    QWebEnginePage* pPage= page();
+    if(pPage != nullptr)
+    {
         QSemaphore waitSemaphore;
-        pPage->runJavaScript(script, [&result, &waitSemaphore](const QVariant &res) {
-            result = res;
+        pPage->runJavaScript(script, [&result, &waitSemaphore](const QVariant& res) {
+            result= res;
             waitSemaphore.release();
         });
 
-        while (!waitSemaphore.tryAcquire()) {
+        while(!waitSemaphore.tryAcquire())
+        {
             qApp->processEvents();
         }
     }
@@ -68,7 +69,8 @@ QStringList PdfJsBridge::fetchPdfDocumentDestinations()
 
     invokeJavaScript("qpdf_FetchDestinations();");
 
-    while (!m_pdfDestinationsSema.tryAcquire()) {
+    while(!m_pdfDestinationsSema.tryAcquire())
+    {
         qApp->processEvents();
     }
 
@@ -77,14 +79,14 @@ QStringList PdfJsBridge::fetchPdfDocumentDestinations()
 
 void PdfJsBridge::setToolbarVisible(bool visible)
 {
-    invokeJavaScript(QString("qpdf_ShowToolbar(%1)")
-                     .arg(visible ? "true" : "false"));
+    invokeJavaScript(QString("qpdf_ShowToolbar(%1)").arg(visible ? "true" : "false"));
 }
 
 void PdfJsBridge::close()
 {
     invokeJavaScript("qpdf_Close();");
-    while (!m_pdfCloseSema.tryAcquire()) {
+    while(!m_pdfCloseSema.tryAcquire())
+    {
         qApp->processEvents();
     }
 }
@@ -94,9 +96,9 @@ void PdfJsBridge::jsInitialized()
     // Web view has been initialized
 }
 
-void PdfJsBridge::jsReportDestinations(const QStringList &destinations)
+void PdfJsBridge::jsReportDestinations(const QStringList& destinations)
 {
-    m_pdfDocumentDestinations = destinations;
+    m_pdfDocumentDestinations= destinations;
     m_pdfDestinationsSema.release();
 }
 
@@ -110,7 +112,7 @@ void PdfJsBridge::jsClosed()
     m_pdfCloseSema.release();
 }
 
-void PdfJsBridge::contextMenuEvent(QContextMenuEvent *pEvent)
+void PdfJsBridge::contextMenuEvent(QContextMenuEvent* pEvent)
 {
     // Disable context menu completely
     pEvent->ignore();
@@ -118,15 +120,17 @@ void PdfJsBridge::contextMenuEvent(QContextMenuEvent *pEvent)
 
 void PdfJsBridge::onLoadFinished(bool ok)
 {
-    if (ok) {
+    if(ok)
+    {
         establishWebChannel();
     }
 }
 
 void PdfJsBridge::establishWebChannel()
 {
-    QWebEnginePage *pPage = page();
-    if (pPage != nullptr) {
+    QWebEnginePage* pPage= page();
+    if(pPage != nullptr)
+    {
         pPage->setWebChannel(m_pWebChannel);
         m_pWebChannel->registerObject(QStringLiteral("qpdfbridge"), m_pBridgeObject);
 
@@ -138,9 +142,7 @@ void PdfJsBridge::establishWebChannel()
 //  BridgeObject implementation
 //
 
-BridgeObject::BridgeObject(PdfJsBridge *pBridge)
-    : QObject(pBridge),
-      m_bridgePtr(pBridge)
+BridgeObject::BridgeObject(PdfJsBridge* pBridge) : QObject(pBridge), m_bridgePtr(pBridge)
 {
     Q_ASSERT(pBridge != nullptr);
 }
@@ -150,7 +152,7 @@ void BridgeObject::jsInitialized()
     m_bridgePtr->jsInitialized();
 }
 
-void BridgeObject::jsReportDestinations(const QStringList &destinations)
+void BridgeObject::jsReportDestinations(const QStringList& destinations)
 {
     m_bridgePtr->jsReportDestinations(destinations);
 }

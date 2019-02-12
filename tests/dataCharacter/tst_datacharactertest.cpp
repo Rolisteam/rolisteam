@@ -45,13 +45,10 @@ private:
     Character* m_character;
 };
 
-DataCharacterTest::DataCharacterTest()
-{
-
-}
+DataCharacterTest::DataCharacterTest() {}
 void DataCharacterTest::initTestCase()
 {
-     m_character = new Character();
+    m_character= new Character();
 }
 
 void DataCharacterTest::cleanupTestCase()
@@ -61,14 +58,13 @@ void DataCharacterTest::cleanupTestCase()
 void DataCharacterTest::testSetAndGet()
 {
     m_character->setName("Name");
-    QVERIFY2(m_character->name() == "Name","names are different");
+    QVERIFY2(m_character->name() == "Name", "names are different");
 
     m_character->setAvatar(QImage(":/assets/img/girafe.jpg"));
-    QVERIFY2(m_character->hasAvatar(),"has no avatar");
+    QVERIFY2(m_character->hasAvatar(), "has no avatar");
 
     m_character->setColor(Qt::red);
-    QVERIFY2(m_character->getColor() == Qt::red,"not the right color");
-
+    QVERIFY2(m_character->getColor() == Qt::red, "not the right color");
 
     m_character->setNpc(true);
     QVERIFY(m_character->isNpc());
@@ -78,34 +74,33 @@ void DataCharacterTest::testSetAndGet()
 
     m_character->setNumber(10);
     QVERIFY(m_character->number() == 10);
-
 }
 void DataCharacterTest::testProperty()
 {
-    QSignalSpy spy(m_character,&Character::currentHealthPointsChanged);
+    QSignalSpy spy(m_character, &Character::currentHealthPointsChanged);
     m_character->setHealthPointsCurrent(10);
     QVERIFY(spy.count() == 1);
 
-    QSignalSpy spyMaxHP(m_character,&Character::maxHPChanged);
+    QSignalSpy spyMaxHP(m_character, &Character::maxHPChanged);
     m_character->setHealthPointsMax(200);
     QVERIFY(spyMaxHP.count() == 1);
 
-    QSignalSpy spyminHP(m_character,&Character::minHPChanged);
+    QSignalSpy spyminHP(m_character, &Character::minHPChanged);
     m_character->setHealthPointsMin(50);
     QVERIFY(spyminHP.count() == 1);
 
-    QSignalSpy spydistancePerTurn(m_character,&Character::distancePerTurnChanged);
+    QSignalSpy spydistancePerTurn(m_character, &Character::distancePerTurnChanged);
     m_character->setDistancePerTurn(25.9);
     QVERIFY(spydistancePerTurn.count() == 1);
 
-    QSignalSpy spyInit(m_character,&Character::initiativeChanged);
+    QSignalSpy spyInit(m_character, &Character::initiativeChanged);
     m_character->setInitiativeScore(24);
     QVERIFY(spyInit.count() == 1);
 
-    auto state2 = new CharacterState();
+    auto state2= new CharacterState();
     m_character->setState(state2);
-    QSignalSpy spyState(m_character,&Character::stateChanged);
-    auto state = new CharacterState();
+    QSignalSpy spyState(m_character, &Character::stateChanged);
+    auto state= new CharacterState();
     state->setLabel("test");
     state->setColor(Qt::red);
     state->setIsLocal(true);
@@ -115,36 +110,33 @@ void DataCharacterTest::testProperty()
     m_character->setState(state);
     QVERIFY(spyState.count() == 1);
 
-
     m_character->setAvatarPath("/home/rolisteam");
-    QSignalSpy spyAvatar(m_character,&Character::avatarPathChanged);
+    QSignalSpy spyAvatar(m_character, &Character::avatarPathChanged);
     m_character->setAvatarPath("/dev/null");
     QVERIFY(spyAvatar.count() == 1);
     m_character->setAvatarPath("/dev/null");
     QVERIFY(spyAvatar.count() == 1);
 
     m_character->setNpc(false);
-    QSignalSpy spyIsNpc(m_character,&Character::npcChanged);
+    QSignalSpy spyIsNpc(m_character, &Character::npcChanged);
     m_character->setNpc(true);
     QVERIFY(spyIsNpc.count() == 1);
     m_character->setNpc(true);
     QVERIFY(spyIsNpc.count() == 1);
-
 
     m_character->setLifeColor(Qt::green);
-    QSignalSpy spyColor(m_character,&Character::lifeColorChanged);
+    QSignalSpy spyColor(m_character, &Character::lifeColorChanged);
     m_character->setLifeColor(Qt::red);
     QVERIFY(spyColor.count() == 1);
     m_character->setLifeColor(Qt::red);
     QVERIFY(spyColor.count() == 1);
 
     m_character->setInitCommand("");
-    QSignalSpy spyInitCommand(m_character,&Character::initCommandChanged);
+    QSignalSpy spyInitCommand(m_character, &Character::initCommandChanged);
     m_character->setInitCommand("8G4");
     QVERIFY(spyColor.count() == 1);
     m_character->setInitCommand("8G4");
     QVERIFY(spyColor.count() == 1);
-
 }
 
 void DataCharacterTest::testCharacterAction()
@@ -164,11 +156,11 @@ void DataCharacterTest::testCharacterAction()
 
     QVERIFY(action.getType() == CharacterField::Action);
 
-    QVERIFY(action.getData(0,Qt::DisplayRole) == name);
-    QVERIFY(action.getData(1,Qt::DisplayRole) == command);
+    QVERIFY(action.getData(0, Qt::DisplayRole) == name);
+    QVERIFY(action.getData(1, Qt::DisplayRole) == command);
 
-    action.setData(0,name2,Qt::DisplayRole);
-    action.setData(1,command2,Qt::DisplayRole);
+    action.setData(0, name2, Qt::DisplayRole);
+    action.setData(1, command2, Qt::DisplayRole);
 
     QVERIFY(action.name() == name2);
     QVERIFY(action.command() == command2);
@@ -195,12 +187,12 @@ void DataCharacterTest::testCharacterShape()
 
     QVERIFY(shape.getType() == CharacterField::Shape);
 
-    QVERIFY(shape.getData(0,Qt::DisplayRole) == name);
-    QVERIFY(shape.getData(1,Qt::DisplayRole) == uri);
-   // QVERIFY(shape.getData(0,Qt::DecorationRole) == QPixmap::fromImage(img).scaled(64,64,Qt::KeepAspectRatio));
+    QVERIFY(shape.getData(0, Qt::DisplayRole) == name);
+    QVERIFY(shape.getData(1, Qt::DisplayRole) == uri);
+    // QVERIFY(shape.getData(0,Qt::DecorationRole) == QPixmap::fromImage(img).scaled(64,64,Qt::KeepAspectRatio));
 
-    shape.setData(0,name2,Qt::DisplayRole);
-    shape.setData(1,uri2,Qt::DisplayRole);
+    shape.setData(0, name2, Qt::DisplayRole);
+    shape.setData(1, uri2, Qt::DisplayRole);
 
     QVERIFY(shape.name() == name2);
     QVERIFY(shape.uri() == uri2);
@@ -222,16 +214,15 @@ void DataCharacterTest::testCharacterProperty()
 
     QVERIFY(property.getType() == CharacterField::Property);
 
-    QVERIFY(property.getData(0,Qt::DisplayRole) == name);
-    QVERIFY(property.getData(1,Qt::DisplayRole) == value);
+    QVERIFY(property.getData(0, Qt::DisplayRole) == name);
+    QVERIFY(property.getData(1, Qt::DisplayRole) == value);
 
-    property.setData(0,name2,Qt::DisplayRole);
-    property.setData(1,value2,Qt::DisplayRole);
+    property.setData(0, name2, Qt::DisplayRole);
+    property.setData(1, value2, Qt::DisplayRole);
 
     QVERIFY(property.name() == name2);
     QVERIFY(property.value() == value2);
 }
-
 
 QTEST_MAIN(DataCharacterTest);
 

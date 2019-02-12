@@ -1,22 +1,22 @@
 /***************************************************************************
-*	Copyright (C) 2009 by Renaud Guezennec                             *
-*   http://www.rolisteam.org/contact                   *
-*                                                                         *
-*   Rolisteam is free software; you can redistribute it and/or modify     *
-*   it under the terms of the GNU General Public License as published by  *
-*   the Free Software Foundation; either version 2 of the License, or     *
-*   (at your option) any later version.                                   *
-*                                                                         *
-*   This program is distributed in the hope that it will be useful,       *
-*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-*   GNU General Public License for more details.                          *
-*                                                                         *
-*   You should have received a copy of the GNU General Public License     *
-*   along with this program; if not, write to the                         *
-*   Free Software Foundation, Inc.,                                       *
-*   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-***************************************************************************/
+ *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *   http://www.rolisteam.org/contact                   *
+ *                                                                         *
+ *   Rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 #include "dicealiasmodel.h"
 #include "network/networkmessagewriter.h"
 #include "preferences/preferencesmanager.h"
@@ -25,69 +25,68 @@
 #include <QJsonObject>
 
 DiceAliasModel::DiceAliasModel(QObject* parent)
-    : QAbstractListModel(parent),m_diceAliasList(new QList<DiceAlias*>()),m_isGM(false)
+    : QAbstractListModel(parent), m_diceAliasList(new QList<DiceAlias*>()), m_isGM(false)
 {
-    m_header << tr("Pattern") << tr("Value")<< tr("Regular Expression")<< tr("Disable") << tr("Comments");
+    m_header << tr("Pattern") << tr("Value") << tr("Regular Expression") << tr("Disable") << tr("Comments");
 }
 
 DiceAliasModel::~DiceAliasModel()
 {
-   /* if(m_diceAliasList!=nullptr)
-    {
-        qDeleteAll(*m_diceAliasList);
-        delete m_diceAliasList;
-        m_diceAliasList = nullptr;
-    }*/
+    /* if(m_diceAliasList!=nullptr)
+     {
+         qDeleteAll(*m_diceAliasList);
+         delete m_diceAliasList;
+         m_diceAliasList = nullptr;
+     }*/
     /// @todo QSharedPointer to be used
 }
 
-QVariant DiceAliasModel::data(const QModelIndex &index, int role) const
+QVariant DiceAliasModel::data(const QModelIndex& index, int role) const
 {
-	if(index.isValid())
-	{
-        DiceAlias* diceAlias = m_diceAliasList->at(index.row());
-        if((Qt::DisplayRole == role)||(Qt::EditRole == role))
-		{
-            if(nullptr!=diceAlias)
+    if(index.isValid())
+    {
+        DiceAlias* diceAlias= m_diceAliasList->at(index.row());
+        if((Qt::DisplayRole == role) || (Qt::EditRole == role))
+        {
+            if(nullptr != diceAlias)
             {
-                if(index.column()==PATTERN)
+                if(index.column() == PATTERN)
                 {
                     return diceAlias->getCommand();
                 }
-                else if(index.column()==VALUE)
+                else if(index.column() == VALUE)
                 {
                     return diceAlias->getValue();
                 }
-                else if(index.column()==METHOD)
+                else if(index.column() == METHOD)
                 {
                     return !diceAlias->isReplace();
                 }
-                else if(index.column()==DISABLE)
+                else if(index.column() == DISABLE)
                 {
                     return !diceAlias->isEnable();
                 }
-                else if(index.column()==COMMENT)
+                else if(index.column() == COMMENT)
                 {
                     return diceAlias->getComment();
                 }
             }
-		}
-        else if(Qt::TextAlignmentRole== role)
+        }
+        else if(Qt::TextAlignmentRole == role)
         {
-            if(index.column()==METHOD)
+            if(index.column() == METHOD)
             {
                 return Qt::AlignCenter;
             }
         }
-	}
-	return QVariant();
-
+    }
+    return QVariant();
 }
-int DiceAliasModel::rowCount(const QModelIndex &) const
+int DiceAliasModel::rowCount(const QModelIndex&) const
 {
     return m_diceAliasList->size();
 }
-int DiceAliasModel::columnCount(const QModelIndex &) const
+int DiceAliasModel::columnCount(const QModelIndex&) const
 {
     return m_header.size();
 }
@@ -95,7 +94,7 @@ QVariant DiceAliasModel::headerData(int section, Qt::Orientation orientation, in
 {
     if(Qt::DisplayRole == role)
     {
-        if(orientation==Qt::Horizontal)
+        if(orientation == Qt::Horizontal)
         {
             return m_header.at(section);
         }
@@ -104,48 +103,48 @@ QVariant DiceAliasModel::headerData(int section, Qt::Orientation orientation, in
 }
 void DiceAliasModel::setAliases(QList<DiceAlias*>* lst)
 {
-    m_diceAliasList = lst;
+    m_diceAliasList= lst;
 }
 void DiceAliasModel::appendAlias()
 {
-    addAlias(new DiceAlias(tr("New Alias%1").arg(m_diceAliasList->size()),""));
+    addAlias(new DiceAlias(tr("New Alias%1").arg(m_diceAliasList->size()), ""));
 }
 void DiceAliasModel::preferencesHasChanged(QString pref)
 {
-    if(pref=="isPlayer")
+    if(pref == "isPlayer")
     {
-        m_isGM =! PreferencesManager::getInstance()->value(pref,true).toBool();
+        m_isGM= !PreferencesManager::getInstance()->value(pref, true).toBool();
     }
 }
 
 void DiceAliasModel::addAlias(DiceAlias* alias)
 {
-    beginInsertRows(QModelIndex(),m_diceAliasList->size(),m_diceAliasList->size());
+    beginInsertRows(QModelIndex(), m_diceAliasList->size(), m_diceAliasList->size());
     m_diceAliasList->append(alias);
     endInsertRows();
 }
-Qt::ItemFlags DiceAliasModel::flags(const QModelIndex &index) const
+Qt::ItemFlags DiceAliasModel::flags(const QModelIndex& index) const
 {
     Q_UNUSED(index)
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
 }
-bool DiceAliasModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool DiceAliasModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    bool result = false;
+    bool result= false;
     if(index.isValid())
     {
-        DiceAlias* diceAlias = m_diceAliasList->at(index.row());
-        if(role==Qt::EditRole)
+        DiceAlias* diceAlias= m_diceAliasList->at(index.row());
+        if(role == Qt::EditRole)
         {
-            switch (index.column())
+            switch(index.column())
             {
             case PATTERN:
                 diceAlias->setCommand(value.toString());
-                result = true;
+                result= true;
                 break;
             case VALUE:
                 diceAlias->setValue(value.toString());
-                result = true;
+                result= true;
                 break;
             case METHOD:
                 if(value.toBool())
@@ -156,21 +155,21 @@ bool DiceAliasModel::setData(const QModelIndex &index, const QVariant &value, in
                 {
                     diceAlias->setType(DiceAlias::REPLACE);
                 }
-                result = true;
+                result= true;
                 break;
             case DISABLE:
                 diceAlias->setEnable(!value.toBool());
-                result = true;
+                result= true;
                 break;
             case COMMENT:
                 diceAlias->setComment(value.toString());
-                result = true;
+                result= true;
                 break;
             }
         }
-        if((result)&&(m_isGM))
+        if((result) && (m_isGM))
         {
-            NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addDiceAlias);
+            NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addDiceAlias);
             msg.int64(index.row());
             msg.string32(diceAlias->getCommand());
             msg.string32(diceAlias->getValue());
@@ -190,11 +189,11 @@ void DiceAliasModel::deleteAlias(QModelIndex& index)
 {
     if(!index.isValid())
         return;
-    beginRemoveRows(QModelIndex(),index.row(),index.row());
+    beginRemoveRows(QModelIndex(), index.row(), index.row());
     m_diceAliasList->removeAt(index.row());
     endRemoveRows();
 
-    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::removeDiceAlias);
+    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::removeDiceAlias);
     msg.int64(index.row());
     msg.sendToServer();
 }
@@ -202,12 +201,12 @@ void DiceAliasModel::upAlias(QModelIndex& index)
 {
     if(!index.isValid())
         return;
-    if(index.row()==0)
+    if(index.row() == 0)
         return;
-    if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),index.row()-1))
+    if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), index.row() - 1))
     {
-        m_diceAliasList->swap(index.row(),index.row()-1);
-        moveAlias(index.row(),index.row()-1);
+        m_diceAliasList->swap(index.row(), index.row() - 1);
+        moveAlias(index.row(), index.row() - 1);
         endMoveRows();
     }
 }
@@ -217,13 +216,13 @@ void DiceAliasModel::downAlias(QModelIndex& index)
     if(!index.isValid())
         return;
 
-    if(index.row()==m_diceAliasList->size()-1)
+    if(index.row() == m_diceAliasList->size() - 1)
         return;
 
-    if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),index.row()+2))
+    if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), index.row() + 2))
     {
-        m_diceAliasList->swap(index.row(),index.row()+1);
-        moveAlias(index.row(),index.row()+1);
+        m_diceAliasList->swap(index.row(), index.row() + 1);
+        moveAlias(index.row(), index.row() + 1);
         endMoveRows();
     }
 }
@@ -233,12 +232,12 @@ void DiceAliasModel::topAlias(QModelIndex& index)
     if(!index.isValid())
         return;
 
-    if(index.row()==0)
+    if(index.row() == 0)
         return;
-    if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),0))
+    if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), 0))
     {
-        DiceAlias* dice = m_diceAliasList->takeAt(index.row());
-        moveAlias(index.row(),0);
+        DiceAlias* dice= m_diceAliasList->takeAt(index.row());
+        moveAlias(index.row(), 0);
         m_diceAliasList->prepend(dice);
         endMoveRows();
     }
@@ -248,24 +247,24 @@ void DiceAliasModel::bottomAlias(QModelIndex& index)
 {
     if(!index.isValid())
         return;
-    if(index.row()==m_diceAliasList->size()-1)
+    if(index.row() == m_diceAliasList->size() - 1)
         return;
-    if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),m_diceAliasList->size()))
+    if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), m_diceAliasList->size()))
     {
-        DiceAlias* dice = m_diceAliasList->takeAt(index.row());
-        moveAlias(index.row(),m_diceAliasList->size());
+        DiceAlias* dice= m_diceAliasList->takeAt(index.row());
+        moveAlias(index.row(), m_diceAliasList->size());
         m_diceAliasList->append(dice);
         endMoveRows();
     }
 }
 void DiceAliasModel::setGM(bool b)
 {
-    m_isGM = b;
+    m_isGM= b;
 }
 void DiceAliasModel::clear()
 {
     beginResetModel();
-    qDeleteAll(m_diceAliasList->begin(),m_diceAliasList->end());
+    qDeleteAll(m_diceAliasList->begin(), m_diceAliasList->end());
     m_diceAliasList->clear();
     endResetModel();
 }
@@ -273,7 +272,7 @@ void DiceAliasModel::sendOffAllDiceAlias()
 {
     for(auto& alias : *m_diceAliasList)
     {
-        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addDiceAlias);
+        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addDiceAlias);
         msg.int64(m_diceAliasList->indexOf(alias));
         msg.string32(alias->getCommand());
         msg.string32(alias->getValue());
@@ -284,39 +283,40 @@ void DiceAliasModel::sendOffAllDiceAlias()
     }
 }
 
-void DiceAliasModel::load(const QJsonObject &obj)
+void DiceAliasModel::load(const QJsonObject& obj)
 {
-    QJsonArray aliases = obj["aliases"].toArray();
+    QJsonArray aliases= obj["aliases"].toArray();
 
     for(auto aliasRef : aliases)
     {
-        auto alias = aliasRef.toObject();
-        auto da = new DiceAlias(alias["command"].toString(),alias["value"].toString(),alias["replace"].toBool(),alias["enable"].toBool());
+        auto alias= aliasRef.toObject();
+        auto da= new DiceAlias(alias["command"].toString(), alias["value"].toString(), alias["replace"].toBool(),
+            alias["enable"].toBool());
         da->setComment(alias["comment"].toString());
         addAlias(da);
     }
 }
 
-void DiceAliasModel::save(QJsonObject &obj)
+void DiceAliasModel::save(QJsonObject& obj)
 {
     QJsonArray dices;
     for(auto& dice : *m_diceAliasList)
     {
         QJsonObject diceObj;
-        diceObj["command"]=dice->getCommand();
-        diceObj["value"]=dice->getValue();
-        diceObj["replace"]=dice->isReplace();
-        diceObj["enable"]=dice->isEnable();
-        diceObj["comment"]=dice->getComment();
+        diceObj["command"]= dice->getCommand();
+        diceObj["value"]= dice->getValue();
+        diceObj["replace"]= dice->isReplace();
+        diceObj["enable"]= dice->isEnable();
+        diceObj["comment"]= dice->getComment();
         dices.append(diceObj);
     }
-    obj["aliases"]=dices;
+    obj["aliases"]= dices;
 }
-void DiceAliasModel::moveAlias(int from,int to)
+void DiceAliasModel::moveAlias(int from, int to)
 {
     if(m_isGM)
     {
-        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::moveDiceAlias);
+        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::moveDiceAlias);
         msg.int64(from);
         msg.int64(to);
         msg.sendToServer();

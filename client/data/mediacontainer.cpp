@@ -20,33 +20,29 @@
 #include "mediacontainer.h"
 #include <QMessageBox>
 
-
-MediaContainer::MediaContainer(bool localIsGM,QWidget* parent)
-    : QMdiSubWindow(parent),m_uri(nullptr),
-      m_preferences(PreferencesManager::getInstance()),
-      m_action(nullptr),
-      m_name(tr("Unknown")),
-      m_currentCursor(nullptr),
-      m_mediaId(QUuid::createUuid().toString()),
-      m_remote(false),
-      m_localIsGM(localIsGM)
+MediaContainer::MediaContainer(bool localIsGM, QWidget* parent)
+    : QMdiSubWindow(parent)
+    , m_uri(nullptr)
+    , m_preferences(PreferencesManager::getInstance())
+    , m_action(nullptr)
+    , m_name(tr("Unknown"))
+    , m_currentCursor(nullptr)
+    , m_mediaId(QUuid::createUuid().toString())
+    , m_remote(false)
+    , m_localIsGM(localIsGM)
 {
-    //m_preferences = ;
-    setAttribute(Qt::WA_DeleteOnClose,false);
-    m_detachedDialog  = new QAction(tr("Detach the view"),this);
+    // m_preferences = ;
+    setAttribute(Qt::WA_DeleteOnClose, false);
+    m_detachedDialog= new QAction(tr("Detach the view"), this);
     m_detachedDialog->setCheckable(true);
 
-    connect(m_detachedDialog,SIGNAL(triggered(bool)),this, SLOT(detachView(bool)));
-
+    connect(m_detachedDialog, SIGNAL(triggered(bool)), this, SLOT(detachView(bool)));
 }
-MediaContainer::~MediaContainer()
-{
-
-}
+MediaContainer::~MediaContainer() {}
 
 void MediaContainer::setLocalPlayerId(QString id)
 {
-    m_localPlayerId = id;
+    m_localPlayerId= id;
 }
 
 QString MediaContainer::getLocalPlayerId()
@@ -58,12 +54,12 @@ void MediaContainer::setCleverUri(CleverURI* uri)
     if(m_uri == uri)
         return;
 
-    if(m_uri != nullptr )
+    if(m_uri != nullptr)
     {
         delete m_uri;
-        m_uri = nullptr;
+        m_uri= nullptr;
     }
-	m_uri = uri;
+    m_uri= uri;
     if(nullptr != m_uri)
     {
         m_uri->setListener(this);
@@ -71,25 +67,25 @@ void MediaContainer::setCleverUri(CleverURI* uri)
     updateTitle();
 }
 
-CleverURI*  MediaContainer::getCleverUri() const
+CleverURI* MediaContainer::getCleverUri() const
 {
-    return  m_uri;
+    return m_uri;
 }
 bool MediaContainer::openMedia()
 {
     return false;
 }
-void MediaContainer::error(QString err,QWidget* parent)
+void MediaContainer::error(QString err, QWidget* parent)
 {
-    if(nullptr!=parent)
+    if(nullptr != parent)
     {
         QMessageBox msgBox(parent);
         msgBox.addButton(QMessageBox::Cancel);
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.setWindowTitle(QObject::tr("Loading error"));
-        msgBox.move(QPoint(parent->width()/2, parent->height()/2) + QPoint(-100, -50));
+        msgBox.move(QPoint(parent->width() / 2, parent->height() / 2) + QPoint(-100, -50));
 
-        Qt::WindowFlags flags = msgBox.windowFlags();
+        Qt::WindowFlags flags= msgBox.windowFlags();
         msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
 
         msgBox.setText(err);
@@ -98,7 +94,7 @@ void MediaContainer::error(QString err,QWidget* parent)
 }
 bool MediaContainer::isUriEndWith(QString str)
 {
-    if(nullptr!=m_uri)
+    if(nullptr != m_uri)
     {
         if(m_uri->getUri().endsWith(str))
         {
@@ -110,13 +106,12 @@ bool MediaContainer::isUriEndWith(QString str)
 
 void MediaContainer::setVisible(bool b)
 {
-    if(nullptr!=widget())
+    if(nullptr != widget())
     {
         widget()->setVisible(b);
-        if(nullptr!=m_action)
+        if(nullptr != m_action)
         {
             m_action->setChecked(b);
-
         }
     }
     if(nullptr != m_uri)
@@ -127,7 +122,7 @@ void MediaContainer::setVisible(bool b)
 }
 void MediaContainer::setAction(QAction* act)
 {
-    m_action = act;
+    m_action= act;
     connect(m_action, SIGNAL(triggered(bool)), this, SLOT(setVisible(bool)));
 }
 QAction* MediaContainer::getAction()
@@ -136,12 +131,12 @@ QAction* MediaContainer::getAction()
 }
 void MediaContainer::setCleverUriType(CleverURI::ContentType type)
 {
-    m_uri = new CleverURI(tr("Unknown"),"",type);
+    m_uri= new CleverURI(tr("Unknown"), "", type);
     m_uri->setListener(this);
 }
 void MediaContainer::currentColorChanged(QColor& penColor)
 {
-    m_penColor = penColor;
+    m_penColor= penColor;
 }
 
 QString MediaContainer::getMediaId()
@@ -161,14 +156,14 @@ void MediaContainer::setUriName(QString name)
 {
     if(nullptr != m_uri)
         m_uri->setName(name);
-    m_name = name;
+    m_name= name;
 
     updateTitle();
 }
 
 void MediaContainer::setMediaId(QString str)
 {
-    m_mediaId = str;
+    m_mediaId= str;
 }
 
 void MediaContainer::cleverURIHasChanged(CleverURI* uri, CleverURI::DataValue field)
@@ -183,15 +178,15 @@ void MediaContainer::cleverURIHasChanged(CleverURI* uri, CleverURI::DataValue fi
 }
 void MediaContainer::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 {
-    m_currentTool = selectedtool;
+    m_currentTool= selectedtool;
 }
 void MediaContainer::currentCursorChanged(QCursor* cursor)
 {
-    m_currentCursor = cursor;
+    m_currentCursor= cursor;
 }
 CleverURI::ContentType MediaContainer::getContentType()
 {
-    if(nullptr!=m_uri)
+    if(nullptr != m_uri)
     {
         return m_uri->getType();
     }
@@ -207,24 +202,15 @@ QUndoStack* MediaContainer::getUndoStack() const
     return nullptr;
 }
 
-void MediaContainer::setUndoStack(QUndoStack* )
-{
+void MediaContainer::setUndoStack(QUndoStack*) {}
 
-}
+void MediaContainer::fill(NetworkMessageWriter&) {}
 
-void MediaContainer::fill(NetworkMessageWriter &)
-{
-
-}
-
-void MediaContainer::readMessage(NetworkMessageReader &)
-{
-
-}
+void MediaContainer::readMessage(NetworkMessageReader&) {}
 
 void MediaContainer::detachView(bool b)
 {
-    static QMdiArea* parent = mdiArea();
+    static QMdiArea* parent= mdiArea();
     if(b)
     {
         setParent(nullptr);
@@ -232,8 +218,8 @@ void MediaContainer::detachView(bool b)
     }
     else
     {
-        //m_window->setParent(parent);
-        if(nullptr!=parent)
+        // m_window->setParent(parent);
+        if(nullptr != parent)
         {
             parent->addSubWindow(this);
         }
@@ -248,7 +234,7 @@ bool MediaContainer::getLocalIsGM() const
 
 void MediaContainer::setLocalIsGM(bool localIsGM)
 {
-    m_localIsGM = localIsGM;
+    m_localIsGM= localIsGM;
 }
 
 bool MediaContainer::isRemote() const
@@ -258,5 +244,5 @@ bool MediaContainer::isRemote() const
 
 void MediaContainer::setRemote(bool remote)
 {
-    m_remote = remote;
+    m_remote= remote;
 }

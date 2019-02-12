@@ -23,62 +23,55 @@
 
 #include "mrichtextedit.h"
 #include <QApplication>
-#include <QClipboard>
-#include <QMimeData>
-#include <QFontDatabase>
-#include <QInputDialog>
-#include <QColorDialog>
-#include <QTextList>
-#include <QtDebug>
-#include <QFileDialog>
-#include <QImageReader>
-#include <QSettings>
 #include <QBuffer>
-#include <QUrl>
-#include <QPlainTextEdit>
-#include <QMenu>
+#include <QClipboard>
+#include <QColorDialog>
 #include <QDialog>
+#include <QFileDialog>
+#include <QFontDatabase>
+#include <QImageReader>
+#include <QInputDialog>
+#include <QMenu>
+#include <QMimeData>
+#include <QPlainTextEdit>
+#include <QSettings>
+#include <QTextList>
+#include <QUrl>
+#include <QtDebug>
 
-MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
+MRichTextEdit::MRichTextEdit(QWidget* parent) : QWidget(parent)
+{
     setupUi(this);
-    m_lastBlockList = 0;
+    m_lastBlockList= 0;
     f_textedit->setTabStopWidth(40);
 
-    connect(f_textedit, SIGNAL(currentCharFormatChanged(QTextCharFormat)),
-            this,     SLOT(slotCurrentCharFormatChanged(QTextCharFormat)));
-    connect(f_textedit, SIGNAL(cursorPositionChanged()),
-            this,     SLOT(slotCursorPositionChanged()));
+    connect(f_textedit, SIGNAL(currentCharFormatChanged(QTextCharFormat)), this,
+        SLOT(slotCurrentCharFormatChanged(QTextCharFormat)));
+    connect(f_textedit, SIGNAL(cursorPositionChanged()), this, SLOT(slotCursorPositionChanged()));
 
-    m_fontsize_h1 = 18;
-    m_fontsize_h2 = 16;
-    m_fontsize_h3 = 14;
-    m_fontsize_h4 = 12;
+    m_fontsize_h1= 18;
+    m_fontsize_h2= 16;
+    m_fontsize_h3= 14;
+    m_fontsize_h4= 12;
 
     fontChanged(f_textedit->font());
     bgColorChanged(f_textedit->textColor());
 
     // paragraph formatting
 
-    m_paragraphItems    << tr("Standard")
-                        << tr("Heading 1")
-                        << tr("Heading 2")
-                        << tr("Heading 3")
-                        << tr("Heading 4")
-                        << tr("Monospace");
+    m_paragraphItems << tr("Standard") << tr("Heading 1") << tr("Heading 2") << tr("Heading 3") << tr("Heading 4")
+                     << tr("Monospace");
     f_paragraph->addItems(m_paragraphItems);
 
-    connect(f_paragraph, SIGNAL(activated(int)),
-            this, SLOT(textStyle(int)));
+    connect(f_paragraph, SIGNAL(activated(int)), this, SLOT(textStyle(int)));
 
     // undo & redo
 
     f_undo->setShortcut(QKeySequence::Undo);
     f_redo->setShortcut(QKeySequence::Redo);
 
-    connect(f_textedit->document(), SIGNAL(undoAvailable(bool)),
-            f_undo, SLOT(setEnabled(bool)));
-    connect(f_textedit->document(), SIGNAL(redoAvailable(bool)),
-            f_redo, SLOT(setEnabled(bool)));
+    connect(f_textedit->document(), SIGNAL(undoAvailable(bool)), f_undo, SLOT(setEnabled(bool)));
+    connect(f_textedit->document(), SIGNAL(redoAvailable(bool)), f_redo, SLOT(setEnabled(bool)));
 
     f_undo->setEnabled(f_textedit->document()->isUndoAvailable());
     f_redo->setEnabled(f_textedit->document()->isRedoAvailable());
@@ -123,21 +116,21 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     connect(f_underline, SIGNAL(clicked()), this, SLOT(textUnderline()));
     connect(f_strikeout, SIGNAL(clicked()), this, SLOT(textStrikeout()));
 
-    QAction *removeFormat = new QAction(tr("Remove character formatting"), this);
+    QAction* removeFormat= new QAction(tr("Remove character formatting"), this);
     removeFormat->setShortcut(QKeySequence("CTRL+M"));
     connect(removeFormat, SIGNAL(triggered()), this, SLOT(textRemoveFormat()));
     f_textedit->addAction(removeFormat);
 
-    QAction *removeAllFormat = new QAction(tr("Remove all formatting"), this);
+    QAction* removeAllFormat= new QAction(tr("Remove all formatting"), this);
     connect(removeAllFormat, SIGNAL(triggered()), this, SLOT(textRemoveAllFormat()));
     f_textedit->addAction(removeAllFormat);
 
-    QAction *textsource = new QAction(tr("Edit document source"), this);
+    QAction* textsource= new QAction(tr("Edit document source"), this);
     textsource->setShortcut(QKeySequence("CTRL+O"));
     connect(textsource, SIGNAL(triggered()), this, SLOT(textSource()));
     f_textedit->addAction(textsource);
 
-    QMenu *menu = new QMenu(this);
+    QMenu* menu= new QMenu(this);
     menu->addAction(removeAllFormat);
     menu->addAction(removeFormat);
     menu->addAction(textsource);
@@ -163,13 +156,11 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     // font size
 
     QFontDatabase db;
-    for(int& size: db.standardSizes())
+    for(int& size : db.standardSizes())
         f_fontsize->addItem(QString::number(size));
 
-    connect(f_fontsize, SIGNAL(activated(QString)),
-            this, SLOT(textSize(QString)));
-    f_fontsize->setCurrentIndex(f_fontsize->findText(QString::number(QApplication::font()
-                                                                   .pointSize())));
+    connect(f_fontsize, SIGNAL(activated(QString)), this, SLOT(textSize(QString)));
+    f_fontsize->setCurrentIndex(f_fontsize->findText(QString::number(QApplication::font().pointSize())));
 
     // text foreground color
 
@@ -190,15 +181,15 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     connect(f_image, SIGNAL(clicked()), this, SLOT(insertImage()));
 }
 
-
-void MRichTextEdit::textSource() {
-    QDialog *dialog = new QDialog(this);
-    QPlainTextEdit *pte = new QPlainTextEdit(dialog);
-    pte->setPlainText( f_textedit->toHtml() );
-    QGridLayout *gl = new QGridLayout(dialog);
-    gl->addWidget(pte,0,0,1,1);
+void MRichTextEdit::textSource()
+{
+    QDialog* dialog= new QDialog(this);
+    QPlainTextEdit* pte= new QPlainTextEdit(dialog);
+    pte->setPlainText(f_textedit->toHtml());
+    QGridLayout* gl= new QGridLayout(dialog);
+    gl->addWidget(pte, 0, 0, 1, 1);
     dialog->setWindowTitle(tr("Document source"));
-    dialog->setMinimumWidth (400);
+    dialog->setMinimumWidth(400);
     dialog->setMinimumHeight(600);
     dialog->exec();
 
@@ -207,386 +198,473 @@ void MRichTextEdit::textSource() {
     delete dialog;
 }
 
-
-void MRichTextEdit::textRemoveFormat() {
+void MRichTextEdit::textRemoveFormat()
+{
     QTextCharFormat fmt;
     fmt.setFontWeight(QFont::Normal);
-    fmt.setFontUnderline  (false);
-    fmt.setFontStrikeOut  (false);
-    fmt.setFontItalic     (false);
-    fmt.setFontPointSize  (9);
-//  fmt.setFontFamily     ("Helvetica");
-//  fmt.setFontStyleHint  (QFont::SansSerif);
-//  fmt.setFontFixedPitch (true);
+    fmt.setFontUnderline(false);
+    fmt.setFontStrikeOut(false);
+    fmt.setFontItalic(false);
+    fmt.setFontPointSize(9);
+    //  fmt.setFontFamily     ("Helvetica");
+    //  fmt.setFontStyleHint  (QFont::SansSerif);
+    //  fmt.setFontFixedPitch (true);
 
-    f_bold      ->setChecked(false);
-    f_underline ->setChecked(false);
-    f_italic    ->setChecked(false);
-    f_strikeout ->setChecked(false);
-    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
+    f_bold->setChecked(false);
+    f_underline->setChecked(false);
+    f_italic->setChecked(false);
+    f_strikeout->setChecked(false);
+    f_fontsize->setCurrentIndex(f_fontsize->findText("9"));
 
-//  QTextBlockFormat bfmt = cursor.blockFormat();
-//  bfmt->setIndent(0);
+    //  QTextBlockFormat bfmt = cursor.blockFormat();
+    //  bfmt->setIndent(0);
 
     fmt.clearBackground();
 
     mergeFormatOnWordOrSelection(fmt);
 }
 
-
-void MRichTextEdit::textRemoveAllFormat() {
-    f_bold      ->setChecked(false);
-    f_underline ->setChecked(false);
-    f_italic    ->setChecked(false);
-    f_strikeout ->setChecked(false);
-    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
-    QString text = f_textedit->toPlainText();
+void MRichTextEdit::textRemoveAllFormat()
+{
+    f_bold->setChecked(false);
+    f_underline->setChecked(false);
+    f_italic->setChecked(false);
+    f_strikeout->setChecked(false);
+    f_fontsize->setCurrentIndex(f_fontsize->findText("9"));
+    QString text= f_textedit->toPlainText();
     f_textedit->setPlainText(text);
 }
 
-
-void MRichTextEdit::textBold() {
+void MRichTextEdit::textBold()
+{
     QTextCharFormat fmt;
     fmt.setFontWeight(f_bold->isChecked() ? QFont::Bold : QFont::Normal);
     mergeFormatOnWordOrSelection(fmt);
 }
 
-
-void MRichTextEdit::focusInEvent(QFocusEvent *) {
+void MRichTextEdit::focusInEvent(QFocusEvent*)
+{
     f_textedit->setFocus(Qt::TabFocusReason);
 }
 
-
-void MRichTextEdit::textUnderline() {
+void MRichTextEdit::textUnderline()
+{
     QTextCharFormat fmt;
     fmt.setFontUnderline(f_underline->isChecked());
     mergeFormatOnWordOrSelection(fmt);
 }
 
-void MRichTextEdit::textItalic() {
+void MRichTextEdit::textItalic()
+{
     QTextCharFormat fmt;
     fmt.setFontItalic(f_italic->isChecked());
     mergeFormatOnWordOrSelection(fmt);
 }
 
-void MRichTextEdit::textStrikeout() {
+void MRichTextEdit::textStrikeout()
+{
     QTextCharFormat fmt;
     fmt.setFontStrikeOut(f_strikeout->isChecked());
     mergeFormatOnWordOrSelection(fmt);
 }
 
-void MRichTextEdit::textSize(const QString &p) {
-    qreal pointSize = p.toFloat();
-    if (p.toFloat() > 0) {
+void MRichTextEdit::textSize(const QString& p)
+{
+    qreal pointSize= p.toFloat();
+    if(p.toFloat() > 0)
+    {
         QTextCharFormat fmt;
         fmt.setFontPointSize(pointSize);
         mergeFormatOnWordOrSelection(fmt);
     }
 }
 
-void MRichTextEdit::textLink(bool checked) {
-    bool unlink = false;
+void MRichTextEdit::textLink(bool checked)
+{
+    bool unlink= false;
     QTextCharFormat fmt;
-    if (checked) {
-        QString url = f_textedit->currentCharFormat().anchorHref();
+    if(checked)
+    {
+        QString url= f_textedit->currentCharFormat().anchorHref();
         bool ok;
-        QString newUrl = QInputDialog::getText(this, tr("Create a link"),
-                                        tr("Link URL:"), QLineEdit::Normal,
-                                        url,
-                                        &ok);
-        if (ok) {
+        QString newUrl= QInputDialog::getText(this, tr("Create a link"), tr("Link URL:"), QLineEdit::Normal, url, &ok);
+        if(ok)
+        {
             fmt.setAnchor(true);
             fmt.setAnchorHref(newUrl);
             fmt.setForeground(QApplication::palette().color(QPalette::Link));
             fmt.setFontUnderline(true);
-          } else {
-            unlink = true;
-            }
-      } else {
-        unlink = true;
         }
-    if (unlink) {
+        else
+        {
+            unlink= true;
+        }
+    }
+    else
+    {
+        unlink= true;
+    }
+    if(unlink)
+    {
         fmt.setAnchor(false);
         fmt.setForeground(QApplication::palette().color(QPalette::Text));
         fmt.setFontUnderline(false);
-        }
+    }
     mergeFormatOnWordOrSelection(fmt);
 }
 
-void MRichTextEdit::textStyle(int index) {
-    QTextCursor cursor = f_textedit->textCursor();
+void MRichTextEdit::textStyle(int index)
+{
+    QTextCursor cursor= f_textedit->textCursor();
     cursor.beginEditBlock();
 
     // standard
-    if (!cursor.hasSelection()) {
+    if(!cursor.hasSelection())
+    {
         cursor.select(QTextCursor::BlockUnderCursor);
-        }
+    }
     QTextCharFormat fmt;
     cursor.setCharFormat(fmt);
     f_textedit->setCurrentCharFormat(fmt);
 
-    if (index == ParagraphHeading1
-            || index == ParagraphHeading2
-            || index == ParagraphHeading3
-            || index == ParagraphHeading4 ) {
-        if (index == ParagraphHeading1) {
+    if(index == ParagraphHeading1 || index == ParagraphHeading2 || index == ParagraphHeading3
+        || index == ParagraphHeading4)
+    {
+        if(index == ParagraphHeading1)
+        {
             fmt.setFontPointSize(m_fontsize_h1);
-            }
-        if (index == ParagraphHeading2) {
+        }
+        if(index == ParagraphHeading2)
+        {
             fmt.setFontPointSize(m_fontsize_h2);
-            }
-        if (index == ParagraphHeading3) {
+        }
+        if(index == ParagraphHeading3)
+        {
             fmt.setFontPointSize(m_fontsize_h3);
-            }
-        if (index == ParagraphHeading4) {
+        }
+        if(index == ParagraphHeading4)
+        {
             fmt.setFontPointSize(m_fontsize_h4);
-            }
-        if (index == ParagraphHeading2 || index == ParagraphHeading4) {
+        }
+        if(index == ParagraphHeading2 || index == ParagraphHeading4)
+        {
             fmt.setFontItalic(true);
-            }
+        }
 
         fmt.setFontWeight(QFont::Bold);
-        }
-    if (index == ParagraphMonospace) {
-        fmt = cursor.charFormat();
+    }
+    if(index == ParagraphMonospace)
+    {
+        fmt= cursor.charFormat();
         fmt.setFontFamily("Monospace");
         fmt.setFontStyleHint(QFont::Monospace);
         fmt.setFontFixedPitch(true);
-        }
+    }
     cursor.setCharFormat(fmt);
     f_textedit->setCurrentCharFormat(fmt);
 
     cursor.endEditBlock();
 }
 
-void MRichTextEdit::textFgColor() {
-    QColor col = QColorDialog::getColor(f_textedit->textColor(), this);
-    QTextCursor cursor = f_textedit->textCursor();
-    if (!cursor.hasSelection()) {
+void MRichTextEdit::textFgColor()
+{
+    QColor col= QColorDialog::getColor(f_textedit->textColor(), this);
+    QTextCursor cursor= f_textedit->textCursor();
+    if(!cursor.hasSelection())
+    {
         cursor.select(QTextCursor::WordUnderCursor);
-        }
-    QTextCharFormat fmt = cursor.charFormat();
-    if (col.isValid()) {
+    }
+    QTextCharFormat fmt= cursor.charFormat();
+    if(col.isValid())
+    {
         fmt.setForeground(col);
-      } else {
+    }
+    else
+    {
         fmt.clearForeground();
-        }
+    }
     cursor.setCharFormat(fmt);
     f_textedit->setCurrentCharFormat(fmt);
     fgColorChanged(col);
 }
 
-void MRichTextEdit::textBgColor() {
-    QColor col = QColorDialog::getColor(f_textedit->textBackgroundColor(), this);
-    QTextCursor cursor = f_textedit->textCursor();
-    if (!cursor.hasSelection()) {
+void MRichTextEdit::textBgColor()
+{
+    QColor col= QColorDialog::getColor(f_textedit->textBackgroundColor(), this);
+    QTextCursor cursor= f_textedit->textCursor();
+    if(!cursor.hasSelection())
+    {
         cursor.select(QTextCursor::WordUnderCursor);
-        }
-    QTextCharFormat fmt = cursor.charFormat();
-    if (col.isValid()) {
+    }
+    QTextCharFormat fmt= cursor.charFormat();
+    if(col.isValid())
+    {
         fmt.setBackground(col);
-      } else {
+    }
+    else
+    {
         fmt.clearBackground();
-        }
+    }
     cursor.setCharFormat(fmt);
     f_textedit->setCurrentCharFormat(fmt);
     bgColorChanged(col);
 }
 
-void MRichTextEdit::listBullet(bool checked) {
-    if (checked) {
+void MRichTextEdit::listBullet(bool checked)
+{
+    if(checked)
+    {
         f_list_ordered->setChecked(false);
-        }
+    }
     list(checked, QTextListFormat::ListDisc);
 }
 
-void MRichTextEdit::listOrdered(bool checked) {
-    if (checked) {
+void MRichTextEdit::listOrdered(bool checked)
+{
+    if(checked)
+    {
         f_list_bullet->setChecked(false);
-        }
+    }
     list(checked, QTextListFormat::ListDecimal);
 }
 
-void MRichTextEdit::list(bool checked, QTextListFormat::Style style) {
-    QTextCursor cursor = f_textedit->textCursor();
+void MRichTextEdit::list(bool checked, QTextListFormat::Style style)
+{
+    QTextCursor cursor= f_textedit->textCursor();
     cursor.beginEditBlock();
-    if (!checked) {
-        QTextBlockFormat obfmt = cursor.blockFormat();
+    if(!checked)
+    {
+        QTextBlockFormat obfmt= cursor.blockFormat();
         QTextBlockFormat bfmt;
         bfmt.setIndent(obfmt.indent());
         cursor.setBlockFormat(bfmt);
-      } else {
+    }
+    else
+    {
         QTextListFormat listFmt;
-        if (cursor.currentList()) {
-            listFmt = cursor.currentList()->format();
-            }
+        if(cursor.currentList())
+        {
+            listFmt= cursor.currentList()->format();
+        }
         listFmt.setStyle(style);
         cursor.createList(listFmt);
-        }
+    }
     cursor.endEditBlock();
 }
 
-void MRichTextEdit::mergeFormatOnWordOrSelection(const QTextCharFormat &format) {
-    QTextCursor cursor = f_textedit->textCursor();
-    if (!cursor.hasSelection()) {
+void MRichTextEdit::mergeFormatOnWordOrSelection(const QTextCharFormat& format)
+{
+    QTextCursor cursor= f_textedit->textCursor();
+    if(!cursor.hasSelection())
+    {
         cursor.select(QTextCursor::WordUnderCursor);
-        }
+    }
     cursor.mergeCharFormat(format);
     f_textedit->mergeCurrentCharFormat(format);
     f_textedit->setFocus(Qt::TabFocusReason);
 }
 
-void MRichTextEdit::slotCursorPositionChanged() {
-    QTextList *l = f_textedit->textCursor().currentList();
-    if (m_lastBlockList && (l == m_lastBlockList || (l != 0 && m_lastBlockList != 0
-                                 && l->format().style() == m_lastBlockList->format().style()))) {
+void MRichTextEdit::slotCursorPositionChanged()
+{
+    QTextList* l= f_textedit->textCursor().currentList();
+    if(m_lastBlockList
+        && (l == m_lastBlockList
+               || (l != 0 && m_lastBlockList != 0 && l->format().style() == m_lastBlockList->format().style())))
+    {
         return;
-        }
-    m_lastBlockList = l;
-    if (l) {
-        QTextListFormat lfmt = l->format();
-        if (lfmt.style() == QTextListFormat::ListDisc) {
+    }
+    m_lastBlockList= l;
+    if(l)
+    {
+        QTextListFormat lfmt= l->format();
+        if(lfmt.style() == QTextListFormat::ListDisc)
+        {
             f_list_bullet->setChecked(true);
             f_list_ordered->setChecked(false);
-          } else if (lfmt.style() == QTextListFormat::ListDecimal) {
+        }
+        else if(lfmt.style() == QTextListFormat::ListDecimal)
+        {
             f_list_bullet->setChecked(false);
             f_list_ordered->setChecked(true);
-          } else {
+        }
+        else
+        {
             f_list_bullet->setChecked(false);
             f_list_ordered->setChecked(false);
-            }
-      } else {
+        }
+    }
+    else
+    {
         f_list_bullet->setChecked(false);
         f_list_ordered->setChecked(false);
-        }
+    }
 }
 
-void MRichTextEdit::fontChanged(const QFont &f) {
+void MRichTextEdit::fontChanged(const QFont& f)
+{
     f_fontsize->setCurrentIndex(f_fontsize->findText(QString::number(f.pointSize())));
     f_bold->setChecked(f.bold());
     f_italic->setChecked(f.italic());
     f_underline->setChecked(f.underline());
     f_strikeout->setChecked(f.strikeOut());
-    if (f.pointSize() == m_fontsize_h1) {
+    if(f.pointSize() == m_fontsize_h1)
+    {
         f_paragraph->setCurrentIndex(ParagraphHeading1);
-      } else if (f.pointSize() == m_fontsize_h2) {
+    }
+    else if(f.pointSize() == m_fontsize_h2)
+    {
         f_paragraph->setCurrentIndex(ParagraphHeading2);
-      } else if (f.pointSize() == m_fontsize_h3) {
+    }
+    else if(f.pointSize() == m_fontsize_h3)
+    {
         f_paragraph->setCurrentIndex(ParagraphHeading3);
-      } else if (f.pointSize() == m_fontsize_h4) {
+    }
+    else if(f.pointSize() == m_fontsize_h4)
+    {
         f_paragraph->setCurrentIndex(ParagraphHeading4);
-      } else {
-        if (f.fixedPitch() && f.family() == "Monospace") {
+    }
+    else
+    {
+        if(f.fixedPitch() && f.family() == "Monospace")
+        {
             f_paragraph->setCurrentIndex(ParagraphMonospace);
-          } else {
-            f_paragraph->setCurrentIndex(ParagraphStandard);
-            }
         }
-    if (f_textedit->textCursor().currentList()) {
-        QTextListFormat lfmt = f_textedit->textCursor().currentList()->format();
-        if (lfmt.style() == QTextListFormat::ListDisc) {
+        else
+        {
+            f_paragraph->setCurrentIndex(ParagraphStandard);
+        }
+    }
+    if(f_textedit->textCursor().currentList())
+    {
+        QTextListFormat lfmt= f_textedit->textCursor().currentList()->format();
+        if(lfmt.style() == QTextListFormat::ListDisc)
+        {
             f_list_bullet->setChecked(true);
             f_list_ordered->setChecked(false);
-          } else if (lfmt.style() == QTextListFormat::ListDecimal) {
+        }
+        else if(lfmt.style() == QTextListFormat::ListDecimal)
+        {
             f_list_bullet->setChecked(false);
             f_list_ordered->setChecked(true);
-          } else {
+        }
+        else
+        {
             f_list_bullet->setChecked(false);
             f_list_ordered->setChecked(false);
-            }
-      } else {
+        }
+    }
+    else
+    {
         f_list_bullet->setChecked(false);
         f_list_ordered->setChecked(false);
-      }
+    }
 }
 
-void MRichTextEdit::fgColorChanged(const QColor &c) {
+void MRichTextEdit::fgColorChanged(const QColor& c)
+{
     QPixmap pix(16, 16);
-    if (c.isValid()) {
+    if(c.isValid())
+    {
         pix.fill(c);
-      } else {
+    }
+    else
+    {
         pix.fill(QApplication::palette().foreground().color());
-        }
+    }
     f_fgcolor->setIcon(pix);
 }
 
-void MRichTextEdit::bgColorChanged(const QColor &c) {
+void MRichTextEdit::bgColorChanged(const QColor& c)
+{
     QPixmap pix(16, 16);
-    if (c.isValid()) {
+    if(c.isValid())
+    {
         pix.fill(c);
-      } else {
+    }
+    else
+    {
         pix.fill(QApplication::palette().background().color());
-        }
+    }
     f_bgcolor->setIcon(pix);
 }
 
-void MRichTextEdit::slotCurrentCharFormatChanged(const QTextCharFormat &format) {
+void MRichTextEdit::slotCurrentCharFormatChanged(const QTextCharFormat& format)
+{
     fontChanged(format.font());
     bgColorChanged((format.background().isOpaque()) ? format.background().color() : QColor());
     fgColorChanged((format.foreground().isOpaque()) ? format.foreground().color() : QColor());
     f_link->setChecked(format.isAnchor());
 }
 
-void MRichTextEdit::slotClipboardDataChanged() {
+void MRichTextEdit::slotClipboardDataChanged()
+{
 #ifndef QT_NO_CLIPBOARD
-    if (const QMimeData *md = QApplication::clipboard()->mimeData())
+    if(const QMimeData* md= QApplication::clipboard()->mimeData())
         f_paste->setEnabled(md->hasText());
 #endif
 }
 
-QString MRichTextEdit::toHtml() const {
-    QString s = f_textedit->toHtml();
+QString MRichTextEdit::toHtml() const
+{
+    QString s= f_textedit->toHtml();
     // convert emails to links
-    s = s.replace(QRegExp("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)([a-zA-Z\\d]+@[a-zA-Z\\d]+\\.[a-zA-Z]+)"), "\\1<a href=\"mailto:\\2\">\\2</a>");
+    s= s.replace(QRegExp("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)([a-zA-Z\\d]+@[a-zA-Z\\d]+\\.[a-zA-Z]+)"),
+        "\\1<a href=\"mailto:\\2\">\\2</a>");
     // convert links
-    s = s.replace(QRegExp("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)((?:https?|ftp|file)://[^\\s'\"<>]+)"), "\\1<a href=\"\\2\">\\2</a>");
+    s= s.replace(
+        QRegExp("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)((?:https?|ftp|file)://[^\\s'\"<>]+)"), "\\1<a href=\"\\2\">\\2</a>");
     // see also: Utils::linkify()
     return s;
 }
 
-void MRichTextEdit::increaseIndentation() {
+void MRichTextEdit::increaseIndentation()
+{
     indent(+1);
 }
 
-void MRichTextEdit::decreaseIndentation() {
+void MRichTextEdit::decreaseIndentation()
+{
     indent(-1);
 }
 
-void MRichTextEdit::indent(int delta) {
-    QTextCursor cursor = f_textedit->textCursor();
+void MRichTextEdit::indent(int delta)
+{
+    QTextCursor cursor= f_textedit->textCursor();
     cursor.beginEditBlock();
-    QTextBlockFormat bfmt = cursor.blockFormat();
-    int ind = bfmt.indent();
-    if (ind + delta >= 0) {
+    QTextBlockFormat bfmt= cursor.blockFormat();
+    int ind= bfmt.indent();
+    if(ind + delta >= 0)
+    {
         bfmt.setIndent(ind + delta);
-        }
+    }
     cursor.setBlockFormat(bfmt);
     cursor.endEditBlock();
 }
 
-void MRichTextEdit::setText(const QString& text) {
-    if (text.isEmpty()) {
+void MRichTextEdit::setText(const QString& text)
+{
+    if(text.isEmpty())
+    {
         setPlainText(text);
         return;
-        }
-    if (text[0] == '<') {
+    }
+    if(text[0] == '<')
+    {
         setHtml(text);
-      } else {
+    }
+    else
+    {
         setPlainText(text);
-        }
+    }
 }
 
-void MRichTextEdit::insertImage() {
+void MRichTextEdit::insertImage()
+{
     QSettings s;
-    QString attdir = s.value("general/filedialog-path").toString();
-    QString file = QFileDialog::getOpenFileName(this,
-                                    tr("Select an image"),
-                                    attdir,
-                                    tr("JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"));
-    QImage image = QImageReader(file).read();
+    QString attdir= s.value("general/filedialog-path").toString();
+    QString file= QFileDialog::getOpenFileName(
+        this, tr("Select an image"), attdir, tr("JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"));
+    QImage image= QImageReader(file).read();
 
-    f_textedit->dropImage(image, QFileInfo(file).suffix().toUpper().toLocal8Bit().data() );
-
+    f_textedit->dropImage(image, QFileInfo(file).suffix().toUpper().toLocal8Bit().data());
 }
-
-

@@ -19,19 +19,20 @@
  ***************************************************************************/
 #ifndef PLAYERWIDGET_H
 #define PLAYERWIDGET_H
+#include <QContextMenuEvent>
+#include <QMediaContent>
+#include <QMediaPlayer>
+#include <QMenu>
 #include <QSlider>
 #include <QTime>
-#include <QMediaPlayer>
-#include <QMediaContent>
-#include <QContextMenuEvent>
-#include <QMenu>
 #include <random>
 
-#include "preferences/preferencesmanager.h"
 #include "musicmodel.h"
+#include "preferences/preferencesmanager.h"
 
-namespace Ui {
-class AudioWidgetUI;
+namespace Ui
+{
+    class AudioWidgetUI;
 }
 
 /**
@@ -41,16 +42,22 @@ class PlayerWidget : public QWidget
 {
     Q_OBJECT
 public:
-    enum PlayingMode { LOOP, UNIQUE , NEXT, SHUFFLE };
+    enum PlayingMode
+    {
+        LOOP,
+        UNIQUE,
+        NEXT,
+        SHUFFLE
+    };
     /**
      * @brief PlayerWidget
      * @param parent
      */
-    PlayerWidget(int id, QWidget* parent = nullptr);
+    PlayerWidget(int id, QWidget* parent= nullptr);
     /**
      * @brief startMedia
      */
-    void startMedia(QMediaContent*,QString title = QString(),bool play = true);
+    void startMedia(QMediaContent*, QString title= QString(), bool play= true);
     /**
      * @brief updateUi
      */
@@ -105,20 +112,21 @@ public slots:
      */
     void errorOccurs(QMediaPlayer::Error);
     void playSelectedSong();
+
 protected:
     /**
-         * @brief contextMenuEvent
-         * @param ev
-         */
+     * @brief contextMenuEvent
+     * @param ev
+     */
     void contextMenuEvent(QContextMenuEvent* ev);
-    void dropEvent(QDropEvent *event);
+    void dropEvent(QDropEvent* event);
 protected slots:
-        /**
-         * @brief setCurrentFile
-         * @param current
-         * @param previous
-         */
-        virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
+    /**
+     * @brief setCurrentFile
+     * @param current
+     * @param previous
+     */
+    virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
 
 private:
     /**
@@ -130,7 +138,7 @@ private slots:
     /**
      * @brief savePlaylist
      */
-    void  savePlaylist();
+    void savePlaylist();
     /**
      * @brief setTime
      * @param time
@@ -151,7 +159,7 @@ private slots:
      * @brief sourceChanged
      * @param media
      */
-    void sourceChanged(const QMediaContent & media);
+    void sourceChanged(const QMediaContent& media);
 
     /**
      * @brief playerStatusChanged
@@ -164,17 +172,17 @@ private slots:
      */
     void mediaStatusChanged(QMediaPlayer::MediaStatus status);
     /**
-    * @brief  slot which manage the click on add song button
-    * @param QModelIndex
-    */
+     * @brief  slot which manage the click on add song button
+     * @param QModelIndex
+     */
     void startMediaByModelIndex(QModelIndex p);
     /**
-    * @brief  slot which manage the click on remove song button
-    */
+     * @brief  slot which manage the click on remove song button
+     */
     void removeFile();
     /**
-    * @brief  slot which manage the click on remove song button
-    */
+     * @brief  slot which manage the click on remove song button
+     */
     void addFiles();
     /**
      * @brief openPlayList
@@ -242,16 +250,17 @@ signals:
     /**
      * @brief playerIsPlaying
      */
-    void playerIsPlaying(int,quint64);
+    void playerIsPlaying(int, quint64);
     /**
      * @brief newSongPlayed
      */
-    void newSongPlayed(int,QString);
+    void newSongPlayed(int, QString);
     /**
      * @brief playerPositionChanged
      */
-    void playerPositionChanged(int,quint64);
+    void playerPositionChanged(int, quint64);
     void newPlaylistLoaded(QString path);
+
 private:
     QSlider* m_volume;
     QSlider* m_seek;
@@ -268,16 +277,15 @@ private:
     QAction* m_loadTableTopAudioPlayListAct;
     PreferencesManager* m_preferences;
     MusicModel* m_model;
-    QAction* m_addAction;            //!< @brief add song action
+    QAction* m_addAction; //!< @brief add song action
     QAction* m_addStreamAction;
-    QAction* m_deleteAction;        //!< @brief remove song action
+    QAction* m_deleteAction; //!< @brief remove song action
     QAction* m_openPlayList;
     QAction* m_savePlayList;
     QAction* m_clearList;
     PlayingMode m_playingMode;
     QMediaContent* m_currentContent;
     QString m_audioFileFilter;
-
 
     int m_id;
     quint64 m_time;

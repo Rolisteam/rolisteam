@@ -20,21 +20,20 @@
 #ifndef CHANGECOLORITEM_H
 #define CHANGECOLORITEM_H
 
-#include <QUndoCommand>
 #include <QColor>
+#include <QUndoCommand>
 
 class VisualItem;
 
 class ChangeColorItemCmd : public QUndoCommand
 {
 public:
-    ChangeColorItemCmd(VisualItem* item, QColor newColor, QString mapId, QUndoCommand* parent = nullptr);
+    ChangeColorItemCmd(VisualItem* item, QColor newColor, QString mapId, QUndoCommand* parent= nullptr);
 
     void redo() override;
     void undo() override;
 
     void sendOffColor();
-
 
 private:
     VisualItem* m_item;

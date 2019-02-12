@@ -21,10 +21,10 @@
 #include "network/networkmessagewriter.h"
 #include <QGraphicsScene>
 
-DeleteVmapItemCommand::DeleteVmapItemCommand(VMap* map, VisualItem* item, bool sendToAll, QUndoCommand *parent)
+DeleteVmapItemCommand::DeleteVmapItemCommand(VMap* map, VisualItem* item, bool sendToAll, QUndoCommand* parent)
     : QUndoCommand(parent), m_vmap(map), m_currentItem(item), m_sendToAll(sendToAll)
 {
-    m_visible = m_currentItem->isVisible();
+    m_visible= m_currentItem->isVisible();
 
     setText(QObject::tr("Delete Item From Map %1").arg(m_vmap->getMapTitle()));
 }
@@ -38,9 +38,9 @@ void DeleteVmapItemCommand::redo()
 
     if(m_sendToAll)
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::DelItem);
-        msg.string8(m_vmap->getId());//id map
-        msg.string16(m_currentItem->getId());//id item
+        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::DelItem);
+        msg.string8(m_vmap->getId());         // id map
+        msg.string16(m_currentItem->getId()); // id item
         msg.sendToServer();
     }
 }
@@ -57,8 +57,7 @@ void DeleteVmapItemCommand::undo()
         m_vmap->addItemFromData(m_currentItem);
         m_vmap->update();
 
-
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::AddItem);
+        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
         msg.string8(m_vmap->getId());
         msg.uint8(m_currentItem->type());
         m_currentItem->fillMessage(&msg);

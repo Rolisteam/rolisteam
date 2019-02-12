@@ -21,8 +21,8 @@
 #ifndef CENTEREDCHECKBOX_H
 #define CENTEREDCHECKBOX_H
 
-#include <QWidget>
 #include <QCheckBox>
+#include <QWidget>
 /**
  * @brief The CenteredCheckBox class is a simple widget to display checkbox in the middle of their parent.
  * It is useful for ItemDelegate.
@@ -30,17 +30,17 @@
 class CenteredCheckBox : public QWidget
 {
     Q_OBJECT
- public:
-    CenteredCheckBox( QWidget* parent=nullptr);
+public:
+    CenteredCheckBox(QWidget* parent= nullptr);
 
     bool isCheckedDelegate() const;
     void setCheckedDelegate(bool);
 
 signals:
-    void	commitEditor();
+    void commitEditor();
 
 private:
-        QCheckBox* m_editorCheckBox;
+    QCheckBox* m_editorCheckBox;
 };
 
 #endif // CENTEREDCHECKBOX_H

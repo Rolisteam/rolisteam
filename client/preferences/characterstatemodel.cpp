@@ -1,89 +1,85 @@
 /***************************************************************************
-*	Copyright (C) 2009 by Renaud Guezennec                             *
-*   http://www.rolisteam.org/contact                   *
-*                                                                         *
-*   Rolisteam is free software; you can redistribute it and/or modify     *
-*   it under the terms of the GNU General Public License as published by  *
-*   the Free Software Foundation; either version 2 of the License, or     *
-*   (at your option) any later version.                                   *
-*                                                                         *
-*   This program is distributed in the hope that it will be useful,       *
-*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-*   GNU General Public License for more details.                          *
-*                                                                         *
-*   You should have received a copy of the GNU General Public License     *
-*   along with this program; if not, write to the                         *
-*   Free Software Foundation, Inc.,                                       *
-*   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-***************************************************************************/
+ *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *   http://www.rolisteam.org/contact                   *
+ *                                                                         *
+ *   Rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 #include "characterstatemodel.h"
 #include "network/networkmessagewriter.h"
 #include "preferences/preferencesmanager.h"
 
-
 #include "data/character.h"
-#include <QJsonArray>
-#include <QColor>
-#include <QJsonObject>
 #include <QBuffer>
+#include <QColor>
+#include <QJsonArray>
+#include <QJsonObject>
 
 CharacterStateModel::CharacterStateModel(QObject* parent)
-    : QAbstractListModel(parent), m_stateList(new QList<CharacterState*>()),m_stateListFromGM(new QList<CharacterState*>())
+    : QAbstractListModel(parent)
+    , m_stateList(new QList<CharacterState*>())
+    , m_stateListFromGM(new QList<CharacterState*>())
 {
-    m_header << tr("Label") << tr("Color")<< tr("Image");
+    m_header << tr("Label") << tr("Color") << tr("Image");
 
     setGM(false);
 }
 
-CharacterStateModel::~CharacterStateModel()
-{
+CharacterStateModel::~CharacterStateModel() {}
 
-}
-
-QVariant CharacterStateModel::data(const QModelIndex &index, int role) const
+QVariant CharacterStateModel::data(const QModelIndex& index, int role) const
 {
     if(index.isValid())
     {
-        CharacterState* state = m_stateList->at(index.row());
-        if((Qt::DisplayRole == role)||(Qt::EditRole == role))
+        CharacterState* state= m_stateList->at(index.row());
+        if((Qt::DisplayRole == role) || (Qt::EditRole == role))
         {
-            if(nullptr!=state)
+            if(nullptr != state)
             {
-                if(index.column()==LABEL)
+                if(index.column() == LABEL)
                 {
                     return state->getLabel();
                 }
-                else if(index.column()==COLOR)
+                else if(index.column() == COLOR)
                 {
                     if(Qt::DisplayRole == role)
                         return QVariant();
 
                     return state->getColor();
                 }
-                else if(index.column()==PICTURE)
+                else if(index.column() == PICTURE)
                 {
                     return state->getImage();
                 }
-
             }
         }
         else if(Qt::BackgroundRole == role)
         {
-            if(index.column()==COLOR)
+            if(index.column() == COLOR)
             {
                 return state->getColor();
             }
         }
     }
     return QVariant();
-
 }
-int CharacterStateModel::rowCount(const QModelIndex &) const
+int CharacterStateModel::rowCount(const QModelIndex&) const
 {
     return m_stateList->size();
 }
-int CharacterStateModel::columnCount(const QModelIndex &) const
+int CharacterStateModel::columnCount(const QModelIndex&) const
 {
     return m_header.size();
 }
@@ -91,7 +87,7 @@ QVariant CharacterStateModel::headerData(int section, Qt::Orientation orientatio
 {
     if(Qt::DisplayRole == role)
     {
-        if(orientation==Qt::Horizontal)
+        if(orientation == Qt::Horizontal)
         {
             return m_header.at(section);
         }
@@ -100,7 +96,7 @@ QVariant CharacterStateModel::headerData(int section, Qt::Orientation orientatio
 }
 void CharacterStateModel::setStates(QList<CharacterState*>* lst)
 {
-    m_stateList = lst;
+    m_stateList= lst;
 }
 void CharacterStateModel::appendState()
 {
@@ -108,16 +104,16 @@ void CharacterStateModel::appendState()
 }
 void CharacterStateModel::preferencesHasChanged(QString pref)
 {
-    if(pref=="isPlayer")
+    if(pref == "isPlayer")
     {
-        m_isGM =! PreferencesManager::getInstance()->value(pref,true).toBool();
+        m_isGM= !PreferencesManager::getInstance()->value(pref, true).toBool();
     }
 }
 NetWorkReceiver::SendType CharacterStateModel::processMessage(NetworkMessageReader* msg)
 {
-    NetWorkReceiver::SendType type  = NetWorkReceiver::AllExceptSender;
+    NetWorkReceiver::SendType type= NetWorkReceiver::AllExceptSender;
 
-    if(nullptr==msg)
+    if(nullptr == msg)
         return NetWorkReceiver::NONE;
 
     switch(msg->action())
@@ -136,57 +132,56 @@ NetWorkReceiver::SendType CharacterStateModel::processMessage(NetworkMessageRead
     }
 
     return type;
-
 }
 
 void CharacterStateModel::addState(CharacterState* alias)
 {
-    beginInsertRows(QModelIndex(),m_stateList->size(),m_stateList->size());
+    beginInsertRows(QModelIndex(), m_stateList->size(), m_stateList->size());
     m_stateList->append(alias);
     endInsertRows();
 }
-Qt::ItemFlags CharacterStateModel::flags(const QModelIndex &index) const
+Qt::ItemFlags CharacterStateModel::flags(const QModelIndex& index) const
 {
     Q_UNUSED(index)
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
 }
-bool CharacterStateModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool CharacterStateModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    bool result = false;
+    bool result= false;
     if(index.isValid())
     {
-        CharacterState* state = m_stateList->at(index.row());
-        if(role==Qt::EditRole)
+        CharacterState* state= m_stateList->at(index.row());
+        if(role == Qt::EditRole)
         {
-            switch (index.column())
+            switch(index.column())
             {
             case LABEL:
                 state->setLabel(value.toString());
-                result = true;
+                result= true;
                 break;
             case COLOR:
                 state->setColor(value.value<QColor>());
-                result = true;
+                result= true;
                 break;
             case PICTURE:
                 state->setImage(value.value<QPixmap>());
-                result = true;
+                result= true;
                 break;
             }
         }
-        if((result)&&(m_isGM))
+        if((result) && (m_isGM))
         {
-            NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addState);
+            NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addState);
             msg.int64(index.row());
             msg.string32(state->getLabel());
             msg.rgb(state->getColor().rgb());
             msg.uint8(state->hasImage());
             if(state->hasImage())
             {
-                auto img = state->getImage();
+                auto img= state->getImage();
                 QByteArray array;
                 QBuffer buffer(&array);
-                img.save(&buffer,"PNG");
+                img.save(&buffer, "PNG");
                 msg.byteArray32(array);
             }
             msg.sendToServer();
@@ -202,11 +197,11 @@ void CharacterStateModel::deleteState(QModelIndex& index)
 {
     if(!index.isValid())
         return;
-    beginRemoveRows(QModelIndex(),index.row(),index.row());
+    beginRemoveRows(QModelIndex(), index.row(), index.row());
     m_stateList->removeAt(index.row());
     endRemoveRows();
 
-    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::removeState);
+    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::removeState);
     msg.int64(index.row());
     msg.sendToServer();
 }
@@ -214,12 +209,12 @@ void CharacterStateModel::upState(QModelIndex& index)
 {
     if(!index.isValid())
         return;
-    if(index.row()==0)
+    if(index.row() == 0)
         return;
-    if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),index.row()-1))
+    if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), index.row() - 1))
     {
-        m_stateList->swap(index.row(),index.row()-1);
-        moveState(index.row(),index.row()-1);
+        m_stateList->swap(index.row(), index.row() - 1);
+        moveState(index.row(), index.row() - 1);
         endMoveRows();
     }
 }
@@ -229,13 +224,13 @@ void CharacterStateModel::downState(QModelIndex& index)
     if(!index.isValid())
         return;
 
-    if(index.row()==m_stateList->size()-1)
+    if(index.row() == m_stateList->size() - 1)
         return;
 
-    if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),index.row()+2))
+    if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), index.row() + 2))
     {
-        m_stateList->swap(index.row(),index.row()+1);
-        moveState(index.row(),index.row()+1);
+        m_stateList->swap(index.row(), index.row() + 1);
+        moveState(index.row(), index.row() + 1);
         endMoveRows();
     }
 }
@@ -245,12 +240,12 @@ void CharacterStateModel::topState(QModelIndex& index)
     if(!index.isValid())
         return;
 
-    if(index.row()==0)
+    if(index.row() == 0)
         return;
-    if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),0))
+    if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), 0))
     {
-        CharacterState* dice = m_stateList->takeAt(index.row());
-        moveState(index.row(),0);
+        CharacterState* dice= m_stateList->takeAt(index.row());
+        moveState(index.row(), 0);
         m_stateList->prepend(dice);
         endMoveRows();
     }
@@ -260,19 +255,19 @@ void CharacterStateModel::bottomState(QModelIndex& index)
 {
     if(!index.isValid())
         return;
-    if(index.row()==m_stateList->size()-1)
+    if(index.row() == m_stateList->size() - 1)
         return;
-    if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),m_stateList->size()))
+    if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), m_stateList->size()))
     {
-        CharacterState* dice = m_stateList->takeAt(index.row());
-        moveState(index.row(),m_stateList->size());
+        CharacterState* dice= m_stateList->takeAt(index.row());
+        moveState(index.row(), m_stateList->size());
         m_stateList->append(dice);
         endMoveRows();
     }
 }
 void CharacterStateModel::setGM(bool b)
 {
-    m_isGM = b;
+    m_isGM= b;
 
     if(!m_isGM)
     {
@@ -286,50 +281,48 @@ void CharacterStateModel::setGM(bool b)
 void CharacterStateModel::clear()
 {
     beginResetModel();
-    qDeleteAll(m_stateList->begin(),m_stateList->end());
+    qDeleteAll(m_stateList->begin(), m_stateList->end());
     m_stateList->clear();
     endResetModel();
 }
 void CharacterStateModel::processAddState(NetworkMessageReader* msg)
 {
-    CharacterState* state = new CharacterState();
+    CharacterState* state= new CharacterState();
 
-    quint64 id = msg->uint64();
+    quint64 id= msg->uint64();
     state->setLabel(msg->string32());
     state->setColor(msg->rgb());
-    bool hasImage = static_cast<bool>(msg->uint8());
+    bool hasImage= static_cast<bool>(msg->uint8());
     if(hasImage)
     {
-        QByteArray array = msg->byteArray32();
+        QByteArray array= msg->byteArray32();
         QPixmap pix;
         pix.loadFromData(array);
         state->setImage(pix);
     }
-    m_stateListFromGM->insert(id,state);
+    m_stateListFromGM->insert(id, state);
 }
 void CharacterStateModel::processMoveState(NetworkMessageReader* msg)
 {
+    int from= msg->int64();
+    int to= msg->int64();
 
-    int from = msg->int64();
-    int to   = msg->int64();
-
-    if((from>=0)&&(from<m_stateList->size()))
+    if((from >= 0) && (from < m_stateList->size()))
     {
-        //beginMoveRows(QModelIndex(),from,from,QModelIndex(),to);
-        CharacterState* tpm = m_stateList->takeAt(from);
-        m_stateListFromGM->insert(to,tpm);
-        //endMoveRows();
+        // beginMoveRows(QModelIndex(),from,from,QModelIndex(),to);
+        CharacterState* tpm= m_stateList->takeAt(from);
+        m_stateListFromGM->insert(to, tpm);
+        // endMoveRows();
     }
 }
 void CharacterStateModel::processRemoveState(NetworkMessageReader* msg)
 {
-
-    int pos = msg->int64();
-    if(m_stateList->size()>pos)
+    int pos= msg->int64();
+    if(m_stateList->size() > pos)
     {
-        //beginRemoveRows(QModelIndex(),pos,pos);
+        // beginRemoveRows(QModelIndex(),pos,pos);
         m_stateListFromGM->removeAt(pos);
-        //endRemoveRows();
+        // endRemoveRows();
     }
 }
 
@@ -337,7 +330,7 @@ void CharacterStateModel::sendOffAllCharacterState()
 {
     for(auto& state : *m_stateList)
     {
-        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addState);
+        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addState);
         msg.uint64(m_stateList->indexOf(state));
         msg.string32(state->getLabel());
         msg.rgb(state->getColor().rgb());
@@ -347,7 +340,7 @@ void CharacterStateModel::sendOffAllCharacterState()
 
             QByteArray array;
             QBuffer buffer(&array);
-            if(!state->getPixmap()->save(&buffer,"PNG"))
+            if(!state->getPixmap()->save(&buffer, "PNG"))
             {
                 qWarning("error during encoding png");
             }
@@ -360,30 +353,30 @@ void CharacterStateModel::sendOffAllCharacterState()
         msg.sendToServer();
     }
 }
-void CharacterStateModel::moveState(int from,int to)
+void CharacterStateModel::moveState(int from, int to)
 {
     if(m_isGM)
     {
-        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::moveState);
+        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::moveState);
         msg.int64(from);
         msg.int64(to);
         msg.sendToServer();
     }
 }
-void CharacterStateModel::load(const QJsonObject &obj)
+void CharacterStateModel::load(const QJsonObject& obj)
 {
-    QJsonArray states = obj["states"].toArray();
+    QJsonArray states= obj["states"].toArray();
 
     for(auto stateRef : states)
     {
-        auto state = stateRef.toObject();
-        auto da = new CharacterState();
+        auto state= stateRef.toObject();
+        auto da= new CharacterState();
         da->setLabel(state["label"].toString());
         da->setIsLocal(state["local"].toBool());
-        auto base64 = state["image"].toString();
+        auto base64= state["image"].toString();
         if(!base64.isEmpty())
         {
-            QByteArray array = QByteArray::fromBase64(base64.toUtf8());
+            QByteArray array= QByteArray::fromBase64(base64.toUtf8());
             QPixmap pix;
             pix.loadFromData(array);
             da->setImage(pix);
@@ -395,25 +388,25 @@ void CharacterStateModel::load(const QJsonObject &obj)
     }
 }
 
-void CharacterStateModel::save(QJsonObject &obj)
+void CharacterStateModel::save(QJsonObject& obj)
 {
     QJsonArray states;
     for(auto& state : *m_stateList)
     {
         QJsonObject stateObj;
-        stateObj["label"]=state->getLabel();
-        stateObj["color"]=state->getColor().name();
-        QPixmap pix = state->getImage();
+        stateObj["label"]= state->getLabel();
+        stateObj["color"]= state->getColor().name();
+        QPixmap pix= state->getImage();
         if(!pix.isNull())
         {
             QByteArray bytes;
             QBuffer buffer(&bytes);
             buffer.open(QIODevice::WriteOnly);
             pix.save(&buffer, "PNG");
-            stateObj["image"]=QString(buffer.data().toBase64());
+            stateObj["image"]= QString(buffer.data().toBase64());
         }
-        stateObj["local"]=state->isLocal();
+        stateObj["local"]= state->isLocal();
         states.append(stateObj);
     }
-    obj["states"]=states;
+    obj["states"]= states;
 }

@@ -20,36 +20,34 @@
  ***************************************************************************/
 #include "audioPlayer.h"
 
-
-#include <QToolButton>
-#include <QFileDialog>
-#include <QPushButton>
-#include <QMenu>
 #include <QContextMenuEvent>
-#include <QListView>
 #include <QDebug>
+#include <QFileDialog>
+#include <QListView>
+#include <QMenu>
+#include <QPushButton>
+#include <QToolButton>
 
 #include "network/networklink.h"
 #include "network/networkmessagewriter.h"
 
-AudioPlayer * AudioPlayer::m_singleton = nullptr;
+AudioPlayer* AudioPlayer::m_singleton= nullptr;
 
-AudioPlayer::AudioPlayer(QWidget *parent)
-    : QDockWidget(parent)//,m_currentSource(nullptr)
+AudioPlayer::AudioPlayer(QWidget* parent) : QDockWidget(parent) //,m_currentSource(nullptr)
 {
-    m_isGM = false;
-    m_preferences = PreferencesManager::getInstance();
+    m_isGM= false;
+    m_preferences= PreferencesManager::getInstance();
 
     setObjectName("MusicPlayer");
     setupUi();
     setWidget(m_mainWidget);
 }
 
-AudioPlayer*  AudioPlayer::getInstance(QWidget *parent)
+AudioPlayer* AudioPlayer::getInstance(QWidget* parent)
 {
-    if(m_singleton==nullptr)
+    if(m_singleton == nullptr)
     {
-        m_singleton = new AudioPlayer(parent);
+        m_singleton= new AudioPlayer(parent);
     }
     return m_singleton;
 }
@@ -60,7 +58,7 @@ void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
     {
         for(auto& tmp : m_players)
         {
-            if((tmp->geometry().contains(ev->pos(),true))&&(tmp->isVisible()))
+            if((tmp->geometry().contains(ev->pos(), true)) && (tmp->isVisible()))
             {
                 tmp->addActionsIntoMenu(&menu);
                 menu.addSeparator();
@@ -86,59 +84,60 @@ void AudioPlayer::setupUi()
     setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     setFeatures(QDockWidget::AllDockWidgetFeatures);
     setMinimumWidth(255);
-    m_mainWidget = new QWidget(this);
+    m_mainWidget= new QWidget(this);
 
-    m_mainLayout = new QVBoxLayout();
+    m_mainLayout= new QVBoxLayout();
     m_mainLayout->setSpacing(0);
     m_mainLayout->setMargin(0);
 
-    for(int i = 0;i < 3; ++i)
+    for(int i= 0; i < 3; ++i)
     {
-        PlayerWidget*  playerWidget = new PlayerWidget(i,this);
-        connect(playerWidget,SIGNAL(newSongPlayed(int,QString)),this,SLOT(onePlayerHasNewSong(int,QString)));
-        connect(playerWidget,SIGNAL(playerIsPaused(int)),this,SLOT(onePlayerIsPaused(int)));
-        connect(playerWidget,SIGNAL(playerStopped(int)),this,SLOT(onePlayerHasStopped(int)));
-        connect(playerWidget,SIGNAL(playerIsPlaying(int,quint64)),this,SLOT(onePlayerPlays(int,quint64)));
-        connect(playerWidget,SIGNAL(playerPositionChanged(int,quint64)),this,SLOT(onePlayerHasChangedPosition(int,quint64)));
+        PlayerWidget* playerWidget= new PlayerWidget(i, this);
+        connect(playerWidget, SIGNAL(newSongPlayed(int, QString)), this, SLOT(onePlayerHasNewSong(int, QString)));
+        connect(playerWidget, SIGNAL(playerIsPaused(int)), this, SLOT(onePlayerIsPaused(int)));
+        connect(playerWidget, SIGNAL(playerStopped(int)), this, SLOT(onePlayerHasStopped(int)));
+        connect(playerWidget, SIGNAL(playerIsPlaying(int, quint64)), this, SLOT(onePlayerPlays(int, quint64)));
+        connect(playerWidget, SIGNAL(playerPositionChanged(int, quint64)), this,
+            SLOT(onePlayerHasChangedPosition(int, quint64)));
 
         m_players.append(playerWidget);
-        QAction* act = new QAction(tr("Show/hide Player %1").arg(i),this);
+        QAction* act= new QAction(tr("Show/hide Player %1").arg(i), this);
         act->setCheckable(true);
-        act->setChecked(m_preferences->value(QString("music_player_%1_status").arg(i),true).toBool());
-        connect(act,SIGNAL(toggled(bool)),this,SLOT(showMusicPlayer(bool)));
+        act->setChecked(m_preferences->value(QString("music_player_%1_status").arg(i), true).toBool());
+        connect(act, SIGNAL(toggled(bool)), this, SLOT(showMusicPlayer(bool)));
         m_playerActionsList.append(act);
         m_mainLayout->addWidget(m_players[i]);
     }
 
     m_mainWidget->setLayout(m_mainLayout);
-
 }
 void AudioPlayer::showMusicPlayer(bool status)
 {
-    QAction* act = qobject_cast<QAction*>(sender());
+    QAction* act= qobject_cast<QAction*>(sender());
 
-    if(nullptr!=act)
+    if(nullptr != act)
     {
-        int i = m_playerActionsList.indexOf(act);
+        int i= m_playerActionsList.indexOf(act);
 
-        if(-1!=1)
+        if(-1 != 1)
         {
-            PlayerWidget* tmp = m_players[i];
+            PlayerWidget* tmp= m_players[i];
             tmp->setVisible(status);
-            m_preferences->registerValue(QString("music_player_%1_status").arg(i),status);
+            m_preferences->registerValue(QString("music_player_%1_status").arg(i), status);
         }
     }
 }
 void AudioPlayer::updateUi(bool isGM)
 {
-    m_isGM = isGM;
+    m_isGM= isGM;
     for(auto& tmp : m_players)
     {
         tmp->updateUi(isGM);
     }
-    for(int i = 0; i< m_players.size(); ++i)
+    for(int i= 0; i < m_players.size(); ++i)
     {
-        m_playerActionsList[i]->setChecked(m_preferences->value(QString("music_player_%1_status").arg(i),true).toBool());
+        m_playerActionsList[i]->setChecked(
+            m_preferences->value(QString("music_player_%1_status").arg(i), true).toBool());
     }
     if(!isGM)
     {
@@ -165,7 +164,7 @@ void AudioPlayer::onePlayerIsPaused(int id)
     }
 }
 
-void AudioPlayer::onePlayerPlays(int id,quint64 pos)
+void AudioPlayer::onePlayerPlays(int id, quint64 pos)
 {
     if(m_isGM)
     {
@@ -176,8 +175,7 @@ void AudioPlayer::onePlayerPlays(int id,quint64 pos)
     }
 }
 
-
-void AudioPlayer::onePlayerHasNewSong(int id,QString str)
+void AudioPlayer::onePlayerHasNewSong(int id, QString str)
 {
     if(m_isGM)
     {
@@ -188,7 +186,7 @@ void AudioPlayer::onePlayerHasNewSong(int id,QString str)
     }
 }
 
-void AudioPlayer::onePlayerHasChangedPosition(int id,quint64 pos)
+void AudioPlayer::onePlayerHasChangedPosition(int id, quint64 pos)
 {
     if(m_isGM)
     {
@@ -201,12 +199,12 @@ void AudioPlayer::onePlayerHasChangedPosition(int id,quint64 pos)
 
 NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
 {
-    int id = msg->uint8();
+    int id= msg->uint8();
     if(id >= m_players.size() && id < 0)
         return NetWorkReceiver::NONE;
 
-    NetMsg::Action action = msg->action();
-    switch (action)
+    NetMsg::Action action= msg->action();
+    switch(action)
     {
     case NetMsg::PlaySong:
         m_players[id]->playSong(msg->uint64());
@@ -219,17 +217,17 @@ NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
         quint64 pos= msg->uint64();
         m_players[id]->setPositionAt(pos);
     }
-        break;
+    break;
     case NetMsg::StopSong:
         m_players[id]->stop();
         break;
     case NetMsg::NewSong:
     {
-        QString file = msg->string32();
+        QString file= msg->string32();
         qDebug() << "file" << file;
         m_players[id]->setSourceSong(file);
     }
-        break;
+    break;
     default:
         break;
     }

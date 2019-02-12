@@ -18,9 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <QtCore/QCoreApplication>
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <QtCore/QCoreApplication>
 
 #include "charactersheet.h"
 #include "field.h"
@@ -47,71 +47,64 @@ private slots:
     void wrongCommandsTest();
 
 private:
-    CharacterSheet* m_sheet = nullptr;
+    CharacterSheet* m_sheet= nullptr;
     QList<CharacterSheetItem*> m_list;
-    Formula::FormulaManager* m_formulaMan = nullptr;
-    QHash<QString,QString>* m_variable = nullptr;
+    Formula::FormulaManager* m_formulaMan= nullptr;
+    QHash<QString, QString>* m_variable= nullptr;
 };
 
-TestCharacterSheet::TestCharacterSheet()
-{
-
-}
+TestCharacterSheet::TestCharacterSheet() {}
 
 void TestCharacterSheet::initTestCase()
 {
-    m_sheet = new CharacterSheet();
-    Field* field = new Field();
+    m_sheet= new CharacterSheet();
+    Field* field= new Field();
     field->setLabel("name");
     field->setId("id_1");
     m_list << field;
 
-    field = new Field();
+    field= new Field();
     field->setLabel("last name");
     field->setId("id_2");
     m_list << field;
 
-
-    field = new Field();
+    field= new Field();
     field->setLabel("age");
     field->setId("id_3");
     m_list << field;
 
-    field = new Field();
+    field= new Field();
     field->setLabel("Species");
     field->setId("id_4");
     m_list << field;
 
-
-    field = new Field();
+    field= new Field();
     field->setLabel("Intelligence");
     field->setId("id_5");
     m_list << field;
 
+    // Formula
+    m_formulaMan= new Formula::FormulaManager();
+    m_variable= new QHash<QString, QString>();
 
-    //Formula
-    m_formulaMan = new Formula::FormulaManager();
-    m_variable = new QHash<QString,QString>();
-
-    m_variable->insert("Name","John Doe");
-    m_variable->insert("weight","85kg");
-    m_variable->insert("age","18");
-    m_variable->insert("size","1.69");
-    m_variable->insert("strenght","4");
-    m_variable->insert("intelligence","5");
-    m_variable->insert("speed","59");
-    m_variable->insert("ecole","Akodo");
-    m_variable->insert("arme","Katana");
-    m_variable->insert("XP","0");
-    m_variable->insert("max health","82");
-    m_variable->insert("mana","10000");
-    m_variable->insert("level","-1");
-    m_variable->insert("agility","-2.5");
-    m_variable->insert("manipulation","10");
-    m_variable->insert("mental health","90%");
+    m_variable->insert("Name", "John Doe");
+    m_variable->insert("weight", "85kg");
+    m_variable->insert("age", "18");
+    m_variable->insert("size", "1.69");
+    m_variable->insert("strenght", "4");
+    m_variable->insert("intelligence", "5");
+    m_variable->insert("speed", "59");
+    m_variable->insert("ecole", "Akodo");
+    m_variable->insert("arme", "Katana");
+    m_variable->insert("XP", "0");
+    m_variable->insert("max health", "82");
+    m_variable->insert("mana", "10000");
+    m_variable->insert("level", "-1");
+    m_variable->insert("agility", "-2.5");
+    m_variable->insert("manipulation", "10");
+    m_variable->insert("mental health", "90%");
 
     m_formulaMan->setConstantHash(m_variable);
-
 }
 void TestCharacterSheet::insertField()
 {
@@ -119,31 +112,19 @@ void TestCharacterSheet::insertField()
     {
         m_sheet->insertCharacterItem(field);
     }
-    QVERIFY2(m_sheet->getFieldCount() == m_list.size(),"The number of field is not right.");
+    QVERIFY2(m_sheet->getFieldCount() == m_list.size(), "The number of field is not right.");
 }
-void TestCharacterSheet::getAndSetTest()
-{
-
-}
-void TestCharacterSheet::changeValue()
-{
-
-}
-void TestCharacterSheet::changeReadOnly()
-{
-
-}
-void TestCharacterSheet::changeLabel()
-{
-
-}
+void TestCharacterSheet::getAndSetTest() {}
+void TestCharacterSheet::changeValue() {}
+void TestCharacterSheet::changeReadOnly() {}
+void TestCharacterSheet::changeLabel() {}
 void TestCharacterSheet::commandsTest()
 {
     QFETCH(QString, cmd);
     QFETCH(qreal, result);
 
-    auto a = m_formulaMan->getValue(cmd).toDouble();
-    QVERIFY(qFuzzyCompare(a,result));
+    auto a= m_formulaMan->getValue(cmd).toDouble();
+    QVERIFY(qFuzzyCompare(a, result));
 }
 
 void TestCharacterSheet::commandsTest_data()
@@ -174,17 +155,16 @@ void TestCharacterSheet::commandsTest_data()
     QTest::addRow("cmd20") << "=(10-4)*3" << 18. << true;
     QTest::addRow("cmd21") << "=((10-4)+6)*2" << 24. << true;
     QTest::addRow("cmd22") << "=(10+2)*(10-8)" << 24. << true;
-
 }
 void TestCharacterSheet::wrongCommandsTest()
 {
     QStringList commands;
 
-    for(QString cmd: commands)
+    for(QString cmd : commands)
     {
-        QVariant a = m_formulaMan->getValue(cmd);
+        QVariant a= m_formulaMan->getValue(cmd);
 
-        QCOMPARE(a.toString(),cmd.toStdString().c_str());
+        QCOMPARE(a.toString(), cmd.toStdString().c_str());
     }
 }
 void TestCharacterSheet::cleanupTestCase()
@@ -195,9 +175,9 @@ void TestCharacterSheet::cleanupTestCase()
     if(m_formulaMan)
         delete m_formulaMan;
 
-  /*  if(m_variable)
-        delete m_variable;*/
-    //qDeleteAll(m_list);
+    /*  if(m_variable)
+          delete m_variable;*/
+    // qDeleteAll(m_list);
 }
 
 QTEST_MAIN(TestCharacterSheet);

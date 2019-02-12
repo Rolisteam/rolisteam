@@ -24,19 +24,17 @@
 #define DEFAULT_TIMEOUT 11
 #define DEFAULT_INTERVAL 1000
 
-ConnectionRetryDialog::ConnectionRetryDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ConnectionRetryDialog)
+ConnectionRetryDialog::ConnectionRetryDialog(QWidget* parent) : QDialog(parent), ui(new Ui::ConnectionRetryDialog)
 {
     ui->setupUi(this);
-    m_timer=new QTimer(this);
-    m_counter = DEFAULT_TIMEOUT;
-    m_timeoutValue = DEFAULT_INTERVAL;
+    m_timer= new QTimer(this);
+    m_counter= DEFAULT_TIMEOUT;
+    m_timeoutValue= DEFAULT_INTERVAL;
     m_timer->setInterval(m_timeoutValue);
-    m_msg =tr("Connection has failed! Connection Retry in %1s.");
+    m_msg= tr("Connection has failed! Connection Retry in %1s.");
     ui->m_label->setText(m_msg.arg(m_counter));
-    connect(m_timer,SIGNAL(timeout()),this,SLOT(decreaseCounter()));
-    connect(this,SIGNAL(rejected()),m_timer,SLOT(stop()));
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(decreaseCounter()));
+    connect(this, SIGNAL(rejected()), m_timer, SLOT(stop()));
 }
 
 ConnectionRetryDialog::~ConnectionRetryDialog()
@@ -46,7 +44,7 @@ ConnectionRetryDialog::~ConnectionRetryDialog()
 }
 void ConnectionRetryDialog::resetCounter()
 {
-    m_counter = DEFAULT_TIMEOUT;
+    m_counter= DEFAULT_TIMEOUT;
 }
 
 void ConnectionRetryDialog::startTimer()
@@ -55,18 +53,17 @@ void ConnectionRetryDialog::startTimer()
 }
 void ConnectionRetryDialog::setTimeOut(int timeout)
 {
-    m_timeoutValue=timeout;
+    m_timeoutValue= timeout;
     m_timer->setInterval(m_timeoutValue);
 }
-void  ConnectionRetryDialog::decreaseCounter()
+void ConnectionRetryDialog::decreaseCounter()
 {
     --m_counter;
     ui->m_label->setText(m_msg.arg(m_counter));
-    if(0>=m_counter)
+    if(0 >= m_counter)
     {
-        //emit tryConnection();
+        // emit tryConnection();
         accept();
         resetCounter();
     }
-
 }

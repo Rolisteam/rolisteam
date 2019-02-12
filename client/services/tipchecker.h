@@ -22,8 +22,8 @@
 #ifndef TIPCHECKER_H
 #define TIPCHECKER_H
 
-#include <QString>
 #include <QNetworkAccessManager>
+#include <QString>
 /**
  * @brief The TipChecker class displays link to article on the rolisteam website.
  */
@@ -31,7 +31,7 @@ class TipChecker : public QObject
 {
     Q_OBJECT
 public:
-    TipChecker(QObject* obj = nullptr);
+    TipChecker(QObject* obj= nullptr);
 
     bool hasArticle();
     void startChecking();
@@ -53,8 +53,8 @@ private:
     QString m_msg;
     QString m_url;
     int m_id;
-    bool m_state = false;
-    QNetworkAccessManager* m_manager = nullptr;
+    bool m_state= false;
+    QNetworkAccessManager* m_manager= nullptr;
     bool m_noErrror;
 };
 

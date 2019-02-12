@@ -7,7 +7,7 @@ class IpRangeAccepter : public ConnectionAccepter
 public:
     IpRangeAccepter();
 
-     virtual bool isValid(const QMap<QString,QVariant>& data);
+    virtual bool isValid(const QMap<QString, QVariant>& data);
 };
 
 #endif // IPRANGEACCTEPTER_H

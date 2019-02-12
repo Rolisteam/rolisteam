@@ -1,22 +1,22 @@
 /***************************************************************************
-*	Copyright (C) 2009 by Renaud Guezennec                             *
-*   http://www.rolisteam.org/contact                   *
-*                                                                         *
-*   Rolisteam is free software; you can redistribute it and/or modify     *
-*   it under the terms of the GNU General Public License as published by  *
-*   the Free Software Foundation; either version 2 of the License, or     *
-*   (at your option) any later version.                                   *
-*                                                                         *
-*   This program is distributed in the hope that it will be useful,       *
-*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-*   GNU General Public License for more details.                          *
-*                                                                         *
-*   You should have received a copy of the GNU General Public License     *
-*   along with this program; if not, write to the                         *
-*   Free Software Foundation, Inc.,                                       *
-*   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-***************************************************************************/
+ *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *   http://www.rolisteam.org/contact                   *
+ *                                                                         *
+ *   Rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 #ifndef CHARACTERSTATEMODEL_H
 #define CHARACTERSTATEMODEL_H
 
@@ -35,14 +35,19 @@ public:
     /**
      * @brief The COLUMN_TYPE enum
      */
-    enum COLUMN_TYPE {LABEL,COLOR,PICTURE};
+    enum COLUMN_TYPE
+    {
+        LABEL,
+        COLOR,
+        PICTURE
+    };
     /**
      * @brief CharacterStateModel
      */
-    explicit CharacterStateModel(QObject* parent=nullptr);
+    explicit CharacterStateModel(QObject* parent= nullptr);
     /**
-      *
-      * */
+     *
+     * */
     ~CharacterStateModel();
 
     /**
@@ -51,19 +56,19 @@ public:
      * @param role
      * @return
      */
-    QVariant data(const QModelIndex &index, int role) const;
+    QVariant data(const QModelIndex& index, int role) const;
     /**
      * @brief rowCount
      * @param parent
      * @return
      */
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int rowCount(const QModelIndex& parent= QModelIndex()) const;
     /**
      * @brief columnCount
      * @param parent
      * @return
      */
-    int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    int columnCount(const QModelIndex& parent= QModelIndex()) const;
     /**
      * @brief headerData
      * @param section
@@ -77,7 +82,7 @@ public:
      * @param index
      * @return
      */
-    Qt::ItemFlags flags(const QModelIndex &index) const;
+    Qt::ItemFlags flags(const QModelIndex& index) const;
     /**
      * @brief setData
      * @param index
@@ -85,42 +90,41 @@ public:
      * @param role
      * @return
      */
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
-
+    bool setData(const QModelIndex& index, const QVariant& value, int role);
 
     virtual void preferencesHasChanged(QString);
 
     virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 
+    /// new methods
+    void setStates(QList<CharacterState*>* map);
+    void appendState();
 
-	///new methods
-	void setStates(QList<CharacterState*>* map);
-	void appendState();
-
-	QList<CharacterState*>* getCharacterStates();
-	void addState(CharacterState* state);
-	void deleteState(QModelIndex& index);
-	void upState(QModelIndex& index);
-	void downState(QModelIndex& index);
-	void topState(QModelIndex& index);
-	void moveState(int,int);
-	void bottomState(QModelIndex& index);
+    QList<CharacterState*>* getCharacterStates();
+    void addState(CharacterState* state);
+    void deleteState(QModelIndex& index);
+    void upState(QModelIndex& index);
+    void downState(QModelIndex& index);
+    void topState(QModelIndex& index);
+    void moveState(int, int);
+    void bottomState(QModelIndex& index);
     void setGM(bool);
     void clear();
     /**
-	 * @brief sendOffAllCharacterState
+     * @brief sendOffAllCharacterState
      */
     void sendOffAllCharacterState();
 
-    void processAddState(NetworkMessageReader *msg);
-    void processMoveState(NetworkMessageReader *msg);
-    void processRemoveState(NetworkMessageReader *msg);
-    void load(const QJsonObject &obj);
-    void save(QJsonObject &obj);
+    void processAddState(NetworkMessageReader* msg);
+    void processMoveState(NetworkMessageReader* msg);
+    void processRemoveState(NetworkMessageReader* msg);
+    void load(const QJsonObject& obj);
+    void save(QJsonObject& obj);
+
 private:
     QList<CharacterState*>* m_stateList;
     QList<CharacterState*>* m_stateListFromGM;
-    bool m_isGM = false;
+    bool m_isGM= false;
     QStringList m_header;
 };
 

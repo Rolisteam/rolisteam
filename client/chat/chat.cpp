@@ -166,7 +166,7 @@ QStringList PlayerChat::getRecipientList() const
 
 PrivateChat::PrivateChat(const QString& name) : m_name(name)
 {
-    m_uuid = QUuid::createUuid().toString();
+    m_uuid= QUuid::createUuid().toString();
     m_owner= PlayersList::instance()->getLocalPlayer();
     m_set.insert(m_owner);
 }

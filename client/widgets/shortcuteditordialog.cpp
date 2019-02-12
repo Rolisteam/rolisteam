@@ -3,12 +3,9 @@
 
 #include "data/shortcutmodel.h"
 
-ShortCutEditorDialog::ShortCutEditorDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ShortCutEditorDialog)
+ShortCutEditorDialog::ShortCutEditorDialog(QWidget* parent) : QDialog(parent), ui(new Ui::ShortCutEditorDialog)
 {
     ui->setupUi(this);
-
 }
 
 ShortCutEditorDialog::~ShortCutEditorDialog()
@@ -23,7 +20,7 @@ QAbstractItemModel* ShortCutEditorDialog::model() const
 
 void ShortCutEditorDialog::setModel(QAbstractItemModel* model)
 {
-    m_model = model;
+    m_model= model;
     ui->m_shortCutView->setModel(m_model);
     ui->m_shortCutView->expandAll();
 }

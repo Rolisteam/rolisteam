@@ -1,68 +1,66 @@
 /***************************************************************************
-    *      Copyright (C) 2010 by Renaud Guezennec                             *
-    *                                                                         *
-    *                                                                         *
-    *   rolisteam is free software; you can redistribute it and/or modify     *
-    *   it under the terms of the GNU General Public License as published by  *
-    *   the Free Software Foundation; either version 2 of the License, or     *
-    *   (at your option) any later version.                                   *
-    *                                                                         *
-    *   This program is distributed in the hope that it will be useful,       *
-    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-    *   GNU General Public License for more details.                          *
-    *                                                                         *
-    *   You should have received a copy of the GNU General Public License     *
-    *   along with this program; if not, write to the                         *
-    *   Free Software Foundation, Inc.,                                       *
-    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-    ***************************************************************************/
+ *      Copyright (C) 2010 by Renaud Guezennec                             *
+ *                                                                         *
+ *                                                                         *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 #include "textitem.h"
-#include <QLineEdit>
-#include <QPainter>
-#include <QObject>
 #include <QDebug>
 #include <QFont>
+#include <QLineEdit>
 #include <QMenu>
+#include <QObject>
+#include <QPainter>
 #include <QStyle>
 
 #include <QGraphicsSceneWheelEvent>
 #include <QStyleOptionGraphicsItem>
 
-#include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 
 #include "vmap/vmap.h"
 
 ///////////////////////////////////////
 /// Code of TextLabel
 ///////////////////////////////////////
-TextLabel::TextLabel(QGraphicsItem* parent)
-    : QGraphicsTextItem(parent)
+TextLabel::TextLabel(QGraphicsItem* parent) : QGraphicsTextItem(parent)
 {
-    setFlag(QGraphicsItem::ItemIsFocusable,true);
-    //setAcceptHoverEvents(true);
+    setFlag(QGraphicsItem::ItemIsFocusable, true);
+    // setAcceptHoverEvents(true);
 }
 void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    VMap* map = dynamic_cast<VMap*>(scene());
-    if( nullptr != map)
+    VMap* map= dynamic_cast<VMap*>(scene());
+    if(nullptr != map)
     {
         if(map->getSelectedtool() == VToolsBar::HANDLER)
         {
-            //event->accept();
+            // event->accept();
             setFocus(Qt::OtherFocusReason);
             QGraphicsTextItem::mousePressEvent(event);
         }
-        else if((map->getSelectedtool() == VToolsBar::TEXT)||
-                (map->getSelectedtool() == VToolsBar::TEXTBORDER))
+        else if((map->getSelectedtool() == VToolsBar::TEXT) || (map->getSelectedtool() == VToolsBar::TEXTBORDER))
         {
             QGraphicsTextItem::mousePressEvent(event);
         }
     }
 }
 
-void TextLabel::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void TextLabel::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
     QGraphicsTextItem::mouseDoubleClickEvent(event);
 }
@@ -71,19 +69,17 @@ void TextLabel::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 /// Code of RichTextEditDialog
 ///////////////////////////////////////
 
-
 RichTextEditDialog::RichTextEditDialog()
 {
-    m_richText = new MRichTextEdit(this);
-    QVBoxLayout* lay = new QVBoxLayout(this);
+    m_richText= new MRichTextEdit(this);
+    QVBoxLayout* lay= new QVBoxLayout(this);
     lay->addWidget(m_richText);
 
-    QDialogButtonBox* dialogButton = new QDialogButtonBox(QDialogButtonBox::Ok
-                                                          | QDialogButtonBox::Cancel);
+    QDialogButtonBox* dialogButton= new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     lay->addWidget(dialogButton);
 
-    connect(dialogButton,SIGNAL(accepted()),this,SLOT(accept()));
-    connect(dialogButton,SIGNAL(rejected()),this,SLOT(reject()));
+    connect(dialogButton, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(dialogButton, SIGNAL(rejected()), this, SLOT(reject()));
 
     setLayout(lay);
 }
@@ -105,20 +101,18 @@ QString RichTextEditDialog::getText()
 //
 ///////////////////////
 
-RichTextEditDialog* TextItem::m_dialog = nullptr;
-TextItem::TextItem()
-    : m_offset(QPointF(100,30))
+RichTextEditDialog* TextItem::m_dialog= nullptr;
+TextItem::TextItem() : m_offset(QPointF(100, 30))
 {
-
     init();
     createActions();
 }
 
-TextItem::TextItem(const QPointF& start, quint16 penSize, const QColor &penColor, QGraphicsItem * parent)
-    : VisualItem(penColor,penSize,parent),m_offset(QPointF(100,30))
+TextItem::TextItem(const QPointF& start, quint16 penSize, const QColor& penColor, QGraphicsItem* parent)
+    : VisualItem(penColor, penSize, parent), m_offset(QPointF(100, 30))
 {
-    m_start = start;
-    m_rect.setTopLeft(QPointF(0,0));
+    m_start= start;
+    m_rect.setTopLeft(QPointF(0, 0));
     m_rect.setBottomRight(m_offset);
     setPos(m_start);
     init();
@@ -127,50 +121,49 @@ TextItem::TextItem(const QPointF& start, quint16 penSize, const QColor &penColor
 
 void TextItem::init()
 {
-    if(nullptr==m_dialog)
+    if(nullptr == m_dialog)
     {
-        m_dialog = new RichTextEditDialog();
+        m_dialog= new RichTextEditDialog();
     }
     setAcceptHoverEvents(true);
-    m_showRect = false;
-    m_textItem = new TextLabel(this);
+    m_showRect= false;
+    m_textItem= new TextLabel(this);
     m_textItem->setFocus();
     m_textItem->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
-    m_textItem->setPos(QPointF(0,0));
+    m_textItem->setPos(QPointF(0, 0));
     m_textItem->setTextWidth(100);
     m_textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
     m_textItem->setDefaultTextColor(m_color);
-    m_doc = new QTextDocument(m_textItem);
+    m_doc= new QTextDocument(m_textItem);
     m_doc->setPlainText(tr("Text"));
-    //m_doc->setDefaultStyleSheet(QString("color: %1;").arg(m_color.name()));
+    // m_doc->setDefaultStyleSheet(QString("color: %1;").arg(m_color.name()));
     m_textItem->setDocument(m_doc);
 
-    connect(m_doc,SIGNAL(contentsChanged()),this,SLOT(updateTextPosition()));
-    //connect(m_doc,SIGNAL(contentsChanged()),this,SLOT(textHasChanged()));
-
+    connect(m_doc, SIGNAL(contentsChanged()), this, SLOT(updateTextPosition()));
+    // connect(m_doc,SIGNAL(contentsChanged()),this,SLOT(textHasChanged()));
 }
 
 QRectF TextItem::boundingRect() const
 {
     return m_rect;
 }
-void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
+void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
     setChildrenVisible(hasFocusOrChild());
     if(m_showRect)
     {
-        QPen pen = painter->pen();
+        QPen pen= painter->pen();
         pen.setColor(m_color);
-        pen.setWidth(m_showRect?m_penWidth:2);
+        pen.setWidth(m_showRect ? m_penWidth : 2);
         painter->setPen(pen);
         painter->drawRect(boundingRect());
     }
     if(option->state & QStyle::State_MouseOver)
     {
         painter->save();
-        QPen pen = painter->pen();
+        QPen pen= painter->pen();
         pen.setColor(m_highlightColor);
         pen.setWidth(m_highlightWidth);
         painter->setPen(pen);
@@ -178,19 +171,16 @@ void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         painter->restore();
     }
 }
-void TextItem::setNewEnd(QPointF& p)
-{
-    Q_UNUSED(p)
+void TextItem::setNewEnd(QPointF& p){Q_UNUSED(p)
 
-}
-VisualItem::ItemType TextItem::getType() const
+} VisualItem::ItemType TextItem::getType() const
 {
     return VisualItem::TEXT;
 }
 void TextItem::updateFont()
 {
     QFontMetrics metric(m_font);
-    QRectF rect = metric.boundingRect(m_doc->toPlainText());
+    QRectF rect= metric.boundingRect(m_doc->toPlainText());
     if(rect.height() > m_rect.height())
     {
         m_rect.setHeight(rect.height());
@@ -203,12 +193,12 @@ void TextItem::updateFont()
     updateChildPosition();
     update();
 }
-void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
     if(event->button() == Qt::LeftButton)
     {
         setChildrenVisible(false);
-        m_menuPos = event->screenPos();
+        m_menuPos= event->screenPos();
         editText();
         event->accept();
     }
@@ -216,20 +206,19 @@ void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     {
         VisualItem::mouseDoubleClickEvent(event);
     }
-
 }
-void TextItem::wheelEvent(QGraphicsSceneWheelEvent *event)
+void TextItem::wheelEvent(QGraphicsSceneWheelEvent* event)
 {
     if(event->modifiers() & Qt::ControlModifier)
     {
-        if(event->delta()>0)
+        if(event->delta() > 0)
         {
-            int i = m_font.pointSize();
+            int i= m_font.pointSize();
             m_font.setPointSize(++i);
         }
         else
         {
-            int i = m_font.pointSize();
+            int i= m_font.pointSize();
             m_font.setPointSize(--i);
         }
         updateFont();
@@ -241,9 +230,9 @@ void TextItem::wheelEvent(QGraphicsSceneWheelEvent *event)
     }
 }
 
-void TextItem::setGeometryPoint(qreal pointId, QPointF &pos)
+void TextItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
-    switch ((int)pointId)
+    switch((int)pointId)
     {
     case 0:
         m_rect.setTopLeft(pos);
@@ -275,8 +264,8 @@ void TextItem::setGeometryPoint(qreal pointId, QPointF &pos)
 
     setTransformOriginPoint(m_rect.center());
 
-    //updateTextPosition();
-    m_resizing = true;
+    // updateTextPosition();
+    m_resizing= true;
 }
 void TextItem::endOfGeometryChange()
 {
@@ -286,18 +275,18 @@ void TextItem::endOfGeometryChange()
 
 void TextItem::updateTextPosition()
 {
-    m_textItem->setTextWidth(m_rect.width()-10);
-    QRectF rectItem = m_textItem->boundingRect();
+    m_textItem->setTextWidth(m_rect.width() - 10);
+    QRectF rectItem= m_textItem->boundingRect();
     setTransformOriginPoint(m_rect.center());
     if(rectItem.height() > m_rect.height())
     {
-        m_rect.setTop(m_rect.top()-5);
-        m_rect.setBottom(m_rect.bottom()+5);
+        m_rect.setTop(m_rect.top() - 5);
+        m_rect.setBottom(m_rect.bottom() + 5);
     }
     setTransformOriginPoint(m_rect.center());
-    m_textItem->setPos(m_rect.center().x()-rectItem.width()/2,m_rect.center().y()-rectItem.height()/2);
+    m_textItem->setPos(m_rect.center().x() - rectItem.width() / 2, m_rect.center().y() - rectItem.height() / 2);
 
-    if((nullptr!=m_child)&&(!m_child->isEmpty()))
+    if((nullptr != m_child) && (!m_child->isEmpty()))
     {
         if(!m_child->at(0)->isSelected())
         {
@@ -320,21 +309,20 @@ void TextItem::updateTextPosition()
     {
         emit itemGeometryChanged(this);
     }
-
 }
 
 void TextItem::initChildPointItem()
 {
-    m_rect = m_rect.normalized();
+    m_rect= m_rect.normalized();
     setTransformOriginPoint(m_rect.center());
 
     updateTextPosition();
 
-    m_child = new QVector<ChildPointItem*>();
+    m_child= new QVector<ChildPointItem*>();
 
-    for(int i = 0; i< 4 ; ++i)
+    for(int i= 0; i < 4; ++i)
     {
-        ChildPointItem* tmp = new ChildPointItem(i,this);
+        ChildPointItem* tmp= new ChildPointItem(i, this);
         tmp->setMotion(ChildPointItem::ALL);
         tmp->setRotationEnable(true);
         m_child->append(tmp);
@@ -369,8 +357,6 @@ void TextItem::editText()
         updateTextPosition();
         emit itemGeometryChanged(this);
     }
-
-
 }
 
 void TextItem::writeData(QDataStream& out) const
@@ -386,8 +372,8 @@ void TextItem::writeData(QDataStream& out) const
     out << scale();
     out << rotation();
     out << pos();
-    //out << zValue();
-    out << (int) m_layer;
+    // out << zValue();
+    out << (int)m_layer;
 }
 
 void TextItem::readData(QDataStream& in)
@@ -397,7 +383,7 @@ void TextItem::readData(QDataStream& in)
     in >> m_showRect;
     in >> text;
     m_doc->setHtml(text);
-    qreal opa=0;
+    qreal opa= 0;
     in >> opa;
     setOpacity(opa);
     in >> m_color;
@@ -421,8 +407,7 @@ void TextItem::readData(QDataStream& in)
 
     int i;
     in >> i;
-    m_layer = (VisualItem::Layer)i;
-
+    m_layer= (VisualItem::Layer)i;
 }
 void TextItem::fillMessage(NetworkMessageWriter* msg)
 {
@@ -434,7 +419,7 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(zValue());
     msg->real(opacity());
 
-    //m_rect
+    // m_rect
     msg->real(m_rect.x());
     msg->real(m_rect.y());
     msg->real(m_rect.width());
@@ -442,45 +427,45 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
 
     msg->uint32(m_penWidth);
 
-    //pos
+    // pos
     msg->real(pos().x());
     msg->real(pos().y());
-    //center
+    // center
     msg->real(m_start.x());
     msg->real(m_start.y());
     msg->string32(m_doc->toHtml());
     msg->rgb(m_color.rgb());
-    msg->uint8((quint8 )m_showRect);
+    msg->uint8((quint8)m_showRect);
 }
 void TextItem::readItem(NetworkMessageReader* msg)
 {
     blockSignals(true);
-    m_id = msg->string16();
-    m_showRect = static_cast<bool>(msg->uint8());
+    m_id= msg->string16();
+    m_showRect= static_cast<bool>(msg->uint8());
     setScale(msg->real());
     setRotation(msg->real());
-    m_layer = (VisualItem::Layer)msg->uint8();
+    m_layer= (VisualItem::Layer)msg->uint8();
     setZValue(msg->real());
     setOpacity(msg->real());
 
-    //m_rect
+    // m_rect
     m_rect.setX(msg->real());
     m_rect.setY(msg->real());
     m_rect.setWidth(msg->real());
     m_rect.setHeight(msg->real());
 
-    m_penWidth = msg->uint32();
+    m_penWidth= msg->uint32();
 
-    //pos
-    qreal x = msg->real();
-    qreal y = msg->real();
-    setPos(x,y);
-    //center
+    // pos
+    qreal x= msg->real();
+    qreal y= msg->real();
+    setPos(x, y);
+    // center
     m_start.setX(msg->real());
     m_start.setY(msg->real());
     m_doc->setHtml(msg->string32());
-    m_color = msg->rgb();
-    m_showRect = static_cast<bool>(msg->uint8());
+    m_color= msg->rgb();
+    m_showRect= static_cast<bool>(msg->uint8());
     blockSignals(false);
     m_textItem->setDefaultTextColor(m_color);
 
@@ -488,44 +473,42 @@ void TextItem::readItem(NetworkMessageReader* msg)
 }
 VisualItem* TextItem::getItemCopy()
 {
-    TextItem* rectItem = new TextItem(m_start,m_penWidth,m_color);
+    TextItem* rectItem= new TextItem(m_start, m_penWidth, m_color);
     return rectItem;
 }
 void TextItem::addActionContextMenu(QMenu* menu)
 {
+    QAction* edit= menu->addAction(tr("Edit Text…"));
+    connect(edit, SIGNAL(triggered(bool)), this, SLOT(editText()));
 
-    QAction* edit = menu->addAction(tr("Edit Text…"));
-    connect(edit,SIGNAL(triggered(bool)),this,SLOT(editText()));
+    QAction* adapt= menu->addAction(tr("Adapt to content"));
+    connect(adapt, SIGNAL(triggered(bool)), this, SLOT(sizeToTheContent()));
 
-
-    QAction* adapt = menu->addAction(tr("Adapt to content"));
-    connect(adapt,SIGNAL(triggered(bool)),this,SLOT(sizeToTheContent()));
-
-    QMenu* state =  menu->addMenu(tr("Font Size"));
+    QMenu* state= menu->addMenu(tr("Font Size"));
     state->addAction(m_increaseFontSize);
     state->addAction(m_decreaseFontSize);
 }
 void TextItem::createActions()
 {
-    m_increaseFontSize = new QAction(tr("Increase Text Size"),this);
-    m_decreaseFontSize= new QAction(tr("Decrease Text Size"),this);
+    m_increaseFontSize= new QAction(tr("Increase Text Size"), this);
+    m_decreaseFontSize= new QAction(tr("Decrease Text Size"), this);
 
-    connect(m_increaseFontSize,SIGNAL(triggered()),this,SLOT(increaseTextSize()));
-    connect(m_decreaseFontSize,SIGNAL(triggered()),this,SLOT(decreaseTextSize()));
+    connect(m_increaseFontSize, SIGNAL(triggered()), this, SLOT(increaseTextSize()));
+    connect(m_decreaseFontSize, SIGNAL(triggered()), this, SLOT(decreaseTextSize()));
 }
 void TextItem::sizeToTheContent()
 {
-    QRectF rectItem =  m_textItem->boundingRect();
+    QRectF rectItem= m_textItem->boundingRect();
     setTransformOriginPoint(m_rect.center());
-    if(rectItem.height() < m_rect.height()+10)
+    if(rectItem.height() < m_rect.height() + 10)
     {
-        m_rect.setHeight(rectItem.height()+10);
-        m_resizing = true;
+        m_rect.setHeight(rectItem.height() + 10);
+        m_resizing= true;
     }
-    if(rectItem.width() < m_rect.width()+10)
+    if(rectItem.width() < m_rect.width() + 10)
     {
-        m_rect.setWidth(rectItem.width()+10);
-        m_resizing = true;
+        m_rect.setWidth(rectItem.width() + 10);
+        m_resizing= true;
     }
     if(m_resizing)
     {
@@ -535,23 +518,23 @@ void TextItem::sizeToTheContent()
 
 void TextItem::increaseTextSize()
 {
-    int i = m_font.pointSize();
+    int i= m_font.pointSize();
     m_font.setPointSize(++i);
     m_textItem->setFont(m_font);
 }
 void TextItem::decreaseTextSize()
 {
-    int i = m_font.pointSize();
+    int i= m_font.pointSize();
     m_font.setPointSize(--i);
     m_textItem->setFont(m_font);
 }
 void TextItem::setBorderVisible(bool b)
 {
-    m_showRect = b ;
+    m_showRect= b;
 }
-void TextItem::setRectSize(qreal x,qreal y,qreal w,qreal h)
+void TextItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
 {
-    VisualItem::setRectSize(x,y,w,h);
+    VisualItem::setRectSize(x, y, w, h);
 
     updateTextPosition();
 }
@@ -567,25 +550,24 @@ void TextItem::updateItemFlags()
         m_textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
     }
 }
-void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent * event)
+void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
     Q_UNUSED(event)
     if(canBeMoved())
     {
-        VMap* vmap = dynamic_cast<VMap*>(scene());
-        if(nullptr!=vmap)
+        VMap* vmap= dynamic_cast<VMap*>(scene());
+        if(nullptr != vmap)
         {
-            VToolsBar::SelectableTool tool = vmap->getSelectedtool();
-            if((VToolsBar::TEXT ==tool)||(VToolsBar::TEXTBORDER== tool))
+            VToolsBar::SelectableTool tool= vmap->getSelectedtool();
+            if((VToolsBar::TEXT == tool) || (VToolsBar::TEXTBORDER == tool))
             {
                 QApplication::setOverrideCursor(QCursor(Qt::IBeamCursor));
             }
         }
-
     }
     VisualItem::hoverEnterEvent(event);
 }
-void TextItem::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
+void TextItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
     Q_UNUSED(event)
     if(canBeMoved())
@@ -604,5 +586,3 @@ void TextItem::keyPressEvent(QKeyEvent* event)
         VisualItem::keyPressEvent(event);
     }
 }
-
-

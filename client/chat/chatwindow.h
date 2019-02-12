@@ -21,49 +21,53 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
 #ifndef CHATWINDOW_H
 #define CHATWINDOW_H
 
 #include <QComboBox>
 #include <QFile>
+#include <QMdiSubWindow>
+#include <QPointer>
 #include <QSplitter>
 #include <QTextBrowser>
-#include <QMdiSubWindow>
 #include <QToolBar>
-#include <QPointer>
 
+#include "chatbrowser.h"
+#include "common/widgets/colorbutton.h"
 #include "network/networkmessage.h"
 #include "preferences/preferencesmanager.h"
-#include "common/widgets/colorbutton.h"
-#include "chatbrowser.h"
 
+#include "data/diceshortcut.h"
 #include "data/person.h"
 #include "diceparser.h"
-#include "data/diceshortcut.h"
 
 class AbstractChat;
 class MainWindow;
 class Player;
 class ImprovedTextEdit;
 
-
-
 /**
  * @brief chat window display on screen the chat.
- */    
+ */
 class ChatWindow : public QWidget
 {
     Q_OBJECT
 
-public :
-    enum CHAT_OPERATOR {NONE,DICEROLL,SECRET_DICEROLL,COMMAND,TO_GM_DICEROLL};
+public:
+    enum CHAT_OPERATOR
+    {
+        NONE,
+        DICEROLL,
+        SECRET_DICEROLL,
+        COMMAND,
+        TO_GM_DICEROLL
+    };
     /**
      * @brief ChatWindow
      * @param chat
      * @param parent
      */
-	ChatWindow(AbstractChat * chat,QWidget* parent = nullptr);
+    ChatWindow(AbstractChat* chat, QWidget* parent= nullptr);
     /**
      * @brief ~ChatWindow
      */
@@ -72,7 +76,7 @@ public :
      * @brief chat
      * @return
      */
-    AbstractChat * chat() const;
+    AbstractChat* chat() const;
     /**
      * @brief diceToText
      * @param dice
@@ -91,7 +95,8 @@ public :
      * @param message
      * @param msgtype
      */
-    void showMessage(const QString &utilisateur, const QColor &couleur,const QString &message, const QString &comment = QString(), NetMsg::Action msgtype = NetMsg::ChatMessageAction);
+    void showMessage(const QString& utilisateur, const QColor& couleur, const QString& message,
+        const QString& comment= QString(), NetMsg::Action msgtype= NetMsg::ChatMessageAction);
     /**
      * @brief hasUnseenMessage
      * @return
@@ -118,24 +123,23 @@ public :
      */
     static void updateDiceAliases(QList<DiceAlias*>* map);
 
-    ImprovedTextEdit *getEditionZone() const;
+    ImprovedTextEdit* getEditionZone() const;
 
-    void setEditionZone(ImprovedTextEdit *editionZone);
+    void setEditionZone(ImprovedTextEdit* editionZone);
 
     bool isTimeShown() const;
 
     Qt::DropActions supportedDropActions() const;
-    void appendDiceShortCut(const DiceShortCut &pair);
+    void appendDiceShortCut(const DiceShortCut& pair);
 
     std::vector<DiceShortCut>& getDiceShortCuts();
-    void contextMenuEvent(QContextMenuEvent *event);
+    void contextMenuEvent(QContextMenuEvent* event);
 signals:
     /**
      * @brief ChatWindowHasChanged
      * @param what
      */
-    void ChatWindowHasChanged(ChatWindow * what);
-
+    void ChatWindowHasChanged(ChatWindow* what);
 
 public slots:
     /**
@@ -167,22 +171,22 @@ public slots:
 
     void showTime(bool showTime);
 
-protected :
+protected:
     /**
      * @brief init
      * @param parent
      */
-    void init(MainWindow * parent);
+    void init(MainWindow* parent);
     /**
      * @brief showEvent
      * @param event
      */
-    void showEvent(QShowEvent *event);
+    void showEvent(QShowEvent* event);
     /**
      * @brief hideEvent
      * @param event
      */
-    void hideEvent(QHideEvent *event);
+    void hideEvent(QHideEvent* event);
     /**
      * @brief updateListAlias
      */
@@ -192,18 +196,18 @@ protected :
      * @param idOwner
      */
     void setProperDictionnary(QString idOwner);
-    void dropEvent(QDropEvent *event);
-    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent* event);
+    void dragEnterEvent(QDragEnterEvent* event);
     void updateAction();
     void removeAllShortcut();
-    void createAction(const DiceShortCut &pair);
-private slots :
+    void createAction(const DiceShortCut& pair);
+private slots:
     /**
      * @brief sendOffTextMessage
      * @param hasHtml true if the given message has html
      * @param message to send.
      */
-    void sendOffTextMessage(bool hasHtml,QString message);
+    void sendOffTextMessage(bool hasHtml, QString message);
     /**
      * @brief upSelectPerson
      */
@@ -233,8 +237,9 @@ private slots :
      * @param str
      * @param secret
      */
-    void manageDiceRoll(QString str,QString& messageTitle,QString& message,bool alias, bool showResult = true);
-private :
+    void manageDiceRoll(QString str, QString& messageTitle, QString& message, bool alias, bool showResult= true);
+
+private:
     static QStringList m_keyWordList;
     QMdiSubWindow* m_window;
     QPointer<AbstractChat> m_chat;
@@ -244,16 +249,16 @@ private :
     QPushButton* m_save;
     PreferencesManager* m_preferences;
     ChatBrowser* m_displayZone;
-	QComboBox* m_selectPersonComboBox;
-    ImprovedTextEdit * m_editionZone;
-    QAction * m_toggleViewAction;
+    QComboBox* m_selectPersonComboBox;
+    ImprovedTextEdit* m_editionZone;
+    QAction* m_toggleViewAction;
     QSplitter* m_splitter;
-    QWidget * m_bottomWidget;
+    QWidget* m_bottomWidget;
     DiceParser* m_diceParser;
-    QMap<QString,CHAT_OPERATOR>* m_operatorMap;
+    QMap<QString, CHAT_OPERATOR>* m_operatorMap;
     Person* m_localPerson;
     static QList<DiceAlias*>* m_receivedAlias;
-    QHash<QString,QHash<QString,QString>> m_dicoByCharacter;
+    QHash<QString, QHash<QString, QString>> m_dicoByCharacter;
     std::vector<DiceShortCut> m_diceBookMarks;
     std::vector<QAction*> m_actionList;
     bool m_showTime;

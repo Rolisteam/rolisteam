@@ -1,55 +1,65 @@
 /***************************************************************************
-    *	Copyright (C) 2009 by Renaud Guezennec                             *
-    *   http://www.rolisteam.org/contact                   *
-    *                                                                         *
-    *   Rolisteam is free software; you can redistribute it and/or modify     *
-    *   it under the terms of the GNU General Public License as published by  *
-    *   the Free Software Foundation; either version 2 of the License, or     *
-    *   (at your option) any later version.                                   *
-    *                                                                         *
-    *   This program is distributed in the hope that it will be useful,       *
-    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-    *   GNU General Public License for more details.                          *
-    *                                                                         *
-    *   You should have received a copy of the GNU General Public License     *
-    *   along with this program; if not, write to the                         *
-    *   Free Software Foundation, Inc.,                                       *
-    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-    ***************************************************************************/
+ *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *   http://www.rolisteam.org/contact                   *
+ *                                                                         *
+ *   Rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 #ifndef RESSOURCESNODE_H
 #define RESSOURCESNODE_H
 
+#include <QIcon>
 #include <QString>
 #include <QVariant>
-#include <QIcon>
 /**
-    * @brief RessourceNode is part of the composite design pattern, it's the abstract class
-    * @brief providing the basic API for ressources, Shortname and has children.
-    */
+ * @brief RessourceNode is part of the composite design pattern, it's the abstract class
+ * @brief providing the basic API for ressources, Shortname and has children.
+ */
 class ResourcesNode
 {
 public:
-    enum DataValue {NAME,MODE,DISPLAYED,URI};
-    enum TypeResource {Cleveruri,Person,Chapter};
+    enum DataValue
+    {
+        NAME,
+        MODE,
+        DISPLAYED,
+        URI
+    };
+    enum TypeResource
+    {
+        Cleveruri,
+        Person,
+        Chapter
+    };
     ResourcesNode();
     virtual ~ResourcesNode();
 
     QString name() const;
-    virtual void setName(const QString &name);
-
+    virtual void setName(const QString& name);
 
     virtual QString getValue() const;
     virtual void setValue(QString);
     /**
-    * @brief allows to know if this node has children
-    * @return either has children or not
-    */
-    virtual bool hasChildren() const ;
+     * @brief allows to know if this node has children
+     * @return either has children or not
+     */
+    virtual bool hasChildren() const;
 
-    virtual bool mayHaveChildren()const ;
+    virtual bool mayHaveChildren() const;
 
-    virtual int getChildrenCount()const;
+    virtual int getChildrenCount() const;
 
     virtual ResourcesNode* getChildAt(int) const;
 
@@ -58,23 +68,23 @@ public:
     virtual QIcon getIcon();
 
     ResourcesNode* getParentNode() const;
-    void setParentNode(ResourcesNode *parent);
+    void setParentNode(ResourcesNode* parent);
 
     virtual int indexOf(ResourcesNode*);
 
     int rowInParent();
 
-    virtual ResourcesNode::TypeResource getResourcesType()const =0;
+    virtual ResourcesNode::TypeResource getResourcesType() const= 0;
 
-    virtual void write(QDataStream& out, bool tag = true, bool saveData = true) const=0;
-    virtual void read(QDataStream& in)=0;
+    virtual void write(QDataStream& out, bool tag= true, bool saveData= true) const= 0;
+    virtual void read(QDataStream& in)= 0;
 
     virtual bool removeChild(ResourcesNode*);
     virtual void insertChildAt(int row, ResourcesNode*);
 
-    virtual QVariant getData(ResourcesNode::DataValue)=0;
+    virtual QVariant getData(ResourcesNode::DataValue)= 0;
 
-    virtual bool seekNode(QList<ResourcesNode*>& path,ResourcesNode* node)=0;
+    virtual bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node)= 0;
 
 protected:
     QString m_name;

@@ -1,18 +1,16 @@
 #include "rolisteammimedata.h"
 
-
-RolisteamMimeData::RolisteamMimeData()
-    : m_data(nullptr)
+RolisteamMimeData::RolisteamMimeData() : m_data(nullptr)
 {
-    //m_format = "rolisteam/userlist-item";
+    // m_format = "rolisteam/userlist-item";
 }
-bool RolisteamMimeData::hasFormat ( const QString & mimeType ) const
+bool RolisteamMimeData::hasFormat(const QString& mimeType) const
 {
-    if(mimeType==QStringLiteral("rolisteam/userlist-item"))
+    if(mimeType == QStringLiteral("rolisteam/userlist-item"))
     {
         return hasPerson();
     }
-    else if(mimeType==QStringLiteral("rolisteam/dice-command"))
+    else if(mimeType == QStringLiteral("rolisteam/dice-command"))
     {
         return !m_alias.text().isEmpty();
     }
@@ -21,12 +19,12 @@ bool RolisteamMimeData::hasFormat ( const QString & mimeType ) const
 
 void RolisteamMimeData::setPerson(Person* data)
 {
-    m_format = "rolisteam/userlist-item";
-    m_data=data;
+    m_format= "rolisteam/userlist-item";
+    m_data= data;
 }
 bool RolisteamMimeData::hasPerson() const
 {
-    if(m_data!=nullptr)
+    if(m_data != nullptr)
         return true;
     else
         return false;
@@ -41,7 +39,7 @@ DiceShortCut RolisteamMimeData::getAlias() const
 }
 void RolisteamMimeData::setAlias(QString key, QString command, bool usedAlias)
 {
-    m_format = "rolisteam/dice-command";
+    m_format= "rolisteam/dice-command";
     m_alias.setText(key);
     m_alias.setCommand(command);
     m_alias.setAlias(usedAlias);
