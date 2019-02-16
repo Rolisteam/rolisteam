@@ -5,7 +5,7 @@
 #include <QMutex>
 #include <QObject>
 #include <QTextStream>
-
+#include <memory>
 /**
  * @brief The LogController class receives log messeges and displays them in the right sink.
  */
@@ -49,6 +49,9 @@ public:
 
     void setMessageHandler(bool attachMessage);
     static QString typeToText(LogController::LogLevel type);
+
+    void setLogPath(const QString& path);
+
 signals:
     void showMessage(QString, LogController::LogLevel);
     void sendOffMessage(QString, LogController::LogLevel, QString category, QString timestamps);
@@ -70,6 +73,8 @@ private:
     QTextStream m_file;
     QFile m_currentFile;
     QMutex m_mutex;
+    bool m_streamUp= false;
+    std::unique_ptr<QFile> m_logfile;
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(LogController::StorageModes)
 #endif // LOGCONTROLLER_H

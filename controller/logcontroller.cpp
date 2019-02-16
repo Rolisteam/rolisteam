@@ -11,8 +11,6 @@
 #include <QWidget>
 #endif
 
-QTextStream out(stdout, QIODevice::WriteOnly);
-QTextStream err(stderr, QIODevice::WriteOnly);
 LogController* controller= nullptr;
 
 void messageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
@@ -161,6 +159,15 @@ QString LogController::typeToText(LogController::LogLevel type)
     return list.at(type);
 }
 
+void LogController::setLogPath(const QString& path)
+{
+    m_logfile.reset(new QFile(path));
+    if(m_logfile->open(QFile::WriteOnly))
+    {
+        m_file.setDevice(m_logfile.get());
+    }
+}
+
 bool LogController::signalInspection() const
 {
     return m_signalInspection;
@@ -202,7 +209,7 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
         }
         if(m_logLevel >= type || type == Features || type == Hidden)
         {
-            if(m_currentModes & File)
+            if((m_currentModes & File) && (m_logfile))
             {
                 m_file << str;
             }
