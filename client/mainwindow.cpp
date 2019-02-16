@@ -361,7 +361,7 @@ void MainWindow::closeConnection()
         cleanUpData();
         m_clientManager->disconnectAndClose();
         m_chatListWidget->cleanChatList();
-        m_ui->m_connectionAction->setEnabled(true);
+        m_ui->m_changeProfileAct->setEnabled(true);
         m_ui->m_disconnectAction->setEnabled(false);
     }
 }
@@ -709,9 +709,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_quitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
 
     // network
-
     connect(m_ui->m_disconnectAction, SIGNAL(triggered()), this, SLOT(closeConnection()));
-    connect(m_ui->m_connectionAction, SIGNAL(triggered()), this, SLOT(startReconnection()));
     connect(m_ui->m_changeProfileAct, SIGNAL(triggered()), this, SLOT(showConnectionDialog()));
     connect(m_ui->m_connectionLinkAct, &QAction::triggered, this, [=]() {
         QString str("rolisteam://%1/%2/%3");
@@ -1175,31 +1173,8 @@ void MainWindow::saveAllMediaContainer()
 }
 void MainWindow::stopReconnection()
 {
-    m_ui->m_connectionAction->setEnabled(true);
+    m_ui->m_changeProfileAct->setEnabled(true);
     m_ui->m_disconnectAction->setEnabled(false);
-}
-void MainWindow::startReconnection()
-{
-    if(nullptr == m_currentConnectionProfile)
-    {
-        showConnectionDialog(true);
-        return;
-    }
-    if(!m_currentConnectionProfile->isServer())
-    {
-        closeAllMediaContainer();
-    }
-    if(m_clientManager->startConnection())
-    {
-        m_roomPanel->setServerName(m_currentConnectionProfile->getAddress());
-        m_ui->m_connectionAction->setEnabled(false);
-        m_ui->m_disconnectAction->setEnabled(true);
-    }
-    else
-    {
-        m_ui->m_connectionAction->setEnabled(true);
-        m_ui->m_disconnectAction->setEnabled(false);
-    }
 }
 
 void MainWindow::setUpNetworkConnection()
@@ -1256,7 +1231,7 @@ void MainWindow::updateUi()
     m_vmapToolBar->setVisible(isGM);
     m_vmapToolBar->toggleViewAction()->setVisible(isGM);
 
-    m_ui->m_connectionAction->setEnabled(false);
+    m_ui->m_changeProfileAct->setEnabled(false);
     m_ui->m_disconnectAction->setEnabled(true);
 
     updateRecentFileActions();
@@ -1283,11 +1258,11 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
     switch(state)
     {
     case ClientManager::CONNECTED: /// @brief Action to be done after socket connection.
-        m_ui->m_connectionAction->setEnabled(false);
+        m_ui->m_changeProfileAct->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
         break;
     case ClientManager::DISCONNECTED:
-        m_ui->m_connectionAction->setEnabled(true);
+        m_ui->m_changeProfileAct->setEnabled(true);
         m_ui->m_disconnectAction->setEnabled(false);
         if(this->isVisible())
             m_dialog->open();
@@ -1801,7 +1776,7 @@ void MainWindow::postConnection()
         m_preferences->registerValue("isClient", true);
     }
 
-    m_ui->m_connectionAction->setEnabled(false);
+    m_ui->m_changeProfileAct->setEnabled(false);
     m_ui->m_disconnectAction->setEnabled(true);
     m_dialog->accept();
 

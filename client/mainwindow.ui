@@ -117,10 +117,9 @@
     <property name="title">
      <string>&amp;Network</string>
     </property>
-    <addaction name="m_connectionAction"/>
+    <addaction name="m_changeProfileAct"/>
     <addaction name="m_disconnectAction"/>
     <addaction name="separator"/>
-    <addaction name="m_changeProfileAct"/>
     <addaction name="m_connectionLinkAct"/>
     <addaction name="m_keyGeneratorAct"/>
     <addaction name="separator"/>
@@ -254,11 +253,6 @@
    </property>
    <property name="shortcut">
     <string>Alt+T</string>
-   </property>
-  </action>
-  <action name="m_connectionAction">
-   <property name="text">
-    <string>Connection</string>
    </property>
   </action>
   <action name="m_disconnectAction">
@@ -658,7 +652,7 @@
   </action>
   <action name="m_keyGeneratorAct">
    <property name="text">
-    <string>Key generator</string>
+    <string>Password Generator</string>
    </property>
   </action>
   <action name="actionCurrent_Media_as">

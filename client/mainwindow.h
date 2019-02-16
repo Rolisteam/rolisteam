@@ -429,10 +429,6 @@ private slots:
      */
     void closeConnection();
     /**
-     * @brief startReconnection
-     */
-    void startReconnection();
-    /**
      * @brief networkStateChanged
      * @param state
      */
