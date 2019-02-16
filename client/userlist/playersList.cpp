@@ -443,6 +443,9 @@ Player* PlayersList::getLocalPlayer() const
 
 void PlayersList::sendOffLocalPlayerInformations()
 {
+    if(nullptr == m_localPlayer)
+        return;
+
     NetworkMessageWriter message(NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
     setLocalFeatures(*m_localPlayer);
     m_localPlayer->fill(message);
@@ -635,6 +638,9 @@ void PlayersList::addPlayer(Player* player)
 
 void PlayersList::addCharacter(Player* player, Character* character)
 {
+    if(player == nullptr || character == nullptr)
+        return;
+
     int size= player->getChildrenCount();
     QString uuid= character->getUuid();
 

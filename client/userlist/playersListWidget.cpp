@@ -57,6 +57,10 @@ Qt::ItemFlags PlayersListWidgetModel::flags(const QModelIndex& index) const
     PlayersList* playersList= PlayersList::instance();
     Person* person= playersList->getPerson(index);
     auto local= playersList->getLocalPlayer();
+
+    if(nullptr == local)
+        return ret;
+
     if(playersList->isLocal(person) || local->isGM())
         ret|= Qt::ItemIsEditable;
     return ret;
