@@ -129,7 +129,15 @@ void VmapToolBar::setupUi()
 }
 void VmapToolBar::setCurrentMap(VMap* map)
 {
+    if(m_vmap != nullptr)
+        disconnect(m_vmap);
+
     m_vmap= map;
+
+    if(m_vmap)
+    {
+        connect(m_vmap, &VMap::mapChanged, this, &VmapToolBar::updateUI);
+    }
     updateUI();
 }
 void VmapToolBar::triggerGrid()
@@ -198,6 +206,9 @@ void VmapToolBar::updateUI()
         m_gridPattern->setCurrentIndex(m_vmap->getOption(VisualItem::GridPattern).toInt());
         m_collision->setChecked(m_vmap->getOption(VisualItem::CollisionStatus).toBool());
         m_showOnlyItemsFromThisLayer->setChecked(m_vmap->getOption(VisualItem::HideOtherLayers).toBool());
+        m_currentLayer->setCurrentIndex(m_vmap->getOption(VisualItem::MapLayer).toInt());
+        m_gridAbove->setChecked(m_vmap->getOption(VisualItem::GridAbove).toBool());
+        m_scaleSize->setValue(m_vmap->getOption(VisualItem::Scale).toReal());
     }
     else
     {

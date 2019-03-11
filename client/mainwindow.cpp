@@ -224,7 +224,7 @@ void MainWindow::setupUi()
     // setAnimated(false);
     m_mdiArea= new ImprovedWorkspace(this);
     setCentralWidget(m_mdiArea);
-    connect(m_mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(activeWindowChanged(QMdiSubWindow*)));
+    connect(m_mdiArea, &ImprovedWorkspace::subWindowActivated, this, &MainWindow::activeWindowChanged);
 
     m_toolBar= new ToolsBar(this);
 
