@@ -106,6 +106,7 @@ SightItem::~SightItem() {}
 void SightItem::updateItemFlags()
 {
     VisualItem::updateItemFlags();
+    setAcceptedMouseButtons(Qt::NoButton);
     setFlag(QGraphicsItem::ItemIsMovable, false);
 }
 QRectF SightItem::boundingRect() const
@@ -284,7 +285,8 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
         auto const& values= m_characterItemMap->values();
         for(auto& charact : values)
         {
-            if((nullptr != charact) && ((charact->isLocal()) || getOption(VisualItem::LocalIsGM).toBool()))
+            if((nullptr != charact) && ((charact->isLocal()) || getOption(VisualItem::LocalIsGM).toBool())
+                && charact->isVisible() && !charact->isNpc())
             {
                 CharacterVision* vision= charact->getVision();
 

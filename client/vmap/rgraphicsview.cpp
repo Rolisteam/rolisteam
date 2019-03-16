@@ -165,6 +165,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         return;
 
     bool licenseToModify= false;
+
     m_menuPoint= event->pos();
     if((m_vmap->getOption(VisualItem::LocalIsGM).toBool())
         || (m_vmap->getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL))
@@ -174,143 +175,143 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
     if(m_vmap->isIdle())
     {
-        QList<QGraphicsItem*> items= scene()->selectedItems();
-
-        // remove none visual item
-        QList<VisualItem*> list;
-        for(QGraphicsItem* item : items)
-        {
-            VisualItem* vItem= dynamic_cast<VisualItem*>(item);
-            if(nullptr != vItem)
+        auto extractVisualItem= [this](QList<QGraphicsItem*> itemList) -> QList<VisualItem*> {
+            if(!m_vmap)
+                return {};
+            QList<VisualItem*> list;
+            for(QGraphicsItem* item : itemList)
             {
-                list.append(vItem);
-            }
-            else
-            {
-                ChildPointItem* childItem= dynamic_cast<ChildPointItem*>(item);
-                if(nullptr != childItem)
+                VisualItem* vItem= dynamic_cast<VisualItem*>(item);
+                if(nullptr != vItem && !list.contains(vItem) && m_vmap->isNormalItem(vItem))
                 {
-                    QGraphicsItem* item2= childItem->parentItem();
-                    VisualItem* vItem= dynamic_cast<VisualItem*>(item2);
-                    if(nullptr != vItem)
+                    list.append(vItem);
+                }
+                else
+                {
+                    ChildPointItem* childItem= dynamic_cast<ChildPointItem*>(item);
+                    if(nullptr != childItem)
                     {
-                        list.append(vItem);
+                        QGraphicsItem* item2= childItem->parentItem();
+                        VisualItem* vItem= dynamic_cast<VisualItem*>(item2);
+                        if(nullptr != vItem && !list.contains(vItem) && m_vmap->isNormalItem(vItem))
+                        {
+                            list.append(vItem);
+                        }
                     }
                 }
             }
-        }
+            return list;
+        };
+        QList<QGraphicsItem*> itemList= scene()->selectedItems();
+        auto itemUnderMouse= items(m_menuPoint);
+
+        auto list= extractVisualItem(itemList);
+        auto visulItemUnderMouse= extractVisualItem(itemUnderMouse);
+        // remove none visual item
+
+        std::for_each(visulItemUnderMouse.begin(), visulItemUnderMouse.end(), [&list](VisualItem* item) {
+            if(!list.contains(item))
+                list.append(item);
+        });
+        // list.append(visulItemUnderMouse);
 
         QMenu menu;
         auto parentWid= dynamic_cast<MediaContainer*>(parentWidget());
         // Empty list
 
-        if((list.isEmpty()) || ((list.size() == 1) && (list.contains(m_vmap->getFogItem()))))
+        QAction* resetRotationAct= nullptr;
+        QAction* rightRotationAct= nullptr;
+        QAction* leftRotationAct= nullptr;
+        QAction* angleRotationAct= nullptr;
+        QAction* removeAction= nullptr;
+
+        menu.addSection(tr("Map"));
+
+        switch(m_vmap->getCurrentLayer())
         {
-            menu.setTitle(tr("Change the map"));
-
-            switch(m_vmap->getCurrentLayer())
-            {
-            case VisualItem::OBJECT:
-                m_editObjectLayer->setChecked(true);
-                break;
-            case VisualItem::GROUND:
-                m_editGroundLayer->setChecked(true);
-                break;
-            case VisualItem::CHARACTER_LAYER:
-                m_editCharacterLayer->setChecked(true);
-                break;
-            default:
-                break;
-            }
-            if(licenseToModify)
-            {
-                QMenu* editLayer= menu.addMenu(tr("Edit Layer"));
-                editLayer->addAction(m_editGroundLayer);
-                editLayer->addAction(m_editObjectLayer);
-                editLayer->addAction(m_editCharacterLayer);
-
-                QMenu* changeVibility= menu.addMenu(tr("Change Visibility"));
-                changeVibility->addAction(m_hiddenVisibility);
-                changeVibility->addAction(m_characterVisibility);
-                changeVibility->addAction(m_allVisibility);
-
-                QMenu* rollInit= menu.addMenu(tr("Roll Init"));
-                rollInit->addAction(m_rollInitOnAllNpc);
-                rollInit->addAction(m_rollInitOnAllCharacter);
-
-                QMenu* cleanInit= menu.addMenu(tr("Clean Init"));
-                cleanInit->addAction(m_cleanInitOnAllNpc);
-                cleanInit->addAction(m_cleanInitOnAllCharacter);
-            }
-
-            menu.addAction(m_zoomIn);
-            menu.addAction(m_zoomOut);
-            menu.addAction(m_zoomInMax);
-            menu.addAction(m_zoomNormal);
-            menu.addAction(m_zoomOutMax);
-            menu.addAction(m_zoomCenterOnItem);
-            m_centerOnItem= dynamic_cast<QGraphicsItem*>(itemAt(m_menuPoint));
-            if(nullptr == m_centerOnItem)
-            {
-                m_zoomCenterOnItem->setVisible(false);
-            }
-            else
-            {
-                m_zoomCenterOnItem->setVisible(true);
-            }
-            if(licenseToModify)
-            {
-                menu.addSeparator();
-                menu.addAction(m_importImage);
-                menu.addSeparator();
-            }
-
-            if(nullptr != parentWid)
-            {
-                parentWid->addActionToMenu(menu);
-            }
-            if(licenseToModify)
-            {
-                menu.addAction(m_properties);
-            }
-
-            menu.exec(event->globalPos());
+        case VisualItem::OBJECT:
+            m_editObjectLayer->setChecked(true);
+            break;
+        case VisualItem::GROUND:
+            m_editGroundLayer->setChecked(true);
+            break;
+        case VisualItem::CHARACTER_LAYER:
+            m_editCharacterLayer->setChecked(true);
+            break;
+        default:
+            break;
         }
-        else if((list.size() > 1) && (licenseToModify))
+        if(licenseToModify)
         {
-            menu.setTitle(tr("Change selected Items"));
+            QMenu* editLayer= menu.addMenu(tr("Edit Layer"));
+            editLayer->addAction(m_editGroundLayer);
+            editLayer->addAction(m_editObjectLayer);
+            editLayer->addAction(m_editCharacterLayer);
 
-            QAction* removeAction= menu.addAction(tr("Remove"));
-
-            QAction* backOrderAction= menu.addAction(tr("Back"));
-            backOrderAction->setIcon(QIcon(":/resources/icons/action-order-back.png"));
-            backOrderAction->setData(VisualItem::BACK);
-
-            QAction* frontOrderAction= menu.addAction(tr("Front"));
-            frontOrderAction->setIcon(QIcon(":/resources/icons/action-order-front.png"));
-            frontOrderAction->setData(VisualItem::FRONT);
-
-            QAction* lowerAction= menu.addAction(tr("Lower"));
-            lowerAction->setIcon(QIcon(":/resources/icons/action-order-lower.png"));
-            lowerAction->setData(VisualItem::LOWER);
-
-            QAction* raiseAction= menu.addAction(tr("Raise"));
-            raiseAction->setIcon(QIcon(":/resources/icons/action-order-raise.png"));
-            raiseAction->setData(VisualItem::RAISE);
+            QMenu* changeVibility= menu.addMenu(tr("Change Visibility"));
+            changeVibility->addAction(m_hiddenVisibility);
+            changeVibility->addAction(m_characterVisibility);
+            changeVibility->addAction(m_allVisibility);
 
             QMenu* rollInit= menu.addMenu(tr("Roll Init"));
-            rollInit->addAction(m_rollInitOnSelection);
+            rollInit->addAction(m_rollInitOnAllNpc);
+            rollInit->addAction(m_rollInitOnAllCharacter);
+            if(!list.isEmpty())
+                rollInit->addAction(m_rollInitOnSelection);
 
             QMenu* cleanInit= menu.addMenu(tr("Clean Init"));
-            cleanInit->addAction(m_cleanInitOnSelection);
+            cleanInit->addAction(m_cleanInitOnAllNpc);
+            cleanInit->addAction(m_cleanInitOnAllCharacter);
+            if(!list.isEmpty())
+                cleanInit->addAction(m_cleanInitOnSelection);
+        }
+        auto zoom= menu.addMenu(tr("Zoom"));
+        zoom->addAction(m_zoomIn);
+        zoom->addAction(m_zoomOut);
+        zoom->addAction(m_zoomInMax);
+        zoom->addAction(m_zoomNormal);
+        zoom->addAction(m_zoomOutMax);
+        zoom->addAction(m_zoomCenterOnItem);
+        m_centerOnItem= itemAt(m_menuPoint);
+        if(nullptr == m_centerOnItem)
+        {
+            m_zoomCenterOnItem->setVisible(false);
+        }
+        else
+        {
+            m_zoomCenterOnItem->setVisible(true);
+        }
+        if(licenseToModify)
+        {
+            menu.addSeparator();
+            menu.addAction(m_importImage);
+            menu.addSeparator();
+        }
 
-            menu.addAction(m_lockSize);
+        if(nullptr != parentWid)
+        {
+            parentWid->addActionToMenu(menu);
+        }
+        if(licenseToModify)
+        {
+            menu.addAction(m_properties);
+        }
+
+        if(licenseToModify && !list.isEmpty())
+        {
+            menu.addSection(tr("Item(s)"));
+
+            auto overlapping= menu.addMenu(tr("Overlapping"));
+            overlapping->addAction(m_backOrderAction);
+            overlapping->addAction(m_frontOrderAction);
+            overlapping->addAction(m_lowerAction);
+            overlapping->addAction(m_raiseAction);
 
             QMenu* rotationMenu= menu.addMenu(tr("Rotate"));
-            QAction* resetRotationAct= rotationMenu->addAction(tr("To 360"));
-            QAction* rightRotationAct= rotationMenu->addAction(tr("Right"));
-            QAction* leftRotationAct= rotationMenu->addAction(tr("Left"));
-            QAction* angleRotationAct= rotationMenu->addAction(tr("Set Angle…"));
+            resetRotationAct= rotationMenu->addAction(tr("To 360"));
+            rightRotationAct= rotationMenu->addAction(tr("Right"));
+            leftRotationAct= rotationMenu->addAction(tr("Left"));
+            angleRotationAct= rotationMenu->addAction(tr("Set Angle…"));
 
             QMenu* setLayerMenu= menu.addMenu(tr("Set Layer"));
             setLayerMenu->addAction(m_putGroundLayer);
@@ -323,45 +324,49 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             harmonizeMenu->addAction(m_normalizeSizeBigger);
             harmonizeMenu->addAction(m_normalizeSizeSmaller);
 
-            QAction* selectedAction= menu.exec(event->globalPos());
+            menu.addAction(m_lockSize);
+            removeAction= menu.addAction(tr("Remove"));
+        }
 
-            if(removeAction == selectedAction)
-            {
-                deleteItem(list);
-            }
-            else if(resetRotationAct == selectedAction)
-            {
-                setRotation(list, 0);
-            }
-            else if(selectedAction == rightRotationAct)
-            {
-                setRotation(list, 90);
-            }
-            else if(selectedAction == leftRotationAct)
-            {
-                setRotation(list, 270);
-            }
-            else if(selectedAction == angleRotationAct)
-            {
-                int angle= QInputDialog::getInt(
-                    this, tr("Rotation Value ?"), tr("Please, set the rotation angle you want [0-360]"), 0, 0, 360);
-                setRotation(list, angle);
-            }
-            else if((backOrderAction == selectedAction) || (frontOrderAction == selectedAction)
-                    || (lowerAction == selectedAction) || (raiseAction == selectedAction))
-            {
-                changeZValue(list, static_cast<VisualItem::StackOrder>(selectedAction->data().toInt()));
-            }
-            else if((selectedAction == m_putCharacterLayer) || (selectedAction == m_putObjectLayer)
-                    || (selectedAction == m_putGroundLayer))
-            {
-                setItemLayer(list, static_cast<VisualItem::Layer>(selectedAction->data().toInt()));
-            }
-        }
-        else // only one item
+        QAction* selectedAction= menu.exec(event->globalPos());
+
+        if(removeAction == selectedAction)
         {
-            QGraphicsView::contextMenuEvent(event);
+            deleteItem(list);
         }
+        else if(resetRotationAct == selectedAction)
+        {
+            setRotation(list, 0);
+        }
+        else if(selectedAction == rightRotationAct)
+        {
+            setRotation(list, 90);
+        }
+        else if(selectedAction == leftRotationAct)
+        {
+            setRotation(list, 270);
+        }
+        else if(selectedAction == angleRotationAct)
+        {
+            int angle= QInputDialog::getInt(
+                this, tr("Rotation Value ?"), tr("Please, set the rotation angle you want [0-360]"), 0, 0, 360);
+            setRotation(list, angle);
+        }
+        else if((m_backOrderAction == selectedAction) || (m_frontOrderAction == selectedAction)
+                || (m_lowerAction == selectedAction) || (m_raiseAction == selectedAction))
+        {
+            changeZValue(list, static_cast<VisualItem::StackOrder>(selectedAction->data().toInt()));
+        }
+        else if((selectedAction == m_putCharacterLayer) || (selectedAction == m_putObjectLayer)
+                || (selectedAction == m_putGroundLayer))
+        {
+            setItemLayer(list, static_cast<VisualItem::Layer>(selectedAction->data().toInt()));
+        }
+        /* }
+         else // only one item
+         {
+             QGraphicsView::contextMenuEvent(event);
+         }*/
     }
     else
     {
@@ -452,6 +457,22 @@ void RGraphicsView::createAction()
     connect(m_importImage, SIGNAL(triggered()), this, SLOT(addImageToMap()));
     connect(m_zoomOut, SIGNAL(triggered()), this, SLOT(setZoomFactor()));
     connect(m_zoomIn, SIGNAL(triggered()), this, SLOT(setZoomFactor()));
+
+    m_backOrderAction= new QAction(tr("Back"));
+    m_backOrderAction->setIcon(QIcon(":/resources/icons/action-order-back.png"));
+    m_backOrderAction->setData(VisualItem::BACK);
+
+    m_frontOrderAction= new QAction(tr("Front"));
+    m_frontOrderAction->setIcon(QIcon(":/resources/icons/action-order-front.png"));
+    m_frontOrderAction->setData(VisualItem::FRONT);
+
+    m_lowerAction= new QAction(tr("Lower"));
+    m_lowerAction->setIcon(QIcon(":/resources/icons/action-order-lower.png"));
+    m_lowerAction->setData(VisualItem::LOWER);
+
+    m_raiseAction= new QAction(tr("Raise"));
+    m_raiseAction->setIcon(QIcon(":/resources/icons/action-order-raise.png"));
+    m_raiseAction->setData(VisualItem::RAISE);
 
     m_normalizeSizeAverage= new QAction(tr("Average"), this);
     connect(m_normalizeSizeAverage, &QAction::triggered, this, [=]() { normalizeSize(Average); });

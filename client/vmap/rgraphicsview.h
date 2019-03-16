@@ -122,6 +122,12 @@ private:
     QAction* m_putObjectLayer;
     QAction* m_putCharacterLayer;
 
+    // z order action
+    QAction* m_backOrderAction= nullptr;
+    QAction* m_frontOrderAction= nullptr;
+    QAction* m_lowerAction= nullptr;
+    QAction* m_raiseAction= nullptr;
+
     QAction* m_importImage;
 
     VToolsBar::SelectableTool m_currentTool;

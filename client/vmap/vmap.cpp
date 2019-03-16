@@ -651,7 +651,7 @@ bool VMap::isNormalItem(const QGraphicsItem* item)
     if(!item)
         return false;
 
-    if((item == m_gridItem) || (item == m_fogItem))
+    if((item == m_gridItem) || (item == m_sightItem))
     {
         return false;
     }
@@ -1166,7 +1166,11 @@ void VMap::removeItemFromData(VisualItem* item)
 
     m_sortedItemList.removeAll(item->getId());
     m_itemMap->remove(item->getId());
-    m_characterItemMap->remove(item->getId());
+    auto character= dynamic_cast<CharacterItem*>(item);
+    if(nullptr != character)
+    {
+        m_characterItemMap->remove(character->getCharacterId());
+    }
 }
 
 void VMap::addItemFromData(VisualItem* item)
