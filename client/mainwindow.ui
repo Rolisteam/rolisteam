@@ -633,7 +633,7 @@
     <string>WebPage</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+W</string>
+    <string>Ctrl+H</string>
    </property>
   </action>
   <action name="m_healthBarAct">
