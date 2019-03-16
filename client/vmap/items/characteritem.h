@@ -26,6 +26,7 @@
 #include "data/person.h"
 #include "diceparser/diceparser.h"
 #include "visualitem.h"
+#include <memory>
 
 /**
  * @brief represents any character on map.
@@ -319,6 +320,7 @@ private:
      */
     QString getSubTitle() const;
     void visionChanged();
+    void initChildPointItemMotion();
 
 private:
     Character* m_character= nullptr;
@@ -336,7 +338,7 @@ private:
     QAction* m_increaseLife= nullptr;
 
     // sight
-    CharacterVision* m_vision;
+    std::unique_ptr<CharacterVision> m_vision;
     QPointF m_oldPosition;
 
     bool m_protectGeometryChange;

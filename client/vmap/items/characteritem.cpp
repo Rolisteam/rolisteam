@@ -204,9 +204,9 @@ void CharacterItem::setChildrenVisible(bool b)
 {
     VisualItem::setChildrenVisible(b);
 
-    if(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)
+    if(m_child && (getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE || isNpc()))
     {
-        if(!getOption(VisualItem::LocalIsGM).toBool())
+        if(!getOption(VisualItem::LocalIsGM).toBool() || isNpc())
         {
             if(!m_child->isEmpty() && m_child->size() > DIRECTION_RADIUS_HANDLE)
             {
@@ -757,9 +757,31 @@ void CharacterItem::initChildPointItem()
     m_child->at(ANGLE_HANDLE)->setMotion(ChildPointItem::Y_AXIS);
     m_child->at(ANGLE_HANDLE)->setRotationEnable(false);
     m_child->at(ANGLE_HANDLE)->setVisible(false);
-
     updateChildPosition();
 }
+
+void CharacterItem::initChildPointItemMotion()
+{
+    int i= 0;
+    for(auto& itemChild : *m_child)
+    {
+        itemChild->setEditableItem(true);
+        switch(i)
+        {
+        case DIRECTION_RADIUS_HANDLE:
+            itemChild->setMotion(ChildPointItem::X_AXIS);
+            break;
+        case ANGLE_HANDLE:
+            itemChild->setMotion(ChildPointItem::Y_AXIS);
+            break;
+        default:
+            itemChild->setMotion(ChildPointItem::ALL);
+            break;
+        }
+        itemChild->setRotationEnable(true);
+    }
+}
+
 ChildPointItem* CharacterItem::getRadiusChildWidget()
 {
     if(m_child->size() >= 5)
@@ -944,12 +966,12 @@ void CharacterItem::changeCharacter()
 
 void CharacterItem::createActions()
 {
-    auto effect= new QGraphicsDropShadowEffect();
+    /*auto effect= new QGraphicsDropShadowEffect();
     effect->setOffset(2., 2.);
     effect->setColor(QColor(0, 0, 0, 191));
-    setGraphicsEffect(effect);
+    setGraphicsEffect(effect);*/
     updateListAlias(m_diceParser.getAliases());
-    m_vision= new CharacterVision(this);
+    m_vision.reset(new CharacterVision(this));
 
     m_visionShapeDisk= new QAction(tr("Disk"), this);
     m_visionShapeDisk->setCheckable(true);
@@ -1104,7 +1126,7 @@ void CharacterItem::setDefaultVisionParameter(CharacterVision::SHAPE shape, qrea
 }
 CharacterVision* CharacterItem::getVision() const
 {
-    return m_vision;
+    return m_vision.get();
 }
 /*bool CharacterItem::canBeMoved() const
 {
@@ -1181,28 +1203,19 @@ void CharacterItem::updateItemFlags()
     {
         if(nullptr != m_child)
         {
-            for(auto& itemChild : *m_child)
+            initChildPointItemMotion();
+            /*for(auto& itemChild : *m_child)
             {
                 itemChild->setEditableItem(true);
                 itemChild->setMotion(ChildPointItem::ALL);
                 itemChild->setRotationEnable(true);
-            }
+            }*/
         }
         setFlag(QGraphicsItem::ItemIsMovable, true);
         setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
         connect(this, SIGNAL(xChanged()), this, SLOT(posChange()), Qt::UniqueConnection);
         connect(this, SIGNAL(yChanged()), this, SLOT(posChange()), Qt::UniqueConnection);
-
-        if(nullptr != m_child)
-        {
-            for(auto& itemChild : *m_child)
-            {
-                itemChild->setEditableItem(true);
-                itemChild->setMotion(ChildPointItem::NONE);
-                itemChild->setRotationEnable(true);
-                connect(this, SIGNAL(rotationChanged()), this, SLOT(rotationChange()), Qt::UniqueConnection);
-            }
-        }
+        connect(this, SIGNAL(rotationChanged()), this, SLOT(rotationChange()), Qt::UniqueConnection);
     }
     else
     {
