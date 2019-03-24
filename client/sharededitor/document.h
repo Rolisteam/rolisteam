@@ -77,12 +77,7 @@ public:
     void readFromMsg(NetworkMessageReader* msg);
 
     // Sets the highlighting style to the below Highlighter
-    void setHighlighter(int Highlighter);
-    enum Highlighter
-    {
-        None,
-        MarkDown
-    };
+    void setHighlighter(Highlighter Highlighter);
 
     // returns if the editor is undable
     bool isUndoable();
