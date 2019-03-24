@@ -39,7 +39,8 @@
 #include "preferences/preferencesmanager.h"
 #include "sheetwidget.h"
 
-CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri, QWidget* parent) : MediaContainer(parent)
+CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri, QWidget* parent)
+    : MediaContainer(MediaContainer::ContainerType::VMapContainer, parent)
 {
     m_uri= uri;
     if(nullptr == m_uri)
