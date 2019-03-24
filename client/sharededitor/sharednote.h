@@ -46,7 +46,7 @@ public:
     ~SharedNote();
 
     bool saveFileAsText(QTextStream& out);
-    bool loadFileAsText(QTextStream& out);
+    bool loadFileAsText(QTextStream& out, bool md);
 
     bool saveFile(QDataStream& out);
     bool loadFile(QDataStream& fileName);

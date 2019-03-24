@@ -86,7 +86,7 @@ bool SharedNoteContainer::readFileFromUri()
         if(file.open(QIODevice::ReadOnly))
         {
             QTextStream in(&file);
-            val= m_edit->loadFileAsText(in);
+            val= m_edit->loadFileAsText(in, uri.endsWith(".md"));
         }
     }
     updateTitle();
