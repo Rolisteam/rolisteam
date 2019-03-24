@@ -2617,6 +2617,14 @@ CleverURI::ContentType MainWindow::getContentType(QString str)
     {
         return CleverURI::CHARACTERSHEET;
     }
+    else if(str.endsWith(".md"))
+    {
+        return CleverURI::SHAREDNOTE;
+    }
+    else if(str.endsWith(".odt") || str.endsWith(".txt"))
+    {
+        return CleverURI::TEXT;
+    }
 #ifdef WITH_PDF
     else if(str.endsWith(".pdf"))
     {
