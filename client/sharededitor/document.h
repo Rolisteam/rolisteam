@@ -40,7 +40,14 @@ class Document : public QWidget
 {
     Q_OBJECT
 public:
-    Document(QWidget* parent= 0);
+    enum Highlighter
+    {
+        None,
+        MarkDown
+    };
+    Q_ENUM(Highlighter)
+
+    Document(QWidget* parent= nullptr);
     ~Document();
 
     // This sets up the document so people can connect to it.
@@ -129,12 +136,12 @@ private slots:
     void findPrevious(QString string);
 
 private:
-    Ui::Document* ui;
-    CodeEditor* m_editor;
+    Ui::Document* ui= nullptr;
+    CodeEditor* m_editor= nullptr;
     bool startedCollaborating;
-    FindToolBar* findAllToolbar;
-    ParticipantsPane* m_participantPane;
-    QSyntaxHighlighter* m_highlighter;
+    FindToolBar* findAllToolbar= nullptr;
+    ParticipantsPane* m_participantPane= nullptr;
+    QSyntaxHighlighter* m_highlighter= nullptr;
 };
 
 #endif // DOCUMENT_H
