@@ -50,6 +50,9 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>1</number>
+     </property>
      <item>
       <widget class="QTreeView" name="m_treeview">
        <attribute name="headerVisible">
@@ -59,6 +62,9 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,1">
+       <property name="spacing">
+        <number>1</number>
+       </property>
        <item>
         <widget class="QToolButton" name="m_upToolBtn">
          <property name="text">
