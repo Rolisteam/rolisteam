@@ -33,7 +33,8 @@
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/
-Image::Image(QWidget* parent) : MediaContainer(parent), m_NormalSize(0, 0)
+Image::Image(QWidget* parent)
+    : MediaContainer(MediaContainer::ContainerType::ImageContainer, parent), m_NormalSize(0, 0)
 {
     setObjectName("Image");
     m_widgetArea= new QScrollArea();
@@ -72,20 +73,10 @@ void Image::initImage()
     }
 }
 
-void Image::setIdOwner(QString s)
-{
-    m_idPlayer= s;
-}
-
 void Image::setImage(QImage& img)
 {
     m_pixMap= QPixmap::fromImage(img);
     initImage();
-}
-
-bool Image::isImageOwner(QString id)
-{
-    return m_idPlayer == id;
 }
 
 void Image::fill(NetworkMessageWriter& message)
@@ -98,7 +89,7 @@ void Image::fill(NetworkMessageWriter& message)
     // message.reset();
     message.string16(getUriName());
     message.string8(m_mediaId);
-    message.string8(m_idPlayer);
+    message.string8(m_ownerId);
     message.byteArray32(baImage);
 }
 
@@ -107,7 +98,7 @@ void Image::readMessage(NetworkMessageReader& msg)
     setUriName(msg.string16());
 
     m_mediaId= msg.string8();
-    m_idPlayer= msg.string8();
+    m_ownerId= msg.string8();
     QByteArray data= msg.byteArray32();
     QImage img= QImage::fromData(data);
     setImage(img);

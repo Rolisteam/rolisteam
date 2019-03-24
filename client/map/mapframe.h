@@ -110,6 +110,9 @@ public:
     virtual void fill(NetworkMessageWriter& msg);
     virtual void readMessage(NetworkMessageReader& msg);
 
+    ContainerType getContainerType() const;
+    void setContainerType(const ContainerType& containerType);
+
 signals:
     /**
      * @brief activated

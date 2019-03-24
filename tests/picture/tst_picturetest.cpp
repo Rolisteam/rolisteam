@@ -58,8 +58,8 @@ void PictureTest::testGetSet()
     QVERIFY2(*m_image->getCleverUri() == uri, "not the same image");
 
     QString ownerId("owner");
-    m_image->setIdOwner(ownerId);
-    QVERIFY2(m_image->isImageOwner(ownerId), "not the rigth owner");
+    m_image->setOwnerId(ownerId);
+    QCOMPARE(m_image->ownerId(), ownerId);
 }
 void PictureTest::writeAndReadNetworkTest()
 {

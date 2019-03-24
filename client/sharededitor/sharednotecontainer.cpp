@@ -21,7 +21,7 @@
 #include "sharednotecontainer.h"
 
 SharedNoteContainer::SharedNoteContainer(bool localIsGM, QWidget* parent)
-    : MediaContainer(localIsGM, parent), m_edit(new SharedNote())
+    : MediaContainer(MediaContainer::ContainerType::SharedNoteContainer, localIsGM, parent), m_edit(new SharedNote())
 {
     m_edit->setId(getMediaId());
 #ifdef Q_OS_MAC

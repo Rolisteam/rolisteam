@@ -31,14 +31,19 @@
 #include "network/networkmessagewriter.h"
 
 VMapFrame::VMapFrame(bool localIsGM, QWidget* parent)
-    : MediaContainer(localIsGM, parent), m_graphicView(nullptr), m_currentEditingMode(0)
+    : MediaContainer(MediaContainer::ContainerType::VMapContainer, localIsGM, parent)
+    , m_graphicView(nullptr)
+    , m_currentEditingMode(0)
 {
     setObjectName("VMapFrame");
     m_vmap= new VMap();
 }
 
 VMapFrame::VMapFrame(bool localIsGM, CleverURI* uri, VMap* map, QWidget* parent)
-    : MediaContainer(localIsGM, parent), m_vmap(map), m_graphicView(nullptr), m_currentEditingMode(0)
+    : MediaContainer(MediaContainer::ContainerType::VMapContainer, localIsGM, parent)
+    , m_vmap(map)
+    , m_graphicView(nullptr)
+    , m_currentEditingMode(0)
 {
     setObjectName("VMapFrame");
     setCleverUri(uri);

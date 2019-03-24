@@ -122,6 +122,7 @@ public:
     QString getGmId();
     // Proxy helpers
     static const quint32 NoParent= 0x7fffffff;
+    QString getLocalPlayerId() const;
 public slots:
     void setCurrentGM(QString idGm);
     bool setLocalPersonAvatar(Person* person, const QImage& image);

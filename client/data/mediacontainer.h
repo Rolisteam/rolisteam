@@ -37,11 +37,26 @@
 class MediaContainer : public QMdiSubWindow, public CleverURIListener
 {
     Q_OBJECT
+    Q_PROPERTY(QString ownerId READ ownerId WRITE setOwnerId NOTIFY ownerIdChanged)
+
 public:
+    enum class ContainerType : int
+    {
+        ImageContainer,
+        VMapContainer,
+        MapContainer,
+        NoteContainer,
+        SharedNoteContainer,
+        ChatContainer,
+        CharacterSheetContainer,
+        PDFContainer,
+        WebViewContainer
+    };
+    Q_ENUM(ContainerType)
     /**
      * @brief MediaContainer
      */
-    MediaContainer(bool localIsGM, QWidget* parent= nullptr);
+    MediaContainer(ContainerType containerType, bool localIsGM, QWidget* parent= nullptr);
     /**
      * @brief ~MediaContainer
      */
@@ -161,11 +176,17 @@ public:
     bool getLocalIsGM() const;
     void setLocalIsGM(bool localIsGM);
 
+    QString ownerId() const;
+    void setOwnerId(const QString& ownerId);
+
+    void setContainerType(const ContainerType& containerType);
+    MediaContainer::ContainerType getContainerType() const;
 signals:
     /**
      * @brief visibleChanged
      */
     void visibleChanged(bool);
+    void ownerIdChanged();
 
 public slots:
     /**
@@ -203,6 +224,8 @@ protected:
     QAction* m_detachedDialog;
     bool m_remote= false;
     bool m_localIsGM= false;
+    QString m_ownerId;
+    ContainerType m_containerType;
 };
 
 #endif // MEDIACONTAINER_H
