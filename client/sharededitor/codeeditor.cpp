@@ -9,6 +9,8 @@
 CodeEditor::CodeEditor(QWidget* parent) : QPlainTextEdit(parent)
 {
     lineNumberArea= new LineNumberArea(this);
+    QPalette palette(Qt::white);
+    setPalette(palette);
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this, SIGNAL(updateRequest(QRect, int)), this, SLOT(updateLineNumberArea(QRect, int)));
