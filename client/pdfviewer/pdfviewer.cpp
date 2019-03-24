@@ -39,7 +39,7 @@
 /********************************************************************/
 PdfViewer::PdfViewer(/*QString title,QString identPdfViewer, QString identJoueur, QPdfViewer *image, QAction *action,*/
     ImprovedWorkspace* parent)
-    : MediaContainer(parent)
+    : MediaContainer(MediaContainer::ContainerType::PDFContainer, parent)
 {
     setObjectName("PdfViewer");
     setWindowIcon(QIcon(":/resources/icons/pdfLogo.png"));
@@ -107,15 +107,6 @@ void PdfViewer::creationToolBar()
     {
         act->setVisible(false);
     }
-}
-void PdfViewer::setIdOwner(QString s)
-{
-    m_owner= s;
-}
-
-bool PdfViewer::isPdfOwner(QString id)
-{
-    return m_owner == id;
 }
 
 void PdfViewer::createActions()

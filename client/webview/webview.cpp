@@ -22,7 +22,8 @@
 #include "network/networkmessagereader.h"
 #include <QVBoxLayout>
 
-WebView::WebView(State state, QWidget* parent) : MediaContainer(localIsGM == state, parent), m_currentState(state)
+WebView::WebView(State state, QWidget* parent)
+    : MediaContainer(MediaContainer::ContainerType::WebViewContainer, localIsGM == state, parent), m_currentState(state)
 {
     setObjectName("WebPage");
     setGeometry(0, 0, 500, 500);

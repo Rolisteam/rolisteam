@@ -441,6 +441,14 @@ Player* PlayersList::getLocalPlayer() const
     return m_localPlayer;
 }
 
+QString PlayersList::getLocalPlayerId() const
+{
+    if(!m_localPlayer)
+        return {};
+
+    return m_localPlayer->getUuid();
+}
+
 void PlayersList::sendOffLocalPlayerInformations()
 {
     if(nullptr == m_localPlayer)

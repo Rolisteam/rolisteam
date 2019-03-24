@@ -235,21 +235,20 @@ void Document::readFromMsg(NetworkMessageReader* msg)
         }
     }
 }
-void Document::setHighlighter(int highlighter)
+void Document::setHighlighter(Document::Highlighter highlighter)
 {
-    if(nullptr != m_highlighter)
-    {
-        delete m_highlighter;
-        m_highlighter= nullptr;
-    }
     switch(highlighter)
     {
     case None:
+        if(nullptr != m_highlighter)
+        {
+            delete m_highlighter;
+            m_highlighter= nullptr;
+        }
         break;
     case MarkDown:
-        m_highlighter= new MarkDownHighlighter(m_editor->document());
-        break;
-    default:
+        if(nullptr == m_highlighter)
+            m_highlighter= new MarkDownHighlighter(m_editor->document());
         break;
     }
 }

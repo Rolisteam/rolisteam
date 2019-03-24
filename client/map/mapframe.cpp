@@ -37,7 +37,8 @@
 #include <QScrollBar>
 #include <QUuid>
 
-MapFrame::MapFrame(Map* map, QWidget* parent) : MediaContainer(parent), m_map(map), m_isHidden(false)
+MapFrame::MapFrame(Map* map, QWidget* parent)
+    : MediaContainer(MediaContainer::ContainerType::MapContainer, parent), m_map(map), m_isHidden(false)
 {
     setObjectName("MapFrame");
     m_widgetArea= new QScrollArea(this);

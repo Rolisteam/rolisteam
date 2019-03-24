@@ -20,7 +20,7 @@
 #include "mediacontainer.h"
 #include <QMessageBox>
 
-MediaContainer::MediaContainer(bool localIsGM, QWidget* parent)
+MediaContainer::MediaContainer(ContainerType containerType, bool localIsGM, QWidget* parent)
     : QMdiSubWindow(parent)
     , m_uri(nullptr)
     , m_preferences(PreferencesManager::getInstance())
@@ -30,6 +30,7 @@ MediaContainer::MediaContainer(bool localIsGM, QWidget* parent)
     , m_mediaId(QUuid::createUuid().toString())
     , m_remote(false)
     , m_localIsGM(localIsGM)
+    , m_containerType(containerType)
 {
     // m_preferences = ;
     setAttribute(Qt::WA_DeleteOnClose, false);
@@ -225,6 +226,27 @@ void MediaContainer::detachView(bool b)
         }
         setVisible(true);
     }
+}
+MediaContainer::ContainerType MediaContainer::getContainerType() const
+{
+    return m_containerType;
+}
+
+void MediaContainer::setContainerType(const ContainerType& containerType)
+{
+    m_containerType= containerType;
+}
+QString MediaContainer::ownerId() const
+{
+    return m_ownerId;
+}
+
+void MediaContainer::setOwnerId(const QString& ownerId)
+{
+    if(ownerId == m_ownerId)
+        return;
+    m_ownerId= ownerId;
+    emit ownerIdChanged();
 }
 
 bool MediaContainer::getLocalIsGM() const

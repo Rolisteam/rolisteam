@@ -381,7 +381,7 @@ void MarkDownHighlighter::highlightHeadline(QString text)
         setFormat(match.capturedStart(), match.capturedLength(), currentMaskedFormat);
 
         // then highlight with the real format
-        setFormat(match.capturedStart(2), match.capturedLength(2), m_formats[state]);
+        setFormat(0, text.size(), m_formats[state]);
 
         // set a margin for the current block
         setCurrentBlockMargin(state);

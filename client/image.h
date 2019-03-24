@@ -63,7 +63,6 @@ public:
     bool isImageOwner(QString id);
     void setParent(QWidget* parent);
     void setImage(QImage& img);
-    void setIdOwner(QString);
 
     virtual bool readFileFromUri();
     virtual bool openMedia();
@@ -147,7 +146,6 @@ private:
     void initImage();
 
 private:
-    QString m_idPlayer;
     QLabel* m_imageLabel;
     QPoint m_startingPoint;
     int m_horizontalStart;

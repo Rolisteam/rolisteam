@@ -455,23 +455,29 @@ void MainWindow::activeWindowChanged(QMdiSubWindow* subWindow)
         m_ui->m_saveAsAction->setEnabled(false);
         return;
     }
-
+    auto media= dynamic_cast<MediaContainer*>(subWindow);
     bool localPlayerIsGM= m_currentConnectionProfile->isGM();
-    m_ui->m_closeAction->setEnabled(localPlayerIsGM);
-    m_ui->m_saveAction->setEnabled(localPlayerIsGM);
-    m_ui->m_saveAsAction->setEnabled(localPlayerIsGM);
-
-    if(subWindow->objectName() == QString("MapFrame"))
+    if(nullptr == media)
+    {
+        m_ui->m_closeAction->setEnabled(localPlayerIsGM);
+        m_ui->m_saveAction->setEnabled(localPlayerIsGM);
+        m_ui->m_saveAsAction->setEnabled(localPlayerIsGM);
+        return;
+    }
+    m_vmapToolBar->setEnabled(false);
+    auto owner= media->ownerId();
+    auto localIsOwner= (m_localPlayerId == owner);
+    if(localPlayerIsGM)
+        localIsOwner= true;
+    switch(media->getContainerType())
+    {
+    case MediaContainer::ContainerType::MapContainer:
     {
         m_toolBarStack->setCurrentWidget(m_toolBar);
         subWindow->setFocus();
     }
-    else
-    {
-        m_playersListWidget->model()->setCurrentMap(nullptr);
-    }
-
-    if(subWindow->objectName() == QString("VMapFrame"))
+    break;
+    case MediaContainer::ContainerType::VMapContainer:
     {
         m_playersListWidget->model()->setCurrentMap(nullptr);
         m_vmapToolBar->setEnabled(true);
@@ -500,9 +506,16 @@ void MainWindow::activeWindowChanged(QMdiSubWindow* subWindow)
             }
         }
     }
-    else
-    {
-        m_vmapToolBar->setEnabled(false);
+    break;
+    case MediaContainer::ContainerType::NoteContainer:
+    case MediaContainer::ContainerType::SharedNoteContainer:
+        m_playersListWidget->model()->setCurrentMap(nullptr);
+        m_ui->m_saveAction->setEnabled(localIsOwner);
+        m_ui->m_saveAsAction->setEnabled(localIsOwner);
+        break;
+    default:
+        m_playersListWidget->model()->setCurrentMap(nullptr);
+        break;
     }
 }
 void MainWindow::closeEvent(QCloseEvent* event)
@@ -660,7 +673,8 @@ void MainWindow::linkActionToMenu()
 #endif
     m_ui->m_recentFileMenu->setVisible(false);
     connect(m_ui->m_closeAction, SIGNAL(triggered(bool)), this, SLOT(closeCurrentSubWindow()));
-    connect(m_ui->m_saveAction, SIGNAL(triggered(bool)), this, SLOT(saveCurrentMedia()));
+    connect(m_ui->m_saveAction, &QAction::triggered, this, &MainWindow::saveCurrentMedia);
+    connect(m_ui->m_saveAllAction, &QAction::triggered, this, &MainWindow::saveAllMediaContainer);
     connect(m_ui->m_saveAsAction, SIGNAL(triggered(bool)), this, SLOT(saveCurrentMedia()));
     connect(m_ui->m_saveScenarioAction, &QAction::triggered, this, [=]() { saveStory(false); });
     connect(m_ui->m_saveScenarioAsAction, &QAction::triggered, this, [=]() { saveStory(true); });
@@ -797,8 +811,8 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
     map->setPenSize(m_toolBar->getCurrentPenSize());
 
     // new PlayersList connection
-    connect(mapFrame, SIGNAL(activated(Map*)), m_playersListWidget->model(), SLOT(changeMap(Map*)));
-    connect(mapFrame, SIGNAL(activated(Map*)), m_toolBar, SLOT(changeMap(Map*)));
+    connect(mapFrame, &MapFrame::activated, m_playersListWidget->model(), &PlayersListWidgetModel::setCurrentMap);
+    connect(mapFrame, &MapFrame::activated, m_toolBar, &ToolsBar::changeMap);
 }
 void MainWindow::prepareImage(Image* imageFrame)
 {
@@ -832,7 +846,7 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
     {
         SharedNoteContainer* note= new SharedNoteContainer(localIsGM);
         media= note;
-        note->setOwner(m_playerList->getLocalPlayer());
+        note->setOwnerId(m_playerList->getLocalPlayerId());
     }
     break;
     case CleverURI::VMAP:
@@ -1225,6 +1239,7 @@ void MainWindow::updateUi()
     m_ui->m_openStoryAction->setEnabled(isGM);
     m_ui->m_closeAction->setEnabled(isGM);
     m_ui->m_saveAction->setEnabled(isGM);
+    m_ui->m_saveAllAction->setEnabled(isGM);
     m_ui->m_saveScenarioAction->setEnabled(isGM);
     m_ui->m_connectionLinkAct->setVisible(isGM);
     m_ui->m_saveScenarioAsAction->setEnabled(isGM);
@@ -2483,6 +2498,7 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
     }
     if(tmp != nullptr)
     {
+        tmp->setOwnerId(m_localPlayerId);
         tmp->setLocalPlayerId(m_localPlayerId);
         tmp->setCleverUri(uri);
         if(tmp->readFileFromUri())
@@ -2616,6 +2632,14 @@ CleverURI::ContentType MainWindow::getContentType(QString str)
     else if(str.endsWith(".rcs"))
     {
         return CleverURI::CHARACTERSHEET;
+    }
+    else if(str.endsWith(".md"))
+    {
+        return CleverURI::SHAREDNOTE;
+    }
+    else if(str.endsWith(".odt") || str.endsWith(".txt"))
+    {
+        return CleverURI::TEXT;
     }
 #ifdef WITH_PDF
     else if(str.endsWith(".pdf"))

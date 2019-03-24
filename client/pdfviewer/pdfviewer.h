@@ -54,9 +54,7 @@ public:
 
     void savePdfToFile(QFile& file);
     void savePdfToFile(QDataStream& out);
-    bool isPdfOwner(QString id);
     void setParent(ImprovedWorkspace* parent);
-    void setIdOwner(QString);
 
     virtual bool readFileFromUri();
     virtual bool openMedia();

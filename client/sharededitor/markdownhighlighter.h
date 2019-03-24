@@ -43,8 +43,8 @@ public:
     };
     Q_DECLARE_FLAGS(HighlightingOptions, HighlightingOption)
 
-    MarkDownHighlighter(
-        QTextDocument* parent= nullptr, HighlightingOptions highlightingOptions= HighlightingOption::None);
+    MarkDownHighlighter(QTextDocument* parent= nullptr,
+        HighlightingOptions highlightingOptions= HighlightingOption::FullyHighlightedBlockQuote);
 
     // we use some predefined numbers here to be compatible with
     // the peg-markdown parser

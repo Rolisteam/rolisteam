@@ -21,7 +21,7 @@
 #include "sharednotecontainer.h"
 
 SharedNoteContainer::SharedNoteContainer(bool localIsGM, QWidget* parent)
-    : MediaContainer(localIsGM, parent), m_edit(new SharedNote())
+    : MediaContainer(MediaContainer::ContainerType::SharedNoteContainer, localIsGM, parent), m_edit(new SharedNote())
 {
     m_edit->setId(getMediaId());
 #ifdef Q_OS_MAC
@@ -86,7 +86,7 @@ bool SharedNoteContainer::readFileFromUri()
         if(file.open(QIODevice::ReadOnly))
         {
             QTextStream in(&file);
-            val= m_edit->loadFileAsText(in);
+            val= m_edit->loadFileAsText(in, uri.endsWith(".md"));
         }
     }
     updateTitle();

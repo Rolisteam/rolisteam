@@ -32,8 +32,10 @@
 #include <QTextDocument>
 #include <QTextDocumentFragment>
 
+#include "document.h"
 #include "enu.h"
 #include "utilities.h"
+
 SharedNote::SharedNote(QWidget* parent) : QMainWindow(parent), ui(new Ui::SharedNote)
 {
     ui->setupUi(this);
@@ -176,13 +178,15 @@ bool SharedNote::saveFileAsText(QTextStream& out)
     return true;
 }
 
-bool SharedNote::loadFileAsText(QTextStream& in)
+bool SharedNote::loadFileAsText(QTextStream& in, bool md)
 {
     if(nullptr == m_document)
         return false;
     QString data;
     data= in.readAll();
     m_document->setPlainText(data);
+    if(md)
+        m_document->setHighlighter(Document::MarkDown);
     return true;
 }
 
@@ -457,7 +461,7 @@ void SharedNote::setMarkdownAsHighlight()
 {
     QAction* act= qobject_cast<QAction*>(sender());
 
-    m_document->setHighlighter(act->data().toInt());
+    m_document->setHighlighter(static_cast<Document::Highlighter>(act->data().toInt()));
 }
 
 QString SharedNote::fileName() const
