@@ -573,14 +573,15 @@ bool ChatWindow::getMessageResult(QString& mainResult, QString& detailedResult)
         stringResult.replace("%2", diceText.trimmed());
         stringResult.replace("%3", lastScalarText);
 
-        int i= rlist.size();
-        for(auto it= rlist.rbegin(); it != rlist.rend(); ++it)
+        // i= rlist.size();
+        stringResult= ParsingToolBox::replaceVariableToValue(stringResult, rlist);
+        /*for(auto it= rlist.rbegin(); it != rlist.rend(); ++it)
         {
             stringResult.replace(
                 QStringLiteral("$%1").arg(i), QStringLiteral("<span class=\"big\">%1</span>").arg((*it)));
             --i;
-        }
-        i= rlist.size();
+        }*/
+        int i= rlist.size();
         for(auto it= diceTextList.rbegin(); it != diceTextList.rend(); ++it)
         {
             stringResult.replace(QStringLiteral("µ%1").arg(i), (*it));
