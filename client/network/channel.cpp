@@ -207,29 +207,44 @@ void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
 
 int Channel::addChild(TreeItem* item)
 {
-    if(nullptr != item)
+    if(nullptr == item)
+        return -1;
+
+    m_child.append(item);
+    item->setParentItem(this);
+
+    auto result= m_child.size();
+
+    if(item->isLeaf())
     {
-        m_child.append(item);
-        item->setParentItem(this);
         TcpClient* tcp= dynamic_cast<TcpClient*>(item);
-        if(nullptr != tcp)
+        if(nullptr == tcp)
+            return result;
+
+        connect(tcp, &TcpClient::clientSaysGoodBye, this, [=] {
+            m_child.removeAll(tcp);
+            qInfo() << QStringLiteral("Client left from channel");
+            auto message= new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
+            message->string8(tcp->getPlayerId());
+            sendToAll(message, tcp, true);
+        });
+        if(tcp->isGM())
         {
-            connect(tcp, &TcpClient::clientSaysGoodBye, this, [=] {
-                m_child.removeAll(tcp);
-                qInfo() << QStringLiteral("Client left from channel");
-                auto message= new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
-                message->string8(tcp->getPlayerId());
-                sendToAll(message, tcp, true);
-            });
-            if(tcp->isGM())
-            {
-                sendOffGmStatus(tcp);
-            }
-            updateNewClient(tcp);
+            if(m_currentGm == nullptr)
+                setCurrentGM(tcp);
+            sendOffGmStatus(tcp);
         }
-        return m_child.size();
+        updateNewClient(tcp);
     }
-    return -1;
+    else
+    {
+        auto chan= dynamic_cast<Channel*>(item);
+        if(nullptr == chan)
+            return result;
+
+        connect(chan, &Channel::memorySizeChanged, this, &Channel::memorySizeChanged);
+    }
+    return result;
 }
 
 bool Channel::addChildInto(QString id, TreeItem* child)

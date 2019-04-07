@@ -28,7 +28,7 @@ ChannelListPanel::ChannelListPanel(QWidget* parent)
     ui->m_channelView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     connect(ui->m_channelView, &QTreeView::customContextMenuRequested, this, &ChannelListPanel::showCustomMenu);
-    connect(m_model, &ChannelModel::localPlayerGMChanged, this, &ChannelListPanel::CurrentChannelGmIdChanged);
+    connect(m_model.get(), &ChannelModel::localPlayerGMChanged, this, &ChannelListPanel::CurrentChannelGmIdChanged);
 
     m_edit= new QAction(tr("Edit Channel"), this);
     m_lock= new QAction(tr("Lock Channel"), this);
