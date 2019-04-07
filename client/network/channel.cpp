@@ -368,17 +368,18 @@ TreeItem* Channel::getChildById(QString id)
 
 TcpClient* Channel::getPlayerById(QString id)
 {
+    TcpClient* result= nullptr;
     for(auto& item : m_child)
     {
         if(nullptr == item)
             continue;
 
-        auto client= dynamic_cast<TcpClient*>(item.data());
-        if(client)
+        if(item->isLeaf())
         {
+            auto client= dynamic_cast<TcpClient*>(item.data());
             if(client->getPlayerId() == id)
             {
-                return client;
+                result= client;
             }
         }
         else
@@ -386,11 +387,13 @@ TcpClient* Channel::getPlayerById(QString id)
             auto channel= dynamic_cast<Channel*>(item.data());
             if(nullptr != channel)
             {
-                return channel->getPlayerById(id);
+                result= channel->getPlayerById(id);
             }
         }
+        if(result != nullptr)
+            break;
     }
-    return nullptr;
+    return result;
 }
 void Channel::fill(NetworkMessageWriter& msg)
 {
