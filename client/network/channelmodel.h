@@ -57,12 +57,13 @@ public:
 
     void kick(const QString&, bool isAdmin, const QString& senderId);
 
-    TreeItem* getItemById(QString id);
-    TcpClient* getPlayerById(QString id);
+    TreeItem* getItemById(QString id) const;
+    TcpClient* getPlayerById(QString id) const;
 
     bool isAdmin(const QString& id) const;
+    bool isGM(const QString& id, const QString& chanId) const;
 
-    QModelIndex addChannelToIndex(Channel* channel, QModelIndex& parent);
+    QModelIndex addChannelToIndex(Channel* channel, const QModelIndex& parent);
     bool addChannelToChannel(Channel* child, Channel* parent);
     QModelIndex channelToIndex(Channel* channel);
 
@@ -77,9 +78,11 @@ public:
 
     void cleanUp();
     void emptyChannelMemory();
+    void renameChannel(const QString& senderId, const QString& id, const QString& value);
 signals:
     void totalSizeChanged(quint64);
     void localPlayerGMChanged(QString id);
+    void modelChanged();
 
 public slots:
     void setChannelMemorySize(Channel* chan, quint64);
@@ -87,6 +90,12 @@ public slots:
 protected:
     bool moveMediaItem(
         QList<TcpClient*> items, const QModelIndex& parentToBe, int row, QList<QModelIndex>& formerPosition);
+
+    void appendChannel(Channel* channel);
+    bool localIsGM() const;
+
+private:
+    std::pair<quint64, QString> convert(quint64 size) const;
 
 private:
     QList<TreeItem*> m_root;
