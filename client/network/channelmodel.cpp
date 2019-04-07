@@ -130,7 +130,6 @@ QVariant ChannelModel::data(const QModelIndex& index, int role) const
             if(!tmp->isLeaf() && role == Qt::DisplayRole)
             {
                 auto channel= dynamic_cast<Channel*>(tmp);
-                qDebug() << "isAdmin:" << isAdmin(m_localPlayerId) << "isGM" << isGM(m_localPlayerId, channel->getId());
                 if(isAdmin(m_localPlayerId) || isGM(m_localPlayerId, channel->getId()))
                 {
                     auto size= channel->memorySize();
