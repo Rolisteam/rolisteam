@@ -13,10 +13,10 @@
 #include "tcpclient.h"
 
 ChannelListPanel::ChannelListPanel(QWidget* parent)
-    : QWidget(parent), ui(new Ui::ChannelListPanel), m_model(new ChannelModel), m_currentGroup(VIEWER)
+    : QWidget(parent), ui(new Ui::ChannelListPanel), m_model(new ChannelModel), m_currentGroups(VIEWER)
 {
     ui->setupUi(this);
-    ui->m_channelView->setModel(m_model);
+    ui->m_channelView->setModel(m_model.get());
     ui->m_channelView->setAlternatingRowColors(true);
     ui->m_channelView->setHeaderHidden(true);
     ui->m_channelView->setAcceptDrops(true);
@@ -31,25 +31,31 @@ ChannelListPanel::ChannelListPanel(QWidget* parent)
     connect(m_model.get(), &ChannelModel::localPlayerGMChanged, this, &ChannelListPanel::CurrentChannelGmIdChanged);
 
     m_edit= new QAction(tr("Edit Channel"), this);
-    m_lock= new QAction(tr("Lock Channel"), this);
+    m_lock= new QAction(tr("Lock/Unlock Channel"), this);
     m_join= new QAction(tr("Switch to channel"), this);
-    m_channelPassword= new QAction(tr("Set Channel Private"), this);
+    m_channelPassword= new QAction(tr("Set/Unset Channel Password"), this);
     m_addChannel= new QAction(tr("Add channel"), this);
     m_addSubchannel= new QAction(tr("Add subchannel"), this);
     m_deleteChannel= new QAction(tr("Delete Channel"), this);
     m_setDefault= new QAction(tr("Set Default"), this);
     m_admin= new QAction(tr("Log as admin"), this);
     m_kick= new QAction(tr("Kick User"), this);
+    m_ban= new QAction(tr("Ban User"), this);
+    m_resetChannel= new QAction(tr("Reset Data Channel"), this);
+    m_moveUserToCurrentChannel= new QAction(tr("Move User"), this);
 
-    connect(m_kick, SIGNAL(triggered(bool)), this, SLOT(kickUser()));
-    connect(m_edit, SIGNAL(triggered(bool)), this, SLOT(editChannel()));
-    connect(m_addChannel, SIGNAL(triggered(bool)), this, SLOT(addChannelAsSibbling()));
-    connect(m_addSubchannel, SIGNAL(triggered(bool)), this, SLOT(addChannel()));
-    connect(m_deleteChannel, SIGNAL(triggered(bool)), this, SLOT(deleteChannel()));
-    connect(m_lock, SIGNAL(triggered(bool)), this, SLOT(lockChannel()));
-    connect(m_join, SIGNAL(triggered(bool)), this, SLOT(joinChannel()));
-    connect(m_admin, SIGNAL(triggered(bool)), this, SLOT(logAsAdmin()));
+    connect(m_kick, &QAction::triggered, this, &ChannelListPanel::kickUser);
+    connect(m_ban, &QAction::triggered, this, &ChannelListPanel::banUser);
+    connect(m_edit, &QAction::triggered, this, &ChannelListPanel::editChannel);
+    connect(m_addChannel, &QAction::triggered, this, &ChannelListPanel::addChannelAsSibbling);
+    connect(m_addSubchannel, &QAction::triggered, this, &ChannelListPanel::addChannel);
+    connect(m_deleteChannel, &QAction::triggered, this, &ChannelListPanel::deleteChannel);
+    connect(m_lock, &QAction::triggered, this, &ChannelListPanel::lockChannel);
+    connect(m_join, &QAction::triggered, this, &ChannelListPanel::joinChannel);
+    connect(m_admin, &QAction::triggered, this, &ChannelListPanel::logAsAdmin);
     connect(m_channelPassword, &QAction::triggered, this, &ChannelListPanel::setPasswordOnChannel);
+    connect(m_resetChannel, &QAction::triggered, this, &ChannelListPanel::resetChannel);
+    connect(m_moveUserToCurrentChannel, &QAction::trigger, this, &ChannelListPanel::moveUserToCurrent);
 }
 
 ChannelListPanel::~ChannelListPanel()
@@ -115,22 +121,15 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
     {
         Out,
         OnChannel,
+        OnCurrentChannel,
         OnUser
     };
 
     ClickState state= Out;
-    menu.addAction(m_join);
-    menu.addAction(m_kick);
-    menu.addSeparator();
-    menu.addAction(m_setDefault);
-    menu.addAction(m_edit);
-    menu.addAction(m_channelPassword);
-    menu.addAction(m_lock);
-    menu.addSeparator();
-    menu.addAction(m_addChannel);
-    menu.addAction(m_addSubchannel);
-    menu.addAction(m_deleteChannel);
-    menu.addAction(m_admin);
+    bool isGmChannel= false;
+    bool isCurrentChannel= false;
+    bool isOwnUser= false;
+    bool hasPassword= false;
 
     m_index= ui->m_channelView->indexAt(pos);
 
@@ -144,60 +143,67 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
         if(data->isLeaf())
         {
             state= OnUser;
+            isOwnUser= (m_localPlayerId == data->getId());
         }
         else
         {
             state= OnChannel;
+
+            auto channel= dynamic_cast<Channel*>(data);
+            if(channel)
+            {
+                if(!channel->password().isEmpty())
+                    hasPassword= true;
+                auto child= channel->getChildById(m_localPlayerId);
+                if(child != nullptr)
+                {
+                    isCurrentChannel= true;
+                    if(isGM())
+                        isGmChannel= true;
+                }
+            }
         }
     }
-    if(state == Out)
+
+    if(state == OnChannel && !isCurrentChannel)
     {
-        m_addChannel->setEnabled(true);
-        m_edit->setEnabled(false);
-        m_lock->setEnabled(false);
-        m_deleteChannel->setEnabled(false);
-        m_addSubchannel->setEnabled(false);
-        m_kick->setEnabled(false);
-        m_setDefault->setEnabled(false);
-        m_join->setEnabled(false);
-    }
-    else if(state == OnChannel)
-    {
-        m_kick->setEnabled(false);
-        m_setDefault->setEnabled(true);
-        m_edit->setEnabled(true);
-        m_lock->setEnabled(true);
-        m_addChannel->setEnabled(true);
-        m_deleteChannel->setEnabled(true);
-        m_addSubchannel->setEnabled(true);
-        m_channelPassword->setEnabled(true);
-        m_join->setEnabled(true);
-    }
-    else if(state == OnUser)
-    {
-        m_kick->setEnabled(true);
-        m_edit->setEnabled(false);
-        m_lock->setEnabled(false);
-        m_deleteChannel->setEnabled(false);
-        m_addSubchannel->setEnabled(false);
-        m_channelPassword->setEnabled(false);
-        m_setDefault->setEnabled(false);
-        m_join->setEnabled(false);
-        m_addChannel->setEnabled(false);
+        menu.addAction(m_join);
+        menu.addSeparator();
     }
 
-    if(ChannelListPanel::VIEWER == m_currentGroup)
+    if(isGM() && isGmChannel)
     {
-        m_kick->setEnabled(false);
-        m_edit->setEnabled(false);
-        m_lock->setEnabled(false);
-        m_deleteChannel->setEnabled(false);
-        m_addSubchannel->setEnabled(false);
-        m_admin->setEnabled(true);
+        menu.addAction(m_lock);
+        menu.addAction(m_addSubchannel);
+        menu.addSeparator();
     }
-    else if(ChannelListPanel::ADMIN == m_currentGroup)
+
+    if(((isGM() && isGmChannel) || isAdmin()) && (state == OnChannel))
     {
-        m_admin->setEnabled(false);
+        menu.addAction(m_edit);
+        menu.addAction(m_resetChannel);
+        menu.addAction(m_deleteChannel);
+        menu.addSeparator();
+    }
+
+    if(isAdmin())
+    {
+        if(state == OnChannel)
+        {
+            menu.addAction(m_setDefault);
+            menu.addAction(m_channelPassword);
+        }
+        else if(state == OnUser && !isOwnUser)
+        {
+            menu.addAction(m_kick);
+            // menu.addAction(m_ban);
+        }
+        menu.addAction(m_addChannel);
+    }
+    else
+    {
+        menu.addSeparator();
+        menu.addAction(m_admin);
     }
     menu.exec(ui->m_channelView->mapToGlobal(pos));
 }
@@ -232,26 +238,47 @@ void ChannelListPanel::kickUser()
 }
 void ChannelListPanel::lockChannel()
 {
-    if(isAdmin())
+    if(!isGM() || !m_index.isValid())
+        return;
+
+    Channel* item= getChannel(m_index);
+    if(item == nullptr)
+        return;
+    QString id= item->getId();
+    if(!id.isEmpty())
     {
-        if(m_index.isValid())
-        {
-            Channel* item= static_cast<Channel*>(m_index.internalPointer());
-            QString id= item->getId();
-            if(!id.isEmpty())
-            {
-                NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::LockChannel);
-                msg.string8(id);
-                msg.sendToServer();
-            }
-        }
+        auto action= item->locked() ? NetMsg::UnlockChannel : NetMsg::LockChannel;
+        NetworkMessageWriter msg(NetMsg::AdministrationCategory, action);
+        msg.string8(id);
+        msg.sendToServer();
     }
 }
+
 template <typename T>
 T ChannelListPanel::indexToPointer(QModelIndex index)
 {
     T item= static_cast<T>(index.internalPointer());
     return item;
+}
+
+TcpClient* ChannelListPanel::getClient(QModelIndex index)
+{
+    auto item= indexToPointer<TreeItem*>(index);
+    if(item->isLeaf())
+    {
+        return static_cast<TcpClient*>(index.internalPointer());
+    }
+    return nullptr;
+}
+
+Channel* ChannelListPanel::getChannel(QModelIndex index)
+{
+    auto item= indexToPointer<TreeItem*>(index);
+    if(!item->isLeaf())
+    {
+        return static_cast<Channel*>(index.internalPointer());
+    }
+    return nullptr;
 }
 
 void ChannelListPanel::banUser()
@@ -260,8 +287,7 @@ void ChannelListPanel::banUser()
     {
         if(m_index.isValid())
         {
-            TcpClient* item
-                = indexToPointer<TcpClient*>(m_index); /// static_cast<TcpClient*>(m_index.internalPointer());
+            TcpClient* item= getClient(m_index); /// static_cast<TcpClient*>(m_index.internalPointer());
             QString id= item->getId();
             QString idPlayer= item->getPlayerId();
             if(!id.isEmpty())
