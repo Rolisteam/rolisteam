@@ -104,6 +104,19 @@ QModelIndex ChannelModel::index(int row, int column, const QModelIndex& parent) 
         return QModelIndex();
 }
 
+std::pair<quint64, QString> ChannelModel::convert(quint64 size) const
+{
+    constexpr int cap= 1024;
+    std::size_t i= 0;
+    std::array<QString, 3> units= {tr("Bytes"), tr("KiB"), tr("MiB")};
+    while(size > cap && i < units.size())
+    {
+        size/= cap;
+        ++i;
+    }
+    return std::make_pair(size, units[i]);
+}
+
 QVariant ChannelModel::data(const QModelIndex& index, int role) const
 {
     if(!index.isValid())
@@ -114,6 +127,16 @@ QVariant ChannelModel::data(const QModelIndex& index, int role) const
     {
         if((role == Qt::DisplayRole) || (Qt::EditRole == role))
         {
+            if(!tmp->isLeaf() && role == Qt::DisplayRole)
+            {
+                auto channel= dynamic_cast<Channel*>(tmp);
+                if(isAdmin(m_localPlayerId) || isGM(m_localPlayerId, channel->getId()))
+                {
+                    auto size= channel->memorySize();
+                    auto pair= convert(size);
+                    return QStringLiteral("%1 (%2 %3)").arg(tmp->getName()).arg(pair.first).arg(pair.second);
+                }
+            }
             return tmp->getName();
         }
 #ifdef QT_WIDGETS_LIB
