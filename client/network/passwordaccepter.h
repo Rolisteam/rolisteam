@@ -13,7 +13,7 @@ public:
     };
     explicit PasswordAccepter(PasswordAccepter::Level level= Connection);
 
-    virtual bool isValid(const QMap<QString, QVariant>& data);
+    virtual bool isValid(const QMap<QString, QVariant>& data) const override;
 
 private:
     PasswordAccepter::Level m_currentLevel;

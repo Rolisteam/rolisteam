@@ -3,7 +3,7 @@
 #include <QDebug>
 PasswordAccepter::PasswordAccepter(PasswordAccepter::Level level) : m_currentLevel(level) {}
 
-bool PasswordAccepter::isValid(const QMap<QString, QVariant>& data)
+bool PasswordAccepter::isValid(const QMap<QString, QVariant>& data) const
 {
     QString pw;
     QString upw;
@@ -25,11 +25,6 @@ bool PasswordAccepter::isValid(const QMap<QString, QVariant>& data)
     if(upw == pw)
     { //(QCryptographicHash::hash(upw.toUtf8(),QCryptographicHash::Sha3_512) != pw.toUtf8()))
         result= true;
-    }
-    // qInfo() << "password" << result << pw << upw;
-    if(nullptr != m_next)
-    {
-        result&= m_next->isValid(data);
     }
     // qInfo() << result;
     return result;

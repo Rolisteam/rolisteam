@@ -23,3 +23,10 @@ void ConnectionAccepter::setIsActive(bool isActive)
 {
     m_isActive= isActive;
 }
+bool ConnectionAccepter::runAccepter(const QMap<QString, QVariant>& data) const
+{
+    bool result= isValid(data);
+    if(nullptr != m_next)
+        result&= m_next->runAccepter(data);
+    return result;
+}

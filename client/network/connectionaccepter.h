@@ -15,13 +15,16 @@ public:
     virtual ~ConnectionAccepter();
     void setNext(ConnectionAccepter* next);
 
-    virtual bool isValid(const QMap<QString, QVariant>& data)= 0;
+    bool runAccepter(const QMap<QString, QVariant>& data) const;
 
     bool isActive() const;
     void setIsActive(bool isActive);
 
 protected:
-    ConnectionAccepter* m_next;
+    virtual bool isValid(const QMap<QString, QVariant>& data) const= 0;
+
+protected:
+    ConnectionAccepter* m_next= nullptr;
     bool m_isActive;
 };
 
