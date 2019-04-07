@@ -1730,6 +1730,7 @@ void MainWindow::initializedClientManager()
         return;
 
     m_localPlayerId= m_currentConnectionProfile->getPlayer()->getUuid();
+    m_roomPanel->setLocalPlayerId(m_localPlayerId);
 
     if(nullptr == m_clientManager)
     {
