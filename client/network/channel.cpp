@@ -289,31 +289,48 @@ void Channel::updateNewClient(TcpClient* newComer)
     }
 }
 
-void Channel::kick(QString str)
+void Channel::kick(const QString& str, bool isAdmin, const QString& sourceId)
 {
-    bool found= false;
+    if(!isAdmin && sourceId.isEmpty())
+        return;
+
+    bool hasRightToKick= isAdmin;
+    QPointer<TreeItem> toKick;
     for(auto& item : m_child)
     {
         if(item == nullptr)
             continue;
+        if(!hasRightToKick && item->getId() == sourceId)
+        {
+            TcpClient* source= dynamic_cast<TcpClient*>(toKick.data());
+            if(source)
+                hasRightToKick= source->isGM();
+        }
         if(item->getId() == str)
         {
-            // child = item;
-            found= true;
-            m_child.removeAll(item);
-            emit itemChanged();
-
-            TcpClient* client= dynamic_cast<TcpClient*>(item.data());
-            removeClient(client);
-            QMetaObject::invokeMethod(client, "closeConnection", Qt::QueuedConnection);
+            toKick= item;
         }
     }
-    if(!found)
+
+    if(!hasRightToKick || toKick.isNull())
+        return;
+
+    if(m_child.removeAll(toKick) == 0)
+        return;
+
+    emit itemChanged();
+
+    TcpClient* client= dynamic_cast<TcpClient*>(toKick.data());
+    if(nullptr == client)
+        return;
+
+    removeClient(client);
+    QMetaObject::invokeMethod(client, "closeConnection", Qt::QueuedConnection);
+
+    // NOTE - could be useless
+    for(auto& item : m_child)
     {
-        for(auto& item : m_child)
-        {
-            item->kick(str);
-        }
+        item->kick(str, isAdmin, sourceId);
     }
 }
 

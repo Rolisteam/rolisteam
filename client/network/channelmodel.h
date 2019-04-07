@@ -55,7 +55,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex& index) const;
     bool hasChildren(const QModelIndex& parent) const;
 
-    void kick(QString);
+    void kick(const QString&, bool isAdmin, const QString& senderId);
 
     TreeItem* getItemById(QString id);
     TcpClient* getPlayerById(QString id);

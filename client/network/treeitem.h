@@ -40,7 +40,7 @@ public:
 
     virtual void clear();
 
-    virtual void kick(QString str);
+    virtual void kick(const QString& str, bool isAdmin, const QString& senderId);
 
     virtual TreeItem* getChildById(QString id);
     virtual bool removeChild(TreeItem*);

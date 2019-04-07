@@ -297,9 +297,9 @@ void ServerManager::sendOffAuthFail()
         tr("Authentification fails: %1 try to connect to the server with wrong password.").arg(client->getIpAddress()),
         LogController::Info);
 }
-void ServerManager::kickClient(QString id)
+void ServerManager::kickClient(QString id, bool isAdmin, QString senderId)
 {
-    m_model->kick(id);
+    m_model->kick(id, isAdmin, senderId);
     sendOffModelToAll();
 
     TcpClient* client= nullptr;

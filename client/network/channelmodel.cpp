@@ -542,13 +542,13 @@ void ChannelModel::writeSettings()
     settings.setValue("channeldata", doc);
 }
 
-void ChannelModel::kick(QString id)
+void ChannelModel::kick(const QString& id, bool isAdmin, const QString& senderId)
 {
     for(auto& item : m_root)
     {
         if(nullptr != item)
         {
-            item->kick(id);
+            item->kick(id, isAdmin, senderId);
         }
     }
 }

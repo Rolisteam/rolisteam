@@ -79,6 +79,7 @@ public slots:
 
 protected:
     void sendEventToClient(TcpClient* client, TcpClient::ConnectionEvent event);
+    void kickClient(QString id, bool isAdmin, QString senderId);
 
 private:
     int m_port;

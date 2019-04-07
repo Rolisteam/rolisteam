@@ -83,7 +83,7 @@ public:
     bool isCurrentGm(TreeItem*);
     QString getCurrentGmId();
 
-    virtual void kick(QString str);
+    virtual void kick(const QString& str, bool isAdmin, const QString& sourceId);
     TreeItem* getChildById(QString id);
     TcpClient* getPlayerById(QString id);
 

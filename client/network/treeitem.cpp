@@ -91,4 +91,4 @@ bool TreeItem::addChildInto(QString, TreeItem*)
 
 void TreeItem::clear() {}
 
-void TreeItem::kick(QString) {}
+void TreeItem::kick(const QString&, bool, const QString&) {}
