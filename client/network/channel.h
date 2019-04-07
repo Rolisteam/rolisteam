@@ -42,6 +42,7 @@ class Channel : public TreeItem
 {
     Q_OBJECT
     Q_PROPERTY(quint64 memorySize READ memorySize WRITE setMemorySize NOTIFY memorySizeChanged)
+    Q_PROPERTY(bool locked READ locked WRITE setLocked NOTIFY lockedChanged)
 public:
     Channel();
     explicit Channel(QString name);
@@ -94,11 +95,14 @@ public:
     quint64 memorySize() const;
     void setMemorySize(quint64 size);
 
+    bool locked() const;
+    void setLocked(bool locked);
 public slots:
     void clearData();
     void renamePlayer(const QString& id, const QString& name);
 signals:
     void memorySizeChanged(quint64 memorySize, Channel* id);
+    void lockedChanged();
 
 protected:
     bool hasNoClient();
@@ -114,6 +118,7 @@ private:
     QList<NetworkMessage*> m_dataToSend;
     quint64 m_memorySize= 0;
     QPointer<TcpClient> m_currentGm;
+    bool m_locked= false;
 };
 
 #endif // CHANNEL_H

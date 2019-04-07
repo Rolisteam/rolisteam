@@ -82,6 +82,7 @@ void Channel::readFromJson(QJsonObject& json)
     m_usersListed= json["usersListed"].toBool();
     m_memorySize= static_cast<quint64>(json["memorySize"].toInt());
     m_id= json["id"].toString();
+    m_locked= json["locked"].toBool();
 
     QJsonArray array= json["children"].toArray();
     for(auto channelJson : array)
@@ -117,6 +118,7 @@ void Channel::writeIntoJson(QJsonObject& json)
     json["id"]= m_id;
     json["memorySize"]= static_cast<int>(m_memorySize);
     json["type"]= "channel";
+    json["locked"]= m_locked;
 
     QJsonArray array;
     for(int i= 0; i < m_child.size(); ++i)
@@ -534,4 +536,15 @@ void Channel::renamePlayer(const QString& id, const QString& name)
     if(nullptr == player)
         return;
     player->setName(name);
+}
+bool Channel::locked() const
+{
+    return m_locked;
+}
+void Channel::setLocked(bool locked)
+{
+    if(locked == m_locked)
+        return;
+    m_locked= locked;
+    emit lockedChanged();
 }
