@@ -111,8 +111,8 @@ void PaletteModel::initData()
     m_data.append(color);
     color= new PaletteColor(QColor(), "ToolTipText", QPalette::Active, QPalette::ToolTipText);
     m_data.append(color);
-    color= new PaletteColor(QColor(), "PlaceholderText", QPalette::Active, QPalette::PlaceholderText);
-    m_data.append(color);
+    // color= new PaletteColor(QColor(), "PlaceholderText", QPalette::Active, QPalette::PlaceholderText);
+    // m_data.append(color);
     color= new PaletteColor(QColor(), "Text", QPalette::Active, QPalette::Text);
     m_data.append(color);
     color= new PaletteColor(QColor(), "Button", QPalette::Active, QPalette::Button);
@@ -185,8 +185,8 @@ void PaletteModel::initData()
     m_data.append(color);
     color= new PaletteColor(QColor(), "NoRole", QPalette::Inactive, QPalette::NoRole);
     m_data.append(color);
-    color= new PaletteColor(QColor(), "PlaceholderText", QPalette::Inactive, QPalette::PlaceholderText);
-    m_data.append(color);
+    // color= new PaletteColor(QColor(), "PlaceholderText", QPalette::Inactive, QPalette::PlaceholderText);
+    // m_data.append(color);
 
     color= new PaletteColor(QColor(), "WindowText", QPalette::Disabled, QPalette::WindowText);
     m_data.append(color);
@@ -228,8 +228,8 @@ void PaletteModel::initData()
     m_data.append(color);
     color= new PaletteColor(QColor(), "NoRole", QPalette::Disabled, QPalette::NoRole);
     m_data.append(color);
-    color= new PaletteColor(QColor(), "PlaceholderText", QPalette::Disabled, QPalette::PlaceholderText);
-    m_data.append(color);
+    // color= new PaletteColor(QColor(), "PlaceholderText", QPalette::Disabled, QPalette::PlaceholderText);
+    // m_data.append(color);
 }
 int PaletteModel::rowCount(const QModelIndex&) const
 {
