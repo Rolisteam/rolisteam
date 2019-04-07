@@ -41,6 +41,7 @@ class NetworkMessageReader;
 class Channel : public TreeItem
 {
     Q_OBJECT
+    Q_PROPERTY(quint64 memorySize READ memorySize WRITE setMemorySize NOTIFY memorySizeChanged)
 public:
     Channel();
     explicit Channel(QString name);
@@ -89,6 +90,9 @@ public:
 
     void fill(NetworkMessageWriter& msg);
     void read(NetworkMessageReader& msg);
+
+    quint64 memorySize() const;
+    void setMemorySize(quint64 size);
 
 public slots:
     void clearData();

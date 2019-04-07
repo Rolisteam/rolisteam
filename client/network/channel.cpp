@@ -80,6 +80,7 @@ void Channel::readFromJson(QJsonObject& json)
     m_name= json["title"].toString();
     m_description= json["description"].toString();
     m_usersListed= json["usersListed"].toBool();
+    m_memorySize= static_cast<quint64>(json["memorySize"].toInt());
     m_id= json["id"].toString();
 
     QJsonArray array= json["children"].toArray();
@@ -114,6 +115,7 @@ void Channel::writeIntoJson(QJsonObject& json)
     json["description"]= m_description;
     json["usersListed"]= m_usersListed;
     json["id"]= m_id;
+    json["memorySize"]= static_cast<int>(m_memorySize);
     json["type"]= "channel";
 
     QJsonArray array;
@@ -153,8 +155,7 @@ void Channel::sendMessage(NetworkMessage* msg, TcpClient* emitter, bool mustBeSa
         if(mustBeSaved)
         {
             m_dataToSend.append(msg);
-            m_memorySize+= msg->getSize();
-            emit memorySizeChanged(m_memorySize, this);
+            setMemorySize(m_memorySize + msg->getSize());
         }
     }
     else if(msg->getRecipientMode() == NetworkMessage::OneOrMany)
@@ -434,8 +435,7 @@ bool Channel::removeClient(TcpClient* client)
 void Channel::clearData()
 {
     m_dataToSend.clear();
-    m_memorySize= 0;
-    emit memorySizeChanged(m_memorySize, this);
+    setMemorySize(0);
 }
 bool Channel::removeChild(TreeItem* itm)
 {
@@ -516,6 +516,17 @@ QString Channel::getCurrentGmId()
     if(m_currentGm)
         return m_currentGm->getPlayerId();
     return {};
+}
+quint64 Channel::memorySize() const
+{
+    return m_memorySize;
+}
+void Channel::setMemorySize(quint64 size)
+{
+    if(size == m_memorySize)
+        return;
+    m_memorySize= size;
+    emit memorySizeChanged(m_memorySize, this);
 }
 void Channel::renamePlayer(const QString& id, const QString& name)
 {
