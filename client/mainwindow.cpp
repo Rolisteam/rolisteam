@@ -1283,7 +1283,7 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
             m_dialog->open();
         break;
     case ClientManager::AUTHENTIFIED:
-        m_roomPanel->sendOffLoginAdmin(m_currentConnectionProfile->getPassword());
+        m_roomPanel->sendOffLoginAdmin(m_passwordAdmin);
         m_dialog->accept();
         break;
     case ClientManager::CONNECTING:
@@ -1677,28 +1677,41 @@ void MainWindow::startConnection()
         {
             if(m_currentConnectionProfile->isServer())
             {
-                if(!m_serverThread.isRunning() || m_server == nullptr)
+                if(nullptr != m_server)
                 {
-                    m_server= new ServerManager();
-                    m_server->initServerManager();
-                    connect(&m_serverThread, SIGNAL(started()), m_server, SLOT(startListening()));
-                    connect(&m_serverThread, SIGNAL(finished()), m_server, SLOT(deleteLater()));
-                    connect(m_server, &ServerManager::sendLog, m_logController, &LogController::manageMessage);
-                    connect(m_server, &ServerManager::sendLog, this, [=](QString str, LogController::LogLevel level) {
-                        if(LogController::Error == level)
-                            m_dialog->errorOccurs(str);
-                    });
-                    connect(
-                        m_server, SIGNAL(listening()), this, SLOT(initializedClientManager()), Qt::QueuedConnection);
-                    m_server->moveToThread(&m_serverThread);
+                    disconnect(m_server, nullptr, this, nullptr);
+                    disconnect(m_server, nullptr, this, nullptr);
+                    delete m_server;
+                    m_server= nullptr;
                 }
+
+                if(m_serverThread.isRunning())
+                {
+                    m_serverThread.exit();
+                }
+
+                m_server= new ServerManager();
+                m_server->initServerManager();
+                connect(&m_serverThread, &QThread::started, m_server, &ServerManager::startListening);
+                // connect(&m_serverThread, SIGNAL(finished()), m_server, SLOT(deleteLater()));
+                connect(&m_serverThread, &QThread::finished, m_server, &ServerManager::stopListening);
+                connect(m_server, &ServerManager::sendLog, m_logController, &LogController::manageMessage);
+                connect(m_server, &ServerManager::sendLog, this, [=](QString str, LogController::LogLevel level) {
+                    if(LogController::Error == level)
+                        m_dialog->errorOccurs(str);
+                });
+                connect(m_server, &ServerManager::listening, this, &MainWindow::initializedClientManager,
+                    Qt::QueuedConnection);
+                m_server->moveToThread(&m_serverThread);
+
                 m_server->insertField("port", m_currentConnectionProfile->getPort());
                 m_server->insertField("ThreadCount", 1);
                 m_server->insertField("ChannelCount", 1);
                 m_server->insertField("LogLevel", 3);
                 m_server->insertField("ServerPassword", m_currentConnectionProfile->getPassword());
                 m_server->insertField("TimeToRetry", 5000);
-                m_server->insertField("AdminPassword", m_currentConnectionProfile->getPassword());
+                m_passwordAdmin= QCryptographicHash::hash(QUuid().toString().toUtf8(), QCryptographicHash::Sha3_512);
+                m_server->insertField("AdminPassword", m_passwordAdmin);
                 m_serverThread.start();
             }
             else

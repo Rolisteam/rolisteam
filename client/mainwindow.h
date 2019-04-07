@@ -567,6 +567,7 @@ private:
     QString m_connectionAddress;
     bool m_isOut= false;
     LogSenderScheduler m_logScheduler;
+    QByteArray m_passwordAdmin;
 
     std::unique_ptr<CommandLineProfile> m_commandLineProfile;
 };
