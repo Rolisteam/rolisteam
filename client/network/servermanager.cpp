@@ -15,9 +15,11 @@ ServerManager::ServerManager(QObject* parent) : QObject(parent), m_server(nullpt
 {
     qRegisterMetaType<NetworkMessage*>("NetworkMessage*");
 
-    m_model= new ChannelModel();
+    m_model.reset(new ChannelModel());
 
-    connect(m_model, &ChannelModel::totalSizeChanged, this, &ServerManager::memoryChannelChanged);
+    connect(m_model.get(), &ChannelModel::totalSizeChanged, this, &ServerManager::memoryChannelChanged);
+    connect(m_model.get(), &ChannelModel::modelChanged, this, &ServerManager::sendOffModelToAll);
+
     m_msgDispatcher= new MessageDispatcher(this);
     connect(this, &ServerManager::messageMustBeDispatched, m_msgDispatcher, &MessageDispatcher::dispatchMessage,
         Qt::QueuedConnection);
@@ -48,12 +50,6 @@ ServerManager::~ServerManager()
     {
         delete m_server;
         m_server= nullptr;
-    }
-
-    if(nullptr != m_model)
-    {
-        delete m_model;
-        m_model= nullptr;
     }
 
     if(nullptr != m_corConnection)
@@ -165,7 +161,7 @@ void ServerManager::serverAcceptClient(TcpClient* client)
     {
         QMap<QString, QVariant> data(m_parameters);
         data["currentIp"]= client->getIpAddress();
-        if(m_corConnection->isValid(data))
+        if(m_corConnection->runAccepter(data))
         {
             sendEventToClient(client, TcpClient::ControlSuccessEvent);
         }
@@ -182,7 +178,7 @@ void ServerManager::checkAuthToServer(TcpClient* client)
         QMap<QString, QVariant> data(m_parameters);
         data["currentIp"]= client->getIpAddress();
         data["userpassword"]= client->getServerPassword();
-        if(m_corEndProcess->isValid(data))
+        if(m_corEndProcess->runAccepter(data))
         {
             m_model->addConnectionToDefaultChannel(client);
             sendEventToClient(client, TcpClient::ServerAuthSuccessEvent);
@@ -198,7 +194,7 @@ void ServerManager::checkAuthAsAdmin(TcpClient* client)
 {
     QMap<QString, QVariant> data(m_parameters);
     data["userpassword"]= client->getAdminPassword();
-    if(m_adminAccepter->isValid(data))
+    if(m_adminAccepter->runAccepter(data))
     {
         sendEventToClient(client, TcpClient::AdminAuthSuccessEvent);
     }
@@ -229,7 +225,7 @@ void ServerManager::checkAuthToChannel(TcpClient* client, QString channelId, QBy
     if(channel->password() != password)
         eventToSend= TcpClient::ChannelAuthFailEvent;
 
-    if((m_corEndProcess->isValid(data)) && (eventToSend != TcpClient::ChannelAuthFailEvent))
+    if((m_corEndProcess->runAccepter(data)) && (eventToSend != TcpClient::ChannelAuthFailEvent))
     {
         if(!m_model->addConnectionToChannel(channelId, client))
         {
@@ -321,23 +317,37 @@ void ServerManager::kickClient(QString id, bool isAdmin, QString senderId)
     }
 }
 
+void ServerManager::banClient(QString id, bool isAdmin, QString senderId) {}
+
 void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan, TcpClient* tcp)
 {
+    if(tcp == nullptr)
+        return;
+
     bool isAdmin= tcp->isAdmin();
+    bool isGM= tcp->isGM();
+    auto sourceId= tcp->getPlayerId();
     switch(msg->action())
     {
     case NetMsg::Kicked:
     {
+        QString id= msg->string8();
+        kickClient(id, isAdmin, sourceId);
+    }
+    break;
+    case NetMsg::BanUser:
+        // TODO
+        break;
+    case NetMsg::RenameChannel:
+    {
         if(isAdmin)
         {
-            QString id= msg->string8();
-            kickClient(id);
+            QString idChan= msg->string8();
+            QString newName= msg->string32();
+            m_model->renameChannel(sourceId, idChan, newName);
         }
     }
     break;
-    case NetMsg::MoveChannel:
-
-        break;
     case NetMsg::AddChannel:
     {
         if(isAdmin)
@@ -354,23 +364,17 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
     break;
     case NetMsg::JoinChannel:
     {
-        if(isAdmin)
+        QString id= msg->string8();
+        QString idClient= msg->string8();
+        TreeItem* item= m_model->getItemById(id);
+        TreeItem* clientItem= m_model->getItemById(idClient);
+        TcpClient* client= static_cast<TcpClient*>(clientItem);
+        Channel* dest= static_cast<Channel*>(item);
+        if(nullptr != dest && !dest->locked())
         {
-            QString id= msg->string8();
-            QString idClient= msg->string8();
-            TreeItem* item= m_model->getItemById(id);
-            TreeItem* clientItem= m_model->getItemById(idClient);
-            TcpClient* client= static_cast<TcpClient*>(clientItem);
-            Channel* dest= static_cast<Channel*>(item);
-            if(nullptr != dest)
-            {
-                chan->removeClient(client);
-                dest->addChild(client);
-                sendEventToClient(tcp, TcpClient::ServerAuthDataReceivedEvent);
-            }
-        }
-        else
-        {
+            chan->removeClient(client);
+            dest->addChild(client);
+            sendEventToClient(tcp, TcpClient::ServerAuthDataReceivedEvent);
         }
     }
     break;
@@ -398,10 +402,37 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
         }
     }
     break;
+    case NetMsg::MoveChannel:
     case NetMsg::AdminPassword:
+        break;
+    case NetMsg::ResetChannel:
     {
+        if(isGM)
+        {
+            if(nullptr != chan)
+                chan->clearData();
+        }
+        else if(isAdmin)
+        {
+            QString id= msg->string8();
+            auto item= m_model->getItemById(id);
+            if(!item->isLeaf())
+            {
+                auto chan= dynamic_cast<Channel*>(item);
+                if(chan)
+                    chan->clearData();
+            }
+        }
     }
     break;
+    case NetMsg::LockChannel:
+    case NetMsg::UnlockChannel:
+        if(isGM)
+        {
+            if(nullptr != chan)
+                chan->setLocked(msg->action() == NetMsg::LockChannel ? true : false);
+        }
+        break;
     default:
         break;
     }
@@ -469,16 +500,17 @@ void ServerManager::accept(qintptr handle, TcpClient* connection, QThread* threa
     Q_UNUSED(thread);
     emit sendLog(tr("New Incoming Connection!"), LogController::Info);
 
+    connect(connection, &TcpClient::dataReceived, this, &ServerManager::messageReceived, Qt::QueuedConnection); //
+    connect(connection, &TcpClient::socketInitiliazed, this, &ServerManager::initClient, Qt::QueuedConnection);
+
+    connect(connection, &TcpClient::serverAuthFail, this, &ServerManager::sendOffAuthFail, Qt::QueuedConnection);
     connect(
-        connection, SIGNAL(dataReceived(QByteArray)), this, SLOT(messageReceived(QByteArray)), Qt::QueuedConnection); //
-    connect(connection, SIGNAL(socketInitiliazed()), this, SLOT(initClient()), Qt::QueuedConnection);
+        connection, &TcpClient::serverAuthSuccess, this, &ServerManager::sendOffAuthSuccessed, Qt::QueuedConnection);
 
-    connect(connection, SIGNAL(serverAuthFail()), this, SLOT(sendOffAuthFail()), Qt::QueuedConnection);
-    connect(connection, SIGNAL(serverAuthSuccess()), this, SLOT(sendOffAuthSuccessed()), Qt::QueuedConnection);
-
-    connect(connection, SIGNAL(adminAuthFailed()), this, SLOT(sendOffAdminAuthFail()), Qt::QueuedConnection);
-    connect(connection, SIGNAL(adminAuthSucceed()), this, SLOT(sendOffAdminAuthSuccessed()), Qt::QueuedConnection);
-    connect(connection, SIGNAL(itemChanged()), this, SLOT(sendOffModelToAll()), Qt::QueuedConnection);
+    connect(connection, &TcpClient::adminAuthFailed, this, &ServerManager::sendOffAdminAuthFail, Qt::QueuedConnection);
+    connect(connection, &TcpClient::adminAuthSucceed, this, &ServerManager::sendOffAdminAuthSuccessed,
+        Qt::QueuedConnection);
+    connect(connection, &TcpClient::itemChanged, this, &ServerManager::sendOffModelToAll, Qt::QueuedConnection);
 
     connect(connection, &TcpClient::checkServerAcceptClient, this, &ServerManager::serverAcceptClient,
         Qt::QueuedConnection);

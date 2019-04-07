@@ -40,7 +40,7 @@ public:
     void insertField(QString, QVariant, bool erase= true);
     void initServerManager();
     QVariant getValue(QString key) const;
-    void kickClient(QString id);
+
     void setChannelPassword(QString chanId, QByteArray passwd);
 signals:
     void stateChanged(ServerManager::ServerState);
@@ -52,8 +52,8 @@ signals:
 
 public slots:
     void startListening();
-    void messageReceived(QByteArray);
     void stopListening();
+    void messageReceived(QByteArray);
     void processMessageAdmin(NetworkMessageReader* msg, Channel* chan, TcpClient* tcp);
     void initClient();
     void sendOffAuthSuccessed();
@@ -80,11 +80,12 @@ public slots:
 protected:
     void sendEventToClient(TcpClient* client, TcpClient::ConnectionEvent event);
     void kickClient(QString id, bool isAdmin, QString senderId);
+    void banClient(QString id, bool isAdmin, QString senderId);
 
 private:
     int m_port;
     RServer* m_server= nullptr;
-    ChannelModel* m_model= nullptr;
+    std::unique_ptr<ChannelModel> m_model;
     ConnectionAccepter* m_corEndProcess= nullptr;
     ConnectionAccepter* m_corConnection= nullptr;
     ConnectionAccepter* m_adminAccepter= nullptr;
