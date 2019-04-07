@@ -65,14 +65,17 @@ namespace NetMsg
         Kicked,
         MoveChannel,
         SetChannelList,
+        RenameChannel,
         NeedPassword,
         AuthentificationSucessed,
         AuthentificationFail,
         LockChannel,
+        UnlockChannel,
         JoinChannel,
         DeleteChannel,
         AddChannel,
         ChannelPassword,
+        ResetChannelPassword,
         BanUser,
         ClearTable,
         AdminPassword,
@@ -80,6 +83,7 @@ namespace NetMsg
         AdminAuthFail,
         MovedIntoChannel,
         GMStatus,
+        ResetChannel,
 
         // PlayerCategory
         PlayerConnectionAction= 0,
@@ -181,12 +185,12 @@ namespace NetMsg
         closeMedia,
 
         // SharedNoteCategory
-        updateTextAndPermission,
+        updateTextAndPermission= 0,
         updateText,
         updatePermissionOneUser,
 
         // WebPage
-        UpdateContent
+        UpdateContent= 0
     };
 } // namespace NetMsg
 /**
