@@ -16,19 +16,22 @@ class ChannelListPanel : public QWidget
     Q_OBJECT
 
 public:
-    enum GROUP
+    enum Group
     {
-        VIEWER,
-        ADMIN
+        VIEWER= 0x0,
+        GAMEMASTER= 0x1,
+        ADMIN= 0x2
     };
-    explicit ChannelListPanel(QWidget* parent= 0);
+    Q_DECLARE_FLAGS(Groups, Group)
+
+    explicit ChannelListPanel(QWidget* parent= nullptr);
     virtual ~ChannelListPanel();
 
     void processMessage(NetworkMessageReader* msg);
     void sendOffModel();
 
-    ChannelListPanel::GROUP currentGRoup() const;
-    void setCurrentGRoup(const GROUP& currentGRoup);
+    ChannelListPanel::Groups currentGroups() const;
+    void setCurrentGroups(const Groups& currentGroups);
 
     bool isAdmin();
     template <typename T>
@@ -75,10 +78,12 @@ private:
     QAction* m_admin= nullptr;
     QAction* m_kick= nullptr;
 
-    GROUP m_currentGroup;
+    Groups m_currentGroups;
     QModelIndex m_index;
     QString m_serverName;
     QString m_localPlayerId;
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(ChannelListPanel::Groups)
 
 #endif // CHANNELLISTPANEL_H

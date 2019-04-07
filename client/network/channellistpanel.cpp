@@ -77,11 +77,20 @@ void ChannelListPanel::processMessage(NetworkMessageReader* msg)
         }
     }
     break;
+    case NetMsg::GMStatus:
+    {
+        auto isGM= msg->uint8();
+        if(isGM && (m_currentGroups == VIEWER))
+        {
+            setCurrentGroups(m_currentGroups | GAMEMASTER);
+        }
+    }
+    break;
     case NetMsg::AdminAuthFail:
-        m_currentGroup= VIEWER;
+        setCurrentGroups(VIEWER);
         break;
     case NetMsg::AdminAuthSucessed:
-        m_currentGroup= ADMIN;
+        setCurrentGroups(m_currentGroups | ADMIN);
         break;
     default:
         break;
@@ -194,12 +203,12 @@ void ChannelListPanel::showCustomMenu(QPoint pos)
 }
 bool ChannelListPanel::isAdmin()
 {
-    /// @TODO manage the admin account.
-    if(ChannelListPanel::ADMIN == m_currentGroup)
-    {
-        return true;
-    }
-    return false;
+    return (ChannelListPanel::ADMIN & m_currentGroups);
+}
+
+bool ChannelListPanel::isGM()
+{
+    return (ChannelListPanel::GAMEMASTER & m_currentGroups);
 }
 
 void ChannelListPanel::kickUser()
@@ -431,14 +440,14 @@ void ChannelListPanel::joinChannel()
     }
 }
 
-ChannelListPanel::GROUP ChannelListPanel::currentGRoup() const
+ChannelListPanel::Groups ChannelListPanel::currentGroups() const
 {
-    return m_currentGroup;
+    return m_currentGroups;
 }
 
-void ChannelListPanel::setCurrentGRoup(const GROUP& currentGRoup)
+void ChannelListPanel::setCurrentGroups(const Groups& currentGroups)
 {
-    m_currentGroup= currentGRoup;
+    m_currentGroups= currentGroups;
 }
 void ChannelListPanel::cleanUp()
 {
