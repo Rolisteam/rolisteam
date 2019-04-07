@@ -29,6 +29,7 @@ TRANSLATIONS =  ../translations/roliserver_fr.ts \
                 ../translations/roliserver_hu_HU.ts \
                 ../translations/roliserver_tr.ts \
                 ../translations/roliserver_es.ts \
+                ../translations/roliserver_it.ts \
 
 
 # Version
