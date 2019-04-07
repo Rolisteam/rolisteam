@@ -47,11 +47,10 @@ QString TreeItem::getName() const
 
 void TreeItem::setName(const QString& name)
 {
-    if(m_name != name)
-    {
-        m_name= name;
-        emit itemChanged();
-    }
+    if(m_name == name)
+        return;
+    m_name= name;
+    emit itemChanged();
 }
 
 int TreeItem::rowInParent()
@@ -77,11 +76,11 @@ bool TreeItem::removeChild(TreeItem*)
 
 void TreeItem::setId(const QString& id)
 {
-    if(m_id != id)
-    {
-        m_id= id;
-        emit itemChanged();
-    }
+    if(m_id == id)
+        return;
+
+    m_id= id;
+    emit itemChanged();
 }
 
 bool TreeItem::addChildInto(QString, TreeItem*)
