@@ -100,7 +100,7 @@ void Channel::readFromJson(QJsonObject& json)
             item= tcpItem;
             if(obj["gm"].toBool())
             {
-                m_currentGm= tcpItem;
+                setCurrentGM(tcpItem);
             }
         }
         item->readFromJson(obj);
@@ -471,14 +471,10 @@ bool Channel::hasNoClient()
 
 void Channel::sendOffGmStatus(TcpClient* client)
 {
-    bool isRealGM= false;
-    if(m_currentGm == nullptr || m_currentGm == client)
-    {
-        m_currentGm= client;
-        isRealGM= true;
-    }
     if(nullptr == client)
         return;
+
+    bool isRealGM= (m_currentGm == client);
 
     NetworkMessageWriter* message= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::GMStatus);
     QStringList idList;
@@ -502,15 +498,23 @@ void Channel::findNewGM()
     });
 
     if(result == m_child.end())
-        m_currentGm= nullptr;
+        setCurrentGM(nullptr);
     else
-        m_currentGm= dynamic_cast<TcpClient*>(result->data());
+        setCurrentGM(dynamic_cast<TcpClient*>(result->data()));
 
     sendOffGmStatus(m_currentGm);
 }
-bool Channel::isCurrentGm(TreeItem* item)
+
+TcpClient* Channel::currentGM() const
 {
-    return (m_currentGm == item);
+    return m_currentGm.data();
+}
+void Channel::setCurrentGM(TcpClient* currentGM)
+{
+    if(currentGM == m_currentGm)
+        return;
+    m_currentGm= currentGM;
+    emit currentGMChanged();
 }
 
 QString Channel::getCurrentGmId()

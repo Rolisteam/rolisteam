@@ -43,6 +43,7 @@ class Channel : public TreeItem
     Q_OBJECT
     Q_PROPERTY(quint64 memorySize READ memorySize WRITE setMemorySize NOTIFY memorySizeChanged)
     Q_PROPERTY(bool locked READ locked WRITE setLocked NOTIFY lockedChanged)
+    Q_PROPERTY(TcpClient* currentGM READ currentGM WRITE setCurrentGM NOTIFY currentGMChanged)
 public:
     Channel();
     explicit Channel(QString name);
@@ -82,7 +83,9 @@ public:
     bool removeClient(TcpClient* client);
     bool removeChild(TreeItem*);
 
-    bool isCurrentGm(TreeItem*);
+    TcpClient* currentGM() const;
+    void setCurrentGM(TcpClient* currentGM);
+
     QString getCurrentGmId();
 
     virtual void kick(const QString& str, bool isAdmin, const QString& sourceId);
@@ -97,12 +100,14 @@ public:
 
     bool locked() const;
     void setLocked(bool locked);
+
 public slots:
     void clearData();
     void renamePlayer(const QString& id, const QString& name);
 signals:
     void memorySizeChanged(quint64 memorySize, Channel* id);
     void lockedChanged();
+    void currentGMChanged();
 
 protected:
     bool hasNoClient();
