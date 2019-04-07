@@ -90,7 +90,7 @@ public:
 
     virtual void kick(const QString& str, bool isAdmin, const QString& sourceId);
     TreeItem* getChildById(QString id);
-    TcpClient* getPlayerById(QString id);
+    TcpClient* getClientById(QString id);
 
     void fill(NetworkMessageWriter& msg);
     void read(NetworkMessageReader& msg);

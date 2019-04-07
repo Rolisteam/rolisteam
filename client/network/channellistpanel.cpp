@@ -445,7 +445,7 @@ void ChannelListPanel::moveUserToCurrent()
 
     if(isAdmin() || isGM())
     {
-        auto local= m_model->getPlayerById(m_localPlayerId);
+        auto local= m_model->getTcpClientById(m_localPlayerId);
         if(nullptr == local)
             return;
 

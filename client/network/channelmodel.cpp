@@ -130,6 +130,7 @@ QVariant ChannelModel::data(const QModelIndex& index, int role) const
             if(!tmp->isLeaf() && role == Qt::DisplayRole)
             {
                 auto channel= dynamic_cast<Channel*>(tmp);
+                qDebug() << "isAdmin:" << isAdmin(m_localPlayerId) << "isGM" << isGM(m_localPlayerId, channel->getId());
                 if(isAdmin(m_localPlayerId) || isGM(m_localPlayerId, channel->getId()))
                 {
                     auto size= channel->memorySize();
@@ -538,7 +539,7 @@ bool ChannelModel::addConnectionToChannel(QString chanId, TcpClient* client)
     bool found= false;
     for(auto& item : m_root)
     {
-        if(nullptr != item)
+        if(nullptr != item && !found)
         {
             found= item->addChildInto(chanId, client);
         }
@@ -564,7 +565,7 @@ void ChannelModel::readDataJson(const QJsonObject& obj)
     }
     endResetModel();
 
-    auto item= getPlayerById(m_localPlayerId);
+    auto item= getTcpClientById(m_localPlayerId);
     if(nullptr != item)
     {
         auto parent= dynamic_cast<Channel*>(item->getParentItem()); // channel
@@ -621,7 +622,7 @@ void ChannelModel::kick(const QString& id, bool isAdmin, const QString& senderId
 
 bool ChannelModel::isAdmin(const QString& id) const
 {
-    auto player= getPlayerById(id);
+    auto player= getTcpClientById(id);
     if(nullptr == player)
         return false;
     return player->isAdmin();
@@ -629,7 +630,7 @@ bool ChannelModel::isAdmin(const QString& id) const
 
 bool ChannelModel::isGM(const QString& id, const QString& chanId) const
 {
-    auto player= getPlayerById(id);
+    auto player= getTcpClientById(id);
     auto item= getItemById(chanId);
     if(nullptr == player || item == nullptr)
         return false;
@@ -664,7 +665,7 @@ TreeItem* ChannelModel::getItemById(QString id) const
     return nullptr;
 }
 
-TcpClient* ChannelModel::getPlayerById(QString id) const
+TcpClient* ChannelModel::getTcpClientById(QString id) const
 {
     TcpClient* client= nullptr;
     for(auto& item : m_root)
@@ -677,7 +678,7 @@ TcpClient* ChannelModel::getPlayerById(QString id) const
             auto channel= dynamic_cast<Channel*>(item);
             if(nullptr != channel)
             {
-                client= channel->getPlayerById(id);
+                client= channel->getClientById(id);
             }
         }
 
@@ -741,7 +742,7 @@ void ChannelModel::emptyChannelMemory()
 }
 bool ChannelModel::localIsGM() const
 {
-    auto local= getPlayerById(m_localPlayerId);
+    auto local= getTcpClientById(m_localPlayerId);
     if(local == nullptr)
         return false;
 

@@ -58,7 +58,7 @@ public:
     void kick(const QString&, bool isAdmin, const QString& senderId);
 
     TreeItem* getItemById(QString id) const;
-    TcpClient* getPlayerById(QString id) const;
+    TcpClient* getTcpClientById(QString id) const;
 
     bool isAdmin(const QString& id) const;
     bool isGM(const QString& id, const QString& chanId) const;

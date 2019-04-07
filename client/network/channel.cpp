@@ -381,7 +381,7 @@ TreeItem* Channel::getChildById(QString id)
     return nullptr;
 }
 
-TcpClient* Channel::getPlayerById(QString id)
+TcpClient* Channel::getClientById(QString id)
 {
     TcpClient* result= nullptr;
     for(auto& item : m_child)
@@ -392,7 +392,7 @@ TcpClient* Channel::getPlayerById(QString id)
         if(item->isLeaf())
         {
             auto client= dynamic_cast<TcpClient*>(item.data());
-            if(client->getPlayerId() == id)
+            if(client->getId() == id)
             {
                 result= client;
             }
@@ -402,7 +402,7 @@ TcpClient* Channel::getPlayerById(QString id)
             auto channel= dynamic_cast<Channel*>(item.data());
             if(nullptr != channel)
             {
-                result= channel->getPlayerById(id);
+                result= channel->getClientById(id);
             }
         }
         if(result != nullptr)
@@ -554,7 +554,7 @@ void Channel::setMemorySize(quint64 size)
 }
 void Channel::renamePlayer(const QString& id, const QString& name)
 {
-    auto player= getPlayerById(id);
+    auto player= getClientById(id);
     if(nullptr == player)
         return;
     player->setName(name);
