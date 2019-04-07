@@ -501,6 +501,7 @@ void TcpClient::readFromJson(QJsonObject& json)
 {
     setName(json["name"].toString());
     setId(json["id"].toString());
+    setIsAdmin(json["admin"].toBool());
     m_playerId= json["idPlayer"].toString();
 }
 
@@ -508,6 +509,7 @@ void TcpClient::writeIntoJson(QJsonObject& json)
 {
     json["type"]= "client";
     json["name"]= m_name;
+    json["admin"]= m_isAdmin;
     json["id"]= m_id;
     json["idPlayer"]= getPlayerId();
 }

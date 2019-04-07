@@ -156,7 +156,8 @@ QVariant ChannelModel::data(const QModelIndex& index, int role) const
 
 bool ChannelModel::setData(const QModelIndex& index, const QVariant& value, int)
 {
-    if(!index.isValid())
+    bool rightToSetName= isAdmin(m_localPlayerId);
+    if((!rightToSetName && !localIsGM()) || !index.isValid())
         return false;
 
     TreeItem* tmp= static_cast<TreeItem*>(index.internalPointer());
@@ -325,11 +326,12 @@ Qt::ItemFlags ChannelModel::flags(const QModelIndex& index) const
 
     TreeItem* item= static_cast<TreeItem*>(index.internalPointer());
 
-    if(isAdmin() && item->isLeaf())
+    auto admin= isAdmin(m_localPlayerId);
+    if(admin && item->isLeaf())
     {
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled;
     }
-    else if(isAdmin() && !item->isLeaf())
+    else if(admin && !item->isLeaf())
     {
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
     }
@@ -383,7 +385,7 @@ bool ChannelModel::moveMediaItem(
 {
     Q_UNUSED(row)
     Q_UNUSED(formerPosition)
-    if(isAdmin())
+    if(isAdmin(m_localPlayerId))
     {
         if(parentToBe.isValid())
         {
@@ -553,14 +555,26 @@ void ChannelModel::kick(const QString& id, bool isAdmin, const QString& senderId
     }
 }
 
-bool ChannelModel::isAdmin() const
+bool ChannelModel::isAdmin(const QString& id) const
 {
-    return m_admin;
+    auto player= getPlayerById(id);
+    if(nullptr == player)
+        return false;
+    return player->isAdmin();
 }
 
-void ChannelModel::setAdmin(bool admin)
+bool ChannelModel::isGM(const QString& id, const QString& chanId) const
 {
-    m_admin= admin;
+    auto player= getPlayerById(id);
+    auto item= getItemById(chanId);
+    if(nullptr == player || item == nullptr)
+        return false;
+
+    auto chan= dynamic_cast<Channel*>(item);
+    if(nullptr == chan)
+        return false;
+
+    return chan->currentGM() == player;
 }
 TreeItem* ChannelModel::getItemById(QString id)
 {

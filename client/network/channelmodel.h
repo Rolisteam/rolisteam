@@ -60,8 +60,7 @@ public:
     TreeItem* getItemById(QString id);
     TcpClient* getPlayerById(QString id);
 
-    bool isAdmin() const;
-    void setAdmin(bool admin);
+    bool isAdmin(const QString& id) const;
 
     QModelIndex addChannelToIndex(Channel* channel, QModelIndex& parent);
     bool addChannelToChannel(Channel* child, Channel* parent);
