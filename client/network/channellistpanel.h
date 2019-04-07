@@ -2,14 +2,16 @@
 #define CHANNELLISTPANEL_H
 
 #include <QWidget>
+#include <memory>
+
+#include "network/channelmodel.h"
+#include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 
 namespace Ui
 {
     class ChannelListPanel;
 }
-#include "network/channelmodel.h"
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
 
 class ChannelListPanel : public QWidget
 {
@@ -34,6 +36,7 @@ public:
     void setCurrentGroups(const Groups& currentGroups);
 
     bool isAdmin();
+    bool isGM();
     template <typename T>
     T indexToPointer(QModelIndex index);
 
@@ -44,6 +47,8 @@ public:
 
     void cleanUp();
 
+    TcpClient* getClient(QModelIndex index);
+    Channel* getChannel(QModelIndex index);
 signals:
     void CurrentChannelGmIdChanged(QString gm);
 
@@ -51,6 +56,8 @@ public slots:
     void showCustomMenu(QPoint pos);
     void sendOffLoginAdmin(QByteArray str= QByteArray());
 
+protected:
+    void moveUserToCurrent();
 protected slots:
     void addChannelAsSibbling();
     void lockChannel();
@@ -62,14 +69,16 @@ protected slots:
     void joinChannel();
     void editChannel();
     void logAsAdmin();
+    void resetChannel();
 
 private:
     Ui::ChannelListPanel* ui;
-    ChannelModel* m_model= nullptr;
+    std::unique_ptr<ChannelModel> m_model= nullptr;
 
     QAction* m_edit= nullptr;
     QAction* m_lock= nullptr;
     QAction* m_join= nullptr;
+    QAction* m_ban= nullptr;
     QAction* m_channelPassword= nullptr;
     QAction* m_addChannel= nullptr;
     QAction* m_addSubchannel= nullptr;
@@ -77,6 +86,8 @@ private:
     QAction* m_setDefault= nullptr;
     QAction* m_admin= nullptr;
     QAction* m_kick= nullptr;
+    QAction* m_resetChannel= nullptr;
+    QAction* m_moveUserToCurrentChannel= nullptr;
 
     Groups m_currentGroups;
     QModelIndex m_index;
