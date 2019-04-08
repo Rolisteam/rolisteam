@@ -3,6 +3,7 @@
 #include "tcpclient.h"
 #include "treeitem.h"
 
+#include <array>
 #include <QIcon>
 #include <QJsonArray>
 #include <QJsonDocument>
