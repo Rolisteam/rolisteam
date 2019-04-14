@@ -83,6 +83,7 @@ public:
 
     bool isOpen() const;
 
+    void reset();
 public slots:
     void sendData(char* data, quint32 size);
     void connectTo();

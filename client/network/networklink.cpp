@@ -57,9 +57,7 @@ void NetworkLink::connectionError(QAbstractSocket::SocketError error)
 {
     Q_UNUSED(error);
     if(m_socketTcp.isNull())
-    {
         return;
-    }
     emit errorMessage(m_socketTcp->errorString());
 }
 
@@ -354,9 +352,16 @@ void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
 }
 bool NetworkLink::isOpen() const
 {
-    if(nullptr != m_socketTcp)
-    {
-        return m_socketTcp->isOpen();
-    }
-    return false;
+    if(m_socketTcp.isNull())
+        return false;
+
+    return m_socketTcp->isOpen();
+}
+
+void NetworkLink::reset()
+{
+    if(m_socketTcp.isNull())
+        return;
+
+    m_socketTcp->abort();
 }

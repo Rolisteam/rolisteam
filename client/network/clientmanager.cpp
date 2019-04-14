@@ -126,7 +126,6 @@ void ClientManager::initializeLink()
     else if(nullptr != m_networkLinkToServer)
     {
         m_networkLinkToServer->setConnection(m_connectionProfile);
-        reset();
     }
 }
 
@@ -227,8 +226,11 @@ void ClientManager::sendOffConnectionInfo()
 }
 void ClientManager::reset()
 {
-    if(m_disconnected->active())
-    {
+    auto const connection= new QMetaObject::Connection;
+    *connection= connect(this, &ClientManager::isDisconnected, [this, connection]() {
         emit isReady();
-    }
+        delete connection;
+    });
+
+    m_networkLinkToServer->reset();
 }
