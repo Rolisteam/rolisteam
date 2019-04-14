@@ -509,6 +509,7 @@ void TcpClient::writeIntoJson(QJsonObject& json)
 {
     json["type"]= "client";
     json["name"]= m_name;
+    json["gm"]= isGM();
     json["admin"]= m_isAdmin;
     json["id"]= m_id;
     json["idPlayer"]= getPlayerId();
