@@ -1275,6 +1275,7 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
     case ClientManager::CONNECTED: /// @brief Action to be done after socket connection.
         m_ui->m_changeProfileAct->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
+        m_chatListWidget->addPublicChat();
         break;
     case ClientManager::DISCONNECTED:
         m_ui->m_changeProfileAct->setEnabled(true);
@@ -1287,7 +1288,6 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
         m_dialog->accept();
         break;
     case ClientManager::CONNECTING:
-        m_chatListWidget->addPublicChat();
         break;
     }
 }
