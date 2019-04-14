@@ -1738,7 +1738,7 @@ void MainWindow::initializedClientManager()
 
         connect(m_clientManager, &ClientManager::notifyUser, this,
             [=](QString str) { m_logController->manageMessage(str, LogController::Features); });
-        connect(m_clientManager, SIGNAL(stopConnectionTry()), this, SLOT(stopReconnection()));
+        connect(m_clientManager, &ClientManager::stopConnectionTry, this, &MainWindow::stopReconnection);
         connect(m_clientManager, &ClientManager::errorOccur, m_dialog, &SelectConnectionProfileDialog::errorOccurs);
         connect(m_clientManager, &ClientManager::connectionProcessEnd, m_dialog,
             &SelectConnectionProfileDialog::endOfConnectionProcess);
