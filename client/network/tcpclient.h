@@ -86,7 +86,7 @@ public:
      * @return
      */
     QTcpSocket* getSocket();
-    void setSocket(QTcpSocket* socket);
+    void resetStateMachine();
     qintptr getSocketHandleId() const;
     void setSocketHandleId(const qintptr& socketHandleId);
 

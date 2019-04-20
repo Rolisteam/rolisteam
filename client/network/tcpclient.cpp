@@ -40,129 +40,125 @@ TcpClient::~TcpClient()
     }
 }
 
-void TcpClient::setSocket(QTcpSocket* socket)
+void TcpClient::resetStateMachine()
 {
-    m_socket= socket;
-    if(nullptr != m_socket)
-    {
-        m_stateMachine= new QStateMachine();
-        connect(
-            m_socket.data(), &QTcpSocket::disconnected, this, &TcpClient::socketDisconnection, Qt::QueuedConnection);
-        connect(m_socket.data(), QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::error), this,
-            &TcpClient::socketError, Qt::QueuedConnection);
+    if(nullptr == m_socket)
+        return;
 
-        connect(m_socket, SIGNAL(readyRead()), this, SLOT(receivingData()));
-        connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this,
-            SLOT(connectionError(QAbstractSocket::SocketError)));
+    m_stateMachine= new QStateMachine();
 
-        connect(m_stateMachine, SIGNAL(started()), this, SIGNAL(isReady()));
-        m_incomingConnection= new QState();
-        m_controlConnection= new QState();
-        m_authentificationServer= new QState();
-        m_disconnected= new QState();
+    connect(m_stateMachine, SIGNAL(started()), this, SIGNAL(isReady()));
+    m_incomingConnection= new QState();
+    m_controlConnection= new QState();
+    m_authentificationServer= new QState();
+    m_disconnected= new QState();
 
-        m_connected= new QStateMachine();
-        m_inChannel= new QState();
-        m_wantToGoToChannel= new QState();
+    m_connected= new QStateMachine();
+    m_inChannel= new QState();
+    m_wantToGoToChannel= new QState();
 
-        m_stateMachine->addState(m_incomingConnection);
-        m_stateMachine->setInitialState(m_incomingConnection);
-        m_stateMachine->addState(m_controlConnection);
-        m_stateMachine->addState(m_authentificationServer);
-        m_stateMachine->addState(m_connected);
-        m_stateMachine->addState(m_disconnected);
+    m_stateMachine->addState(m_incomingConnection);
+    m_stateMachine->setInitialState(m_incomingConnection);
+    m_stateMachine->addState(m_controlConnection);
+    m_stateMachine->addState(m_authentificationServer);
+    m_stateMachine->addState(m_connected);
+    m_stateMachine->addState(m_disconnected);
 
-        m_connected->addState(m_inChannel);
-        m_connected->setInitialState(m_inChannel);
-        m_connected->addState(m_wantToGoToChannel);
+    m_connected->addState(m_inChannel);
+    m_connected->setInitialState(m_inChannel);
+    m_connected->addState(m_wantToGoToChannel);
 
-        m_stateMachine->start();
+    m_stateMachine->start();
 
-        connect(m_incomingConnection, &QState::activeChanged, this, [=](bool b) {
-            qDebug() << "incomming state";
-            if(b)
+    connect(m_incomingConnection, &QState::activeChanged, this, [=](bool b) {
+        qDebug() << "incomming state";
+        if(b)
+        {
+            m_currentState= m_incomingConnection;
+        }
+    });
+    connect(m_controlConnection, &QState::activeChanged, this, [=](bool b) {
+        qDebug() << "control state";
+        if(b)
+        {
+            m_currentState= m_controlConnection;
+            emit checkServerAcceptClient(this);
+        }
+    });
+
+    connect(m_authentificationServer, &QState::activeChanged, this, [=](bool b) {
+        qDebug() << "authentification state";
+        if(b)
+        {
+            m_currentState= m_authentificationServer;
+            if(m_player)
             {
-                m_currentState= m_incomingConnection;
+                emit checkServerPassword(this);
             }
-        });
-        connect(m_controlConnection, &QState::activeChanged, this, [=](bool b) {
-            qDebug() << "control state";
-            if(b)
+            else
             {
-                m_currentState= m_controlConnection;
-                emit checkServerAcceptClient(this);
+                m_waitingData= true;
             }
-        });
+        }
+    });
+    connect(m_wantToGoToChannel, &QState::activeChanged, this, [=](bool b) {
+        if(b)
+        {
+            m_currentState= m_wantToGoToChannel;
+        }
+    });
 
-        connect(m_authentificationServer, &QState::activeChanged, this, [=](bool b) {
-            qDebug() << "authentification state";
-            if(b)
+    connect(m_disconnected, &QState::activeChanged, this, [=](bool b) {
+        if(b)
+        {
+            m_currentState= m_disconnected;
+            m_forwardMessage= false;
+            if(nullptr != m_socket)
             {
-                m_currentState= m_authentificationServer;
-                if(m_player)
-                {
-                    emit checkServerPassword(this);
-                }
-                else
-                {
-                    m_waitingData= true;
-                }
+                m_socket->close();
             }
-        });
-        connect(m_wantToGoToChannel, &QState::activeChanged, this, [=](bool b) {
-            if(b)
-            {
-                m_currentState= m_wantToGoToChannel;
-            }
-        });
+        }
+    });
 
-        connect(m_disconnected, &QState::activeChanged, this, [=](bool b) {
-            if(b)
-            {
-                m_currentState= m_disconnected;
-                m_forwardMessage= false;
-                if(nullptr != m_socket)
-                {
-                    m_socket->close();
-                }
-            }
-        });
+    connect(m_connected, &QState::activeChanged, this, [=](bool b) {
+        if(b)
+        {
+            m_forwardMessage= true;
+        }
+    });
 
-        connect(m_connected, &QState::activeChanged, this, [=](bool b) {
-            if(b)
-            {
-                m_forwardMessage= true;
-            }
-        });
+    m_incomingConnection->addTransition(this, SIGNAL(checkSuccess()), m_controlConnection);
+    m_incomingConnection->addTransition(this, SIGNAL(checkFail()), m_disconnected);
+    m_incomingConnection->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
 
-        m_incomingConnection->addTransition(this, SIGNAL(checkSuccess()), m_controlConnection);
-        m_incomingConnection->addTransition(this, SIGNAL(checkFail()), m_disconnected);
-        m_incomingConnection->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
+    m_controlConnection->addTransition(this, SIGNAL(controlSuccess()), m_authentificationServer);
+    m_controlConnection->addTransition(this, SIGNAL(controlFail()), m_disconnected);
+    m_controlConnection->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
 
-        m_controlConnection->addTransition(this, SIGNAL(controlSuccess()), m_authentificationServer);
-        m_controlConnection->addTransition(this, SIGNAL(controlFail()), m_disconnected);
-        m_controlConnection->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
+    m_authentificationServer->addTransition(this, SIGNAL(serverAuthSuccess()), m_connected);
+    m_authentificationServer->addTransition(this, SIGNAL(serverAuthFail()), m_disconnected);
+    m_authentificationServer->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
 
-        m_authentificationServer->addTransition(this, SIGNAL(serverAuthSuccess()), m_connected);
-        m_authentificationServer->addTransition(this, SIGNAL(serverAuthFail()), m_disconnected);
-        m_authentificationServer->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
+    m_connected->addTransition(this, SIGNAL(socketDisconnection()), m_disconnected);
+    m_connected->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
 
-        m_connected->addTransition(this, SIGNAL(socketDisconnection()), m_disconnected);
-        m_connected->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
+    m_wantToGoToChannel->addTransition(this, SIGNAL(channelAuthFail()), m_inChannel);
+    m_wantToGoToChannel->addTransition(this, SIGNAL(channelAuthSuccess()), m_inChannel);
+    m_inChannel->addTransition(this, SIGNAL(moveChannel()), m_wantToGoToChannel);
 
-        m_wantToGoToChannel->addTransition(this, SIGNAL(channelAuthFail()), m_inChannel);
-        m_wantToGoToChannel->addTransition(this, SIGNAL(channelAuthSuccess()), m_inChannel);
-        m_inChannel->addTransition(this, SIGNAL(moveChannel()), m_wantToGoToChannel);
-
-        emit socketInitiliazed();
-    }
+    emit socketInitiliazed();
 }
 
 void TcpClient::startReading()
 {
-    QTcpSocket* socket= new QTcpSocket();
-    socket->setSocketDescriptor(getSocketHandleId());
-    setSocket(socket);
+    m_socket= new QTcpSocket();
+    connect(m_socket, &QTcpSocket::disconnected, this, &TcpClient::socketDisconnection);
+    connect(m_socket, &QTcpSocket::readyRead, this, &TcpClient::receivingData);
+    connect(
+        m_socket, QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::error), this, &TcpClient::connectionError);
+
+    m_socket->setSocketDescriptor(getSocketHandleId());
+    resetStateMachine();
 }
 
 qintptr TcpClient::getSocketHandleId() const
@@ -377,6 +373,7 @@ void TcpClient::sendMessage(NetworkMessage* msg, bool deleteMsg)
 }
 void TcpClient::connectionError(QAbstractSocket::SocketError error)
 {
+    emit socketError(error);
     if(nullptr != m_socket)
     {
         qWarning() << m_socket->errorString() << error;
