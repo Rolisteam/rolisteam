@@ -1,4 +1,4 @@
-#include "servermanager.h"
+﻿#include "servermanager.h"
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -498,6 +498,9 @@ void ServerManager::quit()
 void ServerManager::accept(qintptr handle, TcpClient* connection, QThread* thread)
 {
     Q_UNUSED(thread);
+    if(nullptr == connection)
+        return;
+
     emit sendLog(tr("New Incoming Connection!"), LogController::Info);
 
     connect(connection, &TcpClient::dataReceived, this, &ServerManager::messageReceived, Qt::QueuedConnection); //
@@ -525,7 +528,7 @@ void ServerManager::accept(qintptr handle, TcpClient* connection, QThread* threa
     connection->setSocketHandleId(handle);
 
     // emit clientAccepted();
-    QMetaObject::invokeMethod(connection, "startReading", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(connection, &TcpClient::startReading, Qt::QueuedConnection);
 }
 
 void ServerManager::sendOffModelToAll()
