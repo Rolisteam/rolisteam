@@ -120,7 +120,7 @@ public:
     /**
      * @brief addActionContextMenu
      */
-    virtual void addActionContextMenu(QMenu*);
+    virtual void addActionContextMenu(QMenu&);
     /**
      * @brief endOfGeometryChange
      */

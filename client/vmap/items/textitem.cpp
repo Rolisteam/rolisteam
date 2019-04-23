@@ -476,15 +476,15 @@ VisualItem* TextItem::getItemCopy()
     TextItem* rectItem= new TextItem(m_start, m_penWidth, m_color);
     return rectItem;
 }
-void TextItem::addActionContextMenu(QMenu* menu)
+void TextItem::addActionContextMenu(QMenu& menu)
 {
-    QAction* edit= menu->addAction(tr("Edit Text…"));
+    QAction* edit= menu.addAction(tr("Edit Text…"));
     connect(edit, SIGNAL(triggered(bool)), this, SLOT(editText()));
 
-    QAction* adapt= menu->addAction(tr("Adapt to content"));
+    QAction* adapt= menu.addAction(tr("Adapt to content"));
     connect(adapt, SIGNAL(triggered(bool)), this, SLOT(sizeToTheContent()));
 
-    QMenu* state= menu->addMenu(tr("Font Size"));
+    QMenu* state= menu.addMenu(tr("Font Size"));
     state->addAction(m_increaseFontSize);
     state->addAction(m_decreaseFontSize);
 }

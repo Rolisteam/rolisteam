@@ -274,10 +274,10 @@ void PathItem::createActions()
     connect(m_fillAct, SIGNAL(triggered()), this, SLOT(fillPath()));
 }
 
-void PathItem::addActionContextMenu(QMenu* menu)
+void PathItem::addActionContextMenu(QMenu& menu)
 {
-    menu->addAction(m_closeAct);
-    menu->addAction(m_fillAct);
+    menu.addAction(m_closeAct);
+    menu.addAction(m_fillAct);
 }
 void PathItem::closePath()
 {

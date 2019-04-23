@@ -115,7 +115,7 @@ public:
     void updateChildPosition();
     VisualItem* getItemCopy();
     void createActions();
-    void addActionContextMenu(QMenu* menu);
+    void addActionContextMenu(QMenu& menu);
     void setBorderVisible(bool);
 
     virtual void updateItemFlags();

@@ -820,9 +820,9 @@ void CharacterItem::updateChildPosition()
 
     update();
 }
-void CharacterItem::addActionContextMenu(QMenu* menu)
+void CharacterItem::addActionContextMenu(QMenu& menu)
 {
-    QMenu* stateMenu= menu->addMenu(tr("Change State"));
+    QMenu* stateMenu= menu.addMenu(tr("Change State"));
     QList<CharacterState*>* listOfState= Character::getCharacterStateList();
     for(auto& state : *listOfState)
     {
@@ -831,7 +831,7 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
         act->setData(listOfState->indexOf(state));
     }
 
-    QMenu* user= menu->addMenu(tr("Affect to"));
+    QMenu* user= menu.addMenu(tr("Affect to"));
     for(auto& character : PlayersList::instance()->getCharacterList())
     {
         QAction* act= user->addAction(character->name());
@@ -839,7 +839,7 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
 
         connect(act, &QAction::triggered, this, &CharacterItem::changeCharacter);
     }
-    QMenu* shape= menu->addMenu(tr("Vision Shape"));
+    QMenu* shape= menu.addMenu(tr("Vision Shape"));
     shape->addAction(m_visionShapeDisk);
     shape->addAction(m_visionShapeAngle);
 
@@ -857,7 +857,7 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
     {
         // Actions
         auto actionlist= m_character->getActionList();
-        QMenu* actions= menu->addMenu(tr("Actions"));
+        QMenu* actions= menu.addMenu(tr("Actions"));
         auto cmd= m_character->getInitCommand();
         auto act= actions->addAction(tr("Initiative"));
         act->setData(cmd);
@@ -880,7 +880,7 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
         auto shapeList= m_character->getShapeList();
         if(!shapeList.isEmpty())
         {
-            QMenu* actions= menu->addMenu(tr("Shapes"));
+            QMenu* actions= menu.addMenu(tr("Shapes"));
             int i= 0;
             for(auto& charShape : shapeList)
             {
