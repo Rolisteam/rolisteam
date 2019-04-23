@@ -225,6 +225,44 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         QAction* angleRotationAct= nullptr;
         QAction* removeAction= nullptr;
 
+        if(licenseToModify && !list.isEmpty())
+        {
+            int n= list.size();
+            menu.addSection(tr("%n item(s)", "", n));
+
+            if(list.size() == 1)
+            {
+                auto item= list.first();
+                item->addActionContextMenu(menu);
+            }
+
+            auto overlapping= menu.addMenu(tr("Overlapping"));
+            overlapping->addAction(m_backOrderAction);
+            overlapping->addAction(m_frontOrderAction);
+            overlapping->addAction(m_lowerAction);
+            overlapping->addAction(m_raiseAction);
+
+            QMenu* rotationMenu= menu.addMenu(tr("Rotate"));
+            resetRotationAct= rotationMenu->addAction(tr("To 360"));
+            rightRotationAct= rotationMenu->addAction(tr("Right"));
+            leftRotationAct= rotationMenu->addAction(tr("Left"));
+            angleRotationAct= rotationMenu->addAction(tr("Set Angle…"));
+
+            QMenu* setLayerMenu= menu.addMenu(tr("Set Layer"));
+            setLayerMenu->addAction(m_putGroundLayer);
+            setLayerMenu->addAction(m_putObjectLayer);
+            setLayerMenu->addAction(m_putCharacterLayer);
+
+            QMenu* harmonizeMenu= menu.addMenu(tr("Normalize Size"));
+            harmonizeMenu->addAction(m_normalizeSizeAverage);
+            harmonizeMenu->addAction(m_normalizeSizeUnderMouse);
+            harmonizeMenu->addAction(m_normalizeSizeBigger);
+            harmonizeMenu->addAction(m_normalizeSizeSmaller);
+
+            menu.addAction(m_lockSize);
+            removeAction= menu.addAction(tr("Remove"));
+        }
+
         menu.addSection(tr("Map"));
 
         switch(m_vmap->getCurrentLayer())
@@ -295,37 +333,6 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         if(licenseToModify)
         {
             menu.addAction(m_properties);
-        }
-
-        if(licenseToModify && !list.isEmpty())
-        {
-            menu.addSection(tr("Item(s)"));
-
-            auto overlapping= menu.addMenu(tr("Overlapping"));
-            overlapping->addAction(m_backOrderAction);
-            overlapping->addAction(m_frontOrderAction);
-            overlapping->addAction(m_lowerAction);
-            overlapping->addAction(m_raiseAction);
-
-            QMenu* rotationMenu= menu.addMenu(tr("Rotate"));
-            resetRotationAct= rotationMenu->addAction(tr("To 360"));
-            rightRotationAct= rotationMenu->addAction(tr("Right"));
-            leftRotationAct= rotationMenu->addAction(tr("Left"));
-            angleRotationAct= rotationMenu->addAction(tr("Set Angle…"));
-
-            QMenu* setLayerMenu= menu.addMenu(tr("Set Layer"));
-            setLayerMenu->addAction(m_putGroundLayer);
-            setLayerMenu->addAction(m_putObjectLayer);
-            setLayerMenu->addAction(m_putCharacterLayer);
-
-            QMenu* harmonizeMenu= menu.addMenu(tr("Normalize Size"));
-            harmonizeMenu->addAction(m_normalizeSizeAverage);
-            harmonizeMenu->addAction(m_normalizeSizeUnderMouse);
-            harmonizeMenu->addAction(m_normalizeSizeBigger);
-            harmonizeMenu->addAction(m_normalizeSizeSmaller);
-
-            menu.addAction(m_lockSize);
-            removeAction= menu.addAction(tr("Remove"));
         }
 
         QAction* selectedAction= menu.exec(event->globalPos());
