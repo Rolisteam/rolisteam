@@ -29,6 +29,78 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
+QPainterPath vectorToFullPath(const QVector<QPointF>& points, qreal penWidth= 10., bool closeUp= false)
+{
+    QPainterPath path;
+    if(points.size() == 1)
+        return path;
+
+    bool first= true;
+    std::vector<QPointF> topPoints;
+    std::vector<QPointF> bottomPoints;
+
+    for(int i= 0; i < points.size(); ++i)
+    {
+        QPointF current= points[i];
+        QPointF lastPoint;
+        QPointF nextPoint;
+        if(points.size() > i + 1)
+            nextPoint= points[i + 1];
+        if(i > 0)
+            lastPoint= points[i - 1];
+
+        QLineF line(current, lastPoint);
+        QLineF line2(current, nextPoint);
+
+        if(lastPoint.isNull())
+        {
+            auto normal1= line.normalVector();
+            topPoints.push_back(normal1.pointAt(penWidth / normal1.length() * 2));
+            bottomPoints.push_back(normal1.pointAt(-penWidth / normal1.length() * 2));
+        }
+        else if(nextPoint.isNull())
+        {
+            auto normal2= line2.normalVector();
+
+            topPoints.push_back(normal2.pointAt(penWidth / normal2.length() * 2));
+            bottomPoints.push_back(normal2.pointAt(-penWidth / normal2.length() * 2));
+        }
+        else
+        {
+            auto normal1= line.normalVector();
+            auto normal2= line2.normalVector();
+
+            topPoints.push_back(
+                (normal1.pointAt(penWidth / normal1.length() * 2) + normal2.pointAt(penWidth / normal2.length() * 2))
+                / 2);
+            bottomPoints.push_back(
+                (normal1.pointAt(-penWidth / normal1.length() * 2) + normal2.pointAt(-penWidth / normal2.length() * 2))
+                / 2);
+        }
+    }
+
+    for(auto i= bottomPoints.rbegin(); i != bottomPoints.rend(); ++i)
+    {
+        topPoints.push_back(*i);
+    }
+
+    if(closeUp)
+        topPoints.push_back(topPoints.at(0));
+
+    for(const auto& point : topPoints)
+    {
+        if(first)
+        {
+            path.moveTo(point);
+            first= false;
+        }
+        else
+            path.lineTo(point);
+    }
+
+    return path;
+}
+
 QPainterPath vectorToPath(const QVector<QPointF>& points, bool closeUp= false)
 {
     QPainterPath path;
@@ -76,8 +148,9 @@ QRectF PathItem::boundingRect() const
 
 QPainterPath PathItem::shape() const
 {
-    return vectorToPath(m_pointVectorBary);
+    return vectorToFullPath(m_pointVectorBary, m_penWidth);
 }
+
 void PathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(option)
