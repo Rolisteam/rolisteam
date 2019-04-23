@@ -200,12 +200,3 @@ void GridItem::setVisible(bool visible)
     VisualItem::setVisible(visible);
 }
 void GridItem::createActions() {}
-
-void GridItem::addActionContextMenu(QMenu* menu)
-{
-    Q_UNUSED(menu)
-}
-void GridItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
-{
-    QGraphicsObject::contextMenuEvent(event);
-}

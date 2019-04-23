@@ -223,7 +223,7 @@ public:
     /**
      * @brief addActionContextMenu
      */
-    virtual void addActionContextMenu(QMenu*);
+    virtual void addActionContextMenu(QMenu&);
     /**
      * @brief hasFocusOrChild
      * @return
@@ -392,11 +392,6 @@ protected:
      * @param event
      */
     virtual void keyPressEvent(QKeyEvent* event);
-    /**
-     * @brief contextMenuEvent
-     * @param event
-     */
-    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
     /**
      * @brief init
      */

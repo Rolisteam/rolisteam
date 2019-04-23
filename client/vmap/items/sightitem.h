@@ -141,11 +141,6 @@ public:
      */
     void createActions();
     /**
-     * @brief addActionContextMenu
-     * @param menu
-     */
-    void addActionContextMenu(QMenu* menu);
-    /**
      * @brief setColor
      */
     void setColor(QColor& color);
@@ -178,8 +173,6 @@ public slots:
     void removeVision(CharacterItem* item);
 
 protected:
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
-
     void updateVeil();
 
 private:

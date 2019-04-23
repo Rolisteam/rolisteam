@@ -383,12 +383,6 @@ void SightItem::setDefaultAngle(qreal rad)
 }
 void SightItem::createActions() {}
 
-void SightItem::addActionContextMenu(QMenu* menu)
-{
-    Q_UNUSED(menu)
-    /*menu->addAction(m_diskShape);
-    menu->addAction(m_angleShape);*/
-}
 void SightItem::moveVision(qreal id, QPointF& pos)
 {
     Q_UNUSED(id)
@@ -428,10 +422,6 @@ void SightItem::updateVeil()
     m_path= path;
 }
 
-void SightItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
-{
-    QGraphicsObject::contextMenuEvent(event);
-}
 FogSingularity* SightItem::addFogPolygon(QPolygonF* a, bool adding)
 {
     FogSingularity* fogs= new FogSingularity(a, adding);

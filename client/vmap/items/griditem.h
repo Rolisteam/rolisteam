@@ -110,11 +110,6 @@ public:
      */
     void createActions();
     /**
-     * @brief addActionContextMenu
-     * @param menu
-     */
-    void addActionContextMenu(QMenu* menu);
-    /**
      * @brief setVisible
      * @param visible
      */
@@ -122,10 +117,6 @@ public:
 
     void computePattern();
     virtual void updateItemFlags();
-public slots:
-
-protected:
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
 
 private:
     bool m_isGM;
