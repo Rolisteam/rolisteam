@@ -299,6 +299,22 @@ void VToolsBar::makeTools()
     m_editionModeCombo->addItem(QIcon(":/resources/icons/mask.png"), tr("Mask"), Mask);
     m_editionModeCombo->addItem(QIcon(":/resources/icons/eye.png"), tr("Unmask"), Unmask);
 
+    connect(m_editionModeCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+        [this, ruleButton, pipetteButton, bucketButton, addNpcButton, anchorButton]() {
+            auto mode= static_cast<EditionMode>(m_editionModeCombo->currentData().toInt());
+            bool painting= (mode == Painting);
+
+            ruleButton->setVisible(painting);
+            pipetteButton->setVisible(painting);
+            bucketButton->setVisible(painting);
+            addNpcButton->setVisible(painting);
+            anchorButton->setVisible(painting);
+
+            if(m_currentTool == RULE || m_currentTool == PIPETTE || m_currentTool == BUCKET || m_currentTool == ADDNPC
+                || m_currentTool == ANCHOR)
+                setCurrentTool(HANDLER);
+        });
+
     FlowLayout* characterToolsLayout= new FlowLayout();
     characterToolsLayout->setMargin(0);
     characterToolsLayout->setSpacing(0);
@@ -365,7 +381,7 @@ VToolsBar::SelectableTool VToolsBar::getCurrentTool()
 }
 void VToolsBar::currentEditionModeChange()
 {
-    EditionMode newtool= (EditionMode)m_editionModeCombo->currentData().toInt();
+    EditionMode newtool= static_cast<EditionMode>(m_editionModeCombo->currentData().toInt());
     if(newtool != m_currentEditionMode)
     {
         m_currentEditionMode= newtool;
@@ -374,7 +390,7 @@ void VToolsBar::currentEditionModeChange()
 }
 void VToolsBar::currentActionChanged(QAction* p)
 {
-    SelectableTool newtool= (SelectableTool)p->data().toInt();
+    SelectableTool newtool= static_cast<SelectableTool>(p->data().toInt());
     if(newtool != m_currentTool)
     {
         m_currentTool= newtool;
