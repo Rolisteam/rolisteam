@@ -59,7 +59,7 @@ void DeleteVmapItemCommand::undo()
 
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
         msg.string8(m_vmap->getId());
-        msg.uint8(m_currentItem->type());
+        msg.uint8(m_currentItem->getType());
         m_currentItem->fillMessage(&msg);
         msg.sendToServer();
     }
