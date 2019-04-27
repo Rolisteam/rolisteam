@@ -1750,9 +1750,6 @@ void VMap::changeStackOrder(VisualItem* item, VisualItem::StackOrder op)
     if(index < 0)
         return;
 
-    m_sortedItemList.removeAll(m_sightItem->getId());
-    m_sortedItemList.removeAll(m_gridItem->getId());
-
     if(VisualItem::FRONT == op)
     {
         m_sortedItemList.append(m_sortedItemList.takeAt(index));
@@ -1792,23 +1789,21 @@ void VMap::changeStackOrder(VisualItem* item, VisualItem::StackOrder op)
             // element at  index must be before all element in list
         }
     }
-    // reassign z-levels
-    m_sortedItemList.append(m_sightItem->getId());
-    m_sortedItemList.append(m_gridItem->getId());
 
     quint64 z= 0;
-    for(QString& key : m_sortedItemList)
+    for(const QString& key : m_sortedItemList)
     {
         VisualItem* item= m_itemMap->value(key);
         if(nullptr != item)
         {
-            if(item == m_sightItem)
-            { // z index is just one level before the level of fog.
-                m_zIndex= z;
-            }
             item->setZValue(++z);
         }
     }
+
+    // add grid and sight item
+    m_zIndex= z;
+    m_sightItem->setZValue(++z);
+    m_gridItem->setZValue(++z);
 }
 void VMap::showTransparentItems()
 {
