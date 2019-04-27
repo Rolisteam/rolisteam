@@ -38,7 +38,6 @@ DiceAliasModel::~DiceAliasModel()
          delete m_diceAliasList;
          m_diceAliasList = nullptr;
      }*/
-    /// @todo QSharedPointer to be used
 }
 
 QVariant DiceAliasModel::data(const QModelIndex& index, int role) const
