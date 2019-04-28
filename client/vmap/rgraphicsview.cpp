@@ -230,10 +230,27 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             int n= list.size();
             menu.addSection(tr("%n item(s)", "", n));
 
+            bool groundL= false, objectL= false, characterL= false;
             if(list.size() == 1)
             {
                 auto item= list.first();
                 item->addActionContextMenu(menu);
+
+                auto layer= item->getLayer();
+                switch(layer)
+                {
+                case VisualItem::GROUND:
+                    groundL= true;
+                    break;
+                case VisualItem::OBJECT:
+                    objectL= true;
+                    break;
+                case VisualItem::CHARACTER_LAYER:
+                    characterL= true;
+                    break;
+                default:
+                    break;
+                }
             }
 
             auto overlapping= menu.addMenu(tr("Overlapping"));
@@ -250,8 +267,11 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
             QMenu* setLayerMenu= menu.addMenu(tr("Set Layer"));
             setLayerMenu->addAction(m_putGroundLayer);
+            m_putGroundLayer->setChecked(groundL);
             setLayerMenu->addAction(m_putObjectLayer);
+            m_putObjectLayer->setChecked(objectL);
             setLayerMenu->addAction(m_putCharacterLayer);
+            m_putCharacterLayer->setChecked(characterL);
 
             QMenu* harmonizeMenu= menu.addMenu(tr("Normalize Size"));
             harmonizeMenu->addAction(m_normalizeSizeAverage);
@@ -501,7 +521,7 @@ void RGraphicsView::createAction()
 
     // PROPERTIES
     m_properties= new QAction(tr("Properties"), this);
-    connect(m_properties, SIGNAL(triggered()), this, SLOT(showMapProperties()));
+    connect(m_properties, &QAction::triggered, this, &RGraphicsView::showMapProperties);
 
     // Layers
     QActionGroup* group= new QActionGroup(this);
@@ -521,14 +541,17 @@ void RGraphicsView::createAction()
 
     m_putGroundLayer= new QAction(tr("Ground"), this);
     m_putGroundLayer->setData(VisualItem::GROUND);
+    m_putGroundLayer->setCheckable(true);
     m_putObjectLayer= new QAction(tr("Object"), this);
     m_putObjectLayer->setData(VisualItem::OBJECT);
+    m_putObjectLayer->setCheckable(true);
     m_putCharacterLayer= new QAction(tr("Character"), this);
     m_putCharacterLayer->setData(VisualItem::CHARACTER_LAYER);
+    m_putCharacterLayer->setCheckable(true);
 
-    connect(m_editGroundLayer, SIGNAL(triggered()), this, SLOT(changeLayer()));
-    connect(m_editObjectLayer, SIGNAL(triggered()), this, SLOT(changeLayer()));
-    connect(m_editCharacterLayer, SIGNAL(triggered()), this, SLOT(changeLayer()));
+    connect(m_editGroundLayer, &QAction::triggered, this, &RGraphicsView::changeLayer);
+    connect(m_editObjectLayer, &QAction::triggered, this, &RGraphicsView::changeLayer);
+    connect(m_editCharacterLayer, &QAction::triggered, this, &RGraphicsView::changeLayer);
 
     QActionGroup* group2= new QActionGroup(this);
     m_allVisibility= new QAction(tr("All"), this);
@@ -546,9 +569,9 @@ void RGraphicsView::createAction()
     group2->addAction(m_hiddenVisibility);
     group2->addAction(m_characterVisibility);
 
-    connect(m_allVisibility, SIGNAL(triggered()), this, SLOT(changeVisibility()));
-    connect(m_hiddenVisibility, SIGNAL(triggered()), this, SLOT(changeVisibility()));
-    connect(m_characterVisibility, SIGNAL(triggered()), this, SLOT(changeVisibility()));
+    connect(m_allVisibility, &QAction::triggered, this, &RGraphicsView::changeVisibility);
+    connect(m_hiddenVisibility, &QAction::triggered, this, &RGraphicsView::changeVisibility);
+    connect(m_characterVisibility, &QAction::triggered, this, &RGraphicsView::changeVisibility);
 
     m_rollInitOnAllNpc= new QAction(tr("All Npcs"), this);
     m_rollInitOnAllNpc->setToolTip(tr("Roll Initiative on All Npcs"));
