@@ -52,30 +52,32 @@ QPainterPath vectorToFullPath(const QVector<QPointF>& points, qreal penWidth= 10
         QLineF line(current, lastPoint);
         QLineF line2(current, nextPoint);
 
-        if(lastPoint.isNull())
+        if(nextPoint.isNull())
         {
             auto normal1= line.normalVector();
-            topPoints.push_back(normal1.pointAt(penWidth / normal1.length() * 2));
-            bottomPoints.push_back(normal1.pointAt(-penWidth / normal1.length() * 2));
+            normal1.setLength(-normal1.length());
+            topPoints.push_back(normal1.pointAt(penWidth / (normal1.length() * 2)));
+            bottomPoints.push_back(normal1.pointAt(-penWidth / (normal1.length() * 2)));
         }
-        else if(nextPoint.isNull())
+        else if(lastPoint.isNull())
         {
             auto normal2= line2.normalVector();
 
-            topPoints.push_back(normal2.pointAt(penWidth / normal2.length() * 2));
-            bottomPoints.push_back(normal2.pointAt(-penWidth / normal2.length() * 2));
+            topPoints.push_back(normal2.pointAt(penWidth / (normal2.length() * 2)));
+            bottomPoints.push_back(normal2.pointAt(-penWidth / (normal2.length() * 2)));
         }
         else
         {
             auto normal1= line.normalVector();
+            normal1.setLength(-normal1.length());
             auto normal2= line2.normalVector();
 
-            topPoints.push_back(
-                (normal1.pointAt(penWidth / normal1.length() * 2) + normal2.pointAt(penWidth / normal2.length() * 2))
-                / 2);
-            bottomPoints.push_back(
-                (normal1.pointAt(-penWidth / normal1.length() * 2) + normal2.pointAt(-penWidth / normal2.length() * 2))
-                / 2);
+            topPoints.push_back((normal1.pointAt(penWidth / (normal1.length() * 2))
+                                    + normal2.pointAt(penWidth / (normal2.length() * 2)))
+                                / 2);
+            bottomPoints.push_back((normal1.pointAt(-penWidth / (normal1.length() * 2))
+                                       + normal2.pointAt(-penWidth / (normal2.length() * 2)))
+                                   / 2);
         }
     }
 

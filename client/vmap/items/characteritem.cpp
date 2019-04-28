@@ -370,6 +370,27 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
             }
         }
     }
+
+    /// debug collision
+    /*painter->save();
+    QPen pen2= painter->pen();
+    pen2.setColor(Qt::red);
+    pen2.setWidth(1);
+    painter->setPen(pen2);
+    // painter->setBrush(QBrush(Qt::red, Qt::SolidPattern));
+
+    QPainterPath path;
+    path.addEllipse(shape().boundingRect().center(), 10, 10);
+    path.connectPath(shape().translated(m_newPosition - pos()));
+    painter->drawPath(path);
+
+    pen2.setColor(Qt::green);
+    pen2.setWidth(1);
+    painter->setBrush(QBrush(Qt::green, Qt::SolidPattern));
+    painter->setPen(pen2);
+
+    painter->drawEllipse(shape().boundingRect().center(), 10, 10);
+    painter->restore();*/
 }
 const QPointF& CharacterItem::getCenter() const
 {
@@ -577,45 +598,38 @@ int CharacterItem::getNumber() const
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& value)
 {
     QVariant newValue= value;
-    if(change == QGraphicsItem::ItemPositionChange)
+    if(change != QGraphicsItem::ItemPositionChange || !getOption(VisualItem::CollisionStatus).toBool())
+        return VisualItem::itemChange(change, newValue);
+
+    m_oldPosition= pos();
+    QList<QGraphicsItem*> list= collidingItems();
+
+    // list.clear();
+    QPainterPath path;
+    path.addEllipse(shape().boundingRect().center(), 10, 10);
+    path.connectPath(shape().translated(value.toPointF() - pos()));
+
+    QGraphicsScene* currentScene= scene();
+    auto mappedPath= mapToScene(path);
+    list.append(currentScene->items(mappedPath));
+
+    for(QGraphicsItem* item : list)
     {
-        if(!getOption(VisualItem::CollisionStatus).toBool())
+        VisualItem* vItem= dynamic_cast<VisualItem*>(item);
+        if((nullptr != vItem) && (vItem != this))
         {
-            return VisualItem::itemChange(change, newValue);
-        }
-        m_oldPosition= pos();
-        QList<QGraphicsItem*> list= collidingItems();
-
-        // list.clear();
-        QPainterPath path;
-        path.addPath(mapToScene(shape()));
-        path.connectPath(mapToScene(shape().translated(value.toPointF() - pos())));
-
-        QGraphicsScene* currentScene= scene();
-        list.append(currentScene->items(path));
-
-        for(QGraphicsItem* item : list)
-        {
-            VisualItem* vItem= dynamic_cast<VisualItem*>(item);
-            if((nullptr != vItem) && (vItem != this))
+            if((vItem->getLayer() == VisualItem::OBJECT))
             {
-                if((vItem->getLayer() == VisualItem::OBJECT))
-                {
-                    newValue= m_oldPosition;
-                }
+                newValue= m_oldPosition;
             }
         }
-        QVariant var= VisualItem::itemChange(change, newValue);
-        if(newValue != m_oldPosition)
-        {
-            emit positionChanged();
-        }
-        return var;
     }
-    else
+    QVariant var= VisualItem::itemChange(change, newValue);
+    if(newValue != m_oldPosition)
     {
-        return VisualItem::itemChange(change, newValue);
+        emit positionChanged();
     }
+    return var;
 }
 int CharacterItem::getChildPointCount() const
 {
