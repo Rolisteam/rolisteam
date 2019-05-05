@@ -58,7 +58,7 @@ int CharacterSheetModel::rowCount(const QModelIndex& parent) const
     if(parent.isValid())
     {
         CharacterSheetItem* tmp= static_cast<CharacterSheetItem*>(parent.internalPointer());
-        if(tmp->getFieldType() == Field::TABLE)
+        if(tmp->getFieldType() == Field::TABLE && !m_characterList->isEmpty())
         {
             int max= tmp->getChildrenCount();
             auto result= std::max_element(
