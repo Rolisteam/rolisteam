@@ -13,7 +13,7 @@ CheckBox {
     property bool clippedText: false
     property bool readOnly: false
     property alias radius: indic.radius
-    property alias color: indic.fillerColor
+    property alias color: indic.color
     property string tooltip: ""
     leftPadding: 0
     rightPadding: 0
@@ -27,18 +27,21 @@ CheckBox {
 
     indicator: Rectangle {
         id: indic
-        property alias fillerColor: filler.color
         border.color: root.borderColor
-        implicitWidth: root.width
-        implicitHeight: root.height
+        border.width: 1
+        width: root.width
+        height: root.height
         Rectangle {
             id: filler
             anchors.fill: parent
             scale: 0.7
             radius: root.radius
-            color: "black"
+            color: root.borderColor
             visible: root.checked
         }
+    }
+
+    contentItem: Item {
     }
 
     onToggled: {

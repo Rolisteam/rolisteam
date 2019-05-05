@@ -6,8 +6,8 @@ T.AbstractButton {
     id:root
     property color color: "#ff0000"
     property color pressedColor: "#990000"
-    property alias backgroundColor: background.color
-    property alias textColor: text.color
+    property color backgroundColor: background.color
+    property color textColor: text.color
     property alias hAlign: text.horizontalAlignment
     property alias wrapMode: text.wrapMode
     property string command: ""
@@ -20,8 +20,9 @@ T.AbstractButton {
     background: Rectangle {
         id: background
         opacity: enabled ? 1 : 0.3
-        border.color: root.down ? root.pressedColor : root.color
+        border.color: root.down ? root.pressedColor : root.textColor
         border.width: 1
+        color: root.down ? root.color : root.backgroundColor
     }
 
     contentItem: Text {
@@ -29,7 +30,7 @@ T.AbstractButton {
         font: root.font
         text: root.text
         opacity: enabled ? 1.0 : 0.3
-        color: root.down ? root.pressedColor : root.color
+        color: root.down ? root.pressedColor : root.textColor
         wrapMode: Text.WrapAnywhere
     }
 

@@ -7,18 +7,12 @@ ComboBox {
     property var selectedValue
     property int valueRole: 0
     property bool defined: false
-    property alias currentIndex : selectvalues.currentIndex
-    property alias currentText: selectvalues.currentText
-    property alias count: selectvalues.count
-    property alias itemDelegate: selectvalues.delegate
-    property alias combo: selectvalues
-    property alias indicator: selectvalues.indicator
     property string tooltip: ""
     property color textColor:"black"
     property int hAlign: 0
     property int vAlign: 0
     property bool readOnly: false
-    property alias textRole: selectvalues.textRole
+    property alias color: back.color
 
     padding: 0
     spacing: 0
@@ -26,7 +20,7 @@ ComboBox {
     ToolTip.text: root.tooltip
     ToolTip.visible: root.tooltip.length >0 && pressed
 
-    property alias availableValues: selectvalues.model
+    property alias availableValues: root.model
     property bool clippedText: false
     Component.onCompleted:{
         currentIndex = selected
@@ -38,26 +32,31 @@ ComboBox {
             currentIndex = selected
         }
     }
+
+    background: Rectangle {
+        id: back
+    }
+
     contentItem: Text {
       leftPadding: 0
       rightPadding: 0
 
-      text: selectvalues.displayText
-      font: selectvalues.font
+      text: root.displayText
+      font: root.font
       verticalAlignment: Text.AlignVCenter
       horizontalAlignment: Text.AlignHCenter
       elide: Text.ElideRight
     }
     indicator: Canvas {
               id: canvas
-              x: selectvalues.width - width
-              y: (selectvalues.availableHeight - height) / 2
+              x: root.width - width
+              y: (root.availableHeight - height) / 2
               width: 12
               height: 8
               contextType: "2d"
 
               Connections {
-                  target: selectvalues
+                  target: root
                   onPressedChanged: canvas.requestPaint()
               }
 
