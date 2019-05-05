@@ -11,7 +11,7 @@
     <message>
         <location filename="../aboutrcse.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rolisteam Character Sheet Editor&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;This software is dedicated to create character sheet for Rolisteam v1.8 and more. &lt;br/&gt;Please check the documentation at: &lt;a href=&quot;http://wiki.rolisteam.org/index.php/En:CharacterSheet&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;wiki.rolisteam.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rolisteam Character Sheet Editor&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Ce logiciel est dédié à la création de fiche de personnage pour Rolisteam&#xa0;v1.8 et plus récent. &lt;br/&gt;La documentation est accessible sur:&#xa0;&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Fr:CharacterSheet&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;wiki.rolisteam.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rolisteam Character Sheet Editor&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Ce logiciel est dédié à la création de fiche de personnage pour Rolisteam v1.8 et plus récent. &lt;br/&gt;La documentation est accessible sur: &lt;a href=&quot;http://wiki.rolisteam.org/index.php/Fr:CharacterSheet&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;wiki.rolisteam.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../aboutrcse.ui" line="33"/>
@@ -125,22 +125,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="554"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="552"/>
         <source>Fields name</source>
         <translation>Nom du champ</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="580"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="578"/>
         <source>Empty Section %1</source>
         <translation>Section vide %1</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="588"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="586"/>
         <source>Section_%1</source>
         <translation>Section_%1</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="612"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="610"/>
         <source>Field %1</source>
         <translation>Champ %1</translation>
     </message>
@@ -610,7 +610,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="14"/>
         <source>Unknown[*] - Rolisteam Character Sheet Editor</source>
-        <translation>Inconnu[*] - Éditeur de fiche de personnage pour&#xa0;Rolisteam</translation>
+        <translation>Inconnu[*] - Éditeur de fiche de personnage pour Rolisteam</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="29"/>
@@ -721,7 +721,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="691"/>
         <location filename="../mainwindow.ui" line="894"/>
-        <location filename="../mainwindow.cpp" line="541"/>
+        <location filename="../mainwindow.cpp" line="539"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
@@ -873,13 +873,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="981"/>
-        <location filename="../mainwindow.cpp" line="182"/>
+        <location filename="../mainwindow.cpp" line="178"/>
         <source>&amp;Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="986"/>
-        <location filename="../mainwindow.cpp" line="185"/>
+        <location filename="../mainwindow.cpp" line="181"/>
         <source>&amp;Redo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -920,37 +920,37 @@ p, li { white-space: pre-wrap; }
         <translation>place image en arrière-plan…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="145"/>
+        <location filename="../mainwindow.cpp" line="143"/>
         <source>Fit the view</source>
         <translation>S’adapte à la vue</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="148"/>
+        <location filename="../mainwindow.cpp" line="146"/>
         <source>Align on Y</source>
         <translation>Aligner en Y</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="149"/>
+        <location filename="../mainwindow.cpp" line="147"/>
         <source>Align on X</source>
         <translation>Aligner sur X</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="150"/>
+        <location filename="../mainwindow.cpp" line="148"/>
         <source>Same Width</source>
         <translation>Même largeur</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="151"/>
+        <location filename="../mainwindow.cpp" line="149"/>
         <source>Same Height</source>
         <translation>même hauteur</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="152"/>
+        <location filename="../mainwindow.cpp" line="150"/>
         <source>Dupplicate</source>
         <translation>Duppliquer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="318"/>
+        <location filename="../mainwindow.cpp" line="308"/>
         <source>Add character</source>
         <translation>Ajoute un personnage</translation>
     </message>
@@ -960,97 +960,107 @@ p, li { white-space: pre-wrap; }
         <translation>Supprime un élément</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="361"/>
+        <location filename="../mainwindow.cpp" line="348"/>
         <source>Apply on Selection</source>
         <translation>Applique sur la séléction</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="360"/>
+        <location filename="../mainwindow.cpp" line="347"/>
         <source>Apply on all lines</source>
         <translation>Applique sur tous les lignes</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="109"/>
+        <location filename="../mainwindow.cpp" line="108"/>
         <source>Log panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="122"/>
+        <location filename="../mainwindow.cpp" line="121"/>
         <source>Page 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="344"/>
+        <location filename="../mainwindow.cpp" line="331"/>
         <source>Support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="345"/>
+        <location filename="../mainwindow.cpp" line="332"/>
         <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;https://liberapay.com/Rolisteam/donate&quot;&gt;https://liberapay.com/Rolisteam/donate&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="356"/>
+        <location filename="../mainwindow.cpp" line="343"/>
         <source>Delete character</source>
         <translation>Supprimer le personnage</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="357"/>
+        <location filename="../mainwindow.cpp" line="344"/>
         <source>Copy character</source>
         <translation>Copier le personnage</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="358"/>
+        <location filename="../mainwindow.cpp" line="345"/>
         <source>Character&apos;s Name</source>
         <translation>Nom du personnage</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="362"/>
+        <location filename="../mainwindow.cpp" line="349"/>
         <source>Apply on all characters</source>
         <translation>Appliquer à tous les personnages</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="398"/>
+        <location filename="../mainwindow.cpp" line="391"/>
         <source>Copy Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="400"/>
+        <location filename="../mainwindow.cpp" line="393"/>
         <source>Change Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="461"/>
+        <location filename="../mainwindow.cpp" line="401"/>
+        <source>Load Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="401"/>
+        <source>Supported Image Format (*.jpg *.png *.svg *.gif)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="462"/>
         <source>Untitled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="542"/>
+        <location filename="../mainwindow.cpp" line="540"/>
         <source>Documentation of Rcse can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>La documentation de Rcse peut être consultée en ligne sur: &lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="553"/>
+        <location filename="../mainwindow.cpp" line="551"/>
         <source>The charactersheet has unsaved changes.</source>
         <translation>Des changements n’ont pas été enregistrés.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="560"/>
+        <location filename="../mainwindow.cpp" line="558"/>
         <source>Quit %1 </source>
         <translation>Quitter %1 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="623"/>
+        <location filename="../mainwindow.cpp" line="621"/>
         <source>Error! this PDF file can not be read!</source>
-        <translation>Erreur! Ce PDF&#xa0;ne peut pas être lu!</translation>
+        <translation>Erreur! Ce PDF ne peut pas être lu!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="623"/>
+        <location filename="../mainwindow.cpp" line="622"/>
         <source>This PDF document can not be read: %1</source>
-        <translation>Ce document PDF&#xa0;ne peut pas être lu:&#xa0;%1</translation>
+        <translation>Ce document PDF ne peut pas être lu: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="645"/>
+        <location filename="../mainwindow.cpp" line="644"/>
         <source>Error! This PDF file seems empty!</source>
         <translation>Erreur! Ce PDF semble être vide!</translation>
     </message>
@@ -1062,74 +1072,74 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="653"/>
         <source>Error! Can not make image!</source>
-        <translation>Erreur!&#xa0;Ne peut pas générer d’image!</translation>
+        <translation>Erreur! Ne peut pas générer d’image!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="653"/>
+        <location filename="../mainwindow.cpp" line="654"/>
         <source>System has failed while making image of the pdf page.</source>
         <translation>Le système a échoué à la création d’image des pages.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="718"/>
-        <location filename="../mainwindow.cpp" line="1669"/>
+        <location filename="../mainwindow.cpp" line="719"/>
+        <location filename="../mainwindow.cpp" line="1662"/>
         <source>Open Background Image</source>
         <translation>Ouvrir une image de fond</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1029"/>
+        <location filename="../mainwindow.cpp" line="1019"/>
         <source>Error!</source>
         <translation>Erreur!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1029"/>
+        <location filename="../mainwindow.cpp" line="1019"/>
         <source>Background images have to be of the same size</source>
         <translation>Les images d&apos;arrières-plans doivent être de la même taille</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1044"/>
-        <location filename="../mainwindow.cpp" line="1253"/>
+        <location filename="../mainwindow.cpp" line="1035"/>
+        <location filename="../mainwindow.cpp" line="1245"/>
         <source>Save CharacterSheet</source>
         <translation>Sauvegarde le fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1044"/>
-        <location filename="../mainwindow.cpp" line="1253"/>
+        <location filename="../mainwindow.cpp" line="1035"/>
+        <location filename="../mainwindow.cpp" line="1245"/>
         <source>Rolisteam CharacterSheet (*.rcs)</source>
         <translation>Fiche de personnage Rolisteam (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1215"/>
+        <location filename="../mainwindow.cpp" line="1205"/>
         <source>from rcs file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1230"/>
+        <location filename="../mainwindow.cpp" line="1221"/>
         <source>blank page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1490"/>
+        <location filename="../mainwindow.cpp" line="1482"/>
         <source>Do you want to erase current QML code ?</source>
         <translation>Voulez-vous effacer le code courant ?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1491"/>
+        <location filename="../mainwindow.cpp" line="1483"/>
         <source>Generate QML code will override any change you made in the QML.&lt;br/&gt;Do you really want to generate QML code ?</source>
         <translation>La génération du code écrasera tous les changements effectués sur le code.&lt;br/&gt;Voulez-vous continuer la génération du code ?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1583"/>
-        <location filename="../mainwindow.cpp" line="1601"/>
+        <location filename="../mainwindow.cpp" line="1576"/>
+        <location filename="../mainwindow.cpp" line="1595"/>
         <source>Save CharacterSheet View</source>
         <translation>Sauvegarder la vue</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1583"/>
+        <location filename="../mainwindow.cpp" line="1576"/>
         <source>CharacterSheet View (*.qml)</source>
         <translation>Vue de personnage (*.qml)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1601"/>
+        <location filename="../mainwindow.cpp" line="1595"/>
         <source>Rolisteam CharacterSheet View (*.qml)</source>
         <translation>Vue de personnage de Rolisteam (*.qml)</translation>
     </message>
@@ -1264,7 +1274,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../charactersheet/formula/nodes/scalaroperatorfnode.cpp" line="82"/>
         <source>Error: division by Zero</source>
-        <translation>Erreur:&#xa0;division par zéro</translation>
+        <translation>Erreur: division par zéro</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="40"/>
@@ -1273,38 +1283,48 @@ p, li { white-space: pre-wrap; }
         <translation>Inconnue</translation>
     </message>
     <message>
-        <location filename="../diceparser/diceparser.cpp" line="177"/>
+        <location filename="../diceparser/diceparser.cpp" line="175"/>
         <source>Nothing was understood. To roll dice: !1d6 - full documation: &lt;a href=&quot;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../diceparser/diceparser.cpp" line="670"/>
+        <location filename="../diceparser/diceparser.cpp" line="181"/>
+        <source>Unexpected character at %1 - end of command was ignored &quot;%2&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../diceparser/diceparser.cpp" line="217"/>
+        <source>Expected closing parenthesis - can&apos;t validate the inside.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../diceparser/diceparser.cpp" line="646"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../diceparser/diceparser.cpp" line="723"/>
+        <location filename="../diceparser/diceparser.cpp" line="699"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../diceparser/diceparser.cpp" line="1047"/>
+        <location filename="../diceparser/diceparser.cpp" line="1028"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../diceparser/diceparser.cpp" line="1061"/>
-        <location filename="../diceparser/diceparser.cpp" line="1082"/>
+        <location filename="../diceparser/diceparser.cpp" line="1042"/>
+        <location filename="../diceparser/diceparser.cpp" line="1063"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../diceparser/diceparser.cpp" line="1098"/>
+        <location filename="../diceparser/diceparser.cpp" line="1079"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../diceparser/diceparser.cpp" line="1109"/>
+        <location filename="../diceparser/diceparser.cpp" line="1090"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1319,65 +1339,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../diceparser/node/helpnode.cpp" line="35"/>
-        <source>Rolisteam Dice Parser:
-
-Example (with ! as prefix):
-!2d6
-!1d20
-
-Operator list:
-
-k : Keep             : 2d10k1       =&gt; roll two 10-sided dice and keep the higher one (kl1 for smaller one)
-K : Keep And Explode : 2d10K1       =&gt; Equivalent of 2d10e10k1
-s : Sort             : 8d10         =&gt; roll eight 10-sided dice and sort the result list
-c : Count            : 8d10c[&gt;7]    =&gt; roll eight 10-sided dice and count how many dice are higher than 7
-r : Reroll           : 8d6r1        =&gt; roll eight 6-sided dice and reroll dice once if its result is 1. (result of the reroll can be 1)
-e : Explode          : 8d10e10      =&gt; roll eight 10-sided dice and while dice makes a 10 it is reroll. The result is added to those dice.
-a : Reroll and add   : 8d6a1        =&gt; roll eight 6-sided dice and reroll dice once and the result is added at 1
-m : Merge            : 1d20;1d10mk1 =&gt; roll one 20-side die and one 10-sided die and keep the higher die
-i : if               : 1d100i[=100]{&quot;jackpot&quot;} =&gt; Roll one 100-side die and display &quot;jackpot&quot; if the die result is 100.
-f : filter           : 4d10f[!=4]       =&gt; roll four 10-sided dice and ignore all dice with 4 as result; : Next instruction : 1d20;2d10;3d8 =&gt; roll one 20-sided die, two 10-sided dice and three 8-sided dice 
-g : Group            : 8d10g10       =&gt; count how many group of 10 it is possible to do (according to rule of 7th sea).
-# : Comment          : 1d2 #flip coin=&gt; display flip coin as comment of 1 or 2 result.
-
-Validator:
-
-Supported conditions: &gt;,&lt;,=,&gt;=,&lt;=,!=
-Supported operators: % (modulo), &amp;,^,| 
-
-	Examples:
-
-c[&gt;7 &amp; %2=0] : count how many dice are higher than 7 and even
-c[&gt;7 | %2=0] : count how many dice are higher than 7 or even
-c[&gt;7 ^ %2=0] : count how many dice are higher than 7 or even but not higher than 7 and even
-
-List:
-
-1L[green,blue] =&gt; pick value from the list (green or blue)
-2L[green,blue] =&gt; pick two values from the list (green,green | green,blue | blue,green | blue,blue)
-2Lu[green,blue] =&gt; pick two unique values from the list (green,blue | blue,green)
-
-Arithmetic
-
-8+8+8      =&gt; 24
-24-4       =&gt; 20
-(3+4)*2    =&gt; 14
-7/2        =&gt; 3.5
-2^4        =&gt; 16
-1d6+6      =&gt; roll one 6-sided die and add 6 to its result
-(2d4+2)d10 =&gt; roll two 4-sided dice, add 2 to the result[2;8] then roll from four to ten 10-sided dice
-
-Full documentation at: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../diceparser/node/jumpbackwardnode.cpp" line="126"/>
         <source> The @ operator expects dice result. Please check the documentation to fix your command.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../diceparser/node/keepdiceexecnode.cpp" line="64"/>
+        <location filename="../diceparser/node/keepdiceexecnode.cpp" line="69"/>
         <source> You ask to keep %1 dice but the result only has %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1398,12 +1365,12 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../diceparser/node/scalaroperatornode.cpp" line="124"/>
+        <location filename="../diceparser/node/scalaroperatornode.cpp" line="128"/>
         <source>Division by zero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../diceparser/node/variablenode.cpp" line="26"/>
+        <location filename="../diceparser/node/variablenode.cpp" line="30"/>
         <source>No variable at index:%1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1522,6 +1489,28 @@ Full documentation at: %1</source>
     <message>
         <location filename="../undo/setpropertyonallcharacters.cpp" line="15"/>
         <source>Set property on all characters: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../diceparser/node/helpnode.cpp" line="35"/>
+        <source>Rolisteam Dice Parser:
+
+Example (with ! as prefix):
+!2d6
+!1d20
+!6d10e10k3 (L5R)
+
+Full documentation at: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../diceparser/node/mergenode.cpp" line="33"/>
+        <source>No previous node before Merge operator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../diceparser/node/paintnode.cpp" line="72"/>
+        <source>No previous node before Paint operator</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
