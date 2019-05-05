@@ -1200,9 +1200,10 @@ bool MainWindow::loadFile(const QString& filename)
                     canvas->setUndoStack(&m_undoStack);
                     SetBackgroundCommand cmd(canvas, pix);
                     cmd.redo();
-                    canvas->setCurrentPage(++i);
+                    canvas->setCurrentPage(i);
                     m_canvasList.append(canvas);
                     connect(canvas, &Canvas::imageChanged, this, &MainWindow::setImage);
+                    ++i;
                 }
                 m_imageModel->insertImage(pix, id, tr("from rcs file"), isBg);
             }
