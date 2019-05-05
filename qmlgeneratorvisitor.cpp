@@ -168,8 +168,8 @@ bool QmlGeneratorVisitor::generateTextInput(Field* item)
     QString text("%5TextInputField {//%1\n"
                  "%6"
                  "%5    text: %2.value\n"
-                 "%5    textColor:\"%3\"\n"
-                 "%5    color: \"%4\"\n"
+                 "%5    color:\"%3\"\n"
+                 "%5    backgroundColor: \"%4\"\n"
                  + getPageManagement(item, m_indenSpace) + "%5    readOnly: %2.readOnly\n" + getToolTip(item)
                  + generatePosition(item) + generateAlignment(item) + generateFont(item->font())
                  + "%5    onTextChanged: {\n"
@@ -293,8 +293,8 @@ bool QmlGeneratorVisitor::generateCheckBox(Field* item)
 
     m_out << text.arg(item->getLabel()) //%1
                  .arg(getId(item))
-                 .arg(item->textColor().name(QColor::HexArgb))
                  .arg(item->bgColor().name(QColor::HexArgb))
+                 .arg(item->textColor().name(QColor::HexArgb))
                  .arg(m_indenSpace) //%5
                  .arg(m_isTable ? QStringLiteral("") :
                                   QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
@@ -343,6 +343,8 @@ bool QmlGeneratorVisitor::generateDiceButton(Field* item)
                  "%6    text: %2.label ? %2.label: \"Dice\"\n"
                  "%6    pressedColor: \"%3\"\n"
                  "%6    color: \"%4\"\n"
+                 "%6    backgroundColor: \"%8\"\n"
+                 "%6    textColor: \"%9\"\n"
                  + getPageManagement(item, m_indenSpace) + "%6    readOnly: %2.readOnly\n" + getToolTip(item)
                  + generatePosition(item) + generateAlignment(item) + generateFont(item->font())
                  + "%6    onClicked:rollDiceCmd(%2.value,%5)\n"
@@ -350,12 +352,14 @@ bool QmlGeneratorVisitor::generateDiceButton(Field* item)
 
     m_out << text.arg(item->getLabel()) //%1
                  .arg(getId(item))
-                 .arg(item->textColor().name(QColor::HexArgb))
-                 .arg(item->bgColor().name(QColor::HexArgb))
+                 .arg(item->textColor().lighter().name(QColor::HexArgb))
+                 .arg(item->bgColor().lighter().name(QColor::HexArgb))
                  .arg(item->getAliasEnabled() ? "true" : "false") //%5
                  .arg(m_indenSpace)
                  .arg(m_isTable ? QStringLiteral("") :
-                                  QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
+                                  QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)))
+                 .arg(item->bgColor().name(QColor::HexArgb))
+                 .arg(item->textColor().name(QColor::HexArgb));
 
     return true;
 }
