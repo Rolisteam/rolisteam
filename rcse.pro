@@ -30,6 +30,7 @@ TRANSLATIONS =  translations/rcse_fr.ts \
                 translations/rcse_hu_HU.ts \
                 translations/rcse_tr.ts \
                 translations/rcse_nl_NL.ts \
+                translations/rcse_it_IT.ts \
 
 # Generate translations in build
 TRANSLATIONS_FILES =
