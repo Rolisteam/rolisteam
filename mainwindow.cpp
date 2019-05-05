@@ -509,6 +509,8 @@ void MainWindow::clearData(bool addDefaultCanvas)
         canvas->setModel(m_model);
         canvas->setImageModel(m_imageModel);
     }
+
+    setCurrentFile(QString());
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* event)
