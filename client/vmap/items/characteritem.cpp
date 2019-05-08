@@ -1254,6 +1254,13 @@ void CharacterItem::setCharacter(Character* character)
     {
         connect(m_character, &Character::currentHealthPointsChanged, this, &CharacterItem::updateCharacter);
         connect(m_character, &Character::avatarChanged, this, &CharacterItem::updateCharacter);
+        connect(m_character, &Character::initCommandChanged, this, &CharacterItem::updateCharacter);
+        connect(m_character, &Character::initiativeChanged, this, &CharacterItem::updateCharacter);
+        connect(m_character, &Character::currentHealthPointsChanged, this, &CharacterItem::updateCharacter);
+        connect(m_character, &Character::stateChanged, this, &CharacterItem::updateCharacter);
+        connect(m_character, &Character::maxHPChanged, this, &CharacterItem::updateCharacter);
+        connect(m_character, &Character::minHPChanged, this, &CharacterItem::updateCharacter);
+        connect(m_character, &Character::distancePerTurnChanged, this, &CharacterItem::updateCharacter);
         connect(m_character, &Character::avatarChanged, this, &CharacterItem::generatedThumbnail);
     }
 }
