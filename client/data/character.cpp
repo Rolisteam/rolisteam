@@ -483,7 +483,9 @@ void Character::fill(NetworkMessageWriter& message, bool addAvatar)
     message.int32(m_healthPointsMin);
     message.int32(m_healthPointsMax);
     message.int32(m_initiativeScore);
+    message.string32(m_initiativeRoll.command());
     message.real(m_distancePerTurn);
+    message.uint8(static_cast<quint8>(m_hasInitScore));
 
     if(addAvatar)
     {
@@ -522,7 +524,9 @@ QString Character::read(NetworkMessageReader& msg)
     m_healthPointsMin= msg.int32();
     m_healthPointsMax= msg.int32();
     m_initiativeScore= msg.int32();
+    m_initiativeRoll.setCommand(msg.string32());
     m_distancePerTurn= msg.real();
+    m_hasInitScore= static_cast<bool>(msg.uint8());
 
     bool hasAvatar= static_cast<bool>(msg.uint8());
 
@@ -554,7 +558,7 @@ CharacterState* Character::getStateFromIndex(int i)
 
 Player* Character::getParentPlayer() const
 {
-    return dynamic_cast<Player*>(m_parent);
+    return dynamic_cast<Player*>(m_parentPerson);
 }
 
 int Character::number() const
