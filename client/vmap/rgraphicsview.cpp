@@ -357,6 +357,9 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
         QAction* selectedAction= menu.exec(event->globalPos());
 
+        if(nullptr == selectedAction)
+            return;
+
         if(removeAction == selectedAction)
         {
             deleteItem(list);
@@ -389,11 +392,6 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         {
             setItemLayer(list, static_cast<VisualItem::Layer>(selectedAction->data().toInt()));
         }
-        /* }
-         else // only one item
-         {
-             QGraphicsView::contextMenuEvent(event);
-         }*/
     }
     else
     {
