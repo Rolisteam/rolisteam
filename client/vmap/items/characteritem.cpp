@@ -304,7 +304,7 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
             painter->drawEllipse(square);
             painter->restore();
             painter->drawText(rect, Qt::AlignCenter, init);
-            toShow+= QString(" %1: %2").arg(tr("Init", "short for Initiative"), init);
+            // toShow+= QString(" %1: %2").arg(tr("Init", "short for Initiative"), init);
             painter->restore();
         }
     }
