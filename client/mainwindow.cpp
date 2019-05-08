@@ -239,7 +239,9 @@ void MainWindow::setupUi()
     addDockWidget(Qt::LeftDockWidgetArea, dock);
     dock->setWindowTitle(tr("ToolBox"));
     dock->setObjectName("DockToolBar");
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct, dock->toggleViewAction());
+    auto act= dock->toggleViewAction();
+    act->setShortcut(QKeySequence("F8"));
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct, act);
     QAction* vmapToolBar= m_vmapToolBar->toggleViewAction();
     vmapToolBar->setShortcut(Qt::Key_F9);
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct, m_vmapToolBar->toggleViewAction());
@@ -798,10 +800,6 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
 
     connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map, SLOT(setPcNameVisible(bool)));
     connect(m_ui->m_showNpcNameAction, SIGNAL(triggered(bool)), map, SLOT(setNpcNameVisible(bool)));
-    connect(m_ui->m_showNpcNumberAction, SIGNAL(triggered(bool)), map, SLOT(setNpcNumberVisible(bool)));
-
-    connect(m_ui->m_showNpcNameAction, SIGNAL(triggered(bool)), map, SLOT(setNpcNameVisible(bool)));
-    connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map, SLOT(setPcNameVisible(bool)));
     connect(m_ui->m_showNpcNumberAction, SIGNAL(triggered(bool)), map, SLOT(setNpcNumberVisible(bool)));
 
     map->setNpcNameVisible(m_ui->m_showNpcNameAction->isChecked());
@@ -2220,20 +2218,24 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
 
     // menu to Map
     connect(m_ui->m_showNpcNameAction, &QAction::triggered, this,
-        [=](bool b) { map->setOption(VisualItem::ShowNpcName, b); });
+        [map](bool b) { map->setOption(VisualItem::ShowNpcName, b); });
     connect(m_ui->m_showNpcNumberAction, &QAction::triggered, this,
-        [=](bool b) { map->setOption(VisualItem::ShowNpcNumber, b); });
+        [map](bool b) { map->setOption(VisualItem::ShowNpcNumber, b); });
     connect(m_ui->m_showPcNameAction, &QAction::triggered, this,
-        [=](bool b) { map->setOption(VisualItem::ShowPcName, b); });
+        [map](bool b) { map->setOption(VisualItem::ShowPcName, b); });
     connect(m_ui->m_showHealtStatusAction, &QAction::triggered, this,
-        [=](bool b) { map->setOption(VisualItem::ShowHealthStatus, b); });
+        [map](bool b) { map->setOption(VisualItem::ShowHealthStatus, b); });
+    connect(m_ui->m_showInitiativeAct, &QAction::triggered, this,
+        [map](bool b) { map->setOption(VisualItem::ShowInitScore, b); });
+    connect(m_ui->m_healthBarAct, &QAction::triggered, this,
+        [map](bool b) { map->setOption(VisualItem::ShowHealthBar, b); });
 
-    connect(
-        m_ui->m_healthBarAct, &QAction::triggered, this, [=](bool b) { map->setOption(VisualItem::ShowHealthBar, b); });
     map->setOption(VisualItem::ShowNpcName, m_ui->m_showNpcNameAction->isChecked());
     map->setOption(VisualItem::ShowNpcNumber, m_ui->m_showNpcNumberAction->isChecked());
     map->setOption(VisualItem::ShowPcName, m_ui->m_showPcNameAction->isChecked());
-    map->setOption(VisualItem::ShowHealthStatus, m_ui->m_showHealtStatusAction->isChecked());
+    map->setOption(VisualItem::ShowHealthStatus, m_ui->m_healthBarAct->isChecked());
+    map->setOption(VisualItem::ShowInitScore, m_ui->m_showInitiativeAct->isChecked());
+
     map->setCurrentNpcNumber(m_toolBar->getCurrentNpcNumber());
     tmp->currentPenSizeChanged(m_vToolBar->getCurrentPenSize());
 

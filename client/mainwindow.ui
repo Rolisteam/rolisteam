@@ -101,6 +101,7 @@
      <addaction name="m_showNpcNumberAction"/>
      <addaction name="m_showHealtStatusAction"/>
      <addaction name="m_healthBarAct"/>
+     <addaction name="m_showInitiativeAct"/>
     </widget>
     <addaction name="menuReorganize"/>
     <addaction name="separator"/>
@@ -658,6 +659,14 @@
   <action name="actionCurrent_Media_as">
    <property name="text">
     <string>Current Media as…</string>
+   </property>
+  </action>
+  <action name="m_showInitiativeAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Initiative</string>
    </property>
   </action>
  </widget>
