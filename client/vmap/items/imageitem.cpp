@@ -60,8 +60,8 @@ void ImageItem::writeData(QDataStream& out) const
     out << m_color;
     out << opacity();
     out << m_id;
-    out << (int)m_layer;
-    out << m_image;
+    out << static_cast<int>(m_layer);
+    out << m_data;
     out << m_imagePath;
     out << m_initialized;
     out << m_ratio;
@@ -81,8 +81,8 @@ void ImageItem::readData(QDataStream& in)
     in >> m_id;
     int i;
     in >> i;
-    m_layer= (VisualItem::Layer)i;
-    in >> m_image;
+    m_layer= static_cast<VisualItem::Layer>(i);
+    in >> m_data;
     in >> m_imagePath;
     in >> m_initialized;
     in >> m_ratio;
@@ -97,6 +97,8 @@ void ImageItem::readData(QDataStream& in)
     QPointF p;
     in >> p;
     setPos(p);
+
+    dataToMedia();
 }
 void ImageItem::fillMessage(NetworkMessageWriter* msg)
 {
@@ -107,29 +109,28 @@ void ImageItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_rect.y());
     msg->real(m_rect.width());
     msg->real(m_rect.height());
-    msg->uint8((int)m_layer);
+    msg->uint8(static_cast<quint8>(m_layer));
     msg->real(zValue());
     msg->real(opacity());
 
     msg->int8(m_keepAspect);
     msg->rgb(m_color.rgb());
 
-    QFile file(m_imagePath);
-    if(file.exists())
-    {
-        file.open(QIODevice::ReadOnly);
-
-        QByteArray baImage= file.readAll();
-        msg->byteArray32(baImage);
-    }
-    else
-    {
-        QByteArray ba;
-        QBuffer buffer(&ba);
-        buffer.open(QIODevice::WriteOnly);
-        m_image.save(&buffer, "PNG");
-        msg->byteArray32(ba);
-    }
+    //    QFile file(m_imagePath);
+    //    if(file.exists())
+    //    {
+    //        file.open(QIODevice::ReadOnly);
+    //        QByteArray baImage= file.readAll();
+    //        msg->byteArray32(baImage);
+    //    }
+    //    else
+    //    {
+    //        QByteArray ba;
+    //        QBuffer buffer(&ba);
+    //        buffer.open(QIODevice::WriteOnly);
+    //        m_image.save(&buffer, "PNG");
+    //    }
+    msg->byteArray32(m_data);
 
     msg->real(scale());
     msg->real(rotation());
@@ -145,15 +146,15 @@ void ImageItem::readItem(NetworkMessageReader* msg)
     m_rect.setY(msg->real());
     m_rect.setWidth(msg->real());
     m_rect.setHeight(msg->real());
-    m_layer= (VisualItem::Layer)msg->int8();
+    m_layer= static_cast<VisualItem::Layer>(msg->int8());
     setZValue(msg->real());
     setOpacity(msg->real());
 
     m_keepAspect= msg->int8();
     m_color= msg->rgb();
-    QByteArray array= msg->byteArray32();
+    m_data= msg->byteArray32();
 
-    m_image.loadFromData(array);
+    dataToMedia();
 
     setTransformOriginPoint(m_rect.center());
     setScale(msg->real());
@@ -165,7 +166,7 @@ void ImageItem::readItem(NetworkMessageReader* msg)
 }
 void ImageItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
-    switch((int)pointId)
+    switch(static_cast<int>(pointId))
     {
     case 0:
         m_rect.setTopLeft(pos);
@@ -258,13 +259,27 @@ QString ImageItem::getImageUri()
 {
     return m_imagePath;
 }
+
 void ImageItem::loadImage()
 {
-    m_movie= new QMovie(m_imagePath);
+    QFile file(m_imagePath);
+    if(!file.open(QIODevice::ReadOnly))
+        return;
+    m_data= file.readAll();
+    dataToMedia();
+}
+
+void ImageItem::dataToMedia()
+{
+    auto buf= new QBuffer(&m_data);
+    buf->open(QIODevice::ReadOnly);
+
+    m_movie= new QMovie(buf);
     if((m_movie->isValid()) && (m_movie->frameCount() > 1))
     {
+        connect(m_movie, &QMovie::updated, this, &ImageItem::updateImageFromMovie);
         m_movie->start();
-        connect(m_movie, SIGNAL(updated(QRect)), this, SLOT(updateImageFromMovie(QRect)));
+        m_rect= m_movie->frameRect();
     }
     else
     {

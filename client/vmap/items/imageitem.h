@@ -84,8 +84,6 @@ public:
     VisualItem* promoteTo(VisualItem::ItemType);
     QImage getImage() const;
     void setImage(const QImage& image);
-
-protected slots:
     void updateImageFromMovie(QRect);
 
 protected:
@@ -96,6 +94,7 @@ protected:
 
 private:
     void loadImage();
+    void dataToMedia();
 
 private:
     bool m_keepAspect; ///< flag to keep the aspect.
@@ -107,6 +106,7 @@ private:
 
     // QAction* m_
     QMovie* m_movie;
+    QByteArray m_data;
 };
 
 #endif // IMAGEITEM_H
