@@ -436,12 +436,10 @@ void RGraphicsView::lockItems(QList<VisualItem*> list)
         map[val]= ++map[val];
     }
 
-    auto allSame= false;
     auto count= list.size();
     auto val= true;
     if(map[true] == count || map[false] == count)
     {
-        allSame= true;
         val= (map[false] == count);
     }
 
