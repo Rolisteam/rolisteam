@@ -232,7 +232,10 @@ void TextItem::wheelEvent(QGraphicsSceneWheelEvent* event)
 
 void TextItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
-    switch((int)pointId)
+    if(m_holdSize)
+        return;
+
+    switch(static_cast<int>(pointId))
     {
     case 0:
         m_rect.setTopLeft(pos);
@@ -311,6 +314,16 @@ void TextItem::updateTextPosition()
     }
 }
 
+void TextItem::setHoldSize(bool holdSize)
+{
+    VisualItem::setHoldSize(holdSize);
+    for(auto child : *m_child)
+    {
+        auto motion= holdSize ? ChildPointItem::NONE : ChildPointItem::ALL;
+        child->setMotion(motion);
+    }
+}
+
 void TextItem::initChildPointItem()
 {
     m_rect= m_rect.normalized();
@@ -373,7 +386,7 @@ void TextItem::writeData(QDataStream& out) const
     out << rotation();
     out << pos();
     // out << zValue();
-    out << (int)m_layer;
+    out << static_cast<int>(m_layer);
 }
 
 void TextItem::readData(QDataStream& in)
@@ -407,15 +420,15 @@ void TextItem::readData(QDataStream& in)
 
     int i;
     in >> i;
-    m_layer= (VisualItem::Layer)i;
+    m_layer= static_cast<VisualItem::Layer>(i);
 }
 void TextItem::fillMessage(NetworkMessageWriter* msg)
 {
     msg->string16(m_id);
-    msg->uint8((quint8)m_showRect);
+    msg->uint8(static_cast<quint8>(m_showRect));
     msg->real(scale());
     msg->real(rotation());
-    msg->uint8((int)m_layer);
+    msg->uint8(static_cast<quint8>(m_layer));
     msg->real(zValue());
     msg->real(opacity());
 
@@ -425,7 +438,7 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_rect.width());
     msg->real(m_rect.height());
 
-    msg->uint32(m_penWidth);
+    msg->uint16(m_penWidth);
 
     // pos
     msg->real(pos().x());
@@ -435,7 +448,7 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_start.y());
     msg->string32(m_doc->toHtml());
     msg->rgb(m_color.rgb());
-    msg->uint8((quint8)m_showRect);
+    msg->uint8(static_cast<quint8>(m_showRect));
 }
 void TextItem::readItem(NetworkMessageReader* msg)
 {
@@ -444,7 +457,7 @@ void TextItem::readItem(NetworkMessageReader* msg)
     m_showRect= static_cast<bool>(msg->uint8());
     setScale(msg->real());
     setRotation(msg->real());
-    m_layer= (VisualItem::Layer)msg->uint8();
+    m_layer= static_cast<VisualItem::Layer>(msg->uint8());
     setZValue(msg->real());
     setOpacity(msg->real());
 
@@ -454,7 +467,7 @@ void TextItem::readItem(NetworkMessageReader* msg)
     m_rect.setWidth(msg->real());
     m_rect.setHeight(msg->real());
 
-    m_penWidth= msg->uint32();
+    m_penWidth= msg->uint16();
 
     // pos
     qreal x= msg->real();

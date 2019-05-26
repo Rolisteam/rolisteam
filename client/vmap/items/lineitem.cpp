@@ -146,7 +146,7 @@ void LineItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_endPoint.x());
     msg->real(m_endPoint.y());
     // pen
-    msg->int16(m_penWidth);
+    msg->uint16(m_penWidth);
     msg->rgb(m_color.rgb());
 
     msg->real(pos().x());
@@ -172,7 +172,7 @@ void LineItem::readItem(NetworkMessageReader* msg)
     m_endPoint.setX(msg->real());
     m_endPoint.setY(msg->real());
     // pen
-    m_penWidth= msg->int16();
+    m_penWidth= msg->uint16();
     m_color= msg->rgb();
 
     qreal posx= msg->real();
@@ -182,13 +182,17 @@ void LineItem::readItem(NetworkMessageReader* msg)
 }
 void LineItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
-    if(pointId == 0)
+    if(m_holdSize)
+        return;
+
+    auto pointInt= static_cast<int>(pointId);
+    if(pointInt == 0)
     {
         m_resizing= true;
         m_startPoint= pos;
         m_rect.setTopLeft(m_startPoint);
     }
-    else if(pointId == 1)
+    else if(pointInt == 1)
     {
         m_resizing= true;
         m_endPoint= pos;
@@ -231,4 +235,14 @@ VisualItem* LineItem::getItemCopy()
     line->setLayer(getLayer());
 
     return line;
+}
+void LineItem::setHoldSize(bool holdSize)
+{
+    VisualItem::setHoldSize(holdSize);
+    for(auto child : *m_child)
+    {
+        auto motion= holdSize ? ChildPointItem::NONE : ChildPointItem::ALL;
+
+        child->setMotion(motion);
+    }
 }

@@ -66,62 +66,63 @@ public:
     /**
      * @brief paint the item into the scene.
      */
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
     /**
      * @brief accessor to the bounding rect, helpful for focus and collision detection
      */
-    virtual QRectF boundingRect() const;
+    virtual QRectF boundingRect() const override;
     /**
      * @brief amends the position of the end point, not really useful for this kind of graphical item.
      */
-    virtual void setNewEnd(QPointF& nend);
+    virtual void setNewEnd(QPointF& nend) override;
     /**
      * @brief writeData
      * @param out
      */
-    virtual void writeData(QDataStream& out) const;
+    virtual void writeData(QDataStream& out) const override;
     /**
      * @brief readData
      * @param in
      */
-    virtual void readData(QDataStream& in);
+    virtual void readData(QDataStream& in) override;
 
     /**
      * @brief getType
      * @return
      */
-    virtual VisualItem::ItemType getType() const;
+    virtual VisualItem::ItemType getType() const override;
     /**
      * @brief fillMessage
      * @param msg
      */
-    virtual void fillMessage(NetworkMessageWriter* msg);
+    virtual void fillMessage(NetworkMessageWriter* msg) override;
     /**
      * @brief readItem
      * @param msg
      */
-    virtual void readItem(NetworkMessageReader* msg);
+    virtual void readItem(NetworkMessageReader* msg) override;
 
     /**
      * @brief setGeometryPoint
      * @param pointId
      * @param pos
      */
-    virtual void setGeometryPoint(qreal pointId, QPointF& pos);
+    virtual void setGeometryPoint(qreal pointId, QPointF& pos) override;
     /**
      * @brief initChildPointItem
      */
-    virtual void initChildPointItem();
-    void updateChildPosition();
-    VisualItem* getItemCopy();
-    void createActions();
-    void addActionContextMenu(QMenu& menu);
+    virtual void initChildPointItem() override;
+    void updateChildPosition() override;
+    VisualItem* getItemCopy() override;
+    void createActions() override;
+    void addActionContextMenu(QMenu& menu) override;
     void setBorderVisible(bool);
 
-    virtual void updateItemFlags();
-    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
+    virtual void updateItemFlags() override;
+    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
 
-    virtual void endOfGeometryChange();
+    virtual void endOfGeometryChange() override;
+    void setHoldSize(bool holdSize) override;
 public slots:
     void updateTextPosition();
     void decreaseTextSize();
@@ -130,11 +131,11 @@ public slots:
     void sizeToTheContent();
 
 protected:
-    void wheelEvent(QGraphicsSceneWheelEvent* event);
-    void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
-    void keyPressEvent(QKeyEvent* event);
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
+    void wheelEvent(QGraphicsSceneWheelEvent* event) override;
+    void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
+    void keyPressEvent(QKeyEvent* event) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
 
 private:
     void updateFont();

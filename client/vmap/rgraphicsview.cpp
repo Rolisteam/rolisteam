@@ -376,6 +376,10 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         {
             setRotation(list, 270);
         }
+        else if(selectedAction == m_lockSize)
+        {
+            lockItems(list);
+        }
         else if(selectedAction == angleRotationAct)
         {
             int angle= QInputDialog::getInt(
@@ -422,6 +426,26 @@ void RGraphicsView::setRotation(QList<VisualItem*> list, int value)
         item->setRotation(value);
         item->sendRotationMsg();
     }
+}
+void RGraphicsView::lockItems(QList<VisualItem*> list)
+{
+    std::map<bool, int> map= {{true, 0}, {false, 0}};
+    for(VisualItem* item : list)
+    {
+        auto val= item->isHoldSize();
+        map[val]= ++map[val];
+    }
+
+    auto allSame= false;
+    auto count= list.size();
+    auto val= true;
+    if(map[true] == count || map[false] == count)
+    {
+        allSame= true;
+        val= (map[false] == count);
+    }
+
+    std::for_each(list.begin(), list.end(), [val](VisualItem* item) { item->setHoldSize(val); });
 }
 void RGraphicsView::normalizeSize(Method method)
 {
@@ -508,7 +532,7 @@ void RGraphicsView::createAction()
     m_normalizeSizeSmaller= new QAction(tr("As the Smaller"), this);
     connect(m_normalizeSizeSmaller, &QAction::triggered, this, [=]() { normalizeSize(Smaller); });
 
-    m_lockSize= new QAction(tr("Lock Item Size"), this);
+    m_lockSize= new QAction(tr("Lock/Unlock Item Geometry"), this);
 
     addAction(m_zoomNormal);
     addAction(m_zoomInMax);

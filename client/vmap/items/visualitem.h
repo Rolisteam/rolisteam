@@ -296,8 +296,8 @@ public:
      */
     virtual void updateItemFlags();
     void readOpacityMsg(NetworkMessageReader* msg);
-    bool getHoldSize() const;
-    void setHoldSize(bool holdSize);
+    bool isHoldSize() const;
+    virtual void setHoldSize(bool holdSize);
 
     virtual void readLayerMsg(NetworkMessageReader* msg);
     virtual void readMovePointMsg(NetworkMessageReader* msg);

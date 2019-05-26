@@ -171,7 +171,7 @@ void EllipsItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_center.y());
     msg->int8(m_filled);
     msg->rgb(m_color.rgb());
-    msg->int16(m_penWidth);
+    msg->uint16(m_penWidth);
 }
 void EllipsItem::readItem(NetworkMessageReader* msg)
 {
@@ -196,7 +196,7 @@ void EllipsItem::readItem(NetworkMessageReader* msg)
 
     m_filled= msg->int8();
     m_color= msg->rgb();
-    m_penWidth= msg->int16();
+    m_penWidth= msg->uint16();
 
     m_rect.setRect(-m_rx, -m_ry, m_rx * 2, m_ry * 2);
     setPos(posx, posy);
@@ -204,7 +204,12 @@ void EllipsItem::readItem(NetworkMessageReader* msg)
 }
 void EllipsItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
-    switch((int)pointId)
+    if(m_holdSize)
+    {
+        return;
+    }
+
+    switch(static_cast<int>(pointId))
     {
     case 0:
         m_rx= pos.x() - m_center.x();
@@ -247,6 +252,22 @@ void EllipsItem::initChildPointItem()
     m_child->value(1)->setMotion(ChildPointItem::Y_AXIS);
     m_child->value(1)->setPlacement(ChildPointItem::ButtomCenter);
     m_child->value(1)->setRotationEnable(true);
+}
+
+void EllipsItem::setHoldSize(bool holdSize)
+{
+    VisualItem::setHoldSize(holdSize);
+
+    if(holdSize)
+    {
+        m_child->value(0)->setMotion(ChildPointItem::NONE);
+        m_child->value(1)->setMotion(ChildPointItem::NONE);
+    }
+    else
+    {
+        m_child->value(0)->setMotion(ChildPointItem::X_AXIS);
+        m_child->value(1)->setMotion(ChildPointItem::Y_AXIS);
+    }
 }
 
 VisualItem* EllipsItem::getItemCopy()

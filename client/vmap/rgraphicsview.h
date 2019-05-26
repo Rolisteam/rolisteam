@@ -73,6 +73,7 @@ protected:
     void createAction();
 
     void mouseMoveEvent(QMouseEvent* event);
+    void lockItems(QList<VisualItem*> list);
 protected slots:
     void rollInit();
     void cleanInit();

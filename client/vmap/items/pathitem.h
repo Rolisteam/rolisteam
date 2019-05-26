@@ -43,58 +43,58 @@ public:
     /**
      * @brief override function to paint itself.
      */
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
     /**
      * @brief defines the  boundrect of path. Useful for mouse selection or collision detection
      */
-    virtual QRectF boundingRect() const;
+    virtual QRectF boundingRect() const override;
     /**
      * @brief adds new point at the end
      */
-    virtual void setNewEnd(QPointF& nend);
+    virtual void setNewEnd(QPointF& nend) override;
     /**
      * @brief accessor to the shape of path, better definition than boudingRect
      */
-    virtual QPainterPath shape() const;
+    virtual QPainterPath shape() const override;
     /**
      * @brief writing serialisation method
      */
-    virtual void writeData(QDataStream& out) const;
+    virtual void writeData(QDataStream& out) const override;
     /**
      * @brief reading serialisation method
      */
-    virtual void readData(QDataStream& in);
+    virtual void readData(QDataStream& in) override;
     /**
      * @brief getType
      * @return
      */
-    virtual VisualItem::ItemType getType() const;
+    virtual VisualItem::ItemType getType() const override;
     /**
      * @brief fillMessage
      * @param msg
      */
-    virtual void fillMessage(NetworkMessageWriter* msg);
+    virtual void fillMessage(NetworkMessageWriter* msg) override;
     /**
      * @brief readItem
      * @param msg
      */
-    virtual void readItem(NetworkMessageReader* msg);
+    virtual void readItem(NetworkMessageReader* msg) override;
 
     /**
      * @brief setGeometryPoint
      * @param pointId
      * @param pos
      */
-    virtual void setGeometryPoint(qreal pointId, QPointF& pos);
+    virtual void setGeometryPoint(qreal pointId, QPointF& pos) override;
     /**
      * @brief initChildPointItem
      */
-    virtual void initChildPointItem();
+    virtual void initChildPointItem() override;
     /**
      * @brief getItemCopy
      * @return
      */
-    virtual VisualItem* getItemCopy();
+    virtual VisualItem* getItemCopy() override;
     /**
      * @brief setPath
      * @param points
@@ -120,16 +120,17 @@ public:
     /**
      * @brief addActionContextMenu
      */
-    virtual void addActionContextMenu(QMenu&);
+    virtual void addActionContextMenu(QMenu&) override;
     /**
      * @brief endOfGeometryChange
      */
-    virtual void endOfGeometryChange();
+    virtual void endOfGeometryChange() override;
     /**
      * @brief readMovePointMsg
      * @param msg
      */
-    virtual void readMovePointMsg(NetworkMessageReader* msg);
+    virtual void readMovePointMsg(NetworkMessageReader* msg) override;
+    void setHoldSize(bool holdSize) override;
 protected slots:
     void sendPointPosition();
 private slots:
@@ -138,7 +139,7 @@ private slots:
 
 private:
     void initRealPoints();
-    void createActions();
+    void createActions() override;
 
 private:
     bool m_penMode;

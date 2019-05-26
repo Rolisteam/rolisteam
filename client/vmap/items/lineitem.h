@@ -36,54 +36,56 @@ public:
     /**
      * @brief paint the line
      */
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
     /**
      * @brief gives bounding rect of the line
      */
-    virtual QRectF boundingRect() const;
+    virtual QRectF boundingRect() const override;
     /**
      * @brief shape
      * @return
      */
-    virtual QPainterPath shape() const;
+    virtual QPainterPath shape() const override;
 
     /**
      * @brief defines new position of the end line.
      */
-    virtual void setNewEnd(QPointF& nend);
+    virtual void setNewEnd(QPointF& nend) override;
     /**
      * @brief serialisation writing
      */
-    virtual void writeData(QDataStream& out) const;
+    virtual void writeData(QDataStream& out) const override;
     /**
      * @brief serialisation reading
      */
-    virtual void readData(QDataStream& in);
+    virtual void readData(QDataStream& in) override;
 
     /**
      * @brief getType
      * @return
      */
-    virtual VisualItem::ItemType getType() const;
+    virtual VisualItem::ItemType getType() const override;
     /**
      * @brief fillMessage
      * @param msg
      */
-    virtual void fillMessage(NetworkMessageWriter* msg);
+    virtual void fillMessage(NetworkMessageWriter* msg) override;
     /**
      * @brief readItem
      * @param msg
      */
-    virtual void readItem(NetworkMessageReader* msg);
+    virtual void readItem(NetworkMessageReader* msg) override;
     /**
      * @brief setGeometryPoint
      * @param pointId
      * @param pos
      */
-    virtual void setGeometryPoint(qreal pointId, QPointF& pos);
-    virtual void initChildPointItem();
-    virtual VisualItem* getItemCopy();
-    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
+    virtual void setGeometryPoint(qreal pointId, QPointF& pos) override;
+    virtual void initChildPointItem() override;
+    virtual VisualItem* getItemCopy() override;
+    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
+
+    void setHoldSize(bool holdSize) override;
 
 private:
     /**

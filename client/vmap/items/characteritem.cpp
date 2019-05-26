@@ -638,8 +638,9 @@ int CharacterItem::getChildPointCount() const
 void CharacterItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
     QRectF rect= m_rect;
-    if(m_protectGeometryChange)
+    if(m_protectGeometryChange || m_holdSize)
         return;
+
     switch(static_cast<int>(pointId))
     {
     case 0:
@@ -845,7 +846,7 @@ void CharacterItem::addActionContextMenu(QMenu& menu)
         act->setData(listOfState->indexOf(state));
     }
 
-    QMenu* user= menu.addMenu(tr("Affect to"));
+    QMenu* user= menu.addMenu(tr("Transform into"));
     for(auto& character : PlayersList::instance()->getCharacterList())
     {
         QAction* act= user->addAction(character->name());
@@ -1142,27 +1143,7 @@ CharacterVision* CharacterItem::getVision() const
 {
     return m_vision.get();
 }
-/*bool CharacterItem::canBeMoved() const
-{
-    bool movable = false;
-    if(getOption(VisualItem::LocalIsGM).toBool())
-    {
-        movable = true;
-    }
-    else if((getOption(VisualItem::PermissionMode).toInt()==Map::PC_MOVE) && (isLocal()))
-    {
-        movable = true;
-    }
-    else if(getOption(VisualItem::PermissionMode).toInt()==Map::PC_ALL)
-    {
-        movable = true;
-    }
-    else
-    {
-        movable = VisualItem::canBeMoved();
-    }
-    return movable;
-}*/
+
 void CharacterItem::readPositionMsg(NetworkMessageReader* msg)
 {
     auto z= zValue();
@@ -1285,6 +1266,19 @@ void CharacterItem::wheelEvent(QGraphicsSceneWheelEvent* event)
     }
     else
         VisualItem::wheelEvent(event);
+}
+
+void CharacterItem::setHoldSize(bool holdSize)
+{
+    VisualItem::setHoldSize(holdSize);
+
+    for(auto& itemChild : *m_child)
+    {
+        if(itemChild->getPointID() < DIRECTION_RADIUS_HANDLE)
+        {
+            itemChild->setMotion(holdSize ? ChildPointItem::NONE : ChildPointItem::ALL);
+        }
+    }
 }
 
 bool CharacterItem::isNpc()

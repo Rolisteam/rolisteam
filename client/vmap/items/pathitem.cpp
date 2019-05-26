@@ -379,6 +379,17 @@ void PathItem::setGeometryPoint(qreal pointId, QPointF& pos)
     m_pointVectorBary[idx]= pos;
 }
 
+void PathItem::setHoldSize(bool holdSize)
+{
+    VisualItem::setHoldSize(holdSize);
+    for(auto child : *m_child)
+    {
+        auto motion= holdSize ? ChildPointItem::NONE : ChildPointItem::ALL;
+
+        child->setMotion(motion);
+    }
+}
+
 void PathItem::initRealPoints()
 {
     QPointF median= m_start;

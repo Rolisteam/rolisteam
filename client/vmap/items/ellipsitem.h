@@ -37,47 +37,49 @@ public:
     /**
      * @brief paint the ellipse at the correct position
      */
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
 
-    virtual QPainterPath shape() const;
+    virtual QPainterPath shape() const override;
     /**
      * @brief modifies the ellipse size and shape.
      */
-    virtual void setNewEnd(QPointF& nend);
+    virtual void setNewEnd(QPointF& nend) override;
 
     /**
      * @brief gives the bounding rect of the ellipse
      */
-    virtual QRectF boundingRect() const;
+    virtual QRectF boundingRect() const override;
     /**
      * @brief serialisation writing
      */
-    virtual void writeData(QDataStream& out) const;
+    virtual void writeData(QDataStream& out) const override;
     /**
      * @brief serialisation reading
      */
-    virtual void readData(QDataStream& in);
+    virtual void readData(QDataStream& in) override;
     /**
      * @brief getType
      * @return
      */
-    virtual VisualItem::ItemType getType() const;
+    virtual VisualItem::ItemType getType() const override;
 
     /**
      * @brief fillMessage
      * @param msg
      */
-    virtual void fillMessage(NetworkMessageWriter* msg);
+    virtual void fillMessage(NetworkMessageWriter* msg) override;
     /**
      * @brief readItem
      * @param msg
      */
-    virtual void readItem(NetworkMessageReader* msg);
-    void setGeometryPoint(qreal pointId, QPointF& pos);
-    virtual void initChildPointItem();
-    virtual VisualItem* getItemCopy();
+    virtual void readItem(NetworkMessageReader* msg) override;
+    void setGeometryPoint(qreal pointId, QPointF& pos) override;
+    virtual void initChildPointItem() override;
+    virtual VisualItem* getItemCopy() override;
 
-    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
+    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
+
+    void setHoldSize(bool holdSize) override;
 
 private:
     /**

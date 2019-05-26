@@ -193,7 +193,7 @@ void VisualItem::setId(QString id)
 
 void VisualItem::resizeContents(const QRectF& rect, TransformType transformType)
 {
-    if(!rect.isValid())
+    if(!rect.isValid() || isHoldSize())
     {
         return;
     }
@@ -435,7 +435,7 @@ void VisualItem::readLayerMsg(NetworkMessageReader* msg)
 {
     quint8 lay= msg->uint8();
     blockSignals(true);
-    setLayer((VisualItem::Layer)lay);
+    setLayer(static_cast<VisualItem::Layer>(lay));
     blockSignals(false);
 }
 bool VisualItem::isLocal() const
@@ -692,7 +692,7 @@ void VisualItem::setPenWidth(const quint16& penWidth)
 {
     m_penWidth= penWidth;
 }
-bool VisualItem::getHoldSize() const
+bool VisualItem::isHoldSize() const
 {
     return m_holdSize;
 }
@@ -701,11 +701,6 @@ void VisualItem::setHoldSize(bool holdSize)
 {
     m_holdSize= holdSize;
 }
-
-/*bool VisualItem::isEditable() const
-{
-    return m_editable;
-}*/
 
 QString VisualItem::getLayerToText(VisualItem::Layer id)
 {

@@ -49,34 +49,34 @@ public:
     /**
      * @brief serialisation function to write data
      */
-    virtual void writeData(QDataStream& out) const;
+    virtual void writeData(QDataStream& out) const override;
     /**
      * @brief serialisation function to read data.
      */
-    virtual void readData(QDataStream& in);
+    virtual void readData(QDataStream& in) override;
     /**
      * @brief getType
      * @return
      */
-    virtual VisualItem::ItemType getType() const;
+    virtual VisualItem::ItemType getType() const override;
 
     /**
      * @brief gives the bounding rect of the ellipse
      */
-    virtual QRectF boundingRect() const;
+    virtual QRectF boundingRect() const override;
     /**
      * @brief shape
      * @return
      */
-    virtual QPainterPath shape() const;
+    virtual QPainterPath shape() const override;
     /**
      * @brief modifies the ellipse size and shape.
      */
-    virtual void setNewEnd(QPointF& nend);
+    virtual void setNewEnd(QPointF& nend) override;
     /**
      * @brief paint the ellipse at the correct position
      */
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
 
     /**
      * @brief fillMessage
@@ -87,44 +87,44 @@ public:
      * @brief readItem
      * @param msg
      */
-    virtual void readItem(NetworkMessageReader* msg);
+    virtual void readItem(NetworkMessageReader* msg) override;
     /**
      * @brief setGeometryPoint
      * @param pointId
      * @param pos
      */
-    void setGeometryPoint(qreal pointId, QPointF& pos);
+    void setGeometryPoint(qreal pointId, QPointF& pos) override;
     /**
      * @brief initChildPointItem
      */
-    virtual void initChildPointItem();
+    virtual void initChildPointItem() override;
     /**
      * @brief resizeContents
      * @param rect
      * @param keepRatio
      */
-    void resizeContents(const QRectF& rect, TransformType transformType= KeepRatio);
+    void resizeContents(const QRectF& rect, TransformType transformType= KeepRatio) override;
     /**
      * @brief updateChildPosition
      */
-    void updateChildPosition();
+    void updateChildPosition() override;
     /**
      * @brief itemChange
      * @param change
      * @param value
      * @return
      */
-    QVariant itemChange(GraphicsItemChange change, const QVariant& value);
+    QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
 
     /**
      * @brief addActionContextMenu
      */
-    virtual void addActionContextMenu(QMenu&);
+    virtual void addActionContextMenu(QMenu&) override;
     /**
      * @brief getItemCopy
      * @return
      */
-    virtual VisualItem* getItemCopy();
+    virtual VisualItem* getItemCopy() override;
     /**
      * @brief getCharacterId
      * @return
@@ -174,7 +174,7 @@ public:
      * @brief isLocal
      * @return
      */
-    virtual bool isLocal() const;
+    virtual bool isLocal() const override;
     /**
      * @brief isPlayableCharacter
      * @return
@@ -184,11 +184,11 @@ public:
      * @brief setSize
      * @param size
      */
-    virtual void setSize(QSizeF size);
+    virtual void setSize(QSizeF size) override;
     /**
      * @brief setCharacterIsMovable if isMovable is true and the character is local then the item is mavable
      */
-    void updateItemFlags();
+    void updateItemFlags() override;
     /**
      * @brief isNpc
      * @return
@@ -201,7 +201,7 @@ public:
      * @param w
      * @param h
      */
-    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
+    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
     /**
      * @brief readCharacterStateChanged
      * @param msg
@@ -211,7 +211,7 @@ public:
      * @brief getColor
      * @return
      */
-    virtual QColor getColor();
+    virtual QColor getColor() override;
     /**
      * @brief readVisionMsg
      * @param msg
@@ -225,7 +225,7 @@ public:
      * @brief setChildrenVisible
      * @param b
      */
-    void setChildrenVisible(bool b);
+    void setChildrenVisible(bool b) override;
     void updateCharacter();
     void readCharacterChanged(NetworkMessageReader& msg);
     void setCharacter(Character* character);
@@ -234,6 +234,7 @@ public:
     void setNumber(int);
     QString getName() const;
     int getNumber() const;
+    void setHoldSize(bool holdSize) override;
 signals:
     /**
      * @brief positionChanged
