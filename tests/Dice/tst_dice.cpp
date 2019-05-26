@@ -26,6 +26,23 @@
 #include "diceparser.h"
 #include "die.h"
 
+// node
+#include "node/bind.h"
+#include "node/countexecutenode.h"
+#include "node/explodedicenode.h"
+#include "node/filternode.h"
+#include "node/groupnode.h"
+#include "node/ifnode.h"
+#include "node/jumpbackwardnode.h"
+#include "node/keepdiceexecnode.h"
+#include "node/numbernode.h"
+#include "node/occurencecountnode.h"
+#include "node/rerolldicenode.h"
+#include "node/sortresult.h"
+#include "node/stringnode.h"
+#include "node/testnode.h"
+#include "result/stringresult.h"
+
 class TestDice : public QObject
 {
     Q_OBJECT
@@ -59,6 +76,54 @@ private slots:
     void severalInstruction();
     void testAlias();
     void cleanupTestCase();
+
+    void keepTest();
+    void keepTest_data();
+
+    void sortTest();
+    void sortTest_data();
+
+    void countTest();
+    void countTest_data();
+
+    void rerollTest();
+    void rerollTest_data();
+
+    void explodeTest();
+    void explodeTest_data();
+
+    void rerollUntilTest();
+    void rerollUntilTest_data();
+
+    void rerollAddTest();
+    void rerollAddTest_data();
+
+    void mergeTest();
+    void mergeTest_data();
+
+    void ifTest();
+    void ifTest_data();
+
+    void paintTest();
+    void paintTest_data();
+
+    void filterTest();
+    void filterTest_data();
+
+    void splitTest();
+    void splitTest_data();
+
+    void uniqueTest();
+    void uniqueTest_data();
+
+    void groupTest();
+    void groupTest_data();
+
+    void bindTest();
+    void bindTest_data();
+
+    void occurenceTest();
+    void occurenceTest_data();
 
 private:
     std::unique_ptr<Die> m_die;
@@ -378,6 +443,481 @@ void TestDice::dangerousCommandsTest_data()
     QTest::addRow("cmd3") << "10d10g10";
     // QTest::addRow("cmd4") << "10d10g10";
     // QTest::addRow("cmd5") << "10d10g10";
+}
+
+void makeResult(DiceResult& result, const QVector<int>& values)
+{
+    for(int val : values)
+    {
+        auto die= new Die();
+        die->setBase(1);
+        die->setMaxValue(10);
+        die->insertRollValue(val);
+        result.insertResult(die);
+    }
+}
+
+Validator* makeValidator(int number, BooleanCondition::LogicOperator op)
+{
+    BooleanCondition* validator= new BooleanCondition();
+    NumberNode* node= new NumberNode();
+    node->setNumber(number);
+    validator->setValueNode(node);
+    validator->setOperator(op);
+    return validator;
+}
+
+void TestDice::keepTest()
+{
+    QFETCH(QVector<int>, values);
+    QFETCH(int, keep);
+    QFETCH(int, score);
+    QFETCH(bool, error);
+
+    TestNode node;
+    KeepDiceExecNode keepN;
+    keepN.setDiceKeepNumber(keep);
+
+    DiceResult result;
+
+    makeResult(result, values);
+
+    node.setResult(&result);
+    node.setNextNode(&keepN);
+
+    node.run(nullptr);
+
+    bool isErrorEmpty= !keepN.getExecutionErrorMap().isEmpty();
+
+    QCOMPARE(isErrorEmpty, error);
+
+    if(error)
+        return;
+
+    auto resultScore= keepN.getResult()->getResult(Result::SCALAR).toInt();
+
+    QCOMPARE(score, resultScore);
+}
+
+void TestDice::keepTest_data()
+{
+    QTest::addColumn<QVector<int>>("values");
+    QTest::addColumn<int>("keep");
+    QTest::addColumn<int>("score");
+    QTest::addColumn<bool>("error");
+
+    QTest::addRow("cmd1") << QVector<int>({10, 9, 2}) << 1 << 10 << false;
+    QTest::addRow("cmd2") << QVector<int>({10, 9, 2}) << 2 << 19 << false;
+    QTest::addRow("cmd3") << QVector<int>({10, 9, 2}) << 3 << 21 << false;
+    QTest::addRow("cmd4") << QVector<int>({10, 9, 2}) << 4 << 0 << true;
+}
+
+void TestDice::sortTest()
+{
+    QFETCH(QVector<int>, values);
+    QFETCH(bool, ascending);
+    QFETCH(QVector<int>, scores);
+
+    TestNode node;
+    SortResultNode sortN;
+    sortN.setSortAscending(ascending);
+
+    DiceResult result;
+
+    makeResult(result, values);
+
+    node.setResult(&result);
+    node.setNextNode(&sortN);
+
+    DiceResult expectedScore;
+    makeResult(expectedScore, scores);
+
+    node.run(nullptr);
+
+    auto list= dynamic_cast<DiceResult*>(sortN.getResult())->getResultList();
+
+    int i= 0;
+    auto expected= expectedScore.getResultList();
+    for(auto sortedDie : list)
+    {
+        QCOMPARE(expected[i]->getValue(), sortedDie->getValue());
+        ++i;
+    }
+}
+
+void TestDice::sortTest_data()
+{
+    QTest::addColumn<QVector<int>>("values");
+    QTest::addColumn<bool>("ascending");
+    QTest::addColumn<QVector<int>>("scores");
+
+    QTest::addRow("cmd1") << QVector<int>({10, 9, 2}) << true << QVector<int>({2, 9, 10});
+    QTest::addRow("cmd2") << QVector<int>({1, 2, 3}) << false << QVector<int>({3, 2, 1});
+    QTest::addRow("cmd3") << QVector<int>({10, 9, 2}) << false << QVector<int>({10, 9, 2});
+    QTest::addRow("cmd4") << QVector<int>({2, 9, 10}) << true << QVector<int>({2, 9, 10});
+    QTest::addRow("cmd5") << QVector<int>({1, 25, 10}) << false << QVector<int>({25, 10, 1});
+    QTest::addRow("cmd6") << QVector<int>({10, 2, 100}) << false << QVector<int>({100, 10, 2});
+}
+
+void TestDice::countTest()
+{
+    QFETCH(QVector<int>, values);
+    QFETCH(int, condition);
+    QFETCH(int, score);
+
+    TestNode node;
+    CountExecuteNode countN;
+
+    auto validator= makeValidator(condition, BooleanCondition::GreaterThan);
+
+    countN.setValidator(validator);
+    DiceResult result;
+    node.setResult(&result);
+    node.setNextNode(&countN);
+
+    makeResult(result, values);
+
+    node.run(nullptr);
+
+    QCOMPARE(score, countN.getResult()->getResult(Result::SCALAR).toInt());
+
+    countN.setValidator(nullptr);
+}
+
+void TestDice::countTest_data()
+{
+    QTest::addColumn<QVector<int>>("values");
+    QTest::addColumn<int>("condition");
+    QTest::addColumn<int>("score");
+
+    QTest::addRow("cmd1") << QVector<int>({10, 9, 2}) << 3 << 2;
+    QTest::addRow("cmd2") << QVector<int>({1, 2, 3}) << 3 << 0;
+}
+
+void TestDice::rerollTest()
+{
+    QFETCH(QVector<int>, values);
+    QFETCH(int, condition);
+    QFETCH(bool, different);
+
+    TestNode node;
+    RerollDiceNode reroll(true, false);
+
+    DiceResult result;
+    makeResult(result, values);
+    node.setResult(&result);
+
+    auto validator= makeValidator(condition, BooleanCondition::GreaterThan);
+    reroll.setValidator(validator);
+    node.setNextNode(&reroll);
+
+    node.run(nullptr);
+
+    auto list= dynamic_cast<DiceResult*>(reroll.getResult())->getResultList();
+
+    int i= 0;
+    auto expected= result.getResultList();
+    bool resultDiff= false;
+    for(auto rerolled : list)
+    {
+        if(!resultDiff && rerolled->getValue() != expected[i]->getValue())
+            resultDiff= true;
+        ++i;
+    }
+
+    QCOMPARE(different, resultDiff);
+}
+
+void TestDice::rerollTest_data()
+{
+    QTest::addColumn<QVector<int>>("values");
+    QTest::addColumn<int>("condition");
+    QTest::addColumn<bool>("different");
+
+    QTest::addRow("cmd1") << QVector<int>({8, 9, 2}) << 10 << false;
+    QTest::addRow("cmd2") << QVector<int>({0, 0, 0}) << -1 << true;
+}
+
+void TestDice::explodeTest()
+{
+    QFETCH(QVector<int>, values);
+    QFETCH(int, condition);
+    QFETCH(bool, different);
+
+    TestNode node;
+    ExplodeDiceNode explode;
+
+    DiceResult result;
+    makeResult(result, values);
+    node.setResult(&result);
+
+    auto validator= makeValidator(condition, BooleanCondition::Equal);
+    explode.setValidator(validator);
+    node.setNextNode(&explode);
+
+    node.run(nullptr);
+
+    auto list= dynamic_cast<DiceResult*>(explode.getResult())->getResultList();
+
+    int i= 0;
+    auto expected= result.getResultList();
+    bool resultDiff= false;
+    for(auto rerolled : list)
+    {
+        if(!resultDiff && rerolled->getValue() != expected[i]->getValue())
+            resultDiff= true;
+        ++i;
+    }
+
+    QCOMPARE(different, resultDiff);
+}
+
+void TestDice::explodeTest_data()
+{
+    QTest::addColumn<QVector<int>>("values");
+    QTest::addColumn<int>("condition");
+    QTest::addColumn<bool>("different");
+
+    QTest::addRow("cmd1") << QVector<int>({8, 9, 2}) << 10 << false;
+    QTest::addRow("cmd2") << QVector<int>({0, 0, 0}) << 0 << true;
+}
+
+void TestDice::rerollUntilTest()
+{
+    QFETCH(QVector<int>, values);
+    QFETCH(int, condition);
+    QFETCH(bool, different);
+
+    TestNode node;
+    RerollDiceNode reroll(false, false);
+
+    DiceResult result;
+    makeResult(result, values);
+    node.setResult(&result);
+
+    auto validator= makeValidator(condition, BooleanCondition::Equal);
+    reroll.setValidator(validator);
+    node.setNextNode(&reroll);
+
+    node.run(nullptr);
+
+    auto list= dynamic_cast<DiceResult*>(reroll.getResult())->getResultList();
+
+    int i= 0;
+    auto expected= result.getResultList();
+    bool resultDiff= false;
+    for(auto rerolled : list)
+    {
+        if(!resultDiff && rerolled->getValue() != expected[i]->getValue())
+            resultDiff= true;
+        ++i;
+    }
+
+    QCOMPARE(different, resultDiff);
+}
+void TestDice::rerollUntilTest_data()
+{
+    QTest::addColumn<QVector<int>>("values");
+    QTest::addColumn<int>("condition");
+    QTest::addColumn<bool>("different");
+
+    QTest::addRow("cmd1") << QVector<int>({8, 9, 2}) << 10 << false;
+    QTest::addRow("cmd2") << QVector<int>({0, 0, 0}) << 0 << true;
+}
+
+void TestDice::rerollAddTest()
+{
+    QFETCH(QVector<int>, values);
+    QFETCH(int, condition);
+    QFETCH(bool, different);
+
+    TestNode node;
+    RerollDiceNode reroll(true, true);
+
+    DiceResult result;
+    makeResult(result, values);
+    node.setResult(&result);
+
+    auto validator= makeValidator(condition, BooleanCondition::Equal);
+    reroll.setValidator(validator);
+    node.setNextNode(&reroll);
+
+    node.run(nullptr);
+
+    auto list= dynamic_cast<DiceResult*>(reroll.getResult())->getResultList();
+
+    int i= 0;
+    auto expected= result.getResultList();
+    bool resultDiff= false;
+    for(auto rerolled : list)
+    {
+        if(!resultDiff && rerolled->getValue() != expected[i]->getValue())
+            resultDiff= true;
+        ++i;
+    }
+
+    QCOMPARE(different, resultDiff);
+}
+void TestDice::rerollAddTest_data()
+{
+    QTest::addColumn<QVector<int>>("values");
+    QTest::addColumn<int>("condition");
+    QTest::addColumn<bool>("different");
+
+    QTest::addRow("cmd1") << QVector<int>({8, 9, 2}) << 10 << false;
+    QTest::addRow("cmd2") << QVector<int>({0, 0, 0}) << 0 << true;
+}
+
+void TestDice::mergeTest() {}
+void TestDice::mergeTest_data() {}
+
+void TestDice::ifTest()
+{
+    QFETCH(QVector<int>, values);
+    QFETCH(int, condition);
+    QFETCH(int, valCondition);
+    QFETCH(QString, expectedResult);
+
+    IfNode::ConditionType conditionType= static_cast<IfNode::ConditionType>(condition);
+
+    TestNode node;
+    IfNode ifNode;
+    ifNode.setConditionType(conditionType);
+
+    DiceResult result;
+    makeResult(result, values);
+    node.setResult(&result);
+
+    StringNode trueNode;
+    trueNode.setString(QStringLiteral("True"));
+    StringNode falseNode;
+    falseNode.setString(QStringLiteral("False"));
+
+    ifNode.setInstructionTrue(&trueNode);
+    ifNode.setInstructionFalse(&falseNode);
+
+    auto validator= makeValidator(valCondition, BooleanCondition::Equal);
+    ifNode.setValidator(validator);
+    node.setNextNode(&ifNode);
+
+    node.run(nullptr);
+
+    auto text= dynamic_cast<StringResult*>(ifNode.getNextNode()->getResult())->getText();
+
+    QCOMPARE(expectedResult, text);
+
+    ifNode.setNextNode(nullptr);
+}
+void TestDice::ifTest_data()
+{
+    QTest::addColumn<QVector<int>>("values");
+    QTest::addColumn<int>("condition");
+    QTest::addColumn<int>("valCondition");
+    QTest::addColumn<QString>("expectedResult");
+
+    int onEach= 0;
+    int oneOfThem= 1;
+    int allOfThem= 2;
+    int onScalar= 3;
+
+    QTest::addRow("cmd1") << QVector<int>({8, 9, 2}) << onEach << 0 << "False";
+    QTest::addRow("cmd2") << QVector<int>({2, 2, 2}) << onEach << 2 << "True";
+
+    QTest::addRow("cmd3") << QVector<int>({0, 0, 0}) << oneOfThem << 10 << "False";
+    QTest::addRow("cmd4") << QVector<int>({10, 9, 5}) << oneOfThem << 10 << "True";
+    QTest::addRow("cmd5") << QVector<int>({9, 9, 9}) << oneOfThem << 9 << "True";
+
+    QTest::addRow("cmd6") << QVector<int>({8, 9, 2}) << allOfThem << 1 << "False";
+    QTest::addRow("cmd7") << QVector<int>({8, 9, 2}) << allOfThem << 9 << "False";
+    QTest::addRow("cmd8") << QVector<int>({8, 8, 8}) << allOfThem << 8 << "True";
+
+    QTest::addRow("cmd9") << QVector<int>({25, 8, 14}) << onScalar << 1 << "False";
+    QTest::addRow("cmd10") << QVector<int>({25, 8, 14}) << onScalar << 47 << "True";
+}
+
+void TestDice::paintTest() {}
+void TestDice::paintTest_data() {}
+
+void TestDice::filterTest()
+{
+    QFETCH(QVector<int>, values);
+    QFETCH(int, condition);
+    QFETCH(bool, different);
+
+    TestNode node;
+    FilterNode filter;
+
+    DiceResult result;
+    makeResult(result, values);
+    node.setResult(&result);
+
+    auto validator= makeValidator(condition, BooleanCondition::Different);
+    filter.setValidator(validator);
+    node.setNextNode(&filter);
+
+    node.run(nullptr);
+
+    auto list= dynamic_cast<DiceResult*>(filter.getResult())->getResultList();
+
+    auto expected= result.getResultList();
+    bool resultDiff= (list.size() != expected.size());
+
+    QCOMPARE(different, resultDiff);
+}
+
+void TestDice::filterTest_data()
+{
+    QTest::addColumn<QVector<int>>("values");
+    QTest::addColumn<int>("condition");
+    QTest::addColumn<bool>("different");
+
+    QTest::addRow("cmd1") << QVector<int>({8, 4, 2}) << 4 << true;
+    QTest::addRow("cmd2") << QVector<int>({0, 0, 0}) << 1 << false;
+}
+
+void TestDice::splitTest() {}
+void TestDice::splitTest_data() {}
+
+void TestDice::uniqueTest() {}
+void TestDice::uniqueTest_data() {}
+
+void TestDice::groupTest() {}
+void TestDice::groupTest_data() {}
+
+void TestDice::bindTest() {}
+void TestDice::bindTest_data() {}
+
+void TestDice::occurenceTest()
+{
+    QFETCH(QVector<int>, values);
+    QFETCH(int, condition);
+    QFETCH(QString, expected);
+
+    TestNode node;
+    OccurenceCountNode count;
+
+    DiceResult result;
+    makeResult(result, values);
+    node.setResult(&result);
+
+    auto validator= makeValidator(condition, BooleanCondition::GreaterThan);
+    count.setValidator(validator);
+    node.setNextNode(&count);
+
+    node.run(nullptr);
+
+    auto text= dynamic_cast<StringResult*>(count.getResult())->getText();
+
+    QVERIFY(text.startsWith(expected));
+}
+void TestDice::occurenceTest_data()
+{
+    QTest::addColumn<QVector<int>>("values");
+    QTest::addColumn<int>("condition");
+    QTest::addColumn<QString>("expected");
+
+    QTest::addRow("cmd1") << QVector<int>({8, 8, 2}) << 7 << "2x8";
+    QTest::addRow("cmd2") << QVector<int>({0, 0, 0}) << 1 << "No matching result";
 }
 
 void TestDice::cleanupTestCase() {}
