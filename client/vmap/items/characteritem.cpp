@@ -598,11 +598,11 @@ int CharacterItem::getNumber() const
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& value)
 {
     QVariant newValue= value;
+    m_oldPosition= pos();
     if(change != QGraphicsItem::ItemPositionChange || !getOption(VisualItem::CollisionStatus).toBool())
         return VisualItem::itemChange(change, newValue);
 
-    m_oldPosition= pos();
-    QList<QGraphicsItem*> list= collidingItems();
+    QList<QGraphicsItem*> list; //= collidingItems();
 
     // list.clear();
     QPainterPath path;
@@ -611,7 +611,8 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& va
 
     QGraphicsScene* currentScene= scene();
     auto mappedPath= mapToScene(path);
-    list.append(currentScene->items(mappedPath));
+    auto collisionAtNewPosition= currentScene->items(mappedPath);
+    list.append(collisionAtNewPosition);
 
     for(QGraphicsItem* item : list)
     {
@@ -625,6 +626,7 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& va
         }
     }
     QVariant var= VisualItem::itemChange(change, newValue);
+    // m_newPosition= value.toPointF();
     if(newValue != m_oldPosition)
     {
         emit positionChanged();

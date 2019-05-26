@@ -82,7 +82,7 @@ public:
      * @brief fillMessage
      * @param msg
      */
-    virtual void fillMessage(NetworkMessageWriter* msg);
+    virtual void fillMessage(NetworkMessageWriter* msg) override;
     /**
      * @brief readItem
      * @param msg
@@ -277,11 +277,11 @@ public slots:
      * @brief readPositionMsg
      * @param msg
      */
-    virtual void readPositionMsg(NetworkMessageReader* msg);
+    virtual void readPositionMsg(NetworkMessageReader* msg) override;
     /**
      * @brief endOfGeometryChange
      */
-    void endOfGeometryChange();
+    void endOfGeometryChange() override;
     /**
      * @brief generatedThumbnail
      */
@@ -296,7 +296,7 @@ protected:
      */
     // virtual bool canBeMoved() const;
 
-    virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
+    virtual void wheelEvent(QGraphicsSceneWheelEvent* event) override;
 protected slots:
     void runCommand();
     void setShape();
@@ -304,7 +304,7 @@ private slots:
     /**
      * @brief createActions
      */
-    void createActions();
+    void createActions() override;
     /**
      * @brief characterStateChange
      */
@@ -341,6 +341,7 @@ private:
     // sight
     std::unique_ptr<CharacterVision> m_vision;
     QPointF m_oldPosition;
+    // QPointF m_newPosition;
 
     bool m_protectGeometryChange;
     bool m_visionChanged;
