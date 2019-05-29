@@ -285,7 +285,7 @@ void ImageItem::dataToMedia()
     {
         delete m_movie;
         m_movie= nullptr;
-        m_image.load(m_imagePath);
+        m_image.loadFromData(m_data);
 
         if(m_image.isNull())
             return;
