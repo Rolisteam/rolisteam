@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Edit item code</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="qmlfile.qrc">
+    <normaloff>:/resources/logo/symbol2.png</normaloff>:/resources/logo/symbol2.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -36,7 +40,9 @@
    <header>codeeditor.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="qmlfile.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

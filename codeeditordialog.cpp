@@ -1,11 +1,12 @@
 #include "codeeditordialog.h"
 #include "ui_codeeditordialog.h"
 
-CodeEditorDialog::CodeEditorDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::CodeEditorDialog)
+CodeEditorDialog::CodeEditorDialog(QWidget* parent) : QDialog(parent), ui(new Ui::CodeEditorDialog)
 {
     ui->setupUi(this);
+
+    m_syntaxHighlight.reset(new QmlHighlighter(ui->m_codeEditor->document()));
+    m_syntaxHighlight->setObjectName("HighLighterForQML");
 }
 
 CodeEditorDialog::~CodeEditorDialog()
