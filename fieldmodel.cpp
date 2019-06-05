@@ -110,7 +110,7 @@ QVariant FieldModel::data(const QModelIndex& index, int role) const
 
         if(field && !field->getGeneratedCode().isEmpty())
         {
-            return QColor(Qt::darkGreen);
+            return QColor(Qt::green).lighter();
         }
     }
     if((Qt::FontRole == role) && (index.column() == CharacterSheetItem::FONT))
