@@ -116,9 +116,9 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id, int role) const
         else
             return 0;
     case BORDER:
-        return (int)m_border;
+        return static_cast<int>(m_border);
     case TEXT_ALIGN:
-        return (int)m_textAlign;
+        return static_cast<int>(m_textAlign);
     case BGCOLOR:
         if(role == Qt::DisplayRole)
         {
