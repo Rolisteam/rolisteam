@@ -22,7 +22,7 @@
     <item>
      <widget class="QTabWidget" name="m_tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="editor">
        <attribute name="title">
@@ -824,7 +824,7 @@
      <normaloff>:/resources/icons/symbol.svg</normaloff>:/resources/icons/symbol.svg</iconset>
    </property>
    <property name="text">
-    <string>Add Button</string>
+    <string>Dice Button</string>
    </property>
   </action>
   <action name="m_addTextFieldAct">
@@ -1082,7 +1082,7 @@
   <customwidget>
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
-   <header>QQuickWidget</header>
+   <header location="global">QtQuickWidgets/QQuickWidget</header>
   </customwidget>
   <customwidget>
    <class>CodeEditor</class>
