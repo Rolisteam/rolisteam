@@ -341,7 +341,9 @@ void CharacterSheetWindow::affectSheetToCharacter()
         }
 
         checkAlreadyShare(sheet);
+        m_sheetToCharacter.insert(sheet, character);
         character->setSheet(sheet);
+        addTabWithSheetView(sheet);
         sheet->setName(character->name());
         m_tabs->setTabText(m_tabs->indexOf(quickWid), sheet->getName());
 
@@ -420,6 +422,8 @@ void CharacterSheetWindow::addCharacterSheet()
 }
 void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
 {
+    if(!m_sheetToCharacter.contains(chSheet))
+        return;
     if(m_qmlData.isEmpty())
     {
         openQML();
