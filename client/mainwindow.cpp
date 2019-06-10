@@ -359,7 +359,7 @@ void MainWindow::closeConnection()
 {
     if(nullptr != m_clientManager)
     {
-        m_serverThread.quit();
+        m_serverThread.exit();
         cleanUpData();
         m_clientManager->disconnectAndClose();
         m_chatListWidget->cleanChatList();
@@ -1712,7 +1712,6 @@ void MainWindow::startConnection()
                 m_server= new ServerManager();
                 m_server->initServerManager();
                 connect(&m_serverThread, &QThread::started, m_server, &ServerManager::startListening);
-                // connect(&m_serverThread, SIGNAL(finished()), m_server, SLOT(deleteLater()));
                 connect(&m_serverThread, &QThread::finished, m_server, &ServerManager::stopListening);
                 connect(m_server, &ServerManager::sendLog, m_logController, &LogController::manageMessage);
                 connect(m_server, &ServerManager::sendLog, this, [=](QString str, LogController::LogLevel level) {

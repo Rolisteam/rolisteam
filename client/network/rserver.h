@@ -22,7 +22,7 @@ public:
     virtual ~RServer();
 
     virtual bool listen(const QHostAddress& address, quint16 port);
-    virtual void close();
+    virtual void terminate();
     virtual qint64 port();
 
 protected:

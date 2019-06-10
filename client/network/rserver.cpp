@@ -6,7 +6,7 @@
 RServer::RServer(ServerManager* serverMan, int threadCount, QObject* parent)
     : QTcpServer(parent), m_numberOfThread(threadCount), m_serverManager(serverMan)
 {
-    connect(this, &RServer::finished, m_serverManager, &ServerManager::quit, Qt::QueuedConnection);
+    connect(this, &RServer::finished, m_serverManager, &ServerManager::close, Qt::QueuedConnection);
 }
 
 RServer::~RServer()
@@ -36,7 +36,7 @@ bool RServer::listen(const QHostAddress& address, quint16 port)
     return true;
 }
 
-void RServer::close()
+void RServer::terminate()
 {
     emit finished();
     QTcpServer::close();

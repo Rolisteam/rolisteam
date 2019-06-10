@@ -49,6 +49,7 @@ signals:
     void finished();
     void listening();
     void clientAccepted();
+    void closed();
 
 public slots:
     void startListening();
@@ -67,6 +68,7 @@ public slots:
     void sendOffModelToAll();
     void sendOffAdminAuthFail();
     void sendOffAdminAuthSuccessed();
+    void close();
 
     // Connection proccess tests
     void serverAcceptClient(TcpClient* client);

@@ -106,7 +106,8 @@ void ServerManager::startListening()
 }
 void ServerManager::stopListening()
 {
-    m_server->close();
+    m_server->terminate();
+    close();
 }
 
 void ServerManager::messageReceived(QByteArray array)
@@ -587,6 +588,16 @@ void ServerManager::setChannelPassword(QString chanId, QByteArray passwd)
 
     channel->setPassword(passwd);
     sendOffModelToAll();
+}
+
+void ServerManager::close()
+{
+    auto clients= m_connections.values();
+    std::for_each(clients.begin(), clients.end(), [](TcpClient* client) {
+        // removeClient(client);
+        QMetaObject::invokeMethod(client, &TcpClient::closeConnection, Qt::QueuedConnection);
+    });
+    emit closed();
 }
 
 void ServerManager::error(QAbstractSocket::SocketError socketError)
