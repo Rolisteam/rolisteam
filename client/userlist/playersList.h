@@ -141,6 +141,10 @@ signals:
      */
     void localGMRefused(bool);
 
+protected slots:
+    void sendOffCharacterChanges();
+    void updateCharacter(NetworkMessageReader& data);
+
 private:
     /**
      * @brief Constructor
@@ -178,6 +182,7 @@ private:
     static PlayersList* m_singleton;
     Player* m_localPlayer= nullptr;
     QString m_idCurrentGM;
+    void monitorCharacter(Character* charac);
 };
 
 #endif

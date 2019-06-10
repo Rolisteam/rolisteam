@@ -100,6 +100,7 @@ namespace NetMsg
         ChangePlayerCharacterNameAction,
         ChangePlayerCharacterColorAction,
         ChangePlayerCharacterAvatarAction,
+        ChangePlayerCharacter,
 
         // NPCCategory
         addNpc= 0,
