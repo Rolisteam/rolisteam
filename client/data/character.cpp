@@ -511,21 +511,21 @@ QString Character::read(NetworkMessageReader& msg)
         return {};
     QString parentId= msg.string8();
     m_uuid= msg.string8();
-    m_name= msg.string16();
+    setName(msg.string16());
     int currentStateIndex= msg.int8();
     if(currentStateIndex >= 0)
     {
-        m_currentState= getStateFromIndex(currentStateIndex);
+        setState(getStateFromIndex(currentStateIndex));
     }
-    m_isNpc= static_cast<bool>(msg.uint8());
-    m_number= msg.int32();
-    m_color= QColor(msg.rgb());
-    m_healthPointsCurrent= msg.int32();
-    m_healthPointsMin= msg.int32();
-    m_healthPointsMax= msg.int32();
-    m_initiativeScore= msg.int32();
+    setNpc(static_cast<bool>(msg.uint8()));
+    setNumber(msg.int32());
+    setColor(QColor(msg.rgb()));
+    setHealthPointsCurrent(msg.int32());
+    setHealthPointsMin(msg.int32());
+    setHealthPointsMax(msg.int32());
+    setInitiativeScore(msg.int32());
     m_initiativeRoll.setCommand(msg.string32());
-    m_distancePerTurn= msg.real();
+    setDistancePerTurn(msg.real());
     m_hasInitScore= static_cast<bool>(msg.uint8());
 
     bool hasAvatar= static_cast<bool>(msg.uint8());
