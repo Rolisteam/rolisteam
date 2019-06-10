@@ -158,14 +158,14 @@ public:
     /**
      * @brief construtor
      */
-    Character(const QString& getName, const QColor& getColor, bool NPC= false, int number= 0);
+    Character(const QString& name, const QColor& getColor, bool NPC= false, int number= 0);
     /**
      * @brief Character
      * @param uuid
      * @param name
      * @param color
      */
-    Character(const QString& uuid, const QString& getName, const QColor& getColor, bool NPC= false, int number= 0);
+    Character(const QString& uuid, const QString& name, const QColor& getColor, bool NPC= false, int number= 0);
     /**
      * @brief Character
      * @param data

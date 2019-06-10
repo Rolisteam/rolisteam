@@ -250,14 +250,14 @@ Character::Character() : Person(), m_currentState(nullptr), m_sheet(nullptr)
     init();
 }
 
-Character::Character(const QString& nom, const QColor& color, bool npc, int number)
-    : Person(nom, color), m_isNpc(npc), m_number(number), m_currentState(nullptr), m_sheet(nullptr)
+Character::Character(const QString& name, const QColor& color, bool npc, int number)
+    : Person(name, color), m_isNpc(npc), m_number(number), m_currentState(nullptr), m_sheet(nullptr)
 {
     init();
 }
 
-Character::Character(const QString& uuid, const QString& nom, const QColor& color, bool npc, int number)
-    : Person(uuid, nom, color), m_isNpc(npc), m_number(number), m_currentState(nullptr), m_sheet(nullptr)
+Character::Character(const QString& uuid, const QString& name, const QColor& color, bool npc, int number)
+    : Person(uuid, name, color), m_isNpc(npc), m_number(number), m_currentState(nullptr), m_sheet(nullptr)
 {
     init();
 }
