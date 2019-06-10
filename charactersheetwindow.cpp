@@ -185,13 +185,6 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint& pos)
 {
     QMenu menu(this);
 
-    menu.addAction(m_readOnlyAct);
-    menu.addSeparator();
-    menu.addAction(m_addLine);
-    menu.addAction(m_addSection);
-    menu.addAction(m_addCharacterSheet);
-    menu.addSeparator();
-    menu.addAction(m_loadQml);
     QModelIndex index= m_view.indexAt(pos);
     if(index.column() > 0)
     {
@@ -199,6 +192,14 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint& pos)
         QMenu* affect= menu.addMenu(m_shareTo);
         addSharingMenu(affect);
     }
+    menu.addSeparator();
+    menu.addAction(m_readOnlyAct);
+    /*menu.addSeparator();
+    menu.addAction(m_addLine);
+    menu.addAction(m_addSection);
+    menu.addAction(m_addCharacterSheet);
+    menu.addSeparator();
+    menu.addAction(m_loadQml);*/
 
     addActionToMenu(menu);
     menu.exec(QCursor::pos());
