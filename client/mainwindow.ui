@@ -656,13 +656,16 @@
     <string>Password Generator</string>
    </property>
   </action>
-  <action name="actionCurrent_Media_as">
+  <action name="m_currentMediaAs">
    <property name="text">
     <string>Current Media as…</string>
    </property>
   </action>
   <action name="m_showInitiativeAct">
    <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
     <bool>true</bool>
    </property>
    <property name="text">

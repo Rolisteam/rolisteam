@@ -72,7 +72,7 @@ void VMap::initMap()
     setOption(VisualItem::ShowPcName, false);
     setOption(VisualItem::ShowNpcNumber, false);
     setOption(VisualItem::ShowHealthStatus, false);
-    setOption(VisualItem::ShowInitScore, false);
+    setOption(VisualItem::ShowInitScore, true);
     setOption(VisualItem::ShowHealthBar, false);
     setOption(VisualItem::ShowGrid, false);
     setOption(VisualItem::LocalIsGM, false);
