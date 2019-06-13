@@ -108,8 +108,6 @@ public:
     void setLocalPlayer(Player* player);
     void addLocalCharacter(Character* newCharacter);
     void changeLocalPerson(Person* person, const QString& name, const QColor& color, const QImage& image);
-    void setLocalPersonName(Person* person, const QString& name);
-    void setLocalPersonColor(Person* person, const QColor& color);
     void delLocalCharacter(int index);
 
     bool hasPlayer(Player* player);
@@ -125,7 +123,6 @@ public:
     QString getLocalPlayerId() const;
 public slots:
     void setCurrentGM(QString idGm);
-    bool setLocalPersonAvatar(Person* person, const QImage& image);
 signals:
     void playerAdded(Player* player);
     void characterAdded(Character* character);
@@ -141,9 +138,11 @@ signals:
      */
     void localGMRefused(bool);
 
+protected:
+    template <typename T>
+    void sendOffPersonChanges(const QString& property);
 protected slots:
-    void sendOffCharacterChanges();
-    void updateCharacter(NetworkMessageReader& data);
+    void updatePerson(NetworkMessageReader& data);
 
 private:
     /**
@@ -164,14 +163,11 @@ private:
     void delCharacter(Player* parent, int index);
     void receivePlayer(NetworkMessageReader& data);
     void delPlayer(NetworkMessageReader& data);
-    void setPersonName(NetworkMessageReader& data);
-    void setPersonColor(NetworkMessageReader& data);
-    void setPersonAvatar(NetworkMessageReader& data);
     void addCharacter(NetworkMessageReader& data);
     void delCharacter(NetworkMessageReader& data);
-    bool p_setLocalPersonName(Person* person, const QString& name);
-    bool p_setLocalPersonColor(Person* person, const QColor& color);
     void notifyPersonChanged(Person* person);
+    void monitorCharacter(Character* charac);
+    void monitorPlayer(Player* player);
 
 private:
     QList<Player*> m_playersList;
@@ -182,7 +178,7 @@ private:
     static PlayersList* m_singleton;
     Player* m_localPlayer= nullptr;
     QString m_idCurrentGM;
-    void monitorCharacter(Character* charac);
+    bool m_receivingData= false;
 };
 
 #endif

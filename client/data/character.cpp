@@ -533,11 +533,7 @@ QString Character::read(NetworkMessageReader& msg)
     if(hasAvatar)
     {
         auto avatar= QImage::fromData(msg.byteArray32());
-        if(m_avatar != avatar)
-        {
-            m_avatar= avatar;
-            emit avatarChanged();
-        }
+        setAvatar(avatar);
     }
 
     return parentId;

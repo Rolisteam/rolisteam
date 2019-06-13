@@ -151,7 +151,7 @@ protected:
     Qt::CheckState m_checkState;
 
 private:
-    friend class PlayersList;
+    //    friend class PlayersList;
 };
 
 #endif

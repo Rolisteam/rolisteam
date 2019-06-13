@@ -231,7 +231,7 @@ public:
      * @param label
      * @return
      */
-    CharacterState* getStateFromLabel(QString label);
+    static CharacterState* getStateFromLabel(QString label);
     void setState(CharacterState* h);
 
     bool hasInitScore();
@@ -292,7 +292,6 @@ public slots:
     void setDefaultShape();
     void setCurrentShape(int index);
 signals:
-    void avatarChanged();
     void currentHealthPointsChanged();
     void maxHPChanged();
     void minHPChanged();

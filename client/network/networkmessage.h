@@ -88,19 +88,14 @@ namespace NetMsg
         // PlayerCategory
         PlayerConnectionAction= 0,
         DelPlayerAction,
-        ChangePlayerNameAction,
-        ChangePlayerColorAction,
-        ChangePlayerAvatarAction,
+        ChangePlayerProperty,
 
         // CharacterPlayerCategory
         AddPlayerCharacterAction= 0,
         DelPlayerCharacterAction,
         ToggleViewPlayerCharacterAction,
         ChangePlayerCharacterSizeAction,
-        ChangePlayerCharacterNameAction,
-        ChangePlayerCharacterColorAction,
-        ChangePlayerCharacterAvatarAction,
-        ChangePlayerCharacter,
+        ChangePlayerCharacterProperty,
 
         // NPCCategory
         addNpc= 0,

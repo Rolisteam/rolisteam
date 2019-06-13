@@ -33,6 +33,7 @@ class NetworkLink;
  */
 class Player : public Person
 {
+    Q_OBJECT
 public:
     Player();
     /**

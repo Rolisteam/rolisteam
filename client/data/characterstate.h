@@ -82,4 +82,7 @@ private:
     bool m_local= true;
 };
 
+Q_DECLARE_METATYPE(CharacterState)
+Q_DECLARE_METATYPE(CharacterState*)
+
 #endif // CHARACTERSTATE_H

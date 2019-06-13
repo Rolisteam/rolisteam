@@ -85,12 +85,12 @@ bool PlayersListWidgetModel::setData(const QModelIndex& index, const QVariant& v
         {
         case Qt::EditRole:
         case Qt::DisplayRole:
-            playersList->setLocalPersonName(person, value.toString());
+            person->setName(value.toString());
             return true;
         case Qt::DecorationRole:
             if(value.type() == QVariant::Color)
             {
-                playersList->setLocalPersonColor(person, value.toString());
+                person->setColor(value.value<QColor>());
                 return true;
             }
         }

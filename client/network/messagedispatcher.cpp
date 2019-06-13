@@ -48,7 +48,7 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
             if(channel != nullptr)
                 channel->removeClient(emitter);
         }
-        else if(msg->action() == NetMsg::ChangePlayerNameAction)
+        else if(msg->action() == NetMsg::ChangePlayerProperty)
         {
             auto name= msg->string16();
             auto uuid= msg->string8();
@@ -220,14 +220,8 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::DelPlayerAction:
             str= QStringLiteral("DelPlayerAction");
             break;
-        case NetMsg::ChangePlayerNameAction:
-            str= QStringLiteral("ChangePlayerNameAction");
-            break;
-        case NetMsg::ChangePlayerColorAction:
-            str= QStringLiteral("ChangePlayerColorAction");
-            break;
-        case NetMsg::ChangePlayerAvatarAction:
-            str= QStringLiteral("ChangePlayerAvatarAction");
+        case NetMsg::ChangePlayerProperty:
+            str= QStringLiteral("ChangePlayerProperty");
             break;
         default:
             str= QStringLiteral("Unknown Action");
@@ -250,14 +244,8 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::ChangePlayerCharacterSizeAction:
             str= QStringLiteral("ChangePlayerCharacterSizeAction");
             break;
-        case NetMsg::ChangePlayerCharacterNameAction:
-            str= QStringLiteral("ChangePlayerCharacterNameAction");
-            break;
-        case NetMsg::ChangePlayerCharacterColorAction:
-            str= QStringLiteral("ChangePlayerCharacterColorAction");
-            break;
-        case NetMsg::ChangePlayerCharacterAvatarAction:
-            str= QStringLiteral("ChangePlayerCharacterAvatarAction");
+        case NetMsg::ChangePlayerCharacterProperty:
+            str= QStringLiteral("ChangePlayerCharacterProperty");
             break;
         default:
             str= QStringLiteral("Unknown Action");
