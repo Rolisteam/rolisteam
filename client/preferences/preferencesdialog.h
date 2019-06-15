@@ -170,7 +170,7 @@ public:
      * @param parent
      * @param f
      */
-    PreferencesDialog(QWidget* parent= nullptr, Qt::WindowFlags f= 0);
+    PreferencesDialog(QWidget* parent= nullptr, Qt::WindowFlags f= Qt::Dialog);
     /**
      * @brief ~PreferencesDialog
      */

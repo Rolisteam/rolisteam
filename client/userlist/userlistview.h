@@ -33,50 +33,49 @@ class UserListView : public QTreeView
 {
     Q_OBJECT
 public:
+    enum Type
+    {
+        Integer,
+        Boolean,
+        Real,
+        String
+    };
     /**
      * @brief default constructor
      */
     explicit UserListView(QWidget* parent= nullptr);
 
     virtual void setPlayersListModel(PlayersListWidgetModel* model);
-signals:
-    /**
-     * @brief emited when user selects another item
-     */
-    void currentItemChanged(const QModelIndex&);
-    /**
-     * @brief emited when user doubleclicks on the color rectangle
-     */
-    void editCurrentItemColor();
 
 public slots:
     /**
      * @brief called to change the current color
      */
-    void onEditCurrentItemColor();
-    /**
-     * @brief requires context menu
-     */
-    void customContextMenuEvent(QPoint);
+    void editCurrentItemColor();
 
 protected slots:
     /**
      * @brief defines new behaviours for mouseDoubleClickEvent
      */
-    virtual void mouseDoubleClickEvent(QMouseEvent*);
+    virtual void mouseDoubleClickEvent(QMouseEvent*) override;
     /**
      * @brief mousePressEvent
      */
-    virtual void mousePressEvent(QMouseEvent*);
+    virtual void mousePressEvent(QMouseEvent*) override;
     /**
      * @brief mouseMoveEvent
      * @param event
      */
-    virtual void mouseMoveEvent(QMouseEvent* event);
+    virtual void mouseMoveEvent(QMouseEvent* event) override;
     /**
-     * @brief called when current item changed
+     * @brief contextMenuEvent
+     * @param e
      */
-    void currentChanged(const QModelIndex& current, const QModelIndex& previous);
+    void contextMenuEvent(QContextMenuEvent* e) override;
+    /**
+     * @brief setPropertyValue
+     */
+    void setPropertyValue();
 
     void addAvatar();
     void deleteAvatar();
@@ -87,12 +86,19 @@ private:
     /**
      * @brief pointer to the delegate
      */
-    UserListDelegate* m_delegate;
+    // UserListDelegate* m_delegate= nullptr;
 
-    PlayersListWidgetModel* m_model;
+    PlayersListWidgetModel* m_model= nullptr;
 
-    QAction* m_addAvatarAct;
-    QAction* m_removeAvatarAct;
+    QAction* m_addAvatarAct= nullptr;
+    QAction* m_removeAvatarAct= nullptr;
+    QAction* m_rollInit= nullptr;
+    QAction* m_defineCurrentHp= nullptr;
+    QAction* m_changeState= nullptr;
+    QAction* m_removeInit= nullptr;
+    std::vector<QAction*> m_propertyActions;
 };
+
+Q_DECLARE_METATYPE(UserListView::Type)
 
 #endif // USERLISTVIEW_H

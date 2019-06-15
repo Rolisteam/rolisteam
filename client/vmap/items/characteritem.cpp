@@ -940,7 +940,7 @@ void CharacterItem::cleanInit()
 {
     if(nullptr == m_character)
         return;
-    m_character->clearInitScore();
+    m_character->setHasInitiative(false);
     update();
 }
 void CharacterItem::runCommand()

@@ -183,7 +183,7 @@ PlayersListWidget::~PlayersListWidget() {}
 
 PlayersListWidgetModel* PlayersListWidget::model() const
 {
-    return m_model;
+    return m_model.get();
 }
 
 void PlayersListWidget::editIndex(const QModelIndex& index)
@@ -257,8 +257,8 @@ void PlayersListWidget::setUI()
 
     // PlayersListView
     m_playersListView= new UserListView(); //= new PlayersListView(centralWidget);
-    m_model= new PlayersListWidgetModel;
-    m_playersListView->setPlayersListModel(m_model);
+    m_model.reset(new PlayersListWidgetModel);
+    m_playersListView->setPlayersListModel(m_model.get());
     m_selectionModel= m_playersListView->selectionModel();
     m_playersListView->setHeaderHidden(true);
 
@@ -293,7 +293,7 @@ void PlayersListWidget::setUI()
     // Actions
     connect(m_selectionModel, SIGNAL(currentChanged(QModelIndex, QModelIndex)), this,
         SLOT(selectAnotherPerson(QModelIndex)));
-    connect(m_model, SIGNAL(rowsRemoved(QModelIndex, int, int)), m_playersListView, SLOT(clearSelection()));
+    connect(m_model.get(), SIGNAL(rowsRemoved(QModelIndex, int, int)), m_playersListView, SLOT(clearSelection()));
     connect(m_addPlayerButton, SIGNAL(clicked()), this, SLOT(createLocalCharacter()));
     connect(m_delButton, SIGNAL(clicked()), this, SLOT(deleteSelected()));
 

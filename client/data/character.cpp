@@ -623,15 +623,19 @@ void Character::setState(CharacterState* h)
     emit stateChanged();
 }
 
-bool Character::hasInitScore()
+bool Character::hasInitScore() const
 {
     return m_hasInitScore;
 }
 
-void Character::clearInitScore()
+void Character::setHasInitiative(bool b)
 {
-    m_hasInitScore= false;
+    if(m_hasInitScore == b)
+        return;
+    m_hasInitScore= b;
+    emit hasInitScoreChanged();
 }
+
 CharacterState* Character::getState() const
 {
     return m_currentState;

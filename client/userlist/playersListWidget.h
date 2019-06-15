@@ -29,6 +29,7 @@
 #include <QPushButton>
 #include <QSet>
 #include <QTreeView>
+#include <memory>
 
 #include "userlist/playerslistproxy.h"
 class UserListView;
@@ -86,7 +87,7 @@ private slots:
 private:
     PersonDialog* m_personDialog;
     QItemSelectionModel* m_selectionModel;
-    PlayersListWidgetModel* m_model;
+    std::unique_ptr<PlayersListWidgetModel> m_model;
     UserListView* m_playersListView;
     QPushButton* m_delButton;
     QPushButton* m_addPlayerButton;

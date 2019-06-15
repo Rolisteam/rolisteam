@@ -151,6 +151,7 @@ class Character : public Person // public QObject,
     Q_PROPERTY(CharacterState* state READ getState WRITE setState NOTIFY stateChanged)
     Q_PROPERTY(QColor lifeColor READ getLifeColor WRITE setLifeColor NOTIFY lifeColorChanged)
     Q_PROPERTY(QString initCommand READ getInitCommand WRITE setInitCommand NOTIFY initCommandChanged)
+    Q_PROPERTY(bool hasInitiative READ hasInitScore WRITE setHasInitiative NOTIFY hasInitScoreChanged)
 
 public:
     // enum HeathState {Healthy,Lightly,Seriously,Dead,Sleeping,Bewitched};
@@ -234,7 +235,8 @@ public:
     static CharacterState* getStateFromLabel(QString label);
     void setState(CharacterState* h);
 
-    bool hasInitScore();
+    bool hasInitScore() const;
+    void setHasInitiative(bool b);
 
     CharacterSheet* getSheet() const;
     void setSheet(CharacterSheet* sheet);
@@ -288,7 +290,6 @@ public:
     QList<CharacterAction*> getActionList() const;
     QList<CharacterShape*> getShapeList() const;
 public slots:
-    void clearInitScore();
     void setDefaultShape();
     void setCurrentShape(int index);
 signals:
@@ -302,6 +303,7 @@ signals:
     void stateChanged();
     void lifeColorChanged();
     void initCommandChanged();
+    void hasInitScoreChanged();
 
 protected:
     CharacterState* getStateFromIndex(int i);

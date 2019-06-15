@@ -35,28 +35,84 @@
 
 #include "data/character.h"
 #include "playersList.h"
+#include "preferences/preferencesmanager.h"
 #include "rolisteammimedata.h"
+#include <QInputDialog>
 
 UserListView::UserListView(QWidget* parent) : QTreeView(parent)
 {
     setHeaderHidden(true);
-    // m_delegate = new UserListDelegate(this);
-    setContextMenuPolicy(Qt::CustomContextMenu);
-    // setItemDelegate(m_delegate);
-    connect(this, SIGNAL(editCurrentItemColor()), this, SLOT(onEditCurrentItemColor()));
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuEvent(QPoint)));
 
     m_addAvatarAct= new QAction(tr("Set Avatar..."), this);
     m_removeAvatarAct= new QAction(tr("Remove Avatar..."), this);
-    connect(m_addAvatarAct, SIGNAL(triggered()), this, SLOT(addAvatar()));
-    connect(m_removeAvatarAct, SIGNAL(triggered()), this, SLOT(deleteAvatar()));
+    connect(m_addAvatarAct, &QAction::triggered, this, &UserListView::addAvatar);
+    connect(m_removeAvatarAct, &QAction::triggered, this, &UserListView::deleteAvatar);
     setIconSize(QSize(64, 64));
+
+    std::vector<std::tuple<QString, QString, Type>> propertyList= {{"healthPoints", tr("Health Points"), Integer},
+        {"maxHP", tr("Health Points Maximum"), Integer}, {"minHP", tr("Health Points Minimum"), Integer},
+        {"initiative", tr("Initiative"), Integer}, {"distancePerTurn", tr("Distance per turn"), Real},
+        {"initCommand", tr("Initiative Command"), String}, {"hasInitiative", tr("Has initiative"), Boolean}};
+
+    for(auto propertyName : propertyList)
+    {
+        auto act= new QAction(std::get<1>(propertyName), this);
+        std::pair<QString, Type> pair(std::get<0>(propertyName), std::get<2>(propertyName));
+        if(std::get<2>(propertyName) == Boolean)
+            act->setCheckable(true);
+
+        QVariant var;
+        var.setValue(pair);
+        act->setData(var);
+        connect(act, &QAction::triggered, this, &UserListView::setPropertyValue);
+        m_propertyActions.push_back(act);
+    }
 }
-void UserListView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
+void UserListView::setPropertyValue()
 {
-    Q_UNUSED(previous);
-    emit currentItemChanged(current);
+    auto act= qobject_cast<QAction*>(sender());
+    if(nullptr == act)
+        return;
+
+    auto index= currentIndex();
+    QVariant value= act->data();
+    auto pair= value.value<std::pair<QString, Type>>();
+    QString uuid= index.data(PlayersList::IdentifierRole).toString();
+    Person* tmpperso= PlayersList::instance()->getPerson(uuid);
+
+    if(nullptr == tmpperso)
+        return;
+
+    auto formerVal= tmpperso->property(pair.first.toLocal8Bit());
+    QVariant var;
+    bool ok;
+
+    switch(pair.second)
+    {
+    case Boolean:
+        var= !formerVal.toBool();
+        ok= true;
+        break;
+    case Integer:
+        var= QInputDialog::getInt(this, tr("Get value for %1 property").arg(pair.first), tr("Value:"),
+            formerVal.toInt(), -2147483647, 2147483647, 1, &ok);
+        break;
+    case Real:
+        var= QInputDialog::getDouble(this, tr("Get value for %1 property").arg(pair.first), tr("Value:"),
+            formerVal.toDouble(), -2147483647, 2147483647, 1, &ok);
+        break;
+    case String:
+        var= QInputDialog::getText(this, tr("Get value for %1 property").arg(pair.first), tr("Value:"),
+            QLineEdit::Normal, formerVal.toString(), &ok);
+        break;
+    }
+
+    if(!ok)
+        return;
+
+    tmpperso->setProperty(pair.first.toLocal8Bit(), var);
 }
+
 void UserListView::mouseDoubleClickEvent(QMouseEvent* event)
 {
     QModelIndex tmp= indexAt(event->pos());
@@ -78,7 +134,7 @@ void UserListView::mouseDoubleClickEvent(QMouseEvent* event)
         }
         if((depth * indentationValue < event->pos().x()) && ((depth)*indentationValue + icon >= event->pos().x()))
         {
-            emit editCurrentItemColor();
+            editCurrentItemColor();
         }
         else
             QTreeView::mouseDoubleClickEvent(event);
@@ -86,34 +142,60 @@ void UserListView::mouseDoubleClickEvent(QMouseEvent* event)
     else
         QTreeView::mouseDoubleClickEvent(event);
 }
-void UserListView::customContextMenuEvent(QPoint e)
+
+void UserListView::contextMenuEvent(QContextMenuEvent* e)
 {
+    QModelIndex index= indexAt(e->pos());
+    if(!index.isValid())
+        return;
+
+    QString uuid= index.data(PlayersList::IdentifierRole).toString();
+
+    Person* tmpperso= PlayersList::instance()->getPerson(uuid);
+
+    auto flags= index.flags();
+
+    if(!flags & Qt::ItemIsEditable || tmpperso == nullptr)
+        return;
+
     QMenu popMenu(this);
+
     popMenu.addAction(m_addAvatarAct);
     popMenu.addAction(m_removeAvatarAct);
-    QModelIndex index= indexAt(e);
-    if(index.isValid())
+    if(tmpperso->isLeaf())
     {
-        QString uuid= index.data(PlayersList::IdentifierRole).toString();
-
-        Person* tmpperso= PlayersList::instance()->getPerson(uuid);
-        if(nullptr != tmpperso)
+        popMenu.addSeparator();
+        auto menu= popMenu.addMenu(tr("Set Property"));
+        for(auto pro : m_propertyActions)
         {
-            if(PlayersList::instance()->isLocal(tmpperso))
+            if(pro->isCheckable())
             {
-                m_addAvatarAct->setEnabled(true);
-                m_removeAvatarAct->setEnabled(true);
+                auto data= pro->data().value<std::pair<QString, Type>>();
+                pro->setChecked(tmpperso->property(data.first.toLocal8Bit()).toBool());
             }
-            else
-            {
-                m_addAvatarAct->setEnabled(false);
-                m_removeAvatarAct->setEnabled(false);
-            }
-            popMenu.exec(mapToGlobal(e));
+            menu->addAction(pro);
         }
     }
+    /* if(index.isValid() &&)
+     {
+
+         if(nullptr != tmpperso)
+         {
+             if(PlayersList::instance()->isLocal(tmpperso))
+             {
+                 m_addAvatarAct->setEnabled(true);
+                 m_removeAvatarAct->setEnabled(true);
+             }
+             else
+             {
+                 m_addAvatarAct->setEnabled(false);
+                 m_removeAvatarAct->setEnabled(false);
+             }
+         }
+     }*/
+    popMenu.exec(e->globalPos());
 }
-#include "preferences/preferencesmanager.h"
+
 void UserListView::addAvatar()
 {
     /// @TODO: Here! options manager is required to get access to the photo directory
@@ -149,7 +231,7 @@ void UserListView::deleteAvatar()
         tmpperso->setAvatar(im);
     }
 }
-void UserListView::onEditCurrentItemColor()
+void UserListView::editCurrentItemColor()
 {
     QModelIndex index= currentIndex();
 
