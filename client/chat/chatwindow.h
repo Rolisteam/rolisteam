@@ -40,6 +40,7 @@
 #include "data/diceshortcut.h"
 #include "data/person.h"
 #include "diceparser.h"
+#include <memory>
 
 class AbstractChat;
 class MainWindow;
@@ -244,17 +245,13 @@ private:
     QMdiSubWindow* m_window;
     QPointer<AbstractChat> m_chat;
     QString m_filename;
-    bool m_warnedEmoteUnavailable;
     bool m_hasUnseenMessage;
-    QPushButton* m_save;
     PreferencesManager* m_preferences;
     ChatBrowser* m_displayZone;
     QComboBox* m_selectPersonComboBox;
     ImprovedTextEdit* m_editionZone;
     QAction* m_toggleViewAction;
-    QSplitter* m_splitter;
-    QWidget* m_bottomWidget;
-    DiceParser* m_diceParser;
+    std::unique_ptr<DiceParser> m_diceParser;
     QMap<QString, CHAT_OPERATOR>* m_operatorMap;
     Person* m_localPerson;
     static QList<DiceAlias*>* m_receivedAlias;

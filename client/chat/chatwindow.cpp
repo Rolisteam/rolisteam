@@ -48,14 +48,14 @@
 QStringList ChatWindow::m_keyWordList;
 QList<DiceAlias*>* ChatWindow::m_receivedAlias= nullptr;
 
-ChatWindow::ChatWindow(AbstractChat* chat, QWidget* parent) : QWidget(parent), m_chat(chat), m_filename("%1/%2.html")
+ChatWindow::ChatWindow(AbstractChat* chat, QWidget* parent)
+    : QWidget(parent), m_chat(chat), m_filename("%1/%2.html"), m_diceParser(new DiceParser())
 {
     m_preferences= PreferencesManager::getInstance();
     if(m_chat == nullptr)
     {
         qFatal("ChatWindow with nullptr chat");
     }
-    m_warnedEmoteUnavailable= false;
     m_hasUnseenMessage= false;
     setAcceptDrops(true);
     // setContextMenuPolicy(Qt::CustomContextMenu);
@@ -76,8 +76,6 @@ ChatWindow::ChatWindow(AbstractChat* chat, QWidget* parent) : QWidget(parent), m
 
     m_toggleViewAction= new QAction(this);
     m_toggleViewAction->setCheckable(true);
-
-    m_diceParser= new DiceParser();
 
     m_diceParser->setPathToHelp(tr("<a "
                                    "href=\"http://wiki.rolisteam.org/index.php/Dice_Rolling\">http://"
@@ -117,14 +115,14 @@ void ChatWindow::updateListAlias()
 void ChatWindow::setupUi()
 {
     // create and connect toggleViewAction
-    m_splitter= new QSplitter();
-    m_splitter->setOrientation(Qt::Vertical);
+    auto splitter= new QSplitter();
+    splitter->setOrientation(Qt::Vertical);
     // ChatRoom
     QVBoxLayout* vboxLayout= new QVBoxLayout();
     vboxLayout->setMargin(0);
     vboxLayout->setSpacing(0);
 
-    vboxLayout->addWidget(m_splitter);
+    vboxLayout->addWidget(splitter);
     m_displayZone= new ChatBrowser(m_showTime, this);
     m_displayZone->setOpenExternalLinks(true);
     m_displayZone->setReadOnly(true);
@@ -140,7 +138,7 @@ void ChatWindow::setupUi()
     connect(m_displayZone, SIGNAL(showTimeChanged(bool)), this, SLOT(showTime(bool)));
 
     // Layout
-    m_bottomWidget= new QWidget();
+    auto bottomWidget= new QWidget();
     m_selectPersonComboBox= new QComboBox();
     m_selectPersonComboBox->setModel(&LocalPersonModel::instance());
     m_selectPersonComboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
@@ -162,15 +160,15 @@ void ChatWindow::setupUi()
 
     internalVLayout->addWidget(m_toolBar);
     internalVLayout->addWidget(m_editionZone);
-    m_bottomWidget->setLayout(internalVLayout);
+    bottomWidget->setLayout(internalVLayout);
 
-    m_splitter->addWidget(m_displayZone);
-    m_splitter->addWidget(m_bottomWidget);
+    splitter->addWidget(m_displayZone);
+    splitter->addWidget(bottomWidget);
 
     QList<int> tailles;
     tailles.append(200);
     tailles.append(40);
-    m_splitter->setSizes(tailles);
+    splitter->setSizes(tailles);
 
     setObjectName("ChatWindow");
     setAttribute(Qt::WA_DeleteOnClose, false);
@@ -302,6 +300,7 @@ void ChatWindow::sendOffTextMessage(bool hasHtml, QString message)
 {
     NetMsg::Action action= NetMsg::DiceMessageAction;
 
+    static bool warnedEmoteUnavailable= false;
     bool ok= true;
     m_editionZone->clear();
 
@@ -348,13 +347,13 @@ void ChatWindow::sendOffTextMessage(bool hasHtml, QString message)
                 tmpmessage= tmpmessage.remove(0, pos);
                 message= tmpmessage;
                 qInfo() << QStringLiteral("Chat Command emote");
-                if(!m_warnedEmoteUnavailable && !m_chat->everyPlayerHasFeature(QString("Emote")))
+                if(!warnedEmoteUnavailable && !m_chat->everyPlayerHasFeature(QString("Emote")))
                 {
                     msgTitle= tr("Warning");
                     msgBody= tr("Some users won't be enable to see your emotes.");
                     color= Qt::red;
                     showMessage(msgTitle, color, msgBody);
-                    m_warnedEmoteUnavailable= true;
+                    warnedEmoteUnavailable= true;
                 }
                 if(nullptr != localPerson)
                 {
