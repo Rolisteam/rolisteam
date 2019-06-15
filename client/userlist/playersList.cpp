@@ -57,22 +57,14 @@ void convertVariantToType<QImage>(const QImage& val, NetworkMessageWriter& msg)
 }
 
 template <>
-void convertVariantToType<CharacterState>(const CharacterState& val, NetworkMessageWriter& msg)
+void convertVariantToType<CharacterState*>(CharacterState* const& val, NetworkMessageWriter& msg)
 {
-    msg.string32(val.getLabel());
-    /*  msg.rgb(val.getColor().rgb());
-      // msg.uint8(val.isLocal());
-      auto hasImage= val.hasImage();
-      msg.uint8(hasImage);
-
-      if(hasImage)
-      {
-          QByteArray data;
-          QDataStream in(&data, QIODevice::WriteOnly);
-          in.setVersion(QDataStream::Qt_5_7);
-          in << val.getImage();
-          msg.byteArray32(data);
-      }*/
+    if(val)
+        msg.string32(val->getLabel());
+    else
+    {
+        msg.string32(QStringLiteral(""));
+    }
 }
 
 /******************
