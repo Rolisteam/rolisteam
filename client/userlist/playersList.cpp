@@ -565,25 +565,19 @@ void PlayersList::monitorPlayer(Player* player)
 void PlayersList::monitorCharacter(Character* charac)
 {
     // clang-format off
-    connect(charac, &Character::currentHealthPointsChanged, this,
-        [this]() { sendOffPersonChanges<QString>(QStringLiteral("healthPoints")); });
-    connect(
-        charac, &Character::avatarChanged, this, [this]() { sendOffPersonChanges<QImage>(QStringLiteral("avatar")); });
+    connect(charac, &Character::currentHealthPointsChanged, this,[this]() { sendOffPersonChanges<QString>(QStringLiteral("healthPoints")); });
+    connect(charac, &Character::avatarChanged, this, [this]() { sendOffPersonChanges<QImage>(QStringLiteral("avatar")); });
     connect(charac, &Character::nameChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("name")); });
-    connect(
-        charac, &Character::colorChanged, this, [this]() { sendOffPersonChanges<QColor>(QStringLiteral("color")); });
-    connect(charac, &Character::initCommandChanged, this,
-        [this]() { sendOffPersonChanges<QString>(QStringLiteral("initCommand")); });
-    connect(charac, &Character::initiativeChanged, this,
-        [this]() { sendOffPersonChanges<QString>(QStringLiteral("initiative")); });
-    connect(charac, &Character::stateChanged, this, [this]() { sendOffPersonChanges<CharacterState>(QStringLiteral("state")); });
-    connect(
-        charac, &Character::maxHPChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("maxHP")); });
-    connect(
-        charac, &Character::minHPChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("minHP")); });
-    connect(charac, &Character::distancePerTurnChanged, this,
-        [this]() { sendOffPersonChanges<QString>(QStringLiteral("distancePerTurn")); });
-    //clangformat on
+    connect(charac, &Character::colorChanged, this, [this]() { sendOffPersonChanges<QColor>(QStringLiteral("color")); });
+    connect(charac, &Character::initCommandChanged, this,[this]() { sendOffPersonChanges<QString>(QStringLiteral("initCommand")); });
+    connect(charac, &Character::initiativeChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("initiative")); });
+    connect(charac, &Character::stateChanged, this, [this]() { sendOffPersonChanges<CharacterState*>(QStringLiteral("state")); });
+    connect(charac, &Character::maxHPChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("maxHP")); });
+    connect(charac, &Character::minHPChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("minHP")); });
+    connect(charac, &Character::distancePerTurnChanged, this,[this]() { sendOffPersonChanges<QString>(QStringLiteral("distancePerTurn")); });
+    //clang-format on
+
+    charac->initCharacter();
 }
 
 void PlayersList::addLocalCharacter(Character* newCharacter)
