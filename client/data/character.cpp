@@ -50,7 +50,7 @@ void CharacterShape::setName(const QString& name)
     m_name= name;
 }
 
-QImage CharacterShape::image() const
+const QImage& CharacterShape::image() const
 {
     return m_image;
 }
@@ -245,36 +245,29 @@ bool CharacterProperty::setData(int col, QVariant value, int role)
 
 QList<CharacterState*>* Character::m_stateList= nullptr;
 
-Character::Character() : Person(), m_currentState(nullptr), m_sheet(nullptr)
-{
-    init();
-}
+Character::Character() : Person(), m_currentState(nullptr), m_sheet(nullptr) {}
 
 Character::Character(const QString& name, const QColor& color, bool npc, int number)
     : Person(name, color), m_isNpc(npc), m_number(number), m_currentState(nullptr), m_sheet(nullptr)
 {
-    init();
 }
 
 Character::Character(const QString& uuid, const QString& name, const QColor& color, bool npc, int number)
     : Person(uuid, name, color), m_isNpc(npc), m_number(number), m_currentState(nullptr), m_sheet(nullptr)
 {
-    init();
 }
 
 Character::Character(NetworkMessageReader& data) : Person(), m_currentState(nullptr), m_sheet(nullptr)
 {
     read(data);
-
-    init();
 }
 
 Character::~Character() {}
-void Character::init()
+void Character::initCharacter()
 {
     if((nullptr != m_stateList) && (nullptr == m_currentState) && (!m_stateList->isEmpty()))
     {
-        m_currentState= m_stateList->first();
+        setState(m_stateList->first());
     }
 }
 
@@ -327,7 +320,12 @@ void Character::setInitiativeScore(int intiativeScore)
 
 QString Character::getAvatarPath() const
 {
-    return m_avatarPath;
+    if(nullptr == m_currentShape)
+        return m_avatarPath;
+    else
+    {
+        return m_currentShape->uri();
+    }
 }
 
 void Character::setAvatarPath(const QString& avatarPath)
@@ -337,32 +335,6 @@ void Character::setAvatarPath(const QString& avatarPath)
 
     m_avatarPath= avatarPath;
     emit avatarPathChanged();
-}
-
-void Character::setCurrentState(QString name, QColor color, QString image)
-{
-    CharacterState* tmpState= nullptr;
-    for(auto& state : *m_stateList)
-    {
-        if(state->getLabel() == name && color == state->getColor())
-        {
-            tmpState= state;
-        }
-    }
-
-    if(tmpState == nullptr)
-    {
-        tmpState= new CharacterState();
-        tmpState->setLabel(name);
-        tmpState->setColor(color);
-        QPixmap pix(image);
-        if(!pix.isNull())
-            tmpState->setImage(pix);
-        m_stateList->append(tmpState);
-    }
-
-    // m_currentState = tmpState;
-    setState(tmpState);
 }
 
 int Character::getHealthPointsCurrent() const
@@ -460,12 +432,28 @@ int Character::indexOfState(CharacterState* state)
 
 CharacterState* Character::getStateFromLabel(QString label)
 {
+    qDebug() << "size:" << m_stateList->size();
     for(auto& state : *m_stateList)
     {
+        qDebug() << state->getLabel() << label;
         if(state->getLabel() == label)
         {
             return state;
         }
+    }
+    return nullptr;
+}
+
+CharacterState* Character::getStateFromIndex(int i)
+{
+    if(nullptr == m_stateList)
+        return nullptr;
+
+    if(m_stateList->empty())
+        return nullptr;
+    if(m_stateList->size() > i)
+    {
+        return m_stateList->at(i);
     }
     return nullptr;
 }
@@ -537,19 +525,6 @@ QString Character::read(NetworkMessageReader& msg)
     }
 
     return parentId;
-}
-CharacterState* Character::getStateFromIndex(int i)
-{
-    if(nullptr == m_stateList)
-        return nullptr;
-
-    if(m_stateList->empty())
-        return nullptr;
-    if(m_stateList->size() > i)
-    {
-        return m_stateList->at(i);
-    }
-    return nullptr;
 }
 
 Player* Character::getParentPlayer() const
@@ -734,18 +709,17 @@ void Character::read(QDataStream& in)
 
 void Character::setCurrentShape(int index)
 {
+    if(index < 0)
+    {
+        setCurrentShape(nullptr);
+        return;
+    }
+
     if(qBound(0, index, m_shapeList.size()) != index)
         return;
 
     auto shape= m_shapeList[index];
-    m_avatar= shape->image();
-    emit avatarChanged();
-}
-
-void Character::setDefaultShape()
-{
-    m_avatar= m_defaultAvatar;
-    emit avatarChanged();
+    setCurrentShape(shape);
 }
 void Character::readTokenObj(const QJsonObject& obj)
 {
@@ -761,7 +735,6 @@ void Character::readTokenObj(const QJsonObject& obj)
     m_avatarPath= obj["avatarUri"].toString();
     auto array= QByteArray::fromBase64(obj["avatarImg"].toString().toUtf8());
     m_avatar= QImage::fromData(array);
-    m_defaultAvatar= m_avatar;
 
     auto actionArray= obj["actions"].toArray();
     for(auto act : actionArray)
@@ -795,4 +768,25 @@ void Character::readTokenObj(const QJsonObject& obj)
         shape->setImage(img);
         m_shapeList.append(shape);
     }
+}
+
+void Character::setCurrentShape(CharacterShape* shape)
+{
+    if(shape == m_currentShape)
+        return;
+    m_currentShape= shape;
+    emit avatarChanged();
+}
+
+const QImage& Character::getAvatar() const
+{
+    if(nullptr == m_currentShape)
+        return Person::getAvatar();
+    else
+        return m_currentShape->image();
+}
+
+CharacterShape* Character::currentShape() const
+{
+    return m_currentShape;
 }

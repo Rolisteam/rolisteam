@@ -257,6 +257,7 @@ void PlayersListWidget::setUI()
 
     // PlayersListView
     m_playersListView= new UserListView(); //= new PlayersListView(centralWidget);
+    connect(m_playersListView, &UserListView::runDiceForCharacter, this, &PlayersListWidget::runDiceForCharacter);
     m_model.reset(new PlayersListWidgetModel);
     m_playersListView->setPlayersListModel(m_model.get());
     m_selectionModel= m_playersListView->selectionModel();

@@ -910,7 +910,7 @@ void CharacterItem::addActionContextMenu(QMenu& menu)
             connect(action, &QAction::triggered, this, [=]() {
                 if(nullptr == m_character)
                     return;
-                m_character->setDefaultShape();
+                m_character->setCurrentShape(nullptr);
                 update();
             });
         }

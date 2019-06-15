@@ -278,6 +278,10 @@ void MainWindow::setupUi()
     // PlayerList
     ///////////////////
     m_playersListWidget= new PlayersListWidget(this);
+    connect(m_playersListWidget, &PlayersListWidget::runDiceForCharacter, this,
+        [this](
+            const QString& cmd, const QString& uuid) { m_chatListWidget->rollDiceCmdForCharacter(cmd, uuid, true); });
+
     addDockWidget(Qt::RightDockWidgetArea, m_playersListWidget);
     setWindowIcon(QIcon(":/logo.png"));
     m_ui->m_menuSubWindows->insertAction(m_ui->m_characterListAct, m_playersListWidget->toggleViewAction());
@@ -2234,7 +2238,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     // map to toolbar
     connect(map, &VMap::npcAdded, m_vToolBar, &VToolsBar::increaseNpcNumber);
     connect(map, &VMap::runDiceCommandForCharacter, this,
-        [=](QString cmd, QString uuid) { m_chatListWidget->rollDiceCmdForCharacter(cmd, uuid, true); });
+        [this](QString cmd, QString uuid) { m_chatListWidget->rollDiceCmdForCharacter(cmd, uuid, true); });
 
     // menu to Map
     connect(m_ui->m_showNpcNameAction, &QAction::triggered, this,

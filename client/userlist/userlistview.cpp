@@ -39,7 +39,7 @@
 #include "rolisteammimedata.h"
 #include <QInputDialog>
 
-UserListView::UserListView(QWidget* parent) : QTreeView(parent)
+UserListView::UserListView(QWidget* parent) : QTreeView(parent), m_diceParser(new DiceParser)
 {
     setHeaderHidden(true);
 
@@ -49,10 +49,10 @@ UserListView::UserListView(QWidget* parent) : QTreeView(parent)
     connect(m_removeAvatarAct, &QAction::triggered, this, &UserListView::deleteAvatar);
     setIconSize(QSize(64, 64));
 
-    std::vector<std::tuple<QString, QString, Type>> propertyList= {{"healthPoints", tr("Health Points"), Integer},
-        {"maxHP", tr("Health Points Maximum"), Integer}, {"minHP", tr("Health Points Minimum"), Integer},
-        {"initiative", tr("Initiative"), Integer}, {"distancePerTurn", tr("Distance per turn"), Real},
-        {"initCommand", tr("Initiative Command"), String}, {"hasInitiative", tr("Has initiative"), Boolean}};
+    std::vector<std::tuple<QString, QString, Type>> propertyList
+        = {{"healthPoints", tr("Health Points"), Integer}, {"maxHP", tr("Health Points Maximum"), Integer},
+            {"minHP", tr("Health Points Minimum"), Integer}, {"distancePerTurn", tr("Distance per turn"), Real},
+            {"initCommand", tr("Initiative Command"), String}, {"hasInitiative", tr("Has initiative"), Boolean}};
 
     for(auto propertyName : propertyList)
     {
@@ -68,6 +68,25 @@ UserListView::UserListView(QWidget* parent) : QTreeView(parent)
         m_propertyActions.push_back(act);
     }
 }
+
+void UserListView::setState()
+{
+    auto act= qobject_cast<QAction*>(sender());
+    if(nullptr == act)
+        return;
+
+    auto index= currentIndex();
+    auto stateIdx= act->data().toInt();
+    auto state= Character::getStateFromIndex(stateIdx);
+    QString uuid= index.data(PlayersList::IdentifierRole).toString();
+    auto tmpPlayer= dynamic_cast<Character*>(PlayersList::instance()->getPerson(uuid));
+
+    if(nullptr == tmpPlayer || nullptr == state)
+        return;
+
+    tmpPlayer->setState(state);
+}
+
 void UserListView::setPropertyValue()
 {
     auto act= qobject_cast<QAction*>(sender());
@@ -155,10 +174,28 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
 
     auto flags= index.flags();
 
-    if(!flags & Qt::ItemIsEditable || tmpperso == nullptr)
+    if(!(flags & Qt::ItemIsEditable) || tmpperso == nullptr)
         return;
 
+    auto charact= dynamic_cast<Character*>(tmpperso);
     QMenu popMenu(this);
+
+    auto initCmd= charact->getInitCommand();
+    if(!initCmd.isEmpty())
+    {
+        auto act= popMenu.addAction(tr("Roll initiative"));
+        connect(act, &QAction::triggered, this, [this, initCmd, charact]() {
+            if(m_diceParser->parseLine(initCmd))
+            {
+                m_diceParser->start();
+                auto valueList= m_diceParser->getSumOfDiceResult();
+                if(valueList.isEmpty())
+                    return;
+
+                charact->setInitiativeScore(static_cast<int>(valueList.first()));
+            }
+        });
+    }
 
     popMenu.addAction(m_addAvatarAct);
     popMenu.addAction(m_removeAvatarAct);
@@ -175,24 +212,51 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
             }
             menu->addAction(pro);
         }
-    }
-    /* if(index.isValid() &&)
-     {
 
-         if(nullptr != tmpperso)
-         {
-             if(PlayersList::instance()->isLocal(tmpperso))
-             {
-                 m_addAvatarAct->setEnabled(true);
-                 m_removeAvatarAct->setEnabled(true);
-             }
-             else
-             {
-                 m_addAvatarAct->setEnabled(false);
-                 m_removeAvatarAct->setEnabled(false);
-             }
-         }
-     }*/
+        auto stateMenu= popMenu.addMenu(tr("State"));
+        auto stateList= Character::getCharacterStateList();
+        int i= 0;
+        for(auto state : *stateList)
+        {
+            auto act= stateMenu->addAction(state->getLabel());
+            act->setCheckable(true);
+            auto statePerson= tmpperso->property("state").value<CharacterState*>();
+            act->setChecked(state == statePerson);
+            act->setData(i++);
+            connect(act, &QAction::triggered, this, &UserListView::setState);
+        }
+
+        if(charact)
+        {
+            popMenu.addSeparator();
+            auto actionList= charact->getActionList();
+            if(!actionList.isEmpty())
+            {
+                auto actionMenu= popMenu.addMenu(tr("Action"));
+                for(auto action : actionList)
+                {
+                    auto act= actionMenu->addAction(action->name());
+                    connect(act, &QAction::triggered, this,
+                        [this, &action, uuid]() { emit runDiceForCharacter(action->command(), uuid); });
+                }
+            }
+
+            auto shapeMenu= popMenu.addMenu(tr("Shape"));
+            auto shapeList= charact->getShapeList();
+            for(auto shape : shapeList)
+            {
+                auto act= shapeMenu->addAction(shape->name());
+                act->setCheckable(true);
+                act->setChecked(charact->currentShape() == shape);
+                connect(act, &QAction::triggered, this, [&charact, shape]() {
+                    if(charact->currentShape() == shape)
+                        charact->setCurrentShape(nullptr);
+                    else
+                        charact->setCurrentShape(shape);
+                });
+            }
+        }
+    }
     popMenu.exec(e->globalPos());
 }
 
@@ -256,29 +320,7 @@ void UserListView::setPlayersListModel(PlayersListWidgetModel* model)
     QTreeView::setModel(model);
     m_model= model;
 }
-void UserListView::mousePressEvent(QMouseEvent* event)
-{
-    // QModelIndex tmp = indexAt(event->pos());
 
-    QTreeView::mousePressEvent(event);
-
-    /*if ((event->button() == Qt::LeftButton) && (tmp.isValid()))
-    {
-        QString uuid = tmp.data(PlayersList::IdentifierRole).toString();
-        Person* tmpperso = PlayersList::instance()->getCharacter(uuid);
-        if(nullptr!= tmpperso)
-        {
-            QDrag *drag = new QDrag(this);
-            RolisteamMimeData *mimeData = new RolisteamMimeData();
-
-            mimeData->setPerson(tmpperso);
-            drag->setMimeData(mimeData);
-            drag->setPixmap(generateAvatar(tmpperso));
-
-            Qt::DropAction dropAction = drag->exec();
-        }
-    }*/
-}
 void UserListView::mouseMoveEvent(QMouseEvent* event)
 {
     QModelIndex tmp= indexAt(event->pos());

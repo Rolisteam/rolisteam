@@ -20,12 +20,14 @@
 #ifndef USERLISTVIEW_H
 #define USERLISTVIEW_H
 
+#include "diceparser/diceparser.h"
 #include <QTreeView>
+#include <memory>
 
 class PlayersListWidgetModel;
 class UserListDelegate;
 class Person;
-
+class CharacterAction;
 /**
  * @brief custom view to display tree person
  */
@@ -53,15 +55,14 @@ public slots:
      */
     void editCurrentItemColor();
 
+signals:
+    void runDiceForCharacter(const QString& dice, const QString& uuid);
+
 protected slots:
     /**
      * @brief defines new behaviours for mouseDoubleClickEvent
      */
     virtual void mouseDoubleClickEvent(QMouseEvent*) override;
-    /**
-     * @brief mousePressEvent
-     */
-    virtual void mousePressEvent(QMouseEvent*) override;
     /**
      * @brief mouseMoveEvent
      * @param event
@@ -76,6 +77,10 @@ protected slots:
      * @brief setPropertyValue
      */
     void setPropertyValue();
+    /**
+     * @brief setState
+     */
+    void setState();
 
     void addAvatar();
     void deleteAvatar();
@@ -97,6 +102,7 @@ private:
     QAction* m_changeState= nullptr;
     QAction* m_removeInit= nullptr;
     std::vector<QAction*> m_propertyActions;
+    std::unique_ptr<DiceParser> m_diceParser;
 };
 
 Q_DECLARE_METATYPE(UserListView::Type)

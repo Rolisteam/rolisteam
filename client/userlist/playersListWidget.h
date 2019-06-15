@@ -83,6 +83,8 @@ private slots:
     void createLocalCharacter();
     void selectAnotherPerson(const QModelIndex& current);
     void deleteSelected();
+signals:
+    void runDiceForCharacter(const QString& dice, const QString& uuid);
 
 private:
     PersonDialog* m_personDialog;

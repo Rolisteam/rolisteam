@@ -67,7 +67,7 @@ public:
     QString name() const;
     void setName(const QString& name);
 
-    QImage image() const;
+    const QImage& image() const;
     void setImage(const QImage& image);
 
     const QMovie& movie() const;
@@ -175,12 +175,12 @@ public:
     /**
      * @brief ~Character
      */
-    virtual ~Character();
+    virtual ~Character() override;
     /**
      * @brief fill
      * @param message
      */
-    void fill(NetworkMessageWriter& message, bool addAvatar= true);
+    void fill(NetworkMessageWriter& message, bool addAvatar= true) override;
     /**
      * @brief read
      * @param msg
@@ -201,6 +201,10 @@ public:
      * @return
      */
     int number() const;
+    /**
+     * @brief setNumber
+     * @param n
+     */
     void setNumber(int n);
     /**
      * @brief getHeathState
@@ -233,6 +237,12 @@ public:
      * @return
      */
     static CharacterState* getStateFromLabel(QString label);
+    /**
+     * @brief getStateFromIndex
+     * @param i
+     * @return
+     */
+    static CharacterState* getStateFromIndex(int i);
     void setState(CharacterState* h);
 
     bool hasInitScore() const;
@@ -244,7 +254,7 @@ public:
     Player* getParentPlayer() const;
     QString getParentId() const;
 
-    virtual QHash<QString, QString> getVariableDictionnary();
+    virtual QHash<QString, QString> getVariableDictionnary() override;
 
     int indexOfState(CharacterState* state);
 
@@ -252,8 +262,8 @@ public:
     void removeAction(const QString& name);
     void clearActions();
 
-    virtual void write(QDataStream& out, bool tag, bool saveData= true) const;
-    virtual void read(QDataStream& in);
+    virtual void write(QDataStream& out, bool tag, bool saveData= true) const override;
+    virtual void read(QDataStream& in) override;
 
     int getHealthPointsMax() const;
     void setHealthPointsMax(int hpMax);
@@ -267,8 +277,6 @@ public:
     QString getAvatarPath() const;
     void setAvatarPath(const QString& avatarPath);
 
-    void setCurrentState(QString name, QColor color, QString image);
-
     int getInitiativeScore() const;
     void setInitiativeScore(int intiativeScore);
 
@@ -281,7 +289,7 @@ public:
     QColor getLifeColor() const;
     void setLifeColor(QColor color);
 
-    virtual QString getToolTip() const;
+    virtual QString getToolTip() const override;
     void readTokenObj(const QJsonObject& obj);
 
     QString getInitCommand() const;
@@ -289,8 +297,15 @@ public:
 
     QList<CharacterAction*> getActionList() const;
     QList<CharacterShape*> getShapeList() const;
+
+    void initCharacter();
+
+    CharacterShape* currentShape() const;
+    void setCurrentShape(CharacterShape* shape);
+
+    virtual const QImage& getAvatar() const override;
+
 public slots:
-    void setDefaultShape();
     void setCurrentShape(int index);
 signals:
     void currentHealthPointsChanged();
@@ -304,12 +319,6 @@ signals:
     void lifeColorChanged();
     void initCommandChanged();
     void hasInitScoreChanged();
-
-protected:
-    CharacterState* getStateFromIndex(int i);
-
-private:
-    void init();
 
 private:
     bool m_isNpc= true;
@@ -330,7 +339,7 @@ private:
     qreal m_distancePerTurn= 0;
     QColor m_lifeColor= QColor(Qt::green);
     bool m_hasInitScore= false;
-    QImage m_defaultAvatar;
+    CharacterShape* m_currentShape= nullptr;
 };
 
 #endif // CHARACTER_H
