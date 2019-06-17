@@ -126,10 +126,6 @@ public slots:
 signals:
     void playerAdded(Player* player);
     void characterAdded(Character* character);
-
-    void playerChanged(Player* player);
-    void characterChanged(Character* character);
-
     void playerDeleted(Player* player);
     void characterDeleted(Character* character);
     void playerAddedAsClient(Player* player);
@@ -150,7 +146,6 @@ private:
      * @see instance()
      */
     PlayersList();
-
     /**
      * @brief Destructor
      * @see instance()
@@ -165,7 +160,6 @@ private:
     void delPlayer(NetworkMessageReader& data);
     void addCharacter(NetworkMessageReader& data);
     void delCharacter(NetworkMessageReader& data);
-    void notifyPersonChanged(Person* person);
     void monitorCharacter(Character* charac);
     void monitorPlayer(Player* player);
 

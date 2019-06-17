@@ -714,18 +714,6 @@ void PlayersList::delCharacter(Player* parent, int index)
     endRemoveRows();
 }
 
-void PlayersList::notifyPersonChanged(Person* person)
-{
-    QModelIndex index= createIndex(person);
-
-    if(index.internalId() != NoParent)
-        emit characterChanged(static_cast<Character*>(person));
-    else
-        emit playerChanged(static_cast<Player*>(person));
-
-    emit dataChanged(index, index);
-}
-
 /***********
  * Network *
  ***********/
