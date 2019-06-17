@@ -571,10 +571,12 @@ void PlayersList::monitorCharacter(Character* charac)
     connect(charac, &Character::colorChanged, this, [this]() { sendOffPersonChanges<QColor>(QStringLiteral("color")); });
     connect(charac, &Character::initCommandChanged, this,[this]() { sendOffPersonChanges<QString>(QStringLiteral("initCommand")); });
     connect(charac, &Character::initiativeChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("initiative")); });
+    connect(charac, &Character::hasInitScoreChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("hasInitiative")); });
     connect(charac, &Character::stateChanged, this, [this]() { sendOffPersonChanges<CharacterState*>(QStringLiteral("state")); });
     connect(charac, &Character::maxHPChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("maxHP")); });
     connect(charac, &Character::minHPChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("minHP")); });
     connect(charac, &Character::distancePerTurnChanged, this,[this]() { sendOffPersonChanges<QString>(QStringLiteral("distancePerTurn")); });
+    connect(charac, &Character::lifeColorChanged, this,[this]() { sendOffPersonChanges<QColor>(QStringLiteral("lifeColor")); });
     //clang-format on
 
     charac->initCharacter();
