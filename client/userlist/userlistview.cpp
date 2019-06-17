@@ -241,19 +241,22 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
                 }
             }
 
-            auto shapeMenu= popMenu.addMenu(tr("Shape"));
             auto shapeList= charact->getShapeList();
-            for(auto shape : shapeList)
+            if(!shapeList.isEmpty())
             {
-                auto act= shapeMenu->addAction(shape->name());
-                act->setCheckable(true);
-                act->setChecked(charact->currentShape() == shape);
-                connect(act, &QAction::triggered, this, [&charact, shape]() {
-                    if(charact->currentShape() == shape)
-                        charact->setCurrentShape(nullptr);
-                    else
-                        charact->setCurrentShape(shape);
-                });
+                auto shapeMenu= popMenu.addMenu(tr("Shape"));
+                for(auto shape : shapeList)
+                {
+                    auto act= shapeMenu->addAction(shape->name());
+                    act->setCheckable(true);
+                    act->setChecked(charact->currentShape() == shape);
+                    connect(act, &QAction::triggered, this, [&charact, shape]() {
+                        if(charact->currentShape() == shape)
+                            charact->setCurrentShape(nullptr);
+                        else
+                            charact->setCurrentShape(shape);
+                    });
+                }
             }
         }
     }
