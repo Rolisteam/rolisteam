@@ -27,15 +27,15 @@ SUBDIRS = \
     dicealiasmodel \
     genericmodel   \
     charactersheetmodel      \
+    unitmodel           \
 
 
 
 #    dicebookmarkmodel   \
-#    unitmodel           \
 #    shortcutmodel       \
 
 
-    #    MainWindow  picture
+    #    MainWindow
     #networkServer \
 
 OBJECTS_DIR = obj
