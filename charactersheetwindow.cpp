@@ -441,6 +441,7 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     if(m_sheetToCharacter.contains(chSheet))
     {
         auto character= m_sheetToCharacter.value(chSheet);
+        // TODO: find better way ?
         character->setImageProvider(imageProvider);
         qmlView->engine()->rootContext()->setContextProperty("_character", character);
     }
