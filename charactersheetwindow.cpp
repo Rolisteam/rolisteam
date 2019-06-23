@@ -185,13 +185,6 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint& pos)
 {
     QMenu menu(this);
 
-    menu.addAction(m_readOnlyAct);
-    menu.addSeparator();
-    menu.addAction(m_addLine);
-    menu.addAction(m_addSection);
-    menu.addAction(m_addCharacterSheet);
-    menu.addSeparator();
-    menu.addAction(m_loadQml);
     QModelIndex index= m_view.indexAt(pos);
     if(index.column() > 0)
     {
@@ -199,6 +192,14 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint& pos)
         QMenu* affect= menu.addMenu(m_shareTo);
         addSharingMenu(affect);
     }
+    menu.addSeparator();
+    menu.addAction(m_readOnlyAct);
+    /*menu.addSeparator();
+    menu.addAction(m_addLine);
+    menu.addAction(m_addSection);
+    menu.addAction(m_addCharacterSheet);
+    menu.addSeparator();
+    menu.addAction(m_loadQml);*/
 
     addActionToMenu(menu);
     menu.exec(QCursor::pos());
@@ -340,7 +341,9 @@ void CharacterSheetWindow::affectSheetToCharacter()
         }
 
         checkAlreadyShare(sheet);
+        m_sheetToCharacter.insert(sheet, character);
         character->setSheet(sheet);
+        addTabWithSheetView(sheet);
         sheet->setName(character->name());
         m_tabs->setTabText(m_tabs->indexOf(quickWid), sheet->getName());
 
@@ -419,6 +422,8 @@ void CharacterSheetWindow::addCharacterSheet()
 }
 void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
 {
+    if(!m_sheetToCharacter.contains(chSheet))
+        return;
     if(m_qmlData.isEmpty())
     {
         openQML();
@@ -436,6 +441,7 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     if(m_sheetToCharacter.contains(chSheet))
     {
         auto character= m_sheetToCharacter.value(chSheet);
+        // TODO: find better way ?
         character->setImageProvider(imageProvider);
         qmlView->engine()->rootContext()->setContextProperty("_character", character);
     }
