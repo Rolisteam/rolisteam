@@ -41,12 +41,12 @@ class AbstractChat : public QObject
 
 public:
     virtual QString identifier() const= 0;
-    virtual QString name() const= 0;
+    virtual QString name() const      = 0;
     virtual bool belongsToLocalPlayer() const;
-    virtual bool belongsTo(Player* player) const= 0;
-    virtual void sendThem(NetworkMessage& message) const= 0;
+    virtual bool belongsTo(Player* player) const                                       = 0;
+    virtual void sendThem(NetworkMessage& message) const                               = 0;
     virtual bool everyPlayerHasFeature(const QString& feature, quint8 version= 0) const= 0;
-    virtual NetworkMessage::RecipientMode getRecipientMode() const= 0;
+    virtual NetworkMessage::RecipientMode getRecipientMode() const                     = 0;
     virtual QStringList getRecipientList() const;
 
 signals:
@@ -93,9 +93,6 @@ public:
 
 private:
     Player* m_player;
-
-private slots:
-    void verifyName(Player* player);
 };
 /**
  * @brief The PrivateChat class

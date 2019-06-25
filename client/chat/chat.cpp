@@ -98,7 +98,7 @@ PlayerChat::PlayerChat(Player* player) : m_player(player)
 {
     if(m_player == nullptr)
         qFatal("PlayerChat with nullptr player");
-    connect(PlayersList::instance(), SIGNAL(playerChanged(Player*)), this, SLOT(verifyName(Player*)));
+    connect(player, &Player::nameChanged, this, [this]() { m_player->name(); });
 }
 
 PlayerChat::~PlayerChat() {}
@@ -133,12 +133,6 @@ NetworkMessage::RecipientMode PlayerChat::getRecipientMode() const
     return NetworkMessage::OneOrMany;
 }
 
-void PlayerChat::verifyName(Player* player)
-{
-    if(player == m_player)
-        emit changedName(m_player->name());
-}
-
 QStringList PlayerChat::getRecipientList() const
 {
     return (QStringList() << m_player->getUuid());
@@ -166,7 +160,7 @@ QStringList PlayerChat::getRecipientList() const
 
 PrivateChat::PrivateChat(const QString& name) : m_name(name)
 {
-    m_uuid= QUuid::createUuid().toString();
+    m_uuid = QUuid::createUuid().toString();
     m_owner= PlayersList::instance()->getLocalPlayer();
     m_set.insert(m_owner);
 }
