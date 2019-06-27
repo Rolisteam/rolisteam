@@ -532,7 +532,7 @@ void ServerManager::accept(qintptr handle, TcpClient* connection, QThread* threa
     connection->setSocketHandleId(handle);
 
     // emit clientAccepted();
-    QMetaObject::invokeMethod(connection, &TcpClient::startReading, Qt::QueuedConnection);
+    QMetaObject::invokeMethod(connection, SLOT(startReading()), Qt::QueuedConnection);
 }
 
 void ServerManager::sendOffModelToAll()
@@ -598,7 +598,7 @@ void ServerManager::close()
     auto clients= m_connections.values();
     std::for_each(clients.begin(), clients.end(), [](TcpClient* client) {
         // removeClient(client);
-        QMetaObject::invokeMethod(client, &TcpClient::closeConnection, Qt::QueuedConnection);
+        QMetaObject::invokeMethod(client, SLOT(closeConnection()), Qt::QueuedConnection);
     });
     emit closed();
 }
