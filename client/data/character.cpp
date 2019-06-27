@@ -313,7 +313,7 @@ void Character::setInitiativeScore(int intiativeScore)
 {
     if(m_initiativeScore == intiativeScore)
         return;
-    m_hasInitScore= true;
+    m_hasInitScore   = true;
     m_initiativeScore= intiativeScore;
     emit initiativeChanged();
 }
@@ -498,7 +498,7 @@ QString Character::read(NetworkMessageReader& msg)
     if(!msg.isValid())
         return {};
     QString parentId= msg.string8();
-    m_uuid= msg.string8();
+    m_uuid          = msg.string8();
     setName(msg.string16());
     int currentStateIndex= msg.int8();
     if(currentStateIndex >= 0)
@@ -724,17 +724,17 @@ void Character::setCurrentShape(int index)
 void Character::readTokenObj(const QJsonObject& obj)
 {
     m_isNpc= true;
-    m_name= obj["name"].toString();
+    m_name = obj["name"].toString();
     m_color.setNamedColor(obj["color"].toString());
-    m_healthPointsMax= obj["lifeMax"].toInt();
-    m_healthPointsMin= obj["lifeMin"].toInt();
+    m_healthPointsMax    = obj["lifeMax"].toInt();
+    m_healthPointsMin    = obj["lifeMin"].toInt();
     m_healthPointsCurrent= obj["lifeCurrent"].toInt();
-    m_initiativeScore= obj["initValue"].toInt();
+    m_initiativeScore    = obj["initValue"].toInt();
     m_initiativeRoll.setName(tr("Initiative"));
     m_initiativeRoll.setCommand(obj["initCommand"].toString());
     m_avatarPath= obj["avatarUri"].toString();
-    auto array= QByteArray::fromBase64(obj["avatarImg"].toString().toUtf8());
-    m_avatar= QImage::fromData(array);
+    auto array  = QByteArray::fromBase64(obj["avatarImg"].toString().toUtf8());
+    m_avatar    = QImage::fromData(array);
 
     auto actionArray= obj["actions"].toArray();
     for(auto act : actionArray)
@@ -749,7 +749,7 @@ void Character::readTokenObj(const QJsonObject& obj)
     auto propertyArray= obj["properties"].toArray();
     for(auto pro : propertyArray)
     {
-        auto proObj= pro.toObject();
+        auto proObj  = pro.toObject();
         auto property= new CharacterProperty();
         property->setName(proObj["name"].toString());
         property->setValue(proObj["value"].toString());
@@ -760,11 +760,11 @@ void Character::readTokenObj(const QJsonObject& obj)
     for(auto sha : shapeArray)
     {
         auto objSha= sha.toObject();
-        auto shape= new CharacterShape();
+        auto shape = new CharacterShape();
         shape->setName(objSha["name"].toString());
         shape->setUri(objSha["uri"].toString());
         auto avatarData= QByteArray::fromBase64(objSha["dataImg"].toString().toUtf8());
-        QImage img= QImage::fromData(avatarData);
+        QImage img     = QImage::fromData(avatarData);
         shape->setImage(img);
         m_shapeList.append(shape);
     }

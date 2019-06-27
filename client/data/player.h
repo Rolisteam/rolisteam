@@ -53,7 +53,7 @@ public:
      * @param link
      */
     Player(const QString& uuid, const QString& getName, const QColor& getColor, bool master= false,
-        NetworkLink* link= nullptr);
+           NetworkLink* link= nullptr);
     /**
      * @brief Player
      * @param data
@@ -176,7 +176,7 @@ private:
     friend class SendFeaturesIterator;
 
 private:
-    bool m_gameMaster= false;
+    bool m_gameMaster  = false;
     NetworkLink* m_link= nullptr;
     QList<Character*> m_characters;
     QMap<QString, quint8> m_features;

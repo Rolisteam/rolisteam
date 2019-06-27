@@ -71,7 +71,7 @@
 
 namespace Ui
 {
-    class MainWindow;
+class MainWindow;
 }
 
 class UpdateChecker;
@@ -553,7 +553,7 @@ private:
 
     VmapToolBar* m_vmapToolBar;
 
-    ConnectionProfile* m_currentConnectionProfile;
+    ConnectionProfile* m_currentConnectionProfile= nullptr;
     QList<GameMasterTool*> m_gmToolBoxList;
     SelectConnectionProfileDialog* m_dialog= nullptr;
     bool m_profileDefined;

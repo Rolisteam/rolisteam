@@ -79,7 +79,7 @@ class PlayerChat : public AbstractChat
     Q_OBJECT
 
 public:
-    PlayerChat(Player* player);
+    explicit PlayerChat(Player* player);
     ~PlayerChat();
 
     QString identifier() const;
@@ -105,13 +105,13 @@ public:
     /**
      * @brief Create a chat owned by the local player
      */
-    PrivateChat(const QString& name);
+    explicit PrivateChat(const QString& name);
 
     /**
      * @brief Create a chat from the network.
      * If something went wrong, the identifier will be invalid.
      */
-    PrivateChat(ReceiveEvent& event);
+    explicit PrivateChat(ReceiveEvent& event);
 
     ~PrivateChat();
 

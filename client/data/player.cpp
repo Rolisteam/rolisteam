@@ -54,9 +54,9 @@ void Player::readFromMsg(NetworkMessageReader& data)
     m_name= data.string16();
     m_uuid= data.string8();
 
-    m_color= QColor(data.rgb());
-    m_gameMaster= (data.uint8() != 0);
-    m_softVersion= data.string16();
+    m_color       = QColor(data.rgb());
+    m_gameMaster  = (data.uint8() != 0);
+    m_softVersion = data.string16();
     int childCount= data.int32();
     for(int i= 0; (i < childCount && data.isValid()); ++i)
     {

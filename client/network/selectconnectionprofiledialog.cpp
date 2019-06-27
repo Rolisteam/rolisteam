@@ -107,7 +107,7 @@ void ProfileModel::readSettings()
         profile->setServerMode(settings.value("server").toBool());
         profile->setGm(settings.value("gm").toBool());
         profile->setHash(QByteArray::fromBase64(settings.value("password").toByteArray()));
-        QColor color= settings.value("PlayerColor").value<QColor>();
+        QColor color  = settings.value("PlayerColor").value<QColor>();
         Player* player= new Player(profile->getName(), color, profile->isGM());
         player->setUserVersion(m_version);
         profile->setPlayer(player);
@@ -121,7 +121,18 @@ void ProfileModel::readSettings()
                 << tr("Error: avatar for %2 path is invalid. No file at this path: %1").arg(path, character->name());
         character->setAvatarPath(settings.value("CharacterPath").toString());
         character->setColor(settings.value("CharacterColor").value<QColor>());
+        character->setHealthPointsCurrent(settings.value("CharacterHp", character->getHealthPointsCurrent()).toInt());
+        character->setHealthPointsMax(settings.value("CharacterMaxHp", character->getHealthPointsMax()).toInt());
+        character->setHealthPointsMin(settings.value("CharacterMinHp", character->getHealthPointsMin()).toInt());
+        character->setDistancePerTurn(
+            settings.value("CharacterDistPerTurn", character->getDistancePerTurn()).toDouble());
+        character->setState(character->getStateFromIndex(settings.value("CharacterState", 0).toInt()));
+        character->setLifeColor(settings.value("CharacterLifeColor", character->getLifeColor()).value<QColor>());
+        character->setInitCommand(settings.value("CharacterInitCmd", character->getInitCommand()).toString());
+        character->setHasInitiative(settings.value("CharacterHasInit", false).toBool());
+
         character->setNpc(false);
+
         profile->setCharacter(character);
         appendProfile(profile);
     }
@@ -135,7 +146,7 @@ void ProfileModel::readSettings()
         profile->setTitle(tr("Default"));
         profile->setPort(6660);
         profile->setServerMode(true);
-        QColor color= Qt::black;
+        QColor color  = Qt::black;
         Player* player= new Player(profile->getName(), color, profile->isGM());
         player->setUserVersion(m_version);
         profile->setPlayer(player);
@@ -180,8 +191,8 @@ void ProfileModel::removeProfile(ConnectionProfile* profile)
 {
     if(nullptr != profile)
     {
-        beginRemoveRows(
-            QModelIndex(), m_connectionProfileList.indexOf(profile), m_connectionProfileList.indexOf(profile));
+        beginRemoveRows(QModelIndex(), m_connectionProfileList.indexOf(profile),
+                        m_connectionProfileList.indexOf(profile));
         m_connectionProfileList.removeOne(profile);
         delete profile;
         endRemoveRows();
@@ -197,8 +208,8 @@ void ProfileModel::writeSettings()
     {
         settings.setArrayIndex(i);
         ConnectionProfile* profile= m_connectionProfileList.at(i);
-        Player* player= profile->getPlayer();
-        Character* character= profile->getCharacter();
+        Player* player            = profile->getPlayer();
+        Character* character      = profile->getCharacter();
 
         settings.setValue("address", profile->getAddress());
         settings.setValue("name", profile->getName());
@@ -208,6 +219,7 @@ void ProfileModel::writeSettings()
         settings.setValue("gm", profile->isGM());
         settings.setValue("password", profile->getPassword().toBase64());
         settings.setValue("PlayerColor", player->getColor());
+
         if(nullptr == character)
             continue;
         settings.setValue("CharacterColor", character->getColor());
@@ -215,8 +227,16 @@ void ProfileModel::writeSettings()
         QVariant var;
         var.setValue(img);
         settings.setValue("CharacterPix", var);
-        // settings.setValue("CharacterPath",profile->getPathImg());
         settings.setValue("CharacterName", character->name());
+        settings.setValue("CharacterPath", character->getAvatarPath());
+        settings.setValue("CharacterHp", character->getHealthPointsCurrent());
+        settings.setValue("CharacterMaxHp", character->getHealthPointsMax());
+        settings.setValue("CharacterMinHp", character->getHealthPointsMin());
+        settings.setValue("CharacterDistPerTurn", character->getDistancePerTurn());
+        settings.setValue("CharacterState", character->indexOfState(character->getState()));
+        settings.setValue("CharacterLifeColor", character->getLifeColor());
+        settings.setValue("CharacterInitCmd", character->getInitCommand());
+        settings.setValue("CharacterHasInit", character->hasInitScore());
     }
     settings.endArray();
     settings.endGroup();
@@ -244,7 +264,7 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version, QW
     ui->m_progressBar->setVisible(false);
 
     connect(ui->m_profileList->selectionModel(), &QItemSelectionModel::currentChanged, this,
-        [this](const QModelIndex& selected, const QModelIndex&) { setCurrentProfile(selected); });
+            [this](const QModelIndex& selected, const QModelIndex&) { setCurrentProfile(selected); });
     connect(ui->m_profileList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(connectToIndex(QModelIndex)));
 
     ui->m_profileList->setCurrentIndex(m_model->index(0, 0));
@@ -311,8 +331,9 @@ void SelectConnectionProfileDialog::removeProfile()
     if(nullptr != m_currentProfile)
     {
         if(QMessageBox::No
-            == QMessageBox::question(this, tr("Remove Current Profile"),
-                   tr("Do you really want to remove %1 from your connection list ?").arg(m_currentProfile->getTitle())))
+           == QMessageBox::question(
+                  this, tr("Remove Current Profile"),
+                  tr("Do you really want to remove %1 from your connection list ?").arg(m_currentProfile->getTitle())))
         {
             return;
         }
