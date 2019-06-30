@@ -119,25 +119,24 @@ int Player::getChildrenCount() const
 
 Character* Player::getCharacterByIndex(int index) const
 {
-    return m_characters[index];
+    if(index < m_characters.size() && index >= 0)
+        return m_characters[index];
+    return nullptr;
 }
 QList<Character*> Player::getChildrenCharacter()
 {
     return m_characters;
 }
-int Player::getIndexOfCharacter(Character* character) const
+int Player::indexOf(ResourcesNode* character) const
 {
-    return m_characters.indexOf(character);
+    return m_characters.indexOf(dynamic_cast<Character*>(character));
 }
 int Player::getIndexOf(QString id) const
 {
-    for(int i= 0; i < m_characters.size(); i++)
-    {
-        if(m_characters[i]->getUuid() == id)
-            return i;
-    }
 
-    return -1;
+    auto it= std::find_if(m_characters.begin(), m_characters.end(),
+                          [id](const Character* character) { return id == character->getUuid(); });
+    return static_cast<int>(std::distance(m_characters.begin(), it));
 }
 bool Player::isGM() const
 {
