@@ -23,6 +23,7 @@ CONFIG += HAVE_SOUND
 CONFIG += HAVE_WEBVIEW
 CONFIG += HAVE_ZLIB
 CONFIG += HAVE_PDF
+CONFIG += HAVE_QT_NETWORK
 ############## END OF FEATURES ######################
 
 QT += core gui opengl network widgets printsupport multimedia quick qml quickwidgets svg

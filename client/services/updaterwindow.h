@@ -24,6 +24,7 @@
 #include <QNetworkReply>
 #include <QProgressBar>
 #include <QWidget>
+#include <memory>
 
 class UpdaterWindow : public QWidget
 {
@@ -40,7 +41,7 @@ public slots:
 private:
     QProgressBar* m_progressBar;
     QNetworkReply* reply;
-    QNetworkAccessManager m_manager;
+    std::unique_ptr<QNetworkAccessManager> m_manager;
 };
 
 #endif // UPDATERWINDOW_H

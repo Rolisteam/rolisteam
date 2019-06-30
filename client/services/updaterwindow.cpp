@@ -28,9 +28,12 @@ UpdaterWindow::UpdaterWindow(QWidget* parent) : QWidget(parent)
 
     m_progressBar= new QProgressBar(this);
     m_progressBar->setValue(0);
-    reply= m_manager.get(QNetworkRequest(QUrl("http://site.fr/last/application.exe")));
+#ifdef HAVE_QT_NETWORK
+    m_manager.reset(new QNetworkAccessManager());
+    reply= m_manager->get(QNetworkRequest(QUrl("http://site.fr/last/application.exe")));
     connect(reply, SIGNAL(finished()), this, SLOT(save()));
     connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(downloadProgess(qint64, qint64)));
+#endif
 }
 
 void UpdaterWindow::downloadProgess(qint64 bytesReceived, qint64 bytesTotal)

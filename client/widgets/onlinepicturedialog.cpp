@@ -34,9 +34,10 @@ OnlinePictureDialog::OnlinePictureDialog(QWidget* parent)
     ui->setupUi(this);
     connect(ui->m_urlField, SIGNAL(editingFinished()), this, SLOT(uriChanged()));
     connect(ui->m_downloadPush, SIGNAL(clicked()), this, SLOT(uriChanged()));
+#ifdef HAVE_QT_NETWORK
     m_manager= new QNetworkAccessManager(this);
     connect(m_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
-
+#endif
     ui->scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
