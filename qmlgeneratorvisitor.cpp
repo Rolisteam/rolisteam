@@ -311,8 +311,10 @@ bool QmlGeneratorVisitor::generateFuncButton(Field* item)
                  "%7"
                  "%6    command: %2.value\n"
                  "%6    text: %2.label\n"
-                 "%6    textColor: \"%3\"\n"
+                 "%6    pressedColor: \"%3\"\n"
                  "%6    color: \"%4\"\n"
+                 "%6    backgroundColor: \"%8\"\n"
+                 "%6    textColor: \"%9\"\n"
                  + getPageManagement(item, m_indenSpace) + "%6    readOnly: %2.readOnly\n" + getToolTip(item)
                  + generatePosition(item) + generateAlignment(item) + generateFont(item->font())
                  + "%6    onClicked: {\n"
@@ -327,7 +329,9 @@ bool QmlGeneratorVisitor::generateFuncButton(Field* item)
                  .arg(item->value()) //%5
                  .arg(m_indenSpace)
                  .arg(m_isTable ? QStringLiteral("") :
-                                  QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
+                                  QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)))
+                 .arg(item->bgColor().name(QColor::HexArgb))
+                 .arg(item->textColor().name(QColor::HexArgb));
 
     return true;
 }
