@@ -149,7 +149,6 @@ HEADERS += \
         network/networkmessagereader.h \
         network/networkmessagewriter.h \
         userlist/playersList.h \
-        userlist/playerslistproxy.h \
         userlist/playersListWidget.h \
         preferences/preferencesdialog.h \
         chat/privatechatdialog.h \
@@ -252,7 +251,6 @@ SOURCES += \
         network/networkmessagereader.cpp \
         network/networkmessagewriter.cpp \
         userlist/playersList.cpp \
-        userlist/playerslistproxy.cpp \
         userlist/playersListWidget.cpp \
         preferences/preferencesdialog.cpp \
         chat/privatechatdialog.cpp \

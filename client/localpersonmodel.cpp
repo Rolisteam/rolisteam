@@ -31,55 +31,6 @@ LocalPersonModel::LocalPersonModel() : QAbstractListModel()
     m_playersList= PlayersList::instance();
 }
 
-/*QModelIndex LocalPersonModel::mapFromSource(const QModelIndex& sourceIndex) const
-{
-    if(!sourceIndex.isValid())
-        return QModelIndex();
-
-    quint32 parentRow= (quint32)(sourceIndex.internalId() & PlayersList::NoParent);
-    switch(parentRow)
-    {
-    case 0:
-        return createIndex(sourceIndex.row() + 1, sourceIndex.column(), parentRow);
-    case PlayersList::NoParent:
-        if(sourceIndex.row() == 0)
-            return createIndex(0, sourceIndex.column(), parentRow);
-    default:
-        return QModelIndex();
-    }
-}
-
-QModelIndex LocalPersonModel::mapToSource(const QModelIndex& proxyIndex) const
-{
-    if(!proxyIndex.isValid())
-        return QModelIndex();
-
-    quint32 parentRow= (quint32)(proxyIndex.internalId() & PlayersList::NoParent);
-    if(parentRow == 0)
-    {
-        return m_playersList->mapIndexToMe(createIndex(proxyIndex.row() - 1, proxyIndex.column(), parentRow));
-    }
-    return m_playersList->mapIndexToMe(proxyIndex);
-}
-
-QModelIndex LocalPersonModel::index(int row, int column, const QModelIndex& parent) const
-{
-    if(parent.isValid() || column != 0)
-        return QModelIndex();
-
-    QModelIndex sourceLocalPlayer= sourceModel()->index(0, 0, QModelIndex());
-    if(row == 0)
-        return mapFromSource(sourceLocalPlayer);
-    else
-        return mapFromSource(sourceModel()->index(row - 1, 0, sourceLocalPlayer));
-}
-
-QModelIndex LocalPersonModel::parent(const QModelIndex& index) const
-{
-    Q_UNUSED(index);
-    return QModelIndex();
-}*/
-
 QVariant LocalPersonModel::data(const QModelIndex& index, int role) const
 {
     if(!index.isValid())

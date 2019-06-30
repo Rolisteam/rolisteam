@@ -33,7 +33,6 @@ HEADERS += $$ROLISTEAMSRC/chat/improvedtextedit.h \
     $$ROLISTEAMSRC/localpersonmodel.h\
     $$ROLISTEAMSRC/Features.h\
     $$ROLISTEAMSRC/userlist/playersList.h\
-    $$ROLISTEAMSRC/userlist/playerslistproxy.h\
     networklink.h
 
 #    $$ROLISTEAMSRC/charactersheet/charactersheet.h\
@@ -61,7 +60,6 @@ SOURCES += \
     $$ROLISTEAMSRC/localpersonmodel.cpp\
     $$ROLISTEAMSRC/Features.cpp\
     $$ROLISTEAMSRC/userlist/playersList.cpp\
-    $$ROLISTEAMSRC/userlist/playerslistproxy.cpp\
     networklink.cpp
 
 #    $$ROLISTEAMSRC/charactersheet/charactersheet.cpp\
