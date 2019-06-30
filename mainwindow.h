@@ -1,49 +1,50 @@
 /***************************************************************************
-* Copyright (C) 2014 by Renaud Guezennec                                   *
-* http://www.rolisteam.org/                                                *
-*                                                                          *
-*  This file is part of rcse                                               *
-*                                                                          *
-* rcse is free software; you can redistribute it and/or modify             *
-* it under the terms of the GNU General Public License as published by     *
-* the Free Software Foundation; either version 2 of the License, or        *
-* (at your option) any later version.                                      *
-*                                                                          *
-* rcse is distributed in the hope that it will be useful,                  *
-* but WITHOUT ANY WARRANTY; without even the implied warranty of           *
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
-* GNU General Public License for more details.                             *
-*                                                                          *
-* You should have received a copy of the GNU General Public License        *
-* along with this program; if not, write to the                            *
-* Free Software Foundation, Inc.,                                          *
-* 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
-***************************************************************************/
+ * Copyright (C) 2014 by Renaud Guezennec                                   *
+ * http://www.rolisteam.org/                                                *
+ *                                                                          *
+ *  This file is part of rcse                                               *
+ *                                                                          *
+ * rcse is free software; you can redistribute it and/or modify             *
+ * it under the terms of the GNU General Public License as published by     *
+ * the Free Software Foundation; either version 2 of the License, or        *
+ * (at your option) any later version.                                      *
+ *                                                                          *
+ * rcse is distributed in the hope that it will be useful,                  *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
+ * GNU General Public License for more details.                             *
+ *                                                                          *
+ * You should have received a copy of the GNU General Public License        *
+ * along with this program; if not, write to the                            *
+ * Free Software Foundation, Inc.,                                          *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
+ ***************************************************************************/
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QGraphicsView>
-#include <QMainWindow>
 #include <QHash>
+#include <QMainWindow>
 #include <QPixmap>
 #include <QUndoStack>
 
 #include "canvas.h"
-#include "fieldmodel.h"
-#include "rolisteamimageprovider.h"
-#include "field.h"
 #include "charactersheetmodel.h"
-#include "pdfmanager.h"
-#include "sheetproperties.h"
-#include "preferencesmanager.h"
+#include "common/controller/logcontroller.h"
+#include "field.h"
+#include "fieldmodel.h"
 #include "imagemodel.h"
 #include "itemeditor.h"
-#include "common/controller/logcontroller.h"
+#include "pdfmanager.h"
+#include "preferencesmanager.h"
+#include "rolisteamimageprovider.h"
+#include "sheetproperties.h"
 
 class CodeEditor;
 class LogPanel;
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 /**
@@ -54,8 +55,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     Q_PROPERTY(QString currentFile READ currentFile WRITE setCurrentFile NOTIFY currentFileChanged)
 public:
-    enum EDITION_TOOL {ADDFIELD,SELECT,NONE};
-    explicit MainWindow(QWidget *parent = nullptr);
+    enum EDITION_TOOL
+    {
+        ADDFIELD,
+        SELECT,
+        NONE
+    };
+    explicit MainWindow(QWidget* parent= nullptr);
     ~MainWindow();
 
     bool qmlGeneration() const;
@@ -70,7 +76,7 @@ public:
     void setCurrentFile(const QString& filename);
 
     QString currentUuid() const;
-    void setCurrentUuid(const QString &currentUuid);
+    void setCurrentUuid(const QString& currentUuid);
 
 public slots:
     void openPDF();
@@ -99,7 +105,7 @@ public slots:
     void setFitInView();
     bool mayBeSaved();
     void modelChanged();
-    void displayWarningsQML(QList<QQmlError> list, LogController::LogLevel level = LogController::Error);
+    void displayWarningsQML(QList<QQmlError> list, LogController::LogLevel level= LogController::Error);
     void aboutRcse();
     void helpOnLine();
     void addImage();
@@ -112,41 +118,42 @@ signals:
     void currentFileChanged();
 
 protected:
-    bool eventFilter(QObject *, QEvent *);
-    bool wheelEventForView(QWheelEvent *event);
-    void closeEvent(QCloseEvent *event);
+    bool eventFilter(QObject*, QEvent*);
+    bool wheelEventForView(QWheelEvent* event);
+    void closeEvent(QCloseEvent* event);
     void managePDFImport();
-    void applyValue(QModelIndex &index, bool selection);
-    void applyValueOnCharacterSelection(QModelIndex &index, bool selection, bool allCharacter);
-    void defineItemCode(QModelIndex &index);
+    void applyValue(QModelIndex& index, bool selection);
+    void applyValueOnCharacterSelection(QModelIndex& index, bool selection, bool allCharacter);
+    void defineItemCode(QModelIndex& index);
     void updateRecentFileAction();
 
-    bool saveFile(const QString &filename);
+    bool saveFile(const QString& filename);
 protected slots:
-    void menuRequested(const QPoint &pos);
-    //void menuRequestedForFieldModel(const QPoint &pos);
-    void menuRequestedFromView(const QPoint &pos);
-    void menuRequestedForImageModel(const QPoint &pos);
+    void menuRequested(const QPoint& pos);
+    // void menuRequestedForFieldModel(const QPoint &pos);
+    void menuRequestedFromView(const QPoint& pos);
+    void menuRequestedForImageModel(const QPoint& pos);
     void columnAdded();
     void alignOn();
-    void clearData(bool addDefaultCanvas = true);
+    void clearData(bool addDefaultCanvas= true);
     void showPreferences();
     void pageCountChanged();
     void checkCharacters();
-    bool loadFile(const QString &file);
+    bool loadFile(const QString& file);
 private slots:
     void codeChanged();
     void sameGeometry();
 
 private:
     int pageCount();
+
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow* ui;
     QList<Canvas*> m_canvasList;
     ItemEditor* m_view;
     EDITION_TOOL m_currentTool;
     QPoint m_startField;
-    QHash<QString,QPixmap*> m_pixList;
+    QHash<QString, QPixmap*> m_pixList;
     FieldModel* m_model;
     QString m_currentFile;
     bool m_qmlGeneration;
@@ -161,11 +168,11 @@ private:
 
     ImageModel* m_imageModel;
 
-    //Log
-    LogPanel* m_logPanel = nullptr;
-    LogController* m_logManager = nullptr;
+    // Log
+    LogPanel* m_logPanel       = nullptr;
+    LogController* m_logManager= nullptr;
 
-    //Action Character
+    // Action Character
     QAction* m_addCharacter;
     QAction* m_deleteCharacter;
     QAction* m_copyCharacter;
@@ -174,7 +181,7 @@ private:
     QAction* m_applyValueOnSelectedCharacterLines;
     QAction* m_applyValueOnAllCharacters;
 
-    //action view
+    // action view
     QAction* m_fitInView;
     QAction* m_alignOnY;
     QAction* m_alignOnX;
@@ -183,15 +190,16 @@ private:
     QAction* m_dupplicate;
     QPoint m_posMenu;
 
-    //action image model
+    // action image model
     QAction* m_copyPath;
+    QAction* m_copyUrl;
     QAction* m_replaceImage;
     QAction* m_removeImage;
 
-    //Recent file
+    // Recent file
     std::vector<QAction*> m_recentActions;
     QStringList m_recentFiles;
-    int m_maxRecentFile=5;
+    int m_maxRecentFile= 5;
     QAction* m_separatorAction;
 
     QString m_title;
@@ -210,4 +218,3 @@ private:
 };
 
 #endif // MAINWINDOW_H
-
