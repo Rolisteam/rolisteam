@@ -110,40 +110,19 @@ QVariant PlayersList::data(const QModelIndex& index, int role) const
     if(!index.isValid() || index.column() != 0)
         return QVariant();
 
-    Person* person;
+    Person* person= static_cast<Person*>(index.internalPointer());
 
-    int row= index.row();
-    if(row < 0)
+    if(!person->isLeaf() && (role == Qt::BackgroundRole))
     {
-        return QVariant();
-    }
-
-    quint32 parentRow= static_cast<quint32>((index.internalId() & NoParent));
-    if(parentRow == NoParent)
-    {
-        if(row >= m_playersList.size())
-            return QVariant();
-
-        Player* player= m_playersList.at(row);
-        person= player;
+        Player* player= dynamic_cast<Player*>(person);
         if(player != nullptr)
         {
-            if((role == Qt::BackgroundRole) && (player->getUuid() == m_idCurrentGM) && player->isGM())
+            if((person->getUuid() == m_idCurrentGM) && player->isGM())
             {
                 QPalette pal= qApp->palette();
                 return QVariant(pal.color(QPalette::Active, QPalette::Dark));
             }
         }
-    }
-    else
-    {
-        if(parentRow >= static_cast<quint32>(m_playersList.size()))
-            return QVariant();
-        Player* player= m_playersList.at(static_cast<int>(parentRow));
-
-        if(row >= player->getChildrenCount())
-            return QVariant();
-        person= player->getCharacterByIndex(row);
     }
 
     switch(role)
@@ -163,7 +142,23 @@ QVariant PlayersList::data(const QModelIndex& index, int role) const
             return QVariant(person->getColor());
     }
     case IdentifierRole:
-        return QVariant(person->getUuid());
+        return person->getUuid();
+    case PersonPtr:
+        return QVariant::fromValue(person);
+    case IsLocal:
+        return isLocal(person);
+    case IsGM:
+    {
+        auto pl= dynamic_cast<Player*>(person);
+        if(pl)
+            return pl->isGM();
+        else
+        {
+            return false;
+        }
+    }
+    case LocalIsGM:
+        return localIsGM();
     }
 
     return QVariant();
@@ -187,28 +182,26 @@ QVariant PlayersList::headerData(int section, Qt::Orientation orientation, int r
 
 QModelIndex PlayersList::index(int row, int column, const QModelIndex& parent) const
 {
-    if(column != 0)
+    if(column != 0 || row < 0)
         return QModelIndex();
-
+    Person* childItem= nullptr;
     if(parent.isValid())
     {
-        auto parentRow= parent.row();
-        if(parentRow >= m_playersList.size())
-            return QModelIndex();
-
-        Player* player= m_playersList.at(parentRow);
-        if(row < 0 || row >= player->getChildrenCount())
-            return QModelIndex();
-
-        return QAbstractItemModel::createIndex(row, 0, static_cast<quint32>(parentRow));
+        auto parentPerson= static_cast<Person*>(parent.internalPointer());
+        auto parentPlayer= dynamic_cast<Player*>(parentPerson);
+        if(nullptr == parentPlayer)
+            return {};
+        childItem= parentPlayer->getCharacterByIndex(row);
     }
-    else
+    else if(m_playersList.size() > row)
     {
-        if(row < 0 && row >= m_playersList.size())
-            return QModelIndex();
-
-        return QAbstractItemModel::createIndex(row, 0, NoParent);
+        childItem= m_playersList[row];
     }
+
+    if(childItem)
+        return createIndex(row, column, childItem);
+    else
+        return QModelIndex();
 }
 QList<Character*> PlayersList::getCharacterList()
 {
@@ -226,31 +219,34 @@ QModelIndex PlayersList::parent(const QModelIndex& index) const
     if(!index.isValid())
         return QModelIndex();
 
-    quint32 parentRow= static_cast<quint32>(index.internalId() & NoParent);
+    auto childItem   = static_cast<Person*>(index.internalPointer());
+    auto parentPerson= childItem->parentPerson();
 
-    if(parentRow == NoParent || parentRow >= static_cast<quint32>(m_playersList.size()))
+    if(nullptr == parentPerson)
     {
         return QModelIndex();
     }
 
-    return QAbstractItemModel::createIndex(static_cast<int>(parentRow), 0, NoParent);
+    return QAbstractItemModel::createIndex(parentPerson->indexOf(childItem), 0, parentPerson);
 }
 
-int PlayersList::rowCount(const QModelIndex& index) const
+int PlayersList::rowCount(const QModelIndex& parent) const
 {
-    if(!index.isValid())
+    int result= 0;
+    if(!parent.isValid())
     {
-        return m_playersList.size();
+        result= m_playersList.size();
     }
-
-    quint32 parentRow= static_cast<quint32>(index.internalId() & NoParent);
-    int row= index.row();
-    if(parentRow != NoParent || row < 0 || row >= m_playersList.size())
+    else
     {
-        return 0;
+        auto parentItem= static_cast<Person*>(parent.internalPointer());
+        auto player    = dynamic_cast<Player*>(parentItem);
+        if(player)
+        {
+            result= player->getChildrenCount();
+        }
     }
-
-    return m_playersList.at(row)->getChildrenCount();
+    return result;
 }
 
 int PlayersList::columnCount(const QModelIndex& parent) const
@@ -272,29 +268,29 @@ QModelIndex PlayersList::mapIndexToMe(const QModelIndex& index) const
     if(!index.isValid())
         return QModelIndex();
 
-    quint32 parentRow= static_cast<quint32>(index.internalId() & NoParent);
-    return QAbstractItemModel::createIndex(index.row(), index.column(), parentRow);
+    auto data= static_cast<Person*>(index.internalPointer());
+    return QAbstractItemModel::createIndex(index.row(), index.column(), data);
 }
 
-QModelIndex PlayersList::createIndex(Person* person) const
+QModelIndex PlayersList::personToIndex(Person* person) const
 {
-    auto size= static_cast<unsigned int>(m_playersList.size());
-    for(unsigned int row= 0; row < size; row++)
+    QModelIndex parent;
+    int row= -1;
+    if(person->isLeaf())
     {
-        Player* player= m_playersList.at(static_cast<int>(row));
-        if(person == player)
+        auto player= dynamic_cast<Player*>(person->parentPerson());
+        if(player)
         {
-            return QAbstractItemModel::createIndex(static_cast<int>(row), 0, NoParent);
-        }
-        else
-        {
-            int c_row;
-            if(player->searchCharacter(static_cast<Character*>(person), c_row))
-                return QAbstractItemModel::createIndex(c_row, 0, row);
+            parent= index(m_playersList.indexOf(player), 0, QModelIndex());
+            row   = player->indexOf(person);
         }
     }
-
-    return QModelIndex();
+    else
+    {
+        auto player= dynamic_cast<Player*>(person);
+        row        = m_playersList.indexOf(player);
+    }
+    return index(row, 0, parent);
 }
 
 /***********
@@ -330,7 +326,7 @@ Person* PlayersList::getPerson(const QString& uuid) const
     if(nullptr == person)
     {
         auto it= std::find_if(m_npcList.begin(), m_npcList.end(),
-            [uuid](Character* character) { return (character->getUuid() == uuid); });
+                              [uuid](Character* character) { return (character->getUuid() == uuid); });
         if(it != std::end(m_npcList))
         {
             person= *it;
@@ -383,68 +379,34 @@ Person* PlayersList::getPerson(const QModelIndex& index) const
     if(!index.isValid() || index.column() != 0)
         return nullptr;
 
-    int row= index.row();
-    if(row < 0)
-        return nullptr;
+    auto person= static_cast<Person*>(index.internalPointer());
 
-    quint32 parentRow= static_cast<quint32>(index.internalId() & NoParent);
-    if(parentRow == NoParent)
-    {
-        if(row < m_playersList.size())
-            return m_playersList.at(row);
-    }
-    else if(parentRow < static_cast<quint32>(m_playersList.size()))
-    {
-        Player* player= m_playersList.at(static_cast<int>(parentRow));
-
-        if(row < player->getChildrenCount())
-            return player->getCharacterByIndex(row);
-    }
-
-    return nullptr;
+    return person;
 }
 
 Player* PlayersList::getPlayer(const QModelIndex& index) const
 {
-    if(!index.isValid() || index.column() != 0)
-        return nullptr;
-
-    int row= index.row();
-    quint32 parentRow= static_cast<quint32>(index.internalId() & NoParent);
-    if(parentRow == NoParent && row >= 0 && row < m_playersList.size())
-        return m_playersList.at(row);
-
-    return nullptr;
+    auto person= getPerson(index);
+    return dynamic_cast<Player*>(person);
 }
 
 Character* PlayersList::getCharacter(const QModelIndex& index) const
 {
-    if(!index.isValid() || index.column() != 0)
-        return nullptr;
-
-    int row= index.row();
-    quint32 parentRow= static_cast<quint32>(index.internalId() & NoParent);
-    if(parentRow == NoParent && row >= 0 && parentRow < static_cast<quint32>(m_playersList.size()))
-    {
-        Player* player= m_playersList.at(row);
-        if(row < player->getChildrenCount())
-            return player->getCharacterByIndex(row);
-    }
-
-    return nullptr;
+    auto person= getPerson(index);
+    return dynamic_cast<Character*>(person);
 }
 
 QString PlayersList::getUuidFromName(QString owner)
 {
-    Person* ownerPerson= m_localPlayer;
+    Person* ownerPerson   = m_localPlayer;
     QList<Character*> list= getCharacterList();
-    bool unfound= true;
+    bool unfound          = true;
     for(int i= 0; i < list.size() && unfound; ++i)
     {
         Character* carac= list.at(i);
         if(carac->name() == owner)
         {
-            unfound= false;
+            unfound    = false;
             ownerPerson= carac;
         }
     }
@@ -511,8 +473,8 @@ void PlayersList::setLocalPlayer(Player* player)
         setLocalFeatures(*player);
         addPlayer(player);
         auto characterList= m_localPlayer->getChildrenCharacter();
-        std::for_each(
-            characterList.begin(), characterList.end(), [this](Character* charac) { monitorCharacter(charac); });
+        std::for_each(characterList.begin(), characterList.end(),
+                      [this](Character* charac) { monitorCharacter(charac); });
     }
 }
 
@@ -539,11 +501,11 @@ void PlayersList::sendOffPersonChanges(const QString& property)
     if(nullptr == person)
         return;
 
-    auto cat= NetMsg::PlayerCategory;
+    auto cat   = NetMsg::PlayerCategory;
     auto action= NetMsg::ChangePlayerProperty;
     if(person->isLeaf())
     {
-        cat= NetMsg::CharacterPlayerCategory;
+        cat   = NetMsg::CharacterPlayerCategory;
         action= NetMsg::ChangePlayerCharacterProperty;
     }
 
@@ -661,7 +623,7 @@ void PlayersList::addCharacter(Player* player, Character* character)
     if(m_uuidMap.contains(uuid))
         return;
 
-    auto index= createIndex(player);
+    auto index= personToIndex(player);
 
     if(player == getLocalPlayer() || localIsGM())
         monitorCharacter(character);
@@ -705,7 +667,7 @@ void PlayersList::delPlayer(Player* player)
 void PlayersList::delCharacter(Player* parent, int index)
 {
     Character* character= parent->getCharacterByIndex(index);
-    QModelIndex parentItem= createIndex(parent);
+    QModelIndex parentItem= personToIndex(parent);
     beginRemoveRows(parentItem, index, index);
 
     emit characterDeleted(character);
@@ -860,7 +822,7 @@ void PlayersList::delCharacter(NetworkMessageReader& data)
     Player* parent= character->getParentPlayer();
     if(nullptr != parent)
     {
-        delCharacter(parent, parent->getIndexOfCharacter(character));
+        delCharacter(parent, parent->indexOf(character));
     }
 }
 

@@ -28,10 +28,10 @@
 #include <QPointer>
 #include <QPushButton>
 #include <QSet>
+#include <QSortFilterProxyModel>
 #include <QTreeView>
 #include <memory>
 
-#include "userlist/playerslistproxy.h"
 class UserListView;
 class Map;
 class PersonDialog;
@@ -39,7 +39,7 @@ class Person;
 /**
  * @brief The PlayersListWidgetModel class
  */
-class PlayersListWidgetModel : public PlayersListProxyModel
+class PlayersListWidgetModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 

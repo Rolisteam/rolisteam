@@ -45,6 +45,9 @@ public:
     {
         IdentifierRole= Qt::UserRole + 1,
         PersonPtr,
+        IsLocal,
+        IsGM,
+        LocalIsGM
     };
     /**
      * @brief Get the singleton
@@ -118,8 +121,6 @@ public:
 
     Player* getGM();
     QString getGmId();
-    // Proxy helpers
-    static const quint32 NoParent= 0x7fffffff;
     QString getLocalPlayerId() const;
 public slots:
     void setCurrentGM(QString idGm);
@@ -151,7 +152,7 @@ private:
      * @see instance()
      */
     virtual ~PlayersList();
-    QModelIndex createIndex(Person* person) const;
+    QModelIndex personToIndex(Person* person) const;
     void addPlayer(Player* player);
     void addCharacter(Player* player, Character* character);
     void delPlayer(Player* player);

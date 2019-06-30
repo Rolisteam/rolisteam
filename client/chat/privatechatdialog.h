@@ -27,15 +27,14 @@
 #include <QDialogButtonBox>
 #include <QLineEdit>
 #include <QSet>
-
-#include "userlist/playerslistproxy.h"
+#include <QSortFilterProxyModel>
 
 class Player;
 class PrivateChat;
 /**
  * @brief The PrivateChatDialogModel class is the model which stored all opened chat room.
  */
-class PrivateChatDialogModel : public PlayersListProxyModel
+class PrivateChatDialogModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 
@@ -44,7 +43,7 @@ public:
      * @brief PrivateChatDialogModel
      * @param parent
      */
-    PrivateChatDialogModel(QObject* parent= 0);
+    PrivateChatDialogModel(QObject* parent= nullptr);
     /**
      * @brief flags
      * @param index
@@ -81,6 +80,9 @@ public:
      * @param isEditable
      */
     void setEditable(bool isEditable);
+
+protected:
+    bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
 
 private:
     QSet<Player*> m_set;

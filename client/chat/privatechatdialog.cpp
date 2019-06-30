@@ -35,7 +35,10 @@
  * PrivateChatDialogModel *
  **************************/
 
-PrivateChatDialogModel::PrivateChatDialogModel(QObject* parent) : PlayersListProxyModel(parent), m_isEditable(false) {}
+PrivateChatDialogModel::PrivateChatDialogModel(QObject* parent) : QSortFilterProxyModel(parent), m_isEditable(false)
+{
+    setSourceModel(PlayersList::instance());
+}
 
 Qt::ItemFlags PrivateChatDialogModel::flags(const QModelIndex& index) const
 {
@@ -45,13 +48,14 @@ Qt::ItemFlags PrivateChatDialogModel::flags(const QModelIndex& index) const
     if(!m_isEditable)
         return Qt::ItemIsEnabled;
 
-    PlayersList* g_playersList= PlayersList::instance();
-    Player* player= g_playersList->getPlayer(index);
+    PlayersList* playersList= PlayersList::instance();
+
+    Player* player= playersList->getPlayer(mapToSource(index));
 
     // We should return Qt::NoItemFlags when (player == nullptr),
     // but this cause an infinite loop when the last entry is deleted.
     // This is a workaround of a Qt's bug.
-    if(player == nullptr || player == g_playersList->getLocalPlayer())
+    if(player == nullptr || player == playersList->getLocalPlayer())
         return Qt::ItemIsEnabled;
 
     if(player->hasFeature("MultiChat"))
@@ -64,7 +68,9 @@ QVariant PrivateChatDialogModel::data(const QModelIndex& index, int role) const
 {
     if(role == Qt::CheckStateRole)
     {
-        return QVariant(m_set.contains(PlayersList::instance()->getPlayer(index)));
+        auto idx   = mapToSource(index);
+        auto player= static_cast<Player*>(idx.internalPointer());
+        return QVariant(m_set.contains(player));
     }
 
     return QAbstractProxyModel::data(index, role);
@@ -77,7 +83,8 @@ bool PrivateChatDialogModel::setData(const QModelIndex& index, const QVariant& v
 
     if(role == Qt::CheckStateRole && (index.flags() & Qt::ItemIsUserCheckable))
     {
-        Player* player= PlayersList::instance()->getPlayer(index);
+        auto idx   = mapToSource(index);
+        auto player= static_cast<Player*>(idx.internalPointer());
         if(!m_set.remove(player))
             m_set.insert(player);
         emit dataChanged(index, index);
@@ -94,15 +101,21 @@ QSet<Player*>& PrivateChatDialogModel::playersSet()
 
 void PrivateChatDialogModel::setPlayersSet(const QSet<Player*>& set)
 {
-    m_set= set;
-    m_set.insert(PlayersList::instance()->getLocalPlayer());
-    emit dataChanged(createIndex(0, 0, PlayersList::NoParent),
-        createIndex(PlayersList::instance()->getPlayerCount() - 1, 0, PlayersList::NoParent));
+    m_set          = set;
+    auto playerList= PlayersList::instance();
+    m_set.insert(playerList->getLocalPlayer());
+    emit dataChanged(createIndex(0, 0), createIndex(m_set.size() - 1, 0));
 }
 
 void PrivateChatDialogModel::setEditable(bool isEditable)
 {
     m_isEditable= isEditable;
+}
+
+bool PrivateChatDialogModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
+{
+    QModelIndex index= sourceModel()->index(sourceRow, 0, sourceParent);
+    return !index.parent().isValid();
 }
 
 /*********************

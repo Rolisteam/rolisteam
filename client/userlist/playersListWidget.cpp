@@ -39,29 +39,26 @@
  * PlayersListWidgetModel *
  **************************/
 
-PlayersListWidgetModel::PlayersListWidgetModel(QObject* parent) : PlayersListProxyModel(parent), m_map(nullptr) {}
+PlayersListWidgetModel::PlayersListWidgetModel(QObject* parent) : QSortFilterProxyModel(parent), m_map(nullptr)
+{
+    setSourceModel(PlayersList::instance());
+}
 
 Qt::ItemFlags PlayersListWidgetModel::flags(const QModelIndex& index) const
 {
     if(!index.isValid())
         return Qt::NoItemFlags;
 
-    Qt::ItemFlags ret= Qt::ItemIsEnabled;
+    Qt::ItemFlags ret= Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
-    if(index.parent().isValid())
-        ret|= Qt::ItemIsSelectable;
-
-    if(isCheckable(index))
+    if(m_map != nullptr && isCheckable(index))
         ret|= Qt::ItemIsUserCheckable;
 
-    PlayersList* playersList= PlayersList::instance();
-    Person* person= playersList->getPerson(index);
-    auto local= playersList->getLocalPlayer();
+    auto realCurrent= mapToSource(index);
+    auto isLocal    = realCurrent.data(PlayersList::IsLocal).toBool();
+    auto localIsGM  = realCurrent.data(PlayersList::LocalIsGM).toBool();
 
-    if(nullptr == local)
-        return ret;
-
-    if(playersList->isLocal(person) || local->isGM())
+    if(isLocal || localIsGM)
         ret|= Qt::ItemIsEditable;
     return ret;
 }
@@ -70,17 +67,23 @@ QVariant PlayersListWidgetModel::data(const QModelIndex& index, int role) const
 {
     if(isCheckable(index) && role == Qt::CheckStateRole)
     {
-        return QVariant(m_map->isVisiblePc(PlayersList::instance()->getPerson(index)->getUuid()));
+        if(m_map == nullptr)
+            return false;
+        auto realIndex= mapToSource(index);
+        Person* person= static_cast<Person*>(realIndex.internalPointer());
+        return m_map->isVisiblePc(person->getUuid());
     }
     return QAbstractProxyModel::data(index, role);
 }
 
 bool PlayersListWidgetModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    PlayersList* playersList= PlayersList::instance();
-    Person* person= playersList->getPerson(index);
+    auto realIndex= mapToSource(index);
+    Person* person= static_cast<Person*>(realIndex.internalPointer());
+    auto isLocal  = realIndex.data(PlayersList::IsLocal).toBool();
+    auto localIsGM= realIndex.data(PlayersList::LocalIsGM).toBool();
 
-    if(person != nullptr && (playersList->isLocal(person) || playersList->localIsGM()))
+    if(person != nullptr && (isLocal || localIsGM))
         switch(role)
         {
         case Qt::EditRole:
@@ -126,19 +129,19 @@ void PlayersListWidgetModel::setCurrentMap(Map* map)
 
     for(i= 0; i < max; i++)
     {
-        Player* player= playersList->getPlayer(i);
+        Player* player    = playersList->getPlayer(i);
         int characterCount= player->getChildrenCount();
 
         if(characterCount > 0)
         {
             begin= createIndex(0, 0, i);
-            end= createIndex(characterCount, 0, i);
+            end  = createIndex(characterCount, 0, i);
             break;
         }
     }
     for(; i < max; i++)
     {
-        Player* player= playersList->getPlayer(i);
+        Player* player  = playersList->getPlayer(i);
         int nbCharacters= player->getChildrenCount();
 
         if(nbCharacters > 0)
@@ -151,18 +154,13 @@ void PlayersListWidgetModel::setCurrentMap(Map* map)
 
 bool PlayersListWidgetModel::isCheckable(const QModelIndex& index) const
 {
-    if(!index.isValid() || m_map == nullptr)
+    if(!index.isValid() || m_map == nullptr || !index.parent().isValid())
         return false;
 
-    PlayersList* playersList= PlayersList::instance();
-
-    Person* person= playersList->getPerson(index);
-    if(person == nullptr)
-        return false;
-
-    Player* localPlayer= playersList->getLocalPlayer();
-
-    return ((person->parentPerson() == localPlayer) || (localPlayer->isGM() && index.parent().isValid()));
+    auto realIndex= mapToSource(index);
+    auto isLocal  = realIndex.data(PlayersList::IsLocal).toBool();
+    auto localIsGM= realIndex.data(PlayersList::LocalIsGM).toBool();
+    return isLocal || localIsGM;
 }
 
 /********************
@@ -192,23 +190,23 @@ void PlayersListWidget::editIndex(const QModelIndex& index)
         return;
 
     PlayersList* playersList= PlayersList::instance();
-    Person* person= playersList->getPerson(index);
+    Person* person          = playersList->getPerson(index);
     if(!playersList->isLocal(person))
         return;
 
     if(m_personDialog->edit(tr("Edit"), person->name(), person->getColor(), m_personDialog->getAvatarUri())
-        == QDialog::Accepted)
+       == QDialog::Accepted)
     {
         // person->setAvatar();
-        playersList->changeLocalPerson(
-            person, m_personDialog->getName(), m_personDialog->getColor(), QImage(m_personDialog->getAvatarUri()));
+        playersList->changeLocalPerson(person, m_personDialog->getName(), m_personDialog->getColor(),
+                                       QImage(m_personDialog->getAvatarUri()));
     }
 }
 
 void PlayersListWidget::createLocalCharacter()
 {
     PlayersList* playersList= PlayersList::instance();
-    Player* localPlayer= playersList->getLocalPlayer();
+    Player* localPlayer     = playersList->getLocalPlayer();
     if(nullptr == localPlayer)
     {
         return;
@@ -225,18 +223,21 @@ void PlayersListWidget::createLocalCharacter()
 
 void PlayersListWidget::selectAnotherPerson(const QModelIndex& current)
 {
-    PlayersList* g_playersList= PlayersList::instance();
-    m_delButton->setEnabled(
-        current.isValid() && current.parent().isValid() && g_playersList->isLocal(g_playersList->getPerson(current)));
+    auto playersList= PlayersList::instance();
+    auto orgin      = m_model->mapToSource(current);
+    auto person     = static_cast<Person*>(orgin.internalPointer());
+    m_delButton->setEnabled(current.isValid() && current.parent().isValid() && playersList->isLocal(person));
 }
 
 void PlayersListWidget::deleteSelected()
 {
-    PlayersList* g_playersList= PlayersList::instance();
-    QModelIndex current= m_selectionModel->currentIndex();
-    if(current.isValid() && current.parent().isValid() && g_playersList->isLocal(g_playersList->getPerson(current)))
+    PlayersList* playersList= PlayersList::instance();
+    QModelIndex current     = m_selectionModel->currentIndex();
+    auto orgin              = m_model->mapToSource(current);
+    auto person             = static_cast<Person*>(orgin.internalPointer());
+    if(current.isValid() && current.parent().isValid() && playersList->isLocal(person))
     {
-        g_playersList->delLocalCharacter(current.row());
+        playersList->delLocalCharacter(current.row());
         m_delButton->setEnabled(false);
     }
 }
@@ -264,7 +265,7 @@ void PlayersListWidget::setUI()
     m_playersListView->setHeaderHidden(true);
 
     // Add PC button
-    Player* tmp= PlayersList::instance()->getLocalPlayer();
+    Player* tmp = PlayersList::instance()->getLocalPlayer();
     QString what= tr("PC");
     if(nullptr != tmp)
     {
@@ -293,7 +294,7 @@ void PlayersListWidget::setUI()
 
     // Actions
     connect(m_selectionModel, SIGNAL(currentChanged(QModelIndex, QModelIndex)), this,
-        SLOT(selectAnotherPerson(QModelIndex)));
+            SLOT(selectAnotherPerson(QModelIndex)));
     connect(m_model.get(), SIGNAL(rowsRemoved(QModelIndex, int, int)), m_playersListView, SLOT(clearSelection()));
     connect(m_addPlayerButton, SIGNAL(clicked()), this, SLOT(createLocalCharacter()));
     connect(m_delButton, SIGNAL(clicked()), this, SLOT(deleteSelected()));

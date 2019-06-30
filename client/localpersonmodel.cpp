@@ -22,21 +22,16 @@
 
 #include "localpersonmodel.h"
 
+#include "data/character.h"
 #include "data/person.h"
 #include "data/player.h"
 
-LocalPersonModel::LocalPersonModel() : PlayersListProxyModel()
+LocalPersonModel::LocalPersonModel() : QAbstractListModel()
 {
     m_playersList= PlayersList::instance();
 }
 
-LocalPersonModel& LocalPersonModel::instance()
-{
-    static LocalPersonModel s_model;
-    return s_model;
-}
-
-QModelIndex LocalPersonModel::mapFromSource(const QModelIndex& sourceIndex) const
+/*QModelIndex LocalPersonModel::mapFromSource(const QModelIndex& sourceIndex) const
 {
     if(!sourceIndex.isValid())
         return QModelIndex();
@@ -67,13 +62,6 @@ QModelIndex LocalPersonModel::mapToSource(const QModelIndex& proxyIndex) const
     return m_playersList->mapIndexToMe(proxyIndex);
 }
 
-QVariant LocalPersonModel::data(const QModelIndex& index, int role) const
-{
-    if(!index.isValid() || role == Qt::DecorationRole)
-        return QVariant();
-    return QAbstractProxyModel::data(index, role);
-}
-
 QModelIndex LocalPersonModel::index(int row, int column, const QModelIndex& parent) const
 {
     if(parent.isValid() || column != 0)
@@ -90,12 +78,41 @@ QModelIndex LocalPersonModel::parent(const QModelIndex& index) const
 {
     Q_UNUSED(index);
     return QModelIndex();
+}*/
+
+QVariant LocalPersonModel::data(const QModelIndex& index, int role) const
+{
+    if(!index.isValid())
+        return {};
+    auto player= m_playersList->getLocalPlayer();
+    if(nullptr == player)
+        return {};
+
+    auto row      = index.row();
+    Person* person= nullptr;
+    if(row == 0)
+    {
+        person= player;
+    }
+    else
+    {
+        person= player->getCharacterByIndex(row - 1);
+    }
+    if(nullptr == person)
+        return {};
+
+    if(role == Qt::DisplayRole)
+    {
+        return person->name();
+    }
+    return {};
 }
 
 int LocalPersonModel::rowCount(const QModelIndex& parent) const
 {
     if(parent.isValid())
         return 0;
+
     Player* tmp= m_playersList->getLocalPlayer();
     if(nullptr != tmp)
     {
@@ -105,18 +122,4 @@ int LocalPersonModel::rowCount(const QModelIndex& parent) const
     {
         return 0;
     }
-}
-
-bool LocalPersonModel::filterChangingRows(QModelIndex& parent, int& start, int& end)
-{
-    if(parent.isValid() && parent.row() == 0)
-    {
-        parent= QModelIndex();
-        start+= 1;
-        end+= 1;
-        // qDebug("LPM filterChangingRows true %d %d", start, end);
-        return true;
-    }
-    // qDebug("LPM filterChangingRows false %d %d", start, end);
-    return false;
 }
