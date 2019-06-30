@@ -25,6 +25,8 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QPixmap>
 #include <QUuid>
 
@@ -81,11 +83,6 @@ void CharacterShape::setUri(const QString& uri)
         return;
 
     m_uri= uri;
-
-    if(QFileInfo::exists(m_uri))
-        m_image= QImage(m_uri);
-    else
-        m_image= QImage();
 }
 
 QVariant CharacterShape::getData(int col, int role)
@@ -430,12 +427,47 @@ int Character::indexOfState(CharacterState* state)
     }
 }
 
+void Character::addShape(const QString& name, const QString& path)
+{
+    auto shape= new CharacterShape();
+
+    if(path.startsWith(QStringLiteral("image://rcs/")))
+    {
+#ifdef QT_QUICK_LIB
+        auto key= path;
+        key.replace(QStringLiteral("image://rcs/"), "");
+        QSize size;
+        QSize resquestedSize;
+        auto img= m_imageProvider->requestPixmap(key, &size, resquestedSize);
+        shape->setImage(img.toImage());
+#endif
+    }
+    else if(path.startsWith("http"))
+    {
+#ifdef HAVE_QT_NETWORK
+        QNetworkAccessManager* manager= new QNetworkAccessManager(this);
+        connect(manager, &QNetworkAccessManager::finished, this, [shape, manager](QNetworkReply* reply) {
+            QByteArray data= reply->readAll();
+            QPixmap map;
+            bool ok= map.loadFromData(data);
+            if(ok)
+                shape->setImage(map.toImage());
+            if(manager != nullptr)
+                delete manager;
+        });
+
+        manager->get(QNetworkRequest(QUrl(path)));
+#endif
+    }
+    shape->setName(name);
+    shape->setUri(path);
+    m_shapeList.append(shape);
+}
+
 CharacterState* Character::getStateFromLabel(QString label)
 {
-    qDebug() << "size:" << m_stateList->size();
     for(auto& state : *m_stateList)
     {
-        qDebug() << state->getLabel() << label;
         if(state->getLabel() == label)
         {
             return state;

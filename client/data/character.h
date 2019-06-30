@@ -307,6 +307,7 @@ public:
 
 public slots:
     void setCurrentShape(int index);
+    void addShape(const QString& name, const QString& path);
 signals:
     void currentHealthPointsChanged();
     void maxHPChanged();
