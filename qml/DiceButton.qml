@@ -58,7 +58,11 @@ T.AbstractButton {
         anchors.fill: parent
         ToolTip.visible: root.tooltip.length >0 && mouseZone.pressed
         ToolTip.text: root.tooltip
-        onClicked:  root.clicked()
+        onClicked: {
+            root.clicked()
+            if(root.checkable)
+                root.checked = !root.checked
+        }
         enabled: !root.readOnly
         drag.target: parent
         onPressed: {
