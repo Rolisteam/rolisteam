@@ -113,43 +113,9 @@ void PlayersListWidgetModel::setCurrentMap(Map* map)
 {
     if(map == m_map)
         return;
-
+    beginResetModel();
     m_map= map;
-
-    // We need to tell which rows should be updated
-    PlayersList* playersList= PlayersList::instance();
-    QModelIndex begin;
-    QModelIndex end;
-    int i;
-    int max= 0;
-    if(nullptr != playersList->getLocalPlayer())
-    {
-        max= (playersList->getLocalPlayer()->isGM() ? playersList->getPlayerCount() : 1);
-    }
-
-    for(i= 0; i < max; i++)
-    {
-        Player* player    = playersList->getPlayer(i);
-        int characterCount= player->getChildrenCount();
-
-        if(characterCount > 0)
-        {
-            begin= createIndex(0, 0, i);
-            end  = createIndex(characterCount, 0, i);
-            break;
-        }
-    }
-    for(; i < max; i++)
-    {
-        Player* player  = playersList->getPlayer(i);
-        int nbCharacters= player->getChildrenCount();
-
-        if(nbCharacters > 0)
-            end= createIndex(nbCharacters, 0, i);
-    }
-
-    if(begin.isValid() && end.isValid())
-        emit dataChanged(begin, end);
+    endResetModel();
 }
 
 bool PlayersListWidgetModel::isCheckable(const QModelIndex& index) const
