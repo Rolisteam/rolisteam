@@ -44,8 +44,8 @@ BlinkingDecorationDelegate::BlinkingDecorationDelegate()
     m_red= true;
 }
 
-void BlinkingDecorationDelegate::paint(
-    QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+void BlinkingDecorationDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
+                                       const QModelIndex& index) const
 {
     QStyledItemDelegate::paint(painter, option, index);
     QVariant var= index.data(Qt::DecorationRole);
@@ -78,7 +78,7 @@ ChatList::ChatList(MainWindow* mainWindow) : QAbstractItemModel(nullptr), m_chat
     connect(playersList, &PlayersList::playerDeleted, this, &ChatList::deletePlayerChat);
 
     // Allready there player's chat
-    int maxPlayerIndex= playersList->getPlayerCount();
+    int maxPlayerIndex = playersList->getPlayerCount();
     Player* localPlayer= playersList->getLocalPlayer();
     for(int i= 0; i < maxPlayerIndex; i++)
     {
@@ -101,7 +101,7 @@ ChatList::~ChatList()
 {
     m_chatMenu.clear();
     std::for_each(m_data.begin(), m_data.end(),
-        [this](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { pair.first->deleteLater(); });
+                  [this](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { pair.first->deleteLater(); });
     m_data.clear();
 }
 void ChatList::addPublicChat()
@@ -201,9 +201,9 @@ bool ChatList::setData(const QModelIndex& index, const QVariant& value, int role
 QVariant ChatList::data(const QModelIndex& index, int role) const
 {
     QMutexLocker locker(&m_mutex);
-    auto pair= getPairByIndex(index);
+    auto pair            = getPairByIndex(index);
     QMdiSubWindow* chatw2= pair.first;
-    ChatWindow* chatw= pair.second;
+    ChatWindow* chatw    = pair.second;
 
     if(chatw == nullptr)
         return QVariant();
@@ -375,13 +375,13 @@ void ChatList::delChatWindow(ChatWindow* chatw)
 {
     QMutexLocker locker(&m_mutex);
     auto it= std::find_if(m_data.begin(), m_data.end(),
-        [chatw](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { return pair.second == chatw; });
+                          [chatw](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { return pair.second == chatw; });
 
     if(it == m_data.end())
         return;
 
     m_chatMenu.removeAction(chatw->toggleViewAction());
-    auto index= static_cast<int>(std::distance(m_data.begin(), it));
+    auto index = static_cast<int>(std::distance(m_data.begin(), it));
     auto window= it->first;
     beginRemoveRows(QModelIndex(), index, index);
     m_data.erase(it);
@@ -460,25 +460,25 @@ void ChatList::deletePlayerChat(Player* player)
     QMutexLocker locker(&m_mutex);
     std::vector<std::pair<QMdiSubWindow*, ChatWindow*>> toRemove;
     std::copy_if(m_data.begin(), m_data.end(), std::back_inserter(toRemove),
-        [player](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) {
-            auto widget= pair.second;
-            if(!widget)
-                return false;
+                 [player](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) {
+                     auto widget= pair.second;
+                     if(!widget)
+                         return false;
 
-            auto chat= widget->chat();
-            if(!chat)
-                return false;
+                     auto chat= widget->chat();
+                     if(!chat)
+                         return false;
 
-            return chat->belongsTo(player);
-        });
+                     return chat->belongsTo(player);
+                 });
 
-    Q_ASSERT(toRemove.size() < 2);
+    // Q_ASSERT(toRemove.size() < 2);
 
     std::for_each(toRemove.begin(), toRemove.end(), [this](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) {
-        auto it= std::find_if(
-            m_data.begin(), m_data.end(), [pair](const std::pair<QMdiSubWindow*, ChatWindow*>& dataPair) {
-                return (pair.first == dataPair.first && pair.second == dataPair.second);
-            });
+        auto it= std::find_if(m_data.begin(), m_data.end(),
+                              [pair](const std::pair<QMdiSubWindow*, ChatWindow*>& dataPair) {
+                                  return (pair.first == dataPair.first && pair.second == dataPair.second);
+                              });
         if(it == m_data.end())
             return;
         auto index= static_cast<int>(std::distance(m_data.begin(), it));
@@ -494,7 +494,7 @@ void ChatList::deletePlayerChat(Player* player)
 void ChatList::changeChatWindow(ChatWindow* chat)
 {
     auto it= std::find_if(m_data.begin(), m_data.end(),
-        [chat](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { return (chat == pair.second); });
+                          [chat](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { return (chat == pair.second); });
     if(it == m_data.end())
         return;
 
@@ -508,7 +508,7 @@ bool ChatList::event(QEvent* event)
 {
     if(event->type() == ReceiveEvent::Type)
     {
-        ReceiveEvent* netEvent= static_cast<ReceiveEvent*>(event);
+        ReceiveEvent* netEvent    = static_cast<ReceiveEvent*>(event);
         NetworkMessageReader& data= netEvent->data();
 
         if(data.category() == NetMsg::ChatCategory)
@@ -539,9 +539,9 @@ bool ChatList::event(QEvent* event)
 void ChatList::dispatchMessage(ReceiveEvent* event)
 {
     NetworkMessageReader& data= event->data();
-    QString from= data.string8();
-    QString to= data.string8();
-    QString msg= data.string32();
+    QString from              = data.string8();
+    QString to                = data.string8();
+    QString msg               = data.string32();
     QString comment;
     if(data.action() == NetMsg::DiceMessageAction)
     {

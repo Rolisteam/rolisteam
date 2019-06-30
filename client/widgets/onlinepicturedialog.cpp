@@ -65,14 +65,14 @@ void OnlinePictureDialog::uriChanged()
     }
     if((!m_isPosting) || (ui->m_urlField->text() != m_postingStr))
     {
-        m_isPosting= true;
+        m_isPosting = true;
         m_postingStr= ui->m_urlField->text();
         m_manager->get(QNetworkRequest(QUrl(ui->m_urlField->text())));
     }
 }
 void OnlinePictureDialog::replyFinished(QNetworkReply* reply)
 {
-    m_isPosting= false;
+    m_isPosting    = false;
     QByteArray data= reply->readAll();
     QPixmap map;
     bool ok= map.loadFromData(data);
@@ -104,7 +104,7 @@ void OnlinePictureDialog::resizeLabel()
     int w= ui->scrollArea->viewport()->rect().width();
     int h= ui->scrollArea->viewport()->rect().height();
 
-    double ratioImage= (double)m_pix.size().width() / m_pix.size().height();
+    double ratioImage   = (double)m_pix.size().width() / m_pix.size().height();
     double ratioImageBis= (double)m_pix.size().height() / m_pix.size().width();
 
     if(w > h * ratioImage)

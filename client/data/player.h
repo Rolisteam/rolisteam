@@ -63,12 +63,12 @@ public:
     /**
      * @brief ~Player
      */
-    virtual ~Player();
+    virtual ~Player() override;
     /**
      * @brief fill
      * @param message
      */
-    void fill(NetworkMessageWriter& message, bool addAvatar= true);
+    void fill(NetworkMessageWriter& message, bool addAvatar= true) override;
     /**
      * @brief readFromMsg
      * @param data
@@ -84,7 +84,7 @@ public:
      * @brief getCharactersCount
      * @return
      */
-    virtual int getChildrenCount() const;
+    virtual int getChildrenCount() const override;
     /**
      * @brief getCharacterByIndex
      * @param index
@@ -101,7 +101,7 @@ public:
      * @param character
      * @return
      */
-    int getIndexOfCharacter(Character* character) const;
+    int indexOf(ResourcesNode* character) const override;
     /**
      * @brief getIndexOf
      * @param id

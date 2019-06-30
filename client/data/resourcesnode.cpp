@@ -72,7 +72,7 @@ int ResourcesNode::rowInParent()
     return 0;
 }
 
-int ResourcesNode::indexOf(ResourcesNode*)
+int ResourcesNode::indexOf(ResourcesNode*) const
 {
     return 0;
 }

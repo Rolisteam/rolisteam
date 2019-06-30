@@ -100,10 +100,10 @@ void ChatWindow::updateListAlias()
     int size= m_preferences->value("DiceAliasNumber", 0).toInt();
     for(int i= 0; i < size; ++i)
     {
-        QString cmd= m_preferences->value(QString("DiceAlias_%1_command").arg(i), "").toString();
+        QString cmd  = m_preferences->value(QString("DiceAlias_%1_command").arg(i), "").toString();
         QString value= m_preferences->value(QString("DiceAlias_%1_value").arg(i), "").toString();
-        bool replace= m_preferences->value(QString("DiceAlias_%1_type").arg(i), true).toBool();
-        bool enable= m_preferences->value(QString("DiceAlias_%1_enable").arg(i), true).toBool();
+        bool replace = m_preferences->value(QString("DiceAlias_%1_type").arg(i), true).toBool();
+        bool enable  = m_preferences->value(QString("DiceAlias_%1_enable").arg(i), true).toBool();
         list->append(new DiceAlias(cmd, value, replace, enable));
     }
     if(nullptr != m_receivedAlias)
@@ -138,16 +138,16 @@ void ChatWindow::setupUi()
     connect(m_displayZone, SIGNAL(showTimeChanged(bool)), this, SLOT(showTime(bool)));
 
     // Layout
-    auto bottomWidget= new QWidget();
+    auto bottomWidget     = new QWidget();
     m_selectPersonComboBox= new QComboBox();
-    m_selectPersonComboBox->setModel(&LocalPersonModel::instance());
+    m_selectPersonComboBox->setModel(new LocalPersonModel());
     m_selectPersonComboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
 
     // Toolbar
     m_toolBar= new QToolBar();
     m_toolBar->addWidget(m_selectPersonComboBox);
-    QAction* action= m_toolBar->addAction(
-        QIcon::fromTheme("document-save", QIcon(":/resources/icons/save.png")), tr("save"), this, SLOT(save()));
+    QAction* action= m_toolBar->addAction(QIcon::fromTheme("document-save", QIcon(":/resources/icons/save.png")),
+                                          tr("save"), this, SLOT(save()));
     action->setToolTip(tr("Save all messages from this window in %1/%2.html")
                            .arg(m_preferences->value("ChatDirectory", QDir::homePath()).toString(), m_chat->name()));
 
@@ -268,8 +268,8 @@ void ChatWindow::manageDiceRoll(QString str, QString& messageTitle, QString& mes
     {
         qInfo() << QStringLiteral("Error on dice command: %1 ").arg(cmdLine);
         QString messageCorps= m_diceParser->humanReadableError();
-        messageTitle= tr("Syntax");
-        color= Qt::red;
+        messageTitle        = tr("Syntax");
+        color               = Qt::red;
         showMessage(messageTitle, color, messageCorps);
     }
 
@@ -301,12 +301,12 @@ void ChatWindow::sendOffTextMessage(bool hasHtml, QString message)
     NetMsg::Action action= NetMsg::DiceMessageAction;
 
     static bool warnedEmoteUnavailable= false;
-    bool ok= true;
+    bool ok                           = true;
     m_editionZone->clear();
 
     QString tmpmessage= message.simplified();
-    QString msgBody= "";
-    QString msgTitle= "";
+    QString msgBody   = "";
+    QString msgTitle  = "";
     QColor color;
 
     // get the name of currently selected character.
@@ -325,7 +325,7 @@ void ChatWindow::sendOffTextMessage(bool hasHtml, QString message)
     if(m_operatorMap->contains(tmpmessage.at(0)))
     {
         chatOperator= m_operatorMap->value(tmpmessage.at(0));
-        tmpmessage= tmpmessage.remove(0, 1);
+        tmpmessage  = tmpmessage.remove(0, 1);
 
         switch(chatOperator)
         {
@@ -340,26 +340,26 @@ void ChatWindow::sendOffTextMessage(bool hasHtml, QString message)
             break;
         case COMMAND:
         {
-            int pos= tmpmessage.indexOf(' ');
+            int pos    = tmpmessage.indexOf(' ');
             QString cmd= tmpmessage.left(pos);
             if(m_keyWordList.contains(cmd))
             {
                 tmpmessage= tmpmessage.remove(0, pos);
-                message= tmpmessage;
+                message   = tmpmessage;
                 qInfo() << QStringLiteral("Chat Command emote");
                 if(!warnedEmoteUnavailable && !m_chat->everyPlayerHasFeature(QString("Emote")))
                 {
                     msgTitle= tr("Warning");
-                    msgBody= tr("Some users won't be enable to see your emotes.");
-                    color= Qt::red;
+                    msgBody = tr("Some users won't be enable to see your emotes.");
+                    color   = Qt::red;
                     showMessage(msgTitle, color, msgBody);
                     warnedEmoteUnavailable= true;
                 }
                 if(nullptr != localPerson)
                 {
                     QString vide;
-                    showMessage(
-                        localPerson->name(), localPerson->getColor(), tmpmessage, vide, NetMsg::EmoteMessageAction);
+                    showMessage(localPerson->name(), localPerson->getColor(), tmpmessage, vide,
+                                NetMsg::EmoteMessageAction);
                     action= NetMsg::EmoteMessageAction;
                 }
             }
@@ -426,7 +426,7 @@ QStringList ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
             QStringList currentStreak;
             QList<QStringList> allStreakList;
             ListDiceResult diceResult= dice.value(face);
-            bool previousHighlight= false;
+            bool previousHighlight   = false;
             QString previousColor;
             QString patternColor("<span class=\"dice\">");
             for(auto& tmp : diceResult)
@@ -470,8 +470,8 @@ QStringList ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
                         currentStreak.clear();
                     }
                 }
-                previousHighlight= tmp.isHighlighted();
-                previousColor= tmp.getColor();
+                previousHighlight = tmp.isHighlighted();
+                previousColor     = tmp.getColor();
                 auto const& result= tmp.getResult();
                 for(auto& dievalue : result)
                 {
@@ -480,7 +480,7 @@ QStringList ChatWindow::diceToText(QList<ExportedDiceResult>& diceList)
                 if(diceListStr.size() > 1)
                 {
                     QString first= diceListStr.takeFirst();
-                    first= QString("%1 [%2]").arg(first, diceListStr.join(','));
+                    first        = QString("%1 [%2]").arg(first, diceListStr.join(','));
                     diceListStr.clear();
                     diceListStr << first;
                 }
@@ -538,9 +538,9 @@ bool ChatWindow::getMessageResult(QString& mainResult, QString& detailedResult)
         bool ok;
         m_diceParser->getLastDiceResult(diceList, ok); // fills the ExportedDiceResult
         m_diceParser->getDiceResultFromAllInstruction(diceFullList);
-        diceText= diceToText(diceList).join(" - ");
+        diceText    = diceToText(diceList).join(" - ");
         diceTextList= diceToText(diceFullList);
-        hasDiceList= true;
+        hasDiceList = true;
     }
     if(m_diceParser->hasIntegerResultNotInFirst())
     {
@@ -549,7 +549,7 @@ bool ChatWindow::getMessageResult(QString& mainResult, QString& detailedResult)
         {
             rlist << QString::number(i);
         }
-        scalarText= QStringLiteral("%1").arg(rlist.join(','));
+        scalarText    = QStringLiteral("%1").arg(rlist.join(','));
         lastScalarText= rlist.last();
     }
     else if(hasDiceList)
@@ -567,7 +567,7 @@ bool ChatWindow::getMessageResult(QString& mainResult, QString& detailedResult)
     {
         bool ok;
         QStringList allStringlist= m_diceParser->getAllStringResult(ok);
-        QString stringResult= allStringlist.join(' ');
+        QString stringResult     = allStringlist.join(' ');
         stringResult.replace("%1", scalarText);
         stringResult.replace("%2", diceText.trimmed());
         stringResult.replace("%3", lastScalarText);
@@ -596,9 +596,9 @@ bool ChatWindow::getMessageResult(QString& mainResult, QString& detailedResult)
         {
             // never called
             auto strResult= m_diceParser->getStringResult().join(" ; ").replace("\n", "<br/>");
-            mainResult= QStringLiteral("<span class='italic'>test %1</span>").arg(strResult);
+            mainResult    = QStringLiteral("<span class='italic'>test %1</span>").arg(strResult);
             detailedResult= stringResult;
-            hasDiceList= true;
+            hasDiceList   = true;
         }
     }
     else
@@ -615,8 +615,8 @@ QAction* ChatWindow::toggleViewAction() const
     return m_toggleViewAction;
 }
 
-void ChatWindow::showMessage(
-    const QString& user, const QColor& color, const QString& message, const QString& comment, NetMsg::Action msgtype)
+void ChatWindow::showMessage(const QString& user, const QColor& color, const QString& message, const QString& comment,
+                             NetMsg::Action msgtype)
 {
     m_displayZone->moveCursor(QTextCursor::End);
     m_displayZone->setTextColor(color);
@@ -807,7 +807,7 @@ void ChatWindow::setProperDictionnary(QString idOwner)
 
 void ChatWindow::dropEvent(QDropEvent* event)
 {
-    const QMimeData* data= event->mimeData();
+    const QMimeData* data         = event->mimeData();
     const RolisteamMimeData* rdata= dynamic_cast<const RolisteamMimeData*>(data);
 
     if(nullptr != rdata)
@@ -821,7 +821,7 @@ void ChatWindow::dropEvent(QDropEvent* event)
     else // if(data->hasFormat(QStringLiteral("text/label")))
     {
         auto label= data->data(QStringLiteral("text/label"));
-        auto cmd= data->data(QStringLiteral("text/command"));
+        auto cmd  = data->data(QStringLiteral("text/command"));
         auto alias= data->data(QStringLiteral("text/hasAlias"));
 
         if(label.isEmpty() || cmd.isEmpty() || alias.isEmpty())
@@ -848,8 +848,8 @@ void ChatWindow::createAction(const DiceShortCut& pair)
     action->setData(static_cast<int>(m_diceBookMarks.size()) - 1);
     connect(action, &QAction::triggered, this, [=]() {
         auto action= qobject_cast<QAction*>(sender());
-        auto index= action->data().toInt();
-        auto dice= m_diceBookMarks[static_cast<size_t>(index)];
+        auto index = action->data().toInt();
+        auto dice  = m_diceBookMarks[static_cast<size_t>(index)];
         QString localPersonIdentifier
             = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole)
                   .toString();
@@ -951,9 +951,9 @@ void ChatWindow::contextMenuEvent(QContextMenuEvent* event)
             action->setData(i);
             ++i;
             connect(action, &QAction::triggered, this, [this]() {
-                auto act= qobject_cast<QAction*>(sender());
+                auto act     = qobject_cast<QAction*>(sender());
                 auto indexInt= act->data().toInt();
-                auto index= static_cast<std::size_t>(indexInt);
+                auto index   = static_cast<std::size_t>(indexInt);
                 if(index < m_actionList.size())
                 {
                     auto action= m_actionList[index];

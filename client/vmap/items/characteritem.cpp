@@ -49,10 +49,10 @@ void updateListAlias(QList<DiceAlias*>* list)
     int size= preferences->value("DiceAliasNumber", 0).toInt();
     for(int i= 0; i < size; ++i)
     {
-        QString cmd= preferences->value(QString("DiceAlias_%1_command").arg(i), "").toString();
+        QString cmd  = preferences->value(QString("DiceAlias_%1_command").arg(i), "").toString();
         QString value= preferences->value(QString("DiceAlias_%1_value").arg(i), "").toString();
-        bool replace= preferences->value(QString("DiceAlias_%1_type").arg(i), true).toBool();
-        bool enable= preferences->value(QString("DiceAlias_%1_enable").arg(i), true).toBool();
+        bool replace = preferences->value(QString("DiceAlias_%1_type").arg(i), true).toBool();
+        bool enable  = preferences->value(QString("DiceAlias_%1_enable").arg(i), true).toBool();
         list->append(new DiceAlias(cmd, value, replace, enable));
     }
 }
@@ -128,7 +128,7 @@ void CharacterItem::readData(QDataStream& in)
     in >> m_center;
     int diam;
     in >> diam;
-    m_diameter= diam;
+    m_diameter = diam;
     m_thumnails= new QPixmap();
     in >> *m_thumnails;
     in >> m_rect;
@@ -173,10 +173,14 @@ QPainterPath CharacterItem::shape() const
     path.addRect(m_rectText);
     return path;
 }
-void CharacterItem::setNewEnd(QPointF& nend){
-    Q_UNUSED(nend)
+
+void CharacterItem::setNewEnd(QPointF& nend)
+{
+    Q_UNUSED(nend);
     // m_center = nend;
-} QString CharacterItem::getSubTitle() const
+}
+
+QString CharacterItem::getSubTitle() const
 {
     QString toShow;
     if(m_character->isNpc())
@@ -263,8 +267,8 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
             }
             if(!m_character->getState()->getImage().isNull())
             {
-                painter->drawPixmap(
-                    m_rect, m_character->getState()->getImage(), m_character->getState()->getImage().rect());
+                painter->drawPixmap(m_rect, m_character->getState()->getImage(),
+                                    m_character->getState()->getImage().rect());
             }
             else if(!m_character->hasAvatar())
             {
@@ -284,17 +288,17 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
         if(getOption(VisualItem::ShowInitScore).toBool() && m_character->hasInitScore())
         {
             painter->save();
-            auto init= QString("%1").arg(m_character->getInitiativeScore());
+            auto init   = QString("%1").arg(m_character->getInitiativeScore());
             auto chColor= m_character->getColor();
-            auto color= ContrastColor(chColor);
+            auto color  = ContrastColor(chColor);
             painter->setPen(color);
             auto font= painter->font();
             font.setBold(true);
             font.setPointSizeF(font.pointSizeF() * 2);
             painter->setFont(font);
-            auto tl= m_rect.topLeft().toPoint();
+            auto tl    = m_rect.topLeft().toPoint();
             auto metric= painter->fontMetrics();
-            auto rect= metric.boundingRect(init);
+            auto rect  = metric.boundingRect(init);
             rect.moveCenter(tl);
             painter->save();
             painter->setPen(Qt::NoPen);
@@ -311,7 +315,7 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     // QRectF rectText;
     QFontMetrics metric(painter->font());
     m_rectText.setRect(m_rect.center().x() - ((metric.boundingRect(toShow).width() + MARGING) / 2), m_rect.bottom(),
-        metric.boundingRect(toShow).width() + MARGING + MARGING, metric.height());
+                       metric.boundingRect(toShow).width() + MARGING + MARGING, metric.height());
 
     if(!toShow.isEmpty())
     {
@@ -319,7 +323,7 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
         {
             m_title= toShow;
             if((m_propertiesHash->value(VisualItem::FogOfWarStatus).toBool() == false)
-                || (m_propertiesHash->value(VisualItem::LocalIsGM).toBool() == true))
+               || (m_propertiesHash->value(VisualItem::LocalIsGM).toBool() == true))
             {
                 setToolTip(m_title);
             }
@@ -351,11 +355,11 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     {
         if(nullptr != m_character)
         {
-            auto max= m_character->getHealthPointsMax();
-            auto color= m_character->getLifeColor();
-            auto min= m_character->getHealthPointsMin();
+            auto max    = m_character->getHealthPointsMax();
+            auto color  = m_character->getLifeColor();
+            auto min    = m_character->getHealthPointsMin();
             auto current= m_character->getHealthPointsCurrent();
-            QPen pen= painter->pen();
+            QPen pen    = painter->pen();
             pen.setColor(color);
 
             if(min < max)
@@ -429,7 +433,7 @@ void CharacterItem::generatedThumbnail()
         delete m_thumnails;
         m_thumnails= nullptr;
     }
-    int diam= static_cast<int>(m_diameter);
+    int diam   = static_cast<int>(m_diameter);
     m_thumnails= new QPixmap(diam, diam);
     m_thumnails->fill(Qt::transparent);
     QPainter painter(m_thumnails);
@@ -502,7 +506,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     setScale(msg->real());
     setRotation(msg->real());
     QString idCharacter= msg->string16();
-    m_diameter= msg->real();
+    m_diameter         = msg->real();
 
     m_layer= static_cast<VisualItem::Layer>(msg->uint8());
 
@@ -541,7 +545,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     else
     {
         /// @todo This code may no longer be needed.
-        tmp= new Character();
+        tmp       = new Character();
         QString id= tmp->read(*msg);
         tmp->setParentPerson(PlayersList::instance()->getPlayer(id));
     }
@@ -561,7 +565,7 @@ void CharacterItem::resizeContents(const QRectF& rect, TransformType)
         return;
 
     prepareGeometryChange();
-    m_rect= rect;
+    m_rect    = rect;
     m_diameter= qMin(m_rect.width(), m_rect.height());
     sizeChanged(m_diameter);
     updateChildPosition();
@@ -598,7 +602,7 @@ int CharacterItem::getNumber() const
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& value)
 {
     QVariant newValue= value;
-    m_oldPosition= pos();
+    m_oldPosition    = pos();
     if(change != QGraphicsItem::ItemPositionChange || !getOption(VisualItem::CollisionStatus).toBool())
         return VisualItem::itemChange(change, newValue);
 
@@ -610,8 +614,8 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& va
     path.connectPath(shape().translated(value.toPointF() - pos()));
 
     QGraphicsScene* currentScene= scene();
-    auto mappedPath= mapToScene(path);
-    auto collisionAtNewPosition= currentScene->items(mappedPath);
+    auto mappedPath             = mapToScene(path);
+    auto collisionAtNewPosition = currentScene->items(mappedPath);
     list.append(collisionAtNewPosition);
 
     for(QGraphicsItem* item : list)
@@ -708,8 +712,8 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF& pos)
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
-        m_child->value(4)->setPos(
-            m_vision->getRadius(), m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
+        m_child->value(4)->setPos(m_vision->getRadius(),
+                                  m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
         // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width()+m_rect.width()/2);
         break;
     case 1:
@@ -717,8 +721,8 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF& pos)
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
-        m_child->value(4)->setPos(
-            m_vision->getRadius(), m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
+        m_child->value(4)->setPos(m_vision->getRadius(),
+                                  m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
         // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
         break;
     case 2:
@@ -726,8 +730,8 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF& pos)
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
-        m_child->value(4)->setPos(
-            m_vision->getRadius(), m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
+        m_child->value(4)->setPos(m_vision->getRadius(),
+                                  m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
         // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
         break;
     case 3:
@@ -735,8 +739,8 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF& pos)
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(2)->setPos(m_rect.bottomRight());
-        m_child->value(4)->setPos(
-            m_vision->getRadius(), m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
+        m_child->value(4)->setPos(m_vision->getRadius(),
+                                  m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
         // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
         break;
     case DIRECTION_RADIUS_HANDLE:
@@ -828,7 +832,7 @@ void CharacterItem::updateChildPosition()
 
     m_child->value(DIRECTION_RADIUS_HANDLE)
         ->setPos(m_vision->getRadius() + getRadius(),
-            m_rect.height() / 2 - m_child->value(DIRECTION_RADIUS_HANDLE)->boundingRect().height() / 2);
+                 m_rect.height() / 2 - m_child->value(DIRECTION_RADIUS_HANDLE)->boundingRect().height() / 2);
 
     m_child->value(ANGLE_HANDLE)->setPos((m_vision->getRadius() + getRadius()) / 2, -m_vision->getAngle());
     m_child->value(ANGLE_HANDLE)->setVisionHandler(true);
@@ -839,7 +843,7 @@ void CharacterItem::updateChildPosition()
 }
 void CharacterItem::addActionContextMenu(QMenu& menu)
 {
-    QMenu* stateMenu= menu.addMenu(tr("Change State"));
+    QMenu* stateMenu                   = menu.addMenu(tr("Change State"));
     QList<CharacterState*>* listOfState= Character::getCharacterStateList();
     for(auto& state : *listOfState)
     {
@@ -874,9 +878,9 @@ void CharacterItem::addActionContextMenu(QMenu& menu)
     {
         // Actions
         auto actionlist= m_character->getActionList();
-        QMenu* actions= menu.addMenu(tr("Actions"));
-        auto cmd= m_character->getInitCommand();
-        auto act= actions->addAction(tr("Initiative"));
+        QMenu* actions = menu.addMenu(tr("Actions"));
+        auto cmd       = m_character->getInitCommand();
+        auto act       = actions->addAction(tr("Initiative"));
         act->setData(cmd);
         connect(act, &QAction::triggered, this, &CharacterItem::runInit);
 
@@ -898,7 +902,7 @@ void CharacterItem::addActionContextMenu(QMenu& menu)
         if(!shapeList.isEmpty())
         {
             QMenu* actions= menu.addMenu(tr("Shapes"));
-            int i= 0;
+            int i         = 0;
             for(auto& charShape : shapeList)
             {
                 auto act= actions->addAction(charShape->name());
@@ -931,7 +935,7 @@ void CharacterItem::runInit()
         if(!m_diceParser.getErrorMap().isEmpty())
             qWarning() << m_diceParser.humanReadableError();
         auto result= m_diceParser.getLastIntegerResults();
-        int sum= std::accumulate(result.begin(), result.end(), 0);
+        int sum    = std::accumulate(result.begin(), result.end(), 0);
         m_character->setInitiativeScore(sum);
         update();
     }
@@ -957,7 +961,7 @@ void CharacterItem::setShape()
 {
     if(nullptr == m_character)
         return;
-    auto act= qobject_cast<QAction*>(sender());
+    auto act  = qobject_cast<QAction*>(sender());
     auto index= act->data().toInt();
 
     m_character->setCurrentShape(index);
@@ -998,7 +1002,7 @@ void CharacterItem::createActions()
     connect(m_visionShapeAngle, SIGNAL(triggered()), this, SLOT(changeVisionShape()));
     connect(m_visionShapeDisk, SIGNAL(triggered()), this, SLOT(changeVisionShape()));
 
-    m_reduceLife= new QAction(tr("Reduce Life"), this);
+    m_reduceLife  = new QAction(tr("Reduce Life"), this);
     m_increaseLife= new QAction(tr("Increase Life"), this);
 
     connect(m_reduceLife, &QAction::triggered, this, [this]() {
@@ -1015,8 +1019,8 @@ void CharacterItem::createActions()
         m_character->setHealthPointsCurrent(i);
     });
 
-    connect(
-        PlayersList::instance(), SIGNAL(characterDeleted(Character*)), this, SLOT(characterHasBeenDeleted(Character*)));
+    connect(PlayersList::instance(), SIGNAL(characterDeleted(Character*)), this,
+            SLOT(characterHasBeenDeleted(Character*)));
 }
 void CharacterItem::changeVisionShape()
 {
@@ -1257,7 +1261,7 @@ void CharacterItem::wheelEvent(QGraphicsSceneWheelEvent* event)
 {
     if((nullptr != m_character) && (event->modifiers() & Qt::AltModifier))
     {
-        auto hp= m_character->getHealthPointsCurrent();
+        auto hp   = m_character->getHealthPointsCurrent();
         auto delta= event->delta();
         if(delta > 0)
             ++hp;
@@ -1307,7 +1311,7 @@ void CharacterItem::setTokenFile(QString filename)
     if(file.open(QIODevice::ReadOnly))
     {
         QJsonDocument doc= QJsonDocument::fromJson(file.readAll());
-        QJsonObject obj= doc.object();
+        QJsonObject obj  = doc.object();
 
         m_diameter= obj["size"].toDouble();
         m_rect.setHeight(m_diameter);

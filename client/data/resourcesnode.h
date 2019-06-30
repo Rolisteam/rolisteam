@@ -70,14 +70,14 @@ public:
     ResourcesNode* getParentNode() const;
     void setParentNode(ResourcesNode* parent);
 
-    virtual int indexOf(ResourcesNode*);
+    virtual int indexOf(ResourcesNode*) const;
 
     int rowInParent();
 
     virtual ResourcesNode::TypeResource getResourcesType() const= 0;
 
     virtual void write(QDataStream& out, bool tag= true, bool saveData= true) const= 0;
-    virtual void read(QDataStream& in)= 0;
+    virtual void read(QDataStream& in)                                             = 0;
 
     virtual bool removeChild(ResourcesNode*);
     virtual void insertChildAt(int row, ResourcesNode*);
