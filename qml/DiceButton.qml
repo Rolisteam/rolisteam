@@ -61,7 +61,10 @@ T.AbstractButton {
         onClicked: {
             root.clicked()
             if(root.checkable)
+            {
+                console.log("checked")
                 root.checked = !root.checked
+            }
         }
         enabled: !root.readOnly
         drag.target: parent
