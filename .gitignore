@@ -6,3 +6,4 @@ html
 *.qm
 *.pro.user.*
 *.pro.user
+resources/mapassets/*
