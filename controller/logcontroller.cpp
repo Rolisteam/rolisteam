@@ -19,9 +19,9 @@ void messageHandler(QtMsgType type, const QMessageLogContext& context, const QSt
         return;
 
     QByteArray localMsg= msg.toLocal8Bit();
-    auto msgFormated= QStringLiteral("%1 (%2:%3), %4")
+    auto msgFormated   = QStringLiteral("%1 (%2:%3), %4")
                           .arg(QString(localMsg.constData()), QString(context.file), QString(context.line),
-                              QString(context.function));
+                               QString(context.function));
     LogController::LogLevel cLevel= LogController::Error;
     switch(type)
     {
@@ -42,7 +42,7 @@ void messageHandler(QtMsgType type, const QMessageLogContext& context, const QSt
 
     // controller->manageMessage(msgFormated,cLevel);
     QMetaObject::invokeMethod(controller, "manageMessage", Qt::QueuedConnection, Q_ARG(QString, msgFormated),
-        Q_ARG(LogController::LogLevel, cLevel));
+                              Q_ARG(LogController::LogLevel, cLevel));
 }
 
 LogController::LogController(bool attachMessage, QObject* parent) : QObject(parent)
@@ -147,9 +147,9 @@ void LogController::actionActivated()
 
 void LogController::signalActivated()
 {
-    auto obj= sender();
-    auto index= senderSignalIndex();
-    auto meta= obj->metaObject();
+    auto obj   = sender();
+    auto index = senderSignalIndex();
+    auto meta  = obj->metaObject();
     auto method= meta->method(index);
     manageMessage(QStringLiteral("[signal] - %1").arg(QString::fromUtf8(method.name())), Info);
 }
@@ -185,9 +185,6 @@ void LogController::setListenOutSide(bool val)
 
 void LogController::manageMessage(QString message, LogController::LogLevel type)
 {
-    /*  if(m_logLevel < type && type != Features && type != Hidden)
-          return;*/
-
     QMutexLocker locker(&m_mutex);
     Q_UNUSED(locker)
 
@@ -200,7 +197,7 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
 
     if(type != Search)
     {
-        if(m_currentModes & Console || type == Debug || m_logLevel >= type || type == Error)
+        if(m_currentModes & Console || m_logLevel == Debug || m_logLevel >= type || type == Error)
         {
             if(type == Error)
                 std::cerr << str.toStdString() << std::endl;
