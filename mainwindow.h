@@ -40,6 +40,8 @@
 #include "rolisteamimageprovider.h"
 #include "sheetproperties.h"
 
+#include "controllers/editorcontroller.h"
+
 class CodeEditor;
 class LogPanel;
 
@@ -80,7 +82,6 @@ public:
 
 public slots:
     void openPDF();
-    void setCurrentTool();
 
     bool save();
     bool saveAs();
@@ -99,13 +100,11 @@ public slots:
     void rollDice(QString cmd);
     void addPage();
     void removePage();
-    void currentPageChanged(int);
 
     void openImage();
-    void setFitInView();
     bool mayBeSaved();
     void modelChanged();
-    void displayWarningsQML(QList<QQmlError> list, LogController::LogLevel level= LogController::Error);
+    void displayWarningsQML(const QList<QQmlError>& list);
     void aboutRcse();
     void helpOnLine();
     void addImage();
@@ -130,26 +129,23 @@ protected:
     bool saveFile(const QString& filename);
 protected slots:
     void menuRequested(const QPoint& pos);
-    // void menuRequestedForFieldModel(const QPoint &pos);
-    void menuRequestedFromView(const QPoint& pos);
     void menuRequestedForImageModel(const QPoint& pos);
     void columnAdded();
-    void alignOn();
     void clearData(bool addDefaultCanvas= true);
     void showPreferences();
-    void pageCountChanged();
     void checkCharacters();
     bool loadFile(const QString& file);
+
 private slots:
     void codeChanged();
-    void sameGeometry();
 
 private:
     int pageCount();
 
 private:
     Ui::MainWindow* ui;
-    QList<Canvas*> m_canvasList;
+    std::unique_ptr<EditorController> m_editorCtrl;
+    // QList<Canvas*> m_canvasList;
     ItemEditor* m_view;
     EDITION_TOOL m_currentTool;
     QPoint m_startField;
@@ -180,15 +176,6 @@ private:
     QAction* m_applyValueOnAllCharacterLines;
     QAction* m_applyValueOnSelectedCharacterLines;
     QAction* m_applyValueOnAllCharacters;
-
-    // action view
-    QAction* m_fitInView;
-    QAction* m_alignOnY;
-    QAction* m_alignOnX;
-    QAction* m_sameWidth;
-    QAction* m_sameHeight;
-    QAction* m_dupplicate;
-    QPoint m_posMenu;
 
     // action image model
     QAction* m_copyPath;

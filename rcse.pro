@@ -86,6 +86,7 @@ include(diceparser/diceparser.pri)
 INCLUDEPATH += charactersheet .
 
 SOURCES += main.cpp\
+    controllers/editorcontroller.cpp \
         mainwindow.cpp \
     canvas.cpp \
     fieldmodel.cpp \
@@ -125,6 +126,7 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     canvas.h \
+    controllers/editorcontroller.h \
     fieldmodel.h \
     borderlisteditor.h \
     qmlhighlighter.h \

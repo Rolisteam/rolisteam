@@ -94,9 +94,9 @@ void ColumnDefinitionDialog::setModel(FieldModel *model)
 {
     m_model = model;
 }
-void ColumnDefinitionDialog::load(QJsonObject &json, QList<QGraphicsScene *> scene)
+void ColumnDefinitionDialog::load(QJsonObject& json, EditorController* ctrl)
 {
-    m_model->load(json, scene);
+    m_model->load(json, ctrl);
 }
 void ColumnDefinitionDialog::save(QJsonObject &json)
 {

@@ -1,6 +1,6 @@
-/***************************************************************************
-    *	 Copyright (C) 2017 by Renaud Guezennec                                *
-    *   http://www.rolisteam.org/contact                   *
+/******************************************************************************
+    *	 Copyright (C) 2017 by Renaud Guezennec                               *
+    *   http://www.rolisteam.org/contact                                      *
     *                                                                         *
     *   This program is free software; you can redistribute it and/or modify  *
     *   it under the terms of the GNU General Public License as published by  *
@@ -18,34 +18,36 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "addpagecommand.h"
-QStringListModel* AddPageCommand::m_pagesModel = new QStringListModel();
+#include "controllers/editorcontroller.h"
 
-AddPageCommand::AddPageCommand(int currentPage, QList<Canvas*>& list,Canvas::Tool tool,QUndoCommand *parent)
-  : QUndoCommand(parent),m_currentPage(currentPage),m_list(list),m_currentTool(tool)
+//QStringListModel* AddPageCommand::m_pagesModel = new QStringListModel();
+
+AddPageCommand::AddPageCommand(EditorController* ctrl,QUndoCommand *parent)
+  : QUndoCommand(parent),m_ctrl(ctrl)
 {
-    m_canvas = new Canvas();
+    /*m_canvas = new Canvas();
     m_canvas->setCurrentTool(m_currentTool);
-    m_canvas->setCurrentPage(m_currentPage);
-    setText(QObject::tr("Add Page #%1").arg(m_currentPage));
+    m_canvas->setCurrentPage(m_currentPage);*/
+    setText(QObject::tr("Add Page #%1").arg(static_cast<int>(m_ctrl->pageCount())));
 }
 
 void AddPageCommand::undo()
 {
-    m_list.removeAt(m_currentPage);
+  /*  m_list.removeAt(m_currentPage);
     QStringList str = m_pagesModel->stringList();
     str.removeAt(m_currentPage);
-    m_pagesModel->setStringList(str);
+    m_pagesModel->setStringList(str);*/
+    m_ctrl->removePage(static_cast<int>(m_ctrl->pageCount())-1);
 }
 
 void AddPageCommand::redo()
 {
-    m_list.insert(m_currentPage,m_canvas);
-    QStringList str = m_pagesModel->stringList();
-    str.insert(m_currentPage,QObject::tr("Page %1").arg(m_currentPage+1));
-    m_pagesModel->setStringList(str);
+    m_ctrl->addPage();
+    //str.insert(m_currentPage,QObject::tr("Page %1").arg(m_currentPage+1));
+    //m_pagesModel->setStringList(str);
 }
 
-Canvas *AddPageCommand::canvas() const
+/*Canvas *AddPageCommand::canvas() const
 {
     return m_canvas;
 }
@@ -59,4 +61,4 @@ void AddPageCommand::setPagesModel(QStringListModel* pagesModel)
 {
     m_pagesModel = pagesModel;
 
-}
+}*/

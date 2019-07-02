@@ -128,7 +128,7 @@ public:
      * @param role
      * @return
      */
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
+    bool setData(const QModelIndex& index, const QVariant& value, int role);
     /**
      * @brief appendField
      * @param f
@@ -139,28 +139,28 @@ public:
      * @param index
      * @return
      */
-    Qt::ItemFlags flags(const QModelIndex &index) const;
+    Qt::ItemFlags flags(const QModelIndex& index) const;
     /**
      * @brief save
      * @param json
      * @param exp
      */
-    void save(QJsonObject& json,bool exp=false);
+    void save(QJsonObject& json, bool exp= false);
     /**
      * @brief load
      * @param json
      * @param scene
      */
-    void load(QJsonObject& json,QList<QGraphicsScene*> scene);
+    void load(QJsonObject& json, EditorController* ctrl);
     /**
      * @brief generateQML
      * @param out
      * @param sec
      */
-    void generateQML(QTextStream& out, int indentation, bool isTable = false);
+    void generateQML(QTextStream& out, int indentation, bool isTable= false);
     /**
-    *
-    */
+     *
+     */
     Q_INVOKABLE QString getValue(const QString& key);
     /**
      * @brief children

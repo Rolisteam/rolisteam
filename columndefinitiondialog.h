@@ -45,8 +45,8 @@ public:
     FieldModel *model() const;
     void setModel(FieldModel *model);
 
-    void load(QJsonObject &json, QList<QGraphicsScene *> scene);
-    void save(QJsonObject &json);
+    void load(QJsonObject& json, EditorController* ctrl);
+    void save(QJsonObject& json);
 
 signals:
     void lineCountChanged(int i);

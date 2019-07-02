@@ -341,11 +341,10 @@ void FieldModel::save(QJsonObject& json, bool exp)
     m_rootSection->save(json, exp);
 }
 
-void FieldModel::load(QJsonObject& json, QList<QGraphicsScene*> scene)
+void FieldModel::load(QJsonObject& json, EditorController* ctrl)
 {
-    /**/
     beginResetModel();
-    m_rootSection->load(json, scene);
+    m_rootSection->load(json, ctrl);
     endResetModel();
 }
 void FieldModel::removeItem(QModelIndex& index)
