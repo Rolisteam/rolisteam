@@ -61,12 +61,12 @@ int CharacterSheetModel::rowCount(const QModelIndex& parent) const
         if(tmp->getFieldType() == Field::TABLE && !m_characterList->isEmpty())
         {
             int max= tmp->getChildrenCount();
-            auto result= std::max_element(
-                m_characterList->begin(), m_characterList->end(), [tmp](CharacterSheet* a, CharacterSheet* b) {
-                    auto fieldA= a->getFieldFromKey(tmp->getId());
-                    auto fieldB= b->getFieldFromKey(tmp->getId());
-                    return fieldA->getChildrenCount() < fieldB->getChildrenCount();
-                });
+            auto result= std::max_element(m_characterList->begin(), m_characterList->end(),
+                                          [tmp](CharacterSheet* a, CharacterSheet* b) {
+                                              auto fieldA= a->getFieldFromKey(tmp->getId());
+                                              auto fieldB= b->getFieldFromKey(tmp->getId());
+                                              return fieldA->getChildrenCount() < fieldB->getChildrenCount();
+                                          });
             auto maxfield= (*result)->getFieldFromKey(tmp->getId());
             val= std::max(max, maxfield->getChildrenCount());
         }
@@ -680,7 +680,7 @@ void CharacterSheetModel::readModel(QJsonObject& jsonObj, bool readRootSection)
     if(readRootSection)
     {
         QJsonObject data= jsonObj["data"].toObject();
-        m_rootSection->load(data, QList<QGraphicsScene*>());
+        m_rootSection->load(data, nullptr);
     }
     QJsonArray characters= jsonObj["characters"].toArray();
     for(const auto charJson : characters)

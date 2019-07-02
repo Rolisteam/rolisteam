@@ -25,6 +25,7 @@
 #include <QJsonObject>
 
 #include "charactersheetbutton.h"
+#include "controllers/editorcontroller.h"
 #include "field.h"
 #include "tablefield.h"
 
@@ -133,7 +134,7 @@ void Section::save(QJsonObject& json, bool exp)
     json["items"]= fieldArray;
 }
 
-void Section::load(const QJsonObject& json, QList<QGraphicsScene*> scenes)
+void Section::load(const QJsonObject& json, EditorController* ctrl)
 {
     m_name= json["name"].toString();
     QJsonArray fieldArray= json["items"].toArray();
@@ -148,36 +149,37 @@ void Section::load(const QJsonObject& json, QList<QGraphicsScene*> scenes)
             auto section= new Section();
             connect(section, &Section::addLineToTableField, this, &Section::addLineToTableField);
             item= section;
-            item->load(obj, scenes);
+            item->load(obj, ctrl);
         }
         else if(obj["type"] == QStringLiteral("TableField"))
         {
             TableField* field= new TableField();
             connect(field, &TableField::lineMustBeAdded, this, &Section::addLineToTableField);
             item= field;
-            item->load(obj, scenes);
+            item->load(obj, ctrl);
             gItem= field->getCanvasField();
         }
         else
         {
             Field* field= new Field();
             item= field;
-            item->load(obj, scenes);
+            item->load(obj, ctrl);
             gItem= field->getCanvasField();
         }
         if(!m_dataHash.contains(item->getPath()))
         {
             item->setParent(this);
-            if(scenes.size() > item->getPage() && !scenes.isEmpty())
+            auto page= std::max(0, item->getPage()); // add item for all pages on the first canvas.
+            /*if(ctrl.size() > item->getPage() && ctrl->pageCount() != 0)
             {
-                auto page= std::max(0, item->getPage()); // add item for all pages on the first canvas.
                 QGraphicsScene* scene= scenes.at(page);
                 if((nullptr != scene) && (nullptr != gItem))
                 {
                     scene->addItem(gItem);
-                    item->initGraphicsItem();
                 }
-            }
+            }*/
+            ctrl->addItem(page, gItem);
+            item->initGraphicsItem();
             m_dataHash.insert(item->getPath(), item);
             m_keyList.append(item->getPath());
         }
@@ -346,8 +348,8 @@ void Section::setValueForAll(CharacterSheetItem* itemSrc, int col)
         CharacterSheetItem* item= m_dataHash.value(key);
         if(nullptr != item)
         {
-            item->setValueFrom(
-                static_cast<ColumnId>(col), itemSrc->getValueFrom(static_cast<ColumnId>(col), Qt::DisplayRole));
+            item->setValueFrom(static_cast<ColumnId>(col),
+                               itemSrc->getValueFrom(static_cast<ColumnId>(col), Qt::DisplayRole));
         }
     }
 }
@@ -359,7 +361,7 @@ void Section::saveDataItem(QJsonObject& json)
 
 void Section::loadDataItem(const QJsonObject& json)
 {
-    load(json, QList<QGraphicsScene*>());
+    load(json, nullptr);
 }
 void Section::getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list)
 {

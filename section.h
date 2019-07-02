@@ -26,6 +26,7 @@
 #include <QPointF>
 
 class CharacterSheet;
+class EditorController;
 /**
  * @brief The Section class store data field for charactersheet.
  */
@@ -107,7 +108,7 @@ public:
      * @param json
      * @param scene
      */
-    virtual void load(const QJsonObject& json, QList<QGraphicsScene*> scene);
+    virtual void load(const QJsonObject& json, EditorController* ctrl);
     /**
      * @brief setNewEnd
      */

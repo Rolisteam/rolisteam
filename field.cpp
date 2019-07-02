@@ -344,9 +344,9 @@ void Field::save(QJsonObject& json, bool exp)
     json["values"]= valuesArray;
 }
 
-void Field::load(const QJsonObject& json, QList<QGraphicsScene*> scene)
+void Field::load(const QJsonObject& json, EditorController* ctrl)
 {
-    Q_UNUSED(scene);
+    Q_UNUSED(ctrl);
     m_id= json["id"].toString();
     m_border= static_cast<BorderLine>(json["border"].toInt());
     m_value= json["value"].toString();

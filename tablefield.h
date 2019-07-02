@@ -61,7 +61,7 @@ public:
     Field* getFieldByLabel(const QString& label);
 
     void save(QJsonArray& json);
-    void load(QJsonArray& json, QList<QGraphicsScene*> scene, CharacterSheetItem* parent);
+    void load(QJsonArray& json, EditorController* ctrl, CharacterSheetItem* parent);
     void saveDataItem(QJsonArray& json);
     void loadDataItem(QJsonArray& json, CharacterSheetItem* parent);
 
@@ -94,7 +94,7 @@ public:
     Field* getFieldById(const QString& id);
     void removeLine(int index);
     void save(QJsonArray& json);
-    void load(const QJsonArray& json, QList<QGraphicsScene*> scene, CharacterSheetItem* parent);
+    void load(const QJsonArray& json, EditorController* ctrl, CharacterSheetItem* parent);
     void saveDataItem(QJsonArray& json);
     void loadDataItem(const QJsonArray& json, CharacterSheetItem* parent);
     void setChildFieldData(const QJsonObject& json);
@@ -132,38 +132,38 @@ public:
 
     LineModel* getModel() const;
 
-    virtual bool mayHaveChildren() const;
+    virtual bool mayHaveChildren() const override;
 
-    virtual void setCanvasField(CanvasField* canvasField);
+    virtual void setCanvasField(CanvasField* canvasField) override;
 
-    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const;
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const override;
 
     /// Overriden from charactersheetitem
-    virtual bool hasChildren();
-    virtual int getChildrenCount() const;
-    virtual CharacterSheetItem* getChildAt(QString) const;
-    virtual CharacterSheetItem* getChildAt(int) const;
+    virtual bool hasChildren() override;
+    virtual int getChildrenCount() const override;
+    virtual CharacterSheetItem* getChildAt(QString) const override;
+    virtual CharacterSheetItem* getChildAt(int) const override;
     virtual void save(QJsonObject& json, bool exp= false);
-    virtual void load(const QJsonObject& json, QList<QGraphicsScene*> scene);
+    virtual void load(const QJsonObject& json, EditorController* ctrl) override;
     virtual void copyField(CharacterSheetItem* oldItem, bool copyData, bool sameId= true);
 
     ControlPosition getPosition() const;
     void setPosition(const ControlPosition& position);
 
-    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
-    void saveDataItem(QJsonObject& json);
-    void loadDataItem(const QJsonObject& json);
+    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const override;
+    void saveDataItem(QJsonObject& json) override;
+    void loadDataItem(const QJsonObject& json) override;
     void setChildFieldData(QJsonObject& json);
 
     int getMaxVisibleRowCount() const;
 
     CharacterSheetItem* getRoot();
-    void appendChild(CharacterSheetItem*);
+    void appendChild(CharacterSheetItem*) override;
     int lineNumber() const;
     int itemPerLine() const;
 
     Q_INVOKABLE int sumColumn(const QString& name) const;
-    void setFieldInDictionnary(QHash<QString, QString>& dict) const;
+    void setFieldInDictionnary(QHash<QString, QString>& dict) const override;
 
 public slots:
     void addLine();
