@@ -165,7 +165,7 @@ private:
     ImageModel* m_imageModel;
 
     // Log
-    LogPanel* m_logPanel       = nullptr;
+    LogPanel* m_logPanel= nullptr;
     LogController* m_logManager= nullptr;
 
     // Action Character
