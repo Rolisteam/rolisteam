@@ -99,7 +99,7 @@ QVariant FieldModel::data(const QModelIndex& index, int role) const
         return var;
     }
     if((role == Qt::BackgroundRole)
-        && ((index.column() == CharacterSheetItem::BGCOLOR) || (index.column() == CharacterSheetItem::TEXTCOLOR)))
+       && ((index.column() == CharacterSheetItem::BGCOLOR) || (index.column() == CharacterSheetItem::TEXTCOLOR)))
     {
         QVariant var= item->getValueFrom(m_colunm[index.column()]->getPos(), Qt::EditRole);
         return var;
@@ -201,8 +201,8 @@ bool FieldModel::setData(const QModelIndex& index, const QVariant& value, int ro
         if(nullptr != item)
         {
             item->setValueFrom(m_colunm[index.column()]->getPos(), value);
-            emit valuesChanged(
-                item->getValueFrom(CharacterSheetItem::ID, Qt::DisplayRole).toString(), value.toString());
+            emit valuesChanged(item->getValueFrom(CharacterSheetItem::ID, Qt::DisplayRole).toString(),
+                               value.toString());
             emit modelChanged();
             return true;
         }

@@ -1,30 +1,30 @@
 /***************************************************************************
-* Copyright (C) 2014 by Renaud Guezennec                                   *
-* http://www.rolisteam.org/                                                *
-*                                                                          *
-*  This file is part of rcse                                               *
-*                                                                          *
-* rcse is free software; you can redistribute it and/or modify             *
-* it under the terms of the GNU General Public License as published by     *
-* the Free Software Foundation; either version 2 of the License, or        *
-* (at your option) any later version.                                      *
-*                                                                          *
-* rcse is distributed in the hope that it will be useful,                  *
-* but WITHOUT ANY WARRANTY; without even the implied warranty of           *
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
-* GNU General Public License for more details.                             *
-*                                                                          *
-* You should have received a copy of the GNU General Public License        *
-* along with this program; if not, write to the                            *
-* Free Software Foundation, Inc.,                                          *
-* 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
-***************************************************************************/
+ * Copyright (C) 2014 by Renaud Guezennec                                   *
+ * http://www.rolisteam.org/                                                *
+ *                                                                          *
+ *  This file is part of rcse                                               *
+ *                                                                          *
+ * rcse is free software; you can redistribute it and/or modify             *
+ * it under the terms of the GNU General Public License as published by     *
+ * the Free Software Foundation; either version 2 of the License, or        *
+ * (at your option) any later version.                                      *
+ *                                                                          *
+ * rcse is distributed in the hope that it will be useful,                  *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
+ * GNU General Public License for more details.                             *
+ *                                                                          *
+ * You should have received a copy of the GNU General Public License        *
+ * along with this program; if not, write to the                            *
+ * Free Software Foundation, Inc.,                                          *
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
+ ***************************************************************************/
 #ifndef FIELDMODEL_H
 #define FIELDMODEL_H
 
+#include <QAbstractItemModel>
 #include <QJsonObject>
 #include <QObject>
-#include <QAbstractItemModel>
 #include <QTextStream>
 
 #include "field.h"
@@ -33,7 +33,7 @@
 
 #include "section.h"
 class Canvas;
-
+class EditorController;
 /**
 s * @brief The Column class
  */
@@ -44,7 +44,7 @@ public:
     /**
      * @brief Column
      */
-    Column(QString,CharacterSheetItem::ColumnId);
+    Column(QString, CharacterSheetItem::ColumnId);
     /**
      * @brief getName
      * @return
@@ -54,7 +54,7 @@ public:
      * @brief setName
      * @param name
      */
-    void setName(const QString &name);
+    void setName(const QString& name);
 
     /**
      * @brief getPos
@@ -65,7 +65,7 @@ public:
      * @brief setPos
      * @param pos
      */
-    void setPos(const CharacterSheetItem::ColumnId &pos);
+    void setPos(const CharacterSheetItem::ColumnId& pos);
 
 private:
     QString m_name;
@@ -79,14 +79,14 @@ class FieldModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    explicit FieldModel(QObject *parent = 0);
+    explicit FieldModel(QObject* parent= nullptr);
     /**
      * @brief data
      * @param index
      * @param role
      * @return
      */
-    QVariant data(const QModelIndex &index, int role) const;
+    QVariant data(const QModelIndex& index, int role) const;
     /**
      * @brief index
      * @param row
@@ -94,25 +94,25 @@ public:
      * @param parent
      * @return
      */
-    QModelIndex index(int row, int column, const QModelIndex &parent) const;
+    QModelIndex index(int row, int column, const QModelIndex& parent) const;
     /**
      * @brief parent
      * @param child
      * @return
      */
-    QModelIndex parent(const QModelIndex &child) const;
+    QModelIndex parent(const QModelIndex& child) const;
     /**
      * @brief rowCount
      * @param parent
      * @return
      */
-    int rowCount(const QModelIndex &parent) const;
+    int rowCount(const QModelIndex& parent) const;
     /**
      * @brief columnCount
      * @param parent
      * @return
      */
-    int columnCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex& parent) const;
     /**
      * @brief headerData
      * @param section
@@ -180,7 +180,7 @@ public:
      * @brief setRootSection
      * @param rootSection
      */
-    void setRootSection(Section *rootSection);
+    void setRootSection(Section* rootSection);
     /**
      * @brief removeItem
      * @param index
@@ -198,13 +198,13 @@ public:
      * @param parent
      * @param pos
      */
-    void insertField(CSItem *field, CharacterSheetItem *parent, int pos);
+    void insertField(CSItem* field, CharacterSheetItem* parent, int pos);
     /**
      * @brief getFieldFromPage
      * @param pagePos
      * @param list
      */
-    void getFieldFromPage(int pagePos, QList<CharacterSheetItem *> &list);
+    void getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list);
     /**
      * @brief getFieldFromIndex
      * @param index
@@ -216,7 +216,7 @@ signals:
      * @param valueKey
      * @param value
      */
-    void valuesChanged(QString valueKey,QString value);
+    void valuesChanged(QString valueKey, QString value);
     /**
      * @brief modelChanged
      */
@@ -226,14 +226,14 @@ public slots:
     /**
      * @brief updateItem
      */
-    void updateItem(CSItem* );
+    void updateItem(CSItem*);
     void clearModel();
     void resetAllId();
+
 private:
     QList<Column*> m_colunm;
     Section* m_rootSection;
     QStringList m_alignList;
-
 };
 
 #endif // FIELDMODEL_H
