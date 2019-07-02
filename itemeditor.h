@@ -3,18 +3,17 @@
 
 #include <QGraphicsView>
 
-
 class ItemEditor : public QGraphicsView
 {
     Q_OBJECT
 public:
-    ItemEditor(QWidget* parent = nullptr);
+    ItemEditor(QWidget* parent= nullptr);
 
     bool handle() const;
     void setHandle(bool handle);
 
 protected:
-    void mousePressEvent(QMouseEvent* event);
+    void contextMenuEvent(QContextMenuEvent* event);
 
 signals:
     void openContextMenu(QPoint);

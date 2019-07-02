@@ -1,15 +1,12 @@
 #include "itemeditor.h"
 
-
 #include <QMouseEvent>
 
-
-ItemEditor::ItemEditor(QWidget* parent)
-    : QGraphicsView(parent)
+ItemEditor::ItemEditor(QWidget* parent) : QGraphicsView(parent)
 {
     setAcceptDrops(true);
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-    setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
+    setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
 }
 
 bool ItemEditor::handle() const
@@ -19,7 +16,7 @@ bool ItemEditor::handle() const
 
 void ItemEditor::setHandle(bool handle)
 {
-    m_handle = handle;
+    m_handle= handle;
 
     if(m_handle)
     {
@@ -31,14 +28,8 @@ void ItemEditor::setHandle(bool handle)
     }
 }
 
-void ItemEditor::mousePressEvent(QMouseEvent *event)
+void ItemEditor::contextMenuEvent(QContextMenuEvent* event)
 {
-    if(event->button() & Qt::RightButton)
-    {
-        emit openContextMenu(event->pos());
-    }
-    else
-    {
-        QGraphicsView::mousePressEvent(event);
-    }
+    emit openContextMenu(event->globalPos());
+    QGraphicsView::contextMenuEvent(event);
 }
