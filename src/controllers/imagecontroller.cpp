@@ -11,6 +11,7 @@
 #include <QUuid>
 
 #include "imagemodel.h"
+#include "rolisteamimageprovider.h"
 
 ImageController::ImageController(QTableView* view, QObject* parent)
     : QObject(parent), m_model(new ImageModel()), m_view(view)
@@ -148,5 +149,5 @@ QSize ImageController::backgroundSize() const
 
 RolisteamImageProvider* ImageController::getNewProvider() const
 {
-    return nullptr;
+    return new RolisteamImageProvider(m_model.get());
 }

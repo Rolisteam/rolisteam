@@ -6,8 +6,6 @@
 #include <QJsonObject>
 #include <QPixmap>
 
-#include "charactersheet/rolisteamimageprovider.h"
-
 class ImageModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -47,26 +45,20 @@ public:
 
     void removeImageAt(const QModelIndex& index);
     void setPathFor(const QModelIndex& index, const QString& path);
-
-    void setImageProvider(RolisteamImageProvider* img);
-    const RolisteamImageProvider* imageProvide() const;
     void setPixList(QHash<QString, QPixmap*>& list);
-
     bool isBackgroundById(QString id) const;
-
-    // QHash<>getPixHash() const;
     void removeImageByKey(const QString& key);
 
     QSize backgroundSize() const;
     void removeImage(int i);
+    QPixmap pixmapFromKey(QString id);
+
 
 signals:
     void backgroundSizeChanged();
 
 private:
     QStringList m_column;
-    RolisteamImageProvider* m_provider;
-
     std::vector<ImageInfo> m_data;
 };
 

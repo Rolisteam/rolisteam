@@ -191,13 +191,12 @@ void ImageModel::clear()
     endResetModel();
 }
 
-void ImageModel::setImageProvider(RolisteamImageProvider* img)
+QPixmap ImageModel::pixmapFromKey(QString id)
 {
-    m_provider= img;
-}
-const RolisteamImageProvider* ImageModel::imageProvide() const
-{
-    return m_provider;
+    auto it= std::find_if(m_data.begin(), m_data.end(), [id](const ImageInfo& info) { return id == info.key; });
+    if(it == m_data.end())
+        return {};
+    return it->pixmap;
 }
 
 bool ImageModel::isBackgroundById(QString id) const

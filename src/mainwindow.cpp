@@ -284,7 +284,6 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->m_resetIdAct, &QAction::triggered, m_qmlCtrl->fieldModel(), &FieldModel::resetAllId);
     connect(ui->m_preferencesAction, &QAction::triggered, this, &MainWindow::showPreferences);
 
-    m_imgProvider= new RolisteamImageProvider();
     ui->m_characterView->setModel(m_characterCtrl->model());
     m_characterCtrl->setRootSection(m_qmlCtrl->fieldModel()->getRootSection());
     ui->m_characterView->setContextMenuPolicy(Qt::CustomContextMenu);
