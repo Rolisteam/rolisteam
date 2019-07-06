@@ -2,9 +2,8 @@
 #include <QBuffer>
 #include <QDebug>
 
-RolisteamImageProvider::RolisteamImageProvider() : QQuickImageProvider(QQuickImageProvider::Pixmap)
+RolisteamImageProvider::RolisteamImageProvider(ImageModel* model) : QQuickImageProvider(QQuickImageProvider::Pixmap), m_model(model)
 {
-    m_data.reset(new QHash<QString, QPixmap>());
 }
 
 RolisteamImageProvider::~RolisteamImageProvider() {}
@@ -15,7 +14,7 @@ QPixmap RolisteamImageProvider::requestPixmap(const QString& id, QSize* size, co
     QString idTranslate= id;
     idTranslate= idTranslate.replace("%7B", "{").replace("%7D", "}");
 
-    QPixmap pixmap= m_data->value(idTranslate);
+    QPixmap pixmap= m_model->pixmapFromKey(idTranslate);
 
     if(nullptr != size)
     {
@@ -27,26 +26,6 @@ QPixmap RolisteamImageProvider::requestPixmap(const QString& id, QSize* size, co
     }
 }
 
-void RolisteamImageProvider::insertPix(QString key, QPixmap img)
-{
-    m_data->insert(key, img);
-}
-QSharedPointer<QHash<QString, QPixmap>> RolisteamImageProvider::getData() const
-{
-    return m_data;
-}
-void RolisteamImageProvider::cleanData()
-{
-    if(!m_data.isNull())
-    {
-        m_data->clear();
-    }
-}
-
-void RolisteamImageProvider::setData(QSharedPointer<QHash<QString, QPixmap>> data)
-{
-    m_data= data;
-}
 #ifndef RCSE
 void RolisteamImageProvider::fill(NetworkMessageWriter& msg)
 {
@@ -76,7 +55,3 @@ void RolisteamImageProvider::read(NetworkMessageReader& msg)
     }
 }
 #endif
-void RolisteamImageProvider::removeImg(QString key)
-{
-    m_data->remove(key);
-}
