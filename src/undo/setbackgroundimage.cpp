@@ -21,35 +21,31 @@
 #include "addpagecommand.h"
 #include "controllers/editorcontroller.h"
 
+#include <QDebug>
+
 SetBackgroundCommand::SetBackgroundCommand(int i, EditorController* ctrl, const QUrl& url, QUndoCommand* parent)
-    : QUndoCommand(parent), m_image(QPixmap(url.toLocalFile())), m_idx(i), m_ctrl(ctrl)
+    : QUndoCommand(parent), m_image(QPixmap(url.toLocalFile())), m_idx(i), m_ctrl(ctrl), m_filename(url.toLocalFile())
+{
+    if(m_image.isNull())
+    {
+        qInfo() << QStringLiteral("Oops! Something is wrong with that file: %1 - No image read").arg(url.toLocalFile());
+        return;
+    }
+    init();
+}
+SetBackgroundCommand::SetBackgroundCommand(int i, EditorController* ctrl, const QPixmap& pix, const QString& fileName,
+                                           QUndoCommand* parent)
+    : QUndoCommand(parent), m_image(QPixmap(pix)), m_idx(i), m_ctrl(ctrl), m_filename(fileName)
 {
     init();
 }
-SetBackgroundCommand::SetBackgroundCommand(int i, EditorController* ctrl, const QPixmap& pix, QUndoCommand* parent)
-    : QUndoCommand(parent), m_image(pix), m_idx(i), m_ctrl(ctrl)
-{
-    init();
-}
+
 void SetBackgroundCommand::init()
 {
     if(m_ctrl->pageCount() <= static_cast<unsigned int>(m_idx))
     {
         m_subCommand= new AddPageCommand(m_ctrl, this);
     }
-
-    /*m_previousRect= m_canvas->sceneRect();
-    m_bgItem= m_canvas->getBg();
-    if(nullptr == m_bgItem)
-    {
-        m_bgItem= new QGraphicsPixmapItem();
-        m_bgItem->setFlag(QGraphicsItem::ItemIsSelectable, false);
-        m_bgItem->setFlag(QGraphicsItem::ItemSendsGeometryChanges, false);
-        m_bgItem->setFlag(QGraphicsItem::ItemIsMovable, false);
-        m_bgItem->setFlag(QGraphicsItem::ItemIsFocusable, false);
-        m_bgItem->setAcceptedMouseButtons(Qt::NoButton);
-        m_canvas->setBg(m_bgItem);
-    }*/
 
     if(nullptr == m_subCommand)
         setText(QObject::tr("Set background on Page #%1").arg(m_idx + 1));
@@ -61,24 +57,11 @@ void SetBackgroundCommand::undo()
 {
     QUndoCommand::undo();
 
-    m_ctrl->setImageBackground(m_idx, QPixmap());
-    /* if(nullptr != m_bgItem)
-     {
-         QPixmap map;
-         m_bgItem->setPixmap(map);
-         m_canvas->setPixmap(nullptr);
-         m_canvas->removeItem(m_bgItem);
-         m_canvas->setSceneRect(m_previousRect);
-     }*/
+    m_ctrl->setImageBackground(m_idx, QPixmap(), "");
 }
 
 void SetBackgroundCommand::redo()
 {
     QUndoCommand::redo();
-    m_ctrl->setImageBackground(m_idx, m_image);
-    /*m_bgItem->setPixmap(*m_image);
-    m_canvas->addItem(m_bgItem);
-    m_bgItem->setZValue(-1);
-    m_canvas->setPixmap(m_image);
-    m_canvas->setSceneRect(m_bgItem->boundingRect());*/
+    m_ctrl->setImageBackground(m_idx, m_image, m_filename);
 }

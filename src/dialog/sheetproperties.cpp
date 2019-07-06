@@ -4,15 +4,17 @@
 #include <QFileDialog>
 #include <QFontDatabase>
 
-SheetProperties::SheetProperties(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::SheetProperties)
+#include "controllers/qmlgeneratorcontroller.h"
+
+SheetProperties::SheetProperties(QmlGeneratorController* ctrl, QWidget* parent)
+    : QDialog(parent), ui(new Ui::SheetProperties), m_ctrl(ctrl)
 {
     ui->setupUi(this);
     ui->listView->setModel(&m_model);
 
-    connect(ui->m_addFontBtn,&QToolButton::clicked,this,[=]{
-        QStringList files = QFileDialog::getOpenFileNames(this,tr("Add Font file"),QDir::homePath(),"font (*.ttf *.otf)");
+    connect(ui->m_addFontBtn, &QToolButton::clicked, this, [=] {
+        QStringList files
+            = QFileDialog::getOpenFileNames(this, tr("Add Font file"), QDir::homePath(), "font (*.ttf *.otf)");
         if(!files.isEmpty())
         {
             m_fontUri.append(files);
@@ -24,14 +26,16 @@ SheetProperties::SheetProperties(QWidget *parent) :
         }
     });
 
-    connect(ui->m_removeFontBtn,&QToolButton::clicked,this,[=]{
-        auto index = ui->listView->currentIndex();
+    connect(ui->m_removeFontBtn, &QToolButton::clicked, this, [=] {
+        auto index= ui->listView->currentIndex();
         if(index.isValid())
         {
             m_fontUri.removeAt(index.row());
             m_model.setStringList(m_fontUri);
         }
     });
+
+    init();
 }
 
 SheetProperties::~SheetProperties()
@@ -39,72 +43,26 @@ SheetProperties::~SheetProperties()
     delete ui;
 }
 
-bool SheetProperties::isNoAdaptation() const
+void SheetProperties::init()
 {
-    return ui->m_flickable->isChecked();
-}
+    ui->m_flickable->setChecked(m_ctrl->flickable());
+    ui->m_additionnalHeadCode->document()->setPlainText(m_ctrl->headCode());
+    ui->m_additionnalBottomCode->document()->setPlainText(m_ctrl->bottomCode());
+    ui->m_additionnalImport->setPlainText(m_ctrl->importCode());
+    ui->m_fixedScale->setValue(m_ctrl->fixedScale());
 
-void SheetProperties::setNoAdaptation(bool noAdaptation)
-{
-    ui->m_flickable->setChecked(noAdaptation);
-}
-
-QString SheetProperties::getAdditionalHeadCode() const
-{
-    return  ui->m_additionnalHeadCode->document()->toPlainText();
-}
-
-void SheetProperties::setAdditionalHeadCode(const QString &additionalHeadCode)
-{
-    ui->m_additionnalHeadCode->document()->setPlainText(additionalHeadCode);
-}
-
-QString SheetProperties::getAdditionalBottomCode() const
-{
-    return  ui->m_additionnalBottomCode->document()->toPlainText();
-}
-
-void SheetProperties::setAdditionalBottomCode(const QString &additionalBottomCode)
-{
-    ui->m_additionnalBottomCode->document()->setPlainText(additionalBottomCode);
-}
-
-QString SheetProperties::getAdditionalImport() const
-{
-    return ui->m_additionnalImport->document()->toPlainText();
-}
-
-void SheetProperties::setAdditionalImport(const QString &additionalImport)
-{
-    ui->m_additionnalImport->setPlainText(additionalImport);
-}
-
-qreal SheetProperties::getFixedScale() const
-{
-    return ui->m_fixedScale->value();
-}
-
-void SheetProperties::setFixedScale(const qreal &fixedScale)
-{
-    ui->m_fixedScale->setValue(fixedScale);
-}
-
-void SheetProperties::reset()
-{
-    ui->m_additionnalHeadCode->clear();
-    ui->m_additionnalBottomCode->clear();
-    ui->m_flickable->setChecked(false);
-    ui->m_fixedScale->setValue(1.0);
-}
-
-QStringList SheetProperties::getFontUri() const
-{
-    return m_fontUri;
-}
-
-void SheetProperties::setFontUri(const QStringList &fontUri)
-{
-    m_fontUri = fontUri;
+    m_fontUri= m_ctrl->fonts();
     m_model.setStringList(m_fontUri);
 }
 
+void SheetProperties::accept()
+{
+    m_ctrl->setFlickable(ui->m_flickable->isChecked());
+    m_ctrl->setHeadCode(ui->m_additionnalHeadCode->document()->toPlainText());
+    m_ctrl->setBottomCode(ui->m_additionnalBottomCode->document()->toPlainText());
+    m_ctrl->setImportCode(ui->m_additionnalImport->document()->toPlainText());
+    m_ctrl->setFixedScale(ui->m_fixedScale->value());
+    m_ctrl->setFonts(m_fontUri);
+
+    QDialog::accept();
+}

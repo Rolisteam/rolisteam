@@ -1,10 +1,10 @@
 #ifndef FIELDVIEW_H
 #define FIELDVIEW_H
 
-#include <QTreeView>
 #include <QContextMenuEvent>
 #include <QList>
 #include <QSignalMapper>
+#include <QTreeView>
 
 class QUndoStack;
 class FieldModel;
@@ -13,31 +13,30 @@ class FieldView : public QTreeView
 {
     Q_OBJECT
 public:
-    FieldView(QWidget* parent = nullptr);
+    FieldView(QWidget* parent= nullptr);
 
     QUndoStack* getUndoStack() const;
-    void setUndoStack(QUndoStack *undoStack);
+    void setUndoStack(QUndoStack* undoStack);
 
-    void applyValue(QModelIndex &index, bool selection);
-    void defineItemCode(QModelIndex &index);
+    void applyValue(QModelIndex& index, bool selection);
+    void defineItemCode(QModelIndex& index);
 
-    int *getCurrentPage() const;
-    void setCurrentPage(int *currentPage);
+    int getCurrentPage() const;
 
-    QList<Canvas *> *getCanvasList() const;
-    void setCanvasList(QList<Canvas *> *canvasList);
+    QList<Canvas*>* getCanvasList() const;
+    void setCanvasList(QList<Canvas*>* canvasList);
 
-    FieldModel *getModel() const;
-    void setFieldModel(FieldModel *model);
-
-
+    FieldModel* getModel() const;
+    void setFieldModel(FieldModel* model);
 
 public slots:
     void editColor(QModelIndex index);
     void hideAllColumns(bool);
+    void setCurrentPage(int currentPage);
 
 protected:
     void contextMenuEvent(QContextMenuEvent* event) override;
+
 private:
     QAction* m_delItem= nullptr;
     QAction* m_applyValueOnSelection= nullptr;
@@ -45,8 +44,8 @@ private:
     QAction* m_defineCode= nullptr;
     QAction* m_resetCode= nullptr;
 
-    //Show Hide Columns
-    QAction* m_showGeometryGroup = nullptr;
+    // Show Hide Columns
+    QAction* m_showGeometryGroup= nullptr;
     QAction* m_showEsteticGroup= nullptr;
     QAction* m_showValueGroup= nullptr;
     QAction* m_showAllGroup= nullptr;
@@ -55,9 +54,9 @@ private:
     QUndoStack* m_undoStack= nullptr;
     FieldModel* m_model= nullptr;
     QList<Canvas*>* m_canvasList= nullptr;
-    int* m_currentPage= nullptr;
+    int m_currentPage= 0;
 
-    QSignalMapper* m_mapper = nullptr;
+    QSignalMapper* m_mapper= nullptr;
 };
 
 #endif // FIELDVIEW_H

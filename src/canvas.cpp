@@ -269,5 +269,8 @@ void Canvas::setPixmap(const QPixmap& pix)
     if(pix.isNull())
         removeItem(m_bg);
     else
+    {
         addItem(m_bg);
+        setSceneRect(m_bg->boundingRect());
+    }
 }

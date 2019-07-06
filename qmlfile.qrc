@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file alias="resources/qml/qmldir">charactersheet/qml/qmldir</file>
+        <file alias="resources/qml/qmldir">src/charactersheet/qml/qmldir</file>
         <file>resources/icons/go-up.png</file>
         <file>resources/icons/go-top.png</file>
         <file>resources/icons/go-down.png</file>
@@ -13,16 +13,16 @@
         <file>resources/icons/checked_checkbox.png</file>
         <file>resources/icons/textarea.png</file>
         <file>resources/icons/photo.png</file>
-        <file alias="resources/qml/CheckBoxField.qml">charactersheet/qml/CheckBoxField.qml</file>
-        <file alias="resources/qml/SelectField.qml">charactersheet/qml/SelectField.qml</file>
-        <file alias="resources/qml/TextAreaField.qml">charactersheet/qml/TextAreaField.qml</file>
-        <file alias="resources/qml/TextFieldField.qml">charactersheet/qml/TextFieldField.qml</file>
-        <file alias="resources/qml/TextInputField.qml">charactersheet/qml/TextInputField.qml</file>
-        <file alias="resources/qml/DiceButton.qml">charactersheet/qml/DiceButton.qml</file>
-        <file alias="resources/qml/ImageField.qml">charactersheet/qml/ImageField.qml</file>
-        <file alias="resources/qml/WebView.qml">charactersheet/qml/WebView.qml</file>
-        <file alias="resources/qml/PageButton.qml">charactersheet/qml/PageButton.qml</file>
-        <file alias="resources/qml/Table.qml">charactersheet/qml/Table.qml</file>
+        <file alias="resources/qml/CheckBoxField.qml">src/charactersheet/qml/CheckBoxField.qml</file>
+        <file alias="resources/qml/SelectField.qml">src/charactersheet/qml/SelectField.qml</file>
+        <file alias="resources/qml/TextAreaField.qml">src/charactersheet/qml/TextAreaField.qml</file>
+        <file alias="resources/qml/TextFieldField.qml">src/charactersheet/qml/TextFieldField.qml</file>
+        <file alias="resources/qml/TextInputField.qml">src/charactersheet/qml/TextInputField.qml</file>
+        <file alias="resources/qml/DiceButton.qml">src/charactersheet/qml/DiceButton.qml</file>
+        <file alias="resources/qml/ImageField.qml">src/charactersheet/qml/ImageField.qml</file>
+        <file alias="resources/qml/WebView.qml">src/charactersheet/qml/WebView.qml</file>
+        <file alias="resources/qml/PageButton.qml">src/charactersheet/qml/PageButton.qml</file>
+        <file alias="resources/qml/Table.qml">src/charactersheet/qml/Table.qml</file>
         <file>resources/logo/symbol2.png</file>
         <file>translations/rcse_fr.qm</file>
         <file>translations/rcse_de.qm</file>

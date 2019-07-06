@@ -2,11 +2,12 @@
 #include <QBuffer>
 #include <QDebug>
 #include <QIcon>
+#include <QPixmap>
 #include <QVariant>
 
 #define TOOLTIP_SIZE 256
 
-ImageModel::ImageModel(QHash<QString, QPixmap*>& list, QObject* parent) : QAbstractTableModel(parent), m_list(list)
+ImageModel::ImageModel(QObject* parent) : QAbstractTableModel(parent)
 {
     m_column << tr("Key") << tr("Filename") << tr("Is Background");
 }
@@ -28,7 +29,7 @@ int ImageModel::rowCount(const QModelIndex& parent) const
     if(parent.isValid())
         return 0;
 
-    return m_keyList.size();
+    return static_cast<int>(m_data.size());
 }
 
 int ImageModel::columnCount(const QModelIndex& parent) const
@@ -44,22 +45,20 @@ QVariant ImageModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     QVariant var;
+    const auto& info= m_data[static_cast<std::size_t>(index.row())];
     if(Qt::DisplayRole == role)
     {
         switch(index.column())
         {
         case Key:
-            var= QVariant::fromValue("image://rcs/" + m_keyList.at(index.row()));
+            var= QStringLiteral("image://rcs/%1").arg(info.key);
             break;
         case Filename:
-            var= QVariant::fromValue(m_filename.at(index.row()));
+            var= info.filename;
             break;
         case Background:
-        {
-            bool value= m_background.at(static_cast<size_t>(index.row()));
-            var= QVariant::fromValue(value);
-        }
-        break;
+            var= info.isBackground;
+            break;
         }
     }
     else if(Qt::EditRole == role)
@@ -67,24 +66,21 @@ QVariant ImageModel::data(const QModelIndex& index, int role) const
         switch(index.column())
         {
         case Key:
-            var= QVariant::fromValue(m_keyList.at(index.row()));
+            var= info.key;
             break;
         case Filename:
-            var= QVariant::fromValue(m_filename.at(index.row()));
+            var= info.filename;
             break;
         case Background:
-        {
-            bool value= m_background.at(static_cast<size_t>(index.row()));
-            var= QVariant::fromValue(value);
-        }
-        break;
+            var= info.isBackground;
+            break;
         }
     }
     else if(Qt::ToolTipRole == role)
     {
-        auto key= m_keyList.at(index.row());
-        auto image= m_list[key];
-        auto pixmap= image->scaledToWidth(TOOLTIP_SIZE);
+        auto key= info.key;
+        const auto& image= info.pixmap;
+        auto pixmap= image.scaledToWidth(TOOLTIP_SIZE);
         QByteArray data;
         QBuffer buffer(&data);
         pixmap.save(&buffer, "PNG", 100);
@@ -98,25 +94,29 @@ bool ImageModel::setData(const QModelIndex& index, const QVariant& value, int ro
     bool val= false;
     if((Qt::DisplayRole == role) || (Qt::EditRole == role))
     {
+        auto& info= m_data[static_cast<std::size_t>(index.row())];
         switch(index.column())
         {
         case Key:
         {
-            auto formerKey= m_keyList.at(index.row());
-            m_provider->removeImg(formerKey);
-            QPixmap* pix= m_list.value(formerKey);
-            m_list.remove(formerKey);
+            // auto formerKey= m_keyList.at(index.row());
+            info.key= value.toString();
+            //    m_provider->removeImg(formerKey);
+            //    QPixmap* pix= m_list.value(formerKey);
+            //   m_list.remove(formerKey);
 
-            m_keyList.replace(index.row(), value.toString());
-            m_provider->insertPix(value.toString(), *pix);
-            m_list.insert(value.toString(), pix);
+            // m_keyList.replace(index.row(), value.toString());
+            // m_provider->insertPix(value.toString(), *pix);
+            // m_list.insert(value.toString(), pix);
         }
             val= true;
             break;
         case Background:
-            m_background[static_cast<size_t>(index.row())]= value.toBool();
+            info.isBackground= value.toBool();
             val= true;
             break;
+        case Filename:
+            info.filename= value.toString();
         default:
             break;
         }
@@ -124,43 +124,50 @@ bool ImageModel::setData(const QModelIndex& index, const QVariant& value, int ro
     return val;
 }
 
-QJsonArray ImageModel::save()
+void ImageModel::save(QJsonArray& array) const
 {
-    QJsonArray images;
-    int i= 0;
-    for(auto& key : m_keyList)
+    for(const auto& info : m_data)
     {
-        auto pix= m_list[key];
-        bool bg= m_background[static_cast<size_t>(i)];
-        if(pix != nullptr)
-        {
-            QJsonObject oj;
-
-            QByteArray bytes;
-            QBuffer buffer(&bytes);
-            buffer.open(QIODevice::WriteOnly);
-            pix->save(&buffer, "PNG");
-            oj["bin"]= QString(buffer.data().toBase64());
-            oj["key"]= key;
-            oj["isBg"]= bg;
-            images.append(oj);
-        }
-        ++i;
+        QJsonObject oj;
+        QByteArray bytes;
+        QBuffer buffer(&bytes);
+        buffer.open(QIODevice::WriteOnly);
+        info.pixmap.save(&buffer, "PNG");
+        oj["bin"]= QString(buffer.data().toBase64());
+        oj["key"]= info.key;
+        oj["isBg"]= info.isBackground;
+        oj["filename"]= info.filename;
+        array.append(oj);
     }
-    return images;
 }
 
-bool ImageModel::insertImage(QPixmap* pix, QString key, QString stuff, bool isBg)
+bool ImageModel::insertImage(const QPixmap& pix, const QString& key, const QString& filename, bool isBg)
 {
-    if(m_keyList.contains(key))
-        return false;
+    auto rect= pix.rect();
+    if(isBg && !m_data.empty())
+    {
+        auto b= std::all_of(m_data.begin(), m_data.end(), [rect](const ImageInfo& info) {
+            return info.isBackground ? rect == info.pixmap.rect() : true;
+        });
 
-    beginInsertRows(QModelIndex(), m_list.size(), m_list.size());
-    m_provider->insertPix(key, *pix);
-    m_list.insert(key, pix);
-    m_keyList.append(key);
-    m_filename.append(stuff);
-    m_background.push_back(isBg);
+        if(!b)
+            return false;
+    }
+
+    auto it= std::find_if(m_data.begin(), m_data.end(), [key](const ImageInfo& info) { return info.key == key; });
+    if(it != m_data.end()) // already set
+    {
+        it->pixmap= pix;
+        it->filename= filename;
+        it->filename= isBg;
+        return true;
+    }
+
+    ImageInfo info{pix, isBg, filename, key};
+
+    auto size= static_cast<int>(m_data.size());
+    beginInsertRows(QModelIndex(), size, size);
+    m_data.push_back(info);
     endInsertRows();
     return true;
 }
@@ -180,10 +187,7 @@ Qt::ItemFlags ImageModel::flags(const QModelIndex& index) const
 void ImageModel::clear()
 {
     beginResetModel();
-    m_provider->cleanData();
-    m_list.clear();
-    m_keyList.clear();
-    m_filename.clear();
+    m_data.clear();
     endResetModel();
 }
 
@@ -191,15 +195,15 @@ void ImageModel::setImageProvider(RolisteamImageProvider* img)
 {
     m_provider= img;
 }
-
-void ImageModel::setPixList(QHash<QString, QPixmap*>& list)
+const RolisteamImageProvider* ImageModel::imageProvide() const
 {
-    m_list= list;
+    return m_provider;
 }
-bool ImageModel::isBackgroundById(QString id)
+
+bool ImageModel::isBackgroundById(QString id) const
 {
-    int i= m_keyList.indexOf(id);
-    return m_background.at(static_cast<size_t>(i));
+    auto it= std::find_if(m_data.begin(), m_data.end(), [id](const ImageInfo& info) { return id == info.key; });
+    return it != m_data.end();
 }
 
 void ImageModel::removeImageAt(const QModelIndex& index)
@@ -217,8 +221,10 @@ void ImageModel::setPathFor(const QModelIndex& idx, const QString& path)
         return;
 
     auto row= idx.row();
-    if(row < 0 || m_keyList.size() <= row)
+    if(row < 0 || m_data.size() >= row)
         return;
+
+    auto& info= m_data[static_cast<int>(row)];
 
     QPixmap pix(path);
     if(pix.isNull())
@@ -226,32 +232,38 @@ void ImageModel::setPathFor(const QModelIndex& idx, const QString& path)
         qWarning() << "Can't open image: " << path;
         return;
     }
-    auto key= m_keyList[row];
-    m_provider->insertPix(key, pix);
-    m_filename.replace(row, path);
-    m_list.insert(key, new QPixmap(pix));
-    auto first= index(row, 0);
-    auto last= index(row, columnCount());
-    emit dataChanged(first, last, QVector<int>() << Qt::DisplayRole);
+    info.pixmap= pix;
+    emit dataChanged(idx, idx, QVector<int>() << Qt::DisplayRole);
 }
 
 void ImageModel::removeImageByKey(const QString& key)
 {
-    auto index= m_keyList.indexOf(key);
-    removeImage(index);
+    auto it= std::find_if(m_data.begin(), m_data.end(), [key](const ImageInfo& info) {
+        return key == info.key;
+    }); // auto index= m_keyList.indexOf(key);
+
+    if(it == m_data.end())
+        return; // unfound
+
+    removeImage(std::distance(m_data.begin(), it));
+}
+
+QSize ImageModel::backgroundSize() const
+{
+    auto it= std::find_if(m_data.begin(), m_data.end(), [](const ImageInfo& info) { return info.isBackground; });
+
+    if(it == m_data.end())
+        return {};
+
+    return it->pixmap.rect().size();
 }
 
 void ImageModel::removeImage(int i)
 {
-    if(i < 0 || m_keyList.size() <= i)
+    if(i < 0 || m_data.size() >= i)
         return;
 
     beginRemoveRows(QModelIndex(), i, i);
-    auto key= m_keyList.at(i);
-    m_list.remove(key);
-    m_provider->removeImg(key);
-    m_filename.removeAt(i);
-    m_keyList.removeAt(i);
-    m_background.erase(m_background.begin() + i);
+    m_data.erase(m_data.begin() + i);
     endRemoveRows();
 }

@@ -36,7 +36,7 @@ ColumnDefinitionDialog::ColumnDefinitionDialog(QWidget* parent) : QDialog(parent
     setWindowTitle(tr("Table Properties"));
     m_model= new FieldModel(this);
     ui->m_column2Field->setFieldModel(m_model);
-    ui->m_column2Field->setCurrentPage(nullptr);
+    ui->m_column2Field->setCurrentPage(0);
     ui->m_column2Field->setCanvasList(nullptr);
     ui->m_column2Field->setUndoStack(new QUndoStack(this));
 

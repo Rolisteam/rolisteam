@@ -27,7 +27,7 @@
 
 #include "canvasfield.h"
 #include "charactersheetitem.h"
-#include "columndefinitiondialog.h"
+#include "dialog/columndefinitiondialog.h"
 
 class TableCanvasField;
 class LineModel;

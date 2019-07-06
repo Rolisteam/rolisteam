@@ -29,8 +29,9 @@ class EditorController;
 class SetBackgroundCommand : public QUndoCommand
 {
 public:
-    SetBackgroundCommand(int i, EditorController* m_ctrl, const QUrl& url, QUndoCommand* parent= nullptr);
-    SetBackgroundCommand(int i, EditorController* m_ctrl, const QPixmap& pix, QUndoCommand* parent= nullptr);
+    SetBackgroundCommand(int i, EditorController* ctrl, const QUrl& url, QUndoCommand* parent= nullptr);
+    SetBackgroundCommand(int i, EditorController* ctrl, const QPixmap& pix, const QString& fileName,
+                         QUndoCommand* parent= nullptr);
 
     void undo() override;
     void redo() override;
@@ -41,9 +42,10 @@ protected:
 private:
     QPixmap m_image;
     int m_idx= -1;
-    QGraphicsPixmapItem* m_bgItem;
+    QGraphicsPixmapItem* m_bgItem= nullptr;
     QRectF m_previousRect;
     EditorController* m_ctrl= nullptr;
+    QString m_filename;
     QUndoCommand* m_subCommand= nullptr;
 };
 

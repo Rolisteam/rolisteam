@@ -31,20 +31,21 @@
 #include "canvas.h"
 #include "charactersheetmodel.h"
 #include "common/controller/logcontroller.h"
+#include "dialog/pdfmanager.h"
+#include "dialog/sheetproperties.h"
 #include "field.h"
 #include "fieldmodel.h"
 #include "imagemodel.h"
 #include "itemeditor.h"
-#include "pdfmanager.h"
-#include "preferencesmanager.h"
+#include "preferences/preferencesmanager.h"
 #include "rolisteamimageprovider.h"
-#include "sheetproperties.h"
-
-#include "controllers/editorcontroller.h"
 
 class CodeEditor;
 class LogPanel;
-
+class CharacterController;
+class EditorController;
+class QmlGeneratorController;
+class ImageController;
 namespace Ui
 {
 class MainWindow;
@@ -55,7 +56,6 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    Q_PROPERTY(QString currentFile READ currentFile WRITE setCurrentFile NOTIFY currentFileChanged)
 public:
     enum EDITION_TOOL
     {
@@ -77,9 +77,6 @@ public:
     QString currentFile() const;
     void setCurrentFile(const QString& filename);
 
-    QString currentUuid() const;
-    void setCurrentUuid(const QString& currentUuid);
-
 public slots:
     void openPDF();
 
@@ -96,19 +93,16 @@ public slots:
     void saveQML();
     void openQML();
 
-    void setImage();
+    void addBackgroundImage();
     void rollDice(QString cmd);
     void addPage();
     void removePage();
 
     void openImage();
     bool mayBeSaved();
-    void modelChanged();
     void displayWarningsQML(const QList<QQmlError>& list);
     void aboutRcse();
     void helpOnLine();
-    void addImage();
-    void copyPath();
 
     void exportPDF();
     void rollDice(QString cmd, bool b);
@@ -121,67 +115,36 @@ protected:
     bool wheelEventForView(QWheelEvent* event);
     void closeEvent(QCloseEvent* event);
     void managePDFImport();
-    void applyValue(QModelIndex& index, bool selection);
-    void applyValueOnCharacterSelection(QModelIndex& index, bool selection, bool allCharacter);
     void defineItemCode(QModelIndex& index);
     void updateRecentFileAction();
 
     bool saveFile(const QString& filename);
 protected slots:
-    void menuRequested(const QPoint& pos);
-    void menuRequestedForImageModel(const QPoint& pos);
-    void columnAdded();
     void clearData(bool addDefaultCanvas= true);
     void showPreferences();
-    void checkCharacters();
     bool loadFile(const QString& file);
-
-private slots:
-    void codeChanged();
-
-private:
-    int pageCount();
 
 private:
     Ui::MainWindow* ui;
     std::unique_ptr<EditorController> m_editorCtrl;
-    // QList<Canvas*> m_canvasList;
+    std::unique_ptr<CharacterController> m_characterCtrl;
+    std::unique_ptr<QmlGeneratorController> m_qmlCtrl;
+    std::unique_ptr<ImageController> m_imageCtrl;
+
     ItemEditor* m_view;
     EDITION_TOOL m_currentTool;
     QPoint m_startField;
-    QHash<QString, QPixmap*> m_pixList;
-    FieldModel* m_model;
     QString m_currentFile;
     bool m_qmlGeneration;
     RolisteamImageProvider* m_imgProvider;
-    CharacterSheetModel* m_characterModel;
-    int m_currentPage;
-    bool m_editedTextByHand;
     int m_counterZoom;
     QString m_pdfPath;
     QString m_currentUuid;
     PdfManager* m_pdf;
 
-    ImageModel* m_imageModel;
-
     // Log
     LogPanel* m_logPanel= nullptr;
     LogController* m_logManager= nullptr;
-
-    // Action Character
-    QAction* m_addCharacter;
-    QAction* m_deleteCharacter;
-    QAction* m_copyCharacter;
-    QAction* m_defineAsTabName;
-    QAction* m_applyValueOnAllCharacterLines;
-    QAction* m_applyValueOnSelectedCharacterLines;
-    QAction* m_applyValueOnAllCharacters;
-
-    // action image model
-    QAction* m_copyPath;
-    QAction* m_copyUrl;
-    QAction* m_replaceImage;
-    QAction* m_removeImage;
 
     // Recent file
     std::vector<QAction*> m_recentActions;
@@ -191,17 +154,7 @@ private:
 
     QString m_title;
     PreferencesManager* m_preferences;
-    /// Sheet properties
-    SheetProperties* m_sheetProperties;
-    QString m_additionnalHeadCode;
-    QString m_additionnalBottomCode;
-    QString m_additionnalImport;
-
-    bool m_flickableSheet;
-    qreal m_fixedScaleSheet;
-
     QUndoStack m_undoStack;
-    CodeEditor* m_codeEdit;
 };
 
 #endif // MAINWINDOW_H

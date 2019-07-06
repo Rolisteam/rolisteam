@@ -3,43 +3,28 @@
 
 #include <QDialog>
 #include <QStringListModel>
-namespace Ui {
+namespace Ui
+{
 class SheetProperties;
 }
-
+class QmlGeneratorController;
 class SheetProperties : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit SheetProperties(QWidget *parent = nullptr);
-    ~SheetProperties();
+    explicit SheetProperties(QmlGeneratorController* m_ctrl, QWidget* parent= nullptr);
+    virtual ~SheetProperties() override;
 
-    bool isNoAdaptation() const;
-    void setNoAdaptation(bool noAdaptation);
-
-    QString getAdditionalHeadCode() const;
-    void setAdditionalHeadCode(const QString &additionalCode);
-
-    QString getAdditionalBottomCode() const;
-    void setAdditionalBottomCode(const QString &additionalBottomCode);
-
-    QString getAdditionalImport() const;
-    void setAdditionalImport(const QString &additionalImport);
-
-    qreal getFixedScale() const;
-    void setFixedScale(const qreal &fixedScale);
-
-
-    void reset();
-
-    QStringList getFontUri() const;
-    void setFontUri(const QStringList &fontUri);
+    void init();
+public slots:
+    void accept() override;
 
 private:
-    Ui::SheetProperties *ui;
+    Ui::SheetProperties* ui;
     QStringList m_fontUri;
     QStringListModel m_model;
+    QmlGeneratorController* m_ctrl;
 };
 
 #endif // SHEETPROPERTIES_H

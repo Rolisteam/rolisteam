@@ -21,6 +21,7 @@
  ***************************************************************************/
 #include "editorcontroller.h"
 
+#include <QDebug>
 #include <QGraphicsItem>
 #include <QMenu>
 
@@ -28,7 +29,11 @@
 #include "canvasfield.h"
 #include "itemeditor.h"
 
-EditorController::EditorController(ItemEditor* view, QObject* parent) : QObject(parent), m_view(view)
+// undo
+#include "undo/setbackgroundimage.h"
+
+EditorController::EditorController(QUndoStack& undoStack, ItemEditor* view, QObject* parent)
+    : QObject(parent), m_view(view), m_undoStack(undoStack)
 {
     connect(m_view, &ItemEditor::openContextMenu, this, &EditorController::menuRequestedFromView);
     m_fitInView= new QAction(tr("Fit the view"), m_view);
@@ -177,21 +182,24 @@ void EditorController::clearData(bool defaulCanvas)
     Canvas* canvasPtr= nullptr;
     if(defaulCanvas)
     {
-        canvasPtr= addPage();
+        addPage();
+        canvasPtr= m_canvasList[0].get();
     }
     m_view->setScene(canvasPtr);
 }
 
-Canvas* EditorController::addPage()
+int EditorController::addPage()
 {
     std::unique_ptr<Canvas> canvas(new Canvas());
     CSItem::resetCount();
     auto can= canvas.get();
     canvas->setPageId(m_currentPage);
+    canvas->setUndoStack(&m_undoStack);
+    connect(canvas.get(), &Canvas::dropFileOnCanvas, this, &EditorController::loadImageFromUrl);
     m_canvasList.push_back(std::move(canvas));
     emit pageAdded(can);
     emit pageCountChanged();
-    return can;
+    return m_canvasList.size() - 1;
 }
 
 void EditorController::setCurrentPage(int currentPage)
@@ -206,6 +214,8 @@ void EditorController::setCurrentPage(int currentPage)
 
 void EditorController::updateView()
 {
+    if(m_currentPage < 0 || m_currentPage > m_canvasList.size())
+        return;
     m_view->setScene(m_canvasList[m_currentPage].get());
 }
 void EditorController::setCurrentTool(Canvas::Tool tool)
@@ -216,8 +226,8 @@ void EditorController::setCurrentTool(Canvas::Tool tool)
     }
 }
 
-void EditorController::load(QJsonObject obj) {}
-void EditorController::save(QJsonObject obj) {}
+void EditorController::load(QJsonObject& obj) {}
+void EditorController::save(QJsonObject& obj) {}
 
 void EditorController::insertPage(int i, Canvas* canvas)
 {
@@ -238,7 +248,7 @@ std::size_t EditorController::pageCount() const
     return m_canvasList.size();
 }
 
-void EditorController::setImageBackground(int idx, const QPixmap& pix)
+void EditorController::setImageBackground(int idx, const QPixmap& pix, const QString& filepath)
 {
     auto pos= qBound(0, idx, static_cast<int>(m_canvasList.size()));
 
@@ -250,6 +260,13 @@ void EditorController::setImageBackground(int idx, const QPixmap& pix)
         return;
 
     canvas->setPixmap(pix);
+    emit canvasBackgroundChanged(idx, pix, filepath);
+}
+
+void EditorController::loadImageFromUrl(const QUrl& url)
+{
+    SetBackgroundCommand* cmd= new SetBackgroundCommand(currentPage(), this, url);
+    m_undoStack.push(cmd);
 }
 
 void EditorController::addItem(int idx, QGraphicsItem* item)
@@ -264,23 +281,3 @@ void EditorController::addItem(int idx, QGraphicsItem* item)
         return;
     page->addItem(item);
 }
-
-/*void EditorController::addPage()
-{
-    Canvas* previous= m_canvasList[m_currentPage];
-    ui->m_selectPageCb->setModel(AddPageCommand::getPagesModel());
-    AddPageCommand* cmd= new AddPageCommand(++m_currentPage, m_canvasList, previous->currentTool());
-    auto canvas= cmd->canvas();
-    m_undoStack.push(cmd);
-    ui->m_selectPageCb->setCurrentIndex(pageCount() - 1);
-    emit dataChanged();
-}
-
-void EditorController::removePage()
-{
-    if(m_canvasList.size() > 1)
-    {
-        DeletePageCommand* cmd= new DeletePageCommand(m_currentPage, m_canvasList, m_model);
-        m_undoStack.push(cmd);
-    }
-}*/

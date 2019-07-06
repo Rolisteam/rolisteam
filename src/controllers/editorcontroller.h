@@ -25,6 +25,7 @@
 #include "canvas.h"
 #include <QAction>
 #include <QObject>
+#include <QUndoStack>
 #include <memory>
 
 class ItemEditor;
@@ -34,7 +35,7 @@ class EditorController : public QObject
     Q_PROPERTY(int currentPage READ currentPage WRITE setCurrentPage NOTIFY currentPageChanged)
     Q_PROPERTY(std::size_t pageCount READ pageCount NOTIFY pageCountChanged)
 public:
-    EditorController(ItemEditor* view, QObject* parent= nullptr);
+    EditorController(QUndoStack& undoStack, ItemEditor* view, QObject* parent= nullptr);
 
     const std::vector<Canvas*>& pageList() const;
     std::size_t pageCount() const;
@@ -42,23 +43,26 @@ public:
 
     void clearData(bool defaulCanvas);
 
-    void load(QJsonObject obj);
-    void save(QJsonObject obj);
-    void setImageBackground(int idx, const QPixmap& pix);
+    void load(QJsonObject& obj);
+    void save(QJsonObject& obj);
+    void setImageBackground(int idx, const QPixmap& pix, const QString& filepath);
 
     void addItem(int idx, QGraphicsItem* item);
 public slots:
-    Canvas* addPage();
+    int addPage();
     Canvas* removePage(int idx);
     void insertPage(int idx, Canvas* canvas);
     void setFitInView();
     void setCurrentPage(int currentPage);
     void setCurrentTool(Canvas::Tool tool);
+    void loadImageFromUrl(const QUrl&);
 
 signals:
     void currentPageChanged(int currentPage);
     void pageAdded(Canvas* canvas);
     void pageCountChanged();
+    void canvasBackgroundChanged(int idx, const QPixmap& pix, const QString& str);
+    void dataChanged();
 
 protected:
     void updateView();
@@ -82,6 +86,8 @@ private:
 
     std::vector<std::unique_ptr<Canvas>> m_canvasList;
     int m_currentPage;
+
+    QUndoStack& m_undoStack;
 };
 
 #endif

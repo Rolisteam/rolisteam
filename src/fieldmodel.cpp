@@ -341,7 +341,7 @@ void FieldModel::save(QJsonObject& json, bool exp)
     m_rootSection->save(json, exp);
 }
 
-void FieldModel::load(QJsonObject& json, EditorController* ctrl)
+void FieldModel::load(const QJsonObject& json, EditorController* ctrl)
 {
     beginResetModel();
     m_rootSection->load(json, ctrl);
