@@ -170,15 +170,8 @@ void Section::load(const QJsonObject& json, EditorController* ctrl)
         {
             item->setParent(this);
             auto page= std::max(0, item->getPage()); // add item for all pages on the first canvas.
-            /*if(ctrl.size() > item->getPage() && ctrl->pageCount() != 0)
-            {
-                QGraphicsScene* scene= scenes.at(page);
-                if((nullptr != scene) && (nullptr != gItem))
-                {
-                    scene->addItem(gItem);
-                }
-            }*/
-            ctrl->addItem(page, gItem);
+            if(ctrl)
+                ctrl->addItem(page, gItem);
             item->initGraphicsItem();
             m_dataHash.insert(item->getPath(), item);
             m_keyList.append(item->getPath());

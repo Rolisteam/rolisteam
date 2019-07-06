@@ -112,7 +112,7 @@ public:
     // QList<CharacterSheetItem *>* getExportedList(CharacterSheet*);
 
     bool writeModel(QJsonObject& file, bool data= true);
-    void readModel(QJsonObject& file, bool readRootSection);
+    void readModel(const QJsonObject& file, bool readRootSection);
 
     CharacterSheetItem* addSection(QString title);
     void addLine(CharacterSheetItem* parentItem, QString name, const QModelIndex& parent);
@@ -121,7 +121,7 @@ public:
 
     Section* getRootSection() const;
 
-    void addCharacterSheet(CharacterSheet* sheet, bool reset, int pos= -1);
+    void addCharacterSheet(CharacterSheet* sheet, int pos);
 
     CharacterSheet* getCharacterSheetById(QString id);
 
@@ -131,7 +131,7 @@ public:
     void readRootSection(NetworkMessageReader* msg);
     void fillRootSection(NetworkMessageWriter* msg);
 #endif
-    void removeCharacterSheet(QModelIndex& index);
+    void removeCharacterSheet(int index);
     void removeCharacterSheet(CharacterSheet* sheet);
     /**
      * @brief adds an empty CharacterSheet into the model.
@@ -142,6 +142,8 @@ public slots:
 
     void checkCharacter(Section* section);
     void addSubChildRoot(CharacterSheetItem* item);
+    void fieldHasBeenChanged(CharacterSheet* sheet, CharacterSheetItem* item, const QString&);
+    void addSubChild(CharacterSheet* sheet, CharacterSheetItem* item);
 
 signals:
     void characterSheetHasBeenAdded(CharacterSheet* sheet);
@@ -149,9 +151,6 @@ signals:
 
 protected:
     void computeFormula(QString path, CharacterSheet* sheet);
-protected slots:
-    void fieldHasBeenChanged(CharacterSheet* sheet, CharacterSheetItem* item, const QString&);
-    void addSubChild(CharacterSheet* sheet, CharacterSheetItem* item);
 
 private:
     void checkTableItem();

@@ -379,24 +379,15 @@ void CharacterSheetModel::checkCharacter(Section* section)
         }
     }
 }
-void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet, bool reset, int pos)
+void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet, int pos)
 {
-    if(pos < 0)
-    {
-        pos= m_characterList->size() + 1;
-    }
-    if(!reset)
-        beginInsertColumns(QModelIndex(), pos, pos);
-    m_characterList->insert(pos - 1, sheet);
+    beginInsertColumns(QModelIndex(), pos + 1, pos + 1);
+    m_characterList->insert(pos, sheet);
     emit characterSheetHasBeenAdded(sheet);
-    if(!reset)
-    {
-        endInsertColumns();
+    endInsertColumns();
+    emit dataCharacterChange();
 
-        emit dataCharacterChange();
-    }
-    connect(sheet, &CharacterSheet::updateField, this, &CharacterSheetModel::fieldHasBeenChanged);
-    connect(sheet, &CharacterSheet::addLineToTableField, this, &CharacterSheetModel::addSubChild);
+    /* */
 }
 
 void CharacterSheetModel::addSubChildRoot(CharacterSheetItem* item)
@@ -465,11 +456,11 @@ void CharacterSheetModel::removeCharacterSheet(CharacterSheet* sheet)
     }
 }
 
-void CharacterSheetModel::removeCharacterSheet(QModelIndex& index)
+void CharacterSheetModel::removeCharacterSheet(int index)
 {
-    beginRemoveColumns(QModelIndex(), index.column(), index.column());
+    beginRemoveColumns(QModelIndex(), index + 1, index + 1);
 
-    m_characterList->removeAt(index.column() - 1);
+    m_characterList->removeAt(index);
 
     endRemoveColumns();
 }
@@ -674,7 +665,7 @@ bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool writeData)
     return true;
 }
 
-void CharacterSheetModel::readModel(QJsonObject& jsonObj, bool readRootSection)
+void CharacterSheetModel::readModel(const QJsonObject& jsonObj, bool readRootSection)
 {
     beginResetModel();
     if(readRootSection)
@@ -689,7 +680,8 @@ void CharacterSheetModel::readModel(QJsonObject& jsonObj, bool readRootSection)
         CharacterSheet* sheet= new CharacterSheet();
         sheet->load(obj);
         sheet->setOrigin(m_rootSection);
-        addCharacterSheet(sheet, true);
+        m_characterList->append(sheet);
+        emit characterSheetHasBeenAdded(sheet);
     }
     checkTableItem();
     endResetModel();

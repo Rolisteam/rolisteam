@@ -31,7 +31,7 @@ void RolisteamImageProvider::insertPix(QString key, QPixmap img)
 {
     m_data->insert(key, img);
 }
-QSharedPointer<QHash<QString, QPixmap>> RolisteamImageProvider::getData()
+QSharedPointer<QHash<QString, QPixmap>> RolisteamImageProvider::getData() const
 {
     return m_data;
 }

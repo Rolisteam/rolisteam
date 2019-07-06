@@ -18,7 +18,7 @@ public:
     virtual QPixmap requestPixmap(const QString& id, QSize* size, const QSize& requestedSize);
 
     void insertPix(QString key, QPixmap img);
-    QSharedPointer<QHash<QString, QPixmap>> getData();
+    QSharedPointer<QHash<QString, QPixmap>> getData() const;
     void cleanData();
 
     void setData(QSharedPointer<QHash<QString, QPixmap>> data);
