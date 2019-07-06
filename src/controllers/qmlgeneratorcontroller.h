@@ -57,7 +57,6 @@ signals:
     void sectionChanged(Section* section);
 
 public slots:
-    void editSheetProperties();
     void setHeadCode(QString headCode);
     void setBottomCode(QString bottomCode);
     void setImportCode(QString importCode);

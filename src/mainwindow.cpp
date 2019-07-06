@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
  * Copyright (C) 2014 by Renaud Guezennec                                   *
  * http://www.rolisteam.org/                                                *
  *                                                                          *
@@ -108,11 +108,6 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_editorCtrl.get(), &EditorController::pageCountChanged, this,
             [this]() { m_qmlCtrl->setLastPageId(static_cast<unsigned int>(m_editorCtrl->pageCount() - 1)); });
 
-    auto notifyDataChanged= [this]() { setWindowModified(true); };
-
-    connect(m_editorCtrl.get(), &EditorController::dataChanged, this, notifyDataChanged);
-    connect(m_characterCtrl.get(), &CharacterController::dataChanged, this, notifyDataChanged);
-    connect(m_qmlCtrl.get(), &QmlGeneratorController::dataChanged, this, notifyDataChanged);
     connect(m_qmlCtrl.get(), &QmlGeneratorController::errors, this, &MainWindow::displayWarningsQML);
     connect(m_qmlCtrl.get(), &QmlGeneratorController::sectionChanged, m_characterCtrl.get(),
             &CharacterController::setRootSection);
@@ -138,7 +133,6 @@ MainWindow::MainWindow(QWidget* parent)
     //////////////////////////////////////
     // end of QAction for view
     //////////////////////////////////////
-
     connect(ui->m_showItemIcon, &QAction::triggered, [=](bool triggered) {
         CanvasField::setShowImageField(triggered);
         QList<QRectF> list;
@@ -149,7 +143,6 @@ MainWindow::MainWindow(QWidget* parent)
     ////////////////////
     // undo / redo
     ////////////////////
-
     QAction* undo= m_undoStack.createUndoAction(this, tr("&Undo"));
     ui->menuEdition->insertAction(ui->m_genarateCodeAct, undo);
 
@@ -162,7 +155,7 @@ MainWindow::MainWindow(QWidget* parent)
     undo->setShortcut(QKeySequence::Undo);
     redo->setShortcut(QKeySequence::Redo);
 
-    connect(ui->m_backgroundImageAct, &QAction::triggered, this, &MainWindow::openImage);
+    connect(ui->m_backgroundImageAct, &QAction::triggered, this, &MainWindow::openBackgroundImage);
     ui->scrollArea->setWidget(m_view);
 
     ui->m_addCheckBoxAct->setData(Canvas::ADDCHECKBOX);
@@ -193,13 +186,13 @@ MainWindow::MainWindow(QWidget* parent)
     ui->m_nextPageBtn->setDefaultAction(ui->m_nextPageAct);
     ui->m_previousPageBtn->setDefaultAction(ui->m_previousPageAct);
 
+    auto notifyDataChanged= [this]() {
+        setWindowModified(true); };
+
     connect(m_editorCtrl.get(), &EditorController::pageAdded, this, [this, notifyDataChanged](Canvas* canvas) {
         canvas->setModel(m_qmlCtrl->fieldModel());
-        notifyDataChanged();
         connect(canvas, &Canvas::pixmapChanged, this, notifyDataChanged);
-        connect(canvas, &Canvas::itemDeleted, this, notifyDataChanged);
         connect(canvas, &Canvas::pageIdChanged, this, notifyDataChanged);
-        connect(canvas, &Canvas::changed, this, notifyDataChanged);
     });
 
     m_editorCtrl->addPage();
@@ -251,11 +244,8 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->m_webPageAct, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_nextPageAct, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_previousPageAct, &QAction::triggered, this, setCurrentTool);
-
-    connect(ui->m_moveAct, &QAction::triggered, [=](bool triggered) { m_view->setHandle(triggered); });
-
+    connect(ui->m_moveAct, &QAction::triggered,this, [this](bool triggered) { m_view->setHandle(triggered); });
     connect(ui->m_exportPdfAct, &QAction::triggered, this, &MainWindow::exportPDF);
-
     connect(ui->m_moveAct, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_deleteAct, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_addButtonAct, &QAction::triggered, this, setCurrentTool);
@@ -309,12 +299,10 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->m_aboutRcseAct, &QAction::triggered, this, &MainWindow::aboutRcse);
     connect(ui->m_onlineHelpAct, &QAction::triggered, this, &MainWindow::helpOnLine);
 
-    // m_imageModel->setImageProvider(m_imgProvider);
-
     ui->m_addImageBtn->setDefaultAction(ui->m_addImageAct);
     ui->m_removeImgBtn->setDefaultAction(ui->m_deleteImageAct);
 
-    // connect(ui->m_addImageAct, SIGNAL(triggered(bool)), this, SLOT(addImage()));
+    connect(ui->m_addImageAct, &QAction::triggered, this, &MainWindow::openImage);
     connect(ui->m_deleteImageAct, &QAction::triggered, this, [=]() {
         auto index= ui->m_imageList->currentIndex();
         m_imageCtrl->removeImage(index.row());
@@ -323,12 +311,13 @@ MainWindow::MainWindow(QWidget* parent)
     readSettings();
     m_logPanel->initSetting();
 
-    // TODO REMOVE THIS LINE
-    /*   auto pixMapDebug = new
-       QPixmap("/home/renaud/documents/rolisteam/fiche/L5R-4E-Character-Sheet-LoRes-page-001.jpg");
-       SetBackgroundCommand* cmd = new SetBackgroundCommand(canvas,pixMapDebug);
-       m_undoStack.push(cmd);*/
     clearData();
+
+    connect(m_editorCtrl.get(), &EditorController::dataChanged, this, notifyDataChanged);
+    connect(m_characterCtrl.get(), &CharacterController::dataChanged, this, notifyDataChanged);
+    connect(m_qmlCtrl.get(), &QmlGeneratorController::dataChanged, this, notifyDataChanged);
+    connect(m_imageCtrl.get(), &ImageController::dataChanged, this, notifyDataChanged);
+
 }
 MainWindow::~MainWindow()
 {
@@ -389,7 +378,9 @@ void MainWindow::clearData(bool addDefaultCanvas)
     m_editorCtrl->clearData(addDefaultCanvas);
     m_imageCtrl->clearData();
     m_characterCtrl->clear();
+    m_undoStack.clear();
     setCurrentFile(QString());
+    setWindowModified(false);
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* event)
@@ -500,8 +491,6 @@ void MainWindow::openPDF()
     {
         qreal res= m_pdf->getDpi();
         m_imageCtrl->clearData();
-        //QString id= QUuid::createUuid().toString();
-        //static int lastCanvas= static_cast<int>(m_editorCtrl->pageCount()) - 1;
 
         QSize previous;
         if(m_pdf->hasResolution())
@@ -568,7 +557,7 @@ void MainWindow::managePDFImport()
     m_pdf->exec();
 }
 
-void MainWindow::openImage()
+void MainWindow::openBackgroundImage()
 {
 #ifdef WITH_PDF
     QString supportedFormat("Supported files (*.jpg *.png *.xpm *.pdf);;All Files (*.*)");
@@ -591,6 +580,18 @@ void MainWindow::openImage()
     m_editorCtrl->loadImageFromUrl(QUrl::fromLocalFile(img));
 }
 
+void MainWindow::openImage()
+{
+    QString supportedFormat("Supported files (*.jpg *.png);;All Files (*.*)");
+    QString img= QFileDialog::getOpenFileName(this, tr("Open Image"), QDir::homePath(), supportedFormat);
+
+    if(img.isEmpty())
+        return;
+
+    QPixmap map(img);
+    m_imageCtrl->addImage(map,img);
+}
+
 void MainWindow::showPreferences()
 {
     PreferencesDialog dialog;
@@ -604,43 +605,6 @@ void MainWindow::showPreferences()
         m_preferences->registerValue("GenerationCustomPath", dialog.generationPath());
     }
 }
-
-// Todo move to editor controller
-// void MainWindow::addImage(const QUrl& url)
-//{
-/*  int i= 0;
-  m_imageModel->clear();
-  QSize previous;
-  bool issue= false;
-  for(auto canvas : m_canvasList)
-  {
-      QPixmap* pix= canvas->pixmap();
-      if(pix != nullptr)
-      {
-          if(!previous.isValid())
-          {
-              previous= pix->size();
-          }
-          if(previous != pix->size())
-          {
-              issue= true;
-          }
-          m_editorCtrl->setFitInView();
-      }
-      else if(nullptr == pix)
-      {
-          pix= new QPixmap();
-      }
-      QString idList= QStringLiteral("%2_background_%1.jpg").arg(i).arg(m_currentUuid);
-      m_imageModel->insertImage(pix, idList, "from canvas", true);
-      ++i;
-  }
-  if(issue)
-  {
-      QMessageBox::warning(this, tr("Error!"), tr("Background images have to be of the same size"),
-  QMessageBox::Ok);
-  }*/
-//}
 
 bool MainWindow::saveAs()
 {
@@ -666,38 +630,32 @@ bool MainWindow::save()
 
 bool MainWindow::saveFile(const QString& filename)
 {
-    if(!filename.isEmpty())
+    if(filename.isEmpty())
+        return false;
+
+    // init Json
+    QJsonDocument json;
+    QJsonObject obj;
+
+    m_qmlCtrl->save(obj);
+    obj["pageCount"]= static_cast<int>(m_editorCtrl->pageCount());
+    obj["uuid"]= m_currentUuid;
+
+    // background
+    m_imageCtrl->save(obj);
+
+    m_characterCtrl->save(obj, true);
+    json.setObject(obj);
+    QFile file(filename);
+    if(file.open(QIODevice::WriteOnly))
     {
-
-        // init Json
-        QJsonDocument json;
-        QJsonObject obj;
-
-        /* if(qmlFile.isEmpty())
-         {
-             generateQML(qmlFile);
-         }*/
-        m_qmlCtrl->save(obj);
-        obj["pageCount"]= static_cast<int>(m_editorCtrl->pageCount());
-        obj["uuid"]= m_currentUuid;
-
-        // background
-        m_imageCtrl->save(obj);
-
-        m_characterCtrl->save(obj, true);
-        // m_characterModel->writeModel(obj, true);
-        json.setObject(obj);
-        QFile file(filename);
-        if(file.open(QIODevice::WriteOnly))
-        {
-            file.write(json.toJson());
-            setCurrentFile(filename);
-            return true;
-        }
-        //
+        file.write(json.toJson());
+        setCurrentFile(filename);
+        return true;
     }
     return false;
 }
+
 bool MainWindow::loadFile(const QString& filename)
 {
     if(filename.isEmpty())
@@ -772,10 +730,6 @@ bool MainWindow::loadFile(const QString& filename)
         auto idx= m_editorCtrl->addPage();
         m_editorCtrl->setImageBackground(idx, pix, path);
         m_imageCtrl->addBackgroundImage(idx, pix, path);
-        // m_imageCtrl->addBackgroundImage(
-        //     i, ); // copy,
-        // QStringLiteral("%1_background_%2.jpg").arg(m_currentUuid).arg(canvas->pageId()),
-        //      tr("blank page"), true);
     }
 
     m_qmlCtrl->load(data, m_editorCtrl.get());
@@ -868,9 +822,8 @@ void MainWindow::showQML()
     }
     QString data;
     m_qmlCtrl->showQML(ui->m_quickview, m_imageCtrl.get());
-
-    // [this](const QList<QQmlError>& warning) { displayWarningsQML(warning); });
 }
+
 void MainWindow::displayWarningsQML(const QList<QQmlError>& list)
 {
     for(auto error : list)
@@ -900,33 +853,7 @@ void MainWindow::displayWarningsQML(const QList<QQmlError>& list)
 
 void MainWindow::showQMLFromCode()
 {
-    /* QString data= ui->m_codeEdit->document()->toPlainText();
-
-     QTemporaryFile file;
-     if(file.open()) // QIODevice::WriteOnly
-     {
-         file.write(data.toUtf8());
-         file.close();
-     }
-
-     // delete ui->m_quickview;
-     ui->m_quickview->engine()->clearComponentCache();
-     QSharedPointer<QHash<QString, QPixmap>> imgdata= m_imgProvider->getData();
-     m_imgProvider= new RolisteamImageProvider();
-     m_imgProvider->setData(imgdata);
-     ui->m_quickview->engine()->addImageProvider("rcs", m_imgProvider);
-
-     QList<CharacterSheetItem*> list= m_model->children();
-     for(CharacterSheetItem* item : list)
-     {
-         ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(), item);
-     }
-     ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
-     displayWarningsQML(ui->m_quickview->errors());
-     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
-
-     QObject* root= ui->m_quickview->rootObject();
-     connect(root, SIGNAL(rollDiceCmd(QString)), this, SLOT(rollDice(QString)));*/
+    m_qmlCtrl->runQmlFromCode(ui->m_quickview, m_imageCtrl.get());
 }
 
 void MainWindow::saveQML()
@@ -964,16 +891,6 @@ void MainWindow::openQML()
     }
 }
 
-bool MainWindow::qmlGeneration() const
-{
-    return m_qmlGeneration;
-}
-
-void MainWindow::setQmlGeneration(bool qmlGeneration)
-{
-    m_qmlGeneration= qmlGeneration;
-}
-
 void MainWindow::aboutRcse()
 {
     QString version("%1.%2.%3");
@@ -981,6 +898,7 @@ void MainWindow::aboutRcse()
     AboutRcse dialog(version.arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR), this);
     dialog.exec();
 }
+
 void MainWindow::addBackgroundImage()
 {
     QString supportedFormat("Supported files (*.jpg *.png);;All Files (*.*)");

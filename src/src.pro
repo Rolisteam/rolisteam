@@ -107,7 +107,6 @@ SOURCES += main.cpp\
     preferences/preferencesdialog.cpp \
     preferences/preferencesmanager.cpp \
     dialog/sheetproperties.cpp \
-    imagemodel.cpp \
     itemeditor.cpp \
     tablecanvasfield.cpp \
     dialog/columndefinitiondialog.cpp \
@@ -148,7 +147,6 @@ HEADERS  += mainwindow.h \
     preferences/preferencesdialog.h \
     preferences/preferencesmanager.h \
     dialog/sheetproperties.h \
-    imagemodel.h \
     itemeditor.h \
     tablecanvasfield.h \
     dialog/columndefinitiondialog.h \

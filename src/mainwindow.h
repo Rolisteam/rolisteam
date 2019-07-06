@@ -97,6 +97,7 @@ public slots:
     void addPage();
     void removePage();
 
+    void openBackgroundImage();
     void openImage();
     bool mayBeSaved();
     void displayWarningsQML(const QList<QQmlError>& list);

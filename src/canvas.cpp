@@ -73,9 +73,6 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent* event)
             if(url.isLocalFile())
             {
                 emit dropFileOnCanvas(url);
-                /*SetBackgroundCommand* cmd= new SetBackgroundCommand(this, url);
-                m_undoStack->push(cmd);
-                emit pixmapChanged();*/
             }
         }
     }

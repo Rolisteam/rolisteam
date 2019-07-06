@@ -20,7 +20,6 @@ QmlGeneratorController::QmlGeneratorController(CodeEditor* codeEditor, QTreeView
     connect(m_codeEdit, &CodeEditor::textChanged, this, [this]() { setTextEdited(true); });
 }
 
-void QmlGeneratorController::editSheetProperties() {}
 QString QmlGeneratorController::headCode() const
 {
     return m_headCode;

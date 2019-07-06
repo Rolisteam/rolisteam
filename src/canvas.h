@@ -79,7 +79,6 @@ public:
 signals:
     void pixmapChanged();
     void dropFileOnCanvas(QUrl url);
-    void itemDeleted(QGraphicsItem*);
     void pageIdChanged();
 
 protected:
