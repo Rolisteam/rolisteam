@@ -44,6 +44,8 @@ public:
 
     QStringList fonts() const;
     void generateQML(const ImageController* ctrl, QString& qml);
+
+
 signals:
     void dataChanged();
     void headCodeChanged(QString headCode);
@@ -65,6 +67,8 @@ public slots:
     void setLastPageId(unsigned int pageId);
     void setTextEdited(bool t);
     void setFonts(QStringList fonts);
+    void runQmlFromCode(QQuickWidget *quickView, ImageController *imgCtrl);
+
 protected slots:
     void rollDice(QString cmd);
     void rollDice(QString cmd, bool b);

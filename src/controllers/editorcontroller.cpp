@@ -86,6 +86,7 @@ void EditorController::sameGeometry()
             }
         }
     }
+    emit dataChanged();
 }
 
 void EditorController::menuRequestedFromView(const QPoint& pos)
@@ -148,12 +149,16 @@ void EditorController::alignOn()
             }
         }
     }
+    emit dataChanged();
 }
 
 void EditorController::spreadItemEqualy()
 {
     auto act= qobject_cast<QAction*>(sender());
     bool horizon= act == m_horizontalEquaDistance ? true : false;
+
+
+    emit dataChanged();
 }
 
 void EditorController::setFitInView()
@@ -199,6 +204,7 @@ int EditorController::addPage()
     m_canvasList.push_back(std::move(canvas));
     emit pageAdded(can);
     emit pageCountChanged();
+    emit dataChanged();
     return m_canvasList.size() - 1;
 }
 
@@ -232,6 +238,7 @@ void EditorController::save(QJsonObject& obj) {}
 void EditorController::insertPage(int i, Canvas* canvas)
 {
     m_canvasList.insert(m_canvasList.begin() + i, std::unique_ptr<Canvas>(canvas));
+    emit dataChanged();
 }
 
 Canvas* EditorController::removePage(int i)
@@ -241,6 +248,7 @@ Canvas* EditorController::removePage(int i)
         return nullptr;
     auto p= m_canvasList[idx].release();
     m_canvasList.erase(m_canvasList.begin() + i);
+    emit dataChanged();
     return p;
 }
 std::size_t EditorController::pageCount() const
@@ -261,12 +269,14 @@ void EditorController::setImageBackground(int idx, const QPixmap& pix, const QSt
 
     canvas->setPixmap(pix);
     emit canvasBackgroundChanged(idx, pix, filepath);
+    emit dataChanged();
 }
 
 void EditorController::loadImageFromUrl(const QUrl& url)
 {
     SetBackgroundCommand* cmd= new SetBackgroundCommand(currentPage(), this, url);
     m_undoStack.push(cmd);
+    emit dataChanged();
 }
 
 void EditorController::addItem(int idx, QGraphicsItem* item)
@@ -280,4 +290,5 @@ void EditorController::addItem(int idx, QGraphicsItem* item)
     if(!page)
         return;
     page->addItem(item);
+    emit dataChanged();
 }

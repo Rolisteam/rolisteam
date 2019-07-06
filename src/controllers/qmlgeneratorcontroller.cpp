@@ -16,7 +16,10 @@ QmlGeneratorController::QmlGeneratorController(CodeEditor* codeEditor, QTreeView
     : QObject(parent), m_model(new FieldModel), m_codeEdit(codeEditor), m_view(view)
 {
     connect(m_model.get(), &FieldModel::modelChanged, this,
-            [this]() { emit sectionChanged(m_model->getRootSection()); });
+    [this]() {
+        emit sectionChanged(m_model->getRootSection());
+        emit dataChanged();
+    });
     connect(m_codeEdit, &CodeEditor::textChanged, this, [this]() { setTextEdited(true); });
 }
 
@@ -56,6 +59,7 @@ void QmlGeneratorController::setHeadCode(QString headCode)
 
     m_headCode= headCode;
     emit headCodeChanged(m_headCode);
+    emit dataChanged();
 }
 
 void QmlGeneratorController::setBottomCode(QString bottomCode)
@@ -65,6 +69,7 @@ void QmlGeneratorController::setBottomCode(QString bottomCode)
 
     m_bottomCode= bottomCode;
     emit bottomCodeChanged(m_bottomCode);
+    emit dataChanged();
 }
 
 void QmlGeneratorController::setImportCode(QString importCode)
@@ -74,6 +79,7 @@ void QmlGeneratorController::setImportCode(QString importCode)
 
     m_importCode= importCode;
     emit importCodeChanged(m_importCode);
+    emit dataChanged();
 }
 
 void QmlGeneratorController::setFlickable(bool flickable)
@@ -83,6 +89,7 @@ void QmlGeneratorController::setFlickable(bool flickable)
 
     m_flickable= flickable;
     emit flickableChanged(m_flickable);
+    emit dataChanged();
 }
 
 void QmlGeneratorController::setFixedScale(qreal fixedScale)
@@ -93,6 +100,7 @@ void QmlGeneratorController::setFixedScale(qreal fixedScale)
 
     m_fixedScale= fixedScale;
     emit fixedScaleChanged(m_fixedScale);
+    emit dataChanged();
 }
 
 void QmlGeneratorController::setLastPageId(unsigned int pageId)
@@ -134,6 +142,7 @@ void QmlGeneratorController::setTextEdited(bool t)
         return;
     m_textEdited= t;
     emit textEditedChanged();
+    emit dataChanged();
 }
 void QmlGeneratorController::setFonts(QStringList fonts)
 {
@@ -142,6 +151,7 @@ void QmlGeneratorController::setFonts(QStringList fonts)
 
     m_fonts= fonts;
     emit fontsChanged(m_fonts);
+    emit dataChanged();
 }
 
 void QmlGeneratorController::save(QJsonObject& obj) const
@@ -204,6 +214,15 @@ void QmlGeneratorController::showQML(QQuickWidget* quickView, ImageController* i
     QString data;
     generateQML(imgCtrl, data);
     m_codeEdit->setPlainText(data);
+    runQmlFromCode(quickView, imgCtrl);
+
+
+}
+
+void QmlGeneratorController::runQmlFromCode(QQuickWidget* quickView, ImageController* imgCtrl)
+{
+    QString data= m_codeEdit->toPlainText();
+
     setTextEdited(false);
     auto provider= imgCtrl->getNewProvider();
 
@@ -235,6 +254,7 @@ void QmlGeneratorController::showQML(QQuickWidget* quickView, ImageController* i
     connect(root, SIGNAL(rollDiceCmd(QString, bool)), this, SLOT(rollDice(QString, bool)));
     connect(root, SIGNAL(rollDiceCmd(QString)), this, SLOT(rollDice(QString)));
 }
+
 void QmlGeneratorController::generateQML(const ImageController* ctrl, QString& qml)
 {
     QTextStream text(&qml);
@@ -243,28 +263,6 @@ void QmlGeneratorController::generateQML(const ImageController* ctrl, QString& q
     qreal ratioBis= 1;
     bool hasImage= false;
 
-    /*QList<QPixmap*> imageList;
-    for(auto key : pixlist.keys())
-    {
-        if(ctrl->isBackgroundById(key))
-        {
-            imageList.append(pixlist.value(key));
-        }
-    }
-
-    for(QPixmap* pix2 : imageList)
-    {
-        if(size != pix2->size())
-        {
-            if(size.isValid())
-                allTheSame= false;
-            size= pix2->size();
-        }
-        pix= pix2;
-    }
-    qreal ratio= 1;
-    qreal ratioBis= 1;
-    bool hasImage= false;*/
     if(size.isValid())
     {
         ratio= static_cast<qreal>(size.width()) / static_cast<qreal>(size.height());

@@ -21,6 +21,8 @@ ImageController::ImageController(QTableView* view, QObject* parent)
     m_view->setAlternatingRowColors(true);
 #endif
 
+    connect(m_model.get(), &ImageModel::internalDataChanged, this, &ImageController::dataChanged);
+
     m_copyPath= new QAction(tr("Copy Path"), this);
     m_copyPath->setShortcut(QKeySequence("CTRL+c"));
 
