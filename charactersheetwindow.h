@@ -25,12 +25,11 @@
 #include <QQmlEngine>
 #include <QTreeView>
 #include <QVBoxLayout>
+#include <memory>
 
 #include "charactersheetmodel.h"
 #include "data/mediacontainer.h"
 #include "rolisteamimageprovider.h"
-
-//#include "qmlnetworkaccessmanager.h"
 
 /**
  * @page characterSheet CharacterSheet System
@@ -345,12 +344,11 @@ private:
 
     // QMap<SheetWidget*,CharacterSheet*> m_characterSheetlist;
     CharacterSheet* m_currentCharacterSheet;
-    RolisteamImageProvider* m_imgProvider;
     QQmlComponent* m_sheetComponent;
 
     QHash<CharacterSheet*, Player*> m_sheetToPerson;
     QHash<CharacterSheet*, Character*> m_sheetToCharacter;
-    QSharedPointer<QHash<QString, QPixmap>> m_pixmapList;
+    std::unique_ptr<ImageModel> m_imageModel;
 
     QJsonObject m_data;
 

@@ -261,3 +261,38 @@ void ImageModel::removeImage(int i)
     endRemoveRows();
     emit internalDataChanged();
 }
+
+#ifndef RCSE
+void ImageModel::fill(NetworkMessageWriter& msg) const
+{
+    msg.uint32(static_cast<unsigned int>(m_data.size()));
+    for(const auto& info : m_data )
+    {
+        const auto& pix = info.pixmap;
+        QByteArray array;
+        QBuffer buffer(&array);
+        buffer.open(QIODevice::WriteOnly);
+        pix.toImage().save(&buffer, "jpg");
+        msg.byteArray32(array);
+        msg.uint8(info.isBackground);
+        msg.string32(info.key);
+        msg.string32(info.filename);
+    }
+
+}
+
+void ImageModel::read( NetworkMessageReader& msg)
+{
+    auto size = msg.uint32();
+    for(unsigned int i =0 ; i<size; ++i)
+    {
+      ImageInfo info;
+      auto array = msg.byteArray32();
+      info.pixmap.loadFromData(array);
+      info.isBackground = msg.uint8();
+      info.key = msg.string32();
+      info.filename = msg.string32();
+      m_data.push_back(info);
+    }
+}
+#endif

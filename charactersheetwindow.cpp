@@ -90,11 +90,9 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri, QWidget* parent)
     connect(m_detachTab, SIGNAL(triggered(bool)), this, SLOT(detachTab()));
     connect(m_stopSharingTabAct, &QAction::triggered, this, &CharacterSheetWindow::stopSharing);
 
-    m_imgProvider= new RolisteamImageProvider();
-    m_pixmapList= QSharedPointer<QHash<QString, QPixmap>>(new QHash<QString, QPixmap>());
-    m_imgProvider->setData(m_pixmapList);
+    //m_imgProvider= new RolisteamImageProvider(m_imageModel.get());
 
-    auto button= new QToolButton(); // tr("Actions")
+    auto button= new QToolButton(this); // tr("Actions")
     auto act= new QAction(QIcon("://resources/icons/list.svg"), tr("Actions"), this);
     button->setDefaultAction(act);
     m_tabs->setCornerWidget(button);
@@ -103,11 +101,6 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri, QWidget* parent)
 }
 CharacterSheetWindow::~CharacterSheetWindow()
 {
-    if(nullptr != m_imgProvider)
-    {
-        delete m_imgProvider;
-        m_imgProvider= nullptr;
-    }
 }
 void CharacterSheetWindow::addLine()
 {
@@ -431,8 +424,7 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     auto qmlView= new SheetWidget(this);
     connect(qmlView, &SheetWidget::customMenuRequested, this, &CharacterSheetWindow::contextMenuForTabs);
 
-    auto imageProvider= new RolisteamImageProvider();
-    imageProvider->setData(m_imgProvider->getData());
+    auto imageProvider= new RolisteamImageProvider(m_imageModel.get());
 
     auto engineQml= qmlView->engine();
 
@@ -441,8 +433,6 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     if(m_sheetToCharacter.contains(chSheet))
     {
         auto character= m_sheetToCharacter.value(chSheet);
-        // TODO: find better way ?
-        character->setImageProvider(imageProvider);
         qmlView->engine()->rootContext()->setContextProperty("_character", character);
     }
 
@@ -650,10 +640,12 @@ bool CharacterSheetWindow::readData(QByteArray data)
         QJsonObject obj= jsonpix.toObject();
         QString str= obj["bin"].toString();
         QString key= obj["key"].toString();
+        QString filename= obj["filename"].toString();
+        bool isBg = obj["isBg"].toBool();
         QByteArray array= QByteArray::fromBase64(str.toUtf8());
-        QPixmap* pix= new QPixmap();
-        pix->loadFromData(array);
-        m_imgProvider->insertPix(key, *pix);
+        QPixmap pix;
+        pix.loadFromData(array);
+        m_imageModel->insertImage(pix,key,filename,isBg);
     }
 
     const auto fonts= jsonObj["fonts"].toArray();
@@ -711,16 +703,6 @@ void CharacterSheetWindow::closeEvent(QCloseEvent* event)
 {
     setVisible(false);
     event->ignore();
-}
-
-RolisteamImageProvider* CharacterSheetWindow::getImgProvider() const
-{
-    return m_imgProvider;
-}
-
-void CharacterSheetWindow::setImgProvider(RolisteamImageProvider* imgProvider)
-{
-    m_imgProvider= imgProvider;
 }
 
 QString CharacterSheetWindow::getQmlData() const
@@ -812,10 +794,8 @@ void CharacterSheetWindow::fillMessage(NetworkMessageWriter* msg, CharacterSheet
         sheet->fill(*msg);
     }
     msg->string32(m_qmlData);
-    if(nullptr != m_imgProvider)
-    {
-        m_imgProvider->fill(*msg);
-    }
+    m_imageModel->fill(*msg);
+
     m_model.fillRootSection(msg);
 }
 
@@ -832,10 +812,8 @@ void CharacterSheetWindow::readMessage(NetworkMessageReader& msg)
         sheet->read(msg);
     }
     m_qmlData= msg.string32();
-    if(nullptr != m_imgProvider)
-    {
-        m_imgProvider->read(msg);
-    }
+    m_imageModel->read(msg);
+
 
     Character* character= PlayersList::instance()->getCharacter(idChar);
     m_sheetToCharacter.insert(sheet, character);

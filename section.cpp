@@ -25,9 +25,11 @@
 #include <QJsonObject>
 
 #include "charactersheetbutton.h"
-#include "controllers/editorcontroller.h"
 #include "field.h"
 #include "tablefield.h"
+#ifdef RCSE
+#include "controllers/editorcontroller.h"
+#endif
 
 #include <QDebug>
 
@@ -169,9 +171,11 @@ void Section::load(const QJsonObject& json, EditorController* ctrl)
         if(!m_dataHash.contains(item->getPath()))
         {
             item->setParent(this);
+#ifdef RCSE
             auto page= std::max(0, item->getPage()); // add item for all pages on the first canvas.
             if(ctrl)
                 ctrl->addItem(page, gItem);
+#endif
             item->initGraphicsItem();
             m_dataHash.insert(item->getPath(), item);
             m_keyList.append(item->getPath());

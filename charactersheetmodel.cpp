@@ -492,11 +492,10 @@ int CharacterSheetModel::getCharacterSheetCount() const
 void CharacterSheetModel::readRootSection(NetworkMessageReader* msg)
 {
     beginResetModel();
-    QList<QGraphicsScene*> scenes;
     QByteArray array= msg->byteArray32();
     QJsonDocument doc= QJsonDocument::fromBinaryData(array);
     QJsonObject obj= doc.object();
-    m_rootSection->load(obj, scenes);
+    m_rootSection->load(obj, nullptr);
     endResetModel();
 }
 

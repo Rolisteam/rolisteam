@@ -26,32 +26,3 @@ QPixmap RolisteamImageProvider::requestPixmap(const QString& id, QSize* size, co
     }
 }
 
-#ifndef RCSE
-void RolisteamImageProvider::fill(NetworkMessageWriter& msg)
-{
-    msg.uint16(m_data->count());
-    auto const& keys= m_data->keys();
-    for(auto& key : keys)
-    {
-        msg.string16(key);
-        QByteArray array;
-        QBuffer buffer(&array);
-        buffer.open(QIODevice::WriteOnly);
-        m_data->value(key).toImage().save(&buffer, "jpg");
-        msg.byteArray32(array);
-    }
-}
-
-void RolisteamImageProvider::read(NetworkMessageReader& msg)
-{
-    int size= msg.uint16();
-    for(int i= 0; i < size; ++i)
-    {
-        QString key= msg.string16();
-        QByteArray array= msg.byteArray32();
-        QPixmap* pix= new QPixmap();
-        pix->loadFromData(array);
-        insertPix(key, *pix);
-    }
-}
-#endif
