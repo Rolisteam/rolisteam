@@ -94,7 +94,6 @@ public slots:
     void openQML();
 
     void addBackgroundImage();
-    void rollDice(QString cmd);
     void addPage();
     void removePage();
 
@@ -105,7 +104,6 @@ public slots:
     void helpOnLine();
 
     void exportPDF();
-    void rollDice(QString cmd, bool b);
 
 signals:
     void currentFileChanged();

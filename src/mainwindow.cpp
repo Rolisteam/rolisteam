@@ -26,12 +26,12 @@
 #include "common/widgets/logpanel.h"
 #include <QBuffer>
 #include <QButtonGroup>
-#include <QClipboard>
 #include <QColorDialog>
 #include <QDebug>
 #include <QDesktopServices>
 #include <QDir>
 #include <QDockWidget>
+#include <QQmlProperty>
 #include <QFileDialog>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -44,16 +44,12 @@
 #include <QPagedPaintDevice>
 #include <QPrintDialog>
 #include <QPrinter>
-#include <QQmlComponent>
 #include <QQmlContext>
-#include <QQmlEngine>
 #include <QQmlError>
-#include <QQmlProperty>
 #include <QQuickItem>
 #include <QTemporaryFile>
 #include <QTimer>
 #include <QUrl>
-#include <QUuid>
 
 #ifdef WITH_PDF
 #include <poppler-qt5.h>
@@ -73,9 +69,7 @@
 #include "delegate/pagedelegate.h"
 
 // Undo
-
 #include "undo/addpagecommand.h"
-
 #include "undo/deletefieldcommand.h"
 #include "undo/deletepagecommand.h"
 #include "undo/setbackgroundimage.h"
@@ -506,8 +500,8 @@ void MainWindow::openPDF()
     {
         qreal res= m_pdf->getDpi();
         m_imageCtrl->clearData();
-        QString id= QUuid::createUuid().toString();
-        static int lastCanvas= static_cast<int>(m_editorCtrl->pageCount()) - 1;
+        //QString id= QUuid::createUuid().toString();
+        //static int lastCanvas= static_cast<int>(m_editorCtrl->pageCount()) - 1;
 
         QSize previous;
         if(m_pdf->hasResolution())
@@ -978,16 +972,6 @@ bool MainWindow::qmlGeneration() const
 void MainWindow::setQmlGeneration(bool qmlGeneration)
 {
     m_qmlGeneration= qmlGeneration;
-}
-
-void MainWindow::rollDice(QString cmd)
-{
-    qDebug() << cmd;
-}
-
-void MainWindow::rollDice(QString cmd, bool b)
-{
-    qDebug() << cmd << b;
 }
 
 void MainWindow::aboutRcse()

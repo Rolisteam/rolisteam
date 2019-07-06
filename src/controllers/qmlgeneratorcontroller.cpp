@@ -373,3 +373,12 @@ void QmlGeneratorController::generateQML(const ImageController* ctrl, QString& q
     text << "}\n";
     text.flush();
 }
+void QmlGeneratorController::rollDice(QString cmd)
+{
+    qDebug() << cmd;
+}
+
+void QmlGeneratorController::rollDice(QString cmd, bool b)
+{
+    qDebug() << cmd << b;
+}

@@ -66,7 +66,9 @@ public slots:
     void setLastPageId(unsigned int pageId);
     void setTextEdited(bool t);
     void setFonts(QStringList fonts);
-
+protected slots:
+    void rollDice(QString cmd);
+    void rollDice(QString cmd, bool b);
 private:
     QString m_headCode;
     QString m_bottomCode;
