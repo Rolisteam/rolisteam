@@ -80,6 +80,10 @@ AddFieldCommand::AddFieldCommand(Canvas::Tool tool, Canvas* canvas, FieldModel* 
         m_field->setCurrentType(Field::IMAGE);
         type= QObject::tr("Image");
         break;
+    case Canvas::ADDLABEL:
+        m_field->setCurrentType(Field::RLABEL);
+        type= QObject::tr("LabelField");
+        break;
     case Canvas::ADDFUNCBUTTON:
         m_field->setCurrentType(Field::FUNCBUTTON);
         type= QObject::tr("function");

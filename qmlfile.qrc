@@ -23,6 +23,7 @@
         <file alias="resources/qml/WebView.qml">src/charactersheet/qml/WebView.qml</file>
         <file alias="resources/qml/PageButton.qml">src/charactersheet/qml/PageButton.qml</file>
         <file alias="resources/qml/Table.qml">src/charactersheet/qml/Table.qml</file>
+        <file alias="resources/qml/RLabel.qml">src/charactersheet/qml/RLabel.qml</file>
         <file>resources/logo/symbol2.png</file>
         <file>translations/rcse_fr.qm</file>
         <file>translations/rcse_de.qm</file>
@@ -43,5 +44,6 @@
         <file>resources/icons/arrow_next.svg</file>
         <file>resources/icons/next.png</file>
         <file>resources/icons/previous.png</file>
+        <file>resources/icons/text-label.svg</file>
     </qresource>
 </RCC>

@@ -45,6 +45,7 @@ public:
         ADDTEXTAREA,
         ADDTABLE,
         ADDIMAGE,
+        ADDLABEL,
         ADDFUNCBUTTON,
         ADDWEBPAGE,
         NEXTPAGE,

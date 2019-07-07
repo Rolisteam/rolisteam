@@ -164,6 +164,7 @@ MainWindow::MainWindow(QWidget* parent)
     ui->m_addTextInputAct->setData(Canvas::ADDINPUT);
     ui->m_addTextFieldAct->setData(Canvas::ADDTEXTFIELD);
     ui->m_addImageAction->setData(Canvas::ADDIMAGE);
+    ui->m_addLabelAction->setData(Canvas::ADDLABEL);
     ui->m_functionButtonAct->setData(Canvas::ADDFUNCBUTTON);
     ui->m_tableFieldAct->setData(Canvas::ADDTABLE);
     ui->m_webPageAct->setData(Canvas::ADDWEBPAGE);
@@ -180,6 +181,7 @@ MainWindow::MainWindow(QWidget* parent)
     ui->m_addTextArea->setDefaultAction(ui->m_addTextAreaAct);
     ui->m_addTextField->setDefaultAction(ui->m_addTextFieldAct);
     ui->m_addCheckbox->setDefaultAction(ui->m_addCheckBoxAct);
+    ui->m_addLabelBtn->setDefaultAction(ui->m_addLabelAction);
     ui->m_imageBtn->setDefaultAction(ui->m_addImageAction);
     ui->m_functionBtn->setDefaultAction(ui->m_functionButtonAct);
     ui->m_tableFieldBtn->setDefaultAction(ui->m_tableFieldAct);
@@ -204,6 +206,7 @@ MainWindow::MainWindow(QWidget* parent)
     group->addButton(ui->m_addTextInput);
     group->addButton(ui->m_addTextArea);
     group->addButton(ui->m_addCheckbox);
+    group->addButton(ui->m_addLabelBtn);
     group->addButton(ui->m_addButtonBtn);
     group->addButton(ui->m_imageBtn);
     group->addButton(ui->m_deleteBtn);
@@ -236,6 +239,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(ui->m_addCheckBoxAct, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_addTextAreaAct, &QAction::triggered, this, setCurrentTool);
+    connect(ui->m_addLabelAction, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_addTextFieldAct, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_addTextInputAct, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_addImageAction, &QAction::triggered, this, setCurrentTool);

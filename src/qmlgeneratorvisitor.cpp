@@ -67,6 +67,9 @@ bool QmlGeneratorVisitor::generateCharacterSheetItem()
                 case CharacterSheetItem::FUNCBUTTON:
                     generateFuncButton(field);
                     break;
+                case CharacterSheetItem::RLABEL:
+                    generateLabelField(field);
+                    break;
                 case CharacterSheetItem::TABLE:
                     generateTable(field);
                     break;
@@ -136,6 +139,9 @@ bool QmlGeneratorVisitor::generateQmlCodeForRoot()
             break;
         case CharacterSheetItem::FUNCBUTTON:
             generateFuncButton(field);
+            break;
+        case CharacterSheetItem::RLABEL:
+            generateLabelField(field);
             break;
         case CharacterSheetItem::TABLE:
             generateTable(field);
@@ -243,7 +249,29 @@ bool QmlGeneratorVisitor::generateTextField(Field* item)
 
     return true;
 }
+bool QmlGeneratorVisitor::generateLabelField(Field* item)
+{
+    if(!item)
+        return false;
 
+    QString text("%5RLabel {//%1\n"
+                 "%6"
+                 "%5    text: %2.value\n"
+                 "%5    color:\"%3\"\n"
+                 "%5    backgroundColor: \"%4\"\n"
+                 + getPageManagement(item, m_indenSpace) + "%5    readOnly: %2.readOnly\n" + getToolTip(item)
+                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font()) + "%5}\n");
+
+    m_out << text.arg(item->getLabel()) //%1
+                 .arg(getId(item))
+                 .arg(item->textColor().name(QColor::HexArgb))
+                 .arg(item->bgColor().name(QColor::HexArgb))
+                 .arg(m_indenSpace) //%5
+                 .arg(m_isTable ? QStringLiteral("") :
+                                  QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
+
+    return true;
+}
 bool QmlGeneratorVisitor::generateSelect(Field* item)
 {
     if(!item)

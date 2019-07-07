@@ -1,7 +1,6 @@
 #ifndef QMLGENERATORVISITOR_H
 #define QMLGENERATORVISITOR_H
 
-
 #include <QTextStream>
 
 class CharacterSheetItem;
@@ -10,8 +9,6 @@ class QmlGeneratorVisitor
 {
 public:
     QmlGeneratorVisitor(QTextStream& out, CharacterSheetItem* rootItem);
-
-
 
     bool isTable() const;
     void setIsTable(bool isTable);
@@ -29,11 +26,12 @@ protected:
     bool generateSelect(Field* item);
     bool generateCheckBox(Field* item);
     bool generateFuncButton(Field* item);
-    bool generateDiceButton(Field *item);
+    bool generateDiceButton(Field* item);
     bool generateImage(Field* item);
     bool generateWebPage(Field* item);
-    bool generateTable(Field *item);
-    bool generateChangePageBtn(Field *item, bool next);
+    bool generateTable(Field* item);
+    bool generateChangePageBtn(Field* item, bool next);
+    bool generateLabelField(Field* item);
 
     QString generatePosition(Field* item);
     QString generateAlignment(Field* item);
@@ -41,12 +39,13 @@ protected:
 
     QString getId(Field* item);
 
-    QString getToolTip(Field *item);
+    QString getToolTip(Field* item);
+
 private:
     QTextStream& m_out;
-    CharacterSheetItem* m_root = nullptr;
-    bool m_isTable = false;
-    int m_indentation = 1;
+    CharacterSheetItem* m_root= nullptr;
+    bool m_isTable= false;
+    int m_indentation= 1;
     QString m_indenSpace;
 };
 
