@@ -8,7 +8,7 @@
 
 namespace Ui
 {
-    class LogPanel;
+class LogPanel;
 }
 
 class LogPanel : public QWidget
@@ -16,7 +16,7 @@ class LogPanel : public QWidget
     Q_OBJECT
 
 public:
-    explicit LogPanel(LogController* controller, QWidget* parent= 0);
+    explicit LogPanel(LogController* controller, QWidget* parent= nullptr);
     ~LogPanel();
 
 public slots:
