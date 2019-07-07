@@ -171,12 +171,7 @@ void QmlGeneratorController::save(QJsonObject& obj) const
 
     // qml file
     QString qmlFile= m_codeEdit->document()->toPlainText();
-    /*if(qmlFile.isEmpty())
-    {
-        generateQML(qmlFile);
-    }*/
     obj["qml"]= qmlFile;
-
     obj["additionnalHeadCode"]= m_headCode;
     obj["additionnalImport"]= m_importCode;
     obj["fixedScale"]= m_fixedScaleSheet;
@@ -233,8 +228,6 @@ void QmlGeneratorController::showQML(QQuickWidget* quickView, ImageController* i
     generateQML(imgCtrl, data);
     m_codeEdit->setPlainText(data);
     runQmlFromCode(quickView, imgCtrl);
-
-
 }
 
 void QmlGeneratorController::runQmlFromCode(QQuickWidget* quickView, ImageController* imgCtrl)
