@@ -129,6 +129,7 @@ private:
     std::unique_ptr<CharacterController> m_characterCtrl;
     std::unique_ptr<QmlGeneratorController> m_qmlCtrl;
     std::unique_ptr<ImageController> m_imageCtrl;
+    std::unique_ptr<LogController> m_logCtrl;
 
     ItemEditor* m_view;
     EDITION_TOOL m_currentTool;
@@ -143,7 +144,6 @@ private:
 
     // Log
     LogPanel* m_logPanel= nullptr;
-    LogController* m_logManager= nullptr;
 
     // Recent file
     std::vector<QAction*> m_recentActions;

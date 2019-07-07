@@ -31,7 +31,6 @@
 #include <QDesktopServices>
 #include <QDir>
 #include <QDockWidget>
-#include <QQmlProperty>
 #include <QFileDialog>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -46,6 +45,7 @@
 #include <QPrinter>
 #include <QQmlContext>
 #include <QQmlError>
+#include <QQmlProperty>
 #include <QQuickItem>
 #include <QTemporaryFile>
 #include <QTimer>
@@ -113,11 +113,12 @@ MainWindow::MainWindow(QWidget* parent)
             &CharacterController::setRootSection);
 
     // LOG
-    m_logManager= new LogController(true, this);
-    m_logManager->setCurrentModes(LogController::Gui);
+    m_logCtrl.reset(new LogController(true, this));
+    connect(m_qmlCtrl.get(), &QmlGeneratorController::reportLog, m_logCtrl.get(), &LogController::manageMessage);
+    m_logCtrl->setCurrentModes(LogController::Gui);
     QDockWidget* wid= new QDockWidget(tr("Log panel"), this);
     wid->setObjectName(QStringLiteral("logpanel"));
-    m_logPanel= new LogPanel(m_logManager);
+    m_logPanel= new LogPanel(m_logCtrl.get());
     wid->setWidget(m_logPanel);
     addDockWidget(Qt::BottomDockWidgetArea, wid);
     auto showLogPanel= wid->toggleViewAction();
@@ -186,8 +187,7 @@ MainWindow::MainWindow(QWidget* parent)
     ui->m_nextPageBtn->setDefaultAction(ui->m_nextPageAct);
     ui->m_previousPageBtn->setDefaultAction(ui->m_previousPageAct);
 
-    auto notifyDataChanged= [this]() {
-        setWindowModified(true); };
+    auto notifyDataChanged= [this]() { setWindowModified(true); };
 
     connect(m_editorCtrl.get(), &EditorController::pageAdded, this, [this, notifyDataChanged](Canvas* canvas) {
         canvas->setModel(m_qmlCtrl->fieldModel());
@@ -244,7 +244,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->m_webPageAct, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_nextPageAct, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_previousPageAct, &QAction::triggered, this, setCurrentTool);
-    connect(ui->m_moveAct, &QAction::triggered,this, [this](bool triggered) { m_view->setHandle(triggered); });
+    connect(ui->m_moveAct, &QAction::triggered, this, [this](bool triggered) { m_view->setHandle(triggered); });
     connect(ui->m_exportPdfAct, &QAction::triggered, this, &MainWindow::exportPDF);
     connect(ui->m_moveAct, &QAction::triggered, this, setCurrentTool);
     connect(ui->m_deleteAct, &QAction::triggered, this, setCurrentTool);
@@ -317,7 +317,6 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_characterCtrl.get(), &CharacterController::dataChanged, this, notifyDataChanged);
     connect(m_qmlCtrl.get(), &QmlGeneratorController::dataChanged, this, notifyDataChanged);
     connect(m_imageCtrl.get(), &ImageController::dataChanged, this, notifyDataChanged);
-
 }
 MainWindow::~MainWindow()
 {
@@ -589,7 +588,7 @@ void MainWindow::openImage()
         return;
 
     QPixmap map(img);
-    m_imageCtrl->addImage(map,img);
+    m_imageCtrl->addImage(map, img);
 }
 
 void MainWindow::showPreferences()
@@ -847,7 +846,7 @@ void MainWindow::displayWarningsQML(const QList<QQmlError>& list)
             type= LogController::Error;
             break;
         }
-        m_logManager->manageMessage(error.toString(), type);
+        m_logCtrl->manageMessage(error.toString(), type);
     }
 }
 
