@@ -112,20 +112,20 @@ void LineFieldItem::saveDataItem(QJsonArray& json)
         json.append(obj);
     }
 }
-void LineFieldItem::load(QJsonArray& json, QList<QGraphicsScene*> scene, CharacterSheetItem* parent)
+void LineFieldItem::load(QJsonArray& json, EditorController* ctrl, CharacterSheetItem* parent)
 {
-    for(auto const& value : json)
+    for(auto const value : json)
     {
         Field* field= new Field();
         field->setParent(parent);
         QJsonObject obj= value.toObject();
-        field->load(obj, scene);
+        field->load(obj, ctrl);
         m_fields.append(field);
     }
 }
 void LineFieldItem::loadDataItem(QJsonArray& json, CharacterSheetItem* parent)
 {
-    for(auto const& value : json)
+    for(auto const value : json)
     {
         Field* field= new Field();
         field->setParent(parent);
@@ -268,7 +268,7 @@ void LineModel::saveDataItem(QJsonArray& json)
     }
 }
 
-void LineModel::load(const QJsonArray& json, QList<QGraphicsScene*> scene, CharacterSheetItem* parent)
+void LineModel::load(const QJsonArray& json, EditorController* ctrl, CharacterSheetItem* parent)
 {
     beginResetModel();
     QJsonArray::Iterator it;
@@ -276,7 +276,7 @@ void LineModel::load(const QJsonArray& json, QList<QGraphicsScene*> scene, Chara
     {
         QJsonArray obj= array.toArray();
         LineFieldItem* line= new LineFieldItem();
-        line->load(obj, scene, parent);
+        line->load(obj, ctrl, parent);
         m_lines.append(line);
     }
     endResetModel();
@@ -581,9 +581,9 @@ CharacterSheetItem::CharacterSheetItemType TableField::getItemType() const
 {
     return CharacterSheetItemType::TableItem;
 }
-void TableField::load(const QJsonObject& json, QList<QGraphicsScene*> scene)
+void TableField::load(const QJsonObject& json, EditorController* ctrl)
 {
-    Q_UNUSED(scene);
+    Q_UNUSED(ctrl);
     // TODO dupplicate from Field
     m_id= json["id"].toString();
     m_border= static_cast<BorderLine>(json["border"].toInt());
@@ -636,15 +636,14 @@ void TableField::load(const QJsonObject& json, QList<QGraphicsScene*> scene)
     m_rect.setRect(x, y, w, h);
     QJsonArray childArray= json["children"].toArray();
 
-    QList<QGraphicsScene*> emptyList;
-    m_model->load(childArray, emptyList, this);
+    m_model->load(childArray, nullptr, this);
 
 #ifdef RCSE
     if(json.contains("canvas"))
     {
         m_tableCanvasField= new TableCanvasField(this);
         auto obj= json["canvas"].toObject();
-        m_tableCanvasField->load(obj, emptyList);
+        m_tableCanvasField->load(obj, nullptr);
         m_canvasField= m_tableCanvasField;
     }
     m_canvasField->setPos(x, y);

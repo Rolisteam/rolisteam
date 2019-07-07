@@ -27,6 +27,7 @@
 #include <QVariant>
 
 class QGraphicsScene;
+class EditorController;
 /**
  * @brief The Item class
  */
@@ -169,7 +170,7 @@ public:
      * @param json
      * @param scene
      */
-    virtual void load(const QJsonObject& json, QList<QGraphicsScene*> scene)= 0;
+    virtual void load(const QJsonObject& json, EditorController* ctrl)= 0;
 
     /**
      * @brief save

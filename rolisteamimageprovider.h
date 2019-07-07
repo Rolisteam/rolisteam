@@ -3,6 +3,8 @@
 
 #include <QQuickImageProvider>
 #include <QSharedPointer>
+#include "imagemodel.h"
+
 #ifndef RCSE
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -13,24 +15,16 @@
 class RolisteamImageProvider : public QQuickImageProvider
 {
 public:
-    RolisteamImageProvider();
+    RolisteamImageProvider(ImageModel* model);
     virtual ~RolisteamImageProvider();
     virtual QPixmap requestPixmap(const QString& id, QSize* size, const QSize& requestedSize);
-
-    void insertPix(QString key, QPixmap img);
-    QSharedPointer<QHash<QString, QPixmap>> getData();
-    void cleanData();
-
-    void setData(QSharedPointer<QHash<QString, QPixmap>> data);
-
-    void removeImg(QString key);
 
 #ifndef RCSE
     void fill(NetworkMessageWriter& msg);
     void read(NetworkMessageReader& msg);
 #endif
 private:
-    QSharedPointer<QHash<QString, QPixmap>> m_data;
+    ImageModel* m_model;
 };
 
 #endif // ROLISTEAMIMAGEPROVIDER_H

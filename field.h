@@ -73,7 +73,7 @@ public:
     virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var);
 
     virtual void save(QJsonObject& json, bool exp= false);
-    virtual void load(const QJsonObject& json, QList<QGraphicsScene*> scene);
+    virtual void load(const QJsonObject& json, EditorController* ctrl);
     /**
      * @brief saveDataItem
      * @param json
