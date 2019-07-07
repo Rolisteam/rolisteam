@@ -58,7 +58,7 @@ signals:
     void fontsChanged(QStringList fonts);
     void errors(const QList<QQmlError>& warning);
     void sectionChanged(Section* section);
-    void reportLog(const QString& log, LogController::LogLevel level);
+    void reportLog(const QString& log, LogController::LogLevel level= LogController::Features);
 
 public slots:
     void setHeadCode(QString headCode);

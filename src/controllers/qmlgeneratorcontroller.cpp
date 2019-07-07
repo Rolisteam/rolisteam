@@ -264,6 +264,7 @@ void QmlGeneratorController::runQmlFromCode(QQuickWidget* quickView, ImageContro
     emit errors(quickView->errors());
     quickView->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QObject* root= quickView->rootObject();
+    connect(root, SIGNAL(showText(QString)), this, SIGNAL(reportLog(QString)));
     connect(root, SIGNAL(rollDiceCmd(QString, bool)), this, SLOT(rollDice(QString, bool)));
     connect(root, SIGNAL(rollDiceCmd(QString)), this, SLOT(rollDice(QString)));
 }
