@@ -6,6 +6,8 @@
 #include <QQmlError>
 #include <memory>
 
+#include "common/controller/logcontroller.h"
+#include "data/mockcharacter.h"
 #include "fieldmodel.h"
 
 class CodeEditor;
@@ -57,6 +59,7 @@ signals:
     void fontsChanged(QStringList fonts);
     void errors(const QList<QQmlError>& warning);
     void sectionChanged(Section* section);
+    void reportLog(const QString& log, LogController::LogLevel level);
 
 public slots:
     void setHeadCode(QString headCode);
@@ -86,6 +89,7 @@ private:
     QStringList m_fonts;
     unsigned int m_lastPageId= 0;
     mutable bool m_textEdited= false;
+    std::unique_ptr<MockCharacter> m_mockCharacter;
 };
 
 #endif // QMLGENERATORCONTROLLER_H

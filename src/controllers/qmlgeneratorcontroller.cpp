@@ -13,10 +13,18 @@
 #include "rolisteamimageprovider.h"
 
 QmlGeneratorController::QmlGeneratorController(CodeEditor* codeEditor, QTreeView* view, QObject* parent)
-    : QObject(parent), m_model(new FieldModel), m_codeEdit(codeEditor), m_view(view)
+    : QObject(parent), m_model(new FieldModel), m_codeEdit(codeEditor), m_view(view), m_mockCharacter(new MockCharacter)
 {
-    connect(m_model.get(), &FieldModel::modelChanged, this,
-    [this]() {
+    connect(m_mockCharacter.get(), &MockCharacter::dataChanged, this, [this](const QString& name) {
+        emit reportLog(tr("The character value %1 has been defined to %2")
+                           .arg(name)
+                           .arg(m_mockCharacter->property(name.toStdString().c_str()).toString()),
+                       LogController::Features);
+    });
+    connect(m_mockCharacter.get(), &MockCharacter::log, this,
+            [this](const QString& log) { emit reportLog(log, LogController::Features); });
+
+    connect(m_model.get(), &FieldModel::modelChanged, this, [this]() {
         emit sectionChanged(m_model->getRootSection());
         emit dataChanged();
     });
@@ -208,6 +216,16 @@ void QmlGeneratorController::clearData()
 
     m_model->clearModel();
     m_codeEdit->clear();
+
+    m_mockCharacter.reset(new MockCharacter);
+    connect(m_mockCharacter.get(), &MockCharacter::dataChanged, this, [this](const QString& name) {
+        emit reportLog(tr("The character value %1 has been defined to %2")
+                           .arg(name)
+                           .arg(m_mockCharacter->property(name.toStdString().c_str()).toString()),
+                       LogController::Features);
+    });
+    connect(m_mockCharacter.get(), &MockCharacter::log, this,
+            [this](const QString& log) { emit reportLog(log, LogController::Features); });
 }
 void QmlGeneratorController::showQML(QQuickWidget* quickView, ImageController* imgCtrl)
 {
@@ -240,6 +258,8 @@ void QmlGeneratorController::runQmlFromCode(QQuickWidget* quickView, ImageContro
     {
         quickView->engine()->rootContext()->setContextProperty(item->getId(), item);
     }
+    quickView->engine()->rootContext()->setContextProperty("_character", m_mockCharacter.get());
+
     connect(quickView->engine(), &QQmlEngine::warnings, this, &QmlGeneratorController::errors);
 
     connect(quickView, &QQuickWidget::statusChanged, this, [this, quickView](QQuickWidget::Status status) {
@@ -372,10 +392,13 @@ void QmlGeneratorController::generateQML(const ImageController* ctrl, QString& q
 }
 void QmlGeneratorController::rollDice(QString cmd)
 {
-    qDebug() << cmd;
+    emit reportLog(tr("The dice command %1 has been sent.").arg(cmd), LogController::Features);
 }
 
 void QmlGeneratorController::rollDice(QString cmd, bool b)
 {
-    qDebug() << cmd << b;
+    if(b)
+        emit reportLog(tr("The dice command %1 has been sent with aliases").arg(cmd), LogController::Features);
+    else
+        emit reportLog(tr("The dice command %1 has been sent with no aliases").arg(cmd), LogController::Features);
 }
