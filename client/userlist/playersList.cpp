@@ -263,15 +263,6 @@ bool PlayersList::setData(const QModelIndex& index, const QVariant& value, int r
     return false;
 }
 
-QModelIndex PlayersList::mapIndexToMe(const QModelIndex& index) const
-{
-    if(!index.isValid())
-        return QModelIndex();
-
-    auto data= static_cast<Person*>(index.internalPointer());
-    return QAbstractItemModel::createIndex(index.row(), index.column(), data);
-}
-
 QModelIndex PlayersList::personToIndex(Person* person) const
 {
     QModelIndex parent;
@@ -500,6 +491,9 @@ void PlayersList::sendOffPersonChanges(const QString& property)
     auto person= qobject_cast<Person*>(sender());
     if(nullptr == person)
         return;
+
+    auto idx= personToIndex(person);
+    emit dataChanged(idx, idx);
 
     auto cat   = NetMsg::PlayerCategory;
     auto action= NetMsg::ChangePlayerProperty;
@@ -799,6 +793,9 @@ void PlayersList::updatePerson(NetworkMessageReader& data)
     m_receivingData= true;
     person->setProperty(property.toLocal8Bit().data(), var);
     m_receivingData= false;
+
+    auto idx= personToIndex(person);
+    emit dataChanged(idx, idx);
 }
 
 void PlayersList::addCharacter(NetworkMessageReader& data)

@@ -70,7 +70,6 @@ public:
 
     // Event handlers
     bool event(QEvent* event);
-    QModelIndex mapIndexToMe(const QModelIndex& index) const;
 
     // Getters
     /**

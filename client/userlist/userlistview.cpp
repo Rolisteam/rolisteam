@@ -41,7 +41,7 @@ UserListView::UserListView(QWidget* parent) : QTreeView(parent), m_diceParser(ne
 {
     setHeaderHidden(true);
 
-    m_addAvatarAct   = new QAction(tr("Set Avatar..."), this);
+    m_addAvatarAct= new QAction(tr("Set Avatar..."), this);
     m_removeAvatarAct= new QAction(tr("Remove Avatar..."), this);
     connect(m_addAvatarAct, &QAction::triggered, this, &UserListView::addAvatar);
     connect(m_removeAvatarAct, &QAction::triggered, this, &UserListView::deleteAvatar);
@@ -73,10 +73,10 @@ void UserListView::setState()
     if(nullptr == act)
         return;
 
-    auto index    = currentIndex();
-    auto stateIdx = act->data().toInt();
-    auto state    = Character::getStateFromIndex(stateIdx);
-    QString uuid  = index.data(PlayersList::IdentifierRole).toString();
+    auto index= currentIndex();
+    auto stateIdx= act->data().toInt();
+    auto state= Character::getStateFromIndex(stateIdx);
+    QString uuid= index.data(PlayersList::IdentifierRole).toString();
     auto tmpPlayer= dynamic_cast<Character*>(PlayersList::instance()->getPerson(uuid));
 
     if(nullptr == tmpPlayer || nullptr == state)
@@ -91,10 +91,10 @@ void UserListView::setPropertyValue()
     if(nullptr == act)
         return;
 
-    auto index      = currentIndex();
-    QVariant value  = act->data();
-    auto pair       = value.value<std::pair<QString, Type>>();
-    QString uuid    = index.data(PlayersList::IdentifierRole).toString();
+    auto index= currentIndex();
+    QVariant value= act->data();
+    auto pair= value.value<std::pair<QString, Type>>();
+    QString uuid= index.data(PlayersList::IdentifierRole).toString();
     Person* tmpperso= PlayersList::instance()->getPerson(uuid);
 
     if(nullptr == tmpperso)
@@ -108,7 +108,7 @@ void UserListView::setPropertyValue()
     {
     case Boolean:
         var= !formerVal.toBool();
-        ok = true;
+        ok= true;
         break;
     case Integer:
         var= QInputDialog::getInt(this, tr("Get value for %1 property").arg(pair.first), tr("Value:"),
@@ -132,9 +132,9 @@ void UserListView::setPropertyValue()
 
 void UserListView::mouseDoubleClickEvent(QMouseEvent* event)
 {
-    QModelIndex tmp     = indexAt(event->pos());
+    QModelIndex tmp= indexAt(event->pos());
     int indentationValue= indentation();
-    int icon            = 0;
+    int icon= 0;
     if(iconSize().isValid())
         icon= iconSize().width();
     else
@@ -178,21 +178,24 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
     auto charact= dynamic_cast<Character*>(tmpperso);
     QMenu popMenu(this);
 
-    auto initCmd= charact->getInitCommand();
-    if(!initCmd.isEmpty())
+    if(nullptr != charact)
     {
-        auto act= popMenu.addAction(tr("Roll initiative"));
-        connect(act, &QAction::triggered, this, [this, initCmd, charact]() {
-            if(m_diceParser->parseLine(initCmd))
-            {
-                m_diceParser->start();
-                auto valueList= m_diceParser->getSumOfDiceResult();
-                if(valueList.isEmpty())
-                    return;
+        auto initCmd= charact->getInitCommand();
+        if(!initCmd.isEmpty())
+        {
+            auto act= popMenu.addAction(tr("Roll initiative"));
+            connect(act, &QAction::triggered, this, [this, initCmd, charact]() {
+                if(m_diceParser->parseLine(initCmd))
+                {
+                    m_diceParser->start();
+                    auto valueList= m_diceParser->getSumOfDiceResult();
+                    if(valueList.isEmpty())
+                        return;
 
-                charact->setInitiativeScore(static_cast<int>(valueList.first()));
-            }
-        });
+                    charact->setInitiativeScore(static_cast<int>(valueList.first()));
+                }
+            });
+        }
     }
 
     popMenu.addAction(m_addAvatarAct);
@@ -213,7 +216,7 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
 
         auto stateMenu= popMenu.addMenu(tr("State"));
         auto stateList= Character::getCharacterStateList();
-        int i         = 0;
+        int i= 0;
         for(auto state : *stateList)
         {
             auto act= stateMenu->addAction(state->getLabel());
@@ -270,14 +273,14 @@ void UserListView::addAvatar()
     {
         directory= m_preferencesManager->value("imageDirectory", QDir::homePath()).toString();
     }
-    QString path     = QFileDialog::getOpenFileName(this, tr("Avatar"), directory,
+    QString path= QFileDialog::getOpenFileName(this, tr("Avatar"), directory,
                                                tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)"));
     QModelIndex index= currentIndex();
     if(path.isEmpty())
         return;
     if(index.isValid())
     {
-        QString uuid    = index.data(PlayersList::IdentifierRole).toString();
+        QString uuid= index.data(PlayersList::IdentifierRole).toString();
         Person* tmpperso= PlayersList::instance()->getPerson(uuid);
         QImage im(path);
         tmpperso->setAvatar(im);
@@ -290,7 +293,7 @@ void UserListView::deleteAvatar()
     QModelIndex index= currentIndex();
     if(index.isValid())
     {
-        QString uuid    = index.data(PlayersList::IdentifierRole).toString();
+        QString uuid= index.data(PlayersList::IdentifierRole).toString();
         Person* tmpperso= PlayersList::instance()->getPerson(uuid);
         QImage im;
         tmpperso->setAvatar(im);
@@ -330,11 +333,11 @@ void UserListView::mouseMoveEvent(QMouseEvent* event)
 
     if((event->buttons() == Qt::LeftButton) && (tmp.isValid()))
     {
-        QString uuid    = tmp.data(PlayersList::IdentifierRole).toString();
+        QString uuid= tmp.data(PlayersList::IdentifierRole).toString();
         Person* tmpperso= PlayersList::instance()->getCharacter(uuid);
         if(nullptr != tmpperso)
         {
-            QDrag* drag                = new QDrag(this);
+            QDrag* drag= new QDrag(this);
             RolisteamMimeData* mimeData= new RolisteamMimeData();
 
             mimeData->setPerson(tmpperso);
