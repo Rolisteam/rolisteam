@@ -81,6 +81,7 @@ public:
         SELECT,
         CHECKBOX,
         IMAGE,
+        RLABEL,
         DICEBUTTON,
         FUNCBUTTON,
         WEBPAGE,

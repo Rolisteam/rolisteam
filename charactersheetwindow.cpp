@@ -50,7 +50,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri, QWidget* parent)
 
     setObjectName("CharacterSheetViewer");
     connect(&m_model, SIGNAL(characterSheetHasBeenAdded(CharacterSheet*)), this,
-        SLOT(addTabWithSheetView(CharacterSheet*)));
+            SLOT(addTabWithSheetView(CharacterSheet*)));
 
     setWindowIcon(QIcon(":/resources/icons/treeview.png"));
     m_addSection= new QAction(tr("Add Section"), this);
@@ -70,7 +70,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri, QWidget* parent)
     m_view.setModel(&m_model);
 
     resize(m_preferences->value("charactersheetwindows/width", 400).toInt(),
-        m_preferences->value("charactersheetwindows/height", 600).toInt());
+           m_preferences->value("charactersheetwindows/height", 600).toInt());
     m_view.setAlternatingRowColors(true);
     m_view.setSelectionBehavior(QAbstractItemView::SelectItems);
     m_view.setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -90,18 +90,16 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri, QWidget* parent)
     connect(m_detachTab, SIGNAL(triggered(bool)), this, SLOT(detachTab()));
     connect(m_stopSharingTabAct, &QAction::triggered, this, &CharacterSheetWindow::stopSharing);
 
-    //m_imgProvider= new RolisteamImageProvider(m_imageModel.get());
+    // m_imgProvider= new RolisteamImageProvider(m_imageModel.get());
 
     auto button= new QToolButton(this); // tr("Actions")
     auto act= new QAction(QIcon("://resources/icons/list.svg"), tr("Actions"), this);
     button->setDefaultAction(act);
     m_tabs->setCornerWidget(button);
-    connect(
-        button, &QPushButton::clicked, this, [button, this]() { contextMenuForTabs(QPoint(button->pos().x(), 0)); });
+    connect(button, &QPushButton::clicked, this,
+            [button, this]() { contextMenuForTabs(QPoint(button->pos().x(), 0)); });
 }
-CharacterSheetWindow::~CharacterSheetWindow()
-{
-}
+CharacterSheetWindow::~CharacterSheetWindow() {}
 void CharacterSheetWindow::addLine()
 {
     m_model.addLine(m_view.currentIndex());
@@ -461,6 +459,7 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     QObject* root= qmlView->rootObject();
 
     // CONNECTION TO SIGNAL FROM QML CHARACTERSHEET
+    connect(root, SIGNAL(showText(QString)), this, SIGNAL(showText(QString)));
     connect(root, SIGNAL(rollDiceCmd(QString, bool)), this, SLOT(rollDice(QString, bool)));
     connect(root, SIGNAL(rollDiceCmd(QString)), this, SLOT(rollDice(QString)));
 
@@ -641,11 +640,11 @@ bool CharacterSheetWindow::readData(QByteArray data)
         QString str= obj["bin"].toString();
         QString key= obj["key"].toString();
         QString filename= obj["filename"].toString();
-        bool isBg = obj["isBg"].toBool();
+        bool isBg= obj["isBg"].toBool();
         QByteArray array= QByteArray::fromBase64(str.toUtf8());
         QPixmap pix;
         pix.loadFromData(array);
-        m_imageModel->insertImage(pix,key,filename,isBg);
+        m_imageModel->insertImage(pix, key, filename, isBg);
     }
 
     const auto fonts= jsonObj["fonts"].toArray();
@@ -688,7 +687,8 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
 void CharacterSheetWindow::openQML()
 {
     m_qmlUri= QFileDialog::getOpenFileName(this, tr("Open Character Sheets View"),
-        m_preferences->value(QString("DataDirectory"), QVariant(".")).toString(), tr("Character Sheet files (*.qml)"));
+                                           m_preferences->value(QString("DataDirectory"), QVariant(".")).toString(),
+                                           tr("Character Sheet files (*.qml)"));
     if(!m_qmlUri.isEmpty())
     {
         QFile file(m_qmlUri);
@@ -813,7 +813,6 @@ void CharacterSheetWindow::readMessage(NetworkMessageReader& msg)
     }
     m_qmlData= msg.string32();
     m_imageModel->read(msg);
-
 
     Character* character= PlayersList::instance()->getCharacter(idChar);
     m_sheetToCharacter.insert(sheet, character);

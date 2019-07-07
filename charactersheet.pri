@@ -66,4 +66,5 @@ SOURCES -=$$PWD/charactersheetwindow.cpp\
 }
 
 DISTFILES += \
+    $$PWD/qml/RLabel.qml \
     $$PWD/qml/Table.qml
