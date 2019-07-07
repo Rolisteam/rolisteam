@@ -29,6 +29,8 @@
 #include "canvasfield.h"
 #include "itemeditor.h"
 
+#include <algorithm>
+
 // undo
 #include "undo/setbackgroundimage.h"
 
@@ -111,6 +113,8 @@ void EditorController::menuRequestedFromView(const QPoint& pos)
     menu.addAction(m_alignOnY);
     menu.addAction(m_sameWidth);
     menu.addAction(m_sameHeight);
+    menu.addAction(m_verticalEquaDistance);
+    menu.addAction(m_horizontalEquaDistance);
     menu.addSeparator();
     menu.addAction(m_dupplicate);
 
@@ -156,7 +160,70 @@ void EditorController::spreadItemEqualy()
 {
     auto act= qobject_cast<QAction*>(sender());
     bool horizon= act == m_horizontalEquaDistance ? true : false;
+    auto list= m_view->scene()->selectedItems();
 
+    if(list.size() < 3) // ignore when 2 elements or less have been selected.
+        return;
+
+    auto widthCompare= [](QGraphicsItem* a, QGraphicsItem* b) {
+        auto posA= a->pos().x() - a->boundingRect().width() / 2;
+        auto posB= b->pos().x() - b->boundingRect().width() / 2;
+        return posA < posB;
+    };
+    auto heightCompare= [](QGraphicsItem* a, QGraphicsItem* b) {
+        auto posA= a->pos().y() - a->boundingRect().height() / 2;
+        auto posB= b->pos().y() - b->boundingRect().height() / 2;
+        return posA < posB;
+    };
+
+    const auto& func= horizon ? widthCompare : heightCompare;
+    std::sort(list.begin(), list.end(), func);
+    auto first= std::min_element(list.begin(), list.end(), func);
+    auto last= std::max_element(list.begin(), list.end(), func);
+
+    // available distance
+    qreal availableDistance;
+    int spaceCount= 1;
+    qreal beginAvailableSpace;
+    qreal endAvailableSpace;
+    if(horizon)
+    {
+        endAvailableSpace= (*last)->pos().x();
+        beginAvailableSpace= (*first)->pos().x() + (*first)->boundingRect().width();
+    }
+    else
+    {
+        endAvailableSpace= (*last)->pos().y();
+        beginAvailableSpace= (*first)->pos().y() + (*first)->boundingRect().height();
+    }
+    list.erase(first);
+    list.erase(last);
+    qreal itemSpace= 0.0;
+    std::for_each(list.begin(), list.end(), [horizon, &itemSpace](QGraphicsItem* item) {
+        itemSpace+= horizon ? item->boundingRect().width() : item->boundingRect().height();
+    });
+
+    availableDistance= endAvailableSpace - beginAvailableSpace - itemSpace;
+    spaceCount= list.size() + 1; // need two spaces when one element between first and last
+    auto spaceStep= availableDistance / spaceCount;
+    auto pos= beginAvailableSpace;
+
+    if(horizon)
+    {
+        for(auto item : list)
+        {
+            item->setPos(pos + spaceStep, item->pos().y());
+            pos= item->pos().x() + item->boundingRect().width();
+        }
+    }
+    else
+    {
+        for(auto item : list)
+        {
+            item->setPos(item->pos().x(), pos + spaceStep);
+            pos= item->pos().y() + item->boundingRect().height();
+        }
+    }
 
     emit dataChanged();
 }
