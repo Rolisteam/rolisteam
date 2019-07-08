@@ -51,7 +51,6 @@ matrix:
       env:
           - QMAKESPEC=macx-clang QMAKE_CXXFLAGS="" QMAKE_LFLAGS=""
 
-
 script:
   - mkdir -p "$TRAVIS_BUILD_DIR-build"
   - pushd "$TRAVIS_BUILD_DIR-build"
