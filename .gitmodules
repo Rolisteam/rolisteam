@@ -1,12 +1,12 @@
 [submodule "charactersheet"]
 	path = src/charactersheet
-    url = https://invent.kde.org/kde/rcharactersheet.git
-    pushURL = git@invent.kde.org:kde/rcharactersheet.git
+    	url = https://github.com/Rolisteam/RCharacterSheet.git
+    	pushURL = git@github.com:Rolisteam/RCharacterSheet.git
 [submodule "diceparser"]
 	path = src/diceparser
-    url = https://invent.kde.org/kde/rolisteam-diceparser.git
-    pushURL = git@invent.kde.org:kde/rolisteam-diceparser.git
+	url = https://github.com/Rolisteam/DiceParser.git
+    	pushURL = git@github.com:Rolisteam/DiceParser.git
 [submodule "common"]
 	path = src/common
-    url = https://invent.kde.org/kde/rolisteam-common.git
-    pushURL = git@invent.kde.org:kde/rolisteam-common.git
+    	url = https://github.com/Rolisteam/common.git
+    #pushURL = git@invent.kde.org:kde/rolisteam-common.git
