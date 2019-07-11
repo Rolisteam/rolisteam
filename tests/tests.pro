@@ -2,7 +2,6 @@ TEMPLATE = subdirs
 
 DEFINES =DSTDIR=$$SRCDIR
 SUBDIRS = \
-    Dice \
     dataCleverURI \
     preferences \
     colorButton\
@@ -30,6 +29,7 @@ SUBDIRS = \
 # inside charactersheet now
 #    charactersheetmodel      \
 #    charactersheet \
+    #Dice \
 
 # TODO
 #    dicebookmarkmodel   \
