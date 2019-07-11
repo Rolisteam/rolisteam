@@ -77,7 +77,7 @@ public:
     virtual ResourcesNode::TypeResource getResourcesType() const= 0;
 
     virtual void write(QDataStream& out, bool tag= true, bool saveData= true) const= 0;
-    virtual void read(QDataStream& in)                                             = 0;
+    virtual void read(QDataStream& in)= 0;
 
     virtual bool removeChild(ResourcesNode*);
     virtual void insertChildAt(int row, ResourcesNode*);

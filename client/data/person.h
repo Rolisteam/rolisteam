@@ -129,7 +129,7 @@ public:
 
     virtual QIcon getIcon() override;
 
-    ResourcesNode::TypeResource getResourcesType() const;
+    ResourcesNode::TypeResource getResourcesType() const override;
     virtual void write(QDataStream& out, bool tag= true, bool saveData= true) const override;
     virtual void read(QDataStream& in) override;
     virtual bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node) override;

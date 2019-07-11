@@ -152,7 +152,7 @@ public:
      * @brief delCharacter
      * @param index
      */
-    virtual bool removeChild(ResourcesNode*);
+    virtual bool removeChild(ResourcesNode*) override;
 
     void clearCharacterList();
     /**
@@ -163,9 +163,9 @@ public:
      */
     bool searchCharacter(Character* character, int& index) const;
 
-    virtual QHash<QString, QString> getVariableDictionnary();
+    virtual QHash<QString, QString> getVariableDictionnary() override;
 
-    virtual bool isLeaf() const;
+    virtual bool isLeaf() const override;
 
     bool isFullyDefined();
 
@@ -176,7 +176,7 @@ private:
     friend class SendFeaturesIterator;
 
 private:
-    bool m_gameMaster  = false;
+    bool m_gameMaster= false;
     NetworkLink* m_link= nullptr;
     QList<Character*> m_characters;
     QMap<QString, quint8> m_features;

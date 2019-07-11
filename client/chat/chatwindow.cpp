@@ -44,6 +44,7 @@
 
 #include "widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.h"
 
+#include "parsingtoolbox.h"
 #include "userlist/rolisteammimedata.h"
 
 QStringList ChatWindow::m_keyWordList;
