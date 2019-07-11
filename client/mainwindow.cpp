@@ -217,8 +217,8 @@ void MainWindow::setupUi()
     m_dialog= new SelectConnectionProfileDialog(m_version, this);
     if(m_commandLineProfile)
     {
-        m_dialog->setArgumentProfile(
-            m_commandLineProfile->m_ip, m_commandLineProfile->m_port, m_commandLineProfile->m_pass);
+        m_dialog->setArgumentProfile(m_commandLineProfile->m_ip, m_commandLineProfile->m_port,
+                                     m_commandLineProfile->m_pass);
     }
 
     // setAnimated(false);
@@ -279,8 +279,9 @@ void MainWindow::setupUi()
     ///////////////////
     m_playersListWidget= new PlayersListWidget(this);
     connect(m_playersListWidget, &PlayersListWidget::runDiceForCharacter, this,
-        [this](
-            const QString& cmd, const QString& uuid) { m_chatListWidget->rollDiceCmdForCharacter(cmd, uuid, true); });
+            [this](const QString& cmd, const QString& uuid) {
+                m_chatListWidget->rollDiceCmdForCharacter(cmd, uuid, true);
+            });
 
     addDockWidget(Qt::RightDockWidgetArea, m_playersListWidget);
     setWindowIcon(QIcon(":/logo.png"));
@@ -343,8 +344,8 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac, bool redoable)
 {
     if(nullptr != m_currentConnectionProfile)
     {
-        AddMediaContainer* addMedia= new AddMediaContainer(
-            mediac, m_sessionManager, m_ui->m_menuSubWindows, m_mdiArea, m_currentConnectionProfile->isGM());
+        AddMediaContainer* addMedia= new AddMediaContainer(mediac, m_sessionManager, m_ui->m_menuSubWindows, m_mdiArea,
+                                                           m_currentConnectionProfile->isGM());
         if(!m_mediaHash.contains(mediac->getMediaId()))
         {
             m_mediaHash.insert(mediac->getMediaId(), mediac);
@@ -391,8 +392,9 @@ void MainWindow::closeMediaContainer(QString id, bool redo)
         {
             auto type= mediaCon->getContentType();
 
-            DeleteMediaContainerCommand* cmd= new DeleteMediaContainerCommand(mediaCon, m_sessionManager,
-                m_ui->m_editMenu, m_mdiArea, m_currentConnectionProfile->isGM(), m_mediaHash);
+            DeleteMediaContainerCommand* cmd
+                = new DeleteMediaContainerCommand(mediaCon, m_sessionManager, m_ui->m_editMenu, m_mdiArea,
+                                                  m_currentConnectionProfile->isGM(), m_mediaHash);
             if(redo)
                 m_undoStack.push(cmd);
             else
@@ -441,8 +443,8 @@ void MainWindow::tipChecker()
             auto id= m_preferences->value(QStringLiteral("MainWindow::lastTips"), 0).toInt();
             if(tipChecker->hasArticle() && tipChecker->getId() + 1 > id)
             {
-                TipOfDayViewer view(
-                    tipChecker->getArticleTitle(), tipChecker->getArticleContent(), tipChecker->getUrl(), this);
+                TipOfDayViewer view(tipChecker->getArticleTitle(), tipChecker->getArticleContent(),
+                                    tipChecker->getUrl(), this);
                 view.exec();
                 m_preferences->registerValue(QStringLiteral("MainWindow::lastTips"), tipChecker->getId());
                 m_preferences->registerValue(QStringLiteral("MainWindow::neverDisplayTips"), view.dontshowAgain());
@@ -580,8 +582,8 @@ void MainWindow::createNotificationZone()
     m_dockLogUtil= new QDockWidget(tr("Notification Zone"), this);
     m_dockLogUtil->setObjectName("dockLogUtil");
     m_dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
-    m_dockLogUtil->setFeatures(
-        QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+    m_dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable
+                               | QDockWidget::DockWidgetFloatable);
     QWidget* wd= new QWidget();
     QVBoxLayout* layout= new QVBoxLayout();
     wd->setLayout(layout);
@@ -624,8 +626,8 @@ void MainWindow::createPostSettings()
             auto text= clipboard->text();
             auto mime= clipboard->mimeData();
             text.append(QStringLiteral("\n%1").arg(mime->formats().join("|")));
-            m_logController->manageMessage(
-                QStringLiteral("Clipboard data changed: %1").arg(text), LogController::Search);
+            m_logController->manageMessage(QStringLiteral("Clipboard data changed: %1").arg(text),
+                                           LogController::Search);
         });
     }
     m_logController->setCurrentModes(mode);
@@ -751,7 +753,8 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_supportRolisteam, &QAction::triggered, this, [=] {
         if(!QDesktopServices::openUrl(QUrl("https://liberapay.com/Rolisteam/donate")))
         {
-            QMessageBox* msgBox= new QMessageBox(QMessageBox::Information, tr("Support"),
+            QMessageBox* msgBox= new QMessageBox(
+                QMessageBox::Information, tr("Support"),
                 tr("The %1 donation page can be found online at :<br> <a "
                    "href=\"https://liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>")
                     .arg(m_preferences->value("Application_Name", "rolisteam").toString()),
@@ -790,7 +793,7 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
     }
 
     connect(m_toolBar, SIGNAL(currentToolChanged(ToolsBar::SelectableTool)), map,
-        SLOT(setPointeur(ToolsBar::SelectableTool)));
+            SLOT(setPointeur(ToolsBar::SelectableTool)));
 
     connect(m_toolBar, SIGNAL(currentNpcSizeChanged(int)), map, SLOT(setCharacterSize(int)));
     connect(m_toolBar, SIGNAL(currentPenSizeChanged(int)), map, SLOT(setPenSize(int)));
@@ -819,7 +822,7 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
 void MainWindow::prepareImage(Image* imageFrame)
 {
     connect(m_toolBar, SIGNAL(currentToolChanged(ToolsBar::SelectableTool)), imageFrame,
-        SLOT(setCurrentTool(ToolsBar::SelectableTool)));
+            SLOT(setCurrentTool(ToolsBar::SelectableTool)));
     imageFrame->setCurrentTool(m_toolBar->getCurrentTool());
 }
 
@@ -1038,8 +1041,9 @@ QWidget* MainWindow::registerSubWindow(QWidget* subWindow, QAction* action)
 
 void MainWindow::openStory()
 {
-    QString fileName= QFileDialog::getOpenFileName(this, tr("Open scenario"),
-        m_preferences->value("SessionDirectory", QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
+    QString fileName= QFileDialog::getOpenFileName(
+        this, tr("Open scenario"), m_preferences->value("SessionDirectory", QDir::homePath()).toString(),
+        tr("Scenarios (*.sce)"));
     readStory(fileName);
 }
 void MainWindow::readStory(QString fileName)
@@ -1072,8 +1076,9 @@ bool MainWindow::saveStory(bool saveAs)
 {
     if(nullptr == m_currentStory || saveAs)
     {
-        QString fileName= QFileDialog::getSaveFileName(this, tr("Save Scenario as"),
-            m_preferences->value("SessionDirectory", QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
+        QString fileName= QFileDialog::getSaveFileName(
+            this, tr("Save Scenario as"), m_preferences->value("SessionDirectory", QDir::homePath()).toString(),
+            tr("Scenarios (*.sce)"));
         if(fileName.isNull())
         {
             return false;
@@ -1207,10 +1212,10 @@ void MainWindow::helpOnLine()
     if(!QDesktopServices::openUrl(QUrl("http://wiki.rolisteam.org/")))
     {
         QMessageBox* msgBox= new QMessageBox(QMessageBox::Information, tr("Help"),
-            tr("Documentation of %1 can be found online at :<br> <a "
-               "href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>")
-                .arg(m_preferences->value("Application_Name", "rolisteam").toString()),
-            QMessageBox::Ok);
+                                             tr("Documentation of %1 can be found online at :<br> <a "
+                                                "href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>")
+                                                 .arg(m_preferences->value("Application_Name", "rolisteam").toString()),
+                                             QMessageBox::Ok);
         msgBox->exec();
     }
 }
@@ -1257,7 +1262,8 @@ void MainWindow::updateMayBeNeeded()
 {
     if(m_updateChecker->mustBeUpdated())
     {
-        QMessageBox::information(this, tr("Update Notification"),
+        QMessageBox::information(
+            this, tr("Update Notification"),
             tr("The %1 version has been released. "
                "Please take a look at <a href=\"http://www.rolisteam.org/download\">Download page</a> for more "
                "information")
@@ -1391,27 +1397,27 @@ void MainWindow::parseCommandLineArguments(QStringList list)
 
     QCommandLineOption port(QStringList() << "p"
                                           << "port",
-        tr("Set rolisteam to use <port> for the connection"), "port");
+                            tr("Set rolisteam to use <port> for the connection"), "port");
     QCommandLineOption hostname(QStringList() << "s"
                                               << "server",
-        tr("Set rolisteam to connect to <server>."), "server");
+                                tr("Set rolisteam to connect to <server>."), "server");
     QCommandLineOption role(QStringList() << "r"
                                           << "role",
-        tr("Define the <role>: gm or pc"), "role");
-    QCommandLineOption reset(
-        QStringList() << "reset-settings", tr("Erase the settings and use the default parameters"));
+                            tr("Define the <role>: gm or pc"), "role");
+    QCommandLineOption reset(QStringList() << "reset-settings",
+                             tr("Erase the settings and use the default parameters"));
     QCommandLineOption user(QStringList() << "u"
                                           << "user",
-        tr("Define the <username>"), "username");
+                            tr("Define the <username>"), "username");
     QCommandLineOption websecurity(QStringList() << "w"
                                                  << "disable-web-security",
-        tr("Remove limit to PDF file size"));
+                                   tr("Remove limit to PDF file size"));
     QCommandLineOption translation(QStringList() << "t"
                                                  << "translation",
-        QObject::tr("path to the translation file: <translationfile>"), "translationfile");
+                                   QObject::tr("path to the translation file: <translationfile>"), "translationfile");
     QCommandLineOption url(QStringList() << "l"
                                          << "link",
-        QObject::tr("Define URL to connect to server: <url>"), "url");
+                           QObject::tr("Define URL to connect to server: <url>"), "url");
 
     parser.addOption(port);
     parser.addOption(hostname);
@@ -1723,7 +1729,7 @@ void MainWindow::startConnection()
                         m_dialog->errorOccurs(str);
                 });
                 connect(m_server, &ServerManager::listening, this, &MainWindow::initializedClientManager,
-                    Qt::QueuedConnection);
+                        Qt::QueuedConnection);
                 m_server->moveToThread(&m_serverThread);
 
                 m_server->insertField("port", m_currentConnectionProfile->getPort());
@@ -1759,15 +1765,15 @@ void MainWindow::initializedClientManager()
         m_clientManager= new ClientManager(m_currentConnectionProfile);
 
         connect(m_clientManager, &ClientManager::notifyUser, this,
-            [=](QString str) { m_logController->manageMessage(str, LogController::Features); });
+                [=](QString str) { m_logController->manageMessage(str, LogController::Features); });
         connect(m_clientManager, &ClientManager::stopConnectionTry, this, &MainWindow::stopReconnection);
         connect(m_clientManager, &ClientManager::errorOccur, m_dialog, &SelectConnectionProfileDialog::errorOccurs);
         connect(m_clientManager, &ClientManager::connectionProcessEnd, m_dialog,
-            &SelectConnectionProfileDialog::endOfConnectionProcess);
+                &SelectConnectionProfileDialog::endOfConnectionProcess);
         connect(m_clientManager, SIGNAL(connectionStateChanged(ClientManager::ConnectionState)), this,
-            SLOT(updateWindowTitle()));
+                SLOT(updateWindowTitle()));
         connect(m_clientManager, SIGNAL(connectionStateChanged(ClientManager::ConnectionState)), this,
-            SLOT(networkStateChanged(ClientManager::ConnectionState)));
+                SLOT(networkStateChanged(ClientManager::ConnectionState)));
         connect(m_clientManager, SIGNAL(isAuthentified()), this, SLOT(postConnection()));
         connect(m_clientManager, SIGNAL(clearData()), this, SLOT(cleanUpData()));
         connect(m_clientManager, &ClientManager::gameMasterStatusChanged, this, &MainWindow::userNatureChange);
@@ -1856,7 +1862,7 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
     {
         MapFrame* mapFrame= new MapFrame(nullptr, m_mdiArea);
         if((nullptr != m_currentConnectionProfile)
-            && (!mapFrame->processMapMessage(msg, !m_currentConnectionProfile->isGM())))
+           && (!mapFrame->processMapMessage(msg, !m_currentConnectionProfile->isGM())))
         {
             delete mapFrame;
         }
@@ -2020,12 +2026,13 @@ void MainWindow::extractCharacter(Map* map, NetworkMessageReader* msg)
         bool showName= (npcType == CharacterToken::pnj) ? m_ui->m_showNpcNameAction->isChecked() :
                                                           m_ui->m_showPcNameAction->isChecked();
 
-        CharacterToken* npc= new CharacterToken(map, npcId, npcName, npcColor, npcDiameter, npcPos,
-            static_cast<CharacterToken::typePersonnage>(npcType), showNumber, showName, npcNumber);
+        CharacterToken* npc
+            = new CharacterToken(map, npcId, npcName, npcColor, npcDiameter, npcPos,
+                                 static_cast<CharacterToken::typePersonnage>(npcType), showNumber, showName, npcNumber);
 
         if((npcVisible)
-            || (npcType == CharacterToken::pnj && (nullptr != m_currentConnectionProfile)
-                   && m_currentConnectionProfile->isGM()))
+           || (npcType == CharacterToken::pnj && (nullptr != m_currentConnectionProfile)
+               && m_currentConnectionProfile->isGM()))
         {
             npc->showCharacter();
         }
@@ -2161,8 +2168,8 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         auto sheetbis= m_mediaHash.value(idMedia);
         if(sheet == sheetbis)
             m_mediaHash.remove(idMedia);
-        DeleteMediaContainerCommand cmd(
-            sheet, m_sessionManager, m_ui->m_editMenu, m_mdiArea, m_currentConnectionProfile->isGM(), m_mediaHash);
+        DeleteMediaContainerCommand cmd(sheet, m_sessionManager, m_ui->m_editMenu, m_mdiArea,
+                                        m_currentConnectionProfile->isGM(), m_mediaHash);
         cmd.redo();
     }
 }
@@ -2221,9 +2228,9 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
 
     // Toolbar to Map
     connect(m_vToolBar, SIGNAL(currentToolChanged(VToolsBar::SelectableTool)), tmp,
-        SLOT(currentToolChanged(VToolsBar::SelectableTool)));
+            SLOT(currentToolChanged(VToolsBar::SelectableTool)));
     connect(tmp, SIGNAL(defineCurrentTool(VToolsBar::SelectableTool)), m_vToolBar,
-        SLOT(setCurrentTool(VToolsBar::SelectableTool)));
+            SLOT(setCurrentTool(VToolsBar::SelectableTool)));
     connect(map, SIGNAL(colorPipette(QColor)), m_vToolBar, SLOT(setCurrentColor(QColor)));
     connect(m_vToolBar, SIGNAL(currentColorChanged(QColor&)), tmp, SLOT(currentColorChanged(QColor&)));
     connect(m_vToolBar, SIGNAL(currentModeChanged(int)), tmp, SLOT(setEditingMode(int)));
@@ -2233,26 +2240,26 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     connect(m_vToolBar, SIGNAL(opacityChanged(qreal)), map, SLOT(setCurrentItemOpacity(qreal)));
     connect(map, SIGNAL(currentItemOpacity(qreal)), m_vToolBar, SLOT(setCurrentOpacity(qreal)));
     connect(m_vToolBar, SIGNAL(currentEditionModeChanged(VToolsBar::EditionMode)), map,
-        SLOT(setEditionMode(VToolsBar::EditionMode)));
+            SLOT(setEditionMode(VToolsBar::EditionMode)));
 
     // map to toolbar
     connect(map, &VMap::npcAdded, m_vToolBar, &VToolsBar::increaseNpcNumber);
     connect(map, &VMap::runDiceCommandForCharacter, this,
-        [this](QString cmd, QString uuid) { m_chatListWidget->rollDiceCmdForCharacter(cmd, uuid, true); });
+            [this](QString cmd, QString uuid) { m_chatListWidget->rollDiceCmdForCharacter(cmd, uuid, true); });
 
     // menu to Map
     connect(m_ui->m_showNpcNameAction, &QAction::triggered, this,
-        [map](bool b) { map->setOption(VisualItem::ShowNpcName, b); });
+            [map](bool b) { map->setOption(VisualItem::ShowNpcName, b); });
     connect(m_ui->m_showNpcNumberAction, &QAction::triggered, this,
-        [map](bool b) { map->setOption(VisualItem::ShowNpcNumber, b); });
+            [map](bool b) { map->setOption(VisualItem::ShowNpcNumber, b); });
     connect(m_ui->m_showPcNameAction, &QAction::triggered, this,
-        [map](bool b) { map->setOption(VisualItem::ShowPcName, b); });
+            [map](bool b) { map->setOption(VisualItem::ShowPcName, b); });
     connect(m_ui->m_showHealtStatusAction, &QAction::triggered, this,
-        [map](bool b) { map->setOption(VisualItem::ShowHealthStatus, b); });
+            [map](bool b) { map->setOption(VisualItem::ShowHealthStatus, b); });
     connect(m_ui->m_showInitiativeAct, &QAction::triggered, this,
-        [map](bool b) { map->setOption(VisualItem::ShowInitScore, b); });
+            [map](bool b) { map->setOption(VisualItem::ShowInitScore, b); });
     connect(m_ui->m_healthBarAct, &QAction::triggered, this,
-        [map](bool b) { map->setOption(VisualItem::ShowHealthBar, b); });
+            [map](bool b) { map->setOption(VisualItem::ShowHealthBar, b); });
 
     map->setOption(VisualItem::ShowNpcName, m_ui->m_showNpcNameAction->isChecked());
     map->setOption(VisualItem::ShowNpcNumber, m_ui->m_showNpcNumberAction->isChecked());
@@ -2376,8 +2383,8 @@ void MainWindow::openRecentFile()
 void MainWindow::updateRecentFileActions()
 {
     m_recentFiles.erase(std::remove_if(m_recentFiles.begin(), m_recentFiles.end(),
-                            [](const CleverURI& uri) { return !QFileInfo::exists(uri.getUri()); }),
-        m_recentFiles.end());
+                                       [](const CleverURI& uri) { return !QFileInfo::exists(uri.getUri()); }),
+                        m_recentFiles.end());
 
     int i= 0;
     for(auto& action : m_recentFileActs)
@@ -2405,7 +2412,7 @@ void MainWindow::setLatestFile(CleverURI* fileName)
 {
     // no online picture because they are handled in a really different way.
     if((nullptr == fileName) || (fileName->getType() == CleverURI::ONLINEPICTURE)
-        || (fileName->getCurrentMode() == CleverURI::Internal) || !QFileInfo::exists(fileName->getUri()))
+       || (fileName->getCurrentMode() == CleverURI::Internal) || !QFileInfo::exists(fileName->getUri()))
     {
         return;
     }
@@ -2425,9 +2432,9 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
     }
     connect(window, SIGNAL(addWidgetToMdiArea(QWidget*, QString)), m_mdiArea, SLOT(addWidgetToMdi(QWidget*, QString)));
     connect(window, SIGNAL(rollDiceCmd(QString, QString, bool)), m_chatListWidget,
-        SLOT(rollDiceCmd(QString, QString, bool)));
+            SLOT(rollDiceCmd(QString, QString, bool)));
     connect(window, &CharacterSheetWindow::errorOccurs, this,
-        [this](QString msg) { m_logController->manageMessage(msg, LogController::Error); });
+            [this](QString msg) { m_logController->manageMessage(msg, LogController::Error); });
     connect(m_playerList, SIGNAL(playerDeleted(Player*)), window, SLOT(removeConnection(Player*)));
 }
 
@@ -2635,7 +2642,7 @@ void MainWindow::updateWindowTitle()
 
         setWindowTitle(QStringLiteral("%6[*] - v%2 - %3 - %4 - %5 - %1")
                            .arg(m_preferences->value("applicationName", "Rolisteam").toString(), m_version,
-                               connectionStatus, networkStatus, profileStatus, m_sessionManager->getSessionName()));
+                                connectionStatus, networkStatus, profileStatus, m_sessionManager->getSessionName()));
     }
 }
 
