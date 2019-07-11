@@ -43,6 +43,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri, QWidget* parent)
     : MediaContainer(MediaContainer::ContainerType::VMapContainer, parent)
 {
     m_uri= uri;
+    m_imageModel.reset(new ImageModel());
     if(nullptr == m_uri)
     {
         setCleverUriType(CleverURI::CHARACTERSHEET);
