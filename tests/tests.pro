@@ -8,7 +8,6 @@ SUBDIRS = \
     colorButton\
     paletteModel\
     chat \
-    charactersheet \
     rolisteamtheme \
     dataplayer \
     picture \
@@ -26,17 +25,17 @@ SUBDIRS = \
     characterstatemodel \
     dicealiasmodel \
     genericmodel   \
-    charactersheetmodel      \
     unitmodel           \
 
+# inside charactersheet now
+#    charactersheetmodel      \
+#    charactersheet \
 
-
+# TODO
 #    dicebookmarkmodel   \
 #    shortcutmodel       \
-
-
-    #    MainWindow
-    #networkServer \
+#    MainWindow
+#   networkServer \
 
 OBJECTS_DIR = obj
 OTHER_FILES = tests.pri
