@@ -48,15 +48,11 @@ matrix:
 before_install:
   git submodule update --init --remote --recursive
 
-before_script:
+script:
   - mkdir -p "$TRAVIS_BUILD_DIR-build"
   - pushd "$TRAVIS_BUILD_DIR-build"
   - lrelease "$TRAVIS_BUILD_DIR/client/client.pro"
   - lrelease "$TRAVIS_BUILD_DIR/server/server.pro"
-  - popd
-
-script:
-  - pushd "$TRAVIS_BUILD_DIR-build"
   - qmake -r -Wall -Wlogic -Wparser CONFIG+=debug CONFIG+=TESTS "$TRAVIS_BUILD_DIR"
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then (xvfb-run make -s -j2 check -C "$TRAVIS_BUILD_DIR-build") fi
   - if [ "$TRAVIS_OS_NAME" = osx   ] ; then (make -s -j2 check -C "$TRAVIS_BUILD_DIR-build") fi
