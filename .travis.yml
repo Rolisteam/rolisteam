@@ -1,10 +1,5 @@
 language: cpp
 
-
-compiler:
-  - clang
-  - gcc
-
 matrix:
   include:
     - dist: xenial
@@ -52,7 +47,7 @@ matrix:
 
 before_install:
   git submodule update --init --remote --recursive
-  
+
 before_script:
   - mkdir -p "$TRAVIS_BUILD_DIR-build"
   - pushd "$TRAVIS_BUILD_DIR-build"
