@@ -138,10 +138,12 @@ void ChatWindow::setupUi()
     connect(m_displayZone, SIGNAL(showTimeChanged(bool)), this, SLOT(showTime(bool)));
 
     // Layout
-    auto bottomWidget     = new QWidget();
+    auto bottomWidget= new QWidget();
     m_selectPersonComboBox= new QComboBox();
-    m_selectPersonComboBox->setModel(new LocalPersonModel());
     m_selectPersonComboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    m_selectPersonComboBox->setModel(new LocalPersonModel());
+    connect(m_selectPersonComboBox, &QComboBox::currentTextChanged, this,
+            [this](const QString& string) { m_selectPersonComboBox->setMinimumContentsLength(string.size()); });
 
     // Toolbar
     m_toolBar= new QToolBar();
