@@ -403,8 +403,8 @@ void Field::load(const QJsonObject& json, EditorController* ctrl)
 }
 void Field::initGraphicsItem()
 {
-    m_canvasField->setPos(m_rect.x(), m_rect.y());
 #ifdef RCSE
+    m_canvasField->setPos(m_rect.x(), m_rect.y());
     m_canvasField->setWidth(m_rect.width());
     m_canvasField->setHeight(m_rect.height());
 #endif
