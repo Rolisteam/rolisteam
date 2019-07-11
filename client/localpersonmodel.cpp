@@ -28,7 +28,9 @@
 
 LocalPersonModel::LocalPersonModel() : QAbstractListModel()
 {
+    beginResetModel();
     m_playersList= PlayersList::instance();
+    endResetModel();
 }
 
 QVariant LocalPersonModel::data(const QModelIndex& index, int role) const
@@ -39,7 +41,7 @@ QVariant LocalPersonModel::data(const QModelIndex& index, int role) const
     if(nullptr == player)
         return {};
 
-    auto row      = index.row();
+    auto row= index.row();
     Person* person= nullptr;
     if(row == 0)
     {
@@ -55,6 +57,10 @@ QVariant LocalPersonModel::data(const QModelIndex& index, int role) const
     if(role == Qt::DisplayRole)
     {
         return person->name();
+    }
+    else if(PlayersList::IdentifierRole == role)
+    {
+        return person->getUuid();
     }
     return {};
 }
