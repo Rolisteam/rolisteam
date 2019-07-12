@@ -2,7 +2,7 @@ language: cpp
 
 matrix:
   include:
-    - os: linux
+    - dist: xenial
       compiler: clang
       before_install:
           - sudo add-apt-repository -y ppa:$PPA
