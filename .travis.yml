@@ -52,7 +52,8 @@ before_install:
   - eval "${MATRIX_EVAL}"
   - git submodule update --init --remote --recursive
   - g++ --version
-  - g++-7 --version
+  - sudo updatedb
+  - locate libc++.so
 
 script:
   - mkdir -p "$TRAVIS_BUILD_DIR-build"
