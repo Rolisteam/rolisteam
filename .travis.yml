@@ -28,6 +28,7 @@ matrix:
           - sudo apt-get -qy update
       install:
           - sudo apt-get -qy install qt${QT}quickcontrols  qt${QT}svg  qt${QT}quickcontrols2  qt${QT}webengine  qt${QT}multimedia  qt${QT}imageformats  qt${QT}graphicaleffects  qt${QT}declarative  qt${QT}base qt${QT}translations  qt${QT}tools  qt${QT}xmlpatterns mesa-common-dev libglu1-mesa-dev freeglut3-dev
+          -  sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
       env:
           - QT=512 BREW=@ex PPA=beineri/opt-qt-5.12.3-xenial QMAKESPEC=linux-g++ QT_SELECT=qt5 QMAKE_CC=gcc-7  QMAKE_CXX=g++-7
           - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
@@ -50,13 +51,15 @@ matrix:
 before_install:
   - eval "${MATRIX_EVAL}"
   - git submodule update --init --remote --recursive
+  - g++ --version
+  - g++-7 --version
 
 script:
   - mkdir -p "$TRAVIS_BUILD_DIR-build"
   - pushd "$TRAVIS_BUILD_DIR-build"
   - lrelease "$TRAVIS_BUILD_DIR/client/client.pro"
   - lrelease "$TRAVIS_BUILD_DIR/server/server.pro"
-  - qmake -r -Wall -Wlogic -Wparser CONFIG+=debug CONFIG+=TESTS -spec $QMAKESPEC "$TRAVIS_BUILD_DIR"
+  - qmake -r -Wall -Wlogic -Wparser CONFIG+=debug CONFIG+=TESTS -spec $QMAKESPEC QCONFIG+="c++11" "$TRAVIS_BUILD_DIR"
   - make -j2
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then (xvfb-run make -s -j2 check -C "$TRAVIS_BUILD_DIR-build") fi
   - if [ "$TRAVIS_OS_NAME" = osx   ] ; then (make -s -j2 check -C "$TRAVIS_BUILD_DIR-build") fi
