@@ -49,7 +49,7 @@ matrix:
 
 before_install:
   - eval "${MATRIX_EVAL}"
-  git submodule update --init --remote --recursive
+  - git submodule update --init --remote --recursive
 
 script:
   - mkdir -p "$TRAVIS_BUILD_DIR-build"
