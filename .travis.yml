@@ -14,7 +14,7 @@ matrix:
       install:
           - sudo apt-get -qy install qt${QT}quickcontrols  qt${QT}svg  qt${QT}quickcontrols2  qt${QT}webengine  qt${QT}multimedia  qt${QT}imageformats  qt${QT}graphicaleffects  qt${QT}declarative  qt${QT}base qt${QT}translations  qt${QT}tools  qt${QT}xmlpatterns mesa-common-dev libglu1-mesa-dev freeglut3-dev
       env:
-          - QT=512 BREW=@ex PPA=beineri/opt-qt-5.12.3-xenial QMAKESPEC=linux-clang QT_SELECT=qt5 QMAKE_CC=clang-7.0 QMAKE_CXX=clang++-7.0 QMAKE_CXXFLAGS="-stdlib=libc++" QMAKE_LFLAGS="-stdlib=libc++"
+          - QT=512 BREW=@ex PPA=beineri/opt-qt-5.12.3-xenial QMAKESPEC=linux-clang QT_SELECT=qt5 QMAKE_CC=clang-7.0 QMAKE_CXX=clang++-7.0 QMAKE_CXXFLAGS="-stdlib=libc++" QMAKE_LFLAGS="-stdlib=libc++" LD_LIBRARY_PATH=/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH
           - MATRIX_EVAL="CC=clang-7.0 && CXX=clang++-7.0"
       before_script:
         - . /opt/qt$QT/bin/qt$QT-env.sh
@@ -51,8 +51,6 @@ matrix:
             - brew link --force qt
       env:
           - QMAKESPEC=macx-clang QMAKE_CXXFLAGS="" QMAKE_LFLAGS=""
-
-before_install:
 
 
 script:
