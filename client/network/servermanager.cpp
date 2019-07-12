@@ -35,7 +35,7 @@ ServerManager::ServerManager(QObject* parent) : QObject(parent), m_server(nullpt
     m_corConnection= new IpBanAccepter();
 
     IpRangeAccepter* tmp= new IpRangeAccepter();
-    TimeAccepter* tmp3  = new TimeAccepter();
+    TimeAccepter* tmp3= new TimeAccepter();
     m_corConnection->setNext(tmp);
     tmp->setNext(tmp3);
     tmp3->setNext(nullptr);
@@ -82,7 +82,7 @@ void ServerManager::startListening()
         m_server= new RServer(this, getValue(QStringLiteral("ThreadCount")).toInt());
     }
     ++m_tryCount;
-    if(m_server->listen(QHostAddress::Any, getValue(QStringLiteral("port")).toInt()))
+    if(m_server->listen(QHostAddress::Any, static_cast<quint16>(getValue(QStringLiteral("port")).toInt())))
     {
         setState(Listening);
         emit sendLog(tr("Rolisteam Server is on!"), LogController::Info);
@@ -126,7 +126,7 @@ void ServerManager::initServerManager()
 {
     // create channel
     int chCount= getValue("ChannelCount").toInt();
-    int count  = m_model->rowCount(QModelIndex());
+    int count= m_model->rowCount(QModelIndex());
     for(int i= count; i < chCount; ++i)
     {
         m_model->addChannel(QStringLiteral("Channel %1").arg(i), "");
@@ -177,7 +177,7 @@ void ServerManager::checkAuthToServer(TcpClient* client)
     if(nullptr != client)
     {
         QMap<QString, QVariant> data(m_parameters);
-        data["currentIp"]   = client->getIpAddress();
+        data["currentIp"]= client->getIpAddress();
         data["userpassword"]= client->getServerPassword();
         if(m_corEndProcess->runAccepter(data))
         {
@@ -215,7 +215,7 @@ void ServerManager::memoryChannelChanged(quint64 size)
 void ServerManager::checkAuthToChannel(TcpClient* client, QString channelId, QByteArray password)
 {
     QMap<QString, QVariant> data(m_parameters);
-    auto item   = m_model->getItemById(channelId);
+    auto item= m_model->getItemById(channelId);
     auto channel= dynamic_cast<Channel*>(item);
 
     auto eventToSend= TcpClient::ChannelAuthSuccessEvent;
@@ -300,7 +300,7 @@ void ServerManager::kickClient(QString id, bool isAdmin, QString senderId)
     sendOffModelToAll();
 
     TcpClient* client= nullptr;
-    auto keys        = m_connections.keys();
+    auto keys= m_connections.keys();
     for(auto& key : keys)
     {
         auto value= m_connections[key];
@@ -318,15 +318,21 @@ void ServerManager::kickClient(QString id, bool isAdmin, QString senderId)
     }
 }
 
-void ServerManager::banClient(QString id, bool isAdmin, QString senderId) {}
+void ServerManager::banClient(QString id, bool isAdmin, QString senderId)
+{
+    // TODO implement this function
+    Q_UNUSED(id)
+    Q_UNUSED(isAdmin)
+    Q_UNUSED(senderId)
+}
 
 void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan, TcpClient* tcp)
 {
     if(tcp == nullptr)
         return;
 
-    bool isAdmin = tcp->isAdmin();
-    bool isGM    = tcp->isGM();
+    bool isAdmin= tcp->isAdmin();
+    bool isGM= tcp->isGM();
     auto sourceId= tcp->getPlayerId();
     switch(msg->action())
     {
@@ -343,7 +349,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
     {
         if(isAdmin)
         {
-            QString idChan = msg->string8();
+            QString idChan= msg->string8();
             QString newName= msg->string32();
             m_model->renameChannel(sourceId, idChan, newName);
         }
@@ -353,9 +359,9 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
     {
         if(isAdmin)
         {
-            QString idparent    = msg->string8();
+            QString idparent= msg->string8();
             TreeItem* parentItem= m_model->getItemById(idparent);
-            Channel* dest       = static_cast<Channel*>(parentItem);
+            Channel* dest= static_cast<Channel*>(parentItem);
 
             auto channel= new Channel();
             channel->read(*msg);
@@ -365,12 +371,12 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
     break;
     case NetMsg::JoinChannel:
     {
-        QString id          = msg->string8();
-        QString idClient    = msg->string8();
-        TreeItem* item      = m_model->getItemById(id);
+        QString id= msg->string8();
+        QString idClient= msg->string8();
+        TreeItem* item= m_model->getItemById(id);
         TreeItem* clientItem= m_model->getItemById(idClient);
-        TcpClient* client   = static_cast<TcpClient*>(clientItem);
-        Channel* dest       = static_cast<Channel*>(item);
+        TcpClient* client= static_cast<TcpClient*>(clientItem);
+        Channel* dest= static_cast<Channel*>(item);
         if(nullptr != dest && !dest->locked())
         {
             chan->removeClient(client);
@@ -383,7 +389,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
     {
         if(isAdmin)
         {
-            QByteArray data  = msg->byteArray32();
+            QByteArray data= msg->byteArray32();
             QJsonDocument doc= QJsonDocument::fromJson(data);
             if(!doc.isEmpty())
             {
@@ -416,7 +422,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
         else if(isAdmin)
         {
             QString id= msg->string8();
-            auto item = m_model->getItemById(id);
+            auto item= m_model->getItemById(id);
             if(!item->isLeaf())
             {
                 auto chan= dynamic_cast<Channel*>(item);

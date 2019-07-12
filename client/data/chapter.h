@@ -42,16 +42,16 @@ public:
     /**
      * @brief destructor
      */
-    virtual ~Chapter();
+    virtual ~Chapter() override;
     /**
      * @brief overridden method, is leaf or not
      */
-    virtual bool hasChildren() const;
-    bool mayHaveChildren() const;
-    int getChildrenCount() const;
+    virtual bool hasChildren() const override;
+    bool mayHaveChildren() const override;
+    int getChildrenCount() const override;
 
-    virtual ResourcesNode* getChildAt(int) const;
-    virtual int indexOf(ResourcesNode*);
+    virtual ResourcesNode* getChildAt(int) const override;
+    virtual int indexOf(ResourcesNode*) const override;
 
     /**
      * @brief add resource into the chapter
@@ -61,23 +61,23 @@ public:
     /**
      * @brief removes node (chapter or ressource)
      */
-    bool removeChild(ResourcesNode* item);
+    bool removeChild(ResourcesNode* item) override;
     void clear();
 
-    virtual bool contains(ResourcesNode*);
+    virtual bool contains(ResourcesNode*) override;
 
-    void write(QDataStream& out, bool tag= true, bool saveData= true) const;
-    void read(QDataStream& in);
+    void write(QDataStream& out, bool tag= true, bool saveData= true) const override;
+    void read(QDataStream& in) override;
 
-    QVariant getData(ResourcesNode::DataValue);
+    QVariant getData(ResourcesNode::DataValue) override;
 
-    void insertChildAt(int row, ResourcesNode* uri);
+    void insertChildAt(int row, ResourcesNode* uri) override;
 
-    bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node);
+    bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node) override;
 
-    virtual QIcon getIcon();
+    virtual QIcon getIcon() override;
 
-    ResourcesNode::TypeResource getResourcesType() const;
+    ResourcesNode::TypeResource getResourcesType() const override;
 
 signals:
     void openResource(ResourcesNode*, bool);

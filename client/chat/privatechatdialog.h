@@ -49,14 +49,14 @@ public:
      * @param index
      * @return
      */
-    Qt::ItemFlags flags(const QModelIndex& index) const;
+    Qt::ItemFlags flags(const QModelIndex& index) const override;
     /**
      * @brief data
      * @param index
      * @param role
      * @return
      */
-    QVariant data(const QModelIndex& index, int role) const;
+    QVariant data(const QModelIndex& index, int role) const override;
     /**
      * @brief setData
      * @param index
@@ -64,7 +64,7 @@ public:
      * @param role
      * @return
      */
-    bool setData(const QModelIndex& index, const QVariant& value, int role);
+    bool setData(const QModelIndex& index, const QVariant& value, int role) override;
     /**
      * @brief playersSet
      * @return

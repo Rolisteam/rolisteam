@@ -78,7 +78,7 @@ ChatList::ChatList(MainWindow* mainWindow) : QAbstractItemModel(nullptr), m_chat
     connect(playersList, &PlayersList::playerDeleted, this, &ChatList::deletePlayerChat);
 
     // Allready there player's chat
-    int maxPlayerIndex = playersList->getPlayerCount();
+    int maxPlayerIndex= playersList->getPlayerCount();
     Player* localPlayer= playersList->getLocalPlayer();
     for(int i= 0; i < maxPlayerIndex; i++)
     {
@@ -101,7 +101,7 @@ ChatList::~ChatList()
 {
     m_chatMenu.clear();
     std::for_each(m_data.begin(), m_data.end(),
-                  [this](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { pair.first->deleteLater(); });
+                  [](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { pair.first->deleteLater(); });
     m_data.clear();
 }
 void ChatList::addPublicChat()
@@ -201,9 +201,9 @@ bool ChatList::setData(const QModelIndex& index, const QVariant& value, int role
 QVariant ChatList::data(const QModelIndex& index, int role) const
 {
     QMutexLocker locker(&m_mutex);
-    auto pair            = getPairByIndex(index);
+    auto pair= getPairByIndex(index);
     QMdiSubWindow* chatw2= pair.first;
-    ChatWindow* chatw    = pair.second;
+    ChatWindow* chatw= pair.second;
 
     if(chatw == nullptr)
         return QVariant();
@@ -381,7 +381,7 @@ void ChatList::delChatWindow(ChatWindow* chatw)
         return;
 
     m_chatMenu.removeAction(chatw->toggleViewAction());
-    auto index = static_cast<int>(std::distance(m_data.begin(), it));
+    auto index= static_cast<int>(std::distance(m_data.begin(), it));
     auto window= it->first;
     beginRemoveRows(QModelIndex(), index, index);
     m_data.erase(it);
@@ -508,7 +508,7 @@ bool ChatList::event(QEvent* event)
 {
     if(event->type() == ReceiveEvent::Type)
     {
-        ReceiveEvent* netEvent    = static_cast<ReceiveEvent*>(event);
+        ReceiveEvent* netEvent= static_cast<ReceiveEvent*>(event);
         NetworkMessageReader& data= netEvent->data();
 
         if(data.category() == NetMsg::ChatCategory)
@@ -539,9 +539,9 @@ bool ChatList::event(QEvent* event)
 void ChatList::dispatchMessage(ReceiveEvent* event)
 {
     NetworkMessageReader& data= event->data();
-    QString from              = data.string8();
-    QString to                = data.string8();
-    QString msg               = data.string32();
+    QString from= data.string8();
+    QString to= data.string8();
+    QString msg= data.string32();
     QString comment;
     if(data.action() == NetMsg::DiceMessageAction)
     {
