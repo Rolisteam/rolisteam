@@ -34,7 +34,7 @@ matrix:
           - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-        - QT=512 BREW=@ex PPA=beineri/opt-qt-5.12.3-xenial
+        - QT=512 BREW=@ex PPA=beineri/opt-qt-5.12.3-xenial QMAKESPEC=linux-g++ QT_SELECT=qt5 QMAKE_CC=gcc-7  QMAKE_CXX=g++-7 QMAKE_CXXFLAGS="" QMAKE_LFLAGS=""
       before_script:
         - . /opt/qt$QT/bin/qt$QT-env.sh
 
