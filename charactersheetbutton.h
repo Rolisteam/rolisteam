@@ -33,39 +33,39 @@ class CharacterSheetButton : public CSItem
 {
     Q_OBJECT
 public:
-    CharacterSheetButton(QPointF topleft, QGraphicsItem* parent= 0);
-    CharacterSheetButton(QGraphicsItem* parent= 0);
+    CharacterSheetButton(QPointF topleft, QGraphicsItem* parent= nullptr);
+    CharacterSheetButton(QGraphicsItem* parent= nullptr);
 
-    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const;
-    virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var);
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId, int role) const override;
+    virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var) override;
 
-    virtual void save(QJsonObject& json, bool exp= false);
-    virtual void load(const QJsonObject& json, QList<QGraphicsScene*> scene);
+    virtual void save(QJsonObject& json, bool exp= false) override;
+    virtual void load(const QJsonObject& json, EditorController* ctrl) override;
 
     virtual void generateQML(QTextStream& out, CharacterSheetItem::QMLSection sec);
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= 0);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
 
-    virtual void setNewEnd(QPointF nend);
+    virtual void setNewEnd(QPointF nend) override;
     QRectF boundingRect() const;
 
     CharacterSheetItem::TypeField getFieldType() const;
 
-    CharacterSheetItem* getChildAt(QString) const;
+    virtual CharacterSheetItem* getChildAt(QString) const override;
 
-    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
+    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const override;
 
     /**
      * @brief saveDataItem
      * @param json
      */
-    virtual void saveDataItem(QJsonObject& json);
+    virtual void saveDataItem(QJsonObject& json) override;
     /**
      * @brief load
      * @param json
      * @param scene
      */
-    virtual void loadDataItem(const QJsonObject& json);
+    virtual void loadDataItem(const QJsonObject& json) override;
 
     void copyField(CharacterSheetItem* newField);
     /**
