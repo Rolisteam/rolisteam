@@ -159,9 +159,9 @@ private:
 
     QList<HandleItem*> m_handles;
 
-    ButtonCanvas* m_addColumn;
-    ButtonCanvas* m_addLine;
-    QAction* m_defineColumns;
+    ButtonCanvas* m_addColumn= nullptr;
+    ButtonCanvas* m_addLine= nullptr;
+    QAction* m_defineColumns= nullptr;
 
     std::unique_ptr<ColumnDefinitionDialog> m_dialog;
     bool m_dataReset;

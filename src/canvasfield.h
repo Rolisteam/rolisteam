@@ -19,7 +19,7 @@ public:
     QRectF boundingRect() const;
     virtual QPainterPath shape() const;
 
-    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
     void setNewEnd(QPointF nend);
 
     void setWidth(qreal w);
@@ -29,7 +29,6 @@ public:
     static void setShowImageField(bool showImageField);
     virtual void setMenu(QMenu& menu);
 
-
 signals:
     void widthChanged();
     void heightChanged();
@@ -37,7 +36,7 @@ signals:
 protected:
     Field* m_field;
     QRectF m_rect;
-    static QHash<int,QString> m_pictureMap;
+    static QHash<int, QString> m_pictureMap;
     static bool m_showImageField;
     QPixmap m_pix;
     int m_currentType;
