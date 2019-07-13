@@ -312,12 +312,14 @@ void MainWindow::setupUi()
     connect(m_playerList, SIGNAL(playerAdded(Player*)), this, SLOT(notifyAboutAddedPlayer(Player*)));
     connect(m_playerList, SIGNAL(playerDeleted(Player*)), this, SLOT(notifyAboutDeletedPlayer(Player*)));
     connect(m_roomPanel, &ChannelListPanel::CurrentChannelGmIdChanged, m_playerList, &PlayersList::setCurrentGM);
-    connect(m_playerList, &PlayersList::characterAdded, this, [=](Character* character) {
+    connect(m_playerList, &PlayersList::characterAdded, this, [this](Character* character) {
         if(character->isNpc())
         {
             m_sessionManager->addRessource(character);
         }
     });
+    connect(m_playerList, &PlayersList::eventOccurs, this,
+            [this](const QString& msg) { m_logController->manageMessage(msg, LogController::Features); });
 
     connect(m_dialog, &SelectConnectionProfileDialog::tryConnection, this, &MainWindow::startConnection);
     connect(m_dialog, &SelectConnectionProfileDialog::rejected, this, [this]() {

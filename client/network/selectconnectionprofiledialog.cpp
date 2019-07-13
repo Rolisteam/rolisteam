@@ -107,7 +107,7 @@ void ProfileModel::readSettings()
         profile->setServerMode(settings.value("server").toBool());
         profile->setGm(settings.value("gm").toBool());
         profile->setHash(QByteArray::fromBase64(settings.value("password").toByteArray()));
-        QColor color  = settings.value("PlayerColor").value<QColor>();
+        QColor color= settings.value("PlayerColor").value<QColor>();
         Player* player= new Player(profile->getName(), color, profile->isGM());
         player->setUserVersion(m_version);
         profile->setPlayer(player);
@@ -146,7 +146,7 @@ void ProfileModel::readSettings()
         profile->setTitle(tr("Default"));
         profile->setPort(6660);
         profile->setServerMode(true);
-        QColor color  = Qt::black;
+        QColor color= Qt::black;
         Player* player= new Player(profile->getName(), color, profile->isGM());
         player->setUserVersion(m_version);
         profile->setPlayer(player);
@@ -208,8 +208,8 @@ void ProfileModel::writeSettings()
     {
         settings.setArrayIndex(i);
         ConnectionProfile* profile= m_connectionProfileList.at(i);
-        Player* player            = profile->getPlayer();
-        Character* character      = profile->getCharacter();
+        Player* player= profile->getPlayer();
+        Character* character= profile->getCharacter();
 
         settings.setValue("address", profile->getAddress());
         settings.setValue("name", profile->getName());
@@ -277,7 +277,6 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version, QW
     connect(ui->m_connect, &QPushButton::clicked, this, &SelectConnectionProfileDialog::connectTo);
     connect(ui->m_selectCharaterAvatar, SIGNAL(clicked()), this, SLOT(openImage()));
     connect(ui->m_delProfileAct, SIGNAL(pressed()), this, SLOT(removeProfile()));
-
     connect(ui->m_addresseLineEdit, SIGNAL(textChanged(QString)), this, SLOT(checkConnection()));
     connect(ui->m_isServerCheckbox, SIGNAL(toggled(bool)), this, SLOT(checkConnection()));
 }
@@ -371,9 +370,11 @@ void SelectConnectionProfileDialog::updateProfile()
         {
             m_currentProfile->setPassword(ui->m_passwordEdit->text());
         }
-        Person* person= m_currentProfile->getPlayer();
-        person->setColor(ui->m_colorBtn->color());
-        person->setName(ui->m_name->text());
+        // TODO the profile must do that:
+        auto player= m_currentProfile->getPlayer();
+        player->setColor(ui->m_colorBtn->color());
+        player->setName(ui->m_name->text());
+        player->setGM(ui->m_isGmCheckbox->isChecked());
 
         Character* character= m_currentProfile->getCharacter();
         if(character != nullptr)
@@ -450,6 +451,7 @@ void SelectConnectionProfileDialog::checkConnection()
     }
     ui->m_connect->setEnabled(valid);
 }
+
 void SelectConnectionProfileDialog::errorOccurs(QString str)
 {
     ui->m_errorNotification->setStyleSheet("font: 19pt ;\nbackground: rgb(255, 0, 0);\ncolor: rgb(0,0,0);");

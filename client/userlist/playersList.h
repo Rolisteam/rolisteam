@@ -129,6 +129,7 @@ signals:
     void playerDeleted(Player* player);
     void characterDeleted(Character* character);
     void playerAddedAsClient(Player* player);
+    void eventOccurs(const QString msg);
     /**
      * @brief Send when local is client and the server refused local player to be GM.
      */

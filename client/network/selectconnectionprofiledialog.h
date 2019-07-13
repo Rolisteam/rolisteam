@@ -10,7 +10,7 @@
 
 namespace Ui
 {
-    class SelectConnectionProfileDialog;
+class SelectConnectionProfileDialog;
 }
 
 /**
@@ -97,7 +97,7 @@ public:
      * @brief SelectConnectionProfileDialog
      * @param parent
      */
-    explicit SelectConnectionProfileDialog(QString version, QWidget* parent= 0);
+    explicit SelectConnectionProfileDialog(QString version, QWidget* parent= nullptr);
     /**
      * @brief ~SelectConnectionProfileDialog
      */

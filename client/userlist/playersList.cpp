@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  *     Copyright (C) 2011 by Joseph Boudou                               *
  *      Copyright (C) 2014 by Renaud Guezennec                            *
  *                                                                       *
@@ -112,6 +112,7 @@ QVariant PlayersList::data(const QModelIndex& index, int role) const
 
     Person* person= static_cast<Person*>(index.internalPointer());
 
+    Character* character= dynamic_cast<Character*>(person);
     if(!person->isLeaf() && (role == Qt::BackgroundRole))
     {
         Player* player= dynamic_cast<Player*>(person);
@@ -129,7 +130,14 @@ QVariant PlayersList::data(const QModelIndex& index, int role) const
     {
     case Qt::DisplayRole:
     case Qt::EditRole:
-        return person->name();
+    {
+        auto name= person->name();
+        if((nullptr != character) && (character->hasInitScore()))
+        {
+            name= QStringLiteral("%1 (%2)").arg(name).arg(character->getInitiativeScore());
+        }
+        return name;
+    }
     case Qt::ToolTipRole:
         return person->getToolTip();
     case Qt::DecorationRole:
@@ -219,7 +227,7 @@ QModelIndex PlayersList::parent(const QModelIndex& index) const
     if(!index.isValid())
         return QModelIndex();
 
-    auto childItem   = static_cast<Person*>(index.internalPointer());
+    auto childItem= static_cast<Person*>(index.internalPointer());
     auto parentPerson= childItem->parentPerson();
 
     if(nullptr == parentPerson)
@@ -240,7 +248,7 @@ int PlayersList::rowCount(const QModelIndex& parent) const
     else
     {
         auto parentItem= static_cast<Person*>(parent.internalPointer());
-        auto player    = dynamic_cast<Player*>(parentItem);
+        auto player= dynamic_cast<Player*>(parentItem);
         if(player)
         {
             result= player->getChildrenCount();
@@ -273,13 +281,13 @@ QModelIndex PlayersList::personToIndex(Person* person) const
         if(player)
         {
             parent= index(m_playersList.indexOf(player), 0, QModelIndex());
-            row   = player->indexOf(person);
+            row= player->indexOf(person);
         }
     }
     else
     {
         auto player= dynamic_cast<Player*>(person);
-        row        = m_playersList.indexOf(player);
+        row= m_playersList.indexOf(player);
     }
     return index(row, 0, parent);
 }
@@ -389,15 +397,15 @@ Character* PlayersList::getCharacter(const QModelIndex& index) const
 
 QString PlayersList::getUuidFromName(QString owner)
 {
-    Person* ownerPerson   = m_localPlayer;
+    Person* ownerPerson= m_localPlayer;
     QList<Character*> list= getCharacterList();
-    bool unfound          = true;
+    bool unfound= true;
     for(int i= 0; i < list.size() && unfound; ++i)
     {
         Character* carac= list.at(i);
         if(carac->name() == owner)
         {
-            unfound    = false;
+            unfound= false;
             ownerPerson= carac;
         }
     }
@@ -495,11 +503,11 @@ void PlayersList::sendOffPersonChanges(const QString& property)
     auto idx= personToIndex(person);
     emit dataChanged(idx, idx);
 
-    auto cat   = NetMsg::PlayerCategory;
+    auto cat= NetMsg::PlayerCategory;
     auto action= NetMsg::ChangePlayerProperty;
     if(person->isLeaf())
     {
-        cat   = NetMsg::CharacterPlayerCategory;
+        cat= NetMsg::CharacterPlayerCategory;
         action= NetMsg::ChangePlayerCharacterProperty;
     }
 
@@ -534,6 +542,13 @@ void PlayersList::monitorCharacter(Character* charac)
     connect(charac, &Character::distancePerTurnChanged, this,[this]() { sendOffPersonChanges<QString>(QStringLiteral("distancePerTurn")); });
     connect(charac, &Character::lifeColorChanged, this,[this]() { sendOffPersonChanges<QColor>(QStringLiteral("lifeColor")); });
     //clang-format on
+
+    if(localIsGM())
+    {
+        connect(charac, &Character::initiativeChanged, this, [this,charac]() {
+            emit eventOccurs(tr("%1's initiative has changed: %2").arg(charac->name()).arg(charac->getInitiativeScore()));
+        });
+    }
 
     charac->initCharacter();
 }

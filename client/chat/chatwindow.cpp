@@ -202,6 +202,11 @@ bool ChatWindow::isVisible()
 }
 void ChatWindow::manageDiceRoll(QString str, QString& messageTitle, QString& message, bool alias, bool showResult)
 {
+    if(str.isEmpty())
+    {
+        qWarning() << tr("Empty dice command");
+        return;
+    }
     qInfo() << QStringLiteral("Start dice command: %1, alias: %2, showResult: %3").arg(str).arg(alias).arg(showResult);
     updateListAlias();
 
@@ -902,6 +907,9 @@ void ChatWindow::rollDiceCmdForCharacter(QString cmd, QString uuid, bool alias)
     setProperDictionnary(uuid);
 
     manageDiceRoll(cmd.simplified(), title, msg, alias);
+
+    if(title.isEmpty() || msg.isEmpty())
+        return;
 
     NetworkMessageWriter data(NetMsg::ChatCategory, NetMsg::DiceMessageAction);
     data.string8(uuid);
