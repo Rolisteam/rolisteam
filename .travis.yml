@@ -9,8 +9,6 @@ matrix:
           - sudo apt-get -qy update
           - eval "${MATRIX_EVAL}"
           - git submodule update --init --remote --recursive
-          - sudo updatedb
-          - locate libc++.so
       install:
           - sudo apt-get -qy install qt${QT}quickcontrols  qt${QT}svg  qt${QT}quickcontrols2  qt${QT}webengine  qt${QT}multimedia  qt${QT}imageformats  qt${QT}graphicaleffects  qt${QT}declarative  qt${QT}base qt${QT}translations  qt${QT}tools  qt${QT}xmlpatterns mesa-common-dev libglu1-mesa-dev freeglut3-dev
       env:
