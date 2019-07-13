@@ -14,6 +14,10 @@ ComboBox {
     property bool readOnly: false
     property alias color: back.color
 
+    bottomPadding: 0
+    leftPadding: 0
+    rightPadding: 0
+    topPadding: 0
     padding: 0
     spacing: 0
 

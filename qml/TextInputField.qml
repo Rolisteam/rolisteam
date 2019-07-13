@@ -10,10 +10,10 @@ TextField {
     property alias hAlign: root.horizontalAlignment
     property alias vAlign: root.verticalAlignment
     property string tooltip: ""
-
-    clip: root.clippedText
-
+    bottomPadding: 0
+    topPadding: 0
     padding: 0
+    clip: root.clippedText
 
     function computeSizeFont()
     {

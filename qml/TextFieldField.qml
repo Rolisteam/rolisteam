@@ -9,6 +9,9 @@ TextField {
     property bool clippedText: false
     property bool readOnly: false
     property string tooltip: ""
+    bottomPadding: 0
+    topPadding: 0
+    padding: 0
     selectByMouse: true
     ToolTip.text: root.tooltip
     ToolTip.visible: root.tooltip.length >0 && activeFocus
