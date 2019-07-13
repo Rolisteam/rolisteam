@@ -70,8 +70,6 @@ void SessionTest::testModel()
     Chapter* chapter= new Chapter();
     chapter->setName("chapter1");
 
-    auto sessionview= m_sessionManager->getView();
-
     QModelIndex index;
     m_model->addResource(uri1, index);
     m_model->addResource(uri2, index);
@@ -179,8 +177,8 @@ void SessionTest::saveAndLoadTest()
     out.setVersion(QDataStream::Qt_5_7);
     sessionManager->loadSession(out);
 
-    QCOMPARE(
-        sessionManager->getModel()->rowCount(QModelIndex()), m_sessionManager->getModel()->rowCount(QModelIndex()));
+    QCOMPARE(sessionManager->getModel()->rowCount(QModelIndex()),
+             m_sessionManager->getModel()->rowCount(QModelIndex()));
     QByteArray array2;
     QDataStream in2(&array2, QIODevice::WriteOnly);
     in2.setVersion(QDataStream::Qt_5_7);
@@ -194,15 +192,16 @@ void SessionTest::saveAndLoadTest_data()
     QTest::addColumn<std::vector<CleverURI::ContentType>>("list");
 
     std::vector<CleverURI::ContentType> data({CleverURI::VMAP, CleverURI::SHAREDNOTE, CleverURI::CHARACTERSHEET,
-        CleverURI::TEXT, CleverURI::PICTURE, CleverURI::SONGLIST, CleverURI::WEBVIEW}); //
+                                              CleverURI::TEXT, CleverURI::PICTURE, CleverURI::SONGLIST,
+                                              CleverURI::WEBVIEW}); //
 
     // auto list = new std::vector<CleverURI*>();
     std::vector<CleverURI::ContentType> list;
 
     int index= 0;
-    for(int i= 0; i < data.size(); ++i)
+    for(unsigned int i= 0; i < data.size(); ++i)
     {
-        std::size_t comb_size= i + 1;
+        auto comb_size= i + 1;
         do
         {
             list.clear();
@@ -210,8 +209,7 @@ void SessionTest::saveAndLoadTest_data()
             {
                 list.push_back(*it);
             }
-            auto title= QStringLiteral("save%1").arg(++index);
-            QTest::addRow(title.toStdString().c_str()) << list;
+            QTest::addRow("save %d", index) << list;
         } while(Helper::next_combination(data.begin(), data.begin() + comb_size, data.end()));
     }
 }
