@@ -175,6 +175,8 @@ void Section::load(const QJsonObject& json, EditorController* ctrl)
             auto page= std::max(0, item->getPage()); // add item for all pages on the first canvas.
             if(ctrl)
                 ctrl->addItem(page, gItem);
+#else
+            Q_UNUSED(gItem);
 #endif
             item->initGraphicsItem();
             m_dataHash.insert(item->getPath(), item);
