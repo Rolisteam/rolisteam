@@ -267,7 +267,7 @@ bool CharacterSheetModel::setData(const QModelIndex& index, const QVariant& valu
                     {
                         formula= valueStr;
                         QHash<QString, QString> hash= sheet->getVariableDictionnary();
-                        m_formulaManager->setConstantHash(&hash);
+                        m_formulaManager->setConstantHash(hash);
                         valueStr= m_formulaManager->getValue(formula).toString();
                         child->setFormula(formula);
                     }
@@ -281,7 +281,7 @@ bool CharacterSheetModel::setData(const QModelIndex& index, const QVariant& valu
                     {
                         formula= valueStr;
                         QHash<QString, QString> hash= sheet->getVariableDictionnary();
-                        m_formulaManager->setConstantHash(&hash);
+                        m_formulaManager->setConstantHash(hash);
                         valueStr= m_formulaManager->getValue(formula).toString();
                     }
 
@@ -310,7 +310,7 @@ void CharacterSheetModel::computeFormula(QString path, CharacterSheet* sheet)
         QString valueStr;
 
         QHash<QString, QString> hash= sheet->getVariableDictionnary();
-        m_formulaManager->setConstantHash(&hash);
+        m_formulaManager->setConstantHash(hash);
         formula= sheet->getValue(item, Qt::EditRole).toString();
         valueStr= m_formulaManager->getValue(formula).toString();
         sheet->setValue(item, valueStr, formula);

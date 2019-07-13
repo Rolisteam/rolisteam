@@ -67,6 +67,7 @@ namespace Formula
     }
     void FormulaManager::setConstantHash(QHash<QString, QString>* hash)
     {
+        m_parsingTool->setVariableHash(hash);
         if(nullptr != m_parsingTool)
         {
             m_parsingTool->setVariableHash(hash);

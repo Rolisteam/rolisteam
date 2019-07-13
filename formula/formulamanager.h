@@ -60,7 +60,7 @@ namespace Formula
         ~FormulaManager();
 
         QVariant getValue(QString i);
-        void setConstantHash(QHash<QString, QString>* hash);
+    void setConstantHash(const QHash<QString, QString>& hash);
 
     protected:
         bool parseLine(QString& str);

@@ -81,17 +81,17 @@ namespace Formula
 
         FormulaNode* getLatestNode(FormulaNode* node);
 
-        QHash<QString, QString>* getVariableHash() const;
-        void setVariableHash(QHash<QString, QString>* variableHash);
+    const QHash<QString, QString> getVariableHash() const;
+    void setVariableHash(const QHash<QString, QString>& variableHash);
 
         bool readStringValue(QString& str, FormulaNode*& previous);
         bool readParenthese(QString& str, FormulaNode*& previous);
 
-    private:
-        QHash<QString, ParsingToolFormula::FormulaOperator>* m_hashOp;
-        QHash<QString, QString>* m_variableHash;
+private:
+    QHash<QString, QString> m_variableHash;
 
-        QHash<QString, ScalarOperatorFNode::ArithmeticOperator>* m_arithmeticOperation;
-    };
+    std::map<QString, ParsingToolFormula::FormulaOperator> m_hashOp;
+    std::map<QString, ScalarOperatorFNode::ArithmeticOperator> m_arithmeticOperation;
+};
 } // namespace Formula
 #endif // PARSINGTOOLFORMULA_H
