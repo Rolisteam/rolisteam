@@ -27,65 +27,65 @@
 #include "nodes/scalaroperatorfnode.h"
 namespace Formula
 {
-    /**
-     * @brief The ParsingToolFormula class provides methods for parsing formula.
-     */
-    class ParsingToolFormula
+/**
+ * @brief The ParsingToolFormula class provides methods for parsing formula.
+ */
+class ParsingToolFormula
+{
+public:
+    enum FormulaOperator
     {
-    public:
-        enum FormulaOperator
-        {
-            ABS,
-            MIN,
-            MAX,
-            FLOOR,
-            CEIL,
-            AVG,
-            CONCAT
-        }; //,IF
-        /**
-         * @brief ParsingToolFormula
-         */
-        ParsingToolFormula();
-        ~ParsingToolFormula();
-        /**
-         * @brief readFormula
-         * @return
-         */
-        bool readFormula(QString&, FormulaNode*&);
-        /**
-         * @brief readScalarOperator
-         * @return
-         */
-        bool readScalarOperator(QString&, FormulaNode*);
-        /**
-         * @brief readOperand
-         * @return
-         */
-        bool readOperand(QString&, FormulaNode*&);
-        /**
-         * @brief readOperator
-         * @return
-         */
-        bool readOperator(QString&, FormulaNode*&);
-        /**
-         * @brief readFieldRef
-         * @return
-         */
-        bool readFieldRef(QString&, FormulaNode*&);
-        /**
-         * @brief readNumber
-         * @return
-         */
-        bool readNumber(QString&, FormulaNode*&);
+        ABS,
+        MIN,
+        MAX,
+        FLOOR,
+        CEIL,
+        AVG,
+        CONCAT
+    }; //,IF
+    /**
+     * @brief ParsingToolFormula
+     */
+    ParsingToolFormula();
+    ~ParsingToolFormula();
+    /**
+     * @brief readFormula
+     * @return
+     */
+    bool readFormula(QString&, FormulaNode*&);
+    /**
+     * @brief readScalarOperator
+     * @return
+     */
+    bool readScalarOperator(QString&, FormulaNode*);
+    /**
+     * @brief readOperand
+     * @return
+     */
+    bool readOperand(QString&, FormulaNode*&);
+    /**
+     * @brief readOperator
+     * @return
+     */
+    bool readOperator(QString&, FormulaNode*&);
+    /**
+     * @brief readFieldRef
+     * @return
+     */
+    bool readFieldRef(QString&, FormulaNode*&);
+    /**
+     * @brief readNumber
+     * @return
+     */
+    bool readNumber(QString&, FormulaNode*&);
 
-        FormulaNode* getLatestNode(FormulaNode* node);
+    FormulaNode* getLatestNode(FormulaNode* node);
 
     const QHash<QString, QString> getVariableHash() const;
     void setVariableHash(const QHash<QString, QString>& variableHash);
 
-        bool readStringValue(QString& str, FormulaNode*& previous);
-        bool readParenthese(QString& str, FormulaNode*& previous);
+    bool readStringValue(QString& str, FormulaNode*& previous);
+    bool readParenthese(QString& str, FormulaNode*& previous);
 
 private:
     QHash<QString, QString> m_variableHash;

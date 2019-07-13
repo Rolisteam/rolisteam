@@ -50,28 +50,28 @@
  */
 namespace Formula
 {
-    /**
-     * @brief The FormulaManager class
-     */
-    class FormulaManager
-    {
-    public:
-        FormulaManager();
-        ~FormulaManager();
+/**
+ * @brief The FormulaManager class
+ */
+class FormulaManager
+{
+public:
+    FormulaManager();
+    ~FormulaManager();
 
-        QVariant getValue(QString i);
+    QVariant getValue(QString i);
     void setConstantHash(const QHash<QString, QString>& hash);
 
-    protected:
-        bool parseLine(QString& str);
-        QVariant startComputing();
+protected:
+    bool parseLine(QString& str);
+    QVariant startComputing();
 
-        bool readFormula(QString& str);
+    bool readFormula(QString& str);
 
-    private:
-        QString m_formula;
-        ParsingToolFormula* m_parsingTool;
-        StartNode* m_startingNode;
-    };
+private:
+    QString m_formula;
+    ParsingToolFormula* m_parsingTool;
+    StartNode* m_startingNode;
+};
 } // namespace Formula
 #endif // FORMULAMANAGER_H

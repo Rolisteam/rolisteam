@@ -20,57 +20,63 @@
 #include "formulamanager.h"
 namespace Formula
 {
-    FormulaManager::FormulaManager() : m_startingNode(nullptr) { m_parsingTool= new ParsingToolFormula(); }
-    FormulaManager::~FormulaManager()
+
+FormulaManager::FormulaManager() : m_startingNode(nullptr)
+{
+    m_parsingTool= new ParsingToolFormula();
+}
+FormulaManager::~FormulaManager()
+{
+    if(nullptr != m_parsingTool)
     {
-        if(nullptr != m_parsingTool)
-        {
-            delete m_parsingTool;
-        }
+        delete m_parsingTool;
+    }
+}
+
+QVariant FormulaManager::getValue(QString i)
+{
+    m_formula= i;
+    if(parseLine(i))
+    {
+        return startComputing();
+    }
+    return QVariant();
+}
+
+bool FormulaManager::parseLine(QString& str)
+{
+    return readFormula(str);
+}
+
+QVariant FormulaManager::startComputing()
+{
+    m_startingNode->run(nullptr);
+
+    FormulaNode* node= m_startingNode;
+    while(nullptr != node->next())
+    {
+        node= node->next();
     }
 
-    QVariant FormulaManager::getValue(QString i)
-    {
-        m_formula= i;
-        if(parseLine(i))
-        {
-            return startComputing();
-        }
-        return QVariant();
-    }
+    QVariant var= node->getResult();
+    delete m_startingNode;
+    return var;
+}
 
-    bool FormulaManager::parseLine(QString& str) { return readFormula(str); }
+bool FormulaManager::readFormula(QString& str)
+{
+    m_startingNode= new StartNode();
+    FormulaNode* node= nullptr;
+    bool a= m_parsingTool->readFormula(str, node);
 
-    QVariant FormulaManager::startComputing()
-    {
-        m_startingNode->run(nullptr);
-
-        FormulaNode* node= m_startingNode;
-        while(nullptr != node->next())
-        {
-            node= node->next();
-        }
-
-        QVariant var= node->getResult();
-        delete m_startingNode;
-        return var;
-    }
-
-    bool FormulaManager::readFormula(QString& str)
-    {
-        m_startingNode= new StartNode();
-        FormulaNode* node= nullptr;
-        bool a= m_parsingTool->readFormula(str, node);
-
-        m_startingNode->setNext(node);
-        return a;
-    }
-    void FormulaManager::setConstantHash(QHash<QString, QString>* hash)
+    m_startingNode->setNext(node);
+    return a;
+}
+void FormulaManager::setConstantHash(const QHash<QString, QString>& hash)
+{
+    if(nullptr != m_parsingTool)
     {
         m_parsingTool->setVariableHash(hash);
-        if(nullptr != m_parsingTool)
-        {
-            m_parsingTool->setVariableHash(hash);
-        }
     }
+}
 } // namespace Formula
