@@ -96,7 +96,7 @@ private:
     QSpinBox* m_gridSize;
     QDoubleSpinBox* m_scaleSize;
     QCheckBox* m_showOnlyItemsFromThisLayer;
-    QCheckBox* m_showCharacterVision;
+    QToolButton* m_showCharacterVision;
     QCheckBox* m_collision;
     QCheckBox* m_gridAbove;
     QAction* m_showTransparentItem;

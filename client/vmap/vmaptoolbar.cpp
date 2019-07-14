@@ -96,9 +96,13 @@ void VmapToolBar::setupUi()
     m_showOnlyItemsFromThisLayer= new QCheckBox(tr("Hide other Layers"));
     addWidget(m_showOnlyItemsFromThisLayer);
 
-    m_showCharacterVision= new QCheckBox(tr("Character Vision"));
+    // m_showCharacterVision= new QCheckBox(tr("Character Vision"));
+    m_showCharacterVision= new QToolButton(this);
+    m_showCharacterVision->setToolTip(tr("Character Vision"));
+    m_showCharacterVision->setCheckable(true);
+    m_showCharacterVision->setIcon(QIcon(":/resources/images/sight.svg"));
     addWidget(m_showCharacterVision);
-
+    // :/resources/images/sight.svg
     m_collision= new QCheckBox(tr("Collision"));
     addWidget(m_collision);
 
@@ -123,7 +127,7 @@ void VmapToolBar::setupUi()
     connect(m_currentLayer, SIGNAL(currentIndexChanged(int)), this, SLOT(layerHasChanged(int)));
 
     connect(m_gridPattern, SIGNAL(currentIndexChanged(int)), this, SLOT(patternChanged(int)));
-    connect(m_showCharacterVision, SIGNAL(clicked(bool)), this, SLOT(managedAction()));
+    connect(m_showCharacterVision, &QToolButton::clicked, this, &VmapToolBar::managedAction);
     connect(m_collision, SIGNAL(clicked(bool)), this, SLOT(managedAction()));
     connect(m_showTransparentItem, SIGNAL(triggered()), this, SLOT(managedAction()));
 }
