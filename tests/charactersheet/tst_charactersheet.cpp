@@ -50,7 +50,7 @@ private:
     CharacterSheet* m_sheet= nullptr;
     QList<CharacterSheetItem*> m_list;
     Formula::FormulaManager* m_formulaMan= nullptr;
-    QHash<QString, QString>* m_variable= nullptr;
+    QHash<QString, QString> m_variable;
 };
 
 TestCharacterSheet::TestCharacterSheet() {}
@@ -85,24 +85,23 @@ void TestCharacterSheet::initTestCase()
 
     // Formula
     m_formulaMan= new Formula::FormulaManager();
-    m_variable= new QHash<QString, QString>();
 
-    m_variable->insert("Name", "John Doe");
-    m_variable->insert("weight", "85kg");
-    m_variable->insert("age", "18");
-    m_variable->insert("size", "1.69");
-    m_variable->insert("strenght", "4");
-    m_variable->insert("intelligence", "5");
-    m_variable->insert("speed", "59");
-    m_variable->insert("ecole", "Akodo");
-    m_variable->insert("arme", "Katana");
-    m_variable->insert("XP", "0");
-    m_variable->insert("max health", "82");
-    m_variable->insert("mana", "10000");
-    m_variable->insert("level", "-1");
-    m_variable->insert("agility", "-2.5");
-    m_variable->insert("manipulation", "10");
-    m_variable->insert("mental health", "90%");
+    m_variable.insert("Name", "John Doe");
+    m_variable.insert("weight", "85kg");
+    m_variable.insert("age", "18");
+    m_variable.insert("size", "1.69");
+    m_variable.insert("strenght", "4");
+    m_variable.insert("intelligence", "5");
+    m_variable.insert("speed", "59");
+    m_variable.insert("ecole", "Akodo");
+    m_variable.insert("arme", "Katana");
+    m_variable.insert("XP", "0");
+    m_variable.insert("max health", "82");
+    m_variable.insert("mana", "10000");
+    m_variable.insert("level", "-1");
+    m_variable.insert("agility", "-2.5");
+    m_variable.insert("manipulation", "10");
+    m_variable.insert("mental health", "90%");
 
     m_formulaMan->setConstantHash(m_variable);
 }
