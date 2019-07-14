@@ -112,7 +112,7 @@ void GridItem::fillMessage(NetworkMessageWriter* msg)
 void GridItem::computePattern()
 {
     if((getOption(VisualItem::GridPattern).toInt() != VMap::NONE) && getOption(VisualItem::ShowGrid).toBool()
-        && getOption(VisualItem::GridAbove).toBool())
+       && getOption(VisualItem::GridAbove).toBool())
     {
         QPolygonF polygon;
 
@@ -132,13 +132,13 @@ void GridItem::computePattern()
             polygon << C << D << E << F << A << B << A << G;
 
             m_computedPattern= QImage(static_cast<int>(getOption(VisualItem::GridSize).toInt() * 1.5),
-                static_cast<int>(2 * hlimit), QImage::Format_ARGB32);
+                                      static_cast<int>(2 * hlimit), QImage::Format_ARGB32);
             m_computedPattern.fill(Qt::transparent);
         }
         else if(getOption(VisualItem::GridPattern).toInt() == VMap::SQUARE)
         {
             m_computedPattern= QImage(getOption(VisualItem::GridSize).toInt(), getOption(VisualItem::GridSize).toInt(),
-                QImage::Format_ARGB32);
+                                      QImage::Format_ARGB32);
             m_computedPattern.fill(Qt::transparent);
             int sizeP= getOption(VisualItem::GridSize).toInt();
             QPointF A(0, 0);
@@ -191,7 +191,7 @@ void GridItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     Q_UNUSED(option)
     Q_UNUSED(widget)
     if(getOption(VisualItem::GridAbove).toBool() && getOption(VisualItem::ShowGrid).toBool()
-        && (getOption(VisualItem::GridPattern).toInt() != VMap::NONE))
+       && (getOption(VisualItem::GridPattern).toInt() != VMap::NONE))
     {
         painter->fillRect(boundingRect(), QBrush(m_computedPattern));
     }
