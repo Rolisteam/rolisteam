@@ -110,6 +110,8 @@
         <file alias="resources/qml/CheckBoxField.qml">client/charactersheet/qml/CheckBoxField.qml</file>
         <file alias="resources/qml/Table.qml">client/charactersheet/qml/Table.qml</file>
         <file alias="resources/qml/WebView.qml">client/charactersheet/qml/WebView.qml</file>
+        <file alias="resources/qml/PageButton.qml">client/charactersheet/qml/PageButton.qml</file>
+        <file alias="resources/qml/RLabel.qml">client/charactersheet/qml/RLabel.qml</file>
         <file>resources/icons/liberapay.png</file>
         <file alias="vmap.png">resources/icons/vmap.png</file>
         <file>resources/icons/sharedEditor.png</file>
@@ -345,7 +347,6 @@
         <file>resources/icons/000000-paint-bucket-512.png</file>
         <file>resources/icons/marker-512.png</file>
         <file>resources/icons/shuffle_mode.png</file>
-        <file alias="resources/qml/PageButton.qml">client/charactersheet/qml/PageButton.qml</file>
         <file>resources/images/sight.svg</file>
     </qresource>
     <qresource prefix="/stylesheet">
