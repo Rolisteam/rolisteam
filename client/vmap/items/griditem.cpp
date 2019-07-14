@@ -49,6 +49,7 @@ GridItem::GridItem() : m_isGM(false)
     setAcceptHoverEvents(false);
     m_layer= GRIDLAYER;
     setFlags(QGraphicsItem::ItemSendsGeometryChanges);
+    setFlag(QGraphicsItem::ItemIsSelectable, false);
 }
 
 GridItem::~GridItem() {}
@@ -56,6 +57,7 @@ GridItem::~GridItem() {}
 void GridItem::updateItemFlags()
 {
     VisualItem::updateItemFlags();
+    setAcceptedMouseButtons(Qt::NoButton);
     setFlag(QGraphicsItem::ItemIsMovable, false);
 }
 QRectF GridItem::boundingRect() const
