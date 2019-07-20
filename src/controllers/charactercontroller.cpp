@@ -123,7 +123,7 @@ void CharacterController::applyOnAllCharacter()
 {
     auto index= m_view->currentIndex();
     QString value= index.data().toString();
-    QString formula= index.data(Qt::UserRole).toString();
+    QString formula= index.data(CharacterSheetModel::Formula).toString();
     auto characterItem= m_characterModel->indexToSection(index);
     if((!value.isEmpty()) && (nullptr != characterItem))
     {
