@@ -138,7 +138,6 @@ void SightItem::setNewEnd(QPointF& nend)
 void SightItem::writeData(QDataStream& out) const
 {
     out << m_fogHoleList.count();
-    qDebug() << "count write data" << m_fogHoleList.count();
     for(auto fog : m_fogHoleList)
     {
         out << *fog->getPolygon();
@@ -150,7 +149,6 @@ void SightItem::readData(QDataStream& in)
 {
     int count;
     in >> count;
-    qDebug() << "count read data" << count;
     for(int i= 0; i < count; ++i)
     {
         bool adding;
@@ -286,7 +284,7 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
         for(auto& charact : values)
         {
             if((nullptr != charact) && ((charact->isLocal()) || getOption(VisualItem::LocalIsGM).toBool())
-                && charact->isVisible() && !charact->isNpc())
+               && charact->isVisible() && !charact->isNpc())
             {
                 CharacterVision* vision= charact->getVision();
 
@@ -305,15 +303,15 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
                 {
                 case CharacterVision::DISK:
                 {
-                    subArea.addEllipse(
-                        QPointF(0, 0), vision->getRadius() + itemRadius, vision->getRadius() + itemRadius);
+                    subArea.addEllipse(QPointF(0, 0), vision->getRadius() + itemRadius,
+                                       vision->getRadius() + itemRadius);
                 }
                 break;
                 case CharacterVision::ANGLE:
                 {
                     QRectF rectArc;
-                    rectArc.setCoords(
-                        -vision->getRadius(), -vision->getRadius(), vision->getRadius(), vision->getRadius());
+                    rectArc.setCoords(-vision->getRadius(), -vision->getRadius(), vision->getRadius(),
+                                      vision->getRadius());
                     subArea.arcTo(rectArc, -vision->getAngle() / 2, vision->getAngle());
                     painter->setPen(QColor(255, 0, 0));
                 }
@@ -321,6 +319,24 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
                 }
                 path.moveTo(charact->pos());
                 path= path.subtracted(mat.map(subArea));
+            }
+        }
+    }
+    else
+    {
+        auto const& values= m_characterItemMap->values();
+        for(auto& charact : values)
+        {
+            if(charact->isLocal())
+            {
+                QMatrix mat;
+                auto itemRadius= charact->getRadius();
+                qreal rot= charact->rotation();
+                QPointF center= charact->pos() + QPointF(itemRadius, itemRadius);
+                mat.translate(center.x(), center.y());
+                mat.rotate(rot);
+                auto shape= charact->shape();
+                path= path.subtracted(mat.map(charact->getTokenShape().translated(-itemRadius, -itemRadius)));
             }
         }
     }

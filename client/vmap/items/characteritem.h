@@ -235,6 +235,8 @@ public:
     QString getName() const;
     int getNumber() const;
     void setHoldSize(bool holdSize) override;
+    const QPainterPath getTokenShape() const;
+    const QRectF& getTextRect() const;
 signals:
     /**
      * @brief positionChanged
