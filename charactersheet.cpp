@@ -26,6 +26,7 @@
 #include <QUuid>
 
 #include "charactersheetbutton.h"
+#include "charactersheetmodel.h"
 #include "section.h"
 #include "tablefield.h"
 /////////////////////////////////////////
@@ -100,7 +101,7 @@ CharacterSheetItem* CharacterSheet::getFieldFromKey(QString key) const
     return nullptr;
 }
 
-const QVariant CharacterSheet::getValue(QString path, Qt::ItemDataRole role) const
+const QVariant CharacterSheet::getValue(QString path, int role) const
 {
     CharacterSheetItem* item= getFieldFromKey(path);
     if(nullptr != item)
@@ -122,7 +123,7 @@ const QVariant CharacterSheet::getValue(QString path, Qt::ItemDataRole role) con
         {
             return item->getId();
         }
-        else if(role == Qt::UserRole)
+        else if(role == CharacterSheetModel::Formula)
         {
             return item->getFormula();
         }
@@ -315,7 +316,7 @@ void CharacterSheet::load(QJsonObject& json)
             auto table= new TableField();
             itemSheet= table;
             connect(table, &TableField::lineMustBeAdded, this,
-                [this](TableField* field) { emit addLineToTableField(this, field); });
+                    [this](TableField* field) { emit addLineToTableField(this, field); });
         }
 
         if(nullptr != itemSheet)

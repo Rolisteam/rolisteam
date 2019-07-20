@@ -134,9 +134,9 @@ public:
      * @param QString path : 0 refers to the title of the first section, 1 refers to the first data of the first
      * section....
      */
-    const QVariant getValueByIndex(
-        const std::vector<int>& row, QString key, Qt::ItemDataRole role= Qt::DisplayRole) const;
-    const QVariant getValue(QString path, Qt::ItemDataRole role= Qt::DisplayRole) const;
+    const QVariant getValueByIndex(const std::vector<int>& row, QString key,
+                                   Qt::ItemDataRole role= Qt::DisplayRole) const;
+    const QVariant getValue(QString path, int role= Qt::DisplayRole) const;
 
     bool removeField(const QString& path);
 public slots:

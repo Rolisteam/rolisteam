@@ -44,6 +44,12 @@ class CharacterSheetModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
+    enum CustomRole
+    {
+        Formula= Qt::UserRole + 1,
+        Value
+    };
+    Q_ENUM(CustomRole)
     /**
      * @brief default constructor
      */

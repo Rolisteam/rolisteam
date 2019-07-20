@@ -170,7 +170,8 @@ QVariant CharacterSheetModel::data(const QModelIndex& index, int role) const
         return Qt::AlignHCenter;
 
     QVariant var;
-    if((role == Qt::DisplayRole) || (role == Qt::EditRole) || (role == Qt::BackgroundRole) || (role == Qt::ToolTipRole))
+    if((role == Qt::DisplayRole) || (role == Qt::EditRole) || (role == Qt::BackgroundRole) || (role == Qt::ToolTipRole)
+       || (role == Qt::UserRole) || (role == Formula) || (role == Value))
     {
         CharacterSheetItem* childItem= static_cast<CharacterSheetItem*>(index.internalPointer());
         if(nullptr != childItem)
