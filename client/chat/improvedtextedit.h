@@ -38,7 +38,7 @@ public:
      * @brief ImprovedTextEdit
      * @param parent
      */
-    ImprovedTextEdit(QWidget* parent= 0);
+    ImprovedTextEdit(QWidget* parent= nullptr);
 
 signals:
     void textValidated(bool hasHtml, QString text);

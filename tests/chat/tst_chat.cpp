@@ -23,9 +23,11 @@
 
 #include <chat.h>
 #include <chatwindow.h>
+#include <data/character.h>
 #include <data/person.h>
 #include <data/player.h>
 #include <improvedtextedit.h>
+#include <localpersonmodel.h>
 #include <userlist/playersList.h>
 
 class Player;
@@ -47,26 +49,30 @@ private slots:
     void enterText();
     void resendPrevious();
 
+    void localPersonModelTest();
+
 private:
     ImprovedTextEdit* m_impTextEditor;
     ChatWindow* m_chatWindow;
     Player* m_player;
+    Character* m_character;
+    std::unique_ptr<LocalPersonModel> m_localPersonModel;
 };
 ChatWindowTest::ChatWindowTest() {}
 void ChatWindowTest::initTestCase()
 {
     m_player= new Player("bob", Qt::black, false);
+    m_character= new Character("character", Qt::red, false);
+    m_player->addCharacter(m_character);
     PlayersList::instance()->setLocalPlayer(m_player);
+
+    m_localPersonModel.reset(new LocalPersonModel);
 
     m_chatWindow= new ChatWindow(new PublicChat());
     m_chatWindow->setLocalPlayer(m_player);
     m_impTextEditor= m_chatWindow->getEditionZone();
 }
 
-// void ChatWindowTest::getAndSetTest()
-//{
-
-//}
 void ChatWindowTest::enterText()
 {
     QString test= QStringLiteral("Text Test Text Test");
@@ -75,6 +81,7 @@ void ChatWindowTest::enterText()
     QTest::keyPress(m_impTextEditor, Qt::Key_Enter);
     QCOMPARE(spy.count(), 1);
 }
+
 void ChatWindowTest::changeUser()
 {
     QSignalSpy spy(m_impTextEditor, SIGNAL(ctrlUp()));
@@ -82,6 +89,7 @@ void ChatWindowTest::changeUser()
     QTest::keyPress(m_impTextEditor, Qt::Key_Enter);
     QCOMPARE(spy.count(), 1);
 }
+
 void ChatWindowTest::resendPrevious()
 {
     QSignalSpy spy(m_impTextEditor, SIGNAL(textValidated(bool, QString)));
@@ -91,6 +99,7 @@ void ChatWindowTest::resendPrevious()
     QTest::keyPress(m_impTextEditor, Qt::Key_Enter);
     QCOMPARE(spy.count(), 1);
 }
+
 void ChatWindowTest::showMessage()
 {
     QSignalSpy spy(m_chatWindow, SIGNAL(ChatWindowHasChanged(ChatWindow*)));
@@ -103,6 +112,19 @@ void ChatWindowTest::showMessage()
     QCOMPARE(spy.count(), 1);
     QCOMPARE(spy2.count(), 1);
 }
+
+void ChatWindowTest::localPersonModelTest()
+{
+    QCOMPARE(m_localPersonModel->data(m_localPersonModel->index(0, 0), Qt::DisplayRole).toString(), m_player->name());
+    QCOMPARE(m_localPersonModel->data(m_localPersonModel->index(0, 0), PlayersList::IdentifierRole).toString(),
+             m_player->getUuid());
+
+    QCOMPARE(m_localPersonModel->data(m_localPersonModel->index(1, 0), Qt::DisplayRole).toString(),
+             m_character->name());
+    QCOMPARE(m_localPersonModel->data(m_localPersonModel->index(1, 0), PlayersList::IdentifierRole).toString(),
+             m_character->getUuid());
+}
+
 void ChatWindowTest::cleanupTestCase()
 {
     delete m_impTextEditor;
