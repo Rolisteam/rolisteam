@@ -104,7 +104,7 @@ void AudioPlayer::setupUi()
         QAction* act= new QAction(tr("Show/hide Player %1").arg(i), this);
         act->setCheckable(true);
         act->setChecked(m_preferences->value(QString("music_player_%1_status").arg(i), true).toBool());
-        connect(act, SIGNAL(toggled(bool)), this, SLOT(showMusicPlayer(bool)));
+        connect(act, SIGNAL(triggered(bool)), this, SLOT(showMusicPlayer(bool)));
         m_playerActionsList.append(act);
         m_mainLayout->addWidget(m_players[i]);
     }

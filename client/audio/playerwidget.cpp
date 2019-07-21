@@ -273,8 +273,8 @@ void PlayerWidget::setupUi()
     connect(m_ui->m_volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(saveVolumeValue(int)));
     connect(&m_player, SIGNAL(currentMediaChanged(QMediaContent)), this, SLOT(sourceChanged(QMediaContent)));
     connect(&m_player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(playerStatusChanged(QMediaPlayer::State)));
-    connect(m_volumeMutedAct, SIGNAL(toggled(bool)), &m_player, SLOT(setMuted(bool)));
-    connect(m_volumeMutedAct, SIGNAL(toggled(bool)), this, SLOT(updateIcon()));
+    connect(m_volumeMutedAct, SIGNAL(triggered(bool)), &m_player, SLOT(setMuted(bool)));
+    connect(m_volumeMutedAct, SIGNAL(triggered(bool)), this, SLOT(updateIcon()));
     connect(m_changeDirectoryAct, SIGNAL(triggered()), this, SLOT(changeDirectory()));
     connect(&m_player, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)), this,
         SLOT(mediaStatusChanged(QMediaPlayer::MediaStatus)));
