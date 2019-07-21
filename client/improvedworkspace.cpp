@@ -179,7 +179,7 @@ QWidget* ImprovedWorkspace::addWindow(QWidget* child, QAction* action)
         child->setVisible(true);
     }
     insertActionAndSubWindow(action, sub);
-    connect(action, SIGNAL(triggered()), this, SLOT(ensurePresent()));
+    connect(action, &QAction::triggered, this, &ImprovedWorkspace::ensurePresent);
     sub->setAttribute(Qt::WA_DeleteOnClose, false);
     child->setAttribute(Qt::WA_DeleteOnClose, false);
     sub->setObjectName(child->objectName());
