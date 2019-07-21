@@ -69,7 +69,7 @@ public:
     void write(QDataStream& out, bool tag= true, bool saveData= true) const override;
     void read(QDataStream& in) override;
 
-    QVariant getData(ResourcesNode::DataValue) override;
+    QVariant getData(ResourcesNode::DataValue) const override;
 
     void insertChildAt(int row, ResourcesNode* uri) override;
 

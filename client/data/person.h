@@ -123,7 +123,7 @@ public:
 
     virtual QHash<QString, QString> getVariableDictionnary()= 0;
 
-    virtual QVariant getData(ResourcesNode::DataValue) override;
+    virtual QVariant getData(ResourcesNode::DataValue) const override;
 
     virtual QString getToolTip() const;
 

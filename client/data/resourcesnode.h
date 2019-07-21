@@ -82,7 +82,7 @@ public:
     virtual bool removeChild(ResourcesNode*);
     virtual void insertChildAt(int row, ResourcesNode*);
 
-    virtual QVariant getData(ResourcesNode::DataValue)= 0;
+    virtual QVariant getData(ResourcesNode::DataValue) const= 0;
 
     virtual bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node)= 0;
 

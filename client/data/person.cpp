@@ -115,7 +115,7 @@ ResourcesNode::TypeResource Person::getResourcesType() const
 {
     return ResourcesNode::Person;
 }
-QVariant Person::getData(ResourcesNode::DataValue data)
+QVariant Person::getData(ResourcesNode::DataValue data) const
 {
     switch(data)
     {

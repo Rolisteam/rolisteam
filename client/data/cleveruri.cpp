@@ -56,6 +56,12 @@ QStringList CleverURI::m_typeToPreferenceDirectory
                     << QString("MinutesDirectory");
 // CleverURIListener* CleverURI::s_listener = nullptr;
 
+
+CleverURIListener::~CleverURIListener()
+{
+
+}
+
 CleverURI::CleverURI() : m_type(NONE), m_state(Unloaded)
 {
     init();
@@ -358,7 +364,7 @@ ResourcesNode::TypeResource CleverURI::getResourcesType() const
     return ResourcesNode::Cleveruri;
 }
 
-QVariant CleverURI::getData(ResourcesNode::DataValue i)
+QVariant CleverURI::getData(ResourcesNode::DataValue i) const
 {
     switch(i)
     {

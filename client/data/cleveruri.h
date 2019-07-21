@@ -90,7 +90,7 @@ public:
      * @brief Destructor
      *
      */
-    virtual ~CleverURI();
+    virtual ~CleverURI() override;
 
     /**
      * @brief set the URI parameter
@@ -123,23 +123,23 @@ public:
      * @brief overriden method from RessourceNode
      * @return always false
      */
-    bool hasChildren() const;
+    bool hasChildren() const override;
     /**
      * @brief static method which returns the appropriate icon path given the type
      * @param type of the content
      * @return the path to the icon
      */
-    virtual QIcon getIcon();
+    virtual QIcon getIcon() override;
     /**
      * @brief CleverURI::getAbsolueDir
      * @return
      */
     const QString getAbsolueDir() const;
 
-    virtual void setName(const QString& name);
+    virtual void setName(const QString& name) override;
 
-    void write(QDataStream& out, bool tag= true, bool saveData= true) const;
-    void read(QDataStream& in);
+    void write(QDataStream& out, bool tag= true, bool saveData= true) const override;
+    void read(QDataStream& in) override;
 
     /**
      * @brief getFilterForType must return the filter for any kind of content but it also return empty string for
@@ -162,8 +162,8 @@ public:
     void loadFileFromUri(QByteArray&) const;
     void clearData();
 
-    QVariant getData(ResourcesNode::DataValue i);
-    bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node);
+    QVariant getData(ResourcesNode::DataValue i) const override;
+    bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node) override;
 
     // static CleverURIListener *getListener();
     void setListener(CleverURIListener* value);
@@ -177,7 +177,7 @@ public:
 
     bool exists();
 
-    ResourcesNode::TypeResource getResourcesType() const;
+    ResourcesNode::TypeResource getResourcesType() const override;
 
 protected:
     void loadData();
@@ -206,6 +206,7 @@ class CleverURIListener
 {
 public:
     virtual void cleverURIHasChanged(CleverURI*, CleverURI::DataValue)= 0;
+    virtual ~CleverURIListener();
 };
 
 typedef QList<CleverURI> CleverUriList;

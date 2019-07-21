@@ -76,7 +76,7 @@ void Chapter::addResource(ResourcesNode* cluri)
     m_children.append(cluri);
     cluri->setParentNode(this);
 }
-QVariant Chapter::getData(ResourcesNode::DataValue i)
+QVariant Chapter::getData(ResourcesNode::DataValue i) const
 {
     if(ResourcesNode::NAME == i)
     {
