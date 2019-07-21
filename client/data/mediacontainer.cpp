@@ -124,7 +124,7 @@ void MediaContainer::setVisible(bool b)
 void MediaContainer::setAction(QAction* act)
 {
     m_action= act;
-    connect(m_action, SIGNAL(triggered(bool)), this, SLOT(setVisible(bool)));
+    connect(m_action, &QAction::triggered, this, &MediaContainer::setVisible);
 }
 QAction* MediaContainer::getAction()
 {
