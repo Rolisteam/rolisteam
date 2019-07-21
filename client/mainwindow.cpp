@@ -2506,7 +2506,7 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
     case CleverURI::SHAREDNOTE:
     {
         SharedNoteContainer* tmpShared= new SharedNoteContainer(localIsGM);
-        tmpShared->setOwner(m_playerList->getLocalPlayer());
+        tmpShared->setOwnerId(m_playerList->getLocalPlayerId());
         tmp= tmpShared;
     }
     break;
