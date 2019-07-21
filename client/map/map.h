@@ -105,7 +105,6 @@ public slots:
     void moveAllCharacters();
     void eraseCharacter(QString idPerso);
     void addCharacter(Character* person);
-    void changeCharacter(Character* person);
     void delCharacter(Character* person);
     void setCurrentText(QString text);
     void setCurrentNpcName(QString text);

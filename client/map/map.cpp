@@ -144,7 +144,6 @@ void Map::p_init()
     // connect to g_playesList to stay tuned
     connect(playersList, SIGNAL(characterAdded(Character*)), this, SLOT(addCharacter(Character*)));
     connect(playersList, SIGNAL(characterDeleted(Character*)), this, SLOT(delCharacter(Character*)));
-    connect(playersList, SIGNAL(characterChanged(Character*)), this, SLOT(changeCharacter(Character*)));
 }
 
 Map::~Map()
@@ -1069,9 +1068,17 @@ bool Map::isVisiblePc(QString idPerso)
 
 void Map::addCharacter(Character* person)
 {
-    new CharacterToken(this, person->getUuid(), person->name(), person->getColor(), m_npcSize,
+    auto token = new CharacterToken(this, person->getUuid(), person->name(), person->getColor(), m_npcSize,
         QPoint(m_backgroundImage->width() / 2, m_backgroundImage->height() / 2), CharacterToken::pj, false,
         m_showPcName);
+
+    connect(person, &Character::nameChanged, token, [token, person](){
+        token->setName(person->name());
+    });
+    connect(person, &Character::colorChanged, token, [token, person](){
+        token->setColor(person->getColor());
+    });
+
 }
 
 void Map::eraseCharacter(QString idCharacter)
@@ -1100,21 +1107,6 @@ void Map::delCharacter(Character* person)
     }
 
     delete pj;
-}
-
-void Map::changeCharacter(Character* person)
-{
-    if(nullptr == person)
-        return;
-    CharacterToken* pj= findCharacter(person->getUuid());
-    if(pj == nullptr)
-    {
-        qWarning() << tr("Person %s %s unknown in Carte::changePerson").arg(person->getUuid()).arg(person->name());
-        return;
-    }
-
-    pj->renameCharacter(person->name());
-    pj->changeCharacterColor(person->getColor());
 }
 
 void Map::sendMap(QString titre)

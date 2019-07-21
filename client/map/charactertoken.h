@@ -36,7 +36,8 @@
 class CharacterToken : public QWidget
 {
     Q_OBJECT
-
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
 public:
     enum typePersonnage
     {
@@ -62,8 +63,6 @@ public:
     void drawCharacter(QPoint positionSouris= QPoint(0, 0));
     void showOrHideOrientation();
     void changeState();
-    void renameCharacter(QString nouveauNom);
-    void changeCharacterColor(QColor coul);
     void newOrientation(QPoint uneOrientation);
     void newHealtState(StateOfHealth sante, int numeroSante);
     void emettrePnj(QString idCarte);
@@ -81,14 +80,20 @@ public:
     int getHealtState();
     void write(QDataStream& out);
 
-    /*void setCharacter(Character* tmp);
-    Character* getCharacter();*/
-
+    QString name()const;
+    QColor color() const;
 public slots:
     void showPcName(bool afficher);
     void showNpcName(bool afficher);
     void showNpcNumber(bool afficher);
     void setPcSize(int nouvelleTaille);
+
+    void setName(const QString& name);
+    void setColor(const QColor& color);
+
+signals:
+    void nameChanged();
+    void colorChanged();
 
 private:
     void updateTitle();
@@ -99,7 +104,7 @@ private:
     typePersonnage type;   // Indique si le personnage est un PJ ou un PNJ
     StateOfHealth etat;    // Etat se sante actuel du personnage
     int numeroEtat;        // Numero de l'etat de sante dans la liste G_etatsDeSante
-    QString nomPerso;      // Nom du personnage
+    QString m_name;      // Nom du personnage
     QString identifiant;   // Identifiant servant a differencier les personnages
     uchar numeroPnj;       // Numero du PNJ
     uchar diametre;        // Diametre du personnage

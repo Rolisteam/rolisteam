@@ -44,7 +44,7 @@ CharacterToken::CharacterToken(QWidget* parent, QString persoId, QString nom, QC
     setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
 
     // Initiatialisation des variables
-    nomPerso= nom;
+    m_name= nom;
     numeroPnj= (uchar)numero;
     m_color= couleurPerso;
     identifiant= persoId;
@@ -76,10 +76,10 @@ CharacterToken::CharacterToken(QWidget* parent, QString persoId, QString nom, QC
     disquePerso->resize(QSize(diametre + 4, diametre + 4));
     // Ajout du tooltip au label
     if(type == pj)
-        disquePerso->setToolTip(nomPerso + " (" + etat.stateName + ")");
+        disquePerso->setToolTip(m_name + " (" + etat.stateName + ")");
     else
         disquePerso->setToolTip(
-            nomPerso + (nomPerso.isEmpty() ? "" : " - ") + QString::number(numeroPnj) + " (" + etat.stateName + ")");
+            m_name + (m_name.isEmpty() ? "" : " - ") + QString::number(numeroPnj) + " (" + etat.stateName + ")");
 
     // Dessin du personnage et ajout de l'image au label
     drawCharacter();
@@ -158,7 +158,7 @@ void CharacterToken::defineToken(int* diam, QColor* coul, QString* nom)
 {
     *diam= diametre;
     *coul= m_color;
-    *nom= nomPerso;
+    *nom= m_name;
 }
 
 bool CharacterToken::onTransparentPart(QPoint position)
@@ -221,10 +221,10 @@ void CharacterToken::updateTitle()
     switch(type)
     {
     case pj:
-        nameText= m_showPcName ? nomPerso : "";
+        nameText= m_showPcName ? m_name : "";
         break;
     case pnj:
-        nameText= m_showNpcName ? nomPerso : "";
+        nameText= m_showNpcName ? m_name : "";
         break;
     }
 
@@ -380,10 +380,10 @@ void CharacterToken::drawCharacter(QPoint positionSouris)
     }
     // Ajout du tooltip au label
     if(type == pj)
-        disquePerso->setToolTip(nomPerso + " (" + etat.stateName + ")");
+        disquePerso->setToolTip(m_name + " (" + etat.stateName + ")");
     else if(type == pnj)
         disquePerso->setToolTip(
-            nomPerso + (nomPerso.isEmpty() ? "" : " - ") + QString::number(numeroPnj) + " (" + etat.stateName + ")");
+            m_name + (m_name.isEmpty() ? "" : " - ") + QString::number(numeroPnj) + " (" + etat.stateName + ")");
     else
         qWarning() << (tr("Unknown Character Type (CharacterToken - charactertoken.cpp)"));
 }
@@ -446,29 +446,40 @@ void CharacterToken::setPcSize(int nouvelleTaille)
     moveCharaterCenter(position);
 }
 
-void CharacterToken::renameCharacter(QString nouveauNom)
+void CharacterToken::setName(const QString& name)
 {
-    // M.a.j du nom du perso
-    nomPerso= nouveauNom;
-    // M.a.j de l'intitule (redimensionne egalement le widget)
+    if(name == m_name)
+        return;
+
+    m_name= name;
     updateTitle();
-    // M.a.j du tooltip
     if(type == pj)
-        disquePerso->setToolTip(nomPerso + " (" + etat.stateName + ")");
+        disquePerso->setToolTip(QStringLiteral("%1 (%2)").arg(m_name,etat.stateName));
     else if(type == pnj)
         disquePerso->setToolTip(
-            nomPerso + (nomPerso.isEmpty() ? "" : " - ") + QString::number(numeroPnj) + " (" + etat.stateName + ")");
+            m_name + (m_name.isEmpty() ? "" : " - ") + QString::number(numeroPnj) + " (" + etat.stateName + ")");
     else
         qWarning() << (tr("Unknown Character Type (CharacterToken - charactertoken.cpp)"));
+    emit nameChanged();
 }
 
-void CharacterToken::changeCharacterColor(QColor coul)
+void CharacterToken::setColor(const QColor& color)
 {
-    m_color= coul;
-    // M.a.j du dessin du PJ
+    if(color == m_color)
+        return;
+    m_color= color;
     drawCharacter();
-    // M.a.j de l'intitule
     updateTitle();
+    emit colorChanged();
+}
+
+QString CharacterToken::name()const
+{
+    return m_name;
+}
+QColor CharacterToken::color() const
+{
+    return m_color;
 }
 
 void CharacterToken::newOrientation(QPoint uneOrientation)
@@ -510,7 +521,7 @@ void CharacterToken::write(QDataStream& out)
     int numeroDuPnj= numeroPnj;
     if(type == pj)
         numeroDuPnj= 0;
-    out << nomPerso << ident << pnj << numeroDuPnj << diametre << m_color << getCharacterCenter() << orientation
+    out << m_name << ident << pnj << numeroDuPnj << diametre << m_color << getCharacterCenter() << orientation
         << etat.stateColor << etat.stateName << numeroEtat << visible << orientationAffichee;
 }
 void CharacterToken::prepareToSendOff(NetworkMessageWriter* msg, bool convertirEnPnj)
@@ -530,7 +541,7 @@ void CharacterToken::prepareToSendOff(NetworkMessageWriter* msg, bool convertirE
         characterType= type;
     }
 
-    msg->string16(nomPerso);
+    msg->string16(m_name);
     msg->string8(ident);
     msg->uint8(characterType);
     msg->uint8(characterNum);
