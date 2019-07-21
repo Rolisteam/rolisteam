@@ -124,9 +124,9 @@ void SharedNote::populateDocumentForUser(QString id)
     msg.sendToServer();
 }
 
-void SharedNote::setOwner(Player* player)
+void SharedNote::setOwnerId(const QString& id)
 {
-    m_document->setOwner(player);
+    m_document->setOwnerId(id);
     updateWindowTitle();
 }
 bool SharedNote::eventFilter(QObject*, QEvent* event)

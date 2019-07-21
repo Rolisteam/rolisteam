@@ -82,7 +82,7 @@ class ParticipantsPane : public QWidget
 {
     Q_OBJECT
 public:
-    ParticipantsPane(QWidget* parent= 0);
+    ParticipantsPane(QWidget* parent= nullptr);
     virtual ~ParticipantsPane();
 
     bool canWrite(Player* idPlayer);
@@ -94,7 +94,7 @@ public:
     void readFromMsg(NetworkMessageReader* msg);
 
     Player* getOwner() const;
-    void setOwner(Player* owner);
+    void setOwnerId(const QString& id);
 
     void readPermissionChanged(NetworkMessageReader* msg);
 

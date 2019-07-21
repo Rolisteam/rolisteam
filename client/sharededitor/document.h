@@ -111,7 +111,7 @@ public:
 
     void setOwnerName(QString name);
 
-    void setOwner(Player* player);
+    void setOwnerId(const QString& id);
     bool canWrite(Player* player);
 
     ParticipantsPane* getParticipantPane() const;

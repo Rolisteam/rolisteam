@@ -35,7 +35,7 @@ public:
     void readFromFile(QDataStream& data);
     void saveInto(QDataStream& out);
     virtual void putDataIntoCleverUri();
-    void setOwner(Player* player);
+    void setOwnerId(const QString &id);
     void updateNoteToAll();
     void readMessage(NetworkMessageReader& msg);
     virtual void setMediaId(QString);

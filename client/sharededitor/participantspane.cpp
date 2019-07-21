@@ -473,8 +473,15 @@ Player* ParticipantsPane::getOwner() const
     return m_model->getOwner();
 }
 
-void ParticipantsPane::setOwner(Player* owner)
+void ParticipantsPane::setOwnerId(const QString& id)
 {
+    if(nullptr == m_playerList)
+        return;
+    auto owner = m_playerList->getPlayer(id);
+
+    if(nullptr == owner)
+        return;
+
     m_model->setOwner(owner);
     if(owner == m_playerList->getLocalPlayer())
     {

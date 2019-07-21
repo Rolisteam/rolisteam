@@ -42,7 +42,7 @@ class SharedNote : public QMainWindow
     Q_OBJECT
 
 public:
-    SharedNote(QWidget* parent= 0);
+    SharedNote(QWidget* parent= nullptr);
     ~SharedNote();
 
     bool saveFileAsText(QTextStream& out);
@@ -58,7 +58,7 @@ public:
     void writeSettings();
 
     void displaySharingPanel();
-    void setOwner(Player* player);
+    void setOwnerId(const QString& id);
 
     QString id() const;
     void setId(const QString& id);
@@ -122,10 +122,10 @@ private slots:
     void setMarkdownAsHighlight();
 
 private:
-    Ui::SharedNote* ui;
-    FindDialog* findDialog;
+    Ui::SharedNote* ui = nullptr;
+    FindDialog* findDialog = nullptr;
     QString m_fileName;
-    Document* m_document;
+    Document* m_document = nullptr;
     bool m_networkEditing= false;
     QString m_id; // global name used for connecting to documents
 };

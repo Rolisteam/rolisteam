@@ -54,10 +54,10 @@ Document::Document(QWidget* parent) : QWidget(parent), ui(new Ui::Document), m_h
     m_editor->setReadOnly(true);
 
     connect(m_participantPane, &ParticipantsPane::localPlayerIsOwner, this,
-        [=](bool isOwner) { setParticipantsHidden(!isOwner); });
+        [this](bool isOwner) { setParticipantsHidden(!isOwner); });
 
     connect(m_participantPane, &ParticipantsPane::localPlayerPermissionChanged, this,
-        [=](ParticipantsModel::Permission perm) {
+        [this](ParticipantsModel::Permission perm) {
             if(ParticipantsModel::readOnly == perm)
             {
                 m_editor->setReadOnly(true);
@@ -90,6 +90,8 @@ Document::Document(QWidget* parent) : QWidget(parent), ui(new Ui::Document), m_h
     ui->participantSplitter->setSizes(sizeList);
 
     startedCollaborating= false;
+
+    setHighlighter(MarkDown);
 }
 
 Document::~Document()
@@ -394,10 +396,11 @@ void Document::setParticipantPane(ParticipantsPane* participantPane)
     m_participantPane= participantPane;
 }
 
-void Document::setOwner(Player* player)
+void Document::setOwnerId(const QString& id)
 {
-    m_participantPane->setOwner(player);
+    m_participantPane->setOwnerId(id);
 }
+
 bool Document::canWrite(Player* player)
 {
     return m_participantPane->canWrite(player);

@@ -52,9 +52,10 @@ void SharedNoteContainer::runUpdateCmd(QString msg)
         m_edit->runUpdateCmd(msg);
     }
 }
-void SharedNoteContainer::setOwner(Player* player)
+void SharedNoteContainer::setOwnerId(const QString& id)
 {
-    m_edit->setOwner(player);
+    MediaContainer::setOwnerId(id);
+    m_edit->setOwnerId(id);
 }
 
 void SharedNoteContainer::updateNoteToAll()
