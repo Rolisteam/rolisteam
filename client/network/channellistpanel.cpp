@@ -55,7 +55,7 @@ ChannelListPanel::ChannelListPanel(QWidget* parent)
     connect(m_admin, &QAction::triggered, this, &ChannelListPanel::logAsAdmin);
     connect(m_channelPassword, &QAction::triggered, this, &ChannelListPanel::setPasswordOnChannel);
     connect(m_resetChannel, &QAction::triggered, this, &ChannelListPanel::resetChannel);
-    connect(m_moveUserToCurrentChannel, &QAction::trigger, this, &ChannelListPanel::moveUserToCurrent);
+    connect(m_moveUserToCurrentChannel, &QAction::triggered, this, &ChannelListPanel::moveUserToCurrent);
 }
 
 ChannelListPanel::~ChannelListPanel()
