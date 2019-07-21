@@ -38,6 +38,7 @@ class MediaContainer : public QMdiSubWindow, public CleverURIListener
 {
     Q_OBJECT
     Q_PROPERTY(QString ownerId READ ownerId WRITE setOwnerId NOTIFY ownerIdChanged)
+    Q_PROPERTY(QString uriName READ getUriName WRITE setUriName NOTIFY uriNameChanged)
 
 public:
     enum class ContainerType : int
@@ -152,9 +153,8 @@ public:
      * @brief getMediaId
      * @return the media id
      */
-    virtual QString getMediaId();
-    virtual QString getUriName();
-    virtual void setUriName(QString name);
+    virtual QString getMediaId() const;
+    virtual QString getUriName() const;
     /**
      * @brief setMediaId
      */
@@ -187,6 +187,7 @@ signals:
      */
     void visibleChanged(bool);
     void ownerIdChanged();
+    void uriNameChanged();
 
 public slots:
     /**
@@ -196,6 +197,7 @@ public slots:
     void setVisible(bool b);
 
     void detachView(bool b);
+    virtual void setUriName(const QString &name);
 
 protected slots:
     virtual void updateTitle()= 0;

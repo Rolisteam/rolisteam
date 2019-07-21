@@ -140,12 +140,12 @@ void MediaContainer::currentColorChanged(QColor& penColor)
     m_penColor= penColor;
 }
 
-QString MediaContainer::getMediaId()
+QString MediaContainer::getMediaId() const
 {
     return m_mediaId;
 }
 
-QString MediaContainer::getUriName()
+QString MediaContainer::getUriName() const
 {
     if(nullptr == m_uri)
         return m_name;
@@ -153,12 +153,13 @@ QString MediaContainer::getUriName()
     return m_uri->name();
 }
 
-void MediaContainer::setUriName(QString name)
+void MediaContainer::setUriName(const QString& name)
 {
     if(nullptr != m_uri)
         m_uri->setName(name);
     m_name= name;
-
+    if(nullptr!=m_action)
+        m_action->setText(getUriName());
     updateTitle();
 }
 
@@ -174,6 +175,8 @@ void MediaContainer::cleverURIHasChanged(CleverURI* uri, CleverURI::DataValue fi
 
     if(field == CleverURI::NAME)
     {
+        if(nullptr!=m_action)
+            m_action->setText(getUriName());
         updateTitle();
     }
 }
