@@ -26,6 +26,8 @@ TRANSLATIONS =  ../translations/roliserver_fr.ts \
                 ../translations/roliserver.ts \
                 ../translations/roliserver_de.ts \
                 ../translations/roliserver_pt_BR.ts \
+                ../translations/roliserver_ro_RO.ts \
+                ../translations/roliserver_nl_NL.ts \
                 ../translations/roliserver_hu_HU.ts \
                 ../translations/roliserver_tr.ts \
                 ../translations/roliserver_es.ts \
