@@ -31,36 +31,38 @@ AddMediaContainer::AddMediaContainer(MediaContainer* mediac, SessionManager* man
 void AddMediaContainer::redo()
 {
     qInfo() << QStringLiteral("Redo command AddMediaContainer: %1 ").arg(text());
-    if(nullptr != m_media)
-    {
-        // add in workspace + add action and add into ressources manager.
-        CleverURI* uri= m_media->getCleverUri();
-        if(nullptr != uri)
-        {
-            m_manager->addRessource(m_media->getCleverUri());
-            uri->setDisplayed(true);
-        }
-        QAction* action= m_media->getAction();
-        if(action == nullptr)
-        {
-            action= m_menu->addAction(m_media->getUriName());
-            action->setCheckable(true);
-            action->setChecked(true);
-        }
-        action->setVisible(true);
-        m_media->setAction(action);
-        m_mdiArea->addContainerMedia(m_media);
-        m_media->setVisible(true);
-        m_media->setFocus();
+    if(nullptr == m_media)
+        return;
 
-        if(sendAtOpening())
-        {
-            NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
-            msg.uint8(static_cast<quint8>(uri->getType()));
-            m_media->fill(msg);
-            msg.sendToServer();
-        }
+
+    // add in workspace + add action and add into ressources manager.
+    CleverURI* uri= m_media->getCleverUri();
+    if(nullptr != uri)
+    {
+        m_manager->addRessource(m_media->getCleverUri());
+        uri->setDisplayed(true);
     }
+    QAction* action= m_media->getAction();
+    if(action == nullptr)
+    {
+        action= m_menu->addAction(m_media->getUriName());
+        action->setCheckable(true);
+        action->setChecked(true);
+    }
+    action->setVisible(true);
+    m_media->setAction(action);
+    m_mdiArea->addContainerMedia(m_media);
+    m_media->setVisible(true);
+    m_media->setFocus();
+
+    if(sendAtOpening())
+    {
+        NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
+        msg.uint8(static_cast<quint8>(uri->getType()));
+        m_media->fill(msg);
+        msg.sendToServer();
+    }
+
 }
 
 void AddMediaContainer::undo()

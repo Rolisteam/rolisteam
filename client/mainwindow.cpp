@@ -344,23 +344,24 @@ void MainWindow::setupUi()
 
 void MainWindow::addMediaToMdiArea(MediaContainer* mediac, bool redoable)
 {
-    if(nullptr != m_currentConnectionProfile)
+    if(nullptr == m_currentConnectionProfile)
+        return;
+
+    AddMediaContainer* addMedia= new AddMediaContainer(mediac, m_sessionManager, m_ui->m_menuSubWindows, m_mdiArea,
+                                                       m_currentConnectionProfile->isGM());
+    if(!m_mediaHash.contains(mediac->getMediaId()))
     {
-        AddMediaContainer* addMedia= new AddMediaContainer(mediac, m_sessionManager, m_ui->m_menuSubWindows, m_mdiArea,
-                                                           m_currentConnectionProfile->isGM());
-        if(!m_mediaHash.contains(mediac->getMediaId()))
-        {
-            m_mediaHash.insert(mediac->getMediaId(), mediac);
-        }
-        if(redoable)
-        {
-            m_undoStack.push(addMedia);
-        }
-        else
-        {
-            addMedia->redo();
-        }
+        m_mediaHash.insert(mediac->getMediaId(), mediac);
     }
+    if(redoable)
+    {
+        m_undoStack.push(addMedia);
+    }
+    else
+    {
+        addMedia->redo();
+    }
+
 }
 void MainWindow::closeConnection()
 {

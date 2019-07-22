@@ -189,21 +189,22 @@ QWidget* ImprovedWorkspace::addWindow(QWidget* child, QAction* action)
 }
 void ImprovedWorkspace::addContainerMedia(MediaContainer* mediac)
 {
-    if(nullptr != mediac)
+    if(nullptr == mediac)
+        return;
+
+    addSubWindow(mediac);
+    insertActionAndSubWindow(mediac->getAction(), mediac);
+    if(viewMode() == QMdiArea::TabbedView)
     {
-        addSubWindow(mediac);
-        insertActionAndSubWindow(mediac->getAction(), mediac);
-        if(viewMode() == QMdiArea::TabbedView)
-        {
-            mediac->setVisible(true);
-        }
-        mediac->setAttribute(Qt::WA_DeleteOnClose, false);
-        if(nullptr != mediac->widget())
-        {
-            mediac->widget()->setAttribute(Qt::WA_DeleteOnClose, false);
-        }
-        mediac->installEventFilter(this);
+        mediac->setVisible(true);
     }
+    mediac->setAttribute(Qt::WA_DeleteOnClose, false);
+    if(nullptr != mediac->widget())
+    {
+        mediac->widget()->setAttribute(Qt::WA_DeleteOnClose, false);
+    }
+    mediac->installEventFilter(this);
+
 }
 void ImprovedWorkspace::removeMediaContainer(MediaContainer* mediac)
 {

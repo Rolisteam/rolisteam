@@ -166,20 +166,20 @@ bool VMapFrame::defineMenu(QMenu* /*menu*/)
 
 bool VMapFrame::openFile(const QString& filepath)
 {
-    if(!filepath.isEmpty())
-    {
-        QFile input(filepath);
-        if(!input.open(QIODevice::ReadOnly))
-            return false;
-        QDataStream in(&input);
-        in.setVersion(QDataStream::Qt_5_7);
-        createView();
-        m_vmap->openFile(in);
-        m_vmap->setVisibilityMode(VMap::HIDDEN);
-        updateMap();
-        return true;
-    }
-    return false;
+    if(filepath.isEmpty())
+        return false;
+
+    QFile input(filepath);
+    if(!input.open(QIODevice::ReadOnly))
+        return false;
+    QDataStream in(&input);
+    in.setVersion(QDataStream::Qt_5_7);
+    createView();
+    m_vmap->openFile(in);
+    m_vmap->setVisibilityMode(VMap::HIDDEN);
+    updateMap();
+    return true;
+
 }
 void VMapFrame::keyPressEvent(QKeyEvent* event)
 {
@@ -403,35 +403,34 @@ void VMapFrame::readMessage(NetworkMessageReader& msg)
 
 bool VMapFrame::readFileFromUri()
 {
-    if(nullptr != m_uri)
-    {
-        bool read= false;
-        if(!m_uri->exists()) // have not been saved outside story
-        {
-            QByteArray data= m_uri->getData();
-            QDataStream in(&data, QIODevice::ReadOnly);
-            in.setVersion(QDataStream::Qt_5_7);
-            createView();
-            m_vmap->openFile(in);
-            m_vmap->setVisibilityMode(VMap::HIDDEN);
-            updateMap();
-            read= true;
-        }
-        else if(openFile(m_uri->getUri()))
-        {
-            read= true;
-        }
+    if(nullptr == m_uri || nullptr == m_vmap)
+        return false;
 
-        if((nullptr != m_vmap) && (read))
-        {
-            NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::addVmap);
-            fill(msg);
-            m_vmap->sendAllItems(msg);
-            msg.sendToServer();
-            return true;
-        }
+    bool read= false;
+    if(!m_uri->exists()) // have not been saved outside story
+    {
+        QByteArray data= m_uri->getData();
+        QDataStream in(&data, QIODevice::ReadOnly);
+        in.setVersion(QDataStream::Qt_5_7);
+        createView();
+        m_vmap->openFile(in);
+        m_vmap->setVisibilityMode(VMap::HIDDEN);
+        updateMap();
+        read= true;
     }
-    return false;
+    else if(openFile(m_uri->getUri()))
+    {
+        read= true;
+    }
+
+    if(read)
+    {
+        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::addVmap);
+        fill(msg);
+        m_vmap->sendAllItems(msg);
+        msg.sendToServer();
+    }
+    return read;
 }
 void VMapFrame::processAddItemMessage(NetworkMessageReader* msg)
 {
