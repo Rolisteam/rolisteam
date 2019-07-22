@@ -756,7 +756,7 @@ void VMap::setId(QString id)
 // write
 void VMap::saveFile(QDataStream& out)
 {
-    if(m_itemMap->isEmpty())
+    if(m_itemMap == nullptr)
         return;
 
     out << m_width;
