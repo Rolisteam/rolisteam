@@ -27,6 +27,7 @@
 
 class PatternModel : public QAbstractListModel
 {
+    Q_OBJECT
 public:
     PatternModel();
 

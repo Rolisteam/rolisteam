@@ -74,6 +74,7 @@ private:
  */
 class ShortCutModel : public QAbstractItemModel
 {
+    Q_OBJECT
 public:
     ShortCutModel();
 
