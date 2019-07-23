@@ -238,7 +238,9 @@ void AddVmapItemCommand::undo()
 }
 void AddVmapItemCommand::redo()
 {
+    #ifndef UNIT_TEST
     qInfo() << QStringLiteral("Redo command AddVmapItemCommand: %1 ").arg(text());
+    #endif
     m_vmap->setFocusItem(m_currentItem);
     m_currentItem->setVisible(isVisible());
     m_currentItem->updateItemFlags();
