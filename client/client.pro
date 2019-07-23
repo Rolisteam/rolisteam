@@ -130,6 +130,10 @@ HEADERS += pdfviewer/pdfviewer.h
 SOURCES += pdfviewer/pdfviewer.cpp
 }
 
+HAVE_QT_NETWORK {
+DEFINES+=HAVE_QT_NETWORK
+}
+
 HAVE_WEBVIEW {
 DEFINES+= HAVE_WEBVIEW
 QT += webengine webenginewidgets

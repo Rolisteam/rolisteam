@@ -35,14 +35,14 @@ OnlinePictureDialog::OnlinePictureDialog(QWidget* parent)
     connect(ui->m_urlField, SIGNAL(editingFinished()), this, SLOT(uriChanged()));
     connect(ui->m_downloadPush, SIGNAL(clicked()), this, SLOT(uriChanged()));
 #ifdef HAVE_QT_NETWORK
-    m_manager= new QNetworkAccessManager(this);
-    connect(m_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
+    m_manager.reset(new QNetworkAccessManager());
+    connect(m_manager.get(), &QNetworkAccessManager::finished, this, &OnlinePictureDialog::replyFinished);
 #endif
     ui->scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     ui->scrollArea->setAlignment(Qt::AlignCenter);
-    m_imageViewerLabel= new QLabel();
+    m_imageViewerLabel= new QLabel(this);
     m_imageViewerLabel->setPixmap(QPixmap(QString::fromUtf8(":/resources/icons/preview.png")));
     m_imageViewerLabel->setLineWidth(0);
     m_imageViewerLabel->setFrameStyle(QFrame::NoFrame);
@@ -68,7 +68,8 @@ void OnlinePictureDialog::uriChanged()
     {
         m_isPosting = true;
         m_postingStr= ui->m_urlField->text();
-        m_manager->get(QNetworkRequest(QUrl(ui->m_urlField->text())));
+        if(m_manager)
+            m_manager->get(QNetworkRequest(QUrl(ui->m_urlField->text())));
     }
 }
 void OnlinePictureDialog::replyFinished(QNetworkReply* reply)

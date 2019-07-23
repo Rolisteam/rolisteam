@@ -25,6 +25,8 @@
 #include <QDialog>
 #include <QLabel>
 #include <QNetworkAccessManager>
+#include <memory>
+
 namespace Ui
 {
     class OnlinePictureDialog;
@@ -43,7 +45,7 @@ public:
      * @brief OnlinePictureDialog
      * @param parent
      */
-    explicit OnlinePictureDialog(QWidget* parent= 0);
+    explicit OnlinePictureDialog(QWidget* parent= nullptr);
     /**
      * @brief ~OnlinePictureDialog
      */
@@ -87,7 +89,7 @@ protected:
 
 private:
     Ui::OnlinePictureDialog* ui;
-    QNetworkAccessManager* m_manager;
+    std::unique_ptr<QNetworkAccessManager> m_manager;
     QPixmap m_pix;
     double m_zoomLevel;
     QLabel* m_imageViewerLabel;
