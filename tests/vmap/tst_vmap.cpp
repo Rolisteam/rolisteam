@@ -186,15 +186,19 @@ void VMapTest::saveAndLoad()
 
     QFETCH(int, id);
     auto item= getItemFromId(id);
-    AddVmapItemCommand cmd(item, true, m_vmap.get());
-    cmd.setUndoable(true);
-    cmd.redo();
-    QVERIFY(itemCountAtStart != m_vmap->items().size());
-    QCOMPARE(m_vmap->getItemCount(), 1);
-    QCOMPARE(m_vmap->getSortedItemCount(), 1);
-    QCOMPARE(m_vmap->getOrderedItemCount(), 0);
+    if(item != nullptr)
+    {
+        AddVmapItemCommand cmd(item, true, m_vmap.get());
+        cmd.setUndoable(true);
+        cmd.redo();
+        QVERIFY(itemCountAtStart != m_vmap->items().size());
+        QCOMPARE(m_vmap->getItemCount(), 1);
+        QCOMPARE(m_vmap->getSortedItemCount(), 1);
+        QCOMPARE(m_vmap->getOrderedItemCount(), 0);
+    }
 
     auto itemCountAfterInsertion= m_vmap->items().size();
+    auto origWidth = m_vmap->mapWidth();
 
     QByteArray array;
     QDataStream in(&array, QIODevice::WriteOnly);
@@ -214,8 +218,10 @@ void VMapTest::saveAndLoad()
     in2.setVersion(QDataStream::Qt_5_7);
     map.saveFile(in2);
 
-    if(array.size() != array2.size())
-        qDebug() << "arrays size" << array.size() << array2.size();
+    QCOMPARE(origWidth, map.mapWidth());
+
+    //if(array.size() != array2.size())
+        //qDebug() << "arrays size" << array.size() << array2.size();
 
     QCOMPARE(array.size(), array2.size());
 
@@ -255,7 +261,8 @@ VisualItem* VMapTest::getItemFromId(int i)
     }
     break;
     }
-    item->setLayer(m_vmap->currentLayer());
+    if(nullptr != item)
+        item->setLayer(m_vmap->currentLayer());
     return item;
 }
 
@@ -263,6 +270,7 @@ void VMapTest::saveAndLoad_data()
 {
     QTest::addColumn<int>("id");
 
+    QTest::newRow("Empty") << 0;
     QTest::newRow("RectItem") << 1;
     QTest::newRow("PathItem") << 2;
     QTest::newRow("LineItem") << 3;
