@@ -207,9 +207,9 @@ protected:
     CleverURI* m_uri= nullptr;
     QString m_filter;
     PreferencesManager* m_preferences;
-    QAction* m_action;
+    QAction* m_action=nullptr;
     QString m_name;
-    QCursor* m_currentCursor;
+    QCursor* m_currentCursor=nullptr;
     /**
      * @brief the current tool, it is an enum item.
      */

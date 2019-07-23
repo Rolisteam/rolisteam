@@ -158,11 +158,11 @@ AddVmapItemCommand::AddVmapItemCommand(VisualItem* item, bool addMapLayer, VMap*
 void AddVmapItemCommand::initItem(bool addMapLayer)
 {
     m_first= true;
+    m_currentItem->setMapId(m_vmap->getId());
     m_currentItem->setPropertiesHash(m_vmap->getPropertiesHash());
     m_currentItem->updateItemFlags();
     if(addMapLayer)
         m_currentItem->setLayer(m_vmap->getCurrentLayer());
-    m_currentItem->setMapId(m_vmap->getId());
     m_currentItem->setVisible(isVisible());
     m_vmap->QGraphicsScene::addItem(m_currentItem);
     m_currentItem->update();
