@@ -68,7 +68,7 @@ public:
      * @brief getMapId
      * @return
      */
-    virtual QString getMediaId();
+    virtual QString getMediaId() const ;
 
     /**
      * @brief setCleverUri

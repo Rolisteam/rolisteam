@@ -115,16 +115,12 @@ void MapFrame::moveMap(QPoint position)
     m_widgetArea->horizontalScrollBar()->setValue(horizontalDepart + diff.x());
     m_widgetArea->verticalScrollBar()->setValue(verticalDepart + diff.y());
 }
-QString MapFrame::getMediaId()
+QString MapFrame::getMediaId() const
 {
-    if(nullptr != m_map)
-    {
-        return m_map->getMapId();
-    }
-    else
-    {
-        return QString();
-    }
+    if(nullptr == m_map)
+        return {};
+
+    return m_map->getMapId();
 }
 void MapFrame::focusInEvent(QFocusEvent* event)
 {

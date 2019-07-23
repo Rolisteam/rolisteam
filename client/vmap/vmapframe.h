@@ -66,7 +66,7 @@ public:
     /**
      * @brief destructor
      */
-    ~VMapFrame();
+    virtual ~VMapFrame() override;
     /**
      * @brief accessor to get the map.
      */
@@ -105,7 +105,7 @@ public:
      * @brief readFile
      * @return
      */
-    virtual bool readFileFromUri();
+    virtual bool readFileFromUri() override;
     /**
      * @brief processAddItemMessage should add items from Network
      * @param msg
@@ -139,7 +139,7 @@ public:
     /**
      * @brief saveMedia
      */
-    void saveMedia();
+    void saveMedia() override;
     /**
      * @brief processGeometryViewChange
      * @param msg
@@ -154,35 +154,35 @@ public:
      * @brief getMediaId
      * @return
      */
-    virtual QString getMediaId();
+    virtual QString getMediaId() const override;
 
-    void fill(NetworkMessageWriter& msg);
-    void readMessage(NetworkMessageReader& msg);
+    void fill(NetworkMessageWriter& msg) override;
+    void readMessage(NetworkMessageReader& msg) override;
 
     void processsZValueMsg(NetworkMessageReader* msg);
     void processsRotationMsg(NetworkMessageReader* msg);
     void processsRectGeometryMsg(NetworkMessageReader* msg);
 
-    void putDataIntoCleverUri();
+    void putDataIntoCleverUri()override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
-    QUndoStack* getUndoStack() const;
-    void setUndoStack(QUndoStack* undoStack);
+    QUndoStack* getUndoStack() const override;
+    void setUndoStack(QUndoStack* undoStack) override;
 public slots:
     /**
      *  @brief change the current mice cursor
      *  @param new selected QCursor
      */
-    virtual void currentCursorChanged(QCursor*);
+    virtual void currentCursorChanged(QCursor*) override;
     /**
      *  @brief change the current drawing tool
      *  @param  new selected tool
      */
-    virtual void currentToolChanged(VToolsBar::SelectableTool);
+    virtual void currentToolChanged(VToolsBar::SelectableTool) override;
     /**
      *  @brief change the current color
      *  @param  new color
      */
-    virtual void currentColorChanged(QColor&);
+    virtual void currentColorChanged(QColor&) override;
 
     /**
      *  @brief change the pen size
@@ -215,25 +215,25 @@ protected:
      *  @brief catches the closeEvent to hide itself (not delete)
      *  @param event discribe the context of the event
      */
-    void closeEvent(QCloseEvent* event);
+    void closeEvent(QCloseEvent* event) override;
     /**
      *  @brief called when painting the widget is required
      *  @param event discribe the context of the event
      */
     // virtual void paintEvent(QPaintEvent* event);
-    virtual void keyPressEvent(QKeyEvent* event);
+    virtual void keyPressEvent(QKeyEvent* event) override;
 
     /**
      *  @brief catches the mousePressEvent to active the selection and edition
      *  @param event discribe the context of the event
      */
-    virtual void mousePressEvent(QMouseEvent* event);
+    virtual void mousePressEvent(QMouseEvent* event) override;
 
 protected slots:
     /**
      * @brief updateTitle
      */
-    virtual void updateTitle();
+    virtual void updateTitle() override;
 
 private: // functions
     /**

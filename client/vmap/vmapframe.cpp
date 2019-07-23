@@ -496,12 +496,11 @@ void VMapFrame::processSetParentItem(NetworkMessageReader* msg)
     }
 }
 
-QString VMapFrame::getMediaId()
+QString VMapFrame::getMediaId() const
 {
     if(nullptr != m_vmap)
-    {
         return m_vmap->getId();
-    }
+
     return QString();
 }
 void VMapFrame::processsZValueMsg(NetworkMessageReader* msg)
