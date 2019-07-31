@@ -52,7 +52,7 @@ FORMS += \
     $$PWD/participantspane.ui \
     $$PWD/findtoolbar.ui \
     $$PWD/sharednote.ui
-    $$PWD/firstrundialog.ui \
+#    $$PWD/firstrundialog.ui \
 #    $$PWD/connecttodocument.ui \
 #    $$PWD/preferencesdialog.ui \
 #   $$PWD/announcedocumentdialog.ui \
