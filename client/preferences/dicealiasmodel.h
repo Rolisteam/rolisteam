@@ -22,7 +22,7 @@
 
 #include <QAbstractListModel>
 
-#include "diceparser/dicealias.h"
+#include "dicealias.h"
 #include "network/networkreceiver.h"
 #include "preferenceslistener.h"
 /**

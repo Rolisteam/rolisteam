@@ -41,11 +41,11 @@
 #include "localpersonmodel.h"
 #include "network/networkmessagewriter.h"
 #include "userlist/playersList.h"
-
+#include "userlist/rolisteammimedata.h"
 #include "widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.h"
 
 #include "parsingtoolbox.h"
-#include "userlist/rolisteammimedata.h"
+#include "dicealias.h"
 
 QStringList ChatWindow::m_keyWordList;
 QList<DiceAlias*>* ChatWindow::m_receivedAlias= nullptr;

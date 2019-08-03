@@ -29,7 +29,7 @@
 #include <QStyledItemDelegate>
 
 #include "common/widgets/colorbutton.h"
-#include "diceparser/diceparser.h"
+#include "diceparser.h"
 #include "preferences/characterstatemodel.h"
 #include "preferences/dicealiasmodel.h"
 #include "preferences/palettemodel.h"

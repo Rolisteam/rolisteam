@@ -34,6 +34,7 @@
 #include "network/networkmessagewriter.h"
 #include "userlist/playersList.h"
 #include "vmap/vmap.h"
+#include "dicealias.h"
 
 #define MARGING 1
 #define MINI_VALUE 25

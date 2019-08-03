@@ -41,7 +41,7 @@
 
 #include "ui_preferencesdialogbox.h"
 
-#include "diceparser/diceparser.h"
+#include "diceparser.h"
 #include "map/newemptymapdialog.h"
 #define GRAY_SCALE 191
 
