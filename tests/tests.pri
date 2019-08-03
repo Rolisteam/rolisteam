@@ -54,3 +54,5 @@ HEADERS += $$PWD/helper/helper.h
 
 INCLUDEPATH += $$PWD/helper
 DEPENDPATH += $$PWD/helper
+
+INCLUDEPATH += $$PWD/../client/diceparser/include/

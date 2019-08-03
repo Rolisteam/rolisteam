@@ -25,7 +25,7 @@
 #include <QtTest/QtTest>
 #include <memory>
 
-#include "diceparser/dicealias.h"
+#include "dicealias.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "preferences/dicealiasmodel.h"
