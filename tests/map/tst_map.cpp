@@ -43,6 +43,8 @@ private slots:
     void networkSaveAndLoadTest();
     void fileSaveAndLoadTest();
 
+    void polymorphismTest();
+
 private:
     std::unique_ptr<MapFrame> m_mapFrame;
     Map* m_map;
@@ -53,14 +55,12 @@ TestMap::TestMap() {}
 void TestMap::init()
 {
     m_mapFrame.reset(new MapFrame());
+    QImage img(800, 600, QImage::Format_ARGB32_Premultiplied);
+    m_map= new Map("id", "idcarte", &img, false);
+    m_mapFrame->setMap(m_map);
 }
 void TestMap::networkSaveAndLoadTest()
 {
-    QImage img(800, 600, QImage::Format_ARGB32_Premultiplied);
-    m_map= new Map("id", "idcarte", &img, false);
-
-    m_mapFrame->setMap(m_map);
-
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
     m_mapFrame->fill(msg);
 
@@ -84,13 +84,21 @@ void TestMap::networkSaveAndLoadTest()
 
 void TestMap::getAndSetTest() {}
 
+
+void TestMap::polymorphismTest()
+{
+    auto id = m_mapFrame->getMediaId();
+    MediaContainer* mediaC = m_mapFrame.get();
+    auto mediaId = mediaC->getMediaId();
+
+    auto mapId = m_map->getMapId();
+
+    QCOMPARE(id, mapId);
+    QCOMPARE(id, mediaId);
+}
+
 void TestMap::fileSaveAndLoadTest()
 {
-    QImage img(800, 600, QImage::Format_ARGB32_Premultiplied);
-    m_map= new Map("id", "idcarte", &img, false);
-
-    m_mapFrame->setMap(m_map);
-
     auto title= QStringLiteral("title");
     m_mapFrame->setUriName(title);
 
