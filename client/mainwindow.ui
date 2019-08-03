@@ -20,7 +20,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>39</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -132,6 +132,7 @@
     </property>
     <addaction name="m_onlineHelpAction"/>
     <addaction name="separator"/>
+    <addaction name="m_patreon"/>
     <addaction name="m_supportRolisteam"/>
     <addaction name="m_aboutAction"/>
    </widget>
@@ -670,6 +671,15 @@
    </property>
    <property name="text">
     <string>Show Initiative</string>
+   </property>
+  </action>
+  <action name="m_patreon">
+   <property name="icon">
+    <iconset resource="../rolisteam.qrc">
+     <normaloff>:/resources/icons/Patreon_Mark_Coral.jpg</normaloff>:/resources/icons/Patreon_Mark_Coral.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>Support Rolisteam</string>
    </property>
   </action>
  </widget>
