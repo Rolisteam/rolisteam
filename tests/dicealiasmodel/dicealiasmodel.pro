@@ -32,7 +32,7 @@ $$ROLISTEAMSRC/diceparser/dicealias.cpp \
     $$ROLISTEAMSRC/data/player.cpp \
 
 HEADERS += $$ROLISTEAMSRC/preferences/preferencesmanager.h\
-$$ROLISTEAMSRC/diceparser/dicealias.h \
+$$ROLISTEAMSRC/diceparser/include/dicealias.h \
 $$ROLISTEAMSRC/preferences/preferenceslistener.h\
     $$ROLISTEAMSRC/network/networkreceiver.h \
     $$ROLISTEAMSRC/network/networkmessagewriter.h \
