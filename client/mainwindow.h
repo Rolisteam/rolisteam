@@ -372,6 +372,7 @@ protected slots:
     void cleanUpData();
     MediaContainer* newDocument(CleverURI::ContentType type);
 private slots:
+    void showSupportPage();
     /**
      * @brief userNatureChange
      * @param isGM

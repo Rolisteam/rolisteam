@@ -753,18 +753,29 @@ void MainWindow::linkActionToMenu()
         diag.exec();
     });
     connect(m_ui->m_onlineHelpAction, SIGNAL(triggered()), this, SLOT(helpOnLine()));
-    connect(m_ui->m_supportRolisteam, &QAction::triggered, this, [=] {
-        if(!QDesktopServices::openUrl(QUrl("https://liberapay.com/Rolisteam/donate")))
-        {
-            QMessageBox* msgBox= new QMessageBox(
-                QMessageBox::Information, tr("Support"),
-                tr("The %1 donation page can be found online at :<br> <a "
-                   "href=\"https://liberapay.com/Rolisteam/donate\">https://liberapay.com/Rolisteam/donate</a>")
-                    .arg(m_preferences->value("Application_Name", "rolisteam").toString()),
-                QMessageBox::Ok);
-            msgBox->exec();
-        }
-    });
+
+    m_ui->m_supportRolisteam->setData(QStringLiteral("https://liberapay.com/Rolisteam/donate"));
+    m_ui->m_patreon->setData(QStringLiteral("https://www.patreon.com/rolisteam"));
+    connect(m_ui->m_supportRolisteam, &QAction::triggered, this, &MainWindow::showSupportPage);
+    connect(m_ui->m_patreon, &QAction::triggered, this, &MainWindow::showSupportPage);
+}
+
+void MainWindow::showSupportPage()
+{
+    auto act = qobject_cast<QAction*>(sender());
+    if(nullptr == act)
+        return;
+
+    QString url = act->data().toString();
+    if(!QDesktopServices::openUrl(QUrl(url)))//"https://liberapay.com/Rolisteam/donate"
+    {
+        QMessageBox msgBox(QMessageBox::Information, tr("Support"),
+            tr("The %1 donation page can be found online at :<br> <a "
+               "href=\"%2\">%2</a>")
+                .arg(m_preferences->value("Application_Name", "rolisteam").toString()).arg(url),
+            QMessageBox::Ok);
+        msgBox.exec();
+    }
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent* event)

@@ -348,6 +348,7 @@
         <file>resources/icons/marker-512.png</file>
         <file>resources/icons/shuffle_mode.png</file>
         <file>resources/images/sight.svg</file>
+        <file>resources/icons/Patreon_Mark_Coral.jpg</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>
