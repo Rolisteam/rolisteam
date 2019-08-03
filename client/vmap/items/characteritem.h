@@ -24,7 +24,7 @@
 #include "data/characterstate.h"
 #include "data/charactervision.h"
 #include "data/person.h"
-#include "diceparser/diceparser.h"
+#include "diceparser.h"
 #include "visualitem.h"
 #include <memory>
 

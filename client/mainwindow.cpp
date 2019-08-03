@@ -782,7 +782,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent* event)
 {
     if(isFullScreen())
     {
-        if(event->windowPos().y() == 0.0)
+        if(qFuzzyCompare(event->windowPos().y(), 0.0))
         {
             menuBar()->setVisible(true);
         }
