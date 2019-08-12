@@ -31,6 +31,13 @@ LocalPersonModel::LocalPersonModel() : QAbstractListModel()
     beginResetModel();
     m_playersList= PlayersList::instance();
     endResetModel();
+
+
+    connect(m_playersList, &PlayersList::localPlayerChanged, this, [this](){
+        beginResetModel();
+        m_playersList= PlayersList::instance();
+        endResetModel();
+    });
 }
 
 QVariant LocalPersonModel::data(const QModelIndex& index, int role) const
