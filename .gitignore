@@ -7,3 +7,4 @@ html
 *.pro.user.*
 *.pro.user
 resources/mapassets/*
+build*
