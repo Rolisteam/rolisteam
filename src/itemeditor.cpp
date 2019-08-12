@@ -30,6 +30,6 @@ void ItemEditor::setHandle(bool handle)
 
 void ItemEditor::contextMenuEvent(QContextMenuEvent* event)
 {
-    emit openContextMenu(event->globalPos());
+    emit openContextMenu(event->pos());
     QGraphicsView::contextMenuEvent(event);
 }

@@ -132,6 +132,13 @@ void Canvas::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
             m_currentItem= addCommand->getField();
             m_undoStack->push(addCommand);
         }
+        mouseEvent->accept();
+        return;
+    }
+    if(mouseEvent->button() == Qt::RightButton)
+    {
+        mouseEvent->accept();
+        return;
     }
     else
     {
