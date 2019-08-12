@@ -105,6 +105,7 @@ signals:
     void connectedToServer();
     void clearData();
     void connectionProcessEnd();
+    void moveToAnotherChannel();
 
 protected:
     void initializeLink();

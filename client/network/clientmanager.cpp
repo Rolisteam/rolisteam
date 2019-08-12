@@ -121,6 +121,7 @@ void ClientManager::initializeLink()
         connect(m_networkLinkToServer, SIGNAL(clearData()), this, SIGNAL(clearData()));
         connect(m_networkLinkToServer, &NetworkLink::gameMasterStatusChanged, this,
             &ClientManager::gameMasterStatusChanged);
+        connect(m_networkLinkToServer, &NetworkLink::moveToAnotherChannel, this, &ClientManager::moveToAnotherChannel);
         m_states.start();
     }
     else if(nullptr != m_networkLinkToServer)

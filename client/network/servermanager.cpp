@@ -378,7 +378,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
         if(nullptr != dest && !dest->locked())
         {
             m_model->moveClient(chan, idClient, dest);
-            sendEventToClient(tcp, TcpClient::ServerAuthDataReceivedEvent);
+            sendEventToClient(tcp, TcpClient::ChannelChanged);
         }
     }
     break;
