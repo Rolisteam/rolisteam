@@ -24,12 +24,13 @@
 #define PLAYERS_LIST_H
 
 #include <QAbstractItemModel>
+#include <QPointer>
+#include "data/player.h"
 
 class Character;
 class NetworkMessageReader;
 class NetworkLink;
 class Person;
-class Player;
 class ReceiveEvent;
 
 /**
@@ -134,7 +135,7 @@ signals:
      * @brief Send when local is client and the server refused local player to be GM.
      */
     void localGMRefused(bool);
-
+    void localPlayerChanged();
 protected:
     template <typename T>
     void sendOffPersonChanges(const QString& property);
@@ -171,7 +172,7 @@ private:
     QList<Character*> m_npcList;
 
     static PlayersList* m_singleton;
-    Player* m_localPlayer= nullptr;
+    QPointer<Player> m_localPlayer= nullptr;
     QString m_idCurrentGM;
     bool m_receivingData= false;
 };

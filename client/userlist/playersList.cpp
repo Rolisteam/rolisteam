@@ -424,7 +424,7 @@ bool PlayersList::everyPlayerHasFeature(const QString& name, quint8 version) con
 }
 Player* PlayersList::getLocalPlayer() const
 {
-    return m_localPlayer;
+    return m_localPlayer.data();
 }
 
 QString PlayersList::getLocalPlayerId() const
@@ -462,19 +462,23 @@ void PlayersList::sendOffFeatures(Player* player)
 
 void PlayersList::setLocalPlayer(Player* player)
 {
-    if(player != m_localPlayer)
+    if(player == m_localPlayer)
+        return;
+
+
+    if(m_playersList.size() > 0)
     {
-        if(m_playersList.size() > 0)
-        {
-            return;
-        }
-        m_localPlayer= player;
-        setLocalFeatures(*player);
-        addPlayer(player);
-        auto characterList= m_localPlayer->getChildrenCharacter();
-        std::for_each(characterList.begin(), characterList.end(),
-                      [this](Character* charac) { monitorCharacter(charac); });
+        return;
     }
+    m_localPlayer= player;
+    setLocalFeatures(*player);
+    addPlayer(player);
+    auto characterList= m_localPlayer->getChildrenCharacter();
+    std::for_each(characterList.begin(), characterList.end(),
+                  [this](Character* charac) { monitorCharacter(charac); });
+
+    emit localPlayerChanged();
+
 }
 
 void PlayersList::cleanListButLocal()
@@ -557,6 +561,8 @@ void PlayersList::addLocalCharacter(Character* newCharacter)
 {
     addCharacter(getLocalPlayer(), newCharacter);
 
+    emit localPlayerChanged();
+
     NetworkMessageWriter message(NetMsg::CharacterPlayerCategory, NetMsg::AddPlayerCharacterAction);
     newCharacter->fill(message);
     message.uint8(1); // add it to the map
@@ -592,6 +598,8 @@ void PlayersList::delLocalCharacter(int index)
     message.sendToServer();
 
     delCharacter(parent, index);
+
+    emit localPlayerChanged();
 }
 
 void PlayersList::addPlayer(Player* player)
@@ -756,6 +764,7 @@ void PlayersList::receivePlayer(NetworkMessageReader& data)
     {
         qWarning("A Player and a Character have the same UUID %s : %s - %s", qPrintable(newPlayer->getUuid()),
             qPrintable(newPlayer->name()), qPrintable(m_uuidMap.value(newPlayer->getUuid())->name()));
+        delete newPlayer;
         return;
     }
     addPlayer(newPlayer);
