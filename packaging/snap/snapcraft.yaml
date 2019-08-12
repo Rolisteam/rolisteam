@@ -1,0 +1,104 @@
+name: rolisteam
+version: "1.9.0"
+summary: RPG Tabletop Manager
+description: |
+  Rolisteam is a virtual tabletop software. It helps you to manage 
+  tabletop role playing games with remote friends/players. 
+  It provides many features to share maps, pictures and it also 
+  includes tool to communicate with your friends/players. 
+  The goal is to make Rolisteam-managed RPG games as good as 
+  RPG games around your table. 
+  To achieve it, we are working hard to provide you more and more features. 
+
+
+confinement: strict
+base: core18
+parts:
+  rolisteam:
+    after: 
+    - desktop-qt5  
+
+    plugin: qmake
+    source-type: git
+    source: https://invent.kde.org/kde/rolisteam.git
+    build-attributes: [keep-execstack]
+    build-packages:
+      - qt5-default
+      - qtbase5-dev-tools
+      - qt5-qmake 
+      - libqt5network5
+      - zlib1g-dev 
+      - build-essential
+      - ca-certificates
+      - qtmultimedia5-dev
+      - libqt5core5a
+      - libqt5gui5
+      - qttools5-dev-tools
+      - qtdeclarative5-dev
+      - qtwebengine5-dev
+      - libqt5svg5-dev         
+    stage-packages:
+      - libqt5network5
+      - zlib1g
+      - libqt5multimedia5
+      - libqt5multimedia5-plugins
+      - libqt5multimediaquick-p5
+      - libqt5multimediawidgets5
+      - libqt5core5a
+      - libqt5gui5
+      - libqt5webengine5
+      - libqt5webenginewidgets5
+      - libqt5svg5
+      - libqt5xml5
+      - libpulse0
+      - qt5dxcb-plugin
+      - libglu1-mesa
+      - fbset
+  desktop-qt5:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-depth: 1
+    source-subdir: qt
+
+    plugin: make
+    make-parameters: ["FLAVOR=qt5"]
+    build-packages:
+    - build-essential
+    - qtbase5-dev
+    - dpkg-dev
+    stage-packages:
+    - libxkbcommon0
+    - ttf-ubuntu-font-family
+    - dmz-cursor-theme
+    - light-themes
+    - adwaita-icon-theme
+    - gnome-themes-standard
+    - shared-mime-info
+    - libqt5gui5
+    - libgdk-pixbuf2.0-0
+    - libqt5svg5 # for loading icon themes which are svg
+    - try: [appmenu-qt5] # not available on core18
+    - locales-all
+    - xdg-user-dirs
+    - fcitx-frontend-qt5
+
+
+
+apps:
+
+  rolisteam:
+    command: desktop-launch $SNAP/usr/local/bin/rolisteam
+    environment: 
+      "LD_LIBRARY_PATH": "$LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio"
+      "QT_PLUGIN_PATH": $"QT_PLUGIN_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins/"
+      "QTWEBENGINEPROCESS_PATH": $"QTWEBENGINEPROCESS_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/libexec/"
+
+    plugs: 
+      - home
+      - network
+      - pulseaudio
+      - desktop
+      - desktop-legacy
+      - wayland
+      - x11
+      - opengl
+
