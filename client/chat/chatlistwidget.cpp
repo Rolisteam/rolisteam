@@ -168,16 +168,16 @@ NetWorkReceiver::SendType ChatListWidget::processMessage(NetworkMessageReader* m
 }
 void ChatListWidget::processAddDiceAlias(NetworkMessageReader* msg)
 {
-    int pos= msg->int64();
+    auto pos= msg->int64();
     QString regex= msg->string32();
     QString value= msg->string32();
-    bool isReplace= (bool)msg->int8();
-    bool isEnable= (bool)msg->int8();
+    bool isReplace= static_cast<bool>(msg->int8());
+    bool isEnable= static_cast<bool>(msg->int8());
     QString comment= msg->string32();
     DiceAlias* tmp= new DiceAlias(regex, value, isReplace, isEnable);
     tmp->setComment(comment);
 
-    m_diceAliasMapFromGM->insert(pos, tmp);
+    m_diceAliasMapFromGM->insert(static_cast<int>(pos), tmp);
 
     m_chatList->updateDiceAliases(m_diceAliasMapFromGM);
 }
@@ -186,7 +186,7 @@ void ChatListWidget::processRemoveDiceALias(NetworkMessageReader* msg)
     qint64 pos= msg->int64();
     if(m_diceAliasMapFromGM->size() > pos)
     {
-        m_diceAliasMapFromGM->removeAt(pos);
+        m_diceAliasMapFromGM->removeAt(static_cast<int>(pos));
     }
 }
 void ChatListWidget::processMoveDiceALias(NetworkMessageReader* msg)
