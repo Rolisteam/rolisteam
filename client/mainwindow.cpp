@@ -1791,7 +1791,7 @@ void MainWindow::initializedClientManager()
         connect(m_clientManager, SIGNAL(isAuthentified()), this, SLOT(postConnection()));
         connect(m_clientManager, SIGNAL(clearData()), this, SLOT(cleanUpData()));
         connect(m_clientManager, &ClientManager::gameMasterStatusChanged, this, &MainWindow::userNatureChange);
-        // connect(m_clientManager,&ClientManager::moveToAnotherChannel,this,&MainWindow::);
+        connect(m_clientManager,&ClientManager::moveToAnotherChannel,this,&MainWindow::postConnection);
     }
     else
     {
