@@ -290,6 +290,9 @@ QModelIndex ChannelModel::addChannelToIndex(Channel* channel, const QModelIndex&
 }
 bool ChannelModel::addChannelToChannel(Channel* child, Channel* parent)
 {
+    if(child == nullptr)
+        return false;
+
     bool result= false;
     if(nullptr == parent)
     {
@@ -346,11 +349,11 @@ QModelIndex ChannelModel::channelToIndex(Channel* channel)
     {
         if(nullptr == item->getParentItem())
         {
-            parent= parent.child(m_root.indexOf(item), 0);
+            parent= index(m_root.indexOf(item), 0, parent);
         }
         else
         {
-            parent= parent.child(item->rowInParent(), 0);
+            parent= index(item->rowInParent(), 0, parent);
         }
     }
     return parent;
@@ -546,6 +549,28 @@ bool ChannelModel::addConnectionToChannel(QString chanId, TcpClient* client)
     }
     return found;
 }
+
+bool ChannelModel::moveClient(Channel* origin, const QString& id, Channel* dest)
+{
+    if(nullptr == dest || nullptr == origin)
+        return false;
+
+    auto sourceParent = channelToIndex(origin);
+    auto client = origin->getClientById(id);
+    auto indxSource = origin->indexOf(client);
+    auto destParent = channelToIndex(dest);
+    auto indexDest = dest->childCount();
+
+    if(!sourceParent.isValid() || !destParent.isValid())
+        return false;
+
+    beginMoveRows(sourceParent, indxSource, indxSource, destParent,indexDest);
+    origin->removeChild(client);
+    dest->addChild(client);
+    endMoveRows();
+    return true;
+}
+
 void ChannelModel::readDataJson(const QJsonObject& obj)
 {
     beginResetModel();

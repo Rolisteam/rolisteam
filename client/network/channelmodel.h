@@ -79,6 +79,7 @@ public:
     void cleanUp();
     void emptyChannelMemory();
     void renameChannel(const QString& senderId, const QString& id, const QString& value);
+    bool moveClient(Channel *origin, const QString &id, Channel *dest);
 signals:
     void totalSizeChanged(quint64);
     void localPlayerGMChanged(QString id);

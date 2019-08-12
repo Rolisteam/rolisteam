@@ -374,13 +374,10 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
         QString id= msg->string8();
         QString idClient= msg->string8();
         TreeItem* item= m_model->getItemById(id);
-        TreeItem* clientItem= m_model->getItemById(idClient);
-        TcpClient* client= static_cast<TcpClient*>(clientItem);
         Channel* dest= static_cast<Channel*>(item);
         if(nullptr != dest && !dest->locked())
         {
-            chan->removeClient(client);
-            dest->addChild(client);
+            m_model->moveClient(chan, idClient, dest);
             sendEventToClient(tcp, TcpClient::ServerAuthDataReceivedEvent);
         }
     }

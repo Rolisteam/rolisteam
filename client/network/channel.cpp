@@ -205,12 +205,22 @@ void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
     }
 }
 
+bool Channel::contains(QString id)
+{
+    auto dupplicate= std::find_if(m_child.begin(),m_child.end(), [id](TreeItem* item){
+        return item->getId()==id;
+    });
+
+    return dupplicate != m_child.end();
+}
+
 int Channel::addChild(TreeItem* item)
 {
     if(nullptr == item)
         return -1;
 
     m_child.append(item);
+    item->getId();
     item->setParentItem(this);
 
     auto result= m_child.size();
@@ -410,12 +420,14 @@ TcpClient* Channel::getClientById(QString id)
     }
     return result;
 }
+
 void Channel::fill(NetworkMessageWriter& msg)
 {
     msg.string8(m_id);
     msg.string16(m_name);
     msg.string16(m_description);
 }
+
 void Channel::read(NetworkMessageReader& msg)
 {
     m_id= msg.string8();
@@ -457,12 +469,12 @@ void Channel::clearData()
     m_dataToSend.clear();
     setMemorySize(0);
 }
+
 bool Channel::removeChild(TreeItem* itm)
 {
     if(itm->isLeaf())
     {
-        removeClient(static_cast<TcpClient*>(itm));
-        return true;
+        return removeClient(static_cast<TcpClient*>(itm));
     }
     else
     {
@@ -474,6 +486,7 @@ bool Channel::removeChild(TreeItem* itm)
     }
     return false;
 }
+
 bool Channel::hasNoClient()
 {
     bool hasNoClient= true;
@@ -569,4 +582,16 @@ void Channel::setLocked(bool locked)
         return;
     m_locked= locked;
     emit lockedChanged();
+}
+bool Channel::removeChildById(const QString &id)
+{
+    auto dupplicate= std::find_if(m_child.begin(),m_child.end(), [id](TreeItem* item){
+        return item->getId()==id;
+    });
+
+     if(dupplicate == m_child.end())
+         return false;
+
+     m_child.erase(dupplicate);
+    return true;
 }

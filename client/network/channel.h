@@ -82,6 +82,7 @@ public:
 
     bool removeClient(TcpClient* client);
     bool removeChild(TreeItem*);
+    bool removeChildById(const QString &);
 
     TcpClient* currentGM() const;
     void setCurrentGM(TcpClient* currentGM);
@@ -101,6 +102,7 @@ public:
     bool locked() const;
     void setLocked(bool locked);
 
+    bool contains(QString id);
 public slots:
     void clearData();
     void renamePlayer(const QString& id, const QString& name);
