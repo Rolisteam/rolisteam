@@ -77,8 +77,12 @@ void Field::init()
                                 | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable
                                 | QGraphicsItem::ItemClipsToShape);
 
-        connect(m_canvasField, &CanvasField::xChanged, [=]() { emit updateNeeded(this); });
-        connect(m_canvasField, &CanvasField::yChanged, [=]() { emit updateNeeded(this); });
+        connect(m_canvasField, &CanvasField::xChanged, this, [this]() { emit updateNeeded(this); });
+        connect(m_canvasField, &CanvasField::yChanged, this, [this]() { emit updateNeeded(this); });
+        connect(m_canvasField, &CanvasField::lockedChanged, this, [this]() {
+            m_locked= m_canvasField->locked();
+            emit updateNeeded(this);
+        });
     }
 #endif
 }
@@ -148,6 +152,8 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id, int role) const
 
 void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
 {
+    if(m_locked)
+        return;
     switch(id)
     {
     case ID:
@@ -233,6 +239,8 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
 }
 void Field::setNewEnd(QPointF nend)
 {
+    if(m_locked)
+        return;
 #ifdef RCSE
     m_canvasField->setNewEnd(nend);
 #endif
@@ -256,6 +264,8 @@ QFont Field::font() const
 
 void Field::setFont(const QFont& font)
 {
+    if(m_locked)
+        return;
     m_font= font;
     // drawField();
 }
@@ -275,6 +285,8 @@ bool Field::getClippedText() const
 
 void Field::setClippedText(bool clippedText)
 {
+    if(m_locked)
+        return;
     m_clippedText= clippedText;
 }
 
@@ -289,6 +301,8 @@ QStringList Field::getAvailableValue() const
 
 void Field::setAvailableValue(const QStringList& availableValue)
 {
+    if(m_locked)
+        return;
     m_availableValue= availableValue;
 }
 CharacterSheetItem::CharacterSheetItemType Field::getItemType() const
@@ -431,6 +445,8 @@ qreal Field::getWidth() const
 
 void Field::setWidth(qreal width)
 {
+    if(m_locked)
+        return;
     setValueFrom(CharacterSheetItem::WIDTH, width);
 }
 
@@ -441,11 +457,15 @@ qreal Field::getHeight() const
 
 void Field::setHeight(qreal height)
 {
+    if(m_locked)
+        return;
     setValueFrom(CharacterSheetItem::HEIGHT, height);
 }
 
 void Field::setX(qreal x)
 {
+    if(m_locked)
+        return;
     setValueFrom(CharacterSheetItem::X, x);
 }
 
@@ -456,6 +476,8 @@ qreal Field::getX() const
 
 void Field::setY(qreal y)
 {
+    if(m_locked)
+        return;
     setValueFrom(CharacterSheetItem::Y, y);
 }
 
@@ -501,12 +523,18 @@ void Field::setCanvasField(CanvasField* canvasField)
 
         connect(m_canvasField, &CanvasField::xChanged, [=]() { emit updateNeeded(this); });
         connect(m_canvasField, &CanvasField::yChanged, [=]() { emit updateNeeded(this); });
+        connect(m_canvasField, &CanvasField::lockedChanged, this, [this]() {
+            m_locked= m_canvasField->locked();
+            emit updateNeeded(this);
+        });
     }
 #endif
 }
 
 void Field::setTextAlign(const Field::TextAlign& textAlign)
 {
+    if(m_locked)
+        return;
     m_textAlign= textAlign;
 }
 Field::TextAlign Field::getTextAlignValue()
@@ -521,6 +549,8 @@ bool Field::getAliasEnabled() const
 
 void Field::setAliasEnabled(bool aliasEnabled)
 {
+    if(m_locked)
+        return;
     m_aliasEnabled= aliasEnabled;
 }
 
@@ -531,6 +561,8 @@ QString Field::getGeneratedCode() const
 
 void Field::setGeneratedCode(const QString& generatedCode)
 {
+    if(m_locked)
+        return;
     m_generatedCode= generatedCode;
 }
 
@@ -568,6 +600,20 @@ QPair<QString, QString> Field::getTextAlign()
     pair.second= verti;
 
     return pair;
+}
+
+bool Field::isLocked() const
+{
+    if(nullptr == m_canvasField)
+        return false;
+    return m_canvasField->locked();
+}
+
+void Field::setLocked(bool b)
+{
+    if(nullptr == m_canvasField)
+        return;
+    m_canvasField->setLocked(b);
 }
 
 void Field::copyField(CharacterSheetItem* oldItem, bool copyData, bool sameId)

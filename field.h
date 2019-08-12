@@ -128,7 +128,9 @@ public:
     void setAliasEnabled(bool aliasEnabled);
 
     QPair<QString, QString> getTextAlign();
+    bool isLocked() const;
 public slots:
+    void setLocked(bool b);
     void storeQMLCode();
 signals:
     void updateNeeded(CSItem* c);
@@ -146,6 +148,7 @@ protected:
     CanvasField* m_canvasField;
     QString m_generatedCode;
     bool m_aliasEnabled= true;
+    bool m_locked= false;
 };
 
 #endif // FIELD_H
