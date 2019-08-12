@@ -41,6 +41,8 @@ EditorController::EditorController(QUndoStack& undoStack, ItemEditor* view, QObj
     m_fitInView= new QAction(tr("Fit the view"), m_view);
     m_fitInView->setCheckable(true);
 
+    m_lockItem= new QAction(tr("Lock item"), m_view);
+    m_lockItem->setCheckable(true);
     m_alignOnY= new QAction(tr("Align on Y"), m_view);
     m_alignOnX= new QAction(tr("Align on X"), m_view);
     m_sameWidth= new QAction(tr("Same Width"), m_view);
@@ -49,6 +51,7 @@ EditorController::EditorController(QUndoStack& undoStack, ItemEditor* view, QObj
     m_verticalEquaDistance= new QAction(tr("Vertical equidistribution"), m_view);
     m_horizontalEquaDistance= new QAction(tr("Horizontal equidistribution"), m_view);
 
+    connect(m_lockItem, &QAction::triggered, this, &EditorController::lockItem);
     connect(m_fitInView, &QAction::triggered, this, &EditorController::setFitInView);
     connect(m_alignOnY, &QAction::triggered, this, &EditorController::alignOn);
     connect(m_alignOnX, &QAction::triggered, this, &EditorController::alignOn);
@@ -93,10 +96,24 @@ void EditorController::sameGeometry()
 
 void EditorController::menuRequestedFromView(const QPoint& pos)
 {
-    Q_UNUSED(pos);
     QMenu menu(m_view);
 
+    // auto list= m_view->items(m_view->mapToScene(pos).toPoint());
     auto list= m_view->items(pos);
+    bool locked= false;
+
+    auto func= [](QGraphicsItem* item) {
+        auto field= dynamic_cast<CanvasField*>(item);
+        return field->locked();
+    };
+
+    auto allSame= std::all_of(list.begin(), list.end(), [](QGraphicsItem* item) {
+        auto field= dynamic_cast<CanvasField*>(item);
+        return field->locked();
+    });
+
+    if(!list.isEmpty())
+        locked= func(list.first());
 
     for(auto item : list)
     {
@@ -109,6 +126,11 @@ void EditorController::menuRequestedFromView(const QPoint& pos)
     }
     menu.addAction(m_fitInView);
     menu.addSeparator();
+    menu.addAction(m_lockItem);
+    if(allSame)
+        m_lockItem->setChecked(locked);
+    else
+        m_lockItem->setChecked(false);
     menu.addAction(m_alignOnX);
     menu.addAction(m_alignOnY);
     menu.addAction(m_sameWidth);
@@ -226,6 +248,21 @@ void EditorController::spreadItemEqualy()
     }
 
     emit dataChanged();
+}
+
+void EditorController::lockItem()
+{
+    auto lock= m_lockItem->isChecked();
+
+    auto items= m_view->items(m_posMenu);
+    if(items.isEmpty())
+        return;
+    std::for_each(items.begin(), items.end(), [lock](QGraphicsItem* item) {
+        auto field= dynamic_cast<CanvasField*>(item);
+        if(field == nullptr)
+            return;
+        field->setLocked(lock);
+    });
 }
 
 void EditorController::setFitInView()

@@ -10,6 +10,7 @@ class Field;
 class CanvasField : public QGraphicsObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool locked READ locked WRITE setLocked NOTIFY lockedChanged)
 public:
     CanvasField(Field* field);
 
@@ -28,10 +29,14 @@ public:
     static bool getShowImageField();
     static void setShowImageField(bool showImageField);
     virtual void setMenu(QMenu& menu);
+    bool locked() const;
+public slots:
+    void setLocked(bool b);
 
 signals:
     void widthChanged();
     void heightChanged();
+    void lockedChanged();
 
 protected:
     Field* m_field;
@@ -40,6 +45,7 @@ protected:
     static bool m_showImageField;
     QPixmap m_pix;
     int m_currentType;
+    bool m_locked= false;
 };
 
 #endif // CANVASFIELD_H

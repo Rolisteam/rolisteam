@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QPainter>
+#include <QStyleOptionGraphicsItem>
 
 QHash<int, QString> CanvasField::m_pictureMap({{Field::TEXTINPUT, ":/resources/icons/Actions-edit-rename-icon.png"},
                                                {Field::TEXTAREA, ":/resources/icons/textarea.png"},
@@ -51,7 +52,6 @@ QPainterPath CanvasField::shape() const
     path.closeSubpath();
     return path;
 }
-#include <QStyleOptionGraphicsItem>
 void CanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(widget);
@@ -62,7 +62,11 @@ void CanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 
     painter->fillRect(m_rect, m_field->bgColor());
 
-    painter->setPen(Qt::black);
+    if(m_locked)
+        painter->setPen(Qt::gray);
+    else
+        painter->setPen(Qt::black);
+
     painter->drawRect(m_rect);
 
     if(option->state & QStyle::State_Selected)
@@ -123,21 +127,21 @@ void CanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 }
 void CanvasField::setWidth(qreal w)
 {
-    if(w != m_rect.width())
-    {
-        m_rect.setWidth(w);
-        emit widthChanged();
-        update();
-    }
+    if(qFuzzyCompare(w, m_rect.width()) || m_locked)
+        return;
+
+    m_rect.setWidth(w);
+    emit widthChanged();
+    update();
 }
 void CanvasField::setHeight(qreal h)
 {
-    if(h != m_rect.height())
-    {
-        m_rect.setHeight(h);
-        emit heightChanged();
-        update();
-    }
+    if(qFuzzyCompare(h, m_rect.height()) || m_locked)
+        return;
+
+    m_rect.setHeight(h);
+    emit heightChanged();
+    update();
 }
 
 bool CanvasField::getShowImageField()
@@ -153,4 +157,22 @@ void CanvasField::setShowImageField(bool showImageField)
 void CanvasField::setMenu(QMenu& menu)
 {
     Q_UNUSED(menu);
+}
+
+bool CanvasField::locked() const
+{
+    return m_locked;
+}
+
+void CanvasField::setLocked(bool b)
+{
+    if(m_locked == b)
+        return;
+    m_locked= b;
+    emit lockedChanged();
+
+    if(m_locked)
+        setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+    else
+        setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
 }

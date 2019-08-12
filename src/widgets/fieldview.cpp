@@ -19,11 +19,14 @@
 FieldView::FieldView(QWidget* parent) : QTreeView(parent), m_mapper(new QSignalMapper(this))
 {
     // Item action
+    m_lock= new QAction(tr("Lock up Item"), this);
     m_delItem= new QAction(tr("Delete Item"), this);
     m_applyValueOnSelection= new QAction(tr("Apply on Selection"), this);
     m_applyValueOnAllLines= new QAction(tr("Apply on all lines"), this);
     m_defineCode= new QAction(tr("Define Field Code"), this);
     m_resetCode= new QAction(tr("Reset Field Code"), this);
+
+    connect(m_lock, &QAction::triggered, this, &FieldView::lockItems);
 
     m_showGeometryGroup= new QAction(tr("Position columns"), this);
     connect(m_showGeometryGroup, &QAction::triggered, this, [=]() {
@@ -104,7 +107,6 @@ void FieldView::hideAllColumns(bool hidden)
 }
 void FieldView::contextMenuEvent(QContextMenuEvent* event)
 {
-
     QMenu menu(this);
 
     QModelIndex index= currentIndex();
@@ -113,6 +115,8 @@ void FieldView::contextMenuEvent(QContextMenuEvent* event)
 
         menu.addAction(m_applyValueOnSelection);
         menu.addAction(m_applyValueOnAllLines);
+        menu.addSeparator();
+        menu.addAction(m_lock);
         menu.addSeparator();
         menu.addAction(m_defineCode);
         if(nullptr != m_canvasList)
@@ -141,6 +145,9 @@ void FieldView::contextMenuEvent(QContextMenuEvent* event)
     }
 
     QAction* act= menu.exec(event->globalPos());
+
+    if(act == nullptr)
+        return;
 
     if(act == m_delItem)
     {
@@ -173,6 +180,22 @@ void FieldView::contextMenuEvent(QContextMenuEvent* event)
             field->setGeneratedCode(QStringLiteral(""));
         }
     }
+}
+void FieldView::lockItems()
+{
+    QModelIndexList list= selectionModel()->selectedIndexes();
+
+    if(list.isEmpty())
+        return;
+
+    std::for_each(list.begin(), list.end(), [](QModelIndex& index) {
+        if(!index.isValid())
+            return;
+
+        auto field= static_cast<Field*>(index.internalPointer());
+        auto value= field->isLocked();
+        field->setLocked(!value);
+    });
 }
 
 FieldModel* FieldView::getModel() const

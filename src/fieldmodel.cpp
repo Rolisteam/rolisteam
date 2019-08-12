@@ -107,11 +107,17 @@ QVariant FieldModel::data(const QModelIndex& index, int role) const
     if(role == Qt::BackgroundRole)
     {
         auto field= dynamic_cast<Field*>(item);
-
+        QVariant color;
         if(field && !field->getGeneratedCode().isEmpty())
         {
-            return QColor(Qt::green).lighter();
+            color= QColor(Qt::green).lighter();
         }
+        if(field && field->isLocked() && (index.column() >= CharacterSheetItem::X)
+           && (index.column() <= CharacterSheetItem::HEIGHT))
+        {
+            color= QColor(Qt::gray);
+        }
+        return color;
     }
     if((Qt::FontRole == role) && (index.column() == CharacterSheetItem::FONT))
     {

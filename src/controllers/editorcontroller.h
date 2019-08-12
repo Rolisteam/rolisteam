@@ -71,8 +71,10 @@ protected slots:
     void menuRequestedFromView(const QPoint& pos);
     void sameGeometry();
     void spreadItemEqualy();
+    void lockItem();
 
 private:
+    QAction* m_lockItem= nullptr;
     QAction* m_fitInView= nullptr;
     QAction* m_alignOnY= nullptr;
     QAction* m_alignOnX= nullptr;

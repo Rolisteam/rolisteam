@@ -31,6 +31,7 @@ public:
 
 public slots:
     void editColor(QModelIndex index);
+    void lockItems();
     void hideAllColumns(bool);
     void setCurrentPage(int currentPage);
 
@@ -38,6 +39,7 @@ protected:
     void contextMenuEvent(QContextMenuEvent* event) override;
 
 private:
+    QAction* m_lock= nullptr;
     QAction* m_delItem= nullptr;
     QAction* m_applyValueOnSelection= nullptr;
     QAction* m_applyValueOnAllLines= nullptr;
