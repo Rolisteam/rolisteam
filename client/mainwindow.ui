@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Rolisteam</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../rolisteam.qrc">
+    <normaloff>:/resources/logo/500-symbole.png</normaloff>:/resources/logo/500-symbole.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
