@@ -63,77 +63,77 @@ void VToolsBar::createActions()
     m_pencilAct= new QAction(QIcon(":/resources/icons/pen.png"), tr("Pen"), m_toolsGroup);
     m_pencilAct->setData(PEN);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_pencilAct->setChecked(tool == VToolsBar::PEN); });
+            [=](VToolsBar::SelectableTool tool) { m_pencilAct->setChecked(tool == VToolsBar::PEN); });
 
     m_lineAct= new QAction(QIcon(":/resources/icons/line.png"), tr("Line"), m_toolsGroup);
     m_lineAct->setData(LINE);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_lineAct->setChecked(tool == VToolsBar::LINE); });
+            [=](VToolsBar::SelectableTool tool) { m_lineAct->setChecked(tool == VToolsBar::LINE); });
 
     m_rectAct= new QAction(QIcon(":/resources/icons/emptyrectangle.png"), tr("Empty Rectangle"), m_toolsGroup);
     m_rectAct->setData(EMPTYRECT);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_rectAct->setChecked(tool == VToolsBar::EMPTYRECT); });
+            [=](VToolsBar::SelectableTool tool) { m_rectAct->setChecked(tool == VToolsBar::EMPTYRECT); });
 
     m_rectFillAct= new QAction(QIcon(":/resources/icons/filledrectangle.png"), tr("filled Rectangle"), m_toolsGroup);
     m_rectFillAct->setData(FILLRECT);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_rectFillAct->setChecked(tool == VToolsBar::FILLRECT); });
+            [=](VToolsBar::SelectableTool tool) { m_rectFillAct->setChecked(tool == VToolsBar::FILLRECT); });
 
     m_elipseAct= new QAction(QIcon(":/resources/icons/emptyellipse.png"), tr("Empty Ellipse"), m_toolsGroup);
     m_elipseAct->setData(EMPTYELLIPSE);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_elipseAct->setChecked(tool == VToolsBar::EMPTYELLIPSE); });
+            [=](VToolsBar::SelectableTool tool) { m_elipseAct->setChecked(tool == VToolsBar::EMPTYELLIPSE); });
 
     m_elipseFillAct= new QAction(QIcon(":/resources/icons/filledellipse.png"), tr("Filled Ellipse"), m_toolsGroup);
     m_elipseFillAct->setData(FILLEDELLIPSE);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_elipseFillAct->setChecked(tool == VToolsBar::FILLEDELLIPSE); });
+            [=](VToolsBar::SelectableTool tool) { m_elipseFillAct->setChecked(tool == VToolsBar::FILLEDELLIPSE); });
 
     m_textAct= new QAction(QIcon(":/resources/icons/text.png"), tr("Text"), m_toolsGroup);
     m_textAct->setData(TEXT);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_textAct->setChecked(tool == VToolsBar::TEXT); });
+            [=](VToolsBar::SelectableTool tool) { m_textAct->setChecked(tool == VToolsBar::TEXT); });
 
     m_handAct= new QAction(QIcon(":/resources/icons/hand.png"), tr("Hand"), m_toolsGroup);
     m_handAct->setData(HANDLER);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_handAct->setChecked(tool == VToolsBar::HANDLER); });
+            [=](VToolsBar::SelectableTool tool) { m_handAct->setChecked(tool == VToolsBar::HANDLER); });
 
     m_addPCAct= new QAction(QIcon(":/resources/icons/add.png"), tr("Add NPC"), m_toolsGroup);
     m_addPCAct->setData(ADDNPC);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_addPCAct->setChecked(tool == VToolsBar::ADDNPC); });
+            [=](VToolsBar::SelectableTool tool) { m_addPCAct->setChecked(tool == VToolsBar::ADDNPC); });
 
     m_ruleAct= new QAction(QIcon(":/resources/icons/rule.png"), tr("Rule"), m_toolsGroup);
     m_ruleAct->setData(RULE);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_ruleAct->setChecked(tool == VToolsBar::RULE); });
+            [=](VToolsBar::SelectableTool tool) { m_ruleAct->setChecked(tool == VToolsBar::RULE); });
 
     m_pathAct= new QAction(QIcon(":/resources/icons/path.png"), tr("Path"), m_toolsGroup);
     m_pathAct->setData(PATH);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_pathAct->setChecked(tool == VToolsBar::PATH); });
+            [=](VToolsBar::SelectableTool tool) { m_pathAct->setChecked(tool == VToolsBar::PATH); });
 
     m_anchorAct= new QAction(QIcon(":/resources/icons/insert-link-2.png"), tr("Anchor"), m_toolsGroup);
     m_anchorAct->setData(ANCHOR);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_anchorAct->setChecked(tool == VToolsBar::ANCHOR); });
+            [=](VToolsBar::SelectableTool tool) { m_anchorAct->setChecked(tool == VToolsBar::ANCHOR); });
 
     m_pipette= new QAction(QIcon(":/resources/icons/pipettecursor.png"), tr("Pipette"), m_toolsGroup);
     m_pipette->setData(PIPETTE);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_pipette->setChecked(tool == VToolsBar::PIPETTE); });
+            [=](VToolsBar::SelectableTool tool) { m_pipette->setChecked(tool == VToolsBar::PIPETTE); });
 
     m_highlighterAct= new QAction(QIcon(":/resources/icons/marker-512.png"), tr("Highlighter"), m_toolsGroup);
     m_highlighterAct->setData(HIGHLIGHTER);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_highlighterAct->setChecked(tool == VToolsBar::HIGHLIGHTER); });
+            [=](VToolsBar::SelectableTool tool) { m_highlighterAct->setChecked(tool == VToolsBar::HIGHLIGHTER); });
 
     m_bucketAct= new QAction(QIcon(":/resources/icons/000000-paint-bucket-512.png"), tr("Paint Bucket"), m_toolsGroup);
     m_bucketAct->setData(BUCKET);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_bucketAct->setChecked(tool == VToolsBar::BUCKET); });
+            [=](VToolsBar::SelectableTool tool) { m_bucketAct->setChecked(tool == VToolsBar::BUCKET); });
 
     /*  m_unmaskPathAct = new QAction(QIcon(":/resources/icons/maskpath.png"),tr("Unmask Path"),m_toolsGroup);
       m_unmaskPathAct->setData(PATHFOG);
@@ -145,7 +145,7 @@ void VToolsBar::createActions()
         = new QAction(QIcon(":/resources/icons/textwithBorder.png"), tr("Text With Border"), m_toolsGroup);
     m_textWithBorderAct->setData(TEXTBORDER);
     connect(this, &VToolsBar::currentToolChanged,
-        [=](VToolsBar::SelectableTool tool) { m_textWithBorderAct->setChecked(tool == VToolsBar::TEXTBORDER); });
+            [=](VToolsBar::SelectableTool tool) { m_textWithBorderAct->setChecked(tool == VToolsBar::TEXTBORDER); });
 
     m_resetCountAct= new QAction(QIcon(":/resources/icons/chronometre.png"), tr("Reset NPC counter"), this);
 
@@ -300,20 +300,21 @@ void VToolsBar::makeTools()
     m_editionModeCombo->addItem(QIcon(":/resources/icons/eye.png"), tr("Unmask"), Unmask);
 
     connect(m_editionModeCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-        [this, ruleButton, pipetteButton, bucketButton, addNpcButton, anchorButton]() {
-            auto mode= static_cast<EditionMode>(m_editionModeCombo->currentData().toInt());
-            bool painting= (mode == Painting);
+            [this, ruleButton, pipetteButton, bucketButton, addNpcButton, anchorButton, highlighterButton]() {
+                auto mode= static_cast<EditionMode>(m_editionModeCombo->currentData().toInt());
+                bool painting= (mode == Painting);
 
-            ruleButton->setVisible(painting);
-            pipetteButton->setVisible(painting);
-            bucketButton->setVisible(painting);
-            addNpcButton->setVisible(painting);
-            anchorButton->setVisible(painting);
+                ruleButton->setVisible(painting);
+                pipetteButton->setVisible(painting);
+                bucketButton->setVisible(painting);
+                addNpcButton->setVisible(painting);
+                anchorButton->setVisible(painting);
+                highlighterButton->setVisible(painting);
 
-            if(m_currentTool == RULE || m_currentTool == PIPETTE || m_currentTool == BUCKET || m_currentTool == ADDNPC
-                || m_currentTool == ANCHOR)
-                setCurrentTool(HANDLER);
-        });
+                if(m_currentTool == RULE || m_currentTool == PIPETTE || m_currentTool == BUCKET
+                   || m_currentTool == ADDNPC || m_currentTool == ANCHOR)
+                    setCurrentTool(HANDLER);
+            });
 
     FlowLayout* characterToolsLayout= new FlowLayout();
     characterToolsLayout->setMargin(0);

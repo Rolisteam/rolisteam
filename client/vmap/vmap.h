@@ -610,11 +610,11 @@ private:
     /**
      * @brief current selected item
      */
-    VisualItem* m_currentItem= nullptr;
+    QPointer<VisualItem> m_currentItem;
     /**
      * @brief m_currentPath
      */
-    VisualItem* m_currentPath= nullptr;
+    QPointer<VisualItem> m_currentPath= nullptr;
     /**
      * @brief color for items
      */

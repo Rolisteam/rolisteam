@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>charactersheet/qml/Rolisteam/CheckBoxField.qml</file>
+        <file>charactersheet/qml/Rolisteam/CheckBoxFieldv1.qml</file>
+        <file>charactersheet/qml/Rolisteam/DiceButton.qml</file>
+        <file>charactersheet/qml/Rolisteam/DiceButtonv1.qml</file>
+        <file>charactersheet/qml/Rolisteam/ImageField.qml</file>
+        <file>charactersheet/qml/Rolisteam/ImageFieldv1.qml</file>
+        <file>charactersheet/qml/Rolisteam/PageButton.qml</file>
+        <file>charactersheet/qml/Rolisteam/qmldir</file>
+        <file>charactersheet/qml/Rolisteam/SelectField.qml</file>
+        <file>charactersheet/qml/Rolisteam/SelectFieldv1.qml</file>
+        <file>charactersheet/qml/Rolisteam/Table.qml</file>
+        <file>charactersheet/qml/Rolisteam/TextAreaField.qml</file>
+        <file>charactersheet/qml/Rolisteam/TextAreaFieldv1.qml</file>
+        <file>charactersheet/qml/Rolisteam/TextFieldField.qml</file>
+        <file>charactersheet/qml/Rolisteam/TextFieldFieldv1.qml</file>
+        <file>charactersheet/qml/Rolisteam/TextInputField.qml</file>
+        <file>charactersheet/qml/Rolisteam/TextInputFieldv1.qml</file>
+        <file>charactersheet/qml/Rolisteam/WebView.qml</file>
+        <file>charactersheet/qml/Rolisteam/RLabel.qml</file>
+    </qresource>
+</RCC>

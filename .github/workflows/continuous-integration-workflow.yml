@@ -1,0 +1,13 @@
+name: Build On Linux
+# This workflow is triggered on pushes to the repository.
+on: [push]
+
+jobs:
+  build:
+    name: LinuxBuild
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      # This step prints the time.
+      - run: echo The time was ${{ steps.hello.outputs.time }}

@@ -110,7 +110,7 @@ SessionView* SessionManager::getView() const
 
 void SessionManager::addChapter(QModelIndex& index)
 {
-    QString tmp= tr("Chapter %1").arg(m_model->rowCount(index));
+    QString tmp= tr("Chapter %1").arg(m_model->rowCount(index) + 1);
     Chapter* chapter= new Chapter();
     chapter->setName(tmp);
     m_model->addResource(chapter, index);
@@ -186,13 +186,13 @@ void SessionManager::loadSession(QDataStream& in)
 }
 void SessionManager::resourceClosed(CleverURI* uri)
 {
-    if(nullptr != uri)
+    if(nullptr == uri)
+        return;
+
+    m_view->clearSelection();
+    uri->setState(CleverURI::Unloaded);
+    if((uri->getUri().isEmpty() && uri->getCurrentMode() == CleverURI::Linked)) // new and unsaved document
     {
-        m_view->clearSelection();
-        uri->setState(CleverURI::Unloaded);
-        if((uri->getUri().isEmpty()) || (uri->getCurrentMode() != CleverURI::Linked)) // new and unsaved document
-        {
-            m_model->removeNode(uri);
-        }
+        m_model->removeNode(uri);
     }
 }

@@ -99,19 +99,6 @@
         <file>resources/icons/treeview.png</file>
         <file>resources/icons/audiofile.svg</file>
         <file>resources/icons/playlist.svg</file>
-        <file alias="resources/qml/ImageField.qml">client/charactersheet/qml/ImageField.qml</file>
-        <file alias="resources/qml/TextInputField.qml">client/charactersheet/qml/TextInputField.qml</file>
-        <file alias="resources/qml/TextFieldField.qml">client/charactersheet/qml/TextFieldField.qml</file>
-        <file alias="resources/qml/TextAreaField.qml">client/charactersheet/qml/TextAreaField.qml</file>
-        <file alias="resources/qml/SelectField.qml">client/charactersheet/qml/SelectField.qml</file>
-        <file alias="resources/qml/qmldir">client/charactersheet/qml/qmldir</file>
-        <file alias="resources/qml/main.qml">client/charactersheet/qml/main.qml</file>
-        <file alias="resources/qml/DiceButton.qml">client/charactersheet/qml/DiceButton.qml</file>
-        <file alias="resources/qml/CheckBoxField.qml">client/charactersheet/qml/CheckBoxField.qml</file>
-        <file alias="resources/qml/Table.qml">client/charactersheet/qml/Table.qml</file>
-        <file alias="resources/qml/WebView.qml">client/charactersheet/qml/WebView.qml</file>
-        <file alias="resources/qml/PageButton.qml">client/charactersheet/qml/PageButton.qml</file>
-        <file alias="resources/qml/RLabel.qml">client/charactersheet/qml/RLabel.qml</file>
         <file>resources/icons/liberapay.png</file>
         <file alias="vmap.png">resources/icons/vmap.png</file>
         <file>resources/icons/sharedEditor.png</file>
