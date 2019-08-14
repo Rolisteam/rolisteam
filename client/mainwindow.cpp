@@ -284,6 +284,7 @@ void MainWindow::setupUi()
             });
 
     addDockWidget(Qt::RightDockWidgetArea, m_playersListWidget);
+    QIcon test(":/logo.png");
     setWindowIcon(QIcon(":/logo.png"));
     m_ui->m_menuSubWindows->insertAction(m_ui->m_characterListAct, m_playersListWidget->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_characterListAct);
