@@ -771,7 +771,6 @@ void MainWindow::linkActionToMenu()
 
 void MainWindow::showSupportPage()
 {
-<<<<<<< HEAD
     auto act = qobject_cast<QAction*>(sender());
     if(nullptr == act)
         return;
@@ -784,21 +783,6 @@ void MainWindow::showSupportPage()
                "href=\"%2\">%2</a>")
                 .arg(m_preferences->value("Application_Name", "rolisteam").toString()).arg(url),
             QMessageBox::Ok);
-=======
-    auto act= qobject_cast<QAction*>(sender());
-    if(nullptr == act)
-        return;
-
-    QString url= act->data().toString();
-    if(!QDesktopServices::openUrl(QUrl(url))) //"https://liberapay.com/Rolisteam/donate"
-    {
-        QMessageBox msgBox(QMessageBox::Information, tr("Support"),
-                           tr("The %1 donation page can be found online at :<br> <a "
-                              "href=\"%2\">%2</a>")
-                               .arg(m_preferences->value("Application_Name", "rolisteam").toString())
-                               .arg(url),
-                           QMessageBox::Ok);
->>>>>>> 5ef624c266a5c829e06b950cf703f92a937691ee
         msgBox.exec();
     }
 }
@@ -1830,11 +1814,7 @@ void MainWindow::initializedClientManager()
         connect(m_clientManager, SIGNAL(isAuthentified()), this, SLOT(postConnection()));
         connect(m_clientManager, SIGNAL(clearData()), this, SLOT(cleanUpData()));
         connect(m_clientManager, &ClientManager::gameMasterStatusChanged, this, &MainWindow::userNatureChange);
-<<<<<<< HEAD
-        connect(m_clientManager,&ClientManager::moveToAnotherChannel,this,&MainWindow::postConnection);
-=======
         connect(m_clientManager, &ClientManager::moveToAnotherChannel, this, &MainWindow::postConnection);
->>>>>>> 5ef624c266a5c829e06b950cf703f92a937691ee
     }
     else
     {
