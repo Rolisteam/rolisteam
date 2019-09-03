@@ -186,13 +186,13 @@ void SessionManager::loadSession(QDataStream& in)
 }
 void SessionManager::resourceClosed(CleverURI* uri)
 {
-    if(nullptr != uri)
+    if(nullptr == uri)
+        return;
+
+    m_view->clearSelection();
+    uri->setState(CleverURI::Unloaded);
+    if((uri->getUri().isEmpty() && uri->getCurrentMode() == CleverURI::Linked)) // new and unsaved document
     {
-        m_view->clearSelection();
-        uri->setState(CleverURI::Unloaded);
-        if((uri->getUri().isEmpty()) || (uri->getCurrentMode() != CleverURI::Linked)) // new and unsaved document
-        {
-            m_model->removeNode(uri);
-        }
+        m_model->removeNode(uri);
     }
 }
