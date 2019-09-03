@@ -1,0 +1,12 @@
+${force}+4
+min(4,5)
+max(4,5)
+abs(-10)
+floor(8.58)
+ceil(9.58)
+avg(10,11,15)
+concat("text ",4,"new text")
+4+5
+5-4
+9*5
+25/5
