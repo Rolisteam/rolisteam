@@ -110,7 +110,7 @@ SessionView* SessionManager::getView() const
 
 void SessionManager::addChapter(QModelIndex& index)
 {
-    QString tmp= tr("Chapter %1").arg(m_model->rowCount(index));
+    QString tmp= tr("Chapter %1").arg(m_model->rowCount(index) + 1);
     Chapter* chapter= new Chapter();
     chapter->setName(tmp);
     m_model->addResource(chapter, index);
