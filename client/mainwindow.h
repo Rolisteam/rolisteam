@@ -214,6 +214,8 @@ public:
      */
     void setLatestFile(CleverURI* fileName);
 
+    void openRecentScenario();
+    void updateRecentScenarioAction();
 public slots:
     /**
      * @brief
@@ -550,6 +552,9 @@ private:
     // Recent files managment
     int m_maxSizeRecentFile;
     QList<QAction*> m_recentFileActs;
+    std::vector<QAction*> m_recentScenarioActions;
+    QStringList m_recentScenarios;
+    QAction* m_separatorAction;
     CleverUriList m_recentFiles;
 
     VmapToolBar* m_vmapToolBar;

@@ -27,6 +27,7 @@
 #include <QCommandLineParser>
 #include <QDesktopServices>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QProcess>
@@ -118,6 +119,9 @@ MainWindow::MainWindow()
     m_profileDefined= false;
 
     m_ui->setupUi(this);
+
+    m_separatorAction= m_ui->m_fileMenu->insertSeparator(m_ui->m_closeAction);
+    m_separatorAction->setVisible(false);
     m_shownProgress= false;
 
     registerQmlTypes();
@@ -362,7 +366,6 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac, bool redoable)
     {
         addMedia->redo();
     }
-
 }
 void MainWindow::closeConnection()
 {
@@ -763,18 +766,19 @@ void MainWindow::linkActionToMenu()
 
 void MainWindow::showSupportPage()
 {
-    auto act = qobject_cast<QAction*>(sender());
+    auto act= qobject_cast<QAction*>(sender());
     if(nullptr == act)
         return;
 
-    QString url = act->data().toString();
-    if(!QDesktopServices::openUrl(QUrl(url)))//"https://liberapay.com/Rolisteam/donate"
+    QString url= act->data().toString();
+    if(!QDesktopServices::openUrl(QUrl(url))) //"https://liberapay.com/Rolisteam/donate"
     {
         QMessageBox msgBox(QMessageBox::Information, tr("Support"),
-            tr("The %1 donation page can be found online at :<br> <a "
-               "href=\"%2\">%2</a>")
-                .arg(m_preferences->value("Application_Name", "rolisteam").toString()).arg(url),
-            QMessageBox::Ok);
+                           tr("The %1 donation page can be found online at :<br> <a "
+                              "href=\"%2\">%2</a>")
+                               .arg(m_preferences->value("Application_Name", "rolisteam").toString())
+                               .arg(url),
+                           QMessageBox::Ok);
         msgBox.exec();
     }
 }
@@ -1079,6 +1083,11 @@ void MainWindow::readStory(QString fileName)
     m_sessionManager->loadSession(in);
     file.close();
     m_currentStory= new CleverURI(getShortNameFromPath(fileName), fileName, CleverURI::SCENARIO);
+
+    m_recentScenarios.removeAll(fileName);
+    m_recentScenarios.prepend(fileName);
+    updateRecentScenarioAction();
+
     updateWindowTitle();
 }
 QString MainWindow::getShortNameFromPath(QString path)
@@ -1353,6 +1362,7 @@ void MainWindow::readSettings()
      * management of recentFileActs
      * */
     m_recentFiles= settings.value("recentFileList").value<CleverUriList>();
+    m_recentScenarios= settings.value("recentScenario").toStringList();
     m_maxSizeRecentFile= m_preferences->value("recentfilemax", 5).toInt();
     for(int i= 0; i < m_maxSizeRecentFile; ++i)
     {
@@ -1360,6 +1370,12 @@ void MainWindow::readSettings()
         m_recentFileActs.append(act);
         act->setVisible(false);
         connect(act, &QAction::triggered, this, &MainWindow::openRecentFile);
+
+        act= new QAction(QStringLiteral("Recent Scenario %1").arg(i + 1), this);
+        m_ui->m_fileMenu->insertAction(m_separatorAction, act);
+        act->setVisible(false);
+        m_recentScenarioActions.push_back(act);
+        connect(act, &QAction::triggered, this, &MainWindow::openRecentScenario);
     }
     settings.beginGroup("MapShow");
     m_ui->m_showPcNameAction->setChecked(settings.value("showPcName", m_ui->m_showPcNameAction->isChecked()).toBool());
@@ -1375,6 +1391,7 @@ void MainWindow::readSettings()
     settings.endGroup();
 
     updateRecentFileActions();
+    updateRecentScenarioAction();
 
     m_preferencesDialog->initializePostSettings();
     m_chatListWidget->readSettings(settings);
@@ -1388,6 +1405,7 @@ void MainWindow::writeSettings()
     settings.setValue("windowState", saveState());
     settings.setValue("Maximized", isMaximized());
     settings.setValue("recentFileList", QVariant::fromValue(m_recentFiles));
+    settings.setValue("recentScenario", m_recentScenarios);
     m_preferences->writeSettings(settings);
     m_chatListWidget->writeSettings(settings);
     m_dialog->writeSettings();
@@ -1792,7 +1810,7 @@ void MainWindow::initializedClientManager()
         connect(m_clientManager, SIGNAL(isAuthentified()), this, SLOT(postConnection()));
         connect(m_clientManager, SIGNAL(clearData()), this, SLOT(cleanUpData()));
         connect(m_clientManager, &ClientManager::gameMasterStatusChanged, this, &MainWindow::userNatureChange);
-        connect(m_clientManager,&ClientManager::moveToAnotherChannel,this,&MainWindow::postConnection);
+        connect(m_clientManager, &ClientManager::moveToAnotherChannel, this, &MainWindow::postConnection);
     }
     else
     {
@@ -2393,6 +2411,39 @@ void MainWindow::openRecentFile()
         uri->setDisplayed(false);
         openCleverURI(uri, true);
     }
+}
+
+void MainWindow::openRecentScenario()
+{
+    QAction* action= qobject_cast<QAction*>(sender());
+    if(action)
+    {
+        readStory(action->data().toString());
+    }
+}
+
+void MainWindow::updateRecentScenarioAction()
+{
+    std::remove_if(m_recentScenarios.begin(), m_recentScenarios.end(),
+                   [](QString const& f) { return !QFile::exists(f); });
+
+    int i= 0;
+    for(auto act : m_recentScenarioActions)
+    {
+        if(i >= m_recentScenarios.size())
+        {
+            act->setVisible(false);
+            continue;
+        }
+        else
+        {
+            act->setVisible(true);
+            act->setText(QStringLiteral("&%1  %2").arg(i + 1).arg(QFileInfo(m_recentScenarios[i]).fileName()));
+            act->setData(m_recentScenarios[i]);
+        }
+        ++i;
+    }
+    m_separatorAction->setVisible(!m_recentFiles.empty());
 }
 
 void MainWindow::updateRecentFileActions()
