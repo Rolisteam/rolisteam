@@ -443,12 +443,12 @@ void VMap::addItem()
         }
         m_currentItem= itemCmd->getItem();
         m_currentPath= itemCmd->getPath();
-        if(m_currentItem == nullptr)
+        if(m_currentItem.isNull())
             return;
         m_currentItem->setPropertiesHash(m_propertiesHash);
         bool undoable= true;
         if(VToolsBar::Painting != m_editionMode || m_selectedtool == VToolsBar::HIGHLIGHTER
-            || m_selectedtool == VToolsBar::RULE)
+           || m_selectedtool == VToolsBar::RULE)
         {
             undoable= false;
         }
@@ -503,7 +503,7 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 }
 void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
-    if(m_currentItem != nullptr)
+    if(!m_currentItem.isNull())
     {
         m_end= mouseEvent->scenePos();
         m_currentItem->setModifiers(mouseEvent->modifiers());
@@ -511,7 +511,7 @@ void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
         update();
     }
     if((m_selectedtool == VToolsBar::HANDLER) || (m_selectedtool == VToolsBar::TEXT)
-        || (m_selectedtool == VToolsBar::TEXTBORDER))
+       || (m_selectedtool == VToolsBar::TEXTBORDER))
     {
         QGraphicsScene::mouseMoveEvent(mouseEvent);
     }
@@ -519,18 +519,18 @@ void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
 void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
     Q_UNUSED(mouseEvent);
-    if((nullptr != m_currentPath) && ((VToolsBar::Painting == m_editionMode)))
+    if((!m_currentPath.isNull()) && ((VToolsBar::Painting == m_editionMode)))
     {
         if(VisualItem::PATH == m_currentPath->getType())
         {
-            PathItem* itm= dynamic_cast<PathItem*>(m_currentPath);
+            PathItem* itm= dynamic_cast<PathItem*>(m_currentPath.data());
             if(nullptr != itm)
             {
                 itm->release();
             }
         }
     }
-    if(m_currentItem != nullptr)
+    if(!m_currentItem.isNull())
     {
         if(VisualItem::ANCHOR == m_currentItem->getType())
         {
@@ -667,7 +667,9 @@ bool VMap::isNormalItem(const QGraphicsItem* item)
 
 void VMap::manageAnchor()
 {
-    AnchorItem* tmp= dynamic_cast<AnchorItem*>(m_currentItem);
+    if(m_currentItem.isNull())
+        return;
+    AnchorItem* tmp= dynamic_cast<AnchorItem*>(m_currentItem.data());
 
     if(nullptr != tmp)
     {
@@ -913,7 +915,7 @@ QColor VMap::getBackGroundColor() const
 void VMap::computePattern()
 {
     if((getOption(VisualItem::GridPattern).toInt() == VMap::NONE) || (!getOption(VisualItem::ShowGrid).toBool())
-        || (getOption(VisualItem::GridAbove).toBool()))
+       || (getOption(VisualItem::GridAbove).toBool()))
     {
         setBackgroundBrush(m_bgColor);
     }
@@ -936,14 +938,14 @@ void VMap::computePattern()
             QPointF G(2 * radius + radius, radius - offset);
             polygon << C << D << E << F << A << B << A << G;
 
-            m_computedPattern= QImage(
-                getOption(VisualItem::GridSize).toInt() * 1.5, 2 * hlimit, QImage::Format_RGBA8888_Premultiplied);
+            m_computedPattern= QImage(getOption(VisualItem::GridSize).toInt() * 1.5, 2 * hlimit,
+                                      QImage::Format_RGBA8888_Premultiplied);
             m_computedPattern.fill(m_bgColor);
         }
         else if(getOption(VisualItem::GridPattern).toInt() == VMap::SQUARE)
         {
-            m_computedPattern= QImage(
-                getOption(VisualItem::GridSize).toInt(), getOption(VisualItem::GridSize).toInt(), QImage::Format_RGB32);
+            m_computedPattern= QImage(getOption(VisualItem::GridSize).toInt(), getOption(VisualItem::GridSize).toInt(),
+                                      QImage::Format_RGB32);
             m_computedPattern.fill(m_bgColor);
             int sizeP= getOption(VisualItem::GridSize).toInt();
             QPointF A(0, 0);
@@ -1116,7 +1118,7 @@ void VMap::ensureFogAboveAll()
 {
     QList<VisualItem*> list= m_itemMap->values();
     std::sort(list.begin(), list.end(),
-        [](const VisualItem* item, const VisualItem* meti) { return meti->zValue() > item->zValue(); });
+              [](const VisualItem* item, const VisualItem* meti) { return meti->zValue() > item->zValue(); });
     m_orderedItemList= list;
     VisualItem* highest= nullptr;
     for(auto& item : m_orderedItemList)
@@ -1265,8 +1267,8 @@ void VMap::processMovePointMsg(NetworkMessageReader* msg)
 bool VMap::isItemStorable(VisualItem* item)
 {
     if((item->getType() == VisualItem::ANCHOR) || (item->getType() == VisualItem::GRID)
-        || (item->getType() == VisualItem::SIGHT) || (item->getType() == VisualItem::RULE)
-        || (item->getType() == VisualItem::HIGHLIGHTER))
+       || (item->getType() == VisualItem::SIGHT) || (item->getType() == VisualItem::RULE)
+       || (item->getType() == VisualItem::HIGHLIGHTER))
     {
         return false;
     }
@@ -1560,7 +1562,7 @@ void VMap::duplicateItem(VisualItem* item)
 }
 bool VMap::isIdle() const
 {
-    return (m_currentItem == nullptr);
+    return m_currentItem.isNull();
 }
 void VMap::ownerHasChangedForCharacterItem(Character* item, CharacterItem* cItem)
 {
@@ -1607,8 +1609,9 @@ void VMap::insertCharacterInMap(CharacterItem* item)
             items.removeAll(item);
             QList<CharacterItem*> sameNameItems;
             std::copy_if(items.begin(), items.end(), std::back_inserter(sameNameItems),
-                [search](CharacterItem* item) { return item->getName() == search; });
-            auto it= std::max_element(sameNameItems.begin(), sameNameItems.end(),
+                         [search](CharacterItem* item) { return item->getName() == search; });
+            auto it= std::max_element(
+                sameNameItems.begin(), sameNameItems.end(),
                 [](const CharacterItem* a, const CharacterItem* b) { return a->getNumber() < b->getNumber(); });
             if(it != sameNameItems.end())
             {
@@ -1727,7 +1730,7 @@ QString VMap::getVisibilityModeText()
     visibilityData << tr("Hidden") << tr("Fog Of War") << tr("All visible");
 
     if(getOption(VisualItem::VisibilityMode).toInt() >= 0
-        && getOption(VisualItem::VisibilityMode).toInt() < visibilityData.size())
+       && getOption(VisualItem::VisibilityMode).toInt() < visibilityData.size())
     {
         return visibilityData.at(getOption(VisualItem::VisibilityMode).toInt());
     }
