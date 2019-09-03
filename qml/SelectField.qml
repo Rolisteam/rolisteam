@@ -7,6 +7,7 @@ ComboBox {
     property var selectedValue
     property int valueRole: 0
     property bool defined: false
+    property string text: ""
     property string tooltip: ""
     property color textColor:"black"
     property int hAlign: 0
