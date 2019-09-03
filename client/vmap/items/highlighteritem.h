@@ -36,11 +36,11 @@ public:
      * @param either the shape is filled or not
      * @param color used for drawing it.
      */
-    HighlighterItem(QPointF& center, int penSize, QColor& penColor, QGraphicsItem* parent= 0);
+    HighlighterItem(QPointF& center, int penSize, QColor& penColor, QGraphicsItem* parent= nullptr);
     /**
      * @brief paint the ellipse at the correct position
      */
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= 0);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
 
     virtual QPainterPath shape() const;
     /**

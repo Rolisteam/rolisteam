@@ -23,7 +23,7 @@ SessionView::SessionView(QWidget* parent) : QTreeView(parent)
     setDragDropMode(QAbstractItemView::InternalMove);
     // setContextMenuPolicy (Qt::CustomContextMenu);
     m_addChapterAction= new QAction(tr("Add Chapter…"), this);
-    connect(m_addChapterAction, SIGNAL(triggered()), this, SLOT(onAddChapter()));
+    connect(m_addChapterAction,&QAction::triggered, this,&SessionView::onAddChapter);
 
     m_removeAction= new QAction(tr("Remove items"), this);
     connect(m_removeAction, SIGNAL(triggered()), this, SIGNAL(removeSelection()));
