@@ -1,13 +1,24 @@
-module Rcse
+module Rolisteam
 
-TextInputField 1.0 TextInputField.qml
-SelectField 1.0 SelectField.qml
-TextAreaField 1.0 TextAreaField.qml
-TextFieldField 1.0 TextFieldField.qml
-CheckBoxField 1.0 CheckBoxField.qml
-DiceButton 1.0 DiceButton.qml
-ImageField 1.0 ImageField.qml
-WebView 1.0 WebView.qml
-PageButton 1.0 PageButton.qml
-Table 1.0 Table.qml
-RLabel 1.0 RLabel.qml
+
+# Rolisteam 1.8
+TextInputField 1.0 TextInputFieldv1.qml
+SelectField 1.0 SelectFieldv1.qml
+TextAreaField 1.0 TextAreaFieldv1.qml
+TextFieldField 1.0 TextFieldFieldv1.qml
+CheckBoxField 1.0 CheckBoxFieldv1.qml
+DiceButton 1.0 DiceButtonv1.qml
+ImageField 1.0 ImageFieldv1.qml
+
+# Rolisteam 1.9
+TextInputField 1.1 TextInputField.qml
+SelectField 1.1 SelectField.qml
+TextAreaField 1.1 TextAreaField.qml
+TextFieldField 1.1 TextFieldField.qml
+CheckBoxField 1.1 CheckBoxField.qml
+DiceButton 1.1 DiceButton.qml
+ImageField 1.1 ImageField.qml
+WebView 1.1 WebView.qml
+PageButton 1.1 PageButton.qml
+Table 1.1 Table.qml
+RLabel 1.1 RLabel.qml
