@@ -245,6 +245,7 @@ void QmlGeneratorController::runQmlFromCode(QQuickWidget* quickView, ImageContro
     }
 
     quickView->engine()->clearComponentCache();
+    quickView->engine()->addImportPath("qrc:/src/charactersheet/qml");
     quickView->engine()->addImageProvider(QLatin1String("rcs"), provider);
     QList<CharacterSheetItem*> list= m_model->children();
     for(CharacterSheetItem* item : list)
@@ -293,8 +294,8 @@ void QmlGeneratorController::generateQML(const ImageController* ctrl, QString& q
     text << "import QtQuick 2.4\n";
     text << "import QtQuick.Layouts 1.3\n";
     text << "import QtQuick.Controls 2.3\n";
-    text << "import Rolisteam 1.0\n";
-    text << "import \"qrc:/resources/qml/\"\n";
+    text << "import Rolisteam 1.1\n";
+
     if(!m_importCode.isEmpty())
     {
         text << "   " << m_importCode << "\n";

@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file alias="resources/qml/qmldir">src/charactersheet/qml/qmldir</file>
+        <file>src/charactersheet/qml/Rolisteam/qmldir</file>
         <file>resources/icons/go-up.png</file>
         <file>resources/icons/go-top.png</file>
         <file>resources/icons/go-down.png</file>
@@ -13,17 +13,17 @@
         <file>resources/icons/checked_checkbox.png</file>
         <file>resources/icons/textarea.png</file>
         <file>resources/icons/photo.png</file>
-        <file alias="resources/qml/CheckBoxField.qml">src/charactersheet/qml/CheckBoxField.qml</file>
-        <file alias="resources/qml/SelectField.qml">src/charactersheet/qml/SelectField.qml</file>
-        <file alias="resources/qml/TextAreaField.qml">src/charactersheet/qml/TextAreaField.qml</file>
-        <file alias="resources/qml/TextFieldField.qml">src/charactersheet/qml/TextFieldField.qml</file>
-        <file alias="resources/qml/TextInputField.qml">src/charactersheet/qml/TextInputField.qml</file>
-        <file alias="resources/qml/DiceButton.qml">src/charactersheet/qml/DiceButton.qml</file>
-        <file alias="resources/qml/ImageField.qml">src/charactersheet/qml/ImageField.qml</file>
-        <file alias="resources/qml/WebView.qml">src/charactersheet/qml/WebView.qml</file>
-        <file alias="resources/qml/PageButton.qml">src/charactersheet/qml/PageButton.qml</file>
-        <file alias="resources/qml/Table.qml">src/charactersheet/qml/Table.qml</file>
-        <file alias="resources/qml/RLabel.qml">src/charactersheet/qml/RLabel.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/CheckBoxField.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/SelectField.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/TextAreaField.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/TextFieldField.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/TextInputField.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/DiceButton.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/ImageField.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/WebView.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/PageButton.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/Table.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/RLabel.qml</file>
         <file>resources/logo/symbol2.png</file>
         <file>translations/rcse_fr.qm</file>
         <file>translations/rcse_de.qm</file>
@@ -45,5 +45,12 @@
         <file>resources/icons/next.png</file>
         <file>resources/icons/previous.png</file>
         <file>resources/icons/text-label.svg</file>
+        <file>src/charactersheet/qml/Rolisteam/CheckBoxFieldv1.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/DiceButtonv1.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/ImageFieldv1.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/SelectFieldv1.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/TextAreaFieldv1.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/TextFieldFieldv1.qml</file>
+        <file>src/charactersheet/qml/Rolisteam/TextInputFieldv1.qml</file>
     </qresource>
 </RCC>
