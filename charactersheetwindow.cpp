@@ -428,6 +428,7 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     auto engineQml= qmlView->engine();
 
     engineQml->addImageProvider(QLatin1String("rcs"), imageProvider);
+    engineQml->addImportPath(QStringLiteral("qrc:/charactersheet/qml"));
 
     if(m_sheetToCharacter.contains(chSheet))
     {

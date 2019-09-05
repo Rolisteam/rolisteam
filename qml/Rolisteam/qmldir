@@ -21,4 +21,4 @@ ImageField 1.1 ImageField.qml
 WebView 1.1 WebView.qml
 PageButton 1.1 PageButton.qml
 Table 1.1 Table.qml
-RLabel 1.1 RLabel.qml
+#RLabel 1.1 RLabel.qml
