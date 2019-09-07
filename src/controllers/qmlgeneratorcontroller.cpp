@@ -48,7 +48,7 @@ QString QmlGeneratorController::importCode() const
 
 bool QmlGeneratorController::flickable() const
 {
-    return m_flickable;
+    return m_flickableSheet;
 }
 
 qreal QmlGeneratorController::fixedScale() const
@@ -92,11 +92,11 @@ void QmlGeneratorController::setImportCode(QString importCode)
 
 void QmlGeneratorController::setFlickable(bool flickable)
 {
-    if(m_flickable == flickable)
+    if(m_flickableSheet == flickable)
         return;
 
-    m_flickable= flickable;
-    emit flickableChanged(m_flickable);
+    m_flickableSheet= flickable;
+    emit flickableChanged(m_flickableSheet);
     emit dataChanged();
 }
 
@@ -136,7 +136,7 @@ void QmlGeneratorController::load(const QJsonObject& obj, EditorController* ctrl
         m_fonts << font["name"].toString();
     }
 
-    m_model->load(obj, ctrl);
+    m_model->load(obj["data"].toObject(), ctrl);
 }
 
 QStringList QmlGeneratorController::fonts() const
@@ -305,7 +305,8 @@ void QmlGeneratorController::generateQML(const ImageController* ctrl, QString& q
     {
         text << "Flickable {\n";
         text << "    id:root\n";
-        text << "    contentWidth: imagebg.width;\n   contentHeight: imagebg.height;\n";
+        if(hasImage)
+            text << "    contentWidth: imagebg.width;\n    contentHeight: imagebg.height;\n";
         text << "    boundsBehavior: Flickable.StopAtBounds;\n";
     }
     else
@@ -323,10 +324,6 @@ void QmlGeneratorController::generateQML(const ImageController* ctrl, QString& q
     text << "    onPageChanged: {\n";
     text << "        page=page>maxPage ? maxPage : page<0 ? 0 : page\n";
     text << "    }\n";
-    if(!m_headCode.isEmpty())
-    {
-        text << "   " << m_headCode << "\n";
-    }
     text << "    Keys.onLeftPressed: --page\n";
     text << "    Keys.onRightPressed: ++page\n";
     text << "    signal rollDiceCmd(string cmd, bool alias)\n";
@@ -335,6 +332,10 @@ void QmlGeneratorController::generateQML(const ImageController* ctrl, QString& q
     text << "         anchors.fill:parent\n";
     text << "         onClicked: root.focus = true\n";
     text << "     }\n";
+    if(!m_headCode.isEmpty())
+    {
+        text << "   " << m_headCode << "\n";
+    }
     if(hasImage)
     {
         text << "    Image {\n";

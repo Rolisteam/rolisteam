@@ -84,7 +84,6 @@ private:
     std::unique_ptr<FieldModel> m_model;
     CodeEditor* m_codeEdit= nullptr;
     QTreeView* m_view= nullptr;
-    bool m_flickable= false;
     qreal m_fixedScale= 1.0;
     QStringList m_fonts;
     unsigned int m_lastPageId= 0;
