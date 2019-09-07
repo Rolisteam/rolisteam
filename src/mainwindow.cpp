@@ -675,7 +675,6 @@ bool MainWindow::loadFile(const QString& filename)
 
     QString qml= jsonObj["qml"].toString();
 
-    m_qmlCtrl->load(jsonObj, m_editorCtrl.get());
     int pageCount= jsonObj["pageCount"].toInt();
     m_currentUuid= jsonObj["uuid"].toString(m_currentUuid);
 
@@ -731,11 +730,14 @@ bool MainWindow::loadFile(const QString& filename)
             pix= refBgImage;
         }
         auto idx= m_editorCtrl->addPage();
-        m_editorCtrl->setImageBackground(idx, pix, path);
-        m_imageCtrl->addBackgroundImage(idx, pix, path);
+        if(!backGround.isEmpty())
+        {
+            m_editorCtrl->setImageBackground(idx, pix, path);
+            m_imageCtrl->addBackgroundImage(idx, pix, path);
+        }
     }
 
-    m_qmlCtrl->load(data, m_editorCtrl.get());
+    m_qmlCtrl->load(jsonObj, m_editorCtrl.get());
     m_characterCtrl->setRootSection(m_qmlCtrl->fieldModel()->getRootSection());
     m_characterCtrl->load(jsonObj, false);
     setCurrentFile(filename);
@@ -787,7 +789,9 @@ void MainWindow::updatePageSelector()
 
 void MainWindow::updateRecentFileAction()
 {
-    std::remove_if(m_recentFiles.begin(), m_recentFiles.end(), [](QString const& f) { return !QFile::exists(f); });
+    m_recentFiles.erase(
+        std::remove_if(m_recentFiles.begin(), m_recentFiles.end(), [](QString const& f) { return !QFile::exists(f); }),
+        m_recentFiles.end());
 
     int i= 0;
     for(auto act : m_recentActions)
