@@ -3,7 +3,6 @@ import QtQuick.Controls 2.4
 
 TextArea {
     id:root
-    property alias textColor: rect.color
     property alias hAlign: root.horizontalAlignment
     property alias vAlign: root.verticalAlignment
     property bool clippedText: false

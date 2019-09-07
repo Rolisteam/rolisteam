@@ -3,7 +3,6 @@ import QtQuick 2.10
 Rectangle {
     id:root
     property alias source : image.source
-    property color textColor : "black"
     property alias hAlign: image.horizontalAlignment
     property alias vAlign: image.verticalAlignment
     property bool clippedText: false
