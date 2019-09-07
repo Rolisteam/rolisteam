@@ -100,15 +100,27 @@ void EditorController::menuRequestedFromView(const QPoint& pos)
 
     // auto list= m_view->items(m_view->mapToScene(pos).toPoint());
     auto list= m_view->items(pos);
+
+    list.erase(std::remove_if(list.begin(), list.end(),
+                              [](QGraphicsItem* item) {
+                                  auto field= dynamic_cast<CanvasField*>(item);
+                                  return (nullptr == field);
+                              }),
+               list.end());
+
     bool locked= false;
 
     auto func= [](QGraphicsItem* item) {
         auto field= dynamic_cast<CanvasField*>(item);
+        if(nullptr == field)
+            return false;
         return field->locked();
     };
 
     auto allSame= std::all_of(list.begin(), list.end(), [](QGraphicsItem* item) {
         auto field= dynamic_cast<CanvasField*>(item);
+        if(nullptr == field)
+            return false;
         return field->locked();
     });
 
@@ -336,7 +348,13 @@ void EditorController::setCurrentTool(Canvas::Tool tool)
     }
 }
 
-void EditorController::load(QJsonObject& obj) {}
+void EditorController::load(QJsonObject& obj)
+{
+    /*if(!backGround.isEmpty())
+    {
+
+    } */
+}
 void EditorController::save(QJsonObject& obj) {}
 
 void EditorController::insertPage(int i, Canvas* canvas)
