@@ -30,7 +30,7 @@ public:
     RolisteamImageProvider* getNewProvider() const;
 
 public slots:
-    void addBackgroundImage(int idx, const QPixmap& pix, const QString& filename);
+    void addBackgroundImage(int idx, const QPixmap& pix, const QString& filename, const QString& uuid);
     void addImage(const QPixmap& pix, const QString& filename);
     void removeImage(int idx);
     void setUuid(const QString& uuid);

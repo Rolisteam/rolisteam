@@ -642,7 +642,7 @@ bool MainWindow::saveFile(const QString& filename)
 
     m_qmlCtrl->save(obj);
     obj["pageCount"]= static_cast<int>(m_editorCtrl->pageCount());
-    obj["uuid"]= m_currentUuid;
+    obj["uuid"]= m_imageCtrl->uuid();
 
     // background
     m_imageCtrl->save(obj);
@@ -658,7 +658,7 @@ bool MainWindow::saveFile(const QString& filename)
     }
     return false;
 }
-
+#include <QUuid>
 bool MainWindow::loadFile(const QString& filename)
 {
     if(filename.isEmpty())
@@ -676,7 +676,7 @@ bool MainWindow::loadFile(const QString& filename)
     QString qml= jsonObj["qml"].toString();
 
     int pageCount= jsonObj["pageCount"].toInt();
-    m_currentUuid= jsonObj["uuid"].toString(m_currentUuid);
+    m_imageCtrl->setUuid(jsonObj["uuid"].toString(QUuid::createUuid().toString(QUuid::WithoutBraces)));
 
     ui->m_codeEdit->setPlainText(qml);
 
@@ -710,13 +710,14 @@ bool MainWindow::loadFile(const QString& filename)
     for(int i= 0; i < pageCount; ++i)
     {
         QString path;
+        QString id;
         QPixmap pix;
         if(i < backGround.size())
         {
             auto oj= backGround[i].toObject();
             QString str= oj["bin"].toString();
-            QString id= oj["key"].toString();
-            QString path= oj["filename"].toString();
+            id= oj["key"].toString();
+            path= oj["filename"].toString();
             QByteArray array= QByteArray::fromBase64(str.toUtf8());
 
             pix.loadFromData(array);
@@ -733,7 +734,7 @@ bool MainWindow::loadFile(const QString& filename)
         if(!backGround.isEmpty())
         {
             m_editorCtrl->setImageBackground(idx, pix, path);
-            m_imageCtrl->addBackgroundImage(idx, pix, path);
+            m_imageCtrl->addBackgroundImage(idx, pix, path, id);
         }
     }
 
@@ -914,7 +915,7 @@ void MainWindow::addBackgroundImage()
         return;
 
     QPixmap map(img);
-    m_imageCtrl->addBackgroundImage(m_editorCtrl->currentPage(), map, img);
+    m_imageCtrl->addBackgroundImage(m_editorCtrl->currentPage(), map, img, QString());
 }
 
 void MainWindow::exportPDF()

@@ -139,7 +139,6 @@ private:
     RolisteamImageProvider* m_imgProvider;
     int m_counterZoom;
     QString m_pdfPath;
-    QString m_currentUuid;
     PdfManager* m_pdf;
 
     // Log

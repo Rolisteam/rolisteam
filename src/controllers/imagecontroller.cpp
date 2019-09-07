@@ -76,9 +76,14 @@ ImageModel* ImageController::model() const
     return m_model.get();
 }
 
-void ImageController::addBackgroundImage(int idx, const QPixmap& pix, const QString& filename)
+void ImageController::addBackgroundImage(int idx, const QPixmap& pix, const QString& filename, const QString& uuid)
 {
-    if(!m_model->insertImage(pix, QStringLiteral("%2_background_%1.jpg").arg(idx).arg(m_uuid), filename, true))
+    auto id= uuid;
+    if(id.isEmpty())
+    {
+        id= QStringLiteral("%2_background_%1.jpg").arg(idx).arg(m_uuid);
+    }
+    if(!m_model->insertImage(pix, id, filename, true))
     {
         emit errorOccurs(tr("Image %1 has not the same size than the others").arg(filename));
     }
@@ -99,6 +104,7 @@ void ImageController::setUuid(const QString& uuid)
 
 void ImageController::contextualMenu(const QPoint& pos)
 {
+    Q_UNUSED(pos)
     QMenu menu;
 
     menu.addAction(m_copyPath);

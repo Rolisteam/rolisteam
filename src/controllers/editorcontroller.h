@@ -61,7 +61,7 @@ signals:
     void currentPageChanged(int currentPage);
     void pageAdded(Canvas* canvas);
     void pageCountChanged();
-    void canvasBackgroundChanged(int idx, const QPixmap& pix, const QString& str);
+    void canvasBackgroundChanged(int idx, const QPixmap& pix, const QString& str, const QString& uuid);
     void dataChanged();
 
 protected:

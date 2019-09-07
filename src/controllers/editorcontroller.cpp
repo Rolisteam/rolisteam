@@ -390,7 +390,7 @@ void EditorController::setImageBackground(int idx, const QPixmap& pix, const QSt
         return;
 
     canvas->setPixmap(pix);
-    emit canvasBackgroundChanged(idx, pix, filepath);
+    emit canvasBackgroundChanged(idx, pix, filepath, QString());
     emit dataChanged();
 }
 
