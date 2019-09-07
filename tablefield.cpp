@@ -27,6 +27,10 @@
 #include <QPainter>
 #include <QUuid>
 
+#ifdef RCSE
+#include "controllers/editorcontroller.h"
+#endif
+
 #ifndef RCSE
 TableCanvasField::TableCanvasField() {}
 #endif
@@ -645,10 +649,12 @@ void TableField::load(const QJsonObject& json, EditorController* ctrl)
         auto obj= json["canvas"].toObject();
         m_tableCanvasField->load(obj, nullptr);
         m_canvasField= m_tableCanvasField;
+        m_canvasField->setPos(x, y);
+        m_canvasField->setWidth(w);
+        m_canvasField->setHeight(h);
+        if(nullptr != ctrl)
+            ctrl->addItem(m_page, m_canvasField);
     }
-    m_canvasField->setPos(x, y);
-    m_canvasField->setWidth(w);
-    m_canvasField->setHeight(h);
 #endif
 }
 
