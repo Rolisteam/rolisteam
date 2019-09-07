@@ -27,6 +27,7 @@
 #include <QUuid>
 
 #ifdef RCSE
+#include "controllers/editorcontroller.h"
 #include "qmlgeneratorvisitor.h"
 #endif
 
@@ -411,6 +412,8 @@ void Field::load(const QJsonObject& json, EditorController* ctrl)
     m_canvasField->setPos(x, y);
     m_canvasField->setWidth(w);
     m_canvasField->setHeight(h);
+    if(nullptr != ctrl)
+        ctrl->addItem(m_page, m_canvasField);
 #endif
 
     // update();
