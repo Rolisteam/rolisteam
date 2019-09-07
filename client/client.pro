@@ -374,7 +374,8 @@ ICON = ../resources/logo/rolisteam.icns
 # Version
 DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=9 VERSION_MINOR=0
 
-RESOURCES += $$PWD/../rolisteam.qrc
+RESOURCES += $$PWD/../rolisteam.qrc \
+    rolisteamqml.qrc
 
 UI_DIR = src
 
