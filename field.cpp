@@ -607,16 +607,23 @@ QPair<QString, QString> Field::getTextAlign()
 
 bool Field::isLocked() const
 {
+#ifdef RCSE
     if(nullptr == m_canvasField)
         return false;
     return m_canvasField->locked();
+#else
+    return false;
+#endif
 }
 
 void Field::setLocked(bool b)
 {
+    Q_UNUSED(b)
+#ifdef RCSE
     if(nullptr == m_canvasField)
         return;
     m_canvasField->setLocked(b);
+#endif
 }
 
 void Field::copyField(CharacterSheetItem* oldItem, bool copyData, bool sameId)
