@@ -129,10 +129,10 @@ const QVariant CharacterSheet::getValue(QString path, int role) const
         }
         else if(role == Qt::BackgroundRole)
         {
-            return item->isReadOnly() ? QColor(Qt::red) : QVariant();
+            return item->isReadOnly();
         }
     }
-    return QString();
+    return QVariant();
 }
 
 bool CharacterSheet::removeField(const QString& id)

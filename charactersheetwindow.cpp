@@ -62,6 +62,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri, QWidget* parent)
     m_stopSharingTabAct= new QAction(tr("Stop Sharing"), this);
 
     m_readOnlyAct= new QAction(tr("Read Only"), this);
+    m_readOnlyAct->setCheckable(true);
     connect(m_readOnlyAct, SIGNAL(triggered(bool)), this, SLOT(setReadOnlyOnSelection()));
 
     m_loadQml= new QAction(tr("Load CharacterSheet View File"), this);
@@ -178,14 +179,22 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint& pos)
     QMenu menu(this);
 
     QModelIndex index= m_view.indexAt(pos);
+    bool isReadOnly= false;
     if(index.column() > 0)
     {
         m_currentCharacterSheet= m_model.getCharacterSheet(index.column() - 1);
         QMenu* affect= menu.addMenu(m_shareTo);
         addSharingMenu(affect);
+
+        CharacterSheetItem* childItem= static_cast<CharacterSheetItem*>(index.internalPointer());
+        if(nullptr != childItem)
+        {
+            isReadOnly= childItem->isReadOnly();
+        }
     }
     menu.addSeparator();
     menu.addAction(m_readOnlyAct);
+    m_readOnlyAct->setChecked(isReadOnly);
     /*menu.addSeparator();
     menu.addAction(m_addLine);
     menu.addAction(m_addSection);
