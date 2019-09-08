@@ -210,10 +210,14 @@ void EditorController::spreadItemEqualy()
         return posA < posB;
     };
 
-    const auto& func= horizon ? widthCompare : heightCompare;
-    std::sort(list.begin(), list.end(), func);
-    auto first= std::min_element(list.begin(), list.end(), func);
-    auto last= std::max_element(list.begin(), list.end(), func);
+
+    if(horizon)
+        std::sort(list.begin(), list.end(), widthCompare);
+    else
+        std::sort(list.begin(), list.end(), heightCompare);
+
+    auto first= list.begin();
+    auto last= list.end()-1;
 
     // available distance
     qreal availableDistance;
