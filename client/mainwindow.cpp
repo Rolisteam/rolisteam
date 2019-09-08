@@ -474,9 +474,9 @@ void MainWindow::activeWindowChanged(QMdiSubWindow* subWindow)
     bool localPlayerIsGM= m_currentConnectionProfile->isGM();
     if(nullptr == media)
     {
-        m_ui->m_closeAction->setEnabled(localPlayerIsGM);
-        m_ui->m_saveAction->setEnabled(localPlayerIsGM);
-        m_ui->m_saveAsAction->setEnabled(localPlayerIsGM);
+        m_ui->m_closeAction->setEnabled(false);
+        m_ui->m_saveAction->setEnabled(false);
+        m_ui->m_saveAsAction->setEnabled(false);
         return;
     }
     m_vmapToolBar->setEnabled(false);
@@ -484,6 +484,11 @@ void MainWindow::activeWindowChanged(QMdiSubWindow* subWindow)
     auto localIsOwner= (m_localPlayerId == owner);
     if(localPlayerIsGM)
         localIsOwner= true;
+
+    m_ui->m_closeAction->setEnabled(localIsOwner);
+    m_ui->m_saveAction->setEnabled(localIsOwner);
+    m_ui->m_saveAsAction->setEnabled(localIsOwner);
+
     switch(media->getContainerType())
     {
     case MediaContainer::ContainerType::MapContainer:
@@ -687,10 +692,10 @@ void MainWindow::linkActionToMenu()
     m_ui->m_openPdfAct->setData(static_cast<int>(CleverURI::PDF));
 #endif
     m_ui->m_recentFileMenu->setVisible(false);
-    connect(m_ui->m_closeAction, SIGNAL(triggered(bool)), this, SLOT(closeCurrentSubWindow()));
+    connect(m_ui->m_closeAction, &QAction::triggered, this, &MainWindow::closeCurrentSubWindow);
     connect(m_ui->m_saveAction, &QAction::triggered, this, &MainWindow::saveCurrentMedia);
     connect(m_ui->m_saveAllAction, &QAction::triggered, this, &MainWindow::saveAllMediaContainer);
-    connect(m_ui->m_saveAsAction, SIGNAL(triggered(bool)), this, SLOT(saveCurrentMedia()));
+    connect(m_ui->m_saveAsAction, &QAction::triggered, this, &MainWindow::saveCurrentMedia);
     connect(m_ui->m_saveScenarioAction, &QAction::triggered, this, [=]() { saveStory(false); });
     connect(m_ui->m_saveScenarioAsAction, &QAction::triggered, this, [=]() { saveStory(true); });
     connect(m_ui->m_preferencesAction, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
