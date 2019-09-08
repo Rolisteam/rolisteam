@@ -18,4 +18,5 @@ TextArea {
     ToolTip.text: root.tooltip
     ToolTip.visible: root.tooltip.length >0 && hovered
     textFormat: TextEdit.RichText
+    wrapMode: TextEdit.Wrap
 }

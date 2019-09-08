@@ -14,5 +14,6 @@ Label {
     background: Rectangle {
         id:rect
     }
+    wrapMode: Text.Wrap
 }
 
