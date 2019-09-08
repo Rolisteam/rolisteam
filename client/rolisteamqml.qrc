@@ -18,5 +18,6 @@
         <file>charactersheet/qml/Rolisteam/TextInputField.qml</file>
         <file>charactersheet/qml/Rolisteam/TextInputFieldv1.qml</file>
         <file>charactersheet/qml/Rolisteam/WebView.qml</file>
+        <file>charactersheet/qml/Rolisteam/RLabel.qml</file>
     </qresource>
 </RCC>
