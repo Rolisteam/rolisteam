@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Passward Generator</string>
+   <string>Password Generator</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../rolisteam.qrc">

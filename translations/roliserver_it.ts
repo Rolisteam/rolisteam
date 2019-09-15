@@ -19,12 +19,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/channelmodel.cpp" line="465"/>
+        <location filename="../client/network/channelmodel.cpp" line="468"/>
         <source>Channel Password</source>
         <translation>La Password Del Canale</translation>
     </message>
     <message>
-        <location filename="../client/network/channelmodel.cpp" line="466"/>
+        <location filename="../client/network/channelmodel.cpp" line="469"/>
         <source>Channel %1 required password:</source>
         <translation>Canale %1 richiesta password:</translation>
     </message>
@@ -125,12 +125,12 @@ tipo: %7
         <translation>L&apos;utente è stato kick out: %2 - %1.</translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="511"/>
+        <location filename="../client/network/servermanager.cpp" line="508"/>
         <source>New Incoming Connection!</source>
         <translation>Nuova Connessione In Ingresso!</translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="552"/>
+        <location filename="../client/network/servermanager.cpp" line="549"/>
         <source>Disconnected!</source>
         <translation>Scollegato!</translation>
     </message>

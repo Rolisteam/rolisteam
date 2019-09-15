@@ -19,12 +19,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/channelmodel.cpp" line="465"/>
+        <location filename="../client/network/channelmodel.cpp" line="468"/>
         <source>Channel Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/channelmodel.cpp" line="466"/>
+        <location filename="../client/network/channelmodel.cpp" line="469"/>
         <source>Channel %1 required password:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -119,12 +119,12 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="511"/>
+        <location filename="../client/network/servermanager.cpp" line="508"/>
         <source>New Incoming Connection!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="552"/>
+        <location filename="../client/network/servermanager.cpp" line="549"/>
         <source>Disconnected!</source>
         <translation type="unfinished"></translation>
     </message>
