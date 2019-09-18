@@ -562,10 +562,7 @@ void MainWindow::userNatureChange(bool isGM)
         updateWindowTitle();
     }
 }
-ClientManager* MainWindow::getNetWorkManager()
-{
-    return m_clientManager;
-}
+
 void MainWindow::sendGoodBye()
 {
     NetworkMessageWriter message(NetMsg::AdministrationCategory, NetMsg::Goodbye);
@@ -673,7 +670,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_openMapAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_ui->m_openCharacterSheet, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_ui->m_openVectorialMap, SIGNAL(triggered(bool)), this, SLOT(openContent()));
-    connect(m_ui->m_openStoryAction, SIGNAL(triggered(bool)), this, SLOT(openStory()));
+    connect(m_ui->m_openStoryAction, &QAction::triggered, this, &MainWindow::openStory);
     connect(m_ui->m_openNoteAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_ui->m_openShareNote, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_ui->m_openPdfAct, SIGNAL(triggered(bool)), this, SLOT(openContent()));
@@ -934,7 +931,7 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
     return media;
 }
 
-void MainWindow::sendOffAllMaps(Player* player)
+/*void MainWindow::sendOffAllMaps(Player* player)
 {
     for(auto& mediaC : m_mediaHash)
     {
@@ -987,7 +984,7 @@ void MainWindow::sendOffAllImages(Player* player)
             }
         }
     }
-}
+}*/
 Map* MainWindow::findMapById(QString idMap)
 {
     MediaContainer* media= m_mediaHash.value(idMap);
@@ -1233,7 +1230,7 @@ void MainWindow::setUpNetworkConnection()
     {
         connect(m_playerList, SIGNAL(localGMRefused(bool)), this, SLOT(userNatureChange(bool)));
     }
-    connect(m_clientManager, SIGNAL(dataReceived(quint64, quint64)), this, SLOT(receiveData(quint64, quint64)));
+    connect(m_clientManager, &ClientManager::dataReceived, this, &MainWindow::receiveData);
 }
 
 void MainWindow::helpOnLine()

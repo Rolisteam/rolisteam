@@ -396,12 +396,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/channelmodel.cpp" line="465"/>
+        <location filename="../client/network/channelmodel.cpp" line="468"/>
         <source>Channel Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/channelmodel.cpp" line="466"/>
+        <location filename="../client/network/channelmodel.cpp" line="469"/>
         <source>Channel %1 required password:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -443,7 +443,7 @@ type: %7
 <context>
     <name>CharacterItem</name>
     <message>
-        <location filename="../client/vmap/items/characteritem.cpp" line="857"/>
+        <location filename="../client/vmap/items/characteritem.cpp" line="858"/>
         <source>Change State</source>
         <translation>Schimbare stare</translation>
     </message>
@@ -452,57 +452,57 @@ type: %7
         <translation type="vanished">Afectare către</translation>
     </message>
     <message>
-        <location filename="../client/vmap/items/characteritem.cpp" line="866"/>
+        <location filename="../client/vmap/items/characteritem.cpp" line="867"/>
         <source>Transform into</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/vmap/items/characteritem.cpp" line="874"/>
+        <location filename="../client/vmap/items/characteritem.cpp" line="875"/>
         <source>Vision Shape</source>
         <translation>Formă viziune</translation>
     </message>
     <message>
-        <location filename="../client/vmap/items/characteritem.cpp" line="892"/>
+        <location filename="../client/vmap/items/characteritem.cpp" line="893"/>
         <source>Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/vmap/items/characteritem.cpp" line="894"/>
+        <location filename="../client/vmap/items/characteritem.cpp" line="895"/>
         <source>Initiative</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/vmap/items/characteritem.cpp" line="898"/>
+        <location filename="../client/vmap/items/characteritem.cpp" line="899"/>
         <source>Clean Initiative</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/vmap/items/characteritem.cpp" line="915"/>
+        <location filename="../client/vmap/items/characteritem.cpp" line="916"/>
         <source>Shapes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/vmap/items/characteritem.cpp" line="924"/>
+        <location filename="../client/vmap/items/characteritem.cpp" line="925"/>
         <source>Clean Shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/vmap/items/characteritem.cpp" line="1008"/>
+        <location filename="../client/vmap/items/characteritem.cpp" line="1009"/>
         <source>Disk</source>
         <translation>Disc</translation>
     </message>
     <message>
-        <location filename="../client/vmap/items/characteritem.cpp" line="1010"/>
+        <location filename="../client/vmap/items/characteritem.cpp" line="1011"/>
         <source>Conical</source>
         <translation>Con</translation>
     </message>
     <message>
-        <location filename="../client/vmap/items/characteritem.cpp" line="1016"/>
+        <location filename="../client/vmap/items/characteritem.cpp" line="1017"/>
         <source>Reduce Life</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/vmap/items/characteritem.cpp" line="1017"/>
+        <location filename="../client/vmap/items/characteritem.cpp" line="1018"/>
         <source>Increase Life</source>
         <translation type="unfinished"></translation>
     </message>
@@ -510,22 +510,22 @@ type: %7
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="542"/>
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="543"/>
         <source>Fields name</source>
         <translation>Nume câmp</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="568"/>
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="569"/>
         <source>Empty Section %1</source>
         <translation>Secțiune goală %1</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="576"/>
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="577"/>
         <source>Section_%1</source>
         <translation>Sectiune_%1</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="600"/>
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="601"/>
         <source>Field %1</source>
         <translation>Câmp %1</translation>
     </message>
@@ -551,37 +551,37 @@ type: %7
         <translation>Adăugare fișă de personaj</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="67"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="68"/>
         <source>Load CharacterSheet View File</source>
         <translation>Încărcare fișier vizualizare fișă de personaj</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="69"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="70"/>
         <source>Detach Tabs</source>
         <translation>Detașare file</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="70"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="71"/>
         <source>Print Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="80"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="81"/>
         <source>Data</source>
         <translation>Date</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="97"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="98"/>
         <source>Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="173"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="174"/>
         <source>%1 - (Character Sheet Viewer)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="558"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="568"/>
         <source>QML Errors</source>
         <translation type="unfinished"></translation>
     </message>
@@ -632,12 +632,12 @@ type: %7
         <translation>Fișiere date fișă de personaj (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="690"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="700"/>
         <source>Open Character Sheets View</source>
         <translation>Deschidere vizualizare fișe personaje</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="692"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="702"/>
         <source>Character Sheet files (*.qml)</source>
         <translation>Fișiere fișă de personaj (*.qml)</translation>
     </message>
@@ -875,12 +875,12 @@ type: %7
 <context>
     <name>ClientManager</name>
     <message>
-        <location filename="../client/network/clientmanager.cpp" line="163"/>
+        <location filename="../client/network/clientmanager.cpp" line="164"/>
         <source>Connection with the Remote Server has been lost.</source>
         <translation type="unfinished">S-a pierdut conexiunea cu serverul de la distanță.</translation>
     </message>
     <message>
-        <location filename="../client/network/clientmanager.cpp" line="171"/>
+        <location filename="../client/network/clientmanager.cpp" line="172"/>
         <source>Connection to the server has been closed.</source>
         <translation type="unfinished">Conexiunea la server s-a închis.</translation>
     </message>
@@ -1449,7 +1449,7 @@ type: %7
     <name>KeyGeneratorDialog</name>
     <message>
         <location filename="../client/keygeneratordialog.ui" line="14"/>
-        <source>Passward Generator</source>
+        <source>Password Generator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1748,155 +1748,150 @@ type: %7
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../client/mainwindow.cpp" line="209"/>
-        <location filename="../client/mainwindow.cpp" line="2751"/>
+        <location filename="../client/mainwindow.cpp" line="213"/>
+        <location filename="../client/mainwindow.cpp" line="2816"/>
         <source>unknown</source>
         <translation>necunoscut</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="721"/>
+        <location filename="../client/mainwindow.cpp" line="727"/>
         <source>&amp;Redo</source>
         <translation type="unfinished">&amp;Refă acțiunea</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="722"/>
+        <location filename="../client/mainwindow.cpp" line="728"/>
         <source>&amp;Undo</source>
         <translation type="unfinished">&amp;Anulare acțiune</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="760"/>
+        <location filename="../client/mainwindow.cpp" line="778"/>
         <source>Support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="761"/>
-        <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;https://liberapay.com/Rolisteam/donate&quot;&gt;https://liberapay.com/Rolisteam/donate&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.cpp" line="844"/>
+        <location filename="../client/mainwindow.cpp" line="862"/>
         <source>Untitled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1269"/>
+        <location filename="../client/mainwindow.cpp" line="1292"/>
         <source>Update Notification</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1417"/>
+        <location filename="../client/mainwindow.cpp" line="1449"/>
         <source>Remove limit to PDF file size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1687"/>
+        <location filename="../client/mainwindow.cpp" line="1719"/>
         <source>Error: Wrong password!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2345"/>
+        <location filename="../client/mainwindow.cpp" line="2377"/>
         <source>Open Map</source>
         <translation>Deschide harta</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2642"/>
+        <location filename="../client/mainwindow.cpp" line="2707"/>
         <source>Connected</source>
         <translation>Conectat</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2642"/>
+        <location filename="../client/mainwindow.cpp" line="2707"/>
         <source>Not Connected</source>
         <translation>Neconectat</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2643"/>
+        <location filename="../client/mainwindow.cpp" line="2708"/>
         <source>Server</source>
         <translation>Server</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2643"/>
+        <location filename="../client/mainwindow.cpp" line="2708"/>
         <source>Client</source>
         <translation>Client</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2644"/>
+        <location filename="../client/mainwindow.cpp" line="2709"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2644"/>
+        <location filename="../client/mainwindow.cpp" line="2709"/>
         <source>Player</source>
         <translation>Jucător</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2750"/>
+        <location filename="../client/mainwindow.cpp" line="2815"/>
         <source>Export from %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1048"/>
+        <location filename="../client/mainwindow.cpp" line="1066"/>
         <source>Open scenario</source>
         <translation>Deschide scenariul</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1083"/>
+        <location filename="../client/mainwindow.cpp" line="1106"/>
         <source>Save Scenario as</source>
         <translation>Salvare scenariu ca</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1154"/>
+        <location filename="../client/mainwindow.cpp" line="1177"/>
         <source>Save %1</source>
         <translation>Salvare %1</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="542"/>
+        <location filename="../client/mainwindow.ui" line="547"/>
         <source>Save Scenario</source>
         <translation>Salvare scenariu</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1103"/>
+        <location filename="../client/mainwindow.cpp" line="1126"/>
         <source>%1 cannot be opened (saveStory - MainWindow.cpp)</source>
         <translation>%1 nu poate fi deschis (salvare poveste - MainWindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="240"/>
+        <location filename="../client/mainwindow.cpp" line="244"/>
         <source>ToolBox</source>
         <translation>Casetă de instrumente</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2341"/>
+        <location filename="../client/mainwindow.cpp" line="2373"/>
         <source>Open Picture</source>
         <translation>Deschide imaginea</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2349"/>
+        <location filename="../client/mainwindow.cpp" line="2381"/>
         <source>Open Minutes</source>
         <translation>Deschide minutele</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="28"/>
+        <location filename="../client/mainwindow.ui" line="32"/>
         <source>&amp;File</source>
         <translation>&amp;Fișier</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="32"/>
+        <location filename="../client/mainwindow.ui" line="36"/>
         <source>&amp;New</source>
         <translation>&amp;Nou</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="43"/>
+        <location filename="../client/mainwindow.ui" line="47"/>
         <source>&amp;Open</source>
         <translation>&amp;Deschide</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="56"/>
+        <location filename="../client/mainwindow.ui" line="60"/>
         <source>Recent Files</source>
         <translation>Fișiere recente</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="97"/>
-        <location filename="../client/mainwindow.ui" line="286"/>
-        <location filename="../client/mainwindow.ui" line="322"/>
+        <location filename="../client/mainwindow.ui" line="101"/>
+        <location filename="../client/mainwindow.ui" line="291"/>
+        <location filename="../client/mainwindow.ui" line="327"/>
         <source>Map</source>
         <translation>Harta</translation>
     </message>
@@ -1905,22 +1900,22 @@ type: %7
         <translation type="vanished">Casetă de instrumente pentru GM</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="61"/>
+        <location filename="../client/mainwindow.ui" line="65"/>
         <source>Save</source>
         <translation>Salvează</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="521"/>
+        <location filename="../client/mainwindow.ui" line="526"/>
         <source>Change Profile…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="545"/>
+        <location filename="../client/mainwindow.ui" line="550"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="197"/>
+        <location filename="../client/mainwindow.ui" line="202"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
@@ -1933,7 +1928,7 @@ type: %7
         <translation type="vanished">Ctrl+Shift+A</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="202"/>
+        <location filename="../client/mainwindow.ui" line="207"/>
         <source>Close</source>
         <translation>Închide</translation>
     </message>
@@ -1942,23 +1937,23 @@ type: %7
         <translation type="vanished">Preferințe</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="217"/>
+        <location filename="../client/mainwindow.ui" line="222"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="226"/>
-        <location filename="../client/mainwindow.cpp" line="987"/>
+        <location filename="../client/mainwindow.ui" line="231"/>
+        <location filename="../client/mainwindow.cpp" line="1005"/>
         <source>Quit</source>
         <translation>Ieși</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="229"/>
+        <location filename="../client/mainwindow.ui" line="234"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="237"/>
+        <location filename="../client/mainwindow.ui" line="242"/>
         <source>Tab</source>
         <translation>Tab</translation>
     </message>
@@ -1967,7 +1962,7 @@ type: %7
         <translation type="vanished">Alt+O</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="256"/>
+        <location filename="../client/mainwindow.ui" line="261"/>
         <source>Alt+T</source>
         <translation>Alt+T</translation>
     </message>
@@ -1984,7 +1979,7 @@ type: %7
         <translation type="vanished">Verificare actualizare</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="272"/>
+        <location filename="../client/mainwindow.ui" line="277"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
@@ -1993,12 +1988,12 @@ type: %7
         <translation type="vanished">F12</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="313"/>
+        <location filename="../client/mainwindow.ui" line="318"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="298"/>
+        <location filename="../client/mainwindow.ui" line="303"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
@@ -2007,7 +2002,7 @@ type: %7
         <translation type="vanished">Salvare ca...</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="194"/>
+        <location filename="../client/mainwindow.ui" line="199"/>
         <source>Save Scenario As…</source>
         <translation>Salvare scenariu ca...</translation>
     </message>
@@ -2016,38 +2011,38 @@ type: %7
         <translation type="vanished">Alt+Shift+A</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="289"/>
+        <location filename="../client/mainwindow.ui" line="294"/>
         <source>Ctrl+M</source>
         <translation>Ctrl+M</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="301"/>
+        <location filename="../client/mainwindow.ui" line="306"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="310"/>
-        <location filename="../client/mainwindow.ui" line="346"/>
+        <location filename="../client/mainwindow.ui" line="315"/>
+        <location filename="../client/mainwindow.ui" line="351"/>
         <source>Note</source>
         <translation>Notă</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="325"/>
+        <location filename="../client/mainwindow.ui" line="330"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="334"/>
+        <location filename="../client/mainwindow.ui" line="339"/>
         <source>Picture</source>
         <translation>Imagine</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="337"/>
+        <location filename="../client/mainwindow.ui" line="342"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="349"/>
+        <location filename="../client/mainwindow.ui" line="354"/>
         <source>Ctrl+R</source>
         <translation>Ctrl+R</translation>
     </message>
@@ -2056,296 +2051,297 @@ type: %7
         <translation type="vanished">Scenariu</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="361"/>
+        <location filename="../client/mainwindow.ui" line="366"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="372"/>
+        <location filename="../client/mainwindow.ui" line="377"/>
         <source>Show PC Name</source>
         <translation>Arată numele PC-ului</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="403"/>
+        <location filename="../client/mainwindow.ui" line="408"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="386"/>
+        <location filename="../client/mainwindow.ui" line="391"/>
         <source>Show Npc Name</source>
         <translation>Arată numele NPC-ului</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="516"/>
+        <location filename="../client/mainwindow.ui" line="521"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="400"/>
+        <location filename="../client/mainwindow.ui" line="405"/>
         <source>Show Npc Number</source>
         <translation>Arată numărul NPC-ului</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="553"/>
+        <location filename="../client/mainwindow.ui" line="558"/>
         <source>Room List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="556"/>
+        <location filename="../client/mainwindow.ui" line="561"/>
         <source>F10</source>
         <translation type="unfinished">F10</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="565"/>
-        <location filename="../client/mainwindow.ui" line="577"/>
+        <location filename="../client/mainwindow.ui" line="570"/>
+        <location filename="../client/mainwindow.ui" line="582"/>
         <source>Shared Note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="568"/>
+        <location filename="../client/mainwindow.ui" line="573"/>
         <source>Ctrl+K</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="580"/>
+        <location filename="../client/mainwindow.ui" line="585"/>
         <source>Ctrl+L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="589"/>
+        <location filename="../client/mainwindow.ui" line="594"/>
+        <location filename="../client/mainwindow.ui" line="686"/>
         <source>Support Rolisteam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="594"/>
+        <location filename="../client/mainwindow.ui" line="599"/>
         <source>Shortcut Viewer…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="597"/>
+        <location filename="../client/mainwindow.ui" line="602"/>
         <source>Ctrl+F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="605"/>
+        <location filename="../client/mainwindow.ui" line="610"/>
         <source>Full Screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="608"/>
+        <location filename="../client/mainwindow.ui" line="613"/>
         <source>F11</source>
         <translation type="unfinished">F11</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="617"/>
+        <location filename="../client/mainwindow.ui" line="622"/>
         <source>PDF File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="620"/>
+        <location filename="../client/mainwindow.ui" line="625"/>
         <source>Ctrl+D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="625"/>
+        <location filename="../client/mainwindow.ui" line="630"/>
         <source>Copy Connection Link…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="634"/>
+        <location filename="../client/mainwindow.ui" line="639"/>
         <source>WebPage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="637"/>
+        <location filename="../client/mainwindow.ui" line="642"/>
         <source>Ctrl+H</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="648"/>
+        <location filename="../client/mainwindow.ui" line="653"/>
         <source>Show Health Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="651"/>
+        <location filename="../client/mainwindow.ui" line="656"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="411"/>
+        <location filename="../client/mainwindow.ui" line="416"/>
         <source>Minute Editor</source>
         <translation>Editorul de minute</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="85"/>
+        <location filename="../client/mainwindow.ui" line="89"/>
         <source>Sub-&amp;Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="119"/>
+        <location filename="../client/mainwindow.ui" line="123"/>
         <source>&amp;Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="131"/>
+        <location filename="../client/mainwindow.ui" line="135"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="140"/>
+        <location filename="../client/mainwindow.ui" line="145"/>
         <source>&amp;GM ToolBox</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="145"/>
+        <location filename="../client/mainwindow.ui" line="150"/>
         <source>&amp;Edit</source>
         <translation type="unfinished">&amp;Editare</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="165"/>
+        <location filename="../client/mainwindow.ui" line="170"/>
         <source>Current Media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="177"/>
-        <location filename="../client/mainwindow.ui" line="661"/>
+        <location filename="../client/mainwindow.ui" line="182"/>
+        <location filename="../client/mainwindow.ui" line="666"/>
         <source>Current Media as…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="180"/>
+        <location filename="../client/mainwindow.ui" line="185"/>
         <source>Alt+Shift+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="185"/>
+        <location filename="../client/mainwindow.ui" line="190"/>
         <source>All Media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="214"/>
+        <location filename="../client/mainwindow.ui" line="219"/>
         <source>Preferences…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="240"/>
+        <location filename="../client/mainwindow.ui" line="245"/>
         <source>F2</source>
         <translation type="unfinished">F2</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="261"/>
+        <location filename="../client/mainwindow.ui" line="266"/>
         <source>Disconnection…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="266"/>
+        <location filename="../client/mainwindow.ui" line="271"/>
         <source>Rolisteam Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="269"/>
+        <location filename="../client/mainwindow.ui" line="274"/>
         <source>online documentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="358"/>
+        <location filename="../client/mainwindow.ui" line="363"/>
         <source>Open Scenario</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="375"/>
+        <location filename="../client/mainwindow.ui" line="380"/>
         <source>F3</source>
         <translation type="unfinished">F3</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="389"/>
+        <location filename="../client/mainwindow.ui" line="394"/>
         <source>F4</source>
         <translation type="unfinished">F4</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="414"/>
+        <location filename="../client/mainwindow.ui" line="419"/>
         <source>Alt+M</source>
         <translation>Alt+M</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="423"/>
+        <location filename="../client/mainwindow.ui" line="428"/>
         <source>Online Picture</source>
         <translation>Imagine online</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="426"/>
+        <location filename="../client/mainwindow.ui" line="431"/>
         <source>Ctrl+Shift+I</source>
         <translation>Ctrl+Shift+I</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="434"/>
+        <location filename="../client/mainwindow.ui" line="439"/>
         <source>Audio Player</source>
         <translation>Player audio</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="437"/>
+        <location filename="../client/mainwindow.ui" line="442"/>
         <source>Alt+A</source>
         <translation>Alt+A</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="445"/>
-        <location filename="../client/mainwindow.cpp" line="585"/>
+        <location filename="../client/mainwindow.ui" line="450"/>
+        <location filename="../client/mainwindow.cpp" line="591"/>
         <source>Notification Zone</source>
         <translation>Zonă de notificare</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="448"/>
+        <location filename="../client/mainwindow.ui" line="453"/>
         <source>Alt+N</source>
         <translation>Alt+N</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="456"/>
+        <location filename="../client/mainwindow.ui" line="461"/>
         <source>Chat List</source>
         <translation>Listă de chaturi</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="459"/>
+        <location filename="../client/mainwindow.ui" line="464"/>
         <source>Alt+L</source>
         <translation>Alt+L</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="467"/>
+        <location filename="../client/mainwindow.ui" line="472"/>
         <source>Character List</source>
         <translation>Listă de personaje</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="478"/>
+        <location filename="../client/mainwindow.ui" line="483"/>
         <source>ToolBar</source>
         <translation>Bară unelte</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="490"/>
-        <location filename="../client/mainwindow.ui" line="502"/>
+        <location filename="../client/mainwindow.ui" line="495"/>
+        <location filename="../client/mainwindow.ui" line="507"/>
         <source>Vectorial Map</source>
         <translation>Hartă vectorială</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="656"/>
+        <location filename="../client/mainwindow.ui" line="661"/>
         <source>Password Generator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="672"/>
+        <location filename="../client/mainwindow.ui" line="677"/>
         <source>Show Initiative</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="168"/>
+        <location filename="../client/mainwindow.ui" line="173"/>
         <source>Alt+S</source>
         <translation>Alt+S</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="513"/>
+        <location filename="../client/mainwindow.ui" line="518"/>
         <source>Show Health State</source>
         <translation>Afișare stare sănătate</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="481"/>
+        <location filename="../client/mainwindow.ui" line="486"/>
         <source>F8</source>
         <translation>F8</translation>
     </message>
@@ -2354,17 +2350,17 @@ type: %7
         <translation type="vanished">Schimbare profil</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="530"/>
+        <location filename="../client/mainwindow.ui" line="535"/>
         <source>Character Sheet</source>
         <translation>Fișă de personaj</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="505"/>
+        <location filename="../client/mainwindow.ui" line="510"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="493"/>
+        <location filename="../client/mainwindow.ui" line="498"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
@@ -2373,7 +2369,7 @@ type: %7
         <translation type="vanished">Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="533"/>
+        <location filename="../client/mainwindow.ui" line="538"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
     </message>
@@ -2391,33 +2387,33 @@ type: %7
         <translation type="vanished">Sub-ferestre</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="89"/>
+        <location filename="../client/mainwindow.ui" line="93"/>
         <source>Reorganize</source>
         <translation>Reorganizează</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="205"/>
+        <location filename="../client/mainwindow.ui" line="210"/>
         <source>Ctrl+Esc</source>
         <translation>Ctrl+Esc</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="245"/>
+        <location filename="../client/mainwindow.ui" line="250"/>
         <source>Cascade</source>
         <translation>Cascadă</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="248"/>
-        <location filename="../client/mainwindow.ui" line="470"/>
+        <location filename="../client/mainwindow.ui" line="253"/>
+        <location filename="../client/mainwindow.ui" line="475"/>
         <source>Alt+C</source>
         <translation>Alt+C</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="253"/>
+        <location filename="../client/mainwindow.ui" line="258"/>
         <source>Tile</source>
         <translation>Pavaj</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1217"/>
+        <location filename="../client/mainwindow.cpp" line="1240"/>
         <source>Help</source>
         <translation>Ajutor</translation>
     </message>
@@ -2426,37 +2422,37 @@ type: %7
         <translation type="vanished">Eroare la compresia imaginii (readImageFromStream - MainWindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1312"/>
+        <location filename="../client/mainwindow.cpp" line="1335"/>
         <source>%1 has not the right version: %2.</source>
         <translation>%1 nu are versiunea corectă: %2.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1403"/>
+        <location filename="../client/mainwindow.cpp" line="1435"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Setează rolisteam să folosească &lt;port&gt; pentru conexiune</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1406"/>
+        <location filename="../client/mainwindow.cpp" line="1438"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Setează conectarea rolisteam la &lt;server&gt;.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1409"/>
+        <location filename="../client/mainwindow.cpp" line="1441"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation>Definește &lt;role&gt;: gm sau pc</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1411"/>
+        <location filename="../client/mainwindow.cpp" line="1443"/>
         <source>Erase the settings and use the default parameters</source>
         <translation>Șterge setările și utilizează parametrii impliciți</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1414"/>
+        <location filename="../client/mainwindow.cpp" line="1446"/>
         <source>Define the &lt;username&gt;</source>
         <translation>Definește &lt;username&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1673"/>
+        <location filename="../client/mainwindow.cpp" line="1705"/>
         <source>End of the connection process</source>
         <translation>Termină procesul de conectare</translation>
     </message>
@@ -2469,53 +2465,58 @@ type: %7
         <translation type="vanished">Avertizare:</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="259"/>
+        <location filename="../client/mainwindow.cpp" line="263"/>
         <source>Resources Explorer</source>
         <translation>Explorator de resurse</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2584"/>
+        <location filename="../client/mainwindow.cpp" line="2649"/>
         <source>Open %1</source>
         <translation>Deschidere %1</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="995"/>
+        <location filename="../client/mainwindow.cpp" line="1013"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>S-a pierdut conexiunea. %1 se va închide</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="997"/>
+        <location filename="../client/mainwindow.cpp" line="779"/>
+        <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;%2&quot;&gt;%2&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.cpp" line="1015"/>
         <source>Connection lost</source>
         <translation>Conexiune pierdută</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1003"/>
+        <location filename="../client/mainwindow.cpp" line="1021"/>
         <source>Quit %1 </source>
         <translation>Ieși din %1</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1010"/>
+        <location filename="../client/mainwindow.cpp" line="1028"/>
         <source>Do you want to save your minutes before to quit %1?</source>
         <translation>Dorești să salvezi minutele tale înainte de a părăsi %1?</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1014"/>
+        <location filename="../client/mainwindow.cpp" line="1032"/>
         <source>Do you want to save your scenario before to quit %1?</source>
         <translation>Dorești să salvezi scenariul înainte de a părăsi %1?</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1049"/>
-        <location filename="../client/mainwindow.cpp" line="1084"/>
+        <location filename="../client/mainwindow.cpp" line="1067"/>
+        <location filename="../client/mainwindow.cpp" line="1107"/>
         <source>Scenarios (*.sce)</source>
         <translation>Scenarii (*.sce)</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="277"/>
+        <location filename="../client/mainwindow.ui" line="282"/>
         <source>About Rolisteam</source>
         <translation>Despre Rolisteam</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1218"/>
+        <location filename="../client/mainwindow.cpp" line="1241"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>Documentația pentru %1 poate fi găsită online la :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
@@ -2524,22 +2525,22 @@ type: %7
         <translation type="vanished">Monitor de actualizări</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1270"/>
+        <location filename="../client/mainwindow.cpp" line="1293"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>A fost lansată versiunea %1. Aruncă o privire peste &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Pagina de descărcări&lt;/a&gt; pentru mai multe informații</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1308"/>
+        <location filename="../client/mainwindow.cpp" line="1331"/>
         <source>%1 just joins the game.</source>
         <translation>%1 s-a alăturat jocului.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1319"/>
+        <location filename="../client/mainwindow.cpp" line="1342"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 a părăsit jocul.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="339"/>
+        <location filename="../client/mainwindow.cpp" line="344"/>
         <source>Server Ip Address:%1
 Port:%2</source>
         <translation>Adresa IP a serverului:%1
@@ -2693,18 +2694,18 @@ Portul:%2</translation>
         <translation>Necunoscut</translation>
     </message>
     <message>
-        <location filename="../client/map/mapframe.cpp" line="152"/>
+        <location filename="../client/map/mapframe.cpp" line="148"/>
         <source>File %1 does not exist</source>
         <translation>Fișierul %1 nu există</translation>
     </message>
     <message>
-        <location filename="../client/map/mapframe.cpp" line="157"/>
-        <location filename="../client/map/mapframe.cpp" line="210"/>
+        <location filename="../client/map/mapframe.cpp" line="153"/>
+        <location filename="../client/map/mapframe.cpp" line="206"/>
         <source>Unsupported file format</source>
         <translation>Format de fișier nesuportat</translation>
     </message>
     <message>
-        <location filename="../client/map/mapframe.cpp" line="164"/>
+        <location filename="../client/map/mapframe.cpp" line="160"/>
         <source>Wrong Map Format</source>
         <translation>Format hartă greșit</translation>
     </message>
@@ -2713,52 +2714,52 @@ Portul:%2</translation>
         <translation type="vanished">Compresia imaginii a mers prost (ouvrirPlan - MainWindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../client/map/mapframe.cpp" line="281"/>
+        <location filename="../client/map/mapframe.cpp" line="277"/>
         <source>Extract original background information Failed (readMapAndNpc - bipmapwindow.cpp)</source>
         <translation>Extragerea informației originale de fundal a eșuat (readMapAndNpc - bipmapwindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../client/map/mapframe.cpp" line="289"/>
+        <location filename="../client/map/mapframe.cpp" line="285"/>
         <source>Extract background information Failed (readMapAndNpc - bipmapwindow.cpp)</source>
         <translation>Extragerea informațiilor de fundal a eșuat (readMapAndNpc - bipmapwindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../client/map/mapframe.cpp" line="297"/>
+        <location filename="../client/map/mapframe.cpp" line="293"/>
         <source>Extract alpha layer information Failed (readMapAndNpc - bipmapwindow.cpp)</source>
         <translation>Extragerea stratului alpha a eșuat (readMapAndNpc - bipmapwindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../client/map/mapframe.cpp" line="438"/>
+        <location filename="../client/map/mapframe.cpp" line="434"/>
         <source>Extract original background information Failed (processMapMessage - mapframe.cpp)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/map/mapframe.cpp" line="445"/>
+        <location filename="../client/map/mapframe.cpp" line="441"/>
         <source>Extract background information Failed (processMapMessage - mapframe.cpp)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/map/mapframe.cpp" line="452"/>
+        <location filename="../client/map/mapframe.cpp" line="448"/>
         <source>Extract alpha layer information Failed (processMapMessage - mapframe.cpp)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/map/mapframe.cpp" line="553"/>
+        <location filename="../client/map/mapframe.cpp" line="549"/>
         <source>New map: %1</source>
         <translation>Hartă nouă: %1</translation>
     </message>
     <message>
-        <location filename="../client/map/mapframe.cpp" line="418"/>
+        <location filename="../client/map/mapframe.cpp" line="414"/>
         <source>Compression Error (processMapMessage - NetworkLink.cpp)</source>
         <translation>Eroare de compresie (processMapMessage - NetworkLink.cpp)</translation>
     </message>
     <message>
-        <location filename="../client/map/mapframe.cpp" line="226"/>
+        <location filename="../client/map/mapframe.cpp" line="222"/>
         <source>Compressing image goes wrong (ouvrirPlan - mapframe.cpp)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/map/mapframe.cpp" line="471"/>
+        <location filename="../client/map/mapframe.cpp" line="467"/>
         <source>Receiving map: %1</source>
         <translation>Se descarcă harta: %1</translation>
     </message>
@@ -3797,17 +3798,17 @@ Do you want to continue and share the PDF?</source>
         <translation>Listă de jucători</translation>
     </message>
     <message>
-        <location filename="../client/userlist/playersList.cpp" line="549"/>
+        <location filename="../client/userlist/playersList.cpp" line="553"/>
         <source>%1&apos;s initiative has changed: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/userlist/playersList.cpp" line="716"/>
+        <location filename="../client/userlist/playersList.cpp" line="724"/>
         <source>PlayersList [PlayerCategory]: unknown action (%d)</source>
         <translation>Listă de jucători [PlayerCategory]: acțiune necunoscută (%d)</translation>
     </message>
     <message>
-        <location filename="../client/userlist/playersList.cpp" line="732"/>
+        <location filename="../client/userlist/playersList.cpp" line="740"/>
         <source>PlayersList [CharacterPlayerCategory]: unknown action (%d)</source>
         <translation>Listă de jucători [CharacterPlayerCategory]: acțiune necunoscută (%d)</translation>
     </message>
@@ -4560,50 +4561,64 @@ Do you want to continue and share the PDF?</source>
         <translation type="vanished">Nimic nu a fost înțeles</translation>
     </message>
     <message>
-        <location filename="../client/diceparser/diceparser.cpp" line="185"/>
+        <location filename="../client/diceparser/diceparser.cpp" line="181"/>
         <source>Nothing was understood. To roll dice: !1d6 - full documation: &lt;a href=&quot;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/diceparser/diceparser.cpp" line="195"/>
+        <location filename="../client/diceparser/diceparser.cpp" line="191"/>
         <source>Unexpected character at %1 - end of command was ignored &quot;%2&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/diceparser/diceparser.cpp" line="232"/>
+        <location filename="../client/diceparser/diceparser.cpp" line="227"/>
         <source>Expected closing parenthesis - can&apos;t validate the inside.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/diceparser/diceparser.cpp" line="662"/>
+        <location filename="../client/diceparser/diceparser.cpp" line="720"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation>Zarul cu %1 fețe nu există. Te rugăm să pui o valoare mai mare de 0</translation>
     </message>
     <message>
-        <location filename="../client/diceparser/diceparser.cpp" line="717"/>
+        <location filename="../client/diceparser/diceparser.cpp" line="775"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation>Lista lipsește după operatorul L. Te rugăm să o adaugi (de ex. 1L[sword,spear,gun,arrow])</translation>
     </message>
     <message>
-        <location filename="../client/diceparser/diceparser.cpp" line="1045"/>
+        <location filename="../client/diceparser/diceparser.cpp" line="1103"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation>Lipsește validatorul după operatorul c. Te rugăm să modifici</translation>
     </message>
     <message>
-        <location filename="../client/diceparser/diceparser.cpp" line="1061"/>
-        <location filename="../client/diceparser/diceparser.cpp" line="1081"/>
+        <location filename="../client/diceparser/diceparser.cpp" line="1123"/>
+        <source>Validator is always true for the %1 operator. Please, change it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/diceparser.cpp" line="1132"/>
+        <source>Condition can&apos;t be reached, causing endless loop. Please, change the %1 option condition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/diceparser.cpp" line="1159"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation>Lipsește validatorul după operatorul %1. Te rugăm să modifici</translation>
     </message>
     <message>
-        <location filename="../client/diceparser/diceparser.cpp" line="1098"/>
+        <location filename="../client/diceparser/diceparser.cpp" line="1171"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation>Această condiție %1 introduce o buclă infinită. Te rugăm să modifici</translation>
     </message>
     <message>
-        <location filename="../client/diceparser/diceparser.cpp" line="1110"/>
+        <location filename="../client/diceparser/diceparser.cpp" line="1183"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation>Lipsește validatorul după operatorul e. Te rugăm să modifici</translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/diceparser.cpp" line="1243"/>
+        <source>Missing parameter for Painter node (p)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../client/diceparser/node/listaliasnode.cpp" line="47"/>
@@ -4613,17 +4628,22 @@ Do you want to continue and share the PDF?</source>
 </translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1420"/>
+        <location filename="../client/mainwindow.cpp" line="1452"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation>calea către fișierul de traduceri: &lt;translationfile&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1423"/>
+        <location filename="../client/mainwindow.cpp" line="1455"/>
         <source>Define URL to connect to server: &lt;url&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/diceparser/node/scalaroperatornode.cpp" line="131"/>
+        <location filename="../client/diceparser/node/scalaroperatornode.cpp" line="72"/>
+        <source>No Valid result in arithmetic operation: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/node/scalaroperatornode.cpp" line="139"/>
         <source>Division by zero</source>
         <translation>Împărțire cu zero</translation>
     </message>
@@ -4759,12 +4779,12 @@ Do you want to continue and share the PDF?</source>
         <translation type="unfinished">Afișat</translation>
     </message>
     <message>
-        <location filename="../client/diceparser/node/dicerollernode.cpp" line="27"/>
+        <location filename="../client/diceparser/node/dicerollernode.cpp" line="25"/>
         <source>No dice to roll</source>
         <translation>Niciun zar de aruncat</translation>
     </message>
     <message>
-        <location filename="../client/diceparser/node/dicerollernode.cpp" line="33"/>
+        <location filename="../client/diceparser/node/dicerollernode.cpp" line="34"/>
         <source>More unique values asked than possible values (D operator)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4775,12 +4795,12 @@ Full documentation at: %1</source>
 Documentația completă la: %1</translation>
     </message>
     <message>
-        <location filename="../client/diceparser/node/jumpbackwardnode.cpp" line="122"/>
+        <location filename="../client/diceparser/node/jumpbackwardnode.cpp" line="123"/>
         <source> The @ operator expects dice result. Please check the documentation to fix your command.</source>
         <translation>Operatorul @ așteaptă rezultatul zarurilor. Verifică documentația pentru a soluționa comanda ta.</translation>
     </message>
     <message>
-        <location filename="../client/diceparser/node/keepdiceexecnode.cpp" line="61"/>
+        <location filename="../client/diceparser/node/keepdiceexecnode.cpp" line="62"/>
         <source> You ask to keep %1 dice but the result only has %2</source>
         <translation>Soliciți păstrarea a %1 zaruri însă rezultatul are doar %2</translation>
     </message>
@@ -4862,22 +4882,22 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/diceparser/node/occurencecountnode.cpp" line="85"/>
+        <location filename="../client/diceparser/node/occurencecountnode.cpp" line="148"/>
         <source>No matching result</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/diceparser/node/paintnode.cpp" line="64"/>
+        <location filename="../client/diceparser/node/paintnode.cpp" line="63"/>
         <source>No previous node before Paint operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/diceparser/node/rerolldicenode.cpp" line="83"/>
+        <location filename="../client/diceparser/node/rerolldicenode.cpp" line="96"/>
         <source> The a operator expects dice result. Please check the documentation and fix your command.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/diceparser/node/variablenode.cpp" line="27"/>
+        <location filename="../client/diceparser/node/variablenode.cpp" line="36"/>
         <source>No variable at index:%1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4989,6 +5009,12 @@ Full documentation at: %1</source>
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="11"/>
         <source>OTHER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/node/explodedicenode.cpp" line="31"/>
+        <location filename="../client/diceparser/node/rerolldicenode.cpp" line="47"/>
+        <source>Condition (%1) cause an endless loop with this dice: %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5473,12 +5499,12 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="511"/>
+        <location filename="../client/network/servermanager.cpp" line="508"/>
         <source>New Incoming Connection!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/network/servermanager.cpp" line="552"/>
+        <location filename="../client/network/servermanager.cpp" line="549"/>
         <source>Disconnected!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5884,17 +5910,17 @@ Full documentation at: %1</source>
 <context>
     <name>Table</name>
     <message>
-        <location filename="../client/charactersheet/qml/Table.qml" line="27"/>
+        <location filename="../client/charactersheet/qml/Rolisteam/Table.qml" line="27"/>
         <source>Add line</source>
         <translation type="unfinished">Adăugare rând</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/qml/Table.qml" line="31"/>
+        <location filename="../client/charactersheet/qml/Rolisteam/Table.qml" line="31"/>
         <source>Remove current Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/qml/Table.qml" line="37"/>
+        <location filename="../client/charactersheet/qml/Rolisteam/Table.qml" line="37"/>
         <source>Remove Last line</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6365,32 +6391,32 @@ Vrei să salvezi schimbările tale?</translation>
 <context>
     <name>VMap</name>
     <message>
-        <location filename="../client/vmap/vmap.cpp" line="1416"/>
+        <location filename="../client/vmap/vmap.cpp" line="1418"/>
         <source>No Right</source>
         <translation>Fără drepturi</translation>
     </message>
     <message>
-        <location filename="../client/vmap/vmap.cpp" line="1416"/>
+        <location filename="../client/vmap/vmap.cpp" line="1418"/>
         <source>His character</source>
         <translation>Personajul său</translation>
     </message>
     <message>
-        <location filename="../client/vmap/vmap.cpp" line="1416"/>
+        <location filename="../client/vmap/vmap.cpp" line="1418"/>
         <source>All Permissions</source>
         <translation>Toate permisiunile</translation>
     </message>
     <message>
-        <location filename="../client/vmap/vmap.cpp" line="1727"/>
+        <location filename="../client/vmap/vmap.cpp" line="1730"/>
         <source>Hidden</source>
         <translation>Ascuns</translation>
     </message>
     <message>
-        <location filename="../client/vmap/vmap.cpp" line="1727"/>
+        <location filename="../client/vmap/vmap.cpp" line="1730"/>
         <source>Fog Of War</source>
         <translation>Ceață de război</translation>
     </message>
     <message>
-        <location filename="../client/vmap/vmap.cpp" line="1727"/>
+        <location filename="../client/vmap/vmap.cpp" line="1730"/>
         <source>All visible</source>
         <translation>Toate vizibile</translation>
     </message>
@@ -6526,12 +6552,12 @@ Vrei să salvezi schimbările tale?</translation>
         <translation>Anulare mască</translation>
     </message>
     <message>
-        <location filename="../client/vmap/vtoolbar.cpp" line="327"/>
+        <location filename="../client/vmap/vtoolbar.cpp" line="328"/>
         <source>height of the pen</source>
         <translation>înălțimea stiloului</translation>
     </message>
     <message>
-        <location filename="../client/vmap/vtoolbar.cpp" line="340"/>
+        <location filename="../client/vmap/vtoolbar.cpp" line="341"/>
         <source>Opacity:</source>
         <translation>Opacitate:</translation>
     </message>

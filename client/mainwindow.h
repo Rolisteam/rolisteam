@@ -177,11 +177,6 @@ public:
      */
     void setUpNetworkConnection();
     /**
-     * @brief getNetWorkManager
-     * @return
-     */
-    ClientManager* getNetWorkManager();
-    /**
      * @brief parseCommandLineArguments
      */
     void parseCommandLineArguments(QStringList);
@@ -401,12 +396,12 @@ private slots:
      * @brief sendOffAllMaps
      * @param link
      */
-    void sendOffAllMaps(Player* player);
+    // void sendOffAllMaps(Player* player);
     /**
      * @brief sendOffAllImages
      * @param link
      */
-    void sendOffAllImages(Player* player);
+    // void sendOffAllImages(Player* player);
     /**
      * @brief receiveData
      * @param readData
