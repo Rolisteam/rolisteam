@@ -1,15 +1,16 @@
 [submodule "client/diceparser"]
 	path = client/diceparser
-	url = https://github.com/Rolisteam/DiceParser.git
-	pushURL = git@github.com:Rolisteam/DiceParser.git
+	url = https://invent.kde.org/kde/rolisteam-diceparser.git
+	pushURL = git@invent.kde.org:kde/rolisteam-diceparser.git
 [submodule "client/widgets/gmtoolbox"]
 	path = client/widgets/gmtoolbox
-	url = https://github.com/Rolisteam/RPlugins.git
-	pushURL = git@github.com:Rolisteam/RPlugins.git
+	url = https://invent.kde.org/kde/rolisteam-plugins.git
+	pushURL = git@invent.kde.org:kde/rolisteam-plugins.git
 [submodule "client/charactersheet"]
 	path = client/charactersheet
-	url = https://github.com/Rolisteam/RCharacterSheet.git
-	pushURL = git@github.com:Rolisteam/RCharacterSheet.git
+	url = https://invent.kde.org/kde/rcharactersheet.git
+	pushURL = git@invent.kde.org:kde/rcharactersheet.git
 [submodule "client/common"]
 	path = client/common
-	url = https://github.com/Rolisteam/common.git
+	url = https://invent.kde.org/kde/rolisteam-common.git
+	pushURL = git@invent.kde.org:kde/rolisteam-common.git
