@@ -4,17 +4,17 @@
 <context>
     <name>AboutRcse</name>
     <message>
-        <location filename="../src/dialog/aboutrcse.ui" line="14"/>
+        <location filename="../aboutrcse.ui" line="14"/>
         <source>Rolisteam Character Sheet Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolisteam Character Sheet Editor</translation>
     </message>
     <message>
-        <location filename="../src/dialog/aboutrcse.ui" line="20"/>
+        <location filename="../aboutrcse.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rolisteam Character Sheet Editor&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;This software is dedicated to create character sheet for Rolisteam v1.8 and more. &lt;br/&gt;Please check the documentation at: &lt;a href=&quot;http://wiki.rolisteam.org/index.php/En:CharacterSheet&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;wiki.rolisteam.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rolisteam Character Sheet Editor&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Ce logiciel est dédié à la création de fiche de personnage pour Rolisteam&#xa0;v1.8 et plus récent. &lt;br/&gt;La documentation est accessible sur:&#xa0;&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Fr:CharacterSheet&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;wiki.rolisteam.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialog/aboutrcse.ui" line="33"/>
+        <location filename="../aboutrcse.ui" line="33"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -44,47 +44,47 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>AlignmentDelegate</name>
     <message>
-        <location filename="../src/delegate/alignmentdelegate.cpp" line="34"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="27"/>
         <source>TopRight</source>
         <translation>Haut Droit</translation>
     </message>
     <message>
-        <location filename="../src/delegate/alignmentdelegate.cpp" line="34"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="28"/>
         <source>TopMiddle</source>
         <translation>Haut Centre</translation>
     </message>
     <message>
-        <location filename="../src/delegate/alignmentdelegate.cpp" line="34"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="29"/>
         <source>TopLeft</source>
         <translation>Haut Gauche</translation>
     </message>
     <message>
-        <location filename="../src/delegate/alignmentdelegate.cpp" line="34"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="30"/>
         <source>CenterRight</source>
         <translation>Centre Droit</translation>
     </message>
     <message>
-        <location filename="../src/delegate/alignmentdelegate.cpp" line="34"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="31"/>
         <source>CenterMiddle</source>
         <translation>Centre Milieu</translation>
     </message>
     <message>
-        <location filename="../src/delegate/alignmentdelegate.cpp" line="35"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="32"/>
         <source>CenterLeft</source>
         <translation>Centre Gauche</translation>
     </message>
     <message>
-        <location filename="../src/delegate/alignmentdelegate.cpp" line="35"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="33"/>
         <source>BottomRight</source>
         <translation>CoinDroitEn</translation>
     </message>
     <message>
-        <location filename="../src/delegate/alignmentdelegate.cpp" line="35"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="34"/>
         <source>BottomMiddle</source>
         <translation>CentreBas</translation>
     </message>
     <message>
-        <location filename="../src/delegate/alignmentdelegate.cpp" line="35"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="35"/>
         <source>BottomLeft</source>
         <translation>Bas Gauche</translation>
     </message>
@@ -92,83 +92,55 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>BorderListEditor</name>
     <message>
-        <location filename="../src/borderlisteditor.cpp" line="29"/>
+        <location filename="../borderlisteditor.cpp" line="29"/>
         <source>Up</source>
         <translation>Haut</translation>
     </message>
     <message>
-        <location filename="../src/borderlisteditor.cpp" line="30"/>
+        <location filename="../borderlisteditor.cpp" line="30"/>
         <source>Left</source>
         <translation>Gauche</translation>
     </message>
     <message>
-        <location filename="../src/borderlisteditor.cpp" line="31"/>
+        <location filename="../borderlisteditor.cpp" line="31"/>
         <source>Down</source>
         <translation>Bas</translation>
     </message>
     <message>
-        <location filename="../src/borderlisteditor.cpp" line="32"/>
+        <location filename="../borderlisteditor.cpp" line="32"/>
         <source>Right</source>
         <translation>Droite</translation>
     </message>
     <message>
-        <location filename="../src/borderlisteditor.cpp" line="43"/>
+        <location filename="../borderlisteditor.cpp" line="43"/>
         <source>All</source>
         <translation>Tout</translation>
     </message>
     <message>
-        <location filename="../src/borderlisteditor.cpp" line="47"/>
+        <location filename="../borderlisteditor.cpp" line="47"/>
         <source>None</source>
         <translation>Aucun</translation>
     </message>
 </context>
 <context>
-    <name>CharacterController</name>
-    <message>
-        <location filename="../src/controllers/charactercontroller.cpp" line="17"/>
-        <source>Add character</source>
-        <translation type="unfinished">Ajoute un personnage</translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/charactercontroller.cpp" line="18"/>
-        <source>Delete character</source>
-        <translation type="unfinished">Supprimer le personnage</translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/charactercontroller.cpp" line="20"/>
-        <source>Character&apos;s Name</source>
-        <translation type="unfinished">Nom du personnage</translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/charactercontroller.cpp" line="22"/>
-        <source>Apply on Selection</source>
-        <translation type="unfinished">Applique sur la séléction</translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/charactercontroller.cpp" line="23"/>
-        <source>Apply on all characters</source>
-        <translation type="unfinished">Appliquer à tous les personnages</translation>
-    </message>
-</context>
-<context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="543"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="416"/>
         <source>Fields name</source>
         <translation>Nom du champ</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="569"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="442"/>
         <source>Empty Section %1</source>
         <translation>Section vide %1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="577"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="450"/>
         <source>Section_%1</source>
         <translation>Section_%1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="601"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="474"/>
         <source>Field %1</source>
         <translation>Champ %1</translation>
     </message>
@@ -176,87 +148,107 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetWindow</name>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="57"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="53"/>
         <source>Add Section</source>
         <translation>Ajouter Section</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="58"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="54"/>
         <source>Add Field</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un champs</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="59"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="55"/>
         <source>Add CharacterSheet</source>
         <translation>Ajouter une fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="60"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="56"/>
         <source>Copy Tab</source>
         <translation>Copie l&apos;onglet</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="62"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="58"/>
         <source>Stop Sharing</source>
         <translation>Arrêter le partage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="64"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="60"/>
         <source>Read Only</source>
         <translation>Lecture Seule</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="67"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="64"/>
         <source>Load CharacterSheet View File</source>
         <translation>Charger une vue de fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="69"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="66"/>
         <source>Detach Tabs</source>
         <translation>Détacher l&apos;onglet</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="70"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="67"/>
         <source>Print Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimer la page</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="80"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="76"/>
         <source>Data</source>
         <translation>Données</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="173"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="170"/>
         <source>%1 - (Character Sheet Viewer)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 - (Visionneur de fiche de personnage)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.h" line="359"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="188"/>
+        <source>Share To </source>
+        <translation>Envoyer à </translation>
+    </message>
+    <message>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="219"/>
         <source>Share To</source>
         <translation>Envoyer à</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="97"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="415"/>
         <source>Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Actions</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="558"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="507"/>
         <source>QML Errors</source>
         <translation>Erreurs QML</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.h" line="360"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="515"/>
+        <source>Save Character Sheets Data</source>
+        <translation>Sauvegarder les données des personnages</translation>
+    </message>
+    <message>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="516"/>
+        <source>Character Sheets Data files (*.rcs)</source>
+        <translation>Fichier de Données de personnage (*.rcs)</translation>
+    </message>
+    <message>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="626"/>
+        <source>Open Character Sheet data</source>
+        <translation>Ouvrir les données des personnages</translation>
+    </message>
+    <message>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="627"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="690"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="634"/>
         <source>Open Character Sheets View</source>
         <translation>Ouvrir une fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="692"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="635"/>
         <source>Character Sheet files (*.qml)</source>
         <translation>Fiche de personnage (*.qml)</translation>
     </message>
@@ -264,269 +256,221 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CodeEdit</name>
     <message>
-        <location filename="../src/widgets/codeedit.ui" line="14"/>
+        <location filename="../widgets/codeedit.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished">Dialogue</translation>
+        <translation>Dialogue</translation>
     </message>
 </context>
 <context>
     <name>CodeEditorDialog</name>
     <message>
-        <location filename="../src/dialog/codeeditordialog.ui" line="14"/>
-        <source>Edit item code</source>
-        <translation type="unfinished"></translation>
+        <location filename="../codeeditordialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation>Dialogue</translation>
     </message>
 </context>
 <context>
     <name>ColumnDefinitionDialog</name>
     <message>
-        <location filename="../src/dialog/columndefinitiondialog.ui" line="14"/>
+        <location filename="../columndefinitiondialog.ui" line="14"/>
         <source>Dialog</source>
         <translation>Dialogue</translation>
     </message>
     <message>
-        <location filename="../src/dialog/columndefinitiondialog.ui" line="24"/>
+        <location filename="../columndefinitiondialog.ui" line="24"/>
         <source>Line Count:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de lignes:</translation>
     </message>
     <message>
-        <location filename="../src/dialog/columndefinitiondialog.ui" line="34"/>
+        <location filename="../columndefinitiondialog.ui" line="34"/>
         <source>Column Count:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de colonnes:</translation>
     </message>
     <message>
-        <location filename="../src/dialog/columndefinitiondialog.ui" line="44"/>
+        <location filename="../columndefinitiondialog.ui" line="44"/>
         <source>Control Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Contrôler la position</translation>
     </message>
     <message>
-        <location filename="../src/dialog/columndefinitiondialog.ui" line="52"/>
+        <location filename="../columndefinitiondialog.ui" line="52"/>
         <source>LeftTop</source>
-        <translation>Haut Gauche</translation>
+        <translation>GaucheHaut</translation>
     </message>
     <message>
-        <location filename="../src/dialog/columndefinitiondialog.ui" line="57"/>
+        <location filename="../columndefinitiondialog.ui" line="57"/>
         <source>LeftBottom</source>
-        <translation>Bas Gauche</translation>
+        <translation>GaucheBas</translation>
     </message>
     <message>
-        <location filename="../src/dialog/columndefinitiondialog.ui" line="62"/>
+        <location filename="../columndefinitiondialog.ui" line="62"/>
         <source>TopLeft</source>
         <translation>Haut Gauche</translation>
     </message>
     <message>
-        <location filename="../src/dialog/columndefinitiondialog.ui" line="67"/>
+        <location filename="../columndefinitiondialog.ui" line="67"/>
         <source>TopRight</source>
         <translation>Haut Droit</translation>
     </message>
     <message>
-        <location filename="../src/dialog/columndefinitiondialog.ui" line="72"/>
+        <location filename="../columndefinitiondialog.ui" line="72"/>
         <source>BottomLeft</source>
         <translation>Bas Gauche</translation>
     </message>
     <message>
-        <location filename="../src/dialog/columndefinitiondialog.ui" line="77"/>
+        <location filename="../columndefinitiondialog.ui" line="77"/>
         <source>BottomRight</source>
-        <translation>Bas droite</translation>
+        <translation>BasDroit</translation>
     </message>
     <message>
-        <location filename="../src/dialog/columndefinitiondialog.ui" line="82"/>
+        <location filename="../columndefinitiondialog.ui" line="82"/>
         <source>RightTop</source>
-        <translation>Haut Droit</translation>
+        <translation>DroiteHaut</translation>
     </message>
     <message>
-        <location filename="../src/dialog/columndefinitiondialog.ui" line="87"/>
+        <location filename="../columndefinitiondialog.ui" line="87"/>
         <source>RightBottom</source>
-        <translation>Bas droite</translation>
+        <translation>DroitBas</translation>
     </message>
     <message>
-        <location filename="../src/dialog/columndefinitiondialog.ui" line="112"/>
+        <location filename="../columndefinitiondialog.ui" line="112"/>
         <source>Column Definition:</source>
-        <translation type="unfinished"></translation>
+        <translation>Définition des colonnes:</translation>
     </message>
     <message>
-        <location filename="../src/dialog/columndefinitiondialog.cpp" line="36"/>
+        <location filename="../columndefinitiondialog.cpp" line="40"/>
         <source>Table Properties</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>EditorController</name>
-    <message>
-        <location filename="../src/controllers/editorcontroller.cpp" line="41"/>
-        <source>Fit the view</source>
-        <translation type="unfinished">S’adapte à la vue</translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/editorcontroller.cpp" line="44"/>
-        <source>Lock item</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/editorcontroller.cpp" line="46"/>
-        <source>Align on Y</source>
-        <translation type="unfinished">Aligner en Y</translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/editorcontroller.cpp" line="47"/>
-        <source>Align on X</source>
-        <translation type="unfinished">Aligner sur X</translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/editorcontroller.cpp" line="48"/>
-        <source>Same Width</source>
-        <translation type="unfinished">Même largeur</translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/editorcontroller.cpp" line="49"/>
-        <source>Same Height</source>
-        <translation type="unfinished">même hauteur</translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/editorcontroller.cpp" line="50"/>
-        <source>Dupplicate</source>
-        <translation type="unfinished">Duppliquer</translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/editorcontroller.cpp" line="51"/>
-        <source>Vertical equidistribution</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/editorcontroller.cpp" line="52"/>
-        <source>Horizontal equidistribution</source>
-        <translation type="unfinished"></translation>
+        <translation>Propriétés du tableau</translation>
     </message>
 </context>
 <context>
     <name>FieldModel</name>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="60"/>
+        <location filename="../fieldmodel.cpp" line="65"/>
         <source>Id</source>
         <translation>Id</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="60"/>
+        <location filename="../fieldmodel.cpp" line="66"/>
         <source>Label</source>
         <translation>Nom</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="61"/>
+        <location filename="../fieldmodel.cpp" line="67"/>
         <source>Value</source>
         <translation>Valeur</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="62"/>
+        <location filename="../fieldmodel.cpp" line="68"/>
         <source>Possible Values</source>
         <translation>Valeurs Possibles</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="63"/>
+        <location filename="../fieldmodel.cpp" line="69"/>
         <source>Type</source>
         <translation>Type</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="63"/>
+        <location filename="../fieldmodel.cpp" line="70"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="64"/>
+        <location filename="../fieldmodel.cpp" line="71"/>
         <source>y</source>
         <translation>y</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="64"/>
+        <location filename="../fieldmodel.cpp" line="72"/>
         <source>Width</source>
         <translation>Largeur</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="65"/>
+        <location filename="../fieldmodel.cpp" line="73"/>
         <source>Height</source>
         <translation>Hauteur</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="66"/>
+        <location filename="../fieldmodel.cpp" line="74"/>
         <source>Font Adaptation</source>
         <translation>Adaptation des polices</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="67"/>
+        <location filename="../fieldmodel.cpp" line="75"/>
         <source>Font</source>
         <translation>Typo</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="68"/>
+        <location filename="../fieldmodel.cpp" line="76"/>
         <source>Text-align</source>
         <translation>Alignement du texte</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="69"/>
+        <location filename="../fieldmodel.cpp" line="77"/>
         <source>Text Color</source>
         <translation>Couleur du texte</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="70"/>
+        <location filename="../fieldmodel.cpp" line="78"/>
         <source>Bg Color</source>
         <translation>Couleur d&apos;arrière-plan</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="71"/>
+        <location filename="../fieldmodel.cpp" line="79"/>
         <source>Border</source>
         <translation>Bordures</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="71"/>
+        <location filename="../fieldmodel.cpp" line="80"/>
         <source>Page</source>
         <translation>Page</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="72"/>
+        <location filename="../fieldmodel.cpp" line="81"/>
         <source>ToolTip</source>
-        <translation type="unfinished"></translation>
+        <translation>Astuce</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="74"/>
+        <location filename="../fieldmodel.cpp" line="84"/>
         <source>TopRight</source>
         <translation>Haut Droit</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="74"/>
+        <location filename="../fieldmodel.cpp" line="85"/>
         <source>TopMiddle</source>
         <translation>Haut Centre</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="74"/>
+        <location filename="../fieldmodel.cpp" line="86"/>
         <source>TopLeft</source>
         <translation>Haut Gauche</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="74"/>
+        <location filename="../fieldmodel.cpp" line="87"/>
         <source>CenterRight</source>
         <translation>Centre Droit</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="74"/>
+        <location filename="../fieldmodel.cpp" line="88"/>
         <source>CenterMiddle</source>
         <translation>Centre Milieu</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="75"/>
+        <location filename="../fieldmodel.cpp" line="89"/>
         <source>CenterLeft</source>
         <translation>Centre Gauche</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="75"/>
+        <location filename="../fieldmodel.cpp" line="90"/>
         <source>BottomRight</source>
         <translation>BasDroit</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="75"/>
+        <location filename="../fieldmodel.cpp" line="91"/>
         <source>BottomMiddle</source>
         <translation>CentreBas</translation>
     </message>
     <message>
-        <location filename="../src/fieldmodel.cpp" line="75"/>
+        <location filename="../fieldmodel.cpp" line="92"/>
         <source>BottomLeft</source>
         <translation>Bas Gauche</translation>
     </message>
@@ -534,715 +478,714 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>FieldView</name>
     <message>
-        <location filename="../src/widgets/fieldview.cpp" line="22"/>
-        <source>Lock up Item</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/fieldview.cpp" line="23"/>
+        <location filename="../widgets/fieldview.cpp" line="26"/>
         <source>Delete Item</source>
-        <translation type="unfinished">Supprime un élément</translation>
+        <translation>Supprime un élément</translation>
     </message>
     <message>
-        <location filename="../src/widgets/fieldview.cpp" line="24"/>
+        <location filename="../widgets/fieldview.cpp" line="27"/>
         <source>Apply on Selection</source>
-        <translation type="unfinished">Applique sur la séléction</translation>
+        <translation>Applique sur la séléction</translation>
     </message>
     <message>
-        <location filename="../src/widgets/fieldview.cpp" line="25"/>
+        <location filename="../widgets/fieldview.cpp" line="28"/>
         <source>Apply on all lines</source>
-        <translation type="unfinished">Applique sur tous les lignes</translation>
+        <translation>Applique sur tous les lignes</translation>
     </message>
     <message>
-        <location filename="../src/widgets/fieldview.cpp" line="26"/>
+        <location filename="../widgets/fieldview.cpp" line="29"/>
         <source>Define Field Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Écrire le code du champs</translation>
     </message>
     <message>
-        <location filename="../src/widgets/fieldview.cpp" line="27"/>
+        <location filename="../widgets/fieldview.cpp" line="30"/>
         <source>Reset Field Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Mise à zéro du code du champs</translation>
     </message>
     <message>
-        <location filename="../src/widgets/fieldview.cpp" line="31"/>
+        <location filename="../widgets/fieldview.cpp" line="32"/>
         <source>Position columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Colonnes de position</translation>
     </message>
     <message>
-        <location filename="../src/widgets/fieldview.cpp" line="42"/>
+        <location filename="../widgets/fieldview.cpp" line="43"/>
         <source>Esthetic columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Colonnes de style</translation>
     </message>
     <message>
-        <location filename="../src/widgets/fieldview.cpp" line="54"/>
+        <location filename="../widgets/fieldview.cpp" line="55"/>
         <source>Value columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Colonnes de value</translation>
     </message>
     <message>
-        <location filename="../src/widgets/fieldview.cpp" line="63"/>
+        <location filename="../widgets/fieldview.cpp" line="64"/>
         <source>Id columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Colonnes d&apos;identifiants</translation>
     </message>
     <message>
-        <location filename="../src/widgets/fieldview.cpp" line="70"/>
+        <location filename="../widgets/fieldview.cpp" line="71"/>
         <source>All columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Toutes les colonnes</translation>
     </message>
     <message>
-        <location filename="../src/widgets/fieldview.cpp" line="128"/>
+        <location filename="../widgets/fieldview.cpp" line="132"/>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer</translation>
     </message>
     <message>
-        <location filename="../src/widgets/fieldview.cpp" line="135"/>
+        <location filename="../widgets/fieldview.cpp" line="139"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer/cacher</translation>
     </message>
     <message>
-        <location filename="../src/widgets/fieldview.cpp" line="315"/>
+        <location filename="../widgets/fieldview.cpp" line="301"/>
         <source>Get Color</source>
-        <translation type="unfinished">Choisir la Couleur</translation>
-    </message>
-</context>
-<context>
-    <name>ImageController</name>
-    <message>
-        <location filename="../src/controllers/imagecontroller.cpp" line="26"/>
-        <source>Copy Path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/imagecontroller.cpp" line="29"/>
-        <source>Copy Url</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/imagecontroller.cpp" line="32"/>
-        <source>Replace Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/imagecontroller.cpp" line="33"/>
-        <source>Remove Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/imagecontroller.cpp" line="34"/>
-        <source>Reload image from file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/imagecontroller.cpp" line="83"/>
-        <source>Image %1 has not the same size than the others</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/imagecontroller.cpp" line="133"/>
-        <source>Load Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/controllers/imagecontroller.cpp" line="134"/>
-        <source>Supported Image Format (*.jpg *.png *.svg *.gif)</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir la Couleur</translation>
     </message>
 </context>
 <context>
     <name>ImageModel</name>
     <message>
-        <location filename="../src/charactersheet/imagemodel.cpp" line="12"/>
+        <location filename="../imagemodel.cpp" line="11"/>
         <source>Key</source>
         <translation>Clé</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/imagemodel.cpp" line="12"/>
+        <location filename="../imagemodel.cpp" line="11"/>
         <source>Filename</source>
         <translation>Nom de fichier</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/imagemodel.cpp" line="12"/>
+        <location filename="../imagemodel.cpp" line="11"/>
         <source>Is Background</source>
-        <translation>fond d’écran</translation>
+        <translation>En arrière plan</translation>
     </message>
 </context>
 <context>
     <name>LogPanel</name>
     <message>
-        <location filename="../src/common/widgets/logpanel.ui" line="14"/>
+        <location filename="../common/widgets/logpanel.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
-        <location filename="../src/common/widgets/logpanel.ui" line="37"/>
+        <location filename="../common/widgets/logpanel.ui" line="37"/>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau</translation>
     </message>
     <message>
-        <location filename="../src/common/widgets/logpanel.ui" line="45"/>
+        <location filename="../common/widgets/logpanel.ui" line="45"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/common/widgets/logpanel.ui" line="50"/>
+        <location filename="../common/widgets/logpanel.ui" line="50"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>Débogue</translation>
     </message>
     <message>
-        <location filename="../src/common/widgets/logpanel.ui" line="55"/>
+        <location filename="../common/widgets/logpanel.ui" line="55"/>
         <source>warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Alerte</translation>
     </message>
     <message>
-        <location filename="../src/common/widgets/logpanel.ui" line="60"/>
+        <location filename="../common/widgets/logpanel.ui" line="60"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Info</translation>
     </message>
     <message>
-        <location filename="../src/common/widgets/logpanel.ui" line="104"/>
+        <location filename="../common/widgets/logpanel.ui" line="68"/>
+        <location filename="../common/widgets/logpanel.ui" line="88"/>
+        <source>...</source>
+        <translation>…</translation>
+    </message>
+    <message>
+        <location filename="../common/widgets/logpanel.ui" line="104"/>
         <source>Erase All</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout effacer</translation>
     </message>
     <message>
-        <location filename="../src/common/widgets/logpanel.ui" line="113"/>
+        <location filename="../common/widgets/logpanel.ui" line="113"/>
         <source>Save</source>
-        <translation type="unfinished">Sauvegarder</translation>
+        <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="../src/common/widgets/logpanel.ui" line="116"/>
+        <location filename="../common/widgets/logpanel.ui" line="116"/>
         <source>Provide this file to Rolisteam developers</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer ce fichier à l&apos;équipe de Rolisteam</translation>
     </message>
     <message>
-        <location filename="../src/common/widgets/logpanel.cpp" line="73"/>
+        <location filename="../common/widgets/logpanel.cpp" line="76"/>
         <source>Saving logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer le journal d&apos;événements</translation>
     </message>
     <message>
-        <location filename="../src/common/widgets/logpanel.cpp" line="73"/>
+        <location filename="../common/widgets/logpanel.cpp" line="76"/>
         <source>Log files %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier journal %1</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.ui" line="14"/>
+        <location filename="../mainwindow.ui" line="14"/>
         <source>Unknown[*] - Rolisteam Character Sheet Editor</source>
         <translation>Inconnu[*] - Éditeur de fiche de personnage pour&#xa0;Rolisteam</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="29"/>
+        <location filename="../mainwindow.ui" line="29"/>
         <source>Editor</source>
         <translation>Editeur</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="67"/>
-        <location filename="../src/mainwindow.ui" line="774"/>
+        <location filename="../mainwindow.ui" line="67"/>
+        <location filename="../mainwindow.ui" line="748"/>
         <source>TextInput</source>
         <translation>Entrée Texte</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="102"/>
-        <location filename="../src/mainwindow.ui" line="861"/>
+        <location filename="../mainwindow.ui" line="102"/>
+        <location filename="../mainwindow.ui" line="835"/>
         <source>TextField</source>
         <translation>Champs Texte</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="140"/>
-        <location filename="../src/mainwindow.ui" line="873"/>
+        <location filename="../mainwindow.ui" line="140"/>
+        <location filename="../mainwindow.ui" line="847"/>
         <source>Checkbox</source>
         <translation>Case à cocher</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="175"/>
-        <location filename="../src/mainwindow.ui" line="885"/>
+        <location filename="../mainwindow.ui" line="175"/>
+        <location filename="../mainwindow.ui" line="859"/>
         <source>TextArea</source>
         <translation>Zone de texte</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="297"/>
-        <location filename="../src/mainwindow.ui" line="902"/>
+        <location filename="../mainwindow.ui" line="297"/>
+        <location filename="../mainwindow.ui" line="876"/>
         <source>Image</source>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="416"/>
+        <location filename="../mainwindow.ui" line="394"/>
         <source>Move</source>
         <translation>Déplacer</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="451"/>
+        <location filename="../mainwindow.ui" line="429"/>
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="483"/>
+        <location filename="../mainwindow.ui" line="461"/>
         <source>Add Page</source>
         <translation>Ajout Page</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="490"/>
+        <location filename="../mainwindow.ui" line="468"/>
         <source>Remove Page</source>
         <translation>Enlève Page</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="547"/>
+        <location filename="../mainwindow.ui" line="525"/>
         <source>View</source>
         <translation>Affichage</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="604"/>
+        <location filename="../mainwindow.ui" line="582"/>
         <source>Characters</source>
         <translation>Personnages</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="621"/>
+        <location filename="../mainwindow.ui" line="599"/>
         <source>Stored Images</source>
-        <translation>Images Stockées</translation>
+        <translation>Images stockées</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="320"/>
-        <location filename="../src/mainwindow.ui" line="567"/>
-        <location filename="../src/mainwindow.ui" line="574"/>
-        <location filename="../src/mainwindow.ui" line="634"/>
-        <location filename="../src/mainwindow.ui" line="641"/>
+        <location filename="../mainwindow.ui" line="545"/>
+        <location filename="../mainwindow.ui" line="552"/>
+        <location filename="../mainwindow.ui" line="612"/>
+        <location filename="../mainwindow.ui" line="619"/>
         <source>...</source>
-        <translation></translation>
+        <translation>…</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="342"/>
-        <location filename="../src/mainwindow.ui" line="1034"/>
+        <location filename="../mainwindow.ui" line="320"/>
+        <location filename="../mainwindow.ui" line="1013"/>
         <source>WebView</source>
-        <translation type="unfinished"></translation>
+        <translation>Page Web</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="365"/>
-        <location filename="../src/mainwindow.ui" line="1046"/>
+        <location filename="../mainwindow.ui" line="343"/>
+        <location filename="../mainwindow.ui" line="1025"/>
         <source>Next Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Page Suivante</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="384"/>
-        <location filename="../src/mainwindow.ui" line="1058"/>
+        <location filename="../mainwindow.ui" line="362"/>
+        <location filename="../mainwindow.ui" line="1037"/>
         <source>Previous Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Page Précédente</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="679"/>
+        <location filename="../mainwindow.ui" line="657"/>
         <source>File</source>
         <translation>Fichier</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="698"/>
+        <location filename="../mainwindow.ui" line="672"/>
         <source>Edition</source>
         <translation>Edition</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="713"/>
-        <location filename="../src/mainwindow.ui" line="916"/>
-        <location filename="../src/mainwindow.cpp" line="414"/>
+        <location filename="../mainwindow.ui" line="687"/>
+        <location filename="../mainwindow.ui" line="890"/>
+        <location filename="../mainwindow.cpp" line="496"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="727"/>
+        <location filename="../mainwindow.ui" line="701"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="730"/>
+        <location filename="../mainwindow.ui" line="704"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="735"/>
+        <location filename="../mainwindow.ui" line="709"/>
         <source>Save</source>
         <translation>Sauvegarder</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="738"/>
+        <location filename="../mainwindow.ui" line="712"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="743"/>
+        <location filename="../mainwindow.ui" line="717"/>
         <source>Save As...</source>
         <translation>Sauvegarder Sous…</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="746"/>
+        <location filename="../mainwindow.ui" line="720"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="751"/>
+        <location filename="../mainwindow.ui" line="725"/>
         <source>New</source>
         <translation>Nouveau</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="754"/>
+        <location filename="../mainwindow.ui" line="728"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="759"/>
+        <location filename="../mainwindow.ui" line="733"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="762"/>
+        <location filename="../mainwindow.ui" line="736"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="786"/>
+        <location filename="../mainwindow.ui" line="760"/>
         <source>Move Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Déplace l&apos;élément</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="803"/>
+        <location filename="../mainwindow.ui" line="777"/>
         <source>Export To Rolisteam</source>
         <translation>Exporter pour Rolisteam</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="808"/>
+        <location filename="../mainwindow.ui" line="782"/>
         <source>Save View</source>
         <translation>Sauvegarder la vue</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="813"/>
+        <location filename="../mainwindow.ui" line="787"/>
         <source>Load View</source>
         <translation>Charger la vue</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="822"/>
+        <location filename="../mainwindow.ui" line="796"/>
         <source>Generate Code and Sheet</source>
         <translation>Générer la fiche et le code</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="825"/>
+        <location filename="../mainwindow.ui" line="799"/>
         <source>Ctrl+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+R</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="834"/>
+        <location filename="../mainwindow.ui" line="808"/>
         <source>Code To Sheet</source>
         <translation>Exécuter le code</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="837"/>
+        <location filename="../mainwindow.ui" line="811"/>
         <source>Ctrl+D</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+D</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="911"/>
+        <location filename="../mainwindow.ui" line="885"/>
         <source>About RCSE</source>
         <translation>A propos de RCSE</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="921"/>
+        <location filename="../mainwindow.ui" line="895"/>
         <source>Reset Ids</source>
         <translation>Réinitialiser les Id</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="926"/>
+        <location filename="../mainwindow.ui" line="900"/>
         <source>Preferences</source>
         <translation>Préférences</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="929"/>
-        <location filename="../src/mainwindow.ui" line="940"/>
+        <location filename="../mainwindow.ui" line="903"/>
+        <location filename="../mainwindow.ui" line="914"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="937"/>
+        <location filename="../mainwindow.ui" line="911"/>
         <source>Sheet Properties…</source>
         <translation>Propriétés de la fiche…</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="952"/>
-        <source>Function Button</source>
-        <translation type="unfinished"></translation>
+        <location filename="../mainwindow.ui" line="926"/>
+        <source>Function&#xa0;Button</source>
+        <translation>Bouton Fonction</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1063"/>
-        <source>Recent file 1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="1110"/>
-        <source>Label field</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Label</source>
-        <translation type="obsolete">Nom</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="1113"/>
-        <source>Read-only Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="963"/>
+        <location filename="../mainwindow.ui" line="937"/>
         <source>Hide/Show icon in Editor</source>
-        <translation>Cache/Montre les icones dans l’éditeur</translation>
+        <translation>Afficher les icônes des champs</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="972"/>
+        <location filename="../mainwindow.ui" line="946"/>
         <source>Add Image</source>
         <translation>Ajouter une image</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="981"/>
+        <location filename="../mainwindow.ui" line="955"/>
         <source>Delete Image</source>
-        <translation>Supprimer l’image</translation>
+        <translation>Supprimer une image</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="986"/>
+        <location filename="../mainwindow.ui" line="960"/>
         <source>Check Validity</source>
-        <translation>Vérifier la validité</translation>
+        <translation>Vérifier la fiche</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1003"/>
-        <location filename="../src/mainwindow.cpp" line="147"/>
+        <location filename="../mainwindow.ui" line="977"/>
+        <location filename="../mainwindow.cpp" line="180"/>
         <source>&amp;Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Annuler</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1008"/>
-        <location filename="../src/mainwindow.cpp" line="150"/>
+        <location filename="../mainwindow.ui" line="982"/>
+        <location filename="../mainwindow.cpp" line="183"/>
         <source>&amp;Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Refaire</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1017"/>
+        <location filename="../mainwindow.ui" line="991"/>
         <source>Support Rolisteam</source>
-        <translation type="unfinished"></translation>
+        <translation>Supporter Rolisteam</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1022"/>
+        <location filename="../mainwindow.ui" line="996"/>
         <source>Export as PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporter en PDF</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="210"/>
-        <location filename="../src/mainwindow.ui" line="849"/>
+        <location filename="../mainwindow.ui" line="1001"/>
+        <source>Recent files</source>
+        <translation>Fichiers récents</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="823"/>
+        <source>Add Button</source>
+        <translation>Ajoute Bouton</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="210"/>
         <source>Dice Button</source>
         <translation>Bouton de dés</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="242"/>
+        <location filename="../mainwindow.ui" line="242"/>
         <source>Function btn</source>
-        <translation>Bouton Fonction</translation>
+        <translation>Bouton fonction</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="271"/>
-        <location filename="../src/mainwindow.ui" line="998"/>
+        <location filename="../mainwindow.ui" line="271"/>
+        <location filename="../mainwindow.ui" line="972"/>
         <source>Table</source>
-        <translation>Tableau</translation>
+        <translation>Table</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="890"/>
+        <location filename="../mainwindow.ui" line="864"/>
         <source>Set image background…</source>
         <translation>place image en arrière-plan…</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="798"/>
+        <location filename="../mainwindow.cpp" line="143"/>
+        <source>Fit the view</source>
+        <translation>S’adapte à la vue</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="146"/>
+        <source>Align on Y</source>
+        <translation>Aligner en Y</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="147"/>
+        <source>Align on X</source>
+        <translation>Aligner en X</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="148"/>
+        <source>Same Width</source>
+        <translation>Même largeur</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="149"/>
+        <source>Same Height</source>
+        <translation>Même hauteur</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="150"/>
+        <source>Dupplicate</source>
+        <translation>Dupliquer</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="316"/>
+        <source>Add character</source>
+        <translation>Ajoute un personnage</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="772"/>
         <source>Delete Item</source>
         <translation>Supprime un élément</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="119"/>
+        <location filename="../mainwindow.cpp" line="361"/>
+        <source>Apply on Selection</source>
+        <translation>Applique sur la séléction</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="360"/>
+        <source>Apply on all lines</source>
+        <translation>Applique sur tous les lignes</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="101"/>
         <source>Log panel</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal d&apos;erreurs</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="291"/>
+        <location filename="../mainwindow.cpp" line="120"/>
+        <source>Page 1</source>
+        <translation>Page 1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="342"/>
         <source>Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Support</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="292"/>
+        <location filename="../mainwindow.cpp" line="343"/>
         <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;https://liberapay.com/Rolisteam/donate&quot;&gt;https://liberapay.com/Rolisteam/donate&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour faire une donation pour %1, allez sur  :&lt;br&gt; &lt;a href=&quot;https://liberapay.com/Rolisteam/donate&quot;&gt;https://liberapay.com/Rolisteam/donate&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="366"/>
-        <source>Untitled</source>
-        <translation type="unfinished"></translation>
+        <location filename="../mainwindow.cpp" line="356"/>
+        <source>Delete character</source>
+        <translation>Supprimer personnage</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="415"/>
+        <location filename="../mainwindow.cpp" line="357"/>
+        <source>Copy character</source>
+        <translation>Copier personnage</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="358"/>
+        <source>Character&apos;s Name</source>
+        <translation>Nom du personnage</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="362"/>
+        <source>Apply on all characters</source>
+        <translation>Appliquer à tous les personnages</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="398"/>
+        <source>Copy Path</source>
+        <translation>Copie le chemin</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="400"/>
+        <source>Change Image</source>
+        <translation>Change l&apos;image</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="497"/>
         <source>Documentation of Rcse can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>La documentation de Rcse peut être consultée en ligne sur: &lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="426"/>
+        <location filename="../mainwindow.cpp" line="508"/>
         <source>The charactersheet has unsaved changes.</source>
         <translation>Des changements n’ont pas été enregistrés.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="433"/>
+        <location filename="../mainwindow.cpp" line="515"/>
         <source>Quit %1 </source>
         <translation>Quitter %1 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="488"/>
+        <location filename="../mainwindow.cpp" line="578"/>
         <source>Error! this PDF file can not be read!</source>
         <translation>Erreur! Ce PDF&#xa0;ne peut pas être lu!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="489"/>
+        <location filename="../mainwindow.cpp" line="578"/>
         <source>This PDF document can not be read: %1</source>
         <translation>Ce document PDF&#xa0;ne peut pas être lu:&#xa0;%1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="509"/>
+        <location filename="../mainwindow.cpp" line="600"/>
         <source>Error! This PDF file seems empty!</source>
         <translation>Erreur! Ce PDF semble être vide!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="510"/>
+        <location filename="../mainwindow.cpp" line="600"/>
         <source>This PDF document has no page.</source>
         <translation>Ce document PDF ne contient aucune page.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="518"/>
+        <location filename="../mainwindow.cpp" line="608"/>
         <source>Error! Can not make image!</source>
         <translation>Erreur!&#xa0;Ne peut pas générer d’image!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="519"/>
+        <location filename="../mainwindow.cpp" line="608"/>
         <source>System has failed while making image of the pdf page.</source>
         <translation>Le système a échoué à la création d’image des pages.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="545"/>
-        <source>From PDF</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="570"/>
-        <location filename="../src/mainwindow.cpp" line="908"/>
+        <location filename="../mainwindow.cpp" line="673"/>
+        <location filename="../mainwindow.cpp" line="1552"/>
         <source>Open Background Image</source>
         <translation>Ouvrir une image de fond</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="589"/>
-        <source>Open Image</source>
-        <translation type="unfinished"></translation>
+        <location filename="../mainwindow.cpp" line="985"/>
+        <source>Error!</source>
+        <translation>Erreur!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="614"/>
-        <location filename="../src/mainwindow.cpp" line="748"/>
+        <location filename="../mainwindow.cpp" line="985"/>
+        <source>Background images have to be of the same size</source>
+        <translation>Les images d&apos;arrières-plans doivent être de la même taille</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="999"/>
+        <location filename="../mainwindow.cpp" line="1085"/>
         <source>Save CharacterSheet</source>
         <translation>Sauvegarde le fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="615"/>
-        <location filename="../src/mainwindow.cpp" line="749"/>
+        <location filename="../mainwindow.cpp" line="999"/>
+        <location filename="../mainwindow.cpp" line="1085"/>
         <source>Rolisteam CharacterSheet (*.rcs)</source>
         <translation>Fiche de personnage Rolisteam (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="816"/>
+        <location filename="../mainwindow.cpp" line="1374"/>
         <source>Do you want to erase current QML code ?</source>
         <translation>Voulez-vous effacer le code courant ?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="817"/>
+        <location filename="../mainwindow.cpp" line="1375"/>
         <source>Generate QML code will override any change you made in the QML.&lt;br/&gt;Do you really want to generate QML code ?</source>
         <translation>La génération du code écrasera tous les changements effectués sur le code.&lt;br/&gt;Voulez-vous continuer la génération du code ?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="864"/>
-        <location filename="../src/mainwindow.cpp" line="883"/>
+        <location filename="../mainwindow.cpp" line="1467"/>
+        <location filename="../mainwindow.cpp" line="1484"/>
         <source>Save CharacterSheet View</source>
         <translation>Sauvegarder la vue</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="865"/>
+        <location filename="../mainwindow.cpp" line="1467"/>
         <source>CharacterSheet View (*.qml)</source>
         <translation>Vue de personnage (*.qml)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="884"/>
+        <location filename="../mainwindow.cpp" line="1484"/>
         <source>Rolisteam CharacterSheet View (*.qml)</source>
         <translation>Vue de personnage de Rolisteam (*.qml)</translation>
     </message>
 </context>
 <context>
-    <name>MockCharacter</name>
-    <message>
-        <location filename="../src/data/mockcharacter.cpp" line="11"/>
-        <source>unset Path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/data/mockcharacter.cpp" line="17"/>
-        <source>green</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/data/mockcharacter.cpp" line="21"/>
-        <source>red</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/data/mockcharacter.cpp" line="50"/>
-        <source>Shape has been added [name: %1, path: %2]</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>PageDelegate</name>
     <message>
-        <location filename="../src/delegate/pagedelegate.cpp" line="25"/>
+        <location filename="../delegate/pagedelegate.cpp" line="25"/>
         <source>Page %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Page %1</translation>
     </message>
     <message>
-        <location filename="../src/delegate/pagedelegate.cpp" line="36"/>
+        <location filename="../delegate/pagedelegate.cpp" line="36"/>
         <source>All pages</source>
-        <translation type="unfinished"></translation>
+        <translation>Toutes les pages</translation>
     </message>
     <message>
-        <location filename="../src/delegate/pagedelegate.cpp" line="52"/>
+        <location filename="../delegate/pagedelegate.cpp" line="52"/>
         <source>All Pages</source>
-        <translation type="unfinished"></translation>
+        <translation>Toutes les pages</translation>
     </message>
 </context>
 <context>
     <name>PdfManager</name>
     <message>
-        <location filename="../src/dialog/pdfmanager.ui" line="14"/>
+        <location filename="../pdfmanager.ui" line="14"/>
         <source>Dialog</source>
         <translation>Dialogue</translation>
     </message>
     <message>
-        <location filename="../src/dialog/pdfmanager.ui" line="20"/>
+        <location filename="../pdfmanager.ui" line="20"/>
         <source>Resolution (dots per inch):</source>
         <translation>Résolution (points par pouce):</translation>
     </message>
     <message>
-        <location filename="../src/dialog/pdfmanager.ui" line="57"/>
+        <location filename="../pdfmanager.ui" line="57"/>
         <source>Resolution:</source>
         <translation>Résolution:</translation>
     </message>
     <message>
-        <location filename="../src/dialog/pdfmanager.ui" line="65"/>
+        <location filename="../pdfmanager.ui" line="65"/>
         <source>Set Resolution</source>
         <translation>Définir la résolution</translation>
     </message>
     <message>
-        <location filename="../src/dialog/pdfmanager.ui" line="89"/>
+        <location filename="../pdfmanager.ui" line="89"/>
         <source>Width: </source>
         <translation>Largueur: </translation>
     </message>
     <message>
-        <location filename="../src/dialog/pdfmanager.ui" line="126"/>
+        <location filename="../pdfmanager.ui" line="126"/>
         <source>Height:</source>
         <translation>Hauteur:</translation>
     </message>
@@ -1250,37 +1193,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>PreferencesDialog</name>
     <message>
-        <location filename="../src/preferences/preferencesdialog.ui" line="14"/>
+        <location filename="../preferencesdialog.ui" line="14"/>
         <source>Dialog</source>
         <translation>Dialogue</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.ui" line="20"/>
+        <location filename="../preferencesdialog.ui" line="20"/>
         <source>QML Generation</source>
         <translation>Génération QML</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.ui" line="26"/>
+        <location filename="../preferencesdialog.ui" line="26"/>
         <source>Custom path</source>
         <translation>Chemin personnalisé</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.ui" line="35"/>
+        <location filename="../preferencesdialog.ui" line="35"/>
         <source>Generation Path</source>
         <translation>Chemin de génération</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.ui" line="52"/>
+        <location filename="../preferencesdialog.ui" line="52"/>
         <source>Select</source>
         <translation>Sélectionner</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="36"/>
+        <location filename="../preferencesdialog.cpp" line="36"/>
         <source>Directory to save QML file</source>
         <translation>Dossier de génération du QML</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="36"/>
+        <location filename="../preferencesdialog.cpp" line="36"/>
         <source>Place to save Generated files</source>
         <translation>Lieu de sauvegarde des fichiers générés</translation>
     </message>
@@ -1288,467 +1231,483 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="78"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="88"/>
         <source>abs : too many arguments</source>
         <translation>abs : trop de paramètres</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="82"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="92"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="226"/>
         <source>abs : too few arguments</source>
         <translation>abs : trop peu de paramètres</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="100"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="111"/>
         <source>ceil : too many arguments</source>
         <translation>ceil : trop de paramètres</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="104"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="115"/>
         <source>ceil : too few arguments</source>
         <translation>ceil : trop peu d&apos;arguments</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="121"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="133"/>
         <source>floor : too many arguments</source>
         <translation>floor : trop de paramètres</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="125"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="137"/>
         <source>floor : too few arguments</source>
         <translation>floor : trop peu d&apos;arguments</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="142"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="155"/>
         <source>concatenate : too few arguments</source>
         <translation>contaténation : trop peu de paramètres</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="165"/>
-        <source>min : too few arguments</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="194"/>
-        <source>max : too few arguments</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="223"/>
-        <source>avg : too few arguments</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/charactersheet/formula/nodes/scalaroperatorfnode.cpp" line="71"/>
+        <location filename="../charactersheet/formula/nodes/scalaroperatorfnode.cpp" line="82"/>
         <source>Error: division by Zero</source>
         <translation>Erreur:&#xa0;division par zéro</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="40"/>
-        <location filename="../src/undo/addfieldcommand.cpp" line="112"/>
+        <location filename="../main.cpp" line="40"/>
+        <location filename="../undo/addfieldcommand.cpp" line="105"/>
         <source>Unknown</source>
         <translation>Inconnue</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="185"/>
+        <location filename="../diceparser/diceparser.cpp" line="177"/>
         <source>Nothing was understood. To roll dice: !1d6 - full documation: &lt;a href=&quot;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Commande incompréhensible. Pour jeter un dé: !1d6 - documation complète: &lt;a href=&quot;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="195"/>
-        <source>Unexpected character at %1 - end of command was ignored &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="231"/>
-        <source>Expected closing parenthesis - can&apos;t validate the inside.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="703"/>
+        <location filename="../diceparser/diceparser.cpp" line="670"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
-        <translation type="unfinished"></translation>
+        <translation>Un dé avec %1 face(s) n&apos;existe pas. S&apos;il vous plaît, veuillez entrer une valeur supérieure à 0</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="758"/>
+        <location filename="../diceparser/diceparser.cpp" line="723"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
-        <translation type="unfinished"></translation>
+        <translation>La liste est manquante après l&apos;opérateur L. Veuillez en ajouter une (exemple: 1L[épée,lance,pistolet,flèche])</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="1086"/>
+        <location filename="../diceparser/diceparser.cpp" line="1047"/>
         <source>Validator is missing after the c operator. Please, change it</source>
-        <translation type="unfinished"></translation>
+        <translation>Validateur manquant après l&apos;opérateur c. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="1102"/>
-        <location filename="../src/diceparser/diceparser.cpp" line="1122"/>
+        <location filename="../diceparser/diceparser.cpp" line="1061"/>
+        <location filename="../diceparser/diceparser.cpp" line="1082"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
-        <translation type="unfinished"></translation>
+        <translation>Validateur manquant après l&apos;opérateur %1. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="1139"/>
+        <location filename="../diceparser/diceparser.cpp" line="1098"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
-        <translation type="unfinished"></translation>
+        <translation>La condition %1 introduit une boucle infinie. Veuillez la changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="1151"/>
+        <location filename="../diceparser/diceparser.cpp" line="1109"/>
         <source>Validator is missing after the e operator. Please, change it</source>
-        <translation type="unfinished"></translation>
+        <translation>Validateur manquant après l&apos;opérateur e. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/dicerollernode.cpp" line="25"/>
+        <location filename="../diceparser/node/dicerollernode.cpp" line="30"/>
         <source>No dice to roll</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun dé a lancé</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/dicerollernode.cpp" line="34"/>
+        <location filename="../diceparser/node/dicerollernode.cpp" line="35"/>
         <source>More unique values asked than possible values (D operator)</source>
-        <translation type="unfinished"></translation>
+        <translation>Demande de valeurs uniques supérieure aux valeurs possibles (Opérateur D)</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/jumpbackwardnode.cpp" line="122"/>
-        <source> The @ operator expects dice result. Please check the documentation to fix your command.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/diceparser/node/keepdiceexecnode.cpp" line="61"/>
-        <source> You ask to keep %1 dice but the result only has %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/diceparser/node/listaliasnode.cpp" line="47"/>
-        <source>List of Alias:
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/diceparser/node/listsetrollnode.cpp" line="69"/>
-        <source>More unique values asked than possible values (L operator)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/diceparser/node/rerolldicenode.cpp" line="83"/>
-        <source> The a operator expects dice result. Please check the documentation and fix your command.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/diceparser/node/scalaroperatornode.cpp" line="131"/>
-        <source>Division by zero</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/diceparser/node/variablenode.cpp" line="27"/>
-        <source>No variable at index:%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addcharactercommand.cpp" line="27"/>
-        <source>Add Character #%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addfieldcommand.cpp" line="59"/>
-        <source>checkbox</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addfieldcommand.cpp" line="63"/>
-        <source>TextInput</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addfieldcommand.cpp" line="67"/>
-        <source>TextArea</source>
-        <translation type="unfinished">Zone de texte</translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addfieldcommand.cpp" line="71"/>
-        <source>TextField</source>
-        <translation type="unfinished">Champs Texte</translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addfieldcommand.cpp" line="76"/>
-        <source>Table</source>
-        <translation type="unfinished">Tableau</translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addfieldcommand.cpp" line="81"/>
-        <source>Image</source>
-        <translation type="unfinished">Image</translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addfieldcommand.cpp" line="85"/>
-        <source>LabelField</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addfieldcommand.cpp" line="89"/>
-        <source>function</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addfieldcommand.cpp" line="94"/>
-        <source>Dice Button</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addfieldcommand.cpp" line="98"/>
-        <source>Web Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addfieldcommand.cpp" line="102"/>
-        <source>Next Page Button</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addfieldcommand.cpp" line="106"/>
-        <source>Previous Page Button</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addfieldcommand.cpp" line="116"/>
-        <source>Add %1 Field</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/addpagecommand.cpp" line="31"/>
-        <source>Add Page #%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/deletecharactercommand.cpp" line="27"/>
-        <source>Delete Character #%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../src/undo/deletefieldcommand.cpp" line="57"/>
-        <source>Delete %n Field(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <location filename="../src/undo/deletepagecommand.cpp" line="37"/>
-        <source>Delete Page #%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../src/undo/movefieldcommand.cpp" line="32"/>
-        <source>Move %n Field(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <location filename="../src/undo/setbackgroundimage.cpp" line="51"/>
-        <source>Set background on Page #%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/setbackgroundimage.cpp" line="53"/>
-        <source>Add Page #%1 and Set background on it</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/setfieldproperties.cpp" line="29"/>
-        <source>Set Property %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/undo/setpropertyonallcharacters.cpp" line="15"/>
-        <source>Set property on all characters: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/diceparser/node/helpnode.cpp" line="34"/>
+        <location filename="../diceparser/node/helpnode.cpp" line="35"/>
         <source>Rolisteam Dice Parser:
 
 Example (with ! as prefix):
 !2d6
 !1d20
-!6d10e10k3 (L5R)
+
+Operator list:
+
+k : Keep             : 2d10k1       =&gt; roll two 10-sided dice and keep the higher one (kl1 for smaller one)
+K : Keep And Explode : 2d10K1       =&gt; Equivalent of 2d10e10k1
+s : Sort             : 8d10         =&gt; roll eight 10-sided dice and sort the result list
+c : Count            : 8d10c[&gt;7]    =&gt; roll eight 10-sided dice and count how many dice are higher than 7
+r : Reroll           : 8d6r1        =&gt; roll eight 6-sided dice and reroll dice once if its result is 1. (result of the reroll can be 1)
+e : Explode          : 8d10e10      =&gt; roll eight 10-sided dice and while dice makes a 10 it is reroll. The result is added to those dice.
+a : Reroll and add   : 8d6a1        =&gt; roll eight 6-sided dice and reroll dice once and the result is added at 1
+m : Merge            : 1d20;1d10mk1 =&gt; roll one 20-side die and one 10-sided die and keep the higher die
+i : if               : 1d100i[=100]{&quot;jackpot&quot;} =&gt; Roll one 100-side die and display &quot;jackpot&quot; if the die result is 100.
+f : filter           : 4d10f[!=4]       =&gt; roll four 10-sided dice and ignore all dice with 4 as result; : Next instruction : 1d20;2d10;3d8 =&gt; roll one 20-sided die, two 10-sided dice and three 8-sided dice 
+g : Group            : 8d10g10       =&gt; count how many group of 10 it is possible to do (according to rule of 7th sea).
+# : Comment          : 1d2 #flip coin=&gt; display flip coin as comment of 1 or 2 result.
+
+Validator:
+
+Supported conditions: &gt;,&lt;,=,&gt;=,&lt;=,!=
+Supported operators: % (modulo), &amp;,^,| 
+
+	Examples:
+
+c[&gt;7 &amp; %2=0] : count how many dice are higher than 7 and even
+c[&gt;7 | %2=0] : count how many dice are higher than 7 or even
+c[&gt;7 ^ %2=0] : count how many dice are higher than 7 or even but not higher than 7 and even
+
+List:
+
+1L[green,blue] =&gt; pick value from the list (green or blue)
+2L[green,blue] =&gt; pick two values from the list (green,green | green,blue | blue,green | blue,blue)
+2Lu[green,blue] =&gt; pick two unique values from the list (green,blue | blue,green)
+
+Arithmetic
+
+8+8+8      =&gt; 24
+24-4       =&gt; 20
+(3+4)*2    =&gt; 14
+7/2        =&gt; 3.5
+2^4        =&gt; 16
+1d6+6      =&gt; roll one 6-sided die and add 6 to its result
+(2d4+2)d10 =&gt; roll two 4-sided dice, add 2 to the result[2;8] then roll from four to ten 10-sided dice
 
 Full documentation at: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolisteam Dice Parser:
+
+Exemple (avec ! comme prefixe):
+!2d6
+!1d20
+
+Liste des operateurs:
+
+k : Keep             : 2d10k1       =&gt; Jette 2 dés à 10 faces et garde le plus grand. (Pour le plus petit kl1)
+K : Keep And Explode : 2d10K1       =&gt; Équivalent à 2d10e10k1
+s : Sort             : 8d10s         =&gt; Jette 8 dés à 10 faces et trie le résultat.
+c : Count            : 8d10c[&gt;7]    =&gt; Jette 8 dés à 10 faces et compte le nombre de dés qui dépasse 7
+r : Reroll           : 8d6r1        =&gt; Jette 8 dés à 6 faces et relance les 1 une seule fois. (Le résultat de la relance peut faire 1)
+e : Explode          : 8d10e10      =&gt; Jette 8 dés à 10 faces et tant que un dé fait 10 il est relancé. Le résultat de la relance est ajouté au résultat du dé.
+a : Reroll and add   : 8d6a1        =&gt; Jette 8 dés à 6 faces et relance une fois les dés ayant fait 1. La relance est ajouté au résultat du dé.
+m : Merge            : 1d20;1d10mk1 =&gt; Jette un dé à 20 face et un dé à 10 faces, fusionne les deux résultat dans un même Résultat de Dés, et garde le meilleur des 2 dés.
+i : if               : 1d100i[=100]{&quot;jackpot&quot;} =&gt; Jette un dé à 100 faces, et affiche &quot;jackpot&quot; si le résultat du dés est de 100.
+f : filter           : 4d10f[!=4]       =&gt; Jette 4 dés à 10 faces et ignore tous les dés dont la valeur est égale à 4.
+Next instruction : 1d20;2d10;3d8 =&gt; Jette un dé à 20 faces, 2 dés à 10 faces et 3 dés à 8 faces. 
+g : Group            : 8d10g10       =&gt; Compte combien de groupe de 10 peut-on faire avec le résultat des 8 dés à 10 faces (en accord avec les règles de 7ème mer).
+# : Commentaire         : 1d2 #pile ou face =&gt; affiche pile ou face comme commentaire pour le résultat 1 ou 2.
+
+Validateur:
+
+Conditions supportées: &gt;,&lt;,=,&gt;=,&lt;=,!=
+Opérations supportées: % (modulo), &amp;,^,| 
+
+	Exemples:
+
+c[&gt;7 &amp; %2=0] : compte combien de dés sont supérieur à 7 et pair.
+c[&gt;7 | %2=0] : compte combien de dés sont supérieur à 7 ou pair.
+c[&gt;7 ^ %2=0] : compte combien de dés sont supérieur à 7 ou pair mais ne compte pas les dés supérieurs à 7 et pair.
+
+Liste:
+
+1L[vert,bleu] =&gt; Sélection une valeur (vert or bleu)
+2L[vert,bleu] =&gt; Sélection deux valeurs (vert,vert | vert,bleu | bleu,vert | bleu,bleu)
+2Lu[vert,bleu] =&gt; Sélection deux valeurs uniques (green,bleu | bleu,green)
+
+Arithmétique
+
+8+8+8      =&gt; 24
+24-4       =&gt; 20
+(3+4)*2    =&gt; 14
+7/2        =&gt; 3.5
+2^4        =&gt; 16
+1d6+6      =&gt; Jette un dé à 6 faces et ajoute 6 au résultat
+(2d4+2)d10 =&gt; Jette deux dés à 4 faces, ajoute 2 au résultat [2;8] puis, jette de 4 à 10 dés à 10 faces.
+
+Documentation complète sur: %1</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/mergenode.cpp" line="32"/>
-        <source>No previous node before Merge operator</source>
-        <translation type="unfinished"></translation>
+        <location filename="../diceparser/node/jumpbackwardnode.cpp" line="126"/>
+        <source> The @ operator expects dice result. Please check the documentation to fix your command.</source>
+        <translation> L&apos;opérateur @ attend un résultat de dés. Veuillez vérifier la documentation afin de corriger votre commande.</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/paintnode.cpp" line="64"/>
-        <source>No previous node before Paint operator</source>
-        <translation type="unfinished"></translation>
+        <location filename="../diceparser/node/keepdiceexecnode.cpp" line="64"/>
+        <source> You ask to keep %1 dice but the result only has %2</source>
+        <translation> Vous voulez garder %1 dés mais le resultat n&apos;en contient que %2</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/occurencecountnode.cpp" line="147"/>
-        <source>No matching result</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QmlGeneratorController</name>
-    <message>
-        <location filename="../src/controllers/qmlgeneratorcontroller.cpp" line="19"/>
-        <location filename="../src/controllers/qmlgeneratorcontroller.cpp" line="217"/>
-        <source>The character value %1 has been defined to %2</source>
-        <translation type="unfinished"></translation>
+        <location filename="../diceparser/node/listaliasnode.cpp" line="48"/>
+        <source>List of Alias:
+</source>
+        <translation>Liste des Alias:
+</translation>
     </message>
     <message>
-        <location filename="../src/controllers/qmlgeneratorcontroller.cpp" line="389"/>
-        <source>The dice command %1 has been sent.</source>
-        <translation type="unfinished"></translation>
+        <location filename="../diceparser/node/listsetrollnode.cpp" line="70"/>
+        <source>More unique values asked than possible values (L operator)</source>
+        <translation>Demande de valeurs uniques supérieure aux valeurs possibles (Opérateur L)</translation>
     </message>
     <message>
-        <location filename="../src/controllers/qmlgeneratorcontroller.cpp" line="395"/>
-        <source>The dice command %1 has been sent with aliases</source>
-        <translation type="unfinished"></translation>
+        <location filename="../diceparser/node/rerolldicenode.cpp" line="87"/>
+        <source> The a operator expects dice result. Please check the documentation and fix your command.</source>
+        <translation> L&apos;opérateur a doit être précédé d&apos;un résultat de dés. Veuillez contrôler la documentation pour réparer votre commande.</translation>
     </message>
     <message>
-        <location filename="../src/controllers/qmlgeneratorcontroller.cpp" line="397"/>
-        <source>The dice command %1 has been sent with no aliases</source>
-        <translation type="unfinished"></translation>
+        <location filename="../diceparser/node/scalaroperatornode.cpp" line="124"/>
+        <source>Division by zero</source>
+        <translation>Division par zéro</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/node/variablenode.cpp" line="26"/>
+        <source>No variable at index:%1</source>
+        <translation>Pas de variable à la position: %1</translation>
+    </message>
+    <message>
+        <location filename="../undo/addcharactercommand.cpp" line="29"/>
+        <source>Add Character #%1</source>
+        <translation>Ajouter un personnage #%1</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="56"/>
+        <source>checkbox</source>
+        <translation>case à cocher</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="60"/>
+        <source>TextInput</source>
+        <translation>Entrée Text</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="64"/>
+        <source>TextArea</source>
+        <translation>Zone de texte</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="68"/>
+        <source>TextField</source>
+        <translation>Champs Texte</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="73"/>
+        <source>Table</source>
+        <translation>Table</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="78"/>
+        <source>Image</source>
+        <translation>Image</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="82"/>
+        <source>function</source>
+        <translation>fonction</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="87"/>
+        <source>Dice Button</source>
+        <translation>Bouton de dés</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="91"/>
+        <source>Web Page</source>
+        <translation>Page web</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="95"/>
+        <source>Next Page Button</source>
+        <translation>Bouton Page Suivante</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="99"/>
+        <source>Previous Page Button</source>
+        <translation>Bouton Page Précédente</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="109"/>
+        <source>Add %1 Field</source>
+        <translation>Ajouter un champs %1</translation>
+    </message>
+    <message>
+        <location filename="../undo/addpagecommand.cpp" line="29"/>
+        <source>Add Page #%1</source>
+        <translation>Ajouter une page #%1</translation>
+    </message>
+    <message>
+        <location filename="../undo/addpagecommand.cpp" line="44"/>
+        <location filename="../undo/deletepagecommand.cpp" line="43"/>
+        <source>Page %1</source>
+        <translation>Page %1</translation>
+    </message>
+    <message>
+        <location filename="../undo/deletecharactercommand.cpp" line="26"/>
+        <source>Delete Character #%1</source>
+        <translation>Supprimer un personnage #%1</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../undo/deletefieldcommand.cpp" line="57"/>
+        <source>Delete %n Field(s)</source>
+        <translation>
+            <numerusform>Supprimer %n champs</numerusform>
+            <numerusform>Supprimer %n champs</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../undo/deletepagecommand.cpp" line="37"/>
+        <source>Delete Page #%1</source>
+        <translation>Supprimer la page #%1</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../undo/movefieldcommand.cpp" line="32"/>
+        <source>Move %n Field(s)</source>
+        <translation>
+            <numerusform>Déplacer %n champs</numerusform>
+            <numerusform>Déplacer %n champs</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../undo/setbackgroundimage.cpp" line="46"/>
+        <source>Set background on Page #%1</source>
+        <translation>Définir l&apos;arrière-plan de la Page #%1</translation>
+    </message>
+    <message>
+        <location filename="../undo/setfieldproperties.cpp" line="29"/>
+        <source>Set Property %1</source>
+        <translation>Définir la propriété %1</translation>
+    </message>
+    <message>
+        <location filename="../undo/setpropertyonallcharacters.cpp" line="15"/>
+        <source>Set property on all characters: %1</source>
+        <translation>Définir la propriété sur tous les personnages: %1</translation>
     </message>
 </context>
 <context>
     <name>SheetProperties</name>
     <message>
-        <location filename="../src/dialog/sheetproperties.ui" line="14"/>
+        <location filename="../sheetproperties.ui" line="14"/>
         <source>Sheet Properties</source>
         <translation>Propriétés de la fiche</translation>
     </message>
     <message>
-        <location filename="../src/dialog/sheetproperties.ui" line="26"/>
+        <location filename="../sheetproperties.ui" line="26"/>
         <source>Sheet should keep the same size.</source>
-        <translation>La fiche doit garder la même taille.</translation>
+        <translation>Fiche à taille fixe.</translation>
     </message>
     <message>
-        <location filename="../src/dialog/sheetproperties.ui" line="50"/>
+        <location filename="../sheetproperties.ui" line="50"/>
         <source>Fixed scale:</source>
-        <translation>Facteur d’échelle:</translation>
+        <translation>Échelle fixe:</translation>
     </message>
     <message>
-        <location filename="../src/dialog/sheetproperties.ui" line="81"/>
+        <location filename="../sheetproperties.ui" line="81"/>
         <source>Additionnal Import:</source>
-        <translation>imports additionnels:</translation>
+        <translation>Import supplémentaire:</translation>
     </message>
     <message>
-        <location filename="../src/dialog/sheetproperties.ui" line="115"/>
-        <source>Additionnal Head Code:</source>
-        <translation type="unfinished"></translation>
+        <location filename="../sheetproperties.ui" line="115"/>
+        <source>Additionnal Function Code:</source>
+        <translation>Code des fonctions additionnelles:</translation>
     </message>
     <message>
-        <location filename="../src/dialog/sheetproperties.ui" line="142"/>
-        <source>Additionnal Bottom Code:</source>
-        <translation type="unfinished"></translation>
+        <location filename="../sheetproperties.ui" line="142"/>
+        <source>Place to add the code</source>
+        <translation>Position du code</translation>
     </message>
     <message>
-        <location filename="../src/dialog/sheetproperties.ui" line="167"/>
+        <location filename="../sheetproperties.ui" line="150"/>
+        <source>At the beginning</source>
+        <translation>Au début</translation>
+    </message>
+    <message>
+        <location filename="../sheetproperties.ui" line="155"/>
+        <source>At the end</source>
+        <translation>à la fin</translation>
+    </message>
+    <message>
+        <location filename="../sheetproperties.ui" line="178"/>
         <source>Embedded Fonts:</source>
-        <translation type="unfinished"></translation>
+        <translation>Polices de caractères embarquées:</translation>
     </message>
     <message>
-        <location filename="../src/dialog/sheetproperties.ui" line="178"/>
-        <location filename="../src/dialog/sheetproperties.ui" line="189"/>
+        <location filename="../sheetproperties.ui" line="189"/>
+        <location filename="../sheetproperties.ui" line="200"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>…</translation>
     </message>
     <message>
-        <location filename="../src/dialog/sheetproperties.cpp" line="17"/>
+        <location filename="../sheetproperties.cpp" line="15"/>
         <source>Add Font file</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Table</name>
-    <message>
-        <location filename="../src/charactersheet/qml/Table.qml" line="27"/>
-        <source>Add line</source>
-        <translation type="unfinished">Ajouter champ</translation>
-    </message>
-    <message>
-        <location filename="../src/charactersheet/qml/Table.qml" line="31"/>
-        <source>Remove current Line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/charactersheet/qml/Table.qml" line="37"/>
-        <source>Remove Last line</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter une police de caractères</translation>
     </message>
 </context>
 <context>
     <name>TableCanvasField</name>
     <message>
-        <location filename="../src/tablecanvasfield.cpp" line="147"/>
+        <location filename="../tablecanvasfield.cpp" line="169"/>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Propriétés</translation>
+    </message>
+    <message>
+        <location filename="../tablecanvasfield.cpp" line="176"/>
+        <source>Add Line</source>
+        <translation>Ajouter une ligne</translation>
     </message>
 </context>
 <context>
     <name>TypeDelegate</name>
     <message>
-        <location filename="../src/delegate/typedelegate.cpp" line="25"/>
+        <location filename="../delegate/typedelegate.cpp" line="26"/>
         <source>TextInput</source>
         <translation>Entrée Text</translation>
     </message>
     <message>
-        <location filename="../src/delegate/typedelegate.cpp" line="25"/>
+        <location filename="../delegate/typedelegate.cpp" line="27"/>
         <source>TextField</source>
         <translation>Champs Texte</translation>
     </message>
     <message>
-        <location filename="../src/delegate/typedelegate.cpp" line="25"/>
+        <location filename="../delegate/typedelegate.cpp" line="28"/>
         <source>TextArea</source>
         <translation>Zone de texte</translation>
     </message>
     <message>
-        <location filename="../src/delegate/typedelegate.cpp" line="25"/>
+        <location filename="../delegate/typedelegate.cpp" line="29"/>
         <source>Select</source>
         <translation>Selecteur</translation>
     </message>
     <message>
-        <location filename="../src/delegate/typedelegate.cpp" line="25"/>
+        <location filename="../delegate/typedelegate.cpp" line="30"/>
         <source>Checkbox</source>
         <translation>Boîte à cocher</translation>
     </message>
     <message>
-        <location filename="../src/delegate/typedelegate.cpp" line="25"/>
+        <location filename="../delegate/typedelegate.cpp" line="31"/>
         <source>Image</source>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../src/delegate/typedelegate.cpp" line="26"/>
+        <location filename="../delegate/typedelegate.cpp" line="32"/>
         <source>Dice Button</source>
-        <translation>Bouton de dé</translation>
+        <translation>Bouton de dés</translation>
     </message>
     <message>
-        <location filename="../src/delegate/typedelegate.cpp" line="26"/>
+        <location filename="../delegate/typedelegate.cpp" line="33"/>
         <source>Function Button</source>
-        <translation type="unfinished"></translation>
+        <translation>Bouton de fonction</translation>
     </message>
     <message>
-        <location filename="../src/delegate/typedelegate.cpp" line="26"/>
+        <location filename="../delegate/typedelegate.cpp" line="34"/>
         <source>WebView</source>
-        <translation type="unfinished"></translation>
+        <translation>Page Web</translation>
     </message>
     <message>
-        <location filename="../src/delegate/typedelegate.cpp" line="26"/>
+        <location filename="../delegate/typedelegate.cpp" line="35"/>
         <source>Next Page Button</source>
-        <translation type="unfinished"></translation>
+        <translation>Bouton Page Suivante</translation>
     </message>
     <message>
-        <location filename="../src/delegate/typedelegate.cpp" line="26"/>
-        <source>RLabel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/delegate/typedelegate.cpp" line="27"/>
+        <location filename="../delegate/typedelegate.cpp" line="36"/>
         <source>Previous Page Button</source>
-        <translation type="unfinished"></translation>
+        <translation>Bouton Page Précédente</translation>
     </message>
 </context>
 </TS>

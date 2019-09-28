@@ -60,7 +60,7 @@ isEmpty(QMAKE_LUPDATE) {
 }
 updateTrans.input = rcse.pro
 updateTrans.output= ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.ts
-updateTrans.command= ${QMAKE_LRELEASE} rcse.pro
+updateTrans.command= ${QMAKE_LUPDATE} rcse.pro
 
 unix:!macx{
 # linux only
