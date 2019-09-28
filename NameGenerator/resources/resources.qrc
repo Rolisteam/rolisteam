@@ -20,5 +20,6 @@
         <file>datarussian_firstname_w.txt</file>
         <file>lastName_russian.txt</file>
         <file>result_last_name_russian.txt</file>
+        <file>lastName_english.txt</file>
     </qresource>
 </RCC>

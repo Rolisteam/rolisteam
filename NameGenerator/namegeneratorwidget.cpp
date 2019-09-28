@@ -137,6 +137,25 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget* parent) : QWidget(parent), ui(
     russianName.generate= true;
     russianName.id= 13;
 
+    // English
+    DataBase englishMale;
+    englishMale.filepath= ":/data/data_Name_English_Male.txt";
+    englishMale.gender= Male;
+    englishMale.generate= false;
+    englishMale.id= 14;
+
+    DataBase englishFemale;
+    englishFemale.filepath= ":/data/data_Name_English_Female.txt";
+    englishFemale.gender= Female;
+    englishFemale.generate= false;
+    englishFemale.id= 15;
+
+    DataBase englishName;
+    englishName.filepath= ":/data/lastName_english.txt";
+    englishName.gender= NONE;
+    englishName.generate= false;
+    englishName.id= 16;
+
     // database
     QHash<QString, DataBase> chineseDataBase;
     chineseDataBase.insert(MName, chineseMale);
@@ -166,6 +185,11 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget* parent) : QWidget(parent), ui(
     russianDataBase.insert(FName, russianFemale);
     russianDataBase.insert(LName, russianName);
 
+    QHash<QString, DataBase> englishDataBase;
+    englishDataBase.insert(MName, englishMale);
+    englishDataBase.insert(FName, englishFemale);
+    englishDataBase.insert(LName, englishName);
+
     // inserting databases
     m_complexName.insert(Japanese, jpnDataBase);
     m_complexName.insert(Chinese, chineseDataBase);
@@ -173,6 +197,7 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget* parent) : QWidget(parent), ui(
     m_complexName.insert(French, FrenchDataBase);
     m_complexName.insert(StarWars, swDataBase);
     m_complexName.insert(Russian, russianDataBase);
+    m_complexName.insert(English, englishDataBase);
 
     checkFeatureAvailability();
 }
