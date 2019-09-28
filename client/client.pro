@@ -63,28 +63,24 @@ for(tsfile, TRANSLATIONS) {
 }
 
 
-#isEmpty(QMAKE_LRELEASE) {
-#    win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease.exe
-#    else:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
-#}
-#isEmpty(QMAKE_LUPDATE) {
-#    win32:QMAKE_LUPDATE = $$[QT_INSTALL_BINS]/lupdate.exe
-#    else:QMAKE_LUPDATE = $$[QT_INSTALL_BINS]/lupdate
-#}
-#updateTrans.input = src.pro
-#updateTrans.output= ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.ts
-#updateTrans.command= ${QMAKE_LRELEASE} src.pro
-
+isEmpty(QMAKE_LRELEASE) {
+    win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease.exe
+    else:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
+}
+isEmpty(QMAKE_LUPDATE) {
+    win32:QMAKE_LUPDATE = $$[QT_INSTALL_BINS]/lupdate.exe
+    else:QMAKE_LUPDATE = $$[QT_INSTALL_BINS]/lupdate
+}
 
 unix:!macx{
 # linux only
-#updateqm.input = TRANSLATIONS
-#updateqm.output = ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.qm
-#updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.qm
-#updateqm.CONFIG += no_link
-#QMAKE_EXTRA_COMPILERS += pdateqm
-#PRE_TARGETDEPS += compiler_updateqm_make_all
-## End of Translation
+updateqm.input = TRANSLATIONS
+updateqm.output = ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.qm
+updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.qm
+updateqm.CONFIG += no_link
+#QMAKE_EXTRA_COMPILERS += updateqm
+#PRE_TARGETDEPS += updateqm
+# End of Translation
 
 ##Installation
 target.path = $$PREFIX/
