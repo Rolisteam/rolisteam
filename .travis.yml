@@ -47,9 +47,9 @@ matrix:
       install:
             - brew install cppcheck
             - brew install qt5
-            - brew link --force qt
+            - brew link --force qt5 && ln -s /usr/local/Cellar/qt5/5.12.3/mkspecs /usr/local/mkspecs && ln -s /usr/local/Cellar/qt5/5.12.3/plugins /usr/local/plugins
       env:
-          - QMAKESPEC=macx-clang QMAKE_CXXFLAGS="" QMAKE_LFLAGS=""
+          - QMAKESPEC=macx-clang QMAKE_CXXFLAGS="" QMAKE_LFLAGS="" PATH=/usr/local/opt/qt5/bin:$PATH CMAKE_PREFIX_PATH=/usr/local/Cellar/qt5/5.12.3
 
 script:
   - mkdir -p "$TRAVIS_BUILD_DIR-build"
