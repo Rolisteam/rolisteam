@@ -20,6 +20,7 @@
 
 #include "player.h"
 #include "data/character.h"
+#include <QBuffer>
 
 #include <QDebug>
 Player::Player() {}
@@ -54,9 +55,17 @@ void Player::readFromMsg(NetworkMessageReader& data)
     m_name= data.string16();
     m_uuid= data.string8();
 
-    m_color       = QColor(data.rgb());
-    m_gameMaster  = (data.uint8() != 0);
-    m_softVersion = data.string16();
+    m_color= QColor(data.rgb());
+    m_gameMaster= (data.uint8() != 0);
+    m_softVersion= data.string16();
+
+    bool hasAvatar= static_cast<bool>(data.uint8());
+    if(hasAvatar)
+    {
+        auto avatar= QImage::fromData(data.byteArray32());
+        setAvatar(avatar);
+    }
+
     int childCount= data.int32();
     for(int i= 0; (i < childCount && data.isValid()); ++i)
     {
@@ -91,8 +100,28 @@ void Player::fill(NetworkMessageWriter& message, bool addAvatar)
     message.rgb(m_color.rgb());
     message.uint8(m_gameMaster ? 1 : 0);
     message.string16(QCoreApplication::instance()->applicationVersion());
-    message.int32(m_characters.size());
 
+    // Avatar
+    if(addAvatar)
+    {
+        message.uint8(static_cast<quint8>(!m_avatar.isNull()));
+        if(!m_avatar.isNull())
+        {
+            QByteArray baImage;
+            QBuffer bufImage(&baImage);
+            if(m_avatar.save(&bufImage, "PNG", 70))
+            {
+                message.byteArray32(baImage);
+            }
+        }
+    }
+    else
+    {
+        message.uint8(static_cast<quint8>(false));
+    }
+
+    // Characters
+    message.int32(m_characters.size());
     for(auto& item : m_characters)
     {
         item->fill(message, addAvatar);

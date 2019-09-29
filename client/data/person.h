@@ -43,6 +43,7 @@ class Person : public QObject, public ResourcesNode
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QColor color READ getColor WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(QImage avatar READ getAvatar WRITE setAvatar NOTIFY avatarChanged)
+    Q_PROPERTY(QString avatarPath READ avatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
 public:
     /**
      * @brief Person
@@ -66,13 +67,7 @@ public:
      * @return
      */
     const QString getUuid() const;
-    virtual void setName(const QString& name) override;
-    /**
-     * @brief setColor
-     * @param color
-     * @return
-     */
-    bool setColor(const QColor& color);
+
     /**
      * @brief color
      * @return
@@ -100,11 +95,6 @@ public:
      * @brief gives access to person's avatar.
      */
     virtual bool hasAvatar() const;
-
-    /**
-     * @brief set the person's avatar.
-     */
-    virtual void setAvatar(const QImage& p);
     /**
      * @brief checkedState
      * @return
@@ -133,11 +123,27 @@ public:
     virtual void write(QDataStream& out, bool tag= true, bool saveData= true) const override;
     virtual void read(QDataStream& in) override;
     virtual bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node) override;
+    virtual QString avatarPath() const;
+
+public slots:
+    /**
+     * @brief setColor
+     * @param color
+     * @return
+     */
+    bool setColor(const QColor& color);
+    /**
+     * @brief set the person's avatar.
+     */
+    virtual void setAvatar(const QImage& p);
+    void setAvatarPath(const QString& avatarPath);
+    virtual void setName(const QString& name) override;
 
 signals:
     void nameChanged();
     void colorChanged();
     void avatarChanged();
+    void avatarPathChanged();
 
 protected:
     /**
@@ -147,6 +153,7 @@ protected:
     QString m_uuid;
     QColor m_color;
     QImage m_avatar;
+    QString m_avatarPath;
     Person* m_parentPerson= nullptr;
     Qt::CheckState m_checkState;
 

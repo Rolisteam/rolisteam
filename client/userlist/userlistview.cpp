@@ -283,6 +283,7 @@ void UserListView::addAvatar()
         QString uuid= index.data(PlayersList::IdentifierRole).toString();
         Person* tmpperso= PlayersList::instance()->getPerson(uuid);
         QImage im(path);
+        tmpperso->setAvatarPath(path);
         tmpperso->setAvatar(im);
         emit m_model->dataChanged(index, index);
     }
@@ -296,6 +297,7 @@ void UserListView::deleteAvatar()
         QString uuid= index.data(PlayersList::IdentifierRole).toString();
         Person* tmpperso= PlayersList::instance()->getPerson(uuid);
         QImage im;
+        tmpperso->setAvatarPath(QStringLiteral(""));
         tmpperso->setAvatar(im);
     }
 }

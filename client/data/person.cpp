@@ -153,3 +153,15 @@ QIcon Person::getIcon()
 {
     return QIcon(QPixmap::fromImage(m_avatar));
 }
+void Person::setAvatarPath(const QString& avatarPath)
+{
+    if(m_avatarPath == avatarPath)
+        return;
+
+    m_avatarPath= avatarPath;
+    emit avatarPathChanged();
+}
+QString Person::avatarPath() const
+{
+    return m_avatarPath;
+}

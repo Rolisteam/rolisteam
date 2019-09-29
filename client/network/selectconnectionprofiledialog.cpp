@@ -107,8 +107,16 @@ void ProfileModel::readSettings()
         profile->setServerMode(settings.value("server").toBool());
         profile->setGm(settings.value("gm").toBool());
         profile->setHash(QByteArray::fromBase64(settings.value("password").toByteArray()));
+
         QColor color= settings.value("PlayerColor").value<QColor>();
+        auto playerAvatarPath= settings.value("playerAvatarPath").toString();
         Player* player= new Player(profile->getName(), color, profile->isGM());
+        player->setAvatarPath(playerAvatarPath);
+        if(QFile::exists(playerAvatarPath))
+        {
+            QImage img(playerAvatarPath);
+            player->setAvatar(img);
+        }
         player->setUserVersion(m_version);
         profile->setPlayer(player);
 
@@ -219,6 +227,7 @@ void ProfileModel::writeSettings()
         settings.setValue("gm", profile->isGM());
         settings.setValue("password", profile->getPassword().toBase64());
         settings.setValue("PlayerColor", player->getColor());
+        settings.setValue("playerAvatarPath", player->avatarPath());
 
         if(nullptr == character)
             continue;
@@ -228,7 +237,7 @@ void ProfileModel::writeSettings()
         var.setValue(img);
         settings.setValue("CharacterPix", var);
         settings.setValue("CharacterName", character->name());
-        settings.setValue("CharacterPath", character->getAvatarPath());
+        settings.setValue("CharacterPath", character->avatarPath());
         settings.setValue("CharacterHp", character->getHealthPointsCurrent());
         settings.setValue("CharacterMaxHp", character->getHealthPointsMax());
         settings.setValue("CharacterMinHp", character->getHealthPointsMin());

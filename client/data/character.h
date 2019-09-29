@@ -52,8 +52,8 @@ public:
     CharacterField();
     virtual ~CharacterField();
 
-    virtual Type getType()                                 = 0;
-    virtual QVariant getData(int col, int role)            = 0;
+    virtual Type getType()= 0;
+    virtual QVariant getData(int col, int role)= 0;
     virtual bool setData(int col, QVariant value, int role)= 0;
 };
 
@@ -144,7 +144,7 @@ class Character : public Person // public QObject,
         int healthPoints READ getHealthPointsCurrent WRITE setHealthPointsCurrent NOTIFY currentHealthPointsChanged)
     Q_PROPERTY(int maxHP READ getHealthPointsMax WRITE setHealthPointsMax NOTIFY maxHPChanged)
     Q_PROPERTY(int minHP READ getHealthPointsMin WRITE setHealthPointsMin NOTIFY minHPChanged)
-    Q_PROPERTY(QString avatarPath READ getAvatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
+    // Q_PROPERTY(QString avatarPath READ getAvatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
     Q_PROPERTY(bool isNpc READ isNpc WRITE setNpc NOTIFY npcChanged)
     Q_PROPERTY(int initiative READ getInitiativeScore WRITE setInitiativeScore NOTIFY initiativeChanged)
     Q_PROPERTY(qreal distancePerTurn READ getDistancePerTurn WRITE setDistancePerTurn NOTIFY distancePerTurnChanged)
@@ -274,9 +274,6 @@ public:
     int getHealthPointsCurrent() const;
     void setHealthPointsCurrent(int hpCurrent);
 
-    QString getAvatarPath() const;
-    void setAvatarPath(const QString& avatarPath);
-
     int getInitiativeScore() const;
     void setInitiativeScore(int intiativeScore);
 
@@ -304,6 +301,7 @@ public:
     void setCurrentShape(CharacterShape* shape);
 
     virtual const QImage& getAvatar() const override;
+    QString avatarPath() const override;
 
 public slots:
     void setCurrentShape(int index);
@@ -312,7 +310,6 @@ signals:
     void currentHealthPointsChanged();
     void maxHPChanged();
     void minHPChanged();
-    void avatarPathChanged();
     void npcChanged();
     void initiativeChanged();
     void distancePerTurnChanged();
@@ -329,17 +326,16 @@ private:
     QList<CharacterAction*> m_actionList;
     QList<CharacterProperty*> m_propertyList;
     CharacterState* m_currentState= nullptr;
-    CharacterSheet* m_sheet       = nullptr;
-    int m_healthPointsMax         = 100;
-    int m_healthPointsMin         = 0;
-    int m_healthPointsCurrent     = 100;
-    QString m_avatarPath;
+    CharacterSheet* m_sheet= nullptr;
+    int m_healthPointsMax= 100;
+    int m_healthPointsMin= 0;
+    int m_healthPointsCurrent= 100;
     RolisteamImageProvider* m_imageProvider= nullptr;
-    int m_initiativeScore                  = 0;
+    int m_initiativeScore= 0;
     CharacterAction m_initiativeRoll;
-    qreal m_distancePerTurn       = 0;
-    QColor m_lifeColor            = QColor(Qt::green);
-    bool m_hasInitScore           = false;
+    qreal m_distancePerTurn= 0;
+    QColor m_lifeColor= QColor(Qt::green);
+    bool m_hasInitScore= false;
     CharacterShape* m_currentShape= nullptr;
 };
 

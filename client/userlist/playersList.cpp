@@ -142,7 +142,7 @@ QVariant PlayersList::data(const QModelIndex& index, int role) const
         return person->getToolTip();
     case Qt::DecorationRole:
     {
-        if((person->isLeaf()) && (!person->getAvatar().isNull()))
+        if(!person->getAvatar().isNull()) // (person->isLeaf()) &&
         {
             return person->getAvatar().scaled(64, 64, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         }
@@ -465,7 +465,6 @@ void PlayersList::setLocalPlayer(Player* player)
     if(player == m_localPlayer)
         return;
 
-
     if(m_playersList.size() > 0)
     {
         return;
@@ -474,11 +473,9 @@ void PlayersList::setLocalPlayer(Player* player)
     setLocalFeatures(*player);
     addPlayer(player);
     auto characterList= m_localPlayer->getChildrenCharacter();
-    std::for_each(characterList.begin(), characterList.end(),
-                  [this](Character* charac) { monitorCharacter(charac); });
+    std::for_each(characterList.begin(), characterList.end(), [this](Character* charac) { monitorCharacter(charac); });
 
     emit localPlayerChanged();
-
 }
 
 void PlayersList::cleanListButLocal()
