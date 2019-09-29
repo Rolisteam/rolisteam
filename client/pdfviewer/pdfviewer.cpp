@@ -38,7 +38,7 @@
 /* Constructeur                                                     */
 /********************************************************************/
 PdfViewer::PdfViewer(/*QString title,QString identPdfViewer, QString identJoueur, QPdfViewer *image, QAction *action,*/
-    ImprovedWorkspace* parent)
+                     ImprovedWorkspace* parent)
     : MediaContainer(MediaContainer::ContainerType::PDFContainer, parent)
 {
     setObjectName("PdfViewer");
@@ -154,9 +154,10 @@ void PdfViewer::exportImage()
 
 void PdfViewer::sharePdfTo()
 {
-    auto answer= QMessageBox::question(this, tr("Sharing Pdf File"),
-        tr("PDF transfert can be really heavy.\nDo you want to continue and share the PDF?"),
-        QMessageBox::Yes | QMessageBox::Cancel);
+    auto answer
+        = QMessageBox::question(this, tr("Sharing Pdf File"),
+                                tr("PDF transfert can be really heavy.\nDo you want to continue and share the PDF?"),
+                                QMessageBox::Yes | QMessageBox::Cancel);
     if(answer == QMessageBox::Yes)
     {
         NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
@@ -168,7 +169,7 @@ void PdfViewer::sharePdfTo()
 
 void PdfViewer::updateTitle()
 {
-    setWindowTitle(tr("%1 - (PDF)").arg(m_name));
+    setWindowTitle(tr("%1 - (PDF)").arg(getUriName()));
 }
 
 void PdfViewer::showOverLay()
