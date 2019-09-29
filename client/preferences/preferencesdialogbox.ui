@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>524</width>
+    <width>570</width>
     <height>975</height>
    </rect>
   </property>
@@ -20,7 +20,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>4</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tabWidgetPage1">
       <attribute name="title">
@@ -1263,6 +1263,43 @@
          </layout>
         </widget>
        </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_31">
+         <item>
+          <widget class="QPushButton" name="m_importDiceBtn">
+           <property name="toolTip">
+            <string>Import DiceAlias and States</string>
+           </property>
+           <property name="text">
+            <string>Import…</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_14">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="m_exportDiceBtn">
+           <property name="toolTip">
+            <string>Export DiceAliases and States</string>
+           </property>
+           <property name="text">
+            <string>Export…</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tabWidgetPage5">
@@ -1374,26 +1411,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_30">
      <item>
-      <widget class="QPushButton" name="m_importDiceBtn">
-       <property name="toolTip">
-        <string>Import DiceAlias and States</string>
-       </property>
-       <property name="text">
-        <string>Import…</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="m_exportDiceBtn">
-       <property name="toolTip">
-        <string>Export DiceAliases and States</string>
-       </property>
-       <property name="text">
-        <string>Export…</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <spacer name="horizontalSpacer_16">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -1434,7 +1451,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../rolisteam.qrc"/>
   <include location="../../rolisteam.qrc"/>
  </resources>
  <connections>
