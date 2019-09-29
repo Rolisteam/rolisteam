@@ -68,7 +68,7 @@ public:
      * @brief getMapId
      * @return
      */
-    virtual QString getMediaId() const ;
+    virtual QString getMediaId() const;
 
     /**
      * @brief setCleverUri
@@ -166,8 +166,8 @@ private:
     QScrollArea* m_widgetArea;
     bool m_isHidden;
 
-    quint16 m_width;
-    quint16 m_height;
+    quint16 m_width= 100;
+    quint16 m_height= 100;
     QColor m_color;
 };
 

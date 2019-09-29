@@ -56,20 +56,22 @@ MapFrame::MapFrame(Map* map, QWidget* parent)
 MapFrame::~MapFrame() {}
 void MapFrame::initMap()
 {
-    if(nullptr != m_map)
-    {
-        // setTitle(m_title);
-        updateTitle();
-        m_originalSize= m_map->size();
-        m_widgetArea->setWidget(m_map);
-        // m_widgetArea->setViewportMargins(0,0,0,0);
+    if(nullptr == m_map)
+        return;
 
-        resize(m_map->width() + 4, m_map->height() + 4);
+    // setTitle(m_title);
+    updateTitle();
+    m_originalSize= m_map->size();
+    m_widgetArea->setWidget(m_map);
+    // m_widgetArea->setViewportMargins(0,0,0,0);
+    m_width= static_cast<quint16>(m_map->width());
+    m_height= static_cast<quint16>(m_map->height());
 
-        connect(m_map, SIGNAL(startBipmapMove(QPoint)), this, SLOT(startMoving(QPoint)));
-        connect(m_map, SIGNAL(moveBipMapWindow(QPoint)), this, SLOT(moveMap(QPoint)));
-        connect(m_map, &Map::permissionModeChanged, this, &MapFrame::updateTitle);
-    }
+    resize(m_map->width() + 4, m_map->height() + 4);
+
+    connect(m_map, SIGNAL(startBipmapMove(QPoint)), this, SLOT(startMoving(QPoint)));
+    connect(m_map, SIGNAL(moveBipMapWindow(QPoint)), this, SLOT(moveMap(QPoint)));
+    connect(m_map, &Map::permissionModeChanged, this, &MapFrame::updateTitle);
 }
 void MapFrame::updateTitle()
 {
@@ -348,8 +350,8 @@ bool MapFrame::readMapAndNpc(QDataStream& in, bool hidden)
         bool showName= true;   //(type == DessinPerso::pnj)?
                                // m_ui->m_showNpcNameAction->isChecked():m_ui->m_showPcNameAction->isChecked();
 
-        CharacterToken* pnj= new CharacterToken(
-            m_map, ident, nomPerso, couleur, diametre, centre, type, showNumber, showName, numeroDuPnj);
+        CharacterToken* pnj= new CharacterToken(m_map, ident, nomPerso, couleur, diametre, centre, type, showNumber,
+                                                showName, numeroDuPnj);
 
         if(visible || (type == CharacterToken::pnj && PlayersList::instance()->getLocalPlayer()->isGM()))
             pnj->showCharacter();
