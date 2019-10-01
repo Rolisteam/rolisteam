@@ -93,7 +93,7 @@ private:
      */
     // UserListDelegate* m_delegate= nullptr;
 
-    PlayersListWidgetModel* m_model= nullptr;
+    QAbstractItemModel* m_model= nullptr;
 
     QAction* m_addAvatarAct= nullptr;
     QAction* m_removeAvatarAct= nullptr;
