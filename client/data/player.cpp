@@ -179,11 +179,11 @@ void Player::setGM(bool value)
 
 void Player::addCharacter(Character* character)
 {
-    if(!m_characters.contains(character))
-    {
-        character->setParentPerson(this);
-        m_characters.append(character);
-    }
+    if(m_characters.contains(character))
+        return;
+
+    character->setParentPerson(this);
+    m_characters.append(character);
 }
 void Player::clearCharacterList()
 {

@@ -489,8 +489,8 @@ void ChannelListPanel::setPasswordOnChannel()
         return;
 
     auto pw= QInputDialog::getText(this, tr("Channel Password"),
-        tr("Password for channel: %1 - leave empty for no password").arg(item->getName()), QLineEdit::Password,
-        item->password());
+                                   tr("Password for channel: %1 - leave empty for no password").arg(item->getName()),
+                                   QLineEdit::Password, item->password());
 
     if(pw.isEmpty())
     {
@@ -518,8 +518,8 @@ void ChannelListPanel::joinChannel()
 
     QByteArray pw;
     if(!item->password().isEmpty())
-        pw= QInputDialog::getText(
-            this, tr("Channel Password"), tr("Channel %1 required password:").arg(item->getName()), QLineEdit::Password)
+        pw= QInputDialog::getText(this, tr("Channel Password"),
+                                  tr("Channel %1 required password:").arg(item->getName()), QLineEdit::Password)
                 .toUtf8();
 
     QString id= item->getId();
