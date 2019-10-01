@@ -23,9 +23,9 @@
 #ifndef PLAYERS_LIST_H
 #define PLAYERS_LIST_H
 
+#include "data/player.h"
 #include <QAbstractItemModel>
 #include <QPointer>
-#include "data/player.h"
 
 class Character;
 class NetworkMessageReader;
@@ -58,19 +58,19 @@ public:
     ////////////////////////////////////
     // implements QAbstractItemModel
     ///////////////////////////////////
-    QVariant data(const QModelIndex& index, int role) const;
-    Qt::ItemFlags flags(const QModelIndex& index) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const;
-    QModelIndex index(int row, int column, const QModelIndex& parent= QModelIndex()) const;
-    QModelIndex parent(const QModelIndex& index) const;
-    int rowCount(const QModelIndex& parent= QModelIndex()) const;
-    int columnCount(const QModelIndex& parent= QModelIndex()) const;
-    bool setData(const QModelIndex& index, const QVariant& value, int role);
+    QVariant data(const QModelIndex& index, int role) const override;
+    Qt::ItemFlags flags(const QModelIndex& index) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const override;
+    QModelIndex index(int row, int column, const QModelIndex& parent= QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex& index) const override;
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+    int columnCount(const QModelIndex& parent= QModelIndex()) const override;
+    bool setData(const QModelIndex& index, const QVariant& value, int role) override;
     void sendOffLocalPlayerInformations();
     void sendOffFeatures(Player* player);
 
     // Event handlers
-    bool event(QEvent* event);
+    bool event(QEvent* event) override;
 
     // Getters
     /**
@@ -136,6 +136,7 @@ signals:
      */
     void localGMRefused(bool);
     void localPlayerChanged();
+
 protected:
     template <typename T>
     void sendOffPersonChanges(const QString& property);
@@ -152,7 +153,7 @@ private:
      * @brief Destructor
      * @see instance()
      */
-    virtual ~PlayersList();
+    virtual ~PlayersList() override;
     QModelIndex personToIndex(Person* person) const;
     void addPlayer(Player* player);
     void addCharacter(Player* player, Character* character);
