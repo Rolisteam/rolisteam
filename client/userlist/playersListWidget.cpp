@@ -39,7 +39,7 @@
  * PlayersListWidgetModel *
  **************************/
 
-PlayersListWidgetModel::PlayersListWidgetModel(QObject* parent) : QSortFilterProxyModel(parent), m_map(nullptr)
+PlayersListWidgetModel::PlayersListWidgetModel(QObject* parent) : QIdentityProxyModel(parent), m_map(nullptr)
 {
     setSourceModel(PlayersList::instance());
 }
@@ -55,8 +55,8 @@ Qt::ItemFlags PlayersListWidgetModel::flags(const QModelIndex& index) const
         ret|= Qt::ItemIsUserCheckable;
 
     auto realCurrent= mapToSource(index);
-    auto isLocal    = realCurrent.data(PlayersList::IsLocal).toBool();
-    auto localIsGM  = realCurrent.data(PlayersList::LocalIsGM).toBool();
+    auto isLocal= realCurrent.data(PlayersList::IsLocal).toBool();
+    auto localIsGM= realCurrent.data(PlayersList::LocalIsGM).toBool();
 
     if(isLocal || localIsGM)
         ret|= Qt::ItemIsEditable;
@@ -80,7 +80,7 @@ bool PlayersListWidgetModel::setData(const QModelIndex& index, const QVariant& v
 {
     auto realIndex= mapToSource(index);
     Person* person= static_cast<Person*>(realIndex.internalPointer());
-    auto isLocal  = realIndex.data(PlayersList::IsLocal).toBool();
+    auto isLocal= realIndex.data(PlayersList::IsLocal).toBool();
     auto localIsGM= realIndex.data(PlayersList::LocalIsGM).toBool();
 
     if(person != nullptr && (isLocal || localIsGM))
@@ -124,7 +124,7 @@ bool PlayersListWidgetModel::isCheckable(const QModelIndex& index) const
         return false;
 
     auto realIndex= mapToSource(index);
-    auto isLocal  = realIndex.data(PlayersList::IsLocal).toBool();
+    auto isLocal= realIndex.data(PlayersList::IsLocal).toBool();
     auto localIsGM= realIndex.data(PlayersList::LocalIsGM).toBool();
     return isLocal || localIsGM;
 }
@@ -156,7 +156,7 @@ void PlayersListWidget::editIndex(const QModelIndex& index)
         return;
 
     PlayersList* playersList= PlayersList::instance();
-    Person* person          = playersList->getPerson(index);
+    Person* person= playersList->getPerson(index);
     if(!playersList->isLocal(person))
         return;
 
@@ -172,7 +172,7 @@ void PlayersListWidget::editIndex(const QModelIndex& index)
 void PlayersListWidget::createLocalCharacter()
 {
     PlayersList* playersList= PlayersList::instance();
-    Player* localPlayer     = playersList->getLocalPlayer();
+    Player* localPlayer= playersList->getLocalPlayer();
     if(nullptr == localPlayer)
     {
         return;
@@ -190,17 +190,17 @@ void PlayersListWidget::createLocalCharacter()
 void PlayersListWidget::selectAnotherPerson(const QModelIndex& current)
 {
     auto playersList= PlayersList::instance();
-    auto orgin      = m_model->mapToSource(current);
-    auto person     = static_cast<Person*>(orgin.internalPointer());
+    auto orgin= m_model->mapToSource(current);
+    auto person= static_cast<Person*>(orgin.internalPointer());
     m_delButton->setEnabled(current.isValid() && current.parent().isValid() && playersList->isLocal(person));
 }
 
 void PlayersListWidget::deleteSelected()
 {
     PlayersList* playersList= PlayersList::instance();
-    QModelIndex current     = m_selectionModel->currentIndex();
-    auto orgin              = m_model->mapToSource(current);
-    auto person             = static_cast<Person*>(orgin.internalPointer());
+    QModelIndex current= m_selectionModel->currentIndex();
+    auto orgin= m_model->mapToSource(current);
+    auto person= static_cast<Person*>(orgin.internalPointer());
     if(current.isValid() && current.parent().isValid() && playersList->isLocal(person))
     {
         playersList->delLocalCharacter(current.row());
@@ -231,7 +231,7 @@ void PlayersListWidget::setUI()
     m_playersListView->setHeaderHidden(true);
 
     // Add PC button
-    Player* tmp = PlayersList::instance()->getLocalPlayer();
+    Player* tmp= PlayersList::instance()->getLocalPlayer();
     QString what= tr("PC");
     if(nullptr != tmp)
     {

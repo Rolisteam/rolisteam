@@ -24,11 +24,11 @@
 
 #include <QAbstractProxyModel>
 #include <QDockWidget>
+#include <QIdentityProxyModel>
 #include <QItemSelectionModel>
 #include <QPointer>
 #include <QPushButton>
 #include <QSet>
-#include <QSortFilterProxyModel>
 #include <QTreeView>
 #include <memory>
 
@@ -39,7 +39,7 @@ class Person;
 /**
  * @brief The PlayersListWidgetModel class
  */
-class PlayersListWidgetModel : public QSortFilterProxyModel
+class PlayersListWidgetModel : public QIdentityProxyModel
 {
     Q_OBJECT
 
