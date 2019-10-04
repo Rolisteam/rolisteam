@@ -81,9 +81,11 @@ QVariant DiceAliasModel::data(const QModelIndex& index, int role) const
     }
     return QVariant();
 }
-int DiceAliasModel::rowCount(const QModelIndex&) const
+int DiceAliasModel::rowCount(const QModelIndex& parent) const
 {
-    return m_diceAliasList->size();
+    if(!parent.isValid())
+        return m_diceAliasList->size();
+    return 0;
 }
 int DiceAliasModel::columnCount(const QModelIndex&) const
 {

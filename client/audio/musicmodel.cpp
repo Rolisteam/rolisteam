@@ -33,14 +33,18 @@ MusicModel::MusicModel(QObject* parent) : QAbstractListModel(parent)
     m_header << tr("Title") /*<< tr("duration")*/;
     m_player= new QMediaPlayer();
 }
-int MusicModel::rowCount(const QModelIndex&) const
+int MusicModel::rowCount(const QModelIndex& parent) const
 {
-    return m_data.size();
+    if(!parent.isValid())
+        return m_data.size();
+    return 0;
 }
 
-int MusicModel::columnCount(const QModelIndex&) const
+int MusicModel::columnCount(const QModelIndex& parent) const
 {
-    return m_header.size();
+    if(!parent.isValid())
+        return m_header.size();
+    return 0;
 }
 QVariant MusicModel::headerData(int section, Qt::Orientation orientation, int role) const
 {

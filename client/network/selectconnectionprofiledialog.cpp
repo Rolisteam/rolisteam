@@ -32,13 +32,8 @@ QVariant ProfileModel::headerData(int, Qt::Orientation, int) const
 int ProfileModel::rowCount(const QModelIndex& parent) const
 {
     if(!parent.isValid())
-    {
-        return m_connectionProfileList.size();
-    }
-    else
-    {
-        return 0;
-    }
+            return m_connectionProfileList.size();
+    return 0;
 }
 QVariant ProfileModel::data(const QModelIndex& index, int role) const
 {

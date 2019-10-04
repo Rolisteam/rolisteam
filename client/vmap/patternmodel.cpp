@@ -50,9 +50,11 @@ QVariant PatternModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 }
-int PatternModel::rowCount(const QModelIndex&) const
+int PatternModel::rowCount(const QModelIndex& parent) const
 {
-    return m_list.size();
+    if(!parent.isValid())
+        return m_list.size();
+    return 0;
 }
 
 QPixmap PatternModel::getPatternAt(int i)

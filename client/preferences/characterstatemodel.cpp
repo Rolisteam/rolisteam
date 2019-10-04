@@ -75,13 +75,17 @@ QVariant CharacterStateModel::data(const QModelIndex& index, int role) const
     }
     return QVariant();
 }
-int CharacterStateModel::rowCount(const QModelIndex&) const
+int CharacterStateModel::rowCount(const QModelIndex& parent) const
 {
-    return m_stateList->size();
+    if(!parent.isValid())
+        return m_stateList->size();
+    return 0;
 }
-int CharacterStateModel::columnCount(const QModelIndex&) const
+int CharacterStateModel::columnCount(const QModelIndex& parent) const
 {
-    return m_header.size();
+    if(!parent.isValid())
+        return m_header.size();
+    return 0;
 }
 QVariant CharacterStateModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
