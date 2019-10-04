@@ -145,9 +145,11 @@ void LineFieldItem::loadDataItem(QJsonArray& json, CharacterSheetItem* parent)
 //
 ////////////////////////////////////////
 LineModel::LineModel() {}
-int LineModel::rowCount(const QModelIndex&) const
+int LineModel::rowCount(const QModelIndex& parent) const
 {
-    return m_lines.size();
+    if(!parent.isValid())
+        return m_lines.size();
+    return 0;
 }
 
 QVariant LineModel::data(const QModelIndex& index, int role) const
