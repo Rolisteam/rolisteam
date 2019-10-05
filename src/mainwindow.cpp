@@ -717,7 +717,8 @@ bool MainWindow::loadFile(const QString& filename)
             auto oj= backGround[i].toObject();
             QString str= oj["bin"].toString();
             id= oj["key"].toString();
-            path= oj["filename"].toString();
+            if(oj.contains("filename"))
+                path= oj["filename"].toString();
             QByteArray array= QByteArray::fromBase64(str.toUtf8());
 
             pix.loadFromData(array);
