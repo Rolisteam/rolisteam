@@ -52,5 +52,10 @@
         <file>src/charactersheet/qml/Rolisteam/TextAreaFieldv1.qml</file>
         <file>src/charactersheet/qml/Rolisteam/TextFieldFieldv1.qml</file>
         <file>src/charactersheet/qml/Rolisteam/TextInputFieldv1.qml</file>
+        <file>translations/rcse_it_IT.qm</file>
+        <file>translations/rcse_ca.qm</file>
+        <file>translations/rcse_es.qm</file>
+        <file>translations/rcse_nl_NL.qm</file>
+        <file>translations/rcse_ro_RO.qm</file>
     </qresource>
 </RCC>

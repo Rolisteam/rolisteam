@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.1">
 <context>
     <name>AboutRcse</name>
     <message>
@@ -11,21 +9,21 @@
     <message>
         <location filename="../aboutrcse.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rolisteam Character Sheet Editor&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;This software is dedicated to create character sheet for Rolisteam v1.8 and more. &lt;br/&gt;Please check the documentation at: &lt;a href=&quot;http://wiki.rolisteam.org/index.php/En:CharacterSheet&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;wiki.rolisteam.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rolisteam Character Sheet Editor&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Ce logiciel est dédié à la création de fiche de personnage pour Rolisteam&#xa0;v1.8 et plus récent. &lt;br/&gt;La documentation est accessible sur:&#xa0;&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Fr:CharacterSheet&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;wiki.rolisteam.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rolisteam Character Sheet Editor&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Ce logiciel est dédié à la création de fiche de personnage pour Rolisteam v1.8 et plus récent. &lt;br/&gt;La documentation est accessible sur: &lt;a href=&quot;http://wiki.rolisteam.org/index.php/Fr:CharacterSheet&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;wiki.rolisteam.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../aboutrcse.ui" line="33"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;Author:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;-Renaud Guezennec&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;Translators:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;Author:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;-Renaud Guezennec&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;Translators:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;-Renaud Guezennec (english and french)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -630,7 +628,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="14"/>
         <source>Unknown[*] - Rolisteam Character Sheet Editor</source>
-        <translation>Inconnu[*] - Éditeur de fiche de personnage pour&#xa0;Rolisteam</translation>
+        <translation>Inconnu[*] - Éditeur de fiche de personnage pour Rolisteam</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="29"/>
@@ -863,7 +861,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="926"/>
-        <source>Function&#xa0;Button</source>
+        <source>Function Button</source>
         <translation>Bouton Fonction</translation>
     </message>
     <message>
@@ -1057,12 +1055,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="578"/>
         <source>Error! this PDF file can not be read!</source>
-        <translation>Erreur! Ce PDF&#xa0;ne peut pas être lu!</translation>
+        <translation>Erreur! Ce PDF ne peut pas être lu!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="578"/>
         <source>This PDF document can not be read: %1</source>
-        <translation>Ce document PDF&#xa0;ne peut pas être lu:&#xa0;%1</translation>
+        <translation>Ce document PDF ne peut pas être lu: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="600"/>
@@ -1077,7 +1075,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="608"/>
         <source>Error! Can not make image!</source>
-        <translation>Erreur!&#xa0;Ne peut pas générer d’image!</translation>
+        <translation>Erreur! Ne peut pas générer d’image!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="608"/>
@@ -1269,7 +1267,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../charactersheet/formula/nodes/scalaroperatorfnode.cpp" line="82"/>
         <source>Error: division by Zero</source>
-        <translation>Erreur:&#xa0;division par zéro</translation>
+        <translation>Erreur: division par zéro</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="40"/>
@@ -1546,10 +1544,7 @@ Documentation complète sur: %1</translation>
     <message numerus="yes">
         <location filename="../undo/deletefieldcommand.cpp" line="57"/>
         <source>Delete %n Field(s)</source>
-        <translation>
-            <numerusform>Supprimer %n champs</numerusform>
-            <numerusform>Supprimer %n champs</numerusform>
-        </translation>
+        <translation><numerusform>Supprimer %n champs</numerusform><numerusform>Supprimer %n champs</numerusform></translation>
     </message>
     <message>
         <location filename="../undo/deletepagecommand.cpp" line="37"/>
@@ -1559,10 +1554,7 @@ Documentation complète sur: %1</translation>
     <message numerus="yes">
         <location filename="../undo/movefieldcommand.cpp" line="32"/>
         <source>Move %n Field(s)</source>
-        <translation>
-            <numerusform>Déplacer %n champs</numerusform>
-            <numerusform>Déplacer %n champs</numerusform>
-        </translation>
+        <translation><numerusform>Déplacer %n champs</numerusform><numerusform>Déplacer %n champs</numerusform></translation>
     </message>
     <message>
         <location filename="../undo/setbackgroundimage.cpp" line="46"/>

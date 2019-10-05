@@ -23,14 +23,16 @@ isEmpty(PREFIX) {
 DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=9 VERSION_MINOR=0
 
 ## Translation
-TRANSLATIONS =  ../translations/rcse_fr.ts \
-                ../translations/rcse.ts \
+TRANSLATIONS =  ../translations/rcse_ca.ts \
+                ../translations/rcse_es.ts \
                 ../translations/rcse_de.ts \
-                ../translations/rcse_pt_BR.ts \
+                ../translations/rcse_fr.ts \
                 ../translations/rcse_hu_HU.ts \
-                ../translations/rcse_tr.ts \
-                ../translations/rcse_nl_NL.ts \
                 ../translations/rcse_it_IT.ts \
+                ../translations/rcse_nl_NL.ts \
+                ../translations/rcse_pt_BR.ts \
+                ../translations/rcse_ro_RO.ts \
+                ../translations/rcse_tr.ts \
 
 # Generate translations in build
 TRANSLATIONS_FILES =

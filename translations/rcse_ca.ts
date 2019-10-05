@@ -1,15 +1,15 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl_NL" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ca" version="2.1">
 <context>
     <name>AboutRcse</name>
     <message>
         <location filename="../aboutrcse.ui" line="14"/>
         <source>Rolisteam Character Sheet Editor</source>
-        <translation type="unfinished"/>
+        <translation>Editor de Fulls de Personatge de Rolisteam</translation>
     </message>
     <message>
         <location filename="../aboutrcse.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rolisteam Character Sheet Editor&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;This software is dedicated to create character sheet for Rolisteam v1.8 and more. &lt;br/&gt;Please check the documentation at: &lt;a href=&quot;http://wiki.rolisteam.org/index.php/En:CharacterSheet&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;wiki.rolisteam.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rolisteam Character Sheet-bewerker&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Deze software is gespecialiseerd in het creëren van character sheets voor Rolisteam v1.8 en hoger. &lt;br/&gt;Bekijk de documentatie op: &lt;a href=&quot;http://wiki.rolisteam.org/index.php/En:CharacterSheet&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;wiki.rolisteam.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Editor de Full de personatge Rolisteam&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Aquest programari està dedicat a crear fulls de personatge per a Rolisteam v.1.8 i molt més. &lt;br/&gt;Comprovi la documentació a: &lt;a href=&quot;http://wiki.rolisteam.org/index.php/En:CharacterSheet&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;wiki.rolisteam.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../aboutrcse.ui" line="33"/>
@@ -29,12 +29,12 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;Author:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;Autor:&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;-Renaud Guezennec&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;Vertalers:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;Equip de traducció:&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;-Renaud Guezennec (english and french)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -44,47 +44,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../delegate/alignmentdelegate.cpp" line="27"/>
         <source>TopRight</source>
-        <translation>RechtsBoven</translation>
+        <translation>Part superior dreta</translation>
     </message>
     <message>
         <location filename="../delegate/alignmentdelegate.cpp" line="28"/>
         <source>TopMiddle</source>
-        <translation>RechtsMidden</translation>
+        <translation>Part superior central</translation>
     </message>
     <message>
         <location filename="../delegate/alignmentdelegate.cpp" line="29"/>
         <source>TopLeft</source>
-        <translation>RechtsLinks</translation>
+        <translation>Part superior esquerra</translation>
     </message>
     <message>
         <location filename="../delegate/alignmentdelegate.cpp" line="30"/>
         <source>CenterRight</source>
-        <translation>MiddenRechts</translation>
+        <translation>Part central dreta</translation>
     </message>
     <message>
         <location filename="../delegate/alignmentdelegate.cpp" line="31"/>
         <source>CenterMiddle</source>
-        <translation>MiddenMidden</translation>
+        <translation>Part central</translation>
     </message>
     <message>
         <location filename="../delegate/alignmentdelegate.cpp" line="32"/>
         <source>CenterLeft</source>
-        <translation>MiddenLinks</translation>
+        <translation>Part central esquerra</translation>
     </message>
     <message>
         <location filename="../delegate/alignmentdelegate.cpp" line="33"/>
         <source>BottomRight</source>
-        <translation>BenedenRechts</translation>
+        <translation>Part inferior dreta</translation>
     </message>
     <message>
         <location filename="../delegate/alignmentdelegate.cpp" line="34"/>
         <source>BottomMiddle</source>
-        <translation>BenedenMidden</translation>
+        <translation>Part inferior central</translation>
     </message>
     <message>
         <location filename="../delegate/alignmentdelegate.cpp" line="35"/>
         <source>BottomLeft</source>
-        <translation>BenedenLinks</translation>
+        <translation>Part inferior esquerra</translation>
     </message>
 </context>
 <context>
@@ -92,32 +92,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../borderlisteditor.cpp" line="29"/>
         <source>Up</source>
-        <translation>Boven</translation>
+        <translation>Amunt</translation>
     </message>
     <message>
         <location filename="../borderlisteditor.cpp" line="30"/>
         <source>Left</source>
-        <translation>Links</translation>
+        <translation>Esquerra</translation>
     </message>
     <message>
         <location filename="../borderlisteditor.cpp" line="31"/>
         <source>Down</source>
-        <translation>Onder</translation>
+        <translation>Avall</translation>
     </message>
     <message>
         <location filename="../borderlisteditor.cpp" line="32"/>
         <source>Right</source>
-        <translation>Rechts</translation>
+        <translation>Dreta</translation>
     </message>
     <message>
         <location filename="../borderlisteditor.cpp" line="43"/>
         <source>All</source>
-        <translation>Alles</translation>
+        <translation>Tots</translation>
     </message>
     <message>
         <location filename="../borderlisteditor.cpp" line="47"/>
         <source>None</source>
-        <translation>Geen</translation>
+        <translation>Cap</translation>
     </message>
 </context>
 <context>
@@ -125,22 +125,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../charactersheet/charactersheetmodel.cpp" line="416"/>
         <source>Fields name</source>
-        <translation>Veldnaam</translation>
+        <translation>Nom dels camps</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetmodel.cpp" line="442"/>
         <source>Empty Section %1</source>
-        <translation>Lege sectie %1</translation>
+        <translation>Secció buida %1</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetmodel.cpp" line="450"/>
         <source>Section_%1</source>
-        <translation>Sectie_%1</translation>
+        <translation>Secció_%1</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetmodel.cpp" line="474"/>
         <source>Field %1</source>
-        <translation>Veld %1</translation>
+        <translation>Camp %1</translation>
     </message>
 </context>
 <context>
@@ -148,107 +148,107 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="53"/>
         <source>Add Section</source>
-        <translation>Sectie toevoegen</translation>
+        <translation>Afegir secció</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="54"/>
         <source>Add Field</source>
-        <translation type="unfinished"/>
+        <translation>Afegir camp</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="55"/>
         <source>Add CharacterSheet</source>
-        <translation>CharacterSheet toevoegen</translation>
+        <translation>Afegir full de personatge</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="56"/>
         <source>Copy Tab</source>
-        <translation>Tabblad kopiëren</translation>
+        <translation>Copiar pestanya</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="58"/>
         <source>Stop Sharing</source>
-        <translation>Stoppen met delen</translation>
+        <translation>Deixar de compartir</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="60"/>
         <source>Read Only</source>
-        <translation>Alleen-lezen</translation>
+        <translation>Només lectura</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="64"/>
         <source>Load CharacterSheet View File</source>
-        <translation>Character Sheet View-bestand laden</translation>
+        <translation>Carregar arxiu de visualització del Full de Personatge</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="66"/>
         <source>Detach Tabs</source>
-        <translation>Tabbladen loskoppelen</translation>
+        <translation>Separar pestanyes</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="67"/>
         <source>Print Page</source>
-        <translation type="unfinished"/>
+        <translation>Imprimir pàgina</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="76"/>
         <source>Data</source>
-        <translation>Gegevens</translation>
+        <translation>Dades</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="170"/>
         <source>%1 - (Character Sheet Viewer)</source>
-        <translation type="unfinished"/>
+        <translation>%1 - (Visor de Full de personatge)</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="188"/>
         <source>Share To </source>
-        <translation>Delen naar</translation>
+        <translation>Compartir amb </translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="219"/>
         <source>Share To</source>
-        <translation>Delen naar</translation>
+        <translation>Compartir amb</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="415"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>Accions</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="507"/>
         <source>QML Errors</source>
-        <translation>QML-fouten</translation>
+        <translation>Errors QML</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="515"/>
         <source>Save Character Sheets Data</source>
-        <translation>Character Sheet-gegevens opslaan</translation>
+        <translation>Desar dades dels Fulls de personatge</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="516"/>
         <source>Character Sheets Data files (*.rcs)</source>
-        <translation>Character Sheet-gegevensbestanden (*.rcs)</translation>
+        <translation>Arxius de Fulls de personatge (*.rcs)</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="626"/>
         <source>Open Character Sheet data</source>
-        <translation>Character Sheet-gegevens openen</translation>
+        <translation>Obrir dades del Full de personatge</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="627"/>
         <source>Character Sheet Data files (*.rcs)</source>
-        <translation>Character Sheet-gegevensbestanden (*.rcs)</translation>
+        <translation>Arxius de Fulls de personatge (*.rcs)</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="634"/>
         <source>Open Character Sheets View</source>
-        <translation>Character Sheets View openen</translation>
+        <translation>Obrir visor de Fulls de personatge</translation>
     </message>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="635"/>
         <source>Character Sheet files (*.qml)</source>
-        <translation>Character Sheet-bestanden (*.qml)</translation>
+        <translation>Arxius de Fulls de personatge (*.qml)</translation>
     </message>
 </context>
 <context>
@@ -256,7 +256,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../widgets/codeedit.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialoogvenster</translation>
+        <translation>Diàleg</translation>
     </message>
 </context>
 <context>
@@ -264,7 +264,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../codeeditordialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialoogvenster</translation>
+        <translation>Diàleg</translation>
     </message>
 </context>
 <context>
@@ -272,72 +272,72 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../columndefinitiondialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialoogvenster</translation>
+        <translation>Diàleg</translation>
     </message>
     <message>
         <location filename="../columndefinitiondialog.ui" line="24"/>
         <source>Line Count:</source>
-        <translation type="unfinished"/>
+        <translation>Compta de línies:</translation>
     </message>
     <message>
         <location filename="../columndefinitiondialog.ui" line="34"/>
         <source>Column Count:</source>
-        <translation type="unfinished"/>
+        <translation>Compta de columnes:</translation>
     </message>
     <message>
         <location filename="../columndefinitiondialog.ui" line="44"/>
         <source>Control Position</source>
-        <translation type="unfinished"/>
+        <translation>Controlar posició</translation>
     </message>
     <message>
         <location filename="../columndefinitiondialog.ui" line="52"/>
         <source>LeftTop</source>
-        <translation type="unfinished"/>
+        <translation>Part superior esquerra</translation>
     </message>
     <message>
         <location filename="../columndefinitiondialog.ui" line="57"/>
         <source>LeftBottom</source>
-        <translation type="unfinished"/>
+        <translation>Part inferior esquerra</translation>
     </message>
     <message>
         <location filename="../columndefinitiondialog.ui" line="62"/>
         <source>TopLeft</source>
-        <translation>RechtsLinks</translation>
+        <translation>Part superior esquerra</translation>
     </message>
     <message>
         <location filename="../columndefinitiondialog.ui" line="67"/>
         <source>TopRight</source>
-        <translation>RechtsBoven</translation>
+        <translation>Part superior dreta</translation>
     </message>
     <message>
         <location filename="../columndefinitiondialog.ui" line="72"/>
         <source>BottomLeft</source>
-        <translation>BenedenLinks</translation>
+        <translation>Part inferior esquerra</translation>
     </message>
     <message>
         <location filename="../columndefinitiondialog.ui" line="77"/>
         <source>BottomRight</source>
-        <translation>BenedenRechts</translation>
+        <translation>Part inferior dreta</translation>
     </message>
     <message>
         <location filename="../columndefinitiondialog.ui" line="82"/>
         <source>RightTop</source>
-        <translation type="unfinished"/>
+        <translation>Part superior dreta</translation>
     </message>
     <message>
         <location filename="../columndefinitiondialog.ui" line="87"/>
         <source>RightBottom</source>
-        <translation type="unfinished"/>
+        <translation>Part superior dreta</translation>
     </message>
     <message>
         <location filename="../columndefinitiondialog.ui" line="112"/>
         <source>Column Definition:</source>
-        <translation type="unfinished"/>
+        <translation>Definició de la columna:</translation>
     </message>
     <message>
         <location filename="../columndefinitiondialog.cpp" line="40"/>
         <source>Table Properties</source>
-        <translation type="unfinished"/>
+        <translation>Propietats de la taula</translation>
     </message>
 </context>
 <context>
@@ -345,27 +345,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../fieldmodel.cpp" line="65"/>
         <source>Id</source>
-        <translation>ID</translation>
+        <translation>Id</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="66"/>
         <source>Label</source>
-        <translation>Label</translation>
+        <translation>Etiqueta</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="67"/>
         <source>Value</source>
-        <translation>Waarde</translation>
+        <translation>Valor</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="68"/>
         <source>Possible Values</source>
-        <translation>Mogelijke waarden</translation>
+        <translation>Possibles valors</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="69"/>
         <source>Type</source>
-        <translation>Type</translation>
+        <translation>Tipus:</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="70"/>
@@ -380,97 +380,97 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../fieldmodel.cpp" line="72"/>
         <source>Width</source>
-        <translation>Breedte</translation>
+        <translation>Amplada</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="73"/>
         <source>Height</source>
-        <translation>Hoogte</translation>
+        <translation>Altura</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="74"/>
         <source>Font Adaptation</source>
-        <translation>Lettertype-aanname</translation>
+        <translation>Adaptació de font</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="75"/>
         <source>Font</source>
-        <translation>Lettertype</translation>
+        <translation>Font</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="76"/>
         <source>Text-align</source>
-        <translation>Tekstuitlijning</translation>
+        <translation>Alinear el text</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="77"/>
         <source>Text Color</source>
-        <translation>Tekstkleur</translation>
+        <translation>Color del text</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="78"/>
         <source>Bg Color</source>
-        <translation>Achtergrondkleur</translation>
+        <translation>Color de fons</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="79"/>
         <source>Border</source>
-        <translation>Rand</translation>
+        <translation>Límit</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="80"/>
         <source>Page</source>
-        <translation>Pagina</translation>
+        <translation>Pàgina</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="81"/>
         <source>ToolTip</source>
-        <translation type="unfinished"/>
+        <translation>Indicador de funció</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="84"/>
         <source>TopRight</source>
-        <translation>RechtsBoven</translation>
+        <translation>Part superior dreta</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="85"/>
         <source>TopMiddle</source>
-        <translation>RechtsMidden</translation>
+        <translation>Part superior central</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="86"/>
         <source>TopLeft</source>
-        <translation>RechtsLinks</translation>
+        <translation>Part superior esquerra</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="87"/>
         <source>CenterRight</source>
-        <translation>MiddenRechts</translation>
+        <translation>Part central dreta</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="88"/>
         <source>CenterMiddle</source>
-        <translation>MiddenMidden</translation>
+        <translation>Part central</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="89"/>
         <source>CenterLeft</source>
-        <translation>MiddenLinks</translation>
+        <translation>Part central esquerra</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="90"/>
         <source>BottomRight</source>
-        <translation>BenedenRechts</translation>
+        <translation>Part inferior dreta</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="91"/>
         <source>BottomMiddle</source>
-        <translation>BenedenMidden</translation>
+        <translation>Part inferior central</translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="92"/>
         <source>BottomLeft</source>
-        <translation>BenedenLinks</translation>
+        <translation>Part inferior esquerra</translation>
     </message>
 </context>
 <context>
@@ -478,67 +478,67 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../widgets/fieldview.cpp" line="26"/>
         <source>Delete Item</source>
-        <translation>Item verwijderen</translation>
+        <translation>Eliminar element</translation>
     </message>
     <message>
         <location filename="../widgets/fieldview.cpp" line="27"/>
         <source>Apply on Selection</source>
-        <translation>Toepassen bij selectie</translation>
+        <translation>Aplicar a la sel·lecció</translation>
     </message>
     <message>
         <location filename="../widgets/fieldview.cpp" line="28"/>
         <source>Apply on all lines</source>
-        <translation>Toepassen op alle regels</translation>
+        <translation>Aplicar a totes les línies</translation>
     </message>
     <message>
         <location filename="../widgets/fieldview.cpp" line="29"/>
         <source>Define Field Code</source>
-        <translation type="unfinished"/>
+        <translation>Definir codi del camp:</translation>
     </message>
     <message>
         <location filename="../widgets/fieldview.cpp" line="30"/>
         <source>Reset Field Code</source>
-        <translation type="unfinished"/>
+        <translation>Reiniciar codi del camp:</translation>
     </message>
     <message>
         <location filename="../widgets/fieldview.cpp" line="32"/>
         <source>Position columns</source>
-        <translation type="unfinished"/>
+        <translation>Col·locar columnes</translation>
     </message>
     <message>
         <location filename="../widgets/fieldview.cpp" line="43"/>
         <source>Esthetic columns</source>
-        <translation type="unfinished"/>
+        <translation>Columnes de estètica</translation>
     </message>
     <message>
         <location filename="../widgets/fieldview.cpp" line="55"/>
         <source>Value columns</source>
-        <translation type="unfinished"/>
+        <translation>Columnes de valors</translation>
     </message>
     <message>
         <location filename="../widgets/fieldview.cpp" line="64"/>
         <source>Id columns</source>
-        <translation type="unfinished"/>
+        <translation>Columnes de id</translation>
     </message>
     <message>
         <location filename="../widgets/fieldview.cpp" line="71"/>
         <source>All columns</source>
-        <translation type="unfinished"/>
+        <translation>Totes les columnes</translation>
     </message>
     <message>
         <location filename="../widgets/fieldview.cpp" line="132"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>Mostrar</translation>
     </message>
     <message>
         <location filename="../widgets/fieldview.cpp" line="139"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"/>
+        <translation>Mostrar/Ocultar</translation>
     </message>
     <message>
         <location filename="../widgets/fieldview.cpp" line="301"/>
         <source>Get Color</source>
-        <translation>Kleur verkrijgen</translation>
+        <translation>Obtenir color</translation>
     </message>
 </context>
 <context>
@@ -546,17 +546,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../imagemodel.cpp" line="11"/>
         <source>Key</source>
-        <translation>Sleutel</translation>
+        <translation>Clau</translation>
     </message>
     <message>
         <location filename="../imagemodel.cpp" line="11"/>
         <source>Filename</source>
-        <translation>Bestandsnaam</translation>
+        <translation>Nom de l’arxiu</translation>
     </message>
     <message>
         <location filename="../imagemodel.cpp" line="11"/>
         <source>Is Background</source>
-        <translation>Is de achtergrond</translation>
+        <translation>És fons</translation>
     </message>
 </context>
 <context>
@@ -564,32 +564,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../common/widgets/logpanel.ui" line="14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation>Formulari</translation>
     </message>
     <message>
         <location filename="../common/widgets/logpanel.ui" line="37"/>
         <source>Level</source>
-        <translation type="unfinished"/>
+        <translation>Nivell</translation>
     </message>
     <message>
         <location filename="../common/widgets/logpanel.ui" line="45"/>
         <source>Error</source>
-        <translation>Fout</translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../common/widgets/logpanel.ui" line="50"/>
         <source>Debug</source>
-        <translation type="unfinished"/>
+        <translation>Eliminar errors</translation>
     </message>
     <message>
         <location filename="../common/widgets/logpanel.ui" line="55"/>
         <source>warning</source>
-        <translation type="unfinished"/>
+        <translation>atenció</translation>
     </message>
     <message>
         <location filename="../common/widgets/logpanel.ui" line="60"/>
         <source>Info</source>
-        <translation type="unfinished"/>
+        <translation>Informació</translation>
     </message>
     <message>
         <location filename="../common/widgets/logpanel.ui" line="68"/>
@@ -600,27 +600,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../common/widgets/logpanel.ui" line="104"/>
         <source>Erase All</source>
-        <translation type="unfinished"/>
+        <translation>Esborrar tots</translation>
     </message>
     <message>
         <location filename="../common/widgets/logpanel.ui" line="113"/>
         <source>Save</source>
-        <translation>Opslaan</translation>
+        <translation>Desar</translation>
     </message>
     <message>
         <location filename="../common/widgets/logpanel.ui" line="116"/>
         <source>Provide this file to Rolisteam developers</source>
-        <translation type="unfinished"/>
+        <translation>Proporcionar aquest arxiu a l’equip de desenvolupament de Rolisteam</translation>
     </message>
     <message>
         <location filename="../common/widgets/logpanel.cpp" line="76"/>
         <source>Saving logs</source>
-        <translation type="unfinished"/>
+        <translation>Guardant registres</translation>
     </message>
     <message>
         <location filename="../common/widgets/logpanel.cpp" line="76"/>
         <source>Log files %1</source>
-        <translation type="unfinished"/>
+        <translation>Arxius de registres %1</translation>
     </message>
 </context>
 <context>
@@ -628,77 +628,77 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="14"/>
         <source>Unknown[*] - Rolisteam Character Sheet Editor</source>
-        <translation>Onbekend[*] - Rolisteam Character Sheet-bewerker</translation>
+        <translation>Desconegut[*] - Editor de Fulls de Personatge de Rolisteam</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="29"/>
         <source>Editor</source>
-        <translation>Bewerker</translation>
+        <translation>Editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="67"/>
         <location filename="../mainwindow.ui" line="748"/>
         <source>TextInput</source>
-        <translation>Tekstinvoer</translation>
+        <translation>Introducció de text</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="102"/>
         <location filename="../mainwindow.ui" line="835"/>
         <source>TextField</source>
-        <translation>Tekstveld</translation>
+        <translation>Camp de text</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="140"/>
         <location filename="../mainwindow.ui" line="847"/>
         <source>Checkbox</source>
-        <translation>Aankruisvakje</translation>
+        <translation>Casella de verificació</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="175"/>
         <location filename="../mainwindow.ui" line="859"/>
         <source>TextArea</source>
-        <translation>Tekstgebied</translation>
+        <translation>Àrea de text</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="297"/>
         <location filename="../mainwindow.ui" line="876"/>
         <source>Image</source>
-        <translation>Afbeelding</translation>
+        <translation>Imatge</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="394"/>
         <source>Move</source>
-        <translation>Verplaatsen</translation>
+        <translation>Moure</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="429"/>
         <source>Delete</source>
-        <translation>Verwijderen</translation>
+        <translation>Suprimir</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="461"/>
         <source>Add Page</source>
-        <translation>Pagina toevoegen</translation>
+        <translation>Afegir pàgina</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="468"/>
         <source>Remove Page</source>
-        <translation>Pagina verwijderen</translation>
+        <translation>Eliminar pàgina</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="525"/>
         <source>View</source>
-        <translation>Weergeven</translation>
+        <translation>Visualitzar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="582"/>
         <source>Characters</source>
-        <translation>Karakters</translation>
+        <translation>Personatges</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="599"/>
         <source>Stored Images</source>
-        <translation>Opgeslagen afbeeldingen</translation>
+        <translation>Imatges desades</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="545"/>
@@ -712,41 +712,41 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="320"/>
         <location filename="../mainwindow.ui" line="1013"/>
         <source>WebView</source>
-        <translation type="unfinished"/>
+        <translation>Visor de la xarxa</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="343"/>
         <location filename="../mainwindow.ui" line="1025"/>
         <source>Next Page</source>
-        <translation type="unfinished"/>
+        <translation>Pàgina següent</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="362"/>
         <location filename="../mainwindow.ui" line="1037"/>
         <source>Previous Page</source>
-        <translation type="unfinished"/>
+        <translation>Pàgina anterior</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="657"/>
         <source>File</source>
-        <translation>Bestand</translation>
+        <translation>Arxiu</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="672"/>
         <source>Edition</source>
-        <translation>Editie</translation>
+        <translation>Edició</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="687"/>
         <location filename="../mainwindow.ui" line="890"/>
         <location filename="../mainwindow.cpp" line="496"/>
         <source>Help</source>
-        <translation>Hulp</translation>
+        <translation>Ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="701"/>
         <source>Open</source>
-        <translation>Openen</translation>
+        <translation>Obrir</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="704"/>
@@ -756,7 +756,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="709"/>
         <source>Save</source>
-        <translation>Opslaan</translation>
+        <translation>Desar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="712"/>
@@ -766,7 +766,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="717"/>
         <source>Save As...</source>
-        <translation>Opslaan als...</translation>
+        <translation>Anomenar i desar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="720"/>
@@ -776,7 +776,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="725"/>
         <source>New</source>
-        <translation>Nieuw</translation>
+        <translation>Nou</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="728"/>
@@ -786,7 +786,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="733"/>
         <source>Quit</source>
-        <translation>Afsluiten</translation>
+        <translation>Sortir</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="736"/>
@@ -796,27 +796,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="760"/>
         <source>Move Item</source>
-        <translation type="unfinished"/>
+        <translation>Moure element</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="777"/>
         <source>Export To Rolisteam</source>
-        <translation>Exporteren naar Rolisteam</translation>
+        <translation>Exportar a Rolisteam</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="782"/>
         <source>Save View</source>
-        <translation>Weergave opslaan</translation>
+        <translation>Desar vista</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="787"/>
         <source>Load View</source>
-        <translation>Weergave laden</translation>
+        <translation>Carregar vista</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="796"/>
         <source>Generate Code and Sheet</source>
-        <translation>Code en sheet genereren</translation>
+        <translation>Generar codi i full</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="799"/>
@@ -826,27 +826,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="808"/>
         <source>Code To Sheet</source>
-        <translation>Code-naar-sheet</translation>
+        <translation>Codi per a full</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="811"/>
         <source>Ctrl+D</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+D</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="885"/>
         <source>About RCSE</source>
-        <translation>Over RCSE</translation>
+        <translation>Sobre RCSE</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="895"/>
         <source>Reset Ids</source>
-        <translation>ID&apos;s herstellen</translation>
+        <translation>Reiniciar Ids</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="900"/>
         <source>Preferences</source>
-        <translation>Voorkeuren</translation>
+        <translation>Preferències</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="903"/>
@@ -857,284 +857,284 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="911"/>
         <source>Sheet Properties…</source>
-        <translation>Werkbladeigenschappen...</translation>
+        <translation>Propietats del full...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="926"/>
         <source>Function Button</source>
-        <translation>Functieknop</translation>
+        <translation>Botó de funció</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="937"/>
         <source>Hide/Show icon in Editor</source>
-        <translation>Pictogram weergeven/verbergen in bewerker</translation>
+        <translation>Ocultar/Mostrar icona a l’editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="946"/>
         <source>Add Image</source>
-        <translation>Afbeelding toevoegen</translation>
+        <translation>Afegir imatge</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="955"/>
         <source>Delete Image</source>
-        <translation>Afbeelding verwijderen</translation>
+        <translation>Suprimir imatge</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="960"/>
         <source>Check Validity</source>
-        <translation>Geldigheid controleren</translation>
+        <translation>Verificar validesa</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="977"/>
         <location filename="../mainwindow.cpp" line="180"/>
         <source>&amp;Undo</source>
-        <translation>&amp;Ongedaan maken</translation>
+        <translation>&amp;Desfer</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="982"/>
         <location filename="../mainwindow.cpp" line="183"/>
         <source>&amp;Redo</source>
-        <translation>&amp;Opnieuw</translation>
+        <translation>&amp;Refer</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="991"/>
         <source>Support Rolisteam</source>
-        <translation type="unfinished"/>
+        <translation>Donar suport a Rolisteam</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="996"/>
         <source>Export as PDF</source>
-        <translation type="unfinished"/>
+        <translation>Exportar com a PDF</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1001"/>
         <source>Recent files</source>
-        <translation type="unfinished"/>
+        <translation>Arxius recents</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="823"/>
         <source>Add Button</source>
-        <translation>Knop toevoegen</translation>
+        <translation>Afegir botó</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="210"/>
         <source>Dice Button</source>
-        <translation>Dobbelsteenknop</translation>
+        <translation>Botó de dau</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="242"/>
         <source>Function btn</source>
-        <translation>Functieknop</translation>
+        <translation>Botó Funció</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="271"/>
         <location filename="../mainwindow.ui" line="972"/>
         <source>Table</source>
-        <translation>Tabel</translation>
+        <translation>Taula</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="864"/>
         <source>Set image background…</source>
-        <translation>Afbeeldingsachtergrond instellen...</translation>
+        <translation>Establir imatge de fons</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="143"/>
         <source>Fit the view</source>
-        <translation>Aanpassen aan weergave</translation>
+        <translation>Ajustar la vista</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="146"/>
         <source>Align on Y</source>
-        <translation>Uitlijnen op Y</translation>
+        <translation>Alinear amb Y</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="147"/>
         <source>Align on X</source>
-        <translation>Uitlijnen op X</translation>
+        <translation>Alinear amb X</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="148"/>
         <source>Same Width</source>
-        <translation>Zelfde breedte</translation>
+        <translation>Mateixa amplada</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="149"/>
         <source>Same Height</source>
-        <translation>Zelfde hoogte</translation>
+        <translation>Mateixa altura</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="150"/>
         <source>Dupplicate</source>
-        <translation>Dupliceren</translation>
+        <translation>Duplicat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="316"/>
         <source>Add character</source>
-        <translation>Karakter toevoegen</translation>
+        <translation>Afegir personatge</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="772"/>
         <source>Delete Item</source>
-        <translation>Item verwijderen</translation>
+        <translation>Eliminar element</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="361"/>
         <source>Apply on Selection</source>
-        <translation>Toepassen bij selectie</translation>
+        <translation>Aplicar a la sel·lecció</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="360"/>
         <source>Apply on all lines</source>
-        <translation>Toepassen op alle regels</translation>
+        <translation>Aplicar a totes les línies</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="101"/>
         <source>Log panel</source>
-        <translation type="unfinished"/>
+        <translation>Tauler de control</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="120"/>
         <source>Page 1</source>
-        <translation type="unfinished"/>
+        <translation>Pàgina 1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="342"/>
         <source>Support</source>
-        <translation type="unfinished"/>
+        <translation>Suport</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="343"/>
         <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;https://liberapay.com/Rolisteam/donate&quot;&gt;https://liberapay.com/Rolisteam/donate&lt;/a&gt;</source>
-        <translation type="unfinished"/>
+        <translation>La %1 pàgina de donacions pot ser trobada a:&lt;br&gt; &lt;a href=&quot;https://liberapay.com/Rolisteam/donate&quot;&gt;https://liberapay.com/Rolisteam/donate&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="356"/>
         <source>Delete character</source>
-        <translation>Karakter verwijderen</translation>
+        <translation>Eliminar personatge</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="357"/>
         <source>Copy character</source>
-        <translation>Karakter kopiëren</translation>
+        <translation>Copiar personatge</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="358"/>
         <source>Character&apos;s Name</source>
-        <translation>Karakternaam</translation>
+        <translation>Nom del personatge</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="362"/>
         <source>Apply on all characters</source>
-        <translation>Toepassen op alle karakters</translation>
+        <translation>Aplicar a tots els personatges</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="398"/>
         <source>Copy Path</source>
-        <translation type="unfinished"/>
+        <translation>Copiar  camí</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="400"/>
         <source>Change Image</source>
-        <translation type="unfinished"/>
+        <translation>Canviar imatge</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="497"/>
         <source>Documentation of Rcse can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
-        <translation>De documentatie van Rcse kan online worden gevonden op :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
+        <translation>La documentació sobre Rcse pot ser trobada en línia a: &lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="508"/>
         <source>The charactersheet has unsaved changes.</source>
-        <translation>Het Character Sheet bevat niet-opgeslagen wijzigingen.</translation>
+        <translation>El full de personatge té canvis sense desar.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="515"/>
         <source>Quit %1 </source>
-        <translation>Afsluiten %1</translation>
+        <translation>Sortir %1 </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="578"/>
         <source>Error! this PDF file can not be read!</source>
-        <translation>Fout! Dit PDF-bestand kan niet worden gelezen!</translation>
+        <translation>Aquest arxiu PDF no pot ser llegit.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="578"/>
         <source>This PDF document can not be read: %1</source>
-        <translation>Dit PDF-document kan niet worden gelezen: %1</translation>
+        <translation>Aquest document PDF no pot ser llegit: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="600"/>
         <source>Error! This PDF file seems empty!</source>
-        <translation>Fout! Dit PDF-bestand lijkt leeg te zijn!</translation>
+        <translation>Aquest arxiu PDF sembla buit.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="600"/>
         <source>This PDF document has no page.</source>
-        <translation>Dit PDF-document heeft geen pagina.</translation>
+        <translation>Aquest document PDF no té cap pàgina.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="608"/>
         <source>Error! Can not make image!</source>
-        <translation>Fout! De afbeelding kan niet worden gecreëerd!</translation>
+        <translation>No es pot capturar la imatge</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="608"/>
         <source>System has failed while making image of the pdf page.</source>
-        <translation>Het systeem heeft gefaald tijdens het creëren van de afbeelding van de PDF-pagina.</translation>
+        <translation>Error del sistema al capturar la imatge de l’arxiu pdf.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="673"/>
         <location filename="../mainwindow.cpp" line="1552"/>
         <source>Open Background Image</source>
-        <translation>Achtergrondafbeelding openen</translation>
+        <translation>Obrir imatge de fons</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="985"/>
         <source>Error!</source>
-        <translation>Fout!</translation>
+        <translation>Error.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="985"/>
         <source>Background images have to be of the same size</source>
-        <translation>Achtergrondafbeeldingen moeten dezelfde grootte hebben</translation>
+        <translation>Les imatges de fons han de ser de la mateixa mida</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="999"/>
         <location filename="../mainwindow.cpp" line="1085"/>
         <source>Save CharacterSheet</source>
-        <translation>Character Sheet opslaan</translation>
+        <translation>Desar Full de Personatge</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="999"/>
         <location filename="../mainwindow.cpp" line="1085"/>
         <source>Rolisteam CharacterSheet (*.rcs)</source>
-        <translation>Rolisteam Character Sheet (*.rcs)</translation>
+        <translation>Full de personatge de Rolisteam (*.rcs)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1374"/>
         <source>Do you want to erase current QML code ?</source>
-        <translation>Wilt u de huidige QML-code wissen?</translation>
+        <translation>Voleu eliminar el codi QML actual?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1375"/>
         <source>Generate QML code will override any change you made in the QML.&lt;br/&gt;Do you really want to generate QML code ?</source>
-        <translation>Het genereren van QML-code resulteert in het overschrijven van elke wijziging die u heeft gemaakt in de code.&lt;br/&gt;Weet u zeker dat u QML-code wilt genereren?</translation>
+        <translation>Generar codi QML sobreescriurà qualsevol canvi realitzat al QML &lt;br/&gt; Esteu segurs de generar un codi QML?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1467"/>
         <location filename="../mainwindow.cpp" line="1484"/>
         <source>Save CharacterSheet View</source>
-        <translation>Character Sheet View opslaan</translation>
+        <translation>Desar Visor de Full de personatge</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1467"/>
         <source>CharacterSheet View (*.qml)</source>
-        <translation>Character Sheet View (*.qml)</translation>
+        <translation>Vista de Full de personatge (*.qml)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1484"/>
         <source>Rolisteam CharacterSheet View (*.qml)</source>
-        <translation>Rolisteam Character Sheet View (*.qml)</translation>
+        <translation>Visor de Full de personatge de Rolisteam (*.qml)</translation>
     </message>
 </context>
 <context>
@@ -1142,17 +1142,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../delegate/pagedelegate.cpp" line="25"/>
         <source>Page %1</source>
-        <translation type="unfinished"/>
+        <translation>Pàgina %1</translation>
     </message>
     <message>
         <location filename="../delegate/pagedelegate.cpp" line="36"/>
         <source>All pages</source>
-        <translation type="unfinished"/>
+        <translation>Totes les pàgines</translation>
     </message>
     <message>
         <location filename="../delegate/pagedelegate.cpp" line="52"/>
         <source>All Pages</source>
-        <translation type="unfinished"/>
+        <translation>Totes les pàgines </translation>
     </message>
 </context>
 <context>
@@ -1160,32 +1160,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../pdfmanager.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialoogvenster</translation>
+        <translation>Diàleg</translation>
     </message>
     <message>
         <location filename="../pdfmanager.ui" line="20"/>
         <source>Resolution (dots per inch):</source>
-        <translation>Resolutie (punten per inch):</translation>
+        <translation>Resolució (punts per polsada):</translation>
     </message>
     <message>
         <location filename="../pdfmanager.ui" line="57"/>
         <source>Resolution:</source>
-        <translation>Resolutie:</translation>
+        <translation>Resolució:</translation>
     </message>
     <message>
         <location filename="../pdfmanager.ui" line="65"/>
         <source>Set Resolution</source>
-        <translation>Resolutie instellen</translation>
+        <translation>Ajustar resolució</translation>
     </message>
     <message>
         <location filename="../pdfmanager.ui" line="89"/>
         <source>Width: </source>
-        <translation>Breedte:</translation>
+        <translation>Amplada: </translation>
     </message>
     <message>
         <location filename="../pdfmanager.ui" line="126"/>
         <source>Height:</source>
-        <translation>Hoogte:</translation>
+        <translation>Alçada</translation>
     </message>
 </context>
 <context>
@@ -1193,37 +1193,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../preferencesdialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialoogvenster</translation>
+        <translation>Diàleg</translation>
     </message>
     <message>
         <location filename="../preferencesdialog.ui" line="20"/>
         <source>QML Generation</source>
-        <translation>QML-generatie</translation>
+        <translation>Generar QML</translation>
     </message>
     <message>
         <location filename="../preferencesdialog.ui" line="26"/>
         <source>Custom path</source>
-        <translation>Aangepast pad</translation>
+        <translation>Camí personalitzat</translation>
     </message>
     <message>
         <location filename="../preferencesdialog.ui" line="35"/>
         <source>Generation Path</source>
-        <translation>Generatiepad</translation>
+        <translation>Generador de camí</translation>
     </message>
     <message>
         <location filename="../preferencesdialog.ui" line="52"/>
         <source>Select</source>
-        <translation>Selecteren</translation>
+        <translation>Seleccionar</translation>
     </message>
     <message>
         <location filename="../preferencesdialog.cpp" line="36"/>
         <source>Directory to save QML file</source>
-        <translation>Map om QML-bestand in op te slaan</translation>
+        <translation>Direcció per a desar l’arxiu QML</translation>
     </message>
     <message>
         <location filename="../preferencesdialog.cpp" line="36"/>
         <source>Place to save Generated files</source>
-        <translation>Plaats op gegenereerde bestanden in op te slaan</translation>
+        <translation>Situar per a desar els arxius generats</translation>
     </message>
 </context>
 <context>
@@ -1231,95 +1231,95 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../charactersheet/formula/nodes/operator.cpp" line="88"/>
         <source>abs : too many arguments</source>
-        <translation>abs : te veel argumenten</translation>
+        <translation>abs: masses arguments</translation>
     </message>
     <message>
         <location filename="../charactersheet/formula/nodes/operator.cpp" line="92"/>
         <location filename="../charactersheet/formula/nodes/operator.cpp" line="226"/>
         <source>abs : too few arguments</source>
-        <translation>abs : te weinig argumenten</translation>
+        <translation>abs: molt pocs arguments</translation>
     </message>
     <message>
         <location filename="../charactersheet/formula/nodes/operator.cpp" line="111"/>
         <source>ceil : too many arguments</source>
-        <translation>dak : te veel argumenten</translation>
+        <translation>ceil: masses arguments</translation>
     </message>
     <message>
         <location filename="../charactersheet/formula/nodes/operator.cpp" line="115"/>
         <source>ceil : too few arguments</source>
-        <translation>dak : te weinig argumenten</translation>
+        <translation>ceil: molt pocs arguments</translation>
     </message>
     <message>
         <location filename="../charactersheet/formula/nodes/operator.cpp" line="133"/>
         <source>floor : too many arguments</source>
-        <translation>verdieping : te weinig argumenten</translation>
+        <translation>floor: masses arguments</translation>
     </message>
     <message>
         <location filename="../charactersheet/formula/nodes/operator.cpp" line="137"/>
         <source>floor : too few arguments</source>
-        <translation>verdieping : te weinig argumenten</translation>
+        <translation>floor: molt pocs arguments</translation>
     </message>
     <message>
         <location filename="../charactersheet/formula/nodes/operator.cpp" line="155"/>
         <source>concatenate : too few arguments</source>
-        <translation>concatenate : te weinig argumenten</translation>
+        <translation>concatenate: molt pocs arguments</translation>
     </message>
     <message>
         <location filename="../charactersheet/formula/nodes/scalaroperatorfnode.cpp" line="82"/>
         <source>Error: division by Zero</source>
-        <translation>Fout: gedeeld door nul</translation>
+        <translation>Error: divisió per Cero</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="40"/>
         <location filename="../undo/addfieldcommand.cpp" line="105"/>
         <source>Unknown</source>
-        <translation>Onbekend</translation>
+        <translation>Desconegut</translation>
     </message>
     <message>
         <location filename="../diceparser/diceparser.cpp" line="177"/>
         <source>Nothing was understood. To roll dice: !1d6 - full documation: &lt;a href=&quot;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&lt;/a&gt;</source>
-        <translation type="unfinished"/>
+        <translation> No s”ha entès. Per a tirar dau:  !1d6 - més informació a:       &lt;a href=&quot;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../diceparser/diceparser.cpp" line="670"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
-        <translation>Dobbelsteen met %1 kant(en) bestaat niet. Voer een waarde hoger dan 0 in</translation>
+        <translation>El dau amb %1 cara(es) no existeix.El dau amb %1 cara(es) no existeix. Inclou un valor superior a 0</translation>
     </message>
     <message>
         <location filename="../diceparser/diceparser.cpp" line="723"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
-        <translation>De lijst ontbreekt na de L-operator. Voeg het toe (bijv. : 1L[zwaard,speer,pistool,pijl])</translation>
+        <translation>Falta  la llista després de l”operador L. Afegeix-la (p.ex.: 1L[espasa,llança,pistola,fletxa])</translation>
     </message>
     <message>
         <location filename="../diceparser/diceparser.cpp" line="1047"/>
         <source>Validator is missing after the c operator. Please, change it</source>
-        <translation>De valideerder ontbreekt na de c-operator. Wijzig deze</translation>
+        <translation>Falta el validador que segueix l’operador c. Canvia el validador.</translation>
     </message>
     <message>
         <location filename="../diceparser/diceparser.cpp" line="1061"/>
         <location filename="../diceparser/diceparser.cpp" line="1082"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
-        <translation>De valideerder ontbreekt na de %1-operator. Wijzig deze</translation>
+        <translation>Falta el validador que segueix l’operador %1. Canvia el validador.</translation>
     </message>
     <message>
         <location filename="../diceparser/diceparser.cpp" line="1098"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
-        <translation>De omstandigheid %1 introduceert een oneindige herhaling. Wijzig het</translation>
+        <translation>Aquesta condició %1 produeix un bucle. Canvia la condició.</translation>
     </message>
     <message>
         <location filename="../diceparser/diceparser.cpp" line="1109"/>
         <source>Validator is missing after the e operator. Please, change it</source>
-        <translation>De valideerder ontbreekt na de e-operator. Wijzig deze</translation>
+        <translation>Falta el validador que segueix l’operador c. Canvia el validador.</translation>
     </message>
     <message>
         <location filename="../diceparser/node/dicerollernode.cpp" line="30"/>
         <source>No dice to roll</source>
-        <translation>Geen dobbelsteen om te rollen</translation>
+        <translation>Cap dau per a tirar</translation>
     </message>
     <message>
         <location filename="../diceparser/node/dicerollernode.cpp" line="35"/>
         <source>More unique values asked than possible values (D operator)</source>
-        <translation type="unfinished"/>
+        <translation>S’han sol·licitat més valors únics que valors possibles (operador D)</translation>
     </message>
     <message>
         <location filename="../diceparser/node/helpnode.cpp" line="35"/>
@@ -1372,155 +1372,203 @@ Arithmetic
 (2d4+2)d10 =&gt; roll two 4-sided dice, add 2 to the result[2;8] then roll from four to ten 10-sided dice
 
 Full documentation at: %1</source>
-        <translation type="unfinished"/>
+        <translation>Rolisteam Dice Parser:
+
+Example (with ! as prefix):
+!2d6
+!1d20
+
+Operator list:
+
+k : Keep             : 2d10k1       =&gt; roll two 10-sided dice and keep the higher one (kl1 for smaller one)
+K : Keep And Explode : 2d10K1       =&gt; Equivalent of 2d10e10k1
+s : Sort             : 8d10         =&gt; roll eight 10-sided dice and sort the result list
+c : Count            : 8d10c[&gt;7]    =&gt; roll eight 10-sided dice and count how many dice are higher than 7
+r : Reroll           : 8d6r1        =&gt; roll eight 6-sided dice and reroll dice once if its result is 1. (result of the reroll can be 1)
+e : Explode          : 8d10e10      =&gt; roll eight 10-sided dice and while dice makes a 10 it is reroll. The result is added to those dice.
+a : Reroll and add   : 8d6a1        =&gt; roll eight 6-sided dice and reroll dice once and the result is added at 1
+m : Merge            : 1d20;1d10mk1 =&gt; roll one 20-side die and one 10-sided die and keep the higher die
+i : if               : 1d100i[=100]{&quot;jackpot&quot;} =&gt; Roll one 100-side die and display &quot;jackpot&quot; if the die result is 100.
+f : filter           : 4d10f[!=4]       =&gt; roll four 10-sided dice and ignore all dice with 4 as result; : Next instruction : 1d20;2d10;3d8 =&gt; roll one 20-sided die, two 10-sided dice and three 8-sided dice 
+g : Group            : 8d10g10       =&gt; count how many group of 10 it is possible to do (according to rule of 7th sea).
+# : Comment          : 1d2 #flip coin=&gt; display flip coin as comment of 1 or 2 result.
+
+Validator:
+
+Supported conditions: &gt;,&lt;,=,&gt;=,&lt;=,!=
+Supported operators: % (modulo), &amp;,^,| 
+
+	Examples:
+
+c[&gt;7 &amp; %2=0] : count how many dice are higher than 7 and even
+c[&gt;7 | %2=0] : count how many dice are higher than 7 or even
+c[&gt;7 ^ %2=0] : count how many dice are higher than 7 or even but not higher than 7 and even
+
+List:
+
+1L[green,blue] =&gt; pick value from the list (green or blue)
+2L[green,blue] =&gt; pick two values from the list (green,green | green,blue | blue,green | blue,blue)
+2Lu[green,blue] =&gt; pick two unique values from the list (green,blue | blue,green)
+
+Arithmetic
+
+8+8+8      =&gt; 24
+24-4       =&gt; 20
+(3+4)*2    =&gt; 14
+7/2        =&gt; 3.5
+2^4        =&gt; 16
+1d6+6      =&gt; roll one 6-sided die and add 6 to its result
+(2d4+2)d10 =&gt; roll two 4-sided dice, add 2 to the result[2;8] then roll from four to ten 10-sided dice
+
+Full documentation at: %1</translation>
     </message>
     <message>
         <location filename="../diceparser/node/jumpbackwardnode.cpp" line="126"/>
         <source> The @ operator expects dice result. Please check the documentation to fix your command.</source>
-        <translation>De @-operator verwacht een dobbelsteenresultaat. Raadpleeg de documentatie om uw opdracht te repareren.</translation>
+        <translation>L’operador @ espera un resultat de la tirada de daus. Revisa la documentació per tal d’arreglar l”ordre.</translation>
     </message>
     <message>
         <location filename="../diceparser/node/keepdiceexecnode.cpp" line="64"/>
         <source> You ask to keep %1 dice but the result only has %2</source>
-        <translation>U heeft gevraagd dobbelsteen %1 te behouden maar het resultaat is slechts %2</translation>
+        <translation> Demana quedar-se amb un %1 però el dau només te %2</translation>
     </message>
     <message>
         <location filename="../diceparser/node/listaliasnode.cpp" line="48"/>
         <source>List of Alias:
 </source>
-        <translation>Lijst van aliassen:
+        <translation>Lliste d’àlies:
 </translation>
     </message>
     <message>
         <location filename="../diceparser/node/listsetrollnode.cpp" line="70"/>
         <source>More unique values asked than possible values (L operator)</source>
-        <translation type="unfinished"/>
+        <translation>S’han sol·licitat més valors únics que valors possibles (operador L)</translation>
     </message>
     <message>
         <location filename="../diceparser/node/rerolldicenode.cpp" line="87"/>
         <source> The a operator expects dice result. Please check the documentation and fix your command.</source>
-        <translation type="unfinished"/>
+        <translation>L’operador a espera un resultat de la tirada de daus. Revisa la documentació per tal d’arreglar l”ordre.</translation>
     </message>
     <message>
         <location filename="../diceparser/node/scalaroperatornode.cpp" line="124"/>
         <source>Division by zero</source>
-        <translation>Gedeeld door nul</translation>
+        <translation>Divisió per zero</translation>
     </message>
     <message>
         <location filename="../diceparser/node/variablenode.cpp" line="26"/>
         <source>No variable at index:%1</source>
-        <translation type="unfinished"/>
+        <translation>Sense variable a l’índex: %1</translation>
     </message>
     <message>
         <location filename="../undo/addcharactercommand.cpp" line="29"/>
         <source>Add Character #%1</source>
-        <translation type="unfinished"/>
+        <translation>Afegir personatge #%1</translation>
     </message>
     <message>
         <location filename="../undo/addfieldcommand.cpp" line="56"/>
         <source>checkbox</source>
-        <translation type="unfinished"/>
+        <translation>Casella de verificació</translation>
     </message>
     <message>
         <location filename="../undo/addfieldcommand.cpp" line="60"/>
         <source>TextInput</source>
-        <translation>Tekstinvoer</translation>
+        <translation>Introducció de text</translation>
     </message>
     <message>
         <location filename="../undo/addfieldcommand.cpp" line="64"/>
         <source>TextArea</source>
-        <translation>Tekstgebied</translation>
+        <translation>Àrea de text</translation>
     </message>
     <message>
         <location filename="../undo/addfieldcommand.cpp" line="68"/>
         <source>TextField</source>
-        <translation>Tekstveld</translation>
+        <translation>Camp de text</translation>
     </message>
     <message>
         <location filename="../undo/addfieldcommand.cpp" line="73"/>
         <source>Table</source>
-        <translation>Tabel</translation>
+        <translation>Taula</translation>
     </message>
     <message>
         <location filename="../undo/addfieldcommand.cpp" line="78"/>
         <source>Image</source>
-        <translation>Afbeelding</translation>
+        <translation>Imatge</translation>
     </message>
     <message>
         <location filename="../undo/addfieldcommand.cpp" line="82"/>
         <source>function</source>
-        <translation type="unfinished"/>
+        <translation>Funció</translation>
     </message>
     <message>
         <location filename="../undo/addfieldcommand.cpp" line="87"/>
         <source>Dice Button</source>
-        <translation>Dobbelsteenknop</translation>
+        <translation>Botó de dau</translation>
     </message>
     <message>
         <location filename="../undo/addfieldcommand.cpp" line="91"/>
         <source>Web Page</source>
-        <translation type="unfinished"/>
+        <translation>Pàgina web</translation>
     </message>
     <message>
         <location filename="../undo/addfieldcommand.cpp" line="95"/>
         <source>Next Page Button</source>
-        <translation type="unfinished"/>
+        <translation>Pàgina següent</translation>
     </message>
     <message>
         <location filename="../undo/addfieldcommand.cpp" line="99"/>
         <source>Previous Page Button</source>
-        <translation type="unfinished"/>
+        <translation>Pàgina  anterior</translation>
     </message>
     <message>
         <location filename="../undo/addfieldcommand.cpp" line="109"/>
         <source>Add %1 Field</source>
-        <translation type="unfinished"/>
+        <translation>Afegir camp %1</translation>
     </message>
     <message>
         <location filename="../undo/addpagecommand.cpp" line="29"/>
         <source>Add Page #%1</source>
-        <translation type="unfinished"/>
+        <translation>Afegir pàgina #%1</translation>
     </message>
     <message>
         <location filename="../undo/addpagecommand.cpp" line="44"/>
         <location filename="../undo/deletepagecommand.cpp" line="43"/>
         <source>Page %1</source>
-        <translation type="unfinished"/>
+        <translation>Pàgina %1</translation>
     </message>
     <message>
         <location filename="../undo/deletecharactercommand.cpp" line="26"/>
         <source>Delete Character #%1</source>
-        <translation type="unfinished"/>
+        <translation>Eliminar personatge #%1</translation>
     </message>
     <message numerus="yes">
         <location filename="../undo/deletefieldcommand.cpp" line="57"/>
         <source>Delete %n Field(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Eliminar camp(s) %n</numerusform><numerusform>Eliminar camp(s) %n</numerusform></translation>
     </message>
     <message>
         <location filename="../undo/deletepagecommand.cpp" line="37"/>
         <source>Delete Page #%1</source>
-        <translation type="unfinished"/>
+        <translation>Eliminar pàgina  #%1</translation>
     </message>
     <message numerus="yes">
         <location filename="../undo/movefieldcommand.cpp" line="32"/>
         <source>Move %n Field(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Moure camp(s) %n</numerusform><numerusform>Moure camp(s) %n</numerusform></translation>
     </message>
     <message>
         <location filename="../undo/setbackgroundimage.cpp" line="46"/>
         <source>Set background on Page #%1</source>
-        <translation type="unfinished"/>
+        <translation>Ajustar imatge de fons a la pàgina  #%1</translation>
     </message>
     <message>
         <location filename="../undo/setfieldproperties.cpp" line="29"/>
         <source>Set Property %1</source>
-        <translation type="unfinished"/>
+        <translation>Ajustar propietat %1</translation>
     </message>
     <message>
         <location filename="../undo/setpropertyonallcharacters.cpp" line="15"/>
         <source>Set property on all characters: %1</source>
-        <translation type="unfinished"/>
+        <translation>Ajustar propietat a tots els personatges:  %1</translation>
     </message>
 </context>
 <context>
@@ -1528,47 +1576,47 @@ Full documentation at: %1</source>
     <message>
         <location filename="../sheetproperties.ui" line="14"/>
         <source>Sheet Properties</source>
-        <translation>Werkbladeigenschappen</translation>
+        <translation>Propietats del full</translation>
     </message>
     <message>
         <location filename="../sheetproperties.ui" line="26"/>
         <source>Sheet should keep the same size.</source>
-        <translation>Werkblad moet dezelfde grootte behouden.</translation>
+        <translation>El full ha de mantenir la mateixa mida</translation>
     </message>
     <message>
         <location filename="../sheetproperties.ui" line="50"/>
         <source>Fixed scale:</source>
-        <translation>Vastgezette grootte:</translation>
+        <translation>Escala fixada:</translation>
     </message>
     <message>
         <location filename="../sheetproperties.ui" line="81"/>
         <source>Additionnal Import:</source>
-        <translation>Extra import:</translation>
+        <translation>Import addicional:</translation>
     </message>
     <message>
         <location filename="../sheetproperties.ui" line="115"/>
         <source>Additionnal Function Code:</source>
-        <translation>Extra functiecode:</translation>
+        <translation>Codi funcional addicional</translation>
     </message>
     <message>
         <location filename="../sheetproperties.ui" line="142"/>
         <source>Place to add the code</source>
-        <translation>Locatie waar de code moet worden toegevoegd</translation>
+        <translation>Situar per afegir el codi:</translation>
     </message>
     <message>
         <location filename="../sheetproperties.ui" line="150"/>
         <source>At the beginning</source>
-        <translation>Aan het begin</translation>
+        <translation>A l’inici</translation>
     </message>
     <message>
         <location filename="../sheetproperties.ui" line="155"/>
         <source>At the end</source>
-        <translation>Aan het einde</translation>
+        <translation>Al final</translation>
     </message>
     <message>
         <location filename="../sheetproperties.ui" line="178"/>
         <source>Embedded Fonts:</source>
-        <translation type="unfinished"/>
+        <translation>Tipus de lletra incrustats</translation>
     </message>
     <message>
         <location filename="../sheetproperties.ui" line="189"/>
@@ -1579,7 +1627,7 @@ Full documentation at: %1</source>
     <message>
         <location filename="../sheetproperties.cpp" line="15"/>
         <source>Add Font file</source>
-        <translation type="unfinished"/>
+        <translation>Afegir arxiu de tipus de lletra</translation>
     </message>
 </context>
 <context>
@@ -1587,12 +1635,12 @@ Full documentation at: %1</source>
     <message>
         <location filename="../tablecanvasfield.cpp" line="169"/>
         <source>Properties</source>
-        <translation>Eigenschappen</translation>
+        <translation>Propietats</translation>
     </message>
     <message>
         <location filename="../tablecanvasfield.cpp" line="176"/>
         <source>Add Line</source>
-        <translation type="unfinished"/>
+        <translation>Afegir línia</translation>
     </message>
 </context>
 <context>
@@ -1600,57 +1648,57 @@ Full documentation at: %1</source>
     <message>
         <location filename="../delegate/typedelegate.cpp" line="26"/>
         <source>TextInput</source>
-        <translation>Tekstinvoer</translation>
+        <translation>Introducció de text</translation>
     </message>
     <message>
         <location filename="../delegate/typedelegate.cpp" line="27"/>
         <source>TextField</source>
-        <translation>Tekstveld</translation>
+        <translation>Camp de text</translation>
     </message>
     <message>
         <location filename="../delegate/typedelegate.cpp" line="28"/>
         <source>TextArea</source>
-        <translation>Tekstgebied</translation>
+        <translation>Àrea de text</translation>
     </message>
     <message>
         <location filename="../delegate/typedelegate.cpp" line="29"/>
         <source>Select</source>
-        <translation>Selecteren</translation>
+        <translation>Seleccionar</translation>
     </message>
     <message>
         <location filename="../delegate/typedelegate.cpp" line="30"/>
         <source>Checkbox</source>
-        <translation>Aankruisvakje</translation>
+        <translation>Casella de verificació</translation>
     </message>
     <message>
         <location filename="../delegate/typedelegate.cpp" line="31"/>
         <source>Image</source>
-        <translation>Afbeelding</translation>
+        <translation>Imatge</translation>
     </message>
     <message>
         <location filename="../delegate/typedelegate.cpp" line="32"/>
         <source>Dice Button</source>
-        <translation>Dobbelsteenknop</translation>
+        <translation>Botó de dau</translation>
     </message>
     <message>
         <location filename="../delegate/typedelegate.cpp" line="33"/>
         <source>Function Button</source>
-        <translation type="unfinished"/>
+        <translation>Botó de funció</translation>
     </message>
     <message>
         <location filename="../delegate/typedelegate.cpp" line="34"/>
         <source>WebView</source>
-        <translation type="unfinished"/>
+        <translation>Visor de la xarxa</translation>
     </message>
     <message>
         <location filename="../delegate/typedelegate.cpp" line="35"/>
         <source>Next Page Button</source>
-        <translation type="unfinished"/>
+        <translation>Pàgina següent</translation>
     </message>
     <message>
         <location filename="../delegate/typedelegate.cpp" line="36"/>
         <source>Previous Page Button</source>
-        <translation type="unfinished"/>
+        <translation>Pàgina  anterior</translation>
     </message>
 </context>
 </TS>

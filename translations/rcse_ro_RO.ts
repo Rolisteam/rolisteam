@@ -3,8 +3,8 @@
     <name>AboutRcse</name>
     <message>
         <location filename="../aboutrcse.ui" line="14"/>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
+        <source>Rolisteam Character Sheet Editor</source>
+        <translation>Editor fișe personaje Rolisteam </translation>
     </message>
     <message>
         <location filename="../aboutrcse.ui" line="20"/>
@@ -42,47 +42,47 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>AlignmentDelegate</name>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="25"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="27"/>
         <source>TopRight</source>
         <translation>Dreapta-sus</translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="26"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="28"/>
         <source>TopMiddle</source>
         <translation>Centru-sus</translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="27"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="29"/>
         <source>TopLeft</source>
         <translation>Stânga-sus</translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="28"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="30"/>
         <source>CenterRight</source>
         <translation>Centru-dreapta</translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="29"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="31"/>
         <source>CenterMiddle</source>
         <translation>Centru-mijloc</translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="30"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="32"/>
         <source>CenterLeft</source>
         <translation>Centru-stânga</translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="31"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="33"/>
         <source>BottomRight</source>
         <translation>Dreapta-jos</translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="32"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="34"/>
         <source>BottomMiddle</source>
         <translation>Mijloc-jos</translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="33"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="35"/>
         <source>BottomLeft</source>
         <translation>Stânga-jos</translation>
     </message>
@@ -110,12 +110,12 @@ p, li { white-space: pre-wrap; }
         <translation>Dreapta</translation>
     </message>
     <message>
-        <location filename="../borderlisteditor.cpp" line="42"/>
+        <location filename="../borderlisteditor.cpp" line="43"/>
         <source>All</source>
         <translation>Toate</translation>
     </message>
     <message>
-        <location filename="../borderlisteditor.cpp" line="46"/>
+        <location filename="../borderlisteditor.cpp" line="47"/>
         <source>None</source>
         <translation>Niciunul</translation>
     </message>
@@ -123,22 +123,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="307"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="416"/>
         <source>Fields name</source>
         <translation>Nume câmp</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="323"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="442"/>
         <source>Empty Section %1</source>
         <translation>Secțiune goală %1</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="331"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="450"/>
         <source>Section_%1</source>
         <translation>Sectiune_%1</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="355"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="474"/>
         <source>Field %1</source>
         <translation>Câmp %1</translation>
     </message>
@@ -146,213 +146,481 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetWindow</name>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="41"/>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="616"/>
-        <source>Character Sheet Viewer</source>
-        <translation>Vizualizator fișe personaje</translation>
-    </message>
-    <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="55"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="53"/>
         <source>Add Section</source>
         <translation>Adăugare secțiune</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="56"/>
-        <source>Add line</source>
-        <translation>Adăugare rând</translation>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="54"/>
+        <source>Add Field</source>
+        <translation>Adaugă câmp</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="57"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="55"/>
         <source>Add CharacterSheet</source>
         <translation>Adăugare fișă de personaj</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="58"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="56"/>
         <source>Copy Tab</source>
         <translation>Copiere filă</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="60"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="58"/>
         <source>Stop Sharing</source>
         <translation>Oprire partajare</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="62"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="60"/>
         <source>Read Only</source>
         <translation>Numai citire</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="66"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="64"/>
         <source>Load CharacterSheet View File</source>
         <translation>Încărcare fișier vizualizare fișă de personaj</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="68"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="66"/>
         <source>Detach Tabs</source>
         <translation>Detașare file</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="78"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="67"/>
+        <source>Print Page</source>
+        <translation>Tipărește pagina</translation>
+    </message>
+    <message>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="76"/>
         <source>Data</source>
         <translation>Date</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="182"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="170"/>
+        <source>%1 - (Character Sheet Viewer)</source>
+        <translation>%1 - (Vizualizator fișe personaje)</translation>
+    </message>
+    <message>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="188"/>
         <source>Share To </source>
         <translation>Partajare către</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="211"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="219"/>
         <source>Share To</source>
         <translation>Partajare către</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="450"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="415"/>
+        <source>Actions</source>
+        <translation>Acțiuni</translation>
+    </message>
+    <message>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="507"/>
+        <source>QML Errors</source>
+        <translation>Eroare QML</translation>
+    </message>
+    <message>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="515"/>
         <source>Save Character Sheets Data</source>
         <translation>Salvare date fișă de personaj</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="451"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="516"/>
         <source>Character Sheets Data files (*.rcs)</source>
         <translation>Fișiere fișe personaje (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="543"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="626"/>
         <source>Open Character Sheet data</source>
         <translation>Deschidere date fișă de personaj</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="544"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="627"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation>Fișiere date fișă de personaj (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="551"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="634"/>
         <source>Open Character Sheets View</source>
         <translation>Deschidere vizualizare fișe personaje</translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="552"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="635"/>
         <source>Character Sheet files (*.qml)</source>
         <translation>Fișiere fișă de personaj (*.qml)</translation>
     </message>
 </context>
 <context>
-    <name>FieldModel</name>
+    <name>CodeEdit</name>
     <message>
-        <location filename="../fieldmodel.cpp" line="64"/>
-        <source>Id</source>
-        <translation>Id</translation>
+        <location filename="../widgets/codeedit.ui" line="14"/>
+        <source>Dialog</source>
+        <translation>Dialog</translation>
+    </message>
+</context>
+<context>
+    <name>CodeEditorDialog</name>
+    <message>
+        <location filename="../codeeditordialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation>Dialog</translation>
+    </message>
+</context>
+<context>
+    <name>ColumnDefinitionDialog</name>
+    <message>
+        <location filename="../columndefinitiondialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation>Dialog</translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="65"/>
-        <source>Label</source>
-        <translation>Etichetă</translation>
+        <location filename="../columndefinitiondialog.ui" line="24"/>
+        <source>Line Count:</source>
+        <translation>Număr de linii:</translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="66"/>
-        <source>Value</source>
-        <translation>Valoare</translation>
+        <location filename="../columndefinitiondialog.ui" line="34"/>
+        <source>Column Count:</source>
+        <translation>Număr de coloane:</translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="67"/>
-        <source>Possible Values</source>
-        <translation>Valori posibile</translation>
+        <location filename="../columndefinitiondialog.ui" line="44"/>
+        <source>Control Position</source>
+        <translation>Poziție de control</translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="68"/>
-        <source>Type</source>
-        <translation>Tip</translation>
+        <location filename="../columndefinitiondialog.ui" line="52"/>
+        <source>LeftTop</source>
+        <translation>LeftTop</translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="69"/>
-        <source>x</source>
-        <translation>x</translation>
+        <location filename="../columndefinitiondialog.ui" line="57"/>
+        <source>LeftBottom</source>
+        <translation>LeftBottom</translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="70"/>
-        <source>y</source>
-        <translation>y</translation>
-    </message>
-    <message>
-        <location filename="../fieldmodel.cpp" line="71"/>
-        <source>Width</source>
-        <translation>Lățime</translation>
-    </message>
-    <message>
-        <location filename="../fieldmodel.cpp" line="72"/>
-        <source>Height</source>
-        <translation>Înălțime</translation>
-    </message>
-    <message>
-        <location filename="../fieldmodel.cpp" line="73"/>
-        <source>Font Adaptation</source>
-        <translation>Adaptare font</translation>
-    </message>
-    <message>
-        <location filename="../fieldmodel.cpp" line="74"/>
-        <source>Text-align</source>
-        <translation>Aliniere-text</translation>
-    </message>
-    <message>
-        <location filename="../fieldmodel.cpp" line="75"/>
-        <source>Text Color</source>
-        <translation>Culoare text</translation>
-    </message>
-    <message>
-        <location filename="../fieldmodel.cpp" line="76"/>
-        <source>Bg Color</source>
-        <translation>Culoare fundal</translation>
-    </message>
-    <message>
-        <location filename="../fieldmodel.cpp" line="77"/>
-        <source>Border</source>
-        <translation>Margine</translation>
-    </message>
-    <message>
-        <location filename="../fieldmodel.cpp" line="79"/>
-        <source>TopRight</source>
-        <translation>Dreapta-sus</translation>
-    </message>
-    <message>
-        <location filename="../fieldmodel.cpp" line="80"/>
-        <source>TopMiddle</source>
-        <translation>Centru-sus</translation>
-    </message>
-    <message>
-        <location filename="../fieldmodel.cpp" line="81"/>
+        <location filename="../columndefinitiondialog.ui" line="62"/>
         <source>TopLeft</source>
         <translation>Stânga-sus</translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="82"/>
-        <source>CenterRight</source>
-        <translation>Centru-dreapta</translation>
+        <location filename="../columndefinitiondialog.ui" line="67"/>
+        <source>TopRight</source>
+        <translation>Dreapta-sus</translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="83"/>
-        <source>CenterMiddle</source>
-        <translation>Centru-mijloc</translation>
+        <location filename="../columndefinitiondialog.ui" line="72"/>
+        <source>BottomLeft</source>
+        <translation>Stânga-jos</translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="84"/>
-        <source>CenterLeft</source>
-        <translation>Centru-stânga</translation>
-    </message>
-    <message>
-        <location filename="../fieldmodel.cpp" line="85"/>
+        <location filename="../columndefinitiondialog.ui" line="77"/>
         <source>BottomRight</source>
         <translation>Dreapta-jos</translation>
     </message>
     <message>
+        <location filename="../columndefinitiondialog.ui" line="82"/>
+        <source>RightTop</source>
+        <translation>RightTop</translation>
+    </message>
+    <message>
+        <location filename="../columndefinitiondialog.ui" line="87"/>
+        <source>RightBottom</source>
+        <translation>RightBottom</translation>
+    </message>
+    <message>
+        <location filename="../columndefinitiondialog.ui" line="112"/>
+        <source>Column Definition:</source>
+        <translation>Definiția coloanei:</translation>
+    </message>
+    <message>
+        <location filename="../columndefinitiondialog.cpp" line="40"/>
+        <source>Table Properties</source>
+        <translation>Proprietăți tabel</translation>
+    </message>
+</context>
+<context>
+    <name>FieldModel</name>
+    <message>
+        <location filename="../fieldmodel.cpp" line="65"/>
+        <source>Id</source>
+        <translation>Id</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="66"/>
+        <source>Label</source>
+        <translation>Etichetă</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="67"/>
+        <source>Value</source>
+        <translation>Valoare</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="68"/>
+        <source>Possible Values</source>
+        <translation>Valori posibile</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="69"/>
+        <source>Type</source>
+        <translation>Tip</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="70"/>
+        <source>x</source>
+        <translation>x</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="71"/>
+        <source>y</source>
+        <translation>y</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="72"/>
+        <source>Width</source>
+        <translation>Lățime</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="73"/>
+        <source>Height</source>
+        <translation>Înălțime</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="74"/>
+        <source>Font Adaptation</source>
+        <translation>Adaptare font</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="75"/>
+        <source>Font</source>
+        <translation>Font</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="76"/>
+        <source>Text-align</source>
+        <translation>Aliniere-text</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="77"/>
+        <source>Text Color</source>
+        <translation>Culoare text</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="78"/>
+        <source>Bg Color</source>
+        <translation>Culoare fundal</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="79"/>
+        <source>Border</source>
+        <translation>Margine</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="80"/>
+        <source>Page</source>
+        <translation>Pagină</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="81"/>
+        <source>ToolTip</source>
+        <translation>ToolTip</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="84"/>
+        <source>TopRight</source>
+        <translation>Dreapta-sus</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="85"/>
+        <source>TopMiddle</source>
+        <translation>Centru-sus</translation>
+    </message>
+    <message>
         <location filename="../fieldmodel.cpp" line="86"/>
+        <source>TopLeft</source>
+        <translation>Stânga-sus</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="87"/>
+        <source>CenterRight</source>
+        <translation>Centru-dreapta</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="88"/>
+        <source>CenterMiddle</source>
+        <translation>Centru-mijloc</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="89"/>
+        <source>CenterLeft</source>
+        <translation>Centru-stânga</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="90"/>
+        <source>BottomRight</source>
+        <translation>Dreapta-jos</translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="91"/>
         <source>BottomMiddle</source>
         <translation>Mijloc-joc</translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="87"/>
+        <location filename="../fieldmodel.cpp" line="92"/>
         <source>BottomLeft</source>
         <translation>Stânga-jos</translation>
+    </message>
+</context>
+<context>
+    <name>FieldView</name>
+    <message>
+        <location filename="../widgets/fieldview.cpp" line="26"/>
+        <source>Delete Item</source>
+        <translation>Ștergere element</translation>
+    </message>
+    <message>
+        <location filename="../widgets/fieldview.cpp" line="27"/>
+        <source>Apply on Selection</source>
+        <translation>Aplicare la selecție</translation>
+    </message>
+    <message>
+        <location filename="../widgets/fieldview.cpp" line="28"/>
+        <source>Apply on all lines</source>
+        <translation>Aplicare la toate rândurile</translation>
+    </message>
+    <message>
+        <location filename="../widgets/fieldview.cpp" line="29"/>
+        <source>Define Field Code</source>
+        <translation>Definește codul câmpului</translation>
+    </message>
+    <message>
+        <location filename="../widgets/fieldview.cpp" line="30"/>
+        <source>Reset Field Code</source>
+        <translation>Resetează codul câmpului</translation>
+    </message>
+    <message>
+        <location filename="../widgets/fieldview.cpp" line="32"/>
+        <source>Position columns</source>
+        <translation>Coloane de poziție</translation>
+    </message>
+    <message>
+        <location filename="../widgets/fieldview.cpp" line="43"/>
+        <source>Esthetic columns</source>
+        <translation>Coloane estetice</translation>
+    </message>
+    <message>
+        <location filename="../widgets/fieldview.cpp" line="55"/>
+        <source>Value columns</source>
+        <translation>Coloane valorice</translation>
+    </message>
+    <message>
+        <location filename="../widgets/fieldview.cpp" line="64"/>
+        <source>Id columns</source>
+        <translation>Id coloane</translation>
+    </message>
+    <message>
+        <location filename="../widgets/fieldview.cpp" line="71"/>
+        <source>All columns</source>
+        <translation>Toate coloanele</translation>
+    </message>
+    <message>
+        <location filename="../widgets/fieldview.cpp" line="132"/>
+        <source>Show</source>
+        <translation>Afișare</translation>
+    </message>
+    <message>
+        <location filename="../widgets/fieldview.cpp" line="139"/>
+        <source>Show/Hide</source>
+        <translation>Afișare/ascundere</translation>
+    </message>
+    <message>
+        <location filename="../widgets/fieldview.cpp" line="301"/>
+        <source>Get Color</source>
+        <translation>Obținere culoare</translation>
+    </message>
+</context>
+<context>
+    <name>ImageModel</name>
+    <message>
+        <location filename="../imagemodel.cpp" line="11"/>
+        <source>Key</source>
+        <translation>Cheie</translation>
+    </message>
+    <message>
+        <location filename="../imagemodel.cpp" line="11"/>
+        <source>Filename</source>
+        <translation>Nume fișier</translation>
+    </message>
+    <message>
+        <location filename="../imagemodel.cpp" line="11"/>
+        <source>Is Background</source>
+        <translation>Fundal</translation>
+    </message>
+</context>
+<context>
+    <name>LogPanel</name>
+    <message>
+        <location filename="../common/widgets/logpanel.ui" line="14"/>
+        <source>Form</source>
+        <translation>Formular</translation>
+    </message>
+    <message>
+        <location filename="../common/widgets/logpanel.ui" line="37"/>
+        <source>Level</source>
+        <translation>Nivel</translation>
+    </message>
+    <message>
+        <location filename="../common/widgets/logpanel.ui" line="45"/>
+        <source>Error</source>
+        <translation>Eroare</translation>
+    </message>
+    <message>
+        <location filename="../common/widgets/logpanel.ui" line="50"/>
+        <source>Debug</source>
+        <translation>Depanează</translation>
+    </message>
+    <message>
+        <location filename="../common/widgets/logpanel.ui" line="55"/>
+        <source>warning</source>
+        <translation>avertisment</translation>
+    </message>
+    <message>
+        <location filename="../common/widgets/logpanel.ui" line="60"/>
+        <source>Info</source>
+        <translation>Informații</translation>
+    </message>
+    <message>
+        <location filename="../common/widgets/logpanel.ui" line="68"/>
+        <location filename="../common/widgets/logpanel.ui" line="88"/>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+    <message>
+        <location filename="../common/widgets/logpanel.ui" line="104"/>
+        <source>Erase All</source>
+        <translation>Șterge toate</translation>
+    </message>
+    <message>
+        <location filename="../common/widgets/logpanel.ui" line="113"/>
+        <source>Save</source>
+        <translation>Salvează</translation>
+    </message>
+    <message>
+        <location filename="../common/widgets/logpanel.ui" line="116"/>
+        <source>Provide this file to Rolisteam developers</source>
+        <translation>Furnizează acest fișier dezvoltatorilor Rolisteam</translation>
+    </message>
+    <message>
+        <location filename="../common/widgets/logpanel.cpp" line="76"/>
+        <source>Saving logs</source>
+        <translation>Se salvează jurnalele</translation>
+    </message>
+    <message>
+        <location filename="../common/widgets/logpanel.cpp" line="76"/>
+        <source>Log files %1</source>
+        <translation>Fișiere jurnal %1</translation>
     </message>
 </context>
 <context>
@@ -369,280 +637,522 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="67"/>
-        <location filename="../mainwindow.ui" line="506"/>
+        <location filename="../mainwindow.ui" line="748"/>
         <source>TextInput</source>
         <translation>Intrare text</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="102"/>
-        <location filename="../mainwindow.ui" line="579"/>
+        <location filename="../mainwindow.ui" line="835"/>
         <source>TextField</source>
         <translation>Câmp text</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="140"/>
-        <location filename="../mainwindow.ui" line="591"/>
+        <location filename="../mainwindow.ui" line="847"/>
         <source>Checkbox</source>
         <translation>Casetă de selectare</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="175"/>
-        <location filename="../mainwindow.ui" line="603"/>
+        <location filename="../mainwindow.ui" line="859"/>
         <source>TextArea</source>
         <translation>Zonă text</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="210"/>
-        <source>Button</source>
-        <translation>Buton</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="242"/>
-        <location filename="../mainwindow.ui" line="620"/>
+        <location filename="../mainwindow.ui" line="297"/>
+        <location filename="../mainwindow.ui" line="876"/>
         <source>Image</source>
         <translation>Imagine</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="265"/>
-        <location filename="../mainwindow.ui" line="518"/>
+        <location filename="../mainwindow.ui" line="394"/>
         <source>Move</source>
         <translation>Mutare</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="300"/>
-        <location filename="../mainwindow.ui" line="530"/>
+        <location filename="../mainwindow.ui" line="429"/>
         <source>Delete</source>
         <translation>Ștergere</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="345"/>
+        <location filename="../mainwindow.ui" line="461"/>
         <source>Add Page</source>
         <translation>Adăugare pagină</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="352"/>
+        <location filename="../mainwindow.ui" line="468"/>
         <source>Remove Page</source>
         <translation>Eliminare pagină</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="387"/>
+        <location filename="../mainwindow.ui" line="525"/>
         <source>View</source>
         <translation>Vizualizare</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="401"/>
-        <source>Code</source>
-        <translation>Cod</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="411"/>
+        <location filename="../mainwindow.ui" line="582"/>
         <source>Characters</source>
         <translation>Personaje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="438"/>
+        <location filename="../mainwindow.ui" line="599"/>
+        <source>Stored Images</source>
+        <translation>Imagini stocate</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="545"/>
+        <location filename="../mainwindow.ui" line="552"/>
+        <location filename="../mainwindow.ui" line="612"/>
+        <location filename="../mainwindow.ui" line="619"/>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="320"/>
+        <location filename="../mainwindow.ui" line="1013"/>
+        <source>WebView</source>
+        <translation>WebView</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="343"/>
+        <location filename="../mainwindow.ui" line="1025"/>
+        <source>Next Page</source>
+        <translation>Pagina următoare</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="362"/>
+        <location filename="../mainwindow.ui" line="1037"/>
+        <source>Previous Page</source>
+        <translation>Înapoi pagină</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="657"/>
         <source>File</source>
         <translation>Fișier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="454"/>
+        <location filename="../mainwindow.ui" line="672"/>
         <source>Edition</source>
         <translation>Ediție</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="462"/>
-        <location filename="../mainwindow.ui" line="630"/>
-        <location filename="../mainwindow.cpp" line="237"/>
+        <location filename="../mainwindow.ui" line="687"/>
+        <location filename="../mainwindow.ui" line="890"/>
+        <location filename="../mainwindow.cpp" line="496"/>
         <source>Help</source>
         <translation>Ajutor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="474"/>
+        <location filename="../mainwindow.ui" line="701"/>
         <source>Open</source>
         <translation>Deschidere</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="479"/>
+        <location filename="../mainwindow.ui" line="704"/>
+        <source>Ctrl+O</source>
+        <translation>Ctrl+O</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="709"/>
         <source>Save</source>
         <translation>Salvează</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="484"/>
+        <location filename="../mainwindow.ui" line="712"/>
+        <source>Ctrl+S</source>
+        <translation>Ctrl+S</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="717"/>
         <source>Save As...</source>
         <translation>Salvare ca...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="489"/>
+        <location filename="../mainwindow.ui" line="720"/>
+        <source>Ctrl+Shift+S</source>
+        <translation>Ctrl+Shift+S</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="725"/>
         <source>New</source>
         <translation>Nou</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="494"/>
+        <location filename="../mainwindow.ui" line="728"/>
+        <source>Ctrl+N</source>
+        <translation>Ctrl+N</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="733"/>
         <source>Quit</source>
         <translation>Ieși</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="535"/>
+        <location filename="../mainwindow.ui" line="736"/>
+        <source>Ctrl+Q</source>
+        <translation>Ctrl+Q</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="760"/>
+        <source>Move Item</source>
+        <translation>Mutare elemente</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="777"/>
         <source>Export To Rolisteam</source>
         <translation>Exportare către Rolisteam</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="540"/>
+        <location filename="../mainwindow.ui" line="782"/>
         <source>Save View</source>
         <translation>Salvare vizualizare</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="545"/>
+        <location filename="../mainwindow.ui" line="787"/>
         <source>Load View</source>
         <translation>Încărcare vizualizare</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="550"/>
+        <location filename="../mainwindow.ui" line="796"/>
         <source>Generate Code and Sheet</source>
         <translation>Generare cod și fișă</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="555"/>
+        <location filename="../mainwindow.ui" line="799"/>
+        <source>Ctrl+R</source>
+        <translation>Ctrl+R</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="808"/>
         <source>Code To Sheet</source>
         <translation>Cod către fișă</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="625"/>
+        <location filename="../mainwindow.ui" line="811"/>
+        <source>Ctrl+D</source>
+        <translation>Ctrl+D</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="885"/>
         <source>About RCSE</source>
         <translation>Despre RCSE</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="567"/>
+        <location filename="../mainwindow.ui" line="895"/>
+        <source>Reset Ids</source>
+        <translation>Resetează ID-urile</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="900"/>
+        <source>Preferences</source>
+        <translation>Preferințe</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="903"/>
+        <location filename="../mainwindow.ui" line="914"/>
+        <source>Ctrl+P</source>
+        <translation>Ctrl+P</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="911"/>
+        <source>Sheet Properties…</source>
+        <translation>Proprietăți fișă…</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="926"/>
+        <source>Function Button</source>
+        <translation>Buton funcție</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="937"/>
+        <source>Hide/Show icon in Editor</source>
+        <translation>Ascunde/afișează pictograma în editor</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="946"/>
+        <source>Add Image</source>
+        <translation>Adaugă imagine</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="955"/>
+        <source>Delete Image</source>
+        <translation>Ștergere imagine</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="960"/>
+        <source>Check Validity</source>
+        <translation>Verifică valabilitatea</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="977"/>
+        <location filename="../mainwindow.cpp" line="180"/>
+        <source>&amp;Undo</source>
+        <translation>&amp;Anulare acțiune</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="982"/>
+        <location filename="../mainwindow.cpp" line="183"/>
+        <source>&amp;Redo</source>
+        <translation>&amp;Refă acțiunea</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="991"/>
+        <source>Support Rolisteam</source>
+        <translation>Sprijină echipa Rolisteam</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="996"/>
+        <source>Export as PDF</source>
+        <translation>Exportă ca PDF</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="1001"/>
+        <source>Recent files</source>
+        <translation>Fișiere recente</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="823"/>
         <source>Add Button</source>
         <translation>Adăugare buton</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="608"/>
+        <location filename="../mainwindow.ui" line="210"/>
+        <source>Dice Button</source>
+        <translation>Buton zaruri </translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="242"/>
+        <source>Function btn</source>
+        <translation>btn funcție</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="271"/>
+        <location filename="../mainwindow.ui" line="972"/>
+        <source>Table</source>
+        <translation>Tabel</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="864"/>
         <source>Set image background…</source>
         <translation>Setare fundal imagine...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="90"/>
+        <location filename="../mainwindow.cpp" line="143"/>
         <source>Fit the view</source>
         <translation>Potrivire la vizualizare</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="174"/>
+        <location filename="../mainwindow.cpp" line="146"/>
+        <source>Align on Y</source>
+        <translation>Aliniere la Y</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="147"/>
+        <source>Align on X</source>
+        <translation>Aliniere la X</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="148"/>
+        <source>Same Width</source>
+        <translation>Aceeași lățime</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="149"/>
+        <source>Same Height</source>
+        <translation>Aceeași înălțime</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="150"/>
+        <source>Dupplicate</source>
+        <translation>Duplicat</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="316"/>
         <source>Add character</source>
         <translation>Adăugare personaj</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="194"/>
+        <location filename="../mainwindow.ui" line="772"/>
         <source>Delete Item</source>
         <translation>Ștergere element</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="195"/>
+        <location filename="../mainwindow.cpp" line="361"/>
         <source>Apply on Selection</source>
         <translation>Aplicare la selecție</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="196"/>
+        <location filename="../mainwindow.cpp" line="360"/>
         <source>Apply on all lines</source>
         <translation>Aplicare la toate rândurile</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="238"/>
+        <location filename="../mainwindow.cpp" line="101"/>
+        <source>Log panel</source>
+        <translation>Panou jurnal</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="120"/>
+        <source>Page 1</source>
+        <translation>Pagină 1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="342"/>
+        <source>Support</source>
+        <translation>Asistență</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="343"/>
+        <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;https://liberapay.com/Rolisteam/donate&quot;&gt;https://liberapay.com/Rolisteam/donate&lt;/a&gt;</source>
+        <translation>Pagina de donare %1 poate fi găsită online la: &lt;br&gt; &lt;a href=&quot;https://liberapay.com/Rolisteam/donate&quot;&gt;https://liberapay.com/Rolisteam/donate&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="356"/>
+        <source>Delete character</source>
+        <translation>Șterge caracterul</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="357"/>
+        <source>Copy character</source>
+        <translation>Copiază personajul</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="358"/>
+        <source>Character&apos;s Name</source>
+        <translation>Numele personajului</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="362"/>
+        <source>Apply on all characters</source>
+        <translation>Aplică la toate caracterele</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="398"/>
+        <source>Copy Path</source>
+        <translation>Copiere Cale</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="400"/>
+        <source>Change Image</source>
+        <translation>Schimbă imaginea</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="497"/>
         <source>Documentation of Rcse can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>Documentația Rcse este disponibilă online la :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="249"/>
+        <location filename="../mainwindow.cpp" line="508"/>
         <source>The charactersheet has unsaved changes.</source>
         <translation>Fișa de personaj are schimbări nesalvate.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="256"/>
+        <location filename="../mainwindow.cpp" line="515"/>
         <source>Quit %1 </source>
         <translation>Ieșire din %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="315"/>
+        <location filename="../mainwindow.cpp" line="578"/>
         <source>Error! this PDF file can not be read!</source>
         <translation>Eroare! Acest fișier PDF nu poate fi citit!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="315"/>
+        <location filename="../mainwindow.cpp" line="578"/>
         <source>This PDF document can not be read: %1</source>
         <translation>Acest document PDF nu poate fi citit: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="337"/>
+        <location filename="../mainwindow.cpp" line="600"/>
         <source>Error! This PDF file seems empty!</source>
         <translation>Eroare! Acest fișier PDF pare să fie gol!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="337"/>
+        <location filename="../mainwindow.cpp" line="600"/>
         <source>This PDF document has no page.</source>
         <translation>Acest document PDF nu are nicio pagină.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="345"/>
+        <location filename="../mainwindow.cpp" line="608"/>
         <source>Error! Can not make image!</source>
         <translation>Eroare! Nu se poate realiza imaginea!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="345"/>
+        <location filename="../mainwindow.cpp" line="608"/>
         <source>System has failed while making image of the pdf page.</source>
         <translation>Sistemul a eșuat la realizarea imaginii pentru pagina pdf.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="411"/>
+        <location filename="../mainwindow.cpp" line="673"/>
+        <location filename="../mainwindow.cpp" line="1552"/>
         <source>Open Background Image</source>
         <translation>Deschidere imagine de fundal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="559"/>
-        <location filename="../mainwindow.cpp" line="639"/>
+        <location filename="../mainwindow.cpp" line="985"/>
+        <source>Error!</source>
+        <translation>Eroare!</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="985"/>
+        <source>Background images have to be of the same size</source>
+        <translation>Imaginile de fundal trebuie să aibă aceeași dimensiune</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="999"/>
+        <location filename="../mainwindow.cpp" line="1085"/>
         <source>Save CharacterSheet</source>
         <translation>Salvare fișă de personaj</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="559"/>
-        <location filename="../mainwindow.cpp" line="639"/>
+        <location filename="../mainwindow.cpp" line="999"/>
+        <location filename="../mainwindow.cpp" line="1085"/>
         <source>Rolisteam CharacterSheet (*.rcs)</source>
         <translation>Fișă de personaj Rolisteam (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="787"/>
+        <location filename="../mainwindow.cpp" line="1374"/>
         <source>Do you want to erase current QML code ?</source>
         <translation>Dorești să ștergi codul QML actual?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="787"/>
+        <location filename="../mainwindow.cpp" line="1375"/>
         <source>Generate QML code will override any change you made in the QML.&lt;br/&gt;Do you really want to generate QML code ?</source>
         <translation>Generare cod QML va suprascrie schimbările efectuate în QML.&lt;br/&gt;Sigur dorești să generezi codul QML?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="843"/>
-        <source>QML Error </source>
-        <translation>Eroare QML</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="885"/>
-        <location filename="../mainwindow.cpp" line="902"/>
+        <location filename="../mainwindow.cpp" line="1467"/>
+        <location filename="../mainwindow.cpp" line="1484"/>
         <source>Save CharacterSheet View</source>
         <translation>Salvare vizualizare fișă de personaj</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="885"/>
+        <location filename="../mainwindow.cpp" line="1467"/>
         <source>CharacterSheet View (*.qml)</source>
         <translation>Vizualizare fișă de personaj (*.qml)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="902"/>
+        <location filename="../mainwindow.cpp" line="1484"/>
         <source>Rolisteam CharacterSheet View (*.qml)</source>
         <translation>Vizualizare fișă de personaj Rolisteam (*.qml)</translation>
     </message>
+</context>
+<context>
+    <name>PageDelegate</name>
     <message>
-        <location filename="../mainwindow.cpp" line="988"/>
-        <source>Get Color</source>
-        <translation>Obținere culoare</translation>
+        <location filename="../delegate/pagedelegate.cpp" line="25"/>
+        <source>Page %1</source>
+        <translation>Pagină %1</translation>
+    </message>
+    <message>
+        <location filename="../delegate/pagedelegate.cpp" line="36"/>
+        <source>All pages</source>
+        <translation>Toate paginile</translation>
+    </message>
+    <message>
+        <location filename="../delegate/pagedelegate.cpp" line="52"/>
+        <source>All Pages</source>
+        <translation>Toate paginile</translation>
     </message>
 </context>
 <context>
@@ -679,40 +1189,78 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>PreferencesDialog</name>
+    <message>
+        <location filename="../preferencesdialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation>Dialog</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdialog.ui" line="20"/>
+        <source>QML Generation</source>
+        <translation>Generare QML</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdialog.ui" line="26"/>
+        <source>Custom path</source>
+        <translation>Cale personalizată</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdialog.ui" line="35"/>
+        <source>Generation Path</source>
+        <translation>Cale de generare</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdialog.ui" line="52"/>
+        <source>Select</source>
+        <translation>Selectează</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdialog.cpp" line="36"/>
+        <source>Directory to save QML file</source>
+        <translation>Director pentru salvat fișierul QML</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdialog.cpp" line="36"/>
+        <source>Place to save Generated files</source>
+        <translation>Locul de salvare a fișierelor generate</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
-        <location filename="../charactersheet/formula/nodes/operator.cpp" line="87"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="88"/>
         <source>abs : too many arguments</source>
         <translation>abs: prea multe argumente</translation>
     </message>
     <message>
-        <location filename="../charactersheet/formula/nodes/operator.cpp" line="91"/>
-        <location filename="../charactersheet/formula/nodes/operator.cpp" line="225"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="92"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="226"/>
         <source>abs : too few arguments</source>
         <translation>abs: prea puține argumente</translation>
     </message>
     <message>
-        <location filename="../charactersheet/formula/nodes/operator.cpp" line="110"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="111"/>
         <source>ceil : too many arguments</source>
         <translation>tav: prea multe argumente</translation>
     </message>
     <message>
-        <location filename="../charactersheet/formula/nodes/operator.cpp" line="114"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="115"/>
         <source>ceil : too few arguments</source>
         <translation>tav: prea puține argumente</translation>
     </message>
     <message>
-        <location filename="../charactersheet/formula/nodes/operator.cpp" line="132"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="133"/>
         <source>floor : too many arguments</source>
         <translation>podea: prea multe argumente</translation>
     </message>
     <message>
-        <location filename="../charactersheet/formula/nodes/operator.cpp" line="136"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="137"/>
         <source>floor : too few arguments</source>
         <translation>podea: prea puține argumente</translation>
     </message>
     <message>
-        <location filename="../charactersheet/formula/nodes/operator.cpp" line="154"/>
+        <location filename="../charactersheet/formula/nodes/operator.cpp" line="155"/>
         <source>concatenate : too few arguments</source>
         <translation>concatenare: prea puține argumente</translation>
     </message>
@@ -722,47 +1270,435 @@ p, li { white-space: pre-wrap; }
         <translation>Eroare: împărțire la zero</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="35"/>
+        <location filename="../main.cpp" line="40"/>
+        <location filename="../undo/addfieldcommand.cpp" line="105"/>
         <source>Unknown</source>
         <translation>Necunoscut</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/diceparser.cpp" line="177"/>
+        <source>Nothing was understood. To roll dice: !1d6 - full documation: &lt;a href=&quot;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&lt;/a&gt;</source>
+        <translation>Nu a fost înțeles nimic. Pentru a arunca zarurile: !1d6 - documentație completă: &lt;a href=&quot;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/diceparser.cpp" line="670"/>
+        <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
+        <translation>Zarul cu %1 fețe nu există. Te rugăm să pui o valoare mai mare de 0</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/diceparser.cpp" line="723"/>
+        <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
+        <translation>Lista lipsește după operatorul L. Te rugăm să o adaugi (de ex. 1L[sword,spear,gun,arrow])</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/diceparser.cpp" line="1047"/>
+        <source>Validator is missing after the c operator. Please, change it</source>
+        <translation>Lipsește validatorul după operatorul c. Te rugăm să modifici</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/diceparser.cpp" line="1061"/>
+        <location filename="../diceparser/diceparser.cpp" line="1082"/>
+        <source>Validator is missing after the %1 operator. Please, change it</source>
+        <translation>Lipsește validatorul după operatorul %1. Te rugăm să modifici</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/diceparser.cpp" line="1098"/>
+        <source>This condition %1 introduces an endless loop. Please, change it</source>
+        <translation>Această condiție %1 introduce o buclă infinită. Te rugăm să modifici</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/diceparser.cpp" line="1109"/>
+        <source>Validator is missing after the e operator. Please, change it</source>
+        <translation>Lipsește validatorul după operatorul e. Te rugăm să modifici</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/node/dicerollernode.cpp" line="30"/>
+        <source>No dice to roll</source>
+        <translation>Niciun zar de aruncat</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/node/dicerollernode.cpp" line="35"/>
+        <source>More unique values asked than possible values (D operator)</source>
+        <translation>Mai multe valori unice solicitate decât valorile posibile (operator D)</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/node/helpnode.cpp" line="35"/>
+        <source>Rolisteam Dice Parser:
+
+Example (with ! as prefix):
+!2d6
+!1d20
+
+Operator list:
+
+k : Keep             : 2d10k1       =&gt; roll two 10-sided dice and keep the higher one (kl1 for smaller one)
+K : Keep And Explode : 2d10K1       =&gt; Equivalent of 2d10e10k1
+s : Sort             : 8d10         =&gt; roll eight 10-sided dice and sort the result list
+c : Count            : 8d10c[&gt;7]    =&gt; roll eight 10-sided dice and count how many dice are higher than 7
+r : Reroll           : 8d6r1        =&gt; roll eight 6-sided dice and reroll dice once if its result is 1. (result of the reroll can be 1)
+e : Explode          : 8d10e10      =&gt; roll eight 10-sided dice and while dice makes a 10 it is reroll. The result is added to those dice.
+a : Reroll and add   : 8d6a1        =&gt; roll eight 6-sided dice and reroll dice once and the result is added at 1
+m : Merge            : 1d20;1d10mk1 =&gt; roll one 20-side die and one 10-sided die and keep the higher die
+i : if               : 1d100i[=100]{&quot;jackpot&quot;} =&gt; Roll one 100-side die and display &quot;jackpot&quot; if the die result is 100.
+f : filter           : 4d10f[!=4]       =&gt; roll four 10-sided dice and ignore all dice with 4 as result; : Next instruction : 1d20;2d10;3d8 =&gt; roll one 20-sided die, two 10-sided dice and three 8-sided dice 
+g : Group            : 8d10g10       =&gt; count how many group of 10 it is possible to do (according to rule of 7th sea).
+# : Comment          : 1d2 #flip coin=&gt; display flip coin as comment of 1 or 2 result.
+
+Validator:
+
+Supported conditions: &gt;,&lt;,=,&gt;=,&lt;=,!=
+Supported operators: % (modulo), &amp;,^,| 
+
+	Examples:
+
+c[&gt;7 &amp; %2=0] : count how many dice are higher than 7 and even
+c[&gt;7 | %2=0] : count how many dice are higher than 7 or even
+c[&gt;7 ^ %2=0] : count how many dice are higher than 7 or even but not higher than 7 and even
+
+List:
+
+1L[green,blue] =&gt; pick value from the list (green or blue)
+2L[green,blue] =&gt; pick two values from the list (green,green | green,blue | blue,green | blue,blue)
+2Lu[green,blue] =&gt; pick two unique values from the list (green,blue | blue,green)
+
+Arithmetic
+
+8+8+8      =&gt; 24
+24-4       =&gt; 20
+(3+4)*2    =&gt; 14
+7/2        =&gt; 3.5
+2^4        =&gt; 16
+1d6+6      =&gt; roll one 6-sided die and add 6 to its result
+(2d4+2)d10 =&gt; roll two 4-sided dice, add 2 to the result[2;8] then roll from four to ten 10-sided dice
+
+Full documentation at: %1</source>
+        <translation>Rolisteam Dice Parser:
+
+Example (with ! as prefix):
+!2d6
+!1d20
+
+Operator list:
+
+k : Keep             : 2d10k1       =&gt; roll two 10-sided dice and keep the higher one (kl1 for smaller one)
+K : Keep And Explode : 2d10K1       =&gt; Equivalent of 2d10e10k1
+s : Sort             : 8d10         =&gt; roll eight 10-sided dice and sort the result list
+c : Count            : 8d10c[&gt;7]    =&gt; roll eight 10-sided dice and count how many dice are higher than 7
+r : Reroll           : 8d6r1        =&gt; roll eight 6-sided dice and reroll dice once if its result is 1. (result of the reroll can be 1)
+e : Explode          : 8d10e10      =&gt; roll eight 10-sided dice and while dice makes a 10 it is reroll. The result is added to those dice.
+a : Reroll and add   : 8d6a1        =&gt; roll eight 6-sided dice and reroll dice once and the result is added at 1
+m : Merge            : 1d20;1d10mk1 =&gt; roll one 20-side die and one 10-sided die and keep the higher die
+i : if               : 1d100i[=100]{&quot;jackpot&quot;} =&gt; Roll one 100-side die and display &quot;jackpot&quot; if the die result is 100.
+f : filter           : 4d10f[!=4]       =&gt; roll four 10-sided dice and ignore all dice with 4 as result; : Next instruction : 1d20;2d10;3d8 =&gt; roll one 20-sided die, two 10-sided dice and three 8-sided dice 
+g : Group            : 8d10g10       =&gt; count how many group of 10 it is possible to do (according to rule of 7th sea).
+# : Comment          : 1d2 #flip coin=&gt; display flip coin as comment of 1 or 2 result.
+
+Validator:
+
+Supported conditions: &gt;,&lt;,=,&gt;=,&lt;=,!=
+Supported operators: % (modulo), &amp;,^,| 
+
+	Examples:
+
+c[&gt;7 &amp; %2=0] : count how many dice are higher than 7 and even
+c[&gt;7 | %2=0] : count how many dice are higher than 7 or even
+c[&gt;7 ^ %2=0] : count how many dice are higher than 7 or even but not higher than 7 and even
+
+List:
+
+1L[green,blue] =&gt; pick value from the list (green or blue)
+2L[green,blue] =&gt; pick two values from the list (green,green | green,blue | blue,green | blue,blue)
+2Lu[green,blue] =&gt; pick two unique values from the list (green,blue | blue,green)
+
+Arithmetic
+
+8+8+8      =&gt; 24
+24-4       =&gt; 20
+(3+4)*2    =&gt; 14
+7/2        =&gt; 3.5
+2^4        =&gt; 16
+1d6+6      =&gt; roll one 6-sided die and add 6 to its result
+(2d4+2)d10 =&gt; roll two 4-sided dice, add 2 to the result[2;8] then roll from four to ten 10-sided dice
+
+Full documentation at: %1</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/node/jumpbackwardnode.cpp" line="126"/>
+        <source> The @ operator expects dice result. Please check the documentation to fix your command.</source>
+        <translation>Operatorul @ așteaptă rezultatul zarurilor. Verifică documentația pentru a soluționa comanda ta.</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/node/keepdiceexecnode.cpp" line="64"/>
+        <source> You ask to keep %1 dice but the result only has %2</source>
+        <translation>Soliciți păstrarea a %1 zaruri însă rezultatul are doar %2</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/node/listaliasnode.cpp" line="48"/>
+        <source>List of Alias:
+</source>
+        <translation>Listă de aliasuri:
+</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/node/listsetrollnode.cpp" line="70"/>
+        <source>More unique values asked than possible values (L operator)</source>
+        <translation>Mai multe valori unice solicitate decât valorile posibile (operator L)</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/node/rerolldicenode.cpp" line="87"/>
+        <source> The a operator expects dice result. Please check the documentation and fix your command.</source>
+        <translation>Operatorul a așteaptă rezultatul zarurilor. Te rugăm să verifici documentația și să repari comanda.</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/node/scalaroperatornode.cpp" line="124"/>
+        <source>Division by zero</source>
+        <translation>Împărțire cu zero</translation>
+    </message>
+    <message>
+        <location filename="../diceparser/node/variablenode.cpp" line="26"/>
+        <source>No variable at index:%1</source>
+        <translation>Nicio variabilă la indexul:%1</translation>
+    </message>
+    <message>
+        <location filename="../undo/addcharactercommand.cpp" line="29"/>
+        <source>Add Character #%1</source>
+        <translation>Adăugare personaj #%1</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="56"/>
+        <source>checkbox</source>
+        <translation>Casetă de selectare</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="60"/>
+        <source>TextInput</source>
+        <translation>Intrare text</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="64"/>
+        <source>TextArea</source>
+        <translation>Zonă text</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="68"/>
+        <source>TextField</source>
+        <translation>Câmp text</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="73"/>
+        <source>Table</source>
+        <translation>Tabel</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="78"/>
+        <source>Image</source>
+        <translation>Imagine</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="82"/>
+        <source>function</source>
+        <translation>funcție</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="87"/>
+        <source>Dice Button</source>
+        <translation>Buton zaruri </translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="91"/>
+        <source>Web Page</source>
+        <translation>Pagină web</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="95"/>
+        <source>Next Page Button</source>
+        <translation>Butonul Pagina următoare</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="99"/>
+        <source>Previous Page Button</source>
+        <translation>Butonul Pagina precedentă</translation>
+    </message>
+    <message>
+        <location filename="../undo/addfieldcommand.cpp" line="109"/>
+        <source>Add %1 Field</source>
+        <translation>Adaugă %1 câmp</translation>
+    </message>
+    <message>
+        <location filename="../undo/addpagecommand.cpp" line="29"/>
+        <source>Add Page #%1</source>
+        <translation>Adăugare pagină #%1</translation>
+    </message>
+    <message>
+        <location filename="../undo/addpagecommand.cpp" line="44"/>
+        <location filename="../undo/deletepagecommand.cpp" line="43"/>
+        <source>Page %1</source>
+        <translation>Pagină %1</translation>
+    </message>
+    <message>
+        <location filename="../undo/deletecharactercommand.cpp" line="26"/>
+        <source>Delete Character #%1</source>
+        <translation>Ștergere personaj #%1 </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../undo/deletefieldcommand.cpp" line="57"/>
+        <source>Delete %n Field(s)</source>
+        <translation><numerusform>Șterge %n câmp</numerusform><numerusform>Șterge %n câmpuri</numerusform><numerusform>Șterge %n de câmpuri</numerusform></translation>
+    </message>
+    <message>
+        <location filename="../undo/deletepagecommand.cpp" line="37"/>
+        <source>Delete Page #%1</source>
+        <translation>Ștergere pagină #%1 </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../undo/movefieldcommand.cpp" line="32"/>
+        <source>Move %n Field(s)</source>
+        <translation><numerusform>Mută %n câmp</numerusform><numerusform>Mută %n câmpuri</numerusform><numerusform>Mută %n de câmpuri</numerusform></translation>
+    </message>
+    <message>
+        <location filename="../undo/setbackgroundimage.cpp" line="46"/>
+        <source>Set background on Page #%1</source>
+        <translation>Setează fundalul pe pagina #%1</translation>
+    </message>
+    <message>
+        <location filename="../undo/setfieldproperties.cpp" line="29"/>
+        <source>Set Property %1</source>
+        <translation>Setează proprietatea %1</translation>
+    </message>
+    <message>
+        <location filename="../undo/setpropertyonallcharacters.cpp" line="15"/>
+        <source>Set property on all characters: %1</source>
+        <translation>Setează proprietatea la toate personajele: %1</translation>
+    </message>
+</context>
+<context>
+    <name>SheetProperties</name>
+    <message>
+        <location filename="../sheetproperties.ui" line="14"/>
+        <source>Sheet Properties</source>
+        <translation>Proprietăți fișă</translation>
+    </message>
+    <message>
+        <location filename="../sheetproperties.ui" line="26"/>
+        <source>Sheet should keep the same size.</source>
+        <translation>Fișa trebuie să păstreze aceeași dimensiune.</translation>
+    </message>
+    <message>
+        <location filename="../sheetproperties.ui" line="50"/>
+        <source>Fixed scale:</source>
+        <translation>Scară fixă:</translation>
+    </message>
+    <message>
+        <location filename="../sheetproperties.ui" line="81"/>
+        <source>Additionnal Import:</source>
+        <translation>Import suplimentar:</translation>
+    </message>
+    <message>
+        <location filename="../sheetproperties.ui" line="115"/>
+        <source>Additionnal Function Code:</source>
+        <translation>Codul funcției suplimentare:</translation>
+    </message>
+    <message>
+        <location filename="../sheetproperties.ui" line="142"/>
+        <source>Place to add the code</source>
+        <translation>Locul de adăugare a codului</translation>
+    </message>
+    <message>
+        <location filename="../sheetproperties.ui" line="150"/>
+        <source>At the beginning</source>
+        <translation>La început</translation>
+    </message>
+    <message>
+        <location filename="../sheetproperties.ui" line="155"/>
+        <source>At the end</source>
+        <translation>La sfârșit</translation>
+    </message>
+    <message>
+        <location filename="../sheetproperties.ui" line="178"/>
+        <source>Embedded Fonts:</source>
+        <translation>Fonturi încorporate:</translation>
+    </message>
+    <message>
+        <location filename="../sheetproperties.ui" line="189"/>
+        <location filename="../sheetproperties.ui" line="200"/>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+    <message>
+        <location filename="../sheetproperties.cpp" line="15"/>
+        <source>Add Font file</source>
+        <translation>Adaugă fișierul de font</translation>
+    </message>
+</context>
+<context>
+    <name>TableCanvasField</name>
+    <message>
+        <location filename="../tablecanvasfield.cpp" line="169"/>
+        <source>Properties</source>
+        <translation>Proprietăți</translation>
+    </message>
+    <message>
+        <location filename="../tablecanvasfield.cpp" line="176"/>
+        <source>Add Line</source>
+        <translation>Adăugare rând</translation>
     </message>
 </context>
 <context>
     <name>TypeDelegate</name>
     <message>
-        <location filename="../typedelegate.cpp" line="25"/>
+        <location filename="../delegate/typedelegate.cpp" line="26"/>
         <source>TextInput</source>
         <translation>Intrare-text</translation>
     </message>
     <message>
-        <location filename="../typedelegate.cpp" line="26"/>
+        <location filename="../delegate/typedelegate.cpp" line="27"/>
         <source>TextField</source>
         <translation>Câmp-text</translation>
     </message>
     <message>
-        <location filename="../typedelegate.cpp" line="27"/>
+        <location filename="../delegate/typedelegate.cpp" line="28"/>
         <source>TextArea</source>
         <translation>Zonă text</translation>
     </message>
     <message>
-        <location filename="../typedelegate.cpp" line="28"/>
+        <location filename="../delegate/typedelegate.cpp" line="29"/>
         <source>Select</source>
         <translation>Selectare</translation>
     </message>
     <message>
-        <location filename="../typedelegate.cpp" line="29"/>
+        <location filename="../delegate/typedelegate.cpp" line="30"/>
         <source>Checkbox</source>
         <translation>Casetă de selectare</translation>
     </message>
     <message>
-        <location filename="../typedelegate.cpp" line="30"/>
+        <location filename="../delegate/typedelegate.cpp" line="31"/>
         <source>Image</source>
         <translation>Imagine</translation>
     </message>
     <message>
-        <location filename="../typedelegate.cpp" line="31"/>
-        <source>Button</source>
-        <translation>Buton</translation>
+        <location filename="../delegate/typedelegate.cpp" line="32"/>
+        <source>Dice Button</source>
+        <translation>Buton zaruri </translation>
+    </message>
+    <message>
+        <location filename="../delegate/typedelegate.cpp" line="33"/>
+        <source>Function Button</source>
+        <translation>Buton funcție</translation>
+    </message>
+    <message>
+        <location filename="../delegate/typedelegate.cpp" line="34"/>
+        <source>WebView</source>
+        <translation>WebView</translation>
+    </message>
+    <message>
+        <location filename="../delegate/typedelegate.cpp" line="35"/>
+        <source>Next Page Button</source>
+        <translation>Butonul Pagina următoare</translation>
+    </message>
+    <message>
+        <location filename="../delegate/typedelegate.cpp" line="36"/>
+        <source>Previous Page Button</source>
+        <translation>Butonul Pagina precedentă</translation>
     </message>
 </context>
 </TS>
