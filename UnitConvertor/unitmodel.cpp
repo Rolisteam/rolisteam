@@ -79,8 +79,11 @@ QVariant UnitModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-int UnitModel::rowCount(const QModelIndex&) const
+int UnitModel::rowCount(const QModelIndex& parent) const
 {
+    if(parent.isValid())
+        return 0;
+
     int sum= 0;
     for(auto& list : m_data)
     {
