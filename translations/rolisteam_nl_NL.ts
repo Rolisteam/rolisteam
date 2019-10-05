@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="nl_NL">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl_NL" version="2.1">
 <context>
     <name>AboutRolisteam</name>
     <message>
@@ -9,218 +7,90 @@
         <translation>Over Rolisteam</translation>
     </message>
     <message>
-        <source>Rolisteam</source>
-        <translation type="vanished">Rolisteam</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Rolisteam helps you to manage a tabletop role playing game with remote friends/players. It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. Existing features : Map sharing (with permission management), Image sharing, background music, dice roll and so on. Rolisteam is written in Qt5 &lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You may modify and redistribute the program under the terms of the GPL (version 2 or later). A copy of the GPL is contained in the &apos;COPYING&apos; file distributed with Rolisteam. Rolisteam is copyrighted by its contributors. See the &apos;COPYRIGHT&apos; file for the complete list of contributors. We provide no warranty for this program.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Web Sites :&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Official Rolisteam Site&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Bug Tracker&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Current developers :&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Renaud Guezennec&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Contributors :&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Joseph Boudou&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Romain Campioni&lt;/span&gt;&lt;/a&gt; (rolistik) &lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Translators&lt;/p&gt;
-&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Renaud Guezennec&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(English &amp;amp; French)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Lorram Lomeu de Souza Rampi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Portuguese)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Juliana Alves de Sousa Rampi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Portuguese)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Gergely Krekó&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Hungarian)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Kaya Zeren&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Turkish)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Alexia Béné&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(French &amp;amp; German)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/Jobava/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Baadur Jobava&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Romanian)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/omik/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Jesus M&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Spanish)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/Vistaus/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Heimen Stoffels&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Dutch)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Rolisteam helpt u bij het bij het beheren van een bordspel met rollenspellen met vrienden/spelers op afstand. Het bevat vele mogelijkheden om kaarten te delen, afbeeldingen en tevens een hulpmiddel om te communiceren met uw vrienden/spelers. Het doel is om Rolisteam RPG-spellen net zo goed te laten zijn als RPG-spellen aan tafel. Om dit te bereiken werken we hard om u meer en meer mogelijkheden te geven. Bestaande mogelijkheden : Delen van kaarten (met rechtenbeheer), delen van afbeeldingen, achtergrondmuziek, het rollen van dobbelstenen en nog veel meer. Rolisteam is geschreven met Qt5 &lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;U mag de applicatie bewerken en her-uitgeven onder de voorwaarden van de GPL (versie 2 of later). Een kopie van de GPL is te vinden in het bestand &apos;COPYING&apos; dat wordt meegeleverd met Rolisteam. Rolisteam voorzien van copyright door de bijdragers. Bekijk het bestand &apos;COPYRIGHT&apos; voor een volledige lijst van bijdragers. We geven geen garantie op deze applicatie.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Websites :&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Officiële Rolisteam-website&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Fout(bug)meldingen&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Huidige ontwikkelaars :&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Renaud Guezennec&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bijdragers :&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Joseph Boudou&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Romain Campioni&lt;/span&gt;&lt;/a&gt; (rolistik) &lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Vertalers&lt;/p&gt;
-&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Renaud Guezennec&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Engels &amp;amp; Frans)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Lorram Lomeu de Souza Rampi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Portugees)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Juliana Alves de Sousa Rampi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Portugees)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Gergely Krekó&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Hongaars)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Kaya Zeren&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Turks)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Alexia Béné&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Frans &amp;amp; Duits)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/Jobava/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Baadur Jobava&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Roemeens)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/omik/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Jesus M&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Spaans)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/Vistaus/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Heimen Stoffels&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Nederlands)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="31"/>
         <source>English &amp; French</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="33"/>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="35"/>
         <source>Portuguese</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="36"/>
         <source>Hungarian</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="37"/>
         <source>Turkish</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="38"/>
         <source>French &amp; German</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="39"/>
         <source>Romanian</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="40"/>
         <source>Spanish</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="41"/>
         <source>Dutch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="42"/>
         <source>Catalan</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="57"/>
         <source>Rolisteam helps you to manage a tabletop role playing game with remote friends/players. It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. Existing features : Map sharing (with permission management), Image sharing, background music, dice roll and so on. Rolisteam is written in Qt5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="63"/>
         <source>You may modify and redistribute the program under the terms of the GPL (version 2 or later). A copy of the GPL is contained in the &apos;COPYING&apos; file distributed with Rolisteam. Rolisteam is copyrighted by its contributors. See the &apos;COPYRIGHT&apos; file for the complete list of contributors. We provide no warranty for this program.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="67"/>
         <source>Web Sites:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="67"/>
         <source>Official Rolisteam Site</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="67"/>
         <source>Bug Tracker</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="67"/>
         <source>Current developers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="68"/>
         <source>Contributors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/aboutrolisteam.cpp" line="68"/>
         <source>Translators</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -234,10 +104,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../client/audio/audioPlayer.cpp" line="104"/>
         <source>Show/hide Player %1</source>
         <translation>Speler %1 weergeven/verbergen</translation>
-    </message>
-    <message>
-        <source>Select the songs directory</source>
-        <translation type="vanished">Selecteer de muziekmap</translation>
     </message>
 </context>
 <context>
@@ -278,104 +144,104 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../client/network/channellistpanel.ui" line="14"/>
         <source>Channel List</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="33"/>
         <source>Edit Channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/network/channellistpanel.cpp" line="34"/>
-        <source>Lock/Unlock Channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="35"/>
         <source>Switch to channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/network/channellistpanel.cpp" line="34"/>
+        <source>Lock/Unlock Channel</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="36"/>
         <source>Set/Unset Channel Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="37"/>
         <source>Add channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="38"/>
         <source>Add subchannel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="39"/>
         <source>Delete Channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="40"/>
         <source>Set Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="41"/>
         <source>Log as admin</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="42"/>
         <source>Kick User</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="43"/>
         <source>Ban User</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="44"/>
         <source>Reset Data Channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="45"/>
         <source>Move User</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="315"/>
         <source>Admin Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="315"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="335"/>
         <location filename="../client/network/channellistpanel.cpp" line="359"/>
         <source>New Channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="491"/>
         <location filename="../client/network/channellistpanel.cpp" line="522"/>
         <source>Channel Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="492"/>
         <source>Password for channel: %1 - leave empty for no password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channellistpanel.cpp" line="522"/>
         <source>Channel %1 required password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -383,27 +249,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../client/network/channelmodel.cpp" line="112"/>
         <source>Bytes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channelmodel.cpp" line="112"/>
         <source>KiB</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channelmodel.cpp" line="112"/>
         <source>MiB</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channelmodel.cpp" line="468"/>
         <source>Channel Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/channelmodel.cpp" line="469"/>
         <source>Channel %1 required password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -417,27 +283,27 @@ Initiative Score: %5
 Distance Per Turn: %6
 type: %7
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/data/character.cpp" line="609"/>
         <source>Not defined</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/data/character.cpp" line="619"/>
         <source>NPC</source>
-        <translation type="unfinished">NPC</translation>
+        <translation>NPC</translation>
     </message>
     <message>
         <location filename="../client/data/character.cpp" line="619"/>
         <source>PC</source>
-        <translation type="unfinished">PC</translation>
+        <translation>PC</translation>
     </message>
     <message>
         <location filename="../client/data/character.cpp" line="765"/>
         <source>Initiative</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -448,13 +314,9 @@ type: %7
         <translation>Staat wijzigen</translation>
     </message>
     <message>
-        <source>Affect to</source>
-        <translation type="vanished">Effect op</translation>
-    </message>
-    <message>
         <location filename="../client/vmap/items/characteritem.cpp" line="867"/>
         <source>Transform into</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/items/characteritem.cpp" line="875"/>
@@ -464,27 +326,27 @@ type: %7
     <message>
         <location filename="../client/vmap/items/characteritem.cpp" line="893"/>
         <source>Actions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/items/characteritem.cpp" line="895"/>
         <source>Initiative</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/items/characteritem.cpp" line="899"/>
         <source>Clean Initiative</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/items/characteritem.cpp" line="916"/>
         <source>Shapes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/items/characteritem.cpp" line="925"/>
         <source>Clean Shape</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/items/characteritem.cpp" line="1009"/>
@@ -499,12 +361,12 @@ type: %7
     <message>
         <location filename="../client/vmap/items/characteritem.cpp" line="1017"/>
         <source>Reduce Life</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/items/characteritem.cpp" line="1018"/>
         <source>Increase Life</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -533,17 +395,9 @@ type: %7
 <context>
     <name>CharacterSheetWindow</name>
     <message>
-        <source>Character Sheet Viewer</source>
-        <translation type="vanished">Character Sheet-weergave</translation>
-    </message>
-    <message>
         <location filename="../client/charactersheet/charactersheetwindow.cpp" line="57"/>
         <source>Add Section</source>
         <translation>Sectie toevoegen</translation>
-    </message>
-    <message>
-        <source>Add line</source>
-        <translation type="vanished">Regel toevoegen</translation>
     </message>
     <message>
         <location filename="../client/charactersheet/charactersheetwindow.cpp" line="59"/>
@@ -561,29 +415,9 @@ type: %7
         <translation>Tabbladen loskoppelen</translation>
     </message>
     <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="71"/>
-        <source>Print Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../client/charactersheet/charactersheetwindow.cpp" line="81"/>
         <source>Data</source>
         <translation>Gegevens</translation>
-    </message>
-    <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="98"/>
-        <source>Actions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="174"/>
-        <source>%1 - (Character Sheet Viewer)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="568"/>
-        <source>QML Errors</source>
-        <translation>QML-fouten</translation>
     </message>
     <message>
         <location filename="../client/charactersheet/charactersheetwindow.cpp" line="60"/>
@@ -593,7 +427,7 @@ type: %7
     <message>
         <location filename="../client/charactersheet/charactersheetwindow.cpp" line="58"/>
         <source>Add Field</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/charactersheet/charactersheetwindow.cpp" line="62"/>
@@ -606,8 +440,19 @@ type: %7
         <translation>Alleen-lezen</translation>
     </message>
     <message>
-        <source>Share To </source>
-        <translation type="vanished">Delen naar</translation>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="71"/>
+        <source>Print Page</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="98"/>
+        <source>Actions</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="174"/>
+        <source>%1 - (Character Sheet Viewer)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/charactersheet/charactersheetwindow.h" line="359"/>
@@ -615,16 +460,9 @@ type: %7
         <translation>Delen naar</translation>
     </message>
     <message>
-        <source>Save Character Sheets Data</source>
-        <translation type="vanished">Character Sheet-gegevens opslaan</translation>
-    </message>
-    <message>
-        <source>Character Sheets Data files (*.rcs)</source>
-        <translation type="vanished">Character Sheet-gegevensbestanden (*.rcs)</translation>
-    </message>
-    <message>
-        <source>Open Character Sheet data</source>
-        <translation type="vanished">Character Sheet-gegevens openen</translation>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="568"/>
+        <source>QML Errors</source>
+        <translation>QML-fouten</translation>
     </message>
     <message>
         <location filename="../client/charactersheet/charactersheetwindow.h" line="360"/>
@@ -710,7 +548,7 @@ type: %7
     <message>
         <location filename="../client/chat/chatbrowser.cpp" line="17"/>
         <source>Clear chat</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/chat/chatbrowser.cpp" line="19"/>
@@ -739,11 +577,7 @@ type: %7
         <location filename="../client/chat/chatlist.cpp" line="365"/>
         <source>Chat</source>
         <comment>chat room</comment>
-        <translation type="unfinished">Chatten</translation>
-    </message>
-    <message>
-        <source>%1 (Chat)</source>
-        <translation type="vanished">%1 (Chat)</translation>
+        <translation>Chatten</translation>
     </message>
 </context>
 <context>
@@ -777,29 +611,50 @@ type: %7
         <translation>opslaan</translation>
     </message>
     <message>
+        <location filename="../client/chat/chatwindow.cpp" line="207"/>
+        <source>Empty dice command</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../client/chat/chatwindow.cpp" line="221"/>
         <source>You</source>
         <translation>U</translation>
     </message>
     <message>
-        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%2)]</source>
-        <comment>mine dice roll</comment>
-        <translation type="vanished">&lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; gekregen na het rollen van uw dobbelsteen [%3 (%2)]</translation>
+        <location filename="../client/chat/chatwindow.cpp" line="240"/>
+        <source>&lt;span title=&quot;%3&quot;&gt;got %1 at your dice roll [%2]&lt;/span&gt;</source>
+        <comment>my dice roll</comment>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%2]</source>
-        <comment>mine dice roll</comment>
-        <translation type="vanished">&lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; gekregen na het rollen van uw dobbelsteen [%2]</translation>
+        <location filename="../client/chat/chatwindow.cpp" line="245"/>
+        <source>got %1 at your dice roll [%3 (%2)]</source>
+        <comment>my dice roll</comment>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</source>
-        <comment>third person roll</comment>
-        <translation type="vanished">&lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; verkregen [%3 (%2)]</translation>
+        <location filename="../client/chat/chatwindow.cpp" line="250"/>
+        <source>got %1 at your dice roll [%2]</source>
+        <comment>my dice roll</comment>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2]</source>
-        <comment>third person roll</comment>
-        <translation type="vanished">&lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; verkregen [%2]</translation>
+        <location filename="../client/chat/chatwindow.cpp" line="261"/>
+        <source>&lt;span title=&quot;%3&quot;&gt;got %1 [%2]&lt;/span&gt;</source>
+        <comment>third person</comment>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/chat/chatwindow.cpp" line="265"/>
+        <source>got %1 [%3 (%2)]</source>
+        <comment>third person</comment>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/chat/chatwindow.cpp" line="270"/>
+        <source>got %1 [%2]</source>
+        <comment>third person</comment>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/chat/chatwindow.cpp" line="280"/>
@@ -817,47 +672,6 @@ type: %7
         <translation>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Dice_Rolling&quot;&gt;http://wiki.rolisteam.org/index.php/Dice_Rolling&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../client/chat/chatwindow.cpp" line="207"/>
-        <source>Empty dice command</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/chat/chatwindow.cpp" line="240"/>
-        <source>&lt;span title=&quot;%3&quot;&gt;got %1 at your dice roll [%2]&lt;/span&gt;</source>
-        <comment>my dice roll</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/chat/chatwindow.cpp" line="245"/>
-        <source>got %1 at your dice roll [%3 (%2)]</source>
-        <comment>my dice roll</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/chat/chatwindow.cpp" line="250"/>
-        <source>got %1 at your dice roll [%2]</source>
-        <comment>my dice roll</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/chat/chatwindow.cpp" line="261"/>
-        <source>&lt;span title=&quot;%3&quot;&gt;got %1 [%2]&lt;/span&gt;</source>
-        <comment>third person</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/chat/chatwindow.cpp" line="265"/>
-        <source>got %1 [%3 (%2)]</source>
-        <comment>third person</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/chat/chatwindow.cpp" line="270"/>
-        <source>got %1 [%2]</source>
-        <comment>third person</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../client/chat/chatwindow.cpp" line="361"/>
         <source>Warning</source>
         <translation>Waarschuwing</translation>
@@ -870,16 +684,12 @@ type: %7
     <message>
         <location filename="../client/chat/chatwindow.cpp" line="944"/>
         <source>Edit DiceBookmark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/chat/chatwindow.cpp" line="957"/>
         <source>Remove</source>
-        <translation type="unfinished">Verwijderen</translation>
-    </message>
-    <message>
-        <source>ChatWindow</source>
-        <translation type="vanished">ChatVenster</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -887,24 +697,16 @@ type: %7
     <message>
         <location filename="../client/network/clientmanager.cpp" line="164"/>
         <source>Connection with the Remote Server has been lost.</source>
-        <translation type="unfinished">De verbinding met de externe server is verloren gegaan.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/clientmanager.cpp" line="172"/>
         <source>Connection to the server has been closed.</source>
-        <translation type="unfinished">De verbinding met de server is verbroken.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ColorSelector</name>
-    <message>
-        <source>Predefine color 1</source>
-        <translation type="vanished">Voorinstellingskleur 1</translation>
-    </message>
-    <message>
-        <source>Predefine color %1 </source>
-        <translation type="vanished">Voorinstellingskleur %1</translation>
-    </message>
     <message>
         <location filename="../client/widgets/colorselector.cpp" line="151"/>
         <source>Custom Color %1 </source>
@@ -944,7 +746,7 @@ type: %7
     <message>
         <location filename="../client/widgets/colorselector.h" line="168"/>
         <source>Predefined color</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -953,10 +755,6 @@ type: %7
         <location filename="../client/network/connectionretrydialog.ui" line="14"/>
         <source>Connection Retry</source>
         <translation>Opnieuw verbinden</translation>
-    </message>
-    <message>
-        <source>Connection has failed! Connection Retry in %1s. </source>
-        <translation type="vanished">Het verbinden is mislukt! Opnieuw verbinden over %1s.</translation>
     </message>
     <message>
         <location filename="../client/network/connectionretrydialog.cpp" line="34"/>
@@ -1033,47 +831,47 @@ type: %7
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="189"/>
         <source>Category</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="278"/>
         <source>Reverse</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="287"/>
         <source>Custom Rule</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="296"/>
         <source>Add</source>
-        <translation type="unfinished">Toevoegen</translation>
+        <translation>Toevoegen</translation>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="299"/>
         <source>Add Unit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="308"/>
         <source>Remove Unit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="311"/>
         <source>remove unit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="320"/>
         <source>Return</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="323"/>
         <source>Return to convertor page</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1114,17 +912,17 @@ type: %7
     <message>
         <location filename="../client/widgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp" line="16"/>
         <source>Name</source>
-        <translation type="unfinished">Naam</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp" line="18"/>
         <source>Command</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp" line="20"/>
         <source>Alias</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1132,7 +930,7 @@ type: %7
     <message>
         <location filename="../client/widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.ui" line="14"/>
         <source>DiceShortCut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1140,17 +938,17 @@ type: %7
     <message>
         <location filename="../client/sharededitor/document.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/document.cpp" line="310"/>
         <source>Cahoots</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/document.cpp" line="310"/>
         <source>The string was not found.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1171,67 +969,67 @@ type: %7
     <message>
         <location filename="../client/sharededitor/finddialog.ui" line="14"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/finddialog.ui" line="40"/>
         <source>Find:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/finddialog.ui" line="83"/>
         <source>Replace With:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/finddialog.ui" line="110"/>
         <source>Ignore Case</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/finddialog.ui" line="120"/>
         <source>Wrap Around</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/finddialog.ui" line="131"/>
         <source>Contains</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/finddialog.ui" line="136"/>
         <source>Starts With</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/finddialog.ui" line="141"/>
         <source>Entire Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/finddialog.ui" line="166"/>
         <source>Replace All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/finddialog.ui" line="176"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/finddialog.ui" line="186"/>
         <source>Find &amp;&amp; Replace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/finddialog.ui" line="196"/>
         <source>Previous</source>
-        <translation type="unfinished">Vorige</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/finddialog.ui" line="206"/>
         <source>Next</source>
-        <translation type="unfinished">Volgende</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1239,31 +1037,12 @@ type: %7
     <message>
         <location filename="../client/sharededitor/findtoolbar.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/findtoolbar.ui" line="35"/>
         <source>✖</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>GMTOOL</name>
-    <message>
-        <source>Currency</source>
-        <translation type="vanished">Valuta</translation>
-    </message>
-    <message>
-        <source>Distance</source>
-        <translation type="vanished">Afstand</translation>
-    </message>
-    <message>
-        <source>Temperature</source>
-        <translation type="vanished">Temperatuur</translation>
-    </message>
-    <message>
-        <source>MASS</source>
-        <translation type="vanished">GEWICHT</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1271,17 +1050,17 @@ type: %7
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/customrulemodel.cpp" line="34"/>
         <source>Unit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/customrulemodel.cpp" line="36"/>
         <source>Symbol</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/customrulemodel.cpp" line="254"/>
         <source>New Unit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1289,7 +1068,7 @@ type: %7
     <message>
         <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="147"/>
         <source>New Unit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1302,7 +1081,7 @@ type: %7
     <message>
         <location filename="../client/image.cpp" line="280"/>
         <source>%1 - (Picture)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/image.cpp" line="305"/>
@@ -1416,27 +1195,23 @@ type: %7
         <comment>Zoom Out</comment>
         <translation>Ctrl+b</translation>
     </message>
-    <message>
-        <source> (Picture)</source>
-        <translation type="vanished">(Afbeelding)</translation>
-    </message>
 </context>
 <context>
     <name>ImageModel</name>
     <message>
         <location filename="../client/charactersheet/imagemodel.cpp" line="12"/>
         <source>Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Sleutel</translation>
     </message>
     <message>
         <location filename="../client/charactersheet/imagemodel.cpp" line="12"/>
         <source>Filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestandsnaam</translation>
     </message>
     <message>
         <location filename="../client/charactersheet/imagemodel.cpp" line="12"/>
         <source>Is Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Is de achtergrond</translation>
     </message>
 </context>
 <context>
@@ -1460,22 +1235,22 @@ type: %7
     <message>
         <location filename="../client/keygeneratordialog.ui" line="14"/>
         <source>Password Generator</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/keygeneratordialog.ui" line="29"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/keygeneratordialog.ui" line="36"/>
         <source>Generate</source>
-        <translation type="unfinished">Genereren</translation>
+        <translation>Genereren</translation>
     </message>
     <message>
         <location filename="../client/keygeneratordialog.ui" line="51"/>
         <source>Copy/Paste result into server configuration file.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1483,57 +1258,57 @@ type: %7
     <message>
         <location filename="../client/common/widgets/logpanel.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/common/widgets/logpanel.ui" line="37"/>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/common/widgets/logpanel.ui" line="45"/>
         <source>Error</source>
-        <translation type="unfinished">Fout</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/common/widgets/logpanel.ui" line="50"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/common/widgets/logpanel.ui" line="55"/>
         <source>warning</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/common/widgets/logpanel.ui" line="60"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/common/widgets/logpanel.ui" line="104"/>
         <source>Erase All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/common/widgets/logpanel.ui" line="113"/>
         <source>Save</source>
-        <translation type="unfinished">Opslaan</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/common/widgets/logpanel.ui" line="116"/>
         <source>Provide this file to Rolisteam developers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/common/widgets/logpanel.cpp" line="73"/>
         <source>Saving logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/common/widgets/logpanel.cpp" line="73"/>
         <source>Log files %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1764,39 +1539,14 @@ type: %7
         <translation>onbekend</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="727"/>
-        <source>&amp;Redo</source>
-        <translation type="unfinished">&amp;Opnieuw</translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.cpp" line="728"/>
-        <source>&amp;Undo</source>
-        <translation type="unfinished">&amp;Ongedaan maken</translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.cpp" line="778"/>
-        <source>Support</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.cpp" line="862"/>
-        <source>Untitled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.cpp" line="1292"/>
-        <source>Update Notification</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.cpp" line="1449"/>
-        <source>Remove limit to PDF file size</source>
-        <translation type="unfinished"></translation>
+        <location filename="../client/mainwindow.cpp" line="779"/>
+        <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;%2&quot;&gt;%2&lt;/a&gt;</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/mainwindow.cpp" line="1719"/>
         <source>Error: Wrong password!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/mainwindow.cpp" line="2377"/>
@@ -1832,11 +1582,6 @@ type: %7
         <location filename="../client/mainwindow.cpp" line="2709"/>
         <source>Player</source>
         <translation>Speler</translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.cpp" line="2815"/>
-        <source>Export from %1</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../client/mainwindow.cpp" line="1066"/>
@@ -1899,6 +1644,11 @@ type: %7
         <translation>Recente bestanden</translation>
     </message>
     <message>
+        <location filename="../client/mainwindow.ui" line="89"/>
+        <source>Sub-&amp;Windows</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../client/mainwindow.ui" line="101"/>
         <location filename="../client/mainwindow.ui" line="291"/>
         <location filename="../client/mainwindow.ui" line="327"/>
@@ -1906,18 +1656,9 @@ type: %7
         <translation>Kaart</translation>
     </message>
     <message>
-        <source>GM ToolBox</source>
-        <translation type="vanished">GM-gereedschap</translation>
-    </message>
-    <message>
         <location filename="../client/mainwindow.ui" line="65"/>
         <source>Save</source>
         <translation>Opslaan</translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="526"/>
-        <source>Change Profile…</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="550"/>
@@ -1930,21 +1671,9 @@ type: %7
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <source>Save All</source>
-        <translation type="vanished">Alles opslaan</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+A</source>
-        <translation type="vanished">Ctrl+Shift+A</translation>
-    </message>
-    <message>
         <location filename="../client/mainwindow.ui" line="207"/>
         <source>Close</source>
         <translation>Sluiten</translation>
-    </message>
-    <message>
-        <source>Preferences</source>
-        <translation type="vanished">Voorkeuren</translation>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="222"/>
@@ -1968,34 +1697,14 @@ type: %7
         <translation>Tab</translation>
     </message>
     <message>
-        <source>Alt+O</source>
-        <translation type="vanished">Alt+O</translation>
-    </message>
-    <message>
         <location filename="../client/mainwindow.ui" line="261"/>
         <source>Alt+T</source>
         <translation>Alt+T</translation>
     </message>
     <message>
-        <source>Connection</source>
-        <translation type="vanished">Verbinding</translation>
-    </message>
-    <message>
-        <source>Disconnection</source>
-        <translation type="vanished">Ontkoppeling</translation>
-    </message>
-    <message>
-        <source>Check Update</source>
-        <translation type="vanished">Controleren op updates</translation>
-    </message>
-    <message>
         <location filename="../client/mainwindow.ui" line="277"/>
         <source>F1</source>
         <translation>F1</translation>
-    </message>
-    <message>
-        <source>F12</source>
-        <translation type="vanished">F12</translation>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="318"/>
@@ -2008,17 +1717,34 @@ type: %7
         <translation>Chatten</translation>
     </message>
     <message>
-        <source>Save as…</source>
-        <translation type="vanished">Opslaan als...</translation>
-    </message>
-    <message>
         <location filename="../client/mainwindow.ui" line="199"/>
         <source>Save Scenario As…</source>
         <translation>Scenario opslaan als...</translation>
     </message>
     <message>
-        <source>Alt+Shift+A</source>
-        <translation type="vanished">Alt+Shift+A</translation>
+        <location filename="../client/mainwindow.ui" line="219"/>
+        <source>Preferences…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="245"/>
+        <source>F2</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="266"/>
+        <source>Disconnection…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="271"/>
+        <source>Rolisteam Help</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="274"/>
+        <source>online documentation</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="294"/>
@@ -2057,10 +1783,6 @@ type: %7
         <translation>Ctrl+R</translation>
     </message>
     <message>
-        <source>Scenario</source>
-        <translation type="vanished">Scenario</translation>
-    </message>
-    <message>
         <location filename="../client/mainwindow.ui" line="366"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
@@ -2071,9 +1793,29 @@ type: %7
         <translation>PC-naam weergeven</translation>
     </message>
     <message>
+        <location filename="../client/mainwindow.ui" line="380"/>
+        <source>F3</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="394"/>
+        <source>F4</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../client/mainwindow.ui" line="408"/>
         <source>F5</source>
         <translation>F5</translation>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="661"/>
+        <source>Password Generator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="677"/>
+        <source>Show Initiative</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="391"/>
@@ -2091,88 +1833,6 @@ type: %7
         <translation>Npc-nummer weergeven</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="558"/>
-        <source>Room List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="561"/>
-        <source>F10</source>
-        <translation type="unfinished">F10</translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="570"/>
-        <location filename="../client/mainwindow.ui" line="582"/>
-        <source>Shared Note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="573"/>
-        <source>Ctrl+K</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="585"/>
-        <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="594"/>
-        <location filename="../client/mainwindow.ui" line="686"/>
-        <source>Support Rolisteam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="599"/>
-        <source>Shortcut Viewer…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="602"/>
-        <source>Ctrl+F1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="610"/>
-        <source>Full Screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="613"/>
-        <source>F11</source>
-        <translation type="unfinished">F11</translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="622"/>
-        <source>PDF File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="625"/>
-        <source>Ctrl+D</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="630"/>
-        <source>Copy Connection Link…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="639"/>
-        <source>WebPage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="642"/>
-        <source>Ctrl+H</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="653"/>
-        <source>Show Health Bar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../client/mainwindow.ui" line="656"/>
         <source>F7</source>
         <translation>F7</translation>
@@ -2181,92 +1841,6 @@ type: %7
         <location filename="../client/mainwindow.ui" line="416"/>
         <source>Minute Editor</source>
         <translation>Notulenbewerker</translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="89"/>
-        <source>Sub-&amp;Windows</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="123"/>
-        <source>&amp;Network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="135"/>
-        <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="145"/>
-        <source>&amp;GM ToolBox</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="150"/>
-        <source>&amp;Edit</source>
-        <translation type="unfinished">&amp;Bewerken</translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="170"/>
-        <source>Current Media</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="182"/>
-        <location filename="../client/mainwindow.ui" line="666"/>
-        <source>Current Media as…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="185"/>
-        <source>Alt+Shift+S</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="190"/>
-        <source>All Media</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="219"/>
-        <source>Preferences…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="245"/>
-        <source>F2</source>
-        <translation type="unfinished">F2</translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="266"/>
-        <source>Disconnection…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="271"/>
-        <source>Rolisteam Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="274"/>
-        <source>online documentation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="363"/>
-        <source>Open Scenario</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="380"/>
-        <source>F3</source>
-        <translation type="unfinished">F3</translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="394"/>
-        <source>F4</source>
-        <translation type="unfinished">F4</translation>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="419"/>
@@ -2331,19 +1905,137 @@ type: %7
         <translation>Vectoriële kaart</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="661"/>
-        <source>Password Generator</source>
-        <translation type="unfinished"></translation>
+        <location filename="../client/mainwindow.ui" line="526"/>
+        <source>Change Profile…</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="677"/>
-        <source>Show Initiative</source>
-        <translation type="unfinished"></translation>
+        <location filename="../client/mainwindow.ui" line="561"/>
+        <source>F10</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="173"/>
         <source>Alt+S</source>
         <translation>Alt+S</translation>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="170"/>
+        <source>Current Media</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="182"/>
+        <location filename="../client/mainwindow.ui" line="666"/>
+        <source>Current Media as…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="185"/>
+        <source>Alt+Shift+S</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="190"/>
+        <source>All Media</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="363"/>
+        <source>Open Scenario</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="558"/>
+        <source>Room List</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="570"/>
+        <location filename="../client/mainwindow.ui" line="582"/>
+        <source>Shared Note</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="573"/>
+        <source>Ctrl+K</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="585"/>
+        <source>Ctrl+L</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="594"/>
+        <location filename="../client/mainwindow.ui" line="686"/>
+        <source>Support Rolisteam</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="599"/>
+        <source>Shortcut Viewer…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="630"/>
+        <source>Copy Connection Link…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="642"/>
+        <source>Ctrl+H</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="653"/>
+        <source>Show Health Bar</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="602"/>
+        <source>Ctrl+F1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="123"/>
+        <source>&amp;Network</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="135"/>
+        <source>&amp;Help</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="145"/>
+        <source>&amp;GM ToolBox</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="150"/>
+        <source>&amp;Edit</source>
+        <translation>&amp;Bewerken</translation>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="610"/>
+        <source>Full Screen</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="613"/>
+        <source>F11</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="622"/>
+        <source>PDF File</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.ui" line="625"/>
+        <source>Ctrl+D</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="518"/>
@@ -2354,10 +2046,6 @@ type: %7
         <location filename="../client/mainwindow.ui" line="486"/>
         <source>F8</source>
         <translation>F8</translation>
-    </message>
-    <message>
-        <source>Change Profile</source>
-        <translation type="vanished">Profiel wijzigen</translation>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="535"/>
@@ -2375,8 +2063,9 @@ type: %7
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <source>Ctrl+W</source>
-        <translation type="vanished">Ctrl+W</translation>
+        <location filename="../client/mainwindow.ui" line="639"/>
+        <source>WebPage</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="538"/>
@@ -2384,17 +2073,9 @@ type: %7
         <translation>Ctrl+U</translation>
     </message>
     <message>
-        <source>Network</source>
-        <translation type="vanished">Netwerk</translation>
-    </message>
-    <message>
         <location filename="../client/mainwindow.ui" line="14"/>
         <source>Rolisteam</source>
         <translation>Rolisteam</translation>
-    </message>
-    <message>
-        <source>Sub-Windows</source>
-        <translation type="vanished">Subvensters</translation>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="93"/>
@@ -2428,8 +2109,9 @@ type: %7
         <translation>Hulp</translation>
     </message>
     <message>
-        <source>Image compression error (readImageFromStream - MainWindow.cpp)</source>
-        <translation type="vanished">Afbeeldingscompressiefout (readImageFromStream - MainWindow.cpp)</translation>
+        <location filename="../client/mainwindow.cpp" line="1292"/>
+        <source>Update Notification</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/mainwindow.cpp" line="1335"/>
@@ -2462,17 +2144,19 @@ type: %7
         <translation>&lt;username&gt; definiëren</translation>
     </message>
     <message>
+        <location filename="../client/mainwindow.cpp" line="1449"/>
+        <source>Remove limit to PDF file size</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../client/mainwindow.cpp" line="1705"/>
         <source>End of the connection process</source>
         <translation>Eind van het verbindproces</translation>
     </message>
     <message>
-        <source>Error:</source>
-        <translation type="vanished">Fout:</translation>
-    </message>
-    <message>
-        <source>Warning:</source>
-        <translation type="vanished">Waarschuwing:</translation>
+        <location filename="../client/mainwindow.cpp" line="2815"/>
+        <source>Export from %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/mainwindow.cpp" line="263"/>
@@ -2490,9 +2174,24 @@ type: %7
         <translation>De verbinding is verbroken. %1 zal sluiten</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="779"/>
-        <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;%2&quot;&gt;%2&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <location filename="../client/mainwindow.cpp" line="727"/>
+        <source>&amp;Redo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.cpp" line="728"/>
+        <source>&amp;Undo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.cpp" line="778"/>
+        <source>Support</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/mainwindow.cpp" line="862"/>
+        <source>Untitled</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/mainwindow.cpp" line="1015"/>
@@ -2529,10 +2228,6 @@ type: %7
         <location filename="../client/mainwindow.cpp" line="1241"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>De documentatie van %1 kan online worden gevonden op :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>Update Monitor</source>
-        <translation type="vanished">Monitor bijwerken</translation>
     </message>
     <message>
         <location filename="../client/mainwindow.cpp" line="1293"/>
@@ -2720,10 +2415,6 @@ het een speciale kleur is.</translation>
         <translation>Onbekend kaartformaat</translation>
     </message>
     <message>
-        <source>Compressing image goes wrong (ouvrirPlan - MainWindow.cpp)</source>
-        <translation type="vanished">Compressie van de afbeelding is mislukt (ouvrirPlan - MainWindow.cpp)</translation>
-    </message>
-    <message>
         <location filename="../client/map/mapframe.cpp" line="277"/>
         <source>Extract original background information Failed (readMapAndNpc - bipmapwindow.cpp)</source>
         <translation>Extraheren van orginele achtergrondinformatie mislukt (readMapAndNpc - bipmapwindow.cpp)</translation>
@@ -2741,17 +2432,17 @@ het een speciale kleur is.</translation>
     <message>
         <location filename="../client/map/mapframe.cpp" line="434"/>
         <source>Extract original background information Failed (processMapMessage - mapframe.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/map/mapframe.cpp" line="441"/>
         <source>Extract background information Failed (processMapMessage - mapframe.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/map/mapframe.cpp" line="448"/>
         <source>Extract alpha layer information Failed (processMapMessage - mapframe.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/map/mapframe.cpp" line="549"/>
@@ -2766,24 +2457,12 @@ het een speciale kleur is.</translation>
     <message>
         <location filename="../client/map/mapframe.cpp" line="222"/>
         <source>Compressing image goes wrong (ouvrirPlan - mapframe.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/map/mapframe.cpp" line="467"/>
         <source>Receiving map: %1</source>
         <translation>Bezig met ontvangen van kaart: %1</translation>
-    </message>
-    <message>
-        <source>Extract original background information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation type="vanished">Extraheren van originele achtergrondinformatie mislukt (processMapMessage - mainwindow.cpp)</translation>
-    </message>
-    <message>
-        <source>Extract background information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation type="vanished">Extraheren van achtergrondinformatie mislukt (processMapMessage - mainwindow.cpp)</translation>
-    </message>
-    <message>
-        <source>Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation type="vanished">Extraheren van alfa-laag-informatie mislukt (processMapMessage - mainwindow.cpp)</translation>
     </message>
 </context>
 <context>
@@ -2979,12 +2658,12 @@ het een speciale kleur is.</translation>
         <location filename="../client/data/mediacontainer.cpp" line="28"/>
         <location filename="../client/data/mediacontainer.cpp" line="135"/>
         <source>Unknown</source>
-        <translation type="unfinished">Onbekend</translation>
+        <translation>Onbekend</translation>
     </message>
     <message>
         <location filename="../client/data/mediacontainer.cpp" line="37"/>
         <source>Detach the view</source>
-        <translation type="unfinished">De weergave losmaken</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3060,7 +2739,7 @@ het een speciale kleur is.</translation>
     <message>
         <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="44"/>
         <source>Russian Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3075,7 +2754,7 @@ het een speciale kleur is.</translation>
         <location filename="../client/network/networklink.cpp" line="73"/>
         <location filename="../client/network/networklink.cpp" line="108"/>
         <source>Socket is not writable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/networklink.cpp" line="95"/>
@@ -3087,47 +2766,12 @@ het een speciale kleur is.</translation>
         <location filename="../client/network/networklink.cpp" line="218"/>
         <location filename="../client/network/networklink.cpp" line="248"/>
         <source>Authentification Fail</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/networklink.cpp" line="329"/>
         <source>Connection Profile is not defined</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>NetworkManager</name>
-    <message>
-        <source>Server is on.</source>
-        <translation type="vanished">De server staat aan.</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="vanished">Fout</translation>
-    </message>
-    <message>
-        <source>Can not establish the connection.</source>
-        <translation type="vanished">De verbinding kan niet tot stand worden gebracht.</translation>
-    </message>
-    <message>
-        <source>Connection with the Remote Server has been lost.</source>
-        <translation type="vanished">De verbinding met de externe server is verloren gegaan.</translation>
-    </message>
-    <message>
-        <source>NULL NetworkLink pointer (NetworkManager::finDeNetworkLink).</source>
-        <translation type="vanished">NULL NetworkLink-pointer (NetworkManager::finDeNetworkLink).</translation>
-    </message>
-    <message>
-        <source>Unknown thread joined, (finDeNetworkLink - NetworkManager.cpp)</source>
-        <translation type="vanished">Onbekende thread verbonden, (finDeNetworkLink - NetworkManager.cpp)</translation>
-    </message>
-    <message>
-        <source>Server has been closed.</source>
-        <translation type="vanished">De server is gesloten.</translation>
-    </message>
-    <message>
-        <source>Connection to the server has been closed.</source>
-        <translation type="vanished">De verbinding met de server is verbroken.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3254,7 +2898,7 @@ het een speciale kleur is.</translation>
     <message>
         <location filename="../client/noteeditor/src/notecontainer.cpp" line="50"/>
         <source>%1[*] - (Notes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3262,82 +2906,82 @@ het een speciale kleur is.</translation>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="14"/>
         <source>NpcMaker</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="42"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="71"/>
         <source>Name:</source>
-        <translation type="unfinished">Naam:</translation>
+        <translation>Naam:</translation>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="81"/>
         <source>Color:</source>
-        <translation type="unfinished">Kleur:</translation>
+        <translation>Kleur:</translation>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="115"/>
-        <source>Initiative&#xa0;Command</source>
-        <translation type="unfinished"></translation>
+        <source>Initiative Command</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="122"/>
         <source>2d10</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="129"/>
         <source>Initiative Value:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="160"/>
         <source>Avatar:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="172"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Openen</translation>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="181"/>
         <source>Size:</source>
-        <translation type="unfinished">Grootte:</translation>
+        <translation>Grootte:</translation>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="220"/>
         <source>Life</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="241"/>
         <source>Min:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="271"/>
         <source>Current</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="304"/>
         <source>Max</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="383"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="404"/>
         <source>Actions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="437"/>
@@ -3347,103 +2991,103 @@ het een speciale kleur is.</translation>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="620"/>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="627"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="470"/>
         <source>Shape</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="491"/>
         <source>Shapes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="563"/>
         <source>Property</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="584"/>
         <source>Properties</source>
-        <translation type="unfinished">Eigenschappen</translation>
+        <translation>Eigenschappen</translation>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="661"/>
         <source>Import…</source>
-        <translation type="unfinished">Importeren...</translation>
+        <translation>Importeren...</translation>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="681"/>
         <source>Export…</source>
-        <translation type="unfinished">Exporteren...</translation>
+        <translation>Exporteren...</translation>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="694"/>
         <source>Add Action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="697"/>
         <source>add action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="706"/>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="709"/>
         <source>Remove Action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="718"/>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="721"/>
         <source>Add Shape</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="730"/>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="733"/>
         <source>Remove Shape</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="742"/>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="745"/>
         <source>Add Property</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="754"/>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="757"/>
         <source>Remove Property</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.cpp" line="87"/>
         <source>Select Avatar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.cpp" line="87"/>
         <source>Images (*.jpg *.jpeg *.png *.bmp *.svg)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.cpp" line="107"/>
         <source>Import Token</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.cpp" line="107"/>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.cpp" line="171"/>
         <source>Token (*.rtok)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/gmtoolbox/NpcMaker/npcmakerwidget.cpp" line="171"/>
         <source>Export Token</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3457,13 +3101,9 @@ het een speciale kleur is.</translation>
 <context>
     <name>OnlinePictureDialog</name>
     <message>
-        <source>Dialog</source>
-        <translation type="vanished">Dialoogvenster</translation>
-    </message>
-    <message>
         <location filename="../client/widgets/onlinepicturedialog.ui" line="14"/>
         <source>Online Image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/onlinepicturedialog.ui" line="28"/>
@@ -3514,17 +3154,17 @@ het een speciale kleur is.</translation>
     <message>
         <location filename="../client/sharededitor/participantspane.cpp" line="46"/>
         <source>Read Write</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/participantspane.cpp" line="46"/>
         <source>Read Only</source>
-        <translation type="unfinished">Alleen-lezen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/participantspane.cpp" line="46"/>
         <source>Hidden</source>
-        <translation type="unfinished">Verborgen</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3532,22 +3172,22 @@ het een speciale kleur is.</translation>
     <message>
         <location filename="../client/sharededitor/participantspane.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/participantspane.ui" line="47"/>
         <source>Permission</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/participantspane.ui" line="140"/>
         <source>Promote</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/participantspane.ui" line="149"/>
         <source>Demote</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3586,43 +3226,43 @@ het een speciale kleur is.</translation>
     <message>
         <location filename="../client/pdfviewer/pdfviewer.cpp" line="114"/>
         <source>Crop Current View</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/pdfviewer/pdfviewer.cpp" line="119"/>
         <source>Document to all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/pdfviewer/pdfviewer.cpp" line="122"/>
         <source>Export to Map</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/pdfviewer/pdfviewer.cpp" line="125"/>
         <source>Export into VMap</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/pdfviewer/pdfviewer.cpp" line="128"/>
         <source>Export as Image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/pdfviewer/pdfviewer.cpp" line="157"/>
         <source>Sharing Pdf File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/pdfviewer/pdfviewer.cpp" line="158"/>
         <source>PDF transfert can be really heavy.
 Do you want to continue and share the PDF?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/pdfviewer/pdfviewer.cpp" line="171"/>
         <source>%1 - (PDF)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3671,27 +3311,19 @@ Do you want to continue and share the PDF?</source>
         <translation>Stoppen</translation>
     </message>
     <message>
-        <source>Next</source>
-        <translation type="vanished">Volgende</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Vorige</translation>
-    </message>
-    <message>
         <location filename="../client/audio/playerwidget.cpp" line="178"/>
         <source>Stop at the end</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/audio/playerwidget.cpp" line="183"/>
         <source>Play in loop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/audio/playerwidget.cpp" line="188"/>
         <source>Shuffle Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/audio/playerwidget.cpp" line="192"/>
@@ -3701,7 +3333,7 @@ Do you want to continue and share the PDF?</source>
     <message>
         <location filename="../client/audio/playerwidget.cpp" line="193"/>
         <source>Mute Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/audio/playerwidget.cpp" line="197"/>
@@ -3810,7 +3442,7 @@ Do you want to continue and share the PDF?</source>
     <message>
         <location filename="../client/userlist/playersList.cpp" line="553"/>
         <source>%1&apos;s initiative has changed: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/userlist/playersList.cpp" line="724"/>
@@ -3873,18 +3505,18 @@ Do you want to continue and share the PDF?</source>
     <message>
         <location filename="../client/preferences/preferencesdialog.cpp" line="242"/>
         <source>Import Dice Aliases or States</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialog.cpp" line="244"/>
         <location filename="../client/preferences/preferencesdialog.cpp" line="260"/>
         <source>Supported Rule files (*.rr *.json)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialog.cpp" line="258"/>
         <source>Export Dice Aliases or States</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialog.cpp" line="299"/>
@@ -3987,18 +3619,6 @@ Do you want to continue and share the PDF?</source>
         <translation>&lt;h2&gt;Audiobestanden - formaatondersteuning:&lt;/h2&gt;&lt;ul&gt;</translation>
     </message>
     <message>
-        <source>&lt;li&gt;Unsupported format: %1&lt;/li&gt;</source>
-        <translation type="vanished">&lt;li&gt;Niet-ondersteund formaat: %1&lt;/li&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;Maybe supported format: %1&lt;/li&gt;</source>
-        <translation type="vanished">&lt;li&gt;Wellicht niet-ondersteund formaat: %1&lt;/li&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;Supported format: %1&lt;/li&gt;</source>
-        <translation type="vanished">&lt;li&gt;Ondersteund formaat: %1&lt;/li&gt;</translation>
-    </message>
-    <message>
         <location filename="../client/preferences/preferencesdialog.cpp" line="877"/>
         <source>&lt;/ul&gt;End of Supported Audio file formats</source>
         <translation>&lt;/ul&gt;Einde van ondersteunde audiobestandsformaten</translation>
@@ -4033,68 +3653,14 @@ Do you want to continue and share the PDF?</source>
         <translation>Algemeen</translation>
     </message>
     <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="33"/>
-        <source>Map</source>
-        <translation type="unfinished">Kaart</translation>
-    </message>
-    <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="277"/>
-        <source>All subwindows will have a short title (making tab shorter)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="280"/>
-        <source>Short title in Tabview</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="302"/>
-        <source>Max Length:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="353"/>
-        <source>Character Sheet</source>
-        <translation type="unfinished">Character Sheet</translation>
-    </message>
-    <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="359"/>
-        <source>Time between page:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="382"/>
-        <source>ms</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="450"/>
-        <source>Hide Long commands</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="470"/>
-        <source>Maximum Lenght :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="516"/>
         <source>Themes</source>
         <translation>Thema&apos;s</translation>
     </message>
     <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="532"/>
-        <source>Current Theme*</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="811"/>
         <source>Application Paths</source>
         <translation>Applicatiepaden</translation>
-    </message>
-    <message>
-        <source>Color</source>
-        <translation type="vanished">Kleur</translation>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="41"/>
@@ -4107,24 +3673,9 @@ Do you want to continue and share the PDF?</source>
         <translation>Ondoorzichtigheidswaarde:</translation>
     </message>
     <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="135"/>
-        <source>Item Highlight&#xa0;Color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="166"/>
-        <source>Pen Width Highlight:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="180"/>
         <source>Only apply on future maps.</source>
         <translation>Alleen toepassen op toekomstige kaarten.</translation>
-    </message>
-    <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="206"/>
-        <source>Don&apos;t show &quot;Tips of the day&quot;</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="213"/>
@@ -4152,6 +3703,21 @@ Do you want to continue and share the PDF?</source>
         <translation>s</translation>
     </message>
     <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="277"/>
+        <source>All subwindows will have a short title (making tab shorter)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="280"/>
+        <source>Short title in Tabview</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="302"/>
+        <source>Max Length:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="72"/>
         <source>Default Map Permission:</source>
         <translation>Standaard kaartrechten:</translation>
@@ -4172,6 +3738,21 @@ Do you want to continue and share the PDF?</source>
         <translation>Chat</translation>
     </message>
     <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="135"/>
+        <source>Item Highlight Color</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="166"/>
+        <source>Pen Width Highlight:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="206"/>
+        <source>Don&apos;t show &quot;Tips of the day&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="412"/>
         <source>Show time</source>
         <translation>Tijd weergeven</translation>
@@ -4182,13 +3763,19 @@ Do you want to continue and share the PDF?</source>
         <translation>Tijdskleur:</translation>
     </message>
     <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="450"/>
+        <source>Hide Long commands</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="470"/>
+        <source>Maximum Lenght :</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="522"/>
         <source>Theme</source>
         <translation>Thema</translation>
-    </message>
-    <message>
-        <source>Current Theme</source>
-        <translation type="vanished">Huidig thema</translation>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="539"/>
@@ -4295,11 +3882,6 @@ Do you want to continue and share the PDF?</source>
         <translation>Kleurenpalet</translation>
     </message>
     <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="771"/>
-        <source>*: need restart</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="791"/>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="1382"/>
         <source>Import…</source>
@@ -4312,14 +3894,29 @@ Do you want to continue and share the PDF?</source>
         <translation>Exporteren...</translation>
     </message>
     <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="1276"/>
+        <source>Enable Data collection</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="1292"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Collected data are anonymous. &lt;br/&gt;By default, only data about rolisteam are collected. Which actions have been used.&lt;br/&gt;&lt;br/&gt;Checking &lt;/span&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;All Usages&lt;/span&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt; box enables the collect of data about rolisteam in desktop environment.&lt;br/&gt;We mainly try to know if Rolisteam is visible, its size or if it has the focus. &lt;br/&gt;It may be helpful to understand how people use Rolisteam on Desktop. &lt;br/&gt;University studies may find those data intersting.&lt;br/&gt;&lt;br/&gt;Debug data makes rolisteam to log every click on every button or action. It is a deeper  mode.&lt;br/&gt;It may slow down a bit rolisteam.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;To know more about data collection: &lt;/span&gt;&lt;a href=&quot;http://www.rolisteam.org/datacollection.html&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#007af4;&quot;&gt;www.rolisteam.org/datacollection.html&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="1307"/>
+        <source>All Usages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="1379"/>
         <source>Import DiceAlias and States</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="1389"/>
         <source>Export DiceAliases and States</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="190"/>
@@ -4337,22 +3934,44 @@ Do you want to continue and share the PDF?</source>
         <translation>Controleren op updates</translation>
     </message>
     <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="33"/>
+        <source>Map</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="326"/>
         <source>Pictures fit their Windows (at the opening)</source>
         <translation>Afbeeldingen aanpassen aan venstergrootte (bij openen)</translation>
     </message>
     <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="353"/>
+        <source>Character Sheet</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="359"/>
+        <source>Time between page:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="382"/>
+        <source>ms</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="532"/>
+        <source>Current Theme*</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/preferences/preferencesdialogbox.ui" line="771"/>
+        <source>*: need restart</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="817"/>
         <source>Directories</source>
         <translation>Mappen</translation>
-    </message>
-    <message>
-        <source>Music (GM) :</source>
-        <translation type="vanished">Muziek (GM) :</translation>
-    </message>
-    <message>
-        <source>Music (Player) :</source>
-        <translation type="vanished">Muziek (speler) :</translation>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="848"/>
@@ -4444,17 +4063,17 @@ Do you want to continue and share the PDF?</source>
     <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="827"/>
         <source>Music Player 1 :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="834"/>
         <source>Music Player 2 :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="841"/>
         <source>Music Player 3 :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="1118"/>
@@ -4470,34 +4089,19 @@ Do you want to continue and share the PDF?</source>
         <translation>Karakterstatus</translation>
     </message>
     <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="1276"/>
-        <source>Enable Data collection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="1286"/>
         <source>Data collection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="1292"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Collected data are anonymous. &lt;br/&gt;By default, only data about rolisteam are collected. Which actions have been used.&lt;br/&gt;&lt;br/&gt;Checking &lt;/span&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;All Usages&lt;/span&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt; box enables the collect of data about rolisteam in desktop environment.&lt;br/&gt;We mainly try to know if Rolisteam is visible, its size or if it has the focus. &lt;br/&gt;It may be helpful to understand how people use Rolisteam on Desktop. &lt;br/&gt;University studies may find those data intersting.&lt;br/&gt;&lt;br/&gt;Debug data makes rolisteam to log every click on every button or action. It is a deeper  mode.&lt;br/&gt;It may slow down a bit rolisteam.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;To know more about data collection: &lt;/span&gt;&lt;a href=&quot;http://www.rolisteam.org/datacollection.html&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#007af4;&quot;&gt;www.rolisteam.org/datacollection.html&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/preferences/preferencesdialogbox.ui" line="1307"/>
-        <source>All Usages</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="1327"/>
         <source>May slow down rolisteam</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="1330"/>
         <source>Include Debug data*</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/preferences/preferencesdialogbox.ui" line="1364"/>
@@ -4528,7 +4132,7 @@ Do you want to continue and share the PDF?</source>
     <message>
         <location filename="../client/network/selectconnectionprofiledialog.cpp" line="121"/>
         <source>Error: avatar for %2 path is invalid. No file at this path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/selectconnectionprofiledialog.cpp" line="145"/>
@@ -4543,7 +4147,7 @@ Do you want to continue and share the PDF?</source>
     <message>
         <location filename="../client/network/selectconnectionprofiledialog.cpp" line="173"/>
         <source> (clone)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4567,23 +4171,19 @@ Do you want to continue and share the PDF?</source>
         <translation>Laadfout</translation>
     </message>
     <message>
-        <source>Nothing was understood</source>
-        <translation type="vanished">Er wordt niks begrepen</translation>
-    </message>
-    <message>
         <location filename="../client/diceparser/diceparser.cpp" line="181"/>
         <source>Nothing was understood. To roll dice: !1d6 - full documation: &lt;a href=&quot;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/diceparser/diceparser.cpp" line="191"/>
         <source>Unexpected character at %1 - end of command was ignored &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/diceparser/diceparser.cpp" line="227"/>
         <source>Expected closing parenthesis - can&apos;t validate the inside.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/diceparser/diceparser.cpp" line="720"/>
@@ -4603,12 +4203,12 @@ Do you want to continue and share the PDF?</source>
     <message>
         <location filename="../client/diceparser/diceparser.cpp" line="1123"/>
         <source>Validator is always true for the %1 operator. Please, change it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/diceparser/diceparser.cpp" line="1132"/>
         <source>Condition can&apos;t be reached, causing endless loop. Please, change the %1 option condition</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/diceparser/diceparser.cpp" line="1159"/>
@@ -4628,7 +4228,7 @@ Do you want to continue and share the PDF?</source>
     <message>
         <location filename="../client/diceparser/diceparser.cpp" line="1243"/>
         <source>Missing parameter for Painter node (p)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/diceparser/node/listaliasnode.cpp" line="47"/>
@@ -4645,12 +4245,12 @@ Do you want to continue and share the PDF?</source>
     <message>
         <location filename="../client/mainwindow.cpp" line="1455"/>
         <source>Define URL to connect to server: &lt;url&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/diceparser/node/scalaroperatornode.cpp" line="72"/>
         <source>No Valid result in arithmetic operation: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/diceparser/node/scalaroperatornode.cpp" line="139"/>
@@ -4716,7 +4316,7 @@ Do you want to continue and share the PDF?</source>
     <message>
         <location filename="../client/data/cleveruri.cpp" line="49"/>
         <source>Shared Notes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/data/cleveruri.cpp" line="283"/>
@@ -4746,12 +4346,12 @@ Do you want to continue and share the PDF?</source>
     <message>
         <location filename="../client/data/cleveruri.cpp" line="303"/>
         <source>Supported Shared Note formats (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/data/cleveruri.cpp" line="307"/>
         <source>Supported WebPage (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/data/cleveruri.cpp" line="312"/>
@@ -4761,7 +4361,7 @@ Do you want to continue and share the PDF?</source>
     <message>
         <location filename="../client/data/cleveruri.cpp" line="316"/>
         <source>Vectorial Map (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/data/cleveruri.cpp" line="374"/>
@@ -4776,25 +4376,17 @@ Do you want to continue and share the PDF?</source>
     <message>
         <location filename="../client/data/cleveruri.cpp" line="378"/>
         <source>Closed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/data/cleveruri.cpp" line="378"/>
         <source>Hidden</source>
-        <translation type="unfinished">Verborgen</translation>
+        <translation>Verborgen</translation>
     </message>
     <message>
         <location filename="../client/data/cleveruri.cpp" line="378"/>
         <source>Displayed</source>
-        <translation type="unfinished">Weergegeven</translation>
-    </message>
-    <message>
-        <source>true</source>
-        <translation type="vanished">waar</translation>
-    </message>
-    <message>
-        <source>false</source>
-        <translation type="vanished">onwaar</translation>
+        <translation>Weergegeven</translation>
     </message>
     <message>
         <location filename="../client/diceparser/node/dicerollernode.cpp" line="25"/>
@@ -4804,13 +4396,7 @@ Do you want to continue and share the PDF?</source>
     <message>
         <location filename="../client/diceparser/node/dicerollernode.cpp" line="34"/>
         <source>More unique values asked than possible values (D operator)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rolisteam Dice Parser:
-Full documentation at: %1</source>
-        <translation type="vanished">Rolisteam-dobbelsteenverwerker:
-Volledige documentatie op: %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/diceparser/node/jumpbackwardnode.cpp" line="123"/>
@@ -4860,22 +4446,133 @@ Volledige documentatie op: %1</translation>
     <message>
         <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="165"/>
         <source>min : too few arguments</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="194"/>
         <source>max : too few arguments</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="223"/>
         <source>avg : too few arguments</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/charactersheet/formula/nodes/scalaroperatorfnode.cpp" line="71"/>
         <source>Error: division by Zero</source>
         <translation>Fout: gedeeld door nul</translation>
+    </message>
+    <message>
+        <location filename="../client/undoCmd/addmediacontainer.cpp" line="28"/>
+        <source>Show %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/undoCmd/addvmapitem.cpp" line="149"/>
+        <source>Add vmap item</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/undoCmd/deletemediacontainercommand.cpp" line="35"/>
+        <source>Close %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/undoCmd/deletevmapitem.cpp" line="29"/>
+        <source>Delete Item From Map %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <location filename="../client/undoCmd/movevmapitem.cpp" line="34"/>
+        <source>Move %n item(s)</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/node/listsetrollnode.cpp" line="69"/>
+        <source>More unique values asked than possible values (L operator)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/diceparser/node/variablenode.cpp" line="36"/>
+        <source>No variable at index:%1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/diceparser/node/rerolldicenode.cpp" line="96"/>
+        <source> The a operator expects dice result. Please check the documentation and fix your command.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/vmap/items/visualitem.cpp" line="39"/>
+        <source>Path</source>
+        <translation>Pad</translation>
+    </message>
+    <message>
+        <location filename="../client/vmap/items/visualitem.cpp" line="39"/>
+        <source>Line</source>
+        <translation>Lijn </translation>
+    </message>
+    <message>
+        <location filename="../client/vmap/items/visualitem.cpp" line="39"/>
+        <source>Ellipse</source>
+        <translation>Ellips</translation>
+    </message>
+    <message>
+        <location filename="../client/vmap/items/visualitem.cpp" line="39"/>
+        <location filename="../client/vmap/items/visualitem.cpp" line="42"/>
+        <source>Character</source>
+        <translation>Karakter</translation>
+    </message>
+    <message>
+        <location filename="../client/vmap/items/visualitem.cpp" line="40"/>
+        <source>Rect</source>
+        <translation>Rect</translation>
+    </message>
+    <message>
+        <location filename="../client/vmap/items/visualitem.cpp" line="40"/>
+        <source>Rule</source>
+        <translation>Regel</translation>
+    </message>
+    <message>
+        <location filename="../client/vmap/items/visualitem.cpp" line="40"/>
+        <source>Image</source>
+        <translation>Afbeelding</translation>
+    </message>
+    <message>
+        <location filename="../client/vmap/items/visualitem.cpp" line="42"/>
+        <source>Ground</source>
+        <translation>Grond</translation>
+    </message>
+    <message>
+        <location filename="../client/vmap/items/visualitem.cpp" line="42"/>
+        <source>Object</source>
+        <translation>Object</translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="7"/>
+        <source>Currency</source>
+        <translation>Valuta</translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="8"/>
+        <source>Distance</source>
+        <translation>Afstand</translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="9"/>
+        <source>Temperature</source>
+        <translation>Temperatuur</translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="10"/>
+        <source>MASS</source>
+        <translation>GEWICHT</translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="11"/>
+        <source>OTHER</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/diceparser/node/helpnode.cpp" line="34"/>
@@ -4887,160 +4584,42 @@ Example (with ! as prefix):
 !6d10e10k3 (L5R)
 
 Full documentation at: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/diceparser/node/listsetrollnode.cpp" line="69"/>
-        <source>More unique values asked than possible values (L operator)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/diceparser/node/mergenode.cpp" line="32"/>
-        <source>No previous node before Merge operator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/diceparser/node/occurencecountnode.cpp" line="148"/>
-        <source>No matching result</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/diceparser/node/paintnode.cpp" line="63"/>
-        <source>No previous node before Paint operator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/diceparser/node/rerolldicenode.cpp" line="96"/>
-        <source> The a operator expects dice result. Please check the documentation and fix your command.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/diceparser/node/variablenode.cpp" line="36"/>
-        <source>No variable at index:%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/undoCmd/addmediacontainer.cpp" line="28"/>
-        <source>Show %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/undoCmd/addvmapitem.cpp" line="149"/>
-        <source>Add vmap item</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/undoCmd/changecoloritem.cpp" line="30"/>
         <source>Change Item Color to %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/undoCmd/changesizevmapitem.cpp" line="85"/>
         <source>Change size of %1 item(s)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../client/undoCmd/deletemediacontainercommand.cpp" line="35"/>
-        <source>Close %1</source>
-        <translation type="unfinished"></translation>
+        <location filename="../client/diceparser/node/mergenode.cpp" line="32"/>
+        <source>No previous node before Merge operator</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../client/undoCmd/deletevmapitem.cpp" line="29"/>
-        <source>Delete Item From Map %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../client/undoCmd/movevmapitem.cpp" line="34"/>
-        <source>Move %n item(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <location filename="../client/diceparser/node/occurencecountnode.cpp" line="148"/>
+        <source>No matching result</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../client/vmap/items/visualitem.cpp" line="39"/>
-        <source>Path</source>
-        <translation type="unfinished">Pad</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/visualitem.cpp" line="39"/>
-        <source>Line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/visualitem.cpp" line="39"/>
-        <source>Ellipse</source>
-        <translation type="unfinished">Ellips</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/visualitem.cpp" line="39"/>
-        <location filename="../client/vmap/items/visualitem.cpp" line="42"/>
-        <source>Character</source>
-        <translation type="unfinished">Karakter</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/visualitem.cpp" line="40"/>
-        <source>Rect</source>
-        <translation type="unfinished">Rect</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/visualitem.cpp" line="40"/>
-        <source>Rule</source>
-        <translation type="unfinished">Regel</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/visualitem.cpp" line="40"/>
-        <source>Image</source>
-        <translation type="unfinished">Afbeelding</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/visualitem.cpp" line="42"/>
-        <source>Ground</source>
-        <translation type="unfinished">Grond</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/items/visualitem.cpp" line="42"/>
-        <source>Object</source>
-        <translation type="unfinished">Object</translation>
-    </message>
-    <message>
-        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="7"/>
-        <source>Currency</source>
-        <translation type="unfinished">Valuta</translation>
-    </message>
-    <message>
-        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="8"/>
-        <source>Distance</source>
-        <translation type="unfinished">Afstand</translation>
-    </message>
-    <message>
-        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="9"/>
-        <source>Temperature</source>
-        <translation type="unfinished">Temperatuur</translation>
-    </message>
-    <message>
-        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="10"/>
-        <source>MASS</source>
-        <translation type="unfinished">GEWICHT</translation>
-    </message>
-    <message>
-        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="11"/>
-        <source>OTHER</source>
-        <translation type="unfinished"></translation>
+        <location filename="../client/diceparser/node/paintnode.cpp" line="63"/>
+        <source>No previous node before Paint operator</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/diceparser/node/explodedicenode.cpp" line="31"/>
         <location filename="../client/diceparser/node/rerolldicenode.cpp" line="47"/>
         <source>Condition (%1) cause an endless loop with this dice: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>RGraphicsView</name>
-    <message>
-        <source>Change the map</source>
-        <translation type="vanished">Kaart wijzigen</translation>
-    </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="304"/>
         <source>Edit Layer</source>
@@ -5052,13 +4631,24 @@ Full documentation at: %1</source>
         <translation>Zichtbaarheid wijzigen</translation>
     </message>
     <message>
-        <source>Change selected Items</source>
-        <translation type="vanished">Geselecteerde items wijzigen</translation>
+        <location filename="../client/vmap/rgraphicsview.cpp" line="314"/>
+        <source>Roll Init</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/vmap/rgraphicsview.cpp" line="320"/>
+        <source>Clean Init</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="283"/>
         <source>Remove</source>
         <translation>Verwijderen</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../client/vmap/rgraphicsview.cpp" line="231"/>
+        <source>%n item(s)</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="508"/>
@@ -5085,18 +4675,20 @@ Full documentation at: %1</source>
         <source>Rotate</source>
         <translation>Draaien</translation>
     </message>
-    <message numerus="yes">
-        <location filename="../client/vmap/rgraphicsview.cpp" line="231"/>
-        <source>%n item(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <location filename="../client/vmap/rgraphicsview.cpp" line="286"/>
+        <source>Map</source>
+        <translation>Kaart</translation>
+    </message>
+    <message>
+        <location filename="../client/vmap/rgraphicsview.cpp" line="326"/>
+        <source>Zoom</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="256"/>
         <source>Overlapping</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="263"/>
@@ -5127,26 +4719,6 @@ Full documentation at: %1</source>
         <location filename="../client/vmap/rgraphicsview.cpp" line="276"/>
         <source>Normalize Size</source>
         <translation>Grootte normaliseren</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/rgraphicsview.cpp" line="286"/>
-        <source>Map</source>
-        <translation type="unfinished">Kaart</translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/rgraphicsview.cpp" line="314"/>
-        <source>Roll Init</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/rgraphicsview.cpp" line="320"/>
-        <source>Clean Init</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/vmap/rgraphicsview.cpp" line="326"/>
-        <source>Zoom</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="386"/>
@@ -5216,11 +4788,7 @@ Full documentation at: %1</source>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="533"/>
         <source>Lock/Unlock Item Geometry</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Lock Item Size</source>
-        <translation type="vanished">Itemgrootte vergrendelen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="543"/>
@@ -5264,89 +4832,54 @@ Full documentation at: %1</source>
         <location filename="../client/vmap/rgraphicsview.cpp" line="596"/>
         <location filename="../client/vmap/rgraphicsview.cpp" line="608"/>
         <source>All Npcs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="597"/>
         <source>Roll Initiative on All Npcs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="600"/>
         <location filename="../client/vmap/rgraphicsview.cpp" line="612"/>
         <source>Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="601"/>
         <source>Roll Initiative on Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="604"/>
         <location filename="../client/vmap/rgraphicsview.cpp" line="616"/>
         <source>All Characters</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="605"/>
         <source>Roll Initiative on All Characters</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="609"/>
         <source>Clean Initiative on All Npcs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="613"/>
         <source>Clean Initiative on Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="617"/>
         <source>Clean Initiative on All Characters</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/rgraphicsview.cpp" line="811"/>
         <source>Open image file</source>
         <translation>Afbeeldingsbestand openen</translation>
-    </message>
-</context>
-<context>
-    <name>RuleItem</name>
-    <message>
-        <source>m</source>
-        <translation type="vanished">m</translation>
-    </message>
-    <message>
-        <source>cm</source>
-        <translation type="vanished">cm</translation>
-    </message>
-    <message>
-        <source>″</source>
-        <translation type="vanished">″</translation>
-    </message>
-    <message>
-        <source>′</source>
-        <translation type="vanished">′</translation>
-    </message>
-    <message>
-        <source>yd</source>
-        <translation type="vanished">yd</translation>
-    </message>
-    <message>
-        <source>mi</source>
-        <translation type="vanished">mi</translation>
-    </message>
-    <message>
-        <source>km</source>
-        <translation type="vanished">km</translation>
-    </message>
-    <message>
-        <source>px</source>
-        <translation type="vanished">px</translation>
     </message>
 </context>
 <context>
@@ -5419,7 +4952,7 @@ Full documentation at: %1</source>
     <message>
         <location filename="../client/network/selectconnectionprofiledialog.ui" line="206"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/selectconnectionprofiledialog.ui" line="258"/>
@@ -5469,12 +5002,12 @@ Full documentation at: %1</source>
     <message>
         <location filename="../client/network/selectconnectionprofiledialog.cpp" line="405"/>
         <source>From URL</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/selectconnectionprofiledialog.cpp" line="406"/>
         <source>Unknown</source>
-        <translation type="unfinished">Onbekend</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/selectconnectionprofiledialog.cpp" line="436"/>
@@ -5487,42 +5020,42 @@ Full documentation at: %1</source>
     <message>
         <location filename="../client/network/servermanager.cpp" line="88"/>
         <source>Rolisteam Server is on!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/servermanager.cpp" line="96"/>
         <source>Retry start server in %1s!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/servermanager.cpp" line="102"/>
         <source>Retry count reached. Server stops trying.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/servermanager.cpp" line="268"/>
         <source>Authentification as Admin fails: %2 - %1, Wrong password.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/servermanager.cpp" line="294"/>
         <source>Authentification fails: %1 try to connect to the server with wrong password.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/servermanager.cpp" line="312"/>
         <source>User has been kick out: %2 - %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/servermanager.cpp" line="508"/>
         <source>New Incoming Connection!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/network/servermanager.cpp" line="549"/>
         <source>Disconnected!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5601,22 +5134,22 @@ Full documentation at: %1</source>
     <message>
         <location filename="../client/session/sessionview.cpp" line="65"/>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/session/sessionview.cpp" line="100"/>
         <source>Switch loading mode to %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/session/sessionview.cpp" line="101"/>
         <source>Linked</source>
-        <translation type="unfinished">Gelinkt</translation>
+        <translation>Gelinkt</translation>
     </message>
     <message>
         <location filename="../client/session/sessionview.cpp" line="101"/>
         <source>Internal</source>
-        <translation type="unfinished">Intern</translation>
+        <translation>Intern</translation>
     </message>
     <message>
         <location filename="../client/session/sessionview.cpp" line="109"/>
@@ -5629,277 +5162,277 @@ Full documentation at: %1</source>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="17"/>
         <source>Shared Note Editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="73"/>
         <source>Edit</source>
-        <translation type="unfinished">Bewerken</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="77"/>
         <source>Syntax Highlighting...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="97"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="104"/>
         <source>Text</source>
-        <translation type="unfinished">Tekst</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="149"/>
         <source>Undo</source>
-        <translation type="unfinished">Ongedaan maken</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="152"/>
         <source>Ctrl+Z</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="167"/>
         <source>Redo</source>
-        <translation type="unfinished">Opnieuw</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="170"/>
         <source>Ctrl+Y</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="182"/>
         <source>Cut</source>
-        <translation type="unfinished">Knippen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="185"/>
         <source>Ctrl+X</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="197"/>
         <source>Copy</source>
-        <translation type="unfinished">Kopiëren</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="200"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="212"/>
         <source>Paste</source>
-        <translation type="unfinished">Plakke</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="215"/>
         <source>Ctrl+V</source>
-        <translation type="unfinished">Ctrl+V</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="223"/>
         <source>Find...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="226"/>
         <source>Ctrl+Shift+F</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="231"/>
         <source>Line Wrap</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="239"/>
         <source>Markdown</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="244"/>
         <source>Shift Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="247"/>
         <source>Ctrl+[</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="252"/>
         <source>Shift Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="255"/>
         <source>Ctrl+]</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="260"/>
         <source>Un/Comment Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="263"/>
         <source>Ctrl+/</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="268"/>
         <source>Preview as HTML</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="273"/>
         <source>Save A Copy As...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="281"/>
         <source>Save All</source>
-        <translation type="unfinished">Alles opslaan</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="286"/>
         <source>Announce Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="289"/>
         <source>Ctrl+Shift+A</source>
-        <translation type="unfinished">Ctrl+Shift+A</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="294"/>
         <source>Show/Hide Participants</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="299"/>
         <source>Show/Hide Chat</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="304"/>
         <source>Connect to Document...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="307"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="312"/>
         <source>Split</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="320"/>
         <source>Resynchronize Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="328"/>
         <source>Next Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="331"/>
         <source>Ctrl+Shift+]</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="339"/>
         <source>Previous Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="342"/>
         <source>Ctrl+Shift+[</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="350"/>
         <source>None</source>
-        <translation type="unfinished">Geen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="358"/>
         <source>Remove Split</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="363"/>
         <source>Split Side by Side</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="368"/>
         <source>Preferences</source>
-        <translation type="unfinished">Voorkeuren</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="373"/>
         <source>Find All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="376"/>
         <source>Ctrl+F</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="381"/>
         <source>About Cahoots</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="386"/>
         <source>About Qt</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="395"/>
         <source>How to Collaborate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="407"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="410"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished">Ctrl+P</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.ui" line="418"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/sharededitor/sharednote.cpp" line="483"/>
-        <source>%1[*] - SharedNote - %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.cpp" line="483"/>
         <source>ReadWrite</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/sharededitor/sharednote.cpp" line="483"/>
         <source>ReadOnly</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/sharededitor/sharednote.cpp" line="483"/>
+        <source>%1[*] - SharedNote - %2</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5907,7 +5440,7 @@ Full documentation at: %1</source>
     <message>
         <location filename="../client/widgets/shortcuteditordialog.ui" line="14"/>
         <source>Shortcut Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5915,12 +5448,12 @@ Full documentation at: %1</source>
     <message>
         <location filename="../client/data/shortcutmodel.cpp" line="92"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/data/shortcutmodel.cpp" line="94"/>
         <source>Key</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5928,17 +5461,17 @@ Full documentation at: %1</source>
     <message>
         <location filename="../client/charactersheet/qml/Rolisteam/Table.qml" line="27"/>
         <source>Add line</source>
-        <translation type="unfinished">Regel toevoegen</translation>
+        <translation>Regel toevoegen</translation>
     </message>
     <message>
         <location filename="../client/charactersheet/qml/Rolisteam/Table.qml" line="31"/>
         <source>Remove current Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/charactersheet/qml/Rolisteam/Table.qml" line="37"/>
         <source>Remove Last line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5952,23 +5485,6 @@ Full documentation at: %1</source>
         <location filename="../client/noteeditor/src/textedit.cpp" line="170"/>
         <source>File Actions</source>
         <translation>Bestandsacties</translation>
-    </message>
-    <message>
-        <location filename="../client/noteeditor/src/textedit.cpp" line="792"/>
-        <source>OpenOffice 2.4 file format OASIS </source>
-        <translation>OpenOffice 2.4-bestandsformaat OASIS </translation>
-    </message>
-    <message>
-        <source> (*.odt *.ott);;</source>
-        <translation type="vanished"> (*.odt *.ott);;</translation>
-    </message>
-    <message>
-        <source>XHTML file format</source>
-        <translation type="vanished">XHTML-bestandsformaat</translation>
-    </message>
-    <message>
-        <source> (*.htm *.html);;</source>
-        <translation type="vanished"> (*.htm *.html);;</translation>
     </message>
     <message>
         <location filename="../client/noteeditor/src/textedit.cpp" line="173"/>
@@ -6143,6 +5659,11 @@ Wilt u uw wijzigingen opslaan?</translation>
         <source>This example demonstrates Qt&apos;s rich text editing facilities in action, providing an example document for you to experiment with.</source>
         <translation>Dit voorbeeld demonstreert Qt&apos;s tekstbewerkingsmogelijkheden in de praktijk door het beschikbaar stellen van een voorbeelddocument waarmee u kunt experimenteren.</translation>
     </message>
+    <message>
+        <location filename="../client/noteeditor/src/textedit.cpp" line="792"/>
+        <source>OpenOffice 2.4 file format OASIS </source>
+        <translation>OpenOffice 2.4-bestandsformaat OASIS </translation>
+    </message>
 </context>
 <context>
     <name>TextItem</name>
@@ -6180,29 +5701,29 @@ Wilt u uw wijzigingen opslaan?</translation>
 <context>
     <name>TipOfDayViewer</name>
     <message>
-        <location filename="../client/widgets/tipofdayviewer.ui" line="14"/>
-        <source>Dialog</source>
-        <translation type="unfinished">Dialoogvenster</translation>
-    </message>
-    <message>
-        <location filename="../client/widgets/tipofdayviewer.ui" line="42"/>
-        <source>Never show it again !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../client/widgets/tipofdayviewer.cpp" line="30"/>
         <source>%1 - Tip Of The Day</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/tipofdayviewer.cpp" line="42"/>
         <source>No Service to open links</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/widgets/tipofdayviewer.cpp" line="43"/>
         <source>Please find the type here: &lt;a href=&quot;%1&quot;&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../client/widgets/tipofdayviewer.ui" line="14"/>
+        <source>Dialog</source>
+        <translation>Dialoogvenster</translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/tipofdayviewer.ui" line="42"/>
+        <source>Never show it again !</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -6314,71 +5835,71 @@ Wilt u uw wijzigingen opslaan?</translation>
     <message>
         <location filename="../client/userlist/userlistview.cpp" line="51"/>
         <source>Health Points</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/userlist/userlistview.cpp" line="51"/>
         <source>Health Points Maximum</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/userlist/userlistview.cpp" line="52"/>
         <source>Health Points Minimum</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/userlist/userlistview.cpp" line="52"/>
         <source>Distance per turn</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/userlist/userlistview.cpp" line="53"/>
         <source>Initiative Command</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/userlist/userlistview.cpp" line="53"/>
         <source>Has initiative</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/userlist/userlistview.cpp" line="114"/>
         <location filename="../client/userlist/userlistview.cpp" line="118"/>
         <location filename="../client/userlist/userlistview.cpp" line="122"/>
         <source>Get value for %1 property</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/userlist/userlistview.cpp" line="114"/>
         <location filename="../client/userlist/userlistview.cpp" line="118"/>
         <location filename="../client/userlist/userlistview.cpp" line="122"/>
         <source>Value:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/userlist/userlistview.cpp" line="186"/>
         <source>Roll initiative</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/userlist/userlistview.cpp" line="206"/>
         <source>Set Property</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/userlist/userlistview.cpp" line="217"/>
         <source>State</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/userlist/userlistview.cpp" line="236"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/userlist/userlistview.cpp" line="248"/>
         <source>Shape</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/userlist/userlistview.cpp" line="276"/>
@@ -6525,12 +6046,12 @@ Wilt u uw wijzigingen opslaan?</translation>
     <message>
         <location filename="../client/vmap/vtoolbar.cpp" line="128"/>
         <source>Highlighter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/vtoolbar.cpp" line="133"/>
         <source>Paint Bucket</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/vtoolbar.cpp" line="145"/>
@@ -6581,90 +6102,6 @@ Wilt u uw wijzigingen opslaan?</translation>
 <context>
     <name>VisualItem</name>
     <message>
-        <source>Path</source>
-        <translation type="vanished">Pad</translation>
-    </message>
-    <message>
-        <source>Line</source>
-        <translation type="vanished">Lijn</translation>
-    </message>
-    <message>
-        <source>Ellipse</source>
-        <translation type="vanished">Ellips</translation>
-    </message>
-    <message>
-        <source>Character</source>
-        <translation type="vanished">Karakter</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="vanished">Tekst</translation>
-    </message>
-    <message>
-        <source>Rect</source>
-        <translation type="vanished">Rect</translation>
-    </message>
-    <message>
-        <source>Rule</source>
-        <translation type="vanished">Regel</translation>
-    </message>
-    <message>
-        <source>Image</source>
-        <translation type="vanished">Afbeelding</translation>
-    </message>
-    <message>
-        <source>Ground</source>
-        <translation type="vanished">Grond</translation>
-    </message>
-    <message>
-        <source>Object</source>
-        <translation type="vanished">Object</translation>
-    </message>
-    <message>
-        <source>Back</source>
-        <translation type="vanished">Achterkant</translation>
-    </message>
-    <message>
-        <source>Front</source>
-        <translation type="vanished">Voorkaant</translation>
-    </message>
-    <message>
-        <source>Lower</source>
-        <translation type="vanished">Onderkant</translation>
-    </message>
-    <message>
-        <source>Raise</source>
-        <translation type="vanished">Verhogen</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">Verwijderen</translation>
-    </message>
-    <message>
-        <source>Rotate</source>
-        <translation type="vanished">Draaien</translation>
-    </message>
-    <message>
-        <source>To 360</source>
-        <translation type="vanished">Naar 360</translation>
-    </message>
-    <message>
-        <source>Right</source>
-        <translation type="vanished">Rechts</translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation type="vanished">Links</translation>
-    </message>
-    <message>
-        <source>Promote to</source>
-        <translation type="vanished">Promoveren naar</translation>
-    </message>
-    <message>
-        <source>Set Layer</source>
-        <translation type="vanished">Laag instellen</translation>
-    </message>
-    <message>
         <location filename="../client/vmap/items/visualitem.cpp" line="241"/>
         <source>Duplicate Item</source>
         <translation>Item dupliceren</translation>
@@ -6691,7 +6128,7 @@ Wilt u uw wijzigingen opslaan?</translation>
         <location filename="../client/vmap/vmaptoolbar.cpp" line="38"/>
         <location filename="../client/vmap/vmaptoolbar.cpp" line="39"/>
         <source>Grid Above</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/vmap/vmaptoolbar.cpp" line="45"/>
@@ -6737,26 +6174,6 @@ Wilt u uw wijzigingen opslaan?</translation>
         <location filename="../client/vmap/vmaptoolbar.cpp" line="55"/>
         <source>Hexagon</source>
         <translation>Zeshoek</translation>
-    </message>
-    <message>
-        <source>m</source>
-        <translation type="vanished">m</translation>
-    </message>
-    <message>
-        <source>km</source>
-        <translation type="vanished">km</translation>
-    </message>
-    <message>
-        <source>cm</source>
-        <translation type="vanished">cm</translation>
-    </message>
-    <message>
-        <source>mile</source>
-        <translation type="vanished">mijl</translation>
-    </message>
-    <message>
-        <source>yard</source>
-        <translation type="vanished">yard</translation>
     </message>
     <message>
         <location filename="../client/vmap/vmaptoolbar.cpp" line="61"/>
@@ -6844,47 +6261,47 @@ Wilt u uw wijzigingen opslaan?</translation>
     <message>
         <location filename="../client/webview/webview.ui" line="16"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulier</translation>
     </message>
     <message>
         <location filename="../client/webview/webview.cpp" line="66"/>
         <source>%1 - WebPage</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/webview/webview.cpp" line="119"/>
         <source>Share</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/webview/webview.cpp" line="140"/>
         <source>Share html</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/webview/webview.cpp" line="164"/>
         <source>next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/webview/webview.cpp" line="166"/>
         <source>Previous</source>
-        <translation type="unfinished">Vorige</translation>
+        <translation>Vorige</translation>
     </message>
     <message>
         <location filename="../client/webview/webview.cpp" line="168"/>
         <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/webview/webview.cpp" line="171"/>
         <source>Hide Address Bar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../client/webview/webview.cpp" line="221"/>
         <source>Keep Sharing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

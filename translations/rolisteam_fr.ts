@@ -1977,7 +1977,7 @@ Type: %7
         <location filename="../client/mainwindow.ui" line="594"/>
         <location filename="../client/mainwindow.ui" line="686"/>
         <source>Support Rolisteam</source>
-        <translation>Supporter Rolisteam</translation>
+        <translation>Aider Rolisteam</translation>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="599"/>
