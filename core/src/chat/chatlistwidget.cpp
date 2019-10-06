@@ -28,13 +28,10 @@
 #include "chat/chat.h"
 #include "chatlist.h"
 #include "dicealias.h"
-#include "mainwindow.h"
 #include "privatechatdialog.h"
 
-ChatListWidget::ChatListWidget(MainWindow* parent)
-    : QDockWidget(/*parent*/), m_diceAliasMapFromGM(new QList<DiceAlias*>())
+ChatListWidget::ChatListWidget(QWidget* parent) : QDockWidget(parent), m_diceAliasMapFromGM(new QList<DiceAlias*>())
 {
-    Q_UNUSED(parent);
     setWindowTitle(tr("Chat messaging"));
     setObjectName("ChatListWidget");
     setAllowedAreas(Qt::AllDockWidgetAreas);
@@ -49,7 +46,7 @@ ChatListWidget::ChatListWidget(MainWindow* parent)
     m_listView= new QListView(this);
     BlinkingDecorationDelegate* blinkingDelegate= new BlinkingDecorationDelegate();
     connect(blinkingDelegate, &BlinkingDecorationDelegate::refresh, this, &ChatListWidget::updateAllUnreadChat,
-        Qt::QueuedConnection);
+            Qt::QueuedConnection);
 
     m_listView->setItemDelegateForColumn(0, blinkingDelegate);
     m_listView->setModel(m_chatList);
@@ -57,8 +54,8 @@ ChatListWidget::ChatListWidget(MainWindow* parent)
     connect(m_listView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editChat(QModelIndex)));
 
     m_selectionModel= m_listView->selectionModel();
-    connect(
-        m_selectionModel, SIGNAL(currentChanged(QModelIndex, QModelIndex)), this, SLOT(selectAnotherChat(QModelIndex)));
+    connect(m_selectionModel, SIGNAL(currentChanged(QModelIndex, QModelIndex)), this,
+            SLOT(selectAnotherChat(QModelIndex)));
     //    listView->installEventFilter(this);
 
     QPushButton* addChatButton= new QPushButton(tr("Add a chat"));
