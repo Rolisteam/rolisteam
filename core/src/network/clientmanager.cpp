@@ -26,7 +26,7 @@
 #include <QDebug>
 #include <QTcpSocket>
 
-#include "Features.h"
+#include "data/features.h"
 #include "data/person.h"
 #include "data/player.h"
 #include "network/connectionprofile.h"

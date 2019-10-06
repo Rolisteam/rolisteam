@@ -38,8 +38,8 @@
 
 #include "chat/chat.h"
 #include "chat/improvedtextedit.h"
+#include "data/localpersonmodel.h"
 #include "data/person.h"
-#include "localpersonmodel.h"
 #include "network/networkmessagewriter.h"
 #include "userlist/playersList.h"
 #include "userlist/rolisteammimedata.h"

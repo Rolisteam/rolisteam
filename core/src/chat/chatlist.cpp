@@ -23,13 +23,13 @@
 #include <QAbstractItemModel>
 #include <QApplication>
 #include <QDebug>
+#include <QPainter>
 #include <QTimer>
 
 #include "chat/chat.h"
 #include "chatwindow.h"
 #include "data/person.h"
 #include "data/player.h"
-#include "mainwindow.h"
 #include "network/networkmessagereader.h"
 #include "network/receiveevent.h"
 #include "preferences/preferencesmanager.h"
@@ -68,7 +68,7 @@ void BlinkingDecorationDelegate::timeOutCount()
 ////////////////////////////////
 // Code for ChatList class
 ////////////////////////////////
-ChatList::ChatList(MainWindow* mainWindow) : QAbstractItemModel(nullptr), m_chatMenu(), m_mainWindow(mainWindow)
+ChatList::ChatList(QObject* parent) : QAbstractItemModel(parent)
 {
     m_chatMenu.setTitle(tr("ChatWindows"));
 
@@ -107,7 +107,7 @@ ChatList::~ChatList()
 void ChatList::addPublicChat()
 {
     // main (public) chat
-    auto chat= new ChatWindow(new PublicChat(), m_mainWindow);
+    auto chat= new ChatWindow(new PublicChat());
     for(auto& diceBookmark : m_pairList)
     {
         chat->appendDiceShortCut(diceBookmark);
@@ -286,7 +286,7 @@ bool ChatList::addLocalChat(PrivateChat* chat)
     if(!chat->belongsToLocalPlayer())
         return false;
 
-    addChatWindow(new ChatWindow(chat, m_mainWindow));
+    addChatWindow(new ChatWindow(chat));
     return true;
 }
 
@@ -310,7 +310,7 @@ bool ChatList::delLocalChat(const QModelIndex& index)
 
 void ChatList::addChatWindow(ChatWindow* chatw)
 {
-    if(!chatw)
+    /*if(!chatw)
         return;
 
     // TODO remove that
@@ -336,28 +336,6 @@ void ChatList::addChatWindow(ChatWindow* chatw)
         window->resize(264, 451);
     }
 
-    /*connect(window, &QMdiSubWindow::destroyed, this, [this]() {
-        qDebug() << "mdi subwindow destroyed";
-        auto window= qobject_cast<QMdiSubWindow*>(sender());
-        auto pairIt= std::find_if(m_data.begin(), m_data.end(),
-            [window](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { return pair.first == window; });
-        auto idx   = static_cast<int>(std::distance(m_data.begin(), pairIt));
-        beginRemoveRows(QModelIndex(), idx, idx);
-        m_data.erase(pairIt);
-        endRemoveRows();
-    });*/
-
-    /*connect(chatw, &ChatWindow::destroyed, this, [this]() {
-        qDebug() << "chatwindow destroyed";
-        auto chat  = qobject_cast<ChatWindow*>(sender());
-        auto pairIt= std::find_if(m_data.begin(), m_data.end(),
-            [chat](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { return pair.second == chat; });
-        auto idx   = static_cast<int>(std::distance(m_data.begin(), pairIt));
-        beginRemoveRows(QModelIndex(), idx, idx);
-        m_data.erase(pairIt);
-        endRemoveRows();
-    });*/
-
     if(nullptr != window)
     {
         // TODO remove that
@@ -368,7 +346,7 @@ void ChatList::addChatWindow(ChatWindow* chatw)
         window->setAttribute(Qt::WA_DeleteOnClose, false);
         chatw->setAttribute(Qt::WA_DeleteOnClose, false);
         window->setVisible(chatw->toggleViewAction()->isChecked());
-    }
+    }*/
 }
 
 void ChatList::delChatWindow(ChatWindow* chatw)
@@ -450,7 +428,7 @@ void ChatList::addPlayerChat(Player* player)
         ChatWindow* chatw= getChatWindowByUuid(player->getUuid());
         if(chatw == nullptr)
         {
-            addChatWindow(new ChatWindow(new PlayerChat(player), m_mainWindow));
+            addChatWindow(new ChatWindow(new PlayerChat(player)));
         }
     }
 }
@@ -624,7 +602,7 @@ void ChatList::updatePrivateChat(ReceiveEvent* event)
 
     else if(newChat->includeLocalPlayer())
     {
-        addChatWindow(new ChatWindow(newChat, m_mainWindow));
+        addChatWindow(new ChatWindow(newChat));
     }
     else
     {

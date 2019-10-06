@@ -29,7 +29,6 @@
 
 #include "qpdflib/qpdfwidget.h"
 
-#include "mainwindow.h"
 #include "network/networkmessagewriter.h"
 
 #define MARGING 0

@@ -42,7 +42,7 @@ class ChatListWidget : public QDockWidget, public NetWorkReceiver
     Q_OBJECT
 
 public:
-    ChatListWidget(MainWindow* parent= 0);
+    ChatListWidget(QWidget* parent= nullptr);
     ~ChatListWidget();
 
     QMenu* chatMenu() const;

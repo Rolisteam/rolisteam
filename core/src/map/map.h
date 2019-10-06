@@ -32,7 +32,7 @@
 #include <QWidget>
 
 //#include "types.h"
-#include "toolsbar.h"
+#include "widgets/toolsbar.h"
 #include "userlist/playersList.h"
 #include "widgets/colorselector.h"
 //#include "data/mediacontainer.h"
