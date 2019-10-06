@@ -73,7 +73,7 @@ public:
      * @brief ChatList
      * @param mainWindow
      */
-    ChatList(MainWindow* mainWindow= nullptr);
+    ChatList(QObject * parent= nullptr);
 
     ~ChatList();
 
@@ -163,7 +163,6 @@ private:
     std::vector<std::pair<QMdiSubWindow*, ChatWindow*>> m_data;
     QMap<QString, PrivateChat*> m_privateChatMap;
     QMenu m_chatMenu;
-    MainWindow* m_mainWindow;
     std::vector<DiceShortCut> m_pairList;
 };
 

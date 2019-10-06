@@ -37,15 +37,15 @@
 
 #include "chat/chat.h"
 #include "chat/improvedtextedit.h"
+#include "data/localpersonmodel.h"
 #include "data/person.h"
-#include "localpersonmodel.h"
 #include "network/networkmessagewriter.h"
 #include "userlist/playersList.h"
 #include "userlist/rolisteammimedata.h"
 #include "widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.h"
 
-#include "parsingtoolbox.h"
 #include "dicealias.h"
+#include "parsingtoolbox.h"
 
 QStringList ChatWindow::m_keyWordList;
 QList<DiceAlias*>* ChatWindow::m_receivedAlias= nullptr;

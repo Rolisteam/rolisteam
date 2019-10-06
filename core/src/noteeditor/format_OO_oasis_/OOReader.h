@@ -10,8 +10,8 @@
 #include <QDomDocument>
 #include <QTextTableFormat>
 
-#include "FoColorName.h"
-#include "OOFormat.h"
+#include "noteeditor/format_OO_oasis_/FoColorName.h"
+#include "noteeditor/format_OO_oasis_/OOFormat.h"
 
 QMap<QString, QByteArray> unzipstream(const QString file);
 
@@ -159,20 +159,20 @@ private:
     bool convertCellTable(const QDomElement e, QTextCursor& cur, const int processing);
     bool convertBlock(QTextCursor& cur, QDomElement e, const int processing);
     bool convertList(QTextCursor& cur, QDomElement e, const int processing, int level= 1,
-        const QString classname= QString("deafult"));
-    bool convertFragment(
-        QTextCursor& cur, const QDomElement e, QTextCharFormat parent= QTextCharFormat(), bool HandleSpace= false);
+                     const QString classname= QString("deafult"));
+    bool convertFragment(QTextCursor& cur, const QDomElement e, QTextCharFormat parent= QTextCharFormat(),
+                         bool HandleSpace= false);
     bool convertSpaceTag(QTextCursor& cur, const QDomElement e, QTextCharFormat parent, bool HandleSpace= false);
-    void insertTextLine(
-        QTextCursor& cur, QStringList line, QTextCharFormat parent= QTextCharFormat(), bool HandleSpace= false);
+    void insertTextLine(QTextCursor& cur, QStringList line, QTextCharFormat parent= QTextCharFormat(),
+                        bool HandleSpace= false);
     bool convertFrame(QTextCursor& cur, const QDomElement e, QTextCharFormat parent, bool HandleSpace);
     bool convertImage(QTextCursor& cur, const QDomElement e, QTextCharFormat parent, bool HandleSpace= false);
     QTextFrameFormat FrameFormat(const QString name); /* format from css name class */
     /* read css2 format */
-    QTextCharFormat charFormatCss2(
-        const QString name, QTextCharFormat parent= QTextCharFormat(), bool HandleSpace= false);
-    QPair<QTextBlockFormat, QTextCharFormat> paraFormatCss2(
-        const QString name, QTextBlockFormat parent= QTextBlockFormat(), bool HandleSpace= false);
+    QTextCharFormat charFormatCss2(const QString name, QTextCharFormat parent= QTextCharFormat(),
+                                   bool HandleSpace= false);
+    QPair<QTextBlockFormat, QTextCharFormat>
+    paraFormatCss2(const QString name, QTextBlockFormat parent= QTextBlockFormat(), bool HandleSpace= false);
 
     /* formats fill */
     void TextBlockFormatPaint(const QString name, const QDomElement e);

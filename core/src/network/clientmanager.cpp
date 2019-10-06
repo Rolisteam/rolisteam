@@ -26,7 +26,7 @@
 #include <QDebug>
 #include <QTcpSocket>
 
-#include "Features.h"
+#include "data/features.h"
 #include "data/person.h"
 #include "data/player.h"
 #include "network/connectionprofile.h"
@@ -116,11 +116,11 @@ void ClientManager::initializeLink()
 
         connect(m_networkLinkToServer, SIGNAL(disconnected()), this, SLOT(endingNetworkLink()));
         connect(m_networkLinkToServer, SIGNAL(readDataReceived(quint64, quint64)), this,
-            SIGNAL(dataReceived(quint64, quint64)));
+                SIGNAL(dataReceived(quint64, quint64)));
         connect(m_networkLinkToServer, SIGNAL(errorMessage(QString)), this, SIGNAL(errorOccur(QString)));
         connect(m_networkLinkToServer, SIGNAL(clearData()), this, SIGNAL(clearData()));
         connect(m_networkLinkToServer, &NetworkLink::gameMasterStatusChanged, this,
-            &ClientManager::gameMasterStatusChanged);
+                &ClientManager::gameMasterStatusChanged);
         connect(m_networkLinkToServer, &NetworkLink::moveToAnotherChannel, this, &ClientManager::moveToAnotherChannel);
         m_states.start();
     }

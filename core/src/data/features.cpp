@@ -20,7 +20,7 @@
  ***************************************************************************/
 #include <QDebug>
 
-#include "Features.h"
+#include "features.h"
 
 #include "data/person.h"
 #include "data/player.h"

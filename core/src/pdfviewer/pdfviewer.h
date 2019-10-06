@@ -27,10 +27,8 @@
 #include <QString>
 #include <QWidget>
 
-#include "improvedworkspace.h"
-#include "mainwindow.h"
 #include "preferences/preferencesmanager.h"
-#include "toolsbar.h"
+#include "widgets/improvedworkspace.h"
 
 #include "data/mediacontainer.h"
 
