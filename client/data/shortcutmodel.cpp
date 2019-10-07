@@ -218,6 +218,9 @@ QVariant ShortCutModel::data(const QModelIndex& index, int role) const
         if(childItem->isLeaf())
         {
             ShortCut* shortCut= dynamic_cast<ShortCut*>(childItem);
+            if(nullptr == shortCut)
+                return {};
+
             if(index.column() == 0)
             {
                 return shortCut->getName();
@@ -230,7 +233,7 @@ QVariant ShortCutModel::data(const QModelIndex& index, int role) const
         else
         {
             Category* cat= dynamic_cast<Category*>(childItem);
-            if(index.column() == 0)
+            if(nullptr != cat && index.column() == 0)
             {
                 return cat->name();
             }

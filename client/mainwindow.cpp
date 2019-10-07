@@ -1663,7 +1663,8 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
         {
             MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
             SharedNoteContainer* note= dynamic_cast<SharedNoteContainer*>(mediaContainer);
-            note->readMessage(*msg);
+            if(note)
+                note->readMessage(*msg);
         }
     }
     else if(msg->action() == NetMsg::updateText)
@@ -1674,7 +1675,8 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
             MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
             SharedNoteContainer* note= dynamic_cast<SharedNoteContainer*>(mediaContainer);
             QString updateCmd= msg->string32();
-            note->runUpdateCmd(updateCmd);
+            if(note)
+                note->runUpdateCmd(updateCmd);
         }
     }
     else if(msg->action() == NetMsg::updateTextAndPermission)
@@ -1685,7 +1687,8 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
         {
             MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
             SharedNoteContainer* note= dynamic_cast<SharedNoteContainer*>(mediaContainer);
-            note->readMessage(*msg);
+            if(note)
+                note->readMessage(*msg);
         }
         else
         {
@@ -2824,9 +2827,12 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
     {
         auto media= newDocument(type);
         auto vmapFrame= dynamic_cast<VMapFrame*>(media);
-        auto vmap= vmapFrame->getMap();
-        vmap->addImageItem(pix.toImage());
-        destination= media;
+        if(vmapFrame)
+        {
+            auto vmap= vmapFrame->getMap();
+            vmap->addImageItem(pix.toImage());
+            destination= media;
+        }
     }
     else if(type == CleverURI::MAP)
     {
@@ -2847,7 +2853,8 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
         addMediaToMdiArea(img);
         destination= img;
     }
-    destination->setUriName(title.arg(sourceName));
+    if(destination)
+        destination->setUriName(title.arg(sourceName));
 }
 void MainWindow::focusInEvent(QFocusEvent* event)
 {

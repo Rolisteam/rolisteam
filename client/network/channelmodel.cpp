@@ -3,13 +3,13 @@
 #include "tcpclient.h"
 #include "treeitem.h"
 
-#include <array>
 #include <QIcon>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QList>
 #include <QSettings>
+#include <array>
 
 #ifdef QT_WIDGETS_LIB
 #include <QApplication>
@@ -73,7 +73,7 @@ ChannelModel::~ChannelModel()
     std::vector<Channel*> keys;
 
     transform(std::begin(m_sizeMap), std::end(m_sizeMap), back_inserter(keys),
-        [](decltype(m_sizeMap)::value_type const& pair) { return pair.first; });
+              [](decltype(m_sizeMap)::value_type const& pair) { return pair.first; });
     m_sizeMap.clear();
     qDeleteAll(keys);
 }
@@ -131,6 +131,8 @@ QVariant ChannelModel::data(const QModelIndex& index, int role) const
             if(!tmp->isLeaf() && role == Qt::DisplayRole)
             {
                 auto channel= dynamic_cast<Channel*>(tmp);
+                if(nullptr == channel)
+                    return {};
                 if(isAdmin(m_localPlayerId) || isGM(m_localPlayerId, channel->getId()))
                 {
                     auto size= channel->memorySize();
@@ -149,11 +151,14 @@ QVariant ChannelModel::data(const QModelIndex& index, int role) const
                 if(parent)
                 {
                     auto channel= dynamic_cast<Channel*>(parent);
-                    if(channel->currentGM() == tmp)
+                    if(channel)
                     {
-                        QFont font;
-                        font.setBold(true);
-                        return font;
+                        if(channel->currentGM() == tmp)
+                        {
+                            QFont font;
+                            font.setBold(true);
+                            return font;
+                        }
                     }
                 }
             }
@@ -164,7 +169,7 @@ QVariant ChannelModel::data(const QModelIndex& index, int role) const
             {
                 auto channel= dynamic_cast<Channel*>(tmp);
                 QStyle* style= qApp->style();
-                if(nullptr != style)
+                if(nullptr != style && nullptr != channel)
                 {
                     if(channel->password().isEmpty())
                         return style->standardIcon(QStyle::SP_DirIcon);
@@ -449,8 +454,8 @@ QMimeData* ChannelModel::mimeData(const QModelIndexList& indexes) const
     return mimeData;
 }
 
-bool ChannelModel::moveMediaItem(
-    QList<TcpClient*> items, const QModelIndex& parentToBe, int row, QList<QModelIndex>& formerPosition)
+bool ChannelModel::moveMediaItem(QList<TcpClient*> items, const QModelIndex& parentToBe, int row,
+                                 QList<QModelIndex>& formerPosition)
 {
     Q_UNUSED(row)
     Q_UNUSED(formerPosition)
@@ -466,7 +471,7 @@ bool ChannelModel::moveMediaItem(
             if(!item->password().isEmpty())
             {
                 pw= QInputDialog::getText(nullptr, tr("Channel Password"),
-                    tr("Channel %1 required password:").arg(item->getName()), QLineEdit::Password)
+                                          tr("Channel %1 required password:").arg(item->getName()), QLineEdit::Password)
                         .toUtf8()
                         .toBase64();
             }
@@ -488,8 +493,8 @@ bool ChannelModel::moveMediaItem(
     }
     return false;
 }
-bool ChannelModel::dropMimeData(
-    const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
+bool ChannelModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column,
+                                const QModelIndex& parent)
 {
     Q_UNUSED(column);
 
@@ -555,16 +560,16 @@ bool ChannelModel::moveClient(Channel* origin, const QString& id, Channel* dest)
     if(nullptr == dest || nullptr == origin)
         return false;
 
-    auto sourceParent = channelToIndex(origin);
-    auto client = origin->getClientById(id);
-    auto indxSource = origin->indexOf(client);
-    auto destParent = channelToIndex(dest);
-    auto indexDest = dest->childCount();
+    auto sourceParent= channelToIndex(origin);
+    auto client= origin->getClientById(id);
+    auto indxSource= origin->indexOf(client);
+    auto destParent= channelToIndex(dest);
+    auto indexDest= dest->childCount();
 
     if(!sourceParent.isValid() || !destParent.isValid())
         return false;
 
-    beginMoveRows(sourceParent, indxSource, indxSource, destParent,indexDest);
+    beginMoveRows(sourceParent, indxSource, indxSource, destParent, indexDest);
     origin->removeChild(client);
     dest->addChild(client);
     endMoveRows();

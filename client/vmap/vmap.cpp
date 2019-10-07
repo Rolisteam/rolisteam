@@ -1469,13 +1469,16 @@ void VMap::dropEvent(QGraphicsSceneDragDropEvent* event)
                 {
                     qInfo() << "VMAP dropEvent: image from resources list";
                     auto media= dynamic_cast<CleverURI*>(resource);
-                    if(media->getType() == CleverURI::PICTURE)
+                    if(media)
                     {
-                        ImageItem* led= new ImageItem();
-                        led->setImageUri(media->getUri());
-                        addNewItem(new AddVmapItemCommand(led, true, this), true);
-                        led->setPos(event->scenePos());
-                        sendOffItem(led);
+                        if(media->getType() == CleverURI::PICTURE)
+                        {
+                            ImageItem* led= new ImageItem();
+                            led->setImageUri(media->getUri());
+                            addNewItem(new AddVmapItemCommand(led, true, this), true);
+                            led->setPos(event->scenePos());
+                            sendOffItem(led);
+                        }
                     }
                 }
                 else if(resource->getResourcesType() == ResourcesNode::Person)

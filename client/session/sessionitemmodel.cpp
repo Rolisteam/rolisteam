@@ -166,8 +166,8 @@ Qt::DropActions SessionItemModel::supportedDropActions() const
 {
     return Qt::CopyAction | Qt::MoveAction;
 }
-bool SessionItemModel::dropMimeData(
-    const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
+bool SessionItemModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column,
+                                    const QModelIndex& parent)
 {
     Q_UNUSED(column);
 
@@ -211,8 +211,8 @@ bool SessionItemModel::dropMimeData(
     return added;
 }
 
-bool SessionItemModel::moveMediaItem(
-    QList<ResourcesNode*> items, const QModelIndex& parentToBe, int row, QList<QModelIndex>& formerPosition)
+bool SessionItemModel::moveMediaItem(QList<ResourcesNode*> items, const QModelIndex& parentToBe, int row,
+                                     QList<QModelIndex>& formerPosition)
 {
     ResourcesNode* parentItem= static_cast<ResourcesNode*>(parentToBe.internalPointer());
 
@@ -237,7 +237,7 @@ bool SessionItemModel::moveMediaItem(
 
         int destinationRow= orignRow < 0 ? parentItem->getChildrenCount() : orignRow;
         if((sourceParent == destinationParent)
-            && ((destinationRow == parentItem->getChildrenCount()) || (destinationRow > sourceFirst)))
+           && ((destinationRow == parentItem->getChildrenCount()) || (destinationRow > sourceFirst)))
         {
             destinationRow-= items.size() - 1;
         }
@@ -344,6 +344,8 @@ QVariant SessionItemModel::data(const QModelIndex& index, int role) const
             if(tmp->getResourcesType() == ResourcesNode::Cleveruri)
             {
                 auto const& cleverUri= dynamic_cast<CleverURI*>(tmp);
+                if(nullptr == cleverUri)
+                    return {};
                 if(!cleverUri->hasData())
                 {
                     if(!cleverUri->exists() && cleverUri->getType() != CleverURI::WEBVIEW)
@@ -377,6 +379,9 @@ void SessionItemModel::addResource(ResourcesNode* node, QModelIndex& parent)
         }
         parentItem= dynamic_cast<Chapter*>(node); // nullptr when it is not a chapter.
     }
+
+    if(nullptr == parentItem)
+        return;
 
     beginInsertRows(parent, parentItem->getChildrenCount(), parentItem->getChildrenCount());
     parentItem->addResource(node);

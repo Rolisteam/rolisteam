@@ -555,6 +555,8 @@ void PlayersList::monitorCharacter(Character* charac)
 
 void PlayersList::addLocalCharacter(Character* newCharacter)
 {
+    if(nullptr == newCharacter)
+        return;
     addCharacter(getLocalPlayer(), newCharacter);
 
     emit localPlayerChanged();
