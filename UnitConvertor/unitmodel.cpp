@@ -21,8 +21,10 @@ CategoryModel::CategoryModel(QObject* parent) : QSortFilterProxyModel(parent)
 
 void CategoryModel::addUnit(Unit* unit)
 {
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
     auto unitModel= dynamic_cast<UnitModel*>(sourceModel());
+    if(nullptr == unitModel)
+        return;
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
     unitModel->insertData(unit);
     endInsertRows();
 }
@@ -134,7 +136,7 @@ QString UnitModel::getCatNameFromId(Unit::Category id) const
 
 bool UnitModel::insertUnit(Unit::Category cat)
 {
-    int sum         = 0;
+    int sum= 0;
     auto const& keys= m_data.keys();
     for(auto& key : keys)
     {
