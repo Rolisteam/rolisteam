@@ -698,6 +698,8 @@ void CharacterSheetModel::checkTableItem()
             {
                 auto childFromCharacter= character->getFieldAt(i);
                 auto table= dynamic_cast<TableField*>(child);
+                if(table == nullptr)
+                    return;
                 while(childFromCharacter->getChildrenCount() > child->getChildrenCount())
                 {
                     table->appendChild(nullptr);

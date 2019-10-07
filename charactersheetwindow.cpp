@@ -221,6 +221,8 @@ void CharacterSheetWindow::contextMenuForTabs(const QPoint pos)
 
     QWidget* wid= m_tabs->currentWidget();
     SheetWidget* quickWid= dynamic_cast<SheetWidget*>(wid);
+    if(nullptr == quickWid)
+        return;
     m_currentCharacterSheet= quickWid->sheet();
 
     if(nullptr != m_currentCharacterSheet)

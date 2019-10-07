@@ -194,6 +194,9 @@ CharacterSheetItem::CharacterSheetItemType Section::getItemType() const
 
 void Section::copySection(Section* oldSection)
 {
+    if(nullptr == oldSection)
+        return;
+
     setOrig(oldSection);
     for(int i= 0; i < oldSection->getChildrenCount(); ++i)
     {
@@ -261,7 +264,8 @@ void Section::resetAllId(int& i)
         else if(CharacterSheetItem::SectionItem == item->getItemType())
         {
             Section* sec= dynamic_cast<Section*>(item);
-            sec->resetAllId(i);
+            if(sec)
+                sec->resetAllId(i);
         }
     }
 }
@@ -377,7 +381,8 @@ void Section::getFieldFromPage(int pagePos, QList<CharacterSheetItem*>& list)
         else
         {
             auto childSection= dynamic_cast<Section*>(child);
-            childSection->getFieldFromPage(pagePos, list);
+            if(childSection)
+                childSection->getFieldFromPage(pagePos, list);
         }
     }
 }
