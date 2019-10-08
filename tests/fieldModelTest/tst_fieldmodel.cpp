@@ -21,8 +21,8 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 
-#include <character.h>
-#include <genericmodel.h>
+#include <data/character.h>
+#include <widgets/gmtoolbox/NpcMaker/genericmodel.h>
 
 #define COUNT_TURN 2000
 class FieldModelTest : public QObject

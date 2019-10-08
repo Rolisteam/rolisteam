@@ -18,9 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <QDir>
 #include <QString>
 #include <QtTest>
-#include <cleveruri.h>
+#include <data/cleveruri.h>
 
 class DataCleverURITest : public QObject
 {
@@ -88,7 +89,7 @@ void DataCleverURITest::testMode()
     m_cleverURI->setCurrentMode(CleverURI::Internal);
     QVERIFY2(m_cleverURI->getCurrentMode() == CleverURI::Internal, "Not the right mode INTERNAL");
 
-    QString girafePath(":/assets/img/girafe.jpg");
+    QString girafePath(":/img/girafe.jpg");
     m_cleverURI->setUri(girafePath);
     QVERIFY2(m_cleverURI->hasData(), "Clever URI has no data");
 

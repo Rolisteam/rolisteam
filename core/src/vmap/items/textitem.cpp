@@ -31,6 +31,7 @@
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#include "widgets/MRichTextEditor/mrichtextedit.h"
 
 #include "vmap/vmap.h"
 

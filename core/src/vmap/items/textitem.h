@@ -20,12 +20,14 @@
 #ifndef TEXTITEM_H
 #define TEXTITEM_H
 #include "visualitem.h"
-#include "widgets/MRichTextEditor/mrichtextedit.h"
 #include <QDialog>
 #include <QFontMetrics>
 #include <QGraphicsTextItem>
 #include <QObject>
 #include <QTextDocument>
+
+class MRichTextEdit;
+
 class TextLabel : public QGraphicsTextItem
 {
 public:
@@ -47,7 +49,7 @@ public:
     QString getText();
 
 private:
-    MRichTextEdit* m_richText;
+    MRichTextEdit* m_richText= nullptr;
 };
 
 /**
