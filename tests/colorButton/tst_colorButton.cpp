@@ -20,7 +20,7 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
-#include <colorbutton.h>
+#include <common/widgets/colorbutton.h>
 
 class ColorButtonTest : public QObject
 {

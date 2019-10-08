@@ -21,13 +21,13 @@
 
 //#include "networklink.h"
 
-#include <chat.h>
-#include <chatwindow.h>
+#include <chat/chat.h>
+#include <chat/chatwindow.h>
+#include <chat/improvedtextedit.h>
 #include <data/character.h>
+#include <data/localpersonmodel.h>
 #include <data/person.h>
 #include <data/player.h>
-#include <improvedtextedit.h>
-#include <localpersonmodel.h>
 #include <userlist/playersList.h>
 
 class Player;
