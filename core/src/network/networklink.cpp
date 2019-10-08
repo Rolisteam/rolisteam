@@ -47,10 +47,10 @@ void NetworkLink::makeSignalConnection()
 {
     connect(m_socketTcp, SIGNAL(readyRead()), this, SLOT(receivingData()));
     connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)), this,
-        SLOT(connectionError(QAbstractSocket::SocketError)));
+            SLOT(connectionError(QAbstractSocket::SocketError)));
     connect(m_socketTcp, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
     connect(m_socketTcp, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this,
-        SLOT(socketStateChanged(QAbstractSocket::SocketState)));
+            SLOT(socketStateChanged(QAbstractSocket::SocketState)));
 }
 
 void NetworkLink::connectionError(QAbstractSocket::SocketError error)
@@ -132,8 +132,8 @@ void NetworkLink::receivingData()
         {
             qint64 readDataSize= 0;
             char* tmp= reinterpret_cast<char*>(&m_header);
-            readDataSize= m_socketTcp->read(
-                tmp + m_headerRead, static_cast<qint64>(sizeof(NetworkMessageHeader) - m_headerRead));
+            readDataSize= m_socketTcp->read(tmp + m_headerRead,
+                                            static_cast<qint64>(sizeof(NetworkMessageHeader) - m_headerRead));
             readDataSize+= m_headerRead;
 
             if((readDataSize != sizeof(NetworkMessageHeader))) //||(m_header.category>=NetMsg::LastCategory)

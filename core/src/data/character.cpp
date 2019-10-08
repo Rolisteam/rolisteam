@@ -31,6 +31,9 @@
 #include <QUuid>
 
 #include "character.h"
+#ifndef UNIT_TEST
+#include "charactersheet.h"
+#endif
 #include "data/player.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"

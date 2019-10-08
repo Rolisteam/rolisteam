@@ -4,9 +4,11 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 include_directories(src)
 include_directories(src/diceparser)
 include_directories(src/charactersheet)
+include_directories(src/widgets/MRichTextEditor)
 
 set(QT_REQUIRED_VERSION "5.12.0")
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets Xml WebEngineWidgets)
@@ -20,7 +22,6 @@ set(HEADERS
     src/audio/musicmodel.h
     src/audio/playerwidget.h
     src/charactersheet/charactersheet.h
-    #src/charactersheet/charactersheetbutton.h
     src/charactersheet/charactersheetitem.h
     src/charactersheet/charactersheetmodel.h
     src/charactersheet/charactersheetwindow.h
@@ -114,7 +115,6 @@ set(HEADERS
     src/diceparser/result/result.h
     src/diceparser/result/scalarresult.h
     src/diceparser/result/stringresult.h
-    src/diceparser/tests/dice/testnode.h
     src/diceparser/validator.h
     src/map/charactertoken.h
     src/map/map.h
@@ -140,7 +140,6 @@ set(HEADERS
     src/network/networkreceiver.h
     src/network/passwordaccepter.h
     src/network/receiveevent.h
-    src/network/rolisteamdaemon.h
     src/network/rserver.h
     src/network/selectconnectionprofiledialog.h
     src/network/servermanager.h
@@ -155,14 +154,6 @@ set(HEADERS
     src/noteeditor/format_OO_oasis_/XML_Editor.h
     src/noteeditor/src/notecontainer.h
     src/noteeditor/src/textedit.h
-    src/odt/format_OO_oasis_/FoColorName.h
-    src/odt/format_OO_oasis_/GZipReader.h
-    src/odt/format_OO_oasis_/GZipWriter.h
-    src/odt/format_OO_oasis_/OOFormat.h
-    src/odt/format_OO_oasis_/OOReader.h
-    src/odt/format_OO_oasis_/XML_Editor.h
-    src/odt/src/notecontainer.h
-    src/odt/src/textedit.h
     src/pdfviewer/pdfviewer.h
     src/preferences/characterstatemodel.h
     src/preferences/dicealiasmodel.h
@@ -181,18 +172,17 @@ set(HEADERS
     src/session/sessionmanager.h
     src/session/sessionview.h
     src/sharededitor/codeeditor.h
-    src/sharededitor/connecttodocument.h
+   #src/sharededitor/connecttodocument.h
     src/sharededitor/document.h
     src/sharededitor/enu.h
     src/sharededitor/finddialog.h
     src/sharededitor/findtoolbar.h
-    src/sharededitor/firstrundialog.h
+#    src/sharededitor/firstrundialog.h
     src/sharededitor/markdownhighlighter.h
     src/sharededitor/participantspane.h
     src/sharededitor/sharednote.h
     src/sharededitor/sharednotecontainer.h
     src/sharededitor/utilities.h
-    src/undoCmd/addfieldcommand.h
     src/undoCmd/addmediacontainer.h
     src/undoCmd/addvmapitem.h
     src/undoCmd/changecoloritem.h
@@ -290,7 +280,6 @@ set(SOURCES
     src/charactersheet/section.cpp
     src/charactersheet/sheetwidget.cpp
     src/charactersheet/tablefield.cpp
-    src/charactersheet/test/fuzzer/testcase.cpp
     src/chat/chat.cpp
     src/chat/chatbrowser.cpp
     src/chat/chatlist.cpp
@@ -361,9 +350,6 @@ set(SOURCES
     src/diceparser/result/result.cpp
     src/diceparser/result/scalarresult.cpp
     src/diceparser/result/stringresult.cpp
-    src/diceparser/tests/dice/testnode.cpp
-    src/diceparser/tests/dice/tst_dice.cpp
-    src/diceparser/tests/fuzzer/testcase.cpp
     src/diceparser/validator.cpp
     src/map/charactertoken.cpp
     src/map/map.cpp
@@ -388,7 +374,6 @@ set(SOURCES
     src/network/networkmessagewriter.cpp
     src/network/passwordaccepter.cpp
     src/network/receiveevent.cpp
-    src/network/rolisteamdaemon.cpp
     src/network/rserver.cpp
     src/network/selectconnectionprofiledialog.cpp
     src/network/servermanager.cpp
@@ -402,12 +387,6 @@ set(SOURCES
     src/noteeditor/format_OO_oasis_/XML_Editor.cpp
     src/noteeditor/src/notecontainer.cpp
     src/noteeditor/src/textedit.cpp
-    src/odt/format_OO_oasis_/FoColorName.cpp
-    src/odt/format_OO_oasis_/GZip.cpp
-    src/odt/format_OO_oasis_/OOFormat.cpp
-    src/odt/format_OO_oasis_/OOReader.cpp
-    src/odt/format_OO_oasis_/XML_Editor.cpp
-    src/odt/src/textedit.cpp
     src/pdfviewer/pdfviewer.cpp
     src/preferences/characterstatemodel.cpp
     src/preferences/dicealiasmodel.cpp
@@ -426,17 +405,16 @@ set(SOURCES
     src/session/sessionmanager.cpp
     src/session/sessionview.cpp
     src/sharededitor/codeeditor.cpp
-    src/sharededitor/connecttodocument.cpp
+ #   src/sharededitor/connecttodocument.cpp
     src/sharededitor/document.cpp
     src/sharededitor/finddialog.cpp
     src/sharededitor/findtoolbar.cpp
-    src/sharededitor/firstrundialog.cpp
+#    src/sharededitor/firstrundialog.cpp
     src/sharededitor/markdownhighlighter.cpp
     src/sharededitor/participantspane.cpp
     src/sharededitor/sharednote.cpp
     src/sharededitor/sharednotecontainer.cpp
     src/sharededitor/utilities.cpp
-    src/undoCmd/addfieldcommand.cpp
     src/undoCmd/addmediacontainer.cpp
     src/undoCmd/addvmapitem.cpp
     src/undoCmd/changecoloritem.cpp
@@ -507,5 +485,97 @@ set(SOURCES
     )
 
 
-add_library(core SHARED ${SOURCES} ${HEADERS})
-target_link_libraries(core PUBLIC Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets)
+set(UI_FILES
+    src/preferences/preferencesdialogbox.ui
+    src/diceparser/irc/mainwindow.ui
+    src/diceparser/gui/mainwindow.ui
+    src/audio/audiowidget.ui
+    src/map/newemptymapdialog.ui
+    src/map/mapwizzard.ui
+    src/sharededitor/findtoolbar.ui
+    src/sharededitor/preferencesdialog.ui
+    src/sharededitor/participantspane.ui
+    src/sharededitor/sharednote.ui
+    src/sharededitor/document.ui
+    src/sharededitor/announcedocumentdialog.ui
+    src/sharededitor/finddialog.ui
+    src/sharededitor/firstrundialog.ui
+    src/sharededitor/connecttodocument.ui
+    src/common/widgets/logpanel.ui
+    src/webview/webview.ui
+    src/widgets/shortcuteditordialog.ui
+    src/widgets/keygeneratordialog.ui
+    src/widgets/gmtoolbox/UnitConvertor/convertor.ui
+    src/widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.ui
+    src/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui
+    src/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui
+    src/widgets/tipofdayviewer.ui
+    src/widgets/onlinepicturedialog.ui
+    src/widgets/MRichTextEditor/mrichtextedit.ui
+    src/widgets/aboutrolisteam.ui
+    src/widgets/persondialog.ui
+    src/vmap/vmapwizzarddialog.ui
+    src/network/selectconnectionprofiledialog.ui
+    src/network/channellistpanel.ui
+    src/network/connectionretrydialog.ui
+    )
+
+add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES})
+qt5_use_modules(core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets Xml WebEngineWidgets)
+#target_link_libraries(core PUBLIC Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets)
+
+set(Network_HEADER
+    src/network/rolisteamdaemon.h
+    src/network/channelmodel.h
+    src/network/tcpclient.h
+    src/network/servermanager.h
+    src/network/connectionaccepter.h
+    src/network/passwordaccepter.h
+    src/network/iprangeaccepter.h
+    src/network/ipbanaccepter.h
+    src/network/timeaccepter.h
+    src/network/channel.h
+    src/network/treeitem.h
+    src/network/networkmessage.h
+    src/network/networkmessagereader.h
+    src/network/networkmessagewriter.h
+    src/network/rserver.h
+    src/network/messagedispatcher.h
+    src/network/receiveevent.h
+    src/data/person.h
+    src/data/player.h
+    src/data/character.h
+    src/data/characterstate.h
+    src/data/resourcesnode.h
+    src/common/controller/logcontroller.h)
+
+
+set(Network_SRC
+    src/network/rolisteamdaemon.cpp
+    src/network/channelmodel.cpp
+    src/network/tcpclient.cpp
+    src/network/servermanager.cpp
+    src/network/connectionaccepter.cpp
+    src/network/passwordaccepter.cpp
+    src/network/iprangeaccepter.cpp
+    src/network/ipbanaccepter.cpp
+    src/network/timeaccepter.cpp
+    src/network/channel.cpp
+    src/network/treeitem.cpp
+    src/network/networkmessage.cpp
+    src/network/networkmessagereader.cpp
+    src/network/networkmessagewriter.cpp
+    src/network/rserver.cpp
+    src/network/messagedispatcher.cpp
+    src/network/receiveevent.cpp
+    src/data/person.cpp
+    src/data/player.cpp
+    src/data/character.cpp
+    src/data/characterstate.cpp
+    src/data/resourcesnode.cpp
+    src/common/controller/logcontroller.cpp
+    )
+
+add_library(network SHARED ${Network_SRC} ${Network_HEADER})
+set_target_properties(network PROPERTIES COMPILE_DEFINITIONS "UNIT_TEST=1")
+target_link_libraries(network PUBLIC Qt5::Core Qt5::Network Qt5::Gui)

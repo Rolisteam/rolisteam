@@ -20,16 +20,15 @@
 #ifndef TIPOFDAYVIEWER_H
 #define TIPOFDAYVIEWER_H
 
+#include <QDialog>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QProgressBar>
 #include <QWidget>
 
-#include "ui_tipofdayviewer.h"
-
 namespace Ui
 {
-    class TipOfDayViewer;
+class TipOfDayViewer;
 }
 
 class TipOfDayViewer : public QDialog
