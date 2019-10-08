@@ -30,9 +30,9 @@
 #include "data/character.h"
 #include "data/person.h"
 #include "data/player.h"
-#include "delegate.h"
 #include "map/map.h"
 #include "userlist/playersList.h"
+#include "widgets/delegate.h"
 #include "widgets/persondialog.h"
 
 /**************************

@@ -26,8 +26,8 @@
 
 #include "userlist/playersList.h"
 
-#include "Features.h"
 #include "data/character.h"
+#include "data/features.h"
 #include "data/person.h"
 #include "data/player.h"
 #include "network/networkmessagereader.h"

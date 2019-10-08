@@ -13,7 +13,7 @@ class RolisteamDaemon : public QObject
 {
     Q_OBJECT
 public:
-    explicit RolisteamDaemon(QObject* parent= 0);
+    explicit RolisteamDaemon(QObject* parent= nullptr);
 
     void start();
 signals:

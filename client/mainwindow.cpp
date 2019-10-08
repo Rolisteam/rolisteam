@@ -49,11 +49,9 @@
 #include "data/person.h"
 #include "data/player.h"
 #include "data/shortcutvisitor.h"
-#include "image.h"
-#include "improvedworkspace.h"
-#include "keygeneratordialog.h"
 #include "map/map.h"
 #include "map/mapframe.h"
+#include "media/image.h"
 #include "network/clientmanager.h"
 #include "network/networkmessagewriter.h"
 #include "network/receiveevent.h"
@@ -62,12 +60,14 @@
 #include "preferences/preferencesdialog.h"
 #include "services/tipchecker.h"
 #include "services/updatechecker.h"
-#include "toolsbar.h"
 #include "userlist/playersList.h"
 #include "userlist/playersListWidget.h"
 #include "widgets/gmtoolbox/gamemastertool.h"
+#include "widgets/improvedworkspace.h"
+#include "widgets/keygeneratordialog.h"
 #include "widgets/shortcuteditordialog.h"
 #include "widgets/tipofdayviewer.h"
+#include "widgets/toolsbar.h"
 #ifdef HAVE_WEBVIEW
 #include "webview/webview.h"
 #include <QWebEngineSettings>
@@ -80,7 +80,7 @@
 #include "undoCmd/deletemediacontainercommand.h"
 
 // Text editor
-#include "textedit.h"
+#include "noteeditor/src/textedit.h"
 #include "widgets/aboutrolisteam.h"
 
 // GMToolBox

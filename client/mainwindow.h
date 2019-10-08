@@ -55,7 +55,7 @@
 #include "vmap/vtoolbar.h"
 
 #include "network/selectconnectionprofiledialog.h"
-#include "notecontainer.h"
+#include "noteeditor/src/notecontainer.h"
 #include "sharededitor/sharednotecontainer.h"
 
 #ifndef NULL_PLAYER

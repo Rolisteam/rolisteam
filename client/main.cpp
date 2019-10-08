@@ -31,6 +31,7 @@
 #include <QUuid>
 #include <time.h>
 
+#include "data/cleveruri.h"
 #include "data/person.h"
 #include "mainwindow.h"
 #include "preferences/preferencesmanager.h"
