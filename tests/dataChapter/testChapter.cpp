@@ -22,7 +22,7 @@
 #include <QtTest/QtTest>
 #include <chrono>
 #include <data/chapter.h>
-#include <resourcesnode.h>
+#include <data/resourcesnode.h>
 
 #define COUNT_TURN 2000
 class TestChapter : public QObject

@@ -21,10 +21,10 @@
 
 #include "data/cleveruri.h"
 #include <QMouseEvent>
-#include <character.h>
+#include <data/character.h>
 #include <helper.h>
-#include <sessionitemmodel.h>
-#include <sessionmanager.h>
+#include <session/sessionitemmodel.h>
+#include <session/sessionmanager.h>
 
 class SessionTest : public QObject
 {

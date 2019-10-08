@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/girafe.jpg</file>
+        <file>img/lion.jpg</file>
+        <file>charactersheet/bitume_fixed.rcs</file>
+        <file>character/ronin.rtok</file>
+        <file>list/list.m3u</file>
+        <file>notes/test.odt</file>
+        <file>sharednotes/test.rsn</file>
+        <file>vmap/test.vmap</file>
+    </qresource>
+</RCC>

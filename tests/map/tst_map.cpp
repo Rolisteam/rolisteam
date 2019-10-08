@@ -22,8 +22,8 @@
 #include <QtTest/QtTest>
 #include <memory>
 
-#include "map.h"
-#include "mapframe.h"
+#include "map/map.h"
+#include "map/mapframe.h"
 
 #include "network/networkmessage.h"
 #include "network/networkmessagereader.h"
@@ -84,14 +84,13 @@ void TestMap::networkSaveAndLoadTest()
 
 void TestMap::getAndSetTest() {}
 
-
 void TestMap::polymorphismTest()
 {
-    auto id = m_mapFrame->getMediaId();
-    MediaContainer* mediaC = m_mapFrame.get();
-    auto mediaId = mediaC->getMediaId();
+    auto id= m_mapFrame->getMediaId();
+    MediaContainer* mediaC= m_mapFrame.get();
+    auto mediaId= mediaC->getMediaId();
 
-    auto mapId = m_map->getMapId();
+    auto mapId= m_map->getMapId();
 
     QCOMPARE(id, mapId);
     QCOMPARE(id, mediaId);

@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
-#include <palettemodel.h>
+#include <preferences/palettemodel.h>
 
 class PaletteModelTest : public QObject
 {
@@ -63,7 +63,7 @@ void PaletteModelTest::getAndSetTest()
         for(int role= 0; role < QPalette::NColorRoles; role++)
         {
             if((result.color((QPalette::ColorGroup)grp, (QPalette::ColorRole)role)
-                   != test_palette.color((QPalette::ColorGroup)grp, (QPalette::ColorRole)role)))
+                != test_palette.color((QPalette::ColorGroup)grp, (QPalette::ColorRole)role)))
             {
                 equal= false;
             }

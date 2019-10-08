@@ -15,9 +15,11 @@ include_directories(../core/src)
 
 set(QT_REQUIRED_VERSION "5.12.0")
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui)
-#find_package(core)
 
 add_executable(rolisteam ${SOURCES} ${HEADERS})
 
-#target_include_directories(libcore PUBLIC .)
 target_link_libraries(rolisteam PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets PRIVATE core)
+
+install(TARGETS rolisteam
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib)

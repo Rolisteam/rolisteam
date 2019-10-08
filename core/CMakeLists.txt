@@ -579,3 +579,8 @@ set(Network_SRC
 add_library(network SHARED ${Network_SRC} ${Network_HEADER})
 set_target_properties(network PROPERTIES COMPILE_DEFINITIONS "UNIT_TEST=1")
 target_link_libraries(network PUBLIC Qt5::Core Qt5::Network Qt5::Gui)
+
+
+install(TARGETS core network
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib)

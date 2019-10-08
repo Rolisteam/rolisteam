@@ -19,8 +19,8 @@
  ***************************************************************************/
 #include <QtTest/QtTest>
 
-#include <preferenceslistener.h>
-#include <preferencesmanager.h>
+#include <preferences/preferenceslistener.h>
+#include <preferences/preferencesmanager.h>
 
 class PreferencesTest : public QObject, public PreferencesListener
 {

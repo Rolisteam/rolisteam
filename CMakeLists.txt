@@ -9,7 +9,7 @@ add_subdirectory(client)
 add_subdirectory(server)
 #add_subdirectory(android)
 
-option(TESTS "compile tests" OFF) #Off by default
+#option(TESTS "compile tests" OFF) #Off by default
 
 if (TESTS)
 add_subdirectory(tests)
