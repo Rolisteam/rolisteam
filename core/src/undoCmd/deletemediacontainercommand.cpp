@@ -18,12 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "deletemediacontainercommand.h"
-#include "improvedworkspace.h"
 #include "network/networkmessagewriter.h"
 #include "session/sessionmanager.h"
+#include "widgets/improvedworkspace.h"
 
 DeleteMediaContainerCommand::DeleteMediaContainerCommand(MediaContainer* media, SessionManager* manager, QMenu* menu,
-    ImprovedWorkspace* workspace, bool isGM, QHash<QString, MediaContainer*>& hash, QUndoCommand* parent)
+                                                         ImprovedWorkspace* workspace, bool isGM,
+                                                         QHash<QString, MediaContainer*>& hash, QUndoCommand* parent)
     : QUndoCommand(parent)
     , m_media(media)
     , m_manager(manager)

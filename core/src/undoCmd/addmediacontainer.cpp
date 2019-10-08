@@ -18,11 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "addmediacontainer.h"
-#include "improvedworkspace.h"
 #include "network/networkmessagewriter.h"
+#include "widgets/improvedworkspace.h"
 #include <QDebug>
+
 AddMediaContainer::AddMediaContainer(MediaContainer* mediac, SessionManager* manager, QMenu* menu,
-    ImprovedWorkspace* workspace, bool gm, QUndoCommand* parent)
+                                     ImprovedWorkspace* workspace, bool gm, QUndoCommand* parent)
     : QUndoCommand(parent), m_media(mediac), m_manager(manager), m_menu(menu), m_mdiArea(workspace), m_gm(gm)
 {
     setText(QObject::tr("Show %1").arg(mediac->getUriName()));
@@ -33,7 +34,6 @@ void AddMediaContainer::redo()
     qInfo() << QStringLiteral("Redo command AddMediaContainer: %1 ").arg(text());
     if(nullptr == m_media)
         return;
-
 
     // add in workspace + add action and add into ressources manager.
     CleverURI* uri= m_media->getCleverUri();
@@ -62,7 +62,6 @@ void AddMediaContainer::redo()
         m_media->fill(msg);
         msg.sendToServer();
     }
-
 }
 
 void AddMediaContainer::undo()
