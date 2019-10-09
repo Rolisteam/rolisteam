@@ -2836,13 +2836,11 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
     }
     else if(type == CleverURI::MAP)
     {
-        // auto mapframe = dynamic_cast<MapFrame*>(media);
         auto mapframe= new MapFrame();
         mapframe->setUriName(title);
         auto img= new QImage(pix.toImage());
         auto map= new Map(m_localPlayerId, mapframe->getMediaId(), img, false);
         mapframe->setMap(map);
-        addMediaToMdiArea(mapframe);
         destination= mapframe;
     }
     else if(type == CleverURI::PICTURE)
@@ -2850,11 +2848,14 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
         auto img= new Image(m_mdiArea);
         auto imgPix= pix.toImage();
         img->setImage(imgPix);
-        addMediaToMdiArea(img);
         destination= img;
     }
     if(destination)
         destination->setUriName(title.arg(sourceName));
+
+    destination->setRemote(false);
+    destination->setCleverUri(new CleverURI(sourceName, "", type));
+    addMediaToMdiArea(destination, true);
 }
 void MainWindow::focusInEvent(QFocusEvent* event)
 {
