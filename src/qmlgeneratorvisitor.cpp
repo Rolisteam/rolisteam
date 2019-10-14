@@ -401,17 +401,15 @@ bool QmlGeneratorVisitor::generateImage(Field* item)
     if(!item)
         return false;
 
-    QString text("%5ImageField {//%1\n"
-                 "%6"
-                 "%5    source: %2.value\n"
-                 "%5    textColor:\"%3\"\n"
-                 "%5    color: \"%4\"\n"
-                 + getPageManagement(item, m_indenSpace) + "%5    readOnly: %2.readOnly\n" + generatePosition(item)
-                 + "%5}\n");
+    QString text("%4ImageField {//%1\n"
+                 "%5"
+                 "%4    source: %2.value\n"
+                 "%4    color: \"%3\"\n"
+                 + getPageManagement(item, m_indenSpace) + "%4    readOnly: %2.readOnly\n" + generatePosition(item)
+                 + "%4}\n");
 
     m_out << text.arg(item->getLabel()) //%1
                  .arg(getId(item))
-                 .arg(item->textColor().name(QColor::HexArgb))
                  .arg(item->bgColor().name(QColor::HexArgb))
                  .arg(m_indenSpace) //%5
                  .arg(m_isTable ? QStringLiteral("") :
