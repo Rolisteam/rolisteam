@@ -2,6 +2,7 @@
 
 #include <QColorDialog>
 #include <QMenu>
+#include <QFontDialog>
 
 // commands
 #include "undo/deletefieldcommand.h"
@@ -83,8 +84,8 @@ FieldView::FieldView(QWidget* parent) : QTreeView(parent), m_mapper(new QSignalM
     TypeDelegate* typeDelegate= new TypeDelegate(this);
     setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TYPE), typeDelegate);
 
-    FontDelegate* fontDelegate= new FontDelegate(this);
-    setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::FONT), fontDelegate);
+    /*FontDelegate* fontDelegate= new FontDelegate(this);
+    setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::FONT), fontDelegate);*/
 
     PageDelegate* pageDelegate= new PageDelegate(this);
     setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::PAGE), pageDelegate);
@@ -303,7 +304,8 @@ void FieldView::editColor(QModelIndex index)
     {
         return;
     }
-    if(index.column() == CharacterSheetItem::BGCOLOR || CharacterSheetItem::TEXTCOLOR == index.column())
+    auto col = index.column();
+    if(col == CharacterSheetItem::BGCOLOR || CharacterSheetItem::TEXTCOLOR == col)
     {
 
         CharacterSheetItem* itm= static_cast<CharacterSheetItem*>(index.internalPointer());
@@ -316,5 +318,16 @@ void FieldView::editColor(QModelIndex index)
 
             itm->setValueFrom(static_cast<CharacterSheetItem::ColumnId>(index.column()), col);
         }
+    }
+    else if(CharacterSheetItem::FONT == col)
+    {
+        QFontDialog cd(this);
+        QString fontStr = index.data(Qt::EditRole).toString();
+        QFont font;
+        font.fromString(fontStr);
+
+        cd.setCurrentFont(font);
+        cd.exec();
+        model()->setData(index, cd.currentFont(), Qt::EditRole);
     }
 }

@@ -45,6 +45,7 @@ void FontDelegate::setEditorData(QWidget* editor, const QModelIndex& index) cons
        font.fromString(fontStr);
 
        cb->setCurrentFont(font);
+      // cb->exec();
 
     }
     else

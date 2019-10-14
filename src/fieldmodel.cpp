@@ -248,6 +248,10 @@ Qt::ItemFlags FieldModel::flags(const QModelIndex& index) const
     {
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
     }
+    else if(m_colunm[index.column()]->getPos() == CharacterSheetItem::FONT)
+    {
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    }
     else // if(!childItem->mayHaveChildren())
     {
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
