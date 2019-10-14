@@ -378,6 +378,7 @@ void MainWindow::setCurrentFile(const QString& filename)
 void MainWindow::clearData(bool addDefaultCanvas)
 {
     m_qmlCtrl->clearData();
+    CSItem::resetCount();
     m_editorCtrl->clearData(addDefaultCanvas);
     m_imageCtrl->clearData();
     m_characterCtrl->clear();
