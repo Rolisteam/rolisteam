@@ -179,7 +179,7 @@ int FieldModel::rowCount(const QModelIndex& parent) const
 
 int FieldModel::columnCount(const QModelIndex& parent) const
 {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
     return m_colunm.count();
 }
 

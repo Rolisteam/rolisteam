@@ -54,7 +54,7 @@ QPainterPath CanvasField::shape() const
 }
 void CanvasField::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    Q_UNUSED(widget);
+    Q_UNUSED(widget)
 
     if(nullptr == m_field)
         return;
@@ -156,7 +156,7 @@ void CanvasField::setShowImageField(bool showImageField)
 
 void CanvasField::setMenu(QMenu& menu)
 {
-    Q_UNUSED(menu);
+    Q_UNUSED(menu)
 }
 
 bool CanvasField::locked() const
