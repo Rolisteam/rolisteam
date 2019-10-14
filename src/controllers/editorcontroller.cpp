@@ -210,14 +210,13 @@ void EditorController::spreadItemEqualy()
         return posA < posB;
     };
 
-
     if(horizon)
         std::sort(list.begin(), list.end(), widthCompare);
     else
         std::sort(list.begin(), list.end(), heightCompare);
 
     auto first= list.begin();
-    auto last= list.end()-1;
+    auto last= list.end() - 1;
 
     // available distance
     qreal availableDistance;
@@ -316,9 +315,13 @@ void EditorController::clearData(bool defaulCanvas)
 int EditorController::addPage()
 {
     std::unique_ptr<Canvas> canvas(new Canvas());
-    CSItem::resetCount();
+    int page= -1;
+    for(const auto& canvas : m_canvasList)
+    {
+        page= std::max(page, canvas->pageId());
+    }
     auto can= canvas.get();
-    canvas->setPageId(m_currentPage);
+    canvas->setPageId(page + 1);
     canvas->setUndoStack(&m_undoStack);
     connect(canvas.get(), &Canvas::dropFileOnCanvas, this, &EditorController::loadImageFromUrl);
     m_canvasList.push_back(std::move(canvas));
