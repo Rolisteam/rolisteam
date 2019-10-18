@@ -100,7 +100,7 @@ QVariant CharacterShape::getData(int col, int role)
     }
     else if(Qt::DecorationRole == role && col == 0 && !m_image.isNull())
     {
-        return QPixmap::fromImage(m_image).scaled(64, 64, Qt::KeepAspectRatio);
+        return QPixmap::fromImage(m_image).scaled(m_size, m_size, Qt::KeepAspectRatio);
     }
     return QVariant();
 }
@@ -118,11 +118,30 @@ bool CharacterShape::setData(int col, QVariant value, int role)
         else if(col == 1)
         {
             setUri(value.toString());
+            updateImage();
             set= true;
         }
     }
     return set;
 }
+
+void CharacterShape::updateImage()
+{
+    m_image= QImage(m_uri);
+}
+
+void CharacterShape::setSize(int size)
+{
+    if(size == m_size)
+        return;
+    m_size= size;
+}
+
+///////////////////////////////////
+///
+/// Start CharacterAction
+///
+///////////////////////////////////
 
 CharacterAction::CharacterAction() {}
 

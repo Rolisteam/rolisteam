@@ -80,12 +80,17 @@ public:
     virtual bool setData(int col, QVariant value, int role);
 
     virtual Type getType() { return Shape; }
+    void setSize(int size);
+
+protected:
+    void updateImage();
 
 private:
     QString m_name;
     QString m_uri;
     QImage m_image;
     QMovie m_movie;
+    int m_size= 64;
 };
 
 class CharacterAction : public CharacterField
