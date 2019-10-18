@@ -44,7 +44,7 @@ NpcMakerWidget::NpcMakerWidget(QWidget* parent) : QWidget(parent), ui(new Ui::Np
     connect(ui->m_importNpc, &QPushButton::clicked, this, &NpcMakerWidget::importNpc);
     connect(ui->m_exportNpc, &QPushButton::clicked, this, &NpcMakerWidget::exportNpc);
 
-    m_actionModel= new GenericModel({QStringLiteral("Name"), QStringLiteral("Comand")}, this);
+    m_actionModel= new GenericModel({QStringLiteral("Name"), QStringLiteral("Comand")}, {}, this);
     ui->m_actionList->setModel(m_actionModel);
     connect(ui->m_addActionAct, &QAction::triggered, this, [=]() { m_actionModel->addData(new CharacterAction); });
     connect(ui->m_removeActionAct, &QAction::triggered, this, [=]() {
@@ -53,17 +53,17 @@ NpcMakerWidget::NpcMakerWidget(QWidget* parent) : QWidget(parent), ui(new Ui::Np
             m_actionModel->removeData(index);
     });
 
-    m_propertyModel= new GenericModel({QStringLiteral("Name"), QStringLiteral("Value")}, this);
+    m_propertyModel= new GenericModel({QStringLiteral("Name"), QStringLiteral("Value")}, {}, this);
     ui->m_propertyList->setModel(m_propertyModel);
-    connect(
-        ui->m_addPropertyAct, &QAction::triggered, this, [=]() { m_propertyModel->addData(new CharacterProperty); });
+    connect(ui->m_addPropertyAct, &QAction::triggered, this,
+            [=]() { m_propertyModel->addData(new CharacterProperty); });
     connect(ui->m_removePropertyAct, &QAction::triggered, this, [=]() {
         auto index= ui->m_propertyList->currentIndex();
         if(index.isValid())
             m_propertyModel->removeData(index);
     });
 
-    m_shapeModel= new GenericModel({QStringLiteral("Name"), QStringLiteral("Uri")}, this);
+    m_shapeModel= new GenericModel({QStringLiteral("Name"), QStringLiteral("Uri")}, {1}, this);
     ui->m_shapeList->setModel(m_shapeModel);
     connect(ui->m_addShapeAct, &QAction::triggered, this, [=]() {
         m_shapeModel->addData(new CharacterShape);
@@ -74,6 +74,23 @@ NpcMakerWidget::NpcMakerWidget(QWidget* parent) : QWidget(parent), ui(new Ui::Np
         if(index.isValid())
             m_shapeModel->removeData(index);
     });
+    connect(ui->m_shapeList, &QTableView::doubleClicked, this, [this](const QModelIndex& index) {
+        auto path= index.data().toString();
+        auto dir= QDir::homePath();
+
+        if(!path.isEmpty())
+        {
+            QFileInfo info(path);
+            dir= info.absolutePath();
+        }
+
+        auto file= QFileDialog::getOpenFileName(this, tr("Select Avatar"), dir,
+                                                tr("Images (*.jpg *.jpeg *.png *.bmp *.svg)"));
+        if(!file.isEmpty())
+        {
+            m_shapeModel->setData(index, file);
+        }
+    });
 
     connect(ui->m_sizeEdit, QOverload<int>::of(&QSpinBox::valueChanged), this, [=] {
         auto val= ui->m_sizeEdit->value();
@@ -82,9 +99,9 @@ NpcMakerWidget::NpcMakerWidget(QWidget* parent) : QWidget(parent), ui(new Ui::Np
     });
 
     connect(ui->m_avatarEdit, &QLineEdit::textChanged, this, &NpcMakerWidget::updateImage);
-    connect(ui->m_avatarOpenFileBtn, &QPushButton::clicked, this, [=]() {
-        auto file= QFileDialog::getOpenFileName(
-            this, tr("Select Avatar"), QDir::homePath(), tr("Images (*.jpg *.jpeg *.png *.bmp *.svg)"));
+    connect(ui->m_avatarOpenFileBtn, &QPushButton::clicked, this, [this]() {
+        auto file= QFileDialog::getOpenFileName(this, tr("Select Avatar"), QDir::homePath(),
+                                                tr("Images (*.jpg *.jpeg *.png *.bmp *.svg)"));
         if(!file.isEmpty())
         {
             ui->m_avatarEdit->setText(file);
