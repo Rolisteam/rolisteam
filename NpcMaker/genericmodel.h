@@ -8,7 +8,7 @@ class GenericModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    explicit GenericModel(QStringList cols, QObject* parent= nullptr);
+    explicit GenericModel(QStringList cols, QVector<int> readOnlyCols= QVector<int>(), QObject* parent= nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const override;
@@ -33,6 +33,7 @@ public:
 private:
     QList<CharacterField*> m_data;
     QStringList m_columnList;
+    QVector<int> m_readOnlyCols;
 };
 
 #endif // GENERICMODEL_H

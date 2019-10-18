@@ -1,7 +1,10 @@
 #include "genericmodel.h"
 #include "data/character.h"
 
-GenericModel::GenericModel(QStringList cols, QObject* parent) : QAbstractTableModel(parent), m_columnList(cols) {}
+GenericModel::GenericModel(QStringList cols, QVector<int> readOnlyCols, QObject* parent)
+    : QAbstractTableModel(parent), m_columnList(cols), m_readOnlyCols(readOnlyCols)
+{
+}
 
 QVariant GenericModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
@@ -56,6 +59,9 @@ Qt::ItemFlags GenericModel::flags(const QModelIndex& index) const
 {
     if(!index.isValid())
         return Qt::NoItemFlags;
+
+    if(m_readOnlyCols.contains(index.column()))
+        return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 
     return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
