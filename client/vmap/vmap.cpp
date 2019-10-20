@@ -1507,6 +1507,12 @@ void VMap::dropEvent(QGraphicsSceneDragDropEvent* event)
                     CharacterItem* persona= new CharacterItem();
                     persona->setTokenFile(url.toLocalFile());
                     insertCharacterInMap(persona);
+                    auto character= persona->getCharacter();
+                    if(character)
+                    {
+                        PlayersList* list= PlayersList::instance();
+                        list->addLocalCharacter(character);
+                    }
                     item= persona;
                 }
                 else if(url.isLocalFile())
