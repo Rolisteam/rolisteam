@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 
-project(rolisteam-gui)
+project(rolisteam)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -14,9 +14,10 @@ set(HEADERS mainwindow.h)
 include_directories(../core/src)
 
 set(QT_REQUIRED_VERSION "5.12.0")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui)
+find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui LinguistTools)
 
-add_executable(rolisteam ${SOURCES} ${HEADERS})
+
+add_executable(rolisteam ${SOURCES} ${HEADERS} ../rolisteam.qrc)
 
 target_link_libraries(rolisteam PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets PRIVATE core)
 
