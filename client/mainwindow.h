@@ -159,12 +159,6 @@ public:
      */
     void setupUi();
     /**
-     * @brief getPermission
-     * @param id
-     * @return
-     */
-    // Map::PermissionMode getPermission(int id);
-    /**
      * @brief readSettings
      */
     void readSettings();
@@ -521,7 +515,7 @@ private:
     QHash<QString, MediaContainer*> m_mediaHash;
     QMap<MediaContainer*, QAction*>* m_mapAction;
 #ifndef NULL_PLAYER
-    AudioPlayer* m_audioPlayer;
+    AudioPlayer* m_audioPlayer= nullptr;
 #endif
 
     PreferencesDialog* m_preferencesDialog;

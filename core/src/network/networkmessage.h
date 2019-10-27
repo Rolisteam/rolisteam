@@ -36,158 +36,161 @@ struct NetworkMessageHeader
 };
 namespace NetMsg
 {
-    enum Category
-    {
-        AdministrationCategory,
-        PlayerCategory,
-        CharacterPlayerCategory,
-        NPCCategory,
-        CharacterCategory,
-        DrawCategory,
-        MapCategory,
-        ChatCategory,
-        MusicCategory,
-        SetupCategory,
-        SharePreferencesCategory,
-        VMapCategory,
-        MediaCategory,
-        SharedNoteCategory,
-        WebPageCategory
-    };
+enum Category
+{
+    AdministrationCategory,
+    PlayerCategory,
+    CharacterPlayerCategory,
+    NPCCategory,
+    CharacterCategory,
+    DrawCategory,
+    MapCategory,
+    ChatCategory,
+    MusicCategory,
+    SetupCategory,
+    SharePreferencesCategory,
+    VMapCategory,
+    MediaCategory,
+    SharedNoteCategory,
+    WebPageCategory
+};
 
-    enum Action
-    {
-        // AdministrationCategory
-        EndConnectionAction= 0,
-        Heartbeat,
-        ConnectionInfo,
-        Goodbye,
-        Kicked,
-        MoveChannel,
-        SetChannelList,
-        RenameChannel,
-        NeedPassword,
-        AuthentificationSucessed,
-        AuthentificationFail,
-        LockChannel,
-        UnlockChannel,
-        JoinChannel,
-        DeleteChannel,
-        AddChannel,
-        ChannelPassword,
-        ResetChannelPassword,
-        BanUser,
-        ClearTable,
-        AdminPassword,
-        AdminAuthSucessed,
-        AdminAuthFail,
-        MovedIntoChannel,
-        GMStatus,
-        ResetChannel,
+enum Action
+{
+    // AdministrationCategory
+    EndConnectionAction= 0,
+    Heartbeat,
+    ConnectionInfo,
+    Goodbye,
+    Kicked,
+    MoveChannel,
+    SetChannelList,
+    RenameChannel,
+    NeedPassword,
+    AuthentificationSucessed,
+    AuthentificationFail,
+    LockChannel,
+    UnlockChannel,
+    JoinChannel,
+    DeleteChannel,
+    AddChannel,
+    ChannelPassword,
+    ResetChannelPassword,
+    BanUser,
+    ClearTable,
+    AdminPassword,
+    AdminAuthSucessed,
+    AdminAuthFail,
+    MovedIntoChannel,
+    GMStatus,
+    ResetChannel,
 
-        // PlayerCategory
-        PlayerConnectionAction= 0,
-        DelPlayerAction,
-        ChangePlayerProperty,
+    // PlayerCategory
+    PlayerConnectionAction= 0,
+    DelPlayerAction,
+    ChangePlayerProperty,
 
-        // CharacterPlayerCategory
-        AddPlayerCharacterAction= 0,
-        DelPlayerCharacterAction,
-        ToggleViewPlayerCharacterAction,
-        ChangePlayerCharacterSizeAction,
-        ChangePlayerCharacterProperty,
+    // CharacterPlayerCategory
+    AddPlayerCharacterAction= 0,
+    DelPlayerCharacterAction,
+    ToggleViewPlayerCharacterAction,
+    ChangePlayerCharacterSizeAction,
+    ChangePlayerCharacterProperty,
 
-        // NPCCategory
-        addNpc= 0,
-        delNpc,
+    // NPCCategory
+    addNpc= 0,
+    delNpc,
 
-        // CharacterCategory
-        addCharacterList= 0,
-        moveCharacter,
-        changeCharacterState,
-        changeCharacterOrientation,
-        showCharecterOrientation,
-        addCharacterSheet,
-        updateFieldCharacterSheet,
-        closeCharacterSheet,
+    // CharacterCategory
+    addCharacterList= 0,
+    moveCharacter,
+    changeCharacterState,
+    changeCharacterOrientation,
+    showCharecterOrientation,
+    addCharacterSheet,
+    updateFieldCharacterSheet,
+    closeCharacterSheet,
 
-        // MapCategory
-        AddEmptyMap= 0,
-        LoadMap,
-        ImportMap,
-        CloseMap,
+    // MapCategory
+    AddEmptyMap= 0,
+    LoadMap,
+    ImportMap,
+    CloseMap,
 
-        // Painting
-        penPainting= 0,
-        linePainting,
-        emptyRectanglePainting,
-        filledRectanglePainting,
-        emptyEllipsePainting,
-        filledEllipsePainting,
-        textPainting,
-        handPainting,
+    // Painting
+    penPainting= 0,
+    linePainting,
+    emptyRectanglePainting,
+    filledRectanglePainting,
+    emptyEllipsePainting,
+    filledEllipsePainting,
+    textPainting,
+    handPainting,
 
-        // ChatCategory
-        ChatMessageAction= 0,
-        DiceMessageAction,
-        EmoteMessageAction,
-        UpdateChatAction,
-        DelChatAction,
+    // ChatCategory
+    ChatMessageAction= 0,
+    DiceMessageAction,
+    EmoteMessageAction,
+    UpdateChatAction,
+    DelChatAction,
 
-        // MusicCategory
-        StopSong= 0,
-        PlaySong,
-        PauseSong,
-        NewSong,
-        ChangePositionSong,
+    // MusicCategory
+    StopSong= 0,
+    PlaySong,
+    PauseSong,
+    NewSong,
+    ChangePositionSong,
+    AskForControl,
+    VolumeChanged,
+    ErrorVolumeControl,
 
-        // SetupCategory
-        AddFeatureAction= 2,
+    // SetupCategory
+    AddFeatureAction= 2,
 
-        // SharePreferencesCategory
-        addDiceAlias= 0,
-        moveDiceAlias,
-        removeDiceAlias,
-        addState,
-        moveState,
-        removeState,
+    // SharePreferencesCategory
+    addDiceAlias= 0,
+    moveDiceAlias,
+    removeDiceAlias,
+    addState,
+    moveState,
+    removeState,
 
-        // Vmap
-        addVmap= 0,
-        vmapChanges,
-        loadVmap,
-        closeVmap,
-        AddItem,
-        DelItem,
-        MoveItem,
-        ZValueItem,
-        RotationItem,
-        RectGeometryItem,
-        DelPoint,
-        OpacityItemChanged,
-        LayerItemChanged,
-        GeometryItemChanged,
-        AddPoint,
-        GeometryViewChanged,
-        CharacterStateChanged,
-        CharacterChanged,
-        SetParentItem,
-        MovePoint,
-        VisionChanged,
-        ColorChanged,
+    // Vmap
+    addVmap= 0,
+    vmapChanges,
+    loadVmap,
+    closeVmap,
+    AddItem,
+    DelItem,
+    MoveItem,
+    ZValueItem,
+    RotationItem,
+    RectGeometryItem,
+    DelPoint,
+    OpacityItemChanged,
+    LayerItemChanged,
+    GeometryItemChanged,
+    AddPoint,
+    GeometryViewChanged,
+    CharacterStateChanged,
+    CharacterChanged,
+    SetParentItem,
+    MovePoint,
+    VisionChanged,
+    ColorChanged,
 
-        // mediacategory
-        addMedia= 0,
-        closeMedia,
+    // mediacategory
+    addMedia= 0,
+    closeMedia,
 
-        // SharedNoteCategory
-        updateTextAndPermission= 0,
-        updateText,
-        updatePermissionOneUser,
+    // SharedNoteCategory
+    updateTextAndPermission= 0,
+    updateText,
+    updatePermissionOneUser,
 
-        // WebPage
-        UpdateContent= 0
-    };
+    // WebPage
+    UpdateContent= 0
+};
 } // namespace NetMsg
 /**
  * @brief The NetworkMessage class is pure virtual class to manage network message.

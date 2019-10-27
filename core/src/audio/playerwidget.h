@@ -32,7 +32,7 @@
 
 namespace Ui
 {
-    class AudioWidgetUI;
+class AudioWidgetUI;
 }
 
 /**
@@ -41,6 +41,7 @@ namespace Ui
 class PlayerWidget : public QWidget
 {
     Q_OBJECT
+    Q_PROPERTY(qreal volumeFactor READ volumeFactor WRITE setVolumeFactor NOTIFY volumeFactorChanged)
 public:
     enum PlayingMode
     {
@@ -78,6 +79,10 @@ public:
      * @param str
      */
     void addSongIntoModel(QString str);
+
+    qreal volumeFactor() const;
+    int volume() const;
+
 public slots:
     // ********************** Slots from network *************************** //
     /**
@@ -112,6 +117,9 @@ public slots:
      */
     void errorOccurs(QMediaPlayer::Error);
     void playSelectedSong();
+    void setVolume(int vol);
+    void setControlledVolume(bool b);
+    void setVolumeFactor(qreal factor);
 
 protected:
     /**
@@ -221,6 +229,7 @@ private slots:
      * @brief openStream
      */
     void openStream();
+    void setMediaPlayerVolume(int vol);
 signals:
     /**
      * @brief positionChanged
@@ -229,7 +238,7 @@ signals:
     /**
      * @brief volumeChanged
      */
-    void volumeChanged(int);
+    void volumeChanged(int, int);
     /**
      * @brief askNext
      */
@@ -260,6 +269,7 @@ signals:
      */
     void playerPositionChanged(int, quint64);
     void newPlaylistLoaded(QString path);
+    void volumeFactorChanged();
 
 private:
     QSlider* m_volume;
@@ -293,5 +303,7 @@ private:
 
     Ui::AudioWidgetUI* m_ui;
     bool m_isGM;
+    bool m_controlledVolume= false;
+    qreal m_volumeFactor= 1.0;
 };
 #endif

@@ -297,11 +297,13 @@ void MainWindow::setupUi()
     // Audio Player
     ///////////////////
 #ifndef NULL_PLAYER
-    m_audioPlayer= AudioPlayer::getInstance(this);
+    m_audioPlayer= new AudioPlayer(this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory, m_audioPlayer);
     addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
     m_ui->m_menuSubWindows->insertAction(m_ui->m_audioPlayerAct, m_audioPlayer->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_audioPlayerAct);
+    connect(m_audioPlayer, &AudioPlayer::errorMessage, this,
+            [this](const QString& msg) { m_logController->manageMessage(msg, LogController::Features); });
 #endif
 
     m_preferencesDialog= new PreferencesDialog(this);
@@ -931,60 +933,6 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
     return media;
 }
 
-/*void MainWindow::sendOffAllMaps(Player* player)
-{
-    for(auto& mediaC : m_mediaHash)
-    {
-        if(CleverURI::VMAP == mediaC->getContentType())
-        {
-            // mapi.next();
-            VMapFrame* tmp= dynamic_cast<VMapFrame*>(mediaC);
-            if(nullptr != tmp)
-            {
-                VMap* tempmap= tmp->getMap();
-                NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::addVmap);
-                tempmap->fill(msg);
-                tempmap->sendAllItems(msg);
-                QStringList idList;
-                idList << player->getUuid();
-                msg.setRecipientList(idList, NetworkMessage::OneOrMany);
-                tmp->fill(msg);
-                msg.sendToServer();
-            }
-        }
-        else if(CleverURI::MAP == mediaC->getContentType())
-        {
-            MapFrame* tmp= dynamic_cast<MapFrame*>(mediaC);
-            if(nullptr != tmp)
-            {
-                tmp->getMap()->setHasPermissionMode(m_playerList->everyPlayerHasFeature("MapPermission"));
-                tmp->getMap()->sendMap(tmp->windowTitle(), player->getUuid());
-                tmp->getMap()->sendOffAllCharacters(player->getUuid());
-            }
-        }
-    }
-}
-void MainWindow::sendOffAllImages(Player* player)
-{
-    NetworkMessageWriter message= NetworkMessageWriter(NetMsg::MediaCategory, NetMsg::addMedia);
-    auto const& values= m_mediaHash.values();
-    for(auto& sub : values)
-    {
-        if(sub->getContentType() == CleverURI::PICTURE)
-        {
-            message.uint8(sub->getContentType());
-            Image* img= dynamic_cast<Image*>(sub);
-            if(nullptr != sub)
-            {
-                img->fill(message);
-                QStringList idList;
-                idList << player->getUuid();
-                message.setRecipientList(idList, NetworkMessage::OneOrMany);
-                message.sendToServer();
-            }
-        }
-    }
-}*/
 Map* MainWindow::findMapById(QString idMap)
 {
     MediaContainer* media= m_mediaHash.value(idMap);
@@ -1254,6 +1202,7 @@ void MainWindow::updateUi()
     m_toolBar->updateUi(m_currentConnectionProfile->isGM());
 #ifndef NULL_PLAYER
     m_audioPlayer->updateUi(m_currentConnectionProfile->isGM());
+    m_audioPlayer->setPlayerName(m_currentConnectionProfile->getName());
 #endif
     if(nullptr != m_preferencesDialog)
     {
@@ -1394,6 +1343,8 @@ void MainWindow::readSettings()
 
     updateRecentFileActions();
     updateRecentScenarioAction();
+
+    m_audioPlayer->readSettings();
 
     m_preferencesDialog->initializePostSettings();
     m_chatListWidget->readSettings(settings);

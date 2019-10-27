@@ -21,13 +21,15 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QMimeData>
+#include <QtGlobal>
 #include <chrono>
 
 #include "playerwidget.h"
 
-#include "network/networkmessage.h"
 #include "ui_audiowidget.h"
 #define FACTOR_WAIT 4
+#define MIN_VOLUME 0
+#define MAX_VOLUME 100
 
 QString getExistingFile(const QString& rootDir, const QString& pathOnGM)
 {
@@ -97,14 +99,19 @@ void PlayerWidget::setDuration(qint64 duration)
     m_ui->m_timeSlider->setMaximum(duration);
 }
 
+int PlayerWidget::volume() const
+{
+    return m_ui->m_volumeSlider->value();
+}
+
 void PlayerWidget::positionChanged(qint64 time)
 {
     QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
 
     m_time= static_cast<quint64>(time);
     if((m_isGM)
-        && ((static_cast<quint64>(time) > m_time + (FACTOR_WAIT * m_player.notifyInterval()))
-               || (static_cast<quint64>(time) < m_time)))
+       && ((static_cast<quint64>(time) > m_time + (FACTOR_WAIT * m_player.notifyInterval()))
+           || (static_cast<quint64>(time) < m_time)))
     {
         emit playerPositionChanged(m_id, m_time);
     }
@@ -169,7 +176,7 @@ void PlayerWidget::findNext()
 void PlayerWidget::setupUi()
 {
     m_ui->m_timeSlider->setMinimum(0);
-    m_ui->m_volumeSlider->setRange(0, 100);
+    m_ui->m_volumeSlider->setRange(MIN_VOLUME, MAX_VOLUME);
     // **************** CREATE ACTIONS ********************************
     m_playAct= new QAction(style()->standardIcon(QStyle::SP_MediaPlay), tr("Play"), this);
     m_pauseAct= new QAction(style()->standardIcon(QStyle::SP_MediaPause), tr("Pause"), this);
@@ -263,21 +270,22 @@ void PlayerWidget::setupUi()
     updateIcon();
     connect(&m_player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
     connect(&m_player, SIGNAL(durationChanged(qint64)), this, SLOT(setDuration(qint64)));
-    // connect(m_playAct,SIGNAL(triggered()),&m_player,SLOT(play()));
     connect(m_playAct, SIGNAL(triggered()), this, SLOT(playSelectedSong()));
 
     connect(m_stopAct, SIGNAL(triggered()), &m_player, SLOT(stop()));
     connect(m_pauseAct, SIGNAL(triggered()), &m_player, SLOT(pause()));
     connect(m_ui->m_timeSlider, SIGNAL(sliderMoved(int)), this, SLOT(setTime(int)));
-    connect(m_ui->m_volumeSlider, SIGNAL(valueChanged(int)), &m_player, SLOT(setVolume(int)));
-    connect(m_ui->m_volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(saveVolumeValue(int)));
+    connect(m_ui->m_volumeSlider, &QSlider::valueChanged, &m_player, &QMediaPlayer::setVolume);
+    connect(m_ui->m_volumeSlider, &QSlider::valueChanged, this, &PlayerWidget::saveVolumeValue);
+    connect(m_ui->m_volumeSlider, &QSlider::valueChanged, this,
+            [this](int volume) { emit volumeChanged(m_id, volume); });
     connect(&m_player, SIGNAL(currentMediaChanged(QMediaContent)), this, SLOT(sourceChanged(QMediaContent)));
     connect(&m_player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(playerStatusChanged(QMediaPlayer::State)));
     connect(m_volumeMutedAct, SIGNAL(triggered(bool)), &m_player, SLOT(setMuted(bool)));
     connect(m_volumeMutedAct, SIGNAL(triggered(bool)), this, SLOT(updateIcon()));
     connect(m_changeDirectoryAct, SIGNAL(triggered()), this, SLOT(changeDirectory()));
     connect(&m_player, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)), this,
-        SLOT(mediaStatusChanged(QMediaPlayer::MediaStatus)));
+            SLOT(mediaStatusChanged(QMediaPlayer::MediaStatus)));
 
     connect(&m_player, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(errorOccurs(QMediaPlayer::Error)));
     connect(m_ui->m_label, SIGNAL(textChanged(QString)), this, SLOT(labelTextChanged()));
@@ -295,11 +303,25 @@ void PlayerWidget::startMediaByModelIndex(QModelIndex p) // double click
     m_model->setCurrentSong(p);
     //  m_mediaObject->play();
 }
+void PlayerWidget::setVolumeFactor(qreal factor)
+{
+    if(qFuzzyCompare(m_volumeFactor, factor))
+        return;
 
+    m_volumeFactor= factor;
+    setMediaPlayerVolume(m_ui->m_volumeSlider->value());
+}
 void PlayerWidget::removeFile()
 {
     QModelIndexList list= m_ui->m_songList->selectionModel()->selectedIndexes();
     m_model->removeSong(list);
+}
+void PlayerWidget::setControlledVolume(bool b)
+{
+    m_ui->m_volumeSlider->setEnabled(!b);
+    if(b)
+        m_ui->m_volumeMutedButton->setChecked(false);
+    m_ui->m_volumeMutedButton->setEnabled(!b);
 }
 void PlayerWidget::currentChanged(const QModelIndex& current, const QModelIndex&)
 {
@@ -308,12 +330,28 @@ void PlayerWidget::currentChanged(const QModelIndex& current, const QModelIndex&
         startMedia(m_model->getMediaByModelIndex(current), current.data().toString(), false);
     }
 }
+void PlayerWidget::setMediaPlayerVolume(int vol)
+{
+    auto val= vol * m_volumeFactor;
+
+    m_player.setVolume(qBound(MIN_VOLUME, static_cast<int>(val), MAX_VOLUME));
+}
+
+qreal PlayerWidget::volumeFactor() const
+{
+    return m_volumeFactor;
+}
+void PlayerWidget::setVolume(int vol)
+{
+    setMediaPlayerVolume(vol);
+    m_ui->m_volumeSlider->setValue(vol);
+}
 void PlayerWidget::playSelectedSong()
 {
     QModelIndex current= m_ui->m_songList->currentIndex();
     if((current.isValid())
-        && ((m_player.mediaStatus() == QMediaPlayer::NoMedia) || (m_player.mediaStatus() == QMediaPlayer::EndOfMedia)
-               || (m_player.state() == QMediaPlayer::StoppedState)))
+       && ((m_player.mediaStatus() == QMediaPlayer::NoMedia) || (m_player.mediaStatus() == QMediaPlayer::EndOfMedia)
+           || (m_player.state() == QMediaPlayer::StoppedState)))
     {
         startMedia(m_model->getMediaByModelIndex(current), current.data().toString());
     }
@@ -331,7 +369,8 @@ void PlayerWidget::addSongIntoModel(QString str)
 
 void PlayerWidget::addFiles()
 {
-    QStringList fileList= QFileDialog::getOpenFileNames(this, tr("Add song"),
+    QStringList fileList= QFileDialog::getOpenFileNames(
+        this, tr("Add song"),
         m_preferences->value(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id), QDir::homePath()).toString(),
         tr("Audio files (%1)").arg(m_audioFileFilter));
     if(fileList.isEmpty())
@@ -343,9 +382,10 @@ bool PlayerWidget::askToDeleteAll()
     if(m_model->rowCount() != 0)
     {
         if(QMessageBox::Ok
-            == QMessageBox::warning(this, tr("Attention!"),
-                   tr("You are about to load an new playlist. All previously load file will be dropped."),
-                   QMessageBox::Ok, QMessageBox::Cancel))
+           == QMessageBox::warning(
+                  this, tr("Attention!"),
+                  tr("You are about to load an new playlist. All previously load file will be dropped."),
+                  QMessageBox::Ok, QMessageBox::Cancel))
         {
             m_model->removeAll();
             return true;
@@ -361,7 +401,8 @@ void PlayerWidget::openPlayList()
 {
     if(askToDeleteAll())
     {
-        QString filename= QFileDialog::getOpenFileName(this, tr("Open Play List"),
+        QString filename= QFileDialog::getOpenFileName(
+            this, tr("Open Play List"),
             m_preferences->value(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id), QDir::homePath()).toString(),
             tr("PlayList (*.m3u)"));
         if(filename.isEmpty())
@@ -523,7 +564,8 @@ void PlayerWidget::setSourceSong(QString file)
 }
 void PlayerWidget::changeDirectory()
 {
-    QString dir= QFileDialog::getExistingDirectory(this, tr("Load Directory"),
+    QString dir= QFileDialog::getExistingDirectory(
+        this, tr("Load Directory"),
         m_preferences->value(QString("MusicDirectoryPlayer_%1").arg(m_id), QDir::homePath()).toString());
     if(!dir.isEmpty())
     {
@@ -653,8 +695,9 @@ void PlayerWidget::loadPlayList()
 }
 void PlayerWidget::savePlaylist()
 {
-    QString filename= QFileDialog::getSaveFileName(this, tr("Save Play List"),
-        m_preferences->value("MusicDirectoryGM", QDir::homePath()).toString(), tr("PlayList (*.m3u)"));
+    QString filename= QFileDialog::getSaveFileName(
+        this, tr("Save Play List"), m_preferences->value("MusicDirectoryGM", QDir::homePath()).toString(),
+        tr("PlayList (*.m3u)"));
     if(filename.isEmpty())
         return;
 

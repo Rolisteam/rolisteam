@@ -28,6 +28,7 @@
 #define AUDIO_PLAYER_H
 
 #include <QAction>
+#include <QCheckBox>
 #include <QDockWidget>
 #include <QEvent>
 #include <QLCDNumber>
@@ -55,11 +56,12 @@ class AudioPlayer : public QDockWidget, public NetWorkReceiver
     Q_OBJECT
 
 public:
-    ~AudioPlayer();
     /**
-     * @brief return a pointer to the unique audio player. Sigleton pattern
+     * @brief private constructor
      */
-    static AudioPlayer* getInstance(QWidget* parent= 0);
+    AudioPlayer(QWidget* parent= nullptr);
+
+    ~AudioPlayer();
     /**
      * @brief updateUi
      */
@@ -82,6 +84,11 @@ public:
      */
     virtual void openSong(QString str);
 
+    void readSettings();
+
+signals:
+    void errorMessage(const QString& str);
+
 public slots:
     /**
      * @brief onePlayerHasStopped
@@ -103,6 +110,14 @@ public slots:
      * @brief onePlayerHasChangedPosition
      */
     void onePlayerHasChangedPosition(int, quint64);
+    /**
+     * @brief volumeChangedOnOneAudioPlayer
+     * @param id
+     * @param volume
+     */
+    void volumeChangedOnOneAudioPlayer(int id, int volume);
+    void setPlayerName(const QString& name);
+    void askForControl();
 
 protected:
     /**
@@ -116,41 +131,40 @@ private slots:
      * @brief showMusicPlayer
      */
     void showMusicPlayer(bool);
+    void volumeControlError();
 
 private:
-    /**
-     * @brief private constructor
-     */
-    AudioPlayer(QWidget* parent= 0);
     /**
      * @brief playerWidget
      */
     void playerWidget();
     /**
-     * @brief m_singleton
+     * @brief set the UI
      */
-    static AudioPlayer* m_singleton; //!< @brief static pointer to the unique instance of this audioplayer
-                                     /**
-                                      * @brief set the UI
-                                      */
     void setupUi();
 
     // ################ MEMBERS ########################## //
 private:
     QWidget* m_mainWidget; //!< @brief brings together all subwidget
     QVBoxLayout* m_mainLayout;
+    QString m_playerName;
+
+    QCheckBox* m_volumeControlled= nullptr;
+    QCheckBox* m_gmControlVolume= nullptr;
+    QSlider* m_globalVolume= nullptr;
 
     PlayerWidget* m_mainPlayer;
     PlayerWidget* m_secondPlayer;
     PlayerWidget* m_thirdPlayer;
 
-    QList<PlayerWidget*> m_players;
-    QList<QAction*> m_playerActionsList;
+    QVector<PlayerWidget*> m_players;
+    QVector<QAction*> m_playerActionsList;
 
     PreferencesManager* m_preferences;
     QMutex m_mutex;
     qint64 m_time; //!< @brief current time
     bool m_isGM;
+    bool m_volumeControlable= false;
 };
 
 #endif

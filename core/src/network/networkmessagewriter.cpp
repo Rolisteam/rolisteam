@@ -19,14 +19,10 @@
  *************************************************************************/
 
 #include "network/networkmessagewriter.h"
-//#ifndef UNIT_TEST
-//#include "mainwindow.h"
-//#endif
-//#include "network/networkmanager.h"
 #include <QDebug>
 
-NetworkMessageWriter::NetworkMessageWriter(
-    NetMsg::Category category, NetMsg::Action action, NetworkMessage::RecipientMode mode, int size)
+NetworkMessageWriter::NetworkMessageWriter(NetMsg::Category category, NetMsg::Action action,
+                                           NetworkMessage::RecipientMode mode, int size)
     : NetworkMessage(nullptr), m_mode(mode)
 {
     int headerSize= sizeof(NetworkMessageHeader);
