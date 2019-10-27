@@ -4,7 +4,7 @@
 #include "common/controller/logcontroller.h"
 #include <QAbstractListModel>
 #include <QWidget>
-#include <preferencesmanager.h>
+#include "preferences/preferencesmanager.h"
 
 namespace Ui
 {
