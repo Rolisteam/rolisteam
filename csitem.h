@@ -21,8 +21,12 @@
 #define CSITEM_H
 
 #include "charactersheetitem.h"
-#include <QGraphicsObject>
+#include <QColor>
+#include <QPointF>
+#include <QRectF>
+#include <QString>
 
+class QGraphicsItem;
 /**
  * @brief The CSItem class is managing some item values for RCSE.
  */

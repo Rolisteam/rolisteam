@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "charactersheetbutton.h"
+#include <QGraphicsItem>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QMouseEvent>
@@ -169,7 +170,7 @@ void CharacterSheetButton::save(QJsonObject& json, bool exp)
     json["page"]= m_page;
 }
 
-void CharacterSheetButton::load(QJsonObject& json, QList<QGraphicsScene*> scene)
+void CharacterSheetButton::load(const QJsonObject& json, QList<QGraphicsScene*> scene)
 {
     m_id= json["id"].toString();
     m_value= json["value"].toString();

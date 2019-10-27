@@ -23,6 +23,7 @@
 #define FIELD_H
 
 #include <QFont>
+#include <QGraphicsObject>
 #include <QMouseEvent>
 
 #include "charactersheetitem.h"
