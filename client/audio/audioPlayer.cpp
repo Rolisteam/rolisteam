@@ -96,9 +96,9 @@ void AudioPlayer::setupUi()
         connect(playerWidget, SIGNAL(newSongPlayed(int, QString)), this, SLOT(onePlayerHasNewSong(int, QString)));
         connect(playerWidget, SIGNAL(playerIsPaused(int)), this, SLOT(onePlayerIsPaused(int)));
         connect(playerWidget, SIGNAL(playerStopped(int)), this, SLOT(onePlayerHasStopped(int)));
-        connect(playerWidget, SIGNAL(playerIsPlaying(int, quint64)), this, SLOT(onePlayerPlays(int, quint64)));
-        connect(playerWidget, SIGNAL(playerPositionChanged(int, quint64)), this,
-            SLOT(onePlayerHasChangedPosition(int, quint64)));
+        connect(playerWidget, SIGNAL(playerIsPlaying(int, qint64)), this, SLOT(onePlayerPlays(int, qint64)));
+        connect(playerWidget, SIGNAL(playerPositionChanged(int, qint64)), this,
+            SLOT(onePlayerHasChangedPosition(int, qint64)));
 
         m_players.append(playerWidget);
         QAction* act= new QAction(tr("Show/hide Player %1").arg(i), this);
@@ -164,13 +164,13 @@ void AudioPlayer::onePlayerIsPaused(int id)
     }
 }
 
-void AudioPlayer::onePlayerPlays(int id, quint64 pos)
+void AudioPlayer::onePlayerPlays(int id, qint64 pos)
 {
     if(m_isGM)
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::PlaySong);
         message.uint8(static_cast<quint8>(id));
-        message.uint64(pos);
+        message.int64(pos);
         message.sendToServer();
     }
 }
@@ -186,13 +186,13 @@ void AudioPlayer::onePlayerHasNewSong(int id, QString str)
     }
 }
 
-void AudioPlayer::onePlayerHasChangedPosition(int id, quint64 pos)
+void AudioPlayer::onePlayerHasChangedPosition(int id, qint64 pos)
 {
     if(m_isGM)
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::ChangePositionSong);
         message.uint8(static_cast<quint8>(id));
-        message.uint64(pos);
+        message.int64(pos);
         message.sendToServer();
     }
 }
@@ -207,14 +207,14 @@ NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
     switch(action)
     {
     case NetMsg::PlaySong:
-        m_players[id]->playSong(msg->uint64());
+        m_players[id]->playSong(msg->int64());
         break;
     case NetMsg::PauseSong:
         m_players[id]->pause();
         break;
     case NetMsg::ChangePositionSong:
     {
-        quint64 pos= msg->uint64();
+        qint64 pos= msg->int64();
         m_players[id]->setPositionAt(pos);
     }
     break;

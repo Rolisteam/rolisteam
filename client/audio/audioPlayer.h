@@ -94,7 +94,7 @@ public slots:
     /**
      * @brief onePlayerPlays
      */
-    void onePlayerPlays(int, quint64);
+    void onePlayerPlays(int, qint64);
     /**
      * @brief onePlayerHasNewSong
      */
@@ -102,7 +102,7 @@ public slots:
     /**
      * @brief onePlayerHasChangedPosition
      */
-    void onePlayerHasChangedPosition(int, quint64);
+    void onePlayerHasChangedPosition(int, qint64);
 
 protected:
     /**
