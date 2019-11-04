@@ -162,6 +162,7 @@ void PlayerWidget::findNext()
     break;
     case LOOP:
         m_player.play();
+        emit playerIsPlaying(m_id, 0);
         break;
     }
 }
