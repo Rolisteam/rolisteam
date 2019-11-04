@@ -87,8 +87,6 @@ void AudioPlayer::setupUi()
     m_mainLayout->setMargin(0);
 
     m_gmControlVolume= new QCheckBox(tr("Control player's volumes"));
-    qDebug() << "audio player gm control volume"
-             << m_preferences->value(QStringLiteral("audio_player_gm_control_volume"), false).toBool();
 
     connect(m_gmControlVolume, &QCheckBox::clicked, this, [this](bool status) {
         m_preferences->registerValue(QStringLiteral("audio_player_gm_control_volume"), status);
