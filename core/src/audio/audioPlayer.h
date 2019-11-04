@@ -84,7 +84,6 @@ public:
      */
     virtual void openSong(QString str);
 
-
     void readSettings();
 
 signals:
@@ -148,16 +147,7 @@ private:
 private:
     QWidget* m_mainWidget; //!< @brief brings together all subwidget
     QVBoxLayout* m_mainLayout;
-<<<<<<< HEAD
     QString m_playerName;
-
-    QCheckBox* m_volumeControlled= nullptr;
-    QCheckBox* m_gmControlVolume= nullptr;
-    QSlider* m_globalVolume= nullptr;
-||||||| merged common ancestors
-=======
-    QString m_playerName;
->>>>>>> AudioPlayer: setPlayername
 
     QCheckBox* m_volumeControlled= nullptr;
     QCheckBox* m_gmControlVolume= nullptr;
