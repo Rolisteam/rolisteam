@@ -341,7 +341,7 @@ public:
     QHash<VisualItem::Properties, QVariant>* getPropertiesHash() const;
     void setPropertiesHash(QHash<VisualItem::Properties, QVariant>* propertiesHash);
 
-    void addImageItem(QImage img);
+    void addImageItem(QString imgPath);
     void addCommand(QUndoCommand* cmd);
 
     int getItemCount();
