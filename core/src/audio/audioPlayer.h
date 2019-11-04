@@ -87,6 +87,9 @@ public:
 
     void readSettings();
 
+signals:
+    void errorMessage(const QString& str);
+
 public slots:
     /**
      * @brief onePlayerHasStopped
@@ -108,7 +111,14 @@ public slots:
      * @brief onePlayerHasChangedPosition
      */
     void onePlayerHasChangedPosition(int, quint64);
+    /**
+     * @brief volumeChangedOnOneAudioPlayer
+     * @param id
+     * @param volume
+     */
+    void volumeChangedOnOneAudioPlayer(int id, int volume);
     void setPlayerName(const QString& name);
+    void askForControl();
 
 protected:
     /**
@@ -148,6 +158,10 @@ private:
 =======
     QString m_playerName;
 >>>>>>> AudioPlayer: setPlayername
+
+    QCheckBox* m_volumeControlled= nullptr;
+    QCheckBox* m_gmControlVolume= nullptr;
+    QSlider* m_globalVolume= nullptr;
 
     PlayerWidget* m_mainPlayer;
     PlayerWidget* m_secondPlayer;
