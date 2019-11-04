@@ -84,7 +84,7 @@ public slots:
      * @brief playSong
      * @param pos
      */
-    void playSong(quint64 pos);
+    void playSong(qint64 pos);
     /**
      * @brief stop
      */
@@ -97,7 +97,7 @@ public slots:
      * @brief setPositionAt
      * @param pos
      */
-    void setPositionAt(quint64 pos);
+    void setPositionAt(qint64 pos);
     /**
      * @brief setSourceSong
      * @param file
@@ -250,7 +250,7 @@ signals:
     /**
      * @brief playerIsPlaying
      */
-    void playerIsPlaying(int, quint64);
+    void playerIsPlaying(int, qint64);
     /**
      * @brief newSongPlayed
      */
@@ -258,7 +258,7 @@ signals:
     /**
      * @brief playerPositionChanged
      */
-    void playerPositionChanged(int, quint64);
+    void playerPositionChanged(int, qint64);
     void newPlaylistLoaded(QString path);
 
 private:
@@ -288,7 +288,7 @@ private:
     QString m_audioFileFilter;
 
     int m_id;
-    quint64 m_time;
+    qint64 m_time;
     std::mt19937 m_rng;
 
     Ui::AudioWidgetUI* m_ui;

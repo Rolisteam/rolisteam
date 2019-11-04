@@ -101,13 +101,13 @@ void PlayerWidget::positionChanged(qint64 time)
 {
     QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
 
-    m_time= static_cast<quint64>(time);
-    if((m_isGM)
-        && ((static_cast<quint64>(time) > m_time + (FACTOR_WAIT * m_player.notifyInterval()))
-               || (static_cast<quint64>(time) < m_time)))
+    if(m_isGM
+        && ((time > m_time + (FACTOR_WAIT * m_player.notifyInterval()))
+               || (time < m_time)))
     {
         emit playerPositionChanged(m_id, m_time);
     }
+    m_time= time;
     m_ui->m_timeSlider->setValue(static_cast<int>(time));
     m_ui->m_timerDisplay->display(displayTime.toString("mm:ss"));
 }
@@ -263,7 +263,6 @@ void PlayerWidget::setupUi()
     updateIcon();
     connect(&m_player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
     connect(&m_player, SIGNAL(durationChanged(qint64)), this, SLOT(setDuration(qint64)));
-    // connect(m_playAct,SIGNAL(triggered()),&m_player,SLOT(play()));
     connect(m_playAct, SIGNAL(triggered()), this, SLOT(playSelectedSong()));
 
     connect(m_stopAct, SIGNAL(triggered()), &m_player, SLOT(stop()));
@@ -472,7 +471,7 @@ void PlayerWidget::playerStatusChanged(QMediaPlayer::State newState)
         emit playerStopped(m_id);
         break;
     case QMediaPlayer::PlayingState:
-        emit playerIsPlaying(m_id, m_player.position());
+        emit playerIsPlaying(m_id, static_cast<qint64>(m_player.position()));
         break;
     case QMediaPlayer::PausedState:
         emit playerIsPaused(m_id);
@@ -487,7 +486,7 @@ void PlayerWidget::removeAll()
 {
     m_model->removeAll();
 }
-void PlayerWidget::playSong(quint64 pos)
+void PlayerWidget::playSong(qint64 pos)
 {
     setPositionAt(pos);
     m_player.play();
@@ -503,7 +502,7 @@ void PlayerWidget::pause()
     m_player.pause();
 }
 
-void PlayerWidget::setPositionAt(quint64 pos)
+void PlayerWidget::setPositionAt(qint64 pos)
 {
     m_player.setPosition(pos);
 }
