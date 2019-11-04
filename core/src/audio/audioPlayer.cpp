@@ -155,10 +155,6 @@ void AudioPlayer::readSettings()
         m_players[i]->setVisible(action->isChecked());
         ++i;
     }
-    m_volumeControlled->setChecked(
-        m_preferences->value(QStringLiteral("audio_player_remote_volume_control"), false).toBool());
-    m_gmControlVolume->setChecked(
-        m_preferences->value(QStringLiteral("audio_player_gm_control_volume"), false).toBool());
 }
 
 void AudioPlayer::showMusicPlayer(bool status)

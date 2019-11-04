@@ -84,10 +84,8 @@ public:
      */
     virtual void openSong(QString str);
 
-    void readSettings();
 
-signals:
-    void errorMessage(const QString& str);
+    void readSettings();
 
 public slots:
     /**
