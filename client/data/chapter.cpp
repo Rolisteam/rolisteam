@@ -134,6 +134,9 @@ bool Chapter::contains(ResourcesNode* node)
     {
         for(auto& child : m_children)
         {
+            if(nullptr == child)
+                continue;
+
             if(child->contains(node))
             {
                 return true;

@@ -367,7 +367,7 @@ protected slots:
     void closeMediaContainer(QString id, bool redo);
     void initializedClientManager();
     void cleanUpData();
-    MediaContainer* newDocument(CleverURI::ContentType type);
+    MediaContainer* newDocument(CleverURI::ContentType type, bool addMdi= true);
 private slots:
     void showSupportPage();
     /**

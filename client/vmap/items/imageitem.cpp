@@ -287,16 +287,23 @@ void ImageItem::dataToMedia()
         m_movie= nullptr;
         m_image.loadFromData(m_data);
 
-        if(m_image.isNull())
-            return;
-        m_rect= m_image.rect();
-        if(m_image.width() != 0)
-        {
-            m_ratio= m_image.height() / m_image.width();
-        }
+        initImage();
     }
 }
 
+void ImageItem::initImage()
+{
+    if(m_image.isNull())
+        return;
+    m_rect= m_image.rect();
+    if(m_image.width() != 0)
+    {
+        m_ratio= m_image.height() / m_image.width();
+    }
+    QBuffer buffer;
+    m_image.save(&buffer, "png");
+    m_data= buffer.data();
+}
 QImage ImageItem::getImage() const
 {
     return m_image;
@@ -305,6 +312,7 @@ QImage ImageItem::getImage() const
 void ImageItem::setImage(const QImage& image)
 {
     m_image= image;
+    initImage();
 }
 void ImageItem::setModifiers(Qt::KeyboardModifiers modifiers)
 {

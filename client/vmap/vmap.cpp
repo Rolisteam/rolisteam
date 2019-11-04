@@ -356,14 +356,25 @@ void VMap::updateItem()
         break;
     }
 }
-void VMap::addImageItem(QString imgPath)
+
+void VMap::addImageItem(const QString& imgPath)
 {
     ImageItem* led= new ImageItem();
     led->setImageUri(imgPath);
     addNewItem(new AddVmapItemCommand(led, true, this), true);
-    led->setPos(QPointF(0,0));
+    led->setPos(QPointF(0, 0));
     sendOffItem(led);
 }
+
+void VMap::addImageItem(const QImage& img)
+{
+    ImageItem* led= new ImageItem();
+    led->setImage(img);
+    addNewItem(new AddVmapItemCommand(led, true, this), true);
+    led->setPos(QPointF(0, 0));
+    sendOffItem(led);
+}
+
 void VMap::setCurrentItemOpacity(qreal a)
 {
     QList<QGraphicsItem*> selection= selectedItems();

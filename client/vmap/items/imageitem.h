@@ -95,6 +95,7 @@ protected:
 private:
     void loadImage();
     void dataToMedia();
+    void initImage();
 
 private:
     bool m_keepAspect; ///< flag to keep the aspect.

@@ -856,7 +856,7 @@ void MainWindow::updateWorkspace()
     }
 }
 
-MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
+MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi)
 {
     MediaContainer* media= nullptr;
     auto uri= new CleverURI(tr("Untitled"), "", type);
@@ -923,7 +923,7 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type)
     default:
         break;
     }
-    if(nullptr != media)
+    if(nullptr != media && addMdi)
     {
         media->setCleverUri(uri);
         addMediaToMdiArea(media);
@@ -2825,7 +2825,7 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
     MediaContainer* destination= nullptr;
     if(type == CleverURI::VMAP)
     {
-        auto media= newDocument(type);
+        auto media= newDocument(type, false);
         auto vmapFrame= dynamic_cast<VMapFrame*>(media);
         if(vmapFrame)
         {
