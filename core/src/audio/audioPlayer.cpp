@@ -135,6 +135,8 @@ void AudioPlayer::setupUi()
 
     connect(m_volumeControlled, &QCheckBox::toggled, m_globalVolume, &QSlider::setEnabled);
     connect(m_volumeControlled, &QCheckBox::toggled, this, [this](bool checked) {
+        if(m_isGM)
+            return;
         m_volumeControlable= checked;
         std::for_each(m_players.begin(), m_players.end(),
                       [checked](PlayerWidget* player) { player->setControlledVolume(checked); });

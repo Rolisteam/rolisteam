@@ -484,6 +484,9 @@ void PlayerWidget::updateUi(bool isGM)
     m_ui->m_changeDirectory->setVisible(!isGM);
     m_ui->m_timerDisplay->setVisible(isGM);
     m_ui->m_volumeSlider->setValue(m_preferences->value(QString("volume_player_%1").arg(m_id), 50).toInt());
+
+    if(isGM)
+        setControlledVolume(false);
 }
 
 void PlayerWidget::updateIcon()
