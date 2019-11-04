@@ -108,14 +108,7 @@ public slots:
      * @brief onePlayerHasChangedPosition
      */
     void onePlayerHasChangedPosition(int, quint64);
-    /**
-     * @brief volumeChangedOnOneAudioPlayer
-     * @param id
-     * @param volume
-     */
-    void volumeChangedOnOneAudioPlayer(int id, int volume);
     void setPlayerName(const QString& name);
-    void askForControl();
 
 protected:
     /**
@@ -145,11 +138,16 @@ private:
 private:
     QWidget* m_mainWidget; //!< @brief brings together all subwidget
     QVBoxLayout* m_mainLayout;
+<<<<<<< HEAD
     QString m_playerName;
 
     QCheckBox* m_volumeControlled= nullptr;
     QCheckBox* m_gmControlVolume= nullptr;
     QSlider* m_globalVolume= nullptr;
+||||||| merged common ancestors
+=======
+    QString m_playerName;
+>>>>>>> AudioPlayer: setPlayername
 
     PlayerWidget* m_mainPlayer;
     PlayerWidget* m_secondPlayer;

@@ -42,8 +42,9 @@ AudioPlayer::AudioPlayer(QWidget* parent) : QDockWidget(parent) //,m_currentSour
     setWidget(m_mainWidget);
 }
 
+void AudioPlayer::setPlayerName(const QString& name)
 {
-
+    m_playerName= name;
 }
 
 void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
