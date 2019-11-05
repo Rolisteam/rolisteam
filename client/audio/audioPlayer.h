@@ -59,7 +59,7 @@ public:
     /**
      * @brief return a pointer to the unique audio player. Sigleton pattern
      */
-    static AudioPlayer* getInstance(QWidget* parent= 0);
+    static AudioPlayer* getInstance(QWidget* parent= nullptr);
     /**
      * @brief updateUi
      */
@@ -81,6 +81,8 @@ public:
      * @param str
      */
     virtual void openSong(QString str);
+
+    void readSettings();
 
 public slots:
     /**

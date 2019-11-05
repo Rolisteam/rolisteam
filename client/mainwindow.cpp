@@ -1398,6 +1398,8 @@ void MainWindow::readSettings()
     m_preferencesDialog->initializePostSettings();
     m_chatListWidget->readSettings(settings);
 
+    m_audioPlayer->readSettings();
+
     createPostSettings();
 }
 void MainWindow::writeSettings()

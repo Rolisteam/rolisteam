@@ -98,7 +98,7 @@ void AudioPlayer::setupUi()
         connect(playerWidget, SIGNAL(playerStopped(int)), this, SLOT(onePlayerHasStopped(int)));
         connect(playerWidget, SIGNAL(playerIsPlaying(int, qint64)), this, SLOT(onePlayerPlays(int, qint64)));
         connect(playerWidget, SIGNAL(playerPositionChanged(int, qint64)), this,
-            SLOT(onePlayerHasChangedPosition(int, qint64)));
+                SLOT(onePlayerHasChangedPosition(int, qint64)));
 
         m_players.append(playerWidget);
         QAction* act= new QAction(tr("Show/hide Player %1").arg(i), this);
@@ -125,6 +125,16 @@ void AudioPlayer::showMusicPlayer(bool status)
             tmp->setVisible(status);
             m_preferences->registerValue(QString("music_player_%1_status").arg(i), status);
         }
+    }
+}
+void AudioPlayer::readSettings()
+{
+    int i= 0;
+    for(auto& action : m_playerActionsList)
+    {
+        action->setChecked(m_preferences->value(QString("music_player_%1_status").arg(i), true).toBool());
+        m_players[i]->setVisible(action->isChecked());
+        ++i;
     }
 }
 void AudioPlayer::updateUi(bool isGM)
