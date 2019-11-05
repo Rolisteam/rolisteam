@@ -2,9 +2,11 @@
 #define LOGPANEL_H
 
 #include "common/controller/logcontroller.h"
+#include "preferences/preferencesmanager.h"
 #include <QAbstractListModel>
 #include <QWidget>
 #include "preferences/preferencesmanager.h"
+#include <preferencesmanager.h>
 
 namespace Ui
 {
