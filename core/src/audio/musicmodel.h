@@ -85,7 +85,7 @@ public:
      * @brief getMediaByModelIndex
      * @return
      */
-    QMediaContent* getMediaByModelIndex(const QModelIndex&);
+    QMediaContent* getMediaByModelIndex(const QModelIndex&) const;
     /**
      * @brief removeAll
      */

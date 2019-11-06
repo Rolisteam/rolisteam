@@ -294,6 +294,11 @@ void PlayerWidget::startMediaByModelIndex(QModelIndex p) // double click
     //  m_mediaObject->play();
 }
 
+const MusicModel* PlayerWidget::model() const
+{
+    return m_model;
+}
+
 void PlayerWidget::removeFile()
 {
     QModelIndexList list= m_ui->m_songList->selectionModel()->selectedIndexes();
@@ -342,10 +347,9 @@ bool PlayerWidget::askToDeleteAll()
     if(m_model->rowCount() != 0)
     {
         if(QMessageBox::Ok
-           == QMessageBox::warning(
-               this, tr("Attention!"),
-               tr("You are about to load an new playlist. All previously load file will be dropped."), QMessageBox::Ok,
-               QMessageBox::Cancel))
+            == QMessageBox::warning(this, tr("Attention!"),
+                   tr("You are about to load an new playlist. All previously load file will be dropped."),
+                   QMessageBox::Ok, QMessageBox::Cancel))
         {
             m_model->removeAll();
             return true;

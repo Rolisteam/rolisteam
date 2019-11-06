@@ -138,7 +138,7 @@ void MusicModel::insertSong(int i, QString str)
     m_data.insert(i, new QMediaContent(tmpUrl.isLocalFile() ? QUrl::fromLocalFile(str) : tmpUrl));
     endInsertRows();
 }
-QMediaContent* MusicModel::getMediaByModelIndex(const QModelIndex& index)
+QMediaContent* MusicModel::getMediaByModelIndex(const QModelIndex& index) const
 {
     return m_data.at(index.row());
 }

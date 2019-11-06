@@ -32,7 +32,7 @@
 
 namespace Ui
 {
-    class AudioWidgetUI;
+class AudioWidgetUI;
 }
 
 /**
@@ -78,6 +78,8 @@ public:
      * @param str
      */
     void addSongIntoModel(QString str);
+
+    const MusicModel* model() const;
 public slots:
     // ********************** Slots from network *************************** //
     /**

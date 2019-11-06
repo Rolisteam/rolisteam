@@ -1,4 +1,4 @@
-[submodule "client/diceparser"]
+[submodule "core/src/diceparser"]
 	path = core/src/diceparser
 	url = https://invent.kde.org/rolisteam/rolisteam-diceparser.git
 	pushURL = git@invent.kde.org:rolisteam/rolisteam-diceparser.git
