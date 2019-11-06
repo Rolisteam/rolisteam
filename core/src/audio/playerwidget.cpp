@@ -101,9 +101,7 @@ void PlayerWidget::positionChanged(qint64 time)
 {
     QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
 
-    if(m_isGM
-        && ((time > m_time + (FACTOR_WAIT * m_player.notifyInterval()))
-               || (time < m_time)))
+    if(m_isGM && ((time > m_time + (FACTOR_WAIT * m_player.notifyInterval())) || (time < m_time)))
     {
         emit playerPositionChanged(m_id, m_time);
     }
@@ -277,7 +275,7 @@ void PlayerWidget::setupUi()
     connect(m_volumeMutedAct, SIGNAL(triggered(bool)), this, SLOT(updateIcon()));
     connect(m_changeDirectoryAct, SIGNAL(triggered()), this, SLOT(changeDirectory()));
     connect(&m_player, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)), this,
-        SLOT(mediaStatusChanged(QMediaPlayer::MediaStatus)));
+            SLOT(mediaStatusChanged(QMediaPlayer::MediaStatus)));
 
     connect(&m_player, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(errorOccurs(QMediaPlayer::Error)));
     connect(m_ui->m_label, SIGNAL(textChanged(QString)), this, SLOT(labelTextChanged()));
@@ -296,6 +294,11 @@ void PlayerWidget::startMediaByModelIndex(QModelIndex p) // double click
     //  m_mediaObject->play();
 }
 
+const MusicModel* PlayerWidget::model() const
+{
+    return m_model;
+}
+
 void PlayerWidget::removeFile()
 {
     QModelIndexList list= m_ui->m_songList->selectionModel()->selectedIndexes();
@@ -312,8 +315,8 @@ void PlayerWidget::playSelectedSong()
 {
     QModelIndex current= m_ui->m_songList->currentIndex();
     if((current.isValid())
-        && ((m_player.mediaStatus() == QMediaPlayer::NoMedia) || (m_player.mediaStatus() == QMediaPlayer::EndOfMedia)
-               || (m_player.state() == QMediaPlayer::StoppedState)))
+       && ((m_player.mediaStatus() == QMediaPlayer::NoMedia) || (m_player.mediaStatus() == QMediaPlayer::EndOfMedia)
+           || (m_player.state() == QMediaPlayer::StoppedState)))
     {
         startMedia(m_model->getMediaByModelIndex(current), current.data().toString());
     }
@@ -331,7 +334,8 @@ void PlayerWidget::addSongIntoModel(QString str)
 
 void PlayerWidget::addFiles()
 {
-    QStringList fileList= QFileDialog::getOpenFileNames(this, tr("Add song"),
+    QStringList fileList= QFileDialog::getOpenFileNames(
+        this, tr("Add song"),
         m_preferences->value(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id), QDir::homePath()).toString(),
         tr("Audio files (%1)").arg(m_audioFileFilter));
     if(fileList.isEmpty())
@@ -343,9 +347,10 @@ bool PlayerWidget::askToDeleteAll()
     if(m_model->rowCount() != 0)
     {
         if(QMessageBox::Ok
-            == QMessageBox::warning(this, tr("Attention!"),
-                   tr("You are about to load an new playlist. All previously load file will be dropped."),
-                   QMessageBox::Ok, QMessageBox::Cancel))
+           == QMessageBox::warning(
+                  this, tr("Attention!"),
+                  tr("You are about to load an new playlist. All previously load file will be dropped."),
+                  QMessageBox::Ok, QMessageBox::Cancel))
         {
             m_model->removeAll();
             return true;
@@ -361,7 +366,8 @@ void PlayerWidget::openPlayList()
 {
     if(askToDeleteAll())
     {
-        QString filename= QFileDialog::getOpenFileName(this, tr("Open Play List"),
+        QString filename= QFileDialog::getOpenFileName(
+            this, tr("Open Play List"),
             m_preferences->value(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id), QDir::homePath()).toString(),
             tr("PlayList (*.m3u)"));
         if(filename.isEmpty())
@@ -523,7 +529,8 @@ void PlayerWidget::setSourceSong(QString file)
 }
 void PlayerWidget::changeDirectory()
 {
-    QString dir= QFileDialog::getExistingDirectory(this, tr("Load Directory"),
+    QString dir= QFileDialog::getExistingDirectory(
+        this, tr("Load Directory"),
         m_preferences->value(QString("MusicDirectoryPlayer_%1").arg(m_id), QDir::homePath()).toString());
     if(!dir.isEmpty())
     {
@@ -653,8 +660,9 @@ void PlayerWidget::loadPlayList()
 }
 void PlayerWidget::savePlaylist()
 {
-    QString filename= QFileDialog::getSaveFileName(this, tr("Save Play List"),
-        m_preferences->value("MusicDirectoryGM", QDir::homePath()).toString(), tr("PlayList (*.m3u)"));
+    QString filename= QFileDialog::getSaveFileName(
+        this, tr("Save Play List"), m_preferences->value("MusicDirectoryGM", QDir::homePath()).toString(),
+        tr("PlayList (*.m3u)"));
     if(filename.isEmpty())
         return;
 

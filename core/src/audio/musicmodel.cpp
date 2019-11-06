@@ -131,7 +131,7 @@ void MusicModel::insertSong(int i, QString str)
     }
     endInsertRows();
 }
-QMediaContent* MusicModel::getMediaByModelIndex(const QModelIndex& index)
+QMediaContent* MusicModel::getMediaByModelIndex(const QModelIndex& index) const
 {
     return m_data.at(index.row());
 }
