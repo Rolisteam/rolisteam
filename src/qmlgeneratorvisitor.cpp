@@ -204,12 +204,12 @@ bool QmlGeneratorVisitor::generateTextArea(Field* item)
                  "%5    text: %2.value\n"
                  "%5    color:\"%3\"\n"
                  "%5    backgroundColor: \"%4\"\n"
+                 "%5    field: %7\n"
                  + getPageManagement(item, m_indenSpace) + "%5    readOnly: %2.readOnly\n" + getToolTip(item)
-                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font())
-                 + "%5    onEditingFinished: {\n"
+                 + generatePosition(item) + generateAlignment(item) + generateFont(item->font()) + "%5}\n");
+    /*                 + "%5    onEditingFinished: {\n"
                    "%5        %2.value = text\n"
-                   "%5    }\n"
-                   "%5}\n");
+                   "%5    }\n"*/
 
     m_out << text.arg(item->getLabel()) //%1
                  .arg(getId(item))
@@ -217,7 +217,8 @@ bool QmlGeneratorVisitor::generateTextArea(Field* item)
                  .arg(item->bgColor().name(QColor::HexArgb))
                  .arg(m_indenSpace) //%5
                  .arg(m_isTable ? QStringLiteral("") :
-                                  QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)));
+                                  QStringLiteral("%1    id: _%2\n").arg(m_indenSpace).arg(getId(item)))
+                 .arg(getId(item));
 
     return true;
 }
