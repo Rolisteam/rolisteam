@@ -97,7 +97,7 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id, int role) const
     case LABEL:
         return m_label;
     case VALUE:
-        return m_value;
+        return role == Qt::DisplayRole ? m_value.left(50) : m_value;
     case X:
         // return m_rect.x();
         if(nullptr != m_canvasField)
