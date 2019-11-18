@@ -20,9 +20,10 @@
 #include "rolisteamtheme.h"
 
 #include <QStyleFactory>
+RolisteamTheme::RolisteamTheme() {}
 
-RolisteamTheme::RolisteamTheme(
-    QPalette pal, QString name, QString css, QStyle* style, QString bgPath, int pos, QColor bgColor, bool isRemovable)
+RolisteamTheme::RolisteamTheme(QPalette pal, QString name, QString css, QStyle* style, QString bgPath, int pos,
+                               QColor bgColor, bool isRemovable)
     : m_palette(pal)
     , m_name(name)
     , m_css(css)
@@ -122,7 +123,7 @@ QColor RolisteamTheme::getDiceHighlightColor() const
 {
     return m_diceHighlightColor;
 }
-void RolisteamTheme::writeTo(QJsonObject& json)
+void RolisteamTheme::writeTo(QJsonObject& json) const
 {
     json["name"]= m_name;
     json["removable"]= m_removable;
