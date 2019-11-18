@@ -7,6 +7,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 include_directories(src)
 include_directories(src/diceparser)
+include_directories(src/diceparser/include)
 include_directories(src/charactersheet)
 include_directories(src/widgets/MRichTextEditor)
 
@@ -18,9 +19,18 @@ if(TESTS)
 endif()
 
 set(HEADERS
+    src/controller/gamecontroller.h
+    src/controller/resourcescontroller.h
+    src/controller/networkcontroller.h
+    src/controller/playercontroller.h
+    src/controller/controllerinterface.h
+    src/controller/preferencescontroller.h
+    src/controller/contentcontroller.h
     src/audio/audioPlayer.h
     src/audio/musicmodel.h
     src/audio/playerwidget.h
+    src/model/profilemodel.h
+    src/model/thememodel.h
     src/charactersheet/charactersheet.h
     src/charactersheet/charactersheetitem.h
     src/charactersheet/charactersheetmodel.h
@@ -51,7 +61,7 @@ set(HEADERS
     src/chat/improvedtextedit.h
     src/chat/privatechatdialog.h
     src/common/controller/logcontroller.h
-    src/common/controller/logsenderscheduler.h
+    src/common/controller/remotelogcontroller.h
     src/common/task/uploadlogtoserver.h
     src/common/widgets/colorbutton.h
     src/common/widgets/logpanel.h
@@ -251,10 +261,20 @@ set(HEADERS
     src/widgets/shortcuteditordialog.h
     src/widgets/tipofdayviewer.h
     src/widgets/toolsbar.h
+    src/worker/messagehelper.h
+    src/worker/modelhelper.h
     )
 
 
 set(SOURCES
+    src/controller/gamecontroller.cpp
+    src/controller/resourcescontroller.cpp
+    src/controller/networkcontroller.cpp
+    src/controller/preferencescontroller.cpp
+    src/controller/playercontroller.cpp
+    src/controller/contentcontroller.cpp
+    src/model/profilemodel.cpp
+    src/model/thememodel.cpp
     src/audio/audioPlayer.cpp
     src/audio/musicmodel.cpp
     src/audio/playerwidget.cpp
@@ -288,7 +308,7 @@ set(SOURCES
     src/chat/improvedtextedit.cpp
     src/chat/privatechatdialog.cpp
     src/common/controller/logcontroller.cpp
-    src/common/controller/logsenderscheduler.cpp
+    src/common/controller/remotelogcontroller.cpp
     src/common/task/uploadlogtoserver.cpp
     src/common/widgets/colorbutton.cpp
     src/common/widgets/logpanel.cpp
@@ -482,6 +502,8 @@ set(SOURCES
     src/widgets/shortcuteditordialog.cpp
     src/widgets/tipofdayviewer.cpp
     src/widgets/toolsbar.cpp
+    src/worker/messagehelper.cpp
+    src/worker/modelhelper.cpp
     )
 
 
