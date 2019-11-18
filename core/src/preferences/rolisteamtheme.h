@@ -32,14 +32,15 @@
 class RolisteamTheme
 {
 public:
+    RolisteamTheme();
     /**
      * @brief RolisteamTheme
      * @param pal
      * @param name
      * @param css
      */
-    RolisteamTheme(
-        QPalette pal, QString name, QString css, QStyle* style, QString bgPath, int pos, QColor bgColor, bool);
+    RolisteamTheme(QPalette pal, QString name, QString css, QStyle* style, QString bgPath, int pos, QColor bgColor,
+                   bool);
     /**
      * @brief ~RolisteamTheme
      */
@@ -106,7 +107,7 @@ public:
 
     QString getStyleName() const;
 
-    void writeTo(QJsonObject& json);
+    void writeTo(QJsonObject& json) const;
     bool readFrom(const QJsonObject& json);
 
 private:
@@ -121,5 +122,6 @@ private:
     QColor m_gmColor;
     QString m_styleName;
 };
-
+Q_DECLARE_METATYPE(RolisteamTheme)
+Q_DECLARE_METATYPE(RolisteamTheme*)
 #endif // ROLISTEAMTHEME_H
