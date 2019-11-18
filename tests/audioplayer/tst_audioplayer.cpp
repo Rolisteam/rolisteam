@@ -27,7 +27,7 @@
 #include "audio/audioPlayer.h"
 #include "audio/playerwidget.h"
 
-#define TIME_SONG 198
+#define TIME_SONG 36
 
 class TestAudioPlayer : public QObject
 {
@@ -43,6 +43,9 @@ private slots:
 
     void playSong();
     void playSong_data();
+
+    void playSongInLoop();
+    void playSongInLoop_data();
 
 private:
     // std::unique_ptr<AudioPlayer> m_audioPlayer;
@@ -78,7 +81,7 @@ void TestAudioPlayer::addSongTest_data()
     QTest::addRow("list1") << QStringList() << 0;
     QTest::addRow("list2") << QStringList({"song"}) << 1;
     QTest::addRow("list3") << QStringList({"song1", "song2"}) << 2;
-    QTest::addRow("list3") << QStringList({"song1", "song2", "song3"}) << 3;
+    QTest::addRow("list4") << QStringList({"song1", "song2", "song3"}) << 3;
 }
 
 void TestAudioPlayer::playSong()
@@ -97,9 +100,6 @@ void TestAudioPlayer::playSong()
     QSignalSpy spy2(m_playerWidget.get(), &PlayerWidget::newSongPlayed);
     m_playerWidget->startMedia(model->getMediaByModelIndex(model->index(0)));
 
-    // spy.wait(TIME_SONG*1000);
-    // spy2.wait(TIME_SONG*1000);
-
     spy.wait();
     spy2.wait();
     QCOMPARE(spy.count(), expected);
@@ -111,7 +111,38 @@ void TestAudioPlayer::playSong_data()
     QTest::addColumn<QStringList>("songs");
     QTest::addColumn<int>("expected");
 
-    QTest::addRow("list1") << QStringList({":/music/07.mp3"}) << 1;
+    QTest::addRow("list1") << QStringList({"qrc:/music/07.mp3"}) << 1;
+}
+
+void TestAudioPlayer::playSongInLoop()
+{
+    QFETCH(QStringList, songs);
+    QFETCH(int, expected);
+
+    m_playerWidget->setPlayingMode(PlayerWidget::LOOP);
+
+    for(auto song : songs)
+    {
+        m_playerWidget->addSongIntoModel(song);
+    }
+    auto model= m_playerWidget->model();
+    QCOMPARE(model->rowCount(), expected);
+
+    QSignalSpy spy(m_playerWidget.get(), &PlayerWidget::playerIsPlaying);
+    QSignalSpy spy2(m_playerWidget.get(), &PlayerWidget::newSongPlayed);
+    m_playerWidget->startMedia(model->getMediaByModelIndex(model->index(0)));
+
+    spy.wait(TIME_SONG * 1000);
+    spy2.wait();
+    QCOMPARE(spy.count(), expected + 1);
+    QCOMPARE(spy2.count(), expected);
+}
+void TestAudioPlayer::playSongInLoop_data()
+{
+    QTest::addColumn<QStringList>("songs");
+    QTest::addColumn<int>("expected");
+
+    QTest::addRow("list1") << QStringList({"qrc:/music/07.mp3"}) << 1;
 }
 QTEST_MAIN(TestAudioPlayer);
 
