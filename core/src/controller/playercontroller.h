@@ -21,16 +21,26 @@
 #define PLAYERCONTROLLER_H
 
 #include <QObject>
+#include <QPointer>
 
+class Player;
 class PlayerController : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(Player* localPlayer READ localPlayer WRITE setLocalPlayer NOTIFY localPlayerChanged)
 public:
-    explicit PlayerController(QObject *parent = nullptr);
+    explicit PlayerController(QObject* parent= nullptr);
+    ~PlayerController();
+
+    Player* localPlayer() const;
 
 signals:
-
+    void localPlayerChanged();
 public slots:
+    void setLocalPlayer(Player* player);
+
+private:
+    QPointer<Player> m_localPlayer;
 };
 
 #endif // PLAYERCONTROLLER_H
