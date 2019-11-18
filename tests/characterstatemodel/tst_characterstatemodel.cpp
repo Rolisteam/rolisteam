@@ -200,7 +200,7 @@ void TestCharacterStateModel::networkTest()
     addDefaultState();
     QCOMPARE(m_model->rowCount(), 6);
 
-    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addState);
+    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addCharacterState);
     CharacterState state;
     state.setLabel("TestState");
     state.setColor(Qt::red);
@@ -224,7 +224,7 @@ void TestCharacterStateModel::networkTest()
     m_model->processAddState(&msgReader);
     QCOMPARE(m_model->rowCount(), 6);
 
-    m_model->setGM(false);
+    // m_model->setGM(false);
     auto list= Character::getCharacterStateList();
     QCOMPARE(list->size(), 1);
 }
