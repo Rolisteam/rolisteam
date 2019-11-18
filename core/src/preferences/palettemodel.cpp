@@ -276,10 +276,13 @@ void PaletteModel::setPalette(QPalette palette)
     }
     endResetModel();
 }
-void PaletteModel::setColor(const QModelIndex& index, QColor color)
+void PaletteModel::setColor(int pos, QColor color)
 {
-    m_data[index.row()]->setColor(color);
-    emit dataChanged(index, index);
+    if(pos >= m_data.size() || pos < 0)
+        return;
+    m_data[pos]->setColor(color);
+    auto idx= index(pos, 0);
+    emit dataChanged(idx, idx);
 }
 QPalette PaletteModel::getPalette()
 {
