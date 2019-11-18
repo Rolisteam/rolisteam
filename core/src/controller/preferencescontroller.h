@@ -21,17 +21,87 @@
 #define PREFERENCESCONTROLLER_H
 
 #include <QObject>
+#include <memory>
 
+class DiceAliasModel;
+class PaletteModel;
+class CharacterStateModel;
+class QAbstractItemModel;
+class RolisteamTheme;
+class ThemeModel;
+class QStyle;
 class PreferencesController : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QAbstractItemModel* characterStateModel READ characterStateModel CONSTANT)
+    Q_PROPERTY(QAbstractItemModel* diceAliasModel READ diceAliasModel CONSTANT)
+    Q_PROPERTY(QAbstractItemModel* paletteModel READ paletteModel CONSTANT)
+    Q_PROPERTY(QAbstractItemModel* themeModel READ themeModel CONSTANT)
+    Q_PROPERTY(
+        std::size_t currentThemeIndex READ currentThemeIndex WRITE setCurrentThemeIndex NOTIFY currentThemeIndexChanged)
 public:
-    explicit PreferencesController(QObject *parent = nullptr);
+    enum Move
+    {
+        UP,
+        DOWN,
+        BOTTOM,
+        TOP
+    };
+    explicit PreferencesController(QObject* parent= nullptr);
+    ~PreferencesController();
 
+    QAbstractItemModel* characterStateModel() const;
+    QAbstractItemModel* diceAliasModel() const;
+    QAbstractItemModel* paletteModel() const;
+    QAbstractItemModel* themeModel() const;
+    std::size_t currentThemeIndex() const;
+
+    QString themeName(int i) const;
+    RolisteamTheme* currentTheme() const;
+
+    RolisteamTheme* currentEditableTheme();
+
+    void setDiceHighLightColor(const QColor& color);
 signals:
+    void currentThemeIndexChanged();
 
 public slots:
+    void addAlias();
+    void deleteAlias(const QModelIndex& index);
+    void moveAlias(const QModelIndex& index, PreferencesController::Move move);
+
+    void addState();
+    void deleteState(const QModelIndex& index);
+    void moveState(const QModelIndex& index, PreferencesController::Move move);
+
     void shareModels();
+
+    void savePreferences();
+    void loadPreferences();
+
+    void importData(const QString& filename);
+    void exportData(const QString& filename);
+    void exportTheme(const QString& filename, int pos);
+    void importTheme(const QString& filename);
+
+    void dupplicateTheme(int pos, bool selectNew);
+    void removeTheme(int i);
+
+    void setCurrentThemeIndex(std::size_t pos);
+
+    void setCurrentThemeStyle(QStyle* style);
+    void setColorCurrentTheme(const QColor& color, int palettePos);
+    void setCurrentThemeBackground(const QString& path, int pos, const QColor& color);
+    void setCurrentThemeCss(const QString& css);
+
+    void setCurrentThemeTitle(const QString& title);
+
+private:
+    std::unique_ptr<CharacterStateModel> m_characterStateModel;
+    std::unique_ptr<DiceAliasModel> m_diceAliasModel;
+    std::unique_ptr<PaletteModel> m_paletteModel;
+    std::unique_ptr<ThemeModel> m_themeModel;
+    std::size_t m_currentThemeIndex;
 };
 
 #endif // PREFERENCESCONTROLLER_H
