@@ -19,31 +19,92 @@
  ***************************************************************************/
 #include "thememodel.h"
 
-ThemeModel::ThemeModel(QObject *parent)
-    : QAbstractListModel(parent)
+#include "preferences/rolisteamtheme.h"
+
+ThemeModel::ThemeModel(QObject* parent) : QAbstractListModel(parent) {}
+
+QVariant ThemeModel::headerData(int, Qt::Orientation, int) const
 {
+    return QVariant();
 }
 
-QVariant ThemeModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    // FIXME: Implement me!
-}
-
-int ThemeModel::rowCount(const QModelIndex &parent) const
+int ThemeModel::rowCount(const QModelIndex& parent) const
 {
     // For list models only the root node (an invalid parent) should return the list's size. For all
     // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
-    if (parent.isValid())
+    if(parent.isValid())
         return 0;
 
-    // FIXME: Implement me!
+    return static_cast<int>(m_themeList.size());
 }
 
-QVariant ThemeModel::data(const QModelIndex &index, int role) const
+QVariant ThemeModel::data(const QModelIndex& index, int role) const
 {
-    if (!index.isValid())
+    if(!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
-    return QVariant();
+    if(role == Qt::DisplayRole)
+        role= Name;
+
+    const auto& theme= m_themeList.at(static_cast<std::size_t>(index.row()));
+
+    if(role == Qt::DecorationRole && !theme->isRemovable())
+        return QIcon(":/resources/icons/lock.png");
+
+    QVariant var;
+    switch(role)
+    {
+    case Name:
+        var= QVariant::fromValue(theme->getName());
+        break;
+    case Theme:
+        var= QVariant::fromValue(theme.get());
+        break;
+    }
+    return var;
+}
+
+void ThemeModel::removeTheme(int pos)
+{
+
+    auto idx= static_cast<std::size_t>(pos);
+    if(m_themeList.size() <= idx)
+        return;
+
+    beginRemoveRows(QModelIndex(), pos, pos);
+    m_themeList.erase(m_themeList.begin() + pos);
+    endRemoveRows();
+}
+
+void ThemeModel::addTheme(RolisteamTheme* theme)
+{
+    auto size= static_cast<int>(m_themeList.size());
+    beginInsertRows(QModelIndex(), size, size);
+    std::unique_ptr<RolisteamTheme> ptr(theme);
+    m_themeList.push_back(std::move(ptr));
+    endInsertRows();
+}
+const std::vector<std::unique_ptr<RolisteamTheme>>& ThemeModel::themes() const
+{
+    return m_themeList;
+}
+QString ThemeModel::name(int themePos) const
+{
+    auto idx= static_cast<std::size_t>(themePos);
+
+    if(idx >= m_themeList.size())
+        return {};
+
+    const auto& it= m_themeList.at(idx);
+    return it->getName();
+}
+RolisteamTheme* ThemeModel::theme(int pos) const
+{
+    auto idx= static_cast<std::size_t>(pos);
+
+    if(idx >= m_themeList.size())
+        return nullptr;
+
+    const auto& it= m_themeList.at(idx);
+    return it.get();
 }

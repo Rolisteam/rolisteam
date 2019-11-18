@@ -21,23 +21,36 @@
 #define THEMEMODEL_H
 
 #include <QAbstractListModel>
+#include <memory>
 
+class RolisteamTheme;
 class ThemeModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    explicit ThemeModel(QObject *parent = nullptr);
+    enum customRole
+    {
+        Name= Qt::UserRole + 1,
+        Theme
+    };
+    explicit ThemeModel(QObject* parent= nullptr);
 
     // Header:
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const override;
 
     // Basic functionality:
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+    QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
 
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    void removeTheme(int pos);
+    QString name(int themePos) const;
+    void addTheme(RolisteamTheme* theme);
+    const std::vector<std::unique_ptr<RolisteamTheme>>& themes() const;
+    RolisteamTheme* theme(int pos) const;
 
 private:
+    std::vector<std::unique_ptr<RolisteamTheme>> m_themeList;
 };
 
 #endif // THEMEMODEL_H
