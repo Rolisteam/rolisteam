@@ -33,8 +33,6 @@ CharacterStateModel::CharacterStateModel(QObject* parent)
     , m_stateListFromGM(new QList<CharacterState*>())
 {
     m_header << tr("Label") << tr("Color") << tr("Image");
-
-    setGM(false);
 }
 
 CharacterStateModel::~CharacterStateModel() {}
@@ -110,7 +108,7 @@ void CharacterStateModel::preferencesHasChanged(QString pref)
 {
     if(pref == "isPlayer")
     {
-        m_isGM= !PreferencesManager::getInstance()->value(pref, true).toBool();
+        // m_isGM= !PreferencesManager::getInstance()->value(pref, true).toBool();
     }
 }
 NetWorkReceiver::SendType CharacterStateModel::processMessage(NetworkMessageReader* msg)
@@ -122,20 +120,28 @@ NetWorkReceiver::SendType CharacterStateModel::processMessage(NetworkMessageRead
 
     switch(msg->action())
     {
-    case NetMsg::addState:
+    case NetMsg::addCharacterState:
         processAddState(msg);
         break;
-    case NetMsg::removeState:
+    case NetMsg::removeCharacterState:
         processRemoveState(msg);
         break;
-    case NetMsg::moveState:
+    case NetMsg::moveCharacterState:
         processMoveState(msg);
+        break;
+    case NetMsg::CharactereStateModel:
+        processModelState(msg);
         break;
     default:
         break;
     }
 
     return type;
+}
+
+void CharacterStateModel::processModelState(NetworkMessageReader* msg)
+{
+    // TODO
 }
 
 void CharacterStateModel::addState(CharacterState* alias)
@@ -173,9 +179,9 @@ bool CharacterStateModel::setData(const QModelIndex& index, const QVariant& valu
                 break;
             }
         }
-        if((result) && (m_isGM))
+        if(result) // isGM
         {
-            NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addState);
+            NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addCharacterState);
             msg.int64(index.row());
             msg.string32(state->getLabel());
             msg.rgb(state->getColor().rgb());
@@ -197,7 +203,7 @@ QList<CharacterState*>* CharacterStateModel::getCharacterStates()
 {
     return m_stateList;
 }
-void CharacterStateModel::deleteState(QModelIndex& index)
+void CharacterStateModel::deleteState(const QModelIndex& index)
 {
     if(!index.isValid())
         return;
@@ -205,11 +211,11 @@ void CharacterStateModel::deleteState(QModelIndex& index)
     m_stateList->removeAt(index.row());
     endRemoveRows();
 
-    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::removeState);
+    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::removeCharacterState);
     msg.int64(index.row());
     msg.sendToServer();
 }
-void CharacterStateModel::upState(QModelIndex& index)
+void CharacterStateModel::upState(const QModelIndex& index)
 {
     if(!index.isValid())
         return;
@@ -223,7 +229,7 @@ void CharacterStateModel::upState(QModelIndex& index)
     }
 }
 
-void CharacterStateModel::downState(QModelIndex& index)
+void CharacterStateModel::downState(const QModelIndex& index)
 {
     if(!index.isValid())
         return;
@@ -239,7 +245,7 @@ void CharacterStateModel::downState(QModelIndex& index)
     }
 }
 
-void CharacterStateModel::topState(QModelIndex& index)
+void CharacterStateModel::topState(const QModelIndex& index)
 {
     if(!index.isValid())
         return;
@@ -255,7 +261,7 @@ void CharacterStateModel::topState(QModelIndex& index)
     }
 }
 
-void CharacterStateModel::bottomState(QModelIndex& index)
+void CharacterStateModel::bottomState(const QModelIndex& index)
 {
     if(!index.isValid())
         return;
@@ -269,7 +275,7 @@ void CharacterStateModel::bottomState(QModelIndex& index)
         endMoveRows();
     }
 }
-void CharacterStateModel::setGM(bool b)
+/*void CharacterStateModel::setGM(bool b)
 {
     m_isGM= b;
 
@@ -281,7 +287,7 @@ void CharacterStateModel::setGM(bool b)
     {
         Character::setListOfCharacterState(m_stateList);
     }
-}
+}*/
 void CharacterStateModel::clear()
 {
     beginResetModel();
@@ -332,36 +338,36 @@ void CharacterStateModel::processRemoveState(NetworkMessageReader* msg)
 
 void CharacterStateModel::sendOffAllCharacterState()
 {
-    for(auto& state : *m_stateList)
-    {
-        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addState);
-        msg.uint64(m_stateList->indexOf(state));
-        msg.string32(state->getLabel());
-        msg.rgb(state->getColor().rgb());
-        if(state->hasImage())
-        {
-            msg.uint8(static_cast<quint8>(true));
+    /*  for(auto& state : *m_stateList)
+      {
+          NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addState);
+          msg.uint64(m_stateList->indexOf(state));
+          msg.string32(state->getLabel());
+          msg.rgb(state->getColor().rgb());
+          if(state->hasImage())
+          {
+              msg.uint8(static_cast<quint8>(true));
 
-            QByteArray array;
-            QBuffer buffer(&array);
-            if(!state->getPixmap()->save(&buffer, "PNG"))
-            {
-                qWarning("error during encoding png");
-            }
-            msg.byteArray32(array);
-        }
-        else
-        {
-            msg.uint8(static_cast<quint8>(false));
-        }
-        msg.sendToServer();
-    }
+              QByteArray array;
+              QBuffer buffer(&array);
+              if(!state->getPixmap()->save(&buffer, "PNG"))
+              {
+                  qWarning("error during encoding png");
+              }
+              msg.byteArray32(array);
+          }
+          else
+          {
+              msg.uint8(static_cast<quint8>(false));
+          }
+          msg.sendToServer();
+      }*/
 }
 void CharacterStateModel::moveState(int from, int to)
 {
-    if(m_isGM)
+    // if(m_isGM)
     {
-        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::moveState);
+        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::moveCharacterState);
         msg.int64(from);
         msg.int64(to);
         msg.sendToServer();
