@@ -49,10 +49,13 @@ class ConnectionProfile;
 class ClientManager : public QObject
 {
     Q_OBJECT
-
+    Q_PROPERTY(bool connected READ isConnected NOTIFY connectedChanged)
+    Q_PROPERTY(bool ready READ ready NOTIFY readyChanged)
+    Q_PROPERTY(ConnectionState connectionStateChanged READ connectionState NOTIFY connectionStateChanged)
 public:
     enum ConnectionState
     {
+        UNREADY,
         DISCONNECTED,
         CONNECTING,
         CONNECTED,
@@ -62,7 +65,7 @@ public:
     /**
      * @brief NetworkManager
      */
-    ClientManager(ConnectionProfile* connection);
+    ClientManager();
     /**
      * @brief ~NetworkManager
      */
@@ -72,19 +75,21 @@ public:
      * @return
      */
     bool isConnected() const;
-    void setConnectionProfile(ConnectionProfile*);
+    ConnectionState connectionState() const;
+
+    bool ready() const;
+
     static NetworkLink* getLinkToServer();
 public slots:
-    void setConnectionState(ClientManager::ConnectionState);
-    void disconnectAndClose();
     /**
      * @brief startConnection try to connect to the server or to start it.
      * @return true everything goes fine, otherwise false.
      */
-    bool startConnection();
+    void connectTo(const QString& host, int port);
 
-    void sendOffConnectionInfo();
+    void disconnectAndClose();
     void reset();
+
 signals:
     void sendData(char* data, quint32 size, NetworkLink* but);
 
@@ -97,34 +102,29 @@ signals:
     void gameMasterStatusChanged(bool status);
 
     // State signal
-    void isReady();
+    void readyChanged();
     void isAuthentified();
+    void connectedChanged();
     void isConnectedSig();
     void isConnecting();
     void isDisconnected();
     void connectedToServer();
     void clearData();
-    void connectionProcessEnd();
     void moveToAnotherChannel();
 
-protected:
-    void initializeLink();
 private slots:
+    void setConnectionState(ClientManager::ConnectionState);
     void endingNetworkLink();
-    void startConnectionToServer();
+    void setReady(bool ready);
 
 private:
     static NetworkLink* m_networkLinkToServer;
-    ConnectionProfile* m_connectionProfile= nullptr;
-    ConnectionState m_connectionState= DISCONNECTED;
-    bool m_disconnectAsked= false;
-    QTimer* m_reconnect= nullptr;
+    ConnectionState m_connectionState= UNREADY;
+    bool m_ready= false;
     bool m_isAdmin;
 
     PreferencesManager* m_preferences= nullptr;
     PlayersList* m_playersList= nullptr;
-    QList<QThread*> m_threadList;
-    heartBeatSender m_hbSender;
 
     QState* m_connecting= nullptr;
     QState* m_connected= nullptr;

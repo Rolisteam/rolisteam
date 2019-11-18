@@ -29,9 +29,8 @@
 #include "network/networkmessagewriter.h"
 #include "network/receiveevent.h"
 
-NetworkLink::NetworkLink(ConnectionProfile* connection)
+NetworkLink::NetworkLink()
 {
-    setConnection(connection);
     setSocket(new QTcpSocket(this));
     m_receivingData= false;
     m_headerRead= 0;
@@ -42,7 +41,8 @@ void NetworkLink::initialize()
     makeSignalConnection();
 }
 
-NetworkLink::~NetworkLink() {}
+NetworkLink::~NetworkLink()= default;
+
 void NetworkLink::makeSignalConnection()
 {
     connect(m_socketTcp, SIGNAL(readyRead()), this, SLOT(receivingData()));
@@ -240,21 +240,22 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::NeedPassword == msg->action())
     {
-        if(nullptr != m_connection)
-        {
-            const auto pw= m_connection->getPassword();
-            if(pw.isEmpty())
-            {
-                emit errorMessage(tr("Authentification Fail"));
-                emit authentificationFail();
-                emit disconnected();
-                emit disconnect(this);
-                if(isOpen())
-                {
-                    disconnectAndClose();
-                }
-            }
-        }
+        // TODO get PASSWORD
+        /*  if(nullptr != m_connection)
+          {
+              const auto pw= m_connection->getPassword();
+              if(pw.isEmpty())
+              {
+                  emit errorMessage(tr("Authentification Fail"));
+                  emit authentificationFail();
+                  emit disconnected();
+                  emit disconnect(this);
+                  if(isOpen())
+                  {
+                      disconnectAndClose();
+                  }
+              }
+          }*/
     }
     else if(NetMsg::GMStatus == msg->action())
     {
@@ -287,15 +288,6 @@ void NetworkLink::processSetupMessage(NetworkMessageReader* msg)
     Q_UNUSED(msg);
 }
 
-ConnectionProfile* NetworkLink::getConnection() const
-{
-    return m_connection;
-}
-
-void NetworkLink::setConnection(ConnectionProfile* value)
-{
-    m_connection= value;
-}
 void NetworkLink::disconnectAndClose()
 {
     if(m_socketTcp)
@@ -316,19 +308,12 @@ void NetworkLink::insertNetWortReceiver(NetWorkReceiver* receiver, NetMsg::Categ
 {
     m_receiverMap.insert(cat, receiver);
 }
-void NetworkLink::connectTo()
+void NetworkLink::connectTo(const QString& host, int port)
 {
-    if(!m_socketTcp.isNull())
-    {
-        if(nullptr != m_connection)
-        {
-            m_socketTcp->connectToHost(m_connection->getAddress(), m_connection->getPort());
-        }
-        else
-        {
-            emit errorMessage(tr("Connection Profile is not defined"));
-        }
-    }
+    if(m_socketTcp.isNull())
+        return;
+
+    m_socketTcp->connectToHost(host, static_cast<quint16>(port));
 }
 void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
 {
