@@ -55,8 +55,8 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
 
             if(channel != nullptr)
             {
-                QMetaObject::invokeMethod(
-                    channel, "renamePlayer", Qt::QueuedConnection, Q_ARG(QString, uuid), Q_ARG(QString, name));
+                QMetaObject::invokeMethod(channel, "renamePlayer", Qt::QueuedConnection, Q_ARG(QString, uuid),
+                                          Q_ARG(QString, name));
             }
         }
     }
@@ -429,14 +429,20 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::removeDiceAlias:
             str= QStringLiteral("removeDiceAlias");
             break;
-        case NetMsg::addState:
-            str= QStringLiteral("addState");
+        case NetMsg::addCharacterState:
+            str= QStringLiteral("addCharacterState");
             break;
-        case NetMsg::moveState:
+        case NetMsg::moveCharacterState:
             str= QStringLiteral("moveState");
             break;
-        case NetMsg::removeState:
+        case NetMsg::removeCharacterState:
             str= QStringLiteral("removeState");
+            break;
+        case NetMsg::CharactereStateModel:
+            str= QStringLiteral("CharactereStateModel");
+            break;
+        case NetMsg::DiceAliasModel:
+            str= QStringLiteral("DiceAliasModel");
             break;
         default:
             str= QStringLiteral("Unknown Action");
