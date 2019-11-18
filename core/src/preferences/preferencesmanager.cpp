@@ -88,8 +88,9 @@ const QVariant PreferencesManager::value(QString key, QVariant defaultValue)
         return defaultValue;
     }
 }
-void PreferencesManager::readSettings(QSettings& settings)
+void PreferencesManager::readSettings(const QString& version)
 {
+    QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(version));
     settings.beginGroup("rolisteam/preferences");
     int size= settings.beginReadArray("preferenceMap");
     for(int i= 0; i < size; ++i)
@@ -107,8 +108,9 @@ void PreferencesManager::readSettings(QSettings& settings)
         p.second(p.first);
     }
 }
-void PreferencesManager::writeSettings(QSettings& settings)
+void PreferencesManager::writeSettings(const QString& version)
 {
+    QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(version));
     qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
     qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
 
