@@ -21,6 +21,8 @@
 
 #include "preferencesdialog.h"
 
+#include "controller/preferencescontroller.h"
+#include "preferences/palettemodel.h"
 #include "widgets/filepathdelegateitem.h"
 #include <QDialogButtonBox>
 #include <QFileDialog>
@@ -43,7 +45,6 @@
 
 #include "diceparser.h"
 #include "map/newemptymapdialog.h"
-#define GRAY_SCALE 191
 
 CheckBoxDelegate::CheckBoxDelegate(bool aRedCheckBox, QObject* parent)
 {
@@ -189,8 +190,8 @@ void ColorDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, con
  * PreferencesDialog *
  *********************/
 
-PreferencesDialog::PreferencesDialog(QWidget* parent, Qt::WindowFlags f)
-    : QDialog(parent, f), ui(new Ui::PreferencesDialogBox())
+PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget* parent, Qt::WindowFlags f)
+    : QDialog(parent, f), ui(new Ui::PreferencesDialogBox()), m_ctrl(controller)
 {
     ui->setupUi(this);
     m_currentThemeIsEditable= false;
@@ -199,13 +200,14 @@ PreferencesDialog::PreferencesDialog(QWidget* parent, Qt::WindowFlags f)
 
     m_preferences= PreferencesManager::getInstance();
 
-    m_aliasModel= new DiceAliasModel(this);
-    ui->m_tableViewAlias->setModel(m_aliasModel);
-    m_diceParser= new DiceParser();
-    m_aliasModel->setAliases(m_diceParser->aliases());
+    ui->m_tableViewAlias->setModel(m_ctrl->diceAliasModel());
+    /*m_diceParser= new DiceParser();
+    m_aliasModel->setAliases(m_diceParser->getAliases());*/
 
-    m_stateModel= new CharacterStateModel(this);
-    ui->m_stateView->setModel(m_stateModel);
+    ui->m_stateView->setModel(m_ctrl->characterStateModel());
+    ui->m_themeComboBox->setModel(m_ctrl->themeModel());
+    connect(ui->m_themeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+            [this](int pos) { m_ctrl->setCurrentThemeIndex(static_cast<std::size_t>(pos)); });
 
     QHeaderView* horizontalHeader= ui->m_tableViewAlias->horizontalHeader();
     horizontalHeader->setSectionResizeMode(DiceAliasModel::PATTERN, QHeaderView::ResizeToContents);
@@ -215,13 +217,12 @@ PreferencesDialog::PreferencesDialog(QWidget* parent, Qt::WindowFlags f)
     ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::METHOD, new CheckBoxDelegate());
     ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::DISABLE, new CheckBoxDelegate());
 
-    m_paletteModel= new PaletteModel(this);
-    m_paletteModel->setPalette(palette());
-    ui->m_paletteTableView->setModel(m_paletteModel);
+    // m_paletteModel->setPalette(palette());
+    ui->m_paletteTableView->setModel(m_ctrl->paletteModel());
     horizontalHeader= ui->m_paletteTableView->horizontalHeader();
     horizontalHeader->setSectionResizeMode(0, QHeaderView::Stretch);
 
-    connect(this, SIGNAL(accepted()), this, SLOT(save()));
+    connect(this, &PreferencesDialog::accepted, m_ctrl, &PreferencesController::savePreferences);
 
     connect(ui->m_startDiag, SIGNAL(clicked()), this, SLOT(performDiag()));
     // ui->m_fogColor->setTransparency(true);
@@ -230,28 +231,24 @@ PreferencesDialog::PreferencesDialog(QWidget* parent, Qt::WindowFlags f)
     ui->tabWidget->setCurrentIndex(0);
 
     // aliases
-    connect(ui->m_addDiceAliasAct, SIGNAL(clicked()), this, SLOT(manageAliasAction()));
-    connect(ui->m_delDiceAliasAct, SIGNAL(clicked()), this, SLOT(manageAliasAction()));
-    connect(ui->m_upDiceAliasAct, SIGNAL(clicked()), this, SLOT(manageAliasAction()));
-    connect(ui->m_downDiceAliasAct, SIGNAL(clicked()), this, SLOT(manageAliasAction()));
-    connect(ui->m_topDiceAliasAct, SIGNAL(clicked()), this, SLOT(manageAliasAction()));
-    connect(ui->m_bottomDiceAliasAct, SIGNAL(clicked()), this, SLOT(manageAliasAction()));
-    connect(ui->m_testPushButton, SIGNAL(clicked()), this, SLOT(testAliasCommand()));
+    connect(ui->m_addDiceAliasAct, &QToolButton::clicked, m_ctrl, &PreferencesController::addAlias);
+    connect(ui->m_delDiceAliasAct, &QToolButton::clicked, this,
+            [this]() { m_ctrl->deleteAlias(ui->m_tableViewAlias->currentIndex()); });
+    connect(ui->m_upDiceAliasAct, &QToolButton::clicked, this,
+            [this]() { m_ctrl->moveAlias(ui->m_tableViewAlias->currentIndex(), PreferencesController::UP); });
+    connect(ui->m_downDiceAliasAct, &QToolButton::clicked, this,
+            [this]() { m_ctrl->moveAlias(ui->m_tableViewAlias->currentIndex(), PreferencesController::DOWN); });
+    connect(ui->m_topDiceAliasAct, &QToolButton::clicked, this,
+            [this]() { m_ctrl->moveAlias(ui->m_tableViewAlias->currentIndex(), PreferencesController::TOP); });
+    connect(ui->m_bottomDiceAliasAct, &QToolButton::clicked, this,
+            [this]() { m_ctrl->moveAlias(ui->m_tableViewAlias->currentIndex(), PreferencesController::BOTTOM); });
+    connect(ui->m_testPushButton, &QToolButton::clicked, this, &PreferencesDialog::testAliasCommand);
 
-    connect(ui->m_importDiceBtn, &QPushButton::clicked, this, [=]() {
+    connect(ui->m_importDiceBtn, &QPushButton::clicked, this, [this]() {
         auto filename= QFileDialog::getOpenFileName(this, tr("Import Dice Aliases or States"),
                                                     m_preferences->value("DataDirectory", QDir::homePath()).toString(),
                                                     tr("Supported Rule files (*.rr *.json)"));
-        if(filename.isEmpty())
-            return;
-        QFile file(filename);
-        if(file.exists() && file.open(QIODevice::ReadOnly))
-        {
-            QJsonDocument doc= QJsonDocument::fromJson(file.readAll());
-            auto obj= doc.object();
-            m_aliasModel->load(obj);
-            m_stateModel->load(obj);
-        }
+        m_ctrl->importData(filename);
     });
 
     connect(ui->m_exportDiceBtn, &QPushButton::clicked, this, [=]() {
@@ -263,26 +260,22 @@ PreferencesDialog::PreferencesDialog(QWidget* parent, Qt::WindowFlags f)
 
         if(!filename.endsWith(QStringLiteral(".json")) && !filename.endsWith(QStringLiteral(".rr")))
             filename.append(QStringLiteral(".rr"));
-
-        QJsonObject obj;
-        m_aliasModel->save(obj);
-        m_stateModel->save(obj);
-        QFile file(filename);
-        if(file.open(QIODevice::WriteOnly))
-        {
-            QJsonDocument doc;
-            doc.setObject(obj);
-            file.write(doc.toJson());
-        }
+        m_ctrl->exportData(filename);
     });
 
     // States
-    connect(ui->m_addCharacterStateAct, SIGNAL(clicked()), this, SLOT(manageStateAction()));
-    connect(ui->m_delCharceterStateAct, SIGNAL(clicked()), this, SLOT(manageStateAction()));
-    connect(ui->m_upCharacterStateAct, SIGNAL(clicked()), this, SLOT(manageStateAction()));
-    connect(ui->m_downCharacterStateAct, SIGNAL(clicked()), this, SLOT(manageStateAction()));
-    connect(ui->m_topCharacterStateAct, SIGNAL(clicked()), this, SLOT(manageStateAction()));
-    connect(ui->m_bottomCharacterStateAct, SIGNAL(clicked()), this, SLOT(manageStateAction()));
+    connect(ui->m_addCharacterStateAct, &QToolButton::clicked, m_ctrl, &PreferencesController::addState);
+    connect(ui->m_delCharceterStateAct, &QToolButton::clicked, m_ctrl,
+            [this]() { m_ctrl->deleteState(ui->m_stateView->currentIndex()); });
+    connect(ui->m_upCharacterStateAct, &QToolButton::clicked, this,
+            [this]() { m_ctrl->moveState(ui->m_stateView->currentIndex(), PreferencesController::UP); });
+
+    connect(ui->m_downCharacterStateAct, &QToolButton::clicked, this,
+            [this]() { m_ctrl->moveState(ui->m_stateView->currentIndex(), PreferencesController::DOWN); });
+    connect(ui->m_topCharacterStateAct, &QToolButton::clicked, this,
+            [this]() { m_ctrl->moveState(ui->m_stateView->currentIndex(), PreferencesController::TOP); });
+    connect(ui->m_bottomCharacterStateAct, &QToolButton::clicked, this,
+            [this]() { m_ctrl->moveState(ui->m_stateView->currentIndex(), PreferencesController::BOTTOM); });
 
     connect(ui->m_highLightPenWidth, QOverload<int>::of(&QSpinBox::valueChanged), this,
             [=]() { m_preferences->registerValue("VMAP::highlightPenWidth", ui->m_highLightPenWidth->value(), true); });
@@ -315,11 +308,8 @@ PreferencesDialog::PreferencesDialog(QWidget* parent, Qt::WindowFlags f)
     connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(backgroundChanged()));
     connect(ui->m_bgColorPush, SIGNAL(colorChanged(QColor)), this, SLOT(backgroundChanged()));
     connect(ui->m_backgroundImage, SIGNAL(pathChanged()), this, SLOT(backgroundChanged()));
-    connect(ui->m_diceHighlightColorBtn, &ColorButton::colorChanged, this, [=]() {
-        auto theme= getCurrentRemovableTheme();
-        theme->setDiceHighlightColor(ui->m_diceHighlightColorBtn->color());
-        m_preferences->registerValue("DiceHighlightColor", ui->m_diceHighlightColorBtn->color());
-    });
+    connect(ui->m_diceHighlightColorBtn, &ColorButton::colorChanged, m_ctrl,
+            &PreferencesController::setDiceHighLightColor);
     // connect(ui->m_backgroundImage,ç)
 
     // themes
@@ -359,15 +349,6 @@ void PreferencesDialog::manageMessagingPref()
     m_preferences->registerValue("hideLongCommand", ui->m_hideLongCommand->isChecked());
 }
 
-void PreferencesDialog::updateUi(bool isGM)
-{
-    if(nullptr != m_aliasModel)
-    {
-        m_aliasModel->setGM(isGM);
-        m_stateModel->setGM(isGM);
-    }
-}
-
 void PreferencesDialog::show()
 {
     load();
@@ -375,7 +356,6 @@ void PreferencesDialog::show()
 }
 void PreferencesDialog::save() const
 {
-    // paths
     m_preferences->registerValue("MusicDirectoryPlayer_0", ui->m_musicDirPath->path());
     m_preferences->registerValue("MusicDirectoryPlayer_1", ui->m_musicDirPath2->path());
     m_preferences->registerValue("MusicDirectoryPlayer_2", ui->m_musicDirPath3->path());
@@ -410,52 +390,11 @@ void PreferencesDialog::save() const
 
     // theme
     m_preferences->registerValue("currentTheme", ui->m_themeComboBox->currentText());
-    m_preferences->registerValue("ThemeNumber", m_themes.size());
-    int i= 0;
 
     m_preferences->registerValue(QStringLiteral("LogDebug"), ui->m_debugLogInfo->isChecked());
     m_preferences->registerValue(QStringLiteral("LogResearch"), ui->m_logUniversityResearch->isChecked());
     m_preferences->registerValue(QStringLiteral("dataCollection"), ui->m_enableDataCollection->isChecked());
-
-    for(RolisteamTheme* tmp : m_themes)
-    {
-        m_preferences->registerValue(QStringLiteral("Theme_%1_name").arg(i), tmp->getName());
-        QVariant var;
-        var.setValue<QPalette>(tmp->getPalette());
-        m_preferences->registerValue(QStringLiteral("Theme_%1_palette").arg(i), var);
-        m_preferences->registerValue(QStringLiteral("Theme_%1_stylename").arg(i), tmp->getStyleName());
-        m_preferences->registerValue(QStringLiteral("Theme_%1_bgColor").arg(i), tmp->getBackgroundColor());
-        m_preferences->registerValue(QStringLiteral("Theme_%1_bgPath").arg(i), tmp->getBackgroundImage());
-        m_preferences->registerValue(QStringLiteral("Theme_%1_bgPosition").arg(i), tmp->getBackgroundPosition());
-        m_preferences->registerValue(QStringLiteral("Theme_%1_css").arg(i), tmp->getCss());
-        m_preferences->registerValue(QStringLiteral("Theme_%1_removable").arg(i), tmp->isRemovable());
-        m_preferences->registerValue(QStringLiteral("Theme_%1_highlightDice").arg(i), tmp->getDiceHighlightColor());
-        // m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getName());
-        ++i;
-    }
-
-    // DiceSystem
-    QList<DiceAlias*>* aliasList= m_aliasModel->getAliases();
-    m_preferences->registerValue("DiceAliasNumber", aliasList->size());
-    for(int i= 0; i < aliasList->size(); ++i)
-    {
-        DiceAlias* tmpAlias= aliasList->at(i);
-        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_command").arg(i), tmpAlias->getCommand());
-        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_value").arg(i), tmpAlias->getValue());
-        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_type").arg(i), tmpAlias->isReplace());
-        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_enable").arg(i), tmpAlias->isEnable());
-    }
-
-    // State
-    QList<CharacterState*>* stateList= m_stateModel->getCharacterStates();
-    m_preferences->registerValue("CharacterStateNumber", stateList->size());
-    for(int i= 0; i < stateList->size(); ++i)
-    {
-        CharacterState* tmpState= stateList->at(i);
-        m_preferences->registerValue(QStringLiteral("CharacterState_%1_label").arg(i), tmpState->getLabel());
-        m_preferences->registerValue(QStringLiteral("CharacterState_%1_color").arg(i), tmpState->getColor());
-        m_preferences->registerValue(QStringLiteral("CharacterState_%1_pixmap").arg(i), tmpState->getImage());
-    }
+    m_ctrl->savePreferences();
 }
 void PreferencesDialog::load()
 {
@@ -519,239 +458,70 @@ void PreferencesDialog::load()
     ui->m_logUniversityResearch->setChecked(m_preferences->value(QStringLiteral("LogResearch"), false).toBool());
     ui->m_enableDataCollection->setChecked(m_preferences->value(QStringLiteral("dataCollection"), false).toBool());
 
+    m_ctrl->loadPreferences();
     updateTheme();
 }
 
 void PreferencesDialog::editColor(QModelIndex index)
 {
     QColor color= QColorDialog::getColor(index.data(Qt::DecorationRole).value<QColor>(), this);
-    if(color.isValid())
-    {
-        m_paletteModel->setColor(index, color);
-        int i= ui->m_themeComboBox->currentIndex();
-        if((i >= 0) && (i < m_themes.size()))
-        {
-            RolisteamTheme* theme= m_themes.at(i);
-            theme->setPalette(m_paletteModel->getPalette());
-            qApp->setPalette(theme->getPalette());
-        }
-    }
-}
+    if(!color.isValid())
+        return;
 
-void PreferencesDialog::initializePostSettings()
-{
-    // theme
-    int size= m_preferences->value("ThemeNumber", 0).toInt();
-    if(size > 0)
-    {
-        for(int i= 0; i < size; ++i)
-        {
-            QString name= m_preferences->value(QStringLiteral("Theme_%1_name").arg(i), QString()).toString();
-            QPalette pal= m_preferences->value(QStringLiteral("Theme_%1_palette").arg(i), QPalette()).value<QPalette>();
-            QString style= m_preferences->value(QStringLiteral("Theme_%1_stylename").arg(i), "fusion").toString();
-            QColor color
-                = m_preferences
-                      ->value(QStringLiteral("Theme_%1_bgColor").arg(i), QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE))
-                      .value<QColor>();
-            QString path= m_preferences->value(QStringLiteral("Theme_%1_bgPath").arg(i), "").toString();
-            QColor hlDice= m_preferences->value(QStringLiteral("Theme_%1_highlightDice").arg(i), QColor(Qt::red))
-                               .value<QColor>();
-            int pos= m_preferences->value(QStringLiteral("Theme_%1_bgPosition").arg(i), 0).toInt();
-            QString css= m_preferences->value(QStringLiteral("Theme_%1_css").arg(i), "").toString();
-            bool isRemovable= m_preferences->value(QStringLiteral("Theme_%1_removable").arg(i), false).toBool();
-            RolisteamTheme* tmp
-                = new RolisteamTheme(pal, name, css, QStyleFactory::create(style), path, pos, color, isRemovable);
-            tmp->setDiceHighlightColor(hlDice);
-            m_themes.append(tmp);
-            // m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getName());
-        }
-    }
-    else // theme provided by default
-    {
-        // normal
-        m_themes.append(new RolisteamTheme(QPalette(), tr("default"), "", QStyleFactory::create("fusion"),
-                                           ":/resources/icons/workspacebackground.jpg", 0,
-                                           QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE), false));
+    m_ctrl->setColorCurrentTheme(color, index.row());
 
-        // DarkOrange
-        QFile styleFile(":/stylesheet/resources/stylesheet/darkorange.qss");
-        styleFile.open(QFile::ReadOnly);
-        QByteArray bytes= styleFile.readAll();
-        QString css(bytes);
-        m_themes.append(new RolisteamTheme(QPalette(), tr("darkorange"), css, QStyleFactory::create("fusion"),
-                                           ":/resources/icons/workspacebackground.jpg", 0,
-                                           QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE), false));
-
-        // DarkFusion
-        QPalette palette;
-        palette.setColor(QPalette::Window, QColor(53, 53, 53));
-        palette.setColor(QPalette::WindowText, Qt::white);
-        palette.setColor(QPalette::Base, QColor(15, 15, 15));
-        palette.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
-        palette.setColor(QPalette::ToolTipBase, Qt::white);
-        palette.setColor(QPalette::ToolTipText, Qt::black);
-        palette.setColor(QPalette::Text, Qt::white);
-        palette.setColor(QPalette::Button, QColor(53, 53, 53));
-        palette.setColor(QPalette::ButtonText, Qt::white);
-        palette.setColor(QPalette::BrightText, Qt::red);
-
-        palette.setColor(QPalette::Highlight, QColor(142, 45, 197).lighter());
-        palette.setColor(QPalette::HighlightedText, Qt::black);
-        palette.setColor(QPalette::Disabled, QPalette::Text, Qt::darkGray);
-        palette.setColor(QPalette::Disabled, QPalette::ButtonText, Qt::darkGray);
-
-        m_themes.append(new RolisteamTheme(palette, tr("darkfusion"), "", QStyleFactory::create("fusion"),
-                                           ":/resources/icons/workspacebackground.jpg", 0,
-                                           QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE), false));
-    }
-    ui->m_themeComboBox->clear();
-
-    for(auto& theme : m_themes)
-    {
-        ui->m_themeComboBox->addItem(theme->getName());
-        if(!theme->isRemovable())
-        {
-            ui->m_themeComboBox->setItemIcon(ui->m_themeComboBox->count() - 1, QIcon(":/resources/icons/lock.png"));
-        }
-    }
-    ui->m_styleCombo->clear();
-    ui->m_styleCombo->addItems(QStyleFactory::keys());
-
-    QString theme= m_preferences->value("currentTheme", "Default").toString();
-    ui->m_themeComboBox->setCurrentText(theme);
-
-    updateTheme();
-
-    connect(ui->m_themeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTheme()));
-    connect(ui->m_styleCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setStyle()));
-
-    // DiceSystem
-    size= m_preferences->value("DiceAliasNumber", 0).toInt();
-    for(int i= 0; i < size; ++i)
-    {
-        QString cmd= m_preferences->value(QStringLiteral("DiceAlias_%1_command").arg(i), "").toString();
-        QString value= m_preferences->value(QStringLiteral("DiceAlias_%1_value").arg(i), "").toString();
-        bool replace= m_preferences->value(QStringLiteral("DiceAlias_%1_type").arg(i), true).toBool();
-        bool enable= m_preferences->value(QStringLiteral("DiceAlias_%1_enable").arg(i), true).toBool();
-
-        DiceAlias* tmpAlias= new DiceAlias(cmd, value, replace, enable);
-        m_aliasModel->addAlias(tmpAlias);
-    }
-    if(size == 0)
-    { // default alias
-        m_aliasModel->addAlias(new DiceAlias("l5r", "D10k"));
-        m_aliasModel->addAlias(new DiceAlias("l5R", "D10K"));
-        m_aliasModel->addAlias(new DiceAlias("DF", "D[-1-1]"));
-        m_aliasModel->addAlias(new DiceAlias("nwod", "D10e10c[>7]"));
-        m_aliasModel->addAlias(new DiceAlias("(.*)wod(.*)", "\\1d10e[=10]c[>=\\2]-@c[=1]", false));
-    }
-
-    // DiceSystem
-    size= m_preferences->value("CharacterStateNumber", 0).toInt();
-    for(int i= 0; i < size; ++i)
-    {
-        QString label= m_preferences->value(QStringLiteral("CharacterState_%1_label").arg(i), "").toString();
-        QColor color= m_preferences->value(QStringLiteral("CharacterState_%1_color").arg(i), "").value<QColor>();
-        QPixmap pixmap= m_preferences->value(QStringLiteral("CharacterState_%1_pixmap").arg(i), true).value<QPixmap>();
-
-        CharacterState* tmpState= new CharacterState();
-        tmpState->setLabel(label);
-        tmpState->setColor(color);
-        tmpState->setImage(pixmap);
-        m_stateModel->addState(tmpState);
-    }
-
-    // State - healthy , lightly Wounded , Seriously injured , dead, Sleeping, bewitched
-    if(0 == size)
-    {
-        // healthy
-        CharacterState* state= new CharacterState();
-        state->setColor(Qt::black);
-        state->setLabel(tr("Healthy"));
-        m_stateModel->addState(state);
-
-        state= new CharacterState();
-        state->setColor(QColor(255, 100, 100));
-        state->setLabel(tr("Lightly Wounded"));
-        m_stateModel->addState(state);
-
-        state= new CharacterState();
-        state->setColor(QColor(255, 0, 0));
-        state->setLabel(tr("Seriously injured"));
-        m_stateModel->addState(state);
-
-        state= new CharacterState();
-        state->setColor(Qt::gray);
-        state->setLabel(tr("Dead"));
-        m_stateModel->addState(state);
-
-        state= new CharacterState();
-        state->setColor(QColor(80, 80, 255));
-        state->setLabel(tr("Sleeping"));
-        m_stateModel->addState(state);
-
-        state= new CharacterState();
-        state->setColor(QColor(0, 200, 0));
-        state->setLabel(tr("Bewitched"));
-        m_stateModel->addState(state);
-    }
+    auto theme= m_ctrl->currentTheme();
+    if(nullptr == theme)
+        return;
+    qApp->setPalette(theme->getPalette());
 }
 
 void PreferencesDialog::updateTheme()
 {
-    int i= ui->m_themeComboBox->currentIndex();
-    if((i >= 0) && (i < m_themes.size()))
-    {
-        RolisteamTheme* theme= m_themes.at(i);
-        m_paletteModel->setPalette(theme->getPalette());
-        ui->m_themeNameLineEdit->setText(theme->getName());
-        ui->m_backgroundImage->setPath(theme->getBackgroundImage());
+    RolisteamTheme* theme= m_ctrl->currentTheme();
 
-        ui->m_bgColorPush->blockSignals(true);
-        ui->m_bgColorPush->setColor(theme->getBackgroundColor());
-        ui->m_bgColorPush->blockSignals(false);
+    ui->m_themeNameLineEdit->setText(theme->getName());
+    ui->m_backgroundImage->setPath(theme->getBackgroundImage());
 
-        ui->m_positioningComboBox->blockSignals(true);
-        ui->m_positioningComboBox->setCurrentIndex(theme->getBackgroundPosition());
-        ui->m_positioningComboBox->blockSignals(false);
+    ui->m_bgColorPush->blockSignals(true);
+    ui->m_bgColorPush->setColor(theme->getBackgroundColor());
+    ui->m_bgColorPush->blockSignals(false);
 
-        QString defaultStyle= theme->getStyleName();
+    ui->m_positioningComboBox->blockSignals(true);
+    ui->m_positioningComboBox->setCurrentIndex(theme->getBackgroundPosition());
+    ui->m_positioningComboBox->blockSignals(false);
 
-        ui->m_styleCombo->blockSignals(true);
-        ui->m_styleCombo->setCurrentIndex(ui->m_styleCombo->findText(defaultStyle.toUpper(), Qt::MatchContains));
-        ui->m_styleCombo->blockSignals(false);
+    QString defaultStyle= theme->getStyleName();
 
-        ui->m_diceHighlightColorBtn->setColor(theme->getDiceHighlightColor());
+    ui->m_styleCombo->blockSignals(true);
+    ui->m_styleCombo->setCurrentIndex(ui->m_styleCombo->findText(defaultStyle.toUpper(), Qt::MatchContains));
+    ui->m_styleCombo->blockSignals(false);
 
-        qApp->setStyle(theme->getStyle());
-        qApp->setPalette(theme->getPalette());
-        applyBackground();
-        qApp->setStyleSheet(theme->getCss());
-    }
+    ui->m_diceHighlightColorBtn->setColor(theme->getDiceHighlightColor());
+
+    qApp->setStyle(theme->getStyle());
+    qApp->setPalette(theme->getPalette());
+    // applyBackground();
+    qApp->setStyleSheet(theme->getCss());
 }
 void PreferencesDialog::setStyle()
 {
-    int i= ui->m_themeComboBox->currentIndex();
-    if((i >= 0) && (i < m_themes.size()))
-    {
-        RolisteamTheme* theme= m_themes.at(i);
-        theme->setStyle(QStyleFactory::create(ui->m_styleCombo->currentText()));
-        qApp->setStyle(theme->getStyle());
-    }
+    auto style= QStyleFactory::create(ui->m_styleCombo->currentText());
+    m_ctrl->setCurrentThemeStyle(style);
+    qApp->setStyle(style);
 }
 void PreferencesDialog::editCss()
 {
-    RolisteamTheme* theme= getCurrentRemovableTheme();
+    auto theme= m_ctrl->currentTheme();
 
     if(nullptr == theme)
-    {
         return;
-    }
+
     bool ok= false;
     QString text= QInputDialog::getMultiLineText(this, tr("Css Editor"), tr("Css"), theme->getCss(), &ok);
-    if((ok) && (theme->isRemovable()))
+    if(ok)
     {
-        theme->setCss(text);
+        m_ctrl->setCurrentThemeCss(text);
         qApp->setStyleSheet(theme->getCss());
     }
 }
@@ -759,61 +529,17 @@ void PreferencesDialog::editCss()
 void PreferencesDialog::dupplicateTheme(bool selectNew)
 {
     int i= ui->m_themeComboBox->currentIndex();
-    if((i >= 0) && (i < m_themes.size()))
-    {
-        RolisteamTheme* theme= m_themes.at(i);
-        QString str= theme->getName();
-        str.append(tr(" (copy)"));
-        RolisteamTheme* newTheme= new RolisteamTheme(theme->getPalette(), str, theme->getCss(), theme->getStyle(),
-                                                     theme->getBackgroundImage(), theme->getBackgroundPosition(),
-                                                     theme->getBackgroundColor(), true);
-
-        m_themes.append(newTheme);
-        if(selectNew)
-        {
-            ui->m_themeComboBox->addItem(str);
-            ui->m_themeComboBox->setCurrentIndex(m_themes.size() - 1);
-        }
-    }
+    m_ctrl->dupplicateTheme(i, selectNew);
 }
 void PreferencesDialog::setTitleAtCurrentTheme()
 {
-    RolisteamTheme* theme= getCurrentRemovableTheme();
-
-    if(nullptr == theme)
-    {
-        return;
-    }
-    if(!theme->isRemovable())
-    {
-        dupplicateTheme();
-    }
-    if(theme->isRemovable())
-    {
-        theme->setName(ui->m_themeNameLineEdit->text());
-        int i= ui->m_themeComboBox->currentIndex();
-        ui->m_themeComboBox->setItemText(i, theme->getName());
-    }
+    m_ctrl->setCurrentThemeTitle(ui->m_themeNameLineEdit->text());
 }
 void PreferencesDialog::backgroundChanged()
 {
-    RolisteamTheme* theme= getCurrentRemovableTheme(false);
-    if(nullptr == theme)
-    {
-        return;
-    }
-    if(theme->isRemovable())
-    {
-        theme->setBackgroundImage(ui->m_backgroundImage->path());
-        // ui->m_backgroundImage->setPath(path);
-        theme->setBackgroundColor(ui->m_bgColorPush->color());
-        theme->setBackgroundPosition(ui->m_positioningComboBox->currentIndex());
-
-        /*int i = ui->m_themeComboBox->currentIndex();*/
-        ui->m_themeComboBox->insertItem(m_themes.indexOf(theme), theme->getName());
-        ui->m_themeComboBox->setCurrentIndex(m_themes.indexOf(theme));
-        // applyBackground();
-    }
+    m_ctrl->setCurrentThemeBackground(ui->m_backgroundImage->path(), ui->m_positioningComboBox->currentIndex(),
+                                      ui->m_bgColorPush->color());
+    // applyBackground();
 }
 
 void PreferencesDialog::performDiag()
@@ -885,137 +611,23 @@ void PreferencesDialog::performDiag()
     ui->m_diagDisplay->setHtml(htmlResult);
 }
 
-void PreferencesDialog::manageAliasAction()
-{
-    QToolButton* act= qobject_cast<QToolButton*>(sender());
-
-    if(act == ui->m_addDiceAliasAct)
-    {
-        m_aliasModel->appendAlias();
-    }
-    else
-    {
-        QModelIndex index= ui->m_tableViewAlias->currentIndex();
-        if(act == ui->m_delDiceAliasAct)
-        {
-            m_aliasModel->deleteAlias(index);
-        }
-        else if(act == ui->m_upDiceAliasAct)
-        {
-            m_aliasModel->upAlias(index);
-        }
-        else if(act == ui->m_downDiceAliasAct)
-        {
-            m_aliasModel->downAlias(index);
-        }
-        else if(act == ui->m_topDiceAliasAct)
-        {
-            m_aliasModel->topAlias(index);
-        }
-        else if(act == ui->m_bottomDiceAliasAct)
-        {
-            m_aliasModel->bottomAlias(index);
-        }
-    }
-}
-void PreferencesDialog::manageStateAction()
-{
-    QToolButton* act= qobject_cast<QToolButton*>(sender());
-
-    if(act == ui->m_addCharacterStateAct)
-    {
-        m_stateModel->appendState();
-    }
-    else
-    {
-        QModelIndex index= ui->m_stateView->currentIndex();
-        if(act == ui->m_delCharceterStateAct)
-        {
-            m_stateModel->deleteState(index);
-        }
-        else if(act == ui->m_upCharacterStateAct)
-        {
-            m_stateModel->upState(index);
-        }
-        else if(act == ui->m_downCharacterStateAct)
-        {
-            m_stateModel->downState(index);
-        }
-        else if(act == ui->m_topCharacterStateAct)
-        {
-            m_stateModel->topState(index);
-        }
-        else if(act == ui->m_bottomCharacterStateAct)
-        {
-            m_stateModel->bottomState(index);
-        }
-    }
-}
-
 void PreferencesDialog::testAliasCommand()
 {
     QString result= m_diceParser->convertAlias(ui->m_cmdDiceEdit->text());
     ui->m_convertedCmdEdit->setText(result);
 }
-void PreferencesDialog::applyBackground()
-{
-    int i= ui->m_themeComboBox->currentIndex();
-    if((i >= 0) && (i < m_themes.size()))
-    {
-        RolisteamTheme* theme= m_themes.at(i);
-        if(nullptr != theme)
-        {
-            m_currentThemeIsEditable= theme->isRemovable();
-            theme->setBackgroundColor(ui->m_bgColorPush->color());
-            theme->setBackgroundPosition(ui->m_positioningComboBox->currentIndex());
-            theme->setBackgroundImage(ui->m_backgroundImage->path());
 
-            m_preferences->registerValue("PathOfBackgroundImage", ui->m_backgroundImage->path());
-            m_preferences->registerValue("BackGroundColor", ui->m_bgColorPush->color());
-            m_preferences->registerValue("BackGroundPositioning", ui->m_positioningComboBox->currentIndex());
-        }
-    }
-}
-void PreferencesDialog::sendOffAllDiceAlias()
-{
-    if(nullptr != m_aliasModel)
-    {
-        m_aliasModel->sendOffAllDiceAlias();
-    }
-}
-void PreferencesDialog::sendOffAllState()
-{
-    if(nullptr != m_aliasModel)
-    {
-        m_stateModel->sendOffAllCharacterState();
-    }
-}
 void PreferencesDialog::exportTheme()
 {
     int i= ui->m_themeComboBox->currentIndex();
-    if((i >= 0) && (i < m_themes.size()))
-    {
-        RolisteamTheme* theme= m_themes.at(i);
-        QString pathExport= QFileDialog::getSaveFileName(this, tr("Export Rolisteam Theme"),
-                                                         m_preferences->value("ThemeDirectory", QDir::homePath())
-                                                             .toString()
-                                                             .append("/%1.rskin")
-                                                             .arg(theme->getName()),
-                                                         tr("Rolisteam Theme: %1").arg("*.rskin"));
-        if(!pathExport.isEmpty())
-        {
-            QFile exportFile(pathExport);
-            if(!exportFile.open(QIODevice::WriteOnly))
-            {
-                return;
-            }
-            QJsonObject skinObject;
-            theme->writeTo(skinObject);
-            m_paletteModel->writeTo(skinObject);
-            QJsonDocument saveDoc(skinObject);
-            exportFile.write(saveDoc.toJson());
-        }
-    }
+    auto name= m_ctrl->themeName(i);
+
+    QString pathExport= QFileDialog::getSaveFileName(
+        this, tr("Export Rolisteam Theme"),
+        m_preferences->value("ThemeDirectory", QDir::homePath()).toString().append("/%1.rskin").arg(name),
+        tr("Rolisteam Theme: %1").arg("*.rskin"))
+
+    m_ctrl->exportTheme(pathExport, i);
 }
 
 bool PreferencesDialog::importTheme()
@@ -1023,75 +635,14 @@ bool PreferencesDialog::importTheme()
     QString pathImport= QFileDialog::getOpenFileName(
         this, tr("Import Rolisteam Theme"), m_preferences->value("ThemeDirectory", QDir::homePath()).toString(),
         tr("Rolisteam Theme: %1").arg("*.rskin"));
-    if(!pathImport.isEmpty())
-    {
-        QFile importFile(pathImport);
-        if(!importFile.open(QIODevice::ReadOnly))
-        {
-            return false;
-        }
-        QByteArray saveData= importFile.readAll();
-        QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
-        RolisteamTheme* theme
-            = new RolisteamTheme(QPalette(), "", "", QStyleFactory::create("fusion"), "", 0, QColor(), false);
-        theme->readFrom(loadDoc.object());
-        m_paletteModel->readFrom(loadDoc.object());
-        theme->setPalette(m_paletteModel->getPalette());
 
-        ui->m_themeComboBox->addItem(theme->getName());
-        m_themes.append(theme);
-        ui->m_themeComboBox->setCurrentIndex(m_themes.size() - 1);
-        updateTheme();
+    updateTheme();
+    ui->m_themeComboBox->setCurrentIndex(ui->m_themeComboBox->count() - 1);
 
-        return true;
-    }
     return false;
-}
-
-RolisteamTheme* PreferencesDialog::getCurrentRemovableTheme(bool selectNew)
-{
-    int i= ui->m_themeComboBox->currentIndex();
-    if((i >= 0) && (i < m_themes.size()))
-    {
-        RolisteamTheme* theme= m_themes.at(i);
-        if(!theme->isRemovable())
-        {
-            dupplicateTheme(selectNew);
-        }
-        if(!selectNew)
-        {
-            i= ui->m_themeComboBox->currentIndex();
-        }
-        else
-        {
-            i= m_themes.size() - 1;
-        }
-        if(i >= 0)
-        {
-            theme= m_themes.at(i);
-        }
-        return theme;
-    }
-    else
-        return nullptr;
-}
-
-CharacterStateModel* PreferencesDialog::getStateModel() const
-{
-    return m_stateModel;
-}
-
-void PreferencesDialog::setStateModel(CharacterStateModel* stateModel)
-{
-    m_stateModel= stateModel;
 }
 
 void PreferencesDialog::deleteTheme()
 {
-    int i= ui->m_themeComboBox->currentIndex();
-    if((i >= 0) && (i < m_themes.size()))
-    {
-        ui->m_themeComboBox->removeItem(i);
-        m_themes.removeAt(i);
-    }
+    m_ctrl->removeTheme(ui->m_themeComboBox->currentIndex());
 }

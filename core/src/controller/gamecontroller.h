@@ -22,15 +22,18 @@
 
 #include <QObject>
 
+class PreferencesController;
 class GameController : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(PreferencesController* preferencesController READ preferencesController CONSTANT)
 public:
     explicit GameController(QObject *parent = nullptr);
 
 signals:
 
 public slots:
+    std::unique_ptr<PreferencesController> m_preferencesDialogController;
 };
 
 #endif // GAMECONTROLLER_H

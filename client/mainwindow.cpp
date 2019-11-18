@@ -304,12 +304,12 @@ void MainWindow::setupUi()
     m_ui->m_menuSubWindows->removeAction(m_ui->m_audioPlayerAct);
 #endif
 
-    m_preferencesDialog= new PreferencesDialog(this);
+    m_preferencesDialog= new PreferencesDialog(m_gameController->preferencesController(), this);
     linkActionToMenu();
-    if(nullptr != m_preferencesDialog->getStateModel())
-    {
-        ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory, m_preferencesDialog->getStateModel());
-    }
+    /* if(nullptr != m_preferencesDialog->getStateModel())
+     {
+
+     }*/
 
     // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
     m_playerList= PlayersList::instance();

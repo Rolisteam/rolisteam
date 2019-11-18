@@ -20,6 +20,8 @@
 #include "gamecontroller.h"
 
 GameController::GameController(QObject *parent) : QObject(parent)
+#include "controller/preferencescontroller.h"
+    , m_preferencesDialogController(new PreferencesController)
 {
 
 }

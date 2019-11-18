@@ -26,6 +26,7 @@
 #include <QComboBox>
 #include <QDialog>
 #include <QLineEdit>
+#include <QPointer>
 #include <QStyledItemDelegate>
 
 #include "common/widgets/colorbutton.h"
@@ -37,6 +38,8 @@
 #include "preferences/rolisteamtheme.h"
 #include "widgets/centeredcheckbox.h"
 #include "widgets/filedirchooser.h"
+
+class PreferencesController;
 
 /**
  * @brief The CheckBoxDelegate class
@@ -117,7 +120,7 @@ private:
 
 namespace Ui
 {
-    class PreferencesDialogBox;
+class PreferencesDialogBox;
 }
 /**
  * @brief The ColorDelegate class
@@ -170,41 +173,20 @@ public:
      * @param parent
      * @param f
      */
-    PreferencesDialog(QWidget* parent= nullptr, Qt::WindowFlags f= Qt::Dialog);
+    PreferencesDialog(PreferencesController* controller, QWidget* parent= nullptr, Qt::WindowFlags f= Qt::Dialog);
     /**
      * @brief ~PreferencesDialog
      */
     virtual ~PreferencesDialog();
-
-    /**
-     * @brief sendOffAllDiceAlias
-     */
-    void sendOffAllDiceAlias();
-    void sendOffAllState();
-    /**
-     * @brief initializePostSettings loads every data from the settings file.
-     */
-    void initializePostSettings();
-
-    CharacterStateModel* getStateModel() const;
-    void setStateModel(CharacterStateModel* stateModel);
 
 public slots:
     /**
      * @brief show the dialog.
      */
     void show();
-    /**
-     * @brief updateUi
-     * @param isGM
-     */
-    void updateUi(bool isGM);
-    /**
-     * @brief manageMessagingPref receives all notification when GUI widget has changed.
-     */
-    void manageMessagingPref();
     void backgroundChanged();
     void manageHeartBeat();
+    void manageMessagingPref();
 private slots:
     /**
      * @brief load
@@ -219,15 +201,6 @@ private slots:
      * @brief performDiag start diagnostic and Display some value about current qt version.
      */
     void performDiag();
-    // Management of DiceAliases
-    /**
-     * @brief managedAction
-     */
-    void manageAliasAction();
-    /**
-     * @brief manageStateAction
-     */
-    void manageStateAction();
     /**
      * @brief testAliasCommand
      */
@@ -235,7 +208,7 @@ private slots:
     /**
      * @brief applyBackground
      */
-    void applyBackground();
+    // void applyBackground();
     /**
      * @brief updateTheme
      */
@@ -275,20 +248,12 @@ private slots:
     void deleteTheme();
 
 private:
-    /**
-     *  @brief getCurrentRemovableTheme should return the current theme which can be modified.
-     */
-    RolisteamTheme* getCurrentRemovableTheme(bool selectNew= true);
-
-private:
     PreferencesManager* m_preferences= nullptr;
     Ui::PreferencesDialogBox* ui;
     DiceParser* m_diceParser;
-    DiceAliasModel* m_aliasModel;
     QPushButton* m_applyBtn;
-    PaletteModel* m_paletteModel;
-    QList<RolisteamTheme*> m_themes;
-    CharacterStateModel* m_stateModel;
+    QPointer<PreferencesController> m_ctrl;
+
     bool m_currentThemeIsEditable;
 };
 
