@@ -19,7 +19,16 @@
  ***************************************************************************/
 #include "resourcescontroller.h"
 
-ResourcesController::ResourcesController(QObject *parent) : QObject(parent)
-{
+#include "session/sessionitemmodel.h"
 
-}
+ResourcesController::ResourcesController(QObject* parent) : QObject(parent) {}
+
+ResourcesController::~ResourcesController()= default;
+
+void ResourcesController::addResource(ResourcesNode* node) {}
+
+void ResourcesController::removeResource(ResourcesNode* node) {}
+
+void ResourcesController::saveModel(const QString& file) {}
+
+void ResourcesController::loadModel(const QString& file) {}
