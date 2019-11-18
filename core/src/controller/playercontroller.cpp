@@ -19,7 +19,21 @@
  ***************************************************************************/
 #include "playercontroller.h"
 
-PlayerController::PlayerController(QObject *parent) : QObject(parent)
-{
+#include "data/player.h"
 
+PlayerController::PlayerController(QObject* parent) : QObject(parent), m_localPlayer(new Player) {}
+
+PlayerController::~PlayerController()= default;
+
+Player* PlayerController::localPlayer() const
+{
+    return m_localPlayer;
+}
+
+void PlayerController::setLocalPlayer(Player* player)
+{
+    if(m_localPlayer == player)
+        return;
+    m_localPlayer= player;
+    emit localPlayerChanged();
 }
