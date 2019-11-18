@@ -170,14 +170,6 @@ bool DiceAliasModel::setData(const QModelIndex& index, const QVariant& value, in
         }
         if((result) && (m_isGM))
         {
-            NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addDiceAlias);
-            msg.int64(index.row());
-            msg.string32(diceAlias->getCommand());
-            msg.string32(diceAlias->getValue());
-            msg.int8(diceAlias->isReplace());
-            msg.int8(diceAlias->isEnable());
-            msg.string32(diceAlias->getComment());
-            msg.sendToServer();
         }
     }
     return result;
@@ -186,7 +178,7 @@ QList<DiceAlias*>* DiceAliasModel::getAliases()
 {
     return m_diceAliasList;
 }
-void DiceAliasModel::deleteAlias(QModelIndex& index)
+void DiceAliasModel::deleteAlias(const QModelIndex& index)
 {
     if(!index.isValid())
         return;
@@ -198,7 +190,7 @@ void DiceAliasModel::deleteAlias(QModelIndex& index)
     msg.int64(index.row());
     msg.sendToServer();
 }
-void DiceAliasModel::upAlias(QModelIndex& index)
+void DiceAliasModel::upAlias(const QModelIndex& index)
 {
     if(!index.isValid())
         return;
@@ -212,7 +204,7 @@ void DiceAliasModel::upAlias(QModelIndex& index)
     }
 }
 
-void DiceAliasModel::downAlias(QModelIndex& index)
+void DiceAliasModel::downAlias(const QModelIndex& index)
 {
     if(!index.isValid())
         return;
@@ -228,7 +220,7 @@ void DiceAliasModel::downAlias(QModelIndex& index)
     }
 }
 
-void DiceAliasModel::topAlias(QModelIndex& index)
+void DiceAliasModel::topAlias(const QModelIndex& index)
 {
     if(!index.isValid())
         return;
@@ -244,7 +236,7 @@ void DiceAliasModel::topAlias(QModelIndex& index)
     }
 }
 
-void DiceAliasModel::bottomAlias(QModelIndex& index)
+void DiceAliasModel::bottomAlias(const QModelIndex& index)
 {
     if(!index.isValid())
         return;
@@ -268,20 +260,6 @@ void DiceAliasModel::clear()
     qDeleteAll(m_diceAliasList->begin(), m_diceAliasList->end());
     m_diceAliasList->clear();
     endResetModel();
-}
-void DiceAliasModel::sendOffAllDiceAlias()
-{
-    for(auto& alias : *m_diceAliasList)
-    {
-        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addDiceAlias);
-        msg.int64(m_diceAliasList->indexOf(alias));
-        msg.string32(alias->getCommand());
-        msg.string32(alias->getValue());
-        msg.int8(alias->isReplace());
-        msg.int8(alias->isEnable());
-        msg.string32(alias->getComment());
-        msg.sendToServer();
-    }
 }
 
 void DiceAliasModel::load(const QJsonObject& obj)
@@ -315,11 +293,11 @@ void DiceAliasModel::save(QJsonObject& obj)
 }
 void DiceAliasModel::moveAlias(int from, int to)
 {
-    if(m_isGM)
-    {
-        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::moveDiceAlias);
-        msg.int64(from);
-        msg.int64(to);
-        msg.sendToServer();
-    }
+    if(!m_isGM)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::moveDiceAlias);
+    msg.int64(from);
+    msg.int64(to);
+    msg.sendToServer();
 }
