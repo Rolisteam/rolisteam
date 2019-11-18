@@ -21,19 +21,122 @@
 #define GAMECONTROLLER_H
 
 #include <QObject>
+#include <memory>
 
+struct TipOfDay
+{
+    QString title;
+    QString content;
+    QString url;
+    int id;
+};
+
+class QAbstractItemModel;
+class ResourcesController;
+class LogController;
+class LogSenderScheduler;
+class RemoteLogController;
+class PreferencesManager;
+class NetworkController;
+class PlayerController;
 class PreferencesController;
 class GameController : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QAbstractItemModel* playersModel READ playersModel CONSTANT)
+    Q_PROPERTY(QAbstractItemModel* localPersonModel READ localPersonModel CONSTANT)
+    Q_PROPERTY(QAbstractItemModel* chatModel READ chatModel CONSTANT)
+    Q_PROPERTY(QAbstractItemModel* resourcesModel READ resourcesModel CONSTANT)
     Q_PROPERTY(PreferencesController* preferencesController READ preferencesController CONSTANT)
+    Q_PROPERTY(QString currentScenario READ currentScenario WRITE setCurrentScenario NOTIFY currentScenarioChanged)
+    Q_PROPERTY(QString version READ version WRITE setVersion NOTIFY versionChanged)
+    Q_PROPERTY(QString localPlayerId READ localPlayerId NOTIFY localPlayerIdChanged)
+    Q_PROPERTY(QString remoteVersion READ remoteVersion NOTIFY remoteVersionChanged)
+    Q_PROPERTY(TipOfDay tipOfDay READ tipOfDay NOTIFY tipOfDayChanged)
+    Q_PROPERTY(bool localIsGM READ localIsGM NOTIFY localIsGMChanged)
+    Q_PROPERTY(bool updateAvailable READ updateAvailable WRITE setUpdateAvailable NOTIFY updateAvailableChanged)
+    Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
 public:
-    explicit GameController(QObject *parent = nullptr);
+    explicit GameController(QObject* parent= nullptr);
+    ~GameController();
+
+    QAbstractItemModel* playersModel() const;
+    QAbstractItemModel* localPersonModel() const;
+    QAbstractItemModel* chatModel() const;
+    QAbstractItemModel* resourcesModel() const;
+
+    NetworkController* networkController() const;
+    PlayerController* playerController() const;
+    PreferencesController* preferencesController() const;
+
+    QString version() const;
+    QString currentScenario() const;
+    QString localPlayerId() const;
+    QString remoteVersion() const;
+    bool localIsGM() const;
+    bool updateAvailable() const;
+    bool tipAvailable() const;
+    bool connected() const;
+
+    LogController* logController() const;
+    TipOfDay tipOfDay() const;
 
 signals:
+    void currentScenarioChanged();
+    void versionChanged();
+    void localPlayerIdChanged();
+    void localIsGMChanged();
+    void updateAvailableChanged();
+    void connectedChanged();
+    void remoteVersionChanged();
+    void tipOfDayChanged();
 
 public slots:
+    void addErrorLog(const QString& message);
+    void addWarningLog(const QString& message);
+    void addFeatureLog(const QString& message);
+    void addInfoLog(const QString& message);
+    void addSearchLog(const QString& message);
+
+    void startCheckForUpdates();
+    void startIpRetriever();
+    void startTipOfDay();
+    void postSettingInit();
+
+    void setCurrentScenario(const QString& path);
+    void setVersion(const QString& version);
+    void setUpdateAvailable(bool available);
+
+    /**
+     * @brief startConnection - start connection process
+     * @param profileIndex
+     */
+    void startConnection(int profileIndex);
+    /**
+     * @brief authentified - the client is connected and authentified to the server.
+     */
+    void authentified();
+    /**
+     * @brief aboutToClose - user want to close the application.
+     */
+    void aboutToClose();
+
+    void setLocalPlayerId(const QString& id);
+
+private:
+    std::unique_ptr<ResourcesController> m_resourcesController;
+    std::unique_ptr<LogController> m_logController;
+    std::unique_ptr<RemoteLogController> m_remoteLogCtrl;
+    std::unique_ptr<NetworkController> m_networkCtrl;
+    std::unique_ptr<PlayerController> m_playerController;
     std::unique_ptr<PreferencesController> m_preferencesDialogController;
+    PreferencesManager* m_preferences= nullptr;
+
+    QString m_currentScenario;
+    QString m_version;
+    QString m_remoteVersion;
+    bool m_updateAvailable= false;
+    TipOfDay m_tipOfTheDay;
 };
 
 #endif // GAMECONTROLLER_H

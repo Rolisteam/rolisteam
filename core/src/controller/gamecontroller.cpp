@@ -19,9 +19,277 @@
  ***************************************************************************/
 #include "gamecontroller.h"
 
-GameController::GameController(QObject *parent) : QObject(parent)
+#include "common/controller/logcontroller.h"
+#include "common/controller/remotelogcontroller.h"
+#include "controller/networkcontroller.h"
+#include "controller/playercontroller.h"
 #include "controller/preferencescontroller.h"
+#include "preferences/preferencesmanager.h"
+#include "resourcescontroller.h"
+#include "services/tipchecker.h"
+#include "services/updatechecker.h"
+#include "worker/messagehelper.h"
+
+#include "network/connectionprofile.h"
+
+GameController::GameController(QObject* parent)
+    : QObject(parent)
+    , m_logController(new LogController(false))
+    , m_remoteLogCtrl(new RemoteLogController())
+    , m_networkCtrl(new NetworkController)
+    , m_playerController(new PlayerController)
     , m_preferencesDialogController(new PreferencesController)
 {
+    m_networkCtrl->setGameController(this);
+#ifdef VERSION_MINOR
+#ifdef VERSION_MAJOR
+#ifdef VERSION_MIDDLE
+    m_version= QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+#endif
+#endif
+#endif
+    connect(m_logController.get(), &LogController::sendOffMessage, m_remoteLogCtrl.get(), &RemoteLogController::addLog);
+    connect(m_networkCtrl.get(), &NetworkController::isGMChanged, this, &GameController::localIsGMChanged);
+    connect(m_networkCtrl.get(), &NetworkController::connectedChanged, this, &GameController::authentified);
+    m_remoteLogCtrl->setAppId(0);
+    m_preferences= PreferencesManager::getInstance();
 
+    m_preferences->readSettings(m_version);
+}
+GameController::~GameController()= default;
+
+void GameController::postSettingInit()
+{
+    // Log controller
+    auto logDebug= m_preferences->value(QStringLiteral("LogDebug"), false).toBool();
+    m_logController->setMessageHandler(logDebug);
+
+    auto LogResearch= m_preferences->value(QStringLiteral("LogResearch"), false).toBool();
+    auto dataCollection= m_preferences->value(QStringLiteral("dataCollection"), false).toBool();
+    m_logController->setSignalInspection(logDebug && (LogResearch || dataCollection));
+
+    LogController::StorageModes mode= LogController::Gui;
+    if((LogResearch && dataCollection))
+    {
+        /*      m_logController->listenObjects(this);
+              mode= LogController::Gui | LogController::Network;
+              setFocusPolicy(Qt::StrongFocus);
+              auto clipboard= QGuiApplication::clipboard();
+              connect(clipboard, &QClipboard::dataChanged, this, [clipboard, this]() {
+                  auto text= clipboard->text();
+                  auto mime= clipboard->mimeData();
+                  text.append(QStringLiteral("\n%1").arg(mime->formats().join("|")));
+                  m_logController->manageMessage(QStringLiteral("Clipboard data changed: %1").arg(text),
+                      LogController::Search);
+              });*/
+    }
+    m_logController->setCurrentModes(mode);
+}
+
+void GameController::setCurrentScenario(const QString& path)
+{
+    if(m_currentScenario == path)
+        return;
+    m_currentScenario= path;
+    emit currentScenarioChanged();
+}
+
+void GameController::setVersion(const QString& version)
+{
+    if(version == m_version)
+        return;
+    m_version= version;
+    emit versionChanged();
+}
+
+void GameController::setLocalPlayerId(const QString& id)
+{
+    /*if(m_localId == id)
+        return;
+    m_localId= id;
+    emit localPlayerIdChanged();*/
+
+    m_remoteLogCtrl->setLocalUuid(id);
+}
+
+void GameController::setUpdateAvailable(bool available)
+{
+    if(available == m_updateAvailable)
+        return;
+    m_updateAvailable= available;
+    emit updateAvailableChanged();
+}
+
+LogController* GameController::logController() const
+{
+    return m_logController.get();
+}
+
+void GameController::addErrorLog(const QString& message)
+{
+    m_logController->manageMessage(message, LogController::Error);
+}
+
+void GameController::addWarningLog(const QString& message)
+{
+    m_logController->manageMessage(message, LogController::Warning);
+}
+
+void GameController::addFeatureLog(const QString& message)
+{
+    m_logController->manageMessage(message, LogController::Features);
+}
+
+void GameController::addInfoLog(const QString& message)
+{
+    m_logController->manageMessage(message, LogController::Info);
+}
+
+void GameController::addSearchLog(const QString& message)
+{
+    m_logController->manageMessage(message, LogController::Search);
+}
+
+NetworkController* GameController::networkController() const
+{
+    return m_networkCtrl.get();
+}
+
+PlayerController* GameController::playerController() const
+{
+    return m_playerController.get();
+}
+
+QString GameController::remoteVersion() const
+{
+    return m_remoteVersion;
+}
+
+void GameController::startCheckForUpdates()
+{
+    if(!m_preferences->value(QStringLiteral("MainWindow::MustBeChecked"), true).toBool())
+        return;
+
+    auto updateChecker= new UpdateChecker(m_version, this);
+    updateChecker->startChecking();
+    connect(updateChecker, &UpdateChecker::checkFinished, this, [this, updateChecker]() {
+        setUpdateAvailable(updateChecker->needUpdate());
+        m_remoteVersion= updateChecker->getLatestVersion();
+        updateChecker->deleteLater();
+    });
+}
+
+void GameController::startIpRetriever()
+{
+    if(m_preferences->value(QStringLiteral("MainWindow::neverDisplayTips"), false).toBool())
+        return;
+    TipChecker* tipChecker= new TipChecker(this);
+    tipChecker->startChecking();
+
+    connect(tipChecker, &TipChecker::checkFinished, this, [=]() {
+        auto id= m_preferences->value(QStringLiteral("MainWindow::lastTips"), 0).toInt();
+        if(tipChecker->hasArticle() && tipChecker->getId() + 1 > id)
+        {
+            m_tipOfTheDay= {tipChecker->getArticleTitle(), tipChecker->getArticleContent(), tipChecker->getUrl(),
+                            tipChecker->getId()};
+
+            m_preferences->registerValue(QStringLiteral("MainWindow::lastTips"), m_tipOfTheDay.id);
+            emit tipOfDayChanged();
+        }
+        tipChecker->deleteLater();
+    });
+}
+
+TipOfDay GameController::tipOfDay() const
+{
+    return m_tipOfTheDay;
+}
+
+void GameController::startTipOfDay() {}
+
+QAbstractItemModel* GameController::playersModel() const
+{
+    return {};
+}
+QAbstractItemModel* GameController::localPersonModel() const
+{
+    return {};
+}
+QAbstractItemModel* GameController::chatModel() const
+{
+    return {};
+}
+QAbstractItemModel* GameController::resourcesModel() const
+{
+    return {};
+}
+
+QString GameController::version() const
+{
+    return m_version;
+}
+
+QString GameController::currentScenario() const
+{
+    return m_currentScenario;
+}
+
+QString GameController::localPlayerId() const
+{
+    return tr("idnull");
+    // return m_networkCtrl->localPlayer()->getId();
+}
+
+bool GameController::localIsGM() const
+{
+    return m_networkCtrl->isGM();
+}
+
+bool GameController::updateAvailable() const
+{
+    return m_updateAvailable;
+}
+
+bool GameController::connected() const
+{
+    return m_networkCtrl->connected();
+}
+
+void GameController::startConnection(int profileIndex)
+{
+    auto profile= m_networkCtrl->getProfile(profileIndex);
+
+    if(profile == nullptr)
+        return;
+
+    auto player= profile->getPlayer();
+    m_playerController->setLocalPlayer(player);
+
+    m_networkCtrl->setHost(profile->getAddress());
+    m_networkCtrl->setPort(profile->getPort());
+    m_networkCtrl->setServerPassword(profile->getPassword());
+    m_networkCtrl->setIsGM(profile->isGM());
+    m_networkCtrl->setHosting(profile->isServer());
+
+    m_networkCtrl->startConnection();
+}
+
+void GameController::authentified()
+{
+    /*m_preferencesDialog->sendOffAllDiceAlias();
+    m_preferencesDialog->sendOffAllState();*/
+    if(localIsGM())
+        m_preferencesDialogController->shareModels();
+}
+
+void GameController::aboutToClose()
+{
+    MessageHelper::sendOffGoodBye();
+    m_networkCtrl->closeServer();
+    m_preferences->writeSettings(m_version);
+}
+
+PreferencesController* GameController::preferencesController() const
+{
+    return m_preferencesDialogController.get();
 }
