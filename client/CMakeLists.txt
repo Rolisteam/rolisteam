@@ -12,6 +12,7 @@ set(SOURCES main.cpp mainwindow.cpp)
 set(HEADERS mainwindow.h)
 
 include_directories(../core/src)
+include_directories(../core/src/diceparser/include)
 
 set(QT_REQUIRED_VERSION "5.12.0")
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui LinguistTools)
