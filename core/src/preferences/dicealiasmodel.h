@@ -101,12 +101,12 @@ public:
     void appendAlias();
     QList<DiceAlias*>* getAliases();
     void addAlias(DiceAlias* alias);
-    void deleteAlias(QModelIndex& index);
-    void upAlias(QModelIndex& index);
-    void downAlias(QModelIndex& index);
-    void topAlias(QModelIndex& index);
+    void deleteAlias(const QModelIndex& index);
+    void upAlias(const QModelIndex& index);
+    void downAlias(const QModelIndex& index);
+    void topAlias(const QModelIndex& index);
     void moveAlias(int, int);
-    void bottomAlias(QModelIndex& index);
+    void bottomAlias(const QModelIndex& index);
     void setGM(bool);
     void clear();
     /**
