@@ -66,7 +66,7 @@ PlayerWidget::PlayerWidget(int id, QWidget* parent)
     m_preferences= PreferencesManager::getInstance();
     // m_preferences->registerLambda();
     m_ui->setupUi(this);
-    m_playingMode= NEXT;
+    setPlayingMode(NEXT);
 
     setupUi();
     m_model= new MusicModel(this);
@@ -562,20 +562,25 @@ void PlayerWidget::triggeredPlayingModeAction()
     }
     if(m_repeatAct->isChecked())
     {
-        m_playingMode= LOOP;
+        setPlayingMode(LOOP);
     }
     else if(m_uniqueAct->isChecked())
     {
-        m_playingMode= UNIQUE;
+        setPlayingMode(UNIQUE);
     }
     else if(m_shuffleAct->isChecked())
     {
-        m_playingMode= SHUFFLE;
+        setPlayingMode(SHUFFLE);
     }
     else
     {
-        m_playingMode= NEXT;
+        setPlayingMode(NEXT);
     }
+}
+
+void PlayerWidget::setPlayingMode(PlayerWidget::PlayingMode mode)
+{
+    m_playingMode= mode;
 }
 void PlayerWidget::loadPlayList()
 {
