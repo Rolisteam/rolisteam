@@ -80,6 +80,7 @@ void ServerManager::startListening()
     if(m_server == nullptr)
     {
         m_server= new RServer(this, getValue(QStringLiteral("ThreadCount")).toInt());
+        connect(m_server, &RServer::close, this, &ServerManager::closed);
     }
     ++m_tryCount;
     if(m_server->listen(QHostAddress::Any, static_cast<quint16>(getValue(QStringLiteral("port")).toInt())))
@@ -106,8 +107,9 @@ void ServerManager::startListening()
 }
 void ServerManager::stopListening()
 {
-    m_server->terminate();
+    // m_server->refuseNewConnection(true);
     close();
+    m_server->terminate();
 }
 
 void ServerManager::messageReceived(QByteArray array)
@@ -597,7 +599,6 @@ void ServerManager::close()
 {
     auto clients= m_connections.values();
     std::for_each(clients.begin(), clients.end(), [](TcpClient* client) {
-        // removeClient(client);
         QMetaObject::invokeMethod(client, &TcpClient::closeConnection, Qt::QueuedConnection);
     });
     emit closed();

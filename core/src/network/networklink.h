@@ -44,7 +44,7 @@ public:
      * @brief NetworkLink
      * @param m_connection
      */
-    NetworkLink(ConnectionProfile* m_connection);
+    NetworkLink();
     /**
      * @brief ~NetworkLink
      */
@@ -86,7 +86,7 @@ public:
     void reset();
 public slots:
     void sendData(char* data, quint32 size);
-    void connectTo();
+    void connectTo(const QString& host, int port);
     void sendData(NetworkMessage* msg);
     void processAdminstrationMessage(NetworkMessageReader* msg);
 signals:
@@ -95,7 +95,6 @@ signals:
      */
     void readDataReceived(quint64, quint64);
     void errorMessage(QString);
-    void connnectionStateChanged(QAbstractSocket::SocketState);
     void gameMasterStatusChanged(bool status);
 
     //////////////////////////

@@ -2,6 +2,7 @@
 #define CONNECTIONPROFILE_H
 
 #include "data/player.h"
+#include <QPointer>
 /**
  * @brief The ConnectionProfile class stores any data about the connection: Mode (client or server) or role (GM or
  * Player)
@@ -109,7 +110,7 @@ public:
     void cloneProfile(const ConnectionProfile* src);
 
 private:
-    Character* m_character;
+    QPointer<Character> m_character;
     bool m_server;
     quint16 m_port;
     Player* m_player;

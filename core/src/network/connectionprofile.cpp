@@ -1,5 +1,6 @@
 #include "connectionprofile.h"
 
+#include "data/character.h"
 #include <QCryptographicHash>
 
 #define DEFAULT_PORT 6660

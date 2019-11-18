@@ -20,17 +20,100 @@
 #ifndef CONNECTIONCONTROLLER_H
 #define CONNECTIONCONTROLLER_H
 
+#include "controllerinterface.h"
 #include <QObject>
+#include <QPointer>
+#include <memory>
 
-class ConnectionController : public QObject
+class ClientManager;
+class ServerManager;
+class QThread;
+class HeartBeatSender;
+class ProfileModel;
+class QAbstractItemModel;
+class ConnectionProfile;
+class GameController;
+class NetworkController : public ControllerInterface
 {
     Q_OBJECT
+    Q_PROPERTY(bool isGM READ isGM WRITE setIsGM NOTIFY isGMChanged)
+    Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
+    Q_PROPERTY(bool hosting READ hosting WRITE setHosting NOTIFY hostingChanged)
+    Q_PROPERTY(bool askForGM READ askForGM WRITE setAskForGM NOTIFY askForGMChanged)
+    Q_PROPERTY(QString host READ host WRITE setHost NOTIFY hostChanged)
+    Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
+    Q_PROPERTY(QByteArray adminPassword READ adminPassword WRITE setAdminPassword NOTIFY adminPasswordChanged)
+    Q_PROPERTY(QByteArray serverPassword READ serverPassword WRITE setServerPassword NOTIFY serverPasswordChanged)
+    Q_PROPERTY(QAbstractItemModel* profileModel READ profileModel CONSTANT)
 public:
-    explicit ConnectionController(QObject *parent = nullptr);
+    explicit NetworkController(QObject* parent= nullptr);
+    ~NetworkController();
+    bool isGM() const;
+    bool connected() const;
+    bool hosting() const;
+    bool askForGM() const;
+    QString host() const;
+    int port() const;
+    QAbstractItemModel* profileModel() const;
+
+    QByteArray adminPassword() const;
+    QByteArray serverPassword() const;
+
+    ConnectionProfile* getProfile(int pos) const;
+    void setGameController(GameController* game);
 
 signals:
+    void isGMChanged();
+    void connectedChanged();
+    void hostingChanged();
+    void askForGMChanged();
+    void hostChanged();
+    void portChanged();
+    void serverPasswordChanged();
+    void adminPasswordChanged();
+
+    void tableChanged();
 
 public slots:
+    void startConnection();
+    void setIsGM(bool b);
+    void setHosting(bool b);
+    void setAskForGM(bool b);
+    void setHost(const QString& host);
+    void setPort(int port);
+    void setServerPassword(const QByteArray& array);
+    void setAdminPassword(const QByteArray& array);
+
+    void appendProfile();
+    void removeProfile(int pos);
+
+    void closeServer();
+
+private slots:
+    void sendOffConnectionInfo();
+
+private:
+    void startServer();
+    void startClient();
+
+private:
+    std::unique_ptr<ClientManager> m_clientManager;
+    std::unique_ptr<ServerManager> m_server;
+    std::unique_ptr<QThread> m_serverThread;
+    std::unique_ptr<HeartBeatSender> m_hbSender;
+    std::unique_ptr<ProfileModel> m_profileModel;
+    QPointer<GameController> m_gameCtrl;
+
+    QByteArray m_serverPw;
+    QByteArray m_admindPw;
+
+    QString m_host;
+    int m_port= 6660;
+
+    // Data
+    bool m_isGM= true;
+    bool m_hosting= false;
+    bool m_askForGM= true;
 };
 
 #endif // CONNECTIONCONTROLLER_H

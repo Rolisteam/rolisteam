@@ -20,4 +20,14 @@
 #ifndef CONTROLLERINTERFACE_H
 #define CONTROLLERINTERFACE_H
 
+#include <QObject>
+class GameController;
+class ControllerInterface : public QObject
+{
+    Q_OBJECT
+public:
+    ControllerInterface(QObject* parent) : QObject(parent) {}
+    virtual void setGameController(GameController*)= 0;
+};
+
 #endif // CONTROLLERINTERFACE_H
