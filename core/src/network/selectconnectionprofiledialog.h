@@ -3,7 +3,9 @@
 
 #include "connectionprofile.h"
 #include "data/player.h"
+#include <QAbstractItemModel>
 #include <QDialog>
+#include <QPointer>
 #include <QSettings>
 
 namespace Ui
@@ -11,6 +13,7 @@ namespace Ui
 class SelectConnectionProfileDialog;
 }
 
+class GameController;
 /**
  * @brief The SelectConnectionProfileDialog class is the dialog box shown at starting or when the connection is lost.
  */
@@ -23,7 +26,7 @@ public:
      * @brief SelectConnectionProfileDialog
      * @param parent
      */
-    explicit SelectConnectionProfileDialog(QString version, QWidget* parent= nullptr);
+    explicit SelectConnectionProfileDialog(GameController* ctrl, QWidget* parent= nullptr);
     /**
      * @brief ~SelectConnectionProfileDialog
      */
@@ -34,16 +37,6 @@ public:
      * @return
      */
     ConnectionProfile* getSelectedProfile();
-
-    /**
-     * Load informations from the previous rolisteam's execution
-     */
-    void readSettings();
-
-    /**
-     * Save parameters for next executions.
-     */
-    void writeSettings();
 
     /**
      * @brief setArgumentProfile
@@ -60,7 +53,7 @@ signals:
     /**
      * @brief tryConnection
      */
-    void tryConnection();
+    void startConnectionProcess(int pos);
 public slots:
     /**
      * @brief removeProfile
@@ -87,10 +80,10 @@ public slots:
 
 private:
     Ui::SelectConnectionProfileDialog* ui;
-    ProfileModel* m_model;
-    ConnectionProfile* m_currentProfile;
-    QString m_version;
+    QPointer<GameController> m_ctrl;
+    QPointer<QAbstractItemModel> m_model;
     QString m_avatarUri;
+    int m_currentProfileIndex= -1;
     bool m_passChanged= false;
 };
 
