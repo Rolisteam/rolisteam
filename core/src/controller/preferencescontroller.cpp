@@ -20,6 +20,11 @@
 #include "preferencescontroller.h"
 
 PreferencesController::PreferencesController(QObject *parent) : QObject(parent)
+void PreferencesController::shareModels()
+{
+    MessageHelper::sendOffAllDiceAlias(m_diceAliasModel.get());
+    MessageHelper::sendOffAllCharacterState(m_characterStateModel.get());
+}
 {
 
 }
