@@ -21,16 +21,34 @@
 #define RESOURCESCONTROLLER_H
 
 #include <QObject>
+#include <memory>
+
+class SessionItemModel;
+class ResourcesNode;
 
 class ResourcesController : public QObject
 {
     Q_OBJECT
 public:
     explicit ResourcesController(QObject *parent = nullptr);
+    ~ResourcesController();
+
 
 signals:
+    void showResource(ResourcesNode*, bool);
 
 public slots:
+    void addResource(ResourcesNode* node);
+    void removeResource(ResourcesNode* node);
+    void saveModel(const QString& file);
+    void loadModel(const QString& file);
+
+
+
+
+
+private:
+    std::unique_ptr<SessionItemModel> m_model;
 };
 
 #endif // RESOURCESCONTROLLER_H
