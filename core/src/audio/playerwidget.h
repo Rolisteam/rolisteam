@@ -80,6 +80,7 @@ public:
     void addSongIntoModel(QString str);
 
     const MusicModel* model() const;
+    void setPlayingMode(PlayerWidget::PlayingMode mode);
 public slots:
     // ********************** Slots from network *************************** //
     /**
