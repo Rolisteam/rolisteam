@@ -62,8 +62,8 @@ void PaletteModelTest::getAndSetTest()
     {
         for(int role= 0; role < QPalette::NColorRoles; role++)
         {
-            if((result.color((QPalette::ColorGroup)grp, (QPalette::ColorRole)role)
-                != test_palette.color((QPalette::ColorGroup)grp, (QPalette::ColorRole)role)))
+            if((result.color(static_cast<QPalette::ColorGroup>(grp), static_cast<QPalette::ColorRole>(role))
+                != test_palette.color(static_cast<QPalette::ColorGroup>(grp), static_cast<QPalette::ColorRole>(role))))
             {
                 equal= false;
             }
@@ -77,7 +77,7 @@ void PaletteModelTest::paletteColorChangedTest()
     m_paletteModel->setPalette(test_palette);
     QColor test_color(1, 87, 42);
     QModelIndex firstIndex= m_paletteModel->index(0, 0);
-    m_paletteModel->setColor(firstIndex, test_color);
+    m_paletteModel->setColor(firstIndex.row(), test_color);
     QColor result_color= m_paletteModel->data(firstIndex, Qt::DecorationRole).value<QColor>();
     QVERIFY(result_color == test_color);
 }
@@ -87,7 +87,7 @@ void PaletteModelTest::paletteColorChangedTest2()
     m_paletteModel->setPalette(test_palette);
     QColor test_color(1, 87, 42);
     QModelIndex firstIndex= m_paletteModel->index(10, 0);
-    m_paletteModel->setColor(firstIndex, test_color);
+    m_paletteModel->setColor(firstIndex.row(), test_color);
     QColor result_color= m_paletteModel->data(firstIndex, Qt::DecorationRole).value<QColor>();
     QVERIFY(result_color == test_color);
 }
@@ -97,7 +97,7 @@ void PaletteModelTest::paletteColorChangedTest3()
     m_paletteModel->setPalette(test_palette);
     QColor test_color(201, 7, 252);
     QModelIndex firstIndex= m_paletteModel->index(20, 0);
-    m_paletteModel->setColor(firstIndex, test_color);
+    m_paletteModel->setColor(firstIndex.row(), test_color);
     QColor result_color= m_paletteModel->data(firstIndex, Qt::DecorationRole).value<QColor>();
     QVERIFY(result_color == test_color);
 }
@@ -107,7 +107,7 @@ void PaletteModelTest::paletteColorChangedTest4()
     m_paletteModel->setPalette(test_palette);
     QColor test_color(102, 87, 42);
     QModelIndex firstIndex= m_paletteModel->index(30, 0);
-    m_paletteModel->setColor(firstIndex, test_color);
+    m_paletteModel->setColor(firstIndex.row(), test_color);
     QColor result_color= m_paletteModel->data(firstIndex, Qt::DecorationRole).value<QColor>();
     QVERIFY(result_color == test_color);
 }
