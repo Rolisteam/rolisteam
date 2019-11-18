@@ -44,6 +44,7 @@
 
 #include "charactersheet/charactersheet.h"
 #include "chat/chatlistwidget.h"
+#include "controller/playercontroller.h"
 #include "data/character.h"
 #include "data/mediacontainer.h"
 #include "data/person.h"
@@ -52,7 +53,6 @@
 #include "map/map.h"
 #include "map/mapframe.h"
 #include "media/image.h"
-#include "network/clientmanager.h"
 #include "network/networkmessagewriter.h"
 #include "network/receiveevent.h"
 #include "network/servermanager.h"
@@ -68,12 +68,16 @@
 #include "widgets/shortcuteditordialog.h"
 #include "widgets/tipofdayviewer.h"
 #include "widgets/toolsbar.h"
+#include "worker/messagehelper.h"
 #ifdef HAVE_WEBVIEW
 #include "webview/webview.h"
 #include <QWebEngineSettings>
 #endif
 // LOG
 #include "common/widgets/logpanel.h"
+
+// Controller
+#include "controller/networkcontroller.h"
 
 // Undo
 #include "undoCmd/addmediacontainer.h"
@@ -107,15 +111,21 @@
 MainWindow::MainWindow()
     : QMainWindow()
     , m_preferencesDialog(nullptr)
-    , m_clientManager(nullptr)
     , m_ui(new Ui::MainWindow)
     , m_resetSettings(false)
     , m_currentConnectionProfile(nullptr)
     , m_profileDefined(false)
     , m_currentStory(nullptr)
     , m_roomPanelDockWidget(new QDockWidget(this))
+    , m_gameController(new GameController)
 {
     setAcceptDrops(true);
+
+    connect(m_gameController.get(), &GameController::updateAvailableChanged, this, &MainWindow::showUpdateNotification);
+    connect(m_gameController.get(), &GameController::tipOfDayChanged, this, &MainWindow::showTipChecker);
+    connect(m_gameController.get(), &GameController::localPlayerIdChanged, this,
+            [this]() { m_roomPanel->setLocalPlayerId(m_gameController->localPlayerId()); });
+
     m_profileDefined= false;
 
     m_ui->setupUi(this);
@@ -147,7 +157,6 @@ MainWindow::MainWindow()
     m_downLoadProgressbar->setRange(0, 100);
 
     m_downLoadProgressbar->setVisible(false);
-    m_clientManager= nullptr;
     m_vmapToolBar= new VmapToolBar(this);
     addToolBar(Qt::TopToolBarArea, m_vmapToolBar);
 
@@ -160,10 +169,7 @@ MainWindow::MainWindow()
     connect(m_sessionManager, &SessionManager::openResource, this, &MainWindow::openResource);
 
     /// Create all GM toolbox widget
-    m_gmToolBoxList.append(new NameGeneratorWidget(this));
-    m_gmToolBoxList.append(new GMTOOL::Convertor(this));
-    m_gmToolBoxList.append(new NpcMakerWidget(this));
-    // m_gmToolBoxList.append(new DiceBookMarkWidget(this));
+    m_gmToolBoxList.append({new NameGeneratorWidget(this), new GMTOOL::Convertor(this), new NpcMakerWidget(this)});
 
     for(auto& gmTool : m_gmToolBoxList)
     {
@@ -208,17 +214,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupUi()
 {
-    // Initialisation de la liste des BipMapWindow, des Image et des Tchat
     m_mediaHash.clear();
-    m_version= tr("unknown");
-#ifdef VERSION_MINOR
-#ifdef VERSION_MAJOR
-#ifdef VERSION_MIDDLE
-    m_version= QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-#endif
-#endif
-#endif
-    m_dialog= new SelectConnectionProfileDialog(m_version, this);
+
+    m_dialog= new SelectConnectionProfileDialog(m_gameController.get(), this);
+    connect(m_gameController->networkController(), &NetworkController::connectedChanged, this, [this]() {
+        if(m_gameController->networkController()->connected())
+            postConnection();
+    });
+
     if(m_commandLineProfile)
     {
         m_dialog->setArgumentProfile(m_commandLineProfile->m_ip, m_commandLineProfile->m_port,
@@ -323,26 +326,26 @@ void MainWindow::setupUi()
             m_sessionManager->addRessource(character);
         }
     });
-    connect(m_playerList, &PlayersList::eventOccurs, this,
-            [this](const QString& msg) { m_logController->manageMessage(msg, LogController::Features); });
+    connect(m_playerList, &PlayersList::eventOccurs, m_gameController.get(), &GameController::addFeatureLog);
 
-    connect(m_dialog, &SelectConnectionProfileDialog::tryConnection, this, &MainWindow::startConnection);
-    connect(m_dialog, &SelectConnectionProfileDialog::rejected, this, [this]() {
+    connect(m_dialog, &SelectConnectionProfileDialog::startConnectionProcess, m_gameController.get(),
+            &GameController::startConnection);
+    /*connect(m_dialog, &SelectConnectionProfileDialog::rejected, this, [this]() {
         if(nullptr == m_server)
             return;
         if(m_server->getState() != ServerManager::Listening)
         {
             m_serverThread.quit();
         }
-    });
+    });*/
 
     connect(m_ipChecker, &IpChecker::finished, this, [=](QString ip) {
         m_connectionAddress= ip;
         if(nullptr != m_currentConnectionProfile)
         {
-            m_logController->manageMessage(
-                tr("Server Ip Address:%1\nPort:%2").arg(m_connectionAddress).arg(m_currentConnectionProfile->getPort()),
-                LogController::Hidden);
+            m_gameController->addFeatureLog(tr("Server Ip Address:%1\nPort:%2")
+                                                .arg(m_connectionAddress)
+                                                .arg(m_currentConnectionProfile->getPort()));
         }
     });
 }
@@ -369,15 +372,15 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac, bool redoable)
 }
 void MainWindow::closeConnection()
 {
-    if(nullptr != m_clientManager)
-    {
-        m_serverThread.exit();
-        cleanUpData();
-        m_clientManager->disconnectAndClose();
-        m_chatListWidget->cleanChatList();
-        m_ui->m_changeProfileAct->setEnabled(true);
-        m_ui->m_disconnectAction->setEnabled(false);
-    }
+    /* if(nullptr != m_clientManager)
+     {
+         m_serverThread.exit();
+         cleanUpData();
+         m_clientManager->disconnectAndClose();
+         m_chatListWidget->cleanChatList();
+         m_ui->m_changeProfileAct->setEnabled(true);
+         m_ui->m_disconnectAction->setEnabled(false);
+     }*/
 }
 void MainWindow::closeAllMediaContainer()
 {
@@ -431,34 +434,13 @@ void MainWindow::closeCurrentSubWindow()
         closeMediaContainer(container->getMediaId(), true);
     }
 }
-void MainWindow::checkUpdate()
+void MainWindow::showTipChecker()
 {
-    if(m_preferences->value(QStringLiteral("MainWindow::MustBeChecked"), true).toBool())
-    {
-        m_updateChecker= new UpdateChecker(this);
-        m_updateChecker->startChecking();
-        connect(m_updateChecker, &UpdateChecker::checkFinished, this, &MainWindow::updateMayBeNeeded);
-    }
-}
-void MainWindow::tipChecker()
-{
-    if(!m_preferences->value(QStringLiteral("MainWindow::neverDisplayTips"), false).toBool())
-    {
-        TipChecker* tipChecker= new TipChecker(this);
-        tipChecker->startChecking();
-        connect(tipChecker, &TipChecker::checkFinished, this, [=]() {
-            auto id= m_preferences->value(QStringLiteral("MainWindow::lastTips"), 0).toInt();
-            if(tipChecker->hasArticle() && tipChecker->getId() + 1 > id)
-            {
-                TipOfDayViewer view(tipChecker->getArticleTitle(), tipChecker->getArticleContent(),
-                                    tipChecker->getUrl(), this);
-                view.exec();
-                m_preferences->registerValue(QStringLiteral("MainWindow::lastTips"), tipChecker->getId());
-                m_preferences->registerValue(QStringLiteral("MainWindow::neverDisplayTips"), view.dontshowAgain());
-            }
-            tipChecker->deleteLater();
-        });
-    }
+    auto tip= m_gameController->tipOfDay();
+    TipOfDayViewer view(tip.title, tip.content, tip.url, this);
+    view.exec();
+
+    m_preferences->registerValue(QStringLiteral("MainWindow::neverDisplayTips"), view.dontshowAgain());
 }
 
 void MainWindow::activeWindowChanged(QMdiSubWindow* subWindow)
@@ -481,7 +463,7 @@ void MainWindow::activeWindowChanged(QMdiSubWindow* subWindow)
     }
     m_vmapToolBar->setEnabled(false);
     auto owner= media->ownerId();
-    auto localIsOwner= (m_localPlayerId == owner);
+    auto localIsOwner= (m_gameController->localPlayerId() == owner);
     if(localPlayerIsGM)
         localIsOwner= true;
 
@@ -542,10 +524,8 @@ void MainWindow::closeEvent(QCloseEvent* event)
 {
     if(mayBeSaved())
     {
-        sendGoodBye();
+        m_gameController->aboutToClose();
         writeSettings();
-        if(m_serverThread.isRunning())
-            m_serverThread.quit();
         event->accept();
     }
     else
@@ -561,12 +541,6 @@ void MainWindow::userNatureChange(bool isGM)
         updateUi();
         updateWindowTitle();
     }
-}
-
-void MainWindow::sendGoodBye()
-{
-    NetworkMessageWriter message(NetMsg::AdministrationCategory, NetMsg::Goodbye);
-    message.sendToServer();
 }
 
 void MainWindow::receiveData(quint64 readData, quint64 size)
@@ -597,11 +571,7 @@ void MainWindow::createNotificationZone()
     QVBoxLayout* layout= new QVBoxLayout();
     wd->setLayout(layout);
 
-    m_logController= new LogController(false, this);
-
-    connect(m_logController, &LogController::sendOffMessage, &m_logScheduler, &LogSenderScheduler::addLog);
-
-    m_notifierDisplay= new LogPanel(m_logController, m_dockLogUtil);
+    m_notifierDisplay= new LogPanel(m_gameController->logController(), m_dockLogUtil);
 
     layout->addWidget(m_notifierDisplay);
     layout->addWidget(m_downLoadProgressbar);
@@ -615,33 +585,7 @@ void MainWindow::createNotificationZone()
 }
 void MainWindow::createPostSettings()
 {
-    // Log controller
-    auto logDebug= m_preferences->value(QStringLiteral("LogDebug"), false).toBool();
     m_notifierDisplay->initSetting();
-    m_logController->setMessageHandler(logDebug);
-
-    auto LogResearch= m_preferences->value(QStringLiteral("LogResearch"), false).toBool();
-    auto dataCollection= m_preferences->value(QStringLiteral("dataCollection"), false).toBool();
-    m_logController->setSignalInspection(logDebug && (LogResearch || dataCollection));
-
-    LogController::StorageModes mode= LogController::Gui;
-    if((LogResearch && dataCollection))
-    {
-        m_logController->listenObjects(this);
-        mode= LogController::Gui | LogController::Network;
-        setFocusPolicy(Qt::StrongFocus);
-        auto clipboard= QGuiApplication::clipboard();
-        connect(clipboard, &QClipboard::dataChanged, this, [clipboard, this]() {
-            auto text= clipboard->text();
-            auto mime= clipboard->mimeData();
-            text.append(QStringLiteral("\n%1").arg(mime->formats().join("|")));
-            m_logController->manageMessage(QStringLiteral("Clipboard data changed: %1").arg(text),
-                                           LogController::Search);
-        });
-    }
-    m_logController->setCurrentModes(mode);
-
-    m_logScheduler.setAppId(0); // Rolisteam 0, RCSE 1, Roliserver 2
 }
 
 void MainWindow::linkActionToMenu()
@@ -755,7 +699,7 @@ void MainWindow::linkActionToMenu()
 
     // Help
     connect(m_ui->m_aboutAction, &QAction::triggered, this, [=]() {
-        AboutRolisteam diag(m_version, this);
+        AboutRolisteam diag(m_gameController->version(), this);
         diag.exec();
     });
     connect(m_ui->m_onlineHelpAction, SIGNAL(triggered()), this, SLOT(helpOnLine()));
@@ -918,8 +862,8 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi
         media= new WebView(localIsGM ? WebView::localIsGM : WebView::LocalIsPlayer);
         uri->setCurrentMode(CleverURI::Linked);
     }
-#endif
     break;
+#endif
     default:
         break;
     }
@@ -931,60 +875,6 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi
     return media;
 }
 
-/*void MainWindow::sendOffAllMaps(Player* player)
-{
-    for(auto& mediaC : m_mediaHash)
-    {
-        if(CleverURI::VMAP == mediaC->getContentType())
-        {
-            // mapi.next();
-            VMapFrame* tmp= dynamic_cast<VMapFrame*>(mediaC);
-            if(nullptr != tmp)
-            {
-                VMap* tempmap= tmp->getMap();
-                NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::addVmap);
-                tempmap->fill(msg);
-                tempmap->sendAllItems(msg);
-                QStringList idList;
-                idList << player->getUuid();
-                msg.setRecipientList(idList, NetworkMessage::OneOrMany);
-                tmp->fill(msg);
-                msg.sendToServer();
-            }
-        }
-        else if(CleverURI::MAP == mediaC->getContentType())
-        {
-            MapFrame* tmp= dynamic_cast<MapFrame*>(mediaC);
-            if(nullptr != tmp)
-            {
-                tmp->getMap()->setHasPermissionMode(m_playerList->everyPlayerHasFeature("MapPermission"));
-                tmp->getMap()->sendMap(tmp->windowTitle(), player->getUuid());
-                tmp->getMap()->sendOffAllCharacters(player->getUuid());
-            }
-        }
-    }
-}
-void MainWindow::sendOffAllImages(Player* player)
-{
-    NetworkMessageWriter message= NetworkMessageWriter(NetMsg::MediaCategory, NetMsg::addMedia);
-    auto const& values= m_mediaHash.values();
-    for(auto& sub : values)
-    {
-        if(sub->getContentType() == CleverURI::PICTURE)
-        {
-            message.uint8(sub->getContentType());
-            Image* img= dynamic_cast<Image*>(sub);
-            if(nullptr != sub)
-            {
-                img->fill(message);
-                QStringList idList;
-                idList << player->getUuid();
-                message.setRecipientList(idList, NetworkMessage::OneOrMany);
-                message.sendToServer();
-            }
-        }
-    }
-}*/
 Map* MainWindow::findMapById(QString idMap)
 {
     MediaContainer* media= m_mediaHash.value(idMap);
@@ -1076,7 +966,7 @@ void MainWindow::readStory(QString fileName)
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly))
     {
-        m_logController->manageMessage("Cannot be read (openStory - MainWindow.cpp)", LogController::Error);
+        m_gameController->addErrorLog("Cannot be read (openStory - MainWindow.cpp)");
         return;
     }
     m_sessionManager->setSessionName(info.baseName());
@@ -1122,8 +1012,8 @@ bool MainWindow::saveStory(bool saveAs)
     QFile file(m_currentStory->getUri());
     if(!file.open(QIODevice::WriteOnly))
     {
-        m_logController->manageMessage(
-            tr("%1 cannot be opened (saveStory - MainWindow.cpp)").arg(m_currentStory->getUri()), LogController::Error);
+        m_gameController->addErrorLog(
+            tr("%1 cannot be opened (saveStory - MainWindow.cpp)").arg(m_currentStory->getUri()));
         return false;
     }
 
@@ -1230,7 +1120,7 @@ void MainWindow::setUpNetworkConnection()
     {
         connect(m_playerList, SIGNAL(localGMRefused(bool)), this, SLOT(userNatureChange(bool)));
     }
-    connect(m_clientManager, &ClientManager::dataReceived, this, &MainWindow::receiveData);
+    // connect(m_clientManager, &ClientManager::dataReceived, this, &MainWindow::receiveData);
 }
 
 void MainWindow::helpOnLine()
@@ -1255,10 +1145,6 @@ void MainWindow::updateUi()
 #ifndef NULL_PLAYER
     m_audioPlayer->updateUi(m_currentConnectionProfile->isGM());
 #endif
-    if(nullptr != m_preferencesDialog)
-    {
-        m_preferencesDialog->updateUi(m_currentConnectionProfile->isGM());
-    }
     if(nullptr != m_playersListWidget)
     {
         m_playersListWidget->updateUi(m_currentConnectionProfile->isGM());
@@ -1284,25 +1170,17 @@ void MainWindow::updateUi()
 
     updateRecentFileActions();
 }
-void MainWindow::updateMayBeNeeded()
+void MainWindow::showUpdateNotification()
 {
-    if(m_updateChecker->mustBeUpdated())
-    {
-        QMessageBox::information(
-            this, tr("Update Notification"),
-            tr("The %1 version has been released. "
-               "Please take a look at <a href=\"http://www.rolisteam.org/download\">Download page</a> for more "
-               "information")
-                .arg(m_updateChecker->getLatestVersion()));
-    }
-    else
-    {
-        tipChecker();
-    }
-    m_updateChecker->deleteLater();
+    QMessageBox::information(
+        this, tr("Update Notification"),
+        tr("The %1 version has been released. "
+           "Please take a look at <a href=\"http://www.rolisteam.org/download\">Download page</a> for more "
+           "information")
+            .arg(m_gameController->remoteVersion()));
 }
 
-void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
+/*void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
 {
     switch(state)
     {
@@ -1324,27 +1202,26 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
     case ClientManager::CONNECTING:
         break;
     }
-}
+}*/
 
 void MainWindow::notifyAboutAddedPlayer(Player* player) const
 {
-    m_logController->manageMessage(tr("%1 just joins the game.").arg(player->name()), LogController::Features);
-    if(player->getUserVersion().compare(m_version) != 0)
+    m_gameController->addFeatureLog(tr("%1 just joins the game.").arg(player->name()));
+    if(player->getUserVersion().compare(m_gameController->version()) != 0)
     {
-        m_logController->manageMessage(
-            tr("%1 has not the right version: %2.").arg(player->name(), player->getUserVersion()),
-            LogController::Error);
+        m_gameController->addErrorLog(
+            tr("%1 has not the right version: %2.").arg(player->name(), player->getUserVersion()));
     }
 }
 
 void MainWindow::notifyAboutDeletedPlayer(Player* player) const
 {
-    m_logController->manageMessage(tr("%1 just leaves the game.").arg(player->name()), LogController::Features);
+    m_gameController->addFeatureLog(tr("%1 just leaves the game.").arg(player->name()));
 }
 
 void MainWindow::readSettings()
 {
-    QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(m_version));
+    QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(m_gameController->version()));
 
     if(m_resetSettings)
     {
@@ -1357,8 +1234,6 @@ void MainWindow::readSettings()
     {
         restoreGeometry(settings.value("geometry").toByteArray());
     }
-
-    m_preferences->readSettings(settings);
 
     /**
      * management of recentFileActs
@@ -1395,7 +1270,6 @@ void MainWindow::readSettings()
     updateRecentFileActions();
     updateRecentScenarioAction();
 
-    m_preferencesDialog->initializePostSettings();
     m_chatListWidget->readSettings(settings);
 
     m_audioPlayer->readSettings();
@@ -1404,15 +1278,14 @@ void MainWindow::readSettings()
 }
 void MainWindow::writeSettings()
 {
-    QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(m_version));
+    QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(m_gameController->version()));
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
     settings.setValue("Maximized", isMaximized());
     settings.setValue("recentFileList", QVariant::fromValue(m_recentFiles));
     settings.setValue("recentScenario", m_recentScenarios);
-    m_preferences->writeSettings(settings);
     m_chatListWidget->writeSettings(settings);
-    m_dialog->writeSettings();
+    // m_dialog->writeSettings();
     for(auto& gmtool : m_gmToolBoxList)
     {
         gmtool->writeSettings();
@@ -1603,7 +1476,6 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
         }
         break;
 #ifdef HAVE_WEBVIEW
-
         case CleverURI::WEBVIEW:
         {
             auto webv= new WebView(WebView::RemoteView, m_mdiArea);
@@ -1707,7 +1579,7 @@ void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
 {
     if(msg->action() == NetMsg::EndConnectionAction)
     {
-        m_logController->manageMessage(tr("End of the connection process"), LogController::Info);
+        m_gameController->addInfoLog(tr("End of the connection process"));
         updateWorkspace();
     }
     else if((msg->action() == NetMsg::SetChannelList) || (NetMsg::AdminAuthFail == msg->action())
@@ -1734,7 +1606,7 @@ void MainWindow::showConnectionDialog(bool forced)
     }
 }
 
-void MainWindow::startConnection()
+/*void MainWindow::startConnection()
 {
     m_chatListWidget->cleanChatList();
     if(nullptr != m_dialog)
@@ -1746,50 +1618,16 @@ void MainWindow::startConnection()
         {
             if(m_currentConnectionProfile->isServer())
             {
-                if(nullptr != m_server)
-                {
-                    disconnect(m_server, nullptr, this, nullptr);
-                    disconnect(m_server, nullptr, this, nullptr);
-                    delete m_server;
-                    m_server= nullptr;
-                }
-
-                if(m_serverThread.isRunning())
-                {
-                    m_serverThread.exit();
-                }
-
-                m_server= new ServerManager();
-                m_server->initServerManager();
-                connect(&m_serverThread, &QThread::started, m_server, &ServerManager::startListening);
-                connect(&m_serverThread, &QThread::finished, m_server, &ServerManager::stopListening);
-                connect(m_server, &ServerManager::sendLog, m_logController, &LogController::manageMessage);
-                connect(m_server, &ServerManager::sendLog, this, [=](QString str, LogController::LogLevel level) {
-                    if(LogController::Error == level)
-                        m_dialog->errorOccurs(str);
-                });
-                connect(m_server, &ServerManager::listening, this, &MainWindow::initializedClientManager,
-                        Qt::QueuedConnection);
-                m_server->moveToThread(&m_serverThread);
-
-                m_server->insertField("port", m_currentConnectionProfile->getPort());
-                m_server->insertField("ThreadCount", 1);
-                m_server->insertField("ChannelCount", 1);
-                m_server->insertField("LogLevel", 3);
-                m_server->insertField("ServerPassword", m_currentConnectionProfile->getPassword());
-                m_server->insertField("TimeToRetry", 5000);
-                m_passwordAdmin= QCryptographicHash::hash(QUuid().toString().toUtf8(), QCryptographicHash::Sha3_512);
-                m_server->insertField("AdminPassword", m_passwordAdmin);
-                m_serverThread.start();
+                // remove
             }
             else
             {
-                initializedClientManager();
+                // initializedClientManager();
             }
         }
     }
-}
-void MainWindow::initializedClientManager()
+}*/
+/*void MainWindow::initializedClientManager()
 {
     if(nullptr == m_currentConnectionProfile)
         return;
@@ -1800,30 +1638,6 @@ void MainWindow::initializedClientManager()
     m_localPlayerId= m_currentConnectionProfile->getPlayer()->getUuid();
     m_roomPanel->setLocalPlayerId(m_localPlayerId);
 
-    if(nullptr == m_clientManager)
-    {
-        m_clientManager= new ClientManager(m_currentConnectionProfile);
-
-        connect(m_clientManager, &ClientManager::notifyUser, this,
-                [=](QString str) { m_logController->manageMessage(str, LogController::Features); });
-        connect(m_clientManager, &ClientManager::stopConnectionTry, this, &MainWindow::stopReconnection);
-        connect(m_clientManager, &ClientManager::errorOccur, m_dialog, &SelectConnectionProfileDialog::errorOccurs);
-        connect(m_clientManager, &ClientManager::connectionProcessEnd, m_dialog,
-                &SelectConnectionProfileDialog::endOfConnectionProcess);
-        connect(m_clientManager, SIGNAL(connectionStateChanged(ClientManager::ConnectionState)), this,
-                SLOT(updateWindowTitle()));
-        connect(m_clientManager, SIGNAL(connectionStateChanged(ClientManager::ConnectionState)), this,
-                SLOT(networkStateChanged(ClientManager::ConnectionState)));
-        connect(m_clientManager, SIGNAL(isAuthentified()), this, SLOT(postConnection()));
-        connect(m_clientManager, SIGNAL(clearData()), this, SLOT(cleanUpData()));
-        connect(m_clientManager, &ClientManager::gameMasterStatusChanged, this, &MainWindow::userNatureChange);
-        connect(m_clientManager, &ClientManager::moveToAnotherChannel, this, &MainWindow::postConnection);
-    }
-    else
-    {
-        m_clientManager->setConnectionProfile(m_currentConnectionProfile);
-        m_clientManager->reset();
-    }
     if((nullptr != m_currentConnectionProfile) && (nullptr != m_clientManager))
     {
         if(m_currentConnectionProfile->isServer())
@@ -1836,7 +1650,8 @@ void MainWindow::initializedClientManager()
             m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
         }
     }
-}
+}*/
+
 void MainWindow::cleanUpData()
 {
     m_playerList->cleanListButLocal();
@@ -1853,20 +1668,8 @@ void MainWindow::cleanUpData()
 
 void MainWindow::postConnection()
 {
-    if(m_currentConnectionProfile == nullptr)
-    {
-        return;
-    }
 
-    PlayersList* playerList= PlayersList::instance();
-    if(!m_currentConnectionProfile->isGM())
-    {
-        playerList->addLocalCharacter(m_currentConnectionProfile->getCharacter());
-    }
-    playerList->sendOffLocalPlayerInformations();
-    playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
-
-    m_roomPanel->setLocalPlayerId(m_localPlayerId);
+    MessageHelper::sendOffPlayerInformations(m_gameController->playerController()->localPlayer());
 
     if(nullptr != m_preferences)
     {
@@ -1879,16 +1682,13 @@ void MainWindow::postConnection()
 
     setUpNetworkConnection();
     updateWindowTitle();
-    checkUpdate();
     updateUi();
 
-    if(m_currentConnectionProfile->isGM())
+    // if(m_currentConnectionProfile->isGM())
     {
-        m_preferencesDialog->sendOffAllDiceAlias();
-        m_preferencesDialog->sendOffAllState();
+        // m_preferencesDialog->sendOffAllDiceAlias();
+        // m_preferencesDialog->sendOffAllState();
     }
-
-    m_logScheduler.setLocalUuid(m_localPlayerId);
 }
 
 void MainWindow::processMapMessage(NetworkMessageReader* msg)
@@ -1968,7 +1768,8 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
             SelectedColor selectedColor;
             selectedColor.color= color;
             selectedColor.type= static_cast<ColorKind>(colorType);
-            map->paintPenLine(&pointList, zoneToRefresh, diameter, selectedColor, idPlayer == m_localPlayerId);
+            map->paintPenLine(&pointList, zoneToRefresh, diameter, selectedColor,
+                              idPlayer == m_gameController->localPlayerId());
         }
     }
     else if(msg->action() == NetMsg::textPainting)
@@ -2263,7 +2064,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     {
         map->setOption(VisualItem::LocalIsGM, m_currentConnectionProfile->isGM());
     }
-    map->setLocalId(m_localPlayerId);
+    map->setLocalId(m_gameController->localPlayerId());
     tmp->setUndoStack(&m_undoStack);
 
     // Toolbar to Map
@@ -2506,8 +2307,7 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
     connect(window, SIGNAL(addWidgetToMdiArea(QWidget*, QString)), m_mdiArea, SLOT(addWidgetToMdi(QWidget*, QString)));
     connect(window, SIGNAL(rollDiceCmd(QString, QString, bool)), m_chatListWidget,
             SLOT(rollDiceCmd(QString, QString, bool)));
-    connect(window, &CharacterSheetWindow::errorOccurs, this,
-            [this](QString msg) { m_logController->manageMessage(msg, LogController::Error); });
+    connect(window, &CharacterSheetWindow::errorOccurs, m_gameController.get(), &GameController::addErrorLog);
     connect(m_playerList, SIGNAL(playerDeleted(Player*)), window, SLOT(removeConnection(Player*)));
 }
 
@@ -2619,8 +2419,8 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
     }
     if(tmp != nullptr)
     {
-        tmp->setOwnerId(m_localPlayerId);
-        tmp->setLocalPlayerId(m_localPlayerId);
+        tmp->setOwnerId(m_gameController->localPlayerId());
+        tmp->setLocalPlayerId(m_gameController->localPlayerId());
         tmp->setCleverUri(uri);
         if(tmp->readFileFromUri())
         {
@@ -2705,18 +2505,18 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
         setLatestFile(uri);
     }
 }
+
 void MainWindow::updateWindowTitle()
 {
-    if(nullptr != m_currentConnectionProfile)
-    {
-        auto const connectionStatus= m_clientManager->isConnected() ? tr("Connected") : tr("Not Connected");
-        auto const networkStatus= m_currentConnectionProfile->isServer() ? tr("Server") : tr("Client");
-        auto const profileStatus= m_currentConnectionProfile->isGM() ? tr("GM") : tr("Player");
+    auto networkCtrl= m_gameController->networkController();
+    auto const connectionStatus= m_gameController->connected() ? tr("Connected") : tr("Not Connected");
+    auto const networkStatus= networkCtrl->hosting() ? tr("Server") : tr("Client");
+    auto const profileStatus= networkCtrl->isGM() ? tr("GM") : tr("Player");
 
-        setWindowTitle(QStringLiteral("%6[*] - v%2 - %3 - %4 - %5 - %1")
-                           .arg(m_preferences->value("applicationName", "Rolisteam").toString(), m_version,
-                                connectionStatus, networkStatus, profileStatus, m_sessionManager->getSessionName()));
-    }
+    setWindowTitle(QStringLiteral("%6[*] - v%2 - %3 - %4 - %5 - %1")
+                       .arg(m_preferences->value("applicationName", "Rolisteam").toString(),
+                            m_gameController->version(), connectionStatus, networkStatus, profileStatus,
+                            m_sessionManager->getSessionName()));
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent* event)
@@ -2841,7 +2641,7 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
         auto mapframe= new MapFrame();
         mapframe->setUriName(title);
         auto img= new QImage(pix.toImage());
-        auto map= new Map(m_localPlayerId, mapframe->getMediaId(), img, false);
+        auto map= new Map(m_gameController->localPlayerId(), mapframe->getMediaId(), img, false);
         mapframe->setMap(map);
         destination= mapframe;
     }
@@ -2864,7 +2664,7 @@ void MainWindow::focusInEvent(QFocusEvent* event)
     QMainWindow::focusInEvent(event);
     if(m_isOut)
     {
-        m_logController->manageMessage(QStringLiteral("Rolisteam gets focus."), LogController::Search);
+        m_gameController->addSearchLog(QStringLiteral("Rolisteam gets focus."));
         m_isOut= false;
     }
 }
@@ -2873,7 +2673,7 @@ void MainWindow::focusOutEvent(QFocusEvent* event)
     QMainWindow::focusOutEvent(event);
     if(!isActiveWindow())
     {
-        m_logController->manageMessage(QStringLiteral("User gives focus to another windows."), LogController::Search);
+        m_gameController->addSearchLog(QStringLiteral("User gives focus to another windows."));
         m_isOut= true;
     }
 }
