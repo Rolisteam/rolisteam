@@ -19,7 +19,122 @@
  ***************************************************************************/
 #include "messagehelper.h"
 
-MessageHelper::MessageHelper()
-{
+#include <QBuffer>
 
+#include "data/features.h"
+#include "data/player.h"
+#include "dicealias.h"
+#include "preferences/characterstatemodel.h"
+#include "preferences/dicealiasmodel.h"
+
+MessageHelper::MessageHelper() {}
+
+void MessageHelper::sendOffConnectionInfo(Player* player, const QByteArray& password)
+{
+    if(player == nullptr)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::ConnectionInfo);
+    msg.byteArray32(password);
+    setLocalFeatures(*player);
+    player->fill(msg);
+    msg.sendToServer();
+}
+
+void MessageHelper::sendOffGoodBye()
+{
+    NetworkMessageWriter message(NetMsg::AdministrationCategory, NetMsg::Goodbye);
+    message.sendToServer();
+}
+
+void MessageHelper::sendOffPlayerInformations(Player* player)
+{
+    NetworkMessageWriter message(NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
+    setLocalFeatures(*player);
+    player->fill(message);
+    message.sendToServer();
+}
+
+void MessageHelper::sendOffAllDiceAlias(DiceAliasModel* model)
+{
+    if(nullptr == model)
+        return;
+
+    auto aliases= model->getAliases();
+    int i= 0;
+    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::DiceAliasModel);
+    msg.uint32(static_cast<quint32>(i));
+    for(auto& alias : *aliases)
+    {
+        msg.int64(i);
+        msg.string32(alias->getCommand());
+        msg.string32(alias->getValue());
+        msg.int8(alias->isReplace());
+        msg.int8(alias->isEnable());
+        msg.string32(alias->getComment());
+        ++i;
+    }
+    msg.sendToServer();
+}
+
+void MessageHelper::sendOffOneDiceAlias(DiceAlias* da, int row)
+{
+    if(nullptr == da)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addDiceAlias);
+    msg.int64(row);
+    msg.string32(da->getCommand());
+    msg.string32(da->getValue());
+    msg.int8(da->isReplace());
+    msg.int8(da->isEnable());
+    msg.string32(da->getComment());
+    msg.sendToServer();
+}
+
+void MessageHelper::sendOffAllCharacterState(CharacterStateModel* model)
+{
+    if(nullptr == model)
+        return;
+
+    auto states= model->getCharacterStates();
+    quint64 i= 0;
+    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::CharactereStateModel);
+    msg.uint32(static_cast<quint32>(states->size()));
+    for(auto state : *states)
+    {
+        msg.uint64(i);
+        msg.string32(state->getLabel());
+        msg.rgb(state->getColor().rgb());
+        if(state->hasImage())
+        {
+            msg.uint8(static_cast<quint8>(true));
+
+            QByteArray array;
+            QBuffer buffer(&array);
+            if(!state->getPixmap()->save(&buffer, "PNG"))
+            {
+                qWarning("error during encoding png");
+            }
+            msg.byteArray32(array);
+        }
+        else
+        {
+            msg.uint8(static_cast<quint8>(false));
+        }
+        ++i;
+    }
+    msg.sendToServer();
+}
+
+void MessageHelper::sendOffOneCharacterState(CharacterState* state, int row)
+{
+    if(nullptr == state)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addCharacterState);
+    msg.int64(row);
+    msg.string32(state->getLabel());
+    msg.rgb(state->getColor().rgb());
+    msg.sendToServer();
 }

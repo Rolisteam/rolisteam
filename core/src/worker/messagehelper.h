@@ -20,11 +20,26 @@
 #ifndef MESSAGEHELPER_H
 #define MESSAGEHELPER_H
 
+#include <QByteArray>
 
+class Player;
+class DiceAliasModel;
+class DiceAlias;
+class CharacterStateModel;
+class CharacterState;
 class MessageHelper
 {
 public:
     MessageHelper();
+
+    static void sendOffConnectionInfo(Player* player, const QByteArray& password);
+    static void sendOffGoodBye();
+    static void sendOffPlayerInformations(Player* player);
+    static void sendOffAllDiceAlias(DiceAliasModel* model);
+    static void sendOffOneDiceAlias(DiceAlias* da, int row);
+
+    static void sendOffAllCharacterState(CharacterStateModel* model);
+    static void sendOffOneCharacterState(CharacterState* da, int row);
 };
 
 #endif // MESSAGEHELPER_H

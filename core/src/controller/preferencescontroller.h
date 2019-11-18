@@ -31,6 +31,7 @@ public:
 signals:
 
 public slots:
+    void shareModels();
 };
 
 #endif // PREFERENCESCONTROLLER_H
