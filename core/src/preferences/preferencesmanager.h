@@ -79,12 +79,12 @@ public:
     /**
      * Load informations from the previous rolisteam's execution
      */
-    void readSettings(QSettings& settings);
+    void readSettings(const QString& version);
 
     /**
      * Save parameters for next executions.
      */
-    void writeSettings(QSettings& settings);
+    void writeSettings(const QString& version);
     /**
      * @brief registerListener
      */
