@@ -102,13 +102,12 @@ public:
 
     QList<CharacterState*>* getCharacterStates();
     void addState(CharacterState* state);
-    void deleteState(QModelIndex& index);
-    void upState(QModelIndex& index);
-    void downState(QModelIndex& index);
-    void topState(QModelIndex& index);
+    void deleteState(const QModelIndex& index);
+    void upState(const QModelIndex& index);
+    void downState(const QModelIndex& index);
+    void topState(const QModelIndex& index);
     void moveState(int, int);
-    void bottomState(QModelIndex& index);
-    void setGM(bool);
+    void bottomState(const QModelIndex& index);
     void clear();
     /**
      * @brief sendOffAllCharacterState
@@ -118,13 +117,13 @@ public:
     void processAddState(NetworkMessageReader* msg);
     void processMoveState(NetworkMessageReader* msg);
     void processRemoveState(NetworkMessageReader* msg);
+    void processModelState(NetworkMessageReader* msg);
     void load(const QJsonObject& obj);
     void save(QJsonObject& obj);
 
 private:
     QList<CharacterState*>* m_stateList;
     QList<CharacterState*>* m_stateListFromGM;
-    bool m_isGM= false;
     QStringList m_header;
 };
 
