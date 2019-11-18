@@ -63,11 +63,12 @@
 #endif
 
 #include "network/channellistpanel.h"
-#include "network/clientmanager.h"
 
 // log
 #include "common/controller/logcontroller.h"
-#include "common/controller/logsenderscheduler.h"
+#include "common/controller/remotelogcontroller.h"
+
+#include "controller/gamecontroller.h"
 
 namespace Ui
 {
@@ -218,10 +219,6 @@ public slots:
      */
     bool mayBeSaved(bool connectionLost= false);
     /**
-     * @brief checkUpdate
-     */
-    void checkUpdate();
-    /**
      * @brief updateUi
      */
     void updateUi();
@@ -238,11 +235,6 @@ public slots:
      * @brief showConnectionDialog
      */
     void showConnectionDialog(bool forced= false);
-
-    /**
-     * @brief startConnection
-     */
-    void startConnection();
     /**
      * @brief postConnection
      */
@@ -355,17 +347,15 @@ protected:
     void saveMedia(MediaContainer* mediaC, bool saveAs);
     void readStory(QString fileName);
     void processSharedNoteMessage(NetworkMessageReader* msg);
-    void tipChecker();
+    void showTipChecker();
     virtual void mouseMoveEvent(QMouseEvent* event);
     void createPostSettings();
-    void sendGoodBye();
 protected slots:
     /**
      * @brief closeMediaContainer
      * @param id
      */
     void closeMediaContainer(QString id, bool redo);
-    void initializedClientManager();
     void cleanUpData();
     MediaContainer* newDocument(CleverURI::ContentType type, bool addMdi= true);
 private slots:
@@ -389,19 +379,9 @@ private slots:
      */
     void closeCurrentSubWindow();
     /**
-     * @brief updateMayBeNeeded
+     * @brief showUpdateNotification
      */
-    void updateMayBeNeeded();
-    /**
-     * @brief sendOffAllMaps
-     * @param link
-     */
-    // void sendOffAllMaps(Player* player);
-    /**
-     * @brief sendOffAllImages
-     * @param link
-     */
-    // void sendOffAllImages(Player* player);
+    void showUpdateNotification();
     /**
      * @brief receiveData
      * @param readData
@@ -426,11 +406,6 @@ private slots:
      * @brief closeConnection
      */
     void closeConnection();
-    /**
-     * @brief networkStateChanged
-     * @param state
-     */
-    void networkStateChanged(ClientManager::ConnectionState state);
     /**
      * @brief openContentFromType
      * @param type
@@ -509,7 +484,6 @@ private:
     QString getShortNameFromPath(QString path);
 
 private:
-    static MainWindow* m_singleton;
     ImprovedWorkspace* m_mdiArea;
     PlayersListWidget* m_playersListWidget;
 
@@ -527,11 +501,8 @@ private:
     PreferencesDialog* m_preferencesDialog;
     PreferencesManager* m_preferences;
     ChatListWidget* m_chatListWidget;
-    UpdateChecker* m_updateChecker;
 
-    QString m_version;
     QDockWidget* m_dockLogUtil;
-    ClientManager* m_clientManager;
     LogPanel* m_notifierDisplay;
     PlayersList* m_playerList;
     IpChecker* m_ipChecker; /// @brief get the server IP.
@@ -539,7 +510,6 @@ private:
     // subwindow
     QProgressBar* m_downLoadProgressbar;
     bool m_shownProgress;
-    QString m_localPlayerId;
     Ui::MainWindow* m_ui;
     SessionManager* m_sessionManager;
     bool m_resetSettings;
@@ -560,17 +530,14 @@ private:
     bool m_profileDefined;
     CleverURI* m_currentStory;
     QDockWidget* m_roomPanelDockWidget;
-    QThread m_serverThread;
-    ServerManager* m_server= nullptr;
     ChannelListPanel* m_roomPanel;
     QUndoStack m_undoStack;
-    LogController* m_logController= nullptr;
     QString m_connectionAddress;
     bool m_isOut= false;
-    LogSenderScheduler m_logScheduler;
     QByteArray m_passwordAdmin;
 
     std::unique_ptr<CommandLineProfile> m_commandLineProfile;
+    std::unique_ptr<GameController> m_gameController;
 };
 
 #endif
