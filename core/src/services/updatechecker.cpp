@@ -32,61 +32,43 @@
  * UpdateChecker *
  *****************/
 
-UpdateChecker::UpdateChecker(QObject* obj)
-    : QObject(obj), m_state(false), m_versionMinor(0), m_versionMajor(0), m_versionMiddle(0), m_manager(nullptr)
+UpdateChecker::UpdateChecker(const QString& version, QObject* obj)
+    : QObject(obj), m_localVersion(version), m_manager(nullptr)
 {
-    m_noErrror= true;
-#ifdef VERSION_MINOR
-#ifdef VERSION_MAJOR
-#ifdef VERSION_MIDDLE
-    m_versionMinor = VERSION_MINOR;
-    m_versionMajor = VERSION_MAJOR;
-    m_versionMiddle= VERSION_MIDDLE;
-#endif
-#endif
-#endif
 }
 
-bool UpdateChecker::mustBeUpdated()
+bool UpdateChecker::needUpdate()
 {
-    return m_state;
+    return m_needUpdate;
 }
 
 void UpdateChecker::startChecking()
 {
 #ifdef HAVE_QT_NETWORK
-#ifdef VERSION_MINOR
-#ifdef VERSION_MAJOR
-#ifdef VERSION_MIDDLE
-    m_manager= new QNetworkAccessManager(this);
-    connect(m_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(readXML(QNetworkReply*)));
-
+    m_manager.reset(new QNetworkAccessManager);
+    connect(m_manager.get(), &QNetworkAccessManager::finished, this, &UpdateChecker::readXML);
     m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/version.xml")));
-#endif
-#endif
-#endif
 #endif
 }
 
 QString UpdateChecker::getLatestVersion()
 {
-    return m_version;
+    return m_remoteVersion;
 }
 
 QString UpdateChecker::getLatestVersionDate()
 {
-    return m_versionDate;
+    return m_dateRemoteVersion;
 }
 void UpdateChecker::readXML(QNetworkReply* p)
 {
     if(p->error() != QNetworkReply::NoError)
     {
         m_noErrror= false;
+        emit checkFinished();
         return;
     }
-#ifdef VERSION_MINOR
-#ifdef VERSION_MAJOR
-#ifdef VERSION_MIDDLE
+
     QByteArray a= p->readAll();
 
     QRegExp versionMajor("<version_major>(.*)</version_major>");
@@ -97,47 +79,43 @@ void UpdateChecker::readXML(QNetworkReply* p)
 
     QString string(a);
     int pos= versionMajor.indexIn(string);
+    int major= 0;
+    int middle= 0;
+    int minor= 0;
     if(pos != -1)
     {
-        m_versionMajor= versionMajor.capturedTexts().at(1).toInt();
+        major= versionMajor.capturedTexts().at(1).toInt();
     }
     pos= versionMiddle.indexIn(string);
     if(pos != -1)
     {
-        m_versionMiddle= versionMiddle.capturedTexts().at(1).toInt();
+        middle= versionMiddle.capturedTexts().at(1).toInt();
     }
     pos= versionMinor.indexIn(string);
     if(pos != -1)
     {
-        m_versionMinor= versionMinor.capturedTexts().at(1).toInt();
+        minor= versionMinor.capturedTexts().at(1).toInt();
     }
     pos= date.indexIn(string);
     if(pos != -1)
     {
-        m_versionDate= date.capturedTexts().at(1);
+        m_dateRemoteVersion= date.capturedTexts().at(1);
     }
     pos= changelog.indexIn(string);
     if(pos != -1)
     {
-        m_versionChangelog= changelog.capturedTexts().at(1);
+        m_changeLog= changelog.capturedTexts().at(1);
     }
-    m_state  = inferiorVersion();
-    m_version= QString("%1.%2.%3").arg(m_versionMajor).arg(m_versionMiddle).arg(m_versionMinor);
+    m_remoteVersion= QString("%1.%2.%3").arg(major).arg(middle).arg(minor);
+
+    setNeedUpdate(m_remoteVersion != m_localVersion);
     emit checkFinished();
-    m_manager->deleteLater();
-#endif
-#endif
-#endif
 }
-bool UpdateChecker::inferiorVersion()
+
+void UpdateChecker::setNeedUpdate(bool b)
 {
-    if(m_versionMajor > VERSION_MAJOR)
-        return true;
-    else if((m_versionMajor == VERSION_MAJOR) && (m_versionMiddle > VERSION_MIDDLE))
-        return true;
-    else if((m_versionMajor == VERSION_MAJOR) && (m_versionMiddle == VERSION_MIDDLE)
-            && (m_versionMinor > VERSION_MINOR))
-        return true;
-    else
-        return false;
+    if(m_needUpdate == b)
+        return;
+    m_needUpdate= b;
+    emit needUpdateChanged();
 }

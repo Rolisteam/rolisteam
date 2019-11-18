@@ -24,39 +24,38 @@
 
 #include <QNetworkAccessManager>
 #include <QString>
+#include <memory>
 /**
  * @brief The UpdateChecker class is dedicated to check if there is new release of rolisteam.
  */
 class UpdateChecker : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool needUpdate READ needUpdate NOTIFY needUpdateChanged)
 public:
-    UpdateChecker(QObject* obj= nullptr);
+    UpdateChecker(const QString& version, QObject* obj= nullptr);
 
-    bool mustBeUpdated();
+    bool needUpdate();
     void startChecking();
 
     QString getLatestVersion();
     QString getLatestVersionDate();
 signals:
     void checkFinished();
+    void needUpdateChanged();
 
 private slots:
     void readXML(QNetworkReply* p);
+    void setNeedUpdate(bool b);
 
 private:
-    bool inferiorVersion();
-
-private:
-    bool m_state;
-    QString m_version;
-    int m_versionMinor;
-    int m_versionMajor;
-    int m_versionMiddle;
-    QString m_versionDate;
-    QString m_versionChangelog;
-    QNetworkAccessManager* m_manager;
-    bool m_noErrror;
+    bool m_needUpdate= false;
+    QString m_localVersion;
+    QString m_remoteVersion;
+    QString m_dateRemoteVersion;
+    QString m_changeLog;
+    std::unique_ptr<QNetworkAccessManager> m_manager;
+    bool m_noErrror= false;
 };
 
 #endif // UPDATECHECKER_H
