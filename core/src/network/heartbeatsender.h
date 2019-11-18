@@ -10,11 +10,11 @@
  * @brief The heartBeatSender class is dedicated to send off heartbeat messages preventing
  * disconnection for some users.
  */
-class heartBeatSender : public QObject, public PreferencesListener
+class HeartBeatSender : public QObject, public PreferencesListener
 {
     Q_OBJECT
 public:
-    explicit heartBeatSender(QObject* parent= nullptr);
+    explicit HeartBeatSender(QObject* parent= nullptr);
 
     void preferencesHasChanged(QString);
     void updateStatus();

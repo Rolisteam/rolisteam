@@ -1,9 +1,7 @@
 #include "heartbeatsender.h"
 #include "networkmessagewriter.h"
 
-#include <QDebug>
-
-heartBeatSender::heartBeatSender(QObject* parent) : QObject(parent)
+HeartBeatSender::HeartBeatSender(QObject* parent) : QObject(parent)
 {
     m_preferences= PreferencesManager::getInstance();
 
@@ -14,22 +12,22 @@ heartBeatSender::heartBeatSender(QObject* parent) : QObject(parent)
 
     updateStatus();
 }
-void heartBeatSender::preferencesHasChanged(QString)
+void HeartBeatSender::preferencesHasChanged(QString)
 {
     updateStatus();
 }
-void heartBeatSender::updateStatus()
+void HeartBeatSender::updateStatus()
 {
     m_status= m_preferences->value("HeartBeatStatus", false).toBool();
     m_timeOut= m_preferences->value("HbFrequency", 60).toInt();
     updateTimer();
 }
 
-void heartBeatSender::setIdLocalUser(QString str)
+void HeartBeatSender::setIdLocalUser(QString str)
 {
     m_localId= str;
 }
-void heartBeatSender::updateTimer()
+void HeartBeatSender::updateTimer()
 {
     m_timer.stop();
     if(m_status)
@@ -37,7 +35,7 @@ void heartBeatSender::updateTimer()
         m_timer.start(m_timeOut * 1000);
     }
 }
-void heartBeatSender::sendHeartBeatMsg()
+void HeartBeatSender::sendHeartBeatMsg()
 {
     NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::Heartbeat);
     msg.string8(m_localId);
