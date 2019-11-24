@@ -29,6 +29,7 @@
 
 #include "qpdflib/qpdfwidget.h"
 
+#include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
 #define MARGING 0
@@ -37,7 +38,7 @@
 /* Constructeur                                                     */
 /********************************************************************/
 PdfViewer::PdfViewer(/*QString title,QString identPdfViewer, QString identJoueur, QPdfViewer *image, QAction *action,*/
-                     ImprovedWorkspace* parent)
+                     Workspace* parent)
     : MediaContainer(MediaContainer::ContainerType::PDFContainer, parent)
 {
     setObjectName("PdfViewer");

@@ -252,7 +252,7 @@ set(HEADERS
     src/widgets/gmtoolbox/UnitConvertor/unit.h
     src/widgets/gmtoolbox/UnitConvertor/unitmodel.h
     src/widgets/gmtoolbox/gamemastertool.h
-    src/widgets/improvedworkspace.h
+    src/widgets/workspace.h
     src/widgets/keygeneratordialog.h
     src/widgets/onlinepicturedialog.h
     src/widgets/overlay.h
@@ -493,7 +493,7 @@ set(SOURCES
     src/widgets/gmtoolbox/UnitConvertor/unit.cpp
     src/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp
     src/widgets/gmtoolbox/gamemastertool.cpp
-    src/widgets/improvedworkspace.cpp
+    src/widgets/workspace.cpp
     src/widgets/keygeneratordialog.cpp
     src/widgets/onlinepicturedialog.cpp
     src/widgets/overlay.cpp

@@ -27,15 +27,19 @@
 #include <QWidget>
 
 #include "data/mediacontainer.h"
-#include "preferences/preferenceslistener.h"
-#include "preferences/preferencesmanager.h"
 
+class ContentController;
 /**
  * @brief The ImprovedWorkspace class
  */
-class ImprovedWorkspace : public QMdiArea, public PreferencesListener
+class Workspace : public QMdiArea
 {
     Q_OBJECT
+    Q_PROPERTY(QString backgroundImagePath READ backgroundImagePath WRITE setBackgroundImagePath NOTIFY
+                   backgroundImagePathChanged)
+    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
+    Q_PROPERTY(Positioning backgroundPositioning READ backgroundPositioning WRITE setBackgroundPositioning NOTIFY
+                   backgroundPositioningChanged)
 public:
     enum Positioning
     {
@@ -48,8 +52,17 @@ public:
         Filled,
         Repeated
     };
-    ImprovedWorkspace(QWidget* parent= nullptr);
-    ~ImprovedWorkspace();
+    Workspace(ContentController* ctrl, QWidget* parent= nullptr);
+    ~Workspace();
+
+    void setBackgroundImagePath(const QString& path);
+    QString backgroundImagePath() const;
+
+    void setBackgroundColor(const QColor& color);
+    QColor backgroundColor() const;
+
+    void setBackgroundPositioning(Positioning pos);
+    Positioning backgroundPositioning() const;
 
     QWidget* addWindow(QWidget*, QAction* action);
     // QWidget* activeWindow();
@@ -82,6 +95,9 @@ public:
     QVector<QMdiSubWindow*> getAllSubWindowFromId(const QString& id) const;
 signals:
     void removedAction(QAction*);
+    void backgroundImagePathChanged();
+    void backgroundColorChanged();
+    void backgroundPositioningChanged();
 
 public slots:
     void setTabbedMode(bool);
@@ -97,17 +113,15 @@ private:
     void updateBackGround();
 
 private:
-    QBrush m_background;
+    QPointer<ContentController> m_ctrl;
     QColor m_color;
 
-    QPixmap* m_backgroundPicture;
+    Positioning m_positioning= TopLeft;
+
+    QPixmap m_backgroundPicture;
     QPixmap m_variableSizeBackground;
-
-    PreferencesManager* m_preferences;
     QMap<QAction*, QPointer<QMdiSubWindow>> m_actionSubWindowMap;
-    QImage* imageFond; // Image de fond du workspace
-
-    QString m_fileName;
+    QString m_bgFilename;
     QHash<QMdiSubWindow*, QString> m_titleBar;
 };
 

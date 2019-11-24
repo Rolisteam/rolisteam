@@ -63,11 +63,11 @@
 #include "userlist/playersList.h"
 #include "userlist/playersListWidget.h"
 #include "widgets/gmtoolbox/gamemastertool.h"
-#include "widgets/improvedworkspace.h"
 #include "widgets/keygeneratordialog.h"
 #include "widgets/shortcuteditordialog.h"
 #include "widgets/tipofdayviewer.h"
 #include "widgets/toolsbar.h"
+#include "widgets/workspace.h"
 #include "worker/messagehelper.h"
 #ifdef HAVE_WEBVIEW
 #include "webview/webview.h"
@@ -229,9 +229,9 @@ void MainWindow::setupUi()
     }
 
     // setAnimated(false);
-    m_mdiArea= new ImprovedWorkspace(this);
+    m_mdiArea= new Workspace(m_gameController->contentController(), this);
     setCentralWidget(m_mdiArea);
-    connect(m_mdiArea, &ImprovedWorkspace::subWindowActivated, this, &MainWindow::activeWindowChanged);
+    connect(m_mdiArea, &Workspace::subWindowActivated, this, &MainWindow::activeWindowChanged);
 
     m_toolBar= new ToolsBar(this);
 

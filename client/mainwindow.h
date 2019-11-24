@@ -85,7 +85,7 @@ class NetworkLink;
 class PreferencesDialog;
 class Player;
 class PlayersListWidget;
-class ImprovedWorkspace;
+class Workspace;
 class TextEdit;
 class PlayersList;
 class ConnectionProfile;
@@ -484,7 +484,7 @@ private:
     QString getShortNameFromPath(QString path);
 
 private:
-    ImprovedWorkspace* m_mdiArea;
+    Workspace* m_mdiArea= nullptr;
     PlayersListWidget* m_playersListWidget;
 
     // toolbar

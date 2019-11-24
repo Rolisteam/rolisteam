@@ -28,7 +28,7 @@
 #include <QWidget>
 
 #include "preferences/preferencesmanager.h"
-#include "widgets/improvedworkspace.h"
+#include "widgets/workspace.h"
 
 #include "data/mediacontainer.h"
 
@@ -44,7 +44,7 @@ class PdfViewer : public MediaContainer
     Q_OBJECT
 
 public:
-    PdfViewer(ImprovedWorkspace* parent= nullptr);
+    PdfViewer(Workspace* parent= nullptr);
     /**
      * @brief ~PdfViewer destructor.
      */
@@ -52,7 +52,7 @@ public:
 
     void savePdfToFile(QFile& file);
     void savePdfToFile(QDataStream& out);
-    void setParent(ImprovedWorkspace* parent);
+    void setParent(Workspace* parent);
 
     virtual bool readFileFromUri();
     virtual bool openMedia();
