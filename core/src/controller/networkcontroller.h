@@ -33,7 +33,8 @@ class ProfileModel;
 class QAbstractItemModel;
 class ConnectionProfile;
 class GameController;
-class NetworkController : public ControllerInterface
+class IpChecker;
+class NetworkController : public AbstractControllerInterface
 {
     Q_OBJECT
     Q_PROPERTY(bool isGM READ isGM WRITE setIsGM NOTIFY isGMChanged)
@@ -45,6 +46,7 @@ class NetworkController : public ControllerInterface
     Q_PROPERTY(QByteArray adminPassword READ adminPassword WRITE setAdminPassword NOTIFY adminPasswordChanged)
     Q_PROPERTY(QByteArray serverPassword READ serverPassword WRITE setServerPassword NOTIFY serverPasswordChanged)
     Q_PROPERTY(QAbstractItemModel* profileModel READ profileModel CONSTANT)
+    Q_PROPERTY(QString ipv4 READ ipv4 NOTIFY ipv4Changed)
 public:
     explicit NetworkController(QObject* parent= nullptr);
     ~NetworkController();
@@ -54,6 +56,7 @@ public:
     bool askForGM() const;
     QString host() const;
     int port() const;
+    QString ipv4() const;
     QAbstractItemModel* profileModel() const;
 
     QByteArray adminPassword() const;
@@ -71,6 +74,7 @@ signals:
     void portChanged();
     void serverPasswordChanged();
     void adminPasswordChanged();
+    void ipv4Changed();
 
     void tableChanged();
 
@@ -102,6 +106,7 @@ private:
     std::unique_ptr<QThread> m_serverThread;
     std::unique_ptr<HeartBeatSender> m_hbSender;
     std::unique_ptr<ProfileModel> m_profileModel;
+    std::unique_ptr<IpChecker> m_ipChecker;
     QPointer<GameController> m_gameCtrl;
 
     QByteArray m_serverPw;
@@ -109,6 +114,7 @@ private:
 
     QString m_host;
     int m_port= 6660;
+    QString m_ipv4Address;
 
     // Data
     bool m_isGM= true;
