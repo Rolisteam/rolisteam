@@ -21,45 +21,80 @@
 
 #include <QtGui>
 
-#include "improvedworkspace.h"
-//#include "map/mapframe.h"
-//#include "image.h"
+#include "controller/contentcontroller.h"
+#include "workspace.h"
 
 #define GRAY_SCALE 191
-/********************************************************************/
-/* Constructeur                                                     */
-/********************************************************************/
-ImprovedWorkspace::ImprovedWorkspace(QWidget* parent)
-    : QMdiArea(parent), m_variableSizeBackground(size()), m_actionSubWindowMap(new QMap<QAction*, QMdiSubWindow*>())
+
+Workspace::Workspace(ContentController* ctrl, QWidget* parent)
+    : QMdiArea(parent)
+    , m_ctrl(ctrl)
+    , m_variableSizeBackground(size())
+    , m_actionSubWindowMap(new QMap<QAction*, QMdiSubWindow*>())
 {
-    m_preferences= PreferencesManager::getInstance();
+    connect(m_ctrl, &ContentController::maxLengthTabNameChanged, this, &Workspace::updateTitleTab);
+    connect(m_ctrl, &ContentController::shortTitleTabChanged, this, &Workspace::updateTitleTab);
 
-    m_preferences->registerListener("BackGroundPositioning", this);
-    m_preferences->registerListener("PathOfBackgroundImage", this);
-    m_preferences->registerListener("BackGroundColor", this);
-    m_preferences->registerListener("shortNameInTabMode", this);
-    m_preferences->registerListener("MaxLengthTabName", this);
-
-    m_backgroundPicture= new QPixmap(size());
-
+    connect(m_ctrl, &ContentController::workspaceFilenameChanged, this,
+            [this]() { setBackgroundImagePath(m_ctrl->workspaceFilename()); });
+    connect(m_ctrl, &ContentController::workspaceColorChanged, this,
+            [this]() { setBackgroundColor(m_ctrl->workspaceColor()); });
+    connect(m_ctrl, &ContentController::workspacePositioningChanged, this,
+            [this]() { setBackgroundPositioning(static_cast<Positioning>(m_ctrl->workspacePositioning())); });
     updateBackGround();
 }
 
-ImprovedWorkspace::~ImprovedWorkspace()
+Workspace::~Workspace()
 {
-    if(nullptr != m_backgroundPicture)
-    {
-        delete m_backgroundPicture;
-        m_backgroundPicture= nullptr;
-    }
-
     if(nullptr != m_actionSubWindowMap)
     {
         delete m_actionSubWindowMap;
         m_actionSubWindowMap= nullptr;
     }
 }
-bool ImprovedWorkspace::showCleverUri(CleverURI* uri)
+
+void Workspace::setBackgroundImagePath(const QString& path)
+{
+    if(m_bgFilename == path)
+        return;
+    m_bgFilename= path;
+    emit backgroundImagePathChanged();
+    m_backgroundPicture= QPixmap(m_bgFilename);
+    updateBackGround();
+}
+
+QString Workspace::backgroundImagePath() const
+{
+    return m_bgFilename;
+}
+
+void Workspace::setBackgroundColor(const QColor& color)
+{
+    if(color == m_color)
+        return;
+    m_color= color;
+    emit backgroundColorChanged();
+    updateBackGround();
+}
+QColor Workspace::backgroundColor() const
+{
+    return m_color;
+}
+
+void Workspace::setBackgroundPositioning(Positioning pos)
+{
+    if(m_positioning == pos)
+        return;
+    m_positioning= pos;
+    emit backgroundPositioningChanged();
+    updateBackGround();
+}
+Workspace::Positioning Workspace::backgroundPositioning() const
+{
+    return m_positioning;
+}
+
+bool Workspace::showCleverUri(CleverURI* uri)
 {
     for(auto& i : *m_actionSubWindowMap)
     {
@@ -76,33 +111,22 @@ bool ImprovedWorkspace::showCleverUri(CleverURI* uri)
     return false;
 }
 
-void ImprovedWorkspace::updateBackGround()
+void Workspace::updateBackGround()
 {
-    m_color= m_preferences->value("BackGroundColor", QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE)).value<QColor>();
-    m_background.setColor(m_color);
-    setBackground(m_background);
+    QBrush background;
+    background.setColor(m_color);
+    setBackground(background);
 
-    QString fileName
-        = m_preferences->value("PathOfBackgroundImage", ":/resources/icons/workspacebackground.jpg").toString();
     m_variableSizeBackground= m_variableSizeBackground.scaled(size());
     m_variableSizeBackground.fill(m_color);
     QPainter painter(&m_variableSizeBackground);
 
-    if(m_fileName != fileName)
-    {
-        m_fileName= fileName;
-        if(nullptr != m_backgroundPicture)
-        {
-            delete m_backgroundPicture;
-        }
-        m_backgroundPicture= new QPixmap(m_fileName);
-    }
     int x= 0;
     int y= 0;
-    int w= m_backgroundPicture->width();
-    int h= m_backgroundPicture->height();
+    int w= m_backgroundPicture.width();
+    int h= m_backgroundPicture.height();
     bool repeated= false;
-    switch(static_cast<Positioning>(m_preferences->value("BackGroundPositioning", 0).toInt()))
+    switch(m_positioning)
     {
     case TopLeft:
         break;
@@ -147,17 +171,17 @@ void ImprovedWorkspace::updateBackGround()
     }
     if(!repeated)
     {
-        painter.drawPixmap(x, y, w, h, *m_backgroundPicture);
+        painter.drawPixmap(x, y, w, h, m_backgroundPicture);
         setBackground(QBrush(m_variableSizeBackground));
     }
     else
     {
-        setBackground(QBrush(*m_backgroundPicture));
+        setBackground(QBrush(m_backgroundPicture));
     }
     update();
 }
 
-void ImprovedWorkspace::resizeEvent(QResizeEvent* event)
+void Workspace::resizeEvent(QResizeEvent* event)
 {
     Q_UNUSED(event);
     if((m_variableSizeBackground.size() == this->size()))
@@ -169,7 +193,7 @@ void ImprovedWorkspace::resizeEvent(QResizeEvent* event)
 
     QMdiArea::resizeEvent(event);
 }
-QWidget* ImprovedWorkspace::addWindow(QWidget* child, QAction* action)
+QWidget* Workspace::addWindow(QWidget* child, QAction* action)
 {
     QMdiSubWindow* sub= addSubWindow(child);
     if(viewMode() == QMdiArea::TabbedView)
@@ -179,7 +203,7 @@ QWidget* ImprovedWorkspace::addWindow(QWidget* child, QAction* action)
         child->setVisible(true);
     }
     insertActionAndSubWindow(action, sub);
-    connect(action, &QAction::triggered, this, &ImprovedWorkspace::ensurePresent);
+    connect(action, &QAction::triggered, this, &Workspace::ensurePresent);
     sub->setAttribute(Qt::WA_DeleteOnClose, false);
     child->setAttribute(Qt::WA_DeleteOnClose, false);
     sub->setObjectName(child->objectName());
@@ -187,7 +211,7 @@ QWidget* ImprovedWorkspace::addWindow(QWidget* child, QAction* action)
     sub->installEventFilter(this);
     return sub;
 }
-void ImprovedWorkspace::addContainerMedia(MediaContainer* mediac)
+void Workspace::addContainerMedia(MediaContainer* mediac)
 {
     if(nullptr == mediac)
         return;
@@ -204,19 +228,18 @@ void ImprovedWorkspace::addContainerMedia(MediaContainer* mediac)
         mediac->widget()->setAttribute(Qt::WA_DeleteOnClose, false);
     }
     mediac->installEventFilter(this);
-
 }
-void ImprovedWorkspace::removeMediaContainer(MediaContainer* mediac)
+void Workspace::removeMediaContainer(MediaContainer* mediac)
 {
     removeSubWindow(mediac);
     m_actionSubWindowMap->remove(mediac->getAction());
     mediac->removeEventFilter(this);
 }
-void ImprovedWorkspace::insertActionAndSubWindow(QAction* act, QMdiSubWindow* sub)
+void Workspace::insertActionAndSubWindow(QAction* act, QMdiSubWindow* sub)
 {
     m_actionSubWindowMap->insert(act, sub);
 }
-void ImprovedWorkspace::setTabbedMode(bool isTabbed)
+void Workspace::setTabbedMode(bool isTabbed)
 {
     if(isTabbed)
     {
@@ -249,10 +272,11 @@ void ImprovedWorkspace::setTabbedMode(bool isTabbed)
     }
     updateTitleTab();
 }
-bool ImprovedWorkspace::updateTitleTab()
+bool Workspace::updateTitleTab()
 {
-    bool shortName= m_preferences->value("shortNameInTabMode", false).toBool();
-    int textLength= m_preferences->value("MaxLengthTabName", 10).toInt();
+    bool shortName= m_ctrl->shortTitleTab(); // m_preferences->value("shortNameInTabMode", false).toBool();
+    int textLength= m_ctrl->maxLengthTabName();
+    // int textLength= m_preferences->value("MaxLengthTabName", 10).toInt();
     if((viewMode() == QMdiArea::TabbedView) && (shortName))
     {
         auto values= m_actionSubWindowMap->values();
@@ -279,7 +303,7 @@ bool ImprovedWorkspace::updateTitleTab()
     }
     return true;
 }
-bool ImprovedWorkspace::eventFilter(QObject* object, QEvent* event)
+bool Workspace::eventFilter(QObject* object, QEvent* event)
 {
     if(event->type() == QEvent::Close)
     {
@@ -293,7 +317,7 @@ bool ImprovedWorkspace::eventFilter(QObject* object, QEvent* event)
     }
     return QMdiArea::eventFilter(object, event);
 }
-void ImprovedWorkspace::ensurePresent()
+void Workspace::ensurePresent()
 {
     QAction* act= qobject_cast<QAction*>(sender());
     if(nullptr != act)
@@ -306,7 +330,7 @@ void ImprovedWorkspace::ensurePresent()
     }
 }
 
-QVector<QMdiSubWindow*> ImprovedWorkspace::getAllSubWindowFromId(const QString& id) const
+QVector<QMdiSubWindow*> Workspace::getAllSubWindowFromId(const QString& id) const
 {
     QVector<QMdiSubWindow*> vector;
 
@@ -327,7 +351,7 @@ QVector<QMdiSubWindow*> ImprovedWorkspace::getAllSubWindowFromId(const QString& 
     return vector;
 }
 
-QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
+QMdiSubWindow* Workspace::getSubWindowFromId(QString id)
 {
     for(auto& tmp : subWindowList())
     {
@@ -346,13 +370,13 @@ QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
     return nullptr;
 }
 
-void ImprovedWorkspace::preferencesHasChanged(QString)
+void Workspace::preferencesHasChanged(QString)
 {
     updateBackGround();
     update();
     updateTitleTab();
 }
-void ImprovedWorkspace::addWidgetToMdi(QWidget* wid, QString title)
+void Workspace::addWidgetToMdi(QWidget* wid, QString title)
 {
     wid->setParent(this);
     QMdiSubWindow* sub= addSubWindow(wid);
