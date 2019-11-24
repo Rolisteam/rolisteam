@@ -22,113 +22,69 @@
 
 #include "data/cleveruri.h"
 #include "sessionview.h"
+
 #include <QDockWidget>
+#include <QPointer>
 #include <QSettings>
 
+namespace Ui
+{
+class SessionDock;
+}
 class QHBoxLayout;
+class ContentController;
 class QTreeView;
 class SessionItemModel;
 class Chapter;
 class Session;
-class PreferencesManager;
 /**
  * @brief SessionManager is a dockwidget which displays all loaded resources in the current session. It provides
  * shortcut to open them. It is part of the MVC architecture. It manages the view and the model.
  */
-class SessionManager : public QWidget
+class SessionDock : public QDockWidget
 {
     Q_OBJECT
 public:
     /**
      * @brief default constructor
      */
-    explicit SessionManager(QWidget* parent);
+    explicit SessionDock(ContentController* ctrl, QWidget* parent= nullptr);
+
     /**
      * @brief ~SessionManager
      */
-    virtual ~SessionManager();
+    virtual ~SessionDock();
     /**
      * @brief the current chapter is defined by users
      * @return address to the chapter
      */
-    Chapter* getCurrentChapter();
+    // Chapter* getCurrentChapter();
     /**
      * @brief add resource into the model and the session.
      * @param urifile: file's uri
      * @param type : type of content: picture, maps etc...
      */
-    void addRessource(ResourcesNode* uri);
+    // void addRessource(ResourcesNode* uri);
     /**
      * @brief updateCleverUri
      */
-    void updateCleverUri(CleverURI*);
-    /**
-     * @brief saveSession
-     * @param out
-     */
-    virtual void saveSession(QDataStream& out);
-    /**
-     * @brief loadSession
-     * @param in
-     */
-    virtual void loadSession(QDataStream& in);
-    /**
-     * @brief getModel
-     * @return
-     */
-    SessionItemModel* getModel() const;
-    /**
-     * @brief setModel
-     * @param model
-     */
-    void setModel(SessionItemModel* model);
-    /**
-     * @brief getSessionName
-     * @return
-     */
-    QString getSessionName() const;
-    /**
-     * @brief setSessionName
-     * @param sessionName
-     */
-    void setSessionName(const QString& sessionName);
+    // void updateCleverUri(CleverURI*);
     /**
      * @brief removeResource
      * @param uri
      */
-    void removeResource(CleverURI* uri);
-
-    SessionView* getView() const;
+    // void removeResource(CleverURI* uri);
 public slots:
-    /**
-     * @brief add chapter into the given index
-     * @param index position to add item
-     */
-    void addChapter(QModelIndex&);
-    /**
-     * @brief open the selected resources, if the given index is a chapter nothing happens
-     * @param index of the resources
-     */
-    void openResources(QModelIndex&);
-    /**
-     * @brief removes selected items and all children
-     */
-    void removeSelectedItem();
     /**
      * @brief resourceClosed
      */
-    void resourceClosed(CleverURI*);
+    // void resourceClosed(CleverURI*);
 
 signals:
     /**
      * @brief overriden method to notify the widget's state
      */
     void changeVisibility(bool);
-    /**
-     * @brief sessionChanged
-     * @param statut
-     */
-    void sessionChanged(bool statut);
     /**
      * @brief emitted when the application must open a resource
      */
@@ -141,18 +97,8 @@ protected:
     void closeEvent(QCloseEvent* event);
 
 private:
-    SessionView* m_view;       /// pointer to the view
-    SessionItemModel* m_model; /// model to manage the insertion, deleting operation
-    /**
-     * pointer to the unique instance of preference manager.
-     */
-    PreferencesManager* m_options;
-
-    // QWidget* m_internal;/// generic widget to bring together all the UI
-    Chapter* m_currentChapter; /// current chapter pointer
-    QHBoxLayout* m_layout;     /// layout
-
-    QString m_sessionName;
+    Ui::SessionDock* m_ui;
+    QPointer<ContentController> m_ctrl;
 };
 
 #endif // SESSIONMANAGER_H

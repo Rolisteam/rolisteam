@@ -19,7 +19,122 @@
  ***************************************************************************/
 #include "contentcontroller.h"
 
-ContentController::ContentController(QObject *parent) : QObject(parent)
-{
+#include "gamecontroller.h"
+#include "preferences/preferencesmanager.h"
+#include "preferencescontroller.h"
+#include "session/sessionitemmodel.h"
 
+#include "worker/modelhelper.h"
+
+ContentController::ContentController(QObject* parent)
+    : AbstractControllerInterface(parent), m_contentModel(new SessionItemModel), m_sessionName(tr("Unknown"))
+{
+}
+
+ContentController::~ContentController()= default;
+
+void ContentController::setGameController(GameController* game)
+{
+    m_preferences= game->preferencesManager();
+    m_preferences->registerListener("BackGroundPositioning", this);
+    m_preferences->registerListener("PathOfBackgroundImage", this);
+    m_preferences->registerListener("BackGroundColor", this);
+    m_preferences->registerListener("shortNameInTabMode", this);
+    m_preferences->registerListener("MaxLengthTabName", this);
+}
+
+void ContentController::preferencesHasChanged(const QString& key)
+{
+    if(key == QStringLiteral("BackGroundPositioning"))
+        emit workspacePositioningChanged();
+    else if(key == QStringLiteral("PathOfBackgroundImage"))
+        emit workspaceFilenameChanged();
+    else if(key == QStringLiteral("BackGroundColor"))
+        emit workspaceColorChanged();
+    else if(key == QStringLiteral("shortNameInTabMode"))
+        emit shortTitleTabChanged();
+    else if(key == QStringLiteral("MaxLengthTabName"))
+        emit maxLengthTabNameChanged();
+}
+QAbstractItemModel* ContentController::model() const
+{
+    return nullptr;
+}
+
+void ContentController::addContent(ResourcesNode* node) {}
+
+void ContentController::removeContent(const QModelIndex& index) {}
+
+void ContentController::setSessionName(const QString& name)
+{
+    if(name == m_sessionName)
+        return;
+    m_sessionName= name;
+    emit sessionNameChanged();
+}
+
+void ContentController::setSessionPath(const QString& path)
+{
+    if(path == m_sessionPath)
+        return;
+    m_sessionPath= path;
+    emit sessionPathChanged();
+}
+
+void ContentController::addChapter(const QModelIndex& index) {}
+
+void ContentController::removeSelectedItems(const QModelIndexList& selection) {}
+void ContentController::openResources(const QModelIndex& index) {}
+void ContentController::saveSession()
+{
+    // saveAllMediaContainer();
+    ModelHelper::saveSession(m_sessionPath, m_sessionName, m_contentModel.get());
+}
+
+void ContentController::loadSession()
+{
+    setSessionName(ModelHelper::loadSession(m_sessionPath, m_contentModel.get()));
+}
+
+void ContentController::clear()
+{
+    m_contentModel->clearData();
+}
+
+void ContentController::saveMedia(const QString& uuid, const QString& path)
+{
+    /*auto it= std::find_if(m_loadedResources.begin(), m_loadedResources.end(),
+                          [uuid](const ResourcesNode* node) { return node->; });*/
+}
+
+int ContentController::maxLengthTabName() const
+{
+    return m_preferences->value(QStringLiteral("MaxLengthTabName"), 20).toInt();
+}
+
+bool ContentController::shortTitleTab() const
+{
+    return m_preferences->value(QStringLiteral("shortNameInTabMode"), false).toBool();
+}
+QString ContentController::workspaceFilename() const
+{
+    return m_preferences->value(QStringLiteral("PathOfBackgroundImage"), 20).toString();
+}
+QColor ContentController::workspaceColor() const
+{
+    return m_preferences->value(QStringLiteral("BackGroundColor"), QColor(191, 191, 191)).value<QColor>();
+}
+int ContentController::workspacePositioning() const
+{
+    return m_preferences->value(QStringLiteral("BackGroundPositioning"), 0).toInt();
+}
+
+QString ContentController::sessionName() const
+{
+    return m_sessionName;
+}
+
+QString ContentController::sessionPath() const
+{
+    return m_sessionPath;
 }

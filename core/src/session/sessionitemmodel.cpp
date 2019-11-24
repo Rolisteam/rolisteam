@@ -433,7 +433,7 @@ QVariant SessionItemModel::headerData(int section, Qt::Orientation orientation, 
     }
     return var;
 }
-void SessionItemModel::saveModel(QDataStream& out)
+void SessionItemModel::saveModel(QDataStream& out) const
 {
     m_rootItem->write(out);
 }

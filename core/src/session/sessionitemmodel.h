@@ -112,7 +112,7 @@ public:
     virtual Qt::ItemFlags flags(const QModelIndex& index) const;
     void clearData();
 
-    virtual void saveModel(QDataStream& out);
+    virtual void saveModel(QDataStream& out) const;
     virtual void loadModel(QDataStream& in);
 
     Qt::DropActions supportedDropActions() const;
@@ -130,8 +130,8 @@ signals:
     void openResource(ResourcesNode*, bool);
 
 protected:
-    bool moveMediaItem(
-        QList<ResourcesNode*> items, const QModelIndex& parentToBe, int row, QList<QModelIndex>& formerPosition);
+    bool moveMediaItem(QList<ResourcesNode*> items, const QModelIndex& parentToBe, int row,
+                       QList<QModelIndex>& formerPosition);
 
 private:
     std::unique_ptr<Chapter> m_rootItem; /// root item address
