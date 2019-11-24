@@ -110,7 +110,7 @@ void DiceAliasModel::appendAlias()
 {
     addAlias(new DiceAlias(tr("New Alias%1").arg(m_diceAliasList->size()), ""));
 }
-void DiceAliasModel::preferencesHasChanged(QString pref)
+void DiceAliasModel::preferencesHasChanged(const QString& pref)
 {
     if(pref == "isPlayer")
     {

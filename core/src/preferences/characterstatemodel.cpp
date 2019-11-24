@@ -39,39 +39,64 @@ CharacterStateModel::~CharacterStateModel() {}
 
 QVariant CharacterStateModel::data(const QModelIndex& index, int role) const
 {
-    if(index.isValid())
-    {
-        CharacterState* state= m_stateList->at(index.row());
-        if((Qt::DisplayRole == role) || (Qt::EditRole == role))
-        {
-            if(nullptr != state)
-            {
-                if(index.column() == LABEL)
-                {
-                    return state->getLabel();
-                }
-                else if(index.column() == COLOR)
-                {
-                    if(Qt::DisplayRole == role)
-                        return QVariant();
+    if(!index.isValid())
+        return {};
 
-                    return state->getColor();
-                }
-                else if(index.column() == PICTURE)
-                {
-                    return state->getImage();
-                }
-            }
-        }
-        else if(Qt::BackgroundRole == role)
-        {
-            if(index.column() == COLOR)
-            {
-                return state->getColor();
-            }
-        }
+    QVariant var;
+    CharacterState* state= m_stateList->at(index.row());
+
+    if((role == Qt::DisplayRole || role == Qt::EditRole) || (role == Qt::BackgroundRole && index.column() == 1))
+    {
+        if(role != Qt::DisplayRole || index.column() != 1)
+            role= index.column() + Qt::UserRole + 1;
     }
-    return QVariant();
+
+    switch(role)
+    {
+    case LABEL:
+        var= state->getLabel();
+        break;
+    case ID:
+        var= state->id();
+        break;
+    case COLOR:
+        var= state->getColor();
+        break;
+    case PICTURE:
+        var= state->getImage();
+        break;
+    }
+
+    /*  if((Qt::DisplayRole == role) || (Qt::EditRole == role))
+      {
+          if(nullptr != state)
+          {
+              if(index.column() == LABEL)
+              {
+                  var= state->getLabel();
+              }
+              else if(index.column() == COLOR)
+              {
+                  if(Qt::DisplayRole == role)
+                      return QVariant();
+
+                  var= state->getColor();
+              }
+              else if(index.column() == PICTURE)
+              {
+                  var= state->getImage();
+              }
+          }
+      }
+      else if(Qt::BackgroundRole == role)
+      {
+          if(index.column() == COLOR)
+          {
+              return state->getColor();
+          }
+      }*/
+
+    return var;
 }
 int CharacterStateModel::rowCount(const QModelIndex& parent) const
 {
@@ -104,7 +129,7 @@ void CharacterStateModel::appendState()
 {
     addState(new CharacterState());
 }
-void CharacterStateModel::preferencesHasChanged(QString pref)
+void CharacterStateModel::preferencesHasChanged(const QString& pref)
 {
     if(pref == "isPlayer")
     {

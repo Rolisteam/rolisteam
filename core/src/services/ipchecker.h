@@ -24,6 +24,7 @@
 #include <QNetworkAccessManager>
 #include <QObject>
 #include <QString>
+#include <memory>
 
 /**
  * @brief The IpChecker class is dedicated to reach http://www.rolisteam.org/ip.php to read the public ip.
@@ -31,18 +32,20 @@
 class IpChecker : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString ipAddress READ ipAddress NOTIFY ipAddressChanged)
 public:
     /**
      * @brief IpChecker
      * @param parent
      */
-    explicit IpChecker(QObject* parent= 0);
+    explicit IpChecker(QObject* parent= nullptr);
+    QString ipAddress() const;
 
 signals:
     /**
      * @brief finished
      */
-    void finished(QString);
+    void ipAddressChanged(QString);
 
 public slots:
     /**
@@ -58,7 +61,7 @@ private slots:
     void readText(QNetworkReply* p);
 
 private:
-    QNetworkAccessManager* m_manager;
+    std::unique_ptr<QNetworkAccessManager> m_manager;
     QString m_ip;
 };
 

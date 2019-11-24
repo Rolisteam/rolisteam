@@ -19,12 +19,12 @@
  ***************************************************************************/
 #include "addmediacontainer.h"
 #include "network/networkmessagewriter.h"
-#include "widgets/improvedworkspace.h"
+#include "widgets/workspace.h"
 #include <QDebug>
 
-AddMediaContainer::AddMediaContainer(MediaContainer* mediac, SessionManager* manager, QMenu* menu,
-                                     ImprovedWorkspace* workspace, bool gm, QUndoCommand* parent)
-    : QUndoCommand(parent), m_media(mediac), m_manager(manager), m_menu(menu), m_mdiArea(workspace), m_gm(gm)
+AddMediaContainer::AddMediaContainer(MediaContainer* mediac, ContentController* ctrl, QMenu* menu, Workspace* workspace,
+                                     bool gm, QUndoCommand* parent)
+    : QUndoCommand(parent), m_media(mediac), m_ctrl(ctrl), m_menu(menu), m_mdiArea(workspace), m_gm(gm)
 {
     setText(QObject::tr("Show %1").arg(mediac->getUriName()));
 }
@@ -39,7 +39,7 @@ void AddMediaContainer::redo()
     CleverURI* uri= m_media->getCleverUri();
     if(nullptr != uri)
     {
-        m_manager->addRessource(m_media->getCleverUri());
+        //        m_ctrl->addRessource(m_media->getCleverUri());
         uri->setDisplayed(true);
     }
     QAction* action= m_media->getAction();
@@ -73,7 +73,7 @@ void AddMediaContainer::undo()
         auto act= m_media->getAction();
         if(act)
             act->setVisible(false);
-        m_manager->removeResource(m_media->getCleverUri());
+        //  m_ctrl->removeResource(m_media->getCleverUri());
         m_mdiArea->removeSubWindow(m_media);
         if(m_gm)
         {

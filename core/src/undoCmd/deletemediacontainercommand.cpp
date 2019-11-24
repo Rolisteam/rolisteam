@@ -18,16 +18,17 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "deletemediacontainercommand.h"
+#include "controller/contentcontroller.h"
 #include "network/networkmessagewriter.h"
-#include "session/sessionmanager.h"
-#include "widgets/improvedworkspace.h"
+#include "widgets/workspace.h"
 
-DeleteMediaContainerCommand::DeleteMediaContainerCommand(MediaContainer* media, SessionManager* manager, QMenu* menu,
-                                                         ImprovedWorkspace* workspace, bool isGM,
+DeleteMediaContainerCommand::DeleteMediaContainerCommand(MediaContainer* media,
+                                                         /*SessionManager* manager, */ QMenu* menu,
+                                                         Workspace* workspace, bool isGM,
                                                          QHash<QString, MediaContainer*>& hash, QUndoCommand* parent)
     : QUndoCommand(parent)
     , m_media(media)
-    , m_manager(manager)
+    // , m_manager(manager)
     , m_menu(menu)
     , m_mdiArea(workspace)
     , m_hash(hash)
@@ -54,7 +55,7 @@ void DeleteMediaContainerCommand::redo()
             act->setVisible(false);
         }
         m_mdiArea->removeMediaContainer(m_media);
-        m_manager->resourceClosed(m_media->getCleverUri());
+        // m_manager->resourceClosed(m_media->getCleverUri());
         m_hash.remove(m_media->getMediaId());
         if(m_gm)
         {
@@ -73,7 +74,7 @@ void DeleteMediaContainerCommand::undo()
         CleverURI* uri= m_media->getCleverUri();
         if(nullptr != uri)
         {
-            m_manager->addRessource(m_media->getCleverUri());
+            // m_manager->addRessource(m_media->getCleverUri());
             uri->setDisplayed(true);
         }
         QAction* action= m_media->getAction();

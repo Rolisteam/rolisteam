@@ -20,18 +20,19 @@
 #ifndef ADDMEDIACONTENEUR_H
 #define ADDMEDIACONTENEUR_H
 
+#include <QPointer>
 #include <QUndoCommand>
 
+#include "controller/contentcontroller.h"
 #include "data/mediacontainer.h"
-#include "session/sessionmanager.h"
 
-class ImprovedWorkspace;
+class Workspace;
 
 class AddMediaContainer : public QUndoCommand
 {
 public:
-    AddMediaContainer(MediaContainer* mediac, SessionManager* manager, QMenu* menu, ImprovedWorkspace* workspace,
-        bool isGM, QUndoCommand* parent= nullptr);
+    AddMediaContainer(MediaContainer* mediac, ContentController* ctrl, QMenu* menu, Workspace* workspace, bool isGM,
+                      QUndoCommand* parent= nullptr);
 
     void redo() override;
     void undo() override;
@@ -40,9 +41,9 @@ public:
 
 private:
     MediaContainer* m_media= nullptr;
-    SessionManager* m_manager= nullptr;
+    QPointer<ContentController> m_ctrl= nullptr;
     QMenu* m_menu= nullptr;
-    ImprovedWorkspace* m_mdiArea= nullptr;
+    Workspace* m_mdiArea= nullptr;
     bool m_gm;
 };
 

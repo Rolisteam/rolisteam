@@ -94,7 +94,7 @@ public:
      */
     bool setData(const QModelIndex& index, const QVariant& value, int role);
 
-    virtual void preferencesHasChanged(QString);
+    virtual void preferencesHasChanged(const QString&);
 
     /// new methods
     void setAliases(QList<DiceAlias*>* map);

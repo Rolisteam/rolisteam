@@ -23,7 +23,12 @@
 #include <QNetworkRequest>
 #include <QUrl>
 
-IpChecker::IpChecker(QObject* parent) : QObject(parent), m_manager(nullptr) {}
+IpChecker::IpChecker(QObject* parent) : QObject(parent) {}
+
+QString IpChecker::ipAddress() const
+{
+    return m_ip;
+}
 void IpChecker::readText(QNetworkReply* p)
 {
     if(p->error() != QNetworkReply::NoError)
@@ -33,14 +38,14 @@ void IpChecker::readText(QNetworkReply* p)
     else
     {
         m_ip= p->readAll();
-        emit finished(m_ip);
+        emit ipAddressChanged(m_ip);
     }
 }
 void IpChecker::startCheck()
 {
 #ifdef HAVE_QT_NETWORK
-    m_manager= new QNetworkAccessManager(this);
-    connect(m_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(readText(QNetworkReply*)));
+    m_manager.reset(new QNetworkAccessManager);
+    connect(m_manager.get(), &QNetworkAccessManager::finished, this, &IpChecker::readText);
     m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/ip.php")));
 #endif
 }
