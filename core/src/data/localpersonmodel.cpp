@@ -26,21 +26,65 @@
 #include "data/person.h"
 #include "data/player.h"
 
-LocalPersonModel::LocalPersonModel() : QAbstractListModel()
+LocalPersonModel::LocalPersonModel() : QAbstractProxyModel() {}
+
+QModelIndex LocalPersonModel::mapFromSource(const QModelIndex& sourceIndex) const
 {
-    beginResetModel();
-    m_playersList= PlayersList::instance();
-    endResetModel();
+    if(!sourceIndex.isValid())
+        return QModelIndex();
 
+    auto parent= sourceIndex.parent();
 
-    connect(m_playersList, &PlayersList::localPlayerChanged, this, [this](){
-        beginResetModel();
-        m_playersList= PlayersList::instance();
-        endResetModel();
-    });
+    if(!parent.isValid() && sourceIndex.row() > 0)
+        return QModelIndex();
+
+    if(!parent.isValid() && sourceIndex.row() == 0)
+        return createIndex(0, 0, sourceIndex.internalPointer());
+
+    if(parent.isValid() && parent.row() == 0)
+        return createIndex(1 + sourceIndex.row(), 0, sourceIndex.internalPointer());
+
+    return QModelIndex();
 }
 
-QVariant LocalPersonModel::data(const QModelIndex& index, int role) const
+QModelIndex LocalPersonModel::mapToSource(const QModelIndex& proxyIndex) const
+{
+    if(proxyIndex.row() == 0)
+        return sourceModel()->index(0, 0, QModelIndex());
+    else
+        return sourceModel()->index(proxyIndex.row() - 1, 0, sourceModel()->index(0, 0, QModelIndex()));
+}
+
+QModelIndex LocalPersonModel::index(int r, int c, const QModelIndex&) const
+{
+    return createIndex(r, c);
+}
+
+QModelIndex LocalPersonModel::parent(const QModelIndex&) const
+{
+    return QModelIndex();
+}
+
+int LocalPersonModel::rowCount(const QModelIndex& parent) const
+{
+    if(parent.isValid())
+        return 0;
+
+    auto firstItem= sourceModel()->index(0, 0);
+    if(!firstItem.isValid())
+        return 0;
+
+    auto child= sourceModel()->rowCount(firstItem);
+
+    return child + 1;
+}
+
+int LocalPersonModel::columnCount(const QModelIndex&) const
+{
+    return 1;
+}
+
+/*QVariant LocalPersonModel::data(const QModelIndex& index, int role) const
 {
     if(!index.isValid())
         return {};
@@ -65,7 +109,7 @@ QVariant LocalPersonModel::data(const QModelIndex& index, int role) const
     {
         return person->name();
     }
-    else if(PlayersList::IdentifierRole == role)
+    else if(PlayerModel::IdentifierRole == role)
     {
         return person->getUuid();
     }
@@ -77,7 +121,7 @@ int LocalPersonModel::rowCount(const QModelIndex& parent) const
     if(parent.isValid())
         return 0;
 
-    Player* tmp= m_playersList->getLocalPlayer();
+    Player* tmp= model()->getLocalPlayer();
     if(nullptr != tmp)
     {
         return 1 + tmp->getChildrenCount();
@@ -86,4 +130,4 @@ int LocalPersonModel::rowCount(const QModelIndex& parent) const
     {
         return 0;
     }
-}
+}*/

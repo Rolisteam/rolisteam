@@ -26,7 +26,7 @@
 #include "data/player.h"
 #include "network/networkmessagereader.h"
 #include "network/receiveevent.h"
-#include "userlist/playersList.h"
+#include "userlist/playermodel.h"
 
 /******************
  * Local Features *
@@ -61,7 +61,7 @@ void addFeature(ReceiveEvent& event)
     QString name= data.string8();
     quint8 version= data.uint8();
 
-    Player* player= PlayersList::instance()->getPlayer(uuid);
+    Player* player= nullptr; // PlayerModel::instance()->getPlayer(uuid);
     if(player == nullptr)
     {
         qWarning() << QString("Feature %1 for unknown player %2").arg(name).arg(uuid);

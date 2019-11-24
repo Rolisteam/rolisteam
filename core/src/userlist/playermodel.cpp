@@ -1,6 +1,6 @@
 ﻿/*************************************************************************
  *     Copyright (C) 2011 by Joseph Boudou                               *
- *      Copyright (C) 2014 by Renaud Guezennec                            *
+ *     Copyright (C) 2014 by Renaud Guezennec                            *
  *                                                                       *
  *     http://www.rolisteam.org/                                         *
  *                                                                       *
@@ -20,11 +20,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-#include <QApplication>
 #include <QDebug>
 #include <QPalette>
 
-#include "userlist/playersList.h"
+#include "userlist/playermodel.h"
 
 #include "data/character.h"
 #include "data/features.h"
@@ -67,45 +66,65 @@ void convertVariantToType<CharacterState*>(CharacterState* const& val, NetworkMe
     }
 }
 
+Player* findPerson(const std::vector<std::unique_ptr<Player>>& data, Person* person)
+{
+    auto it= std::find_if(data.begin(), data.end(), [person](const std::unique_ptr<Player>& player) {
+        bool val= ((player.get() == person) || (person->getUuid() == player->getUuid()));
+
+        if(!val)
+        {
+            auto children= player->getChildrenCharacter();
+            auto subIt= std::find_if(children.begin(), children.end(), [person](Character* character) {
+                return (character == person) || (person->getUuid() == character->getUuid());
+            });
+            val= (subIt != children.end());
+        }
+        return val;
+    });
+    return it->get();
+}
+
+bool contains(const std::vector<std::unique_ptr<Player>>& data, Person* person)
+{
+    auto it= std::find_if(data.begin(), data.end(), [person](const std::unique_ptr<Player>& player) {
+        bool val= ((player.get() == person) || (person->getUuid() == player->getUuid()));
+
+        if(!val)
+        {
+            auto children= player->getChildrenCharacter();
+            auto subIt= std::find_if(children.begin(), children.end(), [person](Character* character) {
+                return (character == person) || (person->getUuid() == character->getUuid());
+            });
+            val= (subIt != children.end());
+        }
+        return val;
+    });
+    return it == data.end();
+}
+
 /******************
  * Initialisation *
  ******************/
-PlayersList* PlayersList::m_singleton= nullptr;
 
-PlayersList::PlayersList() : QAbstractItemModel(nullptr)
+PlayerModel::PlayerModel(QObject* parent) : QAbstractItemModel(parent)
 {
-    using namespace NetMsg;
-    ReceiveEvent::registerReceiver(PlayerCategory, PlayerConnectionAction, this);
-    ReceiveEvent::registerReceiver(PlayerCategory, DelPlayerAction, this);
-    ReceiveEvent::registerReceiver(PlayerCategory, ChangePlayerProperty, this);
-    ReceiveEvent::registerReceiver(CharacterPlayerCategory, AddPlayerCharacterAction, this);
-    ReceiveEvent::registerReceiver(CharacterPlayerCategory, DelPlayerCharacterAction, this);
-    ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterProperty, this);
-    ReceiveEvent::registerReceiver(SetupCategory, AddFeatureAction, this);
+    /*    using namespace NetMsg;
+        ReceiveEvent::registerReceiver(PlayerCategory, PlayerConnectionAction, this);
+        ReceiveEvent::registerReceiver(PlayerCategory, DelPlayerAction, this);
+        ReceiveEvent::registerReceiver(PlayerCategory, ChangePlayerProperty, this);
+        ReceiveEvent::registerReceiver(CharacterPlayerCategory, AddPlayerCharacterAction, this);
+        ReceiveEvent::registerReceiver(CharacterPlayerCategory, DelPlayerCharacterAction, this);
+        ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterProperty, this);
+        ReceiveEvent::registerReceiver(SetupCategory, AddFeatureAction, this);*/
 }
 
-PlayersList::~PlayersList()
-{
-    for(int i= 0; i < m_playersList.size(); i++)
-    {
-        delete m_playersList.at(i);
-    }
-}
-
-PlayersList* PlayersList::instance()
-{
-    if(nullptr == m_singleton)
-    {
-        m_singleton= new PlayersList();
-    }
-    return m_singleton;
-}
+PlayerModel::~PlayerModel()= default;
 
 /*************
  * ItemModel *
  *************/
 
-QVariant PlayersList::data(const QModelIndex& index, int role) const
+QVariant PlayerModel::data(const QModelIndex& index, int role) const
 {
     if(!index.isValid() || index.column() != 0)
         return QVariant();
@@ -113,19 +132,20 @@ QVariant PlayersList::data(const QModelIndex& index, int role) const
     Person* person= static_cast<Person*>(index.internalPointer());
 
     Character* character= dynamic_cast<Character*>(person);
-    if(!person->isLeaf() && (role == Qt::BackgroundRole))
+    Player* player= dynamic_cast<Player*>(person);
+    bool isGM= false;
+
+    if((player != nullptr))
     {
-        Player* player= dynamic_cast<Player*>(person);
-        if(player != nullptr)
-        {
-            if((person->getUuid() == m_idCurrentGM) && player->isGM())
-            {
-                QPalette pal= qApp->palette();
-                return QVariant(pal.color(QPalette::Active, QPalette::Dark));
-            }
-        }
+        isGM= player->isGM();
+    }
+    if(isGM && (role == Qt::BackgroundRole))
+    {
+        QPalette pal;
+        return QVariant(pal.color(QPalette::Active, QPalette::Dark));
     }
 
+    QVariant var;
     switch(role)
     {
     case Qt::DisplayRole:
@@ -136,43 +156,70 @@ QVariant PlayersList::data(const QModelIndex& index, int role) const
         {
             name= QStringLiteral("%1 (%2)").arg(name).arg(character->getInitiativeScore());
         }
-        return name;
+        var= name;
+        break;
     }
     case Qt::ToolTipRole:
-        return person->getToolTip();
+    {
+        if(nullptr != character)
+        {
+            QString stateName(tr("Not defined"));
+            stateName= character->stateId();
+
+            var= tr("%1:\n"
+                    "HP: %2/%3\n"
+                    "State: %4\n"
+                    "Initiative Score: %5\n"
+                    "Distance Per Turn: %6\n"
+                    "type: %7\n")
+                     .arg(character->name())
+                     .arg(character->getHealthPointsCurrent())
+                     .arg(character->getHealthPointsMax())
+                     .arg(stateName)
+                     .arg(character->getInitiativeScore())
+                     .arg(character->getDistancePerTurn())
+                     .arg(character->isNpc() ? tr("NPC") : tr("PC"));
+        }
+        break;
+    }
     case Qt::DecorationRole:
     {
         if(!person->getAvatar().isNull()) // (person->isLeaf()) &&
         {
-            return person->getAvatar().scaled(64, 64, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            var= person->getAvatar().scaled(64, 64, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         }
         else
-            return QVariant(person->getColor());
+            var= QVariant(person->getColor());
+        break;
     }
     case IdentifierRole:
-        return person->getUuid();
-    case PersonPtr:
-        return QVariant::fromValue(person);
-    case IsLocal:
-        return isLocal(person);
-    case IsGM:
+        var= person->getUuid();
+        break;
+    case PersonPtrRole:
+        var= QVariant::fromValue(person);
+        break;
+    case CharacterRole:
+        var= person->isLeaf();
+        break;
+    case CharacterStateIdRole:
     {
-        auto pl= dynamic_cast<Player*>(person);
-        if(pl)
-            return pl->isGM();
-        else
-        {
-            return false;
-        }
+        if(nullptr != character)
+            var= character->stateId();
     }
-    case LocalIsGM:
-        return localIsGM();
+    break;
+
+    case LocalRole:
+        var= true; // isLocal(person);
+        break;
+    case GmRole:
+        var= isGM;
+        break;
     }
 
-    return QVariant();
+    return var;
 }
 
-Qt::ItemFlags PlayersList::flags(const QModelIndex& index) const
+Qt::ItemFlags PlayerModel::flags(const QModelIndex& index) const
 {
     if(!index.isValid())
         return Qt::ItemIsEnabled;
@@ -180,7 +227,7 @@ Qt::ItemFlags PlayersList::flags(const QModelIndex& index) const
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
-QVariant PlayersList::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant PlayerModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     Q_UNUSED(section);
     if(orientation == Qt::Horizontal && role == Qt::DisplayRole)
@@ -188,11 +235,12 @@ QVariant PlayersList::headerData(int section, Qt::Orientation orientation, int r
     return QVariant();
 }
 
-QModelIndex PlayersList::index(int row, int column, const QModelIndex& parent) const
+QModelIndex PlayerModel::index(int row, int column, const QModelIndex& parent) const
 {
     if(column != 0 || row < 0)
         return QModelIndex();
     Person* childItem= nullptr;
+    auto row_t= static_cast<std::size_t>(row);
     if(parent.isValid())
     {
         auto parentPerson= static_cast<Person*>(parent.internalPointer());
@@ -201,9 +249,9 @@ QModelIndex PlayersList::index(int row, int column, const QModelIndex& parent) c
             return {};
         childItem= parentPlayer->getCharacterByIndex(row);
     }
-    else if(m_playersList.size() > row)
+    else if(m_players.size() > row_t)
     {
-        childItem= m_playersList[row];
+        childItem= m_players[row_t].get();
     }
 
     if(childItem)
@@ -211,7 +259,7 @@ QModelIndex PlayersList::index(int row, int column, const QModelIndex& parent) c
     else
         return QModelIndex();
 }
-QList<Character*> PlayersList::getCharacterList()
+/*QList<Character*> PlayerModel::getCharacterList()
 {
     QList<Character*> list;
 
@@ -220,9 +268,9 @@ QList<Character*> PlayersList::getCharacterList()
         list << player->getChildrenCharacter();
     }
     return list;
-}
+}*/
 
-QModelIndex PlayersList::parent(const QModelIndex& index) const
+QModelIndex PlayerModel::parent(const QModelIndex& index) const
 {
     if(!index.isValid())
         return QModelIndex();
@@ -237,12 +285,12 @@ QModelIndex PlayersList::parent(const QModelIndex& index) const
     return createIndex(parentPerson->indexOf(childItem), 0, parentPerson);
 }
 
-int PlayersList::rowCount(const QModelIndex& parent) const
+int PlayerModel::rowCount(const QModelIndex& parent) const
 {
     int result= 0;
     if(!parent.isValid())
     {
-        result= m_playersList.size();
+        result= static_cast<int>(m_players.size());
     }
     else
     {
@@ -256,37 +304,46 @@ int PlayersList::rowCount(const QModelIndex& parent) const
     return result;
 }
 
-int PlayersList::columnCount(const QModelIndex& parent) const
+int PlayerModel::columnCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent);
     return 1;
 }
 
-bool PlayersList::setData(const QModelIndex& index, const QVariant& value, int role)
+bool PlayerModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    Q_UNUSED(index);
-    Q_UNUSED(value);
-    Q_UNUSED(role);
+    if(role == Qt::DisplayRole || role == Qt::EditRole)
+    {
+        auto childItem= static_cast<Person*>(index.internalPointer());
+        childItem->setName(value.toString());
+        emit dataChanged(index, index, QVector<int>() << role);
+        return true;
+    }
     return false;
 }
 
-QModelIndex PlayersList::personToIndex(Person* person) const
+QModelIndex PlayerModel::personToIndex(Person* person) const
 {
     QModelIndex parent;
     int row= -1;
     if(person->isLeaf())
     {
         auto player= dynamic_cast<Player*>(person->parentPerson());
-        if(player)
+        auto posIt= std::find_if(m_players.begin(), m_players.end(),
+                                 [player](const std::unique_ptr<Player>& person) { return player == person.get(); });
+        if(posIt != m_players.end())
         {
-            parent= index(m_playersList.indexOf(player), 0, QModelIndex());
+            parent= index(static_cast<int>(std::distance(m_players.begin(), posIt)), 0, QModelIndex());
             row= player->indexOf(person);
         }
     }
     else
     {
         auto player= dynamic_cast<Player*>(person);
-        row= m_playersList.indexOf(player);
+        auto posIt= std::find_if(m_players.begin(), m_players.end(),
+                                 [player](const std::unique_ptr<Player>& person) { return player == person.get(); });
+        if(posIt != m_players.end())
+            row= static_cast<int>(std::distance(m_players.begin(), posIt));
     }
     return index(row, 0, parent);
 }
@@ -294,7 +351,7 @@ QModelIndex PlayersList::personToIndex(Person* person) const
 /***********
  * Getters *
  ***********/
-bool PlayersList::isLocal(Person* person) const
+/*bool PlayerModel::isLocal(Person* person) const
 {
     if(person == nullptr)
         return false;
@@ -306,19 +363,19 @@ bool PlayersList::isLocal(Person* person) const
     return (person == local || person->parentPerson() == local);
 }
 
-int PlayersList::getPlayerCount() const
+int PlayerModel::getPlayerCount() const
 {
     return m_playersList.size();
 }
 
-Player* PlayersList::getPlayer(int index) const
+Player* PlayerModel::getPlayer(int index) const
 {
     if(index < 0 && index > m_playersList.size())
         return nullptr;
     return m_playersList.at(index);
 }
 
-Person* PlayersList::getPerson(const QString& uuid) const
+Person* PlayerModel::getPerson(const QString& uuid) const
 {
     auto person= m_uuidMap.value(uuid);
     if(nullptr == person)
@@ -333,7 +390,7 @@ Person* PlayersList::getPerson(const QString& uuid) const
     return person;
 }
 
-Player* PlayersList::getPlayer(const QString& uuid) const
+Player* PlayerModel::getPlayer(const QString& uuid) const
 {
     Person* person= m_uuidMap.value(uuid);
     if(person == nullptr || person->parentPerson() != nullptr) // No person or if person has parent return Player
@@ -341,7 +398,7 @@ Player* PlayersList::getPlayer(const QString& uuid) const
     return static_cast<Player*>(person);
 }
 
-Character* PlayersList::getCharacter(const QString& uuid) const
+Character* PlayerModel::getCharacter(const QString& uuid) const
 {
     Person* person= m_uuidMap.value(uuid);
     if(person == nullptr || person->parentPerson() == nullptr)
@@ -349,7 +406,7 @@ Character* PlayersList::getCharacter(const QString& uuid) const
     return static_cast<Character*>(person);
 }
 
-Player* PlayersList::getParent(const QString& uuid) const
+Player* PlayerModel::getParent(const QString& uuid) const
 {
     Person* person= m_uuidMap.value(uuid);
     if(person == nullptr)
@@ -372,7 +429,7 @@ Player* PlayersList::getParent(const QString& uuid) const
     return nullptr;
 }
 
-Person* PlayersList::getPerson(const QModelIndex& index) const
+Person* PlayerModel::getPerson(const QModelIndex& index) const
 {
     if(!index.isValid() || index.column() != 0)
         return nullptr;
@@ -382,19 +439,19 @@ Person* PlayersList::getPerson(const QModelIndex& index) const
     return person;
 }
 
-Player* PlayersList::getPlayer(const QModelIndex& index) const
+Player* PlayerModel::getPlayer(const QModelIndex& index) const
 {
     auto person= getPerson(index);
     return dynamic_cast<Player*>(person);
 }
 
-Character* PlayersList::getCharacter(const QModelIndex& index) const
+Character* PlayerModel::getCharacter(const QModelIndex& index) const
 {
     auto person= getPerson(index);
     return dynamic_cast<Character*>(person);
 }
 
-QString PlayersList::getUuidFromName(QString owner)
+QString PlayerModel::getUuidFromName(QString owner)
 {
     Person* ownerPerson= m_localPlayer;
     QList<Character*> list= getCharacterList();
@@ -411,7 +468,7 @@ QString PlayersList::getUuidFromName(QString owner)
     return ownerPerson->getUuid();
 }
 
-bool PlayersList::everyPlayerHasFeature(const QString& name, quint8 version) const
+bool PlayerModel::everyPlayerHasFeature(const QString& name, quint8 version) const
 {
     int playersCount= m_playersList.size();
     for(int i= 0; i < playersCount; i++)
@@ -421,12 +478,12 @@ bool PlayersList::everyPlayerHasFeature(const QString& name, quint8 version) con
     }
     return true;
 }
-Player* PlayersList::getLocalPlayer() const
+Player* PlayerModel::getLocalPlayer() const
 {
     return m_localPlayer.data();
 }
 
-QString PlayersList::getLocalPlayerId() const
+QString PlayerModel::getLocalPlayerId() const
 {
     if(!m_localPlayer)
         return {};
@@ -434,7 +491,7 @@ QString PlayersList::getLocalPlayerId() const
     return m_localPlayer->getUuid();
 }
 
-void PlayersList::sendOffLocalPlayerInformations()
+void PlayerModel::sendOffLocalPlayerInformations()
 {
     if(nullptr == m_localPlayer)
         return;
@@ -444,7 +501,7 @@ void PlayersList::sendOffLocalPlayerInformations()
     m_localPlayer->fill(message);
     message.sendToServer();
 }
-void PlayersList::sendOffFeatures(Player* player)
+void PlayerModel::sendOffFeatures(Player* player)
 {
     setLocalFeatures(*player);
     SendFeaturesIterator i(*player);
@@ -453,13 +510,13 @@ void PlayersList::sendOffFeatures(Player* player)
         i.next();
         i.message().sendToServer();
     }
-}
+}*/
 
 /***********
  * Setters *
  ***********/
 
-void PlayersList::setLocalPlayer(Player* player)
+/*void PlayerModel::setLocalPlayer(Player* player)
 {
     if(player == m_localPlayer)
         return;
@@ -477,7 +534,7 @@ void PlayersList::setLocalPlayer(Player* player)
     emit localPlayerChanged();
 }
 
-void PlayersList::cleanListButLocal()
+void PlayerModel::cleanListButLocal()
 {
     beginResetModel();
     for(auto& tmp : m_playersList)
@@ -488,10 +545,10 @@ void PlayersList::cleanListButLocal()
         }
     }
     endResetModel();
-}
+}*/
 
-template <typename T>
-void PlayersList::sendOffPersonChanges(const QString& property)
+/*template <typename T>
+void PlayerModel::sendOffPersonChanges(const QString& property)
 {
     if(m_receivingData)
         return;
@@ -517,43 +574,47 @@ void PlayersList::sendOffPersonChanges(const QString& property)
     auto val= person->property(property.toLocal8Bit().data());
     convertVariantToType<T>(val.value<T>(), message);
     message.sendToServer();
-}
+}*/
 
-void PlayersList::monitorPlayer(Player* player)
+/*void PlayerModel::monitorPlayer(Player* player)
 {
     connect(player, &Player::avatarChanged, this, [this]() { sendOffPersonChanges<QImage>(QStringLiteral("avatar")); });
     connect(player, &Player::nameChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("name")); });
     connect(player, &Player::colorChanged, this, [this]() { sendOffPersonChanges<QColor>(QStringLiteral("color")); });
 }
 
-void PlayersList::monitorCharacter(Character* charac)
+void PlayerModel::monitorCharacter(Character* charac)
 {
     // clang-format off
-    connect(charac, &Character::currentHealthPointsChanged, this,[this]() { sendOffPersonChanges<QString>(QStringLiteral("healthPoints")); });
-    connect(charac, &Character::avatarChanged, this, [this]() { sendOffPersonChanges<QImage>(QStringLiteral("avatar")); });
-    connect(charac, &Character::nameChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("name")); });
-    connect(charac, &Character::colorChanged, this, [this]() { sendOffPersonChanges<QColor>(QStringLiteral("color")); });
-    connect(charac, &Character::initCommandChanged, this,[this]() { sendOffPersonChanges<QString>(QStringLiteral("initCommand")); });
-    connect(charac, &Character::initiativeChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("initiative")); });
-    connect(charac, &Character::hasInitScoreChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("hasInitiative")); });
-    connect(charac, &Character::stateChanged, this, [this]() { sendOffPersonChanges<CharacterState*>(QStringLiteral("state")); });
-    connect(charac, &Character::maxHPChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("maxHP")); });
-    connect(charac, &Character::minHPChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("minHP")); });
-    connect(charac, &Character::distancePerTurnChanged, this,[this]() { sendOffPersonChanges<QString>(QStringLiteral("distancePerTurn")); });
-    connect(charac, &Character::lifeColorChanged, this,[this]() { sendOffPersonChanges<QColor>(QStringLiteral("lifeColor")); });
+    connect(charac, &Character::currentHealthPointsChanged, this,[this]() {
+sendOffPersonChanges<QString>(QStringLiteral("healthPoints")); }); connect(charac, &Character::avatarChanged, this,
+[this]() { sendOffPersonChanges<QImage>(QStringLiteral("avatar")); }); connect(charac, &Character::nameChanged, this,
+[this]() { sendOffPersonChanges<QString>(QStringLiteral("name")); }); connect(charac, &Character::colorChanged, this,
+[this]() { sendOffPersonChanges<QColor>(QStringLiteral("color")); }); connect(charac, &Character::initCommandChanged,
+this,[this]() { sendOffPersonChanges<QString>(QStringLiteral("initCommand")); }); connect(charac,
+&Character::initiativeChanged, this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("initiative")); });
+    connect(charac, &Character::hasInitScoreChanged, this, [this]() {
+sendOffPersonChanges<QString>(QStringLiteral("hasInitiative")); }); connect(charac, &Character::stateChanged, this,
+[this]() { sendOffPersonChanges<CharacterState*>(QStringLiteral("state")); }); connect(charac, &Character::maxHPChanged,
+this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("maxHP")); }); connect(charac, &Character::minHPChanged,
+this, [this]() { sendOffPersonChanges<QString>(QStringLiteral("minHP")); }); connect(charac,
+&Character::distancePerTurnChanged, this,[this]() { sendOffPersonChanges<QString>(QStringLiteral("distancePerTurn"));
+}); connect(charac, &Character::lifeColorChanged, this,[this]() {
+sendOffPersonChanges<QColor>(QStringLiteral("lifeColor")); });
     //clang-format on
 
     if(localIsGM())
     {
         connect(charac, &Character::initiativeChanged, this, [this,charac]() {
-            emit eventOccurs(tr("%1's initiative has changed: %2").arg(charac->name()).arg(charac->getInitiativeScore()));
+            emit eventOccurs(tr("%1's initiative has changed:
+%2").arg(charac->name()).arg(charac->getInitiativeScore()));
         });
     }
 
     charac->initCharacter();
 }
 
-void PlayersList::addLocalCharacter(Character* newCharacter)
+void PlayerModel::addLocalCharacter(Character* newCharacter)
 {
     if(nullptr == newCharacter)
         return;
@@ -567,7 +628,7 @@ void PlayersList::addLocalCharacter(Character* newCharacter)
     message.sendToServer();
 }
 
-void PlayersList::changeLocalPerson(Person* person, const QString& name, const QColor& color, const QImage& icon)
+void PlayerModel::changeLocalPerson(Person* person, const QString& name, const QColor& color, const QImage& icon)
 {
     if(nullptr == person || (!isLocal(person) && !localIsGM()))
         return;
@@ -577,7 +638,7 @@ void PlayersList::changeLocalPerson(Person* person, const QString& name, const Q
     person->setAvatar(icon);
 }
 
-bool PlayersList::localIsGM() const
+bool PlayerModel::localIsGM() const
 {
     if(!m_localPlayer)
         return false;
@@ -585,7 +646,7 @@ bool PlayersList::localIsGM() const
     return m_localPlayer->isGM();
 }
 
-void PlayersList::delLocalCharacter(int index)
+void PlayerModel::delLocalCharacter(int index)
 {
     Player* parent= getLocalPlayer();
     if(index < 0 || index >= parent->getChildrenCount())
@@ -598,88 +659,94 @@ void PlayersList::delLocalCharacter(int index)
     delCharacter(parent, index);
 
     emit localPlayerChanged();
-}
+}*/
 
-void PlayersList::addPlayer(Player* player)
+void PlayerModel::addPlayer(Player* player)
 {
-    int size= m_playersList.size();
-    QString uuid= player->getUuid();
-
-    if(m_uuidMap.contains(uuid))
+    if(nullptr == player)
         return;
 
-    if(player == getLocalPlayer() || localIsGM())
-        monitorPlayer(player);
+    auto it= std::find_if(m_players.begin(), m_players.end(), [player](const std::unique_ptr<Player>& t) {
+        return (t.get() == player || t->getUuid() == player->getUuid());
+    });
+
+    if(it != m_players.end())
+    {
+        qWarning() << tr("Dupplicated player or uuid");
+        return;
+    }
+
+    int size= static_cast<int>(m_players.size());
 
     beginInsertRows(QModelIndex(), size, size);
-
-    m_playersList << player;
-    m_uuidMap.insert(uuid, player);
-
-    emit playerAdded(player);
-
+    m_players.push_back(std::unique_ptr<Player>(player));
     endInsertRows();
 
-    for(int i= 0; i < player->getChildrenCount(); ++i)
-    {
-        Character* character= player->getCharacterByIndex(i);
-        addCharacter(player, character);
-    }
+    /*    for(int i= 0; i < player->getChildrenCount(); ++i)
+        {
+            Character* character= player->getCharacterByIndex(i);
+            addCharacter(player, character);
+        }*/
 }
 
-void PlayersList::addCharacter(Player* player, Character* character)
+void PlayerModel::addCharacter(const QModelIndex& parent, Character* character, int pos)
 {
-    if(player == nullptr || character == nullptr)
+    if(!parent.isValid() || nullptr == character)
         return;
 
-    int size= player->getChildrenCount();
-    QString uuid= character->getUuid();
+    int size= pos;
+    if(size < 0)
+        size= rowCount(parent.parent());
 
-    if(m_uuidMap.contains(uuid))
-        return;
+    auto person= static_cast<Person*>(parent.internalPointer());
+    auto player= dynamic_cast<Player*>(person);
 
-    auto index= personToIndex(player);
+    character->setNpc(player->isGM());
 
-    if(player == getLocalPlayer() || localIsGM())
-        monitorCharacter(character);
-
-    beginInsertRows(index, size, size);
-
-    if(character->getParentPlayer() != player)
-    {
-        player->addCharacter(character);
-    }
-    m_uuidMap.insert(uuid, character);
-
-    emit characterAdded(character);
-
+    beginInsertRows(parent, size, size);
+    player->addCharacter(character);
     endInsertRows();
 }
 
-void PlayersList::delPlayer(Player* player)
+void PlayerModel::removeCharacter(Character* character)
 {
-    int index= m_playersList.indexOf(player);
-    if(index < 0)
+    if(nullptr == character)
         return;
 
-    int charactersCount= player->getChildrenCount();
-    for(int i= 0; i < charactersCount; i++)
-    {
-        delCharacter(player, 0);
-    }
+    auto player= character->getParentPlayer();
 
-    beginRemoveRows(QModelIndex(), index, index);
+    if(nullptr == player)
+        return;
 
-    m_uuidMap.remove(player->getUuid());
-    m_playersList.removeAt(index);
+    auto parent= personToIndex(player);
+    auto idx= player->indexOf(character);
 
-    emit playerDeleted(player);
-    delete player;
-
+    beginRemoveRows(parent, idx, idx);
+    player->removeChild(character);
     endRemoveRows();
 }
 
-void PlayersList::delCharacter(Player* parent, int index)
+void PlayerModel::removePlayer(Player* player)
+{
+    auto itPlayer= std::find_if(m_players.begin(), m_players.end(),
+                                [player](const std::unique_ptr<Player>& person) { return person.get() == player; });
+    if(itPlayer == m_players.end())
+        return;
+
+    //    int charactersCount= player->getChildrenCount();
+    /*    for(int i= 0; i < charactersCount; i++)
+        {
+            delCharacter(player, 0);
+        }*/
+
+    auto index= static_cast<int>(std::distance(m_players.begin(), itPlayer));
+
+    beginRemoveRows(QModelIndex(), index, index);
+    m_players.erase(itPlayer);
+    endRemoveRows();
+}
+
+/*void PlayerModel::delCharacter(Player* parent, int index)
 {
     Character* character= parent->getCharacterByIndex(index);
     QModelIndex parentItem= personToIndex(parent);
@@ -687,17 +754,16 @@ void PlayersList::delCharacter(Player* parent, int index)
 
     emit characterDeleted(character);
 
-    m_uuidMap.remove(character->getUuid());
     parent->removeChild(character);
 
     endRemoveRows();
-}
+}*/
 
 /***********
  * Network *
  ***********/
 
-bool PlayersList::event(QEvent* event)
+/*bool PlayerModel::event(QEvent* event)
 {
     if(event->type() == ReceiveEvent::Type)
     {
@@ -753,22 +819,22 @@ bool PlayersList::event(QEvent* event)
         }
     }
     return QObject::event(event);
-}
+}*/
 
-void PlayersList::receivePlayer(NetworkMessageReader& data)
+/*void PlayerModel::receivePlayer(NetworkMessageReader& data)
 {
     Player* newPlayer= new Player(data);
-    if(m_uuidMap.contains(newPlayer->getUuid()))
+    if(contains(m_players, newPlayer))
     {
-        qWarning("A Player and a Character have the same UUID %s : %s - %s", qPrintable(newPlayer->getUuid()),
-            qPrintable(newPlayer->name()), qPrintable(m_uuidMap.value(newPlayer->getUuid())->name()));
+        qWarning("A Player and a Character have the same UUID %s : %s", qPrintable(newPlayer->getUuid()),
+                 qPrintable(newPlayer->name()));
         delete newPlayer;
         return;
     }
     addPlayer(newPlayer);
-}
+}*/
 
-void PlayersList::delPlayer(NetworkMessageReader& data)
+/*void PlayerModel::delPlayer(NetworkMessageReader& data)
 {
     /// @todo: If the player is the GM, call AudioPlayer::pselectNewFile("").
     QString uuid= data.string8();
@@ -777,9 +843,9 @@ void PlayersList::delPlayer(NetworkMessageReader& data)
     {
         delPlayer(player);
     }
-}
+}*/
 
-void PlayersList::updatePerson(NetworkMessageReader& data)
+/*void PlayerModel::updatePerson(NetworkMessageReader& data)
 {
     QString uuid= data.string8();
     Person* person= m_uuidMap.value(uuid);
@@ -820,7 +886,7 @@ void PlayersList::updatePerson(NetworkMessageReader& data)
     emit dataChanged(idx, idx);
 }
 
-void PlayersList::addCharacter(NetworkMessageReader& data)
+void PlayerModel::addCharacter(NetworkMessageReader& data)
 {
     Character* character= new Character();
     QString parentId= character->read(data);
@@ -831,7 +897,7 @@ void PlayersList::addCharacter(NetworkMessageReader& data)
     addCharacter(player, character);
 }
 
-void PlayersList::delCharacter(NetworkMessageReader& data)
+void PlayerModel::delCharacter(NetworkMessageReader& data)
 {
     QString uuid= data.string8();
     Character* character= getCharacter(uuid);
@@ -845,30 +911,22 @@ void PlayersList::delCharacter(NetworkMessageReader& data)
     }
 }
 
-void PlayersList::setCurrentGM(QString idGm)
+void PlayerModel::setCurrentGM(QString idGm)
 {
     m_idCurrentGM= idGm;
-}
-void PlayersList::completeListClean()
+}*/
+void PlayerModel::clear()
 {
     beginResetModel();
-    m_playersList.clear();
-    m_uuidMap.clear();
+    m_players.clear();
     endResetModel();
-
-    Player* player= getLocalPlayer();
-    if(nullptr != player)
-    {
-        player->clearCharacterList();
-    }
-    m_localPlayer= nullptr;
 }
 
 /*********
  * Other *
  *********/
 
-Player* PlayersList::getGM()
+/*Player* PlayerModel::getGM()
 {
     for(auto& player : m_playersList)
     {
@@ -880,7 +938,7 @@ Player* PlayersList::getGM()
     return nullptr;
 }
 
-QString PlayersList::getGmId()
+QString PlayerModel::getGmId()
 {
     auto gm= getGM();
     if(nullptr == gm)
@@ -888,15 +946,15 @@ QString PlayersList::getGmId()
     else
         return gm->getUuid();
 }
-bool PlayersList::hasPlayer(Player* player)
+bool PlayerModel::hasPlayer(Player* player)
 {
     return m_playersList.contains(player);
 }
 
-void PlayersList::addNpc(Character* character)
+void PlayerModel::addNpc(Character* character)
 {
     if(character == nullptr)
         return;
 
     m_npcList.append(character);
-}
+}*/

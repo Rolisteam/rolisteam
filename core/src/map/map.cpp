@@ -69,7 +69,7 @@ Map::Map(QString localPlayerId, QString identCarte, QImage* image, bool masquer,
     p_init();
 }
 Map::Map(QString localPlayerId, QString identCarte, QImage* original, QImage* avecAnnotations, QImage* coucheAlpha,
-    QWidget* parent)
+         QWidget* parent)
     : QWidget(parent), m_mapId(identCarte), m_hasPermissionMode(true)
 {
     m_localPlayerId= localPlayerId;
@@ -109,7 +109,7 @@ void Map::p_init()
     setAutoFillBackground(true);
     QPalette pal= palette();
     pal.setColor(QPalette::Window,
-        PreferencesManager::getInstance()->value("Mask_color", QColor(Qt::darkMagenta)).value<QColor>());
+                 PreferencesManager::getInstance()->value("Mask_color", QColor(Qt::darkMagenta)).value<QColor>());
     setPalette(pal);
 
     m_npcSize= 12;
@@ -129,16 +129,16 @@ void Map::p_init()
     m_motionList.clear();
 
     // Get every characters
-    PlayersList* playersList= PlayersList::instance();
-    int maxPlayersIndex= playersList->getPlayerCount();
+    // PlayerModel* playersList= PlayerModel::instance();
+    int maxPlayersIndex= 0; // playersList->getPlayerCount();
     for(int i= 0; i < maxPlayersIndex; i++)
     {
-        Player* player= playersList->getPlayer(i);
-        int maxCharactersIndex= player->getChildrenCount();
-        for(int j= 0; j < maxCharactersIndex; j++)
-        {
-            addCharacter(player->getCharacterByIndex(j));
-        }
+        /*    Player* player= playersList->getPlayer(i);
+            int maxCharactersIndex= player->getChildrenCount();
+            for(int j= 0; j < maxCharactersIndex; j++)
+            {
+                addCharacter(player->getCharacterByIndex(j));
+            }*/
     }
 
     // connect to g_playesList to stay tuned
@@ -189,7 +189,7 @@ void Map::paintEvent(QPaintEvent* event)
         return;
 
     if(m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc
-        || m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
+       || m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         return;
 
     paintMap(painter);
@@ -227,7 +227,7 @@ void Map::mousePressEvent(QMouseEvent* event)
         m_leftButtonStatus= true;
 
         if(m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc
-            || m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
+           || m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         {
             if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode) || (Map::PC_MOVE == m_currentMode))
             {
@@ -317,7 +317,7 @@ void Map::mouseReleaseEvent(QMouseEvent* event)
         m_leftButtonStatus= false;
 
         if(m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc
-            || m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
+           || m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         {
             processNpcActionReleased(pos);
         }
@@ -383,7 +383,7 @@ void Map::mouseReleaseEvent(QMouseEvent* event)
         setCursor(m_mouseCursor);
 
         if((m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
-            && m_lastSelectedNpc)
+           && m_lastSelectedNpc)
         { ///@todo test Npc orientation
             QPoint orientation= m_lastSelectedNpc->getCharacterOrientation();
             NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::changeCharacterOrientation);
@@ -403,7 +403,7 @@ void Map::mouseMoveEvent(QMouseEvent* event)
     if(m_leftButtonStatus && !m_rightButtonStatus)
     {
         if(m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc
-            || m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
+           || m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         {
             processNpcMove(pos);
         }
@@ -540,7 +540,7 @@ void Map::paintMap(QPainter& painter)
         QPoint nouveauPointOrigine= m_originPoint - diff;
 
         if(std::abs(m_mousePoint.x() - nouveauPointOrigine.x()) < m_penSize
-            && std::abs(m_mousePoint.y() - nouveauPointOrigine.y()) < m_penSize)
+           && std::abs(m_mousePoint.y() - nouveauPointOrigine.y()) < m_penSize)
         {
             QPoint supGauche, infDroit;
             supGauche.setX(nouveauPointOrigine.x() < m_mousePoint.x() ? nouveauPointOrigine.x() : m_mousePoint.x());
@@ -601,8 +601,8 @@ QRect Map::zoneToRefresh()
 
     if(m_currentTool == ToolsBar::Pen)
     {
-        resultat= QRect(
-            gauche - m_penSize / 2 - 2, haut - m_penSize / 2 - 2, largeur + m_penSize + 4, hauteur + m_penSize + 4);
+        resultat= QRect(gauche - m_penSize / 2 - 2, haut - m_penSize / 2 - 2, largeur + m_penSize + 4,
+                        hauteur + m_penSize + 4);
     }
 
     else if(m_currentTool == ToolsBar::Line)
@@ -612,8 +612,8 @@ QRect Map::zoneToRefresh()
 
     else if(m_currentTool == ToolsBar::EmptyRect)
     {
-        resultat= QRect(
-            gauche - m_penSize / 2 - 2, haut - m_penSize / 2 - 2, largeur + m_penSize + 4, hauteur + m_penSize + 4);
+        resultat= QRect(gauche - m_penSize / 2 - 2, haut - m_penSize / 2 - 2, largeur + m_penSize + 4,
+                        hauteur + m_penSize + 4);
     }
 
     else if(m_currentTool == ToolsBar::FilledRect)
@@ -633,8 +633,8 @@ QRect Map::zoneToRefresh()
         int largeur= droit - gauche + 1;
         int hauteur= bas - haut + 1;
 
-        resultat= QRect(
-            gauche - m_penSize / 2 - 2, haut - m_penSize / 2 - 2, largeur + m_penSize + 4, hauteur + m_penSize + 4);
+        resultat= QRect(gauche - m_penSize / 2 - 2, haut - m_penSize / 2 - 2, largeur + m_penSize + 4,
+                        hauteur + m_penSize + 4);
     }
 
     else if(m_currentTool == ToolsBar::FilledEllipse)
@@ -655,7 +655,7 @@ QRect Map::zoneToRefresh()
     else if(m_currentTool == ToolsBar::Text)
     {
         resultat= QRect(QPoint(m_mousePoint.x() - 2, m_mousePoint.y() - 15),
-            QPoint(m_backgroundImage->width(), m_mousePoint.y() + 4));
+                        QPoint(m_backgroundImage->width(), m_mousePoint.y() + 4));
     }
 
     else if(m_currentTool == ToolsBar::Handler)
@@ -719,9 +719,9 @@ void Map::processNpcAction(QPoint positionSouris)
             if(ColorSelector::getSelectedColor().type == ColorType)
             {
                 QString idPnj= QUuid::createUuid().toString();
-                CharacterToken* pnj= new CharacterToken(this, idPnj, m_currentNpcName,
-                    ColorSelector::getSelectedColor().color, m_npcSize, positionSouris, CharacterToken::pnj,
-                    m_showNpcNumber, m_showNpcName, m_currentNpcNumber);
+                CharacterToken* pnj= new CharacterToken(
+                    this, idPnj, m_currentNpcName, ColorSelector::getSelectedColor().color, m_npcSize, positionSouris,
+                    CharacterToken::pnj, m_showNpcNumber, m_showNpcName, m_currentNpcNumber);
                 pnj->showCharacter();
                 m_selectedNpc= pnj;
                 m_distanceBetweenMouseAndNPC= m_selectedNpc->mapFromParent(positionSouris);
@@ -734,48 +734,48 @@ void Map::processNpcAction(QPoint positionSouris)
         CharacterToken* pnj= paintCharacter(positionSouris);
         if(pnj)
         {
-            if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode)
-                || ((Map::PC_MOVE == m_currentMode)
-                       && (m_localPlayer->getIndexOf(pnj->getCharacterId()) > -1))) // if not found -1
-            {
-                if(m_currentTool == ToolsBar::DelNpc)
-                {
-                    if(!pnj->isPc())
-                    {
-                        if(m_lastSelectedNpc == pnj)
-                            m_lastSelectedNpc= 0;
+            /*  if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode)
+                 || ((Map::PC_MOVE == m_currentMode)
+                     && (m_localPlayer->getIndexOf(pnj->getCharacterId()) > -1))) // if not found -1
+              {
+                  if(m_currentTool == ToolsBar::DelNpc)
+                  {
+                      if(!pnj->isPc())
+                      {
+                          if(m_lastSelectedNpc == pnj)
+                              m_lastSelectedNpc= 0;
 
-                        NetworkMessageWriter msg(NetMsg::NPCCategory, NetMsg::delNpc);
-                        msg.string8(m_mapId);
-                        msg.string8(pnj->getCharacterId());
-                        msg.sendToServer();
+                          NetworkMessageWriter msg(NetMsg::NPCCategory, NetMsg::delNpc);
+                          msg.string8(m_mapId);
+                          msg.string8(pnj->getCharacterId());
+                          msg.sendToServer();
 
-                        pnj->~CharacterToken();
-                    }
-                }
+                          pnj->~CharacterToken();
+                      }
+                  }
 
-                else if(m_currentTool == ToolsBar::MoveCharacterToken)
-                {
-                    m_selectedNpc= pnj;
-                    m_distanceBetweenMouseAndNPC= pnj->mapFromParent(positionSouris);
-                    m_characterMoveList.clear();
-                    m_characterMoveList.append(pnj->getCharacterCenter());
-                }
-                else if(m_currentTool == ToolsBar::ChangeCharacterState)
-                {
-                    pnj->changeState();
-                    m_lastSelectedNpc= pnj;
+                  else if(m_currentTool == ToolsBar::MoveCharacterToken)
+                  {
+                      m_selectedNpc= pnj;
+                      m_distanceBetweenMouseAndNPC= pnj->mapFromParent(positionSouris);
+                      m_characterMoveList.clear();
+                      m_characterMoveList.append(pnj->getCharacterCenter());
+                  }
+                  else if(m_currentTool == ToolsBar::ChangeCharacterState)
+                  {
+                      pnj->changeState();
+                      m_lastSelectedNpc= pnj;
 
-                    NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::changeCharacterState);
-                    msg.string8(m_mapId);
-                    msg.string8(pnj->getCharacterId());
-                    msg.uint16(pnj->getHealtState());
-                    msg.sendToServer();
-                }
-                else
-                    qWarning() << (tr(
-                        "undefined tool for processing action on NPC or PC (processNpcAction - map.cpp)"));
-            }
+                      NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::changeCharacterState);
+                      msg.string8(m_mapId);
+                      msg.string8(pnj->getCharacterId());
+                      msg.uint16(pnj->getHealtState());
+                      msg.sendToServer();
+                  }
+                  else
+                      qWarning() << (tr(
+                          "undefined tool for processing action on NPC or PC (processNpcAction - map.cpp)"));
+              }*/
         }
     }
 }
@@ -816,15 +816,15 @@ void Map::processNpcActionReleased(QPoint positionSouris)
     {
         if(m_selectedNpc)
         {
-            if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode)
-                || ((Map::PC_MOVE == m_currentMode)
-                       && (m_localPlayer->getIndexOf(m_selectedNpc->getCharacterId()) > -1)))
-            {
-                showHideNPC(m_selectedNpc);
-                m_lastSelectedNpc= m_selectedNpc;
-                sendCharacterPath();
-                m_selectedNpc= nullptr;
-            }
+            /*  if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode)
+                 || ((Map::PC_MOVE == m_currentMode)
+                     && (m_localPlayer->getIndexOf(m_selectedNpc->getCharacterId()) > -1)))
+              {
+                  showHideNPC(m_selectedNpc);
+                  m_lastSelectedNpc= m_selectedNpc;
+                  sendCharacterPath();
+                  m_selectedNpc= nullptr;
+              }*/
         }
     }
 
@@ -855,16 +855,17 @@ void Map::processNpcMove(QPoint positionSouris)
     {
         if(m_selectedNpc)
         {
-            if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode)
-                || ((Map::PC_MOVE == m_currentMode)
-                       && (m_localPlayer->getIndexOf(m_selectedNpc->getCharacterId()) > -1)))
-            {
-                if(QRect(0, 0, m_backgroundImage->width(), m_backgroundImage->height()).contains(positionSouris, true))
-                {
-                    m_selectedNpc->moveCharacter(positionSouris - m_distanceBetweenMouseAndNPC);
-                    m_characterMoveList.append(m_selectedNpc->getCharacterCenter());
-                }
-            }
+            /*  if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode)
+                 || ((Map::PC_MOVE == m_currentMode)
+                     && (m_localPlayer->getIndexOf(m_selectedNpc->getCharacterId()) > -1)))
+              {
+                  if(QRect(0, 0, m_backgroundImage->width(), m_backgroundImage->height()).contains(positionSouris,
+              true))
+                  {
+                      m_selectedNpc->moveCharacter(positionSouris - m_distanceBetweenMouseAndNPC);
+                      m_characterMoveList.append(m_selectedNpc->getCharacterCenter());
+                  }
+              }*/
         }
     }
 
@@ -1068,17 +1069,12 @@ bool Map::isVisiblePc(QString idPerso)
 
 void Map::addCharacter(Character* person)
 {
-    auto token = new CharacterToken(this, person->getUuid(), person->name(), person->getColor(), m_npcSize,
-        QPoint(m_backgroundImage->width() / 2, m_backgroundImage->height() / 2), CharacterToken::pj, false,
-        m_showPcName);
+    auto token= new CharacterToken(this, person->getUuid(), person->name(), person->getColor(), m_npcSize,
+                                   QPoint(m_backgroundImage->width() / 2, m_backgroundImage->height() / 2),
+                                   CharacterToken::pj, false, m_showPcName);
 
-    connect(person, &Character::nameChanged, token, [token, person](){
-        token->setName(person->name());
-    });
-    connect(person, &Character::colorChanged, token, [token, person](){
-        token->setColor(person->getColor());
-    });
-
+    connect(person, &Character::nameChanged, token, [token, person]() { token->setName(person->name()); });
+    connect(person, &Character::colorChanged, token, [token, person]() { token->setColor(person->getColor()); });
 }
 
 void Map::eraseCharacter(QString idCharacter)
@@ -1317,8 +1313,8 @@ void Map::sendCharacterPath()
     msg.sendToServer();
 }
 
-void Map::paintPenLine(
-    QList<QPoint>* listePoints, QRect zoneARafraichir, quint8 diametre, SelectedColor couleur, bool joueurLocal)
+void Map::paintPenLine(QList<QPoint>* listePoints, QRect zoneARafraichir, quint8 diametre, SelectedColor couleur,
+                       bool joueurLocal)
 {
     QPainter painter;
     QColor couleurPinceau;
@@ -1445,8 +1441,8 @@ void Map::paintText(QString texte, QPoint positionSouris, QRect zoneARafraichir,
     showHideNPC();
 }
 
-void Map::paintOther(
-    NetMsg::Action action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, SelectedColor couleur)
+void Map::paintOther(NetMsg::Action action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre,
+                     SelectedColor couleur)
 {
     QPainter painter;
     QColor couleurPinceau;
@@ -1517,7 +1513,7 @@ void Map::paintOther(
         QPoint nouveauPointOrigine= depart - diff;
 
         if(std::abs(arrivee.x() - nouveauPointOrigine.x()) < diametre
-            && std::abs(arrivee.y() - nouveauPointOrigine.y()) < diametre)
+           && std::abs(arrivee.y() - nouveauPointOrigine.y()) < diametre)
         {
             QPoint supGauche, infDroit;
             supGauche.setX(nouveauPointOrigine.x() < arrivee.x() ? nouveauPointOrigine.x() : arrivee.x());

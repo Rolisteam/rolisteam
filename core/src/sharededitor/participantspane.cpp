@@ -37,35 +37,64 @@
 ///
 /////////////////////////////////////////////////
 
-ParticipantsModel::ParticipantsModel(PlayersList* m_playerList)
+ParticipantsModel::ParticipantsModel(QObject* parent) : QAbstractProxyModel(parent)
 {
-    m_data.append(&m_readWrite);
-    m_data.append(&m_readOnly);
-    m_data.append(&m_hidden);
-
     m_permissionGroup << tr("Read Write") << tr("Read Only") << tr("Hidden");
+}
 
-    for(int i= 0; i < m_playerList->getPlayerCount(); ++i)
-    {
-        Player* player= m_playerList->getPlayer(i);
-        m_hidden.append(player);
-    }
+QModelIndex ParticipantsModel::mapFromSource(const QModelIndex& sourceIndex) const
+{
+    if(!sourceIndex.isValid())
+        return QModelIndex();
+
+    auto parent= sourceIndex.parent();
+
+    if(!parent.isValid() && sourceIndex.row() > 0)
+        return QModelIndex();
+
+    if(!parent.isValid() && sourceIndex.row() == 0)
+        return createIndex(0, 0, sourceIndex.internalPointer());
+
+    if(parent.isValid() && parent.row() == 0)
+        return createIndex(1 + sourceIndex.row(), 0, sourceIndex.internalPointer());
+
+    return QModelIndex();
+}
+
+QModelIndex ParticipantsModel::mapToSource(const QModelIndex& proxyIndex) const
+{
+    if(proxyIndex.row() == 0)
+        return sourceModel()->index(0, 0, QModelIndex());
+    else
+        return sourceModel()->index(proxyIndex.row() - 1, 0, sourceModel()->index(0, 0, QModelIndex()));
 }
 
 int ParticipantsModel::rowCount(const QModelIndex& parent) const
 {
     if(!parent.isValid())
     {
-        return m_data.size();
-    }
-    else if(!parent.parent().isValid())
-    {
-        QList<Player*>* list= m_data.at(parent.row());
-        return list->size();
+        return m_permissionGroup.size();
     }
     else
     {
-        return 0;
+        auto playerCount= sourceModel()->rowCount(QModelIndex());
+        int result= 0;
+        switch(parent.row())
+        {
+        case readWrite:
+            result= static_cast<int>(m_readWrite.size());
+            break;
+        case readOnly:
+            result= static_cast<int>(m_readOnly.size());
+            break;
+        case hidden:
+            result= (playerCount - static_cast<int>(m_readOnly.size() + m_readWrite.size()));
+            break;
+        default:
+            result= 0;
+            break;
+        }
+        return result;
     }
 }
 
@@ -79,24 +108,31 @@ QVariant ParticipantsModel::data(const QModelIndex& index, int role) const
     if(!index.isValid())
         return QVariant();
 
-    if(Qt::DisplayRole == role)
+    if(!index.parent().isValid())
+        return QAbstractProxyModel::data(index, role);
+    else if(role == Qt::DisplayRole || role == Qt::EditRole || role == PlayerModel::IdentifierRole)
     {
-        QModelIndex parent= index.parent();
-        if(!parent.isValid())
-        {
-            return m_permissionGroup.at(index.row());
-        }
-        else
-        {
-            QList<Player*>* list= m_data.at(parent.row());
-            if(!list->isEmpty())
-            {
-                Player* player= list->at(index.row());
-                return player->name();
-            }
-        }
+        return m_permissionGroup.at(index.row());
     }
-    return QVariant();
+
+    /* if(Qt::DisplayRole == role)
+     {
+         QModelIndex parent= index.parent();
+         if(!parent.isValid())
+         {
+             return m_permissionGroup.at(index.row());
+         }
+         else
+         {
+             QList<Player*>* list= m_data.at(parent.row());
+             if(!list->isEmpty())
+             {
+                 Player* player= list->at(index.row());
+                 return player->name();
+             }
+         }
+     }
+     return QVariant();*/
 }
 
 QModelIndex ParticipantsModel::parent(const QModelIndex& child) const
@@ -104,6 +140,18 @@ QModelIndex ParticipantsModel::parent(const QModelIndex& child) const
     if(!child.isValid())
         return QModelIndex();
 
+    auto id= child.data(PlayerModel::IdentifierRole).toString();
+
+    if(m_permissionGroup.contains(id))
+        return QModelIndex();
+    else if(std::find(m_readWrite.begin(), m_readWrite.end(), id) != m_readWrite.end())
+        return createIndex(0, 0);
+    else if(std::find(m_readOnly.begin(), m_readOnly.end(), id) != m_readOnly.end())
+        return createIndex(1, 0);
+    else
+        return createIndex(2, 0);
+
+    /*
     Player* childItem= static_cast<Player*>(child.internalPointer());
 
     QList<Player*>* current= nullptr;
@@ -122,7 +170,7 @@ QModelIndex ParticipantsModel::parent(const QModelIndex& child) const
     else
     {
         return createIndex(m_data.indexOf(current), 0, current);
-    }
+    }*/
 }
 
 QModelIndex ParticipantsModel::index(int row, int column, const QModelIndex& parent) const
@@ -130,17 +178,7 @@ QModelIndex ParticipantsModel::index(int row, int column, const QModelIndex& par
     if(row < 0)
         return QModelIndex();
 
-    if(!parent.isValid())
-    {
-        QList<Player*>* list= m_data.at(row);
-        return createIndex(row, column, list);
-    }
-    else
-    {
-        QList<Player*>* list= static_cast<QList<Player*>*>(parent.internalPointer());
-        Player* player= list->at(row);
-        return createIndex(row, column, player);
-    }
+    return createIndex(row, column);
 }
 
 Qt::ItemFlags ParticipantsModel::flags(const QModelIndex&) const
@@ -150,30 +188,30 @@ Qt::ItemFlags ParticipantsModel::flags(const QModelIndex&) const
 
 void ParticipantsModel::addHiddenPlayer(Player* player)
 {
-    auto parent= createIndex(2, 0, &m_hidden);
+    /*auto parent= createIndex(2, 0, &m_hidden);
     beginInsertRows(parent, m_hidden.size(), m_hidden.size());
     m_hidden.append(player);
-    endInsertRows();
+    endInsertRows();*/
 }
 
 void ParticipantsModel::removePlayer(Player* player)
 {
-    auto list= getListByChild(player);
-    auto parent= createIndex(m_data.indexOf(list), 0, &list);
+    /*  auto list= getListByChild(player);
+       auto parent= createIndex(m_data.indexOf(list), 0, &list);
 
-    beginRemoveRows(parent, list->indexOf(player), list->indexOf(player));
-    list->removeAll(player);
-    endRemoveRows();
+       beginRemoveRows(parent, list->indexOf(player), list->indexOf(player));
+       list->removeAll(player);
+       endRemoveRows();*/
 }
 
-int ParticipantsModel::promotePlayer(Player* player)
+int ParticipantsModel::promotePlayer(const QModelIndex& index)
 {
-    ParticipantsModel::Permission perm= getPermissionFor(player);
+    ParticipantsModel::Permission perm= getPermissionFor(index);
     switch(perm)
     {
     case readOnly:
     case hidden:
-        setPlayerInto(player, static_cast<Permission>(perm - 1));
+        setPlayerInto(index, static_cast<Permission>(perm - 1));
         return static_cast<Permission>(perm - 1);
         break;
     default:
@@ -182,14 +220,17 @@ int ParticipantsModel::promotePlayer(Player* player)
     return -1;
 }
 
-int ParticipantsModel::demotePlayer(Player* player)
+int ParticipantsModel::demotePlayer(const QModelIndex& index)
 {
-    ParticipantsModel::Permission perm= getPermissionFor(player);
+    if(!index.isValid())
+        return 0;
+
+    ParticipantsModel::Permission perm= getPermissionFor(index);
     switch(perm)
     {
     case readOnly:
     case readWrite:
-        setPlayerInto(player, static_cast<Permission>(perm + 1));
+        setPlayerInto(index, static_cast<Permission>(perm + 1));
         return static_cast<Permission>(perm + 1);
         break;
     default:
@@ -197,89 +238,110 @@ int ParticipantsModel::demotePlayer(Player* player)
     }
     return -1;
 }
-Player* ParticipantsModel::getOwner() const
+QString ParticipantsModel::getOwner() const
 {
-    return m_owner;
+    return m_ownerId;
 }
 
-void ParticipantsModel::setOwner(Player* owner)
+void ParticipantsModel::setOwner(const QString& owner)
 {
-    m_owner= owner;
-    setPlayerInto(m_owner, readWrite);
+    if(owner == m_ownerId)
+        return;
+    m_ownerId= owner;
+    beginInsertRows(createIndex(0, 0), 0, 0);
+    m_readWrite.push_back(m_ownerId);
+    endInsertRows();
 }
-ParticipantsModel::Permission ParticipantsModel::getPermissionFor(Player* player)
+ParticipantsModel::Permission ParticipantsModel::getPermissionFor(const QModelIndex& index)
 {
-    int permission= 3;
-    for(auto& list : m_data)
-    {
-        if(list->contains(player))
-        {
-            permission= m_data.indexOf(list);
-        }
-    }
-    return static_cast<Permission>(permission);
+
+    if(!index.isValid())
+        return hidden;
+
+    auto parent= index.parent();
+    if(!parent.isValid())
+        return hidden;
+
+    return static_cast<Permission>(index.row());
 }
 
-void ParticipantsModel::setPlayerInto(Player* player, Permission level)
+void ParticipantsModel::setPlayerInto(const QModelIndex& index, Permission level)
 {
-    QList<Player*>* list= getListByChild(player);
-    QList<Player*>* destList= m_data.at(level);
-    QModelIndex parent;
-    QModelIndex dest= createIndex(destList->size(), 0, destList);
-    int indexDest= destList->size();
+    auto uuid= index.data(PlayerModel::IdentifierRole).toString();
 
-    if(destList == list)
+    QModelIndex parent= index.parent();
+    QModelIndex destParent= createIndex(static_cast<int>(level), 0);
+    auto sourceRow= static_cast<Permission>(parent.row());
+    auto destRow= static_cast<Permission>(destParent.row());
+    if(destParent == parent)
     {
         return;
     }
 
-    if(nullptr != list)
-    {
-        int index= m_data.indexOf(list);
-        int indexPlayer= list->indexOf(player);
-        parent= createIndex(index, 0, list);
+    auto r= rowCount(destParent);
 
-        beginMoveRows(parent, indexPlayer, indexPlayer, dest, indexDest);
-        list->removeOne(player);
-        destList->append(player);
-        endMoveRows();
-    }
-    else
-    {
-        beginInsertRows(dest, indexDest, indexDest);
-        destList->append(player);
-        endInsertRows();
-    }
+    beginMoveRows(parent, index.row(), index.row(), destParent, r);
+    if(sourceRow == readWrite)
+        std::remove(m_readWrite.begin(), m_readWrite.end(), uuid);
+    else if(sourceRow == readOnly)
+        std::remove(m_readOnly.begin(), m_readOnly.end(), uuid);
+
+    if(destRow == readWrite)
+        m_readWrite.push_back(uuid);
+    else if(destRow == readOnly)
+        m_readOnly.push_back(uuid);
+
+    endMoveRows();
+
+    /*
+
+      if(nullptr != list)
+      {
+          int index= m_data.indexOf(list);
+          int indexPlayer= list->indexOf(player);
+          parent= createIndex(index, 0, list);
+
+          beginMoveRows(parent, indexPlayer, indexPlayer, dest, indexDest);
+          list->removeOne(player);
+          destList->append(player);
+          endMoveRows();
+      }
+      else
+      {
+          beginInsertRows(dest, indexDest, indexDest);
+          destList->append(player);
+          endInsertRows();
+      }*/
 }
 
 void ParticipantsModel::saveModel(QJsonObject& root)
 {
-    QJsonArray hidden;
-    QJsonArray readOnly;
-    QJsonArray readWrite;
+    /*   QJsonArray hidden;
+       QJsonArray readOnly;
+       QJsonArray readWrite;
 
-    for(auto& player : m_hidden)
-    {
-        hidden << player->getUuid();
-    }
+       for(auto& player : m_hidden)
+       {
+           hidden << player->getUuid();
+       }
 
-    for(auto& player : m_readOnly)
-    {
-        readOnly << player->getUuid();
-    }
+       for(auto& player : m_readOnly)
+       {
+           readOnly << player->getUuid();
+       }
 
-    for(auto& player : m_readWrite)
-    {
-        readWrite << player->getUuid();
-    }
+       for(auto& player : m_readWrite)
+       {
+           readWrite << player->getUuid();
+       }
 
-    root["hidden"]= hidden;
-    root["readOnly"]= readOnly;
-    root["readWrite"]= readWrite;
+       root["hidden"]= hidden;
+       root["readOnly"]= readOnly;
+       root["readWrite"]= readWrite;*/
 }
 void ParticipantsModel::loadModel(QJsonObject& root)
 {
-    PlayersList* playerList= PlayersList::instance();
+    /*PlayerModel* playerList= PlayerModel::instance();
 
     QJsonArray hidden= root["hidden"].toArray();
     QJsonArray readOnly= root["readOnly"].toArray();
@@ -308,18 +370,7 @@ void ParticipantsModel::loadModel(QJsonObject& root)
         Player* p= dynamic_cast<Player*>(playerList->getPerson(playerId.toString()));
         m_readWrite.append(p);
     }
-    endResetModel();
-}
-QList<Player*>* ParticipantsModel::getListByChild(Player* owner)
-{
-    for(auto& list : m_data)
-    {
-        if(list->contains(owner))
-        {
-            return list;
-        }
-    }
-    return nullptr;
+    endResetModel();*/
 }
 
 ////////////////////////////////////////////////
@@ -337,9 +388,9 @@ ParticipantsPane::ParticipantsPane(QWidget* parent) : QWidget(parent), ui(new Ui
     connect(ui->m_promoteAction, SIGNAL(triggered(bool)), this, SLOT(promoteCurrentItem()));
     connect(ui->m_demoteAction, SIGNAL(triggered(bool)), this, SLOT(demoteCurrentItem()));
 
-    m_playerList= PlayersList::instance();
+    /*m_playerList= PlayerModel::instance();
     connect(m_playerList, SIGNAL(playerAdded(Player*)), this, SLOT(addNewPlayer(Player*)));
-    connect(m_playerList, SIGNAL(playerDeleted(Player*)), this, SLOT(removePlayer(Player*)));
+    connect(m_playerList, SIGNAL(playerDeleted(Player*)), this, SLOT(removePlayer(Player*)));*/
 
     m_model= new ParticipantsModel(m_playerList);
     ui->m_treeview->setModel(m_model);
@@ -364,7 +415,7 @@ void ParticipantsPane::promoteCurrentItem()
     if(current.parent().isValid())
     {
         Player* player= static_cast<Player*>(current.internalPointer());
-        int i= m_model->promotePlayer(player);
+        int i= m_model->promotePlayer(current);
         if(i >= 0)
         {
             emit memberPermissionsChanged(player->getUuid(), i);
@@ -377,41 +428,41 @@ void ParticipantsPane::promoteCurrentItem()
 }
 bool ParticipantsPane::isOwner() const
 {
-    if(nullptr != m_model)
-    {
-        return m_playerList->isLocal(m_model->getOwner());
-    }
-    return false;
+    /* if(nullptr != m_model)
+     {
+         return m_playerList->isLocal(m_model->getOwner());
+     }*/
+    return true;
 }
 void ParticipantsPane::demoteCurrentItem()
 {
     QModelIndex current= ui->m_treeview->currentIndex();
 
-    if(current.parent().isValid())
+    if(!current.parent().isValid())
+        return;
+
+    Player* player= static_cast<Player*>(current.internalPointer());
+    int i= m_model->demotePlayer(current);
+    if(i >= 0)
     {
-        Player* player= static_cast<Player*>(current.internalPointer());
-        int i= m_model->demotePlayer(player);
-        if(i >= 0)
+        emit memberPermissionsChanged(player->getUuid(), i);
+        if(i == ParticipantsModel::hidden)
         {
-            emit memberPermissionsChanged(player->getUuid(), i);
-            if(i == ParticipantsModel::hidden)
-            {
-                emit closeMediaToPlayer(player->getUuid());
-            }
+            emit closeMediaToPlayer(player->getUuid());
         }
     }
 }
 
 bool ParticipantsPane::canWrite(Player* player)
 {
-    return (m_model->getPermissionFor(player) == ParticipantsModel::readWrite);
+    return true; //(m_model->getPermissionFor(player) == ParticipantsModel::readWrite);
 }
 
 bool ParticipantsPane::canRead(Player* player)
 {
-    bool readWrite= (m_model->getPermissionFor(player) == ParticipantsModel::readWrite);
-    bool read= (m_model->getPermissionFor(player) == ParticipantsModel::readOnly);
-    return read | readWrite;
+    /*bool readWrite= (m_model->getPermissionFor(player) == ParticipantsModel::readWrite);
+    bool read= (m_model->getPermissionFor(player) == ParticipantsModel::readOnly);*/
+    return true; // read | readWrite;
 }
 void ParticipantsPane::addNewPlayer(Player* player)
 {
@@ -451,7 +502,7 @@ void ParticipantsPane::readPermissionChanged(NetworkMessageReader* msg)
 {
     QString playerId= msg->string8();
     int perm= msg->int8();
-    Player* player= dynamic_cast<Player*>(m_playerList->getPerson(playerId));
+    /*Player* player= dynamic_cast<Player*>(m_playerList->getPerson(playerId));
     if(nullptr != player)
     {
         m_model->setPlayerInto(player, static_cast<ParticipantsModel::Permission>(perm));
@@ -459,7 +510,7 @@ void ParticipantsPane::readPermissionChanged(NetworkMessageReader* msg)
         {
             emit localPlayerPermissionChanged(m_model->getPermissionFor(player));
         }
-    }
+    }*/
 }
 
 void ParticipantsPane::setFont(QFont font)
@@ -470,22 +521,19 @@ void ParticipantsPane::setFont(QFont font)
 
 Player* ParticipantsPane::getOwner() const
 {
-    return m_model->getOwner();
+    return nullptr; // m_model->getOwner();
 }
 
 void ParticipantsPane::setOwnerId(const QString& id)
 {
     if(nullptr == m_playerList)
         return;
-    auto owner = m_playerList->getPlayer(id);
+    // auto owner= m_playerList->getPlayer(id);
 
-    if(nullptr == owner)
-        return;
-
-    m_model->setOwner(owner);
-    if(owner == m_playerList->getLocalPlayer())
-    {
-        emit localPlayerIsOwner(true);
-        emit localPlayerPermissionChanged(ParticipantsModel::readWrite);
-    }
+    m_model->setOwner(id);
+    /* if(owner == m_playerList->getLocalPlayer())
+     {
+         emit localPlayerIsOwner(true);
+         emit localPlayerPermissionChanged(ParticipantsModel::readWrite);
+     }*/
 }
