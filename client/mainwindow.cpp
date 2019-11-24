@@ -103,7 +103,7 @@
 #include "diceparser/qmltypesregister.h"
 
 // session
-#include "session/sessionmanager.h"
+#include "session/sessiondock.h"
 #ifndef NULL_PLAYER
 #include "audio/audioPlayer.h"
 #endif
@@ -162,10 +162,10 @@ MainWindow::MainWindow()
     // m_ipChecker= new IpChecker(this);
     m_mapAction= new QMap<MediaContainer*, QAction*>();
 
-    m_sessionManager= new SessionManager(this);
+    m_sessionDock.reset(new SessionDock(m_gameController->contentController()));
 
-    connect(m_sessionManager, SIGNAL(sessionChanged(bool)), this, SLOT(setWindowModified(bool)));
-    connect(m_sessionManager, &SessionManager::openResource, this, &MainWindow::openResource);
+    // connect(m_sessionManager, SIGNAL(sessionChanged(bool)), this, SLOT(setWindowModified(bool)));
+    // connect(m_sessionManager, &SessionManager::openResource, this, &MainWindow::openResource);
 
     /// Create all GM toolbox widget
     m_gmToolBoxList.append({new NameGeneratorWidget(this), new GMTOOL::Convertor(this), new NpcMakerWidget(this)});
@@ -333,15 +333,16 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac, bool redoable)
     if(nullptr == m_currentConnectionProfile)
         return;
 
-    AddMediaContainer* addMedia= new AddMediaContainer(mediac, m_sessionManager, m_ui->m_menuSubWindows, m_mdiArea,
-                                                       m_currentConnectionProfile->isGM());
+    AddMediaContainer* addMedia
+        = new AddMediaContainer(mediac, m_gameController->contentController(), m_ui->m_menuSubWindows, m_mdiArea,
+                                m_currentConnectionProfile->isGM());
     if(!m_mediaHash.contains(mediac->getMediaId()))
     {
         m_mediaHash.insert(mediac->getMediaId(), mediac);
     }
     if(redoable)
     {
-        m_undoStack.push(addMedia);
+        // m_undoStack.push(addMedia);
     }
     else
     {
@@ -381,10 +382,12 @@ void MainWindow::closeMediaContainer(QString id, bool redo)
             auto type= mediaCon->getContentType();
 
             DeleteMediaContainerCommand* cmd
-                = new DeleteMediaContainerCommand(mediaCon, m_sessionManager, m_ui->m_editMenu, m_mdiArea,
+                = new DeleteMediaContainerCommand(mediaCon, /*m_sessionManager,*/ m_ui->m_editMenu, m_mdiArea,
                                                   m_currentConnectionProfile->isGM(), m_mediaHash);
             if(redo)
-                m_undoStack.push(cmd);
+            {
+                // m_undoStack.push(cmd);
+            }
             else
             {
                 cmd->redo(); // can be undo
@@ -761,7 +764,7 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
     map->setPenSize(m_toolBar->getCurrentPenSize());
 
     // new PlayersList connection
-    connect(mapFrame, &MapFrame::activated, m_playersListWidget->model(), &PlayersListWidgetModel::setCurrentMap);
+    // connect(mapFrame, &MapFrame::activated, m_playersListWidget->model(), &PlayersListWidgetModel::setCurrentMap);
     connect(mapFrame, &MapFrame::activated, m_toolBar, &ToolsBar::changeMap);
 }
 
@@ -983,6 +986,8 @@ bool MainWindow::saveStory(bool saveAs)
 ////////////////////////////////////////////////////
 void MainWindow::saveCurrentMedia()
 {
+    // auto mediaC= m_mdiArea->currentMediaContainer();
+
     bool saveAs= false;
     if(qobject_cast<QAction*>(sender()) == m_ui->m_saveAsAction)
     {
@@ -1068,7 +1073,7 @@ void MainWindow::setUpNetworkConnection()
 {
     if(m_currentConnectionProfile != nullptr)
     {
-        connect(m_playerList, SIGNAL(localGMRefused(bool)), this, SLOT(userNatureChange(bool)));
+        connect(m_playerModel, SIGNAL(localGMRefused(bool)), this, SLOT(userNatureChange(bool)));
     }
     // connect(m_clientManager, &ClientManager::dataReceived, this, &MainWindow::receiveData);
 }
@@ -1513,7 +1518,7 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
             SharedNoteContainer* note= new SharedNoteContainer(false);
             note->readMessage(*msg);
             note->setMediaId(idMedia);
-            m_sessionManager->addRessource(note->getCleverUri());
+            // m_sessionManager->addRessource(note->getCleverUri());
             addMediaToMdiArea(note);
         }
     }
@@ -1598,9 +1603,9 @@ void MainWindow::showConnectionDialog(bool forced)
 
 void MainWindow::cleanUpData()
 {
-    m_playerList->cleanListButLocal();
+    m_gameController->clear();
+
     closeAllMediaContainer();
-    m_undoStack.clear();
     ChannelListPanel* roomPanel= qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
     if(nullptr != roomPanel)
     {
@@ -1953,7 +1958,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         auto sheetbis= m_mediaHash.value(idMedia);
         if(sheet == sheetbis)
             m_mediaHash.remove(idMedia);
-        DeleteMediaContainerCommand cmd(sheet, m_sessionManager, m_ui->m_editMenu, m_mdiArea,
+        DeleteMediaContainerCommand cmd(sheet, /*m_sessionManager,*/ m_ui->m_editMenu, m_mdiArea,
                                         m_currentConnectionProfile->isGM(), m_mediaHash);
         cmd.redo();
     }
@@ -2009,7 +2014,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
         map->setOption(VisualItem::LocalIsGM, m_currentConnectionProfile->isGM());
     }
     map->setLocalId(m_gameController->localPlayerId());
-    tmp->setUndoStack(&m_undoStack);
+    // tmp->setUndoStack(&m_undoStack);
 
     // Toolbar to Map
     connect(m_vToolBar, SIGNAL(currentToolChanged(VToolsBar::SelectableTool)), tmp,
@@ -2252,7 +2257,7 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
     connect(window, SIGNAL(rollDiceCmd(QString, QString, bool)), m_chatListWidget,
             SLOT(rollDiceCmd(QString, QString, bool)));
     connect(window, &CharacterSheetWindow::errorOccurs, m_gameController.get(), &GameController::addErrorLog);
-    connect(m_playerList, SIGNAL(playerDeleted(Player*)), window, SLOT(removeConnection(Player*)));
+    connect(m_playerModel, SIGNAL(playerDeleted(Player*)), window, SLOT(removeConnection(Player*)));
 }
 
 void MainWindow::openResource(ResourcesNode* node, bool force)
@@ -2263,7 +2268,7 @@ void MainWindow::openResource(ResourcesNode* node, bool force)
     }
     else if(node->getResourcesType() == ResourcesNode::Person)
     {
-        m_playerList->addLocalCharacter(dynamic_cast<Character*>(node));
+        // m_playerModel->addLocalCharacter(dynamic_cast<Character*>(node));
     }
 }
 
@@ -2321,7 +2326,7 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
     case CleverURI::SHAREDNOTE:
     {
         SharedNoteContainer* tmpShared= new SharedNoteContainer(localIsGM);
-        tmpShared->setOwnerId(m_playerList->getLocalPlayerId());
+        // tmpShared->setOwnerId(m_playerModel->getLocalPlayerId());
         tmp= tmpShared;
     }
     break;
