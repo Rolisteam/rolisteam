@@ -88,31 +88,37 @@ void initializeState(CharacterStateModel* model)
 {
     // healthy
     CharacterState* state= new CharacterState();
+    state->setId("0");
     state->setColor(Qt::black);
     state->setLabel(CharacterStateModel::tr("Healthy"));
     model->addState(state);
 
     state= new CharacterState();
+    state->setId("1");
     state->setColor(QColor(255, 100, 100));
     state->setLabel(CharacterStateModel::tr("Lightly Wounded"));
     model->addState(state);
 
     state= new CharacterState();
+    state->setId("2");
     state->setColor(QColor(255, 0, 0));
     state->setLabel(CharacterStateModel::tr("Seriously injured"));
     model->addState(state);
 
     state= new CharacterState();
+    state->setId("4");
     state->setColor(Qt::gray);
     state->setLabel(CharacterStateModel::tr("Dead"));
     model->addState(state);
 
     state= new CharacterState();
+    state->setId("5");
     state->setColor(QColor(80, 80, 255));
     state->setLabel(CharacterStateModel::tr("Sleeping"));
     model->addState(state);
 
     state= new CharacterState();
+    state->setId("6");
     state->setColor(QColor(0, 200, 0));
     state->setLabel(CharacterStateModel::tr("Bewitched"));
     model->addState(state);
@@ -261,6 +267,7 @@ void PreferencesController::savePreferences()
     i= 0;
     for(auto tmpState : *stateList)
     {
+        preferences->registerValue(QStringLiteral("CharacterState_%1_id").arg(i), tmpState->id());
         preferences->registerValue(QStringLiteral("CharacterState_%1_label").arg(i), tmpState->getLabel());
         preferences->registerValue(QStringLiteral("CharacterState_%1_color").arg(i), tmpState->getColor());
         preferences->registerValue(QStringLiteral("CharacterState_%1_pixmap").arg(i), tmpState->getImage());
@@ -319,11 +326,13 @@ void PreferencesController::loadPreferences()
     size= preferences->value("CharacterStateNumber", 0).toInt();
     for(int i= 0; i < size; ++i)
     {
+        auto id= preferences->value(QStringLiteral("CharacterState_%1_id").arg(i), QString::number(i)).toString();
         QString label= preferences->value(QStringLiteral("CharacterState_%1_label").arg(i), "").toString();
         QColor color= preferences->value(QStringLiteral("CharacterState_%1_color").arg(i), "").value<QColor>();
         QPixmap pixmap= preferences->value(QStringLiteral("CharacterState_%1_pixmap").arg(i), true).value<QPixmap>();
 
         CharacterState* tmpState= new CharacterState();
+        tmpState->setId(id);
         tmpState->setLabel(label);
         tmpState->setColor(color);
         tmpState->setImage(pixmap);

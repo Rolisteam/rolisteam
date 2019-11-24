@@ -19,7 +19,9 @@
  ***************************************************************************/
 #ifndef CHARACTERITEM_H
 #define CHARACTERITEM_H
+
 #include <QAction>
+#include <QPointer>
 
 #include "data/characterstate.h"
 #include "data/charactervision.h"
@@ -263,10 +265,6 @@ signals:
 
 public slots:
     /**
-     * @brief characterHasBeenDeleted
-     */
-    void characterHasBeenDeleted(Character*);
-    /**
      * @brief changeVisionShape
      */
     void changeVisionShape();
@@ -326,7 +324,7 @@ private:
     void initChildPointItemMotion();
 
 private:
-    Character* m_character= nullptr;
+    QPointer<Character> m_character;
     QPointF m_center;
     qreal m_diameter;
     QPixmap* m_thumnails;
