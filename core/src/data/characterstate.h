@@ -75,7 +75,11 @@ public:
     bool isLocal() const;
     void setIsLocal(bool isLocal);
 
+    QString id() const;
+    void setId(const QString& id);
+
 private:
+    QString m_id;
     QString m_label;
     QColor m_color;
     QPixmap m_image;

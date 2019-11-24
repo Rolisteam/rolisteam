@@ -271,7 +271,8 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     pen.setWidth(PEN_WIDTH);
     if(nullptr != m_character)
     {
-        if(nullptr != m_character->getState())
+        // TODO management of state
+        /*if(m_character->stateId())
         {
             if(getOption(VisualItem::ShowHealthStatus).toBool())
             {
@@ -296,7 +297,7 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
                 int diam= static_cast<int>(m_diameter);
                 painter->drawRoundedRect(0, 0, diam, diam, m_diameter / RADIUS_CORNER, m_diameter / RADIUS_CORNER);
             }
-        }
+        }*/
         if(getOption(VisualItem::ShowInitScore).toBool() && m_character->hasInitScore())
         {
             painter->save();
@@ -868,13 +869,13 @@ void CharacterItem::addActionContextMenu(QMenu& menu)
     }
 
     QMenu* user= menu.addMenu(tr("Transform into"));
-    for(auto& character : PlayersList::instance()->getCharacterList())
+    /*for(auto& character : PlayerModel::instance()->getCharacterList())
     {
         QAction* act= user->addAction(character->name());
         act->setData(character->getUuid());
 
         connect(act, &QAction::triggered, this, &CharacterItem::changeCharacter);
-    }
+    }*/
     QMenu* shape= menu.addMenu(tr("Vision Shape"));
     shape->addAction(m_visionShapeDisk);
     shape->addAction(m_visionShapeAngle);
@@ -1031,9 +1032,6 @@ void CharacterItem::createActions()
         auto i= m_character->getHealthPointsCurrent();
         m_character->setHealthPointsCurrent(i);
     });
-
-    connect(PlayersList::instance(), SIGNAL(characterDeleted(Character*)), this,
-            SLOT(characterHasBeenDeleted(Character*)));
 }
 void CharacterItem::changeVisionShape()
 {
@@ -1062,16 +1060,14 @@ void CharacterItem::characterStateChange()
     if(nullptr == m_character)
         return;
 
-    int index= act->data().toInt();
-
-    CharacterState* state= Character::getCharacterStateList()->at(index);
-    m_character->setState(state);
+    auto id= act->data().toString();
+    m_character->setStateId(id);
 
     NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::VMapCategory, NetMsg::CharacterStateChanged);
     msg->string8(getMapId());
     msg->string8(m_id);
     msg->string8(m_character->getUuid());
-    msg->uint16(static_cast<quint16>(index));
+    msg->string16(id);
     msg->sendToServer();
 }
 
@@ -1109,23 +1105,12 @@ QString CharacterItem::getParentId() const
 }
 void CharacterItem::readCharacterStateChanged(NetworkMessageReader& msg)
 {
-    int index= msg.uint16();
-    if(nullptr != m_character)
-    {
-        QList<CharacterState*>* list= Character::getCharacterStateList();
-        if(nullptr != list)
-        {
-            if(!list->isEmpty() && index < list->size())
-            {
-                CharacterState* state= Character::getCharacterStateList()->at(index);
-                if(nullptr != state)
-                {
-                    m_character->setState(state);
-                    update();
-                }
-            }
-        }
-    }
+    if(nullptr == m_character)
+        return;
+
+    auto stateId= msg.string16();
+    m_character->setStateId(stateId);
+    update();
 }
 
 void CharacterItem::readCharacterChanged(NetworkMessageReader& msg)
@@ -1135,14 +1120,6 @@ void CharacterItem::readCharacterChanged(NetworkMessageReader& msg)
 
     m_character->read(msg);
     update();
-}
-
-void CharacterItem::characterHasBeenDeleted(Character* pc)
-{
-    if(pc == m_character)
-    {
-        m_character= nullptr;
-    }
 }
 
 void CharacterItem::addChildPoint(ChildPointItem* item)
@@ -1269,7 +1246,7 @@ void CharacterItem::setCharacter(Character* character)
         connect(m_character, &Character::initCommandChanged, this, [this]() { update(); });
         connect(m_character, &Character::initiativeChanged, this, [this]() { update(); });
         connect(m_character, &Character::currentHealthPointsChanged, this, [this]() { update(); });
-        connect(m_character, &Character::stateChanged, this, [this]() { update(); });
+        connect(m_character, &Character::stateIdChanged, this, [this]() { update(); });
         connect(m_character, &Character::maxHPChanged, this, [this]() { update(); });
         connect(m_character, &Character::minHPChanged, this, [this]() { update(); });
         connect(m_character, &Character::distancePerTurnChanged, this, [this]() { update(); });

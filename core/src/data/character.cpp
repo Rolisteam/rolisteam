@@ -264,31 +264,24 @@ bool CharacterProperty::setData(int col, QVariant value, int role)
 
 QList<CharacterState*>* Character::m_stateList= nullptr;
 
-Character::Character() : Person(), m_currentState(nullptr), m_sheet(nullptr) {}
+Character::Character() : Person(), m_sheet(nullptr) {}
 
 Character::Character(const QString& name, const QColor& color, bool npc, int number)
-    : Person(name, color), m_isNpc(npc), m_number(number), m_currentState(nullptr), m_sheet(nullptr)
+    : Person(name, color), m_isNpc(npc), m_number(number), m_sheet(nullptr)
 {
 }
 
 Character::Character(const QString& uuid, const QString& name, const QColor& color, bool npc, int number)
-    : Person(uuid, name, color), m_isNpc(npc), m_number(number), m_currentState(nullptr), m_sheet(nullptr)
+    : Person(uuid, name, color), m_isNpc(npc), m_number(number), m_sheet(nullptr)
 {
 }
 
-Character::Character(NetworkMessageReader& data) : Person(), m_currentState(nullptr), m_sheet(nullptr)
+Character::Character(NetworkMessageReader& data) : Person(), m_sheet(nullptr)
 {
     read(data);
 }
 
 Character::~Character() {}
-void Character::initCharacter()
-{
-    if((nullptr != m_stateList) && (nullptr == m_currentState) && (!m_stateList->isEmpty()))
-    {
-        setState(m_stateList->first());
-    }
-}
 
 QList<CharacterShape*> Character::getShapeList() const
 {
@@ -508,7 +501,7 @@ void Character::fill(NetworkMessageWriter& message, bool addAvatar)
     message.string8(nullptr != m_parentPerson ? m_parentPerson->getUuid() : QStringLiteral("nullptr"));
     message.string8(m_uuid);
     message.string16(m_name);
-    message.int8(static_cast<qint8>(indexOfState(m_currentState)));
+    message.string16(m_stateId);
     message.uint8(static_cast<quint8>(m_isNpc));
     message.int32(m_number);
     message.rgb(m_color.rgb());
@@ -545,11 +538,7 @@ QString Character::read(NetworkMessageReader& msg)
     QString parentId= msg.string8();
     m_uuid= msg.string8();
     setName(msg.string16());
-    int currentStateIndex= msg.int8();
-    if(currentStateIndex >= 0)
-    {
-        setState(getStateFromIndex(currentStateIndex));
-    }
+    setStateId(msg.string16());
     setNpc(static_cast<bool>(msg.uint8()));
     setNumber(msg.int32());
     setColor(QColor(msg.rgb()));
@@ -616,12 +605,12 @@ bool Character::isNpc() const
 {
     return m_isNpc;
 }
-void Character::setState(CharacterState* h)
+void Character::setStateId(const QString& stateId)
 {
-    if(h == m_currentState)
+    if(stateId == m_stateId)
         return;
-    m_currentState= h;
-    emit stateChanged();
+    m_stateId= stateId;
+    emit stateIdChanged();
 }
 
 bool Character::hasInitScore() const
@@ -637,23 +626,15 @@ void Character::setHasInitiative(bool b)
     emit hasInitScoreChanged();
 }
 
-CharacterState* Character::getState() const
+QString Character::stateId() const
 {
-    return m_currentState;
+    return m_stateId;
 }
 void Character::writeData(QDataStream& out) const
 {
     out << m_uuid;
     out << m_name;
-    if(nullptr != m_currentState)
-    {
-        out << true;
-        out << m_currentState->getLabel();
-    }
-    else
-    {
-        out << false;
-    }
+    out << m_stateId;
     out << m_isNpc;
     out << m_number;
     out << m_color;
@@ -663,18 +644,7 @@ void Character::readData(QDataStream& in)
 {
     in >> m_uuid;
     in >> m_name;
-    bool hasState;
-    in >> hasState;
-    if(hasState)
-    {
-        QString value;
-        in >> value;
-        m_currentState= getStateFromLabel(value);
-    }
-    else
-    {
-        m_currentState= nullptr;
-    }
+    in >> m_stateId;
     in >> m_isNpc;
     in >> m_number;
     in >> m_color;

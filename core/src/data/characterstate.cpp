@@ -22,10 +22,21 @@
 CharacterState::CharacterState() {}
 CharacterState::CharacterState(const CharacterState& copy)
 {
+    m_id= copy.id();
     m_color= copy.getColor();
     m_label= copy.getLabel();
     m_image= copy.getImage();
     m_local= copy.isLocal();
+}
+
+QString CharacterState::id() const
+{
+    return m_id;
+}
+
+void CharacterState::setId(const QString& id)
+{
+    m_id= id;
 }
 
 void CharacterState::setLabel(QString str)

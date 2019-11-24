@@ -153,7 +153,7 @@ class Character : public Person // public QObject,
     Q_PROPERTY(bool isNpc READ isNpc WRITE setNpc NOTIFY npcChanged)
     Q_PROPERTY(int initiative READ getInitiativeScore WRITE setInitiativeScore NOTIFY initiativeChanged)
     Q_PROPERTY(qreal distancePerTurn READ getDistancePerTurn WRITE setDistancePerTurn NOTIFY distancePerTurnChanged)
-    Q_PROPERTY(CharacterState* state READ getState WRITE setState NOTIFY stateChanged)
+    Q_PROPERTY(QString stateId READ stateId WRITE setStateId NOTIFY stateIdChanged)
     Q_PROPERTY(QColor lifeColor READ getLifeColor WRITE setLifeColor NOTIFY lifeColorChanged)
     Q_PROPERTY(QString initCommand READ getInitCommand WRITE setInitCommand NOTIFY initCommandChanged)
     Q_PROPERTY(bool hasInitiative READ hasInitScore WRITE setHasInitiative NOTIFY hasInitScoreChanged)
@@ -215,7 +215,7 @@ public:
      * @brief getHeathState
      * @return
      */
-    CharacterState* getState() const;
+    QString stateId() const;
 
     /**
      * @brief serialisation function to write data
@@ -248,7 +248,7 @@ public:
      * @return
      */
     static CharacterState* getStateFromIndex(int i);
-    void setState(CharacterState* h);
+    void setStateId(const QString& stateId);
 
     bool hasInitScore() const;
     void setHasInitiative(bool b);
@@ -299,8 +299,6 @@ public:
     QList<CharacterAction*> getActionList() const;
     QList<CharacterShape*> getShapeList() const;
 
-    void initCharacter();
-
     CharacterShape* currentShape() const;
     void setCurrentShape(CharacterShape* shape);
 
@@ -317,7 +315,7 @@ signals:
     void npcChanged();
     void initiativeChanged();
     void distancePerTurnChanged();
-    void stateChanged();
+    void stateIdChanged();
     void lifeColorChanged();
     void initCommandChanged();
     void hasInitScoreChanged();
@@ -329,7 +327,7 @@ private:
     QList<CharacterShape*> m_shapeList;
     QList<CharacterAction*> m_actionList;
     QList<CharacterProperty*> m_propertyList;
-    CharacterState* m_currentState= nullptr;
+    QString m_stateId;
     CharacterSheet* m_sheet= nullptr;
     int m_healthPointsMax= 100;
     int m_healthPointsMin= 0;
