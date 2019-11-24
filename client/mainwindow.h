@@ -69,6 +69,7 @@
 #include "common/controller/remotelogcontroller.h"
 
 #include "controller/gamecontroller.h"
+#include "userlist/playerspanel.h"
 
 namespace Ui
 {
@@ -89,7 +90,7 @@ class Workspace;
 class TextEdit;
 class PlayerModel;
 class ConnectionProfile;
-class SessionManager;
+class SessionDock;
 class CharacterSheetWindow;
 class GameMasterTool;
 class LogPanel;
@@ -500,7 +501,7 @@ private:
     QProgressBar* m_downLoadProgressbar;
     bool m_shownProgress;
     Ui::MainWindow* m_ui;
-    SessionManager* m_sessionManager;
+    std::unique_ptr<SessionDock> m_sessionDock;
     bool m_resetSettings;
 
     // Recent files managment
