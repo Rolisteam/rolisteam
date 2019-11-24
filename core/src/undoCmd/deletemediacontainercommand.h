@@ -24,14 +24,14 @@
 #include <QUndoCommand>
 
 class SessionManager;
-class ImprovedWorkspace;
+class Workspace;
 class DeleteMediaContainerCommand : public QUndoCommand
 {
 public:
-    DeleteMediaContainerCommand(MediaContainer* media, SessionManager* manager, QMenu* menu,
-        ImprovedWorkspace* workspace, bool isGM, QHash<QString, MediaContainer*>& hash, QUndoCommand* parent= nullptr);
+    DeleteMediaContainerCommand(MediaContainer* media, /*SessionManager* manager,*/ QMenu* menu, Workspace* workspace,
+                                bool isGM, QHash<QString, MediaContainer*>& hash, QUndoCommand* parent= nullptr);
 
-    ~DeleteMediaContainerCommand();
+    ~DeleteMediaContainerCommand() override;
 
     void redo() override;
     void undo() override;
@@ -40,9 +40,9 @@ public:
 
 private:
     MediaContainer* m_media= nullptr;
-    SessionManager* m_manager= nullptr;
+    // SessionManager* m_manager= nullptr;
     QMenu* m_menu= nullptr;
-    ImprovedWorkspace* m_mdiArea= nullptr;
+    Workspace* m_mdiArea= nullptr;
     QHash<QString, MediaContainer*>& m_hash;
     bool m_gm;
 };

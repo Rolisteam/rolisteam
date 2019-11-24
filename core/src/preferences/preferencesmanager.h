@@ -46,6 +46,10 @@ class PreferencesManager
 {
 public:
     /**
+     * @brief Private constructor to make sure there is only one instance of this.
+     */
+    PreferencesManager();
+    /**
      * @brief Must be called instead of the constructor.
      *
      * @return instance of PreferencesManager
@@ -92,10 +96,6 @@ public:
     void registerLambda(QString key, std::function<void(QString)> func);
 
 private:
-    /**
-     * @brief Private constructor to make sure there is only one instance of this.
-     */
-    PreferencesManager();
     /**
      * @brief notifyListener
      */

@@ -131,10 +131,6 @@ QVariant Person::getData(ResourcesNode::DataValue data) const
     return {};
 }
 
-QString Person::getToolTip() const
-{
-    return m_name;
-}
 void Person::write(QDataStream&, bool, bool) const
 {
     // default implement does nothing [virtual]

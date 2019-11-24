@@ -26,11 +26,14 @@ set(HEADERS
     src/controller/controllerinterface.h
     src/controller/preferencescontroller.h
     src/controller/contentcontroller.h
+    src/undoCmd/addlocalcharactercommand.h
+    src/undoCmd/removelocalcharactercommand.h
     src/audio/audioPlayer.h
     src/audio/musicmodel.h
     src/audio/playerwidget.h
     src/model/profilemodel.h
     src/model/thememodel.h
+    src/model/playeronmapmodel.h
     src/charactersheet/charactersheet.h
     src/charactersheet/charactersheetitem.h
     src/charactersheet/charactersheetmodel.h
@@ -273,8 +276,11 @@ set(SOURCES
     src/controller/preferencescontroller.cpp
     src/controller/playercontroller.cpp
     src/controller/contentcontroller.cpp
+    src/undoCmd/addlocalcharactercommand.cpp
+    src/undoCmd/removelocalcharactercommand.cpp
     src/model/profilemodel.cpp
     src/model/thememodel.cpp
+    src/model/playeronmapmodel.cpp
     src/audio/audioPlayer.cpp
     src/audio/musicmodel.cpp
     src/audio/playerwidget.cpp

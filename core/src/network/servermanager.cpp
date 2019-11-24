@@ -109,7 +109,8 @@ void ServerManager::stopListening()
 {
     // m_server->refuseNewConnection(true);
     close();
-    m_server->terminate();
+    if(m_server)
+        m_server->terminate();
 }
 
 void ServerManager::messageReceived(QByteArray array)

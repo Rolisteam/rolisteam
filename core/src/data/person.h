@@ -45,6 +45,7 @@ class Person : public QObject, public ResourcesNode
     Q_PROPERTY(QImage avatar READ getAvatar WRITE setAvatar NOTIFY avatarChanged)
     Q_PROPERTY(QString avatarPath READ avatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
 public:
+    Person();
     /**
      * @brief Person
      * @param name
@@ -115,8 +116,6 @@ public:
 
     virtual QVariant getData(ResourcesNode::DataValue) const override;
 
-    virtual QString getToolTip() const;
-
     virtual QIcon getIcon() override;
 
     ResourcesNode::TypeResource getResourcesType() const override;
@@ -146,10 +145,6 @@ signals:
     void avatarPathChanged();
 
 protected:
-    /**
-     * @brief Person
-     */
-    Person();
     QString m_uuid;
     QColor m_color;
     QImage m_avatar;
