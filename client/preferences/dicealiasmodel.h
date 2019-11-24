@@ -50,7 +50,7 @@ public:
     /**
      *
      * */
-    ~DiceAliasModel();
+    ~DiceAliasModel() override;
 
     /**
      * @brief data
@@ -58,19 +58,19 @@ public:
      * @param role
      * @return
      */
-    QVariant data(const QModelIndex& index, int role) const;
+    QVariant data(const QModelIndex& index, int role) const override;
     /**
      * @brief rowCount
      * @param parent
      * @return
      */
-    int rowCount(const QModelIndex& parent= QModelIndex()) const;
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
     /**
      * @brief columnCount
      * @param parent
      * @return
      */
-    int columnCount(const QModelIndex& parent) const;
+    int columnCount(const QModelIndex& parent) const  override;
     /**
      * @brief headerData
      * @param section
@@ -78,13 +78,13 @@ public:
      * @param role
      * @return
      */
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
     /**
      * @brief flags
      * @param index
      * @return
      */
-    Qt::ItemFlags flags(const QModelIndex& index) const;
+    Qt::ItemFlags flags(const QModelIndex& index) const override;
     /**
      * @brief setData
      * @param index
@@ -92,9 +92,9 @@ public:
      * @param role
      * @return
      */
-    bool setData(const QModelIndex& index, const QVariant& value, int role);
+    bool setData(const QModelIndex& index, const QVariant& value, int role) override;
 
-    virtual void preferencesHasChanged(QString);
+    virtual void preferencesHasChanged(const QString&) override;
 
     /// new methods
     void setAliases(QList<DiceAlias*>* map);

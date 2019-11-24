@@ -16,7 +16,7 @@ class heartBeatSender : public QObject, public PreferencesListener
 public:
     explicit heartBeatSender(QObject* parent= nullptr);
 
-    void preferencesHasChanged(QString);
+    void preferencesHasChanged(const QString&);
     void updateStatus();
 
     void setIdLocalUser(QString);

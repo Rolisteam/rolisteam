@@ -204,7 +204,6 @@ void ImprovedWorkspace::addContainerMedia(MediaContainer* mediac)
         mediac->widget()->setAttribute(Qt::WA_DeleteOnClose, false);
     }
     mediac->installEventFilter(this);
-
 }
 void ImprovedWorkspace::removeMediaContainer(MediaContainer* mediac)
 {
@@ -346,7 +345,7 @@ QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
     return nullptr;
 }
 
-void ImprovedWorkspace::preferencesHasChanged(QString)
+void ImprovedWorkspace::preferencesHasChanged(const QString&)
 {
     updateBackGround();
     update();

@@ -106,7 +106,7 @@ void CharacterStateModel::appendState()
 {
     addState(new CharacterState());
 }
-void CharacterStateModel::preferencesHasChanged(QString pref)
+void CharacterStateModel::preferencesHasChanged(const QString& pref)
 {
     if(pref == "isPlayer")
     {

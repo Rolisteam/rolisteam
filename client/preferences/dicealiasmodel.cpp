@@ -110,7 +110,7 @@ void DiceAliasModel::appendAlias()
 {
     addAlias(new DiceAlias(tr("New Alias%1").arg(m_diceAliasList->size()), ""));
 }
-void DiceAliasModel::preferencesHasChanged(QString pref)
+void DiceAliasModel::preferencesHasChanged(const QString& pref)
 {
     if(pref == "isPlayer")
     {
@@ -292,7 +292,7 @@ void DiceAliasModel::load(const QJsonObject& obj)
     {
         auto alias= aliasRef.toObject();
         auto da= new DiceAlias(alias["command"].toString(), alias["value"].toString(), alias["replace"].toBool(),
-            alias["enable"].toBool());
+                               alias["enable"].toBool());
         da->setComment(alias["comment"].toString());
         addAlias(da);
     }

@@ -68,7 +68,7 @@ public:
     /**
      * @brief preferencesHasChanged
      */
-    void preferencesHasChanged(QString);
+    void preferencesHasChanged(const QString&);
     /**
      * @brief showCleverUri
      * @param uri

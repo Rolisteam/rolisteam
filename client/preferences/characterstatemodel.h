@@ -92,7 +92,7 @@ public:
      */
     bool setData(const QModelIndex& index, const QVariant& value, int role);
 
-    virtual void preferencesHasChanged(QString);
+    virtual void preferencesHasChanged(const QString&);
 
     virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 
