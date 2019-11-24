@@ -19,6 +19,7 @@
 #ifndef PARTICIPANTSPANE_H
 #define PARTICIPANTSPANE_H
 
+#include <QAbstractProxyModel>
 #include <QHostAddress>
 #include <QPointer>
 #include <QTreeWidgetItem>
@@ -33,7 +34,7 @@ namespace Ui
 class ParticipantsPane;
 }
 
-class ParticipantsModel : public QAbstractItemModel
+class ParticipantsModel : public QAbstractProxyModel
 {
     Q_OBJECT
 public:
@@ -43,7 +44,7 @@ public:
         readOnly,
         hidden
     };
-    ParticipantsModel(PlayersList* m_playerList);
+    ParticipantsModel(QObject* parent= nullptr);
     virtual int rowCount(const QModelIndex& parent) const;
     virtual int columnCount(const QModelIndex& index) const;
     virtual QVariant data(const QModelIndex& index, int role) const;
@@ -51,32 +52,32 @@ public:
     virtual QModelIndex index(int row, int column, const QModelIndex& parent) const;
     virtual Qt::ItemFlags flags(const QModelIndex& index) const;
 
-    Player* getOwner() const;
-    void setOwner(Player* owner);
+    Q_INVOKABLE QModelIndex mapFromSource(const QModelIndex& sourceIndex) const;
+    Q_INVOKABLE QModelIndex mapToSource(const QModelIndex& proxyIndex) const;
+
+    QString getOwner() const;
+    void setOwner(const QString& owner);
 
     void saveModel(QJsonObject& root);
     QList<Player*>* getListByChild(Player* owner);
 
-    ParticipantsModel::Permission getPermissionFor(Player* player);
+    ParticipantsModel::Permission getPermissionFor(const QModelIndex& index);
     void loadModel(QJsonObject& root);
 public slots:
     virtual void addHiddenPlayer(Player*);
     virtual void removePlayer(Player*);
-    int promotePlayer(Player*);
-    int demotePlayer(Player*);
+    int promotePlayer(const QModelIndex& index);
+    int demotePlayer(const QModelIndex& index);
 
-    void setPlayerInto(Player* player, ParticipantsModel::Permission level);
+    void setPlayerInto(const QModelIndex& index, ParticipantsModel::Permission level);
 
 private:
     void debugModel() const;
-    QList<Player*> m_hidden;
-    QList<Player*> m_readOnly;
-    QList<Player*> m_readWrite;
-
-    QList<QList<Player*>*> m_data;
+    std::vector<QString> m_readOnly;
+    std::vector<QString> m_readWrite;
     QStringList m_permissionGroup;
 
-    Player* m_owner;
+    QString m_ownerId;
 };
 
 class ParticipantsPane : public QWidget

@@ -21,13 +21,15 @@
 #define USERLISTVIEW_H
 
 #include "diceparser.h"
+#include <QPointer>
 #include <QTreeView>
 #include <memory>
 
-class PlayersListWidgetModel;
+// class PlayerOnMapModel;
 class UserListDelegate;
 class Person;
 class CharacterAction;
+class PlayerController;
 /**
  * @brief custom view to display tree person
  */
@@ -46,9 +48,7 @@ public:
      * @brief default constructor
      */
     explicit UserListView(QWidget* parent= nullptr);
-
-    virtual void setPlayersListModel(PlayersListWidgetModel* model);
-
+    void setPlayerController(PlayerController* ctrl);
 public slots:
     /**
      * @brief called to change the current color
@@ -88,13 +88,7 @@ protected slots:
     QPixmap generateAvatar(Person* p);
 
 private:
-    /**
-     * @brief pointer to the delegate
-     */
-    // UserListDelegate* m_delegate= nullptr;
-
-    QAbstractItemModel* m_model= nullptr;
-
+    QPointer<PlayerController> m_ctrl;
     QAction* m_addAvatarAct= nullptr;
     QAction* m_removeAvatarAct= nullptr;
     QAction* m_rollInit= nullptr;

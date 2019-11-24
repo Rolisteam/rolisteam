@@ -32,9 +32,9 @@
 #include <QWidget>
 
 //#include "types.h"
-#include "widgets/toolsbar.h"
 #include "userlist/playermodel.h"
 #include "widgets/colorselector.h"
+#include "widgets/toolsbar.h"
 //#include "data/mediacontainer.h"
 #include "network/networkmessage.h"
 
@@ -52,9 +52,9 @@ class Map : public QWidget //, public MediaContainer
     Q_OBJECT
 
 public:
-    Map(QString localPlayerId, QString identCarte, QImage* image, bool masquer= false, QWidget* parent= 0);
+    Map(QString localPlayerId, QString identCarte, QImage* image, bool masquer= false, QWidget* parent= nullptr);
     Map(QString localPlayerId, QString identCarte, QImage* original, QImage* avecAnnotations, QImage* coucheAlpha,
-        QWidget* parent= 0);
+        QWidget* parent= nullptr);
 
     virtual ~Map();
 

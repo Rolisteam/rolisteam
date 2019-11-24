@@ -22,15 +22,15 @@
 #ifndef LOCAL_PERSON_MODEL_H
 #define LOCAL_PERSON_MODEL_H
 
-#include "userlist/playersList.h"
+#include "userlist/playermodel.h"
+#include <QAbstractProxyModel>
 
 /**
  * @brief The LocalPersonModel class
  */
-class LocalPersonModel : public QAbstractListModel
+class LocalPersonModel : public QAbstractProxyModel
 {
     Q_OBJECT
-
 public:
     LocalPersonModel();
     /**
@@ -39,16 +39,20 @@ public:
      * @param role
      * @return
      */
-    QVariant data(const QModelIndex& index, int role) const;
+    // QVariant data(const QModelIndex& index, int role) const;
     /**
      * @brief rowCount
      * @param parent
      * @return
      */
-    int rowCount(const QModelIndex& parent= QModelIndex()) const;
+    // int rowCount(const QModelIndex& parent= QModelIndex()) const;
+    Q_INVOKABLE QModelIndex mapFromSource(const QModelIndex& sourceIndex) const;
+    Q_INVOKABLE QModelIndex mapToSource(const QModelIndex& proxyIndex) const;
 
-private:
-    PlayersList* m_playersList;
+    Q_INVOKABLE virtual QModelIndex index(int, int, const QModelIndex&) const;
+    Q_INVOKABLE virtual QModelIndex parent(const QModelIndex&) const;
+    Q_INVOKABLE virtual int rowCount(const QModelIndex& parent) const;
+    Q_INVOKABLE virtual int columnCount(const QModelIndex&) const;
 };
 
 #endif

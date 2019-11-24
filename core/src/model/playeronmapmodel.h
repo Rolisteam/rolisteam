@@ -19,12 +19,26 @@
  ***************************************************************************/
 #ifndef PLAYERONMAPMODEL_H
 #define PLAYERONMAPMODEL_H
+#include <QIdentityProxyModel>
+#include <QPointer>
 
-
+class Map;
 class PlayerOnMapModel : public QIdentityProxyModel
 {
+    Q_OBJECT
 public:
-    PlayerOnMapModel();
+    PlayerOnMapModel(QObject* parent= nullptr);
+
+    Qt::ItemFlags flags(const QModelIndex& index) const;
+    QVariant data(const QModelIndex& index, int role) const;
+    bool setData(const QModelIndex& index, const QVariant& value, int role);
+
+public slots:
+    void setCurrentMap(Map* map);
+
+private:
+    QPointer<Map> m_map;
+    bool isCheckable(const QModelIndex& index) const;
 };
 
 #endif // PLAYERONMAPMODEL_H

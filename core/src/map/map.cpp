@@ -129,16 +129,16 @@ void Map::p_init()
     m_motionList.clear();
 
     // Get every characters
-    PlayersList* playersList= PlayersList::instance();
-    int maxPlayersIndex= playersList->getPlayerCount();
+    // PlayerModel* playersList= PlayerModel::instance();
+    int maxPlayersIndex= 0; // playersList->getPlayerCount();
     for(int i= 0; i < maxPlayersIndex; i++)
     {
-        Player* player= playersList->getPlayer(i);
-        int maxCharactersIndex= player->getChildrenCount();
-        for(int j= 0; j < maxCharactersIndex; j++)
-        {
-            addCharacter(player->getCharacterByIndex(j));
-        }
+        /*    Player* player= playersList->getPlayer(i);
+            int maxCharactersIndex= player->getChildrenCount();
+            for(int j= 0; j < maxCharactersIndex; j++)
+            {
+                addCharacter(player->getCharacterByIndex(j));
+            }*/
     }
 
     // connect to g_playesList to stay tuned
@@ -734,48 +734,48 @@ void Map::processNpcAction(QPoint positionSouris)
         CharacterToken* pnj= paintCharacter(positionSouris);
         if(pnj)
         {
-            if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode)
-               || ((Map::PC_MOVE == m_currentMode)
-                   && (m_localPlayer->getIndexOf(pnj->getCharacterId()) > -1))) // if not found -1
-            {
-                if(m_currentTool == ToolsBar::DelNpc)
-                {
-                    if(!pnj->isPc())
-                    {
-                        if(m_lastSelectedNpc == pnj)
-                            m_lastSelectedNpc= 0;
+            /*  if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode)
+                 || ((Map::PC_MOVE == m_currentMode)
+                     && (m_localPlayer->getIndexOf(pnj->getCharacterId()) > -1))) // if not found -1
+              {
+                  if(m_currentTool == ToolsBar::DelNpc)
+                  {
+                      if(!pnj->isPc())
+                      {
+                          if(m_lastSelectedNpc == pnj)
+                              m_lastSelectedNpc= 0;
 
-                        NetworkMessageWriter msg(NetMsg::NPCCategory, NetMsg::delNpc);
-                        msg.string8(m_mapId);
-                        msg.string8(pnj->getCharacterId());
-                        msg.sendToServer();
+                          NetworkMessageWriter msg(NetMsg::NPCCategory, NetMsg::delNpc);
+                          msg.string8(m_mapId);
+                          msg.string8(pnj->getCharacterId());
+                          msg.sendToServer();
 
-                        pnj->~CharacterToken();
-                    }
-                }
+                          pnj->~CharacterToken();
+                      }
+                  }
 
-                else if(m_currentTool == ToolsBar::MoveCharacterToken)
-                {
-                    m_selectedNpc= pnj;
-                    m_distanceBetweenMouseAndNPC= pnj->mapFromParent(positionSouris);
-                    m_characterMoveList.clear();
-                    m_characterMoveList.append(pnj->getCharacterCenter());
-                }
-                else if(m_currentTool == ToolsBar::ChangeCharacterState)
-                {
-                    pnj->changeState();
-                    m_lastSelectedNpc= pnj;
+                  else if(m_currentTool == ToolsBar::MoveCharacterToken)
+                  {
+                      m_selectedNpc= pnj;
+                      m_distanceBetweenMouseAndNPC= pnj->mapFromParent(positionSouris);
+                      m_characterMoveList.clear();
+                      m_characterMoveList.append(pnj->getCharacterCenter());
+                  }
+                  else if(m_currentTool == ToolsBar::ChangeCharacterState)
+                  {
+                      pnj->changeState();
+                      m_lastSelectedNpc= pnj;
 
-                    NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::changeCharacterState);
-                    msg.string8(m_mapId);
-                    msg.string8(pnj->getCharacterId());
-                    msg.uint16(pnj->getHealtState());
-                    msg.sendToServer();
-                }
-                else
-                    qWarning() << (tr(
-                        "undefined tool for processing action on NPC or PC (processNpcAction - map.cpp)"));
-            }
+                      NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::changeCharacterState);
+                      msg.string8(m_mapId);
+                      msg.string8(pnj->getCharacterId());
+                      msg.uint16(pnj->getHealtState());
+                      msg.sendToServer();
+                  }
+                  else
+                      qWarning() << (tr(
+                          "undefined tool for processing action on NPC or PC (processNpcAction - map.cpp)"));
+              }*/
         }
     }
 }
@@ -816,15 +816,15 @@ void Map::processNpcActionReleased(QPoint positionSouris)
     {
         if(m_selectedNpc)
         {
-            if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode)
-               || ((Map::PC_MOVE == m_currentMode)
-                   && (m_localPlayer->getIndexOf(m_selectedNpc->getCharacterId()) > -1)))
-            {
-                showHideNPC(m_selectedNpc);
-                m_lastSelectedNpc= m_selectedNpc;
-                sendCharacterPath();
-                m_selectedNpc= nullptr;
-            }
+            /*  if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode)
+                 || ((Map::PC_MOVE == m_currentMode)
+                     && (m_localPlayer->getIndexOf(m_selectedNpc->getCharacterId()) > -1)))
+              {
+                  showHideNPC(m_selectedNpc);
+                  m_lastSelectedNpc= m_selectedNpc;
+                  sendCharacterPath();
+                  m_selectedNpc= nullptr;
+              }*/
         }
     }
 
@@ -855,16 +855,17 @@ void Map::processNpcMove(QPoint positionSouris)
     {
         if(m_selectedNpc)
         {
-            if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode)
-               || ((Map::PC_MOVE == m_currentMode)
-                   && (m_localPlayer->getIndexOf(m_selectedNpc->getCharacterId()) > -1)))
-            {
-                if(QRect(0, 0, m_backgroundImage->width(), m_backgroundImage->height()).contains(positionSouris, true))
-                {
-                    m_selectedNpc->moveCharacter(positionSouris - m_distanceBetweenMouseAndNPC);
-                    m_characterMoveList.append(m_selectedNpc->getCharacterCenter());
-                }
-            }
+            /*  if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode)
+                 || ((Map::PC_MOVE == m_currentMode)
+                     && (m_localPlayer->getIndexOf(m_selectedNpc->getCharacterId()) > -1)))
+              {
+                  if(QRect(0, 0, m_backgroundImage->width(), m_backgroundImage->height()).contains(positionSouris,
+              true))
+                  {
+                      m_selectedNpc->moveCharacter(positionSouris - m_distanceBetweenMouseAndNPC);
+                      m_characterMoveList.append(m_selectedNpc->getCharacterCenter());
+                  }
+              }*/
         }
     }
 
