@@ -24,12 +24,13 @@
 #include "model/profilemodel.h"
 #include "network/clientmanager.h"
 #include "network/servermanager.h"
+#include "services/ipchecker.h"
 #include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
 #include <QThread>
 
 NetworkController::NetworkController(QObject* parent)
-    : ControllerInterface(parent), m_clientManager(new ClientManager), m_profileModel(new ProfileModel)
+    : AbstractControllerInterface(parent), m_clientManager(new ClientManager), m_profileModel(new ProfileModel)
 {
     Settingshelper::readConnectionProfileModel(m_profileModel.get());
     // connect(m_clientManager.get(), &ClientManager::notifyUser, m_gameController.get(),
@@ -121,6 +122,7 @@ void NetworkController::startClient()
 void NetworkController::startServer()
 {
     m_server.reset(new ServerManager());
+    m_ipChecker.reset(new IpChecker());
     m_serverThread.reset(new QThread);
     m_server->moveToThread(m_serverThread.get());
     m_server->initServerManager();
@@ -157,7 +159,20 @@ void NetworkController::startServer()
     m_server->insertField("ServerPassword", serverPassword());
     m_server->insertField("TimeToRetry", 5000);
     m_server->insertField("AdminPassword", adminPassword());
+
+    auto thread= new QThread();
+    m_ipChecker->moveToThread(thread);
+
+    connect(thread, &QThread::started, m_ipChecker.get(), &IpChecker::startCheck);
+    connect(m_ipChecker.get(), &IpChecker::ipAddressChanged, this, [this, thread](const QString& str) {
+        m_ipv4Address= str;
+        emit ipv4Changed();
+        thread->terminate();
+    });
+    connect(thread, &QThread::finished, thread, &QThread::deleteLater);
+
     m_serverThread->start();
+    thread->start();
 }
 bool NetworkController::hosting() const
 {
@@ -177,6 +192,11 @@ QString NetworkController::host() const
 int NetworkController::port() const
 {
     return m_port;
+}
+
+QString NetworkController::ipv4() const
+{
+    return m_ipv4Address;
 }
 
 bool NetworkController::isGM() const
