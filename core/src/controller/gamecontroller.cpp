@@ -21,6 +21,7 @@
 
 #include "common/controller/logcontroller.h"
 #include "common/controller/remotelogcontroller.h"
+#include "controller/contentcontroller.h"
 #include "controller/networkcontroller.h"
 #include "controller/playercontroller.h"
 #include "controller/preferencescontroller.h"
@@ -39,8 +40,11 @@ GameController::GameController(QObject* parent)
     , m_networkCtrl(new NetworkController)
     , m_playerController(new PlayerController)
     , m_preferencesDialogController(new PreferencesController)
+    , m_contentCtrl(new ContentController)
 {
     m_networkCtrl->setGameController(this);
+    m_contentCtrl->setGameController(this);
+
 #ifdef VERSION_MINOR
 #ifdef VERSION_MAJOR
 #ifdef VERSION_MIDDLE
@@ -118,6 +122,11 @@ void GameController::setUpdateAvailable(bool available)
         return;
     m_updateAvailable= available;
     emit updateAvailableChanged();
+}
+
+ContentController* GameController::contentController() const
+{
+    return m_contentCtrl.get();
 }
 
 LogController* GameController::logController() const

@@ -15,7 +15,7 @@ public:
      * @brief default constructor
      *
      */
-    explicit SessionView(QWidget* parent= 0);
+    explicit SessionView(QWidget* parent= nullptr);
     /**
      * @brief accessor to the selected items
      * @return list of selected item index

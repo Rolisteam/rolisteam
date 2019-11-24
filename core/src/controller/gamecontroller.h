@@ -48,6 +48,7 @@ class GameController : public QObject
     Q_PROPERTY(QAbstractItemModel* chatModel READ chatModel CONSTANT)
     Q_PROPERTY(QAbstractItemModel* resourcesModel READ resourcesModel CONSTANT)
     Q_PROPERTY(PreferencesController* preferencesController READ preferencesController CONSTANT)
+    Q_PROPERTY(ContentController* contentController READ contentController CONSTANT)
     Q_PROPERTY(QString currentScenario READ currentScenario WRITE setCurrentScenario NOTIFY currentScenarioChanged)
     Q_PROPERTY(QString version READ version WRITE setVersion NOTIFY versionChanged)
     Q_PROPERTY(QString localPlayerId READ localPlayerId NOTIFY localPlayerIdChanged)
@@ -67,6 +68,7 @@ public:
 
     NetworkController* networkController() const;
     PlayerController* playerController() const;
+    ContentController* contentController() const;
     PreferencesController* preferencesController() const;
 
     QString version() const;
@@ -130,6 +132,7 @@ private:
     std::unique_ptr<NetworkController> m_networkCtrl;
     std::unique_ptr<PlayerController> m_playerController;
     std::unique_ptr<PreferencesController> m_preferencesDialogController;
+    std::unique_ptr<ContentController> m_contentCtrl;
     PreferencesManager* m_preferences= nullptr;
 
     QString m_currentScenario;

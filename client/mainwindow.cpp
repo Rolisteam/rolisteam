@@ -963,18 +963,10 @@ void MainWindow::readStory(QString fileName)
         return;
     QFileInfo info(fileName);
     m_preferences->registerValue("SessionDirectory", info.absolutePath());
-    QFile file(fileName);
-    if(!file.open(QIODevice::ReadOnly))
-    {
-        m_gameController->addErrorLog("Cannot be read (openStory - MainWindow.cpp)");
-        return;
-    }
-    m_sessionManager->setSessionName(info.baseName());
-    QDataStream in(&file);
-    in.setVersion(QDataStream::Qt_5_7);
-    m_sessionManager->loadSession(in);
-    file.close();
-    m_currentStory= new CleverURI(getShortNameFromPath(fileName), fileName, CleverURI::SCENARIO);
+
+    auto contentCtrl= m_gameController->contentController();
+    contentCtrl->setSessionPath(fileName);
+    contentCtrl->loadSession();
 
     m_recentScenarios.removeAll(fileName);
     m_recentScenarios.prepend(fileName);
@@ -990,7 +982,8 @@ QString MainWindow::getShortNameFromPath(QString path)
 
 bool MainWindow::saveStory(bool saveAs)
 {
-    if(nullptr == m_currentStory || saveAs)
+    auto contentCtrl= m_gameController->contentController();
+    if(contentCtrl->sessionPath().isEmpty() || saveAs)
     {
         QString fileName= QFileDialog::getSaveFileName(
             this, tr("Save Scenario as"), m_preferences->value("SessionDirectory", QDir::homePath()).toString(),
@@ -1003,29 +996,12 @@ bool MainWindow::saveStory(bool saveAs)
         {
             fileName.append(QStringLiteral(".sce"));
         }
-        m_currentStory= new CleverURI(getShortNameFromPath(fileName), fileName, CleverURI::SCENARIO);
+        contentCtrl->setSessionPath(fileName);
     }
-    QFileInfo info(m_currentStory->getUri());
-
+    QFileInfo info(contentCtrl->sessionPath());
     m_preferences->registerValue("SessionDirectory", info.absolutePath());
-
-    QFile file(m_currentStory->getUri());
-    if(!file.open(QIODevice::WriteOnly))
-    {
-        m_gameController->addErrorLog(
-            tr("%1 cannot be opened (saveStory - MainWindow.cpp)").arg(m_currentStory->getUri()));
-        return false;
-    }
-
-    saveAllMediaContainer();
-
-    QDataStream out(&file);
-    out.setVersion(QDataStream::Qt_5_7);
-    m_sessionManager->saveSession(out);
-    file.close();
-    m_sessionManager->setSessionName(m_currentStory->getData(ResourcesNode::NAME).toString());
+    contentCtrl->saveSession();
     updateWindowTitle();
-    m_undoStack.setClean();
     return true;
 }
 ////////////////////////////////////////////////////
@@ -1050,38 +1026,38 @@ void MainWindow::saveCurrentMedia()
 }
 void MainWindow::saveMedia(MediaContainer* mediaC, bool saveAs)
 {
-    if(nullptr != mediaC)
+    if(nullptr == mediaC)
+        return;
+
+    CleverURI* cleverURI= mediaC->getCleverUri();
+    if(nullptr == cleverURI)
+        return;
+
+    QString uri= cleverURI->getUri();
+    if(cleverURI->getCurrentMode() == CleverURI::Linked || saveAs)
     {
-        CleverURI* cleverURI= mediaC->getCleverUri();
-        if(nullptr != cleverURI)
+        if(uri.isEmpty() || saveAs)
         {
-            QString uri= cleverURI->getUri();
-            if(cleverURI->getCurrentMode() == CleverURI::Linked || saveAs)
+            QString key= CleverURI::getPreferenceDirectoryKey(cleverURI->getType());
+            QString filter= CleverURI::getFilterForType(cleverURI->getType());
+            QString media= CleverURI::typeToString(cleverURI->getType());
+            QString fileName= QFileDialog::getSaveFileName(
+                this, tr("Save %1").arg(media), m_preferences->value(key, QDir::homePath()).toString(), filter);
+            if(fileName.isEmpty())
             {
-                if(uri.isEmpty() || saveAs)
-                {
-                    QString key= CleverURI::getPreferenceDirectoryKey(cleverURI->getType());
-                    QString filter= CleverURI::getFilterForType(cleverURI->getType());
-                    QString media= CleverURI::typeToString(cleverURI->getType());
-                    QString fileName= QFileDialog::getSaveFileName(
-                        this, tr("Save %1").arg(media), m_preferences->value(key, QDir::homePath()).toString(), filter);
-                    if(fileName.isEmpty())
-                    {
-                        return;
-                    }
-                    QFileInfo info(fileName);
-                    m_preferences->registerValue(key, info.absolutePath());
-                    cleverURI->setUri(fileName);
-                }
-                mediaC->saveMedia();
+                return;
             }
-            else if(cleverURI->getCurrentMode() == CleverURI::Internal)
-            {
-                mediaC->putDataIntoCleverUri();
-            }
-            setLatestFile(cleverURI);
+            QFileInfo info(fileName);
+            m_preferences->registerValue(key, info.absolutePath());
+            cleverURI->setUri(fileName);
         }
+        mediaC->saveMedia();
     }
+    else if(cleverURI->getCurrentMode() == CleverURI::Internal)
+    {
+        mediaC->putDataIntoCleverUri();
+    }
+    setLatestFile(cleverURI);
 }
 
 bool MainWindow::saveMinutes()
@@ -2509,6 +2485,7 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
 void MainWindow::updateWindowTitle()
 {
     auto networkCtrl= m_gameController->networkController();
+    auto contentCtrl= m_gameController->contentController();
     auto const connectionStatus= m_gameController->connected() ? tr("Connected") : tr("Not Connected");
     auto const networkStatus= networkCtrl->hosting() ? tr("Server") : tr("Client");
     auto const profileStatus= networkCtrl->isGM() ? tr("GM") : tr("Player");
@@ -2516,7 +2493,7 @@ void MainWindow::updateWindowTitle()
     setWindowTitle(QStringLiteral("%6[*] - v%2 - %3 - %4 - %5 - %1")
                        .arg(m_preferences->value("applicationName", "Rolisteam").toString(),
                             m_gameController->version(), connectionStatus, networkStatus, profileStatus,
-                            m_sessionManager->getSessionName()));
+                            contentCtrl->sessionName()));
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent* event)

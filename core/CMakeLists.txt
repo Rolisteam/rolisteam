@@ -179,7 +179,7 @@ set(HEADERS
     src/services/updatechecker.h
     src/services/updaterwindow.h
     src/session/sessionitemmodel.h
-    src/session/sessionmanager.h
+    src/session/sessiondock.h
     src/session/sessionview.h
     src/sharededitor/codeeditor.h
    #src/sharededitor/connecttodocument.h
@@ -422,7 +422,7 @@ set(SOURCES
     src/services/updatechecker.cpp
     src/services/updaterwindow.cpp
     src/session/sessionitemmodel.cpp
-    src/session/sessionmanager.cpp
+    src/session/sessiondock.cpp
     src/session/sessionview.cpp
     src/sharededitor/codeeditor.cpp
  #   src/sharededitor/connecttodocument.cpp
@@ -541,6 +541,7 @@ set(UI_FILES
     src/network/selectconnectionprofiledialog.ui
     src/network/channellistpanel.ui
     src/network/connectionretrydialog.ui
+    src/session/sessiondock.ui
     )
 
 add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES})

@@ -20,17 +20,80 @@
 #ifndef CONTENTCONTROLLER_H
 #define CONTENTCONTROLLER_H
 
+#include <QModelIndexList>
 #include <QObject>
+#include <memory>
 
-class ContentController : public QObject
+#include "controllerinterface.h"
+#include "preferences/preferenceslistener.h"
+
+class MediaContainer;
+class SessionItemModel;
+class QAbstractItemModel;
+class ResourcesNode;
+class PreferencesManager;
+class ContentController : public AbstractControllerInterface, public PreferencesListener
 {
     Q_OBJECT
-public:
-    explicit ContentController(QObject *parent = nullptr);
+    Q_PROPERTY(QAbstractItemModel* model READ model CONSTANT)
+    Q_PROPERTY(QString workspaceFilename READ workspaceFilename NOTIFY workspaceFilenameChanged)
+    Q_PROPERTY(QColor workspaceColor READ workspaceColor NOTIFY workspaceColorChanged)
+    Q_PROPERTY(int workspacePositioning READ workspacePositioning NOTIFY workspacePositioningChanged)
+    Q_PROPERTY(bool shortTitleTab READ shortTitleTab NOTIFY shortTitleTabChanged)
+    Q_PROPERTY(int maxLengthTabName READ maxLengthTabName NOTIFY maxLengthTabNameChanged)
+    Q_PROPERTY(QString sessionName READ sessionName NOTIFY sessionNameChanged)
+    Q_PROPERTY(QString sessionPath READ sessionPath WRITE setSessionPath NOTIFY sessionPathChanged)
 
+public:
+    explicit ContentController(QObject* parent= nullptr);
+    ~ContentController() override;
+
+    QAbstractItemModel* model() const;
+
+    int maxLengthTabName() const;
+    bool shortTitleTab() const;
+    QString workspaceFilename() const;
+    QColor workspaceColor() const;
+    int workspacePositioning() const;
+    QString sessionName() const;
+    QString sessionPath() const;
+
+    void setGameController(GameController*) override;
+    void preferencesHasChanged(const QString& key) override;
+
+    void clear();
 signals:
+    void workspaceFilenameChanged();
+    void workspaceColorChanged();
+    void workspacePositioningChanged();
+    void shortTitleTabChanged();
+    void maxLengthTabNameChanged();
+
+    void sessionChanged(bool);
+    void sessionNameChanged();
+    void sessionPathChanged();
 
 public slots:
+    void openResources(const QModelIndex& index);
+    void addChapter(const QModelIndex& index);
+    void removeSelectedItems(const QModelIndexList& selection);
+
+    void saveMedia(const QString& uuid, const QString& path);
+    void addContent(ResourcesNode* node);
+    void removeContent(const QModelIndex& index);
+
+    void setSessionName(const QString& name);
+    void setSessionPath(const QString& path);
+
+    void saveSession();
+    void loadSession();
+
+private:
+    std::unique_ptr<SessionItemModel> m_contentModel;
+    std::vector<MediaContainer*> m_loadedMedia;
+    PreferencesManager* m_preferences;
+    QString m_sessionName;
+    QString m_sessionPath;
 };
 
 #endif // CONTENTCONTROLLER_H
