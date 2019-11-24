@@ -4,6 +4,7 @@
 #include "data/player.h"
 #include "model/profilemodel.h"
 #include "network/connectionprofile.h"
+#include "session/sessionitemmodel.h"
 
 #include <QDebug>
 #include <QFileInfo>
@@ -54,7 +55,7 @@ void readConnectionProfileModel(ProfileModel* model)
         character->setHealthPointsMin(settings.value("CharacterMinHp", character->getHealthPointsMin()).toInt());
         character->setDistancePerTurn(
             settings.value("CharacterDistPerTurn", character->getDistancePerTurn()).toDouble());
-        character->setState(character->getStateFromIndex(settings.value("CharacterState", 0).toInt()));
+        character->setStateId(settings.value("CharacterStateId", QString::number(i)).toString());
         character->setLifeColor(settings.value("CharacterLifeColor", character->getLifeColor()).value<QColor>());
         character->setInitCommand(settings.value("CharacterInitCmd", character->getInitCommand()).toString());
         character->setHasInitiative(settings.value("CharacterHasInit", false).toBool());
@@ -92,7 +93,6 @@ void writeConnectionProfileModel(ProfileModel* model)
 
     auto size= model->rowCount(QModelIndex());
     settings.beginWriteArray("ConnectionProfilesArray", size);
-    int i= 0;
     for(int i= 0; i < size; ++i)
     {
         auto profile= model->getProfile(i);
@@ -127,7 +127,7 @@ void writeConnectionProfileModel(ProfileModel* model)
         settings.setValue("CharacterMaxHp", character->getHealthPointsMax());
         settings.setValue("CharacterMinHp", character->getHealthPointsMin());
         settings.setValue("CharacterDistPerTurn", character->getDistancePerTurn());
-        settings.setValue("CharacterState", character->indexOfState(character->getState()));
+        settings.setValue("CharacterStateId", character->stateId());
         settings.setValue("CharacterLifeColor", character->getLifeColor());
         settings.setValue("CharacterInitCmd", character->getInitCommand());
         settings.setValue("CharacterHasInit", character->hasInitScore());
@@ -138,3 +138,39 @@ void writeConnectionProfileModel(ProfileModel* model)
     settings.endGroup();
 }
 } // namespace Settingshelper
+
+namespace ModelHelper
+{
+
+bool saveSession(const QString& path, const QString& name, const SessionItemModel* model)
+{
+    QFile file(path);
+    if(!file.open(QIODevice::WriteOnly))
+    {
+        return false;
+    }
+    QDataStream out(&file);
+    out.setVersion(QDataStream::Qt_5_7);
+    out << name;
+    model->saveModel(out);
+
+    return true;
+}
+
+QString loadSession(const QString& path, SessionItemModel* model)
+{
+    QString name;
+    QFileInfo info(path);
+    name= info.baseName();
+    QFile file(path);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        return {};
+    }
+    QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_5_7);
+    model->loadModel(in);
+    return name;
+}
+
+} // namespace ModelHelper
