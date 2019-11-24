@@ -115,7 +115,6 @@ MainWindow::MainWindow()
     , m_resetSettings(false)
     , m_currentConnectionProfile(nullptr)
     , m_profileDefined(false)
-    , m_currentStory(nullptr)
     , m_roomPanelDockWidget(new QDockWidget(this))
     , m_gameController(new GameController)
 {
@@ -140,14 +139,14 @@ MainWindow::MainWindow()
     QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::Accelerated2dCanvasEnabled, false);
 #endif
 
-    m_preferences= PreferencesManager::getInstance();
+    m_preferences= m_gameController->preferencesManager();
 
-    auto func= [=](QString str) {
+    auto func= [this](QString str) {
         auto v= m_preferences->value(str, 6).toInt();
         VisualItem::setHighlightWidth(v);
     };
     m_preferences->registerLambda(QStringLiteral("VMAP::highlightPenWidth"), func);
-    auto func2= [=](QString str) {
+    auto func2= [this](QString str) {
         auto v= m_preferences->value(str, QColor(Qt::red)).value<QColor>();
         VisualItem::setHighlightColor(v);
     };
@@ -160,7 +159,7 @@ MainWindow::MainWindow()
     m_vmapToolBar= new VmapToolBar(this);
     addToolBar(Qt::TopToolBarArea, m_vmapToolBar);
 
-    m_ipChecker= new IpChecker(this);
+    // m_ipChecker= new IpChecker(this);
     m_mapAction= new QMap<MediaContainer*, QAction*>();
 
     m_sessionManager= new SessionManager(this);
@@ -203,14 +202,8 @@ MainWindow::MainWindow()
         dialog.exec();
     });
 }
-MainWindow::~MainWindow()
-{
-    if(nullptr != m_currentStory)
-    {
-        delete m_currentStory;
-        m_currentStory= nullptr;
-    }
-}
+
+MainWindow::~MainWindow()= default;
 
 void MainWindow::setupUi()
 {
@@ -260,13 +253,8 @@ void MainWindow::setupUi()
     dock->setAllowedAreas(Qt::AllDockWidgetAreas);
     m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct, m_chatListWidget->toggleViewAction());
 
-    QDockWidget* dock2= new QDockWidget(this);
-    dock2->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
-    dock2->setWidget(m_sessionManager);
-    dock2->setWindowTitle(tr("Resources Explorer"));
-    dock2->setObjectName("sessionManager");
-    addDockWidget(Qt::RightDockWidgetArea, dock2);
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct, dock2->toggleViewAction());
+    addDockWidget(Qt::RightDockWidgetArea, m_sessionDock.get());
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct, m_sessionDock->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory, this);
@@ -338,16 +326,6 @@ void MainWindow::setupUi()
             m_serverThread.quit();
         }
     });*/
-
-    connect(m_ipChecker, &IpChecker::finished, this, [=](QString ip) {
-        m_connectionAddress= ip;
-        if(nullptr != m_currentConnectionProfile)
-        {
-            m_gameController->addFeatureLog(tr("Server Ip Address:%1\nPort:%2")
-                                                .arg(m_connectionAddress)
-                                                .arg(m_currentConnectionProfile->getPort()));
-        }
-    });
 }
 
 void MainWindow::addMediaToMdiArea(MediaContainer* mediac, bool redoable)
@@ -786,12 +764,6 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
     connect(mapFrame, &MapFrame::activated, m_playersListWidget->model(), &PlayersListWidgetModel::setCurrentMap);
     connect(mapFrame, &MapFrame::activated, m_toolBar, &ToolsBar::changeMap);
 }
-void MainWindow::prepareImage(Image* imageFrame)
-{
-    connect(m_toolBar, SIGNAL(currentToolChanged(ToolsBar::SelectableTool)), imageFrame,
-            SLOT(setCurrentTool(ToolsBar::SelectableTool)));
-    imageFrame->setCurrentTool(m_toolBar->getCurrentTool());
-}
 
 void MainWindow::updateWorkspace()
 {
@@ -1123,11 +1095,6 @@ void MainWindow::updateUi()
 #ifndef NULL_PLAYER
     m_audioPlayer->updateUi(m_currentConnectionProfile->isGM());
 #endif
-    if(nullptr != m_playersListWidget)
-    {
-        m_playersListWidget->updateUi(m_currentConnectionProfile->isGM());
-    }
-
     bool isGM= m_currentConnectionProfile->isGM();
     m_vToolBar->setGM(isGM);
     m_ui->m_newMapAction->setEnabled(isGM);
@@ -1448,7 +1415,6 @@ void MainWindow::processMediaMessage(NetworkMessageReader* msg)
         {
             Image* image= new Image(m_mdiArea);
             image->readMessage(*msg);
-            prepareImage(image);
             addMediaToMdiArea(image, false);
             image->setVisible(true);
         }
@@ -2410,10 +2376,6 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
             {
                 prepareVMap(static_cast<VMapFrame*>(tmp));
             }
-            else if((uri->getType() == CleverURI::PICTURE) || ((uri->getType() == CleverURI::ONLINEPICTURE)))
-            {
-                prepareImage(static_cast<Image*>(tmp));
-            }
             addMediaToMdiArea(tmp);
         }
         else
@@ -2465,10 +2427,6 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
                     if(type == CleverURI::MAP)
                     {
                         prepareMap(static_cast<MapFrame*>(tmp));
-                    }
-                    else if((type == CleverURI::PICTURE) || (type == CleverURI::ONLINEPICTURE))
-                    {
-                        prepareImage(static_cast<Image*>(tmp));
                     }
                     addMediaToMdiArea(tmp);
                     uriList.push_back(tmp->getCleverUri());

@@ -291,7 +291,6 @@ public:
     QColor getLifeColor() const;
     void setLifeColor(QColor color);
 
-    virtual QString getToolTip() const override;
     void readTokenObj(const QJsonObject& obj);
 
     QString getInitCommand() const;
