@@ -611,26 +611,7 @@ QString Character::getInitCommand() const
 {
     return m_initiativeRoll.command();
 }
-QString Character::getToolTip() const
-{
-    QString tooltip(tr("%1:\n"
-                       "HP: %2/%3\n"
-                       "State: %4\n"
-                       "Initiative Score: %5\n"
-                       "Distance Per Turn: %6\n"
-                       "type: %7\n"));
-    QString stateName(tr("Not defined"));
-    if(m_currentState)
-        stateName= m_currentState->getLabel();
 
-    return tooltip.arg(m_name)
-        .arg(m_healthPointsCurrent)
-        .arg(m_healthPointsMax)
-        .arg(stateName)
-        .arg(m_initiativeScore)
-        .arg(m_distancePerTurn)
-        .arg(m_isNpc ? tr("NPC") : tr("PC"));
-}
 bool Character::isNpc() const
 {
     return m_isNpc;

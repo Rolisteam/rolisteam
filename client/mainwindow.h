@@ -151,11 +151,6 @@ public:
      */
     void removePictureFromId(QString idImage);
     /**
-     * @brief registerSubWindow
-     * @param subWindow
-     */
-    QWidget* registerSubWindow(QWidget* subWindow, QAction* action);
-    /**
      * @brief setupUi
      */
     void setupUi();
@@ -254,11 +249,6 @@ protected:
     void closeEvent(QCloseEvent* event);
     virtual void focusInEvent(QFocusEvent* event);
     virtual void focusOutEvent(QFocusEvent* event);
-    /**
-     * @brief prepareImage
-     * @param imageFenetre
-     */
-    void prepareImage(Image* imageFenetre);
     /**
      * @brief processImageMessage
      * @param msg
@@ -485,7 +475,7 @@ private:
 
 private:
     Workspace* m_mdiArea= nullptr;
-    PlayersListWidget* m_playersListWidget;
+    PlayersPanel* m_playersListWidget= nullptr;
 
     // toolbar
     ToolsBar* m_toolBar;
@@ -505,7 +495,6 @@ private:
     QDockWidget* m_dockLogUtil;
     LogPanel* m_notifierDisplay;
     PlayerModel* m_playerModel;
-    IpChecker* m_ipChecker; /// @brief get the server IP.
 
     // subwindow
     QProgressBar* m_downLoadProgressbar;
@@ -528,10 +517,8 @@ private:
     QList<GameMasterTool*> m_gmToolBoxList;
     SelectConnectionProfileDialog* m_dialog= nullptr;
     bool m_profileDefined;
-    CleverURI* m_currentStory;
     QDockWidget* m_roomPanelDockWidget;
     ChannelListPanel* m_roomPanel;
-    QUndoStack m_undoStack;
     QString m_connectionAddress;
     bool m_isOut= false;
     QByteArray m_passwordAdmin;

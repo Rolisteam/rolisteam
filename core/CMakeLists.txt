@@ -509,8 +509,6 @@ set(SOURCES
 
 set(UI_FILES
     src/preferences/preferencesdialogbox.ui
-    src/diceparser/irc/mainwindow.ui
-    src/diceparser/gui/mainwindow.ui
     src/audio/audiowidget.ui
     src/map/newemptymapdialog.ui
     src/map/mapwizzard.ui

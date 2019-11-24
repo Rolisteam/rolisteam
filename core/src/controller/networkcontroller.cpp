@@ -47,11 +47,7 @@ NetworkController::NetworkController(QObject* parent)
     connect(m_clientManager.get(), &ClientManager::gameMasterStatusChanged, this, &NetworkController::isGMChanged);
     connect(m_clientManager.get(), &ClientManager::moveToAnotherChannel, this, &NetworkController::tableChanged);
 }
-NetworkController::~NetworkController()
-{
-    m_serverThread->quit();
-    m_serverThread->wait(50);
-}
+NetworkController::~NetworkController() {}
 
 QAbstractItemModel* NetworkController::profileModel() const
 {
