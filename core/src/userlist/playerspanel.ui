@@ -1,12 +1,88 @@
-<ui version="4.0" >
-<class>DockWidget</class>
-<widget class="QDockWidget" name="DockWidget" >
-<property name="geometry" >
-<rect><x>0</x><y>0</y><width>400</width><height>300</height></rect>
-</property>
-<property name="windowTitle" >
-<string>DockWidget</string>
-</property>
-</widget>
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlayersPanel</class>
+ <widget class="QDockWidget" name="PlayersPanel">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>381</width>
+    <height>631</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Player List</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="UserListView" name="m_playerView"/>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QToolButton" name="m_addBtn">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QToolButton" name="m_removeBtn">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <action name="m_addLocalCharacter">
+   <property name="icon">
+    <iconset theme=":/resources/icons/add.png">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Add</string>
+   </property>
+  </action>
+  <action name="m_removeLocalCharacter">
+   <property name="icon">
+    <iconset theme=":/resources/icons/delete.png">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>remove</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>UserListView</class>
+   <extends>QTreeView</extends>
+   <header>userlist/userlistview.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
 </ui>
-

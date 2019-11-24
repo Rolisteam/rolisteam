@@ -24,7 +24,7 @@
 
 #include <QAbstractProxyModel>
 #include <QDockWidget>
-#include <QIdentityProxyModel>
+
 #include <QItemSelectionModel>
 #include <QPointer>
 #include <QPushButton>
@@ -33,66 +33,42 @@
 #include <memory>
 
 class UserListView;
-class Map;
 class PersonDialog;
 class Person;
-/**
- * @brief The PlayersListWidgetModel class
- */
-class PlayersListWidgetModel : public QIdentityProxyModel
+class PlayerOnMapModel;
+class PlayerController;
+
+namespace Ui
 {
-    Q_OBJECT
-
-public:
-    PlayersListWidgetModel(QObject* parent= nullptr);
-
-    Qt::ItemFlags flags(const QModelIndex& index) const;
-    QVariant data(const QModelIndex& index, int role) const;
-    bool setData(const QModelIndex& index, const QVariant& value, int role);
-
-public slots:
-    void setCurrentMap(Map* map);
-
-private:
-    QPointer<Map> m_map;
-    bool isCheckable(const QModelIndex& index) const;
-};
+class PlayersPanel;
+}
 
 /**
  * @brief The PlayersListWidget class is the QDockWidget which display the PlayersListView. It is part of the MVC
  * pattern as the Controler.
  *
  */
-class PlayersListWidget : public QDockWidget
+class PlayersPanel : public QDockWidget
 {
     Q_OBJECT
 public:
-    PlayersListWidget(QWidget* parent= nullptr);
-    ~PlayersListWidget();
-
-    PlayersListWidgetModel* model() const;
-
-public slots:
-    void updateUi(bool isGM);
+    PlayersPanel(PlayerController* ctrl, QWidget* parent= nullptr);
+    ~PlayersPanel();
 
 private:
-    void setUI();
+    void setConnection();
 
 private slots:
-    void editIndex(const QModelIndex& index);
-    void createLocalCharacter();
     void selectAnotherPerson(const QModelIndex& current);
-    void deleteSelected();
 signals:
     void runDiceForCharacter(const QString& dice, const QString& uuid);
 
 private:
-    PersonDialog* m_personDialog;
+    Ui::PlayersPanel* m_ui;
+    QPointer<PlayerController> m_ctrl;
+    // PersonDialog* m_personDialog;
     QItemSelectionModel* m_selectionModel;
-    std::unique_ptr<PlayersListWidgetModel> m_model;
-    UserListView* m_playersListView;
-    QPushButton* m_delButton;
-    QPushButton* m_addPlayerButton;
+    QPointer<PlayerOnMapModel> m_model;
 };
 
 #endif
