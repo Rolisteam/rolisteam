@@ -23,6 +23,7 @@
 #include <QJsonDocument>
 #include <QStyleFactory>
 
+#include "controller/gamecontroller.h"
 #include "model/thememodel.h"
 #include "preferences/characterstatemodel.h"
 #include "preferences/dicealiasmodel.h"
@@ -125,12 +126,22 @@ void initializeState(CharacterStateModel* model)
 }
 
 PreferencesController::PreferencesController(QObject* parent)
-    : QObject(parent)
+    : AbstractControllerInterface(parent)
     , m_characterStateModel(new CharacterStateModel)
     , m_diceAliasModel(new DiceAliasModel)
     , m_paletteModel(new PaletteModel)
     , m_themeModel(new ThemeModel)
 {
+
+    // to remove
+    ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory, m_characterStateModel.get());
+}
+
+PreferencesController::~PreferencesController()= default;
+
+void PreferencesController::setGameController(GameController* game)
+{
+    m_preferences= game->preferencesManager();
     loadPreferences();
     if(m_diceAliasModel->rowCount() == 0)
         initializeDiceAliasModel(m_diceAliasModel.get());
@@ -140,12 +151,7 @@ PreferencesController::PreferencesController(QObject* parent)
 
     if(m_characterStateModel->rowCount() == 0)
         initializeState(m_characterStateModel.get());
-
-    // to remove
-    ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory, m_characterStateModel.get());
 }
-
-PreferencesController::~PreferencesController()= default;
 
 QAbstractItemModel* PreferencesController::characterStateModel() const
 {
@@ -229,57 +235,57 @@ void PreferencesController::shareModels()
 
 void PreferencesController::savePreferences()
 { // paths
-    auto preferences= PreferencesManager::getInstance();
-    preferences->registerValue("ThemeNumber", m_themeModel->rowCount(QModelIndex()));
+    m_preferences->registerValue("ThemeNumber", m_themeModel->rowCount(QModelIndex()));
     int i= 0;
     for(const auto& tmp : m_themeModel->themes())
     {
-        preferences->registerValue(QStringLiteral("Theme_%1_name").arg(i), tmp->getName());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_name").arg(i), tmp->getName());
         QVariant var;
         var.setValue<QPalette>(tmp->getPalette());
-        preferences->registerValue(QStringLiteral("Theme_%1_palette").arg(i), var);
-        preferences->registerValue(QStringLiteral("Theme_%1_stylename").arg(i), tmp->getStyleName());
-        preferences->registerValue(QStringLiteral("Theme_%1_bgColor").arg(i), tmp->getBackgroundColor());
-        preferences->registerValue(QStringLiteral("Theme_%1_bgPath").arg(i), tmp->getBackgroundImage());
-        preferences->registerValue(QStringLiteral("Theme_%1_bgPosition").arg(i), tmp->getBackgroundPosition());
-        preferences->registerValue(QStringLiteral("Theme_%1_css").arg(i), tmp->getCss());
-        preferences->registerValue(QStringLiteral("Theme_%1_removable").arg(i), tmp->isRemovable());
-        preferences->registerValue(QStringLiteral("Theme_%1_highlightDice").arg(i), tmp->getDiceHighlightColor());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_palette").arg(i), var);
+        m_preferences->registerValue(QStringLiteral("Theme_%1_stylename").arg(i), tmp->getStyleName());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_bgColor").arg(i), tmp->getBackgroundColor());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_bgPath").arg(i), tmp->getBackgroundImage());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_bgPosition").arg(i), tmp->getBackgroundPosition());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_css").arg(i), tmp->getCss());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_removable").arg(i), tmp->isRemovable());
+        m_preferences->registerValue(QStringLiteral("Theme_%1_highlightDice").arg(i), tmp->getDiceHighlightColor());
         ++i;
     }
 
     // DiceSystem
     auto aliasList= m_diceAliasModel->getAliases();
-    preferences->registerValue("DiceAliasNumber", aliasList->size());
+    m_preferences->registerValue("DiceAliasNumber", aliasList->size());
     i= 0;
     for(auto tmpAlias : *aliasList)
     {
-        preferences->registerValue(QStringLiteral("DiceAlias_%1_command").arg(i), tmpAlias->getCommand());
-        preferences->registerValue(QStringLiteral("DiceAlias_%1_value").arg(i), tmpAlias->getValue());
-        preferences->registerValue(QStringLiteral("DiceAlias_%1_type").arg(i), tmpAlias->isReplace());
-        preferences->registerValue(QStringLiteral("DiceAlias_%1_enable").arg(i), tmpAlias->isEnable());
+        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_command").arg(i), tmpAlias->getCommand());
+        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_value").arg(i), tmpAlias->getValue());
+        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_type").arg(i), tmpAlias->isReplace());
+        m_preferences->registerValue(QStringLiteral("DiceAlias_%1_enable").arg(i), tmpAlias->isEnable());
         ++i;
     }
 
     // State
     auto stateList= m_characterStateModel->getCharacterStates();
-    preferences->registerValue("CharacterStateNumber", stateList->size());
+    m_preferences->registerValue("CharacterStateNumber", stateList->size());
     i= 0;
     for(auto tmpState : *stateList)
     {
-        preferences->registerValue(QStringLiteral("CharacterState_%1_id").arg(i), tmpState->id());
-        preferences->registerValue(QStringLiteral("CharacterState_%1_label").arg(i), tmpState->getLabel());
-        preferences->registerValue(QStringLiteral("CharacterState_%1_color").arg(i), tmpState->getColor());
-        preferences->registerValue(QStringLiteral("CharacterState_%1_pixmap").arg(i), tmpState->getImage());
+        m_preferences->registerValue(QStringLiteral("CharacterState_%1_id").arg(i), tmpState->id());
+        m_preferences->registerValue(QStringLiteral("CharacterState_%1_label").arg(i), tmpState->getLabel());
+        m_preferences->registerValue(QStringLiteral("CharacterState_%1_color").arg(i), tmpState->getColor());
+        m_preferences->registerValue(QStringLiteral("CharacterState_%1_pixmap").arg(i), tmpState->getImage());
         ++i;
     }
 }
 
 void PreferencesController::loadPreferences()
 {
-    auto preferences= PreferencesManager::getInstance();
+    auto preferences= m_preferences;
     // theme
     int size= preferences->value("ThemeNumber", 0).toInt();
+    m_currentThemeIndex= static_cast<std::size_t>(size);
     for(int i= 0; i < size; ++i)
     {
         QString name= preferences->value(QStringLiteral("Theme_%1_name").arg(i), QString()).toString();
@@ -458,10 +464,9 @@ void PreferencesController::setCurrentThemeIndex(std::size_t pos)
         return;
     m_paletteModel->setPalette(theme->getPalette());
 
-    auto preferences= PreferencesManager::getInstance();
-    preferences->registerValue("PathOfBackgroundImage", theme->getBackgroundImage());
-    preferences->registerValue("BackGroundColor", theme->getBackgroundColor());
-    preferences->registerValue("BackGroundPositioning", theme->getBackgroundPosition());
+    m_preferences->registerValue("PathOfBackgroundImage", theme->getBackgroundImage());
+    m_preferences->registerValue("BackGroundColor", theme->getBackgroundColor());
+    m_preferences->registerValue("BackGroundPositioning", theme->getBackgroundPosition());
 }
 
 std::size_t PreferencesController::currentThemeIndex() const
@@ -496,7 +501,7 @@ void PreferencesController::setCurrentThemeBackground(const QString& path, int p
     auto theme= currentEditableTheme();
     if(nullptr == theme)
         return;
-    auto preferences= PreferencesManager::getInstance();
+    auto preferences= m_preferences;
 
     theme->setBackgroundImage(path);
     theme->setBackgroundColor(color);
@@ -521,8 +526,7 @@ void PreferencesController::setDiceHighLightColor(const QColor& color)
 {
     auto theme= currentEditableTheme();
     theme->setDiceHighlightColor(color);
-    auto preferences= PreferencesManager::getInstance();
-    preferences->registerValue("DiceHighlightColor", color);
+    m_preferences->registerValue("DiceHighlightColor", color);
 }
 
 void PreferencesController::setCurrentThemeCss(const QString& css)

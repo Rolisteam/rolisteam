@@ -37,10 +37,11 @@ Workspace::Workspace(ContentController* ctrl, QWidget* parent)
 
     connect(m_ctrl, &ContentController::workspaceFilenameChanged, this,
             [this]() { setBackgroundImagePath(m_ctrl->workspaceFilename()); });
-    connect(m_ctrl, &ContentController::workspaceColorChanged, this,
-            [this]() { setBackgroundColor(m_ctrl->workspaceColor()); });
-    connect(m_ctrl, &ContentController::workspacePositioningChanged, this,
-            [this]() { setBackgroundPositioning(static_cast<Positioning>(m_ctrl->workspacePositioning())); });
+    connect(m_ctrl, &ContentController::workspaceColorChanged, this, &Workspace::updateBackGround);
+    connect(m_ctrl, &ContentController::workspacePositioningChanged, this, &Workspace::updateBackGround);
+
+    setBackgroundImagePath(m_ctrl->workspaceFilename());
+
     updateBackGround();
 }
 
@@ -68,32 +69,6 @@ QString Workspace::backgroundImagePath() const
     return m_bgFilename;
 }
 
-void Workspace::setBackgroundColor(const QColor& color)
-{
-    if(color == m_color)
-        return;
-    m_color= color;
-    emit backgroundColorChanged();
-    updateBackGround();
-}
-QColor Workspace::backgroundColor() const
-{
-    return m_color;
-}
-
-void Workspace::setBackgroundPositioning(Positioning pos)
-{
-    if(m_positioning == pos)
-        return;
-    m_positioning= pos;
-    emit backgroundPositioningChanged();
-    updateBackGround();
-}
-Workspace::Positioning Workspace::backgroundPositioning() const
-{
-    return m_positioning;
-}
-
 bool Workspace::showCleverUri(CleverURI* uri)
 {
     for(auto& i : *m_actionSubWindowMap)
@@ -114,11 +89,11 @@ bool Workspace::showCleverUri(CleverURI* uri)
 void Workspace::updateBackGround()
 {
     QBrush background;
-    background.setColor(m_color);
+    background.setColor(m_ctrl->workspaceColor());
     setBackground(background);
 
     m_variableSizeBackground= m_variableSizeBackground.scaled(size());
-    m_variableSizeBackground.fill(m_color);
+    m_variableSizeBackground.fill(m_ctrl->workspaceColor());
     QPainter painter(&m_variableSizeBackground);
 
     int x= 0;
@@ -126,7 +101,7 @@ void Workspace::updateBackGround()
     int w= m_backgroundPicture.width();
     int h= m_backgroundPicture.height();
     bool repeated= false;
-    switch(m_positioning)
+    switch(m_ctrl->workspacePositioning())
     {
     case TopLeft:
         break;

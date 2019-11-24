@@ -37,9 +37,6 @@ class Workspace : public QMdiArea
     Q_OBJECT
     Q_PROPERTY(QString backgroundImagePath READ backgroundImagePath WRITE setBackgroundImagePath NOTIFY
                    backgroundImagePathChanged)
-    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
-    Q_PROPERTY(Positioning backgroundPositioning READ backgroundPositioning WRITE setBackgroundPositioning NOTIFY
-                   backgroundPositioningChanged)
 public:
     enum Positioning
     {
@@ -57,12 +54,6 @@ public:
 
     void setBackgroundImagePath(const QString& path);
     QString backgroundImagePath() const;
-
-    void setBackgroundColor(const QColor& color);
-    QColor backgroundColor() const;
-
-    void setBackgroundPositioning(Positioning pos);
-    Positioning backgroundPositioning() const;
 
     QWidget* addWindow(QWidget*, QAction* action);
     // QWidget* activeWindow();
@@ -114,10 +105,6 @@ private:
 
 private:
     QPointer<ContentController> m_ctrl;
-    QColor m_color;
-
-    Positioning m_positioning= TopLeft;
-
     QPixmap m_backgroundPicture;
     QPixmap m_variableSizeBackground;
     QMap<QAction*, QMdiSubWindow*>* m_actionSubWindowMap;

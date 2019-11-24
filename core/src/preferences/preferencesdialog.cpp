@@ -539,7 +539,7 @@ void PreferencesDialog::backgroundChanged()
 {
     m_ctrl->setCurrentThemeBackground(ui->m_backgroundImage->path(), ui->m_positioningComboBox->currentIndex(),
                                       ui->m_bgColorPush->color());
-    // applyBackground();
+    // applyBackground();setCurrentThemeBackground
 }
 
 void PreferencesDialog::performDiag()

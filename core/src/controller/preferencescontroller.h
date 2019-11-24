@@ -20,6 +20,7 @@
 #ifndef PREFERENCESCONTROLLER_H
 #define PREFERENCESCONTROLLER_H
 
+#include "controllerinterface.h"
 #include <QObject>
 #include <memory>
 
@@ -30,7 +31,9 @@ class QAbstractItemModel;
 class RolisteamTheme;
 class ThemeModel;
 class QStyle;
-class PreferencesController : public QObject
+class PreferencesManager;
+class GameController;
+class PreferencesController : public AbstractControllerInterface
 {
     Q_OBJECT
     Q_PROPERTY(QAbstractItemModel* characterStateModel READ characterStateModel CONSTANT)
@@ -49,6 +52,8 @@ public:
     };
     explicit PreferencesController(QObject* parent= nullptr);
     ~PreferencesController();
+
+    void setGameController(GameController*) override;
 
     QAbstractItemModel* characterStateModel() const;
     QAbstractItemModel* diceAliasModel() const;
@@ -102,6 +107,7 @@ private:
     std::unique_ptr<PaletteModel> m_paletteModel;
     std::unique_ptr<ThemeModel> m_themeModel;
     std::size_t m_currentThemeIndex;
+    PreferencesManager* m_preferences;
 };
 
 #endif // PREFERENCESCONTROLLER_H
