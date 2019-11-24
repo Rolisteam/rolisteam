@@ -20,7 +20,7 @@ isEmpty(PREFIX) {
  PREFIX = /usr/bin
 }
 # Version
-DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=9 VERSION_MINOR=0
+DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=9 VERSION_MINOR=1
 
 ## Translation
 TRANSLATIONS =  ../translations/rcse_ca.ts \
