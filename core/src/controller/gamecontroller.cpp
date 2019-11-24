@@ -44,10 +44,6 @@ GameController::GameController(QObject* parent)
     , m_preferences(new PreferencesManager)
     , m_undoStack(new QUndoStack)
 {
-    m_networkCtrl->setGameController(this);
-    m_playerController->setGameController(this);
-    m_contentCtrl->setGameController(this);
-
 #ifdef VERSION_MINOR
 #ifdef VERSION_MAJOR
 #ifdef VERSION_MIDDLE
@@ -55,15 +51,19 @@ GameController::GameController(QObject* parent)
 #endif
 #endif
 #endif
+    m_preferences->readSettings(m_version);
+
+    m_networkCtrl->setGameController(this);
+    m_playerController->setGameController(this);
+    m_contentCtrl->setGameController(this);
+    m_preferencesDialogController->setGameController(this);
+
     connect(m_logController.get(), &LogController::sendOffMessage, m_remoteLogCtrl.get(), &RemoteLogController::addLog);
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, this, &GameController::localIsGMChanged);
     connect(m_networkCtrl.get(), &NetworkController::connectedChanged, this, &GameController::authentified);
     connect(m_playerController.get(), &PlayerController::performCommand, this, &GameController::addCommand);
 
     m_remoteLogCtrl->setAppId(0);
-    // m_preferences= PreferencesManager::getInstance();
-
-    m_preferences->readSettings(m_version);
 }
 GameController::~GameController()= default;
 
