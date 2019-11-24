@@ -34,7 +34,7 @@
 #include "map/charactertoken.h"
 #include "network/networklink.h"
 #include "network/networkmessagewriter.h"
-#include "userlist/playersList.h"
+#include "userlist/playermodel.h"
 
 //#include "variablesGlobales.h"
 #include "preferences/preferencesmanager.h"
@@ -44,14 +44,14 @@ Map::Map(QString localPlayerId, QString identCarte, QImage* image, bool masquer,
     : QWidget(parent), m_mapId(identCarte), m_hasPermissionMode(true)
 {
     m_localPlayerId= localPlayerId;
-    if(nullptr != PlayersList::instance()->getLocalPlayer())
+    /*if(nullptr != PlayerModel::instance()->getLocalPlayer())
     {
-        m_localIsPlayer= !PlayersList::instance()->getLocalPlayer()->isGM();
+        m_localIsPlayer= !PlayerModel::instance()->getLocalPlayer()->isGM();
     }
     else
     {
         m_localIsPlayer= true;
-    }
+    }*/
     m_currentMode= Map::GM_ONLY;
     m_currentTool= ToolsBar::Handler;
 
@@ -97,7 +97,7 @@ void Map::p_init()
     painterEfface.fillRect(0, 0, m_originalBackground->width(), m_originalBackground->height(), Qt::black);
     addAlphaLayer(m_originalBackground, m_eraseAlpha, m_originalBackground);
 
-    m_localPlayer= PlayersList::instance()->getLocalPlayer();
+    // m_localPlayer= PlayerModel::instance()->getLocalPlayer();
 
     m_alphaBg= new QImage(m_originalBackground->size(), QImage::Format_ARGB32);
 
@@ -142,8 +142,8 @@ void Map::p_init()
     }
 
     // connect to g_playesList to stay tuned
-    connect(playersList, SIGNAL(characterAdded(Character*)), this, SLOT(addCharacter(Character*)));
-    connect(playersList, SIGNAL(characterDeleted(Character*)), this, SLOT(delCharacter(Character*)));
+    /* connect(playersList, SIGNAL(characterAdded(Character*)), this, SLOT(addCharacter(Character*)));
+     connect(playersList, SIGNAL(characterDeleted(Character*)), this, SLOT(delCharacter(Character*)));*/
 }
 
 Map::~Map()

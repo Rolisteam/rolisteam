@@ -29,7 +29,7 @@
 #include "chat/chat.h"
 #include "data/person.h"
 #include "data/player.h"
-#include "userlist/playersList.h"
+#include "userlist/playermodel.h"
 
 /**************************
  * PrivateChatDialogModel *
@@ -37,7 +37,7 @@
 
 PrivateChatDialogModel::PrivateChatDialogModel(QObject* parent) : QSortFilterProxyModel(parent), m_isEditable(false)
 {
-    setSourceModel(PlayersList::instance());
+    // setSourceModel(PlayerModel::instance());
 }
 
 Qt::ItemFlags PrivateChatDialogModel::flags(const QModelIndex& index) const
@@ -48,18 +48,18 @@ Qt::ItemFlags PrivateChatDialogModel::flags(const QModelIndex& index) const
     if(!m_isEditable)
         return Qt::ItemIsEnabled;
 
-    PlayersList* playersList= PlayersList::instance();
+    // PlayerModel* playersList= PlayerModel::instance();
 
-    Player* player= playersList->getPlayer(mapToSource(index));
+    // Player* player= playersList->getPlayer(mapToSource(index));
 
     // We should return Qt::NoItemFlags when (player == nullptr),
     // but this cause an infinite loop when the last entry is deleted.
     // This is a workaround of a Qt's bug.
-    if(player == nullptr || player == playersList->getLocalPlayer())
-        return Qt::ItemIsEnabled;
+    /*  if(player == nullptr || player == playersList->getLocalPlayer())
+          return Qt::ItemIsEnabled;
 
-    if(player->hasFeature("MultiChat"))
-        return Qt::ItemIsEnabled | Qt::ItemIsUserCheckable;
+      if(player->hasFeature("MultiChat"))
+          return Qt::ItemIsEnabled | Qt::ItemIsUserCheckable;*/
 
     return Qt::NoItemFlags;
 }
@@ -68,7 +68,7 @@ QVariant PrivateChatDialogModel::data(const QModelIndex& index, int role) const
 {
     if(role == Qt::CheckStateRole)
     {
-        auto idx   = mapToSource(index);
+        auto idx= mapToSource(index);
         auto player= static_cast<Player*>(idx.internalPointer());
         return QVariant(m_set.contains(player));
     }
@@ -83,7 +83,7 @@ bool PrivateChatDialogModel::setData(const QModelIndex& index, const QVariant& v
 
     if(role == Qt::CheckStateRole && (index.flags() & Qt::ItemIsUserCheckable))
     {
-        auto idx   = mapToSource(index);
+        auto idx= mapToSource(index);
         auto player= static_cast<Player*>(idx.internalPointer());
         if(!m_set.remove(player))
             m_set.insert(player);
@@ -101,9 +101,9 @@ QSet<Player*>& PrivateChatDialogModel::playersSet()
 
 void PrivateChatDialogModel::setPlayersSet(const QSet<Player*>& set)
 {
-    m_set          = set;
-    auto playerList= PlayersList::instance();
-    m_set.insert(playerList->getLocalPlayer());
+    m_set= set;
+    // auto playerList= PlayerModel::instance();
+    // m_set.insert(playerList->getLocalPlayer());
     emit dataChanged(createIndex(0, 0), createIndex(m_set.size() - 1, 0));
 }
 

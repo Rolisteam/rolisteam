@@ -200,7 +200,7 @@ set(HEADERS
     src/undoCmd/deletemediacontainercommand.h
     src/undoCmd/deletevmapitem.h
     src/undoCmd/movevmapitem.h
-    src/userlist/playersList.h
+    src/userlist/playermodel.h
     src/userlist/playerspanel.h
     src/userlist/rolisteammimedata.h
     src/userlist/userlistdelegate.h
@@ -442,7 +442,7 @@ set(SOURCES
     src/undoCmd/deletemediacontainercommand.cpp
     src/undoCmd/deletevmapitem.cpp
     src/undoCmd/movevmapitem.cpp
-    src/userlist/playersList.cpp
+    src/userlist/playermodel.cpp
     src/userlist/playerspanel.cpp
     src/userlist/rolisteammimedata.cpp
     src/userlist/userlistdelegate.cpp

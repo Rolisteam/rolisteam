@@ -172,7 +172,6 @@ public:
     void copyPlayer(Player* player);
 
 private:
-    friend class PlayersList;
     friend class SendFeaturesIterator;
 
 private:

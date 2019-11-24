@@ -31,7 +31,7 @@
 #include "data/player.h"
 #include "map/map.h"
 #include "network/networkmessagewriter.h"
-#include "userlist/playersList.h"
+#include "userlist/playermodel.h"
 #include "widgets/colorselector.h"
 #include "widgets/diameterselector.h"
 
@@ -57,10 +57,10 @@ ToolsBar::~ToolsBar() {}
 void ToolsBar::updateUi()
 {
     m_color->checkPermissionColor();
-    if(!PlayersList::instance()->getLocalPlayer()->isGM())
+    /*if(!PlayerModel::instance()->getLocalPlayer()->isGM())
     {
         m_npcDiameter->setVisible(false);
-    }
+    }*/
 }
 
 void ToolsBar::createActions()

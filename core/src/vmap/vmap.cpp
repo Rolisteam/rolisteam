@@ -51,8 +51,8 @@ void VMap::initMap()
     m_propertiesHash= new QHash<VisualItem::Properties, QVariant>();
     m_zIndex= 0;
 
-    PlayersList* list= PlayersList::instance();
-    connect(list, SIGNAL(characterDeleted(Character*)), this, SLOT(characterHasBeenDeleted(Character*)));
+    /*PlayerModel* list= PlayerModel::instance();
+    connect(list, SIGNAL(characterDeleted(Character*)), this, SLOT(characterHasBeenDeleted(Character*)));*/
     connect(this, SIGNAL(selectionChanged()), this, SLOT(selectionHasChanged()));
 
     m_penSize= 1;
@@ -1546,8 +1546,8 @@ void VMap::dropEvent(QGraphicsSceneDragDropEvent* event)
                     auto character= persona->getCharacter();
                     if(character)
                     {
-                        PlayersList* list= PlayersList::instance();
-                        list->addLocalCharacter(character);
+                        /*PlayerModel* list= PlayerModel::instance();
+                        list->addLocalCharacter(character);*/
                     }
                     item= persona;
                 }
@@ -1647,8 +1647,8 @@ void VMap::insertCharacterInMap(CharacterItem* item)
         }
         else
         {
-            auto list= PlayersList::instance();
-            list->addNpc(item->getCharacter());
+            // auto list= PlayerModel::instance();
+            // list->addNpc(item->getCharacter());
             auto search= item->getName();
             auto items= m_characterItemMap->values();
             items.removeAll(item);

@@ -37,7 +37,7 @@
 #include "network/networklink.h"
 #include "network/networkmessagewriter.h"
 #include "preferences/preferencesmanager.h"
-#include "userlist/playersList.h"
+#include "userlist/playermodel.h"
 
 class Player;
 class ConnectionProfile;
@@ -125,7 +125,7 @@ private:
     int m_tries= 10;
 
     PreferencesManager* m_preferences= nullptr;
-    PlayersList* m_playersList= nullptr;
+    PlayerModel* m_playersList= nullptr;
 
     QState* m_connecting= nullptr;
     QState* m_connected= nullptr;

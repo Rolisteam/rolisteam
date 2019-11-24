@@ -33,7 +33,7 @@
 #include "network/networkmessagereader.h"
 #include "network/receiveevent.h"
 #include "preferences/preferencesmanager.h"
-#include "userlist/playersList.h"
+#include "userlist/playermodel.h"
 
 BlinkingDecorationDelegate::BlinkingDecorationDelegate()
 {
@@ -73,9 +73,9 @@ ChatList::ChatList(QObject* parent) : QAbstractItemModel(parent)
     m_chatMenu.setTitle(tr("ChatWindows"));
 
     // Stay sync with g_playersList
-    PlayersList* playersList= PlayersList::instance();
-    connect(playersList, &PlayersList::playerAdded, this, &ChatList::addPlayerChat);
-    connect(playersList, &PlayersList::playerDeleted, this, &ChatList::deletePlayerChat);
+    /*PlayerModel* playersList= PlayerModel::instance();
+    connect(playersList, &PlayerModel::playerAdded, this, &ChatList::addPlayerChat);
+    connect(playersList, &PlayerModel::playerDeleted, this, &ChatList::deletePlayerChat);
 
     // Allready there player's chat
     int maxPlayerIndex= playersList->getPlayerCount();
@@ -87,7 +87,7 @@ ChatList::ChatList(QObject* parent) : QAbstractItemModel(parent)
         {
             addPlayerChat(player); // m_mainWindow
         }
-    }
+    }*/
 
     // Receive events
     ReceiveEvent::registerReceiver(NetMsg::ChatCategory, NetMsg::ChatMessageAction, this);
@@ -423,14 +423,14 @@ QMdiSubWindow* ChatList::getChatSubWindowByIndex(const QModelIndex& index) const
 }
 void ChatList::addPlayerChat(Player* player)
 {
-    if(player != PlayersList::instance()->getLocalPlayer())
+    /*if(player != PlayerModel::instance()->getLocalPlayer())
     {
         ChatWindow* chatw= getChatWindowByUuid(player->getUuid());
         if(chatw == nullptr)
         {
             addChatWindow(new ChatWindow(new PlayerChat(player)));
         }
-    }
+    }*/
 }
 
 void ChatList::deletePlayerChat(Player* player)
@@ -526,7 +526,7 @@ void ChatList::dispatchMessage(ReceiveEvent* event)
         comment= data.string32();
     }
 
-    PlayersList* playersList= PlayersList::instance();
+    /*PlayerModel* playersList= PlayerModel::instance();
 
     Person* sender= playersList->getPerson(from);
     if(sender == nullptr)
@@ -553,7 +553,7 @@ void ChatList::dispatchMessage(ReceiveEvent* event)
     if(nullptr != chatw)
     {
         chatw->showMessage(sender->name(), sender->getColor(), msg, comment, data.action());
-    }
+    }*/
 }
 
 void ChatList::updatePrivateChat(ReceiveEvent* event)

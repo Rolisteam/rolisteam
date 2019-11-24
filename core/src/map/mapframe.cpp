@@ -28,7 +28,7 @@
 #include "map/map.h"
 #include "map/mapwizzard.h"
 #include "map/newemptymapdialog.h"
-#include "userlist/playersList.h"
+#include "userlist/playermodel.h"
 
 #include <QBuffer>
 #include <QFileInfo>
@@ -357,8 +357,8 @@ bool MapFrame::readMapAndNpc(QDataStream& in, bool hidden)
         CharacterToken* pnj= new CharacterToken(m_map, ident, nomPerso, couleur, diametre, centre, type, showNumber,
                                                 showName, numeroDuPnj);
 
-        if(visible || (type == CharacterToken::pnj && PlayersList::instance()->getLocalPlayer()->isGM()))
-            pnj->showCharacter();
+        /*if(visible || (type == CharacterToken::pnj && PlayerModel::instance()->getLocalPlayer()->isGM()))
+            pnj->showCharacter();*/
         // On m.a.j l'orientation
         pnj->newOrientation(orientation);
         // Affichage de l'orientation si besoin

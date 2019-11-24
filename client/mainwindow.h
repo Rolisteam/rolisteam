@@ -87,7 +87,7 @@ class Player;
 class PlayersListWidget;
 class Workspace;
 class TextEdit;
-class PlayersList;
+class PlayerModel;
 class ConnectionProfile;
 class SessionManager;
 class CharacterSheetWindow;
@@ -504,7 +504,7 @@ private:
 
     QDockWidget* m_dockLogUtil;
     LogPanel* m_notifierDisplay;
-    PlayersList* m_playerList;
+    PlayerModel* m_playerModel;
     IpChecker* m_ipChecker; /// @brief get the server IP.
 
     // subwindow
