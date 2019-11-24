@@ -273,7 +273,7 @@ void SharedNote::on_actionView_Hide_Show_Participants_triggered()
 //#include "userlist/playersList.h"
 void SharedNote::textHasChanged(int pos, int charsRemoved, int charsAdded)
 {
-    PlayersList* list= PlayersList::instance();
+    /*PlayerModel* list= PlayerModel::instance();
     Player* player= list->getLocalPlayer();
     if(m_document->canWrite(player))
     {
@@ -295,7 +295,7 @@ void SharedNote::textHasChanged(int pos, int charsRemoved, int charsAdded)
         toSend= QString("doc:%1 %2 %3 %4").arg(pos).arg(charsRemoved).arg(charsAdded).arg(data);
 
         writeToAll(toSend);
-    }
+    }*/
 }
 void SharedNote::writeToAll(QString string)
 {
@@ -477,8 +477,9 @@ void SharedNote::setFileName(const QString& fileName)
 
 void SharedNote::updateWindowTitle()
 {
-    PlayersList* list= PlayersList::instance();
+    /*PlayerModel* list= PlayerModel::instance();
     Player* player= list->getLocalPlayer();
     setWindowTitle(
-        tr("%1[*] - SharedNote - %2").arg(m_fileName, m_document->canWrite(player) ? tr("ReadWrite") : tr("ReadOnly")));
+        tr("%1[*] - SharedNote - %2").arg(m_fileName, m_document->canWrite(player) ? tr("ReadWrite") :
+    tr("ReadOnly")));*/
 }

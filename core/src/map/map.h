@@ -33,7 +33,7 @@
 
 //#include "types.h"
 #include "widgets/toolsbar.h"
-#include "userlist/playersList.h"
+#include "userlist/playermodel.h"
 #include "widgets/colorselector.h"
 //#include "data/mediacontainer.h"
 #include "network/networkmessage.h"

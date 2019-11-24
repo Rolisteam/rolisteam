@@ -40,7 +40,7 @@
 #include "data/localpersonmodel.h"
 #include "data/person.h"
 #include "network/networkmessagewriter.h"
-#include "userlist/playersList.h"
+#include "userlist/playermodel.h"
 #include "userlist/rolisteammimedata.h"
 #include "widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.h"
 
@@ -320,13 +320,13 @@ void ChatWindow::sendOffTextMessage(bool hasHtml, QString message)
 
     // get the name of currently selected character.
     QString localPersonIdentifier
-        = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole)
+        = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayerModel::IdentifierRole)
               .toString();
-    Person* localPerson= PlayersList::instance()->getPerson(localPersonIdentifier);
+    /*Person* localPerson= PlayerModel::instance()->getPerson(localPersonIdentifier);
     if(nullptr == localPerson)
     {
         localPerson= m_localPerson;
-    }
+    }*/
 
     setProperDictionnary(localPersonIdentifier);
     CHAT_OPERATOR chatOperator= NONE;
@@ -364,13 +364,13 @@ void ChatWindow::sendOffTextMessage(bool hasHtml, QString message)
                     showMessage(msgTitle, color, msgBody);
                     warnedEmoteUnavailable= true;
                 }
-                if(nullptr != localPerson)
-                {
-                    QString vide;
-                    showMessage(localPerson->name(), localPerson->getColor(), tmpmessage, vide,
-                                NetMsg::EmoteMessageAction);
-                    action= NetMsg::EmoteMessageAction;
-                }
+                /* if(nullptr != localPerson)
+                 {
+                     QString vide;
+                     showMessage(localPerson->name(), localPerson->getColor(), tmpmessage, vide,
+                                 NetMsg::EmoteMessageAction);
+                     action= NetMsg::EmoteMessageAction;
+                 }*/
             }
         }
         break;
@@ -381,13 +381,13 @@ void ChatWindow::sendOffTextMessage(bool hasHtml, QString message)
     else // normal text
     {    // sending info to others.
         qInfo() << QStringLiteral("Chat - send normal text on chat: %1").arg(m_chat->name());
-        msgTitle= localPerson->name();
-        if(!hasHtml)
-        {
-            message= message.toHtmlEscaped();
-        }
-        message= message.replace('\n', "<br/>");
-        showMessage(msgTitle, localPerson->getColor(), message);
+        /* msgTitle= localPerson->name();
+         if(!hasHtml)
+         {
+             message= message.toHtmlEscaped();
+         }
+         message= message.replace('\n', "<br/>");
+         showMessage(msgTitle, localPerson->getColor(), message);*/
         action= NetMsg::ChatMessageAction;
     }
 
@@ -407,13 +407,13 @@ void ChatWindow::sendOffTextMessage(bool hasHtml, QString message)
     {
         if(chatOperator == TO_GM_DICEROLL)
         {
-            data.setRecipientList(QStringList() << PlayersList::instance()->getGmId(), mode);
+            // data.setRecipientList(QStringList() << PlayerModel::instance()->getGmId(), mode);
         }
         else
             data.setRecipientList(m_chat->getRecipientList(), mode);
     }
 
-    data.string8(localPerson->getUuid());
+    // data.string8(localPerson->getUuid());
     data.string8(m_chat->identifier());
     data.string32(message);
     if(NetMsg::DiceMessageAction == action)
@@ -803,12 +803,12 @@ void ChatWindow::setProperDictionnary(QString idOwner)
             m_dicoByCharacter.remove(idOwner);
         }
 
-        Person* localPerson= PlayersList::instance()->getPerson(idOwner);
+        /*Person* localPerson= PlayerModel::instance()->getPerson(idOwner);
         if(nullptr != localPerson)
         {
             variableTest= localPerson->getVariableDictionnary();
             m_dicoByCharacter.insert(idOwner, variableTest);
-        }
+        }*/
 
         m_diceParser->setVariableDictionary(variableTest);
     }
@@ -860,7 +860,7 @@ void ChatWindow::createAction(const DiceShortCut& pair)
         auto index= action->data().toInt();
         auto dice= m_diceBookMarks[static_cast<size_t>(index)];
         QString localPersonIdentifier
-            = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole)
+            = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayerModel::IdentifierRole)
                   .toString();
         rollDiceCmd(dice.command(), localPersonIdentifier, dice.alias());
     });
@@ -895,8 +895,8 @@ Qt::DropActions ChatWindow::supportedDropActions() const
 }
 void ChatWindow::rollDiceCmd(QString cmd, QString owner, bool alias)
 {
-    QString idOwner= PlayersList::instance()->getUuidFromName(owner);
-    rollDiceCmdForCharacter(cmd, idOwner, alias);
+    // QString idOwner= PlayerModel::instance()->getUuidFromName(owner);
+    // rollDiceCmdForCharacter(cmd, idOwner, alias);
 }
 
 void ChatWindow::rollDiceCmdForCharacter(QString cmd, QString uuid, bool alias)

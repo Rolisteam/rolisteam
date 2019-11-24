@@ -25,7 +25,7 @@
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "userlist/playersList.h"
+#include "userlist/playermodel.h"
 
 namespace Ui
 {
@@ -114,7 +114,7 @@ private slots:
 private:
     Ui::ParticipantsPane* ui;
 
-    PlayersList* m_playerList;
+    PlayerModel* m_playerList;
     ParticipantsModel* m_model;
 };
 

@@ -28,7 +28,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <math.h>
 
-#include "userlist/playersList.h"
+#include "userlist/playermodel.h"
 
 #include "data/character.h"
 #include "network/networkmessagereader.h"

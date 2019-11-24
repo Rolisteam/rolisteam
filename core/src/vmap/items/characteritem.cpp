@@ -32,7 +32,7 @@
 #include "map/map.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "userlist/playersList.h"
+#include "userlist/playermodel.h"
 #include "vmap/vmap.h"
 #include "dicealias.h"
 
@@ -548,7 +548,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     m_thumnails= new QPixmap();
     out >> *m_thumnails;
 
-    Character* tmp= PlayersList::instance()->getCharacter(idCharacter);
+    /*Character* tmp= PlayerModel::instance()->getCharacter(idCharacter);
 
     if(nullptr != tmp)
     {
@@ -559,9 +559,9 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
         /// @todo This code may no longer be needed.
         tmp= new Character();
         QString id= tmp->read(*msg);
-        tmp->setParentPerson(PlayersList::instance()->getPlayer(id));
+        tmp->setParentPerson(PlayerModel::instance()->getPlayer(id));
     }
-    setCharacter(tmp);
+    setCharacter(tmp);*/
     generatedThumbnail();
 
     updateItemFlags();
@@ -985,7 +985,7 @@ void CharacterItem::changeCharacter()
     QAction* act= qobject_cast<QAction*>(sender());
     QString uuid= act->data().toString();
 
-    Character* tmp= PlayersList::instance()->getCharacter(uuid);
+    /*Character* tmp= PlayerModel::instance()->getCharacter(uuid);
 
     Character* old= m_character;
     if(nullptr != tmp)
@@ -994,7 +994,7 @@ void CharacterItem::changeCharacter()
         generatedThumbnail();
         emit ownerChanged(old, this);
         emit itemGeometryChanged(this);
-    }
+    }*/
 }
 
 void CharacterItem::createActions()
@@ -1176,11 +1176,12 @@ void CharacterItem::readPositionMsg(NetworkMessageReader* msg)
 }
 bool CharacterItem::isLocal() const
 {
-    PlayersList* model= PlayersList::instance();
+    /*PlayerModel* model= PlayerModel::instance();
     if(nullptr == model)
         return false;
 
-    return model->isLocal(m_character);
+    return model->isLocal(m_character);*/
+    return true;
 }
 void CharacterItem::sendVisionMsg()
 {

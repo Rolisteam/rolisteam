@@ -60,8 +60,8 @@
 #include "preferences/preferencesdialog.h"
 #include "services/tipchecker.h"
 #include "services/updatechecker.h"
-#include "userlist/playersList.h"
-#include "userlist/playersListWidget.h"
+#include "userlist/playermodel.h"
+#include "userlist/playerspanel.h"
 #include "widgets/gmtoolbox/gamemastertool.h"
 #include "widgets/keygeneratordialog.h"
 #include "widgets/shortcuteditordialog.h"
@@ -284,8 +284,8 @@ void MainWindow::setupUi()
     ///////////////////
     // PlayerList
     ///////////////////
-    m_playersListWidget= new PlayersListWidget(this);
-    connect(m_playersListWidget, &PlayersListWidget::runDiceForCharacter, this,
+    m_playersListWidget= new PlayersPanel(m_gameController->playerController(), this);
+    connect(m_playersListWidget, &PlayersPanel::runDiceForCharacter, this,
             [this](const QString& cmd, const QString& uuid) {
                 m_chatListWidget->rollDiceCmdForCharacter(cmd, uuid, true);
             });
@@ -315,18 +315,18 @@ void MainWindow::setupUi()
      }*/
 
     // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
-    m_playerList= PlayersList::instance();
+    /*m_playerModel= PlayerModel::instance();
 
-    connect(m_playerList, SIGNAL(playerAdded(Player*)), this, SLOT(notifyAboutAddedPlayer(Player*)));
-    connect(m_playerList, SIGNAL(playerDeleted(Player*)), this, SLOT(notifyAboutDeletedPlayer(Player*)));
-    connect(m_roomPanel, &ChannelListPanel::CurrentChannelGmIdChanged, m_playerList, &PlayersList::setCurrentGM);
-    connect(m_playerList, &PlayersList::characterAdded, this, [this](Character* character) {
-        if(character->isNpc())
-        {
-            m_sessionManager->addRessource(character);
-        }
-    });
-    connect(m_playerList, &PlayersList::eventOccurs, m_gameController.get(), &GameController::addFeatureLog);
+    connect(m_playerModel, SIGNAL(playerAdded(Player*)), this, SLOT(notifyAboutAddedPlayer(Player*)));
+    connect(m_playerModel, SIGNAL(playerDeleted(Player*)), this, SLOT(notifyAboutDeletedPlayer(Player*)));*/
+    // connect(m_roomPanel, &ChannelListPanel::CurrentChannelGmIdChanged, m_playerModel, &PlayerModel::setCurrentGM);
+    /* connect(m_playerModel, &PlayerModel::characterAdded, this, [this](Character* character) {
+         if(character->isNpc())
+         {
+             m_sessionManager->addRessource(character);
+         }
+     });
+     connect(m_playerModel, &PlayerModel::eventOccurs, m_gameController.get(), &GameController::addFeatureLog);*/
 
     connect(m_dialog, &SelectConnectionProfileDialog::startConnectionProcess, m_gameController.get(),
             &GameController::startConnection);
@@ -420,7 +420,7 @@ void MainWindow::closeMediaContainer(QString id, bool redo)
             }
             else if(CleverURI::MAP == type)
             {
-                m_playersListWidget->model()->setCurrentMap(nullptr);
+                // m_playersListWidget->model()->setCurrentMap(nullptr);
             }
         }
     }
@@ -481,7 +481,7 @@ void MainWindow::activeWindowChanged(QMdiSubWindow* subWindow)
     break;
     case MediaContainer::ContainerType::VMapContainer:
     {
-        m_playersListWidget->model()->setCurrentMap(nullptr);
+        // m_playersListWidget->model()->setCurrentMap(nullptr);
         m_vmapToolBar->setEnabled(true);
 
         if(localPlayerIsGM)
@@ -511,12 +511,12 @@ void MainWindow::activeWindowChanged(QMdiSubWindow* subWindow)
     break;
     case MediaContainer::ContainerType::NoteContainer:
     case MediaContainer::ContainerType::SharedNoteContainer:
-        m_playersListWidget->model()->setCurrentMap(nullptr);
+        // m_playersListWidget->model()->setCurrentMap(nullptr);
         m_ui->m_saveAction->setEnabled(localIsOwner);
         m_ui->m_saveAsAction->setEnabled(localIsOwner);
         break;
     default:
-        m_playersListWidget->model()->setCurrentMap(nullptr);
+        // m_playersListWidget->model()->setCurrentMap(nullptr);
         break;
     }
 }
@@ -816,7 +816,7 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi
     {
         SharedNoteContainer* note= new SharedNoteContainer(localIsGM);
         media= note;
-        note->setOwnerId(m_playerList->getLocalPlayerId());
+        // note->setOwnerId(m_playerModel->getLocalPlayerId());
     }
     break;
     case CleverURI::VMAP:
@@ -911,9 +911,9 @@ bool MainWindow::mayBeSaved(bool connectionLoss)
         msgBox.setWindowTitle(tr("Quit %1 ").arg(msg));
     }
 
-    if(nullptr != PlayersList::instance()->getLocalPlayer())
+    /*if(nullptr != PlayerModel::instance()->getLocalPlayer())
     {
-        if(!PlayersList::instance()->getLocalPlayer()->isGM())
+        if(!PlayerModel::instance()->getLocalPlayer()->isGM())
         {
             message+= tr("Do you want to save your minutes before to quit %1?").arg(msg);
         }
@@ -931,7 +931,7 @@ bool MainWindow::mayBeSaved(bool connectionLoss)
         else if(msgBox.clickedButton() == boutonSauvegarder) // saving
         {
             bool ok;
-            if(!PlayersList::instance()->getLocalPlayer()->isGM())
+            if(!PlayerModel::instance()->getLocalPlayer()->isGM())
                 ok= saveMinutes();
             else
                 ok= saveStory(false);
@@ -942,13 +942,13 @@ bool MainWindow::mayBeSaved(bool connectionLoss)
             }
         }
         return false;
-    }
+    }*/
     return true;
 }
-QWidget* MainWindow::registerSubWindow(QWidget* subWindow, QAction* action)
+/*QWidget* MainWindow::registerSubWindow(QWidget* subWindow, QAction* action)
 {
     return m_mdiArea->addWindow(subWindow, action);
-}
+}*/
 
 void MainWindow::openStory()
 {
