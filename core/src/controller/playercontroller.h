@@ -22,25 +22,56 @@
 
 #include <QObject>
 #include <QPointer>
+#include <QUndoStack>
+#include <memory>
+
+#include "controllerinterface.h"
 
 class Player;
-class PlayerController : public QObject
+class Character;
+class QAbstractItemModel;
+class PlayerModel;
+class LocalModel;
+class PlayerOnMapModel;
+class CharacterStateModel;
+class PlayerController : public AbstractControllerInterface
 {
     Q_OBJECT
+    Q_PROPERTY(QAbstractItemModel* model READ model CONSTANT)
+    Q_PROPERTY(QAbstractItemModel* playerOnMapModel READ playerOnMapModel CONSTANT)
+    Q_PROPERTY(QAbstractItemModel* characterStateModel READ characterStateModel NOTIFY characterStateModelChanged)
     Q_PROPERTY(Player* localPlayer READ localPlayer WRITE setLocalPlayer NOTIFY localPlayerChanged)
 public:
     explicit PlayerController(QObject* parent= nullptr);
-    ~PlayerController();
+    ~PlayerController() override;
 
     Player* localPlayer() const;
 
+    QAbstractItemModel* model() const;
+    QAbstractItemModel* playerOnMapModel() const;
+    QAbstractItemModel* characterStateModel() const;
+
+    void setGameController(GameController*) override;
+    void clear();
+
 signals:
     void localPlayerChanged();
+    void characterStateModelChanged();
 public slots:
     void setLocalPlayer(Player* player);
 
+    void addPlayer(Player* player);
+    void removePlayer(Player* player);
+
+    void addLocalCharacter();
+    void removeLocalCharacter(const QModelIndex& index);
+
 private:
+    std::unique_ptr<PlayerModel> m_model;
+    std::unique_ptr<PlayerOnMapModel> m_playerOnMapModel;
+    QPointer<QAbstractItemModel> m_characterStateModel;
     QPointer<Player> m_localPlayer;
+    QPointer<QUndoStack> m_stack;
 };
 
 #endif // PLAYERCONTROLLER_H

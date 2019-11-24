@@ -20,11 +20,25 @@
 #ifndef REMOVELOCALCHARACTERCOMMAND_H
 #define REMOVELOCALCHARACTERCOMMAND_H
 
+#include <QPersistentModelIndex>
+#include <QPointer>
+#include <QUndoCommand>
 
+class Character;
+class PlayerModel;
 class RemoveLocalCharacterCommand : public QUndoCommand
 {
 public:
-    RemoveLocalCharacterCommand();
+    RemoveLocalCharacterCommand(PlayerModel* model, const QModelIndex& index);
+
+    void redo() override;
+    void undo() override;
+
+private:
+    QPointer<PlayerModel> m_model;
+    QPersistentModelIndex m_parent;
+    QPointer<Character> m_character;
+    int m_pos;
 };
 
 #endif // REMOVELOCALCHARACTERCOMMAND_H

@@ -41,8 +41,11 @@ GameController::GameController(QObject* parent)
     , m_playerController(new PlayerController)
     , m_preferencesDialogController(new PreferencesController)
     , m_contentCtrl(new ContentController)
+    , m_preferences(new PreferencesManager)
+    , m_undoStack(new QUndoStack)
 {
     m_networkCtrl->setGameController(this);
+    m_playerController->setGameController(this);
     m_contentCtrl->setGameController(this);
 
 #ifdef VERSION_MINOR
@@ -55,12 +58,20 @@ GameController::GameController(QObject* parent)
     connect(m_logController.get(), &LogController::sendOffMessage, m_remoteLogCtrl.get(), &RemoteLogController::addLog);
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, this, &GameController::localIsGMChanged);
     connect(m_networkCtrl.get(), &NetworkController::connectedChanged, this, &GameController::authentified);
+    connect(m_playerController.get(), &PlayerController::performCommand, this, &GameController::addCommand);
+
     m_remoteLogCtrl->setAppId(0);
-    m_preferences= PreferencesManager::getInstance();
+    // m_preferences= PreferencesManager::getInstance();
 
     m_preferences->readSettings(m_version);
 }
 GameController::~GameController()= default;
+
+void GameController::clear()
+{
+    m_playerController->clear();
+    m_undoStack->clear();
+}
 
 void GameController::postSettingInit()
 {
@@ -90,6 +101,11 @@ void GameController::postSettingInit()
     m_logController->setCurrentModes(mode);
 }
 
+PreferencesManager* GameController::preferencesManager() const
+{
+    return m_preferences.get();
+}
+
 void GameController::setCurrentScenario(const QString& path)
 {
     if(m_currentScenario == path)
@@ -111,7 +127,7 @@ void GameController::setLocalPlayerId(const QString& id)
     /*if(m_localId == id)
         return;
     m_localId= id;
-    emit localPlayerIdChanged();*/
+    emit lorcalPlayerIdChanged();*/
 
     m_remoteLogCtrl->setLocalUuid(id);
 }
@@ -216,23 +232,6 @@ TipOfDay GameController::tipOfDay() const
 
 void GameController::startTipOfDay() {}
 
-QAbstractItemModel* GameController::playersModel() const
-{
-    return {};
-}
-QAbstractItemModel* GameController::localPersonModel() const
-{
-    return {};
-}
-QAbstractItemModel* GameController::chatModel() const
-{
-    return {};
-}
-QAbstractItemModel* GameController::resourcesModel() const
-{
-    return {};
-}
-
 QString GameController::version() const
 {
     return m_version;
@@ -262,6 +261,11 @@ bool GameController::updateAvailable() const
 bool GameController::connected() const
 {
     return m_networkCtrl->connected();
+}
+
+QUndoStack* GameController::undoStack() const
+{
+    return m_undoStack.get();
 }
 
 void GameController::startConnection(int profileIndex)
@@ -301,4 +305,8 @@ void GameController::aboutToClose()
 PreferencesController* GameController::preferencesController() const
 {
     return m_preferencesDialogController.get();
+}
+void GameController::addCommand(QUndoCommand* cmd)
+{
+    m_undoStack->push(cmd);
 }
