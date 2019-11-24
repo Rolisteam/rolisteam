@@ -201,7 +201,7 @@ set(HEADERS
     src/undoCmd/deletevmapitem.h
     src/undoCmd/movevmapitem.h
     src/userlist/playersList.h
-    src/userlist/playersListWidget.h
+    src/userlist/playerspanel.h
     src/userlist/rolisteammimedata.h
     src/userlist/userlistdelegate.h
     src/userlist/userlistview.h
@@ -443,7 +443,7 @@ set(SOURCES
     src/undoCmd/deletevmapitem.cpp
     src/undoCmd/movevmapitem.cpp
     src/userlist/playersList.cpp
-    src/userlist/playersListWidget.cpp
+    src/userlist/playerspanel.cpp
     src/userlist/rolisteammimedata.cpp
     src/userlist/userlistdelegate.cpp
     src/userlist/userlistview.cpp
@@ -523,6 +523,7 @@ set(UI_FILES
     src/sharededitor/finddialog.ui
     src/sharededitor/firstrundialog.ui
     src/sharededitor/connecttodocument.ui
+    src/userlist/playerspanel.ui
     src/common/widgets/logpanel.ui
     src/webview/webview.ui
     src/widgets/shortcuteditordialog.ui
