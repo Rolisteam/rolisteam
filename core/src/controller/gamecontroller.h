@@ -21,6 +21,7 @@
 #define GAMECONTROLLER_H
 
 #include <QObject>
+#include <QUndoStack>
 #include <memory>
 
 struct TipOfDay
@@ -40,14 +41,12 @@ class PreferencesManager;
 class NetworkController;
 class PlayerController;
 class PreferencesController;
+class ContentController;
 class GameController : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractItemModel* playersModel READ playersModel CONSTANT)
-    Q_PROPERTY(QAbstractItemModel* localPersonModel READ localPersonModel CONSTANT)
-    Q_PROPERTY(QAbstractItemModel* chatModel READ chatModel CONSTANT)
-    Q_PROPERTY(QAbstractItemModel* resourcesModel READ resourcesModel CONSTANT)
     Q_PROPERTY(PreferencesController* preferencesController READ preferencesController CONSTANT)
+    Q_PROPERTY(PlayerController* playerController READ playerController CONSTANT)
     Q_PROPERTY(ContentController* contentController READ contentController CONSTANT)
     Q_PROPERTY(QString currentScenario READ currentScenario WRITE setCurrentScenario NOTIFY currentScenarioChanged)
     Q_PROPERTY(QString version READ version WRITE setVersion NOTIFY versionChanged)
@@ -61,15 +60,11 @@ public:
     explicit GameController(QObject* parent= nullptr);
     ~GameController();
 
-    QAbstractItemModel* playersModel() const;
-    QAbstractItemModel* localPersonModel() const;
-    QAbstractItemModel* chatModel() const;
-    QAbstractItemModel* resourcesModel() const;
-
     NetworkController* networkController() const;
     PlayerController* playerController() const;
     ContentController* contentController() const;
     PreferencesController* preferencesController() const;
+    PreferencesManager* preferencesManager() const;
 
     QString version() const;
     QString currentScenario() const;
@@ -79,9 +74,12 @@ public:
     bool updateAvailable() const;
     bool tipAvailable() const;
     bool connected() const;
+    QUndoStack* undoStack() const;
 
     LogController* logController() const;
     TipOfDay tipOfDay() const;
+
+    void clear();
 
 signals:
     void currentScenarioChanged();
@@ -126,6 +124,9 @@ public slots:
     void setLocalPlayerId(const QString& id);
 
 private:
+    void addCommand(QUndoCommand* cmd);
+
+private:
     std::unique_ptr<ResourcesController> m_resourcesController;
     std::unique_ptr<LogController> m_logController;
     std::unique_ptr<RemoteLogController> m_remoteLogCtrl;
@@ -133,13 +134,14 @@ private:
     std::unique_ptr<PlayerController> m_playerController;
     std::unique_ptr<PreferencesController> m_preferencesDialogController;
     std::unique_ptr<ContentController> m_contentCtrl;
-    PreferencesManager* m_preferences= nullptr;
+    std::unique_ptr<PreferencesManager> m_preferences;
 
     QString m_currentScenario;
     QString m_version;
     QString m_remoteVersion;
     bool m_updateAvailable= false;
     TipOfDay m_tipOfTheDay;
+    std::unique_ptr<QUndoStack> m_undoStack;
 };
 
 #endif // GAMECONTROLLER_H

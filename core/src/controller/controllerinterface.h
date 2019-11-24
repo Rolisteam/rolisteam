@@ -21,13 +21,18 @@
 #define CONTROLLERINTERFACE_H
 
 #include <QObject>
+#include <QUndoCommand>
+
 class GameController;
-class ControllerInterface : public QObject
+class AbstractControllerInterface : public QObject
 {
     Q_OBJECT
 public:
-    ControllerInterface(QObject* parent) : QObject(parent) {}
+    AbstractControllerInterface(QObject* parent) : QObject(parent) {}
     virtual void setGameController(GameController*)= 0;
+
+signals:
+    void performCommand(QUndoCommand* command);
 };
 
 #endif // CONTROLLERINTERFACE_H

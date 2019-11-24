@@ -20,11 +20,26 @@
 #ifndef ADDLOCALCHARACTERCOMMAND_H
 #define ADDLOCALCHARACTERCOMMAND_H
 
+#include <QPersistentModelIndex>
+#include <QPointer>
+#include <QUndoCommand>
+#include <memory>
 
-class AddLocalCharacterCommand
+class Character;
+class PlayerModel;
+class CharacterState;
+class AddLocalCharacterCommand : public QUndoCommand
 {
 public:
-    AddLocalCharacterCommand();
+    AddLocalCharacterCommand(PlayerModel* model, const QString& stateId, const QModelIndex& index);
+
+    void redo() override;
+    void undo() override;
+
+private:
+    QPointer<PlayerModel> m_model;
+    std::unique_ptr<Character> m_character;
+    QPersistentModelIndex m_index;
 };
 
 #endif // ADDLOCALCHARACTERCOMMAND_H

@@ -668,13 +668,15 @@ void MainWindow::linkActionToMenu()
         }
     });
 
-    auto redo= m_undoStack.createRedoAction(this, tr("&Redo"));
-    auto undo= m_undoStack.createUndoAction(this, tr("&Undo"));
+    auto undoStack= m_gameController->undoStack();
+
+    auto redo= undoStack->createRedoAction(this, tr("&Redo"));
+    auto undo= undoStack->createUndoAction(this, tr("&Undo"));
 
     undo->setShortcut(QKeySequence::Undo);
     redo->setShortcut(QKeySequence::Redo);
 
-    connect(&m_undoStack, &QUndoStack::cleanChanged, this, [this](bool clean) { setWindowModified(!clean); });
+    connect(undoStack, &QUndoStack::cleanChanged, this, [this](bool clean) { setWindowModified(!clean); });
 
     m_ui->m_editMenu->insertAction(m_ui->m_shortCutEditorAct, redo);
     m_ui->m_editMenu->insertAction(redo, undo);

@@ -19,21 +19,87 @@
  ***************************************************************************/
 #include "playercontroller.h"
 
+#include "controller/gamecontroller.h"
+#include "controller/preferencescontroller.h"
 #include "data/player.h"
+#include "model/playeronmapmodel.h"
+#include "preferences/characterstatemodel.h"
+#include "undoCmd/addlocalcharactercommand.h"
+#include "undoCmd/removelocalcharactercommand.h"
+#include "userlist/playermodel.h"
 
-PlayerController::PlayerController(QObject* parent) : QObject(parent), m_localPlayer(new Player) {}
+PlayerController::PlayerController(QObject* parent)
+    : AbstractControllerInterface(parent)
+    , m_model(new PlayerModel)
+    , m_playerOnMapModel(new PlayerOnMapModel)
+    , m_localPlayer(new Player)
+{
+    m_playerOnMapModel->setSourceModel(m_model.get());
+}
 
 PlayerController::~PlayerController()= default;
+
+void PlayerController::clear()
+{
+    m_model->clear();
+}
+
+void PlayerController::setGameController(GameController* gameCtrl)
+{
+    auto prefsCtrl= gameCtrl->preferencesController();
+    m_characterStateModel= prefsCtrl->characterStateModel();
+    emit characterStateModelChanged();
+}
 
 Player* PlayerController::localPlayer() const
 {
     return m_localPlayer;
 }
 
+QAbstractItemModel* PlayerController::model() const
+{
+    return m_model.get();
+}
+
+QAbstractItemModel* PlayerController::playerOnMapModel() const
+{
+    return m_playerOnMapModel.get();
+}
+
+QAbstractItemModel* PlayerController::characterStateModel() const
+{
+    return m_characterStateModel;
+}
+
 void PlayerController::setLocalPlayer(Player* player)
 {
     if(m_localPlayer == player)
         return;
+    removePlayer(player);
     m_localPlayer= player;
+    addPlayer(player);
     emit localPlayerChanged();
+}
+
+void PlayerController::addPlayer(Player* player)
+{
+    m_model->addPlayer(player);
+}
+
+void PlayerController::removePlayer(Player* player)
+{
+    m_model->removePlayer(player);
+}
+
+void PlayerController::addLocalCharacter()
+{
+    auto idState= m_characterStateModel->index(0, 0).data(CharacterStateModel::ID).toString();
+    auto cmd= new AddLocalCharacterCommand(m_model.get(), idState, m_model->index(0, 0));
+    emit performCommand(cmd);
+}
+
+void PlayerController::removeLocalCharacter(const QModelIndex& index)
+{
+    auto cmd= new RemoveLocalCharacterCommand(m_model.get(), index);
+    emit performCommand(cmd);
 }

@@ -19,7 +19,24 @@
  ***************************************************************************/
 #include "removelocalcharactercommand.h"
 
-RemoveLocalCharacterCommand::RemoveLocalCharacterCommand()
-{
+#include "data/character.h"
+#include "userlist/playermodel.h"
 
+RemoveLocalCharacterCommand::RemoveLocalCharacterCommand(PlayerModel* model, const QModelIndex& index)
+    : m_model(model)
+    , m_parent(index.parent())
+    , m_character(dynamic_cast<Character*>(index.data(PlayerModel::PersonPtrRole).value<Person*>()))
+    , m_pos(index.row())
+{
+    setText(QObject::tr("Remove character %1").arg(index.data().toString()));
+}
+
+void RemoveLocalCharacterCommand::redo()
+{
+    m_model->removeCharacter(m_character);
+}
+
+void RemoveLocalCharacterCommand::undo()
+{
+    m_model->addCharacter(m_parent, m_character, m_pos);
 }
