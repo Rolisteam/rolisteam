@@ -52,6 +52,7 @@
 #include "data/shortcutvisitor.h"
 #include "map/map.h"
 #include "map/mapframe.h"
+#include "map/mapwizzard.h"
 #include "media/image.h"
 #include "network/networkmessagewriter.h"
 #include "network/receiveevent.h"
@@ -2156,6 +2157,23 @@ void MainWindow::openContent()
     QAction* action= static_cast<QAction*>(sender());
     CleverURI::ContentType type= static_cast<CleverURI::ContentType>(action->data().toInt());
     openContentFromType(type);
+void MainWindow::openMap()
+{
+    MapWizzard mapWizzard(false, this);
+    mapWizzard.resetData();
+    if(mapWizzard.exec() != QMessageBox::Accepted)
+        return;
+
+    auto permission= mapWizzard.getPermissionMode();
+    auto filepath= mapWizzard.getFilepath();
+
+    auto hidden= mapWizzard.getHidden();
+
+    auto uri= new CleverURI(mapWizzard.getTitle(), filepath, CleverURI::MAP);
+    m_gameController->contentController()->openMedia(uri);
+
+    QFileInfo info(mapWizzard.getFilepath());
+    m_preferences->registerValue("MapDirectory", info.absolutePath());
 }
 
 void MainWindow::openRecentFile()
