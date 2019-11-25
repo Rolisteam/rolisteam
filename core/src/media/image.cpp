@@ -25,6 +25,7 @@
 #include <QShortcut>
 #include <QtGui>
 
+#include "controller/imagecontroller.h"
 #include "image.h"
 #include "network/networklink.h"
 #include "network/networkmessagewriter.h"
@@ -33,53 +34,55 @@
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/
-Image::Image(QWidget* parent)
-    : MediaContainer(MediaContainer::ContainerType::ImageContainer, parent), m_NormalSize(0, 0)
+Image::Image(ImageController* ctrl, QWidget* parent)
+    : MediaContainer(MediaContainer::ContainerType::ImageContainer, parent)
+    , m_ctrl(ctrl)
+    , m_imageLabel(new QLabel())
+    , m_widgetArea(new QScrollArea())
+    , m_NormalSize(0, 0)
 {
     setObjectName("Image");
-    m_widgetArea= new QScrollArea();
-    m_zoomLevel= 1;
+    connect(m_ctrl, &ImageController::zoomLevelChanged, this, &Image::resizeLabel);
+    connect(m_ctrl, &ImageController::fitWindowChanged, this, &Image::fitWindow);
+    connect(m_ctrl, &ImageController::pixmapChanged, this, &Image::initImage);
+    connect(m_ctrl, &ImageController::cursorChanged, this, [this]() { m_imageLabel->setCursor(m_ctrl->cursor()); });
+
     setWindowIcon(QIcon(":/resources/icons/photo.png"));
     createActions();
-    m_imageLabel= new QLabel(this);
+
     m_widgetArea->setAlignment(Qt::AlignCenter);
     m_imageLabel->setLineWidth(0);
     m_imageLabel->setFrameStyle(QFrame::NoFrame);
-    m_widgetArea->setWidget(m_imageLabel);
+    m_widgetArea->setWidget(m_imageLabel.get());
     m_fitWindowAct->setChecked(m_preferences->value("PictureAdjust", true).toBool());
-    setWidget(m_widgetArea);
-}
-
-Image::~Image()
-{
-    if(nullptr != m_widgetArea)
-    {
-        delete m_widgetArea;
-    }
-}
-void Image::initImage()
-{
-    if(!m_pixMap.isNull())
-    {
-        m_imageLabel->setPixmap(m_pixMap.scaled(m_pixMap.width() * m_zoomLevel, m_pixMap.height() * m_zoomLevel));
-        m_imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-        m_imageLabel->setScaledContents(true);
-        m_imageLabel->resize(m_pixMap.size());
-
-        m_ratioImage= static_cast<double>(m_pixMap.size().width()) / m_pixMap.size().height();
-        m_ratioImageBis= static_cast<double>(m_pixMap.size().height()) / m_pixMap.size().width();
-        fitWorkSpace();
-        fitWindow();
-    }
-}
-
-void Image::setImage(QImage& img)
-{
-    m_pixMap= QPixmap::fromImage(img);
+    setWidget(m_widgetArea.get());
     initImage();
 }
 
-void Image::fill(NetworkMessageWriter& message)
+Image::~Image()= default;
+
+void Image::initImage()
+{
+    if(m_ctrl->pixmap().isNull())
+        return;
+
+    auto pixmap= m_ctrl->pixmap();
+
+    m_imageLabel->setPixmap(m_ctrl->scaledPixmap());
+    m_imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    m_imageLabel->setScaledContents(true);
+    m_imageLabel->resize(pixmap.size());
+    fitWorkSpace();
+    fitWindow();
+}
+
+/*void Image::setImage(QImage& img)
+{
+    m_pixMap= QPixmap::fromImage(img);
+    initImage();
+}*/
+
+/*void Image::fill(NetworkMessageWriter& message)
 {
     QByteArray baImage;
     QBuffer bufImage(&baImage);
@@ -87,7 +90,7 @@ void Image::fill(NetworkMessageWriter& message)
     {
     }
     // message.reset();
-    message.string16(getUriName());
+    message.string16(m_ctrl->name());
     message.string8(m_mediaId);
     message.string8(m_ownerId);
     message.byteArray32(baImage);
@@ -118,7 +121,7 @@ void Image::saveImageToFile(QDataStream& out)
         }
         out << baImage;
     }
-}
+}*/
 
 void Image::mousePressEvent(QMouseEvent* event)
 {
@@ -155,58 +158,28 @@ void Image::mouseMoveEvent(QMouseEvent* event)
 
 void Image::resizeLabel()
 {
-    if(m_zoomLevel < 0.2)
-    {
-        m_zoomLevel= 0.2;
-    }
-    else if(m_zoomLevel > 3.0)
-    {
-        m_zoomLevel= 3.0;
-    }
     if(m_fitWindowAct->isChecked())
     {
         int w= m_widgetArea->viewport()->rect().width();
         int h= m_widgetArea->viewport()->rect().height();
-        if(w > h * m_ratioImage)
+        if(w > h * m_ctrl->ratioV())
         {
-            m_imageLabel->resize(h * m_ratioImage, h);
+            m_imageLabel->resize(static_cast<int>(h * m_ctrl->ratioV()), h);
         }
         else
         {
-            m_imageLabel->resize(w, w * m_ratioImageBis);
+            m_imageLabel->resize(w, static_cast<int>(w * m_ctrl->ratioH()));
         }
     }
     else if((m_NormalSize.height() != 0) && (m_NormalSize.width() != 0))
     {
-        m_imageLabel->resize(m_zoomLevel * m_NormalSize);
+        m_imageLabel->resize(m_ctrl->zoomLevel() * m_NormalSize);
     }
     else
     {
-        m_imageLabel->resize(m_zoomLevel * m_pixMap.size());
+        m_imageLabel->resize(m_ctrl->zoomLevel() * m_ctrl->pixmap().size());
         m_NormalSize= widget()->size();
     }
-}
-
-void Image::zoomIn()
-{
-    m_zoomLevel+= 0.2;
-    resizeLabel();
-}
-
-void Image::zoomOut()
-{
-    m_zoomLevel-= 0.2;
-    resizeLabel();
-}
-
-void Image::onFitWorkSpace()
-{
-    if(nullptr != parentWidget())
-    {
-        m_imageLabel->resize(parentWidget()->size());
-        fitWorkSpace();
-    }
-    // m_zoomLevel = 1;
 }
 
 void Image::fitWorkSpace()
@@ -227,35 +200,29 @@ void Image::fitWorkSpace()
         m_zoomLevel = 1.0;
     }*/
 
-    if(nullptr != parentWidget())
+    if(nullptr == parentWidget())
+        return;
+
+    auto pixmap= m_ctrl->pixmap();
+
+    QSize windowsize= parentWidget()->size(); // right size
+    while((windowsize.height() < (m_ctrl->zoomLevel() * pixmap.height()))
+          || (windowsize.width() < (m_ctrl->zoomLevel() * pixmap.width())))
     {
-        QSize windowsize= parentWidget()->size(); // right size
-        while((windowsize.height() < (m_zoomLevel * m_pixMap.height()))
-              || (windowsize.width() < (m_zoomLevel * m_pixMap.width())))
-        {
-            m_zoomLevel-= 0.1;
-        }
-        m_imageLabel->resize(m_pixMap.size());
-        m_NormalSize= QSize(0, 0);
-        resizeLabel();
-        setGeometry(m_imageLabel->rect().adjusted(0, 0, 4, 4));
-        m_zoomLevel= 1.0;
+        m_ctrl->zoomOut(0.1);
     }
+    m_imageLabel->resize(pixmap.size());
+    m_NormalSize= QSize(0, 0);
+    resizeLabel();
+    setGeometry(m_imageLabel->rect().adjusted(0, 0, 4, 4));
+    m_ctrl->setZoomLevel(1.0);
 }
 void Image::wheelEvent(QWheelEvent* event)
 {
     if(event->modifiers() == Qt::ControlModifier)
     {
         int delta= event->delta();
-        if(delta > 0) // zoomin
-        {
-            m_zoomLevel+= 0.2;
-        }
-        else // zoomOut
-        {
-            m_zoomLevel-= 0.2;
-        }
-        resizeLabel();
+        (delta > 0) ? m_ctrl->zoomIn() : m_ctrl->zoomOut();
         event->ignore();
     }
     QMdiSubWindow::wheelEvent(event);
@@ -264,110 +231,105 @@ void Image::wheelEvent(QWheelEvent* event)
 void Image::paintEvent(QPaintEvent* event)
 {
     QMdiSubWindow::paintEvent(event);
-    if(m_fitWindowAct->isChecked())
+    if(m_ctrl->fitWindow())
     {
         resizeLabel();
     }
-    else if((m_NormalSize * m_zoomLevel) != m_imageLabel->size())
+    else if((m_NormalSize * m_ctrl->zoomLevel()) != m_imageLabel->size())
     {
-        m_NormalSize= m_imageLabel->size() / m_zoomLevel;
+        m_NormalSize= m_imageLabel->size() / m_ctrl->zoomLevel();
         m_windowSize= size();
     }
 }
 
 void Image::updateTitle()
 {
-    setWindowTitle(tr("%1 - (Picture)").arg(getUriName()));
-}
-void Image::setZoomLevel(double zoomlevel)
-{
-    m_zoomLevel= zoomlevel;
-    resizeLabel();
-}
-void Image::zoomLittle()
-{
-    m_zoomLevel= 0.2;
-    resizeLabel();
+    setWindowTitle(tr("%1 - (Picture)").arg(m_ctrl->name()));
 }
 
-void Image::zoomNormal()
-{
-    m_zoomLevel= 1.0;
-    resizeLabel();
-}
-void Image::zoomBig()
-{
-    m_zoomLevel= 4.0;
-    resizeLabel();
-}
 void Image::createActions()
 {
     m_actionZoomIn= new QAction(tr("Zoom In"), this);
     m_actionZoomIn->setToolTip(tr("increase zoom level"));
     m_actionZoomIn->setIcon(QIcon(":/resources/icons/zoom-in-32.png"));
-    connect(m_actionZoomIn, SIGNAL(triggered()), this, SLOT(zoomIn()));
+    connect(m_actionZoomIn, &QAction::triggered, this, [this] { m_ctrl->zoomIn(); });
 
     m_zoomInShort= new QShortcut(QKeySequence(tr("Ctrl++", "Zoom In")), this);
     m_zoomInShort->setContext(Qt::WidgetWithChildrenShortcut);
-    connect(m_zoomInShort, SIGNAL(activated()), this, SLOT(zoomIn()));
+    connect(m_zoomInShort, &QShortcut::activated, this, [this] { m_ctrl->zoomIn(); });
     m_actionZoomIn->setShortcut(m_zoomInShort->key());
 
     m_actionZoomOut= new QAction(tr("Zoom out"), this);
     m_actionZoomOut->setIcon(QIcon(":/resources/icons/zoom-out-32.png"));
     m_actionZoomOut->setToolTip(tr("Reduce zoom level"));
-    connect(m_actionZoomOut, SIGNAL(triggered()), this, SLOT(zoomOut()));
+    connect(m_actionZoomOut, &QAction::triggered, this, [this] { m_ctrl->zoomOut(); });
 
     m_zoomOutShort= new QShortcut(QKeySequence(tr("Ctrl+-", "Zoom Out")), this);
     m_zoomOutShort->setContext(Qt::WidgetWithChildrenShortcut);
-    connect(m_zoomOutShort, SIGNAL(activated()), this, SLOT(zoomOut()));
+    connect(m_zoomOutShort, &QShortcut::activated, this, [this] { m_ctrl->zoomOut(); });
     m_actionZoomOut->setShortcut(m_zoomOutShort->key());
+
+    auto fitWorkspace= [this] {
+        m_imageLabel->resize(parentWidget()->size());
+        fitWorkSpace();
+    };
 
     m_actionfitWorkspace= new QAction(tr("Fit the workspace"), this);
     m_actionfitWorkspace->setIcon(QIcon(":/fit-page.png"));
     m_actionfitWorkspace->setToolTip(tr("The window and the image fit the workspace"));
-    connect(m_actionfitWorkspace, SIGNAL(triggered()), this, SLOT(onFitWorkSpace()));
+    connect(m_actionfitWorkspace, &QAction::triggered, this, fitWorkspace);
 
     m_fitShort= new QShortcut(QKeySequence(tr("Ctrl+m", "Fit the workspace")), this);
     m_fitShort->setContext(Qt::WidgetWithChildrenShortcut);
-    connect(m_fitShort, SIGNAL(activated()), this, SLOT(onFitWorkSpace()));
+    connect(m_fitShort, &QShortcut::activated, this, fitWorkspace);
     m_actionfitWorkspace->setShortcut(m_fitShort->key());
+
+    auto setFitWindow= [this] { m_ctrl->setFitWindow(!m_ctrl->fitWindow()); };
 
     m_fitWindowAct= new QAction(tr("Fit Window"), this);
     m_fitWindowAct->setCheckable(true);
+    connect(m_ctrl, &ImageController::fitWindowChanged, this,
+            [this] { m_fitWindowAct->setChecked(m_ctrl->fitWindow()); });
     m_fitWindowAct->setIcon(QIcon(":/fit-window.png"));
     m_fitWindowAct->setToolTip(tr("Image will take the best dimension to fit the window."));
-    connect(m_fitWindowAct, SIGNAL(triggered()), this, SLOT(fitWindow()));
+    connect(m_fitWindowAct, &QAction::triggered, this, setFitWindow);
 
     m_fitWindowShort= new QShortcut(QKeySequence(tr("Ctrl+f", "Fit the window")), this);
     m_fitWindowShort->setContext(Qt::WidgetWithChildrenShortcut);
-    connect(m_fitWindowShort, SIGNAL(activated()), this, SLOT(fitWindow()));
+    connect(m_fitWindowShort, &QShortcut::activated, this, setFitWindow);
     m_fitWindowAct->setShortcut(m_fitWindowShort->key());
+
+    auto zoomLittle= [this] { m_ctrl->setZoomLevel(0.2); };
 
     m_actionlittleZoom= new QAction(tr("Little"), this);
     m_actionlittleZoom->setToolTip(tr("Set the zoom level at 20% "));
-    connect(m_actionlittleZoom, SIGNAL(triggered()), this, SLOT(zoomLittle()));
+    connect(m_actionlittleZoom, &QAction::triggered, this, zoomLittle);
 
     m_littleShort= new QShortcut(QKeySequence(tr("Ctrl+l", "Set the zoom level at 20%")), this);
     m_littleShort->setContext(Qt::WidgetWithChildrenShortcut);
-    connect(m_littleShort, SIGNAL(activated()), this, SLOT(zoomLittle()));
+    connect(m_littleShort, &QShortcut::activated, this, zoomLittle);
     m_actionlittleZoom->setShortcut(m_littleShort->key());
+
+    auto zoomNormal= [this] { m_ctrl->setZoomLevel(1.0); };
 
     m_actionNormalZoom= new QAction(tr("Normal"), this);
     m_actionNormalZoom->setToolTip(tr("No Zoom"));
-    connect(m_actionNormalZoom, SIGNAL(triggered()), this, SLOT(zoomNormal()));
+    connect(m_actionNormalZoom, &QAction::triggered, this, zoomNormal);
 
     m_normalShort= new QShortcut(QKeySequence(tr("Ctrl+n", "Normal")), this);
     m_normalShort->setContext(Qt::WidgetWithChildrenShortcut);
-    connect(m_normalShort, SIGNAL(activated()), this, SLOT(zoomNormal()));
+    connect(m_normalShort, &QShortcut::activated, this, zoomNormal);
     m_actionNormalZoom->setShortcut(m_normalShort->key());
+
+    auto zoomBig= [this] { m_ctrl->setZoomLevel(4.0); };
 
     m_actionBigZoom= new QAction(tr("Big"), this);
     m_actionBigZoom->setToolTip(tr("Set the zoom level at 400%"));
-    connect(m_actionBigZoom, SIGNAL(triggered()), this, SLOT(zoomBig()));
+    connect(m_actionBigZoom, &QAction::triggered, this, zoomBig);
 
     m_bigShort= new QShortcut(QKeySequence(tr("Ctrl+b", "Zoom Out")), this);
     m_bigShort->setContext(Qt::WidgetWithChildrenShortcut);
-    connect(m_bigShort, SIGNAL(activated()), this, SLOT(zoomBig()));
+    connect(m_bigShort, &QShortcut::activated, this, zoomBig);
     m_actionBigZoom->setShortcut(m_bigShort->key());
 }
 void Image::contextMenuEvent(QContextMenuEvent* event)
@@ -388,33 +350,23 @@ void Image::contextMenuEvent(QContextMenuEvent* event)
 }
 void Image::fitWindow()
 {
-    QObject* senderObj= sender();
-    if(senderObj == m_fitWindowShort)
-    {
-        m_fitWindowAct->setChecked(!m_fitWindowAct->isChecked());
-    }
-
+    auto fit= m_fitWindowAct->isChecked();
     resizeLabel();
-    if(m_fitWindowAct->isChecked())
+    if(fit)
     {
         m_widgetArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         m_widgetArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        m_actionZoomIn->setEnabled(false);
-        m_actionZoomOut->setEnabled(false);
-        m_actionlittleZoom->setEnabled(false);
-        m_actionNormalZoom->setEnabled(false);
-        m_actionBigZoom->setEnabled(false);
     }
     else
     {
         m_widgetArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         m_widgetArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        m_actionZoomIn->setEnabled(true);
-        m_actionZoomOut->setEnabled(true);
-        m_actionlittleZoom->setEnabled(true);
-        m_actionNormalZoom->setEnabled(true);
-        m_actionBigZoom->setEnabled(true);
     }
+    m_actionZoomIn->setEnabled(!fit);
+    m_actionZoomOut->setEnabled(!fit);
+    m_actionlittleZoom->setEnabled(!fit);
+    m_actionNormalZoom->setEnabled(!fit);
+    m_actionBigZoom->setEnabled(!fit);
 
     update();
 }
@@ -434,7 +386,7 @@ void Image::setParent(QWidget* parent)
     fitWorkSpace();
 }
 
-void Image::setCurrentTool(ToolsBar::SelectableTool tool)
+/*void Image::setCurrentTool(ToolsBar::SelectableTool tool)
 {
     /// @todo code inline to remove useless functions.
     switch(tool)
@@ -446,7 +398,7 @@ void Image::setCurrentTool(ToolsBar::SelectableTool tool)
         m_imageLabel->setCursor(Qt::ForbiddenCursor);
         break;
     }
-}
+}*/
 
 void Image::putDataIntoCleverUri()
 {
@@ -458,65 +410,67 @@ void Image::putDataIntoCleverUri()
         m_uri->setData(data);
     }
 }
+
 bool Image::readFileFromUri()
 {
-    if(m_pixMap.isNull())
-    {
-        if(nullptr == m_uri)
+    /*    if(m_pixMap.isNull())
         {
-            return false;
-        }
-        QByteArray dataFromURI= m_uri->getData();
-        QImage img= QImage::fromData(dataFromURI);
+            if(nullptr == m_uri)
+            {
+                return false;
+            }
+            QByteArray dataFromURI= m_uri->getData();
+            QImage img= QImage::fromData(dataFromURI);
 
-        if(img.isNull())
-        {
-            m_uri->setData({});
-        }
+            if(img.isNull())
+            {
+                m_uri->setData({});
+            }
 
-        if(img.isNull() && m_uri->exists() && CleverURI::PICTURE == m_uri->getType())
-        {
-            QByteArray array;
-            m_uri->loadFileFromUri(array);
-            img= QImage::fromData(array);
+            if(img.isNull() && m_uri->exists() && CleverURI::PICTURE == m_uri->getType())
+            {
+                QByteArray array;
+                m_uri->loadFileFromUri(array);
+                img= QImage::fromData(array);
+            }
+            if(img.isNull())
+            {
+                return false;
+            }
+            setImage(img);
         }
-        if(img.isNull())
+        if(CleverURI::ONLINEPICTURE == m_uri->getType())
         {
-            return false;
+            initImage();
         }
-        setImage(img);
-    }
-    if(CleverURI::ONLINEPICTURE == m_uri->getType())
-    {
-        initImage();
-    }
-    updateTitle();
-    return true;
+        updateTitle();
+        return true;*/
 }
+
 bool Image::openMedia()
 {
-    if(nullptr == m_uri)
-        return false;
+    /*   if(nullptr == m_uri)
+           return false;
 
-    QString filepath;
-    bool val= false;
-    if(CleverURI::ONLINEPICTURE == m_uri->getType())
-    {
-        OnlinePictureDialog dialog;
-        if(QDialog::Accepted == dialog.exec())
-        {
-            filepath= dialog.getPath();
-            m_pixMap= dialog.getPixmap();
+       QString filepath;
+       bool val= false;
+       if(CleverURI::ONLINEPICTURE == m_uri->getType())
+       {
+           OnlinePictureDialog dialog;
+           if(QDialog::Accepted == dialog.exec())
+           {
+               filepath= dialog.getPath();
+               m_pixMap= dialog.getPixmap();
 
-            if(!filepath.isEmpty())
-            {
-                m_uri->setUri(filepath);
-                m_uri->setName(dialog.getTitle());
-                val= true;
-            }
-        }
-    }
-    return val;
+               if(!filepath.isEmpty())
+               {
+                   m_uri->setUri(filepath);
+                   m_uri->setName(dialog.getTitle());
+                   val= true;
+               }
+           }
+       }
+       return val;*/
 }
 void Image::saveMedia()
 {

@@ -26,9 +26,11 @@
 #include <QFile>
 #include <QImage>
 #include <QLabel>
+#include <QPointer>
 #include <QScrollArea>
 #include <QString>
 #include <QWidget>
+#include <memory>
 
 #include "preferences/preferencesmanager.h"
 
@@ -37,6 +39,7 @@
 class NetworkLink;
 class NetworkMessageWriter;
 class QShortcut;
+class ImageController;
 /**
  * @brief The Image class displays image to the screen. It also manages image from Internet and the zooming.
  */
@@ -44,9 +47,7 @@ class Image : public MediaContainer
 {
     Q_OBJECT
 public:
-    // Image(QString title, QString identImage, QString identJoueur, QImage *image, QAction *action = 0,
-    // ImprovedWorkspace *parent = 0);
-    explicit Image(QWidget* parent= nullptr);
+    explicit Image(ImageController* ctrl, QWidget* parent= nullptr);
     /**
      * @brief ~Image destructor.
      */
@@ -73,9 +74,6 @@ public:
     virtual void fill(NetworkMessageWriter& msg);
     virtual void readMessage(NetworkMessageReader& msg);
 
-public slots:
-    void setCurrentTool(ToolsBar::SelectableTool tool);
-
 protected:
     /**
      * @brief called when users roll the wheel of their mouse
@@ -99,39 +97,9 @@ protected slots:
     virtual void updateTitle();
 private slots:
     /**
-     * @brief generic function to set the zoom level and refresh the picture
-     * @param zoomlevel : new zoomlevel value
-     */
-    void setZoomLevel(double zoomlevel);
-    /**
-     * @brief default function to zoomIn, Add 0.2 to the zoom level and then refresh the picture
-     */
-    void zoomIn();
-    /**
-     * @brief default function to zoomOut, substract 0.2 to the zoom level and then refresh the picture
-     */
-    void zoomOut();
-    /**
      * @brief refresh the size of the label (which embeds the picture)
      */
     void resizeLabel();
-    /**
-     * @brief sets the zoomlevel to 0.2
-     */
-    void zoomLittle();
-    /**
-     * @brief sets the zoom level to 1
-     */
-    void zoomNormal();
-    /**
-     * @brief sets the zoom level to 4
-     */
-    void zoomBig();
-    /**
-     * @brief resize the window and sets current size as zoomlevel 1.
-     */
-    void onFitWorkSpace();
-
     /**
      * @brief fitWindow set the size of the picture at the best size of the window.
      */
@@ -146,15 +114,15 @@ private:
     void initImage();
 
 private:
-    QLabel* m_imageLabel;
+    QPointer<ImageController> m_ctrl;
+    std::unique_ptr<QLabel> m_imageLabel;
+    std::unique_ptr<QScrollArea> m_widgetArea;
     QPoint m_startingPoint;
     int m_horizontalStart;
     int m_verticalStart;
     bool m_allowedMove;
-    double m_zoomLevel;
     QSize m_NormalSize;
     QSize m_windowSize;
-    QPixmap m_pixMap;
 
     QAction* m_actionZoomIn;
     QShortcut* m_zoomInShort;
@@ -180,8 +148,6 @@ private:
 
     double m_ratioImage;
     double m_ratioImageBis;
-
-    QScrollArea* m_widgetArea;
 };
 
 #endif

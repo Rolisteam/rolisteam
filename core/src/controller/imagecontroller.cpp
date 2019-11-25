@@ -19,7 +19,69 @@
  ***************************************************************************/
 #include "imagecontroller.h"
 
-ImageController::ImageController(QObject *parent) : QObject(parent)
-{
+ImageController::ImageController(QObject* parent) : AbstractMediaContainerController(parent) {}
 
+bool ImageController::fitWindow() const
+{
+    return m_fitWindow;
+}
+
+qreal ImageController::zoomLevel() const
+{
+    return m_zoomLevel;
+}
+
+const QPixmap& ImageController::pixmap() const
+{
+    return m_image;
+}
+
+Qt::CursorShape ImageController::cursor() const
+{
+    return m_fitWindow ? Qt::ArrowCursor : Qt::OpenHandCursor;
+}
+
+qreal ImageController::ratioV() const
+{
+    return static_cast<qreal>(m_image.size().width()) / m_image.size().height();
+}
+
+qreal ImageController::ratioH() const
+{
+    return static_cast<qreal>(m_image.size().height()) / m_image.size().width();
+}
+
+void ImageController::setZoomLevel(qreal lvl)
+{
+    lvl= qBound(0.2, lvl, 4.0);
+    if(qFuzzyCompare(lvl, m_zoomLevel))
+        return;
+
+    m_zoomLevel= lvl;
+    emit zoomLevelChanged();
+}
+
+void ImageController::setFitWindow(bool b)
+{
+    if(m_fitWindow == b)
+        return;
+    m_fitWindow= b;
+    emit fitWindowChanged();
+    emit cursorChanged();
+}
+
+void ImageController::zoomIn(qreal step)
+{
+    setZoomLevel(m_zoomLevel + step);
+}
+
+void ImageController::zoomOut(qreal step)
+{
+    setZoomLevel(m_zoomLevel - step);
+}
+
+const QPixmap ImageController::scaledPixmap() const
+{
+    return m_image.scaled(static_cast<int>(m_image.width() * m_zoomLevel),
+                          static_cast<int>(m_image.height() * m_zoomLevel));
 }
