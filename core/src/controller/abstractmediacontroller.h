@@ -22,15 +22,34 @@
 
 #include <QObject>
 
-class AbstractMediaController : public QObject
+class CleverURI;
+
+class AbstractMediaContainerController : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(QString uuid READ uuid NOTIFY uuidChanged)
+    Q_PROPERTY(CleverURI* uri READ uri WRITE setUri NOTIFY uriChanged)
 public:
-    explicit AbstractMediaController(QObject *parent = nullptr);
+    AbstractMediaContainerController(QObject* parent= nullptr);
+    QString name() const;
+    QString uuid() const;
+    CleverURI* uri() const;
+
+    virtual void saveData() const= 0;
+    virtual void loadData() const= 0;
 
 signals:
+    void nameChanged();
+    void uuidChanged();
+    void uriChanged();
 
 public slots:
+    void setUri(CleverURI* uri);
+
+private:
+    QString m_name;
+    CleverURI* m_uri;
 };
 
 #endif // ABSTRACTMEDIACONTROLLER_H

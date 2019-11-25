@@ -26,7 +26,11 @@ set(HEADERS
     src/controller/controllerinterface.h
     src/controller/preferencescontroller.h
     src/controller/imagecontroller.h
+    src/controller/abstractmediacontroller.h
+    src/controller/mediacontrollerinterface.h
+    src/controller/vectorialmapmediacontroller.h
     src/controller/contentcontroller.h
+    src/controller/imagemediacontroller.h
     src/undoCmd/addlocalcharactercommand.h
     src/undoCmd/removelocalcharactercommand.h
     src/audio/audioPlayer.h
@@ -275,8 +279,11 @@ set(SOURCES
     src/controller/resourcescontroller.cpp
     src/controller/networkcontroller.cpp
     src/controller/preferencescontroller.cpp
+    src/controller/abstractmediacontroller.cpp
     src/controller/playercontroller.cpp
     src/controller/contentcontroller.cpp
+    src/controller/imagemediacontroller.cpp
+    src/controller/vectorialmapmediacontroller.cpp
     src/controller/imagecontroller.cpp
     src/undoCmd/addlocalcharactercommand.cpp
     src/undoCmd/removelocalcharactercommand.cpp

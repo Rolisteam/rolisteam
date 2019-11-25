@@ -19,7 +19,41 @@
  ***************************************************************************/
 #include "imagemediacontroller.h"
 
-ImageMediaController::ImageMediaController()
-{
+#include "data/cleveruri.h"
 
+CleverURI* findMedia(QString uuid, const std::vector<CleverURI*>& media)
+{
+    auto it= std::find_if(media.begin(), media.end(), [uuid](const CleverURI* uri) {
+        if(nullptr == uri)
+            return false;
+        return uri->uuid() == uuid;
+    });
+    return (*it);
+}
+
+ImageMediaController::ImageMediaController() {}
+
+CleverURI::ContentType ImageMediaController::type() const
+{
+    return CleverURI::PICTURE;
+}
+
+void ImageMediaController::registerNetworkReceiver()
+{
+    // ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory, this);
+}
+
+NetWorkReceiver::SendType ImageMediaController::processMessage(NetworkMessageReader*) {}
+
+void ImageMediaController::clodeMedia(const QString& id)
+{
+    m_media.erase(
+        std::remove_if(m_media.begin(), m_media.end(), [id](const CleverURI* uri) { return uri->name() == id; }));
+}
+
+bool ImageMediaController::openMedia(CleverURI* uri)
+{
+    m_media.push_back(uri);
+
+    return true;
 }

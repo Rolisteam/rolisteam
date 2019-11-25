@@ -19,7 +19,28 @@
  ***************************************************************************/
 #include "abstractmediacontroller.h"
 
-AbstractMediaController::AbstractMediaController(QObject *parent) : QObject(parent)
-{
+#include "data/cleveruri.h"
 
+AbstractMediaContainerController::AbstractMediaContainerController(QObject* parent) : QObject(parent) {}
+
+QString AbstractMediaContainerController::name() const
+{
+    return m_uri->name();
+}
+
+QString AbstractMediaContainerController::uuid() const
+{
+    return m_uri->uuid();
+}
+
+CleverURI* AbstractMediaContainerController::uri() const
+{
+    return m_uri;
+}
+void AbstractMediaContainerController::setUri(CleverURI* uri)
+{
+    if(m_uri == uri)
+        return;
+    m_uri= uri;
+    emit uriChanged();
 }
