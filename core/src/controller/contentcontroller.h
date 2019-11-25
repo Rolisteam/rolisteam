@@ -22,9 +22,11 @@
 
 #include <QModelIndexList>
 #include <QObject>
+#include <map>
 #include <memory>
 
 #include "controllerinterface.h"
+#include "data/cleveruri.h"
 #include "preferences/preferenceslistener.h"
 
 class MediaContainer;
@@ -32,6 +34,8 @@ class SessionItemModel;
 class QAbstractItemModel;
 class ResourcesNode;
 class PreferencesManager;
+class MediaControllerInterface;
+class NetworkMessageReader;
 class ContentController : public AbstractControllerInterface, public PreferencesListener
 {
     Q_OBJECT
@@ -61,7 +65,11 @@ public:
     void setGameController(GameController*) override;
     void preferencesHasChanged(const QString& key) override;
 
+    void newMedia(CleverURI::ContentType type);
+    void openMedia(CleverURI* uri);
+
     void clear();
+    void processMediaMessage(NetworkMessageReader* msg);
 signals:
     void workspaceFilenameChanged();
     void workspaceColorChanged();
@@ -90,7 +98,7 @@ public slots:
 
 private:
     std::unique_ptr<SessionItemModel> m_contentModel;
-    std::vector<MediaContainer*> m_loadedMedia;
+    std::map<CleverURI::ContentType, MediaControllerInterface*> m_mediaControllers;
     PreferencesManager* m_preferences;
     QString m_sessionName;
     QString m_sessionPath;

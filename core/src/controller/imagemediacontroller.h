@@ -22,10 +22,21 @@
 
 #include <QObject>
 
+#include "mediacontrollerinterface.h"
+
 class ImageMediaController : public MediaControllerInterface
 {
 public:
     ImageMediaController();
+
+    CleverURI::ContentType type() const override;
+    bool openMedia(CleverURI*) override;
+    void clodeMedia(const QString& id) override;
+    void registerNetworkReceiver() override;
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+
+private:
+    std::vector<CleverURI*> m_media;
 };
 
 #endif // IMAGEMEDIACONTROLLER_H

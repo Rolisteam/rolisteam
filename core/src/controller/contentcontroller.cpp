@@ -19,16 +19,21 @@
  ***************************************************************************/
 #include "contentcontroller.h"
 
+#include "controller/imagemediacontroller.h"
+#include "controller/mediacontrollerinterface.h"
 #include "gamecontroller.h"
 #include "preferences/preferencesmanager.h"
 #include "preferencescontroller.h"
 #include "session/sessionitemmodel.h"
 
+#include "network/networkmessage.h"
+#include "network/networkmessagereader.h"
 #include "worker/modelhelper.h"
 
 ContentController::ContentController(QObject* parent)
     : AbstractControllerInterface(parent), m_contentModel(new SessionItemModel), m_sessionName(tr("Unknown"))
 {
+    m_mediaControllers.insert({CleverURI::PICTURE, new ImageMediaController});
 }
 
 ContentController::~ContentController()= default;
@@ -55,6 +60,17 @@ void ContentController::preferencesHasChanged(const QString& key)
         emit shortTitleTabChanged();
     else if(key == QStringLiteral("MaxLengthTabName"))
         emit maxLengthTabNameChanged();
+}
+
+void ContentController::openMedia(CleverURI* uri)
+{
+    if(!uri)
+        return;
+    auto controller= m_mediaControllers[uri->getType()];
+    if(!controller)
+        return;
+
+    controller->openMedia(uri);
 }
 QAbstractItemModel* ContentController::model() const
 {
@@ -137,4 +153,79 @@ QString ContentController::sessionName() const
 QString ContentController::sessionPath() const
 {
     return m_sessionPath;
+}
+
+void ContentController::processMediaMessage(NetworkMessageReader* msg)
+{
+    if(msg->action() == NetMsg::addMedia)
+    {
+        auto type= static_cast<CleverURI::ContentType>(msg->uint8());
+        switch(type)
+        {
+            /* case CleverURI::MAP:
+             {
+                 MapFrame* mapf= new MapFrame();
+                 mapf->readMessage(*msg);
+                 prepareMap(mapf);
+                 addMediaToMdiArea(mapf, false);
+                 mapf->setVisible(true);
+             }
+             break;
+             case CleverURI::VMAP:
+             {
+                 VMapFrame* mapFrame= new VMapFrame(false);
+                 mapFrame->readMessage(*msg); // create the vmap
+                 prepareVMap(mapFrame);
+                 addMediaToMdiArea(mapFrame, false);
+             }
+             break;
+             case CleverURI::CHAT:
+                 break;
+             case CleverURI::ONLINEPICTURE:*/
+        case CleverURI::PICTURE:
+        {
+            /*Image* image= new Image(m_mdiArea);
+            image->readMessage(*msg);
+            addMediaToMdiArea(image, false);
+            image->setVisible(true);*/
+        }
+        break;
+            /*#ifdef HAVE_WEBVIEW
+                    case CleverURI::WEBVIEW:
+                    {
+                        auto webv= new WebView(WebView::RemoteView, m_mdiArea);
+                        webv->setMediaId(msg->string8());
+                        webv->readMessage(*msg);
+                        addMediaToMdiArea(webv, false);
+                    }
+                    break;
+            #endif
+            #ifdef WITH_PDF
+                    case CleverURI::PDF:
+                    {
+                        auto pdf= new PdfViewer(m_mdiArea);
+                        pdf->readMessage(*msg);
+                        addMediaToMdiArea(pdf, false);
+                        pdf->setVisible(true);
+                    }
+                    break;
+            #endif
+                    case CleverURI::CHARACTERSHEET:
+                        break;
+                    case CleverURI::SHAREDNOTE:
+                        break;
+                    case CleverURI::TEXT:
+                    // case CleverURI::SCENARIO:
+                    case CleverURI::SONG:
+                    case CleverURI::SONGLIST:
+                    case CleverURI::NONE:
+                        break;*/
+        default:
+            break;
+        }
+    }
+    else if(msg->action() == NetMsg::closeMedia)
+    {
+        // closeMediaContainer(msg->string8(), false);
+    }
 }

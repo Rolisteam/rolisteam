@@ -20,11 +20,23 @@
 #ifndef VECTORIALMAPMEDIACONTROLLER_H
 #define VECTORIALMAPMEDIACONTROLLER_H
 
+#include "mediacontrollerinterface.h"
 
+class MediaContainer;
 class VectorialMapMediaController : public MediaControllerInterface
 {
+    Q_OBJECT
 public:
     VectorialMapMediaController();
+
+    CleverURI::ContentType type() const;
+    bool openMedia(CleverURI*);
+    void clodeMedia(const QString& id);
+    void registerNetworkReceiver();
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
+
+private:
+    std::vector<CleverURI*> m_openMedia;
 };
 
 #endif // VECTORIALMAPMEDIACONTROLLER_H
