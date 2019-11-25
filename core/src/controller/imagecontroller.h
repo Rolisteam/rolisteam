@@ -21,16 +21,49 @@
 #define IMAGECONTROLLER_H
 
 #include <QObject>
+#include <QPixmap>
 
-class ImageController : public QObject
+#include "abstractmediacontroller.h"
+
+class ImageController : public AbstractMediaContainerController
 {
     Q_OBJECT
+    Q_PROPERTY(bool fitWindow READ fitWindow WRITE setFitWindow NOTIFY fitWindowChanged)
+    Q_PROPERTY(qreal zoomLevel READ zoomLevel WRITE setZoomLevel NOTIFY zoomLevelChanged)
+    Q_PROPERTY(QPixmap pixmap READ pixmap NOTIFY pixmapChanged)
+    Q_PROPERTY(Qt::CursorShape cursor READ cursor NOTIFY cursorChanged)
+    Q_PROPERTY(qreal ratioV READ ratioV NOTIFY ratioVChanged)
+    Q_PROPERTY(qreal ratioH READ ratioH NOTIFY ratioHChanged) // bis
 public:
-    explicit ImageController(QObject *parent = nullptr);
+    explicit ImageController(QObject* parent= nullptr);
+
+    bool fitWindow() const;
+    qreal zoomLevel() const;
+    const QPixmap& pixmap() const;
+    const QPixmap scaledPixmap() const;
+    Qt::CursorShape cursor() const;
+
+    qreal ratioV() const;
+    qreal ratioH() const;
 
 signals:
+    void fitWindowChanged();
+    void zoomLevelChanged();
+    void pixmapChanged();
+    void cursorChanged();
+    void ratioVChanged();
+    void ratioHChanged();
 
 public slots:
+    void setZoomLevel(qreal lvl);
+    void setFitWindow(bool b);
+    void zoomIn(qreal step= 0.2);
+    void zoomOut(qreal step= 0.2);
+
+private:
+    bool m_fitWindow;
+    QPixmap m_image;
+    qreal m_zoomLevel= 1.0;
 };
 
 #endif // IMAGECONTROLLER_H

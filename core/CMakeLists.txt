@@ -25,6 +25,7 @@ set(HEADERS
     src/controller/playercontroller.h
     src/controller/controllerinterface.h
     src/controller/preferencescontroller.h
+    src/controller/imagecontroller.h
     src/controller/contentcontroller.h
     src/undoCmd/addlocalcharactercommand.h
     src/undoCmd/removelocalcharactercommand.h
@@ -276,6 +277,7 @@ set(SOURCES
     src/controller/preferencescontroller.cpp
     src/controller/playercontroller.cpp
     src/controller/contentcontroller.cpp
+    src/controller/imagecontroller.cpp
     src/undoCmd/addlocalcharactercommand.cpp
     src/undoCmd/removelocalcharactercommand.cpp
     src/model/profilemodel.cpp
