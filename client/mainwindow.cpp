@@ -608,7 +608,7 @@ void MainWindow::linkActionToMenu()
     m_ui->m_openMapAction->setData(static_cast<int>(CleverURI::MAP));
     m_ui->m_openCharacterSheet->setData(static_cast<int>(CleverURI::CHARACTERSHEET));
     m_ui->m_openVectorialMap->setData(static_cast<int>(CleverURI::VMAP));
-    m_ui->m_openStoryAction->setData(static_cast<int>(CleverURI::SCENARIO));
+    // m_ui->m_openStoryAction->setData(static_cast<int>(CleverURI::SCENARIO));
     m_ui->m_openNoteAction->setData(static_cast<int>(CleverURI::TEXT));
     m_ui->m_openShareNote->setData(static_cast<int>(CleverURI::SHAREDNOTE));
 #ifdef WITH_PDF
@@ -2356,9 +2356,9 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
     break;
 
 #endif
-    case CleverURI::SCENARIO:
+    /*case CleverURI::SCENARIO:
         readStory(uri->getUri());
-        break;
+        break;*/
     case CleverURI::CHARACTERSHEET:
     {
         CharacterSheetWindow* csW= new CharacterSheetWindow();
@@ -2505,10 +2505,10 @@ CleverURI::ContentType MainWindow::getContentType(QString str)
     {
         return CleverURI::SONGLIST;
     }
-    else if(str.endsWith(".sce"))
-    {
-        return CleverURI::SCENARIO;
-    }
+    /* else if(str.endsWith(".sce"))
+     {
+         return CleverURI::SCENARIO;
+     }*/
     else if(str.endsWith(".rcs"))
     {
         return CleverURI::CHARACTERSHEET;
