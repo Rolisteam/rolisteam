@@ -165,7 +165,8 @@ MainWindow::MainWindow()
 
     m_sessionDock.reset(new SessionDock(m_gameController->contentController()));
 
-    // connect(m_sessionManager, SIGNAL(sessionChanged(bool)), this, SLOT(setWindowModified(bool)));
+    connect(m_gameController->contentController(), &ContentController::sessionChanged, this,
+            &MainWindow::setWindowModified);
     // connect(m_sessionManager, &SessionManager::openResource, this, &MainWindow::openResource);
 
     /// Create all GM toolbox widget
