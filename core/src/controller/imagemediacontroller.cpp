@@ -19,19 +19,22 @@
  ***************************************************************************/
 #include "imagemediacontroller.h"
 
+#include "controller/imagecontroller.h"
 #include "data/cleveruri.h"
 
-CleverURI* findMedia(QString uuid, const std::vector<CleverURI*>& media)
+/*ImageController* findImage(QString uuid, const std::vector<std::unique_ptr<ImageController>>& images)
 {
-    auto it= std::find_if(media.begin(), media.end(), [uuid](const CleverURI* uri) {
-        if(nullptr == uri)
+    auto it= std::find_if(images.begin(), images.end(), [uuid](const std::unique_ptr<ImageController>& image) {
+        if(nullptr == image)
             return false;
-        return uri->uuid() == uuid;
+        return image->uuid() == uuid;
     });
-    return (*it);
-}
+    return (*it).get();
+}*/
 
 ImageMediaController::ImageMediaController() {}
+
+ImageMediaController::~ImageMediaController() {}
 
 CleverURI::ContentType ImageMediaController::type() const
 {
@@ -43,17 +46,24 @@ void ImageMediaController::registerNetworkReceiver()
     // ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory, this);
 }
 
-NetWorkReceiver::SendType ImageMediaController::processMessage(NetworkMessageReader*) {}
+NetWorkReceiver::SendType ImageMediaController::processMessage(NetworkMessageReader*)
+{
+    return NetWorkReceiver::NONE;
+}
 
 void ImageMediaController::clodeMedia(const QString& id)
 {
-    m_media.erase(
-        std::remove_if(m_media.begin(), m_media.end(), [id](const CleverURI* uri) { return uri->name() == id; }));
+    auto it= std::remove_if(m_images.begin(), m_images.end(),
+                            [id](const std::unique_ptr<ImageController>& uri) { return uri->uuid() == id; });
+    if(it == m_images.end())
+        return;
+    m_images.erase(it, m_images.end());
 }
 
 bool ImageMediaController::openMedia(CleverURI* uri)
 {
-    m_media.push_back(uri);
-
+    std::unique_ptr<ImageController> imgCtrl(new ImageController(uri));
+    emit imageControllerCreated(imgCtrl.get());
+    m_images.push_back(std::move(imgCtrl));
     return true;
 }

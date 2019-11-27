@@ -19,7 +19,12 @@
  ***************************************************************************/
 #include "imagecontroller.h"
 
-ImageController::ImageController(QObject* parent) : AbstractMediaContainerController(parent) {}
+#include "data/cleveruri.h"
+
+ImageController::ImageController(CleverURI* uri, QObject* parent) : AbstractMediaContainerController(uri, parent)
+{
+    m_image= QPixmap(uri->getUri());
+}
 
 bool ImageController::fitWindow() const
 {
@@ -50,6 +55,10 @@ qreal ImageController::ratioH() const
 {
     return static_cast<qreal>(m_image.size().height()) / m_image.size().width();
 }
+
+void ImageController::saveData() const {}
+
+void ImageController::loadData() const {}
 
 void ImageController::setZoomLevel(qreal lvl)
 {

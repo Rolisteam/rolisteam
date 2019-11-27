@@ -21,7 +21,10 @@
 
 #include "data/cleveruri.h"
 
-AbstractMediaContainerController::AbstractMediaContainerController(QObject* parent) : QObject(parent) {}
+AbstractMediaContainerController::AbstractMediaContainerController(CleverURI* uri, QObject* parent)
+    : QObject(parent), m_uri(uri)
+{
+}
 
 QString AbstractMediaContainerController::name() const
 {
