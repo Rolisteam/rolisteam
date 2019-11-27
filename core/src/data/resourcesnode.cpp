@@ -20,9 +20,21 @@
 
 #include "resourcesnode.h"
 
-ResourcesNode::ResourcesNode() : m_parent(nullptr) {}
+#include <QUuid>
+
+ResourcesNode::ResourcesNode() : m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces)) {}
 
 ResourcesNode::~ResourcesNode() {}
+
+QString ResourcesNode::uuid() const
+{
+    return m_uuid;
+}
+
+void ResourcesNode::setUuid(const QString& uuid)
+{
+    m_uuid= uuid;
+}
 QString ResourcesNode::name() const
 {
     return m_name;

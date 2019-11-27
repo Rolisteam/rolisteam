@@ -46,6 +46,9 @@ public:
     ResourcesNode();
     virtual ~ResourcesNode();
 
+    QString uuid() const;
+    virtual void setUuid(const QString& uuid);
+
     QString name() const;
     virtual void setName(const QString& name);
 
@@ -87,9 +90,10 @@ public:
     virtual bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node)= 0;
 
 protected:
+    QString m_uuid;
     QString m_name;
     QString m_value;
-    ResourcesNode* m_parent;
+    ResourcesNode* m_parent= nullptr;
 };
 
 #endif // RESSOURCESNODE_H
