@@ -208,6 +208,9 @@ public:
 
     void openRecentScenario();
     void updateRecentScenarioAction();
+    void openGenericContent();
+    void openVMap();
+    void openMap();
 public slots:
     /**
      * @brief
@@ -382,7 +385,7 @@ private slots:
     /**
      * @brief openContent
      */
-    void openContent();
+//    void openContent();
     // save methods
     /**
      * @brief saveCurrentMedia

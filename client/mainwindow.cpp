@@ -591,15 +591,15 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_newChatAction, SIGNAL(triggered(bool)), m_chatListWidget, SLOT(createPrivateChat()));
 
     // open
-    connect(m_ui->m_openPictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
-    connect(m_ui->m_openOnlinePictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
-    connect(m_ui->m_openMapAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
-    connect(m_ui->m_openCharacterSheet, SIGNAL(triggered(bool)), this, SLOT(openContent()));
-    connect(m_ui->m_openVectorialMap, SIGNAL(triggered(bool)), this, SLOT(openContent()));
+    connect(m_ui->m_openPictureAction, &QAction::triggered, this, &MainWindow::openGenericContent);
+    connect(m_ui->m_openOnlinePictureAction, &QAction::triggered, this, &MainWindow::openGenericContent);
+    connect(m_ui->m_openMapAction, &QAction::triggered, this, &MainWindow::openMap);
+    connect(m_ui->m_openCharacterSheet, &QAction::triggered, this, &MainWindow::openGenericContent);
+    connect(m_ui->m_openVectorialMap, &QAction::triggered, this, &MainWindow::openVMap);
     connect(m_ui->m_openStoryAction, &QAction::triggered, this, &MainWindow::openStory);
-    connect(m_ui->m_openNoteAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
-    connect(m_ui->m_openShareNote, SIGNAL(triggered(bool)), this, SLOT(openContent()));
-    connect(m_ui->m_openPdfAct, SIGNAL(triggered(bool)), this, SLOT(openContent()));
+    connect(m_ui->m_openNoteAction, &QAction::triggered, this, &MainWindow::openGenericContent);
+    connect(m_ui->m_openShareNote, &QAction::triggered, this, &MainWindow::openGenericContent);
+    connect(m_ui->m_openPdfAct, &QAction::triggered, this, &MainWindow::openGenericContent);
 
     connect(m_ui->m_shortCutEditorAct, SIGNAL(triggered(bool)), this, SLOT(showShortCutEditor()));
 
@@ -2030,11 +2030,28 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type, bool save)
     }
     return nullptr;
 }
-void MainWindow::openContent()
+void MainWindow::openGenericContent()
 {
     QAction* action= static_cast<QAction*>(sender());
     CleverURI::ContentType type= static_cast<CleverURI::ContentType>(action->data().toInt());
-    openContentFromType(type);
+    QString filter= CleverURI::getFilterForType(type);
+
+    QString folder= m_preferences->value(CleverURI::getPreferenceDirectoryKey(type), ".").toString();
+    QString title= tr("Open %1").arg(CleverURI::typeToString(type));
+    QStringList filepath= QFileDialog::getOpenFileNames(this, title, folder, filter);
+    QStringList list= filepath;
+    auto contentCtrl= m_gameController->contentController();
+    for(auto const& path : list)
+    {
+        auto uri= new CleverURI(getShortNameFromPath(path), path, type);
+        contentCtrl->openMedia(uri);
+    }
+
+    // openContentFromType(type);
+}
+
+void MainWindow::openVMap() {}
+
 void MainWindow::openMap()
 {
     MapWizzard mapWizzard(false, this);
@@ -2176,8 +2193,6 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
     }
     if((uri->getState() == CleverURI::Hidden) && (!force))
     {
-        if(m_mdiArea->showCleverUri(uri))
-            return;
     }
     else if((uri->getState() == CleverURI::Displayed) && (!force))
         return;
@@ -2205,7 +2220,7 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
     break;
     case CleverURI::PICTURE:
     case CleverURI::ONLINEPICTURE:
-        tmp= new Image(m_mdiArea);
+        // tmp= new Image(m_mdiArea);
         break;
     case CleverURI::TEXT:
         tmp= new NoteContainer(true);
@@ -2287,52 +2302,37 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
 }
 void MainWindow::openContentFromType(CleverURI::ContentType type)
 {
-    QString filter= CleverURI::getFilterForType(type);
-    std::vector<CleverURI*> uriList;
-    if(!filter.isEmpty())
-    {
-        QString folder= m_preferences->value(CleverURI::getPreferenceDirectoryKey(type), ".").toString();
-        QString title= tr("Open %1").arg(CleverURI::typeToString(type));
-        QStringList filepath= QFileDialog::getOpenFileNames(this, title, folder, filter);
-        QStringList list= filepath;
-        for(auto const& path : list)
-        {
-            auto uri= new CleverURI(getShortNameFromPath(path), path, type);
-            openCleverURI(uri);
-            uriList.push_back(uri);
-        }
-    }
-    else
-    {
-        MediaContainer* tmp= nullptr;
-        switch(type)
-        {
-        case CleverURI::MAP:
-            tmp= new MapFrame();
-            break;
-        case CleverURI::PICTURE:
-        case CleverURI::ONLINEPICTURE:
-            tmp= new Image(m_mdiArea);
-            break;
-        default:
-            break;
-        }
 
-        if(tmp != nullptr)
+    std::vector<CleverURI*> uriList;
+
+    MediaContainer* tmp= nullptr;
+    switch(type)
+    {
+    case CleverURI::MAP:
+        tmp= new MapFrame();
+        break;
+    case CleverURI::PICTURE:
+    case CleverURI::ONLINEPICTURE:
+        // tmp= new Image(m_mdiArea);
+        break;
+    default:
+        break;
+    }
+
+    if(tmp != nullptr)
+    {
+        tmp->setCleverUriType(type);
+        if(tmp->openMedia())
         {
-            tmp->setCleverUriType(type);
-            if(tmp->openMedia())
+            if(tmp->readFileFromUri())
             {
-                if(tmp->readFileFromUri())
+                if(type == CleverURI::MAP)
                 {
-                    if(type == CleverURI::MAP)
-                    {
-                        prepareMap(static_cast<MapFrame*>(tmp));
-                    }
-                    addMediaToMdiArea(tmp);
-                    uriList.push_back(tmp->getCleverUri());
-                    tmp->setVisible(true);
+                    prepareMap(static_cast<MapFrame*>(tmp));
                 }
+                addMediaToMdiArea(tmp);
+                //                    uriList.push_back(tmp->getCleverUri());
+                tmp->setVisible(true);
             }
         }
     }
@@ -2485,10 +2485,10 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
     }
     else if(type == CleverURI::PICTURE)
     {
-        auto img= new Image(m_mdiArea);
-        auto imgPix= pix.toImage();
-        img->setImage(imgPix);
-        destination= img;
+        /* auto img= new Image(m_mdiArea);
+         auto imgPix= pix.toImage();
+         img->setImage(imgPix);
+         destination= img;*/
     }
     if(destination)
         destination->setUriName(title.arg(sourceName));
