@@ -130,18 +130,7 @@ void MapFrame::focusInEvent(QFocusEvent* event)
 
     MediaContainer::focusInEvent(event);
 }
-bool MapFrame::openMedia()
-{
-    m_mapWizzard->resetData();
-    if(m_mapWizzard->exec() == QMessageBox::Accepted)
-    {
-        QFileInfo info(m_mapWizzard->getFilepath());
-
-        m_preferences->registerValue("MapDirectory", info.absolutePath());
-        return true;
-    }
-    return false;
-}
+bool MapFrame::openMedia() {}
 bool MapFrame::openUriAndLoadMap(QString uri)
 {
     QFile file(uri);
@@ -185,12 +174,10 @@ bool MapFrame::readFileFromUri()
     }
     else // if(nullptr==m_uri)
     {
-        Map::PermissionMode Permission= m_mapWizzard->getPermissionMode();
-        QString filepath= m_mapWizzard->getFilepath();
+        QString filepath;
 
-        m_isHidden= m_mapWizzard->getHidden();
-        setUriName(m_mapWizzard->getTitle());
-        m_uri= new CleverURI(m_mapWizzard->getTitle(), filepath, CleverURI::MAP);
+        //m_uri= new CleverURI(m_mapWizzard->getTitle(), filepath, CleverURI::MAP);
+        m_uri= new CleverURI("", "", CleverURI::MAP);
 
         if(filepath.endsWith(".pla"))
         {
@@ -214,7 +201,7 @@ bool MapFrame::readFileFromUri()
             QString idMap= QUuid::createUuid().toString();
             // Creation de la carte
             m_map= new Map(m_localPlayerId, idMap, &image, m_isHidden);
-            m_map->setPermissionMode(Permission);
+//            m_map->setPermissionMode(Permission);
 
             // addMap(bipMapWindow, title);
 
