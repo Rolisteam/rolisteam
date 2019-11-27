@@ -36,6 +36,7 @@ class ResourcesNode;
 class PreferencesManager;
 class MediaControllerInterface;
 class NetworkMessageReader;
+class ImageMediaController;
 class ContentController : public AbstractControllerInterface, public PreferencesListener
 {
     Q_OBJECT
@@ -53,6 +54,7 @@ public:
     ~ContentController() override;
 
     QAbstractItemModel* model() const;
+    ImageMediaController* imagesCtrl() const;
 
     int maxLengthTabName() const;
     bool shortTitleTab() const;
@@ -99,6 +101,7 @@ public slots:
 private:
     std::unique_ptr<SessionItemModel> m_contentModel;
     std::map<CleverURI::ContentType, MediaControllerInterface*> m_mediaControllers;
+    std::unique_ptr<ImageMediaController> m_imageControllers;
     PreferencesManager* m_preferences;
     QString m_sessionName;
     QString m_sessionPath;

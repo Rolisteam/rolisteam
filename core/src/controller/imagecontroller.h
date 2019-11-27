@@ -25,6 +25,8 @@
 
 #include "abstractmediacontroller.h"
 
+class CleverURI;
+
 class ImageController : public AbstractMediaContainerController
 {
     Q_OBJECT
@@ -35,7 +37,7 @@ class ImageController : public AbstractMediaContainerController
     Q_PROPERTY(qreal ratioV READ ratioV NOTIFY ratioVChanged)
     Q_PROPERTY(qreal ratioH READ ratioH NOTIFY ratioHChanged) // bis
 public:
-    explicit ImageController(QObject* parent= nullptr);
+    explicit ImageController(CleverURI* uri, QObject* parent= nullptr);
 
     bool fitWindow() const;
     qreal zoomLevel() const;
@@ -45,6 +47,9 @@ public:
 
     qreal ratioV() const;
     qreal ratioH() const;
+
+    void saveData() const override;
+    void loadData() const override;
 
 signals:
     void fitWindowChanged();
@@ -61,7 +66,7 @@ public slots:
     void zoomOut(qreal step= 0.2);
 
 private:
-    bool m_fitWindow;
+    bool m_fitWindow= true;
     QPixmap m_image;
     qreal m_zoomLevel= 1.0;
 };

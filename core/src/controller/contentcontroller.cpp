@@ -31,9 +31,12 @@
 #include "worker/modelhelper.h"
 
 ContentController::ContentController(QObject* parent)
-    : AbstractControllerInterface(parent), m_contentModel(new SessionItemModel), m_sessionName(tr("Unknown"))
+    : AbstractControllerInterface(parent)
+    , m_contentModel(new SessionItemModel)
+    , m_imageControllers(new ImageMediaController)
+    , m_sessionName(tr("Unknown"))
 {
-    m_mediaControllers.insert({CleverURI::PICTURE, new ImageMediaController});
+    m_mediaControllers.insert({CleverURI::PICTURE, m_imageControllers.get()});
 }
 
 ContentController::~ContentController()= default;
@@ -75,6 +78,11 @@ void ContentController::openMedia(CleverURI* uri)
 QAbstractItemModel* ContentController::model() const
 {
     return nullptr;
+}
+
+ImageMediaController* ContentController::imagesCtrl() const
+{
+    return m_imageControllers.get();
 }
 
 void ContentController::addContent(ResourcesNode* node) {}

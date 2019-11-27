@@ -31,7 +31,7 @@ class AbstractMediaContainerController : public QObject
     Q_PROPERTY(QString uuid READ uuid NOTIFY uuidChanged)
     Q_PROPERTY(CleverURI* uri READ uri WRITE setUri NOTIFY uriChanged)
 public:
-    AbstractMediaContainerController(QObject* parent= nullptr);
+    AbstractMediaContainerController(CleverURI* uri, QObject* parent= nullptr);
     QString name() const;
     QString uuid() const;
     CleverURI* uri() const;

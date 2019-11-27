@@ -21,13 +21,18 @@
 #define IMAGEMEDIACONTROLLER_H
 
 #include <QObject>
+#include <memory>
+#include <vector>
 
 #include "mediacontrollerinterface.h"
 
+class ImageController;
 class ImageMediaController : public MediaControllerInterface
 {
+    Q_OBJECT
 public:
     ImageMediaController();
+    ~ImageMediaController() override;
 
     CleverURI::ContentType type() const override;
     bool openMedia(CleverURI*) override;
@@ -35,8 +40,11 @@ public:
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
+signals:
+    void imageControllerCreated(ImageController* imageCtrl);
+
 private:
-    std::vector<CleverURI*> m_media;
+    std::vector<std::unique_ptr<ImageController>> m_images;
 };
 
 #endif // IMAGEMEDIACONTROLLER_H
