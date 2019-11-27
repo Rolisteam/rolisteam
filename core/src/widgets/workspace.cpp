@@ -18,11 +18,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include "workspace.h"
 
 #include <QtGui>
 
 #include "controller/contentcontroller.h"
-#include "workspace.h"
+#include "controller/imagecontroller.h"
+#include "controller/imagemediacontroller.h"
+
+#include "media/image.h"
 
 #define GRAY_SCALE 191
 
@@ -35,13 +39,16 @@ Workspace::Workspace(ContentController* ctrl, QWidget* parent)
     connect(m_ctrl, &ContentController::maxLengthTabNameChanged, this, &Workspace::updateTitleTab);
     connect(m_ctrl, &ContentController::shortTitleTabChanged, this, &Workspace::updateTitleTab);
 
-    connect(m_ctrl, &ContentController::workspaceFilenameChanged, this,
-            [this]() { setBackgroundImagePath(m_ctrl->workspaceFilename()); });
+    connect(m_ctrl, &ContentController::workspaceFilenameChanged, this, [this]() {
+        m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
+        updateBackGround();
+    });
     connect(m_ctrl, &ContentController::workspaceColorChanged, this, &Workspace::updateBackGround);
     connect(m_ctrl, &ContentController::workspacePositioningChanged, this, &Workspace::updateBackGround);
 
-    setBackgroundImagePath(m_ctrl->workspaceFilename());
+    connect(m_ctrl->imagesCtrl(), &ImageMediaController::imageControllerCreated, this, &Workspace::addImage);
 
+    m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
     updateBackGround();
 }
 
@@ -52,38 +59,6 @@ Workspace::~Workspace()
         delete m_actionSubWindowMap;
         m_actionSubWindowMap= nullptr;
     }
-}
-
-void Workspace::setBackgroundImagePath(const QString& path)
-{
-    if(m_bgFilename == path)
-        return;
-    m_bgFilename= path;
-    emit backgroundImagePathChanged();
-    m_backgroundPicture= QPixmap(m_bgFilename);
-    updateBackGround();
-}
-
-QString Workspace::backgroundImagePath() const
-{
-    return m_bgFilename;
-}
-
-bool Workspace::showCleverUri(CleverURI* uri)
-{
-    for(auto& i : *m_actionSubWindowMap)
-    {
-        auto media= dynamic_cast<MediaContainer*>(i);
-        if(nullptr != media)
-        {
-            if(media->getCleverUri() == uri)
-            {
-                i->setVisible(true);
-                return true;
-            }
-        }
-    }
-    return false;
 }
 
 void Workspace::updateBackGround()
@@ -186,6 +161,7 @@ QWidget* Workspace::addWindow(QWidget* child, QAction* action)
     sub->installEventFilter(this);
     return sub;
 }
+
 void Workspace::addContainerMedia(MediaContainer* mediac)
 {
     if(nullptr == mediac)
@@ -216,34 +192,34 @@ void Workspace::insertActionAndSubWindow(QAction* act, QMdiSubWindow* sub)
 }
 void Workspace::setTabbedMode(bool isTabbed)
 {
-    if(isTabbed)
-    {
-        setViewMode(QMdiArea::TabbedView);
-        // setTabsClosable ( true );
-        setTabsMovable(true);
-        setTabPosition(QTabWidget::North);
-        /// make all subwindows visible.
-        auto keys= m_actionSubWindowMap->keys();
-        for(QAction* act : keys)
-        {
-            auto tmp= m_actionSubWindowMap->value(act);
-            if(nullptr == tmp)
-            {
-                tmp->setVisible(true);
-                if(nullptr != act)
-                {
-                    act->setChecked(true);
-                }
-                if(nullptr != tmp->widget())
-                {
-                    tmp->widget()->setVisible(true);
-                }
-            }
-        }
-    }
-    else
+    if(!isTabbed)
     {
         setViewMode(QMdiArea::SubWindowView);
+        updateTitleTab();
+        return;
+    }
+
+    setViewMode(QMdiArea::TabbedView);
+    // setTabsClosable ( true );
+    setTabsMovable(true);
+    setTabPosition(QTabWidget::North);
+    /// make all subwindows visible.
+    auto keys= m_actionSubWindowMap->keys();
+    for(QAction* act : keys)
+    {
+        auto tmp= m_actionSubWindowMap->value(act);
+        if(nullptr == tmp)
+        {
+            tmp->setVisible(true);
+            if(nullptr != act)
+            {
+                act->setChecked(true);
+            }
+            if(nullptr != tmp->widget())
+            {
+                tmp->widget()->setVisible(true);
+            }
+        }
     }
     updateTitleTab();
 }
@@ -251,7 +227,6 @@ bool Workspace::updateTitleTab()
 {
     bool shortName= m_ctrl->shortTitleTab(); // m_preferences->value("shortNameInTabMode", false).toBool();
     int textLength= m_ctrl->maxLengthTabName();
-    // int textLength= m_preferences->value("MaxLengthTabName", 10).toInt();
     if((viewMode() == QMdiArea::TabbedView) && (shortName))
     {
         auto values= m_actionSubWindowMap->values();
@@ -345,12 +320,6 @@ QMdiSubWindow* Workspace::getSubWindowFromId(QString id)
     return nullptr;
 }
 
-void Workspace::preferencesHasChanged(QString)
-{
-    updateBackGround();
-    update();
-    updateTitleTab();
-}
 void Workspace::addWidgetToMdi(QWidget* wid, QString title)
 {
     wid->setParent(this);
@@ -359,4 +328,10 @@ void Workspace::addWidgetToMdi(QWidget* wid, QString title)
     wid->setWindowTitle(title);
     sub->setVisible(true);
     wid->setVisible(true);
+}
+void Workspace::addImage(ImageController* ctrl)
+{
+    std::unique_ptr<MediaContainer> img(new Image(ctrl));
+    addWidgetToMdi(img.get(), ctrl->name());
+    m_mediaContainers.push_back(std::move(img));
 }

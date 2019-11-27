@@ -29,14 +29,13 @@
 #include "data/mediacontainer.h"
 
 class ContentController;
+class ImageController;
 /**
  * @brief The ImprovedWorkspace class
  */
 class Workspace : public QMdiArea
 {
     Q_OBJECT
-    Q_PROPERTY(QString backgroundImagePath READ backgroundImagePath WRITE setBackgroundImagePath NOTIFY
-                   backgroundImagePathChanged)
 public:
     enum Positioning
     {
@@ -52,11 +51,9 @@ public:
     Workspace(ContentController* ctrl, QWidget* parent= nullptr);
     ~Workspace();
 
-    void setBackgroundImagePath(const QString& path);
     QString backgroundImagePath() const;
 
     QWidget* addWindow(QWidget*, QAction* action);
-    // QWidget* activeWindow();
 
     void insertActionAndSubWindow(QAction*, QMdiSubWindow*);
     /**
@@ -74,11 +71,6 @@ public:
      */
     void preferencesHasChanged(QString);
     /**
-     * @brief showCleverUri
-     * @param uri
-     */
-    bool showCleverUri(CleverURI* uri);
-    /**
      * @brief removeMediaContainer
      * @param mediac
      */
@@ -86,14 +78,14 @@ public:
     QVector<QMdiSubWindow*> getAllSubWindowFromId(const QString& id) const;
 signals:
     void removedAction(QAction*);
-    void backgroundImagePathChanged();
-    void backgroundColorChanged();
-    void backgroundPositioningChanged();
 
 public slots:
     void setTabbedMode(bool);
     void ensurePresent();
     void addWidgetToMdi(QWidget*, QString title);
+
+protected slots:
+    void addImage(ImageController* ctrl);
 
 protected:
     void resizeEvent(QResizeEvent* event);
@@ -105,11 +97,10 @@ private:
 
 private:
     QPointer<ContentController> m_ctrl;
+    std::vector<std::unique_ptr<MediaContainer>> m_mediaContainers;
     QPixmap m_backgroundPicture;
     QPixmap m_variableSizeBackground;
     QMap<QAction*, QMdiSubWindow*>* m_actionSubWindowMap;
-
-    QString m_bgFilename;
     QHash<QMdiSubWindow*, QString> m_titleBar;
 };
 
