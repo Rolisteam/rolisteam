@@ -59,8 +59,8 @@ public:
     void setInternalAction(QAction* action);
     QAction* getAssociatedAction() const;
 
-    void saveImageToFile(QFile& file);
-    void saveImageToFile(QDataStream& out);
+//    void saveImageToFile(QFile& file);
+    //void saveImageToFile(QDataStream& out);
     bool isImageOwner(QString id);
     void setParent(QWidget* parent);
     void setImage(QImage& img);
@@ -71,8 +71,8 @@ public:
 
     virtual void putDataIntoCleverUri();
 
-    virtual void fill(NetworkMessageWriter& msg);
-    virtual void readMessage(NetworkMessageReader& msg);
+    /*virtual void fill(NetworkMessageWriter& msg);
+    virtual void readMessage(NetworkMessageReader& msg);*/
 
 protected:
     /**
