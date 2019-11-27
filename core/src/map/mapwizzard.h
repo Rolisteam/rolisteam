@@ -8,7 +8,7 @@
 
 namespace Ui
 {
-    class MapWizzard;
+class MapWizzard;
 }
 /**
  * @brief The MapWizzard class
@@ -22,7 +22,7 @@ public:
      * @brief MapWizzard
      * @param parent
      */
-    explicit MapWizzard(bool vmap= false, QWidget* parent= 0);
+    explicit MapWizzard(bool vmap= false, QWidget* parent= nullptr);
     /**
      * @brief ~MapWizzard destructor
      */

@@ -33,7 +33,6 @@
 #include <QWidget>
 
 #include "data/mediacontainer.h"
-#include "map/mapwizzard.h"
 
 class Map;
 
@@ -162,7 +161,6 @@ private:
     int horizontalDepart;
     int verticalDepart;
     QSize m_originalSize;
-    MapWizzard* m_mapWizzard;
     QScrollArea* m_widgetArea;
     bool m_isHidden;
 
