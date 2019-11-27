@@ -29,38 +29,40 @@
 /////////////////
 // CleverUri
 /////////////////
-QHash<CleverURI::ContentType, QString> CleverURI::m_iconPathHash= {{CleverURI::NONE, ""}, {CleverURI::MAP, ":/map.png"},
-    {CleverURI::VMAP, ":/vmap.png"}, {CleverURI::CHAT, ":/resources/icons/scenario.png"},
-    {CleverURI::PICTURE, ":/resources/icons/photo.png"}, {CleverURI::ONLINEPICTURE, ":/resources/icons/photo.png"},
-    {CleverURI::TEXT, ":/notes.png"}, {CleverURI::CHARACTERSHEET, ":/resources/icons/treeview.png"},
-    {CleverURI::SCENARIO, ":/story.png"}, {CleverURI::SONG, ":/resources/icons/audiofile.svg"},
-    {CleverURI::SHAREDNOTE, ":/resources/icons/sharedEditor.png"},
-    {CleverURI::WEBVIEW, ":/resources/icons/webPage.svg"},
+QHash<CleverURI::ContentType, QString> CleverURI::m_iconPathHash
+    = {{CleverURI::NONE, ""},
+       {CleverURI::MAP, ":/map.png"},
+       {CleverURI::VMAP, ":/vmap.png"},
+       {CleverURI::CHAT, ":/resources/icons/scenario.png"},
+       {CleverURI::PICTURE, ":/resources/icons/photo.png"},
+       {CleverURI::ONLINEPICTURE, ":/resources/icons/photo.png"},
+       {CleverURI::TEXT, ":/notes.png"},
+       {CleverURI::CHARACTERSHEET, ":/resources/icons/treeview.png"},
+       {CleverURI::SONG, ":/resources/icons/audiofile.svg"},
+       {CleverURI::SHAREDNOTE, ":/resources/icons/sharedEditor.png"},
+       {CleverURI::WEBVIEW, ":/resources/icons/webPage.svg"},
 #ifdef WITH_PDF
-    {CleverURI::PDF, ":/resources/icons/pdfLogo.png"},
+       {CleverURI::PDF, ":/resources/icons/pdfLogo.png"},
 #endif
-    {CleverURI::SONGLIST, ":/resources/icons/playlist.svg"}};
+       {CleverURI::SONGLIST, ":/resources/icons/playlist.svg"}};
 
 // enum ContentType {NONE,MAP,VMAP,CHAT,PICTURE,ONLINEPICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG,SONGLIST
-QStringList CleverURI::m_typeNameList
-    = QStringList() << QObject::tr("None") << QObject::tr("Map") << QObject::tr("Vectorial Map") << QObject::tr("Chat")
-                    << QObject::tr("Picture") << QObject::tr("Online Picture") << QObject::tr("Text")
-                    << QObject::tr("Charecter Sheet") << QObject::tr("Scenario") << QObject::tr("Song")
-                    << QObject::tr("Song List") << QObject::tr("Shared Notes");
+// {CleverURI::SCENARIO, ":/story.png"}, << QObject::tr("Scenario")<< QString("SessionDirectory")
+QStringList CleverURI::m_typeNameList= QStringList()
+                                       << QObject::tr("None") << QObject::tr("Map") << QObject::tr("Vectorial Map")
+                                       << QObject::tr("Chat") << QObject::tr("Picture") << QObject::tr("Online Picture")
+                                       << QObject::tr("Text") << QObject::tr("Charecter Sheet") << QObject::tr("Song")
+                                       << QObject::tr("Song List") << QObject::tr("Shared Notes");
 
 QStringList CleverURI::m_typeToPreferenceDirectory
     = QStringList() << QString("SessionDirectory") << QString("MapDirectory") << QString("MapDirectory")
                     << QString("ChatDirectory") << QString("ImageDirectory") << QString("ImageDirectory")
-                    << QString("MinutesDirectory") << QString("CharacterSheetDirectory") << QString("SessionDirectory")
+                    << QString("MinutesDirectory") << QString("CharacterSheetDirectory")
                     << QString("MusicDirectoryPlayer") << QString("MusicDirectoryPlayer")
                     << QString("MinutesDirectory");
 // CleverURIListener* CleverURI::s_listener = nullptr;
 
-
-CleverURIListener::~CleverURIListener()
-{
-
-}
+CleverURIListener::~CleverURIListener() {}
 
 CleverURI::CleverURI() : m_type(NONE), m_state(Unloaded)
 {
@@ -291,10 +293,10 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) // static
         filterType= QObject::tr("Supported Text Files (%1)")
                         .arg(preferences->value("TextFileFilter", "*.odt *.htm *.html *.txt *.md").toString());
         break;
-    case CleverURI::SCENARIO:
+    /*case CleverURI::SCENARIO:
         filterType
             = QObject::tr("Supported Story Files (%1)").arg(preferences->value("StoryFileFilter", "*.sce").toString());
-        break;
+        break;*/
     case CleverURI::SONG:
         filterType= QObject::tr("Supported Audio formats (%1)")
                         .arg(preferences->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac").toString());
