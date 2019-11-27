@@ -105,7 +105,7 @@ struct CommandLineProfile
 /**
  * @brief Main widget for rolisteam, it herits from QMainWindow.
  */
-class MainWindow : public QMainWindow, public NetWorkReceiver
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
@@ -182,7 +182,7 @@ public:
      * @brief processMessage
      * @param msg
      */
-    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
+//    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 
     /**
      * @brief prepareMap
@@ -259,7 +259,7 @@ protected:
      * @brief processMapMessage
      * @param msg
      */
-    void processMapMessage(NetworkMessageReader* msg);
+  //  void processMapMessage(NetworkMessageReader* msg);
     /**
      * @brief processNpcMessage
      * @param msg
@@ -296,7 +296,7 @@ protected:
      * @param msg
      * @return
      */
-    NetWorkReceiver::SendType processVMapMessage(NetworkMessageReader* msg);
+//    NetWorkReceiver::SendType processVMapMessage(NetworkMessageReader* msg);
     /**
      * @brief extractCharacter
      * @param map
