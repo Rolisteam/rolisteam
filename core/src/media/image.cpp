@@ -404,7 +404,7 @@ void Image::putDataIntoCleverUri()
 {
     QByteArray data;
     QDataStream out(&data, QIODevice::WriteOnly);
-    saveImageToFile(out);
+    //saveImageToFile(out);
     if(nullptr != m_uri)
     {
         m_uri->setData(data);
