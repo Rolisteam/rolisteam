@@ -49,7 +49,7 @@ public:
         ONLINEPICTURE,
         TEXT,
         CHARACTERSHEET,
-        SCENARIO,
+        TOKEN,
         SONG,
         SONGLIST,
         SHAREDNOTE,
