@@ -259,8 +259,7 @@ void MainWindow::setupUi()
     m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct, m_sessionDock->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
 
-    ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory, this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory, this);
+    /*ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::DrawCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory, this);
@@ -268,7 +267,7 @@ void MainWindow::setupUi()
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::SharedNoteCategory, this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::WebPageCategory, this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::WebPageCategory, this);*/
 
     createNotificationZone();
     ///////////////////
@@ -1339,7 +1338,7 @@ void MainWindow::parseCommandLineArguments(QStringList list)
         }
     }
 }
-NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
+/*NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
 {
     if(nullptr == msg)
         return NetWorkReceiver::NONE;
@@ -1390,79 +1389,7 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
         qWarning("Unexpected message - MainWindow::ProcessMessage");
     }
     return type; // NetWorkReceiver::AllExceptMe;
-}
-void MainWindow::processMediaMessage(NetworkMessageReader* msg)
-{
-    if(msg->action() == NetMsg::addMedia)
-    {
-        auto type= static_cast<CleverURI::ContentType>(msg->uint8());
-        switch(type)
-        {
-        case CleverURI::MAP:
-        {
-            MapFrame* mapf= new MapFrame(nullptr, m_mdiArea);
-            mapf->readMessage(*msg);
-            prepareMap(mapf);
-            addMediaToMdiArea(mapf, false);
-            mapf->setVisible(true);
-        }
-        break;
-        case CleverURI::VMAP:
-        {
-            VMapFrame* mapFrame= new VMapFrame(false, m_mdiArea);
-            mapFrame->readMessage(*msg); // create the vmap
-            prepareVMap(mapFrame);
-            addMediaToMdiArea(mapFrame, false);
-        }
-        break;
-        case CleverURI::CHAT:
-            break;
-        case CleverURI::ONLINEPICTURE:
-        case CleverURI::PICTURE:
-        {
-            Image* image= new Image(m_mdiArea);
-            image->readMessage(*msg);
-            addMediaToMdiArea(image, false);
-            image->setVisible(true);
-        }
-        break;
-#ifdef HAVE_WEBVIEW
-        case CleverURI::WEBVIEW:
-        {
-            auto webv= new WebView(WebView::RemoteView, m_mdiArea);
-            webv->setMediaId(msg->string8());
-            webv->readMessage(*msg);
-            addMediaToMdiArea(webv, false);
-        }
-        break;
-#endif
-#ifdef WITH_PDF
-        case CleverURI::PDF:
-        {
-            auto pdf= new PdfViewer(m_mdiArea);
-            pdf->readMessage(*msg);
-            addMediaToMdiArea(pdf, false);
-            pdf->setVisible(true);
-        }
-        break;
-#endif
-        case CleverURI::CHARACTERSHEET:
-            break;
-        case CleverURI::SHAREDNOTE:
-            break;
-        case CleverURI::TEXT:
-        case CleverURI::SCENARIO:
-        case CleverURI::SONG:
-        case CleverURI::SONGLIST:
-        case CleverURI::NONE:
-            break;
-        }
-    }
-    else if(msg->action() == NetMsg::closeMedia)
-    {
-        closeMediaContainer(msg->string8(), false);
-    }
-}
+}*/
 void MainWindow::processWebPageMessage(NetworkMessageReader* msg)
 {
 #ifdef HAVE_WEBVIEW
@@ -1642,7 +1569,7 @@ void MainWindow::postConnection()
     }
 }
 
-void MainWindow::processMapMessage(NetworkMessageReader* msg)
+/*void MainWindow::processMapMessage(NetworkMessageReader* msg)
 {
     if(msg->action() == NetMsg::CloseMap)
     {
@@ -1664,7 +1591,8 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
             mapFrame->setVisible(true);
         }
     }
-}
+}*/
+
 void MainWindow::processNpcMessage(NetworkMessageReader* msg)
 {
     QString idMap= msg->string8();
@@ -2066,59 +1994,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     m_vToolBar->setCurrentTool(VToolsBar::HANDLER);
     tmp->currentToolChanged(m_vToolBar->getCurrentTool());
 }
-NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* msg)
-{
-    NetWorkReceiver::SendType type= NetWorkReceiver::NONE;
-    switch(msg->action())
-    {
-    case NetMsg::loadVmap:
-        break;
-    case NetMsg::closeVmap:
-    {
-        QString vmapId= msg->string8();
-        closeMediaContainer(vmapId, false);
-    }
-    break;
-    case NetMsg::addVmap:
-    case NetMsg::DelPoint:
-        break;
-    case NetMsg::AddItem:
-    case NetMsg::DelItem:
-    case NetMsg::MoveItem:
-    case NetMsg::GeometryItemChanged:
-    case NetMsg::OpacityItemChanged:
-    case NetMsg::LayerItemChanged:
-    case NetMsg::MovePoint:
-    case NetMsg::vmapChanges:
-    case NetMsg::GeometryViewChanged:
-    case NetMsg::SetParentItem:
-    case NetMsg::RectGeometryItem:
-    case NetMsg::RotationItem:
-    case NetMsg::CharacterStateChanged:
-    case NetMsg::CharacterChanged:
-    case NetMsg::VisionChanged:
-    case NetMsg::ColorChanged:
-    case NetMsg::ZValueItem:
-    {
-        QString vmapId= msg->string8();
-        MediaContainer* tmp= m_mediaHash.value(vmapId);
-        if(nullptr != tmp)
-        {
-            VMapFrame* mapF= dynamic_cast<VMapFrame*>(tmp);
-            if(nullptr != mapF)
-            {
-                type= mapF->processMessage(msg);
-            }
-        }
-    }
-    break;
-    default:
-        qWarning("Unexpected Action - MainWindow::processVMapMessage");
-        break;
-    }
 
-    return type;
-}
 CleverURI* MainWindow::contentToPath(CleverURI::ContentType type, bool save)
 {
     QString filter= CleverURI::getFilterForType(type);
