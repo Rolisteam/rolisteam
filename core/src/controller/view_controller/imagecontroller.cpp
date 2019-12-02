@@ -21,9 +21,13 @@
 
 #include "data/cleveruri.h"
 
-ImageController::ImageController(CleverURI* uri, QObject* parent) : AbstractMediaContainerController(uri, parent)
+ImageController::ImageController(CleverURI* uri, const QPixmap& pixmap, QObject* parent)
+    : AbstractMediaContainerController(uri, parent)
 {
-    m_image= QPixmap(uri->getUri());
+    if(pixmap.isNull())
+        m_image= QPixmap(uri->getUri());
+    else
+        m_image= pixmap;
 }
 
 bool ImageController::fitWindow() const

@@ -29,6 +29,7 @@
 #include "preferences/preferencesmanager.h"
 #include "vmap/vtoolbar.h"
 
+#include "controller/view_controller/abstractmediacontroller.h"
 #include "network/networkmessagewriter.h"
 
 /**
@@ -57,11 +58,14 @@ public:
     /**
      * @brief MediaContainer
      */
-    MediaContainer(ContainerType containerType, bool localIsGM, QWidget* parent= nullptr);
+    MediaContainer(AbstractMediaContainerController* ctrl, ContainerType containerType, bool localIsGM,
+                   QWidget* parent= nullptr);
+
+    AbstractMediaContainerController* ctrl() const;
     /**
      * @brief ~MediaContainer
      */
-    virtual ~MediaContainer();
+    virtual ~MediaContainer() override;
 
     /**
      * @brief setLocalPlayerId
@@ -73,17 +77,6 @@ public:
      * @return
      */
     QString getLocalPlayerId();
-
-    /**
-     * @brief setCleverUri
-     * @param uri
-     */
-    virtual void setCleverUri(CleverURI* uri);
-    /**
-     * @brief getCleverUri
-     * @return
-     */
-    virtual CleverURI* getCleverUri() const;
     /**
      * @brief isUriEndWith
      * @return
@@ -160,12 +153,9 @@ public:
      */
     virtual void setMediaId(QString);
 
-    virtual void cleverURIHasChanged(CleverURI*, CleverURI::DataValue field);
+    virtual void cleverURIHasChanged(CleverURI*, CleverURI::DataValue field) override;
 
     void addActionToMenu(QMenu& menu);
-
-    virtual QUndoStack* getUndoStack() const;
-    virtual void setUndoStack(QUndoStack* undoStack);
 
     virtual void fill(NetworkMessageWriter& msg);
     virtual void readMessage(NetworkMessageReader& msg);
@@ -181,6 +171,9 @@ public:
 
     void setContainerType(const ContainerType& containerType);
     MediaContainer::ContainerType getContainerType() const;
+
+protected:
+    void closeEvent(QCloseEvent* event) override;
 signals:
     /**
      * @brief visibleChanged
@@ -197,19 +190,18 @@ public slots:
     void setVisible(bool b);
 
     void detachView(bool b);
-    virtual void setUriName(const QString &name);
+    virtual void setUriName(const QString& name);
 
 protected slots:
     virtual void updateTitle()= 0;
 
 protected:
-    QString m_localPlayerId;
-    CleverURI* m_uri= nullptr;
+    QPointer<AbstractMediaContainerController> m_lifeCycleCtrl;
     QString m_filter;
     PreferencesManager* m_preferences;
-    QAction* m_action=nullptr;
+    QAction* m_action= nullptr;
     QString m_name;
-    QCursor* m_currentCursor=nullptr;
+    QCursor* m_currentCursor= nullptr;
     /**
      * @brief the current tool, it is an enum item.
      */
