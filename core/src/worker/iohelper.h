@@ -20,11 +20,15 @@
 #ifndef IOHELPER_H
 #define IOHELPER_H
 
-
+class VMap;
+class CleverURI;
+class VectorialMapController;
 class IOHelper
 {
 public:
     IOHelper();
+
+    static bool loadVMap(VMap* vmap, CleverURI* uri, VectorialMapController* ctrl);
 };
 
 #endif // IOHELPER_H

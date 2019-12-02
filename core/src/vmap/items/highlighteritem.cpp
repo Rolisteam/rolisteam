@@ -30,9 +30,9 @@
 #include "network/networkmessagewriter.h"
 #include "preferences/preferencesmanager.h"
 
-HighlighterItem::HighlighterItem() : VisualItem() {}
+HighlighterItem::HighlighterItem(const std::map<Core::Properties, QVariant>& properties) : VisualItem(properties) {}
 
-HighlighterItem::HighlighterItem(QPointF& center, int penSize, QColor& penColor, QGraphicsItem* parent)
+/*HighlighterItem::HighlighterItem(QPointF& center, int penSize, QColor& penColor, QGraphicsItem* parent)
     : VisualItem(penColor, penSize, parent)
 {
     m_center= center;
@@ -42,7 +42,8 @@ HighlighterItem::HighlighterItem(QPointF& center, int penSize, QColor& penColor,
     m_radius= 0;
 
     initAnimation();
-}
+}*/
+
 void HighlighterItem::initAnimation()
 {
     auto const preferences= PreferencesManager::getInstance();
@@ -138,7 +139,7 @@ void HighlighterItem::readItem(NetworkMessageReader* msg)
     m_id= msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
-    m_layer= (VisualItem::Layer)msg->uint8();
+    m_layer= static_cast<Core::Layer>(msg->uint8());
     setZValue(msg->real());
     setOpacity(msg->real());
 

@@ -29,17 +29,7 @@ class PathItem : public VisualItem
 {
     Q_OBJECT
 public:
-    PathItem();
-    /**
-     * @brief constructor with parameters
-     * @param nend starting point
-     * @param penColor color used to draw the path (path is not filled)
-     * @param penSize, width of the pen
-     * @param parent
-     */
-    PathItem(
-        const QPointF& nend, const QColor& penColor, int penSize, bool penMode= false, QGraphicsItem* parent= nullptr);
-
+    PathItem(const std::map<Core::Properties, QVariant>& properties);
     /**
      * @brief override function to paint itself.
      */

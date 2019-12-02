@@ -30,43 +30,52 @@
 #include "vmap/items/ruleitem.h"
 #include "vmap/items/textitem.h"
 
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include "data/character.h"
 #include "network/networkmessagewriter.h"
 
-AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool, VMap* vmap, QPointF& pos, QColor& color,
-                                       quint16 penSize, QUndoCommand* parent)
-    : QUndoCommand(parent), m_vmap(vmap), m_pos(pos), m_color(color), m_penSize(penSize), m_tool(tool)
+AddVmapItemCommand::AddVmapItemCommand(Core::SelectableTool tool, VectorialMapController* ctrl,
+                                       const std::map<Core::Properties, QVariant>& properties, QPointF& pos,
+                                       QColor& color, quint16 penSize, QUndoCommand* parent)
+    : QUndoCommand(parent), m_ctrl(ctrl), m_pos(pos), m_color(color), m_penSize(penSize), m_tool(tool)
 {
     switch(m_tool)
     {
-    case VToolsBar::PEN:
-        m_currentItem= new PathItem(m_pos, m_color, m_penSize, true);
+    case Core::PEN:
+        m_currentItem= new PathItem(properties);
+        // , m_pos, m_color, m_penSize, true
         break;
-    case VToolsBar::PATH:
+    case Core::PATH:
     {
-        PathItem* pathItem= new PathItem(m_pos, m_color, m_penSize);
+        PathItem* pathItem= new PathItem(properties);
+        // , m_pos, m_color, m_penSize, true
         m_currentItem= pathItem;
         m_currentPath= pathItem;
     }
     break;
-    case VToolsBar::LINE:
-        m_currentItem= new LineItem(m_pos, m_color, m_penSize);
+    case Core::LINE:
+        m_currentItem= new LineItem(properties);
+        // , m_pos, m_color, m_penSize
         break;
-    case VToolsBar::EMPTYRECT:
-        m_currentItem= new RectItem(m_pos, m_pos, false, m_penSize, m_color);
+    case Core::EMPTYRECT:
+        m_currentItem= new RectItem(properties);
+        //, m_pos, m_pos, false, m_penSize, m_color
         break;
-    case VToolsBar::FILLRECT:
-        m_currentItem= new RectItem(m_pos, m_pos, true, m_penSize, m_color);
+    case Core::FILLRECT:
+        m_currentItem= new RectItem(properties);
+        // , m_pos, m_pos, true, m_penSize, m_color
         break;
-    case VToolsBar::EMPTYELLIPSE:
-        m_currentItem= new EllipsItem(m_pos, false, m_penSize, m_color);
+    case Core::EMPTYELLIPSE:
+        m_currentItem= new EllipsItem(properties);
+        // , m_pos, false, m_penSize, m_color
         break;
-    case VToolsBar::FILLEDELLIPSE:
-        m_currentItem= new EllipsItem(m_pos, true, m_penSize, m_color);
+    case Core::FILLEDELLIPSE:
+        m_currentItem= new EllipsItem(properties);
+        // , m_pos, true, m_penSize, m_color
         break;
-    case VToolsBar::TEXT:
+    case Core::TEXT:
     {
-        QGraphicsItem* item= m_vmap->itemAt(m_pos, QTransform());
+        /*QGraphicsItem* item= m_vmap->itemAt(m_pos, QTransform());
         TextItem* tmp= dynamic_cast<TextItem*>(item);
         QGraphicsTextItem* tmpGraph= dynamic_cast<QGraphicsTextItem*>(item);
         if((nullptr == tmp) && (nullptr == tmpGraph))
@@ -77,12 +86,12 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool, VMap* vma
         else
         {
             m_error= true;
-        }
+        }*/
     }
     break;
-    case VToolsBar::TEXTBORDER:
+    case Core::TEXTBORDER:
     {
-        QGraphicsItem* item= m_vmap->itemAt(m_pos, QTransform());
+        /*QGraphicsItem* item= m_vmap->itemAt(m_pos, QTransform());
         TextItem* tmp= dynamic_cast<TextItem*>(item);
         QGraphicsTextItem* tmpGraph= dynamic_cast<QGraphicsTextItem*>(item);
         if((nullptr == tmp) && (nullptr == tmpGraph))
@@ -94,36 +103,35 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool, VMap* vma
         else
         {
             m_error= true;
-        }
+        }*/
     }
     break;
-    case VToolsBar::HANDLER:
+    case Core::HANDLER:
         break;
-    case VToolsBar::ADDNPC:
+    case Core::ADDNPC:
     {
-        CharacterItem* itemCharar= new CharacterItem(
-            new Character(m_vmap->getCurrentNpcName(), m_color, true, m_vmap->getCurrentNpcNumber()), m_pos);
-        m_currentItem= itemCharar;
+        /* CharacterItem* itemCharar= new CharacterItem(
+             new Character(m_vmap->getCurrentNpcName(), m_color, true, m_vmap->getCurrentNpcNumber()), m_pos);
+         m_currentItem= itemCharar;*/
     }
     break;
-    case VToolsBar::RULE:
+    case Core::RULE:
     {
-        RuleItem* itemRule= new RuleItem(m_pos);
-        itemRule->setUnit(static_cast<VMap::SCALE_UNIT>(m_vmap->getOption(VisualItem::Unit).toInt()));
-        itemRule->setPixelToUnit(m_vmap->getOption(VisualItem::GridSize).toInt()
-                                 / m_vmap->getOption(VisualItem::Scale).toReal());
+        RuleItem* itemRule= new RuleItem(properties); //, m_pos
+        itemRule->setUnit(static_cast<Core::ScaleUnit>(m_ctrl->getOption(Core::Unit).toInt()));
+        itemRule->setPixelToUnit(m_ctrl->getOption(Core::GridSize).toInt() / m_ctrl->getOption(Core::Scale).toReal());
         m_currentItem= itemRule;
     }
     break;
-    case VToolsBar::ANCHOR:
+    case Core::ANCHOR:
     {
-        AnchorItem* anchorItem= new AnchorItem(m_pos);
+        AnchorItem* anchorItem= new AnchorItem(properties, m_pos); //, m_pos
         m_currentItem= anchorItem;
     }
     break;
-    case VToolsBar::HIGHLIGHTER:
+    case Core::HIGHLIGHTER:
     {
-        HighlighterItem* highlighter= new HighlighterItem(m_pos, m_penSize, m_color);
+        HighlighterItem* highlighter= new HighlighterItem(properties); //, m_pos, m_penSize, m_color
         m_currentItem= highlighter;
     }
     break;
@@ -133,13 +141,24 @@ AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool, VMap* vma
 
     if(nullptr != m_currentItem)
     {
+        /* QObject::connect(m_currentItem, SIGNAL(itemGeometryChanged(VisualItem*)), m_vmap,
+                          SLOT(sendItemToAll(VisualItem*)));
+         QObject::connect(m_currentItem, &VisualItem::itemRemoved, m_vmap, &VMap::removeItemFromScene);
+         QObject::connect(m_currentItem, SIGNAL(duplicateItem(VisualItem*)), m_vmap, SLOT(duplicateItem(VisualItem*)));
+         QObject::connect(m_currentItem, SIGNAL(itemLayerChanged(VisualItem*)), m_vmap,
+                          SLOT(checkItemLayer(VisualItem*)));
+         QObject::connect(m_currentItem, SIGNAL(promoteItemTo(VisualItem*, VisualItem::ItemType)), m_vmap,
+                          SLOT(promoteItemInType(VisualItem*, VisualItem::ItemType)));
+         QObject::connect(m_currentItem, SIGNAL(changeStackPosition(VisualItem*, VisualItem::StackOrder)), m_vmap,
+                          SLOT(changeStackOrder(VisualItem*, VisualItem::StackOrder)));*///
         initItem(true);
 
         setText(QObject::tr("Add vmap item"));
     }
 }
-AddVmapItemCommand::AddVmapItemCommand(VisualItem* item, bool addMapLayer, VMap* map, QUndoCommand* parent)
-    : QUndoCommand(parent), m_vmap(map), m_currentItem(item)
+AddVmapItemCommand::AddVmapItemCommand(VisualItem* item, bool addMapLayer, VectorialMapController* ctrl,
+                                       QUndoCommand* parent)
+    : QUndoCommand(parent), m_ctrl(ctrl), m_currentItem(item)
 {
     initItem(addMapLayer);
 }
@@ -156,13 +175,13 @@ void AddVmapItemCommand::initItem(bool addMapLayer)
                      SLOT(changeStackOrder(VisualItem*, VisualItem::StackOrder)));
 
     m_first= true;
-    m_currentItem->setMapId(m_vmap->getId());
-    m_currentItem->setPropertiesHash(m_vmap->getPropertiesHash());
+    // m_currentItem->setMapId(m_vmap->getId());
+    // m_currentItem->setPropertiesHash(m_vmap->getPropertiesHash());
     m_currentItem->updateItemFlags();
-    if(addMapLayer)
-        m_currentItem->setLayer(m_vmap->getCurrentLayer());
+    // if(addMapLayer)
+    //    m_currentItem->setLayer(m_vmap->currentLayer());
     m_currentItem->setVisible(isVisible());
-    m_vmap->QGraphicsScene::addItem(m_currentItem);
+    // m_vmap->QGraphicsScene::addItem(m_currentItem);
     m_currentItem->update();
 }
 
@@ -190,23 +209,24 @@ bool AddVmapItemCommand::isVisible()
 {
     bool visible= false;
     if((m_currentItem->getType() == VisualItem::SIGHT)
-       && (m_vmap->getOption(VisualItem::VisibilityMode) != VMap::FOGOFWAR))
+       && (m_ctrl->getOption(Core::VisibilityModeProperty) != Core::FOGOFWAR))
     {
         visible= false;
     }
-    else if((m_vmap->getOption(VisualItem::LocalIsGM).toBool())
-            || (m_vmap->getOption(VisualItem::VisibilityMode) == VMap::ALL))
+    else if((m_ctrl->getOption(Core::LocalIsGM).toBool())
+            || (m_ctrl->getOption(Core::VisibilityModeProperty) == Core::ALL))
     {
         visible= true;
     }
-    else if(static_cast<VMap::VisibilityMode>(m_vmap->getOption(VisualItem::VisibilityMode).toInt()) == VMap::FOGOFWAR)
+    else if(static_cast<Core::VisibilityMode>(m_ctrl->getOption(Core::VisibilityModeProperty).toInt())
+            == Core::FOGOFWAR)
     {
         if(m_currentItem->getType() == VisualItem::CHARACTER)
         {
             CharacterItem* charItem= dynamic_cast<CharacterItem*>(m_currentItem);
             if(nullptr != charItem)
             {
-                if(charItem->getParentId() == m_vmap->getLocalUserId())
+                // if(charItem->getParentId() == m_vmap->getLocalUserId())
                 {
                     visible= true;
                 }
@@ -225,12 +245,12 @@ void AddVmapItemCommand::undo()
         return;
 
     qInfo() << QStringLiteral("Undo command AddVmapItemCommand: %1 ").arg(text());
-    m_vmap->removeItem(m_currentItem);
-    m_vmap->update();
-    m_vmap->removeItemFromData(m_currentItem);
+    // m_vmap->removeItem(m_currentItem);
+    // m_vmap->update();
+    // m_vmap->removeItemFromData(m_currentItem);
 
     NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::DelItem);
-    msg.string8(m_vmap->getId());         // id map
+    // msg.string8(m_vmap->getId());         // id map
     msg.string16(m_currentItem->getId()); // id item
     msg.sendToServer();
 }
@@ -239,10 +259,9 @@ void AddVmapItemCommand::redo()
 #ifndef UNIT_TEST
     qInfo() << QStringLiteral("Redo command AddVmapItemCommand: %1 ").arg(text());
 #endif
-    m_vmap->setFocusItem(m_currentItem);
     m_currentItem->setVisible(isVisible());
     m_currentItem->updateItemFlags();
-    m_vmap->addItemFromData(m_currentItem);
+    // m_vmap->addItemFromData(m_currentItem);
     if(m_first)
     {
         m_currentItem->initChildPointItem();
@@ -250,11 +269,11 @@ void AddVmapItemCommand::redo()
     }
     else
     {
-        m_vmap->QGraphicsScene::addItem(m_currentItem);
+        //   m_vmap->QGraphicsScene::addItem(m_currentItem);
     }
 
     NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
-    msg.string8(m_vmap->getId());
+    // msg.string8(m_vmap->getId());
     msg.uint8(m_currentItem->getType());
     m_currentItem->fillMessage(&msg);
     msg.sendToServer();
@@ -282,7 +301,7 @@ void AddVmapItemCommand::setError(bool error)
 
 bool AddVmapItemCommand::isNpc() const
 {
-    return (m_tool == VToolsBar::ADDNPC);
+    return (m_tool == Core::ADDNPC);
 }
 
 bool AddVmapItemCommand::hasToBeDeleted() const

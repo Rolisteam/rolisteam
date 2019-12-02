@@ -20,10 +20,9 @@
 
 #include "anchoritem.h"
 
-AnchorItem::AnchorItem() : m_pen(QColor(Qt::darkGray)) {}
-AnchorItem::AnchorItem(QPointF& p) : VisualItem()
+AnchorItem::AnchorItem(const std::map<Core::Properties, QVariant>& properties, QPointF& p)
+    : VisualItem(properties), m_startPoint(p), m_pen(QColor(Qt::darkGray))
 {
-    m_startPoint= p;
     m_endPoint= m_startPoint;
     m_rect.setTopLeft(p);
     m_rect.setBottomRight(m_endPoint);

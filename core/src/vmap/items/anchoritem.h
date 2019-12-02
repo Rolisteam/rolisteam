@@ -34,19 +34,15 @@ class AnchorItem : public VisualItem
 public:
     /**
      * @brief AnchorItem
-     */
-    AnchorItem();
-    /**
-     * @brief AnchorItem
      * @param p
      */
-    AnchorItem(QPointF& p);
+    AnchorItem(const std::map<Core::Properties, QVariant>& properties, QPointF& p);
     /**
      *
      */
     virtual ~AnchorItem();
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= 0);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
 
     /**
      * @brief gives bounding rect of the line

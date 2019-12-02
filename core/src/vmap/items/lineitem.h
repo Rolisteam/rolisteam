@@ -28,11 +28,11 @@
 class LineItem : public VisualItem
 {
 public:
-    LineItem();
+    LineItem(const std::map<Core::Properties, QVariant>& properties);
     /**
      * @brief constructor with parameters
      */
-    LineItem(const QPointF& p, const QColor& penColor, int penSize, QGraphicsItem* parent= nullptr);
+    // LineItem(const QPointF& p, const QColor& penColor, int penSize, QGraphicsItem* parent= nullptr);
     /**
      * @brief paint the line
      */

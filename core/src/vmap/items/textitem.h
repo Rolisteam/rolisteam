@@ -59,12 +59,13 @@ class TextItem : public VisualItem
 {
     Q_OBJECT
 public:
-    TextItem();
+    TextItem(const std::map<Core::Properties, QVariant>& properties);
     /**
      * @brief Constructor with parameters
      * @param start, starting point, it represents the bottom right rectangle corner where the text willbe displayed
      */
-    TextItem(const QPointF& start, quint16 penSize, const QColor& penColor, QGraphicsItem* parent= nullptr);
+    TextItem(const std::map<Core::Properties, QVariant>& properties, const QPointF& start, quint16 penSize,
+             const QColor& penColor, QGraphicsItem* parent= nullptr);
     /**
      * @brief paint the item into the scene.
      */

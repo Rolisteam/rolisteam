@@ -40,14 +40,15 @@ public:
     /**
      * @brief CharacterItem
      */
-    CharacterItem();
+    CharacterItem(const std::map<Core::Properties, QVariant>& properties);
     /**
      * @brief CharacterItem
      * @param m
      * @param center
      * @param diameter
      */
-    CharacterItem(Character* m, const QPointF& center, qreal diameter= 40.0);
+    CharacterItem(const std::map<Core::Properties, QVariant>& properties, Character* m, const QPointF& center,
+                  qreal diameter= 40.0);
     /**
      * @brief serialisation function to write data
      */

@@ -27,16 +27,10 @@
 class RectItem : public VisualItem
 {
 public:
-    RectItem();
-    /**
-     * @brief Constructor with parameters.
-     * @param topleft corner of the rectangle.
-     * @param buttom right corner of the rectangle
-     * @param filled either we paint filled rectange or just uts border
-     * @param color
-     */
-    RectItem(const QPointF& topleft, const QPointF& buttomright, bool filled, quint16 penSize, const QColor& penColor,
-        QGraphicsItem* parent= nullptr);
+    RectItem(const std::map<Core::Properties, QVariant>& properties);
+    // RectItem(const QPointF& topleft, const QPointF& buttomright, bool filled, quint16 penSize, const QColor&
+    // penColor,
+    //    QGraphicsItem* parent= nullptr);
     /**
      * @brief paint the current rectangle into the scene.
      * @see Qt documentation

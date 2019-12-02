@@ -24,13 +24,15 @@
 #include "vmap/vtoolbar.h"
 #include <QUndoCommand>
 
+class VectorialMapController;
 class AddVmapItemCommand : public QUndoCommand
 {
 public:
-    AddVmapItemCommand(VToolsBar::SelectableTool tool, VMap* canvas, QPointF& pos, QColor& color, quint16 penSize,
-        QUndoCommand* parent= nullptr);
+    AddVmapItemCommand(Core::SelectableTool tool, VectorialMapController* ctrl,
+                       const std::map<Core::Properties, QVariant>& properties, QPointF& pos, QColor& color,
+                       quint16 penSize, QUndoCommand* parent= nullptr);
 
-    AddVmapItemCommand(VisualItem* item, bool addMapLayer, VMap* map, QUndoCommand* parent= nullptr);
+    AddVmapItemCommand(VisualItem* item, bool addMapLayer, VectorialMapController* ctrl, QUndoCommand* parent= nullptr);
 
     void undo() override;
     void redo() override;
@@ -60,13 +62,13 @@ protected:
     void initItem(bool addMapLayer);
 
 private:
-    VMap* m_vmap= nullptr;
+    QPointer<VectorialMapController> m_ctrl;
     QPointF m_pos;
     QColor m_color;
     quint16 m_penSize;
     VisualItem* m_currentPath= nullptr;
     bool m_error= false;
-    VToolsBar::SelectableTool m_tool;
+    Core::SelectableTool m_tool;
     bool m_first= true;
     bool m_undoable= true;
     bool m_initPoint= true;

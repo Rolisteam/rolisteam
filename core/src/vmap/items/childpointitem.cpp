@@ -50,7 +50,7 @@ QVariant ChildPointItem::itemChange(GraphicsItemChange change, const QVariant& v
     if(m_editable)
     {
         if(change == ItemPositionChange /*&& scene()*/ && isSelected() && m_currentMotion != NONE
-            && m_currentMotion != MOUSE)
+           && m_currentMotion != MOUSE)
         {
             QPointF newPos= value.toPointF();
             if(m_currentMotion == X_AXIS)
@@ -266,7 +266,7 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
                 if(event->modifiers() & Qt::AltModifier)
                 {
                     transformType= VisualItem::Sticky;
-                    int size= m_parent->getOption(VisualItem::GridSize).toInt();
+                    int size= m_parent->getOption(Core::GridSize).toInt();
                     W= std::round(W / size) * size;
                     H= std::round(H / size) * size;
                 }
