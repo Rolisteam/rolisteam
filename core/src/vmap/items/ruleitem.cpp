@@ -132,7 +132,7 @@ void RuleItem::setGeometryPoint(qreal pointId, QPointF& pos)
     }
 }
 void RuleItem::initChildPointItem() {}
-void RuleItem::setUnit(VMap::SCALE_UNIT unit)
+void RuleItem::setUnit(Core::ScaleUnit unit)
 {
     switch(unit)
     {

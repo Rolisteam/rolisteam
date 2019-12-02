@@ -41,18 +41,13 @@ QStringList VisualItem::s_type2NameList
 QStringList VisualItem::s_layerName= QStringList()
                                      << QObject::tr("Ground") << QObject::tr("Object") << QObject::tr("Character");
 
-VisualItem::VisualItem() : QGraphicsObject()
+VisualItem::VisualItem(const std::map<Core::Properties, QVariant>& properties)
+    : QGraphicsObject(), m_propertiesHash(properties)
 {
     m_id= QUuid::createUuid().toString();
     init();
 }
 
-VisualItem::VisualItem(const QColor& penColor, int penSize, QGraphicsItem* parent)
-    : QGraphicsObject(parent), m_color(penColor), m_child(nullptr), m_penWidth(penSize)
-{
-    m_id= QUuid::createUuid().toString();
-    init();
-}
 VisualItem::~VisualItem() {}
 
 void VisualItem::init()
@@ -62,11 +57,11 @@ void VisualItem::init()
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
     QActionGroup* group= new QActionGroup(this);
     m_putGroundLayer= new QAction(s_layerName[0], this);
-    m_putGroundLayer->setData(VisualItem::GROUND);
+    m_putGroundLayer->setData(static_cast<int>(Core::Layer::GROUND));
     m_putObjectLayer= new QAction(s_layerName[1], this);
-    m_putObjectLayer->setData(VisualItem::OBJECT);
+    m_putObjectLayer->setData(static_cast<int>(Core::Layer::OBJECT));
     m_putCharacterLayer= new QAction(s_layerName[2], this);
-    m_putCharacterLayer->setData(VisualItem::CHARACTER_LAYER);
+    m_putCharacterLayer->setData(static_cast<int>(Core::Layer::CHARACTER_LAYER));
 
     m_putGroundLayer->setCheckable(true);
     m_putObjectLayer->setCheckable(true);
@@ -121,7 +116,7 @@ void VisualItem::updateItemFlags()
 
 bool VisualItem::itemAndMapOnSameLayer() const
 {
-    return m_layer == getOption(VisualItem::MapLayer).toInt();
+    return (static_cast<int>(m_layer) == getOption(Core::MapLayer).toInt());
 }
 
 QColor VisualItem::getColor()
@@ -168,7 +163,7 @@ QPointF VisualItem::computeClosePoint(QPointF pos)
 {
     if(Qt::AltModifier & QGuiApplication::keyboardModifiers())
     {
-        int size= getOption(GridSize).toInt();
+        int size= getOption(Core::GridSize).toInt();
         pos.setX(std::round(pos.x() / size) * size);
         pos.setY(std::round(pos.y() / size) * size);
     }
@@ -253,12 +248,12 @@ void VisualItem::manageAction()
         emit duplicateItem(this);
     }
 }
-VisualItem::Layer VisualItem::getLayer() const
+Core::Layer VisualItem::getLayer() const
 {
     return m_layer;
 }
 
-void VisualItem::setLayer(VisualItem::Layer layer)
+void VisualItem::setLayer(Core::Layer layer)
 {
     if(m_layer == layer)
         return;
@@ -311,7 +306,7 @@ void VisualItem::sendItemLayer()
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::LayerItemChanged);
         msg.string8(m_mapId);
         msg.string16(m_id);
-        msg.uint8(m_layer);
+        msg.uint8(static_cast<quint8>(m_layer));
         msg.sendToServer();
     }
 }
@@ -338,7 +333,7 @@ void VisualItem::readLayerMsg(NetworkMessageReader* msg)
 {
     quint8 lay= msg->uint8();
     blockSignals(true);
-    setLayer(static_cast<VisualItem::Layer>(lay));
+    setLayer(static_cast<Core::Layer>(lay));
     blockSignals(false);
 }
 bool VisualItem::isLocal() const
@@ -471,11 +466,6 @@ void VisualItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
     m_rect.setHeight(h);
 }
 
-void VisualItem::setPropertiesHash(QHash<VisualItem::Properties, QVariant>* hash)
-{
-    m_propertiesHash= hash;
-}
-
 void VisualItem::setMapId(QString id)
 {
     m_mapId= id;
@@ -528,8 +518,8 @@ void VisualItem::setChildrenVisible(bool b)
         {
             for(auto& item : *m_child)
             {
-                bool isVisionAndFog= m_propertiesHash->value(VisualItem::FogOfWarStatus).toBool()
-                                     & m_propertiesHash->value(VisualItem::EnableCharacterVision).toBool();
+                bool isVisionAndFog= m_propertiesHash.at(Core::FogOfWarStatus).toBool()
+                                     & m_propertiesHash.at(Core::EnableCharacterVision).toBool();
                 if((!item->isVisionHandler()) || (isVisionAndFog) || (!b))
                 {
                     item->setVisible(b);
@@ -550,16 +540,16 @@ bool VisualItem::canBeMoved() const
 bool VisualItem::hasPermissionToMove(bool allowCharacter) const
 {
     bool movable= false;
-    if(getOption(VisualItem::LocalIsGM).toBool())
+    if(getOption(Core::LocalIsGM).toBool())
     {
         movable= true;
     }
-    else if((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE) && (getType() == VisualItem::CHARACTER)
+    else if((getOption(Core::PermissionModeProperty).toInt() == Core::PC_MOVE) && (getType() == VisualItem::CHARACTER)
             && (isLocal()) && (allowCharacter))
     {
         movable= true;
     }
-    else if(getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)
+    else if(getOption(Core::PermissionModeProperty).toInt() == Core::PC_ALL)
     {
         movable= true;
     }
@@ -605,22 +595,18 @@ void VisualItem::setHoldSize(bool holdSize)
     m_holdSize= holdSize;
 }
 
-QString VisualItem::getLayerToText(VisualItem::Layer id)
+QString VisualItem::getLayerToText(Core::Layer id)
 {
     if(s_layerName.size() > static_cast<int>(id))
     {
-        return s_layerName.at(id);
+        return s_layerName.at(static_cast<int>(id));
     }
     return QString();
 }
 
-QVariant VisualItem::getOption(VisualItem::Properties pop) const
+QVariant VisualItem::getOption(Core::Properties pop) const
 {
-    if(nullptr != m_propertiesHash)
-    {
-        return m_propertiesHash->value(pop);
-    }
-    return QVariant();
+    return m_propertiesHash.at(pop);
 }
 
 void VisualItem::setSize(QSizeF size)

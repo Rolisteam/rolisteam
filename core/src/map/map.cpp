@@ -52,7 +52,7 @@ Map::Map(QString localPlayerId, QString identCarte, QImage* image, bool masquer,
     {
         m_localIsPlayer= true;
     }*/
-    m_currentMode= Map::GM_ONLY;
+    m_currentMode= Core::GM_ONLY;
     m_currentTool= ToolsBar::Handler;
 
     m_originalBackground= new QImage(image->size(), QImage::Format_ARGB32);
@@ -74,7 +74,7 @@ Map::Map(QString localPlayerId, QString identCarte, QImage* original, QImage* av
 {
     m_localPlayerId= localPlayerId;
 
-    m_currentMode= Map::GM_ONLY;
+    m_currentMode= Core::GM_ONLY;
 
     m_originalBackground= new QImage(original->size(), QImage::Format_ARGB32);
     *m_originalBackground= original->convertToFormat(QImage::Format_ARGB32);
@@ -229,7 +229,7 @@ void Map::mousePressEvent(QMouseEvent* event)
         if(m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc
            || m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         {
-            if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode) || (Map::PC_MOVE == m_currentMode))
+            if((!m_localIsPlayer) || (Core::PC_ALL == m_currentMode) || (Core::PC_MOVE == m_currentMode))
             {
                 processNpcAction(pos);
             }
@@ -245,7 +245,7 @@ void Map::mousePressEvent(QMouseEvent* event)
         }
         else
         {
-            if(((!m_localIsPlayer)) || (((m_currentMode == Map::PC_ALL))))
+            if(((!m_localIsPlayer)) || (((m_currentMode == Core::PC_ALL))))
             {
                 m_originPoint= m_mousePoint= pos;
                 m_origZone= m_newZone= zoneToRefresh();
@@ -349,7 +349,7 @@ void Map::mouseReleaseEvent(QMouseEvent* event)
                 paintMap(painter);
             }
 
-            if(((!m_localIsPlayer)) || (((m_currentMode == Map::PC_ALL))))
+            if(((!m_localIsPlayer)) || (((m_currentMode == Core::PC_ALL))))
             {
                 m_mousePoint= pos;
                 m_newZone= zoneToRefresh();
@@ -370,7 +370,7 @@ void Map::mouseReleaseEvent(QMouseEvent* event)
                 update(); // zoneOrigine.unite(zoneNouvelle)
                 showHideNPC();
             }
-            if((!m_localIsPlayer) || (((m_currentMode == Map::PC_ALL))))
+            if((!m_localIsPlayer) || (((m_currentMode == Core::PC_ALL))))
             {
                 sendTrace();
             }
@@ -413,7 +413,7 @@ void Map::mouseMoveEvent(QMouseEvent* event)
         }
         else
         {
-            if((!m_localIsPlayer) || (((m_currentMode == Map::PC_ALL))))
+            if((!m_localIsPlayer) || (((m_currentMode == Core::PC_ALL))))
             {
                 m_mousePoint= pos;
 
@@ -714,7 +714,7 @@ void Map::processNpcAction(QPoint positionSouris)
 {
     if(m_currentTool == ToolsBar::AddNpc)
     {
-        if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode))
+        if((!m_localIsPlayer) || (Core::PC_ALL == m_currentMode))
         {
             if(ColorSelector::getSelectedColor().type == ColorType)
             {
@@ -1024,7 +1024,7 @@ void Map::toggleCharacterView(Character* character)
 {
     QString uuid= character->getUuid();
     bool newState= !isVisiblePc(uuid);
-    if((!m_localIsPlayer) || (Map::PC_ALL == m_currentMode) || (Map::PC_MOVE == m_currentMode))
+    if((!m_localIsPlayer) || (Core::PC_ALL == m_currentMode) || (Core::PC_MOVE == m_currentMode))
     {
         showPc(uuid, newState);
 
@@ -1732,12 +1732,12 @@ bool Map::selectCharacter(QString& id)
 
     return true;
 }
-void Map::setPermissionMode(Map::PermissionMode mode)
+void Map::setPermissionMode(Core::PermissionMode mode)
 {
     m_currentMode= mode;
     emit permissionModeChanged();
 }
-Map::PermissionMode Map::getPermissionMode()
+Core::PermissionMode Map::getPermissionMode()
 {
     return m_currentMode;
 }

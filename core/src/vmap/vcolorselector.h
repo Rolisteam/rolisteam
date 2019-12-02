@@ -106,16 +106,6 @@ class VColorSelector : public QWidget
     Q_OBJECT
 public:
     /**
-     * @brief Painting mode
-     */
-    enum PAINTINGMODE
-    {
-        NORMAL,
-        HIDING,
-        UNVEIL,
-        ERASING
-    };
-    /**
      * @brief Constructor compliant with QWidget constructor
      */
     explicit VColorSelector(QWidget* parent= nullptr);

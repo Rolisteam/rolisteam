@@ -77,9 +77,8 @@ void VMapFrame::updateMap()
     setGeometry(0, 0, m_vmap->mapWidth(), m_vmap->mapHeight());
     setWidget(m_graphicView);
     setWindowIcon(QIcon(":/vmap.png"));
-    m_vmap->setVisibilityMode(static_cast<VMap::VisibilityMode>(m_vmap->getOption(VisualItem::VisibilityMode).toInt()));
+    m_vmap->setVisibilityMode(static_cast<Core::VisibilityMode>(m_vmap->getOption(VisualItem::VisibilityMode).toInt()));
 
-    updateTitle();
 }
 void VMapFrame::updateTitle()
 {
@@ -103,7 +102,7 @@ void VMapFrame::currentCursorChanged(QCursor* cursor)
     m_currentCursor= cursor;
     m_graphicView->setCursor(*cursor);
 }
-void VMapFrame::currentToolChanged(VToolsBar::SelectableTool selectedtool)
+void VMapFrame::currentToolChanged(Core::SelectableTool selectedtool)
 {
     m_currentTool= selectedtool;
     if(m_vmap != nullptr)
@@ -189,7 +188,7 @@ void VMapFrame::keyPressEvent(QKeyEvent* event)
         break;
     case Qt::Key_Escape:
         // m_toolsbar->setCurrentTool(VToolsBar::HANDLER);
-        emit defineCurrentTool(VToolsBar::HANDLER);
+        emit defineCurrentTool(Core::HANDLER);
         break;
     default:
         MediaContainer::keyPressEvent(event);

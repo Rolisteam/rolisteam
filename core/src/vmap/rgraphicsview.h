@@ -45,11 +45,11 @@ public:
      */
     RGraphicsView(VMap* vmap, QWidget* parent);
 
-    void currentToolChanged(VToolsBar::SelectableTool selectedtool);
+    void currentToolChanged(Core::SelectableTool selectedtool);
     void readMessage(NetworkMessageReader* msg);
 
     void deleteItem(QList<VisualItem*> list);
-    void setItemLayer(QList<VisualItem*> list, VisualItem::Layer layer);
+    void setItemLayer(QList<VisualItem*> list, Core::Layer layer);
     void setRotation(QList<VisualItem*> list, int value);
     void changeZValue(QList<VisualItem*> list, VisualItem::StackOrder order);
     void normalizeSize(Method method);
@@ -131,7 +131,7 @@ private:
 
     QAction* m_importImage;
 
-    VToolsBar::SelectableTool m_currentTool;
+    Core::SelectableTool m_currentTool;
     PreferencesManager* m_preferences;
     QPointF m_lastPoint;
     QPoint m_menuPoint;

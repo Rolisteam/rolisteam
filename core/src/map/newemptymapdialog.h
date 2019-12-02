@@ -41,7 +41,7 @@ public:
     explicit NewEmptyMapDialog(QWidget* parent= 0);
     ~NewEmptyMapDialog();
 
-    Map::PermissionMode getPermission() const;
+    Core::PermissionMode getPermission() const;
     QString getTitle() const;
     QColor getColor() const;
     QSize getSize() const;

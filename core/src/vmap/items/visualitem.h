@@ -23,6 +23,7 @@
 #include <QGraphicsObject>
 
 #include "childpointitem.h"
+#include "media/mediatype.h"
 #include <QAction>
 #include <QVector>
 
@@ -58,16 +59,7 @@ public:
     /**
      * @brief The Layer enum
      */
-    enum Layer
-    {
-        GROUND,
-        OBJECT,
-        CHARACTER_LAYER,
-        FOG,
-        GRIDLAYER,
-        NONE
-    };
-    Q_ENUM(Layer)
+
     /**
      * @brief The StackOrder enum
      */
@@ -87,44 +79,9 @@ public:
     };
     Q_ENUM(TransformType)
     /**
-     * @brief The Properties enum
-     */
-    enum Properties
-    {
-        ShowNpcName,
-        ShowPcName,
-        ShowNpcNumber,
-        ShowHealthStatus,
-        ShowInitScore,
-        ShowGrid,
-        LocalIsGM,
-        GridPattern,
-        GridColor,
-        GridSize,
-        Scale,
-        Unit,
-        EnableCharacterVision,
-        PermissionMode,
-        FogOfWarStatus,
-        CollisionStatus,
-        GridAbove,
-        HideOtherLayers,
-        VisibilityMode,
-        ShowHealthBar,
-        MapLayer
-    };
-    Q_ENUM(Properties)
-    /**
      * @brief VisualItem default constructor
      */
-    VisualItem();
-    /**
-     * @brief VisualItem constructor with parameters
-     * @param penColor color
-     * @param editable edition status
-     * @param parent
-     */
-    VisualItem(const QColor& penColor, int size, QGraphicsItem* parent= nullptr);
+    VisualItem(const std::map<Core::Properties, QVariant>& properties);
     /**
      * @brief ~VisualItem
      */
@@ -257,11 +214,11 @@ public:
      * @brief getLayer
      * @return
      */
-    virtual VisualItem::Layer getLayer() const;
+    virtual Core::Layer getLayer() const;
     /**
      * @brief setLayer
      */
-    virtual void setLayer(VisualItem::Layer);
+    virtual void setLayer(Core::Layer);
     /**
      * @brief promoteTo
      * @return
@@ -272,18 +229,18 @@ public:
      * @param id
      * @return
      */
-    static QString getLayerToText(VisualItem::Layer id);
+    static QString getLayerToText(Core::Layer id);
     /**
      * @brief setPropertiesHash
      * @param hash
      */
-    void setPropertiesHash(QHash<VisualItem::Properties, QVariant>* hash);
+    void setPropertiesHash(const std::map<Core::Properties, QVariant>& hash);
     /**
      * @brief getOption
      * @param pop
      * @return
      */
-    QVariant getOption(VisualItem::Properties pop) const;
+    QVariant getOption(Core::Properties pop) const;
     /**
      * @brief setSize
      * @param size
@@ -436,14 +393,14 @@ protected:
     QAction* m_putObjectLayer= nullptr;
     QAction* m_putCharacterLayer= nullptr;
 
-    VisualItem::Layer m_layer= VisualItem::NONE;
+    Core::Layer m_layer= Core::Layer::NONE;
     QVector<ItemType> m_promoteTypeList;
     QList<QPointF> m_pointList;
     bool m_resizing= false;
     bool m_rotating= false;
     bool m_receivingZValue= false;
 
-    QHash<VisualItem::Properties, QVariant>* m_propertiesHash= nullptr;
+    const std::map<Core::Properties, QVariant>& m_propertiesHash;
     bool m_holdSize= false;
 
 private slots:

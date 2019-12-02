@@ -177,21 +177,21 @@ void VmapToolBar::visibilityHasChanged(int index)
 {
     if(nullptr != m_vmap)
     {
-        m_vmap->setVisibilityMode(static_cast<VMap::VisibilityMode>(index));
+        m_vmap->setVisibilityMode(static_cast<Core::VisibilityMode>(index));
     }
 }
 void VmapToolBar::permissionHasChanged(int index)
 {
     if(nullptr != m_vmap)
     {
-        m_vmap->setPermissionMode(static_cast<Map::PermissionMode>(index));
+        m_vmap->setPermissionMode(static_cast<Core::PermissionMode>(index));
     }
 }
 void VmapToolBar::layerHasChanged(int index)
 {
     if(nullptr != m_vmap)
     {
-        m_vmap->setCurrentLayer(static_cast<VisualItem::Layer>(index));
+        m_vmap->setCurrentLayer(static_cast<Core::Layer>(index));
     }
 }
 void VmapToolBar::updateUI()
@@ -199,10 +199,10 @@ void VmapToolBar::updateUI()
     if(nullptr != m_vmap)
     {
         setEnabled(true);
-        m_bgSelector->setColor(m_vmap->getBackGroundColor());
+        // m_bgSelector->setColor(m_vmap->getBackGroundColor());
         m_showGridAct->setChecked(m_vmap->getOption(VisualItem::ShowGrid).toBool());
         m_gridSize->setValue(m_vmap->getOption(VisualItem::GridSize).toInt());
-        m_currentLayer->setCurrentIndex(m_vmap->getCurrentLayer());
+        m_currentLayer->setCurrentIndex(static_cast<int>(m_vmap->currentLayer()));
         m_showCharacterVision->setChecked(m_vmap->getOption(VisualItem::EnableCharacterVision).toBool());
         m_gridUnit->setCurrentIndex(m_vmap->getOption(VisualItem::Unit).toInt());
         m_currentPermission->setCurrentIndex(m_vmap->getOption(VisualItem::PermissionMode).toInt());

@@ -31,7 +31,7 @@ public:
      * @brief getPermissionMode
      * @return
      */
-    Map::PermissionMode getPermissionMode() const;
+    Core::PermissionMode getPermissionMode() const;
     /**
      * @brief getFilepath
      * @return

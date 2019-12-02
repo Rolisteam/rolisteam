@@ -57,35 +57,9 @@ public:
     /**
      * @brief tools id
      */
-    enum SelectableTool
-    {
-        PEN,
-        LINE,
-        EMPTYRECT,
-        FILLRECT,
-        EMPTYELLIPSE,
-        FILLEDELLIPSE,
-        TEXT,
-        HANDLER,
-        ADDNPC,
-        RULE,
-        PATH,
-        ANCHOR,
-        TEXTBORDER,
-        PIPETTE,
-        BUCKET,
-        HIGHLIGHTER
-    };
     /**
      * @brief The EditionMode enum
      */
-    enum EditionMode
-    {
-        Painting,
-        Mask,
-        Unmask
-    };
-
     /**
      * @brief accessor to the current tool
      */

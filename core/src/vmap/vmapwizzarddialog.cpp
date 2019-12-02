@@ -118,69 +118,69 @@ void MapWizzardDialog::updateDataFrom(VMap* map)
     ui->m_visibilityComboBox->setCurrentIndex(map->getOption(VisualItem::VisibilityMode).toInt());
     ui->m_scaleOfGrid->setValue(map->getOption(VisualItem::GridSize).toInt());
     ui->m_unitPattern->setCurrentIndex(map->getOption(VisualItem::Unit).toInt());
-    ui->m_colorButton->setColor(map->getBackGroundColor());
+    // ui->m_colorButton->setColor(map->getBackGroundColor());
 
     selectedShapeChanged();
-    ui->m_titleLineedit->setText(map->getMapTitle());
+    // ui->m_titleLineedit->setText(map->getMapTitle());
 }
 void MapWizzardDialog::setAllMap(VMap* map)
 {
-    VMap::GRID_PATTERN grid;
+    Core::GridPattern grid;
     switch(ui->m_gridPattern->currentIndex())
     {
     case 0:
-        grid= VMap::NONE;
+        grid= Core::NONE;
         break;
     case 1:
-        grid= VMap::SQUARE;
+        grid= Core::SQUARE;
         break;
     case 3:
-        grid= VMap::OCTOGON;
+        grid= Core::OCTOGON;
         break;
     case 2:
-        grid= VMap::HEXAGON;
+        grid= Core::HEXAGON;
         break;
     default:
-        grid= VMap::NONE;
+        grid= Core::NONE;
         break;
     }
     map->setOption(VisualItem::GridPattern, grid);
-    if(grid != VMap::NONE)
+    if(grid != Core::NONE)
     {
         map->setOption(VisualItem::ShowGrid, true);
     }
     map->setOption(VisualItem::GridColor, ui->m_gridColorBtn->color());
     map->setOption(VisualItem::GridSize, ui->m_sizeGrid->value());
 
-    Map::PermissionMode result;
+    Core::PermissionMode result;
     switch(ui->m_permissionComboBox->currentIndex())
     {
     case 0:
-        result= Map::GM_ONLY;
+        result= Core::GM_ONLY;
         break;
     case 1:
-        result= Map::PC_MOVE;
+        result= Core::PC_MOVE;
         break;
     case 2:
-        result= Map::PC_ALL;
+        result= Core::PC_ALL;
         break;
     default:
-        result= Map::GM_ONLY;
+        result= Core::GM_ONLY;
         break;
     }
     map->setPermissionMode(result);
 
-    VMap::VisibilityMode resultVisibility= VMap::HIDDEN;
+    Core::VisibilityMode resultVisibility= Core::HIDDEN;
     switch(ui->m_visibilityComboBox->currentIndex())
     {
     case 0:
-        resultVisibility= VMap::HIDDEN;
+        resultVisibility= Core::HIDDEN;
         break;
     case 1:
-        resultVisibility= VMap::FOGOFWAR;
+        resultVisibility= Core::FOGOFWAR;
         break;
     case 2:
-        resultVisibility= VMap::ALL;
+        resultVisibility= Core::ALL;
         break;
     default:
         break;
@@ -189,14 +189,14 @@ void MapWizzardDialog::setAllMap(VMap* map)
     map->setVisibilityMode(resultVisibility);
     map->setOption(VisualItem::GridSize, ui->m_sizeGrid->value());
 
-    map->setWidth(DEFAULT_VMAP_WIDTH);
-    map->setHeight(DEFAULT_VMAP_HEIGHT);
+    // map->setWidth(DEFAULT_VMAP_WIDTH);
+    // map->setHeight(DEFAULT_VMAP_HEIGHT);
 
     map->setOption(VisualItem::Scale, ui->m_scaleOfGrid->value());
     map->setOption(VisualItem::Unit, ui->m_unitPattern->currentIndex());
 
     // map->setBackGroundColor(m_bgColor);
-    map->setBackGroundColor(ui->m_colorButton->color());
+    // map->setBackGroundColor(ui->m_colorButton->color());
     map->computePattern();
-    map->setTitle(ui->m_titleLineedit->text());
+    // map->setTitle(ui->m_titleLineedit->text());
 }

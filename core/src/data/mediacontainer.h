@@ -136,7 +136,7 @@ public:
      * @brief is called when the selected tool changes.
      * @param the current tool.
      */
-    virtual void currentToolChanged(VToolsBar::SelectableTool);
+    virtual void currentToolChanged(Core::SelectableTool);
     /**
      * @brief is called when the cursor must be changed.
      * @param the new cursor.
@@ -213,7 +213,7 @@ protected:
     /**
      * @brief the current tool, it is an enum item.
      */
-    VToolsBar::SelectableTool m_currentTool;
+    Core::SelectableTool m_currentTool;
     /**
      * @brief the current color of the pen.
      */
