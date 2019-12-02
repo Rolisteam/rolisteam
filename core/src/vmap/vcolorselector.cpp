@@ -114,15 +114,15 @@ VColorSelector::VColorSelector(QWidget* parent) : QWidget(parent)
 
     setLayout(selecteurLayout);
 }
+
 void VColorSelector::selectColor(const QColor& color)
 {
     m_currentColorLabel->setPalette(QPalette(color));
     m_currentColor= color;
 
     emit currentColorChanged(m_currentColor);
-    emit currentModeChanged(NORMAL);
 }
-void VColorSelector::setCurrentColor(QColor& color)
+void VColorSelector::setCurrentColor(const QColor& color)
 {
     // m_currentColorLabel->clear();
     m_currentColorLabel->setPalette(QPalette(color));

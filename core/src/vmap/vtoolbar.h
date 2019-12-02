@@ -26,12 +26,15 @@
 #include <QDockWidget>
 #include <QLCDNumber>
 #include <QLineEdit>
+#include <QPointer>
 #include <QResizeEvent>
 
 #include "map/map.h"
 #include "vcolorselector.h"
 #include "widgets/diameterselector.h"
 #include "widgets/realslider.h"
+
+class VectorialMapMediaController;
 /**
  *  @brief toolbar is a QWidget subclass which gathering all tool required for drawing maps.
  */
@@ -43,104 +46,31 @@ public:
     /**
      * @brief constructor for Qt widget
      */
-    VToolsBar(QWidget* parent= nullptr);
-    /**
-     * @brief part of the singleton pattern
-     */
-    static VToolsBar* getInstance(QWidget* parent= nullptr);
-    /**
-     * @brief accessor to the current color
-     */
-    QColor& currentColor();
-
+    VToolsBar(VectorialMapMediaController* ctrl, QWidget* parent= nullptr);
     // Selectable tools
     /**
      * @brief tools id
      */
-    /**
-     * @brief The EditionMode enum
-     */
-    /**
-     * @brief accessor to the current tool
-     */
-    VToolsBar::SelectableTool getCurrentTool();
-    /**
-     * @brief getCurrentPenSize
-     * @return
-     */
-    int getCurrentPenSize();
 
 public slots:
     /**
-     * @brief setCurrentTool
-     */
-    void setCurrentTool(VToolsBar::SelectableTool);
-    /**
-     * @brief increase NPC number
-     */
-    void increaseNpcNumber();
-    /**
-     * @brief accessor to set the current color
-     */
-    void changeCurrentColor(QColor color);
-    /**
      * @brief updateUi
      */
-    void updateUi(Map::PermissionMode mode);
+    void updateUi(Core::PermissionMode mode);
     /**
      * @brief setGM
      */
     void setGM(bool);
-    /**
-     * @brief setCurrentOpacity
-     */
-    void setCurrentOpacity(qreal);
-    /**
-     * @brief setCurrentColor
-     */
-    void setCurrentColor(QColor);
-signals:
-    /**
-     * @brief emited when current tool has been changed by user
-     */
-    void currentToolChanged(VToolsBar::SelectableTool);
-    /**
-     * @brief emitted when current color has been changed by user
-     */
-    void currentColorChanged(QColor&);
-    /**
-     * @brief emitted when user has changed the pen size.
-     */
-    void currentPenSizeChanged(int);
-    /**
-     * @brief emitted when current mode has changed
-     */
-    void currentModeChanged(int);
-    /**
-     * @brief currentNpcNameChanged
-     */
-    void currentNpcNameChanged(QString);
-    /**
-     * @brief currentNpcNumberChanged
-     */
-    void currentNpcNumberChanged(int);
-    /**
-     * @brief currentEditionModeChanged
-     */
-    void currentEditionModeChanged(VToolsBar::EditionMode);
-
-    void opacityChanged(qreal);
 
 private slots:
-    void resetNpcCount();
-    void npcNameChange(const QString& texte);
-    void currentActionChanged(QAction* p);
-    void currentEditionModeChange();
+    void setupUi();
 
 private:
-    static VToolsBar* m_sigleton; /// address of single instance
-    void createActions();         /// utility function
-    void makeTools();             /// utility function
+    void createActions(); /// utility function
+    void makeTools();     /// utility function
+
+private:
+    QPointer<VectorialMapMediaController> m_ctrl;
 
     QWidget* m_centralWidget;         /// address to the main widget
     QLineEdit* m_npcNameTextEdit;     /// text line to define the npc name
@@ -148,8 +78,6 @@ private:
     VColorSelector* m_colorSelector;  /// select a color
     DiameterSelector* m_lineDiameter; /// select pen diameter
     QActionGroup* m_toolsGroup;       /// group all tools and manage which one is the current one
-    SelectableTool m_currentTool;     /// current tool
-    EditionMode m_currentEditionMode;
     // paiting or fow edition
     QAction* m_paintingModeAct;
     QAction* m_veilModeAct;
@@ -172,13 +100,9 @@ private:
     QAction* m_pipette;
     QAction* m_bucketAct;
     QAction* m_highlighterAct;
-    //  QAction* m_unmaskPathAct;
     QAction* m_textWithBorderAct;
     QComboBox* m_editionModeCombo;
     RealSlider* m_opacitySlider;
-
-    QString m_currentNPCName;
-    int m_currentNPCNumber;
 
     bool m_isGM;
 };

@@ -113,7 +113,7 @@ public:
      * @brief define the current color
      * @param new color
      */
-    void setCurrentColor(QColor& color);
+    void setCurrentColor(const QColor& color);
     /**
      * @brief accessor to the current color
      * @return current color
@@ -125,10 +125,6 @@ signals:
      * @brief emitted when color changed
      */
     void currentColorChanged(QColor&);
-    /**
-     * @brief emitted when current painting mode has changed
-     */
-    void currentModeChanged(int);
 
 private slots:
     /**
