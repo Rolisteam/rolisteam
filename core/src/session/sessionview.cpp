@@ -23,7 +23,7 @@ SessionView::SessionView(QWidget* parent) : QTreeView(parent)
     setDragDropMode(QAbstractItemView::InternalMove);
     // setContextMenuPolicy (Qt::CustomContextMenu);
     m_addChapterAction= new QAction(tr("Add Chapter…"), this);
-    connect(m_addChapterAction,&QAction::triggered, this,&SessionView::onAddChapter);
+    connect(m_addChapterAction, &QAction::triggered, this, &SessionView::onAddChapter);
 
     m_removeAction= new QAction(tr("Remove items"), this);
     connect(m_removeAction, SIGNAL(triggered()), this, SIGNAL(removeSelection()));
@@ -40,16 +40,16 @@ SessionView::SessionView(QWidget* parent) : QTreeView(parent)
         // auto uri = dynamic_cast<CleverURI*>(node);
         if(nullptr == uri)
             return;
-        if(uri->getCurrentMode() == CleverURI::Internal)
-            uri->setCurrentMode(CleverURI::Linked);
+        if(uri->loadingMode() == CleverURI::Internal)
+            uri->setLoadingMode(CleverURI::Linked);
         else
-            uri->setCurrentMode(CleverURI::Internal);
+            uri->setLoadingMode(CleverURI::Internal);
     });
 
     m_loadingModeColumn= new QAction(tr("Loading Mode"), this);
     m_loadingModeColumn->setCheckable(true);
-    connect(
-        m_loadingModeColumn, &QAction::toggled, this, [=]() { setColumnHidden(1, !m_loadingModeColumn->isChecked()); });
+    connect(m_loadingModeColumn, &QAction::toggled, this,
+            [=]() { setColumnHidden(1, !m_loadingModeColumn->isChecked()); });
     m_loadingModeColumn->setChecked(true);
 
     m_displayedColumn= new QAction(tr("Displayed Status"), this);
@@ -98,7 +98,7 @@ void SessionView::contextMenuEvent(QContextMenuEvent* event)
     if(uri != nullptr)
     {
         auto text= tr("Switch loading mode to %1")
-                       .arg((uri->getCurrentMode() == CleverURI::Internal) ? tr("Linked") : tr("Internal"));
+                       .arg((uri->loadingMode() == CleverURI::Internal) ? tr("Linked") : tr("Internal"));
         m_switchLoadingMode->setText(text);
         popMenu.addAction(m_switchLoadingMode);
     }

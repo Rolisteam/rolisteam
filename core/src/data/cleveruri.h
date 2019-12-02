@@ -85,7 +85,7 @@ public:
      * @brief constructor with parameter
      *
      */
-    CleverURI(QString name, QString uri, ContentType type);
+    CleverURI(QString name, QString uri, const QString& ownerId, ContentType type);
     /**
      * @brief Destructor
      *
@@ -136,6 +136,8 @@ public:
      */
     const QString getAbsolueDir() const;
 
+    QString ownerId() const;
+
     virtual void setName(const QString& name) override;
 
     void write(QDataStream& out, bool tag= true, bool saveData= true) const override;
@@ -150,8 +152,8 @@ public:
     static QString typeToString(CleverURI::ContentType);
     static QString getPreferenceDirectoryKey(CleverURI::ContentType);
 
-    LoadingMode getCurrentMode() const;
-    void setCurrentMode(const LoadingMode& currentMode);
+    LoadingMode loadingMode() const;
+    void setLoadingMode(const LoadingMode& currentMode);
 
     bool isDisplayed() const;
     void setDisplayed(bool displayed);
@@ -191,8 +193,9 @@ private:
     QString m_uri;                 ///< member to store the uri
     CleverURI::ContentType m_type; ///< member to store the content type
     QByteArray m_data;             ///< data from the file
-    LoadingMode m_currentMode;
+    LoadingMode m_loadingMode;
     State m_state;
+    QString m_ownerId;
 
     static QHash<CleverURI::ContentType, QString> m_iconPathHash;
     static QStringList m_typeNameList;
