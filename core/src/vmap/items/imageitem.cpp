@@ -81,7 +81,7 @@ void ImageItem::readData(QDataStream& in)
     in >> m_id;
     int i;
     in >> i;
-    m_layer= static_cast<VisualItem::Layer>(i);
+    m_layer= static_cast<Core::Layer>(i);
     in >> m_data;
     in >> m_imagePath;
     in >> m_initialized;
@@ -146,7 +146,7 @@ void ImageItem::readItem(NetworkMessageReader* msg)
     m_rect.setY(msg->real());
     m_rect.setWidth(msg->real());
     m_rect.setHeight(msg->real());
-    m_layer= static_cast<VisualItem::Layer>(msg->int8());
+    m_layer= static_cast<Core::Layer>(msg->int8());
     setZValue(msg->real());
     setOpacity(msg->real());
 

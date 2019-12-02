@@ -23,17 +23,9 @@
 #define FONT_SIZE 15
 qreal RuleItem::m_zoomFactor= 1;
 
-RuleItem::RuleItem() : m_pen(QColor(Qt::red))
+RuleItem::RuleItem(const std::map<Core::Properties, QVariant>& properties)
+    : VisualItem(properties), m_pen(QColor(Qt::red))
 {
-    // setFlag(QGraphicsItem::ItemIgnoresTransformations,true);
-}
-RuleItem::RuleItem(QPointF& p) : VisualItem()
-{
-    m_startPoint= p;
-    m_endPoint= m_startPoint;
-    m_rect.setTopLeft(p);
-    m_rect.setBottomRight(m_endPoint);
-
     // setFlag(QGraphicsItem::ItemIgnoresTransformations,true);
 }
 
@@ -136,28 +128,28 @@ void RuleItem::setUnit(Core::ScaleUnit unit)
 {
     switch(unit)
     {
-    case VMap::M:
+    case Core::M:
         m_unitText= QStringLiteral("m");
         break;
-    case VMap::CM:
+    case Core::CM:
         m_unitText= QStringLiteral("cm");
         break;
-    case VMap::INCH:
+    case Core::INCH:
         m_unitText= QStringLiteral("″");
         break;
-    case VMap::FEET:
+    case Core::FEET:
         m_unitText= QStringLiteral("′");
         break;
-    case VMap::YARD:
+    case Core::YARD:
         m_unitText= QStringLiteral("yd");
         break;
-    case VMap::MILE:
+    case Core::MILE:
         m_unitText= QStringLiteral("mi");
         break;
-    case VMap::KM:
+    case Core::KM:
         m_unitText= QStringLiteral("km");
         break;
-    case VMap::PX:
+    case Core::PX:
         m_unitText= QStringLiteral("px");
         break;
     }

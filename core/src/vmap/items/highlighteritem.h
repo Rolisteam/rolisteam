@@ -29,7 +29,7 @@ class HighlighterItem : public VisualItem
     Q_OBJECT
     Q_PROPERTY(qreal radius READ getRadius WRITE setRadius NOTIFY radiusChanged)
 public:
-    HighlighterItem();
+    HighlighterItem(const std::map<Core::Properties, QVariant>& properties);
     /**
      * @brief constructor with parameters
      * @param center first point clicked by the user

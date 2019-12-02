@@ -26,14 +26,15 @@
 class EllipsItem : public VisualItem
 {
 public:
-    EllipsItem();
+    EllipsItem(const std::map<Core::Properties, QVariant>& properties);
     /**
      * @brief constructor with parameters
      * @param center first point clicked by the user
      * @param either the shape is filled or not
      * @param color used for drawing it.
      */
-    EllipsItem(const QPointF& center, bool filled, int penSize, const QColor& penColor, QGraphicsItem* parent= nullptr);
+    // EllipsItem(const QPointF& center, bool filled, int penSize, const QColor& penColor, QGraphicsItem* parent=
+    // nullptr);
     /**
      * @brief paint the ellipse at the correct position
      */

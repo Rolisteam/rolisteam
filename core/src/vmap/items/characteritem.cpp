@@ -83,14 +83,19 @@ QColor ContrastColor(QColor color)
     return QColor(d, d, d);
 }
 
-CharacterItem::CharacterItem()
-    : VisualItem(), m_character(nullptr), m_thumnails(nullptr), m_protectGeometryChange(false), m_visionChanged(false)
+CharacterItem::CharacterItem(const std::map<Core::Properties, QVariant>& properties)
+    : VisualItem(properties)
+    , m_character(nullptr)
+    , m_thumnails(nullptr)
+    , m_protectGeometryChange(false)
+    , m_visionChanged(false)
 {
     createActions();
 }
 
-CharacterItem::CharacterItem(Character* m, const QPointF& pos, qreal diameter)
-    : VisualItem()
+CharacterItem::CharacterItem(const std::map<Core::Properties, QVariant>& properties, Character* m, const QPointF& pos,
+                             qreal diameter)
+    : VisualItem(properties)
     , m_center(pos)
     , m_diameter(diameter)
     , m_thumnails(nullptr)
@@ -140,7 +145,7 @@ void CharacterItem::readData(QDataStream& in)
 
     int tmp;
     in >> tmp;
-    m_layer= static_cast<VisualItem::Layer>(tmp);
+    m_layer= static_cast<Core::Layer>(tmp);
     bool hasCharacter;
     in >> hasCharacter;
     auto charact= new Character();
@@ -197,20 +202,20 @@ QString CharacterItem::getSubTitle() const
     QString toShow;
     if(m_character->isNpc())
     {
-        if(getOption(VisualItem::ShowNpcName).toBool())
+        if(getOption(Core::ShowNpcName).toBool())
         {
             toShow= m_character->name();
         }
-        if(getOption(VisualItem::ShowNpcNumber).toBool())
+        if(getOption(Core::ShowNpcNumber).toBool())
         {
             toShow= QString::number(m_character->number());
         }
-        if(getOption(VisualItem::ShowNpcName).toBool() && getOption(VisualItem::ShowNpcNumber).toBool())
+        if(getOption(Core::ShowNpcName).toBool() && getOption(Core::ShowNpcNumber).toBool())
         {
             toShow= QString("%1 - %2").arg(m_character->name()).arg(m_character->number());
         }
     }
-    else if(getOption(VisualItem::ShowPcName).toBool())
+    else if(getOption(Core::ShowPcName).toBool())
     {
         toShow= m_character->name();
     }
@@ -220,9 +225,9 @@ void CharacterItem::setChildrenVisible(bool b)
 {
     VisualItem::setChildrenVisible(b);
 
-    if(m_child && (getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE || isNpc()))
+    if(m_child && (getOption(Core::PermissionModeProperty).toInt() == Core::PC_MOVE || isNpc()))
     {
-        if(!getOption(VisualItem::LocalIsGM).toBool() || isNpc())
+        if(!getOption(Core::LocalIsGM).toBool() || isNpc())
         {
             if(!m_child->isEmpty() && m_child->size() > DIRECTION_RADIUS_HANDLE)
             {
@@ -298,7 +303,7 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
                 painter->drawRoundedRect(0, 0, diam, diam, m_diameter / RADIUS_CORNER, m_diameter / RADIUS_CORNER);
             }
         }*/
-        if(getOption(VisualItem::ShowInitScore).toBool() && m_character->hasInitScore())
+        if(getOption(Core::ShowInitScore).toBool() && m_character->hasInitScore())
         {
             painter->save();
             auto init= QString("%1").arg(m_character->getInitiativeScore());
@@ -335,8 +340,7 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
         if(toShow != m_title)
         {
             m_title= toShow;
-            if((m_propertiesHash->value(VisualItem::FogOfWarStatus).toBool() == false)
-               || (m_propertiesHash->value(VisualItem::LocalIsGM).toBool() == true))
+            if((getOption(Core::FogOfWarStatus).toBool() == false) || (getOption(Core::LocalIsGM).toBool() == true))
             {
                 setToolTip(m_title);
             }
@@ -364,7 +368,7 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
         painter->restore();
     }
 
-    if(getOption(VisualItem::ShowHealthBar).toBool())
+    if(getOption(Core::ShowHealthBar).toBool())
     {
         if(nullptr != m_character)
         {
@@ -482,7 +486,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     msg->string16(m_character->getUuid());
     msg->real(m_diameter);
 
-    msg->uint8(m_layer);
+    msg->uint8(static_cast<quint8>(m_layer));
     msg->real(zValue());
     msg->real(opacity());
 
@@ -521,7 +525,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     QString idCharacter= msg->string16();
     m_diameter= msg->real();
 
-    m_layer= static_cast<VisualItem::Layer>(msg->uint8());
+    m_layer= static_cast<Core::Layer>(msg->uint8());
 
     setZValue(msg->real());
     setOpacity(msg->real());
@@ -616,7 +620,7 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& va
 {
     QVariant newValue= value;
     m_oldPosition= pos();
-    if(change != QGraphicsItem::ItemPositionChange || !getOption(VisualItem::CollisionStatus).toBool())
+    if(change != QGraphicsItem::ItemPositionChange || !getOption(Core::CollisionStatus).toBool())
         return VisualItem::itemChange(change, newValue);
 
     QList<QGraphicsItem*> list; //= collidingItems();
@@ -636,7 +640,7 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& va
         VisualItem* vItem= dynamic_cast<VisualItem*>(item);
         if((nullptr != vItem) && (vItem != this))
         {
-            if((vItem->getLayer() == VisualItem::OBJECT))
+            if((vItem->getLayer() == Core::Layer::OBJECT))
             {
                 newValue= m_oldPosition;
             }
@@ -887,7 +891,7 @@ void CharacterItem::addActionContextMenu(QMenu& menu)
         m_visionShapeDisk->setChecked(false);
         m_visionShapeAngle->setChecked(true);
     }
-    if(getOption(VisualItem::LocalIsGM).toBool() && nullptr != m_character)
+    if(getOption(Core::LocalIsGM).toBool() && nullptr != m_character)
     {
         // Actions
         auto actionlist= m_character->getActionList();
@@ -1084,9 +1088,10 @@ void CharacterItem::updateCharacter()
 
 VisualItem* CharacterItem::getItemCopy()
 {
-    CharacterItem* charactItem= new CharacterItem(m_character, pos(), m_diameter);
+    return {};
+    /*CharacterItem* charactItem= new CharacterItem(m_character, pos(), m_diameter);
     charactItem->setPos(pos());
-    return charactItem;
+    return charactItem;*/
 }
 
 QString CharacterItem::getParentId() const

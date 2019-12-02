@@ -73,10 +73,10 @@ QPainterPath vectorToFullPath(const QVector<QPointF>& points, qreal penWidth= 10
             auto normal2= line2.normalVector();
 
             topPoints.push_back((normal1.pointAt(penWidth / (normal1.length() * 2))
-                                    + normal2.pointAt(penWidth / (normal2.length() * 2)))
+                                 + normal2.pointAt(penWidth / (normal2.length() * 2)))
                                 / 2);
             bottomPoints.push_back((normal1.pointAt(-penWidth / (normal1.length() * 2))
-                                       + normal2.pointAt(-penWidth / (normal2.length() * 2)))
+                                    + normal2.pointAt(-penWidth / (normal2.length() * 2)))
                                    / 2);
         }
     }
@@ -125,21 +125,23 @@ QPainterPath vectorToPath(const QVector<QPointF>& points, bool closeUp= false)
     return path;
 }
 
-PathItem::PathItem() : VisualItem(), m_penMode(false), m_filled(false)
+PathItem::PathItem(const std::map<Core::Properties, QVariant>& properties)
+    : VisualItem(properties), m_penMode(false), m_filled(false)
 {
     m_closed= false;
     createActions();
 }
 
-PathItem::PathItem(const QPointF& start, const QColor& penColor, int penSize, bool penMode, QGraphicsItem* parent)
-    : VisualItem(penColor, penSize, parent), m_penMode(penMode), m_filled(false)
+/*PathItem::PathItem(const std::map<Core::Properties, QVariant>& properties,const QPointF& start, const QColor&
+penColor, int penSize, bool penMode, QGraphicsItem* parent) : VisualItem(properties), m_penMode(penMode),
+m_filled(false)
 {
     m_closed= false;
     setPos(start);
     m_start= start;
     m_end= m_start;
     createActions();
-}
+}*/
 QRectF PathItem::boundingRect() const
 {
     QPainterPath path= vectorToPath(m_pointVectorBary);
@@ -262,7 +264,7 @@ void PathItem::readData(QDataStream& in)
     in >> m_penMode;
     int i;
     in >> i;
-    m_layer= static_cast<VisualItem::Layer>(i);
+    m_layer= static_cast<Core::Layer>(i);
 
     // m_end = m_start;
     initRealPoints();
@@ -311,7 +313,7 @@ void PathItem::readItem(NetworkMessageReader* msg)
     m_filled= static_cast<bool>(msg->uint8());
     m_fillAct->setChecked(m_filled);
     m_penMode= static_cast<bool>(msg->uint8());
-    m_layer= static_cast<VisualItem::Layer>(msg->uint8());
+    m_layer= static_cast<Core::Layer>(msg->uint8());
     setZValue(msg->real());
     setOpacity(msg->real());
 
@@ -488,9 +490,9 @@ void PathItem::endOfGeometryChange()
 }
 void PathItem::sendPointPosition()
 {
-    if((getOption(VisualItem::LocalIsGM).toBool()) || (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)
-        || ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE) && (getType() == VisualItem::CHARACTER)
-               && (isLocal()))) // getOption PermissionMode
+    if((getOption(Core::LocalIsGM).toBool()) || (getOption(Core::PermissionModeProperty).toInt() == Core::PC_ALL)
+       || ((getOption(Core::PermissionModeProperty).toInt() == Core::PC_MOVE) && (getType() == VisualItem::CHARACTER)
+           && (isLocal()))) // getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::MovePoint);
         msg.string8(m_mapId);

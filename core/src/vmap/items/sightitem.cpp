@@ -98,7 +98,7 @@ SightItem::SightItem(QMap<QString, CharacterItem*>* characterItemMap)
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
     createActions();
     setAcceptedMouseButtons(Qt::NoButton);
-    m_layer= FOG;
+    m_layer= Core::Layer::FOG;
     setFlags(QGraphicsItem::ItemSendsGeometryChanges);
 }
 
@@ -266,7 +266,7 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     Q_UNUSED(widget)
     painter->save();
     painter->setPen(Qt::NoPen);
-    if(getOption(VisualItem::LocalIsGM).toBool())
+    if(getOption(Core::LocalIsGM).toBool())
     {
         painter->setBrush(QColor(0, 0, 0, 125));
     }
@@ -278,12 +278,12 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     updateVeil();
     QPainterPath path= m_path;
 
-    if(getOption(VisualItem::EnableCharacterVision).toBool())
+    if(getOption(Core::EnableCharacterVision).toBool())
     {
         auto const& values= m_characterItemMap->values();
         for(auto& charact : values)
         {
-            if((nullptr != charact) && ((charact->isLocal()) || getOption(VisualItem::LocalIsGM).toBool())
+            if((nullptr != charact) && ((charact->isLocal()) || getOption(Core::LocalIsGM).toBool())
                && charact->isVisible() && !charact->isNpc())
             {
                 CharacterVision* vision= charact->getVision();

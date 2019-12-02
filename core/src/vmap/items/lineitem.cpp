@@ -28,15 +28,15 @@
 #include <math.h>
 #define PI 3.14159265
 
-LineItem::LineItem() : VisualItem() {}
+LineItem::LineItem(const std::map<Core::Properties, QVariant>& properties) : VisualItem(properties) {}
 
-LineItem::LineItem(const QPointF& p, const QColor& penColor, int penSize, QGraphicsItem* parent)
+/*LineItem::LineItem(const QPointF& p, const QColor& penColor, int penSize, QGraphicsItem* parent)
     : VisualItem(penColor, penSize, parent)
 {
     m_startPoint= p;
     m_endPoint= p;
     m_rect.setTopLeft(p);
-}
+}*/
 
 void LineItem::setNewEnd(QPointF& nend)
 {
@@ -119,7 +119,7 @@ void LineItem::readData(QDataStream& in)
     in >> m_color;
     int i;
     in >> i;
-    m_layer= (VisualItem::Layer)i;
+    m_layer= static_cast<Core::Layer>(i);
 }
 VisualItem::ItemType LineItem::getType() const
 {
@@ -157,7 +157,7 @@ void LineItem::readItem(NetworkMessageReader* msg)
     m_id= msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
-    m_layer= (VisualItem::Layer)msg->uint8();
+    m_layer= static_cast<Core::Layer>(msg->uint8());
     setZValue(msg->real());
     setOpacity(msg->real());
     // rect

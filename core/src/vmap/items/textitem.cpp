@@ -48,13 +48,13 @@ void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
     VMap* map= dynamic_cast<VMap*>(scene());
     if(nullptr != map)
     {
-        if(map->getSelectedtool() == VToolsBar::HANDLER)
+        if(map->getSelectedtool() == Core::HANDLER)
         {
             // event->accept();
             setFocus(Qt::OtherFocusReason);
             QGraphicsTextItem::mousePressEvent(event);
         }
-        else if((map->getSelectedtool() == VToolsBar::TEXT) || (map->getSelectedtool() == VToolsBar::TEXTBORDER))
+        else if((map->getSelectedtool() == Core::TEXT) || (map->getSelectedtool() == Core::TEXTBORDER))
         {
             QGraphicsTextItem::mousePressEvent(event);
         }
@@ -103,14 +103,16 @@ QString RichTextEditDialog::getText()
 ///////////////////////
 
 RichTextEditDialog* TextItem::m_dialog= nullptr;
-TextItem::TextItem() : m_offset(QPointF(100, 30))
+TextItem::TextItem(const std::map<Core::Properties, QVariant>& properties)
+    : VisualItem(properties), m_offset(QPointF(100, 30))
 {
     init();
     createActions();
 }
 
-TextItem::TextItem(const QPointF& start, quint16 penSize, const QColor& penColor, QGraphicsItem* parent)
-    : VisualItem(penColor, penSize, parent), m_offset(QPointF(100, 30))
+TextItem::TextItem(const std::map<Core::Properties, QVariant>& properties, const QPointF& start, quint16 penSize,
+                   const QColor& penColor, QGraphicsItem* parent)
+    : VisualItem(properties), m_offset(QPointF(100, 30))
 {
     m_start= start;
     m_rect.setTopLeft(QPointF(0, 0));
@@ -421,7 +423,7 @@ void TextItem::readData(QDataStream& in)
 
     int i;
     in >> i;
-    m_layer= static_cast<VisualItem::Layer>(i);
+    m_layer= static_cast<Core::Layer>(i);
 }
 void TextItem::fillMessage(NetworkMessageWriter* msg)
 {
@@ -458,7 +460,7 @@ void TextItem::readItem(NetworkMessageReader* msg)
     m_showRect= static_cast<bool>(msg->uint8());
     setScale(msg->real());
     setRotation(msg->real());
-    m_layer= static_cast<VisualItem::Layer>(msg->uint8());
+    m_layer= static_cast<Core::Layer>(msg->uint8());
     setZValue(msg->real());
     setOpacity(msg->real());
 
@@ -487,8 +489,8 @@ void TextItem::readItem(NetworkMessageReader* msg)
 }
 VisualItem* TextItem::getItemCopy()
 {
-    TextItem* rectItem= new TextItem(m_start, m_penWidth, m_color);
-    return rectItem;
+    // TextItem* rectItem= new TextItem(m_start, m_penWidth, m_color);
+    return nullptr; // rectItem;
 }
 void TextItem::addActionContextMenu(QMenu& menu)
 {
@@ -572,8 +574,8 @@ void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
         VMap* vmap= dynamic_cast<VMap*>(scene());
         if(nullptr != vmap)
         {
-            VToolsBar::SelectableTool tool= vmap->getSelectedtool();
-            if((VToolsBar::TEXT == tool) || (VToolsBar::TEXTBORDER == tool))
+            Core::SelectableTool tool= vmap->getSelectedtool();
+            if((Core::TEXT == tool) || (Core::TEXTBORDER == tool))
             {
                 QApplication::setOverrideCursor(QCursor(Qt::IBeamCursor));
             }

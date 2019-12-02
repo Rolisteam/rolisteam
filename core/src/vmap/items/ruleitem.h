@@ -23,6 +23,7 @@
 
 #include "visualitem.h"
 
+#include "media/mediatype.h"
 #include "vmap/vmap.h"
 
 #include <QPen>
@@ -32,12 +33,12 @@
 class RuleItem : public VisualItem
 {
 public:
-    RuleItem();
-    RuleItem(QPointF& p);
+    RuleItem(const std::map<Core::Properties, QVariant>& properties);
+    // RuleItem(QPointF& p);
 
     ~RuleItem();
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= 0);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
 
     /**
      * @brief gives bounding rect of the line
@@ -86,7 +87,7 @@ public:
      * @brief setUnit
      * @param unit
      */
-    void setUnit(VMap::SCALE_UNIT unit);
+    void setUnit(Core::ScaleUnit unit);
 
     /**
      * @brief setPixelToUnit

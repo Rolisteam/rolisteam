@@ -28,9 +28,11 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
-EllipsItem::EllipsItem() : VisualItem(), m_filled(false) {}
+EllipsItem::EllipsItem(const std::map<Core::Properties, QVariant>& properties) : VisualItem(properties), m_filled(false)
+{
+}
 
-EllipsItem::EllipsItem(const QPointF& center, bool filled, int penSize, const QColor& penColor, QGraphicsItem* parent)
+/*EllipsItem::EllipsItem(const QPointF& center, bool filled, int penSize, const QColor& penColor, QGraphicsItem* parent)
     : VisualItem(penColor, penSize, parent), m_filled(false)
 {
     m_center= center;
@@ -40,7 +42,7 @@ EllipsItem::EllipsItem(const QPointF& center, bool filled, int penSize, const QC
     m_ry= 0;
     m_rx= 0;
     m_filled= filled;
-}
+}*/
 QRectF EllipsItem::boundingRect() const
 {
     return m_rect;
@@ -130,7 +132,7 @@ void EllipsItem::readData(QDataStream& in)
     in >> m_ry;
     int lay;
     in >> lay;
-    m_layer= static_cast<VisualItem::Layer>(lay);
+    m_layer= static_cast<Core::Layer>(lay);
     qreal opa= 0;
     in >> opa;
     setOpacity(opa);
@@ -178,7 +180,7 @@ void EllipsItem::readItem(NetworkMessageReader* msg)
     m_id= msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
-    m_layer= (VisualItem::Layer)msg->uint8();
+    m_layer= static_cast<Core::Layer>(msg->uint8());
     setZValue(msg->real());
     setOpacity(msg->real());
 

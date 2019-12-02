@@ -28,16 +28,19 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
-RectItem::RectItem() : VisualItem(), m_initialized(false), m_filled(false) {}
+RectItem::RectItem(const std::map<Core::Properties, QVariant>& properties)
+    : VisualItem(), m_initialized(false), m_filled(false)
+{
+}
 
-RectItem::RectItem(const QPointF& topleft, const QPointF& buttomright, bool filled, quint16 penSize,
-    const QColor& penColor, QGraphicsItem* parent)
+/*RectItem::RectItem(const QPointF& topleft, const QPointF& buttomright, bool filled, quint16 penSize,
+                   const QColor& penColor, QGraphicsItem* parent)
     : VisualItem(penColor, penSize, parent), m_initialized(false), m_filled(filled)
 {
     m_rect.setBottomRight(buttomright);
     m_rect.setTopLeft(topleft);
     m_filled= filled;
-}
+}*/
 
 QRectF RectItem::boundingRect() const
 {
@@ -152,7 +155,7 @@ void RectItem::readData(QDataStream& in)
 
     int i;
     in >> i;
-    m_layer= static_cast<VisualItem::Layer>(i);
+    m_layer= static_cast<Core::Layer>(i);
 }
 void RectItem::fillMessage(NetworkMessageWriter* msg)
 {
@@ -189,7 +192,7 @@ void RectItem::readItem(NetworkMessageReader* msg)
     m_rect.setWidth(msg->real());
     m_rect.setHeight(msg->real());
 
-    m_layer= (VisualItem::Layer)msg->uint8();
+    m_layer= static_cast<Core::Layer>(msg->uint8());
     setZValue(msg->real());
     setOpacity(msg->real());
 
