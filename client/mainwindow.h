@@ -182,7 +182,7 @@ public:
      * @brief processMessage
      * @param msg
      */
-//    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
+    //    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 
     /**
      * @brief prepareMap
@@ -209,6 +209,7 @@ public:
     void openRecentScenario();
     void updateRecentScenarioAction();
     void openGenericContent();
+    void openOnlineImage();
     void openVMap();
     void openMap();
 public slots:
@@ -262,7 +263,7 @@ protected:
      * @brief processMapMessage
      * @param msg
      */
-  //  void processMapMessage(NetworkMessageReader* msg);
+    //  void processMapMessage(NetworkMessageReader* msg);
     /**
      * @brief processNpcMessage
      * @param msg
@@ -299,7 +300,7 @@ protected:
      * @param msg
      * @return
      */
-//    NetWorkReceiver::SendType processVMapMessage(NetworkMessageReader* msg);
+    //    NetWorkReceiver::SendType processVMapMessage(NetworkMessageReader* msg);
     /**
      * @brief extractCharacter
      * @param map
@@ -385,7 +386,7 @@ private slots:
     /**
      * @brief openContent
      */
-//    void openContent();
+    //    void openContent();
     // save methods
     /**
      * @brief saveCurrentMedia

@@ -44,6 +44,8 @@
 
 #include "charactersheet/charactersheet.h"
 #include "chat/chatlistwidget.h"
+#include "controller/contentcontroller.h"
+#include "controller/media_controller/vectorialmapmediacontroller.h"
 #include "controller/playercontroller.h"
 #include "data/character.h"
 #include "data/mediacontainer.h"
@@ -65,6 +67,7 @@
 #include "userlist/playerspanel.h"
 #include "widgets/gmtoolbox/gamemastertool.h"
 #include "widgets/keygeneratordialog.h"
+#include "widgets/onlinepicturedialog.h"
 #include "widgets/shortcuteditordialog.h"
 #include "widgets/tipofdayviewer.h"
 #include "widgets/toolsbar.h"
@@ -81,8 +84,8 @@
 #include "controller/networkcontroller.h"
 
 // Undo
-#include "undoCmd/addmediacontainer.h"
 #include "undoCmd/deletemediacontainercommand.h"
+#include "undoCmd/openmediacontroller.h"
 
 // Text editor
 #include "noteeditor/src/textedit.h"
@@ -230,11 +233,29 @@ void MainWindow::setupUi()
 
     m_toolBar= new ToolsBar(this);
 
-    m_vToolBar= new VToolsBar(this);
+    auto vmapController= m_gameController->contentController()->vmapCtrl();
+    m_vToolBar= new VToolsBar(vmapController, this);
     m_toolBarStack= new QStackedWidget(this);
     m_toolBarStack->setMinimumWidth(10);
     m_toolBarStack->addWidget(m_toolBar);
     m_toolBarStack->addWidget(m_vToolBar);
+
+    /*auto vmapCtrl= m_gameController->contentController()->vmapCtrl();
+     connect(m_vToolBar, &VToolsBar::currentToolChanged, vmapCtrl, &VectorialMapMediaController::setTool);
+     connect(m_vToolBar, SIGNAL(currentColorChanged(QColor&)), tmp, SLOT(currentColorChanged(QColor&)));
+     connect(m_vToolBar, SIGNAL(currentModeChanged(int)), tmp, SLOT(setEditingMode(int)));
+     connect(m_vToolBar, SIGNAL(currentPenSizeChanged(int)), tmp, SLOT(currentPenSizeChanged(int)));
+     connect(m_vToolBar, SIGNAL(currentNpcNameChanged(QString)), tmp, SLOT(setCurrentNpcNameChanged(QString)));
+     connect(m_vToolBar, SIGNAL(currentNpcNumberChanged(int)), tmp, SLOT(setCurrentNpcNumberChanged(int)));
+     connect(m_vToolBar, SIGNAL(opacityChanged(qreal)), map, SLOT(setCurrentItemOpacity(qreal)));
+     connect(m_vToolBar, SIGNAL(currentEditionModeChanged(VToolsBar::EditionMode)), map,
+         SLOT(setEditionMode(VToolsBar::EditionMode)));
+
+
+     connect(tmp, SIGNAL(defineCurrentTool(Core::SelectableTool)), m_vToolBar,
+             SLOT(setCurrentTool(Core::SelectableTool)));
+     connect(map, SIGNAL(colorPipette(QColor)), m_vToolBar, SLOT(setCurrentColor(QColor)));
+     connect(map, SIGNAL(currentItemOpacity(qreal)), m_vToolBar, SLOT(setCurrentOpacity(qreal)));*/
 
     QDockWidget* dock= new QDockWidget(this);
     dock->setWidget(m_toolBarStack);
@@ -334,9 +355,9 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac, bool redoable)
     if(nullptr == m_currentConnectionProfile)
         return;
 
-    AddMediaContainer* addMedia
+    /*AddMediaContainer* addMedia
         = new AddMediaContainer(mediac, m_gameController->contentController(), m_ui->m_menuSubWindows, m_mdiArea,
-                                m_currentConnectionProfile->isGM());
+                                m_currentConnectionProfile->isGM());*/
     if(!m_mediaHash.contains(mediac->getMediaId()))
     {
         m_mediaHash.insert(mediac->getMediaId(), mediac);
@@ -347,7 +368,7 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac, bool redoable)
     }
     else
     {
-        addMedia->redo();
+        // addMedia->redo();
     }
 }
 void MainWindow::closeConnection()
@@ -427,80 +448,80 @@ void MainWindow::showTipChecker()
 
 void MainWindow::activeWindowChanged(QMdiSubWindow* subWindow)
 {
-    if((nullptr == m_currentConnectionProfile) || (nullptr == subWindow))
-    {
-        m_ui->m_closeAction->setEnabled(false);
-        m_ui->m_saveAction->setEnabled(false);
-        m_ui->m_saveAsAction->setEnabled(false);
-        return;
-    }
-    auto media= dynamic_cast<MediaContainer*>(subWindow);
-    bool localPlayerIsGM= m_currentConnectionProfile->isGM();
-    if(nullptr == media)
-    {
-        m_ui->m_closeAction->setEnabled(false);
-        m_ui->m_saveAction->setEnabled(false);
-        m_ui->m_saveAsAction->setEnabled(false);
-        return;
-    }
-    m_vmapToolBar->setEnabled(false);
-    auto owner= media->ownerId();
-    auto localIsOwner= (m_gameController->localPlayerId() == owner);
-    if(localPlayerIsGM)
-        localIsOwner= true;
+    /* if((nullptr == m_currentConnectionProfile) || (nullptr == subWindow))
+     {
+         m_ui->m_closeAction->setEnabled(false);
+         m_ui->m_saveAction->setEnabled(false);
+         m_ui->m_saveAsAction->setEnabled(false);
+         return;
+     }
+     auto media= dynamic_cast<MediaContainer*>(subWindow);
+     bool localPlayerIsGM= m_currentConnectionProfile->isGM();
+     if(nullptr == media)
+     {
+         m_ui->m_closeAction->setEnabled(false);
+         m_ui->m_saveAction->setEnabled(false);
+         m_ui->m_saveAsAction->setEnabled(false);
+         return;
+     }
+     m_vmapToolBar->setEnabled(false);
+     auto owner= media->ownerId();
+     auto localIsOwner= (m_gameController->localPlayerId() == owner);
+     if(localPlayerIsGM)
+         localIsOwner= true;
 
-    m_ui->m_closeAction->setEnabled(localIsOwner);
-    m_ui->m_saveAction->setEnabled(localIsOwner);
-    m_ui->m_saveAsAction->setEnabled(localIsOwner);
+     m_ui->m_closeAction->setEnabled(localIsOwner);
+     m_ui->m_saveAction->setEnabled(localIsOwner);
+     m_ui->m_saveAsAction->setEnabled(localIsOwner);
 
-    switch(media->getContainerType())
-    {
-    case MediaContainer::ContainerType::MapContainer:
-    {
-        m_toolBarStack->setCurrentWidget(m_toolBar);
-        subWindow->setFocus();
-    }
-    break;
-    case MediaContainer::ContainerType::VMapContainer:
-    {
-        // m_playersListWidget->model()->setCurrentMap(nullptr);
-        m_vmapToolBar->setEnabled(true);
+     switch(media->getContainerType())
+     {
+     case MediaContainer::ContainerType::MapContainer:
+     {
+         m_toolBarStack->setCurrentWidget(m_toolBar);
+         subWindow->setFocus();
+     }
+     break;
+     case MediaContainer::ContainerType::VMapContainer:
+     {
+         // m_playersListWidget->model()->setCurrentMap(nullptr);
+         m_vmapToolBar->setEnabled(true);
 
-        if(localPlayerIsGM)
-            m_toolBarStack->setCurrentWidget(m_vToolBar);
+         if(localPlayerIsGM)
+             m_toolBarStack->setCurrentWidget(m_vToolBar);
 
-        VMapFrame* frame= dynamic_cast<VMapFrame*>(subWindow);
-        if(frame)
-        {
-            auto map= frame->getMap();
-            m_vmapToolBar->setCurrentMap(map);
-            if(map)
-            {
-                auto mode= map->getPermissionMode();
-                switch(mode)
-                {
-                case Map::PC_ALL:
-                    m_toolBarStack->setCurrentWidget(m_vToolBar);
-                    break;
-                default:
-                    break;
-                }
-                m_vToolBar->setCurrentTool(VToolsBar::HANDLER);
-                m_vToolBar->updateUi(mode);
-            }
-        }
-    }
-    break;
-    case MediaContainer::ContainerType::NoteContainer:
-    case MediaContainer::ContainerType::SharedNoteContainer:
-        // m_playersListWidget->model()->setCurrentMap(nullptr);
-        m_ui->m_saveAction->setEnabled(localIsOwner);
-        m_ui->m_saveAsAction->setEnabled(localIsOwner);
-        break;
-    default:
-        // m_playersListWidget->model()->setCurrentMap(nullptr);
-        break;
-    }
+         VMapFrame* frame= dynamic_cast<VMapFrame*>(subWindow);
+         if(frame)
+         {
+             auto map= frame->getMap();
+             m_vmapToolBar->setCurrentMap(map);
+             if(map)
+             {
+                 auto mode= map->getPermissionMode();
+                 switch(mode)
+                 {
+                 case Core::PC_ALL:
+                     m_toolBarStack->setCurrentWidget(m_vToolBar);
+                     break;
+                 default:
+                     break;
+                 }
+                 // m_vToolBar->setCurrentTool(VToolsBar::HANDLER);
+                 m_vToolBar->updateUi(mode);
+             }
+         }
+     }
+     break;
+     case MediaContainer::ContainerType::NoteContainer:
+     case MediaContainer::ContainerType::SharedNoteContainer:
+         // m_playersListWidget->model()->setCurrentMap(nullptr);
+         m_ui->m_saveAction->setEnabled(localIsOwner);
+         m_ui->m_saveAsAction->setEnabled(localIsOwner);
+         break;
+     default:
+         // m_playersListWidget->model()->setCurrentMap(nullptr);
+         break;
+     }*/
 }
 void MainWindow::closeEvent(QCloseEvent* event)
 {
@@ -588,7 +609,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_newNoteAction, &QAction::triggered, this, fun);
     connect(m_ui->m_newSharedNote, &QAction::triggered, this, fun);
     connect(m_ui->m_newWebViewACt, &QAction::triggered, this, fun);
-    connect(m_ui->m_newChatAction, SIGNAL(triggered(bool)), m_chatListWidget, SLOT(createPrivateChat()));
+    connect(m_ui->m_newChatAction, &QAction::triggered, m_chatListWidget, &ChatListWidget::createPrivateChat);
 
     // open
     connect(m_ui->m_openPictureAction, &QAction::triggered, this, &MainWindow::openGenericContent);
@@ -601,7 +622,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_openShareNote, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openPdfAct, &QAction::triggered, this, &MainWindow::openGenericContent);
 
-    connect(m_ui->m_shortCutEditorAct, SIGNAL(triggered(bool)), this, SLOT(showShortCutEditor()));
+    connect(m_ui->m_shortCutEditorAct, &QAction::triggered, this, &MainWindow::showShortCutEditor);
 
     m_ui->m_openPictureAction->setData(static_cast<int>(CleverURI::PICTURE));
     m_ui->m_openOnlinePictureAction->setData(static_cast<int>(CleverURI::ONLINEPICTURE));
@@ -781,8 +802,8 @@ void MainWindow::updateWorkspace()
 MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi)
 {
     MediaContainer* media= nullptr;
-    auto uri= new CleverURI(tr("Untitled"), "", type);
-    uri->setCurrentMode(CleverURI::Internal);
+    auto uri= new CleverURI(tr("Untitled"), "", "", type);
+    uri->setLoadingMode(CleverURI::Internal);
 
     auto localIsGM= false;
     if(m_currentConnectionProfile != nullptr)
@@ -799,21 +820,21 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi
     break;
     case CleverURI::VMAP:
     {
-        MapWizzardDialog mapWizzard(m_mdiArea);
-        if(mapWizzard.exec())
-        {
-            VMap* tempmap= new VMap();
-            if(nullptr != tempmap)
-            {
-                tempmap->setOption(VisualItem::LocalIsGM, localIsGM);
-            }
-            mapWizzard.setAllMap(tempmap);
-            QString name= tempmap->getMapTitle();
-            uri->setName(name);
-            VMapFrame* tmp= new VMapFrame(localIsGM, uri, tempmap);
-            prepareVMap(tmp);
-            media= tmp;
-        }
+        /*  MapWizzardDialog mapWizzard(m_mdiArea);
+          if(mapWizzard.exec())
+          {
+              VMap* tempmap= new VMap();
+              if(nullptr != tempmap)
+              {
+                  tempmap->setOption(VisualItem::LocalIsGM, localIsGM);
+              }
+              mapWizzard.setAllMap(tempmap);
+              QString name= tempmap->getMapTitle();
+              uri->setName(name);
+              //VMapFrame* tmp= new VMapFrame(localIsGM, uri, tempmap);
+              prepareVMap(tmp);
+              media= tmp;
+          }*/
     }
     break;
     case CleverURI::MAP:
@@ -838,7 +859,7 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi
     case CleverURI::WEBVIEW:
     {
         media= new WebView(localIsGM ? WebView::localIsGM : WebView::LocalIsPlayer);
-        uri->setCurrentMode(CleverURI::Linked);
+        uri->setLoadingMode(CleverURI::Linked);
     }
     break;
 #endif
@@ -847,7 +868,7 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi
     }
     if(nullptr != media && addMdi)
     {
-        media->setCleverUri(uri);
+        // media->setCleverUri(uri);
         addMediaToMdiArea(media);
     }
     return media;
@@ -1009,7 +1030,7 @@ void MainWindow::saveMedia(MediaContainer* mediaC, bool saveAs)
     if(nullptr == mediaC)
         return;
 
-    CleverURI* cleverURI= mediaC->getCleverUri();
+    /*CleverURI* cleverURI= mediaC->getCleverUri();
     if(nullptr == cleverURI)
         return;
 
@@ -1037,7 +1058,7 @@ void MainWindow::saveMedia(MediaContainer* mediaC, bool saveAs)
     {
         mediaC->putDataIntoCleverUri();
     }
-    setLatestFile(cleverURI);
+    setLatestFile(cleverURI);*/
 }
 
 bool MainWindow::saveMinutes()
@@ -1936,7 +1957,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     if(nullptr == tmp)
         return;
 
-    VMap* map= tmp->getMap();
+    /*VMap* map= tmp->getMap();
 
     if(nullptr == map)
         return;
@@ -1948,23 +1969,9 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     // tmp->setUndoStack(&m_undoStack);
 
     // Toolbar to Map
-    connect(m_vToolBar, SIGNAL(currentToolChanged(VToolsBar::SelectableTool)), tmp,
-            SLOT(currentToolChanged(VToolsBar::SelectableTool)));
-    connect(tmp, SIGNAL(defineCurrentTool(VToolsBar::SelectableTool)), m_vToolBar,
-            SLOT(setCurrentTool(VToolsBar::SelectableTool)));
-    connect(map, SIGNAL(colorPipette(QColor)), m_vToolBar, SLOT(setCurrentColor(QColor)));
-    connect(m_vToolBar, SIGNAL(currentColorChanged(QColor&)), tmp, SLOT(currentColorChanged(QColor&)));
-    connect(m_vToolBar, SIGNAL(currentModeChanged(int)), tmp, SLOT(setEditingMode(int)));
-    connect(m_vToolBar, SIGNAL(currentPenSizeChanged(int)), tmp, SLOT(currentPenSizeChanged(int)));
-    connect(m_vToolBar, SIGNAL(currentNpcNameChanged(QString)), tmp, SLOT(setCurrentNpcNameChanged(QString)));
-    connect(m_vToolBar, SIGNAL(currentNpcNumberChanged(int)), tmp, SLOT(setCurrentNpcNumberChanged(int)));
-    connect(m_vToolBar, SIGNAL(opacityChanged(qreal)), map, SLOT(setCurrentItemOpacity(qreal)));
-    connect(map, SIGNAL(currentItemOpacity(qreal)), m_vToolBar, SLOT(setCurrentOpacity(qreal)));
-    connect(m_vToolBar, SIGNAL(currentEditionModeChanged(VToolsBar::EditionMode)), map,
-            SLOT(setEditionMode(VToolsBar::EditionMode)));
 
     // map to toolbar
-    connect(map, &VMap::npcAdded, m_vToolBar, &VToolsBar::increaseNpcNumber);
+    // connect(map, &VMap::npcAdded, m_vToolBar, &VToolsBar::increaseNpcNumber);
     connect(map, &VMap::runDiceCommandForCharacter, this,
             [this](QString cmd, QString uuid) { m_chatListWidget->rollDiceCmdForCharacter(cmd, uuid, true); });
 
@@ -1990,10 +1997,10 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     map->setOption(VisualItem::ShowInitScore, m_ui->m_showInitiativeAct->isChecked());
 
     map->setCurrentNpcNumber(m_toolBar->getCurrentNpcNumber());
-    tmp->currentPenSizeChanged(m_vToolBar->getCurrentPenSize());
+    // tmp->currentPenSizeChanged(m_vToolBar->getCurrentPenSize());
 
-    m_vToolBar->setCurrentTool(VToolsBar::HANDLER);
-    tmp->currentToolChanged(m_vToolBar->getCurrentTool());
+    // m_vToolBar->setCurrentTool(VToolsBar::HANDLER);
+    // tmp->currentToolChanged(m_vToolBar->getCurrentTool());*/
 }
 
 CleverURI* MainWindow::contentToPath(CleverURI::ContentType type, bool save)
@@ -2026,7 +2033,8 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type, bool save)
         else
             filepath= QFileDialog::getOpenFileName(this, title, folder, filter);
 
-        return new CleverURI(getShortNameFromPath(filepath), filepath, type);
+        return new CleverURI(getShortNameFromPath(filepath), filepath,
+                             m_gameController->playerController()->localPlayer()->getUuid(), type);
     }
     return nullptr;
 }
@@ -2043,14 +2051,46 @@ void MainWindow::openGenericContent()
     auto contentCtrl= m_gameController->contentController();
     for(auto const& path : list)
     {
-        auto uri= new CleverURI(getShortNameFromPath(path), path, type);
+        auto uri= new CleverURI(getShortNameFromPath(path), path,
+                                m_gameController->playerController()->localPlayer()->getUuid(), type);
         contentCtrl->openMedia(uri);
     }
-
-    // openContentFromType(type);
 }
 
-void MainWindow::openVMap() {}
+void MainWindow::openOnlineImage()
+{
+    OnlinePictureDialog dialog;
+    if(QDialog::Accepted != dialog.exec())
+        return;
+
+    std::map<QString, QVariant> args({{QStringLiteral("pixmap"), dialog.getPixmap()}});
+
+    auto uri= new CleverURI(dialog.getTitle(), dialog.getPath(),
+                            m_gameController->playerController()->localPlayer()->getUuid(), CleverURI::PICTURE);
+    m_gameController->contentController()->openMedia(uri, args);
+}
+
+void MainWindow::openVMap()
+{
+    MapWizzard mapWizzard(true, this);
+    mapWizzard.resetData();
+    if(mapWizzard.exec() != QMessageBox::Accepted)
+        return;
+
+    auto permission= mapWizzard.getPermissionMode();
+    auto filepath= mapWizzard.getFilepath();
+    auto name= mapWizzard.getTitle();
+    auto hidden= mapWizzard.getHidden();
+
+    std::map<QString, QVariant> args({{QStringLiteral("permission"), permission}, {QStringLiteral("hidden"), hidden}});
+
+    auto uri= new CleverURI(mapWizzard.getTitle(), filepath,
+                            m_gameController->playerController()->localPlayer()->getUuid(), CleverURI::VMAP);
+    m_gameController->contentController()->openMedia(uri, args);
+
+    QFileInfo info(mapWizzard.getFilepath());
+    m_preferences->registerValue("MapDirectory", info.absolutePath());
+}
 
 void MainWindow::openMap()
 {
@@ -2061,10 +2101,13 @@ void MainWindow::openMap()
 
     auto permission= mapWizzard.getPermissionMode();
     auto filepath= mapWizzard.getFilepath();
-
+    auto name= mapWizzard.getTitle();
     auto hidden= mapWizzard.getHidden();
 
-    auto uri= new CleverURI(mapWizzard.getTitle(), filepath, CleverURI::MAP);
+    std::map<QString, QVariant> args({{QStringLiteral("permission"), permission}, {QStringLiteral("hidden"), hidden}});
+
+    auto uri= new CleverURI(mapWizzard.getTitle(), filepath,
+                            m_gameController->playerController()->localPlayer()->getUuid(), CleverURI::MAP);
     m_gameController->contentController()->openMedia(uri);
 
     QFileInfo info(mapWizzard.getFilepath());
@@ -2148,7 +2191,7 @@ void MainWindow::setLatestFile(CleverURI* fileName)
 {
     // no online picture because they are handled in a really different way.
     if((nullptr == fileName) || (fileName->getType() == CleverURI::ONLINEPICTURE)
-       || (fileName->getCurrentMode() == CleverURI::Internal) || !QFileInfo::exists(fileName->getUri()))
+       || (fileName->loadingMode() == CleverURI::Internal) || !QFileInfo::exists(fileName->getUri()))
     {
         return;
     }
@@ -2209,13 +2252,13 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
         break;
     case CleverURI::VMAP:
     {
-        VMapFrame* mapFrame= new VMapFrame(localIsGM);
+        /*VMapFrame* mapFrame= new VMapFrame(localIsGM);
         VMap* map= mapFrame->getMap();
         if((nullptr != map) && (nullptr != m_currentConnectionProfile))
         {
             map->setOption(VisualItem::LocalIsGM, m_currentConnectionProfile->isGM());
         }
-        tmp= mapFrame;
+        tmp= mapFrame;*/
     }
     break;
     case CleverURI::PICTURE:
@@ -2281,7 +2324,7 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
     {
         tmp->setOwnerId(m_gameController->localPlayerId());
         tmp->setLocalPlayerId(m_gameController->localPlayerId());
-        tmp->setCleverUri(uri);
+        // tmp->setCleverUri(uri);
         if(tmp->readFileFromUri())
         {
             if(uri->getType() == CleverURI::MAP)
@@ -2434,8 +2477,8 @@ void MainWindow::dropEvent(QDropEvent* event)
         {
             CleverURI::ContentType type= getContentType(list.at(i).toLocalFile());
             qInfo() << QStringLiteral("MainWindow: dropEvent for %1").arg(CleverURI::typeToString(type));
-            CleverURI* uri
-                = new CleverURI(getShortNameFromPath(list.at(i).toLocalFile()), list.at(i).toLocalFile(), type);
+            CleverURI* uri= new CleverURI(getShortNameFromPath(list.at(i).toLocalFile()), list.at(i).toLocalFile(),
+                                          m_gameController->playerController()->localPlayer()->getUuid(), type);
             openCleverURI(uri, true);
         }
         event->acceptProposedAction();
@@ -2469,9 +2512,9 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
         auto vmapFrame= dynamic_cast<VMapFrame*>(media);
         if(vmapFrame)
         {
-            auto vmap= vmapFrame->getMap();
+            /*auto vmap= vmapFrame->getMap();
             vmap->addImageItem(pix.toImage());
-            destination= media;
+            destination= media;*/
         }
     }
     else if(type == CleverURI::MAP)
@@ -2494,7 +2537,7 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
         destination->setUriName(title.arg(sourceName));
 
     destination->setRemote(false);
-    destination->setCleverUri(new CleverURI(sourceName, "", type));
+    // destination->setCleverUri(new CleverURI(sourceName, "", type));
     addMediaToMdiArea(destination, true);
 }
 void MainWindow::focusInEvent(QFocusEvent* event)
