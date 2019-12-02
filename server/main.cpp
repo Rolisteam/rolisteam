@@ -110,19 +110,20 @@ int main(int argc, char* argv[])
 
     QCommandLineOption configuration(QStringList() << "c"
                                                    << "config",
-        QObject::tr("Set the path to configuration file [mandatory]"), "config");
+                                     QObject::tr("Set the path to configuration file [mandatory]"), "config");
     QCommandLineOption print(QStringList() << "p"
                                            << "print",
-        QObject::tr("Print a default configuration file into Standard output"), "output");
+                             QObject::tr("Print a default configuration file into Standard output"), "output");
     QCommandLineOption hashPassword(QStringList() << "g"
                                                   << "generate",
-        QObject::tr("Ask for password and return its hash key."), "password");
+                                    QObject::tr("Ask for password and return its hash key."), "password");
 
     parser.addOption(configuration);
     parser.addOption(print);
     parser.addOption(hashPassword);
 
     parser.parse(app.arguments());
+    parser.process(app.arguments());
 
     bool hasConfig= parser.isSet(configuration);
     bool askPrint= parser.isSet(print);
