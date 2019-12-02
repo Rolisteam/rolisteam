@@ -71,12 +71,12 @@ void DeleteMediaContainerCommand::undo()
     qInfo() << QStringLiteral("undo command DeleteMediaContainerCommand: %1 ").arg(text());
     if(nullptr != m_media)
     {
-        CleverURI* uri= m_media->getCleverUri();
-        if(nullptr != uri)
-        {
-            // m_manager->addRessource(m_media->getCleverUri());
-            uri->setDisplayed(true);
-        }
+        /* CleverURI* uri= m_media->getCleverUri();
+         if(nullptr != uri)
+         {
+             // m_manager->addRessource(m_media->getCleverUri());
+             uri->setDisplayed(true);
+         }*/
         QAction* action= m_media->getAction();
         if(action == nullptr)
         {
@@ -90,13 +90,13 @@ void DeleteMediaContainerCommand::undo()
         m_media->setVisible(true);
         m_media->setFocus();
         m_hash.insert(m_media->getMediaId(), m_media);
-        if(sendAtOpening())
+        /*if(sendAtOpening())
         {
             NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
             msg.uint8(static_cast<quint8>(uri->getType()));
             m_media->fill(msg);
             msg.sendToServer();
-        }
+        }*/
     }
 }
 bool DeleteMediaContainerCommand::sendAtOpening()
@@ -105,12 +105,12 @@ bool DeleteMediaContainerCommand::sendAtOpening()
     {
         return false;
     }
-    auto uri= m_media->getCleverUri();
+    bool result= false;
+    /*auto uri= m_media->getCleverUri();
     if(nullptr == uri)
     {
         return false;
     }
-    bool result= false;
     switch(uri->getType())
     {
     case CleverURI::PICTURE:
@@ -122,6 +122,6 @@ bool DeleteMediaContainerCommand::sendAtOpening()
     default:
         result= false;
         break;
-    }
+    }*/
     return result;
 }

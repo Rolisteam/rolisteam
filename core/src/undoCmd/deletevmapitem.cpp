@@ -26,7 +26,7 @@ DeleteVmapItemCommand::DeleteVmapItemCommand(VMap* map, VisualItem* item, bool s
 {
     m_visible= m_currentItem->isVisible();
 
-    setText(QObject::tr("Delete Item From Map %1").arg(m_vmap->getMapTitle()));
+    // setText(QObject::tr("Delete Item From Map %1").arg(m_vmap->getMapTitle()));
 }
 
 void DeleteVmapItemCommand::redo()

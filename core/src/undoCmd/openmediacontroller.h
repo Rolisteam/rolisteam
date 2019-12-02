@@ -23,27 +23,23 @@
 #include <QPointer>
 #include <QUndoCommand>
 
-#include "controller/contentcontroller.h"
-#include "data/mediacontainer.h"
-
-class Workspace;
-
-class AddMediaContainer : public QUndoCommand
+class MediaControllerInterface;
+class CleverURI;
+class ContentController;
+class OpenMediaController : public QUndoCommand
 {
 public:
-    AddMediaContainer(MediaContainer* mediac, ContentController* ctrl, QMenu* menu, Workspace* workspace, bool isGM,
-                      QUndoCommand* parent= nullptr);
+    OpenMediaController(CleverURI* uri, MediaControllerInterface* ctrl, ContentController* contentCtrl, bool isGM,
+                        const std::map<QString, QVariant>& map, QUndoCommand* parent= nullptr);
 
     void redo() override;
     void undo() override;
 
-    bool sendAtOpening();
-
 private:
-    MediaContainer* m_media= nullptr;
-    QPointer<ContentController> m_ctrl= nullptr;
-    QMenu* m_menu= nullptr;
-    Workspace* m_mdiArea= nullptr;
+    CleverURI* m_uri= nullptr;
+    QPointer<MediaControllerInterface> m_ctrl;
+    QPointer<ContentController> m_contentCtrl;
+    std::map<QString, QVariant> m_args;
     bool m_gm;
 };
 
