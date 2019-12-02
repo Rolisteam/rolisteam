@@ -22,6 +22,7 @@
 
 #include <QOpenGLWidget>
 
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include "data/character.h"
 #include "data/mediacontainer.h"
 #include "data/person.h"
@@ -34,15 +35,15 @@
 #include "items/ruleitem.h"
 #include "undoCmd/changesizevmapitem.h"
 
-RGraphicsView::RGraphicsView(VMap* vmap, QWidget* parent)
-    : QGraphicsView(vmap, parent), m_vmap(vmap), m_centerOnItem(nullptr)
+RGraphicsView::RGraphicsView(VectorialMapController* ctrl, QWidget* parent)
+    : QGraphicsView(parent), m_ctrl(ctrl), m_centerOnItem(nullptr)
 {
     m_counterZoom= 0;
 
-    if(nullptr != m_vmap)
+    /*if(nullptr != m_vmap)
     {
         connect(m_vmap, SIGNAL(mapChanged()), this, SLOT(sendOffMapChange()));
-    }
+    }*/
     setAcceptDrops(true);
     m_preferences= PreferencesManager::getInstance();
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
@@ -57,7 +58,7 @@ RGraphicsView::RGraphicsView(VMap* vmap, QWidget* parent)
 
     createAction();
 
-    vmap->initScene();
+    // vmap->initScene();
 }
 
 void RGraphicsView::mousePressEvent(QMouseEvent* event)

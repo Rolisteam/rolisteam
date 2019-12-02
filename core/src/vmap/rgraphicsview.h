@@ -20,10 +20,14 @@
 #ifndef RGRAPHICSVIEW_H
 #define RGRAPHICSVIEW_H
 
+#include <QGraphicsView>
+#include <QPointer>
+
 #include "preferences/preferencesmanager.h"
 #include "vmap.h"
 #include "vmapwizzarddialog.h"
-#include <QGraphicsView>
+
+class VectorialMapController;
 /**
  * @brief RGraphicsView is custom graphicsview to fit rolisteam needs. It will implement some important feature
  */
@@ -43,7 +47,7 @@ public:
      * @brief constructor with parameters
      * @param Map address which it will be displayed by the graphicsview
      */
-    RGraphicsView(VMap* vmap, QWidget* parent);
+    RGraphicsView(VectorialMapController* ctrl, QWidget* parent= nullptr);
 
     void currentToolChanged(Core::SelectableTool selectedtool);
     void readMessage(NetworkMessageReader* msg);
@@ -85,6 +89,7 @@ private slots:
     void sendOffMapChange();
 
 private:
+    QPointer<VectorialMapController> m_ctrl;
     VMap* m_vmap;
 
     int m_counterZoom;
