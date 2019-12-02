@@ -25,7 +25,7 @@
 #include <QShortcut>
 #include <QtGui>
 
-#include "controller/imagecontroller.h"
+#include "controller/view_controller/imagecontroller.h"
 #include "image.h"
 #include "network/networklink.h"
 #include "network/networkmessagewriter.h"
@@ -35,7 +35,7 @@
 /* Constructeur                                                     */
 /********************************************************************/
 Image::Image(ImageController* ctrl, QWidget* parent)
-    : MediaContainer(MediaContainer::ContainerType::ImageContainer, parent)
+    : MediaContainer(ctrl, MediaContainer::ContainerType::ImageContainer, parent)
     , m_ctrl(ctrl)
     , m_imageLabel(new QLabel())
     , m_widgetArea(new QScrollArea())
@@ -404,11 +404,11 @@ void Image::putDataIntoCleverUri()
 {
     QByteArray data;
     QDataStream out(&data, QIODevice::WriteOnly);
-    //saveImageToFile(out);
-    if(nullptr != m_uri)
+    // saveImageToFile(out);
+    /*if(nullptr != m_uri)
     {
         m_uri->setData(data);
-    }
+    }*/
 }
 
 bool Image::readFileFromUri()

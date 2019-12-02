@@ -37,7 +37,7 @@ class ImageController : public AbstractMediaContainerController
     Q_PROPERTY(qreal ratioV READ ratioV NOTIFY ratioVChanged)
     Q_PROPERTY(qreal ratioH READ ratioH NOTIFY ratioHChanged) // bis
 public:
-    explicit ImageController(CleverURI* uri, QObject* parent= nullptr);
+    explicit ImageController(CleverURI* uri, const QPixmap& pixmap= QPixmap(), QObject* parent= nullptr);
 
     bool fitWindow() const;
     qreal zoomLevel() const;

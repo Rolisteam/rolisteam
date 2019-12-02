@@ -20,37 +20,40 @@
 #include "mediacontainer.h"
 #include <QMessageBox>
 
-MediaContainer::MediaContainer(ContainerType containerType, bool localIsGM, QWidget* parent)
+MediaContainer::MediaContainer(AbstractMediaContainerController* ctrl, ContainerType containerType, bool localIsGM,
+                               QWidget* parent)
     : QMdiSubWindow(parent)
-    , m_uri(nullptr)
+    , m_lifeCycleCtrl(ctrl)
     , m_preferences(PreferencesManager::getInstance())
     , m_action(nullptr)
-    , m_name(tr("Unknown"))
     , m_currentCursor(nullptr)
     , m_mediaId(QUuid::createUuid().toString())
     , m_remote(false)
     , m_localIsGM(localIsGM)
     , m_containerType(containerType)
 {
-    // m_preferences = ;
     setAttribute(Qt::WA_DeleteOnClose, false);
     m_detachedDialog= new QAction(tr("Detach the view"), this);
     m_detachedDialog->setCheckable(true);
 
     connect(m_detachedDialog, SIGNAL(triggered(bool)), this, SLOT(detachView(bool)));
+    connect(ctrl, &AbstractMediaContainerController::closeContainer, this, &MediaContainer::close);
+    connect(m_lifeCycleCtrl, &AbstractMediaContainerController::titleChanged, this,
+            [this]() { setWindowTitle(m_lifeCycleCtrl->title()); });
 }
+
 MediaContainer::~MediaContainer() {}
 
 void MediaContainer::setLocalPlayerId(QString id)
 {
-    m_localPlayerId= id;
+    //  m_localPlayerId= id;
 }
 
 QString MediaContainer::getLocalPlayerId()
 {
-    return m_localPlayerId;
+    return {}; // m_localPlayerId;
 }
-void MediaContainer::setCleverUri(CleverURI* uri)
+/*void MediaContainer::setCleverUri(CleverURI* uri)
 {
     if(m_uri == uri)
         return;
@@ -71,7 +74,13 @@ void MediaContainer::setCleverUri(CleverURI* uri)
 CleverURI* MediaContainer::getCleverUri() const
 {
     return m_uri;
+}*/
+
+AbstractMediaContainerController* MediaContainer::ctrl() const
+{
+    return m_lifeCycleCtrl;
 }
+
 bool MediaContainer::openMedia()
 {
     return false;
@@ -95,13 +104,13 @@ void MediaContainer::error(QString err, QWidget* parent)
 }
 bool MediaContainer::isUriEndWith(QString str)
 {
-    if(nullptr != m_uri)
-    {
-        if(m_uri->getUri().endsWith(str))
-        {
-            return true;
-        }
-    }
+    /* if(nullptr != m_uri)
+     {
+         if(m_uri->getUri().endsWith(str))
+         {
+             return true;
+         }
+     }*/
     return false;
 }
 
@@ -115,10 +124,10 @@ void MediaContainer::setVisible(bool b)
             m_action->setChecked(b);
         }
     }
-    if(nullptr != m_uri)
-    {
-        m_uri->setDisplayed(b);
-    }
+    /*  if(nullptr != m_uri)
+      {
+          m_uri->setDisplayed(b);
+      }*/
     QMdiSubWindow::setVisible(b);
 }
 void MediaContainer::setAction(QAction* act)
@@ -132,8 +141,8 @@ QAction* MediaContainer::getAction()
 }
 void MediaContainer::setCleverUriType(CleverURI::ContentType type)
 {
-    m_uri= new CleverURI(tr("Unknown"), "", type);
-    m_uri->setListener(this);
+    /* m_uri= new CleverURI(tr("Unknown"), "", type);
+     m_uri->setListener(this);*/
 }
 void MediaContainer::currentColorChanged(QColor& penColor)
 {
@@ -147,17 +156,15 @@ QString MediaContainer::getMediaId() const
 
 QString MediaContainer::getUriName() const
 {
-    QString result= m_name;
-    if(nullptr != m_uri) // && !m_uri->name().isEmpty()
-        result= m_uri->name();
-
-    return result;
+    /* if(nullptr == m_uri)
+         return m_name;
+     return m_uri->name();*/
 }
 
 void MediaContainer::setUriName(const QString& name)
 {
-    if(nullptr != m_uri)
-        m_uri->setName(name);
+    /* if(nullptr != m_uri)
+         m_uri->setName(name);*/
     m_name= name;
     if(nullptr != m_action)
         m_action->setText(getUriName());
@@ -171,15 +178,15 @@ void MediaContainer::setMediaId(QString str)
 
 void MediaContainer::cleverURIHasChanged(CleverURI* uri, CleverURI::DataValue field)
 {
-    if(uri != m_uri)
-        return;
+    /* if(uri != m_uri)
+         return;
 
-    if(field == CleverURI::NAME)
-    {
-        if(nullptr != m_action)
-            m_action->setText(getUriName());
-        updateTitle();
-    }
+     if(field == CleverURI::NAME)
+     {
+         if(nullptr != m_action)
+             m_action->setText(getUriName());
+         updateTitle();
+     }*/
 }
 void MediaContainer::currentToolChanged(Core::SelectableTool selectedtool)
 {
@@ -191,23 +198,16 @@ void MediaContainer::currentCursorChanged(QCursor* cursor)
 }
 CleverURI::ContentType MediaContainer::getContentType()
 {
-    if(nullptr != m_uri)
-    {
-        return m_uri->getType();
-    }
+    /* if(nullptr != m_uri)
+     {
+         return m_uri->getType();
+     }*/
     return CleverURI::NONE;
 }
 void MediaContainer::addActionToMenu(QMenu& menu)
 {
     menu.addAction(m_detachedDialog);
 }
-
-QUndoStack* MediaContainer::getUndoStack() const
-{
-    return nullptr;
-}
-
-void MediaContainer::setUndoStack(QUndoStack*) {}
 
 void MediaContainer::fill(NetworkMessageWriter&) {}
 
@@ -234,6 +234,12 @@ void MediaContainer::detachView(bool b)
 MediaContainer::ContainerType MediaContainer::getContainerType() const
 {
     return m_containerType;
+}
+
+void MediaContainer::closeEvent(QCloseEvent* event)
+{
+    hide();
+    event->accept();
 }
 
 void MediaContainer::setContainerType(const ContainerType& containerType)
