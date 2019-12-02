@@ -21,7 +21,18 @@
 #include "network/networkmessagereader.h"
 #include "network/receiveevent.h"
 
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include "vmap/vmapframe.h"
+#include <map>
+
+VectorialMapController* findActive(const std::vector<std::unique_ptr<VectorialMapController>>& vmaps)
+{
+    auto it= std::find_if(vmaps.begin(), vmaps.end(),
+                          [](const std::unique_ptr<VectorialMapController>& ctrl) { return ctrl->isActive(); });
+    if(vmaps.end() == it)
+        return nullptr;
+    return (*it).get();
+}
 
 VectorialMapMediaController::VectorialMapMediaController() {}
 
@@ -29,6 +40,8 @@ CleverURI::ContentType VectorialMapMediaController::type() const
 {
     return CleverURI::VMAP;
 }
+
+VectorialMapMediaController::~VectorialMapMediaController()= default;
 
 void VectorialMapMediaController::registerNetworkReceiver()
 {
@@ -50,7 +63,7 @@ NetWorkReceiver::SendType VectorialMapMediaController::processMessage(NetworkMes
     case NetMsg::closeVmap:
     {
         QString vmapId= msg->string8();
-        clodeMedia(vmapId);
+        closeMedia(vmapId);
     }
     break;
     case NetMsg::addVmap:
@@ -94,13 +107,100 @@ NetWorkReceiver::SendType VectorialMapMediaController::processMessage(NetworkMes
     return type;
 }
 
-void VectorialMapMediaController::clodeMedia(const QString& id)
+Core::SelectableTool VectorialMapMediaController::tool() const
 {
-    m_openMedia.erase(std::remove_if(m_openMedia.begin(), m_openMedia.end(),
-                                     [id](const CleverURI* uri) { return uri->name() == id; }));
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return Core::HANDLER;
+
+    return ctrl->tool();
 }
 
-bool VectorialMapMediaController::openMedia(CleverURI* uri)
+void VectorialMapMediaController::closeMedia(const QString& id)
 {
-    // m_openMedia.push_back(uri);
+    auto it= std::remove_if(m_vmaps.begin(), m_vmaps.end(),
+                            [id](const std::unique_ptr<VectorialMapController>& ctrl) { return ctrl->uuid() == id; });
+    if(it == m_vmaps.end())
+        return;
+    (*it)->aboutToClose();
+    m_vmaps.erase(it);
+}
+
+bool VectorialMapMediaController::openMedia(CleverURI* uri, const std::map<QString, QVariant>& args)
+{
+    if(args.empty())
+        return false;
+
+    std::unique_ptr<VectorialMapController> vmapCtrl(new VectorialMapController(uri));
+    vmapCtrl->setPermission(static_cast<Core::PermissionMode>(args.at(QStringLiteral("permission")).toInt()));
+
+    connect(vmapCtrl.get(), &VectorialMapController::isActive, this, &VectorialMapMediaController::updateProperties);
+    emit vmapControllerCreated(vmapCtrl.get());
+    // MessageHelper::sendOffVMap(vmapCtrl.get());
+    m_vmaps.push_back(std::move(vmapCtrl));
+    return true;
+}
+void VectorialMapMediaController::updateProperties()
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+
+    emit npcNumberChanged(ctrl->npcNumber());
+    emit colorChanged(ctrl->toolColor());
+    // emit opacityChanged(ctrl->);
+    // emit editionModeChanged(ctrl->editionMode());
+}
+void VectorialMapMediaController::setNpcNumber(int number)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setNpcNumber(number);
+}
+
+void VectorialMapMediaController::setNpcName(const QString& name)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setNpcName(name);
+}
+
+void VectorialMapMediaController::setOpacity(qreal opacity)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setOpacity(opacity);
+}
+
+void VectorialMapMediaController::setPenSize(int penSize)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setPenSize(penSize);
+}
+
+void VectorialMapMediaController::setEditionMode(Core::EditionMode mode)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setEditionMode(mode);
+}
+void VectorialMapMediaController::setColor(const QColor& color)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setToolColor(color);
+}
+void VectorialMapMediaController::setTool(Core::SelectableTool tool)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setTool(tool);
 }

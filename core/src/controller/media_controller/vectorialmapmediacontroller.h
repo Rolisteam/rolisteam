@@ -21,22 +21,50 @@
 #define VECTORIALMAPMEDIACONTROLLER_H
 
 #include "mediacontrollerinterface.h"
+#include "vmap/vtoolbar.h"
+#include <memory>
+#include <vector>
 
-class MediaContainer;
+class VectorialMapController;
 class VectorialMapMediaController : public MediaControllerInterface
 {
     Q_OBJECT
+
 public:
     VectorialMapMediaController();
+    ~VectorialMapMediaController() override;
 
-    CleverURI::ContentType type() const;
-    bool openMedia(CleverURI*);
-    void clodeMedia(const QString& id);
-    void registerNetworkReceiver();
-    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
+    VectorialMapController* currentVMap() const;
+
+    CleverURI::ContentType type() const override;
+    bool openMedia(CleverURI* uri, const std::map<QString, QVariant>& args) override;
+    void closeMedia(const QString& id) override;
+    void registerNetworkReceiver() override;
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+
+    Core::SelectableTool tool() const;
+
+signals:
+    void npcNumberChanged(int);
+    void colorChanged(const QColor&);
+    void opacityChanged(qreal);
+    void editionModeChanged(Core::EditionMode mode);
+    void vmapControllerCreated(VectorialMapController* media);
+
+public slots:
+    void setTool(Core::SelectableTool tool);
+    void setColor(const QColor& color);
+    void setEditionMode(Core::EditionMode mode);
+    void setNpcNumber(int number);
+    void setNpcName(const QString& name);
+    void setOpacity(qreal opacity);
+    void setPenSize(int penSize);
 
 private:
-    std::vector<CleverURI*> m_openMedia;
+    void updateProperties();
+
+private:
+    std::vector<std::unique_ptr<VectorialMapController>> m_vmaps;
 };
 
 #endif // VECTORIALMAPMEDIACONTROLLER_H
