@@ -35,13 +35,14 @@ void MapWizzard::selectPath()
     if(m_vmap)
     {
         filepath= QFileDialog::getOpenFileName(this, tr("Select Map"),
-            m_preferences->value("MapDirectory", QDir::homePath()).toString(), tr("Map (*.vmap)"));
+                                               m_preferences->value("MapDirectory", QDir::homePath()).toString(),
+                                               tr("Map (*.vmap)"));
     }
     else
     {
         filepath= QFileDialog::getOpenFileName(this, tr("Select Map"),
-            m_preferences->value("MapDirectory", QDir::homePath()).toString(),
-            tr("Map (*.pla *.jpg *.jpeg *.png *.bmp)"));
+                                               m_preferences->value("MapDirectory", QDir::homePath()).toString(),
+                                               tr("Map (*.pla *.jpg *.jpeg *.png *.bmp)"));
     }
     ui->m_filepathDisplay->setText(filepath);
 
@@ -51,22 +52,22 @@ void MapWizzard::selectPath()
         ui->m_titleEdit->setText(info.baseName());
     }
 }
-Map::PermissionMode MapWizzard::getPermissionMode() const
+Core::PermissionMode MapWizzard::getPermissionMode() const
 {
-    Map::PermissionMode result;
+    Core::PermissionMode result;
     switch(ui->m_permissionSelector->currentIndex())
     {
     case 0:
-        result= Map::GM_ONLY;
+        result= Core::GM_ONLY;
         break;
     case 1:
-        result= Map::PC_MOVE;
+        result= Core::PC_MOVE;
         break;
     case 2:
-        result= Map::PC_ALL;
+        result= Core::PC_ALL;
         break;
     default:
-        result= Map::GM_ONLY;
+        result= Core::GM_ONLY;
         break;
     }
     return result;

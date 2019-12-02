@@ -180,7 +180,7 @@ void MediaContainer::cleverURIHasChanged(CleverURI* uri, CleverURI::DataValue fi
         updateTitle();
     }
 }
-void MediaContainer::currentToolChanged(VToolsBar::SelectableTool selectedtool)
+void MediaContainer::currentToolChanged(Core::SelectableTool selectedtool)
 {
     m_currentTool= selectedtool;
 }

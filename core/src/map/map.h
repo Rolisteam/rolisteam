@@ -32,6 +32,7 @@
 #include <QWidget>
 
 //#include "types.h"
+#include "media/mediatype.h"
 #include "userlist/playermodel.h"
 #include "widgets/colorselector.h"
 #include "widgets/toolsbar.h"
@@ -57,13 +58,6 @@ public:
         QWidget* parent= nullptr);
 
     virtual ~Map();
-
-    enum PermissionMode
-    {
-        GM_ONLY,
-        PC_MOVE,
-        PC_ALL
-    };
 
     void showHideNPC(CharacterToken* pnjSeul= nullptr);
     void toggleCharacterView(Character* character);
@@ -95,8 +89,8 @@ public:
 
     QString getLastSelectedCharacterId();
     bool selectCharacter(QString& id);
-    void setPermissionMode(Map::PermissionMode mode);
-    Map::PermissionMode getPermissionMode();
+    void setPermissionMode(Core::PermissionMode mode);
+    Core::PermissionMode getPermissionMode();
 
     void setHasPermissionMode(bool b);
     bool hasPermissionMode();
@@ -191,7 +185,7 @@ private:
     QList<QPoint> m_characterMoveList;   // liste des points composant le deplacement du perso qui vient d'etre deplace
                                          // par l'utilisateur
     QList<CharacterMotion> m_motionList; // liste des personnages a deplacer, ainsi que leur trajectoire
-    Map::PermissionMode m_currentMode;
+    Core::PermissionMode m_currentMode;
     ToolsBar::SelectableTool m_currentTool;
     Player* m_localPlayer;
     qreal m_scaleY;

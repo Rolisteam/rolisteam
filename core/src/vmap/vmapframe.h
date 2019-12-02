@@ -248,17 +248,17 @@ private: // functions
      * @brief visibilityModeToText
      * @return
      */
-    QString visibilityModeToText(VMap::VisibilityMode);
+    QString visibilityModeToText(Core::VisibilityMode);
     /**
      * @brief permissionModeToText
      * @return
      */
-    QString permissionModeToText(Map::PermissionMode);
+    QString permissionModeToText(Core::PermissionMode);
     /**
      * @brief layerToText
      * @return
      */
-    QString layerToText(VisualItem::Layer);
+    QString layerToText(Core::Layer);
 
 private: // members
     /**

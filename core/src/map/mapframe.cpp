@@ -38,7 +38,7 @@
 #include <QUuid>
 
 MapFrame::MapFrame(Map* map, QWidget* parent)
-    : MediaContainer(MediaContainer::ContainerType::MapContainer, parent), m_map(map), m_isHidden(false)
+    : MediaContainer(nullptr, MediaContainer::ContainerType::MapContainer, parent), m_map(map), m_isHidden(false)
 {
     setObjectName("MapFrame");
     m_widgetArea= new QScrollArea(this);
@@ -77,15 +77,15 @@ void MapFrame::updateTitle()
         return;
 
     QString permission= tr("Unknown");
-    if(m_map->getPermissionMode() == Map::GM_ONLY)
+    if(m_map->getPermissionMode() == Core::GM_ONLY)
     {
         permission= tr("GM Only");
     }
-    else if(m_map->getPermissionMode() == Map::PC_ALL)
+    else if(m_map->getPermissionMode() == Core::PC_ALL)
     {
         permission= tr("All");
     }
-    else if(m_map->getPermissionMode() == Map::PC_MOVE)
+    else if(m_map->getPermissionMode() == Core::PC_MOVE)
     {
         permission= tr("Pc Move");
     }
@@ -134,7 +134,7 @@ bool MapFrame::openUriAndLoadMap(QString uri)
     QFile file(uri);
     if(!file.exists())
     {
-        error(tr("File %1 does not exist").arg(m_uri->getUri()), this);
+        // error(tr("File %1 does not exist").arg(m_uri->getUri()), this);
         return false;
     }
     if(!file.open(QIODevice::ReadOnly))
@@ -155,74 +155,76 @@ bool MapFrame::openUriAndLoadMap(QString uri)
 
 bool MapFrame::readFileFromUri()
 {
-    if((nullptr != m_uri) && (m_uri->hasData()) && (!m_uri->exists()))
-    { // load from uri data
-        QByteArray array= m_uri->getData();
-        QDataStream in(&array, QIODevice::ReadOnly);
-        in.setVersion(QDataStream::Qt_5_7);
-        m_isHidden= false;
-        readMapAndNpc(in, m_isHidden);
-    }
-    else if((nullptr != m_uri) && (m_uri->exists()))
-    {
-        if(!openUriAndLoadMap(m_uri->getUri()))
-        {
-            return false;
-        }
-    }
-    else // if(nullptr==m_uri)
-    {
-        QString filepath;
+    return false;
 
-        //m_uri= new CleverURI(m_mapWizzard->getTitle(), filepath, CleverURI::MAP);
-        m_uri= new CleverURI("", "", CleverURI::MAP);
+    /* if((nullptr != m_uri) && (m_uri->hasData()) && (!m_uri->exists()))
+     { // load from uri data
+         QByteArray array= m_uri->getData();
+         QDataStream in(&array, QIODevice::ReadOnly);
+         in.setVersion(QDataStream::Qt_5_7);
+         m_isHidden= false;
+         readMapAndNpc(in, m_isHidden);
+     }
+     else if((nullptr != m_uri) && (m_uri->exists()))
+     {
+         if(!openUriAndLoadMap(m_uri->getUri()))
+         {
+             return false;
+         }
+     }
+     else // if(nullptr==m_uri)
+     {
+         QString filepath;
 
-        if(filepath.endsWith(".pla"))
-        {
-            if(!openUriAndLoadMap(filepath))
-            {
-                return false;
-            }
-        }
-        else
-        {
-            QString str("");
-            m_uri->setUri(str);
-            QImage image(filepath);
-            if(image.isNull())
-            {
-                error(tr("Unsupported file format"), this);
-                return false;
-            }
-            // Creation de l'identifiant
-            QString idMap= QUuid::createUuid().toString();
-            // Creation de la carte
-            m_map= new Map(m_localPlayerId, idMap, &image, m_isHidden);
-//            m_map->setPermissionMode(Permission);
+         // m_uri= new CleverURI(m_mapWizzard->getTitle(), filepath, CleverURI::MAP);
+      //   m_uri= new CleverURI("", "", CleverURI::MAP);
 
-            // addMap(bipMapWindow, title);
+         if(filepath.endsWith(".pla"))
+         {
+             if(!openUriAndLoadMap(filepath))
+             {
+                 return false;
+             }
+         }
+         else
+         {
+             QString str("");
+             m_uri->setUri(str);
+             QImage image(filepath);
+             if(image.isNull())
+             {
+                 error(tr("Unsupported file format"), this);
+                 return false;
+             }
+             // Creation de l'identifiant
+             QString idMap= QUuid::createUuid().toString();
+             // Creation de la carte
+             m_map= new Map(m_localPlayerId, idMap, &image, m_isHidden);
+             //            m_map->setPermissionMode(Permission);
 
-            QByteArray byteArray;
-            QBuffer buffer(&byteArray);
-            bool ok= image.save(&buffer, "jpeg", 60);
-            if(!ok)
-            {
-                error(tr("Compressing image goes wrong (ouvrirPlan - mapframe.cpp)"), this);
-                return false;
-            }
+             // addMap(bipMapWindow, title);
 
-            NetworkMessageWriter msg(NetMsg::MapCategory, NetMsg::LoadMap);
-            msg.string16(getUriName());
-            msg.string8(idMap);
-            msg.uint8(12);
-            msg.uint8(m_map->getPermissionMode());
-            msg.uint8(m_isHidden);
-            msg.byteArray32(byteArray);
-            msg.sendToServer();
-        }
-    }
-    initMap();
-    return true;
+             QByteArray byteArray;
+             QBuffer buffer(&byteArray);
+             bool ok= image.save(&buffer, "jpeg", 60);
+             if(!ok)
+             {
+                 error(tr("Compressing image goes wrong (ouvrirPlan - mapframe.cpp)"), this);
+                 return false;
+             }
+
+             NetworkMessageWriter msg(NetMsg::MapCategory, NetMsg::LoadMap);
+             msg.string16(getUriName());
+             msg.string8(idMap);
+             msg.uint8(12);
+             msg.uint8(m_map->getPermissionMode());
+             msg.uint8(m_isHidden);
+             msg.byteArray32(byteArray);
+             msg.sendToServer();
+         }
+     }
+     initMap();
+     return true;*/
 }
 bool MapFrame::readMapAndNpc(QDataStream& in, bool hidden)
 {
@@ -232,10 +234,10 @@ bool MapFrame::readMapAndNpc(QDataStream& in, bool hidden)
     QPoint pos;
     in >> pos;
 
-    Map::PermissionMode myPermission;
+    Core::PermissionMode myPermission;
     quint32 permiInt;
     in >> permiInt;
-    myPermission= (Map::PermissionMode)permiInt;
+    myPermission= static_cast<Core::PermissionMode>(permiInt);
 
     QSize size;
     in >> size;
@@ -291,7 +293,7 @@ bool MapFrame::readMapAndNpc(QDataStream& in, bool hidden)
 
     QString idCarte= QUuid::createUuid().toString();
 
-    m_map= new Map(m_localPlayerId, idCarte, &fondOriginal, &fond, &alpha);
+    m_map= new Map("", idCarte, &fondOriginal, &fond, &alpha);
     m_map->setPermissionMode(myPermission);
     setUriName(title);
     // m_map->setPointeur(m_toolBar->getCurrentTool());
@@ -367,7 +369,7 @@ bool MapFrame::createMap()
         QImage image(mapDialog.getSize(), QImage::Format_ARGB32_Premultiplied);
         image.fill(mapDialog.getColor().rgb());
 
-        m_map= new Map(m_localPlayerId, idMap, &image);
+        m_map= new Map("m_localPlayerId", idMap, &image);
         m_map->setPermissionMode(mapDialog.getPermission());
 
         auto title= mapDialog.getTitle();
@@ -402,10 +404,10 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg, bool localIsPlayer)
             error(tr("Compression Error (processMapMessage - NetworkLink.cpp)"), this);
             return false;
         }
-        m_map= new Map(m_localPlayerId, idMap, &image, maskPlan);
+        m_map= new Map("m_localPlayerId", idMap, &image, maskPlan);
         m_map->setLocalIsPlayer(localIsPlayer);
         m_map->changePcSize(npSize, false);
-        m_map->setPermissionMode((Map::PermissionMode)permission);
+        m_map->setPermissionMode(static_cast<Core::PermissionMode>(permission));
     }
     else if(msg->action() == NetMsg::ImportMap)
     {
@@ -437,11 +439,11 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg, bool localIsPlayer)
             return false;
         }
 
-        m_map= new Map(m_localPlayerId, idMap, &originalBackgroundImage, &backgroundImage, &alphaImage);
+        m_map= new Map("m_localPlayerId", idMap, &originalBackgroundImage, &backgroundImage, &alphaImage);
         m_map->setLocalIsPlayer(localIsPlayer);
         m_map->changePcSize(npSize, false);
 
-        m_map->setPermissionMode((Map::PermissionMode)permission);
+        m_map->setPermissionMode(static_cast<Core::PermissionMode>(permission));
         if(localIsPlayer)
         {
             m_map->adaptAlphaLayer(255);
@@ -459,41 +461,41 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg, bool localIsPlayer)
 }
 void MapFrame::saveMedia()
 {
-    if(nullptr != m_map)
-    {
-        if(nullptr != m_uri)
-        {
-            if(!m_uri->getUri().endsWith(".pla"))
-            {
-                QString uri= m_uri->getUri() + ".pla";
-                m_uri->setUri(uri);
-            }
+    /*  if(nullptr != m_map)
+      {
+          if(nullptr != m_uri)
+          {
+              if(!m_uri->getUri().endsWith(".pla"))
+              {
+                  QString uri= m_uri->getUri() + ".pla";
+                  m_uri->setUri(uri);
+              }
 
-            QFile file(m_uri->getUri());
-            if(!file.open(QIODevice::WriteOnly))
-            {
-                emit notifyUser(QStringLiteral("could not open file for writting (saveMap - MapFrame.cpp)"));
-                return;
-            }
-            QDataStream out(&file);
-            out.setVersion(QDataStream::Qt_5_7);
-            m_map->saveMap(out, m_uri->name());
-            file.close();
-        }
-    }
+              QFile file(m_uri->getUri());
+              if(!file.open(QIODevice::WriteOnly))
+              {
+                  emit notifyUser(QStringLiteral("could not open file for writting (saveMap - MapFrame.cpp)"));
+                  return;
+              }
+              QDataStream out(&file);
+              out.setVersion(QDataStream::Qt_5_7);
+              m_map->saveMap(out, m_uri->name());
+              file.close();
+          }
+      }*/
 }
 
 void MapFrame::putDataIntoCleverUri()
 {
-    if(nullptr == m_map || nullptr == m_uri)
-        return;
+    /* if(nullptr == m_map || nullptr == m_uri)
+         return;
 
-    QByteArray data;
-    QDataStream out(&data, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_5_7);
+     QByteArray data;
+     QDataStream out(&data, QIODevice::WriteOnly);
+     out.setVersion(QDataStream::Qt_5_7);
 
     m_map->saveMap(out, m_uri->name());
-    m_uri->setData(data);
+     m_uri->setData(data);*/
 }
 
 void MapFrame::fill(NetworkMessageWriter& msg)
@@ -527,9 +529,9 @@ void MapFrame::readMessage(NetworkMessageReader& msg)
         QImage image(mapSize, QImage::Format_ARGB32_Premultiplied);
         image.fill(m_color.rgb());
 
-        m_map= new Map(m_localPlayerId, idMap, &image);
+        m_map= new Map("m_localPlayerId", idMap, &image);
         m_map->setLocalIsPlayer(true);
-        m_map->setPermissionMode(static_cast<Map::PermissionMode>(permission));
+        m_map->setPermissionMode(static_cast<Core::PermissionMode>(permission));
         m_map->changePcSize(npSize, false);
 
         setUriName(title);

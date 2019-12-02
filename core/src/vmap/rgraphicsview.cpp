@@ -62,7 +62,7 @@ RGraphicsView::RGraphicsView(VMap* vmap, QWidget* parent)
 
 void RGraphicsView::mousePressEvent(QMouseEvent* event)
 {
-    if(m_currentTool == VToolsBar::HANDLER)
+    if(m_currentTool == Core::HANDLER)
     {
         if(event->button() == Qt::LeftButton)
         {
@@ -106,8 +106,8 @@ void RGraphicsView::mouseReleaseEvent(QMouseEvent* event)
 }
 void RGraphicsView::mouseMoveEvent(QMouseEvent* event)
 {
-    if((VToolsBar::HANDLER == m_currentTool) && (event->modifiers() & Qt::ShiftModifier)
-        && (event->buttons() & Qt::LeftButton) && (dragMode() == QGraphicsView::RubberBandDrag))
+    if((Core::HANDLER == m_currentTool) && (event->modifiers() & Qt::ShiftModifier)
+       && (event->buttons() & Qt::LeftButton) && (dragMode() == QGraphicsView::RubberBandDrag))
     {
         if(!m_lastPoint.isNull())
         {
@@ -168,7 +168,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
     m_menuPoint= event->pos();
     if((m_vmap->getOption(VisualItem::LocalIsGM).toBool())
-        || (m_vmap->getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL))
+       || (m_vmap->getOption(VisualItem::PermissionMode).toInt() == Core::PC_ALL))
     {
         licenseToModify= true;
     }
@@ -239,13 +239,13 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
                 auto layer= item->getLayer();
                 switch(layer)
                 {
-                case VisualItem::GROUND:
+                case Core::Layer::GROUND:
                     groundL= true;
                     break;
-                case VisualItem::OBJECT:
+                case Core::Layer::OBJECT:
                     objectL= true;
                     break;
-                case VisualItem::CHARACTER_LAYER:
+                case Core::Layer::CHARACTER_LAYER:
                     characterL= true;
                     break;
                 default:
@@ -285,15 +285,15 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
         menu.addSection(tr("Map"));
 
-        switch(m_vmap->getCurrentLayer())
+        switch(m_vmap->currentLayer())
         {
-        case VisualItem::OBJECT:
+        case Core::Layer::OBJECT:
             m_editObjectLayer->setChecked(true);
             break;
-        case VisualItem::GROUND:
+        case Core::Layer::GROUND:
             m_editGroundLayer->setChecked(true);
             break;
-        case VisualItem::CHARACTER_LAYER:
+        case Core::Layer::CHARACTER_LAYER:
             m_editCharacterLayer->setChecked(true);
             break;
         default:
@@ -394,7 +394,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         else if((selectedAction == m_putCharacterLayer) || (selectedAction == m_putObjectLayer)
                 || (selectedAction == m_putGroundLayer))
         {
-            setItemLayer(list, static_cast<VisualItem::Layer>(selectedAction->data().toInt()));
+            setItemLayer(list, static_cast<Core::Layer>(selectedAction->data().toInt()));
         }
     }
     else
@@ -453,7 +453,7 @@ void RGraphicsView::normalizeSize(Method method)
     }
 }
 
-void RGraphicsView::setItemLayer(QList<VisualItem*> list, VisualItem::Layer layer)
+void RGraphicsView::setItemLayer(QList<VisualItem*> list, Core::Layer layer)
 {
     for(VisualItem* item : list)
     {
@@ -546,13 +546,13 @@ void RGraphicsView::createAction()
     // Layers
     QActionGroup* group= new QActionGroup(this);
     m_editGroundLayer= new QAction(tr("Ground"), this);
-    m_editGroundLayer->setData(VisualItem::GROUND);
+    m_editGroundLayer->setData(static_cast<int>(Core::Layer::GROUND));
     m_editGroundLayer->setCheckable(true);
     m_editObjectLayer= new QAction(tr("Object"), this);
-    m_editObjectLayer->setData(VisualItem::OBJECT);
+    m_editObjectLayer->setData(static_cast<int>(Core::Layer::OBJECT));
     m_editObjectLayer->setCheckable(true);
     m_editCharacterLayer= new QAction(tr("Character"), this);
-    m_editCharacterLayer->setData(VisualItem::CHARACTER_LAYER);
+    m_editCharacterLayer->setData(static_cast<int>(Core::Layer::CHARACTER_LAYER));
     m_editCharacterLayer->setCheckable(true);
 
     group->addAction(m_editGroundLayer);
@@ -560,13 +560,13 @@ void RGraphicsView::createAction()
     group->addAction(m_editCharacterLayer);
 
     m_putGroundLayer= new QAction(tr("Ground"), this);
-    m_putGroundLayer->setData(VisualItem::GROUND);
+    m_putGroundLayer->setData(static_cast<int>(Core::Layer::GROUND));
     m_putGroundLayer->setCheckable(true);
     m_putObjectLayer= new QAction(tr("Object"), this);
-    m_putObjectLayer->setData(VisualItem::OBJECT);
+    m_putObjectLayer->setData(static_cast<int>(Core::Layer::OBJECT));
     m_putObjectLayer->setCheckable(true);
     m_putCharacterLayer= new QAction(tr("Character"), this);
-    m_putCharacterLayer->setData(VisualItem::CHARACTER_LAYER);
+    m_putCharacterLayer->setData(static_cast<int>(Core::Layer::CHARACTER_LAYER));
     m_putCharacterLayer->setCheckable(true);
 
     connect(m_editGroundLayer, &QAction::triggered, this, &RGraphicsView::changeLayer);
@@ -576,13 +576,13 @@ void RGraphicsView::createAction()
     QActionGroup* group2= new QActionGroup(this);
     m_allVisibility= new QAction(tr("All"), this);
     m_allVisibility->setCheckable(true);
-    m_allVisibility->setData(VMap::ALL);
+    m_allVisibility->setData(Core::ALL);
     m_hiddenVisibility= new QAction(tr("Hidden"), this);
     m_hiddenVisibility->setCheckable(true);
     m_hiddenVisibility->setChecked(true);
-    m_hiddenVisibility->setData(VMap::HIDDEN);
+    m_hiddenVisibility->setData(Core::HIDDEN);
     m_characterVisibility= new QAction(tr("Fog Of War"), this);
-    m_characterVisibility->setData(VMap::FOGOFWAR);
+    m_characterVisibility->setData(Core::FOGOFWAR);
     m_characterVisibility->setCheckable(true);
 
     group2->addAction(m_allVisibility);
@@ -632,42 +632,42 @@ void RGraphicsView::showMapProperties()
 
 void RGraphicsView::rollInit()
 {
-    VMap::APPLY_ON_CHARACTER apply;
+    Core::CharacterScope apply;
     if(sender() == m_rollInitOnAllNpc)
     {
-        apply= VMap::AllNPC;
+        apply= Core::AllNPC;
     }
     else if(sender() == m_rollInitOnAllCharacter)
     {
-        apply= VMap::AllCharacter;
+        apply= Core::AllCharacter;
     }
     else
     {
-        apply= VMap::SelectionOnly;
+        apply= Core::SelectionOnly;
     }
     m_vmap->rollInit(apply);
 }
 void RGraphicsView::cleanInit()
 {
-    VMap::APPLY_ON_CHARACTER apply;
+    Core::CharacterScope apply;
     if(sender() == m_cleanInitOnAllNpc)
     {
-        apply= VMap::AllNPC;
+        apply= Core::AllNPC;
     }
     else if(sender() == m_cleanInitOnAllCharacter)
     {
-        apply= VMap::AllCharacter;
+        apply= Core::AllCharacter;
     }
     else
     {
-        apply= VMap::SelectionOnly;
+        apply= Core::SelectionOnly;
     }
     m_vmap->cleanUpInit(apply);
 }
 
 void RGraphicsView::sendOffMapChange()
 {
-    if((m_vmap->getOption(VisualItem::LocalIsGM).toBool()) || (m_vmap->getPermissionMode() == Map::PC_ALL))
+    if((m_vmap->getOption(VisualItem::LocalIsGM).toBool()) || (m_vmap->getPermissionMode() == Core::PC_ALL))
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::vmapChanges);
         msg.string8(m_vmap->getId());
@@ -679,15 +679,17 @@ void RGraphicsView::sendOffMapChange()
 void RGraphicsView::changeLayer()
 {
     QAction* act= qobject_cast<QAction*>(sender());
-    if(m_vmap->editLayer(static_cast<VisualItem::Layer>(act->data().toInt())))
+
+    if(static_cast<Core::Layer>(act->data().toInt()) != m_vmap->currentLayer())
     {
+        m_vmap->setCurrentLayer(static_cast<Core::Layer>(act->data().toInt()));
         sendOffMapChange();
     }
 }
 void RGraphicsView::changeVisibility()
 {
     QAction* act= qobject_cast<QAction*>(sender());
-    if(m_vmap->setVisibilityMode(static_cast<VMap::VisibilityMode>(act->data().toInt())))
+    if(m_vmap->setVisibilityMode(static_cast<Core::VisibilityMode>(act->data().toInt())))
     {
         sendOffMapChange();
     }
@@ -754,7 +756,7 @@ void RGraphicsView::setZoomFactor()
     }
     scale(realFactor, realFactor);
 }
-void RGraphicsView::currentToolChanged(VToolsBar::SelectableTool selectedtool)
+void RGraphicsView::currentToolChanged(Core::SelectableTool selectedtool)
 {
     m_currentTool= selectedtool;
 }
@@ -765,11 +767,11 @@ void RGraphicsView::resizeEvent(QResizeEvent* event)
     if((nullptr != scene()) && (m_vmap->getOption(VisualItem::LocalIsGM).toBool()))
     {
         if((geometry().width() > scene()->sceneRect().width())
-            || ((geometry().height() > scene()->sceneRect().height())))
+           || ((geometry().height() > scene()->sceneRect().height())))
         {
             scene()->setSceneRect(geometry());
-            m_vmap->setWidth(geometry().width());
-            m_vmap->setHeight(geometry().height());
+            // m_vmap->setWidth(geometry().width());
+            // m_vmap->setHeight(geometry().height());
             ensureVisible(geometry(), 0, 0);
         }
 
@@ -808,8 +810,8 @@ void RGraphicsView::readMessage(NetworkMessageReader* msg)
 }
 void RGraphicsView::addImageToMap()
 {
-    QString imageToLoad= QFileDialog::getOpenFileName(this, tr("Open image file"),
-        m_preferences->value("ImageDirectory", QDir::homePath()).toString(),
+    QString imageToLoad= QFileDialog::getOpenFileName(
+        this, tr("Open image file"), m_preferences->value("ImageDirectory", QDir::homePath()).toString(),
         m_preferences->value("ImageFileFilter", "*.jpg *.jpeg *.png *.bmp *.svg").toString());
 
     if(nullptr != m_vmap)

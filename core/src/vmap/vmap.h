@@ -21,7 +21,7 @@
 #define VMAP_H
 
 #include "data/person.h"
-#include "map/map.h"
+#include "media/mediatype.h"
 #include "vmap/items/griditem.h"
 #include "vmap/items/sightitem.h"
 #include "vmap/items/visualitem.h"
@@ -56,36 +56,6 @@ class VMap : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    enum GRID_PATTERN
-    {
-        NONE,
-        SQUARE,
-        HEXAGON,
-        OCTOGON
-    };
-    enum SCALE_UNIT
-    {
-        M,
-        KM,
-        CM,
-        MILE,
-        YARD,
-        INCH,
-        FEET,
-        PX
-    };
-    enum VisibilityMode
-    {
-        HIDDEN,
-        FOGOFWAR,
-        ALL
-    };
-    enum APPLY_ON_CHARACTER
-    {
-        SelectionOnly,
-        AllCharacter,
-        AllNPC
-    };
     /**
      * @brief default constructor
      */
@@ -190,12 +160,12 @@ public:
      * @brief setPermissionMode
      * @param mode
      */
-    void setPermissionMode(Map::PermissionMode mode);
+    void setPermissionMode(Core::PermissionMode mode);
     /**
      * @brief setVisibilityMode
      * @param mode
      */
-    bool setVisibilityMode(VMap::VisibilityMode mode);
+    bool setVisibilityMode(Core::VisibilityMode mode);
     /**
      * @brief processDelItemMessage
      * @param msg
@@ -214,7 +184,7 @@ public:
      * @brief getPermissionMode
      * @return
      */
-    Map::PermissionMode getPermissionMode();
+    Core::PermissionMode getPermissionMode();
     /**
      * @brief fill
      * @param msg
@@ -294,7 +264,7 @@ public:
      * @brief getSelectedtool
      * @return
      */
-    VToolsBar::SelectableTool getSelectedtool() const;
+    Core::SelectableTool getSelectedtool() const;
     /**
      * @brief processZValueMsg
      * @param msg
@@ -359,7 +329,7 @@ public slots:
      * @brief defines the current tools
      * @param new tool
      */
-    void setCurrentTool(VToolsBar::SelectableTool selectedtool);
+    void setCurrentTool(Core::SelectableTool selectedtool);
     /**
      * @brief defines the current color for painting
      * @param new color
@@ -416,12 +386,12 @@ public slots:
     /**
      * @brief setEditionMode
      */
-    void setEditionMode(VToolsBar::EditionMode);
+    void setEditionMode(Core::EditionMode);
     /**
      * @brief getEditionMode
      * @return
      */
-    VToolsBar::EditionMode getEditionMode();
+    Core::EditionMode getEditionMode();
     /**
      * @brief cleanFogEdition
      */

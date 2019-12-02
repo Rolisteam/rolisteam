@@ -58,13 +58,13 @@ private:
     std::unique_ptr<VMap> m_vmap;
 };
 
-Q_DECLARE_METATYPE(VMap::GRID_PATTERN);
-Q_DECLARE_METATYPE(VMap::SCALE_UNIT);
-Q_DECLARE_METATYPE(VMap::VisibilityMode);
-Q_DECLARE_METATYPE(VisualItem::Layer);
+Q_DECLARE_METATYPE(Core::GridPattern);
+Q_DECLARE_METATYPE(Core::ScaleUnit);
+Q_DECLARE_METATYPE(Core::VisibilityMode);
+Q_DECLARE_METATYPE(Core::Layer);
 Q_DECLARE_METATYPE(VisualItem*);
 Q_DECLARE_METATYPE(VisualItem::Properties);
-Q_DECLARE_METATYPE(Map::PermissionMode);
+Q_DECLARE_METATYPE(Core::PermissionMode);
 
 VMapTest::VMapTest() {}
 
@@ -78,7 +78,7 @@ void VMapTest::init()
 void VMapTest::cleanup() {}
 void VMapTest::getAndSetTest()
 {
-    VToolsBar::EditionMode mode= VToolsBar::Painting;
+    VToolsBar::EditionMode mode= Core::Painting;
     m_vmap->setEditionMode(mode);
     QVERIFY2(m_vmap->getEditionMode() == mode, "Normal edition mode");
 

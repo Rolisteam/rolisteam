@@ -92,26 +92,28 @@ void NewEmptyMapDialog::updateSize()
     // huge
     ui->m_hugeRadio->setText(m_labelModel.at(3).arg(tmpModel.at(3).width()).arg(tmpModel.at(3).height()));
 }
-Map::PermissionMode NewEmptyMapDialog::getPermission() const
+
+Core::PermissionMode NewEmptyMapDialog::getPermission() const
 {
-    Map::PermissionMode result;
+    Core::PermissionMode result;
     switch(ui->m_permissionSelector->currentIndex())
     {
     case 0:
-        result= Map::GM_ONLY;
+        result= Core::GM_ONLY;
         break;
     case 1:
-        result= Map::PC_MOVE;
+        result= Core::PC_MOVE;
         break;
     case 2:
-        result= Map::PC_ALL;
+        result= Core::PC_ALL;
         break;
     default:
-        result= Map::GM_ONLY;
+        result= Core::GM_ONLY;
         break;
     }
     return result;
 }
+
 QString NewEmptyMapDialog::getTitle() const
 {
     return ui->m_titleEdit->text();
