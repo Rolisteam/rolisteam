@@ -21,9 +21,13 @@
 
 #include <QBuffer>
 
+#include "controller/view_controller/abstractmediacontroller.h"
+#include "controller/view_controller/imagecontroller.h"
+#include "data/cleveruri.h"
 #include "data/features.h"
 #include "data/player.h"
 #include "dicealias.h"
+#include "network/networkmessagewriter.h"
 #include "preferences/characterstatemodel.h"
 #include "preferences/dicealiasmodel.h"
 
@@ -137,4 +141,27 @@ void MessageHelper::sendOffOneCharacterState(CharacterState* state, int row)
     msg.string32(state->getLabel());
     msg.rgb(state->getColor().rgb());
     msg.sendToServer();
+}
+void MessageHelper::sendOffImage(ImageController* ctrl)
+{
+    if(nullptr == ctrl)
+        return;
+    auto uri= ctrl->uri();
+
+    if(nullptr == uri)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
+    msg.uint8(static_cast<quint8>(uri->getType()));
+    msg.string16(ctrl->name());
+    msg.string8(ctrl->uuid());
+    msg.string8(uri->ownerId());
+    auto img= ctrl->pixmap();
+    QByteArray array;
+    QBuffer imageData(&array);
+    if(!img.save(&imageData, "jpg", 70))
+    {
+        // TODO log error
+    }
+    msg.byteArray32(array);
 }
