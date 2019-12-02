@@ -96,7 +96,7 @@ public:
      * @param index
      * @return
      */
-    void addResource(ResourcesNode* uri, QModelIndex& index);
+    void addResource(ResourcesNode* uri, const QModelIndex& index);
     /**
      * @brief Allows editing directly in the view
      * @param index position
