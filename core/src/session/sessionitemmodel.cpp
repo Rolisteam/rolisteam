@@ -359,12 +359,13 @@ QVariant SessionItemModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-void SessionItemModel::addResource(ResourcesNode* node, QModelIndex& parent)
+void SessionItemModel::addResource(ResourcesNode* node, const QModelIndex& parent)
 {
     if(m_rootItem->contains(node))
         return;
 
     Chapter* parentItem= nullptr;
+    auto parentbis= parent;
     if(!parent.isValid())
     {
         parentItem= m_rootItem.get();
@@ -375,7 +376,7 @@ void SessionItemModel::addResource(ResourcesNode* node, QModelIndex& parent)
         if(!node->mayHaveChildren())
         {
             node= node->getParentNode(); // leaf's parent is not a leaf indeed
-            parent= parent.parent();
+            parentbis= parentbis.parent();
         }
         parentItem= dynamic_cast<Chapter*>(node); // nullptr when it is not a chapter.
     }
@@ -383,7 +384,7 @@ void SessionItemModel::addResource(ResourcesNode* node, QModelIndex& parent)
     if(nullptr == parentItem)
         return;
 
-    beginInsertRows(parent, parentItem->getChildrenCount(), parentItem->getChildrenCount());
+    beginInsertRows(parentbis, parentItem->getChildrenCount(), parentItem->getChildrenCount());
     parentItem->addResource(node);
     endInsertRows();
 }
