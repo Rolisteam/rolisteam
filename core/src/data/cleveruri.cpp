@@ -73,8 +73,9 @@ CleverURI::CleverURI(const CleverURI& mp)
 {
     m_type= mp.getType();
     m_uri= mp.getUri();
-    m_currentMode= mp.getCurrentMode();
+    m_loadingMode= mp.loadingMode();
     m_name= mp.name();
+    m_ownerId= mp.ownerId();
     m_state= mp.getState();
     updateListener(CleverURI::NAME);
 }
@@ -83,7 +84,8 @@ QIcon CleverURI::getIcon()
     return QIcon(m_iconPathHash[m_type]);
 }
 
-CleverURI::CleverURI(QString name, QString uri, ContentType type) : m_uri(uri), m_type(type), m_state(Unloaded)
+CleverURI::CleverURI(QString name, QString uri, const QString& ownerId, ContentType type)
+    : m_uri(uri), m_type(type), m_state(Unloaded), m_ownerId(ownerId)
 {
     m_name= name;
     updateListener(CleverURI::NAME);
@@ -112,6 +114,11 @@ void CleverURI::setType(CleverURI::ContentType type)
     m_type= type;
 }
 
+QString CleverURI::ownerId() const
+{
+    return m_ownerId;
+}
+
 const QString CleverURI::getUri() const
 {
     return m_uri;
@@ -132,7 +139,7 @@ void CleverURI::setUpListener()
 
 void CleverURI::loadData()
 {
-    if(getCurrentMode() == Internal)
+    if(loadingMode() == Internal)
     {
         loadFileFromUri(m_data);
     }
@@ -143,7 +150,7 @@ void CleverURI::loadData()
 void CleverURI::init()
 {
     PreferencesManager* preferences= PreferencesManager::getInstance();
-    m_currentMode= static_cast<LoadingMode>(
+    m_loadingMode= static_cast<LoadingMode>(
         preferences->value(QStringLiteral("DefaultLoadingMode"), static_cast<int>(Linked)).toInt());
 }
 
@@ -207,18 +214,18 @@ void CleverURI::setDisplayed(bool displayed)
     updateListener(ResourcesNode::DISPLAYED);
 }
 
-CleverURI::LoadingMode CleverURI::getCurrentMode() const
+CleverURI::LoadingMode CleverURI::loadingMode() const
 {
-    return m_currentMode;
+    return m_loadingMode;
 }
 
-void CleverURI::setCurrentMode(const LoadingMode& currentMode)
+void CleverURI::setLoadingMode(const LoadingMode& currentMode)
 {
-    m_currentMode= currentMode;
+    m_loadingMode= currentMode;
 
-    if(m_currentMode == Linked)
+    if(m_loadingMode == Linked)
         loadData();
-    else if(m_currentMode == Internal)
+    else if(m_loadingMode == Internal)
         m_data.clear();
 }
 bool CleverURI::exists()
@@ -259,7 +266,7 @@ void CleverURI::write(QDataStream& out, bool tag, bool saveData) const
             data= m_data;
         }
     }
-    out << static_cast<int>(m_type) << m_uri << m_name << static_cast<int>(m_currentMode) << m_data
+    out << static_cast<int>(m_type) << m_uri << m_name << static_cast<int>(m_loadingMode) << m_data
         << static_cast<int>(m_state);
 }
 
@@ -270,7 +277,7 @@ void CleverURI::read(QDataStream& in)
     int state;
     in >> type >> m_uri >> m_name >> mode >> m_data >> state;
     m_type= static_cast<CleverURI::ContentType>(type);
-    m_currentMode= static_cast<CleverURI::LoadingMode>(mode);
+    m_loadingMode= static_cast<CleverURI::LoadingMode>(mode);
     m_state= static_cast<CleverURI::State>(state);
     updateListener(CleverURI::NAME);
 }
@@ -373,7 +380,7 @@ QVariant CleverURI::getData(ResourcesNode::DataValue i) const
     case ResourcesNode::NAME:
         return m_name;
     case ResourcesNode::MODE:
-        return m_currentMode == Internal ? QObject::tr("Internal") : QObject::tr("Linked");
+        return m_loadingMode == Internal ? QObject::tr("Internal") : QObject::tr("Linked");
     case ResourcesNode::DISPLAYED:
     {
         static const std::vector<QString> list(
