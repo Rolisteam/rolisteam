@@ -17,26 +17,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "addmediacontainer.h"
+#include "openmediacontroller.h"
+
+#include "controller/contentcontroller.h"
+#include "controller/media_controller/mediacontrollerinterface.h"
+#include "data/cleveruri.h"
 #include "network/networkmessagewriter.h"
 #include "widgets/workspace.h"
+
 #include <QDebug>
 
-AddMediaContainer::AddMediaContainer(MediaContainer* mediac, ContentController* ctrl, QMenu* menu, Workspace* workspace,
-                                     bool gm, QUndoCommand* parent)
-    : QUndoCommand(parent), m_media(mediac), m_ctrl(ctrl), m_menu(menu), m_mdiArea(workspace), m_gm(gm)
+OpenMediaController::OpenMediaController(CleverURI* uri, MediaControllerInterface* ctrl, ContentController* contentCtrl,
+                                         bool gm, const std::map<QString, QVariant>& args, QUndoCommand* parent)
+    : QUndoCommand(parent), m_uri(uri), m_ctrl(ctrl), m_contentCtrl(contentCtrl), m_args(args), m_gm(gm)
 {
-    setText(QObject::tr("Show %1").arg(mediac->getUriName()));
+    if(nullptr != uri)
+        setText(QObject::tr("Show %1").arg(uri->name()));
 }
 
-void AddMediaContainer::redo()
+void OpenMediaController::redo()
 {
-    qInfo() << QStringLiteral("Redo command AddMediaContainer: %1 ").arg(text());
-    if(nullptr == m_media)
+    qInfo() << QStringLiteral("Redo command OpenMediaController: %1 ").arg(text());
+    if(nullptr == m_uri || m_ctrl.isNull() || m_contentCtrl.isNull())
         return;
 
+    m_ctrl->openMedia(m_uri, m_args);
+    m_contentCtrl->addContent(m_uri);
     // add in workspace + add action and add into ressources manager.
-    CleverURI* uri= m_media->getCleverUri();
+    /*CleverURI* uri= m_media->getCleverUri();
     if(nullptr != uri)
     {
         //        m_ctrl->addRessource(m_media->getCleverUri());
@@ -53,59 +61,65 @@ void AddMediaContainer::redo()
     m_media->setAction(action);
     m_mdiArea->addContainerMedia(m_media);
     m_media->setVisible(true);
-    m_media->setFocus();
+    m_media->setFocus();*/
 
-    if(sendAtOpening())
-    {
-        NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
-        msg.uint8(static_cast<quint8>(uri->getType()));
-        m_media->fill(msg);
-        msg.sendToServer();
-    }
+    /*    if(sendAtOpening())
+        {
+            NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
+            msg.uint8(static_cast<quint8>(uri->getType()));
+            m_media->fill(msg);
+            msg.sendToServer();
+        }*/
 }
 
-void AddMediaContainer::undo()
+void OpenMediaController::undo()
 {
     qInfo() << QStringLiteral("Undo command AddMediaContainer: %1 ").arg(text());
+    if(nullptr == m_uri || nullptr == m_ctrl)
+        return;
+
+    m_ctrl->closeMedia(m_uri->uuid());
+    m_contentCtrl->removeContent(m_uri);
     // remove from workspace, action in menu and from resources manager.
-    if(nullptr != m_media)
-    {
-        auto act= m_media->getAction();
-        if(act)
-            act->setVisible(false);
-        //  m_ctrl->removeResource(m_media->getCleverUri());
-        m_mdiArea->removeSubWindow(m_media);
-        if(m_gm)
+    /*    if(nullptr != m_media)
         {
-            NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::closeMedia);
-            msg.string8(m_media->getMediaId());
-            msg.sendToServer();
-        }
-    }
+            auto act= m_media->getAction();
+            if(act)
+                act->setVisible(false);
+            //  m_ctrl->removeResource(m_media->getCleverUri());
+            m_mdiArea->removeSubWindow(m_media);
+            if(m_gm)
+            {
+                NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::closeMedia);
+                msg.string8(m_media->getMediaId());
+                msg.sendToServer();
+            }
+        }*/
 }
-bool AddMediaContainer::sendAtOpening()
+
+// bool OpenMediaController::sendAtOpening()
+//{
+/*if(m_media->isRemote())
 {
-    if(m_media->isRemote())
-    {
-        return false;
-    }
-    auto uri= m_media->getCleverUri();
-    if(nullptr == uri)
-    {
-        return false;
-    }
-    bool result= false;
-    switch(uri->getType())
-    {
-    case CleverURI::PICTURE:
-    case CleverURI::VMAP:
-    case CleverURI::MAP:
-    case CleverURI::ONLINEPICTURE:
-        result= true;
-        break;
-    default:
-        result= false;
-        break;
-    }
-    return result;
+    return false;
 }
+auto uri= m_media->getCleverUri();
+if(nullptr == uri)
+{
+    return false;
+}
+bool result= false;
+switch(uri->getType())
+{
+case CleverURI::PICTURE:
+case CleverURI::VMAP:
+case CleverURI::MAP:
+case CleverURI::ONLINEPICTURE:
+    result= true;
+    break;
+default:
+    result= false;
+    break;
+}
+return result;*/
+//}
