@@ -61,7 +61,9 @@ GameController::GameController(QObject* parent)
     connect(m_logController.get(), &LogController::sendOffMessage, m_remoteLogCtrl.get(), &RemoteLogController::addLog);
     connect(m_networkCtrl.get(), &NetworkController::isGMChanged, this, &GameController::localIsGMChanged);
     connect(m_networkCtrl.get(), &NetworkController::connectedChanged, this, &GameController::authentified);
+
     connect(m_playerController.get(), &PlayerController::performCommand, this, &GameController::addCommand);
+    connect(m_contentCtrl.get(), &ContentController::performCommand, this, &GameController::addCommand);
 
     m_remoteLogCtrl->setAppId(0);
 }

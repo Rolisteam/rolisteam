@@ -30,8 +30,8 @@ class MediaControllerInterface : public QObject, public NetWorkReceiver
     Q_OBJECT
 public:
     virtual CleverURI::ContentType type() const= 0;
-    virtual bool openMedia(CleverURI*)= 0;
-    virtual void clodeMedia(const QString& id)= 0;
+    virtual bool openMedia(CleverURI*, const std::map<QString,QVariant>& args)= 0;
+    virtual void closeMedia(const QString& id)= 0;
     virtual void registerNetworkReceiver()= 0;
 };
 

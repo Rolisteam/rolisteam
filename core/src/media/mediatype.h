@@ -20,4 +20,116 @@
 #ifndef MEDIATYPE_H
 #define MEDIATYPE_H
 
+#include <QObject>
+
+namespace Core
+{
+Q_NAMESPACE
+enum PermissionMode
+{
+    GM_ONLY,
+    PC_MOVE,
+    PC_ALL
+};
+
+enum VisibilityMode
+{
+    HIDDEN,
+    FOGOFWAR,
+    ALL
+};
+
+enum GridPattern
+{
+    NONE,
+    SQUARE,
+    HEXAGON,
+    OCTOGON
+};
+
+enum ScaleUnit
+{
+    M,
+    KM,
+    CM,
+    MILE,
+    YARD,
+    INCH,
+    FEET,
+    PX
+};
+
+enum CharacterScope
+{
+    SelectionOnly,
+    AllCharacter,
+    AllNPC
+};
+
+enum class EditionMode : int
+{
+    Painting,
+    Mask,
+    Unmask
+};
+
+enum SelectableTool
+{
+    PEN,
+    LINE,
+    EMPTYRECT,
+    FILLRECT,
+    EMPTYELLIPSE,
+    FILLEDELLIPSE,
+    TEXT,
+    HANDLER,
+    ADDNPC,
+    RULE,
+    PATH,
+    ANCHOR,
+    TEXTBORDER,
+    PIPETTE,
+    BUCKET,
+    HIGHLIGHTER
+};
+
+enum Properties
+{
+    ShowNpcName,
+    ShowPcName,
+    ShowNpcNumber,
+    ShowHealthStatus,
+    ShowInitScore,
+    ShowGrid,
+    LocalIsGM,
+    GridPatternProperty,
+    GridColor,
+    GridSize,
+    Scale,
+    Unit,
+    EnableCharacterVision,
+    PermissionModeProperty,
+    FogOfWarStatus,
+    CollisionStatus,
+    GridAbove,
+    HideOtherLayers,
+    VisibilityModeProperty,
+    ShowHealthBar,
+    MapLayer
+};
+Q_ENUM_NS(Properties)
+
+enum class Layer : int
+{
+    GROUND,
+    OBJECT,
+    CHARACTER_LAYER,
+    FOG,
+    GRIDLAYER,
+    NONE
+};
+Q_ENUM_NS(Layer)
+
+} // namespace Core
+
 #endif // MEDIATYPE_H

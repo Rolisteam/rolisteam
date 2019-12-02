@@ -19,18 +19,9 @@
  ***************************************************************************/
 #include "imagemediacontroller.h"
 
-#include "controller/imagecontroller.h"
+#include "controller/view_controller/imagecontroller.h"
 #include "data/cleveruri.h"
-
-/*ImageController* findImage(QString uuid, const std::vector<std::unique_ptr<ImageController>>& images)
-{
-    auto it= std::find_if(images.begin(), images.end(), [uuid](const std::unique_ptr<ImageController>& image) {
-        if(nullptr == image)
-            return false;
-        return image->uuid() == uuid;
-    });
-    return (*it).get();
-}*/
+#include "worker/messagehelper.h"
 
 ImageMediaController::ImageMediaController() {}
 
@@ -51,19 +42,31 @@ NetWorkReceiver::SendType ImageMediaController::processMessage(NetworkMessageRea
     return NetWorkReceiver::NONE;
 }
 
-void ImageMediaController::clodeMedia(const QString& id)
+void ImageMediaController::closeMedia(const QString& id)
 {
     auto it= std::remove_if(m_images.begin(), m_images.end(),
-                            [id](const std::unique_ptr<ImageController>& uri) { return uri->uuid() == id; });
+                            [id](const std::unique_ptr<ImageController>& ctrl) { return ctrl->uuid() == id; });
     if(it == m_images.end())
         return;
+
+    (*it)->closeContainer();
     m_images.erase(it, m_images.end());
 }
 
-bool ImageMediaController::openMedia(CleverURI* uri)
+bool ImageMediaController::openMedia(CleverURI* uri, const std::map<QString, QVariant>& args)
 {
-    std::unique_ptr<ImageController> imgCtrl(new ImageController(uri));
+    if(uri == nullptr || (args.empty() && uri->getUri().isEmpty()))
+        return false;
+
+    auto it= args.find(QStringLiteral("pixmap"));
+    QPixmap pix;
+    if(it != args.end())
+        pix= it->second.value<QPixmap>();
+
+    std::unique_ptr<ImageController> imgCtrl(new ImageController(uri, pix));
+
     emit imageControllerCreated(imgCtrl.get());
+    MessageHelper::sendOffImage(imgCtrl.get());
     m_images.push_back(std::move(imgCtrl));
     return true;
 }

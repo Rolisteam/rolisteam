@@ -24,6 +24,7 @@
 AbstractMediaContainerController::AbstractMediaContainerController(CleverURI* uri, QObject* parent)
     : QObject(parent), m_uri(uri)
 {
+    Q_ASSERT(uri != nullptr);
 }
 
 QString AbstractMediaContainerController::name() const
@@ -40,10 +41,43 @@ CleverURI* AbstractMediaContainerController::uri() const
 {
     return m_uri;
 }
+
+QString AbstractMediaContainerController::title() const
+{
+    return name();
+}
+
+bool AbstractMediaContainerController::isActive() const
+{
+    return m_active;
+}
+
 void AbstractMediaContainerController::setUri(CleverURI* uri)
 {
     if(m_uri == uri)
         return;
     m_uri= uri;
     emit uriChanged();
+}
+
+void AbstractMediaContainerController::aboutToClose()
+{
+    emit closeContainer();
+}
+
+void AbstractMediaContainerController::setActive(bool b)
+{
+    if(b == m_active)
+        return;
+    m_active= b;
+    emit activeChanged();
+}
+void AbstractMediaContainerController::setName(const QString& name)
+{
+    if(nullptr == m_uri)
+        return;
+    if(m_uri->name() == name)
+        return;
+    m_uri->setName(name);
+    emit nameChanged();
 }
