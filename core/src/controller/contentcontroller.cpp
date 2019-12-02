@@ -77,7 +77,7 @@ void ContentController::openMedia(CleverURI* uri)
 }
 QAbstractItemModel* ContentController::model() const
 {
-    return nullptr;
+    return m_contentModel.get();
 }
 
 ImageMediaController* ContentController::imagesCtrl() const
@@ -87,7 +87,15 @@ ImageMediaController* ContentController::imagesCtrl() const
 
 void ContentController::addContent(ResourcesNode* node) {}
 
-void ContentController::removeContent(const QModelIndex& index) {}
+void ContentController::addContent(ResourcesNode* node)
+{
+    m_contentModel->addResource(node, QModelIndex());
+}
+
+void ContentController::removeContent(ResourcesNode* node)
+{
+    m_contentModel->removeNode(node);
+}
 
 void ContentController::setSessionName(const QString& name)
 {
