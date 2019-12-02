@@ -40,6 +40,7 @@ public:
 
     static void sendOffAllCharacterState(CharacterStateModel* model);
     static void sendOffOneCharacterState(CharacterState* da, int row);
+    static void sendOffImage(ImageController* ctrl);
 };
 
 #endif // MESSAGEHELPER_H
