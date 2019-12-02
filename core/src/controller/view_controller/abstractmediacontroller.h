@@ -27,14 +27,18 @@ class CleverURI;
 class AbstractMediaContainerController : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(QString uuid READ uuid NOTIFY uuidChanged)
     Q_PROPERTY(CleverURI* uri READ uri WRITE setUri NOTIFY uriChanged)
+    Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
 public:
     AbstractMediaContainerController(CleverURI* uri, QObject* parent= nullptr);
     QString name() const;
     QString uuid() const;
     CleverURI* uri() const;
+    virtual QString title() const;
+    bool isActive() const;
 
     virtual void saveData() const= 0;
     virtual void loadData() const= 0;
@@ -43,13 +47,20 @@ signals:
     void nameChanged();
     void uuidChanged();
     void uriChanged();
+    void closeContainer();
+    void titleChanged();
+    void activeChanged();
 
 public slots:
     void setUri(CleverURI* uri);
+    void setName(const QString& name);
+    void aboutToClose();
+    void setActive(bool b);
 
-private:
+protected:
     QString m_name;
     CleverURI* m_uri;
+    bool m_active= false;
 };
 
 #endif // ABSTRACTMEDIACONTROLLER_H

@@ -28,7 +28,7 @@
 
 namespace Ui
 {
-    class NewEmptyMapDialog;
+class NewEmptyMapDialog;
 }
 /**
  * @brief The NewEmptyMapDialog class is the dialog displayed to the user to select properties of the map he wants.
@@ -38,7 +38,7 @@ class NewEmptyMapDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit NewEmptyMapDialog(QWidget* parent= 0);
+    explicit NewEmptyMapDialog(QWidget* parent= nullptr);
     ~NewEmptyMapDialog();
 
     Core::PermissionMode getPermission() const;

@@ -37,6 +37,8 @@ class PreferencesManager;
 class MediaControllerInterface;
 class NetworkMessageReader;
 class ImageMediaController;
+class VectorialMapMediaController;
+// class AbstractMediaContainerController;
 class ContentController : public AbstractControllerInterface, public PreferencesListener
 {
     Q_OBJECT
@@ -55,6 +57,7 @@ public:
 
     QAbstractItemModel* model() const;
     ImageMediaController* imagesCtrl() const;
+    VectorialMapMediaController* vmapCtrl() const;
 
     int maxLengthTabName() const;
     bool shortTitleTab() const;
@@ -68,7 +71,7 @@ public:
     void preferencesHasChanged(const QString& key) override;
 
     void newMedia(CleverURI::ContentType type);
-    void openMedia(CleverURI* uri);
+    void openMedia(CleverURI* uri, const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
 
     void clear();
     void processMediaMessage(NetworkMessageReader* msg);
@@ -84,17 +87,18 @@ signals:
     void sessionPathChanged();
 
 public slots:
+    // Media API
+    void saveMedia(const QString& uuid, const QString& path);
+
+    // Session API
     void openResources(const QModelIndex& index);
     void addChapter(const QModelIndex& index);
     void removeSelectedItems(const QModelIndexList& selection);
-
-    void saveMedia(const QString& uuid, const QString& path);
     void addContent(ResourcesNode* node);
-    void removeContent(const QModelIndex& index);
-
+    void removeContent(ResourcesNode* node);
     void setSessionName(const QString& name);
     void setSessionPath(const QString& path);
-
+    // void setActiveMediaController(AbstractMediaContainerController* mediaCtrl);
     void saveSession();
     void loadSession();
 
@@ -102,6 +106,8 @@ private:
     std::unique_ptr<SessionItemModel> m_contentModel;
     std::map<CleverURI::ContentType, MediaControllerInterface*> m_mediaControllers;
     std::unique_ptr<ImageMediaController> m_imageControllers;
+    std::unique_ptr<VectorialMapMediaController> m_vmapControllers;
+
     PreferencesManager* m_preferences;
     QString m_sessionName;
     QString m_sessionPath;

@@ -35,8 +35,8 @@ public:
     ~ImageMediaController() override;
 
     CleverURI::ContentType type() const override;
-    bool openMedia(CleverURI*) override;
-    void clodeMedia(const QString& id) override;
+    bool openMedia(CleverURI* uri, const std::map<QString,QVariant>& args) override;
+    void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 

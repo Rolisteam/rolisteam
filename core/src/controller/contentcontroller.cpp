@@ -19,8 +19,9 @@
  ***************************************************************************/
 #include "contentcontroller.h"
 
-#include "controller/imagemediacontroller.h"
-#include "controller/mediacontrollerinterface.h"
+#include "controller/media_controller/imagemediacontroller.h"
+#include "controller/media_controller/mediacontrollerinterface.h"
+#include "controller/media_controller/vectorialmapmediacontroller.h"
 #include "gamecontroller.h"
 #include "preferences/preferencesmanager.h"
 #include "preferencescontroller.h"
@@ -28,15 +29,18 @@
 
 #include "network/networkmessage.h"
 #include "network/networkmessagereader.h"
+#include "undoCmd/openmediacontroller.h"
 #include "worker/modelhelper.h"
 
 ContentController::ContentController(QObject* parent)
     : AbstractControllerInterface(parent)
     , m_contentModel(new SessionItemModel)
     , m_imageControllers(new ImageMediaController)
+    , m_vmapControllers(new VectorialMapMediaController)
     , m_sessionName(tr("Unknown"))
 {
     m_mediaControllers.insert({CleverURI::PICTURE, m_imageControllers.get()});
+    m_mediaControllers.insert({CleverURI::VMAP, m_vmapControllers.get()});
 }
 
 ContentController::~ContentController()= default;
@@ -65,15 +69,16 @@ void ContentController::preferencesHasChanged(const QString& key)
         emit maxLengthTabNameChanged();
 }
 
-void ContentController::openMedia(CleverURI* uri)
+void ContentController::openMedia(CleverURI* uri, const std::map<QString, QVariant>& args)
 {
     if(!uri)
         return;
+
     auto controller= m_mediaControllers[uri->getType()];
     if(!controller)
         return;
 
-    controller->openMedia(uri);
+    emit performCommand(new OpenMediaController(uri, controller, this, true, args));
 }
 QAbstractItemModel* ContentController::model() const
 {
@@ -85,7 +90,10 @@ ImageMediaController* ContentController::imagesCtrl() const
     return m_imageControllers.get();
 }
 
-void ContentController::addContent(ResourcesNode* node) {}
+VectorialMapMediaController* ContentController::vmapCtrl() const
+{
+    return m_vmapControllers.get();
+}
 
 void ContentController::addContent(ResourcesNode* node)
 {
@@ -245,3 +253,12 @@ void ContentController::processMediaMessage(NetworkMessageReader* msg)
         // closeMediaContainer(msg->string8(), false);
     }
 }
+
+/*void ContentController::setActiveMediaController(AbstractMediaContainerController* mediaCtrl)
+{
+    std::find_if(m_mediaControllers.begin(), m_mediaControllers.end(),
+                 [this](const std::pair<CleverURI::ContentType, MediaControllerInterface*>& pair) {
+
+                 });
+    if()
+}*/
