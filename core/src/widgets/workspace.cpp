@@ -23,8 +23,8 @@
 #include <QtGui>
 
 #include "controller/contentcontroller.h"
-#include "controller/imagecontroller.h"
-#include "controller/imagemediacontroller.h"
+#include "controller/media_controller/imagemediacontroller.h"
+#include "controller/view_controller/imagecontroller.h"
 
 #include "media/image.h"
 
@@ -301,7 +301,7 @@ QVector<QMdiSubWindow*> Workspace::getAllSubWindowFromId(const QString& id) cons
     return vector;
 }
 
-QMdiSubWindow* Workspace::getSubWindowFromId(const QString& id)
+/*QMdiSubWindow* Workspace::getSubWindowFromId(QString id)
 {
     for(auto& tmp : subWindowList())
     {
@@ -318,6 +318,28 @@ QMdiSubWindow* Workspace::getSubWindowFromId(const QString& id)
         }
     }
     return nullptr;
+}*/
+
+void Workspace::updateActiveMediaContainer(QMdiSubWindow* window)
+{
+    auto activeMediaContainer= dynamic_cast<MediaContainer*>(window);
+
+    if(m_activeMediaContainer == activeMediaContainer)
+        return;
+
+    if(!m_activeMediaContainer.isNull())
+    {
+        auto ctrl= m_activeMediaContainer->ctrl();
+        ctrl->setActive(false);
+    }
+
+    if(nullptr != activeMediaContainer)
+    {
+        auto ctrl= activeMediaContainer->ctrl();
+        ctrl->setActive(true);
+    }
+
+    m_activeMediaContainer= activeMediaContainer;
 }
 
 void Workspace::addWidgetToMdi(QWidget* wid, const QString& title)

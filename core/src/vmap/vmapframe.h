@@ -26,7 +26,9 @@
 #include <QMouseEvent>
 #include <QPaintEvent>
 #include <QPoint>
+#include <QPointer>
 #include <QWidget>
+#include <memory>
 
 #include "rgraphicsview.h"
 
@@ -35,7 +37,7 @@
 #include "vmap.h"
 #include "vmap/vtoolbar.h"
 
-//#include "MainWindow.h"
+class VectorialMapController;
 
 /**
  * @brief displays, stores and manages a map and its items
@@ -58,24 +60,11 @@ public:
     /**
      * @brief VMapFrame
      */
-    VMapFrame(bool localIsGM, QWidget* parent= nullptr);
-    /**
-     * @brief constructor
-     */
-    VMapFrame(bool localIsGM, CleverURI* uri, VMap* vmap, QWidget* parent= nullptr);
+    VMapFrame(VectorialMapController* ctrl, QWidget* parent= nullptr);
     /**
      * @brief destructor
      */
     virtual ~VMapFrame() override;
-    /**
-     * @brief accessor to get the map.
-     */
-    VMap* getMap();
-    /**
-     * @brief get the current editing mode.
-     */
-    int editingMode();
-
     /**
      * @brief fills up the current window menu
      */
@@ -86,16 +75,6 @@ public:
      * @param uri of the file
      */
     bool openFile(const QString& file);
-    /**
-     * @brief hasDockWidget
-     * @return
-     */
-    virtual bool hasDockWidget() const;
-    /**
-     * @brief getDockWidget
-     * @return
-     */
-    virtual QDockWidget* getDockWidget();
     /**
      * @brief createMap
      * @return
@@ -150,11 +129,6 @@ public:
      * @param msg
      */
     void processOpacityMessage(NetworkMessageReader* msg);
-    /**
-     * @brief getMediaId
-     * @return
-     */
-    virtual QString getMediaId() const override;
 
     void fill(NetworkMessageWriter& msg) override;
     void readMessage(NetworkMessageReader& msg) override;
@@ -165,8 +139,6 @@ public:
 
     void putDataIntoCleverUri() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
-    QUndoStack* getUndoStack() const override;
-    void setUndoStack(QUndoStack* undoStack) override;
 public slots:
     /**
      *  @brief change the current mice cursor
@@ -177,45 +149,22 @@ public slots:
      *  @brief change the current drawing tool
      *  @param  new selected tool
      */
-    virtual void currentToolChanged(VToolsBar::SelectableTool) override;
-    /**
-     *  @brief change the current color
-     *  @param  new color
-     */
-    virtual void currentColorChanged(QColor&) override;
+    virtual void currentToolChanged(Core::SelectableTool) override;
 
-    /**
-     *  @brief change the pen size
-     *  @param  new size
-     */
-    virtual void currentPenSizeChanged(int);
     /**
      *  @brief change the current editing  behavior to MaskMode.
      */
-    virtual void setEditingMode(int);
-    /**
-     * @brief setCurrentNpcNameChanged
-     */
-    virtual void setCurrentNpcNameChanged(QString);
-    /**
-     * @brief setCurrentNpcNumberChanged
-     */
-    virtual void setCurrentNpcNumberChanged(int);
+    // virtual void setEditingMode(int);
 
-    void processLayerMessage(NetworkMessageReader* msg);
+    // void processLayerMessage(NetworkMessageReader* msg);
 signals:
     /**
      * @brief defineCurrentTool
      * @param tool
      */
-    void defineCurrentTool(VToolsBar::SelectableTool tool);
+    void defineCurrentTool(Core::SelectableTool tool);
 
 protected:
-    /**
-     *  @brief catches the closeEvent to hide itself (not delete)
-     *  @param event discribe the context of the event
-     */
-    void closeEvent(QCloseEvent* event) override;
     /**
      *  @brief called when painting the widget is required
      *  @param event discribe the context of the event
@@ -223,23 +172,16 @@ protected:
     // virtual void paintEvent(QPaintEvent* event);
     virtual void keyPressEvent(QKeyEvent* event) override;
 
-    /**
-     *  @brief catches the mousePressEvent to active the selection and edition
-     *  @param event discribe the context of the event
-     */
-    virtual void mousePressEvent(QMouseEvent* event) override;
-
 protected slots:
     /**
      * @brief updateTitle
      */
     virtual void updateTitle() override;
 
+private slots:
+    void setupUi();
+
 private: // functions
-    /**
-     * @brief createView
-     */
-    void createView();
     /**
      * @brief updateMap
      */
@@ -260,19 +202,10 @@ private: // functions
      */
     QString layerToText(Core::Layer);
 
-private: // members
-    /**
-     *  pointer to the map, the place where all items are added and displayed
-     */
-    VMap* m_vmap= nullptr;
-    /**
-     * Pointer to the graphicView, the widget (viewport) which displays the scene
-     */
-    RGraphicsView* m_graphicView;
-    /**
-     * current edition mode
-     */
-    int m_currentEditingMode;
+private:
+    QPointer<VectorialMapController> m_ctrl;
+    // VMap* m_vmap= nullptr;
+    std::unique_ptr<RGraphicsView> m_graphicView;
 };
 
 #endif

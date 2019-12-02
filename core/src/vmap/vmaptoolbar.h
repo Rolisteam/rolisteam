@@ -60,10 +60,6 @@ public slots:
      * @brief triggerGrid
      */
     void triggerGrid();
-    /**
-     * @brief setBackgroundColor
-     */
-    void setBackgroundColor(QColor);
     void visibilityHasChanged(int);
     void permissionHasChanged(int index);
     void patternChanged(int);

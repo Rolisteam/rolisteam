@@ -158,13 +158,7 @@ void VmapToolBar::setUnit()
         m_vmap->setOption(VisualItem::Unit, m_gridUnit->currentIndex());
     }
 }
-void VmapToolBar::setBackgroundColor(QColor color)
-{
-    if(nullptr != m_vmap)
-    {
-        m_vmap->setBackGroundColor(color);
-    }
-}
+
 void VmapToolBar::patternChanged(int index)
 {
     if(nullptr != m_vmap)

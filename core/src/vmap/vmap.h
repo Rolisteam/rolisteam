@@ -47,6 +47,7 @@
  *
  */
 class CharacterItem;
+class VectorialMapController;
 class AddVmapItemCommand;
 /**
  * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...
@@ -59,54 +60,7 @@ public:
     /**
      * @brief default constructor
      */
-    explicit VMap(QObject* parent= nullptr);
-    /**
-     * @brief constructor with parameters
-     * @param witdh of the map
-     * @param height of the map
-     * @param title of the subwindow, will be used for saving the map into file.
-     * @param bgcolor is the backgound color of the map (commonly white).
-     */
-    VMap(int width, int height, QString& title, QColor& m_bgColor, QObject* parent= nullptr);
-    /**
-     * @brief defines the width
-     */
-    void setWidth(int width);
-    /**
-     * @brief defines the height
-     */
-    void setHeight(int height);
-    /**
-     * @brief defines the title
-     */
-    void setTitle(QString title);
-    /**
-     * @brief defines the background color
-     */
-    void setBackGroundColor(QColor bgcolor);
-    /**
-     * @brief getBackGroundColor
-     * @return
-     */
-    QColor getBackGroundColor() const;
-
-    /**
-     * @brief  unused ?
-     * @todo check the relevance of this function
-     */
-    void setSceneRect();
-    /**
-     * @brief accessor to width
-     */
-    int mapWidth() const;
-    /**
-     * @brief accessor to height
-     */
-    int mapHeight() const;
-    /**
-     * @brief accessor to the title
-     */
-    const QString& getMapTitle() const;
+    explicit VMap(VectorialMapController* ctrl, QObject* parent= nullptr);
     /**
      * @brief saveFile
      */
@@ -205,18 +159,6 @@ public:
      * @return
      */
     QString getVisibilityModeText();
-
-    /**
-     * @brief editLayer
-     * @param layer
-     * @return
-     */
-    bool editLayer(VisualItem::Layer layer);
-    /**
-     * @brief getCurrentLayer
-     * @return
-     */
-    VisualItem::Layer getCurrentLayer() const;
     /**
      * @brief isIdle
      * @return
@@ -232,18 +174,6 @@ public:
      */
     void initScene();
     /**
-     * @brief setOption
-     * @param pop
-     * @param value
-     */
-    bool setOption(VisualItem::Properties pop, QVariant value);
-    /**
-     * @brief getOption
-     * @param pop
-     * @return
-     */
-    QVariant getOption(VisualItem::Properties pop);
-    /**
      * @brief setAnchor
      * @param child
      * @param parent
@@ -251,15 +181,10 @@ public:
      */
     void setAnchor(QGraphicsItem* child, QGraphicsItem* parent, bool send= true);
     /**
-     * @brief currentLayer
-     * @return
-     */
-    VisualItem::Layer currentLayer() const;
-    /**
      * @brief setCurrentLayer
      * @param currentLayer
      */
-    void setCurrentLayer(const VisualItem::Layer& currentLayer);
+    void updateLayer();
     /**
      * @brief getSelectedtool
      * @return
@@ -299,17 +224,12 @@ public:
     const QString& getLocalUserId() const;
     int getCurrentNpcNumber() const;
 
-    QString getCurrentNpcName() const;
-
     void removeItemFromData(VisualItem* item);
     void addItemFromData(VisualItem* item);
     void insertItemFromData(VisualItem* item, int pos);
 
     QUndoStack* getUndoStack() const;
     void setUndoStack(QUndoStack* undoStack);
-
-    QHash<VisualItem::Properties, QVariant>* getPropertiesHash() const;
-    void setPropertiesHash(QHash<VisualItem::Properties, QVariant>* propertiesHash);
 
     void addImageItem(const QString& imgPath);
     void addImageItem(const QImage& img);
@@ -324,6 +244,7 @@ public:
      */
     SightItem* getFogItem() const;
     bool isNormalItem(const QGraphicsItem* item);
+    GridItem* getGridItem() const;
 public slots:
     /**
      * @brief defines the current tools
@@ -339,11 +260,6 @@ public slots:
      * @brief defines the pen size (sent off by toolbar).
      */
     void setPenSize(quint16);
-    /**
-     * @brief setCurrentNpcName
-     * @param text
-     */
-    void setCurrentNpcName(QString text);
     /**
      * @brief setCurrentNpcNumber
      * @param number
@@ -429,8 +345,9 @@ public slots:
     // void selectionPositionHasChanged();
     void showTransparentItems();
     // void selectionPositionAboutToChange();
-    void cleanUpInit(VMap::APPLY_ON_CHARACTER zone);
-    void rollInit(VMap::APPLY_ON_CHARACTER zone);
+    void cleanUpInit(Core::CharacterScope zone);
+    void rollInit(Core::CharacterScope zone);
+    void addItem(VisualItem* item);
 signals:
     /**
      * @brief npcAdded
@@ -513,13 +430,8 @@ protected:
     /**
      * @brief adds item depending of the current tool.
      */
-    void addItem();
-    /**
-     * @brief addNewItem
-     * @param item to add
-     * @param fromNetwork, true when item is added from network, false by default.
-     */
-    void addNewItem(AddVmapItemCommand* item, bool undoable, bool fromNetwork= false);
+    void insertItem();
+
     /**
      * @brief dragEnterEvent
      * @param event
@@ -551,26 +463,7 @@ protected:
     bool isItemStorable(VisualItem* item);
 
 private:
-    /**
-     * @brief width of the map
-     */
-    int m_width;
-    /**
-     * @brief height of the map
-     */
-    int m_height;
-    /**
-     * @brief title of the map
-     */
-    QString m_title;
-    /**
-     * @brief background color
-     */
-    QColor m_bgColor;
-    /**
-     * @brief current tool
-     */
-    VToolsBar::SelectableTool m_selectedtool;
+    QPointer<VectorialMapController> m_ctrl;
     /**
      * @brief first point of the next item
      */
@@ -592,10 +485,6 @@ private:
      */
     QColor m_itemColor;
     /**
-     * @brief pen size
-     */
-    quint16 m_penSize;
-    /**
      * @brief Items list which are part of the map.
      */
     QMap<QString, VisualItem*>* m_itemMap= nullptr;
@@ -616,14 +505,6 @@ private:
      */
     QImage m_computedPattern;
     /**
-     * @brief m_nameNPC
-     */
-    QString m_currentNpcName;
-    /**
-     * @brief m_currentNpcNumber
-     */
-    int m_currentNpcNumber;
-    /**
      * @brief m_id
      */
     QString m_id;
@@ -631,21 +512,14 @@ private:
      * @brief m_localUserId
      */
     QString m_localUserId;
-    /**
-     * @brief m_currentLayer
-     */
-    VisualItem::Layer m_currentLayer;
 
     SightItem* m_sightItem;
     GridItem* m_gridItem;
-
-    VToolsBar::EditionMode m_editionMode;
-
     VisualItem* m_fogItem;
     FogSingularity* m_currentFog;
+
     quint64 m_zIndex;
 
-    QHash<VisualItem::Properties, QVariant>* m_propertiesHash= nullptr;
     QPointer<QUndoStack> m_undoStack;
     AddVmapItemCommand* m_currentAddCmd= nullptr;
     QList<VisualItem*> m_movingItems;

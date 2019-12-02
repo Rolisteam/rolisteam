@@ -24,6 +24,7 @@
 #include <QImage>
 #include <QMdiArea>
 #include <QPaintEvent>
+#include <QPointer>
 #include <QWidget>
 
 #include "data/mediacontainer.h"
@@ -60,7 +61,7 @@ public:
      * @brief getSubWindowFromId must be improved with polymorphism
      * @param id
      */
-    QMdiSubWindow* getSubWindowFromId(QString id);
+    // QMdiSubWindow* getSubWindowFromId(QString id);
     /**
      * @brief addComteneurMedia
      * @param mediac
@@ -94,6 +95,7 @@ protected:
 
 private:
     void updateBackGround();
+    void updateActiveMediaContainer(QMdiSubWindow* window);
 
 private:
     QPointer<ContentController> m_ctrl;
@@ -102,6 +104,7 @@ private:
     QPixmap m_variableSizeBackground;
     QMap<QAction*, QPointer<QMdiSubWindow>> m_actionSubWindowMap;
     QHash<QMdiSubWindow*, QString> m_titleBar;
+    QPointer<MediaContainer> m_activeMediaContainer;
 };
 
 #endif
