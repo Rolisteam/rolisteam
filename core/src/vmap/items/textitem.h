@@ -27,7 +27,7 @@
 #include <QTextDocument>
 
 class MRichTextEdit;
-
+class VisualItemController;
 class TextLabel : public QGraphicsTextItem
 {
 public:
@@ -59,13 +59,13 @@ class TextItem : public VisualItem
 {
     Q_OBJECT
 public:
-    TextItem(const std::map<Core::Properties, QVariant>& properties);
+    TextItem(VisualItemController* ctrl);
     /**
      * @brief Constructor with parameters
      * @param start, starting point, it represents the bottom right rectangle corner where the text willbe displayed
      */
-    TextItem(const std::map<Core::Properties, QVariant>& properties, const QPointF& start, quint16 penSize,
-             const QColor& penColor, QGraphicsItem* parent= nullptr);
+    TextItem(VisualItemController* ctrl, const QPointF& start, quint16 penSize, const QColor& penColor,
+             QGraphicsItem* parent= nullptr);
     /**
      * @brief paint the item into the scene.
      */
@@ -77,7 +77,7 @@ public:
     /**
      * @brief amends the position of the end point, not really useful for this kind of graphical item.
      */
-    virtual void setNewEnd(QPointF& nend) override;
+    virtual void setNewEnd(const QPointF& nend) override;
     /**
      * @brief writeData
      * @param out

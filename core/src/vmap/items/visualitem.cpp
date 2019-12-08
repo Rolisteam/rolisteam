@@ -27,7 +27,9 @@
 #include <QUuid>
 #include <cmath>
 
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include "map/map.h"
+#include "vmap/controller/visualitemcontroller.h"
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -38,11 +40,8 @@ int VisualItem::m_highlightWidth= 6;
 QStringList VisualItem::s_type2NameList
     = QStringList() << QObject::tr("Path") << QObject::tr("Line") << QObject::tr("Ellipse") << QObject::tr("Character")
                     << QObject::tr("Text") << QObject::tr("Rect") << QObject::tr("Rule") << QObject::tr("Image");
-QStringList VisualItem::s_layerName= QStringList()
-                                     << QObject::tr("Ground") << QObject::tr("Object") << QObject::tr("Character");
 
-VisualItem::VisualItem(const std::map<Core::Properties, QVariant>& properties)
-    : QGraphicsObject(), m_propertiesHash(properties)
+VisualItem::VisualItem(VisualItemController* ctrl) : QGraphicsObject(), m_ctrl(ctrl)
 {
     m_id= QUuid::createUuid().toString();
     init();
@@ -56,11 +55,11 @@ void VisualItem::init()
     setAcceptHoverEvents(true);
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
     QActionGroup* group= new QActionGroup(this);
-    m_putGroundLayer= new QAction(s_layerName[0], this);
+    m_putGroundLayer= new QAction(m_ctrl->getLayerText(Core::Layer::GROUND), this);
     m_putGroundLayer->setData(static_cast<int>(Core::Layer::GROUND));
-    m_putObjectLayer= new QAction(s_layerName[1], this);
+    m_putObjectLayer= new QAction(m_ctrl->getLayerText(Core::Layer::OBJECT), this);
     m_putObjectLayer->setData(static_cast<int>(Core::Layer::OBJECT));
-    m_putCharacterLayer= new QAction(s_layerName[2], this);
+    m_putCharacterLayer= new QAction(m_ctrl->getLayerText(Core::Layer::CHARACTER_LAYER), this);
     m_putCharacterLayer->setData(static_cast<int>(Core::Layer::CHARACTER_LAYER));
 
     m_putGroundLayer->setCheckable(true);
@@ -104,18 +103,11 @@ void VisualItem::updateItemFlags()
         disconnect(this, &VisualItem::rotationChanged, this, &VisualItem::rotationChange);
         disconnect(this, &VisualItem::opacityChanged, this, &VisualItem::sendOpacityMsg);
     }
-    if(nullptr != m_child)
-    {
-        for(auto& itemChild : *m_child)
-        {
-            itemChild->setEditableItem(editable);
-        }
-    }
-}
 
-bool VisualItem::itemAndMapOnSameLayer() const
-{
-    return (static_cast<int>(m_layer) == getOption(Core::MapLayer).toInt());
+    for(auto& itemChild : m_children)
+    {
+        itemChild->setEditableItem(editable);
+    }
 }
 
 QColor VisualItem::getColor()
@@ -162,7 +154,7 @@ QPointF VisualItem::computeClosePoint(QPointF pos)
 {
     if(Qt::AltModifier & QGuiApplication::keyboardModifiers())
     {
-        int size= getOption(Core::GridSize).toInt();
+        int size= m_ctrl->gridSize();
         pos.setX(std::round(pos.x() / size) * size);
         pos.setY(std::round(pos.y() / size) * size);
     }
@@ -186,29 +178,29 @@ void VisualItem::setId(QString id)
     m_id= id;
 }
 
-void VisualItem::resizeContents(const QRectF& rect, TransformType transformType)
+void VisualItem::resizeContents(const QRectF& rect, int pointId, TransformType transformType)
 {
-    if(!rect.isValid() || isHoldSize())
-    {
-        return;
-    }
-    prepareGeometryChange();
-    auto width= m_rect.width();
-    auto height= m_rect.height();
-    // sendRectGeometryMsg();
-    m_resizing= true;
-    m_rect= rect;
-    if(transformType == VisualItem::KeepRatio)
-    {
-        auto hfw= height * rect.width() / width;
-        if(hfw > 1)
+    /*    if(!rect.isValid() || isHoldSize())
         {
-            m_rect.setTop(-hfw / 2);
-            m_rect.setHeight(hfw);
+            return;
         }
-    }
+        prepareGeometryChange();
+        auto width= m_ctrl->rect().width();
+        auto height= m_ctrl->rect().height();
+        // sendRectGeometryMsg();
+        m_resizing= true;
+        m_rect= rect;
+        if(transformType == VisualItem::KeepRatio)
+        {
+            auto hfw= height * rect.width() / width;
+            if(hfw > 1)
+            {
+                m_rect.setTop(-hfw / 2);
+                m_rect.setHeight(hfw);
+            }
+        }
 
-    updateChildPosition();
+        updateChildPosition();*/
 }
 void VisualItem::updateChildPosition() {}
 
@@ -245,20 +237,6 @@ void VisualItem::manageAction()
         emit duplicateItem(this);
     }
 }
-Core::Layer VisualItem::getLayer() const
-{
-    return m_layer;
-}
-
-void VisualItem::setLayer(Core::Layer layer)
-{
-    if(m_layer == layer)
-        return;
-
-    m_layer= layer;
-    updateItemFlags();
-    sendItemLayer();
-}
 
 void VisualItem::addActionContextMenu(QMenu&)
 {
@@ -272,44 +250,39 @@ QString VisualItem::getId()
 
 bool VisualItem::hasFocusOrChild()
 {
-    if(hasPermissionToMove())
+    if(!m_ctrl->editable())
+        return false;
+
+    auto result= isSelected();
+
+    for(auto child : m_children)
     {
-        if(isSelected())
+        if(nullptr == child)
+            continue;
+
+        if(child->isSelected())
         {
-            return true;
-        }
-        else
-        {
-            if(m_child == nullptr)
-            {
-                return false;
-            }
-            for(int i= 0; i < m_child->size(); ++i)
-            {
-                if((m_child->at(i) != nullptr) && (m_child->at(i)->isSelected()))
-                {
-                    return true;
-                }
-            }
+            result= true;
         }
     }
-    return false;
+
+    return result;
 }
 void VisualItem::sendItemLayer()
 {
-    if(hasPermissionToMove(true)) // getOption PermissionMode
+    if(m_ctrl->editable()) // getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::LayerItemChanged);
         msg.string8(m_mapId);
         msg.string16(m_id);
-        msg.uint8(static_cast<quint8>(m_layer));
+        // msg.uint8(static_cast<quint8>(m_layer));
         msg.sendToServer();
     }
 }
 
 void VisualItem::sendOpacityMsg()
 {
-    if(hasPermissionToMove(false)) // getOption PermissionMode
+    if(m_ctrl->editable()) // getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::OpacityItemChanged);
         msg.string8(m_mapId);
@@ -329,7 +302,7 @@ void VisualItem::readLayerMsg(NetworkMessageReader* msg)
 {
     quint8 lay= msg->uint8();
     blockSignals(true);
-    setLayer(static_cast<Core::Layer>(lay));
+    // setLayer(static_cast<Core::Layer>(lay));
     blockSignals(false);
 }
 bool VisualItem::isLocal() const
@@ -354,7 +327,7 @@ void VisualItem::sendPositionMsg()
     if(m_pointList.isEmpty())
         return;
 
-    if(hasPermissionToMove()) // getOption PermissionMode
+    if(m_ctrl->editable()) // getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::MoveItem);
         msg.string8(m_mapId);
@@ -383,7 +356,7 @@ void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 }
 void VisualItem::sendZValueMsg()
 {
-    if(hasPermissionToMove() && !m_receivingZValue) // getOption PermissionMode
+    if(m_ctrl->editable() && !m_receivingZValue) // getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::ZValueItem);
         msg.string8(m_mapId);
@@ -406,7 +379,7 @@ void VisualItem::readZValueMsg(NetworkMessageReader* msg)
 }
 void VisualItem::sendRotationMsg()
 {
-    if(hasPermissionToMove()) // getOption PermissionMode
+    if(m_ctrl->editable()) // getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::RotationItem);
         msg.string8(m_mapId);
@@ -425,28 +398,28 @@ void VisualItem::readRotationMsg(NetworkMessageReader* msg)
 }
 void VisualItem::sendRectGeometryMsg()
 {
-    if(hasPermissionToMove()) // getOption PermissionMode
+    if(m_ctrl->editable()) // getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::RectGeometryItem);
         msg.string8(m_mapId);
         msg.string16(m_id);
-        msg.real(m_rect.x());
+        /*msg.real(m_rect.x());
         msg.real(m_rect.y());
         msg.real(m_rect.width());
-        msg.real(m_rect.height());
+        msg.real(m_rect.height());*/
         msg.sendToServer();
     }
 }
 void VisualItem::readRectGeometryMsg(NetworkMessageReader* msg)
 {
-    qreal xR= msg->real();
-    qreal yR= msg->real();
-    qreal w= msg->real();
-    qreal h= msg->real();
-    blockSignals(true);
-    setRectSize(xR, yR, w, h);
-    blockSignals(false);
-    update();
+    /* qreal xR= msg->real();
+     qreal yR= msg->real();
+     qreal w= msg->real();
+     qreal h= msg->real();
+     blockSignals(true);
+     setRectSize(xR, yR, w, h);
+     blockSignals(false);
+     update();*/
 }
 void VisualItem::readMovePointMsg(NetworkMessageReader* msg)
 {
@@ -456,10 +429,10 @@ void VisualItem::readMovePointMsg(NetworkMessageReader* msg)
 
 void VisualItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
 {
-    m_rect.setX(x);
-    m_rect.setY(y);
-    m_rect.setWidth(w);
-    m_rect.setHeight(h);
+    /*   m_rect.setX(x);
+       m_rect.setY(y);
+       m_rect.setWidth(w);
+       m_rect.setHeight(h);*/
 }
 
 void VisualItem::setMapId(QString id)
@@ -510,20 +483,17 @@ void VisualItem::setChildrenVisible(bool b)
 {
     if((!b) || (canBeMoved()))
     {
-        if(nullptr != m_child)
+
+        for(auto& item : m_children)
         {
-            for(auto& item : *m_child)
+            bool isVisionAndFog= true; // (m_ctrl->visibility() == Core::FOGOFWAR) & m_ctrl->characterVision();
+            if((!item->isVisionHandler()) || (isVisionAndFog) || (!b))
             {
-                bool isVisionAndFog= m_propertiesHash.at(Core::FogOfWarStatus).toBool()
-                                     & m_propertiesHash.at(Core::EnableCharacterVision).toBool();
-                if((!item->isVisionHandler()) || (isVisionAndFog) || (!b))
-                {
-                    item->setVisible(b);
-                }
-                else
-                {
-                    item->setVisible(!b);
-                }
+                item->setVisible(b);
+            }
+            else
+            {
+                item->setVisible(!b);
             }
         }
     }
@@ -531,25 +501,27 @@ void VisualItem::setChildrenVisible(bool b)
 
 bool VisualItem::canBeMoved() const
 {
-    return itemAndMapOnSameLayer() && hasPermissionToMove();
+    return m_ctrl->editable() && hasPermissionToMove();
 }
 bool VisualItem::hasPermissionToMove(bool allowCharacter) const
 {
-    bool movable= false;
-    if(getOption(Core::LocalIsGM).toBool())
+
+    return m_ctrl->editable();
+    /*bool movable= false;
+    if(m_ctrl->localGM())
     {
         movable= true;
     }
-    else if((getOption(Core::PermissionModeProperty).toInt() == Core::PC_MOVE) && (getType() == VisualItem::CHARACTER)
-            && (isLocal()) && (allowCharacter))
+    else if((m_ctrl->permission() == Core::PC_MOVE) && (getType() == VisualItem::CHARACTER) && (isLocal())
+            && (allowCharacter))
     {
         movable= true;
     }
-    else if(getOption(Core::PermissionModeProperty).toInt() == Core::PC_ALL)
+    else if(m_ctrl->permission() == Core::PC_ALL)
     {
         movable= true;
     }
-    return movable;
+    return movable;*/
 }
 
 QColor VisualItem::getHighlightColor()
@@ -572,15 +544,6 @@ void VisualItem::setHighlightWidth(int highlightWidth)
     m_highlightWidth= highlightWidth;
 }
 
-quint16 VisualItem::getPenWidth() const
-{
-    return m_penWidth;
-}
-
-void VisualItem::setPenWidth(const quint16& penWidth)
-{
-    m_penWidth= penWidth;
-}
 bool VisualItem::isHoldSize() const
 {
     return m_holdSize;
@@ -591,23 +554,9 @@ void VisualItem::setHoldSize(bool holdSize)
     m_holdSize= holdSize;
 }
 
-QString VisualItem::getLayerToText(Core::Layer id)
-{
-    if(s_layerName.size() > static_cast<int>(id))
-    {
-        return s_layerName.at(static_cast<int>(id));
-    }
-    return QString();
-}
-
-QVariant VisualItem::getOption(Core::Properties pop) const
-{
-    return m_propertiesHash.at(pop);
-}
-
 void VisualItem::setSize(QSizeF size)
 {
-    m_rect.setSize(size);
+    // m_rect.setSize(size);
     updateChildPosition();
     update();
 }

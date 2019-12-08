@@ -28,6 +28,7 @@
 #include <QGradient>
 #include <QRadialGradient>
 
+class VisualItemController;
 /**
  * @brief The SightItem class
  */
@@ -39,7 +40,7 @@ public:
      * @brief GridItem
      * @param characterItemMap
      */
-    GridItem();
+    GridItem(VisualItemController* ctrl);
     /**
      * @brief ~GridItem
      */
@@ -48,7 +49,7 @@ public:
      * @brief setNewEnd
      * @param nend
      */
-    virtual void setNewEnd(QPointF& nend);
+    virtual void setNewEnd(const QPointF& nend);
     /**
      * @brief writeData
      * @param out

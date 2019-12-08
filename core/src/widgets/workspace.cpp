@@ -24,9 +24,13 @@
 
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
+#include "controller/media_controller/vectorialmapmediacontroller.h"
+
 #include "controller/view_controller/imagecontroller.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
 
 #include "media/image.h"
+#include "vmap/vmapframe.h"
 
 #define GRAY_SCALE 191
 
@@ -47,6 +51,9 @@ Workspace::Workspace(ContentController* ctrl, QWidget* parent)
     connect(m_ctrl, &ContentController::workspacePositioningChanged, this, &Workspace::updateBackGround);
 
     connect(m_ctrl->imagesCtrl(), &ImageMediaController::imageControllerCreated, this, &Workspace::addImage);
+    connect(m_ctrl->vmapCtrl(), &VectorialMapMediaController::vmapControllerCreated, this, &Workspace::addVectorialMap);
+
+    connect(this, &Workspace::subWindowActivated, this, &Workspace::updateActiveMediaContainer);
 
     m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
     updateBackGround();
@@ -133,7 +140,7 @@ void Workspace::updateBackGround()
 
 void Workspace::resizeEvent(QResizeEvent* event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     if((m_variableSizeBackground.size() == this->size()))
     {
         return;
@@ -337,6 +344,10 @@ void Workspace::updateActiveMediaContainer(QMdiSubWindow* window)
     {
         auto ctrl= activeMediaContainer->ctrl();
         ctrl->setActive(true);
+        if(activeMediaContainer->getContainerType() == MediaContainer::ContainerType::VMapContainer)
+            emit vmapActive();
+        else if(activeMediaContainer->getContainerType() == MediaContainer::ContainerType::MapContainer)
+            emit oldMapActive();
     }
 
     m_activeMediaContainer= activeMediaContainer;
@@ -356,4 +367,11 @@ void Workspace::addImage(ImageController* ctrl)
     std::unique_ptr<MediaContainer> img(new Image(ctrl));
     addWidgetToMdi(img.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(img));
+}
+void Workspace::addVectorialMap(VectorialMapController* ctrl)
+{
+    std::unique_ptr<MediaContainer> vmapFrame(new VMapFrame(ctrl));
+    vmapFrame->setGeometry(0, 0, 800, 600);
+    addWidgetToMdi(vmapFrame.get(), ctrl->name());
+    m_mediaContainers.push_back(std::move(vmapFrame));
 }

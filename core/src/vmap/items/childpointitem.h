@@ -22,8 +22,10 @@
 #define CHILDPOINTITEM_H
 
 #include <QGraphicsObject>
+#include <QPointer>
 
 class VisualItem;
+class VisualItemController;
 /**
  * @brief The ChildPointItem class controls and allows geometry transforms to its parent from user inputs.
  */
@@ -65,7 +67,7 @@ public:
      * @param point
      * @param parent
      */
-    ChildPointItem(qreal point, VisualItem* parent, bool isVision= false);
+    ChildPointItem(VisualItemController* ctrl, int point, VisualItem* parent, bool isVision= false);
     /**
      * @brief ~ChildPointItem
      */
@@ -141,7 +143,8 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 
 private:
-    qreal m_pointId;
+    QPointer<VisualItemController> m_ctrl;
+    int m_pointId;
     QPointF m_startPoint;
     VisualItem* m_parent;
     MOTION m_currentMotion;

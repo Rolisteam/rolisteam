@@ -71,7 +71,7 @@ void TestMap::networkSaveAndLoadTest()
     msg2.resetToData();
 
     MapFrame frame2;
-    frame2.setCleverUriType(CleverURI::MAP);
+    //frame2.setCleverUriType(CleverURI::MAP);
     frame2.readMessage(msg2);
 
     auto map= m_mapFrame->getMap();

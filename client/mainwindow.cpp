@@ -160,7 +160,7 @@ MainWindow::MainWindow()
     m_downLoadProgressbar->setRange(0, 100);
 
     m_downLoadProgressbar->setVisible(false);
-    m_vmapToolBar= new VmapToolBar(this);
+    m_vmapToolBar= new VmapToolBar(m_gameController->contentController()->vmapCtrl(), this);
     addToolBar(Qt::TopToolBarArea, m_vmapToolBar);
 
     // m_ipChecker= new IpChecker(this);
@@ -269,6 +269,9 @@ void MainWindow::setupUi()
     vmapToolBar->setShortcut(Qt::Key_F9);
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct, m_vmapToolBar->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
+
+    connect(m_mdiArea, &Workspace::oldMapActive, this, [this]() { m_toolBarStack->setCurrentWidget(m_toolBar); });
+    connect(m_mdiArea, &Workspace::vmapActive, this, [this]() { m_toolBarStack->setCurrentWidget(m_vToolBar); });
 
     m_chatListWidget= new ChatListWidget(this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory, m_chatListWidget);
@@ -401,7 +404,7 @@ void MainWindow::closeMediaContainer(QString id, bool redo)
         MediaContainer* mediaCon= m_mediaHash.value(id);
         if(nullptr != mediaCon)
         {
-            auto type= mediaCon->getContentType();
+            // auto type= mediaCon->getContentType();
 
             DeleteMediaContainerCommand* cmd
                 = new DeleteMediaContainerCommand(mediaCon, /*m_sessionManager,*/ m_ui->m_editMenu, m_mdiArea,
@@ -417,14 +420,14 @@ void MainWindow::closeMediaContainer(QString id, bool redo)
             }
 
             // m_mediaHash.remove(id);
-            if(CleverURI::VMAP == type)
-            {
-                m_vmapToolBar->setCurrentMap(nullptr);
-            }
-            else if(CleverURI::MAP == type)
-            {
-                // m_playersListWidget->model()->setCurrentMap(nullptr);
-            }
+            /*  if(CleverURI::VMAP == type)
+              {
+                  m_vmapToolBar->setCurrentMap(nullptr);
+              }
+              else if(CleverURI::MAP == type)
+              {
+                  // m_playersListWidget->model()->setCurrentMap(nullptr);
+              }*/
         }
     }
 }
@@ -605,7 +608,7 @@ void MainWindow::linkActionToMenu()
     m_ui->m_newWebViewACt->setData(static_cast<int>(CleverURI::WEBVIEW));
 
     connect(m_ui->m_newMapAction, &QAction::triggered, this, fun);
-    connect(m_ui->m_addVectorialMap, &QAction::triggered, this, fun);
+    connect(m_ui->m_addVectorialMap, &QAction::triggered, this, &MainWindow::newVMap);
     connect(m_ui->m_newNoteAction, &QAction::triggered, this, fun);
     connect(m_ui->m_newSharedNote, &QAction::triggered, this, fun);
     connect(m_ui->m_newWebViewACt, &QAction::triggered, this, fun);
@@ -799,6 +802,26 @@ void MainWindow::updateWorkspace()
     }
 }
 
+void MainWindow::newVMap()
+{
+    MapWizzardDialog mapWizzard(m_mdiArea);
+    if(mapWizzard.exec())
+    {
+        auto ctrl= m_gameController->contentController();
+        std::map<QString, QVariant> params;
+        params.insert({QStringLiteral("title"), mapWizzard.name()});
+        params.insert({QStringLiteral("permission"), mapWizzard.permission()});
+        params.insert({QStringLiteral("bgcolor"), mapWizzard.backgroundColor()});
+        params.insert({QStringLiteral("gridSize"), mapWizzard.gridSize()});
+        params.insert({QStringLiteral("gridPattern"), mapWizzard.pattern()});
+        params.insert({QStringLiteral("gridColor"), mapWizzard.gridColor()});
+        params.insert({QStringLiteral("visibility"), mapWizzard.visibility()});
+        params.insert({QStringLiteral("scale"), mapWizzard.scale()});
+        params.insert({QStringLiteral("unit"), mapWizzard.unit()});
+        ctrl->newMedia(CleverURI::VMAP, params);
+    }
+}
+
 MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi)
 {
     MediaContainer* media= nullptr;
@@ -820,21 +843,7 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi
     break;
     case CleverURI::VMAP:
     {
-        /*  MapWizzardDialog mapWizzard(m_mdiArea);
-          if(mapWizzard.exec())
-          {
-              VMap* tempmap= new VMap();
-              if(nullptr != tempmap)
-              {
-                  tempmap->setOption(VisualItem::LocalIsGM, localIsGM);
-              }
-              mapWizzard.setAllMap(tempmap);
-              QString name= tempmap->getMapTitle();
-              uri->setName(name);
-              //VMapFrame* tmp= new VMapFrame(localIsGM, uri, tempmap);
-              prepareVMap(tmp);
-              media= tmp;
-          }*/
+        /*  */
     }
     break;
     case CleverURI::MAP:
@@ -1066,14 +1075,14 @@ bool MainWindow::saveMinutes()
     auto const& values= m_mediaHash.values();
     for(auto& edit : values)
     {
-        if(CleverURI::TEXT == edit->getContentType())
-        {
-            NoteContainer* note= dynamic_cast<NoteContainer*>(edit);
-            if(nullptr != note)
-            {
-                note->saveMedia();
-            }
-        }
+        /*  if(CleverURI::TEXT == edit->getContentType())
+          {
+              NoteContainer* note= dynamic_cast<NoteContainer*>(edit);
+              if(nullptr != note)
+              {
+                  note->saveMedia();
+              }
+          }*/
     }
     return true;
 }
@@ -2364,7 +2373,7 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
 
     if(tmp != nullptr)
     {
-        tmp->setCleverUriType(type);
+        // tmp->setCleverUriType(type);
         if(tmp->openMedia())
         {
             if(tmp->readFileFromUri())

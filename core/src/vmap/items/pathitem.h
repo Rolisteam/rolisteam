@@ -22,6 +22,7 @@
 
 #include "visualitem.h"
 #include <QPen>
+class VisualItemController;
 /**
  * @brief map item to paint a path on the scene/map
  */
@@ -29,7 +30,7 @@ class PathItem : public VisualItem
 {
     Q_OBJECT
 public:
-    PathItem(const std::map<Core::Properties, QVariant>& properties);
+    PathItem(VisualItemController* ctrl);
     /**
      * @brief override function to paint itself.
      */
@@ -41,7 +42,7 @@ public:
     /**
      * @brief adds new point at the end
      */
-    virtual void setNewEnd(QPointF& nend) override;
+    virtual void setNewEnd(const QPointF& nend) override;
     /**
      * @brief accessor to the shape of path, better definition than boudingRect
      */

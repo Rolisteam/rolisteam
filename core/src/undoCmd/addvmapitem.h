@@ -25,54 +25,45 @@
 #include <QUndoCommand>
 
 class VectorialMapController;
+class VisualItemControllerManager;
 class AddVmapItemCommand : public QUndoCommand
 {
 public:
-    AddVmapItemCommand(Core::SelectableTool tool, VectorialMapController* ctrl,
-                       const std::map<Core::Properties, QVariant>& properties, QPointF& pos, QColor& color,
-                       quint16 penSize, QUndoCommand* parent= nullptr);
-
-    AddVmapItemCommand(VisualItem* item, bool addMapLayer, VectorialMapController* ctrl, QUndoCommand* parent= nullptr);
+    AddVmapItemCommand(VectorialMapController* ctrl, VisualItemControllerManager* visualCtrl,
+                       const std::map<QString, QVariant>& args, QUndoCommand* parent= nullptr);
 
     void undo() override;
     void redo() override;
 
-    template <class T>
-    T* getItem() const;
-    VisualItem* getItem() const;
-    VisualItem* getPath() const;
+    /*    template <class T>
+        T* getItem() const;
+        VisualItem* getItem() const;
+        VisualItem* getPath() const;
 
-    QString getLocalUserId() const;
-    void setLocalUserId(const QString& localUserId);
+        QString getLocalUserId() const;
+        void setLocalUserId(const QString& localUserId);
 
-    bool hasError() const;
-    void setError(bool error);
+        bool hasError() const;
+        void setError(bool error);
 
-    bool isNpc() const;
+        bool isNpc() const;
 
-    bool isUndoable() const;
-    void setUndoable(bool undoable);
+        bool isUndoable() const;
+        void setUndoable(bool undoable);
 
-    bool getInitPoint() const;
-    void setInitPoint(bool initPoint);
-    bool hasToBeDeleted() const;
+        bool getInitPoint() const;
+        void setInitPoint(bool initPoint);
+        bool hasToBeDeleted() const;
 
-protected:
-    bool isVisible();
-    void initItem(bool addMapLayer);
+    protected:
+        bool isVisible();
+        void initItem(bool addMapLayer);*/
 
 private:
     QPointer<VectorialMapController> m_ctrl;
-    QPointF m_pos;
-    QColor m_color;
-    quint16 m_penSize;
-    VisualItem* m_currentPath= nullptr;
-    bool m_error= false;
-    Core::SelectableTool m_tool;
-    bool m_first= true;
-    bool m_undoable= true;
-    bool m_initPoint= true;
-    VisualItem* m_currentItem= nullptr;
+    QPointer<VisualItemControllerManager> m_visualCtrl;
+    std::map<QString, QVariant> m_params;
+    QString m_uuid;
 };
 
 #endif // ADDFIELDCOMMAND_H

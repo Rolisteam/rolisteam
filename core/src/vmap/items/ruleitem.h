@@ -27,13 +27,15 @@
 #include "vmap/vmap.h"
 
 #include <QPen>
+
+class VisualItemController;
 /**
  * @brief The RuleItem class ephemeral item to display rule and measure the distance between two points.
  */
 class RuleItem : public VisualItem
 {
 public:
-    RuleItem(const std::map<Core::Properties, QVariant>& properties);
+    RuleItem(VisualItemController* ctrl);
     // RuleItem(QPointF& p);
 
     ~RuleItem();
@@ -48,7 +50,7 @@ public:
     /**
      * @brief defines new position of the end line.
      */
-    virtual void setNewEnd(QPointF& nend);
+    virtual void setNewEnd(const QPointF& nend);
     /**
      * @brief serialisation writing
      */

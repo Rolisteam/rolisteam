@@ -21,12 +21,12 @@
 #include "notecontainer.h"
 
 NoteContainer::NoteContainer(bool localIsGM, QWidget* parent)
-    : MediaContainer(MediaContainer::ContainerType::NoteContainer, localIsGM, parent), m_edit(new TextEdit())
+    : MediaContainer(nullptr, MediaContainer::ContainerType::NoteContainer, localIsGM, parent), m_edit(new TextEdit())
 {
 #ifdef Q_OS_MAC
     m_edit->menuBar()->setNativeMenuBar(false);
 #endif
-    setCleverUriType(CleverURI::TEXT);
+    // setCleverUriType(CleverURI::TEXT);
     setWidget(m_edit);
     setWindowIcon(QIcon(":/notes.png"));
     connect(m_edit, SIGNAL(fileNameChanged(QString)), this, SLOT(setFileName(QString)));
@@ -34,10 +34,10 @@ NoteContainer::NoteContainer(bool localIsGM, QWidget* parent)
 
 void NoteContainer::setFileName(QString str)
 {
-    if(nullptr != m_uri)
+    /*if(nullptr != m_uri)
     {
         m_uri->setUri(str);
-    }
+    }*/
     setWindowModified(false);
     updateTitle();
 }
@@ -52,25 +52,25 @@ void NoteContainer::updateTitle()
 
 bool NoteContainer::readFileFromUri()
 {
-    if((nullptr == m_uri) || (nullptr == m_edit))
-    {
-        return false;
-    }
-    bool val= false;
-    if(!m_uri->exists())
-    {
-        QByteArray array= m_uri->getData();
-        QDataStream in(&array, QIODevice::ReadOnly);
-        in.setVersion(QDataStream::Qt_5_7);
-        readFromFile(in);
-        val= true;
-    }
-    else
-    {
-        val= m_edit->load(m_uri->getUri());
-    }
-    updateTitle();
-    return val;
+    /* if((nullptr == m_uri) || (nullptr == m_edit))
+     {
+         return false;
+     }
+     bool val= false;
+     if(!m_uri->exists())
+     {
+         QByteArray array= m_uri->getData();
+         QDataStream in(&array, QIODevice::ReadOnly);
+         in.setVersion(QDataStream::Qt_5_7);
+         readFromFile(in);
+         val= true;
+     }
+     else
+     {
+         val= m_edit->load(m_uri->getUri());
+     }
+     updateTitle();*/
+    return false;
 }
 
 void NoteContainer::saveMedia()
@@ -79,7 +79,7 @@ void NoteContainer::saveMedia()
     {
         m_edit->fileSave();
         QString uri= m_edit->getFileName();
-        m_uri->setUri(uri);
+        // m_uri->setUri(uri);
     }
 }
 void NoteContainer::putDataIntoCleverUri()
@@ -90,10 +90,10 @@ void NoteContainer::putDataIntoCleverUri()
         QDataStream out(&data, QIODevice::WriteOnly);
         out.setVersion(QDataStream::Qt_5_7);
         m_edit->saveFileAsBinary(out);
-        if(nullptr != m_uri)
-        {
-            m_uri->setData(data);
-        }
+        /*    if(nullptr != m_uri)
+            {
+                m_uri->setData(data);
+            }*/
     }
 }
 

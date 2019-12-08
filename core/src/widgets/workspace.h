@@ -31,6 +31,7 @@
 
 class ContentController;
 class ImageController;
+class VectorialMapController;
 /**
  * @brief The ImprovedWorkspace class
  */
@@ -79,6 +80,8 @@ public:
     QVector<QMdiSubWindow*> getAllSubWindowFromId(const QString& id) const;
 signals:
     void removedAction(QAction*);
+    void vmapActive();
+    void oldMapActive();
 
 public slots:
     void setTabbedMode(bool);
@@ -87,6 +90,7 @@ public slots:
 
 protected slots:
     void addImage(ImageController* ctrl);
+    void addVectorialMap(VectorialMapController* ctrl);
 
 protected:
     void resizeEvent(QResizeEvent* event);

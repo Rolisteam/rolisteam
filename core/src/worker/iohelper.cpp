@@ -42,106 +42,133 @@ IOHelper::IOHelper() {}
 
 bool IOHelper::loadVMap(VMap* vmap, CleverURI* uri, VectorialMapController* ctrl)
 {
-    if(vmap == nullptr || nullptr == uri || nullptr == ctrl)
-        return false;
+    /*  if(vmap == nullptr || nullptr == uri || nullptr == ctrl)
+          return false;
 
-    auto path= uri->getUri();
-    QIODevice* device= nullptr;
-    if(!path.isEmpty() && uri->loadingMode() == CleverURI::Linked)
-        device= new QFile(path);
-    else if(uri->hasData() && uri->loadingMode() == CleverURI::Internal)
-    {
-        auto data= uri->getData();
-        device= new QBuffer(&data);
-    }
+      auto path= uri->getUri();
+      QIODevice* device= nullptr;
+      if(!path.isEmpty() && uri->loadingMode() == CleverURI::Linked)
+          device= new QFile(path);
+      else if(uri->hasData() && uri->loadingMode() == CleverURI::Internal)
+      {
+          auto data= uri->getData();
+          device= new QBuffer(&data);
+      }
 
-    if(!device->open(QIODevice::ReadOnly))
-        return false;
-    QDataStream reader(device);
-    reader.setVersion(QDataStream::Qt_5_7);
+      if(!device->open(QIODevice::ReadOnly))
+          return false;
+      QDataStream reader(device);
+      reader.setVersion(QDataStream::Qt_5_7);
 
-    int zIndex, propertyCount, itemCount;
-    QString name;
-    QColor bgColor;
+      int zIndex, propertyCount, itemCount;
+      QString name;
+      QColor bgColor;
 
-    reader >> name;
-    reader >> bgColor;
-    reader >> zIndex;
-    reader >> propertyCount;
+      reader >> name;
+      reader >> bgColor;
+      reader >> zIndex;
+      reader >> propertyCount;
 
-    ctrl->setName(name);
-    ctrl->setBackgroundColor(bgColor);
+      ctrl->setName(name);
+      ctrl->setBackgroundColor(bgColor);
 
-    std::map<Core::Properties, QVariant> properties;
-    for(int i= 0; i < propertyCount; ++i)
-    {
-        int pro;
-        QVariant value;
-        reader >> pro;
-        reader >> value;
-        properties.insert({static_cast<Core::Properties>(pro), value});
-    }
-    std::for_each(properties.begin(), properties.end(), [ctrl](const std::pair<Core::Properties, QVariant>& pair) {
-        ctrl->setOption(pair.first, pair.second);
-    });
+      bool b;
+      reader >> b;
+      ctrl->setNpcNameVisible(b);
+      reader >> b;
+      ctrl->setPcNameVisible(b);
+      reader >> b;
+      ctrl->setNpcNumberVisible(b);
+      reader >> b;
+      ctrl->setHealthBarVisible(b);
+      reader >> b;
+      ctrl->setInitScoreVisible(b);
+      reader >> b;
+      ctrl->setGridVisibility(b);
+      int interger;
+      reader >> interger;
+      ctrl->setGridPattern(static_cast<Core::GridPattern>(interger));
+      QColor color;
+      reader >> color;
+      ctrl->setGridColor(color);
+      reader >> interger;
+      ctrl->setGridSize(interger);
+      qreal real;
+      reader >> real;
+      ctrl->setGridScale(real);
+      reader >> interger;
+      ctrl->setScaleUnit(static_cast<Core::ScaleUnit>(interger));
+      reader >> b;
+      ctrl->setCharacterVision(b);
+      reader >> interger;
+      ctrl->setPermission(static_cast<Core::PermissionMode>(interger));
+      reader >> b;
+      ctrl->setCollision(b);
+      reader >> b;
+      ctrl->setGridAbove(b);
+      reader >> interger;
+      ctrl->setVisibility(static_cast<Core::VisibilityMode>(interger));
+      reader >> b;
+      ctrl->setHealthBarVisible(b);
+      reader >> interger;
+      ctrl->setLayer(static_cast<Core::Layer>(interger));*/
 
     /*auto fogItem= vmap->getFogItem();
     reader >> *fogItem;*/
 
-    reader >> itemCount;
-    for(int i= 0; i < itemCount; ++i)
-    {
-        VisualItem* item= nullptr;
-        int contentType;
-        reader >> contentType;
+    /* reader >> itemCount;
+     for(int i= 0; i < itemCount; ++i)
+     {
+         VisualItem* item= nullptr;
+         int contentType;
+         reader >> contentType;
 
-        switch(static_cast<VisualItem::ItemType>(contentType))
-        {
-        case VisualItem::TEXT:
-            item= new TextItem(properties);
-            break;
-        case VisualItem::CHARACTER:
-            item= new CharacterItem(properties);
-            break;
-        case VisualItem::LINE:
-            item= new LineItem(properties);
+         switch(static_cast<VisualItem::ItemType>(contentType))
+         {
+         case VisualItem::TEXT:
+             item= new TextItem(ctrl);
+             break;
+         case VisualItem::CHARACTER:
+             item= new CharacterItem(ctrl);
+             break;
+         case VisualItem::LINE:
+             item= new LineItem(ctrl);
 
-            break;
-        case VisualItem::RECT:
-            item= new RectItem(properties);
-            break;
-        case VisualItem::ELLISPE:
-            item= new EllipsItem(properties);
+             break;
+         case VisualItem::RECT:
+             item= new RectItem(ctrl);
+             break;
+         case VisualItem::ELLISPE:
+             item= new EllipsItem(ctrl);
+             break;
+         case VisualItem::PATH:
+             item= new PathItem(ctrl);
+             break;
+         case VisualItem::SIGHT:
+             item= vmap->getFogItem();
+             break;
+         case VisualItem::GRID:
+             item= vmap->getGridItem();
+             break;
+         case VisualItem::IMAGE:
+             item= new ImageItem(ctrl);
+             break;
+         default:
+             break;
+         }
+         if(nullptr == item)
+             continue;
 
-            break;
-        case VisualItem::PATH:
-            item= new PathItem(properties);
-            break;
-        case VisualItem::SIGHT:
-            item= vmap->getFogItem();
-            break;
-        case VisualItem::GRID:
-            item= vmap->getGridItem();
-            break;
-        case VisualItem::IMAGE:
-            item= new ImageItem();
-            break;
-        default:
-            break;
-        }
-        if(nullptr == item)
-            continue;
+         reader >> *item;
 
-        reader >> *item;
+         qreal x, y;
+         reader >> x;
+         reader >> y;
+         // addNewItem(new AddVmapItemCommand(item, false, this), false);
+         vmap->addItem(item);
 
-        qreal x, y;
-        reader >> x;
-        reader >> y;
-        // addNewItem(new AddVmapItemCommand(item, false, this), false);
-        vmap->addItem(item);
-
-        item->setPos(x, y);
-        item->initChildPointItem();
-    }
+         item->setPos(x, y);
+         item->initChildPointItem();
+     }*/
     return true;
 }

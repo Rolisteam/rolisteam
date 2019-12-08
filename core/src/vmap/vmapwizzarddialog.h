@@ -28,7 +28,7 @@
 
 namespace Ui
 {
-    class MapWizzardDialog;
+class MapWizzardDialog;
 }
 
 class PreferencesManager;
@@ -43,22 +43,22 @@ public:
      * @brief constructor
      * @param parent, pointer to the parent widget.
      */
-    MapWizzardDialog(QWidget* parent= 0);
+    MapWizzardDialog(QWidget* parent= nullptr);
     /**
      * @brief destructor
      */
     ~MapWizzardDialog();
+    QString name() const;
+    QColor backgroundColor() const;
+    int gridSize() const;
+    QColor gridColor() const;
+    Core::GridPattern pattern() const;
+    Core::PermissionMode permission() const;
+    Core::VisibilityMode visibility() const;
+    Core::ScaleUnit unit() const;
+    qreal scale() const;
 
-    /**
-     * @brief updateDataFrom
-     * @param map
-     */
-    void updateDataFrom(VMap* map);
-    /**
-     * @brief Define all paramaters of the map.
-     * @param map must be fully defined.
-     */
-    void setAllMap(VMap* map);
+    void updateUI();
 
 protected:
     /**
@@ -71,18 +71,13 @@ private slots:
     /**
      * @brief slot called when user changed the shape of the future map.
      */
-    void selectedShapeChanged();
+    // void selectedShapeChanged();
 
 private:
     /**
      * @brief pointer to the user interface Qt designer
      */
     Ui::MapWizzardDialog* ui;
-    /**
-     * @brief color used for painting the background
-     */
-    QColor m_bgColor;
-
     /**
      * @brief pointer to the unique instance of preference manager.
      */
@@ -97,11 +92,6 @@ private:
      */
     QStringList m_permissionData;
     QStringList m_visibilityData;
-
-    QVector<QSize> m_sizeList;
-
-    int m_width;
-    int m_height;
 };
 
 #endif // MAPWIZZARDDIALOG_H

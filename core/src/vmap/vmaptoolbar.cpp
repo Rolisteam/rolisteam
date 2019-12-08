@@ -19,8 +19,9 @@
  ***************************************************************************/
 
 #include "vmaptoolbar.h"
+#include "controller/media_controller/vectorialmapmediacontroller.h"
 
-VmapToolBar::VmapToolBar(QWidget* parent) : QToolBar(parent), m_vmap(nullptr)
+VmapToolBar::VmapToolBar(VectorialMapMediaController* ctrl, QWidget* parent) : QToolBar(parent), m_ctrl(ctrl)
 {
     setObjectName("VMapToolBar");
     setWindowTitle(tr("Toolbar for VMap"));
@@ -112,143 +113,149 @@ void VmapToolBar::setupUi()
     connect(m_showOnlyItemsFromThisLayer, SIGNAL(clicked(bool)), this, SLOT(managedAction()));
     connect(m_showGridAct, SIGNAL(triggered()), this, SLOT(triggerGrid()));
     connect(m_gridAbove, &QCheckBox::toggled, this, [=](bool b) {
-        if(nullptr != m_vmap)
+        //  if(nullptr != m_vmap)
         {
-            m_vmap->setOption(VisualItem::GridAbove, b);
+            // m_vmap->setOption(VisualItem::GridAbove, b);
         }
     });
-    connect(m_gridUnit, SIGNAL(currentIndexChanged(int)), this, SLOT(setUnit()));
-    connect(m_bgSelector, SIGNAL(colorChanged(QColor)), this, SLOT(setBackgroundColor(QColor)));
-    connect(m_gridSize, SIGNAL(valueChanged(int)), this, SLOT(setPatternSize(int)));
-    connect(m_scaleSize, SIGNAL(valueChanged(double)), this, SLOT(setScaleSize(double)));
+    connect(m_gridUnit, QOverload<int>::of(&QComboBox::currentIndexChanged), m_ctrl,
+            [this](int value) { m_ctrl->setGridUnit(static_cast<Core::ScaleUnit>(value)); });
+    connect(m_bgSelector, &ColorButton::colorChanged, m_ctrl, &VectorialMapMediaController::setBackgroundColor);
+    connect(m_gridSize, QOverload<int>::of(&QSpinBox::valueChanged), m_ctrl, &VectorialMapMediaController::setGridSize);
+    connect(m_scaleSize, QOverload<double>::of(&QDoubleSpinBox::valueChanged), m_ctrl,
+            &VectorialMapMediaController::setGridScale);
 
-    connect(m_currentVisibility, SIGNAL(currentIndexChanged(int)), this, SLOT(visibilityHasChanged(int)));
-    connect(m_currentPermission, SIGNAL(currentIndexChanged(int)), this, SLOT(permissionHasChanged(int)));
-    connect(m_currentLayer, SIGNAL(currentIndexChanged(int)), this, SLOT(layerHasChanged(int)));
+    connect(m_currentVisibility, QOverload<int>::of(&QComboBox::currentIndexChanged), m_ctrl,
+            [this](int value) { m_ctrl->setVisibilityMode(static_cast<Core::VisibilityMode>(value)); });
+    connect(m_currentPermission, QOverload<int>::of(&QComboBox::currentIndexChanged), m_ctrl,
+            [this](int value) { m_ctrl->setPermissionMode(static_cast<Core::PermissionMode>(value)); });
+    connect(m_currentLayer, QOverload<int>::of(&QComboBox::currentIndexChanged), m_ctrl,
+            [this](int value) { m_ctrl->setLayer(static_cast<Core::Layer>(value)); });
 
-    connect(m_gridPattern, SIGNAL(currentIndexChanged(int)), this, SLOT(patternChanged(int)));
-    connect(m_showCharacterVision, &QToolButton::clicked, this, &VmapToolBar::managedAction);
-    connect(m_collision, SIGNAL(clicked(bool)), this, SLOT(managedAction()));
-    connect(m_showTransparentItem, SIGNAL(triggered()), this, SLOT(managedAction()));
+    connect(m_gridPattern, QOverload<int>::of(&QComboBox::currentIndexChanged), m_ctrl,
+            [this](int value) { m_ctrl->setGridPattern(static_cast<Core::GridPattern>(value)); });
+    connect(m_showCharacterVision, &QToolButton::clicked, m_ctrl, &VectorialMapMediaController::setCharacterVision);
+    connect(m_collision, &QCheckBox::clicked, m_ctrl, &VectorialMapMediaController::setCollision);
+    connect(m_showTransparentItem, &QAction::triggered, m_ctrl, &VectorialMapMediaController::showTransparentItem);
 }
 void VmapToolBar::setCurrentMap(VMap* map)
 {
-    if(m_vmap != nullptr)
-        disconnect(m_vmap);
+    /*  if(m_vmap != nullptr)
+          disconnect(m_vmap);
 
-    m_vmap= map;
+      m_vmap= map;
 
-    if(m_vmap)
-    {
-        connect(m_vmap, &VMap::mapChanged, this, &VmapToolBar::updateUI);
-    }
+      if(m_vmap)
+      {
+          connect(m_vmap, &VMap::mapChanged, this, &VmapToolBar::updateUI);
+      }*/
     updateUI();
 }
 void VmapToolBar::triggerGrid()
 {
-    if(nullptr != m_vmap)
+    // if(nullptr != m_vmap)
     {
-        m_vmap->setOption(VisualItem::ShowGrid, m_showGridAct->isChecked());
+        // m_vmap->setOption(VisualItem::ShowGrid, m_showGridAct->isChecked());
     }
 }
 void VmapToolBar::setUnit()
 {
-    if(nullptr != m_vmap)
+    // if(nullptr != m_vmap)
     {
-        m_vmap->setOption(VisualItem::Unit, m_gridUnit->currentIndex());
+        //  m_vmap->setOption(VisualItem::Unit, m_gridUnit->currentIndex());
     }
 }
 
 void VmapToolBar::patternChanged(int index)
 {
-    if(nullptr != m_vmap)
+    // if(nullptr != m_vmap)
     {
-        m_vmap->setOption(VisualItem::GridPattern, index);
+        //  m_vmap->setOption(VisualItem::GridPattern, index);
     }
 }
 
 void VmapToolBar::visibilityHasChanged(int index)
 {
-    if(nullptr != m_vmap)
+    // if(nullptr != m_vmap)
     {
-        m_vmap->setVisibilityMode(static_cast<Core::VisibilityMode>(index));
+        // m_vmap->setVisibilityMode(static_cast<Core::VisibilityMode>(index));
     }
 }
 void VmapToolBar::permissionHasChanged(int index)
 {
-    if(nullptr != m_vmap)
+    //  if(nullptr != m_vmap)
     {
-        m_vmap->setPermissionMode(static_cast<Core::PermissionMode>(index));
+        //  m_vmap->setPermissionMode(static_cast<Core::PermissionMode>(index));
     }
 }
 void VmapToolBar::layerHasChanged(int index)
 {
-    if(nullptr != m_vmap)
+    // if(nullptr != m_vmap)
     {
-        m_vmap->setCurrentLayer(static_cast<Core::Layer>(index));
+        //  m_vmap->setCurrentLayer(static_cast<Core::Layer>(index));
     }
 }
 void VmapToolBar::updateUI()
 {
-    if(nullptr != m_vmap)
+    // if(nullptr != m_vmap)
     {
         setEnabled(true);
         // m_bgSelector->setColor(m_vmap->getBackGroundColor());
-        m_showGridAct->setChecked(m_vmap->getOption(VisualItem::ShowGrid).toBool());
-        m_gridSize->setValue(m_vmap->getOption(VisualItem::GridSize).toInt());
-        m_currentLayer->setCurrentIndex(static_cast<int>(m_vmap->currentLayer()));
-        m_showCharacterVision->setChecked(m_vmap->getOption(VisualItem::EnableCharacterVision).toBool());
-        m_gridUnit->setCurrentIndex(m_vmap->getOption(VisualItem::Unit).toInt());
-        m_currentPermission->setCurrentIndex(m_vmap->getOption(VisualItem::PermissionMode).toInt());
-        m_currentVisibility->setCurrentIndex(m_vmap->getOption(VisualItem::VisibilityMode).toInt());
-        m_gridPattern->setCurrentIndex(m_vmap->getOption(VisualItem::GridPattern).toInt());
-        m_collision->setChecked(m_vmap->getOption(VisualItem::CollisionStatus).toBool());
-        m_showOnlyItemsFromThisLayer->setChecked(m_vmap->getOption(VisualItem::HideOtherLayers).toBool());
-        m_currentLayer->setCurrentIndex(m_vmap->getOption(VisualItem::MapLayer).toInt());
-        m_gridAbove->setChecked(m_vmap->getOption(VisualItem::GridAbove).toBool());
-        m_scaleSize->setValue(m_vmap->getOption(VisualItem::Scale).toReal());
+        /*     m_showGridAct->setChecked(m_vmap->getOption(VisualItem::ShowGrid).toBool());
+             m_gridSize->setValue(m_vmap->getOption(VisualItem::GridSize).toInt());
+             m_currentLayer->setCurrentIndex(static_cast<int>(m_vmap->currentLayer()));
+             m_showCharacterVision->setChecked(m_vmap->getOption(VisualItem::EnableCharacterVision).toBool());
+             m_gridUnit->setCurrentIndex(m_vmap->getOption(VisualItem::Unit).toInt());
+             m_currentPermission->setCurrentIndex(m_vmap->getOption(VisualItem::PermissionMode).toInt());
+             m_currentVisibility->setCurrentIndex(m_vmap->getOption(VisualItem::VisibilityMode).toInt());
+             m_gridPattern->setCurrentIndex(m_vmap->getOption(VisualItem::GridPattern).toInt());
+             m_collision->setChecked(m_vmap->getOption(VisualItem::CollisionStatus).toBool());
+             m_showOnlyItemsFromThisLayer->setChecked(m_vmap->getOption(VisualItem::HideOtherLayers).toBool());
+             m_currentLayer->setCurrentIndex(m_vmap->getOption(VisualItem::MapLayer).toInt());
+             m_gridAbove->setChecked(m_vmap->getOption(VisualItem::GridAbove).toBool());
+             m_scaleSize->setValue(m_vmap->getOption(VisualItem::Scale).toReal());*/
     }
-    else
-    {
-        setEnabled(false);
-    }
+    /*  else
+      {
+          setEnabled(false);
+      }*/
 }
 void VmapToolBar::setPatternSize(int p)
 {
-    if(nullptr != m_vmap)
+    //  if(nullptr != m_vmap)
     {
-        m_vmap->setOption(VisualItem::GridSize, p);
+        // m_vmap->setOption(VisualItem::GridSize, p);
     }
 }
 void VmapToolBar::setScaleSize(double p)
 {
-    if(nullptr != m_vmap)
+    //  if(nullptr != m_vmap)
     {
-        m_vmap->setOption(VisualItem::Scale, p);
+        // m_vmap->setOption(VisualItem::Scale, p);
     }
 }
 
 void VmapToolBar::managedAction()
 {
-    if(nullptr == m_vmap)
+    //  if(nullptr == m_vmap)
     {
         return;
     }
     QObject* obj= sender();
     if(obj == m_showCharacterVision)
     {
-        m_vmap->setOption(VisualItem::EnableCharacterVision, m_showCharacterVision->isChecked());
+        // m_vmap->setOption(VisualItem::EnableCharacterVision, m_showCharacterVision->isChecked());
     }
     else if(obj == m_collision)
     {
-        m_vmap->setOption(VisualItem::CollisionStatus, m_collision->isChecked());
+        // m_vmap->setOption(VisualItem::CollisionStatus, m_collision->isChecked());
     }
     else if(obj == m_showOnlyItemsFromThisLayer)
     {
-        m_vmap->setOption(VisualItem::HideOtherLayers, m_showOnlyItemsFromThisLayer->isChecked());
+        // m_vmap->setOption(VisualItem::HideOtherLayers, m_showOnlyItemsFromThisLayer->isChecked());
     }
     else if(obj == m_showTransparentItem)
     {
-        m_vmap->showTransparentItems();
+        //  m_vmap->showTransparentItems();
     }
 }

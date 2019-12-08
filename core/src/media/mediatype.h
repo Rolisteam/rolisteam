@@ -31,6 +31,7 @@ enum PermissionMode
     PC_MOVE,
     PC_ALL
 };
+Q_ENUM_NS(PermissionMode)
 
 enum VisibilityMode
 {
@@ -38,6 +39,7 @@ enum VisibilityMode
     FOGOFWAR,
     ALL
 };
+Q_ENUM_NS(VisibilityMode)
 
 enum GridPattern
 {
@@ -46,6 +48,7 @@ enum GridPattern
     HEXAGON,
     OCTOGON
 };
+Q_ENUM_NS(GridPattern)
 
 enum ScaleUnit
 {
@@ -58,6 +61,7 @@ enum ScaleUnit
     FEET,
     PX
 };
+Q_ENUM_NS(ScaleUnit)
 
 enum CharacterScope
 {
@@ -92,6 +96,7 @@ enum SelectableTool
     BUCKET,
     HIGHLIGHTER
 };
+Q_ENUM_NS(SelectableTool)
 
 enum Properties
 {

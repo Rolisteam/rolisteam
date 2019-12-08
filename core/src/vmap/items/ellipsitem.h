@@ -20,13 +20,15 @@
 #ifndef ELLIPSITEM_H
 #define ELLIPSITEM_H
 #include "visualitem.h"
+
+class VisualItemController;
 /**
  * @brief displays an ellipse on maps.
  */
 class EllipsItem : public VisualItem
 {
 public:
-    EllipsItem(const std::map<Core::Properties, QVariant>& properties);
+    EllipsItem(VisualItemController* ctrl);
     /**
      * @brief constructor with parameters
      * @param center first point clicked by the user
@@ -44,7 +46,7 @@ public:
     /**
      * @brief modifies the ellipse size and shape.
      */
-    virtual void setNewEnd(QPointF& nend) override;
+    virtual void setNewEnd(const QPointF& nend) override;
 
     /**
      * @brief gives the bounding rect of the ellipse

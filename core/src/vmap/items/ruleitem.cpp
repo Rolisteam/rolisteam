@@ -19,12 +19,13 @@
  ***************************************************************************/
 
 #include "ruleitem.h"
+
+#include "vmap/controller/visualitemcontroller.h"
 #define PEN_WIDTH 3
 #define FONT_SIZE 15
 qreal RuleItem::m_zoomFactor= 1;
 
-RuleItem::RuleItem(const std::map<Core::Properties, QVariant>& properties)
-    : VisualItem(properties), m_pen(QColor(Qt::red))
+RuleItem::RuleItem(VisualItemController* ctrl) : VisualItem(ctrl), m_pen(QColor(Qt::red))
 {
     // setFlag(QGraphicsItem::ItemIgnoresTransformations,true);
 }
@@ -38,8 +39,9 @@ VisualItem::ItemType RuleItem::getType() const
 {
     return VisualItem::RULE;
 }
-void RuleItem::setNewEnd(QPointF& nend)
+void RuleItem::setNewEnd(const QPointF& nendConst)
 {
+    auto nend= nendConst;
     if(m_mod & Qt::ControlModifier)
     {
         QLineF line(m_startPoint, nend);

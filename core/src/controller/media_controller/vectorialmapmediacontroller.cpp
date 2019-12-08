@@ -18,12 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "vectorialmapmediacontroller.h"
-#include "network/networkmessagereader.h"
-#include "network/receiveevent.h"
+
+#include <QUndoStack>
+#include <map>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "network/networkmessagereader.h"
+#include "network/receiveevent.h"
 #include "vmap/vmapframe.h"
-#include <map>
 
 VectorialMapController* findActive(const std::vector<std::unique_ptr<VectorialMapController>>& vmaps)
 {
@@ -107,6 +109,11 @@ NetWorkReceiver::SendType VectorialMapMediaController::processMessage(NetworkMes
     return type;
 }
 
+void VectorialMapMediaController::setUndoStack(QUndoStack* stack)
+{
+    m_stack= stack;
+}
+
 Core::SelectableTool VectorialMapMediaController::tool() const
 {
     auto ctrl= findActive(m_vmaps);
@@ -132,9 +139,20 @@ bool VectorialMapMediaController::openMedia(CleverURI* uri, const std::map<QStri
         return false;
 
     std::unique_ptr<VectorialMapController> vmapCtrl(new VectorialMapController(uri));
-    vmapCtrl->setPermission(static_cast<Core::PermissionMode>(args.at(QStringLiteral("permission")).toInt()));
 
-    connect(vmapCtrl.get(), &VectorialMapController::isActive, this, &VectorialMapMediaController::updateProperties);
+    vmapCtrl->setPermission(args.at(QStringLiteral("permission")).value<Core::PermissionMode>());
+    vmapCtrl->setName(args.at(QStringLiteral("title")).toString());
+    vmapCtrl->setBackgroundColor(args.at(QStringLiteral("bgcolor")).value<QColor>());
+    vmapCtrl->setGridSize(args.at(QStringLiteral("gridSize")).toInt());
+    vmapCtrl->setGridPattern(args.at(QStringLiteral("gridPattern")).value<Core::GridPattern>());
+    vmapCtrl->setGridColor(args.at(QStringLiteral("gridColor")).value<QColor>());
+    vmapCtrl->setVisibility(args.at(QStringLiteral("visibility")).value<Core::VisibilityMode>());
+    vmapCtrl->setGridScale(args.at(QStringLiteral("scale")).toDouble());
+    vmapCtrl->setScaleUnit(args.at(QStringLiteral("unit")).value<Core::ScaleUnit>());
+
+    connect(vmapCtrl.get(), &VectorialMapController::activeChanged, this,
+            &VectorialMapMediaController::updateProperties);
+    connect(vmapCtrl.get(), &VectorialMapController::performCommand, m_stack, &QUndoStack::push);
     emit vmapControllerCreated(vmapCtrl.get());
     // MessageHelper::sendOffVMap(vmapCtrl.get());
     m_vmaps.push_back(std::move(vmapCtrl));
@@ -203,4 +221,90 @@ void VectorialMapMediaController::setTool(Core::SelectableTool tool)
     if(nullptr == ctrl)
         return;
     ctrl->setTool(tool);
+}
+void VectorialMapMediaController::setCharacterVision(bool b)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setCharacterVision(b);
+}
+
+void VectorialMapMediaController::setGridUnit(Core::ScaleUnit unit)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setScaleUnit(unit);
+}
+
+void VectorialMapMediaController::setGridSize(int size)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setGridSize(size);
+}
+
+void VectorialMapMediaController::setGridScale(double scale)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setGridScale(scale);
+}
+
+void VectorialMapMediaController::setVisibilityMode(Core::VisibilityMode mode)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setVisibility(mode);
+}
+
+void VectorialMapMediaController::setPermissionMode(Core::PermissionMode mode)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setPermission(mode);
+}
+
+void VectorialMapMediaController::setLayer(Core::Layer layer)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setLayer(layer);
+}
+
+void VectorialMapMediaController::setGridPattern(Core::GridPattern pattern)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setGridPattern(pattern);
+}
+
+void VectorialMapMediaController::setCollision(bool b)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setCollision(b);
+}
+
+void VectorialMapMediaController::showTransparentItem()
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    // ctrl->setGridScale(scale);
+}
+void VectorialMapMediaController::setBackgroundColor(const QColor& color)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setBackgroundColor(color);
 }

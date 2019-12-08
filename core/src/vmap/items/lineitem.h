@@ -22,13 +22,14 @@
 
 #include "visualitem.h"
 #include <QPen>
+class VisualItemController;
 /**
  * @brief displays a line on maps.
  */
 class LineItem : public VisualItem
 {
 public:
-    LineItem(const std::map<Core::Properties, QVariant>& properties);
+    LineItem(VisualItemController* ctrl);
     /**
      * @brief constructor with parameters
      */
@@ -50,7 +51,7 @@ public:
     /**
      * @brief defines new position of the end line.
      */
-    virtual void setNewEnd(QPointF& nend) override;
+    virtual void setNewEnd(const QPointF& nend) override;
     /**
      * @brief serialisation writing
      */

@@ -45,6 +45,7 @@ RGraphicsView::RGraphicsView(VectorialMapController* ctrl, QWidget* parent)
         connect(m_vmap, SIGNAL(mapChanged()), this, SLOT(sendOffMapChange()));
     }*/
     setAcceptDrops(true);
+    setAlignment((Qt::AlignLeft | Qt::AlignTop));
     m_preferences= PreferencesManager::getInstance();
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
@@ -168,8 +169,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
     bool licenseToModify= false;
 
     m_menuPoint= event->pos();
-    if((m_vmap->getOption(VisualItem::LocalIsGM).toBool())
-       || (m_vmap->getOption(VisualItem::PermissionMode).toInt() == Core::PC_ALL))
+    if((m_ctrl->localGM()) || (m_ctrl->permission() == Core::PC_ALL))
     {
         licenseToModify= true;
     }
@@ -237,7 +237,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
                 auto item= list.first();
                 item->addActionContextMenu(menu);
 
-                auto layer= item->getLayer();
+                /*auto layer= item->getLayer();
                 switch(layer)
                 {
                 case Core::Layer::GROUND:
@@ -251,7 +251,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
                     break;
                 default:
                     break;
-                }
+                }*/
             }
 
             auto overlapping= menu.addMenu(tr("Overlapping"));
@@ -286,7 +286,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
         menu.addSection(tr("Map"));
 
-        switch(m_vmap->currentLayer())
+        switch(m_ctrl->layer())
         {
         case Core::Layer::OBJECT:
             m_editObjectLayer->setChecked(true);
@@ -460,7 +460,7 @@ void RGraphicsView::setItemLayer(QList<VisualItem*> list, Core::Layer layer)
     {
         if(nullptr != item)
         {
-            item->setLayer(layer);
+            // item->setLayer(layer);
         }
     }
 }
@@ -620,14 +620,14 @@ void RGraphicsView::createAction()
 }
 void RGraphicsView::showMapProperties()
 {
-    MapWizzardDialog m_propertiesDialog;
+    // MapWizzardDialog m_propertiesDialog;
 
-    m_propertiesDialog.updateDataFrom(m_vmap);
-    if(m_propertiesDialog.exec())
+    // m_propertiesDialog.updateDataFrom(m_vmap);
+    // if(m_propertiesDialog.exec())
     {
-        m_propertiesDialog.setAllMap(m_vmap);
+        // m_propertiesDialog.setAllMap(m_vmap);
 
-        sendOffMapChange();
+        // sendOffMapChange();
     }
 }
 
@@ -668,7 +668,7 @@ void RGraphicsView::cleanInit()
 
 void RGraphicsView::sendOffMapChange()
 {
-    if((m_vmap->getOption(VisualItem::LocalIsGM).toBool()) || (m_vmap->getPermissionMode() == Core::PC_ALL))
+    if((m_ctrl->localGM()) || (m_ctrl->permission() == Core::PC_ALL))
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::vmapChanges);
         msg.string8(m_vmap->getId());
@@ -681,19 +681,17 @@ void RGraphicsView::changeLayer()
 {
     QAction* act= qobject_cast<QAction*>(sender());
 
-    if(static_cast<Core::Layer>(act->data().toInt()) != m_vmap->currentLayer())
+    if(static_cast<Core::Layer>(act->data().toInt()) != m_ctrl->layer())
     {
-        m_vmap->setCurrentLayer(static_cast<Core::Layer>(act->data().toInt()));
+        m_ctrl->setLayer(static_cast<Core::Layer>(act->data().toInt()));
         sendOffMapChange();
     }
 }
 void RGraphicsView::changeVisibility()
 {
     QAction* act= qobject_cast<QAction*>(sender());
-    if(m_vmap->setVisibilityMode(static_cast<Core::VisibilityMode>(act->data().toInt())))
-    {
-        sendOffMapChange();
-    }
+    m_ctrl->setVisibility(static_cast<Core::VisibilityMode>(act->data().toInt()));
+    // sendOffMapChange();
 }
 
 void RGraphicsView::setZoomFactor()
@@ -765,7 +763,7 @@ void RGraphicsView::resizeEvent(QResizeEvent* event)
 {
     // GM is the references
 
-    if((nullptr != scene()) && (m_vmap->getOption(VisualItem::LocalIsGM).toBool()))
+    if((nullptr != scene()) && m_ctrl->localGM())
     {
         if((geometry().width() > scene()->sceneRect().width())
            || ((geometry().height() > scene()->sceneRect().height())))

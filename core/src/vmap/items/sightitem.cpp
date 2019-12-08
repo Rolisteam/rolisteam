@@ -28,7 +28,9 @@
 #include <QStyleOptionGraphicsItem>
 #include <math.h>
 
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include "userlist/playermodel.h"
+#include "vmap/controller/visualitemcontroller.h"
 
 #include "data/character.h"
 #include "network/networkmessagereader.h"
@@ -87,8 +89,9 @@ void FogSingularity::setPolygon(QPolygonF* poly)
 /// Code SightItem
 /////////////////////////////////
 
-SightItem::SightItem(QMap<QString, CharacterItem*>* characterItemMap)
-    : m_defaultShape(CharacterVision::ANGLE)
+SightItem::SightItem(SightItemController* ctrl, QMap<QString, CharacterItem*>* characterItemMap)
+    : VisualItem(nullptr)
+    , m_defaultShape(CharacterVision::ANGLE)
     , m_defaultAngle(120)
     , m_defaultRadius(50)
     , m_characterItemMap(characterItemMap)
@@ -98,7 +101,7 @@ SightItem::SightItem(QMap<QString, CharacterItem*>* characterItemMap)
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
     createActions();
     setAcceptedMouseButtons(Qt::NoButton);
-    m_layer= Core::Layer::FOG;
+    m_ctrl->setLayer(Core::Layer::FOG);
     setFlags(QGraphicsItem::ItemSendsGeometryChanges);
 }
 
@@ -130,7 +133,7 @@ QRectF SightItem::boundingRect() const
         return QRectF();
     }
 }
-void SightItem::setNewEnd(QPointF& nend)
+void SightItem::setNewEnd(const QPointF& nend)
 {
     Q_UNUSED(nend)
     return;
@@ -172,10 +175,10 @@ void SightItem::fillMessage(NetworkMessageWriter* msg)
     msg->string16(m_id);
 
     // rect
-    msg->real(m_rect.x());
+    /*msg->real(m_rect.x());
     msg->real(m_rect.y());
     msg->real(m_rect.width());
-    msg->real(m_rect.height());
+    msg->real(m_rect.height());*/
 
     // pos
     msg->real(pos().x());
@@ -201,10 +204,10 @@ void SightItem::readItem(NetworkMessageReader* msg)
 {
     m_id= msg->string16();
     // rect
-    m_rect.setX(msg->real());
+    /*m_rect.setX(msg->real());
     m_rect.setY(msg->real());
     m_rect.setWidth(msg->real());
-    m_rect.setHeight(msg->real());
+    m_rect.setHeight(msg->real());*/
 
     // pos
     qreal x= msg->real();
@@ -251,7 +254,7 @@ void SightItem::setGeometryPoint(qreal pointId, QPointF& pos)
 }
 void SightItem::initChildPointItem()
 {
-    m_child= new QVector<ChildPointItem*>();
+    // m_child= new QVector<ChildPointItem*>();
 }
 VisualItem* SightItem::getItemCopy()
 {
@@ -266,25 +269,25 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     Q_UNUSED(widget)
     painter->save();
     painter->setPen(Qt::NoPen);
-    if(getOption(Core::LocalIsGM).toBool())
+    // if(m_ctrl->localGM())
     {
         painter->setBrush(QColor(0, 0, 0, 125));
     }
-    else
-    {
-        painter->setBrush(QColor(0, 0, 0));
-    }
+    /*   else
+       {
+           painter->setBrush(QColor(0, 0, 0));
+       }*/
 
     updateVeil();
     QPainterPath path= m_path;
 
-    if(getOption(Core::EnableCharacterVision).toBool())
+    // if(m_ctrl->characterVision())
     {
         auto const& values= m_characterItemMap->values();
         for(auto& charact : values)
         {
-            if((nullptr != charact) && ((charact->isLocal()) || getOption(Core::LocalIsGM).toBool())
-               && charact->isVisible() && !charact->isNpc())
+            // if((nullptr != charact) && ((charact->isLocal()) || m_ctrl->localGM()) && charact->isVisible()
+            //    && !charact->isNpc())
             {
                 CharacterVision* vision= charact->getVision();
 
@@ -322,33 +325,33 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
             }
         }
     }
-    else
-    {
-        auto const& values= m_characterItemMap->values();
-        for(auto& charact : values)
-        {
-            if(charact->isLocal())
-            {
-                QMatrix mat;
-                auto itemRadius= charact->getRadius();
-                qreal rot= charact->rotation();
-                QPointF center= charact->pos() + QPointF(itemRadius, itemRadius);
-                mat.translate(center.x(), center.y());
-                mat.rotate(rot);
-                auto shape= charact->shape();
-                path= path.subtracted(mat.map(charact->getTokenShape().translated(-itemRadius, -itemRadius)));
-            }
-        }
-    }
+    /*  else
+      {
+          auto const& values= m_characterItemMap->values();
+          for(auto& charact : values)
+          {
+              if(charact->isLocal())
+              {
+                  QMatrix mat;
+                  auto itemRadius= charact->getRadius();
+                  qreal rot= charact->rotation();
+                  QPointF center= charact->pos() + QPointF(itemRadius, itemRadius);
+                  mat.translate(center.x(), center.y());
+                  mat.rotate(rot);
+                  auto shape= charact->shape();
+                  path= path.subtracted(mat.map(charact->getTokenShape().translated(-itemRadius, -itemRadius)));
+              }
+          }
+      }*/
     painter->drawPath(path);
     painter->restore();
 }
 void SightItem::insertVision(CharacterItem* item)
 {
     item->setDefaultVisionParameter(m_defaultShape, m_defaultRadius, m_defaultAngle);
-    if(nullptr != m_child)
+    // if(nullptr != m_child)
     {
-        m_child->append(item->getRadiusChildWidget());
+        m_children.append(item->getRadiusChildWidget());
     }
 }
 void SightItem::removeVision(CharacterItem* item)
@@ -357,9 +360,8 @@ void SightItem::removeVision(CharacterItem* item)
     {
         m_characterItemMap->remove(item->getId());
     }
-    if(nullptr != m_child)
     {
-        m_child->removeAll(item->getRadiusChildWidget());
+        m_children.removeAll(item->getRadiusChildWidget());
     }
 }
 void SightItem::setDefaultShape(CharacterVision::SHAPE shape)
@@ -379,16 +381,15 @@ void SightItem::setDefaultRadius(qreal rad)
 }
 void SightItem::setVisible(bool visible)
 {
-    if(nullptr != m_child)
+
+    for(auto& item : m_children)
     {
-        for(auto& item : *m_child)
-        {
-            if(nullptr != item)
-            {
-                // item->setVisible(visible);
-            }
-        }
+        if(nullptr == item)
+            continue;
+
+        item->setVisible(visible);
     }
+
     VisualItem::setVisible(visible);
 }
 

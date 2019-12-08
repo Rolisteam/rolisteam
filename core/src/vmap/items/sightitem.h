@@ -44,6 +44,7 @@ private:
     bool m_adding;
 };
 
+class SightItemController;
 /**
  * @brief The SightItem class
  */
@@ -55,7 +56,7 @@ public:
      * @brief SightItem
      * @param characterItemMap
      */
-    explicit SightItem(QMap<QString, CharacterItem*>* characterItemMap);
+    explicit SightItem(SightItemController* ctrl, QMap<QString, CharacterItem*>* characterItemMap);
     /**
      * @brief ~SightItem
      */
@@ -64,7 +65,7 @@ public:
      * @brief setNewEnd
      * @param nend
      */
-    virtual void setNewEnd(QPointF& nend);
+    virtual void setNewEnd(const QPointF& nend);
     /**
      * @brief writeData
      * @param out
