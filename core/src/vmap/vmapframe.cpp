@@ -32,12 +32,16 @@
 #include "network/networkmessagewriter.h"
 
 VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
-    : MediaContainer(nullptr, MediaContainer::ContainerType::VMapContainer, parent)
+    : MediaContainer(ctrl, MediaContainer::ContainerType::VMapContainer, parent)
     , m_ctrl(ctrl)
+    , m_vmap(new VMap(ctrl))
     , m_graphicView(new RGraphicsView(ctrl))
 {
     setObjectName("VMapFrame");
-    setupUi();
+    setWindowIcon(QIcon(":/vmap.png"));
+    m_graphicView->setScene(m_vmap.get());
+    setWidget(m_graphicView.get());
+
     // m_vmap= new VMap();
 
     // connect(m_vmap, SIGNAL(mapStatutChanged()), this, SLOT(updateTitle()));
@@ -45,11 +49,6 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
 }
 
 VMapFrame::~VMapFrame() {}
-
-void VMapFrame::setupUi()
-{
-    setWidget(m_graphicView.get());
-}
 
 void VMapFrame::updateMap()
 {
@@ -61,11 +60,11 @@ void VMapFrame::updateMap()
     m_graphicView->setGeometry(0, 0, m_vmap->mapWidth(), m_vmap->mapHeight());
     setGeometry(0, 0, m_vmap->mapWidth(), m_vmap->mapHeight());
 
-    setWindowIcon(QIcon(":/vmap.png"));
     m_vmap->setVisibilityMode(static_cast<Core::VisibilityMode>(m_vmap->getOption(VisualItem::VisibilityMode).toInt()));
 
     updateTitle();*/
 }
+
 void VMapFrame::updateTitle()
 {
     /*m_vmap->setTitle(getUriName());
@@ -79,6 +78,7 @@ void VMapFrame::currentCursorChanged(QCursor* cursor)
     m_currentCursor= cursor;
     m_graphicView->setCursor(*cursor);
 }
+
 void VMapFrame::currentToolChanged(Core::SelectableTool selectedtool)
 {
     /* m_currentTool= selectedtool;
@@ -123,6 +123,7 @@ bool VMapFrame::openFile(const QString& filepath)
     updateMap();
     return true;
 }
+
 void VMapFrame::keyPressEvent(QKeyEvent* event)
 {
     switch(event->key())
@@ -163,6 +164,7 @@ void VMapFrame::saveMedia(const QString&)
            }*/
     }
 }
+
 void VMapFrame::putDataIntoCleverUri()
 {
     /*  if(nullptr != m_vmap)
@@ -294,6 +296,7 @@ NetWorkReceiver::SendType VMapFrame::processMessage(NetworkMessageReader* msg)
 
     return type;
 }
+
 void VMapFrame::fill(NetworkMessageWriter& msg)
 {
     /* if(nullptr != m_graphicView)
@@ -311,6 +314,7 @@ void VMapFrame::fill(NetworkMessageWriter& msg)
          }
      }*/
 }
+
 void VMapFrame::readMessage(NetworkMessageReader& msg)
 {
     /*if(msg.action() == NetMsg::addMedia)
@@ -365,6 +369,7 @@ bool VMapFrame::readFileFromUri()
      }*/
     // return read;
 }
+
 /*void VMapFrame::processAddItemMessage(NetworkMessageReader* msg)
 {
     if(nullptr != m_vmap)

@@ -21,6 +21,8 @@
 #include "childpointitem.h"
 #include "visualitem.h"
 
+#include "controller/view_controller/vectorialmapcontroller.h"
+#include "vmap/controller/visualitemcontroller.h"
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
@@ -32,8 +34,13 @@
 
 #define SQUARE_SIZE 6
 
-ChildPointItem::ChildPointItem(qreal point, VisualItem* parent, bool isVision)
-    : QGraphicsObject(parent), m_pointId(point), m_parent(parent), m_allowRotation(false), m_vision(isVision)
+ChildPointItem::ChildPointItem(VisualItemController* ctrl, int point, VisualItem* parent, bool isVision)
+    : QGraphicsObject(parent)
+    , m_ctrl(ctrl)
+    , m_pointId(point)
+    , m_parent(parent)
+    , m_allowRotation(false)
+    , m_vision(isVision)
 {
     m_currentMotion= ALL;
     m_editable= true;
@@ -47,37 +54,39 @@ ChildPointItem::~ChildPointItem() {}
 
 QVariant ChildPointItem::itemChange(GraphicsItemChange change, const QVariant& value)
 {
-    if(m_editable)
-    {
-        if(change == ItemPositionChange /*&& scene()*/ && isSelected() && m_currentMotion != NONE
-           && m_currentMotion != MOUSE)
-        {
-            QPointF newPos= value.toPointF();
-            if(m_currentMotion == X_AXIS)
-            {
-                newPos.setY(pos().y());
-            }
-            else if(Y_AXIS == m_currentMotion)
-            {
-                newPos.setX(pos().x());
-            }
+    if(!m_editable)
+        return QGraphicsItem::itemChange(change, value);
 
-            if(MOVE == m_currentMotion)
-            {
-                m_parent->setPos(mapToScene(newPos));
-                /*QPointF p=pos() - newPos;
-                m_parent->moveBy(p.x(),p.y());*/
-            }
-            else
-            {
-                m_parent->setGeometryPoint(m_pointId, newPos);
-            }
-            if(newPos != value.toPointF())
-            {
-                return newPos;
-            }
+    if(change == ItemPositionChange /*&& scene()*/ && isSelected() && m_currentMotion != NONE
+       && m_currentMotion != MOUSE)
+    {
+        QPointF newPos= value.toPointF();
+        if(m_currentMotion == X_AXIS)
+        {
+            newPos.setY(pos().y());
+        }
+        else if(Y_AXIS == m_currentMotion)
+        {
+            newPos.setX(pos().x());
+        }
+
+        if(MOVE == m_currentMotion)
+        {
+            m_parent->setPos(mapToScene(newPos));
+            /*QPointF p=pos() - newPos;
+            m_parent->moveBy(p.x(),p.y());*/
+        }
+        else
+        {
+            m_ctrl->setCorner(newPos, m_pointId);
+            // m_parent->setGeometryPoint(m_pointId, newPos);
+        }
+        if(newPos != value.toPointF())
+        {
+            return newPos;
         }
     }
+
     return QGraphicsItem::itemChange(change, value);
 }
 QRectF ChildPointItem::boundingRect() const
@@ -249,53 +258,53 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
     event->accept();
     QPointF v= pos() + event->pos();
-    if(m_editable)
+    if(!m_editable)
     {
-        if(m_currentMotion == MOUSE)
+        QGraphicsItem::mouseMoveEvent(event);
+        return;
+    }
+    if(m_currentMotion == MOUSE)
+    {
+        if(!(event->modifiers() & Qt::ControlModifier))
         {
-            if(!(event->modifiers() & Qt::ControlModifier))
+            VisualItem::TransformType transformType= VisualItem::NoTransform;
+
+            if((event->modifiers() & Qt::ShiftModifier))
             {
-                VisualItem::TransformType transformType= VisualItem::NoTransform;
+                transformType= VisualItem::KeepRatio;
+            }
+            auto W= qMax(2 * std::fabs(v.x()), 5.0);
+            auto H= qMax(2 * std::fabs(v.y()), 4.0);
+            if(event->modifiers() & Qt::AltModifier)
+            {
+                transformType= VisualItem::Sticky;
+                int size= m_ctrl->gridSize();
+                W= std::round(W / size) * size;
+                H= std::round(H / size) * size;
+            }
 
-                if((event->modifiers() & Qt::ShiftModifier))
-                {
-                    transformType= VisualItem::KeepRatio;
-                }
-                int W= qMax(2 * std::fabs(v.x()), 5.0);
-                int H= qMax(2 * std::fabs(v.y()), 4.0);
-                if(event->modifiers() & Qt::AltModifier)
-                {
-                    transformType= VisualItem::Sticky;
-                    int size= m_parent->getOption(Core::GridSize).toInt();
-                    W= std::round(W / size) * size;
-                    H= std::round(H / size) * size;
-                }
-
-                // if((v.x() >1)&&(v.y()>1))
-                {
-                    m_parent->resizeContents(QRectF(-W / 2, -H / 2, W, H), transformType);
-                }
+            // if((v.x() >1)&&(v.y()>1))
+            {
+                auto move= event->pos() - event->lastPos();
+                m_ctrl->setCorner(move, m_pointId); // mapToScene(pos()) +
+                // m_parent->resizeContents(QRectF(-W / 2, -H / 2, W, H), m_pointId, transformType);
             }
         }
-        if(((m_currentMotion == MOUSE) || (m_allowRotation)) && (event->modifiers() & Qt::ControlModifier))
-        {
-            if(v.isNull())
-                return;
+    }
+    if(((m_currentMotion == MOUSE) || (m_allowRotation)) && (event->modifiers() & Qt::ControlModifier))
+    {
+        if(v.isNull())
+            return;
 
-            QPointF refPos= pos();
+        QPointF refPos= pos();
 
-            // set item rotation (set rotation relative to current)
-            qreal refAngle= atan2(refPos.y(), refPos.x());
-            qreal newAngle= atan2(v.y(), v.x());
-            double dZr= 57.29577951308232 * (newAngle - refAngle); // 180 * a / M_PI
-            double zr= m_parent->rotation() + dZr;
+        // set item rotation (set rotation relative to current)
+        qreal refAngle= atan2(refPos.y(), refPos.x());
+        qreal newAngle= atan2(v.y(), v.x());
+        double dZr= 57.29577951308232 * (newAngle - refAngle); // 180 * a / M_PI
+        double zr= m_parent->rotation() + dZr;
 
-            m_parent->setRotation(zr);
-        }
-        else
-        {
-            QGraphicsItem::mouseMoveEvent(event);
-        }
+        m_parent->setRotation(zr);
     }
     else
     {

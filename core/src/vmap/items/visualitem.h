@@ -25,11 +25,12 @@
 #include "childpointitem.h"
 #include "media/mediatype.h"
 #include <QAction>
+#include <QPointer>
 #include <QVector>
 
 class NetworkMessageWriter;
 class NetworkMessageReader;
-
+class VisualItemController;
 /**
  * @brief abstract class which defines interface for all map items.
  */
@@ -81,7 +82,7 @@ public:
     /**
      * @brief VisualItem default constructor
      */
-    VisualItem(const std::map<Core::Properties, QVariant>& properties);
+    VisualItem(VisualItemController* ctrl);
     /**
      * @brief ~VisualItem
      */
@@ -91,7 +92,7 @@ public:
      * @brief setNewEnd
      * @param nend
      */
-    virtual void setNewEnd(QPointF& nend)= 0;
+    virtual void setNewEnd(const QPointF& nend)= 0;
     /**
      * @brief setPenColor
      * @param penColor
@@ -154,7 +155,7 @@ public:
      * @param rect
      * @param keepRatio
      */
-    virtual void resizeContents(const QRectF& rect, TransformType transformType= KeepRatio);
+    virtual void resizeContents(const QRectF& rect, int pointId, TransformType transformType= KeepRatio);
 
     /**
      * @brief setGeometryPoint
@@ -209,38 +210,11 @@ public:
      * @return
      */
     friend QDataStream& operator>>(QDataStream& is, VisualItem&);
-
-    /**
-     * @brief getLayer
-     * @return
-     */
-    virtual Core::Layer getLayer() const;
-    /**
-     * @brief setLayer
-     */
-    virtual void setLayer(Core::Layer);
     /**
      * @brief promoteTo
      * @return
      */
     virtual VisualItem* promoteTo(VisualItem::ItemType);
-    /**
-     * @brief getLayerToText static method to translate layer to its name.
-     * @param id
-     * @return
-     */
-    static QString getLayerToText(Core::Layer id);
-    /**
-     * @brief setPropertiesHash
-     * @param hash
-     */
-    void setPropertiesHash(const std::map<Core::Properties, QVariant>& hash);
-    /**
-     * @brief getOption
-     * @param pop
-     * @return
-     */
-    QVariant getOption(Core::Properties pop) const;
     /**
      * @brief setSize
      * @param size
@@ -269,7 +243,6 @@ public:
 
     static QColor getHighlightColor();
     static void setHighlightColor(const QColor& highlightColor);
-    virtual bool itemAndMapOnSameLayer() const;
     /**
      * @brief canBeMove
      * @return
@@ -376,15 +349,14 @@ protected:
     QPointF computeClosePoint(QPointF pos);
 
 protected:
+    QPointer<VisualItemController> m_ctrl;
     QColor m_color;
     static QColor m_highlightColor;
     static int m_highlightWidth;
     QString m_id;
     QString m_mapId;
-    // bool m_editable = false;
-    QVector<ChildPointItem*>* m_child= nullptr;
-    quint16 m_penWidth= 1;
-    QRectF m_rect;
+    QVector<ChildPointItem*> m_children;
+    // QRectF m_rect;
     QPoint m_menuPos;
 
     /// QAction*
@@ -392,15 +364,11 @@ protected:
     QAction* m_putGroundLayer= nullptr;
     QAction* m_putObjectLayer= nullptr;
     QAction* m_putCharacterLayer= nullptr;
-
-    Core::Layer m_layer= Core::Layer::NONE;
     QVector<ItemType> m_promoteTypeList;
     QList<QPointF> m_pointList;
     bool m_resizing= false;
     bool m_rotating= false;
     bool m_receivingZValue= false;
-
-    const std::map<Core::Properties, QVariant>& m_propertiesHash;
     bool m_holdSize= false;
 
 private slots:
@@ -419,7 +387,6 @@ private slots:
 
 private:
     static QStringList s_type2NameList;
-    static QStringList s_layerName;
 };
 
 #endif // VISUALITEM_H

@@ -49,6 +49,7 @@
 class CharacterItem;
 class VectorialMapController;
 class AddVmapItemCommand;
+class RectController;
 /**
  * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...
  * It is using the QGraphicsScene from Qt.
@@ -89,56 +90,11 @@ public:
      * @brief processAddItemMessage
      * @param msg
      */
-    void processAddItemMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processMoveItemMessage
-     * @param msg
-     */
-    void processMoveItemMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processGeometryChangeItem
-     * @param msg
-     */
-    void processGeometryChangeItem(NetworkMessageReader* msg);
-    /**
-     * @brief processOpacityMessage
-     * @param msg
-     */
-    void processOpacityMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processSetParentItem
-     * @param msg
-     */
-    void processSetParentItem(NetworkMessageReader* msg);
-    /**
-     * @brief setPermissionMode
-     * @param mode
-     */
-    void setPermissionMode(Core::PermissionMode mode);
-    /**
-     * @brief setVisibilityMode
-     * @param mode
-     */
-    bool setVisibilityMode(Core::VisibilityMode mode);
-    /**
-     * @brief processDelItemMessage
-     * @param msg
-     */
-    void processDelItemMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processMovePointMsg
-     * @param msg
-     */
-    void processMovePointMsg(NetworkMessageReader* msg);
+
     /**
      * @brief manageAnchor
      */
     void manageAnchor();
-    /**
-     * @brief getPermissionMode
-     * @return
-     */
-    Core::PermissionMode getPermissionMode();
     /**
      * @brief fill
      * @param msg
@@ -150,29 +106,10 @@ public:
      */
     void sendAllItems(NetworkMessageWriter& msg);
     /**
-     * @brief getPermissionModeText
-     * @return
-     */
-    QString getPermissionModeText();
-    /**
-     * @brief getVisibilityModeText
-     * @return
-     */
-    QString getVisibilityModeText();
-    /**
      * @brief isIdle
      * @return
      */
     bool isIdle() const;
-    /**
-     * @brief VMap::getCurrentLayerText
-     * @return
-     */
-    QString getCurrentLayerText() const;
-    /**
-     * @brief initScene
-     */
-    void initScene();
     /**
      * @brief setAnchor
      * @param child
@@ -185,42 +122,12 @@ public:
      * @param currentLayer
      */
     void updateLayer();
-    /**
-     * @brief getSelectedtool
-     * @return
-     */
-    Core::SelectableTool getSelectedtool() const;
-    /**
-     * @brief processZValueMsg
-     * @param msg
-     */
-    void processZValueMsg(NetworkMessageReader* msg);
-    /**
-     * @brief processRotationMsg
-     * @param msg
-     */
-    void processRotationMsg(NetworkMessageReader* msg);
-    /**
-     * @brief processRectGeometryMsg
-     * @param msg
-     */
-    void processRectGeometryMsg(NetworkMessageReader* msg);
-    /**
-     * @brief processCharacterStateHasChanged
-     * @param msg
-     */
-    void processCharacterStateHasChanged(NetworkMessageReader& msg);
-    /**
-     * @brief processCharacterHasChanged
-     * @param msg
-     */
-    void processCharacterHasChanged(NetworkMessageReader& msg);
+
     /**
      * @brief processVisionMsg
      * @param msg
      */
-    void processVisionMsg(NetworkMessageReader* msg);
-    void processColorMsg(NetworkMessageReader* msg);
+
     const QString& getLocalUserId() const;
     int getCurrentNpcNumber() const;
 
@@ -245,26 +152,13 @@ public:
     SightItem* getFogItem() const;
     bool isNormalItem(const QGraphicsItem* item);
     GridItem* getGridItem() const;
+
 public slots:
-    /**
-     * @brief defines the current tools
-     * @param new tool
-     */
-    void setCurrentTool(Core::SelectableTool selectedtool);
     /**
      * @brief defines the current color for painting
      * @param new color
      */
-    void setCurrentChosenColor(QColor&);
-    /**
-     * @brief defines the pen size (sent off by toolbar).
-     */
-    void setPenSize(quint16);
-    /**
-     * @brief setCurrentNpcNumber
-     * @param number
-     */
-    void setCurrentNpcNumber(int number);
+    // void setCurrentChosenColor(QColor&);
     /**
      * @brief setId
      * @param id
@@ -300,15 +194,6 @@ public slots:
      */
     QList<CharacterItem*> getCharacterOnMap(QString id);
     /**
-     * @brief setEditionMode
-     */
-    void setEditionMode(Core::EditionMode);
-    /**
-     * @brief getEditionMode
-     * @return
-     */
-    Core::EditionMode getEditionMode();
-    /**
      * @brief cleanFogEdition
      */
     void cleanFogEdition();
@@ -332,7 +217,7 @@ public slots:
      * @brief processLayerMessage
      * @param msg
      */
-    void processLayerMessage(NetworkMessageReader* msg);
+    // void processLayerMessage(NetworkMessageReader* msg);
     /**
      * @brief ownerHasChangedForCharacterItem
      * @param item
@@ -347,12 +232,8 @@ public slots:
     // void selectionPositionAboutToChange();
     void cleanUpInit(Core::CharacterScope zone);
     void rollInit(Core::CharacterScope zone);
-    void addItem(VisualItem* item);
+    // void addItem(VisualItem* item);
 signals:
-    /**
-     * @brief npcAdded
-     */
-    void npcAdded();
     /**
      * @brief mapChanged is emitted after some changes on map has been made.
      */
@@ -390,7 +271,7 @@ private slots:
     /**
      * @brief updateItem
      */
-    void updateItem();
+    void updateItem(const QPointF& end);
     /**
      * @brief checkItemLayer
      */
@@ -430,7 +311,7 @@ protected:
     /**
      * @brief adds item depending of the current tool.
      */
-    void insertItem();
+    void insertItem(const QPointF& end);
 
     /**
      * @brief dragEnterEvent
@@ -448,10 +329,6 @@ protected:
      */
     void dragMoveEvent(QGraphicsSceneDragDropEvent* event);
     /**
-     * @brief initMap
-     */
-    void initMap();
-    /**
      * @brief hideOtherLayers
      * @param b
      */
@@ -462,16 +339,10 @@ protected:
     void ensureFogAboveAll();
     bool isItemStorable(VisualItem* item);
 
+    void addRectItem(RectController* rectCtrl);
+
 private:
     QPointer<VectorialMapController> m_ctrl;
-    /**
-     * @brief first point of the next item
-     */
-    QPointF m_first;
-    /**
-     * @brief last point of the next item
-     */
-    QPointF m_end;
     /**
      * @brief current selected item
      */
@@ -480,10 +351,6 @@ private:
      * @brief m_currentPath
      */
     QPointer<VisualItem> m_currentPath= nullptr;
-    /**
-     * @brief color for items
-     */
-    QColor m_itemColor;
     /**
      * @brief Items list which are part of the map.
      */

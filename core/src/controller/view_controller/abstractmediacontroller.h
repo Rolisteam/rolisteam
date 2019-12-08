@@ -23,7 +23,7 @@
 #include <QObject>
 
 class CleverURI;
-
+class QUndoCommand;
 class AbstractMediaContainerController : public QObject
 {
     Q_OBJECT
@@ -50,6 +50,8 @@ signals:
     void closeContainer();
     void titleChanged();
     void activeChanged();
+
+    void performCommand(QUndoCommand* cmd);
 
 public slots:
     void setUri(CleverURI* uri);

@@ -25,12 +25,11 @@
 #include <cmath>
 #include <math.h>
 
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
-EllipsItem::EllipsItem(const std::map<Core::Properties, QVariant>& properties) : VisualItem(properties), m_filled(false)
-{
-}
+EllipsItem::EllipsItem(VisualItemController* ctrl) : VisualItem(ctrl), m_filled(false) {}
 
 /*EllipsItem::EllipsItem(const QPointF& center, bool filled, int penSize, const QColor& penColor, QGraphicsItem* parent)
     : VisualItem(penColor, penSize, parent), m_filled(false)
@@ -45,7 +44,7 @@ EllipsItem::EllipsItem(const std::map<Core::Properties, QVariant>& properties) :
 }*/
 QRectF EllipsItem::boundingRect() const
 {
-    return m_rect;
+    return {};
 }
 QPainterPath EllipsItem::shape() const
 {
@@ -57,7 +56,7 @@ QPainterPath EllipsItem::shape() const
         QPainterPath subpath;
 
         QRectF rect= boundingRect();
-        rect.adjust(m_penWidth, m_penWidth, -m_penWidth, -m_penWidth);
+        // rect.adjust(m_penWidth, m_penWidth, -m_penWidth, -m_penWidth);
         subpath.addEllipse(rect);
         path-= subpath;
     }
@@ -73,7 +72,7 @@ void EllipsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     {
         QPen pen= painter->pen();
         pen.setColor(m_color);
-        pen.setWidth(m_penWidth);
+        // pen.setWidth(m_penWidth);
         painter->setPen(pen);
     }
     else
@@ -99,12 +98,12 @@ void EllipsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
         painter->restore();
     }
 }
-void EllipsItem::setNewEnd(QPointF& p)
+void EllipsItem::setNewEnd(const QPointF& p)
 {
     m_rx= std::fabs(p.x() - pos().x()) * sqrt(2);
     m_ry= std::fabs(p.y() - pos().y()) * sqrt(2);
 
-    m_rect.setRect(-m_rx, -m_ry, m_rx * 2, m_ry * 2);
+    // m_rect.setRect(-m_rx, -m_ry, m_rx * 2, m_ry * 2);
 }
 VisualItem::ItemType EllipsItem::getType() const
 {
@@ -112,97 +111,97 @@ VisualItem::ItemType EllipsItem::getType() const
 }
 void EllipsItem::writeData(QDataStream& out) const
 {
-    out << m_rx;
-    out << m_ry;
-    out << static_cast<int>(m_layer);
-    out << opacity();
-    out << m_center;
-    out << m_filled;
-    out << m_color;
-    out << m_penWidth;
+    /*   out << m_rx;
+       out << m_ry;
+       out << static_cast<int>(m_layer);
+       out << opacity();
+       out << m_center;
+       out << m_filled;
+       out << m_color;
+       out << m_penWidth;
 
-    out << pos();
-    out << scale();
-    out << rotation();
+       out << pos();
+       out << scale();
+       out << rotation();*/
 }
 
 void EllipsItem::readData(QDataStream& in)
 {
-    in >> m_rx;
-    in >> m_ry;
-    int lay;
-    in >> lay;
-    m_layer= static_cast<Core::Layer>(lay);
-    qreal opa= 0;
-    in >> opa;
-    setOpacity(opa);
-    in >> m_center;
-    in >> m_filled;
-    in >> m_color;
-    in >> m_penWidth;
+    /*  in >> m_rx;
+       in >> m_ry;
+       int lay;
+       in >> lay;
+       m_layer= static_cast<Core::Layer>(lay);
+       qreal opa= 0;
+       in >> opa;
+       setOpacity(opa);
+       in >> m_center;
+       in >> m_filled;
+       in >> m_color;
+       in >> m_penWidth;
 
-    QPointF position;
-    in >> position;
-    setPos(position);
+       QPointF position;
+       in >> position;
+       setPos(position);
 
-    qreal scale;
-    in >> scale;
-    setScale(scale);
+       qreal scale;
+       in >> scale;
+       setScale(scale);
 
-    qreal rotation;
-    in >> rotation;
-    setRotation(rotation);
-    m_rect.setRect(-m_rx, -m_ry, m_rx * 2, m_ry * 2);
+       qreal rotation;
+       in >> rotation;
+       setRotation(rotation);
+       m_rect.setRect(-m_rx, -m_ry, m_rx * 2, m_ry * 2);*/
 }
 void EllipsItem::fillMessage(NetworkMessageWriter* msg)
 {
-    msg->string16(m_id);
-    msg->real(scale());
-    msg->real(rotation());
-    msg->uint8((int)m_layer);
-    msg->real(zValue());
-    msg->real(opacity());
-    //
-    msg->real(pos().x());
-    msg->real(pos().y());
-    // radius
-    msg->real(m_rx);
-    msg->real(m_ry);
-    // center
-    msg->real(m_center.x());
-    msg->real(m_center.y());
-    msg->int8(m_filled);
-    msg->rgb(m_color.rgb());
-    msg->uint16(m_penWidth);
+    /* msg->string16(m_id);
+     msg->real(scale());
+     msg->real(rotation());
+     msg->uint8(static_cast<int>(m_layer));
+     msg->real(zValue());
+     msg->real(opacity());
+     //
+     msg->real(pos().x());
+     msg->real(pos().y());
+     // radius
+     msg->real(m_rx);
+     msg->real(m_ry);
+     // center
+     msg->real(m_center.x());
+     msg->real(m_center.y());
+     msg->int8(m_filled);
+     msg->rgb(m_color.rgb());
+     msg->uint16(m_penWidth);*/
 }
 void EllipsItem::readItem(NetworkMessageReader* msg)
 {
-    m_id= msg->string16();
-    setScale(msg->real());
-    setRotation(msg->real());
-    m_layer= static_cast<Core::Layer>(msg->uint8());
-    setZValue(msg->real());
-    setOpacity(msg->real());
+    /*  m_id= msg->string16();
+      setScale(msg->real());
+      setRotation(msg->real());
+      m_layer= static_cast<Core::Layer>(msg->uint8());
+      setZValue(msg->real());
+      setOpacity(msg->real());
 
-    // x , y
-    qreal posx= msg->real();
-    qreal posy= msg->real();
+      // x , y
+      qreal posx= msg->real();
+      qreal posy= msg->real();
 
-    // radius
-    m_rx= msg->real();
-    m_ry= msg->real();
+      // radius
+      m_rx= msg->real();
+      m_ry= msg->real();
 
-    // center
-    m_center.setX(msg->real());
-    m_center.setY(msg->real());
+      // center
+      m_center.setX(msg->real());
+      m_center.setY(msg->real());
 
-    m_filled= msg->int8();
-    m_color= msg->rgb();
-    m_penWidth= msg->uint16();
+      m_filled= msg->int8();
+      m_color= msg->rgb();
+     // m_penWidth= msg->uint16();
 
-    m_rect.setRect(-m_rx, -m_ry, m_rx * 2, m_ry * 2);
-    setPos(posx, posy);
-    update();
+      m_rect.setRect(-m_rx, -m_ry, m_rx * 2, m_ry * 2);
+      setPos(posx, posy);
+      update();*/
 }
 void EllipsItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
@@ -232,7 +231,7 @@ void EllipsItem::setGeometryPoint(qreal pointId, QPointF& pos)
         m_rx= 0.1;
         pos.setX(m_center.x() + m_rx);
     }
-    m_rect.setRect(-m_rx, -m_ry, m_rx * 2, m_ry * 2);
+    // m_rect.setRect(-m_rx, -m_ry, m_rx * 2, m_ry * 2);
     m_resizing= true;
     update();
 }
@@ -242,21 +241,20 @@ void EllipsItem::initChildPointItem()
         return;
 
     setTransformOriginPoint(m_center);
-    m_child= new QVector<ChildPointItem*>();
 
     for(int i= 0; i < 2; ++i)
     {
-        ChildPointItem* tmp= new ChildPointItem(i, this);
-        m_child->append(tmp);
+        /*ChildPointItem* tmp= new ChildPointItem(m_ctrl, i, this);
+        m_children.append(tmp);*/
     }
-    m_child->value(0)->setPos(m_center.x() + m_rx, m_center.y());
-    m_child->value(0)->setPlacement(ChildPointItem::MiddleRight);
-    m_child->value(0)->setRotationEnable(true);
-    m_child->value(0)->setMotion(ChildPointItem::X_AXIS);
-    m_child->value(1)->setPos(m_center.x(), m_center.y() + m_ry);
-    m_child->value(1)->setMotion(ChildPointItem::Y_AXIS);
-    m_child->value(1)->setPlacement(ChildPointItem::ButtomCenter);
-    m_child->value(1)->setRotationEnable(true);
+    m_children.value(0)->setPos(m_center.x() + m_rx, m_center.y());
+    m_children.value(0)->setPlacement(ChildPointItem::MiddleRight);
+    m_children.value(0)->setRotationEnable(true);
+    m_children.value(0)->setMotion(ChildPointItem::X_AXIS);
+    m_children.value(1)->setPos(m_center.x(), m_center.y() + m_ry);
+    m_children.value(1)->setMotion(ChildPointItem::Y_AXIS);
+    m_children.value(1)->setPlacement(ChildPointItem::ButtomCenter);
+    m_children.value(1)->setRotationEnable(true);
 }
 
 void EllipsItem::setHoldSize(bool holdSize)
@@ -265,23 +263,24 @@ void EllipsItem::setHoldSize(bool holdSize)
 
     if(holdSize)
     {
-        m_child->value(0)->setMotion(ChildPointItem::NONE);
-        m_child->value(1)->setMotion(ChildPointItem::NONE);
+        m_children.value(0)->setMotion(ChildPointItem::NONE);
+        m_children.value(1)->setMotion(ChildPointItem::NONE);
     }
     else
     {
-        m_child->value(0)->setMotion(ChildPointItem::X_AXIS);
-        m_child->value(1)->setMotion(ChildPointItem::Y_AXIS);
+        m_children.value(0)->setMotion(ChildPointItem::X_AXIS);
+        m_children.value(1)->setMotion(ChildPointItem::Y_AXIS);
     }
 }
 
 VisualItem* EllipsItem::getItemCopy()
 { // QPointF& center,bool filled,int penSize,QColor& penColor
-    EllipsItem* ellipseItem= new EllipsItem(m_center, m_filled, m_penWidth, m_color);
+    // EllipsItem* ellipseItem= new EllipsItem(m_ctrl /*, m_center, m_filled, m_penWidth, m_color*/);
     QPointF pos(m_rx + m_center.x(), m_ry + m_center.y());
-    ellipseItem->setNewEnd(pos);
-    return ellipseItem;
+    // ellipseItem->setNewEnd(pos);
+    // return ellipseItem;
 }
+
 void EllipsItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
 {
     VisualItem::setRectSize(x, y, w, h);

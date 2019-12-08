@@ -30,7 +30,7 @@
 #include "network/networkmessagewriter.h"
 #include "preferences/preferencesmanager.h"
 
-HighlighterItem::HighlighterItem(const std::map<Core::Properties, QVariant>& properties) : VisualItem(properties) {}
+HighlighterItem::HighlighterItem(VisualItemController* ctrl) : VisualItem(ctrl) {}
 
 /*HighlighterItem::HighlighterItem(QPointF& center, int penSize, QColor& penColor, QGraphicsItem* parent)
     : VisualItem(penColor, penSize, parent)
@@ -63,7 +63,7 @@ void HighlighterItem::initAnimation()
 }
 QRectF HighlighterItem::boundingRect() const
 {
-    return m_rect;
+    return {};
 }
 QPainterPath HighlighterItem::shape() const
 {
@@ -78,7 +78,7 @@ void HighlighterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     painter->save();
     QPen pen= painter->pen();
     pen.setColor(m_color);
-    pen.setWidth(m_penWidth);
+    // pen.setWidth(m_penWidth);
     painter->setPen(pen);
 
     painter->drawEllipse(m_center, m_radius, m_radius);
@@ -98,7 +98,7 @@ qreal HighlighterItem::getRadius() const
 {
     return m_radius;
 }
-void HighlighterItem::setNewEnd(QPointF& p){
+void HighlighterItem::setNewEnd(const QPointF& p){
     Q_UNUSED(p)
     /*  m_radius = std::fabs(p.x()-pos().x())*sqrt(2);
 
@@ -121,7 +121,7 @@ void HighlighterItem::fillMessage(NetworkMessageWriter* msg)
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
-    msg->uint8(static_cast<int>(m_layer));
+    // msg->uint8(static_cast<int>(m_layer));
     msg->real(zValue());
     msg->real(opacity());
     msg->real(pos().x());
@@ -132,14 +132,14 @@ void HighlighterItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_center.x());
     msg->real(m_center.y());
     msg->rgb(m_color.rgb());
-    msg->int16(m_penWidth);
+    // msg->int16(m_penWidth);
 }
 void HighlighterItem::readItem(NetworkMessageReader* msg)
 {
     m_id= msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
-    m_layer= static_cast<Core::Layer>(msg->uint8());
+    // m_layer= static_cast<Core::Layer>(msg->uint8());
     setZValue(msg->real());
     setOpacity(msg->real());
 
@@ -155,7 +155,7 @@ void HighlighterItem::readItem(NetworkMessageReader* msg)
     m_center.setY(msg->real());
 
     m_color= msg->rgb();
-    m_penWidth= msg->int16();
+    // m_penWidth= msg->int16();
 
     setPos(posx, posy);
 

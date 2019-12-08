@@ -178,9 +178,6 @@ protected slots:
      */
     virtual void updateTitle() override;
 
-private slots:
-    void setupUi();
-
 private: // functions
     /**
      * @brief updateMap
@@ -204,7 +201,7 @@ private: // functions
 
 private:
     QPointer<VectorialMapController> m_ctrl;
-    // VMap* m_vmap= nullptr;
+    std::unique_ptr<VMap> m_vmap;
     std::unique_ptr<RGraphicsView> m_graphicView;
 };
 

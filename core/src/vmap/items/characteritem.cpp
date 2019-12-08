@@ -27,6 +27,7 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include "data/character.h"
 #include "data/player.h"
 #include "dicealias.h"
@@ -83,19 +84,15 @@ QColor ContrastColor(QColor color)
     return QColor(d, d, d);
 }
 
-CharacterItem::CharacterItem(const std::map<Core::Properties, QVariant>& properties)
-    : VisualItem(properties)
-    , m_character(nullptr)
-    , m_thumnails(nullptr)
-    , m_protectGeometryChange(false)
-    , m_visionChanged(false)
+CharacterItem::CharacterItem(VisualItemController* ctrl)
+    : VisualItem(ctrl), m_character(nullptr), m_thumnails(nullptr), m_protectGeometryChange(false)
+//, m_visionChanged(false)
 {
     createActions();
 }
 
-CharacterItem::CharacterItem(const std::map<Core::Properties, QVariant>& properties, Character* m, const QPointF& pos,
-                             qreal diameter)
-    : VisualItem(properties)
+/*CharacterItem::CharacterItem(CharacterController* ctrl, Character* m, const QPointF& pos, qreal diameter)
+    : VisualItem(ctrl)
     , m_center(pos)
     , m_diameter(diameter)
     , m_thumnails(nullptr)
@@ -106,7 +103,7 @@ CharacterItem::CharacterItem(const std::map<Core::Properties, QVariant>& propert
     setPos(m_center - QPointF(diameter / 2, diameter / 2));
     sizeChanged(diameter);
     createActions();
-}
+}*/
 
 void CharacterItem::writeData(QDataStream& out) const
 {
@@ -114,9 +111,9 @@ void CharacterItem::writeData(QDataStream& out) const
     int diam= static_cast<int>(m_diameter);
     out << diam;
     out << *m_thumnails;
-    out << m_rect;
+    // out << m_rect;
     out << opacity();
-    out << static_cast<int>(m_layer);
+    // out << static_cast<int>(m_layer);
     // out << zValue();
     if(nullptr != m_character)
     {
@@ -137,7 +134,7 @@ void CharacterItem::readData(QDataStream& in)
     m_diameter= diam;
     m_thumnails= new QPixmap();
     in >> *m_thumnails;
-    in >> m_rect;
+    // in >> m_rect;
 
     qreal opa= 0;
     in >> opa;
@@ -145,7 +142,7 @@ void CharacterItem::readData(QDataStream& in)
 
     int tmp;
     in >> tmp;
-    m_layer= static_cast<Core::Layer>(tmp);
+    // m_layer= static_cast<Core::Layer>(tmp);
     bool hasCharacter;
     in >> hasCharacter;
     auto charact= new Character();
@@ -161,8 +158,8 @@ VisualItem::ItemType CharacterItem::getType() const
 }
 QRectF CharacterItem::boundingRect() const
 {
-    QRectF uni= m_rect.united(m_rectText);
-    return uni;
+    // QRectF uni= m_rect.united(m_rectText);
+    return {};
 }
 QPainterPath CharacterItem::shape() const
 {
@@ -191,7 +188,7 @@ const QRectF& CharacterItem::getTextRect() const
     return m_rectText;
 }
 
-void CharacterItem::setNewEnd(QPointF& nend)
+void CharacterItem::setNewEnd(const QPointF& nend)
 {
     Q_UNUSED(nend);
     // m_center = nend;
@@ -200,45 +197,45 @@ void CharacterItem::setNewEnd(QPointF& nend)
 QString CharacterItem::getSubTitle() const
 {
     QString toShow;
-    if(m_character->isNpc())
-    {
-        if(getOption(Core::ShowNpcName).toBool())
-        {
-            toShow= m_character->name();
-        }
-        if(getOption(Core::ShowNpcNumber).toBool())
-        {
-            toShow= QString::number(m_character->number());
-        }
-        if(getOption(Core::ShowNpcName).toBool() && getOption(Core::ShowNpcNumber).toBool())
-        {
-            toShow= QString("%1 - %2").arg(m_character->name()).arg(m_character->number());
-        }
-    }
-    else if(getOption(Core::ShowPcName).toBool())
-    {
-        toShow= m_character->name();
-    }
+    /* if(m_character->isNpc())
+     {
+         if(m_ctrl->npcNameVisible())
+         {
+             toShow= m_character->name();
+         }
+         if(m_ctrl->npcNumberVisible())
+         {
+             toShow= QString::number(m_character->number());
+         }
+         if(m_ctrl->npcNameVisible() && m_ctrl->npcNumberVisible())
+         {
+             toShow= QString("%1 - %2").arg(m_character->name()).arg(m_character->number());
+         }
+     }
+     else if(m_ctrl->pcNameVisible())
+     {
+         toShow= m_character->name();
+     }*/
     return toShow;
 }
 void CharacterItem::setChildrenVisible(bool b)
 {
     VisualItem::setChildrenVisible(b);
 
-    if(m_child && (getOption(Core::PermissionModeProperty).toInt() == Core::PC_MOVE || isNpc()))
-    {
-        if(!getOption(Core::LocalIsGM).toBool() || isNpc())
-        {
-            if(!m_child->isEmpty() && m_child->size() > DIRECTION_RADIUS_HANDLE)
-            {
-                m_child->at(DIRECTION_RADIUS_HANDLE)->setVisible(false);
-            }
-            if(!m_child->isEmpty() && m_child->size() > ANGLE_HANDLE)
-            {
-                m_child->at(ANGLE_HANDLE)->setVisible(false);
-            }
-        }
-    }
+    /* if(m_child && (m_ctrl->permission() == Core::PC_MOVE || isNpc()))
+     {
+         if(!m_ctrl->localGM() || isNpc())
+         {
+             if(!m_child->isEmpty() && m_child->size() > DIRECTION_RADIUS_HANDLE)
+             {
+                 m_child->at(DIRECTION_RADIUS_HANDLE)->setVisible(false);
+             }
+             if(!m_child->isEmpty() && m_child->size() > ANGLE_HANDLE)
+             {
+                 m_child->at(ANGLE_HANDLE)->setVisible(false);
+             }
+         }
+     }*/
 }
 #define PEN_WIDTH 6
 #define PEN_RADIUS 3
@@ -263,13 +260,13 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     painter->save();
     if(m_character->hasAvatar())
     {
-        painter->drawPixmap(m_rect, *m_thumnails, m_thumnails->rect());
+        // painter->drawPixmap(m_rect, *m_thumnails, m_thumnails->rect());
     }
     else
     {
         painter->setPen(m_character->getColor());
         painter->setBrush(QBrush(m_character->getColor(), Qt::SolidPattern));
-        painter->drawEllipse(m_rect);
+        // painter->drawEllipse(m_rect);
     }
 
     QPen pen= painter->pen();
@@ -303,7 +300,7 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
                 painter->drawRoundedRect(0, 0, diam, diam, m_diameter / RADIUS_CORNER, m_diameter / RADIUS_CORNER);
             }
         }*/
-        if(getOption(Core::ShowInitScore).toBool() && m_character->hasInitScore())
+        // if(m_ctrl->initScoreVisible() && m_character->hasInitScore())
         {
             painter->save();
             auto init= QString("%1").arg(m_character->getInitiativeScore());
@@ -314,15 +311,15 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
             font.setBold(true);
             font.setPointSizeF(font.pointSizeF() * 2);
             painter->setFont(font);
-            auto tl= m_rect.topLeft().toPoint();
+            //  auto tl= m_rect.topLeft().toPoint();
             auto metric= painter->fontMetrics();
             auto rect= metric.boundingRect(init);
-            rect.moveCenter(tl);
+            //   rect.moveCenter(tl);
             painter->save();
             painter->setPen(Qt::NoPen);
             painter->setBrush(QBrush(chColor, Qt::SolidPattern));
             auto square= makeSquare(rect);
-            square.moveCenter(tl);
+            // square.moveCenter(tl);
             painter->drawEllipse(square);
             painter->restore();
             painter->drawText(rect, Qt::AlignCenter, init);
@@ -333,22 +330,19 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     }
     // QRectF rectText;
     QFontMetrics metric(painter->font());
-    m_rectText.setRect(m_rect.center().x() - ((metric.boundingRect(toShow).width() + MARGING) / 2), m_rect.bottom(),
-                       metric.boundingRect(toShow).width() + MARGING + MARGING, metric.height());
+    // m_rectText.setRect(m_rect.center().x() - ((metric.boundingRect(toShow).width() + MARGING) / 2), m_rect.bottom(),
+    //                     metric.boundingRect(toShow).width() + MARGING + MARGING, metric.height());
 
     if(!toShow.isEmpty())
     {
         if(toShow != m_title)
         {
             m_title= toShow;
-            if((getOption(Core::FogOfWarStatus).toBool() == false) || (getOption(Core::LocalIsGM).toBool() == true))
+            // if((m_ctrl->visibility() != Core::FOGOFWAR) || m_ctrl->localGM())
             {
                 setToolTip(m_title);
             }
-            else
-            {
-                setToolTip("");
-            }
+            // else { setToolTip(""); }
         }
         painter->setPen(m_character->getColor());
         painter->drawText(m_rectText, Qt::AlignCenter, toShow);
@@ -362,14 +356,14 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
         pen.setColor(m_highlightColor);
         pen.setWidth(m_highlightWidth);
         painter->setPen(pen);
-        if(m_character->hasAvatar())
-            painter->drawRect(m_rect);
-        else
-            painter->drawEllipse(m_rect);
+        /*    if(m_character->hasAvatar())
+                painter->drawRect(m_rect);
+            else
+                painter->drawEllipse(m_rect);*/
         painter->restore();
     }
 
-    if(getOption(Core::ShowHealthBar).toBool())
+    //   if(m_ctrl->healthBarVisible())
     {
         if(nullptr != m_character)
         {
@@ -382,13 +376,13 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
 
             if(min < max)
             {
-                QRectF bar(m_rect.x(), m_rect.height() - PEN_WIDTH, m_rect.width(), PEN_WIDTH);
-                painter->save();
-                auto newWidth= (current - min) * bar.width() / (max - min);
-                painter->drawRect(bar);
-                QRectF value(m_rect.x(), m_rect.height() - PEN_WIDTH, newWidth, PEN_WIDTH);
-                painter->fillRect(value, color);
-                painter->restore();
+                /*      QRectF bar(m_rect.x(), m_rect.height() - PEN_WIDTH, m_rect.width(), PEN_WIDTH);
+                      painter->save();
+                      auto newWidth= (current - min) * bar.width() / (max - min);
+                      painter->drawRect(bar);
+                      QRectF value(m_rect.x(), m_rect.height() - PEN_WIDTH, newWidth, PEN_WIDTH);
+                      painter->fillRect(value, color);
+                      painter->restore();*/
             }
         }
     }
@@ -421,7 +415,7 @@ const QPointF& CharacterItem::getCenter() const
 void CharacterItem::sizeChanged(qreal m_size)
 {
     m_diameter= m_size;
-    m_rect.setRect(0, 0, m_diameter, m_diameter);
+    // m_rect.setRect(0, 0, m_diameter, m_diameter);
     generatedThumbnail();
     m_resizing= true;
 }
@@ -440,7 +434,7 @@ void CharacterItem::setSize(QSizeF size)
 void CharacterItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
 {
     VisualItem::setRectSize(x, y, w, h);
-    m_diameter= m_rect.width();
+    // m_diameter= m_rect.width();
     generatedThumbnail();
     updateChildPosition();
 }
@@ -487,7 +481,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     msg->string16(m_character->getUuid());
     msg->real(m_diameter);
 
-    msg->uint8(static_cast<quint8>(m_layer));
+    // msg->uint8(static_cast<quint8>(m_layer));
     msg->real(zValue());
     msg->real(opacity());
 
@@ -499,10 +493,10 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_center.y());
 
     // rect
-    msg->real(m_rect.x());
-    msg->real(m_rect.y());
-    msg->real(m_rect.width());
-    msg->real(m_rect.height());
+    /* msg->real(m_rect.x());
+     msg->real(m_rect.y());
+     msg->real(m_rect.width());
+     msg->real(m_rect.height());*/
 
     // path
     QByteArray data;
@@ -526,7 +520,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     QString idCharacter= msg->string16();
     m_diameter= msg->real();
 
-    m_layer= static_cast<Core::Layer>(msg->uint8());
+    // m_layer= static_cast<Core::Layer>(msg->uint8());
 
     setZValue(msg->real());
     setOpacity(msg->real());
@@ -540,10 +534,10 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     m_center.setY(msg->real());
     // rect
 
-    m_rect.setX(msg->real());
-    m_rect.setY(msg->real());
-    m_rect.setWidth(msg->real());
-    m_rect.setHeight(msg->real());
+    /*  m_rect.setX(msg->real());
+      m_rect.setY(msg->real());
+      m_rect.setWidth(msg->real());
+      m_rect.setHeight(msg->real());*/
 
     // path
     QByteArray data;
@@ -577,14 +571,14 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
         m_vision->readMessage(msg);
     }
 }
-void CharacterItem::resizeContents(const QRectF& rect, TransformType)
+void CharacterItem::resizeContents(const QRectF& rect, int pointId, TransformType)
 {
     if(!rect.isValid())
         return;
 
     prepareGeometryChange();
-    m_rect= rect;
-    m_diameter= qMin(m_rect.width(), m_rect.height());
+    /* m_rect= rect;
+     m_diameter= qMin(m_rect.width(), m_rect.height());*/
     sizeChanged(m_diameter);
     updateChildPosition();
 }
@@ -621,8 +615,8 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& va
 {
     QVariant newValue= value;
     m_oldPosition= pos();
-    if(change != QGraphicsItem::ItemPositionChange || !getOption(Core::CollisionStatus).toBool())
-        return VisualItem::itemChange(change, newValue);
+    // if(change != QGraphicsItem::ItemPositionChange || !m_ctrl->collision())
+    //    return VisualItem::itemChange(change, newValue);
 
     QList<QGraphicsItem*> list; //= collidingItems();
 
@@ -641,7 +635,7 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& va
         VisualItem* vItem= dynamic_cast<VisualItem*>(item);
         if((nullptr != vItem) && (vItem != this))
         {
-            if((vItem->getLayer() == Core::Layer::OBJECT))
+            // if((vItem->getLayer() == Core::Layer::OBJECT))
             {
                 newValue= m_oldPosition;
             }
@@ -657,11 +651,11 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant& va
 }
 int CharacterItem::getChildPointCount() const
 {
-    return m_child->size();
+    return m_children.size();
 }
 void CharacterItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
-    QRectF rect= m_rect;
+    QRectF rect; //= m_rect
     if(m_protectGeometryChange || m_holdSize)
         return;
 
@@ -682,12 +676,12 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF& pos)
         rect.setBottomLeft(pos);
         break;
     case DIRECTION_RADIUS_HANDLE:
-        if(pos.x() - (m_rect.width() / 2) < 0)
-        {
-            pos.setX(m_rect.width() / 2);
-        }
-        m_vision->setRadius(pos.x() - (getRadius() * 2) + m_child->at(4)->boundingRect().width() + m_rect.width() / 2);
-        visionChanged();
+        /*   if(pos.x() - (m_rect.width() / 2) < 0)
+           {
+               pos.setX(m_rect.width() / 2);
+           }
+           m_vision->setRadius(pos.x() - (getRadius() * 2) + m_child->at(4)->boundingRect().width() + m_rect.width() /
+           2); visionChanged();*/
         break;
     case ANGLE_HANDLE:
     {
@@ -725,111 +719,109 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF& pos)
     sizeChanged(m_diameter);
     switch(static_cast<int>(pointId))
     {
-    case 0:
-        pos= m_rect.topLeft();
-        m_child->value(1)->setPos(m_rect.topRight());
-        m_child->value(2)->setPos(m_rect.bottomRight());
-        m_child->value(3)->setPos(m_rect.bottomLeft());
-        m_child->value(4)->setPos(m_vision->getRadius(),
-                                  m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
-        // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width()+m_rect.width()/2);
-        break;
-    case 1:
-        pos= m_rect.topRight();
-        m_child->value(0)->setPos(m_rect.topLeft());
-        m_child->value(2)->setPos(m_rect.bottomRight());
-        m_child->value(3)->setPos(m_rect.bottomLeft());
-        m_child->value(4)->setPos(m_vision->getRadius(),
-                                  m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
-        // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
-        break;
-    case 2:
-        pos= m_rect.bottomRight();
-        m_child->value(0)->setPos(m_rect.topLeft());
-        m_child->value(1)->setPos(m_rect.topRight());
-        m_child->value(3)->setPos(m_rect.bottomLeft());
-        m_child->value(4)->setPos(m_vision->getRadius(),
-                                  m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
-        // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
-        break;
-    case 3:
-        pos= m_rect.bottomLeft();
-        m_child->value(0)->setPos(m_rect.topLeft());
-        m_child->value(1)->setPos(m_rect.topRight());
-        m_child->value(2)->setPos(m_rect.bottomRight());
-        m_child->value(4)->setPos(m_vision->getRadius(),
-                                  m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
-        // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
-        break;
-    case DIRECTION_RADIUS_HANDLE:
-        m_child->value(ANGLE_HANDLE)->setPos((m_vision->getRadius() + getRadius()) / 2, -m_vision->getAngle());
-        break;
-    case ANGLE_HANDLE:
-        break;
-    default:
-        break;
+        /*   case 0:
+               pos= m_rect.topLeft();
+               m_child->value(1)->setPos(m_rect.topRight());
+               m_child->value(2)->setPos(m_rect.bottomRight());
+               m_child->value(3)->setPos(m_rect.bottomLeft());
+               m_child->value(4)->setPos(m_vision->getRadius(),
+                                         m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
+               // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width()+m_rect.width()/2);
+               break;
+           case 1:
+               pos= m_rect.topRight();
+               m_child->value(0)->setPos(m_rect.topLeft());
+               m_child->value(2)->setPos(m_rect.bottomRight());
+               m_child->value(3)->setPos(m_rect.bottomLeft());
+               m_child->value(4)->setPos(m_vision->getRadius(),
+                                         m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
+               // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
+               break;
+           case 2:
+               pos= m_rect.bottomRight();
+               m_child->value(0)->setPos(m_rect.topLeft());
+               m_child->value(1)->setPos(m_rect.topRight());
+               m_child->value(3)->setPos(m_rect.bottomLeft());
+               m_child->value(4)->setPos(m_vision->getRadius(),
+                                         m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
+               // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
+               break;
+           case 3:
+               pos= m_rect.bottomLeft();
+               m_child->value(0)->setPos(m_rect.topLeft());
+               m_child->value(1)->setPos(m_rect.topRight());
+               m_child->value(2)->setPos(m_rect.bottomRight());
+               m_child->value(4)->setPos(m_vision->getRadius(),
+                                         m_rect.height() / 2 - m_child->value(4)->boundingRect().height() / 2);
+               // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
+               break;
+           case DIRECTION_RADIUS_HANDLE:
+               m_child->value(ANGLE_HANDLE)->setPos((m_vision->getRadius() + getRadius()) / 2, -m_vision->getAngle());
+               break;
+           case ANGLE_HANDLE:
+               break;
+           default:
+               break;*/
     }
 
-    setTransformOriginPoint(m_rect.center());
+    // setTransformOriginPoint(m_rect.center());
 }
 void CharacterItem::initChildPointItem()
 {
-    if(m_child != nullptr)
-        return;
-    if(nullptr != m_child)
-    {
-        qDeleteAll(m_child->begin(), m_child->end());
-        delete m_child;
-    }
-    m_child= new QVector<ChildPointItem*>();
+    /* if(nullptr != m_child)
+     {
+         qDeleteAll(m_child->begin(), m_child->end());
+         delete m_child;
+     }
+     m_child= new QVector<ChildPointItem*>();*/
 
     for(int i= 0; i < MAX_CORNER_ITEM; ++i)
     {
-        ChildPointItem* tmp= new ChildPointItem(i, this, (i == DIRECTION_RADIUS_HANDLE));
+        /*ChildPointItem* tmp= new ChildPointItem(m_ctrl, i, this, (i == DIRECTION_RADIUS_HANDLE));
         tmp->setMotion(ChildPointItem::ALL);
         tmp->setRotationEnable(true);
-        m_child->append(tmp);
+        m_child->append(tmp);*/
     }
 
-    m_child->at(DIRECTION_RADIUS_HANDLE)->setMotion(ChildPointItem::X_AXIS);
-    m_child->at(DIRECTION_RADIUS_HANDLE)->setRotationEnable(false);
-    m_child->at(DIRECTION_RADIUS_HANDLE)->setVisible(false);
+    /*  m_child->at(DIRECTION_RADIUS_HANDLE)->setMotion(ChildPointItem::X_AXIS);
+      m_child->at(DIRECTION_RADIUS_HANDLE)->setRotationEnable(false);
+      m_child->at(DIRECTION_RADIUS_HANDLE)->setVisible(false);
 
-    m_child->at(ANGLE_HANDLE)->setMotion(ChildPointItem::Y_AXIS);
-    m_child->at(ANGLE_HANDLE)->setRotationEnable(false);
-    m_child->at(ANGLE_HANDLE)->setVisible(false);
-    updateChildPosition();
+      m_child->at(ANGLE_HANDLE)->setMotion(ChildPointItem::Y_AXIS);
+      m_child->at(ANGLE_HANDLE)->setRotationEnable(false);
+      m_child->at(ANGLE_HANDLE)->setVisible(false);
+      updateChildPosition();*/
 }
 
 void CharacterItem::initChildPointItemMotion()
 {
     int i= 0;
-    for(auto& itemChild : *m_child)
-    {
-        itemChild->setEditableItem(true);
-        switch(i)
-        {
-        case DIRECTION_RADIUS_HANDLE:
-            itemChild->setMotion(ChildPointItem::X_AXIS);
-            break;
-        case ANGLE_HANDLE:
-            itemChild->setMotion(ChildPointItem::Y_AXIS);
-            break;
-        default:
-            itemChild->setMotion(ChildPointItem::ALL);
-            break;
-        }
-        itemChild->setRotationEnable(true);
-    }
+    /*  for(auto& itemChild : *m_child)
+       {
+           itemChild->setEditableItem(true);
+           switch(i)
+           {
+           case DIRECTION_RADIUS_HANDLE:
+               itemChild->setMotion(ChildPointItem::X_AXIS);
+               break;
+           case ANGLE_HANDLE:
+               itemChild->setMotion(ChildPointItem::Y_AXIS);
+               break;
+           default:
+               itemChild->setMotion(ChildPointItem::ALL);
+               break;
+           }
+           itemChild->setRotationEnable(true);
+       }*/
 }
 
 ChildPointItem* CharacterItem::getRadiusChildWidget()
 {
-    if(m_child->size() >= 5)
-    {
-        return m_child->value(DIRECTION_RADIUS_HANDLE);
-    }
-    return nullptr;
+    /*  if(m_child->size() >= 5)
+      {
+          return m_child->value(DIRECTION_RADIUS_HANDLE);
+      }
+      return nullptr;*/
 }
 QColor CharacterItem::getColor()
 {
@@ -841,23 +833,23 @@ QColor CharacterItem::getColor()
 
 void CharacterItem::updateChildPosition()
 {
-    m_child->value(0)->setPos(m_rect.topLeft());
-    m_child->value(0)->setPlacement(ChildPointItem::TopLeft);
-    m_child->value(1)->setPos(m_rect.topRight());
-    m_child->value(1)->setPlacement(ChildPointItem::TopRight);
-    m_child->value(2)->setPos(m_rect.bottomRight());
-    m_child->value(2)->setPlacement(ChildPointItem::ButtomRight);
-    m_child->value(3)->setPos(m_rect.bottomLeft());
-    m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
+    /*    m_child->value(0)->setPos(m_rect.topLeft());
+        m_child->value(0)->setPlacement(ChildPointItem::TopLeft);
+        m_child->value(1)->setPos(m_rect.topRight());
+        m_child->value(1)->setPlacement(ChildPointItem::TopRight);
+        m_child->value(2)->setPos(m_rect.bottomRight());
+        m_child->value(2)->setPlacement(ChildPointItem::ButtomRight);
+        m_child->value(3)->setPos(m_rect.bottomLeft());
+        m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
 
-    m_child->value(DIRECTION_RADIUS_HANDLE)
-        ->setPos(m_vision->getRadius() + getRadius(),
-                 m_rect.height() / 2 - m_child->value(DIRECTION_RADIUS_HANDLE)->boundingRect().height() / 2);
+        m_child->value(DIRECTION_RADIUS_HANDLE)
+            ->setPos(m_vision->getRadius() + getRadius(),
+                     m_rect.height() / 2 - m_child->value(DIRECTION_RADIUS_HANDLE)->boundingRect().height() / 2);
 
-    m_child->value(ANGLE_HANDLE)->setPos((m_vision->getRadius() + getRadius()) / 2, -m_vision->getAngle());
-    m_child->value(ANGLE_HANDLE)->setVisionHandler(true);
+        m_child->value(ANGLE_HANDLE)->setPos((m_vision->getRadius() + getRadius()) / 2, -m_vision->getAngle());
+        m_child->value(ANGLE_HANDLE)->setVisionHandler(true);
 
-    setTransformOriginPoint(m_rect.center());
+        setTransformOriginPoint(m_rect.center());*/
 
     update();
 }
@@ -894,7 +886,7 @@ void CharacterItem::addActionContextMenu(QMenu& menu)
         m_visionShapeDisk->setChecked(false);
         m_visionShapeAngle->setChecked(true);
     }
-    if(getOption(Core::LocalIsGM).toBool() && nullptr != m_character)
+    //  if(m_ctrl->localGM() && nullptr != m_character)
     {
         // Actions
         auto actionlist= m_character->getActionList();
@@ -1129,11 +1121,9 @@ void CharacterItem::readCharacterChanged(NetworkMessageReader& msg)
 
 void CharacterItem::addChildPoint(ChildPointItem* item)
 {
-    if(nullptr != m_child)
-    {
-        // item->setPointID(m_child->size());
-        m_child->append(item);
-    }
+
+    // item->setPointID(m_child->size());
+    m_children.append(item);
 }
 void CharacterItem::setDefaultVisionParameter(CharacterVision::SHAPE shape, qreal radius, qreal angle)
 {
@@ -1208,16 +1198,15 @@ void CharacterItem::updateItemFlags()
     VisualItem::updateItemFlags();
     if(canBeMoved())
     {
-        if(nullptr != m_child)
+
+        initChildPointItemMotion();
+        /*for(auto& itemChild : m_children)
         {
-            initChildPointItemMotion();
-            /*for(auto& itemChild : *m_child)
-            {
-                itemChild->setEditableItem(true);
-                itemChild->setMotion(ChildPointItem::ALL);
-                itemChild->setRotationEnable(true);
-            }*/
-        }
+            itemChild->setEditableItem(true);
+            itemChild->setMotion(ChildPointItem::ALL);
+            itemChild->setRotationEnable(true);
+        }*/
+
         setFlag(QGraphicsItem::ItemIsMovable, true);
         setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
         connect(this, SIGNAL(xChanged()), this, SLOT(posChange()), Qt::UniqueConnection);
@@ -1285,8 +1274,10 @@ void CharacterItem::setHoldSize(bool holdSize)
 {
     VisualItem::setHoldSize(holdSize);
 
-    for(auto& itemChild : *m_child)
+    for(auto& itemChild : m_children)
     {
+        if(itemChild == nullptr)
+            continue;
         if(itemChild->getPointID() < DIRECTION_RADIUS_HANDLE)
         {
             itemChild->setMotion(holdSize ? ChildPointItem::NONE : ChildPointItem::ALL);
@@ -1320,8 +1311,8 @@ void CharacterItem::setTokenFile(QString filename)
         QJsonObject obj= doc.object();
 
         m_diameter= obj["size"].toDouble();
-        m_rect.setHeight(m_diameter);
-        m_rect.setWidth(m_diameter);
+        /*    m_rect.setHeight(m_diameter);
+            m_rect.setWidth(m_diameter);*/
         if(nullptr == m_character)
         {
             auto character= new Character();

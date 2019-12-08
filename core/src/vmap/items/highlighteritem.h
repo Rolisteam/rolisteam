@@ -21,6 +21,7 @@
 #define HIGHLIGHTERITEM_H
 #include "visualitem.h"
 class QPropertyAnimation;
+class VisualItemController;
 /**
  * @brief displays an ellipse on maps.
  */
@@ -29,7 +30,7 @@ class HighlighterItem : public VisualItem
     Q_OBJECT
     Q_PROPERTY(qreal radius READ getRadius WRITE setRadius NOTIFY radiusChanged)
 public:
-    HighlighterItem(const std::map<Core::Properties, QVariant>& properties);
+    HighlighterItem(VisualItemController* ctrl);
     /**
      * @brief constructor with parameters
      * @param center first point clicked by the user
@@ -46,7 +47,7 @@ public:
     /**
      * @brief modifies the ellipse size and shape.
      */
-    virtual void setNewEnd(QPointF& nend);
+    virtual void setNewEnd(const QPointF& nend);
 
     /**
      * @brief gives the bounding rect of the ellipse

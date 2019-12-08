@@ -26,6 +26,7 @@
 #include "vmap/vmap.h"
 
 #include <QPen>
+class VisualItemController;
 /**
  * @brief The AnchorItem class ephemeral item to display rule and measure the distance between two points.
  */
@@ -36,7 +37,7 @@ public:
      * @brief AnchorItem
      * @param p
      */
-    AnchorItem(const std::map<Core::Properties, QVariant>& properties, QPointF& p);
+    AnchorItem(VisualItemController* ctrl, QPointF& p);
     /**
      *
      */
@@ -52,7 +53,7 @@ public:
     /**
      * @brief defines new position of the end line.
      */
-    virtual void setNewEnd(QPointF& nend);
+    virtual void setNewEnd(const QPointF& nend);
     /**
      * @brief serialisation writing
      */

@@ -380,7 +380,7 @@ bool MapFrame::createMap()
         m_width= mapDialog.getSize().width();
         m_height= mapDialog.getSize().height();
 
-        setCleverUriType(CleverURI::MAP);
+        // setCleverUriType(CleverURI::MAP);
 
         setUriName(title);
 

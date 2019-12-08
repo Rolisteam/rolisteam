@@ -24,7 +24,9 @@
 #include <QPainterPath>
 #include <QStyleOptionGraphicsItem>
 
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include "map/map.h"
+#include "vmap/controller/visualitemcontroller.h"
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -125,8 +127,7 @@ QPainterPath vectorToPath(const QVector<QPointF>& points, bool closeUp= false)
     return path;
 }
 
-PathItem::PathItem(const std::map<Core::Properties, QVariant>& properties)
-    : VisualItem(properties), m_penMode(false), m_filled(false)
+PathItem::PathItem(VisualItemController* ctrl) : VisualItem(ctrl), m_penMode(false), m_filled(false)
 {
     m_closed= false;
     createActions();
@@ -146,13 +147,13 @@ QRectF PathItem::boundingRect() const
 {
     QPainterPath path= vectorToPath(m_pointVectorBary);
     QRectF rect= path.boundingRect();
-    rect.adjust(-m_penWidth / 2, -m_penWidth / 2, m_penWidth / 2, m_penWidth / 2);
+    // rect.adjust(-m_penWidth / 2, -m_penWidth / 2, m_penWidth / 2, m_penWidth / 2);
     return rect;
 }
 
 QPainterPath PathItem::shape() const
 {
-    return vectorToFullPath(m_pointVectorBary, m_penWidth);
+    return vectorToFullPath(m_pointVectorBary, 10);
 }
 
 void PathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -173,7 +174,7 @@ void PathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     painter->save();
     auto pen= painter->pen();
     pen.setColor(m_color);
-    pen.setWidth(m_penWidth);
+    //   pen.setWidth(m_penWidth);
     pen.setCapStyle(Qt::RoundCap);
     pen.setJoinStyle(Qt::RoundJoin);
     painter->setPen(pen);
@@ -198,7 +199,7 @@ void PathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
         painter->restore();
     }
 }
-void PathItem::setNewEnd(QPointF& p)
+void PathItem::setNewEnd(const QPointF& p)
 {
     m_end= p;
     if(m_penMode)
@@ -230,14 +231,14 @@ void PathItem::writeData(QDataStream& out) const
     out << m_pointVector;
     out << m_path;
     out << opacity();
-    out << m_penWidth;
+    //  out << m_penWidth;
     out << m_color;
     out << m_closed;
     out << m_filled;
     out << scale();
     out << rotation();
     out << m_penMode;
-    out << static_cast<int>(m_layer);
+    // out << static_cast<int>(m_layer);
 }
 
 void PathItem::readData(QDataStream& in)
@@ -248,7 +249,7 @@ void PathItem::readData(QDataStream& in)
     qreal opa= 0;
     in >> opa;
     setOpacity(opa);
-    in >> m_penWidth;
+    //  in >> m_penWidth;
     in >> m_color;
     in >> m_closed;
     m_closeAct->setChecked(m_closed);
@@ -264,7 +265,7 @@ void PathItem::readData(QDataStream& in)
     in >> m_penMode;
     int i;
     in >> i;
-    m_layer= static_cast<Core::Layer>(i);
+    // m_layer= static_cast<Core::Layer>(i);
 
     // m_end = m_start;
     initRealPoints();
@@ -281,7 +282,7 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
     msg->uint8(m_closed);
     msg->uint8(m_filled);
     msg->uint8(m_penMode);
-    msg->uint8(static_cast<quint8>(m_layer));
+    // msg->uint8(static_cast<quint8>(m_layer));
     msg->real(zValue());
     msg->real(opacity());
 
@@ -289,7 +290,7 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(pos().y());
 
     // pen
-    msg->uint16(m_penWidth);
+    //   msg->uint16(m_penWidth);
     msg->rgb(m_color.rgb());
 
     msg->real(m_start.x());
@@ -313,7 +314,7 @@ void PathItem::readItem(NetworkMessageReader* msg)
     m_filled= static_cast<bool>(msg->uint8());
     m_fillAct->setChecked(m_filled);
     m_penMode= static_cast<bool>(msg->uint8());
-    m_layer= static_cast<Core::Layer>(msg->uint8());
+    // m_layer= static_cast<Core::Layer>(msg->uint8());
     setZValue(msg->real());
     setOpacity(msg->real());
 
@@ -321,7 +322,7 @@ void PathItem::readItem(NetworkMessageReader* msg)
     qreal posy= msg->real();
 
     // pen
-    m_penWidth= msg->int16();
+    // m_penWidth= msg->int16();
     m_color= msg->rgb();
 
     m_start.setX(msg->real());
@@ -385,7 +386,7 @@ void PathItem::setGeometryPoint(qreal pointId, QPointF& pos)
 void PathItem::setHoldSize(bool holdSize)
 {
     VisualItem::setHoldSize(holdSize);
-    for(auto child : *m_child)
+    for(auto child : m_children)
     {
         auto motion= holdSize ? ChildPointItem::NONE : ChildPointItem::ALL;
 
@@ -412,40 +413,40 @@ void PathItem::initChildPointItem()
 {
     initRealPoints();
 
-    if(nullptr == m_child)
-    {
-        m_child= new QVector<ChildPointItem*>();
-    }
-    else
-    {
-        qDeleteAll(m_child->begin(), m_child->end());
-        m_child->clear();
-    }
-    if(!m_penMode)
-    {
-        int i= 0;
-        for(auto& p : m_pointVectorBary)
-        {
-            ChildPointItem* tmp= new ChildPointItem(i, this);
-            tmp->setMotion(ChildPointItem::ALL);
-            m_child->append(tmp);
-            tmp->setPos(p);
-            tmp->setPlacement(ChildPointItem::Center);
-            ++i;
-        }
-    }
+    /* if(nullptr == m_child)
+     {
+         m_child= new QVector<ChildPointItem*>();
+     }
+     else
+     {
+         qDeleteAll(m_child->begin(), m_child->end());
+         m_child->clear();
+     }
+     if(!m_penMode)
+     {
+         int i= 0;
+         for(auto& p : m_pointVectorBary)
+         {
+             ChildPointItem* tmp= new ChildPointItem(m_ctrl, i, this);
+             tmp->setMotion(ChildPointItem::ALL);
+             m_child->append(tmp);
+             tmp->setPos(p);
+             tmp->setPlacement(ChildPointItem::Center);
+             ++i;
+         }
+     }*/
 }
 VisualItem* PathItem::getItemCopy()
 {
-    PathItem* path= new PathItem();
+    /*PathItem* path= new PathItem();
     path->setPath(m_pointVector);
     path->setStartPoint(m_start);
     path->setPenColor(m_color);
     path->setPenWidth(m_penWidth);
     path->setClosed(m_closed);
     path->setFilled(m_filled);
-    path->setPos(pos());
-    return path;
+    path->setPos(pos());*/
+    return nullptr; // path
 }
 
 void PathItem::setStartPoint(QPointF start)
@@ -491,16 +492,16 @@ void PathItem::endOfGeometryChange()
 }
 void PathItem::sendPointPosition()
 {
-    if((getOption(Core::LocalIsGM).toBool()) || (getOption(Core::PermissionModeProperty).toInt() == Core::PC_ALL)
-       || ((getOption(Core::PermissionModeProperty).toInt() == Core::PC_MOVE) && (getType() == VisualItem::CHARACTER)
-           && (isLocal()))) // getOption PermissionMode
-    {
-        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::MovePoint);
-        msg.string8(m_mapId);
-        msg.string16(m_id);
-        msg.real(m_changedPointId);
-        msg.real(m_changedPointPos.x());
-        msg.real(m_changedPointPos.y());
-        msg.sendToServer();
-    }
+    /*    if(m_ctrl->localGM() || (m_ctrl->permission() == Core::PC_ALL)
+           || ((m_ctrl->permission() == Core::PC_MOVE) && (getType() == VisualItem::CHARACTER)
+               && (isLocal()))) // getOption PermissionMode
+        {
+            NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::MovePoint);
+            msg.string8(m_mapId);
+            msg.string16(m_id);
+            msg.real(m_changedPointId);
+            msg.real(m_changedPointPos.x());
+            msg.real(m_changedPointPos.y());
+            msg.sendToServer();
+        }*/
 }

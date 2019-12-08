@@ -24,15 +24,16 @@
 
 #include "data/cleveruri.h"
 #include "network/networkreceiver.h"
-
+class QUndoStack;
 class MediaControllerInterface : public QObject, public NetWorkReceiver
 {
     Q_OBJECT
 public:
     virtual CleverURI::ContentType type() const= 0;
-    virtual bool openMedia(CleverURI*, const std::map<QString,QVariant>& args)= 0;
+    virtual bool openMedia(CleverURI*, const std::map<QString, QVariant>& args)= 0;
     virtual void closeMedia(const QString& id)= 0;
     virtual void registerNetworkReceiver()= 0;
+    virtual void setUndoStack(QUndoStack* stack)= 0;
 };
 
 #endif // MEDIACONTROLLERINTERFACE_H

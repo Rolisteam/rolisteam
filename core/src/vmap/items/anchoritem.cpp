@@ -20,8 +20,10 @@
 
 #include "anchoritem.h"
 
-AnchorItem::AnchorItem(const std::map<Core::Properties, QVariant>& properties, QPointF& p)
-    : VisualItem(properties), m_startPoint(p), m_pen(QColor(Qt::darkGray))
+#include "vmap/controller/visualitemcontroller.h"
+
+AnchorItem::AnchorItem(VisualItemController* ctrl, QPointF& p)
+    : VisualItem(ctrl), m_startPoint(p), m_pen(QColor(Qt::darkGray))
 {
     m_endPoint= m_startPoint;
     m_rect.setTopLeft(p);
@@ -37,7 +39,7 @@ VisualItem::ItemType AnchorItem::getType() const
 {
     return VisualItem::ANCHOR;
 }
-void AnchorItem::setNewEnd(QPointF& nend)
+void AnchorItem::setNewEnd(const QPointF& nend)
 {
     m_endPoint= nend;
     m_rect.setBottomRight(nend);

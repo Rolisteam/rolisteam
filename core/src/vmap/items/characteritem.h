@@ -30,6 +30,7 @@
 #include "visualitem.h"
 #include <memory>
 
+class CharacterController;
 /**
  * @brief represents any character on map.
  */
@@ -40,15 +41,14 @@ public:
     /**
      * @brief CharacterItem
      */
-    CharacterItem(const std::map<Core::Properties, QVariant>& properties);
+    CharacterItem(VisualItemController* ctrl);
     /**
      * @brief CharacterItem
      * @param m
      * @param center
      * @param diameter
      */
-    CharacterItem(const std::map<Core::Properties, QVariant>& properties, Character* m, const QPointF& center,
-                  qreal diameter= 40.0);
+    // CharacterItem(CharacterController* ctrl, Character* m, const QPointF& center, qreal diameter= 40.0);
     /**
      * @brief serialisation function to write data
      */
@@ -75,7 +75,7 @@ public:
     /**
      * @brief modifies the ellipse size and shape.
      */
-    virtual void setNewEnd(QPointF& nend) override;
+    virtual void setNewEnd(const QPointF& nend) override;
     /**
      * @brief paint the ellipse at the correct position
      */
@@ -106,7 +106,7 @@ public:
      * @param rect
      * @param keepRatio
      */
-    void resizeContents(const QRectF& rect, TransformType transformType= KeepRatio) override;
+    void resizeContents(const QRectF& rect, int pointId, TransformType transformType= KeepRatio) override;
     /**
      * @brief updateChildPosition
      */

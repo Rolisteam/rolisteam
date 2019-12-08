@@ -21,13 +21,15 @@
 #define RECTITEM_H
 
 #include "visualitem.h"
+class RectController;
 /**
  * @brief displays and manages rectangle on map, part of QGraphicsScene/view.
  */
 class RectItem : public VisualItem
 {
+    Q_OBJECT
 public:
-    RectItem(const std::map<Core::Properties, QVariant>& properties);
+    RectItem(RectController* ctrl);
     // RectItem(const QPointF& topleft, const QPointF& buttomright, bool filled, quint16 penSize, const QColor&
     // penColor,
     //    QGraphicsItem* parent= nullptr);
@@ -35,78 +37,76 @@ public:
      * @brief paint the current rectangle into the scene.
      * @see Qt documentation
      */
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr) override;
 
     /**
      * @brief gives bounding rect. Return rect geometry into the QRectF
      */
-    virtual QRectF boundingRect() const;
+    virtual QRectF boundingRect() const override;
 
     /**
      * @brief defines new end point.
      */
-    virtual void setNewEnd(QPointF& nend);
+    virtual void setNewEnd(const QPointF& nend) override;
     /**
      * @brief serialization function to write data.
      */
-    virtual void writeData(QDataStream& out) const;
+    virtual void writeData(QDataStream& out) const override;
     /**
      * @brief serialization function to read data from stream.
      */
-    virtual void readData(QDataStream& in);
+    virtual void readData(QDataStream& in) override;
     /**
      * @brief getType
      * @return
      */
-    virtual VisualItem::ItemType getType() const;
+    virtual VisualItem::ItemType getType() const override;
     /**
      * @brief fillMessage
      * @param msg
      */
-    virtual void fillMessage(NetworkMessageWriter* msg);
+    virtual void fillMessage(NetworkMessageWriter* msg) override;
     /**
      * @brief readItem
      * @param msg
      */
-    virtual void readItem(NetworkMessageReader* msg);
+    virtual void readItem(NetworkMessageReader* msg) override;
     /**
      * @brief shape
      * @return
      */
-    virtual QPainterPath shape() const;
+    virtual QPainterPath shape() const override;
     /**
      * @brief setGeometryPoint
      * @param pointId
      * @param pos
      */
-    virtual void setGeometryPoint(qreal pointId, QPointF& pos);
+    virtual void setGeometryPoint(qreal pointId, QPointF& pos) override;
     /**
      * @brief initChildPointItem
      */
-    virtual void initChildPointItem();
+    virtual void initChildPointItem() override;
     /**
      * @brief getItemCopy
      * @return
      */
-    virtual VisualItem* getItemCopy();
+    virtual VisualItem* getItemCopy() override;
 
     /**
      * @brief resizeContents
      */
-    virtual void resizeContents(const QRectF&, TransformType);
+    virtual void resizeContents(const QRectF&, int pointId, TransformType) override;
+
+    void endOfGeometryChange() override;
 
 protected:
     /**
      * @brief updateChildPosition
      */
-    virtual void updateChildPosition();
+    virtual void updateChildPosition() override;
 
 private:
-    bool m_initialized;
-    /**
-     * @brief stores the filled state.
-     */
-    bool m_filled;
+    QPointer<RectController> m_rectCtrl;
 };
 
 #endif // RECTITEM_H

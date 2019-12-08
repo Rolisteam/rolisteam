@@ -32,11 +32,6 @@
 MapWizzardDialog::MapWizzardDialog(QWidget* parent) : QDialog(parent), ui(new Ui::MapWizzardDialog)
 {
     ui->setupUi(this);
-    if(nullptr != parent)
-    {
-        m_width= parent->rect().width();
-        m_height= parent->rect().height();
-    }
     m_model= new PatternModel();
 
     ui->m_gridPattern->setModel(m_model);
@@ -61,11 +56,7 @@ MapWizzardDialog::MapWizzardDialog(QWidget* parent) : QDialog(parent), ui(new Ui
     ui->m_visibilityComboBox->setCurrentIndex(
         PreferencesManager::getInstance()->value("defaultMapVisibility", 0).toInt());
 
-    selectedShapeChanged();
-
-    m_sizeList << QSize(600, 450) << QSize(800, 600) << QSize(1000, 750) << QSize(1200, 900) << QSize(450, 600)
-               << QSize(600, 800) << QSize(750, 1000) << QSize(900, 1200) << QSize(500, 500) << QSize(700, 700)
-               << QSize(900, 900) << QSize(1100, 1100);
+    // selectedShapeChanged();
 }
 
 MapWizzardDialog::~MapWizzardDialog()
@@ -73,57 +64,36 @@ MapWizzardDialog::~MapWizzardDialog()
     delete ui;
 }
 
-void MapWizzardDialog::changeEvent(QEvent* e)
+QString MapWizzardDialog::name() const
 {
-    QDialog::changeEvent(e);
-    switch(e->type())
-    {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
+    return ui->m_titleLineedit->text();
 }
-void MapWizzardDialog::selectedShapeChanged()
-{
-    /*   if(ui->m_landscapeButton->isChecked())
-       {
-           ui->m_smallSizeButton->setText(tr("Small ( %1 x %2)").arg(600).arg(450));
-           ui->m_mediumSizeButton->setText(tr("Medium ( %1 x %2)").arg(800).arg(600));
-           ui->m_bigSizeButton->setText(tr("Big ( %1 x %2)").arg(1000).arg(750));
-           ui->m_hugeSizeButton->setText(tr("Huge ( %1 x %2)").arg(1200).arg(900));
-       }
-       else if(ui->m_portraitButton->isChecked())
-       {
-           ui->m_smallSizeButton->setText(tr("Small ( %2 x %1)").arg(600).arg(450));
-           ui->m_mediumSizeButton->setText(tr("Medium ( %2 x %1)").arg(800).arg(600));
-           ui->m_bigSizeButton->setText(tr("Big ( %2 x %1)").arg(1000).arg(750));
-           ui->m_hugeSizeButton->setText(tr("Huge ( %2 x %1)").arg(1200).arg(900));
-       }
-       else if(ui->m_squareButton->isChecked())
-       {
-           ui->m_smallSizeButton->setText(tr("Small ( %2 x %1)").arg(500).arg(500));
-           ui->m_mediumSizeButton->setText(tr("Medium ( %2 x %1)").arg(700).arg(700));
-           ui->m_bigSizeButton->setText(tr("Big ( %2 x %1)").arg(900).arg(900));
-           ui->m_hugeSizeButton->setText(tr("Huge ( %2 x %1)").arg(1100).arg(1100));
-       }*/
-}
-void MapWizzardDialog::updateDataFrom(VMap* map)
-{
-    ui->m_gridPattern->setCurrentIndex(map->getOption(VisualItem::GridPattern).toInt());
-    ui->m_sizeGrid->setValue(map->getOption(VisualItem::GridSize).toInt());
-    ui->m_gridColorBtn->setColor(map->getOption(VisualItem::GridColor).value<QColor>());
-    ui->m_permissionComboBox->setCurrentIndex(map->getPermissionMode());
-    ui->m_visibilityComboBox->setCurrentIndex(map->getOption(VisualItem::VisibilityMode).toInt());
-    ui->m_scaleOfGrid->setValue(map->getOption(VisualItem::GridSize).toInt());
-    ui->m_unitPattern->setCurrentIndex(map->getOption(VisualItem::Unit).toInt());
-    // ui->m_colorButton->setColor(map->getBackGroundColor());
 
-    selectedShapeChanged();
-    // ui->m_titleLineedit->setText(map->getMapTitle());
+QColor MapWizzardDialog::backgroundColor() const
+{
+    return ui->m_colorButton->color();
 }
-void MapWizzardDialog::setAllMap(VMap* map)
+
+int MapWizzardDialog::gridSize() const
+{
+    return ui->m_sizeGrid->value();
+}
+
+QColor MapWizzardDialog::gridColor() const
+{
+    return Qt::black;
+}
+
+Core::ScaleUnit MapWizzardDialog::unit() const
+{
+    return static_cast<Core::ScaleUnit>(ui->m_unitPattern->currentIndex());
+}
+qreal MapWizzardDialog::scale() const
+{
+    return ui->m_scaleOfGrid->value();
+}
+
+Core::GridPattern MapWizzardDialog::pattern() const
 {
     Core::GridPattern grid;
     switch(ui->m_gridPattern->currentIndex())
@@ -144,14 +114,11 @@ void MapWizzardDialog::setAllMap(VMap* map)
         grid= Core::NONE;
         break;
     }
-    map->setOption(VisualItem::GridPattern, grid);
-    if(grid != Core::NONE)
-    {
-        map->setOption(VisualItem::ShowGrid, true);
-    }
-    map->setOption(VisualItem::GridColor, ui->m_gridColorBtn->color());
-    map->setOption(VisualItem::GridSize, ui->m_sizeGrid->value());
+    return grid;
+}
 
+Core::PermissionMode MapWizzardDialog::permission() const
+{
     Core::PermissionMode result;
     switch(ui->m_permissionComboBox->currentIndex())
     {
@@ -168,8 +135,11 @@ void MapWizzardDialog::setAllMap(VMap* map)
         result= Core::GM_ONLY;
         break;
     }
-    map->setPermissionMode(result);
+    return result;
+}
 
+Core::VisibilityMode MapWizzardDialog::visibility() const
+{
     Core::VisibilityMode resultVisibility= Core::HIDDEN;
     switch(ui->m_visibilityComboBox->currentIndex())
     {
@@ -185,18 +155,33 @@ void MapWizzardDialog::setAllMap(VMap* map)
     default:
         break;
     }
+    return resultVisibility;
+}
 
-    map->setVisibilityMode(resultVisibility);
-    map->setOption(VisualItem::GridSize, ui->m_sizeGrid->value());
+void MapWizzardDialog::changeEvent(QEvent* e)
+{
+    QDialog::changeEvent(e);
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
+}
 
-    // map->setWidth(DEFAULT_VMAP_WIDTH);
-    // map->setHeight(DEFAULT_VMAP_HEIGHT);
+void MapWizzardDialog::updateUI()
+{
+    /*ui->m_gridPattern->setCurrentIndex(map->getOption(VisualItem::GridPattern).toInt());
+    ui->m_sizeGrid->setValue(map->getOption(VisualItem::GridSize).toInt());
+    ui->m_gridColorBtn->setColor(map->getOption(VisualItem::GridColor).value<QColor>());
+    ui->m_permissionComboBox->setCurrentIndex(map->getPermissionMode());
+    ui->m_visibilityComboBox->setCurrentIndex(map->getOption(VisualItem::VisibilityMode).toInt());
+    ui->m_scaleOfGrid->setValue(map->getOption(VisualItem::GridSize).toInt());
+    ui->m_unitPattern->setCurrentIndex(map->getOption(VisualItem::Unit).toInt());*/
+    // ui->m_colorButton->setColor(map->getBackGroundColor());
 
-    map->setOption(VisualItem::Scale, ui->m_scaleOfGrid->value());
-    map->setOption(VisualItem::Unit, ui->m_unitPattern->currentIndex());
-
-    // map->setBackGroundColor(m_bgColor);
-    // map->setBackGroundColor(ui->m_colorButton->color());
-    map->computePattern();
-    // map->setTitle(ui->m_titleLineedit->text());
+    // selectedShapeChanged();
+    // ui->m_titleLineedit->setText(map->getMapTitle());
 }

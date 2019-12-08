@@ -142,6 +142,9 @@ void MessageHelper::sendOffOneCharacterState(CharacterState* state, int row)
     msg.rgb(state->getColor().rgb());
     msg.sendToServer();
 }
+
+void MessageHelper::sendOffOpenMedia(AbstractMediaController* ctrl) {}
+
 void MessageHelper::sendOffImage(ImageController* ctrl)
 {
     if(nullptr == ctrl)

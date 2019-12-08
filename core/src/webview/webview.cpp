@@ -23,12 +23,13 @@
 #include <QVBoxLayout>
 
 WebView::WebView(State state, QWidget* parent)
-    : MediaContainer(MediaContainer::ContainerType::WebViewContainer, localIsGM == state, parent), m_currentState(state)
+    : MediaContainer(nullptr, MediaContainer::ContainerType::WebViewContainer, localIsGM == state, parent)
+    , m_currentState(state)
 {
     setObjectName("WebPage");
     setGeometry(0, 0, 500, 500);
     setWindowIcon(QIcon(":/resources/icons/webPage.svg"));
-    m_uri= new CleverURI("Webpage", "", CleverURI::WEBVIEW);
+    // m_uri= new CleverURI("Webpage", "", CleverURI::WEBVIEW);
     auto wid= new QWidget();
     m_mainLayout= new QVBoxLayout(wid);
     m_mainLayout->setMargin(0);
@@ -49,11 +50,11 @@ WebView::~WebView() {}
 
 bool WebView::readFileFromUri()
 {
-    if(nullptr == m_uri)
+    /*if(nullptr == m_uri)
         return false;
 
     m_addressEdit->setText(m_uri->getUri());
-    m_view->setUrl(QUrl(m_uri->getUri()));
+    m_view->setUrl(QUrl(m_uri->getUri()));*/
     return true;
 }
 
@@ -89,9 +90,9 @@ void WebView::mousePressEvent(QMouseEvent* mouseEvent)
 void WebView::fill(NetworkMessageWriter& message)
 {
     message.string8(m_mediaId);
-    auto url= m_uri->getUri();
-    message.string16(getUriName());
-    message.string32(url);
+    // auto url= m_uri->getUri();
+    // message.string16(getUriName());
+    // message.string32(url);
 }
 
 void WebView::readMessage(NetworkMessageReader& msg)
@@ -109,7 +110,7 @@ void WebView::readMessage(NetworkMessageReader& msg)
     {
         m_view->setUrl(QUrl::fromUserInput(url));
     }
-    m_uri->setUri(url);
+    // m_uri->setUri(url);
 }
 
 void WebView::createActions()
@@ -124,11 +125,11 @@ void WebView::createActions()
         if(checked)
         {
             NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
-            msg.uint8(getContentType());
+            // msg.uint8(getContentType());
             msg.string8(m_mediaId);
             msg.string16(getUriName());
             msg.int8(URL);
-            msg.string32(m_uri->getUri());
+            // msg.string32(m_uri->getUri());
             msg.sendToServer();
         }
         else
@@ -146,11 +147,11 @@ void WebView::createActions()
         {
             m_view->page()->toHtml([=](QString html) {
                 NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
-                msg.uint8(getContentType());
+                // msg.uint8(getContentType());
                 msg.string8(m_mediaId);
                 msg.string16(getUriName());
                 msg.uint8(HTML);
-                msg.string32(m_uri->getUri());
+                // msg.string32(m_uri->getUri());
                 msg.string32(html);
                 msg.sendToServer();
             });
@@ -229,7 +230,7 @@ void WebView::creationToolBar()
     connect(m_reload, &QAction::triggered, m_view, &QWebEngineView::reload);
     connect(m_next, &QAction::triggered, m_view, &QWebEngineView::forward);
     connect(m_previous, &QAction::triggered, m_view, &QWebEngineView::back);
-    connect(m_view, &QWebEngineView::titleChanged, this, [=]() { m_uri->setName(m_view->title()); });
+    // connect(m_view, &QWebEngineView::titleChanged, this, [=]() { m_uri->setName(m_view->title()); });
     connect(m_hideAddress, &QAction::triggered, this, [=](bool b) {
         if(b)
             m_addressEdit->setEchoMode(QLineEdit::Password);
@@ -238,7 +239,7 @@ void WebView::creationToolBar()
     });
     connect(m_view, &QWebEngineView::urlChanged, this, [=]() {
         auto url= m_view->url().toString();
-        m_uri->setUri(url);
+        // m_uri->setUri(url);
         if((m_shareAsHtml->isChecked() || m_shareAsLink->isChecked()) && m_keepSharing)
         {
             if(m_shareAsLink->isChecked())
@@ -257,7 +258,7 @@ void WebView::creationToolBar()
                     msg.string8(m_mediaId);
                     msg.string16(getUriName());
                     msg.uint8(HTML);
-                    msg.string32(m_uri->getUri());
+                    // msg.string32(m_uri->getUri());
                     msg.string32(html);
                     msg.sendToServer();
                 });

@@ -25,14 +25,16 @@ set(HEADERS
     src/controller/playercontroller.h
     src/controller/controllerinterface.h
     src/controller/preferencescontroller.h
-    src/controller/imagecontroller.h
-    src/controller/abstractmediacontroller.h
-    src/controller/mediacontrollerinterface.h
-    src/controller/vectorialmapmediacontroller.h
+    src/controller/view_controller/imagecontroller.h
+    src/controller/view_controller/abstractmediacontroller.h
+    src/controller/view_controller/vectorialmapcontroller.h
+    src/controller/media_controller/mediacontrollerinterface.h
+    src/controller/media_controller/vectorialmapmediacontroller.h
     src/controller/contentcontroller.h
-    src/controller/imagemediacontroller.h
+    src/controller/media_controller/imagemediacontroller.h
     src/undoCmd/addlocalcharactercommand.h
     src/undoCmd/removelocalcharactercommand.h
+    src/media/mediatype.h
     src/audio/audioPlayer.h
     src/audio/musicmodel.h
     src/audio/playerwidget.h
@@ -201,13 +203,14 @@ set(HEADERS
     src/sharededitor/sharednote.h
     src/sharededitor/sharednotecontainer.h
     src/sharededitor/utilities.h
-    src/undoCmd/addmediacontainer.h
+    src/undoCmd/openmediacontroller.h
     src/undoCmd/addvmapitem.h
     src/undoCmd/changecoloritem.h
     src/undoCmd/changesizevmapitem.h
     src/undoCmd/deletemediacontainercommand.h
     src/undoCmd/deletevmapitem.h
     src/undoCmd/movevmapitem.h
+    src/undoCmd/newmediacontroller.h
     src/userlist/playermodel.h
     src/userlist/playerspanel.h
     src/userlist/rolisteammimedata.h
@@ -228,6 +231,18 @@ set(HEADERS
     src/vmap/items/sightitem.h
     src/vmap/items/textitem.h
     src/vmap/items/visualitem.h
+    src/vmap/controller/ellipsecontroller.h
+    src/vmap/controller/highlightercontroller.h
+    src/vmap/controller/linecontroller.h
+    src/vmap/controller/rectcontroller.h
+    src/vmap/controller/textcontroller.h
+    src/vmap/controller/gridcontroller.h
+    src/vmap/controller/imagecontroller.h
+    src/vmap/controller/pathcontroller.h
+    src/vmap/controller/sightcontroller.h
+    src/vmap/controller/visualitemcontroller.h
+    src/vmap/rectcontrollermanager.h
+    src/vmap/visualitemcontrollermanager.h
     src/vmap/patternmodel.h
     src/vmap/rgraphicsview.h
     src/vmap/vcolorselector.h
@@ -271,6 +286,7 @@ set(HEADERS
     src/widgets/toolsbar.h
     src/worker/messagehelper.h
     src/worker/modelhelper.h
+    src/worker/iohelper.h
     )
 
 
@@ -279,12 +295,14 @@ set(SOURCES
     src/controller/resourcescontroller.cpp
     src/controller/networkcontroller.cpp
     src/controller/preferencescontroller.cpp
-    src/controller/abstractmediacontroller.cpp
+    src/controller/view_controller/abstractmediacontroller.cpp
     src/controller/playercontroller.cpp
     src/controller/contentcontroller.cpp
-    src/controller/imagemediacontroller.cpp
-    src/controller/vectorialmapmediacontroller.cpp
-    src/controller/imagecontroller.cpp
+    src/controller/media_controller/imagemediacontroller.cpp
+    src/controller/media_controller/vectorialmapmediacontroller.cpp
+    src/controller/view_controller/vectorialmapcontroller.cpp
+    src/controller/view_controller/imagecontroller.cpp
+    src/worker/iohelper.cpp
     src/undoCmd/addlocalcharactercommand.cpp
     src/undoCmd/removelocalcharactercommand.cpp
     src/model/profilemodel.cpp
@@ -450,11 +468,12 @@ set(SOURCES
     src/sharededitor/sharednote.cpp
     src/sharededitor/sharednotecontainer.cpp
     src/sharededitor/utilities.cpp
-    src/undoCmd/addmediacontainer.cpp
+    src/undoCmd/openmediacontroller.cpp
     src/undoCmd/addvmapitem.cpp
     src/undoCmd/changecoloritem.cpp
     src/undoCmd/changesizevmapitem.cpp
     src/undoCmd/deletemediacontainercommand.cpp
+    src/undoCmd/newmediacontroller.cpp
     src/undoCmd/deletevmapitem.cpp
     src/undoCmd/movevmapitem.cpp
     src/userlist/playermodel.cpp
@@ -476,6 +495,18 @@ set(SOURCES
     src/vmap/items/sightitem.cpp
     src/vmap/items/textitem.cpp
     src/vmap/items/visualitem.cpp
+    src/vmap/visualitemcontrollermanager.cpp
+    src/vmap/rectcontrollermanager.cpp
+    src/vmap/controller/ellipsecontroller.cpp
+    src/vmap/controller/highlightercontroller.cpp
+    src/vmap/controller/linecontroller.cpp
+    src/vmap/controller/rectcontroller.cpp
+    src/vmap/controller/textcontroller.cpp
+    src/vmap/controller/gridcontroller.cpp
+    src/vmap/controller/imagecontroller.cpp
+    src/vmap/controller/pathcontroller.cpp
+    src/vmap/controller/sightcontroller.cpp
+    src/vmap/controller/visualitemcontroller.cpp
     src/vmap/patternmodel.cpp
     src/vmap/rgraphicsview.cpp
     src/vmap/vcolorselector.cpp

@@ -450,6 +450,8 @@ private slots:
 
     void showShortCutEditor();
 
+    void newVMap();
+
 private:
     /**
      * @brief createNotificationZone

@@ -139,11 +139,7 @@ QAction* MediaContainer::getAction()
 {
     return m_action;
 }
-void MediaContainer::setCleverUriType(CleverURI::ContentType type)
-{
-    /* m_uri= new CleverURI(tr("Unknown"), "", type);
-     m_uri->setListener(this);*/
-}
+
 void MediaContainer::currentColorChanged(QColor& penColor)
 {
     m_penColor= penColor;
@@ -196,14 +192,7 @@ void MediaContainer::currentCursorChanged(QCursor* cursor)
 {
     m_currentCursor= cursor;
 }
-CleverURI::ContentType MediaContainer::getContentType()
-{
-    /* if(nullptr != m_uri)
-     {
-         return m_uri->getType();
-     }*/
-    return CleverURI::NONE;
-}
+
 void MediaContainer::addActionToMenu(QMenu& menu)
 {
     menu.addAction(m_detachedDialog);

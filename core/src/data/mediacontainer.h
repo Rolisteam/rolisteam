@@ -108,16 +108,6 @@ public:
      */
     QAction* getAction();
     /**
-     * @brief setCleverUriType
-     */
-    void setCleverUriType(CleverURI::ContentType);
-
-    /**
-     * @brief getContentType
-     * @return
-     */
-    virtual CleverURI::ContentType getContentType();
-    /**
      * @brief saveMedia must be implemented for each media container.
      */
     virtual void saveMedia(const QString& formerPath= QString())= 0;
@@ -187,7 +177,7 @@ public slots:
      * @brief setVisible
      * @param b
      */
-    void setVisible(bool b);
+    void setVisible(bool b) override;
 
     void detachView(bool b);
     virtual void setUriName(const QString& name);

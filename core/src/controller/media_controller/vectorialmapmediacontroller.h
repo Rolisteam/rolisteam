@@ -41,6 +41,7 @@ public:
     void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+    void setUndoStack(QUndoStack* stack) override;
 
     Core::SelectableTool tool() const;
 
@@ -54,17 +55,29 @@ signals:
 public slots:
     void setTool(Core::SelectableTool tool);
     void setColor(const QColor& color);
+    void setBackgroundColor(const QColor& color);
     void setEditionMode(Core::EditionMode mode);
     void setNpcNumber(int number);
     void setNpcName(const QString& name);
     void setOpacity(qreal opacity);
     void setPenSize(int penSize);
+    void setCharacterVision(bool b);
+    void setGridUnit(Core::ScaleUnit unit);
+    void setGridSize(int size);
+    void setGridScale(double scale);
+    void setVisibilityMode(Core::VisibilityMode mode);
+    void setPermissionMode(Core::PermissionMode mode);
+    void setLayer(Core::Layer layer);
+    void setGridPattern(Core::GridPattern pattern);
+    void setCollision(bool b);
+    void showTransparentItem();
 
 private:
     void updateProperties();
 
 private:
     std::vector<std::unique_ptr<VectorialMapController>> m_vmaps;
+    QPointer<QUndoStack> m_stack;
 };
 
 #endif // VECTORIALMAPMEDIACONTROLLER_H

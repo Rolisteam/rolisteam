@@ -27,6 +27,7 @@
 #include "common/widgets/colorbutton.h"
 #include "vmap.h"
 
+class VectorialMapMediaController;
 /**
  * @brief The VmapToolBar class
  */
@@ -37,7 +38,7 @@ public:
     /**
      * @brief VmapToolBar
      */
-    VmapToolBar(QWidget* parent);
+    VmapToolBar(VectorialMapMediaController* ctrl, QWidget* parent);
     /**
      */
     virtual ~VmapToolBar();
@@ -77,7 +78,7 @@ private:
     void updateUi();
 
 private:
-    QPointer<VMap> m_vmap;
+    QPointer<VectorialMapMediaController> m_ctrl;
 
     // Button
     ColorButton* m_bgSelector;

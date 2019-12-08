@@ -21,13 +21,14 @@
 #include "sharednotecontainer.h"
 
 SharedNoteContainer::SharedNoteContainer(bool localIsGM, QWidget* parent)
-    : MediaContainer(MediaContainer::ContainerType::SharedNoteContainer, localIsGM, parent), m_edit(new SharedNote())
+    : MediaContainer(nullptr, MediaContainer::ContainerType::SharedNoteContainer, localIsGM, parent)
+    , m_edit(new SharedNote())
 {
     m_edit->setId(getMediaId());
 #ifdef Q_OS_MAC
     m_edit->menuBar()->setNativeMenuBar(false);
 #endif
-    setCleverUriType(CleverURI::SHAREDNOTE);
+    // setCleverUriType(CleverURI::SHAREDNOTE);
     setWidget(m_edit);
     setWindowIcon(QIcon(":/resources/icons/sharedEditor.png"));
     m_edit->setFileName(getUriName());
@@ -68,8 +69,8 @@ void SharedNoteContainer::updateNoteToAll()
 
 bool SharedNoteContainer::readFileFromUri()
 {
-    if((nullptr == m_uri) || (nullptr == m_edit))
-        return false;
+    return false;
+    /*if((nullptr == m_uri) || (nullptr == m_edit))
 
     bool val= false;
     if(!m_uri->exists())
@@ -91,14 +92,14 @@ bool SharedNoteContainer::readFileFromUri()
         }
     }
     updateTitle();
-    return val;
+    return val;*/
 }
 
 void SharedNoteContainer::saveMedia(const QString&)
 {
     if(nullptr != m_edit)
     {
-        if(nullptr != m_uri)
+        /*if(nullptr != m_uri)
         {
             QString filter= CleverURI::getFilterForType(m_uri->getType());
             filter= filter.remove(0, filter.indexOf("(") + 1);
@@ -129,7 +130,7 @@ void SharedNoteContainer::saveMedia(const QString&)
             QTextStream out(&file);
             m_edit->saveFileAsText(out);
             file.close();
-        }
+        }*/
     }
 }
 
@@ -146,10 +147,10 @@ void SharedNoteContainer::putDataIntoCleverUri()
         QDataStream out(&data, QIODevice::WriteOnly);
         out.setVersion(QDataStream::Qt_5_7);
         m_edit->saveFile(out);
-        if(nullptr != m_uri)
-        {
-            m_uri->setData(data);
-        }
+        /* if(nullptr != m_uri)
+         {
+             m_uri->setData(data);
+         }*/
     }
 }
 void SharedNoteContainer::readFromFile(QDataStream& data)

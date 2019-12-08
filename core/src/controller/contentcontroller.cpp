@@ -29,6 +29,7 @@
 
 #include "network/networkmessage.h"
 #include "network/networkmessagereader.h"
+#include "undoCmd/newmediacontroller.h"
 #include "undoCmd/openmediacontroller.h"
 #include "worker/modelhelper.h"
 
@@ -53,6 +54,11 @@ void ContentController::setGameController(GameController* game)
     m_preferences->registerListener("BackGroundColor", this);
     m_preferences->registerListener("shortNameInTabMode", this);
     m_preferences->registerListener("MaxLengthTabName", this);
+
+    std::for_each(m_mediaControllers.begin(), m_mediaControllers.end(),
+                  [this, game](const std::pair<CleverURI::ContentType, MediaControllerInterface*>& pair) {
+                      pair.second->setUndoStack(game->undoStack());
+                  });
 }
 
 void ContentController::preferencesHasChanged(const QString& key)
@@ -67,6 +73,15 @@ void ContentController::preferencesHasChanged(const QString& key)
         emit shortTitleTabChanged();
     else if(key == QStringLiteral("MaxLengthTabName"))
         emit maxLengthTabNameChanged();
+}
+
+void ContentController::newMedia(CleverURI::ContentType type, const std::map<QString, QVariant>& params)
+{
+    auto controller= m_mediaControllers[type];
+    if(!controller)
+        return;
+
+    emit performCommand(new NewMediaController(type, controller, this, true, params));
 }
 
 void ContentController::openMedia(CleverURI* uri, const std::map<QString, QVariant>& args)

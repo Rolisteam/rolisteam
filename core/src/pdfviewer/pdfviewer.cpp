@@ -39,7 +39,7 @@
 /********************************************************************/
 PdfViewer::PdfViewer(/*QString title,QString identPdfViewer, QString identJoueur, QPdfViewer *image, QAction *action,*/
                      Workspace* parent)
-    : MediaContainer(MediaContainer::ContainerType::PDFContainer, parent)
+    : MediaContainer(nullptr, MediaContainer::ContainerType::PDFContainer, parent)
 {
     setObjectName("PdfViewer");
     setWindowIcon(QIcon(":/resources/icons/pdfLogo.png"));
@@ -161,7 +161,7 @@ void PdfViewer::sharePdfTo()
     if(answer == QMessageBox::Yes)
     {
         NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
-        msg.uint8(getContentType());
+        // msg.uint8(getContentType());
         fill(msg);
         msg.sendToServer();
     }
@@ -203,7 +203,7 @@ void PdfViewer::showOverLay()
 }
 void PdfViewer::fill(NetworkMessageWriter& message)
 {
-    QByteArray baPdfViewer= m_uri->getData();
+    /*QByteArray baPdfViewer= m_uri->getData();
     if(baPdfViewer.isEmpty())
     {
         QFile pdfFile(m_uri->getUri());
@@ -218,7 +218,7 @@ void PdfViewer::fill(NetworkMessageWriter& message)
 
     message.string16(getUriName());
     message.string8(m_mediaId);
-    message.byteArray32(baPdfViewer);
+    message.byteArray32(baPdfViewer);*/
 }
 
 void PdfViewer::readMessage(NetworkMessageReader& msg)
@@ -274,10 +274,10 @@ void PdfViewer::putDataIntoCleverUri()
     QByteArray data;
     QDataStream out(&data, QIODevice::WriteOnly);
     savePdfToFile(out);
-    if(nullptr != m_uri)
+    /*if(nullptr != m_uri)
     {
         m_uri->setData(data);
-    }
+    }*/
 }
 bool PdfViewer::readFileFromUri()
 {
@@ -289,11 +289,11 @@ bool PdfViewer::readFileFromUri()
     }
     const auto& data = m_uri->getData();*/
 
-    if(m_pdfWidget->loadFile(m_uri->getUri()))
+    /*if(m_pdfWidget->loadFile(m_uri->getUri()))
     {
         updateTitle();
         return true;
-    }
+    }*/
     return false;
 }
 bool PdfViewer::openMedia()

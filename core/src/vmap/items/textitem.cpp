@@ -29,8 +29,10 @@
 #include <QGraphicsSceneWheelEvent>
 #include <QStyleOptionGraphicsItem>
 
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#include "vmap/controller/visualitemcontroller.h"
 #include "widgets/MRichTextEditor/mrichtextedit.h"
 
 #include "vmap/vmap.h"
@@ -48,13 +50,13 @@ void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
     VMap* map= dynamic_cast<VMap*>(scene());
     if(nullptr != map)
     {
-        if(map->getSelectedtool() == Core::HANDLER)
+        // if(map->getSelectedtool() == Core::HANDLER)
         {
             // event->accept();
             setFocus(Qt::OtherFocusReason);
             QGraphicsTextItem::mousePressEvent(event);
         }
-        else if((map->getSelectedtool() == Core::TEXT) || (map->getSelectedtool() == Core::TEXTBORDER))
+        // else if((map->getSelectedtool() == Core::TEXT) || (map->getSelectedtool() == Core::TEXTBORDER))
         {
             QGraphicsTextItem::mousePressEvent(event);
         }
@@ -103,20 +105,19 @@ QString RichTextEditDialog::getText()
 ///////////////////////
 
 RichTextEditDialog* TextItem::m_dialog= nullptr;
-TextItem::TextItem(const std::map<Core::Properties, QVariant>& properties)
-    : VisualItem(properties), m_offset(QPointF(100, 30))
+TextItem::TextItem(VisualItemController* ctrl) : VisualItem(ctrl), m_offset(QPointF(100, 30))
 {
     init();
     createActions();
 }
 
-TextItem::TextItem(const std::map<Core::Properties, QVariant>& properties, const QPointF& start, quint16 penSize,
-                   const QColor& penColor, QGraphicsItem* parent)
-    : VisualItem(properties), m_offset(QPointF(100, 30))
+TextItem::TextItem(VisualItemController* ctrl, const QPointF& start, quint16 penSize, const QColor& penColor,
+                   QGraphicsItem* parent)
+    : VisualItem(ctrl), m_offset(QPointF(100, 30))
 {
     m_start= start;
-    m_rect.setTopLeft(QPointF(0, 0));
-    m_rect.setBottomRight(m_offset);
+    /*m_rect.setTopLeft(QPointF(0, 0));
+    m_rect.setBottomRight(m_offset);*/
     setPos(m_start);
     init();
     createActions();
@@ -148,7 +149,7 @@ void TextItem::init()
 
 QRectF TextItem::boundingRect() const
 {
-    return m_rect;
+    // return m_rect;
 }
 void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
@@ -159,7 +160,7 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     {
         QPen pen= painter->pen();
         pen.setColor(m_color);
-        pen.setWidth(m_showRect ? m_penWidth : 2);
+        // pen.setWidth(m_showRect ? m_penWidth : 2);
         painter->setPen(pen);
         painter->drawRect(boundingRect());
     }
@@ -170,11 +171,11 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
         pen.setColor(m_highlightColor);
         pen.setWidth(m_highlightWidth);
         painter->setPen(pen);
-        painter->drawRect(m_rect);
+        // painter->drawRect(m_rect);
         painter->restore();
     }
 }
-void TextItem::setNewEnd(QPointF& p){Q_UNUSED(p)
+void TextItem::setNewEnd(const QPointF& p){Q_UNUSED(p)
 
 } VisualItem::ItemType TextItem::getType() const
 {
@@ -184,14 +185,14 @@ void TextItem::updateFont()
 {
     QFontMetrics metric(m_font);
     QRectF rect= metric.boundingRect(m_doc->toPlainText());
-    if(rect.height() > m_rect.height())
-    {
-        m_rect.setHeight(rect.height());
-    }
-    if(rect.width() > m_rect.width())
-    {
-        m_rect.setWidth(rect.width());
-    }
+    /*  if(rect.height() > m_rect.height())
+      {
+          m_rect.setHeight(rect.height());
+      }
+      if(rect.width() > m_rect.width())
+      {
+          m_rect.setWidth(rect.width());
+      }*/
     m_textItem->setFont(m_font);
     updateChildPosition();
     update();
@@ -238,37 +239,37 @@ void TextItem::setGeometryPoint(qreal pointId, QPointF& pos)
     if(m_holdSize)
         return;
 
-    switch(static_cast<int>(pointId))
-    {
-    case 0:
-        m_rect.setTopLeft(pos);
-        m_child->value(1)->setPos(m_rect.topRight());
-        m_child->value(2)->setPos(m_rect.bottomRight());
-        m_child->value(3)->setPos(m_rect.bottomLeft());
-        break;
-    case 1:
-        m_rect.setTopRight(pos);
-        m_child->value(0)->setPos(m_rect.topLeft());
-        m_child->value(2)->setPos(m_rect.bottomRight());
-        m_child->value(3)->setPos(m_rect.bottomLeft());
-        break;
-    case 2:
-        m_rect.setBottomRight(pos);
-        m_child->value(0)->setPos(m_rect.topLeft());
-        m_child->value(1)->setPos(m_rect.topRight());
-        m_child->value(3)->setPos(m_rect.bottomLeft());
-        break;
-    case 3:
-        m_rect.setBottomLeft(pos);
-        m_child->value(0)->setPos(m_rect.topLeft());
-        m_child->value(1)->setPos(m_rect.topRight());
-        m_child->value(2)->setPos(m_rect.bottomRight());
-        break;
-    default:
-        break;
-    }
+    /* switch(static_cast<int>(pointId))
+     {
+     case 0:
+         m_rect.setTopLeft(pos);
+         m_child->value(1)->setPos(m_rect.topRight());
+         m_child->value(2)->setPos(m_rect.bottomRight());
+         m_child->value(3)->setPos(m_rect.bottomLeft());
+         break;
+     case 1:
+         m_rect.setTopRight(pos);
+         m_child->value(0)->setPos(m_rect.topLeft());
+         m_child->value(2)->setPos(m_rect.bottomRight());
+         m_child->value(3)->setPos(m_rect.bottomLeft());
+         break;
+     case 2:
+         m_rect.setBottomRight(pos);
+         m_child->value(0)->setPos(m_rect.topLeft());
+         m_child->value(1)->setPos(m_rect.topRight());
+         m_child->value(3)->setPos(m_rect.bottomLeft());
+         break;
+     case 3:
+         m_rect.setBottomLeft(pos);
+         m_child->value(0)->setPos(m_rect.topLeft());
+         m_child->value(1)->setPos(m_rect.topRight());
+         m_child->value(2)->setPos(m_rect.bottomRight());
+         break;
+     default:
+         break;
+     }
 
-    setTransformOriginPoint(m_rect.center());
+     setTransformOriginPoint(m_rect.center());*/
 
     // updateTextPosition();
     m_resizing= true;
@@ -281,46 +282,46 @@ void TextItem::endOfGeometryChange()
 
 void TextItem::updateTextPosition()
 {
-    m_textItem->setTextWidth(m_rect.width() - 10);
-    QRectF rectItem= m_textItem->boundingRect();
-    setTransformOriginPoint(m_rect.center());
-    if(rectItem.height() > m_rect.height())
-    {
-        m_rect.setTop(m_rect.top() - 5);
-        m_rect.setBottom(m_rect.bottom() + 5);
-    }
-    setTransformOriginPoint(m_rect.center());
-    m_textItem->setPos(m_rect.center().x() - rectItem.width() / 2, m_rect.center().y() - rectItem.height() / 2);
+    /*   m_textItem->setTextWidth(m_rect.width() - 10);
+       QRectF rectItem= m_textItem->boundingRect();
+       setTransformOriginPoint(m_rect.center());
+       if(rectItem.height() > m_rect.height())
+       {
+           m_rect.setTop(m_rect.top() - 5);
+           m_rect.setBottom(m_rect.bottom() + 5);
+       }
+       setTransformOriginPoint(m_rect.center());
+       m_textItem->setPos(m_rect.center().x() - rectItem.width() / 2, m_rect.center().y() - rectItem.height() / 2);
 
-    if((nullptr != m_child) && (!m_child->isEmpty()))
-    {
-        if(!m_child->at(0)->isSelected())
-        {
-            m_child->value(0)->setPos(m_rect.topLeft());
-        }
-        if(!m_child->at(1)->isSelected())
-        {
-            m_child->value(1)->setPos(m_rect.topRight());
-        }
-        if(!m_child->at(2)->isSelected())
-        {
-            m_child->value(2)->setPos(m_rect.bottomRight());
-        }
-        if(!m_child->at(3)->isSelected())
-        {
-            m_child->value(3)->setPos(m_rect.bottomLeft());
-        }
-    }
-    if(m_doc == qobject_cast<QTextDocument*>(sender()))
-    {
-        emit itemGeometryChanged(this);
-    }
+       if((nullptr != m_child) && (!m_child->isEmpty()))
+       {
+           if(!m_child->at(0)->isSelected())
+           {
+               m_child->value(0)->setPos(m_rect.topLeft());
+           }
+           if(!m_child->at(1)->isSelected())
+           {
+               m_child->value(1)->setPos(m_rect.topRight());
+           }
+           if(!m_child->at(2)->isSelected())
+           {
+               m_child->value(2)->setPos(m_rect.bottomRight());
+           }
+           if(!m_child->at(3)->isSelected())
+           {
+               m_child->value(3)->setPos(m_rect.bottomLeft());
+           }
+       }
+       if(m_doc == qobject_cast<QTextDocument*>(sender()))
+       {
+           emit itemGeometryChanged(this);
+       }*/
 }
 
 void TextItem::setHoldSize(bool holdSize)
 {
     VisualItem::setHoldSize(holdSize);
-    for(auto child : *m_child)
+    for(auto child : m_children)
     {
         auto motion= holdSize ? ChildPointItem::NONE : ChildPointItem::ALL;
         child->setMotion(motion);
@@ -329,39 +330,37 @@ void TextItem::setHoldSize(bool holdSize)
 
 void TextItem::initChildPointItem()
 {
-    if(m_child != nullptr)
-        return;
-    m_rect= m_rect.normalized();
-    setTransformOriginPoint(m_rect.center());
+    /*   m_rect= m_rect.normalized();
+       setTransformOriginPoint(m_rect.center());*/
 
     updateTextPosition();
 
-    m_child= new QVector<ChildPointItem*>();
+    // m_child= new QVector<ChildPointItem*>();
 
     for(int i= 0; i < 4; ++i)
     {
-        ChildPointItem* tmp= new ChildPointItem(i, this);
+        ChildPointItem* tmp= new ChildPointItem(m_ctrl, i, this);
         tmp->setMotion(ChildPointItem::ALL);
         tmp->setRotationEnable(true);
-        m_child->append(tmp);
+        m_children.append(tmp);
     }
     updateChildPosition();
 }
 void TextItem::updateChildPosition()
 {
-    m_child->value(0)->setPos(m_rect.topLeft());
-    m_child->value(0)->setPlacement(ChildPointItem::TopLeft);
+    /* m_child->value(0)->setPos(m_rect.topLeft());
+     m_child->value(0)->setPlacement(ChildPointItem::TopLeft);
 
-    m_child->value(1)->setPos(m_rect.topRight());
-    m_child->value(1)->setPlacement(ChildPointItem::TopRight);
+     m_child->value(1)->setPos(m_rect.topRight());
+     m_child->value(1)->setPlacement(ChildPointItem::TopRight);
 
-    m_child->value(2)->setPos(m_rect.bottomRight());
-    m_child->value(2)->setPlacement(ChildPointItem::ButtomRight);
+     m_child->value(2)->setPos(m_rect.bottomRight());
+     m_child->value(2)->setPlacement(ChildPointItem::ButtomRight);
 
-    m_child->value(3)->setPos(m_rect.bottomLeft());
-    m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
+     m_child->value(3)->setPos(m_rect.bottomLeft());
+     m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
 
-    setTransformOriginPoint(m_rect.center());
+     setTransformOriginPoint(m_rect.center());*/
     update();
 }
 
@@ -385,13 +384,13 @@ void TextItem::writeData(QDataStream& out) const
     out << opacity();
     out << m_color;
     out << m_id;
-    out << m_rect;
-    out << m_penWidth;
+    // out << m_rect;
+    // out << m_penWidth;
     out << scale();
     out << rotation();
     out << pos();
     // out << zValue();
-    out << static_cast<int>(m_layer);
+    // out << static_cast<int>(m_layer);
 }
 
 void TextItem::readData(QDataStream& in)
@@ -408,8 +407,8 @@ void TextItem::readData(QDataStream& in)
     m_textItem->setDefaultTextColor(m_color);
 
     in >> m_id;
-    in >> m_rect;
-    in >> m_penWidth;
+    // in >> m_rect;
+    // in >> m_penWidth;
 
     qreal scale;
     in >> scale;
@@ -425,7 +424,7 @@ void TextItem::readData(QDataStream& in)
 
     int i;
     in >> i;
-    m_layer= static_cast<Core::Layer>(i);
+    // m_layer= static_cast<Core::Layer>(i);
 }
 void TextItem::fillMessage(NetworkMessageWriter* msg)
 {
@@ -433,17 +432,17 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
     msg->uint8(static_cast<quint8>(m_showRect));
     msg->real(scale());
     msg->real(rotation());
-    msg->uint8(static_cast<quint8>(m_layer));
+    // msg->uint8(static_cast<quint8>(m_layer));
     msg->real(zValue());
     msg->real(opacity());
 
     // m_rect
-    msg->real(m_rect.x());
-    msg->real(m_rect.y());
-    msg->real(m_rect.width());
-    msg->real(m_rect.height());
+    /*   msg->real(m_rect.x());
+       msg->real(m_rect.y());
+       msg->real(m_rect.width());
+       msg->real(m_rect.height());*/
 
-    msg->uint16(m_penWidth);
+    // msg->uint16(m_penWidth);
 
     // pos
     msg->real(pos().x());
@@ -462,17 +461,17 @@ void TextItem::readItem(NetworkMessageReader* msg)
     m_showRect= static_cast<bool>(msg->uint8());
     setScale(msg->real());
     setRotation(msg->real());
-    m_layer= static_cast<Core::Layer>(msg->uint8());
+    // m_layer= static_cast<Core::Layer>(msg->uint8());
     setZValue(msg->real());
     setOpacity(msg->real());
 
     // m_rect
-    m_rect.setX(msg->real());
-    m_rect.setY(msg->real());
-    m_rect.setWidth(msg->real());
-    m_rect.setHeight(msg->real());
+    /*  m_rect.setX(msg->real());
+      m_rect.setY(msg->real());
+      m_rect.setWidth(msg->real());
+      m_rect.setHeight(msg->real());*/
 
-    m_penWidth= msg->uint16();
+    // m_penWidth= msg->uint16();
 
     // pos
     qreal x= msg->real();
@@ -518,17 +517,17 @@ void TextItem::createActions()
 void TextItem::sizeToTheContent()
 {
     QRectF rectItem= m_textItem->boundingRect();
-    setTransformOriginPoint(m_rect.center());
-    if(rectItem.height() < m_rect.height() + 10)
-    {
-        m_rect.setHeight(rectItem.height() + 10);
-        m_resizing= true;
-    }
-    if(rectItem.width() < m_rect.width() + 10)
-    {
-        m_rect.setWidth(rectItem.width() + 10);
-        m_resizing= true;
-    }
+    /*  setTransformOriginPoint(m_rect.center());
+      if(rectItem.height() < m_rect.height() + 10)
+      {
+          m_rect.setHeight(rectItem.height() + 10);
+          m_resizing= true;
+      }
+      if(rectItem.width() < m_rect.width() + 10)
+      {
+          m_rect.setWidth(rectItem.width() + 10);
+          m_resizing= true;
+      }*/
     if(m_resizing)
     {
         endOfGeometryChange();
@@ -577,11 +576,11 @@ void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
         VMap* vmap= dynamic_cast<VMap*>(scene());
         if(nullptr != vmap)
         {
-            Core::SelectableTool tool= vmap->getSelectedtool();
+            /*Core::SelectableTool tool= vmap->getSelectedtool();
             if((Core::TEXT == tool) || (Core::TEXTBORDER == tool))
             {
                 QApplication::setOverrideCursor(QCursor(Qt::IBeamCursor));
-            }
+            }*/
         }
     }
     VisualItem::hoverEnterEvent(event);

@@ -70,7 +70,8 @@ public:
     void setGameController(GameController*) override;
     void preferencesHasChanged(const QString& key) override;
 
-    void newMedia(CleverURI::ContentType type);
+    void newMedia(CleverURI::ContentType type,
+                  const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
     void openMedia(CleverURI* uri, const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
 
     void clear();

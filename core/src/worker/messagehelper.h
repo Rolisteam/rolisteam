@@ -27,6 +27,8 @@ class DiceAliasModel;
 class DiceAlias;
 class CharacterStateModel;
 class CharacterState;
+class AbstractMediaController;
+class ImageController;
 class MessageHelper
 {
 public:
@@ -40,6 +42,8 @@ public:
 
     static void sendOffAllCharacterState(CharacterStateModel* model);
     static void sendOffOneCharacterState(CharacterState* da, int row);
+
+    static void sendOffOpenMedia(AbstractMediaController* ctrl);
     static void sendOffImage(ImageController* ctrl);
 };
 

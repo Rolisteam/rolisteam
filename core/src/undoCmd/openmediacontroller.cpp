@@ -22,8 +22,6 @@
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/mediacontrollerinterface.h"
 #include "data/cleveruri.h"
-#include "network/networkmessagewriter.h"
-#include "widgets/workspace.h"
 
 #include <QDebug>
 

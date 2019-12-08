@@ -4,12 +4,12 @@
 #include "visualitem.h"
 #include <QImage>
 #include <QMovie>
-
+class VisualItemController;
 class ImageItem : public VisualItem
 {
     Q_OBJECT
 public:
-    ImageItem();
+    ImageItem(VisualItemController* ctrl);
     /**
      * @brief paint the current rectangle into the scene.
      * @see Qt documentation
@@ -24,7 +24,7 @@ public:
     /**
      * @brief defines new end point.
      */
-    virtual void setNewEnd(QPointF& nend);
+    virtual void setNewEnd(const QPointF& nend);
     /**
      * @brief serialization function to write data.
      */
