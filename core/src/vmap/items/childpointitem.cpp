@@ -263,34 +263,32 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
         QGraphicsItem::mouseMoveEvent(event);
         return;
     }
-    if(m_currentMotion == MOUSE)
+    if(!(event->modifiers() & Qt::ControlModifier) && m_currentMotion == MOUSE)
     {
-        if(!(event->modifiers() & Qt::ControlModifier))
+        VisualItem::TransformType transformType= VisualItem::NoTransform;
+
+        if((event->modifiers() & Qt::ShiftModifier))
         {
-            VisualItem::TransformType transformType= VisualItem::NoTransform;
+            transformType= VisualItem::KeepRatio;
+        }
+        auto W= qMax(2 * std::fabs(v.x()), 5.0);
+        auto H= qMax(2 * std::fabs(v.y()), 4.0);
+        if(event->modifiers() & Qt::AltModifier)
+        {
+            transformType= VisualItem::Sticky;
+            int size= m_ctrl->gridSize();
+            W= std::round(W / size) * size;
+            H= std::round(H / size) * size;
+        }
 
-            if((event->modifiers() & Qt::ShiftModifier))
-            {
-                transformType= VisualItem::KeepRatio;
-            }
-            auto W= qMax(2 * std::fabs(v.x()), 5.0);
-            auto H= qMax(2 * std::fabs(v.y()), 4.0);
-            if(event->modifiers() & Qt::AltModifier)
-            {
-                transformType= VisualItem::Sticky;
-                int size= m_ctrl->gridSize();
-                W= std::round(W / size) * size;
-                H= std::round(H / size) * size;
-            }
-
-            // if((v.x() >1)&&(v.y()>1))
-            {
-                auto move= event->pos() - event->lastPos();
-                m_ctrl->setCorner(move, m_pointId); // mapToScene(pos()) +
-                // m_parent->resizeContents(QRectF(-W / 2, -H / 2, W, H), m_pointId, transformType);
-            }
+        // if((v.x() >1)&&(v.y()>1))
+        {
+            auto move= event->pos() - event->lastPos();
+            m_ctrl->setCorner(move, m_pointId); // mapToScene(pos()) +
+            // m_parent->resizeContents(QRectF(-W / 2, -H / 2, W, H), m_pointId, transformType);
         }
     }
+
     if(((m_currentMotion == MOUSE) || (m_allowRotation)) && (event->modifiers() & Qt::ControlModifier))
     {
         if(v.isNull())
@@ -302,9 +300,9 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
         qreal refAngle= atan2(refPos.y(), refPos.x());
         qreal newAngle= atan2(v.y(), v.x());
         double dZr= 57.29577951308232 * (newAngle - refAngle); // 180 * a / M_PI
-        double zr= m_parent->rotation() + dZr;
+        double zr= m_ctrl->rotation() + dZr;
 
-        m_parent->setRotation(zr);
+        m_ctrl->setRotation(zr);
     }
     else
     {
