@@ -61,25 +61,20 @@ QVariant ChildPointItem::itemChange(GraphicsItemChange change, const QVariant& v
        && m_currentMotion != MOUSE)
     {
         QPointF newPos= value.toPointF();
-        if(m_currentMotion == X_AXIS)
+        switch(m_currentMotion)
         {
+        case X_AXIS:
             newPos.setY(pos().y());
-        }
-        else if(Y_AXIS == m_currentMotion)
-        {
+            break;
+        case Y_AXIS:
             newPos.setX(pos().x());
-        }
 
-        if(MOVE == m_currentMotion)
-        {
+            break;
+        case MOVE:
             m_parent->setPos(mapToScene(newPos));
-            /*QPointF p=pos() - newPos;
-            m_parent->moveBy(p.x(),p.y());*/
-        }
-        else
-        {
-            m_ctrl->setCorner(newPos, m_pointId);
-            // m_parent->setGeometryPoint(m_pointId, newPos);
+            break;
+        default:
+            break;
         }
         if(newPos != value.toPointF())
         {
@@ -157,6 +152,11 @@ void ChildPointItem::setPlacement(ChildPointItem::PLACEMENT p)
         m_startPoint.setY(-(2 * SQUARE_SIZE));
         break;
     }
+}
+
+ChildPointItem::PLACEMENT ChildPointItem::placement() const
+{
+    return m_placement;
 }
 /*void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
 {
@@ -263,6 +263,12 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
         QGraphicsItem::mouseMoveEvent(event);
         return;
     }
+    if(m_currentMotion == ChildPointItem::Y_AXIS || m_currentMotion == ChildPointItem::X_AXIS)
+    {
+        auto move= event->pos() - event->lastPos();
+        m_currentMotion == ChildPointItem::Y_AXIS ? move.setX(0) : move.setY(0);
+        m_ctrl->setCorner(move, m_pointId);
+    }
     if(!(event->modifiers() & Qt::ControlModifier) && m_currentMotion == MOUSE)
     {
         VisualItem::TransformType transformType= VisualItem::NoTransform;
@@ -332,11 +338,11 @@ void ChildPointItem::setEditableItem(bool b)
                  | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
     }
 }
-void ChildPointItem::setPointID(qreal a)
+void ChildPointItem::setPointID(int a)
 {
     m_pointId= a;
 }
-qreal ChildPointItem::getPointID() const
+int ChildPointItem::getPointID() const
 {
     return m_pointId;
 }

@@ -92,11 +92,6 @@ public:
      */
     virtual VisualItem* getItemCopy() override;
 
-    /**
-     * @brief resizeContents
-     */
-    virtual void resizeContents(const QRectF&, int pointId, TransformType) override;
-
     void endOfGeometryChange() override;
 
 protected:

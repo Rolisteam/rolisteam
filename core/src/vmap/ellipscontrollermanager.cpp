@@ -17,52 +17,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef RECTITEMCONTROLLER_H
-#define RECTITEMCONTROLLER_H
+#include "ellipscontrollermanager.h"
 
-#include <QColor>
-#include <QRectF>
-#include <QVariant>
+#include "controller/view_controller/vectorialmapcontroller.h"
+#include "vmap/controller/ellipsecontroller.h"
 
-#include "visualitemcontroller.h"
+EllipsControllerManager::EllipsControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
 
-class VectorialMapController;
-class RectController : public VisualItemController
+QString EllipsControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
-    Q_OBJECT
-    Q_PROPERTY(QRectF rect READ rect NOTIFY rectChanged)
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(bool filled READ filled NOTIFY filledChanged)
-    Q_PROPERTY(quint16 penWidth READ penWidth NOTIFY penWidthChanged)
-public:
-    RectController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent= nullptr);
+    std::unique_ptr<EllipseController> rect(new EllipseController(params, m_ctrl));
+    emit ellipsControllerCreated(rect.get());
+    auto id= rect->uuid();
+    m_controllers.push_back(std::move(rect));
+    return id;
+}
 
-    bool filled() const;
-    QColor color() const;
-    QRectF rect() const;
-    quint16 penWidth() const;
+void EllipsControllerManager::removeItem(const QString& id)
+{
+    auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
+                          [id](const std::unique_ptr<EllipseController>& ctrl) { return id == ctrl->uuid(); });
 
-    void aboutToBeRemoved() override;
-    void endGeometryChange() override;
+    if(it == m_controllers.end())
+        return;
 
-signals:
-    void colorChanged();
-    void filledChanged();
-    void rectChanged();
-    void penWidthChanged();
-
-public slots:
-    void setColor(QColor color);
-    void setCorner(const QPointF& move, int corner) override;
-
-private:
-    void setRect(QRectF rect);
-
-private:
-    QRectF m_rect= QRectF(0, 0, 1, 1);
-    bool m_filled;
-    QColor m_color;
-    quint16 m_penWidth;
-};
-
-#endif // RECTITEMCONTROLLER_H
+    (*it)->aboutToBeRemoved();
+    m_controllers.erase(it);
+}

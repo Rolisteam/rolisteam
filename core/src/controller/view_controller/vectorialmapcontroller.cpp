@@ -23,7 +23,10 @@
 #include "vmap/vmap.h"
 
 #include "undoCmd/addvmapitem.h"
+#include "vmap/controller/ellipsecontroller.h"
 #include "vmap/controller/rectcontroller.h"
+
+#include "vmap/ellipscontrollermanager.h"
 #include "vmap/rectcontrollermanager.h"
 
 #include "worker/iohelper.h"
@@ -31,34 +34,15 @@
 VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
     : AbstractMediaContainerController(uri, parent) /*, m_vmap(new VMap(this))*/
     , m_rectControllerManager(new RectControllerManager(this))
+    , m_ellipseControllerManager(new EllipsControllerManager(this))
 {
     m_itemControllers.insert({Core::SelectableTool::EMPTYRECT, m_rectControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::FILLRECT, m_rectControllerManager.get()});
+    m_itemControllers.insert({Core::SelectableTool::FILLEDELLIPSE, m_ellipseControllerManager.get()});
+    m_itemControllers.insert({Core::SelectableTool::EMPTYELLIPSE, m_ellipseControllerManager.get()});
 
     /* if(uri->hasData() || !uri->getUri().isEmpty())
          IOHelper::loadVMap(m_vmap.get(), uri, this);*/
-
-    /*  m_properties.insert({Core::ShowNpcName, false});
-      m_properties.insert({Core::ShowPcName, false});
-      m_properties.insert({Core::ShowNpcNumber, false});
-      m_properties.insert({Core::ShowHealthStatus, false});
-      m_properties.insert({Core::ShowInitScore, true});
-      m_properties.insert({Core::ShowHealthBar, false});
-      m_properties.insert({Core::ShowGrid, false});
-      m_properties.insert({Core::LocalIsGM, false});
-      m_properties.insert({Core::EnableCharacterVision, false});
-      m_properties.insert({Core::CollisionStatus, false});
-      m_properties.insert({Core::PermissionModeProperty, Core::GM_ONLY});
-      m_properties.insert({Core::FogOfWarStatus, false});
-      m_properties.insert({Core::VisibilityModeProperty, Core::HIDDEN});
-      m_properties.insert({Core::MapLayer, static_cast<int>(m_editionMode)});
-      m_properties.insert({Core::GridPatternProperty, Core::NONE});
-      m_properties.insert({Core::GridColor, QColor(Qt::black)});
-      m_properties.insert({Core::GridSize, 50});
-      m_properties.insert({Core::Scale, 1.0});
-      m_properties.insert({Core::Unit, Core::M});
-      m_properties.insert({Core::GridAbove, false});
-      m_properties.insert({Core::HideOtherLayers, false});*/
 }
 
 VectorialMapController::~VectorialMapController()= default;
@@ -492,6 +476,11 @@ void VectorialMapController::insertItemAt(const std::map<QString, QVariant>& par
 RectControllerManager* VectorialMapController::rectManager() const
 {
     return m_rectControllerManager.get();
+}
+
+EllipsControllerManager* VectorialMapController::ellipseManager() const
+{
+    return m_ellipseControllerManager.get();
 }
 
 void VectorialMapController::removeItemController(QString uuid)

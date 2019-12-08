@@ -50,6 +50,7 @@ class CharacterItem;
 class VectorialMapController;
 class AddVmapItemCommand;
 class RectController;
+class EllipseController;
 /**
  * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...
  * It is using the QGraphicsScene from Qt.
@@ -339,6 +340,7 @@ protected:
     bool isItemStorable(VisualItem* item);
 
     void addRectItem(RectController* rectCtrl);
+    void addEllipseItem(EllipseController* ellisCtrl);
 
 private:
     QPointer<VectorialMapController> m_ctrl;

@@ -69,7 +69,6 @@ void RectController::setCorner(const QPointF& move, int corner)
     if(move.isNull())
         return;
 
-    auto realMove= move;
     auto rect= m_rect;
     qreal x2= rect.right();
     qreal y2= rect.bottom();
@@ -78,29 +77,26 @@ void RectController::setCorner(const QPointF& move, int corner)
     switch(corner)
     {
     case TopLeft:
-        // realMove-= (pos() + m_rect.topLeft());
-        x+= realMove.x();
-        y+= realMove.y();
+        x+= move.x();
+        y+= move.y();
         break;
     case TopRight:
-        x2+= realMove.x();
-        y+= realMove.y();
+        x2+= move.x();
+        y+= move.y();
         break;
     case BottomRight:
-        // realMove-= pos();
-        x2+= realMove.x();
-        y2+= realMove.y();
+        x2+= move.x();
+        y2+= move.y();
         break;
     case BottomLeft:
-        x+= realMove.x();
-        y2+= realMove.y();
+        x+= move.x();
+        y2+= move.y();
         break;
     }
     rect.setCoords(x, y, x2, y2);
     if(!rect.isValid())
         rect= rect.normalized();
     setRect(rect);
-    // setPos(posi);
 }
 
 void RectController::aboutToBeRemoved()

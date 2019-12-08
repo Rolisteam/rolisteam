@@ -22,6 +22,14 @@ class VisualItemController : public QObject
     Q_PROPERTY(QString uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
 
 public:
+    enum Corner
+    {
+        TopLeft= 0,
+        TopRight,
+        BottomRight,
+        BottomLeft,
+    };
+    Q_ENUM(Corner)
     VisualItemController(VectorialMapController* ctrl, QObject* parent= nullptr);
     ~VisualItemController();
 

@@ -34,6 +34,7 @@ class NetworkMessageReader;
 class VisualItemController;
 class VisualItemControllerManager;
 class RectControllerManager;
+class EllipsControllerManager;
 class VectorialMapController : public AbstractMediaContainerController
 {
     Q_OBJECT
@@ -105,6 +106,7 @@ public:
     QString getLayerToText(Core::Layer id);
 
     RectControllerManager* rectManager() const;
+    EllipsControllerManager* ellipseManager() const;
 
     QString addItemController(const std::map<QString, QVariant>& params);
     void removeItemController(QString uuid);
@@ -219,9 +221,9 @@ private:
     Core::Layer m_layer= Core::Layer::GROUND;
     Core::SelectableTool m_tool= Core::HANDLER;
     Core::EditionMode m_editionMode= Core::EditionMode::Painting;
-    // std::vector<std::unique_ptr<VisualItemController>> m_items;
     std::map<Core::SelectableTool, VisualItemControllerManager*> m_itemControllers;
     std::unique_ptr<RectControllerManager> m_rectControllerManager;
+    std::unique_ptr<EllipsControllerManager> m_ellipseControllerManager;
 };
 
 #endif // VECTORIALMAPCONTROLLER_H

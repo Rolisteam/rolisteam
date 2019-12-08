@@ -101,6 +101,7 @@ public:
      * @param p
      */
     void setPlacement(ChildPointItem::PLACEMENT p);
+    ChildPointItem::PLACEMENT placement() const;
     /**
      * @brief setRotationEnable, set to true if you want to allow rotation without activating the mouse control.
      */
@@ -114,12 +115,12 @@ public:
     /**
      * @brief setPointID
      */
-    void setPointID(qreal);
+    void setPointID(int);
     /**
      * @brief getPointID
      * @return
      */
-    qreal getPointID() const;
+    int getPointID() const;
     /**
      * @brief isVisionHandler
      * @return
