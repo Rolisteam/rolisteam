@@ -39,7 +39,7 @@ RectItem::RectItem(RectController* ctrl) : VisualItem(ctrl), m_rectCtrl(ctrl)
         setTransformOriginPoint(m_rectCtrl->rect().center());
         updateChildPosition();
     });
-    qDebug() << "constructor" << pos() << m_rectCtrl->pos();
+    connect(m_rectCtrl, &RectController::rotationChanged, this, [this]() { setRotation(m_rectCtrl->rotation()); });
 
     for(int i= 0; i <= RectController::BottomLeft; ++i)
     {

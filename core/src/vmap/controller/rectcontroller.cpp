@@ -97,6 +97,8 @@ void RectController::setCorner(const QPointF& move, int corner)
         break;
     }
     rect.setCoords(x, y, x2, y2);
+    if(!rect.isValid())
+        rect= rect.normalized();
     setRect(rect);
     // setPos(posi);
 }
