@@ -21,14 +21,14 @@
 #define ELLIPSITEM_H
 #include "visualitem.h"
 
-class VisualItemController;
+class EllipseController;
 /**
  * @brief displays an ellipse on maps.
  */
 class EllipsItem : public VisualItem
 {
 public:
-    EllipsItem(VisualItemController* ctrl);
+    EllipsItem(EllipseController* ctrl);
     /**
      * @brief constructor with parameters
      * @param center first point clicked by the user
@@ -84,23 +84,10 @@ public:
 
     void setHoldSize(bool holdSize) override;
 
+    void updateChildPosition() override;
+
 private:
-    /**
-     * @brief bounding rect
-     */
-    // QRectF m_rect;
-
-    qreal m_rx;
-
-    qreal m_ry;
-    /**
-     * @brief ellipse center
-     */
-    QPointF m_center;
-    /**
-     * @brief stores the filled state
-     */
-    bool m_filled;
+    QPointer<EllipseController> m_ellipseCtrl;
 };
 
 #endif // ELLIPSITEM_H

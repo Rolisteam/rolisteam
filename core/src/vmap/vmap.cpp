@@ -26,7 +26,10 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "userlist/rolisteammimedata.h"
+#include "vmap/controller/ellipsecontroller.h"
 #include "vmap/controller/rectcontroller.h"
+
+#include "vmap/ellipscontrollermanager.h"
 #include "vmap/rectcontrollermanager.h"
 
 // Undo management
@@ -49,6 +52,7 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
 
     // item Managers
     connect(m_ctrl->rectManager(), &RectControllerManager::rectControllerCreated, this, &VMap::addRectItem);
+    connect(m_ctrl->ellipseManager(), &EllipsControllerManager::ellipsControllerCreated, this, &VMap::addEllipseItem);
 
     // initialization
     setBackgroundBrush(m_ctrl->backgroundColor());
@@ -98,10 +102,15 @@ void VMap::updateLayer()
 void VMap::addRectItem(RectController* rectCtrl)
 {
     m_currentItem= new RectItem(rectCtrl);
-    // qDebug() << "addRectItem:" << sceneRect();
     addItem(m_currentItem);
     m_currentItem->setPos(rectCtrl->pos());
-    // qDebug() << "addRectItem:" << m_currentItem->pos() << m_currentItem->boundingRect() << sceneRect();
+}
+
+void VMap::addEllipseItem(EllipseController* ellisCtrl)
+{
+    m_currentItem= new EllipsItem(ellisCtrl);
+    addItem(m_currentItem);
+    m_currentItem->setPos(ellisCtrl->pos());
 }
 
 /*void VMap::initScene()

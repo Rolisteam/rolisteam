@@ -231,6 +231,7 @@ set(HEADERS
     src/vmap/items/sightitem.h
     src/vmap/items/textitem.h
     src/vmap/items/visualitem.h
+    src/vmap/ellipscontrollermanager.h
     src/vmap/controller/ellipsecontroller.h
     src/vmap/controller/highlightercontroller.h
     src/vmap/controller/linecontroller.h
@@ -507,6 +508,7 @@ set(SOURCES
     src/vmap/controller/pathcontroller.cpp
     src/vmap/controller/sightcontroller.cpp
     src/vmap/controller/visualitemcontroller.cpp
+    src/vmap/ellipscontrollermanager.cpp
     src/vmap/patternmodel.cpp
     src/vmap/rgraphicsview.cpp
     src/vmap/vcolorselector.cpp

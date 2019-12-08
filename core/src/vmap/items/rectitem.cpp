@@ -34,7 +34,6 @@
 
 RectItem::RectItem(RectController* ctrl) : VisualItem(ctrl), m_rectCtrl(ctrl)
 {
-    connect(m_rectCtrl, &RectController::posChanged, this, [this]() { setPos(m_rectCtrl->pos()); });
     connect(m_rectCtrl, &RectController::rectChanged, this, [this]() {
         setTransformOriginPoint(m_rectCtrl->rect().center());
         updateChildPosition();
@@ -49,15 +48,6 @@ RectItem::RectItem(RectController* ctrl) : VisualItem(ctrl), m_rectCtrl(ctrl)
     }
     updateChildPosition();
 }
-
-/*RectItem::RectItem(const QPointF& topleft, const QPointF& buttomright, bool filled, quint16 penSize,
-                   const QColor& penColor, QGraphicsItem* parent)
-    : VisualItem(penColor, penSize, parent), m_initialized(false), m_filled(filled)
-{
-    m_rect.setBottomRight(buttomright);
-    m_rect.setTopLeft(topleft);
-    m_filled= filled;
-}*/
 
 QRectF RectItem::boundingRect() const
 {
@@ -125,10 +115,7 @@ void RectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
 }
 void RectItem::setNewEnd(const QPointF& p)
 {
-    // prepareGeometryChange();
-    // qDebug() << "setNewEnd" << pos();
     m_ctrl->setCorner(p, 2);
-    // m_rect.setBottomRight(p);
 }
 
 VisualItem::ItemType RectItem::getType() const
@@ -232,7 +219,7 @@ void RectItem::readItem(NetworkMessageReader* msg)
 }
 void RectItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
-    auto rect= m_rectCtrl->rect();
+    /*auto rect= m_rectCtrl->rect();
     switch(static_cast<int>(pointId))
     {
     case 0:
@@ -262,20 +249,10 @@ void RectItem::setGeometryPoint(qreal pointId, QPointF& pos)
     default:
         break;
     }
-    setTransformOriginPoint(rect.center());
+    setTransformOriginPoint(rect.center());*/
     // updateChildPosition();
 }
-void RectItem::initChildPointItem()
-{
-    /* if(!m_initialized)
-     {
-         setPos(m_rect.center());
-         m_rect.setCoords(-m_rect.width() / 2, -m_rect.height() / 2, m_rect.width() / 2, m_rect.height() / 2);
-         m_initialized= true;
-     }
-     m_rect= m_rect.normalized();
-     setTransformOriginPoint(m_rect.center());*/
-}
+void RectItem::initChildPointItem() {}
 void RectItem::updateChildPosition()
 {
     auto rect= m_rectCtrl->rect();
@@ -298,33 +275,6 @@ VisualItem* RectItem::getItemCopy()
     rectItem->setPos(pos());*/
     return nullptr;
     //  return rectItem;
-}
-void RectItem::resizeContents(const QRectF& rect, int pointId, TransformType b)
-{
-
-    qDebug() << rect << m_rectCtrl->rect();
-    /* if(!rect.isValid() || isHoldSize())
-     {
-         return;
-     }
-     prepareGeometryChange();
-     auto width= m_ctrl->rect().width();
-     auto height= m_ctrl->rect().height();
-     // sendRectGeometryMsg();
-     m_resizing= true;
-     m_rect= rect;
-     if(transformType == VisualItem::KeepRatio)
-     {
-         auto hfw= height * rect.width() / width;
-         if(hfw > 1)
-         {
-             m_rect.setTop(-hfw / 2);
-             m_rect.setHeight(hfw);
-         }
-     }*/
-
-    // updateChildPosition();
-    VisualItem::resizeContents(rect, b);
 }
 
 void RectItem::endOfGeometryChange()

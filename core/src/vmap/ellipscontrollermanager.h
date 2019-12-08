@@ -17,52 +17,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef RECTITEMCONTROLLER_H
-#define RECTITEMCONTROLLER_H
+#ifndef ELLIPSCONTROLLERMANAGER_H
+#define ELLIPSCONTROLLERMANAGER_H
 
-#include <QColor>
-#include <QRectF>
-#include <QVariant>
+#include <QObject>
+#include <QPointer>
+#include <memory>
+#include <vector>
 
-#include "visualitemcontroller.h"
+#include "visualitemcontrollermanager.h"
 
 class VectorialMapController;
-class RectController : public VisualItemController
+class EllipseController;
+class EllipsControllerManager : public VisualItemControllerManager
 {
     Q_OBJECT
-    Q_PROPERTY(QRectF rect READ rect NOTIFY rectChanged)
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(bool filled READ filled NOTIFY filledChanged)
-    Q_PROPERTY(quint16 penWidth READ penWidth NOTIFY penWidthChanged)
 public:
-    RectController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent= nullptr);
+    EllipsControllerManager(VectorialMapController* ctrl);
 
-    bool filled() const;
-    QColor color() const;
-    QRectF rect() const;
-    quint16 penWidth() const;
-
-    void aboutToBeRemoved() override;
-    void endGeometryChange() override;
+    QString addItem(const std::map<QString, QVariant>& params) override;
+    void removeItem(const QString& id) override;
 
 signals:
-    void colorChanged();
-    void filledChanged();
-    void rectChanged();
-    void penWidthChanged();
-
-public slots:
-    void setColor(QColor color);
-    void setCorner(const QPointF& move, int corner) override;
+    void ellipsControllerCreated(EllipseController* ctrl);
 
 private:
-    void setRect(QRectF rect);
-
-private:
-    QRectF m_rect= QRectF(0, 0, 1, 1);
-    bool m_filled;
-    QColor m_color;
-    quint16 m_penWidth;
+    std::vector<std::unique_ptr<EllipseController>> m_controllers;
+    QPointer<VectorialMapController> m_ctrl;
 };
 
-#endif // RECTITEMCONTROLLER_H
+#endif // ELLIPSCONTROLLERMANAGER_H

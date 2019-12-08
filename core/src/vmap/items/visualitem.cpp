@@ -27,6 +27,8 @@
 #include <QUuid>
 #include <cmath>
 
+#include <QGraphicsScene>
+
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "map/map.h"
 #include "vmap/controller/visualitemcontroller.h"
@@ -41,9 +43,14 @@ QStringList VisualItem::s_type2NameList
     = QStringList() << QObject::tr("Path") << QObject::tr("Line") << QObject::tr("Ellipse") << QObject::tr("Character")
                     << QObject::tr("Text") << QObject::tr("Rect") << QObject::tr("Rule") << QObject::tr("Image");
 
-VisualItem::VisualItem(VisualItemController* ctrl) : QGraphicsObject(), m_ctrl(ctrl)
+VisualItem::VisualItem(VisualItemController* ctrl)
+    : QGraphicsObject(), m_ctrl(ctrl), m_id(QUuid::createUuid().toString())
 {
-    m_id= QUuid::createUuid().toString();
+    connect(m_ctrl, &VisualItemController::posChanged, this, [this]() { setPos(m_ctrl->pos()); });
+    connect(m_ctrl, &VisualItemController::removeItem, this, [this]() {
+        scene()->removeItem(this);
+        deleteLater();
+    });
     init();
 }
 
