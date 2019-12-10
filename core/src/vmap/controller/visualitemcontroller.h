@@ -8,6 +8,8 @@
 #include "media/mediatype.h"
 
 class VectorialMapController;
+namespace vmap
+{
 class VisualItemController : public QObject
 {
     Q_OBJECT
@@ -84,5 +86,5 @@ protected:
     Core::Layer m_layer= Core::Layer::NONE;
     QString m_uuid;
 };
-
+} // namespace vmap
 #endif // VISUALITEMCONTROLLER_H

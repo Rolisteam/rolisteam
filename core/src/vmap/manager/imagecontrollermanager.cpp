@@ -17,33 +17,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef RECTCONTROLLERMANAGER_H
-#define RECTCONTROLLERMANAGER_H
+#include "imagecontrollermanager.h"
 
-#include <QObject>
-#include <QPointer>
-#include <memory>
-#include <vector>
+#include <QVariant>
 
-#include "visualitemcontrollermanager.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
+#include "vmap/controller/imagecontroller.h"
 
-class RectController;
-class VectorialMapController;
-class RectControllerManager : public VisualItemControllerManager
+ImageControllerManager::ImageControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
+
+QString ImageControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
-    Q_OBJECT
-public:
-    RectControllerManager(VectorialMapController* ctrl);
+    std::unique_ptr<vmap::ImageController> image(new vmap::ImageController(params, m_ctrl));
+    emit imageControllerCreated(image.get());
+    auto id= image->uuid();
+    m_controllers.push_back(std::move(image));
+    return id;
+}
 
-    QString addItem(const std::map<QString, QVariant>& params) override;
-    void removeItem(const QString& id) override;
+void ImageControllerManager::removeItem(const QString& id)
+{
+    auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
+                          [id](const std::unique_ptr<vmap::ImageController>& ctrl) { return id == ctrl->uuid(); });
 
-signals:
-    void rectControllerCreated(RectController* ctrl);
+    if(it == m_controllers.end())
+        return;
 
-private:
-    std::vector<std::unique_ptr<RectController>> m_controllers;
-    QPointer<VectorialMapController> m_ctrl;
-};
-
-#endif // RECTCONTROLLERMANAGER_H
+    (*it)->aboutToBeRemoved();
+    m_controllers.erase(it);
+}

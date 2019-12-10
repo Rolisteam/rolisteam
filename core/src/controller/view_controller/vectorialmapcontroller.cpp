@@ -24,10 +24,14 @@
 
 #include "undoCmd/addvmapitem.h"
 #include "vmap/controller/ellipsecontroller.h"
+#include "vmap/controller/imagecontroller.h"
+#include "vmap/controller/linecontroller.h"
 #include "vmap/controller/rectcontroller.h"
 
-#include "vmap/ellipscontrollermanager.h"
-#include "vmap/rectcontrollermanager.h"
+#include "vmap/manager/ellipscontrollermanager.h"
+#include "vmap/manager/imagecontrollermanager.h"
+#include "vmap/manager/linecontrollermanager.h"
+#include "vmap/manager/rectcontrollermanager.h"
 
 #include "worker/iohelper.h"
 
@@ -35,11 +39,15 @@ VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
     : AbstractMediaContainerController(uri, parent) /*, m_vmap(new VMap(this))*/
     , m_rectControllerManager(new RectControllerManager(this))
     , m_ellipseControllerManager(new EllipsControllerManager(this))
+    , m_lineControllerManager(new LineControllerManager(this))
+    , m_imageControllerManager(new ImageControllerManager(this))
 {
     m_itemControllers.insert({Core::SelectableTool::EMPTYRECT, m_rectControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::FILLRECT, m_rectControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::FILLEDELLIPSE, m_ellipseControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::EMPTYELLIPSE, m_ellipseControllerManager.get()});
+    m_itemControllers.insert({Core::SelectableTool::LINE, m_lineControllerManager.get()});
+    m_itemControllers.insert({Core::SelectableTool::IMAGE, m_imageControllerManager.get()});
 
     /* if(uri->hasData() || !uri->getUri().isEmpty())
          IOHelper::loadVMap(m_vmap.get(), uri, this);*/
@@ -437,7 +445,14 @@ void VectorialMapController::setStateLabelVisible(bool b)
 
 void VectorialMapController::insertItemAt(const std::map<QString, QVariant>& params)
 {
-    auto ctrl= m_itemControllers.at(m_tool);
+    auto tool= m_tool;
+    if(params.end() != params.find(QStringLiteral("tool")))
+        tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
+
+    if(m_itemControllers.end() == m_itemControllers.find(tool))
+        return;
+
+    auto ctrl= m_itemControllers.at(tool);
     emit performCommand(new AddVmapItemCommand(this, ctrl, params));
 }
 
@@ -481,6 +496,16 @@ RectControllerManager* VectorialMapController::rectManager() const
 EllipsControllerManager* VectorialMapController::ellipseManager() const
 {
     return m_ellipseControllerManager.get();
+}
+
+LineControllerManager* VectorialMapController::lineManager() const
+{
+    return m_lineControllerManager.get();
+}
+
+ImageControllerManager* VectorialMapController::imageManager() const
+{
+    return m_imageControllerManager.get();
 }
 
 void VectorialMapController::removeItemController(QString uuid)

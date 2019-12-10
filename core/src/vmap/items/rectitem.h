@@ -21,7 +21,10 @@
 #define RECTITEM_H
 
 #include "visualitem.h"
+namespace vmap
+{
 class RectController;
+}
 /**
  * @brief displays and manages rectangle on map, part of QGraphicsScene/view.
  */
@@ -29,7 +32,7 @@ class RectItem : public VisualItem
 {
     Q_OBJECT
 public:
-    RectItem(RectController* ctrl);
+    RectItem(vmap::RectController* ctrl);
     // RectItem(const QPointF& topleft, const QPointF& buttomright, bool filled, quint16 penSize, const QColor&
     // penColor,
     //    QGraphicsItem* parent= nullptr);
@@ -101,7 +104,7 @@ protected:
     virtual void updateChildPosition() override;
 
 private:
-    QPointer<RectController> m_rectCtrl;
+    QPointer<vmap::RectController> m_rectCtrl;
 };
 
 #endif // RECTITEM_H

@@ -27,8 +27,11 @@
 #include <QConicalGradient>
 #include <QGradient>
 #include <QRadialGradient>
+namespace vmap
+{
 
 class VisualItemController;
+}
 /**
  * @brief The SightItem class
  */
@@ -40,7 +43,7 @@ public:
      * @brief GridItem
      * @param characterItemMap
      */
-    GridItem(VisualItemController* ctrl);
+    GridItem(vmap::VisualItemController* ctrl);
     /**
      * @brief ~GridItem
      */

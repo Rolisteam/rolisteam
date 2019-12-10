@@ -21,7 +21,10 @@
 #define HIGHLIGHTERITEM_H
 #include "visualitem.h"
 class QPropertyAnimation;
+namespace vmap
+{
 class VisualItemController;
+}
 /**
  * @brief displays an ellipse on maps.
  */
@@ -30,7 +33,7 @@ class HighlighterItem : public VisualItem
     Q_OBJECT
     Q_PROPERTY(qreal radius READ getRadius WRITE setRadius NOTIFY radiusChanged)
 public:
-    HighlighterItem(VisualItemController* ctrl);
+    HighlighterItem(vmap::VisualItemController* ctrl);
     /**
      * @brief constructor with parameters
      * @param center first point clicked by the user

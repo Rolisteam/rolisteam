@@ -25,7 +25,7 @@
 #define FONT_SIZE 15
 qreal RuleItem::m_zoomFactor= 1;
 
-RuleItem::RuleItem(VisualItemController* ctrl) : VisualItem(ctrl), m_pen(QColor(Qt::red))
+RuleItem::RuleItem(vmap::VisualItemController* ctrl) : VisualItem(ctrl), m_pen(QColor(Qt::red))
 {
     // setFlag(QGraphicsItem::ItemIgnoresTransformations,true);
 }

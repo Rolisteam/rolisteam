@@ -4,12 +4,15 @@
 #include "visualitem.h"
 #include <QImage>
 #include <QMovie>
-class VisualItemController;
+namespace vmap
+{
+class ImageController;
+}
 class ImageItem : public VisualItem
 {
     Q_OBJECT
 public:
-    ImageItem(VisualItemController* ctrl);
+    ImageItem(vmap::ImageController* ctrl);
     /**
      * @brief paint the current rectangle into the scene.
      * @see Qt documentation
@@ -68,13 +71,6 @@ public:
     QString getImageUri();
 
     virtual void setModifiers(Qt::KeyboardModifiers modifiers);
-
-    /**
-     * @brief resizeContents
-     * @param rect
-     * @param keepRatio
-     */
-    virtual void resizeContents(const QRectF& rect, TransformType transformType= KeepRatio);
     /**
      * @brief getItemCopy
      * @return
@@ -98,16 +94,17 @@ private:
     void initImage();
 
 private:
+    QPointer<vmap::ImageController> m_imgCtrl;
     bool m_keepAspect; ///< flag to keep the aspect.
-    QImage m_image;
-    QString m_imagePath;
-    qreal m_ratio;
-    Qt::KeyboardModifiers m_modifiers;
-    bool m_initialized;
+    // QImage m_image;
+    // QString m_imagePath;
+    // qreal m_ratio;
+    // Qt::KeyboardModifiers m_modifiers;
+    // bool m_initialized;
 
     // QAction* m_
-    QMovie* m_movie;
-    QByteArray m_data;
+    // QMovie* m_movie;
+    // QByteArray m_data;
 };
 
 #endif // IMAGEITEM_H

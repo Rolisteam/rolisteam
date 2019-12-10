@@ -24,8 +24,11 @@
 #include <QGraphicsObject>
 #include <QPointer>
 
-class VisualItem;
+namespace vmap
+{
 class VisualItemController;
+}
+class VisualItem;
 /**
  * @brief The ChildPointItem class controls and allows geometry transforms to its parent from user inputs.
  */
@@ -67,7 +70,7 @@ public:
      * @param point
      * @param parent
      */
-    ChildPointItem(VisualItemController* ctrl, int point, VisualItem* parent, bool isVision= false);
+    ChildPointItem(vmap::VisualItemController* ctrl, int point, VisualItem* parent, bool isVision= false);
     /**
      * @brief ~ChildPointItem
      */
@@ -144,7 +147,7 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 
 private:
-    QPointer<VisualItemController> m_ctrl;
+    QPointer<vmap::VisualItemController> m_ctrl;
     int m_pointId;
     QPointF m_startPoint;
     VisualItem* m_parent;

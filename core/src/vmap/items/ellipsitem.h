@@ -21,14 +21,17 @@
 #define ELLIPSITEM_H
 #include "visualitem.h"
 
+namespace vmap
+{
 class EllipseController;
+}
 /**
  * @brief displays an ellipse on maps.
  */
 class EllipsItem : public VisualItem
 {
 public:
-    EllipsItem(EllipseController* ctrl);
+    EllipsItem(vmap::EllipseController* ctrl);
     /**
      * @brief constructor with parameters
      * @param center first point clicked by the user
@@ -87,7 +90,7 @@ public:
     void updateChildPosition() override;
 
 private:
-    QPointer<EllipseController> m_ellipseCtrl;
+    QPointer<vmap::EllipseController> m_ellipseCtrl;
 };
 
 #endif // ELLIPSITEM_H

@@ -21,14 +21,15 @@
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include <QDebug>
-
+namespace vmap
+{
 RectController::RectController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(ctrl, parent)
 {
     m_color= params.at(QStringLiteral("color")).value<QColor>();
     m_filled= (params.at(QStringLiteral("tool")).value<Core::SelectableTool>() == Core::SelectableTool::FILLRECT);
     m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
-    m_pos= params.at(QStringLiteral("position")).toPointF();
+
     // m_rect.setTopLeft(pos);
     // m_rect.setBottomRight(pos);
 }
@@ -120,3 +121,4 @@ quint16 RectController::penWidth() const
 {
     return m_penWidth;
 }
+} // namespace vmap

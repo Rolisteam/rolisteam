@@ -23,17 +23,17 @@
 #include "visualitem.h"
 #include <QPen>
 class VisualItemController;
+namespace vmap
+{
+class LineController;
+}
 /**
  * @brief displays a line on maps.
  */
 class LineItem : public VisualItem
 {
 public:
-    LineItem(VisualItemController* ctrl);
-    /**
-     * @brief constructor with parameters
-     */
-    // LineItem(const QPointF& p, const QColor& penColor, int penSize, QGraphicsItem* parent= nullptr);
+    LineItem(vmap::LineController* ctrl);
     /**
      * @brief paint the line
      */
@@ -82,21 +82,15 @@ public:
      * @param pos
      */
     virtual void setGeometryPoint(qreal pointId, QPointF& pos) override;
-    virtual void initChildPointItem() override;
+    virtual void updateChildPosition() override;
+    void initChildPointItem() override {}
     virtual VisualItem* getItemCopy() override;
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
 
     void setHoldSize(bool holdSize) override;
 
 private:
-    /**
-     * @brief starting point, does not move except when the whole line is moved.
-     */
-    QPointF m_startPoint;
-    /**
-     * @brief ending point, should moved
-     */
-    QPointF m_endPoint;
+    QPointer<vmap::LineController> m_lineCtrl;
 };
 
 #endif // LINEITEM_H

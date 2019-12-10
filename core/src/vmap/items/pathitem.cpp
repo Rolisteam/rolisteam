@@ -127,7 +127,7 @@ QPainterPath vectorToPath(const QVector<QPointF>& points, bool closeUp= false)
     return path;
 }
 
-PathItem::PathItem(VisualItemController* ctrl) : VisualItem(ctrl), m_penMode(false), m_filled(false)
+PathItem::PathItem(vmap::VisualItemController* ctrl) : VisualItem(ctrl), m_penMode(false), m_filled(false)
 {
     m_closed= false;
     createActions();

@@ -32,15 +32,16 @@
 #include "network/networkmessagewriter.h"
 #include <QDebug>
 
-RectItem::RectItem(RectController* ctrl) : VisualItem(ctrl), m_rectCtrl(ctrl)
+RectItem::RectItem(vmap::RectController* ctrl) : VisualItem(ctrl), m_rectCtrl(ctrl)
 {
-    connect(m_rectCtrl, &RectController::rectChanged, this, [this]() {
+    connect(m_rectCtrl, &vmap::RectController::rectChanged, this, [this]() {
         setTransformOriginPoint(m_rectCtrl->rect().center());
         updateChildPosition();
     });
-    connect(m_rectCtrl, &RectController::rotationChanged, this, [this]() { setRotation(m_rectCtrl->rotation()); });
+    connect(m_rectCtrl, &vmap::RectController::rotationChanged, this,
+            [this]() { setRotation(m_rectCtrl->rotation()); });
 
-    for(int i= 0; i <= RectController::BottomLeft; ++i)
+    for(int i= 0; i <= vmap::RectController::BottomLeft; ++i)
     {
         ChildPointItem* tmp= new ChildPointItem(m_rectCtrl, i, this);
         tmp->setMotion(ChildPointItem::MOUSE);

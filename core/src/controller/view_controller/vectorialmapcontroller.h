@@ -35,6 +35,8 @@ class VisualItemController;
 class VisualItemControllerManager;
 class RectControllerManager;
 class EllipsControllerManager;
+class LineControllerManager;
+class ImageControllerManager;
 class VectorialMapController : public AbstractMediaContainerController
 {
     Q_OBJECT
@@ -107,6 +109,8 @@ public:
 
     RectControllerManager* rectManager() const;
     EllipsControllerManager* ellipseManager() const;
+    LineControllerManager* lineManager() const;
+    ImageControllerManager* imageManager() const;
 
     QString addItemController(const std::map<QString, QVariant>& params);
     void removeItemController(QString uuid);
@@ -222,8 +226,11 @@ private:
     Core::SelectableTool m_tool= Core::HANDLER;
     Core::EditionMode m_editionMode= Core::EditionMode::Painting;
     std::map<Core::SelectableTool, VisualItemControllerManager*> m_itemControllers;
+
     std::unique_ptr<RectControllerManager> m_rectControllerManager;
     std::unique_ptr<EllipsControllerManager> m_ellipseControllerManager;
+    std::unique_ptr<LineControllerManager> m_lineControllerManager;
+    std::unique_ptr<ImageControllerManager> m_imageControllerManager;
 };
 
 #endif // VECTORIALMAPCONTROLLER_H

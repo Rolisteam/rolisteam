@@ -30,7 +30,10 @@
 
 class NetworkMessageWriter;
 class NetworkMessageReader;
+namespace vmap
+{
 class VisualItemController;
+}
 /**
  * @brief abstract class which defines interface for all map items.
  */
@@ -82,7 +85,7 @@ public:
     /**
      * @brief VisualItem default constructor
      */
-    VisualItem(VisualItemController* ctrl);
+    VisualItem(vmap::VisualItemController* ctrl);
     /**
      * @brief ~VisualItem
      */
@@ -349,7 +352,7 @@ protected:
     QPointF computeClosePoint(QPointF pos);
 
 protected:
-    QPointer<VisualItemController> m_ctrl;
+    QPointer<vmap::VisualItemController> m_ctrl;
     QColor m_color;
     static QColor m_highlightColor;
     static int m_highlightWidth;
