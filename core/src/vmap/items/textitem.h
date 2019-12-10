@@ -27,7 +27,10 @@
 #include <QTextDocument>
 
 class MRichTextEdit;
+namespace vmap
+{
 class VisualItemController;
+}
 class TextLabel : public QGraphicsTextItem
 {
 public:
@@ -59,12 +62,12 @@ class TextItem : public VisualItem
 {
     Q_OBJECT
 public:
-    TextItem(VisualItemController* ctrl);
+    TextItem(vmap::VisualItemController* ctrl);
     /**
      * @brief Constructor with parameters
      * @param start, starting point, it represents the bottom right rectangle corner where the text willbe displayed
      */
-    TextItem(VisualItemController* ctrl, const QPointF& start, quint16 penSize, const QColor& penColor,
+    TextItem(vmap::VisualItemController* ctrl, const QPointF& start, quint16 penSize, const QColor& penColor,
              QGraphicsItem* parent= nullptr);
     /**
      * @brief paint the item into the scene.

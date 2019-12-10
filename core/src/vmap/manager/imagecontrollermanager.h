@@ -17,57 +17,35 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef ELLIPSEITEMCONTROLLER_H
-#define ELLIPSEITEMCONTROLLER_H
+#ifndef IMAGECONTROLLERMANAGER_H
+#define IMAGECONTROLLERMANAGER_H
 
-#include <QColor>
-#include <QRectF>
+#include <QObject>
+#include <QPointer>
+#include <memory>
+#include <vector>
 
-#include "visualitemcontroller.h"
-
-class VectorialMapController;
+#include "visualitemcontrollermanager.h"
 namespace vmap
 {
-class EllipseController : public VisualItemController
+class ImageController;
+}
+class VectorialMapController;
+class ImageControllerManager : public VisualItemControllerManager
 {
     Q_OBJECT
-    Q_PROPERTY(bool filled READ filled NOTIFY filledChanged)
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(quint16 penWidth READ penWidth NOTIFY penWidthChanged)
-    Q_PROPERTY(qreal rx READ rx WRITE setRx NOTIFY rxChanged)
-    Q_PROPERTY(qreal ry READ ry WRITE setRy NOTIFY ryChanged)
 public:
-    EllipseController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
-                      QObject* parent= nullptr);
+    ImageControllerManager(VectorialMapController* ctrl);
 
-    bool filled() const;
-    QColor color() const;
-    quint16 penWidth() const;
-    qreal rx() const;
-    qreal ry() const;
-
-    void aboutToBeRemoved() override;
-    void endGeometryChange() override;
+    QString addItem(const std::map<QString, QVariant>& params) override;
+    void removeItem(const QString& id) override;
 
 signals:
-    void colorChanged();
-    void filledChanged();
-    void penWidthChanged();
-    void rxChanged();
-    void ryChanged();
-
-public slots:
-    void setColor(QColor color);
-    void setCorner(const QPointF& move, int corner) override;
-    void setRx(qreal rx);
-    void setRy(qreal ry);
+    void imageControllerCreated(vmap::ImageController* ctrl);
 
 private:
-    bool m_filled;
-    QColor m_color;
-    quint16 m_penWidth;
-    qreal m_rx= 0.0;
-    qreal m_ry= 0.0;
+    std::vector<std::unique_ptr<vmap::ImageController>> m_controllers;
+    QPointer<VectorialMapController> m_ctrl;
 };
-} // namespace vmap
-#endif // ELLIPSEITEMCONTROLLER_H
+
+#endif // IMAGECONTROLLERMANAGER_H

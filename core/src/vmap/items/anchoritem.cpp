@@ -22,7 +22,7 @@
 
 #include "vmap/controller/visualitemcontroller.h"
 
-AnchorItem::AnchorItem(VisualItemController* ctrl, QPointF& p)
+AnchorItem::AnchorItem(vmap::VisualItemController* ctrl, QPointF& p)
     : VisualItem(ctrl), m_startPoint(p), m_pen(QColor(Qt::darkGray))
 {
     m_endPoint= m_startPoint;

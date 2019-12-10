@@ -12,7 +12,7 @@ include_directories(src/charactersheet)
 include_directories(src/widgets/MRichTextEditor)
 
 set(QT_REQUIRED_VERSION "5.12.0")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets Xml WebEngineWidgets)
+find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets Xml WebEngineWidgets Concurrent)
 
 if(TESTS)
     find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test)
@@ -231,7 +231,6 @@ set(HEADERS
     src/vmap/items/sightitem.h
     src/vmap/items/textitem.h
     src/vmap/items/visualitem.h
-    src/vmap/ellipscontrollermanager.h
     src/vmap/controller/ellipsecontroller.h
     src/vmap/controller/highlightercontroller.h
     src/vmap/controller/linecontroller.h
@@ -242,8 +241,11 @@ set(HEADERS
     src/vmap/controller/pathcontroller.h
     src/vmap/controller/sightcontroller.h
     src/vmap/controller/visualitemcontroller.h
-    src/vmap/rectcontrollermanager.h
-    src/vmap/visualitemcontrollermanager.h
+    src/vmap/manager/rectcontrollermanager.h
+    src/vmap/manager/imagecontrollermanager.h
+    src/vmap/manager/ellipscontrollermanager.h
+    src/vmap/manager/linecontrollermanager.h
+    src/vmap/manager/visualitemcontrollermanager.h
     src/vmap/patternmodel.h
     src/vmap/rgraphicsview.h
     src/vmap/vcolorselector.h
@@ -496,8 +498,11 @@ set(SOURCES
     src/vmap/items/sightitem.cpp
     src/vmap/items/textitem.cpp
     src/vmap/items/visualitem.cpp
-    src/vmap/visualitemcontrollermanager.cpp
-    src/vmap/rectcontrollermanager.cpp
+    src/vmap/manager/linecontrollermanager.cpp
+    src/vmap/manager/ellipscontrollermanager.cpp
+    src/vmap/manager/visualitemcontrollermanager.cpp
+    src/vmap/manager/rectcontrollermanager.cpp
+    src/vmap/manager/imagecontrollermanager.cpp
     src/vmap/controller/ellipsecontroller.cpp
     src/vmap/controller/highlightercontroller.cpp
     src/vmap/controller/linecontroller.cpp
@@ -508,7 +513,6 @@ set(SOURCES
     src/vmap/controller/pathcontroller.cpp
     src/vmap/controller/sightcontroller.cpp
     src/vmap/controller/visualitemcontroller.cpp
-    src/vmap/ellipscontrollermanager.cpp
     src/vmap/patternmodel.cpp
     src/vmap/rgraphicsview.cpp
     src/vmap/vcolorselector.cpp
@@ -591,7 +595,7 @@ set(UI_FILES
     )
 
 add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES})
-qt5_use_modules(core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets Xml WebEngineWidgets)
+qt5_use_modules(core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets Xml WebEngineWidgets Concurrent)
 #target_link_libraries(core PUBLIC Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets)
 
 set(Network_HEADER

@@ -26,11 +26,16 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "userlist/rolisteammimedata.h"
+
 #include "vmap/controller/ellipsecontroller.h"
+#include "vmap/controller/imagecontroller.h"
+#include "vmap/controller/linecontroller.h"
 #include "vmap/controller/rectcontroller.h"
 
-#include "vmap/ellipscontrollermanager.h"
-#include "vmap/rectcontrollermanager.h"
+#include "vmap/manager/ellipscontrollermanager.h"
+#include "vmap/manager/imagecontrollermanager.h"
+#include "vmap/manager/linecontrollermanager.h"
+#include "vmap/manager/rectcontrollermanager.h"
 
 // Undo management
 #include "undoCmd/addvmapitem.h"
@@ -53,6 +58,8 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     // item Managers
     connect(m_ctrl->rectManager(), &RectControllerManager::rectControllerCreated, this, &VMap::addRectItem);
     connect(m_ctrl->ellipseManager(), &EllipsControllerManager::ellipsControllerCreated, this, &VMap::addEllipseItem);
+    connect(m_ctrl->lineManager(), &LineControllerManager::LineControllerCreated, this, &VMap::addLineItem);
+    connect(m_ctrl->imageManager(), &ImageControllerManager::imageControllerCreated, this, &VMap::addImageItem);
 
     // initialization
     setBackgroundBrush(m_ctrl->backgroundColor());
@@ -98,15 +105,28 @@ void VMap::updateLayer()
         item->updateItemFlags();
     }
 }
+void VMap::addLineItem(vmap::LineController* lineCtrl)
+{
+    m_currentItem= new LineItem(lineCtrl);
+    addItem(m_currentItem);
+    m_currentItem->setPos(lineCtrl->pos());
+}
 
-void VMap::addRectItem(RectController* rectCtrl)
+void VMap::addImageItem(vmap::ImageController* imgCtrl)
+{
+    auto img= new ImageItem(imgCtrl);
+    addItem(img);
+    img->setPos(imgCtrl->pos());
+}
+
+void VMap::addRectItem(vmap::RectController* rectCtrl)
 {
     m_currentItem= new RectItem(rectCtrl);
     addItem(m_currentItem);
     m_currentItem->setPos(rectCtrl->pos());
 }
 
-void VMap::addEllipseItem(EllipseController* ellisCtrl)
+void VMap::addEllipseItem(vmap::EllipseController* ellisCtrl)
 {
     m_currentItem= new EllipsItem(ellisCtrl);
     addItem(m_currentItem);
@@ -261,23 +281,23 @@ void VMap::updateItem(const QPointF& end)
     }
 }
 
-void VMap::addImageItem(const QString& imgPath)
-{
-    /*  ImageItem* led= new ImageItem(m_ctrl);
-      led->setImageUri(imgPath);
-      // addNewItem(new AddVmapItemCommand(led, true, this), true);
-      led->setPos(QPointF(0, 0));
-      sendOffItem(led);*/
-}
+// void VMap::addImageItem(const QString& imgPath)
+//{
+/*  ImageItem* led= new ImageItem(m_ctrl);
+  led->setImageUri(imgPath);
+  // addNewItem(new AddVmapItemCommand(led, true, this), true);
+  led->setPos(QPointF(0, 0));
+  sendOffItem(led);*/
+//}
 
-void VMap::addImageItem(const QImage& img)
-{
-    /*  ImageItem* led= new ImageItem(m_ctrl);
-      led->setImage(img);
-      // addNewItem(new AddVmapItemCommand(led, true, this), true);
-      led->setPos(QPointF(0, 0));
-      sendOffItem(led);*/
-}
+// void VMap::addImageItem(const QImage& img)
+//{
+/*  ImageItem* led= new ImageItem(m_ctrl);
+  led->setImage(img);
+  // addNewItem(new AddVmapItemCommand(led, true, this), true);
+  led->setPos(QPointF(0, 0));
+  sendOffItem(led);*/
+//}
 
 void VMap::setCurrentItemOpacity(qreal a)
 {
@@ -1094,16 +1114,26 @@ void VMap::dropEvent(QGraphicsSceneDragDropEvent* event)
                 {
                     qInfo() << "VMAP dropEvent: image from resources list";
                     auto media= dynamic_cast<CleverURI*>(resource);
-                    if(media)
+                    if(nullptr == media)
+                        continue;
+
+                    if(media->getType() == CleverURI::PICTURE)
                     {
-                        if(media->getType() == CleverURI::PICTURE)
-                        {
-                            /*  ImageItem* led= new ImageItem(m_ctrl);
-                               led->setImageUri(media->getUri());
-                               // addNewItem(new AddVmapItemCommand(led, true, this), true);
-                               led->setPos(event->scenePos());
-                               sendOffItem(led);*/
-                        }
+                        // ImageItem* led= new ImageItem(m_ctrl);
+                        // led->setImageUri(media->getUri());
+
+                        std::map<QString, QVariant> params;
+                        params.insert({QStringLiteral("position"), event->scenePos()});
+                        params.insert({QStringLiteral("tool"), Core::SelectableTool::IMAGE});
+                        if(media->exists())
+                            params.insert({QStringLiteral("path"), m_ctrl->tool()});
+
+                        if(media->hasData())
+                            params.insert({QStringLiteral("data"), media->getData()});
+                        m_ctrl->insertItemAt(params);
+                        //  addNewItem(new AddVmapItemCommand(m_ctrl, true, this), true);
+                        // led->setPos(event->scenePos());
+                        // sendOffItem(led);
                     }
                 }
                 else if(resource->getResourcesType() == ResourcesNode::Person)
@@ -1146,6 +1176,11 @@ void VMap::dropEvent(QGraphicsSceneDragDropEvent* event)
                     /* ImageItem* led= new ImageItem(m_ctrl);
                      led->setImageUri(url.toLocalFile());
                      item= led;*/
+                    std::map<QString, QVariant> params;
+                    params.insert({QStringLiteral("position"), event->scenePos()});
+                    params.insert({QStringLiteral("tool"), Core::SelectableTool::IMAGE});
+                    params.insert({QStringLiteral("path"), url.toLocalFile()});
+                    m_ctrl->insertItemAt(params);
                 }
                 if(nullptr != item)
                 {

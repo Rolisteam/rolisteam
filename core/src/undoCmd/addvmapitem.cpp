@@ -33,7 +33,7 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "data/character.h"
 #include "network/networkmessagewriter.h"
-#include "vmap/visualitemcontrollermanager.h"
+#include "vmap/manager/visualitemcontrollermanager.h"
 
 AddVmapItemCommand::AddVmapItemCommand(VectorialMapController* ctrl, VisualItemControllerManager* visualCtrl,
                                        const std::map<QString, QVariant>& args, QUndoCommand* parent)

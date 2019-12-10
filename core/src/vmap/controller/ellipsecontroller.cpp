@@ -20,7 +20,8 @@
 #include "ellipsecontroller.h"
 
 #include <QVariant>
-
+namespace vmap
+{
 EllipseController::EllipseController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
                                      QObject* parent)
     : VisualItemController(ctrl, parent)
@@ -110,3 +111,4 @@ void EllipseController::setRy(qreal ry)
     m_ry= ry;
     emit ryChanged();
 }
+} // namespace vmap

@@ -3,7 +3,8 @@
 #include <QUuid>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-
+namespace vmap
+{
 VisualItemController::VisualItemController(VectorialMapController* ctrl, QObject* parent)
     : QObject(parent), m_ctrl(ctrl), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
 {
@@ -132,3 +133,4 @@ void VisualItemController::setPos(QPointF pos)
     m_pos= pos;
     emit posChanged();
 }
+} // namespace vmap

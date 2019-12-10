@@ -49,8 +49,13 @@
 class CharacterItem;
 class VectorialMapController;
 class AddVmapItemCommand;
+namespace vmap
+{
 class RectController;
 class EllipseController;
+class LineController;
+class ImageController;
+} // namespace vmap
 /**
  * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...
  * It is using the QGraphicsScene from Qt.
@@ -139,8 +144,8 @@ public:
     QUndoStack* getUndoStack() const;
     void setUndoStack(QUndoStack* undoStack);
 
-    void addImageItem(const QString& imgPath);
-    void addImageItem(const QImage& img);
+    // void addImageItem(const QString& imgPath);
+    // void addImageItem(const QImage& img);
     void addCommand(QUndoCommand* cmd);
 
     int getItemCount();
@@ -339,8 +344,10 @@ protected:
     void ensureFogAboveAll();
     bool isItemStorable(VisualItem* item);
 
-    void addRectItem(RectController* rectCtrl);
-    void addEllipseItem(EllipseController* ellisCtrl);
+    void addRectItem(vmap::RectController* rectCtrl);
+    void addEllipseItem(vmap::EllipseController* ellisCtrl);
+    void addLineItem(vmap::LineController* lineCtrl);
+    void addImageItem(vmap::ImageController* imgCtrl);
 
 private:
     QPointer<VectorialMapController> m_ctrl;

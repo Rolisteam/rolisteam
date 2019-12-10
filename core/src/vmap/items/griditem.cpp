@@ -44,7 +44,7 @@
 /// Code SightItem
 /////////////////////////////////
 
-GridItem::GridItem(VisualItemController* ctrl) : VisualItem(ctrl), m_isGM(false)
+GridItem::GridItem(vmap::VisualItemController* ctrl) : VisualItem(ctrl), m_isGM(false)
 {
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
     createActions();

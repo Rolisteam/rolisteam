@@ -22,7 +22,11 @@
 
 #include "visualitem.h"
 #include <QPen>
+namespace vmap
+{
+
 class VisualItemController;
+}
 /**
  * @brief map item to paint a path on the scene/map
  */
@@ -30,7 +34,7 @@ class PathItem : public VisualItem
 {
     Q_OBJECT
 public:
-    PathItem(VisualItemController* ctrl);
+    PathItem(vmap::VisualItemController* ctrl);
     /**
      * @brief override function to paint itself.
      */

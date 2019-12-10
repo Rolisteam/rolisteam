@@ -41,7 +41,7 @@ public:
     /**
      * @brief CharacterItem
      */
-    CharacterItem(VisualItemController* ctrl);
+    CharacterItem(vmap::VisualItemController* ctrl);
     /**
      * @brief CharacterItem
      * @param m

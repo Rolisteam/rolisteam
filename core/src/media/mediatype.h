@@ -88,6 +88,7 @@ enum SelectableTool
     TEXT,
     HANDLER,
     ADDNPC,
+    IMAGE,
     RULE,
     PATH,
     ANCHOR,

@@ -30,7 +30,7 @@
 #include "network/networkmessagewriter.h"
 #include "preferences/preferencesmanager.h"
 
-HighlighterItem::HighlighterItem(VisualItemController* ctrl) : VisualItem(ctrl) {}
+HighlighterItem::HighlighterItem(vmap::VisualItemController* ctrl) : VisualItem(ctrl) {}
 
 /*HighlighterItem::HighlighterItem(QPointF& center, int penSize, QColor& penColor, QGraphicsItem* parent)
     : VisualItem(penColor, penSize, parent)

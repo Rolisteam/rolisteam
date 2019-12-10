@@ -84,7 +84,7 @@ QColor ContrastColor(QColor color)
     return QColor(d, d, d);
 }
 
-CharacterItem::CharacterItem(VisualItemController* ctrl)
+CharacterItem::CharacterItem(vmap::VisualItemController* ctrl)
     : VisualItem(ctrl), m_character(nullptr), m_thumnails(nullptr), m_protectGeometryChange(false)
 //, m_visionChanged(false)
 {

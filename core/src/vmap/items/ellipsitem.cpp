@@ -30,15 +30,15 @@
 #include "network/networkmessagewriter.h"
 #include "vmap/controller/ellipsecontroller.h"
 
-EllipsItem::EllipsItem(EllipseController* ctrl) : VisualItem(ctrl), m_ellipseCtrl(ctrl)
+EllipsItem::EllipsItem(vmap::EllipseController* ctrl) : VisualItem(ctrl), m_ellipseCtrl(ctrl)
 {
-    connect(m_ellipseCtrl, &EllipseController::rotationChanged, this,
+    connect(m_ellipseCtrl, &vmap::EllipseController::rotationChanged, this,
             [this]() { setRotation(m_ellipseCtrl->rotation()); });
-    connect(m_ellipseCtrl, &EllipseController::rxChanged, this, [this]() {
+    connect(m_ellipseCtrl, &vmap::EllipseController::rxChanged, this, [this]() {
         setTransformOriginPoint(boundingRect().center());
         updateChildPosition();
     });
-    connect(m_ellipseCtrl, &EllipseController::ryChanged, this, [this]() {
+    connect(m_ellipseCtrl, &vmap::EllipseController::ryChanged, this, [this]() {
         setTransformOriginPoint(boundingRect().center());
         updateChildPosition();
     });

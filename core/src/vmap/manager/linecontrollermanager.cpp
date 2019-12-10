@@ -17,28 +17,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "rectcontrollermanager.h"
-
-#include <QVariant>
+#include "linecontrollermanager.h"
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "vmap/controller/rectcontroller.h"
+#include "vmap/controller/linecontroller.h"
 
-RectControllerManager::RectControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
+LineControllerManager::LineControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
 
-QString RectControllerManager::addItem(const std::map<QString, QVariant>& params)
+QString LineControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
-    std::unique_ptr<RectController> rect(new RectController(params, m_ctrl));
-    emit rectControllerCreated(rect.get());
-    auto id= rect->uuid();
-    m_controllers.push_back(std::move(rect));
+    std::unique_ptr<vmap::LineController> line(new vmap::LineController(params, m_ctrl));
+    emit LineControllerCreated(line.get());
+    auto id= line->uuid();
+    m_controllers.push_back(std::move(line));
     return id;
 }
 
-void RectControllerManager::removeItem(const QString& id)
+void LineControllerManager::removeItem(const QString& id)
 {
     auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
-                          [id](const std::unique_ptr<RectController>& ctrl) { return id == ctrl->uuid(); });
+                          [id](const std::unique_ptr<vmap::LineController>& ctrl) { return id == ctrl->uuid(); });
 
     if(it == m_controllers.end())
         return;

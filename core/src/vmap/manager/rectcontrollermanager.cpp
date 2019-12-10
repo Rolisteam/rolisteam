@@ -17,57 +17,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef ELLIPSEITEMCONTROLLER_H
-#define ELLIPSEITEMCONTROLLER_H
+#include "rectcontrollermanager.h"
 
-#include <QColor>
-#include <QRectF>
+#include <QVariant>
 
-#include "visualitemcontroller.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
+#include "vmap/controller/rectcontroller.h"
 
-class VectorialMapController;
-namespace vmap
+RectControllerManager::RectControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
+
+QString RectControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
-class EllipseController : public VisualItemController
+    std::unique_ptr<vmap::RectController> rect(new vmap::RectController(params, m_ctrl));
+    emit rectControllerCreated(rect.get());
+    auto id= rect->uuid();
+    m_controllers.push_back(std::move(rect));
+    return id;
+}
+
+void RectControllerManager::removeItem(const QString& id)
 {
-    Q_OBJECT
-    Q_PROPERTY(bool filled READ filled NOTIFY filledChanged)
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(quint16 penWidth READ penWidth NOTIFY penWidthChanged)
-    Q_PROPERTY(qreal rx READ rx WRITE setRx NOTIFY rxChanged)
-    Q_PROPERTY(qreal ry READ ry WRITE setRy NOTIFY ryChanged)
-public:
-    EllipseController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
-                      QObject* parent= nullptr);
+    auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
+                          [id](const std::unique_ptr<vmap::RectController>& ctrl) { return id == ctrl->uuid(); });
 
-    bool filled() const;
-    QColor color() const;
-    quint16 penWidth() const;
-    qreal rx() const;
-    qreal ry() const;
+    if(it == m_controllers.end())
+        return;
 
-    void aboutToBeRemoved() override;
-    void endGeometryChange() override;
-
-signals:
-    void colorChanged();
-    void filledChanged();
-    void penWidthChanged();
-    void rxChanged();
-    void ryChanged();
-
-public slots:
-    void setColor(QColor color);
-    void setCorner(const QPointF& move, int corner) override;
-    void setRx(qreal rx);
-    void setRy(qreal ry);
-
-private:
-    bool m_filled;
-    QColor m_color;
-    quint16 m_penWidth;
-    qreal m_rx= 0.0;
-    qreal m_ry= 0.0;
-};
-} // namespace vmap
-#endif // ELLIPSEITEMCONTROLLER_H
+    (*it)->aboutToBeRemoved();
+    m_controllers.erase(it);
+}

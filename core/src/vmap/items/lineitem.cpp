@@ -28,10 +28,38 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "vmap/controller/visualitemcontroller.h"
 
+#include "vmap/controller/linecontroller.h"
+#include <QDebug>
+
 #include <math.h>
 #define PI 3.14159265
 
-LineItem::LineItem(VisualItemController* ctrl) : VisualItem(ctrl) {}
+LineItem::LineItem(vmap::LineController* ctrl) : VisualItem(ctrl), m_lineCtrl(ctrl)
+{
+    auto func= [this]() {
+        QLineF line(m_lineCtrl->startPoint(), m_lineCtrl->endPoint());
+        qDebug() << m_lineCtrl->endPoint() << m_children[1]->pos();
+        setTransformOriginPoint(line.center());
+        updateChildPosition();
+    };
+    connect(m_lineCtrl, &vmap::LineController::endPointChanged, this, func);
+    connect(m_lineCtrl, &vmap::LineController::startPointChanged, this, func);
+    connect(m_lineCtrl, &vmap::LineController::rotationChanged, this, [this]() {
+        setRotation(m_lineCtrl->rotation());
+        QLineF line(m_lineCtrl->startPoint(), m_lineCtrl->endPoint());
+        setTransformOriginPoint(line.center());
+        updateChildPosition();
+    });
+
+    for(int i= 0; i <= vmap::LineController::End; ++i)
+    {
+        ChildPointItem* tmp= new ChildPointItem(m_lineCtrl, i, this);
+        tmp->setMotion(ChildPointItem::MOUSE);
+        m_children.append(tmp);
+        qDebug() << "add points";
+    }
+    updateChildPosition();
+}
 
 /*LineItem::LineItem(const QPointF& p, const QColor& penColor, int penSize, QGraphicsItem* parent)
     : VisualItem(penColor, penSize, parent)
@@ -43,27 +71,28 @@ LineItem::LineItem(VisualItemController* ctrl) : VisualItem(ctrl) {}
 
 void LineItem::setNewEnd(const QPointF& nend)
 {
-    m_endPoint= nend;
+    m_lineCtrl->setCorner(nend, 1);
     // m_rect.setBottomRight(nend);
 }
 QRectF LineItem::boundingRect() const
 {
+    return QRectF(m_lineCtrl->startPoint(), m_lineCtrl->endPoint()).normalized();
     // return m_rect.normalized();
 }
 QPainterPath LineItem::shape() const
 {
-    /*QLineF line(m_startPoint, m_endPoint);
-    line.setLength(line.length() + m_penWidth / 2.0);
+    QLineF line(m_lineCtrl->startPoint(), m_lineCtrl->endPoint());
+    line.setLength(line.length() + m_lineCtrl->penWidth() / 2.0);
     QLineF line2(line.p2(), line.p1());
-    line2.setLength(line2.length() + m_penWidth / 2.0);
+    line2.setLength(line2.length() + m_lineCtrl->penWidth() / 2.0);
     line.setPoints(line2.p2(), line2.p1());
 
     QLineF normal= line.normalVector();
-    normal.setLength(m_penWidth / 2.0);
+    normal.setLength(m_lineCtrl->penWidth() / 2.0);
     auto start= normal.p2();
     auto end= normal.pointAt(-1);
     QLineF normal2= line2.normalVector();
-    normal2.setLength(m_penWidth / 2.0);
+    normal2.setLength(m_lineCtrl->penWidth() / 2.0);
     auto p2= normal2.p2();
     auto p3= normal2.pointAt(-1);
 
@@ -73,18 +102,17 @@ QPainterPath LineItem::shape() const
     path.lineTo(p2);
     path.lineTo(end);
     path.lineTo(start);
-    return path;*/
-    return {};
+    return path;
 }
 void LineItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(widget)
     painter->save();
     auto pen= painter->pen();
-    pen.setColor(m_color);
-    // pen.setWidth(m_penWidth);
+    pen.setColor(m_lineCtrl->color());
+    pen.setWidth(m_lineCtrl->penWidth());
     painter->setPen(pen);
-    painter->drawLine(m_startPoint, m_endPoint);
+    painter->drawLine(m_lineCtrl->startPoint(), m_lineCtrl->endPoint());
     setChildrenVisible(hasFocusOrChild());
     painter->restore();
 
@@ -103,19 +131,19 @@ void LineItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
 void LineItem::writeData(QDataStream& out) const
 {
     //    out << m_rect;
-    out << m_startPoint;
-    out << m_endPoint;
-    out << opacity();
+    out << m_lineCtrl->startPoint();
+    out << m_lineCtrl->endPoint();
+    out << m_lineCtrl->opacity();
     // out << m_penWidth;
-    out << m_color;
+    out << m_lineCtrl->color();
     // out << static_cast<int>(m_layer);
 }
 
 void LineItem::readData(QDataStream& in)
 {
     //   in >> m_rect;
-    in >> m_startPoint;
-    in >> m_endPoint;
+    // in >> m_lineCtrl->startPoint();
+    // in >> m_lineCtrl->endPoint();
     qreal opa= 0;
     in >> opa;
     setOpacity(opa);
@@ -144,11 +172,11 @@ void LineItem::fillMessage(NetworkMessageWriter* msg)
       msg->real(m_rect.width());
       msg->real(m_rect.height());*/
     // m_startPoint
-    msg->real(m_startPoint.x());
-    msg->real(m_startPoint.y());
+    msg->real(m_lineCtrl->startPoint().x());
+    msg->real(m_lineCtrl->startPoint().y());
     // m_endPoint
-    msg->real(m_endPoint.x());
-    msg->real(m_endPoint.y());
+    msg->real(m_lineCtrl->endPoint().x());
+    msg->real(m_lineCtrl->endPoint().y());
     // pen
     // msg->uint16(m_penWidth);
     msg->rgb(m_color.rgb());
@@ -170,11 +198,11 @@ void LineItem::readItem(NetworkMessageReader* msg)
       m_rect.setWidth(msg->real());
       m_rect.setHeight(msg->real());*/
     // center
-    m_startPoint.setX(msg->real());
-    m_startPoint.setY(msg->real());
+    m_lineCtrl->startPoint().setX(msg->real());
+    m_lineCtrl->startPoint().setY(msg->real());
     // m_endPoint
-    m_endPoint.setX(msg->real());
-    m_endPoint.setY(msg->real());
+    m_lineCtrl->endPoint().setX(msg->real());
+    m_lineCtrl->endPoint().setY(msg->real());
     // pen
     //  m_penWidth= msg->uint16();
     m_color= msg->rgb();
@@ -186,22 +214,22 @@ void LineItem::readItem(NetworkMessageReader* msg)
 }
 void LineItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
-    if(m_holdSize)
-        return;
+    /*  if(m_holdSize)
+          return;
 
-    auto pointInt= static_cast<int>(pointId);
-    if(pointInt == 0)
-    {
-        m_resizing= true;
-        m_startPoint= pos;
-        //  m_rect.setTopLeft(m_startPoint);
-    }
-    else if(pointInt == 1)
-    {
-        m_resizing= true;
-        m_endPoint= pos;
-        //  m_rect.setBottomRight(m_endPoint);
-    }
+      auto pointInt= static_cast<int>(pointId);
+      if(pointInt == 0)
+      {
+          m_resizing= true;
+          m_lineCtrl->setStartPoint(pos);
+          //  m_rect.setTopLeft(m_startPoint);
+      }
+      else if(pointInt == 1)
+      {
+          m_resizing= true;
+          m_endPoint= pos;
+          //  m_rect.setBottomRight(m_endPoint);
+      }*/
 }
 void LineItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
 {
@@ -213,19 +241,19 @@ void LineItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
       m_startPoint= m_rect.topLeft();
       m_endPoint= m_rect.bottomRight();*/
 }
-void LineItem::initChildPointItem()
+void LineItem::updateChildPosition()
 {
     // m_child= new QVector<ChildPointItem*>();
 
-    for(int i= 0; i < 2; ++i)
+    /*for(int i= 0; i < 2; ++i)
     {
-        /* ChildPointItem* tmp= new ChildPointItem(m_ctrl, i, this);
+         ChildPointItem* tmp= new ChildPointItem(m_ctrl, i, this);
          tmp->setMotion(ChildPointItem::ALL);
-         m_children.append(tmp);*/
-    }
-    m_children.value(0)->setPos(m_startPoint);
+         m_children.append(tmp);
+    }*/
+    m_children.value(0)->setPos(m_lineCtrl->startPoint());
     m_children.value(0)->setPlacement(ChildPointItem::Center);
-    m_children.value(1)->setPos(m_endPoint);
+    m_children.value(1)->setPos(m_lineCtrl->endPoint());
     m_children.value(1)->setPlacement(ChildPointItem::Center);
 }
 VisualItem* LineItem::getItemCopy()

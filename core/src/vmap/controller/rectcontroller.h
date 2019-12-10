@@ -25,8 +25,9 @@
 #include <QVariant>
 
 #include "visualitemcontroller.h"
-
 class VectorialMapController;
+namespace vmap
+{
 class RectController : public VisualItemController
 {
     Q_OBJECT
@@ -64,5 +65,6 @@ private:
     QColor m_color;
     quint16 m_penWidth;
 };
+} // namespace vmap
 
 #endif // RECTITEMCONTROLLER_H

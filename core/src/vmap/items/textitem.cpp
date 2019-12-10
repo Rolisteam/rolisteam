@@ -105,13 +105,13 @@ QString RichTextEditDialog::getText()
 ///////////////////////
 
 RichTextEditDialog* TextItem::m_dialog= nullptr;
-TextItem::TextItem(VisualItemController* ctrl) : VisualItem(ctrl), m_offset(QPointF(100, 30))
+TextItem::TextItem(vmap::VisualItemController* ctrl) : VisualItem(ctrl), m_offset(QPointF(100, 30))
 {
     init();
     createActions();
 }
 
-TextItem::TextItem(VisualItemController* ctrl, const QPointF& start, quint16 penSize, const QColor& penColor,
+TextItem::TextItem(vmap::VisualItemController* ctrl, const QPointF& start, quint16 penSize, const QColor& penColor,
                    QGraphicsItem* parent)
     : VisualItem(ctrl), m_offset(QPointF(100, 30))
 {

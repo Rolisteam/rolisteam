@@ -28,14 +28,18 @@
 
 #include <QPen>
 
+namespace vmap
+{
+
 class VisualItemController;
+}
 /**
  * @brief The RuleItem class ephemeral item to display rule and measure the distance between two points.
  */
 class RuleItem : public VisualItem
 {
 public:
-    RuleItem(VisualItemController* ctrl);
+    RuleItem(vmap::VisualItemController* ctrl);
     // RuleItem(QPointF& p);
 
     ~RuleItem();

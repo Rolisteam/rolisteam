@@ -34,7 +34,7 @@
 
 #define SQUARE_SIZE 6
 
-ChildPointItem::ChildPointItem(VisualItemController* ctrl, int point, VisualItem* parent, bool isVision)
+ChildPointItem::ChildPointItem(vmap::VisualItemController* ctrl, int point, VisualItem* parent, bool isVision)
     : QGraphicsObject(parent)
     , m_ctrl(ctrl)
     , m_pointId(point)

@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef ELLIPSCONTROLLERMANAGER_H
-#define ELLIPSCONTROLLERMANAGER_H
+#ifndef LINECONTROLLERMANANGER_H
+#define LINECONTROLLERMANANGER_H
 
 #include <QObject>
 #include <QPointer>
@@ -27,23 +27,26 @@
 
 #include "visualitemcontrollermanager.h"
 
+namespace vmap
+{
+class LineController;
+}
 class VectorialMapController;
-class EllipseController;
-class EllipsControllerManager : public VisualItemControllerManager
+class LineControllerManager : public VisualItemControllerManager
 {
     Q_OBJECT
 public:
-    EllipsControllerManager(VectorialMapController* ctrl);
+    LineControllerManager(VectorialMapController* ctrl);
 
     QString addItem(const std::map<QString, QVariant>& params) override;
     void removeItem(const QString& id) override;
 
 signals:
-    void ellipsControllerCreated(EllipseController* ctrl);
+    void LineControllerCreated(vmap::LineController* ctrl);
 
 private:
-    std::vector<std::unique_ptr<EllipseController>> m_controllers;
+    std::vector<std::unique_ptr<vmap::LineController>> m_controllers;
     QPointer<VectorialMapController> m_ctrl;
 };
 
-#endif // ELLIPSCONTROLLERMANAGER_H
+#endif // LINECONTROLLERMANANGER_H
