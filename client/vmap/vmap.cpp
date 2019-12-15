@@ -892,8 +892,8 @@ void VMap::openFile(QDataStream& in)
             in >> x;
             in >> y;
             addNewItem(new AddVmapItemCommand(item, false, this), false);
-            item->setPos(x, y);
             item->initChildPointItem();
+            item->setPos(x, y);
             if(nullptr != charItem)
             {
                 insertCharacterInMap(charItem);

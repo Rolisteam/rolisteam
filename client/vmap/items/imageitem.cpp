@@ -98,6 +98,8 @@ void ImageItem::readData(QDataStream& in)
     in >> p;
     setPos(p);
 
+    m_initialized= false;
+
     dataToMedia();
 }
 void ImageItem::fillMessage(NetworkMessageWriter* msg)

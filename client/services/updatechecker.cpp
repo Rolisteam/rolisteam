@@ -39,8 +39,8 @@ UpdateChecker::UpdateChecker(QObject* obj)
 #ifdef VERSION_MINOR
 #ifdef VERSION_MAJOR
 #ifdef VERSION_MIDDLE
-    m_versionMinor = VERSION_MINOR;
-    m_versionMajor = VERSION_MAJOR;
+    m_versionMinor= VERSION_MINOR;
+    m_versionMajor= VERSION_MAJOR;
     m_versionMiddle= VERSION_MIDDLE;
 #endif
 #endif
@@ -121,7 +121,7 @@ void UpdateChecker::readXML(QNetworkReply* p)
     {
         m_versionChangelog= changelog.capturedTexts().at(1);
     }
-    m_state  = inferiorVersion();
+    m_state= inferiorVersion();
     m_version= QString("%1.%2.%3").arg(m_versionMajor).arg(m_versionMiddle).arg(m_versionMinor);
     emit checkFinished();
     m_manager->deleteLater();
