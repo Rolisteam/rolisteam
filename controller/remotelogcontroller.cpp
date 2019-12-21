@@ -1,18 +1,19 @@
-#include "logsenderscheduler.h"
+#include "remotelogcontroller.h"
 #include "../task/uploadlogtoserver.h"
 #include <QCoreApplication>
 #include <QThread>
 
-LogSenderScheduler::LogSenderScheduler() {}
-void LogSenderScheduler::addLog(QString msg, LogController::LogLevel level, QString category, QString timestamp)
+RemoteLogController::RemoteLogController() {}
+void RemoteLogController::addLog(const QString& msg, const QString& level, const QString& category,
+                                 const QString& timestamp)
 {
-    Log tm= {category, msg, timestamp, LogController::typeToText(level)};
+    Log tm= {category, msg, timestamp, level};
     m_temporyData.push_back(tm);
     if(m_temporyData.size() == m_numberPackages)
         sendOffMessage();
 }
 
-void LogSenderScheduler::sendOffMessage()
+void RemoteLogController::sendOffMessage()
 {
     QThread* thread= new QThread();
     LogUploader* uploader= new LogUploader();
@@ -33,22 +34,22 @@ void LogSenderScheduler::sendOffMessage()
     m_temporyData.clear();
 }
 
-int LogSenderScheduler::appId() const
+int RemoteLogController::appId() const
 {
     return m_appId;
 }
 
-void LogSenderScheduler::setAppId(int appId)
+void RemoteLogController::setAppId(int appId)
 {
     m_appId= appId;
 }
 
-QString LogSenderScheduler::localUuid() const
+QString RemoteLogController::localUuid() const
 {
     return m_localUuid;
 }
 
-void LogSenderScheduler::setLocalUuid(const QString& localUuid)
+void RemoteLogController::setLocalUuid(const QString& localUuid)
 {
     m_localUuid= localUuid;
 }

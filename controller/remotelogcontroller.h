@@ -1,15 +1,14 @@
-#ifndef LOGSENDERSCHEDULER_H
-#define LOGSENDERSCHEDULER_H
+#ifndef REMOTELOGCONTROLLER_H
+#define REMOTELOGCONTROLLER_H
 
 #include "../task/uploadlogtoserver.h"
-#include "logcontroller.h"
 #include <QObject>
 
-class LogSenderScheduler : public QObject
+class RemoteLogController : public QObject
 {
     Q_OBJECT
 public:
-    LogSenderScheduler();
+    RemoteLogController();
 
     QString localUuid() const;
     void setLocalUuid(const QString& localUuid);
@@ -18,7 +17,7 @@ public:
     void setAppId(int appId);
 
 public slots:
-    void addLog(QString msg, LogController::LogLevel level, QString category, QString timestamps);
+    void addLog(const QString& msg, const QString& level, const QString& category, const QString& timestamps);
     void sendOffMessage();
 
 private:
@@ -28,4 +27,4 @@ private:
     QString m_localUuid;
 };
 
-#endif // LOGSENDERSCHEDULER_H
+#endif // REMOTELOGCONTROLLER_H

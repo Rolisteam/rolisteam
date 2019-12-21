@@ -19,9 +19,9 @@ LogPanel::LogPanel(LogController* controller, QWidget* parent)
     ui->m_eraseAllAct->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
     ui->m_saveAct->setIcon(QIcon::fromTheme("document-save", QIcon(":/resources/icons/save.png")));
 
-    connect(ui->m_logLevel, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [=]() {
+    connect(ui->m_logLevel, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this]() {
         auto logLevel= static_cast<LogController::LogLevel>(ui->m_logLevel->currentIndex());
-        controller->setLogLevel(logLevel);
+        m_controller->setLogLevel(logLevel);
         m_prefManager->registerValue("LogController_LogLevel", ui->m_logLevel->currentIndex());
     });
 

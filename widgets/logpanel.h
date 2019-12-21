@@ -5,8 +5,6 @@
 #include "preferences/preferencesmanager.h"
 #include <QAbstractListModel>
 #include <QWidget>
-#include "preferences/preferencesmanager.h"
-#include <preferencesmanager.h>
 
 namespace Ui
 {

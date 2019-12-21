@@ -207,7 +207,7 @@ void LogController::manageMessage(QString message, LogController::LogLevel type)
 
     if(type == Search || (m_currentModes & Network))
     {
-        emit sendOffMessage(str, type, category, timestamps);
+        emit sendOffMessage(str, typeToText(type), category, timestamps);
     }
 
     if(type > m_logLevel)

@@ -54,7 +54,7 @@ public:
 
 signals:
     void showMessage(QString, LogController::LogLevel);
-    void sendOffMessage(QString, LogController::LogLevel, QString category, QString timestamps);
+    void sendOffMessage(QString, QString, QString category, QString timestamps);
     void logLevelChanged();
 
 public slots:
