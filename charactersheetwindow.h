@@ -60,6 +60,8 @@ struct SharingInfo
  * @brief herits from SubMdiWindows. It displays and manages all classes required to deal with the character sheet MVC
  * architrecture.
  */
+class SheetWidget;
+class Player;
 class CharacterSheetWindow : public MediaContainer
 {
     Q_OBJECT
@@ -67,7 +69,7 @@ public:
     /**
      * @brief default construtor
      */
-    CharacterSheetWindow(CleverURI* uri= nullptr, QWidget* parent= nullptr);
+    CharacterSheetWindow(QWidget* parent= nullptr);
     /**
      * @brief ~CharacterSheetWindow
      */
@@ -83,16 +85,6 @@ public:
      * @return
      */
     QJsonDocument saveFile(const QString& formerPath= QString());
-    /**
-     * @brief hasDockWidget
-     * @return
-     */
-    virtual bool hasDockWidget() const;
-    /**
-     * @brief getDockWidget
-     * @return
-     */
-    virtual QDockWidget* getDockWidget();
     /**
      * @brief readFileFromUri
      * @return
