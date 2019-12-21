@@ -26,10 +26,18 @@ EllipseController::EllipseController(const std::map<QString, QVariant>& params, 
                                      QObject* parent)
     : VisualItemController(ctrl, parent)
 {
-    m_color= params.at(QStringLiteral("color")).value<QColor>();
-    m_filled= (params.at(QStringLiteral("tool")).value<Core::SelectableTool>() == Core::SelectableTool::FILLEDELLIPSE);
-    m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
-    m_pos= params.at(QStringLiteral("position")).toPointF();
+    if(params.end() != params.find("color"))
+        setColor(params.at(QStringLiteral("color")).value<QColor>());
+
+    if(params.end() != params.find("tool"))
+        m_filled
+            = (params.at(QStringLiteral("tool")).value<Core::SelectableTool>() == Core::SelectableTool::FILLEDELLIPSE);
+
+    if(params.end() != params.find("penWidth"))
+        m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
+
+    if(params.end() != params.find("position"))
+        setPos(params.at(QStringLiteral("position")).toPointF());
 }
 
 bool EllipseController::filled() const

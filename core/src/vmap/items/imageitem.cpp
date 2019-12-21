@@ -29,7 +29,13 @@ ImageItem::ImageItem(vmap::ImageController* ctrl) : VisualItem(ctrl), m_imgCtrl(
         m_children.append(tmp);
     }
     updateChildPosition();
+
+    connect(m_imgCtrl, &vmap::ImageController::rectChanged, this, [this]() {
+        updateChildPosition();
+        update();
+    });
 }
+
 QRectF ImageItem::boundingRect() const
 {
     return m_imgCtrl->rect();
