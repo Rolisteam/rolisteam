@@ -31,12 +31,14 @@
 #include "vmap/controller/imagecontroller.h"
 #include "vmap/controller/linecontroller.h"
 #include "vmap/controller/rectcontroller.h"
+#include "vmap/controller/textcontroller.h"
 
 #include "vmap/manager/ellipscontrollermanager.h"
 #include "vmap/manager/imagecontrollermanager.h"
 #include "vmap/manager/linecontrollermanager.h"
 #include "vmap/manager/pathcontrollermanager.h"
 #include "vmap/manager/rectcontrollermanager.h"
+#include "vmap/manager/textcontrollermanager.h"
 
 // Undo management
 #include "undoCmd/addvmapitem.h"
@@ -64,6 +66,7 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     connect(m_ctrl->lineManager(), &LineControllerManager::LineControllerCreated, this, &VMap::addLineItem);
     connect(m_ctrl->imageManager(), &ImageControllerManager::imageControllerCreated, this, &VMap::addImageItem);
     connect(m_ctrl->pathManager(), &PathControllerManager::pathControllerCreated, this, &VMap::addPathItem);
+    connect(m_ctrl->textManager(), &TextControllerManager::textControllerCreated, this, &VMap::addTextItem);
 
     // initialization
     setBackgroundBrush(m_ctrl->backgroundColor());
@@ -135,6 +138,13 @@ void VMap::addEllipseItem(vmap::EllipseController* ellisCtrl)
     m_currentItem= new EllipsItem(ellisCtrl);
     addItem(m_currentItem);
     m_currentItem->setPos(ellisCtrl->pos());
+}
+
+void VMap::addTextItem(vmap::TextController* textCtrl)
+{
+    auto tmp= new TextItem(textCtrl);
+    addItem(tmp);
+    tmp->setPos(textCtrl->pos());
 }
 
 void VMap::addPathItem(vmap::PathController* pathCtrl)

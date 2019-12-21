@@ -57,6 +57,7 @@ class EllipseController;
 class LineController;
 class ImageController;
 class PathController;
+class TextController;
 } // namespace vmap
 /**
  * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...
@@ -352,6 +353,7 @@ protected:
     void addLineItem(vmap::LineController* lineCtrl);
     void addImageItem(vmap::ImageController* imgCtrl);
     void addPathItem(vmap::PathController* pathCtrl);
+    void addTextItem(vmap::TextController* textCtrl);
 
 private:
     QPointer<VectorialMapController> m_ctrl;

@@ -28,12 +28,14 @@
 #include "vmap/controller/linecontroller.h"
 #include "vmap/controller/pathcontroller.h"
 #include "vmap/controller/rectcontroller.h"
+#include "vmap/controller/textcontroller.h"
 
 #include "vmap/manager/ellipscontrollermanager.h"
 #include "vmap/manager/imagecontrollermanager.h"
 #include "vmap/manager/linecontrollermanager.h"
 #include "vmap/manager/pathcontrollermanager.h"
 #include "vmap/manager/rectcontrollermanager.h"
+#include "vmap/manager/textcontrollermanager.h"
 
 #include "worker/iohelper.h"
 
@@ -44,6 +46,7 @@ VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
     , m_lineControllerManager(new LineControllerManager(this))
     , m_imageControllerManager(new ImageControllerManager(this))
     , m_pathControllerManager(new PathControllerManager(this))
+    , m_textControllerManager(new TextControllerManager(this))
 {
     m_itemControllers.insert({Core::SelectableTool::EMPTYRECT, m_rectControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::FILLRECT, m_rectControllerManager.get()});
@@ -52,6 +55,8 @@ VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
     m_itemControllers.insert({Core::SelectableTool::LINE, m_lineControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::IMAGE, m_imageControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::PATH, m_pathControllerManager.get()});
+    m_itemControllers.insert({Core::SelectableTool::TEXT, m_textControllerManager.get()});
+    m_itemControllers.insert({Core::SelectableTool::TEXTBORDER, m_textControllerManager.get()});
 
     /* if(uri->hasData() || !uri->getUri().isEmpty())
          IOHelper::loadVMap(m_vmap.get(), uri, this);*/
@@ -515,6 +520,11 @@ ImageControllerManager* VectorialMapController::imageManager() const
 PathControllerManager* VectorialMapController::pathManager() const
 {
     return m_pathControllerManager.get();
+}
+
+TextControllerManager* VectorialMapController::textManager() const
+{
+    return m_textControllerManager.get();
 }
 
 void VectorialMapController::removeItemController(QString uuid)
