@@ -35,6 +35,7 @@
 #include "vmap/manager/ellipscontrollermanager.h"
 #include "vmap/manager/imagecontrollermanager.h"
 #include "vmap/manager/linecontrollermanager.h"
+#include "vmap/manager/pathcontrollermanager.h"
 #include "vmap/manager/rectcontrollermanager.h"
 
 // Undo management
@@ -55,11 +56,14 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     connect(m_ctrl, &VectorialMapController::gridVisibilityChanged, this, &VMap::computePattern);
     connect(m_ctrl, &VectorialMapController::gridColorChanged, this, &VMap::computePattern);
 
+    connect(m_ctrl, &VectorialMapController::toolChanged, this, [this]() { m_currentPath= nullptr; });
+
     // item Managers
     connect(m_ctrl->rectManager(), &RectControllerManager::rectControllerCreated, this, &VMap::addRectItem);
     connect(m_ctrl->ellipseManager(), &EllipsControllerManager::ellipsControllerCreated, this, &VMap::addEllipseItem);
     connect(m_ctrl->lineManager(), &LineControllerManager::LineControllerCreated, this, &VMap::addLineItem);
     connect(m_ctrl->imageManager(), &ImageControllerManager::imageControllerCreated, this, &VMap::addImageItem);
+    connect(m_ctrl->pathManager(), &PathControllerManager::pathControllerCreated, this, &VMap::addPathItem);
 
     // initialization
     setBackgroundBrush(m_ctrl->backgroundColor());
@@ -131,6 +135,14 @@ void VMap::addEllipseItem(vmap::EllipseController* ellisCtrl)
     m_currentItem= new EllipsItem(ellisCtrl);
     addItem(m_currentItem);
     m_currentItem->setPos(ellisCtrl->pos());
+}
+
+void VMap::addPathItem(vmap::PathController* pathCtrl)
+{
+    m_currentPath= new PathItem(pathCtrl);
+    m_currentItem= m_currentPath;
+    addItem(m_currentItem);
+    m_currentItem->setPos(pathCtrl->pos());
 }
 
 /*void VMap::initScene()
@@ -272,7 +284,7 @@ void VMap::updateItem(const QPointF& end)
     {
     case Core::PATH:
     {
-        m_currentPath->setNewEnd(end);
+        m_currentPath->addPoint(end);
         update();
     }
     break;
