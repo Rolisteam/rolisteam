@@ -25,20 +25,34 @@
 #include <QGraphicsTextItem>
 #include <QObject>
 #include <QTextDocument>
+#include <memory>
 
 class MRichTextEdit;
 namespace vmap
 {
-class VisualItemController;
+class TextController;
 }
 class TextLabel : public QGraphicsTextItem
 {
+    Q_OBJECT
+    Q_PROPERTY(QRectF textRect READ textRect WRITE setTextRect NOTIFY textRectChanged)
 public:
     TextLabel(QGraphicsItem* parent= nullptr);
 
+    QRectF textRect() const;
+    QRectF boundingRect() const override;
+
+signals:
+    void textRectChanged();
+public slots:
+    void setTextRect(const QRectF& rect);
+
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent* event);
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
+    void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
+
+private:
+    QRectF m_rect;
 };
 /**
  * @brief The RichTextEditDialog class is a simple class based on QDialog to display rich text editor
@@ -62,13 +76,7 @@ class TextItem : public VisualItem
 {
     Q_OBJECT
 public:
-    TextItem(vmap::VisualItemController* ctrl);
-    /**
-     * @brief Constructor with parameters
-     * @param start, starting point, it represents the bottom right rectangle corner where the text willbe displayed
-     */
-    TextItem(vmap::VisualItemController* ctrl, const QPointF& start, quint16 penSize, const QColor& penColor,
-             QGraphicsItem* parent= nullptr);
+    TextItem(vmap::TextController* ctrl);
     /**
      * @brief paint the item into the scene.
      */
@@ -120,7 +128,6 @@ public:
     virtual void initChildPointItem() override;
     void updateChildPosition() override;
     VisualItem* getItemCopy() override;
-    void createActions() override;
     void addActionContextMenu(QMenu& menu) override;
     void setBorderVisible(bool);
 
@@ -131,8 +138,6 @@ public:
     void setHoldSize(bool holdSize) override;
 public slots:
     void updateTextPosition();
-    void decreaseTextSize();
-    void increaseTextSize();
     void editText();
     void sizeToTheContent();
 
@@ -144,22 +149,12 @@ protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
 
 private:
-    void updateFont();
-    void init();
+    QPointer<vmap::TextController> m_textCtrl;
+    std::unique_ptr<QTextDocument> m_doc;
+    std::unique_ptr<TextLabel> m_textItem;
+    std::unique_ptr<QAction> m_increaseFontSize;
+    std::unique_ptr<QAction> m_decreaseFontSize;
 
-private:
-    QPointF m_start;
-    QFont m_font;
-
-    // QAction*
-    QAction* m_increaseFontSize;
-    QAction* m_decreaseFontSize;
-
-    QTextDocument* m_doc;
-    TextLabel* m_textItem;
-
-    bool m_showRect;
-    const QPointF m_offset;
     static RichTextEditDialog* m_dialog;
 };
 
