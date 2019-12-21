@@ -26,12 +26,17 @@ namespace vmap
 RectController::RectController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(ctrl, parent)
 {
-    m_color= params.at(QStringLiteral("color")).value<QColor>();
-    m_filled= (params.at(QStringLiteral("tool")).value<Core::SelectableTool>() == Core::SelectableTool::FILLRECT);
-    m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
+    if(params.end() != params.find("color"))
+        setColor(params.at(QStringLiteral("color")).value<QColor>());
 
-    // m_rect.setTopLeft(pos);
-    // m_rect.setBottomRight(pos);
+    if(params.end() != params.find("tool"))
+        m_filled= (params.at(QStringLiteral("tool")).value<Core::SelectableTool>() == Core::SelectableTool::FILLRECT);
+
+    if(params.end() != params.find("penWidth"))
+        m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
+
+    if(params.end() != params.find("position"))
+        setPos(params.at(QStringLiteral("position")).toPointF());
 }
 
 bool RectController::filled() const

@@ -39,6 +39,9 @@ ImageController::ImageController(const std::map<QString, QVariant>& params, Vect
                                  QObject* parent)
     : VisualItemController(ctrl, parent)
 {
+    if(params.end() != params.find("position"))
+        setPos(params.at(QStringLiteral("position")).toPointF());
+
     if(params.end() != params.find("path"))
         setData(readImage(params.at(QStringLiteral("path")).toString()));
 

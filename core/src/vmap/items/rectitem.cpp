@@ -253,7 +253,9 @@ void RectItem::setGeometryPoint(qreal pointId, QPointF& pos)
     setTransformOriginPoint(rect.center());*/
     // updateChildPosition();
 }
+
 void RectItem::initChildPointItem() {}
+
 void RectItem::updateChildPosition()
 {
     auto rect= m_rectCtrl->rect();
