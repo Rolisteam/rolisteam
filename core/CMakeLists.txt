@@ -246,6 +246,7 @@ set(HEADERS
     src/vmap/manager/ellipscontrollermanager.h
     src/vmap/manager/linecontrollermanager.h
     src/vmap/manager/visualitemcontrollermanager.h
+    src/vmap/manager/pathcontrollermanager.h
     src/vmap/patternmodel.h
     src/vmap/rgraphicsview.h
     src/vmap/vcolorselector.h
@@ -503,6 +504,7 @@ set(SOURCES
     src/vmap/manager/visualitemcontrollermanager.cpp
     src/vmap/manager/rectcontrollermanager.cpp
     src/vmap/manager/imagecontrollermanager.cpp
+    src/vmap/manager/pathcontrollermanager.cpp
     src/vmap/controller/ellipsecontroller.cpp
     src/vmap/controller/highlightercontroller.cpp
     src/vmap/controller/linecontroller.cpp

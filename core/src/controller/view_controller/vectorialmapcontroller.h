@@ -37,6 +37,7 @@ class RectControllerManager;
 class EllipsControllerManager;
 class LineControllerManager;
 class ImageControllerManager;
+class PathControllerManager;
 class VectorialMapController : public AbstractMediaContainerController
 {
     Q_OBJECT
@@ -111,6 +112,7 @@ public:
     EllipsControllerManager* ellipseManager() const;
     LineControllerManager* lineManager() const;
     ImageControllerManager* imageManager() const;
+    PathControllerManager* pathManager() const;
 
     QString addItemController(const std::map<QString, QVariant>& params);
     void removeItemController(QString uuid);
@@ -231,6 +233,7 @@ private:
     std::unique_ptr<EllipsControllerManager> m_ellipseControllerManager;
     std::unique_ptr<LineControllerManager> m_lineControllerManager;
     std::unique_ptr<ImageControllerManager> m_imageControllerManager;
+    std::unique_ptr<PathControllerManager> m_pathControllerManager;
 };
 
 #endif // VECTORIALMAPCONTROLLER_H

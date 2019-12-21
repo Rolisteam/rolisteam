@@ -21,10 +21,11 @@
 #define PATHITEM_H
 
 #include "visualitem.h"
+#include "vmap/controller/pathcontroller.h"
 #include <QPen>
+
 namespace vmap
 {
-
 class VisualItemController;
 }
 /**
@@ -34,7 +35,7 @@ class PathItem : public VisualItem
 {
     Q_OBJECT
 public:
-    PathItem(vmap::VisualItemController* ctrl);
+    PathItem(vmap::PathController* ctrl);
     /**
      * @brief override function to paint itself.
      */
@@ -91,19 +92,6 @@ public:
      */
     virtual VisualItem* getItemCopy() override;
     /**
-     * @brief setPath
-     * @param points
-     */
-    void setPath(QVector<QPointF> points);
-    /**
-     * @brief setClosed
-     */
-    void setClosed(bool);
-    /**
-     * @brief setFilled
-     */
-    void setFilled(bool);
-    /**
      * @brief setStartPoint
      */
     void setStartPoint(QPointF);
@@ -126,33 +114,19 @@ public:
      */
     virtual void readMovePointMsg(NetworkMessageReader* msg) override;
     void setHoldSize(bool holdSize) override;
+    void addPoint(const QPointF& point);
+    void addChild(const QPointF& point, int i);
 protected slots:
     void sendPointPosition();
-private slots:
-    void closePath();
-    void fillPath();
 
 private:
     void initRealPoints();
     void createActions() override;
 
 private:
-    bool m_penMode;
-    bool m_filled;
-    /**
-     * @brief path stored in QtClasse
-     */
-    QPainterPath m_path;
-    QPointF m_start;
-    QPointF m_end;
-
-    QVector<QPointF> m_pointVector;
-    QVector<QPointF> m_pointVectorBary;
+    QPointer<vmap::PathController> m_pathCtrl;
     QAction* m_closeAct;
     QAction* m_fillAct;
-    bool m_closed;
-    QPointF m_changedPointPos;
-    qreal m_changedPointId;
 };
 
 #endif // PATHITEM_H

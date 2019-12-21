@@ -26,11 +26,13 @@
 #include "vmap/controller/ellipsecontroller.h"
 #include "vmap/controller/imagecontroller.h"
 #include "vmap/controller/linecontroller.h"
+#include "vmap/controller/pathcontroller.h"
 #include "vmap/controller/rectcontroller.h"
 
 #include "vmap/manager/ellipscontrollermanager.h"
 #include "vmap/manager/imagecontrollermanager.h"
 #include "vmap/manager/linecontrollermanager.h"
+#include "vmap/manager/pathcontrollermanager.h"
 #include "vmap/manager/rectcontrollermanager.h"
 
 #include "worker/iohelper.h"
@@ -41,6 +43,7 @@ VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
     , m_ellipseControllerManager(new EllipsControllerManager(this))
     , m_lineControllerManager(new LineControllerManager(this))
     , m_imageControllerManager(new ImageControllerManager(this))
+    , m_pathControllerManager(new PathControllerManager(this))
 {
     m_itemControllers.insert({Core::SelectableTool::EMPTYRECT, m_rectControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::FILLRECT, m_rectControllerManager.get()});
@@ -48,6 +51,7 @@ VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
     m_itemControllers.insert({Core::SelectableTool::EMPTYELLIPSE, m_ellipseControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::LINE, m_lineControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::IMAGE, m_imageControllerManager.get()});
+    m_itemControllers.insert({Core::SelectableTool::PATH, m_pathControllerManager.get()});
 
     /* if(uri->hasData() || !uri->getUri().isEmpty())
          IOHelper::loadVMap(m_vmap.get(), uri, this);*/
@@ -506,6 +510,11 @@ LineControllerManager* VectorialMapController::lineManager() const
 ImageControllerManager* VectorialMapController::imageManager() const
 {
     return m_imageControllerManager.get();
+}
+
+PathControllerManager* VectorialMapController::pathManager() const
+{
+    return m_pathControllerManager.get();
 }
 
 void VectorialMapController::removeItemController(QString uuid)

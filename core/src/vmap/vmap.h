@@ -23,6 +23,7 @@
 #include "data/person.h"
 #include "media/mediatype.h"
 #include "vmap/items/griditem.h"
+#include "vmap/items/pathitem.h"
 #include "vmap/items/sightitem.h"
 #include "vmap/items/visualitem.h"
 #include "vtoolbar.h"
@@ -55,6 +56,7 @@ class RectController;
 class EllipseController;
 class LineController;
 class ImageController;
+class PathController;
 } // namespace vmap
 /**
  * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...
@@ -349,6 +351,7 @@ protected:
     void addEllipseItem(vmap::EllipseController* ellisCtrl);
     void addLineItem(vmap::LineController* lineCtrl);
     void addImageItem(vmap::ImageController* imgCtrl);
+    void addPathItem(vmap::PathController* pathCtrl);
 
 private:
     QPointer<VectorialMapController> m_ctrl;
@@ -359,7 +362,7 @@ private:
     /**
      * @brief m_currentPath
      */
-    QPointer<VisualItem> m_currentPath= nullptr;
+    QPointer<PathItem> m_currentPath= nullptr;
     /**
      * @brief Items list which are part of the map.
      */
