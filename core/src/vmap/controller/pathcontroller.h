@@ -34,6 +34,7 @@ class PathController : public VisualItemController
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(bool closed READ closed WRITE setClosed NOTIFY closedChanged)
     Q_PROPERTY(bool filled READ filled WRITE setFilled NOTIFY filledChanged)
+    Q_PROPERTY(bool penLine READ penLine CONSTANT)
 
 public:
     PathController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent= nullptr);
@@ -44,6 +45,7 @@ public:
     int pointCount() const;
     const std::vector<QPointF>& points() const;
     QPointF pointAt(int corner) const;
+    bool penLine() const;
 
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
@@ -69,6 +71,7 @@ private:
     std::vector<QPointF> m_points;
     bool m_filled= false;
     bool m_closed= false;
+    bool m_penLine= false;
     QColor m_color;
     quint16 m_penWidth= 15;
 };

@@ -132,7 +132,11 @@ QPainterPath vectorToPath(const std::vector<QPointF>& points, bool closeUp= fals
 PathItem::PathItem(vmap::PathController* ctrl) : VisualItem(ctrl), m_pathCtrl(ctrl)
 {
     connect(m_pathCtrl, &vmap::PathController::positionChanged, this, [this](int corner, QPointF pos) {
-        m_children[corner]->setPos(pos);
+        if(!m_children.empty())
+            return;
+
+        if(corner == qBound(0, corner, m_children.size()))
+            m_children[corner]->setPos(pos);
         update();
     });
 
@@ -214,15 +218,13 @@ void PathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
 
 void PathItem::setNewEnd(const QPointF& p)
 {
-    m_ctrl->setCorner(p, m_pathCtrl->pointCount());
-    /*m_end= p;
-    if(m_penMode)
+    if(m_pathCtrl->penLine())
     {
-        m_pointVector.append(p);
-        initChildPointItem();
-        update();
-        emit itemGeometryChanged(this);
-    }*/
+        auto p0= m_pathCtrl->pointAt(m_pathCtrl->pointCount() - 1);
+        m_pathCtrl->addPoint(p0 + p);
+    }
+    else
+        m_pathCtrl->setCorner(p, m_pathCtrl->pointCount());
 }
 void PathItem::release()
 {
@@ -379,6 +381,8 @@ void PathItem::addPoint(const QPointF& point)
 
 void PathItem::addChild(const QPointF& point, int i)
 {
+    if(m_pathCtrl->penLine())
+        return;
 
     ChildPointItem* tmp= new ChildPointItem(m_ctrl, i, this);
     tmp->setMotion(ChildPointItem::MOUSE);

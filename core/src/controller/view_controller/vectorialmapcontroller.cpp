@@ -55,6 +55,7 @@ VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
     m_itemControllers.insert({Core::SelectableTool::LINE, m_lineControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::IMAGE, m_imageControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::PATH, m_pathControllerManager.get()});
+    m_itemControllers.insert({Core::SelectableTool::PEN, m_pathControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::TEXT, m_textControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::TEXTBORDER, m_textControllerManager.get()});
 

@@ -6,10 +6,17 @@ namespace vmap
 PathController::PathController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(ctrl, parent)
 {
-    m_color= params.at(QStringLiteral("color")).value<QColor>();
-    m_filled= (params.at(QStringLiteral("tool")).value<Core::SelectableTool>() == Core::SelectableTool::FILLEDELLIPSE);
-    m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
-    addPoint(params.at(QStringLiteral("position")).toPointF());
+    if(params.end() != params.find("color"))
+        m_color= params.at(QStringLiteral("color")).value<QColor>();
+
+    if(params.end() != params.find("tool"))
+        m_penLine= (params.at(QStringLiteral("tool")).value<Core::SelectableTool>() == Core::SelectableTool::PEN);
+
+    if(params.end() != params.find("penWidth"))
+        m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
+
+    if(params.end() != params.find("position"))
+        addPoint(params.at(QStringLiteral("position")).toPointF());
 }
 
 bool PathController::filled() const
@@ -40,6 +47,19 @@ int PathController::pointCount() const
 const std::vector<QPointF>& PathController::points() const
 {
     return m_points;
+}
+
+QPointF PathController::pointAt(int corner) const
+{
+    if(corner != qBound(0, corner, pointCount()))
+        return {};
+
+    return m_points[static_cast<std::size_t>(corner)];
+}
+
+bool PathController::penLine() const
+{
+    return m_penLine;
 }
 void PathController::addPoint(const QPointF& po)
 {
