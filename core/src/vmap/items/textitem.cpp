@@ -195,7 +195,7 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     {
         QPen pen= painter->pen();
         pen.setColor(m_textCtrl->color());
-        // pen.setWidth(m_showRect ? m_penWidth : 2);
+        pen.setWidth(m_textCtrl->border() ? m_textCtrl->penWidth() : 2);
         painter->setPen(pen);
         painter->drawRect(boundingRect());
     }
@@ -281,49 +281,6 @@ void TextItem::setGeometryPoint(qreal pointId, QPointF& pos)
     // updateTextPosition();
     m_resizing= true;
 }
-void TextItem::endOfGeometryChange()
-{
-    updateTextPosition();
-    VisualItem::endOfGeometryChange();
-}
-
-void TextItem::updateTextPosition()
-{
-    /*   m_textItem->setTextWidth(m_rect.width() - 10);
-       QRectF rectItem= m_textItem->boundingRect();
-       setTransformOriginPoint(m_rect.center());
-       if(rectItem.height() > m_rect.height())
-       {
-           m_rect.setTop(m_rect.top() - 5);
-           m_rect.setBottom(m_rect.bottom() + 5);
-       }
-       setTransformOriginPoint(m_rect.center());
-       m_textItem->setPos(m_rect.center().x() - rectItem.width() / 2, m_rect.center().y() - rectItem.height() / 2);
-
-       if((nullptr != m_child) && (!m_child->isEmpty()))
-       {
-           if(!m_child->at(0)->isSelected())
-           {
-               m_child->value(0)->setPos(m_rect.topLeft());
-           }
-           if(!m_child->at(1)->isSelected())
-           {
-               m_child->value(1)->setPos(m_rect.topRight());
-           }
-           if(!m_child->at(2)->isSelected())
-           {
-               m_child->value(2)->setPos(m_rect.bottomRight());
-           }
-           if(!m_child->at(3)->isSelected())
-           {
-               m_child->value(3)->setPos(m_rect.bottomLeft());
-           }
-       }
-       if(m_doc == qobject_cast<QTextDocument*>(sender()))
-       {
-           emit itemGeometryChanged(this);
-       }*/
-}
 
 void TextItem::setHoldSize(bool holdSize)
 {
@@ -337,13 +294,7 @@ void TextItem::setHoldSize(bool holdSize)
 
 void TextItem::initChildPointItem()
 {
-    /*   m_rect= m_rect.normalized();
-       setTransformOriginPoint(m_rect.center());*/
-
-    updateTextPosition();
-
-    // m_child= new QVector<ChildPointItem*>();
-
+    // updateTextPosition();
     updateChildPosition();
 }
 void TextItem::updateChildPosition()
@@ -367,7 +318,7 @@ void TextItem::editText()
     if(QDialog::Accepted == m_dialog->exec())
     {
         m_textItem->setHtml(m_dialog->getText());
-        updateTextPosition();
+        // updateTextPosition();
         emit itemGeometryChanged(this);
     }
 }
@@ -522,12 +473,6 @@ void TextItem::sizeToTheContent()
     }
 }
 
-void TextItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
-{
-    VisualItem::setRectSize(x, y, w, h);
-
-    updateTextPosition();
-}
 void TextItem::updateItemFlags()
 {
     VisualItem::updateItemFlags();

@@ -40,6 +40,7 @@ class TextController : public VisualItemController
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(bool border READ border NOTIFY borderChanged)
     Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
+    Q_PROPERTY(quint16 penWidth READ penWidth CONSTANT)
     Q_PROPERTY(QPointF textPos READ textPos WRITE setTextPos NOTIFY textPosChanged)
 public:
     TextController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent= nullptr);
@@ -51,6 +52,7 @@ public:
     bool border() const;
     QFont font() const;
     QPointF textPos() const;
+    quint16 penWidth() const;
 
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
@@ -89,6 +91,7 @@ private:
     QColor m_color;
     bool m_border;
     QFont m_font;
+    quint16 m_penWidth;
 };
 } // namespace vmap
 
