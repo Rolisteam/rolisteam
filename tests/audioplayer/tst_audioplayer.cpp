@@ -1,8 +1,8 @@
 /***************************************************************************
- *   Copyright (C) 2019 by Renaud Guezennec                                *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *	Copyright (C) 2019 by Renaud Guezennec                               *
+ *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
- *   Rolisteam is free software; you can redistribute it and/or modify     *
+ *   This software is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
