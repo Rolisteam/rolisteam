@@ -114,6 +114,7 @@ set(HEADERS
     src/diceparser/node/keepdiceexecnode.h
     src/diceparser/node/listaliasnode.h
     src/diceparser/node/listsetrollnode.h
+    src/diceparser/node/allsamenode.h
     src/diceparser/node/mergenode.h
     src/diceparser/node/numbernode.h
     src/diceparser/node/occurencecountnode.h
@@ -373,6 +374,7 @@ set(SOURCES
     src/diceparser/die.cpp
     src/diceparser/highlightdice.cpp
     src/diceparser/node/bind.cpp
+    src/diceparser/node/allsamenode.cpp
     src/diceparser/node/countexecutenode.cpp
     src/diceparser/node/dicerollernode.cpp
     src/diceparser/node/executionnode.cpp
