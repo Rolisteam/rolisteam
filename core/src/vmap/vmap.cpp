@@ -149,8 +149,13 @@ void VMap::addTextItem(vmap::TextController* textCtrl)
 
 void VMap::addPathItem(vmap::PathController* pathCtrl)
 {
-    m_currentPath= new PathItem(pathCtrl);
-    m_currentItem= m_currentPath;
+    auto path= new PathItem(pathCtrl);
+
+    m_currentItem= path;
+    if(!pathCtrl->penLine())
+    {
+        m_currentPath= path;
+    }
     addItem(m_currentItem);
     m_currentItem->setPos(pathCtrl->pos());
 }
