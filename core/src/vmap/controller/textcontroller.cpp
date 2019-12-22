@@ -45,6 +45,9 @@ TextController::TextController(const std::map<QString, QVariant>& params, Vector
     if(params.end() != params.find("text"))
         setText(params.at(QStringLiteral("text")).toString());
 
+    if(params.end() != params.find("penWidth"))
+        m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
+
     if(m_text.isEmpty())
         setText(tr("Text"));
 }
@@ -169,6 +172,11 @@ void TextController::setTextPos(QPointF textPos)
 QPointF TextController::textPos() const
 {
     return m_textPos;
+}
+
+quint16 TextController::penWidth() const
+{
+    return m_penWidth;
 }
 
 void TextController::updateTextPosition()

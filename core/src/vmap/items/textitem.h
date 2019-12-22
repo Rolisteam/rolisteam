@@ -132,12 +132,12 @@ public:
     void setBorderVisible(bool);
 
     virtual void updateItemFlags() override;
-    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
+    // virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
 
-    virtual void endOfGeometryChange() override;
+    // virtual void endOfGeometryChange() override;
     void setHoldSize(bool holdSize) override;
 public slots:
-    void updateTextPosition();
+    // void updateTextPosition();
     void editText();
     void sizeToTheContent();
 
