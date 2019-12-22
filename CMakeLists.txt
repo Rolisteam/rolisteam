@@ -7,6 +7,7 @@ find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets 
 
 #helper
 include(cmake/TranslationHelper.cmake)
+option(TESTS "enable tests compilation" OFF)
 
 
 add_subdirectory(core)
@@ -14,6 +15,7 @@ add_subdirectory(client)
 add_subdirectory(server)
 
 if (TESTS)
+enable_testing(true)
 add_subdirectory(tests)
 endif()
 
