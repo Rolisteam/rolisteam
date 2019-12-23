@@ -1,6 +1,7 @@
 #ifndef DICESHORTCUT_H
 #define DICESHORTCUT_H
 
+#include <QMetaType>
 #include <QString>
 
 class DiceShortCut
@@ -22,5 +23,7 @@ private:
     QString m_command;
     bool m_alias;
 };
+
+Q_DECLARE_METATYPE(DiceShortCut)
 
 #endif // DICESHORTCUT_H

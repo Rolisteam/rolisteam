@@ -44,8 +44,8 @@
 #include "userlist/rolisteammimedata.h"
 #include "widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.h"
 
-#include "parsingtoolbox.h"
 #include "dicealias.h"
+#include "parsingtoolbox.h"
 
 QStringList ChatWindow::m_keyWordList;
 QList<DiceAlias*>* ChatWindow::m_receivedAlias= nullptr;
@@ -854,15 +854,15 @@ void ChatWindow::createAction(const DiceShortCut& pair)
 {
     QAction* action= m_toolBar->addAction(pair.text());
     m_actionList.push_back(action);
-    action->setData(static_cast<int>(m_diceBookMarks.size()) - 1);
-    connect(action, &QAction::triggered, this, [=]() {
+    // action->setData(static_cast<int>(m_diceBookMarks.size()) - 1);
+    action->setData(QVariant::fromValue(pair));
+    connect(action, &QAction::triggered, this, [this]() {
         auto action= qobject_cast<QAction*>(sender());
-        auto index= action->data().toInt();
-        auto dice= m_diceBookMarks[static_cast<size_t>(index)];
+        auto diceBook= action->data().value<DiceShortCut>();
         QString localPersonIdentifier
             = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole)
                   .toString();
-        rollDiceCmd(dice.command(), localPersonIdentifier, dice.alias());
+        rollDiceCmd(diceBook.command(), localPersonIdentifier, diceBook.alias());
     });
 }
 void ChatWindow::dragEnterEvent(QDragEnterEvent* event)
