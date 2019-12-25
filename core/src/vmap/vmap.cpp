@@ -27,18 +27,22 @@
 #include "network/networkmessagewriter.h"
 #include "userlist/rolisteammimedata.h"
 
+#include "vmap/controller/characteritemcontroller.h"
 #include "vmap/controller/ellipsecontroller.h"
 #include "vmap/controller/imagecontroller.h"
 #include "vmap/controller/linecontroller.h"
 #include "vmap/controller/rectcontroller.h"
 #include "vmap/controller/textcontroller.h"
 
+#include "vmap/manager/characteritemcontrollermanager.h"
 #include "vmap/manager/ellipscontrollermanager.h"
 #include "vmap/manager/imagecontrollermanager.h"
 #include "vmap/manager/linecontrollermanager.h"
 #include "vmap/manager/pathcontrollermanager.h"
 #include "vmap/manager/rectcontrollermanager.h"
 #include "vmap/manager/textcontrollermanager.h"
+
+#include "worker/iohelper.h"
 
 // Undo management
 #include "undoCmd/addvmapitem.h"
@@ -67,6 +71,8 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     connect(m_ctrl->imageManager(), &ImageControllerManager::imageControllerCreated, this, &VMap::addImageItem);
     connect(m_ctrl->pathManager(), &PathControllerManager::pathControllerCreated, this, &VMap::addPathItem);
     connect(m_ctrl->textManager(), &TextControllerManager::textControllerCreated, this, &VMap::addTextItem);
+    connect(m_ctrl->characterManager(), &CharacterItemControllerManager::characterControllerCreated, this,
+            &VMap::addCharaterItem);
 
     // initialization
     setBackgroundBrush(m_ctrl->backgroundColor());
@@ -145,6 +151,13 @@ void VMap::addTextItem(vmap::TextController* textCtrl)
     auto tmp= new TextItem(textCtrl);
     addItem(tmp);
     tmp->setPos(textCtrl->pos());
+}
+
+void VMap::addCharaterItem(vmap::CharacterItemController* itemCtrl)
+{
+    auto tmp= new CharacterItem(itemCtrl);
+    addItem(tmp);
+    tmp->setPos(itemCtrl->pos());
 }
 
 void VMap::addPathItem(vmap::PathController* pathCtrl)

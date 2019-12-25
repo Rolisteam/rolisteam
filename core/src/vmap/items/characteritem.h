@@ -30,7 +30,10 @@
 #include "visualitem.h"
 #include <memory>
 
-class CharacterController;
+namespace vmap
+{
+class CharacterItemController;
+}
 /**
  * @brief represents any character on map.
  */
@@ -38,17 +41,21 @@ class CharacterItem : public VisualItem
 {
     Q_OBJECT
 public:
+    enum Corner
+    {
+        TopLeft,
+        TopRight,
+        BottomRight,
+        BottomLeft,
+        SightAngle,
+        SightLenght
+    };
+    Q_ENUM(Corner)
     /**
      * @brief CharacterItem
      */
-    CharacterItem(vmap::VisualItemController* ctrl);
-    /**
-     * @brief CharacterItem
-     * @param m
-     * @param center
-     * @param diameter
-     */
-    // CharacterItem(CharacterController* ctrl, Character* m, const QPointF& center, qreal diameter= 40.0);
+    CharacterItem(vmap::CharacterItemController* ctrl);
+    ~CharacterItem() override;
     /**
      * @brief serialisation function to write data
      */
@@ -211,11 +218,6 @@ public:
      */
     void readCharacterStateChanged(NetworkMessageReader& msg);
     /**
-     * @brief getColor
-     * @return
-     */
-    virtual QColor getColor() override;
-    /**
      * @brief readVisionMsg
      * @param msg
      */
@@ -316,17 +318,12 @@ private slots:
     void changeCharacter();
 
 private:
-    /**
-     * @brief getSubTitle
-     * @return
-     */
-    QString getSubTitle() const;
     void visionChanged();
     void initChildPointItemMotion();
     bool canBeMoved() const override;
 
 private:
-    QPointer<Character> m_character;
+    QPointer<vmap::CharacterItemController> m_itemCtrl;
     QPointF m_center;
     qreal m_diameter;
     QPixmap* m_thumnails;

@@ -23,6 +23,7 @@
 #include "vmap/vmap.h"
 
 #include "undoCmd/addvmapitem.h"
+#include "vmap/controller/characteritemcontroller.h"
 #include "vmap/controller/ellipsecontroller.h"
 #include "vmap/controller/imagecontroller.h"
 #include "vmap/controller/linecontroller.h"
@@ -30,6 +31,7 @@
 #include "vmap/controller/rectcontroller.h"
 #include "vmap/controller/textcontroller.h"
 
+#include "vmap/manager/characteritemcontrollermanager.h"
 #include "vmap/manager/ellipscontrollermanager.h"
 #include "vmap/manager/imagecontrollermanager.h"
 #include "vmap/manager/linecontrollermanager.h"
@@ -47,6 +49,7 @@ VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
     , m_imageControllerManager(new ImageControllerManager(this))
     , m_pathControllerManager(new PathControllerManager(this))
     , m_textControllerManager(new TextControllerManager(this))
+    , m_characterControllerManager(new CharacterItemControllerManager(this))
 {
     m_itemControllers.insert({Core::SelectableTool::EMPTYRECT, m_rectControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::FILLRECT, m_rectControllerManager.get()});
@@ -58,6 +61,8 @@ VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
     m_itemControllers.insert({Core::SelectableTool::PEN, m_pathControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::TEXT, m_textControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::TEXTBORDER, m_textControllerManager.get()});
+    m_itemControllers.insert({Core::SelectableTool::NonPlayableCharacter, m_characterControllerManager.get()});
+    m_itemControllers.insert({Core::SelectableTool::PlayableCharacter, m_characterControllerManager.get()});
 
     /* if(uri->hasData() || !uri->getUri().isEmpty())
          IOHelper::loadVMap(m_vmap.get(), uri, this);*/
@@ -526,6 +531,11 @@ PathControllerManager* VectorialMapController::pathManager() const
 TextControllerManager* VectorialMapController::textManager() const
 {
     return m_textControllerManager.get();
+}
+
+CharacterItemControllerManager* VectorialMapController::characterManager() const
+{
+    return m_characterControllerManager.get();
 }
 
 void VectorialMapController::removeItemController(QString uuid)

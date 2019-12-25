@@ -17,23 +17,36 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef IOHELPER_H
-#define IOHELPER_H
+#ifndef CHARACTERITEMCONTROLLERMANAGER_H
+#define CHARACTERITEMCONTROLLERMANAGER_H
 
-#include <QString>
-#include <QVariant>
-#include <map>
+#include <QObject>
+#include <QPointer>
+#include <memory>
+#include <vector>
 
-class VMap;
-class CleverURI;
+#include "visualitemcontrollermanager.h"
+#include <QObject>
+
 class VectorialMapController;
-class IOHelper
+namespace vmap
 {
+class CharacterItemController;
+}
+class CharacterItemControllerManager : public VisualItemControllerManager
+{
+    Q_OBJECT
 public:
-    IOHelper();
+    CharacterItemControllerManager(VectorialMapController* ctrl);
+    QString addItem(const std::map<QString, QVariant>& params) override;
+    void removeItem(const QString& id) override;
 
-    static bool loadVMap(VMap* vmap, CleverURI* uri, VectorialMapController* ctrl);
-    static bool loadToken(const QString& filename, std::map<QString, QVariant>& params);
+signals:
+    void characterControllerCreated(vmap::CharacterItemController* ctrl);
+
+private:
+    std::vector<std::unique_ptr<vmap::CharacterItemController>> m_controllers;
+    QPointer<VectorialMapController> m_ctrl;
 };
 
-#endif // IOHELPER_H
+#endif // CHARACTERITEMCONTROLLERMANAGER_H

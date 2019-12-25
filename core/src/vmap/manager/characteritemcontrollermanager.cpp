@@ -17,23 +17,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef IOHELPER_H
-#define IOHELPER_H
+#include "characteritemcontrollermanager.h"
 
-#include <QString>
-#include <QVariant>
-#include <map>
+#include "controller/view_controller/vectorialmapcontroller.h"
+#include "vmap/controller/characteritemcontroller.h"
 
-class VMap;
-class CleverURI;
-class VectorialMapController;
-class IOHelper
+CharacterItemControllerManager::CharacterItemControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
+QString CharacterItemControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
-public:
-    IOHelper();
+    std::unique_ptr<vmap::CharacterItemController> characterCtrl(new vmap::CharacterItemController(params, m_ctrl));
+    emit characterControllerCreated(characterCtrl.get());
+    auto id= characterCtrl->uuid();
+    m_controllers.push_back(std::move(characterCtrl));
+    return id;
+}
 
-    static bool loadVMap(VMap* vmap, CleverURI* uri, VectorialMapController* ctrl);
-    static bool loadToken(const QString& filename, std::map<QString, QVariant>& params);
-};
+void CharacterItemControllerManager::removeItem(const QString& id)
+{
+    auto it
+        = std::find_if(m_controllers.begin(), m_controllers.end(),
+                       [id](const std::unique_ptr<vmap::CharacterItemController>& ctrl) { return id == ctrl->uuid(); });
 
-#endif // IOHELPER_H
+    if(it == m_controllers.end())
+        return;
+
+    (*it)->aboutToBeRemoved();
+    m_controllers.erase(it);
+}

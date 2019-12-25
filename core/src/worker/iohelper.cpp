@@ -172,3 +172,67 @@ bool IOHelper::loadVMap(VMap* vmap, CleverURI* uri, VectorialMapController* ctrl
      }*/
     return true;
 }
+
+#include "data/character.h"
+
+bool IOHelper::loadToken(const QString& filename, std::map<QString, QVariant>& params)
+{
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        return false;
+    }
+
+    QJsonDocument doc= QJsonDocument::fromJson(file.readAll());
+    QJsonObject obj= doc.object();
+    params["side"]= obj["size"].toDouble();
+    auto character= new Character();
+    character->setNpc(true);
+    character->setName(obj["name"].toString());
+    character->setColor(obj["color"].toString());
+    character->setHealthPointsMax(obj["lifeMax"].toInt());
+    character->setHealthPointsMin(obj["lifeMin"].toInt());
+    character->setHealthPointsCurrent(obj["lifeCurrent"].toInt());
+    character->setInitiativeScore(obj["initValue"].toInt());
+    character->setInitCommand(obj["initCommand"].toString());
+    character->setAvatarPath(obj["avatarUri"].toString());
+
+    auto array= QByteArray::fromBase64(obj["avatarImg"].toString().toUtf8());
+    character->setAvatar(QImage::fromData(array));
+
+    auto actionArray= obj["actions"].toArray();
+    for(auto act : actionArray)
+    {
+        auto actObj= act.toObject();
+        auto action= new CharacterAction();
+        action->setName(actObj["name"].toString());
+        action->setCommand(actObj["command"].toString());
+        character->addAction(action);
+    }
+
+    auto propertyArray= obj["properties"].toArray();
+    for(auto pro : propertyArray)
+    {
+        auto proObj= pro.toObject();
+        auto property= new CharacterProperty();
+        property->setName(proObj["name"].toString());
+        property->setValue(proObj["value"].toString());
+        character->addProperty(property);
+    }
+
+    auto shapeArray= obj["shapes"].toArray();
+    for(auto sha : shapeArray)
+    {
+        auto objSha= sha.toObject();
+        auto shape= new CharacterShape();
+        shape->setName(objSha["name"].toString());
+        shape->setUri(objSha["uri"].toString());
+        auto avatarData= QByteArray::fromBase64(objSha["dataImg"].toString().toUtf8());
+        QImage img= QImage::fromData(avatarData);
+        shape->setImage(img);
+        character->addShape(shape);
+    }
+
+    params["character"]= QVariant::fromValue(character);
+    return true;
+}

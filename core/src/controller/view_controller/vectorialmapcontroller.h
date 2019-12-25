@@ -39,6 +39,7 @@ class LineControllerManager;
 class ImageControllerManager;
 class PathControllerManager;
 class TextControllerManager;
+class CharacterItemControllerManager;
 class VectorialMapController : public AbstractMediaContainerController
 {
     Q_OBJECT
@@ -115,6 +116,7 @@ public:
     ImageControllerManager* imageManager() const;
     PathControllerManager* pathManager() const;
     TextControllerManager* textManager() const;
+    CharacterItemControllerManager* characterManager() const;
 
     QString addItemController(const std::map<QString, QVariant>& params);
     void removeItemController(QString uuid);
@@ -237,6 +239,7 @@ private:
     std::unique_ptr<ImageControllerManager> m_imageControllerManager;
     std::unique_ptr<PathControllerManager> m_pathControllerManager;
     std::unique_ptr<TextControllerManager> m_textControllerManager;
+    std::unique_ptr<CharacterItemControllerManager> m_characterControllerManager;
 };
 
 #endif // VECTORIALMAPCONTROLLER_H

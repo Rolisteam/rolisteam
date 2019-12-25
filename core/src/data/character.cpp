@@ -613,6 +613,19 @@ void Character::setStateId(const QString& stateId)
     emit stateIdChanged();
 }
 
+QString Character::currentStateLabel() const
+{
+    auto it= std::find_if(m_stateList->begin(), m_stateList->end(), [this](const CharacterState* state) {
+        if(nullptr == state)
+            return false;
+        return state->id() == m_stateId;
+    });
+
+    if(it == m_stateList->end())
+        return {};
+    return (*it)->getLabel();
+}
+
 bool Character::hasInitScore() const
 {
     return m_hasInitScore;
@@ -717,54 +730,6 @@ void Character::setCurrentShape(int index)
     auto shape= m_shapeList[index];
     setCurrentShape(shape);
 }
-void Character::readTokenObj(const QJsonObject& obj)
-{
-    m_isNpc= true;
-    m_name= obj["name"].toString();
-    m_color.setNamedColor(obj["color"].toString());
-    m_healthPointsMax= obj["lifeMax"].toInt();
-    m_healthPointsMin= obj["lifeMin"].toInt();
-    m_healthPointsCurrent= obj["lifeCurrent"].toInt();
-    m_initiativeScore= obj["initValue"].toInt();
-    m_initiativeRoll.setName(tr("Initiative"));
-    m_initiativeRoll.setCommand(obj["initCommand"].toString());
-    m_avatarPath= obj["avatarUri"].toString();
-    auto array= QByteArray::fromBase64(obj["avatarImg"].toString().toUtf8());
-    m_avatar= QImage::fromData(array);
-
-    auto actionArray= obj["actions"].toArray();
-    for(auto act : actionArray)
-    {
-        auto actObj= act.toObject();
-        auto action= new CharacterAction();
-        action->setName(actObj["name"].toString());
-        action->setCommand(actObj["command"].toString());
-        m_actionList.append(action);
-    }
-
-    auto propertyArray= obj["properties"].toArray();
-    for(auto pro : propertyArray)
-    {
-        auto proObj= pro.toObject();
-        auto property= new CharacterProperty();
-        property->setName(proObj["name"].toString());
-        property->setValue(proObj["value"].toString());
-        m_propertyList.append(property);
-    }
-
-    auto shapeArray= obj["shapes"].toArray();
-    for(auto sha : shapeArray)
-    {
-        auto objSha= sha.toObject();
-        auto shape= new CharacterShape();
-        shape->setName(objSha["name"].toString());
-        shape->setUri(objSha["uri"].toString());
-        auto avatarData= QByteArray::fromBase64(objSha["dataImg"].toString().toUtf8());
-        QImage img= QImage::fromData(avatarData);
-        shape->setImage(img);
-        m_shapeList.append(shape);
-    }
-}
 
 void Character::setCurrentShape(CharacterShape* shape)
 {
@@ -772,6 +737,24 @@ void Character::setCurrentShape(CharacterShape* shape)
         return;
     m_currentShape= shape;
     emit avatarChanged();
+}
+
+void Character::addShape(CharacterShape* shape)
+{
+    m_shapeList.append(shape);
+    // TODO emit signal ?
+}
+
+void Character::addAction(CharacterAction* action)
+{
+    m_actionList.append(action);
+    // TODO emit signal ?
+}
+
+void Character::addProperty(CharacterProperty* property)
+{
+    m_propertyList.append(property);
+    // TODO emit signal ?
 }
 
 const QImage& Character::getAvatar() const
