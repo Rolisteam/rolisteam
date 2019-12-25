@@ -65,6 +65,8 @@ public slots:
     void setGridUnit(Core::ScaleUnit unit);
     void setGridSize(int size);
     void setGridScale(double scale);
+    void setGridVisibility(bool visible);
+    void setGridAbove(bool above);
     void setVisibilityMode(Core::VisibilityMode mode);
     void setPermissionMode(Core::PermissionMode mode);
     void setLayer(Core::Layer layer);

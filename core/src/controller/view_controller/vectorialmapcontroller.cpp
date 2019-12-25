@@ -25,6 +25,7 @@
 #include "undoCmd/addvmapitem.h"
 #include "vmap/controller/characteritemcontroller.h"
 #include "vmap/controller/ellipsecontroller.h"
+#include "vmap/controller/gridcontroller.h"
 #include "vmap/controller/imagecontroller.h"
 #include "vmap/controller/linecontroller.h"
 #include "vmap/controller/pathcontroller.h"
@@ -50,6 +51,7 @@ VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
     , m_pathControllerManager(new PathControllerManager(this))
     , m_textControllerManager(new TextControllerManager(this))
     , m_characterControllerManager(new CharacterItemControllerManager(this))
+    , m_gridController(new vmap::GridController(this))
 {
     m_itemControllers.insert({Core::SelectableTool::EMPTYRECT, m_rectControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::FILLRECT, m_rectControllerManager.get()});
@@ -70,6 +72,10 @@ VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
 
 VectorialMapController::~VectorialMapController()= default;
 
+vmap::GridController* VectorialMapController::gridController() const
+{
+    return m_gridController.get();
+}
 Core::PermissionMode VectorialMapController::permission() const
 {
     return m_permission;

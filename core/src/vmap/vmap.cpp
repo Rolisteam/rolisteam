@@ -10,6 +10,7 @@
 #include "items/anchoritem.h"
 #include "items/characteritem.h"
 #include "items/ellipsitem.h"
+#include "items/griditem.h"
 #include "items/highlighteritem.h"
 #include "items/imageitem.h"
 #include "items/lineitem.h"
@@ -79,6 +80,13 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
 
     // setSceneRect(1000, 1000);
     setSceneRect(0, 0, 1000, 1000);
+
+    m_gridItem= new GridItem(m_ctrl->gridController());
+    addItem(m_gridItem);
+    m_gridItem->initChildPointItem();
+    m_gridItem->setPos(0, 0);
+    m_gridItem->setZValue(2);
+    m_gridItem->setVisible(false);
 }
 
 /*VMap::VMap(int width, int height, QString& title, QColor& bgColor, QObject* parent)
@@ -182,11 +190,7 @@ void VMap::addPathItem(vmap::PathController* pathCtrl)
     m_sightItem->setZValue(1);
     m_sightItem->setVisible(false);
 
-    addNewItem(new AddVmapItemCommand(m_gridItem, true, this), false);
-    m_gridItem->initChildPointItem();
-    m_gridItem->setPos(0, 0);
-    m_gridItem->setZValue(2);
-    m_gridItem->setVisible(false);
+
 }
 
 void VMap::setBackGroundColor(QColor bgcolor)
@@ -547,62 +551,62 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
 }
 void VMap::setAnchor(QGraphicsItem* child, QGraphicsItem* parent, bool send)
 {
-    if(nullptr != child)
+    if(nullptr == child)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::SetParentItem);
+    msg.string8(m_id);
+    VisualItem* childItem= dynamic_cast<VisualItem*>(child);
+
+    if(nullptr != childItem)
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::SetParentItem);
-        msg.string8(m_id);
-        VisualItem* childItem= dynamic_cast<VisualItem*>(child);
+        msg.string8(childItem->getId());
+    }
 
-        if(nullptr != childItem)
+    QPointF pos= child->pos();
+    QPointF pos2;
+    if(nullptr != parent)
+    {
+        pos2= parent->mapFromScene(pos);
+    }
+    else
+    {
+        if(nullptr != child->parentItem())
         {
-            msg.string8(childItem->getId());
+            pos2= child->parentItem()->mapToScene(pos);
         }
-
-        QPointF pos= child->pos();
-        QPointF pos2;
-        if(nullptr != parent)
+    }
+    VisualItem* paItem= dynamic_cast<VisualItem*>(parent);
+    if(nullptr != paItem)
+    {
+        msg.string8(paItem->getId());
+    }
+    else
+    {
+        msg.string8("nullptr");
+    }
+    bool hasMoved= false;
+    if(nullptr == parent)
+    {
+        if(send)
         {
-            pos2= parent->mapFromScene(pos);
+            msg.sendToServer();
         }
-        else
+        child->setParentItem(parent);
+        hasMoved= true;
+    }
+    else if(parent->parentItem() != child)
+    {
+        if(send)
         {
-            if(nullptr != child->parentItem())
-            {
-                pos2= child->parentItem()->mapToScene(pos);
-            }
+            msg.sendToServer();
         }
-        VisualItem* paItem= dynamic_cast<VisualItem*>(parent);
-        if(nullptr != paItem)
-        {
-            msg.string8(paItem->getId());
-        }
-        else
-        {
-            msg.string8("nullptr");
-        }
-        bool hasMoved= false;
-        if(nullptr == parent)
-        {
-            if(send)
-            {
-                msg.sendToServer();
-            }
-            child->setParentItem(parent);
-            hasMoved= true;
-        }
-        else if(parent->parentItem() != child)
-        {
-            if(send)
-            {
-                msg.sendToServer();
-            }
-            child->setParentItem(parent);
-            hasMoved= true;
-        }
-        if(!(pos2.isNull() && parent == nullptr) && hasMoved)
-        {
-            child->setPos(pos2);
-        }
+        child->setParentItem(parent);
+        hasMoved= true;
+    }
+    if(!(pos2.isNull() && parent == nullptr) && hasMoved)
+    {
+        child->setPos(pos2);
     }
 }
 
@@ -849,54 +853,14 @@ void VMap::addCharacter(Character* p, QPointF pos)
 
 void VMap::computePattern()
 {
-    if((m_ctrl->gridPattern() == Core::NONE) || (!m_ctrl->gridVisibility()) || (m_ctrl->gridAbove()))
+
+    setBackgroundBrush(m_ctrl->backgroundColor());
+
+    if(!m_ctrl->gridAbove() && m_ctrl->gridVisibility() && (m_ctrl->gridPattern() != Core::NONE))
     {
-        setBackgroundBrush(m_ctrl->backgroundColor());
+        auto ctrl= m_ctrl->gridController();
+        setBackgroundBrush(QPixmap::fromImage(ctrl->gridPattern()));
     }
-    else if(m_ctrl->gridVisibility())
-    {
-        QPolygonF polygon;
-
-        if(m_ctrl->gridPattern() == Core::HEXAGON)
-        {
-            qreal radius= m_ctrl->gridSize() / 2;
-            qreal hlimit= radius * qSin(M_PI / 3);
-            qreal offset= radius - hlimit;
-            QPointF A(2 * radius, radius - offset);
-            QPointF B(radius * 1.5, radius - hlimit - offset);
-            QPointF C(radius * 0.5, radius - hlimit - offset);
-            QPointF D(0, radius - offset);
-            QPointF E(radius * 0.5, radius + hlimit - offset - 1);
-            QPointF F(radius * 1.5, radius + hlimit - offset - 1);
-
-            QPointF G(2 * radius + radius, radius - offset);
-            polygon << C << D << E << F << A << B << A << G;
-
-            m_computedPattern= QImage(m_ctrl->gridSize() * 1.5, 2 * hlimit, QImage::Format_RGBA8888_Premultiplied);
-            m_computedPattern.fill(m_ctrl->backgroundColor());
-        }
-        else if(m_ctrl->gridPattern() == Core::SQUARE)
-        {
-            m_computedPattern= QImage(m_ctrl->gridSize(), m_ctrl->gridSize(), QImage::Format_RGB32);
-            m_computedPattern.fill(m_ctrl->backgroundColor());
-            int sizeP= m_ctrl->gridSize();
-            QPointF A(0, 0);
-            QPointF B(0, sizeP - 1);
-            QPointF C(sizeP - 1, sizeP - 1);
-            // QPointF D(sizeP-1,0);
-            polygon << A << B << C; //<< D << A;
-        }
-        QPainter painter(&m_computedPattern);
-        QPen pen;
-        pen.setColor(m_ctrl->gridColor());
-        pen.setWidth(1);
-        painter.setPen(pen);
-        painter.drawPolyline(polygon);
-        painter.end();
-        setBackgroundBrush(QPixmap::fromImage(m_computedPattern));
-    }
-    m_gridItem->computePattern();
-    m_gridItem->setVisible(m_ctrl->gridVisibility());
 }
 
 void VMap::ensureFogAboveAll()
@@ -1197,43 +1161,38 @@ void VMap::dropEvent(QGraphicsSceneDragDropEvent* event)
     }
     else
     {
-        if(data->hasUrls())
+        if(!data->hasUrls())
+            return;
+
+        for(QUrl& url : data->urls())
         {
-            for(QUrl& url : data->urls())
+            if(url.isLocalFile() && url.fileName().endsWith("rtok"))
             {
-                VisualItem* item= nullptr;
-                if(url.isLocalFile() && url.fileName().endsWith("rtok"))
+                qInfo() << "VMAP dropEvent: rtok from file";
+                std::map<QString, QVariant> params;
+                if(IOHelper::loadToken(url.toLocalFile(), params))
                 {
-                    qInfo() << "VMAP dropEvent: rtok from file";
-                    /*CharacterItem* persona= new CharacterItem(m_ctrl);
-                    persona->setTokenFile(url.toLocalFile());
-                    insertCharacterInMap(persona);
-                    auto character= persona->getCharacter();
-                    if(character)
-                    {*/
-                    /*PlayerModel* list= PlayerModel::instance();
-                    list->addLocalCharacter(character);*/
-                    /* }
-                     item= persona;*/
-                }
-                else if(url.isLocalFile())
-                {
-                    qInfo() << "VMAP dropEvent: Image from file";
-                    /* ImageItem* led= new ImageItem(m_ctrl);
-                     led->setImageUri(url.toLocalFile());
-                     item= led;*/
-                    std::map<QString, QVariant> params;
                     params.insert({QStringLiteral("position"), event->scenePos()});
-                    params.insert({QStringLiteral("tool"), Core::SelectableTool::IMAGE});
-                    params.insert({QStringLiteral("path"), url.toLocalFile()});
+                    params.insert({QStringLiteral("color"), m_ctrl->toolColor()});
+                    params.insert({QStringLiteral("penWidth"), m_ctrl->penSize()});
+                    params.insert({QStringLiteral("tool"), Core::SelectableTool::NonPlayableCharacter});
                     m_ctrl->insertItemAt(params);
                 }
-                if(nullptr != item)
-                {
-                    // addNewItem(new AddVmapItemCommand(item, true, this), true);
-                    item->setPos(event->scenePos());
-                    sendOffItem(item);
-                }
+            }
+            else if(url.isLocalFile())
+            {
+                qInfo() << "VMAP dropEvent: Image from file";
+                std::map<QString, QVariant> params;
+                params.insert({QStringLiteral("position"), event->scenePos()});
+                params.insert({QStringLiteral("tool"), Core::SelectableTool::IMAGE});
+                params.insert({QStringLiteral("path"), url.toLocalFile()});
+                m_ctrl->insertItemAt(params);
+            }
+            // if(nullptr != item)
+            {
+                // addNewItem(new AddVmapItemCommand(item, true, this), true);
+                // item->setPos(event->scenePos());
+                // sendOffItem(item);
             }
         }
     }

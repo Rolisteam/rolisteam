@@ -44,7 +44,7 @@
 /// Code SightItem
 /////////////////////////////////
 
-GridItem::GridItem(vmap::VisualItemController* ctrl) : VisualItem(ctrl), m_isGM(false)
+GridItem::GridItem(vmap::GridController* ctrl) : VisualItem(ctrl), m_gridCtrl(ctrl)
 {
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
     createActions();
@@ -53,6 +53,8 @@ GridItem::GridItem(vmap::VisualItemController* ctrl) : VisualItem(ctrl), m_isGM(
     m_ctrl->setLayer(Core::Layer::GRIDLAYER);
     setFlags(QGraphicsItem::ItemSendsGeometryChanges);
     setFlag(QGraphicsItem::ItemIsSelectable, false);
+
+    connect(m_gridCtrl, &vmap::GridController::gridPatternChanged, this, [this]() { update(); });
 }
 
 GridItem::~GridItem() {}
@@ -112,52 +114,7 @@ void GridItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(pos().y());
     msg->real(zValue());
 }
-void GridItem::computePattern()
-{
-    /*if((m_ctrl->gridPattern() != Core::NONE) && m_ctrl->gridVisibility() && m_ctrl->gridAbove())
-    {
-        QPolygonF polygon;
 
-        if(m_ctrl->gridPattern() == Core::HEXAGON)
-        {
-            qreal radius= m_ctrl->gridSize() / 2;
-            qreal hlimit= radius * qSin(M_PI / 3);
-            qreal offset= radius - hlimit;
-            QPointF A(2 * radius, radius - offset);
-            QPointF B(radius * 1.5, radius - hlimit - offset);
-            QPointF C(radius * 0.5, radius - hlimit - offset);
-            QPointF D(0, radius - offset);
-            QPointF E(radius * 0.5, radius + hlimit - offset - 1);
-            QPointF F(radius * 1.5, radius + hlimit - offset - 1);
-
-            QPointF G(2 * radius + radius, radius - offset);
-            polygon << C << D << E << F << A << B << A << G;
-
-            m_computedPattern= QImage(static_cast<int>(m_ctrl->gridSize() * 1.5), static_cast<int>(2 * hlimit),
-                                      QImage::Format_ARGB32);
-            m_computedPattern.fill(Qt::transparent);
-        }
-        else if(m_ctrl->gridPattern() == Core::SQUARE)
-        {
-            m_computedPattern= QImage(m_ctrl->gridSize(), m_ctrl->gridSize(), QImage::Format_ARGB32);
-            m_computedPattern.fill(Qt::transparent);
-            int sizeP= m_ctrl->gridSize();
-            QPointF A(0, 0);
-            QPointF B(0, sizeP - 1);
-            QPointF C(sizeP - 1, sizeP - 1);
-
-            polygon << A << B << C; //<< D << A;
-        }
-        QPainter painter(&m_computedPattern);
-        QPen pen;
-        pen.setColor(m_ctrl->gridColor());
-        pen.setWidth(1);
-        painter.setPen(pen);
-        painter.drawPolyline(polygon);
-        painter.end();
-        // setBackgroundBrush(QPixmap::fromImage(m_computedPattern));
-    }*/
-}
 void GridItem::readItem(NetworkMessageReader* msg)
 {
     m_id= msg->string16();
@@ -188,14 +145,10 @@ void GridItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    /*   if(m_ctrl->gridAbove() && m_ctrl->gridVisibility() && (m_ctrl->gridPattern() != Core::NONE))
-       {
-           painter->fillRect(boundingRect(), QBrush(m_computedPattern));
-       }*/
+    if(!m_gridCtrl->visible())
+        return;
+
+    painter->fillRect(boundingRect(), QBrush(m_gridCtrl->gridPattern()));
 }
 
-void GridItem::setVisible(bool visible)
-{
-    VisualItem::setVisible(visible);
-}
 void GridItem::createActions() {}
