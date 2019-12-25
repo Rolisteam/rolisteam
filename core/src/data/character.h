@@ -250,6 +250,8 @@ public:
     static CharacterState* getStateFromIndex(int i);
     void setStateId(const QString& stateId);
 
+    QString currentStateLabel() const;
+
     bool hasInitScore() const;
     void setHasInitiative(bool b);
 
@@ -291,8 +293,6 @@ public:
     QColor getLifeColor() const;
     void setLifeColor(QColor color);
 
-    void readTokenObj(const QJsonObject& obj);
-
     QString getInitCommand() const;
     void setInitCommand(const QString& init);
 
@@ -308,6 +308,9 @@ public:
 public slots:
     void setCurrentShape(int index);
     void addShape(const QString& name, const QString& path);
+    void addShape(CharacterShape* shape);
+    void addAction(CharacterAction* action);
+    void addProperty(CharacterProperty* property);
 signals:
     void currentHealthPointsChanged();
     void maxHPChanged();
@@ -340,5 +343,5 @@ private:
     bool m_hasInitScore= false;
     CharacterShape* m_currentShape= nullptr;
 };
-
+Q_DECLARE_METATYPE(Character*)
 #endif // CHARACTER_H

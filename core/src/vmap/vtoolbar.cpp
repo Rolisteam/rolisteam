@@ -59,7 +59,7 @@ VToolsBar::VToolsBar(VectorialMapMediaController* ctrl, QWidget* parent) : QWidg
         m_elipseFillAct->setChecked(tool == Core::FILLEDELLIPSE);
         m_textAct->setChecked(tool == Core::TEXT);
         m_handAct->setChecked(tool == Core::HANDLER);
-        m_addPCAct->setChecked(tool == Core::ADDNPC);
+        m_addPCAct->setChecked(tool == Core::NonPlayableCharacter);
         m_bucketAct->setChecked(tool == Core::BUCKET);
         m_textWithBorderAct->setChecked(tool == Core::TEXTBORDER);
     });
@@ -114,7 +114,7 @@ void VToolsBar::createActions()
     m_handAct->setData(Core::HANDLER);
 
     m_addPCAct= new QAction(QIcon(":/resources/icons/add.png"), tr("Add NPC"), m_toolsGroup);
-    m_addPCAct->setData(Core::ADDNPC);
+    m_addPCAct->setData(Core::NonPlayableCharacter);
 
     m_ruleAct= new QAction(QIcon(":/resources/icons/rule.png"), tr("Rule"), m_toolsGroup);
     m_ruleAct->setData(Core::RULE);
@@ -299,8 +299,8 @@ void VToolsBar::makeTools()
                 anchorButton->setVisible(painting);
                 highlighterButton->setVisible(painting);
 
-                if(tool == Core::RULE || tool == Core::PIPETTE || tool == Core::BUCKET || tool == Core::ADDNPC
-                   || tool == Core::ANCHOR)
+                if(tool == Core::RULE || tool == Core::PIPETTE || tool == Core::BUCKET
+                   || tool == Core::NonPlayableCharacter || tool == Core::ANCHOR)
                     m_ctrl->setTool(Core::HANDLER);
             });
 

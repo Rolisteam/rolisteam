@@ -234,6 +234,7 @@ set(HEADERS
     src/vmap/items/visualitem.h
     src/vmap/controller/ellipsecontroller.h
     src/vmap/controller/highlightercontroller.h
+    src/vmap/controller/characteritemcontroller.h
     src/vmap/controller/linecontroller.h
     src/vmap/controller/rectcontroller.h
     src/vmap/controller/textcontroller.h
@@ -249,6 +250,7 @@ set(HEADERS
     src/vmap/manager/visualitemcontrollermanager.h
     src/vmap/manager/pathcontrollermanager.h
     src/vmap/manager/textcontrollermanager.h
+    src/vmap/manager/characteritemcontrollermanager.h
     src/vmap/patternmodel.h
     src/vmap/rgraphicsview.h
     src/vmap/vcolorselector.h
@@ -509,8 +511,10 @@ set(SOURCES
     src/vmap/manager/imagecontrollermanager.cpp
     src/vmap/manager/pathcontrollermanager.cpp
     src/vmap/manager/textcontrollermanager.cpp
+    src/vmap/manager/characteritemcontrollermanager.cpp
     src/vmap/controller/ellipsecontroller.cpp
     src/vmap/controller/highlightercontroller.cpp
+    src/vmap/controller/characteritemcontroller.cpp
     src/vmap/controller/linecontroller.cpp
     src/vmap/controller/rectcontroller.cpp
     src/vmap/controller/textcontroller.cpp
@@ -602,7 +606,7 @@ set(UI_FILES
 
 add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES})
 qt5_use_modules(core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets Xml WebEngineWidgets Concurrent)
-#target_link_libraries(core PUBLIC Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets)
+#target_link_libraries(core PUBLIC  Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets)
 
 set(Network_HEADER
     src/network/rolisteamdaemon.h

@@ -353,6 +353,7 @@ protected:
     void addImageItem(vmap::ImageController* imgCtrl);
     void addPathItem(vmap::PathController* pathCtrl);
     void addTextItem(vmap::TextController* textCtrl);
+    void addCharaterItem(vmap::CharacterItemController* itemCtrl);
 
 private:
     QPointer<VectorialMapController> m_ctrl;
