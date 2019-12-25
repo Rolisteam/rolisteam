@@ -81,7 +81,7 @@ void PlayerWidget::startMedia(QMediaContent* p, QString title, bool play)
     m_ui->m_timeSlider->setMinimum(0);
     if(title.isEmpty())
     {
-        m_ui->m_label->setText(p->canonicalUrl().fileName());
+        m_ui->m_label->setText(p->request().url().fileName());
     }
     else
     {
@@ -467,7 +467,7 @@ void PlayerWidget::setTime(int time)
 }
 void PlayerWidget::sourceChanged(const QMediaContent& media)
 {
-    emit newSongPlayed(m_id, media.canonicalUrl().toString());
+    emit newSongPlayed(m_id, media.request().url().toString());
 }
 void PlayerWidget::playerStatusChanged(QMediaPlayer::State newState)
 {
@@ -701,7 +701,7 @@ void PlayerWidget::errorOccurs(QMediaPlayer::Error e)
         return;
 
     QString Error("Error %1 : %2");
-    m_ui->m_label->setText(Error.arg(m_player.errorString(), m_player.currentMedia().canonicalUrl().toString()));
+    m_ui->m_label->setText(Error.arg(m_player.errorString(), m_player.currentMedia().request().url().toString()));
 }
 void PlayerWidget::labelTextChanged()
 {

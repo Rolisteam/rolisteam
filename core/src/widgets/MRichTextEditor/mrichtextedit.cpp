@@ -42,7 +42,7 @@
 MRichTextEdit::MRichTextEdit(QWidget* parent) : QWidget(parent)
 {
     setupUi(this);
-    m_lastBlockList= 0;
+    m_lastBlockList= nullptr;
     f_textedit->setTabStopDistance(40);
 
     connect(f_textedit, SIGNAL(currentCharFormatChanged(QTextCharFormat)), this,
@@ -469,7 +469,7 @@ void MRichTextEdit::slotCursorPositionChanged()
     QTextList* l= f_textedit->textCursor().currentList();
     if(m_lastBlockList
        && (l == m_lastBlockList
-           || (l != 0 && m_lastBlockList != 0 && l->format().style() == m_lastBlockList->format().style())))
+           || (l != nullptr && m_lastBlockList != nullptr && l->format().style() == m_lastBlockList->format().style())))
     {
         return;
     }

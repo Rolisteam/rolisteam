@@ -92,7 +92,7 @@ QVariant MusicModel::data(const QModelIndex& index, int role) const
     switch(role) {
         case Qt::DisplayRole:
             if (index.column() == TITLE) {
-                return normalizeUrl(m_data.at(index.row())->canonicalUrl());
+                return normalizeUrl(m_data.at(index.row())->request().url());
             }
         break;
         case Qt::FontRole:
@@ -176,7 +176,7 @@ void MusicModel::saveIn(QTextStream& file)
 {
     for(auto& tmp : m_data)
     {
-        file << tmp->canonicalUrl().toString(QUrl::PreferLocalFile) << "\n";
+        file << tmp->request().url().toString(QUrl::PreferLocalFile) << "\n";
     }
 }
 QStringList MusicModel::mimeTypes() const
