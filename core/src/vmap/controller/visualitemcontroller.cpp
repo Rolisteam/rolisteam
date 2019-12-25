@@ -122,10 +122,10 @@ void VisualItemController::setEditable(bool b)
 
 void VisualItemController::setVisible(bool b)
 {
-    if(b == m_selected)
+    if(b == m_visible)
         return;
-    m_selected= b;
-    emit selectedChanged();
+    m_visible= b;
+    emit visibleChanged();
 }
 
 void VisualItemController::setOpacity(qreal b)

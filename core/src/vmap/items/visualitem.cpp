@@ -51,6 +51,11 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl)
         scene()->removeItem(this);
         deleteLater();
     });
+    connect(m_ctrl, &vmap::VisualItemController::visibleChanged, this, [this]() {
+        // test anretnaute ue utanite nauriteuet naut euirenru e
+        setVisible(m_ctrl->visible());
+        // rnatune uir ntenautien
+    });
     init();
 }
 

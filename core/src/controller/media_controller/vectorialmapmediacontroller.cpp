@@ -154,7 +154,6 @@ bool VectorialMapMediaController::openMedia(CleverURI* uri, const std::map<QStri
             &VectorialMapMediaController::updateProperties);
     connect(vmapCtrl.get(), &VectorialMapController::performCommand, m_stack, &QUndoStack::push);
     emit vmapControllerCreated(vmapCtrl.get());
-    // MessageHelper::sendOffVMap(vmapCtrl.get());
     m_vmaps.push_back(std::move(vmapCtrl));
     return true;
 }
@@ -284,6 +283,22 @@ void VectorialMapMediaController::setGridPattern(Core::GridPattern pattern)
     if(nullptr == ctrl)
         return;
     ctrl->setGridPattern(pattern);
+}
+
+void VectorialMapMediaController::setGridVisibility(bool visible)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setGridVisibility(visible);
+}
+
+void VectorialMapMediaController::setGridAbove(bool above)
+{
+    auto ctrl= findActive(m_vmaps);
+    if(nullptr == ctrl)
+        return;
+    ctrl->setGridAbove(above);
 }
 
 void VectorialMapMediaController::setCollision(bool b)

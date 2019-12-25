@@ -28,6 +28,12 @@
 #include "abstractmediacontroller.h"
 #include "media/mediatype.h"
 
+namespace vmap
+{
+class GridController;
+class SightController;
+} // namespace vmap
+
 class CleverURI;
 class VMap;
 class NetworkMessageReader;
@@ -117,6 +123,8 @@ public:
     PathControllerManager* pathManager() const;
     TextControllerManager* textManager() const;
     CharacterItemControllerManager* characterManager() const;
+
+    vmap::GridController* gridController() const;
 
     QString addItemController(const std::map<QString, QVariant>& params);
     void removeItemController(QString uuid);
@@ -240,6 +248,9 @@ private:
     std::unique_ptr<PathControllerManager> m_pathControllerManager;
     std::unique_ptr<TextControllerManager> m_textControllerManager;
     std::unique_ptr<CharacterItemControllerManager> m_characterControllerManager;
+
+    std::unique_ptr<vmap::GridController> m_gridController;
+    // std::unique_ptr<vmap::SightController> m_sightController;
 };
 
 #endif // VECTORIALMAPCONTROLLER_H

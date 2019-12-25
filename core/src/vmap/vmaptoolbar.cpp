@@ -134,6 +134,10 @@ void VmapToolBar::setupUi()
 
     connect(m_gridPattern, QOverload<int>::of(&QComboBox::currentIndexChanged), m_ctrl,
             [this](int value) { m_ctrl->setGridPattern(static_cast<Core::GridPattern>(value)); });
+
+    connect(m_showGridAct, &QAction::triggered, m_ctrl, &VectorialMapMediaController::setGridVisibility);
+    connect(m_gridAbove, &QCheckBox::toggled, m_ctrl, &VectorialMapMediaController::setGridAbove);
+
     connect(m_showCharacterVision, &QToolButton::clicked, m_ctrl, &VectorialMapMediaController::setCharacterVision);
     connect(m_collision, &QCheckBox::clicked, m_ctrl, &VectorialMapMediaController::setCollision);
     connect(m_showTransparentItem, &QAction::triggered, m_ctrl, &VectorialMapMediaController::showTransparentItem);

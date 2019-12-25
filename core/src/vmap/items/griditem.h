@@ -21,12 +21,16 @@
 #ifndef GRIDITEM_H
 #define GRIDITEM_H
 
+#include <QConicalGradient>
+#include <QGradient>
+#include <QPointer>
+#include <QRadialGradient>
+
 #include "characteritem.h"
 #include "data/charactervision.h"
 #include "visualitem.h"
-#include <QConicalGradient>
-#include <QGradient>
-#include <QRadialGradient>
+#include "vmap/controller/gridcontroller.h"
+
 namespace vmap
 {
 
@@ -43,7 +47,7 @@ public:
      * @brief GridItem
      * @param characterItemMap
      */
-    GridItem(vmap::VisualItemController* ctrl);
+    GridItem(vmap::GridController* ctrl);
     /**
      * @brief ~GridItem
      */
@@ -113,21 +117,10 @@ public:
      * @brief createActions
      */
     void createActions();
-    /**
-     * @brief setVisible
-     * @param visible
-     */
-    virtual void setVisible(bool visible);
-
-    void computePattern();
     virtual void updateItemFlags();
 
 private:
-    bool m_isGM;
-    /**
-     * @brief m_computedPattern
-     */
-    QImage m_computedPattern;
+    QPointer<vmap::GridController> m_gridCtrl;
 };
 
 #endif // GRIDITEM_H
