@@ -42,11 +42,11 @@
 MRichTextEdit::MRichTextEdit(QWidget* parent) : QWidget(parent)
 {
     setupUi(this);
-    m_lastBlockList= 0;
+    m_lastBlockList= nullptr;
     f_textedit->setTabStopWidth(40);
 
     connect(f_textedit, SIGNAL(currentCharFormatChanged(QTextCharFormat)), this,
-        SLOT(slotCurrentCharFormatChanged(QTextCharFormat)));
+            SLOT(slotCurrentCharFormatChanged(QTextCharFormat)));
     connect(f_textedit, SIGNAL(cursorPositionChanged()), this, SLOT(slotCursorPositionChanged()));
 
     m_fontsize_h1= 18;
@@ -165,14 +165,14 @@ MRichTextEdit::MRichTextEdit(QWidget* parent) : QWidget(parent)
     // text foreground color
 
     QPixmap pix(16, 16);
-    pix.fill(QApplication::palette().foreground().color());
+    pix.fill(QApplication::palette().windowText().color());
     f_fgcolor->setIcon(pix);
 
     connect(f_fgcolor, SIGNAL(clicked()), this, SLOT(textFgColor()));
 
     // text background color
 
-    pix.fill(QApplication::palette().background().color());
+    pix.fill(QApplication::palette().window().color());
     f_bgcolor->setIcon(pix);
 
     connect(f_bgcolor, SIGNAL(clicked()), this, SLOT(textBgColor()));
@@ -328,7 +328,7 @@ void MRichTextEdit::textStyle(int index)
     f_textedit->setCurrentCharFormat(fmt);
 
     if(index == ParagraphHeading1 || index == ParagraphHeading2 || index == ParagraphHeading3
-        || index == ParagraphHeading4)
+       || index == ParagraphHeading4)
     {
         if(index == ParagraphHeading1)
         {
@@ -468,8 +468,8 @@ void MRichTextEdit::slotCursorPositionChanged()
 {
     QTextList* l= f_textedit->textCursor().currentList();
     if(m_lastBlockList
-        && (l == m_lastBlockList
-               || (l != 0 && m_lastBlockList != 0 && l->format().style() == m_lastBlockList->format().style())))
+       && (l == m_lastBlockList
+           || (l != nullptr && m_lastBlockList != nullptr && l->format().style() == m_lastBlockList->format().style())))
     {
         return;
     }
@@ -569,7 +569,7 @@ void MRichTextEdit::fgColorChanged(const QColor& c)
     }
     else
     {
-        pix.fill(QApplication::palette().foreground().color());
+        pix.fill(QApplication::palette().windowText().color());
     }
     f_fgcolor->setIcon(pix);
 }
@@ -583,7 +583,7 @@ void MRichTextEdit::bgColorChanged(const QColor& c)
     }
     else
     {
-        pix.fill(QApplication::palette().background().color());
+        pix.fill(QApplication::palette().window().color());
     }
     f_bgcolor->setIcon(pix);
 }
@@ -609,10 +609,10 @@ QString MRichTextEdit::toHtml() const
     QString s= f_textedit->toHtml();
     // convert emails to links
     s= s.replace(QRegExp("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)([a-zA-Z\\d]+@[a-zA-Z\\d]+\\.[a-zA-Z]+)"),
-        "\\1<a href=\"mailto:\\2\">\\2</a>");
+                 "\\1<a href=\"mailto:\\2\">\\2</a>");
     // convert links
-    s= s.replace(
-        QRegExp("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)((?:https?|ftp|file)://[^\\s'\"<>]+)"), "\\1<a href=\"\\2\">\\2</a>");
+    s= s.replace(QRegExp("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)((?:https?|ftp|file)://[^\\s'\"<>]+)"),
+                 "\\1<a href=\"\\2\">\\2</a>");
     // see also: Utils::linkify()
     return s;
 }
@@ -662,8 +662,8 @@ void MRichTextEdit::insertImage()
 {
     QSettings s;
     QString attdir= s.value("general/filedialog-path").toString();
-    QString file= QFileDialog::getOpenFileName(
-        this, tr("Select an image"), attdir, tr("JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"));
+    QString file= QFileDialog::getOpenFileName(this, tr("Select an image"), attdir,
+                                               tr("JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"));
     QImage image= QImageReader(file).read();
 
     f_textedit->dropImage(image, QFileInfo(file).suffix().toUpper().toLocal8Bit().data());

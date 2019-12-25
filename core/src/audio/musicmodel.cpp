@@ -63,7 +63,7 @@ QVariant MusicModel::data(const QModelIndex& index, int role) const
     {
         if(index.column() == TITLE)
         {
-            QUrl url= m_data.at(index.row())->canonicalUrl();
+            QUrl url= m_data.at(index.row())->request().url();
             if(url.isLocalFile())
             {
                 return url.fileName();
@@ -169,7 +169,7 @@ void MusicModel::saveIn(QTextStream& file)
 {
     for(auto& tmp : m_data)
     {
-        file << tmp->canonicalUrl().toString(QUrl::PreferLocalFile) << "\n";
+        file << tmp->request().url().toString(QUrl::PreferLocalFile) << "\n";
     }
 }
 QStringList MusicModel::mimeTypes() const

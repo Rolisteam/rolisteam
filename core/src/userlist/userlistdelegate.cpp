@@ -56,7 +56,7 @@ QSize UserListDelegate::sizeHint(const QStyleOptionViewItem& option, const QMode
     Person* p= static_cast<Person*>(index.internalPointer());
     if(p != nullptr)
     {
-        returnValue.setWidth(option.fontMetrics.width(p->name()));
+        returnValue.setWidth(option.fontMetrics.horizontalAdvance(p->name()));
         returnValue.setHeight(/*option.fontMetrics.height()*/ option.decorationSize.height());
     }
 

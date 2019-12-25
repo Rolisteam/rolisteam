@@ -248,7 +248,7 @@ void CharacterStateModel::upState(const QModelIndex& index)
         return;
     if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), index.row() - 1))
     {
-        m_stateList->swap(index.row(), index.row() - 1);
+        m_stateList->swapItemsAt(index.row(), index.row() - 1);
         moveState(index.row(), index.row() - 1);
         endMoveRows();
     }
@@ -264,7 +264,7 @@ void CharacterStateModel::downState(const QModelIndex& index)
 
     if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), index.row() + 2))
     {
-        m_stateList->swap(index.row(), index.row() + 1);
+        m_stateList->swapItemsAt(index.row(), index.row() + 1);
         moveState(index.row(), index.row() + 1);
         endMoveRows();
     }
