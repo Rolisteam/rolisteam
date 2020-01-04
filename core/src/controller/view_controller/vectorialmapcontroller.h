@@ -125,6 +125,7 @@ public:
     CharacterItemControllerManager* characterManager() const;
 
     vmap::GridController* gridController() const;
+    vmap::SightController* sightController() const;
 
     QString addItemController(const std::map<QString, QVariant>& params);
     void removeItemController(QString uuid);

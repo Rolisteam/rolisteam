@@ -28,7 +28,7 @@
 #include <QGradient>
 #include <QRadialGradient>
 
-class FogSingularity
+/*class FogSingularity
 {
 public:
     FogSingularity(QPolygonF* poly= nullptr, bool isAdding= false);
@@ -42,9 +42,11 @@ public:
 private:
     QPolygonF* m_poly;
     bool m_adding;
-};
-
-class SightItemController;
+};*/
+namespace vmap
+{
+class SightController;
+}
 /**
  * @brief The SightItem class
  */
@@ -56,7 +58,7 @@ public:
      * @brief SightItem
      * @param characterItemMap
      */
-    explicit SightItem(SightItemController* ctrl, QMap<QString, CharacterItem*>* characterItemMap);
+    explicit SightItem(vmap::SightController* ctrl, QMap<QString, CharacterItem*>* characterItemMap);
     /**
      * @brief ~SightItem
      */
@@ -148,17 +150,12 @@ public:
     /**
      * @brief insertVision
      */
-    void insertVision(CharacterItem* item);
-    /**
-     * @brief setVisible
-     * @param visible
-     */
-    virtual void setVisible(bool visible);
+    // void insertVision(CharacterItem* item);
     /**
      * @brief addFogPolygon
      * @param a
      */
-    FogSingularity* addFogPolygon(QPolygonF* a, bool adding);
+    // FogSingularity* addFogPolygon(QPolygonF* a, bool adding);
     virtual void updateItemFlags();
 public slots:
     /**
@@ -171,22 +168,14 @@ public slots:
      * @brief removeVision vision to the given character.
      * @param item
      */
-    void removeVision(CharacterItem* item);
-
-protected:
-    void updateVeil();
+    // void removeVision(CharacterItem* item);
 
 private:
+    QPointer<vmap::SightController> m_sightCtrl;
     CharacterVision::SHAPE m_defaultShape;
     qreal m_defaultAngle;
     qreal m_defaultRadius;
     QMap<QString, CharacterItem*>* m_characterItemMap;
-    QColor m_bgColor;
-    QImage m_image;
-    qreal m_count;
-    QList<FogSingularity*> m_fogHoleList;
-    QPainterPath m_path;
-    QRectF m_rectOfVeil;
 };
 
 #endif // SIGHTITEM_H

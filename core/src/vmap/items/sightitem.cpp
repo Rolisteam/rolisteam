@@ -21,6 +21,7 @@
 #include "sightitem.h"
 
 #include <QDebug>
+#include <QGraphicsObject>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QMenu>
@@ -30,7 +31,7 @@
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "userlist/playermodel.h"
-#include "vmap/controller/visualitemcontroller.h"
+#include "vmap/controller/sightcontroller.h"
 
 #include "data/character.h"
 #include "network/networkmessagereader.h"
@@ -40,7 +41,7 @@
 /////////////////////////////////
 /// Code FogSingularity
 /////////////////////////////////
-FogSingularity::FogSingularity(QPolygonF* poly, bool isAdding) : m_poly(poly), m_adding(isAdding) {}
+/*FogSingularity::FogSingularity(QPolygonF* poly, bool isAdding) : m_poly(poly), m_adding(isAdding) {}
 
 const QPolygonF* FogSingularity::getPolygon() const
 {
@@ -83,21 +84,28 @@ void FogSingularity::setPolygon(QPolygonF* poly)
         delete m_poly;
     }
     m_poly= poly;
-}
+}*/
 
 /////////////////////////////////
 /// Code SightItem
 /////////////////////////////////
 
-SightItem::SightItem(SightItemController* ctrl, QMap<QString, CharacterItem*>* characterItemMap)
-    : VisualItem(nullptr)
+SightItem::SightItem(vmap::SightController* ctrl, QMap<QString, CharacterItem*>* characterItemMap)
+    : VisualItem(ctrl)
+    , m_sightCtrl(ctrl)
     , m_defaultShape(CharacterVision::ANGLE)
     , m_defaultAngle(120)
     , m_defaultRadius(50)
     , m_characterItemMap(characterItemMap)
-    , m_bgColor(Qt::black)
-    , m_count(0)
 {
+    auto updateFunc= [this]() { update(); };
+    connect(m_sightCtrl, &vmap::SightController::visibleChanged, this, [this](bool b) { setVisible(b); });
+    connect(m_sightCtrl, &vmap::SightController::colorChanged, this, updateFunc);
+    connect(m_sightCtrl, &vmap::SightController::fowPathChanged, this, updateFunc);
+    connect(m_sightCtrl, &vmap::SightController::rectChanged, this, updateFunc);
+    connect(m_sightCtrl, &vmap::SightController::characterSightChanged, this, updateFunc);
+    connect(m_sightCtrl, &vmap::SightController::characterCountChanged, this, updateFunc);
+
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
     createActions();
     setAcceptedMouseButtons(Qt::NoButton);
@@ -114,24 +122,29 @@ void SightItem::updateItemFlags()
 }
 QRectF SightItem::boundingRect() const
 {
-    if(nullptr != scene())
-    {
-        QList<QGraphicsView*> list= scene()->views();
-        if(!list.isEmpty())
-        {
-            QGraphicsView* view= list.at(0);
-
-            QPointF A= view->mapToScene(QPoint(0, 0));
-            QPointF B= view->mapToScene(QPoint(view->viewport()->width(), view->viewport()->height()));
-
-            return QRectF(mapFromScene(A), mapFromScene(B));
-        }
-        return scene()->sceneRect();
-    }
-    else
-    {
+    /*if(nullptr == scene())
         return QRectF();
+
+    auto rect= scene()->sceneRect();
+
+    if(rect.isNull())
+        rect= QRectF(0, 0, 1000, 1000);
+
+    return rect;*/
+
+    return m_sightCtrl->rect();
+
+    /*QList<QGraphicsView*> list= scene()->views();
+    if(!list.isEmpty())
+    {
+        QGraphicsView* view= list.at(0);
+
+        QPointF A= view->mapToScene(QPoint(0, 0));
+        QPointF B= view->mapToScene(QPoint(view->viewport()->width(), view->viewport()->height()));
+
+        return QRectF(A, B);
     }
+    return scene()->sceneRect();*/
 }
 void SightItem::setNewEnd(const QPointF& nend)
 {
@@ -140,30 +153,30 @@ void SightItem::setNewEnd(const QPointF& nend)
 }
 void SightItem::writeData(QDataStream& out) const
 {
-    out << m_fogHoleList.count();
-    for(auto fog : m_fogHoleList)
-    {
-        out << *fog->getPolygon();
-        out << fog->isAdding();
-    }
+    /*   out << m_fogHoleList.count();
+       for(auto fog : m_fogHoleList)
+       {
+           out << *fog->getPolygon();
+           out << fog->isAdding();
+       }*/
 }
 
 void SightItem::readData(QDataStream& in)
 {
-    int count;
-    in >> count;
-    for(int i= 0; i < count; ++i)
-    {
-        bool adding;
-        auto poly= new QPolygonF();
-        in >> *poly;
-        in >> adding;
+    /*    int count;
+        in >> count;
+        for(int i= 0; i < count; ++i)
+        {
+            bool adding;
+            auto poly= new QPolygonF();
+            in >> *poly;
+            in >> adding;
 
-        auto hole= new FogSingularity(poly, adding);
-        m_fogHoleList.append(hole);
-    }
-    updateVeil();
-    update();
+            auto hole= new FogSingularity(poly, adding);
+            m_fogHoleList.append(hole);
+        }
+        updateVeil();
+        update();*/
 }
 VisualItem::ItemType SightItem::getType() const
 {
@@ -181,23 +194,23 @@ void SightItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_rect.height());*/
 
     // pos
-    msg->real(pos().x());
-    msg->real(pos().y());
+    /*   msg->real(pos().x());
+       msg->real(pos().y());
 
-    msg->real(zValue());
+       msg->real(zValue());
 
-    msg->uint64(static_cast<quint64>(m_fogHoleList.count()));
-    for(auto& hole : m_fogHoleList)
-    {
-        hole->fillMessage(msg);
-    }
+       msg->uint64(static_cast<quint64>(m_fogHoleList.count()));
+       for(auto& hole : m_fogHoleList)
+       {
+           hole->fillMessage(msg);
+       }
 
-    auto keys= m_characterItemMap->keys();
-    msg->uint64(static_cast<quint64>(keys.size()));
-    for(const QString& key : keys)
-    {
-        msg->string8(key);
-    }
+       auto keys= m_characterItemMap->keys();
+       msg->uint64(static_cast<quint64>(keys.size()));
+       for(const QString& key : keys)
+       {
+           msg->string8(key);
+       }*/
 }
 
 void SightItem::readItem(NetworkMessageReader* msg)
@@ -210,37 +223,37 @@ void SightItem::readItem(NetworkMessageReader* msg)
     m_rect.setHeight(msg->real());*/
 
     // pos
-    qreal x= msg->real();
-    qreal y= msg->real();
-    setPos(x, y);
-    qreal z= msg->real();
-    setZValue(z);
+    /*  qreal x= msg->real();
+      qreal y= msg->real();
+      setPos(x, y);
+      qreal z= msg->real();
+      setZValue(z);
 
-    quint64 count= msg->uint64();
-    for(unsigned int i= 0; i < count; ++i)
-    {
-        FogSingularity* fogs= new FogSingularity();
-        fogs->readItem(msg);
-        m_fogHoleList.append(fogs);
-    }
+      quint64 count= msg->uint64();
+      for(unsigned int i= 0; i < count; ++i)
+      {
+          FogSingularity* fogs= new FogSingularity();
+          fogs->readItem(msg);
+          m_fogHoleList.append(fogs);
+      }
 
-    count= msg->uint64();
-    for(unsigned int i= 0; i < count; ++i)
-    {
-        QString str= msg->string8();
-        // Character* item = PlayersList::instance()->getCharacter(str);
-        VisualItem* item= m_characterItemMap->value(str);
-        if(nullptr != item)
-        {
-            CharacterItem* cItem= dynamic_cast<CharacterItem*>(item);
-            if(nullptr != cItem)
-            {
-                m_characterItemMap->insert(str, cItem);
-            }
-        }
-    }
-    updateVeil();
-    update();
+      count= msg->uint64();
+      for(unsigned int i= 0; i < count; ++i)
+      {
+          QString str= msg->string8();
+          // Character* item = PlayersList::instance()->getCharacter(str);
+          VisualItem* item= m_characterItemMap->value(str);
+          if(nullptr != item)
+          {
+              CharacterItem* cItem= dynamic_cast<CharacterItem*>(item);
+              if(nullptr != cItem)
+              {
+                  m_characterItemMap->insert(str, cItem);
+              }
+          }
+      }
+      updateVeil();
+      update();*/
 }
 void SightItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
@@ -255,6 +268,8 @@ void SightItem::setGeometryPoint(qreal pointId, QPointF& pos)
 void SightItem::initChildPointItem()
 {
     // m_child= new QVector<ChildPointItem*>();
+    connect(scene(), &QGraphicsScene::sceneRectChanged, m_sightCtrl, &vmap::SightController::setRect);
+    m_sightCtrl->setRect(scene()->sceneRect());
 }
 VisualItem* SightItem::getItemCopy()
 {
@@ -269,62 +284,44 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     Q_UNUSED(widget)
     painter->save();
     painter->setPen(Qt::NoPen);
-    // if(m_ctrl->localGM())
-    {
-        painter->setBrush(QColor(0, 0, 0, 125));
-    }
-    /*   else
-       {
-           painter->setBrush(QColor(0, 0, 0));
-       }*/
+    m_sightCtrl->localIsGM() ? painter->setBrush(QColor(0, 0, 0, 125)) : painter->setBrush(QColor(0, 0, 0));
 
-    updateVeil();
-    QPainterPath path= m_path;
+    QPainterPath path= m_sightCtrl->fowPath();
 
-    // if(m_ctrl->characterVision())
+    // auto const& values= m_characterItemMap->values();
+    auto visions= m_sightCtrl->visionData();
+    for(auto& visionData : visions)
     {
-        auto const& values= m_characterItemMap->values();
-        for(auto& charact : values)
+        CharacterVision* vision= visionData.vision;
+
+        QPainterPath subArea;
+        subArea.setFillRule(Qt::WindingFill);
+        auto itemRadius= visionData.radius;
+        qreal rot= visionData.rotation;
+        QMatrix mat;
+        QPointF center= visionData.pos + QPointF(itemRadius, itemRadius);
+        mat.translate(center.x(), center.y());
+        mat.rotate(rot);
+
+        path= path.subtracted(mat.map(visionData.shape.translated(-itemRadius, -itemRadius))); // always see the user
+        switch(vision->getShape())
         {
-            // if((nullptr != charact) && ((charact->isLocal()) || m_ctrl->localGM()) && charact->isVisible()
-            //    && !charact->isNpc())
-            {
-                CharacterVision* vision= charact->getVision();
-
-                QPainterPath subArea;
-                subArea.setFillRule(Qt::WindingFill);
-                auto itemRadius= charact->getRadius();
-                qreal rot= charact->rotation();
-                QMatrix mat;
-                QPointF center= charact->pos() + QPointF(itemRadius, itemRadius);
-                mat.translate(center.x(), center.y());
-                mat.rotate(rot);
-
-                path= path.subtracted(
-                    mat.map(charact->shape().translated(-itemRadius, -itemRadius))); // always see the user
-                switch(vision->getShape())
-                {
-                case CharacterVision::DISK:
-                {
-                    subArea.addEllipse(QPointF(0, 0), vision->getRadius() + itemRadius,
-                                       vision->getRadius() + itemRadius);
-                }
-                break;
-                case CharacterVision::ANGLE:
-                {
-                    QRectF rectArc;
-                    rectArc.setCoords(-vision->getRadius(), -vision->getRadius(), vision->getRadius(),
-                                      vision->getRadius());
-                    subArea.arcTo(rectArc, -vision->getAngle() / 2, vision->getAngle());
-                    painter->setPen(QColor(255, 0, 0));
-                }
-                break;
-                }
-                path.moveTo(charact->pos());
-                path= path.subtracted(mat.map(subArea));
-            }
+        case CharacterVision::DISK:
+            subArea.addEllipse(QPointF(0, 0), vision->getRadius() + itemRadius, vision->getRadius() + itemRadius);
+            break;
+        case CharacterVision::ANGLE:
+        {
+            QRectF rectArc;
+            rectArc.setCoords(-vision->getRadius(), -vision->getRadius(), vision->getRadius(), vision->getRadius());
+            subArea.arcTo(rectArc, -vision->getAngle() / 2, vision->getAngle());
+            // painter->setPen(QColor(255, 0, 0));
         }
+        break;
+        }
+        path.moveTo(visionData.pos);
+        path= path.subtracted(mat.map(subArea));
     }
+
     /*  else
       {
           auto const& values= m_characterItemMap->values();
@@ -346,15 +343,15 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     painter->drawPath(path);
     painter->restore();
 }
-void SightItem::insertVision(CharacterItem* item)
-{
-    item->setDefaultVisionParameter(m_defaultShape, m_defaultRadius, m_defaultAngle);
-    // if(nullptr != m_child)
-    {
-        m_children.append(item->getRadiusChildWidget());
-    }
-}
-void SightItem::removeVision(CharacterItem* item)
+// void SightItem::insertVision(CharacterItem* item)
+//{
+// item->setDefaultVisionParameter(m_defaultShape, m_defaultRadius, m_defaultAngle);
+// if(nullptr != m_child)
+/*{
+    m_children.append(item->getRadiusChildWidget());
+}*/
+//}
+/*void SightItem::removeVision(CharacterItem* item)
 {
     if(m_characterItemMap->contains(item->getId()))
     {
@@ -363,34 +360,17 @@ void SightItem::removeVision(CharacterItem* item)
     {
         m_children.removeAll(item->getRadiusChildWidget());
     }
-}
+}*/
 void SightItem::setDefaultShape(CharacterVision::SHAPE shape)
 {
     m_defaultShape= shape;
     update();
-}
-void SightItem::setColor(QColor& color)
-{
-    m_bgColor= color;
 }
 
 void SightItem::setDefaultRadius(qreal rad)
 {
     m_defaultRadius= rad;
     update();
-}
-void SightItem::setVisible(bool visible)
-{
-
-    for(auto& item : m_children)
-    {
-        if(nullptr == item)
-            continue;
-
-        item->setVisible(visible);
-    }
-
-    VisualItem::setVisible(visible);
 }
 
 void SightItem::setDefaultAngle(qreal rad)
@@ -409,41 +389,12 @@ void SightItem::moveVision(qreal id, QPointF& pos)
         m_visionMap.value(id)->setRadius(pos.x());
     }*/
 }
-void SightItem::updateVeil()
-{
-    QPainterPath path;
-    QRectF rect= boundingRect();
-    if(m_rectOfVeil.isNull())
-    {
-        m_rectOfVeil= rect;
-    }
-    else // if(rect.width()*rect.height() > m_rectOfVeil.width()*m_rectOfVeil.height())
-    {
-        m_rectOfVeil= m_rectOfVeil.united(rect);
-    }
-    path.addRect(m_rectOfVeil);
-    for(auto& fogs : m_fogHoleList)
-    {
-        QPainterPath subPoly;
-        const QPolygonF* poly= fogs->getPolygon();
-        subPoly.addPolygon(*poly);
-        if(!fogs->isAdding())
-        {
-            path= path.subtracted(subPoly);
-        }
-        else
-        {
-            path= path.united(subPoly);
-        }
-    }
-    m_path= path;
-}
 
-FogSingularity* SightItem::addFogPolygon(QPolygonF* a, bool adding)
+/*FogSingularity* SightItem::addFogPolygon(QPolygonF* a, bool adding)
 {
     FogSingularity* fogs= new FogSingularity(a, adding);
     m_fogHoleList << fogs;
     updateVeil();
     update();
     return fogs;
-}
+}*/
