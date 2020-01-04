@@ -209,6 +209,7 @@ public slots:
     void setStateLabelVisible(bool b);
 
     void insertItemAt(const std::map<QString, QVariant>& params);
+    void changeFogOfWar(const QPolygonF& poly, bool mask);
 
 private:
     bool m_pcNameVisible= true;
@@ -250,7 +251,7 @@ private:
     std::unique_ptr<CharacterItemControllerManager> m_characterControllerManager;
 
     std::unique_ptr<vmap::GridController> m_gridController;
-    // std::unique_ptr<vmap::SightController> m_sightController;
+    std::unique_ptr<vmap::SightController> m_sightController;
 };
 
 #endif // VECTORIALMAPCONTROLLER_H

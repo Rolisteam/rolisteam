@@ -477,6 +477,10 @@ void VectorialMapController::insertItemAt(const std::map<QString, QVariant>& par
     emit performCommand(new AddVmapItemCommand(this, ctrl, params));
 }
 
+void VectorialMapController::changeFogOfWar(const QPolygonF& poly, bool mask)
+{
+    emit performCommand(new AddFogOfWarChangeCommand(m_sightController.get(), poly, mask));
+}
 /*QString VectorialMapController::addItemController(const std::map<QString, QVariant>& params)
 {
     if(m_itemControllers.empty())
