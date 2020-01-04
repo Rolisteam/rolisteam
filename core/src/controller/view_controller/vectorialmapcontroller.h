@@ -22,6 +22,7 @@
 #define VECTORIALMAPCONTROLLER_H
 
 #include <QColor>
+#include <QRectF>
 #include <memory>
 #include <vector>
 
@@ -77,6 +78,7 @@ class VectorialMapController : public AbstractMediaContainerController
     Q_PROPERTY(Core::SelectableTool tool READ tool WRITE setTool NOTIFY toolChanged)
     Q_PROPERTY(Core::EditionMode editionMode READ editionMode WRITE setEditionMode NOTIFY editionModeChanged)
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
+    Q_PROPERTY(QRectF visualRect READ visualRect WRITE setVisualRect NOTIFY visualRectChanged)
 
 public:
     explicit VectorialMapController(CleverURI* uri, QObject* parent= nullptr);
@@ -110,6 +112,7 @@ public:
     bool characterVision() const;
     bool localGM() const;
     bool stateLabelVisible() const;
+    QRectF visualRect() const;
 
     void saveData() const;
     void loadData() const;
@@ -177,6 +180,8 @@ signals:
     void stateLabelVisibleChanged();
     void visualItemControllerCreated(VisualItemController* ctrl);
 
+    void visualRectChanged(QRectF visualRect);
+
 public slots:
     void setPermission(Core::PermissionMode mode);
     void setGridVisibility(bool visible);
@@ -208,6 +213,7 @@ public slots:
     void setGridColor(QColor color);
     void setCharacterVision(bool b);
     void setStateLabelVisible(bool b);
+    void setVisualRect(QRectF visualRect);
 
     void insertItemAt(const std::map<QString, QVariant>& params);
     void changeFogOfWar(const QPolygonF& poly, bool mask);
@@ -237,6 +243,7 @@ private:
     int m_npcNumber= 1;
     quint16 m_penSize= 15;
     QString m_npcName;
+    QRectF m_visualRect;
     Core::ScaleUnit m_scaleUnit= Core::M;
     Core::Layer m_layer= Core::Layer::GROUND;
     Core::SelectableTool m_tool= Core::HANDLER;

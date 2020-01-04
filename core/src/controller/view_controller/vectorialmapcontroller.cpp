@@ -227,6 +227,20 @@ bool VectorialMapController::stateLabelVisible() const
     return m_stateLabelVisible;
 }
 
+QRectF VectorialMapController::visualRect() const
+{
+    return m_visualRect;
+}
+
+void VectorialMapController::setVisualRect(QRectF visualRect)
+{
+    if(m_visualRect == visualRect)
+        return;
+
+    m_visualRect= visualRect;
+    emit visualRectChanged(m_visualRect);
+}
+
 void VectorialMapController::saveData() const {}
 
 void VectorialMapController::loadData() const {}
@@ -492,6 +506,7 @@ void VectorialMapController::changeFogOfWar(const QPolygonF& poly, bool mask)
 {
     emit performCommand(new AddFogOfWarChangeCommand(m_sightController.get(), poly, mask));
 }
+
 /*QString VectorialMapController::addItemController(const std::map<QString, QVariant>& params)
 {
     if(m_itemControllers.empty())

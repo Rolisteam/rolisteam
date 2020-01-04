@@ -397,8 +397,6 @@ private:
     SightItem* m_sightItem;
     GridItem* m_gridItem;
     VisualItem* m_fogItem;
-    FogSingularity* m_currentFog;
-
     quint64 m_zIndex;
 
     QPointer<QUndoStack> m_undoStack;

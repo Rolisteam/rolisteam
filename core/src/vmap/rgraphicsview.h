@@ -87,6 +87,7 @@ private slots:
     void changeLayer();
     void changeVisibility();
     void sendOffMapChange();
+    void updateSizeToController();
 
 private:
     QPointer<VectorialMapController> m_ctrl;
