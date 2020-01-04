@@ -22,7 +22,9 @@
 #include "data/cleveruri.h"
 #include "vmap/vmap.h"
 
+#include "undoCmd/addfogofwarchangecommand.h"
 #include "undoCmd/addvmapitem.h"
+
 #include "vmap/controller/characteritemcontroller.h"
 #include "vmap/controller/ellipsecontroller.h"
 #include "vmap/controller/gridcontroller.h"
@@ -30,6 +32,7 @@
 #include "vmap/controller/linecontroller.h"
 #include "vmap/controller/pathcontroller.h"
 #include "vmap/controller/rectcontroller.h"
+#include "vmap/controller/sightcontroller.h"
 #include "vmap/controller/textcontroller.h"
 
 #include "vmap/manager/characteritemcontrollermanager.h"
@@ -52,7 +55,10 @@ VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
     , m_textControllerManager(new TextControllerManager(this))
     , m_characterControllerManager(new CharacterItemControllerManager(this))
     , m_gridController(new vmap::GridController(this))
+
 {
+    m_sightController.reset(new vmap::SightController(this, m_characterControllerManager.get()));
+
     m_itemControllers.insert({Core::SelectableTool::EMPTYRECT, m_rectControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::FILLRECT, m_rectControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::FILLEDELLIPSE, m_ellipseControllerManager.get()});
@@ -75,6 +81,11 @@ VectorialMapController::~VectorialMapController()= default;
 vmap::GridController* VectorialMapController::gridController() const
 {
     return m_gridController.get();
+}
+
+vmap::SightController* VectorialMapController::sightController() const
+{
+    return m_sightController.get();
 }
 Core::PermissionMode VectorialMapController::permission() const
 {
