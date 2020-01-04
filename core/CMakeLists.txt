@@ -212,6 +212,7 @@ set(HEADERS
     src/undoCmd/deletevmapitem.h
     src/undoCmd/movevmapitem.h
     src/undoCmd/newmediacontroller.h
+    src/undoCmd/addfogofwarchangecommand.h
     src/userlist/playermodel.h
     src/userlist/playerspanel.h
     src/userlist/rolisteammimedata.h
@@ -485,6 +486,7 @@ set(SOURCES
     src/undoCmd/newmediacontroller.cpp
     src/undoCmd/deletevmapitem.cpp
     src/undoCmd/movevmapitem.cpp
+    src/undoCmd/addfogofwarchangecommand.cpp
     src/userlist/playermodel.cpp
     src/userlist/playerspanel.cpp
     src/userlist/rolisteammimedata.cpp
