@@ -32,11 +32,13 @@ class GridController : public VisualItemController
     Q_OBJECT
     Q_PROPERTY(QImage gridPattern READ gridPattern WRITE setGridPattern NOTIFY gridPatternChanged)
     Q_PROPERTY(bool gm READ gm WRITE setGm NOTIFY gmChanged)
+    Q_PROPERTY(QRectF rect READ rect WRITE setRect NOTIFY rectChanged)
 public:
     GridController(VectorialMapController* ctrl, QObject* parent= nullptr);
 
     bool gm() const;
     QImage gridPattern() const;
+    QRectF rect() const;
 
     void aboutToBeRemoved() override;
     void setCorner(const QPointF& move, int corner) override;
@@ -45,10 +47,12 @@ public:
 signals:
     void gmChanged(bool gm);
     void gridPatternChanged(QImage gridPattern);
+    void rectChanged(QRectF rect);
 
 public slots:
     void setGm(bool gm);
     void setGridPattern(QImage gridPattern);
+    void setRect(QRectF rect);
 
 private:
     void computePattern();
@@ -56,6 +60,7 @@ private:
 private:
     bool m_gm= true;
     QImage m_gridPattern;
+    QRectF m_rect= QRectF(0, 0, 1000, 1000);
 };
 } // namespace vmap
 
