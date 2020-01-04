@@ -21,17 +21,26 @@
 #define CHARACTERITEMCONTROLLER_H
 
 #include <QColor>
+#include <QFont>
 #include <QObject>
 #include <QPixmap>
 #include <QRectF>
 
+#include "data/charactervision.h"
 #include "visualitemcontroller.h"
 
 class Character;
-
+class CharacterVision;
 namespace vmap
 {
-
+struct CharacterVisionData
+{
+    QPointF pos;
+    qreal rotation;
+    CharacterVision* vision;
+    QPainterPath shape;
+    qreal radius;
+};
 class CharacterItemController : public VisualItemController
 {
     Q_OBJECT
@@ -40,21 +49,16 @@ class CharacterItemController : public VisualItemController
     Q_PROPERTY(int number READ number WRITE setNumber NOTIFY numberChanged)
     Q_PROPERTY(bool playableCharacter READ playableCharacter WRITE setPlayableCharacter NOTIFY playableCharacterChanged)
     Q_PROPERTY(QRectF thumnailRect READ thumnailRect NOTIFY thumnailRectChanged)
-    Q_PROPERTY(bool vision READ vision WRITE setVision NOTIFY visionChanged)
-    Q_PROPERTY(VisionMode visionMode READ visionMode WRITE setVisionMode NOTIFY visionModeChanged)
+    Q_PROPERTY(CharacterVision::SHAPE visionShape READ visionShape WRITE setVisionShape NOTIFY visionShapeChanged)
     Q_PROPERTY(QRectF textRect READ textRect WRITE setTextRect NOTIFY textRectChanged)
-    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+    Q_PROPERTY(QString text READ text NOTIFY textChanged)
     Q_PROPERTY(bool hasAvatar READ hasAvatar NOTIFY hasAvatarChanged)
-    Q_PROPERTY(QPixmap avatar READ avatar NOTIFY avatarChanged)
+    Q_PROPERTY(QImage* avatar READ avatar NOTIFY avatarChanged)
     Q_PROPERTY(QColor color READ color NOTIFY colorChanged)
+    Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
+    Q_PROPERTY(CharacterVision vision READ vision NOTIFY visionChanged)
+    Q_PROPERTY(qreal radius READ radius NOTIFY radiusChanged)
 public:
-    enum class VisionMode
-    {
-        Disk,
-        Cone
-    };
-    Q_ENUM(VisionMode)
-
     CharacterItemController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
                             QObject* parent= nullptr);
 
@@ -66,24 +70,26 @@ public:
     QColor stateColor() const;
     int number() const;
     bool playableCharacter() const;
-    bool vision() const;
     QRectF thumnailRect() const;
-    CharacterItemController::VisionMode visionMode() const;
+    CharacterVision::SHAPE visionShape() const;
     QRectF textRect() const;
     QString text() const;
     bool hasAvatar() const;
-    QPixmap avatar() const;
+    QImage* avatar() const;
     QColor color() const;
+    QFont font() const;
+    QPainterPath shape() const;
+    CharacterVision* vision() const;
+    qreal radius() const;
 
 public slots:
     void setSide(qreal side);
     void setStateColor(QColor stateColor);
     void setNumber(int number);
     void setPlayableCharacter(bool playableCharacter);
-    void setVision(bool vision);
-    void setVisionMode(CharacterItemController::VisionMode visionMode);
+    void setVisionShape(CharacterVision::SHAPE visionShape);
     void setTextRect(QRectF textRect);
-    void setText(QString text);
+    void setFont(const QFont& font);
 
 signals:
     void sideChanged(qreal side);
@@ -92,30 +98,31 @@ signals:
     void playableCharacterChanged(bool playableCharacter);
     void thumnailRectChanged(QRectF name);
     void visionChanged(bool vision);
-    void visionModeChanged(VisionMode visionMode);
+    void visionShapeChanged(CharacterVision::SHAPE visionShape);
     void textRectChanged(QRectF textRect);
     void textChanged(QString text);
-
     void hasAvatarChanged(bool hasAvatar);
-
-    void avatarChanged(QPixmap avatar);
-
+    void avatarChanged();
     void colorChanged(QColor color);
+    void fontChanged(QFont font);
+    void radiusChanged(qreal radius);
+
+private:
+    void refreshTextRect();
+    void computeThumbnail();
+    void setRect(const QRectF& rect);
 
 private:
     QPointer<Character> m_character;
+    std::unique_ptr<QImage> m_thumb;
+    std::unique_ptr<CharacterVision> m_vision;
     qreal m_side;
     QColor m_stateColor;
-    int m_number;
-    bool m_playableCharacter;
-    int m_name;
-    bool m_vision;
-    VisionMode m_visionMode;
+    int m_number= 0;
     QRectF m_textRect;
-    QString m_text;
-    bool m_hasAvatar;
-    QPixmap m_avatar;
-    QColor m_color;
+    QFont m_font;
+    QRectF m_rect;
+    qreal m_radius= 10.0;
 };
 } // namespace vmap
 

@@ -41,6 +41,7 @@ class VisualItemController : public QObject
     Q_PROPERTY(Core::Layer layer READ layer WRITE setLayer NOTIFY layerChanged)
     Q_PROPERTY(QPointF pos READ pos WRITE setPos NOTIFY posChanged)
     Q_PROPERTY(QString uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
+    Q_PROPERTY(bool localIsGM READ localIsGM NOTIFY localIsGMChanged)
 
 public:
     enum Corner
@@ -63,6 +64,7 @@ public:
     QPointF pos() const;
     QString uuid() const;
     qreal rotation() const;
+    bool localIsGM() const;
 
     int gridSize() const;
     QString getLayerText(Core::Layer layer) const;
@@ -83,6 +85,7 @@ signals:
     void uuidChanged();
     void removeItem();
     void rotationChanged();
+    void localIsGMChanged();
 
 public slots:
     void setSelected(bool b);
@@ -90,7 +93,7 @@ public slots:
     void setVisible(bool b);
     void setOpacity(qreal b);
     void setLayer(Core::Layer layer);
-    void setPos(QPointF pos);
+    void setPos(const QPointF& pos);
     void setUuid(QString uuid);
     void setRotation(qreal rota);
 

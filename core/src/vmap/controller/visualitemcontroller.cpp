@@ -28,6 +28,7 @@ VisualItemController::VisualItemController(VectorialMapController* ctrl, QObject
     : QObject(parent), m_ctrl(ctrl), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
 {
     connect(m_ctrl, &VectorialMapController::layerChanged, this, &VisualItemController::selectableChanged);
+    connect(m_ctrl, &VectorialMapController::localGMChanged, this, &VisualItemController::localIsGMChanged);
     m_layer= m_ctrl->layer();
 }
 
@@ -36,6 +37,11 @@ VisualItemController::~VisualItemController() {}
 bool VisualItemController::selected() const
 {
     return m_selected;
+}
+
+bool VisualItemController::localIsGM() const
+{
+    return m_ctrl->localGM();
 }
 
 bool VisualItemController::editable() const
@@ -145,7 +151,7 @@ void VisualItemController::setLayer(Core::Layer layer)
     emit selectableChanged();
 }
 
-void VisualItemController::setPos(QPointF pos)
+void VisualItemController::setPos(const QPointF& pos)
 {
     if(m_pos == pos)
         return;
