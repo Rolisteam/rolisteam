@@ -19,10 +19,16 @@
  ***************************************************************************/
 #include "characteritemcontroller.h"
 
-#include "controller/view_controller/vectorialmapcontroller.h"
+#include <QDebug>
+#include <QFontMetrics>
+#include <QImage>
+#include <QPainter>
 
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include "data/character.h"
 #include "data/characterstate.h"
+
+#define MARGING 1
 
 namespace vmap
 {
@@ -31,27 +37,102 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
     : VisualItemController(ctrl, parent)
 {
     if(params.end() != params.find("character"))
+    {
         m_character= params.at(QStringLiteral("character")).value<Character*>();
+        connect(m_character, &Character::npcChanged, this, &CharacterItemController::refreshTextRect);
+        connect(m_character, &Character::avatarChanged, this, &CharacterItemController::computeThumbnail);
+        connect(ctrl, &VectorialMapController::npcNameVisibleChanged, this, &CharacterItemController::refreshTextRect);
+        connect(ctrl, &VectorialMapController::pcNameVisibleChanged, this, &CharacterItemController::refreshTextRect);
+        connect(ctrl, &VectorialMapController::npcNumberVisibleChanged, this,
+                &CharacterItemController::refreshTextRect);
+        connect(ctrl, &VectorialMapController::stateLabelVisibleChanged, this,
+                &CharacterItemController::refreshTextRect);
+
+        if(!m_character->isNpc())
+        {
+            m_vision.reset(new CharacterVision());
+        }
+    }
+    Q_ASSERT(m_character);
 
     if(params.end() != params.find("side"))
+    {
         setSide(params.at(QStringLiteral("side")).toDouble());
+        m_rect= QRectF(0.0, 0.0, m_side, m_side);
+    }
 
     if(params.end() != params.find("position"))
         setPos(params.at(QStringLiteral("position")).toPointF());
 
-    if(params.end() != params.find("tool"))
-        m_playableCharacter= (params.at(QStringLiteral("tool")).value<Core::SelectableTool>()
-                              == Core::SelectableTool::PlayableCharacter);
-
-    if(params.end() != params.find("position"))
-        setPos(params.at(QStringLiteral("position")).toPointF());
+    refreshTextRect();
+    computeThumbnail();
 }
 
 void CharacterItemController::aboutToBeRemoved() {}
 
 void CharacterItemController::endGeometryChange() {}
 
-void CharacterItemController::setCorner(const QPointF& move, int corner) {}
+void CharacterItemController::setCorner(const QPointF& move, int corner)
+{
+    if(move.isNull())
+        return;
+
+    auto rect= thumnailRect();
+    qreal x2= rect.right();
+    qreal y2= rect.bottom();
+    qreal x= rect.x();
+    qreal y= rect.y();
+    qreal motion= 0.0;
+
+    if(move.x() > 0 || move.y() > 0)
+        motion= std::max(move.x(), move.y());
+    else
+        motion= std::min(move.x(), move.y());
+
+    switch(corner)
+    {
+    case TopLeft:
+        x+= motion;
+        y+= motion;
+        break;
+    case TopRight:
+        if(qFuzzyCompare(move.x(), motion))
+        {
+            x2+= motion;
+            y-= motion;
+        }
+        else
+        {
+            x2-= motion;
+            y+= motion;
+        }
+        break;
+    case BottomRight:
+        x2+= motion;
+        y2+= motion;
+        break;
+    case BottomLeft:
+        if(qFuzzyCompare(move.x(), motion))
+        {
+            x+= motion;
+            y2-= motion;
+        }
+        else
+        {
+            x-= motion;
+            y2+= motion;
+        }
+
+        break;
+    }
+    rect.setCoords(x, y, x2, y2);
+    if(!rect.isValid())
+        rect= rect.normalized();
+    setRect(rect);
+    setSide(rect.width());
+    refreshTextRect();
+    computeThumbnail();
+}
 
 qreal CharacterItemController::side() const
 {
@@ -70,22 +151,28 @@ int CharacterItemController::number() const
 
 bool CharacterItemController::playableCharacter() const
 {
-    return m_playableCharacter;
+    if(!m_character)
+        return false;
+    return !m_character->isNpc();
 }
 
 QRectF CharacterItemController::thumnailRect() const
 {
-    return QRectF(0.0, 0.0, m_side, m_side);
+    return m_rect;
 }
 
-bool CharacterItemController::vision() const
+void CharacterItemController::setRect(const QRectF& rect)
 {
-    return m_vision;
+    if(rect == m_rect)
+        return;
+
+    m_rect= rect;
+    emit thumnailRectChanged(m_rect);
 }
 
-CharacterItemController::VisionMode CharacterItemController::visionMode() const
+CharacterVision::SHAPE CharacterItemController::visionShape() const
 {
-    return m_visionMode;
+    return m_vision->getShape();
 }
 
 QRectF CharacterItemController::textRect() const
@@ -95,17 +182,21 @@ QRectF CharacterItemController::textRect() const
 
 QString CharacterItemController::text() const
 {
+    if(!m_character)
+        return {};
+
     QStringList label;
-    auto name= m_playableCharacter ? QStringLiteral("PC") : QStringLiteral("NPC");
+    auto playableCharacter= !m_character->isNpc();
+    auto name= playableCharacter ? QStringLiteral("PC") : QStringLiteral("NPC");
     if(m_character)
         name= m_character->name();
 
-    if((!m_playableCharacter && m_ctrl->npcNameVisible()) || (m_playableCharacter && m_ctrl->pcNameVisible()))
+    if((!playableCharacter && m_ctrl->npcNameVisible()) || (playableCharacter && m_ctrl->pcNameVisible()))
         label << name;
 
-    if(m_ctrl->npcNumberVisible() && !m_playableCharacter)
+    if(m_ctrl->npcNumberVisible() && !playableCharacter)
     {
-        auto number= m_playableCharacter ? QStringLiteral("") : QString::number(m_number);
+        auto number= playableCharacter ? QStringLiteral("") : QString::number(m_number);
         label << number;
     }
 
@@ -117,17 +208,56 @@ QString CharacterItemController::text() const
 
 bool CharacterItemController::hasAvatar() const
 {
-    return m_hasAvatar;
+    if(nullptr == m_character)
+        return false;
+
+    return m_character->hasAvatar();
 }
 
-QPixmap CharacterItemController::avatar() const
+QImage* CharacterItemController::avatar() const
 {
-    return m_avatar;
+    return m_thumb.get();
 }
 
 QColor CharacterItemController::color() const
 {
-    return m_color;
+    if(nullptr == m_character)
+        return {};
+    return m_character->getColor();
+}
+
+QFont CharacterItemController::font() const
+{
+    return m_font;
+}
+
+QPainterPath CharacterItemController::shape() const
+{
+    QPainterPath path;
+    path.moveTo(0, 0);
+    hasAvatar() ? path.addEllipse(thumnailRect().united(textRect())) :
+                  path.addRoundedRect(0, 0, m_side, m_side, m_side / m_radius, m_side / m_radius);
+    path.addRect(textRect());
+    return path;
+}
+
+CharacterVision* CharacterItemController::vision() const
+{
+    return m_vision.get();
+}
+
+qreal CharacterItemController::radius() const
+{
+    return m_radius;
+}
+
+void CharacterItemController::refreshTextRect()
+{
+    auto subtext= text();
+    QFontMetrics metrics(m_font);
+    QRectF rect(thumnailRect().center().x() - ((metrics.boundingRect(subtext).width() + MARGING) / 2),
+                thumnailRect().bottom(), metrics.boundingRect(subtext).width() + MARGING + MARGING, metrics.height());
+    setTextRect(rect);
 }
 
 void CharacterItemController::setSide(qreal side)
@@ -159,29 +289,20 @@ void CharacterItemController::setNumber(int number)
 
 void CharacterItemController::setPlayableCharacter(bool playableCharacter)
 {
-    if(m_playableCharacter == playableCharacter)
+    if(!m_character)
         return;
-
-    m_playableCharacter= playableCharacter;
-    emit playableCharacterChanged(m_playableCharacter);
+    m_character->setNpc(!playableCharacter);
 }
 
-void CharacterItemController::setVision(bool vision)
+void CharacterItemController::setVisionShape(CharacterVision::SHAPE visionShape)
 {
-    if(m_vision == vision)
+    if(!m_vision)
+        return;
+    if(m_vision->getShape() == visionShape)
         return;
 
-    m_vision= vision;
-    emit visionChanged(m_vision);
-}
-
-void CharacterItemController::setVisionMode(CharacterItemController::VisionMode visionMode)
-{
-    if(m_visionMode == visionMode)
-        return;
-
-    m_visionMode= visionMode;
-    emit visionModeChanged(m_visionMode);
+    m_vision->setShape(visionShape);
+    emit visionShapeChanged(visionShape);
 }
 
 void CharacterItemController::setTextRect(QRectF textRect)
@@ -193,12 +314,36 @@ void CharacterItemController::setTextRect(QRectF textRect)
     emit textRectChanged(m_textRect);
 }
 
-void CharacterItemController::setText(QString text)
+void CharacterItemController::setFont(const QFont& font)
 {
-    if(m_text == text)
+    if(m_font == font)
         return;
+    m_font= font;
+    emit fontChanged(m_font);
+}
 
-    m_text= text;
-    emit textChanged(m_text);
+void CharacterItemController::computeThumbnail()
+{
+    int diam= static_cast<int>(m_side);
+    m_thumb.reset(new QImage(diam, diam, QImage::Format_ARGB32));
+    m_thumb->fill(Qt::transparent);
+    QPainter painter(m_thumb.get());
+    QBrush brush;
+    if(m_character->getAvatar().isNull())
+    {
+        painter.setPen(m_character->getColor());
+        brush.setColor(m_character->getColor());
+        brush.setStyle(Qt::SolidPattern);
+    }
+    else
+    {
+        painter.setPen(Qt::NoPen);
+        QImage img= m_character->getAvatar();
+        brush.setTextureImage(img.scaled(diam, diam));
+    }
+
+    painter.setBrush(brush);
+    painter.drawRoundedRect(0, 0, diam, diam, m_side / m_radius, m_side / m_radius);
+    emit avatarChanged();
 }
 } // namespace vmap

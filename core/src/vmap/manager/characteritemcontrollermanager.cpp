@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "characteritemcontrollermanager.h"
 
+#include <algorithm>
+
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "vmap/controller/characteritemcontroller.h"
 
@@ -27,9 +29,20 @@ QString CharacterItemControllerManager::addItem(const std::map<QString, QVariant
 {
     std::unique_ptr<vmap::CharacterItemController> characterCtrl(new vmap::CharacterItemController(params, m_ctrl));
     emit characterControllerCreated(characterCtrl.get());
+
+    if(characterCtrl->playableCharacter())
+        emit playableCharacterControllerCreated();
+
     auto id= characterCtrl->uuid();
     m_controllers.push_back(std::move(characterCtrl));
     return id;
+}
+
+int CharacterItemControllerManager::playableCharacterCount() const
+{
+    return std::count_if(
+        m_controllers.begin(), m_controllers.end(),
+        [](const std::unique_ptr<vmap::CharacterItemController>& ctrl) { return ctrl->playableCharacter(); });
 }
 
 void CharacterItemControllerManager::removeItem(const QString& id)
@@ -43,4 +56,17 @@ void CharacterItemControllerManager::removeItem(const QString& id)
 
     (*it)->aboutToBeRemoved();
     m_controllers.erase(it);
+}
+
+const std::vector<vmap::CharacterVisionData> CharacterItemControllerManager::characterVisions() const
+{
+    std::vector<vmap::CharacterVisionData> dataVec;
+    dataVec.reserve(m_controllers.size());
+    for(const auto& ctrl : m_controllers)
+    {
+        if(!ctrl->playableCharacter())
+            continue;
+        dataVec.push_back({ctrl->pos(), ctrl->rotation(), ctrl->vision(), ctrl->shape(), ctrl->radius()});
+    }
+    return dataVec;
 }

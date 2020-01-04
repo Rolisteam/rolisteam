@@ -21,18 +21,16 @@
 #define CHARACTERITEMCONTROLLERMANAGER_H
 
 #include <QObject>
+#include <QPointF>
 #include <QPointer>
+#include <QPolygonF>
 #include <memory>
 #include <vector>
 
 #include "visualitemcontrollermanager.h"
-#include <QObject>
+#include "vmap/controller/characteritemcontroller.h"
 
 class VectorialMapController;
-namespace vmap
-{
-class CharacterItemController;
-}
 class CharacterItemControllerManager : public VisualItemControllerManager
 {
     Q_OBJECT
@@ -41,8 +39,14 @@ public:
     QString addItem(const std::map<QString, QVariant>& params) override;
     void removeItem(const QString& id) override;
 
+    const std::vector<vmap::CharacterVisionData> characterVisions() const;
+
+    int playableCharacterCount() const;
+
 signals:
     void characterControllerCreated(vmap::CharacterItemController* ctrl);
+    void playableCharacterControllerCreated();
+    void playableCharacterControllerDestroyed();
 
 private:
     std::vector<std::unique_ptr<vmap::CharacterItemController>> m_controllers;
