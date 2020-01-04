@@ -55,6 +55,7 @@ GridItem::GridItem(vmap::GridController* ctrl) : VisualItem(ctrl), m_gridCtrl(ct
     setFlag(QGraphicsItem::ItemIsSelectable, false);
 
     connect(m_gridCtrl, &vmap::GridController::gridPatternChanged, this, [this]() { update(); });
+    connect(m_gridCtrl, &vmap::GridController::rectChanged, this, [this]() { update(); });
 }
 
 GridItem::~GridItem() {}
@@ -67,24 +68,29 @@ void GridItem::updateItemFlags()
 }
 QRectF GridItem::boundingRect() const
 {
-    if(nullptr != scene())
-    {
-        QList<QGraphicsView*> list= scene()->views();
-        if(!list.isEmpty())
-        {
-            QGraphicsView* view= list.at(0);
-
-            QPointF A= view->mapToScene(QPoint(0, 0));
-            QPointF B= view->mapToScene(QPoint(view->viewport()->width(), view->viewport()->height()));
-
-            return QRectF(A, B);
-        }
-        return scene()->sceneRect();
-    }
-    else
-    {
+    /*if(nullptr == scene())
         return QRectF();
+
+    auto rect= scene()->sceneRect();
+
+    if(rect.isNull())
+        rect= QRectF(0, 0, 1000, 1000);
+
+    return rect;*/
+
+    return m_gridCtrl->rect();
+
+    /*QList<QGraphicsView*> list= scene()->views();
+    if(!list.isEmpty())
+    {
+        QGraphicsView* view= list.at(0);
+
+        QPointF A= view->mapToScene(QPoint(0, 0));
+        QPointF B= view->mapToScene(QPoint(view->viewport()->width(), view->viewport()->height()));
+
+        return QRectF(A, B);
     }
+    return scene()->sceneRect();*/
 }
 void GridItem::setNewEnd(const QPointF& nend)
 {
@@ -133,7 +139,11 @@ void GridItem::readItem(NetworkMessageReader* msg)
     update();
 }
 void GridItem::setGeometryPoint(qreal, QPointF&) {}
-void GridItem::initChildPointItem() {}
+void GridItem::initChildPointItem()
+{
+    connect(scene(), &QGraphicsScene::sceneRectChanged, m_gridCtrl, &vmap::GridController::setRect);
+    m_gridCtrl->setRect(scene()->sceneRect());
+}
 VisualItem* GridItem::getItemCopy()
 {
     return nullptr;

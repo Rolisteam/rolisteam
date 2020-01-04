@@ -38,6 +38,8 @@ vmap::GridController::GridController(VectorialMapController* ctrl, QObject* pare
     connect(ctrl, &VectorialMapController::gridScaleChanged, this, &vmap::GridController::computePattern);
     connect(ctrl, &VectorialMapController::gridAboveChanged, this, &vmap::GridController::computePattern);
     connect(ctrl, &VectorialMapController::scaleUnitChanged, this, &vmap::GridController::computePattern);
+
+    connect(m_ctrl, &VectorialMapController::visualRectChanged, this, &vmap::GridController::rectChanged);
 }
 bool GridController::gm() const
 {
@@ -74,6 +76,22 @@ void GridController::setGridPattern(QImage gridPattern)
 
     m_gridPattern= gridPattern;
     emit gridPatternChanged(m_gridPattern);
+}
+
+void GridController::setRect(QRectF rect)
+{
+    if(m_rect == rect)
+        return;
+
+    m_rect= rect;
+    emit rectChanged(m_rect);
+}
+
+QRectF GridController::rect() const
+{
+    auto rect= m_ctrl->visualRect();
+    rect= rect.united(m_rect);
+    return rect;
 }
 
 void GridController::computePattern()
@@ -116,14 +134,16 @@ void GridController::computePattern()
 
         polygon << A << B << C;
     }
-    QPainter painter(&pattern);
-    QPen pen;
-    pen.setColor(m_ctrl->gridColor());
-    pen.setWidth(1);
-    painter.setPen(pen);
-    painter.drawPolyline(polygon);
-    painter.end();
-
+    if(!pattern.isNull())
+    {
+        QPainter painter(&pattern);
+        QPen pen;
+        pen.setColor(m_ctrl->gridColor());
+        pen.setWidth(1);
+        painter.setPen(pen);
+        painter.drawPolyline(polygon);
+        painter.end();
+    }
     setGridPattern(pattern);
 }
 } // namespace vmap
