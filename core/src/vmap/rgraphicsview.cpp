@@ -157,6 +157,7 @@ void RGraphicsView::wheelEvent(QWheelEvent* event)
 
         setResizeAnchor(QGraphicsView::NoAnchor);
         setTransformationAnchor(QGraphicsView::NoAnchor);
+        updateSizeToController();
     }
     else
         QGraphicsView::wheelEvent(event);
@@ -754,15 +755,24 @@ void RGraphicsView::setZoomFactor()
         m_counterZoom+= step;
     }
     scale(realFactor, realFactor);
+    updateSizeToController();
 }
 void RGraphicsView::currentToolChanged(Core::SelectableTool selectedtool)
 {
     m_currentTool= selectedtool;
 }
+
+void RGraphicsView::updateSizeToController()
+{
+    auto rect= frameRect();
+    auto poly= mapToScene(rect);
+    m_ctrl->setVisualRect(poly.boundingRect());
+}
+
 void RGraphicsView::resizeEvent(QResizeEvent* event)
 {
     // GM is the references
-    if((nullptr != scene()) && m_ctrl->localGM())
+    /*if((nullptr != scene()) && m_ctrl->localGM())
     {
         if((geometry().width() > scene()->sceneRect().width())
            || ((geometry().height() > scene()->sceneRect().height())))
@@ -784,11 +794,10 @@ void RGraphicsView::resizeEvent(QResizeEvent* event)
             msg.real(r.width());
             msg.real(r.height());
 
-            msg.sendToServer();
-        }
-    }
-    if(m_vmap)
-        m_vmap->updateFog();
+        msg.sendToServer();
+    }*/
+
+    updateSizeToController();
 
     setResizeAnchor(QGraphicsView::NoAnchor);
     setTransformationAnchor(QGraphicsView::NoAnchor);

@@ -79,7 +79,7 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     setBackgroundBrush(m_ctrl->backgroundColor());
 
     // setSceneRect(1000, 1000);
-    setSceneRect(0, 0, 1000, 1000);
+    // setSceneRect(0, 0, 1000, 1000);
 
     m_gridItem= new GridItem(m_ctrl->gridController());
     addItem(m_gridItem);
@@ -87,6 +87,13 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     m_gridItem->setPos(0, 0);
     m_gridItem->setZValue(2);
     m_gridItem->setVisible(false);
+
+    m_sightItem= new SightItem(m_ctrl->sightController(), m_characterItemMap);
+    addItem(m_sightItem);
+    m_sightItem->initChildPointItem();
+    m_sightItem->setPos(0, 0);
+    m_sightItem->setZValue(1);
+    m_sightItem->setVisible(false);
 }
 
 /*VMap::VMap(int width, int height, QString& title, QColor& bgColor, QObject* parent)
@@ -507,16 +514,17 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
         }
         if(Core::EditionMode::Painting == m_ctrl->editionMode())
         {
-            m_currentItem->endOfGeometryChange();
+            m_currentItem->endOfGeometryChange(ChildPointItem::Resizing);
             sendOffItem(m_currentItem);
         }
         else
         {
-            QPolygonF* poly= new QPolygonF();
-            *poly= m_currentItem->shape().toFillPolygon();
-            *poly= poly->translated(m_currentItem->pos());
+            auto poly= m_currentItem->shape().toFillPolygon();
+            poly= poly.translated(m_currentItem->pos());
+            m_ctrl->changeFogOfWar(poly, (Core::EditionMode::Mask == m_ctrl->editionMode()));
+            /*QPolygonF* poly= new QPolygonF();
             m_currentFog= m_sightItem->addFogPolygon(poly, (Core::EditionMode::Mask == m_ctrl->editionMode()));
-            sendItemToAll(m_sightItem);
+            sendItemToAll(m_sightItem);*/
             if(nullptr == m_currentPath)
             {
                 removeItem(m_currentItem);
@@ -525,9 +533,11 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
     }
     else if((nullptr != m_currentPath) && (Core::EditionMode::Painting != m_ctrl->editionMode()))
     {
-        QPolygonF* poly= new QPolygonF();
+        /*QPolygonF* poly= new QPolygonF();
         *poly= m_currentPath->shape().toFillPolygon();
-        m_currentFog->setPolygon(poly);
+        m_currentFog->setPolygon(poly);*/
+        auto poly= m_currentPath->shape().toFillPolygon();
+        m_ctrl->changeFogOfWar(poly, (Core::EditionMode::Mask == m_ctrl->editionMode()));
         update();
     }
     m_currentItem= nullptr;
@@ -1272,7 +1282,7 @@ void VMap::insertCharacterInMap(CharacterItem* item)
         connect(item, &CharacterItem::runDiceCommand, this, &VMap::runDiceCommandForCharacter);
         if(!item->isNpc())
         {
-            m_sightItem->insertVision(item);
+            // m_sightItem->insertVision(item);
         }
         else
         {
