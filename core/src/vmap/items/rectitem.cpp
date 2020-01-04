@@ -24,6 +24,7 @@
 #include <QStyle>
 #include <QStyleOptionGraphicsItem>
 #include <QStylePainter>
+#include <QTimer>
 
 #include "vmap/controller/rectcontroller.h"
 #include "vmap/controller/visualitemcontroller.h"
@@ -34,12 +35,7 @@
 
 RectItem::RectItem(vmap::RectController* ctrl) : VisualItem(ctrl), m_rectCtrl(ctrl)
 {
-    connect(m_rectCtrl, &vmap::RectController::rectChanged, this, [this]() {
-        setTransformOriginPoint(m_rectCtrl->rect().center());
-        updateChildPosition();
-    });
-    connect(m_rectCtrl, &vmap::RectController::rotationChanged, this,
-            [this]() { setRotation(m_rectCtrl->rotation()); });
+    connect(m_rectCtrl, &vmap::RectController::rectChanged, this, [this]() { updateChildPosition(); });
 
     for(int i= 0; i <= vmap::RectController::BottomLeft; ++i)
     {
@@ -47,6 +43,7 @@ RectItem::RectItem(vmap::RectController* ctrl) : VisualItem(ctrl), m_rectCtrl(ct
         tmp->setMotion(ChildPointItem::MOUSE);
         m_children.append(tmp);
     }
+
     updateChildPosition();
 }
 
@@ -56,31 +53,27 @@ QRectF RectItem::boundingRect() const
 }
 QPainterPath RectItem::shape() const
 {
-    if(!m_rectCtrl->filled())
-    {
-        QPainterPath path;
-        qreal halfPenSize= m_rectCtrl->penWidth() / 2.0;
-        auto rect= m_rectCtrl->rect();
-        qreal off= 0.5 * halfPenSize;
-
-        path.moveTo(rect.topLeft().x() - off, rect.topLeft().y() - off);
-
-        path.lineTo(rect.topRight().x() + off, rect.topRight().y() - off);
-        path.lineTo(rect.bottomRight().x() + off, rect.bottomRight().y() + off);
-        path.lineTo(rect.bottomLeft().x() - off, rect.bottomLeft().y() + off);
-        path.lineTo(rect.topLeft().x() - off, rect.topLeft().y() - off);
-
-        path.lineTo(rect.topLeft().x() + off, rect.topLeft().y() + off);
-        path.lineTo(rect.topRight().x() - off, rect.topRight().y() + off);
-        path.lineTo(rect.bottomRight().x() - off, rect.bottomRight().y() - off);
-        path.lineTo(rect.bottomLeft().x() + off, rect.bottomLeft().y() - off);
-        path.lineTo(rect.topLeft().x() + off, rect.topLeft().y() + off);
-        return path;
-    }
-    else
-    {
+    if(m_rectCtrl->filled())
         return VisualItem::shape();
-    }
+
+    QPainterPath path;
+    qreal halfPenSize= m_rectCtrl->penWidth() / 2.0;
+    auto rect= m_rectCtrl->rect();
+    qreal off= 0.5 * halfPenSize;
+
+    path.moveTo(rect.topLeft().x() - off, rect.topLeft().y() - off);
+
+    path.lineTo(rect.topRight().x() + off, rect.topRight().y() - off);
+    path.lineTo(rect.bottomRight().x() + off, rect.bottomRight().y() + off);
+    path.lineTo(rect.bottomLeft().x() - off, rect.bottomLeft().y() + off);
+    path.lineTo(rect.topLeft().x() - off, rect.topLeft().y() - off);
+
+    path.lineTo(rect.topLeft().x() + off, rect.topLeft().y() + off);
+    path.lineTo(rect.topRight().x() - off, rect.topRight().y() + off);
+    path.lineTo(rect.bottomRight().x() - off, rect.bottomRight().y() - off);
+    path.lineTo(rect.bottomLeft().x() + off, rect.bottomLeft().y() - off);
+    path.lineTo(rect.topLeft().x() + off, rect.topLeft().y() + off);
+    return path;
 }
 void RectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
@@ -280,8 +273,16 @@ VisualItem* RectItem::getItemCopy()
     //  return rectItem;
 }
 
-void RectItem::endOfGeometryChange()
+void RectItem::endOfGeometryChange(ChildPointItem::Change change)
 {
-    m_rectCtrl->endGeometryChange();
-    VisualItem::endOfGeometryChange();
+    if(change == ChildPointItem::Resizing)
+    {
+        auto oldScenePos= scenePos();
+        setTransformOriginPoint(m_rectCtrl->rect().center());
+        auto newScenePos= scenePos();
+        auto oldPos= pos();
+        m_rectCtrl->setPos(QPointF(oldPos.x() + (oldScenePos.x() - newScenePos.x()),
+                                   oldPos.y() + (oldScenePos.y() - newScenePos.y())));
+    }
+    VisualItem::endOfGeometryChange(change);
 }

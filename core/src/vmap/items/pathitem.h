@@ -107,7 +107,7 @@ public:
     /**
      * @brief endOfGeometryChange
      */
-    virtual void endOfGeometryChange() override;
+    virtual void endOfGeometryChange(ChildPointItem::Change change) override;
     /**
      * @brief readMovePointMsg
      * @param msg

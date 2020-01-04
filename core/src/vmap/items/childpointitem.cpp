@@ -44,6 +44,8 @@ ChildPointItem::ChildPointItem(vmap::VisualItemController* ctrl, int point, Visu
 {
     m_currentMotion= ALL;
     m_editable= true;
+    // connect(m_ctrl, &vmap::VisualItemController::rotationChanged, this, [this]() { setRotation(-m_ctrl->rotation());
+    // });
     // setFlag(QGraphicsItem::ItemIgnoresParentOpacity);
     // setAcceptHoverEvents(true);
     // setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
@@ -263,14 +265,18 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
         QGraphicsItem::mouseMoveEvent(event);
         return;
     }
-    if(m_currentMotion == ChildPointItem::Y_AXIS || m_currentMotion == ChildPointItem::X_AXIS)
+    if((m_currentMotion == ChildPointItem::Y_AXIS || m_currentMotion == ChildPointItem::X_AXIS)
+       && (m_currentChange == None || m_currentChange == Resizing))
     {
+        m_currentChange= Resizing;
         auto move= event->pos() - event->lastPos();
         m_currentMotion == ChildPointItem::Y_AXIS ? move.setX(0) : move.setY(0);
         m_ctrl->setCorner(move, m_pointId);
     }
-    if(!(event->modifiers() & Qt::ControlModifier) && m_currentMotion == MOUSE)
+    if(!(event->modifiers() & Qt::ControlModifier) && m_currentMotion == MOUSE
+       && (m_currentChange == None || m_currentChange == Resizing))
     {
+        m_currentChange= Resizing;
         VisualItem::TransformType transformType= VisualItem::NoTransform;
 
         if((event->modifiers() & Qt::ShiftModifier))
@@ -287,18 +293,20 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
             H= std::round(H / size) * size;
         }
 
-        // if((v.x() >1)&&(v.y()>1))
-        {
-            auto move= event->pos() - event->lastPos();
-            m_ctrl->setCorner(move, m_pointId); // mapToScene(pos()) +
-            // m_parent->resizeContents(QRectF(-W / 2, -H / 2, W, H), m_pointId, transformType);
-        }
+        auto move= event->pos() - event->lastPos();
+        auto pItem= parentItem();
+        qDebug() << move << pItem->pos() << pItem->boundingRect() << pItem->transformOriginPoint();
+        // move= pTransform.map(move);
+
+        m_ctrl->setCorner(move, m_pointId); // mapToScene(pos()) +
     }
 
-    if(((m_currentMotion == MOUSE) || (m_allowRotation)) && (event->modifiers() & Qt::ControlModifier))
+    if(((m_currentMotion == MOUSE) || (m_allowRotation)) && (event->modifiers() & Qt::ControlModifier)
+       && (m_currentChange == None || m_currentChange == Rotation))
     {
         if(v.isNull())
             return;
+        m_currentChange= Rotation;
 
         QPointF refPos= pos();
 
@@ -317,7 +325,8 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 }
 void ChildPointItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
-    m_parent->endOfGeometryChange();
+    m_parent->endOfGeometryChange(m_currentChange);
+    m_currentChange= None;
 
     QGraphicsItem::mouseReleaseEvent(event);
 }

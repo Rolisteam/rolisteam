@@ -30,10 +30,8 @@ ImageItem::ImageItem(vmap::ImageController* ctrl) : VisualItem(ctrl), m_imgCtrl(
     }
     updateChildPosition();
 
-    connect(m_imgCtrl, &vmap::ImageController::rectChanged, this, [this]() {
-        updateChildPosition();
-        update();
-    });
+    connect(m_imgCtrl, &vmap::ImageController::rectChanged, this, [this]() { updateChildPosition(); });
+    setTransformOriginPoint(m_imgCtrl->rect().center());
 }
 
 QRectF ImageItem::boundingRect() const
@@ -259,8 +257,6 @@ void ImageItem::updateChildPosition()
     m_children.value(3)->setPos(rect.bottomLeft());
     m_children.value(3)->setPlacement(ChildPointItem::ButtomLeft);
 
-    setTransformOriginPoint(rect.center());
-
     update();
 }
 
@@ -338,6 +334,20 @@ VisualItem* ImageItem::getItemCopy()
     // rectItem->resizeContents(m_rect, VisualItem::NoTransform);
     rectItem->setPos(pos());*/
     //  return rectItem;
+}
+
+void ImageItem::endOfGeometryChange(ChildPointItem::Change change)
+{
+    if(change == ChildPointItem::Resizing)
+    {
+        auto oldScenePos= scenePos();
+        setTransformOriginPoint(m_imgCtrl->rect().center());
+        auto newScenePos= scenePos();
+        auto oldPos= pos();
+        m_imgCtrl->setPos(QPointF(oldPos.x() + (oldScenePos.x() - newScenePos.x()),
+                                  oldPos.y() + (oldScenePos.y() - newScenePos.y())));
+    }
+    VisualItem::endOfGeometryChange(change);
 }
 VisualItem* ImageItem::promoteTo(VisualItem::ItemType type)
 {

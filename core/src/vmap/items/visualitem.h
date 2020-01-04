@@ -175,7 +175,7 @@ public:
     /**
      * @brief endOfGeometryChange
      */
-    virtual void endOfGeometryChange();
+    virtual void endOfGeometryChange(ChildPointItem::Change change);
 
     /**
      * @brief initChildPointItem

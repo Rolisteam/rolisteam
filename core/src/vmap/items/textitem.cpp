@@ -145,7 +145,6 @@ TextItem::TextItem(vmap::TextController* ctrl)
 
     m_textItem->setDocument(m_doc.get());
     connect(m_textCtrl, &vmap::TextController::borderRectChanged, this, [this]() {
-        setTransformOriginPoint(m_textCtrl->borderRect().center());
         m_textItem->setTextWidth(m_textCtrl->borderRect().width());
         m_textCtrl->setTextRect(m_textItem->boundingRect());
         updateChildPosition();
@@ -154,8 +153,6 @@ TextItem::TextItem(vmap::TextController* ctrl)
             [this]() { m_textItem->setTextWidth(m_textCtrl->textRect().width()); });
     connect(m_textCtrl, &vmap::TextController::textPosChanged, this,
             [this](const QPointF& pos) { m_textItem->setPos(pos); });
-    connect(m_textCtrl, &vmap::TextController::rotationChanged, this,
-            [this]() { setRotation(m_textCtrl->rotation()); });
 
     connect(m_textCtrl, &vmap::TextController::textChanged, m_doc.get(), &QTextDocument::setPlainText);
     connect(m_doc.get(), &QTextDocument::contentsChanged, this, [this]() {
@@ -323,6 +320,20 @@ void TextItem::editText()
     }
 }
 
+void TextItem::endOfGeometryChange(ChildPointItem::Change change)
+{
+    if(change == ChildPointItem::Resizing)
+    {
+        auto oldScenePos= scenePos();
+        setTransformOriginPoint(m_textCtrl->borderRect().center());
+        auto newScenePos= scenePos();
+        auto oldPos= pos();
+        m_textCtrl->setPos(QPointF(oldPos.x() + (oldScenePos.x() - newScenePos.x()),
+                                   oldPos.y() + (oldScenePos.y() - newScenePos.y())));
+    }
+    VisualItem::endOfGeometryChange(change);
+}
+
 void TextItem::writeData(QDataStream& out) const
 {
     /*out << m_start;
@@ -469,7 +480,7 @@ void TextItem::sizeToTheContent()
       }*/
     if(m_resizing)
     {
-        endOfGeometryChange();
+        endOfGeometryChange(ChildPointItem::Resizing);
     }
 }
 

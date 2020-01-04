@@ -483,7 +483,7 @@ void PathItem::readMovePointMsg(NetworkMessageReader* msg)
     update();*/
 }
 
-void PathItem::endOfGeometryChange()
+void PathItem::endOfGeometryChange(ChildPointItem::Change change)
 {
     if(m_resizing)
     {
@@ -492,7 +492,7 @@ void PathItem::endOfGeometryChange()
     }
     else
     {
-        VisualItem::endOfGeometryChange();
+        VisualItem::endOfGeometryChange(change);
     }
 }
 void PathItem::sendPointPosition()
