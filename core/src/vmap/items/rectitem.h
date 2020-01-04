@@ -95,7 +95,7 @@ public:
      */
     virtual VisualItem* getItemCopy() override;
 
-    void endOfGeometryChange() override;
+    void endOfGeometryChange(ChildPointItem::Change change) override;
 
 protected:
     /**

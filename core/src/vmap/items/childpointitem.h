@@ -21,6 +21,7 @@
 #ifndef CHILDPOINTITEM_H
 #define CHILDPOINTITEM_H
 
+#include <QFlags>
 #include <QGraphicsObject>
 #include <QPointer>
 
@@ -42,13 +43,16 @@ public:
      */
     enum MOTION
     {
-        ALL,
-        X_AXIS,
-        Y_AXIS,
-        MOUSE,
-        MOVE,
-        NONE
+        NONE= 0x0,
+        X_AXIS= 0x1,
+        Y_AXIS= 0x2,
+        MOVE= 0x4,
+        ROTATION= 0x8,
+        MOUSE= MOVE | ROTATION,
+        ALL= MOUSE | MOVE
     };
+    Q_ENUM(MOTION)
+    Q_DECLARE_FLAGS(MOTIONS, MOTION)
     /**
      * @brief The PLACEMENT enum
      */
@@ -63,6 +67,14 @@ public:
         ButtomLeft,
         ButtomRight,
         ButtomCenter
+    };
+
+    enum Change
+    {
+        None,
+        Rotation,
+        Resizing,
+        Moving
     };
 
     /**
@@ -148,6 +160,7 @@ protected:
 
 private:
     QPointer<vmap::VisualItemController> m_ctrl;
+    Change m_currentChange= None;
     int m_pointId;
     QPointF m_startPoint;
     VisualItem* m_parent;
@@ -157,5 +170,5 @@ private:
     bool m_vision;
     PLACEMENT m_placement;
 };
-
+Q_DECLARE_OPERATORS_FOR_FLAGS(ChildPointItem::MOTIONS)
 #endif // CHILDPOINTITEM_H

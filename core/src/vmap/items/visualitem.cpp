@@ -51,6 +51,7 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl)
         scene()->removeItem(this);
         deleteLater();
     });
+    connect(m_ctrl, &vmap::VisualItemController::rotationChanged, this, [this]() { setRotation(m_ctrl->rotation()); });
     connect(m_ctrl, &vmap::VisualItemController::visibleChanged, this, [this]() {
         // test anretnaute ue utanite nauriteuet naut euirenru e
         setVisible(m_ctrl->visible());
@@ -146,7 +147,7 @@ void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
     update();
     QGraphicsItem::mouseReleaseEvent(event);
-    endOfGeometryChange();
+    endOfGeometryChange(ChildPointItem::Moving);
 }
 
 QVariant VisualItem::itemChange(GraphicsItemChange change, const QVariant& value)
@@ -456,9 +457,9 @@ QString VisualItem::getMapId()
 {
     return m_mapId;
 }
-void VisualItem::endOfGeometryChange()
+void VisualItem::endOfGeometryChange(ChildPointItem::Change change)
 {
-    // emit itemGeometryChanged(this);
+    m_ctrl->endGeometryChange();
     if(!m_pointList.isEmpty())
     {
         sendPositionMsg();

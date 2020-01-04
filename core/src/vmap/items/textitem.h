@@ -136,6 +136,7 @@ public:
 
     // virtual void endOfGeometryChange() override;
     void setHoldSize(bool holdSize) override;
+    void endOfGeometryChange(ChildPointItem::Change change) override;
 public slots:
     // void updateTextPosition();
     void editText();

@@ -151,11 +151,6 @@ public:
      */
     const QPointF& getCenter() const;
     /**
-     * @brief getRadius
-     * @return
-     */
-    qreal getRadius() const;
-    /**
      * @brief addChildPoint
      * @param item
      */
@@ -165,17 +160,6 @@ public:
      * @return
      */
     int getChildPointCount() const;
-    /**
-     * @brief setDefaultVisionParameter
-     * @param radius
-     * @param angle
-     */
-    void setDefaultVisionParameter(CharacterVision::SHAPE, qreal radius, qreal angle);
-    /**
-     * @brief getVision
-     * @return
-     */
-    CharacterVision* getVision() const;
     /**
      * @brief getRadiusChildWidget
      */
@@ -241,7 +225,6 @@ public:
     int getNumber() const;
     void setHoldSize(bool holdSize) override;
     const QPainterPath getTokenShape() const;
-    const QRectF& getTextRect() const;
 signals:
     /**
      * @brief positionChanged
@@ -284,7 +267,7 @@ public slots:
     /**
      * @brief endOfGeometryChange
      */
-    void endOfGeometryChange() override;
+    void endOfGeometryChange(ChildPointItem::Change change) override;
     /**
      * @brief generatedThumbnail
      */
@@ -323,12 +306,7 @@ private:
 
 private:
     QPointer<vmap::CharacterItemController> m_itemCtrl;
-    QPointF m_center;
-    qreal m_diameter;
-    QPixmap* m_thumnails;
-    QRectF m_rectText;
-    QString m_title;
-    DiceParser m_diceParser;
+    // DiceParser m_diceParser;
 
     // QAction*
     QAction* m_visionShapeDisk= nullptr;
@@ -337,8 +315,7 @@ private:
     QAction* m_increaseLife= nullptr;
 
     // sight
-    std::unique_ptr<CharacterVision> m_vision;
-    QPointF m_oldPosition;
+    // QPointF m_oldPosition;
     // QPointF m_newPosition;
 
     bool m_protectGeometryChange;

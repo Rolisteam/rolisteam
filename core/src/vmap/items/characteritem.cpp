@@ -92,6 +92,9 @@ QColor ContrastColor(QColor color)
 /////////////////
 CharacterItem::CharacterItem(vmap::CharacterItemController* ctrl) : VisualItem(ctrl), m_itemCtrl(ctrl)
 {
+    m_itemCtrl->setFont(QFont());
+
+    connect(m_itemCtrl, &vmap::CharacterItemController::thumnailRectChanged, this, &CharacterItem::updateChildPosition);
     // createActions();
     for(int i= 0; i <= CharacterItem::SightLenght; ++i)
     {
@@ -100,11 +103,6 @@ CharacterItem::CharacterItem(vmap::CharacterItemController* ctrl) : VisualItem(c
         m_children.append(tmp);
     }
     updateChildPosition();
-
-    auto timer= new QTimer();
-    timer->setInterval(1000);
-    connect(timer, &QTimer::timeout, this, [this]() { qDebug() << "timer out" << scene(); });
-    timer->start();
 }
 
 CharacterItem::~CharacterItem()
@@ -179,36 +177,11 @@ VisualItem::ItemType CharacterItem::getType() const
 }
 QRectF CharacterItem::boundingRect() const
 {
-    auto rect= m_itemCtrl->thumnailRect().united(m_itemCtrl->textRect());
-    qDebug() << "boundingRect" << rect;
-    return rect;
+    return m_itemCtrl->thumnailRect().united(m_itemCtrl->textRect());
 }
 QPainterPath CharacterItem::shape() const
 {
-    QPainterPath path= getTokenShape();
-    path.addRect(boundingRect());
-    qDebug() << "shape" << path;
-    return path;
-}
-
-const QPainterPath CharacterItem::getTokenShape() const
-{
-    QPainterPath path;
-    path.moveTo(0, 0);
-    if((nullptr == m_thumnails) || (m_thumnails->isNull()))
-    {
-        path.addEllipse(boundingRect());
-    }
-    else
-    {
-        path.addRoundedRect(0, 0, m_diameter, m_diameter, m_diameter / 10, m_diameter / 10);
-    }
-    return path;
-}
-
-const QRectF& CharacterItem::getTextRect() const
-{
-    return m_rectText;
+    return m_itemCtrl->shape();
 }
 
 void CharacterItem::setNewEnd(const QPointF& nend)
@@ -259,13 +232,13 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     painter->save();
     if(m_itemCtrl->hasAvatar())
     {
-        painter->drawPixmap(m_itemCtrl->thumnailRect(), m_itemCtrl->avatar(), m_itemCtrl->avatar().rect());
+        painter->drawImage(m_itemCtrl->thumnailRect(), *m_itemCtrl->avatar(), m_itemCtrl->avatar()->rect());
     }
     else
     {
         painter->setPen(m_itemCtrl->color());
         painter->setBrush(QBrush(m_itemCtrl->color(), Qt::SolidPattern));
-        // painter->drawEllipse(m_rect);
+        painter->drawEllipse(m_itemCtrl->thumnailRect());
     }
 
     QPen pen= painter->pen();
@@ -329,15 +302,9 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     }*/
     // QRectF rectText;
     QFontMetrics metric(painter->font());
-    QRectF rect(m_itemCtrl->thumnailRect().center().x() - ((metric.boundingRect(textToShow).width() + MARGING) / 2),
-                m_itemCtrl->thumnailRect().bottom(), metric.boundingRect(textToShow).width() + MARGING + MARGING,
-                metric.height());
 
     if(!textToShow.isEmpty())
     {
-        /*if((m_ctrl->visibility() != Core::FOGOFWAR) || m_ctrl->localGM())
-        {
-        }*/
         setToolTip(textToShow);
         painter->setPen(m_itemCtrl->color());
         painter->drawText(m_itemCtrl->textRect(), Qt::AlignCenter, textToShow);
@@ -405,16 +372,13 @@ void CharacterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     painter->restore();
     */
 }
-const QPointF& CharacterItem::getCenter() const
-{
-    return m_center;
-}
+
 void CharacterItem::sizeChanged(qreal m_size)
 {
-    m_diameter= m_size;
+    // m_diameter= m_size;
     // m_rect.setRect(0, 0, m_diameter, m_diameter);
-    generatedThumbnail();
-    m_resizing= true;
+    // generatedThumbnail();
+    // m_resizing= true;
 }
 void CharacterItem::visionChanged()
 {
@@ -463,10 +427,7 @@ void CharacterItem::generatedThumbnail()
      painter.setBrush(brush);
      painter.drawRoundedRect(0, 0, diam, diam, m_diameter / RADIUS_CORNER, m_diameter / RADIUS_CORNER);*/
 }
-qreal CharacterItem::getRadius() const
-{
-    return m_diameter / 2;
-}
+
 void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 {
     /*  if(nullptr == m_character || nullptr == m_vision || nullptr == msg)
@@ -835,17 +796,23 @@ void CharacterItem::updateChildPosition()
     m_children.value(3)->setPos(rect.bottomLeft());
     m_children.value(3)->setPlacement(ChildPointItem::ButtomLeft);
 
-    setTransformOriginPoint(rect.center());
+    // setTransformOriginPoint(rect.center());
+    if(m_itemCtrl->playableCharacter())
+    {
+        auto vision= m_itemCtrl->vision();
+        m_children.value(DIRECTION_RADIUS_HANDLE)
+            ->setPos(vision->getRadius() + m_itemCtrl->radius(),
+                     m_itemCtrl->thumnailRect().height() / 2
+                         - m_children[DIRECTION_RADIUS_HANDLE]->boundingRect().height() / 2);
 
-    /*m_child->value(DIRECTION_RADIUS_HANDLE)
-            ->setPos(m_vision->getRadius() + getRadius(),
-                     m_rect.height() / 2 - m_child->value(DIRECTION_RADIUS_HANDLE)->boundingRect().height() / 2);
-
-        m_child->value(ANGLE_HANDLE)->setPos((m_vision->getRadius() + getRadius()) / 2, -m_vision->getAngle());
-        m_child->value(ANGLE_HANDLE)->setVisionHandler(true);
-
-        setTransformOriginPoint(m_rect.center());*/
-
+        m_children[ANGLE_HANDLE]->setPos((vision->getRadius() + m_itemCtrl->radius()) / 2, -vision->getAngle());
+        m_children[ANGLE_HANDLE]->setVisionHandler(true);
+    }
+    else
+    {
+        m_children[DIRECTION_RADIUS_HANDLE]->setVisible(false);
+        m_children[ANGLE_HANDLE]->setVisible(false);
+    }
     update();
 }
 void CharacterItem::addActionContextMenu(QMenu& menu)
@@ -1121,16 +1088,6 @@ void CharacterItem::addChildPoint(ChildPointItem* item)
     // item->setPointID(m_child->size());
     m_children.append(item);
 }
-void CharacterItem::setDefaultVisionParameter(CharacterVision::SHAPE shape, qreal radius, qreal angle)
-{
-    m_vision->setAngle(angle);
-    m_vision->setRadius(radius);
-    m_vision->setShape(shape);
-}
-CharacterVision* CharacterItem::getVision() const
-{
-    return m_vision.get();
-}
 
 void CharacterItem::readPositionMsg(NetworkMessageReader* msg)
 {
@@ -1171,15 +1128,6 @@ void CharacterItem::readVisionMsg(NetworkMessageReader* msg)
     update();
 }
 
-void CharacterItem::endOfGeometryChange()
-{
-    /*    if(m_visionChanged)
-        {
-            sendVisionMsg();
-            m_visionChanged= false;
-        }*/
-    VisualItem::endOfGeometryChange();
-}
 void CharacterItem::updateItemFlags()
 {
     /*    VisualItem::updateItemFlags();
@@ -1303,4 +1251,18 @@ void CharacterItem::setTokenFile(QString filename)
            }
            m_character->readTokenObj(obj);
        }*/
+}
+
+void CharacterItem::endOfGeometryChange(ChildPointItem::Change change)
+{
+    if(change == ChildPointItem::Resizing)
+    {
+        auto oldScenePos= scenePos();
+        setTransformOriginPoint(m_itemCtrl->thumnailRect().center());
+        auto newScenePos= scenePos();
+        auto oldPos= pos();
+        m_itemCtrl->setPos(QPointF(oldPos.x() + (oldScenePos.x() - newScenePos.x()),
+                                   oldPos.y() + (oldScenePos.y() - newScenePos.y())));
+    }
+    VisualItem::endOfGeometryChange(change);
 }

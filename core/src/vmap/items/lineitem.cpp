@@ -54,7 +54,7 @@ LineItem::LineItem(vmap::LineController* ctrl) : VisualItem(ctrl), m_lineCtrl(ct
     for(int i= 0; i <= vmap::LineController::End; ++i)
     {
         ChildPointItem* tmp= new ChildPointItem(m_lineCtrl, i, this);
-        tmp->setMotion(ChildPointItem::MOUSE);
+        tmp->setMotion(ChildPointItem::MOVE);
         m_children.append(tmp);
         qDebug() << "add points";
     }
