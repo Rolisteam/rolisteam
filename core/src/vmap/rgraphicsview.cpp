@@ -35,6 +35,15 @@
 #include "items/ruleitem.h"
 #include "undoCmd/changesizevmapitem.h"
 
+bool isNormalItem(vmap::VisualItemController* itemCtrl)
+{
+    if(!itemCtrl)
+        return false;
+
+    auto layer= itemCtrl->layer();
+    return !(layer == Core::Layer::GRIDLAYER || layer == Core::Layer::FOG);
+}
+
 RGraphicsView::RGraphicsView(VectorialMapController* ctrl, QWidget* parent)
     : QGraphicsView(parent), m_ctrl(ctrl), m_centerOnItem(nullptr)
 {
@@ -49,7 +58,6 @@ RGraphicsView::RGraphicsView(VectorialMapController* ctrl, QWidget* parent)
     m_preferences= PreferencesManager::getInstance();
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
-    // setViewport(new QOpenGLWidget());
     // fitInView(sceneRect(),Qt::KeepAspectRatio);
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
     setRubberBandSelectionMode(Qt::IntersectsItemBoundingRect);
@@ -69,24 +77,22 @@ void RGraphicsView::mousePressEvent(QMouseEvent* event)
         if(event->button() == Qt::LeftButton)
         {
             QList<QGraphicsItem*> list= items(event->pos());
-            if(nullptr != m_vmap)
+
+            /*list.erase(std::remove_if(list.begin(), list.end(),
+                                      [this](const QGraphicsItem* item) { return !m_vmap->isNormalItem(item); }),
+                       list.end());*/
+            bool rubber= true;
+            if(!list.isEmpty())
             {
-                list.erase(std::remove_if(list.begin(), list.end(),
-                                          [this](const QGraphicsItem* item) { return !m_vmap->isNormalItem(item); }),
-                           list.end());
-                bool rubber= true;
-                if(!list.isEmpty())
-                {
-                    rubber= false;
-                }
-                if(!rubber)
-                {
-                    setDragMode(QGraphicsView::NoDrag);
-                }
-                else
-                {
-                    setDragMode(QGraphicsView::RubberBandDrag);
-                }
+                rubber= false;
+            }
+            if(!rubber)
+            {
+                setDragMode(QGraphicsView::NoDrag);
+            }
+            else
+            {
+                setDragMode(QGraphicsView::RubberBandDrag);
             }
         }
         else if(event->button() == Qt::RightButton)
@@ -162,44 +168,44 @@ void RGraphicsView::wheelEvent(QWheelEvent* event)
     else
         QGraphicsView::wheelEvent(event);
 }
+
 void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 {
-    if(nullptr == m_vmap)
-        return;
-
     bool licenseToModify= false;
 
     m_menuPoint= event->pos();
+
     if((m_ctrl->localGM()) || (m_ctrl->permission() == Core::PC_ALL))
     {
         licenseToModify= true;
     }
 
-    if(m_vmap->isIdle())
+    if(m_ctrl->idle())
     {
-        auto extractVisualItem= [this](QList<QGraphicsItem*> itemList) -> QList<VisualItem*> {
-            if(!m_vmap)
-                return {};
-            QList<VisualItem*> list;
+        auto extractVisualItem= [this](QList<QGraphicsItem*> itemList) -> QList<vmap::VisualItemController*> {
+            QList<vmap::VisualItemController*> list;
             for(QGraphicsItem* item : itemList)
             {
                 VisualItem* vItem= dynamic_cast<VisualItem*>(item);
-                if(nullptr != vItem && !list.contains(vItem) && m_vmap->isNormalItem(vItem))
-                {
-                    list.append(vItem);
-                }
-                else
+                if(!vItem)
                 {
                     ChildPointItem* childItem= dynamic_cast<ChildPointItem*>(item);
                     if(nullptr != childItem)
                     {
                         QGraphicsItem* item2= childItem->parentItem();
-                        VisualItem* vItem= dynamic_cast<VisualItem*>(item2);
-                        if(nullptr != vItem && !list.contains(vItem) && m_vmap->isNormalItem(vItem))
-                        {
-                            list.append(vItem);
-                        }
+                        vItem= dynamic_cast<VisualItem*>(item2);
                     }
+                }
+
+                if(nullptr == vItem)
+                    return list;
+
+                auto ctrl= vItem->controller();
+                bool isNormal= isNormalItem(ctrl);
+
+                if(isNormal && !list.contains(ctrl))
+                {
+                    list.append(ctrl);
                 }
             }
             return list;
@@ -209,13 +215,13 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
         auto list= extractVisualItem(itemList);
         auto visulItemUnderMouse= extractVisualItem(itemUnderMouse);
-        // remove none visual item
 
-        std::for_each(visulItemUnderMouse.begin(), visulItemUnderMouse.end(), [&list](VisualItem* item) {
-            if(!list.contains(item))
-                list.append(item);
-        });
-        // list.append(visulItemUnderMouse);
+        // merge
+        std::for_each(visulItemUnderMouse.begin(), visulItemUnderMouse.end(),
+                      [&list](vmap::VisualItemController* item) {
+                          if(!list.contains(item))
+                              list.append(item);
+                      });
 
         QMenu menu;
         auto parentWid= dynamic_cast<MediaContainer*>(parentWidget());
@@ -236,9 +242,9 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             if(list.size() == 1)
             {
                 auto item= list.first();
-                item->addActionContextMenu(menu);
+                // item->addActionContextMenu(menu);
 
-                /*auto layer= item->getLayer();
+                auto layer= item->layer();
                 switch(layer)
                 {
                 case Core::Layer::GROUND:
@@ -252,7 +258,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
                     break;
                 default:
                     break;
-                }*/
+                }
             }
 
             auto overlapping= menu.addMenu(tr("Overlapping"));
@@ -388,6 +394,12 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
                                             tr("Please, set the rotation angle you want [0-360]"), 0, 0, 360);
             setRotation(list, angle);
         }
+        else if(m_normalizeSizeBigger == selectedAction || m_normalizeSizeAverage == selectedAction
+                || m_normalizeSizeUnderMouse == selectedAction || m_normalizeSizeSmaller == selectedAction)
+        {
+            m_ctrl->normalizeSize(list, static_cast<VectorialMapController::Method>(selectedAction->data().toInt()),
+                                  mapToScene(m_menuPoint));
+        }
         else if((m_backOrderAction == selectedAction) || (m_frontOrderAction == selectedAction)
                 || (m_lowerAction == selectedAction) || (m_raiseAction == selectedAction))
         {
@@ -421,65 +433,37 @@ void RGraphicsView::centerOnItem()
         }
     }
 }
-void RGraphicsView::setRotation(QList<VisualItem*> list, int value)
-{
-    for(VisualItem* item : list)
-    {
-        item->setRotation(value);
-        item->sendRotationMsg();
-    }
-}
-void RGraphicsView::lockItems(QList<VisualItem*> list)
-{
-    std::map<bool, int> map= {{true, 0}, {false, 0}};
-    for(VisualItem* item : list)
-    {
-        auto val= item->isHoldSize();
-        map[val]= ++map[val];
-    }
 
-    auto count= list.size();
-    auto val= true;
-    if(map[true] == count || map[false] == count)
-    {
-        val= (map[false] == count);
-    }
-
-    std::for_each(list.begin(), list.end(), [val](VisualItem* item) { item->setHoldSize(val); });
-}
-void RGraphicsView::normalizeSize(Method method)
+void RGraphicsView::setRotation(const QList<vmap::VisualItemController*>& list, int value)
 {
-    if(nullptr != m_vmap)
-    {
-        m_vmap->addCommand(new ChangeSizeVmapItemCommand(m_vmap, method, mapToScene(m_menuPoint)));
-    }
+    std::for_each(list.begin(), list.end(), [value](vmap::VisualItemController* ctrl) { ctrl->setRotation(value); });
 }
 
-void RGraphicsView::setItemLayer(QList<VisualItem*> list, Core::Layer layer)
+void RGraphicsView::lockItems(const QList<vmap::VisualItemController*>& list)
 {
-    for(VisualItem* item : list)
-    {
-        if(nullptr != item)
-        {
-            // item->setLayer(layer);
-        }
-    }
+    auto locked= std::all_of(list.begin(), list.end(), [](vmap::VisualItemController* ctrl) { return ctrl->locked(); });
+    bool val= locked ? false : true;
+    std::for_each(list.begin(), list.end(), [val](vmap::VisualItemController* ctrl) { ctrl->setLocked(val); });
 }
-void RGraphicsView::deleteItem(QList<VisualItem*> list)
-{
-    if(!m_vmap)
-        return;
 
-    std::for_each(list.begin(), list.end(), [this](VisualItem* vItem) { m_vmap->removeItemFromScene(vItem->getId()); });
-}
-void RGraphicsView::changeZValue(QList<VisualItem*> list, VisualItem::StackOrder order)
+void RGraphicsView::setItemLayer(const QList<vmap::VisualItemController*>& list, Core::Layer layer)
 {
-    for(VisualItem* item : list)
+    std::for_each(list.begin(), list.end(), [layer](vmap::VisualItemController* ctrl) { ctrl->setLayer(layer); });
+}
+void RGraphicsView::deleteItem(const QList<vmap::VisualItemController*>& list)
+{
+    qDebug() << "delete Item" << list.size();
+    m_ctrl->aboutToRemove(list);
+
+    /*std::for_each(list.begin(), list.end(), [this](vmap::VisualItemController* itemController) {
+        m_ctrl->removeItemController(itemController->uuid());
+    });*/
+}
+void RGraphicsView::changeZValue(const QList<vmap::VisualItemController*>& list, VisualItem::StackOrder order)
+{
+    for(auto ctrl : list)
     {
-        if((nullptr != m_vmap) && (item != nullptr))
-        {
-            m_vmap->changeStackOrder(item, order);
-        }
+        // m_ctrl->changeStackOrder(ctrl, order);
     }
 }
 
@@ -524,13 +508,16 @@ void RGraphicsView::createAction()
     m_raiseAction->setData(VisualItem::RAISE);
 
     m_normalizeSizeAverage= new QAction(tr("Average"), this);
-    connect(m_normalizeSizeAverage, &QAction::triggered, this, [=]() { normalizeSize(Average); });
+    m_normalizeSizeAverage->setData(VectorialMapController::Average);
+
     m_normalizeSizeUnderMouse= new QAction(tr("As undermouse item"), this);
-    connect(m_normalizeSizeUnderMouse, &QAction::triggered, this, [=]() { normalizeSize(UnderMouse); });
+    m_normalizeSizeUnderMouse->setData(VectorialMapController::UnderMouse);
+
     m_normalizeSizeBigger= new QAction(tr("As the Bigger"), this);
-    connect(m_normalizeSizeBigger, &QAction::triggered, this, [=]() { normalizeSize(Bigger); });
+    m_normalizeSizeBigger->setData(VectorialMapController::Bigger);
+
     m_normalizeSizeSmaller= new QAction(tr("As the Smaller"), this);
-    connect(m_normalizeSizeSmaller, &QAction::triggered, this, [=]() { normalizeSize(Smaller); });
+    m_normalizeSizeSmaller->setData(VectorialMapController::Smaller);
 
     m_lockSize= new QAction(tr("Lock/Unlock Item Geometry"), this);
 
@@ -647,7 +634,7 @@ void RGraphicsView::rollInit()
     {
         apply= Core::SelectionOnly;
     }
-    m_vmap->rollInit(apply);
+    //  m_vmap->rollInit(apply);
 }
 void RGraphicsView::cleanInit()
 {
@@ -664,7 +651,7 @@ void RGraphicsView::cleanInit()
     {
         apply= Core::SelectionOnly;
     }
-    m_vmap->cleanUpInit(apply);
+    // m_vmap->cleanUpInit(apply);
 }
 
 void RGraphicsView::sendOffMapChange()
@@ -672,8 +659,8 @@ void RGraphicsView::sendOffMapChange()
     if((m_ctrl->localGM()) || (m_ctrl->permission() == Core::PC_ALL))
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::vmapChanges);
-        msg.string8(m_vmap->getId());
-        m_vmap->fill(msg);
+        //   msg.string8(m_vmap->getId());
+        //   m_vmap->fill(msg);
         msg.sendToServer();
     }
 }
@@ -831,7 +818,7 @@ void RGraphicsView::addImageToMap()
         this, tr("Open image file"), m_preferences->value("ImageDirectory", QDir::homePath()).toString(),
         m_preferences->value("ImageFileFilter", "*.jpg *.jpeg *.png *.bmp *.svg").toString());
 
-    if(nullptr != m_vmap)
+    // if(nullptr != m_vmap)
     {
         // m_vmap->addImageItem(imageToLoad);
     }

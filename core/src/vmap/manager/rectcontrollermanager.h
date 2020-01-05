@@ -38,10 +38,11 @@ public:
     RectControllerManager(VectorialMapController* ctrl);
 
     QString addItem(const std::map<QString, QVariant>& params) override;
+    void addController(vmap::VisualItemController* controller) override;
     void removeItem(const QString& id) override;
 
 signals:
-    void rectControllerCreated(vmap::RectController* ctrl);
+    void rectControllerCreated(vmap::RectController* ctrl, bool editing);
 
 private:
     std::vector<std::unique_ptr<vmap::RectController>> m_controllers;

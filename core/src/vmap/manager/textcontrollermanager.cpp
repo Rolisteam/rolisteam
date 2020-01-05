@@ -35,6 +35,17 @@ QString TextControllerManager::addItem(const std::map<QString, QVariant>& params
     return id;
 }
 
+void TextControllerManager::addController(vmap::VisualItemController* controller)
+{
+    auto textCtrl= dynamic_cast<vmap::TextController*>(controller);
+    if(nullptr == textCtrl)
+        return;
+
+    std::unique_ptr<vmap::TextController> text(textCtrl);
+    emit textControllerCreated(text.get());
+    m_controllers.push_back(std::move(text));
+}
+
 void TextControllerManager::removeItem(const QString& id)
 {
     auto it= std::find_if(m_controllers.begin(), m_controllers.end(),

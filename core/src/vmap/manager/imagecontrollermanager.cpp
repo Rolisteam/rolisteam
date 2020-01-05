@@ -35,6 +35,17 @@ QString ImageControllerManager::addItem(const std::map<QString, QVariant>& param
     return id;
 }
 
+void ImageControllerManager::addController(vmap::VisualItemController* controller)
+{
+    auto image= dynamic_cast<vmap::ImageController*>(controller);
+    if(nullptr == image)
+        return;
+
+    std::unique_ptr<vmap::ImageController> imageCtrl(image);
+    emit imageControllerCreated(imageCtrl.get());
+    m_controllers.push_back(std::move(imageCtrl));
+}
+
 void ImageControllerManager::removeItem(const QString& id)
 {
     auto it= std::find_if(m_controllers.begin(), m_controllers.end(),

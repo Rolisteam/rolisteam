@@ -38,11 +38,24 @@ QString CharacterItemControllerManager::addItem(const std::map<QString, QVariant
     return id;
 }
 
+void CharacterItemControllerManager::addController(vmap::VisualItemController* controller)
+{
+    auto characterCtrl= dynamic_cast<vmap::CharacterItemController*>(controller);
+    if(nullptr == characterCtrl)
+        return;
+
+    std::unique_ptr<vmap::CharacterItemController> ctrl(characterCtrl);
+    emit characterControllerCreated(ctrl.get());
+    if(ctrl->playableCharacter())
+        emit playableCharacterControllerCreated();
+    m_controllers.push_back(std::move(ctrl));
+}
+
 int CharacterItemControllerManager::playableCharacterCount() const
 {
-    return std::count_if(
+    return static_cast<int>(std::count_if(
         m_controllers.begin(), m_controllers.end(),
-        [](const std::unique_ptr<vmap::CharacterItemController>& ctrl) { return ctrl->playableCharacter(); });
+        [](const std::unique_ptr<vmap::CharacterItemController>& ctrl) { return ctrl->playableCharacter(); }));
 }
 
 void CharacterItemControllerManager::removeItem(const QString& id)

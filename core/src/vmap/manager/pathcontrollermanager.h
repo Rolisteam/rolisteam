@@ -39,10 +39,11 @@ public:
     explicit PathControllerManager(VectorialMapController* ctrl, QObject* parent= nullptr);
 
     QString addItem(const std::map<QString, QVariant>& params) override;
+    void addController(vmap::VisualItemController* controller) override;
     void removeItem(const QString& id) override;
 
 signals:
-    void pathControllerCreated(vmap::PathController* ctrl);
+    void pathControllerCreated(vmap::PathController* ctrl, bool editing);
 
 private:
     std::vector<std::unique_ptr<vmap::PathController>> m_controllers;

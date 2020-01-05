@@ -27,10 +27,21 @@ LineControllerManager::LineControllerManager(VectorialMapController* ctrl) : m_c
 QString LineControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
     std::unique_ptr<vmap::LineController> line(new vmap::LineController(params, m_ctrl));
-    emit LineControllerCreated(line.get());
+    emit LineControllerCreated(line.get(), true);
     auto id= line->uuid();
     m_controllers.push_back(std::move(line));
     return id;
+}
+
+void LineControllerManager::addController(vmap::VisualItemController* controller)
+{
+    auto line= dynamic_cast<vmap::LineController*>(controller);
+    if(nullptr == line)
+        return;
+
+    std::unique_ptr<vmap::LineController> lineCtrl(line);
+    emit LineControllerCreated(lineCtrl.get(), false);
+    m_controllers.push_back(std::move(lineCtrl));
 }
 
 void LineControllerManager::removeItem(const QString& id)

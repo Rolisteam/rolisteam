@@ -39,10 +39,11 @@ public:
     EllipsControllerManager(VectorialMapController* ctrl);
 
     QString addItem(const std::map<QString, QVariant>& params) override;
+    void addController(vmap::VisualItemController* controller) override;
     void removeItem(const QString& id) override;
 
 signals:
-    void ellipsControllerCreated(vmap::EllipseController* ctrl);
+    void ellipsControllerCreated(vmap::EllipseController* ctrl, bool editing);
 
 private:
     std::vector<std::unique_ptr<vmap::EllipseController>> m_controllers;

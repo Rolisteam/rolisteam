@@ -27,10 +27,21 @@ EllipsControllerManager::EllipsControllerManager(VectorialMapController* ctrl) :
 QString EllipsControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
     std::unique_ptr<vmap::EllipseController> ellipse(new vmap::EllipseController(params, m_ctrl));
-    emit ellipsControllerCreated(ellipse.get());
+    emit ellipsControllerCreated(ellipse.get(), true);
     auto id= ellipse->uuid();
     m_controllers.push_back(std::move(ellipse));
     return id;
+}
+
+void EllipsControllerManager::addController(vmap::VisualItemController* controller)
+{
+    auto ellipseCtrl= dynamic_cast<vmap::EllipseController*>(controller);
+    if(nullptr == ellipseCtrl)
+        return;
+
+    std::unique_ptr<vmap::EllipseController> ellipse(ellipseCtrl);
+    emit ellipsControllerCreated(ellipse.get(), false);
+    m_controllers.push_back(std::move(ellipse));
 }
 
 void EllipsControllerManager::removeItem(const QString& id)
