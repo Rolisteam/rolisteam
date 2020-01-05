@@ -39,6 +39,9 @@ ImageController::ImageController(const std::map<QString, QVariant>& params, Vect
                                  QObject* parent)
     : VisualItemController(ctrl, parent)
 {
+
+    m_tool= Core::SelectableTool::IMAGE;
+
     if(params.end() != params.find("position"))
         setPos(params.at(QStringLiteral("position")).toPointF());
 

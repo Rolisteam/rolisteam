@@ -30,8 +30,10 @@ EllipseController::EllipseController(const std::map<QString, QVariant>& params, 
         setColor(params.at(QStringLiteral("color")).value<QColor>());
 
     if(params.end() != params.find("tool"))
-        m_filled
-            = (params.at(QStringLiteral("tool")).value<Core::SelectableTool>() == Core::SelectableTool::FILLEDELLIPSE);
+    {
+        m_tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
+        m_filled= (m_tool == Core::SelectableTool::FILLEDELLIPSE);
+    }
 
     if(params.end() != params.find("penWidth"))
         m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
@@ -72,12 +74,9 @@ void EllipseController::aboutToBeRemoved()
 
 void EllipseController::endGeometryChange() {}
 
-void EllipseController::setColor(QColor color)
+QRectF EllipseController::rect() const
 {
-    if(color == m_color)
-        return;
-    m_color= color;
-    emit colorChanged();
+    return QRectF(-rx(), -ry(), rx() * 2, ry() * 2);
 }
 
 void EllipseController::setCorner(const QPointF& move, int corner)

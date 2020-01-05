@@ -20,25 +20,30 @@
 #ifndef CHANGESIZEVMAPITEMCOMMAND_H
 #define CHANGESIZEVMAPITEMCOMMAND_H
 
-#include "vmap/rgraphicsview.h"
-#include "vmap/vmap.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include <QPointF>
+#include <QPointer>
 #include <QUndoCommand>
+
+struct ChangeSizeData
+{
+    vmap::VisualItemController* m_ctrl;
+    QPointF m_move;
+    QPointF m_resetMove;
+};
 
 class ChangeSizeVmapItemCommand : public QUndoCommand
 {
 public:
-    ChangeSizeVmapItemCommand(
-        VMap* canvas, RGraphicsView::Method method, QPointF mousePos, QUndoCommand* parent= nullptr);
+    ChangeSizeVmapItemCommand(const QList<vmap::VisualItemController*>& list, VectorialMapController::Method method,
+                              const QPointF& mousePos, QUndoCommand* parent= nullptr);
 
     void undo() override;
     void redo() override;
 
 private:
-    VMap* m_vmap= nullptr;
-    QList<VisualItem*> m_targetItem;
-    QList<QSizeF> m_originalSize;
-    QSizeF m_newSize;
+    QPointer<VectorialMapController> m_vmapCtrl;
+    std::vector<ChangeSizeData> m_data;
 };
 
 #endif // CHANGESIZEVMAPITEMCOMMAND_H

@@ -19,11 +19,15 @@
  ***************************************************************************/
 #include "vectorialmapcontroller.h"
 
+#include <set>
+
 #include "data/cleveruri.h"
 #include "vmap/vmap.h"
 
 #include "undoCmd/addfogofwarchangecommand.h"
 #include "undoCmd/addvmapitem.h"
+#include "undoCmd/changesizevmapitem.h"
+#include "undoCmd/deletevmapitem.h"
 
 #include "vmap/controller/characteritemcontroller.h"
 #include "vmap/controller/ellipsecontroller.h"
@@ -44,6 +48,18 @@
 #include "vmap/manager/textcontrollermanager.h"
 
 #include "worker/iohelper.h"
+
+const std::set<VisualItemControllerManager*>
+allControllers(const std::map<Core::SelectableTool, VisualItemControllerManager*>& itemControllers)
+{
+    std::set<VisualItemControllerManager*> set;
+
+    std::transform(
+        itemControllers.begin(), itemControllers.end(), std::inserter(set, set.end()),
+        [](std::pair<Core::SelectableTool, VisualItemControllerManager*> itemManager) { return itemManager.second; });
+
+    return set;
+}
 
 VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
     : AbstractMediaContainerController(uri, parent) /*, m_vmap(new VMap(this))*/
@@ -499,7 +515,13 @@ void VectorialMapController::insertItemAt(const std::map<QString, QVariant>& par
         return;
 
     auto ctrl= m_itemControllers.at(tool);
+    setIdle(false);
     emit performCommand(new AddVmapItemCommand(this, ctrl, params));
+}
+
+void VectorialMapController::aboutToRemove(const QList<vmap::VisualItemController*>& list)
+{
+    emit performCommand(new DeleteVmapItemCommand(this, list));
 }
 
 void VectorialMapController::changeFogOfWar(const QPolygonF& poly, bool mask)
@@ -574,12 +596,38 @@ CharacterItemControllerManager* VectorialMapController::characterManager() const
     return m_characterControllerManager.get();
 }
 
+VisualItemControllerManager* VectorialMapController::manager(Core::SelectableTool tool) const
+{
+    if(m_itemControllers.end() == m_itemControllers.find(tool))
+        return nullptr;
+
+    return m_itemControllers.at(tool);
+}
+
+bool VectorialMapController::idle() const
+{
+    return m_idle;
+}
+
+void VectorialMapController::setIdle(bool b)
+{
+    if(b == m_idle)
+        return;
+    m_idle= b;
+    emit idleChanged();
+}
+
+void VectorialMapController::normalizeSize(const QList<vmap::VisualItemController*>& list, Method method,
+                                           const QPointF& mousePos)
+{
+    emit performCommand(new ChangeSizeVmapItemCommand(list, method, mousePos));
+}
+
 void VectorialMapController::removeItemController(QString uuid)
 {
-    std::for_each(m_itemControllers.begin(), m_itemControllers.end(),
-                  [uuid](std::pair<Core::SelectableTool, VisualItemControllerManager*> itemManager) {
-                      itemManager.second->removeItem(uuid);
-                  });
+    auto set= allControllers(m_itemControllers);
+    std::for_each(set.begin(), set.end(),
+                  [uuid](VisualItemControllerManager* itemManager) { itemManager->removeItem(uuid); });
     /* auto it
          = std::find_if(m_items.begin(), m_items.end(), [uuid](const std::unique_ptr<VisualItemController>& itemCtrl) {
                return itemCtrl->uuid() == uuid;

@@ -47,6 +47,7 @@ public:
     QPointF startPoint() const;
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
+    QRectF rect() const override;
 
 signals:
     void colorChanged();

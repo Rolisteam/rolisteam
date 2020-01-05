@@ -46,10 +46,12 @@ public:
     const std::vector<QPointF>& points() const;
     QPointF pointAt(int corner) const;
     bool penLine() const;
+    QPainterPath path() const;
 
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
     void setCorner(const QPointF& move, int corner) override;
+    QRectF rect() const override;
     void addPoint(const QPointF& po);
 
 public slots:

@@ -251,6 +251,11 @@ qreal CharacterItemController::radius() const
     return m_radius;
 }
 
+QRectF CharacterItemController::rect() const
+{
+    return thumnailRect();
+}
+
 void CharacterItemController::refreshTextRect()
 {
     auto subtext= text();

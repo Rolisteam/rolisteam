@@ -81,6 +81,7 @@ public:
     QPainterPath shape() const;
     CharacterVision* vision() const;
     qreal radius() const;
+    QRectF rect() const override;
 
 public slots:
     void setSide(qreal side);

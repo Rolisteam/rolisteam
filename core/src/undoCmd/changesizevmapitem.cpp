@@ -19,99 +19,90 @@
  ***************************************************************************/
 #include "changesizevmapitem.h"
 
-#include "vmap/items/visualitem.h"
+#include "vmap/controller/visualitemcontroller.h"
+#include <QDebug>
 
-ChangeSizeVmapItemCommand::ChangeSizeVmapItemCommand(
-    VMap* vmap, RGraphicsView::Method method, QPointF mousePos, QUndoCommand* parent)
-    : QUndoCommand(parent), m_vmap(vmap)
+ChangeSizeVmapItemCommand::ChangeSizeVmapItemCommand(const QList<vmap::VisualItemController*>& list,
+                                                     VectorialMapController::Method method, const QPointF& mousePos,
+                                                     QUndoCommand* parent)
+    : QUndoCommand(parent)
 {
-    if(nullptr != m_vmap)
+    m_data.reserve(static_cast<std::size_t>(list.size()));
+    QRectF ref;
+    if(method == VectorialMapController::Bigger)
     {
-        auto list= m_vmap->selectedItems();
-        QSizeF finalRect;
-        if(RGraphicsView::UnderMouse == method)
-        {
-            auto items= m_vmap->items(mousePos);
-            for(auto item : items)
-            {
-                auto vItem= dynamic_cast<VisualItem*>(item);
-                if(vItem != nullptr)
-                {
-                    if(vItem->isVisible() && vItem->getType() != VisualItem::GRID
-                        && vItem->getType() != VisualItem::SIGHT)
-                    {
-                        finalRect= vItem->boundingRect().size();
-                        break;
-                    }
-                }
-            }
-            m_newSize= finalRect;
-        }
-        for(auto item : list)
-        {
-            auto vItem= dynamic_cast<VisualItem*>(item);
-            if(vItem != nullptr)
-            {
-                if(!m_targetItem.contains(vItem) && vItem->isVisible() && vItem->getType() != VisualItem::GRID
-                    && vItem->getType() != VisualItem::SIGHT)
-                {
-                    auto size= vItem->boundingRect().size();
-                    m_targetItem.append(vItem);
-                    m_originalSize.append(size);
-                    if(method == RGraphicsView::Bigger)
-                    {
-                        finalRect= std::max(finalRect, size, [](const QSizeF& a, const QSizeF& b) {
-                            return a.width() * a.height() < b.width() * b.height();
-                        });
-                    }
-                    else if(method == RGraphicsView::Smaller)
-                    {
-                        if(!finalRect.isValid())
-                        {
-                            finalRect= size;
-                        }
-                        finalRect= std::min(finalRect, size, [](const QSizeF& a, const QSizeF& b) {
-                            return a.width() * a.height() < b.width() * b.height();
-                        });
-                    }
-                    else if(method == RGraphicsView::Average)
-                    {
-                        finalRect= finalRect.isValid() ? (size + finalRect) / 2 : size;
-                    }
-                }
-            }
-            m_newSize= finalRect;
-        }
-        setText(QObject::tr("Change size of %1 item(s)").arg(m_targetItem.size()));
+        auto it= std::max_element(std::begin(list), std::end(list),
+                                  [](vmap::VisualItemController* a, vmap::VisualItemController* b) {
+                                      auto areaA= a->rect().height() * a->rect().width();
+                                      auto areaB= b->rect().height() * b->rect().width();
+                                      return areaA < areaB;
+                                  });
+        ref= (*it)->rect();
     }
+    else if(method == VectorialMapController::Smaller)
+    {
+        auto it= std::min_element(std::begin(list), std::end(list),
+                                  [](vmap::VisualItemController* a, vmap::VisualItemController* b) {
+                                      auto areaA= a->rect().height() * a->rect().width();
+                                      auto areaB= b->rect().height() * b->rect().width();
+                                      return areaA < areaB;
+                                  });
+        ref= (*it)->rect();
+    }
+    else if(method == VectorialMapController::Average)
+    {
+        qreal averageHeight= 0.0;
+        qreal averageWidth= 0.0;
+        std::for_each(std::begin(list), std::end(list), [&averageHeight, &averageWidth](vmap::VisualItemController* a) {
+            averageHeight+= a->rect().height();
+            averageWidth+= a->rect().width();
+        });
+        averageWidth/= list.size();
+        averageHeight/= list.size();
+        ref= QRectF(0.0, 0.0, averageWidth, averageHeight);
+    }
+    else if(method == VectorialMapController::UnderMouse)
+    {
+        auto it= std::find_if(std::begin(list), std::end(list), [mousePos](vmap::VisualItemController* a) {
+            auto rect= a->rect();
+            rect.translate(a->pos());
+            return rect.contains(mousePos);
+        });
+
+        if(it == std::end(list))
+            qCritical() << "ChangeSizeVmapItemCommand - no item under the mouse";
+        else
+            ref= (*it)->rect();
+    }
+
+    if(!ref.isEmpty())
+    {
+        std::transform(std::begin(list), std::end(list), std::back_inserter(m_data),
+                       [ref](vmap::VisualItemController* a) -> ChangeSizeData {
+                           ChangeSizeData data;
+                           data.m_ctrl= a;
+                           auto rect= a->rect();
+                           data.m_move= QPointF(ref.width() - rect.width(), ref.height() - rect.height());
+                           data.m_resetMove= QPointF(-data.m_move.x(), -data.m_move.y());
+                           return data;
+                       });
+    }
+
+    setText(QObject::tr("Change size of %1 item(s)").arg(list.size()));
 }
 
 void ChangeSizeVmapItemCommand::undo()
 {
     qInfo() << QStringLiteral("undo command ChangeSizeVmapItemCommand: %1 ").arg(text());
-    Q_ASSERT(m_targetItem.size() == m_originalSize.size());
-    int i= 0;
-    for(auto& item : m_targetItem)
-    {
-        if(item == nullptr)
-            continue;
-
-        auto size= m_originalSize[i];
-        item->setSize(size);
-        item->sendRectGeometryMsg();
-        ++i;
-    }
+    std::for_each(std::begin(m_data), std::end(m_data),
+                  [](const ChangeSizeData& data) { data.m_ctrl->setCorner(data.m_resetMove, 2); });
 }
 
 void ChangeSizeVmapItemCommand::redo()
 {
     qInfo() << QStringLiteral("redo command ChangeSizeVmapItemCommand: %1 ").arg(text());
-    if(!m_newSize.isValid())
-        return;
-
-    for(auto& item : m_targetItem)
-    {
-        item->setSize(m_newSize);
-        item->sendRectGeometryMsg();
-    }
+    std::for_each(std::begin(m_data), std::end(m_data), [](const ChangeSizeData& data) {
+        qDebug() << data.m_move;
+        data.m_ctrl->setCorner(data.m_move, 2);
+    });
 }

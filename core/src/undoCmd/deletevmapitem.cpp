@@ -18,21 +18,25 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "deletevmapitem.h"
-#include "network/networkmessagewriter.h"
-#include <QGraphicsScene>
 
-DeleteVmapItemCommand::DeleteVmapItemCommand(VMap* map, VisualItem* item, bool sendToAll, QUndoCommand* parent)
-    : QUndoCommand(parent), m_vmap(map), m_currentItem(item), m_sendToAll(sendToAll)
+#include "controller/view_controller/vectorialmapcontroller.h"
+#include "vmap/controller/visualitemcontroller.h"
+#include "vmap/manager/visualitemcontrollermanager.h"
+
+DeleteVmapItemCommand::DeleteVmapItemCommand(VectorialMapController* ctrl,
+                                             const QList<vmap::VisualItemController*>& list, QUndoCommand* parent)
+    : QUndoCommand(parent), m_ctrl(ctrl), m_itemCtrls(list)
 {
-    m_visible= m_currentItem->isVisible();
-
-    // setText(QObject::tr("Delete Item From Map %1").arg(m_vmap->getMapTitle()));
+    setText(QObject::tr("Delete %1 Item(s) From Map %1").arg(list.size()));
 }
 
 void DeleteVmapItemCommand::redo()
 {
     qInfo() << QStringLiteral("redo command DeleteVmapItemCommand: %1 ").arg(text());
-    m_vmap->removeItem(m_currentItem);
+
+    std::for_each(m_itemCtrls.begin(), m_itemCtrls.end(),
+                  [this](vmap::VisualItemController* itemCtrl) { m_ctrl->removeItemController(itemCtrl->uuid()); });
+    /*m_vmap->removeItem(m_currentItem);
     m_vmap->removeItemFromData(m_currentItem);
     m_vmap->update();
 
@@ -42,13 +46,18 @@ void DeleteVmapItemCommand::redo()
         msg.string8(m_vmap->getId());         // id map
         msg.string16(m_currentItem->getId()); // id item
         msg.sendToServer();
-    }
+    }*/
 }
 
 void DeleteVmapItemCommand::undo()
 {
     qInfo() << QStringLiteral("undo command DeleteVmapItemCommand: %1 ").arg(text());
-    if(nullptr != m_currentItem)
+
+    std::for_each(m_itemCtrls.begin(), m_itemCtrls.end(), [this](vmap::VisualItemController* itemCtrl) {
+        auto manager= m_ctrl->manager(itemCtrl->tool());
+        manager->addController(itemCtrl);
+    });
+    /*if(nullptr != m_currentItem)
     {
         m_vmap->setFocusItem(m_currentItem);
         m_vmap->QGraphicsScene::addItem(m_currentItem);
@@ -57,10 +66,10 @@ void DeleteVmapItemCommand::undo()
         m_vmap->addItemFromData(m_currentItem);
         m_vmap->update();
 
-        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
+       NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
         msg.string8(m_vmap->getId());
         msg.uint8(m_currentItem->getType());
         m_currentItem->fillMessage(&msg);
         msg.sendToServer();
-    }
+    }*/
 }
