@@ -40,7 +40,7 @@ GameController::GameController(QObject* parent)
     , m_networkCtrl(new NetworkController)
     , m_playerController(new PlayerController)
     , m_preferencesDialogController(new PreferencesController)
-    , m_contentCtrl(new ContentController)
+    , m_contentCtrl(new ContentController(m_networkCtrl.get()))
     , m_preferences(new PreferencesManager)
     , m_undoStack(new QUndoStack)
 {
