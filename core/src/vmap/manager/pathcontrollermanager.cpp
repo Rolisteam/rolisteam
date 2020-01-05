@@ -30,10 +30,21 @@ PathControllerManager::PathControllerManager(VectorialMapController* ctrl, QObje
 QString PathControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
     std::unique_ptr<vmap::PathController> path(new vmap::PathController(params, m_ctrl));
-    emit pathControllerCreated(path.get());
+    emit pathControllerCreated(path.get(), true);
     auto id= path->uuid();
     m_controllers.push_back(std::move(path));
     return id;
+}
+
+void PathControllerManager::addController(vmap::VisualItemController* controller)
+{
+    auto path= dynamic_cast<vmap::PathController*>(controller);
+    if(nullptr == path)
+        return;
+
+    std::unique_ptr<vmap::PathController> pathCtrl(path);
+    emit pathControllerCreated(pathCtrl.get(), false);
+    m_controllers.push_back(std::move(pathCtrl));
 }
 
 void PathControllerManager::removeItem(const QString& id)

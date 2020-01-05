@@ -22,6 +22,11 @@
 
 #include <QObject>
 
+namespace vmap
+{
+class VisualItemController;
+}
+
 class VisualItemControllerManager : public QObject
 {
     Q_OBJECT
@@ -29,6 +34,7 @@ public:
     explicit VisualItemControllerManager(QObject* parent= nullptr);
 
     virtual QString addItem(const std::map<QString, QVariant>& params)= 0;
+    virtual void addController(vmap::VisualItemController* controller)= 0;
     virtual void removeItem(const QString& id)= 0;
 };
 

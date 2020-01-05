@@ -347,11 +347,11 @@ protected:
     void ensureFogAboveAll();
     bool isItemStorable(VisualItem* item);
 
-    void addRectItem(vmap::RectController* rectCtrl);
-    void addEllipseItem(vmap::EllipseController* ellisCtrl);
-    void addLineItem(vmap::LineController* lineCtrl);
+    void addRectItem(vmap::RectController* rectCtrl, bool editing);
+    void addEllipseItem(vmap::EllipseController* ellisCtrl, bool editing);
+    void addLineItem(vmap::LineController* lineCtrl, bool editing);
     void addImageItem(vmap::ImageController* imgCtrl);
-    void addPathItem(vmap::PathController* pathCtrl);
+    void addPathItem(vmap::PathController* pathCtrl, bool editing);
     void addTextItem(vmap::TextController* textCtrl);
     void addCharaterItem(vmap::CharacterItemController* itemCtrl);
 

@@ -39,10 +39,11 @@ public:
     LineControllerManager(VectorialMapController* ctrl);
 
     QString addItem(const std::map<QString, QVariant>& params) override;
+    void addController(vmap::VisualItemController* controller) override;
     void removeItem(const QString& id) override;
 
 signals:
-    void LineControllerCreated(vmap::LineController* ctrl);
+    void LineControllerCreated(vmap::LineController* ctrl, bool editing);
 
 private:
     std::vector<std::unique_ptr<vmap::LineController>> m_controllers;

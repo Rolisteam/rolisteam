@@ -133,11 +133,13 @@ void VMap::updateLayer()
         item->updateItemFlags();
     }
 }
-void VMap::addLineItem(vmap::LineController* lineCtrl)
+void VMap::addLineItem(vmap::LineController* lineCtrl, bool editing)
 {
-    m_currentItem= new LineItem(lineCtrl);
-    addItem(m_currentItem);
-    m_currentItem->setPos(lineCtrl->pos());
+    auto item= new LineItem(lineCtrl);
+    addItem(item);
+    item->setPos(lineCtrl->pos());
+    if(editing)
+        m_currentItem= item;
 }
 
 void VMap::addImageItem(vmap::ImageController* imgCtrl)
@@ -147,18 +149,22 @@ void VMap::addImageItem(vmap::ImageController* imgCtrl)
     img->setPos(imgCtrl->pos());
 }
 
-void VMap::addRectItem(vmap::RectController* rectCtrl)
+void VMap::addRectItem(vmap::RectController* rectCtrl, bool editing)
 {
-    m_currentItem= new RectItem(rectCtrl);
-    addItem(m_currentItem);
-    m_currentItem->setPos(rectCtrl->pos());
+    auto item= new RectItem(rectCtrl);
+    addItem(item);
+    item->setPos(rectCtrl->pos());
+    if(editing)
+        m_currentItem= item;
 }
 
-void VMap::addEllipseItem(vmap::EllipseController* ellisCtrl)
+void VMap::addEllipseItem(vmap::EllipseController* ellisCtrl, bool editing)
 {
-    m_currentItem= new EllipsItem(ellisCtrl);
-    addItem(m_currentItem);
-    m_currentItem->setPos(ellisCtrl->pos());
+    auto item= new EllipsItem(ellisCtrl);
+    addItem(item);
+    item->setPos(ellisCtrl->pos());
+    if(editing)
+        m_currentItem= item;
 }
 
 void VMap::addTextItem(vmap::TextController* textCtrl)
@@ -175,17 +181,20 @@ void VMap::addCharaterItem(vmap::CharacterItemController* itemCtrl)
     tmp->setPos(itemCtrl->pos());
 }
 
-void VMap::addPathItem(vmap::PathController* pathCtrl)
+void VMap::addPathItem(vmap::PathController* pathCtrl, bool editing)
 {
     auto path= new PathItem(pathCtrl);
 
-    m_currentItem= path;
-    if(!pathCtrl->penLine())
+    if(editing)
     {
-        m_currentPath= path;
+        m_currentItem= path;
+        if(!pathCtrl->penLine())
+        {
+            m_currentPath= path;
+        }
     }
-    addItem(m_currentItem);
-    m_currentItem->setPos(pathCtrl->pos());
+    addItem(path);
+    path->setPos(pathCtrl->pos());
 }
 
 /*void VMap::initScene()

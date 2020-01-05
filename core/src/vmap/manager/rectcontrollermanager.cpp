@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "rectcontrollermanager.h"
 
+#include <QDebug>
 #include <QVariant>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
@@ -29,10 +30,21 @@ RectControllerManager::RectControllerManager(VectorialMapController* ctrl) : m_c
 QString RectControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
     std::unique_ptr<vmap::RectController> rect(new vmap::RectController(params, m_ctrl));
-    emit rectControllerCreated(rect.get());
+    emit rectControllerCreated(rect.get(), true);
     auto id= rect->uuid();
     m_controllers.push_back(std::move(rect));
     return id;
+}
+
+void RectControllerManager::addController(vmap::VisualItemController* controller)
+{
+    auto rectCtrl= dynamic_cast<vmap::RectController*>(controller);
+    if(nullptr == rectCtrl)
+        return;
+
+    std::unique_ptr<vmap::RectController> ctrl(rectCtrl);
+    emit rectControllerCreated(ctrl.get(), false);
+    m_controllers.push_back(std::move(ctrl));
 }
 
 void RectControllerManager::removeItem(const QString& id)
@@ -44,5 +56,6 @@ void RectControllerManager::removeItem(const QString& id)
         return;
 
     (*it)->aboutToBeRemoved();
+    it->release();
     m_controllers.erase(it);
 }

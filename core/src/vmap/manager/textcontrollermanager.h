@@ -38,6 +38,7 @@ public:
     TextControllerManager(VectorialMapController* ctrl);
 
     QString addItem(const std::map<QString, QVariant>& params) override;
+    void addController(vmap::VisualItemController* controller) override;
     void removeItem(const QString& id) override;
 
 signals:
