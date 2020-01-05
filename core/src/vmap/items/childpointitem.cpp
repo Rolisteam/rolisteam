@@ -34,15 +34,19 @@
 
 #define SQUARE_SIZE 6
 
-ChildPointItem::ChildPointItem(vmap::VisualItemController* ctrl, int point, VisualItem* parent, bool isVision)
-    : QGraphicsObject(parent)
-    , m_ctrl(ctrl)
-    , m_pointId(point)
-    , m_parent(parent)
-    , m_allowRotation(false)
-    , m_vision(isVision)
+bool allowResizing(ChildPointItem::Change change)
 {
-    m_currentMotion= ALL;
+    return (change == ChildPointItem::None || change == ChildPointItem::Resizing);
+}
+
+bool allowRotation(ChildPointItem::Change change)
+{
+    return (change == ChildPointItem::None || change == ChildPointItem::Rotation);
+}
+
+ChildPointItem::ChildPointItem(vmap::VisualItemController* ctrl, int point, VisualItem* parent, bool isVision)
+    : QGraphicsObject(parent), m_ctrl(ctrl), m_pointId(point), m_parent(parent), m_vision(isVision)
+{
     m_editable= true;
     // connect(m_ctrl, &vmap::VisualItemController::rotationChanged, this, [this]() { setRotation(-m_ctrl->rotation());
     // });
@@ -56,33 +60,33 @@ ChildPointItem::~ChildPointItem() {}
 
 QVariant ChildPointItem::itemChange(GraphicsItemChange change, const QVariant& value)
 {
-    if(!m_editable)
-        return QGraphicsItem::itemChange(change, value);
+    /*   if(!m_editable)
+           return QGraphicsItem::itemChange(change, value);
 
-    if(change == ItemPositionChange /*&& scene()*/ && isSelected() && m_currentMotion != NONE
-       && m_currentMotion != MOUSE)
-    {
-        QPointF newPos= value.toPointF();
-        switch(m_currentMotion)
-        {
-        case X_AXIS:
-            newPos.setY(pos().y());
-            break;
-        case Y_AXIS:
-            newPos.setX(pos().x());
+       if(change == ItemPositionChange && isSelected() && m_currentMotion != NONE
+          && m_currentMotion != MOUSE)
+       {
+           QPointF newPos= value.toPointF();
+           switch(m_currentMotion)
+           {
+           case X_AXIS:
+               newPos.setY(pos().y());
+               break;
+           case Y_AXIS:
+               newPos.setX(pos().x());
 
-            break;
-        case MOVE:
-            m_parent->setPos(mapToScene(newPos));
-            break;
-        default:
-            break;
-        }
-        if(newPos != value.toPointF())
-        {
-            return newPos;
-        }
-    }
+               break;
+           case MOVE:
+               m_parent->setPos(mapToScene(newPos));
+               break;
+           default:
+               break;
+           }
+           if(newPos != value.toPointF())
+           {
+               return newPos;
+           }
+       }*/
 
     return QGraphicsItem::itemChange(change, value);
 }
@@ -98,18 +102,18 @@ void ChildPointItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
     painter->fillRect(m_startPoint.x(), m_startPoint.y(), 2 * SQUARE_SIZE, 2 * SQUARE_SIZE, Qt::gray);
     painter->drawRect(m_startPoint.x(), m_startPoint.y(), 2 * SQUARE_SIZE, 2 * SQUARE_SIZE);
 }
-void ChildPointItem::setMotion(ChildPointItem::MOTION m)
+void ChildPointItem::setMotion(ChildPointItem::MOTIONS m)
 {
-    m_currentMotion= m;
-    if((MOUSE == m_currentMotion) || (NONE == m_currentMotion))
+    m_motion= m;
+    // if((MOUSE == m_currentMotion) || (NONE == m_currentMotion))
     {
         setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
     }
-    else
-    {
-        setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges
-                 | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
-    }
+    /* else
+     {
+         setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges
+                  | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
+     }*/
 }
 void ChildPointItem::setPlacement(ChildPointItem::PLACEMENT p)
 {
@@ -256,6 +260,7 @@ ChildPointItem::PLACEMENT ChildPointItem::placement() const
             QGraphicsItem::mouseMoveEvent(event);
     }
 }*/
+
 void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
     event->accept();
@@ -265,21 +270,24 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
         QGraphicsItem::mouseMoveEvent(event);
         return;
     }
-    if((m_currentMotion == ChildPointItem::Y_AXIS || m_currentMotion == ChildPointItem::X_AXIS)
-       && (m_currentChange == None || m_currentChange == Resizing))
+    bool hasCtrlModifier= (event->modifiers() & Qt::ControlModifier);
+    bool hasShiftModifier= (event->modifiers() & Qt::ShiftModifier);
+
+    if(!hasCtrlModifier && (m_motion & ChildPointItem::Y_AXIS || m_motion & ChildPointItem::X_AXIS)
+       && allowResizing(m_currentChange))
     {
         m_currentChange= Resizing;
         auto move= event->pos() - event->lastPos();
-        m_currentMotion == ChildPointItem::Y_AXIS ? move.setX(0) : move.setY(0);
+        m_motion& ChildPointItem::Y_AXIS ? move.setX(0) : move.setY(0);
         m_ctrl->setCorner(move, m_pointId);
     }
-    if(!(event->modifiers() & Qt::ControlModifier) && m_currentMotion == MOUSE
-       && (m_currentChange == None || m_currentChange == Resizing))
+
+    if(!hasCtrlModifier && (m_motion & MOVE) && allowResizing(m_currentChange))
     {
         m_currentChange= Resizing;
         VisualItem::TransformType transformType= VisualItem::NoTransform;
 
-        if((event->modifiers() & Qt::ShiftModifier))
+        if(hasShiftModifier)
         {
             transformType= VisualItem::KeepRatio;
         }
@@ -294,15 +302,10 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
         }
 
         auto move= event->pos() - event->lastPos();
-        auto pItem= parentItem();
-        qDebug() << move << pItem->pos() << pItem->boundingRect() << pItem->transformOriginPoint();
-        // move= pTransform.map(move);
-
         m_ctrl->setCorner(move, m_pointId); // mapToScene(pos()) +
     }
 
-    if(((m_currentMotion == MOUSE) || (m_allowRotation)) && (event->modifiers() & Qt::ControlModifier)
-       && (m_currentChange == None || m_currentChange == Rotation))
+    if((m_motion & ROTATION) && hasCtrlModifier && allowRotation(m_currentChange))
     {
         if(v.isNull())
             return;
@@ -315,7 +318,6 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
         qreal newAngle= atan2(v.y(), v.x());
         double dZr= 57.29577951308232 * (newAngle - refAngle); // 180 * a / M_PI
         double zr= m_ctrl->rotation() + dZr;
-
         m_ctrl->setRotation(zr);
     }
     else
@@ -330,21 +332,13 @@ void ChildPointItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
     QGraphicsItem::mouseReleaseEvent(event);
 }
-void ChildPointItem::setRotationEnable(bool allow)
-{
-    m_allowRotation= allow;
-}
+
 void ChildPointItem::setEditableItem(bool b)
 {
     m_editable= b;
-    if((m_editable) && (((MOUSE == m_currentMotion) || (NONE == m_currentMotion))))
+    // if((m_editable) && (((MOUSE == m_motion) || (NONE == m_motion))))
     {
         setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
-    }
-    else if(m_editable)
-    {
-        setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges
-                 | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
     }
 }
 void ChildPointItem::setPointID(int a)

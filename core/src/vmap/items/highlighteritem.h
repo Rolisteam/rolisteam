@@ -96,10 +96,8 @@ protected:
 
 private:
     qreal m_radius;
-    /**
-     * @brief hightligther center
-     */
     QPointF m_center;
+    QColor m_color;
     QPropertyAnimation* m_animation;
 };
 

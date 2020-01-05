@@ -91,21 +91,12 @@ public:
      */
     virtual ~VisualItem();
 
+    vmap::VisualItemController* controller() const;
     /**
      * @brief setNewEnd
      * @param nend
      */
     virtual void setNewEnd(const QPointF& nend)= 0;
-    /**
-     * @brief setPenColor
-     * @param penColor
-     */
-    virtual void setPenColor(QColor& penColor);
-    /**
-     * @brief getColor
-     * @return
-     */
-    virtual QColor getColor();
     /**
      * @brief writeData
      * @param out
@@ -241,6 +232,8 @@ public:
     quint16 getPenWidth() const;
     void setPenWidth(const quint16& penWidth);
 
+    QColor color() const;
+
     static int getHighlightWidth();
     static void setHighlightWidth(int highlightWidth);
 
@@ -304,6 +297,8 @@ public slots:
     void rectChange();
     void rotationChange();
 
+    void setColor(QColor color);
+
 protected:
     /**
      * @brief mouseReleaseEvent
@@ -350,16 +345,26 @@ protected:
 
 protected:
     QPointF computeClosePoint(QPointF pos);
+    /**
+     * @brief manageAction
+     */
+    void manageAction();
+    /**
+     * @brief addPromoteItemMenu
+     */
+    void addPromoteItemMenu(QMenu*);
+    /**
+     * @brief promoteItem
+     */
+    void promoteItem();
 
 protected:
     QPointer<vmap::VisualItemController> m_ctrl;
-    QColor m_color;
     static QColor m_highlightColor;
     static int m_highlightWidth;
     QString m_id;
     QString m_mapId;
     QVector<ChildPointItem*> m_children;
-    // QRectF m_rect;
     QPoint m_menuPos;
 
     /// QAction*
@@ -373,20 +378,6 @@ protected:
     bool m_rotating= false;
     bool m_receivingZValue= false;
     bool m_holdSize= false;
-
-private slots:
-    /**
-     * @brief manageAction
-     */
-    void manageAction();
-    /**
-     * @brief addPromoteItemMenu
-     */
-    void addPromoteItemMenu(QMenu*);
-    /**
-     * @brief promoteItem
-     */
-    void promoteItem();
 
 private:
     static QStringList s_type2NameList;

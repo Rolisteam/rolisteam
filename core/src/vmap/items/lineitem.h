@@ -86,6 +86,7 @@ public:
     void initChildPointItem() override {}
     virtual VisualItem* getItemCopy() override;
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
+    void endOfGeometryChange(ChildPointItem::Change change) override;
 
     void setHoldSize(bool holdSize) override;
 

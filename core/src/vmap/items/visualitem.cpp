@@ -90,6 +90,10 @@ void VisualItem::init()
 
     updateItemFlags();
 }
+vmap::VisualItemController* VisualItem::controller() const
+{
+    return m_ctrl;
+}
 void VisualItem::updateItemFlags()
 {
     bool editable= canBeMoved();
@@ -123,16 +127,16 @@ void VisualItem::updateItemFlags()
     }
 }
 
-QColor VisualItem::getColor()
+QColor VisualItem::color() const
 {
-    return m_color;
+    return m_ctrl->color();
 }
 
-void VisualItem::setPenColor(QColor& penColor)
+void VisualItem::setColor(QColor color)
 {
-    m_color= penColor;
-    update();
+    m_ctrl->setColor(color);
 }
+
 void VisualItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     update();

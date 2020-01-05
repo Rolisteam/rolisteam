@@ -48,8 +48,9 @@ EllipsItem::EllipsItem(vmap::EllipseController* ctrl) : VisualItem(ctrl), m_elli
 
 QRectF EllipsItem::boundingRect() const
 {
-    return QRectF(-m_ellipseCtrl->rx(), -m_ellipseCtrl->ry(), m_ellipseCtrl->rx() * 2, m_ellipseCtrl->ry() * 2);
+    return m_ellipseCtrl->rect();
 }
+
 QPainterPath EllipsItem::shape() const
 {
     QPainterPath path;
@@ -83,7 +84,7 @@ void EllipsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     else
     {
         painter->setPen(Qt::NoPen);
-        painter->setBrush(QBrush(m_color, Qt::SolidPattern));
+        painter->setBrush(QBrush(m_ellipseCtrl->color(), Qt::SolidPattern));
     }
 
     setChildrenVisible(hasFocusOrChild());
@@ -133,12 +134,10 @@ void EllipsItem::initChildPointItem()
     }
     m_children.value(0)->setPos(m_ellipseCtrl->rx(), 0);
     m_children.value(0)->setPlacement(ChildPointItem::MiddleRight);
-    m_children.value(0)->setRotationEnable(true);
-    m_children.value(0)->setMotion(ChildPointItem::X_AXIS);
+    m_children.value(0)->setMotion(ChildPointItem::X_AXIS | ChildPointItem::ROTATION);
     m_children.value(1)->setPos(0, m_ellipseCtrl->ry());
-    m_children.value(1)->setMotion(ChildPointItem::Y_AXIS);
+    m_children.value(1)->setMotion(ChildPointItem::Y_AXIS | ChildPointItem::ROTATION);
     m_children.value(1)->setPlacement(ChildPointItem::ButtomCenter);
-    m_children.value(1)->setRotationEnable(true);
 }
 
 void EllipsItem::setHoldSize(bool holdSize)
