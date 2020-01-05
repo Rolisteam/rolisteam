@@ -31,27 +31,10 @@ class VectorialMapController;
 class CharacterItemControllerManager;
 namespace vmap
 {
-/*class FogSingularity
-{
-public:
-    FogSingularity(const QPolygonF& poly, bool isAdding= false);
-    const QPolygonF* getPolygon() const;
-
-    bool isAdding() const;
-    // void fillMessage(NetworkMessageWriter* msg);
-    // void readItem(NetworkMessageReader* msg);
-    void setPolygon(QPolygonF*);
-
-private:
-    QPolygonF m_poly;
-    bool m_adding;
-};*/
-
 // Controller
 class SightController : public VisualItemController
 {
     Q_OBJECT
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(bool characterSight READ characterSight WRITE setCharacterSight NOTIFY characterSightChanged)
     Q_PROPERTY(QPainterPath fowPath READ fowPath NOTIFY fowPathChanged)
     Q_PROPERTY(QRectF rect READ rect WRITE setRect NOTIFY rectChanged)
@@ -69,7 +52,6 @@ public:
     int characterCount() const;
     QPainterPath fowPath() const;
     QRectF rect() const;
-    QColor color() const;
     bool characterSight() const;
     bool visible() const;
     const std::vector<CharacterVisionData> visionData() const;
@@ -77,21 +59,18 @@ public:
 public slots:
     void addPolygon(const QPolygonF& poly, bool mask);
     void setRect(QRectF rect);
-    void setColor(const QColor& color);
     void setCharacterSight(bool b);
     void setVisible(bool vi);
 
 signals:
     void fowPathChanged();
-    void rectChanged(QRectF rect);
-    void colorChanged();
+    void rectChanged(QRectF r);
     void characterSightChanged();
     void visibleChanged(bool v);
     void characterCountChanged();
 
 private:
     QPointer<CharacterItemControllerManager> m_characterItems;
-    QColor m_color= Qt::black;
     std::vector<std::pair<QPolygonF, bool>> m_fogSingularityList;
     bool m_characterSight= false;
     CharacterVision::SHAPE m_defaultShape= CharacterVision::ANGLE;

@@ -54,11 +54,6 @@ bool PathController::closed() const
     return m_closed;
 }
 
-QColor PathController::color() const
-{
-    return m_color;
-}
-
 quint16 PathController::penWidth() const
 {
     return m_penWidth;
@@ -137,15 +132,6 @@ void PathController::setClosed(bool closed)
 
     m_closed= closed;
     emit closedChanged(m_closed);
-}
-
-void PathController::setColor(QColor color)
-{
-    if(m_color == color)
-        return;
-
-    m_color= color;
-    emit colorChanged(m_color);
 }
 
 } // namespace vmap

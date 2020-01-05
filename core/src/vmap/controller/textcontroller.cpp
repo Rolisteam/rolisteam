@@ -40,7 +40,10 @@ TextController::TextController(const std::map<QString, QVariant>& params, Vector
         setColor(params.at(QStringLiteral("color")).value<QColor>());
 
     if(params.end() != params.find("tool"))
-        m_border= (params.at(QStringLiteral("tool")).value<Core::SelectableTool>() == Core::SelectableTool::TEXTBORDER);
+    {
+        m_tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
+        m_border= (m_tool == Core::SelectableTool::TEXTBORDER);
+    }
 
     if(params.end() != params.find("text"))
         setText(params.at(QStringLiteral("text")).toString());
@@ -72,19 +75,6 @@ QRectF TextController::textRect() const
 QRectF TextController::borderRect() const
 {
     return m_borderRect;
-}
-
-QColor TextController::color() const
-{
-    return m_color;
-}
-void TextController::setColor(QColor color)
-{
-    if(m_color == color)
-        return;
-
-    m_color= color;
-    emit colorChanged(m_color);
 }
 
 bool TextController::border() const

@@ -23,6 +23,7 @@
 #include "visualitemcontroller.h"
 
 #include <QColor>
+#include <QPainterPath>
 
 namespace vmap
 {
@@ -31,7 +32,6 @@ class PathController : public VisualItemController
     Q_OBJECT
     Q_PROPERTY(int pointCount READ pointCount NOTIFY pointCountChanged)
     Q_PROPERTY(quint16 penWidth READ penWidth NOTIFY penWidthChanged)
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(bool closed READ closed WRITE setClosed NOTIFY closedChanged)
     Q_PROPERTY(bool filled READ filled WRITE setFilled NOTIFY filledChanged)
     Q_PROPERTY(bool penLine READ penLine CONSTANT)
@@ -40,29 +40,26 @@ public:
     PathController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent= nullptr);
     bool filled() const;
     bool closed() const;
-    QColor color() const;
     quint16 penWidth() const;
     int pointCount() const;
     const std::vector<QPointF>& points() const;
     QPointF pointAt(int corner) const;
     bool penLine() const;
+    void addPoint(const QPointF& po);
     QPainterPath path() const;
 
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
     void setCorner(const QPointF& move, int corner) override;
     QRectF rect() const override;
-    void addPoint(const QPointF& po);
 
 public slots:
     void setFilled(bool filled);
     void setClosed(bool closed);
-    void setColor(QColor color);
 
 signals:
     void filledChanged(bool filled);
     void closedChanged(bool closed);
-    void colorChanged(QColor color);
     void penWidthChanged(quint16 penWidth);
     void pointCountChanged(int pointCount);
     void positionChanged(int corner, QPointF pos);
@@ -74,7 +71,6 @@ private:
     bool m_filled= false;
     bool m_closed= false;
     bool m_penLine= false;
-    QColor m_color;
     quint16 m_penWidth= 15;
 };
 } // namespace vmap

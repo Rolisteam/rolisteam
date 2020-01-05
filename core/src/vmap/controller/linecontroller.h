@@ -32,7 +32,6 @@ class LineController : public VisualItemController
     Q_PROPERTY(QPointF startPoint READ startPoint WRITE setStartPoint NOTIFY startPointChanged)
     Q_PROPERTY(QPointF endPoint READ endPoint WRITE setEndPoint NOTIFY endPointChanged)
     Q_PROPERTY(quint16 penWidth READ penWidth NOTIFY penWidthChanged)
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
 public:
     enum TIPS
     {
@@ -42,7 +41,6 @@ public:
     LineController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent= nullptr);
 
     quint16 penWidth() const;
-    QColor color() const;
     QPointF endPoint() const;
     QPointF startPoint() const;
     void aboutToBeRemoved() override;
@@ -59,12 +57,10 @@ public slots:
     void setCorner(const QPointF& move, int corner) override;
     void setStartPoint(const QPointF& p);
     void setEndPoint(const QPointF& p);
-    void setColor(const QColor& color);
 
 private:
     QPointF m_start;
     QPointF m_end;
-    QColor m_color;
     quint16 m_penWidth;
 };
 } // namespace vmap

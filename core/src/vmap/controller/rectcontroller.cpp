@@ -30,7 +30,10 @@ RectController::RectController(const std::map<QString, QVariant>& params, Vector
         setColor(params.at(QStringLiteral("color")).value<QColor>());
 
     if(params.end() != params.find("tool"))
-        m_filled= (params.at(QStringLiteral("tool")).value<Core::SelectableTool>() == Core::SelectableTool::FILLRECT);
+    {
+        m_tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
+        m_filled= (m_tool == Core::SelectableTool::FILLRECT);
+    }
 
     if(params.end() != params.find("penWidth"))
         m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
@@ -44,22 +47,9 @@ bool RectController::filled() const
     return m_filled;
 }
 
-QColor RectController::color() const
-{
-    return m_color;
-}
-
 QRectF RectController::rect() const
 {
     return m_rect;
-}
-
-void RectController::setColor(QColor color)
-{
-    if(color == m_color)
-        return;
-    m_color= color;
-    emit colorChanged();
 }
 
 void RectController::setRect(QRectF rect)

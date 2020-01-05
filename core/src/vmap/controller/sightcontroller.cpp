@@ -69,11 +69,6 @@ int SightController::characterCount() const
     return m_characterItems->playableCharacterCount();
 }
 
-QColor SightController::color() const
-{
-    return m_color;
-}
-
 bool SightController::characterSight() const
 {
     return m_characterSight;
@@ -98,15 +93,6 @@ void SightController::setRect(QRectF rect)
 
     m_rect= rect;
     emit rectChanged(m_rect);
-}
-
-void SightController::setColor(const QColor& color)
-{
-    if(color == m_color)
-        return;
-
-    m_color= color;
-    emit colorChanged();
 }
 
 void SightController::setCharacterSight(bool b)

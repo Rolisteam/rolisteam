@@ -54,7 +54,6 @@ class CharacterItemController : public VisualItemController
     Q_PROPERTY(QString text READ text NOTIFY textChanged)
     Q_PROPERTY(bool hasAvatar READ hasAvatar NOTIFY hasAvatarChanged)
     Q_PROPERTY(QImage* avatar READ avatar NOTIFY avatarChanged)
-    Q_PROPERTY(QColor color READ color NOTIFY colorChanged)
     Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
     Q_PROPERTY(CharacterVision vision READ vision NOTIFY visionChanged)
     Q_PROPERTY(qreal radius READ radius NOTIFY radiusChanged)
@@ -76,7 +75,7 @@ public:
     QString text() const;
     bool hasAvatar() const;
     QImage* avatar() const;
-    QColor color() const;
+    QColor color() const override;
     QFont font() const;
     QPainterPath shape() const;
     CharacterVision* vision() const;
@@ -104,7 +103,6 @@ signals:
     void textChanged(QString text);
     void hasAvatarChanged(bool hasAvatar);
     void avatarChanged();
-    void colorChanged(QColor color);
     void fontChanged(QFont font);
     void radiusChanged(qreal radius);
 

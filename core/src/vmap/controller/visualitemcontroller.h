@@ -20,6 +20,7 @@
 #ifndef VISUALITEMCONTROLLER_H
 #define VISUALITEMCONTROLLER_H
 
+#include <QColor>
 #include <QObject>
 #include <QPointF>
 #include <QPointer>
@@ -42,7 +43,9 @@ class VisualItemController : public QObject
     Q_PROPERTY(QPointF pos READ pos WRITE setPos NOTIFY posChanged)
     Q_PROPERTY(QString uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
     Q_PROPERTY(bool localIsGM READ localIsGM NOTIFY localIsGMChanged)
-
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+    Q_PROPERTY(bool locked READ locked WRITE setLocked NOTIFY lockedChanged)
+    Q_PROPERTY(Core::SelectableTool tool READ tool CONSTANT)
 public:
     enum Corner
     {
@@ -65,6 +68,8 @@ public:
     QString uuid() const;
     qreal rotation() const;
     bool localIsGM() const;
+    Core::SelectableTool tool() const;
+    virtual QColor color() const;
     virtual QRectF rect() const= 0;
 
     int gridSize() const;
@@ -74,6 +79,8 @@ public:
     virtual void setCorner(const QPointF& move, int corner)= 0;
 
     virtual void endGeometryChange()= 0;
+
+    bool locked() const;
 
 signals:
     void selectedChanged();
@@ -87,6 +94,9 @@ signals:
     void removeItem();
     void rotationChanged();
     void localIsGMChanged();
+    void colorChanged(QColor color);
+
+    void lockedChanged(bool locked);
 
 public slots:
     void setSelected(bool b);
@@ -97,15 +107,20 @@ public slots:
     void setPos(const QPointF& pos);
     void setUuid(QString uuid);
     void setRotation(qreal rota);
+    void setColor(const QColor& color);
+    void setLocked(bool locked);
 
 protected:
     QPointer<VectorialMapController> m_ctrl;
     bool m_selected= false;
     bool m_editable= true;
     bool m_visible= true;
+    bool m_locked= false;
+    QColor m_color;
     qreal m_opacity= 1.0;
     qreal m_rotation= 0.0;
     QPointF m_pos;
+    Core::SelectableTool m_tool;
     Core::Layer m_layer= Core::Layer::NONE;
     QString m_uuid;
 };
