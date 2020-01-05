@@ -110,17 +110,13 @@ public:
      * @brief setMotion
      * @param m
      */
-    void setMotion(ChildPointItem::MOTION m);
+    void setMotion(ChildPointItem::MOTIONS m);
     /**
      * @brief setPlacement
      * @param p
      */
     void setPlacement(ChildPointItem::PLACEMENT p);
     ChildPointItem::PLACEMENT placement() const;
-    /**
-     * @brief setRotationEnable, set to true if you want to allow rotation without activating the mouse control.
-     */
-    void setRotationEnable(bool);
     /**
      * @brief setEditableItem
      * @param b
@@ -164,8 +160,7 @@ private:
     int m_pointId;
     QPointF m_startPoint;
     VisualItem* m_parent;
-    MOTION m_currentMotion;
-    bool m_allowRotation;
+    MOTIONS m_motion= NONE;
     bool m_editable;
     bool m_vision;
     PLACEMENT m_placement;

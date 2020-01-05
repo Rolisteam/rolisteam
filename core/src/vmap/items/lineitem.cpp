@@ -37,26 +37,17 @@
 LineItem::LineItem(vmap::LineController* ctrl) : VisualItem(ctrl), m_lineCtrl(ctrl)
 {
     auto func= [this]() {
-        QLineF line(m_lineCtrl->startPoint(), m_lineCtrl->endPoint());
-        qDebug() << m_lineCtrl->endPoint() << m_children[1]->pos();
-        setTransformOriginPoint(line.center());
         updateChildPosition();
+        update();
     };
     connect(m_lineCtrl, &vmap::LineController::endPointChanged, this, func);
     connect(m_lineCtrl, &vmap::LineController::startPointChanged, this, func);
-    connect(m_lineCtrl, &vmap::LineController::rotationChanged, this, [this]() {
-        setRotation(m_lineCtrl->rotation());
-        QLineF line(m_lineCtrl->startPoint(), m_lineCtrl->endPoint());
-        setTransformOriginPoint(line.center());
-        updateChildPosition();
-    });
 
     for(int i= 0; i <= vmap::LineController::End; ++i)
     {
         ChildPointItem* tmp= new ChildPointItem(m_lineCtrl, i, this);
         tmp->setMotion(ChildPointItem::MOVE);
         m_children.append(tmp);
-        qDebug() << "add points";
     }
     updateChildPosition();
 }
@@ -76,7 +67,8 @@ void LineItem::setNewEnd(const QPointF& nend)
 }
 QRectF LineItem::boundingRect() const
 {
-    return QRectF(m_lineCtrl->startPoint(), m_lineCtrl->endPoint()).normalized();
+    return m_lineCtrl->rect();
+    // return QRectF(m_lineCtrl->startPoint(), m_lineCtrl->endPoint()).normalized();
     // return m_rect.normalized();
 }
 QPainterPath LineItem::shape() const
@@ -148,7 +140,7 @@ void LineItem::readData(QDataStream& in)
     in >> opa;
     setOpacity(opa);
     // in >> m_penWidth;
-    in >> m_color;
+    // in >> m_color;
     int i;
     in >> i;
     // m_layer= static_cast<Core::Layer>(i);
@@ -179,7 +171,7 @@ void LineItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_lineCtrl->endPoint().y());
     // pen
     // msg->uint16(m_penWidth);
-    msg->rgb(m_color.rgb());
+    // msg->rgb(m_color.rgb());
 
     msg->real(pos().x());
     msg->real(pos().y());
@@ -205,7 +197,7 @@ void LineItem::readItem(NetworkMessageReader* msg)
     m_lineCtrl->endPoint().setY(msg->real());
     // pen
     //  m_penWidth= msg->uint16();
-    m_color= msg->rgb();
+    // m_color= msg->rgb();
 
     qreal posx= msg->real();
     qreal posy= msg->real();
@@ -278,4 +270,17 @@ void LineItem::setHoldSize(bool holdSize)
 
         child->setMotion(motion);
     }
+}
+void LineItem::endOfGeometryChange(ChildPointItem::Change change)
+{
+    if(change == ChildPointItem::Resizing)
+    {
+        auto oldScenePos= scenePos();
+        setTransformOriginPoint(boundingRect().center());
+        auto newScenePos= scenePos();
+        auto oldPos= pos();
+        m_lineCtrl->setPos(QPointF(oldPos.x() + (oldScenePos.x() - newScenePos.x()),
+                                   oldPos.y() + (oldScenePos.y() - newScenePos.y())));
+    }
+    VisualItem::endOfGeometryChange(change);
 }
