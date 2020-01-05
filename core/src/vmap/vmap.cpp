@@ -388,54 +388,14 @@ void VMap::selectionHasChanged()
 
 void VMap::insertItem(const QPointF& pos)
 {
-    if(Core::PIPETTE == m_ctrl->tool())
-    {
-        QList<QGraphicsItem*> itemList= items(pos);
-        itemList.removeAll(m_gridItem);
-        if(!itemList.isEmpty())
-        {
-            VisualItem* item= dynamic_cast<VisualItem*>(itemList.at(0));
-            if(nullptr != item)
-            {
-                if(item->getType() != VisualItem::IMAGE)
-                {
-                    QColor color= item->getColor();
-                    if(color.isValid())
-                    {
-                        emit colorPipette(color);
-                    }
-                }
-            }
-        }
-    }
-    else if(Core::BUCKET == m_ctrl->tool())
-    {
-        QList<QGraphicsItem*> itemList= items(pos);
-        itemList.removeAll(m_gridItem);
-        if(!itemList.isEmpty())
-        {
-            VisualItem* item= dynamic_cast<VisualItem*>(itemList.at(0));
-            if(nullptr != item)
-            {
-                if(item->getType() != VisualItem::IMAGE)
-                {
-                    auto cmd= new ChangeColorItemCmd(item, m_ctrl->toolColor(), m_id);
-                    if(!m_undoStack.isNull())
-                        m_undoStack->push(cmd);
-                }
-            }
-        }
-    }
-    else
-    {
-        std::map<QString, QVariant> params;
-        params.insert({QStringLiteral("position"), pos});
-        params.insert({QStringLiteral("color"), m_ctrl->toolColor()});
-        params.insert({QStringLiteral("penWidth"), m_ctrl->penSize()});
-        params.insert({QStringLiteral("tool"), m_ctrl->tool()});
-        m_ctrl->insertItemAt(params);
-    }
+    std::map<QString, QVariant> params;
+    params.insert({QStringLiteral("position"), pos});
+    params.insert({QStringLiteral("color"), m_ctrl->toolColor()});
+    params.insert({QStringLiteral("penWidth"), m_ctrl->penSize()});
+    params.insert({QStringLiteral("tool"), m_ctrl->tool()});
+    m_ctrl->insertItemAt(params);
 }
+
 void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
     if(m_ctrl->tool() == Core::HANDLER)
@@ -456,6 +416,46 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
                 }
             }
             QGraphicsScene::mousePressEvent(mouseEvent);
+        }
+    }
+    else if(Core::PIPETTE == m_ctrl->tool())
+    {
+        QList<QGraphicsItem*> itemList= items(mouseEvent->scenePos());
+        itemList.removeAll(m_gridItem);
+        itemList.removeAll(m_sightItem);
+        if(!itemList.isEmpty())
+        {
+            VisualItem* item= dynamic_cast<VisualItem*>(itemList.at(0));
+            if(nullptr != item)
+            {
+                if(item->getType() != VisualItem::IMAGE)
+                {
+                    QColor color= item->color();
+                    if(color.isValid())
+                    {
+                        emit colorPipette(color);
+                    }
+                }
+            }
+        }
+    }
+    else if(Core::BUCKET == m_ctrl->tool())
+    {
+        QList<QGraphicsItem*> itemList= items(mouseEvent->scenePos());
+        itemList.removeAll(m_gridItem);
+        itemList.removeAll(m_sightItem);
+        if(!itemList.isEmpty())
+        {
+            VisualItem* item= dynamic_cast<VisualItem*>(itemList.at(0));
+            if(nullptr != item)
+            {
+                if(item->getType() != VisualItem::IMAGE)
+                {
+                    auto cmd= new ChangeColorItemCmd(item, m_ctrl->toolColor(), m_id);
+                    if(!m_undoStack.isNull())
+                        m_undoStack->push(cmd);
+                }
+            }
         }
     }
     else if(mouseEvent->button() == Qt::LeftButton)
@@ -543,6 +543,7 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
         m_ctrl->changeFogOfWar(poly, (Core::EditionMode::Mask == m_ctrl->editionMode()));
         update();
     }
+    m_ctrl->setIdle(true);
     m_currentItem= nullptr;
     if(m_ctrl->tool() == Core::HANDLER)
     {
@@ -1028,12 +1029,12 @@ void VMap::removeItemFromScene(QString id, bool sendToAll, bool undoable)
     {
         if(undoable)
         {
-            m_undoStack->push(new DeleteVmapItemCommand(this, item, sendToAll));
+            // m_undoStack->push(new DeleteVmapItemCommand(this, item, sendToAll));
         }
         else
         {
-            DeleteVmapItemCommand cmd(this, item, sendToAll);
-            cmd.redo();
+            //  DeleteVmapItemCommand cmd(this, item, sendToAll);
+            //  cmd.redo();
         }
     }
 }
