@@ -33,6 +33,7 @@ class ThemeModel;
 class QStyle;
 class PreferencesManager;
 class GameController;
+class DiceParser;
 class PreferencesController : public AbstractControllerInterface
 {
     Q_OBJECT
@@ -101,11 +102,15 @@ public slots:
 
     void setCurrentThemeTitle(const QString& title);
 
+    QString convertAlias(const QString& str);
+
 private:
     std::unique_ptr<CharacterStateModel> m_characterStateModel;
     std::unique_ptr<DiceAliasModel> m_diceAliasModel;
     std::unique_ptr<PaletteModel> m_paletteModel;
     std::unique_ptr<ThemeModel> m_themeModel;
+    std::unique_ptr<DiceParser> m_diceParser;
+
     std::size_t m_currentThemeIndex;
     PreferencesManager* m_preferences;
 };

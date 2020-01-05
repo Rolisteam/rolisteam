@@ -24,6 +24,7 @@
 #include <QStyleFactory>
 
 #include "controller/gamecontroller.h"
+#include "diceparser.h"
 #include "model/thememodel.h"
 #include "preferences/characterstatemodel.h"
 #include "preferences/dicealiasmodel.h"
@@ -131,6 +132,7 @@ PreferencesController::PreferencesController(QObject* parent)
     , m_diceAliasModel(new DiceAliasModel)
     , m_paletteModel(new PaletteModel)
     , m_themeModel(new ThemeModel)
+    , m_diceParser(new DiceParser)
 {
 
     // to remove
@@ -178,6 +180,12 @@ void PreferencesController::addAlias()
 void PreferencesController::deleteAlias(const QModelIndex& index)
 {
     m_diceAliasModel->deleteAlias(index);
+}
+
+QString PreferencesController::convertAlias(const QString& str)
+{
+    m_diceParser->getAliases();
+    return m_diceParser->convertAlias(str);
 }
 
 void PreferencesController::moveAlias(const QModelIndex& index, PreferencesController::Move move)
