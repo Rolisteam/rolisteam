@@ -3,6 +3,28 @@
 #include <QVariant>
 namespace vmap
 {
+
+QPainterPath vectorToPath(const std::vector<QPointF>& points, bool closeUp= false)
+{
+    QPainterPath path;
+    bool first= true;
+    QPointF start;
+    for(QPointF p : points)
+    {
+        if(first)
+        {
+            first= false;
+            start= p;
+            path.moveTo(p);
+        }
+        else
+            path.lineTo(p);
+    }
+
+    if(closeUp)
+        path.lineTo(start);
+    return path;
+}
 PathController::PathController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(ctrl, parent)
 {
@@ -10,7 +32,10 @@ PathController::PathController(const std::map<QString, QVariant>& params, Vector
         m_color= params.at(QStringLiteral("color")).value<QColor>();
 
     if(params.end() != params.find("tool"))
-        m_penLine= (params.at(QStringLiteral("tool")).value<Core::SelectableTool>() == Core::SelectableTool::PEN);
+    {
+        m_tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
+        m_penLine= (m_tool == Core::SelectableTool::PEN);
+    }
 
     if(params.end() != params.find("penWidth"))
         m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
@@ -68,6 +93,11 @@ void PathController::addPoint(const QPointF& po)
     emit pointAdded(po, static_cast<int>(m_points.size()) - 1);
 }
 
+QPainterPath PathController::path() const
+{
+    return vectorToPath(points(), closed());
+}
+
 void PathController::aboutToBeRemoved()
 {
     emit removeItem();
@@ -84,6 +114,11 @@ void PathController::setCorner(const QPointF& move, int corner)
 
     m_points[static_cast<std::size_t>(corner)]+= move;
     emit positionChanged(corner, m_points[static_cast<std::size_t>(corner)]);
+}
+
+QRectF PathController::rect() const
+{
+    return path().boundingRect();
 }
 
 void PathController::setFilled(bool filled)

@@ -28,6 +28,7 @@
 #include "vmapwizzarddialog.h"
 
 class VectorialMapController;
+class VisualItemController;
 /**
  * @brief RGraphicsView is custom graphicsview to fit rolisteam needs. It will implement some important feature
  */
@@ -36,13 +37,6 @@ class RGraphicsView : public QGraphicsView
     Q_OBJECT
 
 public:
-    enum Method
-    {
-        Bigger,
-        Smaller,
-        UnderMouse,
-        Average
-    };
     /**
      * @brief constructor with parameters
      * @param Map address which it will be displayed by the graphicsview
@@ -52,11 +46,10 @@ public:
     void currentToolChanged(Core::SelectableTool selectedtool);
     void readMessage(NetworkMessageReader* msg);
 
-    void deleteItem(QList<VisualItem*> list);
-    void setItemLayer(QList<VisualItem*> list, Core::Layer layer);
-    void setRotation(QList<VisualItem*> list, int value);
-    void changeZValue(QList<VisualItem*> list, VisualItem::StackOrder order);
-    void normalizeSize(Method method);
+    void deleteItem(const QList<vmap::VisualItemController*>& list);
+    void setItemLayer(const QList<vmap::VisualItemController*>& list, Core::Layer layer);
+    void setRotation(const QList<vmap::VisualItemController*>& list, int value);
+    void changeZValue(const QList<vmap::VisualItemController*>& list, VisualItem::StackOrder order);
 
 public slots:
     void addImageToMap();
@@ -77,11 +70,11 @@ protected:
     void createAction();
 
     void mouseMoveEvent(QMouseEvent* event);
-    void lockItems(QList<VisualItem*> list);
-protected slots:
+    void lockItems(const QList<vmap::VisualItemController*>& list);
+
+private slots:
     void rollInit();
     void cleanInit();
-private slots:
     void setZoomFactor();
     void showMapProperties();
     void changeLayer();
@@ -91,43 +84,43 @@ private slots:
 
 private:
     QPointer<VectorialMapController> m_ctrl;
-    VMap* m_vmap;
+    // VMap* m_vmap= nullptr;
 
     int m_counterZoom;
 
-    QAction* m_zoomNormal;
-    QAction* m_zoomInMax;
-    QAction* m_zoomOutMax;
-    QAction* m_zoomIn;
-    QAction* m_zoomOut;
-    QAction* m_zoomCenterOnItem;
-    QAction* m_properties;
-    QAction* m_editGroundLayer;
-    QAction* m_editObjectLayer;
-    QAction* m_editCharacterLayer;
+    QAction* m_zoomNormal= nullptr;
+    QAction* m_zoomInMax= nullptr;
+    QAction* m_zoomOutMax= nullptr;
+    QAction* m_zoomIn= nullptr;
+    QAction* m_zoomOut= nullptr;
+    QAction* m_zoomCenterOnItem= nullptr;
+    QAction* m_properties= nullptr;
+    QAction* m_editGroundLayer= nullptr;
+    QAction* m_editObjectLayer= nullptr;
+    QAction* m_editCharacterLayer= nullptr;
 
     // Global action
-    QAction* m_rollInitOnAllNpc;
-    QAction* m_rollInitOnSelection;
-    QAction* m_rollInitOnAllCharacter;
-    QAction* m_cleanInitOnAllNpc;
-    QAction* m_cleanInitOnSelection;
-    QAction* m_cleanInitOnAllCharacter;
+    QAction* m_rollInitOnAllNpc= nullptr;
+    QAction* m_rollInitOnSelection= nullptr;
+    QAction* m_rollInitOnAllCharacter= nullptr;
+    QAction* m_cleanInitOnAllNpc= nullptr;
+    QAction* m_cleanInitOnSelection= nullptr;
+    QAction* m_cleanInitOnAllCharacter= nullptr;
 
-    QAction* m_normalizeSizeAverage;
-    QAction* m_normalizeSizeUnderMouse;
-    QAction* m_normalizeSizeBigger;
-    QAction* m_normalizeSizeSmaller;
+    QAction* m_normalizeSizeAverage= nullptr;
+    QAction* m_normalizeSizeUnderMouse= nullptr;
+    QAction* m_normalizeSizeBigger= nullptr;
+    QAction* m_normalizeSizeSmaller= nullptr;
 
-    QAction* m_lockSize;
+    QAction* m_lockSize= nullptr;
 
-    QAction* m_allVisibility;
-    QAction* m_hiddenVisibility;
-    QAction* m_characterVisibility;
+    QAction* m_allVisibility= nullptr;
+    QAction* m_hiddenVisibility= nullptr;
+    QAction* m_characterVisibility= nullptr;
 
-    QAction* m_putGroundLayer;
-    QAction* m_putObjectLayer;
-    QAction* m_putCharacterLayer;
+    QAction* m_putGroundLayer= nullptr;
+    QAction* m_putObjectLayer= nullptr;
+    QAction* m_putCharacterLayer= nullptr;
 
     // z order action
     QAction* m_backOrderAction= nullptr;
@@ -135,13 +128,13 @@ private:
     QAction* m_lowerAction= nullptr;
     QAction* m_raiseAction= nullptr;
 
-    QAction* m_importImage;
+    QAction* m_importImage= nullptr;
 
     Core::SelectableTool m_currentTool;
-    PreferencesManager* m_preferences;
-    QPointF m_lastPoint;
+    PreferencesManager* m_preferences= nullptr;
+    QPoint m_lastPoint;
     QPoint m_menuPoint;
-    QGraphicsItem* m_centerOnItem;
+    QGraphicsItem* m_centerOnItem= nullptr;
 };
 
 #endif // RGRAPHICSVIEW_H

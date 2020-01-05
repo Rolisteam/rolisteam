@@ -64,6 +64,11 @@ void LineController::aboutToBeRemoved()
 
 void LineController::endGeometryChange() {}
 
+QRectF LineController::rect() const
+{
+    return QRectF(startPoint(), endPoint()).normalized();
+}
+
 void LineController::setCorner(const QPointF& move, int corner)
 {
     switch(corner)

@@ -161,6 +161,11 @@ void TextController::endGeometryChange()
      setRect(rect);
      setPos(pos);*/
 }
+
+QRectF TextController::rect() const
+{
+    return borderRect();
+}
 void TextController::setTextPos(QPointF textPos)
 {
     if(m_textPos == textPos)

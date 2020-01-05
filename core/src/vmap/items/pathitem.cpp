@@ -107,28 +107,6 @@ QPainterPath vectorToFullPath(const std::vector<QPointF>& points, qreal penWidth
     return path;
 }
 
-QPainterPath vectorToPath(const std::vector<QPointF>& points, bool closeUp= false)
-{
-    QPainterPath path;
-    bool first= true;
-    QPointF start;
-    for(QPointF p : points)
-    {
-        if(first)
-        {
-            first= false;
-            start= p;
-            path.moveTo(p);
-        }
-        else
-            path.lineTo(p);
-    }
-
-    if(closeUp)
-        path.lineTo(start);
-    return path;
-}
-
 PathItem::PathItem(vmap::PathController* ctrl) : VisualItem(ctrl), m_pathCtrl(ctrl)
 {
     connect(m_pathCtrl, &vmap::PathController::positionChanged, this, [this](int corner, QPointF pos) {
@@ -161,10 +139,7 @@ m_filled(false)
 }*/
 QRectF PathItem::boundingRect() const
 {
-    QPainterPath path= vectorToPath(m_pathCtrl->points());
-    QRectF rect= path.boundingRect();
-    // rect.adjust(-m_penWidth / 2, -m_penWidth / 2, m_penWidth / 2, m_penWidth / 2);
-    return rect;
+    return m_pathCtrl->rect();
 }
 
 QPainterPath PathItem::shape() const
@@ -179,7 +154,7 @@ void PathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
 
     setChildrenVisible(hasFocusOrChild());
 
-    QPainterPath path= vectorToPath(m_pathCtrl->points(), m_pathCtrl->closed());
+    QPainterPath path= m_pathCtrl->path(); // vectorToPath(m_pathCtrl->points(), m_pathCtrl->closed());
     /*if(!m_penMode)
     {
         if(!m_end.isNull())

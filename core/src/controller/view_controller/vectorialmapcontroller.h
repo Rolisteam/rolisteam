@@ -33,6 +33,7 @@ namespace vmap
 {
 class GridController;
 class SightController;
+class VisualItemController;
 } // namespace vmap
 
 class CleverURI;
@@ -79,8 +80,16 @@ class VectorialMapController : public AbstractMediaContainerController
     Q_PROPERTY(Core::EditionMode editionMode READ editionMode WRITE setEditionMode NOTIFY editionModeChanged)
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
     Q_PROPERTY(QRectF visualRect READ visualRect WRITE setVisualRect NOTIFY visualRectChanged)
+    Q_PROPERTY(bool idle READ idle WRITE setIdle NOTIFY idleChanged)
 
 public:
+    enum Method
+    {
+        Bigger,
+        Smaller,
+        UnderMouse,
+        Average
+    };
     explicit VectorialMapController(CleverURI* uri, QObject* parent= nullptr);
     ~VectorialMapController();
 
@@ -113,6 +122,7 @@ public:
     bool localGM() const;
     bool stateLabelVisible() const;
     QRectF visualRect() const;
+    bool idle() const;
 
     void saveData() const;
     void loadData() const;
@@ -127,11 +137,14 @@ public:
     TextControllerManager* textManager() const;
     CharacterItemControllerManager* characterManager() const;
 
+    VisualItemControllerManager* manager(Core::SelectableTool tool) const;
+
     vmap::GridController* gridController() const;
     vmap::SightController* sightController() const;
 
     QString addItemController(const std::map<QString, QVariant>& params);
     void removeItemController(QString uuid);
+    void normalizeSize(const QList<vmap::VisualItemController*>& list, Method method, const QPointF& mousePos);
 
     // Network
     void processAddItemMessage(const NetworkMessageReader& msg);
@@ -179,6 +192,7 @@ signals:
     void characterVisionChanged();
     void stateLabelVisibleChanged();
     void visualItemControllerCreated(VisualItemController* ctrl);
+    void idleChanged();
 
     void visualRectChanged(QRectF visualRect);
 
@@ -214,9 +228,12 @@ public slots:
     void setCharacterVision(bool b);
     void setStateLabelVisible(bool b);
     void setVisualRect(QRectF visualRect);
+    void setIdle(bool b);
 
     void insertItemAt(const std::map<QString, QVariant>& params);
     void changeFogOfWar(const QPolygonF& poly, bool mask);
+
+    void aboutToRemove(const QList<vmap::VisualItemController*>& list);
 
 private:
     bool m_pcNameVisible= true;
@@ -237,6 +254,7 @@ private:
     bool m_gridVisibility= false;
     bool m_gridAbove= false;
     bool m_collision= false;
+    bool m_idle= true;
     QColor m_backgroundColor= Qt::white;
     QColor m_toolColor= Qt::black;
     QColor m_gridColor= Qt::black;

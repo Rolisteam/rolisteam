@@ -65,6 +65,7 @@ public:
     QString uuid() const;
     qreal rotation() const;
     bool localIsGM() const;
+    virtual QRectF rect() const= 0;
 
     int gridSize() const;
     QString getLayerText(Core::Layer layer) const;
