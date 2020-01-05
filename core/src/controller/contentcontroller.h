@@ -38,6 +38,7 @@ class MediaControllerInterface;
 class NetworkMessageReader;
 class ImageMediaController;
 class VectorialMapMediaController;
+class NetworkController;
 // class AbstractMediaContainerController;
 class ContentController : public AbstractControllerInterface, public PreferencesListener
 {
@@ -52,7 +53,7 @@ class ContentController : public AbstractControllerInterface, public Preferences
     Q_PROPERTY(QString sessionPath READ sessionPath WRITE setSessionPath NOTIFY sessionPathChanged)
 
 public:
-    explicit ContentController(QObject* parent= nullptr);
+    explicit ContentController(NetworkController* networkCtrl, QObject* parent= nullptr);
     ~ContentController() override;
 
     QAbstractItemModel* model() const;

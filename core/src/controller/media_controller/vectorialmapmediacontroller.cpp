@@ -22,6 +22,7 @@
 #include <QUndoStack>
 #include <map>
 
+#include "controller/networkcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "network/networkmessagereader.h"
 #include "network/receiveevent.h"
@@ -36,7 +37,17 @@ VectorialMapController* findActive(const std::vector<std::unique_ptr<VectorialMa
     return (*it).get();
 }
 
-VectorialMapMediaController::VectorialMapMediaController() {}
+VectorialMapMediaController::VectorialMapMediaController(NetworkController* networkCtrl) : m_networkCtrl(networkCtrl)
+{
+    auto func= [this]() {
+        std::for_each(m_vmaps.begin(), m_vmaps.end(), [this](const std::unique_ptr<VectorialMapController>& ctrl) {
+            ctrl->setLocalGM(m_networkCtrl->isGM());
+        });
+    };
+
+    connect(m_networkCtrl, &NetworkController::isGMChanged, this, func);
+    func();
+}
 
 CleverURI::ContentType VectorialMapMediaController::type() const
 {
@@ -139,6 +150,8 @@ bool VectorialMapMediaController::openMedia(CleverURI* uri, const std::map<QStri
         return false;
 
     std::unique_ptr<VectorialMapController> vmapCtrl(new VectorialMapController(uri));
+
+    vmapCtrl->setLocalGM(m_networkCtrl->isGM());
 
     vmapCtrl->setPermission(args.at(QStringLiteral("permission")).value<Core::PermissionMode>());
     vmapCtrl->setName(args.at(QStringLiteral("title")).toString());

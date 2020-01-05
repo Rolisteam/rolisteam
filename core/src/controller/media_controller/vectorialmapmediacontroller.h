@@ -26,12 +26,13 @@
 #include <vector>
 
 class VectorialMapController;
+class NetworkController;
 class VectorialMapMediaController : public MediaControllerInterface
 {
     Q_OBJECT
 
 public:
-    VectorialMapMediaController();
+    VectorialMapMediaController(NetworkController* networkCtrl);
     ~VectorialMapMediaController() override;
 
     VectorialMapController* currentVMap() const;
@@ -80,6 +81,7 @@ private:
 private:
     std::vector<std::unique_ptr<VectorialMapController>> m_vmaps;
     QPointer<QUndoStack> m_stack;
+    QPointer<NetworkController> m_networkCtrl;
 };
 
 #endif // VECTORIALMAPMEDIACONTROLLER_H

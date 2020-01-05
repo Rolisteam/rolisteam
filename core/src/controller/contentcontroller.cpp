@@ -33,11 +33,11 @@
 #include "undoCmd/openmediacontroller.h"
 #include "worker/modelhelper.h"
 
-ContentController::ContentController(QObject* parent)
+ContentController::ContentController(NetworkController* networkCtrl, QObject* parent)
     : AbstractControllerInterface(parent)
     , m_contentModel(new SessionItemModel)
     , m_imageControllers(new ImageMediaController)
-    , m_vmapControllers(new VectorialMapMediaController)
+    , m_vmapControllers(new VectorialMapMediaController(networkCtrl))
     , m_sessionName(tr("Unknown"))
 {
     m_mediaControllers.insert({CleverURI::PICTURE, m_imageControllers.get()});
