@@ -30,7 +30,6 @@
 #include <QStyledItemDelegate>
 
 #include "common/widgets/colorbutton.h"
-#include "diceparser.h"
 #include "preferences/characterstatemodel.h"
 #include "preferences/dicealiasmodel.h"
 #include "preferences/palettemodel.h"
@@ -250,7 +249,7 @@ private slots:
 private:
     PreferencesManager* m_preferences= nullptr;
     Ui::PreferencesDialogBox* ui;
-    DiceParser* m_diceParser;
+
     QPushButton* m_applyBtn;
     QPointer<PreferencesController> m_ctrl;
 

@@ -189,7 +189,6 @@ void ColorDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, con
 /*********************
  * PreferencesDialog *
  *********************/
-
 PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget* parent, Qt::WindowFlags f)
     : QDialog(parent, f), ui(new Ui::PreferencesDialogBox()), m_ctrl(controller)
 {
@@ -201,8 +200,6 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     m_preferences= PreferencesManager::getInstance();
 
     ui->m_tableViewAlias->setModel(m_ctrl->diceAliasModel());
-    /*m_diceParser= new DiceParser();
-    m_aliasModel->setAliases(m_diceParser->getAliases());*/
 
     ui->m_stateView->setModel(m_ctrl->characterStateModel());
     ui->m_themeComboBox->setModel(m_ctrl->themeModel());
@@ -327,14 +324,7 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
     ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::PICTURE, new FilePathDelegateItem(this));
 }
 
-PreferencesDialog::~PreferencesDialog()
-{
-    if(nullptr != m_diceParser)
-    {
-        delete m_diceParser;
-        m_diceParser= nullptr;
-    }
-}
+PreferencesDialog::~PreferencesDialog() {}
 
 void PreferencesDialog::manageHeartBeat()
 {
@@ -613,8 +603,7 @@ void PreferencesDialog::performDiag()
 
 void PreferencesDialog::testAliasCommand()
 {
-    QString result= m_diceParser->convertAlias(ui->m_cmdDiceEdit->text());
-    ui->m_convertedCmdEdit->setText(result);
+    ui->m_convertedCmdEdit->setText(m_ctrl->convertAlias(ui->m_cmdDiceEdit->text()));
 }
 
 void PreferencesDialog::exportTheme()
