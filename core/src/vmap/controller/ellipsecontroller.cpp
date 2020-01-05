@@ -47,11 +47,6 @@ bool EllipseController::filled() const
     return m_filled;
 }
 
-QColor EllipseController::color() const
-{
-    return m_color;
-}
-
 quint16 EllipseController::penWidth() const
 {
     return m_penWidth;

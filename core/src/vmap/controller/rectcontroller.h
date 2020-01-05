@@ -32,14 +32,12 @@ class RectController : public VisualItemController
 {
     Q_OBJECT
     Q_PROPERTY(QRectF rect READ rect NOTIFY rectChanged)
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(bool filled READ filled NOTIFY filledChanged)
     Q_PROPERTY(quint16 penWidth READ penWidth NOTIFY penWidthChanged)
 public:
     RectController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent= nullptr);
 
     bool filled() const;
-    QColor color() const;
     QRectF rect() const;
     quint16 penWidth() const;
 
@@ -47,13 +45,11 @@ public:
     void endGeometryChange() override;
 
 signals:
-    void colorChanged();
     void filledChanged();
     void rectChanged();
     void penWidthChanged();
 
 public slots:
-    void setColor(QColor color);
     void setCorner(const QPointF& move, int corner) override;
 
 private:
@@ -62,7 +58,6 @@ private:
 private:
     QRectF m_rect= QRectF(0, 0, 1, 1);
     bool m_filled;
-    QColor m_color;
     quint16 m_penWidth;
 };
 } // namespace vmap

@@ -37,7 +37,6 @@ class TextController : public VisualItemController
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
     Q_PROPERTY(QRectF textRect READ textRect NOTIFY textRectChanged)
     Q_PROPERTY(QRectF borderRect READ borderRect WRITE setBorderRect NOTIFY borderRectChanged)
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(bool border READ border NOTIFY borderChanged)
     Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
     Q_PROPERTY(quint16 penWidth READ penWidth CONSTANT)
@@ -48,7 +47,6 @@ public:
     QString text() const;
     QRectF textRect() const;
     QRectF borderRect() const;
-    QColor color() const;
     bool border() const;
     QFont font() const;
     QPointF textPos() const;
@@ -60,7 +58,6 @@ public:
 
 public slots:
     void setText(QString text);
-    void setColor(QColor color);
     void setBorderRect(QRectF rect);
     void setTextRect(QRectF rect);
     void setCorner(const QPointF& move, int corner) override;
@@ -89,7 +86,6 @@ private:
     QRectF m_textRect;
     QPointF m_textPos;
     QRectF m_borderRect;
-    QColor m_color;
     bool m_border;
     QFont m_font;
     quint16 m_penWidth;

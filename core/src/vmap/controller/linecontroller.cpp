@@ -27,6 +27,8 @@ namespace vmap
 LineController::LineController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(ctrl, parent)
 {
+    m_tool= Core::SelectableTool::LINE;
+
     if(params.end() != params.find("color"))
         m_color= params.at(QStringLiteral("color")).value<QColor>();
 
@@ -40,11 +42,6 @@ LineController::LineController(const std::map<QString, QVariant>& params, Vector
 quint16 LineController::penWidth() const
 {
     return m_penWidth;
-}
-
-QColor LineController::color() const
-{
-    return m_color;
 }
 
 QPointF LineController::endPoint() const
@@ -96,13 +93,5 @@ void LineController::setEndPoint(const QPointF& p)
         return;
     m_end= p;
     emit endPointChanged();
-}
-
-void LineController::setColor(const QColor& color)
-{
-    if(color == m_color)
-        return;
-    m_color= color;
-    emit colorChanged();
 }
 } // namespace vmap

@@ -32,7 +32,6 @@ class EllipseController : public VisualItemController
 {
     Q_OBJECT
     Q_PROPERTY(bool filled READ filled NOTIFY filledChanged)
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(quint16 penWidth READ penWidth NOTIFY penWidthChanged)
     Q_PROPERTY(qreal rx READ rx WRITE setRx NOTIFY rxChanged)
     Q_PROPERTY(qreal ry READ ry WRITE setRy NOTIFY ryChanged)
@@ -41,7 +40,6 @@ public:
                       QObject* parent= nullptr);
 
     bool filled() const;
-    QColor color() const;
     quint16 penWidth() const;
     qreal rx() const;
     qreal ry() const;
@@ -51,21 +49,18 @@ public:
     QRectF rect() const override;
 
 signals:
-    void colorChanged();
     void filledChanged();
     void penWidthChanged();
     void rxChanged();
     void ryChanged();
 
 public slots:
-    void setColor(QColor color);
     void setCorner(const QPointF& move, int corner) override;
     void setRx(qreal rx);
     void setRy(qreal ry);
 
 private:
     bool m_filled;
-    QColor m_color;
     quint16 m_penWidth;
     qreal m_rx= 0.0;
     qreal m_ry= 0.0;

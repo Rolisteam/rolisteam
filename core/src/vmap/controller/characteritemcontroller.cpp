@@ -36,10 +36,12 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
                                                  VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(ctrl, parent)
 {
+    m_tool= Core::SelectableTool::NonPlayableCharacter;
     if(params.end() != params.find("character"))
     {
         m_character= params.at(QStringLiteral("character")).value<Character*>();
         connect(m_character, &Character::npcChanged, this, &CharacterItemController::refreshTextRect);
+        connect(m_character, &Character::colorChanged, this, [this]() { emit colorChanged(m_character->getColor()); });
         connect(m_character, &Character::avatarChanged, this, &CharacterItemController::computeThumbnail);
         connect(ctrl, &VectorialMapController::npcNameVisibleChanged, this, &CharacterItemController::refreshTextRect);
         connect(ctrl, &VectorialMapController::pcNameVisibleChanged, this, &CharacterItemController::refreshTextRect);
@@ -50,6 +52,7 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
 
         if(!m_character->isNpc())
         {
+            m_tool= Core::SelectableTool::PlayableCharacter;
             m_vision.reset(new CharacterVision());
         }
     }

@@ -44,6 +44,16 @@ bool VisualItemController::localIsGM() const
     return m_ctrl->localGM();
 }
 
+Core::SelectableTool VisualItemController::tool() const
+{
+    return m_tool;
+}
+
+QColor VisualItemController::color() const
+{
+    return m_color;
+}
+
 bool VisualItemController::editable() const
 {
     return (selectable() & m_editable);
@@ -89,9 +99,23 @@ int VisualItemController::gridSize() const
     return m_ctrl->gridSize();
 }
 
+bool VisualItemController::locked() const
+{
+    return m_locked;
+}
+
 QString VisualItemController::getLayerText(Core::Layer layer) const
 {
     return m_ctrl->getLayerToText(layer);
+}
+
+void VisualItemController::setColor(const QColor& color)
+{
+    if(m_color == color)
+        return;
+
+    m_color= color;
+    emit colorChanged(m_color);
 }
 
 void VisualItemController::setSelected(bool b)
@@ -157,5 +181,13 @@ void VisualItemController::setPos(const QPointF& pos)
         return;
     m_pos= pos;
     emit posChanged();
+}
+void VisualItemController::setLocked(bool locked)
+{
+    if(m_locked == locked)
+        return;
+
+    m_locked= locked;
+    emit lockedChanged(m_locked);
 }
 } // namespace vmap
