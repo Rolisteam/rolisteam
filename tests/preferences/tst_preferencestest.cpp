@@ -28,7 +28,7 @@ class PreferencesTest : public QObject, public PreferencesListener
 
 public:
     PreferencesTest();
-    void preferencesHasChanged(const QString&) override;
+    void preferencesHasChanged(const QString& pref) override;
 
 private slots:
     void testPreferenceRegisterValue();
