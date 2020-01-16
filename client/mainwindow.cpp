@@ -103,8 +103,8 @@
 #include "vmap/vmapwizzarddialog.h"
 
 // character sheet
-#include "charactersheet/charactersheetwindow.h"
 #include "diceparser/qmltypesregister.h"
+#include "media/charactersheetwindow.h"
 
 // session
 #include "session/sessiondock.h"
@@ -1886,12 +1886,12 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::addCharacterSheet == msg->action())
     {
-        CharacterSheetWindow* sheetWindow= new CharacterSheetWindow();
+        /*CharacterSheetWindow* sheetWindow= new CharacterSheetWindow();
         prepareCharacterSheetWindow(sheetWindow);
         QString idmedia= msg->string8();
         sheetWindow->setMediaId(idmedia);
         sheetWindow->readMessage(*msg);
-        addMediaToMdiArea(sheetWindow, false);
+        addMediaToMdiArea(sheetWindow, false);*/
     }
     else if(NetMsg::updateFieldCharacterSheet == msg->action())
     {
@@ -2305,9 +2305,9 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
         break;*/
     case CleverURI::CHARACTERSHEET:
     {
-        CharacterSheetWindow* csW= new CharacterSheetWindow();
+        /*CharacterSheetWindow* csW= new CharacterSheetWindow();
         prepareCharacterSheetWindow(csW);
-        tmp= csW;
+        tmp= csW;*/
     }
     break;
     case CleverURI::SONGLIST:
