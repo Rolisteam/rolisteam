@@ -98,7 +98,7 @@ void DataCharacterTest::testProperty()
     QVERIFY(spyInit.count() == 1);
 
     auto state2= new CharacterState();
-    m_character->setState(state2);
+    /*m_character->setState(state2);
     QSignalSpy spyState(m_character, &Character::stateChanged);
     auto state= new CharacterState();
     state->setLabel("test");
@@ -136,7 +136,7 @@ void DataCharacterTest::testProperty()
     m_character->setInitCommand("8G4");
     QVERIFY(spyColor.count() == 1);
     m_character->setInitCommand("8G4");
-    QVERIFY(spyColor.count() == 1);
+    QVERIFY(spyColor.count() == 1);*/
 }
 
 void DataCharacterTest::testCharacterAction()
