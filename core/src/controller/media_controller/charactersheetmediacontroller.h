@@ -17,15 +17,36 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CHARACTERSHEETCONTROLLER_H
-#define CHARACTERSHEETCONTROLLER_H
+#ifndef CHARACTERSHEETMEDIACONTROLLER_H
+#define CHARACTERSHEETMEDIACONTROLLER_H
 
+#include "mediacontrollerinterface.h"
 
-class CharacterSheetController : public MediaControllerInterface
+#include <QPointer>
+#include <memory>
+#include <vector>
+
+class CharacterModel;
+class CharacterSheetController;
+class CharacterSheetMediaController : public MediaControllerInterface
 {
     Q_OBJECT
 public:
-    CharacterSheetController();
+    CharacterSheetMediaController(CharacterModel* model);
+
+    CleverURI::ContentType type() const override;
+    bool openMedia(CleverURI* uri, const std::map<QString, QVariant>& args) override;
+    void closeMedia(const QString& id) override;
+    void registerNetworkReceiver() override;
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+    void setUndoStack(QUndoStack* stack) override {}
+
+signals:
+    void characterSheetCreated(CharacterSheetController*);
+
+private:
+    std::vector<std::unique_ptr<CharacterSheetController>> m_sheets;
+    QPointer<CharacterModel> m_characterModel;
 };
 
-#endif // CHARACTERSHEETCONTROLLER_H
+#endif // CHARACTERSHEETMEDIACONTROLLER_H

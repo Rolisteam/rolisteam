@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CharacterSheetWindow</class>
+ <widget class="QWidget" name="CharacterSheetWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>541</width>
+    <height>425</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QTabWidget" name="m_tabwidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Data</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QTreeView" name="m_treeview">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::ExtendedSelection</enum>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectItems</enum>
+         </property>
+         <property name="uniformRowHeights">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+  <action name="m_addSection">
+   <property name="text">
+    <string>Add Section</string>
+   </property>
+  </action>
+  <action name="m_addLine">
+   <property name="text">
+    <string>Add Line</string>
+   </property>
+  </action>
+  <action name="m_addCharactersheet">
+   <property name="text">
+    <string>Add CharacterSheet</string>
+   </property>
+  </action>
+  <action name="m_loadQml">
+   <property name="text">
+    <string>Load QML</string>
+   </property>
+  </action>
+  <action name="m_detachTab">
+   <property name="text">
+    <string>Detach Tab</string>
+   </property>
+   <property name="toolTip">
+    <string>Detach Tab</string>
+   </property>
+  </action>
+  <action name="m_copyTab">
+   <property name="text">
+    <string>Copy Tab</string>
+   </property>
+  </action>
+  <action name="m_readOnlyAct">
+   <property name="text">
+    <string>Read Only</string>
+   </property>
+  </action>
+  <action name="m_stopSharingTabAct">
+   <property name="text">
+    <string>Stop Sharing</string>
+   </property>
+  </action>
+  <action name="m_printAct">
+   <property name="text">
+    <string>Print Act</string>
+   </property>
+  </action>
+  <action name="m_menuAct">
+   <property name="icon">
+    <iconset theme="://resources/icons/list.svg">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Menu</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

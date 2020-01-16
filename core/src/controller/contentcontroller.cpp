@@ -19,9 +19,11 @@
  ***************************************************************************/
 #include "contentcontroller.h"
 
+#include "controller/media_controller/charactersheetmediacontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
 #include "controller/media_controller/mediacontrollerinterface.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
+#include "controller/view_controller/charactersheetcontroller.h"
 #include "gamecontroller.h"
 #include "preferences/preferencesmanager.h"
 #include "preferencescontroller.h"
@@ -33,15 +35,17 @@
 #include "undoCmd/openmediacontroller.h"
 #include "worker/modelhelper.h"
 
-ContentController::ContentController(NetworkController* networkCtrl, QObject* parent)
+ContentController::ContentController(CharacterModel* characterModel, NetworkController* networkCtrl, QObject* parent)
     : AbstractControllerInterface(parent)
     , m_contentModel(new SessionItemModel)
     , m_imageControllers(new ImageMediaController)
     , m_vmapControllers(new VectorialMapMediaController(networkCtrl))
+    , m_sheetMediaController(new CharacterSheetMediaController(characterModel))
     , m_sessionName(tr("Unknown"))
 {
     m_mediaControllers.insert({CleverURI::PICTURE, m_imageControllers.get()});
     m_mediaControllers.insert({CleverURI::VMAP, m_vmapControllers.get()});
+    m_mediaControllers.insert({CleverURI::CHARACTERSHEET, m_sheetMediaController.get()});
 }
 
 ContentController::~ContentController()= default;
@@ -108,6 +112,11 @@ ImageMediaController* ContentController::imagesCtrl() const
 VectorialMapMediaController* ContentController::vmapCtrl() const
 {
     return m_vmapControllers.get();
+}
+
+CharacterSheetMediaController* ContentController::sheetCtrl() const
+{
+    return m_sheetMediaController.get();
 }
 
 void ContentController::addContent(ResourcesNode* node)

@@ -39,6 +39,8 @@ class NetworkMessageReader;
 class ImageMediaController;
 class VectorialMapMediaController;
 class NetworkController;
+class CharacterSheetMediaController;
+class CharacterModel;
 // class AbstractMediaContainerController;
 class ContentController : public AbstractControllerInterface, public PreferencesListener
 {
@@ -53,12 +55,14 @@ class ContentController : public AbstractControllerInterface, public Preferences
     Q_PROPERTY(QString sessionPath READ sessionPath WRITE setSessionPath NOTIFY sessionPathChanged)
 
 public:
-    explicit ContentController(NetworkController* networkCtrl, QObject* parent= nullptr);
+    explicit ContentController(CharacterModel* characterModel, NetworkController* networkCtrl,
+                               QObject* parent= nullptr);
     ~ContentController() override;
 
     QAbstractItemModel* model() const;
     ImageMediaController* imagesCtrl() const;
     VectorialMapMediaController* vmapCtrl() const;
+    CharacterSheetMediaController* sheetCtrl() const;
 
     int maxLengthTabName() const;
     bool shortTitleTab() const;
@@ -70,13 +74,12 @@ public:
 
     void setGameController(GameController*) override;
     void preferencesHasChanged(const QString& key) override;
-
     void newMedia(CleverURI::ContentType type,
                   const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
     void openMedia(CleverURI* uri, const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
-
     void clear();
     void processMediaMessage(NetworkMessageReader* msg);
+
 signals:
     void workspaceFilenameChanged();
     void workspaceColorChanged();
@@ -109,6 +112,7 @@ private:
     std::map<CleverURI::ContentType, MediaControllerInterface*> m_mediaControllers;
     std::unique_ptr<ImageMediaController> m_imageControllers;
     std::unique_ptr<VectorialMapMediaController> m_vmapControllers;
+    std::unique_ptr<CharacterSheetMediaController> m_sheetMediaController;
 
     PreferencesManager* m_preferences;
     QString m_sessionName;
