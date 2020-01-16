@@ -28,13 +28,16 @@ set(HEADERS
     src/controller/view_controller/imagecontroller.h
     src/controller/view_controller/abstractmediacontroller.h
     src/controller/view_controller/vectorialmapcontroller.h
+    src/controller/view_controller/charactersheetcontroller.h
     src/controller/media_controller/mediacontrollerinterface.h
+    src/controller/media_controller/charactersheetmediacontroller.h
     src/controller/media_controller/vectorialmapmediacontroller.h
     src/controller/contentcontroller.h
     src/controller/media_controller/imagemediacontroller.h
     src/undoCmd/addlocalcharactercommand.h
     src/undoCmd/removelocalcharactercommand.h
     src/media/mediatype.h
+    src/media/charactersheetwindow.h
     src/audio/audioPlayer.h
     src/audio/musicmodel.h
     src/audio/playerwidget.h
@@ -44,7 +47,6 @@ set(HEADERS
     src/charactersheet/charactersheet.h
     src/charactersheet/charactersheetitem.h
     src/charactersheet/charactersheetmodel.h
-    src/charactersheet/charactersheetwindow.h
     src/charactersheet/csitem.h
     src/charactersheet/field.h
     src/charactersheet/formula/formulamanager.h
@@ -308,9 +310,11 @@ set(SOURCES
     src/controller/playercontroller.cpp
     src/controller/contentcontroller.cpp
     src/controller/media_controller/imagemediacontroller.cpp
+    src/controller/media_controller/charactersheetmediacontroller.cpp
     src/controller/media_controller/vectorialmapmediacontroller.cpp
     src/controller/view_controller/vectorialmapcontroller.cpp
     src/controller/view_controller/imagecontroller.cpp
+    src/controller/view_controller/charactersheetcontroller.cpp
     src/worker/iohelper.cpp
     src/undoCmd/addlocalcharactercommand.cpp
     src/undoCmd/removelocalcharactercommand.cpp
@@ -324,7 +328,7 @@ set(SOURCES
     #src/charactersheet/charactersheetbutton.cpp
     src/charactersheet/charactersheetitem.cpp
     src/charactersheet/charactersheetmodel.cpp
-    src/charactersheet/charactersheetwindow.cpp
+    src/media/charactersheetwindow.cpp
     src/charactersheet/csitem.cpp
     src/charactersheet/field.cpp
     src/charactersheet/formula/formulamanager.cpp
@@ -587,6 +591,7 @@ set(UI_FILES
     src/sharededitor/connecttodocument.ui
     src/userlist/playerspanel.ui
     src/common/widgets/logpanel.ui
+    src/media/charactersheetwindow.ui
     src/webview/webview.ui
     src/widgets/shortcuteditordialog.ui
     src/widgets/keygeneratordialog.ui

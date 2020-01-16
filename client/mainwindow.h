@@ -156,12 +156,6 @@ public:
      */
     void setupUi();
     /**
-     * @brief getPermission
-     * @param id
-     * @return
-     */
-    // Map::PermissionMode getPermission(int id);
-    /**
      * @brief readSettings
      */
     void readSettings();
@@ -383,10 +377,6 @@ private slots:
      * @param size
      */
     void receiveData(quint64 readData, quint64 size);
-    /**
-     * @brief openContent
-     */
-    //    void openContent();
     // save methods
     /**
      * @brief saveCurrentMedia
@@ -447,9 +437,7 @@ private slots:
      * @param player
      */
     void notifyAboutDeletedPlayer(Player* player) const;
-
     void showShortCutEditor();
-
     void newVMap();
 
 private:

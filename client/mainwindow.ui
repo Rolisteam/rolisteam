@@ -24,7 +24,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>39</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="m_fileMenu">
@@ -140,11 +140,6 @@
     <addaction name="m_supportRolisteam"/>
     <addaction name="m_aboutAction"/>
    </widget>
-   <widget class="QMenu" name="m_gmToolBoxMenu">
-    <property name="title">
-     <string>&amp;GM ToolBox</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="m_editMenu">
     <property name="title">
      <string>&amp;Edit</string>
@@ -152,6 +147,11 @@
     <addaction name="separator"/>
     <addaction name="m_shortCutEditorAct"/>
     <addaction name="m_fullScreenAct"/>
+   </widget>
+   <widget class="QMenu" name="m_gmToolBoxMenu">
+    <property name="title">
+     <string>GM ToolBoxes</string>
+    </property>
    </widget>
    <addaction name="m_fileMenu"/>
    <addaction name="m_editMenu"/>
@@ -278,6 +278,10 @@
    </property>
   </action>
   <action name="m_aboutAction">
+   <property name="icon">
+    <iconset resource="../rolisteam.qrc">
+     <normaloff>:/resources/logo/1000-symbole.png</normaloff>:/resources/logo/1000-symbole.png</iconset>
+   </property>
    <property name="text">
     <string>About Rolisteam</string>
    </property>
@@ -688,7 +692,6 @@
   </action>
  </widget>
  <resources>
-  <include location="../rolisteam.qrc"/>
   <include location="../rolisteam.qrc"/>
  </resources>
  <connections>
