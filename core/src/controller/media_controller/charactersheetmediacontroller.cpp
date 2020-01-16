@@ -17,9 +17,42 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "charactersheetcontroller.h"
+#include "charactersheetmediacontroller.h"
 
-CharacterSheetController::CharacterSheetController()
+#include "controller/view_controller/charactersheetcontroller.h"
+#include "data/cleveruri.h"
+#include "model/charactermodel.h"
+
+CharacterSheetMediaController::CharacterSheetMediaController(CharacterModel* model) : m_characterModel(model) {}
+
+CleverURI::ContentType CharacterSheetMediaController::type() const
 {
-
+    return CleverURI::CHARACTERSHEET;
 }
+
+bool CharacterSheetMediaController::openMedia(CleverURI* uri, const std::map<QString, QVariant>& args)
+{
+    if(uri == nullptr || (args.empty() && uri->getUri().isEmpty()))
+        return false;
+
+    std::unique_ptr<CharacterSheetController> imgCtrl(new CharacterSheetController(m_characterModel, uri));
+
+    emit characterSheetCreated(imgCtrl.get());
+    m_sheets.push_back(std::move(imgCtrl));
+    return true;
+}
+
+void CharacterSheetMediaController::closeMedia(const QString& id)
+{
+    auto it= std::remove_if(m_sheets.begin(), m_sheets.end(),
+                            [id](const std::unique_ptr<CharacterSheetController>& ctrl) { return ctrl->uuid() == id; });
+    if(it == m_sheets.end())
+        return;
+
+    (*it)->closeContainer();
+    m_sheets.erase(it, m_sheets.end());
+}
+
+void CharacterSheetMediaController::registerNetworkReceiver() {}
+
+NetWorkReceiver::SendType CharacterSheetMediaController::processMessage(NetworkMessageReader* msg) {}
