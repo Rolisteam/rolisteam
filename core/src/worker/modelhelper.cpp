@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "modelhelper.h"
 
+#include "charactersheet/charactersheetmodel.h"
+#include "charactersheet/imagemodel.h"
 #include "data/character.h"
 #include "data/player.h"
 #include "model/profilemodel.h"
@@ -27,6 +29,8 @@
 
 #include <QDebug>
 #include <QFileInfo>
+#include <QFontDatabase>
+#include <QJsonDocument>
 #include <QSettings>
 
 namespace Settingshelper
@@ -190,6 +194,55 @@ QString loadSession(const QString& path, SessionItemModel* model)
     in.setVersion(QDataStream::Qt_5_7);
     model->loadModel(in);
     return name;
+}
+
+bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model) {}
+
+bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, ImageModel* imgModel, QJsonObject& root,
+                        QString& qmlCode)
+{
+    if(path.isEmpty())
+        return false;
+
+    QFile file(path);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        return false;
+    }
+
+    QJsonDocument json= QJsonDocument::fromJson(file.readAll());
+    QJsonObject jsonObj= json.object();
+
+    root= jsonObj["data"].toObject();
+
+    qmlCode= jsonObj["qml"].toString();
+
+    QJsonArray images= jsonObj["background"].toArray();
+    for(auto jsonpix : images)
+    {
+        QJsonObject obj= jsonpix.toObject();
+        QString str= obj["bin"].toString();
+        QString key= obj["key"].toString();
+        QString filename= obj["filename"].toString();
+        bool isBg= obj["isBg"].toBool();
+        QByteArray array= QByteArray::fromBase64(str.toUtf8());
+        QPixmap pix;
+        pix.loadFromData(array);
+        imgModel->insertImage(pix, key, filename, isBg);
+    }
+
+    const auto fonts= jsonObj["fonts"].toArray();
+    for(const auto& obj : fonts)
+    {
+        const auto font= obj.toObject();
+        const auto fontData= QByteArray::fromBase64(font["data"].toString("").toLatin1());
+        QFontDatabase::addApplicationFontFromData(fontData);
+    }
+
+    // m_errorList.clear();
+    model->readModel(jsonObj, true);
+    // displayError(m_errorList);
+    return true;
 }
 
 } // namespace ModelHelper

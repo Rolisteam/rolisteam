@@ -27,9 +27,9 @@
 #include <QVBoxLayout>
 #include <memory>
 
-#include "charactersheetmodel.h"
+//#include "charactersheetmodel.h"
+#include "charactersheet/rolisteamimageprovider.h"
 #include "data/mediacontainer.h"
-#include "rolisteamimageprovider.h"
 
 /**
  * @page characterSheet CharacterSheet System
@@ -46,6 +46,11 @@
  *
  */
 
+namespace Ui
+{
+class CharacterSheetWindow;
+}
+
 /**
  * @brief herits from SubMdiWindows. It displays and manages all classes required to deal with the character sheet MVC
  * architrecture.
@@ -53,6 +58,8 @@
 class SheetWidget;
 class Player;
 class CharacterSheetController;
+class CharacterSheet;
+class CharacterSheetItem;
 class CharacterSheetWindow : public MediaContainer
 {
     Q_OBJECT
@@ -65,12 +72,6 @@ public:
      * @brief ~CharacterSheetWindow
      */
     virtual ~CharacterSheetWindow();
-    /**
-     * @brief openFile
-     * @param file
-     * @return
-     */
-    bool openFile(const QString& file);
     /**
      * @brief saveFile
      * @return
@@ -98,7 +99,7 @@ public:
     /**
      * @brief addCharacterSheet
      */
-    void addCharacterSheet(CharacterSheet*);
+    void addCharacterSheetSlot(CharacterSheet*);
     /**
      * @brief getImgProvider
      * @return
@@ -176,12 +177,6 @@ public slots:
      * @param alias : use alias if true, otherwise the command stays unmodified.
      */
     void rollDice(QString cmd, bool alias= true);
-    /**
-     * @brief updateFieldFrom
-     * @param sheet
-     * @param item
-     */
-    void updateFieldFrom(CharacterSheet* sheet, CharacterSheetItem* item, const QString& parentPath);
     /**
      * @brief removeConnection
      */
@@ -275,37 +270,10 @@ protected:
      */
     bool eventFilter(QObject* object, QEvent* event);
 
-private: // members
-    bool readData(QByteArray data);
-
 private:
     QPointer<CharacterSheetController> m_sheetCtrl;
-    /**
-     * @brief The view class
-     */
-    QTreeView m_view;
-    /**
-     * @brief the model for the characterSheet view
-     */
-    // CharacterSheetModel m_model;
-
-    /**
-     * actions
-     */
-    QAction* m_addSection= nullptr;
-    QAction* m_addLine= nullptr;
-    QAction* m_addCharacterSheet= nullptr;
-    QAction* m_loadQml= nullptr;
-    QAction* m_detachTab= nullptr;
-    QAction* m_copyTab= nullptr;
-    QAction* m_readOnlyAct= nullptr;
-    QAction* m_stopSharingTabAct= nullptr;
-    QAction* m_printAct= nullptr;
-
-    QVBoxLayout m_vertiLayout;
+    Ui::CharacterSheetWindow* m_ui;
     QString m_qmlUri;
-
-    QTabWidget* m_tabs;
 
     // QMap<SheetWidget*,CharacterSheet*> m_characterSheetlist;
     CharacterSheet* m_currentCharacterSheet;
