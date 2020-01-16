@@ -23,12 +23,15 @@
 #include <QtGui>
 
 #include "controller/contentcontroller.h"
+#include "controller/media_controller/charactersheetmediacontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
 
+#include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 
+#include "media/charactersheetwindow.h"
 #include "media/image.h"
 #include "vmap/vmapframe.h"
 
@@ -52,6 +55,8 @@ Workspace::Workspace(ContentController* ctrl, QWidget* parent)
 
     connect(m_ctrl->imagesCtrl(), &ImageMediaController::imageControllerCreated, this, &Workspace::addImage);
     connect(m_ctrl->vmapCtrl(), &VectorialMapMediaController::vmapControllerCreated, this, &Workspace::addVectorialMap);
+    connect(m_ctrl->sheetCtrl(), &CharacterSheetMediaController::characterSheetCreated, this,
+            &Workspace::addCharacterSheet);
 
     connect(this, &Workspace::subWindowActivated, this, &Workspace::updateActiveMediaContainer);
 
@@ -374,4 +379,10 @@ void Workspace::addVectorialMap(VectorialMapController* ctrl)
     vmapFrame->setGeometry(0, 0, 800, 600);
     addWidgetToMdi(vmapFrame.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(vmapFrame));
+}
+void Workspace::addCharacterSheet(CharacterSheetController* ctrl)
+{
+    std::unique_ptr<CharacterSheetWindow> window(new CharacterSheetWindow(ctrl));
+    addWidgetToMdi(window.get(), ctrl->name());
+    m_mediaContainers.push_back(std::move(window));
 }

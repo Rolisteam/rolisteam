@@ -18,10 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <QJsonObject>
 #include <QString>
 
 class SessionItemModel;
 class ProfileModel;
+class CharacterSheetModel;
+class ImageModel;
 namespace Settingshelper
 {
 void readConnectionProfileModel(ProfileModel* model);
@@ -32,4 +35,8 @@ namespace ModelHelper
 {
 bool saveSession(const QString& path, const QString& name, const SessionItemModel* model);
 QString loadSession(const QString& path, SessionItemModel* model);
+
+bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model);
+bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, ImageModel* imgModel, QJsonObject& root,
+                        QString& qmlCode);
 } // namespace ModelHelper
