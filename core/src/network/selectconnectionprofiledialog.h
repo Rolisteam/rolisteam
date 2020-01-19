@@ -49,11 +49,7 @@ public:
      * @brief updateGUI
      */
     void updateGUI();
-signals:
-    /**
-     * @brief tryConnection
-     */
-    void startConnectionProcess(int pos);
+
 public slots:
     /**
      * @brief removeProfile

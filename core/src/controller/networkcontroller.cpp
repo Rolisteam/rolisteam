@@ -39,10 +39,14 @@ NetworkController::NetworkController(QObject* parent)
     // connect(m_clientManager.get(), &ClientManager::errorOccur, m_dialog,
     // &SelectConnectionProfileDialog::errorOccurs);
     /*connect(m_clientManager.get(), SIGNAL(connectionStateChanged(ClientManager::ConnectionState)), this,
-            SLOT(updateWindowTitle()));
-    connect(m_clientManager.get(), SIGNAL(connectionStateChanged(ClientManager::ConnectionState)), this,
-            SLOT(networkStateChanged(ClientManager::ConnectionState)));*/
-    connect(m_clientManager.get(), &ClientManager::isAuthentified, this, &NetworkController::connectedChanged);
+            SLOT(updateWindowTitle()));*/
+    connect(m_clientManager.get(), &ClientManager::connectionStateChanged, this,
+            [this](ClientManager::ConnectionState state) {
+                setConnected(state == ClientManager::AUTHENTIFIED);
+                setConnecting(state == ClientManager::CONNECTING);
+            });
+
+    // connect(m_clientManager.get(), &ClientManager::isAuthentified, this, [this]() { emit connectedChanged(true); });
     connect(m_clientManager.get(), &ClientManager::connectedToServer, this, &NetworkController::sendOffConnectionInfo);
     // connect(m_clientManager.get(), SIGNAL(clearData()), this, SLOT(cleanUpData()));
     connect(m_clientManager.get(), &ClientManager::gameMasterStatusChanged, this, &NetworkController::isGMChanged);
@@ -92,6 +96,22 @@ void NetworkController::setAskForGM(bool askGM)
         return;
     m_askForGM= askGM;
     emit askForGMChanged();
+}
+
+void NetworkController::setConnected(bool b)
+{
+    if(b == m_connected)
+        return;
+    m_connected= b;
+    emit connectedChanged(m_connected);
+}
+
+void NetworkController::setConnecting(bool b)
+{
+    if(b == m_connecting)
+        return;
+    m_connecting= b;
+    emit connectingChanged(m_connecting);
 }
 
 void NetworkController::setServerPassword(const QByteArray& array)
@@ -150,7 +170,8 @@ void NetworkController::startServer()
             break;
         }*/
     });
-    // connect(m_server, &ServerManager::listening, this, &MainWindow::initializedClientManager, Qt::QueuedConnection);
+    // connect(m_server, &ServerManager::listening, this, &MainWindow::initializedClientManager,
+    // Qt::QueuedConnection);
 
     m_server->insertField("port", m_port);
     m_server->insertField("ThreadCount", 1);
@@ -174,6 +195,18 @@ void NetworkController::startServer()
     m_serverThread->start();
     thread->start();
 }
+
+void NetworkController::stopConnecting()
+{
+    if(!m_connecting)
+        return;
+
+    m_clientManager->disconnectAndClose();
+
+    if(m_serverThread)
+        m_serverThread->terminate();
+}
+
 bool NetworkController::hosting() const
 {
     return m_hosting;
@@ -206,7 +239,12 @@ bool NetworkController::isGM() const
 
 bool NetworkController::connected() const
 {
-    return m_clientManager->isConnected();
+    return m_connected;
+}
+
+bool NetworkController::connecting() const
+{
+    return m_connecting;
 }
 
 QByteArray NetworkController::serverPassword() const

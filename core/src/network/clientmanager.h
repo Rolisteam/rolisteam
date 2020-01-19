@@ -49,7 +49,6 @@ class ConnectionProfile;
 class ClientManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool connected READ isConnected NOTIFY connectedChanged)
     Q_PROPERTY(bool ready READ ready NOTIFY readyChanged)
     Q_PROPERTY(ConnectionState connectionStateChanged READ connectionState NOTIFY connectionStateChanged)
 public:
@@ -70,11 +69,6 @@ public:
      * @brief ~NetworkManager
      */
     virtual ~ClientManager();
-    /**
-     * @brief isConnected
-     * @return
-     */
-    bool isConnected() const;
     ConnectionState connectionState() const;
 
     bool ready() const;
@@ -104,7 +98,6 @@ signals:
     // State signal
     void readyChanged();
     void isAuthentified();
-    void connectedChanged();
     void isConnectedSig();
     void isConnecting();
     void isDisconnected();

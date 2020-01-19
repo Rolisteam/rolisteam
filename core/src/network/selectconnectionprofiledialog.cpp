@@ -39,6 +39,10 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
     connect(ui->m_delProfileAct, &QPushButton::clicked, this, &SelectConnectionProfileDialog::removeProfile);
     connect(ui->m_addresseLineEdit, &QLineEdit::textChanged, this, &SelectConnectionProfileDialog::checkConnection);
     connect(ui->m_isServerCheckbox, &QCheckBox::toggled, this, &SelectConnectionProfileDialog::checkConnection);
+    connect(m_ctrl->networkController(), &NetworkController::connectingChanged, ui->m_progressBar,
+            &QProgressBar::setVisible);
+    connect(m_ctrl->networkController(), &NetworkController::connectingChanged, this,
+            [this](bool connecting) { ui->m_connect->setEnabled(!connecting); });
 }
 
 SelectConnectionProfileDialog::~SelectConnectionProfileDialog()
@@ -50,10 +54,12 @@ void SelectConnectionProfileDialog::setCurrentProfile(QModelIndex index)
 {
     if(m_currentProfileIndex == index.row())
         return;
+    m_ctrl->networkController()->stopConnecting();
     m_currentProfileIndex= index.row();
     updateProfile();
     m_avatarUri.clear();
     updateGUI();
+    ui->m_connect->setEnabled(true);
 }
 void SelectConnectionProfileDialog::updateGUI()
 {
@@ -186,10 +192,9 @@ void SelectConnectionProfileDialog::connectToIndex(QModelIndex index)
 }
 void SelectConnectionProfileDialog::connectTo()
 {
-    ui->m_connect->blockSignals(true);
+    ui->m_connect->setEnabled(false);
     updateProfile();
-    ui->m_progressBar->setVisible(true);
-    emit startConnectionProcess(m_currentProfileIndex);
+    m_ctrl->startConnection(m_currentProfileIndex);
 }
 void SelectConnectionProfileDialog::openImage()
 {
@@ -216,17 +221,5 @@ void SelectConnectionProfileDialog::errorOccurs(QString str)
 {
     ui->m_errorNotification->setStyleSheet("font: 19pt ;\nbackground: rgb(255, 0, 0);\ncolor: rgb(0,0,0);");
     ui->m_errorNotification->setText(str);
-    ui->m_progressBar->setVisible(false);
     endOfConnectionProcess();
-}
-
-void SelectConnectionProfileDialog::disconnection()
-{
-    ui->m_progressBar->setVisible(false);
-    endOfConnectionProcess();
-}
-
-void SelectConnectionProfileDialog::endOfConnectionProcess()
-{
-    ui->m_connect->blockSignals(false);
 }
