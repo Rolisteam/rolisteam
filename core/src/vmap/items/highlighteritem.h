@@ -19,7 +19,9 @@
  ***************************************************************************/
 #ifndef HIGHLIGHTERITEM_H
 #define HIGHLIGHTERITEM_H
-#include "visualitem.h"
+
+#include <QGraphicsObject>
+
 class QPropertyAnimation;
 namespace vmap
 {
@@ -28,19 +30,18 @@ class VisualItemController;
 /**
  * @brief displays an ellipse on maps.
  */
-class HighlighterItem : public VisualItem
+class HighlighterItem : public QGraphicsObject
 {
     Q_OBJECT
     Q_PROPERTY(qreal radius READ getRadius WRITE setRadius NOTIFY radiusChanged)
 public:
-    HighlighterItem(vmap::VisualItemController* ctrl);
     /**
      * @brief constructor with parameters
      * @param center first point clicked by the user
      * @param either the shape is filled or not
      * @param color used for drawing it.
      */
-    HighlighterItem(QPointF& center, int penSize, QColor& penColor, QGraphicsItem* parent= nullptr);
+    HighlighterItem(const QPointF& center, int penSize, const QColor& penColor, QGraphicsItem* parent= nullptr);
     /**
      * @brief paint the ellipse at the correct position
      */
@@ -68,25 +69,25 @@ public:
      * @brief getType
      * @return
      */
-    virtual VisualItem::ItemType getType() const;
+    // virtual VisualItem::ItemType getType() const;
 
     /**
      * @brief fillMessage
      * @param msg
      */
-    virtual void fillMessage(NetworkMessageWriter* msg);
+    // virtual void fillMessage(NetworkMessageWriter* msg);
     /**
      * @brief readItem
      * @param msg
      */
-    virtual void readItem(NetworkMessageReader* msg);
+    // virtual void readItem(NetworkMessageReader* msg);
 
     void setRadius(qreal radius);
     qreal getRadius() const;
 
     void setGeometryPoint(qreal, QPointF&);
     void initChildPointItem();
-    VisualItem* getItemCopy();
+    // VisualItem* getItemCopy();
 
 signals:
     void radiusChanged();
@@ -98,6 +99,7 @@ private:
     qreal m_radius;
     QPointF m_center;
     QColor m_color;
+    quint16 m_penSize;
     QPropertyAnimation* m_animation;
 };
 

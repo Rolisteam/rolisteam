@@ -444,6 +444,12 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
             }
         }
     }
+    else if(Core::HIGHLIGHTER == m_ctrl->tool())
+    {
+        auto hitem= new HighlighterItem(mouseEvent->scenePos(), m_ctrl->penSize(), m_ctrl->toolColor());
+        addItem(hitem);
+        hitem->setPos(mouseEvent->scenePos());
+    }
     else if(Core::BUCKET == m_ctrl->tool())
     {
         QList<QGraphicsItem*> itemList= items(mouseEvent->scenePos());

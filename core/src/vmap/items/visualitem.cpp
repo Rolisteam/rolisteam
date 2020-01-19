@@ -51,6 +51,7 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl)
         scene()->removeItem(this);
         deleteLater();
     });
+    connect(m_ctrl, &vmap::VisualItemController::colorChanged, this, [this]() { update(); });
     connect(m_ctrl, &vmap::VisualItemController::rotationChanged, this, [this]() { setRotation(m_ctrl->rotation()); });
     connect(m_ctrl, &vmap::VisualItemController::visibleChanged, this, [this]() {
         // test anretnaute ue utanite nauriteuet naut euirenru e
