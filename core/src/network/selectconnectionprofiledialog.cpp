@@ -221,5 +221,4 @@ void SelectConnectionProfileDialog::errorOccurs(QString str)
 {
     ui->m_errorNotification->setStyleSheet("font: 19pt ;\nbackground: rgb(255, 0, 0);\ncolor: rgb(0,0,0);");
     ui->m_errorNotification->setText(str);
-    endOfConnectionProcess();
 }
