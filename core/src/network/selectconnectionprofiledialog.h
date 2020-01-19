@@ -68,11 +68,6 @@ public slots:
     void openImage();
     void errorOccurs(QString);
     void checkConnection();
-    void disconnection();
-    /**
-     * @brief endOfConnectionProcess
-     */
-    void endOfConnectionProcess();
 
 private:
     Ui::SelectConnectionProfileDialog* ui;
