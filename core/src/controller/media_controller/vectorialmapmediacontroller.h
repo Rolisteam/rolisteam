@@ -53,6 +53,20 @@ signals:
     void editionModeChanged(Core::EditionMode mode);
     void vmapControllerCreated(VectorialMapController* media);
 
+    void gridSizeChanged(int size);
+    void gridAboveChanged(bool);
+    void gridColorChanged(QColor);
+    void gridScaleChanged(double);
+    void gridUnitChanged(Core::ScaleUnit unit);
+    void gridVisibilityChanged(bool);
+
+    void backgroundColorChanged(QColor);
+    void layerChanged(Core::Layer);
+    void collisionChanged(bool);
+    void characterVision(bool);
+    void visibilityModeChanged(Core::VisibilityMode mode);
+    void permissionModeChanged(Core::PermissionMode mode);
+
 public slots:
     void setTool(Core::SelectableTool tool);
     void setColor(const QColor& color);

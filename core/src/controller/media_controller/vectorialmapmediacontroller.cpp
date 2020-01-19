@@ -49,6 +49,11 @@ VectorialMapMediaController::VectorialMapMediaController(NetworkController* netw
     func();
 }
 
+VectorialMapController* VectorialMapMediaController::currentVMap() const
+{
+    return findActive(m_vmaps);
+}
+
 CleverURI::ContentType VectorialMapMediaController::type() const
 {
     return CleverURI::VMAP;
@@ -180,6 +185,19 @@ void VectorialMapMediaController::updateProperties()
 
     emit npcNumberChanged(ctrl->npcNumber());
     emit toolColorChanged(ctrl->toolColor());
+    emit gridSizeChanged(ctrl->gridSize());
+    emit gridAboveChanged(ctrl->gridAbove());
+    emit gridColorChanged(ctrl->gridColor());
+    emit gridScaleChanged(ctrl->gridScale());
+    emit gridUnitChanged(ctrl->scaleUnit());
+    emit gridVisibilityChanged(ctrl->gridVisibility());
+    emit backgroundColorChanged(ctrl->backgroundColor());
+    emit layerChanged(ctrl->layer());
+    emit collisionChanged(ctrl->collision());
+    emit characterVision(ctrl->characterVision());
+    emit visibilityModeChanged(ctrl->visibility());
+    emit permissionModeChanged(ctrl->permission());
+
     // emit opacityChanged(ctrl->);
     // emit editionModeChanged(ctrl->editionMode());
 }
@@ -254,6 +272,7 @@ void VectorialMapMediaController::setGridUnit(Core::ScaleUnit unit)
 
 void VectorialMapMediaController::setGridSize(int size)
 {
+    qDebug() << "grid size:" << size;
     auto ctrl= findActive(m_vmaps);
     if(nullptr == ctrl)
         return;
