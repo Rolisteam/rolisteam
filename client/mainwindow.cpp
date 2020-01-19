@@ -353,18 +353,7 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac, bool redoable)
         // addMedia->redo();
     }
 }
-void MainWindow::closeConnection()
-{
-    /* if(nullptr != m_clientManager)
-     {
-         m_serverThread.exit();
-         cleanUpData();
-         m_clientManager->disconnectAndClose();
-         m_chatListWidget->cleanChatList();
-         m_ui->m_changeProfileAct->setEnabled(true);
-         m_ui->m_disconnectAction->setEnabled(false);
-     }*/
-}
+
 void MainWindow::closeAllMediaContainer()
 {
     /* auto const& values= m_mediaHash.values();
@@ -1468,6 +1457,15 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
        }*/
 }
 
+void MainWindow::showConnectionDialog(bool forced)
+{
+    if((!m_profileDefined) || (forced))
+    {
+        m_dialog->open();
+    }
+}
+
+/*
 void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
 {
     if(msg->action() == NetMsg::EndConnectionAction)
@@ -1491,15 +1489,7 @@ void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
     }
 }
 
-void MainWindow::showConnectionDialog(bool forced)
-{
-    if((!m_profileDefined) || (forced))
-    {
-        m_dialog->open();
-    }
-}
-
-/*void MainWindow::startConnection()
+void MainWindow::startConnection()
 {
     m_chatListWidget->cleanChatList();
     if(nullptr != m_dialog)
@@ -1554,8 +1544,6 @@ void MainWindow::cleanUpData()
     {
         roomPanel->cleanUp();
     }
-    if(nullptr != m_dialog)
-        m_dialog->disconnection();
 }
 
 void MainWindow::postConnection()
@@ -1903,10 +1891,30 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
            if(sheet == sheetbis)
                m_mediaHash.remove(idMedia);
            DeleteMediaContainerCommand cmd(sheet, m_ui->m_editMenu, m_mdiArea,
-                                           m_currentConnectionProfile->isGM(), m_mediaHash);*/
+                                           m_currentConnectionProfile->isGM(), m_mediaHash);
         //  cmd.redo();
     }
 }
+void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
+{
+    QString idMap= msg->string8();
+    QString idCharacter= msg->string8();
+    Map* map= findMapById(idMap);
+    if(nullptr == map)
+        return;
+
+quint8 param= msg->uint8();
+if(msg->action() == NetMsg::ToggleViewPlayerCharacterAction)
+{
+    map->showPc(idCharacter, param);
+}
+else if(msg->action() == NetMsg::ChangePlayerCharacterSizeAction)
+{
+    map->selectCharacter(idCharacter);
+    map->changePcSize(param + 11);
+}
+}
+*/
 CharacterSheetWindow* MainWindow::findCharacterSheetWindowById(const QString& idMedia, const QString& idSheet)
 {
     auto vector= m_mdiArea->getAllSubWindowFromId(idMedia);
@@ -1923,76 +1931,6 @@ CharacterSheetWindow* MainWindow::findCharacterSheetWindowById(const QString& id
     }
 
     return nullptr;
-}
-
-void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
-{
-    QString idMap= msg->string8();
-    QString idCharacter= msg->string8();
-    Map* map= findMapById(idMap);
-    if(nullptr == map)
-        return;
-
-    quint8 param= msg->uint8();
-    if(msg->action() == NetMsg::ToggleViewPlayerCharacterAction)
-    {
-        map->showPc(idCharacter, param);
-    }
-    else if(msg->action() == NetMsg::ChangePlayerCharacterSizeAction)
-    {
-        map->selectCharacter(idCharacter);
-        map->changePcSize(param + 11);
-    }
-}
-void MainWindow::prepareVMap(VMapFrame* tmp)
-{
-    if(nullptr == tmp)
-        return;
-
-    /*VMap* map= tmp->getMap();
-
-    if(nullptr == map)
-        return;
-    if(nullptr != m_currentConnectionProfile)
-    {
-        map->setOption(VisualItem::LocalIsGM, m_currentConnectionProfile->isGM());
-    }
-    map->setLocalId(m_gameController->localPlayerId());
-    // tmp->setUndoStack(&m_undoStack);
-
-    // Toolbar to Map
-
-    // map to toolbar
-    // connect(map, &VMap::npcAdded, m_vToolBar, &VToolsBar::increaseNpcNumber);
-    connect(map, &VMap::runDiceCommandForCharacter, this,
-            [this](QString cmd, QString uuid) { m_chatListWidget->rollDiceCmdForCharacter(cmd, uuid, true); });
-
-    // menu to Map
-    connect(m_ui->m_showNpcNameAction, &QAction::triggered, this,
-            [map](bool b) { map->setOption(VisualItem::ShowNpcName, b); });
-    connect(m_ui->m_showNpcNumberAction, &QAction::triggered, this,
-            [map](bool b) { map->setOption(VisualItem::ShowNpcNumber, b); });
-    connect(m_ui->m_showPcNameAction, &QAction::triggered, this,
-            [map](bool b) { map->setOption(VisualItem::ShowPcName, b); });
-    connect(m_ui->m_showHealtStatusAction, &QAction::triggered, this,
-            [map](bool b) { map->setOption(VisualItem::ShowHealthStatus, b); });
-    connect(m_ui->m_showInitiativeAct, &QAction::triggered, this,
-            [map](bool b) { map->setOption(VisualItem::ShowInitScore, b); });
-    connect(m_ui->m_healthBarAct, &QAction::triggered, this,
-            [map](bool b) { map->setOption(VisualItem::ShowHealthBar, b); });
-
-    map->setOption(VisualItem::ShowNpcName, m_ui->m_showNpcNameAction->isChecked());
-    map->setOption(VisualItem::ShowNpcNumber, m_ui->m_showNpcNumberAction->isChecked());
-    map->setOption(VisualItem::ShowPcName, m_ui->m_showPcNameAction->isChecked());
-    map->setOption(VisualItem::ShowHealthStatus, m_ui->m_showHealtStatusAction->isChecked());
-    map->setOption(VisualItem::ShowHealthBar, m_ui->m_healthBarAct->isChecked());
-    map->setOption(VisualItem::ShowInitScore, m_ui->m_showInitiativeAct->isChecked());
-
-    map->setCurrentNpcNumber(m_toolBar->getCurrentNpcNumber());
-    // tmp->currentPenSizeChanged(m_vToolBar->getCurrentPenSize());
-
-    // m_vToolBar->setCurrentTool(VToolsBar::HANDLER);
-    // tmp->currentToolChanged(m_vToolBar->getCurrentTool());*/
 }
 
 CleverURI* MainWindow::contentToPath(CleverURI::ContentType type, bool save)
@@ -2325,7 +2263,7 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
             }
             else if(uri->getType() == CleverURI::VMAP)
             {
-                prepareVMap(static_cast<VMapFrame*>(tmp));
+                // prepareVMap(static_cast<VMapFrame*>(tmp));
             }
             addMediaToMdiArea(tmp);
         }
