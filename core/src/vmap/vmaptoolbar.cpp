@@ -112,12 +112,6 @@ void VmapToolBar::setupUi()
 
     connect(m_showOnlyItemsFromThisLayer, SIGNAL(clicked(bool)), this, SLOT(managedAction()));
     connect(m_showGridAct, SIGNAL(triggered()), this, SLOT(triggerGrid()));
-    connect(m_gridAbove, &QCheckBox::toggled, this, [=](bool b) {
-        //  if(nullptr != m_vmap)
-        {
-            // m_vmap->setOption(VisualItem::GridAbove, b);
-        }
-    });
     connect(m_gridUnit, QOverload<int>::of(&QComboBox::currentIndexChanged), m_ctrl,
             [this](int value) { m_ctrl->setGridUnit(static_cast<Core::ScaleUnit>(value)); });
     connect(m_bgSelector, &ColorButton::colorChanged, m_ctrl, &VectorialMapMediaController::setBackgroundColor);
@@ -141,6 +135,29 @@ void VmapToolBar::setupUi()
     connect(m_showCharacterVision, &QToolButton::clicked, m_ctrl, &VectorialMapMediaController::setCharacterVision);
     connect(m_collision, &QCheckBox::clicked, m_ctrl, &VectorialMapMediaController::setCollision);
     connect(m_showTransparentItem, &QAction::triggered, m_ctrl, &VectorialMapMediaController::showTransparentItem);
+
+    // Update Ui
+    connect(m_ctrl, &VectorialMapMediaController::gridSizeChanged, m_gridSize, &QSpinBox::setValue);
+    connect(m_ctrl, &VectorialMapMediaController::gridUnitChanged, this,
+            [this](Core::ScaleUnit unit) { m_gridUnit->setCurrentIndex(static_cast<int>(unit)); });
+
+    connect(m_ctrl, &VectorialMapMediaController::gridAboveChanged, m_gridAbove, &QCheckBox::setChecked);
+    // connect(m_ctrl, &VectorialMapMediaController::gridColorChanged, this, [this](int) {
+    /// TODO
+    //});
+    connect(m_ctrl, &VectorialMapMediaController::gridScaleChanged, m_scaleSize, &QDoubleSpinBox::setValue);
+
+    connect(m_ctrl, &VectorialMapMediaController::gridVisibilityChanged, m_showGridAct, &QAction::setChecked);
+    connect(m_ctrl, &VectorialMapMediaController::backgroundColorChanged, m_bgSelector, &ColorButton::setColor);
+
+    connect(m_ctrl, &VectorialMapMediaController::layerChanged, this,
+            [this](Core::Layer layer) { m_currentLayer->setCurrentIndex(static_cast<int>(layer)); });
+    connect(m_ctrl, &VectorialMapMediaController::collisionChanged, m_collision, &QCheckBox::setChecked);
+    connect(m_ctrl, &VectorialMapMediaController::characterVision, m_showCharacterVision, &QCheckBox::setChecked);
+    connect(m_ctrl, &VectorialMapMediaController::visibilityModeChanged, this,
+            [this](Core::VisibilityMode mode) { m_currentVisibility->setCurrentIndex(static_cast<int>(mode)); });
+    connect(m_ctrl, &VectorialMapMediaController::permissionModeChanged, this,
+            [this](Core::PermissionMode mode) { m_currentPermission->setCurrentIndex(static_cast<int>(mode)); });
 }
 void VmapToolBar::setCurrentMap(VMap* map)
 {
