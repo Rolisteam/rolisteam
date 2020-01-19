@@ -68,6 +68,7 @@ public:
     void setGameController(GameController* game);
 
     void stopConnecting();
+    void disconnection();
 
 signals:
     void isGMChanged();
