@@ -201,6 +201,14 @@ void NetworkController::stopConnecting()
     if(!m_connecting)
         return;
 
+    disconnection();
+}
+
+void NetworkController::disconnection()
+{
+    if(!m_connected || !m_connecting)
+        return;
+
     m_clientManager->disconnectAndClose();
 
     if(m_serverThread)
