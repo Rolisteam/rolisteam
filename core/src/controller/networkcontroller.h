@@ -39,6 +39,7 @@ class NetworkController : public AbstractControllerInterface
     Q_OBJECT
     Q_PROPERTY(bool isGM READ isGM WRITE setIsGM NOTIFY isGMChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
+    Q_PROPERTY(bool connecting READ connecting NOTIFY connectingChanged)
     Q_PROPERTY(bool hosting READ hosting WRITE setHosting NOTIFY hostingChanged)
     Q_PROPERTY(bool askForGM READ askForGM WRITE setAskForGM NOTIFY askForGMChanged)
     Q_PROPERTY(QString host READ host WRITE setHost NOTIFY hostChanged)
@@ -52,6 +53,7 @@ public:
     ~NetworkController();
     bool isGM() const;
     bool connected() const;
+    bool connecting() const;
     bool hosting() const;
     bool askForGM() const;
     QString host() const;
@@ -65,9 +67,12 @@ public:
     ConnectionProfile* getProfile(int pos) const;
     void setGameController(GameController* game);
 
+    void stopConnecting();
+
 signals:
     void isGMChanged();
-    void connectedChanged();
+    void connectedChanged(bool);
+    void connectingChanged(bool);
     void hostingChanged();
     void askForGMChanged();
     void hostChanged();
@@ -87,6 +92,8 @@ public slots:
     void setPort(int port);
     void setServerPassword(const QByteArray& array);
     void setAdminPassword(const QByteArray& array);
+    void setConnected(bool b);
+    void setConnecting(bool b);
 
     void appendProfile();
     void removeProfile(int pos);
@@ -120,6 +127,8 @@ private:
     bool m_isGM= true;
     bool m_hosting= false;
     bool m_askForGM= true;
+    bool m_connected= false;
+    bool m_connecting= false;
 };
 
 #endif // CONNECTIONCONTROLLER_H

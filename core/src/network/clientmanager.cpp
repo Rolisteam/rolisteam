@@ -132,21 +132,6 @@ void ClientManager::disconnectAndClose()
     setConnectionState(DISCONNECTED);
 }
 
-bool ClientManager::isConnected() const
-{
-    switch(m_connectionState)
-    {
-    case UNREADY:
-    case DISCONNECTED:
-    case CONNECTING:
-    case CONNECTED:
-        return false;
-    case AUTHENTIFIED:
-        return true;
-    }
-    return false;
-}
-
 ClientManager::ConnectionState ClientManager::connectionState() const
 {
     return m_connectionState;
@@ -159,11 +144,11 @@ bool ClientManager::ready() const
 
 void ClientManager::setConnectionState(ConnectionState state)
 {
-    if(m_connectionState != state)
-    {
-        m_connectionState= state;
-        emit connectionStateChanged(m_connectionState);
-    }
+    if(m_connectionState == state)
+        return;
+
+    m_connectionState= state;
+    emit connectionStateChanged(m_connectionState);
 }
 NetworkLink* ClientManager::getLinkToServer()
 {
