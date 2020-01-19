@@ -46,11 +46,13 @@ public:
     {
         IdentifierRole= Qt::UserRole + 1,
         PersonPtrRole,
+        NameRole,
         LocalRole,
         GmRole,
         CharacterRole,
         CharacterStateIdRole,
         NpcRole,
+        AvatarRole
     };
     /**
      * @brief Constructor

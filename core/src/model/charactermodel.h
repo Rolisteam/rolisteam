@@ -20,13 +20,22 @@
 #ifndef CHARACTERMODEL_H
 #define CHARACTERMODEL_H
 
-#include <QObject>
+#include <QAbstractProxyModel>
 
-class CharacterModel
+class CharacterModel : public QAbstractProxyModel
 {
     Q_OBJECT
 public:
-    CharacterModel();
+    CharacterModel(/*CharacterType mode,*/ QObject* parent= nullptr);
+
+    int columnCount(const QModelIndex& parent= QModelIndex()) const override;
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+
+    QModelIndex mapFromSource(const QModelIndex& sourceIndex) const override;
+    QModelIndex mapToSource(const QModelIndex& proxyIndex) const override;
+
+    QModelIndex parent(const QModelIndex&) const override;
+    QModelIndex index(int, int, const QModelIndex&) const override;
 };
 
 #endif // CHARACTERMODEL_H

@@ -134,6 +134,11 @@ QVariant PlayerModel::data(const QModelIndex& index, int role) const
     Character* character= dynamic_cast<Character*>(person);
     Player* player= dynamic_cast<Player*>(person);
     bool isGM= false;
+    bool isCharacter= (character != nullptr);
+    bool isNPC= false;
+
+    if(isCharacter)
+        isNPC= character->isNpc();
 
     if((player != nullptr))
     {
@@ -200,6 +205,9 @@ QVariant PlayerModel::data(const QModelIndex& index, int role) const
         break;
     case CharacterRole:
         var= person->isLeaf();
+        break;
+    case NpcRole:
+        var= isNPC;
         break;
     case CharacterStateIdRole:
     {
