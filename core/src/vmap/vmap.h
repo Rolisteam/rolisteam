@@ -48,7 +48,7 @@
  *
  */
 class CharacterItem;
-class VectorialMapController;
+class AnchorItem;
 class AddVmapItemCommand;
 namespace vmap
 {
@@ -362,6 +362,7 @@ private:
      * @brief current selected item
      */
     QPointer<VisualItem> m_currentItem;
+    QPointer<AnchorItem> m_parentItemAnchor;
     /**
      * @brief m_currentPath
      */
