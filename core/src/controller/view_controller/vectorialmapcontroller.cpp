@@ -567,6 +567,7 @@ void VectorialMapController::changeFogOfWar(const QPolygonF& poly, bool mask)
  m_items.push_back(std::move(ctrl));
  return pCtrl;*/
 //}
+void VectorialMapController::addHighLighter(const QPointF& point) {}
 
 RectControllerManager* VectorialMapController::rectManager() const
 {

@@ -30,10 +30,8 @@
 #include "network/networkmessagewriter.h"
 #include "preferences/preferencesmanager.h"
 
-HighlighterItem::HighlighterItem(vmap::VisualItemController* ctrl) : VisualItem(ctrl) {}
-
-/*HighlighterItem::HighlighterItem(QPointF& center, int penSize, QColor& penColor, QGraphicsItem* parent)
-    : VisualItem(penColor, penSize, parent)
+HighlighterItem::HighlighterItem(const QPointF& center, int penSize, const QColor& penColor, QGraphicsItem* parent)
+    : m_center(center), m_color(penColor), m_penSize(static_cast<quint16>(penSize))
 {
     m_center= center;
     setPos(m_center);
@@ -42,7 +40,7 @@ HighlighterItem::HighlighterItem(vmap::VisualItemController* ctrl) : VisualItem(
     m_radius= 0;
 
     initAnimation();
-}*/
+}
 
 void HighlighterItem::initAnimation()
 {
@@ -78,7 +76,7 @@ void HighlighterItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     painter->save();
     QPen pen= painter->pen();
     pen.setColor(m_color);
-    // pen.setWidth(m_penWidth);
+    pen.setWidth(m_penSize);
     painter->setPen(pen);
 
     painter->drawEllipse(m_center, m_radius, m_radius);
@@ -98,15 +96,14 @@ qreal HighlighterItem::getRadius() const
 {
     return m_radius;
 }
-void HighlighterItem::setNewEnd(const QPointF& p){
+void HighlighterItem::setNewEnd(const QPointF& p)
+{
     Q_UNUSED(p)
     /*  m_radius = std::fabs(p.x()-pos().x())*sqrt(2);
 
       m_rect.setRect(-m_radius,-m_radius,m_radius*2,m_radius*2);*/
-} VisualItem::ItemType HighlighterItem::getType() const
-{
-    return VisualItem::HIGHLIGHTER;
 }
+
 void HighlighterItem::writeData(QDataStream& out) const
 {
     Q_UNUSED(out)
@@ -116,7 +113,7 @@ void HighlighterItem::readData(QDataStream& in)
 {
     Q_UNUSED(in)
 }
-void HighlighterItem::fillMessage(NetworkMessageWriter* msg)
+/*void HighlighterItem::fillMessage(NetworkMessageWriter* msg)
 {
     msg->string16(m_id);
     msg->real(scale());
@@ -160,10 +157,6 @@ void HighlighterItem::readItem(NetworkMessageReader* msg)
     setPos(posx, posy);
 
     initAnimation();
-}
+}*/
 void HighlighterItem::setGeometryPoint(qreal, QPointF&) {}
 void HighlighterItem::initChildPointItem() {}
-VisualItem* HighlighterItem::getItemCopy()
-{
-    return nullptr;
-}
