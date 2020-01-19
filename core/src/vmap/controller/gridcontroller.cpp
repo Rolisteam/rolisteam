@@ -22,6 +22,7 @@
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 
+#include <QDebug>
 #include <QPainter>
 #include <math.h>
 
@@ -35,6 +36,7 @@ vmap::GridController::GridController(VectorialMapController* ctrl, QObject* pare
     connect(ctrl, &VectorialMapController::gridPatternChanged, this, &vmap::GridController::computePattern);
     connect(ctrl, &VectorialMapController::gridColorChanged, this, &vmap::GridController::computePattern);
     connect(ctrl, &VectorialMapController::gridVisibilityChanged, this, &vmap::GridController::computePattern);
+    connect(ctrl, &VectorialMapController::gridSizeChanged, this, &vmap::GridController::computePattern);
     connect(ctrl, &VectorialMapController::gridScaleChanged, this, &vmap::GridController::computePattern);
     connect(ctrl, &VectorialMapController::gridAboveChanged, this, &vmap::GridController::computePattern);
     connect(ctrl, &VectorialMapController::scaleUnitChanged, this, &vmap::GridController::computePattern);
@@ -71,6 +73,7 @@ void GridController::setGm(bool gm)
 
 void GridController::setGridPattern(QImage gridPattern)
 {
+    qDebug() << "pattern grid changed" << m_gridPattern << gridPattern;
     if(m_gridPattern == gridPattern)
         return;
 
@@ -96,6 +99,7 @@ QRectF GridController::rect() const
 
 void GridController::computePattern()
 {
+    qDebug() << "computer Pattern";
     if(m_ctrl->gridPattern() == Core::NONE || !m_ctrl->gridVisibility() || !m_ctrl->gridAbove())
         setVisible(false);
     else
