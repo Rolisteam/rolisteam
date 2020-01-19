@@ -46,13 +46,13 @@ public:
      * @return
      */
     // int rowCount(const QModelIndex& parent= QModelIndex()) const;
-    Q_INVOKABLE QModelIndex mapFromSource(const QModelIndex& sourceIndex) const;
-    Q_INVOKABLE QModelIndex mapToSource(const QModelIndex& proxyIndex) const;
+    Q_INVOKABLE QModelIndex mapFromSource(const QModelIndex& sourceIndex) const override;
+    Q_INVOKABLE QModelIndex mapToSource(const QModelIndex& proxyIndex) const override;
 
-    Q_INVOKABLE virtual QModelIndex index(int, int, const QModelIndex&) const;
-    Q_INVOKABLE virtual QModelIndex parent(const QModelIndex&) const;
-    Q_INVOKABLE virtual int rowCount(const QModelIndex& parent) const;
-    Q_INVOKABLE virtual int columnCount(const QModelIndex&) const;
+    Q_INVOKABLE virtual QModelIndex index(int, int, const QModelIndex&) const override;
+    Q_INVOKABLE virtual QModelIndex parent(const QModelIndex&) const override;
+    Q_INVOKABLE virtual int rowCount(const QModelIndex& parent) const override;
+    Q_INVOKABLE virtual int columnCount(const QModelIndex&) const override;
 };
 
 #endif
