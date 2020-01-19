@@ -49,7 +49,7 @@ public:
     void deleteItem(const QList<vmap::VisualItemController*>& list);
     void setItemLayer(const QList<vmap::VisualItemController*>& list, Core::Layer layer);
     void setRotation(const QList<vmap::VisualItemController*>& list, int value);
-    void changeZValue(const QList<vmap::VisualItemController*>& list, VisualItem::StackOrder order);
+    void changeZValue(const QList<vmap::VisualItemController*>& list, VectorialMapController::StackOrder order);
 
 public slots:
     void addImageToMap();

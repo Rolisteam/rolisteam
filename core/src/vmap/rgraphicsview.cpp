@@ -35,7 +35,7 @@
 #include "items/ruleitem.h"
 #include "undoCmd/changesizevmapitem.h"
 
-bool isNormalItem(vmap::VisualItemController* itemCtrl)
+bool isNormalItem(const vmap::VisualItemController* itemCtrl)
 {
     if(!itemCtrl)
         return false;
@@ -72,32 +72,37 @@ RGraphicsView::RGraphicsView(VectorialMapController* ctrl, QWidget* parent)
 
 void RGraphicsView::mousePressEvent(QMouseEvent* event)
 {
-    if(m_currentTool == Core::HANDLER)
+    if(m_ctrl->tool() != Core::HANDLER)
     {
-        if(event->button() == Qt::LeftButton)
-        {
-            QList<QGraphicsItem*> list= items(event->pos());
+        setDragMode(QGraphicsView::NoDrag);
+        QGraphicsView::mousePressEvent(event);
+        return;
+    }
 
-            /*list.erase(std::remove_if(list.begin(), list.end(),
-                                      [this](const QGraphicsItem* item) { return !m_vmap->isNormalItem(item); }),
-                       list.end());*/
-            bool rubber= true;
-            if(!list.isEmpty())
-            {
-                rubber= false;
-            }
-            if(!rubber)
-            {
-                setDragMode(QGraphicsView::NoDrag);
-            }
-            else
-            {
-                setDragMode(QGraphicsView::RubberBandDrag);
-            }
-        }
-        else if(event->button() == Qt::RightButton)
+    if(event->button() == Qt::RightButton)
+        return;
+
+    if(event->button() == Qt::LeftButton)
+    {
+        QList<QGraphicsItem*> list= items(event->pos());
+
+        list.erase(std::remove_if(list.begin(), list.end(),
+                                  [](const QGraphicsItem* item) {
+                                      return !isNormalItem(dynamic_cast<const vmap::VisualItemController*>(item));
+                                  }),
+                   list.end());
+        bool rubber= true;
+        if(!list.isEmpty())
         {
-            return;
+            rubber= false;
+        }
+        if(!rubber)
+        {
+            setDragMode(QGraphicsView::NoDrag);
+        }
+        else
+        {
+            setDragMode(QGraphicsView::RubberBandDrag);
         }
     }
     QGraphicsView::mousePressEvent(event);
@@ -149,14 +154,12 @@ void RGraphicsView::wheelEvent(QWheelEvent* event)
         {
             scale(scaleFactor, scaleFactor);
             ++m_counterZoom;
-            RuleItem::setZoomLevel(scaleFactor);
             // ChildPointItem::setZoomLevel(scaleFactor);
         }
         else if(m_counterZoom > -20)
         {
             --m_counterZoom;
             scale(1.0 / scaleFactor, 1.0 / scaleFactor);
-            RuleItem::setZoomLevel(1.0 / scaleFactor);
             // ChildPointItem::setZoomLevel(1.0 / scaleFactor);
         }
 
@@ -181,7 +184,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
     if(m_ctrl->idle())
     {
-        auto extractVisualItem= [this](QList<QGraphicsItem*> itemList) -> QList<vmap::VisualItemController*> {
+        auto extractVisualItem= [](QList<QGraphicsItem*> itemList) -> QList<vmap::VisualItemController*> {
             QList<vmap::VisualItemController*> list;
             for(QGraphicsItem* item : itemList)
             {
@@ -402,7 +405,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         else if((m_backOrderAction == selectedAction) || (m_frontOrderAction == selectedAction)
                 || (m_lowerAction == selectedAction) || (m_raiseAction == selectedAction))
         {
-            changeZValue(list, static_cast<VisualItem::StackOrder>(selectedAction->data().toInt()));
+            // changeZValue(list, static_cast<VisualItem::StackOrder>(selectedAction->data().toInt()));
         }
         else if((selectedAction == m_putCharacterLayer) || (selectedAction == m_putObjectLayer)
                 || (selectedAction == m_putGroundLayer))
@@ -453,12 +456,9 @@ void RGraphicsView::deleteItem(const QList<vmap::VisualItemController*>& list)
 {
     qDebug() << "delete Item" << list.size();
     m_ctrl->aboutToRemove(list);
-
-    /*std::for_each(list.begin(), list.end(), [this](vmap::VisualItemController* itemController) {
-        m_ctrl->removeItemController(itemController->uuid());
-    });*/
 }
-void RGraphicsView::changeZValue(const QList<vmap::VisualItemController*>& list, VisualItem::StackOrder order)
+void RGraphicsView::changeZValue(const QList<vmap::VisualItemController*>& list,
+                                 VectorialMapController::StackOrder order)
 {
     for(auto ctrl : list)
     {
@@ -492,19 +492,19 @@ void RGraphicsView::createAction()
 
     m_backOrderAction= new QAction(tr("Back"));
     m_backOrderAction->setIcon(QIcon(":/resources/icons/action-order-back.png"));
-    m_backOrderAction->setData(VisualItem::BACK);
+    m_backOrderAction->setData(VectorialMapController::BACK);
 
     m_frontOrderAction= new QAction(tr("Front"));
     m_frontOrderAction->setIcon(QIcon(":/resources/icons/action-order-front.png"));
-    m_frontOrderAction->setData(VisualItem::FRONT);
+    m_frontOrderAction->setData(VectorialMapController::FRONT);
 
     m_lowerAction= new QAction(tr("Lower"));
     m_lowerAction->setIcon(QIcon(":/resources/icons/action-order-lower.png"));
-    m_lowerAction->setData(VisualItem::LOWER);
+    m_lowerAction->setData(VectorialMapController::LOWER);
 
     m_raiseAction= new QAction(tr("Raise"));
     m_raiseAction->setIcon(QIcon(":/resources/icons/action-order-raise.png"));
-    m_raiseAction->setData(VisualItem::RAISE);
+    m_raiseAction->setData(VectorialMapController::RAISE);
 
     m_normalizeSizeAverage= new QAction(tr("Average"), this);
     m_normalizeSizeAverage->setData(VectorialMapController::Average);
