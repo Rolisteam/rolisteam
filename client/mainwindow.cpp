@@ -127,7 +127,6 @@ MainWindow::MainWindow(const QStringList& args)
 
     // ALLOCATIONS
     m_dialog.reset(new SelectConnectionProfileDialog(m_gameController.get(), this));
-    // m_mapAction= new QMap<MediaContainer*, QAction*>();
     m_downLoadProgressbar= new QProgressBar(this);
     m_sessionDock.reset(new SessionDock(m_gameController->contentController()));
     m_vmapToolBar= new VmapToolBar(m_gameController->contentController()->vmapCtrl(), this);
@@ -175,6 +174,8 @@ MainWindow::MainWindow(const QStringList& args)
             postConnection();
         m_dialog->setVisible(!conncted);
         updateWindowTitle();
+        m_ui->m_changeProfileAct->setEnabled(conncted);
+        m_ui->m_disconnectAction->setEnabled(conncted);
     });
     // connect(m_sessionManager, &SessionManager::openResource, this, &MainWindow::openResource);
 
@@ -612,13 +613,13 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_saveAsAction, &QAction::triggered, this, &MainWindow::saveCurrentMedia);
     connect(m_ui->m_saveScenarioAction, &QAction::triggered, this, [=]() { saveStory(false); });
     connect(m_ui->m_saveScenarioAsAction, &QAction::triggered, this, [=]() { saveStory(true); });
-    connect(m_ui->m_preferencesAction, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
+    connect(m_ui->m_preferencesAction, &QAction::triggered, m_preferencesDialog, &PreferencesDialog::show);
 
     // Edition
     // Windows managing
-    connect(m_ui->m_cascadeViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(cascadeSubWindows()));
-    connect(m_ui->m_tabViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(setTabbedMode(bool)));
-    connect(m_ui->m_tileViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
+    connect(m_ui->m_cascadeViewAction, &QAction::triggered, m_mdiArea, &Workspace::cascadeSubWindows);
+    connect(m_ui->m_tabViewAction, &QAction::triggered, m_mdiArea, &Workspace::setTabbedMode);
+    connect(m_ui->m_tileViewAction, &QAction::triggered, m_mdiArea, &Workspace::tileSubWindows);
 
     connect(m_ui->m_fullScreenAct, &QAction::triggered, this, [=](bool enable) {
         if(enable)
@@ -656,11 +657,12 @@ void MainWindow::linkActionToMenu()
     m_ui->m_editMenu->insertSeparator(m_ui->m_shortCutEditorAct);
 
     // close
-    connect(m_ui->m_quitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
+    connect(m_ui->m_quitAction, &QAction::triggered, this, &MainWindow::close);
 
     // network
-    connect(m_ui->m_disconnectAction, SIGNAL(triggered()), this, SLOT(closeConnection()));
-    connect(m_ui->m_changeProfileAct, SIGNAL(triggered()), this, SLOT(showConnectionDialog()));
+    connect(m_ui->m_disconnectAction, &QAction::triggered, m_gameController->networkController(),
+            &NetworkController::disconnection);
+    connect(m_ui->m_changeProfileAct, &QAction::triggered, this, &MainWindow::showConnectionDialog);
     connect(m_ui->m_connectionLinkAct, &QAction::triggered, this, [=]() {
         QString str("rolisteam://%1/%2/%3");
         if(m_currentConnectionProfile == nullptr)
@@ -670,14 +672,13 @@ void MainWindow::linkActionToMenu()
                                .arg(m_currentConnectionProfile->getPort())
                                .arg(QString::fromUtf8(m_currentConnectionProfile->getPassword().toBase64())));
     });
-    connect(m_ui->m_roomListAct, SIGNAL(triggered(bool)), m_roomPanelDockWidget, SLOT(setVisible(bool)));
-
+    connect(m_ui->m_roomListAct, &QAction::triggered, m_roomPanelDockWidget, &QDockWidget::setVisible);
     // Help
-    connect(m_ui->m_aboutAction, &QAction::triggered, this, [=]() {
+    connect(m_ui->m_aboutAction, &QAction::triggered, this, [this]() {
         AboutRolisteam diag(m_gameController->version(), this);
         diag.exec();
     });
-    connect(m_ui->m_onlineHelpAction, SIGNAL(triggered()), this, SLOT(helpOnLine()));
+    connect(m_ui->m_onlineHelpAction, &QAction::triggered, this, &MainWindow::helpOnLine);
 
     m_ui->m_supportRolisteam->setData(QStringLiteral("https://liberapay.com/Rolisteam/donate"));
     m_ui->m_patreon->setData(QStringLiteral("https://www.patreon.com/rolisteam"));
@@ -1594,7 +1595,7 @@ void MainWindow::postConnection()
     }
 }*/
 
-void MainWindow::processNpcMessage(NetworkMessageReader* msg)
+/*void MainWindow::processNpcMessage(NetworkMessageReader* msg)
 {
     QString idMap= msg->string8();
     if(msg->action() == NetMsg::addNpc)
@@ -1857,12 +1858,12 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::addCharacterSheet == msg->action())
     {
-        /*CharacterSheetWindow* sheetWindow= new CharacterSheetWindow();
+        CharacterSheetWindow* sheetWindow= new CharacterSheetWindow();
         prepareCharacterSheetWindow(sheetWindow);
         QString idmedia= msg->string8();
         sheetWindow->setMediaId(idmedia);
         sheetWindow->readMessage(*msg);
-        addMediaToMdiArea(sheetWindow, false);*/
+        addMediaToMdiArea(sheetWindow, false);
     }
     else if(NetMsg::updateFieldCharacterSheet == msg->action())
     {
@@ -1881,7 +1882,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::closeCharacterSheet == msg->action())
     {
-        /*   QString idMedia= msg->string8();
+          QString idMedia= msg->string8();
            QString idSheet= msg->string8();
            CharacterSheetWindow* sheet= findCharacterSheetWindowById(idMedia, idSheet);
            if(nullptr == sheet)
