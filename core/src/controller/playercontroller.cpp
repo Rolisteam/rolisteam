@@ -22,6 +22,7 @@
 #include "controller/gamecontroller.h"
 #include "controller/preferencescontroller.h"
 #include "data/player.h"
+#include "model/charactermodel.h"
 #include "model/playeronmapmodel.h"
 #include "preferences/characterstatemodel.h"
 #include "undoCmd/addlocalcharactercommand.h"
@@ -32,9 +33,11 @@ PlayerController::PlayerController(QObject* parent)
     : AbstractControllerInterface(parent)
     , m_model(new PlayerModel)
     , m_playerOnMapModel(new PlayerOnMapModel)
+    , m_characterModel(new CharacterModel)
     , m_localPlayer(new Player)
 {
     m_playerOnMapModel->setSourceModel(m_model.get());
+    m_characterModel->setSourceModel(m_model.get());
 }
 
 PlayerController::~PlayerController()= default;
@@ -69,6 +72,11 @@ QAbstractItemModel* PlayerController::playerOnMapModel() const
 QAbstractItemModel* PlayerController::characterStateModel() const
 {
     return m_characterStateModel;
+}
+
+CharacterModel* PlayerController::characterModel() const
+{
+    return m_characterModel.get();
 }
 
 void PlayerController::setLocalPlayer(Player* player)

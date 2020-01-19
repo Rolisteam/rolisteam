@@ -42,6 +42,7 @@ set(HEADERS
     src/audio/musicmodel.h
     src/audio/playerwidget.h
     src/model/profilemodel.h
+    src/model/charactermodel.h
     src/model/thememodel.h
     src/model/playeronmapmodel.h
     src/charactersheet/charactersheet.h
@@ -321,6 +322,7 @@ set(SOURCES
     src/model/profilemodel.cpp
     src/model/thememodel.cpp
     src/model/playeronmapmodel.cpp
+    src/model/charactermodel.cpp
     src/audio/audioPlayer.cpp
     src/audio/musicmodel.cpp
     src/audio/playerwidget.cpp

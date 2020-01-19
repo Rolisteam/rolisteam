@@ -19,7 +19,84 @@
  ***************************************************************************/
 #include "charactermodel.h"
 
-CharacterModel::CharacterModel()
-{
+#include "data/character.h"
+#include "data/person.h"
+#include "data/player.h"
+#include "userlist/playermodel.h"
 
+CharacterModel::CharacterModel(QObject* parent) : QAbstractProxyModel(parent)
+{
+    // setDynamicSortFilter(true);
+}
+
+int CharacterModel::columnCount(const QModelIndex& parent) const
+{
+    if(parent.isValid())
+        return 0;
+    return 1;
+}
+
+int CharacterModel::rowCount(const QModelIndex& parent) const
+{
+    if(parent.isValid())
+        return 0;
+
+    int row= 0;
+    auto size= sourceModel()->rowCount();
+    for(int i= 0; i < size; ++i)
+    {
+        auto index= sourceModel()->index(i, 0);
+        row+= sourceModel()->rowCount(index);
+    }
+    return row;
+}
+
+QModelIndex CharacterModel::mapFromSource(const QModelIndex& sourceIndex) const
+{
+    if(!sourceIndex.isValid())
+        return QModelIndex();
+
+    auto parent= sourceIndex.parent();
+
+    if(!parent.isValid())
+        return QModelIndex();
+
+    int row= sourceIndex.row();
+    for(int i= 0; i < parent.row(); ++i)
+    {
+        auto index= sourceModel()->index(i, 0);
+        row+= sourceModel()->rowCount(index);
+    }
+
+    if(parent.isValid())
+        return createIndex(row, 0, sourceIndex.internalPointer());
+
+    return QModelIndex();
+}
+
+QModelIndex CharacterModel::mapToSource(const QModelIndex& proxyIndex) const
+{
+    auto row= proxyIndex.row();
+    QModelIndex parent;
+    for(int i= 0; i < sourceModel()->rowCount(); ++i)
+    {
+        auto index= sourceModel()->index(i, 0);
+        auto count= sourceModel()->rowCount(index);
+        if((row - count) >= 0)
+        {
+            row-= count;
+            parent= index;
+        }
+    }
+    return sourceModel()->index(row, 0, parent);
+}
+
+QModelIndex CharacterModel::parent(const QModelIndex&) const
+{
+    return QModelIndex();
+}
+
+QModelIndex CharacterModel::index(int r, int c, const QModelIndex&) const
+{
+    return createIndex(r, c);
 }

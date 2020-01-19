@@ -34,12 +34,14 @@ class PlayerModel;
 class LocalModel;
 class PlayerOnMapModel;
 class CharacterStateModel;
+class CharacterModel;
 class PlayerController : public AbstractControllerInterface
 {
     Q_OBJECT
     Q_PROPERTY(QAbstractItemModel* model READ model CONSTANT)
     Q_PROPERTY(QAbstractItemModel* playerOnMapModel READ playerOnMapModel CONSTANT)
     Q_PROPERTY(QAbstractItemModel* characterStateModel READ characterStateModel NOTIFY characterStateModelChanged)
+    Q_PROPERTY(CharacterModel* characterModel READ characterModel CONSTANT)
     Q_PROPERTY(Player* localPlayer READ localPlayer WRITE setLocalPlayer NOTIFY localPlayerChanged)
 public:
     explicit PlayerController(QObject* parent= nullptr);
@@ -50,6 +52,7 @@ public:
     QAbstractItemModel* model() const;
     QAbstractItemModel* playerOnMapModel() const;
     QAbstractItemModel* characterStateModel() const;
+    CharacterModel* characterModel() const;
 
     void setGameController(GameController*) override;
     void clear();
@@ -57,6 +60,7 @@ public:
 signals:
     void localPlayerChanged();
     void characterStateModelChanged();
+
 public slots:
     void setLocalPlayer(Player* player);
 
@@ -69,6 +73,7 @@ public slots:
 private:
     std::unique_ptr<PlayerModel> m_model;
     std::unique_ptr<PlayerOnMapModel> m_playerOnMapModel;
+    std::unique_ptr<CharacterModel> m_characterModel;
     QPointer<QAbstractItemModel> m_characterStateModel;
     QPointer<Player> m_localPlayer;
     QPointer<QUndoStack> m_stack;
