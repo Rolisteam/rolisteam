@@ -20,6 +20,11 @@
 #ifndef VMAP_H
 #define VMAP_H
 
+#include <QColor>
+#include <QGraphicsScene>
+#include <QUndoStack>
+
+#include "controller/view_controller/vectorialmapcontroller.h"
 #include "data/person.h"
 #include "media/mediatype.h"
 #include "vmap/items/griditem.h"
@@ -27,9 +32,6 @@
 #include "vmap/items/sightitem.h"
 #include "vmap/items/visualitem.h"
 #include "vtoolbar.h"
-#include <QColor>
-#include <QGraphicsScene>
-#include <QUndoStack>
 
 /**
  * @page VMap
@@ -49,6 +51,7 @@
  */
 class CharacterItem;
 class AnchorItem;
+class RuleItem;
 class AddVmapItemCommand;
 namespace vmap
 {
@@ -213,7 +216,7 @@ public slots:
      * @param item to move
      * @param op operation to be done.
      */
-    void changeStackOrder(VisualItem* item, VisualItem::StackOrder op);
+    // void changeStackOrder(VisualItem* item, VectorialMapController::StackOrder op);
     /**
      * @brief setCurrentItemOpacity
      */
@@ -363,6 +366,7 @@ private:
      */
     QPointer<VisualItem> m_currentItem;
     QPointer<AnchorItem> m_parentItemAnchor;
+    QPointer<RuleItem> m_ruleItem;
     /**
      * @brief m_currentPath
      */

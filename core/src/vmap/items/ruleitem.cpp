@@ -21,43 +21,69 @@
 #include "ruleitem.h"
 
 #include "vmap/controller/visualitemcontroller.h"
-#define PEN_WIDTH 3
-#define FONT_SIZE 15
-qreal RuleItem::m_zoomFactor= 1;
 
-RuleItem::RuleItem(vmap::VisualItemController* ctrl) : VisualItem(ctrl), m_pen(QColor(Qt::red))
+#define FONT_SIZE 15
+
+QString unitToText(Core::ScaleUnit unit)
 {
-    // setFlag(QGraphicsItem::ItemIgnoresTransformations,true);
+    QString result;
+    switch(unit)
+    {
+    case Core::M:
+        result= QStringLiteral("m");
+        break;
+    case Core::CM:
+        result= QStringLiteral("cm");
+        break;
+    case Core::INCH:
+        result= QStringLiteral("″");
+        break;
+    case Core::FEET:
+        result= QStringLiteral("′");
+        break;
+    case Core::YARD:
+        result= QStringLiteral("yd");
+        break;
+    case Core::MILE:
+        result= QStringLiteral("mi");
+        break;
+    case Core::KM:
+        result= QStringLiteral("km");
+        break;
+    case Core::PX:
+        result= QStringLiteral("px");
+        break;
+    }
+    return result;
 }
+
+RuleItem::RuleItem(VectorialMapController* ctrl) : QGraphicsObject(), m_ctrl(ctrl) {}
 
 RuleItem::~RuleItem() {}
 QRectF RuleItem::boundingRect() const
 {
-    return m_rect;
+    return QRectF(m_startPoint, m_endPoint);
 }
-VisualItem::ItemType RuleItem::getType() const
+
+void RuleItem::setNewEnd(const QPointF& nendConst, bool onAxis)
 {
-    return VisualItem::RULE;
-}
-void RuleItem::setNewEnd(const QPointF& nendConst)
-{
-    auto nend= nendConst;
-    if(m_mod & Qt::ControlModifier)
+    if(nendConst.isNull())
+        return;
+    if(!onAxis)
     {
-        QLineF line(m_startPoint, nend);
-        if(std::fabs(line.dx()) > std::fabs(line.dy()))
-        {
-            nend.setY(m_startPoint.y());
-        }
-        else
-        {
-            nend.setX(m_startPoint.x());
-        }
+        m_endPoint+= nendConst;
+        return;
     }
-    m_endPoint= nend;
-    m_rect.setBottomRight(nend);
-    QLineF line(m_startPoint, m_endPoint);
-    setTransformOriginPoint(line.pointAt(0.5));
+
+    QLineF line(m_startPoint, nendConst);
+    if(std::fabs(line.dx()) > std::fabs(line.dy()))
+    {
+        m_endPoint= QPointF(m_endPoint.x() + nendConst.x(), 0);
+    }
+    else
+    {
+        m_endPoint= QPointF(0, m_endPoint.y() + nendConst.y());
+    }
 }
 void RuleItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
@@ -67,7 +93,7 @@ void RuleItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, true);
 
-    m_pen.setWidth(PEN_WIDTH * 1 / m_zoomFactor);
+    m_pen.setWidth(m_ctrl->penSize() * 1 / m_ctrl->zoomLevel());
     m_pen.setColor(Qt::red);
     painter->setPen(m_pen);
     QLineF line(m_startPoint, m_endPoint);
@@ -75,97 +101,19 @@ void RuleItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     painter->drawLine(line);
     painter->restore();
 
-    // QPointF middle = line.pointAt(0.5);
-
     qreal len= line.length();
-    qreal unitCount= len / m_pixelToUnit;
+    qreal unitCount= len / m_ctrl->gridScale();
 
     QFont f= painter->font();
-    f.setPixelSize(FONT_SIZE * 1 / m_zoomFactor);
+    f.setPixelSize(FONT_SIZE * 1 / m_ctrl->zoomLevel());
     painter->setFont(f);
 
-    painter->drawText(m_endPoint, QString("%1 %2").arg(QString::number(unitCount, 'f', 2), m_unitText));
-}
-void RuleItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
-{
-    VisualItem::mouseMoveEvent(event);
-}
-void RuleItem::setModifiers(Qt::KeyboardModifiers mod)
-{
-    m_mod= mod;
-}
+    auto text= QString("%1 %2").arg(QString::number(unitCount, 'f', 2), unitToText(m_ctrl->scaleUnit()));
 
-void RuleItem::writeData(QDataStream& out) const
-{
-    Q_UNUSED(out)
-}
-
-void RuleItem::readData(QDataStream& in)
-{
-    Q_UNUSED(in)
-}
-void RuleItem::fillMessage(NetworkMessageWriter* msg)
-{
-    Q_UNUSED(msg)
-}
-void RuleItem::readItem(NetworkMessageReader* msg)
-{
-    Q_UNUSED(msg)
-}
-void RuleItem::setGeometryPoint(qreal pointId, QPointF& pos)
-{
-    if(pointId == 0)
-    {
-        m_startPoint= pos;
-        m_rect.setTopLeft(m_startPoint);
-    }
-    else if(pointId == 1)
-    {
-        m_endPoint= pos;
-        m_rect.setBottomRight(m_endPoint);
-    }
-}
-void RuleItem::initChildPointItem() {}
-void RuleItem::setUnit(Core::ScaleUnit unit)
-{
-    switch(unit)
-    {
-    case Core::M:
-        m_unitText= QStringLiteral("m");
-        break;
-    case Core::CM:
-        m_unitText= QStringLiteral("cm");
-        break;
-    case Core::INCH:
-        m_unitText= QStringLiteral("″");
-        break;
-    case Core::FEET:
-        m_unitText= QStringLiteral("′");
-        break;
-    case Core::YARD:
-        m_unitText= QStringLiteral("yd");
-        break;
-    case Core::MILE:
-        m_unitText= QStringLiteral("mi");
-        break;
-    case Core::KM:
-        m_unitText= QStringLiteral("km");
-        break;
-    case Core::PX:
-        m_unitText= QStringLiteral("px");
-        break;
-    }
-}
-void RuleItem::setPixelToUnit(qreal pixels)
-{
-    m_pixelToUnit= pixels;
-}
-VisualItem* RuleItem::getItemCopy()
-{
-    return nullptr;
-}
-
-void RuleItem::setZoomLevel(qreal i)
-{
-    m_zoomFactor*= i;
+    QFontMetricsF metrics(f);
+    auto rect= metrics.boundingRect(text);
+    painter->save();
+    painter->fillRect(rect.translated(m_endPoint), QBrush("#88FFFFFF"));
+    painter->restore();
+    painter->drawText(m_endPoint, text);
 }
