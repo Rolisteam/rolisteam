@@ -190,21 +190,9 @@ int main(int argc, char* argv[])
     }
 
     // Create the main window
-    MainWindow* mainWindow= new MainWindow();
-    mainWindow->parseCommandLineArguments(app.arguments());
-
-    mainWindow->setupUi();
-    mainWindow->readSettings();
+    MainWindow* mainWindow= new MainWindow(app.arguments());
     int value= 0;
-    if(PreferencesManager::getInstance()->value("FullScreenAtStarting", true).toBool())
-    {
-        mainWindow->showMaximized();
-    }
-    else
-    {
-        mainWindow->show();
-    }
-    mainWindow->showConnectionDialog();
+    mainWindow->showAsPreferences();
     value= app.exec();
     QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
 

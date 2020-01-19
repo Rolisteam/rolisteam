@@ -112,7 +112,7 @@
 #include "audio/audioPlayer.h"
 #endif
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(const QStringList& args)
     : QMainWindow()
     , m_preferencesDialog(nullptr)
     , m_ui(new Ui::MainWindow)
@@ -122,22 +122,29 @@ MainWindow::MainWindow()
     , m_roomPanelDockWidget(new QDockWidget(this))
     , m_gameController(new GameController)
 {
+    parseCommandLineArguments(args);
     setAcceptDrops(true);
+
+    // ALLOCATIONS
+    m_dialog.reset(new SelectConnectionProfileDialog(m_gameController.get(), this));
+    // m_mapAction= new QMap<MediaContainer*, QAction*>();
+    m_downLoadProgressbar= new QProgressBar(this);
+    m_sessionDock.reset(new SessionDock(m_gameController->contentController()));
+    m_vmapToolBar= new VmapToolBar(m_gameController->contentController()->vmapCtrl(), this);
+    m_gmToolBoxList.append({new NameGeneratorWidget(this), new GMTOOL::Convertor(this), new NpcMakerWidget(this)});
+    m_roomPanel= new ChannelListPanel(this);
 
     connect(m_gameController.get(), &GameController::updateAvailableChanged, this, &MainWindow::showUpdateNotification);
     connect(m_gameController.get(), &GameController::tipOfDayChanged, this, &MainWindow::showTipChecker);
     connect(m_gameController.get(), &GameController::localPlayerIdChanged, this,
             [this]() { m_roomPanel->setLocalPlayerId(m_gameController->localPlayerId()); });
 
-    m_profileDefined= false;
-
     m_ui->setupUi(this);
 
     m_separatorAction= m_ui->m_fileMenu->insertSeparator(m_ui->m_closeAction);
     m_separatorAction->setVisible(false);
-    m_shownProgress= false;
-
     registerQmlTypes();
+
 #ifdef HAVE_WEBVIEW
     QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, true);
     QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::Accelerated2dCanvasEnabled, false);
@@ -156,25 +163,22 @@ MainWindow::MainWindow()
     };
     m_preferences->registerLambda(QStringLiteral("VMAP::highlightColor"), func2);
 
-    m_downLoadProgressbar= new QProgressBar(this);
     m_downLoadProgressbar->setRange(0, 100);
-
     m_downLoadProgressbar->setVisible(false);
-    m_vmapToolBar= new VmapToolBar(m_gameController->contentController()->vmapCtrl(), this);
+
     addToolBar(Qt::TopToolBarArea, m_vmapToolBar);
-
-    // m_ipChecker= new IpChecker(this);
-    m_mapAction= new QMap<MediaContainer*, QAction*>();
-
-    m_sessionDock.reset(new SessionDock(m_gameController->contentController()));
 
     connect(m_gameController->contentController(), &ContentController::sessionChanged, this,
             &MainWindow::setWindowModified);
+    connect(m_gameController->networkController(), &NetworkController::connectedChanged, this, [this](bool conncted) {
+        if(conncted)
+            postConnection();
+        m_dialog->setVisible(!conncted);
+        updateWindowTitle();
+    });
     // connect(m_sessionManager, &SessionManager::openResource, this, &MainWindow::openResource);
 
     /// Create all GM toolbox widget
-    m_gmToolBoxList.append({new NameGeneratorWidget(this), new GMTOOL::Convertor(this), new NpcMakerWidget(this)});
-
     for(auto& gmTool : m_gmToolBoxList)
     {
         QWidget* wid= dynamic_cast<QWidget*>(gmTool);
@@ -194,7 +198,6 @@ MainWindow::MainWindow()
     }
 
     // Room List
-    m_roomPanel= new ChannelListPanel(this);
     m_roomPanelDockWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
     m_roomPanelDockWidget->setWidget(m_roomPanel);
     m_roomPanelDockWidget->setWindowTitle(m_roomPanel->windowTitle());
@@ -206,20 +209,15 @@ MainWindow::MainWindow()
         KeyGeneratorDialog dialog;
         dialog.exec();
     });
+
+    setupUi();
+    readSettings();
 }
 
 MainWindow::~MainWindow()= default;
 
 void MainWindow::setupUi()
 {
-    m_mediaHash.clear();
-
-    m_dialog= new SelectConnectionProfileDialog(m_gameController.get(), this);
-    connect(m_gameController->networkController(), &NetworkController::connectedChanged, this, [this]() {
-        if(m_gameController->networkController()->connected())
-            postConnection();
-    });
-
     if(m_commandLineProfile)
     {
         m_dialog->setArgumentProfile(m_commandLineProfile->m_ip, m_commandLineProfile->m_port,
@@ -239,23 +237,6 @@ void MainWindow::setupUi()
     m_toolBarStack->setMinimumWidth(10);
     m_toolBarStack->addWidget(m_toolBar);
     m_toolBarStack->addWidget(m_vToolBar);
-
-    /*auto vmapCtrl= m_gameController->contentController()->vmapCtrl();
-     connect(m_vToolBar, &VToolsBar::currentToolChanged, vmapCtrl, &VectorialMapMediaController::setTool);
-     connect(m_vToolBar, SIGNAL(currentColorChanged(QColor&)), tmp, SLOT(currentColorChanged(QColor&)));
-     connect(m_vToolBar, SIGNAL(currentModeChanged(int)), tmp, SLOT(setEditingMode(int)));
-     connect(m_vToolBar, SIGNAL(currentPenSizeChanged(int)), tmp, SLOT(currentPenSizeChanged(int)));
-     connect(m_vToolBar, SIGNAL(currentNpcNameChanged(QString)), tmp, SLOT(setCurrentNpcNameChanged(QString)));
-     connect(m_vToolBar, SIGNAL(currentNpcNumberChanged(int)), tmp, SLOT(setCurrentNpcNumberChanged(int)));
-     connect(m_vToolBar, SIGNAL(opacityChanged(qreal)), map, SLOT(setCurrentItemOpacity(qreal)));
-     connect(m_vToolBar, SIGNAL(currentEditionModeChanged(VToolsBar::EditionMode)), map,
-         SLOT(setEditionMode(VToolsBar::EditionMode)));
-
-
-     connect(tmp, SIGNAL(defineCurrentTool(Core::SelectableTool)), m_vToolBar,
-             SLOT(setCurrentTool(Core::SelectableTool)));
-     connect(map, SIGNAL(colorPipette(QColor)), m_vToolBar, SLOT(setCurrentColor(QColor)));
-     connect(map, SIGNAL(currentItemOpacity(qreal)), m_vToolBar, SLOT(setCurrentOpacity(qreal)));*/
 
     QDockWidget* dock= new QDockWidget(this);
     dock->setWidget(m_toolBarStack);
@@ -341,8 +322,6 @@ void MainWindow::setupUi()
      });
      connect(m_playerModel, &PlayerModel::eventOccurs, m_gameController.get(), &GameController::addFeatureLog);*/
 
-    connect(m_dialog, &SelectConnectionProfileDialog::startConnectionProcess, m_gameController.get(),
-            &GameController::startConnection);
     /*connect(m_dialog, &SelectConnectionProfileDialog::rejected, this, [this]() {
         if(nullptr == m_server)
             return;
@@ -361,10 +340,10 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac, bool redoable)
     /*AddMediaContainer* addMedia
         = new AddMediaContainer(mediac, m_gameController->contentController(), m_ui->m_menuSubWindows, m_mdiArea,
                                 m_currentConnectionProfile->isGM());*/
-    if(!m_mediaHash.contains(mediac->getMediaId()))
+    /*if(!m_mediaHash.contains(mediac->getMediaId()))
     {
         m_mediaHash.insert(mediac->getMediaId(), mediac);
-    }
+    }*/
     if(redoable)
     {
         // m_undoStack.push(addMedia);
@@ -388,48 +367,47 @@ void MainWindow::closeConnection()
 }
 void MainWindow::closeAllMediaContainer()
 {
-    auto const& values= m_mediaHash.values();
-    for(auto& tmp : values)
-    {
-        if(nullptr != tmp)
-        {
-            closeMediaContainer(tmp->getMediaId(), true);
-        }
-    }
+    /* auto const& values= m_mediaHash.values();
+     for(auto& tmp : values)
+     {
+         if(nullptr != tmp)
+         {
+             closeMediaContainer(tmp->getMediaId(), true);
+         }
+     }*/
 }
 void MainWindow::closeMediaContainer(QString id, bool redo)
 {
-    if(m_mediaHash.contains(id))
-    {
-        MediaContainer* mediaCon= m_mediaHash.value(id);
-        if(nullptr != mediaCon)
-        {
-            // auto type= mediaCon->getContentType();
+    /*  if(m_mediaHash.contains(id))
+      {
+          MediaContainer* mediaCon= m_mediaHash.value(id);
+          if(nullptr != mediaCon)
+          {
+              // auto type= mediaCon->getContentType();*/
 
-            DeleteMediaContainerCommand* cmd
-                = new DeleteMediaContainerCommand(mediaCon, /*m_sessionManager,*/ m_ui->m_editMenu, m_mdiArea,
-                                                  m_currentConnectionProfile->isGM(), m_mediaHash);
-            if(redo)
-            {
-                // m_undoStack.push(cmd);
-            }
-            else
-            {
-                cmd->redo(); // can be undo
-                delete cmd;
-            }
+    /*  DeleteMediaContainerCommand* cmd= new DeleteMediaContainerCommand(
+          mediaCon, m_ui->m_editMenu, m_mdiArea, m_currentConnectionProfile->isGM(), m_mediaHash);
+      if(redo)
+      {
+          // m_undoStack.push(cmd);
+      }
+      else
+      {
+          cmd->redo(); // can be undo
+          delete cmd;
+      }*/
 
-            // m_mediaHash.remove(id);
-            /*  if(CleverURI::VMAP == type)
-              {
-                  m_vmapToolBar->setCurrentMap(nullptr);
-              }
-              else if(CleverURI::MAP == type)
-              {
-                  // m_playersListWidget->model()->setCurrentMap(nullptr);
-              }*/
-        }
-    }
+    // m_mediaHash.remove(id);
+    /*  if(CleverURI::VMAP == type)
+      {
+          m_vmapToolBar->setCurrentMap(nullptr);
+      }
+      else if(CleverURI::MAP == type)
+      {
+          // m_playersListWidget->model()->setCurrentMap(nullptr);
+      }*/
+    //}
+    //}
 }
 void MainWindow::closeCurrentSubWindow()
 {
@@ -753,6 +731,12 @@ void MainWindow::mouseMoveEvent(QMouseEvent* event)
     QMainWindow::mouseMoveEvent(event);
 }
 
+void MainWindow::showAsPreferences()
+{
+    m_preferences->value("FullScreenAtStarting", true).toBool() ? showMaximized() : show();
+    showConnectionDialog();
+}
+
 void MainWindow::prepareMap(MapFrame* mapFrame)
 {
     Map* map= mapFrame->getMap();
@@ -885,16 +869,16 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi
 
 Map* MainWindow::findMapById(QString idMap)
 {
-    MediaContainer* media= m_mediaHash.value(idMap);
-    if(nullptr != media)
-    {
-        MapFrame* mapframe= dynamic_cast<MapFrame*>(media);
-        if(nullptr != mapframe)
-        {
-            return mapframe->getMap();
-        }
-    }
-    return nullptr;
+    /* MediaContainer* media= m_mediaHash.value(idMap);
+     if(nullptr != media)
+     {
+         MapFrame* mapframe= dynamic_cast<MapFrame*>(media);
+         if(nullptr != mapframe)
+         {
+             return mapframe->getMap();
+         }
+     }
+     return nullptr;*/
 }
 bool MainWindow::mayBeSaved(bool connectionLoss)
 {
@@ -1072,8 +1056,8 @@ void MainWindow::saveMedia(MediaContainer* mediaC, bool saveAs)
 
 bool MainWindow::saveMinutes()
 {
-    auto const& values= m_mediaHash.values();
-    for(auto& edit : values)
+    // auto const& values= m_mediaHash.values();
+    //  for(auto& edit : values)
     {
         /*  if(CleverURI::TEXT == edit->getContentType())
           {
@@ -1089,10 +1073,10 @@ bool MainWindow::saveMinutes()
 
 void MainWindow::saveAllMediaContainer()
 {
-    for(auto& media : m_mediaHash)
-    {
-        saveMedia(media, false);
-    }
+    /*  for(auto& media : m_mediaHash)
+      {
+          saveMedia(media, false);
+      }*/
 }
 void MainWindow::stopReconnection()
 {
@@ -1423,64 +1407,64 @@ void MainWindow::parseCommandLineArguments(QStringList list)
 void MainWindow::processWebPageMessage(NetworkMessageReader* msg)
 {
 #ifdef HAVE_WEBVIEW
-    if(msg->action() == NetMsg::UpdateContent)
-    {
-        QString idMedia= msg->string8();
-        if(m_mediaHash.contains(idMedia))
-        {
-            MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
-            WebView* note= dynamic_cast<WebView*>(mediaContainer);
-            note->readMessage(*msg);
-        }
-    }
+    /*  if(msg->action() == NetMsg::UpdateContent)
+      {
+          QString idMedia= msg->string8();
+          if(m_mediaHash.contains(idMedia))
+          {
+              MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
+              WebView* note= dynamic_cast<WebView*>(mediaContainer);
+              note->readMessage(*msg);
+          }
+      }*/
 #endif
 }
 void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
 {
-    auto keys= m_mediaHash.keys();
-    if(msg->action() == NetMsg::updatePermissionOneUser)
-    {
-        QString idMedia= msg->string8();
-        if(keys.contains(idMedia))
-        {
-            MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
-            SharedNoteContainer* note= dynamic_cast<SharedNoteContainer*>(mediaContainer);
-            if(note)
-                note->readMessage(*msg);
-        }
-    }
-    else if(msg->action() == NetMsg::updateText)
-    {
-        QString idMedia= msg->string8();
-        if(keys.contains(idMedia))
-        {
-            MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
-            SharedNoteContainer* note= dynamic_cast<SharedNoteContainer*>(mediaContainer);
-            QString updateCmd= msg->string32();
-            if(note)
-                note->runUpdateCmd(updateCmd);
-        }
-    }
-    else if(msg->action() == NetMsg::updateTextAndPermission)
-    {
-        QString idMedia= msg->string8();
+    /*   auto keys= m_mediaHash.keys();
+       if(msg->action() == NetMsg::updatePermissionOneUser)
+       {
+           QString idMedia= msg->string8();
+           if(keys.contains(idMedia))
+           {
+               MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
+               SharedNoteContainer* note= dynamic_cast<SharedNoteContainer*>(mediaContainer);
+               if(note)
+                   note->readMessage(*msg);
+           }
+       }
+       else if(msg->action() == NetMsg::updateText)
+       {
+           QString idMedia= msg->string8();
+           if(keys.contains(idMedia))
+           {
+               MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
+               SharedNoteContainer* note= dynamic_cast<SharedNoteContainer*>(mediaContainer);
+               QString updateCmd= msg->string32();
+               if(note)
+                   note->runUpdateCmd(updateCmd);
+           }
+       }
+       else if(msg->action() == NetMsg::updateTextAndPermission)
+       {
+           QString idMedia= msg->string8();
 
-        if(keys.contains(idMedia))
-        {
-            MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
-            SharedNoteContainer* note= dynamic_cast<SharedNoteContainer*>(mediaContainer);
-            if(note)
-                note->readMessage(*msg);
-        }
-        else
-        {
-            SharedNoteContainer* note= new SharedNoteContainer(false);
-            note->readMessage(*msg);
-            note->setMediaId(idMedia);
-            // m_sessionManager->addRessource(note->getCleverUri());
-            addMediaToMdiArea(note);
-        }
-    }
+           if(keys.contains(idMedia))
+           {
+               MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
+               SharedNoteContainer* note= dynamic_cast<SharedNoteContainer*>(mediaContainer);
+               if(note)
+                   note->readMessage(*msg);
+           }
+           else
+           {
+               SharedNoteContainer* note= new SharedNoteContainer(false);
+               note->readMessage(*msg);
+               note->setMediaId(idMedia);
+               // m_sessionManager->addRessource(note->getCleverUri());
+               addMediaToMdiArea(note);
+           }
+       }*/
 }
 
 void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
@@ -1564,7 +1548,6 @@ void MainWindow::cleanUpData()
 {
     m_gameController->clear();
 
-    closeAllMediaContainer();
     ChannelListPanel* roomPanel= qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
     if(nullptr != roomPanel)
     {
@@ -1910,17 +1893,17 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::closeCharacterSheet == msg->action())
     {
-        QString idMedia= msg->string8();
-        QString idSheet= msg->string8();
-        CharacterSheetWindow* sheet= findCharacterSheetWindowById(idMedia, idSheet);
-        if(nullptr == sheet)
-            return;
-        auto sheetbis= m_mediaHash.value(idMedia);
-        if(sheet == sheetbis)
-            m_mediaHash.remove(idMedia);
-        DeleteMediaContainerCommand cmd(sheet, /*m_sessionManager,*/ m_ui->m_editMenu, m_mdiArea,
-                                        m_currentConnectionProfile->isGM(), m_mediaHash);
-        cmd.redo();
+        /*   QString idMedia= msg->string8();
+           QString idSheet= msg->string8();
+           CharacterSheetWindow* sheet= findCharacterSheetWindowById(idMedia, idSheet);
+           if(nullptr == sheet)
+               return;
+           auto sheetbis= m_mediaHash.value(idMedia);
+           if(sheet == sheetbis)
+               m_mediaHash.remove(idMedia);
+           DeleteMediaContainerCommand cmd(sheet, m_ui->m_editMenu, m_mdiArea,
+                                           m_currentConnectionProfile->isGM(), m_mediaHash);*/
+        //  cmd.redo();
     }
 }
 CharacterSheetWindow* MainWindow::findCharacterSheetWindowById(const QString& idMedia, const QString& idSheet)
