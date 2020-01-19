@@ -187,7 +187,7 @@ public:
      * @brief prepareVMap
      * @param tmp
      */
-    void prepareVMap(VMapFrame* tmp);
+    // void prepareVMap(VMapFrame* tmp);
     /**
      * @brief addMediaToMdiArea
      * @param mediac
@@ -388,10 +388,6 @@ private slots:
      * @brief stopReconnection
      */
     void stopReconnection();
-    /**
-     * @brief closeConnection
-     */
-    void closeConnection();
     /**
      * @brief openContentFromType
      * @param type
