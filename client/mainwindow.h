@@ -113,7 +113,7 @@ public:
     /**
      * @brief MainWindow
      */
-    MainWindow();
+    MainWindow(const QStringList& args);
     /**
      * @brief ~MainWindow
      */
@@ -239,6 +239,7 @@ public slots:
      * @param type
      */
     void openImageAs(const QPixmap pix, CleverURI::ContentType type);
+    void showAsPreferences();
 
 protected:
     /**
@@ -477,8 +478,8 @@ private:
     VToolsBar* m_vToolBar;
     QStackedWidget* m_toolBarStack;
 
-    QHash<QString, MediaContainer*> m_mediaHash;
-    QMap<MediaContainer*, QAction*>* m_mapAction;
+    // QHash<QString, MediaContainer*> m_mediaHash;
+    // QMap<MediaContainer*, QAction*>* m_mapAction;
 #ifndef NULL_PLAYER
     AudioPlayer* m_audioPlayer;
 #endif
@@ -493,9 +494,8 @@ private:
 
     // subwindow
     QProgressBar* m_downLoadProgressbar;
-    bool m_shownProgress;
+    bool m_shownProgress= false;
     Ui::MainWindow* m_ui;
-    std::unique_ptr<SessionDock> m_sessionDock;
     bool m_resetSettings;
 
     // Recent files managment
@@ -510,8 +510,7 @@ private:
 
     ConnectionProfile* m_currentConnectionProfile= nullptr;
     QList<GameMasterTool*> m_gmToolBoxList;
-    SelectConnectionProfileDialog* m_dialog= nullptr;
-    bool m_profileDefined;
+    bool m_profileDefined= false;
     QDockWidget* m_roomPanelDockWidget;
     ChannelListPanel* m_roomPanel;
     QString m_connectionAddress;
@@ -520,6 +519,8 @@ private:
 
     std::unique_ptr<CommandLineProfile> m_commandLineProfile;
     std::unique_ptr<GameController> m_gameController;
+    std::unique_ptr<SelectConnectionProfileDialog> m_dialog;
+    std::unique_ptr<SessionDock> m_sessionDock;
 };
 
 #endif
