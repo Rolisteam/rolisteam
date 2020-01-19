@@ -166,6 +166,8 @@ bool VectorialMapMediaController::openMedia(CleverURI* uri, const std::map<QStri
     connect(vmapCtrl.get(), &VectorialMapController::activeChanged, this,
             &VectorialMapMediaController::updateProperties);
     connect(vmapCtrl.get(), &VectorialMapController::performCommand, m_stack, &QUndoStack::push);
+    connect(vmapCtrl.get(), &VectorialMapController::toolColorChanged, this,
+            &VectorialMapMediaController::toolColorChanged);
     emit vmapControllerCreated(vmapCtrl.get());
     m_vmaps.push_back(std::move(vmapCtrl));
     return true;
@@ -177,7 +179,7 @@ void VectorialMapMediaController::updateProperties()
         return;
 
     emit npcNumberChanged(ctrl->npcNumber());
-    emit colorChanged(ctrl->toolColor());
+    emit toolColorChanged(ctrl->toolColor());
     // emit opacityChanged(ctrl->);
     // emit editionModeChanged(ctrl->editionMode());
 }

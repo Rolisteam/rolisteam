@@ -21,25 +21,26 @@
 #define CHANGECOLORITEM_H
 
 #include <QColor>
+#include <QPointer>
 #include <QUndoCommand>
 
-class VisualItem;
+namespace vmap
+{
+class VisualItemController;
+}
 
 class ChangeColorItemCmd : public QUndoCommand
 {
 public:
-    ChangeColorItemCmd(VisualItem* item, QColor newColor, QString mapId, QUndoCommand* parent= nullptr);
+    ChangeColorItemCmd(vmap::VisualItemController* item, QColor newColor, QUndoCommand* parent= nullptr);
 
     void redo() override;
     void undo() override;
 
-    void sendOffColor();
-
 private:
-    VisualItem* m_item;
+    QPointer<vmap::VisualItemController> m_ctrl;
     QColor m_oldColor;
     QColor m_newColor;
-    QString m_mapId;
 };
 
 #endif // CHANGECOLORITEM_H
