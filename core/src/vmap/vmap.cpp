@@ -456,6 +456,12 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
             }
         }
     }
+    else if(Core::ANCHOR == m_ctrl->tool())
+    {
+        m_parentItemAnchor= new AnchorItem();
+        addItem(m_parentItemAnchor);
+        m_parentItemAnchor->setPos(mouseEvent->scenePos());
+    }
     else if(mouseEvent->button() == Qt::LeftButton)
     {
         if(m_currentPath == nullptr)
@@ -482,6 +488,11 @@ void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
         m_currentItem->setNewEnd(mouseEvent->scenePos() - mouseEvent->lastScenePos()); // mouseEvent->scenePos()
         update();
     }
+    else if(!m_parentItemAnchor.isNull())
+    {
+        m_parentItemAnchor->setNewEnd(mouseEvent->scenePos() - mouseEvent->lastScenePos());
+        update();
+    }
     if((m_ctrl->tool() == Core::HANDLER) || (m_ctrl->tool() == Core::TEXT) || (m_ctrl->tool() == Core::TEXTBORDER))
     {
         QGraphicsScene::mouseMoveEvent(mouseEvent);
@@ -501,13 +512,16 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
             }
         }
     }
+    if(m_parentItemAnchor != nullptr)
+    {
+        manageAnchor();
+        removeItem(m_parentItemAnchor);
+        delete m_parentItemAnchor;
+        m_parentItemAnchor.clear();
+    }
     if(!m_currentItem.isNull())
     {
-        if(VisualItem::ANCHOR == m_currentItem->getType())
-        {
-            manageAnchor();
-        }
-        if((m_currentItem->getType() == VisualItem::RULE) || (m_currentItem->getType() == VisualItem::ANCHOR))
+        if((m_currentItem->getType() == VisualItem::RULE))
         {
             removeItem(m_currentItem);
             m_currentItem= nullptr;
@@ -643,32 +657,28 @@ bool VMap::isNormalItem(const QGraphicsItem* item)
 
 void VMap::manageAnchor()
 {
-    if(m_currentItem.isNull())
+    if(m_parentItemAnchor.isNull())
         return;
-    AnchorItem* tmp= dynamic_cast<AnchorItem*>(m_currentItem.data());
 
-    if(nullptr != tmp)
+    QGraphicsItem* child= nullptr;
+    QGraphicsItem* parent= nullptr;
+    QList<QGraphicsItem*> item1= items(m_parentItemAnchor->getStart());
+    for(QGraphicsItem* item : item1)
     {
-        QGraphicsItem* child= nullptr;
-        QGraphicsItem* parent= nullptr;
-        QList<QGraphicsItem*> item1= items(tmp->getStart());
-        for(QGraphicsItem* item : item1)
+        if((nullptr == child) && (isNormalItem(item)))
         {
-            if((nullptr == child) && (isNormalItem(item)))
-            {
-                child= item;
-            }
+            child= item;
         }
-        QList<QGraphicsItem*> item2= items(tmp->getEnd());
-        for(QGraphicsItem* item : item2)
-        {
-            if((nullptr == parent) && (isNormalItem(item)))
-            {
-                parent= item;
-            }
-        }
-        setAnchor(child, parent);
     }
+    QList<QGraphicsItem*> item2= items(m_parentItemAnchor->getEnd());
+    for(QGraphicsItem* item : item2)
+    {
+        if((nullptr == parent) && (isNormalItem(item)))
+        {
+            parent= item;
+        }
+    }
+    setAnchor(child, parent);
 }
 
 void VMap::checkItemLayer(VisualItem* item)

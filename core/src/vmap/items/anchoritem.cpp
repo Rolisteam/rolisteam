@@ -21,28 +21,25 @@
 #include "anchoritem.h"
 
 #include "vmap/controller/visualitemcontroller.h"
+#include <QDebug>
 
-AnchorItem::AnchorItem(vmap::VisualItemController* ctrl, QPointF& p)
-    : VisualItem(ctrl), m_startPoint(p), m_pen(QColor(Qt::darkGray))
+AnchorItem::AnchorItem() : m_pen(QColor(Qt::darkGray))
 {
-    m_endPoint= m_startPoint;
-    m_rect.setTopLeft(p);
-    m_rect.setBottomRight(m_endPoint);
+    qDebug() << "point anchor";
 }
 
 AnchorItem::~AnchorItem() {}
 QRectF AnchorItem::boundingRect() const
 {
-    return m_rect;
+    return QRectF(m_startPoint, m_endPoint);
 }
-VisualItem::ItemType AnchorItem::getType() const
-{
-    return VisualItem::ANCHOR;
-}
+
 void AnchorItem::setNewEnd(const QPointF& nend)
 {
-    m_endPoint= nend;
-    m_rect.setBottomRight(nend);
+    if(nend.isNull())
+        return;
+
+    m_endPoint+= nend;
 }
 void AnchorItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
@@ -59,55 +56,17 @@ void AnchorItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     painter->drawLine(line);
     painter->restore();
 
-    // QPointF middle = line.pointAt(0.5);
-
     QFont f= painter->font();
     f.setPixelSize(15);
     painter->setFont(f);
 }
 
-void AnchorItem::writeData(QDataStream& out) const
+QPointF AnchorItem::getStart() const
 {
-    Q_UNUSED(out)
+    return mapToScene(m_startPoint);
 }
 
-void AnchorItem::readData(QDataStream& in)
+QPointF AnchorItem::getEnd() const
 {
-    Q_UNUSED(in)
-}
-void AnchorItem::fillMessage(NetworkMessageWriter* msg)
-{
-    Q_UNUSED(msg)
-}
-void AnchorItem::readItem(NetworkMessageReader* msg)
-{
-    Q_UNUSED(msg)
-}
-void AnchorItem::setGeometryPoint(qreal pointId, QPointF& pos)
-{
-    if(pointId == 0)
-    {
-        m_startPoint= pos;
-        m_rect.setTopLeft(m_startPoint);
-    }
-    else if(pointId == 1)
-    {
-        m_endPoint= pos;
-        m_rect.setBottomRight(m_endPoint);
-    }
-}
-void AnchorItem::initChildPointItem() {}
-
-VisualItem* AnchorItem::getItemCopy()
-{
-    return nullptr;
-}
-const QPointF& AnchorItem::getStart() const
-{
-    return m_startPoint;
-}
-
-const QPointF& AnchorItem::getEnd() const
-{
-    return m_endPoint;
+    return mapToScene(m_endPoint);
 }

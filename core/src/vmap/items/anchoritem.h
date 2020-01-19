@@ -34,14 +34,14 @@ class VisualItemController;
 /**
  * @brief The AnchorItem class ephemeral item to display rule and measure the distance between two points.
  */
-class AnchorItem : public VisualItem
+class AnchorItem : public QGraphicsObject
 {
 public:
     /**
      * @brief AnchorItem
      * @param p
      */
-    AnchorItem(vmap::VisualItemController* ctrl, QPointF& p);
+    AnchorItem();
     /**
      *
      */
@@ -58,73 +58,13 @@ public:
      * @brief defines new position of the end line.
      */
     virtual void setNewEnd(const QPointF& nend);
-    /**
-     * @brief serialisation writing
-     */
-    virtual void writeData(QDataStream& out) const;
-    /**
-     * @brief serialisation reading
-     */
-    virtual void readData(QDataStream& in);
 
-    /**
-     * @brief getType
-     * @return
-     */
-    virtual VisualItem::ItemType getType() const;
-    /**
-     * @brief fillMessage
-     * @param msg
-     */
-    virtual void fillMessage(NetworkMessageWriter* msg);
-    /**
-     * @brief readItem
-     * @param msg
-     */
-    virtual void readItem(NetworkMessageReader* msg);
-    /**
-     * @brief setGeometryPoint
-     * @param pointId
-     * @param pos
-     */
-    virtual void setGeometryPoint(qreal pointId, QPointF& pos);
-    /**
-     * @brief initChildPointItem
-     */
-    virtual void initChildPointItem();
-    /**
-     * @brief getItemCopy
-     * @return
-     */
-    virtual VisualItem* getItemCopy();
-
-    /**
-     * @brief getStart
-     * @return
-     */
-    const QPointF& getStart() const;
-    /**
-     * @brief getEnd
-     * @return
-     */
-    const QPointF& getEnd() const;
+    QPointF getStart() const;
+    QPointF getEnd() const;
 
 private:
-    /**
-     * @brief bounding rect copy (no need to compute it each time
-     */
-    QRectF m_rect;
-    /**
-     * @brief starting point, does not move except when the whole line is moved.
-     */
-    QPointF m_startPoint;
-    /**
-     * @brief ending point, should moved
-     */
-    QPointF m_endPoint;
-    /**
-     * @brief pen
-     */
+    QPointF m_startPoint= QPointF(0, 0);
+    QPointF m_endPoint= QPointF(0, 0);
     QPen m_pen;
 };
 
