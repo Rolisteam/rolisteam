@@ -35,6 +35,7 @@
 #include "data/person.h"
 #include "mainwindow.h"
 #include "preferences/preferencesmanager.h"
+#include "uiwatchdog.h"
 
 /**
  * @mainpage Rolisteam
@@ -186,6 +187,11 @@ int main(int argc, char* argv[])
         currentTranslator->load(file);
         app.installTranslator(currentTranslator);
     }
+
+#ifndef UNIT_TESTS
+    UiWatchdog dog;
+    dog.start();
+#endif
 
     // Create the main window
     MainWindow* mainWindow= new MainWindow(app.arguments());
