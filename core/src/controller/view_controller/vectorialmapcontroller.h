@@ -169,7 +169,7 @@ signals:
     void gridVisibilityChanged();
     void visibilityChanged();
     void backgroundColorChanged();
-    void toolColorChanged();
+    void toolColorChanged(const QColor& color);
     void penSizeChanged();
     void npcNameChanged();
     void npcNumberChanged();
@@ -234,6 +234,8 @@ public slots:
     void changeFogOfWar(const QPolygonF& poly, bool mask);
 
     void aboutToRemove(const QList<vmap::VisualItemController*>& list);
+    void askForColorChange(vmap::VisualItemController* itemCtrl);
+    void addHighLighter(const QPointF& point);
 
 private:
     bool m_pcNameVisible= true;

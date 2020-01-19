@@ -68,7 +68,7 @@ VToolsBar::VToolsBar(VectorialMapMediaController* ctrl, QWidget* parent) : QWidg
     // Ctrl to UI
     connect(m_ctrl, &VectorialMapMediaController::npcNumberChanged, m_displayNPCCounter,
             QOverload<int>::of(&QLCDNumber::display));
-    connect(m_ctrl, &VectorialMapMediaController::colorChanged, m_colorSelector, &VColorSelector::setCurrentColor);
+    connect(m_ctrl, &VectorialMapMediaController::toolColorChanged, m_colorSelector, &VColorSelector::setCurrentColor);
     connect(m_ctrl, &VectorialMapMediaController::opacityChanged, m_opacitySlider, &RealSlider::setRealValue);
     connect(m_ctrl, &VectorialMapMediaController::editionModeChanged, this,
             [this](Core::EditionMode mode) { m_editionModeCombo->setCurrentIndex(static_cast<int>(mode)); });

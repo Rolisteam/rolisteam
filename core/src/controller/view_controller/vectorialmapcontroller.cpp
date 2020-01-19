@@ -26,6 +26,7 @@
 
 #include "undoCmd/addfogofwarchangecommand.h"
 #include "undoCmd/addvmapitem.h"
+#include "undoCmd/changecoloritem.h"
 #include "undoCmd/changesizevmapitem.h"
 #include "undoCmd/deletevmapitem.h"
 
@@ -338,7 +339,7 @@ void VectorialMapController::setToolColor(QColor color)
     if(color == m_toolColor)
         return;
     m_toolColor= color;
-    emit toolColorChanged();
+    emit toolColorChanged(color);
 }
 
 void VectorialMapController::setPenSize(quint16 size)
@@ -522,6 +523,12 @@ void VectorialMapController::insertItemAt(const std::map<QString, QVariant>& par
 void VectorialMapController::aboutToRemove(const QList<vmap::VisualItemController*>& list)
 {
     emit performCommand(new DeleteVmapItemCommand(this, list));
+}
+
+
+void VectorialMapController::askForColorChange(vmap::VisualItemController* itemCtrl)
+{
+    emit performCommand(new ChangeColorItemCmd(itemCtrl, toolColor()));
 }
 
 void VectorialMapController::changeFogOfWar(const QPolygonF& poly, bool mask)

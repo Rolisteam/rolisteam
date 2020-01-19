@@ -48,7 +48,7 @@ public:
 
 signals:
     void npcNumberChanged(int);
-    void colorChanged(const QColor&);
+    void toolColorChanged(const QColor&);
     void opacityChanged(qreal);
     void editionModeChanged(Core::EditionMode mode);
     void vmapControllerCreated(VectorialMapController* media);

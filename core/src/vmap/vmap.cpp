@@ -47,7 +47,6 @@
 
 // Undo management
 #include "undoCmd/addvmapitem.h"
-#include "undoCmd/changecoloritem.h"
 #include "undoCmd/deletevmapitem.h"
 #include "undoCmd/movevmapitem.h"
 
@@ -433,7 +432,7 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
                     QColor color= item->color();
                     if(color.isValid())
                     {
-                        emit colorPipette(color);
+                        m_ctrl->setToolColor(color);
                     }
                 }
             }
@@ -451,9 +450,8 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
             {
                 if(item->getType() != VisualItem::IMAGE)
                 {
-                    auto cmd= new ChangeColorItemCmd(item, m_ctrl->toolColor(), m_id);
-                    if(!m_undoStack.isNull())
-                        m_undoStack->push(cmd);
+                    // auto cmd= new ChangeColorItemCmd(item->controller(), m_ctrl->toolColor());
+                    m_ctrl->askForColorChange(item->controller());
                 }
             }
         }
