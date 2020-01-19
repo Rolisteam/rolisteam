@@ -28,118 +28,25 @@
 
 #include <QPen>
 
-namespace vmap
-{
-
-class VisualItemController;
-}
+class VectorialMapController;
 /**
  * @brief The RuleItem class ephemeral item to display rule and measure the distance between two points.
  */
-class RuleItem : public VisualItem
+class RuleItem : public QGraphicsObject
 {
 public:
-    RuleItem(vmap::VisualItemController* ctrl);
-    // RuleItem(QPointF& p);
-
+    RuleItem(VectorialMapController* ctrl);
     ~RuleItem();
 
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget= nullptr);
-
-    /**
-     * @brief gives bounding rect of the line
-     */
     virtual QRectF boundingRect() const;
-
-    /**
-     * @brief defines new position of the end line.
-     */
-    virtual void setNewEnd(const QPointF& nend);
-    /**
-     * @brief serialisation writing
-     */
-    virtual void writeData(QDataStream& out) const;
-    /**
-     * @brief serialisation reading
-     */
-    virtual void readData(QDataStream& in);
-
-    /**
-     * @brief getType
-     * @return
-     */
-    virtual VisualItem::ItemType getType() const;
-    /**
-     * @brief fillMessage
-     * @param msg
-     */
-    virtual void fillMessage(NetworkMessageWriter* msg);
-    /**
-     * @brief readItem
-     * @param msg
-     */
-    virtual void readItem(NetworkMessageReader* msg);
-    /**
-     * @brief setGeometryPoint
-     * @param pointId
-     * @param pos
-     */
-    virtual void setGeometryPoint(qreal pointId, QPointF& pos);
-    /**
-     * @brief initChildPointItem
-     */
-    virtual void initChildPointItem();
-    /**
-     * @brief setUnit
-     * @param unit
-     */
-    void setUnit(Core::ScaleUnit unit);
-
-    /**
-     * @brief setPixelToUnit
-     * @param pixels
-     */
-    void setPixelToUnit(qreal pixels);
-    /**
-     * @brief setModifiers
-     * @param mod
-     */
-    virtual void setModifiers(Qt::KeyboardModifiers mod);
-    /**
-     * @brief getItemCopy
-     * @return
-     */
-    virtual VisualItem* getItemCopy();
-
-    static void setZoomLevel(qreal);
-
-protected:
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+    virtual void setNewEnd(const QPointF& nend, bool onAxis);
 
 private:
-    /**
-     * @brief bounding rect copy (no need to compute it each time
-     */
-    QRectF m_rect;
-    /**
-     * @brief starting point, does not move except when the whole line is moved.
-     */
-    QPointF m_startPoint;
-    /**
-     * @brief ending point, should moved
-     */
-    QPointF m_endPoint;
-    /**
-     * @brief pen
-     */
-    QPen m_pen;
-
-    qreal m_pixelToUnit; // how many pixels make one unit ?
-
-    QString m_unitText;
-    Qt::KeyboardModifiers m_mod;
-
-    static qreal m_zoomFactor;
+    QPointer<VectorialMapController> m_ctrl;
+    QPointF m_startPoint= QPointF(0, 0);
+    QPointF m_endPoint= QPointF(0, 0);
+    QPen m_pen= QColor(Qt::red);
 };
 
 #endif // RULEITEM_H

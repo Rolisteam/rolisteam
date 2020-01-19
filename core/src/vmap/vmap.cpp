@@ -397,27 +397,26 @@ void VMap::insertItem(const QPointF& pos)
 
 void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
-    if(m_ctrl->tool() == Core::HANDLER)
+
+    auto leftButton= (mouseEvent->button() == Qt::LeftButton);
+    if(m_ctrl->tool() == Core::HANDLER && leftButton)
     {
-        if(mouseEvent->button() == Qt::LeftButton)
+        const QList<QGraphicsItem*> itemList= selectedItems();
+        for(auto item : itemList)
         {
-            const QList<QGraphicsItem*> itemList= selectedItems();
-            for(auto item : itemList)
+            VisualItem* vitem= dynamic_cast<VisualItem*>(item);
+            if(nullptr != vitem)
             {
-                VisualItem* vitem= dynamic_cast<VisualItem*>(item);
-                if(nullptr != vitem)
+                if(isNormalItem(vitem))
                 {
-                    if(isNormalItem(vitem))
-                    {
-                        m_movingItems.append(vitem);
-                        m_oldPos.append(vitem->pos());
-                    }
+                    m_movingItems.append(vitem);
+                    m_oldPos.append(vitem->pos());
                 }
             }
-            QGraphicsScene::mousePressEvent(mouseEvent);
         }
+        QGraphicsScene::mousePressEvent(mouseEvent);
     }
-    else if(Core::PIPETTE == m_ctrl->tool())
+    else if(Core::PIPETTE == m_ctrl->tool() && leftButton)
     {
         QList<QGraphicsItem*> itemList= items(mouseEvent->scenePos());
         itemList.removeAll(m_gridItem);
@@ -438,13 +437,13 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
             }
         }
     }
-    else if(Core::HIGHLIGHTER == m_ctrl->tool())
+    else if(Core::HIGHLIGHTER == m_ctrl->tool() && leftButton)
     {
         auto hitem= new HighlighterItem(mouseEvent->scenePos(), m_ctrl->penSize(), m_ctrl->toolColor());
         addItem(hitem);
         hitem->setPos(mouseEvent->scenePos());
     }
-    else if(Core::BUCKET == m_ctrl->tool())
+    else if(Core::BUCKET == m_ctrl->tool() && leftButton)
     {
         QList<QGraphicsItem*> itemList= items(mouseEvent->scenePos());
         itemList.removeAll(m_gridItem);
@@ -462,13 +461,19 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
             }
         }
     }
-    else if(Core::ANCHOR == m_ctrl->tool())
+    else if(Core::ANCHOR == m_ctrl->tool() && leftButton)
     {
         m_parentItemAnchor= new AnchorItem();
         addItem(m_parentItemAnchor);
         m_parentItemAnchor->setPos(mouseEvent->scenePos());
     }
-    else if(mouseEvent->button() == Qt::LeftButton)
+    else if(Core::RULE == m_ctrl->tool() && leftButton)
+    {
+        m_ruleItem= new RuleItem(m_ctrl);
+        addItem(m_ruleItem);
+        m_ruleItem->setPos(mouseEvent->scenePos());
+    }
+    else if(leftButton)
     {
         if(m_currentPath == nullptr)
         {
@@ -494,8 +499,16 @@ void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
         m_currentItem->setNewEnd(mouseEvent->scenePos() - mouseEvent->lastScenePos()); // mouseEvent->scenePos()
         update();
     }
+    else if(!m_ruleItem.isNull())
+    {
+        mouseEvent->accept();
+        m_ruleItem->setNewEnd(mouseEvent->scenePos() - mouseEvent->lastScenePos(),
+                              mouseEvent->modifiers() & Qt::ControlModifier);
+        update();
+    }
     else if(!m_parentItemAnchor.isNull())
     {
+        mouseEvent->accept();
         m_parentItemAnchor->setNewEnd(mouseEvent->scenePos() - mouseEvent->lastScenePos());
         update();
     }
@@ -506,7 +519,6 @@ void VMap::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
 }
 void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
-    Q_UNUSED(mouseEvent)
     if((!m_currentPath.isNull()) && ((Core::EditionMode::Painting == m_ctrl->editionMode())))
     {
         if(VisualItem::PATH == m_currentPath->getType())
@@ -518,21 +530,21 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
             }
         }
     }
-    if(m_parentItemAnchor != nullptr)
+    if(m_parentItemAnchor)
     {
         manageAnchor();
         removeItem(m_parentItemAnchor);
         delete m_parentItemAnchor;
         m_parentItemAnchor.clear();
     }
+    if(m_ruleItem)
+    {
+        removeItem(m_ruleItem);
+        delete m_ruleItem;
+        m_ruleItem.clear();
+    }
     if(!m_currentItem.isNull())
     {
-        if((m_currentItem->getType() == VisualItem::RULE))
-        {
-            removeItem(m_currentItem);
-            m_currentItem= nullptr;
-            return;
-        }
         if(Core::EditionMode::Painting == m_ctrl->editionMode())
         {
             m_currentItem->endOfGeometryChange(ChildPointItem::Resizing);
@@ -654,10 +666,6 @@ bool VMap::isNormalItem(const QGraphicsItem* item)
     auto vItem= dynamic_cast<const VisualItem*>(item);
     if(!vItem)
         return false;
-
-    /*if(vItem->getLayer() != m_ctrl->layer())
-        return false;*/
-
     return true;
 }
 
@@ -1286,7 +1294,7 @@ void VMap::ownerHasChangedForCharacterItem(Character* item, CharacterItem* cItem
         m_characterItemMap->insertMulti(cItem->getCharacterId(), cItem);
         if((cItem->isPlayableCharacter()) && (!m_ctrl->localGM()) && (cItem->isLocal()))
         {
-            changeStackOrder(cItem, VisualItem::FRONT);
+            // changeStackOrder(cItem, VectorialMapController::FRONT);
         }
     }
 }
@@ -1424,7 +1432,7 @@ GridItem* VMap::getGridItem() const
     return m_gridItem;
 }
 
-void VMap::changeStackOrder(VisualItem* item, VisualItem::StackOrder op)
+/*void VMap::changeStackOrder(VisualItem* item, VisualItem::StackOrder op)
 {
     if(nullptr == item || m_sortedItemList.size() < 2)
         return;
@@ -1486,7 +1494,8 @@ void VMap::changeStackOrder(VisualItem* item, VisualItem::StackOrder op)
     m_zIndex= z;
     m_sightItem->setZValue(++z);
     m_gridItem->setZValue(++z);
-}
+}*/
+
 void VMap::showTransparentItems()
 {
     auto const& values= m_itemMap->values();
