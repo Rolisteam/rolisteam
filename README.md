@@ -71,4 +71,4 @@ https://docs.google.com/spreadsheets/d/18jDGViuOm6KjqEAumW1RU2qccQQ4-TxiXPtAg0X_
 
 # License [![GPLv2 License](https://img.shields.io/badge/License-GPLv2-blue.svg)](https://github.com/Rolisteam/Rolisteam/blob/master/COPYING)
 
-Rolisteam is free software, licensed under the [GPLv2](https://github.com/Rolisteam/Rolisteam/blob/master/COPYING).
+Rolisteam is free software, licensed under the [GPLv2](https://github.com/Rolisteam/Rolisteam/blob/master/COPYING.txt).
