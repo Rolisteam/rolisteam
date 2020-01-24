@@ -5,11 +5,11 @@
 **Table of Contents** &nbsp;&nbsp; [Rolisteam](#rolisteam) | [Downloads](#downloads) | [Get Involved](#get-involved) | [Community](#community) | [Translation](#translation-status) | [Road Map](#road-map) | [License](#license-) | [CI System](https://travis-ci.org/Rolisteam/)
 
 ---
-![build status](https://api.travis-ci.org/Rolisteam/rolisteam.svg?branch=master)  
+![build status](https://api.travis-ci.org/Rolisteam/rolisteam.svg?branch=master)
 
 # Rolisteam
 
-Rolisteam helps you to manage a tabletop role playing game with remote friends/players. It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. Rolisteam is released under GPLv2. 
+Rolisteam helps you to manage a tabletop role playing game with remote friends/players. It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. Rolisteam is released under GPLv2.
 
 # Downloads
 
@@ -30,23 +30,27 @@ Want to discuss and share your resources ? http://forum.rolisteam.org/
 We also use this mailing to speak technical issues or roadmap.
 https://lists.fdn.fr/wws/info/rolisteam
 
-## Facebook 
+## Facebook
 https://www.facebook.com/rolisteam?_rdr=p
 
-More details to contact us: http://www.rolisteam.org/contactus
+More details to contact us: http://doc.rolisteam.org/contactus
 
 
 # Documentation
 
-Documentation can be found here : http://wiki.rolisteam.org
+Documentation can be found here : http://doc.rolisteam.org/
 
-##  Build Rolisteam (windows) 
-Please visit: http://wiki.rolisteam.org/index.php/Compilation
-to get information about rolisteam compilation. 
+##  Build Rolisteam (Windows)
+Please visit: http://doc.rolisteam.org/windowscomp
+to get information about rolisteam compilation.
 
-##  Build Rolisteam (Linux) 
-Please visit: http://wiki.rolisteam.org/index.php/CompilationLinux
-to get information about rolisteam compilation. 
+##  Build Rolisteam (Mac OS X)
+Please visit: http://doc.rolisteam.org/compmacos
+to get information about rolisteam compilation.
+
+##  Build Rolisteam (Linux)
+Please visit: http://doc.rolisteam.org/linuxcomp
+to get information about rolisteam compilation.
 
 # Official Web site
 
