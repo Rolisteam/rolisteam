@@ -33,6 +33,7 @@ class ContentController;
 class ImageController;
 class VectorialMapController;
 class CharacterSheetController;
+class WebpageController;
 /**
  * @brief The ImprovedWorkspace class
  */
@@ -93,6 +94,7 @@ protected slots:
     void addImage(ImageController* ctrl);
     void addVectorialMap(VectorialMapController* ctrl);
     void addCharacterSheet(CharacterSheetController* ctrl);
+    void addWebpage(WebpageController* ctrl);
 
 protected:
     void resizeEvent(QResizeEvent* event);

@@ -29,11 +29,13 @@ set(HEADERS
     src/controller/view_controller/abstractmediacontroller.h
     src/controller/view_controller/vectorialmapcontroller.h
     src/controller/view_controller/charactersheetcontroller.h
+    src/controller/view_controller/webpagecontroller.h
     src/controller/media_controller/mediacontrollerinterface.h
     src/controller/media_controller/charactersheetmediacontroller.h
     src/controller/media_controller/vectorialmapmediacontroller.h
-    src/controller/contentcontroller.h
+    src/controller/media_controller/webpagemediacontroller.h
     src/controller/media_controller/imagemediacontroller.h
+    src/controller/contentcontroller.h
     src/undoCmd/addlocalcharactercommand.h
     src/undoCmd/removelocalcharactercommand.h
     src/media/mediatype.h
@@ -313,7 +315,9 @@ set(SOURCES
     src/controller/media_controller/imagemediacontroller.cpp
     src/controller/media_controller/charactersheetmediacontroller.cpp
     src/controller/media_controller/vectorialmapmediacontroller.cpp
+    src/controller/media_controller/webpagemediacontroller.cpp
     src/controller/view_controller/vectorialmapcontroller.cpp
+    src/controller/view_controller/webpagecontroller.cpp
     src/controller/view_controller/imagecontroller.cpp
     src/controller/view_controller/charactersheetcontroller.cpp
     src/worker/iohelper.cpp

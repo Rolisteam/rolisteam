@@ -579,7 +579,13 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_addVectorialMap, &QAction::triggered, this, &MainWindow::newVMap);
     connect(m_ui->m_newNoteAction, &QAction::triggered, this, fun);
     connect(m_ui->m_newSharedNote, &QAction::triggered, this, fun);
-    connect(m_ui->m_newWebViewACt, &QAction::triggered, this, fun);
+    connect(m_ui->m_newWebViewACt, &QAction::triggered, this, [this]() {
+        auto ctrl= m_gameController->contentController();
+        if(nullptr == ctrl)
+            return;
+        std::map<QString, QVariant> params;
+        ctrl->newMedia(CleverURI::WEBVIEW, params);
+    });
     connect(m_ui->m_newChatAction, &QAction::triggered, m_chatListWidget, &ChatListWidget::createPrivateChat);
 
     // open
@@ -839,12 +845,12 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi
     }
     break;
 #ifdef HAVE_WEBVIEW
-    case CleverURI::WEBVIEW:
+    /*case CleverURI::WEBVIEW:
     {
         media= new WebView(localIsGM ? WebView::localIsGM : WebView::LocalIsPlayer);
         uri->setLoadingMode(CleverURI::Linked);
     }
-    break;
+    break;*/
 #endif
     default:
         break;
@@ -2216,12 +2222,12 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
     }
     break;
 #ifdef HAVE_WEBVIEW
-    case CleverURI::WEBVIEW:
+    /*case CleverURI::WEBVIEW:
     {
         WebView* tmpWeb= new WebView(localIsGM ? WebView::localIsGM : WebView::LocalIsPlayer);
         tmp= tmpWeb;
     }
-    break;
+    break;*/
 
 #endif
     /*case CleverURI::SCENARIO:

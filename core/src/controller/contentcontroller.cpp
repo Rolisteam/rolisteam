@@ -23,6 +23,7 @@
 #include "controller/media_controller/imagemediacontroller.h"
 #include "controller/media_controller/mediacontrollerinterface.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
+#include "controller/media_controller/webpagemediacontroller.h"
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "gamecontroller.h"
 #include "preferences/preferencesmanager.h"
@@ -41,11 +42,13 @@ ContentController::ContentController(CharacterModel* characterModel, NetworkCont
     , m_imageControllers(new ImageMediaController)
     , m_vmapControllers(new VectorialMapMediaController(networkCtrl))
     , m_sheetMediaController(new CharacterSheetMediaController(characterModel))
+    , m_webPageMediaController(new WebpageMediaController)
     , m_sessionName(tr("Unknown"))
 {
     m_mediaControllers.insert({CleverURI::PICTURE, m_imageControllers.get()});
     m_mediaControllers.insert({CleverURI::VMAP, m_vmapControllers.get()});
     m_mediaControllers.insert({CleverURI::CHARACTERSHEET, m_sheetMediaController.get()});
+    m_mediaControllers.insert({CleverURI::WEBVIEW, m_webPageMediaController.get()});
 }
 
 ContentController::~ContentController()= default;
@@ -60,7 +63,7 @@ void ContentController::setGameController(GameController* game)
     m_preferences->registerListener("MaxLengthTabName", this);
 
     std::for_each(m_mediaControllers.begin(), m_mediaControllers.end(),
-                  [this, game](const std::pair<CleverURI::ContentType, MediaControllerInterface*>& pair) {
+                  [game](const std::pair<CleverURI::ContentType, MediaControllerInterface*>& pair) {
                       pair.second->setUndoStack(game->undoStack());
                   });
 }
@@ -117,6 +120,11 @@ VectorialMapMediaController* ContentController::vmapCtrl() const
 CharacterSheetMediaController* ContentController::sheetCtrl() const
 {
     return m_sheetMediaController.get();
+}
+
+WebpageMediaController* ContentController::webPageCtrl() const
+{
+    return m_webPageMediaController.get();
 }
 
 void ContentController::addContent(ResourcesNode* node)

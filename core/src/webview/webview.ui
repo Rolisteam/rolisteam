@@ -1,21 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>WebView</class>
- <widget name="WebView" class="QWidget">
+ <widget class="QWidget" name="WebView">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>566</width>
+    <height>557</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1">
+   <property name="spacing">
+    <number>2</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QToolButton" name="m_previousBtn">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="m_nextBtn">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="m_reloadBtn">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="m_addressEdit"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="m_hideAddressBtn">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="m_shareBtn">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="m_htmlShareBtn">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="m_keepSharing">
+       <property name="text">
+        <string>Keep Sharing</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QWebEngineView" name="m_webview">
+     <property name="url">
+      <url>
+       <string>about:blank</string>
+      </url>
+     </property>
+    </widget>
+   </item>
+  </layout>
+  <action name="m_previousAct">
+   <property name="text">
+    <string>Previous</string>
+   </property>
+  </action>
+  <action name="m_nextAct">
+   <property name="text">
+    <string>Next</string>
+   </property>
+  </action>
+  <action name="m_reloadAct">
+   <property name="text">
+    <string>Reload</string>
+   </property>
+  </action>
+  <action name="m_hideAddressAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/icons/mask.png</normaloff>:/resources/icons/mask.png</iconset>
+   </property>
+   <property name="text">
+    <string>Hide Address</string>
+   </property>
+  </action>
+  <action name="m_shareAct">
+   <property name="icon">
+    <iconset resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/icons/document-share.svg</normaloff>:/resources/icons/document-share.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Share</string>
+   </property>
+  </action>
+  <action name="m_htmlShareAct">
+   <property name="text">
+    <string>Share Html</string>
+   </property>
+  </action>
  </widget>
- <pixmapfunction/>
+ <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../../../rolisteam.qrc"/>
+ </resources>
  <connections/>
 </ui>

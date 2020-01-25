@@ -26,14 +26,17 @@
 #include "controller/media_controller/charactersheetmediacontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
+#include "controller/media_controller/webpagemediacontroller.h"
 
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "controller/view_controller/webpagecontroller.h"
 
 #include "media/charactersheetwindow.h"
 #include "media/image.h"
 #include "vmap/vmapframe.h"
+#include "webview/webview.h"
 
 #define GRAY_SCALE 191
 
@@ -55,6 +58,7 @@ Workspace::Workspace(ContentController* ctrl, QWidget* parent)
 
     connect(m_ctrl->imagesCtrl(), &ImageMediaController::imageControllerCreated, this, &Workspace::addImage);
     connect(m_ctrl->vmapCtrl(), &VectorialMapMediaController::vmapControllerCreated, this, &Workspace::addVectorialMap);
+    connect(m_ctrl->webPageCtrl(), &WebpageMediaController::webpagControllerCreated, this, &Workspace::addWebpage);
     connect(m_ctrl->sheetCtrl(), &CharacterSheetMediaController::characterSheetCreated, this,
             &Workspace::addCharacterSheet);
 
@@ -383,6 +387,13 @@ void Workspace::addVectorialMap(VectorialMapController* ctrl)
 void Workspace::addCharacterSheet(CharacterSheetController* ctrl)
 {
     std::unique_ptr<CharacterSheetWindow> window(new CharacterSheetWindow(ctrl));
+    addWidgetToMdi(window.get(), ctrl->name());
+    m_mediaContainers.push_back(std::move(window));
+}
+
+void Workspace::addWebpage(WebpageController* ctrl)
+{
+    std::unique_ptr<WebView> window(new WebView(ctrl));
     addWidgetToMdi(window.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(window));
 }
