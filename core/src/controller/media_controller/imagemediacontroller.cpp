@@ -49,7 +49,7 @@ void ImageMediaController::closeMedia(const QString& id)
     if(it == m_images.end())
         return;
 
-    (*it)->closeContainer();
+    (*it)->aboutToClose();
     m_images.erase(it, m_images.end());
 }
 
