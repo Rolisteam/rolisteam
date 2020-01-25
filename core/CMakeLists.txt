@@ -239,7 +239,6 @@ set(HEADERS
     src/vmap/items/textitem.h
     src/vmap/items/visualitem.h
     src/vmap/controller/ellipsecontroller.h
-    src/vmap/controller/highlightercontroller.h
     src/vmap/controller/characteritemcontroller.h
     src/vmap/controller/linecontroller.h
     src/vmap/controller/rectcontroller.h
@@ -525,7 +524,6 @@ set(SOURCES
     src/vmap/manager/textcontrollermanager.cpp
     src/vmap/manager/characteritemcontrollermanager.cpp
     src/vmap/controller/ellipsecontroller.cpp
-    src/vmap/controller/highlightercontroller.cpp
     src/vmap/controller/characteritemcontroller.cpp
     src/vmap/controller/linecontroller.cpp
     src/vmap/controller/rectcontroller.cpp
