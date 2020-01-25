@@ -1,8 +1,8 @@
 /***************************************************************************
- *     Copyright (C) 2018 by Renaud Guezennec                              *
- *     https://rolisteam.org/                                           *
+ *	Copyright (C) 2020 by Renaud Guezennec                               *
+ *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   This software is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -17,57 +17,31 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef WEBVIEW_H
-#define WEBVIEW_H
+#ifndef WEBPAGEMEDIACONTROLLER_H
+#define WEBPAGEMEDIACONTROLLER_H
 
-#include <QAction>
-#include <QMouseEvent>
-#include <QPointer>
-#include <QWebEngineView>
-#include <QWidget>
-
-#include "data/mediacontainer.h"
-#include "network/networkmessagewriter.h"
-namespace Ui
-{
-class WebView;
-}
+#include "mediacontrollerinterface.h"
 
 class WebpageController;
-class WebView : public MediaContainer
+class WebpageMediaController : public MediaControllerInterface
 {
     Q_OBJECT
-
 public:
-    enum ShareType
-    {
-        URL,
-        HTML
-    };
+    WebpageMediaController();
+    ~WebpageMediaController() override;
 
-    explicit WebView(WebpageController* ctrl, QWidget* parent= nullptr);
-    virtual ~WebView();
+    CleverURI::ContentType type() const override;
+    bool openMedia(CleverURI* uri, const std::map<QString, QVariant>& args) override;
+    void closeMedia(const QString& id) override;
+    void registerNetworkReceiver() override;
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+    void setUndoStack(QUndoStack* stack) override;
 
-    virtual bool readFileFromUri();
-    virtual void saveMedia(const QString&);
-    virtual void putDataIntoCleverUri();
-
-    //   void fill(NetworkMessageWriter& message);
-    //   void readMessage(NetworkMessageReader& msg);
-
-protected:
-    void mousePressEvent(QMouseEvent* mouseEvent);
-    void showEvent(QShowEvent* event);
-
-    // void createActions();
-    // void creationToolBar();
-
-    void updateTitle();
-    // void sendOffClose();
+signals:
+    void webpagControllerCreated(WebpageController* webpageCtrl);
 
 private:
-    QPointer<WebpageController> m_webCtrl;
-    Ui::WebView* m_ui;
+    std::vector<std::unique_ptr<WebpageController>> m_webpages;
 };
 
-#endif // WEBVIEW_H
+#endif // WEBPAGEMEDIACONTROLLER_H

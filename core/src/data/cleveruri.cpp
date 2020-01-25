@@ -64,7 +64,7 @@ QStringList CleverURI::m_typeToPreferenceDirectory
 
 CleverURIListener::~CleverURIListener() {}
 
-CleverURI::CleverURI() : m_type(NONE), m_state(Unloaded)
+CleverURI::CleverURI(ContentType type) : m_type(type), m_state(Unloaded)
 {
     init();
 }

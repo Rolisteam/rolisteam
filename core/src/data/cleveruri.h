@@ -75,7 +75,7 @@ public:
      * @brief default constructor
      *
      */
-    CleverURI();
+    CleverURI(ContentType type= NONE);
     /**
      * @brief copy constructor
      *
