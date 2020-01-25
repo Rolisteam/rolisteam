@@ -49,7 +49,7 @@ void CharacterSheetMediaController::closeMedia(const QString& id)
     if(it == m_sheets.end())
         return;
 
-    (*it)->closeContainer();
+    (*it)->aboutToClose();
     m_sheets.erase(it, m_sheets.end());
 }
 
