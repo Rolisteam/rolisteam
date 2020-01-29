@@ -104,8 +104,18 @@ QVariant UnitModel::headerData(int section, Qt::Orientation orientation, int rol
 
 Unit* UnitModel::insertData(Unit* unit)
 {
+    int position= 0;
+    std::vector<Unit::Category> cats(
+        {Unit::TEMPERATURE, Unit::DISTANCE, Unit::CURRENCY, Unit::VOLUME, Unit::MASS, Unit::CUSTOM});
+
+    for(auto cat : cats)
+    {
+        auto tmplist= m_data[cat];
+        if(cat <= unit->currentCat())
+            position+= tmplist.size();
+    }
     auto& list= m_data[unit->currentCat()];
-    beginInsertRows(index(unit->currentCat(), 0), list.size(), list.size());
+    beginInsertRows(QModelIndex(), position, position);
     list.append(unit);
     endInsertRows();
     return unit;
@@ -177,6 +187,9 @@ int UnitModel::getIndex(Unit* unit)
 }
 Unit* UnitModel::getUnitByIndex(int r) const
 {
+    if(r < 0)
+        return nullptr;
+
     for(auto& list : m_data)
     {
         if(r >= list.size())

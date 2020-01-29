@@ -45,15 +45,15 @@ Convertor::Convertor(QWidget* parent) : QWidget(parent), ui(new Ui::Convertor), 
     if(m_model->rowCount(QModelIndex()) == 0)
     {
         Unit* meter= m_model->insertData(new Unit(QStringLiteral("meter"), QStringLiteral("m"), Unit::DISTANCE));
-        Unit* km   = m_model->insertData(new Unit(QStringLiteral("kilometer"), QStringLiteral("km"), Unit::DISTANCE));
-        Unit* dam  = m_model->insertData(new Unit(QStringLiteral("decameter"), QStringLiteral("dam"), Unit::DISTANCE));
-        Unit* dm   = m_model->insertData(new Unit(QStringLiteral("decimeter"), QStringLiteral("dm"), Unit::DISTANCE));
-        Unit* hm   = m_model->insertData(new Unit(QStringLiteral("hectometer"), QStringLiteral("hm"), Unit::DISTANCE));
-        Unit* cm   = m_model->insertData(new Unit(QStringLiteral("centimeter"), QStringLiteral("cm"), Unit::DISTANCE));
-        Unit* mm  = m_model->insertData(new Unit(QStringLiteral("millitimeter"), QStringLiteral("mm"), Unit::DISTANCE));
-        Unit* po  = m_model->insertData(new Unit(QStringLiteral("Inch"), QStringLiteral("″"), Unit::DISTANCE));
-        Unit* ft  = m_model->insertData(new Unit(QStringLiteral("Foot"), QStringLiteral("′"), Unit::DISTANCE));
-        Unit* yd  = m_model->insertData(new Unit(QStringLiteral("Yard"), QStringLiteral("yd"), Unit::DISTANCE));
+        Unit* km= m_model->insertData(new Unit(QStringLiteral("kilometer"), QStringLiteral("km"), Unit::DISTANCE));
+        Unit* dam= m_model->insertData(new Unit(QStringLiteral("decameter"), QStringLiteral("dam"), Unit::DISTANCE));
+        Unit* dm= m_model->insertData(new Unit(QStringLiteral("decimeter"), QStringLiteral("dm"), Unit::DISTANCE));
+        Unit* hm= m_model->insertData(new Unit(QStringLiteral("hectometer"), QStringLiteral("hm"), Unit::DISTANCE));
+        Unit* cm= m_model->insertData(new Unit(QStringLiteral("centimeter"), QStringLiteral("cm"), Unit::DISTANCE));
+        Unit* mm= m_model->insertData(new Unit(QStringLiteral("millitimeter"), QStringLiteral("mm"), Unit::DISTANCE));
+        Unit* po= m_model->insertData(new Unit(QStringLiteral("Inch"), QStringLiteral("″"), Unit::DISTANCE));
+        Unit* ft= m_model->insertData(new Unit(QStringLiteral("Foot"), QStringLiteral("′"), Unit::DISTANCE));
+        Unit* yd= m_model->insertData(new Unit(QStringLiteral("Yard"), QStringLiteral("yd"), Unit::DISTANCE));
         Unit* mile= m_model->insertData(new Unit(QStringLiteral("Mile"), QStringLiteral("mi"), Unit::DISTANCE));
 
         // kilometer to *
@@ -213,7 +213,7 @@ Convertor::Convertor(QWidget* parent) : QWidget(parent), ui(new Ui::Convertor), 
         // Currency
         /////////////////////////
         Unit* koku= m_model->insertData(new Unit(QStringLiteral("koku"), QStringLiteral("koku"), Unit::CURRENCY));
-        Unit* bu  = m_model->insertData(new Unit(QStringLiteral("bu"), QStringLiteral("bu"), Unit::CURRENCY));
+        Unit* bu= m_model->insertData(new Unit(QStringLiteral("bu"), QStringLiteral("bu"), Unit::CURRENCY));
         Unit* zeni= m_model->insertData(new Unit(QStringLiteral("zeni"), QStringLiteral("zeni"), Unit::CURRENCY));
 
         m_convertorTable.insert(QPair<const Unit*, const Unit*>(koku, bu), new ConvertorOperator(5));
@@ -228,9 +228,9 @@ Convertor::Convertor(QWidget* parent) : QWidget(parent), ui(new Ui::Convertor), 
         //////////////////////////
         // MASS
         /////////////////////////
-        Unit* gram = m_model->insertData(new Unit(QStringLiteral("gram"), QStringLiteral("g"), Unit::MASS));
-        Unit* kilo = m_model->insertData(new Unit(QStringLiteral("kilogram"), QStringLiteral("Kg"), Unit::MASS));
-        Unit* once = m_model->insertData(new Unit(QStringLiteral("Once"), QStringLiteral("oz"), Unit::MASS));
+        Unit* gram= m_model->insertData(new Unit(QStringLiteral("gram"), QStringLiteral("g"), Unit::MASS));
+        Unit* kilo= m_model->insertData(new Unit(QStringLiteral("kilogram"), QStringLiteral("Kg"), Unit::MASS));
+        Unit* once= m_model->insertData(new Unit(QStringLiteral("Once"), QStringLiteral("oz"), Unit::MASS));
         Unit* pound= m_model->insertData(new Unit(QStringLiteral("Pound"), QStringLiteral("lb"), Unit::MASS));
 
         m_convertorTable.insert(QPair<const Unit*, const Unit*>(gram, kilo), new ConvertorOperator(0.001));
@@ -297,11 +297,11 @@ void Convertor::readSettings()
     for(int i= 0; i < size; ++i)
     {
         setting.setArrayIndex(i);
-        auto name    = setting.value("name").toString();
-        auto symbol  = setting.value("symbol").toString();
-        auto cat     = setting.value("category").toInt();
+        auto name= setting.value("name").toString();
+        auto symbol= setting.value("symbol").toString();
+        auto cat= setting.value("category").toInt();
         auto readonly= setting.value("readonly").toBool();
-        auto unit    = new Unit(name, symbol, static_cast<GMTOOL::Unit::Category>(cat));
+        auto unit= new Unit(name, symbol, static_cast<GMTOOL::Unit::Category>(cat));
         unit->setReadOnly(readonly);
         m_model->insertData(unit);
     }
@@ -315,17 +315,17 @@ void Convertor::readSettings()
     {
         setting.setArrayIndex(i);
         auto fromUnitId= setting.value(QStringLiteral("fromUnit")).toInt();
-        auto toUnitId  = setting.value(QStringLiteral("toUnit")).toInt();
+        auto toUnitId= setting.value(QStringLiteral("toUnit")).toInt();
 
         auto readOnly= setting.value(QStringLiteral("readOnly")).toBool();
         auto fraction= setting.value(QStringLiteral("fraction")).toBool();
-        auto a       = setting.value(QStringLiteral("a")).toDouble();
-        auto b       = setting.value(QStringLiteral("b")).toDouble();
+        auto a= setting.value(QStringLiteral("a")).toDouble();
+        auto b= setting.value(QStringLiteral("b")).toDouble();
 
         auto convertor= new ConvertorOperator(a, b, fraction, readOnly);
 
         auto unitFrom= m_model->getUnitByIndex(fromUnitId);
-        auto unitTo  = m_model->getUnitByIndex(toUnitId);
+        auto unitTo= m_model->getUnitByIndex(toUnitId);
         m_convertorTable.insert(QPair<const Unit*, const Unit*>(unitFrom, unitTo), convertor);
     }
     setting.endArray();
@@ -353,7 +353,7 @@ void Convertor::writeSettings()
     setting.beginGroup("UnitModel");
     setting.beginWriteArray(QStringLiteral("convertor"), m_convertorTable.size());
 
-    int i           = 0;
+    int i= 0;
     auto const& keys= m_convertorTable.keys();
     for(auto& pair : keys)
     {
@@ -394,7 +394,7 @@ void Convertor::categoryHasChangedOnSecondPanel(int i)
 void Convertor::convert()
 {
     QModelIndex source= m_catModel->index(ui->m_fromCombo->currentIndex(), 0);
-    QModelIndex to    = m_toModel->index(ui->m_toCombo->currentIndex(), 0);
+    QModelIndex to= m_toModel->index(ui->m_toCombo->currentIndex(), 0);
 
     if(!source.isValid() || !to.isValid())
         return;
