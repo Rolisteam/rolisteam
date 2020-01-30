@@ -17,7 +17,7 @@
    <string>Shared Note Editor</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../rolisteam.qrc">
+   <iconset resource="../../../rolisteam.qrc">
     <normaloff>:/resources/icons/sharedEditor.png</normaloff>:/resources/icons/sharedEditor.png</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
@@ -136,13 +136,16 @@
    <addaction name="actionHelp_How_to_Collaborate"/>
    <addaction name="separator"/>
    <addaction name="m_refresh"/>
+   <addaction name="separator"/>
+   <addaction name="m_showHtmlPreview"/>
+   <addaction name="m_markdownPreview"/>
   </widget>
   <action name="actionEdit_Undo">
    <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../rolisteam.qrc">
+    <iconset resource="../../../rolisteam.qrc">
      <normaloff>:/sharednote/resources/images/undo.png</normaloff>:/sharednote/resources/images/undo.png</iconset>
    </property>
    <property name="text">
@@ -160,7 +163,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../rolisteam.qrc">
+    <iconset resource="../../../rolisteam.qrc">
      <normaloff>:/sharednote/resources/images/redo.png</normaloff>:/sharednote/resources/images/redo.png</iconset>
    </property>
    <property name="text">
@@ -175,7 +178,7 @@
   </action>
   <action name="actionEdit_Cut">
    <property name="icon">
-    <iconset resource="../../rolisteam.qrc">
+    <iconset resource="../../../rolisteam.qrc">
      <normaloff>:/sharednote/resources/images/cut.png</normaloff>:/sharednote/resources/images/cut.png</iconset>
    </property>
    <property name="text">
@@ -190,7 +193,7 @@
   </action>
   <action name="actionEdit_Copy">
    <property name="icon">
-    <iconset resource="../../rolisteam.qrc">
+    <iconset resource="../../../rolisteam.qrc">
      <normaloff>:/sharednote/resources/images/copy.png</normaloff>:/sharednote/resources/images/copy.png</iconset>
    </property>
    <property name="text">
@@ -205,7 +208,7 @@
   </action>
   <action name="actionEdit_Paste">
    <property name="icon">
-    <iconset resource="../../rolisteam.qrc">
+    <iconset resource="../../../rolisteam.qrc">
      <normaloff>:/sharednote/resources/images/paste.png</normaloff>:/sharednote/resources/images/paste.png</iconset>
    </property>
    <property name="text">
@@ -388,7 +391,7 @@
   </action>
   <action name="actionHelp_How_to_Collaborate">
    <property name="icon">
-    <iconset resource="../../rolisteam.qrc">
+    <iconset resource="../../../rolisteam.qrc">
      <normaloff>:/sharednote/resources/images/help.png</normaloff>:/sharednote/resources/images/help.png</iconset>
    </property>
    <property name="text">
@@ -400,7 +403,7 @@
   </action>
   <action name="actionFile_Print">
    <property name="icon">
-    <iconset resource="../../rolisteam.qrc">
+    <iconset resource="../../../rolisteam.qrc">
      <normaloff>:/sharednote/resources/images/print.png</normaloff>:/sharednote/resources/images/print.png</iconset>
    </property>
    <property name="text">
@@ -414,15 +417,36 @@
    </property>
   </action>
   <action name="m_refresh">
+   <property name="icon">
+    <iconset resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/icons/action-rotate.png</normaloff>:/resources/icons/action-rotate.png</iconset>
+   </property>
    <property name="text">
     <string>Refresh</string>
+   </property>
+  </action>
+  <action name="m_showHtmlPreview">
+   <property name="icon">
+    <iconset resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/icons/preview_html.svg</normaloff>:/resources/icons/preview_html.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Html Preview</string>
+   </property>
+  </action>
+  <action name="m_markdownPreview">
+   <property name="icon">
+    <iconset resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/icons/preview_markdown.svg</normaloff>:/resources/icons/preview_markdown.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Markdown Preview</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="../../rolisteam.qrc"/>
-  <include location="../../rolisteam.qrc"/>
+  <include location="../../../rolisteam.qrc"/>
  </resources>
  <connections/>
 </ui>

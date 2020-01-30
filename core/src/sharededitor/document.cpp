@@ -30,13 +30,15 @@
 #include <QMessageBox>
 #include <QTextDocumentFragment>
 
+#include "controller/view_controller/sharednotecontroller.h"
 #include "markdownhighlighter.h"
 #include "ui_document.h"
 
 #include "enu.h"
 #include "utilities.h"
 
-Document::Document(QWidget* parent) : QWidget(parent), ui(new Ui::Document), m_highlighter(nullptr)
+Document::Document(SharedNoteController* ctrl, QWidget* parent)
+    : QWidget(parent), m_shareCtrl(ctrl), ui(new Ui::Document), m_highlighter(nullptr)
 {
     ui->setupUi(this);
 
@@ -76,13 +78,13 @@ Document::Document(QWidget* parent) : QWidget(parent), ui(new Ui::Document), m_h
     ui->editorVerticalLayout->insertWidget(1, findAllToolbar);
     findAllToolbar->hide();
 
-    connect(findAllToolbar, SIGNAL(findAll(QString)), m_editor, SLOT(findAll(QString)));
-    connect(findAllToolbar, SIGNAL(findNext(QString)), this, SLOT(findNext(QString)));
-    connect(findAllToolbar, SIGNAL(findPrevious(QString)), this, SLOT(findPrevious(QString)));
+    connect(findAllToolbar, &FindToolBar::findAll, m_editor, &CodeEditor::findAll);
+    // connect(findAllToolbar, &FindToolBar::findNext, this, &Document::findNext);
+    connect(findAllToolbar, &FindToolBar::findPrevious, this, &Document::findPrevious);
 
     // Emit signals to the mainwindow when redoability/undoability changes
-    connect(m_editor, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
-    connect(m_editor, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+    connect(m_editor, &CodeEditor::undoAvailable, this, &Document::undoAvailable);
+    connect(m_editor, &CodeEditor::redoAvailable, this, &Document::redoAvailable);
 
     QList<int> sizeList;
     sizeList << 9000 << 1;

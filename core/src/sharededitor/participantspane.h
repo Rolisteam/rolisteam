@@ -34,7 +34,7 @@ namespace Ui
 class ParticipantsPane;
 }
 
-class ParticipantsModel : public QAbstractProxyModel
+class ParticipantsModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
@@ -52,8 +52,8 @@ public:
     virtual QModelIndex index(int row, int column, const QModelIndex& parent) const;
     virtual Qt::ItemFlags flags(const QModelIndex& index) const;
 
-    Q_INVOKABLE QModelIndex mapFromSource(const QModelIndex& sourceIndex) const;
-    Q_INVOKABLE QModelIndex mapToSource(const QModelIndex& proxyIndex) const;
+    /*Q_INVOKABLE QModelIndex mapFromSource(const QModelIndex& sourceIndex) const;
+    Q_INVOKABLE QModelIndex mapToSource(const QModelIndex& proxyIndex) const;*/
 
     QString getOwner() const;
     void setOwner(const QString& owner);
@@ -72,11 +72,11 @@ public slots:
     void setPlayerInto(const QModelIndex& index, ParticipantsModel::Permission level);
 
 private:
-    void debugModel() const;
+    // void debugModel() const;
+    QPointer<PlayerModel> m_playerList;
     std::vector<QString> m_readOnly;
     std::vector<QString> m_readWrite;
     QStringList m_permissionGroup;
-
     QString m_ownerId;
 };
 

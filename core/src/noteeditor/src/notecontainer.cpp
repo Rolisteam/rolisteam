@@ -26,7 +26,6 @@ NoteContainer::NoteContainer(bool localIsGM, QWidget* parent)
 #ifdef Q_OS_MAC
     m_edit->menuBar()->setNativeMenuBar(false);
 #endif
-    // setCleverUriType(CleverURI::TEXT);
     setWidget(m_edit);
     setWindowIcon(QIcon(":/notes.png"));
     connect(m_edit, SIGNAL(fileNameChanged(QString)), this, SLOT(setFileName(QString)));

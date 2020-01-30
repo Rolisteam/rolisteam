@@ -578,7 +578,13 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_newMapAction, &QAction::triggered, this, fun);
     connect(m_ui->m_addVectorialMap, &QAction::triggered, this, &MainWindow::newVMap);
     connect(m_ui->m_newNoteAction, &QAction::triggered, this, fun);
-    connect(m_ui->m_newSharedNote, &QAction::triggered, this, fun);
+    connect(m_ui->m_newSharedNote, &QAction::triggered, this, [this]() {
+        auto ctrl= m_gameController->contentController();
+        if(nullptr == ctrl)
+            return;
+        std::map<QString, QVariant> params;
+        ctrl->newMedia(CleverURI::SHAREDNOTE, params);
+    });
     connect(m_ui->m_newWebViewACt, &QAction::triggered, this, [this]() {
         auto ctrl= m_gameController->contentController();
         if(nullptr == ctrl)
@@ -816,8 +822,8 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi
     {
     case CleverURI::SHAREDNOTE:
     {
-        SharedNoteContainer* note= new SharedNoteContainer(localIsGM);
-        media= note;
+        /*SharedNoteContainer* note= new SharedNoteContainer(localIsGM);
+        media= note;*/
         // note->setOwnerId(m_playerModel->getLocalPlayerId());
     }
     break;
@@ -2214,9 +2220,9 @@ void MainWindow::openCleverURI(CleverURI* uri, bool force)
 #endif
     case CleverURI::SHAREDNOTE:
     {
-        SharedNoteContainer* tmpShared= new SharedNoteContainer(localIsGM);
+        // SharedNoteContainer* tmpShared= new SharedNoteContainer(localIsGM);
         // tmpShared->setOwnerId(m_playerModel->getLocalPlayerId());
-        tmp= tmpShared;
+        // tmp= tmpShared;
     }
     break;
 #ifdef HAVE_WEBVIEW

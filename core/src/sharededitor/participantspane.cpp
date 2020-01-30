@@ -37,12 +37,12 @@
 ///
 /////////////////////////////////////////////////
 
-ParticipantsModel::ParticipantsModel(QObject* parent) : QAbstractProxyModel(parent)
+ParticipantsModel::ParticipantsModel(QObject* parent) : QAbstractItemModel(parent)
 {
     m_permissionGroup << tr("Read Write") << tr("Read Only") << tr("Hidden");
 }
 
-QModelIndex ParticipantsModel::mapFromSource(const QModelIndex& sourceIndex) const
+/*QModelIndex ParticipantsModel::mapFromSource(const QModelIndex& sourceIndex) const
 {
     if(!sourceIndex.isValid())
         return QModelIndex();
@@ -67,17 +67,18 @@ QModelIndex ParticipantsModel::mapToSource(const QModelIndex& proxyIndex) const
         return sourceModel()->index(0, 0, QModelIndex());
     else
         return sourceModel()->index(proxyIndex.row() - 1, 0, sourceModel()->index(0, 0, QModelIndex()));
-}
+}*/
 
 int ParticipantsModel::rowCount(const QModelIndex& parent) const
 {
-    if(!parent.isValid())
+    return 0;
+    /*if(!parent.isValid())
     {
         return m_permissionGroup.size();
     }
     else
     {
-        auto playerCount= sourceModel()->rowCount(QModelIndex());
+        auto size= m_playerList->rowCount();
         int result= 0;
         switch(parent.row())
         {
@@ -88,32 +89,58 @@ int ParticipantsModel::rowCount(const QModelIndex& parent) const
             result= static_cast<int>(m_readOnly.size());
             break;
         case hidden:
-            result= (playerCount - static_cast<int>(m_readOnly.size() + m_readWrite.size()));
+            result= static_cast<int>(size - (m_readOnly.size() + m_readWrite.size()));
             break;
         default:
-            result= 0;
             break;
         }
         return result;
-    }
+    }*/
 }
 
 int ParticipantsModel::columnCount(const QModelIndex& index) const
 {
-    return 1;
+    if(index.isValid())
+        return 0;
+    return 0;
 }
 
 QVariant ParticipantsModel::data(const QModelIndex& index, int role) const
 {
-    if(!index.isValid())
-        return QVariant();
+    return {};
+    /* if(!index.isValid())
+         return QVariant();
 
-    if(!index.parent().isValid())
-        return QAbstractProxyModel::data(index, role);
-    else if(role == Qt::DisplayRole || role == Qt::EditRole || role == PlayerModel::IdentifierRole)
-    {
-        return m_permissionGroup.at(index.row());
-    }
+     if(!index.parent().isValid())
+     {
+         auto parent= index.parent();
+         const std::vector<QString>* vector= nullptr;
+         if(parent.row() == 0)
+         {
+             vector= &m_readWrite;
+         }
+         else if(parent.row() == 1)
+         {
+             vector= &m_readOnly;
+         }
+
+         auto pos= static_cast<std::size_t>(index.row());
+         QString id;
+         if(nullptr != vector)
+         {
+             if(pos < vector->size())
+                 id= vector->at(pos);
+         }
+         auto player= m_playerList->playerById(id);
+         if(nullptr != player)
+             return player->name();
+         else
+             return {};
+     }
+     else if(role == Qt::DisplayRole || role == Qt::EditRole || role == PlayerModel::IdentifierRole)
+     {
+         return m_permissionGroup.at(index.row());
+     }*/
 
     /* if(Qt::DisplayRole == role)
      {
@@ -137,7 +164,8 @@ QVariant ParticipantsModel::data(const QModelIndex& index, int role) const
 
 QModelIndex ParticipantsModel::parent(const QModelIndex& child) const
 {
-    if(!child.isValid())
+    return QModelIndex();
+    /*if(!child.isValid())
         return QModelIndex();
 
     auto id= child.data(PlayerModel::IdentifierRole).toString();
@@ -150,7 +178,7 @@ QModelIndex ParticipantsModel::parent(const QModelIndex& child) const
         return createIndex(1, 0);
     else
         return createIndex(2, 0);
-
+*/
     /*
     Player* childItem= static_cast<Player*>(child.internalPointer());
 
@@ -175,15 +203,32 @@ QModelIndex ParticipantsModel::parent(const QModelIndex& child) const
 
 QModelIndex ParticipantsModel::index(int row, int column, const QModelIndex& parent) const
 {
+    return QModelIndex();
+    /*
     if(row < 0)
         return QModelIndex();
 
-    return createIndex(row, column);
+    void* node= nullptr;
+    QString id;
+    if(!parent.isValid() && row == 1)
+        node= const_cast<void*>(reinterpret_cast<const void*>(&m_readOnly));
+    else if(!parent.isValid() && row == 0)
+        node= const_cast<void*>(reinterpret_cast<const void*>(&m_readWrite));
+    else if(!parent.isValid() && row == 2)
+        node= const_cast<void*>(reinterpret_cast<const void*>(&m_playerList));
+    else if(parent.isValid() && row == 0)
+    {
+    }
+
+    return createIndex(row, column, node);*/
 }
 
-Qt::ItemFlags ParticipantsModel::flags(const QModelIndex&) const
+Qt::ItemFlags ParticipantsModel::flags(const QModelIndex& index) const
 {
-    return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDropEnabled;
+    if(index.parent().isValid())
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDropEnabled;
+    else
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 void ParticipantsModel::addHiddenPlayer(Player* player)
@@ -254,7 +299,6 @@ void ParticipantsModel::setOwner(const QString& owner)
 }
 ParticipantsModel::Permission ParticipantsModel::getPermissionFor(const QModelIndex& index)
 {
-
     if(!index.isValid())
         return hidden;
 
@@ -392,8 +436,7 @@ ParticipantsPane::ParticipantsPane(QWidget* parent) : QWidget(parent), ui(new Ui
     connect(m_playerList, SIGNAL(playerAdded(Player*)), this, SLOT(addNewPlayer(Player*)));
     connect(m_playerList, SIGNAL(playerDeleted(Player*)), this, SLOT(removePlayer(Player*)));*/
 
-    m_model= new ParticipantsModel(m_playerList);
-    connect(m_playerList, &PlayersList::playerDeleted, m_model, &ParticipantsModel::removePlayer);
+    m_model= new ParticipantsModel(this);
     ui->m_treeview->setModel(m_model);
 
     ui->connectInfoLabel->hide();
