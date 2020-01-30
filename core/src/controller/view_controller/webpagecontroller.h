@@ -32,7 +32,6 @@ class WebpageController : public AbstractMediaContainerController
     Q_PROPERTY(bool keepSharing READ keepSharing WRITE setKeepSharing NOTIFY keepSharingChanged)
     Q_PROPERTY(QString html READ html WRITE setHtml NOTIFY htmlChanged)
     Q_PROPERTY(WebpageController::State state READ state WRITE setState NOTIFY stateChanged)
-    Q_PROPERTY(bool share READ share WRITE setShare NOTIFY shareChanged)
 public:
     enum State
     {
@@ -50,7 +49,6 @@ public:
     bool keepSharing() const;
     QString html() const;
     WebpageController::State state() const;
-    bool share() const;
 
 signals:
     void urlChanged(QString uri);
@@ -58,7 +56,6 @@ signals:
     void keepSharingChanged(bool keepSharing);
     void htmlChanged(QString html);
     void stateChanged(State state);
-    void shareChanged(bool share);
 
 public slots:
     void setUrl(QString url);
@@ -66,7 +63,9 @@ public slots:
     void setKeepSharing(bool keepSharing);
     void setHtml(QString html);
     void setState(State state);
-    void setShare(bool share);
+
+    void share();
+    void shareHtml();
 
 private:
     QString m_url;
@@ -74,7 +73,6 @@ private:
     bool m_keepSharing;
     QString m_html;
     State m_state;
-    bool m_share;
 };
 
 #endif // WEBPAGECONTROLLER_H

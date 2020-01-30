@@ -57,6 +57,9 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
     connect(m_webCtrl, &WebpageController::urlChanged, this,
             [this]() { m_ui->m_webview->setUrl(QUrl::fromUserInput(m_webCtrl->url())); });
 
+    connect(m_ui->m_webview, &QWebEngineView::loadFinished, this,
+            [this]() { m_ui->m_webview->page()->toHtml([this](QString html) { m_webCtrl->setHtml(html); }); });
+
     connect(m_ui->m_reloadAct, &QAction::triggered, m_ui->m_webview, &QWebEngineView::reload);
     connect(m_ui->m_nextAct, &QAction::triggered, m_ui->m_webview, &QWebEngineView::forward);
     connect(m_ui->m_previousAct, &QAction::triggered, m_ui->m_webview, &QWebEngineView::back);

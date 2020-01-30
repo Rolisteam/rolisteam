@@ -55,11 +55,6 @@ WebpageController::State WebpageController::state() const
     return m_state;
 }
 
-bool WebpageController::share() const
-{
-    return m_share;
-}
-
 void WebpageController::setUrl(QString url)
 {
     if(m_url == url)
@@ -105,11 +100,12 @@ void WebpageController::setState(WebpageController::State state)
     emit stateChanged(m_state);
 }
 
-void WebpageController::setShare(bool share)
+void WebpageController::share()
 {
-    if(m_share == share)
-        return;
+    // TODO when network is ready
+}
 
-    m_share= share;
-    emit shareChanged(m_share);
+void WebpageController::shareHtml()
+{
+    // TODO when network is ready
 }
