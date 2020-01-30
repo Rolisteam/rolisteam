@@ -76,6 +76,8 @@ public:
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;
     int columnCount(const QModelIndex& parent= QModelIndex()) const override;
     bool setData(const QModelIndex& index, const QVariant& value, int role) override;
+
+    Player* playerById(const QString& id) const;
     // void sendOffLocalPlayerInformations();
     // void sendOffFeatures(Player* player);
 
