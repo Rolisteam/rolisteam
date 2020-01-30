@@ -356,6 +356,15 @@ QModelIndex PlayerModel::personToIndex(Person* person) const
     return index(row, 0, parent);
 }
 
+Player* PlayerModel::playerById(const QString& id) const
+{
+    auto it= std::find_if(m_players.begin(), m_players.end(),
+                          [id](const std::unique_ptr<Player>& player) { return id == player->getUuid(); });
+    if(it == m_players.end())
+        return nullptr;
+    return (*it).get();
+}
+
 /***********
  * Getters *
  ***********/
