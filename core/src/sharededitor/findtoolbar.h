@@ -26,14 +26,14 @@
 
 namespace Ui
 {
-    class FindToolBar;
+class FindToolBar;
 }
 
 class FindToolBar : public QWidget
 {
     Q_OBJECT
 public:
-    FindToolBar(QWidget* parent= 0);
+    FindToolBar(QWidget* parent= nullptr);
     ~FindToolBar();
 
     void giveFocus();
@@ -44,9 +44,7 @@ private:
 
 private slots:
     void findTriggered(QString string);
-
     void findNextTriggered();
-
     void closeButtonClicked();
 
 protected:

@@ -31,10 +31,11 @@
 class Player;
 class NetworkMessageReader;
 class NetworkMessageWriter;
+class SharedNoteController;
 
 namespace Ui
 {
-    class SharedNote;
+class SharedNote;
 }
 
 class SharedNote : public QMainWindow
@@ -42,7 +43,7 @@ class SharedNote : public QMainWindow
     Q_OBJECT
 
 public:
-    SharedNote(QWidget* parent= nullptr);
+    SharedNote(SharedNoteController* ctrl, QWidget* parent= nullptr);
     ~SharedNote();
 
     bool saveFileAsText(QTextStream& out);
@@ -113,8 +114,8 @@ private slots:
     void findPrevTriggered(QString str, Qt::CaseSensitivity, bool wrapAround, Enu::FindMode mode);
     void replaceAllTriggered(QString find, QString replace, Qt::CaseSensitivity sensitivity, Enu::FindMode mode);
     void replaceTriggered(QString replace);
-    void findReplaceTriggered(
-        QString find, QString replace, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode);
+    void findReplaceTriggered(QString find, QString replace, Qt::CaseSensitivity sensitivity, bool wrapAround,
+                              Enu::FindMode mode);
 
     void setEditorFont(QFont font);
     void setParticipantsFont(QFont font);
@@ -122,10 +123,11 @@ private slots:
     void setMarkdownAsHighlight();
 
 private:
-    Ui::SharedNote* ui = nullptr;
-    FindDialog* findDialog = nullptr;
+    QPointer<SharedNoteController> m_sharedCtrl;
+    Ui::SharedNote* ui= nullptr;
+    FindDialog* findDialog= nullptr;
     QString m_fileName;
-    Document* m_document = nullptr;
+    Document* m_document= nullptr;
     bool m_networkEditing= false;
     QString m_id; // global name used for connecting to documents
 };

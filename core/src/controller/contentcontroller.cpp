@@ -22,6 +22,7 @@
 #include "controller/media_controller/charactersheetmediacontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
 #include "controller/media_controller/mediacontrollerinterface.h"
+#include "controller/media_controller/sharednotemediacontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
 #include "controller/media_controller/webpagemediacontroller.h"
 #include "controller/view_controller/charactersheetcontroller.h"
@@ -43,12 +44,14 @@ ContentController::ContentController(CharacterModel* characterModel, NetworkCont
     , m_vmapControllers(new VectorialMapMediaController(networkCtrl))
     , m_sheetMediaController(new CharacterSheetMediaController(characterModel))
     , m_webPageMediaController(new WebpageMediaController)
+    , m_sharedNoteMediaController(new SharedNoteMediaController)
     , m_sessionName(tr("Unknown"))
 {
     m_mediaControllers.insert({CleverURI::PICTURE, m_imageControllers.get()});
     m_mediaControllers.insert({CleverURI::VMAP, m_vmapControllers.get()});
     m_mediaControllers.insert({CleverURI::CHARACTERSHEET, m_sheetMediaController.get()});
     m_mediaControllers.insert({CleverURI::WEBVIEW, m_webPageMediaController.get()});
+    m_mediaControllers.insert({CleverURI::SHAREDNOTE, m_sharedNoteMediaController.get()});
 }
 
 ContentController::~ContentController()= default;
@@ -125,6 +128,11 @@ CharacterSheetMediaController* ContentController::sheetCtrl() const
 WebpageMediaController* ContentController::webPageCtrl() const
 {
     return m_webPageMediaController.get();
+}
+
+SharedNoteMediaController* ContentController::sharedCtrl() const
+{
+    return m_sharedNoteMediaController.get();
 }
 
 void ContentController::addContent(ResourcesNode* node)

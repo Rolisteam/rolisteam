@@ -42,6 +42,7 @@ class NetworkController;
 class CharacterSheetMediaController;
 class WebpageMediaController;
 class CharacterModel;
+class SharedNoteMediaController;
 // class AbstractMediaContainerController;
 class ContentController : public AbstractControllerInterface, public PreferencesListener
 {
@@ -65,6 +66,7 @@ public:
     VectorialMapMediaController* vmapCtrl() const;
     CharacterSheetMediaController* sheetCtrl() const;
     WebpageMediaController* webPageCtrl() const;
+    SharedNoteMediaController* sharedCtrl() const;
 
     int maxLengthTabName() const;
     bool shortTitleTab() const;
@@ -116,6 +118,7 @@ private:
     std::unique_ptr<VectorialMapMediaController> m_vmapControllers;
     std::unique_ptr<CharacterSheetMediaController> m_sheetMediaController;
     std::unique_ptr<WebpageMediaController> m_webPageMediaController;
+    std::unique_ptr<SharedNoteMediaController> m_sharedNoteMediaController;
 
     PreferencesManager* m_preferences;
     QString m_sessionName;

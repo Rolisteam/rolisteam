@@ -33,9 +33,9 @@
 
 namespace Ui
 {
-    class Document;
+class Document;
 }
-
+class SharedNoteController;
 class Document : public QWidget
 {
     Q_OBJECT
@@ -43,11 +43,12 @@ public:
     enum Highlighter
     {
         None,
-        MarkDown
+        MarkDown,
+        Html
     };
     Q_ENUM(Highlighter)
 
-    Document(QWidget* parent= nullptr);
+    Document(SharedNoteController* ctrl, QWidget* parent= nullptr);
     ~Document();
 
     // This sets up the document so people can connect to it.
@@ -97,7 +98,7 @@ public:
     void replaceAll(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, Enu::FindMode mode);
     void replace(QString replaceString);
     void findReplace(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, bool wrapAround,
-        Enu::FindMode mode);
+                     Enu::FindMode mode);
 
     QString getPlainText();
     void setPlainText(QString text);
@@ -131,6 +132,7 @@ private slots:
     void findPrevious(QString string);
 
 private:
+    QPointer<SharedNoteController> m_shareCtrl;
     Ui::Document* ui= nullptr;
     CodeEditor* m_editor= nullptr;
     bool startedCollaborating;

@@ -25,16 +25,19 @@
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/charactersheetmediacontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
+#include "controller/media_controller/sharednotemediacontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
 #include "controller/media_controller/webpagemediacontroller.h"
 
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
+#include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
 
 #include "media/charactersheetwindow.h"
 #include "media/image.h"
+#include "sharededitor/sharednotecontainer.h"
 #include "vmap/vmapframe.h"
 #include "webview/webview.h"
 
@@ -48,7 +51,6 @@ Workspace::Workspace(ContentController* ctrl, QWidget* parent)
 {
     connect(m_ctrl, &ContentController::maxLengthTabNameChanged, this, &Workspace::updateTitleTab);
     connect(m_ctrl, &ContentController::shortTitleTabChanged, this, &Workspace::updateTitleTab);
-
     connect(m_ctrl, &ContentController::workspaceFilenameChanged, this, [this]() {
         m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
         updateBackGround();
@@ -61,6 +63,8 @@ Workspace::Workspace(ContentController* ctrl, QWidget* parent)
     connect(m_ctrl->webPageCtrl(), &WebpageMediaController::webpagControllerCreated, this, &Workspace::addWebpage);
     connect(m_ctrl->sheetCtrl(), &CharacterSheetMediaController::characterSheetCreated, this,
             &Workspace::addCharacterSheet);
+    connect(m_ctrl->sharedCtrl(), &SharedNoteMediaController::sharedNoteControllerCreated, this,
+            &Workspace::addSharedNote);
 
     connect(this, &Workspace::subWindowActivated, this, &Workspace::updateActiveMediaContainer);
 
@@ -396,4 +400,11 @@ void Workspace::addWebpage(WebpageController* ctrl)
     std::unique_ptr<WebView> window(new WebView(ctrl));
     addWidgetToMdi(window.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(window));
+}
+
+void Workspace::addSharedNote(SharedNoteController* ctrl)
+{
+    std::unique_ptr<SharedNoteContainer> SharedNote(new SharedNoteContainer(ctrl));
+    addWidgetToMdi(SharedNote.get(), ctrl->name());
+    m_mediaContainers.push_back(std::move(SharedNote));
 }

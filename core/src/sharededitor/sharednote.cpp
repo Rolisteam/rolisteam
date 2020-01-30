@@ -32,34 +32,31 @@
 #include <QTextDocument>
 #include <QTextDocumentFragment>
 
+#include "controller/view_controller/sharednotecontroller.h"
 #include "document.h"
 #include "enu.h"
 #include "utilities.h"
 
-SharedNote::SharedNote(QWidget* parent) : QMainWindow(parent), ui(new Ui::SharedNote)
+SharedNote::SharedNote(SharedNoteController* ctrl, QWidget* parent)
+    : QMainWindow(parent), m_sharedCtrl(ctrl), ui(new Ui::SharedNote)
 {
     ui->setupUi(this);
 
-    m_document= new Document(ui->m_documentSupport);
-    connect(m_document->getDocument(), SIGNAL(contentsChange(int, int, int)), this,
-            SLOT(textHasChanged(int, int, int)));
-    connect(m_document->getParticipantPane(), SIGNAL(memberCanNowRead(QString)), this,
-            SLOT(populateDocumentForUser(QString)));
-    connect(m_document->getParticipantPane(), SIGNAL(memberPermissionsChanged(QString, int)), this,
-            SLOT(playerPermissionsChanged(QString, int)));
-    connect(m_document->getParticipantPane(), SIGNAL(closeMediaToPlayer(QString)), this, SLOT(closeEditorFor(QString)));
-    connect(m_document, &Document::contentChanged, this, [=]() { setWindowModified(true); });
+    m_document= new Document(ctrl, ui->m_documentSupport);
+    connect(m_document->getDocument(), &QTextDocument::contentsChange, this, &SharedNote::textHasChanged);
+    auto pane= m_document->getParticipantPane();
+
+    connect(pane, &ParticipantsPane::memberCanNowRead, this, &SharedNote::populateDocumentForUser);
+    connect(pane, &ParticipantsPane::memberPermissionsChanged, this, &SharedNote::playerPermissionsChanged);
+    connect(pane, &ParticipantsPane::closeMediaToPlayer, this, &SharedNote::closeEditorFor);
+    connect(m_document, &Document::contentChanged, this, [this]() { setWindowModified(true); });
 
     findDialog= new FindDialog(this);
-    connect(findDialog, SIGNAL(findDialogFindNext(QString, Qt::CaseSensitivity, bool, Enu::FindMode)), this,
-            SLOT(findNextTriggered(QString, Qt::CaseSensitivity, bool, Enu::FindMode)));
-    connect(findDialog, SIGNAL(findDialogFindPrev(QString, Qt::CaseSensitivity, bool, Enu::FindMode)), this,
-            SLOT(findPrevTriggered(QString, Qt::CaseSensitivity, bool, Enu::FindMode)));
-    connect(findDialog, SIGNAL(findDialogReplaceAll(QString, QString, Qt::CaseSensitivity, Enu::FindMode)), this,
-            SLOT(replaceAllTriggered(QString, QString, Qt::CaseSensitivity, Enu::FindMode)));
-    connect(findDialog, SIGNAL(findDialogReplace(QString)), this, SLOT(replaceTriggered(QString)));
-    connect(findDialog, SIGNAL(findDiaalogFindReplace(QString, QString, Qt::CaseSensitivity, bool, Enu::FindMode)),
-            this, SLOT(findReplaceTriggered(QString, QString, Qt::CaseSensitivity, bool, Enu::FindMode)));
+    connect(findDialog, &FindDialog::findDialogFindNext, this, &SharedNote::findNextTriggered);
+    connect(findDialog, &FindDialog::findDialogFindPrev, this, &SharedNote::findPrevTriggered);
+    connect(findDialog, &FindDialog::findDialogReplaceAll, this, &SharedNote::replaceAllTriggered);
+    connect(findDialog, &FindDialog::findDialogReplace, this, &SharedNote::replaceTriggered);
+    connect(findDialog, &FindDialog::findDiaalogFindReplace, this, &SharedNote::findReplaceTriggered);
 
     QGridLayout* tabLayout= new QGridLayout;
     ui->m_documentSupport->setLayout(tabLayout);

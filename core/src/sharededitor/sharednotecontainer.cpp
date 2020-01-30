@@ -19,17 +19,19 @@
  ***************************************************************************/
 
 #include "sharednotecontainer.h"
+#include "controller/view_controller/sharednotecontroller.h"
 
-SharedNoteContainer::SharedNoteContainer(bool localIsGM, QWidget* parent)
-    : MediaContainer(nullptr, MediaContainer::ContainerType::SharedNoteContainer, localIsGM, parent)
-    , m_edit(new SharedNote())
+SharedNoteContainer::SharedNoteContainer(SharedNoteController* ctrl, QWidget* parent)
+    : MediaContainer(ctrl, MediaContainer::ContainerType::SharedNoteContainer, ctrl, parent)
+    , m_sharedCtrl(ctrl)
+    , m_edit(new SharedNote(ctrl))
 {
     m_edit->setId(getMediaId());
 #ifdef Q_OS_MAC
     m_edit->menuBar()->setNativeMenuBar(false);
 #endif
     // setCleverUriType(CleverURI::SHAREDNOTE);
-    setWidget(m_edit);
+    setWidget(m_edit.get());
     setWindowIcon(QIcon(":/resources/icons/sharedEditor.png"));
     m_edit->setFileName(getUriName());
 }

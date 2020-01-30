@@ -1,8 +1,8 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Renaud Guezennec                                *
- *   http://www.rolisteam.org/contact                   *
+ *	Copyright (C) 2020 by Renaud Guezennec                               *
+ *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   This software is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -17,41 +17,22 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include "sharednotecontroller.h"
 
-#ifndef SHAREDNOTECONTAINER_H
-#define SHAREDNOTECONTAINER_H
+#include "userlist/playermodel.h"
 
-#include "data/mediacontainer.h"
-#include "sharednote.h"
-
-#include <QPointer>
-#include <QWidget>
-
-class SharedNoteController;
-class SharedNoteContainer : public MediaContainer
+SharedNoteController::SharedNoteController(CleverURI* uri, QObject* parent)
+    : AbstractMediaContainerController(uri, parent)
 {
-    Q_OBJECT
-public:
-    SharedNoteContainer(SharedNoteController* ctrl, QWidget* parent= nullptr);
-    virtual bool readFileFromUri();
-    virtual void saveMedia();
-    void readFromFile(QDataStream& data);
-    void saveInto(QDataStream& out);
-    virtual void putDataIntoCleverUri();
-    void setOwnerId(const QString& id);
-    void updateNoteToAll();
-    void readMessage(NetworkMessageReader& msg);
-    virtual void setMediaId(QString);
+}
 
-protected slots:
-    virtual void updateTitle();
+SharedNoteController::~SharedNoteController()= default;
 
-public slots:
-    void runUpdateCmd(QString msg);
+void SharedNoteController::saveData() const {}
 
-private:
-    QPointer<SharedNoteController> m_sharedCtrl;
-    std::unique_ptr<SharedNote> m_edit;
-};
+void SharedNoteController::loadData() const {}
 
-#endif // SHAREDNOTECONTAINER_H
+QAbstractItemModel* SharedNoteController::playerModel() const
+{
+    return m_model.get();
+}
