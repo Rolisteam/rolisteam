@@ -292,7 +292,7 @@ bool QmlGeneratorVisitor::generateSelect(Field* item)
                  "%6            %2.value = currentIndex\n"
                  "%6        }\n"
                  "%6    }\n"
-                 + getPageManagement(item, m_indenSpace) + "%6    readOnly: %2.readOnly\n" + getToolTip(item)
+                 + getPageManagement(item, m_indenSpace) + "%6    enabled: !%2.readOnly\n" + getToolTip(item)
                  + generatePosition(item) + "%6}\n");
 
     m_out << text.arg(item->getLabel()) //%1
