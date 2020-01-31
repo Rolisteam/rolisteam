@@ -5,7 +5,6 @@ ComboBox {
     id:root
     property int selected
     property var selectedValue
-    property int valueRole: 0
     property bool defined: false
     property string text: ""
     property string tooltip: ""
