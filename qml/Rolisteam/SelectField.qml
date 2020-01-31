@@ -11,7 +11,6 @@ ComboBox {
     property color textColor:"black"
     property int hAlign: 0
     property int vAlign: 0
-    property bool readOnly: false
     property alias color: back.color
 
     bottomPadding: 0
