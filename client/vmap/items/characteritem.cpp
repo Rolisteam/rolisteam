@@ -1049,6 +1049,7 @@ void CharacterItem::changeVisionShape()
         m_visionShapeDisk->setChecked(false);
         m_vision->setShape(CharacterVision::ANGLE);
     }
+    sendVisionMsg();
 }
 
 void CharacterItem::characterStateChange()
