@@ -55,7 +55,8 @@ void XMLTextEdit::Syntaxcheck()
         if(!doc.setContent(text(), false, &errorStr, &errorLine, &errorColumn))
         {
             //////return doc.toString(5);
-            QMessageBox::information(0, tr("Found xml error"),
+            QMessageBox::information(
+                0, tr("Found xml error"),
                 tr("Check line %1 column %2 on string \"%3\"!").arg(errorLine - 1).arg(errorColumn - 1).arg(errorStr));
 
             if(errorLine >= 0)
@@ -121,7 +122,7 @@ bool XMLTextEdit::event(QEvent* event)
                 break;
             }
             const QString txt= QString::number(m_lineNumber);
-            p.drawText(50 - fm.width(txt) - 2, qRound(position.y()) - contentsY + ascent, txt);
+            p.drawText(50 - fm.horizontalAdvance(txt) - 2, qRound(position.y()) - contentsY + ascent, txt);
         }
         p.setPen(QPen(Qt::NoPen));
     }

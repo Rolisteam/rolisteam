@@ -32,7 +32,7 @@ int CodeEditor::lineNumberAreaWidth()
         ++digits;
     }
 
-    int space= 4 + fontMetrics().width(QLatin1Char('9')) * digits;
+    int space= 4 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
 
     return space;
 }
@@ -94,7 +94,7 @@ void CodeEditor::unCommentSelection()
         int startPos= start - startBlock.position();
         bool hasLeadingCharacters= !startText.left(startPos).trimmed().isEmpty();
         if((startPos >= 2 && startText.at(startPos - 2) == QLatin1Char('/')
-               && startText.at(startPos - 1) == QLatin1Char('*')))
+            && startText.at(startPos - 1) == QLatin1Char('*')))
         {
             startPos-= 2;
             start-= 2;
@@ -108,7 +108,7 @@ void CodeEditor::unCommentSelection()
         bool hasTrailingCharacters= !endText.left(endPos).remove(QStringLiteral("//")).trimmed().isEmpty()
                                     && !endText.mid(endPos).trimmed().isEmpty();
         if((endPos <= endText.length() - 2 && endText.at(endPos) == QLatin1Char('*')
-               && endText.at(endPos + 1) == QLatin1Char('/')))
+            && endText.at(endPos + 1) == QLatin1Char('/')))
         {
             endPos+= 2;
             end+= 2;
@@ -422,8 +422,8 @@ bool CodeEditor::findPrev(QString searchString, Qt::CaseSensitivity sensitivity,
     return found;
 }
 
-bool CodeEditor::replaceAll(
-    QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, Enu::FindMode mode)
+bool CodeEditor::replaceAll(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity,
+                            Enu::FindMode mode)
 {
     QString documentString= document()->toPlainText();
     bool isFound= false;
@@ -492,8 +492,8 @@ bool CodeEditor::replace(QString replaceString)
     return false;
 }
 
-bool CodeEditor::findReplace(
-    QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode)
+bool CodeEditor::findReplace(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity,
+                             bool wrapAround, Enu::FindMode mode)
 {
     bool isReplaced= replace(replaceString);
     bool isFound= findNext(searchString, sensitivity, wrapAround, mode);

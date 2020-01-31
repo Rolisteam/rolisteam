@@ -546,7 +546,7 @@ void GZipReaderPrivate::scanFiles()
 }
 
 void GZipWriterPrivate::addEntry(EntryType type, const QString& fileName,
-    const QByteArray& contents /*, QFile::Permissions permissions, QZip::Method m*/)
+                                 const QByteArray& contents /*, QFile::Permissions permissions, QZip::Method m*/)
 {
 #ifndef NDEBUG
     static const char* entryTypes[]= {"directory", "file     ", "symlink  "};
@@ -1240,7 +1240,7 @@ void QZipWriter::close()
     writeUShort(eod.num_dir_entries, d->fileHeaders.size());
     writeUInt(eod.directory_size, dir_size);
     writeUInt(eod.dir_start_offset, d->start_of_directory);
-    writeUInt(eod.comment_length, d->comment.length());
+    writeUShort(eod.comment_length, d->comment.length());
 
     d->device->write((const char*)&eod, sizeof(EndOfDirectory));
     d->device->write(d->comment);

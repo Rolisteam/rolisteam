@@ -52,7 +52,7 @@ void BlinkingDecorationDelegate::paint(QPainter* painter, const QStyleOptionView
     QColor color= var.value<QColor>();
     if((color.red() == 255) && (!m_red))
     {
-        QStyleOptionViewItemV4 opt= option;
+        QStyleOptionViewItem opt= option;
         QStyledItemDelegate::initStyleOption(&opt, index);
         QStyle* style= opt.widget ? opt.widget->style() : QApplication::style();
 

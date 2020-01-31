@@ -42,8 +42,8 @@ void UserListDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
             painter->fillRect(option.rect, option.palette.highlight());
         }
 
-        painter->fillRect(
-            option.rect.x(), option.rect.y(), option.decorationSize.width(), option.rect.height(), p->getColor());
+        painter->fillRect(option.rect.x(), option.rect.y(), option.decorationSize.width(), option.rect.height(),
+                          p->getColor());
         QRectF target(option.rect.x(), option.rect.y(), option.decorationSize.width(), option.rect.height());
         painter->drawImage(target, p->getAvatar(), p->getAvatar().rect());
         tmp.adjust(option.decorationSize.width(), 1, 1, 1);
@@ -58,7 +58,7 @@ QSize UserListDelegate::sizeHint(const QStyleOptionViewItem& option, const QMode
     Person* p= PlayersList::instance()->getPerson(uuid);
     if(p != nullptr)
     {
-        returnValue.setWidth(option.fontMetrics.width(p->name()));
+        returnValue.setWidth(option.fontMetrics.horizontalAdvance(p->name()));
         returnValue.setHeight(/*option.fontMetrics.height()*/ option.decorationSize.height());
     }
 
