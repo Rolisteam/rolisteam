@@ -206,7 +206,7 @@ void DiceAliasModel::upAlias(QModelIndex& index)
         return;
     if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), index.row() - 1))
     {
-        m_diceAliasList->swap(index.row(), index.row() - 1);
+        m_diceAliasList->swapItemsAt(index.row(), index.row() - 1);
         moveAlias(index.row(), index.row() - 1);
         endMoveRows();
     }
@@ -222,7 +222,7 @@ void DiceAliasModel::downAlias(QModelIndex& index)
 
     if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), index.row() + 2))
     {
-        m_diceAliasList->swap(index.row(), index.row() + 1);
+        m_diceAliasList->swapItemsAt(index.row(), index.row() + 1);
         moveAlias(index.row(), index.row() + 1);
         endMoveRows();
     }

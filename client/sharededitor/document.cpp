@@ -44,7 +44,7 @@ Document::Document(QWidget* parent) : QWidget(parent), ui(new Ui::Document), m_h
     delete ui->editorFrame;
     m_editor= new CodeEditor(this);
     QFontMetrics fm(m_editor->font());
-    m_editor->setTabStopWidth(fm.averageCharWidth() * 4);
+    m_editor->setTabStopDistance(fm.averageCharWidth() * 4);
     ui->editorSplitter->insertWidget(0, m_editor);
 
     m_participantPane= new ParticipantsPane();
@@ -54,19 +54,19 @@ Document::Document(QWidget* parent) : QWidget(parent), ui(new Ui::Document), m_h
     m_editor->setReadOnly(true);
 
     connect(m_participantPane, &ParticipantsPane::localPlayerIsOwner, this,
-        [this](bool isOwner) { setParticipantsHidden(!isOwner); });
+            [this](bool isOwner) { setParticipantsHidden(!isOwner); });
 
     connect(m_participantPane, &ParticipantsPane::localPlayerPermissionChanged, this,
-        [this](ParticipantsModel::Permission perm) {
-            if(ParticipantsModel::readOnly == perm)
-            {
-                m_editor->setReadOnly(true);
-            }
-            else if(ParticipantsModel::readWrite == perm)
-            {
-                m_editor->setReadOnly(false);
-            }
-        });
+            [this](ParticipantsModel::Permission perm) {
+                if(ParticipantsModel::readOnly == perm)
+                {
+                    m_editor->setReadOnly(true);
+                }
+                else if(ParticipantsModel::readWrite == perm)
+                {
+                    m_editor->setReadOnly(false);
+                }
+            });
 
     connect(m_editor, &CodeEditor::textChanged, this, &Document::contentChanged);
 
@@ -128,7 +128,7 @@ void Document::setEditorFont(QFont font)
 {
     m_editor->setFont(font);
     QFontMetrics fm(m_editor->font());
-    m_editor->setTabStopWidth(fm.averageCharWidth() * 4);
+    m_editor->setTabStopDistance(fm.averageCharWidth() * 4);
 }
 
 void Document::setParticipantsFont(QFont font)
@@ -302,8 +302,8 @@ void Document::findPrev(QString searchString, Qt::CaseSensitivity sensitivity, b
     }
 }
 
-void Document::replaceAll(
-    QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, Enu::FindMode mode)
+void Document::replaceAll(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity,
+                          Enu::FindMode mode)
 {
     if(!m_editor->replaceAll(searchString, replaceString, sensitivity, mode))
     {
@@ -319,8 +319,8 @@ void Document::replace(QString replaceString)
     }
 }
 
-void Document::findReplace(
-    QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, bool wrapAround, Enu::FindMode mode)
+void Document::findReplace(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity,
+                           bool wrapAround, Enu::FindMode mode)
 {
     if(!m_editor->findReplace(searchString, replaceString, sensitivity, wrapAround, mode))
     {

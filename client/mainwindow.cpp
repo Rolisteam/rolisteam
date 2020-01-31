@@ -2413,8 +2413,7 @@ void MainWindow::openRecentFile()
     QAction* action= qobject_cast<QAction*>(sender());
     if(action)
     {
-        CleverURI* uri= new CleverURI();
-        *uri= action->data().value<CleverURI>();
+        auto uri= new CleverURI(action->data().value<CleverURI>());
         uri->setDisplayed(false);
         openCleverURI(uri, true);
     }
