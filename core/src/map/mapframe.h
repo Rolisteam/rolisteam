@@ -29,13 +29,15 @@
 #include <QMouseEvent>
 #include <QPaintEvent>
 #include <QPoint>
+#include <QPointer>
 #include <QScrollArea>
 #include <QWidget>
+#include <memory>
 
 #include "data/mediacontainer.h"
 
 class Map;
-
+class MapController;
 /**
  * @brief The BipMapWindow class - is the scroll area which manages the display of map.
  */
@@ -49,11 +51,11 @@ public:
      * @param uneCarte - the embedded map
      * @param parent - parent QWidget
      */
-    MapFrame(Map* map= nullptr, QWidget* parent= nullptr);
+    MapFrame(MapController* ctrl, QWidget* parent= nullptr);
     /**
      *
      */
-    virtual ~MapFrame();
+    virtual ~MapFrame() override;
     /**
      * @brief carte
      * @return
@@ -67,7 +69,7 @@ public:
      * @brief getMapId
      * @return
      */
-    virtual QString getMediaId() const;
+    virtual QString getMediaId() const override;
 
     /**
      * @brief setCleverUri
@@ -77,7 +79,7 @@ public:
     /**
      * @brief openMedia
      */
-    bool openMedia();
+    bool openMedia() override;
     /**
      * @brief createMap
      * @return
@@ -100,14 +102,14 @@ public:
     /**
      * @brief saveMedia
      */
-    void saveMedia();
+    void saveMedia() override;
     /**
      * @brief putDataIntoCleverUri
      */
-    void putDataIntoCleverUri();
+    void putDataIntoCleverUri() override;
 
-    virtual void fill(NetworkMessageWriter& msg);
-    virtual void readMessage(NetworkMessageReader& msg);
+    virtual void fill(NetworkMessageWriter& msg) override;
+    virtual void readMessage(NetworkMessageReader& msg) override;
 
     ContainerType getContainerType() const;
     void setContainerType(const ContainerType& containerType);
@@ -142,7 +144,7 @@ protected:
      * @brief focusInEvent
      * @param event
      */
-    void focusInEvent(QFocusEvent* event);
+    void focusInEvent(QFocusEvent* event) override;
     /**
      * @brief initMap
      */
@@ -153,19 +155,17 @@ protected:
      * @return true the reading was succesfull, false otherwise.
      */
     bool openUriAndLoadMap(QString uri);
-    virtual void updateTitle();
+    virtual void updateTitle() override;
 
 private:
-    Map* m_map;
+    QPointer<MapController> m_mapCtrl;
+    std::unique_ptr<Map> m_map;
+    std::unique_ptr<QScrollArea> m_widgetArea;
+
     QPoint pointDepart;
     int horizontalDepart;
     int verticalDepart;
-    QSize m_originalSize;
-    QScrollArea* m_widgetArea;
-    bool m_isHidden;
 
-    quint16 m_width= 100;
-    quint16 m_height= 100;
     QColor m_color;
 };
 

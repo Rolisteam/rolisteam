@@ -206,6 +206,7 @@ public:
     void openOnlineImage();
     void openVMap();
     void openMap();
+    void newMap();
 public slots:
     /**
      * @brief

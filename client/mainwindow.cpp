@@ -52,10 +52,9 @@
 #include "data/person.h"
 #include "data/player.h"
 #include "data/shortcutvisitor.h"
-#include "map/map.h"
-#include "map/mapframe.h"
+
 #include "map/mapwizzard.h"
-#include "media/image.h"
+#include "map/newemptymapdialog.h"
 #include "network/networkmessagewriter.h"
 #include "network/receiveevent.h"
 #include "network/servermanager.h"
@@ -805,6 +804,21 @@ void MainWindow::newVMap()
         params.insert({QStringLiteral("scale"), mapWizzard.scale()});
         params.insert({QStringLiteral("unit"), mapWizzard.unit()});
         ctrl->newMedia(CleverURI::VMAP, params);
+    }
+}
+
+void MainWindow::newMap()
+{
+    NewEmptyMapDialog mapWizzard(m_mdiArea);
+    if(mapWizzard.exec())
+    {
+        auto ctrl= m_gameController->contentController();
+        std::map<QString, QVariant> params;
+        params.insert({QStringLiteral("title"), mapWizzard.getTitle()});
+        params.insert({QStringLiteral("permission"), mapWizzard.getPermission()});
+        params.insert({QStringLiteral("bgcolor"), mapWizzard.getColor()});
+        params.insert({QStringLiteral("size"), mapWizzard.getSize()});
+        ctrl->newMedia(CleverURI::MAP, params);
     }
 }
 

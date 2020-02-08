@@ -40,6 +40,7 @@ class ImageMediaController;
 class VectorialMapMediaController;
 class NetworkController;
 class CharacterSheetMediaController;
+class MapMediaController;
 class WebpageMediaController;
 class CharacterModel;
 class SharedNoteMediaController;
@@ -68,6 +69,7 @@ public:
     CharacterSheetMediaController* sheetCtrl() const;
     WebpageMediaController* webPageCtrl() const;
     SharedNoteMediaController* sharedCtrl() const;
+    MapMediaController* mapCtrl() const;
     PdfMediaController* pdfCtrl() const;
 
     int maxLengthTabName() const;
@@ -121,6 +123,7 @@ private:
     std::unique_ptr<CharacterSheetMediaController> m_sheetMediaController;
     std::unique_ptr<WebpageMediaController> m_webPageMediaController;
     std::unique_ptr<SharedNoteMediaController> m_sharedNoteMediaController;
+    std::unique_ptr<MapMediaController> m_mapMediaController;
     std::unique_ptr<PdfMediaController> m_pdfMediaController;
 
     PreferencesManager* m_preferences;

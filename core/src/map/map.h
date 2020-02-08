@@ -42,6 +42,7 @@
 class Character;
 class CharacterToken;
 class NetworkLink;
+class MapController;
 
 /**
  * @brief Display area for map. this widget displays the map and allows users to draw on it. The alpha layer allows
@@ -53,9 +54,9 @@ class Map : public QWidget //, public MediaContainer
     Q_OBJECT
 
 public:
-    Map(QString localPlayerId, QString identCarte, QImage* image, bool masquer= false, QWidget* parent= nullptr);
-    Map(QString localPlayerId, QString identCarte, QImage* original, QImage* avecAnnotations, QImage* coucheAlpha,
-        QWidget* parent= nullptr);
+    Map(MapController* ctrl, QWidget* parent= nullptr);
+    /*Map(QString localPlayerId, QString identCarte, QImage* original, QImage* avecAnnotations, QImage* coucheAlpha,
+        QWidget* parent= nullptr);*/
 
     virtual ~Map();
 
@@ -108,7 +109,6 @@ public slots:
     void setNpcNameVisible(bool);
     void setPcNameVisible(bool);
     void setNpcNumberVisible(bool);
-    void setLocalIsPlayer(bool b);
 
 signals:
     void increaseNpcNumber();
@@ -154,6 +154,8 @@ private:
         QList<QPoint> motion;
     } CharacterMotion;
 
+private:
+    QPointer<MapController> m_mapCtrl;
     int m_pcSize;                 // Taille courante des PJ de la carte
     QImage* m_backgroundImage;    // image de fond affichee dans la fenetre
     QImage* m_originalBackground; // image qui servira a effacer les annotations
@@ -212,8 +214,6 @@ private:
     bool m_showPcName;
     bool m_showNpcNumber;
     bool m_localIsPlayer;
-
-    QString m_localPlayerId;
 };
 
 #endif
