@@ -22,6 +22,7 @@
  *************************************************************************/
 
 #include "map/mapframe.h"
+#include "controller/view_controller/mapcontroller.h"
 #include "data/person.h"
 #include "data/player.h"
 #include "map/charactertoken.h"
@@ -37,11 +38,13 @@
 #include <QScrollBar>
 #include <QUuid>
 
-MapFrame::MapFrame(Map* map, QWidget* parent)
-    : MediaContainer(nullptr, MediaContainer::ContainerType::MapContainer, parent), m_map(map), m_isHidden(false)
+MapFrame::MapFrame(MapController* ctrl, QWidget* parent)
+    : MediaContainer(ctrl, MediaContainer::ContainerType::MapContainer, parent)
+    , m_mapCtrl(ctrl)
+    , m_map(new Map(ctrl))
+    , m_widgetArea(new QScrollArea)
 {
     setObjectName("MapFrame");
-    m_widgetArea= new QScrollArea(this);
     setWindowIcon(QIcon(":/map.png"));
     setFocusPolicy(Qt::StrongFocus);
     m_widgetArea->setAlignment(Qt::AlignCenter);
@@ -50,28 +53,25 @@ MapFrame::MapFrame(Map* map, QWidget* parent)
 
     initMap();
 
-    setWidget(m_widgetArea);
+    setWidget(m_widgetArea.get());
 }
 
 MapFrame::~MapFrame() {}
 void MapFrame::initMap()
 {
-    if(nullptr == m_map)
-        return;
-
     // setTitle(m_title);
     updateTitle();
-    m_originalSize= m_map->size();
-    m_widgetArea->setWidget(m_map);
+    auto size= m_mapCtrl->size();
+    m_widgetArea->setWidget(m_map.get());
     // m_widgetArea->setViewportMargins(0,0,0,0);
-    m_width= static_cast<quint16>(m_map->width());
-    m_height= static_cast<quint16>(m_map->height());
+    /*m_width= static_cast<quint16>(size.width());
+    m_height= static_cast<quint16>(size.height());*/
 
-    resize(m_map->width() + 4, m_map->height() + 4);
+    resize(size.width() + 4, size.height() + 4);
 
-    connect(m_map, SIGNAL(startBipmapMove(QPoint)), this, SLOT(startMoving(QPoint)));
-    connect(m_map, SIGNAL(moveBipMapWindow(QPoint)), this, SLOT(moveMap(QPoint)));
-    connect(m_map, &Map::permissionModeChanged, this, &MapFrame::updateTitle);
+    connect(m_map.get(), SIGNAL(startBipmapMove(QPoint)), this, SLOT(startMoving(QPoint)));
+    connect(m_map.get(), SIGNAL(moveBipMapWindow(QPoint)), this, SLOT(moveMap(QPoint)));
+    connect(m_map.get(), &Map::permissionModeChanged, this, &MapFrame::updateTitle);
 }
 void MapFrame::updateTitle()
 {
@@ -91,17 +91,12 @@ void MapFrame::updateTitle()
     {
         permission= tr("Pc Move");
     }
-    setWindowTitle(tr("%1 - Permission: %2").arg(getUriName(), permission));
+    setWindowTitle(tr("%1 - Permission: %2").arg(m_mapCtrl->name(), permission));
 }
 
 Map* MapFrame::getMap()
 {
-    return m_map;
-}
-void MapFrame::setMap(Map* map)
-{
-    m_map= map;
-    initMap();
+    return m_map.get();
 }
 
 void MapFrame::startMoving(QPoint position)
@@ -126,7 +121,7 @@ QString MapFrame::getMediaId() const
 }
 void MapFrame::focusInEvent(QFocusEvent* event)
 {
-    emit activated(m_map);
+    //    emit activated(m_map);
 
     MediaContainer::focusInEvent(event);
 }
@@ -146,7 +141,7 @@ bool MapFrame::openUriAndLoadMap(QString uri)
     }
     QDataStream in(&file);
     in.setVersion(QDataStream::Qt_5_7);
-    if(!readMapAndNpc(in, m_isHidden))
+    //   if(!readMapAndNpc(in, m_isHidden))
     {
         error(tr("Wrong Map Format"), this);
         return false;
@@ -295,9 +290,9 @@ bool MapFrame::readMapAndNpc(QDataStream& in, bool hidden)
 
     QString idCarte= QUuid::createUuid().toString();
 
-    m_map= new Map("", idCarte, &fondOriginal, &fond, &alpha);
-    m_map->setPermissionMode(myPermission);
-    setUriName(title);
+    /* m_map= new Map("", idCarte, &fondOriginal, &fond, &alpha);
+     m_map->setPermissionMode(myPermission);
+     setUriName(title);*/
     // m_map->setPointeur(m_toolBar->getCurrentTool());
 
     initMap();
@@ -340,55 +335,27 @@ bool MapFrame::readMapAndNpc(QDataStream& in, bool hidden)
         bool showName= true;   //(type == DessinPerso::pnj)?
                                // m_ui->m_showNpcNameAction->isChecked():m_ui->m_showPcNameAction->isChecked();
 
-        CharacterToken* pnj= new CharacterToken(m_map, ident, nomPerso, couleur, diametre, centre, type, showNumber,
-                                                showName, numeroDuPnj);
+        /*       CharacterToken* pnj= new CharacterToken(m_map, ident, nomPerso, couleur, diametre, centre, type,
+           showNumber, showName, numeroDuPnj);*/
 
         /*if(visible || (type == CharacterToken::pnj && PlayerModel::instance()->getLocalPlayer()->isGM()))
             pnj->showCharacter();*/
-        // On m.a.j l'orientation
-        pnj->newOrientation(orientation);
+
+        //      pnj->newOrientation(orientation);
         // Affichage de l'orientation si besoin
-        if(orientationAffichee)
-            pnj->showOrHideOrientation();
+        /*       if(orientationAffichee)
+                   pnj->showOrHideOrientation();
 
-        pnj->newHealtState(sante, numeroEtat);
+               pnj->newHealtState(sante, numeroEtat);
 
-        m_map->showHideNPC(pnj);
+               m_map->showHideNPC(pnj);*/
     }
-    m_map->sendMap(windowTitle());
-    m_map->sendOffAllCharacters();
+    /* m_map->sendMap(windowTitle());
+     m_map->sendOffAllCharacters();*/
 
     return true;
 }
 
-bool MapFrame::createMap()
-{
-    NewEmptyMapDialog mapDialog;
-    if(mapDialog.exec() == QMessageBox::Accepted)
-    {
-        QString idMap= QUuid::createUuid().toString();
-
-        QImage image(mapDialog.getSize(), QImage::Format_ARGB32_Premultiplied);
-        image.fill(mapDialog.getColor().rgb());
-
-        m_map= new Map("m_localPlayerId", idMap, &image);
-        m_map->setPermissionMode(mapDialog.getPermission());
-
-        auto title= mapDialog.getTitle();
-
-        m_color= mapDialog.getColor();
-        m_width= mapDialog.getSize().width();
-        m_height= mapDialog.getSize().height();
-
-        // setCleverUriType(CleverURI::MAP);
-
-        setUriName(title);
-
-        initMap();
-        return true;
-    }
-    return false;
-}
 bool MapFrame::processMapMessage(NetworkMessageReader* msg, bool localIsPlayer)
 {
     auto title= msg->string16();
@@ -396,20 +363,20 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg, bool localIsPlayer)
 
     if(msg->action() == NetMsg::LoadMap)
     {
-        quint8 npSize= msg->uint8();
-        quint8 permission= msg->uint8();
-        quint8 maskPlan= msg->uint8();
-        QByteArray mapData= msg->byteArray32();
-        QImage image;
-        if(!image.loadFromData(mapData, "jpeg"))
-        {
-            error(tr("Compression Error (processMapMessage - NetworkLink.cpp)"), this);
-            return false;
-        }
-        m_map= new Map("m_localPlayerId", idMap, &image, maskPlan);
-        m_map->setLocalIsPlayer(localIsPlayer);
-        m_map->changePcSize(npSize, false);
-        m_map->setPermissionMode(static_cast<Core::PermissionMode>(permission));
+        /*   quint8 npSize= msg->uint8();
+           quint8 permission= msg->uint8();
+           quint8 maskPlan= msg->uint8();
+           QByteArray mapData= msg->byteArray32();
+           QImage image;
+           if(!image.loadFromData(mapData, "jpeg"))
+           {
+               error(tr("Compression Error (processMapMessage - NetworkLink.cpp)"), this);
+               return false;
+           }
+           //m_map= new Map("m_localPlayerId", idMap, &image, maskPlan);
+           m_map->setLocalIsPlayer(localIsPlayer);
+           m_map->changePcSize(npSize, false);
+           m_map->setPermissionMode(static_cast<Core::PermissionMode>(permission));*/
     }
     else if(msg->action() == NetMsg::ImportMap)
     {
@@ -441,20 +408,20 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg, bool localIsPlayer)
             return false;
         }
 
-        m_map= new Map("m_localPlayerId", idMap, &originalBackgroundImage, &backgroundImage, &alphaImage);
-        m_map->setLocalIsPlayer(localIsPlayer);
-        m_map->changePcSize(npSize, false);
+        /* m_map= new Map("m_localPlayerId", idMap, &originalBackgroundImage, &backgroundImage, &alphaImage);
+         m_map->setLocalIsPlayer(localIsPlayer);
+         m_map->changePcSize(npSize, false);
 
-        m_map->setPermissionMode(static_cast<Core::PermissionMode>(permission));
-        if(localIsPlayer)
-        {
-            m_map->adaptAlphaLayer(255);
-        }
-        else
-        {
-            QColor color= m_preferences->value("Fog_color", QColor(50, 50, 50)).value<QColor>();
-            m_map->adaptAlphaLayer(color.red());
-        }
+         m_map->setPermissionMode(static_cast<Core::PermissionMode>(permission));
+         if(localIsPlayer)
+         {
+             m_map->adaptAlphaLayer(255);
+         }
+         else
+         {
+             QColor color= m_preferences->value("Fog_color", QColor(50, 50, 50)).value<QColor>();
+             m_map->adaptAlphaLayer(color.red());
+         }*/
     }
     emit notifyUser(tr("Receiving map: %1").arg(title));
     setUriName(title);
@@ -520,8 +487,14 @@ void MapFrame::fill(NetworkMessageWriter& msg)
     bool ok= img.save(&buffer, "jpeg", 60);
     if(!ok)
     {
-        error(tr("Compressing image goes wrong (ouvrirPlan - mapframe.cpp)"), this);
-        return;
+        // NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::AddEmptyMap);
+        msg.string16(getUriName());
+        msg.string8(m_map->getMapId());
+        msg.rgb(m_color.rgb());
+        msg.uint16(static_cast<quint16>(m_mapCtrl->size().width()));
+        msg.uint16(static_cast<quint16>(m_mapCtrl->size().height()));
+        msg.uint8(12);
+        msg.uint8(static_cast<quint8>(m_map->getPermissionMode()));
     }
     msg.byteArray32(byteArray);
 }
@@ -530,28 +503,26 @@ void MapFrame::readMessage(NetworkMessageReader& msg)
 {
     // if(msg.action() == NetMsg::AddEmptyMap)
     {
-        auto title= msg.string16();
-        QString idMap= msg.string8();
-        m_color= msg.rgb();
-        m_width= msg.uint16();
-        m_height= msg.uint16();
-        quint8 npSize= msg.uint8();
-        quint8 permission= msg.uint8();
-        auto data= msg.byteArray32();
+        /*    auto title= msg.string16();
+            QString idMap= msg.string8();
+            m_color= msg.rgb();
+            m_width= msg.uint16();
+            m_height= msg.uint16();
+            quint8 npSize= msg.uint8();
+            quint8 permission= msg.uint8();
+            QSize mapSize(m_width, m_height);
 
-        QImage bg;
-        auto ok= bg.loadFromData(data, "jpeg");
-        if(!ok)
-            error(tr("Compressing image goes wrong (ouvrirPlan - mapframe.cpp)"), this);
+            QImage image(mapSize, QImage::Format_ARGB32_Premultiplied);
+            image.fill(m_color.rgb());
 
-        m_map= new Map("m_localPlayerId", idMap, &image);
-        m_map->setLocalIsPlayer(true);
-        m_map->setPermissionMode(static_cast<Core::PermissionMode>(permission));
-        m_map->changePcSize(npSize, false);
+            m_map= new Map("m_localPlayerId", idMap, &image);
+            m_map->setLocalIsPlayer(true);
+            m_map->setPermissionMode(static_cast<Core::PermissionMode>(permission));
+            m_map->changePcSize(npSize, false);
 
-        setUriName(title);
+            setUriName(title);
 
-        emit notifyUser(tr("New map: %1").arg(title));
-        initMap();
+            emit notifyUser(tr("New map: %1").arg(title));
+            initMap();*/
     }
 }

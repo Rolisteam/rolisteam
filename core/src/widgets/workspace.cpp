@@ -25,6 +25,7 @@
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/charactersheetmediacontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
+#include "controller/media_controller/mapmediacontroller.h"
 #include "controller/media_controller/pdfmediacontroller.h"
 #include "controller/media_controller/sharednotemediacontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
@@ -32,11 +33,13 @@
 
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
+#include "controller/view_controller/mapcontroller.h"
 #include "controller/view_controller/pdfcontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
 
+#include "map/mapframe.h"
 #include "media/charactersheetwindow.h"
 #include "media/image.h"
 #include "pdfviewer/pdfviewer.h"
@@ -62,7 +65,8 @@ Workspace::Workspace(ContentController* ctrl, QWidget* parent)
 
     connect(m_ctrl->imagesCtrl(), &ImageMediaController::imageControllerCreated, this, &Workspace::addImage);
     connect(m_ctrl->vmapCtrl(), &VectorialMapMediaController::vmapControllerCreated, this, &Workspace::addVectorialMap);
-    connect(m_ctrl->webPageCtrl(), &WebpageMediaController::webpagControllerCreated, this, &Workspace::addWebpage);
+    connect(m_ctrl->webPageCtrl(), &WebpageMediaController::webpageControllerCreated, this, &Workspace::addWebpage);
+    connect(m_ctrl->mapCtrl(), &MapMediaController::mapControllerCreated, this, &Workspace::addMap);
     connect(m_ctrl->pdfCtrl(), &PdfMediaController::pdfControllerCreated, this, &Workspace::addPdf);
     connect(m_ctrl->sheetCtrl(), &CharacterSheetMediaController::characterSheetCreated, this,
             &Workspace::addCharacterSheet);
@@ -412,6 +416,15 @@ void Workspace::addSharedNote(SharedNoteController* ctrl)
     addWidgetToMdi(SharedNote.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(SharedNote));
 }
+
+void Workspace::addMap(MapController* ctrl)
+{
+    std::unique_ptr<MediaContainer> mapFrame(new MapFrame(ctrl));
+    mapFrame->setGeometry(0, 0, 800, 600);
+    addWidgetToMdi(mapFrame.get(), ctrl->name());
+    m_mediaContainers.push_back(std::move(mapFrame));
+}
+
 void Workspace::addPdf(PdfController* ctrl)
 {
     std::unique_ptr<PdfViewer> pdfViewer(new PdfViewer(ctrl));

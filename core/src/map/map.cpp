@@ -28,6 +28,7 @@
 #include <QMessageBox>
 #include <QUuid>
 
+#include "controller/view_controller/mapcontroller.h"
 #include "data/character.h"
 #include "data/person.h"
 #include "data/player.h"
@@ -40,10 +41,8 @@
 #include "preferences/preferencesmanager.h"
 #include <QDebug>
 
-Map::Map(QString localPlayerId, QString identCarte, QImage* image, bool masquer, QWidget* parent)
-    : QWidget(parent), m_mapId(identCarte), m_hasPermissionMode(true)
+Map::Map(MapController* ctrl, QWidget* parent) : QWidget(parent), m_mapCtrl(ctrl), m_hasPermissionMode(true)
 {
-    m_localPlayerId= localPlayerId;
     /*if(nullptr != PlayerModel::instance()->getLocalPlayer())
     {
         m_localIsPlayer= !PlayerModel::instance()->getLocalPlayer()->isGM();
@@ -54,21 +53,23 @@ Map::Map(QString localPlayerId, QString identCarte, QImage* image, bool masquer,
     }*/
     m_currentMode= Core::GM_ONLY;
     m_currentTool= ToolsBar::Handler;
+    auto size= m_mapCtrl->size();
 
-    m_originalBackground= new QImage(image->size(), QImage::Format_ARGB32);
-    *m_originalBackground= image->convertToFormat(QImage::Format_ARGB32);
+    m_originalBackground= new QImage(size, QImage::Format_ARGB32);
+    //*m_originalBackground= image->convertToFormat(QImage::Format_ARGB32);
 
-    m_backgroundImage= new QImage(image->size(), QImage::Format_ARGB32_Premultiplied);
-    *m_backgroundImage= image->convertToFormat(QImage::Format_ARGB32_Premultiplied);
+    m_backgroundImage= new QImage(size, QImage::Format_ARGB32_Premultiplied);
+    //*m_backgroundImage= image->convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
-    m_alphaLayer= new QImage(image->size(), QImage::Format_ARGB32_Premultiplied);
+    m_alphaLayer= new QImage(size, QImage::Format_ARGB32_Premultiplied);
 
     QPainter painterAlpha(m_alphaLayer);
-    painterAlpha.fillRect(0, 0, image->width(), image->height(), masquer ? getFogColor() : Qt::white);
+    painterAlpha.fillRect(0, 0, size.width(), size.height(), m_mapCtrl->hidden() ? getFogColor() : Qt::white);
 
     p_init();
 }
-Map::Map(QString localPlayerId, QString identCarte, QImage* original, QImage* avecAnnotations, QImage* coucheAlpha,
+
+/*Map::Map(QString localPlayerId, QString identCarte, QImage* original, QImage* avecAnnotations, QImage* coucheAlpha,
          QWidget* parent)
     : QWidget(parent), m_mapId(identCarte), m_hasPermissionMode(true)
 {
@@ -86,20 +87,20 @@ Map::Map(QString localPlayerId, QString identCarte, QImage* original, QImage* av
     *m_alphaLayer= coucheAlpha->convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
     p_init();
-}
+}*/
 
 void Map::p_init()
 {
     initCursor();
     m_showPcName= true;
-    m_eraseAlpha= new QImage(m_originalBackground->size(), QImage::Format_ARGB32_Premultiplied);
+    m_eraseAlpha= new QImage(m_mapCtrl->size(), QImage::Format_ARGB32_Premultiplied);
     QPainter painterEfface(m_eraseAlpha);
-    painterEfface.fillRect(0, 0, m_originalBackground->width(), m_originalBackground->height(), Qt::black);
+    painterEfface.fillRect(0, 0, m_mapCtrl->size().width(), m_mapCtrl->size().height(), Qt::black);
     addAlphaLayer(m_originalBackground, m_eraseAlpha, m_originalBackground);
 
     // m_localPlayer= PlayerModel::instance()->getLocalPlayer();
 
-    m_alphaBg= new QImage(m_originalBackground->size(), QImage::Format_ARGB32);
+    m_alphaBg= new QImage(m_mapCtrl->size(), QImage::Format_ARGB32);
 
     addAlphaLayer(m_backgroundImage, m_alphaLayer, m_alphaBg);
 
@@ -1206,7 +1207,6 @@ void Map::sendTrace()
     if(ToolsBar::Pen == m_currentTool)
     {
         msg= new NetworkMessageWriter(NetMsg::DrawCategory, NetMsg::penPainting);
-        msg->string8(m_localPlayerId);
         msg->string8(m_mapId);
         msg->uint32(m_penPointList.size());
         for(int i= 0; i < m_penPointList.size(); i++)
@@ -1822,8 +1822,4 @@ void Map::setPcNameVisible(bool b)
 void Map::setNpcNumberVisible(bool b)
 {
     m_showNpcNumber= b;
-}
-void Map::setLocalIsPlayer(bool b)
-{
-    m_localIsPlayer= b;
 }
