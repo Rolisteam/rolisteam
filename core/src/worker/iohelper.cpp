@@ -27,6 +27,7 @@
 #include <map>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "data/character.h"
 #include "data/cleveruri.h"
 #include "vmap/vmap.h"
 
@@ -173,8 +174,6 @@ bool IOHelper::loadVMap(VMap* vmap, CleverURI* uri, VectorialMapController* ctrl
     return true;
 }
 
-#include "data/character.h"
-
 bool IOHelper::loadToken(const QString& filename, std::map<QString, QVariant>& params)
 {
     QFile file(filename);
@@ -235,4 +234,17 @@ bool IOHelper::loadToken(const QString& filename, std::map<QString, QVariant>& p
 
     params["character"]= QVariant::fromValue(character);
     return true;
+}
+
+QByteArray IOHelper::loadFile(const QString& filepath)
+{
+    QByteArray data;
+    if(filepath.isEmpty())
+        return data;
+    QFile file(filepath);
+    if(file.open(QIODevice::ReadOnly))
+    {
+        data= file.readAll();
+    }
+    return data;
 }

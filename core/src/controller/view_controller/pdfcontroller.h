@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                               *
+ *	Copyright (C) 2020 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,24 +17,31 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef MEDIACONTROLLERINTERFACE_H
-#define MEDIACONTROLLERINTERFACE_H
+#ifndef PDFCONTROLLER_H
+#define PDFCONTROLLER_H
 
 #include <QObject>
 
-#include "data/cleveruri.h"
-#include "network/networkreceiver.h"
-class QUndoStack;
-class MediaControllerInterface : public QObject, public NetWorkReceiver
+#include "abstractmediacontroller.h"
+
+class CleverURI;
+class PdfController : public AbstractMediaContainerController
 {
     Q_OBJECT
+    Q_PROPERTY(QByteArray data READ data NOTIFY dataChanged)
 public:
-    MediaControllerInterface(QObject* parent= nullptr) : QObject(parent) {}
-    virtual CleverURI::ContentType type() const= 0;
-    virtual bool openMedia(CleverURI*, const std::map<QString, QVariant>& args)= 0;
-    virtual void closeMedia(const QString& id)= 0;
-    virtual void registerNetworkReceiver()= 0;
-    virtual void setUndoStack(QUndoStack* stack)= 0;
+    explicit PdfController(CleverURI* uri, QObject* parent= nullptr);
+    ~PdfController() override;
+
+    void saveData() const override;
+    void loadData() const override;
+
+    QByteArray data() const;
+signals:
+    void dataChanged(QByteArray data);
+
+private:
+    QByteArray m_data;
 };
 
-#endif // MEDIACONTROLLERINTERFACE_H
+#endif // PDFCONTROLLER_H

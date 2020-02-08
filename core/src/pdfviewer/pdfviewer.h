@@ -24,6 +24,7 @@
 #include <QAction>
 #include <QFile>
 #include <QLabel>
+#include <QPointer>
 #include <QString>
 #include <QWidget>
 
@@ -36,6 +37,7 @@ class NetworkLink;
 class NetworkMessageWriter;
 class QPdfWidget;
 class Overlay;
+class PdfController;
 /**
  * @brief The Image class displays image to the screen. It also manages image from Internet and the zooming.
  */
@@ -44,7 +46,7 @@ class PdfViewer : public MediaContainer
     Q_OBJECT
 
 public:
-    PdfViewer(Workspace* parent= nullptr);
+    PdfViewer(PdfController* ctrl, QWidget* parent= nullptr);
     /**
      * @brief ~PdfViewer destructor.
      */
@@ -54,7 +56,6 @@ public:
     void savePdfToFile(QDataStream& out);
     void setParent(Workspace* parent);
 
-    virtual bool readFileFromUri();
     virtual bool openMedia();
     virtual void saveMedia();
 
@@ -77,7 +78,7 @@ protected slots:
     void updateTitle();
 
 private:
-    QString m_owner;
+    QPointer<PdfController> m_pdfCtrl;
     QVBoxLayout* m_mainLayout= nullptr;
 
     QAction* m_cropCurrentView= nullptr;

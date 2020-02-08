@@ -35,6 +35,7 @@ class VectorialMapController;
 class CharacterSheetController;
 class WebpageController;
 class SharedNoteController;
+class PdfController;
 /**
  * @brief The ImprovedWorkspace class
  */
@@ -97,6 +98,7 @@ protected slots:
     void addCharacterSheet(CharacterSheetController* ctrl);
     void addWebpage(WebpageController* ctrl);
     void addSharedNote(SharedNoteController* ctrl);
+    void addPdf(PdfController* ctrl);
 
 protected:
     void resizeEvent(QResizeEvent* event);

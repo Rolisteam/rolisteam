@@ -87,7 +87,7 @@ public:
      * @brief readFile
      * @return
      */
-    virtual bool readFileFromUri()= 0;
+    // virtual bool readFileFromUri()= 0;
     /**
      * @brief openFile
      * @return
