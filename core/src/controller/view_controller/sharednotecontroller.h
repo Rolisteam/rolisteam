@@ -30,7 +30,7 @@ class PlayerModel;
 class SharedNoteController : public AbstractMediaContainerController
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractItemModel* playerModel READ playerModel NOTIFY playerModelChanged)
+    Q_PROPERTY(PlayerModel* playerModel READ playerModel NOTIFY playerModelChanged)
 public:
     SharedNoteController(CleverURI* uri, QObject* parent= nullptr);
     ~SharedNoteController() override;
@@ -38,7 +38,7 @@ public:
     void saveData() const override;
     void loadData() const override;
 
-    QAbstractItemModel* playerModel() const;
+    PlayerModel* playerModel() const;
 
 signals:
     void playerModelChanged();
