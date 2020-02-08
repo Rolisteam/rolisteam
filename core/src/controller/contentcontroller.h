@@ -43,6 +43,7 @@ class CharacterSheetMediaController;
 class WebpageMediaController;
 class CharacterModel;
 class SharedNoteMediaController;
+class PdfMediaController;
 // class AbstractMediaContainerController;
 class ContentController : public AbstractControllerInterface, public PreferencesListener
 {
@@ -67,6 +68,7 @@ public:
     CharacterSheetMediaController* sheetCtrl() const;
     WebpageMediaController* webPageCtrl() const;
     SharedNoteMediaController* sharedCtrl() const;
+    PdfMediaController* pdfCtrl() const;
 
     int maxLengthTabName() const;
     bool shortTitleTab() const;
@@ -119,6 +121,7 @@ private:
     std::unique_ptr<CharacterSheetMediaController> m_sheetMediaController;
     std::unique_ptr<WebpageMediaController> m_webPageMediaController;
     std::unique_ptr<SharedNoteMediaController> m_sharedNoteMediaController;
+    std::unique_ptr<PdfMediaController> m_pdfMediaController;
 
     PreferencesManager* m_preferences;
     QString m_sessionName;

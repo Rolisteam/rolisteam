@@ -32,14 +32,15 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
+#include "controller/view_controller/pdfcontroller.h"
+
 #define MARGING 0
 #define ICON_SIZE 32
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/
-PdfViewer::PdfViewer(/*QString title,QString identPdfViewer, QString identJoueur, QPdfViewer *image, QAction *action,*/
-                     Workspace* parent)
-    : MediaContainer(nullptr, MediaContainer::ContainerType::PDFContainer, parent)
+PdfViewer::PdfViewer(PdfController* ctrl, QWidget* parent)
+    : MediaContainer(ctrl, MediaContainer::ContainerType::PDFContainer, parent), m_pdfCtrl(ctrl)
 {
     setObjectName("PdfViewer");
     setWindowIcon(QIcon(":/resources/icons/pdfLogo.png"));
@@ -55,6 +56,8 @@ PdfViewer::PdfViewer(/*QString title,QString identPdfViewer, QString identJoueur
     m_mainLayout->addWidget(m_pdfWidget);
 
     setWidget(wid);
+
+    m_pdfWidget->loadData(m_pdfCtrl->data());
 }
 
 PdfViewer::~PdfViewer() {}
@@ -279,23 +282,7 @@ void PdfViewer::putDataIntoCleverUri()
         m_uri->setData(data);
     }*/
 }
-bool PdfViewer::readFileFromUri()
-{
-    /*if(!m_uri->hasData())
-    {
-        QByteArray array;
-        m_uri->loadFileFromUri(array);
-        m_uri->setData(array);
-    }
-    const auto& data = m_uri->getData();*/
 
-    /*if(m_pdfWidget->loadFile(m_uri->getUri()))
-    {
-        updateTitle();
-        return true;
-    }*/
-    return false;
-}
 bool PdfViewer::openMedia()
 {
     return false;

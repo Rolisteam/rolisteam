@@ -8,7 +8,13 @@ find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets 
 #helper
 include(cmake/TranslationHelper.cmake)
 option(TESTS "enable tests compilation" OFF)
+option(WITH_PDF "enable PDF feature" ON)
 
+
+if(WITH_PDF)
+message("Enable PDF feature")
+add_definitions(-DWITH_PDF=1)
+endif()
 
 add_subdirectory(core)
 add_subdirectory(client)

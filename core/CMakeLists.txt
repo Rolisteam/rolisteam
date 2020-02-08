@@ -31,6 +31,8 @@ set(HEADERS
     src/controller/view_controller/charactersheetcontroller.h
     src/controller/view_controller/webpagecontroller.h
     src/controller/view_controller/sharednotecontroller.h
+    src/controller/view_controller/pdfcontroller.h
+    src/controller/media_controller/pdfmediacontroller.h
     src/controller/media_controller/mediacontrollerinterface.h
     src/controller/media_controller/charactersheetmediacontroller.h
     src/controller/media_controller/vectorialmapmediacontroller.h
@@ -318,7 +320,9 @@ set(SOURCES
     src/controller/media_controller/vectorialmapmediacontroller.cpp
     src/controller/media_controller/webpagemediacontroller.cpp
     src/controller/media_controller/sharednotemediacontroller.cpp
+    src/controller/media_controller/pdfmediacontroller.cpp
     src/controller/view_controller/vectorialmapcontroller.cpp
+    src/controller/view_controller/pdfcontroller.cpp
     src/controller/view_controller/sharednotecontroller.cpp
     src/controller/view_controller/webpagecontroller.cpp
     src/controller/view_controller/imagecontroller.cpp

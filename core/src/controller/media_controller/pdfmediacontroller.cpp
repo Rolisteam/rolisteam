@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                               *
+ *	Copyright (C) 2020 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,24 +17,44 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef MEDIACONTROLLERINTERFACE_H
-#define MEDIACONTROLLERINTERFACE_H
+#include "pdfmediacontroller.h"
 
-#include <QObject>
+#include "controller/view_controller/pdfcontroller.h"
 
-#include "data/cleveruri.h"
-#include "network/networkreceiver.h"
-class QUndoStack;
-class MediaControllerInterface : public QObject, public NetWorkReceiver
+PdfMediaController::PdfMediaController() {}
+
+PdfMediaController::~PdfMediaController()= default;
+
+CleverURI::ContentType PdfMediaController::type() const
 {
-    Q_OBJECT
-public:
-    MediaControllerInterface(QObject* parent= nullptr) : QObject(parent) {}
-    virtual CleverURI::ContentType type() const= 0;
-    virtual bool openMedia(CleverURI*, const std::map<QString, QVariant>& args)= 0;
-    virtual void closeMedia(const QString& id)= 0;
-    virtual void registerNetworkReceiver()= 0;
-    virtual void setUndoStack(QUndoStack* stack)= 0;
-};
+    return CleverURI::PDF;
+}
 
-#endif // MEDIACONTROLLERINTERFACE_H
+bool PdfMediaController::openMedia(CleverURI* uri, const std::map<QString, QVariant>& args)
+{
+    if(uri == nullptr || (args.empty() && uri->getUri().isEmpty()))
+        return false;
+
+    std::unique_ptr<PdfController> pdfCtrl(new PdfController(uri));
+
+    emit pdfControllerCreated(pdfCtrl.get());
+    m_pdfs.push_back(std::move(pdfCtrl));
+    return true;
+}
+
+void PdfMediaController::closeMedia(const QString& id)
+{
+    auto it= std::remove_if(m_pdfs.begin(), m_pdfs.end(),
+                            [id](const std::unique_ptr<PdfController>& ctrl) { return ctrl->uuid() == id; });
+    if(it == m_pdfs.end())
+        return;
+
+    (*it)->aboutToClose();
+    m_pdfs.erase(it, m_pdfs.end());
+}
+
+void PdfMediaController::registerNetworkReceiver() {}
+
+NetWorkReceiver::SendType PdfMediaController::processMessage(NetworkMessageReader* msg) {}
+
+void PdfMediaController::setUndoStack(QUndoStack* stack) {}

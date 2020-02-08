@@ -32,6 +32,7 @@ class IOHelper
 public:
     IOHelper();
 
+    static QByteArray loadFile(const QString& file);
     static bool loadVMap(VMap* vmap, CleverURI* uri, VectorialMapController* ctrl);
     static bool loadToken(const QString& filename, std::map<QString, QVariant>& params);
 };
