@@ -92,6 +92,11 @@ public slots:
     void removePlayer(Player* player);
     void addCharacter(const QModelIndex& parent, Character* character, int pos= -1);
     void removeCharacter(Character* character);
+
+signals:
+    void playerJoin(Player* player);
+    void playerLeft(Player* player);
+
     //    bool everyPlayerHasFeature(const QString& name, quint8 version= 0) const;
 
     // Setters

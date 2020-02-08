@@ -27,6 +27,7 @@
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#include "participantmodel.h"
 #include "userlist/playermodel.h"
 
 namespace Ui
@@ -34,57 +35,11 @@ namespace Ui
 class ParticipantsPane;
 }
 
-class ParticipantsModel : public QAbstractItemModel
-{
-    Q_OBJECT
-public:
-    enum Permission
-    {
-        readWrite,
-        readOnly,
-        hidden
-    };
-    ParticipantsModel(QObject* parent= nullptr);
-    virtual int rowCount(const QModelIndex& parent) const;
-    virtual int columnCount(const QModelIndex& index) const;
-    virtual QVariant data(const QModelIndex& index, int role) const;
-    virtual QModelIndex parent(const QModelIndex& child) const;
-    virtual QModelIndex index(int row, int column, const QModelIndex& parent) const;
-    virtual Qt::ItemFlags flags(const QModelIndex& index) const;
-
-    /*Q_INVOKABLE QModelIndex mapFromSource(const QModelIndex& sourceIndex) const;
-    Q_INVOKABLE QModelIndex mapToSource(const QModelIndex& proxyIndex) const;*/
-
-    QString getOwner() const;
-    void setOwner(const QString& owner);
-
-    void saveModel(QJsonObject& root);
-    QList<Player*>* getListByChild(Player* owner);
-
-    ParticipantsModel::Permission getPermissionFor(const QModelIndex& index);
-    void loadModel(QJsonObject& root);
-public slots:
-    virtual void addHiddenPlayer(Player*);
-    virtual void removePlayer(Player*);
-    int promotePlayer(const QModelIndex& index);
-    int demotePlayer(const QModelIndex& index);
-
-    void setPlayerInto(const QModelIndex& index, ParticipantsModel::Permission level);
-
-private:
-    // void debugModel() const;
-    QPointer<PlayerModel> m_playerList;
-    std::vector<QString> m_readOnly;
-    std::vector<QString> m_readWrite;
-    QStringList m_permissionGroup;
-    QString m_ownerId;
-};
-
 class ParticipantsPane : public QWidget
 {
     Q_OBJECT
 public:
-    ParticipantsPane(QWidget* parent= nullptr);
+    ParticipantsPane(PlayerModel* playerModel, QWidget* parent= nullptr);
     virtual ~ParticipantsPane();
 
     bool canWrite(Player* idPlayer);
@@ -94,29 +49,25 @@ public:
 
     void fill(NetworkMessageWriter* msg);
     void readFromMsg(NetworkMessageReader* msg);
-
-    Player* getOwner() const;
     void setOwnerId(const QString& id);
-
     void readPermissionChanged(NetworkMessageReader* msg);
 
 signals:
     void memberCanNowRead(QString name);
     void memberPermissionsChanged(QString id, int i);
     void closeMediaToPlayer(QString id);
-    void localPlayerPermissionChanged(ParticipantsModel::Permission);
+    void localPlayerPermissionChanged(ParticipantModel::Permission);
     void localPlayerIsOwner(bool);
 
 private slots:
     void promoteCurrentItem();
     void demoteCurrentItem();
-    void addNewPlayer(Player*);
 
 private:
     Ui::ParticipantsPane* ui;
 
-    PlayerModel* m_playerList;
-    ParticipantsModel* m_model;
+    QPointer<PlayerModel> m_playerList;
+    std::unique_ptr<ParticipantModel> m_model;
 };
 
 #endif // PARTICIPANTSPANE_H

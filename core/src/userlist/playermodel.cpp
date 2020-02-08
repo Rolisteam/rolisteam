@@ -700,6 +700,8 @@ void PlayerModel::addPlayer(Player* player)
     m_players.push_back(std::unique_ptr<Player>(player));
     endInsertRows();
 
+    emit playerJoin(player);
+
     /*    for(int i= 0; i < player->getChildrenCount(); ++i)
         {
             Character* character= player->getCharacterByIndex(i);
@@ -762,6 +764,8 @@ void PlayerModel::removePlayer(Player* player)
     beginRemoveRows(QModelIndex(), index, index);
     m_players.erase(itPlayer);
     endRemoveRows();
+
+    emit playerLeft(player);
 }
 
 /*void PlayerModel::delCharacter(Player* parent, int index)
