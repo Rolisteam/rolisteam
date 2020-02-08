@@ -46,7 +46,7 @@ NetworkController::NetworkController(QObject* parent)
                 setConnecting(state == ClientManager::CONNECTING);
             });
 
-    // connect(m_clientManager.get(), &ClientManager::isAuthentified, this, [this]() { emit connectedChanged(true); });
+    connect(m_clientManager.get(), &ClientManager::dataReceived, this, &NetworkController::downloadingData);
     connect(m_clientManager.get(), &ClientManager::connectedToServer, this, &NetworkController::sendOffConnectionInfo);
     // connect(m_clientManager.get(), SIGNAL(clearData()), this, SLOT(cleanUpData()));
     connect(m_clientManager.get(), &ClientManager::gameMasterStatusChanged, this, &NetworkController::isGMChanged);

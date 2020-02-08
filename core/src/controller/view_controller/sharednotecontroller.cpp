@@ -32,7 +32,7 @@ void SharedNoteController::saveData() const {}
 
 void SharedNoteController::loadData() const {}
 
-QAbstractItemModel* SharedNoteController::playerModel() const
+PlayerModel* SharedNoteController::playerModel() const
 {
     return m_model.get();
 }

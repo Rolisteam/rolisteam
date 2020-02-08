@@ -60,12 +60,12 @@
 #include "network/servermanager.h"
 #include "pdfviewer/pdfviewer.h"
 #include "preferences/preferencesdialog.h"
-#include "services/tipchecker.h"
-#include "services/updatechecker.h"
+
 #include "userlist/playermodel.h"
 #include "userlist/playerspanel.h"
 #include "widgets/gmtoolbox/gamemastertool.h"
 #include "widgets/keygeneratordialog.h"
+#include "widgets/notificationzone.h"
 #include "widgets/onlinepicturedialog.h"
 #include "widgets/shortcuteditordialog.h"
 #include "widgets/tipofdayviewer.h"
@@ -126,7 +126,6 @@ MainWindow::MainWindow(const QStringList& args)
 
     // ALLOCATIONS
     m_dialog.reset(new SelectConnectionProfileDialog(m_gameController.get(), this));
-    m_downLoadProgressbar= new QProgressBar(this);
     m_sessionDock.reset(new SessionDock(m_gameController->contentController()));
     m_vmapToolBar= new VmapToolBar(m_gameController->contentController()->vmapCtrl(), this);
     m_gmToolBoxList.append({new NameGeneratorWidget(this), new GMTOOL::Convertor(this), new NpcMakerWidget(this)});
@@ -160,9 +159,6 @@ MainWindow::MainWindow(const QStringList& args)
         VisualItem::setHighlightColor(v);
     };
     m_preferences->registerLambda(QStringLiteral("VMAP::highlightColor"), func2);
-
-    m_downLoadProgressbar->setRange(0, 100);
-    m_downLoadProgressbar->setVisible(false);
 
     addToolBar(Qt::TopToolBarArea, m_vmapToolBar);
 
@@ -516,49 +512,17 @@ void MainWindow::userNatureChange(bool isGM)
     }
 }
 
-void MainWindow::receiveData(quint64 readData, quint64 size)
-{
-    if(size == 0)
-    {
-        m_downLoadProgressbar->setVisible(false);
-        m_shownProgress= false;
-    }
-    else if(readData != size)
-    {
-        m_downLoadProgressbar->setVisible(true);
-        int i= static_cast<int>((size - readData) * 100 / size);
-
-        m_downLoadProgressbar->setValue(i);
-        m_shownProgress= true;
-    }
-}
-
 void MainWindow::createNotificationZone()
 {
-    m_dockLogUtil= new QDockWidget(tr("Notification Zone"), this);
+    m_dockLogUtil= new NotificationZone(this);
     m_dockLogUtil->setObjectName("dockLogUtil");
     m_dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
     m_dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable
                                | QDockWidget::DockWidgetFloatable);
-    QWidget* wd= new QWidget();
-    QVBoxLayout* layout= new QVBoxLayout();
-    wd->setLayout(layout);
-
-    m_notifierDisplay= new LogPanel(m_gameController->logController(), m_dockLogUtil);
-
-    layout->addWidget(m_notifierDisplay);
-    layout->addWidget(m_downLoadProgressbar);
-
-    m_dockLogUtil->setWidget(wd);
-    m_dockLogUtil->setMinimumWidth(80);
 
     m_ui->m_menuSubWindows->insertAction(m_ui->m_notificationAct, m_dockLogUtil->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_notificationAct);
     addDockWidget(Qt::RightDockWidgetArea, m_dockLogUtil);
-}
-void MainWindow::createPostSettings()
-{
-    m_notifierDisplay->initSetting();
 }
 
 void MainWindow::linkActionToMenu()
@@ -1106,7 +1070,8 @@ void MainWindow::setUpNetworkConnection()
     {
         connect(m_playerModel, SIGNAL(localGMRefused(bool)), this, SLOT(userNatureChange(bool)));
     }
-    // connect(m_clientManager, &ClientManager::dataReceived, this, &MainWindow::receiveData);
+    auto networkCtrl= m_gameController->networkController();
+    connect(networkCtrl, &NetworkController::downloadingData, m_dockLogUtil, &NotificationZone::receiveData);
 }
 
 void MainWindow::helpOnLine()
@@ -1255,7 +1220,7 @@ void MainWindow::readSettings()
 
     m_audioPlayer->readSettings();
 
-    createPostSettings();
+    m_dockLogUtil->initSetting();
 }
 void MainWindow::writeSettings()
 {

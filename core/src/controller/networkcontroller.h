@@ -81,7 +81,7 @@ signals:
     void serverPasswordChanged();
     void adminPasswordChanged();
     void ipv4Changed();
-
+    void downloadingData(quint64 readData, quint64 size);
     void tableChanged();
 
 public slots:
