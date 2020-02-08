@@ -10,6 +10,10 @@ include(cmake/TranslationHelper.cmake)
 option(TESTS "enable tests compilation" OFF)
 option(WITH_PDF "enable PDF feature" ON)
 
+if (TESTS)
+enable_testing(true)
+add_subdirectory(tests)
+endif()
 
 if(WITH_PDF)
 message("Enable PDF feature")
@@ -20,10 +24,6 @@ add_subdirectory(core)
 add_subdirectory(client)
 add_subdirectory(server)
 
-if (TESTS)
-enable_testing(true)
-add_subdirectory(tests)
-endif()
 
 
 
