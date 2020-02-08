@@ -45,11 +45,11 @@ Document::Document(SharedNoteController* ctrl, QWidget* parent)
     // Set up the editor
     delete ui->editorFrame;
     m_editor= new CodeEditor(this);
-    QFontMetrics fm(m_editor->font());
-    m_editor->setTabStopWidth(fm.averageCharWidth() * 4);
+    QFontMetricsF fm(m_editor->font());
+    m_editor->setTabStopDistance(fm.averageCharWidth() * 4.);
     ui->editorSplitter->insertWidget(0, m_editor);
 
-    m_participantPane= new ParticipantsPane();
+    m_participantPane= new ParticipantsPane(ctrl->playerModel());
     ui->participantSplitter->insertWidget(1, m_participantPane);
 
     setParticipantsHidden(true);
@@ -59,12 +59,12 @@ Document::Document(SharedNoteController* ctrl, QWidget* parent)
             [this](bool isOwner) { setParticipantsHidden(!isOwner); });
 
     connect(m_participantPane, &ParticipantsPane::localPlayerPermissionChanged, this,
-            [this](ParticipantsModel::Permission perm) {
-                if(ParticipantsModel::readOnly == perm)
+            [this](ParticipantModel::Permission perm) {
+                if(ParticipantModel::readOnly == perm)
                 {
                     m_editor->setReadOnly(true);
                 }
-                else if(ParticipantsModel::readWrite == perm)
+                else if(ParticipantModel::readWrite == perm)
                 {
                     m_editor->setReadOnly(false);
                 }
