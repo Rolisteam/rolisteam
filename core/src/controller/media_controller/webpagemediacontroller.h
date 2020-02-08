@@ -38,7 +38,7 @@ public:
     void setUndoStack(QUndoStack* stack) override;
 
 signals:
-    void webpagControllerCreated(WebpageController* webpageCtrl);
+    void webpageControllerCreated(WebpageController* webpageCtrl);
 
 private:
     std::vector<std::unique_ptr<WebpageController>> m_webpages;

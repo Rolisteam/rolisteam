@@ -37,7 +37,7 @@ bool WebpageMediaController::openMedia(CleverURI* uri, const std::map<QString, Q
 
     std::unique_ptr<WebpageController> webCtrl(new WebpageController);
 
-    emit webpagControllerCreated(webCtrl.get());
+    emit webpageControllerCreated(webCtrl.get());
     m_webpages.push_back(std::move(webCtrl));
     return true;
 }
