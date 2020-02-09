@@ -42,6 +42,7 @@ class NetworkController;
 class PlayerController;
 class PreferencesController;
 class ContentController;
+class QSystemTrayIcon;
 class GameController : public QObject
 {
     Q_OBJECT
@@ -85,7 +86,7 @@ signals:
     void currentScenarioChanged();
     void versionChanged();
     void localPlayerIdChanged();
-    void localIsGMChanged();
+    void localIsGMChanged(bool);
     void updateAvailableChanged();
     void connectedChanged();
     void remoteVersionChanged();
