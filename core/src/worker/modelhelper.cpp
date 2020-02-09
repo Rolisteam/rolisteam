@@ -35,9 +35,13 @@
 
 namespace Settingshelper
 {
+const static QStringList CharacterFields({"CharacterHp", "CharacterMaxHp", "CharacterMinHp", "CharacterDistPerTurn",
+                                          "CharacterStateId", "CharacterLifeColor", "CharacterInitCmd",
+                                          "CharacterHasInit"});
 void readConnectionProfileModel(ProfileModel* model)
 {
-    QSettings settings("rolisteam", "rolisteam");
+    /// TODO change rolisteam1.10 to rolisteam
+    QSettings settings("rolisteam", "rolisteam1.10");
     settings.beginGroup("ConnectionProfiles");
     int size= settings.beginReadArray("ConnectionProfilesArray");
     for(int i= 0; i < size; ++i)
@@ -45,47 +49,44 @@ void readConnectionProfileModel(ProfileModel* model)
         settings.setArrayIndex(i);
         ConnectionProfile* profile= new ConnectionProfile();
         profile->setAddress(settings.value("address").toString());
-        profile->setName(settings.value("name").toString());
-        profile->setTitle(settings.value("title").toString());
+        profile->setPlayerName(settings.value("name").toString());
+        profile->setProfileTitle(settings.value("title").toString());
         profile->setPort(static_cast<quint16>(settings.value("port").toInt()));
         profile->setServerMode(settings.value("server").toBool());
         profile->setGm(settings.value("gm").toBool());
         profile->setHash(QByteArray::fromBase64(settings.value("password").toByteArray()));
 
         QColor color= settings.value("PlayerColor").value<QColor>();
-        auto playerAvatarPath= settings.value("playerAvatarPath").toString();
-        Player* player= new Player(profile->getName(), color, profile->isGM());
-        player->setAvatarPath(playerAvatarPath);
-        if(QFile::exists(playerAvatarPath))
+        profile->setPlayerColor(color);
+        profile->setPlayerAvatar(settings.value("playerAvatarPath").toString());
+
+        auto characterCount= settings.beginReadArray("characterCount");
+        profile->clearCharacter();
+        for(int j= 0; j < characterCount; ++j)
         {
-            QImage img(playerAvatarPath);
-            player->setAvatar(img);
+            settings.setArrayIndex(j);
+
+            auto name= settings.value("CharacterName").toString();
+            auto path= settings.value("CharacterPath").toString();
+            auto color= settings.value("CharacterColor").value<QColor>();
+            QHash<QString, QVariant> params;
+            for(auto key : CharacterFields)
+            {
+                params.insert(key, settings.value(key));
+            }
+            profile->addCharacter(CharacterData({name, color, path, params}));
         }
-        // player->setUserVersion(m_version);
-        profile->setPlayer(player);
+        settings.endArray();
 
-        Character* character= new Character();
-        character->setName(settings.value("CharacterName").toString());
-        character->setAvatar(settings.value("CharacterPix").value<QImage>());
-        auto path= settings.value("CharacterPath").toString();
-        if(!QFileInfo::exists(path))
-            qWarning() << ProfileModel::tr("Error: avatar for %2 path is invalid. No file at this path: %1")
-                              .arg(path, character->name());
-        character->setAvatarPath(settings.value("CharacterPath").toString());
-        character->setColor(settings.value("CharacterColor").value<QColor>());
-        character->setHealthPointsCurrent(settings.value("CharacterHp", character->getHealthPointsCurrent()).toInt());
-        character->setHealthPointsMax(settings.value("CharacterMaxHp", character->getHealthPointsMax()).toInt());
-        character->setHealthPointsMin(settings.value("CharacterMinHp", character->getHealthPointsMin()).toInt());
-        character->setDistancePerTurn(
-            settings.value("CharacterDistPerTurn", character->getDistancePerTurn()).toDouble());
-        character->setStateId(settings.value("CharacterStateId", QString::number(i)).toString());
-        character->setLifeColor(settings.value("CharacterLifeColor", character->getLifeColor()).value<QColor>());
-        character->setInitCommand(settings.value("CharacterInitCmd", character->getInitCommand()).toString());
-        character->setHasInitiative(settings.value("CharacterHasInit", false).toBool());
-
-        character->setNpc(false);
-
-        profile->setCharacter(character);
+        if(characterCount == 0)
+        {
+            auto name= settings.value("CharacterName").toString();
+            auto path= settings.value("CharacterPath").toString();
+            auto color= settings.value("CharacterColor").value<QColor>();
+            qDebug() << name << path;
+            QHash<QString, QVariant> params;
+            profile->addCharacter(CharacterData({name, color, path, params}));
+        }
         model->appendProfile(profile);
     }
     settings.endArray();
@@ -94,24 +95,14 @@ void readConnectionProfileModel(ProfileModel* model)
     if(size == 0)
     {
         ConnectionProfile* profile= new ConnectionProfile();
-        profile->setName(ProfileModel::tr("New Player"));
-        profile->setTitle(ProfileModel::tr("Default"));
-        profile->setPort(6660);
-        profile->setServerMode(true);
-        QColor color= Qt::black;
-        Player* player= new Player(profile->getName(), color, profile->isGM());
-        // player->setUserVersion(m_version);
-        profile->setPlayer(player);
-
-        Character* character= new Character(QStringLiteral("Unknown"), Qt::black, false);
-        profile->setCharacter(character);
         model->appendProfile(profile);
     }
 }
 
 void writeConnectionProfileModel(ProfileModel* model)
 {
-    QSettings settings("rolisteam", "rolisteam");
+    /// TODO change rolisteam1.10 to rolisteam
+    QSettings settings("rolisteam", "rolisteam1.10");
     settings.beginGroup("ConnectionProfiles");
 
     auto size= model->rowCount(QModelIndex());
@@ -124,38 +115,52 @@ void writeConnectionProfileModel(ProfileModel* model)
             continue;
 
         settings.setArrayIndex(i);
-        Player* player= profile->getPlayer();
-        Character* character= profile->getCharacter();
 
-        settings.setValue("address", profile->getAddress());
-        settings.setValue("name", profile->getName());
-        settings.setValue("title", profile->getTitle());
+        settings.setValue("address", profile->address());
+        settings.setValue("name", profile->playerName());
+        settings.setValue("title", profile->profileTitle());
         settings.setValue("server", profile->isServer());
-        settings.setValue("port", profile->getPort());
+        settings.setValue("port", profile->port());
         settings.setValue("gm", profile->isGM());
-        settings.setValue("password", profile->getPassword().toBase64());
-        settings.setValue("PlayerColor", player->getColor());
-        settings.setValue("playerAvatarPath", player->avatarPath());
+        settings.setValue("password", profile->password().toBase64());
+        settings.setValue("PlayerColor", profile->playerColor());
+        settings.setValue("playerAvatarPath", profile->playerAvatar());
 
-        if(nullptr == character)
-            continue;
-        settings.setValue("CharacterColor", character->getColor());
-        QImage img= character->getAvatar();
-        QVariant var;
-        var.setValue(img);
-        settings.setValue("CharacterPix", var);
-        settings.setValue("CharacterName", character->name());
-        settings.setValue("CharacterPath", character->avatarPath());
-        settings.setValue("CharacterHp", character->getHealthPointsCurrent());
-        settings.setValue("CharacterMaxHp", character->getHealthPointsMax());
-        settings.setValue("CharacterMinHp", character->getHealthPointsMin());
-        settings.setValue("CharacterDistPerTurn", character->getDistancePerTurn());
-        settings.setValue("CharacterStateId", character->stateId());
-        settings.setValue("CharacterLifeColor", character->getLifeColor());
-        settings.setValue("CharacterInitCmd", character->getInitCommand());
-        settings.setValue("CharacterHasInit", character->hasInitScore());
+        settings.beginWriteArray("characterCount");
+        for(int j= 0; j < profile->characterCount(); ++j)
+        {
+            settings.setArrayIndex(j);
+            auto charact= profile->character(j);
 
-        ++i;
+            settings.setValue("CharacterName", charact.m_name);
+            settings.setValue("CharacterPath", charact.m_avatarPath);
+            qDebug() << charact.m_avatarPath;
+            settings.setValue("CharacterColor", charact.m_color);
+
+            for(auto key : CharacterFields)
+            {
+                settings.setValue(key, charact.m_params[key]);
+            }
+        }
+        settings.endArray();
+
+        /*    settings.setValue("CharacterColor", character->getColor());
+            QImage img= character->getAvatar();
+            QVariant var;
+            var.setValue(img);
+            settings.setValue("CharacterPix", var);
+            settings.setValue("CharacterName", character->name());
+            settings.setValue("CharacterPath", character->avatarPath());
+            settings.setValue("CharacterHp", character->getHealthPointsCurrent());
+            settings.setValue("CharacterMaxHp", character->getHealthPointsMax());
+            settings.setValue("CharacterMinHp", character->getHealthPointsMin());
+            settings.setValue("CharacterDistPerTurn", character->getDistancePerTurn());
+            settings.setValue("CharacterStateId", character->stateId());
+            settings.setValue("CharacterLifeColor", character->getLifeColor());
+            settings.setValue("CharacterInitCmd", character->getInitCommand());
+            settings.setValue("CharacterHasInit", character->hasInitScore());*/
+
+        //++i;
     }
     settings.endArray();
     settings.endGroup();

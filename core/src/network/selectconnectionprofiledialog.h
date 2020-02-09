@@ -14,6 +14,8 @@ class SelectConnectionProfileDialog;
 }
 
 class GameController;
+class CharacterDataModel;
+class ProfileModel;
 /**
  * @brief The SelectConnectionProfileDialog class is the dialog box shown at starting or when the connection is lost.
  */
@@ -65,14 +67,15 @@ public slots:
     void setCurrentProfile(QModelIndex);
     void connectTo();
     void connectToIndex(QModelIndex index);
-    void openImage();
+    QString openImage(const QString& path);
     void errorOccurs(QString);
     void checkConnection();
 
 private:
     Ui::SelectConnectionProfileDialog* ui;
     QPointer<GameController> m_ctrl;
-    QPointer<QAbstractItemModel> m_model;
+    QPointer<ProfileModel> m_model;
+    std::unique_ptr<CharacterDataModel> m_characterModel;
     QString m_avatarUri;
     int m_currentProfileIndex= -1;
     bool m_passChanged= false;

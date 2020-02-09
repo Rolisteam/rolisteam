@@ -23,7 +23,9 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "person.h"
+
 #include <QMetaType>
+#include <memory>
 
 class NetworkLink;
 /**
@@ -91,11 +93,7 @@ public:
      * @return
      */
     Character* getCharacterByIndex(int index) const;
-    /**
-     * @brief getChildrenCharacter
-     * @return
-     */
-    QList<Character*> getChildrenCharacter();
+    const std::vector<std::unique_ptr<Character>>& children();
     /**
      * @brief getIndexOfCharacter
      * @param character
@@ -142,7 +140,7 @@ public:
      * @brief addCharacter
      * @param character
      */
-    void addCharacter(Character* character);
+    void addCharacter(const QString& name, const QColor& color, const QString& path, bool Npc);
     /**
      * @brief setGM
      * @param value
@@ -175,9 +173,9 @@ private:
     friend class SendFeaturesIterator;
 
 private:
+    std::vector<std::unique_ptr<Character>> m_characters;
     bool m_gameMaster= false;
     NetworkLink* m_link= nullptr;
-    QList<Character*> m_characters;
     QMap<QString, quint8> m_features;
     QString m_softVersion;
 };
