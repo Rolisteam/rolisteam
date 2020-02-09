@@ -25,6 +25,7 @@
 #include "controller/networkcontroller.h"
 #include "controller/playercontroller.h"
 #include "controller/preferencescontroller.h"
+#include "model/profilemodel.h"
 #include "preferences/preferencesmanager.h"
 #include "resourcescontroller.h"
 #include "services/tipchecker.h"
@@ -58,8 +59,10 @@ GameController::GameController(QObject* parent)
     m_contentCtrl->setGameController(this);
     m_preferencesDialogController->setGameController(this);
 
+    auto local= m_playerController->localPlayer();
+
     connect(m_logController.get(), &LogController::sendOffMessage, m_remoteLogCtrl.get(), &RemoteLogController::addLog);
-    connect(m_networkCtrl.get(), &NetworkController::isGMChanged, this, &GameController::localIsGMChanged);
+    // connect(, &NetworkController::isGMChanged, this, &GameController::localIsGMChanged);
     connect(m_networkCtrl.get(), &NetworkController::connectedChanged, this, &GameController::authentified);
 
     connect(m_playerController.get(), &PlayerController::performCommand, this, &GameController::addCommand);
@@ -272,17 +275,27 @@ QUndoStack* GameController::undoStack() const
 
 void GameController::startConnection(int profileIndex)
 {
-    auto profile= m_networkCtrl->getProfile(profileIndex);
+    auto profile= m_networkCtrl->profileModel()->getProfile(profileIndex);
 
     if(profile == nullptr)
         return;
 
-    auto player= profile->getPlayer();
-    m_playerController->setLocalPlayer(player);
+    auto local= m_playerController->localPlayer();
 
-    m_networkCtrl->setHost(profile->getAddress());
-    m_networkCtrl->setPort(profile->getPort());
-    m_networkCtrl->setServerPassword(profile->getPassword());
+    local->setName(profile->playerName());
+    local->setColor(profile->playerColor());
+    local->setAvatarPath(profile->playerAvatar());
+
+    for(auto character : profile->characters())
+    {
+        local->addCharacter(character.m_name, character.m_color, character.m_avatarPath, false);
+    }
+    // auto player= profile->getPlayer();
+    // m_playerController->setLocalPlayer(player);
+
+    m_networkCtrl->setHost(profile->address());
+    m_networkCtrl->setPort(profile->port());
+    m_networkCtrl->setServerPassword(profile->password());
     m_networkCtrl->setIsGM(profile->isGM());
     m_networkCtrl->setHosting(profile->isServer());
 
@@ -299,6 +312,10 @@ void GameController::authentified()
 
 void GameController::aboutToClose()
 {
+    // save data
+    m_networkCtrl->saveData();
+
+    // close connection
     MessageHelper::sendOffGoodBye();
     m_networkCtrl->closeServer();
     m_preferences->writeSettings(m_version);
