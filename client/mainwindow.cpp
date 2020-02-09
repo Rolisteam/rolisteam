@@ -34,6 +34,7 @@
 #include <QSettings>
 #include <QStatusBar>
 #include <QStringBuilder>
+#include <QSystemTrayIcon>
 #include <QTime>
 #include <QUrl>
 #include <QUuid>
@@ -55,6 +56,7 @@
 
 #include "map/mapwizzard.h"
 #include "map/newemptymapdialog.h"
+
 #include "network/networkmessagewriter.h"
 #include "network/receiveevent.h"
 #include "network/servermanager.h"
@@ -120,9 +122,12 @@ MainWindow::MainWindow(const QStringList& args)
     , m_profileDefined(false)
     , m_roomPanelDockWidget(new QDockWidget(this))
     , m_gameController(new GameController)
+    , m_systemTray(new QSystemTrayIcon)
 {
     parseCommandLineArguments(args);
     setAcceptDrops(true);
+    m_systemTray->setIcon(QIcon(":/resources/logo/500-symbole.png"));
+    m_systemTray->show();
 
     // ALLOCATIONS
     m_dialog.reset(new SelectConnectionProfileDialog(m_gameController.get(), this));
