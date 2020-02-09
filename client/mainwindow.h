@@ -518,6 +518,8 @@ private:
     std::unique_ptr<GameController> m_gameController;
     std::unique_ptr<SelectConnectionProfileDialog> m_dialog;
     std::unique_ptr<SessionDock> m_sessionDock;
+
+    std::unique_ptr<QSystemTrayIcon> m_systemTray;
 };
 
 #endif
