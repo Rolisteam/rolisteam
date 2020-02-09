@@ -525,6 +525,11 @@ void VectorialMapController::aboutToRemove(const QList<vmap::VisualItemControlle
     emit performCommand(new DeleteVmapItemCommand(this, list));
 }
 
+void VectorialMapController::askForChangeStackOrder(const QList<vmap::VisualItemController*>& list,
+                                                    VectorialMapController::StackOrder order)
+{
+    // emit performCommand(new DeleteVmapItemCommand(this, list));
+}
 
 void VectorialMapController::askForColorChange(vmap::VisualItemController* itemCtrl)
 {

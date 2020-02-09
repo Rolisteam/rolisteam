@@ -20,12 +20,31 @@
 #ifndef CHANGESTACKORDERVMAPCOMMAND_H
 #define CHANGESTACKORDERVMAPCOMMAND_H
 
+#include <QPointer>
+#include <QUndoCommand>
+
+#include "controller/view_controller/vectorialmapcontroller.h"
+
+struct ChangeStackOrderData
+{
+    vmap::VisualItemController* m_ctrl;
+    int m_newZ;
+    int m_oldZ;
+};
 
 class ChangeStackOrderVMapCommand : public QUndoCommand
 {
-    Q_OBJECT
+
 public:
-    ChangeStackOrderVMapCommand();
+    ChangeStackOrderVMapCommand(VectorialMapController* vmapCtrl, const QList<vmap::VisualItemController*>& list,
+                                VectorialMapController::StackOrder order);
+
+    void undo() override;
+    void redo() override;
+
+private:
+    QPointer<VectorialMapController> m_vmapCtrl;
+    std::vector<ChangeStackOrderData> m_data;
 };
 
 #endif // CHANGESTACKORDERVMAPCOMMAND_H

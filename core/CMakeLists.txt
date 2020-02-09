@@ -32,9 +32,11 @@ set(HEADERS
     src/controller/view_controller/webpagecontroller.h
     src/controller/view_controller/sharednotecontroller.h
     src/controller/view_controller/pdfcontroller.h
+    src/controller/view_controller/mapcontroller.h
     src/controller/media_controller/pdfmediacontroller.h
     src/controller/media_controller/mediacontrollerinterface.h
     src/controller/media_controller/charactersheetmediacontroller.h
+    src/controller/media_controller/mapmediacontroller.h
     src/controller/media_controller/vectorialmapmediacontroller.h
     src/controller/media_controller/webpagemediacontroller.h
     src/controller/media_controller/imagemediacontroller.h
@@ -67,7 +69,6 @@ set(HEADERS
     src/charactersheet/imagemodel.h
     src/charactersheet/propertyhelpers.h
     src/charactersheet/qqmlhelpers.h
-    src/charactersheet/qqmlobjectlistmodel.h
     src/charactersheet/rolisteamimageprovider.h
     src/charactersheet/section.h
     src/charactersheet/sheetwidget.h
@@ -172,6 +173,7 @@ set(HEADERS
     src/network/receiveevent.h
     src/network/rserver.h
     src/network/selectconnectionprofiledialog.h
+    src/network/characterdatamodel.h
     src/network/servermanager.h
     src/network/tcpclient.h
     src/network/timeaccepter.h
@@ -209,6 +211,7 @@ set(HEADERS
     src/sharededitor/findtoolbar.h
 #    src/sharededitor/firstrundialog.h
     src/sharededitor/markdownhighlighter.h
+    src/sharededitor/participantmodel.h
     src/sharededitor/participantspane.h
     src/sharededitor/sharednote.h
     src/sharededitor/sharednotecontainer.h
@@ -222,6 +225,7 @@ set(HEADERS
     src/undoCmd/movevmapitem.h
     src/undoCmd/newmediacontroller.h
     src/undoCmd/addfogofwarchangecommand.h
+    src/undoCmd/changestackordervmapcommand.h
     src/userlist/playermodel.h
     src/userlist/playerspanel.h
     src/userlist/rolisteammimedata.h
@@ -281,6 +285,7 @@ set(HEADERS
     src/widgets/filedirchooser.h
     src/widgets/filepathdelegateitem.h
     src/widgets/flowlayout.h
+    src/widgets/notificationzone.h
     src/widgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.h
     src/widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.h
     src/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.h
@@ -320,9 +325,11 @@ set(SOURCES
     src/controller/media_controller/vectorialmapmediacontroller.cpp
     src/controller/media_controller/webpagemediacontroller.cpp
     src/controller/media_controller/sharednotemediacontroller.cpp
+    src/controller/media_controller/mapmediacontroller.cpp
     src/controller/media_controller/pdfmediacontroller.cpp
     src/controller/view_controller/vectorialmapcontroller.cpp
     src/controller/view_controller/pdfcontroller.cpp
+    src/controller/view_controller/mapcontroller.cpp
     src/controller/view_controller/sharednotecontroller.cpp
     src/controller/view_controller/webpagecontroller.cpp
     src/controller/view_controller/imagecontroller.cpp
@@ -354,7 +361,6 @@ set(SOURCES
     src/charactersheet/formula/parsingtoolformula.cpp
     src/charactersheet/imagemodel.cpp
     src/charactersheet/qqmlhelpers.cpp
-    src/charactersheet/qqmlobjectlistmodel.cpp
     src/charactersheet/rolisteamimageprovider.cpp
     src/charactersheet/section.cpp
     src/charactersheet/sheetwidget.cpp
@@ -443,6 +449,7 @@ set(SOURCES
     src/network/clientmanager.cpp
     src/network/connectionaccepter.cpp
     src/network/connectionprofile.cpp
+    src/network/characterdatamodel.cpp
     src/network/connectionretrydialog.cpp
     src/network/heartbeatsender.cpp
     src/network/ipbanaccepter.cpp
@@ -492,6 +499,7 @@ set(SOURCES
 #    src/sharededitor/firstrundialog.cpp
     src/sharededitor/markdownhighlighter.cpp
     src/sharededitor/participantspane.cpp
+    src/sharededitor/participantmodel.cpp
     src/sharededitor/sharednote.cpp
     src/sharededitor/sharednotecontainer.cpp
     src/sharededitor/utilities.cpp
@@ -504,6 +512,7 @@ set(SOURCES
     src/undoCmd/deletevmapitem.cpp
     src/undoCmd/movevmapitem.cpp
     src/undoCmd/addfogofwarchangecommand.cpp
+    src/undoCmd/changestackordervmapcommand.cpp
     src/userlist/playermodel.cpp
     src/userlist/playerspanel.cpp
     src/userlist/rolisteammimedata.cpp
@@ -561,6 +570,7 @@ set(SOURCES
     src/widgets/diameterselector.cpp
     src/widgets/filedirchooser.cpp
     src/widgets/filepathdelegateitem.cpp
+    src/widgets/notificationzone.cpp
     src/widgets/flowlayout.cpp
     src/widgets/gmtoolbox/DiceBookMark/dicebookmarkmodel.cpp
     src/widgets/gmtoolbox/DiceBookMark/dicebookmarkwidget.cpp
@@ -615,6 +625,7 @@ set(UI_FILES
     src/widgets/onlinepicturedialog.ui
     src/widgets/MRichTextEditor/mrichtextedit.ui
     src/widgets/aboutrolisteam.ui
+    src/widgets/notificationzone.ui
     src/widgets/persondialog.ui
     src/vmap/vmapwizzarddialog.ui
     src/network/selectconnectionprofiledialog.ui
@@ -624,6 +635,7 @@ set(UI_FILES
     )
 
 add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES})
+
 qt5_use_modules(core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets Xml WebEngineWidgets Concurrent)
 #target_link_libraries(core PUBLIC  Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets)
 

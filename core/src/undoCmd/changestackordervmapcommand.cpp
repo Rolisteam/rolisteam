@@ -19,7 +19,12 @@
  ***************************************************************************/
 #include "changestackordervmapcommand.h"
 
-ChangeStackOrderVMapCommand::ChangeStackOrderVMapCommand()
+ChangeStackOrderVMapCommand::ChangeStackOrderVMapCommand(VectorialMapController* vmapCtrl,
+                                                         const QList<vmap::VisualItemController*>& list,
+                                                         VectorialMapController::StackOrder order)
 {
-
 }
+
+void ChangeStackOrderVMapCommand::undo() {}
+
+void ChangeStackOrderVMapCommand::redo() {}

@@ -90,6 +90,15 @@ public:
         UnderMouse,
         Average
     };
+    Q_ENUM(Method)
+    enum StackOrder
+    {
+        FRONT,
+        RAISE,
+        LOWER,
+        BACK
+    };
+    Q_ENUM(StackOrder)
     explicit VectorialMapController(CleverURI* uri, QObject* parent= nullptr);
     ~VectorialMapController();
 
@@ -234,6 +243,8 @@ public slots:
     void changeFogOfWar(const QPolygonF& poly, bool mask);
 
     void aboutToRemove(const QList<vmap::VisualItemController*>& list);
+    void askForChangeStackOrder(const QList<vmap::VisualItemController*>& list,
+                                VectorialMapController::StackOrder order);
     void askForColorChange(vmap::VisualItemController* itemCtrl);
     void addHighLighter(const QPointF& point);
 
