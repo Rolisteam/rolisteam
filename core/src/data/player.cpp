@@ -19,10 +19,22 @@
  ***************************************************************************/
 
 #include "player.h"
-#include "data/character.h"
-#include <QBuffer>
 
+#include <QBuffer>
 #include <QDebug>
+
+#include "data/character.h"
+bool containsCharacter(QString name, QColor color, QString path,
+                       const std::vector<std::unique_ptr<Character>>& characters)
+{
+    return (characters.end()
+            != std::find_if(characters.begin(), characters.end(),
+                            [name, color, path](const std::unique_ptr<Character>& character) {
+                                return character->name() == name && character->getColor() == color
+                                       && character->avatarPath() == path;
+                            }));
+}
+
 Player::Player() {}
 
 Player::Player(const QString& nom, const QColor& color, bool master, NetworkLink* link)
@@ -40,11 +52,8 @@ Player::Player(NetworkMessageReader& data, NetworkLink* link) : Person(), m_link
     readFromMsg(data);
 }
 
-Player::~Player()
-{
-    qDeleteAll(m_characters);
-    m_characters.clear();
-}
+Player::~Player()= default;
+
 void Player::readFromMsg(NetworkMessageReader& data)
 {
     if(!data.isValid())
@@ -73,7 +82,7 @@ void Player::readFromMsg(NetworkMessageReader& data)
         {
             Character* child= new Character();
             child->read(data);
-            m_characters.append(child);
+            //            m_characters.append(child);
             child->setParentPerson(this);
             data.uint8();
         }
@@ -124,7 +133,7 @@ void Player::fill(NetworkMessageWriter& message, bool addAvatar)
     message.int32(m_characters.size());
     for(auto& item : m_characters)
     {
-        item->fill(message, addAvatar);
+        //       item->fill(message, addAvatar);
         message.uint8(1); // add it to the map
     }
 
@@ -146,25 +155,30 @@ int Player::getChildrenCount() const
     return m_characters.size();
 }
 
-Character* Player::getCharacterByIndex(int index) const
-{
-    if(index < m_characters.size() && index >= 0)
-        return m_characters[index];
-    return nullptr;
-}
-QList<Character*> Player::getChildrenCharacter()
+const std::vector<std::unique_ptr<Character>>& Player::children()
 {
     return m_characters;
 }
+
+Character* Player::getCharacterByIndex(int index) const
+{
+    if(index < m_characters.size() && index >= 0)
+        return m_characters[index].get();
+    return nullptr;
+}
+/*const std::vector<Character> Player::childrenCharacter()
+{
+    return m_characters;
+}*/
 int Player::indexOf(ResourcesNode* character) const
 {
-    return m_characters.indexOf(dynamic_cast<Character*>(character));
+    return 0;
+    // return m_characters.indexOf(dynamic_cast<Character*>(character));
 }
 int Player::getIndexOf(QString id) const
 {
-
     auto it= std::find_if(m_characters.begin(), m_characters.end(),
-                          [id](const Character* character) { return id == character->getUuid(); });
+                          [id](const std::unique_ptr<Character>& character) { return id == character->getUuid(); });
     return static_cast<int>(std::distance(m_characters.begin(), it));
 }
 bool Player::isGM() const
@@ -177,13 +191,15 @@ void Player::setGM(bool value)
     m_gameMaster= value;
 }
 
-void Player::addCharacter(Character* character)
+void Player::addCharacter(const QString& name, const QColor& color, const QString& path, bool Npc)
 {
-    if(m_characters.contains(character))
+    if(containsCharacter(name, color, path, m_characters))
         return;
 
-    character->setParentPerson(this);
-    m_characters.append(character);
+    std::unique_ptr<Character> data(new Character(name, color, m_gameMaster, Npc));
+
+    data->setParentPerson(this);
+    m_characters.push_back(std::move(data));
 }
 void Player::clearCharacterList()
 {
@@ -196,32 +212,29 @@ void Player::clearCharacterList()
 
 bool Player::removeChild(ResourcesNode* node)
 {
-    auto character= static_cast<Character*>(node);
-    if(!m_characters.contains(character))
+    auto character= dynamic_cast<Character*>(node);
+    if(nullptr == character)
         return false;
 
-    m_characters.removeOne(character);
-    if(!character->isNpc())
-    {
-        delete character;
-    }
-    else
-    {
-        character->setParentPerson(nullptr);
-    }
-    return true;
+    auto id= character->getUuid();
+    auto size= m_characters.size();
+    m_characters.erase(
+        std::remove_if(m_characters.begin(), m_characters.end(),
+                       [id](const std::unique_ptr<Character>& character) { return character->getUuid() == id; }));
+
+    return size != m_characters.size();
 }
 
 bool Player::searchCharacter(Character* character, int& index) const
 {
-    for(int i= 0; i < m_characters.size(); i++)
-    {
-        if(m_characters.at(i) == character)
-        {
-            index= i;
-            return true;
-        }
-    }
+    /* for(int i= 0; i < m_characters.size(); i++)
+     {
+         if(m_characters.at(i) == character)
+         {
+             index= i;
+             return true;
+         }
+     }*/
     return false;
 }
 

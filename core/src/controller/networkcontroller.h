@@ -46,7 +46,7 @@ class NetworkController : public AbstractControllerInterface
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
     Q_PROPERTY(QByteArray adminPassword READ adminPassword WRITE setAdminPassword NOTIFY adminPasswordChanged)
     Q_PROPERTY(QByteArray serverPassword READ serverPassword WRITE setServerPassword NOTIFY serverPasswordChanged)
-    Q_PROPERTY(QAbstractItemModel* profileModel READ profileModel CONSTANT)
+    Q_PROPERTY(ProfileModel* profileModel READ profileModel CONSTANT)
     Q_PROPERTY(QString ipv4 READ ipv4 NOTIFY ipv4Changed)
 public:
     explicit NetworkController(QObject* parent= nullptr);
@@ -59,12 +59,11 @@ public:
     QString host() const;
     int port() const;
     QString ipv4() const;
-    QAbstractItemModel* profileModel() const;
+    ProfileModel* profileModel() const;
 
     QByteArray adminPassword() const;
     QByteArray serverPassword() const;
 
-    ConnectionProfile* getProfile(int pos) const;
     void setGameController(GameController* game);
 
     void stopConnecting();
@@ -95,11 +94,9 @@ public slots:
     void setAdminPassword(const QByteArray& array);
     void setConnected(bool b);
     void setConnecting(bool b);
-
-    void appendProfile();
     void removeProfile(int pos);
-
     void closeServer();
+    void saveData();
 
 private slots:
     void sendOffConnectionInfo();

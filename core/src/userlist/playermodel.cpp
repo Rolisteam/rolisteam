@@ -73,10 +73,11 @@ Player* findPerson(const std::vector<std::unique_ptr<Player>>& data, Person* per
 
         if(!val)
         {
-            auto children= player->getChildrenCharacter();
-            auto subIt= std::find_if(children.begin(), children.end(), [person](Character* character) {
-                return (character == person) || (person->getUuid() == character->getUuid());
-            });
+            const auto& children= player->children();
+            auto subIt
+                = std::find_if(children.begin(), children.end(), [person](const std::unique_ptr<Character>& character) {
+                      return (character.get() == person) || (person->getUuid() == character->getUuid());
+                  });
             val= (subIt != children.end());
         }
         return val;
@@ -91,10 +92,11 @@ bool contains(const std::vector<std::unique_ptr<Player>>& data, Person* person)
 
         if(!val)
         {
-            auto children= player->getChildrenCharacter();
-            auto subIt= std::find_if(children.begin(), children.end(), [person](Character* character) {
-                return (character == person) || (person->getUuid() == character->getUuid());
-            });
+            const auto& children= player->children();
+            auto subIt
+                = std::find_if(children.begin(), children.end(), [person](const std::unique_ptr<Character>& character) {
+                      return (character.get() == person) || (person->getUuid() == character->getUuid());
+                  });
             val= (subIt != children.end());
         }
         return val;
@@ -722,9 +724,9 @@ void PlayerModel::addCharacter(const QModelIndex& parent, Character* character, 
 
     character->setNpc(player->isGM());
 
-    beginInsertRows(parent, size, size);
-    player->addCharacter(character);
-    endInsertRows();
+    /* beginInsertRows(parent, size, size);
+     player->addCharacter(character);
+     endInsertRows();*/
 }
 
 void PlayerModel::removeCharacter(Character* character)

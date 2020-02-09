@@ -54,7 +54,7 @@ NetworkController::NetworkController(QObject* parent)
 }
 NetworkController::~NetworkController() {}
 
-QAbstractItemModel* NetworkController::profileModel() const
+ProfileModel* NetworkController::profileModel() const
 {
     return m_profileModel.get();
 }
@@ -260,11 +260,6 @@ QByteArray NetworkController::serverPassword() const
     return m_serverPw;
 }
 
-ConnectionProfile* NetworkController::getProfile(int pos) const
-{
-    return m_profileModel->getProfile(pos);
-}
-
 QByteArray NetworkController::adminPassword() const
 {
     return m_serverPw;
@@ -276,11 +271,6 @@ void NetworkController::setHost(const QString& host)
         return;
     m_host= host;
     emit hostChanged();
-}
-
-void NetworkController::appendProfile()
-{
-    m_profileModel->appendProfile();
 }
 
 void NetworkController::setGameController(GameController* game)
@@ -302,4 +292,9 @@ void NetworkController::closeServer()
 {
     if(m_server)
         m_server->stopListening();
+}
+
+void NetworkController::saveData()
+{
+    Settingshelper::writeConnectionProfileModel(m_profileModel.get());
 }

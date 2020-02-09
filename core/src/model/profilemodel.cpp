@@ -53,7 +53,7 @@ QVariant ProfileModel::data(const QModelIndex& index, int role) const
 
     if(Qt::DisplayRole == role)
     {
-        return m_connectionProfileList.at(index.row())->getTitle();
+        return m_connectionProfileList.at(index.row())->profileTitle();
     }
     return QVariant();
 }
@@ -61,13 +61,7 @@ QVariant ProfileModel::data(const QModelIndex& index, int role) const
 void ProfileModel::appendProfile()
 {
     ConnectionProfile* profile= new ConnectionProfile();
-    profile->setTitle(QStringLiteral("Profile #%1").arg(m_connectionProfileList.size() + 1));
-    profile->setPort(6660);
-    profile->setName(QStringLiteral("Unknown User"));
-    Player* player= new Player();
-    // player->setUserVersion(m_version);
-    profile->setPlayer(player);
-    profile->setCharacter(new Character(QStringLiteral("Unknown"), Qt::black, false));
+    profile->setProfileTitle(QStringLiteral("Profile #%1").arg(m_connectionProfileList.size() + 1));
     appendProfile(profile);
 }
 void ProfileModel::appendProfile(ConnectionProfile* profile)
@@ -75,21 +69,23 @@ void ProfileModel::appendProfile(ConnectionProfile* profile)
     if(nullptr == profile)
         return;
 
-    beginInsertRows(QModelIndex(), m_connectionProfileList.size(), m_connectionProfileList.size());
+    auto idx= static_cast<int>(m_connectionProfileList.size());
+
+    beginInsertRows(QModelIndex(), idx, idx);
     m_connectionProfileList.push_back(std::unique_ptr<ConnectionProfile>(std::move(profile)));
     endInsertRows();
 
-    auto player= profile->getPlayer();
-    if(nullptr == player)
-        return;
+    // auto player= profile->getPlayer();
+    // if(nullptr == player)
+    //     return;
     /*connect(player, &Player::nameChanged, this, &ProfileModel::writeSettings);
     connect(player, &Player::colorChanged, this, &ProfileModel::writeSettings);
     connect(player, &Player::avatarChanged, this, &ProfileModel::writeSettings);*/
 
-    auto character= profile->getCharacter();
+    // auto character= profile->getCharacter();
 
-    if(nullptr == character)
-        return;
+    // if(nullptr == character)
+    //     return;
 
     /*connect(character, &Player::nameChanged, this, &ProfileModel::writeSettings);
     connect(character, &Player::colorChanged, this, &ProfileModel::writeSettings);
@@ -109,8 +105,8 @@ void ProfileModel::cloneProfile(const QModelIndex& index)
     {
         ConnectionProfile* clonedProfile= new ConnectionProfile();
         clonedProfile->cloneProfile(profileSrc);
-        auto name= clonedProfile->getName();
-        clonedProfile->setName(name.append(tr(" (clone)")));
+        auto name= clonedProfile->profileTitle();
+        clonedProfile->setProfileTitle(name.append(tr(" (clone)")));
         appendProfile(clonedProfile);
     }
 }

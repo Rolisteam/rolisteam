@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>611</width>
-    <height>556</height>
+    <height>557</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -51,130 +51,6 @@
         <widget class="QLineEdit" name="m_profileTitle"/>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox">
-       <property name="title">
-        <string>Player</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_8">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <item>
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>Name: </string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>Color: </string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
-            <item>
-             <widget class="QLineEdit" name="m_name"/>
-            </item>
-            <item>
-             <widget class="ColorButton" name="m_colorBtn">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="m_isGmCheckbox">
-          <property name="text">
-           <string>I'm the Game Master</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_3">
-       <property name="title">
-        <string>Character</string>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QToolButton" name="m_selectCharaterAvatar">
-          <property name="minimumSize">
-           <size>
-            <width>64</width>
-            <height>64</height>
-           </size>
-          </property>
-          <property name="sizeIncrement">
-           <size>
-            <width>64</width>
-            <height>64</height>
-           </size>
-          </property>
-          <property name="baseSize">
-           <size>
-            <width>64</width>
-            <height>64</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Avatar…</string>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>64</width>
-            <height>64</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
-          <item>
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>Name:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_7">
-            <property name="text">
-             <string>Color:</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <widget class="QLineEdit" name="m_characterName"/>
-          </item>
-          <item>
-           <widget class="ColorButton" name="m_characterColor">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
      </item>
      <item>
       <widget class="QGroupBox" name="groupBox_2">
@@ -259,33 +135,153 @@
           </property>
          </widget>
         </item>
+        <item>
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
       </widget>
      </item>
      <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Player</string>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>478</width>
-         <height>13</height>
-        </size>
-       </property>
-      </spacer>
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Name: </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Color: </string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QLineEdit" name="m_name"/>
+            </item>
+            <item>
+             <widget class="ColorButton" name="m_colorBtn">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="m_isGmCheckbox">
+          <property name="text">
+           <string>I'm the Game Master</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </item>
      <item>
-      <widget class="QLabel" name="m_errorNotification">
-       <property name="styleSheet">
-        <string notr="true"/>
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="title">
+        <string>Characters</string>
        </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QTableView" name="m_characterList">
+            <property name="dragDropOverwriteMode">
+             <bool>false</bool>
+            </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectRows</enum>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>50</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="showGrid">
+             <bool>true</bool>
+            </property>
+            <attribute name="horizontalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <attribute name="horizontalHeaderStretchLastSection">
+             <bool>true</bool>
+            </attribute>
+            <attribute name="verticalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <attribute name="verticalHeaderMinimumSectionSize">
+             <number>50</number>
+            </attribute>
+            <attribute name="verticalHeaderDefaultSectionSize">
+             <number>50</number>
+            </attribute>
+            <attribute name="verticalHeaderStretchLastSection">
+             <bool>false</bool>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <widget class="QToolButton" name="m_addCharacterBtn">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="m_removeCharacterBtn">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </item>
      <item>
@@ -302,14 +298,14 @@
       </widget>
      </item>
      <item>
-      <spacer name="verticalSpacer_2">
+      <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>478</width>
-         <height>13</height>
+         <width>20</width>
+         <height>40</height>
         </size>
        </property>
       </spacer>
@@ -325,7 +321,7 @@
           <string>New Profile</string>
          </property>
          <property name="icon">
-          <iconset resource="../../rolisteam.qrc">
+          <iconset resource="../../../rolisteam.qrc">
            <normaloff>:/resources/icons/add_round.png</normaloff>:/resources/icons/add_round.png</iconset>
          </property>
          <property name="autoDefault">
@@ -345,7 +341,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../../rolisteam.qrc">
+          <iconset resource="../../../rolisteam.qrc">
            <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
          </property>
         </widget>
@@ -387,7 +383,38 @@
      </item>
     </layout>
    </item>
+   <item>
+    <widget class="QLabel" name="m_errorNotification">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
   </layout>
+  <action name="m_addCharacterAct">
+   <property name="icon">
+    <iconset resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/icons/add_round.png</normaloff>:/resources/icons/add_round.png</iconset>
+   </property>
+   <property name="text">
+    <string>New Character</string>
+   </property>
+  </action>
+  <action name="m_removeCharacterAct">
+   <property name="icon">
+    <iconset resource="../../../rolisteam.qrc">
+     <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove character</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -397,7 +424,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../rolisteam.qrc"/>
+  <include location="../../../rolisteam.qrc"/>
  </resources>
  <connections>
   <connection>
