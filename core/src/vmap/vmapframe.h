@@ -84,7 +84,7 @@ public:
      * @brief readFile
      * @return
      */
-    virtual bool readFileFromUri() override;
+    virtual bool readFileFromUri();
     /**
      * @brief processAddItemMessage should add items from Network
      * @param msg
@@ -204,5 +204,5 @@ private:
     std::unique_ptr<VMap> m_vmap;
     std::unique_ptr<RGraphicsView> m_graphicView;
 };
-
+Q_DECLARE_METATYPE(VMapFrame::PermissionMode)
 #endif

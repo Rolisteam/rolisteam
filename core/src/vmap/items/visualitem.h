@@ -64,17 +64,6 @@ public:
      * @brief The Layer enum
      */
 
-    /**
-     * @brief The StackOrder enum
-     */
-    enum StackOrder
-    {
-        FRONT,
-        RAISE,
-        LOWER,
-        BACK
-    };
-    Q_ENUM(StackOrder)
     enum TransformType
     {
         NoTransform,
@@ -269,10 +258,7 @@ signals:
      * @brief selectStateChange
      */
     void selectStateChange(bool);
-    /**
-     * @brief changeStackPosition
-     */
-    void changeStackPosition(VisualItem*, VisualItem::StackOrder);
+    // void changeStackPosition(VisualItem*, VisualItem::StackOrder);
 
 public slots:
     /**

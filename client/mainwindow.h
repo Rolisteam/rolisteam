@@ -95,6 +95,7 @@ class CharacterSheetWindow;
 class GameMasterTool;
 class LogPanel;
 class ServerManager;
+class NotificationZone;
 
 struct CommandLineProfile
 {
@@ -373,12 +374,6 @@ private slots:
      * @brief showUpdateNotification
      */
     void showUpdateNotification();
-    /**
-     * @brief receiveData
-     * @param readData
-     * @param size
-     */
-    void receiveData(quint64 readData, quint64 size);
     // save methods
     /**
      * @brief saveCurrentMedia
@@ -389,17 +384,6 @@ private slots:
      * @brief stopReconnection
      */
     void stopReconnection();
-    /**
-     * @brief openContentFromType
-     * @param type
-     */
-    void openContentFromType(CleverURI::ContentType type);
-    /**
-     * @brief openCleverURI
-     * @param uri
-     * @param force
-     */
-    void openCleverURI(CleverURI* uri, bool force= false);
     void openResource(ResourcesNode* node, bool force);
     /**
      * @brief updateRecentFileActions
@@ -475,8 +459,6 @@ private:
     VToolsBar* m_vToolBar;
     QStackedWidget* m_toolBarStack;
 
-    // QHash<QString, MediaContainer*> m_mediaHash;
-    // QMap<MediaContainer*, QAction*>* m_mapAction;
 #ifndef NULL_PLAYER
     AudioPlayer* m_audioPlayer;
 #endif
@@ -485,13 +467,10 @@ private:
     PreferencesManager* m_preferences;
     ChatListWidget* m_chatListWidget;
 
-    QDockWidget* m_dockLogUtil;
-    LogPanel* m_notifierDisplay;
+    NotificationZone* m_dockLogUtil;
     PlayerModel* m_playerModel;
 
     // subwindow
-    QProgressBar* m_downLoadProgressbar;
-    bool m_shownProgress= false;
     Ui::MainWindow* m_ui;
     bool m_resetSettings;
 
@@ -512,7 +491,6 @@ private:
     ChannelListPanel* m_roomPanel;
     QString m_connectionAddress;
     bool m_isOut= false;
-    QByteArray m_passwordAdmin;
 
     std::unique_ptr<CommandLineProfile> m_commandLineProfile;
     std::unique_ptr<GameController> m_gameController;

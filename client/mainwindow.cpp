@@ -543,7 +543,7 @@ void MainWindow::linkActionToMenu()
     m_ui->m_newSharedNote->setData(static_cast<int>(CleverURI::SHAREDNOTE));
     m_ui->m_newWebViewACt->setData(static_cast<int>(CleverURI::WEBVIEW));
 
-    connect(m_ui->m_newMapAction, &QAction::triggered, this, fun);
+    connect(m_ui->m_newMapAction, &QAction::triggered, this, &MainWindow::newMap);
     connect(m_ui->m_addVectorialMap, &QAction::triggered, this, &MainWindow::newVMap);
     connect(m_ui->m_newNoteAction, &QAction::triggered, this, fun);
     connect(m_ui->m_newSharedNote, &QAction::triggered, this, [this]() {
@@ -649,8 +649,8 @@ void MainWindow::linkActionToMenu()
             return;
         auto* clipboard= QGuiApplication::clipboard();
         clipboard->setText(str.arg(m_connectionAddress)
-                               .arg(m_currentConnectionProfile->getPort())
-                               .arg(QString::fromUtf8(m_currentConnectionProfile->getPassword().toBase64())));
+                               .arg(m_currentConnectionProfile->port())
+                               .arg(QString::fromUtf8(m_currentConnectionProfile->password().toBase64())));
     });
     connect(m_ui->m_roomListAct, &QAction::triggered, m_roomPanelDockWidget, &QDockWidget::setVisible);
     // Help
@@ -709,7 +709,7 @@ void MainWindow::showAsPreferences()
 
 void MainWindow::prepareMap(MapFrame* mapFrame)
 {
-    Map* map= mapFrame->getMap();
+    /*Map* map= mapFrame->getMap();
     if(nullptr == map)
         return;
     map->setPointeur(m_toolBar->getCurrentTool());
@@ -744,7 +744,7 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
 
     // new PlayersList connection
     // connect(mapFrame, &MapFrame::activated, m_playersListWidget->model(), &PlayersListWidgetModel::setCurrentMap);
-    connect(mapFrame, &MapFrame::activated, m_toolBar, &ToolsBar::changeMap);
+    connect(mapFrame, &MapFrame::activated, m_toolBar, &ToolsBar::changeMap);*/
 }
 
 void MainWindow::updateWorkspace()
@@ -817,15 +817,15 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi
     break;
     case CleverURI::MAP:
     {
-        MapFrame* mapFrame= new MapFrame(nullptr, m_mdiArea);
-        if(mapFrame->createMap())
-        {
-            media= mapFrame;
-            prepareMap(mapFrame);
-            uri->setName(mapFrame->getUriName());
-        }
-        else
-            delete mapFrame;
+        /* MapFrame* mapFrame= new MapFrame(nullptr, m_mdiArea);
+         if(mapFrame->createMap())
+         {
+             media= mapFrame;
+             prepareMap(mapFrame);
+             uri->setName(mapFrame->getUriName());
+         }
+         else
+             delete mapFrame;*/
     }
     break;
     case CleverURI::TEXT:
@@ -1071,10 +1071,7 @@ void MainWindow::stopReconnection()
 
 void MainWindow::setUpNetworkConnection()
 {
-    if(m_currentConnectionProfile != nullptr)
-    {
-        connect(m_playerModel, SIGNAL(localGMRefused(bool)), this, SLOT(userNatureChange(bool)));
-    }
+    connect(m_gameController.get(), &GameController::localIsGMChanged, this, &MainWindow::userNatureChange);
     auto networkCtrl= m_gameController->networkController();
     connect(networkCtrl, &NetworkController::downloadingData, m_dockLogUtil, &NotificationZone::receiveData);
 }
@@ -1911,7 +1908,7 @@ else if(msg->action() == NetMsg::ChangePlayerCharacterSizeAction)
 }
 }
 */
-CharacterSheetWindow* MainWindow::findCharacterSheetWindowById(const QString& idMedia, const QString& idSheet)
+/*CharacterSheetWindow* MainWindow::findCharacterSheetWindowById(const QString& idMedia, const QString& idSheet)
 {
     auto vector= m_mdiArea->getAllSubWindowFromId(idMedia);
     if(vector.empty())
@@ -1927,9 +1924,9 @@ CharacterSheetWindow* MainWindow::findCharacterSheetWindowById(const QString& id
     }
 
     return nullptr;
-}
+}*/
 
-CleverURI* MainWindow::contentToPath(CleverURI::ContentType type, bool save)
+/*CleverURI* MainWindow::contentToPath(CleverURI::ContentType type, bool save)
 {
     QString filter= CleverURI::getFilterForType(type);
     QString folder;
@@ -1963,7 +1960,7 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type, bool save)
                              m_gameController->playerController()->localPlayer()->getUuid(), type);
     }
     return nullptr;
-}
+}*/
 void MainWindow::openGenericContent()
 {
     QAction* action= static_cast<QAction*>(sender());
@@ -2047,7 +2044,7 @@ void MainWindow::openRecentFile()
     {
         auto uri= new CleverURI(action->data().value<CleverURI>());
         uri->setDisplayed(false);
-        openCleverURI(uri, true);
+        // openCleverURI(uri, true);
     }
 }
 
@@ -2128,7 +2125,7 @@ void MainWindow::setLatestFile(CleverURI* fileName)
     }
     updateRecentFileActions();
 }
-void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
+/*void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
 {
     if(nullptr != m_currentConnectionProfile)
     {
@@ -2139,13 +2136,13 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
             SLOT(rollDiceCmd(QString, QString, bool)));
     connect(window, &CharacterSheetWindow::errorOccurs, m_gameController.get(), &GameController::addErrorLog);
     connect(m_playerModel, SIGNAL(playerDeleted(Player*)), window, SLOT(removeConnection(Player*)));
-}
+}*/
 
 void MainWindow::openResource(ResourcesNode* node, bool force)
 {
     if(node->getResourcesType() == ResourcesNode::Cleveruri)
     {
-        openCleverURI(dynamic_cast<CleverURI*>(node), force);
+        // openCleverURI(dynamic_cast<CleverURI*>(node), force);
     }
     else if(node->getResourcesType() == ResourcesNode::Person)
     {
@@ -2153,164 +2150,10 @@ void MainWindow::openResource(ResourcesNode* node, bool force)
     }
 }
 
-void MainWindow::openCleverURI(CleverURI* uri, bool force)
+/*for(auto const& uri : uriList)
 {
-    if(nullptr == uri)
-    {
-        return;
-    }
-    if((uri->getState() == CleverURI::Hidden) && (!force))
-    {
-    }
-    else if((uri->getState() == CleverURI::Displayed) && (!force))
-        return;
-
-    auto localIsGM= false;
-    if(m_currentConnectionProfile != nullptr)
-        localIsGM= m_currentConnectionProfile->isGM();
-
-    MediaContainer* tmp= nullptr;
-    switch(uri->getType())
-    {
-    case CleverURI::MAP:
-        tmp= new MapFrame();
-        break;
-    case CleverURI::VMAP:
-    {
-        /*VMapFrame* mapFrame= new VMapFrame(localIsGM);
-        VMap* map= mapFrame->getMap();
-        if((nullptr != map) && (nullptr != m_currentConnectionProfile))
-        {
-            map->setOption(VisualItem::LocalIsGM, m_currentConnectionProfile->isGM());
-        }
-        tmp= mapFrame;*/
-    }
-    break;
-    case CleverURI::PICTURE:
-    case CleverURI::ONLINEPICTURE:
-        // tmp= new Image(m_mdiArea);
-        break;
-    case CleverURI::TEXT:
-        tmp= new NoteContainer(true);
-        break;
-#ifdef WITH_PDF
-    case CleverURI::PDF:
-    {
-        auto pdfV= new PdfViewer();
-        connect(pdfV, &PdfViewer::openImageAs, this, &MainWindow::openImageAs);
-        tmp= pdfV;
-    }
-    break;
-#endif
-    case CleverURI::SHAREDNOTE:
-    {
-        // SharedNoteContainer* tmpShared= new SharedNoteContainer(localIsGM);
-        // tmpShared->setOwnerId(m_playerModel->getLocalPlayerId());
-        // tmp= tmpShared;
-    }
-    break;
-#ifdef HAVE_WEBVIEW
-    /*case CleverURI::WEBVIEW:
-    {
-        WebView* tmpWeb= new WebView(localIsGM ? WebView::localIsGM : WebView::LocalIsPlayer);
-        tmp= tmpWeb;
-    }
-    break;*/
-
-#endif
-    /*case CleverURI::SCENARIO:
-        readStory(uri->getUri());
-        break;*/
-    case CleverURI::CHARACTERSHEET:
-    {
-        /*CharacterSheetWindow* csW= new CharacterSheetWindow();
-        prepareCharacterSheetWindow(csW);
-        tmp= csW;*/
-    }
-    break;
-    case CleverURI::SONGLIST:
-    {
-#ifndef nullptr_PLAYER
-        m_audioPlayer->openSongList(uri->getUri());
-#endif
-    }
-    break;
-    case CleverURI::SONG:
-    {
-#ifndef nullptr_PLAYER
-        m_audioPlayer->openSong(uri->getUri());
-#endif
-    }
-    break;
-    default:
-        break;
-    }
-    if(tmp != nullptr)
-    {
-        tmp->setOwnerId(m_gameController->localPlayerId());
-        tmp->setLocalPlayerId(m_gameController->localPlayerId());
-        // tmp->setCleverUri(uri);
-        if(tmp->readFileFromUri())
-        {
-            if(uri->getType() == CleverURI::MAP)
-            {
-                prepareMap(static_cast<MapFrame*>(tmp));
-            }
-            else if(uri->getType() == CleverURI::VMAP)
-            {
-                // prepareVMap(static_cast<VMapFrame*>(tmp));
-            }
-            addMediaToMdiArea(tmp);
-        }
-        else
-        {
-            uri->setDisplayed(false);
-        }
-    }
-}
-void MainWindow::openContentFromType(CleverURI::ContentType type)
-{
-
-    std::vector<CleverURI*> uriList;
-
-    MediaContainer* tmp= nullptr;
-    switch(type)
-    {
-    case CleverURI::MAP:
-        tmp= new MapFrame();
-        break;
-    case CleverURI::PICTURE:
-    case CleverURI::ONLINEPICTURE:
-        // tmp= new Image(m_mdiArea);
-        break;
-    default:
-        break;
-    }
-
-    if(tmp != nullptr)
-    {
-        // tmp->setCleverUriType(type);
-        if(tmp->openMedia())
-        {
-            if(tmp->readFileFromUri())
-            {
-                if(type == CleverURI::MAP)
-                {
-                    prepareMap(static_cast<MapFrame*>(tmp));
-                }
-                addMediaToMdiArea(tmp);
-                //                    uriList.push_back(tmp->getCleverUri());
-                tmp->setVisible(true);
-            }
-        }
-    }
-
-    for(auto const& uri : uriList)
-    {
-        setLatestFile(uri);
-    }
-}
-
+    setLatestFile(uri);
+}*/
 void MainWindow::updateWindowTitle()
 {
     auto networkCtrl= m_gameController->networkController();
@@ -2404,7 +2247,7 @@ void MainWindow::dropEvent(QDropEvent* event)
             qInfo() << QStringLiteral("MainWindow: dropEvent for %1").arg(CleverURI::typeToString(type));
             CleverURI* uri= new CleverURI(getShortNameFromPath(list.at(i).toLocalFile()), list.at(i).toLocalFile(),
                                           m_gameController->playerController()->localPlayer()->getUuid(), type);
-            openCleverURI(uri, true);
+            // openCleverURI(uri, true);
         }
         event->acceptProposedAction();
     }
@@ -2433,9 +2276,9 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
     MediaContainer* destination= nullptr;
     if(type == CleverURI::VMAP)
     {
-        auto media= newDocument(type, false);
-        auto vmapFrame= dynamic_cast<VMapFrame*>(media);
-        if(vmapFrame)
+        /* auto media= newDocument(type, false);
+         auto vmapFrame= dynamic_cast<VMapFrame*>(media);*/
+        // if(vmapFrame)
         {
             /*auto vmap= vmapFrame->getMap();
             vmap->addImageItem(pix.toImage());
@@ -2444,12 +2287,12 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
     }
     else if(type == CleverURI::MAP)
     {
-        auto mapframe= new MapFrame(nullptr, m_mdiArea);
-        mapframe->setUriName(title);
-        auto img= new QImage(pix.toImage());
-        auto map= new Map(m_gameController->localPlayerId(), mapframe->getMediaId(), img, false);
-        mapframe->setMap(map);
-        destination= mapframe;
+        /*    auto mapframe= new MapFrame();
+             mapframe->setUriName(title);
+             auto img= new QImage(pix.toImage());
+             auto map= new Map(m_gameController->localPlayerId(), mapframe->getMediaId(), img, false);
+             mapframe->setMap(map);
+             destination= mapframe;*/
     }
     else if(type == CleverURI::PICTURE)
     {
