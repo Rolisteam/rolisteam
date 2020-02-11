@@ -234,7 +234,8 @@ QModelIndex PlayersList::parent(const QModelIndex& index) const
     {
         return QModelIndex();
     }
-    return createIndex(parentPerson->indexOf(childItem), 0, parentPerson);
+    auto i = m_playersList.indexOf(dynamic_cast<Player*>(parentPerson));
+    return createIndex(i, 0, parentPerson);
 }
 
 int PlayersList::rowCount(const QModelIndex& parent) const
