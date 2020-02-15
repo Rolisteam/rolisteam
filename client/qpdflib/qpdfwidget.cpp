@@ -20,7 +20,6 @@
 #include <QFileInfo>
 #include <QVBoxLayout>
 
-// clazy:skip
 // NOTE:
 // There is this bug in Qt https://bugreports.qt.io/browse/QTBUG-46973
 // which causes the application to crash when loading from qrc:/ resources.
@@ -64,10 +63,19 @@ QPdfWidget::~QPdfWidget()
 bool QPdfWidget::loadFile(const QString& path)
 {
     QFileInfo fi(path);
-    if(fi.exists())
-    {
-        m->pdfFile= path;
+    if (fi.exists()) {
+        m->pdfFile = path;
+#ifdef QPDF_WIDGET_USE_CORS
         renderPdfFile(path);
+#else
+        QFile file(path);
+        if (file.open(QIODevice::ReadOnly)) {
+            QByteArray data = file.readAll();
+            loadData(data);
+        } else {
+            return false;
+        }
+#endif
         return true;
     }
 
@@ -76,17 +84,14 @@ bool QPdfWidget::loadFile(const QString& path)
 
 bool QPdfWidget::loadData(const QByteArray& data)
 {
-    if(data.isEmpty())
-        return false;
-
-    m->pdfData= data;
+    m->pdfData = data;
     renderPdfData();
     return true;
 }
 
 void QPdfWidget::close()
 {
-    m->pPdfJsBridge->invokeJavaScript("PDFViewerApplication.close()");
+    m->pPdfJsBridge->close();
 }
 
 void QPdfWidget::setPage(int page)

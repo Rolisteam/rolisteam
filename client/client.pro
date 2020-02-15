@@ -368,7 +368,7 @@ CONFIG += warn_on
 ICON = ../resources/logo/rolisteam.icns
 
 # Version
-DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=9 VERSION_MINOR=1
+DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=9 VERSION_MINOR=2
 
 RESOURCES += $$PWD/../rolisteam.qrc \
     rolisteamqml.qrc

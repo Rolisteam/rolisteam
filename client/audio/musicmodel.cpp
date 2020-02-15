@@ -25,6 +25,7 @@
 #include <QMediaContent>
 #include <QMimeData>
 #include <QUrl>
+#include <QNetworkRequest>
 
 // https://api.soundcloud.com/tracks/293/stream?client_id=59632ff691d8ac46c637c1467d84b6c6
 
@@ -63,7 +64,7 @@ QVariant MusicModel::data(const QModelIndex& index, int role) const
     {
         if(index.column() == TITLE)
         {
-            QUrl url= m_data.at(index.row())->request().url();
+            QUrl url= m_data.at(index.row())->canonicalUrl();
             if(url.isLocalFile())
             {
                 return url.fileName();
@@ -169,7 +170,7 @@ void MusicModel::saveIn(QTextStream& file)
 {
     for(auto& tmp : m_data)
     {
-        file << tmp->request().url().toString(QUrl::PreferLocalFile) << "\n";
+        file << tmp->canonicalUrl().toString(QUrl::PreferLocalFile) << "\n";
     }
 }
 QStringList MusicModel::mimeTypes() const

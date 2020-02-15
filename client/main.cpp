@@ -35,6 +35,8 @@
 #include "mainwindow.h"
 #include "preferences/preferencesmanager.h"
 
+#include <QDebug>
+
 /**
  * @mainpage Rolisteam
  * @tableofcontents
@@ -192,7 +194,6 @@ int main(int argc, char* argv[])
 
     mainWindow->setupUi();
     mainWindow->readSettings();
-
     int value= 0;
     if(PreferencesManager::getInstance()->value("FullScreenAtStarting", true).toBool())
     {

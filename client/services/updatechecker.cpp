@@ -131,13 +131,20 @@ void UpdateChecker::readXML(QNetworkReply* p)
 }
 bool UpdateChecker::inferiorVersion()
 {
+    bool val = false;
     if(m_versionMajor > VERSION_MAJOR)
-        return true;
+    {
+        val= true;
+    }
     else if((m_versionMajor == VERSION_MAJOR) && (m_versionMiddle > VERSION_MIDDLE))
-        return true;
+    {
+        val= true;
+    }
     else if((m_versionMajor == VERSION_MAJOR) && (m_versionMiddle == VERSION_MIDDLE)
             && (m_versionMinor > VERSION_MINOR))
-        return true;
-    else
-        return false;
+    {
+        val= true;
+    }
+
+    return val;
 }

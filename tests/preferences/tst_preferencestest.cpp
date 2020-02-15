@@ -28,7 +28,7 @@ class PreferencesTest : public QObject, public PreferencesListener
 
 public:
     PreferencesTest();
-    void preferencesHasChanged(QString);
+    void preferencesHasChanged(const QString&) override;
 
 private slots:
     void testPreferenceRegisterValue();
@@ -46,7 +46,7 @@ private:
 
 PreferencesTest::PreferencesTest() {}
 
-void PreferencesTest::preferencesHasChanged(QString key)
+void PreferencesTest::preferencesHasChanged(const QString& key)
 {
     QVERIFY(key == "keyListener");
     QVERIFY(m_preferences->value(key, 18).toInt() == 25);
