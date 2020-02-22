@@ -35,9 +35,10 @@
 #include "data/person.h"
 #include "mainwindow.h"
 #include "preferences/preferencesmanager.h"
+#include "rolisteamapplication.h"
 #include "uiwatchdog.h"
 
-#include <QDebug>
+#include <exception>
 
 /**
  * @mainpage Rolisteam
@@ -95,9 +96,11 @@ int main(int argc, char* argv[])
     {
         args[i]= argv[i];
     }
+
     args[argc]= (char*)"--disable-web-security";
     // Application creation
-    QApplication app(nargs, args);
+    // QApplication app(nargs, args);
+    RolisteamApplication app(nargs, args);
     app.setAttribute(Qt::AA_DontUseNativeMenuBar, true);
 
     QString appName("rolisteam");
