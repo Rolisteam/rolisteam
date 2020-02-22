@@ -292,8 +292,9 @@ QModelIndex PlayerModel::parent(const QModelIndex& index) const
     {
         return QModelIndex();
     }
-    auto i = m_playersList.indexOf(dynamic_cast<Player*>(parentPerson));
-    return createIndex(i, 0, parentPerson);
+    auto it = std::find_if(m_players.begin(), m_players.end(), [parentPerson](const std::unique_ptr<Player>& person) { return parentPerson == person.get(); });
+
+    return createIndex(static_cast<int>(std::distance(m_players.begin(), it)), 0, parentPerson);
 }
 
 int PlayerModel::rowCount(const QModelIndex& parent) const
@@ -325,12 +326,41 @@ bool PlayerModel::setData(const QModelIndex& index, const QVariant& value, int r
 {
     if(role == Qt::DisplayRole || role == Qt::EditRole)
     {
-        auto childItem= static_cast<Person*>(index.internalPointer());
-        childItem->setName(value.toString());
-        emit dataChanged(index, index, QVector<int>() << role);
         return true;
     }
-    return false;
+    bool val= false;
+    auto childItem= static_cast<Person*>(index.internalPointer());
+    if(nullptr == childItem)
+        return val;
+
+    QVector<int> roles;
+    switch(role)
+    {
+    case Qt::DisplayRole:
+    case Qt::EditRole:
+    case NameRole:
+        childItem->setName(value.toString());
+        roles << role << Qt::DisplayRole << Qt::EditRole << NameRole;
+        break;
+    case GmRole:
+        break;
+    case CharacterRole:
+        break;
+    case CharacterStateIdRole:
+        break;
+    case NpcRole:
+        break;
+    case AvatarRole:
+        break;
+    case LocalRole:
+    case IdentifierRole:
+    case PersonPtrRole:
+    default:
+        break;
+    }
+    if(val)
+        emit dataChanged(index, index, roles);
+    return val;
 }
 
 QModelIndex PlayerModel::personToIndex(Person* person) const
@@ -366,6 +396,23 @@ Player* PlayerModel::playerById(const QString& id) const
     if(it == m_players.end())
         return nullptr;
     return (*it).get();
+}
+
+Person* PlayerModel::personById(const QString& id) const
+{
+    auto player= playerById(id);
+
+    if(nullptr != player)
+        return player;
+
+    const auto& it= std::find_if(m_players.begin(), m_players.end(), [id](const std::unique_ptr<Player>& player) {
+        return (nullptr != player->characterById(id));
+    });
+
+    if(it != m_players.end())
+        return it->get()->characterById(id);
+    else
+        return nullptr;
 }
 
 /***********
@@ -698,6 +745,7 @@ void PlayerModel::addPlayer(Player* player)
 
     int size= static_cast<int>(m_players.size());
 
+    qDebug() << "add player to model";
     beginInsertRows(QModelIndex(), size, size);
     m_players.push_back(std::unique_ptr<Player>(player));
     endInsertRows();
