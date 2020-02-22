@@ -9,6 +9,7 @@ find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets 
 include(cmake/TranslationHelper.cmake)
 option(TESTS "enable tests compilation" OFF)
 option(WITH_PDF "enable PDF feature" ON)
+option(DEBUG_MODE "enable more debug report" OFF)
 
 if (TESTS)
 enable_testing(true)
@@ -20,11 +21,13 @@ message("Enable PDF feature")
 add_definitions(-DWITH_PDF=1)
 endif()
 
+if(DEBUG_MODE)
+    add_definitions(-DDEBUG_MODE=1)
+endif()
+
 add_subdirectory(core)
 add_subdirectory(client)
 add_subdirectory(server)
-
-
 
 
 set(documentation README.md HelpMe.md)
