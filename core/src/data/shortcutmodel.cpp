@@ -131,7 +131,7 @@ QModelIndex ShortCutModel::parent(const QModelIndex& index) const
         {
             auto cat
                 = std::find_if(m_root.begin(), m_root.end(), [=](Category* cat) { return cat->hasShortCut(shortCut); });
-            return createIndex((*cat)->indexOf(shortCut), 0, *cat);
+            return createIndex(static_cast<int>(std::distance(m_root.begin(), cat)), 0, *cat);
         }
     }
     return QModelIndex();

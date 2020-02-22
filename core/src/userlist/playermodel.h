@@ -78,6 +78,9 @@ public:
     bool setData(const QModelIndex& index, const QVariant& value, int role) override;
 
     Player* playerById(const QString& id) const;
+    Person* personById(const QString& id) const;
+
+    QModelIndex personToIndex(Person* person) const;
     // void sendOffLocalPlayerInformations();
     // void sendOffFeatures(Player* player);
 
@@ -126,7 +129,6 @@ signals:
         void updatePerson(NetworkMessageReader& data);*/
 
 private:
-    QModelIndex personToIndex(Person* person) const;
     /* void addPlayer(Player* player);
      void addCharacter(Player* player, Character* character);
      void delPlayer(Player* player);
