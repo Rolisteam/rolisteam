@@ -15,7 +15,7 @@ set(UIS mainwindow.ui)
 include_directories(../core/src)
 include_directories(../core/src/diceparser/include)
 
-set(QT_REQUIRED_VERSION "5.14.0")
+set(QT_REQUIRED_VERSION "5.12.0")
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui LinguistTools)
 
 
