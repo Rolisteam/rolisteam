@@ -8,8 +8,8 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(SOURCES main.cpp mainwindow.cpp)
-set(HEADERS mainwindow.h)
+set(SOURCES main.cpp mainwindow.cpp rolisteamapplication.cpp)
+set(HEADERS mainwindow.h rolisteamapplication.h)
 set(UIS mainwindow.ui)
 
 include_directories(../core/src)
