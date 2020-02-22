@@ -33,8 +33,13 @@
 #include <string>
 #include <time.h>
 
-#include "network/rolisteamdaemon.h"
 #include "preferences/preferencesmanager.h"
+#include "rolisteamdaemon.h"
+
+#ifdef Q_OS_LINUX
+#include "rolisteamdaemonadaptor.h"
+#include <QDBusConnection>
+#endif
 
 /**
  * @page Roliserver
@@ -150,6 +155,14 @@ int main(int argc, char* argv[])
     }
 
     RolisteamDaemon deamon;
+#ifdef Q_OS_LINUX
+    new RolisteamDaemonAdaptor(&deamon);
+
+    QDBusConnection connection= QDBusConnection::sessionBus();
+    bool rel= connection.registerService("org.rolisteam.server");
+    rel= connection.registerObject("/", &deamon);
+#endif
+
     if(askPrint)
     {
         QString configPathOut= parser.value(print);

@@ -5,7 +5,7 @@
 #include <QThread>
 
 #include "common/controller/logcontroller.h"
-#include "servermanager.h"
+#include "network/servermanager.h"
 /**
  * @brief The RolisteamDaemon class
  */
@@ -15,16 +15,19 @@ class RolisteamDaemon : public QObject
 public:
     explicit RolisteamDaemon(QObject* parent= nullptr);
 
-    void start();
 signals:
     void stopped();
 
 public slots:
+    void start();
+    void restart();
+    void stop();
     bool readConfigFile(QString);
     void createEmptyConfigFile(QString filepath);
 
 private:
     ServerManager m_serverManager;
+    bool m_restart= false;
     LogController* m_logController= nullptr;
     QThread m_thread;
 };

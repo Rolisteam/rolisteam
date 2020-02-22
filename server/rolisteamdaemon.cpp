@@ -3,10 +3,14 @@
 #include <QFile>
 #include <QTime>
 
+#include <QCoreApplication>
 #include <QFileInfo>
 #include <QSettings>
 
-RolisteamDaemon::RolisteamDaemon(QObject* parent) : QObject(parent), m_logController(new LogController(true, this)) {}
+RolisteamDaemon::RolisteamDaemon(QObject* parent) : QObject(parent), m_logController(new LogController(true, this))
+{
+    qRegisterMetaType<ServerManager::ServerState>();
+}
 
 bool RolisteamDaemon::readConfigFile(QString filepath)
 {
@@ -95,10 +99,19 @@ bool RolisteamDaemon::readConfigFile(QString filepath)
 void RolisteamDaemon::start()
 {
     connect(&m_thread, SIGNAL(started()), &m_serverManager, SLOT(startListening()));
-    connect(&m_serverManager, &ServerManager::sendLog, m_logController, &LogController::manageMessage,
-        Qt::QueuedConnection);
-    connect(&m_serverManager, &ServerManager::finished, &m_thread, &QThread::quit);
-    connect(&m_thread, &QThread::finished, this, &RolisteamDaemon::stopped, Qt::QueuedConnection);
+    connect(&m_serverManager, &ServerManager::errorOccured, m_logController, &LogController::manageMessage,
+            Qt::QueuedConnection);
+    connect(&m_serverManager, &ServerManager::stateChanged, this, [this]() {
+        if(m_serverManager.state() == ServerManager::Stopped)
+            m_thread.quit();
+    });
+    connect(&m_thread, &QThread::finished, this, [this]() {
+        if(m_restart)
+        {
+            qApp->exit(0);
+        }
+        m_restart= false;
+    });
     m_serverManager.moveToThread(&m_thread);
 
     m_thread.start();
@@ -127,4 +140,15 @@ void RolisteamDaemon::createEmptyConfigFile(QString filepath)
     settings.setValue("MaxMemorySize", m_serverManager.getValue("MemorySize"));
 
     settings.sync();
+}
+
+void RolisteamDaemon::restart()
+{
+    m_restart= true;
+    QMetaObject::invokeMethod(&m_serverManager, &ServerManager::stopListening, Qt::QueuedConnection);
+}
+
+void RolisteamDaemon::stop()
+{
+    QMetaObject::invokeMethod(&m_serverManager, &ServerManager::stopListening, Qt::QueuedConnection);
 }
