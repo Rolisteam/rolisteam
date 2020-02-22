@@ -64,12 +64,6 @@ public:
      */
     virtual ~Person() override;
     /**
-     * @brief getUuid
-     * @return
-     */
-    const QString getUuid() const;
-
-    /**
      * @brief color
      * @return
      */
@@ -80,13 +74,6 @@ public:
      */
     virtual Person* parentPerson() const;
     void setParentPerson(Person* parent);
-
-    /**
-     * @brief fill
-     * @param message
-     */
-    virtual void fill(NetworkMessageWriter& message, bool withAvatar= true)= 0;
-
     /**
      * @brief gives access to person's avatar.
      */
@@ -145,7 +132,6 @@ signals:
     void avatarPathChanged();
 
 protected:
-    QString m_uuid;
     QColor m_color;
     QImage m_avatar;
     QString m_avatarPath;

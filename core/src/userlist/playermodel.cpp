@@ -69,14 +69,14 @@ void convertVariantToType<CharacterState*>(CharacterState* const& val, NetworkMe
 Player* findPerson(const std::vector<std::unique_ptr<Player>>& data, Person* person)
 {
     auto it= std::find_if(data.begin(), data.end(), [person](const std::unique_ptr<Player>& player) {
-        bool val= ((player.get() == person) || (person->getUuid() == player->getUuid()));
+        bool val= ((player.get() == person) || (person->uuid() == player->uuid()));
 
         if(!val)
         {
             const auto& children= player->children();
             auto subIt
                 = std::find_if(children.begin(), children.end(), [person](const std::unique_ptr<Character>& character) {
-                      return (character.get() == person) || (person->getUuid() == character->getUuid());
+                      return (character.get() == person) || (person->uuid() == character->uuid());
                   });
             val= (subIt != children.end());
         }
@@ -88,14 +88,14 @@ Player* findPerson(const std::vector<std::unique_ptr<Player>>& data, Person* per
 bool contains(const std::vector<std::unique_ptr<Player>>& data, Person* person)
 {
     auto it= std::find_if(data.begin(), data.end(), [person](const std::unique_ptr<Player>& player) {
-        bool val= ((player.get() == person) || (person->getUuid() == player->getUuid()));
+        bool val= ((player.get() == person) || (person->uuid() == player->uuid()));
 
         if(!val)
         {
             const auto& children= player->children();
             auto subIt
                 = std::find_if(children.begin(), children.end(), [person](const std::unique_ptr<Character>& character) {
-                      return (character.get() == person) || (person->getUuid() == character->getUuid());
+                      return (character.get() == person) || (person->uuid() == character->uuid());
                   });
             val= (subIt != children.end());
         }
@@ -200,7 +200,7 @@ QVariant PlayerModel::data(const QModelIndex& index, int role) const
         break;
     }
     case IdentifierRole:
-        var= person->getUuid();
+        var= person->uuid();
         break;
     case PersonPtrRole:
         var= QVariant::fromValue(person);
@@ -361,7 +361,7 @@ QModelIndex PlayerModel::personToIndex(Person* person) const
 Player* PlayerModel::playerById(const QString& id) const
 {
     auto it= std::find_if(m_players.begin(), m_players.end(),
-                          [id](const std::unique_ptr<Player>& player) { return id == player->getUuid(); });
+                          [id](const std::unique_ptr<Player>& player) { return id == player->uuid(); });
     if(it == m_players.end())
         return nullptr;
     return (*it).get();
@@ -686,7 +686,7 @@ void PlayerModel::addPlayer(Player* player)
         return;
 
     auto it= std::find_if(m_players.begin(), m_players.end(), [player](const std::unique_ptr<Player>& t) {
-        return (t.get() == player || t->getUuid() == player->getUuid());
+        return (t.get() == player || t->uuid() == player->uuid());
     });
 
     if(it != m_players.end())

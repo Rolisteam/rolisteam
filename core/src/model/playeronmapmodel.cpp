@@ -52,7 +52,7 @@ QVariant PlayerOnMapModel::data(const QModelIndex& index, int role) const
             return false;
         auto realIndex= mapToSource(index);
         Person* person= static_cast<Person*>(realIndex.internalPointer());
-        return m_map->isVisiblePc(person->getUuid());
+        return m_map->isVisiblePc(person->uuid());
     }
     return QAbstractProxyModel::data(index, role);
 }

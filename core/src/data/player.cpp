@@ -216,7 +216,7 @@ bool Player::removeChild(ResourcesNode* node)
     if(nullptr == character)
         return false;
 
-    auto id= character->getUuid();
+    auto id= character->uuid();
     auto size= m_characters.size();
     m_characters.erase(
         std::remove_if(m_characters.begin(), m_characters.end(),

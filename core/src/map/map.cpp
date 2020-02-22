@@ -1023,7 +1023,7 @@ CharacterToken* Map::findCharacter(QString idPerso)
 
 void Map::toggleCharacterView(Character* character)
 {
-    QString uuid= character->getUuid();
+    QString uuid= character->uuid();
     bool newState= !isVisiblePc(uuid);
     if((!m_localIsPlayer) || (Core::PC_ALL == m_currentMode) || (Core::PC_MOVE == m_currentMode))
     {
@@ -1070,7 +1070,7 @@ bool Map::isVisiblePc(QString idPerso)
 
 void Map::addCharacter(Character* person)
 {
-    auto token= new CharacterToken(this, person->getUuid(), person->name(), person->getColor(), m_npcSize,
+    auto token= new CharacterToken(this, person->uuid(), person->name(), person->getColor(), m_npcSize,
                                    QPoint(m_backgroundImage->width() / 2, m_backgroundImage->height() / 2),
                                    CharacterToken::pj, false, m_showPcName);
 
@@ -1094,11 +1094,11 @@ void Map::delCharacter(Character* person)
     if(nullptr == person)
         return;
 
-    CharacterToken* pj= findCharacter(person->getUuid());
+    CharacterToken* pj= findCharacter(person->uuid());
     if(pj == nullptr)
     {
         qWarning() << tr("Person %s %s unknown in Carte::changePerson")
-                          .arg(qPrintable(person->getUuid()))
+                          .arg(qPrintable(person->uuid()))
                           .arg(qPrintable(person->name()));
         return;
     }

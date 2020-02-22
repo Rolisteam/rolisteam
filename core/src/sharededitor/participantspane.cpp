@@ -77,10 +77,10 @@ void ParticipantsPane::promoteCurrentItem()
         int i= m_model->promotePlayer(current);
         if(i >= 0)
         {
-            emit memberPermissionsChanged(player->getUuid(), i);
+            emit memberPermissionsChanged(player->uuid(), i);
             if(i == ParticipantModel::readOnly)
             {
-                emit memberCanNowRead(player->getUuid());
+                emit memberCanNowRead(player->uuid());
             }
         }
     }
@@ -104,10 +104,10 @@ void ParticipantsPane::demoteCurrentItem()
     int i= m_model->demotePlayer(current);
     if(i >= 0)
     {
-        emit memberPermissionsChanged(player->getUuid(), i);
+        emit memberPermissionsChanged(player->uuid(), i);
         if(i == ParticipantModel::hidden)
         {
-            emit closeMediaToPlayer(player->getUuid());
+            emit closeMediaToPlayer(player->uuid());
         }
     }
 }
@@ -116,15 +116,15 @@ bool ParticipantsPane::canWrite(Player* player)
 {
     if(player == nullptr)
         return false;
-    return (m_model->getPermissionFor(player->getUuid()) == ParticipantModel::readWrite);
+    return (m_model->getPermissionFor(player->uuid()) == ParticipantModel::readWrite);
 }
 
 bool ParticipantsPane::canRead(Player* player)
 {
     if(player == nullptr)
         return false;
-    bool readWrite= (m_model->getPermissionFor(player->getUuid()) == ParticipantModel::readWrite);
-    bool read= (m_model->getPermissionFor(player->getUuid()) == ParticipantModel::readOnly);
+    bool readWrite= (m_model->getPermissionFor(player->uuid()) == ParticipantModel::readWrite);
+    bool read= (m_model->getPermissionFor(player->uuid()) == ParticipantModel::readOnly);
     return read | readWrite;
 }
 

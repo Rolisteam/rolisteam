@@ -107,7 +107,7 @@ PlayerChat::~PlayerChat() {}
 
 QString PlayerChat::identifier() const
 {
-    return m_player->getUuid();
+    return m_player->uuid();
 }
 
 QString PlayerChat::name() const
@@ -137,7 +137,7 @@ NetworkMessage::RecipientMode PlayerChat::getRecipientMode() const
 
 QStringList PlayerChat::getRecipientList() const
 {
-    return (QStringList() << m_player->getUuid());
+    return (QStringList() << m_player->uuid());
 }
 
 /***************
@@ -281,7 +281,7 @@ QStringList PrivateChat::getRecipientList() const
     QStringList reciList;
     for(auto reci : m_set)
     {
-        reciList << reci->getUuid();
+        reciList << reci->uuid();
     }
     return reciList;
 }
@@ -290,7 +290,7 @@ void PrivateChat::sendUpdate() const
 {
     NetworkMessageWriter message(NetMsg::ChatCategory, NetMsg::UpdateChatAction);
     message.string8(m_uuid);
-    message.string8(m_owner->getUuid());
+    message.string8(m_owner->uuid());
     message.string16(m_name);
 
     quint8 size= m_set.size();
@@ -301,7 +301,7 @@ void PrivateChat::sendUpdate() const
     {
         if(player != nullptr)
         {
-            message.string8(player->getUuid());
+            message.string8(player->uuid());
             i++;
         }
     }

@@ -106,7 +106,7 @@ NetworkMessageWriter& SendFeaturesIterator::message()
     m_message.reset();
     if(m_player != nullptr)
     {
-        m_message.string8(m_player->getUuid());
+        m_message.string8(m_player->uuid());
         m_message.string8(key());
         m_message.uint8(value());
     }

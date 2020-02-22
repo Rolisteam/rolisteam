@@ -81,7 +81,7 @@ QModelIndex ParticipantModel::parent(const QModelIndex& index) const
     auto player= dynamic_cast<Player*>(person);
     if(nullptr != player)
     {
-        auto id= player->getUuid();
+        auto id= player->uuid();
         auto it= std::find_if(m_data.begin(), m_data.end(), [id](const std::pair<Permission, PermissionData*>& data) {
             return data.second->m_ids.contains(id);
         });
@@ -159,7 +159,7 @@ void ParticipantModel::addNewPlayer(Player* player)
     auto permData= m_data.at(hidden);
     auto parent= createIndex(hiddenInt, 0, permData);
     beginInsertRows(parent, permData->m_ids.size(), permData->m_ids.size());
-    permData->m_ids.append(player->getUuid());
+    permData->m_ids.append(player->uuid());
     endInsertRows();
 }
 
@@ -168,7 +168,7 @@ void ParticipantModel::removePlayer(Player* player)
     if(nullptr == player)
         return;
 
-    auto id= player->getUuid();
+    auto id= player->uuid();
 
     auto it= std::find_if(m_data.begin(), m_data.end(), [id](const std::pair<Permission, PermissionData*>& data) {
         return data.second->m_ids.contains(id);
@@ -291,8 +291,8 @@ void ParticipantModel::setPlayerInto(const QModelIndex& index, Permission level)
         return;
 
     beginMoveRows(parent, index.row(), index.row(), destParent, r);
-    it->second->m_ids.removeAll(player->getUuid());
-    perm->m_ids.append(player->getUuid());
+    it->second->m_ids.removeAll(player->uuid());
+    perm->m_ids.append(player->uuid());
     endMoveRows();
 }
 

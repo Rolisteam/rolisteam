@@ -31,23 +31,19 @@
 /**********
  * Person *
  **********/
-Person::Person() : m_uuid(QUuid::createUuid().toString()) {}
+Person::Person() {}
 
-Person::Person(const QString& name, const QColor& color) : m_uuid(QUuid::createUuid().toString()), m_color(color)
+Person::Person(const QString& name, const QColor& color) : m_color(color)
 {
     m_name= name;
 }
 
-Person::Person(const QString& uuid, const QString& name, const QColor& color) : m_uuid(uuid), m_color(color)
+Person::Person(const QString& uuid, const QString& name, const QColor& color) : ResourcesNode(uuid), m_color(color)
 {
     m_name= name;
 }
 
 Person::~Person() {}
-const QString Person::getUuid() const
-{
-    return m_uuid;
-}
 
 void Person::setName(const QString& name)
 {
@@ -155,7 +151,9 @@ void Person::setAvatarPath(const QString& avatarPath)
         return;
 
     m_avatarPath= avatarPath;
+    m_avatar=QImage(avatarPath);
     emit avatarPathChanged();
+    emit avatarChanged();
 }
 QString Person::avatarPath() const
 {
