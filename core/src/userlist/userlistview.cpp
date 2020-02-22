@@ -183,7 +183,7 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
     if(!(flags & Qt::ItemIsEditable) || tmpperso == nullptr)
         return;
 
-    auto uuid= tmpperso->getUuid();
+    auto uuid= tmpperso->uuid();
     auto charact= dynamic_cast<Character*>(tmpperso);
     QMenu popMenu(this);
 

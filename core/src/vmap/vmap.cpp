@@ -220,7 +220,7 @@ void VMap::setBackGroundColor(QColor bgcolor)
 
 void VMap::characterHasBeenDeleted(Character* character)
 {
-    QList<CharacterItem*> list= getCharacterOnMap(character->getUuid());
+    QList<CharacterItem*> list= getCharacterOnMap(character->uuid());
     for(CharacterItem* item : list)
     {
         removeItemFromScene(item->getId());
@@ -1285,10 +1285,10 @@ void VMap::ownerHasChangedForCharacterItem(Character* item, CharacterItem* cItem
     if(nullptr != item)
     {
         // Get all item with the key
-        QList<CharacterItem*> list= m_characterItemMap->values(item->getUuid());
+        QList<CharacterItem*> list= m_characterItemMap->values(item->uuid());
 
         // Remove them from the map
-        m_characterItemMap->remove(item->getUuid());
+        m_characterItemMap->remove(item->uuid());
         // remove the changed characterItem
         list.removeOne(cItem);
         // add the others

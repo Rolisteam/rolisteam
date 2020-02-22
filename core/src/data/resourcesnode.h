@@ -44,6 +44,7 @@ public:
         Chapter
     };
     ResourcesNode();
+    ResourcesNode(const QString& uuid);
     virtual ~ResourcesNode();
 
     QString uuid() const;

@@ -24,6 +24,8 @@
 
 ResourcesNode::ResourcesNode() : m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces)) {}
 
+ResourcesNode::ResourcesNode(const QString& uuid) : m_uuid(uuid) {}
+
 ResourcesNode::~ResourcesNode() {}
 
 QString ResourcesNode::uuid() const

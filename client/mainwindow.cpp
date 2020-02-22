@@ -1975,7 +1975,7 @@ void MainWindow::openGenericContent()
     for(auto const& path : list)
     {
         auto uri= new CleverURI(getShortNameFromPath(path), path,
-                                m_gameController->playerController()->localPlayer()->getUuid(), type);
+                                m_gameController->playerController()->localPlayer()->uuid(), type);
         contentCtrl->openMedia(uri);
     }
 }
@@ -1989,7 +1989,7 @@ void MainWindow::openOnlineImage()
     std::map<QString, QVariant> args({{QStringLiteral("pixmap"), dialog.getPixmap()}});
 
     auto uri= new CleverURI(dialog.getTitle(), dialog.getPath(),
-                            m_gameController->playerController()->localPlayer()->getUuid(), CleverURI::PICTURE);
+                            m_gameController->playerController()->localPlayer()->uuid(), CleverURI::PICTURE);
     m_gameController->contentController()->openMedia(uri, args);
 }
 
@@ -2008,7 +2008,7 @@ void MainWindow::openVMap()
     std::map<QString, QVariant> args({{QStringLiteral("permission"), permission}, {QStringLiteral("hidden"), hidden}});
 
     auto uri= new CleverURI(mapWizzard.getTitle(), filepath,
-                            m_gameController->playerController()->localPlayer()->getUuid(), CleverURI::VMAP);
+                            m_gameController->playerController()->localPlayer()->uuid(), CleverURI::VMAP);
     m_gameController->contentController()->openMedia(uri, args);
 
     QFileInfo info(mapWizzard.getFilepath());
@@ -2030,7 +2030,7 @@ void MainWindow::openMap()
     std::map<QString, QVariant> args({{QStringLiteral("permission"), permission}, {QStringLiteral("hidden"), hidden}});
 
     auto uri= new CleverURI(mapWizzard.getTitle(), filepath,
-                            m_gameController->playerController()->localPlayer()->getUuid(), CleverURI::MAP);
+                            m_gameController->playerController()->localPlayer()->uuid(), CleverURI::MAP);
     m_gameController->contentController()->openMedia(uri);
 
     QFileInfo info(mapWizzard.getFilepath());
@@ -2246,7 +2246,7 @@ void MainWindow::dropEvent(QDropEvent* event)
             CleverURI::ContentType type= getContentType(list.at(i).toLocalFile());
             qInfo() << QStringLiteral("MainWindow: dropEvent for %1").arg(CleverURI::typeToString(type));
             CleverURI* uri= new CleverURI(getShortNameFromPath(list.at(i).toLocalFile()), list.at(i).toLocalFile(),
-                                          m_gameController->playerController()->localPlayer()->getUuid(), type);
+                                          m_gameController->playerController()->localPlayer()->uuid(), type);
             // openCleverURI(uri, true);
         }
         event->acceptProposedAction();
