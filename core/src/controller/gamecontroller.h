@@ -88,7 +88,7 @@ signals:
     void localPlayerIdChanged();
     void localIsGMChanged(bool);
     void updateAvailableChanged();
-    void connectedChanged();
+    void connectedChanged(bool b);
     void remoteVersionChanged();
     void tipOfDayChanged();
 
@@ -116,7 +116,7 @@ public slots:
     /**
      * @brief authentified - the client is connected and authentified to the server.
      */
-    void authentified();
+    void authentified(bool b);
     /**
      * @brief aboutToClose - user want to close the application.
      */
