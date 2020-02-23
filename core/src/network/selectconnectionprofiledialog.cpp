@@ -222,6 +222,8 @@ void SelectConnectionProfileDialog::connectTo()
     if(m_passChanged)
         networkCtrl->setServerPassword(ui->m_passwordEdit->text().toUtf8());
 
+    auto profile= m_model->getProfile(m_currentProfileIndex);
+
     auto playerCtrl= m_ctrl->playerController();
     auto localPlayer= playerCtrl->localPlayer();
     localPlayer->setUuid(profile->playerId());
