@@ -236,13 +236,14 @@ int Channel::addChild(TreeItem* item)
             message->string8(tcp->playerId());
             sendToAll(message, tcp, true);
         });
+        // TODO make this connection as oneshot
+        connect(tcp, &TcpClient::playerInfoDefined, this, [this, tcp]() { updateNewClient(tcp); });
         if(tcp->isGM())
         {
             if(m_currentGm == nullptr)
                 setCurrentGM(tcp);
             sendOffGmStatus(tcp);
         }
-        updateNewClient(tcp);
     }
     else
     {
