@@ -109,7 +109,7 @@ public slots:
     void setUpdateAvailable(bool available);
     void startConnection(int profileIndex);
     void stopConnection();
-    void authentified(bool b);
+    void sendDataToServerAtConnection();
     void aboutToClose();
     void setLocalPlayerId(const QString& id);
 
