@@ -218,6 +218,7 @@ void TcpClient::setInfoPlayer(NetworkMessageReader* msg)
         auto name= m_player->name();
         setName(name);
         setId(m_player->uuid());
+        emit playerInfoDefined();
     }
 }
 

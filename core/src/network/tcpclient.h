@@ -155,6 +155,7 @@ signals:
     // properties signals
     void playerNameChanged();
     void playerIdChanged();
+    void playerInfoDefined();
 public slots:
     void receivingData();
     void forwardMessage();

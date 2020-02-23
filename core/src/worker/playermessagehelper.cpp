@@ -138,7 +138,7 @@ bool PlayerMessageHelper::readPlayer(NetworkMessageReader& msg, Player* player)
 {
     if(!msg.isValid() || nullptr == player)
     {
-        qWarning() << "Network message OUT OF MEMORY";
+        qWarning() << "Network message OUT OF MEMORY player";
         return false;
     }
 
@@ -149,6 +149,7 @@ bool PlayerMessageHelper::readPlayer(NetworkMessageReader& msg, Player* player)
     auto softVersion= msg.string16();
 
     // auto player= new Player(uuid, name, color, gameMaster);
+    qDebug() << player->name() << "new player name" << name;
     player->setUuid(uuid);
     player->setName(name);
     player->setColor(color);
@@ -163,6 +164,7 @@ bool PlayerMessageHelper::readPlayer(NetworkMessageReader& msg, Player* player)
     }
 
     int childCount= msg.int32();
+    qDebug() << "character count: " << childCount;
     for(int i= 0; (i < childCount && msg.isValid()); ++i)
     {
         try
@@ -178,7 +180,7 @@ bool PlayerMessageHelper::readPlayer(NetworkMessageReader& msg, Player* player)
     }
     if(!msg.isValid())
     {
-        qWarning() << "Network message OUT OF MEMORY";
+        qWarning() << "Network message OUT OF MEMORY player after character";
         return false;
     }
     QByteArray array= msg.byteArray32();
@@ -186,7 +188,11 @@ bool PlayerMessageHelper::readPlayer(NetworkMessageReader& msg, Player* player)
     in.setVersion(QDataStream::Qt_5_7);
     QMap<QString, quint8> features;
     in >> features;
-
+    for(auto key : features.keys())
+    {
+        auto value= features.value(key);
+        player->setFeature(key, value);
+    }
     return true;
 }
 
@@ -219,6 +225,7 @@ Character* PlayerMessageHelper::readCharacter(NetworkMessageReader& msg)
                  << " categoriy" << msg.category();
 
         auto avatar= QImage::fromData(byte, "PNG");
+        qDebug() << "avatar is null" << avatar.isNull() << character->name();
         character->setAvatar(avatar);
     }
 
