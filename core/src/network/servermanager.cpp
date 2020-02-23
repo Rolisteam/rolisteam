@@ -475,7 +475,6 @@ void ServerManager::sendOffModel(TcpClient* client)
     m_model->writeDataJson(obj);
     doc.setObject(obj);
 
-    qDebug() << "sending json channel model";
     msg->byteArray32(doc.toJson());
     QMetaObject::invokeMethod(client, "sendMessage", Qt::QueuedConnection,
                               Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
