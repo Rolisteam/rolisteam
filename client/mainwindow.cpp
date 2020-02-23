@@ -73,6 +73,7 @@
 #include "widgets/tipofdayviewer.h"
 #include "widgets/toolsbar.h"
 #include "widgets/workspace.h"
+
 #include "worker/messagehelper.h"
 #include "worker/playermessagehelper.h"
 
@@ -1545,9 +1546,6 @@ void MainWindow::cleanUpData()
 
 void MainWindow::postConnection()
 {
-
-    MessageHelper::sendOffPlayerInformations(m_gameController->playerController()->localPlayer());
-
     if(nullptr != m_preferences)
     {
         m_preferences->registerValue("isClient", true);
