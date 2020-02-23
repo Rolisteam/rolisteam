@@ -182,11 +182,6 @@ public:
      */
     virtual ~Character() override;
     /**
-     * @brief fill
-     * @param message
-     */
-    void fill(NetworkMessageWriter& message, bool addAvatar= true) override;
-    /**
      * @brief read
      * @param msg
      * @return parentId

@@ -496,41 +496,6 @@ CharacterState* Character::getStateFromIndex(int i)
     return nullptr;
 }
 
-void Character::fill(NetworkMessageWriter& message, bool addAvatar)
-{
-    message.string8(nullptr != m_parentPerson ? m_parentPerson->getUuid() : QStringLiteral("nullptr"));
-    message.string8(m_uuid);
-    message.string16(m_name);
-    message.string16(m_stateId);
-    message.uint8(static_cast<quint8>(m_isNpc));
-    message.int32(m_number);
-    message.rgb(m_color.rgb());
-    message.int32(m_healthPointsCurrent);
-    message.int32(m_healthPointsMin);
-    message.int32(m_healthPointsMax);
-    message.int32(m_initiativeScore);
-    message.string32(m_initiativeRoll.command());
-    message.real(m_distancePerTurn);
-    message.uint8(static_cast<quint8>(m_hasInitScore));
-
-    if(addAvatar)
-    {
-        message.uint8(static_cast<quint8>(!m_avatar.isNull()));
-        if(!m_avatar.isNull())
-        {
-            QByteArray baImage;
-            QBuffer bufImage(&baImage);
-            if(m_avatar.save(&bufImage, "PNG", 70))
-            {
-                message.byteArray32(baImage);
-            }
-        }
-    }
-    else
-    {
-        message.uint8(static_cast<quint8>(false));
-    }
-}
 QString Character::read(NetworkMessageReader& msg)
 {
     if(!msg.isValid())
