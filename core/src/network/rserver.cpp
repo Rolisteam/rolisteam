@@ -6,7 +6,6 @@
 RServer::RServer(ServerManager* serverMan, int threadCount, QObject* parent)
     : QTcpServer(parent), m_numberOfThread(threadCount), m_serverManager(serverMan)
 {
-    connect(this, &RServer::finished, m_serverManager, &ServerManager::close, Qt::QueuedConnection);
 }
 
 RServer::~RServer()
@@ -56,6 +55,7 @@ qint64 RServer::port()
 
 void RServer::incomingConnection(qintptr descriptor)
 {
+    qDebug() << "incomingConnection";
     TcpClient* connection= new TcpClient(nullptr, nullptr);
     accept(descriptor, connection);
 }

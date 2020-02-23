@@ -19,12 +19,19 @@
 class ServerManager : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(ServerState state READ state NOTIFY stateChanged)
+    Q_PROPERTY(ChannelModel* channelModel READ channelModel CONSTANT)
+    Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
+    Q_PROPERTY(int tryCount READ tryCount WRITE setTryCount NOTIFY tryCountChanged)
+
 public:
     enum ServerState
     {
+        Stopped,
         Listening,
-        Off
+        Error
     };
+    Q_ENUM(ServerState)
     enum Channels
     {
         Unique,
@@ -33,42 +40,49 @@ public:
 
     explicit ServerManager(QObject* parent= nullptr);
     ~ServerManager();
-    void sendMessage(NetworkMessage* msg);
-    int getPort() const;
-    ServerManager::ServerState getState() const;
-    void setState(const ServerManager::ServerState& state);
+
+    int port() const;
+    int tryCount() const;
+    ServerManager::ServerState state() const;
+    QVariant getValue(QString key) const;
+    ChannelModel* channelModel() const;
+
     void insertField(QString, QVariant, bool erase= true);
     void initServerManager();
-    QVariant getValue(QString key) const;
 
-    void setChannelPassword(QString chanId, QByteArray passwd);
 signals:
     void stateChanged(ServerManager::ServerState);
-    void sendLog(QString, LogController::LogLevel);
+    void errorOccured(QString, LogController::LogLevel);
     void messageMustBeDispatched(QByteArray array, Channel* channel, TcpClient* client);
-    void finished();
-    void listening();
+    void tryCountChanged();
+    void portChanged();
+
+    // multithreading socket
     void clientAccepted();
-    void closed();
 
 public slots:
+    // controller
     void startListening();
     void stopListening();
+    void quit();
+
+    // network
     void messageReceived(QByteArray);
-    void processMessageAdmin(NetworkMessageReader* msg, Channel* chan, TcpClient* tcp);
     void initClient();
+
+    // admin
+    void setState(const ServerManager::ServerState& state);
+    void processMessageAdmin(NetworkMessageReader* msg, Channel* chan, TcpClient* tcp);
     void sendOffAuthSuccessed();
     void sendOffAuthFail();
-    void quit();
     void accept(qintptr handle, TcpClient* connection, QThread* thread);
     void removeClient(TcpClient* socket);
-    void disconnected();
+    void disconnectedUser();
     void error(QAbstractSocket::SocketError socketError);
     void sendOffModel(TcpClient*);
     void sendOffModelToAll();
     void sendOffAdminAuthFail();
     void sendOffAdminAuthSuccessed();
-    void close();
 
     // Connection proccess tests
     void serverAcceptClient(TcpClient* client);
@@ -79,15 +93,23 @@ public slots:
     // memory
     void memoryChannelChanged(quint64);
 
+    // Accessors
+    void setPort(int p);
+    void setTryCount(int tryCount);
+    void setChannelPassword(QString chanId, QByteArray passwd);
+    // void sendMessage(NetworkMessage* msg);
+
 protected:
     void sendEventToClient(TcpClient* client, TcpClient::ConnectionEvent event);
     void kickClient(QString id, bool isAdmin, QString senderId);
     void banClient(QString id, bool isAdmin, QString senderId);
+    void closeAllConnections();
 
 private:
-    int m_port;
-    RServer* m_server= nullptr;
+    std::unique_ptr<RServer> m_server;
     std::unique_ptr<ChannelModel> m_model;
+
+    int m_port;
     ConnectionAccepter* m_corEndProcess= nullptr;
     ConnectionAccepter* m_corConnection= nullptr;
     ConnectionAccepter* m_adminAccepter= nullptr;
@@ -97,7 +119,7 @@ private:
 
     MessageDispatcher* m_msgDispatcher= nullptr;
     QHash<QTcpSocket*, TcpClient*> m_connections;
-    ServerState m_state= Off;
+    ServerState m_state= Stopped;
     int m_tryCount= 0;
 };
 

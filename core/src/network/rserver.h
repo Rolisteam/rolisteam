@@ -19,14 +19,14 @@ class RServer : public QTcpServer
     Q_OBJECT
 public:
     explicit RServer(ServerManager* serverMan, int threadCount, QObject* parent= nullptr);
-    virtual ~RServer();
+    virtual ~RServer() override;
 
     virtual bool listen(const QHostAddress& address, quint16 port);
     virtual void terminate();
     virtual qint64 port();
 
 protected:
-    virtual void incomingConnection(qintptr descriptor); // qint64, qHandle, qintptr, uint
+    virtual void incomingConnection(qintptr descriptor) override; // qint64, qHandle, qintptr, uint
     virtual void accept(qintptr descriptor, TcpClient* connection);
 
 signals:
@@ -38,8 +38,8 @@ public slots:
 
 protected:
     QList<QPair<QThread*, int>> m_threadPool;
-    int m_numberOfThread;
-    ServerManager* m_serverManager;
-    ConnectionAccepter* m_corConnection;
+    int m_numberOfThread= 0;
+    ServerManager* m_serverManager= nullptr;
+    ConnectionAccepter* m_corConnection= nullptr;
 };
 #endif // RSERVER_H
