@@ -1,0 +1,141 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Language: it_IT\n"
+"X-Qt-Contexts: true\n"
+
+#: ../client/network/channelmodel.cpp:112
+msgctxt "ChannelModel|"
+msgid "Bytes"
+msgstr ""
+
+#: ../client/network/channelmodel.cpp:112
+msgctxt "ChannelModel|"
+msgid "KiB"
+msgstr ""
+
+#: ../client/network/channelmodel.cpp:112
+msgctxt "ChannelModel|"
+msgid "MiB"
+msgstr ""
+
+#: ../client/network/channelmodel.cpp:465
+msgctxt "ChannelModel|"
+msgid "Channel Password"
+msgstr "La Password Del Canale"
+
+#: ../client/network/channelmodel.cpp:466
+#, qt-format
+msgctxt "ChannelModel|"
+msgid "Channel %1 required password:"
+msgstr "Canale %1 richiesta password:"
+
+#: ../client/data/character.cpp:603
+#, qt-format
+msgctxt "Character|"
+msgid ""
+"%1:\n"
+"HP: %2/%3\n"
+"State: %4\n"
+"Initiative Score: %5\n"
+"Distance Per Turn: %6\n"
+"type: %7\n"
+msgstr ""
+"%1:\n"
+"HP: %2/%3\n"
+"Stato: %4\n"
+"Iniziativa Punteggio: %5\n"
+"Passi Per Giro: %6\n"
+"tipo: %7\n"
+
+#: ../client/data/character.cpp:609
+msgctxt "Character|"
+msgid "Not defined"
+msgstr "Non definito"
+
+#: ../client/data/character.cpp:619
+msgctxt "Character|"
+msgid "NPC"
+msgstr "NPC"
+
+#: ../client/data/character.cpp:619
+msgctxt "Character|"
+msgid "PC"
+msgstr "PC"
+
+#: ../client/data/character.cpp:765
+msgctxt "Character|"
+msgid "Initiative"
+msgstr "Iniziativa"
+
+#: ../server/main.cpp:94
+msgctxt "QObject|"
+msgid "Unknown"
+msgstr "Sconosciuto"
+
+#: ../server/main.cpp:113
+msgctxt "QObject|"
+msgid "Set the path to configuration file [mandatory]"
+msgstr "Impostare il percorso per il file di configurazione [obbligatorio]"
+
+#: ../server/main.cpp:116
+msgctxt "QObject|"
+msgid "Print a default configuration file into Standard output"
+msgstr "Stampa di un file di configurazione di default in uscita Standard"
+
+#: ../server/main.cpp:119
+msgctxt "QObject|"
+msgid "Ask for password and return its hash key."
+msgstr "Chiedere la password e restituire la chiave hash."
+
+#: ../client/network/servermanager.cpp:88
+msgctxt "ServerManager|"
+msgid "Rolisteam Server is on!"
+msgstr "Rolisteam Server!"
+
+#: ../client/network/servermanager.cpp:96
+#, qt-format
+msgctxt "ServerManager|"
+msgid "Retry start server in %1s!"
+msgstr "Tentativi di avviare il server in %1s!"
+
+#: ../client/network/servermanager.cpp:102
+msgctxt "ServerManager|"
+msgid "Retry count reached. Server stops trying."
+msgstr "Numero di tentativi raggiunto. Server smette di cercare."
+
+#: ../client/network/servermanager.cpp:268
+#, qt-format
+msgctxt "ServerManager|"
+msgid "Authentification as Admin fails: %2 - %1, Wrong password."
+msgstr ""
+"Autenticazione come Amministratore si verifica un errore: %2 - %1, password "
+"Errata."
+
+#: ../client/network/servermanager.cpp:294
+#, qt-format
+msgctxt "ServerManager|"
+msgid ""
+"Authentification fails: %1 try to connect to the server with wrong password."
+msgstr ""
+"Autenticazione ha esito negativo: %1 tenta di connettersi al server con una "
+"password errata."
+
+#: ../client/network/servermanager.cpp:312
+#, qt-format
+msgctxt "ServerManager|"
+msgid "User has been kick out: %2 - %1."
+msgstr "L'utente è stato kick out: %2 - %1."
+
+#: ../client/network/servermanager.cpp:511
+msgctxt "ServerManager|"
+msgid "New Incoming Connection!"
+msgstr "Nuova Connessione In Ingresso!"
+
+#: ../client/network/servermanager.cpp:552
+msgctxt "ServerManager|"
+msgid "Disconnected!"
+msgstr "Scollegato!"
