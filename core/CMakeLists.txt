@@ -307,6 +307,7 @@ set(HEADERS
     src/widgets/tipofdayviewer.h
     src/widgets/toolsbar.h
     src/worker/messagehelper.h
+    src/worker/playermessagehelper.h
     src/worker/modelhelper.h
     src/worker/iohelper.h
     )
@@ -594,6 +595,7 @@ set(SOURCES
     src/widgets/toolsbar.cpp
     src/worker/messagehelper.cpp
     src/worker/modelhelper.cpp
+    src/worker/playermessagehelper.cpp
     )
 
 
@@ -639,8 +641,7 @@ add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES})
 qt5_use_modules(core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets Xml WebEngineWidgets Concurrent)
 #target_link_libraries(core PUBLIC  Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets)
 
-set(Network_HEADER
-    src/network/rolisteamdaemon.h
+set(Network_HEADER    
     src/network/channelmodel.h
     src/network/tcpclient.h
     src/network/servermanager.h
@@ -654,19 +655,21 @@ set(Network_HEADER
     src/network/networkmessage.h
     src/network/networkmessagereader.h
     src/network/networkmessagewriter.h
+    src/worker/messagehelper.h
     src/network/rserver.h
     src/network/messagedispatcher.h
     src/network/receiveevent.h
+    src/data/features.h
     src/data/person.h
     src/data/player.h
     src/data/character.h
     src/data/characterstate.h
     src/data/resourcesnode.h
+    src/worker/playermessagehelper.h
     src/common/controller/logcontroller.h)
 
 
 set(Network_SRC
-    src/network/rolisteamdaemon.cpp
     src/network/channelmodel.cpp
     src/network/tcpclient.cpp
     src/network/servermanager.cpp
@@ -677,6 +680,7 @@ set(Network_SRC
     src/network/timeaccepter.cpp
     src/network/channel.cpp
     src/network/treeitem.cpp
+    src/worker/messagehelper.h
     src/network/networkmessage.cpp
     src/network/networkmessagereader.cpp
     src/network/networkmessagewriter.cpp
@@ -685,9 +689,11 @@ set(Network_SRC
     src/network/receiveevent.cpp
     src/data/person.cpp
     src/data/player.cpp
+    src/data/features.cpp
     src/data/character.cpp
     src/data/characterstate.cpp
     src/data/resourcesnode.cpp
+    src/worker/playermessagehelper.cpp
     src/common/controller/logcontroller.cpp
     )
 
