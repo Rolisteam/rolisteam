@@ -1,0 +1,33 @@
+@startuml
+GM1 -> Server : start()
+GM1 -> GM1 : ClientManager::ConnectingState
+GM1 -> Server : connectTo()
+Server --> GM1 : ok
+GM1 -> GM1 : ClientManager::ConnectedState
+GM1 -> Server : sendConnectionInfo()
+alt authentification failed
+  Server -> GM1 : sendAuthentificationFailed
+  GM1 -> GM1 : ClientManager::DisconnectState
+else authentification successed
+  Server ->  GM1 :  sendAuthentificationSuccessed
+  GM1 -> GM1 : ClientManager::AuthentifiedState
+  GM1 -> Server: DiceAliasModel
+  GM1 -> Server: CharacterStateModel
+  GM1 -> Server: PlayerInformation
+  Player1 -> Player1 : ClientManager::ConnectingState
+  Player1 -> Server : connectTo()
+  Server --> Player1 : ok
+  Player1 -> Player1 : ClientManager::ConnectedState
+  Player1 -> Server : sendConnectionInfo()
+  alt authentification failed
+    Server -> Player1 : sendAuthentificationFailed
+    Player1 -> Player1 : ClientManager::DisconnectState
+  else authentification successed
+    Server ->  Player1 :  sendAuthentificationSuccessed
+    Player1 -> Player1 : ClientManager::AuthentifiedState
+    Player1 -> Server: PlayerInformation
+    Server -> Player1: [Info about GM1]
+    Server -> GM1: [Info about Player1]
+  end
+end
+@enduml
