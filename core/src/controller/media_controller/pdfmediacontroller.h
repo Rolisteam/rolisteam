@@ -20,6 +20,9 @@
 #ifndef PDFMEDIACONTROLLER_H
 #define PDFMEDIACONTROLLER_H
 
+#include <memory>
+#include <vector>
+
 #include "mediacontrollerinterface.h"
 
 class PdfController;

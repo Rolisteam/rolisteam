@@ -19,15 +19,20 @@
  ***************************************************************************/
 #include "networkcontroller.h"
 
+#include <QMetaObject>
+#include <QThread>
+
 #include "controller/gamecontroller.h"
 #include "controller/playercontroller.h"
 #include "model/profilemodel.h"
 #include "network/clientmanager.h"
+#include "network/networkmessage.h"
+#include "network/receiveevent.h"
 #include "network/servermanager.h"
 #include "services/ipchecker.h"
 #include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
-#include <QThread>
+#include "worker/playermessagehelper.h"
 
 NetworkController::NetworkController(QObject* parent)
     : AbstractControllerInterface(parent), m_clientManager(new ClientManager), m_profileModel(new ProfileModel)

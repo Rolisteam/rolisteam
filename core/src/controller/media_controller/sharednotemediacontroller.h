@@ -20,6 +20,9 @@
 #ifndef SHAREDNOTEMEDIACONTROLLER_H
 #define SHAREDNOTEMEDIACONTROLLER_H
 
+#include <memory>
+#include <vector>
+
 #include "mediacontrollerinterface.h"
 
 class SharedNoteController;

@@ -30,8 +30,6 @@
 #include "network/networkmessage.h"
 #include "networkreceiver.h"
 
-class Map;
-
 /**
  * @brief The NetworkLink class to the server [Client side]
  */
