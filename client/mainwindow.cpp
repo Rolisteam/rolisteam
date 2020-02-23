@@ -169,13 +169,13 @@ MainWindow::MainWindow(const QStringList& args)
 
     connect(m_gameController->contentController(), &ContentController::sessionChanged, this,
             &MainWindow::setWindowModified);
-    connect(m_gameController->networkController(), &NetworkController::connectedChanged, this, [this](bool conncted) {
-        if(conncted)
+    connect(m_gameController->networkController(), &NetworkController::connectedChanged, this, [this](bool connected) {
+        if(connected)
             postConnection();
-        m_dialog->setVisible(!conncted);
+        m_dialog->setVisible(!connected);
         updateWindowTitle();
-        m_ui->m_changeProfileAct->setEnabled(conncted);
-        m_ui->m_disconnectAction->setEnabled(conncted);
+        m_ui->m_changeProfileAct->setEnabled(connected);
+        m_ui->m_disconnectAction->setEnabled(connected);
     });
     // connect(m_sessionManager, &SessionManager::openResource, this, &MainWindow::openResource);
 
