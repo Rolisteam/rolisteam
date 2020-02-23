@@ -24,10 +24,20 @@
 #include "data/player.h"
 #include "model/charactermodel.h"
 #include "model/playeronmapmodel.h"
+#include "network/receiveevent.h"
 #include "preferences/characterstatemodel.h"
 #include "undoCmd/addlocalcharactercommand.h"
 #include "undoCmd/removelocalcharactercommand.h"
 #include "userlist/playermodel.h"
+#include "worker/messagehelper.h"
+#include "worker/playermessagehelper.h"
+
+void addPlayerToModel(PlayerModel* model, NetworkMessageReader* msg)
+{
+    Player* player= new Player();
+    PlayerMessageHelper::readPlayer(*msg, player);
+    model->addPlayer(player);
+}
 
 PlayerController::PlayerController(QObject* parent)
     : AbstractControllerInterface(parent)
@@ -36,6 +46,7 @@ PlayerController::PlayerController(QObject* parent)
     , m_characterModel(new CharacterModel)
     , m_localPlayer(new Player)
 {
+    ReceiveEvent::registerNetworkReceiver(NetMsg::PlayerCategory, this);
     m_playerOnMapModel->setSourceModel(m_model.get());
     m_characterModel->setSourceModel(m_model.get());
 }
@@ -47,9 +58,38 @@ void PlayerController::clear()
     m_model->clear();
 }
 
+NetWorkReceiver::SendType PlayerController::processMessage(NetworkMessageReader* msg)
+{
+    NetWorkReceiver::SendType type= NetWorkReceiver::AllExceptSender;
+    switch(msg->action())
+    {
+    case NetMsg::PlayerConnectionAction:
+        addPlayerToModel(m_model.get(), msg);
+        break;
+    case NetMsg::DelPlayerAction:
+        removePlayerById(MessageHelper::readPlayerId(*msg));
+        break;
+    case NetMsg::ChangePlayerProperty:
+        MessageHelper::updatePerson(*msg, m_model.get());
+        break;
+    default:
+        break;
+    }
+    return type;
+}
+#include <QtDebug>
 void PlayerController::setGameController(GameController* gameCtrl)
 {
     auto prefsCtrl= gameCtrl->preferencesController();
+
+    connect(gameCtrl, &GameController::connectedChanged, this, [this](bool b) {
+        qDebug() << "setGameController connectedChanged" << b;
+        if(b)
+            PlayerMessageHelper::sendOffPlayerInformations(localPlayer());
+        else
+            m_model->clear();
+    });
+
     m_characterStateModel= prefsCtrl->characterStateModel();
     emit characterStateModelChanged();
 }

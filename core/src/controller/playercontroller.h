@@ -26,6 +26,7 @@
 #include <memory>
 
 #include "controllerinterface.h"
+#include "network/networkreceiver.h"
 
 class Player;
 class Character;
@@ -35,7 +36,7 @@ class LocalModel;
 class PlayerOnMapModel;
 class CharacterStateModel;
 class CharacterModel;
-class PlayerController : public AbstractControllerInterface
+class PlayerController : public AbstractControllerInterface, public NetWorkReceiver
 {
     Q_OBJECT
     Q_PROPERTY(QAbstractItemModel* model READ model CONSTANT)
@@ -57,6 +58,8 @@ public:
     void setGameController(GameController*) override;
     void clear();
 
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+
 signals:
     void localPlayerChanged();
     void characterStateModelChanged();
@@ -69,6 +72,9 @@ public slots:
 
     void addLocalCharacter();
     void removeLocalCharacter(const QModelIndex& index);
+
+private:
+    void removePlayerById(const QString& id);
 
 private:
     std::unique_ptr<PlayerModel> m_model;
