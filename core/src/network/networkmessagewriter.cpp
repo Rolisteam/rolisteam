@@ -25,9 +25,9 @@
 //#include "network/networkmanager.h"
 #include <QDebug>
 
-NetworkMessageWriter::NetworkMessageWriter(
-    NetMsg::Category category, NetMsg::Action action, NetworkMessage::RecipientMode mode, int size)
-    : NetworkMessage(nullptr), m_mode(mode)
+NetworkMessageWriter::NetworkMessageWriter(NetMsg::Category category, NetMsg::Action action,
+                                           NetworkMessage::RecipientMode mode, int size)
+    : NetworkMessage(), m_mode(mode)
 {
     int headerSize= sizeof(NetworkMessageHeader);
 
@@ -54,7 +54,7 @@ NetworkMessageWriter::~NetworkMessageWriter()
 {
     delete[] m_buffer;
 }
-int NetworkMessageWriter::getDataSize()
+int NetworkMessageWriter::getDataSize() const
 {
     return m_currentPos - m_begin;
 }
@@ -74,7 +74,7 @@ void NetworkMessageWriter::reset()
     uint8(static_cast<quint8>(m_mode));
 }
 
-NetworkMessageHeader* NetworkMessageWriter::buffer()
+NetworkMessageHeader* NetworkMessageWriter::buffer() const
 {
     m_header->dataSize= getDataSize();
     return m_header;
@@ -250,11 +250,6 @@ QStringList NetworkMessageWriter::getRecipientList() const
 NetworkMessage::RecipientMode NetworkMessageWriter::getRecipientMode() const
 {
     return m_mode;
-}
-
-void NetworkMessageWriter::sendToServer()
-{
-    NetworkMessage::sendToServer();
 }
 
 QByteArray NetworkMessageWriter::getData()

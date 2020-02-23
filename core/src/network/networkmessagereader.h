@@ -32,12 +32,12 @@ public:
     NetworkMessageReader();
     NetworkMessageReader(const NetworkMessageHeader& header, const char* buffer);
     NetworkMessageReader(const NetworkMessageReader& other);
-    virtual ~NetworkMessageReader();
+    virtual ~NetworkMessageReader() override;
 
     bool isValid();
 
-    NetMsg::Category category() const;
-    NetMsg::Action action() const;
+    NetMsg::Category category() const override;
+    NetMsg::Action action() const override;
 
     void reset();
 
@@ -75,14 +75,14 @@ public:
     /////////////////////////////////
     void readRecipient();
 
-    NetworkMessage::RecipientMode getRecipientMode() const;
+    NetworkMessage::RecipientMode getRecipientMode() const override;
 
-    virtual QStringList getRecipientList() const;
+    virtual QStringList getRecipientList() const override;
 
     void setInternalData(const QByteArray& bytes);
 
 protected:
-    NetworkMessageHeader* buffer();
+    NetworkMessageHeader* buffer() const override;
     bool isSizeReadable(size_t size);
 
 private:

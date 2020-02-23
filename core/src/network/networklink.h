@@ -33,7 +33,7 @@
 /**
  * @brief The NetworkLink class to the server [Client side]
  */
-class NetworkLink : public QObject
+class NetworkLink : public QObject, public MessageSenderInterface
 {
     Q_OBJECT
 
@@ -87,6 +87,7 @@ public slots:
     void connectTo(const QString& host, int port);
     void sendData(NetworkMessage* msg);
     void processAdminstrationMessage(NetworkMessageReader* msg);
+    void sendMessage(const NetworkMessage* msg) override;
 signals:
     /**
      * @brief readDataReceived

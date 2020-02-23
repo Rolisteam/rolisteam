@@ -96,26 +96,12 @@ void NetworkLink::sendData(char* data, quint32 size)
     }
 }
 
-void NetworkLink::sendData(NetworkMessage* msg)
+void NetworkLink::sendMessage(const NetworkMessage* msg)
 {
-    if(nullptr == m_socketTcp)
-    {
-        emit errorMessage(tr("Socket is null"));
+    if(!m_connected)
         return;
-    }
-    if(!m_socketTcp->isWritable())
-    {
-        emit errorMessage(tr("Socket is not writable"));
-        return;
-    }
-    // if (but != this)
-    {
-        qint64 t= m_socketTcp->write(reinterpret_cast<char*>(msg->buffer()), static_cast<qint64>(msg->getSize()));
-        if(t < 0)
-        {
-            emit errorMessage(tr("Tranmission error :") + m_socketTcp->errorString());
-        }
-    }
+
+    sendData(reinterpret_cast<char*>(msg->buffer()), static_cast<qint64>(msg->getSize()));
 }
 
 void NetworkLink::receivingData()

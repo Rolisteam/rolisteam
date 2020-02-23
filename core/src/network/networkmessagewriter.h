@@ -31,11 +31,11 @@ class NetworkMessageWriter : public NetworkMessage
 {
 public:
     NetworkMessageWriter(NetMsg::Category categorie, NetMsg::Action action,
-        NetworkMessage::RecipientMode mode= NetworkMessage::All, int size= 128);
-    virtual ~NetworkMessageWriter();
+                         NetworkMessage::RecipientMode mode= NetworkMessage::All, int size= 128);
+    virtual ~NetworkMessageWriter() override;
 
-    NetMsg::Category category() const;
-    NetMsg::Action action() const;
+    NetMsg::Category category() const override;
+    NetMsg::Action action() const override;
 
     void reset();
 
@@ -52,7 +52,7 @@ public:
 
     void rgb(unsigned int color);
 
-    int getDataSize();
+    int getDataSize() const;
 
     void int8(qint8 data);
     void int16(qint16 data);
@@ -60,15 +60,14 @@ public:
     void int64(qint64 data);
 
     void real(qreal data);
-    void sendToServer();
 
     /**
      * @brief getRecipientList
      * @return
      */
     void setRecipientList(QStringList, NetworkMessage::RecipientMode mode);
-    virtual QStringList getRecipientList() const;
-    NetworkMessage::RecipientMode getRecipientMode() const;
+    virtual QStringList getRecipientList() const override;
+    NetworkMessage::RecipientMode getRecipientMode() const override;
 
     /**
      * @brief getData - for testing only
@@ -77,7 +76,7 @@ public:
     QByteArray getData();
 
 protected:
-    NetworkMessageHeader* buffer();
+    NetworkMessageHeader* buffer() const override;
 
 private:
     NetworkMessageHeader* m_header;

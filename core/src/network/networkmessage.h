@@ -191,6 +191,15 @@ enum Action
     UpdateContent= 0
 };
 } // namespace NetMsg
+
+class NetworkMessage;
+class MessageSenderInterface
+{
+public:
+    virtual ~MessageSenderInterface();
+    virtual void sendMessage(const NetworkMessage* msg)= 0;
+};
+
 /**
  * @brief The NetworkMessage class is pure virtual class to manage network message.
  */
@@ -202,56 +211,20 @@ public:
         All,
         OneOrMany
     };
-    /**
-     * @brief NetworkMessage
-     * @param server
-     */
-    explicit NetworkMessage(NetworkLink* server= nullptr);
-    /**
-     * @brief ~NetworkMessage
-     */
+    explicit NetworkMessage();
     virtual ~NetworkMessage();
-    /**
-     * @brief sendTo
-     * @param link
-     */
-    // void sendTo(NetworkLink * link);
-    /**
-     * @brief sendAll
-     * @param butLink
-     */
     virtual void sendToServer();
-    /**
-     * @brief category
-     * @return
-     */
-
     virtual NetMsg::Category category() const= 0;
-    /**
-     * @brief action
-     * @return
-     */
     virtual NetMsg::Action action() const= 0;
-    /**
-     * @brief setLinkToServer
-     * @param server
-     */
     void setLinkToServer(NetworkLink* server);
     virtual NetworkMessage::RecipientMode getRecipientMode() const= 0;
     virtual QStringList getRecipientList() const= 0;
+    quint64 getSize() const;
+    virtual NetworkMessageHeader* buffer() const= 0;
 
-    /**
-     * @brief getSize
-     * @return
-     */
-    quint64 getSize();
-    /**
-     * @brief buffer
-     * @return
-     */
-    virtual NetworkMessageHeader* buffer()= 0;
+    static void setMessageSender(MessageSenderInterface*);
 
 protected:
-    NetworkLink* m_linkToServer;
+    static MessageSenderInterface* m_sender;
 };
 #endif
