@@ -27,32 +27,34 @@
 #include "network/networklink.h"
 #endif
 
-NetworkMessage::NetworkMessage(NetworkLink* linkToServer) : m_linkToServer(linkToServer) {}
+MessageSenderInterface* NetworkMessage::m_sender= nullptr;
+
+MessageSenderInterface::~MessageSenderInterface()= default;
+
+NetworkMessage::NetworkMessage() {}
 
 NetworkMessage::~NetworkMessage() {}
 
 void NetworkMessage::sendToServer()
 {
-    // NetworkMessageHeader* header = buffer();
 #ifndef UNIT_TEST
-    m_linkToServer= ClientManager::getLinkToServer();
-    if(nullptr != m_linkToServer)
-    {
-        // m_linkToServer->sendData(reinterpret_cast<char*>(header), header->dataSize + sizeof(NetworkMessageHeader));
-        m_linkToServer->sendData(this);
-    }
+    if(nullptr == m_sender)
+        return;
+
+    m_sender->sendMessage(this);
 #endif
 }
-quint64 NetworkMessage::getSize()
+
+quint64 NetworkMessage::getSize() const
 {
-    if(buffer() != nullptr)
-    {
-        NetworkMessageHeader* header= buffer();
-        return header->dataSize + sizeof(NetworkMessageHeader);
-    }
-    return 0;
+    if(buffer() == nullptr)
+        return 0;
+
+    NetworkMessageHeader* header= buffer();
+    return header->dataSize + sizeof(NetworkMessageHeader);
 }
-void NetworkMessage::setLinkToServer(NetworkLink* linkToServer)
+
+void NetworkMessage::setMessageSender(MessageSenderInterface* sender)
 {
-    m_linkToServer= linkToServer;
+    m_sender= sender;
 }

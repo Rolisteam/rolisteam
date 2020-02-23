@@ -20,10 +20,9 @@
 
 #include "network/networkmessagereader.h"
 
-NetworkMessageReader::NetworkMessageReader() : NetworkMessage(nullptr) {}
+NetworkMessageReader::NetworkMessageReader() : NetworkMessage() {}
 
-NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader& header, const char* buffer)
-    : NetworkMessage(nullptr)
+NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader& header, const char* buffer) : NetworkMessage()
 {
     size_t headerSize= sizeof(NetworkMessageHeader);
     m_buffer= new char[header.dataSize + headerSize];
@@ -39,7 +38,7 @@ NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader& header, c
     readRecipient();
 }
 
-NetworkMessageReader::NetworkMessageReader(const NetworkMessageReader& other) : NetworkMessage(nullptr)
+NetworkMessageReader::NetworkMessageReader(const NetworkMessageReader& other) : NetworkMessage()
 {
     size_t size= other.m_end - reinterpret_cast<char*>(other.m_header);
     char* copy= new char[size];
@@ -101,7 +100,7 @@ NetMsg::Action NetworkMessageReader::action() const
     return NetMsg::Action(m_header->action);
 }
 
-NetworkMessageHeader* NetworkMessageReader::buffer()
+NetworkMessageHeader* NetworkMessageReader::buffer() const
 {
     return m_header;
 }
