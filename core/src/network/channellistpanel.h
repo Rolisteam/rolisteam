@@ -4,13 +4,14 @@
 #include <QWidget>
 #include <memory>
 
+#include "controller/networkcontroller.h"
 #include "network/channelmodel.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
 namespace Ui
 {
-    class ChannelListPanel;
+class ChannelListPanel;
 }
 
 class ChannelListPanel : public QWidget
@@ -26,7 +27,7 @@ public:
     };
     Q_DECLARE_FLAGS(Groups, Group)
 
-    explicit ChannelListPanel(QWidget* parent= nullptr);
+    explicit ChannelListPanel(NetworkController* ctrl, QWidget* parent= nullptr);
     virtual ~ChannelListPanel();
 
     void processMessage(NetworkMessageReader* msg);
@@ -73,7 +74,7 @@ protected slots:
 
 private:
     Ui::ChannelListPanel* ui;
-    std::unique_ptr<ChannelModel> m_model= nullptr;
+    QPointer<NetworkController> m_ctrl;
 
     QAction* m_edit= nullptr;
     QAction* m_lock= nullptr;

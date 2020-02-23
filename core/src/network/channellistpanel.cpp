@@ -12,11 +12,11 @@
 #include "preferences/preferencesmanager.h"
 #include "tcpclient.h"
 
-ChannelListPanel::ChannelListPanel(QWidget* parent)
-    : QWidget(parent), ui(new Ui::ChannelListPanel), m_model(new ChannelModel), m_currentGroups(VIEWER)
+ChannelListPanel::ChannelListPanel(NetworkController* ctrl, QWidget* parent)
+    : QWidget(parent), ui(new Ui::ChannelListPanel), m_ctrl(ctrl), m_currentGroups(VIEWER)
 {
     ui->setupUi(this);
-    ui->m_channelView->setModel(m_model.get());
+    ui->m_channelView->setModel(m_ctrl->channelModel());
     ui->m_channelView->setAlternatingRowColors(true);
     ui->m_channelView->setHeaderHidden(true);
     ui->m_channelView->setAcceptDrops(true);
@@ -28,7 +28,8 @@ ChannelListPanel::ChannelListPanel(QWidget* parent)
     ui->m_channelView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     connect(ui->m_channelView, &QTreeView::customContextMenuRequested, this, &ChannelListPanel::showCustomMenu);
-    connect(m_model.get(), &ChannelModel::localPlayerGMChanged, this, &ChannelListPanel::CurrentChannelGmIdChanged);
+    connect(m_ctrl->channelModel(), &ChannelModel::localPlayerGMChanged, this,
+            &ChannelListPanel::CurrentChannelGmIdChanged);
 
     m_edit= new QAction(tr("Edit Channel"), this);
     m_lock= new QAction(tr("Lock/Unlock Channel"), this);
@@ -79,7 +80,7 @@ void ChannelListPanel::processMessage(NetworkMessageReader* msg)
         if(!doc.isEmpty())
         {
             QJsonObject obj= doc.object();
-            m_model->readDataJson(obj);
+            // m_model->readDataJson(obj);
         }
     }
     break;
@@ -108,7 +109,7 @@ void ChannelListPanel::sendOffModel()
     NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::SetChannelList);
     QJsonDocument doc;
     QJsonObject obj;
-    m_model->writeDataJson(obj);
+    // m_model->writeDataJson(obj);
     doc.setObject(obj);
 
     msg.byteArray32(doc.toJson());
@@ -228,7 +229,7 @@ void ChannelListPanel::kickUser()
                 return;
 
             QString id= item->getId();
-            QString idPlayer= item->getPlayerId();
+            QString idPlayer= item->playerId();
             if(!id.isEmpty())
             {
                 NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::Kicked);
@@ -292,7 +293,7 @@ void ChannelListPanel::banUser()
         {
             TcpClient* item= getClient(m_index); /// static_cast<TcpClient*>(m_index.internalPointer());
             QString id= item->getId();
-            QString idPlayer= item->getPlayerId();
+            QString idPlayer= item->playerId();
             if(!id.isEmpty())
             {
                 NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::BanUser);
@@ -330,53 +331,53 @@ void ChannelListPanel::sendOffLoginAdmin(QByteArray str)
 }
 void ChannelListPanel::addChannel()
 {
-    if(isAdmin())
-    {
-        Channel* newChannel= new Channel(tr("New Channel"));
+    /*  if(isAdmin())
+      {
+          Channel* newChannel= new Channel(tr("New Channel"));
 
-        Channel* parent= getChannel(m_index);
+          Channel* parent= getChannel(m_index);
 
-        QModelIndex justAdded= m_model->addChannelToIndex(newChannel, m_index);
-        ui->m_channelView->edit(justAdded);
+          QModelIndex justAdded= m_model->addChannelToIndex(newChannel, m_index);
+          ui->m_channelView->edit(justAdded);
 
-        if(nullptr != parent)
-        {
-            QString parentId= parent->getId();
-            if(!parentId.isEmpty())
-            {
-                NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::AddChannel);
-                msg.string8(parentId);
-                newChannel->fill(msg);
-                msg.sendToServer();
-            }
-        }
-    }
+          if(nullptr != parent)
+          {
+              QString parentId= parent->getId();
+              if(!parentId.isEmpty())
+              {
+                  NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::AddChannel);
+                  msg.string8(parentId);
+                  newChannel->fill(msg);
+                  msg.sendToServer();
+              }
+          }
+      }*/
 }
 void ChannelListPanel::addChannelAsSibbling()
 {
-    if(isAdmin())
-    {
-        Channel* newChannel= new Channel(tr("New Channel"));
+    /*  if(isAdmin())
+      {
+          Channel* newChannel= new Channel(tr("New Channel"));
 
-        auto parentIndex= m_index.parent();
+          auto parentIndex= m_index.parent();
 
-        Channel* parent= nullptr;
-        QString parentId("");
+          Channel* parent= nullptr;
+          QString parentId("");
 
-        if(parentIndex.isValid())
-        {
-            parent= getChannel(parentIndex);
-            parentId= parent->getId();
-        }
+          if(parentIndex.isValid())
+          {
+              parent= getChannel(parentIndex);
+              parentId= parent->getId();
+          }
 
-        QModelIndex justAdded= m_model->addChannelToIndex(newChannel, parentIndex);
-        ui->m_channelView->edit(justAdded);
+          QModelIndex justAdded= m_model->addChannelToIndex(newChannel, parentIndex);
+          ui->m_channelView->edit(justAdded);
 
-        NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::AddChannel);
-        msg.string8(parentId);
-        newChannel->fill(msg);
-        msg.sendToServer();
-    }
+          NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::AddChannel);
+          msg.string8(parentId);
+          newChannel->fill(msg);
+          msg.sendToServer();
+      }*/
 }
 
 void ChannelListPanel::editChannel()
@@ -411,7 +412,7 @@ void ChannelListPanel::setServerName(const QString& serverName)
 void ChannelListPanel::setLocalPlayerId(const QString& id)
 {
     m_localPlayerId= id;
-    m_model->setLocalPlayerId(id);
+    // m_model->setLocalPlayerId(id);
 }
 
 void ChannelListPanel::resetChannel()
@@ -445,16 +446,16 @@ void ChannelListPanel::moveUserToCurrent()
 
     if(isAdmin() || isGM())
     {
-        auto local= m_model->getTcpClientById(m_localPlayerId);
-        if(nullptr == local)
-            return;
+        /*    auto local= m_model->getTcpClientById(m_localPlayerId);
+            if(nullptr == local)
+                return;
 
-        auto channel= local->getParentChannel();
+            auto channel= local->getParentChannel();
 
-        NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::MoveChannel);
-        msg.string8(subject->getId());
-        msg.string8(channel->getId());
-        msg.sendToServer();
+            NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::MoveChannel);
+            msg.string8(subject->getId());
+            msg.string8(channel->getId());
+            msg.sendToServer();*/
     }
 }
 
@@ -545,6 +546,6 @@ void ChannelListPanel::setCurrentGroups(const Groups& currentGroups)
 }
 void ChannelListPanel::cleanUp()
 {
-    if(nullptr != m_model)
-        m_model->cleanUp();
+    /*   if(nullptr != m_model)
+           m_model->cleanUp();*/
 }
