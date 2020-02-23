@@ -32,18 +32,15 @@
 #include "network/networklink.h"
 
 #define second 1000
-NetworkLink* ClientManager::m_networkLinkToServer= nullptr;
+
 /*****************
  * ClientManager *
  *****************/
-ClientManager::ClientManager() : QObject()
+ClientManager::ClientManager(QObject* parent) : QObject(parent), m_networkLinkToServer(new NetworkLink)
 {
     qRegisterMetaType<NetworkLink*>("NetworkLink*");
     qRegisterMetaType<char*>("char*");
-
-    m_networkLinkToServer= new NetworkLink();
-
-    // m_playersList= PlayersList::instance();
+    NetworkMessage::setMessageSender(m_networkLinkToServer.get());
 
     m_connecting= new QState();
     m_connected= new QState();
@@ -59,24 +56,22 @@ ClientManager::ClientManager() : QObject()
     connect(m_connecting, &QAbstractState::entered, this, [this]() {
         qDebug() << "client connecting state";
         setConnectionState(CONNECTING);
-        emit isConnecting();
     });
+
     connect(m_disconnected, &QAbstractState::entered, this, [this]() {
         qDebug() << "client disconnected state";
         setConnectionState(DISCONNECTED);
+        m_networkLinkToServer->reset();
         setReady(true);
-        emit isDisconnected();
     });
     connect(m_authentified, &QAbstractState::entered, this, [this]() {
         qDebug() << "client authentified state";
         setConnectionState(AUTHENTIFIED);
-        emit isAuthentified();
     });
 
     connect(m_error, &QAbstractState::entered, this, [=]() {
         qDebug() << "Error state";
         setConnectionState(DISCONNECTED);
-        emit errorOccur(tr("Connection Error"));
     });
 
     m_states.addState(m_connecting);
@@ -86,27 +81,28 @@ ClientManager::ClientManager() : QObject()
     m_states.addState(m_error);
     m_states.setInitialState(m_disconnected);
 
-    m_disconnected->addTransition(m_networkLinkToServer, &NetworkLink::connecting, m_connecting);
-    m_connecting->addTransition(m_networkLinkToServer, &NetworkLink::connected, m_connected);
-    m_connected->addTransition(m_networkLinkToServer, &NetworkLink::authentificationSuccessed, m_authentified);
+    m_disconnected->addTransition(this, &ClientManager::connecting, m_connecting);
+    m_connecting->addTransition(m_networkLinkToServer.get(), &NetworkLink::connectedChanged, m_connected);
+    m_connected->addTransition(this, &ClientManager::authentificationSuccessed, m_authentified);
 
-    m_authentified->addTransition(m_networkLinkToServer, &NetworkLink::disconnected, m_disconnected);
-    m_connected->addTransition(m_networkLinkToServer, &NetworkLink::disconnected, m_disconnected);
-    m_connecting->addTransition(m_networkLinkToServer, &NetworkLink::disconnected, m_disconnected);
+    m_authentified->addTransition(m_networkLinkToServer.get(), &NetworkLink::connectedChanged, m_disconnected);
+    m_connected->addTransition(m_networkLinkToServer.get(), &NetworkLink::connectedChanged, m_disconnected);
 
-    m_connecting->addTransition(m_networkLinkToServer, &NetworkLink::authentificationFail, m_disconnected);
-    m_connected->addTransition(m_networkLinkToServer, &NetworkLink::authentificationFail, m_disconnected);
+    m_connecting->addTransition(this, &ClientManager::authentificationFailed, m_disconnected);
+    m_connected->addTransition(this, &ClientManager::authentificationFailed, m_disconnected);
 
-    m_error->addTransition(m_networkLinkToServer, &NetworkLink::connecting, m_connecting);
-    m_connecting->addTransition(m_networkLinkToServer, &NetworkLink::error, m_error);
+    m_error->addTransition(this, &ClientManager::connecting, m_connecting);
+    m_connecting->addTransition(m_networkLinkToServer.get(), &NetworkLink::errorChanged, m_error);
+    m_connected->addTransition(m_networkLinkToServer.get(), &NetworkLink::errorChanged, m_error);
+    m_authentified->addTransition(m_networkLinkToServer.get(), &NetworkLink::errorChanged, m_error);
 
-    connect(m_networkLinkToServer, &NetworkLink::disconnected, this, &ClientManager::endingNetworkLink);
-    connect(m_networkLinkToServer, &NetworkLink::readDataReceived, this, &ClientManager::dataReceived);
-    connect(m_networkLinkToServer, &NetworkLink::errorMessage, this, &ClientManager::errorOccur);
-    connect(m_networkLinkToServer, &NetworkLink::clearData, this, &ClientManager::clearData);
-    connect(m_networkLinkToServer, &NetworkLink::gameMasterStatusChanged, this,
-            &ClientManager::gameMasterStatusChanged);
-    connect(m_networkLinkToServer, &NetworkLink::moveToAnotherChannel, this, &ClientManager::moveToAnotherChannel);
+    connect(m_networkLinkToServer.get(), &NetworkLink::messageReceived, this, &ClientManager::messageReceived);
+    connect(m_networkLinkToServer.get(), &NetworkLink::readDataReceived, this, &ClientManager::dataReceived);
+    // connect(m_networkLinkToServer.get(), &NetworkLink::errorChanged, this, &ClientManager::errorOccur);
+    // connect(m_networkLinkToServer, &NetworkLink::clearData, this, &ClientManager::clearData);
+    /*connect(m_networkLinkToServer, &NetworkLink::gameMasterStatusChanged, this,
+            &ClientManager::gameMasterStatusChanged);*/
+    // connect(m_networkLinkToServer, &NetworkLink::moveToAnotherChannel, this, &ClientManager::moveToAnotherChannel);
 
     connect(&m_states, &QStateMachine::started, this, [this]() { setReady(true); });
 
@@ -118,18 +114,13 @@ ClientManager::~ClientManager() {}
 void ClientManager::connectTo(const QString& host, int port)
 {
     m_networkLinkToServer->connectTo(host, port);
+    emit connecting();
 }
 
-void ClientManager::endingNetworkLink()
-{
-    setConnectionState(DISCONNECTED);
-    emit notifyUser(tr("Connection with the Remote Server has been lost."));
-}
 void ClientManager::disconnectAndClose()
 {
-    m_networkLinkToServer->disconnectAndClose();
+    m_networkLinkToServer->closeCommunicationWithServer();
     emit notifyUser(tr("Connection to the server has been closed."));
-    setConnectionState(DISCONNECTED);
 }
 
 ClientManager::ConnectionState ClientManager::connectionState() const
@@ -142,6 +133,15 @@ bool ClientManager::ready() const
     return (m_states.isRunning() & (m_connectionState == DISCONNECTED));
 }
 
+void ClientManager::setAuthentificationStatus(bool status)
+{
+    if(status)
+        emit authentificationSuccessed();
+    else
+        emit authentificationFailed();
+    // m_networkLinkToServer->adminAuthSuccessed();
+}
+
 void ClientManager::setConnectionState(ConnectionState state)
 {
     if(m_connectionState == state)
@@ -149,10 +149,6 @@ void ClientManager::setConnectionState(ConnectionState state)
 
     m_connectionState= state;
     emit connectionStateChanged(m_connectionState);
-}
-NetworkLink* ClientManager::getLinkToServer()
-{
-    return m_networkLinkToServer;
 }
 
 void ClientManager::setReady(bool ready)

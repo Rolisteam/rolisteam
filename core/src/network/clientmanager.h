@@ -35,16 +35,13 @@
 //#include "connectionretrydialog.h"
 #include "heartbeatsender.h"
 #include "network/networklink.h"
+#include "network/networkmessage.h"
 #include "network/networkmessagewriter.h"
-#include "preferences/preferencesmanager.h"
-#include "userlist/playermodel.h"
-
-class Player;
-class ConnectionProfile;
 
 /**
- * @brief hold the list of socket (NetworkLink).
- * On startup displays the configDialog.
+ * @brief ClientManager manages the state of current client: connected, authentified…
+ * and send networkmessage to the server, or notify from new received messages.
+ *
  */
 class ClientManager : public QObject
 {
@@ -61,66 +58,52 @@ public:
         AUTHENTIFIED
     };
     Q_ENUM(ConnectionState)
-    /**
-     * @brief NetworkManager
-     */
-    ClientManager();
-    /**
-     * @brief ~NetworkManager
-     */
+
+    ClientManager(QObject* parent= nullptr);
     virtual ~ClientManager();
     ConnectionState connectionState() const;
 
     bool ready() const;
-
-    static NetworkLink* getLinkToServer();
 public slots:
-    /**
-     * @brief startConnection try to connect to the server or to start it.
-     * @return true everything goes fine, otherwise false.
-     */
-    void connectTo(const QString& host, int port);
+    // void processPlayerMessage(NetworkMessageReader* msg);
+    // void processSetupMessage(NetworkMessageReader* msg);
 
+    void connectTo(const QString& host, int port);
     void disconnectAndClose();
     void reset();
+    void setAuthentificationStatus(bool status);
 
 signals:
-    void sendData(char* data, quint32 size, NetworkLink* but);
-
-    void linkAdded(NetworkLink* link);
+    void messageReceived(QByteArray);
     void dataReceived(quint64, quint64);
-    void stopConnectionTry();
+
     void connectionStateChanged(ClientManager::ConnectionState);
     void notifyUser(QString);
-    void errorOccur(QString);
     void gameMasterStatusChanged(bool status);
 
     // State signal
-    void readyChanged();
-    void isAuthentified();
-    void isConnectedSig();
-    void isConnecting();
-    void isDisconnected();
+    void connecting();
     void connectedToServer();
+    void authentificationSuccessed();
+    void authentificationFailed();
+
+    void readyChanged();
     void clearData();
     void moveToAnotherChannel();
 
 private slots:
     void setConnectionState(ClientManager::ConnectionState);
-    void endingNetworkLink();
     void setReady(bool ready);
 
 private:
-    static NetworkLink* m_networkLinkToServer;
+    std::unique_ptr<NetworkLink> m_networkLinkToServer;
     ConnectionState m_connectionState= UNREADY;
     bool m_ready= false;
-    bool m_isAdmin;
-
-    PreferencesManager* m_preferences= nullptr;
-    PlayerModel* m_playersList= nullptr;
+    bool m_isAdmin= false;
 
     QState* m_connecting= nullptr;
     QState* m_connected= nullptr;
+    QState* m_waitingData= nullptr;
     QState* m_authentified= nullptr;
     QState* m_error= nullptr;
     QState* m_disconnected= nullptr;
