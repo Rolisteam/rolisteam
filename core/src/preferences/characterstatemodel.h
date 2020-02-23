@@ -25,6 +25,13 @@
 #include "data/characterstate.h"
 #include "network/networkreceiver.h"
 #include "preferenceslistener.h"
+
+struct CharacterStateInfo
+{
+    CharacterState* state= nullptr; // todo std::unique::ptr
+    bool remote= false;
+};
+
 /**
  * @brief The CharacterStateModel class
  */
@@ -40,7 +47,8 @@ public:
         LABEL= Qt::UserRole + 1,
         COLOR,
         PICTURE,
-        ID
+        ID,
+        REMOTE,
     };
     /**
      * @brief CharacterStateModel
@@ -101,7 +109,7 @@ public:
     void setStates(QList<CharacterState*>* map);
     void appendState();
 
-    QList<CharacterState*>* getCharacterStates();
+    QList<CharacterState*> getCharacterStates();
     void addState(CharacterState* state);
     void deleteState(const QModelIndex& index);
     void upState(const QModelIndex& index);
@@ -123,8 +131,7 @@ public:
     void save(QJsonObject& obj);
 
 private:
-    QList<CharacterState*>* m_stateList;
-    QList<CharacterState*>* m_stateListFromGM;
+    std::vector<CharacterStateInfo> m_stateList;
     QStringList m_header;
 };
 

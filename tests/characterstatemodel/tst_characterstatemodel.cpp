@@ -34,6 +34,13 @@ class TestCharacterStateModel : public QObject
 {
     Q_OBJECT
 public:
+    enum Action
+    {
+        Top,
+        Bottom,
+        Up,
+        Down
+    };
     TestCharacterStateModel();
 
     void addDefaultState();
@@ -44,6 +51,7 @@ private slots:
     void addTest_data();
 
     void moveTest();
+    void moveTest_data();
     void removeTest();
 
     void saveModelTest();
@@ -155,27 +163,45 @@ void TestCharacterStateModel::removeTest()
 
 void TestCharacterStateModel::moveTest()
 {
-    auto listState= m_model->getCharacterStates();
+    QFETCH(int, source);
+    QFETCH(int, action);
+    QFETCH(int, destination);
+    QFETCH(QString, text);
 
     addDefaultState();
     QCOMPARE(m_model->rowCount(), 6);
 
-    auto index= m_model->index(1, 0);
-    m_model->upState(index);
-    QCOMPARE(listState->at(0)->getLabel(), "Lightly Wounded");
+    auto index= m_model->index(source, 0);
+    switch(static_cast<Action>(action))
+    {
+    case Up:
+        m_model->upState(index);
+        break;
+    case Down:
+        m_model->downState(index);
+        break;
+    case Top:
+        m_model->topState(index);
+        break;
+    case Bottom:
+        m_model->bottomState(index);
+        break;
+    }
+    auto listState= m_model->getCharacterStates();
+    QCOMPARE(listState.at(destination)->getLabel(), text);
+}
 
-    index= m_model->index(1, 0);
-    m_model->downState(index);
-    QCOMPARE(listState->at(1)->getLabel(), "Seriously injured");
-    QCOMPARE(listState->at(2)->getLabel(), "Healthy");
+void TestCharacterStateModel::moveTest_data()
+{
+    QTest::addColumn<int>("source");
+    QTest::addColumn<int>("action");
+    QTest::addColumn<int>("destination");
+    QTest::addColumn<QString>("text");
 
-    index= m_model->index(5, 0);
-    m_model->topState(index);
-    QCOMPARE(listState->at(0)->getLabel(), "Bewitched");
-
-    index= m_model->index(0, 0);
-    m_model->bottomState(index);
-    QCOMPARE(listState->at(5)->getLabel(), "Bewitched");
+    QTest::newRow("test1") << 1 << static_cast<int>(Up) << 0 << QString("Lightly Wounded");
+    QTest::newRow("test2") << 2 << static_cast<int>(Down) << 3 << QString("Seriously injured");
+    QTest::newRow("test3") << 5 << static_cast<int>(Top) << 0 << QString("Bewitched");
+    QTest::newRow("test4") << 0 << static_cast<int>(Bottom) << 5 << QString("Healthy");
 }
 
 void TestCharacterStateModel::saveModelTest()
@@ -191,8 +217,8 @@ void TestCharacterStateModel::saveModelTest()
     model.load(obj);
     QCOMPARE(model.rowCount(), 6);
     auto list= model.getCharacterStates();
-    QCOMPARE(list->at(0)->getLabel(), "Healthy");
-    QCOMPARE(list->at(5)->getLabel(), "Bewitched");
+    QCOMPARE(list.at(0)->getLabel(), "Healthy");
+    QCOMPARE(list.at(5)->getLabel(), "Bewitched");
 }
 
 void TestCharacterStateModel::networkTest()
@@ -222,10 +248,12 @@ void TestCharacterStateModel::networkTest()
     msgReader.setData(data);
 
     m_model->processAddState(&msgReader);
-    QCOMPARE(m_model->rowCount(), 6);
+    QCOMPARE(m_model->rowCount(), 7);
 
     // m_model->setGM(false);
     auto list= Character::getCharacterStateList();
+    if(list == nullptr)
+        return;
     QCOMPARE(list->size(), 1);
 }
 

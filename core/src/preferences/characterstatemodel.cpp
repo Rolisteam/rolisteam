@@ -26,11 +26,17 @@
 #include <QColor>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <algorithm>
 
-CharacterStateModel::CharacterStateModel(QObject* parent)
-    : QAbstractListModel(parent)
-    , m_stateList(new QList<CharacterState*>())
-    , m_stateListFromGM(new QList<CharacterState*>())
+CharacterStateInfo makeStateInfo(CharacterState* state, bool remote)
+{
+    CharacterStateInfo a;
+    a.state= state;
+    a.remote= remote;
+    return a;
+}
+
+CharacterStateModel::CharacterStateModel(QObject* parent) : QAbstractListModel(parent)
 {
     m_header << tr("Label") << tr("Color") << tr("Image");
 }
@@ -43,7 +49,8 @@ QVariant CharacterStateModel::data(const QModelIndex& index, int role) const
         return {};
 
     QVariant var;
-    CharacterState* state= m_stateList->at(index.row());
+    CharacterState* state= m_stateList[static_cast<std::size_t>(index.row())].state;
+    bool remote= m_stateList[static_cast<std::size_t>(index.row())].remote;
 
     if((role == Qt::DisplayRole || role == Qt::EditRole) || (role == Qt::BackgroundRole && index.column() == 1))
     {
@@ -65,43 +72,16 @@ QVariant CharacterStateModel::data(const QModelIndex& index, int role) const
     case PICTURE:
         var= state->getImage();
         break;
+    case REMOTE:
+        var= remote;
+        break;
     }
-
-    /*  if((Qt::DisplayRole == role) || (Qt::EditRole == role))
-      {
-          if(nullptr != state)
-          {
-              if(index.column() == LABEL)
-              {
-                  var= state->getLabel();
-              }
-              else if(index.column() == COLOR)
-              {
-                  if(Qt::DisplayRole == role)
-                      return QVariant();
-
-                  var= state->getColor();
-              }
-              else if(index.column() == PICTURE)
-              {
-                  var= state->getImage();
-              }
-          }
-      }
-      else if(Qt::BackgroundRole == role)
-      {
-          if(index.column() == COLOR)
-          {
-              return state->getColor();
-          }
-      }*/
-
     return var;
 }
 int CharacterStateModel::rowCount(const QModelIndex& parent) const
 {
     if(!parent.isValid())
-        return m_stateList->size();
+        return static_cast<int>(m_stateList.size());
     return 0;
 }
 int CharacterStateModel::columnCount(const QModelIndex& parent) const
@@ -123,7 +103,14 @@ QVariant CharacterStateModel::headerData(int section, Qt::Orientation orientatio
 }
 void CharacterStateModel::setStates(QList<CharacterState*>* lst)
 {
-    m_stateList= lst;
+    beginResetModel();
+    std::transform(lst->begin(), lst->end(), std::back_inserter(m_stateList),
+                   [](CharacterState* state) -> CharacterStateInfo {
+                       CharacterStateInfo a= makeStateInfo(state, false);
+                       // TODO c++14 list initializer
+                       return a;
+                   });
+    endResetModel();
 }
 void CharacterStateModel::appendState()
 {
@@ -169,10 +156,12 @@ void CharacterStateModel::processModelState(NetworkMessageReader* msg)
     // TODO
 }
 
-void CharacterStateModel::addState(CharacterState* alias)
+void CharacterStateModel::addState(CharacterState* state)
 {
-    beginInsertRows(QModelIndex(), m_stateList->size(), m_stateList->size());
-    m_stateList->append(alias);
+    auto pos= static_cast<int>(m_stateList.size());
+    beginInsertRows(QModelIndex(), pos, pos);
+    CharacterStateInfo a= makeStateInfo(state, false);
+    m_stateList.push_back(a);
     endInsertRows();
 }
 Qt::ItemFlags CharacterStateModel::flags(const QModelIndex& index) const
@@ -185,21 +174,21 @@ bool CharacterStateModel::setData(const QModelIndex& index, const QVariant& valu
     bool result= false;
     if(index.isValid())
     {
-        CharacterState* state= m_stateList->at(index.row());
+        auto stateInfo= m_stateList.at(index.row());
         if(role == Qt::EditRole)
         {
             switch(index.column())
             {
             case LABEL:
-                state->setLabel(value.toString());
+                stateInfo.state->setLabel(value.toString());
                 result= true;
                 break;
             case COLOR:
-                state->setColor(value.value<QColor>());
+                stateInfo.state->setColor(value.value<QColor>());
                 result= true;
                 break;
             case PICTURE:
-                state->setImage(value.value<QPixmap>());
+                stateInfo.state->setImage(value.value<QPixmap>());
                 result= true;
                 break;
             }
@@ -208,12 +197,12 @@ bool CharacterStateModel::setData(const QModelIndex& index, const QVariant& valu
         {
             NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::addCharacterState);
             msg.int64(index.row());
-            msg.string32(state->getLabel());
-            msg.rgb(state->getColor().rgb());
-            msg.uint8(state->hasImage());
-            if(state->hasImage())
+            msg.string32(stateInfo.state->getLabel());
+            msg.rgb(stateInfo.state->getColor().rgb());
+            msg.uint8(stateInfo.state->hasImage());
+            if(stateInfo.state->hasImage())
             {
-                auto img= state->getImage();
+                auto img= stateInfo.state->getImage();
                 QByteArray array;
                 QBuffer buffer(&array);
                 img.save(&buffer, "PNG");
@@ -224,16 +213,19 @@ bool CharacterStateModel::setData(const QModelIndex& index, const QVariant& valu
     }
     return result;
 }
-QList<CharacterState*>* CharacterStateModel::getCharacterStates()
+QList<CharacterState*> CharacterStateModel::getCharacterStates()
 {
-    return m_stateList;
+    QList<CharacterState*> data;
+    std::transform(m_stateList.begin(), m_stateList.end(), std::back_inserter(data),
+                   [](const CharacterStateInfo& info) { return info.state; });
+    return data;
 }
 void CharacterStateModel::deleteState(const QModelIndex& index)
 {
     if(!index.isValid())
         return;
     beginRemoveRows(QModelIndex(), index.row(), index.row());
-    m_stateList->removeAt(index.row());
+    m_stateList.erase(m_stateList.begin() + index.row());
     endRemoveRows();
 
     NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::removeCharacterState);
@@ -248,7 +240,7 @@ void CharacterStateModel::upState(const QModelIndex& index)
         return;
     if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), index.row() - 1))
     {
-        m_stateList->swapItemsAt(index.row(), index.row() - 1);
+        std::iter_swap(m_stateList.begin() + index.row(), m_stateList.begin() + index.row() - 1);
         moveState(index.row(), index.row() - 1);
         endMoveRows();
     }
@@ -259,12 +251,12 @@ void CharacterStateModel::downState(const QModelIndex& index)
     if(!index.isValid())
         return;
 
-    if(index.row() == m_stateList->size() - 1)
+    if(index.row() == m_stateList.size() - 1)
         return;
 
     if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), index.row() + 2))
     {
-        m_stateList->swapItemsAt(index.row(), index.row() + 1);
+        std::iter_swap(m_stateList.begin() + index.row(), m_stateList.begin() + index.row() + 1);
         moveState(index.row(), index.row() + 1);
         endMoveRows();
     }
@@ -279,9 +271,11 @@ void CharacterStateModel::topState(const QModelIndex& index)
         return;
     if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), 0))
     {
-        CharacterState* dice= m_stateList->takeAt(index.row());
+        auto it= m_stateList.begin() + index.row();
+        auto val= *it;
+        m_stateList.erase(it);
+        m_stateList.insert(m_stateList.begin(), val);
         moveState(index.row(), 0);
-        m_stateList->prepend(dice);
         endMoveRows();
     }
 }
@@ -290,34 +284,24 @@ void CharacterStateModel::bottomState(const QModelIndex& index)
 {
     if(!index.isValid())
         return;
-    if(index.row() == m_stateList->size() - 1)
+    auto size= static_cast<int>(m_stateList.size());
+    if(index.row() == size - 1)
         return;
-    if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), m_stateList->size()))
+    if(beginMoveRows(QModelIndex(), index.row(), index.row(), QModelIndex(), size))
     {
-        CharacterState* dice= m_stateList->takeAt(index.row());
-        moveState(index.row(), m_stateList->size());
-        m_stateList->append(dice);
+        auto it= m_stateList.begin() + index.row();
+        auto val= *it;
+        m_stateList.erase(it);
+        m_stateList.insert(m_stateList.end(), val);
+        moveState(index.row(), size);
         endMoveRows();
     }
 }
-/*void CharacterStateModel::setGM(bool b)
-{
-    m_isGM= b;
 
-    if(!m_isGM)
-    {
-        Character::setListOfCharacterState(m_stateListFromGM);
-    }
-    else
-    {
-        Character::setListOfCharacterState(m_stateList);
-    }
-}*/
 void CharacterStateModel::clear()
 {
     beginResetModel();
-    qDeleteAll(m_stateList->begin(), m_stateList->end());
-    m_stateList->clear();
+    m_stateList.clear();
     endResetModel();
 }
 void CharacterStateModel::processAddState(NetworkMessageReader* msg)
@@ -335,30 +319,29 @@ void CharacterStateModel::processAddState(NetworkMessageReader* msg)
         pix.loadFromData(array);
         state->setImage(pix);
     }
-    m_stateListFromGM->insert(id, state);
+    m_stateList.push_back(makeStateInfo(state, true));
 }
 void CharacterStateModel::processMoveState(NetworkMessageReader* msg)
 {
     int from= msg->int64();
     int to= msg->int64();
 
-    if((from >= 0) && (from < m_stateList->size()))
+    if((from >= 0) && (from < m_stateList.size()))
     {
-        // beginMoveRows(QModelIndex(),from,from,QModelIndex(),to);
-        CharacterState* tpm= m_stateList->takeAt(from);
-        m_stateListFromGM->insert(to, tpm);
-        // endMoveRows();
+        beginMoveRows(QModelIndex(), from, from, QModelIndex(), to);
+        std::iter_swap(m_stateList.begin() + to, m_stateList.begin() + from);
+        endMoveRows();
     }
 }
 void CharacterStateModel::processRemoveState(NetworkMessageReader* msg)
 {
-    int pos= msg->int64();
-    if(m_stateList->size() > pos)
-    {
-        // beginRemoveRows(QModelIndex(),pos,pos);
-        m_stateListFromGM->removeAt(pos);
-        // endRemoveRows();
-    }
+    int pos= static_cast<int>(msg->int64());
+    if(m_stateList.size() < pos)
+        return;
+
+    beginRemoveRows(QModelIndex(), pos, pos);
+    m_stateList.erase(m_stateList.begin() + pos);
+    endRemoveRows();
 }
 
 void CharacterStateModel::sendOffAllCharacterState()
@@ -426,12 +409,14 @@ void CharacterStateModel::load(const QJsonObject& obj)
 void CharacterStateModel::save(QJsonObject& obj)
 {
     QJsonArray states;
-    for(auto& state : *m_stateList)
+    for(auto& stateInfo : m_stateList)
     {
+        if(stateInfo.remote)
+            continue;
         QJsonObject stateObj;
-        stateObj["label"]= state->getLabel();
-        stateObj["color"]= state->getColor().name();
-        QPixmap pix= state->getImage();
+        stateObj["label"]= stateInfo.state->getLabel();
+        stateObj["color"]= stateInfo.state->getColor().name();
+        QPixmap pix= stateInfo.state->getImage();
         if(!pix.isNull())
         {
             QByteArray bytes;
@@ -440,7 +425,7 @@ void CharacterStateModel::save(QJsonObject& obj)
             pix.save(&buffer, "PNG");
             stateObj["image"]= QString(buffer.data().toBase64());
         }
-        stateObj["local"]= state->isLocal();
+        stateObj["local"]= stateInfo.state->isLocal();
         states.append(stateObj);
     }
     obj["states"]= states;
