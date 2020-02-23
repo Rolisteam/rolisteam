@@ -59,11 +59,14 @@ GameController::GameController(QObject* parent)
     m_contentCtrl->setGameController(this);
     m_preferencesDialogController->setGameController(this);
 
-    // auto local= m_playerController->localPlayer();
-
     connect(m_logController.get(), &LogController::sendOffMessage, m_remoteLogCtrl.get(), &RemoteLogController::addLog);
     // connect(, &NetworkController::isGMChanged, this, &GameController::localIsGMChanged);
-    connect(m_networkCtrl.get(), &NetworkController::connectedChanged, this, &GameController::authentified);
+    connect(m_networkCtrl.get(), &NetworkController::connectedChanged, this, [this](bool b) {
+        if(b)
+            sendDataToServerAtConnection();
+
+        emit connectedChanged(b);
+    });
 
     connect(m_playerController.get(), &PlayerController::performCommand, this, &GameController::addCommand);
     connect(m_contentCtrl.get(), &ContentController::performCommand, this, &GameController::addCommand);
@@ -309,11 +312,11 @@ void GameController::stopConnection()
     networkController()->stopConnecting();
 }
 
-void GameController::authentified(bool b)
+void GameController::sendDataToServerAtConnection()
 {
     /*m_preferencesDialog->sendOffAllDiceAlias();
     m_preferencesDialog->sendOffAllState();*/
-    if(localIsGM() && b)
+    if(localIsGM())
         m_preferencesDialogController->shareModels();
 }
 
