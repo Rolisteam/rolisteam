@@ -248,7 +248,8 @@ Player* PrivateChat::owner() const
 
 bool PrivateChat::sameLink(NetworkLink* link)
 {
-    return (link == m_owner->link());
+    // FIXME make this working again
+    return false; //(link == m_owner->link());
 }
 
 bool PrivateChat::includeLocalPlayer() const

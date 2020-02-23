@@ -348,6 +348,7 @@ void VectorialMapMediaController::showTransparentItem()
     auto ctrl= findActive(m_vmaps);
     if(nullptr == ctrl)
         return;
+    // TODO implement
     // ctrl->setGridScale(scale);
 }
 void VectorialMapMediaController::setBackgroundColor(const QColor& color)
