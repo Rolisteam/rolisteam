@@ -32,6 +32,8 @@
 #include "worker/messagehelper.h"
 #include "worker/playermessagehelper.h"
 
+#include <QtDebug>
+
 void addPlayerToModel(PlayerModel* model, NetworkMessageReader* msg)
 {
     Player* player= new Player();
@@ -77,9 +79,10 @@ NetWorkReceiver::SendType PlayerController::processMessage(NetworkMessageReader*
     }
     return type;
 }
-#include <QtDebug>
+
 void PlayerController::setGameController(GameController* gameCtrl)
 {
+    qDebug() << "setGameController #############";
     auto prefsCtrl= gameCtrl->preferencesController();
 
     connect(gameCtrl, &GameController::connectedChanged, this, [this](bool b) {

@@ -92,8 +92,8 @@ void MessageHelper::sendOffAllCharacterState(CharacterStateModel* model)
     auto states= model->getCharacterStates();
     quint64 i= 0;
     NetworkMessageWriter msg(NetMsg::SharePreferencesCategory, NetMsg::CharactereStateModel);
-    msg.uint32(static_cast<quint32>(states->size()));
-    for(auto state : *states)
+    msg.uint32(static_cast<quint32>(states.size()));
+    for(auto state : states)
     {
         msg.uint64(i);
         msg.string32(state->getLabel());
