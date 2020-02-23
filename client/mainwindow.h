@@ -64,10 +64,6 @@
 
 #include "network/channellistpanel.h"
 
-// log
-#include "common/controller/logcontroller.h"
-#include "common/controller/remotelogcontroller.h"
-
 #include "controller/gamecontroller.h"
 #include "userlist/playerspanel.h"
 
