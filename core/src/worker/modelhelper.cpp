@@ -51,6 +51,7 @@ void readConnectionProfileModel(ProfileModel* model)
         profile->setAddress(settings.value("address").toString());
         profile->setPlayerName(settings.value("name").toString());
         profile->setProfileTitle(settings.value("title").toString());
+        profile->setPlayerId(settings.value("playerId", QUuid::createUuid().toString(QUuid::WithoutBraces)).toString());
         profile->setPort(static_cast<quint16>(settings.value("port").toInt()));
         profile->setServerMode(settings.value("server").toBool());
         profile->setGm(settings.value("gm").toBool());
@@ -121,6 +122,7 @@ void writeConnectionProfileModel(ProfileModel* model)
         settings.setValue("title", profile->profileTitle());
         settings.setValue("server", profile->isServer());
         settings.setValue("port", profile->port());
+        settings.setValue("playerId", profile->playerId());
         settings.setValue("gm", profile->isGM());
         settings.setValue("password", profile->password().toBase64());
         settings.setValue("PlayerColor", profile->playerColor());

@@ -98,6 +98,15 @@ void PlayerController::removePlayer(Player* player)
     m_model->removePlayer(player);
 }
 
+void PlayerController::removePlayerById(const QString& id)
+{
+    auto player= m_model->playerById(id);
+    if(player == nullptr)
+        return;
+
+    removePlayer(player);
+}
+
 void PlayerController::addLocalCharacter()
 {
     auto idState= m_characterStateModel->index(0, 0).data(CharacterStateModel::ID).toString();

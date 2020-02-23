@@ -220,7 +220,7 @@ bool Player::removeChild(ResourcesNode* node)
     auto size= m_characters.size();
     m_characters.erase(
         std::remove_if(m_characters.begin(), m_characters.end(),
-                       [id](const std::unique_ptr<Character>& character) { return character->getUuid() == id; }));
+                       [id](const std::unique_ptr<Character>& character) { return character->uuid() == id; }));
 
     return size != m_characters.size();
 }

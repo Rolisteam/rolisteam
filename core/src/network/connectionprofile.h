@@ -29,6 +29,8 @@ public:
     QColor playerColor() const;
     void setPlayerAvatar(const QString&);
     QString playerAvatar() const;
+    QString playerId() const;
+    void setPlayerId(const QString& playerId);
 
     void setAddress(const QString&);
     QString address() const;
@@ -63,6 +65,7 @@ private:
     QString m_playerName;
     QColor m_playerColor;
     QString m_playerAvatar;
+    QString m_playerId;
     bool m_isGM= false;
 
     // Connection data

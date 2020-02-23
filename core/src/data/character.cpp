@@ -383,7 +383,7 @@ QString Character::getParentId() const
 {
     if(nullptr != m_parent)
     {
-        return m_parentPerson->getUuid();
+        return m_parentPerson->uuid();
     }
     return QString();
 }
@@ -687,7 +687,7 @@ void Character::write(QDataStream& out, bool tag, bool) const
     out << m_uuid;
     out << m_color;
     if(nullptr != m_parentPerson)
-        out << m_parentPerson->getUuid();
+        out << m_parentPerson->uuid();
     else
         out << QString();
 

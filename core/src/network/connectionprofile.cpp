@@ -90,6 +90,16 @@ QByteArray ConnectionProfile::password() const
     return m_password;
 }
 
+QString ConnectionProfile::playerId() const
+{
+    return m_playerId;
+}
+
+void ConnectionProfile::setPlayerId(const QString& playerId)
+{
+    m_playerId = playerId;
+}
+
 void ConnectionProfile::setPassword(const QString& password)
 {
     if(password.isEmpty())

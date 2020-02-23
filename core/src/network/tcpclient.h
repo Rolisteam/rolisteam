@@ -91,8 +91,8 @@ public:
     void setSocketHandleId(const qintptr& socketHandleId);
 
     bool isGM() const;
-
-    QString getPlayerId();
+    QString playerId() const;
+    QString playerName() const;
 
     void setInfoPlayer(NetworkMessageReader* msg);
     void fill(NetworkMessageWriter* msg);

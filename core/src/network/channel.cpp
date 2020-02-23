@@ -235,7 +235,7 @@ int Channel::addChild(TreeItem* item)
             m_child.removeAll(tcp);
             qInfo() << QStringLiteral("Client left from channel");
             auto message= new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
-            message->string8(tcp->getPlayerId());
+            message->string8(tcp->playerId());
             sendToAll(message, tcp, true);
         });
         if(tcp->isGM())
