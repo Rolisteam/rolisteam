@@ -35,26 +35,29 @@ bool containsCharacter(QString name, QColor color, QString path,
                             }));
 }
 
+bool containsPointer(Character* character, const std::vector<std::unique_ptr<Character>>& characters)
+{
+    return (
+        characters.end()
+        != std::find_if(characters.begin(), characters.end(),
+                        [character](const std::unique_ptr<Character>& pointer) { return character == pointer.get(); }));
+}
+
 Player::Player() {}
 
-Player::Player(const QString& nom, const QColor& color, bool master, NetworkLink* link)
-    : Person(nom, color), m_gameMaster(master), m_link(link)
+Player::Player(const QString& nom, const QColor& color, bool master)
+    : Person(nom, color), m_gameMaster(master) //, m_link(link)
 {
 }
 
-Player::Player(const QString& uuid, const QString& nom, const QColor& color, bool master, NetworkLink* link)
-    : Person(uuid, nom, color), m_gameMaster(master), m_link(link)
+Player::Player(const QString& uuid, const QString& nom, const QColor& color, bool master)
+    : Person(uuid, nom, color), m_gameMaster(master) //, m_link(link)
 {
-}
-
-Player::Player(NetworkMessageReader& data, NetworkLink* link) : Person(), m_link(link)
-{
-    readFromMsg(data);
 }
 
 Player::~Player()= default;
 
-void Player::readFromMsg(NetworkMessageReader& data)
+/*void Player::readFromMsg(NetworkMessageReader& data)
 {
     if(!data.isValid())
     {
@@ -101,58 +104,15 @@ void Player::readFromMsg(NetworkMessageReader& data)
     QDataStream in(&array, QIODevice::ReadOnly);
     in.setVersion(QDataStream::Qt_5_7);
     in >> m_features;
-}
-void Player::fill(NetworkMessageWriter& message, bool addAvatar)
-{
-    message.string16(m_name);
-    message.string8(m_uuid);
-    message.rgb(m_color.rgb());
-    message.uint8(m_gameMaster ? 1 : 0);
-    message.string16(m_softVersion);
 
-    // Avatar
-    if(addAvatar)
-    {
-        message.uint8(static_cast<quint8>(!m_avatar.isNull()));
-        if(!m_avatar.isNull())
-        {
-            QByteArray baImage;
-            QBuffer bufImage(&baImage);
-            if(m_avatar.save(&bufImage, "PNG", 70))
-            {
-                message.byteArray32(baImage);
-            }
-        }
-    }
-    else
-    {
-        message.uint8(static_cast<quint8>(false));
-    }
-
-    // Characters
-    message.int32(m_characters.size());
-    for(auto& item : m_characters)
-    {
-        //       item->fill(message, addAvatar);
-        message.uint8(1); // add it to the map
-    }
-
-    QByteArray array;
-    QDataStream out(&array, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_5_7);
-    out << m_features;
-
-    message.byteArray32(array);
-}
-
-NetworkLink* Player::link() const
+/*NetworkLink* Player::link() const
 {
     return m_link;
-}
+}*/
 
 int Player::getChildrenCount() const
 {
-    return m_characters.size();
+    return static_cast<int>(m_characters.size());
 }
 
 const std::vector<std::unique_ptr<Character>>& Player::children()
@@ -166,21 +126,27 @@ Character* Player::getCharacterByIndex(int index) const
         return m_characters[index].get();
     return nullptr;
 }
-/*const std::vector<Character> Player::childrenCharacter()
-{
-    return m_characters;
-}*/
-int Player::indexOf(ResourcesNode* character) const
-{
-    return 0;
-    // return m_characters.indexOf(dynamic_cast<Character*>(character));
-}
-int Player::getIndexOf(QString id) const
+
+Character* Player::characterById(const QString& id) const
 {
     auto it= std::find_if(m_characters.begin(), m_characters.end(),
-                          [id](const std::unique_ptr<Character>& character) { return id == character->getUuid(); });
-    return static_cast<int>(std::distance(m_characters.begin(), it));
+                          [id](const std::unique_ptr<Character>& character) { return character->uuid() == id; });
+    if(it == m_characters.end())
+        return nullptr;
+    return it->get();
 }
+
+int Player::indexOf(ResourcesNode* character) const
+{
+    auto it= std::find_if(m_characters.begin(), m_characters.end(),
+                          [character](const std::unique_ptr<Character>& data) { return character == data.get(); });
+
+    if(it == m_characters.end())
+        return -1;
+    else
+        return static_cast<int>(std::distance(m_characters.begin(), it));
+}
+
 bool Player::isGM() const
 {
     return m_gameMaster;
@@ -191,16 +157,30 @@ void Player::setGM(bool value)
     m_gameMaster= value;
 }
 
-void Player::addCharacter(const QString& name, const QColor& color, const QString& path, bool Npc)
+void Player::addCharacter(const QString& name, const QColor& color, const QString& path,
+                          const QHash<QString, QVariant>& params, bool Npc)
 {
     if(containsCharacter(name, color, path, m_characters))
         return;
 
-    std::unique_ptr<Character> data(new Character(name, color, m_gameMaster, Npc));
+    auto character=new Character(name, color, m_gameMaster, Npc);
+    character->setAvatarPath(path);
+    addCharacter(character);
+    // params FIXME set value from params.
+    // data->setLifeColor();
+}
+
+void Player::addCharacter(Character* character)
+{
+    if(containsPointer(character, m_characters))
+        return;
+
+    std::unique_ptr<Character> data(character);
 
     data->setParentPerson(this);
     m_characters.push_back(std::move(data));
 }
+
 void Player::clearCharacterList()
 {
     for(auto& character : m_characters)
@@ -276,6 +256,10 @@ void Player::copyPlayer(Player* player)
     setGM(player->isGM());
     setName(player->name());
     setUserVersion(player->getUserVersion());
+}
+const QMap<QString, quint8>& Player::features() const
+{
+    return m_features;
 }
 bool Player::isFullyDefined()
 {
