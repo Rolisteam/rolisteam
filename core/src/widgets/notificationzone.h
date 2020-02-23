@@ -22,6 +22,7 @@
 
 #include <QDockWidget>
 
+class LogController;
 namespace Ui
 {
 class NotificationZone;
@@ -31,7 +32,7 @@ class NotificationZone : public QDockWidget
 {
     Q_OBJECT
 public:
-    explicit NotificationZone(QWidget* parent= nullptr);
+    explicit NotificationZone(LogController* logCtrl, QWidget* parent= nullptr);
     ~NotificationZone();
     void initSetting();
 

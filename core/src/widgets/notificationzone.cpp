@@ -20,9 +20,13 @@
 #include "notificationzone.h"
 #include "ui_notificationzone.h"
 
-NotificationZone::NotificationZone(QWidget* parent) : QDockWidget(parent), ui(new Ui::NotificationZone)
+#include "common/controller/logcontroller.h"
+
+NotificationZone::NotificationZone(LogController* logCtrl, QWidget* parent)
+    : QDockWidget(parent), ui(new Ui::NotificationZone)
 {
     ui->setupUi(this);
+    ui->m_logPanel->setController(logCtrl);
 }
 
 NotificationZone::~NotificationZone()

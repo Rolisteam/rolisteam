@@ -519,7 +519,7 @@ void MainWindow::userNatureChange(bool isGM)
 
 void MainWindow::createNotificationZone()
 {
-    m_dockLogUtil= new NotificationZone(this);
+    m_dockLogUtil= new NotificationZone(m_gameController->logController(), this);
     m_dockLogUtil->setObjectName("dockLogUtil");
     m_dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
     m_dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable
