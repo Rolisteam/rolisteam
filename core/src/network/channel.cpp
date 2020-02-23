@@ -178,8 +178,8 @@ void Channel::sendToMany(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
             bool b= false;
             if(i + 1 == recipient.size())
                 b= deleteMsg;
-            QMetaObject::invokeMethod(
-                other, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg), Q_ARG(bool, b));
+            QMetaObject::invokeMethod(other, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg),
+                                      Q_ARG(bool, b));
             ++i;
         }
     }
@@ -197,8 +197,8 @@ void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
             if(i + 1 == m_child.size())
                 b= deleteMsg;
 
-            QMetaObject::invokeMethod(
-                other, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg), Q_ARG(bool, b));
+            QMetaObject::invokeMethod(other, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg),
+                                      Q_ARG(bool, b));
         }
 
         ++i;
@@ -207,9 +207,7 @@ void Channel::sendToAll(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
 
 bool Channel::contains(QString id)
 {
-    auto dupplicate= std::find_if(m_child.begin(),m_child.end(), [id](TreeItem* item){
-        return item->getId()==id;
-    });
+    auto dupplicate= std::find_if(m_child.begin(), m_child.end(), [id](TreeItem* item) { return item->getId() == id; });
 
     return dupplicate != m_child.end();
 }
@@ -281,8 +279,8 @@ void Channel::updateNewClient(TcpClient* newComer)
 {
     NetworkMessageWriter* msg1= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::ClearTable);
     msg1->string8(newComer->getId());
-    QMetaObject::invokeMethod(
-        newComer, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg1), Q_ARG(bool, true));
+    QMetaObject::invokeMethod(newComer, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg1),
+                              Q_ARG(bool, true));
     // Sending players infos
     for(auto& child : m_child)
     {
@@ -296,14 +294,16 @@ void Channel::updateNewClient(TcpClient* newComer)
                     NetworkMessageWriter* msg
                         = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
                     tcpConnection->fill(msg);
-                    QMetaObject::invokeMethod(
-                        newComer, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg), Q_ARG(bool, true));
+                    qDebug() << "sending message first" << msg->getDataSize();
+                    QMetaObject::invokeMethod(newComer, "sendMessage", Qt::QueuedConnection,
+                                              Q_ARG(NetworkMessage*, msg), Q_ARG(bool, true));
 
                     NetworkMessageWriter* msg2
                         = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
                     newComer->fill(msg2);
+                    qDebug() << "sending message second" << msg2->getDataSize();
                     QMetaObject::invokeMethod(tcpConnection, "sendMessage", Qt::QueuedConnection,
-                        Q_ARG(NetworkMessage*, msg2), Q_ARG(bool, true));
+                                              Q_ARG(NetworkMessage*, msg2), Q_ARG(bool, true));
                 }
             }
         }
@@ -312,8 +312,8 @@ void Channel::updateNewClient(TcpClient* newComer)
     for(auto& msg : m_dataToSend)
     {
         // tcp->sendMessage(msg);
-        QMetaObject::invokeMethod(
-            newComer, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg), Q_ARG(bool, false));
+        QMetaObject::invokeMethod(newComer, "sendMessage", Qt::QueuedConnection, Q_ARG(NetworkMessage*, msg),
+                                  Q_ARG(bool, false));
     }
 }
 
@@ -448,7 +448,7 @@ bool Channel::removeClient(TcpClient* client)
 
     // notify all remaining chan member to remove former player
     NetworkMessageWriter* message= new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
-    message->string8(client->getPlayerId());
+    message->string8(client->playerId());
     sendMessage(message, nullptr, false);
 
     if(hasNoClient())
@@ -509,7 +509,7 @@ void Channel::sendOffGmStatus(TcpClient* client)
 
     NetworkMessageWriter* message= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::GMStatus);
     QStringList idList;
-    idList << client->getPlayerId();
+    idList << client->playerId();
     message->setRecipientList(idList, NetworkMessage::OneOrMany);
     message->int8(static_cast<qint8>(isRealGM));
     sendToMany(message, nullptr);
@@ -551,7 +551,7 @@ void Channel::setCurrentGM(TcpClient* currentGM)
 QString Channel::getCurrentGmId()
 {
     if(m_currentGm)
-        return m_currentGm->getPlayerId();
+        return m_currentGm->playerId();
     return {};
 }
 quint64 Channel::memorySize() const
@@ -583,15 +583,13 @@ void Channel::setLocked(bool locked)
     m_locked= locked;
     emit lockedChanged();
 }
-bool Channel::removeChildById(const QString &id)
+bool Channel::removeChildById(const QString& id)
 {
-    auto dupplicate= std::find_if(m_child.begin(),m_child.end(), [id](TreeItem* item){
-        return item->getId()==id;
-    });
+    auto dupplicate= std::find_if(m_child.begin(), m_child.end(), [id](TreeItem* item) { return item->getId() == id; });
 
-     if(dupplicate == m_child.end())
-         return false;
+    if(dupplicate == m_child.end())
+        return false;
 
-     m_child.erase(dupplicate);
+    m_child.erase(dupplicate);
     return true;
 }
