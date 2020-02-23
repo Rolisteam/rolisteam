@@ -1,0 +1,39 @@
+digraph initalization_new {
+
+ node [shape=box]; main,MainWindow,GameController,NetworkController,ConnectionProfileDialog,LogController,RemoteLogController,LocalPlayer,ChatModel,PlayerModel,PersonController,MediaController,WorkSpace,Toolbar,VToolbar,MusicPlayer,LogPanel,PlayerList,ChannelList,ChatList,ClientManager,ServerManager,UnitConvertor,NameGenerator,NpcMaker;
+
+
+ main -> MainWindow;
+ MainWindow -> GameController;
+ GameController -> NetworkController;
+ GameController -> PersonController;
+ NetworkController -> ServerManager;
+ NetworkController -> ClientManager;
+ GameController -> LogController;
+ GameController -> MediaController;
+ GameController -> ChatController;
+ ChatController -> ChatModel;
+ 
+ PersonController -> PlayerModel;
+ LogController -> RemoteLogController;
+ MainWindow -> ConnectionProfileDialog;
+ MainWindow -> WorkSpace;
+ MainWindow -> LogPanel;
+ MainWindow -> Toolbar;
+ MainWindow -> VToolbar;
+ MainWindow -> MusicPlayer;
+ MainWindow -> PlayerList;
+ MainWindow -> ChatList;
+ MainWindow -> ChannelList;
+ MainWindow -> UnitConvertor;
+ MainWindow -> NameGenerator;
+ MainWindow -> NpcMaker;
+
+ Workspace -> MediaController [style=dashed];
+
+ ConnectionProfileDialog -> GameController [style=dashed];
+ GameController -> LocalPlayer;
+
+ PlayerList -> PlayerModel [style=dashed];
+
+}
