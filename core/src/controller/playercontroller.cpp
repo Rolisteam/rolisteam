@@ -85,7 +85,6 @@ void PlayerController::setLocalPlayer(Player* player)
         return;
     removePlayer(m_localPlayer);
     m_localPlayer= player;
-    addPlayer(m_localPlayer);
     emit localPlayerChanged();
 }
 

@@ -59,7 +59,7 @@ GameController::GameController(QObject* parent)
     m_contentCtrl->setGameController(this);
     m_preferencesDialogController->setGameController(this);
 
-    auto local= m_playerController->localPlayer();
+    // auto local= m_playerController->localPlayer();
 
     connect(m_logController.get(), &LogController::sendOffMessage, m_remoteLogCtrl.get(), &RemoteLogController::addLog);
     // connect(, &NetworkController::isGMChanged, this, &GameController::localIsGMChanged);
@@ -286,18 +286,20 @@ void GameController::startConnection(int profileIndex)
     local->setColor(profile->playerColor());
     local->setAvatarPath(profile->playerAvatar());
 
-    for(auto character : profile->characters())
+    if(!local->isGM())
     {
-        local->addCharacter(character.m_name, character.m_color, character.m_avatarPath, false);
+        auto characters= profile->characters();
+        std::for_each(characters.begin(), characters.end(), [local](const CharacterData& data) {
+            local->addCharacter(data.m_name, data.m_color, data.m_avatarPath, data.m_params, false);
+        });
     }
-    // auto player= profile->getPlayer();
-    // m_playerController->setLocalPlayer(player);
-
     m_networkCtrl->setHost(profile->address());
     m_networkCtrl->setPort(profile->port());
     m_networkCtrl->setServerPassword(profile->password());
     m_networkCtrl->setIsGM(profile->isGM());
     m_networkCtrl->setHosting(profile->isServer());
+
+    m_playerController->addPlayer(local);
 
     m_networkCtrl->startConnection();
 }
