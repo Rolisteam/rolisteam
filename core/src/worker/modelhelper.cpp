@@ -80,7 +80,7 @@ void readConnectionProfileModel(ProfileModel* model)
         }
         settings.endArray();
 
-        if(characterCount == 0)
+        if(characterCount == 0 && !profile->isGM())
         {
             auto name= settings.value("CharacterName").toString();
             auto path= settings.value("CharacterPath").toString();
@@ -137,7 +137,6 @@ void writeConnectionProfileModel(ProfileModel* model)
 
             settings.setValue("CharacterName", charact.m_name);
             settings.setValue("CharacterPath", charact.m_avatarPath);
-            qDebug() << charact.m_avatarPath;
             settings.setValue("CharacterColor", charact.m_color);
 
             for(auto key : CharacterFields)
