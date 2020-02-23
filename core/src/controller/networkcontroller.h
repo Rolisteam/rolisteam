@@ -25,6 +25,8 @@
 #include <QPointer>
 #include <memory>
 
+#include "network/networkreceiver.h"
+
 class ClientManager;
 class ServerManager;
 class QThread;

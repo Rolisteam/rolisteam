@@ -25,6 +25,7 @@
 #include <QObject>
 #include <QPixmap>
 #include <QRectF>
+#include <memory>
 
 #include "data/charactervision.h"
 #include "visualitemcontroller.h"

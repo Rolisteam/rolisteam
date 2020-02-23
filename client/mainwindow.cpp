@@ -74,11 +74,15 @@
 #include "widgets/toolsbar.h"
 #include "widgets/workspace.h"
 #include "worker/messagehelper.h"
+#include "worker/playermessagehelper.h"
+
 #ifdef HAVE_WEBVIEW
 #include "webview/webview.h"
 #include <QWebEngineSettings>
 #endif
 // LOG
+#include "common/controller/logcontroller.h"
+#include "common/controller/remotelogcontroller.h"
 #include "common/widgets/logpanel.h"
 
 // Controller

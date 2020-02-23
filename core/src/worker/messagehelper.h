@@ -20,7 +20,7 @@
 #ifndef MESSAGEHELPER_H
 #define MESSAGEHELPER_H
 
-#include <QByteArray>
+#include <QString>
 
 class Player;
 class DiceAliasModel;

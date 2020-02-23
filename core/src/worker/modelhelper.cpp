@@ -28,6 +28,7 @@
 #include "session/sessionitemmodel.h"
 
 #include <QDebug>
+#include <QUuid>
 #include <QFileInfo>
 #include <QFontDatabase>
 #include <QJsonDocument>

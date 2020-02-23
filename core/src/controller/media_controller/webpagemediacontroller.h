@@ -20,6 +20,9 @@
 #ifndef WEBPAGEMEDIACONTROLLER_H
 #define WEBPAGEMEDIACONTROLLER_H
 
+#include <memory>
+#include <vector>
+
 #include "mediacontrollerinterface.h"
 
 class WebpageController;
