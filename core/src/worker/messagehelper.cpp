@@ -20,30 +20,21 @@
 #include "messagehelper.h"
 
 #include <QBuffer>
+#include <QDebug>
 
 #include "controller/view_controller/abstractmediacontroller.h"
 #include "controller/view_controller/imagecontroller.h"
+#include "data/character.h"
 #include "data/cleveruri.h"
-#include "data/features.h"
 #include "data/player.h"
 #include "dicealias.h"
+#include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "preferences/characterstatemodel.h"
 #include "preferences/dicealiasmodel.h"
+#include "userlist/playermodel.h"
 
 MessageHelper::MessageHelper() {}
-
-void MessageHelper::sendOffConnectionInfo(Player* player, const QByteArray& password)
-{
-    if(player == nullptr)
-        return;
-
-    NetworkMessageWriter msg(NetMsg::AdministrationCategory, NetMsg::ConnectionInfo);
-    msg.byteArray32(password);
-    setLocalFeatures(*player);
-    player->fill(msg);
-    msg.sendToServer();
-}
 
 void MessageHelper::sendOffGoodBye()
 {
@@ -51,12 +42,9 @@ void MessageHelper::sendOffGoodBye()
     message.sendToServer();
 }
 
-void MessageHelper::sendOffPlayerInformations(Player* player)
+QString MessageHelper::readPlayerId(NetworkMessageReader& msg)
 {
-    NetworkMessageWriter message(NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
-    setLocalFeatures(*player);
-    player->fill(message);
-    message.sendToServer();
+    return msg.string8();
 }
 
 void MessageHelper::sendOffAllDiceAlias(DiceAliasModel* model)
@@ -167,4 +155,49 @@ void MessageHelper::sendOffImage(ImageController* ctrl)
         // TODO log error
     }
     msg.byteArray32(array);
+}
+
+void MessageHelper::updatePerson(NetworkMessageReader& data, PlayerModel* playerModel)
+{
+    QString uuid= data.string8();
+    auto person= playerModel->playerById(uuid);
+    if(nullptr == person)
+        return;
+
+    auto role= data.int32();
+
+    auto property= data.string8();
+    QVariant var;
+    if(property.contains("color"))
+    {
+        var= QVariant::fromValue(QColor(data.rgb()));
+    }
+    else if(property.contains("avatar"))
+    {
+        auto array= data.byteArray32();
+        QDataStream out(&array, QIODevice::ReadOnly);
+        out.setVersion(QDataStream::Qt_5_7);
+        QImage img;
+        out >> img;
+        var= QVariant::fromValue(img);
+    }
+    else if(property.contains(QStringLiteral("state")))
+    {
+        auto label= data.string32();
+        auto state= Character::getStateFromLabel(label);
+        var= QVariant::fromValue(state);
+    }
+    else
+    {
+        auto val= data.string32();
+        var= QVariant::fromValue(val);
+    }
+
+    auto idx= playerModel->personToIndex(person);
+
+    // person->setProperty(property.toLocal8Bit().data(), var);
+    playerModel->setData(idx, var, role);
+    /*
+        auto idx= personToIndex(person);
+        emit dataChanged(idx, idx);*/
 }
