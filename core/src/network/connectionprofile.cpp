@@ -97,7 +97,7 @@ QString ConnectionProfile::playerId() const
 
 void ConnectionProfile::setPlayerId(const QString& playerId)
 {
-    m_playerId = playerId;
+    m_playerId= playerId;
 }
 
 void ConnectionProfile::setPassword(const QString& password)
@@ -127,7 +127,6 @@ void ConnectionProfile::addCharacter(const CharacterData& data)
 
 CharacterData& ConnectionProfile::character(int i)
 {
-    qDebug() << "ConnectionProfile::character" << m_characters.size();
     return m_characters[static_cast<std::size_t>(i)];
 }
 
