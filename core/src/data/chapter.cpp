@@ -30,11 +30,11 @@ Chapter::Chapter() : m_children(QList<ResourcesNode*>())
 {
     m_children.clear();
 }
-Chapter::Chapter(const Chapter& m) : QObject(m.parent()), m_children(QList<ResourcesNode*>())
+/*Chapter::Chapter(const Chapter& m) : QObject(m.parent()), m_children(QList<ResourcesNode*>())
 {
     m_name= m.m_name;
     m_children.clear();
-}
+}*/
 
 Chapter::~Chapter()
 {

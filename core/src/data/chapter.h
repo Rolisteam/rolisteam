@@ -36,10 +36,6 @@ public:
      */
     Chapter();
     /**
-     * @brief copy constructor
-     */
-    Chapter(const Chapter& m);
-    /**
      * @brief destructor
      */
     virtual ~Chapter() override;
@@ -90,6 +86,6 @@ private:
     friend QDataStream& operator>>(QDataStream& is, Chapter&);
 };
 typedef QList<Chapter> ChapterList;
-Q_DECLARE_METATYPE(Chapter)
-Q_DECLARE_METATYPE(ChapterList)
+// Q_DECLARE_METATYPE(Chapter)
+// Q_DECLARE_METATYPE(ChapterList)
 #endif // CHAPTER_H
