@@ -274,7 +274,6 @@ void MainWindow::setupUi()
     ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::DrawCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory, this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::SharedNoteCategory, this);
@@ -1363,10 +1362,6 @@ void MainWindow::parseCommandLineArguments(QStringList list)
     case NetMsg::CharacterCategory:
         processCharacterMessage(msg);
         type= NetWorkReceiver::AllExceptSender;
-        break;
-    case NetMsg::AdministrationCategory:
-        processAdminstrationMessage(msg);
-        type= NetWorkReceiver::NONE;
         break;
     case NetMsg::VMapCategory:
         type= processVMapMessage(msg);
