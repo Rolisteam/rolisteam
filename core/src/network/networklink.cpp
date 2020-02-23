@@ -29,11 +29,29 @@
 #include "network/networkmessagewriter.h"
 #include "network/receiveevent.h"
 
-NetworkLink::NetworkLink()
+QByteArray dataToArray(const NetworkMessageHeader& header, const char* buffer)
 {
-    setSocket(new QTcpSocket(this));
+    QByteArray array;
+    array.append(reinterpret_cast<const char*>(&header), sizeof(NetworkMessageHeader));
+    array.append(buffer, static_cast<int>(header.dataSize));
+    return array;
+}
+
+NetworkLink::NetworkLink() : m_socketTcp(new QTcpSocket(this))
+{
+    initialize();
     m_receivingData= false;
     m_headerRead= 0;
+}
+
+bool NetworkLink::connected() const
+{
+    return m_connected;
+}
+
+bool NetworkLink::error() const
+{
+    return m_inError;
 }
 void NetworkLink::initialize()
 {
@@ -45,54 +63,54 @@ NetworkLink::~NetworkLink()= default;
 
 void NetworkLink::makeSignalConnection()
 {
-    connect(m_socketTcp, SIGNAL(readyRead()), this, SLOT(receivingData()));
-    connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)), this,
-            SLOT(connectionError(QAbstractSocket::SocketError)));
-    connect(m_socketTcp, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
-    connect(m_socketTcp, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this,
-            SLOT(socketStateChanged(QAbstractSocket::SocketState)));
+    m_readyConnection= connect(m_socketTcp, &QTcpSocket::readyRead, this, &NetworkLink::receivingData);
+    m_errorConnection= connect(m_socketTcp, &QTcpSocket::stateChanged, this, &NetworkLink::socketStateChanged);
 }
 
 void NetworkLink::connectionError(QAbstractSocket::SocketError error)
 {
-    Q_UNUSED(error);
+    Q_UNUSED(error)
     if(m_socketTcp.isNull())
         return;
-    emit errorMessage(m_socketTcp->errorString());
+    setErrorMessage(m_socketTcp->errorString());
 }
 
-void NetworkLink::sendData(char* data, quint32 size)
+void NetworkLink::sendData(char* data, qint64 size)
 {
+    if(!m_connected)
+        return;
+
     if(nullptr == m_socketTcp)
     {
-        emit errorMessage(tr("Socket is null"));
+        setErrorMessage(tr("Socket is null"));
         return;
     }
     if(!m_socketTcp->isWritable())
     {
-        emit errorMessage(tr("Socket is not writable"));
+        setErrorMessage(tr("Socket is not writable"));
         return;
     }
 
     // sending data
 #ifdef DEBUG_MODE
     NetworkMessageHeader header;
-    memcpy((char*)&header, data, sizeof(NetworkMessageHeader));
-    qDebug() << "send Data Categorie 1:" << MessageDispatcher::cat2String((NetworkMessageHeader*)data) << "Action"
-             << MessageDispatcher::act2String((NetworkMessageHeader*)data);
+    memcpy(reinterpret_cast<char*>(&header), data, sizeof(NetworkMessageHeader));
+    qDebug() << "send Data Categorie:" << MessageDispatcher::cat2String(reinterpret_cast<NetworkMessageHeader*>(data))
+             << "Action" << MessageDispatcher::act2String(reinterpret_cast<NetworkMessageHeader*>(data));
 
     qDebug() << "header: cat" << header.category << "act:" << header.action << "datasize:" << header.dataSize << "size"
-             << size << (int)data[0] << "socket" << m_socketTcp;
+             << size << static_cast<int>(data[0]) << "socket" << m_socketTcp;
 
     qDebug() << "thread current" << QThread::currentThread() << "thread socket:" << m_socketTcp->thread()
              << "this thread" << thread();
 #endif
 
+    qDebug() << size;
     auto t= m_socketTcp->write(data, size);
 
     if(t < 0)
     {
-        emit errorMessage(tr("Tranmission error :") + m_socketTcp->errorString());
+        setErrorMessage(tr("Tranmission error :") + m_socketTcp->errorString());
     }
 }
 
@@ -110,7 +128,7 @@ void NetworkLink::receivingData()
     {
         return;
     }
-    quint32 readData= 0;
+    qint64 readData= 0;
 
     while(m_socketTcp->bytesAvailable())
     {
@@ -124,7 +142,7 @@ void NetworkLink::receivingData()
 
             if((readDataSize != sizeof(NetworkMessageHeader))) //||(m_header.category>=NetMsg::LastCategory)
             {
-                m_headerRead= readDataSize;
+                m_headerRead= static_cast<quint64>(readDataSize);
                 return;
             }
             else
@@ -145,8 +163,10 @@ void NetworkLink::receivingData()
         else
         {
             emit readDataReceived(0, 0);
+            auto array= dataToArray(m_header, m_buffer);
+            emit messageReceived(array);
 
-            if(ReceiveEvent::hasReceiverFor(m_header.category, m_header.action))
+            /*if(ReceiveEvent::hasReceiverFor(m_header.category, m_header.action))
             {
                 ReceiveEvent* event= new ReceiveEvent(m_header, m_buffer, this);
                 event->postToReceiver();
@@ -160,8 +180,9 @@ void NetworkLink::receivingData()
                 {
                     tmp->processMessage(&data);
                 }
-            }
-            switch(data.category())
+            }*/
+
+            /*switch(data.category())
             {
             case NetMsg::PlayerCategory:
                 processPlayerMessage(&data);
@@ -174,14 +195,14 @@ void NetworkLink::receivingData()
                 break;
             default:
                 break;
-            }
+            }*/
             delete[] m_buffer;
             m_remainingData= 0;
             m_receivingData= false;
         }
     }
 }
-void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
+/*void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
 {
     if(NetMsg::Heartbeat == msg->action())
     {
@@ -227,7 +248,7 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
     else if(NetMsg::NeedPassword == msg->action())
     {
         // TODO get PASSWORD
-        /*  if(nullptr != m_connection)
+        / *  if(nullptr != m_connection)
           {
               const auto pw= m_connection->getPassword();
               if(pw.isEmpty())
@@ -241,7 +262,7 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
                       disconnectAndClose();
                   }
               }
-          }*/
+          }* /
     }
     else if(NetMsg::GMStatus == msg->action())
     {
@@ -253,47 +274,48 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
     }
     else
         qDebug() << "processAdminstrationMessage " << msg->action();
-}
+}*/
 
-void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
+/*void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
 {
-    if(NetMsg::PlayerCategory == msg->category())
+    if(NetMsg::PlayerCategory == msg->category() && NetMsg::PlayerConnectionAction == msg->action())
     {
-        if(NetMsg::PlayerConnectionAction == msg->action())
-        {
-            NetworkMessageHeader header;
-            header.category= NetMsg::AdministrationCategory;
-            header.action= NetMsg::EndConnectionAction;
-            header.dataSize= 0;
-            sendData(reinterpret_cast<char*>(&header), sizeof(NetworkMessageHeader));
-        }
+        NetworkMessageHeader header;
+        header.category= NetMsg::AdministrationCategory;
+        header.action= NetMsg::EndConnectionAction;
+        header.dataSize= 0;
+        sendData(reinterpret_cast<char*>(&header), sizeof(NetworkMessageHeader));
     }
-}
-void NetworkLink::processSetupMessage(NetworkMessageReader* msg)
-{
-    Q_UNUSED(msg);
-}
+}*/
 
-void NetworkLink::disconnectAndClose()
+void NetworkLink::closeCommunicationWithServer()
 {
-    if(m_socketTcp)
-    {
-        qDebug() << "close socket";
-        m_socketTcp->close();
-    }
+    if(nullptr == m_socketTcp)
+        return;
+
+    setConnected(false);
+    m_socketTcp->close();
 }
-void NetworkLink::setSocket(QTcpSocket* socket, bool makeConnection)
+void NetworkLink::setSocket(QTcpSocket* socket)
 {
+    disconnect(m_readyConnection);
+    disconnect(m_errorConnection);
+
     m_socketTcp= socket;
-    if(makeConnection)
-    {
-        initialize();
-    }
+    initialize();
 }
-void NetworkLink::insertNetWortReceiver(NetWorkReceiver* receiver, NetMsg::Category cat)
+
+void NetworkLink::setError(bool b)
+{
+    if(m_inError == b)
+        return;
+    m_inError= b;
+    emit errorChanged(b);
+}
+/*void NetworkLink::insertNetWortReceiver(NetWorkReceiver* receiver, NetMsg::Category cat)
 {
     m_receiverMap.insert(cat, receiver);
-}
+}*/
 void NetworkLink::connectTo(const QString& host, int port)
 {
     if(m_socketTcp.isNull())
@@ -301,6 +323,21 @@ void NetworkLink::connectTo(const QString& host, int port)
 
     m_socketTcp->connectToHost(host, static_cast<quint16>(port));
 }
+
+void NetworkLink::setConnected(bool b)
+{
+    if(b == m_connected)
+        return;
+    m_connected= b;
+    emit connectedChanged(b);
+}
+
+void NetworkLink::setErrorMessage(const QString& erroMsg)
+{
+    setError(true);
+    m_lastErrorMsg= erroMsg;
+}
+
 void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
 {
     qDebug() << "before socketState" << state;
@@ -308,32 +345,29 @@ void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
     {
     case QAbstractSocket::ClosingState:
     case QAbstractSocket::UnconnectedState:
-        emit disconnected();
-        break;
     case QAbstractSocket::HostLookupState:
     case QAbstractSocket::ConnectingState:
     case QAbstractSocket::BoundState:
-        emit connecting(); // setConnectionState(CONNECTING);
+        setConnected(false);
         break;
     case QAbstractSocket::ConnectedState:
-        emit connected();
+        qDebug() << "socket state Connected";
+        setConnected(true);
         break;
     default:
         break;
     }
 }
-bool NetworkLink::isOpen() const
+/*bool NetworkLink::isOpen() const
 {
     if(m_socketTcp.isNull())
         return false;
 
     return m_socketTcp->isOpen();
-}
+}*/
 
 void NetworkLink::reset()
 {
-    if(m_socketTcp.isNull())
-        return;
-
-    m_socketTcp->abort();
+    m_inError= false;
+    m_connected= false;
 }

@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
  *	Copyright (C) 2019 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
@@ -21,6 +21,7 @@
 #define CONNECTIONCONTROLLER_H
 
 #include "controllerinterface.h"
+
 #include <QObject>
 #include <QPointer>
 #include <memory>
@@ -35,8 +36,9 @@ class ProfileModel;
 class QAbstractItemModel;
 class ConnectionProfile;
 class GameController;
+class ChannelModel;
 class IpChecker;
-class NetworkController : public AbstractControllerInterface
+class NetworkController : public AbstractControllerInterface, public NetWorkReceiver
 {
     Q_OBJECT
     Q_PROPERTY(bool isGM READ isGM WRITE setIsGM NOTIFY isGMChanged)
@@ -49,10 +51,11 @@ class NetworkController : public AbstractControllerInterface
     Q_PROPERTY(QByteArray adminPassword READ adminPassword WRITE setAdminPassword NOTIFY adminPasswordChanged)
     Q_PROPERTY(QByteArray serverPassword READ serverPassword WRITE setServerPassword NOTIFY serverPasswordChanged)
     Q_PROPERTY(ProfileModel* profileModel READ profileModel CONSTANT)
+    Q_PROPERTY(ChannelModel* channelModel READ channelModel CONSTANT)
     Q_PROPERTY(QString ipv4 READ ipv4 NOTIFY ipv4Changed)
 public:
     explicit NetworkController(QObject* parent= nullptr);
-    ~NetworkController();
+    ~NetworkController() override;
     bool isGM() const;
     bool connected() const;
     bool connecting() const;
@@ -61,15 +64,20 @@ public:
     QString host() const;
     int port() const;
     QString ipv4() const;
+
     ProfileModel* profileModel() const;
+    ChannelModel* channelModel() const;
 
     QByteArray adminPassword() const;
     QByteArray serverPassword() const;
 
-    void setGameController(GameController* game);
+    void setGameController(GameController* game) override;
 
     void stopConnecting();
     void disconnection();
+
+    void insertNetWortReceiver(NetWorkReceiver*, NetMsg::Category cat);
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
 signals:
     void isGMChanged();
@@ -84,6 +92,8 @@ signals:
     void ipv4Changed();
     void downloadingData(quint64 readData, quint64 size);
     void tableChanged();
+
+    void authentificationFail();
 
 public slots:
     void startConnection();
@@ -103,6 +113,8 @@ public slots:
 private slots:
     void sendOffConnectionInfo();
 
+    void dispatchMessage(QByteArray array);
+
 private:
     void startServer();
     void startClient();
@@ -113,8 +125,10 @@ private:
     std::unique_ptr<QThread> m_serverThread;
     std::unique_ptr<HeartBeatSender> m_hbSender;
     std::unique_ptr<ProfileModel> m_profileModel;
+    std::unique_ptr<ChannelModel> m_channelModel;
     std::unique_ptr<IpChecker> m_ipChecker;
     QPointer<GameController> m_gameCtrl;
+    QHash<NetMsg::Category, NetWorkReceiver*> m_receiverMap;
 
     QByteArray m_serverPw;
     QByteArray m_admindPw;

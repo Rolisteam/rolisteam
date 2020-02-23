@@ -35,16 +35,16 @@
 #include "worker/playermessagehelper.h"
 
 NetworkController::NetworkController(QObject* parent)
-    : AbstractControllerInterface(parent), m_clientManager(new ClientManager), m_profileModel(new ProfileModel)
+    : AbstractControllerInterface(parent)
+    , m_clientManager(new ClientManager)
+    , m_profileModel(new ProfileModel)
+    , m_channelModel(new ChannelModel)
 {
+    qRegisterMetaType<ServerManager::ServerState>();
     Settingshelper::readConnectionProfileModel(m_profileModel.get());
-    // connect(m_clientManager.get(), &ClientManager::notifyUser, m_gameController.get(),
-    // &GameController::addFeatureLog);
-    // connect(m_clientManager.get(), &ClientManager::stopConnectionTry, this, &MainWindow::stopReconnection);
-    // connect(m_clientManager.get(), &ClientManager::errorOccur, m_dialog,
-    // &SelectConnectionProfileDialog::errorOccurs);
-    /*connect(m_clientManager.get(), SIGNAL(connectionStateChanged(ClientManager::ConnectionState)), this,
-            SLOT(updateWindowTitle()));*/
+
+    ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory, this);
+
     connect(m_clientManager.get(), &ClientManager::connectionStateChanged, this,
             [this](ClientManager::ConnectionState state) {
                 setConnected(state == ClientManager::AUTHENTIFIED);
@@ -52,16 +52,45 @@ NetworkController::NetworkController(QObject* parent)
             });
 
     connect(m_clientManager.get(), &ClientManager::dataReceived, this, &NetworkController::downloadingData);
+    connect(m_clientManager.get(), &ClientManager::messageReceived, this, &NetworkController::dispatchMessage);
     connect(m_clientManager.get(), &ClientManager::connectedToServer, this, &NetworkController::sendOffConnectionInfo);
-    // connect(m_clientManager.get(), SIGNAL(clearData()), this, SLOT(cleanUpData()));
     connect(m_clientManager.get(), &ClientManager::gameMasterStatusChanged, this, &NetworkController::isGMChanged);
     connect(m_clientManager.get(), &ClientManager::moveToAnotherChannel, this, &NetworkController::tableChanged);
+
+    // connect(m_clientManager.get(), SIGNAL(clearData()), this, SLOT(cleanUpData()));
+    // connect(m_clientManager.get(), &ClientManager::notifyUser, m_gameController.get(),
+    // &GameController::addFeatureLog);
+    // connect(m_clientManager.get(), &ClientManager::stopConnectionTry, this, &MainWindow::stopReconnection);
+    // connect(m_clientManager.get(), &ClientManager::errorOccur, m_dialog,
+    // &SelectConnectionProfileDialog::errorOccurs);
+    /*connect(m_clientManager.get(), SIGNAL(connectionStateChanged(ClientManager::ConnectionState)), this,
+            SLOT(updateWindowTitle()));*/
 }
 NetworkController::~NetworkController() {}
+
+void NetworkController::dispatchMessage(QByteArray array)
+{
+    qDebug() << "dispatch array message";
+    NetworkMessageReader data;
+    data.setInternalData(array);
+    if(ReceiveEvent::hasNetworkReceiverFor(data.category()))
+    {
+        QList<NetWorkReceiver*> tmpList= ReceiveEvent::getNetWorkReceiverFor(data.category());
+        for(NetWorkReceiver* tmp : tmpList)
+        {
+            tmp->processMessage(&data);
+        }
+    }
+}
 
 ProfileModel* NetworkController::profileModel() const
 {
     return m_profileModel.get();
+}
+
+ChannelModel* NetworkController::channelModel() const
+{
+    return m_channelModel.get();
 }
 
 void NetworkController::startConnection()
@@ -152,29 +181,41 @@ void NetworkController::startServer()
     m_server->moveToThread(m_serverThread.get());
     m_server->initServerManager();
     connect(m_serverThread.get(), &QThread::started, m_server.get(), &ServerManager::startListening);
-    connect(m_serverThread.get(), &QThread::finished, m_server.get(), &ServerManager::stopListening);
-    connect(m_server.get(), &ServerManager::closed, m_serverThread.get(), &QThread::terminate);
-    connect(m_server.get(), &ServerManager::finished, m_serverThread.get(), &QThread::terminate);
-    connect(m_server.get(), &ServerManager::sendLog, this, [this](const QString& str, LogController::LogLevel level) {
-        /*switch(level)
+    // connect(m_serverThread.get(), &QThread::finished, m_server.get(), &ServerManager::stopListening);
+    connect(m_serverThread.get(), &QThread::finished, this, []() { qDebug() << "server thread terminated"; });
+    connect(m_server.get(), &ServerManager::stateChanged, this, [this]() {
+        switch(m_server->state())
         {
-        case LogController::Error:
-            m_dialog->errorOccurs(str);
-            m_gameController->addErrorLog(str);
+        case ServerManager::Stopped:
+            m_serverThread->terminate();
             break;
-        case LogController::Info:
-            m_gameController->addInfoLog(str);
+        case ServerManager::Listening:
+        case ServerManager::Error:
             break;
-        case LogController::Warning:
-            m_gameController->addWarningLog(str);
-            break;
-        case LogController::Features:
-            m_gameController->addFeatureLog(str);
-            break;
-        default:
-            break;
-        }*/
+        }
     });
+    connect(m_server.get(), &ServerManager::errorOccured, this,
+            [this](const QString& str, LogController::LogLevel level) {
+                qDebug() << str << "error on server";
+                /*switch(level)
+                {
+                case LogController::Error:
+                    m_dialog->errorOccurs(str);
+                    m_gameController->addErrorLog(str);
+                    break;
+                case LogController::Info:
+                    m_gameController->addInfoLog(str);
+                    break;
+                case LogController::Warning:
+                    m_gameController->addWarningLog(str);
+                    break;
+                case LogController::Features:
+                    m_gameController->addFeatureLog(str);
+                    break;
+                default:
+                    break;
+                }*/
+            });
     // connect(m_server, &ServerManager::listening, this, &MainWindow::initializedClientManager,
     // Qt::QueuedConnection);
 
@@ -218,6 +259,30 @@ void NetworkController::disconnection()
 
     if(m_serverThread)
         m_serverThread->terminate();
+}
+
+NetWorkReceiver::SendType NetworkController::processMessage(NetworkMessageReader* msg)
+{
+    NetWorkReceiver::SendType type= NetWorkReceiver::NONE;
+    switch(msg->action())
+    {
+    case NetMsg::EndConnectionAction:
+        break;
+    case NetMsg::SetChannelList:
+        break;
+    case NetMsg::AdminAuthSucessed:
+        break;
+    case NetMsg::AuthentificationFail:
+        m_clientManager->setAuthentificationStatus(false);
+        break;
+    case NetMsg::AuthentificationSucessed:
+        m_clientManager->setAuthentificationStatus(true);
+        break;
+    default:
+        break;
+    }
+
+    return type;
 }
 
 bool NetworkController::hosting() const
@@ -291,12 +356,14 @@ void NetworkController::sendOffConnectionInfo()
     auto playerCtrl= m_gameCtrl->playerController();
     if(nullptr == playerCtrl)
         return;
-    MessageHelper::sendOffConnectionInfo(playerCtrl->localPlayer(), m_serverPw);
+    PlayerMessageHelper::sendOffConnectionInfo(playerCtrl->localPlayer(), m_serverPw);
 }
 void NetworkController::closeServer()
 {
     if(m_server)
-        m_server->stopListening();
+    {
+        QMetaObject::invokeMethod(m_server.get(), &ServerManager::stopListening, Qt::QueuedConnection);
+    }
 }
 
 void NetworkController::saveData()

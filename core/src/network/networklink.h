@@ -31,78 +31,45 @@
 #include "networkreceiver.h"
 
 /**
- * @brief The NetworkLink class to the server [Client side]
+ * @brief The NetworkLink [Client side] class.
+ * Send data from client to server
+ * Read data from server to client
+ * manage the socket to server
  */
 class NetworkLink : public QObject, public MessageSenderInterface
 {
     Q_OBJECT
+    Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
+    Q_PROPERTY(bool error READ error NOTIFY errorChanged)
 
 public:
-    /**
-     * @brief NetworkLink
-     * @param m_connection
-     */
     NetworkLink();
-    /**
-     * @brief ~NetworkLink
-     */
     virtual ~NetworkLink();
-    /**
-     * @brief setSocket
-     * @param socket
-     * @param makeConnection
-     */
-    void setSocket(QTcpSocket* socket, bool makeConnection= true);
-    /**
-     * @brief disconnectAndClose
-     */
-    void disconnectAndClose();
-    /**
-     * @brief initialize
-     */
-    void initialize();
-    /**
-     * @brief insertNetWortReceiver
-     * @param cat
-     */
-    void insertNetWortReceiver(NetWorkReceiver*, NetMsg::Category cat);
-    /**
-     * @brief processPlayerMessage
-     * @param msg
-     */
-    void processPlayerMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processSetupMessage
-     * @param msg
-     */
-    void processSetupMessage(NetworkMessageReader* msg);
-    ConnectionProfile* getConnection() const;
-    void setConnection(ConnectionProfile* value);
 
-    bool isOpen() const;
+    bool connected() const;
+    bool error() const;
+    QString lastErrorMessage() const;
 
-    void reset();
 public slots:
-    void sendData(char* data, quint32 size);
+    void reset();
     void connectTo(const QString& host, int port);
-    void sendData(NetworkMessage* msg);
-    void processAdminstrationMessage(NetworkMessageReader* msg);
+    void setSocket(QTcpSocket* socket);
+    void closeCommunicationWithServer();
+
+    void sendData(char* data, qint64 size);
     void sendMessage(const NetworkMessage* msg) override;
+
 signals:
-    /**
-     * @brief readDataReceived
-     */
     void readDataReceived(quint64, quint64);
-    void errorMessage(QString);
-    void gameMasterStatusChanged(bool status);
+    void messageReceived(const QByteArray);
+    void errorChanged(bool);
+    void connectedChanged(bool);
+    // void gameMasterStatusChanged(bool status);
 
     //////////////////////////
     // State signal
     /////////////////////////
-    /**
-     * @brief connecting
-     */
-    void connecting();
+    /*void connecting();
     void error();
     void connected();
     void disconnected();
@@ -111,43 +78,34 @@ signals:
     void clearData();
     void adminAuthSuccessed();
     void adminAuthFailed();
-    void moveToAnotherChannel();
+    void moveToAnotherChannel();*/
 
-protected slots:
-    void socketStateChanged(QAbstractSocket::SocketState state);
 private slots:
+    void setConnected(bool);
+    void setError(bool);
+    void socketStateChanged(QAbstractSocket::SocketState state);
     void receivingData();
     void connectionError(QAbstractSocket::SocketError error);
+    void initialize();
+    void setErrorMessage(const QString& erroMsg);
 
 private:
-    /**
-     * @brief makeSignalConnection
-     */
     void makeSignalConnection();
-    /**
-     * @brief postTo
-     * @param obj
-     */
-    void postTo(QObject* obj) const;
-    /**
-     * @brief extractCharacter
-     * @param map
-     * @param m_buffer
-     * @return
-     */
-    int extractCharacter(Map* map, char* m_buffer);
 
+private:
     QPointer<QTcpSocket> m_socketTcp;
+    bool m_inError= false;
+    bool m_connected= false;
+    QString m_lastErrorMsg;
+
+    QMetaObject::Connection m_readyConnection;
+    QMetaObject::Connection m_errorConnection;
+
     NetworkMessageHeader m_header;
     bool m_receivingData;
     char* m_buffer= nullptr;
     quint32 m_remainingData;
-    QMap<NetMsg::Category, NetWorkReceiver*> m_receiverMap;
-    qint64 m_headerRead;
-    QHash<QString, int> m_hbCount;
-    int m_port;
-    QString m_host;
-    ConnectionProfile* m_connection= nullptr;
+    quint64 m_headerRead;
 };
 
 #endif
