@@ -245,7 +245,7 @@ void NetworkController::stopConnecting()
 
 void NetworkController::disconnection()
 {
-    if(!m_connected || !m_connecting)
+    if(!m_connected && !m_connecting)
         return;
 
     m_clientManager->disconnectAndClose();

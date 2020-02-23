@@ -66,6 +66,7 @@ public slots:
      */
     void setCurrentProfile(QModelIndex);
     void connectTo();
+    void stopConnecting();
     void connectToIndex(QModelIndex index);
     QString openImage(const QString& path);
     void errorOccurs(QString);
