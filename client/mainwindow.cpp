@@ -134,7 +134,7 @@ MainWindow::MainWindow(const QStringList& args)
     m_sessionDock.reset(new SessionDock(m_gameController->contentController()));
     m_vmapToolBar= new VmapToolBar(m_gameController->contentController()->vmapCtrl(), this);
     m_gmToolBoxList.append({new NameGeneratorWidget(this), new GMTOOL::Convertor(this), new NpcMakerWidget(this)});
-    m_roomPanel= new ChannelListPanel(this);
+    m_roomPanel= new ChannelListPanel(m_gameController->networkController(), this);
 
     connect(m_gameController.get(), &GameController::updateAvailableChanged, this, &MainWindow::showUpdateNotification);
     connect(m_gameController.get(), &GameController::tipOfDayChanged, this, &MainWindow::showTipChecker);
