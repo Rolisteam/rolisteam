@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                               *
+ *	Copyright (C) 2020 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,39 +17,29 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef MESSAGEHELPER_H
-#define MESSAGEHELPER_H
+#ifndef PLAYERMESSAGEHELPER_H
+#define PLAYERMESSAGEHELPER_H
 
-#include <QString>
+#include <QByteArray>
 
-class DiceAliasModel;
-class DiceAlias;
-class CharacterStateModel;
-class CharacterState;
-class AbstractMediaController;
-class ImageController;
+class Player;
 class NetworkMessageWriter;
 class NetworkMessageReader;
+class Character;
 class PlayerModel;
-class MessageHelper
+class ClientManager;
+class PlayerMessageHelper
 {
 public:
-    MessageHelper();
+    PlayerMessageHelper();
 
-    static void sendOffGoodBye();
+    static void sendOffConnectionInfo(Player* player, const QByteArray& password);
+    static void writePlayerIntoMessage(NetworkMessageWriter& msg, Player* player);
+    static void writeCharacterIntoMessage(NetworkMessageWriter& msg, Character* character);
+    static void sendOffPlayerInformations(Player* player);
 
-    static void sendOffAllDiceAlias(DiceAliasModel* model);
-    static void sendOffOneDiceAlias(DiceAlias* da, int row);
-
-    static void sendOffAllCharacterState(CharacterStateModel* model);
-    static void sendOffOneCharacterState(CharacterState* da, int row);
-
-    static QString readPlayerId(NetworkMessageReader& msg);
-
-    static void sendOffOpenMedia(AbstractMediaController* ctrl);
-    static void sendOffImage(ImageController* ctrl);
-
-    static void updatePerson(NetworkMessageReader& data, PlayerModel* playerModel);
+    static bool readPlayer(NetworkMessageReader& msg, Player* player);
+    static Character* readCharacter(NetworkMessageReader& msg);
 };
 
-#endif // MESSAGEHELPER_H
+#endif // PLAYERMESSAGEHELPER_H
