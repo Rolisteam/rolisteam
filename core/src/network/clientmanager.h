@@ -83,6 +83,7 @@ signals:
 
     // State signal
     void connecting();
+    void stopConnecting();
     void connectedToServer();
     void authentificationSuccessed();
     void authentificationFailed();

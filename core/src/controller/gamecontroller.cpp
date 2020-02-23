@@ -304,6 +304,11 @@ void GameController::startConnection(int profileIndex)
     m_networkCtrl->startConnection();
 }
 
+void GameController::stopConnection()
+{
+    networkController()->stopConnecting();
+}
+
 void GameController::authentified(bool b)
 {
     /*m_preferencesDialog->sendOffAllDiceAlias();

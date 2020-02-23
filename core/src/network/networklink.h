@@ -44,7 +44,7 @@ class NetworkLink : public QObject, public MessageSenderInterface
 
 public:
     NetworkLink();
-    virtual ~NetworkLink();
+    virtual ~NetworkLink() override;
 
     bool connected() const;
     bool error() const;

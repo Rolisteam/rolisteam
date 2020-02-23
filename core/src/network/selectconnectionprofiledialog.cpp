@@ -63,14 +63,27 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
 
     connect(ui->m_addProfile, &QPushButton::clicked, this, [this]() { m_model->appendProfile(); });
     connect(ui->m_cancel, &QPushButton::clicked, this, &SelectConnectionProfileDialog::reject);
-    connect(ui->m_connect, &QPushButton::clicked, this, &SelectConnectionProfileDialog::connectTo);
+    connect(ui->m_connectAct, &QAction::triggered, this, &SelectConnectionProfileDialog::connectTo);
+    connect(ui->m_stopConnectAct, &QAction::triggered, this, &SelectConnectionProfileDialog::stopConnecting);
     connect(ui->m_delProfileAct, &QPushButton::clicked, this, &SelectConnectionProfileDialog::removeProfile);
     connect(ui->m_addresseLineEdit, &QLineEdit::textChanged, this, &SelectConnectionProfileDialog::checkConnection);
     connect(ui->m_isServerCheckbox, &QCheckBox::toggled, this, &SelectConnectionProfileDialog::checkConnection);
     connect(m_ctrl->networkController(), &NetworkController::connectingChanged, ui->m_progressBar,
             &QProgressBar::setVisible);
-    connect(m_ctrl->networkController(), &NetworkController::connectingChanged, this,
-            [this](bool connecting) { ui->m_connect->setEnabled(!connecting); });
+    connect(m_ctrl->networkController(), &NetworkController::connectingChanged, this, [this](bool connecting) {
+        if(connecting)
+        {
+            ui->m_connectBtn->setDefaultAction(ui->m_stopConnectAct);
+            ui->m_connectBtn->removeAction(ui->m_connectAct);
+        }
+        else
+        {
+            ui->m_connectBtn->setDefaultAction(ui->m_connectAct);
+            ui->m_connectBtn->removeAction(ui->m_stopConnectAct);
+        }
+    });
+
+    ui->m_connectBtn->setDefaultAction(ui->m_connectAct);
 }
 
 SelectConnectionProfileDialog::~SelectConnectionProfileDialog()
@@ -89,7 +102,12 @@ void SelectConnectionProfileDialog::setCurrentProfile(QModelIndex index)
     updateGUI();
     //    updateProfile();
     m_avatarUri.clear();
-    ui->m_connect->setEnabled(true);
+    ui->m_connectAct->setEnabled(true);
+}
+
+void SelectConnectionProfileDialog::stopConnecting()
+{
+    m_ctrl->stopConnection();
 }
 
 void SelectConnectionProfileDialog::updateProfile()
@@ -231,7 +249,6 @@ void SelectConnectionProfileDialog::connectTo()
     localPlayer->setName(ui->m_name->text());
     localPlayer->setGM(ui->m_isGmCheckbox->isChecked());
 
-    ui->m_connect->setEnabled(false);
     m_ctrl->startConnection(m_currentProfileIndex);
 }
 QString SelectConnectionProfileDialog::openImage(const QString& path)
@@ -250,7 +267,7 @@ void SelectConnectionProfileDialog::checkConnection()
     {
         valid= true;
     }
-    ui->m_connect->setEnabled(valid);
+    ui->m_connectAct->setEnabled(valid);
 }
 
 void SelectConnectionProfileDialog::errorOccurs(QString str)

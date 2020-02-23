@@ -89,6 +89,7 @@ ClientManager::ClientManager(QObject* parent) : QObject(parent), m_networkLinkTo
     m_connected->addTransition(m_networkLinkToServer.get(), &NetworkLink::connectedChanged, m_disconnected);
 
     m_connecting->addTransition(this, &ClientManager::authentificationFailed, m_disconnected);
+    m_connecting->addTransition(this, &ClientManager::stopConnecting, m_disconnected);
     m_connected->addTransition(this, &ClientManager::authentificationFailed, m_disconnected);
 
     m_error->addTransition(this, &ClientManager::connecting, m_connecting);
@@ -120,6 +121,7 @@ void ClientManager::connectTo(const QString& host, int port)
 void ClientManager::disconnectAndClose()
 {
     m_networkLinkToServer->closeCommunicationWithServer();
+    emit stopConnecting();
     emit notifyUser(tr("Connection to the server has been closed."));
 }
 

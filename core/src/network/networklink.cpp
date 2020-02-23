@@ -166,36 +166,6 @@ void NetworkLink::receivingData()
             auto array= dataToArray(m_header, m_buffer);
             emit messageReceived(array);
 
-            /*if(ReceiveEvent::hasReceiverFor(m_header.category, m_header.action))
-            {
-                ReceiveEvent* event= new ReceiveEvent(m_header, m_buffer, this);
-                event->postToReceiver();
-            }
-            NetworkMessageReader data(m_header, m_buffer);
-            if(ReceiveEvent::hasNetworkReceiverFor(static_cast<NetMsg::Category>(m_header.category)))
-            {
-                QList<NetWorkReceiver*> tmpList
-                    = ReceiveEvent::getNetWorkReceiverFor(static_cast<NetMsg::Category>(m_header.category));
-                for(NetWorkReceiver* tmp : tmpList)
-                {
-                    tmp->processMessage(&data);
-                }
-            }*/
-
-            /*switch(data.category())
-            {
-            case NetMsg::PlayerCategory:
-                processPlayerMessage(&data);
-                break;
-            case NetMsg::SetupCategory:
-                processSetupMessage(&data);
-                break;
-            case NetMsg::AdministrationCategory:
-                processAdminstrationMessage(&data);
-                break;
-            default:
-                break;
-            }*/
             delete[] m_buffer;
             m_remainingData= 0;
             m_receivingData= false;
@@ -294,7 +264,7 @@ void NetworkLink::closeCommunicationWithServer()
         return;
 
     setConnected(false);
-    m_socketTcp->close();
+    m_socketTcp->disconnectFromHost();
 }
 void NetworkLink::setSocket(QTcpSocket* socket)
 {

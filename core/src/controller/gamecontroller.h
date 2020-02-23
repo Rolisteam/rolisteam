@@ -107,21 +107,10 @@ public slots:
     void setCurrentScenario(const QString& path);
     void setVersion(const QString& version);
     void setUpdateAvailable(bool available);
-
-    /**
-     * @brief startConnection - start connection process
-     * @param profileIndex
-     */
     void startConnection(int profileIndex);
-    /**
-     * @brief authentified - the client is connected and authentified to the server.
-     */
+    void stopConnection();
     void authentified(bool b);
-    /**
-     * @brief aboutToClose - user want to close the application.
-     */
     void aboutToClose();
-
     void setLocalPlayerId(const QString& id);
 
 private:

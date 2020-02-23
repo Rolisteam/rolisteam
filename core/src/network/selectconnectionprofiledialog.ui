@@ -360,12 +360,9 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="m_connect">
+        <widget class="QToolButton" name="m_connectBtn">
          <property name="text">
           <string>Connect</string>
-         </property>
-         <property name="default">
-          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -413,6 +410,16 @@
    </property>
    <property name="text">
     <string>Remove character</string>
+   </property>
+  </action>
+  <action name="m_connectAct">
+   <property name="text">
+    <string>Connect</string>
+   </property>
+  </action>
+  <action name="m_stopConnectAct">
+   <property name="text">
+    <string>stop</string>
    </property>
   </action>
  </widget>
