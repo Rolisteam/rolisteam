@@ -304,11 +304,11 @@ void GameController::startConnection(int profileIndex)
     m_networkCtrl->startConnection();
 }
 
-void GameController::authentified()
+void GameController::authentified(bool b)
 {
     /*m_preferencesDialog->sendOffAllDiceAlias();
     m_preferencesDialog->sendOffAllState();*/
-    if(localIsGM())
+    if(localIsGM() && b)
         m_preferencesDialogController->shareModels();
 }
 
