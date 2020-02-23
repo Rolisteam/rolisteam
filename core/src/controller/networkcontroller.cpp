@@ -34,6 +34,17 @@
 #include "worker/modelhelper.h"
 #include "worker/playermessagehelper.h"
 
+void readDataAndSetModel(NetworkMessageReader* msg, ChannelModel* model)
+{
+    auto byte= msg->byteArray32();
+    QJsonDocument doc= QJsonDocument::fromJson(byte);
+    if(!doc.isEmpty())
+    {
+        QJsonObject obj= doc.object();
+        model->readDataJson(obj);
+    }
+}
+
 NetworkController::NetworkController(QObject* parent)
     : AbstractControllerInterface(parent)
     , m_clientManager(new ClientManager)
@@ -71,7 +82,7 @@ NetworkController::~NetworkController() {}
 void NetworkController::dispatchMessage(QByteArray array)
 {
     NetworkMessageReader data;
-    data.setInternalData(array);
+    data.setData(array);
     if(ReceiveEvent::hasNetworkReceiverFor(data.category()))
     {
         QList<NetWorkReceiver*> tmpList= ReceiveEvent::getNetWorkReceiverFor(data.category());
@@ -262,6 +273,7 @@ NetWorkReceiver::SendType NetworkController::processMessage(NetworkMessageReader
     case NetMsg::EndConnectionAction:
         break;
     case NetMsg::SetChannelList:
+        readDataAndSetModel(msg, m_channelModel.get());
         break;
     case NetMsg::AdminAuthSucessed:
         break;

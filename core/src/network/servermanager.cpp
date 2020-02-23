@@ -466,19 +466,19 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
 
 void ServerManager::sendOffModel(TcpClient* client)
 {
-    if((nullptr != client)) //&&(!client->getName().isEmpty())
-    {
-        NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::SetChannelList);
-        QJsonDocument doc;
-        QJsonObject obj;
-        m_model->writeDataJson(obj);
-        doc.setObject(obj);
+    if(nullptr == client)
+        return;
 
-        qDebug() << "model" << doc.toJson();
-        msg->byteArray32(doc.toJson());
-        QMetaObject::invokeMethod(client, "sendMessage", Qt::QueuedConnection,
-                                  Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
-    }
+    NetworkMessageWriter* msg= new NetworkMessageWriter(NetMsg::AdministrationCategory, NetMsg::SetChannelList);
+    QJsonDocument doc;
+    QJsonObject obj;
+    m_model->writeDataJson(obj);
+    doc.setObject(obj);
+
+    qDebug() << "sending json channel model";
+    msg->byteArray32(doc.toJson());
+    QMetaObject::invokeMethod(client, "sendMessage", Qt::QueuedConnection,
+                              Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
 }
 
 void ServerManager::insertField(QString key, QVariant value, bool erase)
