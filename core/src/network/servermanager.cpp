@@ -11,7 +11,7 @@
 #include "network/networkmessagewriter.h"
 #include "timeaccepter.h"
 
-ServerManager::ServerManager(QObject* parent) : QObject(parent), m_server(nullptr), m_state(Off)
+ServerManager::ServerManager(QObject* parent) : QObject(parent), m_server(nullptr)
 {
     qRegisterMetaType<NetworkMessage*>("NetworkMessage*");
 
@@ -46,12 +46,7 @@ ServerManager::ServerManager(QObject* parent) : QObject(parent), m_server(nullpt
 
 ServerManager::~ServerManager()
 {
-    if(nullptr != m_server)
-    {
-        delete m_server;
-        m_server= nullptr;
-    }
-
+    stopListening();
     if(nullptr != m_corConnection)
     {
         delete m_corConnection;
@@ -71,44 +66,67 @@ ServerManager::~ServerManager()
     }
 }
 
-int ServerManager::getPort() const
+int ServerManager::port() const
 {
     return m_port;
 }
+
+int ServerManager::tryCount() const
+{
+    return m_tryCount;
+}
+
+void ServerManager::setPort(int p)
+{
+    if(p == m_port)
+        return;
+    m_port= p;
+    emit portChanged();
+}
+
+void ServerManager::setTryCount(int tryCount)
+{
+    if(m_tryCount == tryCount)
+        return;
+    m_tryCount= tryCount;
+    emit tryCountChanged();
+}
+
 void ServerManager::startListening()
 {
-    if(m_server == nullptr)
+    if(!m_server)
     {
-        m_server= new RServer(this, getValue(QStringLiteral("ThreadCount")).toInt());
-        connect(m_server, &RServer::close, this, &ServerManager::closed);
+        m_server.reset(new RServer(this, getValue(QStringLiteral("ThreadCount")).toInt()));
+        connect(m_server.get(), &RServer::finished, this, [this]() { setState(Stopped); });
     }
     ++m_tryCount;
     if(m_server->listen(QHostAddress::Any, static_cast<quint16>(getValue(QStringLiteral("port")).toInt())))
     {
         setState(Listening);
-        emit sendLog(tr("Rolisteam Server is on!"), LogController::Info);
+        emit errorOccured(tr("Rolisteam Server is on!"), LogController::Info);
     }
     else
     {
-        emit sendLog(m_server->errorString(), LogController::Error);
+        setState(Error);
+        emit errorOccured(m_server->errorString(), LogController::Error);
         if(m_tryCount < getValue(QStringLiteral("TryCount")).toInt()
            || getValue(QStringLiteral("TryCount")).toInt() == 0)
         {
-            emit sendLog(tr("Retry start server in %1s!").arg(getValue(QStringLiteral("TimeToRetry")).toInt()),
-                         LogController::Info);
+            emit errorOccured(tr("Retry start server in %1s!").arg(getValue(QStringLiteral("TimeToRetry")).toInt()),
+                              LogController::Info);
             QTimer::singleShot(getValue(QStringLiteral("TimeToRetry")).toInt(), this, SLOT(startListening()));
         }
         else
         {
-            emit sendLog(tr("Retry count reached. Server stops trying."), LogController::Info);
-            emit finished();
+            emit errorOccured(tr("Retry count reached. Server stops trying."), LogController::Info);
+            setState(Stopped); // on error
         }
     }
 }
 void ServerManager::stopListening()
 {
     // m_server->refuseNewConnection(true);
-    close();
+    // close();
     if(m_server)
         m_server->terminate();
 }
@@ -116,6 +134,7 @@ void ServerManager::stopListening()
 void ServerManager::messageReceived(QByteArray array)
 {
     TcpClient* client= qobject_cast<TcpClient*>(sender());
+    qDebug() << "before dispach";
     if(nullptr != client)
     {
         Channel* channel= client->getParentChannel();
@@ -177,21 +196,21 @@ void ServerManager::serverAcceptClient(TcpClient* client)
 }
 void ServerManager::checkAuthToServer(TcpClient* client)
 {
-    if(nullptr != client)
+    if(nullptr == client)
+        return;
+
+    QMap<QString, QVariant> data(m_parameters);
+    data["currentIp"]= client->getIpAddress();
+    data["userpassword"]= client->getServerPassword();
+    if(m_corEndProcess->runAccepter(data))
     {
-        QMap<QString, QVariant> data(m_parameters);
-        data["currentIp"]= client->getIpAddress();
-        data["userpassword"]= client->getServerPassword();
-        if(m_corEndProcess->runAccepter(data))
-        {
-            m_model->addConnectionToDefaultChannel(client);
-            sendEventToClient(client, TcpClient::ServerAuthSuccessEvent);
-            sendOffModel(client);
-        }
-        else
-        {
-            sendEventToClient(client, TcpClient::ServerAuthFailEvent);
-        }
+        m_model->addConnectionToDefaultChannel(client);
+        sendEventToClient(client, TcpClient::ServerAuthSuccessEvent);
+        sendOffModel(client);
+    }
+    else
+    {
+        sendEventToClient(client, TcpClient::ServerAuthFailEvent);
     }
 }
 void ServerManager::checkAuthAsAdmin(TcpClient* client)
@@ -267,7 +286,7 @@ void ServerManager::sendOffAdminAuthFail()
         QMetaObject::invokeMethod(client, "sendMessage", Qt::QueuedConnection,
                                   Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
     }
-    emit sendLog(
+    emit errorOccured(
         tr("Authentification as Admin fails: %2 - %1, Wrong password.").arg(client->getName(), client->getIpAddress()),
         LogController::Info);
 }
@@ -293,7 +312,7 @@ void ServerManager::sendOffAuthFail()
         QMetaObject::invokeMethod(client, "sendMessage", Qt::QueuedConnection,
                                   Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
     }
-    emit sendLog(
+    emit errorOccured(
         tr("Authentification fails: %1 try to connect to the server with wrong password.").arg(client->getIpAddress()),
         LogController::Info);
 }
@@ -312,8 +331,8 @@ void ServerManager::kickClient(QString id, bool isAdmin, QString senderId)
             client= value;
         }
     }
-    emit sendLog(tr("User has been kick out: %2 - %1.").arg(client->getName(), client->getIpAddress()),
-                 LogController::Info);
+    emit errorOccured(tr("User has been kick out: %2 - %1.").arg(client->getName(), client->getIpAddress()),
+                      LogController::Info);
 
     if(nullptr != client)
     {
@@ -336,7 +355,7 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg, Channel* chan
 
     bool isAdmin= tcp->isAdmin();
     bool isGM= tcp->isGM();
-    auto sourceId= tcp->getPlayerId();
+    auto sourceId= tcp->playerId();
     switch(msg->action())
     {
     case NetMsg::Kicked:
@@ -455,6 +474,7 @@ void ServerManager::sendOffModel(TcpClient* client)
         m_model->writeDataJson(obj);
         doc.setObject(obj);
 
+        qDebug() << "model" << doc.toJson();
         msg->byteArray32(doc.toJson());
         QMetaObject::invokeMethod(client, "sendMessage", Qt::QueuedConnection,
                                   Q_ARG(NetworkMessage*, static_cast<NetworkMessage*>(msg)), Q_ARG(bool, true));
@@ -476,39 +496,40 @@ QVariant ServerManager::getValue(QString key) const
     }
     return QVariant();
 }
-ServerManager::ServerState ServerManager::getState() const
+ServerManager::ServerState ServerManager::state() const
 {
     return m_state;
+}
+ChannelModel* ServerManager::channelModel() const
+{
+    return m_model.get();
 }
 
 void ServerManager::setState(const ServerManager::ServerState& state)
 {
-    if(m_state != state)
-    {
-        m_state= state;
-        emit stateChanged(m_state);
-    }
+    if(m_state == state)
+        return;
 
-    if(m_state == Listening)
-    {
-        emit listening();
-    }
+    m_state= state;
+    emit stateChanged(m_state);
 }
 
 void ServerManager::quit()
 {
     if(!sender())
         return;
-    emit finished();
+
+    closeAllConnections();
+    stopListening();
 }
 
 void ServerManager::accept(qintptr handle, TcpClient* connection, QThread* thread)
 {
-    Q_UNUSED(thread);
+    Q_UNUSED(thread)
     if(nullptr == connection)
         return;
 
-    emit sendLog(tr("New Incoming Connection!"), LogController::Info);
+    emit errorOccured(tr("New Incoming Connection!"), LogController::Info);
 
     connect(connection, &TcpClient::dataReceived, this, &ServerManager::messageReceived, Qt::QueuedConnection); //
     connect(connection, &TcpClient::socketInitiliazed, this, &ServerManager::initClient, Qt::QueuedConnection);
@@ -530,7 +551,7 @@ void ServerManager::accept(qintptr handle, TcpClient* connection, QThread* threa
             Qt::QueuedConnection);
     connect(connection, &TcpClient::channelPassword, this, &ServerManager::setChannelPassword, Qt::QueuedConnection);
 
-    connect(connection, &TcpClient::socketDisconnection, this, &ServerManager::disconnected, Qt::QueuedConnection);
+    connect(connection, &TcpClient::socketDisconnection, this, &ServerManager::disconnectedUser, Qt::QueuedConnection);
     connect(connection, &TcpClient::socketError, this, &ServerManager::error, Qt::QueuedConnection);
     connection->setSocketHandleId(handle);
 
@@ -547,9 +568,8 @@ void ServerManager::sendOffModelToAll()
     }
 }
 
-void ServerManager::disconnected()
+void ServerManager::disconnectedUser()
 {
-    emit sendLog(tr("Disconnected!"), LogController::Info);
     if(!sender())
         return;
 
@@ -557,6 +577,7 @@ void ServerManager::disconnected()
     if(!client)
         return;
 
+    emit errorOccured(tr("User %1 has been disconnected!").arg(client->playerName()), LogController::Info);
     removeClient(client);
 }
 
@@ -596,13 +617,12 @@ void ServerManager::setChannelPassword(QString chanId, QByteArray passwd)
     sendOffModelToAll();
 }
 
-void ServerManager::close()
+void ServerManager::closeAllConnections()
 {
     auto clients= m_connections.values();
     std::for_each(clients.begin(), clients.end(), [](TcpClient* client) {
         QMetaObject::invokeMethod(client, &TcpClient::closeConnection, Qt::QueuedConnection);
     });
-    emit closed();
 }
 
 void ServerManager::error(QAbstractSocket::SocketError socketError)
@@ -621,5 +641,5 @@ void ServerManager::error(QAbstractSocket::SocketError socketError)
     if(!socket)
         return;
 
-    emit sendLog(socket->errorString(), LogController::Error);
+    emit errorOccured(socket->errorString(), LogController::Error);
 }

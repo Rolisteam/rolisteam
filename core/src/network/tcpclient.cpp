@@ -22,10 +22,12 @@
 #include "tcpclient.h"
 #include "channel.h"
 
+#include "worker/playermessagehelper.h"
 #include <QHostAddress>
 #include <QThread>
 
-TcpClient::TcpClient(QTcpSocket* socket, QObject* parent) : TreeItem(parent), m_socket(socket), m_isAdmin(false)
+TcpClient::TcpClient(QTcpSocket* socket, QObject* parent)
+    : TreeItem(parent), m_socket(socket), m_isAdmin(false), m_player(new Player)
 {
     m_remainingData= 0;
     m_headerRead= 0;
@@ -91,7 +93,7 @@ void TcpClient::resetStateMachine()
         if(b)
         {
             m_currentState= m_authentificationServer;
-            if(m_player)
+            if(m_knownUser)
             {
                 emit checkServerPassword(this);
             }
@@ -127,24 +129,24 @@ void TcpClient::resetStateMachine()
         }
     });
 
-    m_incomingConnection->addTransition(this, SIGNAL(checkSuccess()), m_controlConnection);
-    m_incomingConnection->addTransition(this, SIGNAL(checkFail()), m_disconnected);
+    m_incomingConnection->addTransition(this, &TcpClient::checkSuccess, m_controlConnection);
+    m_incomingConnection->addTransition(this, &TcpClient::checkFail, m_disconnected);
     m_incomingConnection->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
 
-    m_controlConnection->addTransition(this, SIGNAL(controlSuccess()), m_authentificationServer);
-    m_controlConnection->addTransition(this, SIGNAL(controlFail()), m_disconnected);
+    m_controlConnection->addTransition(this, &TcpClient::controlSuccess, m_authentificationServer);
+    m_controlConnection->addTransition(this, &TcpClient::controlFail, m_disconnected);
     m_controlConnection->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
 
-    m_authentificationServer->addTransition(this, SIGNAL(serverAuthSuccess()), m_connected);
-    m_authentificationServer->addTransition(this, SIGNAL(serverAuthFail()), m_disconnected);
+    m_authentificationServer->addTransition(this, &TcpClient::serverAuthSuccess, m_connected);
+    m_authentificationServer->addTransition(this, &TcpClient::serverAuthFail, m_disconnected);
     m_authentificationServer->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
 
-    m_connected->addTransition(this, SIGNAL(socketDisconnection()), m_disconnected);
+    m_connected->addTransition(this, &TcpClient::socketDisconnection, m_disconnected);
     m_connected->addTransition(this, &TcpClient::protocolViolation, m_disconnected);
 
-    m_wantToGoToChannel->addTransition(this, SIGNAL(channelAuthFail()), m_inChannel);
-    m_wantToGoToChannel->addTransition(this, SIGNAL(channelAuthSuccess()), m_inChannel);
-    m_inChannel->addTransition(this, SIGNAL(moveChannel()), m_wantToGoToChannel);
+    m_wantToGoToChannel->addTransition(this, &TcpClient::channelAuthFail, m_inChannel);
+    m_wantToGoToChannel->addTransition(this, &TcpClient::channelAuthSuccess, m_inChannel);
+    m_inChannel->addTransition(this, &TcpClient::moveChannel, m_wantToGoToChannel);
 
     emit socketInitiliazed();
 }
@@ -154,8 +156,8 @@ void TcpClient::startReading()
     m_socket= new QTcpSocket();
     connect(m_socket, &QTcpSocket::disconnected, this, &TcpClient::socketDisconnection);
     connect(m_socket, &QTcpSocket::readyRead, this, &TcpClient::receivingData);
-    connect(
-        m_socket, QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::error), this, &TcpClient::connectionError);
+    connect(m_socket, QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::error), this,
+            &TcpClient::connectionError);
 
     m_socket->setSocketDescriptor(getSocketHandleId());
     resetStateMachine();
@@ -188,31 +190,34 @@ bool TcpClient::isGM() const
     return m_player->isGM();
 }
 
-QString TcpClient::getPlayerId()
+QString TcpClient::playerId() const
 {
     if(nullptr != m_player)
-    {
-        return m_player->getUuid();
-    }
-    return m_playerId;
+        return m_player->uuid();
+
+    return {};
+}
+
+QString TcpClient::playerName() const
+{
+    if(nullptr != m_player)
+        return m_player->name();
+
+    return {};
 }
 
 void TcpClient::setInfoPlayer(NetworkMessageReader* msg)
 {
-    if(nullptr == msg)
+    if(nullptr == msg && nullptr == m_player)
         return;
 
-    if(nullptr == m_player)
-        m_player= new Player();
-
-    if(nullptr != m_player)
+    if(PlayerMessageHelper::readPlayer(*msg, m_player.get()))
     {
-        m_player->readFromMsg(*msg);
-
+        m_knownUser= true;
         /// @todo make it nicer.
         auto name= m_player->name();
         setName(name);
-        setId(m_player->getUuid());
+        setId(m_player->uuid());
     }
 }
 
@@ -220,7 +225,8 @@ void TcpClient::fill(NetworkMessageWriter* msg)
 {
     if(nullptr != m_player)
     {
-        m_player->fill(*msg);
+        // m_player->fill(*msg);
+        PlayerMessageHelper::writePlayerIntoMessage(*msg, m_player.get());
     }
 }
 
@@ -247,7 +253,7 @@ void TcpClient::addPlayerFeature(QString uuid, QString name, quint8 version)
     if(nullptr == m_player)
         return;
 
-    if(m_player->getUuid() == uuid)
+    if(m_player->uuid() == uuid)
     {
         m_player->setFeature(name, version);
     }
@@ -272,7 +278,7 @@ void TcpClient::receivingData()
             readDataSize= m_socket->read(tmp + m_headerRead, sizeof(NetworkMessageHeader) - m_headerRead);
 
             if(readDataSize != sizeof(NetworkMessageHeader)
-                && readDataSize + m_headerRead != sizeof(NetworkMessageHeader))
+               && readDataSize + m_headerRead != sizeof(NetworkMessageHeader))
             {
                 m_headerRead+= readDataSize;
                 continue;
@@ -442,7 +448,8 @@ void TcpClient::readAdministrationMessages(NetworkMessageReader& msg)
     {
     case NetMsg::ConnectionInfo:
         m_serverPassword= msg.byteArray32();
-        setInfoPlayer(&msg);
+        setName(msg.string32());
+        setId(msg.string32());
         if(m_waitingData)
         {
             emit checkServerPassword(this);
@@ -499,7 +506,9 @@ void TcpClient::readFromJson(QJsonObject& json)
     setName(json["name"].toString());
     setId(json["id"].toString());
     setIsAdmin(json["admin"].toBool());
-    m_playerId= json["idPlayer"].toString();
+    auto playerId= json["idPlayer"].toString();
+    if(m_player)
+        m_player->setUuid(playerId);
 }
 
 void TcpClient::writeIntoJson(QJsonObject& json)
@@ -509,7 +518,7 @@ void TcpClient::writeIntoJson(QJsonObject& json)
     json["gm"]= isGM();
     json["admin"]= m_isAdmin;
     json["id"]= m_id;
-    json["idPlayer"]= getPlayerId();
+    json["idPlayer"]= playerId();
 }
 QString TcpClient::getIpAddress()
 {

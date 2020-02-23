@@ -42,6 +42,9 @@ class Channel;
 class TcpClient : public TreeItem
 {
     Q_OBJECT
+    Q_PROPERTY(QString playerName READ playerName NOTIFY playerNameChanged)
+    Q_PROPERTY(QString playerId READ playerId NOTIFY playerIdChanged)
+
 public:
     enum ConnectionEvent
     {
@@ -110,17 +113,9 @@ public:
     QString getAdminPassword() const;
     QString getChannelPassword() const;
 signals:
-    /**
-     * @brief readDataReceived
-     */
     void readDataReceived(quint64, quint64);
-    /**
-     * @brief dataReceived
-     */
     void dataReceived(QByteArray);
 
-    ///
-    /// \brief connectionChecked
     void checkSuccess();
     void checkFail();
 
@@ -156,24 +151,14 @@ signals:
     void socketError(QAbstractSocket::SocketError);
     void socketInitiliazed();
     void protocolViolation();
+
+    // properties signals
+    void playerNameChanged();
+    void playerIdChanged();
 public slots:
-    /**
-     * @brief receivingData
-     */
     void receivingData();
-    /**
-     * @brief forwardMessage
-     */
     void forwardMessage();
-    /**
-     * @brief sendMessage
-     * @param msg
-     */
     void sendMessage(NetworkMessage* msg, bool deleteMsg);
-    /**
-     * @brief connectionError
-     * @param error
-     */
     void connectionError(QAbstractSocket::SocketError error);
     void sendEvent(TcpClient::ConnectionEvent);
     void startReading();
@@ -209,11 +194,11 @@ private:
     bool m_waitingData= false;
     bool m_receivingData= false;
     quint32 m_dataReceivedTotal= 0;
-    Player* m_player= nullptr;
-    QString m_playerId;
+    std::unique_ptr<Player> m_player;
     qintptr m_socketHandleId;
     QString m_wantedChannel;
 
+    bool m_knownUser= false;
     QString m_serverPassword;
     QString m_adminPassword;
     QString m_channelPassword;

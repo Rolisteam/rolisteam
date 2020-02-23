@@ -26,6 +26,6 @@ bool PasswordAccepter::isValid(const QMap<QString, QVariant>& data) const
     { //(QCryptographicHash::hash(upw.toUtf8(),QCryptographicHash::Sha3_512) != pw.toUtf8()))
         result= true;
     }
-    // qInfo() << result;
+    qInfo() << result;
     return result;
 }
