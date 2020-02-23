@@ -22,6 +22,7 @@
 #include <QtTest/QtTest>
 #include <memory>
 
+#include "controller/view_controller/mapcontroller.h"
 #include "map/map.h"
 #include "map/mapframe.h"
 
@@ -47,17 +48,16 @@ private slots:
 
 private:
     std::unique_ptr<MapFrame> m_mapFrame;
-    Map* m_map;
+    std::unique_ptr<MapController> m_controller;
 };
 
 TestMap::TestMap() {}
 
 void TestMap::init()
 {
-    m_mapFrame.reset(new MapFrame());
+    m_controller.reset(new MapController(new CleverURI(), std::map<QString, QVariant>()));
+    m_mapFrame.reset(new MapFrame(m_controller.get()));
     QImage img(800, 600, QImage::Format_ARGB32_Premultiplied);
-    m_map= new Map("id", "idcarte", &img, false);
-    m_mapFrame->setMap(m_map);
 }
 void TestMap::networkSaveAndLoadTest()
 {
@@ -70,8 +70,8 @@ void TestMap::networkSaveAndLoadTest()
     msg2.setData(array);
     msg2.resetToData();
 
-    MapFrame frame2;
-    //frame2.setCleverUriType(CleverURI::MAP);
+    MapFrame frame2(m_controller.get());
+    // frame2.setCleverUriType(CleverURI::MAP);
     frame2.readMessage(msg2);
 
     auto map= m_mapFrame->getMap();
@@ -88,9 +88,10 @@ void TestMap::polymorphismTest()
 {
     auto id= m_mapFrame->getMediaId();
     MediaContainer* mediaC= m_mapFrame.get();
+    auto map= m_mapFrame->getMap();
     auto mediaId= mediaC->getMediaId();
 
-    auto mapId= m_map->getMapId();
+    auto mapId= map->getMapId();
 
     QCOMPARE(id, mapId);
     QCOMPARE(id, mediaId);
@@ -101,12 +102,14 @@ void TestMap::fileSaveAndLoadTest()
     auto title= QStringLiteral("title");
     m_mapFrame->setUriName(title);
 
+    auto map= m_mapFrame->getMap();
+
     QByteArray array;
     QDataStream out(&array, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_7);
-    m_map->saveMap(out, title);
+    map->saveMap(out, title);
 
-    MapFrame frame2;
+    MapFrame frame2(m_controller.get());
 
     QDataStream in(&array, QIODevice::ReadOnly);
     frame2.readMapAndNpc(in, false);

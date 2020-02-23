@@ -29,15 +29,6 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
         if(msg->action() == NetMsg::PlayerConnectionAction)
         {
             emitter->setInfoPlayer(msg);
-
-            msg->resetToData();
-
-            QString name= msg->string16();
-            QString uuid= msg->string8();
-            msg->rgb();
-            msg->uint8();
-            emitter->setName(name);
-            emitter->setId(uuid);
             saveIt= false;
             sendToAll= false;
         }
