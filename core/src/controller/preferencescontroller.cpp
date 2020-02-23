@@ -276,9 +276,9 @@ void PreferencesController::savePreferences()
 
     // State
     auto stateList= m_characterStateModel->getCharacterStates();
-    m_preferences->registerValue("CharacterStateNumber", stateList->size());
+    m_preferences->registerValue("CharacterStateNumber", stateList.size());
     i= 0;
-    for(auto tmpState : *stateList)
+    for(auto tmpState : stateList)
     {
         m_preferences->registerValue(QStringLiteral("CharacterState_%1_id").arg(i), tmpState->id());
         m_preferences->registerValue(QStringLiteral("CharacterState_%1_label").arg(i), tmpState->getLabel());
