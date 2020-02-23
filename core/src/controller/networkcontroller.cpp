@@ -70,7 +70,6 @@ NetworkController::~NetworkController() {}
 
 void NetworkController::dispatchMessage(QByteArray array)
 {
-    qDebug() << "dispatch array message";
     NetworkMessageReader data;
     data.setInternalData(array);
     if(ReceiveEvent::hasNetworkReceiverFor(data.category()))
@@ -176,7 +175,6 @@ void NetworkController::startClient()
 void NetworkController::startServer()
 {
     m_server.reset(new ServerManager());
-    m_ipChecker.reset(new IpChecker());
     m_serverThread.reset(new QThread);
     m_server->moveToThread(m_serverThread.get());
     m_server->initServerManager();
@@ -227,19 +225,14 @@ void NetworkController::startServer()
     m_server->insertField("TimeToRetry", 5000);
     m_server->insertField("AdminPassword", adminPassword());
 
-    auto thread= new QThread();
-    m_ipChecker->moveToThread(thread);
-
-    connect(thread, &QThread::started, m_ipChecker.get(), &IpChecker::startCheck);
-    connect(m_ipChecker.get(), &IpChecker::ipAddressChanged, this, [this, thread](const QString& str) {
-        m_ipv4Address= str;
+    m_ipChecker.reset(new IpChecker());
+    connect(m_ipChecker.get(), &IpChecker::ipAddressChanged, this, [this](const QString& ip) {
+        m_ipv4Address= ip;
         emit ipv4Changed();
-        thread->terminate();
     });
-    connect(thread, &QThread::finished, thread, &QThread::deleteLater);
+    m_ipChecker->startCheck();
 
     m_serverThread->start();
-    thread->start();
 }
 
 void NetworkController::stopConnecting()

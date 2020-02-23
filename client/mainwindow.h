@@ -41,13 +41,10 @@
 //#include "map/map.h"
 #include "map/charactertoken.h"
 
-#include "preferences/preferencesmanager.h"
-
-#include "services/ipchecker.h"
-
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "network/networkreceiver.h"
+#include "preferences/preferencesmanager.h"
 
 #include "vmap/vmap.h"
 #include "vmap/vmapframe.h"
