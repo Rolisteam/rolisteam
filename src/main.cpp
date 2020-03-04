@@ -25,7 +25,7 @@
 #include <QTranslator>
 #include <QtWebEngine/QtWebEngine>
 
-#include "diceparser/qmltypesregister.h"
+#include "qmltypesregister.h"
 
 #include <QCommandLineOption>
 #include <QCommandLineParser>

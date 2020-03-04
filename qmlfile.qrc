@@ -1,18 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>src/charactersheet/qml/Rolisteam/qmldir</file>
-        <file>resources/icons/go-up.png</file>
-        <file>resources/icons/go-top.png</file>
-        <file>resources/icons/go-down.png</file>
-        <file>resources/icons/go-bottom.png</file>
-        <file>resources/icons/delete.png</file>
-        <file>resources/icons/add_round.png</file>
-        <file>resources/icons/Actions-edit-rename-icon.png</file>
-        <file>resources/icons/symbol.svg</file>
-        <file>resources/icons/moveNpc.png</file>
-        <file>resources/icons/checked_checkbox.png</file>
-        <file>resources/icons/textarea.png</file>
-        <file>resources/icons/photo.png</file>
         <file>src/charactersheet/qml/Rolisteam/CheckBoxField.qml</file>
         <file>src/charactersheet/qml/Rolisteam/SelectField.qml</file>
         <file>src/charactersheet/qml/Rolisteam/TextAreaField.qml</file>
@@ -24,27 +12,6 @@
         <file>src/charactersheet/qml/Rolisteam/PageButton.qml</file>
         <file>src/charactersheet/qml/Rolisteam/Table.qml</file>
         <file>src/charactersheet/qml/Rolisteam/RLabel.qml</file>
-        <file>resources/logo/symbol2.png</file>
-        <file>translations/rcse_fr.qm</file>
-        <file>translations/rcse_de.qm</file>
-        <file>translations/rcse_hu_HU.qm</file>
-        <file>translations/rcse_pt_BR.qm</file>
-        <file>translations/rcse_tr.qm</file>
-        <file>resources/icons/dark_tool_rect_selection.svg</file>
-        <file>resources/icons/function.png</file>
-        <file>resources/icons/table.png</file>
-        <file>resources/icons/liberapay.png</file>
-        <file>resources/dictionaries/javascript.txt</file>
-        <file>resources/dictionaries/keywords.txt</file>
-        <file>resources/dictionaries/properties.txt</file>
-        <file>resources/dictionaries/qml.txt</file>
-        <file>resources/icons/webPage.svg</file>
-        <file>resources/icons/arrow.svg</file>
-        <file>resources/icons/gear.svg</file>
-        <file>resources/icons/arrow_next.svg</file>
-        <file>resources/icons/next.png</file>
-        <file>resources/icons/previous.png</file>
-        <file>resources/icons/text-label.svg</file>
         <file>src/charactersheet/qml/Rolisteam/CheckBoxFieldv1.qml</file>
         <file>src/charactersheet/qml/Rolisteam/DiceButtonv1.qml</file>
         <file>src/charactersheet/qml/Rolisteam/ImageFieldv1.qml</file>
@@ -52,10 +19,5 @@
         <file>src/charactersheet/qml/Rolisteam/TextAreaFieldv1.qml</file>
         <file>src/charactersheet/qml/Rolisteam/TextFieldFieldv1.qml</file>
         <file>src/charactersheet/qml/Rolisteam/TextInputFieldv1.qml</file>
-        <file>translations/rcse_it_IT.qm</file>
-        <file>translations/rcse_ca.qm</file>
-        <file>translations/rcse_es.qm</file>
-        <file>translations/rcse_nl_NL.qm</file>
-        <file>translations/rcse_ro_RO.qm</file>
     </qresource>
 </RCC>
