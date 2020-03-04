@@ -50,6 +50,7 @@ int main(int argc, char* argv[])
     registerQmlTypes();
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+    QString locale= QLocale::system().name();
 
     // Ressources
     // QResource::registerResource(appName+".rcc");
