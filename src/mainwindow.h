@@ -105,6 +105,7 @@ public slots:
     void helpOnLine();
 
     void exportPDF();
+    bool loadFile(const QString& file);
 
 signals:
     void currentFileChanged();
@@ -121,7 +122,6 @@ protected:
 protected slots:
     void clearData(bool addDefaultCanvas= true);
     void showPreferences();
-    bool loadFile(const QString& file);
 
 private:
     Ui::MainWindow* ui;
