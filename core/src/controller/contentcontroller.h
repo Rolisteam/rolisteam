@@ -27,6 +27,8 @@
 
 #include "controllerinterface.h"
 #include "data/cleveruri.h"
+
+#include "network/receiveevent.h"
 #include "preferences/preferenceslistener.h"
 
 class MediaContainer;
@@ -46,7 +48,7 @@ class CharacterModel;
 class SharedNoteMediaController;
 class PdfMediaController;
 // class AbstractMediaContainerController;
-class ContentController : public AbstractControllerInterface, public PreferencesListener
+class ContentController : public AbstractControllerInterface, public PreferencesListener, public NetWorkReceiver
 {
     Q_OBJECT
     Q_PROPERTY(QAbstractItemModel* model READ model CONSTANT)
@@ -86,7 +88,7 @@ public:
                   const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
     void openMedia(CleverURI* uri, const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
     void clear();
-    void processMediaMessage(NetworkMessageReader* msg);
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
 signals:
     void workspaceFilenameChanged();
@@ -111,6 +113,7 @@ public slots:
     void removeContent(ResourcesNode* node);
     void setSessionName(const QString& name);
     void setSessionPath(const QString& path);
+    void addImageAs(const QPixmap& map, CleverURI::ContentType type);
     // void setActiveMediaController(AbstractMediaContainerController* mediaCtrl);
     void saveSession();
     void loadSession();
