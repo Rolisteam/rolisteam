@@ -143,7 +143,7 @@ bool SharedNote::eventFilter(QObject*, QEvent* event)
 
 void SharedNote::closeEditorFor(QString idplayer)
 {
-    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::closeMedia);
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::CloseMedia);
     QStringList list;
     list << idplayer;
     msg.setRecipientList(list, NetworkMessage::OneOrMany);

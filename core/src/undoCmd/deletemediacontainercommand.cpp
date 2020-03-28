@@ -59,7 +59,7 @@ void DeleteMediaContainerCommand::redo()
         m_hash.remove(m_media->getMediaId());
         if(m_gm)
         {
-            NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::closeMedia);
+            NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::CloseMedia);
             msg.string8(m_media->getMediaId());
             msg.sendToServer();
         }
