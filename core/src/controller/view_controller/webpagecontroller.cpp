@@ -100,12 +100,56 @@ void WebpageController::setState(WebpageController::State state)
     emit stateChanged(m_state);
 }
 
-void WebpageController::share()
+bool WebpageController::htmlSharing() const
 {
-    // TODO when network is ready
+    return Html == m_mode;
 }
 
-void WebpageController::shareHtml()
+bool WebpageController::urlSharing() const
 {
-    // TODO when network is ready
+    return Url == m_mode;
+}
+
+void WebpageController::setHtmlSharing(bool sharing)
+{
+    if(htmlSharing() == sharing)
+        return;
+
+    if(sharing)
+        setSharingMode(Html);
+    else
+        setSharingMode(None);
+
+    emit htmlSharingChanged(sharing);
+}
+
+void WebpageController::setUrlSharing(bool sharing)
+{
+    if(urlSharing() == sharing)
+        return;
+
+    if(sharing)
+        setSharingMode(Url);
+    else
+        setSharingMode(None);
+    emit urlSharingChanged(sharing);
+}
+
+void WebpageController::setSharingMode(WebpageController::SharingMode mode)
+{
+    if(mode == m_mode)
+        return;
+
+    auto update= false;
+    if(mode == None || m_mode == None)
+        update= true;
+    m_mode= mode;
+
+    if(update)
+        emit sharingModeChanged(mode);
+}
+
+WebpageController::SharingMode WebpageController::sharingMode() const
+{
+    return m_mode;
 }
