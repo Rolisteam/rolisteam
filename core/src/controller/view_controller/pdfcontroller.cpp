@@ -22,9 +22,17 @@
 #include "data/cleveruri.h"
 #include "worker/iohelper.h"
 
-PdfController::PdfController(CleverURI* uri, QObject* parent) : AbstractMediaContainerController(uri, parent)
+PdfController::PdfController(CleverURI* uri, const QByteArray& data, QObject* parent)
+    : AbstractMediaContainerController(uri, parent)
 {
-    m_data= IOHelper::loadFile(uri->getUri());
+    if(!uri->getUri().isEmpty())
+    {
+        m_data= IOHelper::loadFile(uri->getUri());
+    }
+    else if(!data.isEmpty())
+    {
+        m_data= data;
+    }
     emit dataChanged(m_data);
 }
 
@@ -38,3 +46,11 @@ QByteArray PdfController::data() const
 {
     return m_data;
 }
+
+void PdfController::shareImageIntoImage(const QPixmap& image) {}
+
+void PdfController::shareImageIntoMap(const QPixmap& image) {}
+
+void PdfController::shareImageIntoVMap(const QPixmap& image) {}
+
+void PdfController::shareAsPdf() {}

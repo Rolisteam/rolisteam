@@ -23,6 +23,7 @@
 #include <QObject>
 
 #include "abstractmediacontroller.h"
+#include "data/cleveruri.h"
 
 class CleverURI;
 class PdfController : public AbstractMediaContainerController
@@ -30,18 +31,29 @@ class PdfController : public AbstractMediaContainerController
     Q_OBJECT
     Q_PROPERTY(QByteArray data READ data NOTIFY dataChanged)
 public:
-    explicit PdfController(CleverURI* uri, QObject* parent= nullptr);
+    explicit PdfController(CleverURI* uri, const QByteArray& data= QByteArray(), QObject* parent= nullptr);
     ~PdfController() override;
 
     void saveData() const override;
     void loadData() const override;
 
     QByteArray data() const;
+
+public slots:
+    // actions
+    void shareImageIntoImage(const QPixmap& image);
+    void shareImageIntoMap(const QPixmap& image);
+    void shareImageIntoVMap(const QPixmap& image);
+    void shareAsPdf();
+
 signals:
     void dataChanged(QByteArray data);
+    void openImageAs(const QPixmap&, CleverURI::ContentType);
+    void sharePdf(QString id);
 
 private:
     QByteArray m_data;
+    bool m_overlayVisibility= false;
 };
 
 #endif // PDFCONTROLLER_H
