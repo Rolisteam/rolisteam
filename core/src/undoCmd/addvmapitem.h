@@ -35,30 +35,6 @@ public:
     void undo() override;
     void redo() override;
 
-    /*    template <class T>
-        T* getItem() const;
-        VisualItem* getItem() const;
-        VisualItem* getPath() const;
-
-        QString getLocalUserId() const;
-        void setLocalUserId(const QString& localUserId);
-
-        bool hasError() const;
-        void setError(bool error);
-
-        bool isNpc() const;
-
-        bool isUndoable() const;
-        void setUndoable(bool undoable);
-
-        bool getInitPoint() const;
-        void setInitPoint(bool initPoint);
-        bool hasToBeDeleted() const;
-
-    protected:
-        bool isVisible();
-        void initItem(bool addMapLayer);*/
-
 private:
     QPointer<VectorialMapController> m_ctrl;
     QPointer<VisualItemControllerManager> m_visualCtrl;

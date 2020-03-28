@@ -79,7 +79,6 @@ private slots:
     void showMapProperties();
     void changeLayer();
     void changeVisibility();
-    void sendOffMapChange();
     void updateSizeToController();
 
 private:
