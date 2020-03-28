@@ -61,7 +61,7 @@ void TestMap::init()
 }
 void TestMap::networkSaveAndLoadTest()
 {
-    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
     m_mapFrame->fill(msg);
 
     auto const array= msg.getData();
