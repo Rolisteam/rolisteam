@@ -26,7 +26,7 @@ namespace vmap
 {
 class VisualItemController;
 }
-
+class NetworkMessageReader;
 class VisualItemControllerManager : public QObject
 {
     Q_OBJECT
@@ -36,6 +36,7 @@ public:
     virtual QString addItem(const std::map<QString, QVariant>& params)= 0;
     virtual void addController(vmap::VisualItemController* controller)= 0;
     virtual void removeItem(const QString& id)= 0;
+    virtual void processMessage(NetworkMessageReader* msg)= 0;
 };
 
 #endif // VISUALITEMCONTROLLERMANAGER_H

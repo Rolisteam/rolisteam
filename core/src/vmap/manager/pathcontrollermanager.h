@@ -41,7 +41,8 @@ public:
     QString addItem(const std::map<QString, QVariant>& params) override;
     void addController(vmap::VisualItemController* controller) override;
     void removeItem(const QString& id) override;
-
+    void processMessage(NetworkMessageReader* msg) override;
+    const std::vector<vmap::PathController*> controllers() const;
 signals:
     void pathControllerCreated(vmap::PathController* ctrl, bool editing);
 

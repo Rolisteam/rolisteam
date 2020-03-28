@@ -24,6 +24,7 @@
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "vmap/controller/rectcontroller.h"
+#include "worker/messagehelper.h"
 
 RectControllerManager::RectControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
 
@@ -44,6 +45,7 @@ void RectControllerManager::addController(vmap::VisualItemController* controller
 
     std::unique_ptr<vmap::RectController> ctrl(rectCtrl);
     emit rectControllerCreated(ctrl.get(), false);
+    MessageHelper::sendOffRect(ctrl.get(), m_ctrl->uuid());
     m_controllers.push_back(std::move(ctrl));
 }
 
@@ -58,4 +60,20 @@ void RectControllerManager::removeItem(const QString& id)
     (*it)->aboutToBeRemoved();
     it->release();
     m_controllers.erase(it);
+}
+
+void RectControllerManager::processMessage(NetworkMessageReader* msg)
+{
+    if(msg->action() == NetMsg::AddItem && msg->category() == NetMsg::VMapCategory)
+    {
+        auto hash= MessageHelper::readRect(msg);
+        addItem(hash);
+    }
+}
+const std::vector<vmap::RectController*> RectControllerManager::controllers() const
+{
+    std::vector<vmap::RectController*> vect;
+    std::transform(m_controllers.begin(), m_controllers.end(), std::back_inserter(vect),
+                   [](const std::unique_ptr<vmap::RectController>& ctrl) { return ctrl.get(); });
+    return vect;
 }

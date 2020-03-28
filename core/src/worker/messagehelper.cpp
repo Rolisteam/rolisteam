@@ -21,9 +21,33 @@
 
 #include <QBuffer>
 #include <QDebug>
+#include <QRgb>
 
 #include "controller/view_controller/abstractmediacontroller.h"
 #include "controller/view_controller/imagecontroller.h"
+#include "controller/view_controller/pdfcontroller.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
+#include "controller/view_controller/webpagecontroller.h"
+
+#include "vmap/manager/characteritemcontrollermanager.h"
+#include "vmap/manager/ellipscontrollermanager.h"
+#include "vmap/manager/imagecontrollermanager.h"
+#include "vmap/manager/linecontrollermanager.h"
+#include "vmap/manager/pathcontrollermanager.h"
+#include "vmap/manager/rectcontrollermanager.h"
+#include "vmap/manager/textcontrollermanager.h"
+
+#include "vmap/controller/characteritemcontroller.h"
+#include "vmap/controller/ellipsecontroller.h"
+#include "vmap/controller/gridcontroller.h"
+#include "vmap/controller/imagecontroller.h"
+#include "vmap/controller/linecontroller.h"
+#include "vmap/controller/pathcontroller.h"
+#include "vmap/controller/rectcontroller.h"
+#include "vmap/controller/sightcontroller.h"
+#include "vmap/controller/textcontroller.h"
+#include "vmap/controller/visualitemcontroller.h"
+
 #include "data/character.h"
 #include "data/cleveruri.h"
 #include "data/player.h"
@@ -33,6 +57,16 @@
 #include "preferences/characterstatemodel.h"
 #include "preferences/dicealiasmodel.h"
 #include "userlist/playermodel.h"
+
+#include "worker/playermessagehelper.h"
+
+QByteArray imageToByteArray(const QImage& img)
+{
+    QByteArray array;
+    QBuffer buffer(&array);
+    img.save(&buffer, "PNG");
+    return array;
+}
 
 MessageHelper::MessageHelper() {}
 
@@ -133,6 +167,13 @@ void MessageHelper::sendOffOneCharacterState(CharacterState* state, int row)
 
 void MessageHelper::sendOffOpenMedia(AbstractMediaController* ctrl) {}
 
+void MessageHelper::closeMedia(const QString& id)
+{
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::CloseMedia);
+    msg.string8(id);
+    msg.sendToServer();
+}
+
 void MessageHelper::sendOffImage(ImageController* ctrl)
 {
     if(nullptr == ctrl)
@@ -142,7 +183,7 @@ void MessageHelper::sendOffImage(ImageController* ctrl)
     if(nullptr == uri)
         return;
 
-    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
     msg.uint8(static_cast<quint8>(uri->getType()));
     msg.string16(ctrl->name());
     msg.string8(ctrl->uuid());
@@ -155,6 +196,19 @@ void MessageHelper::sendOffImage(ImageController* ctrl)
         // TODO log error
     }
     msg.byteArray32(array);
+
+    msg.sendToServer();
+}
+
+CleverURI* MessageHelper::readImageData(NetworkMessageReader* msg, QPixmap& pix)
+{
+    // msg.uint8();
+    auto name= msg->string16();
+    auto id= msg->string8();
+    auto owner= msg->string8();
+    auto data= msg->byteArray32();
+    pix.loadFromData(data);
+    return new CleverURI(name, "", owner, CleverURI::PICTURE);
 }
 
 void MessageHelper::updatePerson(NetworkMessageReader& data, PlayerModel* playerModel)
@@ -195,9 +249,562 @@ void MessageHelper::updatePerson(NetworkMessageReader& data, PlayerModel* player
 
     auto idx= playerModel->personToIndex(person);
 
-    // person->setProperty(property.toLocal8Bit().data(), var);
     playerModel->setData(idx, var, role);
-    /*
-        auto idx= personToIndex(person);
-        emit dataChanged(idx, idx);*/
+}
+
+QHash<QString, QVariant> MessageHelper::readWebPageData(NetworkMessageReader* msg)
+{
+    if(nullptr == msg)
+        return {};
+
+    auto id= msg->string8();
+    auto mode= msg->uint8();
+    auto data= msg->string32();
+
+    return QHash<QString, QVariant>(
+        {{"id", id}, {"mode", mode}, {"data", data}, {"state", static_cast<int>(WebpageController::RemoteView)}});
+}
+
+void MessageHelper::shareWebpage(WebpageController* ctrl)
+{
+    if(nullptr == ctrl)
+        return;
+
+    auto uri= ctrl->uri();
+    if(nullptr == uri)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
+    msg.uint8(static_cast<quint8>(uri->getType()));
+    msg.string8(ctrl->uuid());
+    auto mode= ctrl->sharingMode();
+    msg.uint8(mode);
+    if(mode == WebpageController::Html)
+        msg.string32(ctrl->html());
+    else if(mode == WebpageController::Url)
+        msg.string32(ctrl->url());
+    msg.sendToServer();
+}
+
+void MessageHelper::updateWebpage(WebpageController* ctrl)
+{
+    if(nullptr == ctrl)
+        return;
+
+    auto mode= ctrl->sharingMode();
+    if(mode == WebpageController::None)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::WebPageCategory, NetMsg::UpdateContent);
+    msg.string8(ctrl->uuid());
+    msg.uint8(mode);
+    if(mode == WebpageController::Html)
+        msg.string32(ctrl->html());
+    else if(mode == WebpageController::Url)
+        msg.string32(ctrl->url());
+
+    msg.sendToServer();
+}
+
+void MessageHelper::sendOffPdfFile(PdfController* ctrl)
+{
+    if(nullptr == ctrl)
+        return;
+
+    auto uri= ctrl->uri();
+    if(nullptr == uri)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
+    msg.uint8(static_cast<quint8>(uri->getType()));
+    msg.string8(ctrl->uuid());
+    msg.byteArray32(ctrl->data());
+    msg.sendToServer();
+}
+
+QHash<QString, QVariant> MessageHelper::readPdfData(NetworkMessageReader* msg)
+{
+    if(nullptr == msg)
+        return {};
+
+    auto id= msg->string8();
+    auto data= msg->byteArray32();
+
+    return QHash<QString, QVariant>({{"id", id}, {"data", data}});
+}
+
+void addVisualItemController(const vmap::VisualItemController* ctrl, NetworkMessageWriter& msg)
+{
+    msg.uint8(ctrl->visible());
+    msg.real(ctrl->opacity());
+    msg.real(ctrl->rotation());
+    msg.uint8(static_cast<quint8>(ctrl->layer()));
+    auto pos= ctrl->pos();
+    msg.real(pos.x());
+    msg.real(pos.y());
+    msg.string8(ctrl->uuid());
+    msg.rgb(ctrl->color().rgb());
+    msg.uint8(ctrl->locked());
+}
+
+const std::map<QString, QVariant> readVisualItemController(NetworkMessageReader* msg)
+{
+    auto visible= msg->uint8();
+    auto opacity= msg->real();
+    auto rotation= msg->real();
+    auto layer= msg->uint8();
+    QPointF pos;
+    pos.setX(msg->real());
+    pos.setY(msg->real());
+    auto uuid= msg->string8();
+    auto rgb= msg->rgb();
+    auto locked= msg->uint8();
+
+    return std::map<QString, QVariant>({{"visible", visible},
+                                        {"opacity", opacity},
+                                        {"rotation", rotation},
+                                        {"layer", layer},
+                                        {"position", pos},
+                                        {"uuid", uuid},
+                                        {"rgb", rgb},
+                                        {"locked", locked}});
+}
+
+void readSightController(vmap::SightController* ctrl, NetworkMessageReader* msg)
+{
+    if(nullptr == ctrl || nullptr == msg)
+        return;
+
+    ctrl->setUuid(msg->string8());
+    auto x= msg->real();
+    auto y= msg->real();
+    auto w= msg->real();
+    auto h= msg->real();
+    ctrl->setRect(QRectF(x, y, w, h));
+
+    x= msg->real();
+    y= msg->real();
+    ctrl->setPos(QPointF(x, y));
+    auto singularity= ctrl->singularityList();
+    auto count= msg->uint64();
+    for(quint64 i= 0; i < count; ++i)
+    {
+        // std::pair<QPolygonF, bool>
+        auto pointsCount= msg->uint64();
+        auto adding= msg->uint8();
+        QPolygonF p;
+        for(quint64 j= 0; j < pointsCount; ++j)
+        {
+            auto x= msg->real();
+            auto y= msg->real();
+            p.append(QPointF(x, y));
+        }
+        singularity.push_back({p, adding});
+    }
+}
+
+void addSightController(vmap::SightController* ctrl, NetworkMessageWriter& msg)
+{
+    if(nullptr == ctrl)
+        return;
+
+    msg.string8(ctrl->uuid());
+    auto rect= ctrl->rect();
+    msg.real(rect.x());
+    msg.real(rect.y());
+    msg.real(rect.width());
+    msg.real(rect.height());
+
+    auto pos= ctrl->pos();
+    msg.real(pos.x());
+    msg.real(pos.y());
+    // msg.real(ctrl->zValue());
+    auto singularity= ctrl->singularityList();
+    msg.uint64(static_cast<quint64>(singularity.size()));
+    for(auto pair : singularity)
+    {
+        auto points= pair.first;
+        msg.uint64(static_cast<quint64>(points.size()));
+        msg.uint8(static_cast<quint8>(pair.second));
+
+        std::for_each(points.begin(), points.end(), [&msg](const QPointF& p) {
+            msg.real(p.x());
+            msg.real(p.y());
+        });
+    }
+}
+
+void addRectController(const vmap::RectController* ctrl, NetworkMessageWriter& msg)
+{
+    addVisualItemController(ctrl, msg);
+    msg.uint8(ctrl->filled());
+    msg.uint16(ctrl->penWidth());
+    auto rect= ctrl->rect();
+    msg.real(rect.x());
+    msg.real(rect.y());
+    msg.real(rect.width());
+    msg.real(rect.height());
+}
+
+void readRectManager(RectControllerManager* ctrl, NetworkMessageReader* msg)
+{
+    auto count= msg->uint64();
+    for(quint64 i= 0; i < count; ++i)
+    {
+        auto param= MessageHelper::readRect(msg);
+        ctrl->addItem(param);
+    }
+}
+
+void addRectManager(RectControllerManager* ctrl, NetworkMessageWriter& msg)
+{
+    auto ctrls= ctrl->controllers();
+    msg.uint64(static_cast<quint64>(ctrls.size()));
+    std::for_each(ctrls.begin(), ctrls.end(),
+                  [&msg](const vmap::RectController* ctrl) { addRectController(ctrl, msg); });
+}
+
+void addEllipseController(const vmap::EllipseController* ctrl, NetworkMessageWriter& msg)
+{
+    addVisualItemController(ctrl, msg);
+    msg.uint8(ctrl->filled());
+    msg.uint16(ctrl->penWidth());
+    msg.real(ctrl->rx());
+    msg.real(ctrl->ry());
+}
+
+void readEllipseManager(EllipsControllerManager* ctrl, NetworkMessageReader* msg)
+{
+    auto count= msg->uint64();
+    for(quint64 i= 0; i < count; ++i)
+    {
+        auto param= MessageHelper::readEllipse(msg);
+        ctrl->addItem(param);
+    }
+}
+
+void addEllipseManager(EllipsControllerManager* ctrl, NetworkMessageWriter& msg)
+{
+    auto ctrls= ctrl->controllers();
+    msg.uint64(static_cast<quint64>(ctrls.size()));
+    std::for_each(ctrls.begin(), ctrls.end(),
+                  [&msg](const vmap::EllipseController* ctrl) { addEllipseController(ctrl, msg); });
+}
+
+void addLineController(const vmap::LineController* ctrl, NetworkMessageWriter& msg)
+{
+    addVisualItemController(ctrl, msg);
+    auto start= ctrl->startPoint();
+    msg.real(start.x());
+    msg.real(start.y());
+
+    msg.uint16(ctrl->penWidth());
+
+    auto end= ctrl->endPoint();
+    msg.real(end.x());
+    msg.real(end.y());
+}
+
+void addLineManager(LineControllerManager* ctrl, NetworkMessageWriter& msg)
+{
+    auto ctrls= ctrl->controllers();
+    msg.uint64(static_cast<quint64>(ctrls.size()));
+    std::for_each(ctrls.begin(), ctrls.end(),
+                  [&msg](const vmap::LineController* ctrl) { addLineController(ctrl, msg); });
+}
+
+void addImageController(const vmap::ImageController* ctrl, NetworkMessageWriter& msg)
+{
+    addVisualItemController(ctrl, msg);
+    msg.real(ctrl->ratio());
+    msg.byteArray32(ctrl->data());
+    auto rect= ctrl->rect();
+    msg.real(rect.x());
+    msg.real(rect.y());
+    msg.real(rect.width());
+    msg.real(rect.height());
+}
+
+void addImageManager(ImageControllerManager* ctrl, NetworkMessageWriter& msg)
+{
+    auto ctrls= ctrl->controllers();
+    msg.uint64(static_cast<quint64>(ctrls.size()));
+    std::for_each(ctrls.begin(), ctrls.end(),
+                  [&msg](const vmap::ImageController* ctrl) { addImageController(ctrl, msg); });
+}
+
+void addPathController(const vmap::PathController* ctrl, NetworkMessageWriter& msg)
+{
+    addVisualItemController(ctrl, msg);
+    msg.uint8(ctrl->filled());
+    msg.uint8(ctrl->closed());
+    msg.uint8(ctrl->penLine());
+    msg.uint16(ctrl->penWidth());
+    auto points= ctrl->points();
+    msg.uint64(static_cast<quint64>(points.size()));
+    for(auto p : points)
+    {
+        msg.real(p.x());
+        msg.real(p.y());
+    }
+}
+
+void addPathManager(PathControllerManager* ctrl, NetworkMessageWriter& msg)
+{
+    auto ctrls= ctrl->controllers();
+    msg.uint64(static_cast<quint64>(ctrls.size()));
+    std::for_each(ctrls.begin(), ctrls.end(),
+                  [&msg](const vmap::PathController* ctrl) { addPathController(ctrl, msg); });
+}
+
+void addTextController(const vmap::TextController* ctrl, NetworkMessageWriter& msg)
+{
+    addVisualItemController(ctrl, msg);
+    msg.string32(ctrl->text());
+    msg.uint16(ctrl->penWidth());
+    msg.uint8(ctrl->border());
+
+    auto p= ctrl->textPos();
+    msg.real(p.x());
+    msg.real(p.y());
+
+    auto rect= ctrl->textRect();
+    msg.real(rect.x());
+    msg.real(rect.y());
+    msg.real(rect.width());
+    msg.real(rect.height());
+
+    rect= ctrl->borderRect();
+    msg.real(rect.x());
+    msg.real(rect.y());
+    msg.real(rect.width());
+    msg.real(rect.height());
+}
+
+void addTextManager(TextControllerManager* ctrl, NetworkMessageWriter& msg)
+{
+    auto ctrls= ctrl->controllers();
+    msg.uint64(static_cast<quint64>(ctrls.size()));
+    std::for_each(ctrls.begin(), ctrls.end(),
+                  [&msg](const vmap::TextController* ctrl) { addTextController(ctrl, msg); });
+}
+
+void addCharacterController(const vmap::CharacterItemController* ctrl, NetworkMessageWriter& msg)
+{
+    addVisualItemController(ctrl, msg);
+    msg.real(ctrl->side());
+    msg.rgb(ctrl->stateColor().rgb());
+    msg.uint32(static_cast<quint32>(ctrl->number()));
+    msg.uint8(ctrl->playableCharacter());
+
+    auto rect= ctrl->thumnailRect();
+    msg.real(rect.x());
+    msg.real(rect.y());
+    msg.real(rect.width());
+    msg.real(rect.height());
+
+    msg.uint8(ctrl->visionShape());
+
+    rect= ctrl->textRect();
+    msg.real(rect.x());
+    msg.real(rect.y());
+    msg.real(rect.width());
+    msg.real(rect.height());
+
+    msg.string32(ctrl->text());
+    msg.uint8(ctrl->hasAvatar());
+
+    auto image= ctrl->avatar();
+    msg.byteArray32(imageToByteArray(*image));
+
+    msg.string32(ctrl->font().toString());
+    msg.real(ctrl->radius());
+
+    auto character= ctrl->character();
+    msg.uint8(nullptr == character);
+    if(nullptr != character)
+    {
+        PlayerMessageHelper::writeCharacterIntoMessage(msg, character);
+    }
+}
+
+void addCharacterManager(CharacterItemControllerManager* ctrl, NetworkMessageWriter& msg)
+{
+    auto ctrls= ctrl->controllers();
+    msg.uint64(static_cast<quint64>(ctrls.size()));
+    std::for_each(ctrls.begin(), ctrls.end(),
+                  [&msg](const vmap::CharacterItemController* ctrl) { addCharacterController(ctrl, msg); });
+}
+
+void MessageHelper::readVectorialMapData(NetworkMessageReader* msg, VectorialMapController* ctrl)
+{
+    if(nullptr == msg || nullptr == ctrl)
+        return;
+
+    auto uri= ctrl->uri();
+    uri->setUuid(msg->string8());
+    auto name= msg->string16();
+    qDebug() << "name" << name;
+    ctrl->setName(name);
+    ctrl->setLayer(static_cast<Core::Layer>(msg->uint8()));
+    ctrl->setPermission(static_cast<Core::PermissionMode>(msg->uint8()));
+    ctrl->setBackgroundColor(msg->rgb());
+    ctrl->setVisibility(static_cast<Core::VisibilityMode>(msg->uint8()));
+    ctrl->setZindex(msg->uint64());
+    ctrl->setCharacterVision(msg->uint8());
+    ctrl->setGridPattern(static_cast<Core::GridPattern>(msg->uint8()));
+    ctrl->setGridVisibility(msg->uint8());
+    ctrl->setGridSize(static_cast<int>(msg->uint32()));
+    ctrl->setGridAbove(msg->uint8());
+    ctrl->setCollision(msg->uint8());
+    ctrl->setGridColor(msg->rgb());
+
+    // TODO controllers
+    readSightController(ctrl->sightController(), msg);
+    readRectManager(ctrl->rectManager(), msg);
+    readEllipseManager(ctrl->ellipseManager(), msg);
+}
+
+void MessageHelper::sendOffVMap(VectorialMapController* ctrl)
+{
+    if(nullptr == ctrl)
+        return;
+
+    auto uri= ctrl->uri();
+    if(nullptr == uri)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
+    msg.uint8(static_cast<quint8>(uri->getType()));
+    msg.string8(ctrl->uuid());
+
+    msg.string16(ctrl->name());
+    msg.uint8(static_cast<quint8>(ctrl->layer()));
+    msg.uint8(static_cast<quint8>(ctrl->permission()));
+    msg.rgb(ctrl->backgroundColor().rgb());
+    msg.uint8(static_cast<quint8>(ctrl->visibility()));
+    msg.uint64(ctrl->zIndex());
+    msg.uint8(ctrl->characterVision());
+    msg.uint8(static_cast<quint8>(ctrl->gridPattern()));
+    msg.uint8(ctrl->gridVisibility());
+    msg.uint32(static_cast<quint32>(ctrl->gridSize()));
+    msg.uint8(ctrl->gridAbove());
+    msg.uint8(ctrl->collision());
+    msg.rgb(ctrl->gridColor().rgb());
+
+    // sight item
+    auto sightCtrl= ctrl->sightController();
+    addSightController(sightCtrl, msg);
+
+    auto rectCtrl= ctrl->rectManager();
+    addRectManager(rectCtrl, msg);
+
+    auto ellipseCtrl= ctrl->ellipseManager();
+    addEllipseManager(ellipseCtrl, msg);
+
+    auto lineCtrl= ctrl->lineManager();
+    addLineManager(lineCtrl, msg);
+
+    auto imageCtrl= ctrl->imageManager();
+    addImageManager(imageCtrl, msg);
+
+    auto pathCtrl= ctrl->pathManager();
+    addPathManager(pathCtrl, msg);
+
+    auto textCtrl= ctrl->textManager();
+    addTextManager(textCtrl, msg);
+
+    auto characterCtrl= ctrl->characterManager();
+    addCharacterManager(characterCtrl, msg);
+
+    msg.sendToServer();
+}
+
+void MessageHelper::sendOffRect(const vmap::RectController* ctrl, const QString& mapId)
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
+    msg.string8(mapId);
+    msg.uint8(ctrl->itemType());
+    addRectController(ctrl, msg);
+    msg.sendToServer();
+}
+
+const std::map<QString, QVariant> MessageHelper::readRect(NetworkMessageReader* msg)
+{
+    auto hash= readVisualItemController(msg);
+    auto filled= msg->uint8();
+    auto penWidth= msg->uint16();
+    auto x= msg->real();
+    auto y= msg->real();
+    auto w= msg->real();
+    auto h= msg->real();
+    hash.insert({"filled", filled});
+    hash.insert({"penWidth", penWidth});
+    hash.insert({"rect", QRectF(x, y, w, h)});
+    return hash;
+}
+
+const std::map<QString, QVariant> MessageHelper::readEllipse(NetworkMessageReader* msg)
+{
+    auto hash= readVisualItemController(msg);
+    auto filled= msg->uint8();
+    auto penWidth= msg->uint16();
+    auto rx= msg->real();
+    auto ry= msg->real();
+    hash.insert({"filled", filled});
+    hash.insert({"penWidth", penWidth});
+    hash.insert({"rx", rx});
+    hash.insert({"ry", ry});
+    return hash;
+}
+
+void MessageHelper::sendOffText(const vmap::TextController* ctrl, const QString& mapId)
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
+    msg.string8(mapId);
+    msg.uint8(ctrl->itemType());
+    addTextController(ctrl, msg);
+    msg.sendToServer();
+}
+
+void MessageHelper::sendOffLine(const vmap::LineController* ctrl, const QString& mapId)
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
+    msg.string8(mapId);
+    msg.uint8(ctrl->itemType());
+    addLineController(ctrl, msg);
+    msg.sendToServer();
+}
+
+void MessageHelper::sendOffEllispe(const vmap::EllipseController* ctrl, const QString& mapId)
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
+    msg.string8(mapId);
+    msg.uint8(ctrl->itemType());
+    addEllipseController(ctrl, msg);
+    msg.sendToServer();
+}
+void MessageHelper::sendOffPath(const vmap::PathController* ctrl, const QString& mapId)
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
+    msg.string8(mapId);
+    msg.uint8(ctrl->itemType());
+    addPathController(ctrl, msg);
+    msg.sendToServer();
+}
+void MessageHelper::sendOffImage(const vmap::ImageController* ctrl, const QString& mapId)
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
+    msg.string8(mapId);
+    msg.uint8(ctrl->itemType());
+    addImageController(ctrl, msg);
+    msg.sendToServer();
+}
+void MessageHelper::sendOffCharacter(const vmap::CharacterItemController* ctrl, const QString& mapId)
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
+    msg.string8(mapId);
+    msg.uint8(ctrl->itemType());
+    addCharacterController(ctrl, msg);
+    msg.sendToServer();
 }

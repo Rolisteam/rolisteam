@@ -21,6 +21,7 @@
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "vmap/controller/ellipsecontroller.h"
+#include "worker/messagehelper.h"
 
 EllipsControllerManager::EllipsControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
 
@@ -41,6 +42,7 @@ void EllipsControllerManager::addController(vmap::VisualItemController* controll
 
     std::unique_ptr<vmap::EllipseController> ellipse(ellipseCtrl);
     emit ellipsControllerCreated(ellipse.get(), false);
+    MessageHelper::sendOffEllispe(ellipse.get(), m_ctrl->uuid());
     m_controllers.push_back(std::move(ellipse));
 }
 
@@ -54,4 +56,19 @@ void EllipsControllerManager::removeItem(const QString& id)
 
     (*it)->aboutToBeRemoved();
     m_controllers.erase(it);
+}
+
+void EllipsControllerManager::processMessage(NetworkMessageReader* msg)
+{
+    if(msg->action() == NetMsg::AddItem && msg->category() == NetMsg::VMapCategory)
+    {
+    }
+}
+
+const std::vector<vmap::EllipseController*> EllipsControllerManager::controllers() const
+{
+    std::vector<vmap::EllipseController*> vect;
+    std::transform(m_controllers.begin(), m_controllers.end(), std::back_inserter(vect),
+                   [](const std::unique_ptr<vmap::EllipseController>& ctrl) { return ctrl.get(); });
+    return vect;
 }

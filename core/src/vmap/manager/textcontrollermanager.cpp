@@ -23,6 +23,7 @@
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "vmap/controller/textcontroller.h"
+#include "worker/messagehelper.h"
 
 TextControllerManager::TextControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
 
@@ -43,6 +44,7 @@ void TextControllerManager::addController(vmap::VisualItemController* controller
 
     std::unique_ptr<vmap::TextController> text(textCtrl);
     emit textControllerCreated(text.get());
+    MessageHelper::sendOffText(text.get(), m_ctrl->uuid());
     m_controllers.push_back(std::move(text));
 }
 
@@ -56,4 +58,18 @@ void TextControllerManager::removeItem(const QString& id)
 
     (*it)->aboutToBeRemoved();
     m_controllers.erase(it);
+}
+
+void TextControllerManager::processMessage(NetworkMessageReader* msg)
+{
+    if(msg->action() == NetMsg::AddItem && msg->category() == NetMsg::VMapCategory)
+    {
+    }
+}
+const std::vector<vmap::TextController*> TextControllerManager::controllers() const
+{
+    std::vector<vmap::TextController*> vect;
+    std::transform(m_controllers.begin(), m_controllers.end(), std::back_inserter(vect),
+                   [](const std::unique_ptr<vmap::TextController>& ctrl) { return ctrl.get(); });
+    return vect;
 }

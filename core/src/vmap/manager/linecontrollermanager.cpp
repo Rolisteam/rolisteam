@@ -21,6 +21,7 @@
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "vmap/controller/linecontroller.h"
+#include "worker/messagehelper.h"
 
 LineControllerManager::LineControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
 
@@ -41,6 +42,7 @@ void LineControllerManager::addController(vmap::VisualItemController* controller
 
     std::unique_ptr<vmap::LineController> lineCtrl(line);
     emit LineControllerCreated(lineCtrl.get(), false);
+    MessageHelper::sendOffLine(lineCtrl.get(), m_ctrl->uuid());
     m_controllers.push_back(std::move(lineCtrl));
 }
 
@@ -54,4 +56,19 @@ void LineControllerManager::removeItem(const QString& id)
 
     (*it)->aboutToBeRemoved();
     m_controllers.erase(it);
+}
+
+void LineControllerManager::processMessage(NetworkMessageReader* msg)
+{
+    if(msg->action() == NetMsg::AddItem && msg->category() == NetMsg::VMapCategory)
+    {
+    }
+}
+
+const std::vector<vmap::LineController*> LineControllerManager::controllers() const
+{
+    std::vector<vmap::LineController*> vect;
+    std::transform(m_controllers.begin(), m_controllers.end(), std::back_inserter(vect),
+                   [](const std::unique_ptr<vmap::LineController>& ctrl) { return ctrl.get(); });
+    return vect;
 }
