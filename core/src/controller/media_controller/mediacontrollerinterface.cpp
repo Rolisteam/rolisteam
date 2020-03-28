@@ -17,36 +17,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef MEDIACONTROLLERINTERFACE_H
-#define MEDIACONTROLLERINTERFACE_H
+#include "mediacontrollerinterface.h"
 
-#include <QObject>
-
-#include "data/cleveruri.h"
-#include "network/networkreceiver.h"
-class QUndoStack;
-class MediaControllerInterface : public QObject, public NetWorkReceiver
+void MediaControllerInterface::setLocalIsGM(bool localIsGM)
 {
-    Q_OBJECT
-    Q_PROPERTY(bool localIsGM READ localIsGM WRITE setLocalIsGM NOTIFY localIsGMChanged)
+    if(m_localIsGM == localIsGM)
+        return;
 
-public:
-    MediaControllerInterface(QObject* parent= nullptr) : QObject(parent) {}
-    virtual CleverURI::ContentType type() const= 0;
-    virtual bool openMedia(CleverURI*, const std::map<QString, QVariant>& args)= 0;
-    virtual void closeMedia(const QString& id)= 0;
-    virtual void registerNetworkReceiver()= 0;
-    virtual void setUndoStack(QUndoStack* stack)= 0;
-    bool localIsGM() const;
+    m_localIsGM= localIsGM;
+    emit localIsGMChanged(m_localIsGM);
+}
 
-public slots:
-    void setLocalIsGM(bool localIsGM);
-
-signals:
-    void localIsGMChanged(bool localIsGM);
-
-protected:
-    bool m_localIsGM= false;
-};
-
-#endif // MEDIACONTROLLERINTERFACE_H
+bool MediaControllerInterface::localIsGM() const
+{
+    return m_localIsGM;
+}
