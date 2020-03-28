@@ -65,8 +65,8 @@ public:
     virtual void readMessage(NetworkMessageReader& msg);
 
     void contextMenuEvent(QContextMenuEvent* event);
-signals:
-    void openImageAs(const QPixmap&, CleverURI::ContentType);
+    /*signals:
+        void openImageAs(const QPixmap&, CleverURI::ContentType);*/
 
 protected:
     void createActions();
