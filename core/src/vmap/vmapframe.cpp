@@ -31,6 +31,52 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
+QString visibilityText(Core::VisibilityMode vis)
+{
+    QStringList visibilityData;
+    visibilityData << QObject::tr("Hidden") << QObject::tr("Fog Of War") << QObject::tr("All visible");
+
+    if(vis < visibilityData.size())
+    {
+        return visibilityData.at(vis);
+    }
+    return {};
+}
+
+QString permissionModeText(Core::PermissionMode mode)
+{
+    QStringList permissionData;
+    permissionData << QObject::tr("No Right") << QObject::tr("His character") << QObject::tr("All Permissions");
+    return permissionData.at(mode);
+}
+
+QString layerText(Core::Layer mode)
+{
+    QString str;
+    switch(mode)
+    {
+    case Core::Layer::GROUND:
+        str= QObject::tr("Ground");
+        break;
+    case Core::Layer::OBJECT:
+        str= QObject::tr("Object");
+        break;
+    case Core::Layer::CHARACTER_LAYER:
+        str= QObject::tr("Character");
+        break;
+    case Core::Layer::FOG:
+        str= QObject::tr("Fog Layer");
+        break;
+    case Core::Layer::GRIDLAYER:
+        str= QObject::tr("Grid Layer");
+        break;
+    case Core::Layer::NONE:
+        str= QObject::tr("No Layer");
+        break;
+    }
+    return str;
+}
+
 VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
     : MediaContainer(ctrl, MediaContainer::ContainerType::VMapContainer, parent)
     , m_ctrl(ctrl)
@@ -42,10 +88,17 @@ VMapFrame::VMapFrame(VectorialMapController* ctrl, QWidget* parent)
     m_graphicView->setScene(m_vmap.get());
     setWidget(m_graphicView.get());
 
+    connect(m_ctrl, &VectorialMapController::nameChanged, this, &VMapFrame::updateTitle);
+    connect(m_ctrl, &VectorialMapController::visibilityChanged, this, &VMapFrame::updateTitle);
+    connect(m_ctrl, &VectorialMapController::layerChanged, this, &VMapFrame::updateTitle);
+    connect(m_ctrl, &VectorialMapController::permissionChanged, this, &VMapFrame::updateTitle);
+
     // m_vmap= new VMap();
 
     // connect(m_vmap, SIGNAL(mapStatutChanged()), this, SLOT(updateTitle()));
     // connect(m_vmap, SIGNAL(mapChanged()), this, SLOT(updateTitle()));
+
+    updateTitle();
 }
 
 VMapFrame::~VMapFrame() {}
@@ -67,10 +120,9 @@ void VMapFrame::updateMap()
 
 void VMapFrame::updateTitle()
 {
-    /*m_vmap->setTitle(getUriName());
     setWindowTitle(tr("%1 - visibility: %2 - permission: %3 - layer: %4")
-                       .arg(getUriName(), m_vmap->getVisibilityModeText(), m_vmap->getPermissionModeText(),
-                            m_vmap->getCurrentLayerText()));*/
+                       .arg(m_ctrl->name(), visibilityText(m_ctrl->visibility()),
+                            permissionModeText(m_ctrl->permission()), layerText(m_ctrl->layer())));
 }
 
 void VMapFrame::currentCursorChanged(QCursor* cursor)
