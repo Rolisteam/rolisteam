@@ -27,6 +27,8 @@ AbstractMediaContainerController::AbstractMediaContainerController(CleverURI* ur
     Q_ASSERT(uri != nullptr);
 }
 
+AbstractMediaContainerController::~AbstractMediaContainerController()= default;
+
 QString AbstractMediaContainerController::name() const
 {
     return m_uri->name();
@@ -39,7 +41,7 @@ QString AbstractMediaContainerController::uuid() const
 
 CleverURI* AbstractMediaContainerController::uri() const
 {
-    return m_uri;
+    return m_uri.get();
 }
 
 QString AbstractMediaContainerController::title() const
@@ -54,9 +56,9 @@ bool AbstractMediaContainerController::isActive() const
 
 void AbstractMediaContainerController::setUri(CleverURI* uri)
 {
-    if(m_uri == uri)
+    if(m_uri.get() == uri)
         return;
-    m_uri= uri;
+    m_uri.reset(std::move(uri));
     emit uriChanged();
 }
 

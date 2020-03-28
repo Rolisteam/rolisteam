@@ -21,6 +21,7 @@
 #define ABSTRACTMEDIACONTROLLER_H
 
 #include <QObject>
+#include <memory>
 
 class CleverURI;
 class QUndoCommand;
@@ -34,6 +35,8 @@ class AbstractMediaContainerController : public QObject
     Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
 public:
     AbstractMediaContainerController(CleverURI* uri, QObject* parent= nullptr);
+    virtual ~AbstractMediaContainerController() override;
+
     QString name() const;
     QString uuid() const;
     CleverURI* uri() const;
@@ -61,7 +64,7 @@ public slots:
 
 protected:
     QString m_name;
-    CleverURI* m_uri;
+    std::unique_ptr<CleverURI> m_uri;
     bool m_active= false;
 };
 
