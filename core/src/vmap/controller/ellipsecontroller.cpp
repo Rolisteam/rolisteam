@@ -68,7 +68,10 @@ void EllipseController::aboutToBeRemoved()
 }
 
 void EllipseController::endGeometryChange() {}
-
+VisualItemController::ItemType EllipseController::itemType() const
+{
+    return VisualItemController::ELLISPE;
+}
 QRectF EllipseController::rect() const
 {
     return QRectF(-rx(), -ry(), rx() * 2, ry() * 2);

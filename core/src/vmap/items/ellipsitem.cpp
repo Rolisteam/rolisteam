@@ -108,10 +108,6 @@ void EllipsItem::setNewEnd(const QPointF& p)
 {
     m_ellipseCtrl->setCorner(p, 2);
 }
-VisualItem::ItemType EllipsItem::getType() const
-{
-    return VisualItem::ELLISPE;
-}
 
 void EllipsItem::updateChildPosition()
 {

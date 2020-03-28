@@ -75,6 +75,11 @@ void CharacterItemController::aboutToBeRemoved() {}
 
 void CharacterItemController::endGeometryChange() {}
 
+VisualItemController::ItemType CharacterItemController::itemType() const
+{
+    return VisualItemController::CHARACTER;
+}
+
 void CharacterItemController::setCorner(const QPointF& move, int corner)
 {
     if(move.isNull())
@@ -353,5 +358,10 @@ void CharacterItemController::computeThumbnail()
     painter.setBrush(brush);
     painter.drawRoundedRect(0, 0, diam, diam, m_side / m_radius, m_side / m_radius);
     emit avatarChanged();
+}
+
+Character* CharacterItemController::character() const
+{
+    return m_character;
 }
 } // namespace vmap

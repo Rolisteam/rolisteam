@@ -68,11 +68,6 @@ public:
      */
     virtual void readData(QDataStream& in);
     /**
-     * @brief getType
-     * @return
-     */
-    virtual VisualItem::ItemType getType() const;
-    /**
      * @brief fillMessage
      * @param msg
      */

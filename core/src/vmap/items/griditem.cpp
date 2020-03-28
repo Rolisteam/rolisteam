@@ -102,9 +102,9 @@ void GridItem::writeData(QDataStream& out) const
     Q_UNUSED(out)
 }
 
-void GridItem::readData(QDataStream& in){Q_UNUSED(in)} VisualItem::ItemType GridItem::getType() const
+void GridItem::readData(QDataStream& in)
 {
-    return VisualItem::GRID;
+    Q_UNUSED(in)
 }
 
 void GridItem::fillMessage(NetworkMessageWriter* msg)

@@ -46,7 +46,10 @@ ImageController::ImageController(const std::map<QString, QVariant>& params, Vect
         setPos(params.at(QStringLiteral("position")).toPointF());
 
     if(params.end() != params.find("path"))
+    {
+        setPath(params.at(QStringLiteral("path")).toString());
         setData(readImage(params.at(QStringLiteral("path")).toString()));
+    }
 
     if(params.end() != params.find("data"))
         setData(params.at(QStringLiteral("data")).toByteArray());
@@ -54,6 +57,11 @@ ImageController::ImageController(const std::map<QString, QVariant>& params, Vect
     checkMovie();
 
     setRect(m_pix.rect());
+}
+
+VisualItemController::ItemType ImageController::itemType() const
+{
+    return VisualItemController::IMAGE;
 }
 
 QRectF ImageController::rect() const

@@ -62,10 +62,6 @@ public:
     CharacterItemController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
                             QObject* parent= nullptr);
 
-    void aboutToBeRemoved() override;
-    void endGeometryChange() override;
-    void setCorner(const QPointF& move, int corner) override;
-
     qreal side() const;
     QColor stateColor() const;
     int number() const;
@@ -76,12 +72,18 @@ public:
     QString text() const;
     bool hasAvatar() const;
     QImage* avatar() const;
-    QColor color() const override;
     QFont font() const;
     QPainterPath shape() const;
+    Character* character() const;
     CharacterVision* vision() const;
     qreal radius() const;
+
+    void aboutToBeRemoved() override;
+    void endGeometryChange() override;
+    void setCorner(const QPointF& move, int corner) override;
+    QColor color() const override;
     QRectF rect() const override;
+    ItemType itemType() const override;
 
 public slots:
     void setSide(qreal side);

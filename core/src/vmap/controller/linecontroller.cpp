@@ -58,7 +58,10 @@ void LineController::aboutToBeRemoved()
 {
     emit removeItem();
 }
-
+VisualItemController::ItemType LineController::itemType() const
+{
+    return VisualItemController::LINE;
+}
 void LineController::endGeometryChange() {}
 
 QRectF LineController::rect() const

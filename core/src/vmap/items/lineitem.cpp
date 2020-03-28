@@ -145,10 +145,7 @@ void LineItem::readData(QDataStream& in)
     in >> i;
     // m_layer= static_cast<Core::Layer>(i);
 }
-VisualItem::ItemType LineItem::getType() const
-{
-    return VisualItem::LINE;
-}
+
 void LineItem::fillMessage(NetworkMessageWriter* msg)
 {
     msg->string16(m_id);

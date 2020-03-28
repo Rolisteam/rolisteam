@@ -156,6 +156,12 @@ QRectF TextController::rect() const
 {
     return borderRect();
 }
+
+VisualItemController::ItemType TextController::itemType() const
+{
+    return VisualItemController::TEXT;
+}
+
 void TextController::setTextPos(QPointF textPos)
 {
     if(m_textPos == textPos)

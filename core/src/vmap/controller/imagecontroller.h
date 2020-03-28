@@ -48,13 +48,14 @@ public:
     ImageController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent= nullptr);
 
     QPixmap pixmap() const;
-    QRectF rect() const;
+    QRectF rect() const override;
     QString path() const;
     qreal ratio() const;
     QByteArray data() const;
 
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
+    ItemType itemType() const override;
 
 signals:
     void pixmapChanged();

@@ -20,20 +20,18 @@
 #ifndef VISUALITEM_H
 #define VISUALITEM_H
 
-#include <QGraphicsObject>
-
-#include "childpointitem.h"
-#include "media/mediatype.h"
 #include <QAction>
+#include <QGraphicsObject>
 #include <QPointer>
 #include <QVector>
 
+#include "childpointitem.h"
+#include "media/mediatype.h"
+#include "vmap/controller/visualitemcontroller.h"
+
 class NetworkMessageWriter;
 class NetworkMessageReader;
-namespace vmap
-{
-class VisualItemController;
-}
+
 /**
  * @brief abstract class which defines interface for all map items.
  */
@@ -41,25 +39,6 @@ class VisualItem : public QGraphicsObject
 {
     Q_OBJECT
 public:
-    /**
-     * @brief The ItemType enum
-     */
-    enum ItemType
-    {
-        PATH,
-        LINE,
-        ELLISPE,
-        CHARACTER,
-        TEXT,
-        RECT,
-        RULE,
-        IMAGE,
-        SIGHT,
-        ANCHOR,
-        GRID,
-        HIGHLIGHTER
-    };
-    Q_ENUM(ItemType)
     /**
      * @brief The Layer enum
      */
@@ -96,12 +75,11 @@ public:
      * @param in
      */
     virtual void readData(QDataStream& in)= 0;
-
     /**
      * @brief getType
      * @return
      */
-    virtual VisualItem::ItemType getType() const= 0;
+    virtual vmap::VisualItemController::ItemType getType() const;
     /**
      * @brief fillMessage
      * @param msg
@@ -197,7 +175,7 @@ public:
      * @brief promoteTo
      * @return
      */
-    virtual VisualItem* promoteTo(VisualItem::ItemType);
+    virtual VisualItem* promoteTo(vmap::VisualItemController::ItemType);
     /**
      * @brief setSize
      * @param size
@@ -253,7 +231,7 @@ signals:
     /**
      * @brief promoteItemTo
      */
-    void promoteItemTo(VisualItem*, VisualItem::ItemType);
+    void promoteItemTo(VisualItem*, vmap::VisualItemController::ItemType);
     /**
      * @brief selectStateChange
      */
@@ -358,7 +336,7 @@ protected:
     QAction* m_putGroundLayer= nullptr;
     QAction* m_putObjectLayer= nullptr;
     QAction* m_putCharacterLayer= nullptr;
-    QVector<ItemType> m_promoteTypeList;
+    QVector<vmap::VisualItemController::ItemType> m_promoteTypeList;
     QList<QPointF> m_pointList;
     bool m_resizing= false;
     bool m_rotating= false;

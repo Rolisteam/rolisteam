@@ -178,10 +178,6 @@ void SightItem::readData(QDataStream& in)
         updateVeil();
         update();*/
 }
-VisualItem::ItemType SightItem::getType() const
-{
-    return VisualItem::SIGHT;
-}
 
 void SightItem::fillMessage(NetworkMessageWriter* msg)
 {

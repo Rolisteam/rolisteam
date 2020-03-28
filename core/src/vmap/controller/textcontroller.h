@@ -55,6 +55,7 @@ public:
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
     QRectF rect() const override;
+    ItemType itemType() const override;
 
 public slots:
     void setText(QString text);

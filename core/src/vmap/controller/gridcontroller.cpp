@@ -61,6 +61,10 @@ void GridController::aboutToBeRemoved()
 void GridController::setCorner(const QPointF& move, int corner) {}
 
 void GridController::endGeometryChange() {}
+VisualItemController::ItemType GridController::itemType() const
+{
+    return VisualItemController::GRID;
+}
 
 void GridController::setGm(bool gm)
 {

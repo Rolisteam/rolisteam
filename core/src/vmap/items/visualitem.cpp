@@ -92,6 +92,12 @@ vmap::VisualItemController* VisualItem::controller() const
 {
     return m_ctrl;
 }
+
+vmap::VisualItemController::ItemType VisualItem::getType() const
+{
+    return m_ctrl->itemType();
+}
+
 void VisualItem::updateItemFlags()
 {
     bool editable= canBeMoved();
@@ -224,7 +230,7 @@ void VisualItem::updateChildPosition() {}
 
 void VisualItem::addPromoteItemMenu(QMenu* menu)
 {
-    for(ItemType& type : m_promoteTypeList)
+    for(auto& type : m_promoteTypeList)
     {
         QAction* action= menu->addAction(s_type2NameList[type]);
         action->setData(type);
@@ -236,7 +242,7 @@ void VisualItem::promoteItem()
     QAction* act= qobject_cast<QAction*>(sender());
     if(nullptr != act)
     {
-        VisualItem::ItemType type= static_cast<VisualItem::ItemType>(act->data().toInt());
+        auto type= static_cast<vmap::VisualItemController::ItemType>(act->data().toInt());
         emit promoteItemTo(this, type);
     }
 }
@@ -490,7 +496,7 @@ void VisualItem::setModifiers(Qt::KeyboardModifiers modifiers)
     /// @brief must be implemented in child classes.
     return;
 }
-VisualItem* VisualItem::promoteTo(VisualItem::ItemType type)
+VisualItem* VisualItem::promoteTo(vmap::VisualItemController::ItemType type)
 {
     Q_UNUSED(type)
     /// @brief must be implemented in child classes.

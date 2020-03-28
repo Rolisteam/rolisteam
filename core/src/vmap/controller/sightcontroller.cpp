@@ -78,7 +78,10 @@ bool SightController::visible() const
 {
     return m_visible;
 }
-
+VisualItemController::ItemType SightController::itemType() const
+{
+    return VisualItemController::SIGHT;
+}
 QRectF SightController::rect() const
 {
     auto rect= m_ctrl->visualRect();
@@ -128,5 +131,10 @@ void SightController::addPolygon(const QPolygonF& poly, bool mask)
 {
     m_fogSingularityList.push_back(std::make_pair(poly, mask));
     emit fowPathChanged(); // static_cast<int>(m_fogSingularityList.size())
+}
+
+const std::vector<std::pair<QPolygonF, bool>>& SightController::singularityList() const
+{
+    return m_fogSingularityList;
 }
 } // namespace vmap

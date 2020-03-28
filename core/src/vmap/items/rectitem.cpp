@@ -112,10 +112,6 @@ void RectItem::setNewEnd(const QPointF& p)
     m_ctrl->setCorner(p, 2);
 }
 
-VisualItem::ItemType RectItem::getType() const
-{
-    return VisualItem::RECT;
-}
 void RectItem::writeData(QDataStream& out) const
 {
     /*out << m_rect;
