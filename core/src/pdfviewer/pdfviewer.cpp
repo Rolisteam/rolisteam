@@ -139,20 +139,34 @@ void PdfViewer::createActions()
 
 void PdfViewer::exportImage()
 {
-    if(nullptr != m_overlay)
+    if(nullptr == m_overlay)
+        return;
+
+    auto act= qobject_cast<QAction*>(sender());
+    auto type= static_cast<CleverURI::ContentType>(act->data().toInt());
+
+    auto rect= m_overlay->rect();
+    auto pix= m_pdfWidget->grab(rect);
+
+    // emit openImageAs(pix, type);
+    switch(type)
     {
-        auto act= qobject_cast<QAction*>(sender());
-        auto type= static_cast<CleverURI::ContentType>(act->data().toInt());
-
-        auto rect= m_overlay->rect();
-        auto pix= m_pdfWidget->grab(rect);
-
-        emit openImageAs(pix, type);
-
-        delete m_overlay;
-        m_overlay= nullptr;
-        m_cropCurrentView->setChecked(false);
+    case CleverURI::MAP:
+        m_pdfCtrl->shareImageIntoMap(pix);
+        break;
+    case CleverURI::VMAP:
+        m_pdfCtrl->shareImageIntoVMap(pix);
+        break;
+    case CleverURI::PICTURE:
+        m_pdfCtrl->shareImageIntoVMap(pix);
+        break;
+    default:
+        break;
     }
+
+    delete m_overlay;
+    m_overlay= nullptr;
+    m_cropCurrentView->setChecked(false);
 }
 
 void PdfViewer::sharePdfTo()
@@ -163,10 +177,11 @@ void PdfViewer::sharePdfTo()
                                 QMessageBox::Yes | QMessageBox::Cancel);
     if(answer == QMessageBox::Yes)
     {
-        NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
+        m_pdfCtrl->shareAsPdf();
+        /*NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
         // msg.uint8(getContentType());
         fill(msg);
-        msg.sendToServer();
+        msg.sendToServer();*/
     }
 }
 
