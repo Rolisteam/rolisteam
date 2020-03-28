@@ -64,3 +64,5 @@ NetWorkReceiver::SendType MapMediaController::processMessage(NetworkMessageReade
 }
 
 void MapMediaController::setUndoStack(QUndoStack* stack) {}
+
+void MapMediaController::addMapFromImage(const QPixmap& map) {}

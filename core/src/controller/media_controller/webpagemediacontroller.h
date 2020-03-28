@@ -40,8 +40,15 @@ public:
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
     void setUndoStack(QUndoStack* stack) override;
 
+private:
+    void addWebpageController(const QHash<QString, QVariant>& params);
+
 signals:
     void webpageControllerCreated(WebpageController* webpageCtrl);
+private slots:
+    void managePage(const QString& id);
+    void shareWebPage(const QString& id);
+    void updatePage(const QString& id);
 
 private:
     std::vector<std::unique_ptr<WebpageController>> m_webpages;

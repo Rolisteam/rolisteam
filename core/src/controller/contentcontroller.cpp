@@ -240,7 +240,8 @@ QString ContentController::sessionPath() const
 
 void ContentController::processMediaMessage(NetworkMessageReader* msg)
 {
-    if(msg->action() == NetMsg::addMedia)
+    NetWorkReceiver::SendType result= NetWorkReceiver::NONE;
+    if(msg->action() == NetMsg::AddMedia || msg->action() == NetMsg::UpdateMediaProperty)
     {
         auto type= static_cast<CleverURI::ContentType>(msg->uint8());
         switch(type)

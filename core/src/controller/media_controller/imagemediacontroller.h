@@ -41,8 +41,13 @@ public:
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
     void setUndoStack(QUndoStack* stack) override {}
 
+    void addImage(const QPixmap& image);
+
 signals:
     void imageControllerCreated(ImageController* imageCtrl);
+
+private:
+    ImageController* addImageController(CleverURI* uri, const QPixmap& pix);
 
 private:
     std::vector<std::unique_ptr<ImageController>> m_images;
