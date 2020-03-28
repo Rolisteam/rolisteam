@@ -26,7 +26,9 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "network/networkmessagereader.h"
 #include "network/receiveevent.h"
+#include "updater/vmapupdater.h"
 #include "vmap/vmapframe.h"
+#include "worker/messagehelper.h"
 
 VectorialMapController* findActive(const std::vector<std::unique_ptr<VectorialMapController>>& vmaps)
 {
@@ -37,7 +39,17 @@ VectorialMapController* findActive(const std::vector<std::unique_ptr<VectorialMa
     return (*it).get();
 }
 
-VectorialMapMediaController::VectorialMapMediaController(NetworkController* networkCtrl) : m_networkCtrl(networkCtrl)
+VectorialMapController* findMap(const std::vector<std::unique_ptr<VectorialMapController>>& vmaps, const QString& id)
+{
+    auto it= std::find_if(vmaps.begin(), vmaps.end(),
+                          [id](const std::unique_ptr<VectorialMapController>& ctrl) { return ctrl->uuid() == id; });
+    if(vmaps.end() == it)
+        return nullptr;
+    return (*it).get();
+}
+
+VectorialMapMediaController::VectorialMapMediaController(NetworkController* networkCtrl)
+    : m_networkCtrl(networkCtrl), m_updater(new VMapUpdater)
 {
     auto func= [this]() {
         std::for_each(m_vmaps.begin(), m_vmaps.end(), [this](const std::unique_ptr<VectorialMapController>& ctrl) {
@@ -74,54 +86,78 @@ void VectorialMapMediaController::registerNetworkReceiver()
 NetWorkReceiver::SendType VectorialMapMediaController::processMessage(NetworkMessageReader* msg)
 {
     NetWorkReceiver::SendType type= NetWorkReceiver::NONE;
-    switch(msg->action())
+
+    if(msg->action() == NetMsg::AddMedia && msg->category() == NetMsg::MediaCategory)
     {
-    case NetMsg::loadVmap:
-        break;
-    case NetMsg::closeVmap:
+        auto map= addVectorialMapController(new CleverURI(CleverURI::ContentType::VMAP), QHash<QString, QVariant>());
+        MessageHelper::readVectorialMapData(msg, map);
+    }
+    else if(msg->action() == NetMsg::CloseMedia && msg->category() == NetMsg::MediaCategory)
     {
         QString vmapId= msg->string8();
         closeMedia(vmapId);
     }
-    break;
-    case NetMsg::addVmap:
-    case NetMsg::DelPoint:
-        break;
-    case NetMsg::AddItem:
-    case NetMsg::DelItem:
-    case NetMsg::MoveItem:
-    case NetMsg::GeometryItemChanged:
-    case NetMsg::OpacityItemChanged:
-    case NetMsg::LayerItemChanged:
-    case NetMsg::MovePoint:
-    case NetMsg::vmapChanges:
-    case NetMsg::GeometryViewChanged:
-    case NetMsg::SetParentItem:
-    case NetMsg::RectGeometryItem:
-    case NetMsg::RotationItem:
-    case NetMsg::CharacterStateChanged:
-    case NetMsg::CharacterChanged:
-    case NetMsg::VisionChanged:
-    case NetMsg::ColorChanged:
-    case NetMsg::ZValueItem:
+    else if(msg->action() == NetMsg::UpdateMediaProperty && msg->category() == NetMsg::MediaCategory)
     {
         QString vmapId= msg->string8();
-        // CleverURI* tmp= findMedia(vmapId, m_openMedia);
-        //  if(nullptr != tmp)
-        {
-            /*VMapFrame* mapF= dynamic_cast<VMapFrame*>(tmp);
-            if(nullptr != mapF)
-            {
-                type= mapF->processMessage(msg);
-            }*/
-        }
+        auto map= findMap(m_vmaps, vmapId);
+        m_updater->updateVMapProperty(msg, map);
     }
-    break;
-    default:
-        qWarning("Unexpected Action - MainWindow::processVMapMessage");
-        break;
-    }
+    else if(msg->category() == NetMsg::VMapCategory)
+    {
+        QString vmapId= msg->string8();
+        auto map= findMap(m_vmaps, vmapId);
+        if(nullptr == map)
+            return type;
+        type= map->processMessage(msg);
+        /* closeMedia(vmapId);
+         switch(msg->action())
+         {
+         case NetMsg::loadVmap:
+             break;
+         case NetMsg::closeVmap:
+         {
 
+         }
+         break;
+         case NetMsg::addVmap:
+         case NetMsg::DelPoint:
+             break;
+         case NetMsg::AddItem:
+         case NetMsg::DelItem:
+         case NetMsg::MoveItem:
+         case NetMsg::GeometryItemChanged:
+         case NetMsg::OpacityItemChanged:
+         case NetMsg::LayerItemChanged:
+         case NetMsg::MovePoint:
+         case NetMsg::vmapChanges:
+         case NetMsg::GeometryViewChanged:
+         case NetMsg::SetParentItem:
+         case NetMsg::RectGeometryItem:
+         case NetMsg::RotationItem:
+         case NetMsg::CharacterStateChanged:
+         case NetMsg::CharacterChanged:
+         case NetMsg::VisionChanged:
+         case NetMsg::ColorChanged:
+         case NetMsg::ZValueItem:
+         {
+             QString vmapId= msg->string8();
+             // CleverURI* tmp= findMedia(vmapId, m_openMedia);
+             //  if(nullptr != tmp)
+             {
+                 VMapFrame* mapF= dynamic_cast<VMapFrame*>(tmp);
+                 if(nullptr != mapF)
+                 {
+                     type= mapF->processMessage(msg);
+                 }
+             }
+         }
+         break;
+         default:
+             qWarning("Unexpected Action - MainWindow::processVMapMessage");
+             break;
+         }*/
+    }
     return type;
 }
 
@@ -154,29 +190,51 @@ bool VectorialMapMediaController::openMedia(CleverURI* uri, const std::map<QStri
     if(args.empty())
         return false;
 
+    QHash<QString, QVariant> params(args.begin(), args.end());
+
+    qDebug() << "openMedia vectorialmanl" << params;
+
+    auto vmapCtrl= addVectorialMapController(uri, params);
+    initializeOwnedVMap(vmapCtrl);
+    return true;
+}
+
+void VectorialMapMediaController::initializeOwnedVMap(VectorialMapController* ctrl)
+{
+    MessageHelper::sendOffVMap(ctrl);
+    m_updater->addController(ctrl);
+}
+
+VectorialMapController* VectorialMapMediaController::addVectorialMapController(CleverURI* uri,
+                                                                               const QHash<QString, QVariant>& params)
+{
     std::unique_ptr<VectorialMapController> vmapCtrl(new VectorialMapController(uri));
 
     vmapCtrl->setLocalGM(m_networkCtrl->isGM());
 
-    vmapCtrl->setPermission(args.at(QStringLiteral("permission")).value<Core::PermissionMode>());
-    vmapCtrl->setName(args.at(QStringLiteral("title")).toString());
-    vmapCtrl->setBackgroundColor(args.at(QStringLiteral("bgcolor")).value<QColor>());
-    vmapCtrl->setGridSize(args.at(QStringLiteral("gridSize")).toInt());
-    vmapCtrl->setGridPattern(args.at(QStringLiteral("gridPattern")).value<Core::GridPattern>());
-    vmapCtrl->setGridColor(args.at(QStringLiteral("gridColor")).value<QColor>());
-    vmapCtrl->setVisibility(args.at(QStringLiteral("visibility")).value<Core::VisibilityMode>());
-    vmapCtrl->setGridScale(args.at(QStringLiteral("scale")).toDouble());
-    vmapCtrl->setScaleUnit(args.at(QStringLiteral("unit")).value<Core::ScaleUnit>());
-
+    if(!params.isEmpty())
+    {
+        vmapCtrl->setPermission(params.value(QStringLiteral("permission")).value<Core::PermissionMode>());
+        vmapCtrl->setName(params.value(QStringLiteral("title")).toString());
+        vmapCtrl->setBackgroundColor(params.value(QStringLiteral("bgcolor")).value<QColor>());
+        vmapCtrl->setGridSize(params.value(QStringLiteral("gridSize")).toInt());
+        vmapCtrl->setGridPattern(params.value(QStringLiteral("gridPattern")).value<Core::GridPattern>());
+        vmapCtrl->setGridColor(params.value(QStringLiteral("gridColor")).value<QColor>());
+        vmapCtrl->setVisibility(params.value(QStringLiteral("visibility")).value<Core::VisibilityMode>());
+        vmapCtrl->setGridScale(params.value(QStringLiteral("scale")).toDouble());
+        vmapCtrl->setScaleUnit(params.value(QStringLiteral("unit")).value<Core::ScaleUnit>());
+    }
     connect(vmapCtrl.get(), &VectorialMapController::activeChanged, this,
             &VectorialMapMediaController::updateProperties);
     connect(vmapCtrl.get(), &VectorialMapController::performCommand, m_stack, &QUndoStack::push);
     connect(vmapCtrl.get(), &VectorialMapController::toolColorChanged, this,
             &VectorialMapMediaController::toolColorChanged);
-    emit vmapControllerCreated(vmapCtrl.get());
+    auto val= vmapCtrl.get();
     m_vmaps.push_back(std::move(vmapCtrl));
-    return true;
+    emit vmapControllerCreated(val);
+    return val;
 }
+
 void VectorialMapMediaController::updateProperties()
 {
     auto ctrl= findActive(m_vmaps);
@@ -358,3 +416,5 @@ void VectorialMapMediaController::setBackgroundColor(const QColor& color)
         return;
     ctrl->setBackgroundColor(color);
 }
+
+void VectorialMapMediaController::addImageToMap(const QPixmap& map) {}

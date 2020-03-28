@@ -37,8 +37,14 @@ void ImageMediaController::registerNetworkReceiver()
     // ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory, this);
 }
 
-NetWorkReceiver::SendType ImageMediaController::processMessage(NetworkMessageReader*)
+NetWorkReceiver::SendType ImageMediaController::processMessage(NetworkMessageReader* msg)
 {
+    if(msg->category() == NetMsg::MediaCategory && msg->action() == NetMsg::AddMedia)
+    {
+        QPixmap pix;
+        auto uri= MessageHelper::readImageData(msg, pix);
+        addImageController(uri, pix);
+    }
     return NetWorkReceiver::NONE;
 }
 
@@ -63,10 +69,21 @@ bool ImageMediaController::openMedia(CleverURI* uri, const std::map<QString, QVa
     if(it != args.end())
         pix= it->second.value<QPixmap>();
 
-    std::unique_ptr<ImageController> imgCtrl(new ImageController(uri, pix));
-
-    emit imageControllerCreated(imgCtrl.get());
-    MessageHelper::sendOffImage(imgCtrl.get());
-    m_images.push_back(std::move(imgCtrl));
+    auto imgCtrl= addImageController(uri, pix);
+    MessageHelper::sendOffImage(imgCtrl);
     return true;
+}
+
+ImageController* ImageMediaController::addImageController(CleverURI* uri, const QPixmap& pix)
+{
+    std::unique_ptr<ImageController> imgCtrl(new ImageController(uri, pix));
+    emit imageControllerCreated(imgCtrl.get());
+    auto img= imgCtrl.get();
+    m_images.push_back(std::move(imgCtrl));
+    return img;
+}
+
+void ImageMediaController::addImage(const QPixmap& image)
+{
+    addImageController(new CleverURI(CleverURI::PICTURE), image);
 }

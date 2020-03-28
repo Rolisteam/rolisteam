@@ -41,6 +41,8 @@ public:
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
     void setUndoStack(QUndoStack* stack) override;
 
+    void addMapFromImage(const QPixmap& map);
+
 signals:
     void mapControllerCreated(MapController* ctrl);
 

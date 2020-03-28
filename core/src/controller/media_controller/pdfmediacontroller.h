@@ -40,8 +40,15 @@ public:
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
     void setUndoStack(QUndoStack* stack) override;
 
+public slots:
+    void sharePdf(const QString& id);
+
 signals:
     void pdfControllerCreated(PdfController* pdfController);
+    void shareImageAs(const QPixmap& image, CleverURI::ContentType type);
+
+private:
+    void addPdfController(CleverURI* uri, const QHash<QString, QVariant>& params);
 
 private:
     std::vector<std::unique_ptr<PdfController>> m_pdfs;

@@ -20,6 +20,7 @@
 #include "pdfmediacontroller.h"
 
 #include "controller/view_controller/pdfcontroller.h"
+#include "worker/messagehelper.h"
 
 PdfMediaController::PdfMediaController() {}
 
@@ -35,10 +36,9 @@ bool PdfMediaController::openMedia(CleverURI* uri, const std::map<QString, QVari
     if(uri == nullptr || (args.empty() && uri->getUri().isEmpty()))
         return false;
 
-    std::unique_ptr<PdfController> pdfCtrl(new PdfController(uri));
+    // std::unique_ptr<PdfController> pdfCtrl(new PdfController(uri));
 
-    emit pdfControllerCreated(pdfCtrl.get());
-    m_pdfs.push_back(std::move(pdfCtrl));
+    addPdfController(uri, QHash<QString, QVariant>());
     return true;
 }
 
@@ -55,6 +55,48 @@ void PdfMediaController::closeMedia(const QString& id)
 
 void PdfMediaController::registerNetworkReceiver() {}
 
-NetWorkReceiver::SendType PdfMediaController::processMessage(NetworkMessageReader* msg) {}
+NetWorkReceiver::SendType PdfMediaController::processMessage(NetworkMessageReader* msg)
+{
+    auto type= NetWorkReceiver::NONE;
+    if(nullptr == msg)
+        return type;
+
+    if(msg->category() == NetMsg::MediaCategory && msg->action() == NetMsg::AddMedia)
+    {
+        auto data= MessageHelper::readPdfData(msg);
+        addPdfController(new CleverURI(CleverURI::PDF), data);
+    }
+    return type;
+}
 
 void PdfMediaController::setUndoStack(QUndoStack* stack) {}
+
+void PdfMediaController::sharePdf(const QString& id)
+{
+    auto it= std::find_if(m_pdfs.begin(), m_pdfs.end(),
+                          [id](const std::unique_ptr<PdfController>& ctrl) { return ctrl->uuid() == id; });
+
+    if(it == m_pdfs.end())
+        return;
+}
+
+void PdfMediaController::addPdfController(CleverURI* uri, const QHash<QString, QVariant>& params)
+{
+    QByteArray array;
+
+    if(params.contains(QStringLiteral("id")))
+    {
+        uri->setUuid(params.value(QStringLiteral("id")).toString());
+    }
+    if(params.contains(QStringLiteral("data")))
+    {
+        array= params.value(QStringLiteral("data")).toByteArray();
+    }
+
+    std::unique_ptr<PdfController> pdfController(new PdfController(uri, array));
+    connect(pdfController.get(), &PdfController::sharePdf, this, &PdfMediaController::sharePdf);
+    connect(pdfController.get(), &PdfController::openImageAs, this, &PdfMediaController::shareImageAs);
+
+    emit pdfControllerCreated(pdfController.get());
+    m_pdfs.push_back(std::move(pdfController));
+}

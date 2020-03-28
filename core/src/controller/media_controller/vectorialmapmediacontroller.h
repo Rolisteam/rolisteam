@@ -27,6 +27,7 @@
 
 class VectorialMapController;
 class NetworkController;
+class VMapUpdater;
 class VectorialMapMediaController : public MediaControllerInterface
 {
     Q_OBJECT
@@ -45,6 +46,8 @@ public:
     void setUndoStack(QUndoStack* stack) override;
 
     Core::SelectableTool tool() const;
+
+    void addImageToMap(const QPixmap& map);
 
 signals:
     void npcNumberChanged(int);
@@ -90,12 +93,15 @@ public slots:
     void showTransparentItem();
 
 private:
+    void initializeOwnedVMap(VectorialMapController* ctrl);
     void updateProperties();
+    VectorialMapController* addVectorialMapController(CleverURI* uri, const QHash<QString, QVariant>& params);
 
 private:
     std::vector<std::unique_ptr<VectorialMapController>> m_vmaps;
-    QPointer<QUndoStack> m_stack;
     QPointer<NetworkController> m_networkCtrl;
+    std::unique_ptr<VMapUpdater> m_updater;
+    QPointer<QUndoStack> m_stack;
 };
 
 #endif // VECTORIALMAPMEDIACONTROLLER_H
