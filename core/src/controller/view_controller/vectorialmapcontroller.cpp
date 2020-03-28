@@ -312,8 +312,10 @@ void VectorialMapController::setGridPattern(Core::GridPattern pattern)
 
 void VectorialMapController::setVisibility(Core::VisibilityMode mode)
 {
+    qDebug() << "enter visiblity changed" << mode;
     if(mode == m_visibilityMode)
         return;
+    qDebug() << "visiblity changed" << mode;
     m_visibilityMode= mode;
     emit visibilityChanged();
 }
@@ -331,6 +333,7 @@ void VectorialMapController::setLocalGM(bool b)
     if(m_localGM == b)
         return;
     m_localGM= b;
+    qDebug() << m_localGM << "Vectorial map controller local is gm";
     emit localGMChanged();
 }
 
@@ -622,12 +625,25 @@ bool VectorialMapController::idle() const
     return m_idle;
 }
 
+int VectorialMapController::zIndex() const
+{
+    return m_zIndex;
+}
+
 void VectorialMapController::setIdle(bool b)
 {
     if(b == m_idle)
         return;
     m_idle= b;
     emit idleChanged();
+}
+
+void VectorialMapController::setZindex(int index)
+{
+    if(index == m_zIndex)
+        return;
+    m_zIndex= index;
+    emit zIndexChanged();
 }
 
 void VectorialMapController::normalizeSize(const QList<vmap::VisualItemController*>& list, Method method,
@@ -641,15 +657,40 @@ void VectorialMapController::removeItemController(QString uuid)
     auto set= allControllers(m_itemControllers);
     std::for_each(set.begin(), set.end(),
                   [uuid](VisualItemControllerManager* itemManager) { itemManager->removeItem(uuid); });
-    /* auto it
-         = std::find_if(m_items.begin(), m_items.end(), [uuid](const std::unique_ptr<VisualItemController>& itemCtrl) {
-               return itemCtrl->uuid() == uuid;
-           });
+}
 
-     if(it == m_items.end())
-         return;
-
-     m_items.erase(it);*/
+NetWorkReceiver::SendType VectorialMapController::processMessage(NetworkMessageReader* msg)
+{
+    qDebug() << "received vmap message: " << msg->action();
+    if(msg->action() == NetMsg::AddItem)
+    {
+        using IT= vmap::VisualItemController::ItemType;
+        auto type= static_cast<IT>(msg->uint8());
+        switch(type)
+        {
+        case IT::LINE:
+            m_lineControllerManager->processMessage(msg);
+            break;
+        case IT::PATH:
+            m_pathControllerManager->processMessage(msg);
+            break;
+        case IT::TEXT:
+            m_textControllerManager->processMessage(msg);
+            break;
+        case IT::RECT:
+            m_rectControllerManager->processMessage(msg);
+            break;
+        case IT::CHARACTER:
+            m_characterControllerManager->processMessage(msg);
+            break;
+        case IT::IMAGE:
+            m_imageControllerManager->processMessage(msg);
+            break;
+        default:
+            break;
+        }
+    }
+    return NetWorkReceiver::NONE;
 }
 
 /*

@@ -59,6 +59,8 @@ ContentController::ContentController(CharacterModel* characterModel, NetworkCont
     m_mediaControllers.insert({CleverURI::SHAREDNOTE, m_sharedNoteMediaController.get()});
     m_mediaControllers.insert({CleverURI::MAP, m_mapMediaController.get()});
     m_mediaControllers.insert({CleverURI::PDF, m_pdfMediaController.get()});
+
+    ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
 }
 
 ContentController::~ContentController()= default;

@@ -156,7 +156,6 @@ enum Action
 
     // Vmap
     addVmap= 0,
-    vmapChanges,
     loadVmap,
     closeVmap,
     AddItem,
@@ -175,12 +174,11 @@ enum Action
     CharacterChanged,
     SetParentItem,
     MovePoint,
-    VisionChanged,
-    ColorChanged,
 
     // mediacategory
-    addMedia= 0,
-    closeMedia,
+    AddMedia= 0,
+    UpdateMediaProperty,
+    CloseMedia,
 
     // SharedNoteCategory
     updateTextAndPermission= 0,

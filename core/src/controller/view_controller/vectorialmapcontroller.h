@@ -28,6 +28,7 @@
 
 #include "abstractmediacontroller.h"
 #include "media/mediatype.h"
+#include "network/networkreceiver.h"
 
 namespace vmap
 {
@@ -81,6 +82,7 @@ class VectorialMapController : public AbstractMediaContainerController
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
     Q_PROPERTY(QRectF visualRect READ visualRect WRITE setVisualRect NOTIFY visualRectChanged)
     Q_PROPERTY(bool idle READ idle WRITE setIdle NOTIFY idleChanged)
+    Q_PROPERTY(int zIndex READ zIndex WRITE setZindex NOTIFY zIndexChanged)
 
 public:
     enum Method
@@ -132,6 +134,7 @@ public:
     bool stateLabelVisible() const;
     QRectF visualRect() const;
     bool idle() const;
+    int zIndex() const;
 
     void saveData() const;
     void loadData() const;
@@ -156,7 +159,8 @@ public:
     void normalizeSize(const QList<vmap::VisualItemController*>& list, Method method, const QPointF& mousePos);
 
     // Network
-    void processAddItemMessage(const NetworkMessageReader& msg);
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
+    /*void processAddItemMessage(const NetworkMessageReader& msg);
     void processMoveItemMessage(const NetworkMessageReader& msg);
     void processGeometryChangeItem(const NetworkMessageReader& msg);
     void processOpacityMessage(const NetworkMessageReader& msg);
@@ -169,7 +173,7 @@ public:
     void processCharacterStateHasChanged(const NetworkMessageReader& msg);
     void processCharacterHasChanged(const NetworkMessageReader& msg);
     void processVisionMsg(const NetworkMessageReader& msg);
-    void processColorMsg(const NetworkMessageReader& msg);
+    void processColorMsg(const NetworkMessageReader& msg);*/
 
 signals:
     void permissionChanged();
@@ -202,6 +206,7 @@ signals:
     void stateLabelVisibleChanged();
     void visualItemControllerCreated(VisualItemController* ctrl);
     void idleChanged();
+    void zIndexChanged();
 
     void visualRectChanged(QRectF visualRect);
 
@@ -238,6 +243,7 @@ public slots:
     void setStateLabelVisible(bool b);
     void setVisualRect(QRectF visualRect);
     void setIdle(bool b);
+    void setZindex(int index);
 
     void insertItemAt(const std::map<QString, QVariant>& params);
     void changeFogOfWar(const QPolygonF& poly, bool mask);
@@ -275,6 +281,7 @@ private:
     quint16 m_penSize= 15;
     QString m_npcName;
     QRectF m_visualRect;
+    int m_zIndex= 0;
     Core::ScaleUnit m_scaleUnit= Core::M;
     Core::Layer m_layer= Core::Layer::GROUND;
     Core::SelectableTool m_tool= Core::HANDLER;
