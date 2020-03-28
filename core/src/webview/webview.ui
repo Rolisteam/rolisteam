@@ -30,7 +30,7 @@
     <number>0</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="m_toolBarLayout">
      <item>
       <widget class="QToolButton" name="m_previousBtn">
        <property name="text">
@@ -104,8 +104,8 @@
     </layout>
    </item>
    <item>
-    <widget class="QWebEngineView" name="m_webview">
-     <property name="url">
+    <widget class="QWebEngineView" name="m_webview" native="true">
+     <property name="url" stdset="0">
       <url>
        <string>about:blank</string>
       </url>
@@ -141,6 +141,9 @@
    </property>
   </action>
   <action name="m_shareAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../../../rolisteam.qrc">
      <normaloff>:/resources/icons/document-share.svg</normaloff>:/resources/icons/document-share.svg</iconset>
@@ -150,6 +153,9 @@
    </property>
   </action>
   <action name="m_htmlShareAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Share Html</string>
    </property>

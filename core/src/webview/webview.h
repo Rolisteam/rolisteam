@@ -52,18 +52,10 @@ public:
     virtual void saveMedia();
     virtual void putDataIntoCleverUri();
 
-    //   void fill(NetworkMessageWriter& message);
-    //   void readMessage(NetworkMessageReader& msg);
-
 protected:
     void mousePressEvent(QMouseEvent* mouseEvent);
     void showEvent(QShowEvent* event);
-
-    // void createActions();
-    // void creationToolBar();
-
     void updateTitle();
-    // void sendOffClose();
 
 private:
     QPointer<WebpageController> m_webCtrl;

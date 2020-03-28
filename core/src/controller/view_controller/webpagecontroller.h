@@ -30,8 +30,12 @@ class WebpageController : public AbstractMediaContainerController
     Q_PROPERTY(QString url READ url WRITE setUrl NOTIFY urlChanged)
     Q_PROPERTY(bool hideUrl READ hideUrl WRITE setHideUrl NOTIFY hideUrlChanged)
     Q_PROPERTY(bool keepSharing READ keepSharing WRITE setKeepSharing NOTIFY keepSharingChanged)
+    Q_PROPERTY(bool htmlSharing READ htmlSharing WRITE setHtmlSharing NOTIFY htmlSharingChanged)
+    Q_PROPERTY(bool urlSharing READ urlSharing WRITE setUrlSharing NOTIFY urlSharingChanged)
     Q_PROPERTY(QString html READ html WRITE setHtml NOTIFY htmlChanged)
     Q_PROPERTY(WebpageController::State state READ state WRITE setState NOTIFY stateChanged)
+    Q_PROPERTY(
+        WebpageController::SharingMode sharingMode READ sharingMode WRITE setSharingMode NOTIFY sharingModeChanged)
 public:
     enum State
     {
@@ -39,6 +43,14 @@ public:
         LocalIsPlayer,
         RemoteView
     };
+    Q_ENUM(State)
+    enum SharingMode
+    {
+        None,
+        Url,
+        Html
+    };
+
     explicit WebpageController(QObject* parent= nullptr);
 
     void saveData() const override;
@@ -47,8 +59,11 @@ public:
     QString url() const;
     bool hideUrl() const;
     bool keepSharing() const;
+    bool urlSharing() const;
+    bool htmlSharing() const;
     QString html() const;
     WebpageController::State state() const;
+    WebpageController::SharingMode sharingMode() const;
 
 signals:
     void urlChanged(QString uri);
@@ -56,6 +71,9 @@ signals:
     void keepSharingChanged(bool keepSharing);
     void htmlChanged(QString html);
     void stateChanged(State state);
+    void sharingModeChanged(SharingMode mode);
+    void htmlSharingChanged(bool htmlSharing);
+    void urlSharingChanged(bool urlSharing);
 
 public slots:
     void setUrl(QString url);
@@ -63,9 +81,9 @@ public slots:
     void setKeepSharing(bool keepSharing);
     void setHtml(QString html);
     void setState(State state);
-
-    void share();
-    void shareHtml();
+    void setHtmlSharing(bool b);
+    void setUrlSharing(bool b);
+    void setSharingMode(SharingMode mode);
 
 private:
     QString m_url;
@@ -73,6 +91,7 @@ private:
     bool m_keepSharing;
     QString m_html;
     State m_state;
+    SharingMode m_mode;
 };
 
 #endif // WEBPAGECONTROLLER_H

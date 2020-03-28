@@ -22,6 +22,7 @@
 #include "controller/view_controller/webpagecontroller.h"
 #include "network/networkmessagereader.h"
 #include "ui_webview.h"
+#include <QHBoxLayout>
 #include <QVBoxLayout>
 
 WebView::WebView(WebpageController* ctrl, QWidget* parent)
@@ -71,6 +72,13 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
     });
     m_ui->m_addressEdit->setFocusPolicy(Qt::StrongFocus);
 
+    connect(m_ui->m_shareAct, &QAction::triggered, m_webCtrl, &WebpageController::setUrlSharing);
+    connect(m_ui->m_htmlShareAct, &QAction::triggered, m_webCtrl, &WebpageController::setHtmlSharing);
+    connect(m_webCtrl, &WebpageController::sharingModeChanged, [this]() {
+        m_ui->m_shareAct->setChecked(m_webCtrl->urlSharing());
+        m_ui->m_htmlShareAct->setChecked(m_webCtrl->htmlSharing());
+    });
+
     updateTitle();
     setWidget(wid);
 
@@ -80,6 +88,21 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
         m_ui->m_shareAct->setVisible(false);
         m_ui->m_keepSharing->setVisible(false);
     }
+    else if(m_webCtrl->state() == WebpageController::RemoteView)
+    {
+        m_ui->m_htmlShareAct->setVisible(false);
+        m_ui->m_shareAct->setVisible(false);
+        m_ui->m_keepSharing->setVisible(false);
+        m_ui->m_nextAct->setVisible(false);
+        m_ui->m_previousAct->setVisible(false);
+        m_ui->m_addressEdit->setReadOnly(true);
+    }
+
+    m_ui->m_webview->setHtml(m_webCtrl->html());
+    m_ui->m_webview->setUrl(m_webCtrl->url());
+    m_ui->m_addressEdit->setText(m_webCtrl->url());
+
+    qDebug() << "webview " << m_webCtrl->url() << m_webCtrl->html();
 }
 
 WebView::~WebView() {}
