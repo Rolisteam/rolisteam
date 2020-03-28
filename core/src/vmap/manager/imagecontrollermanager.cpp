@@ -23,6 +23,7 @@
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "vmap/controller/imagecontroller.h"
+#include "worker/messagehelper.h"
 
 ImageControllerManager::ImageControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
 
@@ -43,6 +44,7 @@ void ImageControllerManager::addController(vmap::VisualItemController* controlle
 
     std::unique_ptr<vmap::ImageController> imageCtrl(image);
     emit imageControllerCreated(imageCtrl.get());
+    MessageHelper::sendOffImage(imageCtrl.get(), m_ctrl->uuid());
     m_controllers.push_back(std::move(imageCtrl));
 }
 
@@ -56,4 +58,19 @@ void ImageControllerManager::removeItem(const QString& id)
 
     (*it)->aboutToBeRemoved();
     m_controllers.erase(it);
+}
+
+void ImageControllerManager::processMessage(NetworkMessageReader* msg)
+{
+    if(msg->action() == NetMsg::AddItem && msg->category() == NetMsg::VMapCategory)
+    {
+    }
+}
+
+const std::vector<vmap::ImageController*> ImageControllerManager::controllers() const
+{
+    std::vector<vmap::ImageController*> vect;
+    std::transform(m_controllers.begin(), m_controllers.end(), std::back_inserter(vect),
+                   [](const std::unique_ptr<vmap::ImageController>& ctrl) { return ctrl.get(); });
+    return vect;
 }

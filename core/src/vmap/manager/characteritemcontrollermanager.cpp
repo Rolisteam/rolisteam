@@ -23,6 +23,7 @@
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "vmap/controller/characteritemcontroller.h"
+#include "worker/messagehelper.h"
 
 CharacterItemControllerManager::CharacterItemControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
 QString CharacterItemControllerManager::addItem(const std::map<QString, QVariant>& params)
@@ -46,6 +47,7 @@ void CharacterItemControllerManager::addController(vmap::VisualItemController* c
 
     std::unique_ptr<vmap::CharacterItemController> ctrl(characterCtrl);
     emit characterControllerCreated(ctrl.get());
+    MessageHelper::sendOffCharacter(ctrl.get(), m_ctrl->uuid());
     if(ctrl->playableCharacter())
         emit playableCharacterControllerCreated();
     m_controllers.push_back(std::move(ctrl));
@@ -71,6 +73,13 @@ void CharacterItemControllerManager::removeItem(const QString& id)
     m_controllers.erase(it);
 }
 
+void CharacterItemControllerManager::processMessage(NetworkMessageReader* msg)
+{
+    if(msg->action() == NetMsg::AddItem && msg->category() == NetMsg::VMapCategory)
+    {
+    }
+}
+
 const std::vector<vmap::CharacterVisionData> CharacterItemControllerManager::characterVisions() const
 {
     std::vector<vmap::CharacterVisionData> dataVec;
@@ -82,4 +91,11 @@ const std::vector<vmap::CharacterVisionData> CharacterItemControllerManager::cha
         dataVec.push_back({ctrl->pos(), ctrl->rotation(), ctrl->vision(), ctrl->shape(), ctrl->radius()});
     }
     return dataVec;
+}
+const std::vector<vmap::CharacterItemController*> CharacterItemControllerManager::controllers() const
+{
+    std::vector<vmap::CharacterItemController*> vect;
+    std::transform(m_controllers.begin(), m_controllers.end(), std::back_inserter(vect),
+                   [](const std::unique_ptr<vmap::CharacterItemController>& ctrl) { return ctrl.get(); });
+    return vect;
 }

@@ -20,11 +20,19 @@
 #ifndef VECTORIALMAPMESSAGEHELPER_H
 #define VECTORIALMAPMESSAGEHELPER_H
 
+#include <QString>
+#include <QVariant>
+#include <map>
 
 class VectorialMapMessageHelper
 {
 public:
     VectorialMapMessageHelper();
+
+    // send off ITEMS
+    static void sendOffNewItem(const std::map<QString, QVariant>& args, const QString& mapId);
+
+    // read message items
 };
 
 #endif // VECTORIALMAPMESSAGEHELPER_H

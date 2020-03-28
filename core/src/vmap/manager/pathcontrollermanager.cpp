@@ -21,6 +21,7 @@
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "vmap/controller/pathcontroller.h"
+#include "worker/messagehelper.h"
 
 PathControllerManager::PathControllerManager(VectorialMapController* ctrl, QObject* parent)
     : VisualItemControllerManager(parent), m_ctrl(ctrl)
@@ -44,6 +45,7 @@ void PathControllerManager::addController(vmap::VisualItemController* controller
 
     std::unique_ptr<vmap::PathController> pathCtrl(path);
     emit pathControllerCreated(pathCtrl.get(), false);
+    MessageHelper::sendOffPath(pathCtrl.get(), m_ctrl->uuid());
     m_controllers.push_back(std::move(pathCtrl));
 }
 
@@ -57,4 +59,19 @@ void PathControllerManager::removeItem(const QString& id)
 
     (*it)->aboutToBeRemoved();
     m_controllers.erase(it);
+}
+
+void PathControllerManager::processMessage(NetworkMessageReader* msg)
+{
+    if(msg->action() == NetMsg::AddItem && msg->category() == NetMsg::VMapCategory)
+    {
+    }
+}
+
+const std::vector<vmap::PathController*> PathControllerManager::controllers() const
+{
+    std::vector<vmap::PathController*> vect;
+    std::transform(m_controllers.begin(), m_controllers.end(), std::back_inserter(vect),
+                   [](const std::unique_ptr<vmap::PathController>& ctrl) { return ctrl.get(); });
+    return vect;
 }

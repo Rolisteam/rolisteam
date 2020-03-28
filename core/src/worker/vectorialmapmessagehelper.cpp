@@ -19,7 +19,25 @@
  ***************************************************************************/
 #include "vectorialmapmessagehelper.h"
 
-VectorialMapMessageHelper::VectorialMapMessageHelper()
-{
+#include <QByteArray>
+#include <QDataStream>
 
+#include "network/networkmessagewriter.h"
+
+VectorialMapMessageHelper::VectorialMapMessageHelper() {}
+
+void VectorialMapMessageHelper::sendOffNewItem(const std::map<QString, QVariant>& args, const QString& mapId)
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::AddItem);
+    msg.string8(mapId);
+    QByteArray array;
+    QDataStream stream(&array, QIODevice::WriteOnly);
+    stream.setVersion(QDataStream::Qt_5_12);
+    for(auto pair : args)
+    {
+        stream << pair.first << pair.second;
+    }
+    Q_ASSERT(!array.isEmpty());
+    msg.byteArray32(array);
+    msg.sendToServer();
 }
