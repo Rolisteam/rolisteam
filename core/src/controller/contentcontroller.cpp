@@ -77,6 +77,9 @@ void ContentController::setGameController(GameController* game)
     std::for_each(m_mediaControllers.begin(), m_mediaControllers.end(),
                   [game](const std::pair<CleverURI::ContentType, MediaControllerInterface*>& pair) {
                       pair.second->setUndoStack(game->undoStack());
+                      connect(game, &GameController::localIsGMChanged, pair.second,
+                              &MediaControllerInterface::setLocalIsGM);
+                      pair.second->setLocalIsGM(game->localIsGM());
                   });
 }
 
@@ -238,79 +241,31 @@ QString ContentController::sessionPath() const
     return m_sessionPath;
 }
 
-void ContentController::processMediaMessage(NetworkMessageReader* msg)
+NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader* msg)
 {
     NetWorkReceiver::SendType result= NetWorkReceiver::NONE;
     if(msg->action() == NetMsg::AddMedia || msg->action() == NetMsg::UpdateMediaProperty)
     {
         auto type= static_cast<CleverURI::ContentType>(msg->uint8());
-        switch(type)
-        {
-            /* case CleverURI::MAP:
-             {
-                 MapFrame* mapf= new MapFrame();
-                 mapf->readMessage(*msg);
-                 prepareMap(mapf);
-                 addMediaToMdiArea(mapf, false);
-                 mapf->setVisible(true);
-             }
-             break;
-             case CleverURI::VMAP:
-             {
-                 VMapFrame* mapFrame= new VMapFrame(false);
-                 mapFrame->readMessage(*msg); // create the vmap
-                 prepareVMap(mapFrame);
-                 addMediaToMdiArea(mapFrame, false);
-             }
-             break;
-             case CleverURI::CHAT:
-                 break;
-             case CleverURI::ONLINEPICTURE:*/
-        case CleverURI::PICTURE:
-        {
-            /*Image* image= new Image(m_mdiArea);
-            image->readMessage(*msg);
-            addMediaToMdiArea(image, false);
-            image->setVisible(true);*/
-        }
-        break;
-            /*#ifdef HAVE_WEBVIEW
-                    case CleverURI::WEBVIEW:
-                    {
-                        auto webv= new WebView(WebView::RemoteView, m_mdiArea);
-                        webv->setMediaId(msg->string8());
-                        webv->readMessage(*msg);
-                        addMediaToMdiArea(webv, false);
-                    }
-                    break;
-            #endif
-            #ifdef WITH_PDF
-                    case CleverURI::PDF:
-                    {
-                        auto pdf= new PdfViewer(m_mdiArea);
-                        pdf->readMessage(*msg);
-                        addMediaToMdiArea(pdf, false);
-                        pdf->setVisible(true);
-                    }
-                    break;
-            #endif
-                    case CleverURI::CHARACTERSHEET:
-                        break;
-                    case CleverURI::SHAREDNOTE:
-                        break;
-                    case CleverURI::TEXT:
-                    // case CleverURI::SCENARIO:
-                    case CleverURI::SONG:
-                    case CleverURI::SONGLIST:
-                    case CleverURI::NONE:
-                        break;*/
-        default:
-            break;
-        }
+        auto media= m_mediaControllers.at(type);
+        media->processMessage(msg);
     }
-    else if(msg->action() == NetMsg::closeMedia)
+    return result;
+}
+
+void ContentController::addImageAs(const QPixmap& map, CleverURI::ContentType type)
+{
+    if(type == CleverURI::PICTURE)
     {
-        // closeMediaContainer(msg->string8(), false);
+        m_imageControllers->addImage(map);
+    }
+    else if(type == CleverURI::MAP)
+    {
+        m_mapMediaController->addMapFromImage(map);
+    }
+    else if(type == CleverURI::VMAP)
+    {
+        m_vmapControllers->addImageToMap(map);
     }
 }
 

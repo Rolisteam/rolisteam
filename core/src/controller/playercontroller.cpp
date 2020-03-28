@@ -58,6 +58,8 @@ PlayerController::~PlayerController()= default;
 void PlayerController::clear()
 {
     m_model->clear();
+    if(m_localPlayer.isNull())
+        m_localPlayer= new Player();
 }
 
 NetWorkReceiver::SendType PlayerController::processMessage(NetworkMessageReader* msg)
