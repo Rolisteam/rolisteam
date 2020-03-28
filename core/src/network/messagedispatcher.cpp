@@ -447,9 +447,9 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::addVmap:
             str= QStringLiteral("addVmap");
             break;
-        case NetMsg::vmapChanges:
+        /*case NetMsg::vmapChanges:
             str= QStringLiteral("vmapChanges");
-            break;
+            break;*/
         case NetMsg::loadVmap:
             str= QStringLiteral("loadVmap");
             break;
@@ -504,9 +504,9 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::MovePoint:
             str= QStringLiteral("MovePoint");
             break;
-        case NetMsg::VisionChanged:
+        /*case NetMsg::VisionChanged:
             str= QStringLiteral("VisionChanged");
-            break;
+            break;*/
         default:
             str= QStringLiteral("Unknown Action");
             break;
@@ -516,10 +516,13 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
     {
         switch(act)
         {
-        case NetMsg::addMedia:
+        case NetMsg::AddMedia:
             str= QStringLiteral("AddMedia");
             break;
-        case NetMsg::closeMedia:
+        case NetMsg::UpdateMediaProperty:
+            str= QStringLiteral("UpdateMediaProperty");
+            break;
+        case NetMsg::CloseMedia:
             str= QStringLiteral("closeMedia");
             break;
 

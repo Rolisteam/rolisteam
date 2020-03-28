@@ -126,7 +126,7 @@ enum Properties
 };
 Q_ENUM_NS(Properties)
 
-enum class Layer : int
+enum class Layer : quint8
 {
     GROUND,
     OBJECT,

@@ -275,7 +275,6 @@ void MainWindow::setupUi()
     ReceiveEvent::registerNetworkReceiver(NetMsg::DrawCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory, this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::SharedNoteCategory, this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::WebPageCategory, this);*/
 

@@ -308,8 +308,11 @@ set(HEADERS
     src/widgets/toolsbar.h
     src/worker/messagehelper.h
     src/worker/playermessagehelper.h
+    src/worker/vectorialmapmessagehelper.h
     src/worker/modelhelper.h
     src/worker/iohelper.h
+    src/updater/vmapupdater.h
+    src/worker/convertionhelper.h
     )
 
 
@@ -321,6 +324,7 @@ set(SOURCES
     src/controller/view_controller/abstractmediacontroller.cpp
     src/controller/playercontroller.cpp
     src/controller/contentcontroller.cpp
+    src/controller/media_controller/mediacontrollerinterface.cpp
     src/controller/media_controller/imagemediacontroller.cpp
     src/controller/media_controller/charactersheetmediacontroller.cpp
     src/controller/media_controller/vectorialmapmediacontroller.cpp
@@ -595,7 +599,10 @@ set(SOURCES
     src/widgets/toolsbar.cpp
     src/worker/messagehelper.cpp
     src/worker/modelhelper.cpp
+    src/worker/vectorialmapmessagehelper.cpp
     src/worker/playermessagehelper.cpp
+    src/updater/vmapupdater.cpp
+    src/worker/convertionhelper.cpp
     )
 
 
