@@ -654,17 +654,6 @@ void RGraphicsView::cleanInit()
     // m_vmap->cleanUpInit(apply);
 }
 
-void RGraphicsView::sendOffMapChange()
-{
-    if((m_ctrl->localGM()) || (m_ctrl->permission() == Core::PC_ALL))
-    {
-        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::vmapChanges);
-        //   msg.string8(m_vmap->getId());
-        //   m_vmap->fill(msg);
-        msg.sendToServer();
-    }
-}
-
 void RGraphicsView::changeLayer()
 {
     QAction* act= qobject_cast<QAction*>(sender());
