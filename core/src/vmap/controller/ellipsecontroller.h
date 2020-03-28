@@ -47,6 +47,7 @@ public:
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
     QRectF rect() const override;
+    ItemType itemType() const override;
 
 signals:
     void filledChanged();

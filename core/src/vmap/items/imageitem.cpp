@@ -20,7 +20,7 @@ ImageItem::ImageItem(vmap::ImageController* ctrl) : VisualItem(ctrl), m_imgCtrl(
 {
     m_keepAspect= true;
 
-    m_promoteTypeList << VisualItem::CHARACTER;
+    m_promoteTypeList << vmap::VisualItemController::ItemType::CHARACTER;
 
     for(int i= 0; i <= vmap::ImageController::BottomLeft; ++i)
     {
@@ -65,10 +65,6 @@ void ImageItem::setNewEnd(const QPointF& p)
     m_imgCtrl->setCorner(p, vmap::ImageController::BottomRight);
 }
 
-VisualItem::ItemType ImageItem::getType() const
-{
-    return VisualItem::IMAGE;
-}
 void ImageItem::writeData(QDataStream& out) const
 {
     // out << m_rect;
@@ -349,7 +345,7 @@ void ImageItem::endOfGeometryChange(ChildPointItem::Change change)
     }
     VisualItem::endOfGeometryChange(change);
 }
-VisualItem* ImageItem::promoteTo(VisualItem::ItemType type)
+VisualItem* ImageItem::promoteTo(vmap::VisualItemController::ItemType type)
 {
     /*if(type == CHARACTER)
     {

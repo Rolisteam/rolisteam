@@ -208,11 +208,9 @@ void TextItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     }
 }
 
-void TextItem::setNewEnd(const QPointF& p){Q_UNUSED(p)}
-
-VisualItem::ItemType TextItem::getType() const
+void TextItem::setNewEnd(const QPointF& p)
 {
-    return VisualItem::TEXT;
+    Q_UNUSED(p)
 }
 
 void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)

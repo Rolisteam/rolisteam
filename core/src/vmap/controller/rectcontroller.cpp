@@ -34,6 +34,11 @@ RectController::RectController(const std::map<QString, QVariant>& params, Vector
         m_tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
         m_filled= (m_tool == Core::SelectableTool::FILLRECT);
     }
+    else if(params.end() != params.find("filled"))
+    {
+        m_filled= params.at(QStringLiteral("filled")).toBool();
+        m_tool= m_filled ? Core::SelectableTool::FILLRECT : Core::SelectableTool::EMPTYRECT;
+    }
 
     if(params.end() != params.find("penWidth"))
         m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
@@ -59,7 +64,10 @@ void RectController::setRect(QRectF rect)
     m_rect= rect;
     emit rectChanged();
 }
-
+VisualItemController::ItemType RectController::itemType() const
+{
+    return VisualItemController::RECT;
+}
 void RectController::setCorner(const QPointF& move, int corner)
 {
     if(move.isNull())

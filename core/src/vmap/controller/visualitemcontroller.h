@@ -46,7 +46,24 @@ class VisualItemController : public QObject
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(bool locked READ locked WRITE setLocked NOTIFY lockedChanged)
     Q_PROPERTY(Core::SelectableTool tool READ tool CONSTANT)
+    Q_PROPERTY(ItemType itemType READ itemType CONSTANT)
 public:
+    enum ItemType
+    {
+        PATH,
+        LINE,
+        ELLISPE,
+        CHARACTER,
+        TEXT,
+        RECT,
+        RULE,
+        IMAGE,
+        SIGHT,
+        ANCHOR,
+        GRID,
+        HIGHLIGHTER
+    };
+    Q_ENUM(ItemType)
     enum Corner
     {
         TopLeft= 0,
@@ -71,6 +88,7 @@ public:
     Core::SelectableTool tool() const;
     virtual QColor color() const;
     virtual QRectF rect() const= 0;
+    virtual ItemType itemType() const= 0;
 
     int gridSize() const;
     QString getLayerText(Core::Layer layer) const;
@@ -120,7 +138,7 @@ protected:
     qreal m_opacity= 1.0;
     qreal m_rotation= 0.0;
     QPointF m_pos;
-    Core::SelectableTool m_tool;
+    Core::SelectableTool m_tool= Core::SelectableTool::HANDLER;
     Core::Layer m_layer= Core::Layer::NONE;
     QString m_uuid;
 };

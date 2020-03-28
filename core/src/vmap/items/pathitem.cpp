@@ -261,10 +261,7 @@ void PathItem::readData(QDataStream& in)
       // m_end = m_start;
       initRealPoints();*/
 }
-VisualItem::ItemType PathItem::getType() const
-{
-    return VisualItem::PATH;
-}
+
 void PathItem::fillMessage(NetworkMessageWriter* msg)
 {
     /*  msg->string16(m_id);

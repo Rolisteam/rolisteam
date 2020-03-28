@@ -37,11 +37,6 @@ public:
      */
     virtual void readData(QDataStream& in) override;
     /**
-     * @brief getType
-     * @return
-     */
-    virtual VisualItem::ItemType getType() const override;
-    /**
      * @brief fillMessage
      * @param msg
      */
@@ -77,7 +72,7 @@ public:
      */
     virtual VisualItem* getItemCopy() override;
 
-    VisualItem* promoteTo(VisualItem::ItemType) override;
+    VisualItem* promoteTo(vmap::VisualItemController::ItemType) override;
     QImage getImage() const;
     void setImage(const QImage& image);
     void updateImageFromMovie(QRect);

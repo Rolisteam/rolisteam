@@ -51,10 +51,12 @@ public:
     int fowItemCount() const;
     int characterCount() const;
     QPainterPath fowPath() const;
-    QRectF rect() const;
+    QRectF rect() const override;
     bool characterSight() const;
+    ItemType itemType() const override;
     bool visible() const;
     const std::vector<CharacterVisionData> visionData() const;
+    const std::vector<std::pair<QPolygonF, bool>>& singularityList() const;
 
 public slots:
     void addPolygon(const QPolygonF& poly, bool mask);

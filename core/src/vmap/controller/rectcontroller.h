@@ -38,11 +38,12 @@ public:
     RectController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent= nullptr);
 
     bool filled() const;
-    QRectF rect() const;
+    QRectF rect() const override;
     quint16 penWidth() const;
 
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
+    ItemType itemType() const override;
 
 signals:
     void filledChanged();

@@ -432,7 +432,7 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
             VisualItem* item= dynamic_cast<VisualItem*>(itemList.at(0));
             if(nullptr != item)
             {
-                if(item->getType() != VisualItem::IMAGE)
+                if(item->getType() != vmap::VisualItemController::ItemType::IMAGE)
                 {
                     QColor color= item->color();
                     if(color.isValid())
@@ -459,7 +459,7 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
             VisualItem* item= dynamic_cast<VisualItem*>(itemList.at(0));
             if(nullptr != item)
             {
-                if(item->getType() != VisualItem::IMAGE)
+                if(item->getType() != vmap::VisualItemController::ItemType::IMAGE)
                 {
                     // auto cmd= new ChangeColorItemCmd(item->controller(), m_ctrl->toolColor());
                     m_ctrl->askForColorChange(item->controller());
@@ -527,7 +527,7 @@ void VMap::mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
     if((!m_currentPath.isNull()) && ((Core::EditionMode::Painting == m_ctrl->editionMode())))
     {
-        if(VisualItem::PATH == m_currentPath->getType())
+        if(vmap::VisualItemController::ItemType::PATH == m_currentPath->getType())
         {
             PathItem* itm= dynamic_cast<PathItem*>(m_currentPath.data());
             if(nullptr != itm)
@@ -969,9 +969,11 @@ void VMap::insertItemFromData(VisualItem*, int) {}
 
 bool VMap::isItemStorable(VisualItem* item)
 {
-    if((item->getType() == VisualItem::ANCHOR) || (item->getType() == VisualItem::GRID)
-       || (item->getType() == VisualItem::SIGHT) || (item->getType() == VisualItem::RULE)
-       || (item->getType() == VisualItem::HIGHLIGHTER))
+    if((item->getType() == vmap::VisualItemController::ItemType::ANCHOR)
+       || (item->getType() == vmap::VisualItemController::ItemType::GRID)
+       || (item->getType() == vmap::VisualItemController::ItemType::SIGHT)
+       || (item->getType() == vmap::VisualItemController::ItemType::RULE)
+       || (item->getType() == vmap::VisualItemController::ItemType::HIGHLIGHTER))
     {
         return false;
     }
@@ -1031,7 +1033,7 @@ QList<CharacterItem*> VMap::getCharacterOnMap(QString id)
     return result;
 }
 
-void VMap::promoteItemInType(VisualItem* item, VisualItem::ItemType type)
+void VMap::promoteItemInType(VisualItem* item, vmap::VisualItemController::ItemType type)
 {
     if(nullptr != item)
     {

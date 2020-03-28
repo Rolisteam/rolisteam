@@ -43,7 +43,10 @@ PathController::PathController(const std::map<QString, QVariant>& params, Vector
     if(params.end() != params.find("position"))
         addPoint(params.at(QStringLiteral("position")).toPointF());
 }
-
+VisualItemController::ItemType PathController::itemType() const
+{
+    return VisualItemController::PATH;
+}
 bool PathController::filled() const
 {
     return m_filled;
@@ -59,9 +62,9 @@ quint16 PathController::penWidth() const
     return m_penWidth;
 }
 
-int PathController::pointCount() const
+quint64 PathController::pointCount() const
 {
-    return static_cast<int>(m_points.size());
+    return static_cast<quint64>(m_points.size());
 }
 
 const std::vector<QPointF>& PathController::points() const
@@ -69,9 +72,9 @@ const std::vector<QPointF>& PathController::points() const
     return m_points;
 }
 
-QPointF PathController::pointAt(int corner) const
+QPointF PathController::pointAt(quint64 corner) const
 {
-    if(corner != qBound(0, corner, pointCount()))
+    if(corner != qBound(static_cast<quint64>(0), corner, pointCount()))
         return {};
 
     return m_points[static_cast<std::size_t>(corner)];

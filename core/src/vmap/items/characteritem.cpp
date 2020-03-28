@@ -171,10 +171,7 @@ void CharacterItem::readData(QDataStream& in)
         }
         setCharacter(charact);*/
 }
-VisualItem::ItemType CharacterItem::getType() const
-{
-    return VisualItem::CHARACTER;
-}
+
 QRectF CharacterItem::boundingRect() const
 {
     return m_itemCtrl->thumnailRect().united(m_itemCtrl->textRect());

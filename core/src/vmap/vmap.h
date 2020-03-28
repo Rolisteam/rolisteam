@@ -291,7 +291,7 @@ private slots:
     /**
      * @brief promoteItemInType
      */
-    void promoteItemInType(VisualItem*, VisualItem::ItemType);
+    void promoteItemInType(VisualItem*, vmap::VisualItemController::ItemType);
     /**
      * @brief insertCharacterInMap
      * @param item

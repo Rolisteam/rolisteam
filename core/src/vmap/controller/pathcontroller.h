@@ -30,7 +30,7 @@ namespace vmap
 class PathController : public VisualItemController
 {
     Q_OBJECT
-    Q_PROPERTY(int pointCount READ pointCount NOTIFY pointCountChanged)
+    Q_PROPERTY(quint64 pointCount READ pointCount NOTIFY pointCountChanged)
     Q_PROPERTY(quint16 penWidth READ penWidth NOTIFY penWidthChanged)
     Q_PROPERTY(bool closed READ closed WRITE setClosed NOTIFY closedChanged)
     Q_PROPERTY(bool filled READ filled WRITE setFilled NOTIFY filledChanged)
@@ -41,15 +41,16 @@ public:
     bool filled() const;
     bool closed() const;
     quint16 penWidth() const;
-    int pointCount() const;
+    quint64 pointCount() const;
     const std::vector<QPointF>& points() const;
-    QPointF pointAt(int corner) const;
+    QPointF pointAt(quint64 corner) const;
     bool penLine() const;
     void addPoint(const QPointF& po);
     QPainterPath path() const;
 
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
+    ItemType itemType() const override;
     void setCorner(const QPointF& move, int corner) override;
     QRectF rect() const override;
 

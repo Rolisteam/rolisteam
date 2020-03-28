@@ -60,11 +60,6 @@ public:
      */
     virtual void readData(QDataStream& in) override;
     /**
-     * @brief getType
-     * @return
-     */
-    virtual VisualItem::ItemType getType() const override;
-    /**
      * @brief fillMessage
      * @param msg
      */
