@@ -378,8 +378,8 @@ void Workspace::addWidgetToMdi(QWidget* wid, const QString& title)
 {
     wid->setParent(this);
     QMdiSubWindow* sub= addSubWindow(wid);
-    sub->setWindowTitle(title);
-    wid->setWindowTitle(title);
+    // sub->setWindowTitle(title);
+    // wid->setWindowTitle(title);
     sub->setVisible(true);
     wid->setVisible(true);
 }
