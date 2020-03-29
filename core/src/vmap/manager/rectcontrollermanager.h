@@ -25,7 +25,9 @@
 #include <memory>
 #include <vector>
 
+#include "updater/vmaprectcontrollerupdater.h"
 #include "visualitemcontrollermanager.h"
+
 namespace vmap
 {
 class RectController;
@@ -48,8 +50,13 @@ signals:
     void rectControllerCreated(vmap::RectController* ctrl, bool editing);
 
 private:
+    void prepareController(vmap::RectController* ctrl);
+    vmap::RectController* findController(const QString& id);
+
+private:
     std::vector<std::unique_ptr<vmap::RectController>> m_controllers;
     QPointer<VectorialMapController> m_ctrl;
+    std::unique_ptr<RectControllerUpdater> m_updater;
 };
 
 #endif // RECTCONTROLLERMANAGER_H

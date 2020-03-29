@@ -80,4 +80,25 @@ void variantToType<QImage>(const QImage& val, NetworkMessageWriter& msg)
     in << val;
     msg.byteArray32(data);
 }
+
+template <>
+void variantToType<QPointF>(const QPointF& val, NetworkMessageWriter& msg)
+{
+    msg.real(val.x());
+    msg.real(val.y());
+}
+
+template <>
+void variantToType<QRectF>(const QRectF& val, NetworkMessageWriter& msg)
+{
+    msg.real(val.x());
+    msg.real(val.y());
+    msg.real(val.width());
+    msg.real(val.height());
+}
+template <>
+void variantToType<quint16>(const quint16& val, NetworkMessageWriter& msg)
+{
+    msg.uint16(val);
+}
 } // namespace Helper

@@ -47,6 +47,8 @@ class VisualItemController : public QObject
     Q_PROPERTY(bool locked READ locked WRITE setLocked NOTIFY lockedChanged)
     Q_PROPERTY(Core::SelectableTool tool READ tool CONSTANT)
     Q_PROPERTY(ItemType itemType READ itemType CONSTANT)
+    Q_PROPERTY(bool initialized READ initialized WRITE setInitialized NOTIFY initializedChanged)
+
 public:
     enum ItemType
     {
@@ -72,7 +74,8 @@ public:
         BottomLeft,
     };
     Q_ENUM(Corner)
-    VisualItemController(VectorialMapController* ctrl, QObject* parent= nullptr);
+    VisualItemController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
+                         QObject* parent= nullptr);
     ~VisualItemController();
 
     bool selected() const;
@@ -85,10 +88,13 @@ public:
     QString uuid() const;
     qreal rotation() const;
     bool localIsGM() const;
+    bool initialized() const;
     Core::SelectableTool tool() const;
     virtual QColor color() const;
     virtual QRectF rect() const= 0;
     virtual ItemType itemType() const= 0;
+
+    const QString mapUuid() const;
 
     int gridSize() const;
     QString getLayerText(Core::Layer layer) const;
@@ -96,7 +102,7 @@ public:
     virtual void aboutToBeRemoved()= 0;
     virtual void setCorner(const QPointF& move, int corner)= 0;
 
-    virtual void endGeometryChange()= 0;
+    virtual void endGeometryChange();
 
     bool locked() const;
 
@@ -113,8 +119,10 @@ signals:
     void rotationChanged();
     void localIsGMChanged();
     void colorChanged(QColor color);
-
+    void initializedChanged(bool);
     void lockedChanged(bool locked);
+    void posEditFinished();
+    void rotationEditFinished();
 
 public slots:
     void setSelected(bool b);
@@ -127,6 +135,10 @@ public slots:
     void setRotation(qreal rota);
     void setColor(const QColor& color);
     void setLocked(bool locked);
+    void setInitialized(bool);
+
+private:
+    void initializedVisualItem(const std::map<QString, QVariant>& params);
 
 protected:
     QPointer<VectorialMapController> m_ctrl;
@@ -141,6 +153,10 @@ protected:
     Core::SelectableTool m_tool= Core::SelectableTool::HANDLER;
     Core::Layer m_layer= Core::Layer::NONE;
     QString m_uuid;
+
+    bool m_initialized= false;
+    bool m_posEditing= false;
+    bool m_rotationEditing= false;
 };
 } // namespace vmap
 #endif // VISUALITEMCONTROLLER_H

@@ -20,19 +20,58 @@
 #include "visualitemcontroller.h"
 
 #include <QUuid>
+#include <QVariant>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
 namespace vmap
 {
-VisualItemController::VisualItemController(VectorialMapController* ctrl, QObject* parent)
+
+VisualItemController::VisualItemController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
+                                           QObject* parent)
     : QObject(parent), m_ctrl(ctrl), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
 {
     connect(m_ctrl, &VectorialMapController::layerChanged, this, &VisualItemController::selectableChanged);
     connect(m_ctrl, &VectorialMapController::localGMChanged, this, &VisualItemController::localIsGMChanged);
+
     m_layer= m_ctrl->layer();
+
+    initializedVisualItem(params);
 }
 
 VisualItemController::~VisualItemController() {}
+
+void VisualItemController::initializedVisualItem(const std::map<QString, QVariant>& params)
+{
+    if(params.empty())
+        return;
+
+    if(params.end() != params.find("uuid"))
+        m_uuid= params.at(QStringLiteral("uuid")).toString();
+
+    if(params.end() != params.find("visible"))
+        m_visible= params.at(QStringLiteral("visible")).toBool();
+
+    if(params.end() != params.find("initialized"))
+        m_initialized= params.at(QStringLiteral("initialized")).toBool();
+
+    if(params.end() != params.find("opacity"))
+        m_opacity= params.at(QStringLiteral("opacity")).toReal();
+
+    if(params.end() != params.find("rotation"))
+        m_rotation= params.at(QStringLiteral("rotation")).toReal();
+
+    if(params.end() != params.find("layer"))
+        m_layer= params.at(QStringLiteral("layer")).value<Core::Layer>();
+
+    if(params.end() != params.find("position"))
+        m_pos= params.at(QStringLiteral("position")).toPointF();
+
+    if(params.end() != params.find("color"))
+        m_color= params.at(QStringLiteral("color")).value<QColor>();
+
+    if(params.end() != params.find("locked"))
+        m_locked= params.at(QStringLiteral("locked")).toBool();
+}
 
 bool VisualItemController::selected() const
 {
@@ -42,6 +81,11 @@ bool VisualItemController::selected() const
 bool VisualItemController::localIsGM() const
 {
     return m_ctrl->localGM();
+}
+
+bool VisualItemController::initialized() const
+{
+    return m_initialized;
 }
 
 Core::SelectableTool VisualItemController::tool() const
@@ -109,6 +153,27 @@ QString VisualItemController::getLayerText(Core::Layer layer) const
     return m_ctrl->getLayerToText(layer);
 }
 
+void VisualItemController::endGeometryChange()
+{
+    setInitialized(true);
+    if(m_posEditing)
+    {
+        emit posEditFinished();
+        m_posEditing= false;
+    }
+
+    if(m_rotationEditing)
+    {
+        emit rotationEditFinished();
+        m_rotationEditing= false;
+    }
+}
+
+const QString VisualItemController::mapUuid() const
+{
+    return m_ctrl->uuid();
+}
+
 void VisualItemController::setColor(const QColor& color)
 {
     if(m_color == color)
@@ -140,6 +205,7 @@ void VisualItemController::setRotation(qreal rota)
         return;
     m_rotation= rota;
     emit rotationChanged();
+    m_rotationEditing= true;
 }
 
 void VisualItemController::setEditable(bool b)
@@ -181,6 +247,7 @@ void VisualItemController::setPos(const QPointF& pos)
         return;
     m_pos= pos;
     emit posChanged();
+    m_posEditing= true;
 }
 void VisualItemController::setLocked(bool locked)
 {
@@ -189,5 +256,12 @@ void VisualItemController::setLocked(bool locked)
 
     m_locked= locked;
     emit lockedChanged(m_locked);
+}
+void VisualItemController::setInitialized(bool b)
+{
+    if(b == m_initialized)
+        return;
+    m_initialized= b;
+    emit initializedChanged(m_initialized);
 }
 } // namespace vmap

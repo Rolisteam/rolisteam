@@ -61,6 +61,11 @@ ContentController::ContentController(CharacterModel* characterModel, NetworkCont
     m_mediaControllers.insert({CleverURI::PDF, m_pdfMediaController.get()});
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
+
+    std::for_each(m_mediaControllers.begin(), m_mediaControllers.end(),
+                  [](const std::pair<CleverURI::ContentType, MediaControllerInterface*>& pair) {
+                      pair.second->registerNetworkReceiver();
+                  });
 }
 
 ContentController::~ContentController()= default;

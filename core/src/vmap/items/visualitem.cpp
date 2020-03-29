@@ -51,6 +51,11 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl)
         scene()->removeItem(this);
         deleteLater();
     });
+    auto func= [this]() { m_ctrl->setPos(pos()); };
+    connect(this, &VisualItem::xChanged, this, func);
+    connect(this, &VisualItem::yChanged, this, func);
+    connect(this, &VisualItem::rotationChanged, this, [this]() { m_ctrl->setRotation(rotation()); });
+
     connect(m_ctrl, &vmap::VisualItemController::colorChanged, this, [this]() { update(); });
     connect(m_ctrl, &vmap::VisualItemController::rotationChanged, this, [this]() { setRotation(m_ctrl->rotation()); });
     connect(m_ctrl, &vmap::VisualItemController::visibleChanged, this, [this]() {
@@ -299,11 +304,11 @@ void VisualItem::sendItemLayer()
 {
     if(m_ctrl->editable()) // getOption PermissionMode
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::LayerItemChanged);
+        /*NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::LayerItemChanged);
         msg.string8(m_mapId);
         msg.string16(m_id);
         // msg.uint8(static_cast<quint8>(m_layer));
-        msg.sendToServer();
+        msg.sendToServer();*/
     }
 }
 
@@ -311,11 +316,11 @@ void VisualItem::sendOpacityMsg()
 {
     if(m_ctrl->editable()) // getOption PermissionMode
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::OpacityItemChanged);
+        /*NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::OpacityItemChanged);
         msg.string8(m_mapId);
         msg.string16(m_id);
         msg.real(opacity());
-        msg.sendToServer();
+        msg.sendToServer();*/
     }
 }
 void VisualItem::readOpacityMsg(NetworkMessageReader* msg)
@@ -356,7 +361,7 @@ void VisualItem::sendPositionMsg()
 
     if(m_ctrl->editable()) // getOption PermissionMode
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::MoveItem);
+        /*NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::MoveItem);
         msg.string8(m_mapId);
         msg.string16(m_id);
         msg.uint64(m_pointList.size());
@@ -365,7 +370,7 @@ void VisualItem::sendPositionMsg()
             msg.real(point.x());
             msg.real(point.y());
         }
-        msg.sendToServer();
+        msg.sendToServer();*/
     }
 }
 void VisualItem::readPositionMsg(NetworkMessageReader* msg)
@@ -385,11 +390,11 @@ void VisualItem::sendZValueMsg()
 {
     if(m_ctrl->editable() && !m_receivingZValue) // getOption PermissionMode
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::ZValueItem);
-        msg.string8(m_mapId);
-        msg.string16(m_id);
-        msg.real(zValue());
-        msg.sendToServer();
+        /* NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::ZValueItem);
+          msg.string8(m_mapId);
+          msg.string16(m_id);
+          msg.real(zValue());
+          msg.sendToServer();*/
     }
 }
 void VisualItem::readZValueMsg(NetworkMessageReader* msg)
@@ -408,11 +413,11 @@ void VisualItem::sendRotationMsg()
 {
     if(m_ctrl->editable()) // getOption PermissionMode
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::RotationItem);
+        /*NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::RotationItem);
         msg.string8(m_mapId);
         msg.string16(m_id);
         msg.real(rotation());
-        msg.sendToServer();
+        msg.sendToServer();*/
     }
 }
 void VisualItem::readRotationMsg(NetworkMessageReader* msg)
@@ -427,14 +432,14 @@ void VisualItem::sendRectGeometryMsg()
 {
     if(m_ctrl->editable()) // getOption PermissionMode
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::RectGeometryItem);
-        msg.string8(m_mapId);
-        msg.string16(m_id);
-        /*msg.real(m_rect.x());
-        msg.real(m_rect.y());
-        msg.real(m_rect.width());
-        msg.real(m_rect.height());*/
-        msg.sendToServer();
+        /* NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::RectGeometryItem);
+          msg.string8(m_mapId);
+          msg.string16(m_id);
+          msg.real(m_rect.x());
+          msg.real(m_rect.y());
+          msg.real(m_rect.width());
+          msg.real(m_rect.height());
+          msg.sendToServer();*/
     }
 }
 void VisualItem::readRectGeometryMsg(NetworkMessageReader* msg)

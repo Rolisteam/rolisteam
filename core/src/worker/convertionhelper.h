@@ -23,6 +23,8 @@
 #include <QColor>
 #include <QDataStream>
 #include <QImage>
+#include <QPointF>
+#include <QRectF>
 
 #include "media/mediatype.h"
 #include "network/networkmessagewriter.h"
@@ -55,7 +57,12 @@ template <>
 void variantToType<QColor>(const QColor& val, NetworkMessageWriter& msg);
 template <>
 void variantToType<QImage>(const QImage& val, NetworkMessageWriter& msg);
-
+template <>
+void variantToType<QPointF>(const QPointF& val, NetworkMessageWriter& msg);
+template <>
+void variantToType<QRectF>(const QRectF& val, NetworkMessageWriter& msg);
+template <>
+void variantToType<quint16>(const quint16& val, NetworkMessageWriter& msg);
 } // namespace Helper
 
 #endif // CONVERTIONHELPER_H

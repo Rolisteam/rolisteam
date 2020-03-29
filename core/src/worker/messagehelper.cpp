@@ -336,6 +336,7 @@ QHash<QString, QVariant> MessageHelper::readPdfData(NetworkMessageReader* msg)
 void addVisualItemController(const vmap::VisualItemController* ctrl, NetworkMessageWriter& msg)
 {
     msg.uint8(ctrl->visible());
+    msg.uint8(ctrl->initialized());
     msg.real(ctrl->opacity());
     msg.real(ctrl->rotation());
     msg.uint8(static_cast<quint8>(ctrl->layer()));
@@ -350,6 +351,7 @@ void addVisualItemController(const vmap::VisualItemController* ctrl, NetworkMess
 const std::map<QString, QVariant> readVisualItemController(NetworkMessageReader* msg)
 {
     auto visible= msg->uint8();
+    auto initialized= msg->uint8();
     auto opacity= msg->real();
     auto rotation= msg->real();
     auto layer= msg->uint8();
@@ -357,16 +359,17 @@ const std::map<QString, QVariant> readVisualItemController(NetworkMessageReader*
     pos.setX(msg->real());
     pos.setY(msg->real());
     auto uuid= msg->string8();
-    auto rgb= msg->rgb();
+    auto rgb= QColor(msg->rgb());
     auto locked= msg->uint8();
 
     return std::map<QString, QVariant>({{"visible", visible},
+                                        {"initialized", initialized},
                                         {"opacity", opacity},
                                         {"rotation", rotation},
                                         {"layer", layer},
                                         {"position", pos},
                                         {"uuid", uuid},
-                                        {"rgb", rgb},
+                                        {"color", rgb},
                                         {"locked", locked}});
 }
 
@@ -444,6 +447,21 @@ void addRectController(const vmap::RectController* ctrl, NetworkMessageWriter& m
     msg.real(rect.y());
     msg.real(rect.width());
     msg.real(rect.height());
+}
+
+const std::map<QString, QVariant> MessageHelper::readRect(NetworkMessageReader* msg)
+{
+    auto hash= readVisualItemController(msg);
+    auto filled= msg->uint8();
+    auto penWidth= msg->uint16();
+    auto x= msg->real();
+    auto y= msg->real();
+    auto w= msg->real();
+    auto h= msg->real();
+    hash.insert({"filled", filled});
+    hash.insert({"penWidth", penWidth});
+    hash.insert({"rect", QRectF(x, y, w, h)});
+    return hash;
 }
 
 void readRectManager(RectControllerManager* ctrl, NetworkMessageReader* msg)
@@ -727,21 +745,6 @@ void MessageHelper::sendOffRect(const vmap::RectController* ctrl, const QString&
     msg.uint8(ctrl->itemType());
     addRectController(ctrl, msg);
     msg.sendToServer();
-}
-
-const std::map<QString, QVariant> MessageHelper::readRect(NetworkMessageReader* msg)
-{
-    auto hash= readVisualItemController(msg);
-    auto filled= msg->uint8();
-    auto penWidth= msg->uint16();
-    auto x= msg->real();
-    auto y= msg->real();
-    auto w= msg->real();
-    auto h= msg->real();
-    hash.insert({"filled", filled});
-    hash.insert({"penWidth", penWidth});
-    hash.insert({"rect", QRectF(x, y, w, h)});
-    return hash;
 }
 
 const std::map<QString, QVariant> MessageHelper::readEllipse(NetworkMessageReader* msg)

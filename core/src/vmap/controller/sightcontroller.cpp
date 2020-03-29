@@ -30,7 +30,7 @@ namespace vmap
 /////////////////////////////
 SightController::SightController(VectorialMapController* ctrl, CharacterItemControllerManager* characterCtrl,
                                  QObject* parent)
-    : VisualItemController(ctrl, parent), m_characterItems(characterCtrl)
+    : VisualItemController(std::map<QString, QVariant>(), ctrl, parent), m_characterItems(characterCtrl)
 {
     // constructor
     connect(m_characterItems, &CharacterItemControllerManager::playableCharacterControllerCreated, this,

@@ -23,30 +23,45 @@
 #include <QVariant>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "updater/vmaprectcontrollerupdater.h"
 #include "vmap/controller/rectcontroller.h"
 #include "worker/messagehelper.h"
 
-RectControllerManager::RectControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
+RectControllerManager::RectControllerManager(VectorialMapController* ctrl)
+    : m_ctrl(ctrl), m_updater(new RectControllerUpdater)
+{
+    auto func= [this]() { m_updater->setSynchronized(m_ctrl->localGM() || m_ctrl->permission() == Core::PC_ALL); };
+    connect(m_ctrl, &VectorialMapController::localGMChanged, this, func);
+    connect(m_ctrl, &VectorialMapController::permissionChanged, this, func);
+}
 
 QString RectControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
     std::unique_ptr<vmap::RectController> rect(new vmap::RectController(params, m_ctrl));
     emit rectControllerCreated(rect.get(), true);
     auto id= rect->uuid();
+    prepareController(rect.get());
     m_controllers.push_back(std::move(rect));
     return id;
 }
 
 void RectControllerManager::addController(vmap::VisualItemController* controller)
-{
+{ // never called
     auto rectCtrl= dynamic_cast<vmap::RectController*>(controller);
     if(nullptr == rectCtrl)
         return;
 
     std::unique_ptr<vmap::RectController> ctrl(rectCtrl);
     emit rectControllerCreated(ctrl.get(), false);
-    MessageHelper::sendOffRect(ctrl.get(), m_ctrl->uuid());
     m_controllers.push_back(std::move(ctrl));
+}
+
+void RectControllerManager::prepareController(vmap::RectController* ctrl)
+{
+    auto id= m_ctrl->uuid();
+    connect(ctrl, &vmap::RectController::initializedChanged, this,
+            [id, ctrl]() { MessageHelper::sendOffRect(ctrl, id); });
+    m_updater->addRectController(ctrl);
 }
 
 void RectControllerManager::removeItem(const QString& id)
@@ -67,7 +82,15 @@ void RectControllerManager::processMessage(NetworkMessageReader* msg)
     if(msg->action() == NetMsg::AddItem && msg->category() == NetMsg::VMapCategory)
     {
         auto hash= MessageHelper::readRect(msg);
-        addItem(hash);
+        auto newRect= new vmap::RectController(hash, m_ctrl);
+        addController(newRect);
+    }
+    else if(msg->action() == NetMsg::UpdateItem && msg->category() == NetMsg::VMapCategory)
+    {
+        auto id= msg->string8();
+        auto ctrl= findController(id);
+        if(nullptr != ctrl)
+            m_updater->updateItemProperty(msg, ctrl);
     }
 }
 const std::vector<vmap::RectController*> RectControllerManager::controllers() const
@@ -76,4 +99,14 @@ const std::vector<vmap::RectController*> RectControllerManager::controllers() co
     std::transform(m_controllers.begin(), m_controllers.end(), std::back_inserter(vect),
                    [](const std::unique_ptr<vmap::RectController>& ctrl) { return ctrl.get(); });
     return vect;
+}
+vmap::RectController* RectControllerManager::findController(const QString& id)
+{
+    auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
+                          [id](const std::unique_ptr<vmap::RectController>& ctrl) { return id == ctrl->uuid(); });
+
+    if(it == m_controllers.end())
+        return nullptr;
+
+    return it->get();
 }

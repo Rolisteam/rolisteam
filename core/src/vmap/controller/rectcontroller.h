@@ -25,13 +25,14 @@
 #include <QVariant>
 
 #include "visualitemcontroller.h"
+
 class VectorialMapController;
 namespace vmap
 {
 class RectController : public VisualItemController
 {
     Q_OBJECT
-    Q_PROPERTY(QRectF rect READ rect NOTIFY rectChanged)
+    Q_PROPERTY(QRectF rect READ rect WRITE setRect NOTIFY rectChanged)
     Q_PROPERTY(bool filled READ filled NOTIFY filledChanged)
     Q_PROPERTY(quint16 penWidth READ penWidth NOTIFY penWidthChanged)
 public:
@@ -48,18 +49,19 @@ public:
 signals:
     void filledChanged();
     void rectChanged();
+    void rectEditFinished();
     void penWidthChanged();
 
 public slots:
     void setCorner(const QPointF& move, int corner) override;
-
-private:
     void setRect(QRectF rect);
 
 private:
     QRectF m_rect= QRectF(0, 0, 1, 1);
     bool m_filled;
     quint16 m_penWidth;
+
+    bool m_rectEdited= false;
 };
 } // namespace vmap
 
