@@ -31,7 +31,7 @@ bool greater(const QRectF& r1, const QRectF& r2)
 namespace vmap
 {
 TextController::TextController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
-    : VisualItemController(ctrl, parent)
+    : VisualItemController(params, ctrl, parent)
 {
     if(params.end() != params.find("position"))
         setPos(params.at(QStringLiteral("position")).toPointF());

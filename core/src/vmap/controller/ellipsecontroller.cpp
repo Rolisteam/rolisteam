@@ -24,7 +24,7 @@ namespace vmap
 {
 EllipseController::EllipseController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
                                      QObject* parent)
-    : VisualItemController(ctrl, parent)
+    : VisualItemController(params, ctrl, parent)
 {
     if(params.end() != params.find("color"))
         setColor(params.at(QStringLiteral("color")).value<QColor>());

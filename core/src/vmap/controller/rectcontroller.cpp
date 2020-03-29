@@ -24,11 +24,8 @@
 namespace vmap
 {
 RectController::RectController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
-    : VisualItemController(ctrl, parent)
+    : VisualItemController(params, ctrl, parent)
 {
-    if(params.end() != params.find("color"))
-        setColor(params.at(QStringLiteral("color")).value<QColor>());
-
     if(params.end() != params.find("tool"))
     {
         m_tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
@@ -43,8 +40,8 @@ RectController::RectController(const std::map<QString, QVariant>& params, Vector
     if(params.end() != params.find("penWidth"))
         m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
 
-    if(params.end() != params.find("position"))
-        setPos(params.at(QStringLiteral("position")).toPointF());
+    if(params.end() != params.find("rect"))
+        setRect(params.at(QStringLiteral("rect")).toRectF());
 }
 
 bool RectController::filled() const
@@ -63,6 +60,7 @@ void RectController::setRect(QRectF rect)
         return;
     m_rect= rect;
     emit rectChanged();
+    m_rectEdited= true;
 }
 VisualItemController::ItemType RectController::itemType() const
 {
@@ -110,14 +108,12 @@ void RectController::aboutToBeRemoved()
 
 void RectController::endGeometryChange()
 {
-    /* auto rect= m_rect;
-     auto pos= m_pos;
-     qreal w= rect.width();
-     qreal h= rect.height();
-     rect.setCoords(-w / 2, -h / 2, w, h);
-     pos+= QPointF(w / 2, h / 2);
-     setRect(rect);
-     setPos(pos);*/
+    VisualItemController::endGeometryChange();
+    if(m_rectEdited)
+    {
+        emit rectEditFinished();
+        m_rectEdited= false;
+    }
 }
 
 quint16 RectController::penWidth() const

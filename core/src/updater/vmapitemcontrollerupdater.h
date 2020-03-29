@@ -17,29 +17,40 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef VMAPUPDATER_H
-#define VMAPUPDATER_H
+#ifndef MEDIAUPDATER_H
+#define MEDIAUPDATER_H
 
 #include <QObject>
+#include <QRectF>
 
-class VectorialMapController;
+namespace vmap
+{
+class VisualItemController;
+}
 class NetworkMessageReader;
-class VMapUpdater : public QObject
+class VMapItemControllerUpdater : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool synchronized READ synchronized WRITE setSynchronized NOTIFY synchronizedChanged)
 public:
-    explicit VMapUpdater(QObject* parent= nullptr);
+    explicit VMapItemControllerUpdater(QObject* parent= nullptr);
 
-    void addController(VectorialMapController* ctrl);
-
-    bool updateVMapProperty(NetworkMessageReader* msg, VectorialMapController* ctrl);
+    void addItemController(vmap::VisualItemController* ctrl);
+    virtual bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl);
 
     template <typename T>
-    void sendOffVMapChanges(VectorialMapController* ctrl, const QString& property);
+    void sendOffVMapChanges(vmap::VisualItemController* ctrl, const QString& property);
+    bool synchronized() const;
 
-private:
+public slots:
+    void setSynchronized(bool);
+signals:
+    void synchronizedChanged(bool);
+
+protected:
     bool m_updatingFromNetwork= false;
-    VectorialMapController* updatingCtrl= nullptr;
+    vmap::VisualItemController* updatingCtrl= nullptr;
+    bool m_synchronized= true;
 };
 
-#endif // VMAPUPDATER_H
+#endif // MEDIAUPDATER_H

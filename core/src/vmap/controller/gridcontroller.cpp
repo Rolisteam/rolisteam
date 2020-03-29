@@ -28,7 +28,8 @@
 
 namespace vmap
 {
-vmap::GridController::GridController(VectorialMapController* ctrl, QObject* parent) : VisualItemController(ctrl, parent)
+vmap::GridController::GridController(VectorialMapController* ctrl, QObject* parent)
+    : VisualItemController(std::map<QString, QVariant>(), ctrl, parent)
 {
     setLayer(Core::Layer::GRIDLAYER);
     setVisible(false);

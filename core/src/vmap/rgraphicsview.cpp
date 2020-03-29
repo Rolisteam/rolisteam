@@ -660,7 +660,7 @@ void RGraphicsView::changeLayer()
     if(static_cast<Core::Layer>(act->data().toInt()) != m_ctrl->layer())
     {
         m_ctrl->setLayer(static_cast<Core::Layer>(act->data().toInt()));
-        sendOffMapChange();
+        // sendOffMapChange();
     }
 }
 void RGraphicsView::changeVisibility()

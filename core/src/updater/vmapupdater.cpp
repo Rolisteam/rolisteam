@@ -138,11 +138,8 @@ bool VMapUpdater::updateVMapProperty(NetworkMessageReader* msg, VectorialMapCont
         var= QVariant::fromValue(val);
     }
 
-    // qDebug() << "update property " << property << var;
-
     m_updatingFromNetwork= true;
     auto feedback= ctrl->setProperty(property.toLocal8Bit().data(), var);
-    // qDebug() << "Set property:" << feedback;
     m_updatingFromNetwork= false;
     updatingCtrl= nullptr;
 
@@ -154,8 +151,6 @@ void VMapUpdater::sendOffVMapChanges(VectorialMapController* ctrl, const QString
 {
     if(nullptr == ctrl || (m_updatingFromNetwork && updatingCtrl == ctrl))
         return;
-
-    // qDebug() << "update sendOffVMapChanges " << property;
 
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::UpdateMediaProperty);
     msg.uint8(CleverURI::VMAP);

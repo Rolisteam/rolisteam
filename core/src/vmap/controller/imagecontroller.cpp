@@ -37,7 +37,7 @@ QByteArray readImage(const QString& path)
 
 ImageController::ImageController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
                                  QObject* parent)
-    : VisualItemController(ctrl, parent)
+    : VisualItemController(params, ctrl, parent)
 {
 
     m_tool= Core::SelectableTool::IMAGE;

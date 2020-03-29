@@ -26,7 +26,7 @@ QPainterPath vectorToPath(const std::vector<QPointF>& points, bool closeUp= fals
     return path;
 }
 PathController::PathController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
-    : VisualItemController(ctrl, parent)
+    : VisualItemController(params, ctrl, parent)
 {
     if(params.end() != params.find("color"))
         m_color= params.at(QStringLiteral("color")).value<QColor>();

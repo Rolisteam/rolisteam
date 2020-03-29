@@ -313,6 +313,8 @@ set(HEADERS
     src/worker/iohelper.h
     src/updater/vmapupdater.h
     src/worker/convertionhelper.h
+    src/updater/vmaprectcontrollerupdater.h
+    src/updater/vmapitemcontrollerupdater.h
     )
 
 
@@ -602,6 +604,8 @@ set(SOURCES
     src/worker/vectorialmapmessagehelper.cpp
     src/worker/playermessagehelper.cpp
     src/updater/vmapupdater.cpp
+    src/updater/vmaprectcontrollerupdater.cpp
+    src/updater/vmapitemcontrollerupdater.cpp
     src/worker/convertionhelper.cpp
     )
 
