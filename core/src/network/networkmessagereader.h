@@ -68,6 +68,8 @@ public:
     void setHeader(NetworkMessageHeader* header);
 
     void resetToData();
+    void resetToPos(const char* pos);
+    const char* pos() const;
     /////////////////////////////////
     ///
     /// \brief readRecipient
