@@ -61,6 +61,16 @@ bool NetworkMessageReader::isValid()
 {
     return !m_outMemory;
 }
+
+void NetworkMessageReader::resetToPos(const char* pos)
+{
+    m_pos= pos;
+}
+const char* NetworkMessageReader::pos() const
+{
+    return m_pos;
+}
+
 void NetworkMessageReader::setData(const QByteArray& bytes)
 {
     int size= bytes.size();
