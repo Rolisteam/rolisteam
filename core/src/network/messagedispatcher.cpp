@@ -459,7 +459,7 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::AddItem:
             str= QStringLiteral("addItem");
             break;
-        case NetMsg::DelItem:
+        /*case NetMsg::DelItem:
             str= QStringLiteral("DelItem");
             break;
         case NetMsg::MoveItem:
@@ -473,11 +473,11 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             break;
         case NetMsg::RectGeometryItem:
             str= QStringLiteral("RectGeometryItem");
-            break;
+            break;*/
         case NetMsg::DelPoint:
             str= QStringLiteral("DelPoint");
             break;
-        case NetMsg::OpacityItemChanged:
+        /*case NetMsg::OpacityItemChanged:
             str= QStringLiteral("OpacityItemChanged");
             break;
         case NetMsg::LayerItemChanged:
@@ -485,7 +485,7 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             break;
         case NetMsg::GeometryItemChanged:
             str= QStringLiteral("GeometryItemChanged");
-            break;
+            break;*/
         case NetMsg::AddPoint:
             str= QStringLiteral("AddPoint");
             break;

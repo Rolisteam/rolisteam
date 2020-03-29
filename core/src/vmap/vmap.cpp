@@ -150,6 +150,7 @@ void VMap::addImageItem(vmap::ImageController* imgCtrl)
 
 void VMap::addRectItem(vmap::RectController* rectCtrl, bool editing)
 {
+    qDebug() << "add rect Item editing:" << editing;
     auto item= new RectItem(rectCtrl);
     addItem(item);
     item->setPos(rectCtrl->pos());
@@ -1071,11 +1072,11 @@ void VMap::removeItemFromScene(QString id, bool sendToAll, bool undoable)
 
 void VMap::sendItemToAll(VisualItem* item)
 {
-    NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::GeometryItemChanged);
+    /*NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::GeometryItemChanged);
     msg.string8(m_id);
     msg.string16(item->getId());
     item->fillMessage(&msg);
-    msg.sendToServer();
+    msg.sendToServer();*/
 }
 void VMap::keyPressEvent(QKeyEvent* event)
 {
