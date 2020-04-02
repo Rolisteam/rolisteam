@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 
+#include "updater/linecontrollerupdater.h"
 #include "visualitemcontrollermanager.h"
 
 namespace vmap
@@ -49,8 +50,13 @@ signals:
     void LineControllerCreated(vmap::LineController* ctrl, bool editing);
 
 private:
+    void prepareController(vmap::LineController* ctrl);
+    vmap::LineController* findController(const QString& id);
+
+private:
     std::vector<std::unique_ptr<vmap::LineController>> m_controllers;
     QPointer<VectorialMapController> m_ctrl;
+    std::unique_ptr<LineControllerUpdater> m_updater;
 };
 
 #endif // LINECONTROLLERMANANGER_H

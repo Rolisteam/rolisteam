@@ -62,7 +62,22 @@ VisualItemController::ItemType LineController::itemType() const
 {
     return VisualItemController::LINE;
 }
-void LineController::endGeometryChange() {}
+void LineController::endGeometryChange()
+{
+    VisualItemController::endGeometryChange();
+
+    if(m_editEndPoint)
+    {
+        emit endPointEditFinished();
+        m_editEndPoint= false;
+    }
+
+    if(m_editStartPoint)
+    {
+        emit startPointEditFinished();
+        m_editStartPoint= false;
+    }
+}
 
 QRectF LineController::rect() const
 {
@@ -88,6 +103,7 @@ void LineController::setStartPoint(const QPointF& p)
         return;
     m_start= p;
     emit startPointChanged();
+    m_editStartPoint= true;
 }
 
 void LineController::setEndPoint(const QPointF& p)
@@ -96,5 +112,6 @@ void LineController::setEndPoint(const QPointF& p)
         return;
     m_end= p;
     emit endPointChanged();
+    m_editEndPoint= true;
 }
 } // namespace vmap

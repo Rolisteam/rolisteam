@@ -88,9 +88,6 @@ VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
     m_itemControllers.insert({Core::SelectableTool::TEXTBORDER, m_textControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::NonPlayableCharacter, m_characterControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::PlayableCharacter, m_characterControllerManager.get()});
-
-    /* if(uri->hasData() || !uri->getUri().isEmpty())
-         IOHelper::loadVMap(m_vmap.get(), uri, this);*/
 }
 
 VectorialMapController::~VectorialMapController()= default;
@@ -671,6 +668,9 @@ NetWorkReceiver::SendType VectorialMapController::processMessage(NetworkMessageR
         {
         case IT::LINE:
             m_lineControllerManager->processMessage(msg);
+            break;
+        case IT::ELLISPE:
+            m_ellipseControllerManager->processMessage(msg);
             break;
         case IT::PATH:
             m_pathControllerManager->processMessage(msg);
