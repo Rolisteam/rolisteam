@@ -17,39 +17,35 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "vmaprectcontrollerupdater.h"
+#include "linecontrollerupdater.h"
 
 #include <QDebug>
 #include <QMetaObject>
 #include <QMetaProperty>
 #include <QSet>
 
-#include "controller/view_controller/vectorialmapcontroller.h"
-#include "data/cleveruri.h"
-#include "network/networkmessagewriter.h"
-#include "vmap/controller/rectcontroller.h"
+#include "network/networkmessagereader.h"
+#include "vmap/controller/linecontroller.h"
 #include "worker/convertionhelper.h"
 
-RectControllerUpdater::RectControllerUpdater(QObject* parent) : VMapItemControllerUpdater(parent) {}
+LineControllerUpdater::LineControllerUpdater() {}
 
-RectControllerUpdater::~RectControllerUpdater() {}
-
-void RectControllerUpdater::addRectController(vmap::RectController* ctrl)
+void LineControllerUpdater::addLineController(vmap::LineController* ctrl)
 {
     if(nullptr == ctrl)
         return;
 
     VMapItemControllerUpdater::addItemController(ctrl);
 
-    connect(ctrl, &vmap::RectController::filledChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<bool>(ctrl, QStringLiteral("filled")); });
-    connect(ctrl, &vmap::RectController::rectEditFinished, this,
-            [this, ctrl]() { sendOffVMapChanges<QRectF>(ctrl, QStringLiteral("rect")); });
-    connect(ctrl, &vmap::RectController::penWidthChanged, this,
+    connect(ctrl, &vmap::LineController::endPointEditFinished, this,
+            [this, ctrl]() { sendOffVMapChanges<QPointF>(ctrl, QStringLiteral("endPoint")); });
+    connect(ctrl, &vmap::LineController::startPointEditFinished, this,
+            [this, ctrl]() { sendOffVMapChanges<QPointF>(ctrl, QStringLiteral("startPoint")); });
+    connect(ctrl, &vmap::LineController::penWidthChanged, this,
             [this, ctrl]() { sendOffVMapChanges<quint16>(ctrl, QStringLiteral("penWidth")); });
 }
 
-bool RectControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)
+bool LineControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)
 {
     if(nullptr == msg || nullptr == ctrl)
         return false;
@@ -57,7 +53,8 @@ bool RectControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::
     // TODO implement save/restore
     auto datapos= msg->pos();
 
-    VMapItemControllerUpdater::updateItemProperty(msg, ctrl);
+    if(VMapItemControllerUpdater::updateItemProperty(msg, ctrl))
+        return true;
 
     msg->resetToPos(datapos);
 
@@ -67,17 +64,17 @@ bool RectControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::
 
     QVariant var;
 
-    if(property == QStringLiteral("filled"))
-    {
-        var= QVariant::fromValue(static_cast<bool>(msg->uint8()));
-    }
-    else if(property == QStringLiteral("rect"))
+    if(property == QStringLiteral("endPoint"))
     {
         auto x= msg->real();
         auto y= msg->real();
-        auto w= msg->real();
-        auto h= msg->real();
-        var= QVariant::fromValue(QRectF(x, y, w, h));
+        var= QVariant::fromValue(QPointF(x, y));
+    }
+    else if(property == QStringLiteral("startPoint"))
+    {
+        auto x= msg->real();
+        auto y= msg->real();
+        var= QVariant::fromValue(QPointF(x, y));
     }
     else if(property == QStringLiteral("penWidth"))
     {
@@ -85,8 +82,7 @@ bool RectControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::
     }
     else
     {
-        auto val= msg->string32();
-        var= QVariant::fromValue(val);
+        return false;
     }
 
     m_updatingFromNetwork= true;

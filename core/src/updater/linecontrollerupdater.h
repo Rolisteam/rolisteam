@@ -17,27 +17,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef RECTCONTROLLERUPDATER_H
-#define RECTCONTROLLERUPDATER_H
+#ifndef LINECONTROLLERUPDATER_H
+#define LINECONTROLLERUPDATER_H
 
 #include "vmapitemcontrollerupdater.h"
 #include <QObject>
 
 namespace vmap
 {
-class RectController;
+class LineController;
 }
-class NetworkMessageReader;
-class RectControllerUpdater : public VMapItemControllerUpdater
+
+class LineControllerUpdater : public VMapItemControllerUpdater
 {
     Q_OBJECT
 public:
-    explicit RectControllerUpdater(QObject* parent= nullptr);
-    virtual ~RectControllerUpdater() override;
+    LineControllerUpdater();
+    virtual ~LineControllerUpdater() override= default;
 
-    void addRectController(vmap::RectController* ctrl);
+    void addLineController(vmap::LineController* ctrl);
 
     bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
 };
 
-#endif // RECTCONTROLLERUPDATER_H
+#endif // LINECONTROLLERUPDATER_H

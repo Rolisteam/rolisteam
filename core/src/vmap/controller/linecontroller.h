@@ -53,6 +53,8 @@ signals:
     void penWidthChanged();
     void endPointChanged();
     void startPointChanged();
+    void startPointEditFinished();
+    void endPointEditFinished();
 
 public slots:
     void setCorner(const QPointF& move, int corner) override;
@@ -63,6 +65,9 @@ private:
     QPointF m_start;
     QPointF m_end;
     quint16 m_penWidth;
+
+    bool m_editStartPoint= false;
+    bool m_editEndPoint= false;
 };
 } // namespace vmap
 #endif // LINEITEMCONTROLLER_H

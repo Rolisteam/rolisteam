@@ -20,16 +20,21 @@
 #include "linecontrollermanager.h"
 
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "updater/linecontrollerupdater.h"
 #include "vmap/controller/linecontroller.h"
 #include "worker/messagehelper.h"
 
-LineControllerManager::LineControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
+LineControllerManager::LineControllerManager(VectorialMapController* ctrl)
+    : m_ctrl(ctrl), m_updater(new LineControllerUpdater)
+{
+}
 
 QString LineControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
     std::unique_ptr<vmap::LineController> line(new vmap::LineController(params, m_ctrl));
     emit LineControllerCreated(line.get(), true);
     auto id= line->uuid();
+    prepareController(line.get());
     m_controllers.push_back(std::move(line));
     return id;
 }
@@ -42,7 +47,6 @@ void LineControllerManager::addController(vmap::VisualItemController* controller
 
     std::unique_ptr<vmap::LineController> lineCtrl(line);
     emit LineControllerCreated(lineCtrl.get(), false);
-    MessageHelper::sendOffLine(lineCtrl.get(), m_ctrl->uuid());
     m_controllers.push_back(std::move(lineCtrl));
 }
 
@@ -58,10 +62,29 @@ void LineControllerManager::removeItem(const QString& id)
     m_controllers.erase(it);
 }
 
+void LineControllerManager::prepareController(vmap::LineController* ctrl)
+{
+    auto id= m_ctrl->uuid();
+    connect(ctrl, &vmap::LineController::initializedChanged, this, [id, ctrl, this]() {
+        MessageHelper::sendOffLine(ctrl, id);
+        m_updater->addLineController(ctrl);
+    });
+}
+
 void LineControllerManager::processMessage(NetworkMessageReader* msg)
 {
     if(msg->action() == NetMsg::AddItem && msg->category() == NetMsg::VMapCategory)
     {
+        auto hash= MessageHelper::readLine(msg);
+        auto newRect= new vmap::LineController(hash, m_ctrl);
+        addController(newRect);
+    }
+    else if(msg->action() == NetMsg::UpdateItem && msg->category() == NetMsg::VMapCategory)
+    {
+        auto id= msg->string8();
+        auto ctrl= findController(id);
+        if(nullptr != ctrl)
+            m_updater->updateItemProperty(msg, ctrl);
     }
 }
 
@@ -71,4 +94,15 @@ const std::vector<vmap::LineController*> LineControllerManager::controllers() co
     std::transform(m_controllers.begin(), m_controllers.end(), std::back_inserter(vect),
                    [](const std::unique_ptr<vmap::LineController>& ctrl) { return ctrl.get(); });
     return vect;
+}
+
+vmap::LineController* LineControllerManager::findController(const QString& id)
+{
+    auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
+                          [id](const std::unique_ptr<vmap::LineController>& ctrl) { return id == ctrl->uuid(); });
+
+    if(it == m_controllers.end())
+        return nullptr;
+
+    return it->get();
 }
