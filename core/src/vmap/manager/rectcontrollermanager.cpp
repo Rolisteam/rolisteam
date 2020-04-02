@@ -23,7 +23,7 @@
 #include <QVariant>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "updater/vmaprectcontrollerupdater.h"
+#include "updater/rectcontrollerupdater.h"
 #include "vmap/controller/rectcontroller.h"
 #include "worker/messagehelper.h"
 
@@ -93,6 +93,7 @@ void RectControllerManager::processMessage(NetworkMessageReader* msg)
             m_updater->updateItemProperty(msg, ctrl);
     }
 }
+
 const std::vector<vmap::RectController*> RectControllerManager::controllers() const
 {
     std::vector<vmap::RectController*> vect;
@@ -100,6 +101,7 @@ const std::vector<vmap::RectController*> RectControllerManager::controllers() co
                    [](const std::unique_ptr<vmap::RectController>& ctrl) { return ctrl.get(); });
     return vect;
 }
+
 vmap::RectController* RectControllerManager::findController(const QString& id)
 {
     auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
