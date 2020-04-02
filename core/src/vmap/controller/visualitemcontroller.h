@@ -137,6 +137,9 @@ public slots:
     void setLocked(bool locked);
     void setInitialized(bool);
 
+protected:
+    virtual void computeEditable();
+
 private:
     void initializedVisualItem(const std::map<QString, QVariant>& params);
 

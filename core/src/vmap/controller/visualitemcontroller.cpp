@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "visualitemcontroller.h"
 
+#include <QDebug>
 #include <QUuid>
 #include <QVariant>
 
@@ -31,11 +32,18 @@ VisualItemController::VisualItemController(const std::map<QString, QVariant>& pa
     : QObject(parent), m_ctrl(ctrl), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
 {
     connect(m_ctrl, &VectorialMapController::layerChanged, this, &VisualItemController::selectableChanged);
+    connect(m_ctrl, &VectorialMapController::visibilityChanged, this, &VisualItemController::visibleChanged);
     connect(m_ctrl, &VectorialMapController::localGMChanged, this, &VisualItemController::localIsGMChanged);
+
+    connect(m_ctrl, &VectorialMapController::permissionChanged, this, &VisualItemController::computeEditable);
+    connect(m_ctrl, &VectorialMapController::localGMChanged, this, &VisualItemController::computeEditable);
+    connect(m_ctrl, &VectorialMapController::layerChanged, this, &VisualItemController::computeEditable);
 
     m_layer= m_ctrl->layer();
 
     initializedVisualItem(params);
+
+    computeEditable();
 }
 
 VisualItemController::~VisualItemController() {}
@@ -110,7 +118,7 @@ bool VisualItemController::selectable() const
 
 bool VisualItemController::visible() const
 {
-    return m_visible;
+    return (m_visible && m_ctrl->visibility() != Core::HIDDEN);
 }
 
 qreal VisualItemController::opacity() const
@@ -210,6 +218,7 @@ void VisualItemController::setRotation(qreal rota)
 
 void VisualItemController::setEditable(bool b)
 {
+    qDebug() << "setEditable" << b;
     if(b == m_editable)
         return;
     m_editable= b;
@@ -238,16 +247,18 @@ void VisualItemController::setLayer(Core::Layer layer)
         return;
     m_layer= layer;
     emit layerChanged();
+    computeEditable();
     emit selectableChanged();
 }
 
 void VisualItemController::setPos(const QPointF& pos)
 {
+    qDebug() << "VisualItemController pos" << pos << m_pos << m_posEditing;
     if(m_pos == pos)
         return;
     m_pos= pos;
-    emit posChanged();
     m_posEditing= true;
+    emit posChanged();
 }
 void VisualItemController::setLocked(bool locked)
 {
@@ -263,5 +274,13 @@ void VisualItemController::setInitialized(bool b)
         return;
     m_initialized= b;
     emit initializedChanged(m_initialized);
+}
+
+void VisualItemController::computeEditable()
+{
+    qDebug() << "computeEditable: localIsGM:" << localIsGM() << "permission mode" << m_ctrl->permission() << "map layer"
+             << m_ctrl->layer() << "item layer " << layer() << "id" << m_uuid; //"type" << itemType()
+    auto editableByPermission= (localIsGM() || m_ctrl->permission() == Core::PermissionMode::PC_ALL);
+    setEditable(!m_locked && m_ctrl->layer() == layer() && editableByPermission);
 }
 } // namespace vmap

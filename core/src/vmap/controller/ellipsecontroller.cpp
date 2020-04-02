@@ -20,26 +20,33 @@
 #include "ellipsecontroller.h"
 
 #include <QVariant>
+
 namespace vmap
 {
 EllipseController::EllipseController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
                                      QObject* parent)
     : VisualItemController(params, ctrl, parent)
 {
-    if(params.end() != params.find("color"))
-        setColor(params.at(QStringLiteral("color")).value<QColor>());
-
     if(params.end() != params.find("tool"))
     {
         m_tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
         m_filled= (m_tool == Core::SelectableTool::FILLEDELLIPSE);
     }
 
+    if(params.end() != params.find("filled"))
+    {
+        m_filled= params.at(QStringLiteral("filled")).toBool();
+        m_tool= m_filled ? Core::SelectableTool::FILLEDELLIPSE : Core::SelectableTool::EMPTYELLIPSE;
+    }
+
     if(params.end() != params.find("penWidth"))
         m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
 
-    if(params.end() != params.find("position"))
-        setPos(params.at(QStringLiteral("position")).toPointF());
+    if(params.end() != params.find("rx"))
+        m_rx= params.at(QStringLiteral("rx")).toReal();
+
+    if(params.end() != params.find("ry"))
+        m_ry= params.at(QStringLiteral("ry")).toReal();
 }
 
 bool EllipseController::filled() const
@@ -67,7 +74,22 @@ void EllipseController::aboutToBeRemoved()
     emit removeItem();
 }
 
-void EllipseController::endGeometryChange() {}
+void EllipseController::endGeometryChange()
+{
+    VisualItemController::endGeometryChange();
+    if(m_editingRx)
+    {
+        emit rxEditionChanged();
+        m_editingRx= false;
+    }
+
+    if(m_editingRy)
+    {
+        emit ryEditionChanged();
+        m_editingRy= false;
+    }
+}
+
 VisualItemController::ItemType EllipseController::itemType() const
 {
     return VisualItemController::ELLISPE;
