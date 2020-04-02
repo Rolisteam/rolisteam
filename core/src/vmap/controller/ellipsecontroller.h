@@ -54,6 +54,8 @@ signals:
     void penWidthChanged();
     void rxChanged();
     void ryChanged();
+    void rxEditionChanged();
+    void ryEditionChanged();
 
 public slots:
     void setCorner(const QPointF& move, int corner) override;
@@ -65,6 +67,9 @@ private:
     quint16 m_penWidth;
     qreal m_rx= 0.0;
     qreal m_ry= 0.0;
+
+    bool m_editingRx= false;
+    bool m_editingRy= false;
 };
 } // namespace vmap
 #endif // ELLIPSEITEMCONTROLLER_H

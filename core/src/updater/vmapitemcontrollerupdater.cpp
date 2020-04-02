@@ -53,6 +53,7 @@ void VMapItemControllerUpdater::addItemController(vmap::VisualItemController* ct
     // Force template generation
     sendOffVMapChanges<QRectF>(nullptr, "");
     sendOffVMapChanges<quint16>(nullptr, "");
+    sendOffVMapChanges<QByteArray>(nullptr, "");
 }
 
 bool VMapItemControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)

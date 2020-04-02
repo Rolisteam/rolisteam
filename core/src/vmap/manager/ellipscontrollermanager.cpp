@@ -20,16 +20,26 @@
 #include "ellipscontrollermanager.h"
 
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "updater/ellipsecontrollerupdater.h"
 #include "vmap/controller/ellipsecontroller.h"
 #include "worker/messagehelper.h"
 
-EllipsControllerManager::EllipsControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
+#include <QDebug>
+
+EllipsControllerManager::EllipsControllerManager(VectorialMapController* ctrl)
+    : m_ctrl(ctrl), m_updater(new EllipseControllerUpdater)
+{
+}
+
+EllipsControllerManager::~EllipsControllerManager()= default;
 
 QString EllipsControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
     std::unique_ptr<vmap::EllipseController> ellipse(new vmap::EllipseController(params, m_ctrl));
     emit ellipsControllerCreated(ellipse.get(), true);
     auto id= ellipse->uuid();
+    prepareController(ellipse.get());
+    qDebug() << "send Item";
     m_controllers.push_back(std::move(ellipse));
     return id;
 }
@@ -42,7 +52,7 @@ void EllipsControllerManager::addController(vmap::VisualItemController* controll
 
     std::unique_ptr<vmap::EllipseController> ellipse(ellipseCtrl);
     emit ellipsControllerCreated(ellipse.get(), false);
-    MessageHelper::sendOffEllispe(ellipse.get(), m_ctrl->uuid());
+    qDebug() << "add epllipse " << m_controllers.size();
     m_controllers.push_back(std::move(ellipse));
 }
 
@@ -58,11 +68,40 @@ void EllipsControllerManager::removeItem(const QString& id)
     m_controllers.erase(it);
 }
 
+void EllipsControllerManager::prepareController(vmap::EllipseController* ctrl)
+{
+    auto id= m_ctrl->uuid();
+    connect(ctrl, &vmap::EllipseController::initializedChanged, this,
+            [id, ctrl]() { MessageHelper::sendOffEllispe(ctrl, id); });
+    m_updater->addEllipseController(ctrl);
+}
+
 void EllipsControllerManager::processMessage(NetworkMessageReader* msg)
 {
     if(msg->action() == NetMsg::AddItem && msg->category() == NetMsg::VMapCategory)
     {
+        auto hash= MessageHelper::readEllipse(msg);
+        auto newEllipse= new vmap::EllipseController(hash, m_ctrl);
+        addController(newEllipse);
     }
+    else if(msg->action() == NetMsg::UpdateItem && msg->category() == NetMsg::VMapCategory)
+    {
+        auto id= msg->string8();
+        auto ctrl= findController(id);
+        if(nullptr != ctrl)
+            m_updater->updateItemProperty(msg, ctrl);
+    }
+}
+
+vmap::EllipseController* EllipsControllerManager::findController(const QString& id)
+{
+    auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
+                          [id](const std::unique_ptr<vmap::EllipseController>& ctrl) { return id == ctrl->uuid(); });
+
+    if(it == m_controllers.end())
+        return nullptr;
+
+    return it->get();
 }
 
 const std::vector<vmap::EllipseController*> EllipsControllerManager::controllers() const

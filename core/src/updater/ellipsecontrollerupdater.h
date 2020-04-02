@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                               *
+ *	Copyright (C) 2020 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,47 +17,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef ELLIPSCONTROLLERMANAGER_H
-#define ELLIPSCONTROLLERMANAGER_H
+#ifndef ELLIPSECONTROLLERUPDATER_H
+#define ELLIPSECONTROLLERUPDATER_H
 
+#include "vmapitemcontrollerupdater.h"
 #include <QObject>
-#include <QPointer>
-#include <memory>
-#include <vector>
 
-#include "visualitemcontrollermanager.h"
-
-class VectorialMapController;
 namespace vmap
 {
 class EllipseController;
 }
-class EllipseControllerUpdater;
-class EllipsControllerManager : public VisualItemControllerManager
+class NetworkMessageReader;
+class EllipseControllerUpdater : public VMapItemControllerUpdater
 {
     Q_OBJECT
 public:
-    EllipsControllerManager(VectorialMapController* ctrl);
-    virtual ~EllipsControllerManager() override;
+    explicit EllipseControllerUpdater(QObject* parent= nullptr);
+    virtual ~EllipseControllerUpdater() override;
 
-    QString addItem(const std::map<QString, QVariant>& params) override;
-    void addController(vmap::VisualItemController* controller) override;
-    void removeItem(const QString& id) override;
-    void processMessage(NetworkMessageReader* msg) override;
+    void addEllipseController(vmap::EllipseController* ctrl);
 
-    const std::vector<vmap::EllipseController*> controllers() const;
-
-signals:
-    void ellipsControllerCreated(vmap::EllipseController* ctrl, bool editing);
-
-protected:
-    void prepareController(vmap::EllipseController* ctrl);
-    vmap::EllipseController* findController(const QString& id);
-
-private:
-    std::vector<std::unique_ptr<vmap::EllipseController>> m_controllers;
-    QPointer<VectorialMapController> m_ctrl;
-    std::unique_ptr<EllipseControllerUpdater> m_updater;
+    bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
 };
 
-#endif // ELLIPSCONTROLLERMANAGER_H
+#endif // ELLIPSECONTROLLERUPDATER_H

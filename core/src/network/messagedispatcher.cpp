@@ -456,8 +456,11 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::closeVmap:
             str= QStringLiteral("closeVmap");
             break;
+        case NetMsg::UpdateItem:
+            str= QStringLiteral("UpdateItem");
+            break;
         case NetMsg::AddItem:
-            str= QStringLiteral("addItem");
+            str= QStringLiteral("AddItem");
             break;
         /*case NetMsg::DelItem:
             str= QStringLiteral("DelItem");
@@ -475,7 +478,7 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             str= QStringLiteral("RectGeometryItem");
             break;*/
         case NetMsg::DelPoint:
-            str= QStringLiteral("DelPoint");
+            str= QStringLiteral("DeletePoint");
             break;
         /*case NetMsg::OpacityItemChanged:
             str= QStringLiteral("OpacityItemChanged");
