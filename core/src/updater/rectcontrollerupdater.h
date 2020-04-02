@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                               *
+ *	Copyright (C) 2020 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,46 +17,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef RECTCONTROLLERMANAGER_H
-#define RECTCONTROLLERMANAGER_H
+#ifndef RECTCONTROLLERUPDATER_H
+#define RECTCONTROLLERUPDATER_H
 
+#include "vmapitemcontrollerupdater.h"
 #include <QObject>
-#include <QPointer>
-#include <memory>
-#include <vector>
-
-#include "updater/rectcontrollerupdater.h"
-#include "visualitemcontrollermanager.h"
 
 namespace vmap
 {
 class RectController;
 }
-class VectorialMapController;
-class RectControllerManager : public VisualItemControllerManager
+class NetworkMessageReader;
+class RectControllerUpdater : public VMapItemControllerUpdater
 {
     Q_OBJECT
 public:
-    RectControllerManager(VectorialMapController* ctrl);
+    explicit RectControllerUpdater(QObject* parent= nullptr);
+    virtual ~RectControllerUpdater() override;
 
-    QString addItem(const std::map<QString, QVariant>& params) override;
-    void addController(vmap::VisualItemController* controller) override;
-    void removeItem(const QString& id) override;
-    void processMessage(NetworkMessageReader* msg) override;
+    void addRectController(vmap::RectController* ctrl);
 
-    const std::vector<vmap::RectController*> controllers() const;
-
-signals:
-    void rectControllerCreated(vmap::RectController* ctrl, bool editing);
-
-private:
-    void prepareController(vmap::RectController* ctrl);
-    vmap::RectController* findController(const QString& id);
-
-private:
-    std::vector<std::unique_ptr<vmap::RectController>> m_controllers;
-    QPointer<VectorialMapController> m_ctrl;
-    std::unique_ptr<RectControllerUpdater> m_updater;
+    bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
 };
 
-#endif // RECTCONTROLLERMANAGER_H
+#endif // RECTCONTROLLERUPDATER_H

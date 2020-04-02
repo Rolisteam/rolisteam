@@ -523,6 +523,22 @@ void addLineController(const vmap::LineController* ctrl, NetworkMessageWriter& m
     msg.real(end.y());
 }
 
+const std::map<QString, QVariant> MessageHelper::readLine(NetworkMessageReader* msg)
+{
+    auto hash= readVisualItemController(msg);
+    auto x1= msg->real();
+    auto y1= msg->real();
+
+    auto penWidth= msg->uint16();
+
+    auto x2= msg->real();
+    auto y2= msg->real();
+    hash.insert({"endPoint", QPointF(x1, y1)});
+    hash.insert({"startPoint", QPointF(x2, y2)});
+    hash.insert({"penWidth", penWidth});
+    return hash;
+}
+
 void addLineManager(LineControllerManager* ctrl, NetworkMessageWriter& msg)
 {
     auto ctrls= ctrl->controllers();
