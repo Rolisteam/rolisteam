@@ -1199,7 +1199,7 @@ void CharacterItem::wheelEvent(QGraphicsSceneWheelEvent* event)
             VisualItem::wheelEvent(event);*/
 }
 
-void CharacterItem::setHoldSize(bool holdSize)
+/*void CharacterItem::setHoldSize(bool holdSize)
 {
     VisualItem::setHoldSize(holdSize);
 
@@ -1212,7 +1212,7 @@ void CharacterItem::setHoldSize(bool holdSize)
             itemChild->setMotion(holdSize ? ChildPointItem::NONE : ChildPointItem::ALL);
         }
     }
-}
+}*/
 
 bool CharacterItem::isNpc()
 {

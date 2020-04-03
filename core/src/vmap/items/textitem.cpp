@@ -238,8 +238,8 @@ void TextItem::wheelEvent(QGraphicsSceneWheelEvent* event)
 
 void TextItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
-    if(m_holdSize)
-        return;
+    /*if(m_holdSize)
+        return;*/
 
     /* switch(static_cast<int>(pointId))
      {
@@ -274,10 +274,10 @@ void TextItem::setGeometryPoint(qreal pointId, QPointF& pos)
      setTransformOriginPoint(m_rect.center());*/
 
     // updateTextPosition();
-    m_resizing= true;
+    // m_resizing= true;
 }
 
-void TextItem::setHoldSize(bool holdSize)
+/*void TextItem::setHoldSize(bool holdSize)
 {
     VisualItem::setHoldSize(holdSize);
     for(auto child : m_children)
@@ -285,7 +285,7 @@ void TextItem::setHoldSize(bool holdSize)
         auto motion= holdSize ? ChildPointItem::NONE : ChildPointItem::ALL;
         child->setMotion(motion);
     }
-}
+}*/
 
 void TextItem::initChildPointItem()
 {
@@ -476,10 +476,10 @@ void TextItem::sizeToTheContent()
           m_rect.setWidth(rectItem.width() + 10);
           m_resizing= true;
       }*/
-    if(m_resizing)
+    /*if(m_resizing)
     {
         endOfGeometryChange(ChildPointItem::Resizing);
-    }
+    }*/
 }
 
 void TextItem::updateItemFlags()

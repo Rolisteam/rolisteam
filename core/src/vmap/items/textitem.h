@@ -129,7 +129,6 @@ public:
     // virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
 
     // virtual void endOfGeometryChange() override;
-    void setHoldSize(bool holdSize) override;
     void endOfGeometryChange(ChildPointItem::Change change) override;
 public slots:
     // void updateTextPosition();

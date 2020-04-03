@@ -148,7 +148,7 @@ void LineItem::readData(QDataStream& in)
 
 void LineItem::fillMessage(NetworkMessageWriter* msg)
 {
-    msg->string16(m_id);
+    /*msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
     // msg->uint8((int)m_layer);
@@ -156,10 +156,10 @@ void LineItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(opacity());
 
     // rect
-    /*  msg->real(m_rect.x());
+      msg->real(m_rect.x());
       msg->real(m_rect.y());
       msg->real(m_rect.width());
-      msg->real(m_rect.height());*/
+      msg->real(m_rect.height());
     // m_startPoint
     msg->real(m_lineCtrl->startPoint().x());
     msg->real(m_lineCtrl->startPoint().y());
@@ -171,35 +171,35 @@ void LineItem::fillMessage(NetworkMessageWriter* msg)
     // msg->rgb(m_color.rgb());
 
     msg->real(pos().x());
-    msg->real(pos().y());
+    msg->real(pos().y());*/
 }
 void LineItem::readItem(NetworkMessageReader* msg)
 {
-    m_id= msg->string16();
-    setScale(msg->real());
-    setRotation(msg->real());
-    // m_layer= static_cast<Core::Layer>(msg->uint8());
-    setZValue(msg->real());
-    setOpacity(msg->real());
-    // rect
-    /*  m_rect.setX(msg->real());
-      m_rect.setY(msg->real());
-      m_rect.setWidth(msg->real());
-      m_rect.setHeight(msg->real());*/
-    // center
-    m_lineCtrl->startPoint().setX(msg->real());
-    m_lineCtrl->startPoint().setY(msg->real());
-    // m_endPoint
-    m_lineCtrl->endPoint().setX(msg->real());
-    m_lineCtrl->endPoint().setY(msg->real());
-    // pen
-    //  m_penWidth= msg->uint16();
-    // m_color= msg->rgb();
+    /* m_id= msg->string16();
+     setScale(msg->real());
+     setRotation(msg->real());
+     // m_layer= static_cast<Core::Layer>(msg->uint8());
+     setZValue(msg->real());
+     setOpacity(msg->real());
+     // rect
+       m_rect.setX(msg->real());
+       m_rect.setY(msg->real());
+       m_rect.setWidth(msg->real());
+       m_rect.setHeight(msg->real());
+     // center
+     m_lineCtrl->startPoint().setX(msg->real());
+     m_lineCtrl->startPoint().setY(msg->real());
+     // m_endPoint
+     m_lineCtrl->endPoint().setX(msg->real());
+     m_lineCtrl->endPoint().setY(msg->real());
+     // pen
+     //  m_penWidth= msg->uint16();
+     // m_color= msg->rgb();
 
-    qreal posx= msg->real();
-    qreal posy= msg->real();
+     qreal posx= msg->real();
+     qreal posy= msg->real();
 
-    setPos(posx, posy);
+     setPos(posx, posy);*/
 }
 void LineItem::setGeometryPoint(qreal pointId, QPointF& pos)
 {
@@ -258,7 +258,7 @@ VisualItem* LineItem::getItemCopy()
 
      return line;*/
 }
-void LineItem::setHoldSize(bool holdSize)
+/*void LineItem::setHoldSize(bool holdSize)
 {
     VisualItem::setHoldSize(holdSize);
     for(auto child : m_children)
@@ -267,7 +267,7 @@ void LineItem::setHoldSize(bool holdSize)
 
         child->setMotion(motion);
     }
-}
+}*/
 void LineItem::endOfGeometryChange(ChildPointItem::Change change)
 {
     if(change == ChildPointItem::Resizing)

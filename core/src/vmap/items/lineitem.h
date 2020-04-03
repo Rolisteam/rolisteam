@@ -82,8 +82,6 @@ public:
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
     void endOfGeometryChange(ChildPointItem::Change change) override;
 
-    void setHoldSize(bool holdSize) override;
-
 private:
     QPointer<vmap::LineController> m_lineCtrl;
 };

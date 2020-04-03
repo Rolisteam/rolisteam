@@ -376,7 +376,7 @@ void PathItem::setGeometryPoint(qreal pointId, QPointF& pos)
     m_pointVectorBary[idx]= pos;*/
 }
 
-void PathItem::setHoldSize(bool holdSize)
+/*void PathItem::setHoldSize(bool holdSize)
 {
     VisualItem::setHoldSize(holdSize);
     for(auto child : m_children)
@@ -385,7 +385,7 @@ void PathItem::setHoldSize(bool holdSize)
 
         child->setMotion(motion);
     }
-}
+}*/
 
 void PathItem::initRealPoints()
 {
@@ -457,12 +457,12 @@ void PathItem::readMovePointMsg(NetworkMessageReader* msg)
 
 void PathItem::endOfGeometryChange(ChildPointItem::Change change)
 {
-    if(m_resizing)
+    /*if(m_resizing)
     {
         sendPointPosition();
         m_resizing= false;
     }
-    else
+    else*/
     {
         VisualItem::endOfGeometryChange(change);
     }

@@ -109,21 +109,21 @@ void GridItem::readData(QDataStream& in)
 
 void GridItem::fillMessage(NetworkMessageWriter* msg)
 {
-    msg->string16(m_id);
+    // msg->string16(m_id);
     // rect
     /*msg->real(m_rect.x());
     msg->real(m_rect.y());
     msg->real(m_rect.width());
     msg->real(m_rect.height());*/
     // pos
-    msg->real(pos().x());
+    /*msg->real(pos().x());
     msg->real(pos().y());
-    msg->real(zValue());
+    msg->real(zValue());*/
 }
 
 void GridItem::readItem(NetworkMessageReader* msg)
 {
-    m_id= msg->string16();
+    // m_id= msg->string16();
     // rect
     /*    m_rect.setX(msg->real());
         m_rect.setY(msg->real());
@@ -131,12 +131,12 @@ void GridItem::readItem(NetworkMessageReader* msg)
         m_rect.setHeight(msg->real());*/
 
     // pos
-    qreal x= msg->real();
+    /*qreal x= msg->real();
     qreal y= msg->real();
     setPos(x, y);
     qreal z= msg->real();
     setZValue(z);
-    update();
+    update();*/
 }
 void GridItem::setGeometryPoint(qreal, QPointF&) {}
 void GridItem::initChildPointItem()

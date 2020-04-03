@@ -196,7 +196,7 @@ void SightItem::readData(QDataStream& in)
 
 void SightItem::fillMessage(NetworkMessageWriter* msg)
 {
-    msg->string16(m_id);
+    // msg->string16(m_id);
 
     // rect
     /*msg->real(m_rect.x());
@@ -226,7 +226,7 @@ void SightItem::fillMessage(NetworkMessageWriter* msg)
 
 void SightItem::readItem(NetworkMessageReader* msg)
 {
-    m_id= msg->string16();
+    // m_id= msg->string16();
     // rect
     /*m_rect.setX(msg->real());
     m_rect.setY(msg->real());

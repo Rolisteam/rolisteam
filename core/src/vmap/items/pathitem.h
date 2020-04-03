@@ -108,7 +108,6 @@ public:
      * @param msg
      */
     virtual void readMovePointMsg(NetworkMessageReader* msg) override;
-    void setHoldSize(bool holdSize) override;
     void addPoint(const QPointF& point);
     void addChild(const QPointF& point, int i);
 protected slots:

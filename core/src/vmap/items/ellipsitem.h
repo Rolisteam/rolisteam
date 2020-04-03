@@ -79,8 +79,6 @@ public:
 
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h) override;
 
-    void setHoldSize(bool holdSize) override;
-
     void updateChildPosition() override;
 
 private:
