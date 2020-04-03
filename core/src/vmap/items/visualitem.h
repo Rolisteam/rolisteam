@@ -91,27 +91,6 @@ public:
      */
     virtual void readItem(NetworkMessageReader* msg)= 0;
     /**
-     * @brief setId
-     * @param id
-     */
-    virtual void setId(QString id);
-    /**
-     * @brief getId
-     * @return
-     */
-    virtual QString getId();
-    /**
-     * @brief setMapId
-     * @param id
-     */
-    virtual void setMapId(QString id);
-    /**
-     * @brief getMapId
-     * @return
-     */
-    virtual QString getMapId();
-
-    /**
      * @brief resizeContents
      * @param rect
      * @param keepRatio
@@ -188,8 +167,6 @@ public:
      */
     virtual void updateItemFlags();
     void readOpacityMsg(NetworkMessageReader* msg);
-    bool isHoldSize() const;
-    virtual void setHoldSize(bool holdSize);
 
     virtual void readLayerMsg(NetworkMessageReader* msg);
     virtual void readMovePointMsg(NetworkMessageReader* msg);
@@ -250,7 +227,6 @@ public slots:
     virtual void readPositionMsg(NetworkMessageReader* msg);
 
     virtual void sendOpacityMsg();
-    void posChange();
     void sendItemLayer();
     void readRectGeometryMsg(NetworkMessageReader* msg);
     void sendRectGeometryMsg();
@@ -258,8 +234,6 @@ public slots:
     void sendRotationMsg();
     void readZValueMsg(NetworkMessageReader* msg);
     void sendZValueMsg();
-    void rectChange();
-    void rotationChange();
 
     void setColor(QColor color);
 
@@ -326,8 +300,6 @@ protected:
     QPointer<vmap::VisualItemController> m_ctrl;
     static QColor m_highlightColor;
     static int m_highlightWidth;
-    QString m_id;
-    QString m_mapId;
     QVector<ChildPointItem*> m_children;
     QPoint m_menuPos;
 
@@ -337,11 +309,6 @@ protected:
     QAction* m_putObjectLayer= nullptr;
     QAction* m_putCharacterLayer= nullptr;
     QVector<vmap::VisualItemController::ItemType> m_promoteTypeList;
-    QList<QPointF> m_pointList;
-    bool m_resizing= false;
-    bool m_rotating= false;
-    bool m_receivingZValue= false;
-    bool m_holdSize= false;
 
 private:
     static QStringList s_type2NameList;

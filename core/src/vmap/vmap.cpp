@@ -223,7 +223,7 @@ void VMap::characterHasBeenDeleted(Character* character)
     QList<CharacterItem*> list= getCharacterOnMap(character->uuid());
     for(CharacterItem* item : list)
     {
-        removeItemFromScene(item->getId());
+        // removeItemFromScene(item->getId());
     }
 }
 
@@ -236,7 +236,7 @@ void VMap::fill(NetworkMessageWriter& msg)
     msg.string16(m_ctrl->name());
     // msg.rgb(getBackGroundColor().rgb());
     msg.uint8(static_cast<quint8>(m_ctrl->layer()));
-    msg.string8(m_sightItem->getId());
+    // msg.string8(m_sightItem->getId());
     msg.uint8(static_cast<quint8>(m_ctrl->permission()));
     msg.uint8(static_cast<quint8>(m_ctrl->visibility()));
     msg.uint64(m_zIndex);
@@ -260,7 +260,7 @@ void VMap::readMessage(NetworkMessageReader& msg, bool readCharacter)
     // m_ctrl->backgroundColor()= msg.rgb();
     Core::Layer layer= static_cast<Core::Layer>(msg.uint8());
     QString idSight= msg.string8();
-    m_sightItem->setId(idSight);
+    // m_sightItem->setId(idSight);
     Core::PermissionMode permissionMode= static_cast<Core::PermissionMode>(msg.uint8());
     Core::VisibilityMode mode= static_cast<Core::VisibilityMode>(msg.uint8());
     m_zIndex= msg.uint64();
@@ -605,7 +605,7 @@ void VMap::setAnchor(QGraphicsItem* child, QGraphicsItem* parent, bool send)
 
     if(nullptr != childItem)
     {
-        msg.string8(childItem->getId());
+        // msg.string8(childItem->getId());
     }
 
     QPointF pos= child->pos();
@@ -624,7 +624,7 @@ void VMap::setAnchor(QGraphicsItem* child, QGraphicsItem* parent, bool send)
     VisualItem* paItem= dynamic_cast<VisualItem*>(parent);
     if(nullptr != paItem)
     {
-        msg.string8(paItem->getId());
+        // msg.string8(paItem->getId());
     }
     else
     {
@@ -937,8 +937,8 @@ void VMap::removeItemFromData(VisualItem* item)
     if(nullptr == item)
         return;
 
-    m_sortedItemList.removeAll(item->getId());
-    m_itemMap->remove(item->getId());
+    // m_sortedItemList.removeAll(item->getId());
+    // m_itemMap->remove(item->getId());
     auto character= dynamic_cast<CharacterItem*>(item);
     if(nullptr != character)
     {
@@ -951,13 +951,13 @@ void VMap::addItemFromData(VisualItem* item)
     if(nullptr == item)
         return;
 
-    auto id= item->getId();
+    /*auto id= item->getId();
     if(isItemStorable(item))
     {
         m_itemMap->insert(id, item);
         if(!m_sortedItemList.contains(id))
             m_sortedItemList.append(id);
-    }
+    }*/
 }
 
 void VMap::insertItemFromData(VisualItem*, int) {}
@@ -1036,7 +1036,7 @@ void VMap::promoteItemInType(VisualItem* item, vmap::VisualItemController::ItemT
         if(bis == nullptr)
             return;
         // bis->setLayer(item->getLayer());
-        removeItemFromScene(item->getId());
+        // removeItemFromScene(item->getId());
         // addNewItem(new AddVmapItemCommand(bis, false, this), true);
         bis->initChildPointItem();
     }
@@ -1044,10 +1044,10 @@ void VMap::promoteItemInType(VisualItem* item, vmap::VisualItemController::ItemT
 
 void VMap::removeItemFromScene(QString id, bool sendToAll, bool undoable)
 {
-    if(m_sightItem->getId() == id || m_gridItem->getId() == id)
-    {
-        return;
-    }
+    /* if(m_sightItem->getId() == id || m_gridItem->getId() == id)
+     {
+         return;
+     }*/
     VisualItem* item= m_itemMap->value(id);
 
     if(nullptr != item)
@@ -1084,7 +1084,7 @@ void VMap::keyPressEvent(QKeyEvent* event)
             {
                 if(itemV->canBeMoved())
                 {
-                    idListToRemove << itemV->getId();
+                    // idListToRemove << itemV->getId();
                 }
             }
         }

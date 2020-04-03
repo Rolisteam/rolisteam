@@ -32,8 +32,6 @@
 
 EllipsItem::EllipsItem(vmap::EllipseController* ctrl) : VisualItem(ctrl), m_ellipseCtrl(ctrl)
 {
-    connect(m_ellipseCtrl, &vmap::EllipseController::rotationChanged, this,
-            [this]() { setRotation(m_ellipseCtrl->rotation()); });
     connect(m_ellipseCtrl, &vmap::EllipseController::rxChanged, this, [this]() {
         setTransformOriginPoint(boundingRect().center());
         updateChildPosition();
@@ -42,6 +40,7 @@ EllipsItem::EllipsItem(vmap::EllipseController* ctrl) : VisualItem(ctrl), m_elli
         setTransformOriginPoint(boundingRect().center());
         updateChildPosition();
     });
+    connect(m_ellipseCtrl, &vmap::EllipseController::filledChanged, this, [this]() { update(); });
 
     initChildPointItem();
 }
@@ -136,7 +135,7 @@ void EllipsItem::initChildPointItem()
     m_children.value(1)->setPlacement(ChildPointItem::ButtomCenter);
 }
 
-void EllipsItem::setHoldSize(bool holdSize)
+/*void EllipsItem::setHoldSize(bool holdSize)
 {
     VisualItem::setHoldSize(holdSize);
 
@@ -147,7 +146,7 @@ void EllipsItem::setHoldSize(bool holdSize)
             tmp->setMotion((tmp->placement() == ChildPointItem::ButtomCenter) ? ChildPointItem::Y_AXIS :
                                                                                 ChildPointItem::X_AXIS);
     });
-}
+}*/
 
 void EllipsItem::writeData(QDataStream& out) const
 {

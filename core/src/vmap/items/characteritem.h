@@ -217,7 +217,6 @@ public:
     void setNumber(int);
     QString getName() const;
     int getNumber() const;
-    void setHoldSize(bool holdSize) override;
     const QPainterPath getTokenShape() const;
 signals:
     /**
