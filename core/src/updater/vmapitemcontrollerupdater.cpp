@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "vmapitemcontrollerupdater.h"
 
+#include <QFont>
 #include <QMetaObject>
 #include <QMetaProperty>
 #include <QSet>
@@ -54,6 +55,8 @@ void VMapItemControllerUpdater::addItemController(vmap::VisualItemController* ct
     sendOffVMapChanges<QRectF>(nullptr, "");
     sendOffVMapChanges<quint16>(nullptr, "");
     sendOffVMapChanges<QByteArray>(nullptr, "");
+    sendOffVMapChanges<QFont>(nullptr, "");
+    sendOffVMapChanges<QString>(nullptr, "");
 }
 
 bool VMapItemControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)

@@ -107,4 +107,10 @@ void variantToType<QByteArray>(const QByteArray& val, NetworkMessageWriter& msg)
 {
     msg.byteArray32(val);
 }
+
+template <>
+void variantToType<QFont>(const QFont& val, NetworkMessageWriter& msg)
+{
+    msg.string16(val.toString());
+}
 } // namespace Helper

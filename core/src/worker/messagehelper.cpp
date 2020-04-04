@@ -573,6 +573,57 @@ const std::map<QString, QVariant> MessageHelper::readImage(NetworkMessageReader*
     hash.insert({"rect", QRectF(x, y, w, h)});
     return hash;
 }
+
+void addTextController(const vmap::TextController* ctrl, NetworkMessageWriter& msg)
+{
+    addVisualItemController(ctrl, msg);
+    msg.string32(ctrl->text());
+    msg.uint16(ctrl->penWidth());
+    msg.uint8(ctrl->border());
+
+    auto p= ctrl->textPos();
+    msg.real(p.x());
+    msg.real(p.y());
+
+    auto rect= ctrl->textRect();
+    msg.real(rect.x());
+    msg.real(rect.y());
+    msg.real(rect.width());
+    msg.real(rect.height());
+
+    rect= ctrl->borderRect();
+    msg.real(rect.x());
+    msg.real(rect.y());
+    msg.real(rect.width());
+    msg.real(rect.height());
+}
+
+const std::map<QString, QVariant> MessageHelper::readText(NetworkMessageReader* msg)
+{
+    auto hash= readVisualItemController(msg);
+    auto text= msg->string32();
+    auto penWidth= msg->uint16();
+    auto border= static_cast<bool>(msg->uint8());
+
+    auto x= msg->real();
+    auto y= msg->real();
+    QPointF textPos(x, y);
+
+    x= msg->real();
+    y= msg->real();
+    auto w= msg->real();
+    auto h= msg->real();
+    QRectF textRect(x, y, w, h);
+
+    hash.insert({"text", text});
+    hash.insert({"penWidth", penWidth});
+    hash.insert({"border", border});
+    hash.insert({"textPos", textPos});
+    hash.insert({"textRect", textRect});
+
+    return hash;
+}
+
 void addImageManager(ImageControllerManager* ctrl, NetworkMessageWriter& msg)
 {
     auto ctrls= ctrl->controllers();
@@ -603,30 +654,6 @@ void addPathManager(PathControllerManager* ctrl, NetworkMessageWriter& msg)
     msg.uint64(static_cast<quint64>(ctrls.size()));
     std::for_each(ctrls.begin(), ctrls.end(),
                   [&msg](const vmap::PathController* ctrl) { addPathController(ctrl, msg); });
-}
-
-void addTextController(const vmap::TextController* ctrl, NetworkMessageWriter& msg)
-{
-    addVisualItemController(ctrl, msg);
-    msg.string32(ctrl->text());
-    msg.uint16(ctrl->penWidth());
-    msg.uint8(ctrl->border());
-
-    auto p= ctrl->textPos();
-    msg.real(p.x());
-    msg.real(p.y());
-
-    auto rect= ctrl->textRect();
-    msg.real(rect.x());
-    msg.real(rect.y());
-    msg.real(rect.width());
-    msg.real(rect.height());
-
-    rect= ctrl->borderRect();
-    msg.real(rect.x());
-    msg.real(rect.y());
-    msg.real(rect.width());
-    msg.real(rect.height());
 }
 
 void addTextManager(TextControllerManager* ctrl, NetworkMessageWriter& msg)

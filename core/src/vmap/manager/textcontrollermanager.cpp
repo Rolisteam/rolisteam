@@ -25,13 +25,18 @@
 #include "vmap/controller/textcontroller.h"
 #include "worker/messagehelper.h"
 
-TextControllerManager::TextControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
+TextControllerManager::TextControllerManager(VectorialMapController* ctrl)
+    : m_ctrl(ctrl), m_updater(new TextControllerUpdater)
+{
+}
 
 QString TextControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
     std::unique_ptr<vmap::TextController> text(new vmap::TextController(params, m_ctrl));
     emit textControllerCreated(text.get());
     auto id= text->uuid();
+    MessageHelper::sendOffText(text.get(), m_ctrl->uuid());
+    m_updater->addTextController(text.get());
     m_controllers.push_back(std::move(text));
     return id;
 }
@@ -44,7 +49,6 @@ void TextControllerManager::addController(vmap::VisualItemController* controller
 
     std::unique_ptr<vmap::TextController> text(textCtrl);
     emit textControllerCreated(text.get());
-    MessageHelper::sendOffText(text.get(), m_ctrl->uuid());
     m_controllers.push_back(std::move(text));
 }
 
@@ -64,6 +68,16 @@ void TextControllerManager::processMessage(NetworkMessageReader* msg)
 {
     if(msg->action() == NetMsg::AddItem && msg->category() == NetMsg::VMapCategory)
     {
+        auto hash= MessageHelper::readText(msg);
+        auto newRect= new vmap::TextController(hash, m_ctrl);
+        addController(newRect);
+    }
+    else if(msg->action() == NetMsg::UpdateItem && msg->category() == NetMsg::VMapCategory)
+    {
+        auto id= msg->string8();
+        auto ctrl= findController(id);
+        if(nullptr != ctrl)
+            m_updater->updateItemProperty(msg, ctrl);
     }
 }
 const std::vector<vmap::TextController*> TextControllerManager::controllers() const
@@ -72,4 +86,15 @@ const std::vector<vmap::TextController*> TextControllerManager::controllers() co
     std::transform(m_controllers.begin(), m_controllers.end(), std::back_inserter(vect),
                    [](const std::unique_ptr<vmap::TextController>& ctrl) { return ctrl.get(); });
     return vect;
+}
+
+vmap::TextController* TextControllerManager::findController(const QString& id)
+{
+    auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
+                          [id](const std::unique_ptr<vmap::TextController>& ctrl) { return id == ctrl->uuid(); });
+
+    if(it == m_controllers.end())
+        return nullptr;
+
+    return it->get();
 }

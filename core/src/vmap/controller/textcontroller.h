@@ -75,6 +75,7 @@ signals:
     void colorChanged(QColor color);
     void borderChanged(bool border);
     void fontChanged(QFont font);
+    void borderRectEditFinished();
 
     void textPosChanged(QPointF textPos);
 
@@ -90,6 +91,8 @@ private:
     bool m_border;
     QFont m_font;
     quint16 m_penWidth;
+
+    bool m_editingBorderRect= false;
 };
 } // namespace vmap
 
