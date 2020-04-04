@@ -56,7 +56,10 @@ ImageController::ImageController(const std::map<QString, QVariant>& params, Vect
 
     checkMovie();
 
-    setRect(m_pix.rect());
+    if(params.end() != params.find("rect"))
+        setRect(params.at(QStringLiteral("rect")).toRectF());
+    else
+        setRect(m_pix.rect());
 }
 
 VisualItemController::ItemType ImageController::itemType() const
@@ -80,6 +83,7 @@ void ImageController::setRect(QRectF rect)
         return;
     m_rect= rect;
     emit rectChanged();
+    m_editingRect= true;
 }
 
 void ImageController::setImage(QPixmap pix)
@@ -183,5 +187,14 @@ void ImageController::checkMovie()
     }
 }
 
-void ImageController::endGeometryChange() {}
+void ImageController::endGeometryChange()
+{
+    VisualItemController::endGeometryChange();
+
+    if(m_editingRect)
+    {
+        emit rectEditFinished();
+        m_editingRect= false;
+    }
+}
 } // namespace vmap

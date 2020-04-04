@@ -559,6 +559,20 @@ void addImageController(const vmap::ImageController* ctrl, NetworkMessageWriter&
     msg.real(rect.height());
 }
 
+const std::map<QString, QVariant> MessageHelper::readImage(NetworkMessageReader* msg)
+{
+    auto hash= readVisualItemController(msg);
+    auto ratio= msg->real();
+    auto data= msg->byteArray32();
+    auto x= msg->real();
+    auto y= msg->real();
+    auto w= msg->real();
+    auto h= msg->real();
+    hash.insert({"ratio", ratio});
+    hash.insert({"data", data});
+    hash.insert({"rect", QRectF(x, y, w, h)});
+    return hash;
+}
 void addImageManager(ImageControllerManager* ctrl, NetworkMessageWriter& msg)
 {
     auto ctrls= ctrl->controllers();

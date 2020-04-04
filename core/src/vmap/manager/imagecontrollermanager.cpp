@@ -25,13 +25,17 @@
 #include "vmap/controller/imagecontroller.h"
 #include "worker/messagehelper.h"
 
-ImageControllerManager::ImageControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
+ImageControllerManager::ImageControllerManager(VectorialMapController* ctrl)
+    : m_ctrl(ctrl), m_updater(new ImageControllerUpdater)
+{
+}
 
 QString ImageControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
     std::unique_ptr<vmap::ImageController> image(new vmap::ImageController(params, m_ctrl));
     emit imageControllerCreated(image.get());
     auto id= image->uuid();
+    prepareController(image.get());
     m_controllers.push_back(std::move(image));
     return id;
 }
@@ -44,7 +48,6 @@ void ImageControllerManager::addController(vmap::VisualItemController* controlle
 
     std::unique_ptr<vmap::ImageController> imageCtrl(image);
     emit imageControllerCreated(imageCtrl.get());
-    MessageHelper::sendOffImage(imageCtrl.get(), m_ctrl->uuid());
     m_controllers.push_back(std::move(imageCtrl));
 }
 
@@ -60,10 +63,38 @@ void ImageControllerManager::removeItem(const QString& id)
     m_controllers.erase(it);
 }
 
+void ImageControllerManager::prepareController(vmap::ImageController* ctrl)
+{
+    auto id= m_ctrl->uuid();
+    MessageHelper::sendOffImage(ctrl, id);
+    m_updater->addImageController(ctrl);
+}
+
+vmap::ImageController* ImageControllerManager::findController(const QString& id)
+{
+    auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
+                          [id](const std::unique_ptr<vmap::ImageController>& ctrl) { return id == ctrl->uuid(); });
+
+    if(it == m_controllers.end())
+        return nullptr;
+
+    return it->get();
+}
+
 void ImageControllerManager::processMessage(NetworkMessageReader* msg)
 {
     if(msg->action() == NetMsg::AddItem && msg->category() == NetMsg::VMapCategory)
     {
+        auto hash= MessageHelper::readImage(msg);
+        auto newRect= new vmap::ImageController(hash, m_ctrl);
+        addController(newRect);
+    }
+    else if(msg->action() == NetMsg::UpdateItem && msg->category() == NetMsg::VMapCategory)
+    {
+        auto id= msg->string8();
+        auto ctrl= findController(id);
+        if(nullptr != ctrl)
+            m_updater->updateItemProperty(msg, ctrl);
     }
 }
 
