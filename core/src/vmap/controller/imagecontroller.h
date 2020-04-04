@@ -34,7 +34,7 @@ class ImageController : public VisualItemController
     Q_OBJECT
     Q_PROPERTY(QPixmap pixmap READ pixmap NOTIFY pixmapChanged)
     Q_PROPERTY(QByteArray data READ data WRITE setData NOTIFY dataChanged)
-    Q_PROPERTY(QRectF rect READ rect NOTIFY rectChanged)
+    Q_PROPERTY(QRectF rect READ rect WRITE setRect NOTIFY rectChanged)
     Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
     Q_PROPERTY(qreal ratio READ ratio NOTIFY ratio)
 public:
@@ -64,16 +64,16 @@ signals:
     void isMovieChanged(bool movie);
     void ratio(qreal ratio);
     void dataChanged(QByteArray data);
+    void rectEditFinished();
 
 public slots:
     void setCorner(const QPointF& move, int corner) override;
     void setPath(QString path);
     void setData(QByteArray data);
+    void setRect(QRectF rect);
 
 private:
     void setImage(QPixmap pix);
-    void setRect(QRectF rect);
-
     void checkMovie();
 
 private:
@@ -81,6 +81,7 @@ private:
     QRectF m_rect;
     QString m_path;
     QByteArray m_data;
+    bool m_editingRect= false;
 };
 } // namespace vmap
 

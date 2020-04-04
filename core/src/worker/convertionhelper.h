@@ -63,6 +63,8 @@ template <>
 void variantToType<QRectF>(const QRectF& val, NetworkMessageWriter& msg);
 template <>
 void variantToType<quint16>(const quint16& val, NetworkMessageWriter& msg);
+template <>
+void variantToType<QByteArray>(const QByteArray& val, NetworkMessageWriter& msg);
 } // namespace Helper
 
 #endif // CONVERTIONHELPER_H

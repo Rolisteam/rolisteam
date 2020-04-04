@@ -101,4 +101,10 @@ void variantToType<quint16>(const quint16& val, NetworkMessageWriter& msg)
 {
     msg.uint16(val);
 }
+
+template <>
+void variantToType<QByteArray>(const QByteArray& val, NetworkMessageWriter& msg)
+{
+    msg.byteArray32(val);
+}
 } // namespace Helper

@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                               *
+ *	Copyright (C) 2020 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,46 +17,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef IMAGECONTROLLERMANAGER_H
-#define IMAGECONTROLLERMANAGER_H
+#ifndef IMAGECONTROLLERUPDATER_H
+#define IMAGECONTROLLERUPDATER_H
 
+#include "vmapitemcontrollerupdater.h"
 #include <QObject>
-#include <QPointer>
-#include <memory>
-#include <vector>
-
-#include "updater/imagecontrollerupdater.h"
-#include "visualitemcontrollermanager.h"
 
 namespace vmap
 {
 class ImageController;
 }
-class VectorialMapController;
-class ImageControllerManager : public VisualItemControllerManager
+
+class ImageControllerUpdater : public VMapItemControllerUpdater
 {
-    Q_OBJECT
 public:
-    ImageControllerManager(VectorialMapController* ctrl);
+    ImageControllerUpdater();
 
-    QString addItem(const std::map<QString, QVariant>& params) override;
-    void addController(vmap::VisualItemController* controller) override;
-    void removeItem(const QString& id) override;
-    void processMessage(NetworkMessageReader* msg) override;
+    void addImageController(vmap::ImageController* ctrl);
 
-    const std::vector<vmap::ImageController*> controllers() const;
-
-signals:
-    void imageControllerCreated(vmap::ImageController* ctrl);
-
-private:
-    void prepareController(vmap::ImageController* ctrl);
-    vmap::ImageController* findController(const QString& id);
-
-private:
-    std::vector<std::unique_ptr<vmap::ImageController>> m_controllers;
-    QPointer<VectorialMapController> m_ctrl;
-    std::unique_ptr<ImageControllerUpdater> m_updater;
+    bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
 };
 
-#endif // IMAGECONTROLLERMANAGER_H
+#endif // IMAGECONTROLLERUPDATER_H
