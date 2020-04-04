@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                               *
+ *	Copyright (C) 2020 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,46 +17,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef TEXTCONTROLLERMANAGER_H
-#define TEXTCONTROLLERMANAGER_H
+#ifndef TEXTCONTROLLERUPDATER_H
+#define TEXTCONTROLLERUPDATER_H
 
+#include "vmapitemcontrollerupdater.h"
 #include <QObject>
-#include <QPointer>
-#include <memory>
-#include <vector>
-
-#include "updater/textcontrollerupdater.h"
-#include "visualitemcontrollermanager.h"
 
 namespace vmap
 {
 class TextController;
 }
-class VectorialMapController;
-class TextControllerUpdater;
-class TextControllerManager : public VisualItemControllerManager
+class NetworkMessageReader;
+class TextControllerUpdater : public VMapItemControllerUpdater
 {
     Q_OBJECT
 public:
-    TextControllerManager(VectorialMapController* ctrl);
+    explicit TextControllerUpdater(QObject* parent= nullptr);
 
-    QString addItem(const std::map<QString, QVariant>& params) override;
-    void addController(vmap::VisualItemController* controller) override;
-    void removeItem(const QString& id) override;
-    void processMessage(NetworkMessageReader* msg) override;
+    void addTextController(vmap::TextController* ctrl);
 
-    const std::vector<vmap::TextController*> controllers() const;
-
-signals:
-    void textControllerCreated(vmap::TextController* ctrl);
-
-private:
-    vmap::TextController* findController(const QString& id);
-
-private:
-    std::vector<std::unique_ptr<vmap::TextController>> m_controllers;
-    QPointer<VectorialMapController> m_ctrl;
-    std::unique_ptr<TextControllerUpdater> m_updater;
+    bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
 };
 
-#endif // TEXTCONTROLLERMANAGER_H
+#endif // TEXTCONTROLLERUPDATER_H

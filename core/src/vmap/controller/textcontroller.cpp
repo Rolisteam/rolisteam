@@ -33,9 +33,6 @@ namespace vmap
 TextController::TextController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(params, ctrl, parent)
 {
-    if(params.end() != params.find("position"))
-        setPos(params.at(QStringLiteral("position")).toPointF());
-
     if(params.end() != params.find("color"))
         setColor(params.at(QStringLiteral("color")).value<QColor>());
 
@@ -44,9 +41,20 @@ TextController::TextController(const std::map<QString, QVariant>& params, Vector
         m_tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
         m_border= (m_tool == Core::SelectableTool::TEXTBORDER);
     }
+    else if(params.end() != params.find("border"))
+    {
+        m_border= params.at(QStringLiteral("border")).toBool();
+        m_tool= m_border ? Core::SelectableTool::TEXTBORDER : Core::SelectableTool::TEXT;
+    }
 
     if(params.end() != params.find("text"))
         setText(params.at(QStringLiteral("text")).toString());
+
+    if(params.end() != params.find("textPos"))
+        setTextPos(params.at(QStringLiteral("textPos")).toPointF());
+
+    if(params.end() != params.find("textRect"))
+        setTextRect(params.at(QStringLiteral("textRect")).toRectF());
 
     if(params.end() != params.find("penWidth"))
         m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
@@ -93,6 +101,7 @@ void TextController::setBorderRect(QRectF rect)
 
     m_borderRect= rect;
     emit borderRectChanged(m_borderRect);
+    m_editingBorderRect= true;
 }
 
 void TextController::setTextRect(QRectF rect)
@@ -142,6 +151,13 @@ void TextController::decreaseFontSize()
 
 void TextController::endGeometryChange()
 {
+
+    VisualItemController::endGeometryChange();
+    if(m_editingBorderRect)
+    {
+        m_editingBorderRect= false;
+        emit borderRectEditFinished();
+    }
     /* auto rect= m_rect;
      auto pos= m_pos;
      qreal w= rect.width();

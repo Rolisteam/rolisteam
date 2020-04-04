@@ -75,6 +75,7 @@ public:
     static const std::map<QString, QVariant> readLine(NetworkMessageReader* msg);
     static const std::map<QString, QVariant> readEllipse(NetworkMessageReader* msg);
     static const std::map<QString, QVariant> readImage(NetworkMessageReader* msg);
+    static const std::map<QString, QVariant> readText(NetworkMessageReader* msg);
 
     static void sendOffText(const vmap::TextController* ctrl, const QString& mapId);
     static void sendOffLine(const vmap::LineController* ctrl, const QString& mapId);
