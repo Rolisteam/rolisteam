@@ -124,7 +124,7 @@ void SessionTest::saveAndLoadTest()
     auto text= new CleverURI("text", ":/assets/notes/test.odt", CleverURI::TEXT);
     auto sharednote= new CleverURI("sharednote", ":/assets/sharednotes/test.rsn", CleverURI::SHAREDNOTE);
     auto playlist= new CleverURI("playlist", ":/assets/list/list.m3u", CleverURI::SONGLIST);
-    auto webview= new CleverURI("webview", "http://www.rolisteam.org", CleverURI::WEBVIEW);
+    auto webview= new CleverURI("webview", "https://rolisteam.org", CleverURI::WEBVIEW);
 
     std::vector<CleverURI*> data;
     for(auto id : list)

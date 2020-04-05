@@ -3,7 +3,7 @@
  *   Copyright (C) 2009 by Renaud Guezennec                              *
  *   Copyrigth (C) 2010 by Joseph Boudou                                 *
  *                                                                       *
- *   http://www.rolisteam.org/                                           *
+ *   https://rolisteam.org/                                           *
  *                                                                       *
  *   rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *

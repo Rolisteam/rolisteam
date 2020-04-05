@@ -2,7 +2,7 @@
  *    Copyright (C) 2011 by Renaud Guezennec                             *
  *    Copyright (C) 2011 by Joseph Boudou                                *
  *                                                                       *
- *      http://www.rolisteam.org/                                        *
+ *      https://rolisteam.org/                                        *
  *                                                                       *
  *   Rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
@@ -61,7 +61,7 @@ void UpdateChecker::startChecking()
     m_manager= new QNetworkAccessManager(this);
     connect(m_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(readXML(QNetworkReply*)));
 
-    m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/version.xml")));
+    m_manager->get(QNetworkRequest(QUrl("https://rolisteam.org/version.xml")));
 #endif
 #endif
 #endif

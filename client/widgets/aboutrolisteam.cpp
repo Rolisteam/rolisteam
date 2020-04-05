@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2015 by Renaud Guezennec                                *
- *   http://www.rolisteam.org/contact                                      *
+ *   https://rolisteam.org/contact                                      *
  *                                                                         *
  *   rolisteam is free software; you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published by  *
@@ -47,10 +47,10 @@ AboutRolisteam::AboutRolisteam(QString version, QWidget* parent) : QDialog(paren
                                <p>%2</p>\
                                <p>%3</p>\
                                <ul>\
-                                 <li><a href='http://www.rolisteam.org/'>%4</a></li>\
+                                 <li><a href='https://rolisteam.org/'>%4</a></li>\
                                  <li><a href='https://github.com/Rolisteam/rolisteam/issues'>%5</a></li>\
                                </ul>\
-                              <p>%6 :</p><ul><li><a href='http://www.rolisteam.org/contact'>Renaud Guezennec</a></li></ul>\
+                              <p>%6 :</p><ul><li><a href='https://rolisteam.org/contact'>Renaud Guezennec</a></li></ul>\
                               <p>%7 :</p><ul><li><a href='mailto:joseph.boudou@matabio.net'>Joseph Boudou</a></li><li><a href='mailto:rolistik@free.fr'>Romain Campioni</a></li></ul>\
                               <p>%8 :</p>"
                 "%9")

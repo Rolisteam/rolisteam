@@ -2,7 +2,7 @@
  *    Copyright (C) 2011 by Renaud Guezennec                             *
  *    Copyright (C) 2011 by Joseph Boudou                                *
  *                                                                       *
- *      http://www.rolisteam.org/                                        *
+ *      https://rolisteam.org/                                        *
  *                                                                       *
  *   Rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
@@ -49,7 +49,7 @@ void TipChecker::startChecking()
 #ifdef HAVE_QT_NETWORK
     m_manager= new QNetworkAccessManager(this);
     connect(m_manager, &QNetworkAccessManager::finished, this, &TipChecker::readJSon);
-    m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/tips.json")));
+    m_manager->get(QNetworkRequest(QUrl("https://rolisteam.org/tips.json")));
 #endif
 }
 
@@ -87,8 +87,8 @@ void TipChecker::readJSon(QNetworkReply* p)
     }
 
     QJsonObject obj= doc.object();
-    QString locale = QLocale::system().name();
-    int pos        = locale.indexOf('_');
+    QString locale= QLocale::system().name();
+    int pos= locale.indexOf('_');
     if(pos >= 0)
     {
         locale.remove(locale.indexOf(pos, 1));
@@ -101,10 +101,10 @@ void TipChecker::readJSon(QNetworkReply* p)
     if(obj.contains(locale))
     {
         QJsonObject lang= obj[locale].toObject();
-        m_title         = lang["title"].toString();
-        m_msg           = lang["msg"].toString();
-        m_url           = lang["url"].toString();
-        m_id            = lang["id"].toInt();
+        m_title= lang["title"].toString();
+        m_msg= lang["msg"].toString();
+        m_url= lang["url"].toString();
+        m_id= lang["id"].toInt();
         if(!m_msg.isEmpty() && !m_title.isEmpty())
         {
             m_state= true;

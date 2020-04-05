@@ -1,7 +1,7 @@
 /*************************************************************************
  *   Copyright (C) 2013 by Renaud Guezennec                              *
  *                                                                       *
- *   http://www.rolisteam.org/                                           *
+ *   https://rolisteam.org/                                           *
  *                                                                       *
  *   rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
@@ -26,7 +26,7 @@
 #include <QString>
 
 /**
- * @brief The IpChecker class is dedicated to reach http://www.rolisteam.org/ip.php to read the public ip.
+ * @brief The IpChecker class is dedicated to reach https://rolisteam.org/ip.php to read the public ip.
  */
 class IpChecker : public QObject
 {

@@ -1,6 +1,6 @@
 /***************************************************************************
  * Copyright (C) 2015 by Renaud Guezennec                                   *
- * http://www.rolisteam.org/contact                      *
+ * https://rolisteam.org/contact                      *
  *                                                                          *
  *  This file is part of rcm                                                *
  *                                                                          *

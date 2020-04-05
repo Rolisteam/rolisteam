@@ -2,7 +2,7 @@
  *	 Copyright (C) 2007 by Romain Campioni                               *
  *	 Copyright (C) 2009 by Renaud Guezennec                              *
  *   Copyright (C) 2011 by Joseph Boudou                                 *
- *   http://www.rolisteam.org/                                           *
+ *   https://rolisteam.org/                                           *
  *                                                                       *
  *   Rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
@@ -64,7 +64,7 @@
  * To get documentation on how to install rolisteam: http://wiki.rolisteam.org/
  *
  * @section How to stay in touch ?
- * Please, visit: http://www.rolisteam.org/
+ * Please, visit: https://rolisteam.org/
  *
  * @section tools_subsec Dependencies:
  * Qt5, zlib, QML,

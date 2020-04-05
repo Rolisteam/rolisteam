@@ -1,6 +1,6 @@
 /***************************************************************************
  * Copyright (C) 2014-2018 by Renaud Guezennec                              *
- * http://www.rolisteam.org/                                                *
+ * https://rolisteam.org/                                                *
  * Copyright (c) 2014-2018 Patrizio Bekerle -- http://www.bekerle.com       *
  *                                                                          *
  *  This file is part of rcse                                               *

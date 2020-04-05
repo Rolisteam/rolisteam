@@ -4,7 +4,7 @@
  *        Copyright (C) 2010 by Berenger Morel                           *
  *        Copyright (C) 2010 by Joseph Boudou                            *
  *                                                                       *
- *        http://www.rolisteam.org/                                      *
+ *        https://rolisteam.org/                                      *
  *                                                                       *
  *   rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
@@ -1291,7 +1291,7 @@ void MainWindow::updateMayBeNeeded()
         QMessageBox::information(
             this, tr("Update Notification"),
             tr("The %1 version has been released. "
-               "Please take a look at <a href=\"http://www.rolisteam.org/download\">Download page</a> for more "
+               "Please take a look at <a href=\"https://rolisteam.org/download\">Download page</a> for more "
                "information")
                 .arg(m_updateChecker->getLatestVersion()));
     }
