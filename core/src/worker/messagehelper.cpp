@@ -648,6 +648,32 @@ void addPathController(const vmap::PathController* ctrl, NetworkMessageWriter& m
     }
 }
 
+const std::map<QString, QVariant> MessageHelper::readPath(NetworkMessageReader* msg)
+{
+    auto hash= readVisualItemController(msg);
+    auto filled= static_cast<bool>(msg->uint8());
+    auto closed= static_cast<bool>(msg->uint8());
+    auto penLine= static_cast<bool>(msg->uint8());
+    auto penWidth= msg->uint16();
+
+    auto count= msg->uint64();
+    std::vector<QPointF> points;
+    points.reserve(static_cast<std::size_t>(count));
+    for(unsigned int i= 0; i < count; ++i)
+    {
+        auto x= msg->real();
+        auto y= msg->real();
+        points.push_back(QPointF(x, y));
+    }
+    hash.insert({QStringLiteral("filled"), filled});
+    hash.insert({QStringLiteral("closed"), closed});
+    hash.insert({QStringLiteral("penLine"), penLine});
+    hash.insert({QStringLiteral("penWidth"), penWidth});
+    hash.insert({QStringLiteral("points"), QVariant::fromValue(points)});
+
+    return hash;
+}
+
 void addPathManager(PathControllerManager* ctrl, NetworkMessageWriter& msg)
 {
     auto ctrls= ctrl->controllers();

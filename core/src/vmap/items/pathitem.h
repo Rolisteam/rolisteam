@@ -100,10 +100,6 @@ public:
      */
     virtual void addActionContextMenu(QMenu&) override;
     /**
-     * @brief endOfGeometryChange
-     */
-    virtual void endOfGeometryChange(ChildPointItem::Change change) override;
-    /**
      * @brief readMovePointMsg
      * @param msg
      */
