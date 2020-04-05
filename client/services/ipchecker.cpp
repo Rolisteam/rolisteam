@@ -21,6 +21,7 @@
 #include "ipchecker.h"
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QRegularExpression>
 #include <QUrl>
 
 IpChecker::IpChecker(QObject* parent) : QObject(parent), m_manager(nullptr) {}
@@ -32,8 +33,18 @@ void IpChecker::readText(QNetworkReply* p)
     }
     else
     {
-        m_ip= p->readAll();
-        emit finished(m_ip);
+        auto text= p->readAll();
+        QRegularExpression ipRegex("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$");
+        QRegularExpression ipV6Regex("^.*:.*:.*:.*:.*:.*$");
+        auto match= ipRegex.match(text);
+        auto matchV6= ipV6Regex.match(text);
+
+        auto hasMatch= match.hasMatch() || matchV6.hasMatch();
+        if(hasMatch)
+        {
+            m_ip= text;
+            emit finished(m_ip);
+        }
     }
 }
 void IpChecker::startCheck()
@@ -41,6 +52,6 @@ void IpChecker::startCheck()
 #ifdef HAVE_QT_NETWORK
     m_manager= new QNetworkAccessManager(this);
     connect(m_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(readText(QNetworkReply*)));
-    m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/ip.php")));
+    m_manager->get(QNetworkRequest(QUrl("https://rolisteam.org/ip.php")));
 #endif
 }
