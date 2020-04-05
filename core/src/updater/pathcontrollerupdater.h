@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                               *
+ *	Copyright (C) 2020 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,45 +17,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PATHCONTROLLERMANAGER_H
-#define PATHCONTROLLERMANAGER_H
+#ifndef PATHCONTROLLERUPDATER_H
+#define PATHCONTROLLERUPDATER_H
 
+#include "vmapitemcontrollerupdater.h"
 #include <QObject>
-#include <QPointer>
-#include <memory>
-#include <vector>
-
-#include "visualitemcontrollermanager.h"
 
 namespace vmap
 {
 class PathController;
 }
-class VectorialMapController;
-class PathControllerUpdater;
-class PathControllerManager : public VisualItemControllerManager
+
+class PathControllerUpdater : public VMapItemControllerUpdater
 {
     Q_OBJECT
 public:
-    explicit PathControllerManager(VectorialMapController* ctrl, QObject* parent= nullptr);
-    virtual ~PathControllerManager() override;
+    PathControllerUpdater();
 
-    QString addItem(const std::map<QString, QVariant>& params) override;
-    void addController(vmap::VisualItemController* controller) override;
-    void removeItem(const QString& id) override;
-    void processMessage(NetworkMessageReader* msg) override;
-    const std::vector<vmap::PathController*> controllers() const;
-signals:
-    void pathControllerCreated(vmap::PathController* ctrl, bool editing);
+    void addPathController(vmap::PathController* ctrl);
 
-private:
-    void prepareController(vmap::PathController* ctrl);
-    vmap::PathController* findController(const QString& id);
-
-private:
-    std::vector<std::unique_ptr<vmap::PathController>> m_controllers;
-    QPointer<VectorialMapController> m_ctrl;
-    std::unique_ptr<PathControllerUpdater> m_updater;
+    bool updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl) override;
+    bool movePoint(NetworkMessageReader* msg, vmap::PathController* ctrl);
 };
 
-#endif // PATHCONTROLLERMANAGER_H
+#endif // PATHCONTROLLERUPDATER_H

@@ -20,19 +20,25 @@
 #include "pathcontrollermanager.h"
 
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "updater/pathcontrollerupdater.h"
 #include "vmap/controller/pathcontroller.h"
 #include "worker/messagehelper.h"
 
+#include <QDebug>
+
 PathControllerManager::PathControllerManager(VectorialMapController* ctrl, QObject* parent)
-    : VisualItemControllerManager(parent), m_ctrl(ctrl)
+    : VisualItemControllerManager(parent), m_ctrl(ctrl), m_updater(new PathControllerUpdater)
 {
 }
+
+PathControllerManager::~PathControllerManager()= default;
 
 QString PathControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
     std::unique_ptr<vmap::PathController> path(new vmap::PathController(params, m_ctrl));
     emit pathControllerCreated(path.get(), true);
     auto id= path->uuid();
+    prepareController(path.get());
     m_controllers.push_back(std::move(path));
     return id;
 }
@@ -45,7 +51,6 @@ void PathControllerManager::addController(vmap::VisualItemController* controller
 
     std::unique_ptr<vmap::PathController> pathCtrl(path);
     emit pathControllerCreated(pathCtrl.get(), false);
-    MessageHelper::sendOffPath(pathCtrl.get(), m_ctrl->uuid());
     m_controllers.push_back(std::move(pathCtrl));
 }
 
@@ -61,10 +66,45 @@ void PathControllerManager::removeItem(const QString& id)
     m_controllers.erase(it);
 }
 
+void PathControllerManager::prepareController(vmap::PathController* ctrl)
+{
+    qDebug() << "PathControllerManager::prepareController" << ctrl->penLine();
+    auto id= m_ctrl->uuid();
+    if(ctrl->penLine())
+    {
+        connect(ctrl, &vmap::PathController::initializedChanged, this, [id, ctrl, this]() {
+            MessageHelper::sendOffPath(ctrl, id);
+            m_updater->addPathController(ctrl);
+        });
+    }
+    else
+    {
+        MessageHelper::sendOffPath(ctrl, id);
+        m_updater->addPathController(ctrl);
+    }
+}
+
 void PathControllerManager::processMessage(NetworkMessageReader* msg)
 {
     if(msg->action() == NetMsg::AddItem && msg->category() == NetMsg::VMapCategory)
     {
+        auto hash= MessageHelper::readPath(msg);
+        auto newRect= new vmap::PathController(hash, m_ctrl);
+        addController(newRect);
+    }
+    else if(msg->action() == NetMsg::UpdateItem && msg->category() == NetMsg::VMapCategory)
+    {
+        auto id= msg->string8();
+        auto ctrl= findController(id);
+        if(nullptr != ctrl)
+            m_updater->updateItemProperty(msg, ctrl);
+    }
+    else if(msg->action() == NetMsg::MovePoint && msg->category() == NetMsg::VMapCategory)
+    {
+        auto id= msg->string8();
+        auto ctrl= findController(id);
+        if(nullptr != ctrl)
+            m_updater->movePoint(msg, ctrl);
     }
 }
 
@@ -74,4 +114,15 @@ const std::vector<vmap::PathController*> PathControllerManager::controllers() co
     std::transform(m_controllers.begin(), m_controllers.end(), std::back_inserter(vect),
                    [](const std::unique_ptr<vmap::PathController>& ctrl) { return ctrl.get(); });
     return vect;
+}
+
+vmap::PathController* PathControllerManager::findController(const QString& id)
+{
+    auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
+                          [id](const std::unique_ptr<vmap::PathController>& ctrl) { return id == ctrl->uuid(); });
+
+    if(it == m_controllers.end())
+        return nullptr;
+
+    return it->get();
 }

@@ -338,7 +338,7 @@ void VMap::updateItem(const QPointF& end)
     {
     case Core::PATH:
     {
-        m_currentPath->addPoint(end);
+        m_currentPath->addPoint(m_currentPath->mapFromScene(end));
         update();
     }
     break;

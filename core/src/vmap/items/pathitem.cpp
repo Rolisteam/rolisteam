@@ -110,10 +110,10 @@ QPainterPath vectorToFullPath(const std::vector<QPointF>& points, qreal penWidth
 PathItem::PathItem(vmap::PathController* ctrl) : VisualItem(ctrl), m_pathCtrl(ctrl)
 {
     connect(m_pathCtrl, &vmap::PathController::positionChanged, this, [this](int corner, QPointF pos) {
-        if(!m_children.empty())
+        if(m_children.empty())
             return;
 
-        if(corner == qBound(0, corner, m_children.size()))
+        if(corner == qBound(0, corner, m_children.size() - 1))
             m_children[corner]->setPos(pos);
         update();
     });
@@ -121,10 +121,14 @@ PathItem::PathItem(vmap::PathController* ctrl) : VisualItem(ctrl), m_pathCtrl(ct
     connect(m_pathCtrl, &vmap::PathController::pointAdded, this, &PathItem::addChild);
 
     int i= 0;
-    for(auto point : m_pathCtrl->points())
-        addChild(point, i);
+    if(!m_pathCtrl->penLine())
+    {
+        for(auto point : m_pathCtrl->points())
+            addChild(point, i);
+    }
 
     createActions();
+    update();
 }
 
 /*PathItem::PathItem(const std::map<Core::Properties, QVariant>& properties,const QPointF& start, const QColor&
@@ -455,18 +459,6 @@ void PathItem::readMovePointMsg(NetworkMessageReader* msg)
     update();*/
 }
 
-void PathItem::endOfGeometryChange(ChildPointItem::Change change)
-{
-    /*if(m_resizing)
-    {
-        sendPointPosition();
-        m_resizing= false;
-    }
-    else*/
-    {
-        VisualItem::endOfGeometryChange(change);
-    }
-}
 void PathItem::sendPointPosition()
 {
     /*    if(m_ctrl->localGM() || (m_ctrl->permission() == Core::PC_ALL)

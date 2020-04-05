@@ -30,6 +30,7 @@ namespace vmap
 class PathController : public VisualItemController
 {
     Q_OBJECT
+    Q_PROPERTY(std::vector<QPointF> points READ points WRITE setPoints NOTIFY pointsChanged)
     Q_PROPERTY(quint64 pointCount READ pointCount NOTIFY pointCountChanged)
     Q_PROPERTY(quint16 penWidth READ penWidth NOTIFY penWidthChanged)
     Q_PROPERTY(bool closed READ closed WRITE setClosed NOTIFY closedChanged)
@@ -54,9 +55,11 @@ public:
     void setCorner(const QPointF& move, int corner) override;
     QRectF rect() const override;
 
+    void setPoint(const QPointF& p, int corner);
 public slots:
     void setFilled(bool filled);
     void setClosed(bool closed);
+    void setPoints(const std::vector<QPointF>& points);
 
 signals:
     void filledChanged(bool filled);
@@ -64,8 +67,10 @@ signals:
     void penWidthChanged(quint16 penWidth);
     void pointCountChanged(int pointCount);
     void positionChanged(int corner, QPointF pos);
+    void pointPositionEditFinished(qint64 pointIdx, QPointF pos);
     void pointAdded(const QPointF& point, int idx);
     void pointRemoved(int point);
+    void pointsChanged();
 
 private:
     std::vector<QPointF> m_points;
@@ -73,7 +78,12 @@ private:
     bool m_closed= false;
     bool m_penLine= false;
     quint16 m_penWidth= 15;
+
+    qint64 m_modifiedPointIdx= -1;
+    bool m_pointPositonEditing= false;
 };
 } // namespace vmap
+
+Q_DECLARE_METATYPE(std::vector<QPointF>);
 
 #endif // VMAP_PATHITEMCONTROLLER_H

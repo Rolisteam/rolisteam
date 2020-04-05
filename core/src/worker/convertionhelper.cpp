@@ -113,4 +113,14 @@ void variantToType<QFont>(const QFont& val, NetworkMessageWriter& msg)
 {
     msg.string16(val.toString());
 }
+template <>
+void variantToType<std::vector<QPointF>>(const std::vector<QPointF>& val, NetworkMessageWriter& msg)
+{
+    msg.int64(static_cast<qint64>(val.size()));
+    for(auto p : val)
+    {
+        msg.real(p.x());
+        msg.real(p.y());
+    }
+}
 } // namespace Helper

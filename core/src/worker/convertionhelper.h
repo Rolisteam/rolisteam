@@ -68,6 +68,8 @@ template <>
 void variantToType<QByteArray>(const QByteArray& val, NetworkMessageWriter& msg);
 template <>
 void variantToType<QFont>(const QFont& val, NetworkMessageWriter& msg);
+template <>
+void variantToType<std::vector<QPointF>>(const std::vector<QPointF>& val, NetworkMessageWriter& msg);
 } // namespace Helper
 
 #endif // CONVERTIONHELPER_H

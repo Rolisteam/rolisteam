@@ -57,6 +57,7 @@ void VMapItemControllerUpdater::addItemController(vmap::VisualItemController* ct
     sendOffVMapChanges<QByteArray>(nullptr, "");
     sendOffVMapChanges<QFont>(nullptr, "");
     sendOffVMapChanges<QString>(nullptr, "");
+    sendOffVMapChanges<std::vector<QPointF>>(nullptr, "");
 }
 
 bool VMapItemControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)

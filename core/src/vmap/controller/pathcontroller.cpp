@@ -36,12 +36,26 @@ PathController::PathController(const std::map<QString, QVariant>& params, Vector
         m_tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
         m_penLine= (m_tool == Core::SelectableTool::PEN);
     }
+    else if(params.end() != params.find("penLine"))
+    {
+        m_penLine= params.at(QStringLiteral("penLine")).toBool();
+        m_tool= m_penLine ? Core::SelectableTool::PEN : Core::SelectableTool::PATH;
+    }
+
+    if(params.end() != params.find("filled"))
+        m_filled= params.at(QStringLiteral("filled")).toBool();
+
+    if(params.end() != params.find("closed"))
+        m_closed= params.at(QStringLiteral("closed")).toBool();
+
+    if(params.end() != params.find("points"))
+        m_points= params.at(QStringLiteral("points")).value<std::vector<QPointF>>();
 
     if(params.end() != params.find("penWidth"))
         m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
 
-    if(params.end() != params.find("position"))
-        addPoint(params.at(QStringLiteral("position")).toPointF());
+    if(!m_penLine)
+        addPoint(QPointF(0, 0));
 }
 VisualItemController::ItemType PathController::itemType() const
 {
@@ -101,7 +115,17 @@ void PathController::aboutToBeRemoved()
     emit removeItem();
 }
 
-void PathController::endGeometryChange() {}
+void PathController::endGeometryChange()
+{
+    VisualItemController::endGeometryChange();
+
+    if(m_pointPositonEditing)
+    {
+        emit pointPositionEditFinished(m_modifiedPointIdx, pointAt(static_cast<quint64>(m_modifiedPointIdx)));
+        m_pointPositonEditing= false;
+        m_modifiedPointIdx= -1;
+    }
+}
 
 void PathController::setCorner(const QPointF& move, int corner)
 {
@@ -111,6 +135,19 @@ void PathController::setCorner(const QPointF& move, int corner)
         return;
 
     m_points[static_cast<std::size_t>(corner)]+= move;
+    emit positionChanged(corner, m_points[static_cast<std::size_t>(corner)]);
+    m_pointPositonEditing= true;
+    m_modifiedPointIdx= corner;
+}
+
+void PathController::setPoint(const QPointF& p, int corner)
+{
+    if(m_points.empty())
+        return;
+    if(corner != qBound(0, corner, static_cast<int>(m_points.size())))
+        return;
+
+    m_points[static_cast<std::size_t>(corner)]= p;
     emit positionChanged(corner, m_points[static_cast<std::size_t>(corner)]);
 }
 
@@ -135,6 +172,13 @@ void PathController::setClosed(bool closed)
 
     m_closed= closed;
     emit closedChanged(m_closed);
+}
+
+void PathController::setPoints(const std::vector<QPointF>& points)
+{
+    m_points.clear();
+    m_points= points;
+    emit pointsChanged();
 }
 
 } // namespace vmap

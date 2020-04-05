@@ -659,7 +659,7 @@ void VectorialMapController::removeItemController(QString uuid)
 NetWorkReceiver::SendType VectorialMapController::processMessage(NetworkMessageReader* msg)
 {
     qDebug() << "received vmap message: " << msg->action();
-    QSet<NetMsg::Action> actions({NetMsg::AddItem, NetMsg::UpdateItem, NetMsg::DeleteItem});
+    QSet<NetMsg::Action> actions({NetMsg::AddItem, NetMsg::UpdateItem, NetMsg::DeleteItem, NetMsg::MovePoint});
     if(actions.contains(msg->action()))
     {
         using IT= vmap::VisualItemController::ItemType;
