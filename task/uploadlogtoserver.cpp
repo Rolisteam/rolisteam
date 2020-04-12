@@ -1,6 +1,6 @@
 /***************************************************************************
  *     Copyright (C) 2018 by Renaud Guezennec                              *
- *     http://www.rolisteam.org/                                           *
+ *     https://rolisteam.org/                                           *
  *                                                                         *
  *   rolisteam is free software; you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published by  *
@@ -98,7 +98,7 @@ void LogUploader::uploadLog()
     QJsonDocument doc;
     doc.setObject(obj);
 
-    QUrl url("http://www.rolisteam.org/php/uploadlog.php");
+    QUrl url("https://rolisteam.org/php/uploadlog.php");
     QNetworkRequest request(url);
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
