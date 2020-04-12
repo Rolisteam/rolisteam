@@ -207,10 +207,13 @@ void NpcMakerWidget::exportNpc()
     jobj["lifeCurrent"]= ui->m_currentLife->value();
 
     auto pix= ui->m_avatarDisplay->pixmap();
-    QByteArray data;
-    QBuffer buf(&data);
-    pix->toImage().save(&buf, "png");
-    jobj["avatarImg"]= QString::fromUtf8(data.toBase64());
+    if(pix != nullptr)
+    {
+        QByteArray data;
+        QBuffer buf(&data);
+        pix->toImage().save(&buf, "png");
+        jobj["avatarImg"]= QString::fromUtf8(data.toBase64());
+    }
 
     QJsonArray actionArray;
     for(auto field : *m_actionModel)
