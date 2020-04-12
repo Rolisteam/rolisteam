@@ -300,7 +300,7 @@ bool PdfViewer::openMedia()
 {
     return false;
 }
-void PdfViewer::saveMedia()
+void PdfViewer::saveMedia(const QString&)
 {
     /// nothing to be done.
 }

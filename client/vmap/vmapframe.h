@@ -139,7 +139,7 @@ public:
     /**
      * @brief saveMedia
      */
-    void saveMedia() override;
+    void saveMedia(const QString&) override;
     /**
      * @brief processGeometryViewChange
      * @param msg
@@ -163,7 +163,7 @@ public:
     void processsRotationMsg(NetworkMessageReader* msg);
     void processsRectGeometryMsg(NetworkMessageReader* msg);
 
-    void putDataIntoCleverUri()override;
+    void putDataIntoCleverUri() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
     QUndoStack* getUndoStack() const override;
     void setUndoStack(QUndoStack* undoStack) override;

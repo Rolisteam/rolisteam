@@ -31,11 +31,11 @@ class SharedNoteContainer : public MediaContainer
 public:
     SharedNoteContainer(bool localIsGM, QWidget* parent= nullptr);
     virtual bool readFileFromUri();
-    virtual void saveMedia();
+    virtual void saveMedia(const QString&);
     void readFromFile(QDataStream& data);
     void saveInto(QDataStream& out);
     virtual void putDataIntoCleverUri();
-    void setOwnerId(const QString &id);
+    void setOwnerId(const QString& id);
     void updateNoteToAll();
     void readMessage(NetworkMessageReader& msg);
     virtual void setMediaId(QString);

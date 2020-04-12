@@ -73,7 +73,7 @@ bool NoteContainer::readFileFromUri()
     return val;
 }
 
-void NoteContainer::saveMedia()
+void NoteContainer::saveMedia(const QString&)
 {
     if(nullptr != m_edit)
     {

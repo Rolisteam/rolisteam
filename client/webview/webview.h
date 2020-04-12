@@ -48,7 +48,7 @@ public:
     virtual ~WebView();
 
     virtual bool readFileFromUri();
-    virtual void saveMedia();
+    virtual void saveMedia(const QString&);
     virtual void putDataIntoCleverUri();
 
     void fill(NetworkMessageWriter& message);

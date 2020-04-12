@@ -31,7 +31,7 @@ class NoteContainer : public MediaContainer
 public:
     NoteContainer(bool localIsGM, QWidget* parent= nullptr);
     bool readFileFromUri();
-    void saveMedia();
+    void saveMedia(const QString& str= QString());
 
     void readFromFile(QDataStream& data);
     void saveInto(QDataStream& out);

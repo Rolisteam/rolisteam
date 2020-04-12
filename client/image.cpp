@@ -518,7 +518,7 @@ bool Image::openMedia()
     }
     return val;
 }
-void Image::saveMedia()
+void Image::saveMedia(const QString&)
 {
     /// nothing to be done.
 }

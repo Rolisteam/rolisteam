@@ -127,7 +127,7 @@ public:
     /**
      * @brief saveMedia must be implemented for each media container.
      */
-    virtual void saveMedia()= 0;
+    virtual void saveMedia(const QString& formerPath= QString())= 0;
     /**
      * @brief putDataIntoCleverUri when the uri is empty, save media into cleverURI data
      */
@@ -197,7 +197,7 @@ public slots:
     void setVisible(bool b);
 
     void detachView(bool b);
-    virtual void setUriName(const QString &name);
+    virtual void setUriName(const QString& name);
 
 protected slots:
     virtual void updateTitle()= 0;
@@ -207,9 +207,9 @@ protected:
     CleverURI* m_uri= nullptr;
     QString m_filter;
     PreferencesManager* m_preferences;
-    QAction* m_action=nullptr;
+    QAction* m_action= nullptr;
     QString m_name;
-    QCursor* m_currentCursor=nullptr;
+    QCursor* m_currentCursor= nullptr;
     /**
      * @brief the current tool, it is an enum item.
      */

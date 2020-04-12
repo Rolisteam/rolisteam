@@ -57,7 +57,7 @@ bool WebView::readFileFromUri()
     return true;
 }
 
-void WebView::saveMedia() {}
+void WebView::saveMedia(const QString&) {}
 
 void WebView::putDataIntoCleverUri() {}
 
@@ -225,7 +225,7 @@ void WebView::creationToolBar()
     m_mainLayout->addLayout(hLayout);
 
     connect(m_addressEdit, &QLineEdit::editingFinished, this,
-        [=]() { m_view->setUrl(QUrl::fromUserInput(m_addressEdit->text())); });
+            [=]() { m_view->setUrl(QUrl::fromUserInput(m_addressEdit->text())); });
     connect(m_reload, &QAction::triggered, m_view, &QWebEngineView::reload);
     connect(m_next, &QAction::triggered, m_view, &QWebEngineView::forward);
     connect(m_previous, &QAction::triggered, m_view, &QWebEngineView::back);

@@ -1184,7 +1184,7 @@ void MainWindow::saveMedia(MediaContainer* mediaC, bool saveAs)
                     m_preferences->registerValue(key, info.absolutePath());
                     cleverURI->setUri(fileName);
                 }
-                mediaC->saveMedia();
+                mediaC->saveMedia(uri);
             }
             else if(cleverURI->getCurrentMode() == CleverURI::Internal)
             {

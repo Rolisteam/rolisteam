@@ -101,7 +101,7 @@ public:
     /**
      * @brief saveMedia
      */
-    void saveMedia();
+    void saveMedia(const QString&);
     /**
      * @brief putDataIntoCleverUri
      */

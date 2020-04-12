@@ -471,7 +471,7 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg, bool localIsPlayer)
     initMap();
     return true;
 }
-void MapFrame::saveMedia()
+void MapFrame::saveMedia(const QString&)
 {
     if(nullptr != m_map)
     {

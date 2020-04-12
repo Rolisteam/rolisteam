@@ -86,7 +86,7 @@ void VMapFrame::updateTitle()
     m_vmap->setTitle(getUriName());
     setWindowTitle(tr("%1 - visibility: %2 - permission: %3 - layer: %4")
                        .arg(getUriName(), m_vmap->getVisibilityModeText(), m_vmap->getPermissionModeText(),
-                           m_vmap->getCurrentLayerText()));
+                            m_vmap->getCurrentLayerText()));
 }
 
 VMap* VMapFrame::getMap()
@@ -179,7 +179,6 @@ bool VMapFrame::openFile(const QString& filepath)
     m_vmap->setVisibilityMode(VMap::HIDDEN);
     updateMap();
     return true;
-
 }
 void VMapFrame::keyPressEvent(QKeyEvent* event)
 {
@@ -197,7 +196,7 @@ void VMapFrame::keyPressEvent(QKeyEvent* event)
     }
 }
 
-void VMapFrame::saveMedia()
+void VMapFrame::saveMedia(const QString&)
 {
     if(nullptr != m_vmap)
     {

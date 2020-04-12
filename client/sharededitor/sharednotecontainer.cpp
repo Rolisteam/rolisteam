@@ -94,7 +94,7 @@ bool SharedNoteContainer::readFileFromUri()
     return val;
 }
 
-void SharedNoteContainer::saveMedia()
+void SharedNoteContainer::saveMedia(const QString&)
 {
     if(nullptr != m_edit)
     {
