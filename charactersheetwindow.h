@@ -1,6 +1,6 @@
 /***************************************************************************
  *	 Copyright (C) 2009 by Renaud Guezennec                                *
- *   http://www.rolisteam.org/contact                   *
+ *   https://rolisteam.org/contact                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -73,7 +73,7 @@ public:
      * @brief saveFile
      * @return
      */
-    QJsonDocument saveFile();
+    QJsonDocument saveFile(const QString& formerPath= QString());
     /**
      * @brief hasDockWidget
      * @return
@@ -92,7 +92,7 @@ public:
     /**
      * @brief saveMedia
      */
-    void saveMedia();
+    void saveMedia(const QString& formerPath= QString());
     /**
      * @brief getQmlData
      * @return

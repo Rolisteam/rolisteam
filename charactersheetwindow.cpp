@@ -1,6 +1,6 @@
 /***************************************************************************
  *	 Copyright (C) 2009 by Renaud Guezennec                                *
- *   http://www.rolisteam.org/contact                   *
+ *   https://rolisteam.org/contact                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -571,7 +571,7 @@ void CharacterSheetWindow::displayError(const QList<QQmlError>& warnings)
     }
 }
 
-QJsonDocument CharacterSheetWindow::saveFile()
+QJsonDocument CharacterSheetWindow::saveFile(const QString& formerPath)
 {
     if(nullptr == m_uri)
     {
@@ -584,13 +584,14 @@ QJsonDocument CharacterSheetWindow::saveFile()
     auto path= m_uri->getUri();
 
     QByteArray data;
+    auto pathExist= QFileInfo::exists(path);
     if(path.isEmpty())
     {
         data= m_uri->getData();
     }
     else
     {
-        QFile file(path);
+        QFile file(pathExist ? path : formerPath);
         if(file.open(QIODevice::ReadOnly))
         {
             data= file.readAll();
@@ -775,7 +776,7 @@ void CharacterSheetWindow::putDataIntoCleverUri()
     }
 }
 
-void CharacterSheetWindow::saveMedia()
+void CharacterSheetWindow::saveMedia(const QString& formerPath)
 {
     if((nullptr != m_uri) && (!m_uri->getUri().isEmpty()))
     {
@@ -786,9 +787,9 @@ void CharacterSheetWindow::saveMedia()
             {
                 uri+= QLatin1String(".rcs");
             }
-            QJsonDocument doc= saveFile();
+            QJsonDocument doc= saveFile(formerPath);
             QFile file(uri);
-            if(file.open(QIODevice::WriteOnly))
+            if(file.open(QIODevice::WriteOnly) && !doc.isEmpty())
             {
                 file.write(doc.toJson());
                 file.close();
