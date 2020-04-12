@@ -1,6 +1,6 @@
 /***************************************************************************
  * Copyright (C) 2014 by Renaud Guezennec                                   *
- * http://www.rolisteam.org/                                                *
+ * https://rolisteam.org/                                                *
  *                                                                          *
  *  This file is part of rcse                                               *
  *                                                                          *
