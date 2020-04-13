@@ -21,9 +21,12 @@
 
 #include <QBuffer>
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QRgb>
 
 #include "controller/view_controller/abstractmediacontroller.h"
+#include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/pdfcontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
@@ -48,6 +51,8 @@
 #include "vmap/controller/textcontroller.h"
 #include "vmap/controller/visualitemcontroller.h"
 
+#include "charactersheet/charactersheetmodel.h"
+#include "charactersheet/imagemodel.h"
 #include "data/character.h"
 #include "data/cleveruri.h"
 #include "data/player.h"
@@ -263,6 +268,93 @@ QHash<QString, QVariant> MessageHelper::readWebPageData(NetworkMessageReader* ms
 
     return QHash<QString, QVariant>(
         {{"id", id}, {"mode", mode}, {"data", data}, {"state", static_cast<int>(WebpageController::RemoteView)}});
+}
+
+void MessageHelper::stopSharingSheet(const QString& mediaId, const QString& characterId)
+{
+    NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::closeCharacterSheet);
+    msg.string8(mediaId);
+    msg.string8(characterId);
+    msg.sendToServer();
+}
+
+void MessageHelper::shareCharacterSheet(CharacterSheet* sheet, Character* character, CharacterSheetController* ctrl)
+{
+    if(sheet == nullptr || character == nullptr)
+        return;
+
+    Player* parent= character->getParentPlayer();
+
+    if(parent == nullptr)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::addCharacterSheet);
+    QStringList idList;
+    idList << parent->uuid();
+    msg.setRecipientList(idList, NetworkMessage::OneOrMany);
+    // msg.string8(parent->uuid());
+
+    msg.string8(ctrl->uuid());
+    msg.string8(ctrl->name());
+    msg.string8(character->uuid());
+
+    QJsonObject object;
+    sheet->save(object);
+    QJsonDocument doc;
+    doc.setObject(object);
+    msg.byteArray32(doc.toBinaryData());
+
+    msg.string32(ctrl->qmlCode());
+
+    auto imageModel= ctrl->imageModel();
+    QJsonArray array;
+    imageModel->save(array);
+    QJsonDocument doc2;
+    doc2.setArray(array);
+    msg.byteArray32(doc2.toBinaryData());
+
+    auto model= ctrl->model();
+    QJsonDocument doc3;
+    doc3.setObject(model->rootSectionData());
+    msg.byteArray32(doc3.toBinaryData());
+
+    msg.sendToServer();
+}
+
+QHash<QString, QVariant> MessageHelper::readCharacterSheet(NetworkMessageReader* msg)
+{
+    if(nullptr == msg)
+        return {};
+
+    auto id= msg->string8();
+    auto name= msg->string8();
+    auto characterId= msg->string8();
+    auto data= msg->byteArray32();
+    auto qml= msg->string32();
+    auto imageData= msg->byteArray32();
+    auto rootSection= msg->byteArray32();
+
+    return QHash<QString, QVariant>({{"id", id},
+                                     {"name", name},
+                                     {"characterId", characterId},
+                                     {"data", data},
+                                     {"qml", qml},
+                                     {"imageData", imageData},
+                                     {"rootSection", rootSection}});
+}
+
+void MessageHelper::readUpdateField(CharacterSheetController* ctrl, NetworkMessageReader* msg)
+{
+    if(nullptr == ctrl || nullptr == msg)
+        return;
+
+    auto sheetId= msg->string8();
+    auto path= msg->string32();
+    auto data= msg->byteArray32();
+
+    QJsonDocument doc= QJsonDocument::fromBinaryData(data);
+    auto obj= doc.object();
+    ctrl->updateFieldFrom(sheetId, obj, data);
 }
 
 void MessageHelper::shareWebpage(WebpageController* ctrl)

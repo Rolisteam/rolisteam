@@ -87,29 +87,12 @@ public:
      */
     void saveMedia();
     /**
-     * @brief getQmlData
-     * @return
-     */
-    QString getQmlData() const;
-    /**
-     * @brief setQmlData
-     * @param qmlData
-     */
-    void setQmlData(const QString& qmlData);
-    /**
      * @brief addCharacterSheet
      */
     void addCharacterSheetSlot(CharacterSheet*);
-    /**
-     * @brief getImgProvider
-     * @return
-     */
-    RolisteamImageProvider* getImgProvider() const;
-    /**
-     * @brief setImgProvider
-     * @param imgProvider
-     */
-    void setImgProvider(RolisteamImageProvider* imgProvider);
+
+    // RolisteamImageProvider* getImgProvider() const;
+    // void setImgProvider(RolisteamImageProvider* imgProvider);
     /**
      * @brief fill
      * @param msg
@@ -196,7 +179,7 @@ protected slots:
      * @brief addTabWithSheetView
      * @param chSheet
      */
-    void addTabWithSheetView(CharacterSheet* chSheet);
+    void addTabWithSheetView(CharacterSheet* chSheet, Character* character);
     /**
      * @brief slot is called when the user click on the m_addLine button. That leads to add one line after the current
      * position (in the current CharacterSheet).
@@ -219,7 +202,7 @@ protected slots:
     /**
      * @brief affectSheetToCharacter
      */
-    void affectSheetToCharacter();
+    void affectSheetToCharacter(const QString& uuid);
     /**
      * @brief displayError
      * @param warnings
@@ -256,7 +239,7 @@ protected:
      * @brief addSharingMenu
      * @param share
      */
-    void addSharingMenu(QMenu* share);
+    void addSharingMenu(QMenu* share, int pos);
     /**
      * @brief checkAlreadyShare
      * @param sheet
@@ -285,7 +268,6 @@ private:
 
     QJsonObject m_data;
 
-    QString m_qmlData;
     QList<QQmlError> m_errorList;
 
     // Translation optimisation

@@ -32,6 +32,7 @@ class Player;
 class Character;
 class CharacterSheet;
 class CharacterModel;
+class CharacterSheetUpdater;
 struct CharacterSheetData
 {
     CharacterSheet* sheet;
@@ -45,11 +46,12 @@ class CharacterSheetItem;
 class CharacterSheetController : public AbstractMediaContainerController
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractItemModel* model READ model CONSTANT)
-    Q_PROPERTY(QAbstractItemModel* imageModel READ imageModel CONSTANT)
-    Q_PROPERTY(QAbstractItemModel* characterModel READ characterModel CONSTANT)
+    Q_PROPERTY(CharacterSheetModel* model READ model CONSTANT)
+    Q_PROPERTY(ImageModel* imageModel READ imageModel CONSTANT)
+    Q_PROPERTY(CharacterModel* characterModel READ characterModel CONSTANT)
     Q_PROPERTY(QString qmlCode READ qmlCode CONSTANT)
     Q_PROPERTY(bool cornerEnabled READ cornerEnabled NOTIFY cornerEnabledChanged)
+    Q_PROPERTY(QString gameMasterId READ gameMasterId WRITE setGameMasterId NOTIFY gameMasterIdChanged)
 public:
     CharacterSheetController(CharacterModel* characterModel, CleverURI* uri, QObject* parent= nullptr);
     ~CharacterSheetController() override;
@@ -57,26 +59,38 @@ public:
     virtual void saveData() const override;
     virtual void loadData() const override;
 
-    QAbstractItemModel* model() const;
-    QAbstractItemModel* imageModel() const;
-    QAbstractItemModel* characterModel() const;
+    CharacterSheetModel* model() const;
+    ImageModel* imageModel() const;
+    CharacterModel* characterModel() const;
 
     QString qmlCode() const;
+    QString gameMasterId() const;
     bool cornerEnabled() const;
+
+    void updateFieldFrom(const QString& sheetId, const QJsonObject& obj, const QString& parentPath);
+
+public slots:
+    void shareCharacterSheetTo(const QString& uuid, int idx);
+    void shareCharacterSheetToAll(int idx);
+    void setQmlCode(const QString& qml);
+    void addCharacterSheet(const QJsonObject& data, const QString& charId);
+    void setGameMasterId(const QString& id);
 
 signals:
     void cornerEnabledChanged(bool);
-
-private:
-    void updateFieldFrom(CharacterSheet* sheet, CharacterSheetItem* item, const QString& parentPath);
+    void currentSheetChanged();
+    void sheetCreated(CharacterSheet* sheet, Character* character);
+    void gameMasterIdChanged();
 
 private:
     std::unique_ptr<CharacterSheetModel> m_model;
     std::unique_ptr<ImageModel> m_imageModel;
     QPointer<CharacterModel> m_characterModel;
     std::set<CharacterSheetData> m_sheetData;
+    std::unique_ptr<CharacterSheetUpdater> m_characterSheetUpdater;
     QJsonObject m_rootJson;
     QString m_qmlCode;
+    QString m_gameMasterId;
 };
 
 #endif // CHARACTERSHEETCONTROLLER_H

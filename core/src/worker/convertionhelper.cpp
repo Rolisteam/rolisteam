@@ -123,4 +123,9 @@ void variantToType<std::vector<QPointF>>(const std::vector<QPointF>& val, Networ
         msg.real(p.y());
     }
 }
+template <>
+void variantToType<CharacterVision::SHAPE>(const CharacterVision::SHAPE& shape, NetworkMessageWriter& msg)
+{
+    msg.uint8(static_cast<quint8>(shape));
+}
 } // namespace Helper
