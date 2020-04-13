@@ -49,6 +49,9 @@ class CleverURI;
 class WebpageController;
 class PdfController;
 class VectorialMapController;
+class Character;
+class CharacterSheet;
+class CharacterSheetController;
 class MessageHelper
 {
 public:
@@ -98,6 +101,13 @@ public:
     static void updateWebpage(WebpageController* ctrl);
     static QHash<QString, QVariant> readWebPageData(NetworkMessageReader* msg);
 
+    // charactersheet
+    static void stopSharingSheet(const QString& mediaId, const QString& characterId);
+    static void shareCharacterSheet(CharacterSheet* sheet, Character* character, CharacterSheetController* ctrl);
+    static QHash<QString, QVariant> readCharacterSheet(NetworkMessageReader* msg);
+    static void readUpdateField(CharacterSheetController* ctrl, NetworkMessageReader* msg);
+
+    // data
     static void updatePerson(NetworkMessageReader& data, PlayerModel* playerModel);
 };
 

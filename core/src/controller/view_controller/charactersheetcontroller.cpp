@@ -4,8 +4,12 @@
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
 #include "charactersheetitem.h"
+#include "data/character.h"
 #include "data/cleveruri.h"
+#include "data/player.h"
 #include "model/charactermodel.h"
+#include "updater/charactersheetupdater.h"
+#include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
 
 CharacterSheetController::CharacterSheetController(CharacterModel* characterModel, CleverURI* uri, QObject* parent)
@@ -13,17 +17,24 @@ CharacterSheetController::CharacterSheetController(CharacterModel* characterMode
     , m_model(new CharacterSheetModel)
     , m_imageModel(new ImageModel())
     , m_characterModel(characterModel)
+    , m_characterSheetUpdater(new CharacterSheetUpdater(uri->uuid()))
 {
     ModelHelper::loadCharacterSheet(uri->getUri(), m_model.get(), m_imageModel.get(), m_rootJson, m_qmlCode);
 
-    for(int j= 0; j < m_model->getCharacterSheetCount(); ++j)
+    connect(this, &CharacterSheetController::uuidChanged, m_characterSheetUpdater.get(),
+            &CharacterSheetUpdater::setMediaId);
+
+    /*for(int j= 0; j < m_model->getCharacterSheetCount(); ++j)
     {
         CharacterSheet* sheet= m_model->getCharacterSheet(j);
         if(nullptr != sheet)
         {
             connect(sheet, &CharacterSheet::updateField, this, &CharacterSheetController::updateFieldFrom);
         }
-    }
+    }*/
+
+    /*connect(m_model.get(), &CharacterSheetModel::characterSheetHasBeenAdded, this,
+            &CharacterSheetController::sheetCreated);*/
 }
 
 CharacterSheetController::~CharacterSheetController() {}
@@ -32,17 +43,50 @@ void CharacterSheetController::saveData() const {}
 
 void CharacterSheetController::loadData() const {}
 
-QAbstractItemModel* CharacterSheetController::model() const
+void CharacterSheetController::setQmlCode(const QString& qml)
+{
+    m_qmlCode= qml;
+}
+
+void CharacterSheetController::addCharacterSheet(const QJsonObject& data, const QString& charId)
+{ // called to create qml page from network
+    auto sheet= new CharacterSheet();
+    sheet->load(data);
+    auto character= m_characterModel->character(charId);
+
+    auto player= dynamic_cast<Player*>(character->parentPerson());
+    if(nullptr == player)
+    {
+        delete sheet;
+        return;
+    }
+    character->setSheet(sheet);
+    m_model->addCharacterSheet(sheet, m_model->getCharacterSheetCount() - 1);
+    m_characterSheetUpdater->addCharacterSheetUpdate(sheet, CharacterSheetUpdater::UpdateMode::ONE,
+                                                     QStringList() << m_gameMasterId); // GM identity
+
+    emit sheetCreated(sheet, character);
+}
+
+void CharacterSheetController::setGameMasterId(const QString& id)
+{
+    if(id == m_gameMasterId)
+        return;
+    m_gameMasterId= id;
+    emit gameMasterIdChanged();
+}
+
+CharacterSheetModel* CharacterSheetController::model() const
 {
     return m_model.get();
 }
 
-QAbstractItemModel* CharacterSheetController::imageModel() const
+ImageModel* CharacterSheetController::imageModel() const
 {
     return m_imageModel.get();
 }
 
-QAbstractItemModel* CharacterSheetController::characterModel() const
+CharacterModel* CharacterSheetController::characterModel() const
 {
     return m_characterModel;
 }
@@ -52,40 +96,61 @@ QString CharacterSheetController::qmlCode() const
     return m_qmlCode;
 }
 
+QString CharacterSheetController::gameMasterId() const
+{
+    return m_gameMasterId;
+}
+
 bool CharacterSheetController::cornerEnabled() const
 {
     return false;
 }
 
-void CharacterSheetController::updateFieldFrom(CharacterSheet* sheet, CharacterSheetItem* item,
+void CharacterSheetController::updateFieldFrom(const QString& sheetId, const QJsonObject& obj,
                                                const QString& parentPath)
 {
-    /*   if(nullptr != sheet)
-       {
-           Player* person= nullptr;
-           if(m_localIsGM)
-           {
-               person= m_sheetToPerson.value(sheet);
-           }
-           else
-           {
-               // person= PlayerModel::instance()->getGM();
-           }
-           if(nullptr != person)
-           {
-               NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::updateFieldCharacterSheet);
-               QStringList recipiants;
-               recipiants << person->getUuid();
-               msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
-               msg.string8(m_mediaId);
-               msg.string8(sheet->getUuid());
-               msg.string32(parentPath);
-               QJsonObject object;
-               item->saveDataItem(object);
-               QJsonDocument doc;
-               doc.setObject(object);
-               msg.byteArray32(doc.toBinaryData());
-               msg.sendToServer();
-           }
-       }*/
+    auto sheet= m_model->getCharacterSheetById(sheetId);
+
+    if(nullptr == sheet)
+        return;
+
+    sheet->setFieldData(obj, parentPath);
+}
+
+void CharacterSheetController::shareCharacterSheetToAll(int idx)
+{
+    auto sheet= m_model->getCharacterSheet(idx);
+
+    if(sheet == nullptr)
+        return;
+
+    m_characterSheetUpdater->addCharacterSheetUpdate(sheet, CharacterSheetUpdater::UpdateMode::ALL, QStringList());
+}
+
+void CharacterSheetController::shareCharacterSheetTo(const QString& uuid, int idx)
+{
+    auto character= m_characterModel->character(uuid);
+
+    auto sheet= m_model->getCharacterSheet(idx);
+
+    if(character == nullptr || sheet == nullptr)
+        return;
+
+    // MessageHelper::stopSharingSheet(sheet); TODO Stop sharing
+    auto player= dynamic_cast<Player*>(character->parentPerson());
+
+    if(nullptr == player)
+        return;
+    auto dest= player->uuid();
+
+    sheet->setName(character->name());
+    character->setSheet(sheet);
+    emit sheetCreated(sheet, character);
+
+    if(true) // TODO is GM
+    {
+        MessageHelper::shareCharacterSheet(sheet, character, this);
+        m_characterSheetUpdater->addCharacterSheetUpdate(sheet, CharacterSheetUpdater::UpdateMode::ONE,
+                                                         QStringList() << dest);
+    }
 }

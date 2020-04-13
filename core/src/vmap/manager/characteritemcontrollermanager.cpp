@@ -25,7 +25,13 @@
 #include "vmap/controller/characteritemcontroller.h"
 #include "worker/messagehelper.h"
 
-CharacterItemControllerManager::CharacterItemControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl) {}
+CharacterItemControllerManager::CharacterItemControllerManager(VectorialMapController* ctrl) : m_ctrl(ctrl)
+{
+    /* auto func= [this]() { m_updater->setSynchronized(m_ctrl->localGM() || m_ctrl->permission() == Core::PC_MOVE); };
+     connect(ctrl, &VectorialMapController::localGMChanged, this, func);
+     connect(ctrl, &VectorialMapController::permissionChanged, this, func); */
+}
+
 QString CharacterItemControllerManager::addItem(const std::map<QString, QVariant>& params)
 {
     std::unique_ptr<vmap::CharacterItemController> characterCtrl(new vmap::CharacterItemController(params, m_ctrl));

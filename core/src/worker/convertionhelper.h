@@ -27,6 +27,7 @@
 #include <QPointF>
 #include <QRectF>
 
+#include "data/charactervision.h"
 #include "media/mediatype.h"
 #include "network/networkmessagewriter.h"
 
@@ -70,6 +71,8 @@ template <>
 void variantToType<QFont>(const QFont& val, NetworkMessageWriter& msg);
 template <>
 void variantToType<std::vector<QPointF>>(const std::vector<QPointF>& val, NetworkMessageWriter& msg);
+template <>
+void variantToType<CharacterVision::SHAPE>(const CharacterVision::SHAPE& shape, NetworkMessageWriter& msg);
 } // namespace Helper
 
 #endif // CONVERTIONHELPER_H
