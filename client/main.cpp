@@ -29,7 +29,6 @@
 #include <QTextCodec>
 #include <QTranslator>
 #include <QUuid>
-#include <time.h>
 
 #include "data/cleveruri.h"
 #include "data/person.h"
@@ -143,7 +142,7 @@ int main(int argc, char* argv[])
         {
             if(argList.size() > pos + 1)
             {
-                QTranslator* cliTranslator= new QTranslator();
+                auto cliTranslator= new QTranslator();
                 cliTranslator->load(argList.at(pos + 1));
                 app.installTranslator(cliTranslator);
             }
