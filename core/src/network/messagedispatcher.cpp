@@ -477,7 +477,7 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::RectGeometryItem:
             str= QStringLiteral("RectGeometryItem");
             break;*/
-        case NetMsg::DelPoint:
+        case NetMsg::DeletePoint:
             str= QStringLiteral("DeletePoint");
             break;
         /*case NetMsg::OpacityItemChanged:

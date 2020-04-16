@@ -36,6 +36,7 @@ public:
         DISK,
         ANGLE
     };
+    Q_ENUM(SHAPE)
     /**
      * @brief Vision
      */
@@ -76,7 +77,7 @@ public:
      * @brief getPos
      * @return
      */
-    const QPointF getPos();
+    const QPointF getPos() const;
     /**
      * @brief getShape
      * @return

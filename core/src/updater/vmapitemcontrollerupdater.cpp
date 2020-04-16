@@ -24,6 +24,7 @@
 #include <QMetaProperty>
 #include <QSet>
 
+#include "data/charactervision.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "vmap/controller/visualitemcontroller.h"
@@ -58,6 +59,7 @@ void VMapItemControllerUpdater::addItemController(vmap::VisualItemController* ct
     sendOffVMapChanges<QFont>(nullptr, "");
     sendOffVMapChanges<QString>(nullptr, "");
     sendOffVMapChanges<std::vector<QPointF>>(nullptr, "");
+    sendOffVMapChanges<CharacterVision::SHAPE>(nullptr, "");
 }
 
 bool VMapItemControllerUpdater::updateItemProperty(NetworkMessageReader* msg, vmap::VisualItemController* ctrl)
