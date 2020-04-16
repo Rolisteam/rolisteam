@@ -598,17 +598,17 @@ msgctxt "CharacterSheetWindow|"
 msgid "Character Sheet files (*.qml)"
 msgstr "Files Scheda Personaggio (*.qml)"
 
-#: ../core/src/preferences/characterstatemodel.cpp:35
+#: ../core/src/preferences/characterstatemodel.cpp:41
 msgctxt "CharacterStateModel|"
 msgid "Label"
 msgstr "Etichetta"
 
-#: ../core/src/preferences/characterstatemodel.cpp:35
+#: ../core/src/preferences/characterstatemodel.cpp:41
 msgctxt "CharacterStateModel|"
 msgid "Color"
 msgstr "Colore"
 
-#: ../core/src/preferences/characterstatemodel.cpp:35
+#: ../core/src/preferences/characterstatemodel.cpp:41
 msgctxt "CharacterStateModel|"
 msgid "Image"
 msgstr "Immagine"
@@ -839,7 +839,7 @@ msgstr ""
 #~ msgid "Connection with the Remote Server has been lost."
 #~ msgstr "Connessione con il Server Remoto è stato perso."
 
-#: ../core/src/network/clientmanager.cpp:123
+#: ../core/src/network/clientmanager.cpp:125
 msgctxt "ClientManager|"
 msgid "Connection to the server has been closed."
 msgstr "Connessione al server è stata chiusa."
@@ -1482,7 +1482,7 @@ msgctxt "GMTOOL::UnitModel|"
 msgid "New Unit"
 msgstr "Nuova Unità"
 
-#: ../core/src/controller/gamecontroller.cpp:252
+#: ../core/src/controller/gamecontroller.cpp:255
 msgctxt "GameController|"
 msgid "idnull"
 msgstr ""
@@ -2048,12 +2048,12 @@ msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
 msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Tutti (*)"
 
-#: ../client/mainwindow.cpp:2274
+#: ../client/mainwindow.cpp:2268
 msgctxt "MainWindow|"
 msgid "unknown"
 msgstr "sconosciuto"
 
-#: ../client/mainwindow.cpp:684
+#: ../client/mainwindow.cpp:682
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
@@ -2069,42 +2069,42 @@ msgstr ""
 #~ msgid "Open Map"
 #~ msgstr "Apri Mappa"
 
-#: ../client/mainwindow.cpp:2165
+#: ../client/mainwindow.cpp:2159
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Collegato"
 
-#: ../client/mainwindow.cpp:2165
+#: ../client/mainwindow.cpp:2159
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Non Connesso"
 
-#: ../client/mainwindow.cpp:2166
+#: ../client/mainwindow.cpp:2160
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Server"
 
-#: ../client/mainwindow.cpp:2166
+#: ../client/mainwindow.cpp:2160
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Client"
 
-#: ../client/mainwindow.cpp:2167
+#: ../client/mainwindow.cpp:2161
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: ../client/mainwindow.cpp:2167
+#: ../client/mainwindow.cpp:2161
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Giocatore"
 
-#: ../client/mainwindow.cpp:938
+#: ../client/mainwindow.cpp:936
 msgctxt "MainWindow|"
 msgid "Open scenario"
 msgstr "Apri scenario"
 
-#: ../client/mainwindow.cpp:971
+#: ../client/mainwindow.cpp:969
 msgctxt "MainWindow|"
 msgid "Save Scenario as"
 msgstr "Salva Scenario come"
@@ -2209,7 +2209,7 @@ msgstr "Ctrl+P"
 
 #: ../client/mainwindow.ui:231
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:418
-#: ../client/mainwindow.cpp:877
+#: ../client/mainwindow.cpp:875
 msgctxt "MainWindow|"
 msgid "Quit"
 msgstr "Chiudere"
@@ -2716,48 +2716,48 @@ msgctxt "MainWindow|"
 msgid "Tile"
 msgstr "Quadretti"
 
-#: ../client/mainwindow.cpp:1088
+#: ../client/mainwindow.cpp:1086
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Aiuto"
 
-#: ../client/mainwindow.cpp:1129
+#: ../client/mainwindow.cpp:1127
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Notifica d'Aggiornamento"
 
-#: ../client/mainwindow.cpp:1166
+#: ../client/mainwindow.cpp:1164
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 non è la versione giusta: %2."
 
-#: ../client/mainwindow.cpp:1263
+#: ../client/mainwindow.cpp:1261
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Configura rolisteam ad usare <porta> per la connessione"
 
-#: ../client/mainwindow.cpp:1266
+#: ../client/mainwindow.cpp:1264
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Configura rolisteam a connettersi al server<>.<server>."
 
-#: ../client/mainwindow.cpp:1269
+#: ../client/mainwindow.cpp:1267
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Definire il <ruolo>: gm o pc"
 
-#: ../client/mainwindow.cpp:1271
+#: ../client/mainwindow.cpp:1269
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Cancellare le impostazioni e utilizzare i parametri di default"
 
-#: ../client/mainwindow.cpp:1274
+#: ../client/mainwindow.cpp:1272
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Definire il <username>"
 
-#: ../client/mainwindow.cpp:1277
+#: ../client/mainwindow.cpp:1275
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Rimuovere limite di dimensione per i file PDF"
@@ -2766,7 +2766,7 @@ msgstr "Rimuovere limite di dimensione per i file PDF"
 #~ msgid "End of the connection process"
 #~ msgstr "Fine del processo di connessione"
 
-#: ../client/mainwindow.cpp:2273
+#: ../client/mainwindow.cpp:2267
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
@@ -2776,44 +2776,44 @@ msgstr "Esporta da %1"
 #~ msgid "Resources Explorer"
 #~ msgstr "Esplora Risorse"
 
-#: ../client/mainwindow.cpp:1974
+#: ../client/mainwindow.cpp:1968
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "Apri %1"
 
-#: ../client/mainwindow.cpp:885
+#: ../client/mainwindow.cpp:883
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "Connessione interrotta. %1 è vicino"
 
-#: ../client/mainwindow.cpp:632
+#: ../client/mainwindow.cpp:630
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "&Rifai"
 
-#: ../client/mainwindow.cpp:633
+#: ../client/mainwindow.cpp:631
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&Annulla"
 
-#: ../client/mainwindow.cpp:683
+#: ../client/mainwindow.cpp:681
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Supporto"
 
-#: ../client/mainwindow.cpp:802
+#: ../client/mainwindow.cpp:800
 msgctxt "MainWindow|"
 msgid "Untitled"
 msgstr "Senza titolo"
 
-#: ../client/mainwindow.cpp:887
+#: ../client/mainwindow.cpp:885
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Connessione persa"
 
-#: ../client/mainwindow.cpp:893
+#: ../client/mainwindow.cpp:891
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
@@ -2829,7 +2829,7 @@ msgstr "Esci %1 "
 #~ msgid "Do you want to save your scenario before to quit %1?"
 #~ msgstr "Desideri salvare il scenario prima di uscire %1?"
 
-#: ../client/mainwindow.cpp:939 ../client/mainwindow.cpp:972
+#: ../client/mainwindow.cpp:937 ../client/mainwindow.cpp:970
 msgctxt "MainWindow|"
 msgid "Scenarios (*.sce)"
 msgstr "Scenari (*.sce)"
@@ -2840,7 +2840,7 @@ msgctxt "MainWindow|"
 msgid "About Rolisteam"
 msgstr "Su Rolisteam"
 
-#: ../client/mainwindow.cpp:1089
+#: ../client/mainwindow.cpp:1087
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -2850,7 +2850,7 @@ msgstr ""
 "La documentazione di %1 può essere trovata online all'indirizzo :<br> <a "
 "href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>"
 
-#: ../client/mainwindow.cpp:1130
+#: ../client/mainwindow.cpp:1128
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -2862,13 +2862,13 @@ msgstr ""
 "href=\"http://www.rolisteam.org/download\">pagina di Download</a> per "
 "ulteriori informazioni"
 
-#: ../client/mainwindow.cpp:1162
+#: ../client/mainwindow.cpp:1160
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 unisciti solo al gioco."
 
-#: ../client/mainwindow.cpp:1172
+#: ../client/mainwindow.cpp:1170
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
@@ -2883,7 +2883,6 @@ msgstr "%1 lascia solo il gioco."
 #~ "Indirizzo Ip Server:%1\n"
 #~ "Porta:%2"
 
-#: ../client/KDToolBox/qt/model_view/updateableModel/example/MainWindow.ui:14
 #: ../core/src/diceparser/gui/mainwindow.ui:14
 msgctxt "MainWindow|"
 msgid "MainWindow"
@@ -3496,7 +3495,7 @@ msgctxt "NetworkLink|"
 msgid "Socket is not writable"
 msgstr "Il Socket non è scrivibile"
 
-#: ../core/src/network/networklink.cpp:114
+#: ../core/src/network/networklink.cpp:113
 msgctxt "NetworkLink|"
 msgid "Tranmission error :"
 msgstr "Errore di Tranmission:"
@@ -4128,12 +4127,12 @@ msgctxt "ParticipantsPane|"
 msgid "Demote"
 msgstr "Retrocedi"
 
-#: ../core/src/vmap/items/pathitem.cpp:337
+#: ../core/src/vmap/items/pathitem.cpp:334
 msgctxt "PathItem|"
 msgid "Close Path"
 msgstr "Chiudere Tracciato"
 
-#: ../core/src/vmap/items/pathitem.cpp:341
+#: ../core/src/vmap/items/pathitem.cpp:338
 msgctxt "PathItem|"
 msgid "Fill Path"
 msgstr "Riempi Tracciato"
@@ -4178,12 +4177,12 @@ msgctxt "PdfViewer|"
 msgid "Export as Image"
 msgstr "Esporta come Immagine"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:161
+#: ../core/src/pdfviewer/pdfviewer.cpp:175
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
 msgstr "Condivisione File Pdf"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:162
+#: ../core/src/pdfviewer/pdfviewer.cpp:176
 msgctxt "PdfViewer|"
 msgid ""
 "PDF transfert can be really heavy.\n"
@@ -4192,7 +4191,7 @@ msgstr ""
 "Trasferire PDF può essere davvero pesante.\n"
 "Vuoi continuare e condividere il PDF?"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:175
+#: ../core/src/pdfviewer/pdfviewer.cpp:190
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
@@ -5676,12 +5675,12 @@ msgctxt "QObject|"
 msgid "List of Alias:\n"
 msgstr "Elenco di Alias:\n"
 
-#: ../client/mainwindow.cpp:1280
+#: ../client/mainwindow.cpp:1278
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "percorso per il file di traduzione: <translationfile>"
 
-#: ../client/mainwindow.cpp:1283
+#: ../client/mainwindow.cpp:1281
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "Definire URL per la connessione al server: <url>"
@@ -5824,7 +5823,7 @@ msgctxt "QObject|"
 msgid "Closed"
 msgstr "Chiuso"
 
-#: ../core/src/data/cleveruri.cpp:387
+#: ../core/src/data/cleveruri.cpp:387 ../core/src/vmap/vmapframe.cpp:37
 msgctxt "QObject|"
 msgid "Hidden"
 msgstr "Nascosto"
@@ -5978,8 +5977,8 @@ msgctxt "QObject|"
 msgid "Ellipse"
 msgstr "Ellisse"
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:267
-#: ../core/src/vmap/items/visualitem.cpp:43
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:264
+#: ../core/src/vmap/items/visualitem.cpp:43 ../core/src/vmap/vmapframe.cpp:65
 msgctxt "QObject|"
 msgid "Character"
 msgstr "Carattere"
@@ -6041,12 +6040,14 @@ msgctxt "QObject|"
 msgid "Add %1 Field"
 msgstr ""
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:267
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:264
+#: ../core/src/vmap/vmapframe.cpp:59
 msgctxt "QObject|"
 msgid "Ground"
 msgstr "Terra"
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:267
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:264
+#: ../core/src/vmap/vmapframe.cpp:62
 msgctxt "QObject|"
 msgid "Object"
 msgstr "Oggetto"
@@ -6197,6 +6198,48 @@ msgstr ""
 #, qt-format
 msgctxt "QObject|"
 msgid "Remove character %1"
+msgstr ""
+
+#: ../core/src/vmap/vmapframe.cpp:37
+#, fuzzy
+msgctxt "QObject|"
+msgid "Fog Of War"
+msgstr "La Nebbia Di Guerra"
+
+#: ../core/src/vmap/vmapframe.cpp:37
+msgctxt "QObject|"
+msgid "All visible"
+msgstr ""
+
+#: ../core/src/vmap/vmapframe.cpp:49
+#, fuzzy
+msgctxt "QObject|"
+msgid "No Right"
+msgstr "Nessun Diritto"
+
+#: ../core/src/vmap/vmapframe.cpp:49
+msgctxt "QObject|"
+msgid "His character"
+msgstr ""
+
+#: ../core/src/vmap/vmapframe.cpp:49
+msgctxt "QObject|"
+msgid "All Permissions"
+msgstr ""
+
+#: ../core/src/vmap/vmapframe.cpp:68
+msgctxt "QObject|"
+msgid "Fog Layer"
+msgstr ""
+
+#: ../core/src/vmap/vmapframe.cpp:71
+msgctxt "QObject|"
+msgid "Grid Layer"
+msgstr ""
+
+#: ../core/src/vmap/vmapframe.cpp:74
+msgctxt "QObject|"
+msgid "No Layer"
 msgstr ""
 
 #: ../core/src/vmap/rgraphicsview.cpp:314
@@ -6458,7 +6501,7 @@ msgctxt "RGraphicsView|"
 msgid "Clean Initiative on All Characters"
 msgstr "Pulire Iniziativa su Tutti i Personaggi"
 
-#: ../core/src/vmap/rgraphicsview.cpp:811
+#: ../core/src/vmap/rgraphicsview.cpp:800
 msgctxt "RGraphicsView|"
 msgid "Open image file"
 msgstr "Aprire il file di immagine"
@@ -6616,6 +6659,7 @@ msgid "Delete selected profile"
 msgstr "Eliminare il profilo selezionato"
 
 #: ../core/src/network/selectconnectionprofiledialog.ui:365
+#: ../core/src/network/selectconnectionprofiledialog.ui:417
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:386
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:386
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:386
@@ -6623,7 +6667,7 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Connect"
 msgstr "Collegare"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:375
+#: ../core/src/network/selectconnectionprofiledialog.ui:372
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:388
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:388
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:388
@@ -6631,7 +6675,7 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "OffLine Mode"
 msgstr "Modalità OffLine"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:378
+#: ../core/src/network/selectconnectionprofiledialog.ui:375
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:390
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:390
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:390
@@ -6639,23 +6683,28 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Cancel"
 msgstr "Annulla"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:406
+#: ../core/src/network/selectconnectionprofiledialog.ui:403
 #, fuzzy
 msgctxt "SelectConnectionProfileDialog|"
 msgid "New Character"
 msgstr "Nuovo Personaggio"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:415
+#: ../core/src/network/selectconnectionprofiledialog.ui:412
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Remove character"
 msgstr ""
 
-#: ../core/src/network/selectconnectionprofiledialog.cpp:172
+#: ../core/src/network/selectconnectionprofiledialog.ui:422
+msgctxt "SelectConnectionProfileDialog|"
+msgid "stop"
+msgstr ""
+
+#: ../core/src/network/selectconnectionprofiledialog.cpp:190
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Remove Current Profile"
 msgstr "Rimuovere Il Profilo Corrente"
 
-#: ../core/src/network/selectconnectionprofiledialog.cpp:173
+#: ../core/src/network/selectconnectionprofiledialog.cpp:191
 #, qt-format
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Do you really want to remove %1 from your connection list ?"
@@ -6669,7 +6718,7 @@ msgstr "Vuoi davvero rimuovere %1 dalla lista di connessione ?"
 #~ msgid "Unknown"
 #~ msgstr "Sconosciuto"
 
-#: ../core/src/network/selectconnectionprofiledialog.cpp:240
+#: ../core/src/network/selectconnectionprofiledialog.cpp:257
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Load Avatar"
 msgstr "Caricare L'Avatar"
@@ -6713,12 +6762,12 @@ msgctxt "ServerManager|"
 msgid "User has been kick out: %2 - %1."
 msgstr "L'utente è stato kick out: %2 - %1."
 
-#: ../core/src/network/servermanager.cpp:532
+#: ../core/src/network/servermanager.cpp:531
 msgctxt "ServerManager|"
 msgid "New Incoming Connection!"
 msgstr "Nuova Connessione In Ingresso!"
 
-#: ../core/src/network/servermanager.cpp:580
+#: ../core/src/network/servermanager.cpp:579
 #, qt-format
 msgctxt "ServerManager|"
 msgid "User %1 has been disconnected!"
@@ -7296,37 +7345,37 @@ msgctxt "Table|"
 msgid "Remove Last line"
 msgstr "Rimuovere Ultima riga"
 
-#: ../tests/characterstatemodel/tst_characterstatemodel.cpp:68
+#: ../tests/characterstatemodel/tst_characterstatemodel.cpp:76
 #, fuzzy
 msgctxt "TestCharacterStateModel|"
 msgid "Healthy"
 msgstr "Sano"
 
-#: ../tests/characterstatemodel/tst_characterstatemodel.cpp:73
+#: ../tests/characterstatemodel/tst_characterstatemodel.cpp:81
 #, fuzzy
 msgctxt "TestCharacterStateModel|"
 msgid "Lightly Wounded"
 msgstr "Leggermente Ferito"
 
-#: ../tests/characterstatemodel/tst_characterstatemodel.cpp:78
+#: ../tests/characterstatemodel/tst_characterstatemodel.cpp:86
 #, fuzzy
 msgctxt "TestCharacterStateModel|"
 msgid "Seriously injured"
 msgstr "Gravemente ferito"
 
-#: ../tests/characterstatemodel/tst_characterstatemodel.cpp:83
+#: ../tests/characterstatemodel/tst_characterstatemodel.cpp:91
 #, fuzzy
 msgctxt "TestCharacterStateModel|"
 msgid "Dead"
 msgstr "Morto"
 
-#: ../tests/characterstatemodel/tst_characterstatemodel.cpp:88
+#: ../tests/characterstatemodel/tst_characterstatemodel.cpp:96
 #, fuzzy
 msgctxt "TestCharacterStateModel|"
 msgid "Sleeping"
 msgstr "Dorme"
 
-#: ../tests/characterstatemodel/tst_characterstatemodel.cpp:93
+#: ../tests/characterstatemodel/tst_characterstatemodel.cpp:101
 #, fuzzy
 msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
@@ -7531,17 +7580,17 @@ msgctxt "TextItem|"
 msgid "Text"
 msgstr "Testo"
 
-#: ../core/src/vmap/items/textitem.cpp:456
+#: ../core/src/vmap/items/textitem.cpp:454
 msgctxt "TextItem|"
 msgid "Edit Text…"
 msgstr "Modificare Il Testo..."
 
-#: ../core/src/vmap/items/textitem.cpp:459
+#: ../core/src/vmap/items/textitem.cpp:457
 msgctxt "TextItem|"
 msgid "Adapt to content"
 msgstr "Adattare il contenuto"
 
-#: ../core/src/vmap/items/textitem.cpp:462
+#: ../core/src/vmap/items/textitem.cpp:460
 msgctxt "TextItem|"
 msgid "Font Size"
 msgstr "Dimensione Del Carattere"
@@ -7826,10 +7875,11 @@ msgstr "Rosso: %1, Verde: %2, Blu: %3"
 #~ msgid "Unknown Map"
 #~ msgstr "Mappa Unknown"
 
+#: ../core/src/vmap/vmapframe.cpp:123
 #, qt-format
-#~ msgctxt "VMapFrame|"
-#~ msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
-#~ msgstr "%1 - visibilità: %2 - autorizzazione: %3 strati: %4"
+msgctxt "VMapFrame|"
+msgid "%1 - visibility: %2 - permission: %3 - layer: %4"
+msgstr "%1 - visibilità: %2 - autorizzazione: %3 strati: %4"
 
 #: ../core/src/vmap/vtoolbar.cpp:32
 msgctxt "VToolsBar|"
@@ -7956,7 +8006,7 @@ msgctxt "VToolsBar|"
 msgid "Opacity:"
 msgstr "Opacità:"
 
-#: ../core/src/vmap/items/visualitem.cpp:246
+#: ../core/src/vmap/items/visualitem.cpp:244
 msgctxt "VisualItem|"
 msgid "Duplicate Item"
 msgstr "Elemento Duplicato"
@@ -8111,13 +8161,13 @@ msgctxt "WebView|"
 msgid "Form"
 msgstr "Modulo"
 
-#: ../core/src/webview/webview.cpp:103
+#: ../core/src/webview/webview.cpp:126
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"
 msgstr "%1 - Pagina web"
 
-#: ../core/src/webview/webview.ui:149
+#: ../core/src/webview/webview.ui:152
 msgctxt "WebView|"
 msgid "Share"
 msgstr "Condividere"
@@ -8164,7 +8214,7 @@ msgctxt "WebView|"
 msgid "Hide Address"
 msgstr ""
 
-#: ../core/src/webview/webview.ui:154
+#: ../core/src/webview/webview.ui:160
 msgctxt "WebView|"
 msgid "Share Html"
 msgstr ""
@@ -8237,7 +8287,7 @@ msgctxt "main|"
 msgid "Command"
 msgstr "Comando"
 
-#: ../core/src/vmap/controller/textcontroller.cpp:55
+#: ../core/src/vmap/controller/textcontroller.cpp:63
 #, fuzzy
 msgctxt "vmap::TextController|"
 msgid "Text"
