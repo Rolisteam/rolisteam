@@ -19,9 +19,26 @@
  ***************************************************************************/
 #include "charactersheetmediacontroller.h"
 
+#include "charactersheet/charactersheetmodel.h"
+#include "charactersheet/imagemodel.h"
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "data/cleveruri.h"
 #include "model/charactermodel.h"
+#include "network/receiveevent.h"
+#include "worker/iohelper.h"
+#include "worker/messagehelper.h"
+
+#include <QDebug>
+
+CharacterSheetController* findSheet(const std::vector<std::unique_ptr<CharacterSheetController>>& sheets,
+                                    const QString& id)
+{
+    auto it= std::find_if(sheets.begin(), sheets.end(),
+                          [id](const std::unique_ptr<CharacterSheetController>& ctrl) { return ctrl->uuid() == id; });
+    if(sheets.end() == it)
+        return nullptr;
+    return (*it).get();
+}
 
 CharacterSheetMediaController::CharacterSheetMediaController(CharacterModel* model) : m_characterModel(model) {}
 
@@ -35,10 +52,9 @@ bool CharacterSheetMediaController::openMedia(CleverURI* uri, const std::map<QSt
     if(uri == nullptr || (args.empty() && uri->getUri().isEmpty()))
         return false;
 
-    std::unique_ptr<CharacterSheetController> imgCtrl(new CharacterSheetController(m_characterModel, uri));
+    QHash<QString, QVariant> hash(args.begin(), args.end());
 
-    emit characterSheetCreated(imgCtrl.get());
-    m_sheets.push_back(std::move(imgCtrl));
+    addCharacterSheet(uri, hash);
     return true;
 }
 
@@ -53,6 +69,88 @@ void CharacterSheetMediaController::closeMedia(const QString& id)
     m_sheets.erase(it, m_sheets.end());
 }
 
-void CharacterSheetMediaController::registerNetworkReceiver() {}
+void CharacterSheetMediaController::registerNetworkReceiver()
+{
+    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory, this);
+}
 
-NetWorkReceiver::SendType CharacterSheetMediaController::processMessage(NetworkMessageReader* msg) {}
+NetWorkReceiver::SendType CharacterSheetMediaController::processMessage(NetworkMessageReader* msg)
+{
+    auto type= NetWorkReceiver::NONE;
+    if(msg->action() == NetMsg::addCharacterSheet && msg->category() == NetMsg::CharacterCategory)
+    {
+        auto hash= MessageHelper::readCharacterSheet(msg);
+        addCharacterSheet(new CleverURI(CleverURI::CHARACTERSHEET), hash);
+    }
+    else if(msg->action() == NetMsg::updateFieldCharacterSheet && msg->category() == NetMsg::CharacterCategory)
+    {
+        auto find= msg->string8();
+        auto current= findSheet(m_sheets, find);
+        MessageHelper::readUpdateField(current, msg);
+    }
+    return type;
+}
+
+void CharacterSheetMediaController::addCharacterSheet(CleverURI* uri, const QHash<QString, QVariant>& params)
+{
+    if(uri == nullptr)
+        return;
+
+    std::unique_ptr<CharacterSheetController> sheetCtrl(new CharacterSheetController(m_characterModel, uri));
+
+    if(params.contains(QStringLiteral("id")))
+    {
+        qDebug() << "id of sheetController:" << params.value(QStringLiteral("id")).toString();
+        sheetCtrl->setUuid(params.value(QStringLiteral("id")).toString());
+    }
+    if(params.contains(QStringLiteral("name")))
+    {
+        sheetCtrl->setName(params.value(QStringLiteral("name")).toString());
+    }
+    if(params.contains(QStringLiteral("qml")))
+    {
+        sheetCtrl->setQmlCode(params.value(QStringLiteral("qml")).toString());
+    }
+    if(params.contains(QStringLiteral("imageData")))
+    {
+        auto array= params.value(QStringLiteral("imageData")).toByteArray();
+        auto imgModel= sheetCtrl->imageModel();
+        imgModel->load(IOHelper::byteArrayToJsonArray(array));
+    }
+    if(params.contains(QStringLiteral("rootSection")))
+    {
+        auto array= params.value(QStringLiteral("rootSection")).toByteArray();
+        auto sheetModel= sheetCtrl->model();
+        sheetModel->setRootSection(IOHelper::byteArrayToJsonObj(array));
+    }
+
+    connect(this, &CharacterSheetMediaController::localIsGMChanged, sheetCtrl.get(),
+            &CharacterSheetController::setLocalGM);
+    connect(this, &CharacterSheetMediaController::gameMasterIdChanged, sheetCtrl.get(),
+            &CharacterSheetController::setGameMasterId);
+    sheetCtrl->setGameMasterId(m_gameMasterId);
+
+    emit characterSheetCreated(sheetCtrl.get());
+
+    if(params.contains(QStringLiteral("data")) && params.contains(QStringLiteral("characterId")))
+    {
+        auto array= params.value(QStringLiteral("data")).toByteArray();
+        auto characterId= params.value(QStringLiteral("characterId")).toString();
+        sheetCtrl->addCharacterSheet(IOHelper::byteArrayToJsonObj(array), characterId);
+    }
+    m_sheets.push_back(std::move(sheetCtrl));
+}
+
+QString CharacterSheetMediaController::gameMasterId() const
+{
+    return m_gameMasterId;
+}
+
+void CharacterSheetMediaController::setGameMasterId(const QString& gameMasterId)
+{
+    if(m_gameMasterId == gameMasterId)
+        return;
+
+    m_gameMasterId= gameMasterId;
+    emit gameMasterIdChanged(m_gameMasterId);
+}
