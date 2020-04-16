@@ -151,7 +151,6 @@ QVariant PlayerModel::data(const QModelIndex& index, int role) const
         QPalette pal;
         return QVariant(pal.color(QPalette::Active, QPalette::Dark));
     }
-
     QVariant var;
     switch(role)
     {
@@ -199,30 +198,36 @@ QVariant PlayerModel::data(const QModelIndex& index, int role) const
             var= QVariant(person->getColor());
         break;
     }
-    case IdentifierRole:
+    case PlayerModel::IdentifierRole:
         var= person->uuid();
         break;
-    case PersonPtrRole:
+    case PlayerModel::PersonPtrRole:
         var= QVariant::fromValue(person);
         break;
-    case CharacterRole:
+    case PlayerModel::CharacterRole:
         var= person->isLeaf();
         break;
-    case NpcRole:
+    case PlayerModel::NpcRole:
         var= isNPC;
         break;
-    case CharacterStateIdRole:
+    case PlayerModel::NameRole:
+        var= person->name();
+        break;
+    case PlayerModel::CharacterStateIdRole:
     {
         if(nullptr != character)
             var= character->stateId();
     }
     break;
 
-    case LocalRole:
+    case PlayerModel::LocalRole:
         var= true; // isLocal(person);
         break;
-    case GmRole:
+    case PlayerModel::GmRole:
         var= isGM;
+        break;
+    case PlayerModel::AvatarRole:
+        var= person->getAvatar();
         break;
     }
 
@@ -239,7 +244,7 @@ Qt::ItemFlags PlayerModel::flags(const QModelIndex& index) const
 
 QVariant PlayerModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    Q_UNUSED(section);
+    Q_UNUSED(section)
     if(orientation == Qt::Horizontal && role == Qt::DisplayRole)
         return QVariant(tr("Players List"));
     return QVariant();
@@ -292,7 +297,9 @@ QModelIndex PlayerModel::parent(const QModelIndex& index) const
     {
         return QModelIndex();
     }
-    auto it = std::find_if(m_players.begin(), m_players.end(), [parentPerson](const std::unique_ptr<Player>& person) { return parentPerson == person.get(); });
+    auto it= std::find_if(m_players.begin(), m_players.end(), [parentPerson](const std::unique_ptr<Player>& person) {
+        return parentPerson == person.get();
+    });
 
     return createIndex(static_cast<int>(std::distance(m_players.begin(), it)), 0, parentPerson);
 }
@@ -755,18 +762,11 @@ void PlayerModel::addPlayer(Player* player)
 
     int size= static_cast<int>(m_players.size());
 
-    qDebug() << "add player to model";
     beginInsertRows(QModelIndex(), size, size);
     m_players.push_back(std::unique_ptr<Player>(player));
     endInsertRows();
 
     emit playerJoin(player);
-
-    /*    for(int i= 0; i < player->getChildrenCount(); ++i)
-        {
-            Character* character= player->getCharacterByIndex(i);
-            addCharacter(player, character);
-        }*/
 }
 
 void PlayerModel::addCharacter(const QModelIndex& parent, Character* character, int pos)
