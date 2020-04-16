@@ -51,6 +51,8 @@ PlayerController::PlayerController(QObject* parent)
     ReceiveEvent::registerNetworkReceiver(NetMsg::PlayerCategory, this);
     m_playerOnMapModel->setSourceModel(m_model.get());
     m_characterModel->setSourceModel(m_model.get());
+
+    connect(m_model.get(), &PlayerModel::gameMasterIdChanged, this, &PlayerController::gameMasterIdChanged);
 }
 
 PlayerController::~PlayerController()= default;
@@ -60,6 +62,11 @@ void PlayerController::clear()
     m_model->clear();
     if(m_localPlayer.isNull())
         m_localPlayer= new Player();
+}
+
+QString PlayerController::gameMasterId() const
+{
+    return m_model->gameMasterId();
 }
 
 NetWorkReceiver::SendType PlayerController::processMessage(NetworkMessageReader* msg)

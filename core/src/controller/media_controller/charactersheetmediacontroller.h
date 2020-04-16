@@ -41,12 +41,19 @@ public:
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
     void setUndoStack(QUndoStack* stack) override {}
 
+    QString gameMasterId() const;
+
+public slots:
+    void setGameMasterId(const QString& gameMasterId);
 signals:
     void characterSheetCreated(CharacterSheetController*);
+
+    void gameMasterIdChanged(QString gameMasterId);
 
 private:
     std::vector<std::unique_ptr<CharacterSheetController>> m_sheets;
     QPointer<CharacterModel> m_characterModel;
+    QString m_gameMasterId;
 };
 
 #endif // CHARACTERSHEETMEDIACONTROLLER_H

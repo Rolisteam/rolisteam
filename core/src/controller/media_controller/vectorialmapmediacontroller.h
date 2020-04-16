@@ -33,7 +33,7 @@ class VectorialMapMediaController : public MediaControllerInterface
     Q_OBJECT
 
 public:
-    VectorialMapMediaController(NetworkController* networkCtrl);
+    VectorialMapMediaController();
     ~VectorialMapMediaController() override;
 
     VectorialMapController* currentVMap() const;
@@ -99,7 +99,6 @@ private:
 
 private:
     std::vector<std::unique_ptr<VectorialMapController>> m_vmaps;
-    QPointer<NetworkController> m_networkCtrl;
     std::unique_ptr<VMapUpdater> m_updater;
     QPointer<QUndoStack> m_stack;
 };

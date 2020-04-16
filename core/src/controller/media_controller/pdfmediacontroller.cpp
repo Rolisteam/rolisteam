@@ -97,6 +97,8 @@ void PdfMediaController::addPdfController(CleverURI* uri, const QHash<QString, Q
     connect(pdfController.get(), &PdfController::sharePdf, this, &PdfMediaController::sharePdf);
     connect(pdfController.get(), &PdfController::openImageAs, this, &PdfMediaController::shareImageAs);
 
+    connect(this, &PdfMediaController::localIsGMChanged, pdfController.get(), &PdfController::setLocalGM);
+
     emit pdfControllerCreated(pdfController.get());
     m_pdfs.push_back(std::move(pdfController));
 }

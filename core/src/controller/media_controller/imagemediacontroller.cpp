@@ -79,6 +79,9 @@ ImageController* ImageMediaController::addImageController(CleverURI* uri, const 
     std::unique_ptr<ImageController> imgCtrl(new ImageController(uri, pix));
     emit imageControllerCreated(imgCtrl.get());
     auto img= imgCtrl.get();
+
+    connect(this, &ImageMediaController::localIsGMChanged, imgCtrl.get(), &ImageController::setLocalGM);
+
     m_images.push_back(std::move(imgCtrl));
     return img;
 }
