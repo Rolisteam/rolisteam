@@ -1,0 +1,22 @@
+@startuml
+
+title VectorialMap - Class Diagram
+
+
+class AbstractMediaContainerController {
+QString name
+QString title
+QString uuid
+CleverURI uri
+bool active
+
+void saveData()
+void loadData()
+}
+
+class VectorialMapController {
+}
+AbstractMediaContainerController <|-- VectorialMapController
+
+
+@enduml
