@@ -81,7 +81,7 @@ public:
     bool selected() const;
     bool editable() const;
     bool selectable() const;
-    bool visible() const;
+    virtual bool visible() const;
     qreal opacity() const;
     Core::Layer layer() const;
     QPointF pos() const;

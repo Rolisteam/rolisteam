@@ -118,7 +118,7 @@ bool VisualItemController::selectable() const
 
 bool VisualItemController::visible() const
 {
-    return (m_visible && m_ctrl->visibility() != Core::HIDDEN);
+    return (m_visible && ((m_ctrl->visibility() != Core::HIDDEN) || m_ctrl->localGM()));
 }
 
 qreal VisualItemController::opacity() const

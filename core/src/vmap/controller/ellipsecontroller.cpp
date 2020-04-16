@@ -129,6 +129,7 @@ void EllipseController::setRx(qreal rx)
         return;
     m_rx= rx;
     emit rxChanged();
+    m_editingRx= true;
 }
 
 void EllipseController::setRy(qreal ry)
@@ -137,5 +138,6 @@ void EllipseController::setRy(qreal ry)
         return;
     m_ry= ry;
     emit ryChanged();
+    m_editingRy= true;
 }
 } // namespace vmap
