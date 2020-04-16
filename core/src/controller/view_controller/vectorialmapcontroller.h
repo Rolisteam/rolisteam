@@ -59,7 +59,6 @@ class VectorialMapController : public AbstractMediaContainerController
     Q_PROPERTY(bool initScoreVisible READ initScoreVisible WRITE setInitScoreVisible NOTIFY initScoreVisibleChanged)
     Q_PROPERTY(bool stateLabelVisible READ stateLabelVisible WRITE setStateLabelVisible NOTIFY stateLabelVisibleChanged)
     Q_PROPERTY(bool collision READ collision WRITE setCollision NOTIFY collisionChanged)
-    Q_PROPERTY(bool localGM READ localGM WRITE setLocalGM NOTIFY localGMChanged)
     Q_PROPERTY(bool characterVision READ characterVision WRITE setCharacterVision NOTIFY characterVisionChanged)
     Q_PROPERTY(QColor gridColor READ gridColor WRITE setGridColor NOTIFY gridColorChanged)
     Q_PROPERTY(qreal gridScale READ gridScale WRITE setGridScale NOTIFY gridScaleChanged)
@@ -130,7 +129,6 @@ public:
     bool healthBarVisible() const;
     bool initScoreVisible() const;
     bool characterVision() const;
-    bool localGM() const;
     bool stateLabelVisible() const;
     QRectF visualRect() const;
     bool idle() const;
@@ -199,7 +197,6 @@ signals:
     void pcNameVisibleChanged();
     void healthBarVisibleChanged();
     void initScoreVisibleChanged();
-    void localGMChanged();
     void npcNumberVisibleChanged();
     void gridColorChanged();
     void characterVisionChanged();
@@ -218,7 +215,6 @@ public slots:
     void setGridPattern(Core::GridPattern pattern);
     void setVisibility(Core::VisibilityMode mode);
     void setBackgroundColor(QColor color);
-    void setLocalGM(bool b);
     void setToolColor(QColor color);
     void setPenSize(quint16 size);
     void setNpcName(const QString& name);
@@ -259,7 +255,6 @@ private:
     bool m_npcNameVisible= true;
     bool m_healthBarVisible= true;
     bool m_initScoreVisible= true;
-    bool m_localGM= false;
     bool m_npcNumberVisible= true;
     bool m_characterVision= false;
     bool m_stateLabelVisible= false;

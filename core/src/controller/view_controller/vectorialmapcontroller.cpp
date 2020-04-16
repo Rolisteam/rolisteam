@@ -231,11 +231,6 @@ bool VectorialMapController::characterVision() const
     return m_characterVision;
 }
 
-bool VectorialMapController::localGM() const
-{
-    return m_localGM;
-}
-
 bool VectorialMapController::stateLabelVisible() const
 {
     return m_stateLabelVisible;
@@ -309,10 +304,8 @@ void VectorialMapController::setGridPattern(Core::GridPattern pattern)
 
 void VectorialMapController::setVisibility(Core::VisibilityMode mode)
 {
-    qDebug() << "enter visiblity changed" << mode;
     if(mode == m_visibilityMode)
         return;
-    qDebug() << "visiblity changed" << mode;
     m_visibilityMode= mode;
     emit visibilityChanged();
 }
@@ -323,15 +316,6 @@ void VectorialMapController::setBackgroundColor(QColor color)
         return;
     m_backgroundColor= color;
     emit backgroundColorChanged();
-}
-
-void VectorialMapController::setLocalGM(bool b)
-{
-    if(m_localGM == b)
-        return;
-    m_localGM= b;
-    qDebug() << m_localGM << "Vectorial map controller local is gm";
-    emit localGMChanged();
 }
 
 void VectorialMapController::setToolColor(QColor color)
