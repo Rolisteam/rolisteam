@@ -248,3 +248,15 @@ QByteArray IOHelper::loadFile(const QString& filepath)
     }
     return data;
 }
+
+QJsonObject IOHelper::byteArrayToJsonObj(const QByteArray& data)
+{
+    auto doc= QJsonDocument::fromBinaryData(data);
+    return doc.object();
+}
+
+QJsonArray IOHelper::byteArrayToJsonArray(const QByteArray& data)
+{
+    auto doc= QJsonDocument::fromBinaryData(data);
+    return doc.array();
+}
