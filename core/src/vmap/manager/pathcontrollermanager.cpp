@@ -29,6 +29,9 @@
 PathControllerManager::PathControllerManager(VectorialMapController* ctrl, QObject* parent)
     : VisualItemControllerManager(parent), m_ctrl(ctrl), m_updater(new PathControllerUpdater)
 {
+    auto func= [this]() { m_updater->setSynchronized(m_ctrl->localGM() || m_ctrl->permission() == Core::PC_ALL); };
+    connect(ctrl, &VectorialMapController::localGMChanged, this, func);
+    connect(ctrl, &VectorialMapController::permissionChanged, this, func);
 }
 
 PathControllerManager::~PathControllerManager()= default;

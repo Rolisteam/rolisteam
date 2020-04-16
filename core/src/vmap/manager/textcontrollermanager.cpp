@@ -28,6 +28,9 @@
 TextControllerManager::TextControllerManager(VectorialMapController* ctrl)
     : m_ctrl(ctrl), m_updater(new TextControllerUpdater)
 {
+    auto func= [this]() { m_updater->setSynchronized(m_ctrl->localGM() || m_ctrl->permission() == Core::PC_ALL); };
+    connect(ctrl, &VectorialMapController::localGMChanged, this, func);
+    connect(ctrl, &VectorialMapController::permissionChanged, this, func);
 }
 
 QString TextControllerManager::addItem(const std::map<QString, QVariant>& params)
