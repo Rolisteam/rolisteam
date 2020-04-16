@@ -47,10 +47,10 @@
 #define DIRECTION_RADIUS_HANDLE 4
 #define ANGLE_HANDLE 5
 
-void updateListAlias(QList<DiceAlias*>* list)
+void updateListAlias(QList<DiceAlias*>& list)
 {
     auto preferences= PreferencesManager::getInstance();
-    list->clear();
+    list.clear();
     int size= preferences->value("DiceAliasNumber", 0).toInt();
     for(int i= 0; i < size; ++i)
     {
@@ -58,7 +58,7 @@ void updateListAlias(QList<DiceAlias*>* list)
         QString value= preferences->value(QString("DiceAlias_%1_value").arg(i), "").toString();
         bool replace= preferences->value(QString("DiceAlias_%1_type").arg(i), true).toBool();
         bool enable= preferences->value(QString("DiceAlias_%1_enable").arg(i), true).toBool();
-        list->append(new DiceAlias(cmd, value, replace, enable));
+        list.append(new DiceAlias(cmd, value, replace, enable));
     }
 }
 
