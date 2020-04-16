@@ -68,6 +68,11 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_
     connect(m_ctrl, &vmap::VisualItemController::visibleChanged, this, [this]() { setVisible(m_ctrl->visible()); });
 
     init();
+
+    setVisible(m_ctrl->visible());
+    setRotation(m_ctrl->rotation());
+
+    updateItemFlags();
 }
 
 VisualItem::~VisualItem() {}
@@ -94,8 +99,6 @@ void VisualItem::init()
     group->addAction(m_putGroundLayer);
     group->addAction(m_putObjectLayer);
     group->addAction(m_putCharacterLayer);
-
-    updateItemFlags();
 }
 vmap::VisualItemController* VisualItem::controller() const
 {
