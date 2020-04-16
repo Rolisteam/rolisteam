@@ -21,12 +21,14 @@
 #define CHARACTERMODEL_H
 
 #include <QAbstractProxyModel>
+#include <iterator>
 
+class Character;
 class CharacterModel : public QAbstractProxyModel
 {
     Q_OBJECT
 public:
-    CharacterModel(/*CharacterType mode,*/ QObject* parent= nullptr);
+    CharacterModel(QObject* parent= nullptr);
 
     int columnCount(const QModelIndex& parent= QModelIndex()) const override;
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;
@@ -36,6 +38,8 @@ public:
 
     QModelIndex parent(const QModelIndex&) const override;
     QModelIndex index(int, int, const QModelIndex&) const override;
+
+    Character* character(const QString& id);
 };
 
 #endif // CHARACTERMODEL_H

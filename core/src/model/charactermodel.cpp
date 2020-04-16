@@ -78,7 +78,8 @@ QModelIndex CharacterModel::mapToSource(const QModelIndex& proxyIndex) const
 {
     auto row= proxyIndex.row();
     QModelIndex parent;
-    for(int i= 0; i < sourceModel()->rowCount(); ++i)
+    bool found= false;
+    for(int i= 0; i < sourceModel()->rowCount() && !found; ++i)
     {
         auto index= sourceModel()->index(i, 0);
         auto count= sourceModel()->rowCount(index);
@@ -86,6 +87,11 @@ QModelIndex CharacterModel::mapToSource(const QModelIndex& proxyIndex) const
         {
             row-= count;
             parent= index;
+        }
+        else if(row < count)
+        {
+            parent= index;
+            found= true;
         }
     }
     return sourceModel()->index(row, 0, parent);
@@ -99,4 +105,20 @@ QModelIndex CharacterModel::parent(const QModelIndex&) const
 QModelIndex CharacterModel::index(int r, int c, const QModelIndex&) const
 {
     return createIndex(r, c);
+}
+
+Character* CharacterModel::character(const QString& id)
+{
+    Character* find= nullptr;
+
+    for(int i= 0; i < rowCount() && find == nullptr; ++i)
+    {
+        auto idx= index(i, 0, QModelIndex());
+        auto uuid= idx.data(PlayerModel::IdentifierRole).toString();
+        auto person= idx.data(PlayerModel::PersonPtrRole).value<Person*>();
+        if(uuid == id)
+            find= dynamic_cast<Character*>(person);
+    }
+
+    return find;
 }
