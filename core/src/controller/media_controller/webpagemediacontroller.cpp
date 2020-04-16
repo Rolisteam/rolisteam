@@ -105,6 +105,8 @@ void WebpageMediaController::addWebpageController(const QHash<QString, QVariant>
     connect(webCtrl.get(), &WebpageController::urlChanged, this, [this, id]() { updatePage(id); });
     connect(webCtrl.get(), &WebpageController::urlSharingChanged, this, [this, id]() { updatePage(id); });
 
+    connect(this, &WebpageMediaController::localIsGMChanged, webCtrl.get(), &WebpageController::setLocalGM);
+
     emit webpageControllerCreated(webCtrl.get());
     m_webpages.push_back(std::move(webCtrl));
 }

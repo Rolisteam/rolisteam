@@ -41,6 +41,7 @@ class ReceiveEvent;
 class PlayerModel : public QAbstractItemModel
 {
     Q_OBJECT
+    Q_PROPERTY(QString gameMasterId READ gameMasterId NOTIFY gameMasterIdChanged)
 public:
     enum ItemDataRole
     {
@@ -81,6 +82,9 @@ public:
     Person* personById(const QString& id) const;
 
     QModelIndex personToIndex(Person* person) const;
+
+    QString gameMasterId() const;
+
     // void sendOffLocalPlayerInformations();
     // void sendOffFeatures(Player* player);
 
@@ -99,6 +103,10 @@ public slots:
 signals:
     void playerJoin(Player* player);
     void playerLeft(Player* player);
+    void gameMasterIdChanged(const QString& gameMasterId);
+
+private:
+    void setGameMasterId(const QString& id);
 
     //    bool everyPlayerHasFeature(const QString& name, quint8 version= 0) const;
 
@@ -142,6 +150,7 @@ private:
 
 private:
     std::vector<std::unique_ptr<Player>> m_players;
+    QString m_gameMasterId;
     //    bool m_receivingData= false;
 };
 

@@ -389,6 +389,11 @@ QModelIndex PlayerModel::personToIndex(Person* person) const
     return index(row, 0, parent);
 }
 
+QString PlayerModel::gameMasterId() const
+{
+    return m_gameMasterId;
+}
+
 Player* PlayerModel::playerById(const QString& id) const
 {
     auto it= std::find_if(m_players.begin(), m_players.end(),
@@ -743,6 +748,11 @@ void PlayerModel::addPlayer(Player* player)
         return;
     }
 
+    if(player->isGM())
+    {
+        setGameMasterId(player->uuid());
+    }
+
     int size= static_cast<int>(m_players.size());
 
     qDebug() << "add player to model";
@@ -815,7 +825,20 @@ void PlayerModel::removePlayer(Player* player)
     m_players.erase(itPlayer);
     endRemoveRows();
 
+    if(player->isGM())
+    {
+        setGameMasterId("");
+    }
+
     emit playerLeft(player);
+}
+
+void PlayerModel::setGameMasterId(const QString& id)
+{
+    if(id == m_gameMasterId)
+        return;
+    m_gameMasterId= id;
+    emit gameMasterIdChanged(m_gameMasterId);
 }
 
 /*void PlayerModel::delCharacter(Player* parent, int index)
@@ -992,6 +1015,7 @@ void PlayerModel::clear()
     beginResetModel();
     m_players.clear();
     endResetModel();
+    setGameMasterId("");
 }
 
 /*********

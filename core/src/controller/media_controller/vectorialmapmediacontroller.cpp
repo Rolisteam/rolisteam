@@ -210,8 +210,6 @@ VectorialMapController* VectorialMapMediaController::addVectorialMapController(C
 {
     std::unique_ptr<VectorialMapController> vmapCtrl(new VectorialMapController(uri));
 
-    vmapCtrl->setLocalGM(m_networkCtrl->isGM());
-
     if(!params.isEmpty())
     {
         vmapCtrl->setPermission(params.value(QStringLiteral("permission")).value<Core::PermissionMode>());
@@ -229,6 +227,9 @@ VectorialMapController* VectorialMapMediaController::addVectorialMapController(C
     connect(vmapCtrl.get(), &VectorialMapController::performCommand, m_stack, &QUndoStack::push);
     connect(vmapCtrl.get(), &VectorialMapController::toolColorChanged, this,
             &VectorialMapMediaController::toolColorChanged);
+    connect(this, &VectorialMapMediaController::localIsGMChanged, vmapCtrl.get(), &VectorialMapController::setLocalGM);
+
+    vmapCtrl->setLocalGM(localIsGM());
     auto val= vmapCtrl.get();
     m_vmaps.push_back(std::move(vmapCtrl));
     emit vmapControllerCreated(val);

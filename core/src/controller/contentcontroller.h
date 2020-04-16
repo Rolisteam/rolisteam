@@ -59,10 +59,10 @@ class ContentController : public AbstractControllerInterface, public Preferences
     Q_PROPERTY(int maxLengthTabName READ maxLengthTabName NOTIFY maxLengthTabNameChanged)
     Q_PROPERTY(QString sessionName READ sessionName NOTIFY sessionNameChanged)
     Q_PROPERTY(QString sessionPath READ sessionPath WRITE setSessionPath NOTIFY sessionPathChanged)
+    Q_PROPERTY(QString gameMasterId READ gameMasterId WRITE setGameMasterId NOTIFY gameMasterIdChanged)
 
 public:
-    explicit ContentController(CharacterModel* characterModel, NetworkController* networkCtrl,
-                               QObject* parent= nullptr);
+    explicit ContentController(CharacterModel* characterModel, QObject* parent= nullptr);
     ~ContentController() override;
 
     QAbstractItemModel* model() const;
@@ -81,6 +81,7 @@ public:
     int workspacePositioning() const;
     QString sessionName() const;
     QString sessionPath() const;
+    QString gameMasterId() const;
 
     void setGameController(GameController*) override;
     void preferencesHasChanged(const QString& key) override;
@@ -100,6 +101,7 @@ signals:
     void sessionChanged(bool);
     void sessionNameChanged();
     void sessionPathChanged();
+    void gameMasterIdChanged(const QString& gameMasterId);
 
 public slots:
     // Media API
@@ -117,6 +119,7 @@ public slots:
     // void setActiveMediaController(AbstractMediaContainerController* mediaCtrl);
     void saveSession();
     void loadSession();
+    void setGameMasterId(const QString& id);
 
 private:
     std::unique_ptr<SessionItemModel> m_contentModel;
@@ -132,6 +135,7 @@ private:
     PreferencesManager* m_preferences;
     QString m_sessionName;
     QString m_sessionPath;
+    QString m_gameMasterId;
 };
 
 #endif // CONTENTCONTROLLER_H

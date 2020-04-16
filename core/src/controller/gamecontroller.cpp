@@ -68,8 +68,12 @@ GameController::GameController(QObject* parent)
         emit connectedChanged(b);
     });
 
+    connect(m_playerController.get(), &PlayerController::gameMasterIdChanged, m_contentCtrl.get(),
+            &ContentController::setGameMasterId);
     connect(m_playerController.get(), &PlayerController::performCommand, this, &GameController::addCommand);
     connect(m_contentCtrl.get(), &ContentController::performCommand, this, &GameController::addCommand);
+
+    m_contentCtrl->setGameMasterId(m_playerController->gameMasterId());
 
     m_remoteLogCtrl->setAppId(0);
 }

@@ -40,11 +40,11 @@
 #include "undoCmd/openmediacontroller.h"
 #include "worker/modelhelper.h"
 
-ContentController::ContentController(CharacterModel* characterModel, NetworkController* networkCtrl, QObject* parent)
+ContentController::ContentController(CharacterModel* characterModel, QObject* parent)
     : AbstractControllerInterface(parent)
     , m_contentModel(new SessionItemModel)
     , m_imageControllers(new ImageMediaController)
-    , m_vmapControllers(new VectorialMapMediaController(networkCtrl))
+    , m_vmapControllers(new VectorialMapMediaController)
     , m_sheetMediaController(new CharacterSheetMediaController(characterModel))
     , m_webPageMediaController(new WebpageMediaController)
     , m_sharedNoteMediaController(new SharedNoteMediaController)
@@ -66,6 +66,9 @@ ContentController::ContentController(CharacterModel* characterModel, NetworkCont
                   [](const std::pair<CleverURI::ContentType, MediaControllerInterface*>& pair) {
                       pair.second->registerNetworkReceiver();
                   });
+
+    connect(this, &ContentController::gameMasterIdChanged, m_sheetMediaController.get(),
+            &CharacterSheetMediaController::setGameMasterId);
 }
 
 ContentController::~ContentController()= default;
@@ -201,6 +204,19 @@ void ContentController::saveSession()
 void ContentController::loadSession()
 {
     setSessionName(ModelHelper::loadSession(m_sessionPath, m_contentModel.get()));
+}
+
+QString ContentController::gameMasterId() const
+{
+    return m_gameMasterId;
+}
+
+void ContentController::setGameMasterId(const QString& id)
+{
+    if(id == m_gameMasterId)
+        return;
+    m_gameMasterId= id;
+    emit gameMasterIdChanged(m_gameMasterId);
 }
 
 void ContentController::clear()

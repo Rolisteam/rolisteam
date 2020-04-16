@@ -54,6 +54,27 @@ bool AbstractMediaContainerController::isActive() const
     return m_active;
 }
 
+bool AbstractMediaContainerController::localGM() const
+{
+    return m_localGM;
+}
+
+void AbstractMediaContainerController::setLocalGM(bool b)
+{
+    if(m_localGM == b)
+        return;
+    m_localGM= b;
+    emit localGMChanged();
+}
+
+void AbstractMediaContainerController::setUuid(const QString& id)
+{
+    if(uuid() == id || nullptr == m_uri)
+        return;
+    m_uri->setUuid(id);
+    emit uuidChanged(id);
+}
+
 void AbstractMediaContainerController::setUri(CleverURI* uri)
 {
     if(m_uri.get() == uri)
