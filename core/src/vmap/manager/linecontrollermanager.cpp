@@ -27,6 +27,9 @@
 LineControllerManager::LineControllerManager(VectorialMapController* ctrl)
     : m_ctrl(ctrl), m_updater(new LineControllerUpdater)
 {
+    auto func= [this]() { m_updater->setSynchronized(m_ctrl->localGM() || m_ctrl->permission() == Core::PC_ALL); };
+    connect(ctrl, &VectorialMapController::localGMChanged, this, func);
+    connect(ctrl, &VectorialMapController::permissionChanged, this, func);
 }
 
 QString LineControllerManager::addItem(const std::map<QString, QVariant>& params)
