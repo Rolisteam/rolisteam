@@ -49,6 +49,7 @@ int MusicModel::columnCount(const QModelIndex& parent) const
         return COLUMN_COUNT;
     return 0;
 }
+
 QVariant MusicModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(orientation == Qt::Vertical)
@@ -86,36 +87,24 @@ QVariant MusicModel::data(const QModelIndex& index, int role) const
         return {};
     }
 
-    if(Qt::DisplayRole == role)
-    {
-        if(index.column() == TITLE)
-        {
-            QUrl url= m_data.at(index.row())->canonicalUrl();
-            if(url.isLocalFile())
-            {
-                return url.fileName();
+    switch(role) {
+        case Qt::DisplayRole:
+            if (index.column() == TITLE) {
+                return normalizeUrl(m_data.at(index.row())->canonicalUrl())
             }
-            else if(url.host().contains("tabletopaudio.com"))
-            {
-                QString str= url.toString();
-                str= str.right(str.size() - (str.lastIndexOf("=") + 1));
-                return str.replace(".mp3", "").replace("_", " ");
+        break;
+        case Qt::FontRole:
+            if((index == m_currentSong) {
+                return boldFont();
             }
-            else
-            {
-                return url.fileName();
-            }
-        }
-    }
-    else if((index == m_currentSong) && (Qt::FontRole == role))
-    {
-        QFont font;
-        font.setBold(true);
-        return font;
+        break;
+        default:
+        break;
     }
 
     return {};
 }
+
 void MusicModel::addSong(QStringList list)
 {
     if(list.isEmpty())
