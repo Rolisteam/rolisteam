@@ -190,9 +190,8 @@ bool MusicModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
     if(action == Qt::IgnoreAction)
         return true;
 
-    if(!data->hasUrls()) {
+    if(!data->hasUrls())
         return false;
-    }
 
     QList<QUrl> list= data->urls();
 
