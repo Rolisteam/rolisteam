@@ -128,10 +128,6 @@ private:
      * @brief playerWidget
      */
     void playerWidget();
-    /**
-     * @brief m_singleton
-     */
-    static AudioPlayer* m_singleton;
 
     //!< @brief static pointer to the unique instance of this audioplayer
     /**

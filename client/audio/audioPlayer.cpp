@@ -45,12 +45,10 @@ AudioPlayer::AudioPlayer(QWidget* parent) : QDockWidget(parent) //,m_currentSour
 
 AudioPlayer* AudioPlayer::getInstance(QWidget* parent)
 {
-    if(m_singleton == nullptr)
-    {
-        m_singleton= new AudioPlayer(parent);
-    }
+    static auto *m_singleton= new AudioPlayer(parent);
     return m_singleton;
 }
+
 void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
 {
     QMenu menu;
