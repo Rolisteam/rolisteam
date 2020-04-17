@@ -117,7 +117,7 @@ void AudioPlayer::showMusicPlayer(bool status)
 
     int i= m_playerActionsList.indexOf(act);
 
-    if(-1 != 1)
+    if(i != -1)
     {
         PlayerWidget* tmp= m_players[i];
         tmp->setVisible(status);
