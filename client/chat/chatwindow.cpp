@@ -25,6 +25,7 @@
 
 #include <QAbstractItemView>
 #include <QDateTime>
+#include <QDebug>
 #include <QDir>
 #include <QMdiArea>
 #include <QMenu>
@@ -97,8 +98,7 @@ QMdiSubWindow* ChatWindow::getSubWindow()
 
 void ChatWindow::updateListAlias()
 {
-    QList<DiceAlias*>* list= m_diceParser->getAliases();
-    list->clear();
+    m_diceParser->cleanAliases();
     int size= m_preferences->value("DiceAliasNumber", 0).toInt();
     for(int i= 0; i < size; ++i)
     {
@@ -106,11 +106,16 @@ void ChatWindow::updateListAlias()
         QString value= m_preferences->value(QString("DiceAlias_%1_value").arg(i), "").toString();
         bool replace= m_preferences->value(QString("DiceAlias_%1_type").arg(i), true).toBool();
         bool enable= m_preferences->value(QString("DiceAlias_%1_enable").arg(i), true).toBool();
-        list->append(new DiceAlias(cmd, value, replace, enable));
+        m_diceParser->insertAlias(new DiceAlias(cmd, value, replace, enable), i);
     }
     if(nullptr != m_receivedAlias)
     {
-        list->append(*m_receivedAlias);
+        int j= size;
+        for(auto alias : *m_receivedAlias)
+        {
+            m_diceParser->insertAlias(alias, j);
+            ++j;
+        }
     }
 }
 
