@@ -44,7 +44,7 @@ int MusicModel::rowCount(const QModelIndex& parent) const
 int MusicModel::columnCount(const QModelIndex& parent) const
 {
     if(!parent.isValid())
-        return m_header.size();
+        return COLUMN_COUNT;
     return 0;
 }
 QVariant MusicModel::headerData(int section, Qt::Orientation orientation, int role) const
