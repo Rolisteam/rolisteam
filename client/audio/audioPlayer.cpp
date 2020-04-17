@@ -33,6 +33,10 @@
 
 AudioPlayer* AudioPlayer::m_singleton= nullptr;
 
+namespace {
+    QString musicStatus = QStringLiteral("music_player_%1_status");
+}
+
 AudioPlayer::AudioPlayer(QWidget* parent) : QDockWidget(parent) //,m_currentSource(nullptr)
 {
     m_isGM= false;
@@ -100,7 +104,7 @@ void AudioPlayer::setupUi()
         m_players.append(playerWidget);
         QAction* act= new QAction(tr("Show/hide Player %1").arg(i), this);
         act->setCheckable(true);
-        act->setChecked(m_preferences->value(QString("music_player_%1_status").arg(i), true).toBool());
+        act->setChecked(m_preferences->value(musicStatus.arg(i), true).toBool());
         connect(act, SIGNAL(triggered(bool)), this, SLOT(showMusicPlayer(bool)));
         m_playerActionsList.append(act);
         m_mainLayout->addWidget(m_players[i]);
@@ -120,7 +124,7 @@ void AudioPlayer::showMusicPlayer(bool status)
     {
         PlayerWidget* tmp= m_players[i];
         tmp->setVisible(status);
-        m_preferences->registerValue(QString("music_player_%1_status").arg(i), status);
+        m_preferences->registerValue(musicStatus.arg(i), status);
     }
 }
 
@@ -129,7 +133,7 @@ void AudioPlayer::readSettings()
     int i= 0;
     for(auto& action : m_playerActionsList)
     {
-        action->setChecked(m_preferences->value(QString("music_player_%1_status").arg(i), true).toBool());
+        action->setChecked(m_preferences->value(musicStatus.arg(i), true).toBool());
         m_players[i]->setVisible(action->isChecked());
         ++i;
     }
@@ -144,7 +148,7 @@ void AudioPlayer::updateUi(bool isGM)
     for(int i= 0; i < m_players.size(); ++i)
     {
         m_playerActionsList[i]->setChecked(
-            m_preferences->value(QString("music_player_%1_status").arg(i), true).toBool());
+            m_preferences->value(musicStatus.arg(i), true).toBool());
     }
     if(!isGM)
     {
