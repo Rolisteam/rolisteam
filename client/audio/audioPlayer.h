@@ -131,10 +131,12 @@ private:
     /**
      * @brief m_singleton
      */
-    static AudioPlayer* m_singleton; //!< @brief static pointer to the unique instance of this audioplayer
-                                     /**
-                                      * @brief set the UI
-                                      */
+    static AudioPlayer* m_singleton;
+
+    //!< @brief static pointer to the unique instance of this audioplayer
+    /**
+     * @brief set the UI
+    */
     void setupUi();
 
     // ################ MEMBERS ########################## //
