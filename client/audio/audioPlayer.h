@@ -75,12 +75,12 @@ public:
      * @brief openSongList
      * @param str
      */
-    virtual void openSongList(QString str);
+    virtual void openSongList(const QString &str);
     /**
      * @brief openSong
      * @param str
      */
-    virtual void openSong(QString str);
+    virtual void openSong(const QString &str);
 
     void readSettings();
 
@@ -100,7 +100,7 @@ public slots:
     /**
      * @brief onePlayerHasNewSong
      */
-    void onePlayerHasNewSong(int, QString);
+    void onePlayerHasNewSong(int, const QString &);
     /**
      * @brief onePlayerHasChangedPosition
      */

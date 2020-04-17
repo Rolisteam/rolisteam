@@ -183,7 +183,7 @@ void AudioPlayer::onePlayerPlays(int id, qint64 pos)
     }
 }
 
-void AudioPlayer::onePlayerHasNewSong(int id, QString str)
+void AudioPlayer::onePlayerHasNewSong(int id, const QString &str)
 {
     if(m_isGM)
     {
@@ -234,7 +234,7 @@ NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
     }
     return NetWorkReceiver::AllExceptSender;
 }
-void AudioPlayer::openSongList(QString str)
+void AudioPlayer::openSongList(const QString &str)
 {
     if(!m_players.isEmpty())
     {
@@ -242,7 +242,7 @@ void AudioPlayer::openSongList(QString str)
     }
 }
 
-void AudioPlayer::openSong(QString str)
+void AudioPlayer::openSong(const QString &str)
 {
     if(!m_players.isEmpty())
     {
