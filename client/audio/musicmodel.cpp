@@ -29,11 +29,13 @@
 
 // https://api.soundcloud.com/tracks/293/stream?client_id=59632ff691d8ac46c637c1467d84b6c6
 
-MusicModel::MusicModel(QObject* parent) : QAbstractListModel(parent)
+MusicModel::MusicModel(QObject* parent)
+    : QAbstractListModel(parent)
+    , m_header({tr("Title")})
+    , m_player(new QMediaPlayer())
 {
-    m_header << tr("Title") /*<< tr("duration")*/;
-    m_player= new QMediaPlayer();
 }
+
 int MusicModel::rowCount(const QModelIndex& parent) const
 {
     if(!parent.isValid())
