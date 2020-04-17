@@ -112,19 +112,19 @@ void AudioPlayer::setupUi()
 void AudioPlayer::showMusicPlayer(bool status)
 {
     QAction* act= qobject_cast<QAction*>(sender());
+    if (!act)
+        return;
 
-    if(nullptr != act)
+    int i= m_playerActionsList.indexOf(act);
+
+    if(-1 != 1)
     {
-        int i= m_playerActionsList.indexOf(act);
-
-        if(-1 != 1)
-        {
-            PlayerWidget* tmp= m_players[i];
-            tmp->setVisible(status);
-            m_preferences->registerValue(QString("music_player_%1_status").arg(i), status);
-        }
+        PlayerWidget* tmp= m_players[i];
+        tmp->setVisible(status);
+        m_preferences->registerValue(QString("music_player_%1_status").arg(i), status);
     }
 }
+
 void AudioPlayer::readSettings()
 {
     int i= 0;
