@@ -29,12 +29,12 @@
 
 #include "data/character.h"
 #include "data/player.h"
+#include "dicealias.h"
 #include "map/map.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "userlist/playersList.h"
 #include "vmap/vmap.h"
-#include "dicealias.h"
 
 #define MARGING 1
 #define MINI_VALUE 25
@@ -43,10 +43,10 @@
 #define DIRECTION_RADIUS_HANDLE 4
 #define ANGLE_HANDLE 5
 
-void updateListAlias(QList<DiceAlias*>* list)
+void updateListAlias(DiceParser& dieParser)
 {
     auto preferences= PreferencesManager::getInstance();
-    list->clear();
+    dieParser.cleanAliases();
     int size= preferences->value("DiceAliasNumber", 0).toInt();
     for(int i= 0; i < size; ++i)
     {
@@ -54,7 +54,7 @@ void updateListAlias(QList<DiceAlias*>* list)
         QString value= preferences->value(QString("DiceAlias_%1_value").arg(i), "").toString();
         bool replace= preferences->value(QString("DiceAlias_%1_type").arg(i), true).toBool();
         bool enable= preferences->value(QString("DiceAlias_%1_enable").arg(i), true).toBool();
-        list->append(new DiceAlias(cmd, value, replace, enable));
+        dieParser.insertAlias(new DiceAlias(cmd, value, replace, enable), i);
     }
 }
 
@@ -940,7 +940,8 @@ void CharacterItem::runInit()
 
     auto cmd= m_character->getInitCommand();
 
-    updateListAlias(m_diceParser.getAliases());
+    updateListAlias(m_diceParser);
+
     if(m_diceParser.parseLine(cmd))
     {
         m_diceParser.start();
@@ -999,11 +1000,7 @@ void CharacterItem::changeCharacter()
 
 void CharacterItem::createActions()
 {
-    /*auto effect= new QGraphicsDropShadowEffect();
-    effect->setOffset(2., 2.);
-    effect->setColor(QColor(0, 0, 0, 191));
-    setGraphicsEffect(effect);*/
-    updateListAlias(m_diceParser.getAliases());
+    updateListAlias(m_diceParser);
     m_vision.reset(new CharacterVision(this));
 
     m_visionShapeDisk= new QAction(tr("Disk"), this);

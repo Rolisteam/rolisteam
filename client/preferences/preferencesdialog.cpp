@@ -54,8 +54,8 @@ CheckBoxDelegate::CheckBoxDelegate(bool aRedCheckBox, QObject* parent)
     connect(m_editor, SIGNAL(commitEditor()), this, SLOT(commitEditor()));
 }
 
-QWidget* CheckBoxDelegate::createEditor(
-    QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const
+QWidget* CheckBoxDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option,
+                                        const QModelIndex& index) const
 {
     Q_UNUSED(option)
     Q_UNUSED(index)
@@ -159,8 +159,8 @@ void ColorListEditor::populateList()
 
 ColorDelegate::ColorDelegate(QObject* parent) : QStyledItemDelegate(parent) {}
 
-QWidget* ColorDelegate::createEditor(
-    QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const
+QWidget* ColorDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option,
+                                     const QModelIndex& index) const
 {
     Q_UNUSED(option)
     Q_UNUSED(index)
@@ -202,7 +202,7 @@ PreferencesDialog::PreferencesDialog(QWidget* parent, Qt::WindowFlags f)
     m_aliasModel= new DiceAliasModel(this);
     ui->m_tableViewAlias->setModel(m_aliasModel);
     m_diceParser= new DiceParser();
-    m_aliasModel->setAliases(m_diceParser->getAliases());
+    m_aliasModel->setAliases(m_diceParser->aliases());
 
     m_stateModel= new CharacterStateModel(this);
     ui->m_stateView->setModel(m_stateModel);
@@ -240,8 +240,8 @@ PreferencesDialog::PreferencesDialog(QWidget* parent, Qt::WindowFlags f)
 
     connect(ui->m_importDiceBtn, &QPushButton::clicked, this, [=]() {
         auto filename= QFileDialog::getOpenFileName(this, tr("Import Dice Aliases or States"),
-            m_preferences->value("DataDirectory", QDir::homePath()).toString(),
-            tr("Supported Rule files (*.rr *.json)"));
+                                                    m_preferences->value("DataDirectory", QDir::homePath()).toString(),
+                                                    tr("Supported Rule files (*.rr *.json)"));
         if(filename.isEmpty())
             return;
         QFile file(filename);
@@ -256,8 +256,8 @@ PreferencesDialog::PreferencesDialog(QWidget* parent, Qt::WindowFlags f)
 
     connect(ui->m_exportDiceBtn, &QPushButton::clicked, this, [=]() {
         auto filename= QFileDialog::getSaveFileName(this, tr("Export Dice Aliases or States"),
-            m_preferences->value("DataDirectory", QDir::homePath()).toString(),
-            tr("Supported Rule files (*.rr *.json)"));
+                                                    m_preferences->value("DataDirectory", QDir::homePath()).toString(),
+                                                    tr("Supported Rule files (*.rr *.json)"));
         if(filename.isEmpty())
             return;
 
@@ -285,9 +285,10 @@ PreferencesDialog::PreferencesDialog(QWidget* parent, Qt::WindowFlags f)
     connect(ui->m_bottomCharacterStateAct, SIGNAL(clicked()), this, SLOT(manageStateAction()));
 
     connect(ui->m_highLightPenWidth, QOverload<int>::of(&QSpinBox::valueChanged), this,
-        [=]() { m_preferences->registerValue("VMAP::highlightPenWidth", ui->m_highLightPenWidth->value(), true); });
-    connect(ui->m_mapItemHighlightColor, &ColorButton::colorChanged, this,
-        [=]() { m_preferences->registerValue("VMAP::highlightColor", ui->m_mapItemHighlightColor->color(), true); });
+            [=]() { m_preferences->registerValue("VMAP::highlightPenWidth", ui->m_highLightPenWidth->value(), true); });
+    connect(ui->m_mapItemHighlightColor, &ColorButton::colorChanged, this, [=]() {
+        m_preferences->registerValue("VMAP::highlightColor", ui->m_mapItemHighlightColor->color(), true);
+    });
 
     connect(ui->m_hideTipsOfTheDay, &QCheckBox::clicked, this, [=]() {
         m_preferences->registerValue("MainWindow::neverDisplayTips", ui->m_hideTipsOfTheDay->isChecked(), false);
@@ -302,7 +303,7 @@ PreferencesDialog::PreferencesDialog(QWidget* parent, Qt::WindowFlags f)
     connect(ui->m_heartBeat, SIGNAL(clicked(bool)), this, SLOT(manageHeartBeat()));
     connect(ui->m_hbFrequency, SIGNAL(valueChanged(int)), this, SLOT(manageHeartBeat()));
     connect(ui->m_displayTimePage, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
-        [=](int val) { m_preferences->registerValue("waitingTimeBetweenPage", val, true); });
+            [=](int val) { m_preferences->registerValue("waitingTimeBetweenPage", val, true); });
 
     // Messaging
     connect(ui->m_showTimeCheckBox, SIGNAL(clicked(bool)), this, SLOT(manageMessagingPref()));
@@ -569,7 +570,8 @@ void PreferencesDialog::initializePostSettings()
     {
         // normal
         m_themes.append(new RolisteamTheme(QPalette(), tr("default"), "", QStyleFactory::create("fusion"),
-            ":/resources/icons/workspacebackground.jpg", 0, QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE), false));
+                                           ":/resources/icons/workspacebackground.jpg", 0,
+                                           QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE), false));
 
         // DarkOrange
         QFile styleFile(":/stylesheet/resources/stylesheet/darkorange.qss");
@@ -577,7 +579,8 @@ void PreferencesDialog::initializePostSettings()
         QByteArray bytes= styleFile.readAll();
         QString css(bytes);
         m_themes.append(new RolisteamTheme(QPalette(), tr("darkorange"), css, QStyleFactory::create("fusion"),
-            ":/resources/icons/workspacebackground.jpg", 0, QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE), false));
+                                           ":/resources/icons/workspacebackground.jpg", 0,
+                                           QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE), false));
 
         // DarkFusion
         QPalette palette;
@@ -598,7 +601,8 @@ void PreferencesDialog::initializePostSettings()
         palette.setColor(QPalette::Disabled, QPalette::ButtonText, Qt::darkGray);
 
         m_themes.append(new RolisteamTheme(palette, tr("darkfusion"), "", QStyleFactory::create("fusion"),
-            ":/resources/icons/workspacebackground.jpg", 0, QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE), false));
+                                           ":/resources/icons/workspacebackground.jpg", 0,
+                                           QColor(GRAY_SCALE, GRAY_SCALE, GRAY_SCALE), false));
     }
     ui->m_themeComboBox->clear();
 
@@ -761,7 +765,8 @@ void PreferencesDialog::dupplicateTheme(bool selectNew)
         QString str= theme->getName();
         str.append(tr(" (copy)"));
         RolisteamTheme* newTheme= new RolisteamTheme(theme->getPalette(), str, theme->getCss(), theme->getStyle(),
-            theme->getBackgroundImage(), theme->getBackgroundPosition(), theme->getBackgroundColor(), true);
+                                                     theme->getBackgroundImage(), theme->getBackgroundPosition(),
+                                                     theme->getBackgroundColor(), true);
 
         m_themes.append(newTheme);
         if(selectNew)
@@ -992,11 +997,11 @@ void PreferencesDialog::exportTheme()
     {
         RolisteamTheme* theme= m_themes.at(i);
         QString pathExport= QFileDialog::getSaveFileName(this, tr("Export Rolisteam Theme"),
-            m_preferences->value("ThemeDirectory", QDir::homePath())
-                .toString()
-                .append("/%1.rskin")
-                .arg(theme->getName()),
-            tr("Rolisteam Theme: %1").arg("*.rskin"));
+                                                         m_preferences->value("ThemeDirectory", QDir::homePath())
+                                                             .toString()
+                                                             .append("/%1.rskin")
+                                                             .arg(theme->getName()),
+                                                         tr("Rolisteam Theme: %1").arg("*.rskin"));
         if(!pathExport.isEmpty())
         {
             QFile exportFile(pathExport);
@@ -1015,8 +1020,9 @@ void PreferencesDialog::exportTheme()
 
 bool PreferencesDialog::importTheme()
 {
-    QString pathImport= QFileDialog::getOpenFileName(this, tr("Import Rolisteam Theme"),
-        m_preferences->value("ThemeDirectory", QDir::homePath()).toString(), tr("Rolisteam Theme: %1").arg("*.rskin"));
+    QString pathImport= QFileDialog::getOpenFileName(
+        this, tr("Import Rolisteam Theme"), m_preferences->value("ThemeDirectory", QDir::homePath()).toString(),
+        tr("Rolisteam Theme: %1").arg("*.rskin"));
     if(!pathImport.isEmpty())
     {
         QFile importFile(pathImport);
