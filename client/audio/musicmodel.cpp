@@ -52,13 +52,14 @@ int MusicModel::columnCount(const QModelIndex& parent) const
 QVariant MusicModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(orientation == Qt::Vertical)
-        return QVariant();
+        return {};
+
     if(Qt::DisplayRole == role)
     {
         return m_header[section];
     }
 
-    return QVariant();
+    return {};
 }
 QVariant MusicModel::data(const QModelIndex& index, int role) const
 {
@@ -90,7 +91,7 @@ QVariant MusicModel::data(const QModelIndex& index, int role) const
         return font;
     }
 
-    return QVariant();
+    return {};
 }
 void MusicModel::addSong(QStringList list)
 {
