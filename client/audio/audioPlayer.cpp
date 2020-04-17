@@ -221,11 +221,8 @@ NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
         m_players[id]->pause();
         break;
     case NetMsg::ChangePositionSong:
-    {
-        qint64 pos= msg->int64();
-        m_players[id]->setPositionAt(pos);
-    }
-    break;
+        m_players[id]->setPositionAt(msg->int64());
+        break;
     case NetMsg::StopSong:
         m_players[id]->stop();
         break;
