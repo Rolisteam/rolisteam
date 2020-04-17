@@ -194,30 +194,23 @@ bool MusicModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
         return false;
 
     QList<QUrl> list= data->urls();
+    QStringList filters = PreferencesManager::getInstance()
+        ->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac")
+        .toString()
+        .split(' ');
 
-    for(int i= 0; i < list.size(); ++i)
-    {
-        QString str= list[i].toLocalFile();
-        if(str.endsWith(".m3u"))
-        {
-            continue;
-        }
 
-        QStringList list= PreferencesManager::getInstance()
-                                ->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac")
-                                .toString()
-                                .split(' ');
-        // QStringList list = audioFileFilter.split(' ');
-        int i= 0;
-        while(i < list.size())
-        {
-            QString filter= list.at(i);
-            filter.replace("*", "");
-            if(str.endsWith(filter))
-            {
+    for (QString& filter : filters) {
+        filter.replace("*", "");
+    }
+
+    for (QUrl url : list) {
+        QString file = url.toLocalFile();
+        for (const QString & filter : filters) {
+            if (file.endsWith(filter)) {
                 insertSong(row, str);
+                continue;
             }
-            ++i;
         }
     }
 
