@@ -113,6 +113,7 @@ void MusicModel::addSong(QStringList list)
     beginInsertRows(QModelIndex(), m_data.size(), m_data.size() + list.size() - 1);
     for(auto& tmp : list)
     {
+        m_data.reserve(list.size());
         // QMediaContent* tmpMedia = new QMediaContent(tmp);
         QUrl tmpUrl= QUrl::fromUserInput(tmp); //,QUrl::StrictMode
         if((tmpUrl.isValid()) && (!tmpUrl.isLocalFile()))
