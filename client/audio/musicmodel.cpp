@@ -61,6 +61,24 @@ QVariant MusicModel::headerData(int section, Qt::Orientation orientation, int ro
 
     return {};
 }
+
+namespace {
+    QFont boldFont() {
+        QFont font;
+        font.setBold(true);
+        return font;
+    }
+
+    QString normalizeUrl(const QUrl& url) {
+        if (url.isLocalFile || url.host().contains("tabletopaudio.com") == false)
+            return url.fileName();
+
+        QString str= url.toString();
+        str= str.right(str.size() - (str.lastIndexOf("=") + 1));
+        return str.replace(".mp3", "").replace("_", " ");
+    }
+}
+
 QVariant MusicModel::data(const QModelIndex& index, int role) const
 {
     if(Qt::DisplayRole == role)
