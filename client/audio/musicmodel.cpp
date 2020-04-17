@@ -131,14 +131,8 @@ void MusicModel::insertSong(int i, QString str)
 
     beginInsertRows(QModelIndex(), i, i);
     QUrl tmpUrl= QUrl::fromUserInput(str); //,QUrl::StrictMode
-    if((tmpUrl.isValid()) && (!tmpUrl.isLocalFile()))
-    {
-        m_data.insert(i, new QMediaContent(tmpUrl));
-    }
-    else if(tmpUrl.isLocalFile())
-    {
-        m_data.insert(i, new QMediaContent(QUrl::fromLocalFile(str)));
-    }
+    Q_ASSERT(tmpUrl.isValid());
+    m_data.insert(i, new QMediaContent(tmpUrl.isLocalFile() ? QUrl::fromLocalFile(tmp) : tmpUrl))
     endInsertRows();
 }
 QMediaContent* MusicModel::getMediaByModelIndex(const QModelIndex& index)
