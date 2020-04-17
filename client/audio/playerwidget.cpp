@@ -511,6 +511,8 @@ void PlayerWidget::setPositionAt(qint64 pos)
 
 void PlayerWidget::setSourceSong(QString file)
 {
+    qDebug() << "file" << file;
+
     QString dir= m_preferences->value(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id), QDir::homePath()).toString();
     QUrl url(file, QUrl::StrictMode);
     if((!url.isValid()) || (url.isRelative()) || url.isLocalFile())

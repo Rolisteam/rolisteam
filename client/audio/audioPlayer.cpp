@@ -227,12 +227,8 @@ NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
         m_players[id]->stop();
         break;
     case NetMsg::NewSong:
-    {
-        QString file= msg->string32();
-        qDebug() << "file" << file;
-        m_players[id]->setSourceSong(file);
-    }
-    break;
+        m_players[id]->setSourceSong(msg->string32());
+        break;
     default:
         break;
     }
