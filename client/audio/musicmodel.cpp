@@ -178,10 +178,9 @@ void MusicModel::saveIn(QTextStream& file)
 }
 QStringList MusicModel::mimeTypes() const
 {
-    QStringList types;
-    types << "text/uri-list";
-    return types;
+    return {"text/uri-list"};
 }
+
 Qt::DropActions MusicModel::supportedDropActions() const
 {
     return Qt::CopyAction | Qt::MoveAction;
