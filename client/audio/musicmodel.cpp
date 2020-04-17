@@ -81,6 +81,11 @@ namespace {
 
 QVariant MusicModel::data(const QModelIndex& index, int role) const
 {
+    // Break early if role is not Diplay or Font.
+    if (std::set(Qt::DislayRole, Qt::FontRole).count(role) == 0) {
+        return {};
+    }
+
     if(Qt::DisplayRole == role)
     {
         if(index.column() == TITLE)
