@@ -91,12 +91,11 @@ void AudioPlayer::setupUi()
     for(int i= 0; i < 3; ++i)
     {
         PlayerWidget* playerWidget= new PlayerWidget(i, this);
-        connect(playerWidget, SIGNAL(newSongPlayed(int, QString)), this, SLOT(onePlayerHasNewSong(int, QString)));
-        connect(playerWidget, SIGNAL(playerIsPaused(int)), this, SLOT(onePlayerIsPaused(int)));
-        connect(playerWidget, SIGNAL(playerStopped(int)), this, SLOT(onePlayerHasStopped(int)));
-        connect(playerWidget, SIGNAL(playerIsPlaying(int, qint64)), this, SLOT(onePlayerPlays(int, qint64)));
-        connect(playerWidget, SIGNAL(playerPositionChanged(int, qint64)), this,
-                SLOT(onePlayerHasChangedPosition(int, qint64)));
+        connect(playerWidget, PlayerWidget::newSongPlayed, this, AudioPlayer::onePlayerHasNewSong);
+        connect(playerWidget, PlayerWidget::playerIsPaused, this, AudioPlayer::onePlayerIsPaused);
+        connect(playerWidget, PlayerWidget::playerStopped, this, AudioPlayer::onePlayerHasStopped);
+        connect(playerWidget, PlayerWidget::playerIsPlaying, this, AudioPlayer::onePlayerPlays);
+        connect(playerWidget, PlayerWidget::playerPositionChanged, this, AudioPlayer::onePlayerHasChangedPosition);
 
         m_players.append(playerWidget);
         QAction* act= new QAction(tr("Show/hide Player %1").arg(i), this);
