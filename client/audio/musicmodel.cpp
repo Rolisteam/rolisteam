@@ -114,16 +114,9 @@ void MusicModel::addSong(QStringList list)
     for(auto& tmp : list)
     {
         m_data.reserve(list.size());
-        // QMediaContent* tmpMedia = new QMediaContent(tmp);
-        QUrl tmpUrl= QUrl::fromUserInput(tmp); //,QUrl::StrictMode
-        if((tmpUrl.isValid()) && (!tmpUrl.isLocalFile()))
-        {
-            m_data.append(new QMediaContent(tmpUrl));
-        }
-        else if(tmpUrl.isLocalFile())
-        {
-            m_data.append(new QMediaContent(QUrl::fromLocalFile(tmp)));
-        }
+        QUrl tmpUrl= QUrl::fromUserInput(tmp);
+        Q_ASSERT(tmpUrl.isValid());
+        m_data.append(new QMediaContent(tmpUrl.isLocalFile() ? QUrl::fromLocalFile(tmp) : tmpUrl))
     }
     endInsertRows();
 }
