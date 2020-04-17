@@ -199,39 +199,39 @@ bool MusicModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
      else
          beginRow = rowCount(QModelIndex());*/
 
-    if(data->hasUrls())
+    if(!data->hasUrls()) {
+        return false;
+    }
+
+    QList<QUrl> list= data->urls();
+    for(int i= 0; i < list.size(); ++i)
     {
-        QList<QUrl> list= data->urls();
-        for(int i= 0; i < list.size(); ++i)
+        QString str= list[i].toLocalFile();
+        if(str.endsWith(".m3u"))
         {
-            QString str= list[i].toLocalFile();
-            if(str.endsWith(".m3u"))
+        }
+        else
+        {
+            QStringList list= PreferencesManager::getInstance()
+                                    ->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac")
+                                    .toString()
+                                    .split(' ');
+            // QStringList list = audioFileFilter.split(' ');
+            int i= 0;
+            while(i < list.size())
             {
-            }
-            else
-            {
-                QStringList list= PreferencesManager::getInstance()
-                                      ->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac")
-                                      .toString()
-                                      .split(' ');
-                // QStringList list = audioFileFilter.split(' ');
-                int i= 0;
-                while(i < list.size())
+                QString filter= list.at(i);
+                filter.replace("*", "");
+                if(str.endsWith(filter))
                 {
-                    QString filter= list.at(i);
-                    filter.replace("*", "");
-                    if(str.endsWith(filter))
-                    {
-                        insertSong(row, str);
-                    }
-                    ++i;
+                    insertSong(row, str);
                 }
+                ++i;
             }
         }
-
-        return true;
     }
-    return false;
+
+    return true;
 }
 Qt::ItemFlags MusicModel::flags(const QModelIndex& index) const
 {
