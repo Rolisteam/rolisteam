@@ -56,7 +56,7 @@ void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
     {
         for(auto& tmp : m_players)
         {
-            if((tmp->geometry().contains(ev->pos(), true)) && (tmp->isVisible()))
+            if(tmp->isVisible() && tmp->geometry().contains(ev->pos(), true))
             {
                 tmp->addActionsIntoMenu(&menu);
                 menu.addSeparator();
