@@ -222,9 +222,8 @@ bool MusicModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
 Qt::ItemFlags MusicModel::flags(const QModelIndex& index) const
 {
     Qt::ItemFlags defaultFlags= QAbstractListModel::flags(index);
+    if(!index.isValid())
+        defaultFlags |= Qt::ItemIsDropEnabled;
 
-    if(index.isValid())
-        return defaultFlags;
-    else
-        return Qt::ItemIsDropEnabled | defaultFlags;
+    return  defaultFlags;
 }
