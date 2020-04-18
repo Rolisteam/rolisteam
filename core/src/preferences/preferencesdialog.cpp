@@ -33,6 +33,7 @@
 #include <QInputDialog>
 #include <QItemEditorCreatorBase>
 #include <QJsonDocument>
+#include <QPainter>
 #include <QPushButton>
 #include <QStyleFactory>
 #include <QVBoxLayout>
@@ -44,7 +45,6 @@
 #include "ui_preferencesdialogbox.h"
 
 #include "diceparser.h"
-#include "map/newemptymapdialog.h"
 
 CheckBoxDelegate::CheckBoxDelegate(bool aRedCheckBox, QObject* parent)
 {
@@ -194,8 +194,8 @@ PreferencesDialog::PreferencesDialog(PreferencesController* controller, QWidget*
 {
     ui->setupUi(this);
     m_currentThemeIsEditable= false;
-    NewEmptyMapDialog dialog;
-    ui->m_defaultMapModeCombo->addItems(dialog.getPermissionData());
+    // TODO Fix this line
+    // ui->m_defaultMapModeCombo->addItems();
 
     m_preferences= PreferencesManager::getInstance();
 

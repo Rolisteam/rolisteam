@@ -26,6 +26,7 @@
 #include <QImage>
 #include <QPointF>
 #include <QRectF>
+#include <QSize>
 
 #include "data/charactervision.h"
 #include "media/mediatype.h"
@@ -73,6 +74,9 @@ template <>
 void variantToType<std::vector<QPointF>>(const std::vector<QPointF>& val, NetworkMessageWriter& msg);
 template <>
 void variantToType<CharacterVision::SHAPE>(const CharacterVision::SHAPE& shape, NetworkMessageWriter& msg);
+template <>
+void variantToType<QSize>(const QSize& size, NetworkMessageWriter& msg);
+
 } // namespace Helper
 
 #endif // CONVERTIONHELPER_H

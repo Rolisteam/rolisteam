@@ -105,7 +105,7 @@ void PreferencesManager::readSettings(const QString& version)
 
     for(auto& p : m_lambdaMap)
     {
-        p.second(p.first);
+        p.second(value(p.first, QVariant()));
     }
 }
 void PreferencesManager::writeSettings(const QString& version)
@@ -132,7 +132,7 @@ void PreferencesManager::registerListener(QString str, PreferencesListener* list
 {
     m_listernerMap.insert(str, listerner);
 }
-void PreferencesManager::registerLambda(QString key, std::function<void(QString)> func)
+void PreferencesManager::registerLambda(QString key, std::function<void(QVariant)> func)
 {
     m_lambdaMap.insert({key, func});
 }

@@ -141,7 +141,7 @@ public:
     /**
      * @brief setColor
      */
-    void setColor(QColor& color);
+    // void setColor(QColor& color);
     /**
      * @brief insertVision
      */

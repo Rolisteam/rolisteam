@@ -29,7 +29,7 @@
 #include <QPointer>
 #include <QResizeEvent>
 
-#include "map/map.h"
+#include "media/mediatype.h"
 #include "vcolorselector.h"
 #include "widgets/diameterselector.h"
 #include "widgets/realslider.h"

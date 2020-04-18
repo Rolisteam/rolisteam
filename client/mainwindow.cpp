@@ -54,9 +54,6 @@
 #include "data/player.h"
 #include "data/shortcutvisitor.h"
 
-#include "map/mapwizzard.h"
-#include "map/newemptymapdialog.h"
-
 #include "network/networkmessagewriter.h"
 #include "network/receiveevent.h"
 #include "network/servermanager.h"
@@ -71,7 +68,6 @@
 #include "widgets/onlinepicturedialog.h"
 #include "widgets/shortcuteditordialog.h"
 #include "widgets/tipofdayviewer.h"
-#include "widgets/toolsbar.h"
 #include "widgets/workspace.h"
 
 #include "worker/messagehelper.h"
@@ -159,13 +155,17 @@ MainWindow::MainWindow(const QStringList& args)
 
     m_preferences= m_gameController->preferencesManager();
 
-    auto func= [this](QString str) {
-        auto v= m_preferences->value(str, 6).toInt();
+    auto func= [](QVariant var) {
+        auto v= var.toInt();
+        if(var.isNull())
+            v= 6;
         VisualItem::setHighlightWidth(v);
     };
     m_preferences->registerLambda(QStringLiteral("VMAP::highlightPenWidth"), func);
-    auto func2= [this](QString str) {
-        auto v= m_preferences->value(str, QColor(Qt::red)).value<QColor>();
+    auto func2= [](QVariant var) {
+        auto v= var.value<QColor>();
+        if(!v.isValid())
+            v= QColor(Qt::red);
         VisualItem::setHighlightColor(v);
     };
     m_preferences->registerLambda(QStringLiteral("VMAP::highlightColor"), func2);
@@ -182,7 +182,8 @@ MainWindow::MainWindow(const QStringList& args)
         m_ui->m_changeProfileAct->setEnabled(connected);
         m_ui->m_disconnectAction->setEnabled(connected);
     });
-    // connect(m_sessionManager, &SessionManager::openResource, this, &MainWindow::openResource);
+    // connect(m_sessionManager, &SessionManager::openResource, this,
+    // &MainWindow::openResource);
 
     /// Create all GM toolbox widget
     for(auto& gmTool : m_gmToolBoxList)
@@ -235,30 +236,22 @@ void MainWindow::setupUi()
     setCentralWidget(m_mdiArea);
     connect(m_mdiArea, &Workspace::subWindowActivated, this, &MainWindow::activeWindowChanged);
 
-    m_toolBar= new ToolsBar(this);
-
     auto vmapController= m_gameController->contentController()->vmapCtrl();
     m_vToolBar= new VToolsBar(vmapController, this);
-    m_toolBarStack= new QStackedWidget(this);
-    m_toolBarStack->setMinimumWidth(10);
-    m_toolBarStack->addWidget(m_toolBar);
-    m_toolBarStack->addWidget(m_vToolBar);
 
     QDockWidget* dock= new QDockWidget(this);
-    dock->setWidget(m_toolBarStack);
+    dock->setWidget(m_vToolBar);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
     dock->setWindowTitle(tr("ToolBox"));
     dock->setObjectName("DockToolBar");
     auto act= dock->toggleViewAction();
+
     act->setShortcut(QKeySequence("F8"));
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct, act);
     QAction* vmapToolBar= m_vmapToolBar->toggleViewAction();
     vmapToolBar->setShortcut(Qt::Key_F9);
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct, m_vmapToolBar->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
-
-    connect(m_mdiArea, &Workspace::oldMapActive, this, [this]() { m_toolBarStack->setCurrentWidget(m_toolBar); });
-    connect(m_mdiArea, &Workspace::vmapActive, this, [this]() { m_toolBarStack->setCurrentWidget(m_vToolBar); });
 
     m_chatListWidget= new ChatListWidget(this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory, m_chatListWidget);
@@ -312,19 +305,24 @@ void MainWindow::setupUi()
 
      }*/
 
-    // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
+    // Initialisation des etats de sante des PJ/PNJ (variable declarees dans
+    // DessinPerso.cpp)
     /*m_playerModel= PlayerModel::instance();
 
-    connect(m_playerModel, SIGNAL(playerAdded(Player*)), this, SLOT(notifyAboutAddedPlayer(Player*)));
-    connect(m_playerModel, SIGNAL(playerDeleted(Player*)), this, SLOT(notifyAboutDeletedPlayer(Player*)));*/
-    // connect(m_roomPanel, &ChannelListPanel::CurrentChannelGmIdChanged, m_playerModel, &PlayerModel::setCurrentGM);
-    /* connect(m_playerModel, &PlayerModel::characterAdded, this, [this](Character* character) {
-         if(character->isNpc())
+    connect(m_playerModel, SIGNAL(playerAdded(Player*)), this,
+    SLOT(notifyAboutAddedPlayer(Player*))); connect(m_playerModel,
+    SIGNAL(playerDeleted(Player*)), this,
+    SLOT(notifyAboutDeletedPlayer(Player*)));*/
+    // connect(m_roomPanel, &ChannelListPanel::CurrentChannelGmIdChanged,
+    // m_playerModel, &PlayerModel::setCurrentGM);
+    /* connect(m_playerModel, &PlayerModel::characterAdded, this,
+     [this](Character* character) { if(character->isNpc())
          {
              m_sessionManager->addRessource(character);
          }
      });
-     connect(m_playerModel, &PlayerModel::eventOccurs, m_gameController.get(), &GameController::addFeatureLog);*/
+     connect(m_playerModel, &PlayerModel::eventOccurs, m_gameController.get(),
+     &GameController::addFeatureLog);*/
 
     /*connect(m_dialog, &SelectConnectionProfileDialog::rejected, this, [this]() {
         if(nullptr == m_server)
@@ -342,8 +340,8 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac, bool redoable)
         return;
 
     /*AddMediaContainer* addMedia
-        = new AddMediaContainer(mediac, m_gameController->contentController(), m_ui->m_menuSubWindows, m_mdiArea,
-                                m_currentConnectionProfile->isGM());*/
+        = new AddMediaContainer(mediac, m_gameController->contentController(),
+       m_ui->m_menuSubWindows, m_mdiArea, m_currentConnectionProfile->isGM());*/
     /*if(!m_mediaHash.contains(mediac->getMediaId()))
     {
         m_mediaHash.insert(mediac->getMediaId(), mediac);
@@ -379,8 +377,8 @@ void MainWindow::closeMediaContainer(QString id, bool redo)
               // auto type= mediaCon->getContentType();*/
 
     /*  DeleteMediaContainerCommand* cmd= new DeleteMediaContainerCommand(
-          mediaCon, m_ui->m_editMenu, m_mdiArea, m_currentConnectionProfile->isGM(), m_mediaHash);
-      if(redo)
+          mediaCon, m_ui->m_editMenu, m_mdiArea,
+      m_currentConnectionProfile->isGM(), m_mediaHash); if(redo)
       {
           // m_undoStack.push(cmd);
       }
@@ -540,13 +538,11 @@ void MainWindow::linkActionToMenu()
         auto act= qobject_cast<QAction*>(sender());
         newDocument(static_cast<CleverURI::ContentType>(act->data().toInt()));
     };
-    m_ui->m_newMapAction->setData(static_cast<int>(CleverURI::MAP));
     m_ui->m_addVectorialMap->setData(static_cast<int>(CleverURI::VMAP));
     m_ui->m_newNoteAction->setData(static_cast<int>(CleverURI::TEXT));
     m_ui->m_newSharedNote->setData(static_cast<int>(CleverURI::SHAREDNOTE));
     m_ui->m_newWebViewACt->setData(static_cast<int>(CleverURI::WEBVIEW));
 
-    connect(m_ui->m_newMapAction, &QAction::triggered, this, &MainWindow::newMap);
     connect(m_ui->m_addVectorialMap, &QAction::triggered, this, &MainWindow::newVMap);
     connect(m_ui->m_newNoteAction, &QAction::triggered, this, fun);
     connect(m_ui->m_newSharedNote, &QAction::triggered, this, [this]() {
@@ -568,7 +564,6 @@ void MainWindow::linkActionToMenu()
     // open
     connect(m_ui->m_openPictureAction, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openOnlinePictureAction, &QAction::triggered, this, &MainWindow::openGenericContent);
-    connect(m_ui->m_openMapAction, &QAction::triggered, this, &MainWindow::openMap);
     connect(m_ui->m_openCharacterSheet, &QAction::triggered, this, &MainWindow::openGenericContent);
     connect(m_ui->m_openVectorialMap, &QAction::triggered, this, &MainWindow::openVMap);
     connect(m_ui->m_openStoryAction, &QAction::triggered, this, &MainWindow::openStory);
@@ -580,7 +575,6 @@ void MainWindow::linkActionToMenu()
 
     m_ui->m_openPictureAction->setData(static_cast<int>(CleverURI::PICTURE));
     m_ui->m_openOnlinePictureAction->setData(static_cast<int>(CleverURI::ONLINEPICTURE));
-    m_ui->m_openMapAction->setData(static_cast<int>(CleverURI::MAP));
     m_ui->m_openCharacterSheet->setData(static_cast<int>(CleverURI::CHARACTERSHEET));
     m_ui->m_openVectorialMap->setData(static_cast<int>(CleverURI::VMAP));
     // m_ui->m_openStoryAction->setData(static_cast<int>(CleverURI::SCENARIO));
@@ -725,19 +719,25 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
     connect(m_toolBar, SIGNAL(currentToolChanged(ToolsBar::SelectableTool)), map,
             SLOT(setPointeur(ToolsBar::SelectableTool)));
 
-    connect(m_toolBar, SIGNAL(currentNpcSizeChanged(int)), map, SLOT(setCharacterSize(int)));
-    connect(m_toolBar, SIGNAL(currentPenSizeChanged(int)), map, SLOT(setPenSize(int)));
-    connect(m_toolBar, SIGNAL(currentTextChanged(QString)), map, SLOT(setCurrentText(QString)));
-    connect(m_toolBar, SIGNAL(currentNpcNameChanged(QString)), map, SLOT(setCurrentNpcName(QString)));
-    connect(m_toolBar, SIGNAL(currentNpcNumberChanged(int)), map, SLOT(setCurrentNpcNumber(int)));
+    connect(m_toolBar, SIGNAL(currentNpcSizeChanged(int)), map,
+    SLOT(setCharacterSize(int))); connect(m_toolBar,
+    SIGNAL(currentPenSizeChanged(int)), map, SLOT(setPenSize(int)));
+    connect(m_toolBar, SIGNAL(currentTextChanged(QString)), map,
+    SLOT(setCurrentText(QString))); connect(m_toolBar,
+    SIGNAL(currentNpcNameChanged(QString)), map,
+    SLOT(setCurrentNpcName(QString))); connect(m_toolBar,
+    SIGNAL(currentNpcNumberChanged(int)), map, SLOT(setCurrentNpcNumber(int)));
 
-    connect(map, SIGNAL(changeCurrentColor(QColor)), m_toolBar, SLOT(changeCurrentColor(QColor)));
-    connect(map, SIGNAL(increaseNpcNumber()), m_toolBar, SLOT(incrementNpcNumber()));
-    connect(map, SIGNAL(updateNPC(int, QString)), m_toolBar, SLOT(updateNpc(int, QString)));
+    connect(map, SIGNAL(changeCurrentColor(QColor)), m_toolBar,
+    SLOT(changeCurrentColor(QColor))); connect(map, SIGNAL(increaseNpcNumber()),
+    m_toolBar, SLOT(incrementNpcNumber())); connect(map, SIGNAL(updateNPC(int,
+    QString)), m_toolBar, SLOT(updateNpc(int, QString)));
 
-    connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map, SLOT(setPcNameVisible(bool)));
-    connect(m_ui->m_showNpcNameAction, SIGNAL(triggered(bool)), map, SLOT(setNpcNameVisible(bool)));
-    connect(m_ui->m_showNpcNumberAction, SIGNAL(triggered(bool)), map, SLOT(setNpcNumberVisible(bool)));
+    connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map,
+    SLOT(setPcNameVisible(bool))); connect(m_ui->m_showNpcNameAction,
+    SIGNAL(triggered(bool)), map, SLOT(setNpcNameVisible(bool)));
+    connect(m_ui->m_showNpcNumberAction, SIGNAL(triggered(bool)), map,
+    SLOT(setNpcNumberVisible(bool)));
 
     map->setNpcNameVisible(m_ui->m_showNpcNameAction->isChecked());
     map->setPcNameVisible(m_ui->m_showPcNameAction->isChecked());
@@ -746,8 +746,9 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
     map->setPenSize(m_toolBar->getCurrentPenSize());
 
     // new PlayersList connection
-    // connect(mapFrame, &MapFrame::activated, m_playersListWidget->model(), &PlayersListWidgetModel::setCurrentMap);
-    connect(mapFrame, &MapFrame::activated, m_toolBar, &ToolsBar::changeMap);*/
+    // connect(mapFrame, &MapFrame::activated, m_playersListWidget->model(),
+    &PlayersListWidgetModel::setCurrentMap); connect(mapFrame,
+    &MapFrame::activated, m_toolBar, &ToolsBar::changeMap);*/
 }
 
 void MainWindow::updateWorkspace()
@@ -781,7 +782,7 @@ void MainWindow::newVMap()
 
 void MainWindow::newMap()
 {
-    NewEmptyMapDialog mapWizzard(m_mdiArea);
+    /*NewEmptyMapDialog mapWizzard(m_mdiArea);
     if(mapWizzard.exec())
     {
         auto ctrl= m_gameController->contentController();
@@ -791,7 +792,7 @@ void MainWindow::newMap()
         params.insert({QStringLiteral("bgcolor"), mapWizzard.getColor()});
         params.insert({QStringLiteral("size"), mapWizzard.getSize()});
         ctrl->newMedia(CleverURI::MAP, params);
-    }
+    }*/
 }
 
 MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi)
@@ -818,19 +819,6 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi
         /*  */
     }
     break;
-    case CleverURI::MAP:
-    {
-        /* MapFrame* mapFrame= new MapFrame(nullptr, m_mdiArea);
-         if(mapFrame->createMap())
-         {
-             media= mapFrame;
-             prepareMap(mapFrame);
-             uri->setName(mapFrame->getUriName());
-         }
-         else
-             delete mapFrame;*/
-    }
-    break;
     case CleverURI::TEXT:
     {
         media= new NoteContainer(localIsGM);
@@ -839,8 +827,8 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi
 #ifdef HAVE_WEBVIEW
     /*case CleverURI::WEBVIEW:
     {
-        media= new WebView(localIsGM ? WebView::localIsGM : WebView::LocalIsPlayer);
-        uri->setLoadingMode(CleverURI::Linked);
+        media= new WebView(localIsGM ? WebView::localIsGM :
+    WebView::LocalIsPlayer); uri->setLoadingMode(CleverURI::Linked);
     }
     break;*/
 #endif
@@ -895,11 +883,13 @@ bool MainWindow::mayBeSaved(bool connectionLoss)
     {
         if(!PlayerModel::instance()->getLocalPlayer()->isGM())
         {
-            message+= tr("Do you want to save your minutes before to quit %1?").arg(msg);
+            message+= tr("Do you want to save your minutes before to quit
+    %1?").arg(msg);
         }
         else
         {
-            message+= tr("Do you want to save your scenario before to quit %1?").arg(msg);
+            message+= tr("Do you want to save your scenario before to quit
+    %1?").arg(msg);
         }
 
         msgBox.setText(message);
@@ -1020,11 +1010,12 @@ void MainWindow::saveMedia(MediaContainer* mediaC, bool saveAs)
     {
         if(uri.isEmpty() || saveAs)
         {
-            QString key= CleverURI::getPreferenceDirectoryKey(cleverURI->getType());
-            QString filter= CleverURI::getFilterForType(cleverURI->getType());
-            QString media= CleverURI::typeToString(cleverURI->getType());
-            QString fileName= QFileDialog::getSaveFileName(
-                this, tr("Save %1").arg(media), m_preferences->value(key, QDir::homePath()).toString(), filter);
+            QString key=
+    CleverURI::getPreferenceDirectoryKey(cleverURI->getType()); QString filter=
+    CleverURI::getFilterForType(cleverURI->getType()); QString media=
+    CleverURI::typeToString(cleverURI->getType()); QString fileName=
+    QFileDialog::getSaveFileName( this, tr("Save %1").arg(media),
+    m_preferences->value(key, QDir::homePath()).toString(), filter);
             if(fileName.isEmpty())
             {
                 return;
@@ -1097,13 +1088,12 @@ void MainWindow::updateUi()
     {
         return;
     }
-    m_toolBar->updateUi(m_currentConnectionProfile->isGM());
 #ifndef NULL_PLAYER
     m_audioPlayer->updateUi(m_currentConnectionProfile->isGM());
 #endif
     bool isGM= m_currentConnectionProfile->isGM();
     m_vToolBar->setGM(isGM);
-    m_ui->m_newMapAction->setEnabled(isGM);
+    // m_ui->m_newMapAction->setEnabled(isGM);
     m_ui->m_addVectorialMap->setEnabled(isGM);
     m_ui->m_openMapAction->setEnabled(isGM);
     m_ui->m_openStoryAction->setEnabled(isGM);
@@ -1123,20 +1113,21 @@ void MainWindow::updateUi()
 }
 void MainWindow::showUpdateNotification()
 {
-    QMessageBox::information(
-        this, tr("Update Notification"),
-        tr("The %1 version has been released. "
-           "Please take a look at <a href=\"http://www.rolisteam.org/download\">Download page</a> for more "
-           "information")
-            .arg(m_gameController->remoteVersion()));
+    QMessageBox::information(this, tr("Update Notification"),
+                             tr("The %1 version has been released. "
+                                "Please take a look at <a "
+                                "href=\"http://www.rolisteam.org/download\">Download page</a> for "
+                                "more "
+                                "information")
+                                 .arg(m_gameController->remoteVersion()));
 }
 
 /*void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
 {
     switch(state)
     {
-    case ClientManager::CONNECTED: /// @brief Action to be done after socket connection.
-        m_ui->m_changeProfileAct->setEnabled(false);
+    case ClientManager::CONNECTED: /// @brief Action to be done after socket
+connection. m_ui->m_changeProfileAct->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
         m_chatListWidget->addPublicChat();
         break;
@@ -1250,7 +1241,7 @@ void MainWindow::writeSettings()
     settings.setValue("showInitiative", m_ui->m_showInitiativeAct->isChecked());
     settings.endGroup();
 }
-void MainWindow::parseCommandLineArguments(QStringList list)
+void MainWindow::parseCommandLineArguments(const QStringList& list)
 {
     QCommandLineParser parser;
     parser.addHelpOption();
@@ -1338,7 +1329,8 @@ void MainWindow::parseCommandLineArguments(QStringList list)
         }
     }
 }
-/*NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
+/*NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader*
+msg)
 {
     if(nullptr == msg)
         return NetWorkReceiver::NONE;
@@ -1411,8 +1403,8 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
            if(keys.contains(idMedia))
            {
                MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
-               SharedNoteContainer* note= dynamic_cast<SharedNoteContainer*>(mediaContainer);
-               if(note)
+               SharedNoteContainer* note=
+       dynamic_cast<SharedNoteContainer*>(mediaContainer); if(note)
                    note->readMessage(*msg);
            }
        }
@@ -1422,10 +1414,9 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
            if(keys.contains(idMedia))
            {
                MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
-               SharedNoteContainer* note= dynamic_cast<SharedNoteContainer*>(mediaContainer);
-               QString updateCmd= msg->string32();
-               if(note)
-                   note->runUpdateCmd(updateCmd);
+               SharedNoteContainer* note=
+       dynamic_cast<SharedNoteContainer*>(mediaContainer); QString updateCmd=
+       msg->string32(); if(note) note->runUpdateCmd(updateCmd);
            }
        }
        else if(msg->action() == NetMsg::updateTextAndPermission)
@@ -1435,8 +1426,8 @@ void MainWindow::processSharedNoteMessage(NetworkMessageReader* msg)
            if(keys.contains(idMedia))
            {
                MediaContainer* mediaContainer= m_mediaHash.value(idMedia);
-               SharedNoteContainer* note= dynamic_cast<SharedNoteContainer*>(mediaContainer);
-               if(note)
+               SharedNoteContainer* note=
+       dynamic_cast<SharedNoteContainer*>(mediaContainer); if(note)
                    note->readMessage(*msg);
            }
            else
@@ -1466,11 +1457,13 @@ void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
         m_gameController->addInfoLog(tr("End of the connection process"));
         updateWorkspace();
     }
-    else if((msg->action() == NetMsg::SetChannelList) || (NetMsg::AdminAuthFail == msg->action())
+    else if((msg->action() == NetMsg::SetChannelList) || (NetMsg::AdminAuthFail
+== msg->action())
             || (NetMsg::AdminAuthSucessed == msg->action()))
     {
-        ChannelListPanel* roomPanel= qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
-        if(nullptr != roomPanel)
+        ChannelListPanel* roomPanel=
+qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget()); if(nullptr !=
+roomPanel)
         {
             roomPanel->processMessage(msg);
         }
@@ -1572,7 +1565,8 @@ void MainWindow::postConnection()
     {
         MapFrame* mapFrame= new MapFrame(nullptr, m_mdiArea);
         if((nullptr != m_currentConnectionProfile)
-           && (!mapFrame->processMapMessage(msg, !m_currentConnectionProfile->isGM())))
+           && (!mapFrame->processMapMessage(msg,
+!m_currentConnectionProfile->isGM())))
         {
             delete mapFrame;
         }
@@ -1639,8 +1633,8 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
             SelectedColor selectedColor;
             selectedColor.color= color;
             selectedColor.type= static_cast<ColorKind>(colorType);
-            map->paintPenLine(&pointList, zoneToRefresh, diameter, selectedColor,
-                              idPlayer == m_gameController->localPlayerId());
+            map->paintPenLine(&pointList, zoneToRefresh, diameter,
+selectedColor, idPlayer == m_gameController->localPlayerId());
         }
     }
     else if(msg->action() == NetMsg::textPainting)
@@ -1703,7 +1697,8 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
             selectedColor.color= color;
             selectedColor.type= static_cast<ColorKind>(colorType);
 
-            map->paintOther(msg->action(), startPos, endPos, zoneToRefresh, diameter, selectedColor);
+            map->paintOther(msg->action(), startPos, endPos, zoneToRefresh,
+diameter, selectedColor);
         }
     }
 }
@@ -1734,16 +1729,19 @@ void MainWindow::extractCharacter(Map* map, NetworkMessageReader* msg)
 
         QPoint npcPos(npcXpos, npcYpos);
 
-        bool showNumber= (npcType == CharacterToken::pnj) ? m_ui->m_showNpcNumberAction->isChecked() : false;
-        bool showName= (npcType == CharacterToken::pnj) ? m_ui->m_showNpcNameAction->isChecked() :
+        bool showNumber= (npcType == CharacterToken::pnj) ?
+m_ui->m_showNpcNumberAction->isChecked() : false; bool showName= (npcType ==
+CharacterToken::pnj) ? m_ui->m_showNpcNameAction->isChecked() :
                                                           m_ui->m_showPcNameAction->isChecked();
 
         CharacterToken* npc
-            = new CharacterToken(map, npcId, npcName, npcColor, npcDiameter, npcPos,
-                                 static_cast<CharacterToken::typePersonnage>(npcType), showNumber, showName, npcNumber);
+            = new CharacterToken(map, npcId, npcName, npcColor, npcDiameter,
+npcPos, static_cast<CharacterToken::typePersonnage>(npcType), showNumber,
+showName, npcNumber);
 
         if((npcVisible)
-           || (npcType == CharacterToken::pnj && (nullptr != m_currentConnectionProfile)
+           || (npcType == CharacterToken::pnj && (nullptr !=
+m_currentConnectionProfile)
                && m_currentConnectionProfile->isGM()))
         {
             npc->showCharacter();
@@ -1859,29 +1857,28 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     {
         QString idMedia= msg->string8();
         QString idSheet= msg->string8();
-        CharacterSheetWindow* sheet= findCharacterSheetWindowById(idMedia, idSheet);
-        if(nullptr != sheet)
+        CharacterSheetWindow* sheet= findCharacterSheetWindowById(idMedia,
+idSheet); if(nullptr != sheet)
         {
             sheet->processUpdateFieldMessage(msg, idSheet);
         }
         else
         {
             qWarning()
-                << QStringLiteral("No character sheet found - Media Id: %2 - Sheet Id: %1").arg(idSheet, idMedia);
+                << QStringLiteral("No character sheet found - Media Id: %2 -
+Sheet Id: %1").arg(idSheet, idMedia);
         }
     }
     else if(NetMsg::closeCharacterSheet == msg->action())
     {
           QString idMedia= msg->string8();
            QString idSheet= msg->string8();
-           CharacterSheetWindow* sheet= findCharacterSheetWindowById(idMedia, idSheet);
-           if(nullptr == sheet)
-               return;
-           auto sheetbis= m_mediaHash.value(idMedia);
-           if(sheet == sheetbis)
-               m_mediaHash.remove(idMedia);
+           CharacterSheetWindow* sheet= findCharacterSheetWindowById(idMedia,
+idSheet); if(nullptr == sheet) return; auto sheetbis=
+m_mediaHash.value(idMedia); if(sheet == sheetbis) m_mediaHash.remove(idMedia);
            DeleteMediaContainerCommand cmd(sheet, m_ui->m_editMenu, m_mdiArea,
-                                           m_currentConnectionProfile->isGM(), m_mediaHash);
+                                           m_currentConnectionProfile->isGM(),
+m_mediaHash);
         //  cmd.redo();
     }
 }
@@ -1905,7 +1902,8 @@ else if(msg->action() == NetMsg::ChangePlayerCharacterSizeAction)
 }
 }
 */
-/*CharacterSheetWindow* MainWindow::findCharacterSheetWindowById(const QString& idMedia, const QString& idSheet)
+/*CharacterSheetWindow* MainWindow::findCharacterSheetWindowById(const QString&
+idMedia, const QString& idSheet)
 {
     auto vector= m_mdiArea->getAllSubWindowFromId(idMedia);
     if(vector.empty())
@@ -1932,16 +1930,11 @@ else if(msg->action() == NetMsg::ChangePlayerCharacterSizeAction)
     {
     case CleverURI::PICTURE:
         title= tr("Open Picture");
-        folder= m_preferences->value(QString("PicturesDirectory"), ".").toString();
-        break;
-    case CleverURI::MAP:
-        title= tr("Open Map");
-        folder= m_preferences->value(QString("MapsDirectory"), ".").toString();
-        break;
-    case CleverURI::TEXT:
-        title= tr("Open Minutes");
-        folder= m_preferences->value(QString("MinutesDirectory"), ".").toString();
-        break;
+        folder= m_preferences->value(QString("PicturesDirectory"),
+".").toString(); break; case CleverURI::MAP: title= tr("Open Map"); folder=
+m_preferences->value(QString("MapsDirectory"), ".").toString(); break; case
+CleverURI::TEXT: title= tr("Open Minutes"); folder=
+m_preferences->value(QString("MinutesDirectory"), ".").toString(); break;
     default:
         break;
     }
@@ -1949,12 +1942,13 @@ else if(msg->action() == NetMsg::ChangePlayerCharacterSizeAction)
     {
         QString filepath;
         if(save)
-            filepath= QFileDialog ::getSaveFileName(this, title, folder, filter);
-        else
-            filepath= QFileDialog::getOpenFileName(this, title, folder, filter);
+            filepath= QFileDialog ::getSaveFileName(this, title, folder,
+filter); else filepath= QFileDialog::getOpenFileName(this, title, folder,
+filter);
 
         return new CleverURI(getShortNameFromPath(filepath), filepath,
-                             m_gameController->playerController()->localPlayer()->getUuid(), type);
+                             m_gameController->playerController()->localPlayer()->getUuid(),
+type);
     }
     return nullptr;
 }*/
@@ -1992,14 +1986,13 @@ void MainWindow::openOnlineImage()
 
 void MainWindow::openVMap()
 {
-    MapWizzard mapWizzard(true, this);
+    /*MapWizzard mapWizzard(true, this);
     mapWizzard.resetData();
     if(mapWizzard.exec() != QMessageBox::Accepted)
         return;
 
     auto permission= mapWizzard.getPermissionMode();
     auto filepath= mapWizzard.getFilepath();
-    auto name= mapWizzard.getTitle();
     auto hidden= mapWizzard.getHidden();
 
     std::map<QString, QVariant> args({{QStringLiteral("permission"), permission}, {QStringLiteral("hidden"), hidden}});
@@ -2009,29 +2002,7 @@ void MainWindow::openVMap()
     m_gameController->contentController()->openMedia(uri, args);
 
     QFileInfo info(mapWizzard.getFilepath());
-    m_preferences->registerValue("MapDirectory", info.absolutePath());
-}
-
-void MainWindow::openMap()
-{
-    MapWizzard mapWizzard(false, this);
-    mapWizzard.resetData();
-    if(mapWizzard.exec() != QMessageBox::Accepted)
-        return;
-
-    auto permission= mapWizzard.getPermissionMode();
-    auto filepath= mapWizzard.getFilepath();
-    auto name= mapWizzard.getTitle();
-    auto hidden= mapWizzard.getHidden();
-
-    std::map<QString, QVariant> args({{QStringLiteral("permission"), permission}, {QStringLiteral("hidden"), hidden}});
-
-    auto uri= new CleverURI(mapWizzard.getTitle(), filepath,
-                            m_gameController->playerController()->localPlayer()->uuid(), CleverURI::MAP);
-    m_gameController->contentController()->openMedia(uri);
-
-    QFileInfo info(mapWizzard.getFilepath());
-    m_preferences->registerValue("MapDirectory", info.absolutePath());
+    m_preferences->registerValue("MapDirectory", info.absolutePath());*/
 }
 
 void MainWindow::openRecentFile()
@@ -2129,11 +2100,13 @@ void MainWindow::setLatestFile(CleverURI* fileName)
     {
         window->setLocalIsGM(m_currentConnectionProfile->isGM());
     }
-    connect(window, SIGNAL(addWidgetToMdiArea(QWidget*, QString)), m_mdiArea, SLOT(addWidgetToMdi(QWidget*, QString)));
-    connect(window, SIGNAL(rollDiceCmd(QString, QString, bool)), m_chatListWidget,
+    connect(window, SIGNAL(addWidgetToMdiArea(QWidget*, QString)), m_mdiArea,
+SLOT(addWidgetToMdi(QWidget*, QString))); connect(window,
+SIGNAL(rollDiceCmd(QString, QString, bool)), m_chatListWidget,
             SLOT(rollDiceCmd(QString, QString, bool)));
-    connect(window, &CharacterSheetWindow::errorOccurs, m_gameController.get(), &GameController::addErrorLog);
-    connect(m_playerModel, SIGNAL(playerDeleted(Player*)), window, SLOT(removeConnection(Player*)));
+    connect(window, &CharacterSheetWindow::errorOccurs, m_gameController.get(),
+&GameController::addErrorLog); connect(m_playerModel,
+SIGNAL(playerDeleted(Player*)), window, SLOT(removeConnection(Player*)));
 }*/
 
 void MainWindow::openResource(ResourcesNode* node, bool force)
@@ -2177,11 +2150,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent* event)
 CleverURI::ContentType MainWindow::getContentType(QString str)
 {
     QImage imag(str);
-    if(str.endsWith(".pla"))
-    {
-        return CleverURI::MAP;
-    }
-    else if(!imag.isNull())
+    if(!imag.isNull())
     {
         return CleverURI::PICTURE;
     }
@@ -2193,10 +2162,6 @@ CleverURI::ContentType MainWindow::getContentType(QString str)
     {
         return CleverURI::SONGLIST;
     }
-    /* else if(str.endsWith(".sce"))
-     {
-         return CleverURI::SCENARIO;
-     }*/
     else if(str.endsWith(".rcs"))
     {
         return CleverURI::CHARACTERSHEET;
@@ -2261,7 +2226,7 @@ void MainWindow::showShortCutEditor()
     dialog.exec();
 }
 
-void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
+void MainWindow::openImageAs(const QPixmap& pix, CleverURI::ContentType type)
 {
     auto viewer= qobject_cast<MediaContainer*>(sender());
     QString title(tr("Export from %1"));
@@ -2282,15 +2247,6 @@ void MainWindow::openImageAs(const QPixmap pix, CleverURI::ContentType type)
             vmap->addImageItem(pix.toImage());
             destination= media;*/
         }
-    }
-    else if(type == CleverURI::MAP)
-    {
-        /*    auto mapframe= new MapFrame();
-             mapframe->setUriName(title);
-             auto img= new QImage(pix.toImage());
-             auto map= new Map(m_gameController->localPlayerId(), mapframe->getMediaId(), img, false);
-             mapframe->setMap(map);
-             destination= mapframe;*/
     }
     else if(type == CleverURI::PICTURE)
     {

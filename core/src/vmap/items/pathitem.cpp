@@ -25,7 +25,6 @@
 #include <QStyleOptionGraphicsItem>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "map/map.h"
 #include "vmap/controller/pathcontroller.h"
 #include "vmap/controller/visualitemcontroller.h"
 

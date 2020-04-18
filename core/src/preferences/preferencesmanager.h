@@ -93,7 +93,7 @@ public:
      * @brief registerListener
      */
     void registerListener(QString, PreferencesListener*);
-    void registerLambda(QString key, std::function<void(QString)> func);
+    void registerLambda(QString key, std::function<void(QVariant)> func);
 
 private:
     /**
@@ -119,7 +119,7 @@ private:
     /**
      * @brief m_lambdaMap
      */
-    std::map<QString, std::function<void(QString)>> m_lambdaMap;
+    std::map<QString, std::function<void(QVariant)>> m_lambdaMap;
 };
 
 #endif // PREFERENCESMANAGER_H

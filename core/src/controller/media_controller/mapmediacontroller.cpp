@@ -19,11 +19,29 @@
  ***************************************************************************/
 #include "mapmediacontroller.h"
 
-#include "controller/view_controller/mapcontroller.h"
+#include <QHash>
+#include <QVariant>
 
-MapMediaController::MapMediaController(QObject* parent) : MediaControllerInterface(parent) {}
+#include "controller/view_controller/mapcontroller.h"
+#include "updater/mapupdater.h"
+#include "worker/messagehelper.h"
+
+MapMediaController::MapMediaController(QObject* parent) : MediaControllerInterface(parent), m_updater(new MapUpdater) {}
 
 MapMediaController::~MapMediaController() {}
+
+QColor MapMediaController::fogColor() const
+{
+    return m_fogColor;
+}
+
+void MapMediaController::setFogColor(const QColor& color)
+{
+    if(m_fogColor == color)
+        return;
+    m_fogColor= color;
+    emit fogColorChanged(color);
+}
 
 CleverURI::ContentType MapMediaController::type() const
 {
@@ -35,11 +53,38 @@ bool MapMediaController::openMedia(CleverURI* uri, const std::map<QString, QVari
     if(uri == nullptr || (args.empty() && uri->getUri().isEmpty()))
         return false;
 
-    std::unique_ptr<MapController> mapCtrl(new MapController(uri, args));
-
-    emit mapControllerCreated(mapCtrl.get());
-    m_maps.push_back(std::move(mapCtrl));
+    QHash<QString, QVariant> hash(args.begin(), args.end());
+    addMapController(uri, hash);
     return true;
+}
+
+void MapMediaController::addMapController(CleverURI* uri, const QHash<QString, QVariant>& params)
+{
+    std::unique_ptr<MapController> mapController(new MapController(uri));
+
+    if(params.contains(QStringLiteral("permission")))
+        mapController->setPermission(params.value(QStringLiteral("permission")).value<Core::PermissionMode>());
+
+    if(params.contains(QStringLiteral("bgcolor")))
+        mapController->setBgColor(params.value(QStringLiteral("bgcolor")).value<QColor>());
+
+    if(params.contains(QStringLiteral("size")))
+        mapController->setSize(params.value(QStringLiteral("size")).toSize());
+
+    if(params.contains(QStringLiteral("hidden")))
+        mapController->setHidden(params.value(QStringLiteral("hidden")).toBool());
+
+    mapController->setFogColor(m_fogColor);
+
+    // connect(mapController.get(), &MapController::openImageAs, this, &PdfMediaController::shareImageAs);
+
+    connect(this, &MapMediaController::fogColorChanged, mapController.get(), &MapController::setFogColor);
+    connect(this, &MapMediaController::localIsGMChanged, mapController.get(), &MapController::setLocalGM);
+
+    m_updater->addController(mapController.get());
+
+    emit mapControllerCreated(mapController.get());
+    m_maps.push_back(std::move(mapController));
 }
 
 void MapMediaController::closeMedia(const QString& id)
@@ -60,7 +105,19 @@ void MapMediaController::registerNetworkReceiver()
 
 NetWorkReceiver::SendType MapMediaController::processMessage(NetworkMessageReader* msg)
 {
-    return NetWorkReceiver::NONE;
+    auto type= NetWorkReceiver::NONE;
+    if(nullptr == msg)
+        return type;
+
+    if(msg->category() == NetMsg::MediaCategory && msg->action() == NetMsg::AddMedia)
+    {
+        auto data= MessageHelper::readMapData(msg);
+        addMapController(new CleverURI(CleverURI::MAP), data);
+    }
+    else if(msg->action() == NetMsg::CloseMedia && msg->category() == NetMsg::MediaCategory)
+    {
+    }
+    return type;
 }
 
 void MapMediaController::setUndoStack(QUndoStack* stack) {}

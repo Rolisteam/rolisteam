@@ -55,7 +55,7 @@ TestMap::TestMap() {}
 
 void TestMap::init()
 {
-    m_controller.reset(new MapController(new CleverURI(), std::map<QString, QVariant>()));
+    m_controller.reset(new MapController(new CleverURI()));
     m_mapFrame.reset(new MapFrame(m_controller.get()));
     QImage img(800, 600, QImage::Format_ARGB32_Premultiplied);
 }

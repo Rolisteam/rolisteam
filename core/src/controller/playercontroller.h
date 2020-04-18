@@ -40,7 +40,6 @@ class PlayerController : public AbstractControllerInterface, public NetWorkRecei
 {
     Q_OBJECT
     Q_PROPERTY(QAbstractItemModel* model READ model CONSTANT)
-    Q_PROPERTY(QAbstractItemModel* playerOnMapModel READ playerOnMapModel CONSTANT)
     Q_PROPERTY(QAbstractItemModel* characterStateModel READ characterStateModel NOTIFY characterStateModelChanged)
     Q_PROPERTY(CharacterModel* characterModel READ characterModel CONSTANT)
     Q_PROPERTY(Player* localPlayer READ localPlayer WRITE setLocalPlayer NOTIFY localPlayerChanged)
@@ -53,7 +52,6 @@ public:
     Player* localPlayer() const;
 
     QAbstractItemModel* model() const;
-    QAbstractItemModel* playerOnMapModel() const;
     QAbstractItemModel* characterStateModel() const;
     CharacterModel* characterModel() const;
 
@@ -83,7 +81,6 @@ private:
 
 private:
     std::unique_ptr<PlayerModel> m_model;
-    std::unique_ptr<PlayerOnMapModel> m_playerOnMapModel;
     std::unique_ptr<CharacterModel> m_characterModel;
     QPointer<QAbstractItemModel> m_characterStateModel;
     QPointer<Player> m_localPlayer;

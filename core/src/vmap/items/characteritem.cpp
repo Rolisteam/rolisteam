@@ -30,12 +30,12 @@
 #include "data/character.h"
 #include "data/player.h"
 #include "dicealias.h"
-#include "map/map.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "userlist/playermodel.h"
 
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "preferences/preferencesmanager.h"
 #include "vmap/controller/characteritemcontroller.h"
 #include "vmap/controller/visualitemcontroller.h"
 #include "vmap/vmap.h"

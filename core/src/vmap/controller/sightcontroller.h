@@ -54,7 +54,7 @@ public:
     QRectF rect() const override;
     bool characterSight() const;
     ItemType itemType() const override;
-    bool visible() const;
+    bool visible() const override;
     const std::vector<CharacterVisionData> visionData() const;
     const std::vector<std::pair<QPolygonF, bool>>& singularityList() const;
 

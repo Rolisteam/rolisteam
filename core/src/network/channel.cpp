@@ -168,10 +168,13 @@ void Channel::sendMessage(NetworkMessage* msg, TcpClient* emitter, bool mustBeSa
 void Channel::sendToMany(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
 {
     auto const recipient= msg->getRecipientList();
+    qDebug() << "recipient " << recipient;
     int i= 0;
     for(auto& client : m_child)
     {
         TcpClient* other= dynamic_cast<TcpClient*>(client.data());
+
+        qDebug() << "client dispo" << other->getId();
 
         if((nullptr != other) && (other != tcp) && (recipient.contains(other->getId())))
         {

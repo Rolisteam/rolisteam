@@ -24,7 +24,6 @@
 #include <QUuid>
 #include <QVBoxLayout>
 
-#include "map/mapwizzard.h"
 #include "vmapframe.h"
 
 #include "controller/view_controller/vectorialmapcontroller.h"

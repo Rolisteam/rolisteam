@@ -29,6 +29,7 @@
 
 //#include "charactersheetmodel.h"
 #include "charactersheet/rolisteamimageprovider.h"
+#include "data/character.h"
 #include "data/mediacontainer.h"
 
 /**

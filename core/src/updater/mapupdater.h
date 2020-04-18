@@ -17,46 +17,29 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef MAPMEDIACONTROLLER_H
-#define MAPMEDIACONTROLLER_H
+#ifndef MAPUPDATER_H
+#define MAPUPDATER_H
 
 #include <QObject>
-#include <memory>
-#include <vector>
-
-#include "mediacontrollerinterface.h"
 
 class MapController;
-class MapUpdater;
-class MapMediaController : public MediaControllerInterface
+class NetworkMessageReader;
+class MapUpdater : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QColor fogColor READ fogColor WRITE setFogColor NOTIFY fogColorChanged)
 public:
-    explicit MapMediaController(QObject* parent= nullptr);
-    ~MapMediaController() override;
+    explicit MapUpdater(QObject* parent= nullptr);
 
-    QColor fogColor() const;
-    void setFogColor(const QColor& color);
+    void addController(MapController* ctrl);
 
-    CleverURI::ContentType type() const override;
-    bool openMedia(CleverURI* uri, const std::map<QString, QVariant>& args) override;
-    void closeMedia(const QString& id) override;
-    void registerNetworkReceiver() override;
-    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
-    void setUndoStack(QUndoStack* stack) override;
+    bool updateVMapProperty(NetworkMessageReader* msg, MapController* ctrl);
 
-    void addMapFromImage(const QPixmap& map);
-    void addMapController(CleverURI* uri, const QHash<QString, QVariant>& params);
-
-signals:
-    void mapControllerCreated(MapController* ctrl);
-    void fogColorChanged(QColor color);
+    template <typename T>
+    void sendOffMapChanges(MapController* ctrl, const QString& property);
 
 private:
-    std::vector<std::unique_ptr<MapController>> m_maps;
-    std::unique_ptr<MapUpdater> m_updater;
-    QColor m_fogColor;
+    bool m_updatingFromNetwork= false;
+    MapController* updatingCtrl= nullptr;
 };
 
-#endif // MAPMEDIACONTROLLER_H
+#endif // MAPUPDATER_H

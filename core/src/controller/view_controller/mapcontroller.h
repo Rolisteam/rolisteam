@@ -35,37 +35,75 @@ class MapController : public AbstractMediaContainerController
     Q_PROPERTY(QSize size READ size WRITE setSize NOTIFY sizeChanged)
     Q_PROPERTY(bool hidden READ hidden WRITE setHidden NOTIFY hiddenChanged)
     Q_PROPERTY(QColor bgColor READ bgColor WRITE setBgColor NOTIFY bgColorChanged)
-    Q_PROPERTY(VMapFrame::PermissionMode permission READ permission WRITE setPermission NOTIFY permissionChanged)
+    Q_PROPERTY(QColor fogColor READ fogColor WRITE setFogColor NOTIFY fogColorChanged)
+    Q_PROPERTY(Core::PermissionMode permission READ permission WRITE setPermission NOTIFY permissionChanged)
+    Q_PROPERTY(QImage backgroundImage READ backgroundImage WRITE setBackgroundImage NOTIFY backgroundImageChanged)
+    Q_PROPERTY(QImage originalBackgroundImage READ originalBackgroundImage WRITE setOriginalBackgroundImage NOTIFY
+                   originalBackgroundImageChanged)
+    Q_PROPERTY(QImage alphaLayer READ alphaLayer WRITE setAlphaLayer NOTIFY alphaLayerChanged)
+    Q_PROPERTY(QImage alphaBackground READ alphaBackground WRITE setAlphaBackground NOTIFY alphaBackgroundChanged)
+    Q_PROPERTY(QImage eraseAlpha READ eraseAlpha WRITE setEraseAlpha NOTIFY eraseAlphaChanged)
 public:
-    explicit MapController(CleverURI* uri, const std::map<QString, QVariant>& args, QObject* parent= nullptr);
+    explicit MapController(CleverURI* uri, QObject* parent= nullptr);
 
     void saveData() const override;
     void loadData() const override;
+
+    QImage backgroundImage() const;
+    QImage originalBackgroundImage() const;
+    QImage alphaLayer() const;
+    QImage alphaBackground() const;
+    QImage eraseAlpha() const;
+
+    QColor fogColor() const;
 
     QSize size() const;
     bool hidden() const;
 
     QColor bgColor() const;
-    VMapFrame::PermissionMode permission() const;
+    Core::PermissionMode permission() const;
 
 public slots:
     void setSize(const QSize& size);
     void setHidden(bool hidden);
     void setBgColor(QColor bgColor);
 
-    void setPermission(VMapFrame::PermissionMode permission);
+    void setPermission(Core::PermissionMode permission);
+
+    void setBackgroundImage(const QImage& img);
+    void setOriginalBackgroundImage(const QImage& img);
+    void setAlphaLayer(const QImage& img);
+    void setAlphaBackground(const QImage& img);
+    void setEraseAlpha(const QImage& img);
+    void setFogColor(const QColor& color);
 
 signals:
     void sizeChanged();
     void hiddenChanged(bool hidden);
     void bgColorChanged(QColor bgColor);
-    void permissionChanged(VMapFrame::PermissionMode permission);
+    void permissionChanged(Core::PermissionMode permission);
+    void backgroundImageChanged(QImage);
+    void alphaLayerChanged(QImage);
+    void alphaBackgroundChanged(QImage);
+    void eraseAlphaChanged(QImage);
+    void originalBackgroundImageChanged(QImage);
+    void fogColorChanged(QColor);
+
+private:
+    void init();
 
 private:
     QSize m_size;
     bool m_hidden;
     QColor m_bgColor;
-    VMapFrame::PermissionMode m_permission;
+    QColor m_fogColor;
+    Core::PermissionMode m_permission;
+
+    QImage m_backgroundImage;
+    QImage m_originalBackgroundImage;
+    QImage m_alphaBackground;
+    QImage m_alphaLayer;
+    QImage m_eraseAlpha;
 };
 
 #endif // MAPCONTROLLER_H

@@ -42,7 +42,6 @@ public:
     enum ContentType
     {
         NONE,
-        MAP,
         VMAP,
         CHAT,
         PICTURE,

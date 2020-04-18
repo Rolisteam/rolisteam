@@ -128,4 +128,11 @@ void variantToType<CharacterVision::SHAPE>(const CharacterVision::SHAPE& shape, 
 {
     msg.uint8(static_cast<quint8>(shape));
 }
+template <>
+void variantToType<QSize>(const QSize& size, NetworkMessageWriter& msg)
+{
+    msg.int32(size.width());
+    msg.int32(size.height());
+}
+
 } // namespace Helper
