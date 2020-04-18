@@ -23,7 +23,6 @@
 #include "controller/preferencescontroller.h"
 #include "data/player.h"
 #include "model/charactermodel.h"
-#include "model/playeronmapmodel.h"
 #include "network/receiveevent.h"
 #include "preferences/characterstatemodel.h"
 #include "undoCmd/addlocalcharactercommand.h"
@@ -44,14 +43,12 @@ void addPlayerToModel(PlayerModel* model, NetworkMessageReader* msg)
 PlayerController::PlayerController(QObject* parent)
     : AbstractControllerInterface(parent)
     , m_model(new PlayerModel)
-    , m_playerOnMapModel(new PlayerOnMapModel)
     , m_characterModel(new CharacterModel)
     , m_localPlayer(new Player)
 {
     ReceiveEvent::registerNetworkReceiver(NetMsg::PlayerCategory, this);
-    m_playerOnMapModel->setSourceModel(m_model.get());
-    m_characterModel->setSourceModel(m_model.get());
 
+    m_characterModel->setSourceModel(m_model.get());
     connect(m_model.get(), &PlayerModel::gameMasterIdChanged, this, &PlayerController::gameMasterIdChanged);
 }
 
@@ -114,11 +111,6 @@ Player* PlayerController::localPlayer() const
 QAbstractItemModel* PlayerController::model() const
 {
     return m_model.get();
-}
-
-QAbstractItemModel* PlayerController::playerOnMapModel() const
-{
-    return m_playerOnMapModel.get();
 }
 
 QAbstractItemModel* PlayerController::characterStateModel() const

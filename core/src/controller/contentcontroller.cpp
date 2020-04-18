@@ -21,7 +21,6 @@
 
 #include "controller/media_controller/charactersheetmediacontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
-#include "controller/media_controller/mapmediacontroller.h"
 #include "controller/media_controller/mediacontrollerinterface.h"
 #include "controller/media_controller/pdfmediacontroller.h"
 #include "controller/media_controller/sharednotemediacontroller.h"
@@ -48,7 +47,6 @@ ContentController::ContentController(CharacterModel* characterModel, QObject* pa
     , m_sheetMediaController(new CharacterSheetMediaController(characterModel))
     , m_webPageMediaController(new WebpageMediaController)
     , m_sharedNoteMediaController(new SharedNoteMediaController)
-    , m_mapMediaController(new MapMediaController)
     , m_pdfMediaController(new PdfMediaController)
     , m_sessionName(tr("Unknown"))
 {
@@ -57,7 +55,6 @@ ContentController::ContentController(CharacterModel* characterModel, QObject* pa
     m_mediaControllers.insert({CleverURI::CHARACTERSHEET, m_sheetMediaController.get()});
     m_mediaControllers.insert({CleverURI::WEBVIEW, m_webPageMediaController.get()});
     m_mediaControllers.insert({CleverURI::SHAREDNOTE, m_sharedNoteMediaController.get()});
-    m_mediaControllers.insert({CleverURI::MAP, m_mapMediaController.get()});
     m_mediaControllers.insert({CleverURI::PDF, m_pdfMediaController.get()});
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
@@ -81,6 +78,14 @@ void ContentController::setGameController(GameController* game)
     m_preferences->registerListener("BackGroundColor", this);
     m_preferences->registerListener("shortNameInTabMode", this);
     m_preferences->registerListener("MaxLengthTabName", this);
+    /* m_preferences->registerLambda("Fog_color", [this](QVariant var) {
+         if(!var.isValid())
+             m_mapMediaController->setFogColor(QColor(0, 0, 0));
+         else
+             m_mapMediaController->setFogColor(var.value<QColor>());
+     });
+
+     m_mapMediaController->setFogColor(m_preferences->value("Fog_color", QColor(Qt::black)).value<QColor>());*/
 
     std::for_each(m_mediaControllers.begin(), m_mediaControllers.end(),
                   [game](const std::pair<CleverURI::ContentType, MediaControllerInterface*>& pair) {
@@ -153,11 +158,6 @@ WebpageMediaController* ContentController::webPageCtrl() const
 SharedNoteMediaController* ContentController::sharedCtrl() const
 {
     return m_sharedNoteMediaController.get();
-}
-
-MapMediaController* ContentController::mapCtrl() const
-{
-    return m_mapMediaController.get();
 }
 
 PdfMediaController* ContentController::pdfCtrl() const
@@ -279,10 +279,6 @@ void ContentController::addImageAs(const QPixmap& map, CleverURI::ContentType ty
     if(type == CleverURI::PICTURE)
     {
         m_imageControllers->addImage(map);
-    }
-    else if(type == CleverURI::MAP)
-    {
-        m_mapMediaController->addMapFromImage(map);
     }
     else if(type == CleverURI::VMAP)
     {

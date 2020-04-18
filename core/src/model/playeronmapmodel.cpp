@@ -20,7 +20,6 @@
 #include "playeronmapmodel.h"
 
 #include "data/character.h"
-#include "map/map.h"
 #include "userlist/playermodel.h"
 
 PlayerOnMapModel::PlayerOnMapModel(QObject* parent) : QIdentityProxyModel(parent), m_map(nullptr) {}
@@ -52,7 +51,7 @@ QVariant PlayerOnMapModel::data(const QModelIndex& index, int role) const
             return false;
         auto realIndex= mapToSource(index);
         Person* person= static_cast<Person*>(realIndex.internalPointer());
-        return m_map->isVisiblePc(person->uuid());
+        return false;
     }
     return QAbstractProxyModel::data(index, role);
 }
@@ -82,7 +81,7 @@ bool PlayerOnMapModel::setData(const QModelIndex& index, const QVariant& value, 
     if(role == Qt::CheckStateRole && isCheckable(index))
     {
         // isCheckable ensures person and m_map is not nullptr and person is a character.
-        m_map->toggleCharacterView(static_cast<Character*>(person));
+        // m_map->toggleCharacterView(static_cast<Character*>(person));
         emit dataChanged(index, index);
         return true;
     }

@@ -19,21 +19,65 @@
  ***************************************************************************/
 #include "mapcontroller.h"
 
+#include <QImage>
+#include <QPainter>
 #include <QVariant>
 
 #include "data/cleveruri.h"
 
-MapController::MapController(CleverURI* uri, const std::map<QString, QVariant>& args, QObject* parent)
-    : AbstractMediaContainerController(uri, parent)
+void clearImage(QImage& image, const QColor& color)
 {
-    setPermission(args.at(QStringLiteral("permission")).value<VMapFrame::PermissionMode>());
-    setBgColor(args.at(QStringLiteral("bgcolor")).value<QColor>());
-    setSize(args.at(QStringLiteral("size")).toSize());
+    QPainter painter(&image);
+    painter.fillRect(0, 0, image.width(), image.height(), color);
+}
+
+MapController::MapController(CleverURI* uri, QObject* parent) : AbstractMediaContainerController(uri, parent) {}
+
+void MapController::init()
+{
+    m_originalBackgroundImage= QImage(m_size, QImage::Format_ARGB32);
+    m_backgroundImage= QImage(m_size, QImage::Format_ARGB32_Premultiplied);
+    m_alphaBackground= QImage(m_size, QImage::Format_ARGB32);
+    m_alphaLayer= QImage(m_size, QImage::Format_ARGB32_Premultiplied);
+    m_eraseAlpha= QImage(m_size, QImage::Format_ARGB32_Premultiplied);
+
+    clearImage(m_alphaLayer, m_fogColor);
+    clearImage(m_eraseAlpha, Qt::black);
 }
 
 void MapController::saveData() const {}
 
 void MapController::loadData() const {}
+
+QImage MapController::backgroundImage() const
+{
+    return m_backgroundImage;
+}
+
+QImage MapController::originalBackgroundImage() const
+{
+    return m_originalBackgroundImage;
+}
+
+QImage MapController::alphaLayer() const
+{
+    return m_alphaLayer;
+}
+
+QImage MapController::alphaBackground() const
+{
+    return m_alphaBackground;
+}
+
+QImage MapController::eraseAlpha() const
+{
+    return m_eraseAlpha;
+}
+
+QColor MapController::fogColor() const
+{
+    return m_fogColor;
+}
 
 QSize MapController::size() const
 {
@@ -60,6 +104,7 @@ void MapController::setSize(const QSize& size)
         return;
     m_size= size;
     emit sizeChanged();
+    init();
 }
 
 QColor MapController::bgColor() const
@@ -76,16 +121,54 @@ void MapController::setBgColor(QColor bgColor)
     emit bgColorChanged(m_bgColor);
 }
 
-VMapFrame::PermissionMode MapController::permission() const
+Core::PermissionMode MapController::permission() const
 {
     return m_permission;
 }
 
-void MapController::setPermission(VMapFrame::PermissionMode permission)
+void MapController::setPermission(Core::PermissionMode permission)
 {
     if(m_permission == permission)
         return;
 
     m_permission= permission;
     emit permissionChanged(m_permission);
+}
+
+void MapController::setBackgroundImage(const QImage& img)
+{
+    m_backgroundImage= img;
+    emit backgroundImageChanged(m_backgroundImage);
+}
+
+void MapController::setOriginalBackgroundImage(const QImage& img)
+{
+    m_originalBackgroundImage= img;
+    emit originalBackgroundImageChanged(m_originalBackgroundImage);
+}
+
+void MapController::setAlphaLayer(const QImage& img)
+{
+    m_alphaLayer= img;
+    emit alphaLayerChanged(m_alphaLayer);
+}
+
+void MapController::setAlphaBackground(const QImage& img)
+{
+    m_alphaBackground= img;
+    emit alphaBackgroundChanged(m_alphaBackground);
+}
+
+void MapController::setEraseAlpha(const QImage& img)
+{
+    m_eraseAlpha= img;
+    emit eraseAlphaChanged(m_eraseAlpha);
+}
+
+void MapController::setFogColor(const QColor& color)
+{
+    if(color == m_fogColor)
+        return;
+    m_fogColor= color;
+    emit fogColorChanged(m_fogColor);
 }

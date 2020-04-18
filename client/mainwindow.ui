@@ -35,10 +35,9 @@
      <property name="title">
       <string>&amp;New</string>
      </property>
-     <addaction name="m_newMapAction"/>
+     <addaction name="m_addVectorialMap"/>
      <addaction name="m_newChatAction"/>
      <addaction name="m_newNoteAction"/>
-     <addaction name="m_addVectorialMap"/>
      <addaction name="m_newSharedNote"/>
      <addaction name="m_newWebViewACt"/>
     </widget>
@@ -46,11 +45,10 @@
      <property name="title">
       <string>&amp;Open</string>
      </property>
-     <addaction name="m_openMapAction"/>
+     <addaction name="m_openVectorialMap"/>
      <addaction name="m_openPictureAction"/>
      <addaction name="m_openOnlinePictureAction"/>
      <addaction name="m_openNoteAction"/>
-     <addaction name="m_openVectorialMap"/>
      <addaction name="m_openCharacterSheet"/>
      <addaction name="m_openShareNote"/>
      <addaction name="m_openPdfAct"/>
@@ -496,10 +494,10 @@
      <normaloff>:/vmap.png</normaloff>:/vmap.png</iconset>
    </property>
    <property name="text">
-    <string>Vectorial Map</string>
+    <string>Map</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+V</string>
+    <string>Ctrl+M</string>
    </property>
   </action>
   <action name="m_openVectorialMap">
@@ -508,10 +506,10 @@
      <normaloff>:/vmap.png</normaloff>:/vmap.png</iconset>
    </property>
    <property name="text">
-    <string>Vectorial Map</string>
+    <string>Map</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+B</string>
+    <string>Ctrl+O</string>
    </property>
   </action>
   <action name="m_showHealtStatusAction">

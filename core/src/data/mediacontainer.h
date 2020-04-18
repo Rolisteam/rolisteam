@@ -30,6 +30,7 @@
 #include "vmap/vtoolbar.h"
 
 #include "controller/view_controller/abstractmediacontroller.h"
+#include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
 /**

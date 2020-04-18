@@ -31,7 +31,6 @@
 /////////////////
 QHash<CleverURI::ContentType, QString> CleverURI::m_iconPathHash
     = {{CleverURI::NONE, ""},
-       {CleverURI::MAP, ":/map.png"},
        {CleverURI::VMAP, ":/vmap.png"},
        {CleverURI::CHAT, ":/resources/icons/scenario.png"},
        {CleverURI::PICTURE, ":/resources/icons/photo.png"},
@@ -49,17 +48,16 @@ QHash<CleverURI::ContentType, QString> CleverURI::m_iconPathHash
 // enum ContentType {NONE,MAP,VMAP,CHAT,PICTURE,ONLINEPICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG,SONGLIST
 // {CleverURI::SCENARIO, ":/story.png"}, << QObject::tr("Scenario")<< QString("SessionDirectory")
 QStringList CleverURI::m_typeNameList= QStringList()
-                                       << QObject::tr("None") << QObject::tr("Map") << QObject::tr("Vectorial Map")
-                                       << QObject::tr("Chat") << QObject::tr("Picture") << QObject::tr("Online Picture")
-                                       << QObject::tr("Text") << QObject::tr("Charecter Sheet") << QObject::tr("Song")
+                                       << QObject::tr("None") << QObject::tr("Vectorial Map") << QObject::tr("Chat")
+                                       << QObject::tr("Picture") << QObject::tr("Online Picture") << QObject::tr("Text")
+                                       << QObject::tr("Charecter Sheet") << QObject::tr("Song")
                                        << QObject::tr("Song List") << QObject::tr("Shared Notes");
 
 QStringList CleverURI::m_typeToPreferenceDirectory
-    = QStringList() << QString("SessionDirectory") << QString("MapDirectory") << QString("MapDirectory")
-                    << QString("ChatDirectory") << QString("ImageDirectory") << QString("ImageDirectory")
-                    << QString("MinutesDirectory") << QString("CharacterSheetDirectory")
-                    << QString("MusicDirectoryPlayer") << QString("MusicDirectoryPlayer")
-                    << QString("MinutesDirectory");
+    = QStringList() << QString("SessionDirectory") << QString("MapDirectory") << QString("ChatDirectory")
+                    << QString("ImageDirectory") << QString("ImageDirectory") << QString("MinutesDirectory")
+                    << QString("CharacterSheetDirectory") << QString("MusicDirectoryPlayer")
+                    << QString("MusicDirectoryPlayer") << QString("MinutesDirectory");
 // CleverURIListener* CleverURI::s_listener = nullptr;
 
 CleverURIListener::~CleverURIListener() {}
@@ -324,7 +322,6 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) // static
     case CleverURI::VMAP:
         filterType= QObject::tr("Vectorial Map (%1)").arg(preferences->value("VictorialFilter", "*.vmap").toString());
         break;
-    case CleverURI::MAP:
     case CleverURI::CHAT:
     case CleverURI::ONLINEPICTURE:
     default:

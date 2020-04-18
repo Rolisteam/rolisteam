@@ -30,7 +30,6 @@
 #include <QGraphicsScene>
 
 #include "controller/view_controller/vectorialmapcontroller.h"
-#include "map/map.h"
 #include "vmap/controller/visualitemcontroller.h"
 
 #include "network/networkmessagereader.h"

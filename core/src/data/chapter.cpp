@@ -38,6 +38,7 @@ Chapter::Chapter() : m_children(QList<ResourcesNode*>())
 
 Chapter::~Chapter()
 {
+    // WARNING may cause crash
     qDeleteAll(m_children);
     m_children.clear();
 }

@@ -56,9 +56,6 @@ void DataCleverURITest::testCleverURISetGet()
     m_cleverURI->setType(CleverURI::CHARACTERSHEET);
     QVERIFY2(m_cleverURI->getType() == CleverURI::CHARACTERSHEET, "CHARACTERSHEET is not the current type");
 
-    m_cleverURI->setType(CleverURI::MAP);
-    QVERIFY2(m_cleverURI->getType() == CleverURI::MAP, "MAP is not the current type");
-
     m_cleverURI->setType(CleverURI::PICTURE);
     QVERIFY2(m_cleverURI->getType() == CleverURI::PICTURE, "PICTURE is not the current type");
 

@@ -38,9 +38,6 @@
 #include "data/cleveruri.h"
 #include "data/mediacontainer.h"
 
-//#include "map/map.h"
-#include "map/charactertoken.h"
-
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "network/networkreceiver.h"
@@ -70,7 +67,6 @@ class MainWindow;
 }
 
 class UpdateChecker;
-class ToolsBar;
 class MapFrame;
 class Map;
 class ChatListWidget;
@@ -102,7 +98,6 @@ struct CommandLineProfile
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
     /**
      * @brief MainWindow
@@ -164,13 +159,14 @@ public:
     /**
      * @brief parseCommandLineArguments
      */
-    void parseCommandLineArguments(QStringList);
+    void parseCommandLineArguments(const QStringList&);
 
     /**
      * @brief processMessage
      * @param msg
      */
-    //    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
+    //    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader*
+    //    msg);
 
     /**
      * @brief prepareMap
@@ -233,7 +229,7 @@ public slots:
      * @param pix
      * @param type
      */
-    void openImageAs(const QPixmap pix, CleverURI::ContentType type);
+    void openImageAs(const QPixmap& pix, CleverURI::ContentType type);
     void showAsPreferences();
 
 protected:
@@ -437,7 +433,8 @@ private:
      */
     CharacterSheetWindow* findCharacterSheetWindowById(const QString& idMedia, const QString& idSheet);
     /**
-     * @brief getShortNameFromPath generic tool to translate filepath to short name.
+     * @brief getShortNameFromPath generic tool to translate filepath to short
+     * name.
      * @param path
      * @return
      */
@@ -447,10 +444,7 @@ private:
     Workspace* m_mdiArea= nullptr;
     PlayersPanel* m_playersListWidget= nullptr;
 
-    // toolbar
-    ToolsBar* m_toolBar;
     VToolsBar* m_vToolBar;
-    QStackedWidget* m_toolBarStack;
 
 #ifndef NULL_PLAYER
     AudioPlayer* m_audioPlayer;

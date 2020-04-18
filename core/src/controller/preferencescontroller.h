@@ -52,7 +52,7 @@ public:
         TOP
     };
     explicit PreferencesController(QObject* parent= nullptr);
-    ~PreferencesController();
+    virtual ~PreferencesController() override;
 
     void setGameController(GameController*) override;
 

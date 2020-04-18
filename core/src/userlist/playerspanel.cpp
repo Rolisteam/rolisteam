@@ -31,7 +31,6 @@
 #include "data/character.h"
 #include "data/person.h"
 #include "data/player.h"
-#include "map/map.h"
 #include "ui_playerspanel.h"
 #include "userlist/playermodel.h"
 #include "widgets/delegate.h"
@@ -67,15 +66,13 @@ void PlayersPanel::setConnection()
 {
     connect(m_ui->m_playerView, &UserListView::runDiceForCharacter, this, &PlayersPanel::runDiceForCharacter);
 
-    m_ui->m_playerView->setModel(m_ctrl->playerOnMapModel());
+    m_ui->m_playerView->setModel(m_ctrl->model());
     m_selectionModel= m_ui->m_playerView->selectionModel();
     m_ui->m_playerView->setHeaderHidden(true);
 
     // Actions
     connect(m_selectionModel, SIGNAL(currentChanged(QModelIndex, QModelIndex)), this,
             SLOT(selectAnotherPerson(QModelIndex)));
-    connect(m_ctrl->playerOnMapModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), m_ui->m_playerView,
-            SLOT(clearSelection()));
     connect(m_ui->m_addLocalCharacter, &QAction::triggered, m_ctrl, &PlayerController::addLocalCharacter);
     connect(m_ui->m_removeLocalCharacter, &QAction::triggered, this,
             [this]() { m_ctrl->removeLocalCharacter(m_ui->m_playerView->currentIndex()); });

@@ -48,17 +48,16 @@ VectorialMapController* findMap(const std::vector<std::unique_ptr<VectorialMapCo
     return (*it).get();
 }
 
-VectorialMapMediaController::VectorialMapMediaController(NetworkController* networkCtrl)
-    : m_networkCtrl(networkCtrl), m_updater(new VMapUpdater)
+VectorialMapMediaController::VectorialMapMediaController() : m_updater(new VMapUpdater)
 {
-    auto func= [this]() {
+    /*auto func= [this]() {
         std::for_each(m_vmaps.begin(), m_vmaps.end(), [this](const std::unique_ptr<VectorialMapController>& ctrl) {
             ctrl->setLocalGM(m_networkCtrl->isGM());
         });
     };
 
     connect(m_networkCtrl, &NetworkController::isGMChanged, this, func);
-    func();
+    func();*/
 }
 
 VectorialMapController* VectorialMapMediaController::currentVMap() const
@@ -86,7 +85,7 @@ void VectorialMapMediaController::registerNetworkReceiver()
 NetWorkReceiver::SendType VectorialMapMediaController::processMessage(NetworkMessageReader* msg)
 {
     NetWorkReceiver::SendType type= NetWorkReceiver::NONE;
-
+    qDebug() << "ProcessMessage";
     if(msg->action() == NetMsg::AddMedia && msg->category() == NetMsg::MediaCategory)
     {
         auto map= addVectorialMapController(new CleverURI(CleverURI::ContentType::VMAP), QHash<QString, QVariant>());
@@ -230,6 +229,7 @@ VectorialMapController* VectorialMapMediaController::addVectorialMapController(C
     connect(this, &VectorialMapMediaController::localIsGMChanged, vmapCtrl.get(), &VectorialMapController::setLocalGM);
 
     vmapCtrl->setLocalGM(localIsGM());
+
     auto val= vmapCtrl.get();
     m_vmaps.push_back(std::move(vmapCtrl));
     emit vmapControllerCreated(val);

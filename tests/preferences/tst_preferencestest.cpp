@@ -81,8 +81,8 @@ void PreferencesTest::testLambdaFunction()
 {
     m_count= 0;
     m_preferences->registerValue("key", 300);
-    auto func= [=](QString key) {
-        QVERIFY("key" == key);
+    auto func= [=](QVariant value) {
+        QVERIFY(value.toInt() == 25);
         m_count++;
     };
     m_preferences->registerLambda("key", func);

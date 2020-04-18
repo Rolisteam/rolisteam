@@ -32,11 +32,9 @@ set(HEADERS
     src/controller/view_controller/webpagecontroller.h
     src/controller/view_controller/sharednotecontroller.h
     src/controller/view_controller/pdfcontroller.h
-    src/controller/view_controller/mapcontroller.h
     src/controller/media_controller/pdfmediacontroller.h
     src/controller/media_controller/mediacontrollerinterface.h
     src/controller/media_controller/charactersheetmediacontroller.h
-    src/controller/media_controller/mapmediacontroller.h
     src/controller/media_controller/vectorialmapmediacontroller.h
     src/controller/media_controller/webpagemediacontroller.h
     src/controller/media_controller/imagemediacontroller.h
@@ -52,7 +50,6 @@ set(HEADERS
     src/model/profilemodel.h
     src/model/charactermodel.h
     src/model/thememodel.h
-    src/model/playeronmapmodel.h
     src/charactersheet/charactersheet.h
     src/charactersheet/charactersheetitem.h
     src/charactersheet/charactersheetmodel.h
@@ -147,11 +144,6 @@ set(HEADERS
     src/diceparser/result/scalarresult.h
     src/diceparser/result/stringresult.h
     src/diceparser/validator.h
-    src/map/charactertoken.h
-    src/map/map.h
-    src/map/mapframe.h
-    src/map/mapwizzard.h
-    src/map/newemptymapdialog.h
     src/media/image.h
     src/network/channel.h
     src/network/channellistpanel.h
@@ -305,7 +297,6 @@ set(HEADERS
     src/widgets/realslider.h
     src/widgets/shortcuteditordialog.h
     src/widgets/tipofdayviewer.h
-    src/widgets/toolsbar.h
     src/worker/messagehelper.h
     src/worker/playermessagehelper.h
     src/worker/vectorialmapmessagehelper.h
@@ -313,8 +304,15 @@ set(HEADERS
     src/worker/iohelper.h
     src/updater/vmapupdater.h
     src/worker/convertionhelper.h
-    src/updater/vmaprectcontrollerupdater.h
+    src/updater/rectcontrollerupdater.h
     src/updater/vmapitemcontrollerupdater.h
+    src/updater/ellipsecontrollerupdater.h
+    src/updater/textcontrollerupdater.h
+    src/updater/linecontrollerupdater.h
+    src/updater/imagecontrollerupdater.h
+    src/updater/pathcontrollerupdater.h
+    src/updater/characteritemupdater.h
+    src/updater/charactersheetupdater.h
     )
 
 
@@ -332,11 +330,9 @@ set(SOURCES
     src/controller/media_controller/vectorialmapmediacontroller.cpp
     src/controller/media_controller/webpagemediacontroller.cpp
     src/controller/media_controller/sharednotemediacontroller.cpp
-    src/controller/media_controller/mapmediacontroller.cpp
     src/controller/media_controller/pdfmediacontroller.cpp
     src/controller/view_controller/vectorialmapcontroller.cpp
     src/controller/view_controller/pdfcontroller.cpp
-    src/controller/view_controller/mapcontroller.cpp
     src/controller/view_controller/sharednotecontroller.cpp
     src/controller/view_controller/webpagecontroller.cpp
     src/controller/view_controller/imagecontroller.cpp
@@ -346,7 +342,6 @@ set(SOURCES
     src/undoCmd/removelocalcharactercommand.cpp
     src/model/profilemodel.cpp
     src/model/thememodel.cpp
-    src/model/playeronmapmodel.cpp
     src/model/charactermodel.cpp
     src/audio/audioPlayer.cpp
     src/audio/musicmodel.cpp
@@ -444,11 +439,6 @@ set(SOURCES
     src/diceparser/result/scalarresult.cpp
     src/diceparser/result/stringresult.cpp
     src/diceparser/validator.cpp
-    src/map/charactertoken.cpp
-    src/map/map.cpp
-    src/map/mapframe.cpp
-    src/map/mapwizzard.cpp
-    src/map/newemptymapdialog.cpp
     src/media/image.cpp
     src/network/channel.cpp
     src/network/channellistpanel.cpp
@@ -598,23 +588,27 @@ set(SOURCES
     src/widgets/realslider.cpp
     src/widgets/shortcuteditordialog.cpp
     src/widgets/tipofdayviewer.cpp
-    src/widgets/toolsbar.cpp
     src/worker/messagehelper.cpp
     src/worker/modelhelper.cpp
     src/worker/vectorialmapmessagehelper.cpp
     src/worker/playermessagehelper.cpp
     src/updater/vmapupdater.cpp
-    src/updater/vmaprectcontrollerupdater.cpp
+    src/updater/rectcontrollerupdater.cpp
     src/updater/vmapitemcontrollerupdater.cpp
     src/worker/convertionhelper.cpp
+    src/updater/textcontrollerupdater.cpp
+    src/updater/ellipsecontrollerupdater.cpp
+    src/updater/linecontrollerupdater.cpp
+    src/updater/imagecontrollerupdater.cpp
+    src/updater/pathcontrollerupdater.cpp
+    src/updater/characteritemupdater.cpp
+    src/updater/charactersheetupdater.cpp
     )
 
 
 set(UI_FILES
     src/preferences/preferencesdialogbox.ui
     src/audio/audiowidget.ui
-    src/map/newemptymapdialog.ui
-    src/map/mapwizzard.ui
     src/sharededitor/findtoolbar.ui
     src/sharededitor/preferencesdialog.ui
     src/sharededitor/participantspane.ui
@@ -647,7 +641,7 @@ set(UI_FILES
     src/session/sessiondock.ui
     )
 
-add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES})
+add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} src/rolisteamqml.qrc)
 
 qt5_use_modules(core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets Xml WebEngineWidgets Concurrent)
 #target_link_libraries(core PUBLIC  Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets)
