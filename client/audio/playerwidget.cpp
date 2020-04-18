@@ -576,12 +576,12 @@ void PlayerWidget::triggeredPlayingModeAction()
 }
 void PlayerWidget::loadPlayList()
 {
-    QStringList url = QStringLiteral("http://tabletopaudio.com/download.php?downld_file=%1");
-    static QStringList list {
+    QString url = QStringLiteral("http://tabletopaudio.com/download.php?downld_file=%1");
+    static QStringList list({
         QStringLiteral("1_The_Inner_Core.mp3"),
         QStringLiteral("2_Bubbling_Pools.mp3"),
         QStringLiteral("3_The_March_of_the_Faithful.mp3"),
-        QStringLiteral("4_Solemn_Vow-a.mp3),"
+        QStringLiteral("4_Solemn_Vow-a.mp3"),
         QStringLiteral("5_Desert_Bazaar.mp3"),
         QStringLiteral("6_Abyssal_Gaze.mp3"),
         QStringLiteral("7_The_Desert_Awaits.mp3"),
@@ -626,7 +626,7 @@ void PlayerWidget::loadPlayList()
         QStringLiteral("46_Cathedral.mp3"),
         QStringLiteral("47_There_be_Dragons.mp3"),
         QStringLiteral("48_Overland_with_Oxen.mp3"),
-        QStringLiteral("49_Goblin's_Cave.mp3),"
+        QStringLiteral("49_Goblin's_Cave.mp3"),
         QStringLiteral("50_Super_Hero.mp3"),
         QStringLiteral("51_Woodland_Campsite.mp3"),
         QStringLiteral("52_Warehouse_13.mp3"),
@@ -647,8 +647,8 @@ void PlayerWidget::loadPlayList()
         QStringLiteral("67_Asylum.mp3"),
         QStringLiteral("68_1940s_Office.mp3"),
         QStringLiteral("69_Forest_Night.mp3"),
-        QStringLiteral("70_Age_of_Steam.mp3"),
-    };
+        QStringLiteral("70_Age_of_Steam.mp3")
+    });
 
     // This is slower, but makes the above code *much* more readable.
     static int initOnce = true;
