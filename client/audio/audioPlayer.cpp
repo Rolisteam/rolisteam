@@ -31,8 +31,6 @@
 #include "network/networklink.h"
 #include "network/networkmessagewriter.h"
 
-AudioPlayer* AudioPlayer::m_singleton= nullptr;
-
 namespace {
     QString musicStatus = QStringLiteral("music_player_%1_status");
 }
@@ -94,15 +92,15 @@ void AudioPlayer::setupUi()
 
     for(int i= 0; i < 3; ++i)
     {
-        PlayerWidget* playerWidget= new PlayerWidget(i, this);
-        connect(playerWidget, PlayerWidget::newSongPlayed, this, AudioPlayer::onePlayerHasNewSong);
-        connect(playerWidget, PlayerWidget::playerIsPaused, this, AudioPlayer::onePlayerIsPaused);
-        connect(playerWidget, PlayerWidget::playerStopped, this, AudioPlayer::onePlayerHasStopped);
-        connect(playerWidget, PlayerWidget::playerIsPlaying, this, AudioPlayer::onePlayerPlays);
-        connect(playerWidget, PlayerWidget::playerPositionChanged, this, AudioPlayer::onePlayerHasChangedPosition);
+        auto* playerWidget= new PlayerWidget(i, this);
+        connect(playerWidget, &PlayerWidget::newSongPlayed, this, &AudioPlayer::onePlayerHasNewSong);
+        connect(playerWidget, &PlayerWidget::playerIsPaused, this, &AudioPlayer::onePlayerIsPaused);
+        connect(playerWidget, &PlayerWidget::playerStopped, this, &AudioPlayer::onePlayerHasStopped);
+        connect(playerWidget, &PlayerWidget::playerIsPlaying, this, &AudioPlayer::onePlayerPlays);
+        connect(playerWidget, &PlayerWidget::playerPositionChanged, this, &AudioPlayer::onePlayerHasChangedPosition);
 
         m_players.append(playerWidget);
-        QAction* act= new QAction(tr("Show/hide Player %1").arg(i), this);
+        auto* act= new QAction(tr("Show/hide Player %1").arg(i), this);
         act->setCheckable(true);
         act->setChecked(m_preferences->value(musicStatus.arg(i), true).toBool());
         connect(act, SIGNAL(triggered(bool)), this, SLOT(showMusicPlayer(bool)));
