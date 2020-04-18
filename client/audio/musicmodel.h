@@ -35,8 +35,10 @@ public:
      */
     enum COLUMN
     {
-        TITLE
+        TITLE,
+        COLUMN_COUNT
     };
+
     /**
      * @brief MusicModel
      * @param parent

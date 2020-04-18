@@ -27,13 +27,17 @@
 #include <QUrl>
 #include <QNetworkRequest>
 
+#include <set>
+
 // https://api.soundcloud.com/tracks/293/stream?client_id=59632ff691d8ac46c637c1467d84b6c6
 
-MusicModel::MusicModel(QObject* parent) : QAbstractListModel(parent)
+MusicModel::MusicModel(QObject* parent)
+    : QAbstractListModel(parent)
+    , m_header({tr("Title")})
+    , m_player(new QMediaPlayer())
 {
-    m_header << tr("Title") /*<< tr("duration")*/;
-    m_player= new QMediaPlayer();
 }
+
 int MusicModel::rowCount(const QModelIndex& parent) const
 {
     if(!parent.isValid())
@@ -44,70 +48,78 @@ int MusicModel::rowCount(const QModelIndex& parent) const
 int MusicModel::columnCount(const QModelIndex& parent) const
 {
     if(!parent.isValid())
-        return m_header.size();
+        return COLUMN_COUNT;
     return 0;
 }
+
 QVariant MusicModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(orientation == Qt::Vertical)
-        return QVariant();
+        return {};
+
     if(Qt::DisplayRole == role)
     {
         return m_header[section];
     }
 
-    return QVariant();
+    return {};
 }
-QVariant MusicModel::data(const QModelIndex& index, int role) const
-{
-    if(Qt::DisplayRole == role)
-    {
-        if(index.column() == TITLE)
-        {
-            QUrl url= m_data.at(index.row())->canonicalUrl();
-            if(url.isLocalFile())
-            {
-                return url.fileName();
-            }
-            else if(url.host().contains("tabletopaudio.com"))
-            {
-                QString str= url.toString();
-                str= str.right(str.size() - (str.lastIndexOf("=") + 1));
-                return str.replace(".mp3", "").replace("_", " ");
-            }
-            else
-            {
-                return url.fileName();
-            }
-        }
-    }
-    else if((index == m_currentSong) && (Qt::FontRole == role))
-    {
+
+namespace {
+    QFont boldFont() {
         QFont font;
         font.setBold(true);
         return font;
     }
 
-    return QVariant();
+    QString normalizeUrl(const QUrl& url) {
+        if (url.isLocalFile() || url.host().contains("tabletopaudio.com") == false)
+            return url.fileName();
+
+        QString str= url.toString();
+        str= str.right(str.size() - (str.lastIndexOf("=") + 1));
+        return str.replace(".mp3", "").replace("_", " ");
+    }
 }
+
+QVariant MusicModel::data(const QModelIndex& index, int role) const
+{
+    // Break early if role is not Diplay or Font.
+    if (std::set<int>{Qt::DisplayRole, Qt::FontRole}.count(role) == 0) {
+        return {};
+    }
+
+    switch(role) {
+        case Qt::DisplayRole:
+            if (index.column() == TITLE) {
+                return normalizeUrl(m_data.at(index.row())->canonicalUrl());
+            }
+        break;
+        case Qt::FontRole:
+            if(index == m_currentSong) {
+                return QVariant(boldFont());
+            }
+        break;
+        default:
+        break;
+    }
+
+    return {};
+}
+
 void MusicModel::addSong(QStringList list)
 {
     if(list.isEmpty())
         return;
 
     beginInsertRows(QModelIndex(), m_data.size(), m_data.size() + list.size() - 1);
+    m_data.reserve(list.size());
+
     for(auto& tmp : list)
     {
-        // QMediaContent* tmpMedia = new QMediaContent(tmp);
-        QUrl tmpUrl= QUrl::fromUserInput(tmp); //,QUrl::StrictMode
-        if((tmpUrl.isValid()) && (!tmpUrl.isLocalFile()))
-        {
-            m_data.append(new QMediaContent(tmpUrl));
-        }
-        else if(tmpUrl.isLocalFile())
-        {
-            m_data.append(new QMediaContent(QUrl::fromLocalFile(tmp)));
-        }
+        QUrl tmpUrl= QUrl::fromUserInput(tmp);
+        Q_ASSERT(tmpUrl.isValid());
+        m_data.append(new QMediaContent(tmpUrl.isLocalFile() ? QUrl::fromLocalFile(tmp) : tmpUrl));
     }
     endInsertRows();
 }
@@ -122,14 +134,8 @@ void MusicModel::insertSong(int i, QString str)
 
     beginInsertRows(QModelIndex(), i, i);
     QUrl tmpUrl= QUrl::fromUserInput(str); //,QUrl::StrictMode
-    if((tmpUrl.isValid()) && (!tmpUrl.isLocalFile()))
-    {
-        m_data.insert(i, new QMediaContent(tmpUrl));
-    }
-    else if(tmpUrl.isLocalFile())
-    {
-        m_data.insert(i, new QMediaContent(QUrl::fromLocalFile(str)));
-    }
+    Q_ASSERT(tmpUrl.isValid());
+    m_data.insert(i, new QMediaContent(tmpUrl.isLocalFile() ? QUrl::fromLocalFile(str) : tmpUrl));
     endInsertRows();
 }
 QMediaContent* MusicModel::getMediaByModelIndex(const QModelIndex& index)
@@ -175,10 +181,9 @@ void MusicModel::saveIn(QTextStream& file)
 }
 QStringList MusicModel::mimeTypes() const
 {
-    QStringList types;
-    types << "text/uri-list";
-    return types;
+    return {"text/uri-list"};
 }
+
 Qt::DropActions MusicModel::supportedDropActions() const
 {
     return Qt::CopyAction | Qt::MoveAction;
@@ -188,55 +193,37 @@ bool MusicModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
     if(action == Qt::IgnoreAction)
         return true;
 
-    /* int beginRow;
+    if(!data->hasUrls())
+        return false;
 
-     if (row != -1)
-         beginRow = row;
-     else if (parent.isValid())
-         beginRow = parent.row();
-     else
-         beginRow = rowCount(QModelIndex());*/
+    QList<QUrl> list= data->urls();
+    QStringList filters = PreferencesManager::getInstance()
+        ->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac")
+        .toString()
+        .split(' ');
 
-    if(data->hasUrls())
-    {
-        QList<QUrl> list= data->urls();
-        for(int i= 0; i < list.size(); ++i)
-        {
-            QString str= list[i].toLocalFile();
-            if(str.endsWith(".m3u"))
-            {
-            }
-            else
-            {
-                QStringList list= PreferencesManager::getInstance()
-                                      ->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac")
-                                      .toString()
-                                      .split(' ');
-                // QStringList list = audioFileFilter.split(' ');
-                int i= 0;
-                while(i < list.size())
-                {
-                    QString filter= list.at(i);
-                    filter.replace("*", "");
-                    if(str.endsWith(filter))
-                    {
-                        insertSong(row, str);
-                    }
-                    ++i;
-                }
+
+    for (QString& filter : filters) {
+        filter.replace("*", "");
+    }
+
+    for (QUrl url : list) {
+        QString file = url.toLocalFile();
+        for (const QString & filter : filters) {
+            if (file.endsWith(filter)) {
+                insertSong(row, file);
+                continue;
             }
         }
-
-        return true;
     }
-    return false;
+
+    return true;
 }
 Qt::ItemFlags MusicModel::flags(const QModelIndex& index) const
 {
     Qt::ItemFlags defaultFlags= QAbstractListModel::flags(index);
+    if(!index.isValid())
+        defaultFlags |= Qt::ItemIsDropEnabled;
 
-    if(index.isValid())
-        return defaultFlags;
-    else
-        return Qt::ItemIsDropEnabled | defaultFlags;
+    return  defaultFlags;
 }

@@ -511,6 +511,8 @@ void PlayerWidget::setPositionAt(qint64 pos)
 
 void PlayerWidget::setSourceSong(QString file)
 {
+    qDebug() << "file" << file;
+
     QString dir= m_preferences->value(QStringLiteral("MusicDirectoryPlayer_%1").arg(m_id), QDir::homePath()).toString();
     QUrl url(file, QUrl::StrictMode);
     if((!url.isValid()) || (url.isRelative()) || url.isLocalFile())
@@ -574,81 +576,91 @@ void PlayerWidget::triggeredPlayingModeAction()
 }
 void PlayerWidget::loadPlayList()
 {
-    QStringList list;
-    list << "http://tabletopaudio.com/download.php?downld_file=70_Age_of_Steam.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=69_Forest_Night.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=68_1940s_Office.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=67_Asylum.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=66_Royal_Salon.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=65_Dungeon_I.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=64_Mountain_Pass.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=63_Industrial_Shipyard.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=62_Middle_Earth_Dawn.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=61_Orbital_Platform.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=60_Dark_and_Stormy.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=59_Dinotopia.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=58_Terror.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=57_Colosseum.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=56_Medieval_Town.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=55_Ice_Cavern.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=54_Mountain_Tavern.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=53_Strangers_on_a_Train.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=52_Warehouse_13.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=51_Woodland_Campsite.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=50_Super_Hero.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=49_Goblin's_Cave.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=48_Overland_with_Oxen.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=47_There_be_Dragons.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=46_Cathedral.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=45_Samurai_HQ.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=44_Victorian_London.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=43_Dome_City_Center.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=42_Rise_of_the_Ancients.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=41_Starship_Bridge.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=40_The_Long_Rain.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=39_Temple_of_the_Eye.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=38_Into_the_Deep.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=34_Clash_of_Kings.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=36_Down_by_the_Sea.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=37_Catacombs.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=30_Los_Vangeles_3030.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=35_Swamplandia.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=33_Far_Above_the_World.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=32_City_and_the_City.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=29_Kaltoran_Craft_FE.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=28_Nephilim_Labs_FE.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=31_Frozen_Wastes.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=26_Uncommon_Valor_a.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=27_Xingu_Nights.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=25_Deep_Space_EVA.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=24_Forbidden_Galaxy.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=23_The_Slaughtered_Ox.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=21_Derelict_Freighter.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=22_True_West_a.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=20_Dark_Continent_aa.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=19_Age_of_Sail.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=18_House_on_the_Hill.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=17_Alien_Night_Club.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=15_Alien_Machine_Shop.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=16_Busy_Space_Port.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=4_Solemn_Vow-a.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=6_Abyssal_Gaze.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=7_The_Desert_Awaits.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=8_New_Dust_to_Dust.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=9_Before_The_Storm.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=10_In_The_Shadows.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=11_Shelter_from_the_Storm.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=12_Disembodied_Spirits.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=13_Cave_of_Time.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=14_Protean_Fields.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=1_The_Inner_Core.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=2_Bubbling_Pools.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=5_Desert_Bazaar.mp3"
-         << "http://tabletopaudio.com/download.php?downld_file=3_The_March_of_the_Faithful.mp3";
+    QString url = QStringLiteral("http://tabletopaudio.com/download.php?downld_file=%1");
+    static QStringList list({
+        QStringLiteral("1_The_Inner_Core.mp3"),
+        QStringLiteral("2_Bubbling_Pools.mp3"),
+        QStringLiteral("3_The_March_of_the_Faithful.mp3"),
+        QStringLiteral("4_Solemn_Vow-a.mp3"),
+        QStringLiteral("5_Desert_Bazaar.mp3"),
+        QStringLiteral("6_Abyssal_Gaze.mp3"),
+        QStringLiteral("7_The_Desert_Awaits.mp3"),
+        QStringLiteral("8_New_Dust_to_Dust.mp3"),
+        QStringLiteral("9_Before_The_Storm.mp3"),
+        QStringLiteral("10_In_The_Shadows.mp3"),
+        QStringLiteral("11_Shelter_from_the_Storm.mp3"),
+        QStringLiteral("12_Disembodied_Spirits.mp3"),
+        QStringLiteral("13_Cave_of_Time.mp3"),
+        QStringLiteral("14_Protean_Fields.mp3"),
+        QStringLiteral("15_Alien_Machine_Shop.mp3"),
+        QStringLiteral("16_Busy_Space_Port.mp3"),
+        QStringLiteral("17_Alien_Night_Club.mp3"),
+        QStringLiteral("18_House_on_the_Hill.mp3"),
+        QStringLiteral("19_Age_of_Sail.mp3"),
+        QStringLiteral("20_Dark_Continent_aa.mp3"),
+        QStringLiteral("21_Derelict_Freighter.mp3"),
+        QStringLiteral("22_True_West_a.mp3"),
+        QStringLiteral("23_The_Slaughtered_Ox.mp3"),
+        QStringLiteral("24_Forbidden_Galaxy.mp3"),
+        QStringLiteral("25_Deep_Space_EVA.mp3"),
+        QStringLiteral("26_Uncommon_Valor_a.mp3"),
+        QStringLiteral("27_Xingu_Nights.mp3"),
+        QStringLiteral("28_Nephilim_Labs_FE.mp3"),
+        QStringLiteral("29_Kaltoran_Craft_FE.mp3"),
+        QStringLiteral("30_Los_Vangeles_3030.mp3"),
+        QStringLiteral("31_Frozen_Wastes.mp3"),
+        QStringLiteral("32_City_and_the_City.mp3"),
+        QStringLiteral("33_Far_Above_the_World.mp3"),
+        QStringLiteral("34_Clash_of_Kings.mp3"),
+        QStringLiteral("35_Swamplandia.mp3"),
+        QStringLiteral("36_Down_by_the_Sea.mp3"),
+        QStringLiteral("37_Catacombs.mp3"),
+        QStringLiteral("38_Into_the_Deep.mp3"),
+        QStringLiteral("39_Temple_of_the_Eye.mp3"),
+        QStringLiteral("40_The_Long_Rain.mp3"),
+        QStringLiteral("41_Starship_Bridge.mp3"),
+        QStringLiteral("42_Rise_of_the_Ancients.mp3"),
+        QStringLiteral("43_Dome_City_Center.mp3"),
+        QStringLiteral("44_Victorian_London.mp3"),
+        QStringLiteral("45_Samurai_HQ.mp3"),
+        QStringLiteral("46_Cathedral.mp3"),
+        QStringLiteral("47_There_be_Dragons.mp3"),
+        QStringLiteral("48_Overland_with_Oxen.mp3"),
+        QStringLiteral("49_Goblin's_Cave.mp3"),
+        QStringLiteral("50_Super_Hero.mp3"),
+        QStringLiteral("51_Woodland_Campsite.mp3"),
+        QStringLiteral("52_Warehouse_13.mp3"),
+        QStringLiteral("53_Strangers_on_a_Train.mp3"),
+        QStringLiteral("54_Mountain_Tavern.mp3"),
+        QStringLiteral("55_Ice_Cavern.mp3"),
+        QStringLiteral("56_Medieval_Town.mp3"),
+        QStringLiteral("57_Colosseum.mp3"),
+        QStringLiteral("58_Terror.mp3"),
+        QStringLiteral("59_Dinotopia.mp3"),
+        QStringLiteral("60_Dark_and_Stormy.mp3"),
+        QStringLiteral("61_Orbital_Platform.mp3"),
+        QStringLiteral("62_Middle_Earth_Dawn.mp3"),
+        QStringLiteral("63_Industrial_Shipyard.mp3"),
+        QStringLiteral("64_Mountain_Pass.mp3"),
+        QStringLiteral("65_Dungeon_I.mp3"),
+        QStringLiteral("66_Royal_Salon.mp3"),
+        QStringLiteral("67_Asylum.mp3"),
+        QStringLiteral("68_1940s_Office.mp3"),
+        QStringLiteral("69_Forest_Night.mp3"),
+        QStringLiteral("70_Age_of_Steam.mp3")
+    });
+
+    // This is slower, but makes the above code *much* more readable.
+    static int initOnce = true;
+    if (initOnce) {
+        for(QString& str : list) {
+            str.prepend(url);
+        }
+        initOnce = false;
+    }
 
     if(askToDeleteAll())
     {
-        list.sort();
         m_model->removeAll();
         m_model->addSong(list);
     }
