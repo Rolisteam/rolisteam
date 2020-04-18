@@ -200,7 +200,7 @@ bool ChatList::setData(const QModelIndex& index, const QVariant& value, int role
 
 QVariant ChatList::data(const QModelIndex& index, int role) const
 {
-    QMutexLocker locker(&m_mutex);
+    // QMutexLocker locker(&m_mutex);
     auto pair= getPairByIndex(index);
     QMdiSubWindow* chatw2= pair.first;
     ChatWindow* chatw= pair.second;
@@ -373,7 +373,7 @@ void ChatList::addChatWindow(ChatWindow* chatw)
 
 void ChatList::delChatWindow(ChatWindow* chatw)
 {
-    QMutexLocker locker(&m_mutex);
+    // QMutexLocker locker(&m_mutex);
     auto it= std::find_if(m_data.begin(), m_data.end(),
                           [chatw](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) { return pair.second == chatw; });
 
@@ -392,7 +392,7 @@ void ChatList::delChatWindow(ChatWindow* chatw)
 }
 void ChatList::cleanChat()
 {
-    QMutexLocker locker(&m_mutex);
+    // QMutexLocker locker(&m_mutex);
     beginResetModel();
     m_chatMenu.clear();
     for(auto& pair : m_data)
@@ -457,7 +457,7 @@ void ChatList::addPlayerChat(Player* player)
 
 void ChatList::deletePlayerChat(Player* player)
 {
-    QMutexLocker locker(&m_mutex);
+    // QMutexLocker locker(&m_mutex);
     std::vector<std::pair<QMdiSubWindow*, ChatWindow*>> toRemove;
     std::copy_if(m_data.begin(), m_data.end(), std::back_inserter(toRemove),
                  [player](const std::pair<QMdiSubWindow*, ChatWindow*>& pair) {

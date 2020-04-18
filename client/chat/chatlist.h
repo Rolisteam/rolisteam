@@ -159,7 +159,7 @@ private slots:
     void changeChatWindow(ChatWindow* chat);
 
 private:
-    mutable QMutex m_mutex;
+    // mutable QMutex m_mutex;
     std::vector<std::pair<QMdiSubWindow*, ChatWindow*>> m_data;
     QMap<QString, PrivateChat*> m_privateChatMap;
     QMenu m_chatMenu;
