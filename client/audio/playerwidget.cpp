@@ -577,7 +577,7 @@ void PlayerWidget::triggeredPlayingModeAction()
 void PlayerWidget::loadPlayList()
 {
     QStringList url = QStringLiteral("http://tabletopaudio.com/download.php?downld_file=%1");
-    QStringList list {
+    static QStringList list {
         QStringLiteral("1_The_Inner_Core.mp3"),
         QStringLiteral("2_Bubbling_Pools.mp3"),
         QStringLiteral("3_The_March_of_the_Faithful.mp3"),
