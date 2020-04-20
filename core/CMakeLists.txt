@@ -145,6 +145,8 @@ set(HEADERS
     src/diceparser/result/stringresult.h
     src/diceparser/validator.h
     src/media/image.h
+    #src/model/participantsmodel.h
+    src/model/playerproxymodel.h
     src/network/channel.h
     src/network/channellistpanel.h
     src/network/channelmodel.h
@@ -440,6 +442,8 @@ set(SOURCES
     src/diceparser/result/stringresult.cpp
     src/diceparser/validator.cpp
     src/media/image.cpp
+    src/model/playerproxymodel.cpp
+    #src/model/participantsmodel.cpp
     src/network/channel.cpp
     src/network/channellistpanel.cpp
     src/network/channelmodel.cpp
