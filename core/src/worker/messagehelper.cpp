@@ -334,13 +334,8 @@ QHash<QString, QVariant> MessageHelper::readCharacterSheet(NetworkMessageReader*
     auto imageData= msg->byteArray32();
     auto rootSection= msg->byteArray32();
 
-    return QHash<QString, QVariant>({{"id", id},
-                                     {"name", name},
-                                     {"characterId", characterId},
-                                     {"data", data},
-                                     {"qml", qml},
-                                     {"imageData", imageData},
-                                     {"rootSection", rootSection}});
+    return {{"id", id},   {"name", name},           {"characterId", characterId}, {"data", data},
+            {"qml", qml}, {"imageData", imageData}, {"rootSection", rootSection}};
 }
 
 void MessageHelper::readUpdateField(CharacterSheetController* ctrl, NetworkMessageReader* msg)
@@ -355,6 +350,14 @@ void MessageHelper::readUpdateField(CharacterSheetController* ctrl, NetworkMessa
     QJsonDocument doc= QJsonDocument::fromBinaryData(data);
     auto obj= doc.object();
     ctrl->updateFieldFrom(sheetId, obj, data);
+}
+
+void MessageHelper::shareNotesTo(const SharedNoteController* ctrl, const QStringList& recipiants) {}
+
+QHash<QString, QVariant> MessageHelper::readSharedNoteData(NetworkMessageReader* msg)
+{
+    if(nullptr == msg)
+        return {};
 }
 
 void MessageHelper::shareWebpage(WebpageController* ctrl)

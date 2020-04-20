@@ -29,7 +29,7 @@ class MediaControllerInterface : public QObject, public NetWorkReceiver
 {
     Q_OBJECT
     Q_PROPERTY(bool localIsGM READ localIsGM WRITE setLocalIsGM NOTIFY localIsGMChanged)
-
+    Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
 public:
     MediaControllerInterface(QObject* parent= nullptr) : QObject(parent) {}
     virtual CleverURI::ContentType type() const= 0;
@@ -38,15 +38,19 @@ public:
     virtual void registerNetworkReceiver()= 0;
     virtual void setUndoStack(QUndoStack* stack)= 0;
     bool localIsGM() const;
+    QString localId() const;
 
 public slots:
     void setLocalIsGM(bool localIsGM);
+    void setLocalId(const QString& id);
 
 signals:
     void localIsGMChanged(bool localIsGM);
+    void localIdChanged(QString id);
 
 protected:
     bool m_localIsGM= false;
+    QString m_localId;
 };
 
 #endif // MEDIACONTROLLERINTERFACE_H

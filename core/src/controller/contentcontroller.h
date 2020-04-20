@@ -47,6 +47,7 @@ class WebpageMediaController;
 class CharacterModel;
 class SharedNoteMediaController;
 class PdfMediaController;
+class PlayerModel;
 // class AbstractMediaContainerController;
 class ContentController : public AbstractControllerInterface, public PreferencesListener, public NetWorkReceiver
 {
@@ -60,9 +61,10 @@ class ContentController : public AbstractControllerInterface, public Preferences
     Q_PROPERTY(QString sessionName READ sessionName NOTIFY sessionNameChanged)
     Q_PROPERTY(QString sessionPath READ sessionPath WRITE setSessionPath NOTIFY sessionPathChanged)
     Q_PROPERTY(QString gameMasterId READ gameMasterId WRITE setGameMasterId NOTIFY gameMasterIdChanged)
+    Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
 
 public:
-    explicit ContentController(CharacterModel* characterModel, QObject* parent= nullptr);
+    explicit ContentController(PlayerModel* playerModel, CharacterModel* characterModel, QObject* parent= nullptr);
     ~ContentController() override;
 
     QAbstractItemModel* model() const;
@@ -81,6 +83,7 @@ public:
     QString sessionName() const;
     QString sessionPath() const;
     QString gameMasterId() const;
+    QString localId() const;
 
     void setGameController(GameController*) override;
     void preferencesHasChanged(const QString& key) override;
@@ -101,6 +104,7 @@ signals:
     void sessionNameChanged();
     void sessionPathChanged();
     void gameMasterIdChanged(const QString& gameMasterId);
+    void localIdChanged(const QString& game);
 
 public slots:
     // Media API
@@ -119,6 +123,7 @@ public slots:
     void saveSession();
     void loadSession();
     void setGameMasterId(const QString& id);
+    void setLocalId(const QString& id);
 
 private:
     std::unique_ptr<SessionItemModel> m_contentModel;
@@ -134,6 +139,7 @@ private:
     QString m_sessionName;
     QString m_sessionPath;
     QString m_gameMasterId;
+    QString m_localId;
 };
 
 #endif // CONTENTCONTROLLER_H

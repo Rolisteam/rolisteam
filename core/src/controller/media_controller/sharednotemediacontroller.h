@@ -20,17 +20,19 @@
 #ifndef SHAREDNOTEMEDIACONTROLLER_H
 #define SHAREDNOTEMEDIACONTROLLER_H
 
+#include <QPointer>
 #include <memory>
 #include <vector>
 
 #include "mediacontrollerinterface.h"
 
 class SharedNoteController;
+class PlayerModel;
 class SharedNoteMediaController : public MediaControllerInterface
 {
     Q_OBJECT
 public:
-    SharedNoteMediaController();
+    SharedNoteMediaController(PlayerModel* model, QObject* parent= nullptr);
     ~SharedNoteMediaController() override;
 
     CleverURI::ContentType type() const override;
@@ -45,6 +47,7 @@ signals:
 
 private:
     std::vector<std::unique_ptr<SharedNoteController>> m_sharedNotes;
+    QPointer<PlayerModel> m_playerModel;
 };
 
 #endif // SHAREDNOTEMEDIACONTROLLER_H

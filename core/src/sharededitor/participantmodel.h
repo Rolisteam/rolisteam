@@ -42,7 +42,7 @@ public:
         readOnly,
         hidden
     };
-    explicit ParticipantModel(QObject* parent= nullptr);
+    explicit ParticipantModel(PlayerModel* model, QObject* parent= nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const override;
@@ -72,6 +72,8 @@ public slots:
     int demotePlayer(const QModelIndex& index);
     void setPlayerInto(const QModelIndex& index, ParticipantModel::Permission level);
     void setPlayerPermission(const QString& id, ParticipantModel::Permission level);
+
+    void initModel();
 
 private:
     // void debugModel() const;

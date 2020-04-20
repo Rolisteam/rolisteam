@@ -104,6 +104,7 @@ signals:
     void playerJoin(Player* player);
     void playerLeft(Player* player);
     void gameMasterIdChanged(const QString& gameMasterId);
+    void localPlayerChanged(const QString& localId);
 
 private:
     void setGameMasterId(const QString& id);

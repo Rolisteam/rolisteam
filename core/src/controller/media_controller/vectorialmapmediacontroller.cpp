@@ -109,53 +109,6 @@ NetWorkReceiver::SendType VectorialMapMediaController::processMessage(NetworkMes
         if(nullptr == map)
             return type;
         type= map->processMessage(msg);
-        /* closeMedia(vmapId);
-         switch(msg->action())
-         {
-         case NetMsg::loadVmap:
-             break;
-         case NetMsg::closeVmap:
-         {
-
-         }
-         break;
-         case NetMsg::addVmap:
-         case NetMsg::DelPoint:
-             break;
-         case NetMsg::AddItem:
-         case NetMsg::DelItem:
-         case NetMsg::MoveItem:
-         case NetMsg::GeometryItemChanged:
-         case NetMsg::OpacityItemChanged:
-         case NetMsg::LayerItemChanged:
-         case NetMsg::MovePoint:
-         case NetMsg::vmapChanges:
-         case NetMsg::GeometryViewChanged:
-         case NetMsg::SetParentItem:
-         case NetMsg::RectGeometryItem:
-         case NetMsg::RotationItem:
-         case NetMsg::CharacterStateChanged:
-         case NetMsg::CharacterChanged:
-         case NetMsg::VisionChanged:
-         case NetMsg::ColorChanged:
-         case NetMsg::ZValueItem:
-         {
-             QString vmapId= msg->string8();
-             // CleverURI* tmp= findMedia(vmapId, m_openMedia);
-             //  if(nullptr != tmp)
-             {
-                 VMapFrame* mapF= dynamic_cast<VMapFrame*>(tmp);
-                 if(nullptr != mapF)
-                 {
-                     type= mapF->processMessage(msg);
-                 }
-             }
-         }
-         break;
-         default:
-             qWarning("Unexpected Action - MainWindow::processVMapMessage");
-             break;
-         }*/
     }
     return type;
 }

@@ -20,8 +20,15 @@
 #include "sharednotemediacontroller.h"
 
 #include "controller/view_controller/sharednotecontroller.h"
+#include "userlist/playermodel.h"
 
-SharedNoteMediaController::SharedNoteMediaController() {}
+#include "worker/messagehelper.h"
+
+SharedNoteMediaController::SharedNoteMediaController(PlayerModel* model, QObject* parent)
+    : MediaControllerInterface(parent), m_playerModel(model)
+{
+}
+
 SharedNoteMediaController::~SharedNoteMediaController()= default;
 
 CleverURI::ContentType SharedNoteMediaController::type() const
@@ -34,7 +41,7 @@ bool SharedNoteMediaController::openMedia(CleverURI* uri, const std::map<QString
     if(uri == nullptr || (args.empty() && uri->getUri().isEmpty()))
         return false;
 
-    std::unique_ptr<SharedNoteController> webCtrl(new SharedNoteController(uri));
+    std::unique_ptr<SharedNoteController> webCtrl(new SharedNoteController(m_playerModel, uri));
 
     emit sharedNoteControllerCreated(webCtrl.get());
     m_sharedNotes.push_back(std::move(webCtrl));
@@ -59,7 +66,12 @@ void SharedNoteMediaController::registerNetworkReceiver()
 
 NetWorkReceiver::SendType SharedNoteMediaController::processMessage(NetworkMessageReader* msg)
 {
-    // return;
+    NetWorkReceiver::SendType type= NetWorkReceiver::NONE;
+    if(msg->action() == NetMsg::AddMedia && msg->category() == NetMsg::MediaCategory)
+    {
+        auto hash= MessageHelper::readSharedNoteData(msg);
+    }
+    return type;
 }
 
 void SharedNoteMediaController::setUndoStack(QUndoStack* stack)

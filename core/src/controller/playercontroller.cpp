@@ -66,6 +66,13 @@ QString PlayerController::gameMasterId() const
     return m_model->gameMasterId();
 }
 
+QString PlayerController::localPlayerId() const
+{
+    if(nullptr == m_localPlayer)
+        return {};
+    return m_localPlayer->uuid();
+}
+
 NetWorkReceiver::SendType PlayerController::processMessage(NetworkMessageReader* msg)
 {
     NetWorkReceiver::SendType type= NetWorkReceiver::AllExceptSender;
@@ -108,7 +115,7 @@ Player* PlayerController::localPlayer() const
     return m_localPlayer;
 }
 
-QAbstractItemModel* PlayerController::model() const
+PlayerModel* PlayerController::model() const
 {
     return m_model.get();
 }
@@ -130,6 +137,7 @@ void PlayerController::setLocalPlayer(Player* player)
     removePlayer(m_localPlayer);
     m_localPlayer= player;
     emit localPlayerChanged();
+    emit localPlayerIdChanged(m_localPlayer->uuid());
 }
 
 void PlayerController::addPlayer(Player* player)

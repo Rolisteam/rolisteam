@@ -25,6 +25,7 @@
 #include "enu.h"
 #include "findtoolbar.h"
 #include "network/networkmessagewriter.h"
+#include "participantmodel.h"
 #include "participantspane.h"
 #include <QSyntaxHighlighter>
 
@@ -40,14 +41,6 @@ class Document : public QWidget
 {
     Q_OBJECT
 public:
-    enum Highlighter
-    {
-        None,
-        MarkDown,
-        Html
-    };
-    Q_ENUM(Highlighter)
-
     Document(SharedNoteController* ctrl, QWidget* parent= nullptr);
     ~Document();
 
@@ -76,9 +69,6 @@ public:
     // User wants to resynchronize the document with the owner
     void fill(NetworkMessageWriter* msg);
     void readFromMsg(NetworkMessageReader* msg);
-
-    // Sets the highlighting style to the below Highlighter
-    void setHighlighter(Highlighter Highlighter);
 
     // returns if the editor is undable
     bool isUndoable();
@@ -130,6 +120,7 @@ private slots:
     // triggered by the find toolbar, not the dialog
     void findNext(QString string);
     void findPrevious(QString string);
+    void updateHighlighter();
 
 private:
     QPointer<SharedNoteController> m_shareCtrl;
@@ -137,8 +128,8 @@ private:
     CodeEditor* m_editor= nullptr;
     bool startedCollaborating;
     FindToolBar* findAllToolbar= nullptr;
-    ParticipantsPane* m_participantPane= nullptr;
-    QSyntaxHighlighter* m_highlighter= nullptr;
+    std::unique_ptr<ParticipantsPane> m_participantPane;
+    std::unique_ptr<QSyntaxHighlighter> m_highlighter;
 };
 
 #endif // DOCUMENT_H

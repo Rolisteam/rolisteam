@@ -33,7 +33,7 @@ namespace Ui
 {
 class ParticipantsPane;
 }
-
+class ParticipantsModel;
 class ParticipantsPane : public QWidget
 {
     Q_OBJECT
@@ -64,8 +64,6 @@ private slots:
 
 private:
     Ui::ParticipantsPane* ui;
-
-    QPointer<PlayerModel> m_playerList;
     std::unique_ptr<ParticipantModel> m_model;
 };
 

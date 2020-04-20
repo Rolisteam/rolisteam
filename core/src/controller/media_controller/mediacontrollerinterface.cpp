@@ -32,3 +32,17 @@ bool MediaControllerInterface::localIsGM() const
 {
     return m_localIsGM;
 }
+
+QString MediaControllerInterface::localId() const
+{
+    return m_localId;
+}
+
+void MediaControllerInterface::setLocalId(const QString& id)
+{
+    if(m_localId == id)
+        return;
+    m_localId= id;
+
+    emit localIdChanged(m_localId);
+}

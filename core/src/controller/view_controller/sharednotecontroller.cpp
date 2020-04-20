@@ -21,18 +21,57 @@
 
 #include "userlist/playermodel.h"
 
-SharedNoteController::SharedNoteController(CleverURI* uri, QObject* parent)
-    : AbstractMediaContainerController(uri, parent)
+SharedNoteController::SharedNoteController(PlayerModel* model, CleverURI* uri, QObject* parent)
+    : AbstractMediaContainerController(uri, parent), m_model(model)
 {
+    // m_model->setSourceModel();
 }
-
 SharedNoteController::~SharedNoteController()= default;
+
+QString SharedNoteController::text() const
+{
+    return m_text;
+}
 
 void SharedNoteController::saveData() const {}
 
 void SharedNoteController::loadData() const {}
 
+SharedNoteController::Permission SharedNoteController::permission() const
+{
+    return m_permission;
+}
+
+SharedNoteController::HighlightedSyntax SharedNoteController::highligthedSyntax() const
+{
+    return m_highlightedSyntax;
+}
+
 PlayerModel* SharedNoteController::playerModel() const
 {
-    return m_model.get();
+    return m_model;
+}
+
+void SharedNoteController::setPermission(SharedNoteController::Permission permission)
+{
+    if(permission == m_permission)
+        return;
+    m_permission= permission;
+    emit permissionChanged(m_permission);
+}
+
+void SharedNoteController::setText(const QString& text)
+{
+    if(text == m_text)
+        return;
+    m_text= text;
+    emit textChanged(m_text);
+}
+
+void SharedNoteController::setHighligthedSyntax(SharedNoteController::HighlightedSyntax syntax)
+{
+    if(m_highlightedSyntax == syntax)
+        return;
+    m_highlightedSyntax= syntax;
+    emit highligthedSyntaxChanged();
 }
