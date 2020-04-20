@@ -133,7 +133,7 @@ void LineFieldItem::loadDataItem(QJsonArray& json, CharacterSheetItem* parent)
     {
         Field* field= new Field();
         field->setParent(parent);
-        connect(field, &Field::sendOffData, parent, &CharacterSheetItem::sendOffData);
+        connect(field, &Field::characterSheetItemChanged, parent, &CharacterSheetItem::characterSheetItemChanged);
         connect(field, &Field::updateNeeded, parent, &CharacterSheetItem::updateNeeded);
         QJsonObject obj= value.toObject();
         field->loadDataItem(obj);
@@ -470,14 +470,7 @@ QVariant TableField::getValueFrom(CharacterSheetItem::ColumnId col, int role) co
 
 bool TableField::hasChildren()
 {
-    if(m_model->rowCount(QModelIndex()) > 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return m_model->rowCount(QModelIndex()) > 0;
 }
 
 int TableField::getChildrenCount() const
@@ -589,7 +582,7 @@ CharacterSheetItem::CharacterSheetItemType TableField::getItemType() const
 }
 void TableField::load(const QJsonObject& json, EditorController* ctrl)
 {
-    Q_UNUSED(ctrl);
+    Q_UNUSED(ctrl)
     // TODO dupplicate from Field
     m_id= json["id"].toString();
     m_border= static_cast<BorderLine>(json["border"].toInt());

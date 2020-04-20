@@ -137,10 +137,9 @@ public:
 
     int getCharacterSheetCount() const;
 
-#ifndef RCSE
-    void readRootSection(NetworkMessageReader* msg);
-    void fillRootSection(NetworkMessageWriter* msg);
-#endif
+    QJsonObject rootSectionData() const;
+    void setRootSection(const QJsonObject& object);
+
     void removeCharacterSheet(int index);
     void removeCharacterSheet(CharacterSheet* sheet);
     /**

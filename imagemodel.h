@@ -7,6 +7,7 @@
 #include <QPixmap>
 #include <vector>
 
+<<<<<<< HEAD
 #ifndef RCSE
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -15,6 +16,14 @@
 namespace charactersheet
 {
 
+||||||| parent of 8457c1c... rework to be compliant with new controllers.
+#ifndef RCSE
+#include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
+#endif
+
+=======
+>>>>>>> 8457c1c... rework to be compliant with new controllers.
 class ImageModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -64,11 +73,6 @@ public:
     void removeImage(int i);
     QPixmap pixmapFromKey(QString id);
     void reloadImage(const QModelIndex& index);
-
-#ifndef RCSE
-    void fill(NetworkMessageWriter& msg) const;
-    void read(NetworkMessageReader& msg);
-#endif
 
 signals:
     void backgroundSizeChanged();

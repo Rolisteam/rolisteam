@@ -291,7 +291,7 @@ void CharacterSheet::buildDataFromSection(Section* rootSection)
 {
     rootSection->buildDataInto(this);
 }
-void CharacterSheet::save(QJsonObject& json)
+void CharacterSheet::save(QJsonObject& json) const
 {
     json["name"]= m_name;
     json["idSheet"]= m_uuid;
@@ -356,7 +356,7 @@ void CharacterSheet::insertField(QString key, CharacterSheetItem* itemSheet)
 {
     m_valuesMap.insert(key, itemSheet);
 
-    connect(itemSheet, &CharacterSheetItem::sendOffData, this, [=](CharacterSheetItem* item) {
+    connect(itemSheet, &CharacterSheetItem::characterSheetItemChanged, this, [=](CharacterSheetItem* item) {
         QString path;
         auto parent= item->getParent();
         if(nullptr != parent)
@@ -366,22 +366,6 @@ void CharacterSheet::insertField(QString key, CharacterSheetItem* itemSheet)
     });
 }
 
-#if !defined(RCSE) && !defined(UNIT_TEST)
-void CharacterSheet::fill(NetworkMessageWriter& msg)
-{
-    QJsonObject object;
-    save(object);
-    QJsonDocument doc;
-    doc.setObject(object);
-    msg.byteArray32(doc.toBinaryData());
-}
-void CharacterSheet::read(NetworkMessageReader& msg)
-{
-    QJsonDocument doc= QJsonDocument::fromBinaryData(msg.byteArray32());
-    QJsonObject object= doc.object();
-    load(object);
-}
-#endif
 QHash<QString, QString> CharacterSheet::getVariableDictionnary()
 {
     QHash<QString, QString> dataDict;

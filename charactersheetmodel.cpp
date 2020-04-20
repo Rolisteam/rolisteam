@@ -520,27 +520,7 @@ int CharacterSheetModel::getCharacterSheetCount() const
         return 0;
     }
 }
-#ifndef RCSE
-void CharacterSheetModel::readRootSection(NetworkMessageReader* msg)
-{
-    beginResetModel();
-    QByteArray array= msg->byteArray32();
-    QJsonDocument doc= QJsonDocument::fromBinaryData(array);
-    QJsonObject obj= doc.object();
-    m_rootSection->load(obj, nullptr);
-    endResetModel();
-}
 
-void CharacterSheetModel::fillRootSection(NetworkMessageWriter* msg)
-{
-    // m_rootSection->fillNetworkMessage(msg);
-    QJsonDocument doc;
-    QJsonObject data;
-    m_rootSection->save(data);
-    doc.setObject(data);
-    msg->byteArray32(doc.toBinaryData());
-}
-#endif
 Section* CharacterSheetModel::getRootSection() const
 {
     return m_rootSection;
@@ -695,13 +675,26 @@ QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex& index)
     else
         return index;
 }
+
+QJsonObject CharacterSheetModel::rootSectionData() const
+{
+    QJsonObject data;
+    m_rootSection->save(data);
+    return data;
+}
+
+void CharacterSheetModel::setRootSection(const QJsonObject& object)
+{
+    beginResetModel();
+    m_rootSection->load(object, nullptr);
+    endResetModel();
+}
+
 bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool writeData)
 {
     if(writeData)
     {
-        QJsonObject data;
-        m_rootSection->save(data);
-        jsonObj["data"]= data;
+        jsonObj["data"]= rootSectionData();
     }
     jsonObj["characterCount"]= m_characterList->size(); // m_characterCount;
 
