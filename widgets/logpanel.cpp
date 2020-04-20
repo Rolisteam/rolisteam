@@ -8,16 +8,24 @@
 // LogPanel code
 //
 /////////////////////////////////////
-LogPanel::LogPanel(LogController* controller, QWidget* parent)
-    : QWidget(parent), ui(new Ui::LogPanel), m_controller(controller)
+LogPanel::LogPanel(QWidget* parent) : QWidget(parent), ui(new Ui::LogPanel)
 {
     ui->setupUi(this);
     ui->m_eraseBtn->setDefaultAction(ui->m_eraseAllAct);
     ui->m_saveBtn->setDefaultAction(ui->m_saveAct);
 
-    // QIcon::fromTheme("edit-clear",)
     ui->m_eraseAllAct->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
     ui->m_saveAct->setIcon(QIcon::fromTheme("document-save", QIcon(":/resources/icons/save.png")));
+}
+
+LogPanel::~LogPanel()
+{
+    delete ui;
+}
+
+void LogPanel::setController(LogController* controller)
+{
+    m_controller= controller;
 
     connect(ui->m_logLevel, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this]() {
         auto logLevel= static_cast<LogController::LogLevel>(ui->m_logLevel->currentIndex());
@@ -26,11 +34,6 @@ LogPanel::LogPanel(LogController* controller, QWidget* parent)
     });
 
     connect(m_controller, &LogController::showMessage, this, &LogPanel::showMessage);
-}
-
-LogPanel::~LogPanel()
-{
-    delete ui;
 }
 
 void LogPanel::showMessage(QString msg, LogController::LogLevel level)
