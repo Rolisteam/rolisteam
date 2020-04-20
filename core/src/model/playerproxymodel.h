@@ -17,17 +17,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CHARACTERMODEL_H
-#define CHARACTERMODEL_H
+#ifndef PLAYERPROXYMODEL_H
+#define PLAYERPROXYMODEL_H
 
 #include <QAbstractProxyModel>
+#include <QObject>
 
-class Character;
-class CharacterModel : public QAbstractProxyModel
+class Player;
+class PlayerProxyModel : public QAbstractProxyModel
 {
     Q_OBJECT
 public:
-    CharacterModel(QObject* parent= nullptr);
+    PlayerProxyModel(QObject* parent= nullptr);
 
     int columnCount(const QModelIndex& parent= QModelIndex()) const override;
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;
@@ -38,7 +39,7 @@ public:
     QModelIndex parent(const QModelIndex&) const override;
     QModelIndex index(int, int, const QModelIndex&) const override;
 
-    Character* character(const QString& id);
+    Player* player(const QString& id);
 };
 
-#endif // CHARACTERMODEL_H
+#endif // PLAYERPROXYMODEL_H

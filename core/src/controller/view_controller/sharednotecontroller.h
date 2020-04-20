@@ -22,6 +22,7 @@
 
 #include <QAbstractItemModel>
 #include <QObject>
+#include <QPointer>
 #include <memory>
 
 #include "abstractmediacontroller.h"
@@ -31,20 +32,54 @@ class SharedNoteController : public AbstractMediaContainerController
 {
     Q_OBJECT
     Q_PROPERTY(PlayerModel* playerModel READ playerModel NOTIFY playerModelChanged)
+    Q_PROPERTY(Permission permission READ permission WRITE setPermission NOTIFY permissionChanged)
+    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+    Q_PROPERTY(HighlightedSyntax highligthedSyntax READ highligthedSyntax WRITE setHighligthedSyntax NOTIFY
+                   highligthedSyntaxChanged)
 public:
-    SharedNoteController(CleverURI* uri, QObject* parent= nullptr);
+    enum class Permission : char
+    {
+        NONE,
+        READ,
+        READWRITE
+    };
+    Q_ENUMS(Permission)
+
+    enum class HighlightedSyntax : char
+    {
+        None,
+        MarkDown
+    };
+    Q_ENUM(HighlightedSyntax)
+
+    SharedNoteController(PlayerModel* model, CleverURI* uri, QObject* parent= nullptr);
     ~SharedNoteController() override;
+
+    QString text() const;
+    Permission permission() const;
+    HighlightedSyntax highligthedSyntax() const;
 
     void saveData() const override;
     void loadData() const override;
 
     PlayerModel* playerModel() const;
 
+public slots:
+    void setPermission(Permission);
+    void setText(const QString& text);
+    void setHighligthedSyntax(SharedNoteController::HighlightedSyntax syntax);
+
 signals:
     void playerModelChanged();
+    void permissionChanged(Permission);
+    void textChanged(QString str);
+    void highligthedSyntaxChanged();
 
 private:
-    std::unique_ptr<PlayerModel> m_model;
+    QPointer<PlayerModel> m_model;
+    QString m_text;
+    Permission m_permission= Permission::NONE;
+    HighlightedSyntax m_highlightedSyntax= HighlightedSyntax::MarkDown;
 };
 
 #endif // SHAREDNOTECONTROLLER_H

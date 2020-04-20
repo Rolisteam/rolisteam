@@ -67,9 +67,6 @@ public:
     void readFromMsg(NetworkMessageReader* msg);
     void runUpdateCmd(QString cmd);
 
-    QString fileName() const;
-    void setFileName(const QString& fileName);
-
 public slots:
     void updateDocumentToAll(NetworkMessageWriter* msg);
     void textHasChanged(int pos, int charsRemoved, int charsAdded);
@@ -126,7 +123,6 @@ private:
     QPointer<SharedNoteController> m_sharedCtrl;
     Ui::SharedNote* ui= nullptr;
     FindDialog* findDialog= nullptr;
-    QString m_fileName;
     Document* m_document= nullptr;
     bool m_networkEditing= false;
     QString m_id; // global name used for connecting to documents

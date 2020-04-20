@@ -49,16 +49,16 @@ Document::Document(SharedNoteController* ctrl, QWidget* parent)
     m_editor->setTabStopDistance(fm.averageCharWidth() * 4.);
     ui->editorSplitter->insertWidget(0, m_editor);
 
-    m_participantPane= new ParticipantsPane(ctrl->playerModel());
-    ui->participantSplitter->insertWidget(1, m_participantPane);
+    m_participantPane.reset(new ParticipantsPane(m_shareCtrl->playerModel()));
+    ui->participantSplitter->insertWidget(1, m_participantPane.get());
 
     setParticipantsHidden(true);
     m_editor->setReadOnly(true);
 
-    connect(m_participantPane, &ParticipantsPane::localPlayerIsOwner, this,
+    connect(m_participantPane.get(), &ParticipantsPane::localPlayerIsOwner, this,
             [this](bool isOwner) { setParticipantsHidden(!isOwner); });
 
-    connect(m_participantPane, &ParticipantsPane::localPlayerPermissionChanged, this,
+    connect(m_participantPane.get(), &ParticipantsPane::localPlayerPermissionChanged, this,
             [this](ParticipantModel::Permission perm) {
                 if(ParticipantModel::readOnly == perm)
                 {
@@ -86,6 +86,8 @@ Document::Document(SharedNoteController* ctrl, QWidget* parent)
     connect(m_editor, &CodeEditor::undoAvailable, this, &Document::undoAvailable);
     connect(m_editor, &CodeEditor::redoAvailable, this, &Document::redoAvailable);
 
+    connect(m_shareCtrl, &SharedNoteController::highligthedSyntaxChanged, this, &Document::updateHighlighter);
+
     QList<int> sizeList;
     sizeList << 9000 << 1;
     ui->codeChatSplitter->setSizes(sizeList);
@@ -93,7 +95,7 @@ Document::Document(SharedNoteController* ctrl, QWidget* parent)
 
     startedCollaborating= false;
 
-    setHighlighter(MarkDown);
+    updateHighlighter();
 }
 
 Document::~Document()
@@ -239,20 +241,16 @@ void Document::readFromMsg(NetworkMessageReader* msg)
         }
     }
 }
-void Document::setHighlighter(Document::Highlighter highlighter)
+void Document::updateHighlighter()
 {
-    switch(highlighter)
+    using SNC= SharedNoteController::HighlightedSyntax;
+    switch(m_shareCtrl->highligthedSyntax())
     {
-    case None:
-        if(nullptr != m_highlighter)
-        {
-            delete m_highlighter;
-            m_highlighter= nullptr;
-        }
+    case SNC::None:
+        m_highlighter.reset();
         break;
-    case MarkDown:
-        if(nullptr == m_highlighter)
-            m_highlighter= new MarkDownHighlighter(m_editor->document());
+    case SNC::MarkDown:
+        m_highlighter.reset(new MarkDownHighlighter(m_editor->document()));
         break;
     }
 }
@@ -390,12 +388,12 @@ void Document::findPrevious(QString string)
 
 ParticipantsPane* Document::getParticipantPane() const
 {
-    return m_participantPane;
+    return m_participantPane.get();
 }
 
 void Document::setParticipantPane(ParticipantsPane* participantPane)
 {
-    m_participantPane= participantPane;
+    m_participantPane.reset(participantPane);
 }
 
 void Document::setOwnerId(const QString& id)

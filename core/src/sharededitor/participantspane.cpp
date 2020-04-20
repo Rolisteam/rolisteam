@@ -29,7 +29,8 @@
 
 #include "data/player.h"
 #include "enu.h"
-#include "userlist/playermodel.h"
+#include "model/participantsmodel.h"
+#include "model/playerproxymodel.h"
 #include "utilities.h"
 
 ////////////////////////////////////////////////
@@ -38,7 +39,7 @@
 ////////////////////////////////////////////////
 
 ParticipantsPane::ParticipantsPane(PlayerModel* playerModel, QWidget* parent)
-    : QWidget(parent), ui(new Ui::ParticipantsPane), m_playerList(playerModel)
+    : QWidget(parent), ui(new Ui::ParticipantsPane), m_model(new ParticipantModel(playerModel))
 {
     ui->setupUi(this);
 
@@ -48,10 +49,6 @@ ParticipantsPane::ParticipantsPane(PlayerModel* playerModel, QWidget* parent)
     connect(ui->m_promoteAction, SIGNAL(triggered(bool)), this, SLOT(promoteCurrentItem()));
     connect(ui->m_demoteAction, SIGNAL(triggered(bool)), this, SLOT(demoteCurrentItem()));
 
-    connect(m_playerList, &PlayerModel::playerJoin, m_model.get(), &ParticipantModel::addNewPlayer);
-    connect(m_playerList, &PlayerModel::playerLeft, m_model.get(), &ParticipantModel::removePlayer);
-
-    m_model.reset(new ParticipantModel());
     ui->m_treeview->setModel(m_model.get());
 
     ui->connectInfoLabel->hide();
@@ -71,19 +68,23 @@ void ParticipantsPane::promoteCurrentItem()
 {
     QModelIndex current= ui->m_treeview->currentIndex();
 
-    if(current.parent().isValid())
+    if(!current.isValid() || !current.parent().isValid())
+        return;
+
+    m_model->promotePlayer(current);
+    //    emit memberCanNowRead(player->uuid());
+
+    /*if(current.parent().isValid())
     {
         Player* player= static_cast<Player*>(current.internalPointer());
-        int i= m_model->promotePlayer(current);
         if(i >= 0)
         {
             emit memberPermissionsChanged(player->uuid(), i);
             if(i == ParticipantModel::readOnly)
             {
-                emit memberCanNowRead(player->uuid());
             }
         }
-    }
+    }*/
 }
 bool ParticipantsPane::isOwner() const
 {
@@ -97,35 +98,35 @@ void ParticipantsPane::demoteCurrentItem()
 {
     QModelIndex current= ui->m_treeview->currentIndex();
 
-    if(!current.parent().isValid())
+    if(!current.isValid() || !current.parent().isValid())
         return;
 
-    Player* player= static_cast<Player*>(current.internalPointer());
-    int i= m_model->demotePlayer(current);
-    if(i >= 0)
-    {
-        emit memberPermissionsChanged(player->uuid(), i);
-        if(i == ParticipantModel::hidden)
+    m_model->demotePlayer(current);
+
+    /*    if(i >= 0)
         {
-            emit closeMediaToPlayer(player->uuid());
-        }
-    }
+            emit memberPermissionsChanged(player->uuid(), i);
+            if(i == ParticipantModel::hidden)
+            {
+                emit closeMediaToPlayer(player->uuid());
+            }
+        }*/
 }
 
 bool ParticipantsPane::canWrite(Player* player)
 {
     if(player == nullptr)
         return false;
-    return (m_model->getPermissionFor(player->uuid()) == ParticipantModel::readWrite);
+    return true; //(m_model->getPermissionFor(player->uuid()) == ParticipantModel::readWrite);
 }
 
 bool ParticipantsPane::canRead(Player* player)
 {
     if(player == nullptr)
         return false;
-    bool readWrite= (m_model->getPermissionFor(player->uuid()) == ParticipantModel::readWrite);
-    bool read= (m_model->getPermissionFor(player->uuid()) == ParticipantModel::readOnly);
-    return read | readWrite;
+    // bool readWrite= (m_model->getPermissionFor(player->uuid()) == ParticipantModel::readWrite);
+    // bool read= (m_model->getPermissionFor(player->uuid()) == ParticipantModel::readOnly);
+    return true; // read | readWrite;
 }
 
 void ParticipantsPane::fill(NetworkMessageWriter* msg)
@@ -151,11 +152,11 @@ void ParticipantsPane::readPermissionChanged(NetworkMessageReader* msg)
 {
     QString playerId= msg->string8();
     int perm= msg->int8();
-    m_model->setPlayerPermission(playerId, static_cast<ParticipantModel::Permission>(perm));
-    if(playerId == m_model->getOwner())
-    {
-        emit localPlayerPermissionChanged(m_model->getPermissionFor(playerId));
-    }
+    /* m_model->setPlayerPermission(playerId, static_cast<ParticipantModel::Permission>(perm));
+     if(playerId == m_model->getOwner())
+     {
+         emit localPlayerPermissionChanged(m_model->getPermissionFor(playerId));
+     }*/
 }
 
 void ParticipantsPane::setFont(QFont font)
@@ -166,9 +167,9 @@ void ParticipantsPane::setFont(QFont font)
 
 void ParticipantsPane::setOwnerId(const QString& id)
 {
-    if(nullptr == m_playerList)
-        return;
-    // auto owner= m_playerList->getPlayer(id);
+    /* if(nullptr == m_playerList)
+         return;
+     // auto owner= m_playerList->getPlayer(id);*/
 
     m_model->setOwner(id);
     /* if(owner == m_playerList->getLocalPlayer())

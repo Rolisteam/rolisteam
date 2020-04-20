@@ -72,8 +72,6 @@ SharedNote::SharedNote(SharedNoteController* ctrl, QWidget* parent)
 
     readSettings();
 
-    ui->m_highlightMarkdownAction->setData(static_cast<int>(Document::MarkDown));
-
     qApp->installEventFilter(this);
 }
 
@@ -183,7 +181,8 @@ bool SharedNote::loadFileAsText(QTextStream& in, bool md)
     data= in.readAll();
     m_document->setPlainText(data);
     if(md)
-        m_document->setHighlighter(Document::MarkDown);
+        m_sharedCtrl->setHighligthedSyntax(SharedNoteController::HighlightedSyntax::MarkDown);
+
     return true;
 }
 
@@ -196,10 +195,6 @@ bool SharedNote::loadFile(QDataStream& in)
     in >> data;
     m_document->setPlainText(data);
     return true;
-}
-void SharedNote::setCurrentFile(const QString& fileName)
-{
-    m_fileName= fileName;
 }
 
 QString SharedNote::strippedName(const QString& fullFileName)
@@ -458,22 +453,12 @@ void SharedNote::setMarkdownAsHighlight()
 {
     QAction* act= qobject_cast<QAction*>(sender());
 
-    m_document->setHighlighter(static_cast<Document::Highlighter>(act->data().toInt()));
-}
-
-QString SharedNote::fileName() const
-{
-    return m_fileName;
-}
-
-void SharedNote::setFileName(const QString& fileName)
-{
-    m_fileName= fileName;
-    updateWindowTitle();
+    m_sharedCtrl->setHighligthedSyntax(static_cast<SharedNoteController::HighlightedSyntax>(act->data().toInt()));
 }
 
 void SharedNote::updateWindowTitle()
 {
+
     /*PlayerModel* list= PlayerModel::instance();
     Player* player= list->getLocalPlayer();
     setWindowTitle(

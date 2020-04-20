@@ -52,6 +52,7 @@ class VectorialMapController;
 class Character;
 class CharacterSheet;
 class CharacterSheetController;
+class SharedNoteController;
 class MessageHelper
 {
 public:
@@ -106,6 +107,10 @@ public:
     static void shareCharacterSheet(CharacterSheet* sheet, Character* character, CharacterSheetController* ctrl);
     static QHash<QString, QVariant> readCharacterSheet(NetworkMessageReader* msg);
     static void readUpdateField(CharacterSheetController* ctrl, NetworkMessageReader* msg);
+
+    // sharedNotes
+    static void shareNotesTo(const SharedNoteController* ctrl, const QStringList& recipiants);
+    static QHash<QString, QVariant> readSharedNoteData(NetworkMessageReader* msg);
 
     // data
     static void updatePerson(NetworkMessageReader& data, PlayerModel* playerModel);

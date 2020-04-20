@@ -41,7 +41,8 @@ GameController::GameController(QObject* parent)
     , m_networkCtrl(new NetworkController)
     , m_playerController(new PlayerController)
     , m_preferencesDialogController(new PreferencesController)
-    , m_contentCtrl(new ContentController(m_playerController->characterModel(), m_networkCtrl.get()))
+    , m_contentCtrl(
+          new ContentController(m_playerController->model(), m_playerController->characterModel(), m_networkCtrl.get()))
     , m_preferences(new PreferencesManager)
     , m_undoStack(new QUndoStack)
 {
@@ -71,9 +72,16 @@ GameController::GameController(QObject* parent)
     connect(m_playerController.get(), &PlayerController::gameMasterIdChanged, m_contentCtrl.get(),
             &ContentController::setGameMasterId);
     connect(m_playerController.get(), &PlayerController::performCommand, this, &GameController::addCommand);
+    connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_remoteLogCtrl.get(),
+            &RemoteLogController::setLocalUuid);
+    connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_contentCtrl.get(),
+            &ContentController::setLocalId);
+
     connect(m_contentCtrl.get(), &ContentController::performCommand, this, &GameController::addCommand);
 
     m_contentCtrl->setGameMasterId(m_playerController->gameMasterId());
+    m_remoteLogCtrl->setLocalUuid(m_playerController->localPlayerId());
+    m_contentCtrl->setLocalId(m_playerController->localPlayerId());
 
     m_remoteLogCtrl->setAppId(0);
 }
@@ -136,11 +144,6 @@ void GameController::setVersion(const QString& version)
 
 void GameController::setLocalPlayerId(const QString& id)
 {
-    /*if(m_localId == id)
-        return;
-    m_localId= id;
-    emit lorcalPlayerIdChanged();*/
-
     m_remoteLogCtrl->setLocalUuid(id);
 }
 
@@ -256,8 +259,7 @@ QString GameController::currentScenario() const
 
 QString GameController::localPlayerId() const
 {
-    return tr("idnull");
-    // return m_networkCtrl->localPlayer()->getId();
+    return m_playerController->localPlayerId();
 }
 
 bool GameController::localIsGM() const

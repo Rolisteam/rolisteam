@@ -31,16 +31,40 @@ Player* findPlayer(const QString& id, PlayerModel* model)
     return model->playerById(id);
 }
 
-ParticipantModel::ParticipantModel(QObject* parent) : QAbstractItemModel(parent)
+ParticipantModel::ParticipantModel(PlayerModel* model, QObject* parent)
+    : QAbstractItemModel(parent), m_playerList(model)
 {
+    connect(model, &PlayerModel::playerJoin, this, &ParticipantModel::addNewPlayer);
+    connect(model, &PlayerModel::playerLeft, this, &ParticipantModel::removePlayer);
+
     m_data.insert({readWrite, new PermissionData({tr("Read Write"), QStringList()})});
     m_data.insert({readOnly, new PermissionData({tr("Read Only"), QStringList()})});
     m_data.insert({hidden, new PermissionData({tr("Hidden"), QStringList()})});
+
+    initModel();
 }
 
 QVariant ParticipantModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     return QVariant();
+}
+
+void ParticipantModel::initModel()
+{
+    if(m_ownerId.isEmpty())
+        return;
+
+    beginResetModel();
+    for(int i= 0; i < m_playerList->rowCount(); ++i)
+    {
+        auto idx= m_playerList->index(i, 0, QModelIndex());
+        auto uuid= idx.data(PlayerModel::IdentifierRole).toString();
+        if(uuid == m_ownerId)
+            m_data[readWrite]->m_ids.append(uuid);
+        else
+            m_data[hidden]->m_ids.append(uuid);
+    }
+    endResetModel();
 }
 
 QModelIndex ParticipantModel::index(int row, int column, const QModelIndex& parent) const
@@ -228,12 +252,7 @@ void ParticipantModel::setOwner(const QString& owner)
         return;
     m_ownerId= owner;
 
-    auto hiddenInt= static_cast<int>(readWrite);
-    auto permData= m_data.at(readWrite);
-    auto parent= createIndex(hiddenInt, 0, permData);
-    beginInsertRows(parent, permData->m_ids.size(), permData->m_ids.size());
-    permData->m_ids.append(m_ownerId);
-    endInsertRows();
+    initModel();
 }
 ParticipantModel::Permission ParticipantModel::getPermissionFor(const QModelIndex& index)
 {

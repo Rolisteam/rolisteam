@@ -39,14 +39,14 @@
 #include "undoCmd/openmediacontroller.h"
 #include "worker/modelhelper.h"
 
-ContentController::ContentController(CharacterModel* characterModel, QObject* parent)
+ContentController::ContentController(PlayerModel* playerModel, CharacterModel* characterModel, QObject* parent)
     : AbstractControllerInterface(parent)
     , m_contentModel(new SessionItemModel)
     , m_imageControllers(new ImageMediaController)
     , m_vmapControllers(new VectorialMapMediaController)
     , m_sheetMediaController(new CharacterSheetMediaController(characterModel))
     , m_webPageMediaController(new WebpageMediaController)
-    , m_sharedNoteMediaController(new SharedNoteMediaController)
+    , m_sharedNoteMediaController(new SharedNoteMediaController(playerModel))
     , m_pdfMediaController(new PdfMediaController)
     , m_sessionName(tr("Unknown"))
 {
@@ -66,6 +66,12 @@ ContentController::ContentController(CharacterModel* characterModel, QObject* pa
 
     connect(this, &ContentController::gameMasterIdChanged, m_sheetMediaController.get(),
             &CharacterSheetMediaController::setGameMasterId);
+    connect(this, &ContentController::localIdChanged, this, [this](const QString& id) {
+        std::for_each(m_mediaControllers.begin(), m_mediaControllers.end(),
+                      [id](const std::pair<CleverURI::ContentType, MediaControllerInterface*>& pair) {
+                          pair.second->setLocalId(id);
+                      });
+    });
 }
 
 ContentController::~ContentController()= default;
@@ -211,12 +217,25 @@ QString ContentController::gameMasterId() const
     return m_gameMasterId;
 }
 
+QString ContentController::localId() const
+{
+    return m_localId;
+}
+
 void ContentController::setGameMasterId(const QString& id)
 {
     if(id == m_gameMasterId)
         return;
     m_gameMasterId= id;
     emit gameMasterIdChanged(m_gameMasterId);
+}
+
+void ContentController::setLocalId(const QString& id)
+{
+    if(m_localId == id)
+        return;
+    m_localId= id;
+    emit localIdChanged(m_localId);
 }
 
 void ContentController::clear()

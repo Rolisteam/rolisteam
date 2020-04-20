@@ -33,7 +33,7 @@ SharedNoteContainer::SharedNoteContainer(SharedNoteController* ctrl, QWidget* pa
     // setCleverUriType(CleverURI::SHAREDNOTE);
     setWidget(m_edit.get());
     setWindowIcon(QIcon(":/resources/icons/sharedEditor.png"));
-    m_edit->setFileName(getUriName());
+    // m_edit->setFileName(getUriName());
 }
 void SharedNoteContainer::readMessage(NetworkMessageReader& msg)
 {
@@ -138,7 +138,7 @@ void SharedNoteContainer::saveMedia(const QString&)
 
 void SharedNoteContainer::updateTitle()
 {
-    m_edit->setFileName(getUriName()); // update the title too
+    // m_edit->setFileName(getUriName()); // update the title too
 }
 
 void SharedNoteContainer::putDataIntoCleverUri()

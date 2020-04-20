@@ -17,28 +17,62 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CHARACTERMODEL_H
-#define CHARACTERMODEL_H
+#ifndef PARTICIPANTSMODEL_H
+#define PARTICIPANTSMODEL_H
 
 #include <QAbstractProxyModel>
+#include <QObject>
 
-class Character;
-class CharacterModel : public QAbstractProxyModel
+#include <QJsonObject>
+
+class Player;
+class ParticipantsModel : public QAbstractProxyModel
 {
     Q_OBJECT
 public:
-    CharacterModel(QObject* parent= nullptr);
-
-    int columnCount(const QModelIndex& parent= QModelIndex()) const override;
-    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+    enum Permission
+    {
+        ReadWrite,
+        ReadOnly,
+        Hidden,
+        Permission_count
+    };
+    ParticipantsModel();
+    virtual int rowCount(const QModelIndex& parent) const override;
+    virtual int columnCount(const QModelIndex& parent) const override;
+    virtual QVariant data(const QModelIndex& index, int role) const override;
+    virtual QModelIndex parent(const QModelIndex& child) const override;
+    virtual QModelIndex index(int row, int column, const QModelIndex& parent) const override;
+    virtual Qt::ItemFlags flags(const QModelIndex& index) const override;
 
     QModelIndex mapFromSource(const QModelIndex& sourceIndex) const override;
     QModelIndex mapToSource(const QModelIndex& proxyIndex) const override;
 
-    QModelIndex parent(const QModelIndex&) const override;
-    QModelIndex index(int, int, const QModelIndex&) const override;
+    QString ownerId() const;
+    void setOwnerId(const QString& id);
 
-    Character* character(const QString& id);
+    void saveModel(QJsonObject& root);
+
+    ParticipantsModel::Permission getPermissionFor(Player* player);
+    void loadModel(QJsonObject& root);
+
+public slots:
+    void promotePlayerToRead(const QModelIndex& index);
+    void promotePlayerToReadWrite(const QModelIndex& index);
+    void demotePlayerToRead(const QModelIndex& index);
+    void demotePlayerToHidden(const QModelIndex& index);
+
+    void promotePlayer(const QModelIndex& index);
+    void demotePlayer(const QModelIndex& index);
+
+private:
+    QStringList m_readOnly;
+    QStringList m_readWrite;
+    QStringList m_hidden;
+
+    QStringList m_permissionGroup;
+
+    QString m_ownerId;
 };
 
-#endif // CHARACTERMODEL_H
+#endif // PARTICIPANTSMODEL_H

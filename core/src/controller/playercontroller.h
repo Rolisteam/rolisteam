@@ -39,11 +39,12 @@ class CharacterModel;
 class PlayerController : public AbstractControllerInterface, public NetWorkReceiver
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractItemModel* model READ model CONSTANT)
+    Q_PROPERTY(PlayerModel* model READ model CONSTANT)
     Q_PROPERTY(QAbstractItemModel* characterStateModel READ characterStateModel NOTIFY characterStateModelChanged)
     Q_PROPERTY(CharacterModel* characterModel READ characterModel CONSTANT)
     Q_PROPERTY(Player* localPlayer READ localPlayer WRITE setLocalPlayer NOTIFY localPlayerChanged)
     Q_PROPERTY(QString gameMasterId READ gameMasterId NOTIFY gameMasterIdChanged)
+    Q_PROPERTY(QString localPlayerId READ localPlayerId NOTIFY localPlayerIdChanged)
 
 public:
     explicit PlayerController(QObject* parent= nullptr);
@@ -51,11 +52,12 @@ public:
 
     Player* localPlayer() const;
 
-    QAbstractItemModel* model() const;
+    PlayerModel* model() const;
     QAbstractItemModel* characterStateModel() const;
     CharacterModel* characterModel() const;
 
     QString gameMasterId() const;
+    QString localPlayerId() const;
 
     void setGameController(GameController*) override;
     void clear();
@@ -66,6 +68,7 @@ signals:
     void localPlayerChanged();
     void characterStateModelChanged();
     void gameMasterIdChanged(const QString& gameMasterId);
+    void localPlayerIdChanged(const QString& id);
 
 public slots:
     void setLocalPlayer(Player* player);
