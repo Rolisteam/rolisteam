@@ -98,7 +98,7 @@ QMdiSubWindow* ChatWindow::getSubWindow()
 
 void ChatWindow::updateListAlias()
 {
-    QList<DiceAlias*>* list= m_diceParser->getAliases();
+    QList<DiceAlias*>* list = m_diceParser->aliases();
     list->clear();
     int size= m_preferences->value("DiceAliasNumber", 0).toInt();
     for(int i= 0; i < size; ++i)
