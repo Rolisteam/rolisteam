@@ -34,6 +34,7 @@
 #include <QTimer>
 #include <QToolBar>
 #include <QVBoxLayout>
+#include <QDebug>
 
 #include "chat/chat.h"
 #include "chat/improvedtextedit.h"
