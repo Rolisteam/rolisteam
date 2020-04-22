@@ -135,7 +135,9 @@ set(HEADERS
     src/diceparser/node/stringnode.h
     src/diceparser/node/uniquenode.h
     src/diceparser/node/valueslistnode.h
+    src/diceparser/node/repeaternode.h
     src/diceparser/node/variablenode.h
+    src/diceparser/validatorlist.h
     src/diceparser/operationcondition.h
     src/diceparser/qmltypesregister.h
     src/diceparser/range.h
@@ -404,6 +406,7 @@ set(SOURCES
     src/diceparser/die.cpp
     src/diceparser/highlightdice.cpp
     src/diceparser/node/bind.cpp
+    src/diceparser/node/repeaternode.cpp
     src/diceparser/node/allsamenode.cpp
     src/diceparser/node/countexecutenode.cpp
     src/diceparser/node/dicerollernode.cpp
@@ -441,6 +444,7 @@ set(SOURCES
     src/diceparser/result/scalarresult.cpp
     src/diceparser/result/stringresult.cpp
     src/diceparser/validator.cpp
+    src/diceparser/validatorlist.cpp
     src/media/image.cpp
     src/model/playerproxymodel.cpp
     #src/model/participantsmodel.cpp
