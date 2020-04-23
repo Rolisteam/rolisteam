@@ -24,7 +24,7 @@
 
 #include <QDebug>
 #include <QPainter>
-#include <math.h>
+#include <cmath>
 
 namespace vmap
 {
