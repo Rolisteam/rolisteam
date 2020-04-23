@@ -33,7 +33,7 @@ bool RolisteamApplication::notify(QObject* receiver, QEvent* e)
     catch(...)
     {
         std::exception_ptr p= std::current_exception();
-        std::clog << (p ? p.__cxa_exception_type()->name() : "null") << std::endl;
+        std::clog << (p ? typeid(p).name() : "null") << std::endl;
         qDebug() << e->type() << receiver << " other";
         return false;
     }
