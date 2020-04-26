@@ -17,40 +17,28 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef SHAREDNOTEMEDIACONTROLLER_H
-#define SHAREDNOTEMEDIACONTROLLER_H
+#ifndef SHAREDNOTECONTROLLERUPDATER_H
+#define SHAREDNOTECONTROLLERUPDATER_H
 
-#include <QPointer>
-#include <memory>
-#include <vector>
-
-#include "mediacontrollerinterface.h"
+#include <QObject>
+#include <map>
 
 class SharedNoteController;
-class SharedNoteControllerUpdater;
-class PlayerModel;
-class SharedNoteMediaController : public MediaControllerInterface
+class NetworkMessageReader;
+class SharedNoteControllerUpdater : public QObject
 {
     Q_OBJECT
+
 public:
-    SharedNoteMediaController(PlayerModel* model, QObject* parent= nullptr);
-    ~SharedNoteMediaController() override;
+    explicit SharedNoteControllerUpdater(QObject* parent= nullptr);
 
-    CleverURI::ContentType type() const override;
-    bool openMedia(CleverURI* uri, const std::map<QString, QVariant>& args) override;
-    void closeMedia(const QString& id) override;
-    void registerNetworkReceiver() override;
-    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
-    void setUndoStack(QUndoStack* stack) override;
+    void addSharedNoteController(SharedNoteController* sheet);
+    void readUpdateCommand(NetworkMessageReader* reader, SharedNoteController* ctrl);
 
-    void addSharedNotes(CleverURI* uri, const QHash<QString, QVariant>& params);
 signals:
-    void sharedNoteControllerCreated(SharedNoteController* crtl);
 
 private:
-    std::vector<std::unique_ptr<SharedNoteController>> m_sharedNotes;
-    std::unique_ptr<SharedNoteControllerUpdater> m_updater;
-    QPointer<PlayerModel> m_playerModel;
+    std::map<SharedNoteController*, QSet<QString>> m_noteReaders;
 };
 
-#endif // SHAREDNOTEMEDIACONTROLLER_H
+#endif // SHAREDNOTECONTROLLERUPDATER_H

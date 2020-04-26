@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "participantmodel.h"
 
+#include <QDebug>
+
 #include "data/person.h"
 #include "data/player.h"
 #include "userlist/playermodel.h"
@@ -31,15 +33,91 @@ Player* findPlayer(const QString& id, PlayerModel* model)
     return model->playerById(id);
 }
 
+ParticipantItem* findItem(const QString& id, ParticipantItem* root)
+{
+    ParticipantItem* parent= nullptr;
+    for(int i= 0; i < root->childCount(); ++i)
+    {
+        auto item= root->childAt(i);
+        for(int j= 0; j < item->childCount(); ++j)
+        {
+            auto child= item->childAt(j);
+            if(nullptr == child)
+                continue;
+            if(child->player()->uuid() == id)
+            {
+                parent= item;
+            }
+        }
+    }
+    return parent;
+}
+ParticipantItem::ParticipantItem(const QString& name) : m_name(name) {}
+
+ParticipantItem::ParticipantItem(Player* player) : m_player(player) {}
+
+bool ParticipantItem::isLeaf() const
+{
+    return (m_player != nullptr);
+}
+
+QString ParticipantItem::name() const
+{
+    return isLeaf() ? m_player->name() : m_name;
+}
+
+Player* ParticipantItem::player() const
+{
+    return m_player;
+}
+
+int ParticipantItem::indexOf(ParticipantItem* child)
+{
+    return m_children.indexOf(child);
+}
+
+int ParticipantItem::childCount() const
+{
+    return m_children.size();
+}
+
+ParticipantItem* ParticipantItem::childAt(int pos)
+{
+    if(qBound(0, pos, m_children.size() - 1) != pos)
+        return nullptr;
+    return m_children.at(pos);
+}
+
+void ParticipantItem::appendChild(ParticipantItem* item)
+{
+    m_children.append(item);
+    item->setParent(this);
+}
+
+void ParticipantItem::removeChild(ParticipantItem* item)
+{
+    m_children.removeOne(item);
+}
+
+ParticipantItem* ParticipantItem::parent() const
+{
+    return m_parent;
+}
+
+void ParticipantItem::setParent(ParticipantItem* parent)
+{
+    m_parent= parent;
+}
+
 ParticipantModel::ParticipantModel(PlayerModel* model, QObject* parent)
-    : QAbstractItemModel(parent), m_playerList(model)
+    : QAbstractItemModel(parent), m_playerList(model), m_root(new ParticipantItem(QString()))
 {
     connect(model, &PlayerModel::playerJoin, this, &ParticipantModel::addNewPlayer);
     connect(model, &PlayerModel::playerLeft, this, &ParticipantModel::removePlayer);
 
-    m_data.insert({readWrite, new PermissionData({tr("Read Write"), QStringList()})});
-    m_data.insert({readOnly, new PermissionData({tr("Read Only"), QStringList()})});
-    m_data.insert({hidden, new PermissionData({tr("Hidden"), QStringList()})});
+    m_root->appendChild(new ParticipantItem(tr("Read Write")));
+    m_root->appendChild(new ParticipantItem(tr("Read Only")));
+    m_root->appendChild(new ParticipantItem(tr("Hidden")));
 
     initModel();
 }
@@ -55,37 +133,35 @@ void ParticipantModel::initModel()
         return;
 
     beginResetModel();
-    for(int i= 0; i < m_playerList->rowCount(); ++i)
+    auto c= m_playerList->rowCount();
+    for(int i= 0; i < c; ++i)
     {
         auto idx= m_playerList->index(i, 0, QModelIndex());
         auto uuid= idx.data(PlayerModel::IdentifierRole).toString();
+        auto player= dynamic_cast<Player*>(idx.data(PlayerModel::PersonPtrRole).value<Person*>());
+        auto dest= m_root->childAt(hidden);
         if(uuid == m_ownerId)
-            m_data[readWrite]->m_ids.append(uuid);
-        else
-            m_data[hidden]->m_ids.append(uuid);
+            dest= m_root->childAt(readWrite);
+
+        dest->appendChild(new ParticipantItem(player));
     }
     endResetModel();
 }
 
 QModelIndex ParticipantModel::index(int row, int column, const QModelIndex& parent) const
 {
-    if(!parent.isValid() && (m_data.find(static_cast<Permission>(row)) != m_data.end()))
+    if(!parent.isValid())
     {
-        auto permData= m_data.at(static_cast<Permission>(row));
-        return createIndex(row, column, permData);
+        auto p= m_root->childAt(row);
+        return createIndex(row, column, p);
     }
-    else if(parent.isValid() && (m_data.find(static_cast<Permission>(parent.row())) != m_data.end()))
+    else
     {
-        auto permData= m_data.at(static_cast<Permission>(parent.row()));
-        if(permData->m_ids.size() > row)
-        {
-            auto id= permData->m_ids.at(row);
-            auto player= m_playerList->playerById(id);
-            if(player)
-                return createIndex(row, column, player);
-        }
+
+        auto p= m_root->childAt(parent.row());
+        auto data= p->childAt(row);
+        return createIndex(row, column, data);
     }
-    return QModelIndex();
 }
 
 QModelIndex ParticipantModel::parent(const QModelIndex& index) const
@@ -93,47 +169,33 @@ QModelIndex ParticipantModel::parent(const QModelIndex& index) const
     if(!index.isValid())
         return QModelIndex();
 
-    auto perm= static_cast<PermissionData*>(index.internalPointer());
-    auto it= std::find_if(m_data.begin(), m_data.end(),
-                          [perm](const std::pair<Permission, PermissionData*>& data) { return perm == data.second; });
-    if(it != m_data.end())
-    {
+    auto item= static_cast<ParticipantItem*>(index.internalPointer());
+
+    if(item == nullptr)
+        return {};
+
+    if(!item->isLeaf())
         return QModelIndex();
-    }
 
-    auto person= static_cast<Person*>(index.internalPointer());
-    auto player= dynamic_cast<Player*>(person);
-    if(nullptr != player)
-    {
-        auto id= player->uuid();
-        auto it= std::find_if(m_data.begin(), m_data.end(), [id](const std::pair<Permission, PermissionData*>& data) {
-            return data.second->m_ids.contains(id);
-        });
+    auto parentItem= item->parent();
 
-        if(it != m_data.end())
-        {
-            auto r= it->second->m_ids.indexOf(id);
-            return createIndex(r, 0, it->second);
-        }
-    }
+    if(parentItem == nullptr)
+        return {};
 
-    return QModelIndex();
+    return createIndex(m_root->indexOf(parentItem), 0, parentItem);
 }
 
 int ParticipantModel::rowCount(const QModelIndex& parent) const
 {
     if(!parent.isValid())
-        return static_cast<int>(m_data.size());
+        return m_root->childCount();
 
-    auto perm= static_cast<PermissionData*>(parent.internalPointer());
-    auto it= std::find_if(m_data.begin(), m_data.end(),
-                          [perm](const std::pair<Permission, PermissionData*>& data) { return perm == data.second; });
-    if(it == m_data.end())
-    {
+    auto item= static_cast<ParticipantItem*>(parent.internalPointer());
+
+    if(item->isLeaf())
         return 0;
-    }
 
-    return perm->m_ids.size();
+    return item->childCount();
 }
 
 int ParticipantModel::columnCount(const QModelIndex& parent) const
@@ -149,21 +211,9 @@ QVariant ParticipantModel::data(const QModelIndex& index, int role) const
     if(role != Qt::DisplayRole && role != Qt::EditRole)
         return {};
 
-    auto perm= static_cast<PermissionData*>(index.internalPointer());
-    auto it= std::find_if(m_data.begin(), m_data.end(),
-                          [perm](const std::pair<Permission, PermissionData*>& data) { return perm == data.second; });
-    if(it != m_data.end())
-    {
-        return it->second->m_name;
-    }
+    auto item= static_cast<ParticipantItem*>(index.internalPointer());
 
-    auto person= static_cast<Person*>(index.internalPointer());
-    auto player= dynamic_cast<Player*>(person);
-
-    if(nullptr != player)
-        player->name();
-
-    return QVariant();
+    return item->name();
 }
 
 Qt::ItemFlags ParticipantModel::flags(const QModelIndex& index) const
@@ -179,11 +229,13 @@ void ParticipantModel::addNewPlayer(Player* player)
     if(nullptr == player)
         return;
 
-    auto hiddenInt= static_cast<int>(hidden);
-    auto permData= m_data.at(hidden);
-    auto parent= createIndex(hiddenInt, 0, permData);
-    beginInsertRows(parent, permData->m_ids.size(), permData->m_ids.size());
-    permData->m_ids.append(player->uuid());
+    auto catInt= hidden;
+    if(player->uuid() == m_ownerId)
+        catInt= readWrite;
+    auto permData= m_root->childAt(catInt);
+    auto parent= createIndex(static_cast<int>(catInt), 0, permData);
+    beginInsertRows(parent, permData->childCount(), permData->childCount());
+    permData->appendChild(new ParticipantItem(player));
     endInsertRows();
 }
 
@@ -192,26 +244,35 @@ void ParticipantModel::removePlayer(Player* player)
     if(nullptr == player)
         return;
 
-    auto id= player->uuid();
+    ParticipantItem* origin= nullptr;
+    ParticipantItem* parent= nullptr;
+    for(int i= 0; i < m_root->childCount(); ++i)
+    {
+        auto item= m_root->childAt(i);
+        for(int j= 0; j < item->childCount(); ++j)
+        {
+            auto child= item->childAt(j);
+            if(child->player() == player)
+            {
+                origin= child;
+                parent= item;
+            }
+        }
+    }
 
-    auto it= std::find_if(m_data.begin(), m_data.end(), [id](const std::pair<Permission, PermissionData*>& data) {
-        return data.second->m_ids.contains(id);
-    });
-
-    if(it == m_data.end())
+    if(origin == nullptr || parent == nullptr)
         return;
 
-    auto pos= it->second->m_ids.indexOf(id);
-    auto parent= createIndex(static_cast<int>(it->first), 0, it->second);
-
-    beginRemoveRows(parent, pos, pos);
-    it->second->m_ids.removeAll(id);
+    auto pos= parent->indexOf(origin);
+    auto parentIdx= createIndex(m_root->indexOf(parent), 0, parent);
+    beginRemoveRows(parentIdx, pos, pos);
+    parent->removeChild(origin);
     endRemoveRows();
 }
 
 int ParticipantModel::promotePlayer(const QModelIndex& index)
 {
-    ParticipantModel::Permission perm= getPermissionFor(index);
+    ParticipantModel::Permission perm= permissionFor(index);
     switch(perm)
     {
     case readOnly:
@@ -229,7 +290,7 @@ int ParticipantModel::demotePlayer(const QModelIndex& index)
     if(!index.isValid())
         return 0;
 
-    ParticipantModel::Permission perm= getPermissionFor(index);
+    ParticipantModel::Permission perm= permissionFor(index);
     switch(perm)
     {
     case readOnly:
@@ -251,10 +312,9 @@ void ParticipantModel::setOwner(const QString& owner)
     if(owner == m_ownerId)
         return;
     m_ownerId= owner;
-
     initModel();
 }
-ParticipantModel::Permission ParticipantModel::getPermissionFor(const QModelIndex& index)
+ParticipantModel::Permission ParticipantModel::permissionFor(const QModelIndex& index)
 {
     if(!index.isValid())
         return hidden;
@@ -263,19 +323,18 @@ ParticipantModel::Permission ParticipantModel::getPermissionFor(const QModelInde
     if(!parent.isValid())
         return hidden;
 
-    return static_cast<Permission>(index.row());
+    return static_cast<Permission>(parent.row());
 }
 
-ParticipantModel::Permission ParticipantModel::getPermissionFor(const QString& id)
+ParticipantModel::Permission ParticipantModel::permissionFor(const QString& id)
 {
-    auto it= std::find_if(m_data.begin(), m_data.end(), [id](const std::pair<Permission, PermissionData*>& data) {
-        return data.second->m_ids.contains(id);
-    });
+    auto parent= findItem(id, m_root.get());
+    auto val= m_root->indexOf(parent);
 
-    if(it == m_data.end())
+    if(val < 0)
         return hidden;
 
-    return it->first;
+    return static_cast<ParticipantModel::Permission>(val);
 }
 
 void ParticipantModel::setPlayerInto(const QModelIndex& index, Permission level)
@@ -284,48 +343,45 @@ void ParticipantModel::setPlayerInto(const QModelIndex& index, Permission level)
     if(!parent.isValid())
         return;
 
-    auto person= static_cast<Person*>(index.internalPointer());
-    auto player= dynamic_cast<Player*>(person);
-    if(player == nullptr)
+    auto item= static_cast<ParticipantItem*>(index.internalPointer());
+    if(item == nullptr)
         return;
 
-    QModelIndex destParent= createIndex(static_cast<int>(level), 0);
-    /*auto sourceRow= static_cast<Permission>(parent.row());
-    auto destRow= static_cast<Permission>(destParent.row());
-    if(destParent == parent)
-    {
-        return;
-    }*/
+    QModelIndex destParent= createIndex(static_cast<int>(level), 0, m_root.get());
 
     auto r= rowCount(destParent);
-    auto perm= m_data.at(level);
-    auto permSource= static_cast<PermissionData*>(parent.internalPointer());
+    auto perm= m_root->childAt(level);
+    auto permSource= static_cast<ParticipantItem*>(parent.internalPointer());
 
-    auto it
-        = std::find_if(m_data.begin(), m_data.end(), [permSource](const std::pair<Permission, PermissionData*>& data) {
-              return data.second == permSource;
-          });
-
-    if(it == m_data.end())
-        return;
+    QString id;
+    auto p= item->player();
+    if(nullptr != p)
+        id= p->uuid();
 
     beginMoveRows(parent, index.row(), index.row(), destParent, r);
-    it->second->m_ids.removeAll(player->uuid());
-    perm->m_ids.append(player->uuid());
+    permSource->removeChild(item);
+    perm->appendChild(item);
     endMoveRows();
+
+    auto hideRoot= m_root->childAt(hidden);
+    auto roRoot= m_root->childAt(readOnly);
+    auto rwRoot= m_root->childAt(readWrite);
+
+    if(permSource == hideRoot && perm == roRoot)
+        userReadPermissionChanged(id, true);
+    else if(permSource == roRoot && perm == hideRoot)
+        userReadPermissionChanged(id, false);
+
+    if(permSource == roRoot && perm == rwRoot)
+        userWritePermissionChanged(id, true);
+    else if(permSource == rwRoot && perm == roRoot)
+        userWritePermissionChanged(id, false);
 }
 
 void ParticipantModel::setPlayerPermission(const QString& id, ParticipantModel::Permission level)
 {
-    auto it= std::find_if(m_data.begin(), m_data.end(), [id](const std::pair<Permission, PermissionData*>& data) {
-        return data.second->m_ids.contains(id);
-    });
-    if(it == m_data.end())
-        return;
-
-    auto parent= index(it->first, 0, QModelIndex());
-    auto idx= index(it->second->m_ids.indexOf(id), 0, parent);
-
+    auto parent= findItem(id, m_root.get());
+    auto idx= index(m_root->indexOf(parent), 0, QModelIndex());
     setPlayerInto(idx, level);
 }
 

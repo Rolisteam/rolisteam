@@ -27,17 +27,16 @@ MediaContainer::MediaContainer(AbstractMediaContainerController* ctrl, Container
     , m_preferences(PreferencesManager::getInstance())
     , m_action(nullptr)
     , m_currentCursor(nullptr)
-    , m_mediaId(QUuid::createUuid().toString())
     , m_remote(false)
-    , m_localIsGM(localIsGM)
     , m_containerType(containerType)
 {
     setAttribute(Qt::WA_DeleteOnClose, false);
     m_detachedDialog= new QAction(tr("Detach the view"), this);
     m_detachedDialog->setCheckable(true);
 
-    connect(m_detachedDialog, SIGNAL(triggered(bool)), this, SLOT(detachView(bool)));
+    connect(m_detachedDialog, &QAction::triggered, this, &MediaContainer::detachView);
     connect(ctrl, &AbstractMediaContainerController::closeContainer, this, &MediaContainer::close);
+    connect(ctrl, &AbstractMediaContainerController::ownerIdChanged, this, &MediaContainer::ownerIdChanged);
     connect(m_lifeCycleCtrl, &AbstractMediaContainerController::titleChanged, this,
             [this]() { setWindowTitle(m_lifeCycleCtrl->title()); });
 }
@@ -140,37 +139,9 @@ QAction* MediaContainer::getAction()
     return m_action;
 }
 
-void MediaContainer::currentColorChanged(QColor& penColor)
+QString MediaContainer::mediaId() const
 {
-    m_penColor= penColor;
-}
-
-QString MediaContainer::getMediaId() const
-{
-    return m_mediaId;
-}
-
-QString MediaContainer::getUriName() const
-{
-    /* if(nullptr == m_uri)
-         return m_name;
-
-     return m_uri->name();*/
-}
-
-void MediaContainer::setUriName(const QString& name)
-{
-    /* if(nullptr != m_uri)
-         m_uri->setName(name);*/
-    m_name= name;
-    if(nullptr != m_action)
-        m_action->setText(getUriName());
-    updateTitle();
-}
-
-void MediaContainer::setMediaId(QString str)
-{
-    m_mediaId= str;
+    return m_lifeCycleCtrl->uuid();
 }
 
 void MediaContainer::cleverURIHasChanged(CleverURI* uri, CleverURI::DataValue field)
@@ -238,25 +209,12 @@ void MediaContainer::setContainerType(const ContainerType& containerType)
 }
 QString MediaContainer::ownerId() const
 {
-    return m_ownerId;
+    return m_lifeCycleCtrl->ownerId();
 }
 
 void MediaContainer::setOwnerId(const QString& ownerId)
 {
-    if(ownerId == m_ownerId)
-        return;
-    m_ownerId= ownerId;
-    emit ownerIdChanged();
-}
-
-bool MediaContainer::getLocalIsGM() const
-{
-    return m_localIsGM;
-}
-
-void MediaContainer::setLocalIsGM(bool localIsGM)
-{
-    m_localIsGM= localIsGM;
+    m_lifeCycleCtrl->setOwnerId(ownerId);
 }
 
 bool MediaContainer::isRemote() const

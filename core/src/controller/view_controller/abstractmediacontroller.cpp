@@ -64,6 +64,11 @@ QString AbstractMediaContainerController::ownerId() const
     return m_ownerId;
 }
 
+QString AbstractMediaContainerController::localId() const
+{
+    return m_localId;
+}
+
 void AbstractMediaContainerController::setLocalGM(bool b)
 {
     if(m_localGM == b)
@@ -86,6 +91,19 @@ void AbstractMediaContainerController::setOwnerId(const QString& id)
         return;
     m_ownerId= id;
     emit ownerIdChanged(m_ownerId);
+}
+
+bool AbstractMediaContainerController::localIsOwner() const
+{
+    return m_ownerId == m_localId;
+}
+
+void AbstractMediaContainerController::setLocalId(const QString& id)
+{
+    if(id == m_localId)
+        return;
+    m_localId= id;
+    emit localIdChanged(m_ownerId);
 }
 
 void AbstractMediaContainerController::setUri(CleverURI* uri)

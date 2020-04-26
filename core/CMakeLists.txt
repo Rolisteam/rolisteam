@@ -297,6 +297,7 @@ set(HEADERS
     src/widgets/keygeneratordialog.h
     src/widgets/onlinepicturedialog.h
     src/widgets/overlay.h
+    src/updater/sharednotecontrollerupdater.h
     src/widgets/persondialog.h
     src/widgets/realslider.h
     src/widgets/shortcuteditordialog.h
@@ -524,6 +525,7 @@ set(SOURCES
     src/userlist/userlistdelegate.cpp
     src/userlist/userlistview.cpp
     src/vmap/items/anchoritem.cpp
+    src/updater/sharednotecontrollerupdater.cpp
     src/vmap/items/characteritem.cpp
     src/vmap/items/childpointitem.cpp
     src/vmap/items/ellipsitem.cpp

@@ -23,13 +23,35 @@
 #include <QAbstractItemModel>
 #include <QPointer>
 
-struct PermissionData
+class Player;
+
+class ParticipantItem
 {
+public:
+    ParticipantItem(const QString& name);
+    ParticipantItem(Player* player);
+
+    bool isLeaf() const;
+    QString name() const;
+    Player* player() const;
+
+    int indexOf(ParticipantItem* child);
+    int childCount() const;
+    ParticipantItem* childAt(int pos);
+
+    void appendChild(ParticipantItem* item);
+    void removeChild(ParticipantItem* item);
+
+    ParticipantItem* parent() const;
+    void setParent(ParticipantItem* parent);
+
+private:
     QString m_name;
-    QStringList m_ids;
+    QPointer<Player> m_player;
+    ParticipantItem* m_parent= nullptr;
+    QList<ParticipantItem*> m_children;
 };
 
-class Player;
 class PlayerModel;
 class ParticipantModel : public QAbstractItemModel
 {
@@ -47,7 +69,7 @@ public:
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const override;
 
-    // Basic functionality:
+    // Basic functionality
     QModelIndex index(int row, int column, const QModelIndex& parent= QModelIndex()) const override;
     QModelIndex parent(const QModelIndex& index) const override;
 
@@ -60,8 +82,8 @@ public:
     void setOwner(const QString& owner);
     void saveModel(QJsonObject& root);
 
-    ParticipantModel::Permission getPermissionFor(const QModelIndex& index);
-    ParticipantModel::Permission getPermissionFor(const QString& id);
+    ParticipantModel::Permission permissionFor(const QModelIndex& index);
+    ParticipantModel::Permission permissionFor(const QString& id);
 
     void loadModel(QJsonObject& root);
     Qt::ItemFlags flags(const QModelIndex& index) const override;
@@ -72,13 +94,15 @@ public slots:
     int demotePlayer(const QModelIndex& index);
     void setPlayerInto(const QModelIndex& index, ParticipantModel::Permission level);
     void setPlayerPermission(const QString& id, ParticipantModel::Permission level);
-
     void initModel();
 
+signals:
+    void userReadPermissionChanged(QString, bool);
+    void userWritePermissionChanged(QString, bool);
+
 private:
-    // void debugModel() const;
     QPointer<PlayerModel> m_playerList;
-    std::map<Permission, PermissionData*> m_data;
+    std::unique_ptr<ParticipantItem> m_root;
     QString m_ownerId;
 };
 

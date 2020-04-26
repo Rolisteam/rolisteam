@@ -111,6 +111,7 @@ public:
     // sharedNotes
     static void shareNotesTo(const SharedNoteController* ctrl, const QStringList& recipiants);
     static QHash<QString, QVariant> readSharedNoteData(NetworkMessageReader* msg);
+    static void closeNoteTo(SharedNoteController* sharedCtrl, const QString& id);
 
     // data
     static void updatePerson(NetworkMessageReader& data, PlayerModel* playerModel);

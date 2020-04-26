@@ -317,7 +317,7 @@ QVector<QMdiSubWindow*> Workspace::getAllSubWindowFromId(const QString& id) cons
             MediaContainer* tmpWindow= dynamic_cast<MediaContainer*>(tmp);
             if(nullptr != tmpWindow)
             {
-                if(tmpWindow->getMediaId() == id)
+                if(tmpWindow->mediaId() == id)
                 {
                     vector.append(tmp);
                 }
@@ -411,6 +411,7 @@ void Workspace::addWebpage(WebpageController* ctrl)
 void Workspace::addSharedNote(SharedNoteController* ctrl)
 {
     std::unique_ptr<SharedNoteContainer> SharedNote(new SharedNoteContainer(ctrl));
+    SharedNote->setGeometry(0, 0, 800, 600);
     addWidgetToMdi(SharedNote.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(SharedNote));
 }

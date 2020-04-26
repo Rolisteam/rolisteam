@@ -89,7 +89,7 @@
     <addaction name="actionEdit_Find"/>
     <addaction name="menuEdit_Syntax_Highlighting"/>
     <addaction name="separator"/>
-    <addaction name="actionTools_Preview_as_Html"/>
+    <addaction name="m_markdownPreview"/>
     <addaction name="actionFile_Print"/>
    </widget>
    <widget class="QMenu" name="menuView">
@@ -97,7 +97,7 @@
      <string>View</string>
     </property>
     <addaction name="actionView_Line_Wrap"/>
-    <addaction name="actionView_Hide_Show_Participants"/>
+    <addaction name="m_showParticipants"/>
    </widget>
    <widget class="QMenu" name="menuText">
     <property name="title">
@@ -137,7 +137,6 @@
    <addaction name="separator"/>
    <addaction name="m_refresh"/>
    <addaction name="separator"/>
-   <addaction name="m_showHtmlPreview"/>
    <addaction name="m_markdownPreview"/>
   </widget>
   <action name="actionEdit_Undo">
@@ -266,11 +265,6 @@
     <string>Ctrl+/</string>
    </property>
   </action>
-  <action name="actionTools_Preview_as_Html">
-   <property name="text">
-    <string>Preview as HTML</string>
-   </property>
-  </action>
   <action name="actionFile_Save_A_Copy_As">
    <property name="text">
     <string>Save A Copy As...</string>
@@ -292,7 +286,10 @@
     <string>Ctrl+Shift+A</string>
    </property>
   </action>
-  <action name="actionView_Hide_Show_Participants">
+  <action name="m_showParticipants">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Show/Hide Participants</string>
    </property>
@@ -425,16 +422,10 @@
     <string>Refresh</string>
    </property>
   </action>
-  <action name="m_showHtmlPreview">
-   <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
-     <normaloff>:/resources/icons/preview_html.svg</normaloff>:/resources/icons/preview_html.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Html Preview</string>
-   </property>
-  </action>
   <action name="m_markdownPreview">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../../../rolisteam.qrc">
      <normaloff>:/resources/icons/preview_markdown.svg</normaloff>:/resources/icons/preview_markdown.svg</iconset>

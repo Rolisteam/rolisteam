@@ -48,7 +48,6 @@ SharedNote::SharedNote(SharedNoteController* ctrl, QWidget* parent)
 
     connect(pane, &ParticipantsPane::memberCanNowRead, this, &SharedNote::populateDocumentForUser);
     connect(pane, &ParticipantsPane::memberPermissionsChanged, this, &SharedNote::playerPermissionsChanged);
-    connect(pane, &ParticipantsPane::closeMediaToPlayer, this, &SharedNote::closeEditorFor);
     connect(m_document, &Document::contentChanged, this, [this]() { setWindowModified(true); });
 
     findDialog= new FindDialog(this);
@@ -68,7 +67,20 @@ SharedNote::SharedNote(SharedNoteController* ctrl, QWidget* parent)
 
     connect(m_document, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(m_document, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
-    connect(ui->m_highlightMarkdownAction, SIGNAL(triggered(bool)), this, SLOT(setMarkdownAsHighlight()));
+    connect(m_sharedCtrl, &SharedNoteController::participantPanelVisibleChanged, pane, &ParticipantsPane::setVisible);
+    connect(ui->m_highlightMarkdownAction, &QAction::triggered, this, [this](bool b) {
+        m_sharedCtrl->setHighligthedSyntax(b ? SharedNoteController::HighlightedSyntax::MarkDown :
+                                               SharedNoteController::HighlightedSyntax::None);
+    });
+
+    connect(ui->m_showParticipants, &QAction::triggered, m_sharedCtrl,
+            &SharedNoteController::setParticipantPanelVisible);
+    connect(ui->m_markdownPreview, &QAction::triggered, m_sharedCtrl, &SharedNoteController::setMarkdownVisible);
+    connect(m_sharedCtrl, &SharedNoteController::participantPanelVisibleChanged, ui->m_showParticipants,
+            &QAction::setChecked);
+
+    ui->m_showParticipants->setChecked(m_sharedCtrl->participantPanelVisible());
+    pane->setVisible(m_sharedCtrl->participantPanelVisible());
 
     readSettings();
 
@@ -110,18 +122,17 @@ void SharedNote::closeEvent(QCloseEvent*)
 }
 void SharedNote::populateDocumentForUser(QString id)
 {
-    NetworkMessageWriter msg(NetMsg::SharedNoteCategory, NetMsg::updateTextAndPermission, NetworkMessage::OneOrMany);
+    /*NetworkMessageWriter msg(NetMsg::SharedNoteCategory, NetMsg::updateTextAndPermission, NetworkMessage::OneOrMany);
     QStringList ids;
     ids << id;
     msg.setRecipientList(ids, NetworkMessage::OneOrMany);
     msg.string8(m_id);
     m_document->fill(&msg);
-    msg.sendToServer();
+    msg.sendToServer();*/
 }
 
 void SharedNote::setOwnerId(const QString& id)
 {
-    m_document->setOwnerId(id);
     updateWindowTitle();
 }
 bool SharedNote::eventFilter(QObject*, QEvent* event)
@@ -137,16 +148,6 @@ bool SharedNote::eventFilter(QObject*, QEvent* event)
         return true;
     }
     return false;
-}
-
-void SharedNote::closeEditorFor(QString idplayer)
-{
-    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::CloseMedia);
-    QStringList list;
-    list << idplayer;
-    msg.setRecipientList(list, NetworkMessage::OneOrMany);
-    msg.string8(m_id);
-    msg.sendToServer();
 }
 
 bool SharedNote::saveFile(QDataStream& out)
@@ -258,83 +259,51 @@ void SharedNote::on_actionView_Line_Wrap_triggered()
     m_document->toggleLineWrap();
 }
 
-void SharedNote::on_actionView_Hide_Show_Participants_triggered()
-{
-    m_document->setParticipantsHidden(!m_document->isParticipantsHidden());
-}
 //#include "userlist/playersList.h"
 void SharedNote::textHasChanged(int pos, int charsRemoved, int charsAdded)
 {
-    /*PlayerModel* list= PlayerModel::instance();
-    Player* player= list->getLocalPlayer();
-    if(m_document->canWrite(player))
-    {
-        QString toSend;
-        QString data;
-
-        if(charsRemoved > 0 && charsAdded == 0)
-        {
-            data= "";
-        }
-        else if(charsAdded > 0)
-        {
-            QTextCursor cursor= QTextCursor(m_document->getDocument());
-            cursor.setPosition(pos, QTextCursor::MoveAnchor);
-            cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, charsAdded);
-            data= cursor.selection().toPlainText();
-        }
-
-        toSend= QString("doc:%1 %2 %3 %4").arg(pos).arg(charsRemoved).arg(charsAdded).arg(data);
-
-        writeToAll(toSend);
-    }*/
-}
-void SharedNote::writeToAll(QString string)
-{
-    if(m_networkEditing)
+    if(!m_sharedCtrl->localCanWrite())
         return;
 
-    if(!string.isEmpty())
+    QString toSend;
+    QString data;
+
+    if(charsRemoved > 0 && charsAdded == 0)
     {
-        NetworkMessageWriter msg(NetMsg::SharedNoteCategory, NetMsg::updateText);
-        msg.string8(m_id);
-        msg.string32(string);
-        msg.sendToServer();
+        data= "";
     }
-}
-void SharedNote::runUpdateCmd(QString cmd)
-{
-    m_networkEditing= true;
-    m_document->runUpdateCmd(cmd);
-    m_networkEditing= false;
+    else if(charsAdded > 0)
+    {
+        QTextCursor cursor= QTextCursor(m_document->getDocument());
+        cursor.setPosition(pos, QTextCursor::MoveAnchor);
+        cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, charsAdded);
+        data= cursor.selection().toPlainText();
+    }
+
+    toSend= QString("doc:%1 %2 %3 %4").arg(pos).arg(charsRemoved).arg(charsAdded).arg(data);
+
+    m_sharedCtrl->setTextUpdate(toSend);
 }
 
 void SharedNote::displaySharingPanel()
 {
     m_document->displayParticipantPanel();
 }
-void SharedNote::readFromMsg(NetworkMessageReader* msg)
-{
-    if(nullptr != m_document)
-    {
-        m_document->readFromMsg(msg);
-        updateWindowTitle();
-    }
-}
+
 void SharedNote::on_actionTools_Preview_as_Html_triggered()
 {
-    if(nullptr != m_document)
-    {
-        m_document->previewAsHtml();
-    }
+    if(nullptr == m_document)
+        return;
+
+    m_document->renderMarkdown();
 }
 
 void SharedNote::updateDocumentToAll(NetworkMessageWriter* msg)
 {
-    if(nullptr != m_document)
-    {
-        m_document->fill(msg);
-    }
+    /* if(nullptr != m_document)
+     {
+         m_document->fill(msg);
+     }*/
 }
 
 void SharedNote::on_actionText_Shift_Left_triggered()
@@ -422,11 +391,11 @@ void SharedNote::findReplaceTriggered(QString find, QString replace, Qt::CaseSen
 void SharedNote::playerPermissionsChanged(QString id, int perm)
 {
     // QString toSend = QString("updateperm:%1").arg(permissions);
-    NetworkMessageWriter msg(NetMsg::SharedNoteCategory, NetMsg::updatePermissionOneUser);
+    /*NetworkMessageWriter msg(NetMsg::SharedNoteCategory, NetMsg::updatePermissionOneUser);
     msg.string8(m_id); // MediaId
     msg.string8(id);   // playerId
     msg.int8(perm);    // Permission
-    msg.sendToServer();
+    msg.sendToServer();*/
 }
 
 void SharedNote::setEditorFont(QFont font)
@@ -447,13 +416,6 @@ QString SharedNote::id() const
 void SharedNote::setId(const QString& id)
 {
     m_id= id;
-}
-
-void SharedNote::setMarkdownAsHighlight()
-{
-    QAction* act= qobject_cast<QAction*>(sender());
-
-    m_sharedCtrl->setHighligthedSyntax(static_cast<SharedNoteController::HighlightedSyntax>(act->data().toInt()));
 }
 
 void SharedNote::updateWindowTitle()

@@ -64,17 +64,12 @@ public:
     QString id() const;
     void setId(const QString& id);
 
-    void readFromMsg(NetworkMessageReader* msg);
-    void runUpdateCmd(QString cmd);
-
 public slots:
     void updateDocumentToAll(NetworkMessageWriter* msg);
     void textHasChanged(int pos, int charsRemoved, int charsAdded);
 
     void playerPermissionsChanged(QString, int);
-    void writeToAll(QString string);
     void populateDocumentForUser(QString id);
-    void closeEditorFor(QString idplayer);
 
 protected:
     void closeEvent(QCloseEvent* event);
@@ -95,7 +90,6 @@ private slots:
     void on_actionEdit_Find_triggered();
 
     void on_actionView_Line_Wrap_triggered();
-    void on_actionView_Hide_Show_Participants_triggered();
     void on_actionTools_Preview_as_Html_triggered();
     void on_actionText_Shift_Left_triggered();
     void on_actionText_Shift_Right_triggered();
@@ -116,8 +110,6 @@ private slots:
 
     void setEditorFont(QFont font);
     void setParticipantsFont(QFont font);
-
-    void setMarkdownAsHighlight();
 
 private:
     QPointer<SharedNoteController> m_sharedCtrl;

@@ -29,6 +29,7 @@
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/pdfcontroller.h"
+#include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
 
@@ -352,12 +353,44 @@ void MessageHelper::readUpdateField(CharacterSheetController* ctrl, NetworkMessa
     ctrl->updateFieldFrom(sheetId, obj, data);
 }
 
-void MessageHelper::shareNotesTo(const SharedNoteController* ctrl, const QStringList& recipiants) {}
+void MessageHelper::shareNotesTo(const SharedNoteController* ctrl, const QStringList& recipiants)
+{
+    if(nullptr == ctrl)
+        return;
+
+    auto uri= ctrl->uri();
+    if(nullptr == uri)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
+    msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
+    msg.uint8(static_cast<quint8>(uri->getType()));
+    msg.string8(ctrl->uuid());
+    msg.uint8(static_cast<bool>(ctrl->highligthedSyntax() == SharedNoteController::HighlightedSyntax::MarkDown));
+    msg.string8(ctrl->ownerId());
+    msg.string32(ctrl->text());
+    msg.sendToServer();
+}
+
+void MessageHelper::closeNoteTo(SharedNoteController* sharedCtrl, const QString& id)
+{
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::CloseMedia);
+    msg.setRecipientList({id}, NetworkMessage::OneOrMany);
+    msg.string8(sharedCtrl->uuid());
+    msg.sendToServer();
+}
 
 QHash<QString, QVariant> MessageHelper::readSharedNoteData(NetworkMessageReader* msg)
 {
     if(nullptr == msg)
         return {};
+
+    auto id= msg->string8();
+    auto mkH= static_cast<bool>(msg->uint8());
+    auto ownerId= msg->string8();
+    auto text= msg->string32();
+
+    return QHash<QString, QVariant>({{"id", id}, {"markdown", mkH}, {"ownerId", ownerId}, {"text", text}});
 }
 
 void MessageHelper::shareWebpage(WebpageController* ctrl)

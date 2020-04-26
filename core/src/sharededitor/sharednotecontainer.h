@@ -40,14 +40,9 @@ public:
     virtual void putDataIntoCleverUri();
     void setOwnerId(const QString& id);
     void updateNoteToAll();
-    void readMessage(NetworkMessageReader& msg);
-    virtual void setMediaId(QString);
 
 protected slots:
     virtual void updateTitle();
-
-public slots:
-    void runUpdateCmd(QString msg);
 
 private:
     QPointer<SharedNoteController> m_sharedCtrl;

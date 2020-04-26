@@ -3,10 +3,11 @@
 #include <QTextCursor>
 
 #include "codeeditor.h"
+#include "controller/view_controller/sharednotecontroller.h"
 #include "enu.h"
 #include "utilities.h"
 
-CodeEditor::CodeEditor(QWidget* parent) : QPlainTextEdit(parent)
+CodeEditor::CodeEditor(SharedNoteController* ctrl, QWidget* parent) : QPlainTextEdit(parent), m_sharedCtrl(ctrl)
 {
     lineNumberArea= new LineNumberArea(this);
     QPalette palette(Qt::white);
@@ -15,7 +16,8 @@ CodeEditor::CodeEditor(QWidget* parent) : QPlainTextEdit(parent)
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this, SIGNAL(updateRequest(QRect, int)), this, SLOT(updateLineNumberArea(QRect, int)));
     connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
-
+    connect(this, &CodeEditor::textChanged, this, [this]() { m_sharedCtrl->setText(toPlainText()); });
+    connect(m_sharedCtrl, &SharedNoteController::collabTextChanged, this, &CodeEditor::collabTextChange);
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
 
@@ -39,6 +41,7 @@ int CodeEditor::lineNumberAreaWidth()
 
 void CodeEditor::collabTextChange(int pos, int charsRemoved, int charsAdded, QString data)
 {
+    document()->blockSignals(true);
     if(charsRemoved > 0 && charsAdded == 0)
     {
         QTextCursor cursor= textCursor();
@@ -59,6 +62,7 @@ void CodeEditor::collabTextChange(int pos, int charsRemoved, int charsAdded, QSt
         cursor.setPosition(pos);
         cursor.insertText(data);
     }
+    document()->blockSignals(false);
 }
 
 void CodeEditor::unCommentSelection()

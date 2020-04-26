@@ -43,10 +43,10 @@ void NoteContainer::setFileName(QString str)
 
 void NoteContainer::updateTitle()
 {
-    QString showName= getUriName();
+    /*QString showName= getUriName();
     if(showName.isEmpty())
         showName= "untitled.txt";
-    setWindowTitle(tr("%1[*] - (Notes)").arg(showName));
+    setWindowTitle(tr("%1[*] - (Notes)").arg(showName));*/
 }
 
 bool NoteContainer::readFileFromUri()

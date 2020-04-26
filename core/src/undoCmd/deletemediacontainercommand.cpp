@@ -34,7 +34,8 @@ DeleteMediaContainerCommand::DeleteMediaContainerCommand(MediaContainer* media,
     , m_hash(hash)
     , m_gm(isGM)
 {
-    setText(QObject::tr("Close %1").arg(m_media->getUriName()));
+    // TODO fix that - give controller
+    // setText(QObject::tr("Close %1").arg(m_media->getUriName()));
 }
 
 DeleteMediaContainerCommand::~DeleteMediaContainerCommand()
@@ -56,11 +57,11 @@ void DeleteMediaContainerCommand::redo()
         }
         m_mdiArea->removeMediaContainer(m_media);
         // m_manager->resourceClosed(m_media->getCleverUri());
-        m_hash.remove(m_media->getMediaId());
+        m_hash.remove(m_media->mediaId());
         if(m_gm)
         {
             NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::CloseMedia);
-            msg.string8(m_media->getMediaId());
+            msg.string8(m_media->mediaId());
             msg.sendToServer();
         }
     }
@@ -80,7 +81,7 @@ void DeleteMediaContainerCommand::undo()
         QAction* action= m_media->getAction();
         if(action == nullptr)
         {
-            action= m_menu->addAction(m_media->getUriName());
+            // action= m_menu->addAction(m_media->getUriName());
             action->setCheckable(true);
             action->setChecked(true);
             m_media->setAction(action);
@@ -89,7 +90,7 @@ void DeleteMediaContainerCommand::undo()
         m_mdiArea->addContainerMedia(m_media);
         m_media->setVisible(true);
         m_media->setFocus();
-        m_hash.insert(m_media->getMediaId(), m_media);
+        m_hash.insert(m_media->mediaId(), m_media);
         /*if(sendAtOpening())
         {
             NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);

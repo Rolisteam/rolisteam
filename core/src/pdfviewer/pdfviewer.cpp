@@ -180,7 +180,7 @@ void PdfViewer::sharePdfTo()
 
 void PdfViewer::updateTitle()
 {
-    setWindowTitle(tr("%1 - (PDF)").arg(getUriName()));
+    setWindowTitle(tr("%1 - (PDF)").arg(m_pdfCtrl->name()));
 }
 
 void PdfViewer::showOverLay()
@@ -234,16 +234,16 @@ void PdfViewer::fill(NetworkMessageWriter& message)
 
 void PdfViewer::readMessage(NetworkMessageReader& msg)
 {
-    setUriName(msg.string16());
+    // setUriName(msg.string16());
 
-    m_mediaId= msg.string8();
-    QByteArray data= msg.byteArray32();
+    // m_mediaId= msg.string8();
+    // QByteArray data= msg.byteArray32();
     // QTemporaryFile file;
     // file.setAutoRemove(false);
     // file.open();
     // file.write(data);
-    m_pdfWidget->loadData(data);
-    m_remote= true;
+    // m_pdfWidget->loadData(data);
+    /// m_remote= true;
 }
 
 void PdfViewer::savePdfToFile(QDataStream& out)

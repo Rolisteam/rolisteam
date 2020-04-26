@@ -24,32 +24,29 @@
 #include <QTreeWidgetItem>
 #include <QWidget>
 
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
+//#include "network/networkmessagereader.h"
+//#include "network/networkmessagewriter.h"
 #include "participantmodel.h"
-#include "userlist/playermodel.h"
 
 namespace Ui
 {
 class ParticipantsPane;
 }
-class ParticipantsModel;
+
+class SharedNoteController;
 class ParticipantsPane : public QWidget
 {
     Q_OBJECT
 public:
-    ParticipantsPane(PlayerModel* playerModel, QWidget* parent= nullptr);
+    ParticipantsPane(SharedNoteController* ctrl, QWidget* parent= nullptr);
     virtual ~ParticipantsPane();
 
     bool canWrite(Player* idPlayer);
     bool canRead(Player* idPlayer);
-    void setFont(QFont font);
-    bool isOwner() const;
 
-    void fill(NetworkMessageWriter* msg);
-    void readFromMsg(NetworkMessageReader* msg);
-    void setOwnerId(const QString& id);
-    void readPermissionChanged(NetworkMessageReader* msg);
+    // void fill(NetworkMessageWriter* msg);
+    // void readFromMsg(NetworkMessageReader* msg);
+    // void readPermissionChanged(NetworkMessageReader* msg);
 
 signals:
     void memberCanNowRead(QString name);
@@ -64,7 +61,7 @@ private slots:
 
 private:
     Ui::ParticipantsPane* ui;
-    std::unique_ptr<ParticipantModel> m_model;
+    QPointer<SharedNoteController> m_sharedCtrl;
 };
 
 #endif // PARTICIPANTSPANE_H

@@ -40,7 +40,6 @@ class MediaContainer : public QMdiSubWindow, public CleverURIListener
 {
     Q_OBJECT
     Q_PROPERTY(QString ownerId READ ownerId WRITE setOwnerId NOTIFY ownerIdChanged)
-    Q_PROPERTY(QString uriName READ getUriName WRITE setUriName NOTIFY uriNameChanged)
 
 public:
     enum class ContainerType : int
@@ -127,22 +126,6 @@ public:
      * @todo gathering this function and currentToolChanged should be a better choice.
      */
     virtual void currentCursorChanged(QCursor*);
-    /**
-     * @brief is called when the user has changed the selected color.
-     * @param the new color.
-     */
-    virtual void currentColorChanged(QColor&);
-
-    /**
-     * @brief getMediaId
-     * @return the media id
-     */
-    virtual QString getMediaId() const;
-    virtual QString getUriName() const;
-    /**
-     * @brief setMediaId
-     */
-    virtual void setMediaId(QString);
 
     virtual void cleverURIHasChanged(CleverURI*, CleverURI::DataValue field) override;
 
@@ -154,14 +137,13 @@ public:
     bool isRemote() const;
     void setRemote(bool remote);
 
-    bool getLocalIsGM() const;
-    void setLocalIsGM(bool localIsGM);
-
     QString ownerId() const;
     void setOwnerId(const QString& ownerId);
 
     void setContainerType(const ContainerType& containerType);
     MediaContainer::ContainerType getContainerType() const;
+
+    QString mediaId() const;
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -181,7 +163,6 @@ public slots:
     void setVisible(bool b) override;
 
     void detachView(bool b);
-    virtual void setUriName(const QString& name);
 
 protected slots:
     virtual void updateTitle()= 0;
@@ -191,25 +172,13 @@ protected:
     QString m_filter;
     PreferencesManager* m_preferences;
     QAction* m_action= nullptr;
-    QString m_name;
     QCursor* m_currentCursor= nullptr;
     /**
      * @brief the current tool, it is an enum item.
      */
     Core::SelectableTool m_currentTool;
-    /**
-     * @brief the current color of the pen.
-     */
-    QColor m_penColor;
-    /**
-     * @brief m_mediaId stores the unique id to identify this media. Helpful with network message.
-     * see getMediaId and setMediaId
-     */
-    QString m_mediaId;
     QAction* m_detachedDialog;
     bool m_remote= false;
-    bool m_localIsGM= false;
-    QString m_ownerId;
     ContainerType m_containerType;
 };
 
