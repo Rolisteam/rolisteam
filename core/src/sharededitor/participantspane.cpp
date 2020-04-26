@@ -24,12 +24,12 @@
 #include <QTime>
 #include <QTreeWidgetItem>
 
+#include "controller/view_controller/sharednotecontroller.h"
 #include "participantspane.h"
 #include "ui_participantspane.h"
 
 #include "data/player.h"
 #include "enu.h"
-#include "model/participantsmodel.h"
 #include "model/playerproxymodel.h"
 #include "utilities.h"
 
@@ -38,18 +38,18 @@
 /// \param parent
 ////////////////////////////////////////////////
 
-ParticipantsPane::ParticipantsPane(PlayerModel* playerModel, QWidget* parent)
-    : QWidget(parent), ui(new Ui::ParticipantsPane), m_model(new ParticipantModel(playerModel))
+ParticipantsPane::ParticipantsPane(SharedNoteController* ctrl, QWidget* parent)
+    : QWidget(parent), ui(new Ui::ParticipantsPane), m_sharedCtrl(ctrl)
 {
     ui->setupUi(this);
 
     ui->m_downToolBtn->setDefaultAction(ui->m_demoteAction);
     ui->m_upToolBtn->setDefaultAction(ui->m_promoteAction);
 
-    connect(ui->m_promoteAction, SIGNAL(triggered(bool)), this, SLOT(promoteCurrentItem()));
-    connect(ui->m_demoteAction, SIGNAL(triggered(bool)), this, SLOT(demoteCurrentItem()));
+    connect(ui->m_promoteAction, &QAction::triggered, this, &ParticipantsPane::promoteCurrentItem);
+    connect(ui->m_demoteAction, &QAction::triggered, this, &ParticipantsPane::demoteCurrentItem);
 
-    ui->m_treeview->setModel(m_model.get());
+    ui->m_treeview->setModel(m_sharedCtrl->participantModel());
 
     ui->connectInfoLabel->hide();
     ui->m_treeview->resizeColumnToContents(0);
@@ -71,29 +71,9 @@ void ParticipantsPane::promoteCurrentItem()
     if(!current.isValid() || !current.parent().isValid())
         return;
 
-    m_model->promotePlayer(current);
-    //    emit memberCanNowRead(player->uuid());
+    m_sharedCtrl->promoteCurrentItem(current);
+}
 
-    /*if(current.parent().isValid())
-    {
-        Player* player= static_cast<Player*>(current.internalPointer());
-        if(i >= 0)
-        {
-            emit memberPermissionsChanged(player->uuid(), i);
-            if(i == ParticipantModel::readOnly)
-            {
-            }
-        }
-    }*/
-}
-bool ParticipantsPane::isOwner() const
-{
-    /* if(nullptr != m_model)
-     {
-         return m_playerList->isLocal(m_model->getOwner());
-     }*/
-    return true;
-}
 void ParticipantsPane::demoteCurrentItem()
 {
     QModelIndex current= ui->m_treeview->currentIndex();
@@ -101,35 +81,10 @@ void ParticipantsPane::demoteCurrentItem()
     if(!current.isValid() || !current.parent().isValid())
         return;
 
-    m_model->demotePlayer(current);
-
-    /*    if(i >= 0)
-        {
-            emit memberPermissionsChanged(player->uuid(), i);
-            if(i == ParticipantModel::hidden)
-            {
-                emit closeMediaToPlayer(player->uuid());
-            }
-        }*/
+    m_sharedCtrl->demoteCurrentItem(current);
 }
 
-bool ParticipantsPane::canWrite(Player* player)
-{
-    if(player == nullptr)
-        return false;
-    return true; //(m_model->getPermissionFor(player->uuid()) == ParticipantModel::readWrite);
-}
-
-bool ParticipantsPane::canRead(Player* player)
-{
-    if(player == nullptr)
-        return false;
-    // bool readWrite= (m_model->getPermissionFor(player->uuid()) == ParticipantModel::readWrite);
-    // bool read= (m_model->getPermissionFor(player->uuid()) == ParticipantModel::readOnly);
-    return true; // read | readWrite;
-}
-
-void ParticipantsPane::fill(NetworkMessageWriter* msg)
+/*void ParticipantsPane::fill(NetworkMessageWriter* msg)
 {
     QJsonDocument doc;
     QJsonObject root;
@@ -152,29 +107,9 @@ void ParticipantsPane::readPermissionChanged(NetworkMessageReader* msg)
 {
     QString playerId= msg->string8();
     int perm= msg->int8();
-    /* m_model->setPlayerPermission(playerId, static_cast<ParticipantModel::Permission>(perm));
+    / * m_model->setPlayerPermission(playerId, static_cast<ParticipantModel::Permission>(perm));
      if(playerId == m_model->getOwner())
      {
          emit localPlayerPermissionChanged(m_model->getPermissionFor(playerId));
-     }*/
-}
-
-void ParticipantsPane::setFont(QFont font)
-{
-    // I'm not sure we want to set all these things to this font.
-    ui->connectInfoLabel->setFont(font);
-}
-
-void ParticipantsPane::setOwnerId(const QString& id)
-{
-    /* if(nullptr == m_playerList)
-         return;
-     // auto owner= m_playerList->getPlayer(id);*/
-
-    m_model->setOwner(id);
-    /* if(owner == m_playerList->getLocalPlayer())
-     {
-         emit localPlayerIsOwner(true);
-         emit localPlayerPermissionChanged(ParticipantsModel::readWrite);
-     }*/
-}
+     }* /
+}*/

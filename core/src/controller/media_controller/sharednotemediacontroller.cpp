@@ -19,21 +19,28 @@
  ***************************************************************************/
 #include "sharednotemediacontroller.h"
 
-#include "controller/view_controller/sharednotecontroller.h"
-#include "userlist/playermodel.h"
+#include <QSet>
+#include <utility>
 
+#include "controller/view_controller/sharednotecontroller.h"
+#include "updater/sharednotecontrollerupdater.h"
+#include "userlist/playermodel.h"
 #include "worker/messagehelper.h"
 
 SharedNoteMediaController::SharedNoteMediaController(PlayerModel* model, QObject* parent)
-    : MediaControllerInterface(parent), m_playerModel(model)
+    : MediaControllerInterface(parent), m_updater(new SharedNoteControllerUpdater), m_playerModel(model)
 {
+    connect(this, &SharedNoteMediaController::localIdChanged, this, [this](const QString& id) {
+        std::for_each(m_sharedNotes.begin(), m_sharedNotes.end(),
+                      [id](const std::unique_ptr<SharedNoteController>& ctrl) { ctrl->setOwnerId(id); });
+    });
 }
 
 SharedNoteMediaController::~SharedNoteMediaController()= default;
 
 CleverURI::ContentType SharedNoteMediaController::type() const
 {
-    return CleverURI::WEBVIEW;
+    return CleverURI::SHAREDNOTE;
 }
 
 bool SharedNoteMediaController::openMedia(CleverURI* uri, const std::map<QString, QVariant>& args)
@@ -41,11 +48,50 @@ bool SharedNoteMediaController::openMedia(CleverURI* uri, const std::map<QString
     if(uri == nullptr || (args.empty() && uri->getUri().isEmpty()))
         return false;
 
-    std::unique_ptr<SharedNoteController> webCtrl(new SharedNoteController(m_playerModel, uri));
+    std::unique_ptr<SharedNoteController> notesCtrl(new SharedNoteController(m_playerModel, uri));
+    // not remote
+    notesCtrl->setLocalGM(localIsGM());
+    notesCtrl->setLocalId(localId());
+    notesCtrl->setOwnerId(localId());
 
-    emit sharedNoteControllerCreated(webCtrl.get());
-    m_sharedNotes.push_back(std::move(webCtrl));
+    m_updater->addSharedNoteController(notesCtrl.get());
+    emit sharedNoteControllerCreated(notesCtrl.get());
+    m_sharedNotes.push_back(std::move(notesCtrl));
     return true;
+}
+
+void SharedNoteMediaController::addSharedNotes(CleverURI* uri, const QHash<QString, QVariant>& params)
+{
+    if(uri == nullptr)
+        return;
+
+    std::unique_ptr<SharedNoteController> notesCtrl(new SharedNoteController(m_playerModel, uri));
+    if(params.contains(QStringLiteral("id")))
+    {
+        notesCtrl->setUuid(params.value(QStringLiteral("id")).toString());
+    }
+    if(params.contains(QStringLiteral("markdown")))
+    {
+        auto b= params.value(QStringLiteral("markdown")).toBool();
+        notesCtrl->setHighligthedSyntax(b ? SharedNoteController::HighlightedSyntax::MarkDown :
+                                            SharedNoteController::HighlightedSyntax::None);
+    }
+    if(params.contains(QStringLiteral("ownerId")))
+    {
+        notesCtrl->setOwnerId(params.value(QStringLiteral("text")).toString());
+    }
+    if(params.contains(QStringLiteral("text")))
+    {
+        notesCtrl->setText(params.value(QStringLiteral("text")).toString());
+    }
+
+    notesCtrl->setLocalGM(localIsGM());
+    notesCtrl->setLocalId(localId());
+
+    m_updater->addSharedNoteController(notesCtrl.get());
+
+    emit sharedNoteControllerCreated(notesCtrl.get());
+    m_sharedNotes.push_back(std::move(notesCtrl));
 }
 
 void SharedNoteMediaController::closeMedia(const QString& id)
@@ -70,6 +116,7 @@ NetWorkReceiver::SendType SharedNoteMediaController::processMessage(NetworkMessa
     if(msg->action() == NetMsg::AddMedia && msg->category() == NetMsg::MediaCategory)
     {
         auto hash= MessageHelper::readSharedNoteData(msg);
+        addSharedNotes(new CleverURI(CleverURI::SHAREDNOTE), hash);
     }
     return type;
 }

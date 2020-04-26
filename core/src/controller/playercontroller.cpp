@@ -50,6 +50,7 @@ PlayerController::PlayerController(QObject* parent)
 
     m_characterModel->setSourceModel(m_model.get());
     connect(m_model.get(), &PlayerModel::gameMasterIdChanged, this, &PlayerController::gameMasterIdChanged);
+    connect(m_localPlayer, &Player::uuidChanged, this, &PlayerController::localPlayerIdChanged);
 }
 
 PlayerController::~PlayerController()= default;
@@ -57,8 +58,6 @@ PlayerController::~PlayerController()= default;
 void PlayerController::clear()
 {
     m_model->clear();
-    if(m_localPlayer.isNull())
-        m_localPlayer= new Player();
 }
 
 QString PlayerController::gameMasterId() const
@@ -95,11 +94,9 @@ NetWorkReceiver::SendType PlayerController::processMessage(NetworkMessageReader*
 
 void PlayerController::setGameController(GameController* gameCtrl)
 {
-    qDebug() << "setGameController #############";
     auto prefsCtrl= gameCtrl->preferencesController();
 
     connect(gameCtrl, &GameController::connectedChanged, this, [this](bool b) {
-        qDebug() << "setGameController connectedChanged" << b;
         if(b)
             PlayerMessageHelper::sendOffPlayerInformations(localPlayer());
         else
@@ -130,18 +127,9 @@ CharacterModel* PlayerController::characterModel() const
     return m_characterModel.get();
 }
 
-void PlayerController::setLocalPlayer(Player* player)
-{
-    if(m_localPlayer == player)
-        return;
-    removePlayer(m_localPlayer);
-    m_localPlayer= player;
-    emit localPlayerChanged();
-    emit localPlayerIdChanged(m_localPlayer->uuid());
-}
-
 void PlayerController::addPlayer(Player* player)
 {
+    qDebug() << "add player to model:" << player->uuid();
     m_model->addPlayer(player);
 }
 

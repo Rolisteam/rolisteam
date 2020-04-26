@@ -27,6 +27,7 @@
 #include "mediacontrollerinterface.h"
 
 class SharedNoteController;
+class SharedNoteControllerUpdater;
 class PlayerModel;
 class SharedNoteMediaController : public MediaControllerInterface
 {
@@ -42,11 +43,13 @@ public:
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
     void setUndoStack(QUndoStack* stack) override;
 
+    void addSharedNotes(CleverURI* uri, const QHash<QString, QVariant>& params);
 signals:
     void sharedNoteControllerCreated(SharedNoteController* crtl);
 
 private:
     std::vector<std::unique_ptr<SharedNoteController>> m_sharedNotes;
+    std::unique_ptr<SharedNoteControllerUpdater> m_updater;
     QPointer<PlayerModel> m_playerModel;
 };
 

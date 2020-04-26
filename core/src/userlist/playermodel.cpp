@@ -821,16 +821,16 @@ void PlayerModel::removePlayer(Player* player)
 
     auto index= static_cast<int>(std::distance(m_players.begin(), itPlayer));
 
-    beginRemoveRows(QModelIndex(), index, index);
-    m_players.erase(itPlayer);
-    endRemoveRows();
+    emit playerLeft(player);
 
     if(player->isGM())
     {
         setGameMasterId("");
     }
 
-    emit playerLeft(player);
+    beginRemoveRows(QModelIndex(), index, index);
+    m_players.erase(itPlayer);
+    endRemoveRows();
 }
 
 void PlayerModel::setGameMasterId(const QString& id)

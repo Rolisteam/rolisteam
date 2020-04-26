@@ -42,7 +42,7 @@ class PlayerController : public AbstractControllerInterface, public NetWorkRecei
     Q_PROPERTY(PlayerModel* model READ model CONSTANT)
     Q_PROPERTY(QAbstractItemModel* characterStateModel READ characterStateModel NOTIFY characterStateModelChanged)
     Q_PROPERTY(CharacterModel* characterModel READ characterModel CONSTANT)
-    Q_PROPERTY(Player* localPlayer READ localPlayer WRITE setLocalPlayer NOTIFY localPlayerChanged)
+    Q_PROPERTY(Player* localPlayer READ localPlayer CONSTANT)
     Q_PROPERTY(QString gameMasterId READ gameMasterId NOTIFY gameMasterIdChanged)
     Q_PROPERTY(QString localPlayerId READ localPlayerId NOTIFY localPlayerIdChanged)
 
@@ -71,11 +71,8 @@ signals:
     void localPlayerIdChanged(const QString& id);
 
 public slots:
-    void setLocalPlayer(Player* player);
-
     void addPlayer(Player* player);
     void removePlayer(Player* player);
-
     void addLocalCharacter();
     void removeLocalCharacter(const QModelIndex& index);
 

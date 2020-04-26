@@ -41,6 +41,7 @@ class Person : public QObject, public ResourcesNode
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QString uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
     Q_PROPERTY(QColor color READ getColor WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(QImage avatar READ getAvatar WRITE setAvatar NOTIFY avatarChanged)
     Q_PROPERTY(QString avatarPath READ avatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
@@ -124,12 +125,14 @@ public slots:
     virtual void setAvatar(const QImage& p);
     void setAvatarPath(const QString& avatarPath);
     virtual void setName(const QString& name) override;
+    virtual void setUuid(const QString& uuid) override;
 
 signals:
     void nameChanged();
     void colorChanged();
     void avatarChanged();
     void avatarPathChanged();
+    void uuidChanged(QString id);
 
 protected:
     QColor m_color;

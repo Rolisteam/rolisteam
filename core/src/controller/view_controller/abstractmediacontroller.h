@@ -35,6 +35,7 @@ class AbstractMediaContainerController : public QObject
     Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
     Q_PROPERTY(bool localGM READ localGM WRITE setLocalGM NOTIFY localGMChanged)
     Q_PROPERTY(QString ownerId READ ownerId WRITE setOwnerId NOTIFY ownerIdChanged)
+    Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
 public:
     AbstractMediaContainerController(CleverURI* uri, QObject* parent= nullptr);
     virtual ~AbstractMediaContainerController() override;
@@ -47,6 +48,9 @@ public:
     bool localGM() const;
 
     QString ownerId() const;
+    QString localId() const;
+
+    bool localIsOwner() const;
 
     virtual void saveData() const= 0;
     virtual void loadData() const= 0;
@@ -61,6 +65,7 @@ signals:
     void localGMChanged();
     void performCommand(QUndoCommand* cmd);
     void ownerIdChanged(QString id);
+    void localIdChanged(QString id);
 
 public slots:
     void setUri(CleverURI* uri);
@@ -70,6 +75,7 @@ public slots:
     void setLocalGM(bool b);
     void setUuid(const QString& uuid);
     void setOwnerId(const QString& id);
+    void setLocalId(const QString& id);
 
 protected:
     QString m_name;
@@ -77,6 +83,7 @@ protected:
     bool m_active= false;
     bool m_localGM= false;
     QString m_ownerId;
+    QString m_localId;
 };
 
 #endif // ABSTRACTMEDIACONTROLLER_H

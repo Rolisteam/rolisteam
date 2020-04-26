@@ -21,13 +21,9 @@
 #include <QDebug>
 #include <QDialog>
 #include <QFontMetrics>
-#include <QRegExp>
-#ifdef HAVE_WEBVIEW
-#include <QWebEngineView>
-#endif
-#include <QDebug>
 #include <QLayout>
 #include <QMessageBox>
+#include <QRegExp>
 #include <QTextDocumentFragment>
 
 #include "controller/view_controller/sharednotecontroller.h"
@@ -44,31 +40,30 @@ Document::Document(SharedNoteController* ctrl, QWidget* parent)
 
     // Set up the editor
     delete ui->editorFrame;
-    m_editor= new CodeEditor(this);
+    m_editor= new CodeEditor(m_shareCtrl, this);
+
+    m_previewMarkdown= new QTextEdit();
+    m_previewMarkdown->setReadOnly(true);
     QFontMetricsF fm(m_editor->font());
     m_editor->setTabStopDistance(fm.averageCharWidth() * 4.);
     ui->editorSplitter->insertWidget(0, m_editor);
 
-    m_participantPane.reset(new ParticipantsPane(m_shareCtrl->playerModel()));
-    ui->participantSplitter->insertWidget(1, m_participantPane.get());
+    m_previewMarkdown->setVisible(m_shareCtrl->markdownVisible());
 
-    setParticipantsHidden(true);
-    m_editor->setReadOnly(true);
+    m_participantPane.reset(new ParticipantsPane(m_shareCtrl));
+    ui->participantSplitter->insertWidget(1, m_previewMarkdown);
+    ui->participantSplitter->insertWidget(2, m_participantPane.get());
+
+    m_editor->setReadOnly(!m_shareCtrl->localIsOwner());
 
     connect(m_participantPane.get(), &ParticipantsPane::localPlayerIsOwner, this,
             [this](bool isOwner) { setParticipantsHidden(!isOwner); });
 
     connect(m_participantPane.get(), &ParticipantsPane::localPlayerPermissionChanged, this,
-            [this](ParticipantModel::Permission perm) {
-                if(ParticipantModel::readOnly == perm)
-                {
-                    m_editor->setReadOnly(true);
-                }
-                else if(ParticipantModel::readWrite == perm)
-                {
-                    m_editor->setReadOnly(false);
-                }
-            });
+            [this](ParticipantModel::Permission perm) { m_editor->setReadOnly(ParticipantModel::readOnly == perm); });
+
+    connect(m_shareCtrl, &SharedNoteController::markdownVisibleChanged, m_previewMarkdown, &QTextEdit::setVisible);
+    connect(m_shareCtrl, &SharedNoteController::textChanged, m_previewMarkdown, &QTextEdit::setMarkdown);
 
     connect(m_editor, &CodeEditor::textChanged, this, &Document::contentChanged);
 
@@ -89,13 +84,14 @@ Document::Document(SharedNoteController* ctrl, QWidget* parent)
     connect(m_shareCtrl, &SharedNoteController::highligthedSyntaxChanged, this, &Document::updateHighlighter);
 
     QList<int> sizeList;
-    sizeList << 9000 << 1;
+    sizeList << 900 << 100 << 100;
     ui->codeChatSplitter->setSizes(sizeList);
     ui->participantSplitter->setSizes(sizeList);
 
     startedCollaborating= false;
 
     updateHighlighter();
+    setPlainText(m_shareCtrl->text());
 }
 
 Document::~Document()
@@ -105,23 +101,7 @@ Document::~Document()
 /*
  *
  */
-void Document::runUpdateCmd(QString cmd)
-{
-    QRegExp rx;
-    if(cmd.startsWith("doc:"))
-    {
-        cmd.remove(0, 4);
-        rx= QRegExp("(\\d+)\\s(\\d+)\\s(\\d+)\\s(.*)");
-        if(cmd.contains(rx))
-        {
-            int pos= rx.cap(1).toInt();
-            int charsRemoved= rx.cap(2).toInt();
-            int charsAdded= rx.cap(3).toInt();
-            cmd= rx.cap(4);
-            m_editor->collabTextChange(pos, charsRemoved, charsAdded, cmd);
-        }
-    }
-}
+
 void Document::displayParticipantPanel()
 {
     startedCollaborating= true;
@@ -196,11 +176,11 @@ void Document::setParticipantsHidden(bool b)
 {
     if(b)
     {
-        ui->participantSplitter->widget(1)->hide();
+        ui->participantSplitter->widget(2)->hide();
     }
     else
     {
-        ui->participantSplitter->widget(1)->show();
+        ui->participantSplitter->widget(2)->show();
         m_editor->resize(QSize(9000, 9000));
     }
 }
@@ -220,7 +200,7 @@ void Document::unCommentSelection()
     m_editor->unCommentSelection();
 }
 
-void Document::fill(NetworkMessageWriter* msg)
+/*void Document::fill(NetworkMessageWriter* msg)
 {
     msg->string32(m_editor->toPlainText());
     m_participantPane->fill(msg);
@@ -240,7 +220,8 @@ void Document::readFromMsg(NetworkMessageReader* msg)
             m_participantPane->readPermissionChanged(msg);
         }
     }
-}
+}*/
+
 void Document::updateHighlighter()
 {
     using SNC= SharedNoteController::HighlightedSyntax;
@@ -277,7 +258,7 @@ bool Document::isChatHidden()
 
 bool Document::isParticipantsHidden()
 {
-    return ui->participantSplitter->widget(1)->isHidden();
+    return ui->participantSplitter->widget(2)->isHidden();
 }
 
 void Document::findAll()
@@ -362,15 +343,11 @@ void Document::setModified(bool b)
     m_editor->document()->setModified(b);
 }
 
-void Document::previewAsHtml()
+void Document::renderMarkdown()
 {
-    QString text= m_editor->toPlainText();
-#ifdef HAVE_WEBVIEW
-    QWebEngineView* preview= new QWebEngineView();
-    preview->setHtml(text);
-    preview->show();
-#endif
+    // todo
 }
+
 bool Document::docHasCollaborated()
 {
     return startedCollaborating;
@@ -394,14 +371,4 @@ ParticipantsPane* Document::getParticipantPane() const
 void Document::setParticipantPane(ParticipantsPane* participantPane)
 {
     m_participantPane.reset(participantPane);
-}
-
-void Document::setOwnerId(const QString& id)
-{
-    m_participantPane->setOwnerId(id);
-}
-
-bool Document::canWrite(Player* player)
-{
-    return m_participantPane->canWrite(player);
 }

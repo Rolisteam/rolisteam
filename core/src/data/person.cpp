@@ -53,6 +53,14 @@ void Person::setName(const QString& name)
     emit nameChanged();
 }
 
+void Person::setUuid(const QString& uuid)
+{
+    if(uuid == m_uuid)
+        return;
+    m_uuid= uuid;
+    emit uuidChanged(m_uuid);
+}
+
 QColor Person::getColor() const
 {
     return m_color;
@@ -151,7 +159,7 @@ void Person::setAvatarPath(const QString& avatarPath)
         return;
 
     m_avatarPath= avatarPath;
-    m_avatar=QImage(avatarPath);
+    m_avatar= QImage(avatarPath);
     emit avatarPathChanged();
     emit avatarChanged();
 }

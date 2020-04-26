@@ -26,7 +26,7 @@ SharedNoteContainer::SharedNoteContainer(SharedNoteController* ctrl, QWidget* pa
     , m_sharedCtrl(ctrl)
     , m_edit(new SharedNote(ctrl))
 {
-    m_edit->setId(getMediaId());
+    m_edit->setId(m_sharedCtrl->uuid());
 #ifdef Q_OS_MAC
     m_edit->menuBar()->setNativeMenuBar(false);
 #endif
@@ -34,40 +34,19 @@ SharedNoteContainer::SharedNoteContainer(SharedNoteController* ctrl, QWidget* pa
     setWidget(m_edit.get());
     setWindowIcon(QIcon(":/resources/icons/sharedEditor.png"));
     // m_edit->setFileName(getUriName());
-}
-void SharedNoteContainer::readMessage(NetworkMessageReader& msg)
-{
-    if(nullptr != m_edit)
-    {
-        m_edit->readFromMsg(&msg);
-    }
+
+    connect(m_sharedCtrl, &SharedNoteController::ownerIdChanged, m_edit.get(), &SharedNote::setOwnerId);
+
+    m_edit->setOwnerId(m_sharedCtrl->ownerId());
 }
 
-void SharedNoteContainer::setMediaId(QString str)
-{
-    MediaContainer::setMediaId(str);
-    m_edit->setId(getMediaId());
-}
-void SharedNoteContainer::runUpdateCmd(QString msg)
-{
-    if(nullptr != m_edit)
-    {
-        m_edit->runUpdateCmd(msg);
-    }
-}
-void SharedNoteContainer::setOwnerId(const QString& id)
-{
-    MediaContainer::setOwnerId(id);
-    m_edit->setOwnerId(id);
-}
-
-void SharedNoteContainer::updateNoteToAll()
+/*void SharedNoteContainer::updateNoteToAll()
 {
     NetworkMessageWriter msg(NetMsg::SharedNoteCategory, NetMsg::updateTextAndPermission);
     msg.string8(m_mediaId);
     m_edit->updateDocumentToAll(&msg);
     msg.sendToServer();
-}
+}*/
 
 bool SharedNoteContainer::readFileFromUri()
 {

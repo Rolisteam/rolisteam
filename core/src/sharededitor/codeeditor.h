@@ -31,13 +31,14 @@ class QSize;
 class QWidget;
 
 class LineNumberArea;
+class SharedNoteController;
 
 class CodeEditor : public QPlainTextEdit
 {
     Q_OBJECT
 
 public:
-    CodeEditor(QWidget* parent= nullptr);
+    CodeEditor(SharedNoteController* ctrl, QWidget* parent= nullptr);
 
     void lineNumberAreaPaintEvent(QPaintEvent* event);
     int lineNumberAreaWidth();
@@ -54,7 +55,7 @@ public:
     bool replaceAll(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, Enu::FindMode mode);
     bool replace(QString replaceString);
     bool findReplace(QString searchString, QString replaceString, Qt::CaseSensitivity sensitivity, bool wrapAround,
-        Enu::FindMode mode);
+                     Enu::FindMode mode);
 
 public slots:
     bool findAll(QString searchString);
@@ -68,6 +69,7 @@ private slots:
     void updateLineNumberArea(const QRect&, int);
 
 private:
+    SharedNoteController* m_sharedCtrl;
     bool isFirstTime;
 
     QWidget* lineNumberArea;

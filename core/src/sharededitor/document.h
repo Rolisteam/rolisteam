@@ -67,8 +67,8 @@ public:
     void unCommentSelection();
 
     // User wants to resynchronize the document with the owner
-    void fill(NetworkMessageWriter* msg);
-    void readFromMsg(NetworkMessageReader* msg);
+    // void fill(NetworkMessageWriter* msg);
+    // void readFromMsg(NetworkMessageReader* msg);
 
     // returns if the editor is undable
     bool isUndoable();
@@ -97,19 +97,14 @@ public:
 
     void toggleLineWrap();
     void setModified(bool b);
-    void previewAsHtml();
+    void renderMarkdown();
     bool docHasCollaborated();
 
     void setOwnerName(QString name);
 
-    void setOwnerId(const QString& id);
-    bool canWrite(Player* player);
-
     ParticipantsPane* getParticipantPane() const;
     void setParticipantPane(ParticipantsPane* participantPane);
 
-public slots:
-    void runUpdateCmd(QString cmd);
 signals:
     void redoAvailable(bool);
     void undoAvailable(bool);
@@ -126,6 +121,8 @@ private:
     QPointer<SharedNoteController> m_shareCtrl;
     Ui::Document* ui= nullptr;
     CodeEditor* m_editor= nullptr;
+    QTextEdit* m_previewMarkdown= nullptr;
+
     bool startedCollaborating;
     FindToolBar* findAllToolbar= nullptr;
     std::unique_ptr<ParticipantsPane> m_participantPane;

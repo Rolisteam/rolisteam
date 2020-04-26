@@ -242,17 +242,17 @@ void MarkDownHighlighter::initTextFormats(int defaultFontSize)
     format.setForeground(QBrush(QColor(0, 49, 110)));
     format.setBackground(QBrush(QColor(230, 230, 240)));
     format.setFontWeight(QFont::Bold);
-    format.setFontPointSize(defaultFontSize * 1.6);
+    format.setFontPointSize(defaultFontSize * 1.0);
     m_formats[H1]= format;
-    format.setFontPointSize(defaultFontSize * 1.5);
+    format.setFontPointSize(defaultFontSize * 1.0);
     m_formats[H2]= format;
-    format.setFontPointSize(defaultFontSize * 1.4);
+    format.setFontPointSize(defaultFontSize * 1.0);
     m_formats[H3]= format;
-    format.setFontPointSize(defaultFontSize * 1.3);
+    format.setFontPointSize(defaultFontSize * 1.0);
     m_formats[H4]= format;
-    format.setFontPointSize(defaultFontSize * 1.2);
+    format.setFontPointSize(defaultFontSize * 1.0);
     m_formats[H5]= format;
-    format.setFontPointSize(defaultFontSize * 1.1);
+    format.setFontPointSize(defaultFontSize * 1.0);
     m_formats[H6]= format;
     format.setFontPointSize(defaultFontSize);
 
@@ -402,7 +402,7 @@ void MarkDownHighlighter::highlightHeadline(QString text)
     if(patternH1.match(text).hasMatch())
     {
         if(((previousBlockState() == HighlighterState::H1) || (previousBlockState() == HighlighterState::NoState))
-            && (previousText.length() > 0))
+           && (previousText.length() > 0))
         {
             // set the font size from the current rule's font format
             maskedFormat.setFontPointSize(m_formats[HighlighterState::H1].fontPointSize());
@@ -430,7 +430,7 @@ void MarkDownHighlighter::highlightHeadline(QString text)
     if(patternH2.match(text).hasMatch())
     {
         if(((previousBlockState() == HighlighterState::H2) || (previousBlockState() == HighlighterState::NoState))
-            && (previousText.length() > 0))
+           && (previousText.length() > 0))
         {
             // set the font size from the current rule's font format
             maskedFormat.setFontPointSize(m_formats[HighlighterState::H2].fontPointSize());

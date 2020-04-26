@@ -1,8 +1,8 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Renaud Guezennec                                *
- *   https://rolisteam.org/contact                   *
+ *	Copyright (C) 2020 by Renaud Guezennec                               *
+ *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   This software is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -17,36 +17,28 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef SHAREDNOTECONTROLLERUPDATER_H
+#define SHAREDNOTECONTROLLERUPDATER_H
 
-#ifndef SHAREDNOTECONTAINER_H
-#define SHAREDNOTECONTAINER_H
-
-#include "data/mediacontainer.h"
-#include "sharednote.h"
-
-#include <QPointer>
-#include <QWidget>
+#include <QObject>
+#include <map>
 
 class SharedNoteController;
-class SharedNoteContainer : public MediaContainer
+class NetworkMessageReader;
+class SharedNoteControllerUpdater : public QObject
 {
     Q_OBJECT
-public:
-    SharedNoteContainer(SharedNoteController* ctrl, QWidget* parent= nullptr);
-    virtual bool readFileFromUri();
-    virtual void saveMedia(const QString&);
-    void readFromFile(QDataStream& data);
-    void saveInto(QDataStream& out);
-    virtual void putDataIntoCleverUri();
-    void setOwnerId(const QString& id);
-    void updateNoteToAll();
 
-protected slots:
-    virtual void updateTitle();
+public:
+    explicit SharedNoteControllerUpdater(QObject* parent= nullptr);
+
+    void addSharedNoteController(SharedNoteController* sheet);
+    void readUpdateCommand(NetworkMessageReader* reader, SharedNoteController* ctrl);
+
+signals:
 
 private:
-    QPointer<SharedNoteController> m_sharedCtrl;
-    std::unique_ptr<SharedNote> m_edit;
+    std::map<SharedNoteController*, QSet<QString>> m_noteReaders;
 };
 
-#endif // SHAREDNOTECONTAINER_H
+#endif // SHAREDNOTECONTROLLERUPDATER_H

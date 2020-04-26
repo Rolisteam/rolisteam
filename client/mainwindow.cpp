@@ -406,7 +406,7 @@ void MainWindow::closeCurrentSubWindow()
     MediaContainer* container= dynamic_cast<MediaContainer*>(subactive);
     if(nullptr != container)
     {
-        closeMediaContainer(container->getMediaId(), true);
+        closeMediaContainer(container->mediaId(), true);
     }
 }
 void MainWindow::showTipChecker()
@@ -807,18 +807,6 @@ MediaContainer* MainWindow::newDocument(CleverURI::ContentType type, bool addMdi
 
     switch(type)
     {
-    case CleverURI::SHAREDNOTE:
-    {
-        /*SharedNoteContainer* note= new SharedNoteContainer(localIsGM);
-        media= note;*/
-        // note->setOwnerId(m_playerModel->getLocalPlayerId());
-    }
-    break;
-    case CleverURI::VMAP:
-    {
-        /*  */
-    }
-    break;
     case CleverURI::TEXT:
     {
         media= new NoteContainer(localIsGM);
@@ -2231,7 +2219,7 @@ void MainWindow::openImageAs(const QPixmap& pix, CleverURI::ContentType type)
     QString sourceName= tr("unknown");
     if(nullptr != viewer)
     {
-        sourceName= viewer->getUriName();
+        // sourceName= viewer->getUriName();
     }
 
     MediaContainer* destination= nullptr;
@@ -2253,8 +2241,8 @@ void MainWindow::openImageAs(const QPixmap& pix, CleverURI::ContentType type)
          img->setImage(imgPix);
          destination= img;*/
     }
-    if(destination)
-        destination->setUriName(title.arg(sourceName));
+    // if(destination)
+    // destination->setUriName(title.arg(sourceName));
 
     destination->setRemote(false);
     // destination->setCleverUri(new CleverURI(sourceName, "", type));
