@@ -284,12 +284,18 @@ QString ContentController::sessionPath() const
 NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader* msg)
 {
     NetWorkReceiver::SendType result= NetWorkReceiver::NONE;
-    if(msg->action() == NetMsg::AddMedia || msg->action() == NetMsg::UpdateMediaProperty)
-    {
-        auto type= static_cast<CleverURI::ContentType>(msg->uint8());
-        auto media= m_mediaControllers.at(type);
-        media->processMessage(msg);
-    }
+    std::set<NetMsg::Action> actions({NetMsg::AddMedia, NetMsg::UpdateMediaProperty, NetMsg::CloseMedia});
+    if(actions.find(msg->action()) == actions.end())
+        return result;
+
+    auto type= static_cast<CleverURI::ContentType>(msg->uint8());
+    auto media= m_mediaControllers.at(type);
+
+    if(!media)
+        return result;
+
+    result= media->processMessage(msg);
+
     return result;
 }
 

@@ -62,24 +62,39 @@ SharedNote::SharedNote(SharedNoteController* ctrl, QWidget* parent)
     tabLayout->addWidget(m_document);
     tabLayout->setContentsMargins(0, 0, 0, 0);
 
-    // ui->tab->setVisible(false);
-    // ui->tabWidget->setVisible(false);
+    auto localIsOwner= (m_sharedCtrl->ownerId() == m_sharedCtrl->localId());
 
     connect(m_document, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(m_document, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
-    connect(m_sharedCtrl, &SharedNoteController::participantPanelVisibleChanged, pane, &ParticipantsPane::setVisible);
+
+    if(localIsOwner)
+    {
+        connect(ui->m_showParticipants, &QAction::triggered, m_sharedCtrl,
+                &SharedNoteController::setParticipantPanelVisible);
+        connect(m_sharedCtrl, &SharedNoteController::participantPanelVisibleChanged, ui->m_showParticipants,
+                &QAction::setChecked);
+
+        connect(m_sharedCtrl, &SharedNoteController::participantPanelVisibleChanged, pane,
+                &ParticipantsPane::setVisible);
+        connect(m_sharedCtrl, &SharedNoteController::participantPanelVisibleChanged, this,
+                [this](bool b) { m_document->setParticipantsHidden(!b); });
+
+        ui->m_showParticipants->setChecked(m_sharedCtrl->participantPanelVisible());
+    }
+    else
+    {
+        ui->m_showParticipants->setChecked(false);
+    }
+
+    ui->m_showParticipants->setEnabled(localIsOwner);
+
     connect(ui->m_highlightMarkdownAction, &QAction::triggered, this, [this](bool b) {
         m_sharedCtrl->setHighligthedSyntax(b ? SharedNoteController::HighlightedSyntax::MarkDown :
                                                SharedNoteController::HighlightedSyntax::None);
     });
 
-    connect(ui->m_showParticipants, &QAction::triggered, m_sharedCtrl,
-            &SharedNoteController::setParticipantPanelVisible);
     connect(ui->m_markdownPreview, &QAction::triggered, m_sharedCtrl, &SharedNoteController::setMarkdownVisible);
-    connect(m_sharedCtrl, &SharedNoteController::participantPanelVisibleChanged, ui->m_showParticipants,
-            &QAction::setChecked);
 
-    ui->m_showParticipants->setChecked(m_sharedCtrl->participantPanelVisible());
     pane->setVisible(m_sharedCtrl->participantPanelVisible());
 
     readSettings();

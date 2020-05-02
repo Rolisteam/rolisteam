@@ -54,20 +54,17 @@ Document::Document(SharedNoteController* ctrl, QWidget* parent)
     ui->participantSplitter->insertWidget(1, m_previewMarkdown);
     ui->participantSplitter->insertWidget(2, m_participantPane.get());
 
-    m_editor->setReadOnly(!m_shareCtrl->localIsOwner());
-
-    connect(m_participantPane.get(), &ParticipantsPane::localPlayerIsOwner, this,
-            [this](bool isOwner) { setParticipantsHidden(!isOwner); });
-
-    connect(m_participantPane.get(), &ParticipantsPane::localPlayerPermissionChanged, this,
-            [this](ParticipantModel::Permission perm) { m_editor->setReadOnly(ParticipantModel::readOnly == perm); });
+    connect(m_shareCtrl, &SharedNoteController::permissionChanged, this, [this](SharedNoteController::Permission perm) {
+        m_editor->setReadOnly(SharedNoteController::Permission::READ == perm);
+    });
 
     connect(m_shareCtrl, &SharedNoteController::markdownVisibleChanged, m_previewMarkdown, &QTextEdit::setVisible);
     connect(m_shareCtrl, &SharedNoteController::textChanged, m_previewMarkdown, &QTextEdit::setMarkdown);
 
     connect(m_editor, &CodeEditor::textChanged, this, &Document::contentChanged);
 
-    // Find all toolbar widget
+    m_editor->setReadOnly(m_shareCtrl->permission() == SharedNoteController::Permission::READ);
+
     // delete ui->findAllFrame;
     findAllToolbar= new FindToolBar(this);
     ui->editorVerticalLayout->insertWidget(1, findAllToolbar);

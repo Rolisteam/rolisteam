@@ -28,7 +28,7 @@ private:
 void PlayerModelTest::init()
 {
     m_playerModel.reset(new PlayerModel());
-    m_participantsModel.reset(new ParticipantModel(m_playerModel.get()));
+    m_participantsModel.reset(new ParticipantModel("", m_playerModel.get()));
 
     // m_participantsModel->setSourceModel(m_playerModel.get());
 }
@@ -171,7 +171,7 @@ void PlayerModelTest::ownerTest()
     {
         m_playerModel->addPlayer(p);
     }
-    m_participantsModel.reset(new ParticipantModel(m_playerModel.get()));
+    m_participantsModel.reset(new ParticipantModel("", m_playerModel.get()));
 
     m_participantsModel->setOwner(ownerId);
 

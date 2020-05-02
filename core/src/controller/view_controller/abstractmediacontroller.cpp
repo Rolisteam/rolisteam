@@ -95,7 +95,7 @@ void AbstractMediaContainerController::setOwnerId(const QString& id)
 
 bool AbstractMediaContainerController::localIsOwner() const
 {
-    return m_ownerId == m_localId;
+    return (m_ownerId == m_localId);
 }
 
 void AbstractMediaContainerController::setLocalId(const QString& id)

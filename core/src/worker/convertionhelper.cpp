@@ -135,4 +135,10 @@ void variantToType<QSize>(const QSize& size, NetworkMessageWriter& msg)
     msg.int32(size.height());
 }
 
+template <>
+void variantToType<SharedNoteController::Permission>(const SharedNoteController::Permission& perm,
+                                                     NetworkMessageWriter& msg)
+{
+    msg.uint8(static_cast<quint8>(perm));
+}
 } // namespace Helper

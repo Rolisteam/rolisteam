@@ -121,19 +121,17 @@ void Channel::writeIntoJson(QJsonObject& json)
     json["locked"]= m_locked;
 
     QJsonArray array;
-    for(int i= 0; i < m_child.size(); ++i)
+    for(auto item : m_child)
     {
-        if(m_child.at(i)->isLeaf())
+        if(!item)
+            continue;
+
+        if(item->isLeaf())
         {
-            TreeItem* item= m_child.at(i);
-            // Channel* item = dynamic_cast<Channel*>(m_child.at(i));
-            if(nullptr != item)
-            {
-                QJsonObject jsonObj;
-                item->writeIntoJson(jsonObj);
-                jsonObj["gm"]= (item == m_currentGm);
-                array.append(jsonObj);
-            }
+            QJsonObject jsonObj;
+            item->writeIntoJson(jsonObj);
+            jsonObj["gm"]= (item == m_currentGm);
+            array.append(jsonObj);
         }
     }
     json["children"]= array;

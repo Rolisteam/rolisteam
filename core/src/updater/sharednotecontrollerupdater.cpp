@@ -22,7 +22,10 @@
 #include <QSet>
 
 #include "controller/view_controller/sharednotecontroller.h"
+#include "data/cleveruri.h"
+#include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#include "worker/convertionhelper.h"
 #include "worker/messagehelper.h"
 
 SharedNoteControllerUpdater::SharedNoteControllerUpdater(QObject* parent) : QObject(parent) {}
@@ -60,23 +63,75 @@ void SharedNoteControllerUpdater::addSharedNoteController(SharedNoteController* 
         }
     });
 
-    connect(noteCtrl, &SharedNoteController::partialChangeOnText, this, [this, noteCtrl](const QString& cmd) {
-        QStringList list;
-        try
-        {
-            auto listener= m_noteReaders.at(noteCtrl);
-            list << listener.values();
-        }
-        catch(...)
-        {
-        }
-
-        NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::CloseMedia);
-        msg.setRecipientList(list, NetworkMessage::OneOrMany);
-        msg.string8(noteCtrl->uuid());
-        msg.string32(cmd);
-        msg.sendToServer();
-    });
+    connect(noteCtrl, &SharedNoteController::textUpdateChanged, this,
+            [this, noteCtrl]() { sendOffChanges<QString>(noteCtrl, QStringLiteral("updateCmd")); });
+    connect(noteCtrl, &SharedNoteController::userCanWrite, this,
+            [this, noteCtrl](QString id, bool write) { sendOffPermissionChanged(noteCtrl, write, id); });
 }
 
-void SharedNoteControllerUpdater::readUpdateCommand(NetworkMessageReader* reader, SharedNoteController* ctrl) {}
+void SharedNoteControllerUpdater::sendOffPermissionChanged(SharedNoteController* ctrl, bool b, const QString& id)
+{
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::UpdateMediaProperty);
+    if(!id.isEmpty())
+    {
+        msg.setRecipientList({id}, NetworkMessage::OneOrMany);
+    }
+    msg.uint8(CleverURI::SHAREDNOTE);
+    msg.string8(ctrl->uuid());
+    msg.string16(QStringLiteral("permission"));
+    auto perm= b ? SharedNoteController::Permission::READWRITE : SharedNoteController::Permission::READ;
+    Helper::variantToType<SharedNoteController::Permission>(perm, msg);
+    msg.sendToServer();
+}
+
+template <typename T>
+void SharedNoteControllerUpdater::sendOffChanges(SharedNoteController* ctrl, const QString& property)
+{
+
+    if(nullptr == ctrl || m_updatingFromNetwork)
+        return;
+
+    QStringList list;
+    try
+    {
+        auto listener= m_noteReaders.at(ctrl);
+        list << listener.values();
+    }
+    catch(...)
+    {
+    }
+
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::UpdateMediaProperty);
+    // msg.setRecipientList(list, NetworkMessage::OneOrMany);
+    msg.uint8(CleverURI::SHAREDNOTE);
+    msg.string8(ctrl->uuid());
+    msg.string16(property);
+    auto val= ctrl->property(property.toLocal8Bit().data());
+    Helper::variantToType<T>(val.value<T>(), msg);
+    msg.sendToServer();
+}
+
+void SharedNoteControllerUpdater::updateProperty(NetworkMessageReader* msg, SharedNoteController* ctrl)
+{
+
+    if(nullptr == msg || nullptr == ctrl)
+        return;
+
+    auto property= msg->string16();
+
+    QVariant var;
+
+    if(property == QStringLiteral("updateCmd"))
+    {
+        var= QVariant::fromValue(msg->string32());
+    }
+    else if(property == QStringLiteral("permission"))
+    {
+        var= QVariant::fromValue(static_cast<SharedNoteController::Permission>(msg->uint8()));
+    }
+
+    m_updatingFromNetwork= true;
+    auto feedback= ctrl->setProperty(property.toLocal8Bit().data(), var);
+    Q_ASSERT(feedback);
+    m_updatingFromNetwork= false;
+}

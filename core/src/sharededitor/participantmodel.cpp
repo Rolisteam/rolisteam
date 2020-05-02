@@ -20,6 +20,9 @@
 #include "participantmodel.h"
 
 #include <QDebug>
+#include <QFont>
+#include <QJsonArray>
+#include <QJsonObject>
 
 #include "data/person.h"
 #include "data/player.h"
@@ -66,6 +69,11 @@ QString ParticipantItem::name() const
     return isLeaf() ? m_player->name() : m_name;
 }
 
+QString ParticipantItem::uuid() const
+{
+    return isLeaf() ? m_player->uuid() : QString();
+}
+
 Player* ParticipantItem::player() const
 {
     return m_player;
@@ -109,8 +117,8 @@ void ParticipantItem::setParent(ParticipantItem* parent)
     m_parent= parent;
 }
 
-ParticipantModel::ParticipantModel(PlayerModel* model, QObject* parent)
-    : QAbstractItemModel(parent), m_playerList(model), m_root(new ParticipantItem(QString()))
+ParticipantModel::ParticipantModel(const QString& ownerId, PlayerModel* model, QObject* parent)
+    : QAbstractItemModel(parent), m_playerList(model), m_root(new ParticipantItem(QString())), m_ownerId(ownerId)
 {
     connect(model, &PlayerModel::playerJoin, this, &ParticipantModel::addNewPlayer);
     connect(model, &PlayerModel::playerLeft, this, &ParticipantModel::removePlayer);
@@ -139,6 +147,7 @@ void ParticipantModel::initModel()
         auto idx= m_playerList->index(i, 0, QModelIndex());
         auto uuid= idx.data(PlayerModel::IdentifierRole).toString();
         auto player= dynamic_cast<Player*>(idx.data(PlayerModel::PersonPtrRole).value<Person*>());
+
         auto dest= m_root->childAt(hidden);
         if(uuid == m_ownerId)
             dest= m_root->childAt(readWrite);
@@ -208,10 +217,19 @@ QVariant ParticipantModel::data(const QModelIndex& index, int role) const
     if(!index.isValid())
         return QVariant();
 
-    if(role != Qt::DisplayRole && role != Qt::EditRole)
+    if(role != Qt::DisplayRole && role != Qt::EditRole && role != Qt::FontRole)
         return {};
 
     auto item= static_cast<ParticipantItem*>(index.internalPointer());
+
+    if(item->uuid() == m_ownerId && role == Qt::FontRole)
+    {
+        QFont font;
+        font.setBold(true);
+        return font;
+    }
+    else if(role == Qt::FontRole)
+        return {};
 
     return item->name();
 }
@@ -358,6 +376,9 @@ void ParticipantModel::setPlayerInto(const QModelIndex& index, Permission level)
     if(nullptr != p)
         id= p->uuid();
 
+    if(id == m_ownerId)
+        return;
+
     beginMoveRows(parent, index.row(), index.row(), destParent, r);
     permSource->removeChild(item);
     perm->appendChild(item);
@@ -387,28 +408,27 @@ void ParticipantModel::setPlayerPermission(const QString& id, ParticipantModel::
 
 void ParticipantModel::saveModel(QJsonObject& root)
 {
-    /*   QJsonArray hidden;
-       QJsonArray readOnly;
-       QJsonArray readWrite;
 
-    for(auto& player : m_hidden)
+    QJsonArray array;
+    for(int i= 0; i < m_root->childCount(); ++i)
     {
-        hidden << player->getUuid();
-    }
+        auto child= m_root->childAt(i);
+        auto perm= readWrite;
+        if(i == 1)
+            perm= readOnly;
+        else if(i == 2)
+            perm= hidden;
 
-    for(auto& player : m_readOnly)
-    {
-        readOnly << player->getUuid();
+        for(int j= 0; j < child->childCount(); ++j)
+        {
+            auto leaf= child->childAt(j);
+            QJsonObject obj;
+            obj["id"]= leaf->uuid();
+            obj["perm"]= perm;
+            array.append(obj);
+        }
     }
-
-    for(auto& player : m_readWrite)
-    {
-        readWrite << player->getUuid();
-    }
-
-    root["hidden"]= hidden;
-    root["readOnly"]= readOnly;
-    root["readWrite"]= readWrite;*/
+    root["data"]= array;
 }
 void ParticipantModel::loadModel(QJsonObject& root)
 {

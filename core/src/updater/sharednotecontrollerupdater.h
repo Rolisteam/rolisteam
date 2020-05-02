@@ -33,12 +33,16 @@ public:
     explicit SharedNoteControllerUpdater(QObject* parent= nullptr);
 
     void addSharedNoteController(SharedNoteController* sheet);
-    void readUpdateCommand(NetworkMessageReader* reader, SharedNoteController* ctrl);
 
+    template <typename T>
+    void sendOffChanges(SharedNoteController* ctrl, const QString& property);
+    void updateProperty(NetworkMessageReader* msg, SharedNoteController* ctrl);
+    void sendOffPermissionChanged(SharedNoteController* ctrl, bool b, const QString& id);
 signals:
 
 private:
     std::map<SharedNoteController*, QSet<QString>> m_noteReaders;
+    bool m_updatingFromNetwork= false;
 };
 
 #endif // SHAREDNOTECONTROLLERUPDATER_H

@@ -41,7 +41,7 @@ int CodeEditor::lineNumberAreaWidth()
 
 void CodeEditor::collabTextChange(int pos, int charsRemoved, int charsAdded, QString data)
 {
-    document()->blockSignals(true);
+    m_sharedCtrl->blockSignals(true);
     if(charsRemoved > 0 && charsAdded == 0)
     {
         QTextCursor cursor= textCursor();
@@ -62,7 +62,7 @@ void CodeEditor::collabTextChange(int pos, int charsRemoved, int charsAdded, QSt
         cursor.setPosition(pos);
         cursor.insertText(data);
     }
-    document()->blockSignals(false);
+    m_sharedCtrl->blockSignals(false);
 }
 
 void CodeEditor::unCommentSelection()

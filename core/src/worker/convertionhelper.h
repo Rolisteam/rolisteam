@@ -28,6 +28,7 @@
 #include <QRectF>
 #include <QSize>
 
+#include "controller/view_controller/sharednotecontroller.h"
 #include "data/charactervision.h"
 #include "media/mediatype.h"
 #include "network/networkmessagewriter.h"
@@ -76,6 +77,9 @@ template <>
 void variantToType<CharacterVision::SHAPE>(const CharacterVision::SHAPE& shape, NetworkMessageWriter& msg);
 template <>
 void variantToType<QSize>(const QSize& size, NetworkMessageWriter& msg);
+template <>
+void variantToType<SharedNoteController::Permission>(const SharedNoteController::Permission& perm,
+                                                     NetworkMessageWriter& msg);
 
 } // namespace Helper
 
