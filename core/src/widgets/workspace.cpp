@@ -356,7 +356,8 @@ void Workspace::updateActiveMediaContainer(QMdiSubWindow* window)
     if(!m_activeMediaContainer.isNull())
     {
         auto ctrl= m_activeMediaContainer->ctrl();
-        ctrl->setActive(false);
+        if(ctrl)
+            ctrl->setActive(false);
     }
 
     if(nullptr != activeMediaContainer)

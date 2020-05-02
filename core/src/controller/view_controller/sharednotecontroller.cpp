@@ -23,14 +23,19 @@
 #include "sharededitor/participantmodel.h"
 #include "userlist/playermodel.h"
 
-SharedNoteController::SharedNoteController(PlayerModel* model, CleverURI* uri, QObject* parent)
+SharedNoteController::SharedNoteController(const QString& ownerId, const QString& local, PlayerModel* model,
+                                           CleverURI* uri, QObject* parent)
     : AbstractMediaContainerController(uri, parent)
-    , m_participantModel(new ParticipantModel(model))
+    , m_participantModel(new ParticipantModel(ownerId, model))
     , m_playerModel(model)
 {
-    setParticipantPanelVisible(localIsOwner());
+    setOwnerId(ownerId);
+    setLocalId(local);
 
     connect(this, &SharedNoteController::ownerIdChanged, m_participantModel.get(), &ParticipantModel::setOwner);
+    connect(this, &SharedNoteController::localIdChanged, this, [this]() {
+
+    });
     connect(m_participantModel.get(), &ParticipantModel::userReadPermissionChanged, this,
             [this](const QString& id, bool b) {
                 if(b)
@@ -41,7 +46,10 @@ SharedNoteController::SharedNoteController(PlayerModel* model, CleverURI* uri, Q
     connect(m_participantModel.get(), &ParticipantModel::userWritePermissionChanged, this,
             &SharedNoteController::userCanWrite);
 
-    m_participantModel->setOwner(ownerId());
+    if(localIsOwner())
+        setPermission(Permission::READWRITE);
+
+    setParticipantPanelVisible(localIsOwner());
 }
 
 SharedNoteController::~SharedNoteController()= default;
@@ -53,7 +61,7 @@ QString SharedNoteController::text() const
 
 bool SharedNoteController::localCanWrite() const
 {
-    return (m_participantModel->permissionFor(m_localId) == ParticipantModel::Permission::readWrite);
+    return (m_permission == SharedNoteController::Permission::READWRITE);
 }
 
 QString SharedNoteController::textUpdate() const
@@ -111,6 +119,11 @@ bool SharedNoteController::canRead(Player* player) const
     return write || read;
 }
 
+QString SharedNoteController::updateCmd() const
+{
+    return m_latestCommand;
+}
+
 void SharedNoteController::setParticipantPanelVisible(bool b)
 {
     if(b == m_participantVisible)
@@ -166,10 +179,10 @@ void SharedNoteController::setTextUpdate(const QString& cmd)
     if(cmd == m_latestCommand)
         return;
     m_latestCommand= cmd;
-    emit partialChangeOnText(m_latestCommand);
+    emit textUpdateChanged(m_latestCommand);
 }
 
-void SharedNoteController::runUpdateCmd(const QString& cmd)
+void SharedNoteController::setUpdateCmd(const QString& cmd)
 {
     QRegExp rx;
     auto tmpCmd= cmd;
@@ -185,5 +198,6 @@ void SharedNoteController::runUpdateCmd(const QString& cmd)
     int charsRemoved= rx.cap(2).toInt();
     int charsAdded= rx.cap(3).toInt();
     tmpCmd= rx.cap(4);
+    emit updateCmdChanged();
     emit collabTextChanged(pos, charsRemoved, charsAdded, tmpCmd);
 }

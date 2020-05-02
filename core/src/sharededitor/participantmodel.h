@@ -33,6 +33,7 @@ public:
 
     bool isLeaf() const;
     QString name() const;
+    QString uuid() const;
     Player* player() const;
 
     int indexOf(ParticipantItem* child);
@@ -64,7 +65,8 @@ public:
         readOnly,
         hidden
     };
-    explicit ParticipantModel(PlayerModel* model, QObject* parent= nullptr);
+    Q_ENUM(Permission)
+    explicit ParticipantModel(const QString& ownerId, PlayerModel* model, QObject* parent= nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const override;
@@ -72,21 +74,20 @@ public:
     // Basic functionality
     QModelIndex index(int row, int column, const QModelIndex& parent= QModelIndex()) const override;
     QModelIndex parent(const QModelIndex& index) const override;
-
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;
     int columnCount(const QModelIndex& parent= QModelIndex()) const override;
-
+    Qt::ItemFlags flags(const QModelIndex& index) const override;
     QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
 
     QString getOwner() const;
     void setOwner(const QString& owner);
-    void saveModel(QJsonObject& root);
 
     ParticipantModel::Permission permissionFor(const QModelIndex& index);
     ParticipantModel::Permission permissionFor(const QString& id);
 
+    void saveModel(QJsonObject& root);
     void loadModel(QJsonObject& root);
-    Qt::ItemFlags flags(const QModelIndex& index) const override;
+
 public slots:
     virtual void addNewPlayer(Player*);
     virtual void removePlayer(Player*);

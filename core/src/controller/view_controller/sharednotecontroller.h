@@ -43,6 +43,7 @@ class SharedNoteController : public AbstractMediaContainerController
     Q_PROPERTY(ParticipantModel* participantModel READ participantModel CONSTANT)
     Q_PROPERTY(bool markdownVisible READ markdownVisible WRITE setMarkdownVisible NOTIFY markdownVisibleChanged)
     Q_PROPERTY(QString textUpdate READ textUpdate WRITE setTextUpdate NOTIFY textUpdateChanged)
+    Q_PROPERTY(QString updateCmd READ updateCmd WRITE setUpdateCmd NOTIFY updateCmdChanged)
 public:
     enum class Permission : char
     {
@@ -50,7 +51,7 @@ public:
         READ,
         READWRITE
     };
-    Q_ENUMS(Permission)
+    Q_ENUM(Permission)
 
     enum class HighlightedSyntax : char
     {
@@ -59,7 +60,8 @@ public:
     };
     Q_ENUM(HighlightedSyntax)
 
-    SharedNoteController(PlayerModel* model, CleverURI* uri, QObject* parent= nullptr);
+    SharedNoteController(const QString& ownerId, const QString& local, PlayerModel* model, CleverURI* uri,
+                         QObject* parent= nullptr);
     ~SharedNoteController() override;
 
     QString text() const;
@@ -78,6 +80,7 @@ public:
     bool canRead(Player* player) const;
     bool localCanWrite() const;
     QString textUpdate() const;
+    QString updateCmd() const;
 
 public slots:
     void setPermission(Permission);
@@ -90,8 +93,8 @@ public slots:
 
     void setMarkdownVisible(bool b);
     void setTextUpdate(const QString& cmd);
+    void setUpdateCmd(const QString& cmd);
 
-    void runUpdateCmd(const QString& cmd);
 signals:
     void playerModelChanged();
     void permissionChanged(Permission);
@@ -102,10 +105,10 @@ signals:
 
     void openShareNoteTo(QString id);
     void closeShareNoteTo(QString id);
+    void updateCmdChanged();
 
     void userCanWrite(QString id, bool);
     void textUpdateChanged(QString);
-    void partialChangeOnText(QString text);
     void collabTextChanged(int pos, int charsRemoved, int charsAdded, QString tmpCmd);
 
 private:
@@ -113,7 +116,7 @@ private:
     QPointer<PlayerModel> m_playerModel;
     QString m_text;
     QString m_latestCommand;
-    Permission m_permission= Permission::NONE;
+    Permission m_permission= Permission::READ;
     HighlightedSyntax m_highlightedSyntax= HighlightedSyntax::MarkDown;
     bool m_participantVisible= true;
     bool m_markdownPreview= false;

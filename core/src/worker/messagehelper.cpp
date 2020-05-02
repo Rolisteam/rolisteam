@@ -374,8 +374,16 @@ void MessageHelper::shareNotesTo(const SharedNoteController* ctrl, const QString
 
 void MessageHelper::closeNoteTo(SharedNoteController* sharedCtrl, const QString& id)
 {
+    if(nullptr == sharedCtrl)
+        return;
+
+    auto uri= sharedCtrl->uri();
+    if(nullptr == uri)
+        return;
+
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::CloseMedia);
     msg.setRecipientList({id}, NetworkMessage::OneOrMany);
+    msg.uint8(static_cast<quint8>(uri->getType()));
     msg.string8(sharedCtrl->uuid());
     msg.sendToServer();
 }

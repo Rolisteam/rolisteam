@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <QHostAddress>
+#include <QItemSelectionModel>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -51,6 +52,16 @@ ParticipantsPane::ParticipantsPane(SharedNoteController* ctrl, QWidget* parent)
 
     ui->m_treeview->setModel(m_sharedCtrl->participantModel());
 
+    auto selectionModel= ui->m_treeview->selectionModel();
+    connect(selectionModel, &QItemSelectionModel::currentChanged, this,
+            [this](const QModelIndex& idx, const QModelIndex&) {
+                auto item= static_cast<ParticipantItem*>(idx.internalPointer());
+
+                auto canMove= (item->uuid() != m_sharedCtrl->ownerId() & item->isLeaf());
+                ui->m_demoteAction->setEnabled(canMove);
+                ui->m_promoteAction->setEnabled(canMove);
+            });
+
     ui->connectInfoLabel->hide();
     ui->m_treeview->resizeColumnToContents(0);
     ui->m_treeview->resizeColumnToContents(1);
@@ -58,6 +69,9 @@ ParticipantsPane::ParticipantsPane(SharedNoteController* ctrl, QWidget* parent)
 
     ui->connectInfoLabel->setFont(QFont(Utilities::s_labelFont, Utilities::s_labelFontSize));
     ui->participantsLabel->setFont(QFont(Utilities::s_labelFont, Utilities::s_labelFontSize));
+
+    ui->m_demoteAction->setEnabled(false);
+    ui->m_promoteAction->setEnabled(false);
 }
 
 ParticipantsPane::~ParticipantsPane()
