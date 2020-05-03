@@ -153,7 +153,7 @@ void VMapUpdater::sendOffVMapChanges(VectorialMapController* ctrl, const QString
         return;
 
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::UpdateMediaProperty);
-    msg.uint8(CleverURI::VMAP);
+    msg.uint8(static_cast<int>(Core::ContentType::VECTORIALMAP));
     msg.string8(ctrl->uuid());
     msg.string16(property);
     auto val= ctrl->property(property.toLocal8Bit().data());

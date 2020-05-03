@@ -26,7 +26,15 @@
 #include <QVariant>
 #include <map>
 
+#include "controller/view_controller/charactersheetcontroller.h"
+#include "controller/view_controller/imagecontroller.h"
+#include "controller/view_controller/mediacontrollerbase.h"
+#include "controller/view_controller/notecontroller.h"
+#include "controller/view_controller/pdfcontroller.h"
+#include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
+#include "controller/view_controller/webpagecontroller.h"
+
 #include "data/character.h"
 #include "data/cleveruri.h"
 #include "vmap/vmap.h"
@@ -112,12 +120,12 @@ bool IOHelper::loadVMap(VMap* vmap, CleverURI* uri, VectorialMapController* ctrl
       reader >> b;
       ctrl->setHealthBarVisible(b);
       reader >> interger;
-      ctrl->setLayer(static_cast<Core::Layer>(interger));*/
+      ctrl->setLayer(static_cast<Core::Layer>(interger));
 
-    /*auto fogItem= vmap->getFogItem();
-    reader >> *fogItem;*/
+    auto fogItem= vmap->getFogItem();
+    reader >> *fogItem;
 
-    /* reader >> itemCount;
+     reader >> itemCount;
      for(int i= 0; i < itemCount; ++i)
      {
          VisualItem* item= nullptr;
@@ -259,4 +267,68 @@ QJsonArray IOHelper::byteArrayToJsonArray(const QByteArray& data)
 {
     auto doc= QJsonDocument::fromBinaryData(data);
     return doc.array();
+}
+
+void saveBase(MediaControllerBase* base, std::map<QString, QVariant>& datamap)
+{
+    if(!base)
+        return;
+
+    datamap.insert({QStringLiteral("uuid"), base->uuid()});
+    datamap.insert({QStringLiteral("uri"), base->path()});
+    datamap.insert({QStringLiteral("type"), QVariant::fromValue(base->contentType())});
+    datamap.insert({QStringLiteral("ownerId"), base->ownerId()});
+    // datamap.insert({QStringLiteral("data"), base->getData()});
+    // datamap.insert({QStringLiteral("state"), base->getState()});
+}
+
+void saveImage(ImageController* ctrl, std::map<QString, QVariant>& datamap)
+{
+    if(!ctrl)
+        return;
+
+    datamap.insert({QStringLiteral("fitWindow"), ctrl->fitWindow()});
+    datamap.insert({QStringLiteral("pixmap"), ctrl->pixmap()});
+    datamap.insert({QStringLiteral("zoomLevel"), ctrl->zoomLevel()});
+}
+
+void saveVectorialMap(VectorialMapController* ctrl, std::map<QString, QVariant>& datamap) {}
+
+std::map<QString, QVariant> IOHelper::saveController(MediaControllerBase* media)
+{
+    std::map<QString, QVariant> map;
+
+    saveBase(media, map);
+
+    auto uri= media->contentType();
+    switch(uri)
+    {
+    case Core::ContentType::VECTORIALMAP:
+        saveVectorialMap(dynamic_cast<VectorialMapController*>(media), map);
+        break;
+    case Core::ContentType::PICTURE:
+        saveImage(dynamic_cast<ImageController*>(media), map);
+        break;
+    case Core::ContentType::ONLINEPICTURE:
+        saveImage(dynamic_cast<ImageController*>(media), map);
+        break;
+    case Core::ContentType::NOTES:
+        break;
+    case Core::ContentType::CHARACTERSHEET:
+        break;
+    case Core::ContentType::SHAREDNOTE:
+        break;
+    case Core::ContentType::WEBVIEW:
+        break;
+    case Core::ContentType::PDF:
+        break;
+        /*    case Core::ContentType::SONG:
+            case Core::ContentType::SONGLIST:
+            case Core::ContentType::TOKEN:
+            case Core::ContentType::CHAT:
+            case Core::ContentType::NONE:
+                break;*/
+    }
+
+    return map;
 }

@@ -23,22 +23,20 @@
 #include <memory>
 #include <vector>
 
-#include "mediacontrollerinterface.h"
+#include "mediamanagerbase.h"
 
 class WebpageController;
-class WebpageMediaController : public MediaControllerInterface
+class WebpageMediaController : public MediaManagerBase
 {
     Q_OBJECT
 public:
     WebpageMediaController();
     ~WebpageMediaController() override;
 
-    CleverURI::ContentType type() const override;
-    bool openMedia(CleverURI* uri, const std::map<QString, QVariant>& args) override;
+    bool openMedia(const QString& id, const std::map<QString, QVariant>& args) override;
     void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
-    void setUndoStack(QUndoStack* stack) override;
 
 private:
     void addWebpageController(const QHash<QString, QVariant>& params);

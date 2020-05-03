@@ -24,22 +24,21 @@
 #include <memory>
 #include <vector>
 
-#include "mediacontrollerinterface.h"
+#include "mediamanagerbase.h"
 
 class ImageController;
-class ImageMediaController : public MediaControllerInterface
+class QUndoStack;
+class ImageMediaController : public MediaManagerBase
 {
     Q_OBJECT
 public:
     ImageMediaController();
     ~ImageMediaController() override;
 
-    CleverURI::ContentType type() const override;
-    bool openMedia(CleverURI* uri, const std::map<QString, QVariant>& args) override;
+    bool openMedia(const QString& id, const std::map<QString, QVariant>& args) override;
     void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
-    void setUndoStack(QUndoStack* stack) override {}
 
     void addImage(const QPixmap& image);
 
@@ -47,7 +46,7 @@ signals:
     void imageControllerCreated(ImageController* imageCtrl);
 
 private:
-    ImageController* addImageController(CleverURI* uri, const QPixmap& pix);
+    ImageController* addImageController(const QString& id, const QString& path, const QPixmap& pix);
 
 private:
     std::vector<std::unique_ptr<ImageController>> m_images;

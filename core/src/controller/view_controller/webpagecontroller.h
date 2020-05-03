@@ -22,9 +22,9 @@
 
 #include <QObject>
 
-#include "abstractmediacontroller.h"
+#include "mediacontrollerbase.h"
 
-class WebpageController : public AbstractMediaContainerController
+class WebpageController : public MediaControllerBase
 {
     Q_OBJECT
     Q_PROPERTY(QString url READ url WRITE setUrl NOTIFY urlChanged)
@@ -51,7 +51,7 @@ public:
         Html
     };
 
-    explicit WebpageController(QObject* parent= nullptr);
+    explicit WebpageController(const QString& id, QObject* parent= nullptr);
 
     void saveData() const override;
     void loadData() const override;

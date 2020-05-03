@@ -21,7 +21,8 @@
 
 #include "controller/media_controller/charactersheetmediacontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
-#include "controller/media_controller/mediacontrollerinterface.h"
+#include "controller/media_controller/mediamanagerbase.h"
+#include "controller/media_controller/notemediacontroller.h"
 #include "controller/media_controller/pdfmediacontroller.h"
 #include "controller/media_controller/sharednotemediacontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
@@ -37,6 +38,7 @@
 #include "session/sessionitemmodel.h"
 #include "undoCmd/newmediacontroller.h"
 #include "undoCmd/openmediacontroller.h"
+#include "undoCmd/removemediacontrollercommand.h"
 #include "worker/modelhelper.h"
 
 ContentController::ContentController(PlayerModel* playerModel, CharacterModel* characterModel, QObject* parent)
@@ -48,29 +50,29 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
     , m_webPageMediaController(new WebpageMediaController)
     , m_sharedNoteMediaController(new SharedNoteMediaController(playerModel))
     , m_pdfMediaController(new PdfMediaController)
+    , m_noteMediaController(new NoteMediaController)
     , m_sessionName(tr("Unknown"))
 {
-    m_mediaControllers.insert({CleverURI::PICTURE, m_imageControllers.get()});
-    m_mediaControllers.insert({CleverURI::VMAP, m_vmapControllers.get()});
-    m_mediaControllers.insert({CleverURI::CHARACTERSHEET, m_sheetMediaController.get()});
-    m_mediaControllers.insert({CleverURI::WEBVIEW, m_webPageMediaController.get()});
-    m_mediaControllers.insert({CleverURI::SHAREDNOTE, m_sharedNoteMediaController.get()});
-    m_mediaControllers.insert({CleverURI::PDF, m_pdfMediaController.get()});
+    m_mediaControllers.insert({m_imageControllers->type(), m_imageControllers.get()});
+    m_mediaControllers.insert({m_vmapControllers->type(), m_vmapControllers.get()});
+    m_mediaControllers.insert({m_sheetMediaController->type(), m_sheetMediaController.get()});
+    m_mediaControllers.insert({m_webPageMediaController->type(), m_webPageMediaController.get()});
+    m_mediaControllers.insert({m_sharedNoteMediaController->type(), m_sharedNoteMediaController.get()});
+    m_mediaControllers.insert({m_pdfMediaController->type(), m_pdfMediaController.get()});
+    m_mediaControllers.insert({m_noteMediaController->type(), m_noteMediaController.get()});
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
 
-    std::for_each(m_mediaControllers.begin(), m_mediaControllers.end(),
-                  [](const std::pair<CleverURI::ContentType, MediaControllerInterface*>& pair) {
-                      pair.second->registerNetworkReceiver();
-                  });
+    std::for_each(
+        m_mediaControllers.begin(), m_mediaControllers.end(),
+        [](const std::pair<Core::ContentType, MediaManagerBase*>& pair) { pair.second->registerNetworkReceiver(); });
 
     connect(this, &ContentController::gameMasterIdChanged, m_sheetMediaController.get(),
             &CharacterSheetMediaController::setGameMasterId);
     connect(this, &ContentController::localIdChanged, this, [this](const QString& id) {
-        std::for_each(m_mediaControllers.begin(), m_mediaControllers.end(),
-                      [id](const std::pair<CleverURI::ContentType, MediaControllerInterface*>& pair) {
-                          pair.second->setLocalId(id);
-                      });
+        std::for_each(
+            m_mediaControllers.begin(), m_mediaControllers.end(),
+            [id](const std::pair<Core::ContentType, MediaManagerBase*>& pair) { pair.second->setLocalId(id); });
     });
 }
 
@@ -94,10 +96,9 @@ void ContentController::setGameController(GameController* game)
      m_mapMediaController->setFogColor(m_preferences->value("Fog_color", QColor(Qt::black)).value<QColor>());*/
 
     std::for_each(m_mediaControllers.begin(), m_mediaControllers.end(),
-                  [game](const std::pair<CleverURI::ContentType, MediaControllerInterface*>& pair) {
+                  [game](const std::pair<Core::ContentType, MediaManagerBase*>& pair) {
                       pair.second->setUndoStack(game->undoStack());
-                      connect(game, &GameController::localIsGMChanged, pair.second,
-                              &MediaControllerInterface::setLocalIsGM);
+                      connect(game, &GameController::localIsGMChanged, pair.second, &MediaManagerBase::setLocalIsGM);
                       pair.second->setLocalIsGM(game->localIsGM());
                   });
 }
@@ -116,26 +117,40 @@ void ContentController::preferencesHasChanged(const QString& key)
         emit maxLengthTabNameChanged();
 }
 
-void ContentController::newMedia(CleverURI::ContentType type, const std::map<QString, QVariant>& params)
+void ContentController::newMedia(Core::ContentType type, const std::map<QString, QVariant>& params)
 {
     auto controller= m_mediaControllers[type];
     if(!controller)
         return;
 
-    emit performCommand(new NewMediaController(type, controller, this, true, params));
+    emit performCommand(new NewMediaController(type, controller, this, params));
 }
 
-void ContentController::openMedia(CleverURI* uri, const std::map<QString, QVariant>& args)
+void ContentController::openMedia(const std::map<QString, QVariant>& args)
 {
-    if(!uri)
+    auto it= args.find("type");
+
+    if(it == args.end())
         return;
 
-    auto controller= m_mediaControllers[uri->getType()];
+    auto controller= m_mediaControllers[it->second.value<Core::ContentType>()];
     if(!controller)
         return;
 
-    emit performCommand(new OpenMediaController(uri, controller, this, true, args));
+    emit performCommand(new OpenMediaController(controller, this, args));
 }
+
+/*void ContentController::closeMedia(Core::ContentType type, const QString& id)
+{
+    auto controller= m_mediaControllers[type];
+    if(!controller)
+        return;
+
+    controller->;
+
+        emit performCommand(new RemoveMediaControllerCommand(controller, controller));
+}*/
+
 QAbstractItemModel* ContentController::model() const
 {
     return m_contentModel.get();
@@ -169,6 +184,11 @@ SharedNoteMediaController* ContentController::sharedCtrl() const
 PdfMediaController* ContentController::pdfCtrl() const
 {
     return m_pdfMediaController.get();
+}
+
+NoteMediaController* ContentController::noteCtrl() const
+{
+    return m_noteMediaController.get();
 }
 
 void ContentController::addContent(ResourcesNode* node)
@@ -288,7 +308,7 @@ NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader
     if(actions.find(msg->action()) == actions.end())
         return result;
 
-    auto type= static_cast<CleverURI::ContentType>(msg->uint8());
+    auto type= static_cast<Core::ContentType>(msg->uint8());
     auto media= m_mediaControllers.at(type);
 
     if(!media)
@@ -299,13 +319,13 @@ NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader
     return result;
 }
 
-void ContentController::addImageAs(const QPixmap& map, CleverURI::ContentType type)
+void ContentController::addImageAs(const QPixmap& map, Core::ContentType type)
 {
-    if(type == CleverURI::PICTURE)
+    if(type == Core::ContentType::PICTURE)
     {
         m_imageControllers->addImage(map);
     }
-    else if(type == CleverURI::VMAP)
+    else if(type == Core::ContentType::VECTORIALMAP)
     {
         m_vmapControllers->addImageToMap(map);
     }
@@ -314,7 +334,7 @@ void ContentController::addImageAs(const QPixmap& map, CleverURI::ContentType ty
 /*void ContentController::setActiveMediaController(AbstractMediaContainerController* mediaCtrl)
 {
     std::find_if(m_mediaControllers.begin(), m_mediaControllers.end(),
-                 [this](const std::pair<CleverURI::ContentType, MediaControllerInterface*>& pair) {
+                 [this](const std::pair<Core::ContentType, MediaControllerInterface*>& pair) {
 
                  });
     if()

@@ -73,7 +73,7 @@ void UpdaterVMapTest::serializationTest()
     QFETCH(Type, type);
     QFETCH(bool, result);
 
-    VectorialMapController map(new CleverURI(CleverURI::ContentType::VMAP));
+    VectorialMapController map("");
     auto ok= map.setProperty(propertyName.toLocal8Bit().data(), propertyValue);
     QVERIFY(ok);
 
@@ -115,7 +115,7 @@ void UpdaterVMapTest::serializationTest()
     NetworkMessageReader msgReader;
     msgReader.setData(data);
 
-    VectorialMapController ma2p(new CleverURI(CleverURI::ContentType::VMAP));
+    VectorialMapController ma2p("");
     QVERIFY(m_updater->updateVMapProperty(&msgReader, &ma2p));
 }
 
@@ -139,7 +139,8 @@ void UpdaterVMapTest::serializationTest_data()
     QTest::addRow("value 9bis") << QString("gridAbove") << QVariant::fromValue(true) << BOOL << true;
     QTest::addRow("value 10") << QString("scaleUnit") << QVariant::fromValue(Core::KM) << UNIT << true;
     QTest::addRow("value 11") << QString("permission") << QVariant::fromValue(Core::PC_ALL) << PERMISSION << true;
-    QTest::addRow("value 12") << QString("gridPattern") << QVariant::fromValue(Core::SQUARE) << GRIDPATTERN << true;
+    QTest::addRow("value 12") << QString("gridPattern") << QVariant::fromValue(Core::GridPattern::SQUARE) << GRIDPATTERN
+                              << true;
     QTest::addRow("value 13") << QString("visibility") << QVariant::fromValue(Core::FOGOFWAR) << VISIBILITY << true;
     QTest::addRow("value 14") << QString("backgroundColor") << QVariant::fromValue(QColor(Qt::yellow)) << QCOLOR
                               << true;

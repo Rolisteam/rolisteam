@@ -20,29 +20,30 @@
 #ifndef NEWMEDIACONTROLLER_H
 #define NEWMEDIACONTROLLER_H
 
-#include "data/cleveruri.h"
+#include "media/mediatype.h"
 #include <QPointer>
 #include <QUndoCommand>
 #include <memory>
 
-class MediaControllerInterface;
+class MediaManagerBase;
 class ContentController;
 class NewMediaController : public QUndoCommand
 {
 public:
-    NewMediaController(CleverURI::ContentType contentType, MediaControllerInterface* ctrl,
-                       ContentController* contentCtrl, bool isGm, const std::map<QString, QVariant>& map,
-                       QUndoCommand* parent= nullptr);
+    NewMediaController(Core::ContentType contentType, MediaManagerBase* ctrl, ContentController* contentCtrl,
+                       const std::map<QString, QVariant>& map, QUndoCommand* parent= nullptr);
 
     void redo() override;
     void undo() override;
 
 private:
-    CleverURI* m_uri= nullptr;
-    QPointer<MediaControllerInterface> m_ctrl;
+    QPointer<MediaManagerBase> m_ctrl;
+    QString m_uuidUri;
+    QString m_title;
+    Core::ContentType m_contentType;
     QPointer<ContentController> m_contentCtrl;
     std::map<QString, QVariant> m_args;
-    bool m_gm;
+    // CleverURI* m_uri= nullptr;
 };
 
 #endif // NEWMEDIACONTROLLER_H

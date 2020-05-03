@@ -17,9 +17,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "mediacontrollerinterface.h"
+#include "mediamanagerbase.h"
 
-void MediaControllerInterface::setLocalIsGM(bool localIsGM)
+#include <QUndoStack>
+
+MediaManagerBase::MediaManagerBase(Core::ContentType contentType, QObject* parent)
+    : QObject(parent), m_contentType(contentType)
+{
+}
+
+Core::ContentType MediaManagerBase::type() const
+{
+    return m_contentType;
+}
+
+void MediaManagerBase::setLocalIsGM(bool localIsGM)
 {
     if(m_localIsGM == localIsGM)
         return;
@@ -28,17 +40,22 @@ void MediaControllerInterface::setLocalIsGM(bool localIsGM)
     emit localIsGMChanged(m_localIsGM);
 }
 
-bool MediaControllerInterface::localIsGM() const
+void MediaManagerBase::setUndoStack(QUndoStack* stack)
+{
+    m_undoStack= stack;
+}
+
+bool MediaManagerBase::localIsGM() const
 {
     return m_localIsGM;
 }
 
-QString MediaControllerInterface::localId() const
+QString MediaManagerBase::localId() const
 {
     return m_localId;
 }
 
-void MediaControllerInterface::setLocalId(const QString& id)
+void MediaManagerBase::setLocalId(const QString& id)
 {
     if(m_localId == id)
         return;

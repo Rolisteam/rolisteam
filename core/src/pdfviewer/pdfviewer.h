@@ -66,7 +66,7 @@ public:
 
     void contextMenuEvent(QContextMenuEvent* event);
     /*signals:
-        void openImageAs(const QPixmap&, CleverURI::ContentType);*/
+        void openImageAs(const QPixmap&, Core::ContentType);*/
 
 protected:
     void createActions();

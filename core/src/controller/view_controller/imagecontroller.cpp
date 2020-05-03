@@ -21,11 +21,12 @@
 
 #include "data/cleveruri.h"
 
-ImageController::ImageController(CleverURI* uri, const QPixmap& pixmap, QObject* parent)
-    : AbstractMediaContainerController(uri, parent)
+ImageController::ImageController(const QString& id, const QString& path, const QPixmap& pixmap, QObject* parent)
+    : MediaControllerBase(id, Core::ContentType::PICTURE, parent)
 {
+    setPath(path);
     if(pixmap.isNull())
-        m_image= QPixmap(uri->getUri());
+        m_image= QPixmap(path);
     else
         m_image= pixmap;
 }
@@ -48,6 +49,16 @@ const QPixmap& ImageController::pixmap() const
 Qt::CursorShape ImageController::cursor() const
 {
     return m_fitWindow ? Qt::ArrowCursor : Qt::OpenHandCursor;
+}
+
+bool ImageController::isMovie() const
+{
+    return m_movie;
+}
+
+ImageController::Status ImageController::status() const
+{
+    return m_status;
 }
 
 qreal ImageController::ratioV() const
@@ -92,6 +103,12 @@ void ImageController::zoomOut(qreal step)
 {
     setZoomLevel(m_zoomLevel - step);
 }
+
+void ImageController::play() {}
+
+void ImageController::stop() {}
+
+void ImageController::pause() {}
 
 const QPixmap ImageController::scaledPixmap() const
 {

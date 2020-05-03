@@ -46,7 +46,7 @@ private:
     SessionItemModel* m_model;
 };
 
-Q_DECLARE_METATYPE(std::vector<CleverURI::ContentType>);
+Q_DECLARE_METATYPE(std::vector<Core::ContentType>);
 
 SessionTest::SessionTest()
 {
@@ -64,8 +64,8 @@ void SessionTest::testModel()
     /*    m_sessionManager->show();
         QApplication::processEvents();
 
-        CleverURI* uri1= new CleverURI("uri1", "/path/uri1", CleverURI::CHARACTERSHEET);
-        CleverURI* uri2= new CleverURI("uri2", "/path/uri2", CleverURI::VMAP);
+        CleverURI* uri1= new CleverURI("uri1", "/path/uri1", Core::ContentType::CHARACTERSHEET);
+        CleverURI* uri2= new CleverURI("uri2", "/path/uri2", Core::ContentType::VECTORIALMAP);
         Character* character= new Character("character1", Qt::red, true);
         Chapter* chapter= new Chapter();
         chapter->setName("chapter1");
@@ -116,15 +116,16 @@ void SessionTest::testManager()
 
 void SessionTest::saveAndLoadTest()
 {
-    /*   QFETCH(std::vector<CleverURI::ContentType>, list);
+    /*   QFETCH(std::vector<Core::ContentType>, list);
 
-       auto imageUri= new CleverURI("Girafe", ":/assets/img/girafe.jpg", CleverURI::PICTURE);
+       auto imageUri= new CleverURI("Girafe", ":/assets/img/girafe.jpg", Core::ContentType::PICTURE);
        auto characterSheet= new CleverURI("bitume", ":/assets/charactersheet/bitume_fixed.rcs",
-       CleverURI::CHARACTERSHEET); auto vmap= new CleverURI("vmap", ":/assets/vmap/test.vmap", CleverURI::VMAP); auto
-       text= new CleverURI("text", ":/assets/notes/test.odt", CleverURI::TEXT); auto sharednote= new
-       CleverURI("sharednote", ":/assets/sharednotes/test.rsn", CleverURI::SHAREDNOTE); auto playlist= new
-       CleverURI("playlist", ":/assets/list/list.m3u", CleverURI::SONGLIST); auto webview= new CleverURI("webview",
-       "http://www.rolisteam.org", CleverURI::WEBVIEW);
+       Core::ContentType::CHARACTERSHEET); auto vmap= new CleverURI("vmap", ":/assets/vmap/test.vmap",
+       Core::ContentType::VECTORIALMAP); auto text= new CleverURI("text", ":/assets/notes/test.odt",
+       Core::ContentType::NOTES); auto sharednote= new CleverURI("sharednote", ":/assets/sharednotes/test.rsn",
+       Core::ContentType::SHAREDNOTE); auto playlist= new CleverURI("playlist", ":/assets/list/list.m3u",
+       CleverURI::SONGLIST); auto webview= new CleverURI("webview", "http://www.rolisteam.org",
+       Core::ContentType::WEBVIEW);
 
        std::vector<CleverURI*> data;
        for(auto id : list)
@@ -132,25 +133,25 @@ void SessionTest::saveAndLoadTest()
            CleverURI* uri= nullptr;
            switch(id)
            {
-           case CleverURI::PICTURE:
+           case Core::ContentType::PICTURE:
                uri= imageUri;
                break;
-           case CleverURI::CHARACTERSHEET:
+           case Core::ContentType::CHARACTERSHEET:
                uri= characterSheet;
                break;
-           case CleverURI::TEXT:
+           case Core::ContentType::NOTES:
                uri= text;
                break;
-           case CleverURI::VMAP:
+           case Core::ContentType::VECTORIALMAP:
                uri= vmap;
                break;
-           case CleverURI::SHAREDNOTE:
+           case Core::ContentType::SHAREDNOTE:
                uri= sharednote;
                break;
            case CleverURI::SONGLIST:
                uri= playlist;
                break;
-           case CleverURI::WEBVIEW:
+           case Core::ContentType::WEBVIEW:
                uri= webview;
                break;
            default:
@@ -189,14 +190,14 @@ void SessionTest::saveAndLoadTest()
 
 void SessionTest::saveAndLoadTest_data()
 {
-    /*    QTest::addColumn<std::vector<CleverURI::ContentType>>("list");
+    /*    QTest::addColumn<std::vector<Core::ContentType>>("list");
 
-        std::vector<CleverURI::ContentType> data({CleverURI::VMAP, CleverURI::SHAREDNOTE, CleverURI::CHARACTERSHEET,
-                                                  CleverURI::TEXT, CleverURI::PICTURE, CleverURI::SONGLIST,
-                                                  CleverURI::WEBVIEW}); //
+        std::vector<Core::ContentType> data({Core::ContentType::VECTORIALMAP, Core::ContentType::SHAREDNOTE,
+       Core::ContentType::CHARACTERSHEET, Core::ContentType::NOTES, Core::ContentType::PICTURE, CleverURI::SONGLIST,
+                                                  Core::ContentType::WEBVIEW}); //
 
         // auto list = new std::vector<CleverURI*>();
-        std::vector<CleverURI::ContentType> list;
+        std::vector<Core::ContentType> list;
 
         int index= 0;
         for(unsigned int i= 0; i < data.size(); ++i)

@@ -23,32 +23,30 @@
 #include <memory>
 #include <vector>
 
-#include "mediacontrollerinterface.h"
+#include "mediamanagerbase.h"
 
 class PdfController;
-class PdfMediaController : public MediaControllerInterface
+class PdfMediaController : public MediaManagerBase
 {
     Q_OBJECT
 public:
-    PdfMediaController();
+    explicit PdfMediaController(QObject* parent= nullptr);
     ~PdfMediaController() override;
 
-    CleverURI::ContentType type() const override;
-    bool openMedia(CleverURI* uri, const std::map<QString, QVariant>& args) override;
+    bool openMedia(const QString& uuid, const std::map<QString, QVariant>& args) override;
     void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
-    void setUndoStack(QUndoStack* stack) override;
 
 public slots:
     void sharePdf(const QString& id);
 
 signals:
     void pdfControllerCreated(PdfController* pdfController);
-    void shareImageAs(const QPixmap& image, CleverURI::ContentType type);
+    void shareImageAs(const QPixmap& image, Core::ContentType type);
 
 private:
-    void addPdfController(CleverURI* uri, const QHash<QString, QVariant>& params);
+    void addPdfController(const QHash<QString, QVariant>& params);
 
 private:
     std::vector<std::unique_ptr<PdfController>> m_pdfs;

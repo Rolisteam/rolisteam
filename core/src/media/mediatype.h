@@ -20,6 +20,7 @@
 #ifndef MEDIATYPE_H
 #define MEDIATYPE_H
 
+#include <QHash>
 #include <QObject>
 
 namespace Core
@@ -33,6 +34,42 @@ enum PermissionMode
 };
 Q_ENUM_NS(PermissionMode)
 
+/*    TOKEN,
+    SONG,
+    SONGLIST,*/
+enum class ContentType : int
+{
+    VECTORIALMAP,
+    PICTURE,
+    ONLINEPICTURE,
+    NOTES,
+    CHARACTERSHEET,
+    SHAREDNOTE,
+    PDF,
+    WEBVIEW
+};
+Q_ENUM_NS(ContentType)
+
+inline uint qHash(Core::ContentType type, uint seed)
+{
+    return ::qHash(static_cast<uint>(type), seed);
+}
+
+enum class LoadingMode
+{
+    Internal,
+    Linked
+};
+Q_ENUM_NS(LoadingMode)
+
+enum State
+{
+    Unloaded,
+    Hidden,
+    Displayed
+};
+Q_ENUM_NS(State)
+
 enum VisibilityMode
 {
     HIDDEN,
@@ -41,7 +78,7 @@ enum VisibilityMode
 };
 Q_ENUM_NS(VisibilityMode)
 
-enum GridPattern
+enum class GridPattern : char
 {
     NONE,
     SQUARE,

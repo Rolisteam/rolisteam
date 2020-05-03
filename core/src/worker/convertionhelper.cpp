@@ -52,7 +52,7 @@ void variantToType<Core::PermissionMode>(const Core::PermissionMode& val, Networ
 template <>
 void variantToType<Core::GridPattern>(const Core::GridPattern& val, NetworkMessageWriter& msg)
 {
-    msg.uint8(val);
+    msg.uint8(static_cast<typename std::underlying_type<Core::GridPattern>::type>(val));
 }
 template <>
 void variantToType<Core::Layer>(const Core::Layer& val, NetworkMessageWriter& msg)

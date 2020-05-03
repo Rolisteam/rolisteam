@@ -40,10 +40,10 @@ SessionView::SessionView(QWidget* parent) : QTreeView(parent)
         // auto uri = dynamic_cast<CleverURI*>(node);
         if(nullptr == uri)
             return;
-        if(uri->loadingMode() == CleverURI::Internal)
-            uri->setLoadingMode(CleverURI::Linked);
+        if(uri->loadingMode() == Core::LoadingMode::Internal)
+            uri->setLoadingMode(Core::LoadingMode::Linked);
         else
-            uri->setLoadingMode(CleverURI::Internal);
+            uri->setLoadingMode(Core::LoadingMode::Internal);
     });
 
     m_loadingModeColumn= new QAction(tr("Loading Mode"), this);
@@ -98,7 +98,7 @@ void SessionView::contextMenuEvent(QContextMenuEvent* event)
     if(uri != nullptr)
     {
         auto text= tr("Switch loading mode to %1")
-                       .arg((uri->loadingMode() == CleverURI::Internal) ? tr("Linked") : tr("Internal"));
+                       .arg((uri->loadingMode() == Core::LoadingMode::Internal) ? tr("Linked") : tr("Internal"));
         m_switchLoadingMode->setText(text);
         popMenu.addAction(m_switchLoadingMode);
     }

@@ -17,59 +17,67 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "abstractmediacontroller.h"
+#include "mediacontrollerbase.h"
 
 #include "data/cleveruri.h"
 
-AbstractMediaContainerController::AbstractMediaContainerController(CleverURI* uri, QObject* parent)
-    : QObject(parent), m_uri(uri)
+MediaControllerBase::MediaControllerBase(const QString& id, Core::ContentType contentType, QObject* parent)
+    : QObject(parent), m_uuid(id), m_type(contentType)
 {
-    Q_ASSERT(uri != nullptr);
 }
 
-AbstractMediaContainerController::~AbstractMediaContainerController()= default;
+MediaControllerBase::~MediaControllerBase()= default;
 
-QString AbstractMediaContainerController::name() const
+QString MediaControllerBase::name() const
 {
-    return m_uri->name();
+    return m_name;
 }
 
-QString AbstractMediaContainerController::uuid() const
+QString MediaControllerBase::uuid() const
 {
-    return m_uri->uuid();
+    return m_uuid;
 }
 
-CleverURI* AbstractMediaContainerController::uri() const
-{
-    return m_uri.get();
-}
-
-QString AbstractMediaContainerController::title() const
+QString MediaControllerBase::title() const
 {
     return name();
 }
 
-bool AbstractMediaContainerController::isActive() const
+bool MediaControllerBase::isActive() const
 {
     return m_active;
 }
 
-bool AbstractMediaContainerController::localGM() const
+bool MediaControllerBase::localGM() const
 {
     return m_localGM;
 }
 
-QString AbstractMediaContainerController::ownerId() const
+bool MediaControllerBase::modified() const
+{
+    return m_modified;
+}
+QString MediaControllerBase::path() const
+{
+    return m_path;
+}
+
+Core::ContentType MediaControllerBase::contentType() const
+{
+    return m_type;
+}
+
+QString MediaControllerBase::ownerId() const
 {
     return m_ownerId;
 }
 
-QString AbstractMediaContainerController::localId() const
+QString MediaControllerBase::localId() const
 {
     return m_localId;
 }
 
-void AbstractMediaContainerController::setLocalGM(bool b)
+void MediaControllerBase::setLocalGM(bool b)
 {
     if(m_localGM == b)
         return;
@@ -77,15 +85,15 @@ void AbstractMediaContainerController::setLocalGM(bool b)
     emit localGMChanged();
 }
 
-void AbstractMediaContainerController::setUuid(const QString& id)
+void MediaControllerBase::setUuid(const QString& id)
 {
-    if(uuid() == id || nullptr == m_uri)
+    if(m_uuid == id)
         return;
-    m_uri->setUuid(id);
+    m_uuid= id;
     emit uuidChanged(id);
 }
 
-void AbstractMediaContainerController::setOwnerId(const QString& id)
+void MediaControllerBase::setOwnerId(const QString& id)
 {
     if(id == m_ownerId)
         return;
@@ -93,12 +101,12 @@ void AbstractMediaContainerController::setOwnerId(const QString& id)
     emit ownerIdChanged(m_ownerId);
 }
 
-bool AbstractMediaContainerController::localIsOwner() const
+bool MediaControllerBase::localIsOwner() const
 {
     return (m_ownerId == m_localId);
 }
 
-void AbstractMediaContainerController::setLocalId(const QString& id)
+void MediaControllerBase::setLocalId(const QString& id)
 {
     if(id == m_localId)
         return;
@@ -106,32 +114,43 @@ void AbstractMediaContainerController::setLocalId(const QString& id)
     emit localIdChanged(m_ownerId);
 }
 
-void AbstractMediaContainerController::setUri(CleverURI* uri)
+void MediaControllerBase::setModified(bool b)
 {
-    if(m_uri.get() == uri)
+    if(b == m_modified)
         return;
-    m_uri.reset(std::move(uri));
-    emit uriChanged();
+
+    m_modified= b;
+    emit modifiedChanged(m_modified);
 }
 
-void AbstractMediaContainerController::aboutToClose()
+void MediaControllerBase::askToClose()
+{
+    emit closeMe(uuid());
+}
+
+void MediaControllerBase::aboutToClose()
 {
     emit closeContainer();
 }
 
-void AbstractMediaContainerController::setActive(bool b)
+void MediaControllerBase::setActive(bool b)
 {
     if(b == m_active)
         return;
     m_active= b;
     emit activeChanged();
 }
-void AbstractMediaContainerController::setName(const QString& name)
+void MediaControllerBase::setName(const QString& name)
 {
-    if(nullptr == m_uri)
+    if(name == m_name)
         return;
-    if(m_uri->name() == name)
-        return;
-    m_uri->setName(name);
+    m_name= name;
     emit nameChanged();
+}
+void MediaControllerBase::setPath(const QString& path)
+{
+    if(path == m_path)
+        return;
+    m_path= path;
+    emit pathChanged();
 }

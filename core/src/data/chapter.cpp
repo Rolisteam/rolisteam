@@ -26,7 +26,7 @@
 #include "chapter.h"
 #include "character.h"
 
-Chapter::Chapter() : m_children(QList<ResourcesNode*>())
+Chapter::Chapter() : ResourcesNode(ResourcesNode::Chapter), m_children(QList<ResourcesNode*>())
 {
     m_children.clear();
 }
@@ -39,6 +39,7 @@ Chapter::Chapter() : m_children(QList<ResourcesNode*>())
 Chapter::~Chapter()
 {
     // WARNING may cause crash
+    qDebug() << "chapter  destructor" << m_children.size() << reinterpret_cast<quint64>(this);
     qDeleteAll(m_children);
     m_children.clear();
 }
@@ -48,12 +49,12 @@ bool Chapter::hasChildren() const
     return !m_children.isEmpty();
 }
 
-bool Chapter::mayHaveChildren() const
+bool Chapter::isLeaf() const
 {
-    return true;
+    return false;
 }
 
-int Chapter::getChildrenCount() const
+int Chapter::childrenCount() const
 {
     return m_children.count();
 }
@@ -114,15 +115,10 @@ bool Chapter::seekNode(QList<ResourcesNode*>& path, ResourcesNode* node)
     return val;
 }
 
-QIcon Chapter::getIcon()
+QIcon Chapter::getIcon() const
 {
     QStyle* style= qApp->style();
     return style->standardIcon(QStyle::SP_DirIcon);
-}
-
-ResourcesNode::TypeResource Chapter::getResourcesType() const
-{
-    return ResourcesNode::Chapter;
 }
 
 bool Chapter::contains(ResourcesNode* node)
@@ -182,7 +178,7 @@ void Chapter::read(QDataStream& in)
         }
         else
         {
-            uri= new CleverURI();
+            uri= new CleverURI(Core::ContentType::PDF);
             node= uri;
         }
         node->setParentNode(this);
@@ -209,7 +205,7 @@ bool Chapter::removeChild(ResourcesNode* item)
     {
         for(auto& child : m_children)
         {
-            if(child->mayHaveChildren())
+            if(!child->isLeaf())
             {
                 Chapter* chap= dynamic_cast<Chapter*>(child);
                 if(nullptr != chap)

@@ -20,27 +20,33 @@
 #include "openmediacontroller.h"
 
 #include "controller/contentcontroller.h"
-#include "controller/media_controller/mediacontrollerinterface.h"
+#include "controller/media_controller/mediamanagerbase.h"
 #include "data/cleveruri.h"
 
 #include <QDebug>
+#include <QUuid>
 
-OpenMediaController::OpenMediaController(CleverURI* uri, MediaControllerInterface* ctrl, ContentController* contentCtrl,
-                                         bool gm, const std::map<QString, QVariant>& args, QUndoCommand* parent)
-    : QUndoCommand(parent), m_uri(uri), m_ctrl(ctrl), m_contentCtrl(contentCtrl), m_args(args), m_gm(gm)
+OpenMediaController::OpenMediaController(MediaManagerBase* ctrl, ContentController* contentCtrl,
+                                         const std::map<QString, QVariant>& args, QUndoCommand* parent)
+    : QUndoCommand(parent)
+    , m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
+    , m_ctrl(ctrl)
+    , m_contentCtrl(contentCtrl)
+    , m_args(args)
 {
-    if(nullptr != uri)
-        setText(QObject::tr("Show %1").arg(uri->name()));
+    auto it= args.find("name");
+    if(it != args.end())
+        setText(QObject::tr("Open %1").arg(it->second.toString()));
 }
 
 void OpenMediaController::redo()
 {
     qInfo() << QStringLiteral("Redo command OpenMediaController: %1 ").arg(text());
-    if(nullptr == m_uri || m_ctrl.isNull() || m_contentCtrl.isNull())
+    if(m_ctrl.isNull() || m_contentCtrl.isNull())
         return;
 
-    m_ctrl->openMedia(m_uri, m_args);
-    m_contentCtrl->addContent(m_uri);
+    m_ctrl->openMedia(m_uuid, m_args);
+    // m_contentCtrl->addContent(m_uri);
     // add in workspace + add action and add into ressources manager.
     /*CleverURI* uri= m_media->getCleverUri();
     if(nullptr != uri)
@@ -73,11 +79,11 @@ void OpenMediaController::redo()
 void OpenMediaController::undo()
 {
     qInfo() << QStringLiteral("Undo command AddMediaContainer: %1 ").arg(text());
-    if(nullptr == m_uri || nullptr == m_ctrl)
+    if(nullptr == m_ctrl)
         return;
 
-    m_ctrl->closeMedia(m_uri->uuid());
-    m_contentCtrl->removeContent(m_uri);
+    m_ctrl->closeMedia(m_uuid);
+    // m_contentCtrl->removeContent(m_uri);
     // remove from workspace, action in menu and from resources manager.
     /*    if(nullptr != m_media)
         {
@@ -109,10 +115,10 @@ if(nullptr == uri)
 bool result= false;
 switch(uri->getType())
 {
-case CleverURI::PICTURE:
-case CleverURI::VMAP:
+case Core::ContentType::PICTURE:
+case Core::ContentType::VECTORIALMAP:
 case CleverURI::MAP:
-case CleverURI::ONLINEPICTURE:
+case Core::ContentType::ONLINEPICTURE:
     result= true;
     break;
 default:

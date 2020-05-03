@@ -76,13 +76,13 @@ void DataplayerTest::testChildrenAddAndRemove()
         Character* tmp= new Character("Unknown", Qt::blue, "/fake/path/");
         list.append(tmp);
         m_player->addCharacter(tmp);
-        QVERIFY2(m_player->getChildrenCount() == list.size(), "The children count is not as expected! Failure");
+        QVERIFY2(m_player->childrenCount() == list.size(), "The children count is not as expected! Failure");
     }
 
     m_player->removeChild(list.at(0));
-    QVERIFY2(m_player->getChildrenCount() == (list.size() - 1), "The children count is not as expected! Failure");
+    QVERIFY2(m_player->childrenCount() == (list.size() - 1), "The children count is not as expected! Failure");
     m_player->clearCharacterList();
-    QVERIFY2(m_player->getChildrenCount() == 0, "The children count is not as expected! 0 Failure");
+    QVERIFY2(m_player->childrenCount() == 0, "The children count is not as expected! 0 Failure");
 }
 
 QTEST_MAIN(DataplayerTest);

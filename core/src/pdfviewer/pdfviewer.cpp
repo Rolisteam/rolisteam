@@ -123,10 +123,10 @@ void PdfViewer::createActions()
     m_shareDocument->setIcon(QIcon(":/resources/icons/document-share.svg"));
 
     m_toVmap= new QAction(tr("Export into VMap"), this);
-    m_toVmap->setData(CleverURI::VMAP);
+    m_toVmap->setData(QVariant::fromValue(Core::ContentType::VECTORIALMAP));
 
     m_image= new QAction(tr("Export as Image"), this);
-    m_image->setData(CleverURI::PICTURE);
+    m_image->setData(QVariant::fromValue(Core::ContentType::PICTURE));
 
     connect(m_toVmap, &QAction::triggered, this, &PdfViewer::exportImage);
     connect(m_image, &QAction::triggered, this, &PdfViewer::exportImage);
@@ -139,7 +139,7 @@ void PdfViewer::exportImage()
         return;
 
     auto act= qobject_cast<QAction*>(sender());
-    auto type= static_cast<CleverURI::ContentType>(act->data().toInt());
+    auto type= static_cast<Core::ContentType>(act->data().toInt());
 
     auto rect= m_overlay->rect();
     auto pix= m_pdfWidget->grab(rect);
@@ -147,10 +147,10 @@ void PdfViewer::exportImage()
     // emit openImageAs(pix, type);
     switch(type)
     {
-    case CleverURI::VMAP:
+    case Core::ContentType::VECTORIALMAP:
         m_pdfCtrl->shareImageIntoVMap(pix);
         break;
-    case CleverURI::PICTURE:
+    case Core::ContentType::PICTURE:
         m_pdfCtrl->shareImageIntoVMap(pix);
         break;
     default:

@@ -26,7 +26,7 @@
 #include <memory>
 #include <set>
 
-#include "abstractmediacontroller.h"
+#include "mediacontrollerbase.h"
 
 class Player;
 class Character;
@@ -43,7 +43,7 @@ struct CharacterSheetData
 class ImageModel;
 class CharacterSheetModel;
 class CharacterSheetItem;
-class CharacterSheetController : public AbstractMediaContainerController
+class CharacterSheetController : public MediaControllerBase
 {
     Q_OBJECT
     Q_PROPERTY(CharacterSheetModel* model READ model CONSTANT)
@@ -53,7 +53,8 @@ class CharacterSheetController : public AbstractMediaContainerController
     Q_PROPERTY(bool cornerEnabled READ cornerEnabled NOTIFY cornerEnabledChanged)
     Q_PROPERTY(QString gameMasterId READ gameMasterId WRITE setGameMasterId NOTIFY gameMasterIdChanged)
 public:
-    CharacterSheetController(CharacterModel* characterModel, CleverURI* uri, QObject* parent= nullptr);
+    CharacterSheetController(CharacterModel* characterModel, const QString& id, const QString& path,
+                             QObject* parent= nullptr);
     ~CharacterSheetController() override;
 
     virtual void saveData() const override;

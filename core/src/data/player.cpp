@@ -111,7 +111,7 @@ Player::~Player()= default;
     return m_link;
 }*/
 
-int Player::getChildrenCount() const
+int Player::childrenCount() const
 {
     return static_cast<int>(m_characters.size());
 }
@@ -164,7 +164,7 @@ void Player::addCharacter(const QString& name, const QColor& color, const QStrin
     if(containsCharacter(name, color, path, m_characters))
         return;
 
-    auto character=new Character(name, color, m_gameMaster, Npc);
+    auto character= new Character(name, color, m_gameMaster, Npc);
     character->setAvatarPath(path);
     addCharacter(character);
     // params FIXME set value from params.

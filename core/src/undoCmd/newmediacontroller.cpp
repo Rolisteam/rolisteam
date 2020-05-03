@@ -19,37 +19,47 @@
  ***************************************************************************/
 #include "newmediacontroller.h"
 
-#include "controller/contentcontroller.h"
-#include "controller/media_controller/mediacontrollerinterface.h"
-
 #include <QDebug>
+#include <QUuid>
 
-NewMediaController::NewMediaController(CleverURI::ContentType contentType, MediaControllerInterface* ctrl,
-                                       ContentController* contentCtrl, bool isGm,
-                                       const std::map<QString, QVariant>& map, QUndoCommand* parent)
-    : QUndoCommand(parent), m_ctrl(ctrl), m_contentCtrl(contentCtrl), m_args(map), m_gm(isGm)
+#include "controller/contentcontroller.h"
+#include "controller/media_controller/mediamanagerbase.h"
+
+NewMediaController::NewMediaController(Core::ContentType contentType, MediaManagerBase* ctrl,
+                                       ContentController* contentCtrl, const std::map<QString, QVariant>& map,
+                                       QUndoCommand* parent)
+    : QUndoCommand(parent), m_ctrl(ctrl), m_contentType(contentType), m_contentCtrl(contentCtrl), m_args(map)
 {
-    m_uri= new CleverURI(m_args["title"].toString(), "", "", contentType);
+    m_title= m_args["title"].toString();
 
-    setText(QObject::tr("Create new media %1").arg(m_args["title"].toString()));
+    QString media(QObject::tr("Create new %1 %2"));
+
+    setText(media.arg(CleverURI::typeToString(contentType)).arg(m_title));
 }
 
 void NewMediaController::redo()
 {
     qInfo() << QStringLiteral("Redo command newmediacontroller: %1 ").arg(text());
-    if(nullptr == m_uri || m_ctrl.isNull() || m_contentCtrl.isNull())
+    if(m_ctrl.isNull() || m_contentCtrl.isNull())
         return;
 
-    m_ctrl->openMedia(m_uri, m_args);
-    m_contentCtrl->addContent(m_uri);
+    // m_uri= new CleverURI(m_title, "", "", m_contentType);
+
+    if(m_uuidUri.isEmpty())
+        m_uuidUri= QUuid::createUuid().toString(QUuid::WithoutBraces);
+
+    m_ctrl->openMedia(m_uuidUri, m_args);
+    // m_contentCtrl->addContent(m_uri); // resources manager
 }
 
 void NewMediaController::undo()
 {
     qInfo() << QStringLiteral("Undo command newmediacontroller: %1 ").arg(text());
-    if(nullptr == m_uri || nullptr == m_ctrl)
+    if(/*nullptr == m_uri ||*/ nullptr == m_ctrl)
         return;
 
-    m_ctrl->closeMedia(m_uri->uuid());
-    m_contentCtrl->removeContent(m_uri);
+    m_ctrl->closeMedia(m_uuidUri);
+    // m_contentCtrl->removeContent(m_uri);
+
+    // m_uri= nullptr;
 }

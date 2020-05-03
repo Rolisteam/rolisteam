@@ -27,8 +27,16 @@
  * @brief RessourceNode is part of the composite design pattern, it's the abstract class
  * @brief providing the basic API for ressources, Shortname and has children.
  */
-class ResourcesNode
+class ResourcesNode : public QObject
 {
+    Q_OBJECT
+    Q_PROPERTY(QString uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QString value READ value WRITE setValue NOTIFY valueChanged)
+    Q_PROPERTY(bool hasChildren READ hasChildren NOTIFY hasChildrenChanged)
+    Q_PROPERTY(int childrenCount READ childrenCount NOTIFY childrenCountChanged)
+    Q_PROPERTY(TypeResource resourcesType READ type CONSTANT)
+    Q_PROPERTY(ResourcesNode* parentNode READ parentNode WRITE setParentNode NOTIFY parentNodeChanged)
 public:
     enum DataValue
     {
@@ -37,14 +45,18 @@ public:
         DISPLAYED,
         URI
     };
+    Q_ENUM(DataValue)
+
     enum TypeResource
     {
         Cleveruri,
         Person,
         Chapter
     };
-    ResourcesNode();
-    ResourcesNode(const QString& uuid);
+    Q_ENUM(TypeResource)
+
+    ResourcesNode(TypeResource type);
+    ResourcesNode(TypeResource type, const QString& uuid);
     virtual ~ResourcesNode();
 
     QString uuid() const;
@@ -53,48 +65,46 @@ public:
     QString name() const;
     virtual void setName(const QString& name);
 
-    virtual QString getValue() const;
+    ResourcesNode* parentNode() const;
+
+    virtual QString value() const;
     virtual void setValue(QString);
-    /**
-     * @brief allows to know if this node has children
-     * @return either has children or not
-     */
+
     virtual bool hasChildren() const;
-
-    virtual bool mayHaveChildren() const;
-
-    virtual int getChildrenCount() const;
+    virtual bool isLeaf() const;
+    virtual int childrenCount() const;
+    virtual QIcon getIcon() const;
+    virtual ResourcesNode::TypeResource type() const;
+    virtual QVariant getData(ResourcesNode::DataValue) const= 0;
 
     virtual ResourcesNode* getChildAt(int) const;
-
     virtual bool contains(ResourcesNode*);
-
-    virtual QIcon getIcon();
-
-    ResourcesNode* getParentNode() const;
-    void setParentNode(ResourcesNode* parent);
-
     virtual int indexOf(ResourcesNode*) const;
-
+    virtual bool removeChild(ResourcesNode*);
+    virtual void insertChildAt(int row, ResourcesNode*);
     int rowInParent();
-
-    virtual ResourcesNode::TypeResource getResourcesType() const= 0;
 
     virtual void write(QDataStream& out, bool tag= true, bool saveData= true) const= 0;
     virtual void read(QDataStream& in)= 0;
-
-    virtual bool removeChild(ResourcesNode*);
-    virtual void insertChildAt(int row, ResourcesNode*);
-
-    virtual QVariant getData(ResourcesNode::DataValue) const= 0;
-
     virtual bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node)= 0;
+
+public slots:
+    void setParentNode(ResourcesNode* parent);
+
+signals:
+    void uuidChanged(QString id);
+    void nameChanged();
+    void valueChanged();
+    void hasChildrenChanged();
+    void childrenCountChanged();
+    void parentNodeChanged();
 
 protected:
     QString m_uuid;
     QString m_name;
     QString m_value;
     ResourcesNode* m_parent= nullptr;
+    TypeResource m_type;
 };
 
 #endif // RESSOURCESNODE_H

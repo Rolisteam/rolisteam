@@ -99,19 +99,19 @@ Core::GridPattern MapWizzardDialog::pattern() const
     switch(ui->m_gridPattern->currentIndex())
     {
     case 0:
-        grid= Core::NONE;
+        grid= Core::GridPattern::NONE;
         break;
     case 1:
-        grid= Core::SQUARE;
+        grid= Core::GridPattern::SQUARE;
         break;
     case 3:
-        grid= Core::OCTOGON;
+        grid= Core::GridPattern::OCTOGON;
         break;
     case 2:
-        grid= Core::HEXAGON;
+        grid= Core::GridPattern::HEXAGON;
         break;
     default:
-        grid= Core::NONE;
+        grid= Core::GridPattern::NONE;
         break;
     }
     return grid;

@@ -17,34 +17,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef DELETEMEDIACONTAINERCOMMAND_H
-#define DELETEMEDIACONTAINERCOMMAND_H
+#ifndef REMOVEMEDIACONTROLLERCOMMAND_H
+#define REMOVEMEDIACONTROLLERCOMMAND_H
 
-#include "data/mediacontainer.h"
 #include <QUndoCommand>
+#include <map>
+#include <QVariant>
 
-class SessionManager;
-class Workspace;
-class DeleteMediaContainerCommand : public QUndoCommand
+#include "data/cleveruri.h"
+
+class MediaControllerBase;
+class MediaManagerBase;
+class RemoveMediaControllerCommand : public QUndoCommand
 {
 public:
-    DeleteMediaContainerCommand(MediaContainer* media, /*SessionManager* manager,*/ QMenu* menu, Workspace* workspace,
-                                bool isGM, QHash<QString, MediaContainer*>& hash, QUndoCommand* parent= nullptr);
+    RemoveMediaControllerCommand(MediaControllerBase* media, MediaManagerBase* ctrl, QUndoCommand* parent= nullptr);
 
-    ~DeleteMediaContainerCommand() override;
+    ~RemoveMediaControllerCommand() override;
 
     void redo() override;
     void undo() override;
 
-    bool sendAtOpening();
-
 private:
-    MediaContainer* m_media= nullptr;
-    // SessionManager* m_manager= nullptr;
-    QMenu* m_menu= nullptr;
-    Workspace* m_mdiArea= nullptr;
-    QHash<QString, MediaContainer*>& m_hash;
-    bool m_gm;
+    QString m_uuid;
+    QString m_title;
+    MediaControllerBase* m_ctrl = nullptr;
+    MediaManagerBase* m_manager;
+    std::map<QString, QVariant> m_params;
+    Core::ContentType m_contentType;
 };
 
-#endif // DELETEMEDIACONTAINERCOMMAND_H
+#endif // REMOVEMEDIACONTROLLERCOMMAND_H

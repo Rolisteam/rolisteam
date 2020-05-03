@@ -51,9 +51,7 @@
 
 #include "noteeditor/format_OO_oasis_/OOReader.h"
 
-#if QT_VERSION >= 0x040500
 #include <QTextDocumentWriter>
-#endif
 
 QT_FORWARD_DECLARE_CLASS(QAction)
 QT_FORWARD_DECLARE_CLASS(QComboBox)
@@ -61,13 +59,14 @@ QT_FORWARD_DECLARE_CLASS(QFontComboBox)
 QT_FORWARD_DECLARE_CLASS(QTextEdit)
 QT_FORWARD_DECLARE_CLASS(QTextCharFormat)
 QT_FORWARD_DECLARE_CLASS(QMenu)
+class NoteController;
 
 class TextEdit : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    TextEdit(QWidget* parent= 0);
+    TextEdit(NoteController* note, QWidget* parent= 0);
     QString getFilter() const;
 
     QString getFileName() const;
@@ -128,6 +127,9 @@ private:
     void fontChanged(const QFont& f);
     void colorChanged(const QColor& c);
     void alignmentChanged(Qt::Alignment a);
+
+private:
+    QPointer<NoteController> m_noteCtrl;
 
     QAction *actionSave, *actionTextBold, *actionTextUnderline, *actionTextItalic, *actionTextColor, *actionAlignLeft,
         *actionAlignCenter, *actionAlignRight, *actionAlignJustify, *actionUndo, *actionRedo, *actionCut, *actionCopy,

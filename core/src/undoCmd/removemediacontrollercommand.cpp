@@ -17,31 +17,48 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef ADDMEDIACONTENEUR_H
-#define ADDMEDIACONTENEUR_H
+#include "removemediacontrollercommand.h"
 
-#include <QPointer>
-#include <QUndoCommand>
+#include <QDebug>
 
-class MediaManagerBase;
-class CleverURI;
-class ContentController;
-class OpenMediaController : public QUndoCommand
+#include "controller/contentcontroller.h"
+#include "controller/view_controller/mediacontrollerbase.h"
+#include "controller/media_controller/mediamanagerbase.h"
+#include "worker/iohelper.h"
+
+
+RemoveMediaControllerCommand::RemoveMediaControllerCommand(MediaControllerBase* ctrl,MediaManagerBase* manager, QUndoCommand* parent)
+    : QUndoCommand(parent), m_ctrl(ctrl),m_manager(manager)
 {
-public:
-    OpenMediaController(MediaManagerBase* ctrl, ContentController* contentCtrl, const std::map<QString, QVariant>& map,
-                        QUndoCommand* parent= nullptr);
+    if(m_ctrl)
+    {
+        m_uuid = m_ctrl->uuid();
+        m_title = m_ctrl->title();
+        m_contentType = manager->type();
+        setText(QObject::tr("Close %1").arg(m_title));
+    }
+}
 
-    void redo() override;
-    void undo() override;
+RemoveMediaControllerCommand::~RemoveMediaControllerCommand() = default;
 
-private:
-    CleverURI* m_uri= nullptr;
-    QString m_uuid;
-    QPointer<MediaManagerBase> m_ctrl;
-    QPointer<ContentController> m_contentCtrl;
-    std::map<QString, QVariant> m_args;
-    bool m_gm;
-};
+void RemoveMediaControllerCommand::redo()
+{
+    qInfo() << QStringLiteral("redo command RemoveMediaControllerCommand: %1 ").arg(text());
+    if(nullptr == m_ctrl)
+        return;
 
-#endif // ADDMEDIACONTENEUR_H
+    m_params = IOHelper::saveController(m_ctrl);
+
+    m_manager->closeMedia(m_ctrl->uuid());
+
+}
+
+void RemoveMediaControllerCommand::undo()
+{
+    qInfo() << QStringLiteral("undo command RemoveMediaControllerCommand: %1 ").arg(text());
+    if(nullptr == m_ctrl)
+        return;
+
+   // m_ctrl->openMedia(m_uri, m_args);
+}
+

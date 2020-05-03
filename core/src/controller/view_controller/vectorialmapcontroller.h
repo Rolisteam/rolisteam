@@ -26,8 +26,8 @@
 #include <memory>
 #include <vector>
 
-#include "abstractmediacontroller.h"
 #include "media/mediatype.h"
+#include "mediacontrollerbase.h"
 #include "network/networkreceiver.h"
 
 namespace vmap
@@ -49,7 +49,7 @@ class ImageControllerManager;
 class PathControllerManager;
 class TextControllerManager;
 class CharacterItemControllerManager;
-class VectorialMapController : public AbstractMediaContainerController
+class VectorialMapController : public MediaControllerBase
 {
     Q_OBJECT
     Q_PROPERTY(bool npcNameVisible READ npcNameVisible WRITE setNpcNameVisible NOTIFY npcNameVisibleChanged)
@@ -100,7 +100,7 @@ public:
         BACK
     };
     Q_ENUM(StackOrder)
-    explicit VectorialMapController(CleverURI* uri, QObject* parent= nullptr);
+    explicit VectorialMapController(const QString& id, QObject* parent= nullptr);
     ~VectorialMapController();
 
     Core::PermissionMode permission() const;
@@ -259,7 +259,7 @@ private:
     bool m_characterVision= false;
     bool m_stateLabelVisible= false;
     Core::PermissionMode m_permission= Core::GM_ONLY;
-    Core::GridPattern m_gridPattern= Core::NONE;
+    Core::GridPattern m_gridPattern= Core::GridPattern::NONE;
     Core::VisibilityMode m_visibilityMode= Core::HIDDEN;
     qreal m_zoomLevel= 1.0;
     qreal m_opacity= 1.0;

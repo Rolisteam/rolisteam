@@ -25,12 +25,12 @@
 #include <QPointer>
 #include <memory>
 
-#include "abstractmediacontroller.h"
+#include "mediacontrollerbase.h"
 
 class ParticipantModel;
 class PlayerModel;
 class Player;
-class SharedNoteController : public AbstractMediaContainerController
+class SharedNoteController : public MediaControllerBase
 {
     Q_OBJECT
     Q_PROPERTY(PlayerModel* playerModel READ playerModel NOTIFY playerModelChanged)
@@ -60,7 +60,7 @@ public:
     };
     Q_ENUM(HighlightedSyntax)
 
-    SharedNoteController(const QString& ownerId, const QString& local, PlayerModel* model, CleverURI* uri,
+    SharedNoteController(const QString& ownerId, const QString& local, PlayerModel* model, const QString& uuid,
                          QObject* parent= nullptr);
     ~SharedNoteController() override;
 

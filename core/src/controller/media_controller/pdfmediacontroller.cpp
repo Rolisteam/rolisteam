@@ -22,23 +22,21 @@
 #include "controller/view_controller/pdfcontroller.h"
 #include "worker/messagehelper.h"
 
-PdfMediaController::PdfMediaController() {}
+PdfMediaController::PdfMediaController(QObject* parent) : MediaManagerBase(Core::ContentType::PDF, parent) {}
 
 PdfMediaController::~PdfMediaController()= default;
 
-CleverURI::ContentType PdfMediaController::type() const
+bool PdfMediaController::openMedia(const QString& uuid, const std::map<QString, QVariant>& args)
 {
-    return CleverURI::PDF;
-}
-
-bool PdfMediaController::openMedia(CleverURI* uri, const std::map<QString, QVariant>& args)
-{
-    if(uri == nullptr || (args.empty() && uri->getUri().isEmpty()))
+    if(uuid.isEmpty() || args.empty())
         return false;
 
-    // std::unique_ptr<PdfController> pdfCtrl(new PdfController(uri));
+    QByteArray array;
+    auto it= args.find(QStringLiteral("data"));
+    if(it != args.end())
+        array= it->second.toByteArray();
 
-    addPdfController(uri, QHash<QString, QVariant>());
+    addPdfController({{"id", uuid}, {"data", array}});
     return true;
 }
 
@@ -64,12 +62,10 @@ NetWorkReceiver::SendType PdfMediaController::processMessage(NetworkMessageReade
     if(msg->category() == NetMsg::MediaCategory && msg->action() == NetMsg::AddMedia)
     {
         auto data= MessageHelper::readPdfData(msg);
-        addPdfController(new CleverURI(CleverURI::PDF), data);
+        addPdfController(data);
     }
     return type;
 }
-
-void PdfMediaController::setUndoStack(QUndoStack* stack) {}
 
 void PdfMediaController::sharePdf(const QString& id)
 {
@@ -80,20 +76,13 @@ void PdfMediaController::sharePdf(const QString& id)
         return;
 }
 
-void PdfMediaController::addPdfController(CleverURI* uri, const QHash<QString, QVariant>& params)
+void PdfMediaController::addPdfController(const QHash<QString, QVariant>& params)
 {
-    QByteArray array;
 
-    if(params.contains(QStringLiteral("id")))
-    {
-        uri->setUuid(params.value(QStringLiteral("id")).toString());
-    }
-    if(params.contains(QStringLiteral("data")))
-    {
-        array= params.value(QStringLiteral("data")).toByteArray();
-    }
+    auto id= params.value(QStringLiteral("id")).toString();
+    auto array= params.value(QStringLiteral("data")).toByteArray();
 
-    std::unique_ptr<PdfController> pdfController(new PdfController(uri, array));
+    std::unique_ptr<PdfController> pdfController(new PdfController(id, array));
     connect(pdfController.get(), &PdfController::sharePdf, this, &PdfMediaController::sharePdf);
     connect(pdfController.get(), &PdfController::openImageAs, this, &PdfMediaController::shareImageAs);
 

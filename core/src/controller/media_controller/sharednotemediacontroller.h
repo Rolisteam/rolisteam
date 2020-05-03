@@ -24,26 +24,24 @@
 #include <memory>
 #include <vector>
 
-#include "mediacontrollerinterface.h"
+#include "mediamanagerbase.h"
 
 class SharedNoteController;
 class SharedNoteControllerUpdater;
 class PlayerModel;
-class SharedNoteMediaController : public MediaControllerInterface
+class SharedNoteMediaController : public MediaManagerBase
 {
     Q_OBJECT
 public:
     SharedNoteMediaController(PlayerModel* model, QObject* parent= nullptr);
     ~SharedNoteMediaController() override;
 
-    CleverURI::ContentType type() const override;
-    bool openMedia(CleverURI* uri, const std::map<QString, QVariant>& args) override;
+    bool openMedia(const QString& id, const std::map<QString, QVariant>& args) override;
     void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
-    void setUndoStack(QUndoStack* stack) override;
 
-    void addSharedNotes(CleverURI* uri, const QHash<QString, QVariant>& params);
+    void addSharedNotes(const QHash<QString, QVariant>& params);
 signals:
     void sharedNoteControllerCreated(SharedNoteController* crtl);
 

@@ -22,9 +22,12 @@
 
 #include <QUuid>
 
-ResourcesNode::ResourcesNode() : m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces)) {}
+ResourcesNode::ResourcesNode(TypeResource type)
+    : m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces)), m_type(type)
+{
+}
 
-ResourcesNode::ResourcesNode(const QString& uuid) : m_uuid(uuid) {}
+ResourcesNode::ResourcesNode(TypeResource type, const QString& uuid) : m_uuid(uuid), m_type(type) {}
 
 ResourcesNode::~ResourcesNode() {}
 
@@ -35,7 +38,11 @@ QString ResourcesNode::uuid() const
 
 void ResourcesNode::setUuid(const QString& uuid)
 {
+    if(uuid == m_uuid)
+        return;
+
     m_uuid= uuid;
+    emit uuidChanged(m_uuid);
 }
 QString ResourcesNode::name() const
 {
@@ -44,17 +51,23 @@ QString ResourcesNode::name() const
 
 void ResourcesNode::setName(const QString& name)
 {
+    if(name == m_name)
+        return;
     m_name= name;
+    emit nameChanged();
 }
 
-QString ResourcesNode::getValue() const
+QString ResourcesNode::value() const
 {
     return m_value;
 }
 
 void ResourcesNode::setValue(QString value)
 {
+    if(value == m_value)
+        return;
     m_value= value;
+    emit valueChanged();
 }
 
 ResourcesNode* ResourcesNode::getChildAt(int) const
@@ -62,19 +75,27 @@ ResourcesNode* ResourcesNode::getChildAt(int) const
     return nullptr;
 }
 
-QIcon ResourcesNode::getIcon()
+QIcon ResourcesNode::getIcon() const
 {
     return QIcon();
 }
 
-ResourcesNode* ResourcesNode::getParentNode() const
+ResourcesNode::TypeResource ResourcesNode::type() const
+{
+    return m_type;
+}
+
+ResourcesNode* ResourcesNode::parentNode() const
 {
     return m_parent;
 }
 
 void ResourcesNode::setParentNode(ResourcesNode* parent)
 {
+    if(parent == m_parent)
+        return;
     m_parent= parent;
+    emit parentNodeChanged();
 }
 
 int ResourcesNode::rowInParent()
@@ -91,14 +112,14 @@ int ResourcesNode::indexOf(ResourcesNode*) const
     return 0;
 }
 
-int ResourcesNode::getChildrenCount() const
+int ResourcesNode::childrenCount() const
 {
     return 0;
 }
 
-bool ResourcesNode::mayHaveChildren() const
+bool ResourcesNode::isLeaf() const
 {
-    return false;
+    return true;
 }
 
 bool ResourcesNode::hasChildren() const

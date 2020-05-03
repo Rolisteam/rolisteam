@@ -25,9 +25,9 @@
 #include <QJsonObject>
 #include <QRgb>
 
-#include "controller/view_controller/abstractmediacontroller.h"
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
+#include "controller/view_controller/mediacontrollerbase.h"
 #include "controller/view_controller/pdfcontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
@@ -184,16 +184,12 @@ void MessageHelper::sendOffImage(ImageController* ctrl)
 {
     if(nullptr == ctrl)
         return;
-    auto uri= ctrl->uri();
-
-    if(nullptr == uri)
-        return;
 
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
-    msg.uint8(static_cast<quint8>(uri->getType()));
+    msg.uint8(static_cast<quint8>(ctrl->contentType()));
     msg.string16(ctrl->name());
     msg.string8(ctrl->uuid());
-    msg.string8(uri->ownerId());
+    msg.string8(ctrl->ownerId());
     auto img= ctrl->pixmap();
     QByteArray array;
     QBuffer imageData(&array);
@@ -206,15 +202,15 @@ void MessageHelper::sendOffImage(ImageController* ctrl)
     msg.sendToServer();
 }
 
-CleverURI* MessageHelper::readImageData(NetworkMessageReader* msg, QPixmap& pix)
+QHash<QString, QVariant> MessageHelper::readImageData(NetworkMessageReader* msg, QPixmap& pix)
 {
-    // msg.uint8();
+    // QHash<QString, QVariant> data;
     auto name= msg->string16();
     auto id= msg->string8();
     auto owner= msg->string8();
     auto data= msg->byteArray32();
     pix.loadFromData(data);
-    return new CleverURI(name, "", owner, CleverURI::PICTURE);
+    return {{"name", name}, {"uuid", id}, {"owner", id}, {"data", data}};
 }
 
 void MessageHelper::updatePerson(NetworkMessageReader& data, PlayerModel* playerModel)
@@ -358,13 +354,9 @@ void MessageHelper::shareNotesTo(const SharedNoteController* ctrl, const QString
     if(nullptr == ctrl)
         return;
 
-    auto uri= ctrl->uri();
-    if(nullptr == uri)
-        return;
-
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
     msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
-    msg.uint8(static_cast<quint8>(uri->getType()));
+    msg.uint8(static_cast<quint8>(ctrl->contentType()));
     msg.string8(ctrl->uuid());
     msg.uint8(static_cast<bool>(ctrl->highligthedSyntax() == SharedNoteController::HighlightedSyntax::MarkDown));
     msg.string8(ctrl->ownerId());
@@ -377,13 +369,9 @@ void MessageHelper::closeNoteTo(SharedNoteController* sharedCtrl, const QString&
     if(nullptr == sharedCtrl)
         return;
 
-    auto uri= sharedCtrl->uri();
-    if(nullptr == uri)
-        return;
-
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::CloseMedia);
     msg.setRecipientList({id}, NetworkMessage::OneOrMany);
-    msg.uint8(static_cast<quint8>(uri->getType()));
+    msg.uint8(static_cast<quint8>(sharedCtrl->contentType()));
     msg.string8(sharedCtrl->uuid());
     msg.sendToServer();
 }
@@ -406,12 +394,8 @@ void MessageHelper::shareWebpage(WebpageController* ctrl)
     if(nullptr == ctrl)
         return;
 
-    auto uri= ctrl->uri();
-    if(nullptr == uri)
-        return;
-
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
-    msg.uint8(static_cast<quint8>(uri->getType()));
+    msg.uint8(static_cast<quint8>(ctrl->contentType()));
     msg.string8(ctrl->uuid());
     auto mode= ctrl->sharingMode();
     msg.uint8(mode);
@@ -447,12 +431,8 @@ void MessageHelper::sendOffPdfFile(PdfController* ctrl)
     if(nullptr == ctrl)
         return;
 
-    auto uri= ctrl->uri();
-    if(nullptr == uri)
-        return;
-
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
-    msg.uint8(static_cast<quint8>(uri->getType()));
+    msg.uint8(static_cast<quint8>(ctrl->contentType()));
     msg.string8(ctrl->uuid());
     msg.byteArray32(ctrl->data());
     msg.sendToServer();
@@ -878,8 +858,7 @@ void MessageHelper::readVectorialMapData(NetworkMessageReader* msg, VectorialMap
     if(nullptr == msg || nullptr == ctrl)
         return;
 
-    auto uri= ctrl->uri();
-    uri->setUuid(msg->string8());
+    ctrl->setUuid(msg->string8());
     auto name= msg->string16();
     qDebug() << "name" << name;
     ctrl->setName(name);
@@ -907,12 +886,8 @@ void MessageHelper::sendOffVMap(VectorialMapController* ctrl)
     if(nullptr == ctrl)
         return;
 
-    auto uri= ctrl->uri();
-    if(nullptr == uri)
-        return;
-
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::AddMedia);
-    msg.uint8(static_cast<quint8>(uri->getType()));
+    msg.uint8(static_cast<quint8>(ctrl->contentType()));
     msg.string8(ctrl->uuid());
 
     msg.string16(ctrl->name());

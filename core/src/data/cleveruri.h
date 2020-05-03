@@ -20,10 +20,12 @@
 #ifndef CLEVERURI_H
 #define CLEVERURI_H
 
-#include "resourcesnode.h"
 #include <QList>
 #include <QMetaType>
 #include <QString>
+
+#include "media/mediatype.h"
+#include "resourcesnode.h"
 
 class CleverURIListener;
 /**
@@ -36,55 +38,15 @@ class CleverURI : public ResourcesNode
 {
 public:
     /**
-     * @brief enum of all available type.
-     *
-     */
-    enum ContentType
-    {
-        NONE,
-        VMAP,
-        CHAT,
-        PICTURE,
-        ONLINEPICTURE,
-        TEXT,
-        CHARACTERSHEET,
-        TOKEN,
-        SONG,
-        SONGLIST,
-        SHAREDNOTE,
-        WEBVIEW
-#ifdef WITH_PDF
-        ,
-        PDF
-#endif
-    };
-
-    enum LoadingMode
-    {
-        Internal,
-        Linked
-    };
-    enum State
-    {
-        Unloaded,
-        Hidden,
-        Displayed
-    };
-    /**
      * @brief default constructor
      *
      */
-    CleverURI(ContentType type= NONE);
-    /**
-     * @brief copy constructor
-     *
-     */
-    CleverURI(const CleverURI& mp);
+    CleverURI(Core::ContentType type);
     /**
      * @brief constructor with parameter
      *
      */
-    CleverURI(QString name, QString uri, const QString& ownerId, ContentType type);
+    CleverURI(QString name, QString uri, const QString& ownerId, Core::ContentType type);
     /**
      * @brief Destructor
      *
@@ -100,7 +62,7 @@ public:
      * @brief set the type
      * @param the new type
      */
-    void setType(CleverURI::ContentType type);
+    void setContentType(Core::ContentType type);
     /**
      * @brief accessor to the URI
      * @return the URI
@@ -110,7 +72,7 @@ public:
      * @brief accessor to the type
      * @return the type
      */
-    CleverURI::ContentType getType() const;
+    Core::ContentType contentType() const;
     /**
      * @brief operator ==
      * @param uri1
@@ -128,7 +90,7 @@ public:
      * @param type of the content
      * @return the path to the icon
      */
-    virtual QIcon getIcon() override;
+    virtual QIcon getIcon() const override;
     /**
      * @brief CleverURI::getAbsolueDir
      * @return
@@ -136,8 +98,6 @@ public:
     const QString getAbsolueDir() const;
 
     QString ownerId() const;
-
-    virtual void setName(const QString& name) override;
 
     void write(QDataStream& out, bool tag= true, bool saveData= true) const override;
     void read(QDataStream& in) override;
@@ -147,12 +107,13 @@ public:
      * content with dedicated loading dialog
      * @return
      */
-    static QString getFilterForType(CleverURI::ContentType);
-    static QString typeToString(CleverURI::ContentType);
-    static QString getPreferenceDirectoryKey(CleverURI::ContentType);
+    static QString getFilterForType(Core::ContentType);
+    static QString typeToIconPath(Core::ContentType);
+    static QString typeToString(Core::ContentType);
+    static QString getPreferenceDirectoryKey(Core::ContentType);
 
-    LoadingMode loadingMode() const;
-    void setLoadingMode(const LoadingMode& currentMode);
+    Core::LoadingMode loadingMode() const;
+    void setLoadingMode(const Core::LoadingMode& currentMode);
 
     bool isDisplayed() const;
     void setDisplayed(bool displayed);
@@ -166,56 +127,27 @@ public:
     QVariant getData(ResourcesNode::DataValue i) const override;
     bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node) override;
 
-    // static CleverURIListener *getListener();
-    void setListener(CleverURIListener* value);
-
-    CleverURI::State getState() const;
-    void setState(const State& state);
+    Core::State getState() const;
+    void setState(const Core::State& state);
 
     bool hasData() const;
-
-    void updateListener(CleverURI::DataValue value);
-
     bool exists();
-
-    ResourcesNode::TypeResource getResourcesType() const override;
 
 protected:
     void loadData();
 
 private:
-    /**
-     * @brief split the uri to get the shortname
-     */
-    void setUpListener();
     void init();
-    QString m_uri;                 ///< member to store the uri
-    CleverURI::ContentType m_type; ///< member to store the content type
-    QByteArray m_data;             ///< data from the file
-    LoadingMode m_loadingMode;
-    State m_state;
+    QString m_uri;            ///< member to store the uri
+    Core::ContentType m_type; ///< member to store the content type
+    QByteArray m_data;        ///< data from the file
+    Core::LoadingMode m_loadingMode;
+    Core::State m_state;
     QString m_ownerId;
 
-    static QHash<CleverURI::ContentType, QString> m_iconPathHash;
     static QStringList m_typeNameList;
     static QStringList m_typeToPreferenceDirectory;
-    QList<CleverURIListener*> m_listenerList;
-};
-/**
- * @brief The CleverURIListener class is an abstract track to be notify when CleverURI has changed.
- */
-class CleverURIListener
-{
-public:
-    virtual void cleverURIHasChanged(CleverURI*, CleverURI::DataValue)= 0;
-    virtual ~CleverURIListener();
 };
 
 typedef QList<CleverURI> CleverUriList;
-Q_DECLARE_METATYPE(CleverURI)
-Q_DECLARE_METATYPE(CleverUriList)
-QDataStream& operator<<(QDataStream& out, const CleverURI&);           ///< operator for serialisation (writing)
-QDataStream& operator>>(QDataStream& in, CleverURI&);                  ///< operator for serialisation (reading)
-QDataStream& operator<<(QDataStream& out, const CleverUriList& myObj); ///< operator for serialisation (writing)
-QDataStream& operator>>(QDataStream& in, CleverUriList& myObj);        ///< operator for serialisation (reading)
-#endif                                                                 // CLEVERURI_H
+#endif // CLEVERURI_H

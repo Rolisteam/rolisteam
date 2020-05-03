@@ -29,14 +29,14 @@
 #include "preferences/preferencesmanager.h"
 #include "vmap/vtoolbar.h"
 
-#include "controller/view_controller/abstractmediacontroller.h"
+#include "controller/view_controller/mediacontrollerbase.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
 /**
  * @brief The MediaContainer class
  */
-class MediaContainer : public QMdiSubWindow, public CleverURIListener
+class MediaContainer : public QMdiSubWindow
 {
     Q_OBJECT
     Q_PROPERTY(QString ownerId READ ownerId WRITE setOwnerId NOTIFY ownerIdChanged)
@@ -46,7 +46,6 @@ public:
     {
         ImageContainer,
         VMapContainer,
-        MapContainer,
         NoteContainer,
         SharedNoteContainer,
         ChatContainer,
@@ -58,10 +57,9 @@ public:
     /**
      * @brief MediaContainer
      */
-    MediaContainer(AbstractMediaContainerController* ctrl, ContainerType containerType, bool localIsGM,
-                   QWidget* parent= nullptr);
+    MediaContainer(MediaControllerBase* ctrl, ContainerType containerType, bool localIsGM, QWidget* parent= nullptr);
 
-    AbstractMediaContainerController* ctrl() const;
+    MediaControllerBase* ctrl() const;
     /**
      * @brief ~MediaContainer
      */
@@ -127,8 +125,6 @@ public:
      */
     virtual void currentCursorChanged(QCursor*);
 
-    virtual void cleverURIHasChanged(CleverURI*, CleverURI::DataValue field) override;
-
     void addActionToMenu(QMenu& menu);
 
     virtual void fill(NetworkMessageWriter& msg);
@@ -168,7 +164,7 @@ protected slots:
     virtual void updateTitle()= 0;
 
 protected:
-    QPointer<AbstractMediaContainerController> m_lifeCycleCtrl;
+    QPointer<MediaControllerBase> m_lifeCycleCtrl;
     QString m_filter;
     PreferencesManager* m_preferences;
     QAction* m_action= nullptr;

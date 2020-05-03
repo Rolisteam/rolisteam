@@ -23,11 +23,11 @@
 #include <QObject>
 #include <QPixmap>
 
-#include "abstractmediacontroller.h"
+#include "mediacontrollerbase.h"
 
 class CleverURI;
 
-class ImageController : public AbstractMediaContainerController
+class ImageController : public MediaControllerBase
 {
     Q_OBJECT
     Q_PROPERTY(bool fitWindow READ fitWindow WRITE setFitWindow NOTIFY fitWindowChanged)
@@ -36,14 +36,27 @@ class ImageController : public AbstractMediaContainerController
     Q_PROPERTY(Qt::CursorShape cursor READ cursor NOTIFY cursorChanged)
     Q_PROPERTY(qreal ratioV READ ratioV NOTIFY ratioVChanged)
     Q_PROPERTY(qreal ratioH READ ratioH NOTIFY ratioHChanged) // bis
+    Q_PROPERTY(bool isMovie READ isMovie NOTIFY isMovieChanged)
+    Q_PROPERTY(Status status READ status NOTIFY statusChanged)
 public:
-    explicit ImageController(CleverURI* uri, const QPixmap& pixmap= QPixmap(), QObject* parent= nullptr);
+    enum Status
+    {
+        Playing,
+        Stopped,
+        Paused
+    };
+    Q_ENUM(Status);
+
+    explicit ImageController(const QString& id, const QString& path, const QPixmap& pixmap= QPixmap(),
+                             QObject* parent= nullptr);
 
     bool fitWindow() const;
     qreal zoomLevel() const;
     const QPixmap& pixmap() const;
     const QPixmap scaledPixmap() const;
     Qt::CursorShape cursor() const;
+    bool isMovie() const;
+    Status status() const;
 
     qreal ratioV() const;
     qreal ratioH() const;
@@ -58,6 +71,8 @@ signals:
     void cursorChanged();
     void ratioVChanged();
     void ratioHChanged();
+    void isMovieChanged();
+    void statusChanged();
 
 public slots:
     void setZoomLevel(qreal lvl);
@@ -65,10 +80,16 @@ public slots:
     void zoomIn(qreal step= 0.2);
     void zoomOut(qreal step= 0.2);
 
+    void play();
+    void stop();
+    void pause();
+
 private:
     bool m_fitWindow= true;
     QPixmap m_image;
     qreal m_zoomLevel= 1.0;
+    Status m_status= Stopped;
+    bool m_movie= false;
 };
 
 #endif // IMAGECONTROLLER_H

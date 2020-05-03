@@ -66,9 +66,13 @@ namespace Ui
 class MainWindow;
 }
 
+struct FileInfo
+{
+    QString path;
+    Core::ContentType type;
+};
+
 class UpdateChecker;
-class MapFrame;
-class Map;
 class ChatListWidget;
 class Image;
 class NetworkLink;
@@ -107,39 +111,10 @@ public:
      * @brief ~MainWindow
      */
     virtual ~MainWindow();
-
     /**
-     * @brief addMap
-     * @param BipMapWindow
-     * @param titre
-     * @param mapsize
-     * @param pos
-     */
-    QWidget* addMap(MapFrame* MapFrame, QString titre, QSize mapsize= QSize(), QPoint pos= QPoint());
-    /**
-     * @brief mettreAJourEspaceTravail
+     * @brief
      */
     void updateWorkspace();
-    /**
-     * @brief trouverCarte
-     * @param idMap
-     */
-    Map* findMapById(QString idMap);
-    /**
-     * @brief removeMapFromId
-     * @param idMap
-     */
-    void removeMapFromId(QString idMap);
-    /**
-     * @brief removeVMapFromId
-     * @param idMap
-     */
-    void removeVMapFromId(QString idMap);
-    /**
-     * @brief removePictureFromId
-     * @param idImage
-     */
-    void removePictureFromId(QString idImage);
     /**
      * @brief setupUi
      */
@@ -160,30 +135,6 @@ public:
      * @brief parseCommandLineArguments
      */
     void parseCommandLineArguments(const QStringList&);
-
-    /**
-     * @brief processMessage
-     * @param msg
-     */
-    //    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader*
-    //    msg);
-
-    /**
-     * @brief prepareMap
-     * @param mapFrame
-     */
-    void prepareMap(MapFrame* mapFrame);
-    /**
-     * @brief prepareVMap
-     * @param tmp
-     */
-    // void prepareVMap(VMapFrame* tmp);
-    /**
-     * @brief addMediaToMdiArea
-     * @param mediac
-     */
-    void addMediaToMdiArea(MediaContainer* mediac, bool undoable= true);
-
     /**
      * @brief setLatestFile
      * @param fileName
@@ -229,7 +180,7 @@ public slots:
      * @param pix
      * @param type
      */
-    void openImageAs(const QPixmap& pix, CleverURI::ContentType type);
+    void openImageAs(const QPixmap& pix, Core::ContentType type);
     void showAsPreferences();
 
 protected:
@@ -288,18 +239,12 @@ protected:
      */
     //    NetWorkReceiver::SendType processVMapMessage(NetworkMessageReader* msg);
     /**
-     * @brief extractCharacter
-     * @param map
-     * @param msg
-     */
-    void extractCharacter(Map* map, NetworkMessageReader* msg);
-    /**
      * @brief contentToPath
      * @param type
      * @param save
      * @return
      */
-    CleverURI* contentToPath(CleverURI::ContentType type, bool save);
+    CleverURI* contentToPath(Core::ContentType type, bool save);
     /**
      * @brief dropEvent
      * @param event
@@ -338,7 +283,6 @@ protected slots:
      */
     void closeMediaContainer(QString id, bool redo);
     void cleanUpData();
-    MediaContainer* newDocument(CleverURI::ContentType type, bool addMdi= true);
 private slots:
     void showSupportPage();
     /**
@@ -355,10 +299,6 @@ private slots:
      * @brief openStory
      */
     void openStory();
-    /**
-     * @brief closeCurrentSubWindow
-     */
-    void closeCurrentSubWindow();
     /**
      * @brief showUpdateNotification
      */
@@ -382,8 +322,6 @@ private slots:
      * @brief openRecentFile
      */
     void openRecentFile();
-
-    /// \brief open the Qt assistant with the rolisteam documentation
     /**
      * @brief helpOnLine
      */
@@ -425,7 +363,7 @@ private:
      * @param str
      * @return
      */
-    CleverURI::ContentType getContentType(QString str);
+    Core::ContentType getContentType(QString str);
     /**
      * @brief findCharacterSheetWindowById
      * @param id
@@ -467,7 +405,7 @@ private:
     std::vector<QAction*> m_recentScenarioActions;
     QStringList m_recentScenarios;
     QAction* m_separatorAction;
-    CleverUriList m_recentFiles;
+    std::vector<FileInfo> m_recentFiles;
 
     VmapToolBar* m_vmapToolBar;
 

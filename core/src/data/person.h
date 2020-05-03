@@ -37,11 +37,9 @@ class Player;
 /**
  * @brief Abstract class for players and characters.
  */
-class Person : public QObject, public ResourcesNode
+class Person : public ResourcesNode
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QString uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
     Q_PROPERTY(QColor color READ getColor WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(QImage avatar READ getAvatar WRITE setAvatar NOTIFY avatarChanged)
     Q_PROPERTY(QString avatarPath READ avatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
@@ -93,7 +91,7 @@ public:
      * @brief isLeaf
      * @return
      */
-    virtual bool isLeaf() const;
+    virtual bool isLeaf() const override;
     /**
      * @brief setState
      * @param c
@@ -104,9 +102,9 @@ public:
 
     virtual QVariant getData(ResourcesNode::DataValue) const override;
 
-    virtual QIcon getIcon() override;
+    virtual QIcon getIcon() const override;
 
-    ResourcesNode::TypeResource getResourcesType() const override;
+    ResourcesNode::TypeResource type() const override;
     virtual void write(QDataStream& out, bool tag= true, bool saveData= true) const override;
     virtual void read(QDataStream& in) override;
     virtual bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node) override;
@@ -124,15 +122,11 @@ public slots:
      */
     virtual void setAvatar(const QImage& p);
     void setAvatarPath(const QString& avatarPath);
-    virtual void setName(const QString& name) override;
-    virtual void setUuid(const QString& uuid) override;
 
 signals:
-    void nameChanged();
     void colorChanged();
     void avatarChanged();
     void avatarPathChanged();
-    void uuidChanged(QString id);
 
 protected:
     QColor m_color;
@@ -140,9 +134,6 @@ protected:
     QString m_avatarPath;
     Person* m_parentPerson= nullptr;
     Qt::CheckState m_checkState;
-
-private:
-    //    friend class PlayersList;
 };
 
 #endif

@@ -105,7 +105,7 @@ QRectF GridController::rect() const
 void GridController::computePattern()
 {
     qDebug() << "computer Pattern";
-    if(m_ctrl->gridPattern() == Core::NONE || !m_ctrl->gridVisibility() || !m_ctrl->gridAbove())
+    if(m_ctrl->gridPattern() == Core::GridPattern::NONE || !m_ctrl->gridVisibility() || !m_ctrl->gridAbove())
         setVisible(false);
     else
         setVisible(true);
@@ -113,7 +113,7 @@ void GridController::computePattern()
     QImage pattern;
     QPolygonF polygon;
 
-    if(m_ctrl->gridPattern() == Core::HEXAGON)
+    if(m_ctrl->gridPattern() == Core::GridPattern::HEXAGON)
     {
         qreal radius= m_ctrl->gridSize() / 2;
         qreal hlimit= radius * std::sin(M_PI / 3);
@@ -132,7 +132,7 @@ void GridController::computePattern()
             = QImage(static_cast<int>(m_ctrl->gridSize() * 1.5), static_cast<int>(2 * hlimit), QImage::Format_ARGB32);
         pattern.fill(Qt::transparent);
     }
-    else if(m_ctrl->gridPattern() == Core::SQUARE)
+    else if(m_ctrl->gridPattern() == Core::GridPattern::SQUARE)
     {
         pattern= QImage(m_ctrl->gridSize(), m_ctrl->gridSize(), QImage::Format_ARGB32);
         pattern.fill(Qt::transparent);

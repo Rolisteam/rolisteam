@@ -427,7 +427,7 @@ bool Image::readFileFromUri()
                 m_uri->setData({});
             }
 
-            if(img.isNull() && m_uri->exists() && CleverURI::PICTURE == m_uri->getType())
+            if(img.isNull() && m_uri->exists() && Core::ContentType::PICTURE == m_uri->getType())
             {
                 QByteArray array;
                 m_uri->loadFileFromUri(array);
@@ -439,7 +439,7 @@ bool Image::readFileFromUri()
             }
             setImage(img);
         }
-        if(CleverURI::ONLINEPICTURE == m_uri->getType())
+        if(Core::ContentType::ONLINEPICTURE == m_uri->getType())
         {
             initImage();
         }
@@ -454,7 +454,7 @@ bool Image::openMedia()
 
        QString filepath;
        bool val= false;
-       if(CleverURI::ONLINEPICTURE == m_uri->getType())
+       if(Core::ContentType::ONLINEPICTURE == m_uri->getType())
        {
            OnlinePictureDialog dialog;
            if(QDialog::Accepted == dialog.exec())

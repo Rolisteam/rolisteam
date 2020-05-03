@@ -48,7 +48,8 @@ VectorialMapController* findMap(const std::vector<std::unique_ptr<VectorialMapCo
     return (*it).get();
 }
 
-VectorialMapMediaController::VectorialMapMediaController() : m_updater(new VMapUpdater)
+VectorialMapMediaController::VectorialMapMediaController()
+    : MediaManagerBase(Core::ContentType::VECTORIALMAP), m_updater(new VMapUpdater)
 {
     /*auto func= [this]() {
         std::for_each(m_vmaps.begin(), m_vmaps.end(), [this](const std::unique_ptr<VectorialMapController>& ctrl) {
@@ -63,11 +64,6 @@ VectorialMapMediaController::VectorialMapMediaController() : m_updater(new VMapU
 VectorialMapController* VectorialMapMediaController::currentVMap() const
 {
     return findActive(m_vmaps);
-}
-
-CleverURI::ContentType VectorialMapMediaController::type() const
-{
-    return CleverURI::VMAP;
 }
 
 VectorialMapMediaController::~VectorialMapMediaController()= default;
@@ -88,7 +84,7 @@ NetWorkReceiver::SendType VectorialMapMediaController::processMessage(NetworkMes
     qDebug() << "ProcessMessage";
     if(msg->action() == NetMsg::AddMedia && msg->category() == NetMsg::MediaCategory)
     {
-        auto map= addVectorialMapController(new CleverURI(CleverURI::ContentType::VMAP), QHash<QString, QVariant>());
+        auto map= addVectorialMapController("", QHash<QString, QVariant>());
         MessageHelper::readVectorialMapData(msg, map);
     }
     else if(msg->action() == NetMsg::CloseMedia && msg->category() == NetMsg::MediaCategory)
@@ -113,11 +109,6 @@ NetWorkReceiver::SendType VectorialMapMediaController::processMessage(NetworkMes
     return type;
 }
 
-void VectorialMapMediaController::setUndoStack(QUndoStack* stack)
-{
-    m_stack= stack;
-}
-
 Core::SelectableTool VectorialMapMediaController::tool() const
 {
     auto ctrl= findActive(m_vmaps);
@@ -137,7 +128,7 @@ void VectorialMapMediaController::closeMedia(const QString& id)
     m_vmaps.erase(it);
 }
 
-bool VectorialMapMediaController::openMedia(CleverURI* uri, const std::map<QString, QVariant>& args)
+bool VectorialMapMediaController::openMedia(const QString& uuid, const std::map<QString, QVariant>& args)
 {
     if(args.empty())
         return false;
@@ -146,7 +137,7 @@ bool VectorialMapMediaController::openMedia(CleverURI* uri, const std::map<QStri
 
     qDebug() << "openMedia vectorialmanl" << params;
 
-    auto vmapCtrl= addVectorialMapController(uri, params);
+    auto vmapCtrl= addVectorialMapController(uuid, params);
     initializeOwnedVMap(vmapCtrl);
     return true;
 }
@@ -157,10 +148,10 @@ void VectorialMapMediaController::initializeOwnedVMap(VectorialMapController* ct
     m_updater->addController(ctrl);
 }
 
-VectorialMapController* VectorialMapMediaController::addVectorialMapController(CleverURI* uri,
+VectorialMapController* VectorialMapMediaController::addVectorialMapController(const QString& uuid,
                                                                                const QHash<QString, QVariant>& params)
 {
-    std::unique_ptr<VectorialMapController> vmapCtrl(new VectorialMapController(uri));
+    std::unique_ptr<VectorialMapController> vmapCtrl(new VectorialMapController(uuid));
 
     if(!params.isEmpty())
     {
@@ -176,7 +167,7 @@ VectorialMapController* VectorialMapMediaController::addVectorialMapController(C
     }
     connect(vmapCtrl.get(), &VectorialMapController::activeChanged, this,
             &VectorialMapMediaController::updateProperties);
-    connect(vmapCtrl.get(), &VectorialMapController::performCommand, m_stack, &QUndoStack::push);
+    connect(vmapCtrl.get(), &VectorialMapController::performCommand, m_undoStack, &QUndoStack::push);
     connect(vmapCtrl.get(), &VectorialMapController::toolColorChanged, this,
             &VectorialMapMediaController::toolColorChanged);
     connect(this, &VectorialMapMediaController::localIsGMChanged, vmapCtrl.get(), &VectorialMapController::setLocalGM);
