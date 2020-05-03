@@ -24,12 +24,12 @@
 #include <QObject>
 #include <QSize>
 
-#include "abstractmediacontroller.h"
+#include "mediacontrollerbase.h"
 
 #include "vmap/vmapframe.h"
 
 class CleverURI;
-class MapController : public AbstractMediaContainerController
+class MapController : public MediaControllerBase
 {
     Q_OBJECT
     Q_PROPERTY(QSize size READ size WRITE setSize NOTIFY sizeChanged)

@@ -44,7 +44,7 @@ DataCleverURITest::DataCleverURITest() {}
 
 void DataCleverURITest::initTestCase()
 {
-    m_cleverURI= new CleverURI();
+    m_cleverURI= new CleverURI(Core::ContentType::CHARACTERSHEET);
 }
 
 void DataCleverURITest::cleanupTestCase()
@@ -53,20 +53,20 @@ void DataCleverURITest::cleanupTestCase()
 }
 void DataCleverURITest::testCleverURISetGet()
 {
-    m_cleverURI->setType(CleverURI::CHARACTERSHEET);
-    QVERIFY2(m_cleverURI->getType() == CleverURI::CHARACTERSHEET, "CHARACTERSHEET is not the current type");
+    m_cleverURI->setContentType(Core::ContentType::CHARACTERSHEET);
+    QVERIFY2(m_cleverURI->contentType() == Core::ContentType::CHARACTERSHEET, "CHARACTERSHEET is not the current type");
 
-    m_cleverURI->setType(CleverURI::PICTURE);
-    QVERIFY2(m_cleverURI->getType() == CleverURI::PICTURE, "PICTURE is not the current type");
+    m_cleverURI->setContentType(Core::ContentType::PICTURE);
+    QVERIFY2(m_cleverURI->contentType() == Core::ContentType::PICTURE, "PICTURE is not the current type");
 
-    m_cleverURI->setType(CleverURI::SONG);
-    QVERIFY2(m_cleverURI->getType() == CleverURI::SONG, "SONG is not the current type");
+    /* m_cleverURI->setContentType(Core::ContentType::SONG);
+     QVERIFY2(m_cleverURI->contentType() == Core::ContentType::SONG, "SONG is not the current type");
 
-    m_cleverURI->setType(CleverURI::CHAT);
-    QVERIFY2(m_cleverURI->getType() == CleverURI::CHAT, "TCHAT is not the current type");
+     m_cleverURI->setContentType(Core::ContentType::CHAT);
+     QVERIFY2(m_cleverURI->contentType() == Core::ContentType::CHAT, "TCHAT is not the current type");*/
 
-    m_cleverURI->setType(CleverURI::TEXT);
-    QVERIFY2(m_cleverURI->getType() == CleverURI::TEXT, "TEXT is not the current type");
+    m_cleverURI->setContentType(Core::ContentType::NOTES);
+    QVERIFY2(m_cleverURI->contentType() == Core::ContentType::NOTES, "TEXT is not the current type");
 
     QString path("/foo/bar/file.map");
     m_cleverURI->setUri(path);

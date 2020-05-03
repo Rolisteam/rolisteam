@@ -62,8 +62,8 @@ allControllers(const std::map<Core::SelectableTool, VisualItemControllerManager*
     return set;
 }
 
-VectorialMapController::VectorialMapController(CleverURI* uri, QObject* parent)
-    : AbstractMediaContainerController(uri, parent) /*, m_vmap(new VMap(this))*/
+VectorialMapController::VectorialMapController(const QString& id, QObject* parent)
+    : MediaControllerBase(id, Core::ContentType::VECTORIALMAP, parent)
     , m_rectControllerManager(new RectControllerManager(this))
     , m_ellipseControllerManager(new EllipsControllerManager(this))
     , m_lineControllerManager(new LineControllerManager(this))

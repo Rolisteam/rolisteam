@@ -29,7 +29,7 @@ class NoteContainer : public MediaContainer
 {
     Q_OBJECT
 public:
-    NoteContainer(bool localIsGM, QWidget* parent= nullptr);
+    NoteContainer(NoteController* note, QWidget* parent= nullptr);
     bool readFileFromUri();
     void saveMedia(const QString& str= QString());
 

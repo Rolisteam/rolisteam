@@ -1,8 +1,8 @@
 /***************************************************************************
- *	Copyright (C) 2017 by Renaud Guezennec                                 *
- *   https://rolisteam.org/contact                                      *
+ *	Copyright (C) 2019 by Renaud Guezennec                               *
+ *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   This software is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -17,34 +17,49 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef DELETEMEDIACONTAINERCOMMAND_H
-#define DELETEMEDIACONTAINERCOMMAND_H
+#include "mediamanagerbase.h"
 
-#include "data/mediacontainer.h"
-#include <QUndoCommand>
+#include <QUndoStack>
 
-class SessionManager;
-class Workspace;
-class DeleteMediaContainerCommand : public QUndoCommand
+MediaManagerBase::MediaManagerBase(Core::ContentType contentType, QObject* parent)
+    : QObject(parent), m_contentType(contentType)
 {
-public:
-    DeleteMediaContainerCommand(MediaContainer* media, /*SessionManager* manager,*/ QMenu* menu, Workspace* workspace,
-                                bool isGM, QHash<QString, MediaContainer*>& hash, QUndoCommand* parent= nullptr);
+}
 
-    ~DeleteMediaContainerCommand() override;
+Core::ContentType MediaManagerBase::type() const
+{
+    return m_contentType;
+}
 
-    void redo() override;
-    void undo() override;
+void MediaManagerBase::setLocalIsGM(bool localIsGM)
+{
+    if(m_localIsGM == localIsGM)
+        return;
 
-    bool sendAtOpening();
+    m_localIsGM= localIsGM;
+    emit localIsGMChanged(m_localIsGM);
+}
 
-private:
-    MediaContainer* m_media= nullptr;
-    // SessionManager* m_manager= nullptr;
-    QMenu* m_menu= nullptr;
-    Workspace* m_mdiArea= nullptr;
-    QHash<QString, MediaContainer*>& m_hash;
-    bool m_gm;
-};
+void MediaManagerBase::setUndoStack(QUndoStack* stack)
+{
+    m_undoStack= stack;
+}
 
-#endif // DELETEMEDIACONTAINERCOMMAND_H
+bool MediaManagerBase::localIsGM() const
+{
+    return m_localIsGM;
+}
+
+QString MediaManagerBase::localId() const
+{
+    return m_localId;
+}
+
+void MediaManagerBase::setLocalId(const QString& id)
+{
+    if(m_localId == id)
+        return;
+    m_localId= id;
+
+    emit localIdChanged(m_localId);
+}

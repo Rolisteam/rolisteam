@@ -30,7 +30,7 @@ SharedNoteContainer::SharedNoteContainer(SharedNoteController* ctrl, QWidget* pa
 #ifdef Q_OS_MAC
     m_edit->menuBar()->setNativeMenuBar(false);
 #endif
-    // setCleverUriType(CleverURI::SHAREDNOTE);
+    // setCleverUriType(Core::ContentType::SHAREDNOTE);
     setWidget(m_edit.get());
     setWindowIcon(QIcon(":/resources/icons/sharedEditor.png"));
     // m_edit->setFileName(getUriName());

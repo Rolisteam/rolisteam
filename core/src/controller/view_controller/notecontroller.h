@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                               *
+ *	Copyright (C) 2020 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,40 +17,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef MEDIACONTROLLERINTERFACE_H
-#define MEDIACONTROLLERINTERFACE_H
+#ifndef NOTECONTROLLER_H
+#define NOTECONTROLLER_H
 
 #include <QObject>
 
-#include "data/cleveruri.h"
-#include "network/networkreceiver.h"
-class QUndoStack;
-class MediaControllerInterface : public QObject, public NetWorkReceiver
+#include "mediacontrollerbase.h"
+
+class NoteController : public MediaControllerBase
 {
     Q_OBJECT
-    Q_PROPERTY(bool localIsGM READ localIsGM WRITE setLocalIsGM NOTIFY localIsGMChanged)
-    Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
+    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
 public:
-    MediaControllerInterface(QObject* parent= nullptr) : QObject(parent) {}
-    virtual CleverURI::ContentType type() const= 0;
-    virtual bool openMedia(CleverURI*, const std::map<QString, QVariant>& args)= 0;
-    virtual void closeMedia(const QString& id)= 0;
-    virtual void registerNetworkReceiver()= 0;
-    virtual void setUndoStack(QUndoStack* stack)= 0;
-    bool localIsGM() const;
-    QString localId() const;
+    explicit NoteController(const QString& id, QObject *parent = nullptr);
 
-public slots:
-    void setLocalIsGM(bool localIsGM);
-    void setLocalId(const QString& id);
+    void saveData() const override;
+    void loadData() const override;
+
+    QString text() const;
+
+    void setText(const QString& text);
 
 signals:
-    void localIsGMChanged(bool localIsGM);
-    void localIdChanged(QString id);
+    void textChanged();
 
-protected:
-    bool m_localIsGM= false;
-    QString m_localId;
+private:
+    QString m_text;
+
+
 };
 
-#endif // MEDIACONTROLLERINTERFACE_H
+#endif // NOTECONTROLLER_H

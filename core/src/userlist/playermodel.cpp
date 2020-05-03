@@ -317,7 +317,7 @@ int PlayerModel::rowCount(const QModelIndex& parent) const
         auto player= dynamic_cast<Player*>(parentItem);
         if(player)
         {
-            result= player->getChildrenCount();
+            result= player->childrenCount();
         }
     }
     return result;

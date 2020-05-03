@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2020 by Renaud Guezennec                               *
+ *	Copyright (C) 2019 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,46 +17,47 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CHARACTERSHEETMEDIACONTROLLER_H
-#define CHARACTERSHEETMEDIACONTROLLER_H
+#ifndef MEDIACONTROLLERINTERFACE_H
+#define MEDIACONTROLLERINTERFACE_H
 
-#include "mediamanagerbase.h"
-
+#include <QObject>
 #include <QPointer>
-#include <memory>
-#include <vector>
 
-class CharacterModel;
-class CharacterSheetController;
-class CharacterSheetMediaController : public MediaManagerBase
+#include "data/cleveruri.h"
+#include "media/mediatype.h"
+#include "network/networkreceiver.h"
+
+class QUndoStack;
+
+class MediaManagerBase : public QObject, public NetWorkReceiver
 {
     Q_OBJECT
-    Q_PROPERTY(QString gameMasterId READ gameMasterId WRITE setGameMasterId NOTIFY gameMasterIdChanged)
+    Q_PROPERTY(bool localIsGM READ localIsGM WRITE setLocalIsGM NOTIFY localIsGMChanged)
+    Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
 public:
-    CharacterSheetMediaController(CharacterModel* model);
+    MediaManagerBase(Core::ContentType contentType, QObject* parent= nullptr);
+    Core::ContentType type() const;
+    virtual bool openMedia(const QString& uuid, const std::map<QString, QVariant>& args)= 0;
+    virtual void closeMedia(const QString& id)= 0;
+    virtual void registerNetworkReceiver()= 0;
 
-    bool openMedia(const QString& id, const std::map<QString, QVariant>& args) override;
-    void closeMedia(const QString& id) override;
-    void registerNetworkReceiver() override;
-    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
-
-    QString gameMasterId() const;
+    void setUndoStack(QUndoStack* stack);
+    bool localIsGM() const;
+    QString localId() const;
 
 public slots:
-    void setGameMasterId(const QString& gameMasterId);
+    void setLocalIsGM(bool localIsGM);
+    void setLocalId(const QString& id);
 
 signals:
-    void characterSheetCreated(CharacterSheetController*);
+    void localIsGMChanged(bool localIsGM);
+    void localIdChanged(QString id);
 
-    void gameMasterIdChanged(QString gameMasterId);
-
-private:
-    void addCharacterSheet(const QHash<QString, QVariant>& params);
-
-private:
-    std::vector<std::unique_ptr<CharacterSheetController>> m_sheets;
-    QPointer<CharacterModel> m_characterModel;
-    QString m_gameMasterId;
+protected:
+    bool m_localIsGM= false;
+    Core::ContentType m_contentType;
+    QString m_localId;
+    QPointer<QUndoStack> m_undoStack;
 };
 
-#endif // CHARACTERSHEETMEDIACONTROLLER_H
+#endif // MEDIACONTROLLERINTERFACE_H

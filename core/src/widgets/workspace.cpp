@@ -25,7 +25,7 @@
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/charactersheetmediacontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
-#include "controller/media_controller/mapmediacontroller.h"
+#include "controller/media_controller/notemediacontroller.h"
 #include "controller/media_controller/pdfmediacontroller.h"
 #include "controller/media_controller/sharednotemediacontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
@@ -34,6 +34,7 @@
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/mapcontroller.h"
+#include "controller/view_controller/notecontroller.h"
 #include "controller/view_controller/pdfcontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
@@ -41,6 +42,7 @@
 
 #include "media/charactersheetwindow.h"
 #include "media/image.h"
+#include "noteeditor/src/notecontainer.h"
 #include "pdfviewer/pdfviewer.h"
 #include "sharededitor/sharednotecontainer.h"
 #include "vmap/vmapframe.h"
@@ -63,6 +65,7 @@ Workspace::Workspace(ContentController* ctrl, QWidget* parent)
     connect(m_ctrl, &ContentController::workspacePositioningChanged, this, &Workspace::updateBackGround);
 
     connect(m_ctrl->imagesCtrl(), &ImageMediaController::imageControllerCreated, this, &Workspace::addImage);
+    connect(m_ctrl->noteCtrl(), &NoteMediaController::noteControllerCreated, this, &Workspace::addNote);
     connect(m_ctrl->vmapCtrl(), &VectorialMapMediaController::vmapControllerCreated, this, &Workspace::addVectorialMap);
     connect(m_ctrl->webPageCtrl(), &WebpageMediaController::webpageControllerCreated, this, &Workspace::addWebpage);
     connect(m_ctrl->pdfCtrl(), &PdfMediaController::pdfControllerCreated, this, &Workspace::addPdf);
@@ -346,6 +349,37 @@ QVector<QMdiSubWindow*> Workspace::getAllSubWindowFromId(const QString& id) cons
     return nullptr;
 }*/
 
+bool Workspace::closeAllSubs()
+{
+    std::for_each(m_mediaContainers.begin(), m_mediaContainers.end(),
+                  [this](const std::unique_ptr<MediaContainer>& media) { closeSub(media.get()); });
+
+    return true;
+}
+
+bool Workspace::closeActiveSub()
+{
+    bool status= false;
+
+    if(m_activeMediaContainer.isNull())
+        return status;
+
+    status= closeSub(m_activeMediaContainer);
+
+    return status;
+}
+
+bool Workspace::closeSub(MediaContainer* container)
+{
+    if(!container)
+        return false;
+
+    auto ctrl= m_activeMediaContainer->ctrl();
+
+    ctrl->askToClose();
+    return true;
+}
+
 void Workspace::updateActiveMediaContainer(QMdiSubWindow* window)
 {
     auto activeMediaContainer= dynamic_cast<MediaContainer*>(window);
@@ -366,8 +400,6 @@ void Workspace::updateActiveMediaContainer(QMdiSubWindow* window)
         ctrl->setActive(true);
         if(activeMediaContainer->getContainerType() == MediaContainer::ContainerType::VMapContainer)
             emit vmapActive();
-        else if(activeMediaContainer->getContainerType() == MediaContainer::ContainerType::MapContainer)
-            emit oldMapActive();
     }
 
     m_activeMediaContainer= activeMediaContainer;
@@ -407,6 +439,14 @@ void Workspace::addWebpage(WebpageController* ctrl)
     std::unique_ptr<WebView> window(new WebView(ctrl));
     addWidgetToMdi(window.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(window));
+}
+
+void Workspace::addNote(NoteController* ctrl)
+{
+    std::unique_ptr<NoteContainer> SharedNote(new NoteContainer(ctrl));
+    SharedNote->setGeometry(0, 0, 800, 600);
+    addWidgetToMdi(SharedNote.get(), ctrl->name());
+    m_mediaContainers.push_back(std::move(SharedNote));
 }
 
 void Workspace::addSharedNote(SharedNoteController* ctrl)

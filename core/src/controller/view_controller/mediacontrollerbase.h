@@ -23,29 +23,33 @@
 #include <QObject>
 #include <memory>
 
-class CleverURI;
+#include "media/mediatype.h"
+
 class QUndoCommand;
-class AbstractMediaContainerController : public QObject
+class MediaControllerBase : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(QString uuid READ uuid NOTIFY uuidChanged)
-    Q_PROPERTY(CleverURI* uri READ uri WRITE setUri NOTIFY uriChanged)
+    Q_PROPERTY(Core::ContentType contentType READ contentType CONSTANT)
     Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
+    Q_PROPERTY(bool modified READ modified WRITE setModified NOTIFY modifiedChanged)
     Q_PROPERTY(bool localGM READ localGM WRITE setLocalGM NOTIFY localGMChanged)
     Q_PROPERTY(QString ownerId READ ownerId WRITE setOwnerId NOTIFY ownerIdChanged)
     Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
 public:
-    AbstractMediaContainerController(CleverURI* uri, QObject* parent= nullptr);
-    virtual ~AbstractMediaContainerController() override;
+    MediaControllerBase(const QString& id, Core::ContentType contentType, QObject* parent= nullptr);
+    virtual ~MediaControllerBase() override;
 
     QString name() const;
     QString uuid() const;
-    CleverURI* uri() const;
+    QString path() const;
+    Core::ContentType contentType() const;
     virtual QString title() const;
     bool isActive() const;
     bool localGM() const;
+    bool modified() const;
 
     QString ownerId() const;
     QString localId() const;
@@ -66,9 +70,11 @@ signals:
     void performCommand(QUndoCommand* cmd);
     void ownerIdChanged(QString id);
     void localIdChanged(QString id);
+    void modifiedChanged(bool b);
+    void pathChanged();
+    void closeMe(QString id);
 
 public slots:
-    void setUri(CleverURI* uri);
     void setName(const QString& name);
     void aboutToClose();
     void setActive(bool b);
@@ -76,12 +82,18 @@ public slots:
     void setUuid(const QString& uuid);
     void setOwnerId(const QString& id);
     void setLocalId(const QString& id);
+    void setModified(bool b);
+    void askToClose();
+    void setPath(const QString& path);
 
 protected:
     QString m_name;
-    std::unique_ptr<CleverURI> m_uri;
+    QString m_uuid;
+    QString m_path;
+    Core::ContentType m_type;
     bool m_active= false;
     bool m_localGM= false;
+    bool m_modified= true;
     QString m_ownerId;
     QString m_localId;
 };

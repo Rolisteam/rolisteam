@@ -26,21 +26,17 @@
 #include "controller/view_controller/webpagecontroller.h"
 #include "worker/messagehelper.h"
 
-WebpageMediaController::WebpageMediaController() {}
+WebpageMediaController::WebpageMediaController() : MediaManagerBase(Core::ContentType::WEBVIEW) {}
 
-WebpageMediaController::~WebpageMediaController() {}
+WebpageMediaController::~WebpageMediaController()= default;
 
-CleverURI::ContentType WebpageMediaController::type() const
+bool WebpageMediaController::openMedia(const QString& id, const std::map<QString, QVariant>& args)
 {
-    return CleverURI::WEBVIEW;
-}
-
-bool WebpageMediaController::openMedia(CleverURI* uri, const std::map<QString, QVariant>& args)
-{
-    if(uri == nullptr || (args.empty() && uri->getUri().isEmpty()))
+    if(id.isEmpty() || args.empty())
         return false;
+
     auto state= m_localIsGM ? WebpageController::localIsGM : WebpageController::LocalIsPlayer;
-    addWebpageController(QHash<QString, QVariant>({{"state", static_cast<int>(state)}}));
+    addWebpageController(QHash<QString, QVariant>({{"id", id}, {"state", static_cast<int>(state)}}));
     return true;
 }
 
@@ -69,20 +65,13 @@ NetWorkReceiver::SendType WebpageMediaController::processMessage(NetworkMessageR
     return NetWorkReceiver::NONE;
 }
 
-void WebpageMediaController::setUndoStack(QUndoStack* stack)
-{
-    // return;
-}
-
 void WebpageMediaController::addWebpageController(const QHash<QString, QVariant>& params)
 {
-    std::unique_ptr<WebpageController> webCtrl(new WebpageController());
 
-    if(params.contains(QStringLiteral("id")))
-    {
-        auto uri= webCtrl->uri();
-        uri->setUuid(params.value(QStringLiteral("id")).toString());
-    }
+    auto id= params.value(QStringLiteral("id")).toString();
+
+    std::unique_ptr<WebpageController> webCtrl(new WebpageController(id));
+
     if(params.contains(QStringLiteral("mode")))
     {
         auto mode= static_cast<WebpageController::SharingMode>(params.value(QStringLiteral("mode")).toInt());
@@ -98,7 +87,6 @@ void WebpageMediaController::addWebpageController(const QHash<QString, QVariant>
         webCtrl->setState(static_cast<WebpageController::State>(params.value(QStringLiteral("state")).toInt()));
     }
 
-    auto id= webCtrl->uuid();
     connect(webCtrl.get(), &WebpageController::sharingModeChanged, this, [this, id]() { managePage(id); });
     connect(webCtrl.get(), &WebpageController::htmlChanged, this, [this, id]() { updatePage(id); });
     connect(webCtrl.get(), &WebpageController::htmlSharingChanged, this, [this, id]() { updatePage(id); });

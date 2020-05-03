@@ -25,7 +25,7 @@
 #include <map>
 #include <memory>
 
-#include "controllerinterface.h"
+#include "controller/controllerinterface.h"
 #include "data/cleveruri.h"
 
 #include "network/receiveevent.h"
@@ -36,7 +36,7 @@ class SessionItemModel;
 class QAbstractItemModel;
 class ResourcesNode;
 class PreferencesManager;
-class MediaControllerInterface;
+class MediaManagerBase;
 class NetworkMessageReader;
 class ImageMediaController;
 class VectorialMapMediaController;
@@ -48,6 +48,7 @@ class CharacterModel;
 class SharedNoteMediaController;
 class PdfMediaController;
 class PlayerModel;
+class NoteMediaController;
 // class AbstractMediaContainerController;
 class ContentController : public AbstractControllerInterface, public PreferencesListener, public NetWorkReceiver
 {
@@ -74,6 +75,7 @@ public:
     WebpageMediaController* webPageCtrl() const;
     SharedNoteMediaController* sharedCtrl() const;
     PdfMediaController* pdfCtrl() const;
+    NoteMediaController* noteCtrl() const;
 
     int maxLengthTabName() const;
     bool shortTitleTab() const;
@@ -87,9 +89,8 @@ public:
 
     void setGameController(GameController*) override;
     void preferencesHasChanged(const QString& key) override;
-    void newMedia(CleverURI::ContentType type,
-                  const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
-    void openMedia(CleverURI* uri, const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
+    void newMedia(Core::ContentType type, const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
+    void openMedia(const std::map<QString, QVariant>& params= std::map<QString, QVariant>());
     void clear();
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
@@ -118,22 +119,24 @@ public slots:
     void removeContent(ResourcesNode* node);
     void setSessionName(const QString& name);
     void setSessionPath(const QString& path);
-    void addImageAs(const QPixmap& map, CleverURI::ContentType type);
+    void addImageAs(const QPixmap& map, Core::ContentType type);
     // void setActiveMediaController(AbstractMediaContainerController* mediaCtrl);
     void saveSession();
     void loadSession();
     void setGameMasterId(const QString& id);
     void setLocalId(const QString& id);
+    // void closeMedia(Core::ContentType type, const QString& id);
 
 private:
     std::unique_ptr<SessionItemModel> m_contentModel;
-    std::map<CleverURI::ContentType, MediaControllerInterface*> m_mediaControllers;
+    std::map<Core::ContentType, MediaManagerBase*> m_mediaControllers;
     std::unique_ptr<ImageMediaController> m_imageControllers;
     std::unique_ptr<VectorialMapMediaController> m_vmapControllers;
     std::unique_ptr<CharacterSheetMediaController> m_sheetMediaController;
     std::unique_ptr<WebpageMediaController> m_webPageMediaController;
     std::unique_ptr<SharedNoteMediaController> m_sharedNoteMediaController;
     std::unique_ptr<PdfMediaController> m_pdfMediaController;
+    std::unique_ptr<NoteMediaController> m_noteMediaController;
 
     PreferencesManager* m_preferences;
     QString m_sessionName;

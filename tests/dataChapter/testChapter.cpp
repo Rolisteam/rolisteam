@@ -85,7 +85,7 @@ void TestChapter::testAddChapterHasChildren()
         m_chapter->addResource(child);
     }
     QVERIFY2(m_chapter->hasChildren(), "No Children");
-    QVERIFY2(m_chapter->getChildrenCount() == COUNT_TURN, "Not the expect children count");
+    QVERIFY2(m_chapter->childrenCount() == COUNT_TURN, "Not the expect children count");
 }
 void TestChapter::testSetGetName()
 {
@@ -101,8 +101,8 @@ void TestChapter::testAddCleverURIToChapter()
 {
     for(int i= 0; i < COUNT_TURN; i++)
     {
-        CleverURI* temp= new CleverURI();
-        temp->setType(CleverURI::CHARACTERSHEET);
+        CleverURI* temp= new CleverURI(Core::ContentType::CHARACTERSHEET);
+        temp->setContentType(Core::ContentType::CHARACTERSHEET);
         QString str("/foo");
         temp->setUri(str);
         m_chapter->addResource(temp);
@@ -110,8 +110,8 @@ void TestChapter::testAddCleverURIToChapter()
     }
     for(int i= 0; i < COUNT_TURN; i++)
     {
-        CleverURI* tempURI= new CleverURI();
-        tempURI->setType(CleverURI::CHARACTERSHEET);
+        CleverURI* tempURI= new CleverURI(Core::ContentType::CHARACTERSHEET);
+        tempURI->setContentType(Core::ContentType::CHARACTERSHEET);
         QString str("/foo");
         tempURI->setUri(str);
         m_chapter->addResource(tempURI);
@@ -125,8 +125,8 @@ void TestChapter::testInsertAtAndIndexOf()
     auto rng= std::mt19937(quintptr(this) + seed);
     for(int i= 0; i < COUNT_TURN; i++)
     {
-        CleverURI* temp= new CleverURI();
-        std::uniform_int_distribution<int> dist(0, m_chapter->getChildrenCount());
+        CleverURI* temp= new CleverURI(Core::ContentType::CHARACTERSHEET);
+        std::uniform_int_distribution<int> dist(0, m_chapter->childrenCount());
         int j= dist(rng);
         m_chapter->insertChildAt(j, temp);
         QCOMPARE(m_chapter->indexOf(temp), j);

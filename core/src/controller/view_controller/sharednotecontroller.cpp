@@ -24,8 +24,8 @@
 #include "userlist/playermodel.h"
 
 SharedNoteController::SharedNoteController(const QString& ownerId, const QString& local, PlayerModel* model,
-                                           CleverURI* uri, QObject* parent)
-    : AbstractMediaContainerController(uri, parent)
+                                           const QString& uuid, QObject* parent)
+    : MediaControllerBase(uuid, Core::ContentType::SHAREDNOTE, parent)
     , m_participantModel(new ParticipantModel(ownerId, model))
     , m_playerModel(model)
 {

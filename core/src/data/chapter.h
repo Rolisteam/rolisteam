@@ -28,7 +28,7 @@
  * can be subchapter or CleverURI
  * @brief it is part of the composite pattern
  */
-class Chapter : public QObject, public ResourcesNode
+class Chapter : public ResourcesNode
 {
     Q_OBJECT
 public:
@@ -44,8 +44,8 @@ public:
      * @brief overridden method, is leaf or not
      */
     virtual bool hasChildren() const override;
-    bool mayHaveChildren() const override;
-    int getChildrenCount() const override;
+    bool isLeaf() const override;
+    int childrenCount() const override;
 
     virtual ResourcesNode* getChildAt(int) const override;
     virtual int indexOf(ResourcesNode*) const override;
@@ -72,10 +72,7 @@ public:
 
     bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node) override;
 
-    virtual QIcon getIcon() override;
-
-    ResourcesNode::TypeResource getResourcesType() const override;
-
+    virtual QIcon getIcon() const override;
 signals:
     void openResource(ResourcesNode*, bool);
     void updated(ResourcesNode*);

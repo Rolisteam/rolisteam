@@ -22,12 +22,12 @@
 #include "data/cleveruri.h"
 #include "worker/iohelper.h"
 
-PdfController::PdfController(CleverURI* uri, const QByteArray& data, QObject* parent)
-    : AbstractMediaContainerController(uri, parent)
+PdfController::PdfController(const QString& id, const QString& path, const QByteArray& data, QObject* parent)
+    : MediaControllerBase(id, Core::ContentType::PDF, parent)
 {
-    if(!uri->getUri().isEmpty())
+    if(!path.isEmpty())
     {
-        m_data= IOHelper::loadFile(uri->getUri());
+        m_data= IOHelper::loadFile(path);
     }
     else if(!data.isEmpty())
     {

@@ -42,7 +42,7 @@ public:
     Player(const QString& uuid, const QString& getName, const QColor& getColor, bool master= false);
     virtual ~Player() override;
 
-    virtual int getChildrenCount() const override;
+    virtual int childrenCount() const override;
     Character* getCharacterByIndex(int index) const;
     Character* characterById(const QString& id) const;
     const std::vector<std::unique_ptr<Character>>& children();

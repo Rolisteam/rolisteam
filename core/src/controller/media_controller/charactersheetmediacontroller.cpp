@@ -40,21 +40,20 @@ CharacterSheetController* findSheet(const std::vector<std::unique_ptr<CharacterS
     return (*it).get();
 }
 
-CharacterSheetMediaController::CharacterSheetMediaController(CharacterModel* model) : m_characterModel(model) {}
-
-CleverURI::ContentType CharacterSheetMediaController::type() const
+CharacterSheetMediaController::CharacterSheetMediaController(CharacterModel* model)
+    : MediaManagerBase(Core::ContentType::CHARACTERSHEET), m_characterModel(model)
 {
-    return CleverURI::CHARACTERSHEET;
 }
 
-bool CharacterSheetMediaController::openMedia(CleverURI* uri, const std::map<QString, QVariant>& args)
+bool CharacterSheetMediaController::openMedia(const QString& id, const std::map<QString, QVariant>& args)
 {
-    if(uri == nullptr || (args.empty() && uri->getUri().isEmpty()))
+    if(id.isEmpty() || args.empty())
         return false;
 
     QHash<QString, QVariant> hash(args.begin(), args.end());
+    hash.insert(QStringLiteral("id"), id);
 
-    addCharacterSheet(uri, hash);
+    addCharacterSheet(hash);
     return true;
 }
 
@@ -80,7 +79,7 @@ NetWorkReceiver::SendType CharacterSheetMediaController::processMessage(NetworkM
     if(msg->action() == NetMsg::addCharacterSheet && msg->category() == NetMsg::CharacterCategory)
     {
         auto hash= MessageHelper::readCharacterSheet(msg);
-        addCharacterSheet(new CleverURI(CleverURI::CHARACTERSHEET), hash);
+        addCharacterSheet(hash);
     }
     else if(msg->action() == NetMsg::updateFieldCharacterSheet && msg->category() == NetMsg::CharacterCategory)
     {
@@ -91,26 +90,16 @@ NetWorkReceiver::SendType CharacterSheetMediaController::processMessage(NetworkM
     return type;
 }
 
-void CharacterSheetMediaController::addCharacterSheet(CleverURI* uri, const QHash<QString, QVariant>& params)
+void CharacterSheetMediaController::addCharacterSheet(const QHash<QString, QVariant>& params)
 {
-    if(uri == nullptr)
-        return;
 
-    std::unique_ptr<CharacterSheetController> sheetCtrl(new CharacterSheetController(m_characterModel, uri));
+    auto id= params.value(QStringLiteral("id")).toString();
 
-    if(params.contains(QStringLiteral("id")))
-    {
-        qDebug() << "id of sheetController:" << params.value(QStringLiteral("id")).toString();
-        sheetCtrl->setUuid(params.value(QStringLiteral("id")).toString());
-    }
-    if(params.contains(QStringLiteral("name")))
-    {
-        sheetCtrl->setName(params.value(QStringLiteral("name")).toString());
-    }
-    if(params.contains(QStringLiteral("qml")))
-    {
-        sheetCtrl->setQmlCode(params.value(QStringLiteral("qml")).toString());
-    }
+    std::unique_ptr<CharacterSheetController> sheetCtrl(new CharacterSheetController(m_characterModel, id, ""));
+
+    sheetCtrl->setName(params.value(QStringLiteral("name")).toString());
+    sheetCtrl->setQmlCode(params.value(QStringLiteral("qml")).toString());
+
     if(params.contains(QStringLiteral("imageData")))
     {
         auto array= params.value(QStringLiteral("imageData")).toByteArray();

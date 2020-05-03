@@ -12,14 +12,16 @@
 #include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
 
-CharacterSheetController::CharacterSheetController(CharacterModel* characterModel, CleverURI* uri, QObject* parent)
-    : AbstractMediaContainerController(uri, parent)
+CharacterSheetController::CharacterSheetController(CharacterModel* characterModel, const QString& id,
+                                                   const QString& path, QObject* parent)
+    : MediaControllerBase(id, Core::ContentType::CHARACTERSHEET, parent)
     , m_model(new CharacterSheetModel)
     , m_imageModel(new ImageModel())
     , m_characterModel(characterModel)
-    , m_characterSheetUpdater(new CharacterSheetUpdater(uri->uuid()))
+    , m_characterSheetUpdater(new CharacterSheetUpdater(id))
 {
-    ModelHelper::loadCharacterSheet(uri->getUri(), m_model.get(), m_imageModel.get(), m_rootJson, m_qmlCode);
+    setPath(path);
+    ModelHelper::loadCharacterSheet(path, m_model.get(), m_imageModel.get(), m_rootJson, m_qmlCode);
 
     connect(this, &CharacterSheetController::uuidChanged, m_characterSheetUpdater.get(),
             &CharacterSheetUpdater::setMediaId);

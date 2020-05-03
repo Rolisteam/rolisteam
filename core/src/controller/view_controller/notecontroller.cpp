@@ -17,46 +17,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CHARACTERSHEETMEDIACONTROLLER_H
-#define CHARACTERSHEETMEDIACONTROLLER_H
+#include "notecontroller.h"
 
-#include "mediamanagerbase.h"
-
-#include <QPointer>
-#include <memory>
-#include <vector>
-
-class CharacterModel;
-class CharacterSheetController;
-class CharacterSheetMediaController : public MediaManagerBase
+NoteController::NoteController(const QString &id, QObject *parent) : MediaControllerBase(id, Core::ContentType::NOTES, parent)
 {
-    Q_OBJECT
-    Q_PROPERTY(QString gameMasterId READ gameMasterId WRITE setGameMasterId NOTIFY gameMasterIdChanged)
-public:
-    CharacterSheetMediaController(CharacterModel* model);
 
-    bool openMedia(const QString& id, const std::map<QString, QVariant>& args) override;
-    void closeMedia(const QString& id) override;
-    void registerNetworkReceiver() override;
-    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+}
 
-    QString gameMasterId() const;
+void NoteController::saveData() const
+{
 
-public slots:
-    void setGameMasterId(const QString& gameMasterId);
+}
 
-signals:
-    void characterSheetCreated(CharacterSheetController*);
+void NoteController::loadData() const
+{
 
-    void gameMasterIdChanged(QString gameMasterId);
+}
 
-private:
-    void addCharacterSheet(const QHash<QString, QVariant>& params);
+QString NoteController::text() const
+{
+    return m_text;
+}
 
-private:
-    std::vector<std::unique_ptr<CharacterSheetController>> m_sheets;
-    QPointer<CharacterModel> m_characterModel;
-    QString m_gameMasterId;
-};
-
-#endif // CHARACTERSHEETMEDIACONTROLLER_H
+void NoteController::setText(const QString &text)
+{
+    if(text == m_text)
+        return;
+    m_text = text;
+    emit textChanged();
+}

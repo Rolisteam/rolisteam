@@ -37,7 +37,9 @@ SharedNoteController* findNote(const std::vector<std::unique_ptr<SharedNoteContr
 }
 
 SharedNoteMediaController::SharedNoteMediaController(PlayerModel* model, QObject* parent)
-    : MediaControllerInterface(parent), m_updater(new SharedNoteControllerUpdater), m_playerModel(model)
+    : MediaManagerBase(Core::ContentType::SHAREDNOTE, parent)
+    , m_updater(new SharedNoteControllerUpdater)
+    , m_playerModel(model)
 {
     connect(this, &SharedNoteMediaController::localIdChanged, this, [this](const QString& id) {
         std::for_each(m_sharedNotes.begin(), m_sharedNotes.end(),
@@ -47,17 +49,12 @@ SharedNoteMediaController::SharedNoteMediaController(PlayerModel* model, QObject
 
 SharedNoteMediaController::~SharedNoteMediaController()= default;
 
-CleverURI::ContentType SharedNoteMediaController::type() const
+bool SharedNoteMediaController::openMedia(const QString& id, const std::map<QString, QVariant>& args)
 {
-    return CleverURI::SHAREDNOTE;
-}
-
-bool SharedNoteMediaController::openMedia(CleverURI* uri, const std::map<QString, QVariant>& args)
-{
-    if(uri == nullptr || (args.empty() && uri->getUri().isEmpty()))
+    if(id.isEmpty() || (args.empty()))
         return false;
 
-    std::unique_ptr<SharedNoteController> notesCtrl(new SharedNoteController(localId(), localId(), m_playerModel, uri));
+    std::unique_ptr<SharedNoteController> notesCtrl(new SharedNoteController(localId(), localId(), m_playerModel, id));
     // not remote
     notesCtrl->setLocalGM(localIsGM());
 
@@ -67,32 +64,22 @@ bool SharedNoteMediaController::openMedia(CleverURI* uri, const std::map<QString
     return true;
 }
 
-void SharedNoteMediaController::addSharedNotes(CleverURI* uri, const QHash<QString, QVariant>& params)
+void SharedNoteMediaController::addSharedNotes(const QHash<QString, QVariant>& params)
 {
-    if(uri == nullptr)
-        return;
+    auto ownerId= params.value(QStringLiteral("ownerId")).toString();
 
-    QString ownerId;
-    if(params.contains(QStringLiteral("ownerId")))
-    {
-        ownerId= params.value(QStringLiteral("ownerId")).toString();
-    }
+    auto uuid= params.value(QStringLiteral("id")).toString();
 
-    std::unique_ptr<SharedNoteController> notesCtrl(new SharedNoteController(ownerId, localId(), m_playerModel, uri));
-    if(params.contains(QStringLiteral("id")))
-    {
-        notesCtrl->setUuid(params.value(QStringLiteral("id")).toString());
-    }
+    std::unique_ptr<SharedNoteController> notesCtrl(new SharedNoteController(ownerId, localId(), m_playerModel, uuid));
+
     if(params.contains(QStringLiteral("markdown")))
     {
         auto b= params.value(QStringLiteral("markdown")).toBool();
         notesCtrl->setHighligthedSyntax(b ? SharedNoteController::HighlightedSyntax::MarkDown :
                                             SharedNoteController::HighlightedSyntax::None);
     }
-    if(params.contains(QStringLiteral("text")))
-    {
-        notesCtrl->setText(params.value(QStringLiteral("text")).toString());
-    }
+
+    notesCtrl->setText(params.value(QStringLiteral("text")).toString());
 
     notesCtrl->setLocalGM(localIsGM());
     notesCtrl->setLocalId(localId());
@@ -125,7 +112,7 @@ NetWorkReceiver::SendType SharedNoteMediaController::processMessage(NetworkMessa
     if(msg->action() == NetMsg::AddMedia && msg->category() == NetMsg::MediaCategory)
     {
         auto hash= MessageHelper::readSharedNoteData(msg);
-        addSharedNotes(new CleverURI(CleverURI::SHAREDNOTE), hash);
+        addSharedNotes(hash);
     }
     else if(msg->action() == NetMsg::CloseMedia && msg->category() == NetMsg::MediaCategory)
     {
@@ -139,9 +126,4 @@ NetWorkReceiver::SendType SharedNoteMediaController::processMessage(NetworkMessa
         m_updater->updateProperty(msg, note);
     }
     return type;
-}
-
-void SharedNoteMediaController::setUndoStack(QUndoStack* stack)
-{
-    // return;
 }

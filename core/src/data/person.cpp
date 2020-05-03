@@ -31,35 +31,20 @@
 /**********
  * Person *
  **********/
-Person::Person() {}
+Person::Person() : ResourcesNode(ResourcesNode::Person) {}
 
-Person::Person(const QString& name, const QColor& color) : m_color(color)
+Person::Person(const QString& name, const QColor& color) : ResourcesNode(ResourcesNode::Person), m_color(color)
 {
     m_name= name;
 }
 
-Person::Person(const QString& uuid, const QString& name, const QColor& color) : ResourcesNode(uuid), m_color(color)
+Person::Person(const QString& uuid, const QString& name, const QColor& color)
+    : ResourcesNode(ResourcesNode::Person, uuid), m_color(color)
 {
     m_name= name;
 }
 
-Person::~Person() {}
-
-void Person::setName(const QString& name)
-{
-    if(name == m_name)
-        return;
-    m_name= name;
-    emit nameChanged();
-}
-
-void Person::setUuid(const QString& uuid)
-{
-    if(uuid == m_uuid)
-        return;
-    m_uuid= uuid;
-    emit uuidChanged(m_uuid);
-}
+Person::~Person()= default;
 
 QColor Person::getColor() const
 {
@@ -115,24 +100,28 @@ void Person::setState(Qt::CheckState c)
 {
     m_checkState= c;
 }
-ResourcesNode::TypeResource Person::getResourcesType() const
+ResourcesNode::TypeResource Person::type() const
 {
     return ResourcesNode::Person;
 }
 QVariant Person::getData(ResourcesNode::DataValue data) const
 {
+    QVariant var;
     switch(data)
     {
     case NAME:
-        return m_name;
+        var= m_name;
+        break;
     case MODE:
-        return CleverURI::Internal;
+        var= QVariant::fromValue(Core::LoadingMode::Internal);
+        break;
     case DISPLAYED:
-        return true;
+        var= true;
+        break;
     case URI:
-        return {};
+        break;
     }
-    return {};
+    return var;
 }
 
 void Person::write(QDataStream&, bool, bool) const
@@ -149,7 +138,7 @@ bool Person::seekNode(QList<ResourcesNode*>&, ResourcesNode*)
     // default implement does nothing [virtual]
     return false;
 }
-QIcon Person::getIcon()
+QIcon Person::getIcon() const
 {
     return QIcon(QPixmap::fromImage(m_avatar));
 }

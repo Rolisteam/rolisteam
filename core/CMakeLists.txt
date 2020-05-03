@@ -26,17 +26,19 @@ set(HEADERS
     src/controller/controllerinterface.h
     src/controller/preferencescontroller.h
     src/controller/view_controller/imagecontroller.h
-    src/controller/view_controller/abstractmediacontroller.h
+    src/controller/view_controller/mediacontrollerbase.h
     src/controller/view_controller/vectorialmapcontroller.h
     src/controller/view_controller/charactersheetcontroller.h
     src/controller/view_controller/webpagecontroller.h
     src/controller/view_controller/sharednotecontroller.h
     src/controller/view_controller/pdfcontroller.h
+    src/controller/view_controller/notecontroller.h
     src/controller/media_controller/pdfmediacontroller.h
-    src/controller/media_controller/mediacontrollerinterface.h
+    src/controller/media_controller/mediamanagerbase.h
     src/controller/media_controller/charactersheetmediacontroller.h
     src/controller/media_controller/vectorialmapmediacontroller.h
     src/controller/media_controller/webpagemediacontroller.h
+    src/controller/media_controller/notemediacontroller.h
     src/controller/media_controller/imagemediacontroller.h
     src/controller/media_controller/sharednotemediacontroller.h
     src/controller/contentcontroller.h
@@ -148,7 +150,7 @@ set(HEADERS
     src/diceparser/validator.h
     src/media/image.h
     #src/model/participantsmodel.h
-    src/model/playerproxymodel.h
+    src/model/playerproxymodel.h    
     src/network/channel.h
     src/network/channellistpanel.h
     src/network/channelmodel.h
@@ -216,7 +218,7 @@ set(HEADERS
     src/undoCmd/addvmapitem.h
     src/undoCmd/changecoloritem.h
     src/undoCmd/changesizevmapitem.h
-    src/undoCmd/deletemediacontainercommand.h
+    src/undoCmd/removemediacontrollercommand.h
     src/undoCmd/deletevmapitem.h
     src/undoCmd/movevmapitem.h
     src/undoCmd/newmediacontroller.h
@@ -326,16 +328,18 @@ set(SOURCES
     src/controller/resourcescontroller.cpp
     src/controller/networkcontroller.cpp
     src/controller/preferencescontroller.cpp
-    src/controller/view_controller/abstractmediacontroller.cpp
+    src/controller/view_controller/mediacontrollerbase.cpp
     src/controller/playercontroller.cpp
     src/controller/contentcontroller.cpp
-    src/controller/media_controller/mediacontrollerinterface.cpp
+    src/controller/media_controller/mediamanagerbase.cpp
     src/controller/media_controller/imagemediacontroller.cpp
     src/controller/media_controller/charactersheetmediacontroller.cpp
     src/controller/media_controller/vectorialmapmediacontroller.cpp
     src/controller/media_controller/webpagemediacontroller.cpp
     src/controller/media_controller/sharednotemediacontroller.cpp
     src/controller/media_controller/pdfmediacontroller.cpp
+    src/controller/media_controller/notemediacontroller.cpp
+    src/controller/view_controller/notecontroller.cpp
     src/controller/view_controller/vectorialmapcontroller.cpp
     src/controller/view_controller/pdfcontroller.cpp
     src/controller/view_controller/sharednotecontroller.cpp
@@ -513,7 +517,7 @@ set(SOURCES
     src/undoCmd/addvmapitem.cpp
     src/undoCmd/changecoloritem.cpp
     src/undoCmd/changesizevmapitem.cpp
-    src/undoCmd/deletemediacontainercommand.cpp
+    src/undoCmd/removemediacontrollercommand.cpp
     src/undoCmd/newmediacontroller.cpp
     src/undoCmd/deletevmapitem.cpp
     src/undoCmd/movevmapitem.cpp
@@ -658,6 +662,7 @@ qt5_use_modules(core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick Q
 
 set(Network_HEADER    
     src/network/channelmodel.h
+    src/media/mediatype.h
     src/network/tcpclient.h
     src/network/servermanager.h
     src/network/connectionaccepter.h

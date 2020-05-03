@@ -29,8 +29,6 @@
 PreferencesManager::PreferencesManager() : m_optionDictionary(nullptr)
 {
     m_optionDictionary= new QMap<QString, QVariant>;
-    qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
-    qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
 
     // Default value
     m_optionDictionary->insert("MusicDirectory", QDir::homePath());
@@ -111,8 +109,6 @@ void PreferencesManager::readSettings(const QString& version)
 void PreferencesManager::writeSettings(const QString& version)
 {
     QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(version));
-    qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
-    qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
 
     settings.beginGroup("rolisteam/preferences");
     settings.beginWriteArray("preferenceMap");

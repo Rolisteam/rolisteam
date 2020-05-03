@@ -37,6 +37,7 @@ class WebpageController;
 class SharedNoteController;
 class MapController;
 class PdfController;
+class NoteController;
 /**
  * @brief The ImprovedWorkspace class
  */
@@ -83,15 +84,16 @@ public:
      */
     void removeMediaContainer(MediaContainer* mediac);
     QVector<QMdiSubWindow*> getAllSubWindowFromId(const QString& id) const;
+    bool closeAllSubs();
 signals:
     void removedAction(QAction*);
     void vmapActive();
-    void oldMapActive();
 
 public slots:
     void setTabbedMode(bool);
     void ensurePresent();
     void addWidgetToMdi(QWidget*, QString title);
+    bool closeActiveSub();
 
 protected slots:
     void addImage(ImageController* ctrl);
@@ -100,11 +102,13 @@ protected slots:
     void addWebpage(WebpageController* ctrl);
     void addSharedNote(SharedNoteController* ctrl);
     void addPdf(PdfController* ctrl);
+    void addNote(NoteController* ctrl);
 
 protected:
     void resizeEvent(QResizeEvent* event);
     bool eventFilter(QObject* object, QEvent* event);
     bool updateTitleTab();
+    bool closeSub(MediaContainer* container);
 
 private:
     void updateBackGround();

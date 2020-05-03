@@ -21,8 +21,8 @@
 
 #include "data/cleveruri.h"
 
-WebpageController::WebpageController(QObject* parent)
-    : AbstractMediaContainerController(new CleverURI(CleverURI::WEBVIEW), parent)
+WebpageController::WebpageController(const QString& id, QObject* parent)
+    : MediaControllerBase(id, Core::ContentType::WEBVIEW, parent)
 {
 }
 

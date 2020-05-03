@@ -1,8 +1,8 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                               *
- *   http://www.rolisteam.org/contact                                      *
+ *	Copyright (C) 2017 by Renaud Guezennec                                 *
+ *   https://rolisteam.org/contact                                      *
  *                                                                         *
- *   This software is free software; you can redistribute it and/or modify *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -17,32 +17,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "mediacontrollerinterface.h"
+#ifndef REMOVEMEDIACONTROLLERCOMMAND_H
+#define REMOVEMEDIACONTROLLERCOMMAND_H
 
-void MediaControllerInterface::setLocalIsGM(bool localIsGM)
+#include <QUndoCommand>
+#include <map>
+#include <QVariant>
+
+#include "data/cleveruri.h"
+
+class MediaControllerBase;
+class MediaManagerBase;
+class RemoveMediaControllerCommand : public QUndoCommand
 {
-    if(m_localIsGM == localIsGM)
-        return;
+public:
+    RemoveMediaControllerCommand(MediaControllerBase* media, MediaManagerBase* ctrl, QUndoCommand* parent= nullptr);
 
-    m_localIsGM= localIsGM;
-    emit localIsGMChanged(m_localIsGM);
-}
+    ~RemoveMediaControllerCommand() override;
 
-bool MediaControllerInterface::localIsGM() const
-{
-    return m_localIsGM;
-}
+    void redo() override;
+    void undo() override;
 
-QString MediaControllerInterface::localId() const
-{
-    return m_localId;
-}
+private:
+    QString m_uuid;
+    QString m_title;
+    MediaControllerBase* m_ctrl = nullptr;
+    MediaManagerBase* m_manager;
+    std::map<QString, QVariant> m_params;
+    Core::ContentType m_contentType;
+};
 
-void MediaControllerInterface::setLocalId(const QString& id)
-{
-    if(m_localId == id)
-        return;
-    m_localId= id;
-
-    emit localIdChanged(m_localId);
-}
+#endif // REMOVEMEDIACONTROLLERCOMMAND_H

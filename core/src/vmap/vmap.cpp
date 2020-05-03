@@ -899,7 +899,7 @@ void VMap::computePattern()
 
     setBackgroundBrush(m_ctrl->backgroundColor());
 
-    if(!m_ctrl->gridAbove() && m_ctrl->gridVisibility() && (m_ctrl->gridPattern() != Core::NONE))
+    if(!m_ctrl->gridAbove() && m_ctrl->gridVisibility() && (m_ctrl->gridPattern() != Core::GridPattern::NONE))
     {
         auto ctrl= m_ctrl->gridController();
         setBackgroundBrush(QPixmap::fromImage(ctrl->gridPattern()));
@@ -1165,14 +1165,14 @@ void VMap::dropEvent(QGraphicsSceneDragDropEvent* event)
             QList<ResourcesNode*> resourcesList= resourcesData->getList().values();
             for(ResourcesNode* resource : resourcesList)
             {
-                if(resource->getResourcesType() == ResourcesNode::Cleveruri)
+                if(resource->type() == ResourcesNode::Cleveruri)
                 {
                     qInfo() << "VMAP dropEvent: image from resources list";
                     auto media= dynamic_cast<CleverURI*>(resource);
                     if(nullptr == media)
                         continue;
 
-                    if(media->getType() == CleverURI::PICTURE)
+                    if(media->contentType() == Core::ContentType::PICTURE)
                     {
                         // ImageItem* led= new ImageItem(m_ctrl);
                         // led->setImageUri(media->getUri());
@@ -1191,7 +1191,7 @@ void VMap::dropEvent(QGraphicsSceneDragDropEvent* event)
                         // sendOffItem(led);
                     }
                 }
-                else if(resource->getResourcesType() == ResourcesNode::Person)
+                else if(resource->type() == ResourcesNode::Person)
                 {
                     qInfo() << "VMAP dropEvent: Character from resources list";
                     Person* item= dynamic_cast<Character*>(resource);

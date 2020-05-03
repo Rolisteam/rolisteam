@@ -68,7 +68,7 @@
 #include <QToolBar>
 #include <QtDebug>
 
-////// #include "OOReader.h"
+#include "controller/view_controller/notecontroller.h"
 
 #ifdef Q_WS_MAC
 const QString TextEdit::rsrcPath= QStringLiteral(":/images/mac");
@@ -76,7 +76,7 @@ const QString TextEdit::rsrcPath= QStringLiteral(":/images/mac");
 const QString TextEdit::rsrcPath= QStringLiteral(":/images/win");
 #endif
 
-TextEdit::TextEdit(QWidget* parent) : QMainWindow(parent)
+TextEdit::TextEdit(NoteController* note, QWidget* parent) : QMainWindow(parent), m_noteCtrl(note)
 {
     setObjectName("TextEdit");
     setupFileActions();
@@ -92,7 +92,7 @@ TextEdit::TextEdit(QWidget* parent) : QMainWindow(parent)
 
     textEdit= new QTextEdit(this);
     connect(textEdit, SIGNAL(currentCharFormatChanged(QTextCharFormat)), this,
-        SLOT(currentCharFormatChanged(QTextCharFormat)));
+            SLOT(currentCharFormatChanged(QTextCharFormat)));
     connect(textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChanged()));
 
     setCentralWidget(textEdit);
@@ -102,6 +102,9 @@ TextEdit::TextEdit(QWidget* parent) : QMainWindow(parent)
     fontChanged(textEdit->font());
     colorChanged(textEdit->textColor());
     alignmentChanged(textEdit->alignment());
+
+    connect(textEdit->document(), &QTextDocument::contentsChanged, m_noteCtrl,
+            [this]() { m_noteCtrl->setText(textEdit->document()->toHtml()); });
 
     connect(textEdit->document(), SIGNAL(modificationChanged(bool)), actionSave, SLOT(setEnabled(bool)));
     connect(textEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setWindowModified(bool)));
@@ -436,9 +439,9 @@ bool TextEdit::maybeSave()
         return true;
     QMessageBox::StandardButton ret;
     ret= QMessageBox::warning(this, tr("Application"),
-        tr("The document has been modified.\n"
-           "Do you want to save your changes?"),
-        QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+                              tr("The document has been modified.\n"
+                                 "Do you want to save your changes?"),
+                              QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
     if(ret == QMessageBox::Save)
         return fileSave();
     else if(ret == QMessageBox::Cancel)
@@ -464,8 +467,8 @@ void TextEdit::fileNew()
 
 void TextEdit::fileOpen()
 {
-    QString fn= QFileDialog::getOpenFileName(
-        this, tr("Open File..."), QString(setter.value("LastDir").toString()), getFilter());
+    QString fn= QFileDialog::getOpenFileName(this, tr("Open File..."), QString(setter.value("LastDir").toString()),
+                                             getFilter());
     if(!fn.isEmpty())
     {
         QFileInfo fi(fn);
@@ -479,18 +482,12 @@ bool TextEdit::fileSave()
     if(fileName.isEmpty())
         return fileSaveAs();
 
-    bool canodt= false;
-#if QT_VERSION >= 0x040500
-    canodt= true;
-#endif
+    bool canodt= true;
     const QString ext= QFileInfo(fileName).completeSuffix().toLower();
     if(ext == "odt" && canodt)
     {
-#if QT_VERSION >= 0x040500
         QTextDocumentWriter writer(fileName);
         return writer.write(textEdit->document());
-#endif
-        return false;
     }
     else
     {
@@ -731,9 +728,9 @@ void TextEdit::clipboardDataChanged()
 void TextEdit::about()
 {
     QMessageBox::about(this, tr("About"),
-        tr("This example demonstrates Qt's "
-           "rich text editing facilities in action, providing an example "
-           "document for you to experiment with."));
+                       tr("This example demonstrates Qt's "
+                          "rich text editing facilities in action, providing an example "
+                          "document for you to experiment with."));
 }
 
 void TextEdit::mergeFormatOnWordOrSelection(const QTextCharFormat& format)
@@ -790,5 +787,5 @@ QString TextEdit::getFilter() const
 {
     return QString("%1 %2 %3 %4")
         .arg(tr("OpenOffice 2.4 file format OASIS "), QStringLiteral(" (*.odt *.ott);;"),
-            QStringLiteral("XHTML file format"), QStringLiteral(" (*.htm *.html);;"));
+             QStringLiteral("XHTML file format"), QStringLiteral(" (*.htm *.html);;"));
 }

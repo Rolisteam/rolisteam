@@ -76,7 +76,7 @@ void SharedNoteControllerUpdater::sendOffPermissionChanged(SharedNoteController*
     {
         msg.setRecipientList({id}, NetworkMessage::OneOrMany);
     }
-    msg.uint8(CleverURI::SHAREDNOTE);
+    msg.uint8(static_cast<int>(Core::ContentType::SHAREDNOTE));
     msg.string8(ctrl->uuid());
     msg.string16(QStringLiteral("permission"));
     auto perm= b ? SharedNoteController::Permission::READWRITE : SharedNoteController::Permission::READ;
@@ -103,7 +103,7 @@ void SharedNoteControllerUpdater::sendOffChanges(SharedNoteController* ctrl, con
 
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::UpdateMediaProperty);
     // msg.setRecipientList(list, NetworkMessage::OneOrMany);
-    msg.uint8(CleverURI::SHAREDNOTE);
+    msg.uint8(static_cast<int>(Core::ContentType::SHAREDNOTE));
     msg.string8(ctrl->uuid());
     msg.string16(property);
     auto val= ctrl->property(property.toLocal8Bit().data());

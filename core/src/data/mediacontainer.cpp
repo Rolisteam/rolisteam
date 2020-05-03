@@ -20,8 +20,7 @@
 #include "mediacontainer.h"
 #include <QMessageBox>
 
-MediaContainer::MediaContainer(AbstractMediaContainerController* ctrl, ContainerType containerType, bool localIsGM,
-                               QWidget* parent)
+MediaContainer::MediaContainer(MediaControllerBase* ctrl, ContainerType containerType, bool localIsGM, QWidget* parent)
     : QMdiSubWindow(parent)
     , m_lifeCycleCtrl(ctrl)
     , m_preferences(PreferencesManager::getInstance())
@@ -35,9 +34,9 @@ MediaContainer::MediaContainer(AbstractMediaContainerController* ctrl, Container
     m_detachedDialog->setCheckable(true);
 
     connect(m_detachedDialog, &QAction::triggered, this, &MediaContainer::detachView);
-    connect(ctrl, &AbstractMediaContainerController::closeContainer, this, &MediaContainer::close);
-    connect(ctrl, &AbstractMediaContainerController::ownerIdChanged, this, &MediaContainer::ownerIdChanged);
-    connect(m_lifeCycleCtrl, &AbstractMediaContainerController::titleChanged, this,
+    connect(ctrl, &MediaControllerBase::closeContainer, this, &MediaContainer::close);
+    connect(ctrl, &MediaControllerBase::ownerIdChanged, this, &MediaContainer::ownerIdChanged);
+    connect(m_lifeCycleCtrl, &MediaControllerBase::titleChanged, this,
             [this]() { setWindowTitle(m_lifeCycleCtrl->title()); });
 }
 
@@ -75,7 +74,7 @@ CleverURI* MediaContainer::getCleverUri() const
     return m_uri;
 }*/
 
-AbstractMediaContainerController* MediaContainer::ctrl() const
+MediaControllerBase* MediaContainer::ctrl() const
 {
     return m_lifeCycleCtrl;
 }
@@ -144,18 +143,6 @@ QString MediaContainer::mediaId() const
     return m_lifeCycleCtrl->uuid();
 }
 
-void MediaContainer::cleverURIHasChanged(CleverURI* uri, CleverURI::DataValue field)
-{
-    /* if(uri != m_uri)
-         return;
-
-     if(field == CleverURI::NAME)
-     {
-         if(nullptr != m_action)
-             m_action->setText(getUriName());
-         updateTitle();
-     }*/
-}
 void MediaContainer::currentToolChanged(Core::SelectableTool selectedtool)
 {
     m_currentTool= selectedtool;

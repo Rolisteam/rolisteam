@@ -28,6 +28,7 @@
 class VMap;
 class CleverURI;
 class VectorialMapController;
+class MediaControllerBase;
 class IOHelper
 {
 public:
@@ -36,6 +37,8 @@ public:
     static QByteArray loadFile(const QString& file);
     static bool loadVMap(VMap* vmap, CleverURI* uri, VectorialMapController* ctrl);
     static bool loadToken(const QString& filename, std::map<QString, QVariant>& params);
+
+    static std::map<QString, QVariant> saveController(MediaControllerBase* media);
 
     static QJsonObject byteArrayToJsonObj(const QByteArray& data);
     static QJsonArray byteArrayToJsonArray(const QByteArray& data);

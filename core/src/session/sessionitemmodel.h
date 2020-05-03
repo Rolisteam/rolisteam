@@ -30,7 +30,7 @@
 /**
  * @brief subclassed model to fit the management of session (ressources)
  */
-class SessionItemModel : public QAbstractItemModel, public CleverURIListener
+class SessionItemModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
@@ -119,8 +119,6 @@ public:
     bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent);
     QStringList mimeTypes() const;
     QMimeData* mimeData(const QModelIndexList& indexes) const;
-
-    void cleverURIHasChanged(CleverURI* uri, CleverURI::DataValue field);
 
 public slots:
     void updateNode(ResourcesNode*);

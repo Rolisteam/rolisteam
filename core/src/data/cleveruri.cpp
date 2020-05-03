@@ -24,76 +24,62 @@
 #include <QDataStream>
 #include <QFileInfo>
 
+#include "media/mediatype.h"
 #include "preferences/preferencesmanager.h"
 
 /////////////////
-// CleverUri
+// CleverUri       {Core::SONG, ":/resources/icons/audiofile.svg"},{Core::CHAT,
+// ":/resources/icons/scenario.png"},{CleverURI::SONGLIST, ":/resources/icons/playlist.svg"}
 /////////////////
-QHash<CleverURI::ContentType, QString> CleverURI::m_iconPathHash
-    = {{CleverURI::NONE, ""},
-       {CleverURI::VMAP, ":/vmap.png"},
-       {CleverURI::CHAT, ":/resources/icons/scenario.png"},
-       {CleverURI::PICTURE, ":/resources/icons/photo.png"},
-       {CleverURI::ONLINEPICTURE, ":/resources/icons/photo.png"},
-       {CleverURI::TEXT, ":/notes.png"},
-       {CleverURI::CHARACTERSHEET, ":/resources/icons/treeview.png"},
-       {CleverURI::SONG, ":/resources/icons/audiofile.svg"},
-       {CleverURI::SHAREDNOTE, ":/resources/icons/sharedEditor.png"},
-       {CleverURI::WEBVIEW, ":/resources/icons/webPage.svg"},
-#ifdef WITH_PDF
-       {CleverURI::PDF, ":/resources/icons/pdfLogo.png"},
-#endif
-       {CleverURI::SONGLIST, ":/resources/icons/playlist.svg"}};
-
-// enum ContentType {NONE,MAP,VMAP,CHAT,PICTURE,ONLINEPICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG,SONGLIST
-// {CleverURI::SCENARIO, ":/story.png"}, << QObject::tr("Scenario")<< QString("SessionDirectory")
-QStringList CleverURI::m_typeNameList= QStringList()
-                                       << QObject::tr("None") << QObject::tr("Vectorial Map") << QObject::tr("Chat")
-                                       << QObject::tr("Picture") << QObject::tr("Online Picture") << QObject::tr("Text")
-                                       << QObject::tr("Charecter Sheet") << QObject::tr("Song")
-                                       << QObject::tr("Song List") << QObject::tr("Shared Notes");
 
 QStringList CleverURI::m_typeToPreferenceDirectory
     = QStringList() << QString("SessionDirectory") << QString("MapDirectory") << QString("ChatDirectory")
                     << QString("ImageDirectory") << QString("ImageDirectory") << QString("MinutesDirectory")
                     << QString("CharacterSheetDirectory") << QString("MusicDirectoryPlayer")
                     << QString("MusicDirectoryPlayer") << QString("MinutesDirectory");
-// CleverURIListener* CleverURI::s_listener = nullptr;
 
-CleverURIListener::~CleverURIListener() {}
-
-CleverURI::CleverURI(ContentType type) : m_type(type), m_state(Unloaded)
+CleverURI::CleverURI(Core::ContentType type)
+    : ResourcesNode(TypeResource::Cleveruri), m_type(type), m_state(Core::State::Unloaded)
 {
     init();
 }
 
-CleverURI::CleverURI(const CleverURI& mp)
+QIcon CleverURI::getIcon() const
 {
-    m_type= mp.getType();
-    m_uri= mp.getUri();
-    m_loadingMode= mp.loadingMode();
-    m_name= mp.name();
-    m_ownerId= mp.ownerId();
-    m_state= mp.getState();
-    updateListener(CleverURI::NAME);
-}
-QIcon CleverURI::getIcon()
-{
-    return QIcon(m_iconPathHash[m_type]);
+    return QIcon(CleverURI::typeToIconPath(m_type));
 }
 
-CleverURI::CleverURI(QString name, QString uri, const QString& ownerId, ContentType type)
-    : m_uri(uri), m_type(type), m_state(Unloaded), m_ownerId(ownerId)
+CleverURI::CleverURI(QString name, QString uri, const QString& ownerId, Core::ContentType type)
+    : ResourcesNode(TypeResource::Cleveruri)
+    , m_uri(uri)
+    , m_type(type)
+    , m_state(Core::State::Unloaded)
+    , m_ownerId(ownerId)
 {
-    m_name= name;
-    updateListener(CleverURI::NAME);
+    setName(name);
     init();
 }
 
-CleverURI::~CleverURI() {}
+CleverURI::~CleverURI()= default;
+
+QString CleverURI::typeToIconPath(Core::ContentType type)
+{
+    auto hash= QHash<Core::ContentType, QString>({
+        {Core::ContentType::VECTORIALMAP, ":/vmap.png"},
+        {Core::ContentType::PICTURE, ":/resources/icons/photo.png"},
+        {Core::ContentType::ONLINEPICTURE, ":/resources/icons/photo.png"},
+        {Core::ContentType::NOTES, ":/notes.png"},
+        {Core::ContentType::CHARACTERSHEET, ":/resources/icons/treeview.png"},
+        {Core::ContentType::SHAREDNOTE, ":/resources/icons/sharedEditor.png"},
+        {Core::ContentType::WEBVIEW, ":/resources/icons/webPage.svg"},
+        {Core::ContentType::PDF, ":/resources/icons/pdfLogo.png"},
+    });
+    return hash.value(type);
+}
+
 bool CleverURI::operator==(const CleverURI& uri) const
 {
-    if((uri.getUri() == getUri()) && (uri.getType() == getType()))
+    if((uri.getUri() == getUri()) && (uri.contentType() == contentType()))
         return true;
     return false;
 }
@@ -104,10 +90,9 @@ void CleverURI::setUri(QString& uri)
     QFileInfo info(uri);
     m_name= info.baseName();
     loadData();
-    updateListener(CleverURI::URI);
 }
 
-void CleverURI::setType(CleverURI::ContentType type)
+void CleverURI::setContentType(Core::ContentType type)
 {
     m_type= type;
 }
@@ -122,7 +107,7 @@ const QString CleverURI::getUri() const
     return m_uri;
 }
 
-CleverURI::ContentType CleverURI::getType() const
+Core::ContentType CleverURI::contentType() const
 {
     return m_type;
 }
@@ -130,58 +115,35 @@ bool CleverURI::hasChildren() const
 {
     return false;
 }
-void CleverURI::setUpListener()
-{
-    updateListener(CleverURI::NAME);
-}
 
 void CleverURI::loadData()
 {
-    if(loadingMode() == Internal)
+    if(loadingMode() == Core::LoadingMode::Internal)
     {
         loadFileFromUri(m_data);
     }
-    /*else
-        m_data.clear();*/
 }
 
 void CleverURI::init()
 {
     PreferencesManager* preferences= PreferencesManager::getInstance();
-    m_loadingMode= static_cast<LoadingMode>(
-        preferences->value(QStringLiteral("DefaultLoadingMode"), static_cast<int>(Linked)).toInt());
+    m_loadingMode= static_cast<Core::LoadingMode>(
+        preferences->value(QStringLiteral("DefaultLoadingMode"), static_cast<int>(Core::LoadingMode::Linked)).toInt());
 }
 
-CleverURI::State CleverURI::getState() const
+Core::State CleverURI::getState() const
 {
     return m_state;
 }
 
-void CleverURI::setState(const State& state)
+void CleverURI::setState(const Core::State& state)
 {
     m_state= state;
-    updateListener(ResourcesNode::DISPLAYED);
 }
 
 bool CleverURI::hasData() const
 {
     return !m_data.isEmpty();
-}
-
-void CleverURI::updateListener(CleverURI::DataValue value)
-{
-    for(auto& listener : m_listenerList)
-    {
-        listener->cleverURIHasChanged(this, value);
-    }
-}
-
-void CleverURI::setListener(CleverURIListener* value)
-{
-    if(!m_listenerList.contains(value))
-    {
-        m_listenerList.append(value);
-    }
 }
 
 QByteArray CleverURI::getData() const
@@ -196,34 +158,33 @@ void CleverURI::setData(const QByteArray& data)
 
 bool CleverURI::isDisplayed() const
 {
-    return (m_state == Displayed);
+    return (m_state == Core::State::Displayed);
 }
 
 void CleverURI::setDisplayed(bool displayed)
 {
     if(displayed)
     {
-        m_state= Displayed;
+        m_state= Core::State::Displayed;
     }
     else
     {
-        m_state= Hidden;
+        m_state= Core::State::Hidden;
     }
-    updateListener(ResourcesNode::DISPLAYED);
 }
 
-CleverURI::LoadingMode CleverURI::loadingMode() const
+Core::LoadingMode CleverURI::loadingMode() const
 {
     return m_loadingMode;
 }
 
-void CleverURI::setLoadingMode(const LoadingMode& currentMode)
+void CleverURI::setLoadingMode(const Core::LoadingMode& currentMode)
 {
     m_loadingMode= currentMode;
 
-    if(m_loadingMode == Linked)
+    if(m_loadingMode == Core::LoadingMode::Linked)
         loadData();
-    else if(m_loadingMode == Internal)
+    else if(m_loadingMode == Core::LoadingMode::Internal)
         m_data.clear();
 }
 bool CleverURI::exists()
@@ -237,12 +198,6 @@ const QString CleverURI::getAbsolueDir() const
 {
     QFileInfo info(m_uri);
     return info.absolutePath();
-}
-
-void CleverURI::setName(const QString& name)
-{
-    ResourcesNode::setName(name);
-    updateListener(CleverURI::NAME);
 }
 
 void CleverURI::write(QDataStream& out, bool tag, bool saveData) const
@@ -274,72 +229,77 @@ void CleverURI::read(QDataStream& in)
     int mode;
     int state;
     in >> type >> m_uri >> m_name >> mode >> m_data >> state;
-    m_type= static_cast<CleverURI::ContentType>(type);
-    m_loadingMode= static_cast<CleverURI::LoadingMode>(mode);
-    m_state= static_cast<CleverURI::State>(state);
-    updateListener(CleverURI::NAME);
+    m_type= static_cast<Core::ContentType>(type);
+    m_loadingMode= static_cast<Core::LoadingMode>(mode);
+    m_state= static_cast<Core::State>(state);
+    // updateListener(CleverURI::NAME);
 }
 
-QString CleverURI::getFilterForType(CleverURI::ContentType type) // static
+QString CleverURI::getFilterForType(Core::ContentType type) // static
 {
     PreferencesManager* preferences= PreferencesManager::getInstance();
     QString filterType;
     switch(type)
     {
-    case CleverURI::CHARACTERSHEET:
+    case Core::ContentType::CHARACTERSHEET:
         filterType= QObject::tr("Character Sheets files  (%1)")
                         .arg(preferences->value("CharacterSheetFileFilter", "*.rcs").toString());
         break;
-    case CleverURI::PICTURE:
+    case Core::ContentType::PICTURE:
         filterType= QObject::tr("Supported Image formats (%1)")
                         .arg(preferences->value("ImageFileFilter", "*.jpg *.jpeg *.png *.bmp *.svg").toString());
         break;
-    case CleverURI::TEXT:
+    case Core::ContentType::NOTES:
         filterType= QObject::tr("Supported Text Files (%1)")
                         .arg(preferences->value("TextFileFilter", "*.odt *.htm *.html *.txt *.md").toString());
         break;
-    /*case CleverURI::SCENARIO:
-        filterType
-            = QObject::tr("Supported Story Files (%1)").arg(preferences->value("StoryFileFilter", "*.sce").toString());
-        break;*/
-    case CleverURI::SONG:
-        filterType= QObject::tr("Supported Audio formats (%1)")
-                        .arg(preferences->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac").toString());
-        break;
-    case CleverURI::SHAREDNOTE:
+        /* case Core::ContentType:: ::SONG:
+             filterType= QObject::tr("Supported Audio formats (%1)")
+                             .arg(preferences->value("AudioFileFilter", "*.wav *.mp2 *.mp3 *.ogg *.flac").toString());
+             break;*/
+    case Core::ContentType::SHAREDNOTE:
         filterType= QObject::tr("Supported Shared Note formats (%1)")
                         .arg(preferences->value("TextFileFilter", "*.rsn *.txt *.html *.htm *.md").toString());
         break;
-    case CleverURI::WEBVIEW:
+    case Core::ContentType::WEBVIEW:
         filterType= QObject::tr("Supported WebPage (%1)")
                         .arg(preferences->value("WebPageFilter", "*.html *.xhtml *.htm").toString());
         break;
-#ifdef WITH_PDF
-    case CleverURI::PDF:
+    case Core::ContentType::PDF:
         filterType= QObject::tr("Pdf File (%1)").arg(preferences->value("PdfFileFilter", "*.pdf").toString());
         break;
-#endif
-    case CleverURI::VMAP:
+    case Core::ContentType::VECTORIALMAP:
         filterType= QObject::tr("Vectorial Map (%1)").arg(preferences->value("VictorialFilter", "*.vmap").toString());
         break;
-    case CleverURI::CHAT:
-    case CleverURI::ONLINEPICTURE:
+    case Core::ContentType::ONLINEPICTURE:
     default:
         filterType= QString();
         break;
     }
     return filterType;
 }
-QString CleverURI::typeToString(CleverURI::ContentType type)
+
+QString CleverURI::typeToString(Core::ContentType type)
 {
-    if(m_typeNameList.size() > static_cast<int>(type))
-    {
-        return m_typeNameList.at(static_cast<int>(type));
-    }
-    return QString();
+    QHash<Core::ContentType, QString> names;
+
+    names.insert(Core::ContentType::VECTORIALMAP, QObject::tr("Vectorial Map"));
+    // names.insert(Core::ContentType::CHAT, QObject::tr("Chat"));
+    names.insert(Core::ContentType::PICTURE, QObject::tr("Picture"));
+    names.insert(Core::ContentType::ONLINEPICTURE, QObject::tr("Online Picture"));
+    names.insert(Core::ContentType::NOTES, QObject::tr("Minutes"));
+    names.insert(Core::ContentType::CHARACTERSHEET, QObject::tr("Charecter Sheet"));
+    // names.insert(Core::ContentType::SONG, QObject::tr("Song"));
+    // names.insert(Core::ContentType::SONGLIST, QObject::tr("Song List"));
+    names.insert(Core::ContentType::SHAREDNOTE, QObject::tr("Shared Notes"));
+    // names.insert(Core::ContentType::TOKEN, QObject::tr("NPC Token"));
+    names.insert(Core::ContentType::PDF, QObject::tr("Pdf"));
+    names.insert(Core::ContentType::WEBVIEW, QObject::tr("Webview"));
+
+    return names.value(type);
 }
 
-QString CleverURI::getPreferenceDirectoryKey(CleverURI::ContentType type)
+QString CleverURI::getPreferenceDirectoryKey(Core::ContentType type)
 {
     if(m_typeToPreferenceDirectory.size() > static_cast<int>(type))
     {
@@ -365,11 +325,6 @@ bool CleverURI::seekNode(QList<ResourcesNode*>&, ResourcesNode*)
     return false;
 }
 
-ResourcesNode::TypeResource CleverURI::getResourcesType() const
-{
-    return ResourcesNode::Cleveruri;
-}
-
 QVariant CleverURI::getData(ResourcesNode::DataValue i) const
 {
     switch(i)
@@ -377,7 +332,7 @@ QVariant CleverURI::getData(ResourcesNode::DataValue i) const
     case ResourcesNode::NAME:
         return m_name;
     case ResourcesNode::MODE:
-        return m_loadingMode == Internal ? QObject::tr("Internal") : QObject::tr("Linked");
+        return m_loadingMode == Core::LoadingMode::Internal ? QObject::tr("Internal") : QObject::tr("Linked");
     case ResourcesNode::DISPLAYED:
     {
         static const std::vector<QString> list(
@@ -390,7 +345,7 @@ QVariant CleverURI::getData(ResourcesNode::DataValue i) const
     return {};
 }
 
-QDataStream& operator<<(QDataStream& out, const CleverURI& con)
+/*QDataStream& operator<<(QDataStream& out, const CleverURI& con)
 {
     con.write(out, false, false);
     return out;
@@ -423,4 +378,4 @@ QDataStream& operator>>(QDataStream& is, CleverUriList& con)
         con.append(*uri);
     }
     return is;
-}
+}*/

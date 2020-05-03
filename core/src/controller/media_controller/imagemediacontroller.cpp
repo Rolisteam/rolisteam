@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
  *	Copyright (C) 2019 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
@@ -21,16 +21,12 @@
 
 #include "controller/view_controller/imagecontroller.h"
 #include "data/cleveruri.h"
+#include "undoCmd/removemediacontrollercommand.h"
 #include "worker/messagehelper.h"
 
-ImageMediaController::ImageMediaController() {}
+ImageMediaController::ImageMediaController() : MediaManagerBase(Core::ContentType::PICTURE) {}
 
-ImageMediaController::~ImageMediaController() {}
-
-CleverURI::ContentType ImageMediaController::type() const
-{
-    return CleverURI::PICTURE;
-}
+ImageMediaController::~ImageMediaController()= default;
 
 void ImageMediaController::registerNetworkReceiver()
 {
@@ -43,7 +39,10 @@ NetWorkReceiver::SendType ImageMediaController::processMessage(NetworkMessageRea
     {
         QPixmap pix;
         auto uri= MessageHelper::readImageData(msg, pix);
-        addImageController(uri, pix);
+        auto name= uri.value(QStringLiteral("name")).toString();
+        auto uuid= uri.value(QStringLiteral("uuid")).toString();
+        auto ctrl= addImageController(uuid, "", pix);
+        ctrl->setName(name);
     }
     return NetWorkReceiver::NONE;
 }
@@ -59,9 +58,9 @@ void ImageMediaController::closeMedia(const QString& id)
     m_images.erase(it, m_images.end());
 }
 
-bool ImageMediaController::openMedia(CleverURI* uri, const std::map<QString, QVariant>& args)
+bool ImageMediaController::openMedia(const QString& id, const std::map<QString, QVariant>& args)
 {
-    if(uri == nullptr || (args.empty() && uri->getUri().isEmpty()))
+    if(id == nullptr || args.empty())
         return false;
 
     auto it= args.find(QStringLiteral("pixmap"));
@@ -69,18 +68,37 @@ bool ImageMediaController::openMedia(CleverURI* uri, const std::map<QString, QVa
     if(it != args.end())
         pix= it->second.value<QPixmap>();
 
-    auto imgCtrl= addImageController(uri, pix);
+    it= args.find(QStringLiteral("path"));
+
+    QString path;
+    if(it != args.end())
+        path= it->second.toString();
+
+    auto imgCtrl= addImageController(id, path, pix);
+
+    QString name;
+    it= args.find(QStringLiteral("name"));
+    if(it != args.end())
+        name= it->second.toString();
+
+    imgCtrl->setName(name);
+
     MessageHelper::sendOffImage(imgCtrl);
     return true;
 }
 
-ImageController* ImageMediaController::addImageController(CleverURI* uri, const QPixmap& pix)
+ImageController* ImageMediaController::addImageController(const QString& id, const QString& path, const QPixmap& pix)
 {
-    std::unique_ptr<ImageController> imgCtrl(new ImageController(uri, pix));
+    std::unique_ptr<ImageController> imgCtrl(new ImageController(id, path, pix));
     emit imageControllerCreated(imgCtrl.get());
     auto img= imgCtrl.get();
 
     connect(this, &ImageMediaController::localIsGMChanged, imgCtrl.get(), &ImageController::setLocalGM);
+    connect(imgCtrl.get(), &ImageController::closeMe, this, [this, img]() {
+        if(!m_undoStack)
+            return;
+        m_undoStack->push(new RemoveMediaControllerCommand(img, this));
+    });
 
     m_images.push_back(std::move(imgCtrl));
     return img;
@@ -88,5 +106,5 @@ ImageController* ImageMediaController::addImageController(CleverURI* uri, const 
 
 void ImageMediaController::addImage(const QPixmap& image)
 {
-    addImageController(new CleverURI(CleverURI::PICTURE), image);
+    // addImageController(, image);
 }

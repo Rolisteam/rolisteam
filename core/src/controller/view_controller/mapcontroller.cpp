@@ -31,7 +31,7 @@ void clearImage(QImage& image, const QColor& color)
     painter.fillRect(0, 0, image.width(), image.height(), color);
 }
 
-MapController::MapController(CleverURI* uri, QObject* parent) : AbstractMediaContainerController(uri, parent) {}
+MapController::MapController( QObject* parent) : MediaControllerBase(Core::ContentType::VECTORIALMAP, parent) {}
 
 void MapController::init()
 {

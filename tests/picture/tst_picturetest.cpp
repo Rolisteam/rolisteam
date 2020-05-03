@@ -53,7 +53,7 @@ void PictureTest::cleanupTestCase() {}
 
 void PictureTest::testGetSet()
 {
-    /*   CleverURI uri("girafe", ":/assets/img/girafe.jpg", CleverURI::PICTURE);
+    /*   CleverURI uri("girafe", ":/assets/img/girafe.jpg", Core::ContentType::PICTURE);
        m_image->setCleverUri(&uri);
        QVERIFY2(*m_image->getCleverUri() == uri, "not the same image");
 
@@ -65,7 +65,7 @@ void PictureTest::writeAndReadNetworkTest()
 {
     /* for(int i= 0; i < 1000; ++i)
      {
-         CleverURI uri("girafe", ":/assets/img/girafe.jpg", CleverURI::PICTURE);
+         CleverURI uri("girafe", ":/assets/img/girafe.jpg", Core::ContentType::PICTURE);
          m_image->setCleverUri(&uri);
          NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::addMedia);
 
@@ -77,7 +77,7 @@ void PictureTest::writeAndReadNetworkTest()
          msg2.setData(array);
 
          Image image2;
-         //image2.setCleverUriType(CleverURI::PICTURE);
+         //image2.setCleverUriType(Core::ContentType::PICTURE);
          image2.readMessage(msg2);
          msg2.resetToData();
          msg.reset();

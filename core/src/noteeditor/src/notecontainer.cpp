@@ -20,8 +20,10 @@
 
 #include "notecontainer.h"
 
-NoteContainer::NoteContainer(bool localIsGM, QWidget* parent)
-    : MediaContainer(nullptr, MediaContainer::ContainerType::NoteContainer, localIsGM, parent), m_edit(new TextEdit())
+#include "controller/view_controller/notecontroller.h"
+
+NoteContainer::NoteContainer(NoteController* note, QWidget* parent)
+    : MediaContainer(note, MediaContainer::ContainerType::NoteContainer, parent), m_edit(new TextEdit(note))
 {
 #ifdef Q_OS_MAC
     m_edit->menuBar()->setNativeMenuBar(false);

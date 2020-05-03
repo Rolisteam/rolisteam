@@ -20,7 +20,7 @@
 #ifndef VECTORIALMAPMEDIACONTROLLER_H
 #define VECTORIALMAPMEDIACONTROLLER_H
 
-#include "mediacontrollerinterface.h"
+#include "mediamanagerbase.h"
 #include "vmap/vtoolbar.h"
 #include <memory>
 #include <vector>
@@ -28,7 +28,7 @@
 class VectorialMapController;
 class NetworkController;
 class VMapUpdater;
-class VectorialMapMediaController : public MediaControllerInterface
+class VectorialMapMediaController : public MediaManagerBase
 {
     Q_OBJECT
 
@@ -38,12 +38,10 @@ public:
 
     VectorialMapController* currentVMap() const;
 
-    CleverURI::ContentType type() const override;
-    bool openMedia(CleverURI* uri, const std::map<QString, QVariant>& args) override;
+    bool openMedia(const QString& uuid, const std::map<QString, QVariant>& args) override;
     void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
-    void setUndoStack(QUndoStack* stack) override;
 
     Core::SelectableTool tool() const;
 
@@ -95,12 +93,11 @@ public slots:
 private:
     void initializeOwnedVMap(VectorialMapController* ctrl);
     void updateProperties();
-    VectorialMapController* addVectorialMapController(CleverURI* uri, const QHash<QString, QVariant>& params);
+    VectorialMapController* addVectorialMapController(const QString& uuid, const QHash<QString, QVariant>& params);
 
 private:
     std::vector<std::unique_ptr<VectorialMapController>> m_vmaps;
     std::unique_ptr<VMapUpdater> m_updater;
-    QPointer<QUndoStack> m_stack;
 };
 
 #endif // VECTORIALMAPMEDIACONTROLLER_H
