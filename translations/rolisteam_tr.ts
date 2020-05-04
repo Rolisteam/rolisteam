@@ -374,22 +374,22 @@
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../core/src/charactersheet/charactersheetmodel.cpp" line="543"/>
+        <location filename="../core/src/charactersheet/charactersheetmodel.cpp" line="523"/>
         <source>Fields name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/charactersheet/charactersheetmodel.cpp" line="569"/>
+        <location filename="../core/src/charactersheet/charactersheetmodel.cpp" line="549"/>
         <source>Empty Section %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/charactersheet/charactersheetmodel.cpp" line="577"/>
+        <location filename="../core/src/charactersheet/charactersheetmodel.cpp" line="557"/>
         <source>Section_%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/charactersheet/charactersheetmodel.cpp" line="601"/>
+        <location filename="../core/src/charactersheet/charactersheetmodel.cpp" line="581"/>
         <source>Field %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -458,32 +458,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/media/charactersheetwindow.cpp" line="158"/>
+        <location filename="../core/src/media/charactersheetwindow.cpp" line="161"/>
         <source>%1 - (Character Sheet Viewer)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/media/charactersheetwindow.h" line="292"/>
+        <location filename="../core/src/media/charactersheetwindow.h" line="275"/>
         <source>Share To</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/media/charactersheetwindow.cpp" line="532"/>
+        <location filename="../core/src/media/charactersheetwindow.cpp" line="530"/>
         <source>QML Errors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/media/charactersheetwindow.h" line="293"/>
+        <location filename="../core/src/media/charactersheetwindow.h" line="276"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/media/charactersheetwindow.cpp" line="606"/>
+        <location filename="../core/src/media/charactersheetwindow.cpp" line="217"/>
+        <source>To all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/media/charactersheetwindow.cpp" line="604"/>
         <source>Open Character Sheets View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/media/charactersheetwindow.cpp" line="608"/>
+        <location filename="../core/src/media/charactersheetwindow.cpp" line="606"/>
         <source>Character Sheet files (*.qml)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -539,40 +544,28 @@
 <context>
     <name>CharacterToken</name>
     <message>
-        <location filename="../core/src/map/charactertoken.cpp" line="37"/>
         <source>healthy</source>
-        <translation type="unfinished">sağlıklı</translation>
+        <translation type="obsolete">sağlıklı</translation>
     </message>
     <message>
-        <location filename="../core/src/map/charactertoken.cpp" line="38"/>
         <source>lightly wounded</source>
-        <translation type="unfinished">hafif yaralı</translation>
+        <translation type="obsolete">hafif yaralı</translation>
     </message>
     <message>
-        <location filename="../core/src/map/charactertoken.cpp" line="39"/>
         <source>seriously injured</source>
-        <translation type="unfinished">ağır yaralı</translation>
+        <translation type="obsolete">ağır yaralı</translation>
     </message>
     <message>
-        <location filename="../core/src/map/charactertoken.cpp" line="40"/>
         <source>Dead</source>
-        <translation type="unfinished">Ölü</translation>
+        <translation type="obsolete">Ölü</translation>
     </message>
     <message>
-        <location filename="../core/src/map/charactertoken.cpp" line="41"/>
         <source>Sleeping</source>
-        <translation type="unfinished">Uyuyor</translation>
+        <translation type="obsolete">Uyuyor</translation>
     </message>
     <message>
-        <location filename="../core/src/map/charactertoken.cpp" line="42"/>
         <source>Bewitched</source>
-        <translation type="unfinished">Büyülü</translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/charactertoken.cpp" line="388"/>
-        <location filename="../core/src/map/charactertoken.cpp" line="462"/>
-        <source>Unknown Character Type (CharacterToken - charactertoken.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Büyülü</translation>
     </message>
 </context>
 <context>
@@ -643,88 +636,88 @@
 <context>
     <name>ChatWindow</name>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="154"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="160"/>
         <source>save</source>
         <translation>kaydet</translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="207"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="213"/>
         <source>Empty dice command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="221"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="227"/>
         <source>You</source>
         <translation>Siz</translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="240"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="246"/>
         <source>&lt;span title=&quot;%3&quot;&gt;got %1 at your dice roll [%2]&lt;/span&gt;</source>
         <comment>my dice roll</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="245"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="251"/>
         <source>got %1 at your dice roll [%3 (%2)]</source>
         <comment>my dice roll</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="250"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="256"/>
         <source>got %1 at your dice roll [%2]</source>
         <comment>my dice roll</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="261"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="267"/>
         <source>&lt;span title=&quot;%3&quot;&gt;got %1 [%2]&lt;/span&gt;</source>
         <comment>third person</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="265"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="271"/>
         <source>got %1 [%3 (%2)]</source>
         <comment>third person</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="270"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="276"/>
         <source>got %1 [%2]</source>
         <comment>third person</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="280"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="286"/>
         <source>Syntax</source>
         <translation>Sözdizimi</translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="155"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="161"/>
         <source>Save all messages from this window in %1/%2.html</source>
         <translation>Bu penceredeki tüm iletileri %1/%2.html dosyasına kaydet</translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="82"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="84"/>
         <source>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Dice_Rolling&quot;&gt;http://wiki.rolisteam.org/index.php/Dice_Rolling&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Dice_Rolling&quot;&gt;http://wiki.rolisteam.org/index.php/Dice_Rolling&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="361"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="367"/>
         <source>Warning</source>
         <translation>Uyarı</translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="362"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="368"/>
         <source>Some users won&apos;t be enable to see your emotes.</source>
         <translation>Bazı kullanıcılar duygu görünümünü etkinleştirmek istiyor.</translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="944"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="950"/>
         <source>Edit DiceBookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/chat/chatwindow.cpp" line="957"/>
+        <location filename="../core/src/chat/chatwindow.cpp" line="963"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
@@ -853,7 +846,7 @@
 <context>
     <name>ContentController</name>
     <message>
-        <location filename="../core/src/controller/contentcontroller.cpp" line="53"/>
+        <location filename="../core/src/controller/contentcontroller.cpp" line="54"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1130,12 +1123,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/document.cpp" line="312"/>
+        <location filename="../core/src/sharededitor/document.cpp" line="288"/>
         <source>Cahoots</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/document.cpp" line="312"/>
+        <location filename="../core/src/sharededitor/document.cpp" line="288"/>
         <source>The string was not found.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1353,14 +1346,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../core/src/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="162"/>
         <source>New Unit</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>GameController</name>
-    <message>
-        <location filename="../core/src/controller/gamecontroller.cpp" line="255"/>
-        <source>idnull</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1954,12 +1939,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2268"/>
+        <location filename="../client/mainwindow.cpp" line="1595"/>
         <source>unknown</source>
         <translation>bilinmeyen</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="682"/>
+        <location filename="../client/mainwindow.cpp" line="635"/>
         <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;%2&quot;&gt;%2&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1968,53 +1953,53 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Haritayı Aç</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2159"/>
+        <location filename="../client/mainwindow.cpp" line="1494"/>
         <source>Connected</source>
         <translation>Bağlandı</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2159"/>
+        <location filename="../client/mainwindow.cpp" line="1494"/>
         <source>Not Connected</source>
         <translation>Bağlı Değil</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2160"/>
+        <location filename="../client/mainwindow.cpp" line="1495"/>
         <source>Server</source>
         <translation>Sunucu</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2160"/>
+        <location filename="../client/mainwindow.cpp" line="1495"/>
         <source>Client</source>
         <translation>İstemci</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2161"/>
+        <location filename="../client/mainwindow.cpp" line="1496"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2161"/>
+        <location filename="../client/mainwindow.cpp" line="1496"/>
         <source>Player</source>
         <translation>Oynatıcı</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="936"/>
+        <location filename="../client/mainwindow.cpp" line="762"/>
         <source>Open scenario</source>
         <translation>Senaryo aç</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="969"/>
+        <location filename="../client/mainwindow.cpp" line="795"/>
         <source>Save Scenario as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="551"/>
+        <location filename="../client/mainwindow.ui" line="549"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="528"/>
         <source>Save Scenario</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="250"/>
+        <location filename="../client/mainwindow.cpp" line="241"/>
         <source>ToolBox</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2039,27 +2024,29 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Yeni</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="47"/>
+        <location filename="../client/mainwindow.ui" line="46"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="572"/>
         <source>&amp;Open</source>
         <translation>&amp;Aç</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="60"/>
+        <location filename="../client/mainwindow.ui" line="58"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="573"/>
         <source>Recent Files</source>
         <translation>Son Kullanılan Dosyalar</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="89"/>
+        <location filename="../client/mainwindow.ui" line="87"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="575"/>
         <source>Sub-&amp;Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="101"/>
-        <location filename="../client/mainwindow.ui" line="295"/>
-        <location filename="../client/mainwindow.ui" line="331"/>
+        <location filename="../client/mainwindow.ui" line="99"/>
+        <location filename="../client/mainwindow.ui" line="293"/>
+        <location filename="../client/mainwindow.ui" line="329"/>
+        <location filename="../client/mainwindow.ui" line="497"/>
+        <location filename="../client/mainwindow.ui" line="509"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="443"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="455"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="577"/>
@@ -2067,431 +2054,431 @@ p, li { white-space: pre-wrap; }
         <translation>Harita</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="65"/>
+        <location filename="../client/mainwindow.ui" line="63"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="574"/>
         <source>Save</source>
         <translation>Kaydet</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="554"/>
+        <location filename="../client/mainwindow.ui" line="552"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="530"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="202"/>
+        <location filename="../client/mainwindow.ui" line="200"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="408"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="207"/>
+        <location filename="../client/mainwindow.ui" line="205"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="410"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="222"/>
+        <location filename="../client/mainwindow.ui" line="220"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="416"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="231"/>
+        <location filename="../client/mainwindow.ui" line="229"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="418"/>
-        <location filename="../client/mainwindow.cpp" line="875"/>
+        <location filename="../client/mainwindow.cpp" line="699"/>
         <source>Quit</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="234"/>
+        <location filename="../client/mainwindow.ui" line="232"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="420"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="242"/>
+        <location filename="../client/mainwindow.ui" line="240"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="422"/>
         <source>Tab</source>
         <translation>Tab</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="261"/>
+        <location filename="../client/mainwindow.ui" line="259"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="432"/>
         <source>Alt+T</source>
         <translation>Alt+T</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="277"/>
+        <location filename="../client/mainwindow.ui" line="275"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="440"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="322"/>
+        <location filename="../client/mainwindow.ui" line="320"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="453"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="307"/>
+        <location filename="../client/mainwindow.ui" line="305"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="447"/>
         <source>Chat</source>
         <translation>Sohbet</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="153"/>
+        <location filename="../client/mainwindow.ui" line="151"/>
         <source>GM&#xa0;ToolBoxes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="199"/>
+        <location filename="../client/mainwindow.ui" line="197"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="406"/>
         <source>Save Scenario As…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="219"/>
+        <location filename="../client/mainwindow.ui" line="217"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="414"/>
         <source>Preferences…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="245"/>
+        <location filename="../client/mainwindow.ui" line="243"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="424"/>
         <source>F2</source>
         <translation type="unfinished">F2</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="266"/>
+        <location filename="../client/mainwindow.ui" line="264"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="434"/>
         <source>Disconnection…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="271"/>
+        <location filename="../client/mainwindow.ui" line="269"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="435"/>
         <source>Rolisteam Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="274"/>
+        <location filename="../client/mainwindow.ui" line="272"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="437"/>
         <source>online documentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="298"/>
+        <location filename="../client/mainwindow.ui" line="296"/>
+        <location filename="../client/mainwindow.ui" line="500"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="445"/>
         <source>Ctrl+M</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="310"/>
+        <location filename="../client/mainwindow.ui" line="308"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="449"/>
         <source>Ctrl+T</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="319"/>
-        <location filename="../client/mainwindow.ui" line="355"/>
+        <location filename="../client/mainwindow.ui" line="317"/>
+        <location filename="../client/mainwindow.ui" line="353"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="451"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="463"/>
         <source>Note</source>
         <translation>Not</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="334"/>
+        <location filename="../client/mainwindow.ui" line="332"/>
+        <location filename="../client/mainwindow.ui" line="512"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="457"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="343"/>
+        <location filename="../client/mainwindow.ui" line="341"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="459"/>
         <source>Picture</source>
         <translation>Resim</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="346"/>
+        <location filename="../client/mainwindow.ui" line="344"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="461"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="358"/>
+        <location filename="../client/mainwindow.ui" line="356"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="465"/>
         <source>Ctrl+R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="370"/>
+        <location filename="../client/mainwindow.ui" line="368"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="469"/>
         <source>Ctrl+E</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="381"/>
+        <location filename="../client/mainwindow.ui" line="379"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="471"/>
         <source>Show PC Name</source>
         <translation>Bilgisayar Adını Görüntüle</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="384"/>
+        <location filename="../client/mainwindow.ui" line="382"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="473"/>
         <source>F3</source>
         <translation type="unfinished">F3</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="398"/>
+        <location filename="../client/mainwindow.ui" line="396"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="477"/>
         <source>F4</source>
         <translation type="unfinished">F4</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="412"/>
+        <location filename="../client/mainwindow.ui" line="410"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="481"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="665"/>
+        <location filename="../client/mainwindow.ui" line="663"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="566"/>
         <source>Password Generator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="681"/>
+        <location filename="../client/mainwindow.ui" line="679"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="568"/>
         <source>Show Initiative</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="395"/>
+        <location filename="../client/mainwindow.ui" line="393"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="475"/>
         <source>Show Npc Name</source>
         <translation>Npc Adını Görüntüle</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="525"/>
+        <location filename="../client/mainwindow.ui" line="523"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="521"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="409"/>
+        <location filename="../client/mainwindow.ui" line="407"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="479"/>
         <source>Show Npc Number</source>
         <translation>Npc Numarasını Görüntüle</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="660"/>
+        <location filename="../client/mainwindow.ui" line="658"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="564"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="420"/>
+        <location filename="../client/mainwindow.ui" line="418"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="483"/>
         <source>Minute Editor</source>
         <translation>Dakika Düzenleyicisi</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="423"/>
+        <location filename="../client/mainwindow.ui" line="421"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="485"/>
         <source>Alt+M</source>
         <translation>Alt+M</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="432"/>
+        <location filename="../client/mainwindow.ui" line="430"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="487"/>
         <source>Online Picture</source>
         <translation>Çevrimiçi Resim</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="435"/>
+        <location filename="../client/mainwindow.ui" line="433"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="489"/>
         <source>Ctrl+Shift+I</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="443"/>
+        <location filename="../client/mainwindow.ui" line="441"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="491"/>
         <source>Audio Player</source>
         <translation>Ses Oynatıcısı</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="446"/>
+        <location filename="../client/mainwindow.ui" line="444"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="493"/>
         <source>Alt+A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="454"/>
+        <location filename="../client/mainwindow.ui" line="452"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="495"/>
         <source>Notification Zone</source>
         <translation>Bildirim Alanı</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="457"/>
+        <location filename="../client/mainwindow.ui" line="455"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="497"/>
         <source>Alt+N</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="465"/>
+        <location filename="../client/mainwindow.ui" line="463"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="499"/>
         <source>Chat List</source>
         <translation>Sohbet Listesi</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="468"/>
+        <location filename="../client/mainwindow.ui" line="466"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="501"/>
         <source>Alt+L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="476"/>
+        <location filename="../client/mainwindow.ui" line="474"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="503"/>
         <source>Character List</source>
         <translation>Karakter Listesi</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="487"/>
+        <location filename="../client/mainwindow.ui" line="485"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="507"/>
         <source>ToolBar</source>
         <translation>Araç Çubuğu</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="499"/>
-        <location filename="../client/mainwindow.ui" line="511"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="511"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="515"/>
         <source>Vectorial Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="530"/>
+        <location filename="../client/mainwindow.ui" line="528"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="523"/>
         <source>Change Profile…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="565"/>
+        <location filename="../client/mainwindow.ui" line="563"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="534"/>
         <source>F10</source>
         <translation type="unfinished">F10</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="173"/>
+        <location filename="../client/mainwindow.ui" line="171"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="399"/>
         <source>Alt+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="170"/>
+        <location filename="../client/mainwindow.ui" line="168"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="397"/>
         <source>Current Media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="182"/>
-        <location filename="../client/mainwindow.ui" line="670"/>
+        <location filename="../client/mainwindow.ui" line="180"/>
+        <location filename="../client/mainwindow.ui" line="668"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="401"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="567"/>
         <source>Current Media as…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="185"/>
+        <location filename="../client/mainwindow.ui" line="183"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="403"/>
         <source>Alt+Shift+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="190"/>
+        <location filename="../client/mainwindow.ui" line="188"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="405"/>
         <source>All Media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="367"/>
+        <location filename="../client/mainwindow.ui" line="365"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="467"/>
         <source>Open Scenario</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="562"/>
+        <location filename="../client/mainwindow.ui" line="560"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="532"/>
         <source>Room List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="574"/>
-        <location filename="../client/mainwindow.ui" line="586"/>
+        <location filename="../client/mainwindow.ui" line="572"/>
+        <location filename="../client/mainwindow.ui" line="584"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="536"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="540"/>
         <source>Shared Note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="577"/>
+        <location filename="../client/mainwindow.ui" line="575"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="538"/>
         <source>Ctrl+K</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="589"/>
+        <location filename="../client/mainwindow.ui" line="587"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="542"/>
         <source>Ctrl+L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="598"/>
-        <location filename="../client/mainwindow.ui" line="690"/>
+        <location filename="../client/mainwindow.ui" line="596"/>
+        <location filename="../client/mainwindow.ui" line="688"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="544"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="569"/>
         <source>Support Rolisteam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="603"/>
+        <location filename="../client/mainwindow.ui" line="601"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="545"/>
         <source>Shortcut Viewer…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="634"/>
+        <location filename="../client/mainwindow.ui" line="632"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="557"/>
         <source>Copy Connection Link…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="646"/>
+        <location filename="../client/mainwindow.ui" line="644"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="560"/>
         <source>Ctrl+H</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="657"/>
+        <location filename="../client/mainwindow.ui" line="655"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="562"/>
         <source>Show Health Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="606"/>
+        <location filename="../client/mainwindow.ui" line="604"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="547"/>
         <source>Ctrl+F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="123"/>
+        <location filename="../client/mainwindow.ui" line="121"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="578"/>
         <source>&amp;Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="135"/>
+        <location filename="../client/mainwindow.ui" line="133"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="579"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
@@ -2502,73 +2489,71 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="145"/>
+        <location filename="../client/mainwindow.ui" line="143"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="581"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="614"/>
+        <location filename="../client/mainwindow.ui" line="612"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="549"/>
         <source>Full Screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="617"/>
+        <location filename="../client/mainwindow.ui" line="615"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="551"/>
         <source>F11</source>
         <translation type="unfinished">F11</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="626"/>
+        <location filename="../client/mainwindow.ui" line="624"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="553"/>
         <source>PDF File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="629"/>
+        <location filename="../client/mainwindow.ui" line="627"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="555"/>
         <source>Ctrl+D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="522"/>
+        <location filename="../client/mainwindow.ui" line="520"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="519"/>
         <source>Show Health State</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="490"/>
+        <location filename="../client/mainwindow.ui" line="488"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="509"/>
         <source>F8</source>
         <translation type="unfinished">F8</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="539"/>
+        <location filename="../client/mainwindow.ui" line="537"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="524"/>
         <source>Character Sheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="514"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="517"/>
         <source>Ctrl+B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="502"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="513"/>
         <source>Ctrl+V</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="643"/>
+        <location filename="../client/mainwindow.ui" line="641"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="558"/>
         <source>WebPage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="542"/>
+        <location filename="../client/mainwindow.ui" line="540"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="526"/>
         <source>Ctrl+U</source>
         <translation type="unfinished"></translation>
@@ -2580,79 +2565,79 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="93"/>
+        <location filename="../client/mainwindow.ui" line="91"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="576"/>
         <source>Reorganize</source>
         <translation>Yeniden Organize Et</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="210"/>
+        <location filename="../client/mainwindow.ui" line="208"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="412"/>
         <source>Ctrl+Esc</source>
         <translation>Ctrl+Esc</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="250"/>
+        <location filename="../client/mainwindow.ui" line="248"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="426"/>
         <source>Cascade</source>
         <translation>Basamak</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="253"/>
-        <location filename="../client/mainwindow.ui" line="479"/>
+        <location filename="../client/mainwindow.ui" line="251"/>
+        <location filename="../client/mainwindow.ui" line="477"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="428"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="505"/>
         <source>Alt+C</source>
         <translation>Alt+C</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="258"/>
+        <location filename="../client/mainwindow.ui" line="256"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="430"/>
         <source>Tile</source>
         <translation>Kiremit</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1086"/>
+        <location filename="../client/mainwindow.cpp" line="913"/>
         <source>Help</source>
         <translation>Yardım</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1127"/>
+        <location filename="../client/mainwindow.cpp" line="952"/>
         <source>Update Notification</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1164"/>
+        <location filename="../client/mainwindow.cpp" line="967"/>
         <source>%1 has not the right version: %2.</source>
         <translation>%1 doğru sürüm değil: %2.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1261"/>
+        <location filename="../client/mainwindow.cpp" line="1080"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Rolisteam bağlantı için &lt;port&gt; kullanabilsin</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1264"/>
+        <location filename="../client/mainwindow.cpp" line="1083"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Rolisteam &lt;server&gt; bağlantısı kurabilsin.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1267"/>
+        <location filename="../client/mainwindow.cpp" line="1086"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation>&lt;role&gt; tanımlaması: gm ya da pc</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1269"/>
+        <location filename="../client/mainwindow.cpp" line="1088"/>
         <source>Erase the settings and use the default parameters</source>
         <translation>Ayarları sil ve varsayılan ayarlara dön</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1272"/>
+        <location filename="../client/mainwindow.cpp" line="1091"/>
         <source>Define the &lt;username&gt;</source>
         <translation>&lt;username&gt; tanımlaması</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1275"/>
+        <location filename="../client/mainwindow.cpp" line="1094"/>
         <source>Remove limit to PDF file size</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2661,47 +2646,42 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Bağlantı sonlandırma işlemi</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2267"/>
+        <location filename="../client/mainwindow.cpp" line="1594"/>
         <source>Export from %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1968"/>
+        <location filename="../client/mainwindow.cpp" line="1340"/>
         <source>Open %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="883"/>
+        <location filename="../client/mainwindow.cpp" line="707"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>Bağlantı kaybedildi. %1 kapatılacak</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="630"/>
+        <location filename="../client/mainwindow.cpp" line="583"/>
         <source>&amp;Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="631"/>
+        <location filename="../client/mainwindow.cpp" line="584"/>
         <source>&amp;Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="681"/>
+        <location filename="../client/mainwindow.cpp" line="634"/>
         <source>Support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="800"/>
-        <source>Untitled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.cpp" line="885"/>
+        <location filename="../client/mainwindow.cpp" line="709"/>
         <source>Connection lost</source>
         <translation>Bağlantı kaybedildi</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="891"/>
+        <location filename="../client/mainwindow.cpp" line="715"/>
         <source>Quit %1 </source>
         <translation>Çık %1 </translation>
     </message>
@@ -2714,34 +2694,34 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Senaryonuz kaydedilip %1 kapatılsın mı?</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="937"/>
-        <location filename="../client/mainwindow.cpp" line="970"/>
+        <location filename="../client/mainwindow.cpp" line="763"/>
+        <location filename="../client/mainwindow.cpp" line="796"/>
         <source>Scenarios (*.sce)</source>
         <translation>Senaryolar (*.sce)</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="286"/>
+        <location filename="../client/mainwindow.ui" line="284"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="442"/>
         <source>About Rolisteam</source>
         <translation>Rolisteam Hakkında</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1087"/>
+        <location filename="../client/mainwindow.cpp" line="914"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>%1 ile ilgili belgeler çevrimiçi olarak &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;burada&lt;/a&gt; bulunabilir</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1128"/>
+        <location filename="../client/mainwindow.cpp" line="953"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>%1 sürümü kullanılabilir. Lütfen daha fazla bilgi almak için &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;indirme sayfasına&lt;/a&gt; bakın</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1160"/>
+        <location filename="../client/mainwindow.cpp" line="963"/>
         <source>%1 just joins the game.</source>
         <translation>%1 az önce oyuna katıldı.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1170"/>
+        <location filename="../client/mainwindow.cpp" line="973"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 az önce oyundan ayrıldı.</translation>
     </message>
@@ -2765,45 +2745,37 @@ Bağlantı noktası:%2</translation>
 <context>
     <name>Map</name>
     <message>
-        <location filename="../core/src/map/map.cpp" line="462"/>
         <source>color type not allowed (paintMap - map.cpp)</source>
-        <translation>Renk tipine izin verilmedi (paintMap - map.cpp)</translation>
+        <translation type="vanished">Renk tipine izin verilmedi (paintMap - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="483"/>
         <source>color type not allowed  (paintMap - map.cpp)</source>
-        <translation>renk tipine izin verilmedi (paintMap - map.cpp)</translation>
+        <translation type="vanished">renk tipine izin verilmedi (paintMap - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="589"/>
         <source>undefined drawing tools (paintMap - map.cpp)</source>
-        <translation>çizim aracı tanımlanmamış (paintMap - map.cpp)</translation>
+        <translation type="vanished">çizim aracı tanımlanmamış (paintMap - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="666"/>
         <source>Undefined tool  (paintMap - map.cpp)</source>
-        <translation>Araç tanımlanmamış (paintMap - map.cpp)</translation>
+        <translation type="vanished">Araç tanımlanmamış (paintMap - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="681"/>
         <source>Source, destination and alpha layer have not the same size  (addAlphaLayer - map.cpp)</source>
-        <translation>Kaynak, hedef ve alpha katmanı aynı boyutta değil  (addAlphaLayer - map.cpp)</translation>
+        <translation type="vanished">Kaynak, hedef ve alpha katmanı aynı boyutta değil  (addAlphaLayer - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="802"/>
         <source>OK</source>
-        <translation>Tamam</translation>
+        <translation type="vanished">Tamam</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="804"/>
         <source>Inappropriate Color</source>
-        <translation>Uygunsuz Renk</translation>
+        <translation type="vanished">Uygunsuz Renk</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="807"/>
         <source>You can not select this color because
  It&apos;s a special color.</source>
-        <translation>Bu rengi seçemezsiniz çünkü 
+        <translation type="vanished">Bu rengi seçemezsiniz çünkü 
 bu özel bir renk.</translation>
     </message>
     <message>
@@ -2811,141 +2783,55 @@ bu özel bir renk.</translation>
         <translation type="vanished">NPC ya da bilgisayar üzerinde işlenen eylem için araç tanımlaması yapılmamış (processNpcAction - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="837"/>
         <source>undefined tool for processing action on NPC or PC (processNpcActionReleased - map.cpp)</source>
-        <translation>NPC ya da bilgisayar üzerinde işlenen eylem için araç tanımlaması yapılmamış (processNpcActionReleased - map.cpp)</translation>
+        <translation type="vanished">NPC ya da bilgisayar üzerinde işlenen eylem için araç tanımlaması yapılmamış (processNpcActionReleased - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="875"/>
         <source>undefined tool for processing action on NPC or PC (processNpcMove - map.cpp)</source>
-        <translation>NPC ya da bilgisayar üzerinde işlenen eylem için araç tanımlaması yapılmamış (processNpcMove - map.cpp)</translation>
+        <translation type="vanished">NPC ya da bilgisayar üzerinde işlenen eylem için araç tanımlaması yapılmamış (processNpcMove - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="918"/>
         <source>unknown widget under cursor (paintCharacter - map.cpp)</source>
-        <translation>imleç altındaki gereç bilinmiyor (paintCharacter - map.cpp)</translation>
+        <translation type="vanished">imleç altındaki gereç bilinmiyor (paintCharacter - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="1045"/>
-        <source>PC ID %1 not found (showPc - map.cpp)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/map.cpp" line="1064"/>
         <source>PC ID: %1 not found (isVisiblePc - map.cpp)</source>
-        <translation>Bilgisayar kimliği: %1 bulunamadı (isVisiblePc - map.cpp)</translation>
+        <translation type="vanished">Bilgisayar kimliği: %1 bulunamadı (isVisiblePc - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="1086"/>
         <source>No character with this id: %1</source>
-        <translation>Kimlikte karakter yok: %1</translation>
+        <translation type="vanished">Kimlikte karakter yok: %1</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="1100"/>
-        <source>Person %s %s unknown in Carte::changePerson</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/map.cpp" line="1125"/>
-        <location filename="../core/src/map/map.cpp" line="1133"/>
-        <location filename="../core/src/map/map.cpp" line="1139"/>
         <source>Codec Error (emettreCarte - map.cpp)</source>
-        <translation>Çözümleyici Hatası (emettreCarte - map.cpp)</translation>
+        <translation type="vanished">Çözümleyici Hatası (emettreCarte - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="1343"/>
-        <location filename="../core/src/map/map.cpp" line="1415"/>
-        <location filename="../core/src/map/map.cpp" line="1472"/>
         <source>Color type is not correct</source>
-        <translation>Renk tipi kullanılabilir değil</translation>
+        <translation type="vanished">Renk tipi kullanılabilir değil</translation>
     </message>
     <message>
-        <location filename="../core/src/map/map.cpp" line="1550"/>
         <source>Undefined Tool (paintOther - map.cpp)</source>
-        <translation>Araç Belirlenmemiş (paintOther - map.cpp)</translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/map.cpp" line="1664"/>
-        <source>Compression issue on original background(saveMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/map.cpp" line="1672"/>
-        <source>Compression issue on background(saveMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/map.cpp" line="1680"/>
-        <source>Compression issue on alpha layer (saveMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Araç Belirlenmemiş (paintOther - map.cpp)</translation>
     </message>
 </context>
 <context>
     <name>MapFrame</name>
     <message>
-        <location filename="../core/src/map/mapframe.cpp" line="92"/>
-        <source>%1 - Permission: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/mapframe.cpp" line="82"/>
-        <source>GM Only</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/mapframe.cpp" line="86"/>
-        <source>All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/mapframe.cpp" line="90"/>
-        <source>Pc Move</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/mapframe.cpp" line="79"/>
-        <source>Unknown</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/mapframe.cpp" line="137"/>
         <source>Unsupported file format</source>
-        <translation>Desteklenmeyen dosya biçimi</translation>
+        <translation type="vanished">Desteklenmeyen dosya biçimi</translation>
     </message>
     <message>
-        <location filename="../core/src/map/mapframe.cpp" line="144"/>
-        <source>Wrong Map Format</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/mapframe.cpp" line="262"/>
         <source>Extract original background information Failed (readMapAndNpc - bipmapwindow.cpp)</source>
-        <translation>Orijinal arkaplan bilgisi çıkartılamadı (readMapAndNpc - bipmapwindow.cpp)</translation>
+        <translation type="vanished">Orijinal arkaplan bilgisi çıkartılamadı (readMapAndNpc - bipmapwindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/mapframe.cpp" line="270"/>
         <source>Extract background information Failed (readMapAndNpc - bipmapwindow.cpp)</source>
-        <translation>Arkaplan bilgisi çıkartılamadı (readMapAndNpc - bipmapwindow.cpp)</translation>
+        <translation type="vanished">Arkaplan bilgisi çıkartılamadı (readMapAndNpc - bipmapwindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/mapframe.cpp" line="278"/>
         <source>Extract alpha layer information Failed (readMapAndNpc - bipmapwindow.cpp)</source>
-        <translation>Alpha katmanı bilgisi çıkartılamadı (readMapAndNpc - bipmapwindow.cpp)</translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/mapframe.cpp" line="391"/>
-        <source>Extract original background information Failed (processMapMessage - mapframe.cpp)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/mapframe.cpp" line="398"/>
-        <source>Extract background information Failed (processMapMessage - mapframe.cpp)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/mapframe.cpp" line="405"/>
-        <source>Extract alpha layer information Failed (processMapMessage - mapframe.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Alpha katmanı bilgisi çıkartılamadı (readMapAndNpc - bipmapwindow.cpp)</translation>
     </message>
     <message>
         <source>New map: %1</source>
@@ -2955,16 +2841,10 @@ bu özel bir renk.</translation>
         <source>Compression Error (processMapMessage - NetworkLink.cpp)</source>
         <translation type="vanished">Sıkıştırma Hatası (processMapMessage - NetworkLink.cpp)</translation>
     </message>
-    <message>
-        <location filename="../core/src/map/mapframe.cpp" line="424"/>
-        <source>Receiving map: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>MapWizzard</name>
     <message>
-        <location filename="../core/src/map/mapwizzard.ui" line="14"/>
         <location filename="../build/core/core_autogen/include/ui_mapwizzard.h" line="136"/>
         <location filename="../build/core/network_autogen/include/ui_mapwizzard.h" line="136"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_mapwizzard.h" line="136"/>
@@ -2972,7 +2852,6 @@ bu özel bir renk.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/map/mapwizzard.ui" line="22"/>
         <location filename="../build/core/core_autogen/include/ui_mapwizzard.h" line="137"/>
         <location filename="../build/core/network_autogen/include/ui_mapwizzard.h" line="137"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_mapwizzard.h" line="137"/>
@@ -2980,7 +2859,6 @@ bu özel bir renk.</translation>
         <translation>Başlık:</translation>
     </message>
     <message>
-        <location filename="../core/src/map/mapwizzard.ui" line="36"/>
         <location filename="../build/core/core_autogen/include/ui_mapwizzard.h" line="138"/>
         <location filename="../build/core/network_autogen/include/ui_mapwizzard.h" line="138"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_mapwizzard.h" line="138"/>
@@ -2988,7 +2866,6 @@ bu özel bir renk.</translation>
         <translation>İzin Kipi:</translation>
     </message>
     <message>
-        <location filename="../core/src/map/mapwizzard.ui" line="50"/>
         <location filename="../build/core/core_autogen/include/ui_mapwizzard.h" line="139"/>
         <location filename="../build/core/network_autogen/include/ui_mapwizzard.h" line="139"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_mapwizzard.h" line="139"/>
@@ -2996,7 +2873,6 @@ bu özel bir renk.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/map/mapwizzard.ui" line="64"/>
         <location filename="../build/core/core_autogen/include/ui_mapwizzard.h" line="140"/>
         <location filename="../build/core/network_autogen/include/ui_mapwizzard.h" line="140"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_mapwizzard.h" line="140"/>
@@ -3004,7 +2880,6 @@ bu özel bir renk.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/map/mapwizzard.ui" line="75"/>
         <location filename="../build/core/core_autogen/include/ui_mapwizzard.h" line="141"/>
         <location filename="../build/core/network_autogen/include/ui_mapwizzard.h" line="141"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_mapwizzard.h" line="141"/>
@@ -3012,35 +2887,8 @@ bu özel bir renk.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/map/mapwizzard.cpp" line="15"/>
-        <source>No Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/mapwizzard.cpp" line="15"/>
-        <source>His character</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/mapwizzard.cpp" line="15"/>
         <source>All Permissions</source>
-        <translation>Tüm İzinler</translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/mapwizzard.cpp" line="37"/>
-        <location filename="../core/src/map/mapwizzard.cpp" line="43"/>
-        <source>Select Map</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/mapwizzard.cpp" line="39"/>
-        <source>Map (*.vmap)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/mapwizzard.cpp" line="45"/>
-        <source>Map (*.pla *.jpg *.jpeg *.png *.bmp)</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Tüm İzinler</translation>
     </message>
 </context>
 <context>
@@ -3223,7 +3071,7 @@ bu özel bir renk.</translation>
 <context>
     <name>MediaContainer</name>
     <message>
-        <location filename="../core/src/data/mediacontainer.cpp" line="36"/>
+        <location filename="../core/src/data/mediacontainer.cpp" line="33"/>
         <source>Detach the view</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3343,7 +3191,6 @@ bu özel bir renk.</translation>
 <context>
     <name>NewEmptyMapDialog</name>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="14"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="249"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="249"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="249"/>
@@ -3351,7 +3198,6 @@ bu özel bir renk.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="29"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="250"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="250"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="250"/>
@@ -3359,7 +3205,6 @@ bu özel bir renk.</translation>
         <translation>Başlık:</translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="43"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="251"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="251"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="251"/>
@@ -3367,7 +3212,6 @@ bu özel bir renk.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="67"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="252"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="252"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="252"/>
@@ -3375,7 +3219,6 @@ bu özel bir renk.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="79"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="253"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="253"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="253"/>
@@ -3383,7 +3226,6 @@ bu özel bir renk.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="85"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="254"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="254"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="254"/>
@@ -3391,7 +3233,6 @@ bu özel bir renk.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="95"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="255"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="255"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="255"/>
@@ -3399,7 +3240,6 @@ bu özel bir renk.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="102"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="256"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="256"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="256"/>
@@ -3407,7 +3247,6 @@ bu özel bir renk.</translation>
         <translation>Kare</translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="114"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="257"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="257"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="257"/>
@@ -3415,7 +3254,6 @@ bu özel bir renk.</translation>
         <translation>Boyut (piksel cinsinden)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="120"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="258"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="258"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="258"/>
@@ -3423,7 +3261,6 @@ bu özel bir renk.</translation>
         <translation>Küçük (%1 x %2 )</translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="127"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="259"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="259"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="259"/>
@@ -3431,7 +3268,6 @@ bu özel bir renk.</translation>
         <translation>Orta (%1 x %2 )</translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="137"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="260"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="260"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="260"/>
@@ -3439,7 +3275,6 @@ bu özel bir renk.</translation>
         <translation>Büyük (%1 x %2 )</translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="144"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="261"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="261"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="261"/>
@@ -3447,8 +3282,6 @@ bu özel bir renk.</translation>
         <translation>Daha büyük (%1 x %2 )</translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="151"/>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="161"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="262"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="263"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="262"/>
@@ -3459,7 +3292,6 @@ bu özel bir renk.</translation>
         <translation>Özel</translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="169"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="264"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="264"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="264"/>
@@ -3467,7 +3299,6 @@ bu özel bir renk.</translation>
         <translation>Genişlik:</translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.ui" line="183"/>
         <location filename="../build/core/core_autogen/include/ui_newemptymapdialog.h" line="265"/>
         <location filename="../build/core/network_autogen/include/ui_newemptymapdialog.h" line="265"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_newemptymapdialog.h" line="265"/>
@@ -3475,47 +3306,24 @@ bu özel bir renk.</translation>
         <translation>Yükseklik:</translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.cpp" line="34"/>
         <source>Small (%1 x %2)</source>
-        <translation>Küçük (%1 x %2)</translation>
+        <translation type="vanished">Küçük (%1 x %2)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.cpp" line="34"/>
         <source>Middle (%1 x %2)</source>
-        <translation>Orta (%1 x %2)</translation>
+        <translation type="vanished">Orta (%1 x %2)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.cpp" line="34"/>
         <source>Big (%1 x %2)</source>
-        <translation>Büyük (%1 x %2)</translation>
+        <translation type="vanished">Büyük (%1 x %2)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.cpp" line="34"/>
         <source>Huge (%1 x %2)</source>
-        <translation>Daha büyük (%1 x %2)</translation>
+        <translation type="vanished">Daha büyük (%1 x %2)</translation>
     </message>
     <message>
-        <location filename="../core/src/map/newemptymapdialog.cpp" line="43"/>
-        <source>No Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/newemptymapdialog.cpp" line="43"/>
-        <source>His character</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/map/newemptymapdialog.cpp" line="43"/>
         <source>All Permissions</source>
-        <translation>Tüm İzinler</translation>
-    </message>
-</context>
-<context>
-    <name>NoteContainer</name>
-    <message>
-        <location filename="../core/src/noteeditor/src/notecontainer.cpp" line="49"/>
-        <source>%1[*] - (Notes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Tüm İzinler</translation>
     </message>
 </context>
 <context>
@@ -3911,17 +3719,35 @@ bu özel bir renk.</translation>
 <context>
     <name>ParticipantModel</name>
     <message>
-        <location filename="../core/src/sharededitor/participantmodel.cpp" line="36"/>
+        <location filename="../core/src/sharededitor/participantmodel.cpp" line="126"/>
         <source>Read Write</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/participantmodel.cpp" line="37"/>
+        <location filename="../core/src/sharededitor/participantmodel.cpp" line="127"/>
         <source>Read Only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/participantmodel.cpp" line="38"/>
+        <location filename="../core/src/sharededitor/participantmodel.cpp" line="128"/>
+        <source>Hidden</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ParticipantsModel</name>
+    <message>
+        <location filename="../core/src/model/participantsmodel.cpp" line="33"/>
+        <source>Read Write</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/model/participantsmodel.cpp" line="33"/>
+        <source>Read Only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/model/participantsmodel.cpp" line="33"/>
         <source>Hidden</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3964,12 +3790,12 @@ bu özel bir renk.</translation>
 <context>
     <name>PathItem</name>
     <message>
-        <location filename="../core/src/vmap/items/pathitem.cpp" line="334"/>
+        <location filename="../core/src/vmap/items/pathitem.cpp" line="337"/>
         <source>Close Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/items/pathitem.cpp" line="338"/>
+        <location filename="../core/src/vmap/items/pathitem.cpp" line="341"/>
         <source>Fill Path</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4006,32 +3832,27 @@ bu özel bir renk.</translation>
     </message>
     <message>
         <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="125"/>
-        <source>Export to Map</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="128"/>
         <source>Export into VMap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="131"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="128"/>
         <source>Export as Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="175"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="168"/>
         <source>Sharing Pdf File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="176"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="169"/>
         <source>PDF transfert can be really heavy.
 Do you want to continue and share the PDF?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="190"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="183"/>
         <source>%1 - (PDF)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4079,12 +3900,12 @@ Do you want to continue and share the PDF?</source>
 <context>
     <name>PlayerModel</name>
     <message>
-        <location filename="../core/src/userlist/playermodel.cpp" line="173"/>
+        <location filename="../core/src/userlist/playermodel.cpp" line="172"/>
         <source>Not defined</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/userlist/playermodel.cpp" line="176"/>
+        <location filename="../core/src/userlist/playermodel.cpp" line="175"/>
         <source>%1:
 HP: %2/%3
 State: %4
@@ -4095,22 +3916,22 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/userlist/playermodel.cpp" line="188"/>
+        <location filename="../core/src/userlist/playermodel.cpp" line="187"/>
         <source>NPC</source>
         <translation type="unfinished">NPC</translation>
     </message>
     <message>
-        <location filename="../core/src/userlist/playermodel.cpp" line="188"/>
+        <location filename="../core/src/userlist/playermodel.cpp" line="187"/>
         <source>PC</source>
         <translation type="unfinished">Bilgisayar</translation>
     </message>
     <message>
-        <location filename="../core/src/userlist/playermodel.cpp" line="244"/>
+        <location filename="../core/src/userlist/playermodel.cpp" line="249"/>
         <source>Players List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/userlist/playermodel.cpp" line="742"/>
+        <location filename="../core/src/userlist/playermodel.cpp" line="754"/>
         <source>Dupplicated player or uuid</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4290,7 +4111,7 @@ type: %7
     <message>
         <location filename="../core/src/userlist/playerspanel.ui" line="14"/>
         <location filename="../build/core/core_autogen/include/ui_playerspanel.h" line="103"/>
-        <location filename="../core/src/userlist/playerspanel.cpp" line="58"/>
+        <location filename="../core/src/userlist/playerspanel.cpp" line="57"/>
         <source>Player List</source>
         <translation type="unfinished">Oynatıcı Listesi</translation>
     </message>
@@ -5331,7 +5152,7 @@ type: %7
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../client/main.cpp" line="110"/>
+        <location filename="../client/main.cpp" line="109"/>
         <location filename="../core/src/network/connectionprofile.cpp" line="7"/>
         <location filename="../core/src/network/main.cpp" line="91"/>
         <location filename="../core/src/undoCmd/addfieldcommand.cpp" line="84"/>
@@ -5340,83 +5161,83 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/mediacontainer.cpp" line="95"/>
+        <location filename="../core/src/data/mediacontainer.cpp" line="93"/>
         <source>Loading error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="188"/>
+        <location filename="../core/src/diceparser/diceparser.cpp" line="74"/>
         <source>Nothing was understood. To roll dice: !1d6 - full documation: &lt;a href=&quot;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/Rolisteam/DiceParser/blob/master/HelpMe.md&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="198"/>
+        <location filename="../core/src/diceparser/diceparser.cpp" line="84"/>
         <source>Unexpected character at %1 - end of command was ignored &quot;%2&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="234"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1043"/>
         <source>Expected closing parenthesis - can&apos;t validate the inside.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="729"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1608"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="784"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1663"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="1112"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1290"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="1132"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1310"/>
         <source>Validator is always true for the %1 operator. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="1141"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1319"/>
         <source>Condition can&apos;t be reached, causing endless loop. Please, change the %1 option condition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="1168"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1346"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="1180"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1358"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="1192"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1370"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/diceparser.cpp" line="1260"/>
+        <location filename="../core/src/diceparser/parsingtoolbox.cpp" line="1438"/>
         <source>Missing parameter for Painter node (p)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/listaliasnode.cpp" line="47"/>
+        <location filename="../core/src/diceparser/node/listaliasnode.cpp" line="48"/>
         <source>List of Alias:
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1278"/>
+        <location filename="../client/mainwindow.cpp" line="1097"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1281"/>
+        <location filename="../client/mainwindow.cpp" line="1100"/>
         <source>Define URL to connect to server: &lt;url&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5431,43 +5252,35 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="52"/>
-        <source>None</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="52"/>
         <source>Map</source>
-        <translation type="unfinished">Harita</translation>
+        <translation type="obsolete">Harita</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="52"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="287"/>
         <source>Vectorial Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="53"/>
         <source>Chat</source>
-        <translation type="unfinished">Sohbet</translation>
+        <translation type="obsolete">Sohbet</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="53"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="289"/>
         <source>Picture</source>
         <translation type="unfinished">Resim</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="53"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="290"/>
         <source>Online Picture</source>
         <translation type="unfinished">Çevrimiçi Resim</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="54"/>
-        <location filename="../core/src/vmap/items/visualitem.cpp" line="44"/>
+        <location filename="../core/src/vmap/items/visualitem.cpp" line="43"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="54"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="292"/>
         <source>Charecter Sheet</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5476,83 +5289,83 @@ type: %7
         <translation type="obsolete">Senaryo</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="54"/>
-        <source>Song</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="55"/>
-        <source>Song List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="55"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="295"/>
         <source>Shared Notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="292"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="246"/>
         <source>Character Sheets files  (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="296"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="250"/>
         <source>Supported Image formats (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="300"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="254"/>
         <source>Supported Text Files (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="308"/>
-        <source>Supported Audio formats (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="312"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="262"/>
         <source>Supported Shared Note formats (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="316"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="266"/>
         <source>Supported WebPage (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="321"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="270"/>
         <source>Pdf File (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="325"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="273"/>
         <source>Vectorial Map (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="383"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="291"/>
+        <source>Minutes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/data/cleveruri.cpp" line="297"/>
+        <source>Pdf</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/data/cleveruri.cpp" line="298"/>
+        <source>Webview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/data/cleveruri.cpp" line="336"/>
         <source>Internal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="383"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="336"/>
         <source>Linked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="387"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="340"/>
         <source>Closed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="387"/>
-        <location filename="../core/src/vmap/vmapframe.cpp" line="37"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="340"/>
+        <location filename="../core/src/vmap/vmapframe.cpp" line="36"/>
         <source>Hidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="387"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="340"/>
         <source>Displayed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5632,12 +5445,12 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/undoCmd/openmediacontroller.cpp" line="33"/>
+        <location filename="../core/src/undoCmd/openmediacontroller.cpp" line="34"/>
         <source>Show %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/undoCmd/deletemediacontainercommand.cpp" line="37"/>
+        <location filename="../core/src/undoCmd/removemediacontrollercommand.cpp" line="38"/>
         <source>Close %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5649,7 +5462,7 @@ type: %7
         </translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/listsetrollnode.cpp" line="69"/>
+        <location filename="../core/src/diceparser/node/listsetrollnode.cpp" line="71"/>
         <source>More unique values asked than possible values (L operator)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5664,34 +5477,34 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/items/visualitem.cpp" line="43"/>
+        <location filename="../core/src/vmap/items/visualitem.cpp" line="42"/>
         <source>Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/items/visualitem.cpp" line="43"/>
+        <location filename="../core/src/vmap/items/visualitem.cpp" line="42"/>
         <source>Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/items/visualitem.cpp" line="43"/>
+        <location filename="../core/src/vmap/items/visualitem.cpp" line="42"/>
         <source>Ellipse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="264"/>
-        <location filename="../core/src/vmap/items/visualitem.cpp" line="43"/>
-        <location filename="../core/src/vmap/vmapframe.cpp" line="65"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="259"/>
+        <location filename="../core/src/vmap/items/visualitem.cpp" line="42"/>
+        <location filename="../core/src/vmap/vmapframe.cpp" line="64"/>
         <source>Character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/items/visualitem.cpp" line="44"/>
+        <location filename="../core/src/vmap/items/visualitem.cpp" line="43"/>
         <source>Rect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/items/visualitem.cpp" line="44"/>
+        <location filename="../core/src/vmap/items/visualitem.cpp" line="43"/>
         <source>Rule</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5722,7 +5535,7 @@ type: %7
     </message>
     <message>
         <location filename="../core/src/undoCmd/addfieldcommand.cpp" line="69"/>
-        <location filename="../core/src/vmap/items/visualitem.cpp" line="44"/>
+        <location filename="../core/src/vmap/items/visualitem.cpp" line="43"/>
         <source>Image</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5742,14 +5555,14 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="264"/>
-        <location filename="../core/src/vmap/vmapframe.cpp" line="59"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="259"/>
+        <location filename="../core/src/vmap/vmapframe.cpp" line="58"/>
         <source>Ground</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="264"/>
-        <location filename="../core/src/vmap/vmapframe.cpp" line="62"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="259"/>
+        <location filename="../core/src/vmap/vmapframe.cpp" line="61"/>
         <source>Object</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5806,7 +5619,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/occurencecountnode.cpp" line="148"/>
+        <location filename="../core/src/diceparser/node/occurencecountnode.cpp" line="149"/>
         <source>No matching result</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5816,7 +5629,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/diceparser/node/explodedicenode.cpp" line="31"/>
+        <location filename="../core/src/diceparser/node/explodedicenode.cpp" line="35"/>
         <location filename="../core/src/diceparser/node/rerolldicenode.cpp" line="47"/>
         <source>Condition (%1) cause an endless loop with this dice: %2</source>
         <translation type="unfinished"></translation>
@@ -5875,53 +5688,53 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/undoCmd/newmediacontroller.cpp" line="34"/>
-        <source>Create new media %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../core/src/undoCmd/removelocalcharactercommand.cpp" line="31"/>
         <source>Remove character %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmapframe.cpp" line="37"/>
+        <location filename="../core/src/vmap/vmapframe.cpp" line="36"/>
         <source>Fog Of War</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmapframe.cpp" line="37"/>
+        <location filename="../core/src/vmap/vmapframe.cpp" line="36"/>
         <source>All visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmapframe.cpp" line="49"/>
+        <location filename="../core/src/vmap/vmapframe.cpp" line="48"/>
         <source>No Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmapframe.cpp" line="49"/>
+        <location filename="../core/src/vmap/vmapframe.cpp" line="48"/>
         <source>His character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmapframe.cpp" line="49"/>
+        <location filename="../core/src/vmap/vmapframe.cpp" line="48"/>
         <source>All Permissions</source>
         <translation type="unfinished">Tüm İzinler</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmapframe.cpp" line="68"/>
+        <location filename="../core/src/vmap/vmapframe.cpp" line="67"/>
         <source>Fog Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmapframe.cpp" line="71"/>
+        <location filename="../core/src/vmap/vmapframe.cpp" line="70"/>
         <source>Grid Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmapframe.cpp" line="74"/>
+        <location filename="../core/src/vmap/vmapframe.cpp" line="73"/>
         <source>No Layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/undoCmd/newmediacontroller.cpp" line="35"/>
+        <source>Create new %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6577,7 +6390,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="152"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="151"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="262"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="262"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="262"/>
@@ -6585,7 +6398,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="155"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="154"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="264"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="264"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="264"/>
@@ -6593,7 +6406,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="170"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="169"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="266"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="266"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="266"/>
@@ -6601,7 +6414,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="173"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="172"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="268"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="268"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="268"/>
@@ -6609,7 +6422,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="185"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="184"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="270"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="270"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="270"/>
@@ -6617,7 +6430,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="188"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="187"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="272"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="272"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="272"/>
@@ -6625,7 +6438,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="200"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="199"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="274"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="274"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="274"/>
@@ -6633,7 +6446,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="203"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="202"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="276"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="276"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="276"/>
@@ -6641,7 +6454,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="215"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="214"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="278"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="278"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="278"/>
@@ -6649,7 +6462,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="218"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="217"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="280"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="280"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="280"/>
@@ -6657,7 +6470,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="226"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="225"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="282"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="282"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="282"/>
@@ -6665,7 +6478,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="229"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="228"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="284"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="284"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="284"/>
@@ -6673,7 +6486,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="234"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="233"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="286"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="286"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="286"/>
@@ -6681,7 +6494,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="242"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="241"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="287"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="287"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="287"/>
@@ -6689,7 +6502,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="247"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="246"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="288"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="288"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="288"/>
@@ -6697,7 +6510,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="250"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="249"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="290"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="290"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="290"/>
@@ -6705,7 +6518,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="255"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="254"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="292"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="292"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="292"/>
@@ -6713,7 +6526,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="258"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="257"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="294"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="294"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="294"/>
@@ -6721,7 +6534,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="263"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="262"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="296"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="296"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="296"/>
@@ -6729,7 +6542,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="266"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="265"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="298"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="298"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="298"/>
@@ -6737,7 +6550,6 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="271"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="300"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="300"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="300"/>
@@ -6745,7 +6557,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="276"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="270"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="301"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="301"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="301"/>
@@ -6753,7 +6565,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="284"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="278"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="302"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="302"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="302"/>
@@ -6761,7 +6573,7 @@ Full documentation at: %1</source>
         <translation type="unfinished">Tümünü Kaydet</translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="289"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="283"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="303"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="303"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="303"/>
@@ -6769,7 +6581,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="292"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="286"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="305"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="305"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="305"/>
@@ -6777,7 +6589,7 @@ Full documentation at: %1</source>
         <translation type="unfinished">Ctrl+Shift+A</translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="297"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="294"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="307"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="307"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="307"/>
@@ -6785,7 +6597,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="302"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="299"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="308"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="308"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="308"/>
@@ -6793,7 +6605,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="307"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="304"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="309"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="309"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="309"/>
@@ -6801,7 +6613,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="310"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="307"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="311"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="311"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="311"/>
@@ -6809,7 +6621,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="315"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="312"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="313"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="313"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="313"/>
@@ -6817,7 +6629,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="323"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="320"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="314"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="314"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="314"/>
@@ -6825,7 +6637,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="331"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="328"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="315"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="315"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="315"/>
@@ -6833,7 +6645,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="334"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="331"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="317"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="317"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="317"/>
@@ -6841,7 +6653,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="342"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="339"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="319"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="319"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="319"/>
@@ -6849,7 +6661,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="345"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="342"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="321"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="321"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="321"/>
@@ -6857,7 +6669,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="353"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="350"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="323"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="323"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="323"/>
@@ -6865,7 +6677,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="361"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="358"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="324"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="324"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="324"/>
@@ -6873,7 +6685,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="366"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="363"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="325"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="325"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="325"/>
@@ -6881,7 +6693,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="371"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="368"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="326"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="326"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="326"/>
@@ -6889,7 +6701,7 @@ Full documentation at: %1</source>
         <translation type="unfinished">Ayarlar</translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="376"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="373"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="327"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="327"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="327"/>
@@ -6897,7 +6709,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="379"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="376"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="329"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="329"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="329"/>
@@ -6905,7 +6717,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="384"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="381"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="331"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="331"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="331"/>
@@ -6913,7 +6725,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="389"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="386"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="332"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="332"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="332"/>
@@ -6921,7 +6733,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="398"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="395"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="333"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="333"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="333"/>
@@ -6929,7 +6741,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="410"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="407"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="334"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="334"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="334"/>
@@ -6937,7 +6749,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="413"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="410"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="336"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="336"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="336"/>
@@ -6945,7 +6757,7 @@ Full documentation at: %1</source>
         <translation type="unfinished">Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="425"/>
+        <location filename="../core/src/sharededitor/sharednote.ui" line="422"/>
         <location filename="../build/core/core_autogen/include/ui_sharednote.h" line="338"/>
         <location filename="../build/core/network_autogen/include/ui_sharednote.h" line="338"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_sharednote.h" line="338"/>
@@ -6954,11 +6766,6 @@ Full documentation at: %1</source>
     </message>
     <message>
         <location filename="../core/src/sharededitor/sharednote.ui" line="434"/>
-        <source>Html Preview</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/sharededitor/sharednote.ui" line="443"/>
         <source>Markdown Preview</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7041,189 +6848,189 @@ Full documentation at: %1</source>
 <context>
     <name>TextEdit</name>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="733"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="730"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="170"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="173"/>
         <source>File Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="173"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="176"/>
         <source>&amp;File</source>
         <translation>&amp;Dosya</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="178"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="181"/>
         <source>&amp;New</source>
         <translation>&amp;Yeni</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="184"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="187"/>
         <source>&amp;Open...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="192"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="195"/>
         <source>&amp;Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="199"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="202"/>
         <source>Save &amp;As...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="204"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="207"/>
         <source>&amp;Print...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="210"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="213"/>
         <source>Print Preview...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="214"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="217"/>
         <source>&amp;Export PDF...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="222"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="225"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="231"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="234"/>
         <source>Edit Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="234"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="237"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="238"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="241"/>
         <source>&amp;Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="242"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="245"/>
         <source>&amp;Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="247"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="250"/>
         <source>Cu&amp;t</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="251"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="254"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="255"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="258"/>
         <source>&amp;Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="265"/>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="333"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="268"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="336"/>
         <source>Format Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="268"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="271"/>
         <source>F&amp;ormat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="271"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="274"/>
         <source>&amp;Bold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="281"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="284"/>
         <source>&amp;Italic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="291"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="294"/>
         <source>&amp;Underline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="306"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="309"/>
         <source>&amp;Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="309"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="312"/>
         <source>C&amp;enter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="312"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="315"/>
         <source>&amp;Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="315"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="318"/>
         <source>&amp;Justify</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="326"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="329"/>
         <source>&amp;Color...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="438"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="441"/>
         <source>Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="439"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="442"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="468"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="470"/>
         <source>Open File...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="530"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="527"/>
         <source>ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="532"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="529"/>
         <source>HTML-Files (*.htm *.html);;All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="534"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="531"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="549"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="546"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="734"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="731"/>
         <source>This example demonstrates Qt&apos;s rich text editing facilities in action, providing an example document for you to experiment with.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="792"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="789"/>
         <source>OpenOffice 2.4 file format OASIS </source>
         <translation type="unfinished"></translation>
     </message>
@@ -7310,100 +7117,6 @@ Do you want to save your changes?</source>
         <location filename="../build/core/network_autogen/include/ui_tipofdayviewer.h" line="81"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_tipofdayviewer.h" line="81"/>
         <source>Never show it again !</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ToolsBar</name>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="43"/>
-        <source>Tools</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="72"/>
-        <source>Pen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="73"/>
-        <source>Line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="74"/>
-        <source>Empty Rectangle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="75"/>
-        <source>filled Rectangle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="76"/>
-        <source>Empty Ellipse</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="77"/>
-        <source>Filled Ellipse</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="78"/>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="220"/>
-        <source>Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="79"/>
-        <source>Move</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="80"/>
-        <source>Add NPC</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="81"/>
-        <source>Remove NPC</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="82"/>
-        <source>Move/Turn Character</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="84"/>
-        <source>Change Character&apos;s State</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="87"/>
-        <source>Reset NPC counter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="223"/>
-        <source>NPC name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="230"/>
-        <source>NPC Number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="262"/>
-        <source>Line&apos;s Width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/widgets/toolsbar.cpp" line="267"/>
-        <source>NPC Size</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7526,7 +7239,7 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Bilinmeyen Harita</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/vmapframe.cpp" line="123"/>
+        <location filename="../core/src/vmap/vmapframe.cpp" line="122"/>
         <source>%1 - visibility: %2 - permission: %3 - layer: %4</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7662,7 +7375,7 @@ Do you want to save your changes?</source>
 <context>
     <name>VisualItem</name>
     <message>
-        <location filename="../core/src/vmap/items/visualitem.cpp" line="244"/>
+        <location filename="../core/src/vmap/items/visualitem.cpp" line="246"/>
         <source>Duplicate Item</source>
         <translation type="unfinished"></translation>
     </message>
