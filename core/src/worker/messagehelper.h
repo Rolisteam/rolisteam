@@ -91,7 +91,7 @@ public:
 
     // image
     static void sendOffImage(ImageController* ctrl);
-    static QHash<QString, QVariant> readImageData(NetworkMessageReader* msg, QPixmap& pix);
+    static QHash<QString, QVariant> readImageData(NetworkMessageReader* msg);
 
     // PDF
     static void sendOffPdfFile(PdfController* ctrl);
