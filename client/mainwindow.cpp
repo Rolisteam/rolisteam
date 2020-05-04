@@ -1362,7 +1362,7 @@ void MainWindow::openOnlineImage()
                                       {"path", dialog.getPath()},
                                       {"ownerId", m_gameController->playerController()->localPlayer()->uuid()},
                                       {"type", QVariant::fromValue(Core::ContentType::PICTURE)},
-                                      {QStringLiteral("pixmap"), dialog.getPixmap()}});
+                                      {QStringLiteral("data"), dialog.getData()}});
 
     m_gameController->contentController()->openMedia(args);
 }
