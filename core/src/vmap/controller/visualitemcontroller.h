@@ -74,8 +74,8 @@ public:
         BottomLeft,
     };
     Q_ENUM(Corner)
-    VisualItemController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
-                         QObject* parent= nullptr);
+    VisualItemController(VisualItemController::ItemType itemType, const std::map<QString, QVariant>& params,
+                         VectorialMapController* ctrl, QObject* parent= nullptr);
     ~VisualItemController();
 
     bool selected() const;
@@ -92,7 +92,7 @@ public:
     Core::SelectableTool tool() const;
     virtual QColor color() const;
     virtual QRectF rect() const= 0;
-    virtual ItemType itemType() const= 0;
+    virtual ItemType itemType() const;
 
     const QString mapUuid() const;
 
@@ -155,6 +155,7 @@ protected:
     QPointF m_pos;
     Core::SelectableTool m_tool= Core::SelectableTool::HANDLER;
     Core::Layer m_layer= Core::Layer::NONE;
+    VisualItemController::ItemType m_itemType;
     QString m_uuid;
 
     bool m_initialized= false;

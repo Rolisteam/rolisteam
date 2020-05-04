@@ -30,7 +30,8 @@ namespace vmap
 /////////////////////////////
 SightController::SightController(VectorialMapController* ctrl, CharacterItemControllerManager* characterCtrl,
                                  QObject* parent)
-    : VisualItemController(std::map<QString, QVariant>(), ctrl, parent), m_characterItems(characterCtrl)
+    : VisualItemController(VisualItemController::SIGHT, std::map<QString, QVariant>(), ctrl, parent)
+    , m_characterItems(characterCtrl)
 {
     // constructor
     connect(m_characterItems, &CharacterItemControllerManager::playableCharacterControllerCreated, this,
@@ -78,10 +79,7 @@ bool SightController::visible() const
 {
     return m_visible;
 }
-VisualItemController::ItemType SightController::itemType() const
-{
-    return VisualItemController::SIGHT;
-}
+
 QRectF SightController::rect() const
 {
     auto rect= m_ctrl->visualRect();

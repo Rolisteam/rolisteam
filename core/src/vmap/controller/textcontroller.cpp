@@ -31,7 +31,7 @@ bool greater(const QRectF& r1, const QRectF& r2)
 namespace vmap
 {
 TextController::TextController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
-    : VisualItemController(params, ctrl, parent)
+    : VisualItemController(VisualItemController::TEXT, params, ctrl, parent)
 {
     if(params.end() != params.find("color"))
         setColor(params.at(QStringLiteral("color")).value<QColor>());
@@ -171,11 +171,6 @@ void TextController::endGeometryChange()
 QRectF TextController::rect() const
 {
     return borderRect();
-}
-
-VisualItemController::ItemType TextController::itemType() const
-{
-    return VisualItemController::TEXT;
 }
 
 void TextController::setTextPos(QPointF textPos)

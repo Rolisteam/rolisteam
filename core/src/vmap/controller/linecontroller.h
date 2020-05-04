@@ -45,7 +45,6 @@ public:
     QPointF startPoint() const;
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
-    ItemType itemType() const override;
     QRectF rect() const override;
 
 signals:

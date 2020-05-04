@@ -51,7 +51,6 @@ public:
 
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
-    ItemType itemType() const override;
     void setCorner(const QPointF& move, int corner) override;
     QRectF rect() const override;
 

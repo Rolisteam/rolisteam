@@ -34,7 +34,7 @@ namespace vmap
 {
 CharacterItemController::CharacterItemController(const std::map<QString, QVariant>& params,
                                                  VectorialMapController* ctrl, QObject* parent)
-    : VisualItemController(params, ctrl, parent)
+    : VisualItemController(VisualItemController::CHARACTER, params, ctrl, parent)
 {
     m_tool= Core::SelectableTool::NonPlayableCharacter;
     if(params.end() != params.find("character"))
@@ -74,11 +74,6 @@ CharacterItemController::CharacterItemController(const std::map<QString, QVarian
 void CharacterItemController::aboutToBeRemoved() {}
 
 void CharacterItemController::endGeometryChange() {}
-
-VisualItemController::ItemType CharacterItemController::itemType() const
-{
-    return VisualItemController::CHARACTER;
-}
 
 void CharacterItemController::setCorner(const QPointF& move, int corner)
 {

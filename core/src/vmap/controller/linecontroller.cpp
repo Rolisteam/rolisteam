@@ -25,7 +25,7 @@
 namespace vmap
 {
 LineController::LineController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
-    : VisualItemController(params, ctrl, parent)
+    : VisualItemController(VisualItemController::LINE, params, ctrl, parent)
 {
     m_tool= Core::SelectableTool::LINE;
 
@@ -58,10 +58,7 @@ void LineController::aboutToBeRemoved()
 {
     emit removeItem();
 }
-VisualItemController::ItemType LineController::itemType() const
-{
-    return VisualItemController::LINE;
-}
+
 void LineController::endGeometryChange()
 {
     VisualItemController::endGeometryChange();
