@@ -37,7 +37,7 @@ QByteArray readImage(const QString& path)
 
 ImageController::ImageController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
                                  QObject* parent)
-    : VisualItemController(params, ctrl, parent)
+    : VisualItemController(VisualItemController::IMAGE, params, ctrl, parent)
 {
 
     m_tool= Core::SelectableTool::IMAGE;
@@ -60,11 +60,6 @@ ImageController::ImageController(const std::map<QString, QVariant>& params, Vect
         setRect(params.at(QStringLiteral("rect")).toRectF());
     else
         setRect(m_pix.rect());
-}
-
-VisualItemController::ItemType ImageController::itemType() const
-{
-    return VisualItemController::IMAGE;
 }
 
 QRectF ImageController::rect() const

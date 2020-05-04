@@ -24,7 +24,7 @@
 namespace vmap
 {
 RectController::RectController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
-    : VisualItemController(params, ctrl, parent)
+    : VisualItemController(VisualItemController::RECT, params, ctrl, parent)
 {
     if(params.end() != params.find("tool"))
     {
@@ -62,10 +62,7 @@ void RectController::setRect(QRectF rect)
     emit rectChanged();
     m_rectEdited= true;
 }
-VisualItemController::ItemType RectController::itemType() const
-{
-    return VisualItemController::RECT;
-}
+
 void RectController::setCorner(const QPointF& move, int corner)
 {
     if(move.isNull())

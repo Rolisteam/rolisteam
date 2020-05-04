@@ -43,7 +43,6 @@ public:
     void aboutToBeRemoved() override;
     void setCorner(const QPointF& move, int corner) override;
     void endGeometryChange() override;
-    ItemType itemType() const override;
 
 signals:
     void gmChanged(bool gm);

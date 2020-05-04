@@ -55,7 +55,6 @@ public:
 
     void aboutToBeRemoved() override;
     void endGeometryChange() override;
-    ItemType itemType() const override;
 
 signals:
     void pixmapChanged();

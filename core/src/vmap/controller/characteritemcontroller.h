@@ -83,7 +83,6 @@ public:
     void setCorner(const QPointF& move, int corner) override;
     QColor color() const override;
     QRectF rect() const override;
-    ItemType itemType() const override;
 
 public slots:
     void setSide(qreal side);

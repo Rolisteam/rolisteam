@@ -25,7 +25,7 @@ namespace vmap
 {
 EllipseController::EllipseController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
                                      QObject* parent)
-    : VisualItemController(params, ctrl, parent)
+    : VisualItemController(VisualItemController::ELLISPE, params, ctrl, parent)
 {
     if(params.end() != params.find("tool"))
     {
@@ -90,10 +90,6 @@ void EllipseController::endGeometryChange()
     }
 }
 
-VisualItemController::ItemType EllipseController::itemType() const
-{
-    return VisualItemController::ELLISPE;
-}
 QRectF EllipseController::rect() const
 {
     return QRectF(-rx(), -ry(), rx() * 2, ry() * 2);

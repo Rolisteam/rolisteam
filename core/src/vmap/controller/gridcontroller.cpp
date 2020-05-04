@@ -29,7 +29,7 @@
 namespace vmap
 {
 vmap::GridController::GridController(VectorialMapController* ctrl, QObject* parent)
-    : VisualItemController(std::map<QString, QVariant>(), ctrl, parent)
+    : VisualItemController(VisualItemController::GRID, std::map<QString, QVariant>(), ctrl, parent)
 {
     setLayer(Core::Layer::GRIDLAYER);
     setVisible(false);
@@ -62,10 +62,6 @@ void GridController::aboutToBeRemoved()
 void GridController::setCorner(const QPointF& move, int corner) {}
 
 void GridController::endGeometryChange() {}
-VisualItemController::ItemType GridController::itemType() const
-{
-    return VisualItemController::GRID;
-}
 
 void GridController::setGm(bool gm)
 {

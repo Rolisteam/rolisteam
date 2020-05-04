@@ -27,9 +27,9 @@
 namespace vmap
 {
 
-VisualItemController::VisualItemController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
-                                           QObject* parent)
-    : QObject(parent), m_ctrl(ctrl), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
+VisualItemController::VisualItemController(ItemType itemType, const std::map<QString, QVariant>& params,
+                                           VectorialMapController* ctrl, QObject* parent)
+    : QObject(parent), m_ctrl(ctrl), m_itemType(itemType), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
 {
     connect(m_ctrl, &VectorialMapController::layerChanged, this, &VisualItemController::selectableChanged);
     connect(m_ctrl, &VectorialMapController::visibilityChanged, this, &VisualItemController::visibleChanged);
@@ -104,6 +104,11 @@ Core::SelectableTool VisualItemController::tool() const
 QColor VisualItemController::color() const
 {
     return m_color;
+}
+
+VisualItemController::ItemType VisualItemController::itemType() const
+{
+    return m_itemType;
 }
 
 bool VisualItemController::editable() const
