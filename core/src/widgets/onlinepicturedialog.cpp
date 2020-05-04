@@ -66,7 +66,7 @@ void OnlinePictureDialog::uriChanged()
     }
     if((!m_isPosting) || (ui->m_urlField->text() != m_postingStr))
     {
-        m_isPosting = true;
+        m_isPosting= true;
         m_postingStr= ui->m_urlField->text();
         if(m_manager)
             m_manager->get(QNetworkRequest(QUrl(ui->m_urlField->text())));
@@ -74,12 +74,13 @@ void OnlinePictureDialog::uriChanged()
 }
 void OnlinePictureDialog::replyFinished(QNetworkReply* reply)
 {
-    m_isPosting    = false;
+    m_isPosting= false;
     QByteArray data= reply->readAll();
     QPixmap map;
     bool ok= map.loadFromData(data);
     if(ok)
     {
+        m_data= data;
         m_imageViewerLabel->setPixmap(map);
         m_imageViewerLabel->resize(map.size());
         m_pix= map;
@@ -93,9 +94,9 @@ QString OnlinePictureDialog::getPath()
     return ui->m_urlField->text();
 }
 
-QPixmap OnlinePictureDialog::getPixmap()
+QByteArray OnlinePictureDialog::getData()
 {
-    return m_pix;
+    return m_data;
 }
 QString OnlinePictureDialog::getTitle()
 {
@@ -106,7 +107,7 @@ void OnlinePictureDialog::resizeLabel()
     int w= ui->scrollArea->viewport()->rect().width();
     int h= ui->scrollArea->viewport()->rect().height();
 
-    double ratioImage   = (double)m_pix.size().width() / m_pix.size().height();
+    double ratioImage= (double)m_pix.size().width() / m_pix.size().height();
     double ratioImageBis= (double)m_pix.size().height() / m_pix.size().width();
 
     if(w > h * ratioImage)

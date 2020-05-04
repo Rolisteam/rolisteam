@@ -190,26 +190,18 @@ void MessageHelper::sendOffImage(ImageController* ctrl)
     msg.string16(ctrl->name());
     msg.string8(ctrl->uuid());
     msg.string8(ctrl->ownerId());
-    auto img= ctrl->pixmap();
-    QByteArray array;
-    QBuffer imageData(&array);
-    if(!img.save(&imageData, "jpg", 70))
-    {
-        // TODO log error
-    }
-    msg.byteArray32(array);
+    msg.byteArray32(ctrl->data());
 
     msg.sendToServer();
 }
 
-QHash<QString, QVariant> MessageHelper::readImageData(NetworkMessageReader* msg, QPixmap& pix)
+QHash<QString, QVariant> MessageHelper::readImageData(NetworkMessageReader* msg)
 {
     // QHash<QString, QVariant> data;
     auto name= msg->string16();
     auto id= msg->string8();
     auto owner= msg->string8();
     auto data= msg->byteArray32();
-    pix.loadFromData(data);
     return {{"name", name}, {"uuid", id}, {"owner", id}, {"data", data}};
 }
 

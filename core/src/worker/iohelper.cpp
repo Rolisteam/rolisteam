@@ -288,7 +288,7 @@ void saveImage(ImageController* ctrl, std::map<QString, QVariant>& datamap)
         return;
 
     datamap.insert({QStringLiteral("fitWindow"), ctrl->fitWindow()});
-    datamap.insert({QStringLiteral("pixmap"), ctrl->pixmap()});
+    datamap.insert({QStringLiteral("data"), ctrl->data()});
     datamap.insert({QStringLiteral("zoomLevel"), ctrl->zoomLevel()});
 }
 

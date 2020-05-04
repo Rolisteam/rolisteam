@@ -29,7 +29,7 @@
 
 namespace Ui
 {
-    class OnlinePictureDialog;
+class OnlinePictureDialog;
 }
 /**
  * @brief The OnlinePictureDialog class is dedicated to download image from the Internet. The user copies/pastes the
@@ -59,7 +59,7 @@ public:
      * @brief getPixmap
      * @return
      */
-    QPixmap getPixmap();
+    QByteArray getData();
     /**
      * @brief getTitle
      * @return
@@ -95,6 +95,7 @@ private:
     QLabel* m_imageViewerLabel;
     bool m_isPosting;
     QString m_postingStr;
+    QByteArray m_data;
 };
 
 #endif // ONLINEPICTUREDIALOG_H
