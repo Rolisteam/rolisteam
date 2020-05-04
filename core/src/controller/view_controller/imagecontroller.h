@@ -22,11 +22,11 @@
 
 #include <QObject>
 #include <QPixmap>
+#include <memory>
 
 #include "mediacontrollerbase.h"
 
-class CleverURI;
-
+class QMovie;
 class ImageController : public MediaControllerBase
 {
     Q_OBJECT
@@ -38,6 +38,7 @@ class ImageController : public MediaControllerBase
     Q_PROPERTY(qreal ratioH READ ratioH NOTIFY ratioHChanged) // bis
     Q_PROPERTY(bool isMovie READ isMovie NOTIFY isMovieChanged)
     Q_PROPERTY(Status status READ status NOTIFY statusChanged)
+    Q_PROPERTY(QByteArray data READ data NOTIFY dataChanged)
 public:
     enum Status
     {
@@ -47,8 +48,9 @@ public:
     };
     Q_ENUM(Status);
 
-    explicit ImageController(const QString& id, const QString& path, const QPixmap& pixmap= QPixmap(),
+    explicit ImageController(const QString& id, const QString& path, const QByteArray& data= QByteArray(),
                              QObject* parent= nullptr);
+    virtual ~ImageController();
 
     bool fitWindow() const;
     qreal zoomLevel() const;
@@ -57,6 +59,7 @@ public:
     Qt::CursorShape cursor() const;
     bool isMovie() const;
     Status status() const;
+    QByteArray data() const;
 
     qreal ratioV() const;
     qreal ratioH() const;
@@ -72,7 +75,8 @@ signals:
     void ratioVChanged();
     void ratioHChanged();
     void isMovieChanged();
-    void statusChanged();
+    void dataChanged();
+    void statusChanged(Status s);
 
 public slots:
     void setZoomLevel(qreal lvl);
@@ -82,14 +86,19 @@ public slots:
 
     void play();
     void stop();
-    void pause();
+
+private:
+    void checkMovie();
+    void setPixmap(const QPixmap& pix);
+    void setStatus(Status status);
 
 private:
     bool m_fitWindow= true;
     QPixmap m_image;
     qreal m_zoomLevel= 1.0;
     Status m_status= Stopped;
-    bool m_movie= false;
+    QByteArray m_data;
+    std::unique_ptr<QMovie> m_movie;
 };
 
 #endif // IMAGECONTROLLER_H

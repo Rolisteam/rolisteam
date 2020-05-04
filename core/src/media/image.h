@@ -144,6 +144,9 @@ private:
 
     // fit window keeping ratio
     QAction* m_fitWindowAct; // * 0.2
+    QAction* m_playAct;
+    QAction* m_stopAct;
+
     QShortcut* m_fitWindowShort;
 
     double m_ratioImage;

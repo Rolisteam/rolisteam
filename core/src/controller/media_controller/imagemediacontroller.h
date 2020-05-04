@@ -46,7 +46,7 @@ signals:
     void imageControllerCreated(ImageController* imageCtrl);
 
 private:
-    ImageController* addImageController(const QString& id, const QString& path, const QPixmap& pix);
+    ImageController* addImageController(const QString& id, const QString& path, const QByteArray& pix);
 
 private:
     std::vector<std::unique_ptr<ImageController>> m_images;

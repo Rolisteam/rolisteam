@@ -37,11 +37,11 @@ NetWorkReceiver::SendType ImageMediaController::processMessage(NetworkMessageRea
 {
     if(msg->category() == NetMsg::MediaCategory && msg->action() == NetMsg::AddMedia)
     {
-        QPixmap pix;
-        auto uri= MessageHelper::readImageData(msg, pix);
+        auto uri= MessageHelper::readImageData(msg);
         auto name= uri.value(QStringLiteral("name")).toString();
         auto uuid= uri.value(QStringLiteral("uuid")).toString();
-        auto ctrl= addImageController(uuid, "", pix);
+        auto data= uri.value(QStringLiteral("data")).toByteArray();
+        auto ctrl= addImageController(uuid, "", data);
         ctrl->setName(name);
     }
     return NetWorkReceiver::NONE;
@@ -63,10 +63,10 @@ bool ImageMediaController::openMedia(const QString& id, const std::map<QString, 
     if(id == nullptr || args.empty())
         return false;
 
-    auto it= args.find(QStringLiteral("pixmap"));
-    QPixmap pix;
+    auto it= args.find(QStringLiteral("data"));
+    QByteArray pix;
     if(it != args.end())
-        pix= it->second.value<QPixmap>();
+        pix= it->second.value<QByteArray>();
 
     it= args.find(QStringLiteral("path"));
 
@@ -87,7 +87,7 @@ bool ImageMediaController::openMedia(const QString& id, const std::map<QString, 
     return true;
 }
 
-ImageController* ImageMediaController::addImageController(const QString& id, const QString& path, const QPixmap& pix)
+ImageController* ImageMediaController::addImageController(const QString& id, const QString& path, const QByteArray& pix)
 {
     std::unique_ptr<ImageController> imgCtrl(new ImageController(id, path, pix));
     emit imageControllerCreated(imgCtrl.get());

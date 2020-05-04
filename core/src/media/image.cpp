@@ -50,6 +50,9 @@ Image::Image(ImageController* ctrl, QWidget* parent)
     setWindowIcon(QIcon(":/resources/icons/photo.png"));
     createActions();
 
+    if(m_ctrl->isMovie())
+        addAction(m_playAct);
+
     m_widgetArea->setAlignment(Qt::AlignCenter);
     m_imageLabel->setLineWidth(0);
     m_imageLabel->setFrameStyle(QFrame::NoFrame);
@@ -200,7 +203,7 @@ void Image::fitWorkSpace()
         m_zoomLevel = 1.0;
     }*/
 
-    if(nullptr == parentWidget())
+    if(nullptr == parentWidget() || m_ctrl->isMovie())
         return;
 
     auto pixmap= m_ctrl->pixmap();
@@ -331,10 +334,42 @@ void Image::createActions()
     m_bigShort->setContext(Qt::WidgetWithChildrenShortcut);
     connect(m_bigShort, &QShortcut::activated, this, zoomBig);
     m_actionBigZoom->setShortcut(m_bigShort->key());
+
+    m_playAct= new QAction(tr("Play"), this);
+    m_playAct->setShortcut(Qt::Key_Space);
+    m_stopAct= new QAction(tr("Stop"), this);
+
+    connect(m_ctrl, &ImageController::statusChanged, this, [this](ImageController::Status status) {
+        switch(status)
+        {
+        case ImageController::Playing:
+            m_playAct->setText(tr("Pause"));
+            m_stopAct->setEnabled(true);
+            break;
+        case ImageController::Paused:
+            m_playAct->setText(tr("Play"));
+            m_stopAct->setEnabled(true);
+            break;
+        case ImageController::Stopped:
+            m_stopAct->setEnabled(false);
+            m_playAct->setText(tr("Play"));
+            break;
+        }
+    });
+
+    connect(m_playAct, &QAction::triggered, m_ctrl, &ImageController::play);
+    connect(m_stopAct, &QAction::triggered, m_ctrl, &ImageController::stop);
 }
 void Image::contextMenuEvent(QContextMenuEvent* event)
 {
     QMenu menu(this);
+
+    if(m_ctrl->isMovie())
+    {
+        menu.addAction(m_playAct);
+        menu.addAction(m_stopAct);
+        menu.addSeparator();
+    }
 
     menu.addAction(m_actionZoomIn);
     menu.addAction(m_actionZoomOut);
@@ -346,6 +381,7 @@ void Image::contextMenuEvent(QContextMenuEvent* event)
     menu.addAction(m_actionlittleZoom);
     menu.addAction(m_actionNormalZoom);
     menu.addAction(m_actionBigZoom);
+
     menu.exec(event->globalPos() /*event->pos()*/);
 }
 void Image::fitWindow()

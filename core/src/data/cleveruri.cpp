@@ -247,7 +247,7 @@ QString CleverURI::getFilterForType(Core::ContentType type) // static
         break;
     case Core::ContentType::PICTURE:
         filterType= QObject::tr("Supported Image formats (%1)")
-                        .arg(preferences->value("ImageFileFilter", "*.jpg *.jpeg *.png *.bmp *.svg").toString());
+                        .arg(preferences->value("ImageFileFilter", "*.jpg *.jpeg *.png *.bmp *.svg *.gif").toString());
         break;
     case Core::ContentType::NOTES:
         filterType= QObject::tr("Supported Text Files (%1)")
