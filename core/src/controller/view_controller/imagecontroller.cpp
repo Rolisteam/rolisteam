@@ -21,19 +21,38 @@
 
 #include "data/cleveruri.h"
 
-ImageController::ImageController(const QString& id, const QString& path, const QPixmap& pixmap, QObject* parent)
-    : MediaControllerBase(id, Core::ContentType::PICTURE, parent)
+#include <QBuffer>
+#include <QDebug>
+#include <QFile>
+#include <QMovie>
+
+QByteArray readImage(const QString& path)
+{
+    QFile file(path);
+    if(!file.open(QIODevice::ReadOnly))
+        return {};
+    return file.readAll();
+}
+
+ImageController::ImageController(const QString& id, const QString& path, const QByteArray& data, QObject* parent)
+    : MediaControllerBase(id, Core::ContentType::PICTURE, parent), m_data(data)
 {
     setPath(path);
-    if(pixmap.isNull())
-        m_image= QPixmap(path);
-    else
-        m_image= pixmap;
+    if(m_data.isEmpty() && !path.isEmpty())
+        m_data= readImage(path);
+    checkMovie();
 }
+
+ImageController::~ImageController()= default;
 
 bool ImageController::fitWindow() const
 {
     return m_fitWindow;
+}
+
+QByteArray ImageController::data() const
+{
+    return m_data;
 }
 
 qreal ImageController::zoomLevel() const
@@ -53,7 +72,9 @@ Qt::CursorShape ImageController::cursor() const
 
 bool ImageController::isMovie() const
 {
-    return m_movie;
+    if(!m_movie)
+        return false;
+    return m_movie->isValid();
 }
 
 ImageController::Status ImageController::status() const
@@ -87,11 +108,20 @@ void ImageController::setZoomLevel(qreal lvl)
 
 void ImageController::setFitWindow(bool b)
 {
+
     if(m_fitWindow == b)
         return;
     m_fitWindow= b;
     emit fitWindowChanged();
     emit cursorChanged();
+}
+
+void ImageController::setStatus(Status status)
+{
+    if(m_status == status)
+        return;
+    m_status= status;
+    emit statusChanged(m_status);
 }
 
 void ImageController::zoomIn(qreal step)
@@ -104,11 +134,62 @@ void ImageController::zoomOut(qreal step)
     setZoomLevel(m_zoomLevel - step);
 }
 
-void ImageController::play() {}
+void ImageController::play()
+{
+    if(!m_movie)
+        return;
+    if(m_status == Playing)
+        m_movie->setPaused(true);
+    else if(m_status == Paused)
+        m_movie->start();
+}
 
-void ImageController::stop() {}
+void ImageController::stop()
+{
+    if(!m_movie)
+        return;
+    m_movie->stop();
+}
 
-void ImageController::pause() {}
+void ImageController::setPixmap(const QPixmap& pix)
+{
+    m_image= pix;
+    emit pixmapChanged();
+}
+
+void ImageController::checkMovie()
+{
+    auto buf= new QBuffer(&m_data);
+    buf->open(QIODevice::ReadOnly);
+
+    m_movie.reset(new QMovie(buf, QByteArray(), this));
+    if((m_movie->isValid()) && (m_movie->frameCount() > 1))
+    {
+        connect(m_movie.get(), &QMovie::updated, this, [this]() { setPixmap(m_movie->currentPixmap()); });
+        connect(m_movie.get(), &QMovie::stateChanged, this, [this](const QMovie::MovieState& state) {
+            switch(state)
+            {
+            case QMovie::NotRunning:
+                setStatus(ImageController::Stopped);
+                break;
+            case QMovie::Paused:
+                setStatus(ImageController::Paused);
+                break;
+            case QMovie::Running:
+                setStatus(ImageController::Playing);
+                break;
+            }
+        });
+        m_movie->start();
+    }
+    else
+    {
+        m_movie.reset();
+        QPixmap img;
+        img.loadFromData(m_data);
+        setPixmap(img);
+    }
+}
 
 const QPixmap ImageController::scaledPixmap() const
 {
