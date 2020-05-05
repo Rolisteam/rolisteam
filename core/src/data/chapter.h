@@ -61,7 +61,8 @@ public:
     bool removeChild(ResourcesNode* item) override;
     void clear();
 
-    virtual bool contains(ResourcesNode*) override;
+    virtual bool contains(const QString& id) override;
+    ResourcesNode* findNode(const QString& id) override;
 
     void write(QDataStream& out, bool tag= true, bool saveData= true) const override;
     void read(QDataStream& in) override;
@@ -69,10 +70,7 @@ public:
     QVariant getData(ResourcesNode::DataValue) const override;
 
     void insertChildAt(int row, ResourcesNode* uri) override;
-
-    bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node) override;
-
-    virtual QIcon getIcon() const override;
+    virtual QIcon icon() const override;
 signals:
     void openResource(ResourcesNode*, bool);
     void updated(ResourcesNode*);

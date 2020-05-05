@@ -69,9 +69,9 @@ void DataCleverURITest::testCleverURISetGet()
     QVERIFY2(m_cleverURI->contentType() == Core::ContentType::NOTES, "TEXT is not the current type");
 
     QString path("/foo/bar/file.map");
-    m_cleverURI->setUri(path);
+    m_cleverURI->setPath(path);
     m_cleverURI->setName(QStringLiteral("file"));
-    QVERIFY2(m_cleverURI->getUri() == path, "URI is wrong!");
+    QVERIFY2(m_cleverURI->path() == path, "URI is wrong!");
 
     QVERIFY2(m_cleverURI->getData(ResourcesNode::NAME).toString() == "file", "ShortName is wrong!");
 

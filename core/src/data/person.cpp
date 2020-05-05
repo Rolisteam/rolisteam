@@ -133,12 +133,7 @@ void Person::read(QDataStream&)
     // default implement does nothing [virtual]
 }
 
-bool Person::seekNode(QList<ResourcesNode*>&, ResourcesNode*)
-{
-    // default implement does nothing [virtual]
-    return false;
-}
-QIcon Person::getIcon() const
+QIcon Person::icon() const
 {
     return QIcon(QPixmap::fromImage(m_avatar));
 }

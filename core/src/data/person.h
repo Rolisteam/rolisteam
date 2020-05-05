@@ -102,12 +102,11 @@ public:
 
     virtual QVariant getData(ResourcesNode::DataValue) const override;
 
-    virtual QIcon getIcon() const override;
+    virtual QIcon icon() const override;
 
     ResourcesNode::TypeResource type() const override;
     virtual void write(QDataStream& out, bool tag= true, bool saveData= true) const override;
     virtual void read(QDataStream& in) override;
-    virtual bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node) override;
     virtual QString avatarPath() const;
 
 public slots:
