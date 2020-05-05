@@ -37,8 +37,8 @@ bool RServer::listen(const QHostAddress& address, quint16 port)
 
 void RServer::terminate()
 {
-    emit finished();
     QTcpServer::close();
+    emit finished();
 }
 
 qint64 RServer::port()
