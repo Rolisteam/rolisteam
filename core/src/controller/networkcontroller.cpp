@@ -196,7 +196,7 @@ void NetworkController::startServer()
         switch(m_server->state())
         {
         case ServerManager::Stopped:
-            m_serverThread->terminate();
+            m_serverThread->quit();
             break;
         case ServerManager::Listening:
         case ServerManager::Error:
