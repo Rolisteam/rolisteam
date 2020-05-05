@@ -81,14 +81,14 @@ void PreferencesTest::testLambdaFunction()
 {
     m_count= 0;
     m_preferences->registerValue("key", 300);
-    auto func= [=](QVariant value) {
-        QVERIFY(value.toInt() == 25);
+    auto func= [this](QVariant value) {
+        QCOMPARE(value.toInt(), 25);
         m_count++;
     };
     m_preferences->registerLambda("key", func);
     m_preferences->registerValue("key", 25);
 
-    QVERIFY(m_count == 1);
+    QCOMPARE(m_count, 1);
 }
 
 void PreferencesTest::testListener()

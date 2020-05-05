@@ -71,27 +71,27 @@ void PlayerModelTest::addTest_data()
     QTest::addColumn<QString>("name");
     QTest::addColumn<QVector<Player*>>("players");
 
-    /* QTest::addRow("cmd 1") << 0 << QString() << 0 << QString() << QVector<Player*>();
+    QTest::addRow("cmd 1") << 0 << QString() << 0 << QString() << QVector<Player*>();
 
-     {
-         QVector<Player*> players;
-         players.push_back(new Player("name", QColor(Qt::red), true));
-         QTest::addRow("cmd 2") << 1 << players[0]->uuid() << 0 << players[0]->name() << players;
-     }
+    {
+        QVector<Player*> players;
+        players.push_back(new Player("name", QColor(Qt::red), true));
+        QTest::addRow("cmd 2") << 1 << players[0]->uuid() << 0 << players[0]->name() << players;
+    }
 
-     {
-         QVector<Player*> players;
-         auto p= new Player("name", QColor(Qt::red), true);
-         players.push_back(p);
-         QTest::addRow("cmd 3") << 1 << p->uuid() << 0 << p->name() << players;
-     }
+    {
+        QVector<Player*> players;
+        auto p= new Player("name", QColor(Qt::red), true);
+        players.push_back(p);
+        QTest::addRow("cmd 3") << 1 << p->uuid() << 0 << p->name() << players;
+    }
 
-     {
-         QVector<Player*> players;
-         auto p= new Player("name", QColor(Qt::red), true);
-         players.push_back(p);
-         QTest::addRow("cmd 4") << 1 << "tata" << 0 << p->name() << players;
-     }*/
+    {
+        QVector<Player*> players;
+        auto p= new Player("name", QColor(Qt::red), true);
+        players.push_back(p);
+        QTest::addRow("cmd 4") << 1 << "tata" << 2 << p->name() << players;
+    }
 
     {
         QVector<Player*> players;
@@ -187,30 +187,30 @@ void PlayerModelTest::ownerTest_data()
     QTest::addColumn<int>("idx");
     QTest::addColumn<QVector<Player*>>("players");
 
-    /* QTest::addRow("cmd 1") << 0 << QString() << 0 << QVector<Player*>();
+    QTest::addRow("cmd 1") << 0 << QString() << 0 << QVector<Player*>();
 
-     {
-         QVector<Player*> players;
-         auto p= new Player("name", QColor(Qt::red), true);
-         players.push_back(p);
-         QTest::addRow("cmd 2") << 1 << p->uuid() << 0 << players;
-     }
+    {
+        QVector<Player*> players;
+        auto p= new Player("name", QColor(Qt::red), true);
+        players.push_back(p);
+        QTest::addRow("cmd 2") << 1 << p->uuid() << 0 << players;
+    }
 
-     {
-         QVector<Player*> players;
-         auto p= new Player("name", QColor(Qt::red), true);
-         players.push_back(p);
-         QTest::addRow("cmd 3") << 1 << "tata" << 2 << players;
-     }
+    {
+        QVector<Player*> players;
+        auto p= new Player("name", QColor(Qt::red), true);
+        players.push_back(p);
+        QTest::addRow("cmd 3") << 1 << "tata" << 2 << players;
+    }
 
-     {
-         QVector<Player*> players;
-         auto owner= new Player("owner", QColor(Qt::red), true);
-         players.push_back(owner);
-         auto p= new Player("contributor", QColor(Qt::green), false);
-         players.push_back(p);
-         QTest::addRow("cmd 4") << 1 << owner->uuid() << 2 << players;
-     }*/
+    {
+        QVector<Player*> players;
+        auto owner= new Player("owner", QColor(Qt::red), true);
+        players.push_back(owner);
+        auto p= new Player("contributor", QColor(Qt::green), false);
+        players.push_back(p);
+        QTest::addRow("cmd 4") << 1 << owner->uuid() << 2 << players;
+    }
 }
 
 QTEST_MAIN(PlayerModelTest);
