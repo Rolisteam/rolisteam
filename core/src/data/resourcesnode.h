@@ -36,6 +36,7 @@ class ResourcesNode : public QObject
     Q_PROPERTY(bool hasChildren READ hasChildren NOTIFY hasChildrenChanged)
     Q_PROPERTY(int childrenCount READ childrenCount NOTIFY childrenCountChanged)
     Q_PROPERTY(TypeResource resourcesType READ type CONSTANT)
+    Q_PROPERTY(QIcon icon READ icon CONSTANT)
     Q_PROPERTY(ResourcesNode* parentNode READ parentNode WRITE setParentNode NOTIFY parentNodeChanged)
 public:
     enum DataValue
@@ -73,20 +74,21 @@ public:
     virtual bool hasChildren() const;
     virtual bool isLeaf() const;
     virtual int childrenCount() const;
-    virtual QIcon getIcon() const;
+    virtual QIcon icon() const;
     virtual ResourcesNode::TypeResource type() const;
     virtual QVariant getData(ResourcesNode::DataValue) const= 0;
 
     virtual ResourcesNode* getChildAt(int) const;
-    virtual bool contains(ResourcesNode*);
+    virtual bool contains(const QString& id);
     virtual int indexOf(ResourcesNode*) const;
     virtual bool removeChild(ResourcesNode*);
     virtual void insertChildAt(int row, ResourcesNode*);
     int rowInParent();
 
+    virtual ResourcesNode* findNode(const QString& id);
+
     virtual void write(QDataStream& out, bool tag= true, bool saveData= true) const= 0;
     virtual void read(QDataStream& in)= 0;
-    virtual bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node)= 0;
 
 public slots:
     void setParentNode(ResourcesNode* parent);

@@ -75,7 +75,7 @@ ResourcesNode* ResourcesNode::getChildAt(int) const
     return nullptr;
 }
 
-QIcon ResourcesNode::getIcon() const
+QIcon ResourcesNode::icon() const
 {
     return QIcon();
 }
@@ -126,7 +126,7 @@ bool ResourcesNode::hasChildren() const
 {
     return false;
 }
-bool ResourcesNode::contains(ResourcesNode*)
+bool ResourcesNode::contains(const QString& id)
 {
     return false;
 }
@@ -136,3 +136,8 @@ bool ResourcesNode::removeChild(ResourcesNode*)
 }
 
 void ResourcesNode::insertChildAt(int, ResourcesNode*) {}
+
+ResourcesNode* ResourcesNode::findNode(const QString& id)
+{
+    return nullptr;
+}

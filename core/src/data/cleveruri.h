@@ -27,7 +27,6 @@
 #include "media/mediatype.h"
 #include "resourcesnode.h"
 
-class CleverURIListener;
 /**
  * @brief This class stores data refering to file, uri and type
  * @brief as a file can be loaded as different type.
@@ -36,114 +35,86 @@ class CleverURIListener;
  */
 class CleverURI : public ResourcesNode
 {
+    Q_OBJECT
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
+    Q_PROPERTY(Core::ContentType contentType READ contentType WRITE setContentType NOTIFY contentTypeChanged)
+    Q_PROPERTY(QByteArray data READ data WRITE setData NOTIFY dataChanged)
+    Q_PROPERTY(Core::State state READ state WRITE setState NOTIFY stateChanged)
+    Q_PROPERTY(Core::LoadingMode loadingMode READ loadingMode WRITE setLoadingMode NOTIFY loadingModeChanged)
+
 public:
     /**
      * @brief default constructor
-     *
      */
     CleverURI(Core::ContentType type);
     /**
      * @brief constructor with parameter
      *
      */
-    CleverURI(QString name, QString uri, const QString& ownerId, Core::ContentType type);
+    CleverURI(const QString& name, const QString& uri, Core::ContentType type);
     /**
      * @brief Destructor
      *
      */
     virtual ~CleverURI() override;
 
-    /**
-     * @brief set the URI parameter
-     * @param new uri
-     */
-    void setUri(QString& uri);
-    /**
-     * @brief set the type
-     * @param the new type
-     */
+    void setPath(const QString& uri);
+    QString path() const;
+
     void setContentType(Core::ContentType type);
-    /**
-     * @brief accessor to the URI
-     * @return the URI
-     */
-    const QString getUri() const;
-    /**
-     * @brief accessor to the type
-     * @return the type
-     */
     Core::ContentType contentType() const;
-    /**
-     * @brief operator ==
-     * @param uri1
-     * @return
-     */
-    bool operator==(const CleverURI& uri1) const;
-
-    /**
-     * @brief overriden method from RessourceNode
-     * @return always false
-     */
-    bool hasChildren() const override;
-    /**
-     * @brief static method which returns the appropriate icon path given the type
-     * @param type of the content
-     * @return the path to the icon
-     */
-    virtual QIcon getIcon() const override;
-    /**
-     * @brief CleverURI::getAbsolueDir
-     * @return
-     */
-    const QString getAbsolueDir() const;
-
-    QString ownerId() const;
-
-    void write(QDataStream& out, bool tag= true, bool saveData= true) const override;
-    void read(QDataStream& in) override;
-
-    /**
-     * @brief getFilterForType must return the filter for any kind of content but it also return empty string for
-     * content with dedicated loading dialog
-     * @return
-     */
-    static QString getFilterForType(Core::ContentType);
-    static QString typeToIconPath(Core::ContentType);
-    static QString typeToString(Core::ContentType);
-    static QString getPreferenceDirectoryKey(Core::ContentType);
 
     Core::LoadingMode loadingMode() const;
     void setLoadingMode(const Core::LoadingMode& currentMode);
 
     bool isDisplayed() const;
-    void setDisplayed(bool displayed);
 
-    QByteArray getData() const;
+    Core::State state() const;
+    void setState(const Core::State& state);
+
+    QByteArray data() const;
+    bool hasData() const;
     void setData(const QByteArray& data);
 
     void loadFileFromUri(QByteArray&) const;
-    void clearData();
+
+    // From  Resources
+    bool hasChildren() const override;
+    virtual QIcon icon() const override;
+    void write(QDataStream& out, bool tag= true, bool saveData= true) const override;
+    void read(QDataStream& in) override;
 
     QVariant getData(ResourcesNode::DataValue i) const override;
-    bool seekNode(QList<ResourcesNode*>& path, ResourcesNode* node) override;
 
-    Core::State getState() const;
-    void setState(const Core::State& state);
-
-    bool hasData() const;
+    // utility function
     bool exists();
+    const QString getAbsolueDir() const;
+
+    bool operator==(const CleverURI& uri1) const;
+    static QString getFilterForType(Core::ContentType);
+    static QString typeToIconPath(Core::ContentType);
+    static QString typeToString(Core::ContentType);
+    static QString getPreferenceDirectoryKey(Core::ContentType);
+
+signals:
+    void nameChanged();
+    void pathChanged();
+    void contentTypeChanged();
+    void dataChanged();
+    void stateChanged();
+    void loadingModeChanged();
 
 protected:
     void loadData();
+    void init();
 
 private:
-    void init();
-    QString m_uri;            ///< member to store the uri
-    Core::ContentType m_type; ///< member to store the content type
-    QByteArray m_data;        ///< data from the file
+    QString m_path;
+    Core::ContentType m_type;
+    QByteArray m_data;
     Core::LoadingMode m_loadingMode;
     Core::State m_state;
-    QString m_ownerId;
 
     static QStringList m_typeNameList;
     static QStringList m_typeToPreferenceDirectory;

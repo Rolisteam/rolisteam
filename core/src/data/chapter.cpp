@@ -92,55 +92,33 @@ void Chapter::insertChildAt(int row, ResourcesNode* uri)
     uri->setParentNode(this);
 }
 
-bool Chapter::seekNode(QList<ResourcesNode*>& path, ResourcesNode* node)
-{
-    bool val= false;
-    if(m_children.contains(node))
-    {
-        path.append(this);
-        path.append(node);
-        val= true;
-    }
-    else
-    {
-        for(auto& child : m_children)
-        {
-            if((child->hasChildren()) && (child->seekNode(path, node)))
-            {
-                val= true;
-                path.prepend(this);
-            }
-        }
-    }
-    return val;
-}
-
-QIcon Chapter::getIcon() const
+QIcon Chapter::icon() const
 {
     QStyle* style= qApp->style();
     return style->standardIcon(QStyle::SP_DirIcon);
 }
 
-bool Chapter::contains(ResourcesNode* node)
+bool Chapter::contains(const QString& id)
 {
-    if(m_children.contains(node))
-    {
-        return true;
-    }
-    else
-    {
-        for(auto& child : m_children)
-        {
-            if(nullptr == child)
-                continue;
+    auto it= std::find_if(m_children.begin(), m_children.end(),
+                          [id](ResourcesNode* node) { return (id == node->uuid() || node->contains(id)); });
 
-            if(child->contains(node))
-            {
-                return true;
-            }
-        }
+    return it != m_children.end();
+}
+
+ResourcesNode* Chapter::findNode(const QString& id)
+{
+    ResourcesNode* node= nullptr;
+    for(auto child : m_children)
+    {
+        if(node)
+            break;
+        if(child->uuid() == id)
+            node= child;
+        else
+            node= child->findNode(id);
     }
-    return false;
+    return node;
 }
 
 void Chapter::write(QDataStream& out, bool, bool) const

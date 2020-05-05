@@ -104,7 +104,7 @@ void TestChapter::testAddCleverURIToChapter()
         CleverURI* temp= new CleverURI(Core::ContentType::CHARACTERSHEET);
         temp->setContentType(Core::ContentType::CHARACTERSHEET);
         QString str("/foo");
-        temp->setUri(str);
+        temp->setPath(str);
         m_chapter->addResource(temp);
         QVERIFY2(m_chapter->removeChild(temp), "Removal of CleverURI fails, the item was not in the list");
     }
@@ -113,7 +113,7 @@ void TestChapter::testAddCleverURIToChapter()
         CleverURI* tempURI= new CleverURI(Core::ContentType::CHARACTERSHEET);
         tempURI->setContentType(Core::ContentType::CHARACTERSHEET);
         QString str("/foo");
-        tempURI->setUri(str);
+        tempURI->setPath(str);
         m_chapter->addResource(tempURI);
         QVERIFY2(m_chapter->removeChild(tempURI), "Removal of subchapter fails, the item was not in the list");
     }

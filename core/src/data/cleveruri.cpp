@@ -44,17 +44,13 @@ CleverURI::CleverURI(Core::ContentType type)
     init();
 }
 
-QIcon CleverURI::getIcon() const
+QIcon CleverURI::icon() const
 {
     return QIcon(CleverURI::typeToIconPath(m_type));
 }
 
-CleverURI::CleverURI(QString name, QString uri, const QString& ownerId, Core::ContentType type)
-    : ResourcesNode(TypeResource::Cleveruri)
-    , m_uri(uri)
-    , m_type(type)
-    , m_state(Core::State::Unloaded)
-    , m_ownerId(ownerId)
+CleverURI::CleverURI(const QString& name, const QString& path, Core::ContentType type)
+    : ResourcesNode(TypeResource::Cleveruri), m_path(path), m_type(type), m_state(Core::State::Displayed)
 {
     setName(name);
     init();
@@ -79,17 +75,22 @@ QString CleverURI::typeToIconPath(Core::ContentType type)
 
 bool CleverURI::operator==(const CleverURI& uri) const
 {
-    if((uri.getUri() == getUri()) && (uri.contentType() == contentType()))
+    if((uri.path() == path()) && (uri.contentType() == contentType()))
         return true;
     return false;
 }
 
-void CleverURI::setUri(QString& uri)
+void CleverURI::setPath(const QString& path)
 {
-    m_uri= uri;
-    QFileInfo info(uri);
-    m_name= info.baseName();
-    loadData();
+    if(path == m_path)
+        return;
+    m_path= path;
+    emit pathChanged();
+}
+
+Core::State CleverURI::state() const
+{
+    return m_state;
 }
 
 void CleverURI::setContentType(Core::ContentType type)
@@ -97,14 +98,9 @@ void CleverURI::setContentType(Core::ContentType type)
     m_type= type;
 }
 
-QString CleverURI::ownerId() const
+QString CleverURI::path() const
 {
-    return m_ownerId;
-}
-
-const QString CleverURI::getUri() const
-{
-    return m_uri;
+    return m_path;
 }
 
 Core::ContentType CleverURI::contentType() const
@@ -126,19 +122,18 @@ void CleverURI::loadData()
 
 void CleverURI::init()
 {
-    PreferencesManager* preferences= PreferencesManager::getInstance();
-    m_loadingMode= static_cast<Core::LoadingMode>(
-        preferences->value(QStringLiteral("DefaultLoadingMode"), static_cast<int>(Core::LoadingMode::Linked)).toInt());
-}
-
-Core::State CleverURI::getState() const
-{
-    return m_state;
+    if(m_path.isEmpty())
+        m_loadingMode= Core::LoadingMode::Internal;
+    else
+        m_loadingMode= Core::LoadingMode::Linked;
 }
 
 void CleverURI::setState(const Core::State& state)
 {
+    if(state == m_state)
+        return;
     m_state= state;
+    emit stateChanged();
 }
 
 bool CleverURI::hasData() const
@@ -146,7 +141,7 @@ bool CleverURI::hasData() const
     return !m_data.isEmpty();
 }
 
-QByteArray CleverURI::getData() const
+QByteArray CleverURI::data() const
 {
     return m_data;
 }
@@ -161,18 +156,6 @@ bool CleverURI::isDisplayed() const
     return (m_state == Core::State::Displayed);
 }
 
-void CleverURI::setDisplayed(bool displayed)
-{
-    if(displayed)
-    {
-        m_state= Core::State::Displayed;
-    }
-    else
-    {
-        m_state= Core::State::Hidden;
-    }
-}
-
 Core::LoadingMode CleverURI::loadingMode() const
 {
     return m_loadingMode;
@@ -180,23 +163,21 @@ Core::LoadingMode CleverURI::loadingMode() const
 
 void CleverURI::setLoadingMode(const Core::LoadingMode& currentMode)
 {
+    if(currentMode == m_loadingMode)
+        return;
     m_loadingMode= currentMode;
-
-    if(m_loadingMode == Core::LoadingMode::Linked)
-        loadData();
-    else if(m_loadingMode == Core::LoadingMode::Internal)
-        m_data.clear();
+    emit loadingModeChanged();
 }
 bool CleverURI::exists()
 {
-    if(m_uri.isEmpty())
+    if(m_path.isEmpty())
         return false;
 
-    return QFileInfo::exists(m_uri);
+    return QFileInfo::exists(m_path);
 }
 const QString CleverURI::getAbsolueDir() const
 {
-    QFileInfo info(m_uri);
+    QFileInfo info(m_path);
     return info.absolutePath();
 }
 
@@ -219,7 +200,7 @@ void CleverURI::write(QDataStream& out, bool tag, bool saveData) const
             data= m_data;
         }
     }
-    out << static_cast<int>(m_type) << m_uri << m_name << static_cast<int>(m_loadingMode) << m_data
+    out << static_cast<int>(m_type) << m_path << m_name << static_cast<int>(m_loadingMode) << m_data
         << static_cast<int>(m_state);
 }
 
@@ -228,7 +209,7 @@ void CleverURI::read(QDataStream& in)
     int type;
     int mode;
     int state;
-    in >> type >> m_uri >> m_name >> mode >> m_data >> state;
+    in >> type >> m_path >> m_name >> mode >> m_data >> state;
     m_type= static_cast<Core::ContentType>(type);
     m_loadingMode= static_cast<Core::LoadingMode>(mode);
     m_state= static_cast<Core::State>(state);
@@ -309,73 +290,34 @@ QString CleverURI::getPreferenceDirectoryKey(Core::ContentType type)
 }
 void CleverURI::loadFileFromUri(QByteArray& array) const
 {
-    QFile file(m_uri);
+    QFile file(m_path);
     if(file.open(QIODevice::ReadOnly))
     {
         array= file.readAll();
     }
 }
 
-void CleverURI::clearData()
-{
-    m_data.clear();
-}
-bool CleverURI::seekNode(QList<ResourcesNode*>&, ResourcesNode*)
-{
-    return false;
-}
-
 QVariant CleverURI::getData(ResourcesNode::DataValue i) const
 {
+    QVariant var;
     switch(i)
     {
     case ResourcesNode::NAME:
-        return m_name;
+        var= m_name;
+        break;
     case ResourcesNode::MODE:
-        return m_loadingMode == Core::LoadingMode::Internal ? QObject::tr("Internal") : QObject::tr("Linked");
+        var= m_loadingMode == Core::LoadingMode::Internal ? QObject::tr("Internal") : QObject::tr("Linked");
+        break;
     case ResourcesNode::DISPLAYED:
     {
         static const std::vector<QString> list(
             {QObject::tr("Closed"), QObject::tr("Hidden"), QObject::tr("Displayed")});
-        return list[m_state];
+        var= list[m_state];
+        break;
     }
     case ResourcesNode::URI:
-        return m_uri;
+        var= m_path;
+        break;
     }
-    return {};
+    return var;
 }
-
-/*QDataStream& operator<<(QDataStream& out, const CleverURI& con)
-{
-    con.write(out, false, false);
-    return out;
-}
-
-QDataStream& operator>>(QDataStream& is, CleverURI& con)
-{
-    con.read(is);
-    return is;
-}
-
-QDataStream& operator<<(QDataStream& out, const CleverUriList& con)
-{
-    out << con.size();
-    for(const CleverURI& uri : con)
-    {
-        out << uri;
-    }
-    return out;
-}
-
-QDataStream& operator>>(QDataStream& is, CleverUriList& con)
-{
-    int count;
-    is >> count;
-    for(int i= 0; i < count; ++i)
-    {
-        CleverURI* uri= new CleverURI();
-        is >> *uri;
-        con.append(*uri);
-    }
-    return is;
-}*/
