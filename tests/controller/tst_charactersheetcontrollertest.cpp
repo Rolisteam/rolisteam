@@ -17,3 +17,54 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+#include <QSignalSpy>
+#include <QTest>
+
+#include "controller/view_controller/charactersheetcontroller.h"
+#include "model/charactermodel.h"
+#include "userlist/playermodel.h"
+#include <memory>
+
+class CharacterSheetControllerTest : public QObject
+{
+    Q_OBJECT
+public:
+    CharacterSheetControllerTest()= default;
+
+private slots:
+    void init();
+    void cleanupTestCase();
+
+    void gameMasterTest();
+
+private:
+    std::unique_ptr<CharacterSheetController> m_ctrl;
+    std::unique_ptr<CharacterModel> m_characterModel;
+    std::unique_ptr<PlayerModel> m_playerModel;
+};
+
+void CharacterSheetControllerTest::init()
+{
+    m_playerModel.reset(new PlayerModel());
+    m_characterModel.reset(new CharacterModel());
+    m_characterModel->setSourceModel(m_playerModel.get());
+    m_ctrl.reset(new CharacterSheetController(m_characterModel.get(), "", ""));
+}
+
+void CharacterSheetControllerTest::cleanupTestCase() {}
+
+void CharacterSheetControllerTest::gameMasterTest()
+{
+    QCOMPARE(m_ctrl->gameMasterId(), QString());
+
+    QSignalSpy spy(m_ctrl.get(), &CharacterSheetController::gameMasterIdChanged);
+
+    m_ctrl->setGameMasterId("GameMasterID");
+
+    QCOMPARE(m_ctrl->gameMasterId(), QString("GameMasterID"));
+    QCOMPARE(spy.count(), 1);
+}
+QTEST_MAIN(CharacterSheetControllerTest);
+
+#include "tst_charactersheetcontrollertest.moc"
