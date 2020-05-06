@@ -115,7 +115,7 @@ private:
 
 private:
     QPointer<ImageController> m_ctrl;
-    std::unique_ptr<QLabel> m_imageLabel;
+    QLabel* m_imageLabel;
     std::unique_ptr<QScrollArea> m_widgetArea;
     QPoint m_startingPoint;
     int m_horizontalStart;
