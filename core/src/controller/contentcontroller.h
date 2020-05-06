@@ -53,7 +53,7 @@ class NoteMediaController;
 class ContentController : public AbstractControllerInterface, public PreferencesListener, public NetWorkReceiver
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractItemModel* model READ model CONSTANT)
+    Q_PROPERTY(SessionItemModel* model READ model CONSTANT)
     Q_PROPERTY(QString workspaceFilename READ workspaceFilename NOTIFY workspaceFilenameChanged)
     Q_PROPERTY(QColor workspaceColor READ workspaceColor NOTIFY workspaceColorChanged)
     Q_PROPERTY(int workspacePositioning READ workspacePositioning NOTIFY workspacePositioningChanged)
@@ -68,7 +68,7 @@ public:
     explicit ContentController(PlayerModel* playerModel, CharacterModel* characterModel, QObject* parent= nullptr);
     ~ContentController() override;
 
-    QAbstractItemModel* model() const;
+    SessionItemModel* model() const;
     ImageMediaController* imagesCtrl() const;
     VectorialMapMediaController* vmapCtrl() const;
     CharacterSheetMediaController* sheetCtrl() const;
