@@ -547,8 +547,8 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_saveAction, &QAction::triggered, this, &MainWindow::saveCurrentMedia);
     connect(m_ui->m_saveAllAction, &QAction::triggered, this, &MainWindow::saveAllMediaContainer);
     connect(m_ui->m_saveAsAction, &QAction::triggered, this, &MainWindow::saveCurrentMedia);
-    connect(m_ui->m_saveScenarioAction, &QAction::triggered, this, [=]() { saveStory(false); });
-    connect(m_ui->m_saveScenarioAsAction, &QAction::triggered, this, [=]() { saveStory(true); });
+    connect(m_ui->m_saveScenarioAction, &QAction::triggered, this, [this]() { saveStory(false); });
+    connect(m_ui->m_saveScenarioAsAction, &QAction::triggered, this, [this]() { saveStory(true); });
     connect(m_ui->m_preferencesAction, &QAction::triggered, m_preferencesDialog, &PreferencesDialog::show);
 
     // Edition
@@ -1568,19 +1568,18 @@ Core::ContentType MainWindow::getContentType(QString str)
 void MainWindow::dropEvent(QDropEvent* event)
 {
     const QMimeData* data= event->mimeData();
-    if(data->hasUrls())
+    if(!data->hasUrls())
+        return;
+
+    QList<QUrl> list= data->urls();
+    for(auto url : list)
     {
-        QList<QUrl> list= data->urls();
-        for(int i= 0; i < list.size(); ++i)
-        {
-            Core::ContentType type= getContentType(list.at(i).toLocalFile());
-            qInfo() << QStringLiteral("MainWindow: dropEvent for %1").arg(CleverURI::typeToString(type));
-            CleverURI* uri= new CleverURI(getShortNameFromPath(list.at(i).toLocalFile()), list.at(i).toLocalFile(),
-                                          m_gameController->playerController()->localPlayer()->uuid(), type);
-            // openCleverURI(uri, true);
-        }
-        event->acceptProposedAction();
+        Core::ContentType type= getContentType(url.toLocalFile());
+        qInfo() << QStringLiteral("MainWindow: dropEvent for %1").arg(CleverURI::typeToString(type));
+        CleverURI* uri= new CleverURI(getShortNameFromPath(url.toLocalFile()), url.toLocalFile(), type);
+        // openCleverURI(uri, true);
     }
+    event->acceptProposedAction();
 }
 
 void MainWindow::showShortCutEditor()
