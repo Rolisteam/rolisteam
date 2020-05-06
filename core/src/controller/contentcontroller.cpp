@@ -74,6 +74,24 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
             m_mediaControllers.begin(), m_mediaControllers.end(),
             [id](const std::pair<Core::ContentType, MediaManagerBase*>& pair) { pair.second->setLocalId(id); });
     });
+
+    connect(m_imageControllers.get(), &ImageMediaController::mediaAdded, m_contentModel.get(),
+            &SessionItemModel::addMedia);
+    connect(m_vmapControllers.get(), &VectorialMapMediaController::mediaAdded, m_contentModel.get(),
+            &SessionItemModel::addMedia);
+    connect(m_sheetMediaController.get(), &CharacterSheetMediaController::mediaAdded, m_contentModel.get(),
+            &SessionItemModel::addMedia);
+    connect(m_webPageMediaController.get(), &WebpageMediaController::mediaAdded, m_contentModel.get(),
+            &SessionItemModel::addMedia);
+    connect(m_sharedNoteMediaController.get(), &SharedNoteMediaController::mediaAdded, m_contentModel.get(),
+            &SessionItemModel::addMedia);
+    connect(m_pdfMediaController.get(), &PdfMediaController::mediaAdded, m_contentModel.get(),
+            &SessionItemModel::addMedia);
+    connect(m_noteMediaController.get(), &NoteMediaController::mediaAdded, m_contentModel.get(),
+            &SessionItemModel::addMedia);
+
+    connect(m_imageControllers.get(), &ImageMediaController::mediaClosed, m_contentModel.get(),
+            &SessionItemModel::removeMedia);
 }
 
 ContentController::~ContentController()= default;
@@ -151,7 +169,7 @@ void ContentController::openMedia(const std::map<QString, QVariant>& args)
         emit performCommand(new RemoveMediaControllerCommand(controller, controller));
 }*/
 
-QAbstractItemModel* ContentController::model() const
+SessionItemModel* ContentController::model() const
 {
     return m_contentModel.get();
 }
@@ -224,7 +242,7 @@ void ContentController::openResources(const QModelIndex& index) {}
 void ContentController::saveSession()
 {
     // saveAllMediaContainer();
-    ModelHelper::saveSession(m_sessionPath, m_sessionName, m_contentModel.get());
+    ModelHelper::saveSession(m_sessionPath, m_sessionName, this);
 }
 
 void ContentController::loadSession()
