@@ -47,7 +47,7 @@ void UpdateChecker::startChecking()
 #ifdef HAVE_QT_NETWORK
     m_manager.reset(new QNetworkAccessManager);
     connect(m_manager.get(), &QNetworkAccessManager::finished, this, &UpdateChecker::readXML);
-    m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/version.xml")));
+    m_manager->get(QNetworkRequest(QUrl("https://rolisteam.org/version.xml")));
 #endif
 }
 

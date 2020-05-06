@@ -47,6 +47,6 @@ void IpChecker::startCheck()
 #ifdef HAVE_QT_NETWORK
     m_manager.reset(new QNetworkAccessManager);
     connect(m_manager.get(), &QNetworkAccessManager::finished, this, &IpChecker::readText);
-    m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/ip.php")));
+    m_manager->get(QNetworkRequest(QUrl("https://rolisteam.org/ip.php")));
 #endif
 }
