@@ -68,14 +68,14 @@ bool PreferencesManager::registerValue(QString key, QVariant value, bool overwri
         m_optionDictionary->insert(key, value);
         if(oldValue != value)
         {
-            notifyListener(key);
+            notifyListener(key, value);
         }
         return true;
     }
     else
         return false;
 }
-const QVariant PreferencesManager::value(QString key, QVariant defaultValue)
+const QVariant PreferencesManager::value(const QString& key, const QVariant& defaultValue)
 {
     if(m_optionDictionary->contains(key))
     {
@@ -124,27 +124,27 @@ void PreferencesManager::writeSettings(const QString& version)
     settings.endArray();
     settings.endGroup();
 }
-void PreferencesManager::registerListener(QString str, PreferencesListener* listerner)
+void PreferencesManager::registerListener(const QString& str, PreferencesListener* listerner)
 {
     m_listernerMap.insert(str, listerner);
 }
-void PreferencesManager::registerLambda(QString key, std::function<void(QVariant)> func)
+void PreferencesManager::registerLambda(const QString& key, std::function<void(QVariant)> func)
 {
     m_lambdaMap.insert({key, func});
 }
-void PreferencesManager::notifyListener(QString str)
+void PreferencesManager::notifyListener(const QString& key, const QVariant& value)
 {
-    PreferencesListener* tmp= m_listernerMap.value(str);
+    PreferencesListener* tmp= m_listernerMap.value(key);
     if(nullptr != tmp)
     {
-        tmp->preferencesHasChanged(str);
+        tmp->preferencesHasChanged(key);
     }
 
-    auto it= m_lambdaMap.find(str);
+    auto it= m_lambdaMap.find(key);
     if(it != m_lambdaMap.end())
     {
         auto func= it->second;
         if(nullptr != func)
-            func(str);
+            func(value);
     }
 }
