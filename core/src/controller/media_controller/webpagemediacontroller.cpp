@@ -107,7 +107,7 @@ void WebpageMediaController::managePage(const QString& id)
         return;
 
     if((*it)->sharingMode() == WebpageController::None)
-        MessageHelper::closeMedia(id);
+        MessageHelper::closeMedia(id, type());
     else
         shareWebPage(id);
 }
