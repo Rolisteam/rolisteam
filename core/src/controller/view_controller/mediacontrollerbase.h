@@ -32,6 +32,7 @@ class MediaControllerBase : public QObject
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(QString uuid READ uuid NOTIFY uuidChanged)
+    Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
     Q_PROPERTY(Core::ContentType contentType READ contentType CONSTANT)
     Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
     Q_PROPERTY(bool modified READ modified WRITE setModified NOTIFY modifiedChanged)
@@ -62,7 +63,6 @@ public:
 signals:
     void nameChanged();
     void uuidChanged(QString);
-    void uriChanged();
     void closeContainer();
     void titleChanged();
     void activeChanged();
@@ -71,7 +71,7 @@ signals:
     void ownerIdChanged(QString id);
     void localIdChanged(QString id);
     void modifiedChanged(bool b);
-    void pathChanged();
+    void pathChanged(QString path);
     void closeMe(QString id);
 
 public slots:
