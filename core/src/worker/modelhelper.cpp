@@ -21,6 +21,7 @@
 
 #include "charactersheet/charactersheetmodel.h"
 #include "charactersheet/imagemodel.h"
+#include "controller/contentcontroller.h"
 #include "data/character.h"
 #include "data/player.h"
 #include "model/profilemodel.h"
@@ -28,11 +29,11 @@
 #include "session/sessionitemmodel.h"
 
 #include <QDebug>
-#include <QUuid>
 #include <QFileInfo>
 #include <QFontDatabase>
 #include <QJsonDocument>
 #include <QSettings>
+#include <QUuid>
 
 namespace Settingshelper
 {
@@ -172,7 +173,7 @@ void writeConnectionProfileModel(ProfileModel* model)
 namespace ModelHelper
 {
 
-bool saveSession(const QString& path, const QString& name, const SessionItemModel* model)
+bool saveSession(const QString& path, const QString& name, const ContentController* ctrl)
 {
     QFile file(path);
     if(!file.open(QIODevice::WriteOnly))
@@ -182,6 +183,9 @@ bool saveSession(const QString& path, const QString& name, const SessionItemMode
     QDataStream out(&file);
     out.setVersion(QDataStream::Qt_5_7);
     out << name;
+    auto model= ctrl->model();
+    if(!model)
+        return false;
     model->saveModel(out);
 
     return true;
