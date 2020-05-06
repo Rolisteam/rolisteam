@@ -459,7 +459,7 @@ bool Channel::removeClient(TcpClient* client)
     {
         clearData();
     }
-    else if((m_currentGm != nullptr) && (m_currentGm == client))
+    if((m_currentGm != nullptr) && (m_currentGm == client))
     {
         findNewGM();
     }
