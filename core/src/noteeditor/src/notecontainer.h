@@ -45,6 +45,7 @@ protected slots:
     void updateTitle();
 
 private:
+    QPointer<NoteController> m_noteCtrl;
     TextEdit* m_edit;
 };
 

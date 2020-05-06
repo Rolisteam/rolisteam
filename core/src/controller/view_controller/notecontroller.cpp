@@ -19,30 +19,37 @@
  ***************************************************************************/
 #include "notecontroller.h"
 
-NoteController::NoteController(const QString &id, QObject *parent) : MediaControllerBase(id, Core::ContentType::NOTES, parent)
-{
+#include "worker/iohelper.h"
+//#include <QtConcurrent>
 
+NoteController::NoteController(const QString& id, QObject* parent)
+    : MediaControllerBase(id, Core::ContentType::NOTES, parent)
+{
+    /*auto future= QtConcurrent::run(IOHelper::loadFile, m_path);
+    auto watcher= new QFutureWatcher<QByteArray>();
+    connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [this, watcher]() {
+        auto result= watcher->result();
+
+        if(!result.isEmpty())
+            setText(QString(result));
+
+        watcher->deleteLater();
+    });*/
 }
 
-void NoteController::saveData() const
-{
+void NoteController::saveData() const {}
 
-}
-
-void NoteController::loadData() const
-{
-
-}
+void NoteController::loadData() const {}
 
 QString NoteController::text() const
 {
     return m_text;
 }
 
-void NoteController::setText(const QString &text)
+void NoteController::setText(const QString& text)
 {
     if(text == m_text)
         return;
-    m_text = text;
-    emit textChanged();
+    m_text= text;
+    emit textChanged(m_text);
 }

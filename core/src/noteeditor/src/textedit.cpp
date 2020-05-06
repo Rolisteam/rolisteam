@@ -83,6 +83,9 @@ TextEdit::TextEdit(NoteController* note, QWidget* parent) : QMainWindow(parent),
     setupEditActions();
     setupTextActions();
 
+    // connect(m_noteCtrl, &NoteController::textChanged, this, &TextEdit::setCurrentFileName);
+    connect(m_noteCtrl, &NoteController::pathChanged, this, &TextEdit::load);
+
     //    {
     //        QMenu *helpMenu = new QMenu(tr("Help"), this);
     //        menuBar()->addMenu(helpMenu);
@@ -106,13 +109,13 @@ TextEdit::TextEdit(NoteController* note, QWidget* parent) : QMainWindow(parent),
     connect(textEdit->document(), &QTextDocument::contentsChanged, m_noteCtrl,
             [this]() { m_noteCtrl->setText(textEdit->document()->toHtml()); });
 
-    connect(textEdit->document(), SIGNAL(modificationChanged(bool)), actionSave, SLOT(setEnabled(bool)));
+    // connect(textEdit->document(), SIGNAL(modificationChanged(bool)), actionSave, SLOT(setEnabled(bool)));
     connect(textEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setWindowModified(bool)));
     connect(textEdit->document(), SIGNAL(undoAvailable(bool)), actionUndo, SLOT(setEnabled(bool)));
     connect(textEdit->document(), SIGNAL(redoAvailable(bool)), actionRedo, SLOT(setEnabled(bool)));
 
     setWindowModified(textEdit->document()->isModified());
-    actionSave->setEnabled(textEdit->document()->isModified());
+    // actionSave->setEnabled(textEdit->document()->isModified());
     actionUndo->setEnabled(textEdit->document()->isUndoAvailable());
     actionRedo->setEnabled(textEdit->document()->isRedoAvailable());
 
@@ -135,14 +138,7 @@ TextEdit::TextEdit(NoteController* note, QWidget* parent) : QMainWindow(parent),
     statusbar->setObjectName(QString::fromUtf8("statusbar"));
     setStatusBar(statusbar);
 
-    //// 4.41 = 263169
-
-    QString initialFile;
-    const QStringList args= QCoreApplication::arguments();
-    if(args.count() == 2)
-        initialFile= args.at(1);
-
-    if(!load(initialFile))
+    if(!load(m_noteCtrl->path()))
         fileNew();
 }
 
@@ -178,7 +174,7 @@ void TextEdit::setupFileActions()
 
     QAction* a;
 
-    a= new QAction(QIcon(rsrcPath + "/filenew.png"), tr("&New"), this);
+    /*a= new QAction(QIcon(rsrcPath + "/filenew.png"), tr("&New"), this);
     a->setShortcut(QKeySequence::New);
     connect(a, SIGNAL(triggered()), this, SLOT(fileNew()));
     tb->addAction(a);
@@ -188,21 +184,21 @@ void TextEdit::setupFileActions()
     a->setShortcut(QKeySequence::Open);
     connect(a, SIGNAL(triggered()), this, SLOT(fileOpen()));
     tb->addAction(a);
-    menu->addAction(a);
+    menu->addAction(a);*/
 
-    menu->addSeparator();
+    // menu->addSeparator();
 
-    actionSave= a= new QAction(QIcon(rsrcPath + "/filesave.png"), tr("&Save"), this);
+    /**actionSave= a= new QAction(QIcon(rsrcPath + "/filesave.png"), tr("&Save"), this);
     a->setShortcut(QKeySequence::Save);
     connect(a, SIGNAL(triggered()), this, SLOT(fileSave()));
     a->setEnabled(false);
     tb->addAction(a);
-    menu->addAction(a);
+    menu->addAction(a);*/
 
-    a= new QAction(tr("Save &As..."), this);
+    /*a= new QAction(tr("Save &As..."), this);
     connect(a, SIGNAL(triggered()), this, SLOT(fileSaveAs()));
     menu->addAction(a);
-    menu->addSeparator();
+    menu->addSeparator();*/
 
     a= new QAction(QIcon(rsrcPath + "/fileprint.png"), tr("&Print..."), this);
     a->setShortcut(QKeySequence::Print);
@@ -220,12 +216,12 @@ void TextEdit::setupFileActions()
     tb->addAction(a);
     menu->addAction(a);
 
-    menu->addSeparator();
+    // menu->addSeparator();
 
-    a= new QAction(tr("&Quit"), this);
+    /*a= new QAction(tr("&Quit"), this);
     a->setShortcut(Qt::CTRL + Qt::Key_Q);
     connect(a, SIGNAL(triggered()), this, SLOT(hide()));
-    menu->addAction(a);
+    menu->addAction(a);*/
 }
 
 void TextEdit::setupEditActions()

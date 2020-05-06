@@ -655,7 +655,7 @@ set(UI_FILES
     src/session/sessiondock.ui
     )
 
-add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} src/rolisteamqml.qrc)
+add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} src/rolisteamqml.qrc src/noteeditor/src/textedit.qrc)
 
 qt5_use_modules(core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets Xml WebEngineWidgets Concurrent)
 #target_link_libraries(core PUBLIC  Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets)

@@ -116,6 +116,7 @@ int main(int argc, char* argv[])
 #endif
     app.setApplicationVersion(version);
     Q_INIT_RESOURCE(rolisteamqml);
+    Q_INIT_RESOURCE(textedit);
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QString locale= QLocale::system().name();

@@ -23,14 +23,20 @@
 #include "controller/view_controller/notecontroller.h"
 
 NoteContainer::NoteContainer(NoteController* note, QWidget* parent)
-    : MediaContainer(note, MediaContainer::ContainerType::NoteContainer, parent), m_edit(new TextEdit(note))
+    : MediaContainer(note, MediaContainer::ContainerType::NoteContainer, parent)
+    , m_noteCtrl(note)
+    , m_edit(new TextEdit(note))
 {
 #ifdef Q_OS_MAC
     m_edit->menuBar()->setNativeMenuBar(false);
 #endif
     setWidget(m_edit);
     setWindowIcon(QIcon(":/notes.png"));
-    connect(m_edit, SIGNAL(fileNameChanged(QString)), this, SLOT(setFileName(QString)));
+    connect(m_edit, &TextEdit::fileNameChanged, this, &NoteContainer::setFileName);
+
+    auto func= [this]() { setWindowTitle(tr("%1 - Note").arg(m_noteCtrl->name())); };
+    connect(m_noteCtrl, &NoteController::nameChanged, this, func);
+    func();
 }
 
 void NoteContainer::setFileName(QString str)
