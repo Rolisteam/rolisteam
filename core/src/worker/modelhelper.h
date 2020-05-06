@@ -25,6 +25,7 @@ class SessionItemModel;
 class ProfileModel;
 class CharacterSheetModel;
 class ImageModel;
+class ContentController;
 namespace Settingshelper
 {
 void readConnectionProfileModel(ProfileModel* model);
@@ -33,7 +34,7 @@ void writeConnectionProfileModel(ProfileModel* model);
 
 namespace ModelHelper
 {
-bool saveSession(const QString& path, const QString& name, const SessionItemModel* model);
+bool saveSession(const QString& path, const QString& name, const ContentController* ctrl);
 QString loadSession(const QString& path, SessionItemModel* model);
 
 bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model);
