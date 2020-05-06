@@ -9,5 +9,9 @@
         <file>sharednotes/test.rsn</file>
         <file>vmap/test.vmap</file>
         <file>music/07.mp3</file>
+        <file>img/control_life_bar.gif</file>
+        <file>img/girafe3.jpg</file>
+        <file>img/lion3.jpg</file>
+        <file>img/white.png</file>
     </qresource>
 </RCC>
