@@ -78,7 +78,7 @@ public:
      * @param defaultValue this value is returned if the key is notin the dictionary
      * @return const reference to the value
      */
-    const QVariant value(QString key, QVariant defaultValue);
+    const QVariant value(const QString& key, const QVariant& defaultValue);
 
     /**
      * Load informations from the previous rolisteam's execution
@@ -92,14 +92,14 @@ public:
     /**
      * @brief registerListener
      */
-    void registerListener(QString, PreferencesListener*);
-    void registerLambda(QString key, std::function<void(QVariant)> func);
+    void registerListener(const QString&, PreferencesListener*);
+    void registerLambda(const QString& key, std::function<void(QVariant)> func);
 
 private:
     /**
      * @brief notifyListener
      */
-    void notifyListener(QString);
+    void notifyListener(const QString& key, const QVariant& value);
 
 private:
     /**
