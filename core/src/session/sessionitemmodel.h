@@ -120,8 +120,9 @@ public:
     QStringList mimeTypes() const;
     QMimeData* mimeData(const QModelIndexList& indexes) const;
 
+    void addMedia(const QString& id, const QString& path, Core::ContentType type, const QString& name);
+    void removeMedia(const QString& id);
 public slots:
-    void updateNode(ResourcesNode*);
     void removeNode(ResourcesNode*);
 
 signals:
