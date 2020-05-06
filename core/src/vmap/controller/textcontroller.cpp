@@ -56,6 +56,9 @@ TextController::TextController(const std::map<QString, QVariant>& params, Vector
     if(params.end() != params.find("textRect"))
         setTextRect(params.at(QStringLiteral("textRect")).toRectF());
 
+    if(params.end() != params.find("rect"))
+        setBorderRect(params.at(QStringLiteral("rect")).toRectF());
+
     if(params.end() != params.find("penWidth"))
         m_penWidth= static_cast<quint16>(params.at(QStringLiteral("penWidth")).toInt());
 
