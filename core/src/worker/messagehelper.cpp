@@ -171,11 +171,17 @@ void MessageHelper::sendOffOneCharacterState(CharacterState* state, int row)
     msg.sendToServer();
 }
 
+QString MessageHelper::readMediaId(NetworkMessageReader* msg)
+{
+    return msg->string8();
+}
+
 void MessageHelper::sendOffOpenMedia(AbstractMediaController* ctrl) {}
 
-void MessageHelper::closeMedia(const QString& id)
+void MessageHelper::closeMedia(const QString& id, Core::ContentType type)
 {
     NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::CloseMedia);
+    msg.uint8(static_cast<quint8>(type));
     msg.string8(id);
     msg.sendToServer();
 }

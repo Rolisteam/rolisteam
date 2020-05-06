@@ -25,6 +25,8 @@
 #include <QString>
 #include <QVariant>
 
+#include "media/mediatype.h"
+
 namespace vmap
 {
 class RectController;
@@ -59,7 +61,7 @@ public:
     MessageHelper();
 
     static void sendOffGoodBye();
-    static void closeMedia(const QString& id);
+    static void closeMedia(const QString& id, Core::ContentType type);
 
     static void sendOffAllDiceAlias(DiceAliasModel* model);
     static void sendOffOneDiceAlias(DiceAlias* da, int row);
@@ -88,6 +90,9 @@ public:
     static void sendOffPath(const vmap::PathController* ctrl, const QString& mapId);
     static void sendOffImage(const vmap::ImageController* ctrl, const QString& mapId);
     static void sendOffCharacter(const vmap::CharacterItemController* ctrl, const QString& mapId);
+
+    // media
+    static QString readMediaId(NetworkMessageReader* msg);
 
     // image
     static void sendOffImage(ImageController* ctrl);
