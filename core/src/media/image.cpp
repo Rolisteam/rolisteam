@@ -53,13 +53,17 @@ Image::Image(ImageController* ctrl, QWidget* parent)
     if(m_ctrl->isMovie())
         addAction(m_playAct);
 
+    connect(m_ctrl, &ImageController::nameChanged, this,
+            [this]() { setWindowTitle(tr("%1 - Image").arg(m_ctrl->name())); });
+
     m_widgetArea->setAlignment(Qt::AlignCenter);
     m_imageLabel->setLineWidth(0);
     m_imageLabel->setFrameStyle(QFrame::NoFrame);
-    m_widgetArea->setWidget(m_imageLabel.get());
+    m_widgetArea->setWidget(m_imageLabel);
     m_fitWindowAct->setChecked(m_preferences->value("PictureAdjust", true).toBool());
     setWidget(m_widgetArea.get());
     initImage();
+    setWindowTitle(tr("%1 - Image").arg(m_ctrl->name()));
 }
 
 Image::~Image()= default;
