@@ -28,9 +28,6 @@ QPainterPath vectorToPath(const std::vector<QPointF>& points, bool closeUp= fals
 PathController::PathController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl, QObject* parent)
     : VisualItemController(VisualItemController::PATH, params, ctrl, parent)
 {
-    if(params.end() != params.find("color"))
-        m_color= params.at(QStringLiteral("color")).value<QColor>();
-
     if(params.end() != params.find("tool"))
     {
         m_tool= params.at(QStringLiteral("tool")).value<Core::SelectableTool>();
