@@ -152,5 +152,5 @@ void MediaControllerBase::setPath(const QString& path)
     if(path == m_path)
         return;
     m_path= path;
-    emit pathChanged();
+    emit pathChanged(m_path);
 }
