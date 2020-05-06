@@ -29,7 +29,7 @@ class NoteController : public MediaControllerBase
     Q_OBJECT
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
 public:
-    explicit NoteController(const QString& id, QObject *parent = nullptr);
+    explicit NoteController(const QString& id, QObject* parent= nullptr);
 
     void saveData() const override;
     void loadData() const override;
@@ -39,12 +39,10 @@ public:
     void setText(const QString& text);
 
 signals:
-    void textChanged();
+    void textChanged(QString);
 
 private:
     QString m_text;
-
-
 };
 
 #endif // NOTECONTROLLER_H

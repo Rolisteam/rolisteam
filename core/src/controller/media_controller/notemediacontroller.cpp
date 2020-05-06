@@ -19,42 +19,46 @@
  ***************************************************************************/
 #include "notemediacontroller.h"
 
-
 #include "controller/view_controller/notecontroller.h"
 
-NoteMediaController::NoteMediaController(QObject *parent) : MediaManagerBase(Core::ContentType::NOTES,parent)
-{
+NoteMediaController::NoteMediaController(QObject* parent) : MediaManagerBase(Core::ContentType::NOTES, parent) {}
 
-}
+NoteMediaController::~NoteMediaController()= default;
 
-NoteMediaController::~NoteMediaController() = default;
-
-bool NoteMediaController::openMedia(const QString& uuid, const std::map<QString, QVariant> &args)
+bool NoteMediaController::openMedia(const QString& uuid, const std::map<QString, QVariant>& args)
 {
     std::unique_ptr<NoteController> noteCtrl(new NoteController(uuid));
 
+    if(args.find("name") != args.end())
+        noteCtrl->setName(args.at("name").toString());
+
+    if(args.find("path") != args.end())
+        noteCtrl->setPath(args.at("path").toString());
+
+    if(args.find("ownerId") != args.end())
+        noteCtrl->setOwnerId(args.at("ownerId").toString());
+
     emit noteControllerCreated(noteCtrl.get());
+    emit mediaAdded(uuid, noteCtrl->path(), type(), noteCtrl->name());
     m_notes.push_back(std::move(noteCtrl));
+    return true;
 }
 
-void NoteMediaController::closeMedia(const QString &id)
+void NoteMediaController::closeMedia(const QString& id)
 {
     auto it= std::remove_if(m_notes.begin(), m_notes.end(),
-        [id](const std::unique_ptr<NoteController>& ctrl) { return ctrl->uuid() == id; });
+                            [id](const std::unique_ptr<NoteController>& ctrl) { return ctrl->uuid() == id; });
     if(it == m_notes.end())
         return;
 
     (*it)->aboutToClose();
+    emit mediaClosed(id);
     m_notes.erase(it, m_notes.end());
 }
 
-void NoteMediaController::registerNetworkReceiver()
-{
+void NoteMediaController::registerNetworkReceiver() {}
 
-}
-
-NetWorkReceiver::SendType NoteMediaController::processMessage(NetworkMessageReader *msg)
+NetWorkReceiver::SendType NoteMediaController::processMessage(NetworkMessageReader* msg)
 {
     return NetWorkReceiver::NONE;
 }
-
