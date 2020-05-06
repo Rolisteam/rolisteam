@@ -415,7 +415,7 @@ void VectorialMapController::setEditionMode(Core::EditionMode mode)
     if(mode == m_editionMode)
         return;
     m_editionMode= mode;
-    emit editionMode();
+    emit editionModeChanged();
 }
 
 void VectorialMapController::setOpacity(qreal opacity)
@@ -630,6 +630,9 @@ void VectorialMapController::setZindex(int index)
 void VectorialMapController::normalizeSize(const QList<vmap::VisualItemController*>& list, Method method,
                                            const QPointF& mousePos)
 {
+    if(list.isEmpty())
+        return;
+
     emit performCommand(new ChangeSizeVmapItemCommand(list, method, mousePos));
 }
 
