@@ -41,8 +41,12 @@ NetWorkReceiver::SendType ImageMediaController::processMessage(NetworkMessageRea
         auto name= uri.value(QStringLiteral("name")).toString();
         auto uuid= uri.value(QStringLiteral("uuid")).toString();
         auto data= uri.value(QStringLiteral("data")).toByteArray();
-        auto ctrl= addImageController(uuid, "", data);
-        ctrl->setName(name);
+        addImageController(uuid, "", name, data);
+    }
+    else if(msg->category() == NetMsg::MediaCategory && msg->action() == NetMsg::CloseMedia)
+    {
+        auto id= MessageHelper::readMediaId(msg);
+        closeMedia(id);
     }
     return NetWorkReceiver::NONE;
 }
@@ -55,6 +59,9 @@ void ImageMediaController::closeMedia(const QString& id)
         return;
 
     (*it)->aboutToClose();
+    if((*it)->localIsOwner())
+        MessageHelper::closeMedia(id, type());
+    emit mediaClosed(id);
     m_images.erase(it, m_images.end());
 }
 
@@ -74,23 +81,29 @@ bool ImageMediaController::openMedia(const QString& id, const std::map<QString, 
     if(it != args.end())
         path= it->second.toString();
 
-    auto imgCtrl= addImageController(id, path, pix);
-
     QString name;
     it= args.find(QStringLiteral("name"));
     if(it != args.end())
         name= it->second.toString();
 
-    imgCtrl->setName(name);
+    auto imgCtrl= addImageController(id, path, name, pix);
 
     MessageHelper::sendOffImage(imgCtrl);
     return true;
 }
 
-ImageController* ImageMediaController::addImageController(const QString& id, const QString& path, const QByteArray& pix)
+ImageController* ImageMediaController::addImageController(const QString& id, const QString& path, const QString& name,
+                                                          const QByteArray& pix)
 {
-    std::unique_ptr<ImageController> imgCtrl(new ImageController(id, path, pix));
+    auto it= std::find_if(m_images.begin(), m_images.end(),
+                          [id](const std::unique_ptr<ImageController>& ctrl) { return ctrl->uuid() == id; });
+
+    if(it != m_images.end())
+        return it->get();
+
+    std::unique_ptr<ImageController> imgCtrl(new ImageController(id, name, path, pix));
     emit imageControllerCreated(imgCtrl.get());
+    emit mediaAdded(id, path, type(), name);
     auto img= imgCtrl.get();
 
     connect(this, &ImageMediaController::localIsGMChanged, imgCtrl.get(), &ImageController::setLocalGM);

@@ -22,24 +22,25 @@
 #include <QDebug>
 
 #include "controller/contentcontroller.h"
-#include "controller/view_controller/mediacontrollerbase.h"
 #include "controller/media_controller/mediamanagerbase.h"
+#include "controller/view_controller/mediacontrollerbase.h"
 #include "worker/iohelper.h"
 
-
-RemoveMediaControllerCommand::RemoveMediaControllerCommand(MediaControllerBase* ctrl,MediaManagerBase* manager, QUndoCommand* parent)
-    : QUndoCommand(parent), m_ctrl(ctrl),m_manager(manager)
+RemoveMediaControllerCommand::RemoveMediaControllerCommand(MediaControllerBase* ctrl, MediaManagerBase* manager,
+                                                           QUndoCommand* parent)
+    : QUndoCommand(parent), m_ctrl(ctrl), m_manager(manager)
 {
     if(m_ctrl)
     {
-        m_uuid = m_ctrl->uuid();
-        m_title = m_ctrl->title();
-        m_contentType = manager->type();
+        m_uuid= m_ctrl->uuid();
+        m_title= m_ctrl->title();
+        m_contentType= manager->type();
         setText(QObject::tr("Close %1").arg(m_title));
+        m_params= IOHelper::saveController(m_ctrl);
     }
 }
 
-RemoveMediaControllerCommand::~RemoveMediaControllerCommand() = default;
+RemoveMediaControllerCommand::~RemoveMediaControllerCommand()= default;
 
 void RemoveMediaControllerCommand::redo()
 {
@@ -47,10 +48,7 @@ void RemoveMediaControllerCommand::redo()
     if(nullptr == m_ctrl)
         return;
 
-    m_params = IOHelper::saveController(m_ctrl);
-
     m_manager->closeMedia(m_ctrl->uuid());
-
 }
 
 void RemoveMediaControllerCommand::undo()
@@ -59,6 +57,5 @@ void RemoveMediaControllerCommand::undo()
     if(nullptr == m_ctrl)
         return;
 
-   // m_ctrl->openMedia(m_uri, m_args);
+    m_manager->openMedia(m_uuid, m_params);
 }
-

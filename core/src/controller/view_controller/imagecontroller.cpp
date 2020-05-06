@@ -34,9 +34,11 @@ QByteArray readImage(const QString& path)
     return file.readAll();
 }
 
-ImageController::ImageController(const QString& id, const QString& path, const QByteArray& data, QObject* parent)
+ImageController::ImageController(const QString& id, const QString& name, const QString& path, const QByteArray& data,
+                                 QObject* parent)
     : MediaControllerBase(id, Core::ContentType::PICTURE, parent), m_data(data)
 {
+    setName(name);
     setPath(path);
     if(m_data.isEmpty() && !path.isEmpty())
         m_data= readImage(path);

@@ -48,8 +48,8 @@ public:
     };
     Q_ENUM(Status);
 
-    explicit ImageController(const QString& id, const QString& path, const QByteArray& data= QByteArray(),
-                             QObject* parent= nullptr);
+    explicit ImageController(const QString& id, const QString& name, const QString& path,
+                             const QByteArray& data= QByteArray(), QObject* parent= nullptr);
     virtual ~ImageController();
 
     bool fitWindow() const;
