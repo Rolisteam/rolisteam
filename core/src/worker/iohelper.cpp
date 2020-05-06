@@ -276,6 +276,7 @@ void saveBase(MediaControllerBase* base, std::map<QString, QVariant>& datamap)
 
     datamap.insert({QStringLiteral("uuid"), base->uuid()});
     datamap.insert({QStringLiteral("uri"), base->path()});
+    datamap.insert({QStringLiteral("name"), base->name()});
     datamap.insert({QStringLiteral("type"), QVariant::fromValue(base->contentType())});
     datamap.insert({QStringLiteral("ownerId"), base->ownerId()});
     // datamap.insert({QStringLiteral("data"), base->getData()});
