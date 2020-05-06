@@ -105,7 +105,7 @@ QMimeData* SessionItemModel::mimeData(const QModelIndexList& indexes) const
     return mimeData;
 }
 
-void SessionItemModel::updateNode(ResourcesNode* node)
+/*void SessionItemModel::updateNode(ResourcesNode* node)
 {
     QModelIndex nodeIndex;
     QModelIndex parent;
@@ -124,37 +124,7 @@ void SessionItemModel::updateNode(ResourcesNode* node)
         }
     }
     emit dataChanged(nodeIndex, nodeIndex);
-}
-void SessionItemModel::removeNode(ResourcesNode* node)
-{
-    QModelIndex parent;
-    QList<ResourcesNode*> path;
-    if(m_rootItem->seekNode(path, node))
-    {
-        int row= -1;
-        ResourcesNode* parentItem= nullptr;
-        ResourcesNode* tmpItem= nullptr;
-
-        for(int i= 0; i < path.size(); ++i)
-        {
-            ResourcesNode* current= path.at(i);
-            if(nullptr != tmpItem)
-            {
-                row= tmpItem->indexOf(current);
-                if(i + 1 < path.size())
-                {
-                    parent= index(row, 0, parent); // recursive parenting
-                }
-                parentItem= tmpItem;
-            }
-            tmpItem= current;
-        }
-
-        beginRemoveRows(parent, row, row);
-        parentItem->removeChild(node);
-        endRemoveRows();
-    }
-}
+}*/
 
 Qt::DropActions SessionItemModel::supportedDropActions() const
 {
@@ -320,42 +290,43 @@ QVariant SessionItemModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     ResourcesNode* tmp= static_cast<ResourcesNode*>(index.internalPointer());
-    if(tmp)
+    if(!tmp)
+        return {};
+
+    QVariant var;
+    switch(role)
     {
-        if((role == Qt::DisplayRole) || (Qt::EditRole == role))
-        {
-            return tmp->getData(static_cast<ResourcesNode::DataValue>(index.column()));
-        }
-        else if(role == Qt::DecorationRole)
-        {
-            if(index.column() == Name)
-            {
-                return QIcon(tmp->getIcon());
-            }
-        }
-        else if(role == Qt::BackgroundRole)
-        {
-            if(tmp->type() == ResourcesNode::Cleveruri)
-            {
-                auto const& cleverUri= dynamic_cast<CleverURI*>(tmp);
-                if(nullptr == cleverUri)
-                    return {};
-                if(!cleverUri->hasData())
-                {
-                    if(!cleverUri->exists() && cleverUri->contentType() != Core::ContentType::WEBVIEW)
-                    {
-                        return QColor(Qt::red).lighter();
-                    }
-                }
-            }
-        }
+    case Qt::DisplayRole:
+    case Qt::EditRole:
+        var= tmp->getData(static_cast<ResourcesNode::DataValue>(index.column()));
+        break;
+    case Qt::DecorationRole:
+        if(index.column() == Name)
+            var= tmp->icon();
+        break;
+    case Qt::BackgroundRole:
+    {
+        if(tmp->type() != ResourcesNode::Cleveruri)
+            break;
+        auto const& cleverUri= dynamic_cast<CleverURI*>(tmp);
+        if(!cleverUri)
+            break;
+        if(cleverUri->hasData() || cleverUri->exists() || cleverUri->contentType() == Core::ContentType::WEBVIEW)
+            break;
+
+        var= QColor(Qt::red).lighter();
     }
-    return QVariant();
+    break;
+    }
+    return var;
 }
 
 void SessionItemModel::addResource(ResourcesNode* node, const QModelIndex& parent)
 {
-    if(m_rootItem->contains(node))
+    if(!node)
+        return;
+
+    if(m_rootItem->contains(node->uuid()))
         return;
 
     Chapter* parentItem= nullptr;
@@ -401,9 +372,57 @@ void SessionItemModel::remove(QModelIndex& index)
     endRemoveRows();
 }
 
+void SessionItemModel::removeNode(ResourcesNode* node)
+{
+    auto idx= createIndex(node->rowInParent(), 0, node);
+    remove(idx);
+    /*QModelIndex parent;
+    QList<ResourcesNode*> path;
+    if(m_rootItem->seekNode(path, node))
+    {
+        int row= -1;
+        ResourcesNode* parentItem= nullptr;
+        ResourcesNode* tmpItem= nullptr;
+
+        for(int i= 0; i < path.size(); ++i)
+        {
+            ResourcesNode* current= path.at(i);
+            if(nullptr != tmpItem)
+            {
+                row= tmpItem->indexOf(current);
+                if(i + 1 < path.size())
+                {
+                    parent= index(row, 0, parent); // recursive parenting
+                }
+                parentItem= tmpItem;
+            }
+            tmpItem= current;
+        }
+
+        beginRemoveRows(parent, row, row);
+        parentItem->removeChild(node);
+        endRemoveRows();
+    }*/
+}
+
+void SessionItemModel::removeMedia(const QString& id)
+{
+    auto item= m_rootItem->findNode(id);
+    // auto idx= createIndex(item->rowInParent(), 0, item);
+
+    removeNode(item);
+}
+
+void SessionItemModel::addMedia(const QString& id, const QString& path, Core::ContentType type, const QString& name)
+{
+    auto uri= new CleverURI(name, path, type);
+    uri->setUuid(id);
+    addResource(uri, QModelIndex());
+}
+
 void SessionItemModel::clearData()
 {
-    if(nullptr == m_rootItem)
+    if(!m_rootItem)
         return;
 
     m_rootItem->clear();
