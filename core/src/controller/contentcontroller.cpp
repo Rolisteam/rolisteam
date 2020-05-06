@@ -65,7 +65,11 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
 
     std::for_each(
         m_mediaControllers.begin(), m_mediaControllers.end(),
-        [](const std::pair<Core::ContentType, MediaManagerBase*>& pair) { pair.second->registerNetworkReceiver(); });
+        [this](const std::pair<Core::ContentType, MediaManagerBase*>& pair) {
+            pair.second->registerNetworkReceiver();
+            connect(pair.second, &MediaManagerBase::mediaAdded, m_contentModel.get(), &SessionItemModel::addMedia);
+            connect(pair.second, &MediaManagerBase::mediaClosed, m_contentModel.get(), &SessionItemModel::removeMedia);
+        });
 
     connect(this, &ContentController::gameMasterIdChanged, m_sheetMediaController.get(),
             &CharacterSheetMediaController::setGameMasterId);
@@ -75,23 +79,35 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
             [id](const std::pair<Core::ContentType, MediaManagerBase*>& pair) { pair.second->setLocalId(id); });
     });
 
-    connect(m_imageControllers.get(), &ImageMediaController::mediaAdded, m_contentModel.get(),
-            &SessionItemModel::addMedia);
-    connect(m_vmapControllers.get(), &VectorialMapMediaController::mediaAdded, m_contentModel.get(),
-            &SessionItemModel::addMedia);
-    connect(m_sheetMediaController.get(), &CharacterSheetMediaController::mediaAdded, m_contentModel.get(),
-            &SessionItemModel::addMedia);
-    connect(m_webPageMediaController.get(), &WebpageMediaController::mediaAdded, m_contentModel.get(),
-            &SessionItemModel::addMedia);
-    connect(m_sharedNoteMediaController.get(), &SharedNoteMediaController::mediaAdded, m_contentModel.get(),
-            &SessionItemModel::addMedia);
-    connect(m_pdfMediaController.get(), &PdfMediaController::mediaAdded, m_contentModel.get(),
-            &SessionItemModel::addMedia);
-    connect(m_noteMediaController.get(), &NoteMediaController::mediaAdded, m_contentModel.get(),
-            &SessionItemModel::addMedia);
+    /* connect(m_imageControllers.get(), &ImageMediaController::mediaAdded, m_contentModel.get(),
+             &SessionItemModel::addMedia);
+     connect(m_vmapControllers.get(), &VectorialMapMediaController::mediaAdded, m_contentModel.get(),
+             &SessionItemModel::addMedia);
+     connect(m_sheetMediaController.get(), &CharacterSheetMediaController::mediaAdded, m_contentModel.get(),
+             &SessionItemModel::addMedia);
+     connect(m_webPageMediaController.get(), &WebpageMediaController::mediaAdded, m_contentModel.get(),
+             &SessionItemModel::addMedia);
+     connect(m_sharedNoteMediaController.get(), &SharedNoteMediaController::mediaAdded, m_contentModel.get(),
+             &SessionItemModel::addMedia);
+     connect(m_pdfMediaController.get(), &PdfMediaController::mediaAdded, m_contentModel.get(),
+             &SessionItemModel::addMedia);
+     connect(m_noteMediaController.get(), &NoteMediaController::mediaAdded, m_contentModel.get(),
+             &SessionItemModel::addMedia);
 
-    connect(m_imageControllers.get(), &ImageMediaController::mediaClosed, m_contentModel.get(),
-            &SessionItemModel::removeMedia);
+     connect(m_imageControllers.get(), &ImageMediaController::mediaClosed, m_contentModel.get(),
+             &SessionItemModel::removeMedia);
+     connect(m_vmapControllers.get(), &VectorialMapMediaController::mediaClosed, m_contentModel.get(),
+         &SessionItemModel::removeMedia);
+     connect(m_sheetMediaController.get(), &CharacterSheetMediaController::mediaClosed, m_contentModel.get(),
+         &SessionItemModel::removeMedia);
+     connect(m_webPageMediaController.get(), &WebpageMediaController::mediaClosed, m_contentModel.get(),
+         &SessionItemModel::removeMedia);
+     connect(m_sharedNoteMediaController.get(), &SharedNoteMediaController::mediaClosed, m_contentModel.get(),
+         &SessionItemModel::removeMedia);
+     connect(m_pdfMediaController.get(), &PdfMediaController::mediaClosed, m_contentModel.get(),
+         &SessionItemModel::removeMedia);
+     connect(m_noteMediaController.get(), &NoteMediaController::mediaClosed, m_contentModel.get(),
+         &SessionItemModel::removeMedia);*/
 }
 
 ContentController::~ContentController()= default;
