@@ -149,7 +149,7 @@ void CharacterSheetController::shareCharacterSheetTo(const QString& uuid, int id
     character->setSheet(sheet);
     emit sheetCreated(sheet, character);
 
-    if(true) // TODO is GM
+    if(localGM())
     {
         MessageHelper::shareCharacterSheet(sheet, character, this);
         m_characterSheetUpdater->addCharacterSheetUpdate(sheet, CharacterSheetUpdater::UpdateMode::ONE,
