@@ -1184,7 +1184,7 @@ void VMap::dropEvent(QGraphicsSceneDragDropEvent* event)
                             params.insert({QStringLiteral("path"), m_ctrl->tool()});
 
                         if(media->hasData())
-                            params.insert({QStringLiteral("data"), media->getData()});
+                            params.insert({QStringLiteral("data"), media->data()});
                         m_ctrl->insertItemAt(params);
                         //  addNewItem(new AddVmapItemCommand(m_ctrl, true, this), true);
                         // led->setPos(event->scenePos());
