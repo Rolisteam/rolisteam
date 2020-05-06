@@ -39,14 +39,14 @@ public:
     void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
-
     void addImage(const QPixmap& image);
 
 signals:
     void imageControllerCreated(ImageController* imageCtrl);
 
 private:
-    ImageController* addImageController(const QString& id, const QString& path, const QByteArray& pix);
+    ImageController* addImageController(const QString& id, const QString& path, const QString& name,
+                                        const QByteArray& pix);
 
 private:
     std::vector<std::unique_ptr<ImageController>> m_images;

@@ -28,7 +28,7 @@
 #include "network/networkreceiver.h"
 
 class QUndoStack;
-
+class MediaControllerBase;
 class MediaManagerBase : public QObject, public NetWorkReceiver
 {
     Q_OBJECT
@@ -52,6 +52,8 @@ public slots:
 signals:
     void localIsGMChanged(bool localIsGM);
     void localIdChanged(QString id);
+    void mediaClosed(QString id);
+    void mediaAdded(QString id, QString path, Core::ContentType type, QString name);
 
 protected:
     bool m_localIsGM= false;
