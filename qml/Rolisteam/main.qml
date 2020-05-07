@@ -1,28 +1,115 @@
 import QtQuick 2.10
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.13
+import QtGraphicalEffects 1.0
+import QtWebEngine 1.10
+import QtQuick.Templates 2.14
+import QtQuick.Extras 1.4
 
 Item {
-   id:root
-   property int page: 0
-   signal rollDiceCmd(string cmd)
-   Image {
-       id:imagebg
-       property real iratio :1.36215
-       property real iratiobis :0.734132
-       property real realscale: width/2253
-       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width
-       height:(parent.width>parent.height*iratio)?parent.height:iratiobis*parent.width
-       source: "/home/renaud/documents/background.jpg"
-	Field {
-	    id:id2
-	    text: "key1"
-	    x:296*imagebg.realscale
-	    y:96*imagebg.realscale
-	    width:157*imagebg.realscale
-	    height:43*imagebg.realscale
-	    color: "#ffff99ff"
-	    state:"field"
-	    visible: true
-	}
- 
+
+
+  ColumnLayout {
+    RowLayout {
+      Label {
+        text: qsTr("Nom")
+      }
+      TextInputField {
+
+      }
+    }
+    RowLayout {
+      Label {
+        text: qsTr("Prenom")
+      }
+      TextInputField {
+
+      }
+    }
+    RowLayout {
+      Label {
+        text: qsTr("Couleur des yeux")
+      }
+      TextInputField {
+
+      }
+    }
+    RowLayout {
+      Label {
+        text: qsTr("Corpulence")
+      }
+      TextInputField {
+
+      }
+    }
+    GridLayout {
+      columns: 4
+      Label {
+        text: qsTr("Courage")
+      }
+      Label {
+        text: qsTr("Malice")
+      }
+      Label {
+        text: qsTr("Mignon")
+      }
+      Label {
+        text: qsTr("Colère")
+      }
+      TextInputField {
+
+      }
+      TextInputField {
+
+      }
+      TextInputField {
+
+      }
+      TextInputField {
+
+      }
+    }
+
+    Label {
+      text: qsTr("Syndrôme")
+    }
+    TextAreaField {
+
+    }
+
+    Label {
+      text: qsTr("Souvenir 1: %1").arg("")
+    }
+    TextAreaField {
+
+    }
+    Label {
+      text: qsTr("Souvenir 2: %1").arg("")
+    }
+    TextAreaField {
+
+    }
+    Label {
+      text: qsTr("Souvenir 3: %1").arg("")
+    }
+    TextAreaField {
+
+    }
+
+
+
+
+
+
   }
+
+
+
+
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
