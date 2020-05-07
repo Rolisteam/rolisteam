@@ -39,6 +39,42 @@
 #include "preferences/preferencesmanager.h"
 #include "sheetwidget.h"
 
+QString parentId(Character* child)
+{
+    QString id;
+    if(!child)
+        return id;
+
+    auto parent= child->parentPerson();
+
+    if(!parent)
+        return id;
+
+    id= parent->getUuid();
+
+    return id;
+}
+
+int findSharingInfoIndex(const CharacterSheet* sheet, const std::vector<SharingInfo>& infos)
+{
+    auto it= std::find_if(infos.begin(), infos.end(), [sheet](const SharingInfo& info) { return info.sheet == sheet; });
+
+    if(it == infos.end())
+        return -1;
+
+    return std::distance(infos.begin(), it);
+}
+
+SharingInfo findSharingInfoFromSheet(const CharacterSheet* sheet, const std::vector<SharingInfo>& infos)
+{
+    auto it= std::find_if(infos.begin(), infos.end(), [sheet](const SharingInfo& info) { return info.sheet == sheet; });
+
+    if(it == infos.end())
+        return {};
+
+    return (*it);
+}
+
 CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri, QWidget* parent)
     : MediaContainer(MediaContainer::ContainerType::VMapContainer, parent)
 {
@@ -50,8 +86,14 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri, QWidget* parent)
     }
 
     setObjectName("CharacterSheetViewer");
-    connect(&m_model, SIGNAL(characterSheetHasBeenAdded(CharacterSheet*)), this,
-            SLOT(addTabWithSheetView(CharacterSheet*)));
+    connect(&m_model, &CharacterSheetModel::characterSheetHasBeenAdded, this, [this](CharacterSheet* sheet) {
+        auto idx= findSharingInfoIndex(sheet, m_sheetToCharacter);
+        if(idx < 0)
+            return;
+        auto info= m_sheetToCharacter[idx];
+        auto tab= addTabWithSheetView(info.sheet, info.character);
+        m_sheetToCharacter[idx].tabs.push_back(tab);
+    });
 
     setWindowIcon(QIcon(":/resources/icons/treeview.png"));
     m_addSection= new QAction(tr("Add Section"), this);
@@ -90,7 +132,8 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri, QWidget* parent)
     connect(m_loadQml, SIGNAL(triggered(bool)), this, SLOT(openQML()));
     connect(m_printAct, &QAction::triggered, this, &CharacterSheetWindow::exportPDF);
     connect(m_detachTab, SIGNAL(triggered(bool)), this, SLOT(detachTab()));
-    connect(m_stopSharingTabAct, &QAction::triggered, this, &CharacterSheetWindow::stopSharing);
+    connect(m_stopSharingTabAct, &QAction::triggered, this,
+            [this]() { stopSharing(dynamic_cast<SheetWidget*>(m_tabs->currentWidget())); });
 
     // m_imgProvider= new RolisteamImageProvider(m_imageModel.get());
 
@@ -273,32 +316,34 @@ bool CharacterSheetWindow::eventFilter(QObject* object, QEvent* event)
     return MediaContainer::eventFilter(object, event);
 }
 
-void CharacterSheetWindow::stopSharing()
+void CharacterSheetWindow::stopSharing(SheetWidget* wid)
 {
-    SheetWidget* wid= dynamic_cast<SheetWidget*>(m_tabs->currentWidget());
-    if(nullptr != wid)
-    {
-        CharacterSheet* sheet= wid->sheet();
-        if(m_sheetToPerson.contains(sheet))
-        {
-            Player* currentPlayer= m_sheetToPerson.value(sheet);
-            if(nullptr == currentPlayer)
-                return;
+    if(nullptr == wid)
+        return;
 
-            NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::closeCharacterSheet);
-            QStringList recipiants;
-            recipiants << currentPlayer->getUuid();
-            msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
-            msg.string8(m_mediaId);
-            msg.string8(sheet->getUuid());
-            PlayersList* list= PlayersList::instance();
-            if(list->hasPlayer(currentPlayer))
-            {
-                msg.sendToServer();
-            }
-            m_sheetToPerson.remove(sheet);
-        }
-    }
+    CharacterSheet* sheet= wid->sheet();
+    auto idx= findSharingInfoIndex(sheet, m_sheetToCharacter);
+    auto character= m_sheetToCharacter[idx].character;
+
+    m_tabs->removeTab(m_tabs->indexOf(wid));
+
+    if(idx < 0)
+        return;
+
+    m_sheetToCharacter.erase(m_sheetToCharacter.begin() + idx);
+
+    if(!character)
+        return;
+
+    auto parent= character->parentPerson();
+    auto id= parent->getUuid();
+    NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::closeCharacterSheet);
+    QStringList recipiants;
+    recipiants << id;
+    msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
+    msg.string8(m_mediaId);
+    msg.string8(sheet->getUuid());
+    msg.sendToServer();
 }
 
 void CharacterSheetWindow::detachTab()
@@ -312,14 +357,38 @@ void CharacterSheetWindow::detachTab()
 void CharacterSheetWindow::copyTab()
 {
     SheetWidget* wid= dynamic_cast<SheetWidget*>(m_tabs->currentWidget());
-    if(nullptr != wid)
-    {
-        CharacterSheet* sheet= wid->sheet();
-        if(nullptr != sheet)
-        {
-            addTabWithSheetView(sheet);
-        }
-    }
+    if(!wid)
+        return;
+
+    auto infoIt
+        = std::find_if(std::begin(m_sheetToCharacter), std::end(m_sheetToCharacter), [wid](const SharingInfo& info) {
+              return info.tabs.end() != std::find(info.tabs.begin(), info.tabs.end(), wid);
+          });
+
+    if(infoIt == m_sheetToCharacter.end())
+        return;
+
+    if(!infoIt->sheet || !infoIt->character)
+        return;
+
+    auto tab= addTabWithSheetView(infoIt->sheet, infoIt->character);
+    infoIt->tabs.push_back(tab);
+}
+
+void CharacterSheetWindow::removeAllDisableTab()
+{
+    std::vector<CharacterSheet*> widgets;
+
+    std::for_each(m_sheetToCharacter.begin(), m_sheetToCharacter.end(), [this](const SharingInfo& info) {
+        if(info.character)
+            return;
+        for(auto w : info.tabs)
+            stopSharing(w);
+    });
+
+    m_sheetToCharacter.erase(std::remove_if(m_sheetToCharacter.begin(), m_sheetToCharacter.end(),
+                                            [](const SharingInfo& info) { return !info.character; }),
+                             m_sheetToCharacter.end());
 }
 
 void CharacterSheetWindow::affectSheetToCharacter()
@@ -327,90 +396,77 @@ void CharacterSheetWindow::affectSheetToCharacter()
     QAction* action= qobject_cast<QAction*>(sender());
     QString key= action->data().toString();
     Character* character= PlayersList::instance()->getCharacter(key);
-    if(nullptr != character)
+    if(!character)
+        return;
+
+    CharacterSheet* sheet= m_currentCharacterSheet;
+    if(sheet == nullptr)
+        return;
+
+    SheetWidget* quickWid= nullptr;
+    for(int i= 0, total= m_tabs->count(); i < total; ++i)
     {
-        CharacterSheet* sheet= m_currentCharacterSheet;
-        if(sheet == nullptr)
-            return;
-
-        SheetWidget* quickWid= nullptr;
-        for(int i= 0, total= m_tabs->count(); i < total; ++i)
+        auto wid= dynamic_cast<SheetWidget*>(m_tabs->widget(i));
+        if(wid != nullptr && sheet == wid->sheet())
         {
-            auto wid= dynamic_cast<SheetWidget*>(m_tabs->widget(i));
-            if(wid != nullptr && sheet == wid->sheet())
-            {
-                quickWid= wid;
-            }
+            quickWid= wid;
         }
+    }
 
-        checkAlreadyShare(sheet);
-        m_sheetToCharacter.insert(sheet, character);
-        character->setSheet(sheet);
-        addTabWithSheetView(sheet);
-        sheet->setName(character->name());
-        m_tabs->setTabText(m_tabs->indexOf(quickWid), sheet->getName());
+    checkAlreadyShare(sheet);
+    character->setSheet(sheet);
+    auto tab= addTabWithSheetView(sheet, character);
 
-        Player* parent= character->getParentPlayer();
-        Player* localItem= PlayersList::instance()->getLocalPlayer();
-        if((nullptr != parent) && (nullptr != localItem) && (localItem->isGM()))
+    if(nullptr == tab)
+        return;
+
+    m_sheetToCharacter.push_back({sheet, character, {tab}});
+    sheet->setName(character->name());
+    m_tabs->setTabText(m_tabs->indexOf(quickWid), sheet->getName());
+
+    Player* parent= character->getParentPlayer();
+    Player* localItem= PlayersList::instance()->getLocalPlayer();
+    if((nullptr != parent) && (nullptr != localItem) && (localItem->isGM()))
+    {
+        Player* person= character->getParentPlayer();
+        if(nullptr != person)
         {
-            m_sheetToPerson.insert(sheet, parent);
-
-            Player* person= character->getParentPlayer();
-            if(nullptr != person)
-            {
-                NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::addCharacterSheet);
-                QStringList idList;
-                idList << person->getUuid();
-                msg.setRecipientList(idList, NetworkMessage::OneOrMany);
-                msg.string8(parent->getUuid());
-                fillMessage(&msg, sheet, character->getUuid());
-                msg.sendToServer();
-            }
+            NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::addCharacterSheet);
+            QStringList idList;
+            idList << person->getUuid();
+            msg.setRecipientList(idList, NetworkMessage::OneOrMany);
+            msg.string8(parent->getUuid());
+            fillMessage(&msg, sheet, character->getUuid());
+            msg.sendToServer();
         }
     }
 }
 void CharacterSheetWindow::checkAlreadyShare(CharacterSheet* sheet)
 {
-    if(m_sheetToPerson.contains(sheet))
-    {
-        Player* olderParent= m_sheetToPerson.value(sheet);
-        if(nullptr != olderParent)
-        {
-            NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::closeCharacterSheet);
-            QStringList recipiants;
-            recipiants << olderParent->getUuid();
-            msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
-            msg.string8(m_mediaId);
-            msg.string8(sheet->getUuid());
-            PlayersList* list= PlayersList::instance();
-            if(list->hasPlayer(olderParent))
-            {
-                msg.sendToServer();
-            }
-        }
-        m_sheetToPerson.remove(sheet);
-    }
+
+    auto idx= findSharingInfoIndex(sheet, m_sheetToCharacter);
+    if(idx < 0)
+        return;
+
+    auto oldCharacter= m_sheetToCharacter[idx].character;
+
+    auto id= parentId(oldCharacter);
+    m_sheetToCharacter.erase(m_sheetToCharacter.begin() + idx);
+
+    if(id.isEmpty())
+        return;
+
+    NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::closeCharacterSheet);
+    QStringList recipiants;
+    recipiants << id;
+    msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
+    msg.string8(m_mediaId);
+    msg.string8(sheet->getUuid());
+    msg.sendToServer();
 }
 bool CharacterSheetWindow::hasCharacterSheet(QString id)
 {
-    if(nullptr == m_model.getCharacterSheetById(id))
-    {
-        return false;
-    }
-    else
-    {
-        return true;
-    }
-}
-
-void CharacterSheetWindow::removeConnection(Player* player)
-{
-    CharacterSheet* key= m_sheetToPerson.key(player, nullptr);
-    if(nullptr != key)
-    {
-        m_sheetToPerson.remove(key);
-    }
+    return (m_model.getCharacterSheetById(id) != nullptr);
 }
 
 void CharacterSheetWindow::addSection()
@@ -423,10 +479,11 @@ void CharacterSheetWindow::addCharacterSheet()
     m_model.addCharacterSheet();
     displayError(m_errorList);
 }
-void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
+SheetWidget* CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet, Character* character)
 {
-    if(!m_sheetToCharacter.contains(chSheet))
-        return;
+    if(chSheet == nullptr || character == nullptr)
+        return nullptr;
+
     if(m_qmlData.isEmpty())
     {
         openQML();
@@ -441,11 +498,7 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     engineQml->addImageProvider(QLatin1String("rcs"), imageProvider);
     engineQml->addImportPath(QStringLiteral("qrc:/charactersheet/qml"));
 
-    if(m_sheetToCharacter.contains(chSheet))
-    {
-        auto character= m_sheetToCharacter.value(chSheet);
-        qmlView->engine()->rootContext()->setContextProperty("_character", character);
-    }
+    qmlView->engine()->rootContext()->setContextProperty("_character", character);
 
     for(int i= 0; i < chSheet->getFieldCount(); ++i)
     {
@@ -482,6 +535,8 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     {
         m_tabs->setCurrentIndex(id);
     }
+
+    return qmlView;
 }
 void CharacterSheetWindow::readErrorFromQML(QList<QQmlError> list)
 {
@@ -513,34 +568,35 @@ void CharacterSheetWindow::rollDice(QString str, bool alias)
 
 void CharacterSheetWindow::updateFieldFrom(CharacterSheet* sheet, CharacterSheetItem* item, const QString& parentPath)
 {
-    if(nullptr != sheet)
+    if(nullptr == sheet)
+        return;
+
+    QString id;
+
+    id= parentId(findSharingInfoFromSheet(sheet, m_sheetToCharacter).character);
+
+    if(!m_localIsGM)
     {
-        Player* person= nullptr;
-        if(m_localIsGM)
-        {
-            person= m_sheetToPerson.value(sheet);
-        }
-        else
-        {
-            person= PlayersList::instance()->getGM();
-        }
-        if(nullptr != person)
-        {
-            NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::updateFieldCharacterSheet);
-            QStringList recipiants;
-            recipiants << person->getUuid();
-            msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
-            msg.string8(m_mediaId);
-            msg.string8(sheet->getUuid());
-            msg.string32(parentPath);
-            QJsonObject object;
-            item->saveDataItem(object);
-            QJsonDocument doc;
-            doc.setObject(object);
-            msg.byteArray32(doc.toBinaryData());
-            msg.sendToServer();
-        }
+        auto person= PlayersList::instance()->getGM();
+        id= person->getUuid();
     }
+
+    if(id.isEmpty())
+        return;
+
+    NetworkMessageWriter msg(NetMsg::CharacterCategory, NetMsg::updateFieldCharacterSheet);
+    QStringList recipiants;
+    recipiants << id;
+    msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
+    msg.string8(m_mediaId);
+    msg.string8(sheet->getUuid());
+    msg.string32(parentPath);
+    QJsonObject object;
+    item->saveDataItem(object);
+    QJsonDocument doc;
+    doc.setObject(object);
+    msg.byteArray32(doc.toBinaryData());
+    msg.sendToServer();
 }
 void CharacterSheetWindow::processUpdateFieldMessage(NetworkMessageReader* msg, const QString& idSheet)
 {
@@ -829,14 +885,14 @@ void CharacterSheetWindow::readMessage(NetworkMessageReader& msg)
     m_imageModel->read(msg);
 
     Character* character= PlayersList::instance()->getCharacter(idChar);
-    m_sheetToCharacter.insert(sheet, character);
-
-    addCharacterSheet(sheet);
-    m_model.readRootSection(&msg);
     if(nullptr != character)
     {
         character->setSheet(sheet);
     }
+    m_sheetToCharacter.push_back({sheet, character, {}});
+    addCharacterSheet(sheet);
+
+    m_model.readRootSection(&msg);
 }
 
 void CharacterSheetWindow::exportPDF()

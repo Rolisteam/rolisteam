@@ -45,12 +45,19 @@
  *
  *
  */
+class SheetWidget;
+
+struct SharingInfo
+{
+    QPointer<CharacterSheet> sheet;
+    QPointer<Character> character;
+    std::vector<QPointer<SheetWidget>> tabs;
+};
 
 /**
  * @brief herits from SubMdiWindows. It displays and manages all classes required to deal with the character sheet MVC
  * architrecture.
  */
-class SheetWidget;
 class CharacterSheetWindow : public MediaContainer
 {
     Q_OBJECT
@@ -191,10 +198,6 @@ public slots:
      */
     void updateFieldFrom(CharacterSheet* sheet, CharacterSheetItem* item, const QString& parentPath);
     /**
-     * @brief removeConnection
-     */
-    void removeConnection(Player*);
-    /**
      * @brief readErrorFromQML
      * @param errors
      */
@@ -204,12 +207,13 @@ public slots:
      * @brief exportPDF
      */
     void exportPDF();
+    void removeAllDisableTab();
 protected slots:
     /**
      * @brief addTabWithSheetView
      * @param chSheet
      */
-    void addTabWithSheetView(CharacterSheet* chSheet);
+    SheetWidget* addTabWithSheetView(CharacterSheet* chSheet, Character* charater);
     /**
      * @brief slot is called when the user click on the m_addLine button. That leads to add one line after the current
      * position (in the current CharacterSheet).
@@ -249,7 +253,7 @@ protected slots:
     /**
      * @brief stopSharing
      */
-    void stopSharing();
+    void stopSharing(SheetWidget* wid);
     /**
      * @brief updateTitle
      */
@@ -346,8 +350,7 @@ private:
     CharacterSheet* m_currentCharacterSheet;
     QQmlComponent* m_sheetComponent;
 
-    QHash<CharacterSheet*, Player*> m_sheetToPerson;
-    QHash<CharacterSheet*, Character*> m_sheetToCharacter;
+    std::vector<SharingInfo> m_sheetToCharacter;
     std::unique_ptr<ImageModel> m_imageModel;
 
     QJsonObject m_data;

@@ -384,8 +384,8 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet, int pos)
 {
     beginInsertColumns(QModelIndex(), pos + 1, pos + 1);
     m_characterList->insert(pos, sheet);
-    emit characterSheetHasBeenAdded(sheet);
     endInsertColumns();
+    emit characterSheetHasBeenAdded(sheet);
     emit dataCharacterChange();
 
     /* */
