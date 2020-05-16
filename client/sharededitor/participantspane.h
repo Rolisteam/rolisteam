@@ -20,6 +20,7 @@
 #define PARTICIPANTSPANE_H
 
 #include <QHostAddress>
+#include <QPointer>
 #include <QTreeWidgetItem>
 #include <QWidget>
 
@@ -29,7 +30,7 @@
 
 namespace Ui
 {
-    class ParticipantsPane;
+class ParticipantsPane;
 }
 
 class ParticipantsModel : public QAbstractItemModel
@@ -44,7 +45,7 @@ public:
     };
     ParticipantsModel(PlayersList* m_playerList);
     virtual int rowCount(const QModelIndex& parent) const;
-    virtual int columnCount(const QModelIndex& parent) const;
+    virtual int columnCount(const QModelIndex& index) const;
     virtual QVariant data(const QModelIndex& index, int role) const;
     virtual QModelIndex parent(const QModelIndex& child) const;
     virtual QModelIndex index(int row, int column, const QModelIndex& parent) const;
@@ -109,7 +110,6 @@ private slots:
     void promoteCurrentItem();
     void demoteCurrentItem();
     void addNewPlayer(Player*);
-    void removePlayer(Player* player);
 
 private:
     Ui::ParticipantsPane* ui;

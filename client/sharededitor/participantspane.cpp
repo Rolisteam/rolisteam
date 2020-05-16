@@ -69,7 +69,7 @@ int ParticipantsModel::rowCount(const QModelIndex& parent) const
     }
 }
 
-int ParticipantsModel::columnCount(const QModelIndex&) const
+int ParticipantsModel::columnCount(const QModelIndex& index) const
 {
     return 1;
 }
@@ -79,24 +79,26 @@ QVariant ParticipantsModel::data(const QModelIndex& index, int role) const
     if(!index.isValid())
         return QVariant();
 
-    if(Qt::DisplayRole == role)
+    if(Qt::DisplayRole != role)
+        return {};
+
+    QVariant var;
+    QModelIndex parent= index.parent();
+    if(!parent.isValid())
     {
-        QModelIndex parent= index.parent();
-        if(!parent.isValid())
-        {
-            return m_permissionGroup.at(index.row());
-        }
-        else
-        {
-            QList<Player*>* list= m_data.at(parent.row());
-            if(!list->isEmpty())
-            {
-                Player* player= list->at(index.row());
-                return player->name();
-            }
-        }
+        var= m_permissionGroup.at(index.row());
     }
-    return QVariant();
+    else
+    {
+        QList<Player*>* list= m_data.at(parent.row());
+        if(list->isEmpty() || index.row() >= list->size())
+            return var;
+
+        Player* player= list->at(index.row());
+
+        var= player->name();
+    }
+    return var;
 }
 
 QModelIndex ParticipantsModel::parent(const QModelIndex& child) const
@@ -138,7 +140,13 @@ QModelIndex ParticipantsModel::index(int row, int column, const QModelIndex& par
     else
     {
         QList<Player*>* list= static_cast<QList<Player*>*>(parent.internalPointer());
+        if(row >= list->size())
+            return {};
+
         Player* player= list->at(row);
+        if(!player)
+            return {};
+
         return createIndex(row, column, player);
     }
 }
@@ -158,7 +166,16 @@ void ParticipantsModel::addHiddenPlayer(Player* player)
 
 void ParticipantsModel::removePlayer(Player* player)
 {
+    if(!player)
+    {
+        return;
+    }
     auto list= getListByChild(player);
+    if(!list)
+    {
+
+        //
+    }
     auto parent= createIndex(m_data.indexOf(list), 0, &list);
 
     beginRemoveRows(parent, list->indexOf(player), list->indexOf(player));
@@ -222,8 +239,8 @@ ParticipantsModel::Permission ParticipantsModel::getPermissionFor(Player* player
 
 void ParticipantsModel::setPlayerInto(Player* player, Permission level)
 {
-    QList<Player*>* list= getListByChild(player);
-    QList<Player*>* destList= m_data.at(level);
+    auto list= getListByChild(player);
+    auto destList= m_data.at(level);
     QModelIndex parent;
     QModelIndex dest= createIndex(destList->size(), 0, destList);
     int indexDest= destList->size();
@@ -339,9 +356,9 @@ ParticipantsPane::ParticipantsPane(QWidget* parent) : QWidget(parent), ui(new Ui
 
     m_playerList= PlayersList::instance();
     connect(m_playerList, SIGNAL(playerAdded(Player*)), this, SLOT(addNewPlayer(Player*)));
-    connect(m_playerList, SIGNAL(playerDeleted(Player*)), this, SLOT(removePlayer(Player*)));
 
     m_model= new ParticipantsModel(m_playerList);
+    connect(m_playerList, &PlayersList::playerDeleted, m_model, &ParticipantsModel::removePlayer);
     ui->m_treeview->setModel(m_model);
 
     ui->connectInfoLabel->hide();
@@ -420,13 +437,6 @@ void ParticipantsPane::addNewPlayer(Player* player)
         m_model->addHiddenPlayer(player);
     }
 }
-void ParticipantsPane::removePlayer(Player* player)
-{
-    if(nullptr != m_model)
-    {
-        m_model->removePlayer(player);
-    }
-}
 
 void ParticipantsPane::fill(NetworkMessageWriter* msg)
 {
@@ -477,7 +487,7 @@ void ParticipantsPane::setOwnerId(const QString& id)
 {
     if(nullptr == m_playerList)
         return;
-    auto owner = m_playerList->getPlayer(id);
+    auto owner= m_playerList->getPlayer(id);
 
     if(nullptr == owner)
         return;
