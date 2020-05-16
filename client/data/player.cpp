@@ -99,7 +99,7 @@ void Player::fill(NetworkMessageWriter& message, bool addAvatar)
     message.string8(m_uuid);
     message.rgb(m_color.rgb());
     message.uint8(m_gameMaster ? 1 : 0);
-    message.string16(QCoreApplication::instance()->applicationVersion());
+    message.string16(m_softVersion);
 
     // Avatar
     if(addAvatar)
