@@ -1161,38 +1161,38 @@ void MainWindow::saveCurrentMedia()
 }
 void MainWindow::saveMedia(MediaContainer* mediaC, bool saveAs)
 {
-    if(nullptr != mediaC)
+    if(nullptr == mediaC)
+        return;
+
+    CleverURI* cleverURI= mediaC->getCleverUri();
+    if(nullptr == cleverURI)
+        return;
+
+    QString uri= cleverURI->getUri();
+    if(cleverURI->getCurrentMode() == CleverURI::Linked || saveAs)
     {
-        CleverURI* cleverURI= mediaC->getCleverUri();
-        if(nullptr != cleverURI)
+        if(uri.isEmpty() || saveAs)
         {
-            QString uri= cleverURI->getUri();
-            if(cleverURI->getCurrentMode() == CleverURI::Linked || saveAs)
+            QString key= CleverURI::getPreferenceDirectoryKey(cleverURI->getType());
+            QString filter= CleverURI::getFilterForType(cleverURI->getType());
+            QString media= CleverURI::typeToString(cleverURI->getType());
+            QString fileName= QFileDialog::getSaveFileName(
+                this, tr("Save %1").arg(media), m_preferences->value(key, QDir::homePath()).toString(), filter);
+            if(fileName.isEmpty())
             {
-                if(uri.isEmpty() || saveAs)
-                {
-                    QString key= CleverURI::getPreferenceDirectoryKey(cleverURI->getType());
-                    QString filter= CleverURI::getFilterForType(cleverURI->getType());
-                    QString media= CleverURI::typeToString(cleverURI->getType());
-                    QString fileName= QFileDialog::getSaveFileName(
-                        this, tr("Save %1").arg(media), m_preferences->value(key, QDir::homePath()).toString(), filter);
-                    if(fileName.isEmpty())
-                    {
-                        return;
-                    }
-                    QFileInfo info(fileName);
-                    m_preferences->registerValue(key, info.absolutePath());
-                    cleverURI->setUri(fileName);
-                }
-                mediaC->saveMedia(uri);
+                return;
             }
-            else if(cleverURI->getCurrentMode() == CleverURI::Internal)
-            {
-                mediaC->putDataIntoCleverUri();
-            }
-            setLatestFile(cleverURI);
+            QFileInfo info(fileName);
+            m_preferences->registerValue(key, info.absolutePath());
+            cleverURI->setUri(fileName);
         }
+        mediaC->saveMedia(uri);
     }
+    else if(cleverURI->getCurrentMode() == CleverURI::Internal)
+    {
+        mediaC->putDataIntoCleverUri();
+    }
+    setLatestFile(cleverURI);
 }
 
 bool MainWindow::saveMinutes()
