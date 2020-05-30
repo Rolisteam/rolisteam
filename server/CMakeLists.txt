@@ -30,5 +30,4 @@ set(HEADERS rolisteamdaemon.h )
 
 add_executable(roliserver ${SOURCES} ${HEADERS} ${DBUS_SOURCES})
 
-
 target_link_libraries(roliserver PUBLIC Qt5::Core Qt5::Network Qt5::DBus PRIVATE network)
