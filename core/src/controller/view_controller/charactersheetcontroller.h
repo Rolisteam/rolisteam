@@ -63,6 +63,7 @@ public:
     CharacterSheetModel* model() const;
     ImageModel* imageModel() const;
     CharacterModel* characterModel() const;
+    const QJsonObject& rootObject() const;
 
     QString qmlCode() const;
     QString gameMasterId() const;

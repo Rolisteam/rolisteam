@@ -82,6 +82,7 @@ class VectorialMapController : public MediaControllerBase
     Q_PROPERTY(QRectF visualRect READ visualRect WRITE setVisualRect NOTIFY visualRectChanged)
     Q_PROPERTY(bool idle READ idle WRITE setIdle NOTIFY idleChanged)
     Q_PROPERTY(int zIndex READ zIndex WRITE setZindex NOTIFY zIndexChanged)
+    Q_PROPERTY(std::vector<QString> orderList READ orderList NOTIFY orderListChanged)
 
 public:
     enum Method
@@ -133,6 +134,7 @@ public:
     QRectF visualRect() const;
     bool idle() const;
     int zIndex() const;
+    std::vector<QString> orderList() const;
 
     void saveData() const;
     void loadData() const;
@@ -151,6 +153,8 @@ public:
 
     vmap::GridController* gridController() const;
     vmap::SightController* sightController() const;
+
+    void loadItems();
 
     QString addItemController(const std::map<QString, QVariant>& params);
     void removeItemController(QString uuid);
@@ -204,6 +208,7 @@ signals:
     void visualItemControllerCreated(VisualItemController* ctrl);
     void idleChanged();
     void zIndexChanged();
+    void orderListChanged();
 
     void visualRectChanged(QRectF visualRect);
 
@@ -290,6 +295,8 @@ private:
     std::unique_ptr<PathControllerManager> m_pathControllerManager;
     std::unique_ptr<TextControllerManager> m_textControllerManager;
     std::unique_ptr<CharacterItemControllerManager> m_characterControllerManager;
+
+    std::vector<QString> m_order;
 
     std::unique_ptr<vmap::GridController> m_gridController;
     std::unique_ptr<vmap::SightController> m_sightController;

@@ -38,7 +38,7 @@ class ImageController : public MediaControllerBase
     Q_PROPERTY(qreal ratioH READ ratioH NOTIFY ratioHChanged) // bis
     Q_PROPERTY(bool isMovie READ isMovie NOTIFY isMovieChanged)
     Q_PROPERTY(Status status READ status NOTIFY statusChanged)
-    Q_PROPERTY(QByteArray data READ data NOTIFY dataChanged)
+    Q_PROPERTY(QByteArray data READ data WRITE setData NOTIFY dataChanged)
 public:
     enum Status
     {
@@ -83,6 +83,7 @@ public slots:
     void setFitWindow(bool b);
     void zoomIn(qreal step= 0.2);
     void zoomOut(qreal step= 0.2);
+    void setData(QByteArray& array);
 
     void play();
     void stop();

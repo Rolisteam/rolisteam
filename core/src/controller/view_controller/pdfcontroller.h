@@ -40,6 +40,8 @@ public:
 
     QByteArray data() const;
 
+    void setData(const QByteArray& data);
+
 public slots:
     // actions
     void shareImageIntoImage(const QPixmap& image);

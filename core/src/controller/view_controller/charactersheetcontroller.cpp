@@ -93,6 +93,11 @@ CharacterModel* CharacterSheetController::characterModel() const
     return m_characterModel;
 }
 
+const QJsonObject& CharacterSheetController::rootObject() const
+{
+    return m_rootJson;
+}
+
 QString CharacterSheetController::qmlCode() const
 {
     return m_qmlCode;
