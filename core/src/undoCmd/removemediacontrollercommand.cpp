@@ -36,7 +36,7 @@ RemoveMediaControllerCommand::RemoveMediaControllerCommand(MediaControllerBase* 
         m_title= m_ctrl->title();
         m_contentType= manager->type();
         setText(QObject::tr("Close %1").arg(m_title));
-        m_params= IOHelper::saveController(m_ctrl);
+        m_data= IOHelper::saveController(m_ctrl);
     }
 }
 
@@ -57,5 +57,5 @@ void RemoveMediaControllerCommand::undo()
     if(nullptr == m_ctrl)
         return;
 
-    m_manager->openMedia(m_uuid, m_params);
+    m_manager->openMedia(m_uuid, {{"serializedData", m_data}});
 }

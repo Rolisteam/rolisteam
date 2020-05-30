@@ -21,8 +21,8 @@
 #define REMOVEMEDIACONTROLLERCOMMAND_H
 
 #include <QUndoCommand>
-#include <map>
 #include <QVariant>
+#include <map>
 
 #include "data/cleveruri.h"
 
@@ -41,9 +41,9 @@ public:
 private:
     QString m_uuid;
     QString m_title;
-    MediaControllerBase* m_ctrl = nullptr;
+    MediaControllerBase* m_ctrl= nullptr;
     MediaManagerBase* m_manager;
-    std::map<QString, QVariant> m_params;
+    QByteArray m_data;
     Core::ContentType m_contentType;
 };
 
