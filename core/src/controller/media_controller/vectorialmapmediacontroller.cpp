@@ -26,8 +26,10 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "network/networkmessagereader.h"
 #include "network/receiveevent.h"
+#include "undoCmd/removemediacontrollercommand.h"
 #include "updater/vmapupdater.h"
 #include "vmap/vmapframe.h"
+#include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 
 VectorialMapController* findActive(const std::vector<std::unique_ptr<VectorialMapController>>& vmaps)
@@ -109,6 +111,11 @@ NetWorkReceiver::SendType VectorialMapMediaController::processMessage(NetworkMes
     return type;
 }
 
+int VectorialMapMediaController::managerCount() const
+{
+    return static_cast<int>(m_vmaps.size());
+}
+
 Core::SelectableTool VectorialMapMediaController::tool() const
 {
     auto ctrl= findActive(m_vmaps);
@@ -135,7 +142,7 @@ bool VectorialMapMediaController::openMedia(const QString& uuid, const std::map<
 
     QHash<QString, QVariant> params(args.begin(), args.end());
 
-    qDebug() << "openMedia vectorialmanl" << params;
+    // qDebug() << "openMedia vectorialmanl" << params;
 
     auto vmapCtrl= addVectorialMapController(uuid, params);
     initializeOwnedVMap(vmapCtrl);
@@ -153,6 +160,8 @@ VectorialMapController* VectorialMapMediaController::addVectorialMapController(c
 {
     std::unique_ptr<VectorialMapController> vmapCtrl(new VectorialMapController(uuid));
 
+    QByteArray serializedData= params.value(QStringLiteral("serializedData")).toByteArray();
+
     if(!params.isEmpty())
     {
         vmapCtrl->setPermission(params.value(QStringLiteral("permission")).value<Core::PermissionMode>());
@@ -165,19 +174,35 @@ VectorialMapController* VectorialMapMediaController::addVectorialMapController(c
         vmapCtrl->setGridScale(params.value(QStringLiteral("scale")).toDouble());
         vmapCtrl->setScaleUnit(params.value(QStringLiteral("unit")).value<Core::ScaleUnit>());
     }
+    auto val= vmapCtrl.get();
     connect(vmapCtrl.get(), &VectorialMapController::activeChanged, this,
             &VectorialMapMediaController::updateProperties);
     connect(vmapCtrl.get(), &VectorialMapController::performCommand, m_undoStack, &QUndoStack::push);
     connect(vmapCtrl.get(), &VectorialMapController::toolColorChanged, this,
             &VectorialMapMediaController::toolColorChanged);
     connect(this, &VectorialMapMediaController::localIsGMChanged, vmapCtrl.get(), &VectorialMapController::setLocalGM);
+    connect(vmapCtrl.get(), &VectorialMapController::closeMe, this, [this, val]() {
+        if(!m_undoStack)
+            return;
+        m_undoStack->push(new RemoveMediaControllerCommand(val, this));
+    });
 
     vmapCtrl->setLocalGM(localIsGM());
 
-    auto val= vmapCtrl.get();
+    if(!serializedData.isEmpty())
+        IOHelper::readVectorialMapController(val, serializedData);
+
     m_vmaps.push_back(std::move(vmapCtrl));
     emit vmapControllerCreated(val);
     return val;
+}
+
+std::vector<VectorialMapController*> VectorialMapMediaController::controllers() const
+{
+    std::vector<VectorialMapController*> vec;
+    std::transform(m_vmaps.begin(), m_vmaps.end(), std::back_inserter(vec),
+                   [](const std::unique_ptr<VectorialMapController>& ctrl) { return ctrl.get(); });
+    return vec;
 }
 
 void VectorialMapMediaController::updateProperties()

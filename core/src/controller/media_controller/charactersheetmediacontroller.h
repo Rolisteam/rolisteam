@@ -41,6 +41,8 @@ public:
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
     QString gameMasterId() const;
+    std::vector<CharacterSheetController*> controllers() const;
+    int managerCount() const override;
 
 public slots:
     void setGameMasterId(const QString& gameMasterId);

@@ -24,6 +24,8 @@
 #include <QUrl>
 
 #include "controller/view_controller/webpagecontroller.h"
+#include "undoCmd/removemediacontrollercommand.h"
+#include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 
 WebpageMediaController::WebpageMediaController() : MediaManagerBase(Core::ContentType::WEBVIEW) {}
@@ -32,11 +34,17 @@ WebpageMediaController::~WebpageMediaController()= default;
 
 bool WebpageMediaController::openMedia(const QString& id, const std::map<QString, QVariant>& args)
 {
-    if(id.isEmpty() || args.empty())
+    if(id.isEmpty() && args.empty())
         return false;
 
+    QByteArray serializedData;
+    auto it= args.find(QStringLiteral("serializedData"));
+    if(it != args.end())
+        serializedData= it->second.toByteArray();
+
     auto state= m_localIsGM ? WebpageController::localIsGM : WebpageController::LocalIsPlayer;
-    addWebpageController(QHash<QString, QVariant>({{"id", id}, {"state", static_cast<int>(state)}}));
+    addWebpageController(
+        QHash<QString, QVariant>({{"id", id}, {"serializedData", serializedData}, {"state", static_cast<int>(state)}}));
     return true;
 }
 
@@ -65,8 +73,22 @@ NetWorkReceiver::SendType WebpageMediaController::processMessage(NetworkMessageR
     return NetWorkReceiver::NONE;
 }
 
+int WebpageMediaController::managerCount() const
+{
+    return static_cast<int>(m_webpages.size());
+}
+
+std::vector<WebpageController*> WebpageMediaController::controllers() const
+{
+    std::vector<WebpageController*> vec;
+    std::transform(m_webpages.begin(), m_webpages.end(), std::back_inserter(vec),
+                   [](const std::unique_ptr<WebpageController>& ctrl) { return ctrl.get(); });
+    return vec;
+}
+
 void WebpageMediaController::addWebpageController(const QHash<QString, QVariant>& params)
 {
+    QByteArray serializedData= params.value(QStringLiteral("serializedData")).toByteArray();
 
     auto id= params.value(QStringLiteral("id")).toString();
 
@@ -78,7 +100,7 @@ void WebpageMediaController::addWebpageController(const QHash<QString, QVariant>
         auto data= params.value(QStringLiteral("data")).toString();
 
         if(mode == WebpageController::Url)
-            webCtrl->setUrl(data);
+            webCtrl->setPath(data);
         else if(mode == WebpageController::Html)
             webCtrl->setHtml(data);
     }
@@ -87,11 +109,22 @@ void WebpageMediaController::addWebpageController(const QHash<QString, QVariant>
         webCtrl->setState(static_cast<WebpageController::State>(params.value(QStringLiteral("state")).toInt()));
     }
 
+    if(!serializedData.isEmpty())
+    {
+        IOHelper::readWebpageController(webCtrl.get(), serializedData);
+    }
+
+    auto webPage= webCtrl.get();
     connect(webCtrl.get(), &WebpageController::sharingModeChanged, this, [this, id]() { managePage(id); });
     connect(webCtrl.get(), &WebpageController::htmlChanged, this, [this, id]() { updatePage(id); });
     connect(webCtrl.get(), &WebpageController::htmlSharingChanged, this, [this, id]() { updatePage(id); });
-    connect(webCtrl.get(), &WebpageController::urlChanged, this, [this, id]() { updatePage(id); });
+    connect(webCtrl.get(), &WebpageController::pathChanged, this, [this, id]() { updatePage(id); });
     connect(webCtrl.get(), &WebpageController::urlSharingChanged, this, [this, id]() { updatePage(id); });
+    connect(webCtrl.get(), &WebpageController::closeMe, this, [this, webPage]() {
+        if(!m_undoStack)
+            return;
+        m_undoStack->push(new RemoveMediaControllerCommand(webPage, this));
+    });
 
     connect(this, &WebpageMediaController::localIsGMChanged, webCtrl.get(), &WebpageController::setLocalGM);
 

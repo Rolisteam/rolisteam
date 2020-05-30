@@ -29,13 +29,16 @@ class NoteMediaController : public MediaManagerBase
 {
     Q_OBJECT
 public:
-    explicit NoteMediaController(QObject *parent = nullptr);
+    explicit NoteMediaController(QObject* parent= nullptr);
     ~NoteMediaController();
 
     bool openMedia(const QString& uuid, const std::map<QString, QVariant>& args) override;
     void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+    int managerCount() const override;
+
+    std::vector<NoteController*> controllers() const;
 signals:
     void noteControllerCreated(NoteController* noteCtrl);
 

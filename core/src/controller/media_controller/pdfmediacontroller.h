@@ -37,6 +37,8 @@ public:
     void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+    int managerCount() const override;
+    std::vector<PdfController*> controllers() const;
 
 public slots:
     void sharePdf(const QString& id);

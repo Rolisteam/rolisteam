@@ -20,6 +20,7 @@
 #include "pdfmediacontroller.h"
 
 #include "controller/view_controller/pdfcontroller.h"
+#include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 
 PdfMediaController::PdfMediaController(QObject* parent) : MediaManagerBase(Core::ContentType::PDF, parent) {}
@@ -28,15 +29,20 @@ PdfMediaController::~PdfMediaController()= default;
 
 bool PdfMediaController::openMedia(const QString& uuid, const std::map<QString, QVariant>& args)
 {
-    if(uuid.isEmpty() || args.empty())
+    if(uuid.isEmpty() && args.empty())
         return false;
 
-    QByteArray array;
-    auto it= args.find(QStringLiteral("data"));
+    QByteArray serializedData;
+    auto it= args.find(QStringLiteral("serializedData"));
     if(it != args.end())
-        array= it->second.toByteArray();
+        serializedData= it->second.toByteArray();
 
-    addPdfController({{"id", uuid}, {"data", array}});
+    QByteArray data;
+    it= args.find(QStringLiteral("data"));
+    if(it != args.end())
+        data= it->second.toByteArray();
+
+    addPdfController({{"id", uuid}, {"data", data}, {"serializedData", serializedData}});
     return true;
 }
 
@@ -67,6 +73,19 @@ NetWorkReceiver::SendType PdfMediaController::processMessage(NetworkMessageReade
     return type;
 }
 
+int PdfMediaController::managerCount() const
+{
+    return static_cast<int>(m_pdfs.size());
+}
+
+std::vector<PdfController*> PdfMediaController::controllers() const
+{
+    std::vector<PdfController*> vec;
+    std::transform(m_pdfs.begin(), m_pdfs.end(), std::back_inserter(vec),
+                   [](const std::unique_ptr<PdfController>& ctrl) { return ctrl.get(); });
+    return vec;
+}
+
 void PdfMediaController::sharePdf(const QString& id)
 {
     auto it= std::find_if(m_pdfs.begin(), m_pdfs.end(),
@@ -81,10 +100,14 @@ void PdfMediaController::addPdfController(const QHash<QString, QVariant>& params
 
     auto id= params.value(QStringLiteral("id")).toString();
     auto array= params.value(QStringLiteral("data")).toByteArray();
+    auto seriaziledData= params.value(QStringLiteral("seriaziledData")).toByteArray();
 
     std::unique_ptr<PdfController> pdfController(new PdfController(id, array));
     connect(pdfController.get(), &PdfController::sharePdf, this, &PdfMediaController::sharePdf);
     connect(pdfController.get(), &PdfController::openImageAs, this, &PdfMediaController::shareImageAs);
+
+    if(!seriaziledData.isEmpty())
+        IOHelper::readPdfController(pdfController.get(), seriaziledData);
 
     connect(this, &PdfMediaController::localIsGMChanged, pdfController.get(), &PdfController::setLocalGM);
 

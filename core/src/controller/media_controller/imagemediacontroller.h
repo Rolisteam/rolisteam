@@ -40,13 +40,16 @@ public:
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
     void addImage(const QPixmap& image);
+    int managerCount() const override;
+
+    std::vector<ImageController*> controllers() const;
 
 signals:
     void imageControllerCreated(ImageController* imageCtrl);
 
 private:
     ImageController* addImageController(const QString& id, const QString& path, const QString& name,
-                                        const QByteArray& pix);
+                                        const QByteArray& pix, const QByteArray& serializedData);
 
 private:
     std::vector<std::unique_ptr<ImageController>> m_images;
