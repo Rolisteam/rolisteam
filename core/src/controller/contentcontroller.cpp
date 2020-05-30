@@ -78,36 +78,6 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
             m_mediaControllers.begin(), m_mediaControllers.end(),
             [id](const std::pair<Core::ContentType, MediaManagerBase*>& pair) { pair.second->setLocalId(id); });
     });
-
-    /* connect(m_imageControllers.get(), &ImageMediaController::mediaAdded, m_contentModel.get(),
-             &SessionItemModel::addMedia);
-     connect(m_vmapControllers.get(), &VectorialMapMediaController::mediaAdded, m_contentModel.get(),
-             &SessionItemModel::addMedia);
-     connect(m_sheetMediaController.get(), &CharacterSheetMediaController::mediaAdded, m_contentModel.get(),
-             &SessionItemModel::addMedia);
-     connect(m_webPageMediaController.get(), &WebpageMediaController::mediaAdded, m_contentModel.get(),
-             &SessionItemModel::addMedia);
-     connect(m_sharedNoteMediaController.get(), &SharedNoteMediaController::mediaAdded, m_contentModel.get(),
-             &SessionItemModel::addMedia);
-     connect(m_pdfMediaController.get(), &PdfMediaController::mediaAdded, m_contentModel.get(),
-             &SessionItemModel::addMedia);
-     connect(m_noteMediaController.get(), &NoteMediaController::mediaAdded, m_contentModel.get(),
-             &SessionItemModel::addMedia);
-
-     connect(m_imageControllers.get(), &ImageMediaController::mediaClosed, m_contentModel.get(),
-             &SessionItemModel::removeMedia);
-     connect(m_vmapControllers.get(), &VectorialMapMediaController::mediaClosed, m_contentModel.get(),
-         &SessionItemModel::removeMedia);
-     connect(m_sheetMediaController.get(), &CharacterSheetMediaController::mediaClosed, m_contentModel.get(),
-         &SessionItemModel::removeMedia);
-     connect(m_webPageMediaController.get(), &WebpageMediaController::mediaClosed, m_contentModel.get(),
-         &SessionItemModel::removeMedia);
-     connect(m_sharedNoteMediaController.get(), &SharedNoteMediaController::mediaClosed, m_contentModel.get(),
-         &SessionItemModel::removeMedia);
-     connect(m_pdfMediaController.get(), &PdfMediaController::mediaClosed, m_contentModel.get(),
-         &SessionItemModel::removeMedia);
-     connect(m_noteMediaController.get(), &NoteMediaController::mediaClosed, m_contentModel.get(),
-         &SessionItemModel::removeMedia);*/
 }
 
 ContentController::~ContentController()= default;
@@ -225,6 +195,22 @@ NoteMediaController* ContentController::noteCtrl() const
     return m_noteMediaController.get();
 }
 
+std::vector<MediaManagerBase*> ContentController::mediaManagers() const
+{
+    return {m_noteMediaController.get(),    m_pdfMediaController.get(),   m_sharedNoteMediaController.get(),
+            m_webPageMediaController.get(), m_sheetMediaController.get(), m_vmapControllers.get(),
+            m_imageControllers.get()};
+}
+
+int ContentController::contentCount() const
+{
+    int count= 0;
+    std::for_each(
+        m_mediaControllers.begin(), m_mediaControllers.end(),
+        [&count](const std::pair<Core::ContentType, MediaManagerBase*>& pair) { count+= pair.second->managerCount(); });
+    return count;
+}
+
 void ContentController::addContent(ResourcesNode* node)
 {
     m_contentModel->addResource(node, QModelIndex());
@@ -263,7 +249,7 @@ void ContentController::saveSession()
 
 void ContentController::loadSession()
 {
-    setSessionName(ModelHelper::loadSession(m_sessionPath, m_contentModel.get()));
+    setSessionName(ModelHelper::loadSession(m_sessionPath, this));
 }
 
 QString ContentController::gameMasterId() const
