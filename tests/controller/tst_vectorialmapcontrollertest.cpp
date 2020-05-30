@@ -718,26 +718,26 @@ void VectorialMapControllerTest::normalSize_data()
         QList<vmap::VisualItemController*> vec;
         vec.push_back(buildRectController(true, QRectF(0, 0, 10, 10), m_ctrl.get(), QPointF(0, 0)));
         vec.push_back(buildTextController(true, QRectF(0, 0, 100, 100), m_ctrl.get(), QPointF(20, 20)));
-        QTest::addRow("cmd18") << vec << VectorialMapController::Bigger << QPointF() << QRectF(0, 0, 100, 106) << 1;
+        QTest::addRow("cmd18") << vec << VectorialMapController::Bigger << QPointF() << QRectF(0, 0, 100, 100) << 1;
     }
     {
         QList<vmap::VisualItemController*> vec;
         vec.push_back(buildRectController(true, QRectF(0, 0, 1000, 1000), m_ctrl.get(), QPointF(0, 0)));
         vec.push_back(buildTextController(true, QRectF(0, 0, 100, 100), m_ctrl.get(), QPointF(20, 20)));
-        QTest::addRow("cmd19") << vec << VectorialMapController::Smaller << QPointF() << QRectF(0, 0, 100, 106) << 1;
+        QTest::addRow("cmd19") << vec << VectorialMapController::Smaller << QPointF() << QRectF(0, 0, 100, 100) << 1;
     }
     {
         QList<vmap::VisualItemController*> vec;
         vec.push_back(buildTextController(true, QRectF(0, 0, 300, 300), m_ctrl.get(), QPointF(20, 20)));
         vec.push_back(buildRectController(true, QRectF(0, 0, 200, 200), m_ctrl.get(), QPointF(0, 0)));
-        QTest::addRow("cmd20") << vec << VectorialMapController::UnderMouse << QPointF(30, 30) << QRectF(0, 0, 300, 306)
+        QTest::addRow("cmd20") << vec << VectorialMapController::UnderMouse << QPointF(30, 30) << QRectF(0, 0, 300, 300)
                                << 1;
     }
     {
         QList<vmap::VisualItemController*> vec;
         vec.push_back(buildTextController(true, QRectF(0, 0, 100, 100), m_ctrl.get(), QPointF(20, 20)));
         vec.push_back(buildRectController(true, QRectF(0, 0, 10, 10), m_ctrl.get(), QPointF(0, 0)));
-        QTest::addRow("cmd21") << vec << VectorialMapController::UnderMouse << QPointF(30, 30) << QRectF(0, 0, 100, 106)
+        QTest::addRow("cmd21") << vec << VectorialMapController::UnderMouse << QPointF(30, 30) << QRectF(0, 0, 100, 100)
                                << 1;
     }
     {
