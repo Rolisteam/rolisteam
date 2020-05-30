@@ -100,7 +100,7 @@ TextEdit::TextEdit(NoteController* note, QWidget* parent) : QMainWindow(parent),
 
     setCentralWidget(textEdit);
     textEdit->setFocus();
-    setCurrentFileName(QString());
+    setCurrentFileName(m_noteCtrl->name());
 
     fontChanged(textEdit->font());
     colorChanged(textEdit->textColor());
@@ -138,8 +138,11 @@ TextEdit::TextEdit(NoteController* note, QWidget* parent) : QMainWindow(parent),
     statusbar->setObjectName(QString::fromUtf8("statusbar"));
     setStatusBar(statusbar);
 
-    if(!load(m_noteCtrl->path()))
+    auto p= m_noteCtrl->text();
+    if(!load(m_noteCtrl->path()) && p.isEmpty())
         fileNew();
+    else
+        textEdit->setHtml(p);
 }
 
 void TextEdit::closeEvent(QCloseEvent* e)
