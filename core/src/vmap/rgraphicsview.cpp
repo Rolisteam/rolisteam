@@ -91,12 +91,7 @@ void RGraphicsView::mousePressEvent(QMouseEvent* event)
                                       return !isNormalItem(dynamic_cast<const vmap::VisualItemController*>(item));
                                   }),
                    list.end());
-        bool rubber= true;
         if(!list.isEmpty())
-        {
-            rubber= false;
-        }
-        if(!rubber)
         {
             setDragMode(QGraphicsView::NoDrag);
         }
