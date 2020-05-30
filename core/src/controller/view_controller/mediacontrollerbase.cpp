@@ -22,7 +22,7 @@
 #include "data/cleveruri.h"
 
 MediaControllerBase::MediaControllerBase(const QString& id, Core::ContentType contentType, QObject* parent)
-    : QObject(parent), m_uuid(id), m_type(contentType)
+    : QObject(parent), m_uuid(id), m_name(tr("Unknown")), m_type(contentType)
 {
 }
 

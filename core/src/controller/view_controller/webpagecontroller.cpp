@@ -30,11 +30,6 @@ void WebpageController::saveData() const {}
 
 void WebpageController::loadData() const {}
 
-QString WebpageController::url() const
-{
-    return m_url;
-}
-
 bool WebpageController::hideUrl() const
 {
     return m_hideUrl;
@@ -53,15 +48,6 @@ QString WebpageController::html() const
 WebpageController::State WebpageController::state() const
 {
     return m_state;
-}
-
-void WebpageController::setUrl(QString url)
-{
-    if(m_url == url)
-        return;
-
-    m_url= url;
-    emit urlChanged(m_url);
 }
 
 void WebpageController::setHideUrl(bool hideUrl)

@@ -27,13 +27,12 @@ PdfController::PdfController(const QString& id, const QString& path, const QByte
 {
     if(!path.isEmpty())
     {
-        m_data= IOHelper::loadFile(path);
+        setData(IOHelper::loadFile(path));
     }
     else if(!data.isEmpty())
     {
-        m_data= data;
+        setData(data);
     }
-    emit dataChanged(m_data);
 }
 
 PdfController::~PdfController()= default;
@@ -45,6 +44,14 @@ void PdfController::loadData() const {}
 QByteArray PdfController::data() const
 {
     return m_data;
+}
+
+void PdfController::setData(const QByteArray& data)
+{
+    if(data == m_data)
+        return;
+    m_data= data;
+    emit dataChanged(m_data);
 }
 
 void PdfController::shareImageIntoImage(const QPixmap& image) {}

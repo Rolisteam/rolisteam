@@ -87,8 +87,8 @@ public slots:
     void setPath(const QString& path);
 
 protected:
-    QString m_name;
     QString m_uuid;
+    QString m_name;
     QString m_path;
     Core::ContentType m_type;
     bool m_active= false;

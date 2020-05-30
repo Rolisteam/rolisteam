@@ -88,6 +88,18 @@ VectorialMapController::VectorialMapController(const QString& id, QObject* paren
     m_itemControllers.insert({Core::SelectableTool::TEXTBORDER, m_textControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::NonPlayableCharacter, m_characterControllerManager.get()});
     m_itemControllers.insert({Core::SelectableTool::PlayableCharacter, m_characterControllerManager.get()});
+
+    std::set<VisualItemControllerManager*> managers({m_rectControllerManager.get(), m_ellipseControllerManager.get(),
+                                                     m_characterControllerManager.get(), m_lineControllerManager.get(),
+                                                     m_imageControllerManager.get(), m_pathControllerManager.get(),
+                                                     m_textControllerManager.get()});
+    std::for_each(managers.begin(), managers.end(), [this](VisualItemControllerManager* ctrl) {
+        connect(ctrl, &VisualItemControllerManager::itemAdded, this, [this](const QString& id) {
+            if(id.isEmpty())
+                return;
+            m_order.push_back(id);
+        });
+    });
 }
 
 VectorialMapController::~VectorialMapController()= default;
@@ -100,6 +112,17 @@ vmap::GridController* VectorialMapController::gridController() const
 vmap::SightController* VectorialMapController::sightController() const
 {
     return m_sightController.get();
+}
+
+void VectorialMapController::loadItems()
+{
+    std::for_each(m_order.begin(), m_order.end(), [this](const QString& id) {
+        for(auto ctrl : m_itemControllers)
+        {
+            if(ctrl.second->loadItem(id))
+                break;
+        }
+    });
 }
 Core::PermissionMode VectorialMapController::permission() const
 {
@@ -611,6 +634,11 @@ int VectorialMapController::zIndex() const
     return m_zIndex;
 }
 
+std::vector<QString> VectorialMapController::orderList() const
+{
+    return m_order;
+}
+
 void VectorialMapController::setIdle(bool b)
 {
     if(b == m_idle)
@@ -656,7 +684,7 @@ NetWorkReceiver::SendType VectorialMapController::processMessage(NetworkMessageR
         case IT::LINE:
             m_lineControllerManager->processMessage(msg);
             break;
-        case IT::ELLISPE:
+        case IT::ELLIPSE:
             m_ellipseControllerManager->processMessage(msg);
             break;
         case IT::PATH:

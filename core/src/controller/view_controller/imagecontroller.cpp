@@ -193,6 +193,15 @@ void ImageController::checkMovie()
     }
 }
 
+void ImageController::setData(QByteArray& array)
+{
+    if(m_data == array)
+        return;
+    m_data= array;
+    emit dataChanged();
+    checkMovie();
+}
+
 const QPixmap ImageController::scaledPixmap() const
 {
     return m_image.scaled(static_cast<int>(m_image.width() * m_zoomLevel),

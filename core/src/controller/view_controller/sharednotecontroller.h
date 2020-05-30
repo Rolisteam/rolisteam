@@ -45,7 +45,7 @@ class SharedNoteController : public MediaControllerBase
     Q_PROPERTY(QString textUpdate READ textUpdate WRITE setTextUpdate NOTIFY textUpdateChanged)
     Q_PROPERTY(QString updateCmd READ updateCmd WRITE setUpdateCmd NOTIFY updateCmdChanged)
 public:
-    enum class Permission : char
+    enum class Permission : quint8
     {
         NONE,
         READ,
@@ -53,7 +53,7 @@ public:
     };
     Q_ENUM(Permission)
 
-    enum class HighlightedSyntax : char
+    enum class HighlightedSyntax : quint8
     {
         None,
         MarkDown
