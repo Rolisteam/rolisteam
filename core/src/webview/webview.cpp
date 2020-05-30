@@ -54,9 +54,9 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
     connect(m_webCtrl, &WebpageController::nameChanged, this, &WebView::updateTitle);
     connect(m_ui->m_webview, &QWebEngineView::titleChanged, m_webCtrl, &WebpageController::setName);
     connect(m_ui->m_addressEdit, &QLineEdit::editingFinished, this,
-            [this]() { m_webCtrl->setUrl(m_ui->m_addressEdit->text()); });
-    connect(m_webCtrl, &WebpageController::urlChanged, this,
-            [this]() { m_ui->m_webview->setUrl(QUrl::fromUserInput(m_webCtrl->url())); });
+            [this]() { m_webCtrl->setPath(m_ui->m_addressEdit->text()); });
+    connect(m_webCtrl, &WebpageController::pathChanged, this,
+            [this]() { m_ui->m_webview->setUrl(QUrl::fromUserInput(m_webCtrl->path())); });
 
     connect(m_ui->m_webview, &QWebEngineView::loadFinished, this,
             [this]() { m_ui->m_webview->page()->toHtml([this](QString html) { m_webCtrl->setHtml(html); }); });
@@ -64,12 +64,8 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
     connect(m_ui->m_reloadAct, &QAction::triggered, m_ui->m_webview, &QWebEngineView::reload);
     connect(m_ui->m_nextAct, &QAction::triggered, m_ui->m_webview, &QWebEngineView::forward);
     connect(m_ui->m_previousAct, &QAction::triggered, m_ui->m_webview, &QWebEngineView::back);
-    connect(m_ui->m_hideAddressAct, &QAction::triggered, this, [this](bool b) {
-        if(b)
-            m_ui->m_addressEdit->setEchoMode(QLineEdit::Password);
-        else
-            m_ui->m_addressEdit->setEchoMode(QLineEdit::Normal);
-    });
+    connect(m_ui->m_hideAddressAct, &QAction::triggered, this,
+            [this](bool b) { m_ui->m_addressEdit->setEchoMode(b ? QLineEdit::Password : QLineEdit::Normal); });
     m_ui->m_addressEdit->setFocusPolicy(Qt::StrongFocus);
 
     connect(m_ui->m_shareAct, &QAction::triggered, m_webCtrl, &WebpageController::setUrlSharing);
@@ -99,10 +95,12 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
     }
 
     m_ui->m_webview->setHtml(m_webCtrl->html());
-    m_ui->m_webview->setUrl(m_webCtrl->url());
-    m_ui->m_addressEdit->setText(m_webCtrl->url());
+    m_ui->m_webview->setUrl(m_webCtrl->path());
+    m_ui->m_addressEdit->setText(m_webCtrl->path());
+    m_ui->m_hideAddressAct->setChecked(m_webCtrl->hideUrl());
+    m_ui->m_addressEdit->setEchoMode(m_webCtrl->hideUrl() ? QLineEdit::Password : QLineEdit::Normal);
 
-    qDebug() << "webview " << m_webCtrl->url() << m_webCtrl->html();
+    qDebug() << "webview " << m_webCtrl->path() << m_webCtrl->html();
 }
 
 WebView::~WebView() {}
