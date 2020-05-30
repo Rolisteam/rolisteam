@@ -27,6 +27,7 @@
 #include "model/profilemodel.h"
 #include "network/connectionprofile.h"
 #include "session/sessionitemmodel.h"
+#include "worker/iohelper.h"
 
 #include <QDebug>
 #include <QFileInfo>
@@ -183,6 +184,14 @@ bool saveSession(const QString& path, const QString& name, const ContentControll
     QDataStream out(&file);
     out.setVersion(QDataStream::Qt_5_7);
     out << name;
+
+    auto managers= ctrl->mediaManagers();
+
+    for(auto manager : managers)
+    {
+        out << IOHelper::saveManager(manager);
+    }
+
     auto model= ctrl->model();
     if(!model)
         return false;
@@ -191,7 +200,7 @@ bool saveSession(const QString& path, const QString& name, const ContentControll
     return true;
 }
 
-QString loadSession(const QString& path, SessionItemModel* model)
+QString loadSession(const QString& path, ContentController* ctrl)
 {
     QString name;
     QFileInfo info(path);
@@ -203,9 +212,21 @@ QString loadSession(const QString& path, SessionItemModel* model)
     }
     QDataStream in(&file);
     in.setVersion(QDataStream::Qt_5_7);
+
+    in >> name;
+    auto managers= ctrl->mediaManagers();
+
+    for(auto manager : managers)
+    {
+        IOHelper::loadManager(manager, in);
+    }
+
+    auto model= ctrl->model();
+    if(!model)
+        return {};
     model->loadModel(in);
     return name;
-}
+} // namespace ModelHelper
 
 bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model) {}
 

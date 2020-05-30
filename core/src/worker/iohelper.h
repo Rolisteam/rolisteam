@@ -29,6 +29,14 @@ class VMap;
 class CleverURI;
 class VectorialMapController;
 class MediaControllerBase;
+class ImageController;
+class WebpageController;
+class NoteController;
+class PdfController;
+class SharedNoteController;
+class CharacterSheetController;
+class ContentController;
+class MediaManagerBase;
 class IOHelper
 {
 public:
@@ -38,10 +46,20 @@ public:
     static bool loadVMap(VMap* vmap, CleverURI* uri, VectorialMapController* ctrl);
     static bool loadToken(const QString& filename, std::map<QString, QVariant>& params);
 
-    static std::map<QString, QVariant> saveController(MediaControllerBase* media);
+    static QByteArray saveController(MediaControllerBase* media);
+    static QByteArray saveManager(MediaManagerBase* manager);
+    static bool loadManager(MediaManagerBase* manager, QDataStream& input);
 
     static QJsonObject byteArrayToJsonObj(const QByteArray& data);
     static QJsonArray byteArrayToJsonArray(const QByteArray& data);
+
+    static void readImageController(ImageController* ctrl, const QByteArray& array);
+    static void readNoteController(NoteController* ctrl, const QByteArray& array);
+    static void readPdfController(PdfController* ctrl, const QByteArray& array);
+    static void readSharedNoteController(SharedNoteController* ctrl, const QByteArray& array);
+    static void readWebpageController(WebpageController* ctrl, const QByteArray& array);
+    static void readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array);
+    static void readVectorialMapController(VectorialMapController* ctrl, const QByteArray& array);
 };
 
 #endif // IOHELPER_H
