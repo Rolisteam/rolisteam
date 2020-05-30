@@ -13,5 +13,7 @@
         <file>img/girafe3.jpg</file>
         <file>img/lion3.jpg</file>
         <file>img/white.png</file>
+        <file>pdf/01_personnages.pdf</file>
+        <file>sharednotes/scenario.md</file>
     </qresource>
 </RCC>
