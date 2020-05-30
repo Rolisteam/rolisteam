@@ -78,7 +78,7 @@ enum VisibilityMode
 };
 Q_ENUM_NS(VisibilityMode)
 
-enum class GridPattern : char
+enum class GridPattern : quint8
 {
     NONE,
     SQUARE,
