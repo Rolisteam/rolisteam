@@ -1,6 +1,7 @@
 #include <QtGui>
 
 #include <QTextCursor>
+#include <QTextDocument>
 
 #include "codeeditor.h"
 #include "controller/view_controller/sharednotecontroller.h"

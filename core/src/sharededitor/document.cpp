@@ -42,6 +42,9 @@ Document::Document(SharedNoteController* ctrl, QWidget* parent)
     delete ui->editorFrame;
     m_editor= new CodeEditor(m_shareCtrl, this);
 
+    if(m_shareCtrl)
+        setPlainText(m_shareCtrl->text());
+
     m_previewMarkdown= new QTextEdit();
     m_previewMarkdown->setReadOnly(true);
     QFontMetricsF fm(m_editor->font());
@@ -88,7 +91,9 @@ Document::Document(SharedNoteController* ctrl, QWidget* parent)
     startedCollaborating= false;
 
     updateHighlighter();
-    setPlainText(m_shareCtrl->text());
+    auto text= m_shareCtrl->text();
+    if(!text.isEmpty())
+        setPlainText(text);
 }
 
 Document::~Document()
@@ -109,7 +114,7 @@ void Document::setEditorFont(QFont font)
 {
     m_editor->setFont(font);
     QFontMetrics fm(m_editor->font());
-    m_editor->setTabStopWidth(fm.averageCharWidth() * 4);
+    m_editor->setTabStopDistance(fm.averageCharWidth() * 4);
 }
 
 void Document::setParticipantsFont(QFont font)
