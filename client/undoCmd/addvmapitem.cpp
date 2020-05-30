@@ -33,8 +33,8 @@
 #include "data/character.h"
 #include "network/networkmessagewriter.h"
 
-AddVmapItemCommand::AddVmapItemCommand(
-    VToolsBar::SelectableTool tool, VMap* vmap, QPointF& pos, QColor& color, quint16 penSize, QUndoCommand* parent)
+AddVmapItemCommand::AddVmapItemCommand(VToolsBar::SelectableTool tool, VMap* vmap, QPointF& pos, QColor& color,
+                                       quint16 penSize, QUndoCommand* parent)
     : QUndoCommand(parent), m_vmap(vmap), m_pos(pos), m_color(color), m_penSize(penSize), m_tool(tool)
 {
     switch(m_tool)
@@ -110,8 +110,8 @@ AddVmapItemCommand::AddVmapItemCommand(
     {
         RuleItem* itemRule= new RuleItem(m_pos);
         itemRule->setUnit(static_cast<VMap::SCALE_UNIT>(m_vmap->getOption(VisualItem::Unit).toInt()));
-        itemRule->setPixelToUnit(
-            m_vmap->getOption(VisualItem::GridSize).toInt() / m_vmap->getOption(VisualItem::Scale).toReal());
+        itemRule->setPixelToUnit(m_vmap->getOption(VisualItem::GridSize).toInt()
+                                 / m_vmap->getOption(VisualItem::Scale).toReal());
         m_currentItem= itemRule;
     }
     break;
@@ -133,17 +133,6 @@ AddVmapItemCommand::AddVmapItemCommand(
 
     if(nullptr != m_currentItem)
     {
-        QObject::connect(
-            m_currentItem, SIGNAL(itemGeometryChanged(VisualItem*)), m_vmap, SLOT(sendItemToAll(VisualItem*)));
-        QObject::connect(m_currentItem, &VisualItem::itemRemoved, m_vmap, &VMap::removeItemFromScene);
-        QObject::connect(m_currentItem, SIGNAL(duplicateItem(VisualItem*)), m_vmap, SLOT(duplicateItem(VisualItem*)));
-        QObject::connect(
-            m_currentItem, SIGNAL(itemLayerChanged(VisualItem*)), m_vmap, SLOT(checkItemLayer(VisualItem*)));
-        QObject::connect(m_currentItem, SIGNAL(promoteItemTo(VisualItem*, VisualItem::ItemType)), m_vmap,
-            SLOT(promoteItemInType(VisualItem*, VisualItem::ItemType)));
-        QObject::connect(m_currentItem, SIGNAL(changeStackPosition(VisualItem*, VisualItem::StackOrder)), m_vmap,
-            SLOT(changeStackOrder(VisualItem*, VisualItem::StackOrder)));
-
         initItem(true);
 
         setText(QObject::tr("Add vmap item"));
@@ -157,6 +146,15 @@ AddVmapItemCommand::AddVmapItemCommand(VisualItem* item, bool addMapLayer, VMap*
 
 void AddVmapItemCommand::initItem(bool addMapLayer)
 {
+    QObject::connect(m_currentItem, SIGNAL(itemGeometryChanged(VisualItem*)), m_vmap, SLOT(sendItemToAll(VisualItem*)));
+    QObject::connect(m_currentItem, &VisualItem::itemRemoved, m_vmap, &VMap::removeItemFromScene);
+    QObject::connect(m_currentItem, SIGNAL(duplicateItem(VisualItem*)), m_vmap, SLOT(duplicateItem(VisualItem*)));
+    QObject::connect(m_currentItem, SIGNAL(itemLayerChanged(VisualItem*)), m_vmap, SLOT(checkItemLayer(VisualItem*)));
+    QObject::connect(m_currentItem, SIGNAL(promoteItemTo(VisualItem*, VisualItem::ItemType)), m_vmap,
+                     SLOT(promoteItemInType(VisualItem*, VisualItem::ItemType)));
+    QObject::connect(m_currentItem, SIGNAL(changeStackPosition(VisualItem*, VisualItem::StackOrder)), m_vmap,
+                     SLOT(changeStackOrder(VisualItem*, VisualItem::StackOrder)));
+
     m_first= true;
     m_currentItem->setMapId(m_vmap->getId());
     m_currentItem->setPropertiesHash(m_vmap->getPropertiesHash());
@@ -192,7 +190,7 @@ bool AddVmapItemCommand::isVisible()
 {
     bool visible= false;
     if((m_currentItem->getType() == VisualItem::SIGHT)
-        && (m_vmap->getOption(VisualItem::VisibilityMode) != VMap::FOGOFWAR))
+       && (m_vmap->getOption(VisualItem::VisibilityMode) != VMap::FOGOFWAR))
     {
         visible= false;
     }
@@ -238,9 +236,9 @@ void AddVmapItemCommand::undo()
 }
 void AddVmapItemCommand::redo()
 {
-    #ifndef UNIT_TEST
+#ifndef UNIT_TEST
     qInfo() << QStringLiteral("Redo command AddVmapItemCommand: %1 ").arg(text());
-    #endif
+#endif
     m_vmap->setFocusItem(m_currentItem);
     m_currentItem->setVisible(isVisible());
     m_currentItem->updateItemFlags();

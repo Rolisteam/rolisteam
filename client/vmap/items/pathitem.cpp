@@ -73,10 +73,10 @@ QPainterPath vectorToFullPath(const QVector<QPointF>& points, qreal penWidth= 10
             auto normal2= line2.normalVector();
 
             topPoints.push_back((normal1.pointAt(penWidth / (normal1.length() * 2))
-                                    + normal2.pointAt(penWidth / (normal2.length() * 2)))
+                                 + normal2.pointAt(penWidth / (normal2.length() * 2)))
                                 / 2);
             bottomPoints.push_back((normal1.pointAt(-penWidth / (normal1.length() * 2))
-                                       + normal2.pointAt(-penWidth / (normal2.length() * 2)))
+                                    + normal2.pointAt(-penWidth / (normal2.length() * 2)))
                                    / 2);
         }
     }
@@ -353,6 +353,7 @@ void PathItem::addActionContextMenu(QMenu& menu)
 {
     menu.addAction(m_closeAct);
     menu.addAction(m_fillAct);
+    menu.addAction(m_duplicateAct);
 }
 void PathItem::closePath()
 {
@@ -489,8 +490,8 @@ void PathItem::endOfGeometryChange()
 void PathItem::sendPointPosition()
 {
     if((getOption(VisualItem::LocalIsGM).toBool()) || (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)
-        || ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE) && (getType() == VisualItem::CHARACTER)
-               && (isLocal()))) // getOption PermissionMode
+       || ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE) && (getType() == VisualItem::CHARACTER)
+           && (isLocal()))) // getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory, NetMsg::MovePoint);
         msg.string8(m_mapId);

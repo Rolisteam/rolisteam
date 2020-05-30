@@ -31,7 +31,7 @@
 RectItem::RectItem() : VisualItem(), m_initialized(false), m_filled(false) {}
 
 RectItem::RectItem(const QPointF& topleft, const QPointF& buttomright, bool filled, quint16 penSize,
-    const QColor& penColor, QGraphicsItem* parent)
+                   const QColor& penColor, QGraphicsItem* parent)
     : VisualItem(penColor, penSize, parent), m_initialized(false), m_filled(filled)
 {
     m_rect.setBottomRight(buttomright);
@@ -242,12 +242,16 @@ void RectItem::setGeometryPoint(qreal pointId, QPointF& pos)
 }
 void RectItem::initChildPointItem()
 {
+    if(m_child != nullptr)
+        return;
+
     if(!m_initialized)
     {
         setPos(m_rect.center());
         m_rect.setCoords(-m_rect.width() / 2, -m_rect.height() / 2, m_rect.width() / 2, m_rect.height() / 2);
         m_initialized= true;
     }
+
     m_rect= m_rect.normalized();
     setTransformOriginPoint(m_rect.center());
     m_child= new QVector<ChildPointItem*>();

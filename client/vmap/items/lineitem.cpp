@@ -211,6 +211,8 @@ void LineItem::setRectSize(qreal x, qreal y, qreal w, qreal h)
 }
 void LineItem::initChildPointItem()
 {
+    if(m_child != nullptr)
+        return;
     m_child= new QVector<ChildPointItem*>();
 
     for(int i= 0; i < 2; ++i)

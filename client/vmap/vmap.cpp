@@ -1563,20 +1563,20 @@ void VMap::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
 void VMap::duplicateItem(VisualItem* item)
 {
     VisualItem* copy= item->getItemCopy();
-    if(nullptr != copy)
-    {
-        copy->initChildPointItem();
-        copy->setLayer(item->getLayer());
-        addNewItem(new AddVmapItemCommand(copy, false, this), true);
-        copy->setPos(item->pos());
-        clearSelection();
-        item->clearFocus();
-        copy->clearFocus();
-        clearFocus();
-        setFocusItem(copy);
-        update();
-        sendOffItem(copy, false);
-    }
+    if(nullptr == copy)
+        return;
+
+    copy->initChildPointItem();
+    copy->setLayer(item->getLayer());
+    addNewItem(new AddVmapItemCommand(copy, false, this), true);
+    copy->setPos(item->pos());
+    clearSelection();
+    item->clearFocus();
+    copy->clearFocus();
+    clearFocus();
+    setFocusItem(copy);
+    update();
+    sendOffItem(copy, false);
 }
 bool VMap::isIdle() const
 {

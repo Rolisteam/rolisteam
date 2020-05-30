@@ -178,10 +178,12 @@ void VisualItem::keyPressEvent(QKeyEvent* event)
     if((event->key() == Qt::Key_Delete) && (isSelected()) && canBeMoved())
     {
         emit itemRemoved(m_id, true, true);
+        event->accept();
     }
     else if((event->key() == Qt::Key_C) && (event->modifiers() == Qt::ControlModifier) && (isSelected()))
     {
         emit duplicateItem(this);
+        event->accept();
     }
     QGraphicsItem::keyPressEvent(event);
 }
@@ -265,9 +267,10 @@ void VisualItem::setLayer(VisualItem::Layer layer)
     sendItemLayer();
 }
 
-void VisualItem::addActionContextMenu(QMenu&)
+void VisualItem::addActionContextMenu(QMenu& menu)
 {
     /// @brief must be implemented in child classes.
+    menu.addAction(m_duplicateAct);
 }
 
 QString VisualItem::getId()

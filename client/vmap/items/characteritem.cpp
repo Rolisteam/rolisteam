@@ -768,6 +768,8 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF& pos)
 }
 void CharacterItem::initChildPointItem()
 {
+    if(m_child != nullptr)
+        return;
     if(nullptr != m_child)
     {
         qDeleteAll(m_child->begin(), m_child->end());

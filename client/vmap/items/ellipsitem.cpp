@@ -236,6 +236,9 @@ void EllipsItem::setGeometryPoint(qreal pointId, QPointF& pos)
 }
 void EllipsItem::initChildPointItem()
 {
+    if(m_child != nullptr)
+        return;
+
     setTransformOriginPoint(m_center);
     m_child= new QVector<ChildPointItem*>();
 

@@ -326,6 +326,8 @@ void TextItem::setHoldSize(bool holdSize)
 
 void TextItem::initChildPointItem()
 {
+    if(m_child != nullptr)
+        return;
     m_rect= m_rect.normalized();
     setTransformOriginPoint(m_rect.center());
 
@@ -500,6 +502,7 @@ void TextItem::addActionContextMenu(QMenu& menu)
     QMenu* state= menu.addMenu(tr("Font Size"));
     state->addAction(m_increaseFontSize);
     state->addAction(m_decreaseFontSize);
+    menu.addAction(m_duplicateAct);
 }
 void TextItem::createActions()
 {

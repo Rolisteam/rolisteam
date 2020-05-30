@@ -208,6 +208,8 @@ void ImageItem::resizeContents(const QRectF& rect, TransformType transformType)
 }
 void ImageItem::initChildPointItem()
 {
+    if(m_child != nullptr)
+        return;
     if(!m_initialized)
     {
         // setPos(m_rect.center());
