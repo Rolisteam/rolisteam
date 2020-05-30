@@ -81,7 +81,7 @@ void ImageControllorTest::formatTest()
     QFETCH(qreal, ratioH);
     QFETCH(bool, isMovie);
 
-    m_ctrl.reset(new ImageController("", path, ""));
+    m_ctrl.reset(new ImageController("", "", path));
 
     QSignalSpy spy1(m_ctrl.get(), &ImageController::pixmapChanged);
     spy1.wait(1000);
@@ -150,7 +150,7 @@ void ImageControllorTest::zoomTest()
 
 void ImageControllorTest::movieTest()
 {
-    m_ctrl.reset(new ImageController("", ":/img/control_life_bar.gif", ""));
+    m_ctrl.reset(new ImageController("", "", ":/img/control_life_bar.gif"));
 
     QVERIFY2(m_ctrl->isMovie(), "Not a movie!!");
     QCOMPARE(m_ctrl->status(), ImageController::Playing);
