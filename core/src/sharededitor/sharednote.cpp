@@ -46,6 +46,14 @@ SharedNote::SharedNote(SharedNoteController* ctrl, QWidget* parent)
     connect(m_document->getDocument(), &QTextDocument::contentsChange, this, &SharedNote::textHasChanged);
     auto pane= m_document->getParticipantPane();
 
+    auto func= [this]() {
+        if(!m_sharedCtrl)
+            return;
+        setWindowTitle(tr("%1 - Shared Note Editor").arg(m_sharedCtrl->name()));
+    };
+
+    connect(m_sharedCtrl, &SharedNoteController::nameChanged, this, func);
+
     connect(pane, &ParticipantsPane::memberCanNowRead, this, &SharedNote::populateDocumentForUser);
     connect(pane, &ParticipantsPane::memberPermissionsChanged, this, &SharedNote::playerPermissionsChanged);
     connect(m_document, &Document::contentChanged, this, [this]() { setWindowModified(true); });
@@ -99,6 +107,7 @@ SharedNote::SharedNote(SharedNoteController* ctrl, QWidget* parent)
 
     readSettings();
 
+    func();
     qApp->installEventFilter(this);
 }
 
