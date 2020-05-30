@@ -30,35 +30,52 @@ CharacterVision::~CharacterVision() {}
 
 void CharacterVision::setAngle(qreal a)
 {
+    if(a == m_angle)
+        return;
     m_angle= a;
+    emit angleChanged(m_angle);
 }
 
 void CharacterVision::setRadius(qreal r)
 {
+    if(r == m_radius)
+        return;
     m_radius= r;
+    emit radiusChanged(m_radius);
 }
 
 void CharacterVision::setPosition(QPointF& p)
 {
+    if(p == m_pos)
+        return;
     m_pos= p;
+    emit positionChanged(m_pos);
 }
 
 void CharacterVision::setShape(CharacterVision::SHAPE s)
 {
+    if(s == m_shape)
+        return;
     m_shape= s;
+    emit shapeChanged(m_shape);
 }
 
-qreal CharacterVision::getAngle()
+qreal CharacterVision::angle() const
 {
     return m_angle;
 }
 
-qreal CharacterVision::getRadius()
+qreal CharacterVision::radius() const
 {
     return m_radius;
 }
 
-CharacterVision::SHAPE CharacterVision::getShape()
+QPointF CharacterVision::position() const
+{
+    return m_pos;
+}
+
+CharacterVision::SHAPE CharacterVision::shape() const
 {
     return m_shape;
 }
@@ -76,20 +93,26 @@ void CharacterVision::setCornerPoint(ChildPointItem* b)
 {
     m_cornerPoint= b;
 }
+
 ChildPointItem* CharacterVision::getCornerPoint()
 {
     return m_cornerPoint;
 }
-bool CharacterVision::isVisible()
+
+bool CharacterVision::visible() const
 {
     return m_visible;
 }
 
 void CharacterVision::setVisible(bool b)
 {
+    if(b == m_visible)
+        return;
     m_visible= b;
+    emit visibleChanged(m_visible);
 }
-void CharacterVision::fill(NetworkMessageWriter* msg)
+
+/*void CharacterVision::fill(NetworkMessageWriter* msg)
 {
     msg->int8((int)m_shape);
     // msg->real(m_pos.x());
@@ -107,4 +130,4 @@ void CharacterVision::readMessage(NetworkMessageReader* msg)
     // m_pos.setY(msg->real());
     m_radius= msg->real();
     m_angle= msg->real();
-}
+}*/
