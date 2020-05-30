@@ -30,6 +30,12 @@
 class CharacterVision : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(qreal radius READ radius WRITE setRadius NOTIFY radiusChanged)
+    Q_PROPERTY(qreal angle READ angle WRITE setAngle NOTIFY angleChanged)
+    Q_PROPERTY(QPointF position READ position WRITE setPosition NOTIFY positionChanged)
+    Q_PROPERTY(SHAPE shape READ shape WRITE setShape NOTIFY shapeChanged)
+    Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
+
 public:
     enum SHAPE
     {
@@ -37,91 +43,33 @@ public:
         ANGLE
     };
     Q_ENUM(SHAPE)
-    /**
-     * @brief Vision
-     */
     CharacterVision(QObject* parent= nullptr);
-    /**
-     * @brief ~CharacterVision
-     */
     virtual ~CharacterVision();
-    /**
-     * @brief setAngle
-     */
+
     void setAngle(qreal);
-    /**
-     * @brief setRadius
-     */
     void setRadius(qreal);
-    /**
-     * @brief setPosition
-     * @param p
-     */
     void setPosition(QPointF& p);
-    /**
-     * @brief setShape
-     * @param s
-     */
     void setShape(CharacterVision::SHAPE s);
-    /**
-     * @brief getAngle
-     * @return
-     */
-    qreal getAngle();
-    /**
-     * @brief getRadius
-     * @return
-     */
-    qreal getRadius();
-    /**
-     * @brief getPos
-     * @return
-     */
-    const QPointF getPos() const;
-    /**
-     * @brief getShape
-     * @return
-     */
-    CharacterVision::SHAPE getShape();
-    /**
-     * @brief setCornerPoint
-     */
-    void setCornerPoint(ChildPointItem*);
-    /**
-     * @brief getCornerPoint
-     * @return
-     */
-    ChildPointItem* getCornerPoint();
-
-    /**
-     * @brief isVisible
-     * @return
-     */
-    bool isVisible();
-    /**
-     * @brief setVisible
-     */
     void setVisible(bool);
-    /**
-     * @brief fill
-     * @param msg
-     */
-    void fill(NetworkMessageWriter* msg);
-    /**
-     * @brief readMessage
-     * @param msg
-     */
-    void readMessage(NetworkMessageReader* msg);
 
+    qreal angle() const;
+    qreal radius() const;
+    QPointF position() const;
+    CharacterVision::SHAPE shape() const;
+    bool visible() const;
+
+    void setCornerPoint(ChildPointItem*);
+    ChildPointItem* getCornerPoint();
 public slots:
-    /**
-     * @brief updatePosition
-     */
     void updatePosition();
-    /**
-     * @brief showCorner
-     */
     void showCorner(bool);
+
+signals:
+    void radiusChanged(qreal);
+    void angleChanged(qreal);
+    void positionChanged(QPointF);
+    void shapeChanged(SHAPE);
+    void visibleChanged(bool);
 
 private:
     CharacterVision::SHAPE m_shape= ANGLE;
