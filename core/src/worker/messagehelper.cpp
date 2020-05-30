@@ -400,7 +400,7 @@ void MessageHelper::shareWebpage(WebpageController* ctrl)
     if(mode == WebpageController::Html)
         msg.string32(ctrl->html());
     else if(mode == WebpageController::Url)
-        msg.string32(ctrl->url());
+        msg.string32(ctrl->path());
     msg.sendToServer();
 }
 
@@ -419,7 +419,7 @@ void MessageHelper::updateWebpage(WebpageController* ctrl)
     if(mode == WebpageController::Html)
         msg.string32(ctrl->html());
     else if(mode == WebpageController::Url)
-        msg.string32(ctrl->url());
+        msg.string32(ctrl->path());
 
     msg.sendToServer();
 }

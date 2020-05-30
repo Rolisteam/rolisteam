@@ -35,7 +35,7 @@ void writeConnectionProfileModel(ProfileModel* model);
 namespace ModelHelper
 {
 bool saveSession(const QString& path, const QString& name, const ContentController* ctrl);
-QString loadSession(const QString& path, SessionItemModel* model);
+QString loadSession(const QString& path, ContentController *ctrl);
 
 bool saveCharacterSheet(const QString& path, const CharacterSheetModel* model);
 bool loadCharacterSheet(const QString& path, CharacterSheetModel* model, ImageModel* imgModel, QJsonObject& root,
