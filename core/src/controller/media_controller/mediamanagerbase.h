@@ -40,6 +40,7 @@ public:
     virtual bool openMedia(const QString& uuid, const std::map<QString, QVariant>& args)= 0;
     virtual void closeMedia(const QString& id)= 0;
     virtual void registerNetworkReceiver()= 0;
+    virtual int managerCount() const= 0;
 
     void setUndoStack(QUndoStack* stack);
     bool localIsGM() const;

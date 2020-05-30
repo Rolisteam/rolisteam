@@ -40,10 +40,17 @@ public:
     void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
+    int managerCount() const override;
 
     void addSharedNotes(const QHash<QString, QVariant>& params);
+
+    std::vector<SharedNoteController*> controllers() const;
+
 signals:
     void sharedNoteControllerCreated(SharedNoteController* crtl);
+
+private:
+    void processNewController(SharedNoteController* ctrl, bool local);
 
 private:
     std::vector<std::unique_ptr<SharedNoteController>> m_sharedNotes;

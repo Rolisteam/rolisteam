@@ -23,8 +23,10 @@
 #include <utility>
 
 #include "controller/view_controller/sharednotecontroller.h"
+#include "undoCmd/removemediacontrollercommand.h"
 #include "updater/sharednotecontrollerupdater.h"
 #include "userlist/playermodel.h"
+#include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 
 SharedNoteController* findNote(const std::vector<std::unique_ptr<SharedNoteController>>& notes, const QString& id)
@@ -51,17 +53,45 @@ SharedNoteMediaController::~SharedNoteMediaController()= default;
 
 bool SharedNoteMediaController::openMedia(const QString& id, const std::map<QString, QVariant>& args)
 {
-    if(id.isEmpty() || (args.empty()))
+    if(id.isEmpty() && args.empty())
         return false;
 
+    // read params
+    QByteArray serializedData;
+    auto it= args.find(QStringLiteral("serializedData"));
+    if(it != args.end())
+        serializedData= it->second.toByteArray();
+
+    // create controller
     std::unique_ptr<SharedNoteController> notesCtrl(new SharedNoteController(localId(), localId(), m_playerModel, id));
+    if(!serializedData.isEmpty())
+    {
+        IOHelper::readSharedNoteController(notesCtrl.get(), serializedData);
+    }
     // not remote
     notesCtrl->setLocalGM(localIsGM());
 
-    m_updater->addSharedNoteController(notesCtrl.get());
-    emit sharedNoteControllerCreated(notesCtrl.get());
+    auto notes= notesCtrl.get();
+    processNewController(notes, true);
+
     m_sharedNotes.push_back(std::move(notesCtrl));
     return true;
+}
+
+void SharedNoteMediaController::processNewController(SharedNoteController* notesCtrl, bool local)
+{
+    m_updater->addSharedNoteController(notesCtrl);
+    emit sharedNoteControllerCreated(notesCtrl);
+
+    if(!local)
+        return;
+
+    emit mediaAdded(notesCtrl->uuid(), notesCtrl->path(), notesCtrl->contentType(), notesCtrl->name());
+    connect(notesCtrl, &SharedNoteController::closeMe, this, [this, notesCtrl]() {
+        if(!m_undoStack)
+            return;
+        m_undoStack->push(new RemoveMediaControllerCommand(notesCtrl, this));
+    });
 }
 
 void SharedNoteMediaController::addSharedNotes(const QHash<QString, QVariant>& params)
@@ -84,10 +114,20 @@ void SharedNoteMediaController::addSharedNotes(const QHash<QString, QVariant>& p
     notesCtrl->setLocalGM(localIsGM());
     notesCtrl->setLocalId(localId());
 
-    m_updater->addSharedNoteController(notesCtrl.get());
+    processNewController(notesCtrl.get(), false);
 
-    emit sharedNoteControllerCreated(notesCtrl.get());
+    // m_updater->addSharedNoteController(notesCtrl.get());
+
+    // emit sharedNoteControllerCreated(notesCtrl.get());
     m_sharedNotes.push_back(std::move(notesCtrl));
+}
+
+std::vector<SharedNoteController*> SharedNoteMediaController::controllers() const
+{
+    std::vector<SharedNoteController*> vec;
+    std::transform(m_sharedNotes.begin(), m_sharedNotes.end(), std::back_inserter(vec),
+                   [](const std::unique_ptr<SharedNoteController>& ctrl) { return ctrl.get(); });
+    return vec;
 }
 
 void SharedNoteMediaController::closeMedia(const QString& id)
@@ -126,4 +166,9 @@ NetWorkReceiver::SendType SharedNoteMediaController::processMessage(NetworkMessa
         m_updater->updateProperty(msg, note);
     }
     return type;
+}
+
+int SharedNoteMediaController::managerCount() const
+{
+    return static_cast<int>(m_sharedNotes.size());
 }

@@ -25,6 +25,7 @@
 #include "data/cleveruri.h"
 #include "model/charactermodel.h"
 #include "network/receiveevent.h"
+#include "undoCmd/removemediacontrollercommand.h"
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 
@@ -47,7 +48,7 @@ CharacterSheetMediaController::CharacterSheetMediaController(CharacterModel* mod
 
 bool CharacterSheetMediaController::openMedia(const QString& id, const std::map<QString, QVariant>& args)
 {
-    if(id.isEmpty() || args.empty())
+    if(id.isEmpty() && args.empty())
         return false;
 
     QHash<QString, QVariant> hash(args.begin(), args.end());
@@ -95,7 +96,9 @@ void CharacterSheetMediaController::addCharacterSheet(const QHash<QString, QVari
 
     auto id= params.value(QStringLiteral("id")).toString();
 
-    std::unique_ptr<CharacterSheetController> sheetCtrl(new CharacterSheetController(m_characterModel, id, ""));
+    auto path= params.value(QStringLiteral("path")).toString();
+
+    std::unique_ptr<CharacterSheetController> sheetCtrl(new CharacterSheetController(m_characterModel, id, path));
 
     sheetCtrl->setName(params.value(QStringLiteral("name")).toString());
     sheetCtrl->setQmlCode(params.value(QStringLiteral("qml")).toString());
@@ -127,12 +130,38 @@ void CharacterSheetMediaController::addCharacterSheet(const QHash<QString, QVari
         auto characterId= params.value(QStringLiteral("characterId")).toString();
         sheetCtrl->addCharacterSheet(IOHelper::byteArrayToJsonObj(array), characterId);
     }
+
+    if(params.contains(QStringLiteral("serializedData")))
+    {
+        auto serializedData= params.value(QStringLiteral("serializedData")).toByteArray();
+        IOHelper::readCharacterSheetController(sheetCtrl.get(), serializedData);
+    }
+    auto sheet= sheetCtrl.get();
+
+    connect(sheetCtrl.get(), &CharacterSheetController::closeMe, this, [this, sheet]() {
+        if(!m_undoStack)
+            return;
+        m_undoStack->push(new RemoveMediaControllerCommand(sheet, this));
+    });
     m_sheets.push_back(std::move(sheetCtrl));
 }
 
 QString CharacterSheetMediaController::gameMasterId() const
 {
     return m_gameMasterId;
+}
+
+std::vector<CharacterSheetController*> CharacterSheetMediaController::controllers() const
+{
+    std::vector<CharacterSheetController*> vec;
+    std::transform(m_sheets.begin(), m_sheets.end(), std::back_inserter(vec),
+                   [](const std::unique_ptr<CharacterSheetController>& ctrl) { return ctrl.get(); });
+    return vec;
+}
+
+int CharacterSheetMediaController::managerCount() const
+{
+    return static_cast<int>(m_sheets.size());
 }
 
 void CharacterSheetMediaController::setGameMasterId(const QString& gameMasterId)
