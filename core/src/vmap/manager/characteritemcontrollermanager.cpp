@@ -36,6 +36,7 @@ QString CharacterItemControllerManager::addItem(const std::map<QString, QVariant
 {
     std::unique_ptr<vmap::CharacterItemController> characterCtrl(new vmap::CharacterItemController(params, m_ctrl));
     emit characterControllerCreated(characterCtrl.get());
+    emit itemAdded(characterCtrl->uuid());
 
     if(characterCtrl->playableCharacter())
         emit playableCharacterControllerCreated();
@@ -53,6 +54,7 @@ void CharacterItemControllerManager::addController(vmap::VisualItemController* c
 
     std::unique_ptr<vmap::CharacterItemController> ctrl(characterCtrl);
     emit characterControllerCreated(ctrl.get());
+    emit itemAdded(characterCtrl->uuid());
     MessageHelper::sendOffCharacter(ctrl.get(), m_ctrl->uuid());
     if(ctrl->playableCharacter())
         emit playableCharacterControllerCreated();
@@ -84,6 +86,22 @@ void CharacterItemControllerManager::processMessage(NetworkMessageReader* msg)
     if(msg->action() == NetMsg::AddItem && msg->category() == NetMsg::VMapCategory)
     {
     }
+}
+
+bool CharacterItemControllerManager::loadItem(const QString& id)
+{
+    auto it
+        = std::find_if(m_controllers.begin(), m_controllers.end(),
+                       [id](const std::unique_ptr<vmap::CharacterItemController>& ctrl) { return id == ctrl->uuid(); });
+
+    if(it == m_controllers.end())
+        return false;
+
+    emit characterControllerCreated(it->get());
+    if((*it)->playableCharacter())
+        emit playableCharacterControllerCreated();
+
+    return true;
 }
 
 const std::vector<vmap::CharacterVisionData> CharacterItemControllerManager::characterVisions() const

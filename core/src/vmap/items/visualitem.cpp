@@ -70,6 +70,7 @@ VisualItem::VisualItem(vmap::VisualItemController* ctrl) : QGraphicsObject(), m_
 
     setVisible(m_ctrl->visible());
     setRotation(m_ctrl->rotation());
+    setPos(m_ctrl->pos());
 
     updateItemFlags();
 }

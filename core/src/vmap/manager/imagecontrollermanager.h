@@ -43,6 +43,7 @@ public:
     void addController(vmap::VisualItemController* controller) override;
     void removeItem(const QString& id) override;
     void processMessage(NetworkMessageReader* msg) override;
+    bool loadItem(const QString& id) override;
 
     const std::vector<vmap::ImageController*> controllers() const;
 

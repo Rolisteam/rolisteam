@@ -25,7 +25,7 @@ namespace vmap
 {
 EllipseController::EllipseController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,
                                      QObject* parent)
-    : VisualItemController(VisualItemController::ELLISPE, params, ctrl, parent)
+    : VisualItemController(VisualItemController::ELLIPSE, params, ctrl, parent)
 {
     if(params.end() != params.find("tool"))
     {

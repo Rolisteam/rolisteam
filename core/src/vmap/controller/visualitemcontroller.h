@@ -54,7 +54,7 @@ public:
     {
         PATH,
         LINE,
-        ELLISPE,
+        ELLIPSE,
         CHARACTER,
         TEXT,
         RECT,

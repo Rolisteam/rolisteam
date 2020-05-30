@@ -40,6 +40,7 @@ QString RectControllerManager::addItem(const std::map<QString, QVariant>& params
     std::unique_ptr<vmap::RectController> rect(new vmap::RectController(params, m_ctrl));
     emit rectControllerCreated(rect.get(), true);
     auto id= rect->uuid();
+    emit itemAdded(id);
     prepareController(rect.get());
     m_controllers.push_back(std::move(rect));
     return id;
@@ -53,6 +54,7 @@ void RectControllerManager::addController(vmap::VisualItemController* controller
 
     std::unique_ptr<vmap::RectController> ctrl(rectCtrl);
     emit rectControllerCreated(ctrl.get(), false);
+    emit itemAdded(ctrl->uuid());
     m_controllers.push_back(std::move(ctrl));
 }
 
@@ -92,6 +94,18 @@ void RectControllerManager::processMessage(NetworkMessageReader* msg)
         if(nullptr != ctrl)
             m_updater->updateItemProperty(msg, ctrl);
     }
+}
+
+bool RectControllerManager::loadItem(const QString& id)
+{
+    auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
+                          [id](const std::unique_ptr<vmap::RectController>& ctrl) { return id == ctrl->uuid(); });
+
+    if(it == m_controllers.end())
+        return false;
+
+    emit rectControllerCreated(it->get(), false);
+    return true;
 }
 
 const std::vector<vmap::RectController*> RectControllerManager::controllers() const

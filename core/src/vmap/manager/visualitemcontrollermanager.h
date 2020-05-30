@@ -37,6 +37,10 @@ public:
     virtual void addController(vmap::VisualItemController* controller)= 0;
     virtual void removeItem(const QString& id)= 0;
     virtual void processMessage(NetworkMessageReader* msg)= 0;
+    virtual bool loadItem(const QString& id)= 0;
+
+signals:
+    void itemAdded(const QString& id);
 };
 
 #endif // VISUALITEMCONTROLLERMANAGER_H

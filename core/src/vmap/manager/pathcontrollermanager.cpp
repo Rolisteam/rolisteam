@@ -41,6 +41,7 @@ QString PathControllerManager::addItem(const std::map<QString, QVariant>& params
     std::unique_ptr<vmap::PathController> path(new vmap::PathController(params, m_ctrl));
     emit pathControllerCreated(path.get(), true);
     auto id= path->uuid();
+    emit itemAdded(id);
     prepareController(path.get());
     m_controllers.push_back(std::move(path));
     return id;
@@ -54,6 +55,7 @@ void PathControllerManager::addController(vmap::VisualItemController* controller
 
     std::unique_ptr<vmap::PathController> pathCtrl(path);
     emit pathControllerCreated(pathCtrl.get(), false);
+    emit itemAdded(pathCtrl->uuid());
     m_controllers.push_back(std::move(pathCtrl));
 }
 
@@ -109,6 +111,19 @@ void PathControllerManager::processMessage(NetworkMessageReader* msg)
         if(nullptr != ctrl)
             m_updater->movePoint(msg, ctrl);
     }
+}
+
+bool PathControllerManager::loadItem(const QString& id)
+{
+    auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
+                          [id](const std::unique_ptr<vmap::PathController>& ctrl) { return id == ctrl->uuid(); });
+
+    if(it == m_controllers.end())
+        return false;
+
+    emit pathControllerCreated(it->get(), false);
+
+    return true;
 }
 
 const std::vector<vmap::PathController*> PathControllerManager::controllers() const

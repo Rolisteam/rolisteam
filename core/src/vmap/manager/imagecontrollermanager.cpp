@@ -38,6 +38,7 @@ QString ImageControllerManager::addItem(const std::map<QString, QVariant>& param
     std::unique_ptr<vmap::ImageController> image(new vmap::ImageController(params, m_ctrl));
     emit imageControllerCreated(image.get());
     auto id= image->uuid();
+    emit itemAdded(id);
     prepareController(image.get());
     m_controllers.push_back(std::move(image));
     return id;
@@ -51,6 +52,7 @@ void ImageControllerManager::addController(vmap::VisualItemController* controlle
 
     std::unique_ptr<vmap::ImageController> imageCtrl(image);
     emit imageControllerCreated(imageCtrl.get());
+    emit itemAdded(imageCtrl->uuid());
     m_controllers.push_back(std::move(imageCtrl));
 }
 
@@ -99,6 +101,18 @@ void ImageControllerManager::processMessage(NetworkMessageReader* msg)
         if(nullptr != ctrl)
             m_updater->updateItemProperty(msg, ctrl);
     }
+}
+
+bool ImageControllerManager::loadItem(const QString& id)
+{
+    auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
+                          [id](const std::unique_ptr<vmap::ImageController>& ctrl) { return id == ctrl->uuid(); });
+
+    if(it == m_controllers.end())
+        return false;
+
+    emit imageControllerCreated(it->get());
+    return true;
 }
 
 const std::vector<vmap::ImageController*> ImageControllerManager::controllers() const

@@ -38,6 +38,7 @@ QString TextControllerManager::addItem(const std::map<QString, QVariant>& params
     std::unique_ptr<vmap::TextController> text(new vmap::TextController(params, m_ctrl));
     emit textControllerCreated(text.get());
     auto id= text->uuid();
+    emit itemAdded(id);
     MessageHelper::sendOffText(text.get(), m_ctrl->uuid());
     m_updater->addTextController(text.get());
     m_controllers.push_back(std::move(text));
@@ -52,6 +53,7 @@ void TextControllerManager::addController(vmap::VisualItemController* controller
 
     std::unique_ptr<vmap::TextController> text(textCtrl);
     emit textControllerCreated(text.get());
+    emit itemAdded(text->uuid());
     m_controllers.push_back(std::move(text));
 }
 
@@ -83,6 +85,8 @@ void TextControllerManager::processMessage(NetworkMessageReader* msg)
             m_updater->updateItemProperty(msg, ctrl);
     }
 }
+
+bool TextControllerManager::loadItem(const QString& id) {}
 const std::vector<vmap::TextController*> TextControllerManager::controllers() const
 {
     std::vector<vmap::TextController*> vect;

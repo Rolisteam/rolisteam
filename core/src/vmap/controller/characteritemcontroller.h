@@ -56,7 +56,7 @@ class CharacterItemController : public VisualItemController
     Q_PROPERTY(bool hasAvatar READ hasAvatar NOTIFY hasAvatarChanged)
     Q_PROPERTY(QImage* avatar READ avatar NOTIFY avatarChanged)
     Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
-    Q_PROPERTY(CharacterVision vision READ vision NOTIFY visionChanged)
+    Q_PROPERTY(CharacterVision* vision READ vision NOTIFY visionChanged)
     Q_PROPERTY(qreal radius READ radius NOTIFY radiusChanged)
 public:
     CharacterItemController(const std::map<QString, QVariant>& params, VectorialMapController* ctrl,

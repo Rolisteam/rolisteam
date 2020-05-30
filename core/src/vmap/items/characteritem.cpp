@@ -799,11 +799,11 @@ void CharacterItem::updateChildPosition()
     {
         auto vision= m_itemCtrl->vision();
         m_children.value(DIRECTION_RADIUS_HANDLE)
-            ->setPos(vision->getRadius() + m_itemCtrl->radius(),
+            ->setPos(vision->radius() + m_itemCtrl->radius(),
                      m_itemCtrl->thumnailRect().height() / 2
                          - m_children[DIRECTION_RADIUS_HANDLE]->boundingRect().height() / 2);
 
-        m_children[ANGLE_HANDLE]->setPos((vision->getRadius() + m_itemCtrl->radius()) / 2, -vision->getAngle());
+        m_children[ANGLE_HANDLE]->setPos((vision->radius() + m_itemCtrl->radius()) / 2, -vision->angle());
         m_children[ANGLE_HANDLE]->setVisionHandler(true);
     }
     else
