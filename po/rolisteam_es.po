@@ -1207,12 +1207,12 @@ msgctxt "Document|"
 msgid "Form"
 msgstr "Formulario"
 
-#: ../core/src/sharededitor/document.cpp:288
+#: ../core/src/sharededitor/document.cpp:293
 msgctxt "Document|"
 msgid "Cahoots"
 msgstr "Cahoots"
 
-#: ../core/src/sharededitor/document.cpp:288
+#: ../core/src/sharededitor/document.cpp:293
 msgctxt "Document|"
 msgid "The string was not found."
 msgstr "No se encontró la cadena."
@@ -1481,116 +1481,141 @@ msgstr "Nuevo unidad"
 #~ msgid "Image Compression fails (saveImageToFile - Image.cpp)"
 #~ msgstr "Fallo al comprimir la imagen (saveImageToFile - Image.cpp)"
 
-#: ../core/src/media/image.cpp:247
+#: ../core/src/media/image.cpp:57 ../core/src/media/image.cpp:66
+#, qt-format
+msgctxt "Image|"
+msgid "%1 - Image"
+msgstr ""
+
+#: ../core/src/media/image.cpp:254
 #, qt-format
 msgctxt "Image|"
 msgid "%1 - (Picture)"
 msgstr "%1 - (Imagen)"
 
-#: ../core/src/media/image.cpp:252
+#: ../core/src/media/image.cpp:259
 msgctxt "Image|"
 msgid "Zoom In"
 msgstr "Zoom In"
 
-#: ../core/src/media/image.cpp:253
+#: ../core/src/media/image.cpp:260
 msgctxt "Image|"
 msgid "increase zoom level"
 msgstr "aumentar el nivel de zoom"
 
-#: ../core/src/media/image.cpp:257
+#: ../core/src/media/image.cpp:264
 msgctxt "Image|Zoom In"
 msgid "Ctrl++"
 msgstr "Ctrl++"
 
-#: ../core/src/media/image.cpp:262
+#: ../core/src/media/image.cpp:269
 msgctxt "Image|"
 msgid "Zoom out"
 msgstr "Zoom out"
 
-#: ../core/src/media/image.cpp:264
+#: ../core/src/media/image.cpp:271
 msgctxt "Image|"
 msgid "Reduce zoom level"
 msgstr "Reducir el nivel de zoom"
 
-#: ../core/src/media/image.cpp:267
+#: ../core/src/media/image.cpp:274
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+-"
 msgstr "Ctrl+-"
 
-#: ../core/src/media/image.cpp:277
+#: ../core/src/media/image.cpp:284
 msgctxt "Image|"
 msgid "Fit the workspace"
 msgstr "Ajustar al espacio de trabajo"
 
-#: ../core/src/media/image.cpp:279
+#: ../core/src/media/image.cpp:286
 msgctxt "Image|"
 msgid "The window and the image fit the workspace"
 msgstr "La imagen y la ventana se ajustan al espacio de trabajo"
 
-#: ../core/src/media/image.cpp:282
+#: ../core/src/media/image.cpp:289
 msgctxt "Image|Fit the workspace"
 msgid "Ctrl+m"
 msgstr "Ctrl+m"
 
-#: ../core/src/media/image.cpp:289
+#: ../core/src/media/image.cpp:296
 msgctxt "Image|"
 msgid "Fit Window"
 msgstr "Ajustar Ventana"
 
-#: ../core/src/media/image.cpp:294
+#: ../core/src/media/image.cpp:301
 msgctxt "Image|"
 msgid "Image will take the best dimension to fit the window."
 msgstr "La imagen tomará el mejor tamaño para ajustarse a la ventana"
 
-#: ../core/src/media/image.cpp:297
+#: ../core/src/media/image.cpp:304
 msgctxt "Image|Fit the window"
 msgid "Ctrl+f"
 msgstr "Ctrl+f"
 
-#: ../core/src/media/image.cpp:304
+#: ../core/src/media/image.cpp:311
 msgctxt "Image|"
 msgid "Little"
 msgstr "Pequeño"
 
-#: ../core/src/media/image.cpp:305
+#: ../core/src/media/image.cpp:312
 msgctxt "Image|"
 msgid "Set the zoom level at 20% "
 msgstr "Establecer el nivel de zoom al 20%"
 
-#: ../core/src/media/image.cpp:308
+#: ../core/src/media/image.cpp:315
 msgctxt "Image|Set the zoom level at 20%"
 msgid "Ctrl+l"
 msgstr "Ctrl+l"
 
-#: ../core/src/media/image.cpp:315
+#: ../core/src/media/image.cpp:322
 msgctxt "Image|"
 msgid "Normal"
 msgstr "Normal"
 
-#: ../core/src/media/image.cpp:316
+#: ../core/src/media/image.cpp:323
 msgctxt "Image|"
 msgid "No Zoom"
 msgstr "Sin Zoom"
 
-#: ../core/src/media/image.cpp:319
+#: ../core/src/media/image.cpp:326
 msgctxt "Image|Normal"
 msgid "Ctrl+n"
 msgstr "Ctrl+n"
 
-#: ../core/src/media/image.cpp:326
+#: ../core/src/media/image.cpp:333
 msgctxt "Image|"
 msgid "Big"
 msgstr "Grande"
 
-#: ../core/src/media/image.cpp:327
+#: ../core/src/media/image.cpp:334
 msgctxt "Image|"
 msgid "Set the zoom level at 400%"
 msgstr "Establecer el nivel de zoom al 400%"
 
-#: ../core/src/media/image.cpp:330
+#: ../core/src/media/image.cpp:337
 msgctxt "Image|Zoom Out"
 msgid "Ctrl+b"
 msgstr "Ctrl+b"
+
+#: ../core/src/media/image.cpp:342 ../core/src/media/image.cpp:354
+#: ../core/src/media/image.cpp:359
+#, fuzzy
+msgctxt "Image|"
+msgid "Play"
+msgstr "Reproducir"
+
+#: ../core/src/media/image.cpp:344
+#, fuzzy
+msgctxt "Image|"
+msgid "Stop"
+msgstr "Detener"
+
+#: ../core/src/media/image.cpp:350
+#, fuzzy
+msgctxt "Image|"
+msgid "Pause"
+msgstr "Pausar"
 
 #: ../core/src/charactersheet/imagemodel.cpp:12
 msgctxt "ImageModel|"
@@ -2039,7 +2064,7 @@ msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
 msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Todos (*)"
 
-#: ../client/mainwindow.cpp:1595
+#: ../client/mainwindow.cpp:1601
 msgctxt "MainWindow|"
 msgid "unknown"
 msgstr "desconocido"
@@ -2060,32 +2085,32 @@ msgstr ""
 #~ msgid "Open Map"
 #~ msgstr "Abrir Mapa"
 
-#: ../client/mainwindow.cpp:1494
+#: ../client/mainwindow.cpp:1499
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Conectado"
 
-#: ../client/mainwindow.cpp:1494
+#: ../client/mainwindow.cpp:1499
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Sin conexión"
 
-#: ../client/mainwindow.cpp:1495
+#: ../client/mainwindow.cpp:1500
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Servidor"
 
-#: ../client/mainwindow.cpp:1495
+#: ../client/mainwindow.cpp:1500
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Cliente"
 
-#: ../client/mainwindow.cpp:1496
+#: ../client/mainwindow.cpp:1501
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: ../client/mainwindow.cpp:1496
+#: ../client/mainwindow.cpp:1501
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Jugador"
@@ -2755,7 +2780,7 @@ msgstr "Eliminar límite al tamaño del archivo PDF"
 #~ msgid "End of the connection process"
 #~ msgstr "Proceso de conexión finalizado"
 
-#: ../client/mainwindow.cpp:1594
+#: ../client/mainwindow.cpp:1600
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
@@ -3338,6 +3363,12 @@ msgctxt "MediaContainer|"
 msgid "Detach the view"
 msgstr "Separar la vista"
 
+#: ../core/src/controller/view_controller/mediacontrollerbase.cpp:25
+#, fuzzy
+msgctxt "MediaControllerBase|"
+msgid "Unknown"
+msgstr "Desconocido"
+
 #: ../core/src/audio/musicmodel.cpp:33
 msgctxt "MusicModel|"
 msgid "Title"
@@ -3604,6 +3635,12 @@ msgstr "Altura:"
 #~ msgctxt "NoteContainer|"
 #~ msgid "%1[*] - (Notes)"
 #~ msgstr "%1[*] - (notas)"
+
+#: ../core/src/noteeditor/src/notecontainer.cpp:37
+#, qt-format
+msgctxt "NoteContainer|"
+msgid "%1 - Note"
+msgstr ""
 
 #: ../core/src/widgets/notificationzone.ui:14
 #, fuzzy
@@ -4070,12 +4107,12 @@ msgctxt "PatternModel|"
 msgid "Hexagon"
 msgstr "Hexágono"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:117
+#: ../core/src/pdfviewer/pdfviewer.cpp:118
 msgctxt "PdfViewer|"
 msgid "Crop Current View"
 msgstr "Recortar vista actual"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:122
+#: ../core/src/pdfviewer/pdfviewer.cpp:123
 msgctxt "PdfViewer|"
 msgid "Document to all"
 msgstr "Documento a todos"
@@ -4084,22 +4121,22 @@ msgstr "Documento a todos"
 #~ msgid "Export to Map"
 #~ msgstr "Exportar a mapa"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:125
+#: ../core/src/pdfviewer/pdfviewer.cpp:126
 msgctxt "PdfViewer|"
 msgid "Export into VMap"
 msgstr "Exportar a mapa vectorial"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:128
+#: ../core/src/pdfviewer/pdfviewer.cpp:129
 msgctxt "PdfViewer|"
 msgid "Export as Image"
 msgstr "Exportar como imagen"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:168
+#: ../core/src/pdfviewer/pdfviewer.cpp:169
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
 msgstr "Compartir archivo PDF"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:169
+#: ../core/src/pdfviewer/pdfviewer.cpp:170
 msgctxt "PdfViewer|"
 msgid ""
 "PDF transfert can be really heavy.\n"
@@ -4108,7 +4145,7 @@ msgstr ""
 "La transferencia del PDF puede tardar mucho en completarse.\n"
 "¿Quieres seguir adelante y compartir el PDF?"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:183
+#: ../core/src/pdfviewer/pdfviewer.cpp:184
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
@@ -5619,7 +5656,7 @@ msgstr "División entre cero"
 #~ msgid "Map"
 #~ msgstr "Mapa"
 
-#: ../core/src/data/cleveruri.cpp:287
+#: ../core/src/data/cleveruri.cpp:267
 msgctxt "QObject|"
 msgid "Vectorial Map"
 msgstr "Mapa vectorial"
@@ -5628,12 +5665,12 @@ msgstr "Mapa vectorial"
 #~ msgid "Chat"
 #~ msgstr "Chat"
 
-#: ../core/src/data/cleveruri.cpp:289
+#: ../core/src/data/cleveruri.cpp:269
 msgctxt "QObject|"
 msgid "Picture"
 msgstr "Foto"
 
-#: ../core/src/data/cleveruri.cpp:290
+#: ../core/src/data/cleveruri.cpp:270
 msgctxt "QObject|"
 msgid "Online Picture"
 msgstr "Foto en línea"
@@ -5643,7 +5680,7 @@ msgctxt "QObject|"
 msgid "Text"
 msgstr "Texto"
 
-#: ../core/src/data/cleveruri.cpp:292
+#: ../core/src/data/cleveruri.cpp:272
 msgctxt "QObject|"
 msgid "Charecter Sheet"
 msgstr "Hoja de personaje"
@@ -5660,24 +5697,24 @@ msgstr "Hoja de personaje"
 #~ msgid "Song List"
 #~ msgstr "Lista de canciones"
 
-#: ../core/src/data/cleveruri.cpp:295
+#: ../core/src/data/cleveruri.cpp:275
 msgctxt "QObject|"
 msgid "Shared Notes"
 msgstr "Notas compartidas"
 
-#: ../core/src/data/cleveruri.cpp:246
+#: ../core/src/data/cleveruri.cpp:226
 #, qt-format
 msgctxt "QObject|"
 msgid "Character Sheets files  (%1)"
 msgstr "Archivos de hojas de personaje (%1)"
 
-#: ../core/src/data/cleveruri.cpp:250
+#: ../core/src/data/cleveruri.cpp:230
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Image formats (%1)"
 msgstr "Formatos de imagen compatibles (%1)"
 
-#: ../core/src/data/cleveruri.cpp:254
+#: ../core/src/data/cleveruri.cpp:234
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Text Files (%1)"
@@ -5693,66 +5730,66 @@ msgstr "Archivos de texto compatibles (%1)"
 #~ msgid "Supported Audio formats (%1)"
 #~ msgstr "Formatos de audio compatibles (%1)"
 
-#: ../core/src/data/cleveruri.cpp:262
+#: ../core/src/data/cleveruri.cpp:242
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Shared Note formats (%1)"
 msgstr "Formatos de nota compartida compatibles (%1)"
 
-#: ../core/src/data/cleveruri.cpp:266
+#: ../core/src/data/cleveruri.cpp:246
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported WebPage (%1)"
 msgstr "Página web compatible (%1)"
 
-#: ../core/src/data/cleveruri.cpp:270
+#: ../core/src/data/cleveruri.cpp:250
 #, qt-format
 msgctxt "QObject|"
 msgid "Pdf File (%1)"
 msgstr "Archivo PDF (%1)"
 
-#: ../core/src/data/cleveruri.cpp:273
+#: ../core/src/data/cleveruri.cpp:253
 #, qt-format
 msgctxt "QObject|"
 msgid "Vectorial Map (%1)"
 msgstr "Mapa vectorial (%1)"
 
-#: ../core/src/data/cleveruri.cpp:291
+#: ../core/src/data/cleveruri.cpp:271
 msgctxt "QObject|"
 msgid "Minutes"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:297
+#: ../core/src/data/cleveruri.cpp:277
 msgctxt "QObject|"
 msgid "Pdf"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:298
+#: ../core/src/data/cleveruri.cpp:278
 msgctxt "QObject|"
 msgid "Webview"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:336
+#: ../core/src/data/cleveruri.cpp:309
 msgctxt "QObject|"
 msgid "Internal"
 msgstr "Interno"
 
-#: ../core/src/data/cleveruri.cpp:336
+#: ../core/src/data/cleveruri.cpp:309
 msgctxt "QObject|"
 msgid "Linked"
 msgstr "Vincular"
 
-#: ../core/src/data/cleveruri.cpp:340
+#: ../core/src/data/cleveruri.cpp:314
 msgctxt "QObject|"
 msgid "Closed"
 msgstr "Cerrar"
 
-#: ../core/src/data/cleveruri.cpp:340 ../core/src/vmap/vmapframe.cpp:36
+#: ../core/src/data/cleveruri.cpp:314 ../core/src/vmap/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "Hidden"
 msgstr "Oculto"
 
-#: ../core/src/data/cleveruri.cpp:340
+#: ../core/src/data/cleveruri.cpp:314
 msgctxt "QObject|"
 msgid "Displayed"
 msgstr "Mostrado"
@@ -5837,11 +5874,10 @@ msgctxt "QObject|"
 msgid "Error: division by Zero"
 msgstr "Error: división entre cero"
 
-#: ../core/src/undoCmd/openmediacontroller.cpp:34
 #, qt-format
-msgctxt "QObject|"
-msgid "Show %1"
-msgstr "Mostrar %1"
+#~ msgctxt "QObject|"
+#~ msgid "Show %1"
+#~ msgstr "Mostrar %1"
 
 #~ msgctxt "QObject|"
 #~ msgid "Add vmap item"
@@ -5901,7 +5937,7 @@ msgctxt "QObject|"
 msgid "Ellipse"
 msgstr "Elipse"
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:259
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:282
 #: ../core/src/vmap/items/visualitem.cpp:42 ../core/src/vmap/vmapframe.cpp:64
 msgctxt "QObject|"
 msgid "Character"
@@ -5964,13 +6000,13 @@ msgctxt "QObject|"
 msgid "Add %1 Field"
 msgstr ""
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:259
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:282
 #: ../core/src/vmap/vmapframe.cpp:58
 msgctxt "QObject|"
 msgid "Ground"
 msgstr "Terreno"
 
-#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:259
+#: ../core/src/controller/view_controller/vectorialmapcontroller.cpp:282
 #: ../core/src/vmap/vmapframe.cpp:61
 msgctxt "QObject|"
 msgid "Object"
@@ -6168,32 +6204,38 @@ msgctxt "QObject|"
 msgid "Create new %1 %2"
 msgstr ""
 
-#: ../core/src/vmap/rgraphicsview.cpp:314
+#: ../core/src/undoCmd/openmediacontroller.cpp:39
+#, fuzzy, qt-format
+msgctxt "QObject|"
+msgid "Open %1"
+msgstr "Abrir %1"
+
+#: ../core/src/vmap/rgraphicsview.cpp:309
 msgctxt "RGraphicsView|"
 msgid "Edit Layer"
 msgstr "Editar capa"
 
-#: ../core/src/vmap/rgraphicsview.cpp:319
+#: ../core/src/vmap/rgraphicsview.cpp:314
 msgctxt "RGraphicsView|"
 msgid "Change Visibility"
 msgstr "Cambiar visibilidad"
 
-#: ../core/src/vmap/rgraphicsview.cpp:324
+#: ../core/src/vmap/rgraphicsview.cpp:319
 msgctxt "RGraphicsView|"
 msgid "Roll Init"
 msgstr "Lanzar iniciativa"
 
-#: ../core/src/vmap/rgraphicsview.cpp:330
+#: ../core/src/vmap/rgraphicsview.cpp:325
 msgctxt "RGraphicsView|"
 msgid "Clean Init"
 msgstr "Quitar iniciativa"
 
-#: ../core/src/vmap/rgraphicsview.cpp:293
+#: ../core/src/vmap/rgraphicsview.cpp:288
 msgctxt "RGraphicsView|"
 msgid "Remove"
 msgstr "Eliminar"
 
-#: ../core/src/vmap/rgraphicsview.cpp:241
+#: ../core/src/vmap/rgraphicsview.cpp:236
 #, qt-format
 msgctxt "RGraphicsView|"
 msgid "%n item(s)"
@@ -6201,233 +6243,233 @@ msgid_plural "%n item(s)"
 msgstr[0] "%n elemento"
 msgstr[1] "%n elementos"
 
-#: ../core/src/vmap/rgraphicsview.cpp:493
+#: ../core/src/vmap/rgraphicsview.cpp:488
 msgctxt "RGraphicsView|"
 msgid "Back"
 msgstr "Ir hacia atrás"
 
-#: ../core/src/vmap/rgraphicsview.cpp:497
+#: ../core/src/vmap/rgraphicsview.cpp:492
 msgctxt "RGraphicsView|"
 msgid "Front"
 msgstr "Ir hacia delante"
 
-#: ../core/src/vmap/rgraphicsview.cpp:501
+#: ../core/src/vmap/rgraphicsview.cpp:496
 msgctxt "RGraphicsView|"
 msgid "Lower"
 msgstr "Bajar"
 
-#: ../core/src/vmap/rgraphicsview.cpp:505
+#: ../core/src/vmap/rgraphicsview.cpp:500
 msgctxt "RGraphicsView|"
 msgid "Raise"
 msgstr "Subir"
 
-#: ../core/src/vmap/rgraphicsview.cpp:272
+#: ../core/src/vmap/rgraphicsview.cpp:267
 msgctxt "RGraphicsView|"
 msgid "Rotate"
 msgstr "Rotar"
 
-#: ../core/src/vmap/rgraphicsview.cpp:296
+#: ../core/src/vmap/rgraphicsview.cpp:291
 msgctxt "RGraphicsView|"
 msgid "Map"
 msgstr "Mapa"
 
-#: ../core/src/vmap/rgraphicsview.cpp:336
+#: ../core/src/vmap/rgraphicsview.cpp:331
 msgctxt "RGraphicsView|"
 msgid "Zoom"
 msgstr "Ampliar"
 
-#: ../core/src/vmap/rgraphicsview.cpp:266
+#: ../core/src/vmap/rgraphicsview.cpp:261
 msgctxt "RGraphicsView|"
 msgid "Overlapping"
 msgstr "Superposición"
 
-#: ../core/src/vmap/rgraphicsview.cpp:273
+#: ../core/src/vmap/rgraphicsview.cpp:268
 msgctxt "RGraphicsView|"
 msgid "To 360"
 msgstr "en 360"
 
-#: ../core/src/vmap/rgraphicsview.cpp:274
+#: ../core/src/vmap/rgraphicsview.cpp:269
 msgctxt "RGraphicsView|"
 msgid "Right"
 msgstr "Derecha"
 
-#: ../core/src/vmap/rgraphicsview.cpp:275
+#: ../core/src/vmap/rgraphicsview.cpp:270
 msgctxt "RGraphicsView|"
 msgid "Left"
 msgstr "Izquierda"
 
-#: ../core/src/vmap/rgraphicsview.cpp:276
+#: ../core/src/vmap/rgraphicsview.cpp:271
 msgctxt "RGraphicsView|"
 msgid "Set Angle…"
 msgstr "Establecer ángulo..."
 
-#: ../core/src/vmap/rgraphicsview.cpp:278
+#: ../core/src/vmap/rgraphicsview.cpp:273
 msgctxt "RGraphicsView|"
 msgid "Set Layer"
 msgstr "Establecer capa"
 
-#: ../core/src/vmap/rgraphicsview.cpp:286
+#: ../core/src/vmap/rgraphicsview.cpp:281
 msgctxt "RGraphicsView|"
 msgid "Normalize Size"
 msgstr "Normalizar tamaño"
 
-#: ../core/src/vmap/rgraphicsview.cpp:395
+#: ../core/src/vmap/rgraphicsview.cpp:390
 msgctxt "RGraphicsView|"
 msgid "Rotation Value ?"
 msgstr "¿Cuál es el valor de la rotación?"
 
-#: ../core/src/vmap/rgraphicsview.cpp:396
+#: ../core/src/vmap/rgraphicsview.cpp:391
 msgctxt "RGraphicsView|"
 msgid "Please, set the rotation angle you want [0-360]"
 msgstr "Define qué ángulo de rotación deseas [0-360]"
 
-#: ../core/src/vmap/rgraphicsview.cpp:472
+#: ../core/src/vmap/rgraphicsview.cpp:467
 msgctxt "RGraphicsView|"
 msgid "Zoom to Normal"
 msgstr "Enfocar con normalidad"
 
-#: ../core/src/vmap/rgraphicsview.cpp:473
+#: ../core/src/vmap/rgraphicsview.cpp:468
 msgctxt "RGraphicsView|"
 msgid "Zoom In Max"
 msgstr "Ampliar el zoom al máximo"
 
-#: ../core/src/vmap/rgraphicsview.cpp:474
+#: ../core/src/vmap/rgraphicsview.cpp:469
 msgctxt "RGraphicsView|"
 msgid "Zoom Out Max"
 msgstr "Reducir el zoom al mínimo"
 
-#: ../core/src/vmap/rgraphicsview.cpp:475
+#: ../core/src/vmap/rgraphicsview.cpp:470
 msgctxt "RGraphicsView|"
 msgid "Center on Item"
 msgstr "Centrarse en el elemento"
 
-#: ../core/src/vmap/rgraphicsview.cpp:477
+#: ../core/src/vmap/rgraphicsview.cpp:472
 msgctxt "RGraphicsView|"
 msgid "Zoom In"
 msgstr "Ampliar zoom"
 
-#: ../core/src/vmap/rgraphicsview.cpp:480
+#: ../core/src/vmap/rgraphicsview.cpp:475
 msgctxt "RGraphicsView|"
 msgid "Zoom Out"
 msgstr "Reducir zoom"
 
-#: ../core/src/vmap/rgraphicsview.cpp:483
+#: ../core/src/vmap/rgraphicsview.cpp:478
 msgctxt "RGraphicsView|"
 msgid "Import Image"
 msgstr "Importar imagen"
 
-#: ../core/src/vmap/rgraphicsview.cpp:509
+#: ../core/src/vmap/rgraphicsview.cpp:504
 msgctxt "RGraphicsView|"
 msgid "Average"
 msgstr "Promedio"
 
-#: ../core/src/vmap/rgraphicsview.cpp:512
+#: ../core/src/vmap/rgraphicsview.cpp:507
 msgctxt "RGraphicsView|"
 msgid "As undermouse item"
 msgstr "Como elemento undermouse"
 
-#: ../core/src/vmap/rgraphicsview.cpp:515
+#: ../core/src/vmap/rgraphicsview.cpp:510
 msgctxt "RGraphicsView|"
 msgid "As the Bigger"
 msgstr "Como mayor"
 
-#: ../core/src/vmap/rgraphicsview.cpp:518
+#: ../core/src/vmap/rgraphicsview.cpp:513
 msgctxt "RGraphicsView|"
 msgid "As the Smaller"
 msgstr "Como menor"
 
-#: ../core/src/vmap/rgraphicsview.cpp:521
+#: ../core/src/vmap/rgraphicsview.cpp:516
 msgctxt "RGraphicsView|"
 msgid "Lock/Unlock Item Geometry"
 msgstr "Bloquear/desbloquear la geometría del elemento"
 
-#: ../core/src/vmap/rgraphicsview.cpp:531
+#: ../core/src/vmap/rgraphicsview.cpp:526
 msgctxt "RGraphicsView|"
 msgid "Properties"
 msgstr "Propiedades"
 
-#: ../core/src/vmap/rgraphicsview.cpp:536
-#: ../core/src/vmap/rgraphicsview.cpp:550
+#: ../core/src/vmap/rgraphicsview.cpp:531
+#: ../core/src/vmap/rgraphicsview.cpp:545
 msgctxt "RGraphicsView|"
 msgid "Ground"
 msgstr "Terreno"
 
-#: ../core/src/vmap/rgraphicsview.cpp:539
-#: ../core/src/vmap/rgraphicsview.cpp:553
+#: ../core/src/vmap/rgraphicsview.cpp:534
+#: ../core/src/vmap/rgraphicsview.cpp:548
 msgctxt "RGraphicsView|"
 msgid "Object"
 msgstr "Objeto"
 
-#: ../core/src/vmap/rgraphicsview.cpp:542
-#: ../core/src/vmap/rgraphicsview.cpp:556
+#: ../core/src/vmap/rgraphicsview.cpp:537
+#: ../core/src/vmap/rgraphicsview.cpp:551
 msgctxt "RGraphicsView|"
 msgid "Character"
 msgstr "Personaje"
 
-#: ../core/src/vmap/rgraphicsview.cpp:565
+#: ../core/src/vmap/rgraphicsview.cpp:560
 msgctxt "RGraphicsView|"
 msgid "All"
 msgstr "Todos"
 
-#: ../core/src/vmap/rgraphicsview.cpp:568
+#: ../core/src/vmap/rgraphicsview.cpp:563
 msgctxt "RGraphicsView|"
 msgid "Hidden"
 msgstr "Oculto"
 
-#: ../core/src/vmap/rgraphicsview.cpp:572
+#: ../core/src/vmap/rgraphicsview.cpp:567
 msgctxt "RGraphicsView|"
 msgid "Fog Of War"
 msgstr "Niebla de guerra"
 
-#: ../core/src/vmap/rgraphicsview.cpp:584
-#: ../core/src/vmap/rgraphicsview.cpp:596
+#: ../core/src/vmap/rgraphicsview.cpp:579
+#: ../core/src/vmap/rgraphicsview.cpp:591
 msgctxt "RGraphicsView|"
 msgid "All Npcs"
 msgstr "Todos los PNJ"
 
-#: ../core/src/vmap/rgraphicsview.cpp:585
+#: ../core/src/vmap/rgraphicsview.cpp:580
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Npcs"
 msgstr "Lanzar iniciativa a todos los PNJ"
 
-#: ../core/src/vmap/rgraphicsview.cpp:588
-#: ../core/src/vmap/rgraphicsview.cpp:600
+#: ../core/src/vmap/rgraphicsview.cpp:583
+#: ../core/src/vmap/rgraphicsview.cpp:595
 msgctxt "RGraphicsView|"
 msgid "Selection"
 msgstr "Selección"
 
-#: ../core/src/vmap/rgraphicsview.cpp:589
+#: ../core/src/vmap/rgraphicsview.cpp:584
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on Selection"
 msgstr "Lanzar iniciativa a la selección"
 
-#: ../core/src/vmap/rgraphicsview.cpp:592
-#: ../core/src/vmap/rgraphicsview.cpp:604
+#: ../core/src/vmap/rgraphicsview.cpp:587
+#: ../core/src/vmap/rgraphicsview.cpp:599
 msgctxt "RGraphicsView|"
 msgid "All Characters"
 msgstr "Todos los personajes"
 
-#: ../core/src/vmap/rgraphicsview.cpp:593
+#: ../core/src/vmap/rgraphicsview.cpp:588
 msgctxt "RGraphicsView|"
 msgid "Roll Initiative on All Characters"
 msgstr "Lanzar iniciativa a todos los personajes"
 
-#: ../core/src/vmap/rgraphicsview.cpp:597
+#: ../core/src/vmap/rgraphicsview.cpp:592
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on All Npcs"
 msgstr "Quitar iniciativa a todos los PNJ"
 
-#: ../core/src/vmap/rgraphicsview.cpp:601
+#: ../core/src/vmap/rgraphicsview.cpp:596
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on Selection"
 msgstr "Quitar iniciativa a la selección"
 
-#: ../core/src/vmap/rgraphicsview.cpp:605
+#: ../core/src/vmap/rgraphicsview.cpp:600
 msgctxt "RGraphicsView|"
 msgid "Clean Initiative on All Characters"
 msgstr "Quitar iniciativa a todos los personajes"
 
-#: ../core/src/vmap/rgraphicsview.cpp:800
+#: ../core/src/vmap/rgraphicsview.cpp:795
 msgctxt "RGraphicsView|"
 msgid "Open image file"
 msgstr "Abrir archivo de imagen"
@@ -6649,30 +6691,30 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Load Avatar"
 msgstr "Cargar avatar"
 
-#: ../core/src/network/servermanager.cpp:106
+#: ../core/src/network/servermanager.cpp:89
 msgctxt "ServerManager|"
 msgid "Rolisteam Server is on!"
 msgstr "¡El servidor de Rolisteam está activo!"
 
-#: ../core/src/network/servermanager.cpp:115
+#: ../core/src/network/servermanager.cpp:98
 #, qt-format
 msgctxt "ServerManager|"
 msgid "Retry start server in %1s!"
 msgstr "Intenta reiniciar el servidor en %1s."
 
-#: ../core/src/network/servermanager.cpp:121
+#: ../core/src/network/servermanager.cpp:104
 msgctxt "ServerManager|"
 msgid "Retry count reached. Server stops trying."
 msgstr "Límite de intentos alcanzado. El servidor ha dejado de intentarlo."
 
-#: ../core/src/network/servermanager.cpp:290
+#: ../core/src/network/servermanager.cpp:272
 #, qt-format
 msgctxt "ServerManager|"
 msgid "Authentification as Admin fails: %2 - %1, Wrong password."
 msgstr ""
 "Error de autenticación como administrador: %2 - %1, contraseña incorrecta."
 
-#: ../core/src/network/servermanager.cpp:316
+#: ../core/src/network/servermanager.cpp:298
 #, qt-format
 msgctxt "ServerManager|"
 msgid ""
@@ -6681,18 +6723,18 @@ msgstr ""
 "Error de autenticación: %1 intenta conectarse al servidor con una contraseña "
 "incorrecta."
 
-#: ../core/src/network/servermanager.cpp:334
+#: ../core/src/network/servermanager.cpp:316
 #, qt-format
 msgctxt "ServerManager|"
 msgid "User has been kick out: %2 - %1."
 msgstr "Se ha expulsado al usuario: %2 - %1."
 
-#: ../core/src/network/servermanager.cpp:531
+#: ../core/src/network/servermanager.cpp:513
 msgctxt "ServerManager|"
 msgid "New Incoming Connection!"
 msgstr "¡Nueva conexión entrante!"
 
-#: ../core/src/network/servermanager.cpp:579
+#: ../core/src/network/servermanager.cpp:561
 #, qt-format
 msgctxt "ServerManager|"
 msgid "User %1 has been disconnected!"
@@ -7232,6 +7274,12 @@ msgstr ""
 #~ msgid "%1[*] - SharedNote - %2"
 #~ msgstr "%1[*] - Nota compartida - %2"
 
+#: ../core/src/sharededitor/sharednote.cpp:52
+#, qt-format
+msgctxt "SharedNote|"
+msgid "%1 - Shared Note Editor"
+msgstr ""
+
 #: ../core/src/widgets/shortcuteditordialog.ui:14
 #: ../build/core/core_autogen/include/ui_shortcuteditordialog.h:62
 #: ../build/core/network_autogen/include/ui_shortcuteditordialog.h:62
@@ -7301,153 +7349,148 @@ msgctxt "TestCharacterStateModel|"
 msgid "Bewitched"
 msgstr "Embrujado"
 
-#: ../core/src/noteeditor/src/textedit.cpp:730
+#: ../core/src/noteeditor/src/textedit.cpp:729
 msgctxt "TextEdit|"
 msgid "About"
 msgstr "Acerca de"
 
-#: ../core/src/noteeditor/src/textedit.cpp:173
+#: ../core/src/noteeditor/src/textedit.cpp:172
 msgctxt "TextEdit|"
 msgid "File Actions"
 msgstr "Acciones de archivo"
 
-#: ../core/src/noteeditor/src/textedit.cpp:176
+#: ../core/src/noteeditor/src/textedit.cpp:175
 msgctxt "TextEdit|"
 msgid "&File"
 msgstr "&File"
 
-#: ../core/src/noteeditor/src/textedit.cpp:181
-msgctxt "TextEdit|"
-msgid "&New"
-msgstr "&New"
+#~ msgctxt "TextEdit|"
+#~ msgid "&New"
+#~ msgstr "&New"
 
-#: ../core/src/noteeditor/src/textedit.cpp:187
-msgctxt "TextEdit|"
-msgid "&Open..."
-msgstr "&Abrir..."
+#~ msgctxt "TextEdit|"
+#~ msgid "&Open..."
+#~ msgstr "&Abrir..."
 
-#: ../core/src/noteeditor/src/textedit.cpp:195
-msgctxt "TextEdit|"
-msgid "&Save"
-msgstr "&Guardar"
+#~ msgctxt "TextEdit|"
+#~ msgid "&Save"
+#~ msgstr "&Guardar"
 
-#: ../core/src/noteeditor/src/textedit.cpp:202
-msgctxt "TextEdit|"
-msgid "Save &As..."
-msgstr "Guardar &como..."
+#~ msgctxt "TextEdit|"
+#~ msgid "Save &As..."
+#~ msgstr "Guardar &como..."
 
-#: ../core/src/noteeditor/src/textedit.cpp:207
+#: ../core/src/noteeditor/src/textedit.cpp:206
 msgctxt "TextEdit|"
 msgid "&Print..."
 msgstr "&Imprimir..."
 
-#: ../core/src/noteeditor/src/textedit.cpp:213
+#: ../core/src/noteeditor/src/textedit.cpp:212
 msgctxt "TextEdit|"
 msgid "Print Preview..."
 msgstr "Imprimir vista previa..."
 
-#: ../core/src/noteeditor/src/textedit.cpp:217
+#: ../core/src/noteeditor/src/textedit.cpp:216
 msgctxt "TextEdit|"
 msgid "&Export PDF..."
 msgstr "&Exportar PDF..."
 
-#: ../core/src/noteeditor/src/textedit.cpp:225
-msgctxt "TextEdit|"
-msgid "&Quit"
-msgstr "&Salir"
+#~ msgctxt "TextEdit|"
+#~ msgid "&Quit"
+#~ msgstr "&Salir"
 
-#: ../core/src/noteeditor/src/textedit.cpp:234
+#: ../core/src/noteeditor/src/textedit.cpp:233
 msgctxt "TextEdit|"
 msgid "Edit Actions"
 msgstr "Editar acciones"
 
-#: ../core/src/noteeditor/src/textedit.cpp:237
+#: ../core/src/noteeditor/src/textedit.cpp:236
 msgctxt "TextEdit|"
 msgid "&Edit"
 msgstr "&Editar"
 
-#: ../core/src/noteeditor/src/textedit.cpp:241
+#: ../core/src/noteeditor/src/textedit.cpp:240
 msgctxt "TextEdit|"
 msgid "&Undo"
 msgstr "&Deshacer"
 
-#: ../core/src/noteeditor/src/textedit.cpp:245
+#: ../core/src/noteeditor/src/textedit.cpp:244
 msgctxt "TextEdit|"
 msgid "&Redo"
 msgstr "&Rehacer"
 
-#: ../core/src/noteeditor/src/textedit.cpp:250
+#: ../core/src/noteeditor/src/textedit.cpp:249
 msgctxt "TextEdit|"
 msgid "Cu&t"
 msgstr "Cor&tar"
 
-#: ../core/src/noteeditor/src/textedit.cpp:254
+#: ../core/src/noteeditor/src/textedit.cpp:253
 msgctxt "TextEdit|"
 msgid "&Copy"
 msgstr "&Copiar"
 
-#: ../core/src/noteeditor/src/textedit.cpp:258
+#: ../core/src/noteeditor/src/textedit.cpp:257
 msgctxt "TextEdit|"
 msgid "&Paste"
 msgstr "&Pegar"
 
-#: ../core/src/noteeditor/src/textedit.cpp:268
-#: ../core/src/noteeditor/src/textedit.cpp:336
+#: ../core/src/noteeditor/src/textedit.cpp:267
+#: ../core/src/noteeditor/src/textedit.cpp:335
 msgctxt "TextEdit|"
 msgid "Format Actions"
 msgstr "Acciones de formato"
 
-#: ../core/src/noteeditor/src/textedit.cpp:271
+#: ../core/src/noteeditor/src/textedit.cpp:270
 msgctxt "TextEdit|"
 msgid "F&ormat"
 msgstr "F&ormato"
 
-#: ../core/src/noteeditor/src/textedit.cpp:274
+#: ../core/src/noteeditor/src/textedit.cpp:273
 msgctxt "TextEdit|"
 msgid "&Bold"
 msgstr "&Negrita"
 
-#: ../core/src/noteeditor/src/textedit.cpp:284
+#: ../core/src/noteeditor/src/textedit.cpp:283
 msgctxt "TextEdit|"
 msgid "&Italic"
 msgstr "&Cursiva"
 
-#: ../core/src/noteeditor/src/textedit.cpp:294
+#: ../core/src/noteeditor/src/textedit.cpp:293
 msgctxt "TextEdit|"
 msgid "&Underline"
 msgstr "&Subrayado"
 
-#: ../core/src/noteeditor/src/textedit.cpp:309
+#: ../core/src/noteeditor/src/textedit.cpp:308
 msgctxt "TextEdit|"
 msgid "&Left"
 msgstr "&Izquierda"
 
-#: ../core/src/noteeditor/src/textedit.cpp:312
+#: ../core/src/noteeditor/src/textedit.cpp:311
 msgctxt "TextEdit|"
 msgid "C&enter"
 msgstr "C&entro"
 
-#: ../core/src/noteeditor/src/textedit.cpp:315
+#: ../core/src/noteeditor/src/textedit.cpp:314
 msgctxt "TextEdit|"
 msgid "&Right"
 msgstr "&Derecha"
 
-#: ../core/src/noteeditor/src/textedit.cpp:318
+#: ../core/src/noteeditor/src/textedit.cpp:317
 msgctxt "TextEdit|"
 msgid "&Justify"
 msgstr "&Justificar"
 
-#: ../core/src/noteeditor/src/textedit.cpp:329
+#: ../core/src/noteeditor/src/textedit.cpp:328
 msgctxt "TextEdit|"
 msgid "&Color..."
 msgstr "&Color..."
 
-#: ../core/src/noteeditor/src/textedit.cpp:441
+#: ../core/src/noteeditor/src/textedit.cpp:440
 msgctxt "TextEdit|"
 msgid "Application"
 msgstr "Aplicación"
 
-#: ../core/src/noteeditor/src/textedit.cpp:442
+#: ../core/src/noteeditor/src/textedit.cpp:441
 msgctxt "TextEdit|"
 msgid ""
 "The document has been modified.\n"
@@ -7456,33 +7499,33 @@ msgstr ""
 "El documento se ha modificado.\n"
 "¿Quieres guardar los cambios?"
 
-#: ../core/src/noteeditor/src/textedit.cpp:470
+#: ../core/src/noteeditor/src/textedit.cpp:469
 msgctxt "TextEdit|"
 msgid "Open File..."
 msgstr "Abrir archivo..."
 
-#: ../core/src/noteeditor/src/textedit.cpp:527
+#: ../core/src/noteeditor/src/textedit.cpp:526
 msgctxt "TextEdit|"
 msgid "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)"
 msgstr ""
 "Archivos ODF (*.odt);;archivos HTML (*.htm *.html);;Todos los archivos (*)"
 
-#: ../core/src/noteeditor/src/textedit.cpp:529
+#: ../core/src/noteeditor/src/textedit.cpp:528
 msgctxt "TextEdit|"
 msgid "HTML-Files (*.htm *.html);;All Files (*)"
 msgstr "Archivos HTML (*.htm *.html);;Todos los archivos (*)"
 
-#: ../core/src/noteeditor/src/textedit.cpp:531
+#: ../core/src/noteeditor/src/textedit.cpp:530
 msgctxt "TextEdit|"
 msgid "Save as..."
 msgstr "Guardar como..."
 
-#: ../core/src/noteeditor/src/textedit.cpp:546
+#: ../core/src/noteeditor/src/textedit.cpp:545
 msgctxt "TextEdit|"
 msgid "Print Document"
 msgstr "Imprimir documento"
 
-#: ../core/src/noteeditor/src/textedit.cpp:731
+#: ../core/src/noteeditor/src/textedit.cpp:730
 msgctxt "TextEdit|"
 msgid ""
 "This example demonstrates Qt's rich text editing facilities in action, "
@@ -7492,7 +7535,7 @@ msgstr ""
 "disponibles en Qt a través de un documento de prueba con el que puedes "
 "experimentar."
 
-#: ../core/src/noteeditor/src/textedit.cpp:789
+#: ../core/src/noteeditor/src/textedit.cpp:788
 msgctxt "TextEdit|"
 msgid "OpenOffice 2.4 file format OASIS "
 msgstr "Formato de archivo de OpenOffice 2.4 OASIS"
@@ -7910,7 +7953,7 @@ msgctxt "VToolsBar|"
 msgid "Opacity:"
 msgstr "Opacidad:"
 
-#: ../core/src/vmap/items/visualitem.cpp:246
+#: ../core/src/vmap/items/visualitem.cpp:247
 msgctxt "VisualItem|"
 msgid "Duplicate Item"
 msgstr "Elemento duplicado"
@@ -8065,7 +8108,7 @@ msgctxt "WebView|"
 msgid "Form"
 msgstr "Formulario"
 
-#: ../core/src/webview/webview.cpp:126
+#: ../core/src/webview/webview.cpp:124
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"
@@ -8132,6 +8175,12 @@ msgctxt "WebView|"
 msgid "Keep Sharing"
 msgstr "Sigue compartiendo"
 
+#: ../core/src/widgets/workspace.cpp:415
+#, fuzzy
+msgctxt "Workspace|"
+msgid "Stop Sharing"
+msgstr "Dejar de compartir"
+
 #: ../core/src/noteeditor/format_OO_oasis_/XML_Editor.cpp:59
 msgctxt "XMLTextEdit|"
 msgid "Found xml error"
@@ -8191,7 +8240,7 @@ msgctxt "main|"
 msgid "Command"
 msgstr "Orden"
 
-#: ../core/src/vmap/controller/textcontroller.cpp:63
+#: ../core/src/vmap/controller/textcontroller.cpp:66
 #, fuzzy
 msgctxt "vmap::TextController|"
 msgid "Text"

@@ -1230,12 +1230,12 @@ Tip: %7
         <translation>Formular</translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/document.cpp" line="288"/>
+        <location filename="../core/src/sharededitor/document.cpp" line="293"/>
         <source>Cahoots</source>
         <translation>Cahoots</translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/document.cpp" line="288"/>
+        <location filename="../core/src/sharededitor/document.cpp" line="293"/>
         <source>The string was not found.</source>
         <translation>Șirul nu a fost găsit.</translation>
     </message>
@@ -1463,121 +1463,144 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Compresia imaginii eșuează (saveImageToFile - Image.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="247"/>
+        <location filename="../core/src/media/image.cpp" line="57"/>
+        <location filename="../core/src/media/image.cpp" line="66"/>
+        <source>%1 - Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/media/image.cpp" line="254"/>
         <source>%1 - (Picture)</source>
         <translation>%1 - (Imagine)</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="252"/>
+        <location filename="../core/src/media/image.cpp" line="259"/>
         <source>Zoom In</source>
         <translation>Mărește</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="253"/>
+        <location filename="../core/src/media/image.cpp" line="260"/>
         <source>increase zoom level</source>
         <translation>crește nivelul de zoom</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="257"/>
+        <location filename="../core/src/media/image.cpp" line="264"/>
         <source>Ctrl++</source>
         <comment>Zoom In</comment>
         <translation>Ctrl++</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="262"/>
+        <location filename="../core/src/media/image.cpp" line="269"/>
         <source>Zoom out</source>
         <translation>Micșorează</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="264"/>
+        <location filename="../core/src/media/image.cpp" line="271"/>
         <source>Reduce zoom level</source>
         <translation>Redu nivelul de zoom</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="267"/>
+        <location filename="../core/src/media/image.cpp" line="274"/>
         <source>Ctrl+-</source>
         <comment>Zoom Out</comment>
         <translation>Ctrl+-</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="277"/>
+        <location filename="../core/src/media/image.cpp" line="284"/>
         <source>Fit the workspace</source>
         <translation>Potrivește spațiul de lucru</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="279"/>
+        <location filename="../core/src/media/image.cpp" line="286"/>
         <source>The window and the image fit the workspace</source>
         <translation>Fereastra și imaginea se potrivesc pe spațiul de lucru</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="282"/>
+        <location filename="../core/src/media/image.cpp" line="289"/>
         <source>Ctrl+m</source>
         <comment>Fit the workspace</comment>
         <translation>Ctrl+m</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="289"/>
+        <location filename="../core/src/media/image.cpp" line="296"/>
         <source>Fit Window</source>
         <translation>Potrivește fereastra</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="294"/>
+        <location filename="../core/src/media/image.cpp" line="301"/>
         <source>Image will take the best dimension to fit the window.</source>
         <translation>Imaginea va fi dimensionată pentru a se potrivi ferestrei.</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="297"/>
+        <location filename="../core/src/media/image.cpp" line="304"/>
         <source>Ctrl+f</source>
         <comment>Fit the window</comment>
         <translation>Ctrl+f</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="304"/>
+        <location filename="../core/src/media/image.cpp" line="311"/>
         <source>Little</source>
         <translation>Mic</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="305"/>
+        <location filename="../core/src/media/image.cpp" line="312"/>
         <source>Set the zoom level at 20% </source>
         <translation>Setează nivelul de zoom la 20%</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="308"/>
+        <location filename="../core/src/media/image.cpp" line="315"/>
         <source>Ctrl+l</source>
         <comment>Set the zoom level at 20%</comment>
         <translation>Ctrl+l</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="315"/>
+        <location filename="../core/src/media/image.cpp" line="322"/>
         <source>Normal</source>
         <translation>Normal</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="316"/>
+        <location filename="../core/src/media/image.cpp" line="323"/>
         <source>No Zoom</source>
         <translation>Fără zoom</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="319"/>
+        <location filename="../core/src/media/image.cpp" line="326"/>
         <source>Ctrl+n</source>
         <comment>Normal</comment>
         <translation>Ctrl+n</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="326"/>
+        <location filename="../core/src/media/image.cpp" line="333"/>
         <source>Big</source>
         <translation>Mare</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="327"/>
+        <location filename="../core/src/media/image.cpp" line="334"/>
         <source>Set the zoom level at 400%</source>
         <translation>Setează nivelul de zoom la 400%</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="330"/>
+        <location filename="../core/src/media/image.cpp" line="337"/>
         <source>Ctrl+b</source>
         <comment>Zoom Out</comment>
         <translation>Ctrl+b</translation>
+    </message>
+    <message>
+        <location filename="../core/src/media/image.cpp" line="342"/>
+        <location filename="../core/src/media/image.cpp" line="354"/>
+        <location filename="../core/src/media/image.cpp" line="359"/>
+        <source>Play</source>
+        <translation type="unfinished">Redă</translation>
+    </message>
+    <message>
+        <location filename="../core/src/media/image.cpp" line="344"/>
+        <source>Stop</source>
+        <translation type="unfinished">Stop</translation>
+    </message>
+    <message>
+        <location filename="../core/src/media/image.cpp" line="350"/>
+        <source>Pause</source>
+        <translation type="unfinished">Pauză</translation>
     </message>
 </context>
 <context>
@@ -2046,7 +2069,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1595"/>
+        <location filename="../client/mainwindow.cpp" line="1601"/>
         <source>unknown</source>
         <translation>necunoscut</translation>
     </message>
@@ -2064,32 +2087,32 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Deschide harta</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1494"/>
+        <location filename="../client/mainwindow.cpp" line="1499"/>
         <source>Connected</source>
         <translation>Conectat</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1494"/>
+        <location filename="../client/mainwindow.cpp" line="1499"/>
         <source>Not Connected</source>
         <translation>Neconectat</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1495"/>
+        <location filename="../client/mainwindow.cpp" line="1500"/>
         <source>Server</source>
         <translation>Server</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1495"/>
+        <location filename="../client/mainwindow.cpp" line="1500"/>
         <source>Client</source>
         <translation>Client</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1496"/>
+        <location filename="../client/mainwindow.cpp" line="1501"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1496"/>
+        <location filename="../client/mainwindow.cpp" line="1501"/>
         <source>Player</source>
         <translation>Jucător</translation>
     </message>
@@ -2765,7 +2788,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Termină procesul de conectare</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1594"/>
+        <location filename="../client/mainwindow.cpp" line="1600"/>
         <source>Export from %1</source>
         <translation>Export din %1</translation>
     </message>
@@ -3296,6 +3319,14 @@ Portul:%2</translation>
     </message>
 </context>
 <context>
+    <name>MediaControllerBase</name>
+    <message>
+        <location filename="../core/src/controller/view_controller/mediacontrollerbase.cpp" line="25"/>
+        <source>Unknown</source>
+        <translation type="unfinished">Necunoscut</translation>
+    </message>
+</context>
+<context>
     <name>MusicModel</name>
     <message>
         <location filename="../core/src/audio/musicmodel.cpp" line="33"/>
@@ -3566,6 +3597,11 @@ Portul:%2</translation>
     <message>
         <source>%1[*] - (Notes)</source>
         <translation type="vanished">%1 [*] - (Note)</translation>
+    </message>
+    <message>
+        <location filename="../core/src/noteeditor/src/notecontainer.cpp" line="37"/>
+        <source>%1 - Note</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4063,12 +4099,12 @@ Portul:%2</translation>
 <context>
     <name>PdfViewer</name>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="117"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="118"/>
         <source>Crop Current View</source>
         <translation>Vizualizare curentă a culturilor</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="122"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="123"/>
         <source>Document to all</source>
         <translation>Document pentru toți</translation>
     </message>
@@ -4077,29 +4113,29 @@ Portul:%2</translation>
         <translation type="vanished">Export în hartă</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="125"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="126"/>
         <source>Export into VMap</source>
         <translation>Exportă în VMap</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="128"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="129"/>
         <source>Export as Image</source>
         <translation>Exportă ca imagine</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="168"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="169"/>
         <source>Sharing Pdf File</source>
         <translation>Se partajează fișierul Pdf</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="169"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="170"/>
         <source>PDF transfert can be really heavy.
 Do you want to continue and share the PDF?</source>
         <translation>Transferul PDF poate fi foarte greu.
 Vrei să continuăm și să partajăm PDF-ul?</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="183"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="184"/>
         <source>%1 - (PDF)</source>
         <translation>%1 - (PDF)</translation>
     </message>
@@ -5569,7 +5605,7 @@ Tip: %7
         <translation type="vanished">Hartă</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="287"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="267"/>
         <source>Vectorial Map</source>
         <translation>Hartă vectorială</translation>
     </message>
@@ -5578,12 +5614,12 @@ Tip: %7
         <translation type="vanished">Chat</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="289"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="269"/>
         <source>Picture</source>
         <translation>Imagine</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="290"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="270"/>
         <source>Online Picture</source>
         <translation>Imagine online</translation>
     </message>
@@ -5593,7 +5629,7 @@ Tip: %7
         <translation>Text</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="292"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="272"/>
         <source>Charecter Sheet</source>
         <translation>Fișă de personaj</translation>
     </message>
@@ -5610,22 +5646,22 @@ Tip: %7
         <translation type="vanished">Listă de melodii</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="295"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="275"/>
         <source>Shared Notes</source>
         <translation>Note partajate</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="246"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="226"/>
         <source>Character Sheets files  (%1)</source>
         <translation>Fișiere fișe personaje (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="250"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="230"/>
         <source>Supported Image formats (%1)</source>
         <translation>Formate de imagine suportate (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="254"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="234"/>
         <source>Supported Text Files (%1)</source>
         <translation>Fișiere text compatibile (%1)</translation>
     </message>
@@ -5638,63 +5674,63 @@ Tip: %7
         <translation type="vanished">Formate audio suportate (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="262"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="242"/>
         <source>Supported Shared Note formats (%1)</source>
         <translation>Formate de note partajate acceptate (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="266"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="246"/>
         <source>Supported WebPage (%1)</source>
         <translation>Pagină de internet acceptată (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="270"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="250"/>
         <source>Pdf File (%1)</source>
         <translation>Fișier Pdf (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="273"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="253"/>
         <source>Vectorial Map (%1)</source>
         <translation>Hartă vectorială (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="291"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="271"/>
         <source>Minutes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="297"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="277"/>
         <source>Pdf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="298"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="278"/>
         <source>Webview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="336"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="309"/>
         <source>Internal</source>
         <translation>Intern</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="336"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="309"/>
         <source>Linked</source>
         <translation>Legat</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="340"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="314"/>
         <source>Closed</source>
         <translation>Închide</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="340"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="314"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="36"/>
         <source>Hidden</source>
         <translation>Ascuns</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="340"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="314"/>
         <source>Displayed</source>
         <translation>Afișat</translation>
     </message>
@@ -5774,9 +5810,8 @@ Tip: %7
         <translation>Eroare: împărțire la zero</translation>
     </message>
     <message>
-        <location filename="../core/src/undoCmd/openmediacontroller.cpp" line="34"/>
         <source>Show %1</source>
-        <translation>Afișare %1</translation>
+        <translation type="vanished">Afișare %1</translation>
     </message>
     <message>
         <source>Add vmap item</source>
@@ -5831,7 +5866,7 @@ Tip: %7
         <translation>Elipsă</translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="259"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="282"/>
         <location filename="../core/src/vmap/items/visualitem.cpp" line="42"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="64"/>
         <source>Character</source>
@@ -5894,13 +5929,13 @@ Tip: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="259"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="282"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="58"/>
         <source>Ground</source>
         <translation>Sol</translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="259"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="282"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="61"/>
         <source>Object</source>
         <translation>Obiect</translation>
@@ -6083,36 +6118,41 @@ Documentație completă la: %1</translation>
         <source>Create new %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../core/src/undoCmd/openmediacontroller.cpp" line="39"/>
+        <source>Open %1</source>
+        <translation type="unfinished">Deschidere %1</translation>
+    </message>
 </context>
 <context>
     <name>RGraphicsView</name>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="314"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="309"/>
         <source>Edit Layer</source>
         <translation>Editare strat</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="319"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="314"/>
         <source>Change Visibility</source>
         <translation>Schimbare vizibilitate</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="324"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="319"/>
         <source>Roll Init</source>
         <translation>Aruncă zarurile pentru Init</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="330"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="325"/>
         <source>Clean Init</source>
         <translation>Curăță Init</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="293"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="288"/>
         <source>Remove</source>
         <translation>Eliminare</translation>
     </message>
     <message numerus="yes">
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="241"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="236"/>
         <source>%n item(s)</source>
         <translation>
             <numerusform>%n element</numerusform>
@@ -6121,233 +6161,233 @@ Documentație completă la: %1</translation>
         </translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="493"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="488"/>
         <source>Back</source>
         <translation>Înapoi</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="497"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="492"/>
         <source>Front</source>
         <translation>Față</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="501"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="496"/>
         <source>Lower</source>
         <translation>Coborâre</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="505"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="500"/>
         <source>Raise</source>
         <translation>Ridicare</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="272"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="267"/>
         <source>Rotate</source>
         <translation>Rotire</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="296"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="291"/>
         <source>Map</source>
         <translation>Hartă</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="336"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="331"/>
         <source>Zoom</source>
         <translation>Zoom</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="266"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="261"/>
         <source>Overlapping</source>
         <translation>Suprapunere</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="273"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="268"/>
         <source>To 360</source>
         <translation>La 360</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="274"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="269"/>
         <source>Right</source>
         <translation>Dreapta</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="275"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="270"/>
         <source>Left</source>
         <translation>Stânga</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="276"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="271"/>
         <source>Set Angle…</source>
         <translation>Setare unghi...</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="278"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="273"/>
         <source>Set Layer</source>
         <translation>Setare strat</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="286"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="281"/>
         <source>Normalize Size</source>
         <translation>Normalizare dimensiune</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="395"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="390"/>
         <source>Rotation Value ?</source>
         <translation>Valoare rotație?</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="396"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="391"/>
         <source>Please, set the rotation angle you want [0-360]</source>
         <translation>Setează unghiul de rotație pe care îl dorești [0-360]</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="472"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="467"/>
         <source>Zoom to Normal</source>
         <translation>Zoom la normal</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="473"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="468"/>
         <source>Zoom In Max</source>
         <translation>Mărire max.</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="474"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="469"/>
         <source>Zoom Out Max</source>
         <translation>Micșorare max.</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="475"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="470"/>
         <source>Center on Item</source>
         <translation>Centrare pe element</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="477"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="472"/>
         <source>Zoom In</source>
         <translation>Mărire</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="480"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="475"/>
         <source>Zoom Out</source>
         <translation>Micșorare</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="483"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="478"/>
         <source>Import Image</source>
         <translation>Importare imagine</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="509"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="504"/>
         <source>Average</source>
         <translation>Medie</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="512"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="507"/>
         <source>As undermouse item</source>
         <translation>Ca element sub mouse</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="515"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="510"/>
         <source>As the Bigger</source>
         <translation>Ca elementul mai mare</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="518"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="513"/>
         <source>As the Smaller</source>
         <translation>Ca elementul mai mic</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="521"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="516"/>
         <source>Lock/Unlock Item Geometry</source>
         <translation>Blochează/deblochează geometria elementului</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="531"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="526"/>
         <source>Properties</source>
         <translation>Proprietăți</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="536"/>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="550"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="531"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="545"/>
         <source>Ground</source>
         <translation>Sol</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="539"/>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="553"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="534"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="548"/>
         <source>Object</source>
         <translation>Obiect</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="542"/>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="556"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="537"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="551"/>
         <source>Character</source>
         <translation>Personaj</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="565"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="560"/>
         <source>All</source>
         <translation>Toate</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="568"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="563"/>
         <source>Hidden</source>
         <translation>Ascuns</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="572"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="567"/>
         <source>Fog Of War</source>
         <translation>Ceață de război</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="584"/>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="596"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="579"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="591"/>
         <source>All Npcs</source>
         <translation>Toate NPC</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="585"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="580"/>
         <source>Roll Initiative on All Npcs</source>
         <translation>Aruncă zarurile pentru inițiativă la toate NPC</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="588"/>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="600"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="583"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="595"/>
         <source>Selection</source>
         <translation>Selecție</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="589"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="584"/>
         <source>Roll Initiative on Selection</source>
         <translation>Aruncă zarurile pentru inițiativă la selecție</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="592"/>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="604"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="587"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="599"/>
         <source>All Characters</source>
         <translation>Toate caracterele</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="593"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="588"/>
         <source>Roll Initiative on All Characters</source>
         <translation>Aruncă zarurile pentru inițiativă la toate personajele</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="597"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="592"/>
         <source>Clean Initiative on All Npcs</source>
         <translation>Curăță inițiativa pe toate Npc</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="601"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="596"/>
         <source>Clean Initiative on Selection</source>
         <translation>Curăță inițiativa la selecție</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="605"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="600"/>
         <source>Clean Initiative on All Characters</source>
         <translation>Curăță inițiativa la toate personajele</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="800"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="795"/>
         <source>Open image file</source>
         <translation>Deschidere fișier imagine</translation>
     </message>
@@ -6572,42 +6612,42 @@ Documentație completă la: %1</translation>
 <context>
     <name>ServerManager</name>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="106"/>
+        <location filename="../core/src/network/servermanager.cpp" line="89"/>
         <source>Rolisteam Server is on!</source>
         <translation>Serverul Rolisteam e pornit!</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="115"/>
+        <location filename="../core/src/network/servermanager.cpp" line="98"/>
         <source>Retry start server in %1s!</source>
         <translation>Reîncearcă să pornești serverul în 1s%!</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="121"/>
+        <location filename="../core/src/network/servermanager.cpp" line="104"/>
         <source>Retry count reached. Server stops trying.</source>
         <translation>Numărul limită de reîncercări a fost atins. Serverul nu mai încearcă.</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="290"/>
+        <location filename="../core/src/network/servermanager.cpp" line="272"/>
         <source>Authentification as Admin fails: %2 - %1, Wrong password.</source>
         <translation>Autentificarea ca administrator eșuează: % 2 - %1, parolă greșită.</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="316"/>
+        <location filename="../core/src/network/servermanager.cpp" line="298"/>
         <source>Authentification fails: %1 try to connect to the server with wrong password.</source>
         <translation>Autentificarea eșuează: %1 încearcă să se conecteze la server cu o parolă greșită.</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="334"/>
+        <location filename="../core/src/network/servermanager.cpp" line="316"/>
         <source>User has been kick out: %2 - %1.</source>
         <translation>Utilizatorul a fost eliminat: % 2% - % 1.</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="531"/>
+        <location filename="../core/src/network/servermanager.cpp" line="513"/>
         <source>New Incoming Connection!</source>
         <translation>O nouă conexiune de intrare!</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="579"/>
+        <location filename="../core/src/network/servermanager.cpp" line="561"/>
         <source>User %1 has been disconnected!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7156,6 +7196,11 @@ Documentație completă la: %1</translation>
         <source>%1[*] - SharedNote - %2</source>
         <translation type="vanished">%1[*] - notă partajată - %2</translation>
     </message>
+    <message>
+        <location filename="../core/src/sharededitor/sharednote.cpp" line="52"/>
+        <source>%1 - Shared Note Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ShortCutEditorDialog</name>
@@ -7235,190 +7280,185 @@ Documentație completă la: %1</translation>
 <context>
     <name>TextEdit</name>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="730"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="729"/>
         <source>About</source>
         <translation>Despre</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="173"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="172"/>
         <source>File Actions</source>
         <translation>Acțiuni fișier</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="176"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="175"/>
         <source>&amp;File</source>
         <translation>&amp;Fișier</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="181"/>
         <source>&amp;New</source>
-        <translation>&amp;Nou</translation>
+        <translation type="vanished">&amp;Nou</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="187"/>
         <source>&amp;Open...</source>
-        <translation>&amp;Deschide...</translation>
+        <translation type="vanished">&amp;Deschide...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="195"/>
         <source>&amp;Save</source>
-        <translation>&amp;Salvare</translation>
+        <translation type="vanished">&amp;Salvare</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="202"/>
         <source>Save &amp;As...</source>
-        <translation>Salvare &amp;ca...</translation>
+        <translation type="vanished">Salvare &amp;ca...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="207"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="206"/>
         <source>&amp;Print...</source>
         <translation>&amp;Tipărire...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="213"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="212"/>
         <source>Print Preview...</source>
         <translation>Previzualizare tipărire...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="217"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="216"/>
         <source>&amp;Export PDF...</source>
         <translation>&amp;Exportă PDF...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="225"/>
         <source>&amp;Quit</source>
-        <translation>&amp;Ieși</translation>
+        <translation type="vanished">&amp;Ieși</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="234"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="233"/>
         <source>Edit Actions</source>
         <translation>Editare acțiuni</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="237"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="236"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editare</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="241"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="240"/>
         <source>&amp;Undo</source>
         <translation>&amp;Anulare acțiune</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="245"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="244"/>
         <source>&amp;Redo</source>
         <translation>&amp;Refă acțiunea</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="250"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="249"/>
         <source>Cu&amp;t</source>
         <translation>&amp;Taie</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="254"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="253"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copiază</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="258"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="257"/>
         <source>&amp;Paste</source>
         <translation>&amp;Lipire</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="268"/>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="336"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="267"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="335"/>
         <source>Format Actions</source>
         <translation>Acțiuni de formatare</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="271"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="270"/>
         <source>F&amp;ormat</source>
         <translation>F&amp;ormatare</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="274"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="273"/>
         <source>&amp;Bold</source>
         <translation>A&amp;ldin</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="284"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="283"/>
         <source>&amp;Italic</source>
         <translation>Curs&amp;iv</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="294"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="293"/>
         <source>&amp;Underline</source>
         <translation>S&amp;ubliniat</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="309"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="308"/>
         <source>&amp;Left</source>
         <translation>Stân&amp;ga</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="312"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="311"/>
         <source>C&amp;enter</source>
         <translation>C&amp;entru</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="315"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="314"/>
         <source>&amp;Right</source>
         <translation>D&amp;reapta</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="318"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="317"/>
         <source>&amp;Justify</source>
         <translation>Amb&amp;ele</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="329"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="328"/>
         <source>&amp;Color...</source>
         <translation>&amp;Culoare...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="441"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="440"/>
         <source>Application</source>
         <translation>Aplicație</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="442"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="441"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
         <translation>Documentul a fost modificat.
 Vrei să salvezi schimbările tale?</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="470"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="469"/>
         <source>Open File...</source>
         <translation>Deschide fișier...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="527"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="526"/>
         <source>ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)</source>
         <translation>Fișiere ODF (*.odt);;HTML-Files (*.htm *.html);;Toate fișierele (*)</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="529"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="528"/>
         <source>HTML-Files (*.htm *.html);;All Files (*)</source>
         <translation>Fișiere HTML (*.htm *.html);;Toate fișierele (*)</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="531"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="530"/>
         <source>Save as...</source>
         <translation>Salvare ca...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="546"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="545"/>
         <source>Print Document</source>
         <translation>Tipărire document</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="731"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="730"/>
         <source>This example demonstrates Qt&apos;s rich text editing facilities in action, providing an example document for you to experiment with.</source>
         <translation>Acest exemplu demonstrează facilitățile bogate de editare ale Qt, cu un document plin de exemple cu care să experimentezi.</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="789"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="788"/>
         <source>OpenOffice 2.4 file format OASIS </source>
         <translation>OpenOffice 2.4 format OASIS</translation>
     </message>
@@ -7858,7 +7898,7 @@ Vrei să salvezi schimbările tale?</translation>
 <context>
     <name>VisualItem</name>
     <message>
-        <location filename="../core/src/vmap/items/visualitem.cpp" line="246"/>
+        <location filename="../core/src/vmap/items/visualitem.cpp" line="247"/>
         <source>Duplicate Item</source>
         <translation>Duplicare element</translation>
     </message>
@@ -8020,7 +8060,7 @@ Vrei să salvezi schimbările tale?</translation>
         <translation>Formular</translation>
     </message>
     <message>
-        <location filename="../core/src/webview/webview.cpp" line="126"/>
+        <location filename="../core/src/webview/webview.cpp" line="124"/>
         <source>%1 - WebPage</source>
         <translation>%1 - Pagină de internet</translation>
     </message>
@@ -8088,6 +8128,14 @@ Vrei să salvezi schimbările tale?</translation>
     </message>
 </context>
 <context>
+    <name>Workspace</name>
+    <message>
+        <location filename="../core/src/widgets/workspace.cpp" line="415"/>
+        <source>Stop Sharing</source>
+        <translation type="unfinished">Oprire partajare</translation>
+    </message>
+</context>
+<context>
     <name>XMLTextEdit</name>
     <message>
         <location filename="../core/src/noteeditor/format_OO_oasis_/XML_Editor.cpp" line="59"/>
@@ -8151,7 +8199,7 @@ Vrei să salvezi schimbările tale?</translation>
 <context>
     <name>vmap::TextController</name>
     <message>
-        <location filename="../core/src/vmap/controller/textcontroller.cpp" line="63"/>
+        <location filename="../core/src/vmap/controller/textcontroller.cpp" line="66"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>

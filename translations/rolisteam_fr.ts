@@ -1231,12 +1231,12 @@ Type: %7
         <translation>Formulaire</translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/document.cpp" line="288"/>
+        <location filename="../core/src/sharededitor/document.cpp" line="293"/>
         <source>Cahoots</source>
         <translation>Cahoots</translation>
     </message>
     <message>
-        <location filename="../core/src/sharededitor/document.cpp" line="288"/>
+        <location filename="../core/src/sharededitor/document.cpp" line="293"/>
         <source>The string was not found.</source>
         <translation>La chaîne n’a pas été trouvée.</translation>
     </message>
@@ -1464,121 +1464,144 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">La compression d&apos;image a échoué (saveImageToFile - Image.cpp)</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="247"/>
+        <location filename="../core/src/media/image.cpp" line="57"/>
+        <location filename="../core/src/media/image.cpp" line="66"/>
+        <source>%1 - Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/media/image.cpp" line="254"/>
         <source>%1 - (Picture)</source>
         <translation>%1 - (Image)</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="252"/>
+        <location filename="../core/src/media/image.cpp" line="259"/>
         <source>Zoom In</source>
         <translation>Agrandir</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="253"/>
+        <location filename="../core/src/media/image.cpp" line="260"/>
         <source>increase zoom level</source>
         <translation>Augmenter le zoom</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="257"/>
+        <location filename="../core/src/media/image.cpp" line="264"/>
         <source>Ctrl++</source>
         <comment>Zoom In</comment>
         <translation>Ctrl++</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="262"/>
+        <location filename="../core/src/media/image.cpp" line="269"/>
         <source>Zoom out</source>
         <translation>Réduire</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="264"/>
+        <location filename="../core/src/media/image.cpp" line="271"/>
         <source>Reduce zoom level</source>
         <translation>Réduire le zoom</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="267"/>
+        <location filename="../core/src/media/image.cpp" line="274"/>
         <source>Ctrl+-</source>
         <comment>Zoom Out</comment>
         <translation>Ctrl+-</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="277"/>
+        <location filename="../core/src/media/image.cpp" line="284"/>
         <source>Fit the workspace</source>
         <translation>Ajuster à l&apos;espace de travail</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="279"/>
+        <location filename="../core/src/media/image.cpp" line="286"/>
         <source>The window and the image fit the workspace</source>
         <translation>La fenêtre et l&apos;image rentrent dans l&apos;espace de travail</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="282"/>
+        <location filename="../core/src/media/image.cpp" line="289"/>
         <source>Ctrl+m</source>
         <comment>Fit the workspace</comment>
         <translation>Ctrl+m</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="289"/>
+        <location filename="../core/src/media/image.cpp" line="296"/>
         <source>Fit Window</source>
         <translation>S&apos;adapter à la fenêtre</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="294"/>
+        <location filename="../core/src/media/image.cpp" line="301"/>
         <source>Image will take the best dimension to fit the window.</source>
         <translation>L&apos;image prendra la dimension la plus adaptée à la taille de la fenêtre.</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="297"/>
+        <location filename="../core/src/media/image.cpp" line="304"/>
         <source>Ctrl+f</source>
         <comment>Fit the window</comment>
         <translation>Ctrl+f</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="304"/>
+        <location filename="../core/src/media/image.cpp" line="311"/>
         <source>Little</source>
         <translation>Petit</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="305"/>
+        <location filename="../core/src/media/image.cpp" line="312"/>
         <source>Set the zoom level at 20% </source>
         <translation>Zoomer à 20% </translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="308"/>
+        <location filename="../core/src/media/image.cpp" line="315"/>
         <source>Ctrl+l</source>
         <comment>Set the zoom level at 20%</comment>
         <translation>Ctrl+l</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="315"/>
+        <location filename="../core/src/media/image.cpp" line="322"/>
         <source>Normal</source>
         <translation>Normal</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="316"/>
+        <location filename="../core/src/media/image.cpp" line="323"/>
         <source>No Zoom</source>
         <translation>Aucun zoom</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="319"/>
+        <location filename="../core/src/media/image.cpp" line="326"/>
         <source>Ctrl+n</source>
         <comment>Normal</comment>
         <translation>Ctrl+n</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="326"/>
+        <location filename="../core/src/media/image.cpp" line="333"/>
         <source>Big</source>
         <translation>Grand</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="327"/>
+        <location filename="../core/src/media/image.cpp" line="334"/>
         <source>Set the zoom level at 400%</source>
         <translation>Zoomer à 400%</translation>
     </message>
     <message>
-        <location filename="../core/src/media/image.cpp" line="330"/>
+        <location filename="../core/src/media/image.cpp" line="337"/>
         <source>Ctrl+b</source>
         <comment>Zoom Out</comment>
         <translation>Ctrl+G</translation>
+    </message>
+    <message>
+        <location filename="../core/src/media/image.cpp" line="342"/>
+        <location filename="../core/src/media/image.cpp" line="354"/>
+        <location filename="../core/src/media/image.cpp" line="359"/>
+        <source>Play</source>
+        <translation type="unfinished">Lecture</translation>
+    </message>
+    <message>
+        <location filename="../core/src/media/image.cpp" line="344"/>
+        <source>Stop</source>
+        <translation type="unfinished">Stop</translation>
+    </message>
+    <message>
+        <location filename="../core/src/media/image.cpp" line="350"/>
+        <source>Pause</source>
+        <translation type="unfinished">Pause</translation>
     </message>
 </context>
 <context>
@@ -2047,7 +2070,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1595"/>
+        <location filename="../client/mainwindow.cpp" line="1601"/>
         <source>unknown</source>
         <translation>inconnu</translation>
     </message>
@@ -2065,32 +2088,32 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Ouvrir Plan</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1494"/>
+        <location filename="../client/mainwindow.cpp" line="1499"/>
         <source>Connected</source>
         <translation>Connecté</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1494"/>
+        <location filename="../client/mainwindow.cpp" line="1499"/>
         <source>Not Connected</source>
         <translation>Non connecté</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1495"/>
+        <location filename="../client/mainwindow.cpp" line="1500"/>
         <source>Server</source>
         <translation>Serveur</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1495"/>
+        <location filename="../client/mainwindow.cpp" line="1500"/>
         <source>Client</source>
         <translation>Client</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1496"/>
+        <location filename="../client/mainwindow.cpp" line="1501"/>
         <source>GM</source>
         <translation>MJ</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1496"/>
+        <location filename="../client/mainwindow.cpp" line="1501"/>
         <source>Player</source>
         <translation>Joueur</translation>
     </message>
@@ -2766,7 +2789,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Fin du processus de connexion</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1594"/>
+        <location filename="../client/mainwindow.cpp" line="1600"/>
         <source>Export from %1</source>
         <translation>Exportation depuis %1</translation>
     </message>
@@ -3296,6 +3319,14 @@ Port:%2</translation>
     </message>
 </context>
 <context>
+    <name>MediaControllerBase</name>
+    <message>
+        <location filename="../core/src/controller/view_controller/mediacontrollerbase.cpp" line="25"/>
+        <source>Unknown</source>
+        <translation type="unfinished">Inconnu</translation>
+    </message>
+</context>
+<context>
     <name>MusicModel</name>
     <message>
         <location filename="../core/src/audio/musicmodel.cpp" line="33"/>
@@ -3566,6 +3597,11 @@ Port:%2</translation>
     <message>
         <source>%1[*] - (Notes)</source>
         <translation type="vanished">%1[*] - (Notes)</translation>
+    </message>
+    <message>
+        <location filename="../core/src/noteeditor/src/notecontainer.cpp" line="37"/>
+        <source>%1 - Note</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4063,12 +4099,12 @@ Port:%2</translation>
 <context>
     <name>PdfViewer</name>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="117"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="118"/>
         <source>Crop Current View</source>
         <translation>Rogner la vue courante</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="122"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="123"/>
         <source>Document to all</source>
         <translation>Documenter vers tous</translation>
     </message>
@@ -4077,29 +4113,29 @@ Port:%2</translation>
         <translation type="vanished">Exporter vers un plan</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="125"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="126"/>
         <source>Export into VMap</source>
         <translation>Exporter vers un plan vectoriel</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="128"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="129"/>
         <source>Export as Image</source>
         <translation>Exporter comme une image</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="168"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="169"/>
         <source>Sharing Pdf File</source>
         <translation>Partager le fichier PDF</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="169"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="170"/>
         <source>PDF transfert can be really heavy.
 Do you want to continue and share the PDF?</source>
         <translation>Les Fichiers PDF peuvent être très lourds.
 Voulez-vous vraiment continuer le partage du document ?</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="183"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="184"/>
         <source>%1 - (PDF)</source>
         <translation>%1 - (PDF)</translation>
     </message>
@@ -5569,7 +5605,7 @@ Type: %7
         <translation type="vanished">Plan</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="287"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="267"/>
         <source>Vectorial Map</source>
         <translation>Plan Vectoriel</translation>
     </message>
@@ -5578,12 +5614,12 @@ Type: %7
         <translation type="vanished">Tchat</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="289"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="269"/>
         <source>Picture</source>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="290"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="270"/>
         <source>Online Picture</source>
         <translation>Image En Ligne</translation>
     </message>
@@ -5593,7 +5629,7 @@ Type: %7
         <translation>Texte</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="292"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="272"/>
         <source>Charecter Sheet</source>
         <translation>Fiche de personnage</translation>
     </message>
@@ -5610,22 +5646,22 @@ Type: %7
         <translation type="vanished">Liste de lecture audio</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="295"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="275"/>
         <source>Shared Notes</source>
         <translation>Notes partagées</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="246"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="226"/>
         <source>Character Sheets files  (%1)</source>
         <translation>Fiches de personnage (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="250"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="230"/>
         <source>Supported Image formats (%1)</source>
         <translation>Formats d&apos;images supportés (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="254"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="234"/>
         <source>Supported Text Files (%1)</source>
         <translation>Fichier de texte (%1)</translation>
     </message>
@@ -5638,63 +5674,63 @@ Type: %7
         <translation type="vanished">Formats Audio supportés (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="262"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="242"/>
         <source>Supported Shared Note formats (%1)</source>
         <translation>Formats supportés pour les Notes partagées (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="266"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="246"/>
         <source>Supported WebPage (%1)</source>
         <translation>Page Web (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="270"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="250"/>
         <source>Pdf File (%1)</source>
         <translation>Pdf (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="273"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="253"/>
         <source>Vectorial Map (%1)</source>
         <translation>Plan vectoriel (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="291"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="271"/>
         <source>Minutes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="297"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="277"/>
         <source>Pdf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="298"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="278"/>
         <source>Webview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="336"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="309"/>
         <source>Internal</source>
         <translation>Interne</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="336"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="309"/>
         <source>Linked</source>
         <translation>Lié</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="340"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="314"/>
         <source>Closed</source>
         <translation>Fermé</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="340"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="314"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="36"/>
         <source>Hidden</source>
         <translation>Caché</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="340"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="314"/>
         <source>Displayed</source>
         <translation>Affiché</translation>
     </message>
@@ -5774,9 +5810,8 @@ Type: %7
         <translation>Erreur:&#xa0;division par zéro</translation>
     </message>
     <message>
-        <location filename="../core/src/undoCmd/openmediacontroller.cpp" line="34"/>
         <source>Show %1</source>
-        <translation>Affiche %1</translation>
+        <translation type="vanished">Affiche %1</translation>
     </message>
     <message>
         <source>Add vmap item</source>
@@ -5830,7 +5865,7 @@ Type: %7
         <translation>Ellipse</translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="259"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="282"/>
         <location filename="../core/src/vmap/items/visualitem.cpp" line="42"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="64"/>
         <source>Character</source>
@@ -5893,13 +5928,13 @@ Type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="259"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="282"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="58"/>
         <source>Ground</source>
         <translation>Sol</translation>
     </message>
     <message>
-        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="259"/>
+        <location filename="../core/src/controller/view_controller/vectorialmapcontroller.cpp" line="282"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="61"/>
         <source>Object</source>
         <translation>Objet</translation>
@@ -6082,36 +6117,41 @@ Document complète sur: %1</translation>
         <source>Create new %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../core/src/undoCmd/openmediacontroller.cpp" line="39"/>
+        <source>Open %1</source>
+        <translation type="unfinished">Ouvrir %1</translation>
+    </message>
 </context>
 <context>
     <name>RGraphicsView</name>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="314"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="309"/>
         <source>Edit Layer</source>
         <translation>Éditer le calque</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="319"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="314"/>
         <source>Change Visibility</source>
         <translation>Changer la Visibilité</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="324"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="319"/>
         <source>Roll Init</source>
         <translation>Lancer l&apos;init</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="330"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="325"/>
         <source>Clean Init</source>
         <translation>Effacer l&apos;init</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="293"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="288"/>
         <source>Remove</source>
         <translation>Supprimer</translation>
     </message>
     <message numerus="yes">
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="241"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="236"/>
         <source>%n item(s)</source>
         <translation>
             <numerusform>%n élément(s)</numerusform>
@@ -6119,233 +6159,233 @@ Document complète sur: %1</translation>
         </translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="493"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="488"/>
         <source>Back</source>
         <translation>Arrière</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="497"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="492"/>
         <source>Front</source>
         <translation>Tout Devant</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="501"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="496"/>
         <source>Lower</source>
         <translation>Plus bas</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="505"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="500"/>
         <source>Raise</source>
         <translation>Monter</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="272"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="267"/>
         <source>Rotate</source>
         <translation>Tourner</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="296"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="291"/>
         <source>Map</source>
         <translation>Plan</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="336"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="331"/>
         <source>Zoom</source>
         <translation>Zoom</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="266"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="261"/>
         <source>Overlapping</source>
         <translation>Chevauchement</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="273"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="268"/>
         <source>To 360</source>
         <translation>à 360</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="274"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="269"/>
         <source>Right</source>
         <translation>Droite</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="275"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="270"/>
         <source>Left</source>
         <translation>Gauche</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="276"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="271"/>
         <source>Set Angle…</source>
         <translation>Définir l&apos;angle…</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="278"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="273"/>
         <source>Set Layer</source>
         <translation>Calque courant</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="286"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="281"/>
         <source>Normalize Size</source>
         <translation>Normaliser les tailles</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="395"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="390"/>
         <source>Rotation Value ?</source>
         <translation>Valeur de rotation ?</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="396"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="391"/>
         <source>Please, set the rotation angle you want [0-360]</source>
         <translation>Veillez définir un angle de rotation entre [0-360]</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="472"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="467"/>
         <source>Zoom to Normal</source>
         <translation>Zoom Normal</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="473"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="468"/>
         <source>Zoom In Max</source>
         <translation>Zoom avant Max</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="474"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="469"/>
         <source>Zoom Out Max</source>
         <translation>Zoom Arrière Max</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="475"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="470"/>
         <source>Center on Item</source>
         <translation>Centrer sur l&apos;élément</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="477"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="472"/>
         <source>Zoom In</source>
         <translation>Zoom avant</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="480"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="475"/>
         <source>Zoom Out</source>
         <translation>Zoom arrière</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="483"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="478"/>
         <source>Import Image</source>
         <translation>Importer une image</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="509"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="504"/>
         <source>Average</source>
         <translation>Moyenne</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="512"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="507"/>
         <source>As undermouse item</source>
         <translation>Comme l&apos;élément sous la souris</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="515"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="510"/>
         <source>As the Bigger</source>
         <translation>comme le plus grand</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="518"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="513"/>
         <source>As the Smaller</source>
         <translation>comme le plus petit</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="521"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="516"/>
         <source>Lock/Unlock Item Geometry</source>
         <translation>Bloque/débloque la géométrie de l&apos;élément</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="531"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="526"/>
         <source>Properties</source>
         <translation>Propriétés</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="536"/>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="550"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="531"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="545"/>
         <source>Ground</source>
         <translation>Sol</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="539"/>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="553"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="534"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="548"/>
         <source>Object</source>
         <translation>Objet</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="542"/>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="556"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="537"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="551"/>
         <source>Character</source>
         <translation>Personnage</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="565"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="560"/>
         <source>All</source>
         <translation>Tout</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="568"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="563"/>
         <source>Hidden</source>
         <translation>Caché</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="572"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="567"/>
         <source>Fog Of War</source>
         <translation>Brouillard de guerre</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="584"/>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="596"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="579"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="591"/>
         <source>All Npcs</source>
         <translation>Tous les PNJ</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="585"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="580"/>
         <source>Roll Initiative on All Npcs</source>
         <translation>Lance Initiative sur tous les PNJ</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="588"/>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="600"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="583"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="595"/>
         <source>Selection</source>
         <translation>Sélection</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="589"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="584"/>
         <source>Roll Initiative on Selection</source>
         <translation>Lance l&apos;initiative sur la sélection</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="592"/>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="604"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="587"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="599"/>
         <source>All Characters</source>
         <translation>Tous les personnages</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="593"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="588"/>
         <source>Roll Initiative on All Characters</source>
         <translation>Lance l&apos;initiative sur tous les personnages</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="597"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="592"/>
         <source>Clean Initiative on All Npcs</source>
         <translation>Effacer l&apos;initiative sur tous les PNJ</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="601"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="596"/>
         <source>Clean Initiative on Selection</source>
         <translation>Effacer l&apos;initiative de la sélection</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="605"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="600"/>
         <source>Clean Initiative on All Characters</source>
         <translation>Effacer l&apos;initiative sur tous les personnages</translation>
     </message>
     <message>
-        <location filename="../core/src/vmap/rgraphicsview.cpp" line="800"/>
+        <location filename="../core/src/vmap/rgraphicsview.cpp" line="795"/>
         <source>Open image file</source>
         <translation>Ouvrir une image</translation>
     </message>
@@ -6570,42 +6610,42 @@ Document complète sur: %1</translation>
 <context>
     <name>ServerManager</name>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="106"/>
+        <location filename="../core/src/network/servermanager.cpp" line="89"/>
         <source>Rolisteam Server is on!</source>
         <translation>Le serveur rolisteam est démarré!</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="115"/>
+        <location filename="../core/src/network/servermanager.cpp" line="98"/>
         <source>Retry start server in %1s!</source>
         <translation>Nouvel essai de démarrage du serveur dans %1s!</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="121"/>
+        <location filename="../core/src/network/servermanager.cpp" line="104"/>
         <source>Retry count reached. Server stops trying.</source>
         <translation>Limite maximum d&apos;essais atteinte. Arrêt du serveur.</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="290"/>
+        <location filename="../core/src/network/servermanager.cpp" line="272"/>
         <source>Authentification as Admin fails: %2 - %1, Wrong password.</source>
         <translation>Authentification administrateur a échoué: %2 - %1, mauvais password.</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="316"/>
+        <location filename="../core/src/network/servermanager.cpp" line="298"/>
         <source>Authentification fails: %1 try to connect to the server with wrong password.</source>
         <translation>Échec d&apos;authentification: %1 essai de connexion au serveur avec un mauvais mot de passe.</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="334"/>
+        <location filename="../core/src/network/servermanager.cpp" line="316"/>
         <source>User has been kick out: %2 - %1.</source>
         <translation>L&apos;utilisateur a été expulsé: %2 - %1.</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="531"/>
+        <location filename="../core/src/network/servermanager.cpp" line="513"/>
         <source>New Incoming Connection!</source>
         <translation>Nouvelle connexion entrante!</translation>
     </message>
     <message>
-        <location filename="../core/src/network/servermanager.cpp" line="579"/>
+        <location filename="../core/src/network/servermanager.cpp" line="561"/>
         <source>User %1 has been disconnected!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7154,6 +7194,11 @@ Document complète sur: %1</translation>
         <source>%1[*] - SharedNote - %2</source>
         <translation type="vanished">%1[*] - Notes partagées - %2</translation>
     </message>
+    <message>
+        <location filename="../core/src/sharededitor/sharednote.cpp" line="52"/>
+        <source>%1 - Shared Note Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ShortCutEditorDialog</name>
@@ -7233,190 +7278,185 @@ Document complète sur: %1</translation>
 <context>
     <name>TextEdit</name>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="730"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="729"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="173"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="172"/>
         <source>File Actions</source>
         <translation>Actions Fichiers</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="176"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="175"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="181"/>
         <source>&amp;New</source>
-        <translation>&amp;Nouveau</translation>
+        <translation type="vanished">&amp;Nouveau</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="187"/>
         <source>&amp;Open...</source>
-        <translation>&amp;Ouvrir...</translation>
+        <translation type="vanished">&amp;Ouvrir...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="195"/>
         <source>&amp;Save</source>
-        <translation>&amp;Sauvegarder</translation>
+        <translation type="vanished">&amp;Sauvegarder</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="202"/>
         <source>Save &amp;As...</source>
-        <translation>S&amp;auvegarder Sous...</translation>
+        <translation type="vanished">S&amp;auvegarder Sous...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="207"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="206"/>
         <source>&amp;Print...</source>
         <translation>Im&amp;primer...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="213"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="212"/>
         <source>Print Preview...</source>
         <translation>Aperçu de l&apos;impression...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="217"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="216"/>
         <source>&amp;Export PDF...</source>
         <translation>&amp;Exportation PDF...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="225"/>
         <source>&amp;Quit</source>
-        <translation>&amp;Quit</translation>
+        <translation type="vanished">&amp;Quit</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="234"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="233"/>
         <source>Edit Actions</source>
         <translation>Editer Actions</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="237"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="236"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editer</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="241"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="240"/>
         <source>&amp;Undo</source>
         <translation>&amp;Défaire</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="245"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="244"/>
         <source>&amp;Redo</source>
         <translation>&amp;Refaire</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="250"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="249"/>
         <source>Cu&amp;t</source>
         <translation>Coupe&amp;r</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="254"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="253"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copier</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="258"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="257"/>
         <source>&amp;Paste</source>
         <translation>Co&amp;ller</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="268"/>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="336"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="267"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="335"/>
         <source>Format Actions</source>
         <translation>Actions Format</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="271"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="270"/>
         <source>F&amp;ormat</source>
         <translation>F&amp;ormat</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="274"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="273"/>
         <source>&amp;Bold</source>
         <translation>&amp;Gras</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="284"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="283"/>
         <source>&amp;Italic</source>
         <translation>&amp;Italique</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="294"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="293"/>
         <source>&amp;Underline</source>
         <translation>So&amp;ulignage</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="309"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="308"/>
         <source>&amp;Left</source>
         <translation>&amp;Gauche</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="312"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="311"/>
         <source>C&amp;enter</source>
         <translation>C&amp;entre</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="315"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="314"/>
         <source>&amp;Right</source>
         <translation>&amp;Droite</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="318"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="317"/>
         <source>&amp;Justify</source>
         <translation>&amp;Justifier</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="329"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="328"/>
         <source>&amp;Color...</source>
         <translation>&amp;Couleur...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="441"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="440"/>
         <source>Application</source>
         <translation>Application</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="442"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="441"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
         <translation>Le document a été modifié.
 Voulez-vous sauvegarder vos changements ?</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="470"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="469"/>
         <source>Open File...</source>
         <translation>Ouvrir Fichier...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="527"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="526"/>
         <source>ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)</source>
         <translation>Fichiers ODF (*.odt);;HTML-Files (*.htm *.html);;Tous les fichiers (*)</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="529"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="528"/>
         <source>HTML-Files (*.htm *.html);;All Files (*)</source>
         <translation>Fichiers - HTML (*.htm *.html);;Tous les fichiers (*)</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="531"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="530"/>
         <source>Save as...</source>
         <translation>Sauvegarder sous...</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="546"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="545"/>
         <source>Print Document</source>
         <translation>Imprimer le document</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="731"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="730"/>
         <source>This example demonstrates Qt&apos;s rich text editing facilities in action, providing an example document for you to experiment with.</source>
         <translation>Cet exemple démontre l&apos;édition de textes riches par Qt, il fournit un  document type pour vous aider.</translation>
     </message>
     <message>
-        <location filename="../core/src/noteeditor/src/textedit.cpp" line="789"/>
+        <location filename="../core/src/noteeditor/src/textedit.cpp" line="788"/>
         <source>OpenOffice 2.4 file format OASIS </source>
         <translation>Fichier OpenOffice 2.4 format OASIS </translation>
     </message>
@@ -7856,7 +7896,7 @@ Voulez-vous sauvegarder vos changements ?</translation>
 <context>
     <name>VisualItem</name>
     <message>
-        <location filename="../core/src/vmap/items/visualitem.cpp" line="246"/>
+        <location filename="../core/src/vmap/items/visualitem.cpp" line="247"/>
         <source>Duplicate Item</source>
         <translation>Duplication</translation>
     </message>
@@ -8018,7 +8058,7 @@ Voulez-vous sauvegarder vos changements ?</translation>
         <translation>Formulaire</translation>
     </message>
     <message>
-        <location filename="../core/src/webview/webview.cpp" line="126"/>
+        <location filename="../core/src/webview/webview.cpp" line="124"/>
         <source>%1 - WebPage</source>
         <translation>%1 - Page Web</translation>
     </message>
@@ -8086,6 +8126,14 @@ Voulez-vous sauvegarder vos changements ?</translation>
     </message>
 </context>
 <context>
+    <name>Workspace</name>
+    <message>
+        <location filename="../core/src/widgets/workspace.cpp" line="415"/>
+        <source>Stop Sharing</source>
+        <translation type="unfinished">Arrêter le partage</translation>
+    </message>
+</context>
+<context>
     <name>XMLTextEdit</name>
     <message>
         <location filename="../core/src/noteeditor/format_OO_oasis_/XML_Editor.cpp" line="59"/>
@@ -8149,7 +8197,7 @@ Voulez-vous sauvegarder vos changements ?</translation>
 <context>
     <name>vmap::TextController</name>
     <message>
-        <location filename="../core/src/vmap/controller/textcontroller.cpp" line="63"/>
+        <location filename="../core/src/vmap/controller/textcontroller.cpp" line="66"/>
         <source>Text</source>
         <translation type="unfinished">Texte</translation>
     </message>
