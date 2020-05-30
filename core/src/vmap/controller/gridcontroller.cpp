@@ -43,6 +43,8 @@ vmap::GridController::GridController(VectorialMapController* ctrl, QObject* pare
     connect(ctrl, &VectorialMapController::scaleUnitChanged, this, &vmap::GridController::computePattern);
 
     connect(m_ctrl, &VectorialMapController::visualRectChanged, this, &vmap::GridController::rectChanged);
+
+    computePattern();
 }
 bool GridController::gm() const
 {
@@ -74,7 +76,6 @@ void GridController::setGm(bool gm)
 
 void GridController::setGridPattern(QImage gridPattern)
 {
-    qDebug() << "pattern grid changed" << m_gridPattern << gridPattern;
     if(m_gridPattern == gridPattern)
         return;
 
@@ -100,7 +101,6 @@ QRectF GridController::rect() const
 
 void GridController::computePattern()
 {
-    qDebug() << "computer Pattern";
     if(m_ctrl->gridPattern() == Core::GridPattern::NONE || !m_ctrl->gridVisibility() || !m_ctrl->gridAbove())
         setVisible(false);
     else
@@ -108,6 +108,8 @@ void GridController::computePattern()
 
     QImage pattern;
     QPolygonF polygon;
+
+    QColor background= m_ctrl->gridAbove() ? Qt::transparent : m_ctrl->backgroundColor();
 
     if(m_ctrl->gridPattern() == Core::GridPattern::HEXAGON)
     {
@@ -126,12 +128,12 @@ void GridController::computePattern()
 
         pattern
             = QImage(static_cast<int>(m_ctrl->gridSize() * 1.5), static_cast<int>(2 * hlimit), QImage::Format_ARGB32);
-        pattern.fill(Qt::transparent);
+        pattern.fill(background);
     }
     else if(m_ctrl->gridPattern() == Core::GridPattern::SQUARE)
     {
         pattern= QImage(m_ctrl->gridSize(), m_ctrl->gridSize(), QImage::Format_ARGB32);
-        pattern.fill(Qt::transparent);
+        pattern.fill(background);
         int sizeP= m_ctrl->gridSize();
         QPointF A(0, 0);
         QPointF B(0, sizeP - 1);

@@ -42,7 +42,7 @@ QString EllipsControllerManager::addItem(const std::map<QString, QVariant>& para
     emit ellipsControllerCreated(ellipse.get(), true);
     auto id= ellipse->uuid();
     prepareController(ellipse.get());
-    qDebug() << "send Item";
+    emit itemAdded(ellipse->uuid());
     m_controllers.push_back(std::move(ellipse));
     return id;
 }
@@ -55,6 +55,7 @@ void EllipsControllerManager::addController(vmap::VisualItemController* controll
 
     std::unique_ptr<vmap::EllipseController> ellipse(ellipseCtrl);
     emit ellipsControllerCreated(ellipse.get(), false);
+    emit itemAdded(ellipseCtrl->uuid());
     qDebug() << "add epllipse " << m_controllers.size();
     m_controllers.push_back(std::move(ellipse));
 }
@@ -94,6 +95,18 @@ void EllipsControllerManager::processMessage(NetworkMessageReader* msg)
         if(nullptr != ctrl)
             m_updater->updateItemProperty(msg, ctrl);
     }
+}
+
+bool EllipsControllerManager::loadItem(const QString& id)
+{
+    auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
+                          [id](const std::unique_ptr<vmap::EllipseController>& ctrl) { return id == ctrl->uuid(); });
+
+    if(it == m_controllers.end())
+        return false;
+
+    emit ellipsControllerCreated(it->get(), false);
+    return true;
 }
 
 vmap::EllipseController* EllipsControllerManager::findController(const QString& id)

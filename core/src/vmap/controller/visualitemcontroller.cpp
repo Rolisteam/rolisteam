@@ -223,7 +223,6 @@ void VisualItemController::setRotation(qreal rota)
 
 void VisualItemController::setEditable(bool b)
 {
-    qDebug() << "setEditable" << b;
     if(b == m_editable)
         return;
     m_editable= b;
@@ -283,8 +282,9 @@ void VisualItemController::setInitialized(bool b)
 
 void VisualItemController::computeEditable()
 {
-    qDebug() << "computeEditable: localIsGM:" << localIsGM() << "permission mode" << m_ctrl->permission() << "map layer"
-             << m_ctrl->layer() << "item layer " << layer() << "id" << m_uuid; //"type" << itemType()
+    /* qDebug() << "computeEditable: localIsGM:" << localIsGM() << "permission mode" << m_ctrl->permission() << "map
+       layer"
+              << m_ctrl->layer() << "item layer " << layer() << "id" << m_uuid; //"type" << itemType()*/
     auto editableByPermission= (localIsGM() || m_ctrl->permission() == Core::PermissionMode::PC_ALL);
     setEditable(!m_locked && m_ctrl->layer() == layer() && editableByPermission);
 }

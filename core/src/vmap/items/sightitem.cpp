@@ -300,16 +300,16 @@ void SightItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
         mat.rotate(rot);
 
         path= path.subtracted(mat.map(visionData.shape.translated(-itemRadius, -itemRadius))); // always see the user
-        switch(vision->getShape())
+        switch(vision->shape())
         {
         case CharacterVision::DISK:
-            subArea.addEllipse(QPointF(0, 0), vision->getRadius() + itemRadius, vision->getRadius() + itemRadius);
+            subArea.addEllipse(QPointF(0, 0), vision->radius() + itemRadius, vision->radius() + itemRadius);
             break;
         case CharacterVision::ANGLE:
         {
             QRectF rectArc;
-            rectArc.setCoords(-vision->getRadius(), -vision->getRadius(), vision->getRadius(), vision->getRadius());
-            subArea.arcTo(rectArc, -vision->getAngle() / 2, vision->getAngle());
+            rectArc.setCoords(-vision->radius(), -vision->radius(), vision->radius(), vision->radius());
+            subArea.arcTo(rectArc, -vision->angle() / 2, vision->angle());
             // painter->setPen(QColor(255, 0, 0));
         }
         break;

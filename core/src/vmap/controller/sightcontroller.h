@@ -38,7 +38,7 @@ class SightController : public VisualItemController
     Q_PROPERTY(bool characterSight READ characterSight WRITE setCharacterSight NOTIFY characterSightChanged)
     Q_PROPERTY(QPainterPath fowPath READ fowPath NOTIFY fowPathChanged)
     Q_PROPERTY(QRectF rect READ rect WRITE setRect NOTIFY rectChanged)
-    Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
+    // Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
     Q_PROPERTY(int characterCount READ characterCount NOTIFY characterCountChanged) // only playable character
 public:
     SightController(VectorialMapController* ctrl, CharacterItemControllerManager* characterCtrl,

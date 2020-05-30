@@ -175,7 +175,7 @@ void CharacterItemController::setRect(const QRectF& rect)
 
 CharacterVision::SHAPE CharacterItemController::visionShape() const
 {
-    return m_vision->getShape();
+    return m_vision->shape();
 }
 
 QRectF CharacterItemController::textRect() const
@@ -306,7 +306,7 @@ void CharacterItemController::setVisionShape(CharacterVision::SHAPE visionShape)
 {
     if(!m_vision)
         return;
-    if(m_vision->getShape() == visionShape)
+    if(m_vision->shape() == visionShape)
         return;
 
     m_vision->setShape(visionShape);

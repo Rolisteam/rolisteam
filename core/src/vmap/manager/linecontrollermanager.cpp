@@ -37,6 +37,7 @@ QString LineControllerManager::addItem(const std::map<QString, QVariant>& params
     std::unique_ptr<vmap::LineController> line(new vmap::LineController(params, m_ctrl));
     emit LineControllerCreated(line.get(), true);
     auto id= line->uuid();
+    emit itemAdded(id);
     prepareController(line.get());
     m_controllers.push_back(std::move(line));
     return id;
@@ -50,6 +51,7 @@ void LineControllerManager::addController(vmap::VisualItemController* controller
 
     std::unique_ptr<vmap::LineController> lineCtrl(line);
     emit LineControllerCreated(lineCtrl.get(), false);
+    emit itemAdded(lineCtrl->uuid());
     m_controllers.push_back(std::move(lineCtrl));
 }
 
@@ -89,6 +91,18 @@ void LineControllerManager::processMessage(NetworkMessageReader* msg)
         if(nullptr != ctrl)
             m_updater->updateItemProperty(msg, ctrl);
     }
+}
+
+bool LineControllerManager::loadItem(const QString& id)
+{
+    auto it= std::find_if(m_controllers.begin(), m_controllers.end(),
+                          [id](const std::unique_ptr<vmap::LineController>& ctrl) { return id == ctrl->uuid(); });
+
+    if(it == m_controllers.end())
+        return false;
+
+    emit LineControllerCreated(it->get(), false);
+    return true;
 }
 
 const std::vector<vmap::LineController*> LineControllerManager::controllers() const
