@@ -29,10 +29,10 @@ ServerManager::ServerManager(QObject* parent) : QObject(parent), m_server(nullpt
 
     PasswordAccepter* tmp2= new PasswordAccepter();
 
-    m_corEndProcess= tmp2;
+    m_corEndProcess.reset(tmp2);
     tmp2->setNext(nullptr);
 
-    m_corConnection= new IpBanAccepter();
+    m_corConnection.reset(new IpBanAccepter());
 
     IpRangeAccepter* tmp= new IpRangeAccepter();
     TimeAccepter* tmp3= new TimeAccepter();
@@ -40,30 +40,13 @@ ServerManager::ServerManager(QObject* parent) : QObject(parent), m_server(nullpt
     tmp->setNext(tmp3);
     tmp3->setNext(nullptr);
 
-    m_adminAccepter= new PasswordAccepter(PasswordAccepter::Admin);
+    m_adminAccepter.reset(new PasswordAccepter(PasswordAccepter::Admin));
     m_adminAccepter->setNext(nullptr);
 }
 
 ServerManager::~ServerManager()
 {
     stopListening();
-    if(nullptr != m_corConnection)
-    {
-        delete m_corConnection;
-        m_corConnection= nullptr;
-    }
-
-    if(nullptr != m_corEndProcess)
-    {
-        delete m_corEndProcess;
-        m_corEndProcess= nullptr;
-    }
-
-    if(nullptr != m_adminAccepter)
-    {
-        delete m_adminAccepter;
-        m_adminAccepter= nullptr;
-    }
 }
 
 int ServerManager::port() const
@@ -134,7 +117,6 @@ void ServerManager::stopListening()
 void ServerManager::messageReceived(QByteArray array)
 {
     TcpClient* client= qobject_cast<TcpClient*>(sender());
-    qDebug() << "before dispach";
     if(nullptr != client)
     {
         Channel* channel= client->getParentChannel();

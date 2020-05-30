@@ -108,14 +108,13 @@ protected:
 private:
     std::unique_ptr<RServer> m_server;
     std::unique_ptr<ChannelModel> m_model;
-
-    int m_port;
-    ConnectionAccepter* m_corEndProcess= nullptr;
-    ConnectionAccepter* m_corConnection= nullptr;
-    ConnectionAccepter* m_adminAccepter= nullptr;
-    ConnectionAccepter* m_enterInRoomAccepter= nullptr;
+    std::unique_ptr<ConnectionAccepter> m_corEndProcess;
+    std::unique_ptr<ConnectionAccepter> m_corConnection;
+    std::unique_ptr<ConnectionAccepter> m_adminAccepter;
+    std::unique_ptr<ConnectionAccepter> m_enterInRoomAccepter;
 
     QMap<QString, QVariant> m_parameters;
+    int m_port;
 
     MessageDispatcher* m_msgDispatcher= nullptr;
     QHash<QTcpSocket*, TcpClient*> m_connections;
