@@ -33,6 +33,7 @@
 #include "vmap/controller/imagecontroller.h"
 #include "vmap/controller/linecontroller.h"
 #include "vmap/controller/rectcontroller.h"
+#include "vmap/controller/sightcontroller.h"
 #include "vmap/controller/textcontroller.h"
 
 #include "vmap/manager/characteritemcontrollermanager.h"
@@ -61,6 +62,7 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     connect(m_ctrl, &VectorialMapController::gridAboveChanged, this, &VMap::computePattern);
     connect(m_ctrl, &VectorialMapController::gridVisibilityChanged, this, &VMap::computePattern);
     connect(m_ctrl, &VectorialMapController::gridColorChanged, this, &VMap::computePattern);
+    connect(m_ctrl, &VectorialMapController::backgroundColorChanged, this, &VMap::computePattern);
 
     connect(m_ctrl, &VectorialMapController::toolChanged, this, [this]() { m_currentPath= nullptr; });
 
@@ -80,19 +82,25 @@ VMap::VMap(VectorialMapController* ctrl, QObject* parent) : QGraphicsScene(paren
     // setSceneRect(1000, 1000);
     // setSceneRect(0, 0, 1000, 1000);
 
-    m_gridItem= new GridItem(m_ctrl->gridController());
+    auto grid= m_ctrl->gridController();
+
+    m_gridItem= new GridItem(grid);
     addItem(m_gridItem);
     m_gridItem->initChildPointItem();
-    m_gridItem->setPos(0, 0);
+    m_gridItem->setPos(grid->pos());
     m_gridItem->setZValue(2);
-    m_gridItem->setVisible(false);
 
-    m_sightItem= new SightItem(m_ctrl->sightController(), m_characterItemMap);
+    auto sight= m_ctrl->sightController();
+    m_sightItem= new SightItem(sight, m_characterItemMap);
     addItem(m_sightItem);
     m_sightItem->initChildPointItem();
     m_sightItem->setPos(0, 0);
     m_sightItem->setZValue(1);
-    m_sightItem->setVisible(false);
+
+    m_ctrl->loadItems();
+    m_gridItem->setVisible(grid->visible());
+    m_sightItem->setVisible(sight->visible());
+    computePattern();
 }
 
 /*VMap::VMap(int width, int height, QString& title, QColor& bgColor, QObject* parent)
