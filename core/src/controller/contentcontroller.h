@@ -77,6 +77,9 @@ public:
     PdfMediaController* pdfCtrl() const;
     NoteMediaController* noteCtrl() const;
 
+    std::vector<MediaManagerBase*> mediaManagers() const;
+    int contentCount() const;
+
     int maxLengthTabName() const;
     bool shortTitleTab() const;
     QString workspaceFilename() const;
