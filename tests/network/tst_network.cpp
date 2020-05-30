@@ -242,11 +242,14 @@ void TestNetwork::timeAccepterTest()
     QFETCH(QString, start);
     QFETCH(QString, end);
 
-    QTime time(QTime::currentTime());
+    QTime time= QTime::currentTime();
     const QString format= QStringLiteral("hh:mm");
     QTime startT= QTime::fromString(start, format);
     QTime endT= QTime::fromString(end, format);
-    if(time >= startT && time <= endT)
+
+    if(start.isEmpty() && end.isEmpty())
+        expected= true;
+    else if(time >= startT && time <= endT)
         expected= true;
 
     QMap<QString, QVariant> data= {{"TimeStart", start}, {"TimeEnd", end}};
@@ -259,18 +262,19 @@ void TestNetwork::timeAccepterTest_data()
     QTest::addColumn<QString>("end");
 
     int count= 0;
-    for(int i= 0; i < 3; ++i)
+    for(int i= 0; i < 24; ++i)
     {
-        int end= i < 2 ? 9 : 3;
-        for(int j= 0; j < end; ++j)
-        {
-            QTest::addRow(QStringLiteral("time%1").arg(++count).toStdString().c_str())
-                << QStringLiteral("%1%2:00").arg(i).arg(j) << QStringLiteral("%1%2:30").arg(i).arg(j);
+        QTest::addRow(QStringLiteral("time%1").arg(++count).toStdString().c_str())
+            << QStringLiteral("%1:00").arg(i, 2, 10, QLatin1Char('0'))
+            << QStringLiteral("%1:30").arg(i, 2, 10, QLatin1Char('0'));
 
-            QTest::addRow(QStringLiteral("time%1").arg(++count).toStdString().c_str())
-                << QStringLiteral("%1%2:30").arg(i).arg(j) << QStringLiteral("%1%2:00").arg(i).arg(j + 1);
-        }
+        QTest::addRow(QStringLiteral("time%1").arg(++count).toStdString().c_str())
+            << QStringLiteral("%1:30").arg(i, 2, 10, QLatin1Char('0'))
+            << QStringLiteral("%1:00").arg(i + 1, 2, 10, QLatin1Char('0'));
     }
+
+    QTest::addRow("time_null") << ""
+                               << "";
 }
 
 QTEST_MAIN(TestNetwork);
