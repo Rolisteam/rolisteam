@@ -94,12 +94,12 @@ MainWindow::MainWindow(QWidget* parent)
     {
         connect(act, &QAction::triggered, this, &MainWindow::openRecentFile);
     }
-    m_view= new ItemEditor(this);
+    m_view= ui->m_view; //= new ItemEditor(this);
 
-    m_editorCtrl.reset(new EditorController(m_undoStack, m_view));
+    m_imageCtrl.reset(new ImageController(ui->m_imageList));
+    m_editorCtrl.reset(new EditorController(m_imageCtrl.get(), m_undoStack, m_view));
     m_characterCtrl.reset(new CharacterController(m_undoStack, ui->m_characterView));
     m_qmlCtrl.reset(new QmlGeneratorController(ui->m_codeEdit, ui->treeView));
-    m_imageCtrl.reset(new ImageController(ui->m_imageList));
 
     connect(m_editorCtrl.get(), &EditorController::canvasBackgroundChanged, m_imageCtrl.get(),
             &ImageController::addBackgroundImage);
@@ -127,6 +127,10 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_editorCtrl.get(), &EditorController::pageCountChanged, this,
             [this]() { ui->treeView->setCurrentPage(static_cast<int>(m_editorCtrl->pageCount())); });
     ui->treeView->setUndoStack(&m_undoStack);
+    connect(ui->treeView, &FieldView::removeField, this, [this](Field* field, int currentPage) {
+        m_undoStack.push(
+            new DeleteFieldCommand(field, m_editorCtrl->currentCanvas(), m_qmlCtrl->fieldModel(), currentPage));
+    });
 
     ui->m_codeToViewBtn->setDefaultAction(ui->m_codeToViewAct);
     ui->m_generateCodeBtn->setDefaultAction(ui->m_genarateCodeAct);
@@ -157,7 +161,7 @@ MainWindow::MainWindow(QWidget* parent)
     redo->setShortcut(QKeySequence::Redo);
 
     connect(ui->m_backgroundImageAct, &QAction::triggered, this, &MainWindow::openBackgroundImage);
-    ui->scrollArea->setWidget(m_view);
+    // ui->scrollArea->setWidget(m_view);
 
     ui->m_addCheckBoxAct->setData(Canvas::ADDCHECKBOX);
     ui->m_addTextAreaAct->setData(Canvas::ADDTEXTAREA);
@@ -321,6 +325,8 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_characterCtrl.get(), &CharacterController::dataChanged, this, notifyDataChanged);
     connect(m_qmlCtrl.get(), &QmlGeneratorController::dataChanged, this, notifyDataChanged);
     connect(m_imageCtrl.get(), &ImageController::dataChanged, this, notifyDataChanged);
+
+    m_view->setHandle(ui->m_moveAct->isChecked());
 }
 MainWindow::~MainWindow()
 {

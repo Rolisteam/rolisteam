@@ -1,8 +1,8 @@
 #include "fieldview.h"
 
 #include <QColorDialog>
-#include <QMenu>
 #include <QFontDialog>
+#include <QMenu>
 
 // commands
 #include "undo/deletefieldcommand.h"
@@ -118,13 +118,9 @@ void FieldView::contextMenuEvent(QContextMenuEvent* event)
         menu.addAction(m_applyValueOnAllLines);
         menu.addSeparator();
         menu.addAction(m_lock);
+        menu.addAction(m_delItem);
         menu.addSeparator();
         menu.addAction(m_defineCode);
-        if(nullptr != m_canvasList)
-        {
-            menu.addSeparator();
-            menu.addAction(m_delItem);
-        }
     }
     auto showSubMenu= menu.addMenu(tr("Show"));
     showSubMenu->addAction(m_showAllGroup);
@@ -153,9 +149,10 @@ void FieldView::contextMenuEvent(QContextMenuEvent* event)
     if(act == m_delItem)
     {
         auto itemData= static_cast<Field*>(index.internalPointer());
-        DeleteFieldCommand* deleteCommand
-            = new DeleteFieldCommand(itemData, m_canvasList->at(m_currentPage), m_model, m_currentPage);
-        m_undoStack->push(deleteCommand);
+        /*DeleteFieldCommand* deleteCommand
+            = new DeleteFieldCommand(itemData, m_model, m_currentPage);
+        m_undoStack->push(deleteCommand);*/
+        emit removeField(itemData, m_currentPage);
     }
     else if(m_applyValueOnAllLines == act)
     {
@@ -304,7 +301,7 @@ void FieldView::editColor(QModelIndex index)
     {
         return;
     }
-    auto col = index.column();
+    auto col= index.column();
     if(col == CharacterSheetItem::BGCOLOR || CharacterSheetItem::TEXTCOLOR == col)
     {
 
@@ -322,7 +319,7 @@ void FieldView::editColor(QModelIndex index)
     else if(CharacterSheetItem::FONT == col)
     {
         QFontDialog cd(this);
-        QString fontStr = index.data(Qt::EditRole).toString();
+        QString fontStr= index.data(Qt::EditRole).toString();
         QFont font;
         font.fromString(fontStr);
 

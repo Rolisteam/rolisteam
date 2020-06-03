@@ -28,30 +28,16 @@
        <attribute name="title">
         <string>Editor</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
         <item>
          <widget class="QSplitter" name="splitter">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <widget class="QWidget" name="layoutWidget">
-           <layout class="QHBoxLayout" name="horizontalLayout">
+          <widget class="QWidget" name="">
+           <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
             <item>
-             <widget class="QScrollArea" name="scrollArea">
-              <property name="widgetResizable">
-               <bool>true</bool>
-              </property>
-              <widget class="QWidget" name="scrollAreaWidgetContents">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>0</y>
-                 <width>316</width>
-                 <height>699</height>
-                </rect>
-               </property>
-              </widget>
-             </widget>
+             <widget class="ItemEditor" name="m_view" native="true"/>
             </item>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
@@ -1130,6 +1116,12 @@
    <class>FieldView</class>
    <extends>QTreeView</extends>
    <header>widgets/fieldview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ItemEditor</class>
+   <extends>QWidget</extends>
+   <header>itemeditor.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
