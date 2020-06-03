@@ -14,6 +14,8 @@ public:
 
 protected:
     void contextMenuEvent(QContextMenuEvent* event);
+    void mousePressEvent(QMouseEvent* event);
+    void mouseReleaseEvent(QMouseEvent* event);
 
 signals:
     void openContextMenu(QPoint);

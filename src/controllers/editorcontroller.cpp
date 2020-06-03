@@ -27,6 +27,7 @@
 
 #include "canvas.h"
 #include "canvasfield.h"
+#include "controllers/imagecontroller.h"
 #include "itemeditor.h"
 
 #include <algorithm>
@@ -34,8 +35,8 @@
 // undo
 #include "undo/setbackgroundimage.h"
 
-EditorController::EditorController(QUndoStack& undoStack, ItemEditor* view, QObject* parent)
-    : QObject(parent), m_view(view), m_undoStack(undoStack)
+EditorController::EditorController(ImageController* imgCtrl, QUndoStack& undoStack, ItemEditor* view, QObject* parent)
+    : QObject(parent), m_imageController(imgCtrl), m_view(view), m_undoStack(undoStack)
 {
     connect(m_view, &ItemEditor::openContextMenu, this, &EditorController::menuRequestedFromView);
     m_fitInView= new QAction(tr("Fit the view"), m_view);
@@ -309,12 +310,12 @@ void EditorController::clearData(bool defaulCanvas)
         addPage();
         canvasPtr= m_canvasList[0].get();
     }
-    m_view->setScene(canvasPtr);
+    updateView();
 }
 
 int EditorController::addPage()
 {
-    std::unique_ptr<Canvas> canvas(new Canvas());
+    std::unique_ptr<Canvas> canvas(new Canvas(this));
     int page= -1;
     for(const auto& canvas : m_canvasList)
     {
@@ -331,6 +332,11 @@ int EditorController::addPage()
     return m_canvasList.size() - 1;
 }
 
+Canvas* EditorController::currentCanvas() const
+{
+    return m_canvasList[m_currentPage].get();
+}
+
 void EditorController::setCurrentPage(int currentPage)
 {
     if(m_currentPage == currentPage)
@@ -343,7 +349,7 @@ void EditorController::setCurrentPage(int currentPage)
 
 void EditorController::updateView()
 {
-    if(m_currentPage < 0 || m_currentPage > m_canvasList.size())
+    if(m_currentPage < 0 || m_currentPage >= m_canvasList.size())
         return;
     m_view->setScene(m_canvasList[m_currentPage].get());
 }
@@ -420,4 +426,9 @@ void EditorController::addItem(int idx, QGraphicsItem* item)
         return;
     page->addItem(item);
     emit dataChanged();
+}
+
+ImageController* EditorController::imageController() const
+{
+    return m_imageController;
 }

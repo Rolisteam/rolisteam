@@ -12,7 +12,13 @@ class CanvasField : public QGraphicsObject
     Q_OBJECT
     Q_PROPERTY(bool locked READ locked WRITE setLocked NOTIFY lockedChanged)
 public:
+    enum
+    {
+        Type= UserType + 1
+    };
     CanvasField(Field* field);
+
+    int type() const override { return Type; }
 
     Field* getField() const;
     void setField(Field* field);

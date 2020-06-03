@@ -25,21 +25,24 @@
 #include "canvas.h"
 #include <QAction>
 #include <QObject>
+#include <QPointer>
 #include <QUndoStack>
 #include <memory>
 
 class ItemEditor;
+class ImageController;
 class EditorController : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int currentPage READ currentPage WRITE setCurrentPage NOTIFY currentPageChanged)
     Q_PROPERTY(std::size_t pageCount READ pageCount NOTIFY pageCountChanged)
 public:
-    EditorController(QUndoStack& undoStack, ItemEditor* view, QObject* parent= nullptr);
+    EditorController(ImageController* imgCtrl, QUndoStack& undoStack, ItemEditor* view, QObject* parent= nullptr);
 
     const std::vector<Canvas*>& pageList() const;
     std::size_t pageCount() const;
     int currentPage() const;
+    Canvas* currentCanvas() const;
 
     void clearData(bool defaulCanvas);
 
@@ -48,6 +51,7 @@ public:
     void setImageBackground(int idx, const QPixmap& pix, const QString& filepath);
 
     void addItem(int idx, QGraphicsItem* item);
+    ImageController* imageController() const;
 public slots:
     int addPage();
     Canvas* removePage(int idx);
@@ -74,6 +78,7 @@ protected slots:
     void lockItem();
 
 private:
+    QPointer<ImageController> m_imageController;
     QAction* m_lockItem= nullptr;
     QAction* m_fitInView= nullptr;
     QAction* m_alignOnY= nullptr;
