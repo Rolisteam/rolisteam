@@ -35,9 +35,9 @@ ImageController::ImageController(QTableView* view, QObject* parent)
 
     connect(m_copyPath, &QAction::triggered, this, &ImageController::copyPath);
     connect(m_copyUrl, &QAction::triggered, this, &ImageController::copyPath);
-    connect(m_replaceImage, &QAction::triggered, this, &ImageController::copyPath);
-    connect(m_removeImage, &QAction::triggered, this, &ImageController::copyPath);
-    connect(m_reloadImageFromFile, &QAction::triggered, this, &ImageController::copyPath);
+    connect(m_replaceImage, &QAction::triggered, this, &ImageController::replaceImage);
+    connect(m_removeImage, &QAction::triggered, this, &ImageController::removeImage);
+    connect(m_reloadImageFromFile, &QAction::triggered, this, &ImageController::reloadImageFromFile);
 
     m_view->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_view, &QTableView::customContextMenuRequested, this, &ImageController::contextualMenu);
@@ -118,20 +118,19 @@ void ImageController::contextualMenu(const QPoint& pos)
 }
 void ImageController::copyPath()
 {
-    auto act= dynamic_cast<QAction*>(sender());
-    if(nullptr == act)
-        return;
-
     QModelIndex index= m_view->currentIndex();
-    if(index.column() == act->data().toInt())
-    {
-        QString path= index.data().toString();
-        QClipboard* clipboard= QGuiApplication::clipboard();
-        clipboard->setText(path);
-    }
+    auto path= index.data(ImageModel::FilenameRole).toString();
+    QClipboard* clipboard= QGuiApplication::clipboard();
+    clipboard->setText(path);
 }
 
-void ImageController::copyUrl() {}
+void ImageController::copyUrl()
+{
+    QModelIndex index= m_view->currentIndex();
+    QString path= index.data(ImageModel::UrlRole).toString();
+    QClipboard* clipboard= QGuiApplication::clipboard();
+    clipboard->setText(path);
+}
 
 void ImageController::replaceImage()
 {
@@ -143,7 +142,11 @@ void ImageController::replaceImage()
     m_model->setPathFor(index, filepath);
 }
 
-void ImageController::reloadImageFromFile() {}
+void ImageController::reloadImageFromFile()
+{
+    auto index= m_view->currentIndex();
+    m_model->reloadImage(index);
+}
 
 void ImageController::removeImage(int idx)
 {
