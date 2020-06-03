@@ -25,12 +25,14 @@
 #include <QGraphicsItem>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
+#include <QPointer>
 #include <QUndoStack>
 
 #include "field.h"
 #include "fieldmodel.h"
 
 class ImageModel;
+class EditorController;
 class Canvas : public QGraphicsScene
 {
     Q_OBJECT
@@ -55,7 +57,7 @@ public:
         DELETETOOL,
         BUTTON
     };
-    explicit Canvas(QObject* parent= nullptr);
+    explicit Canvas(EditorController* ctrl, QObject* parent= nullptr);
 
     void setCurrentTool(Canvas::Tool);
     FieldModel* model() const;
@@ -73,9 +75,6 @@ public:
 
     QUndoStack* undoStack() const;
     void setUndoStack(QUndoStack* undoStack);
-
-    ImageModel* getImageModel() const;
-    void setImageModel(ImageModel* imageModel);
 
 signals:
     void pixmapChanged();
@@ -95,15 +94,15 @@ private:
     bool forwardEvent();
 
 private:
+    QPointer<EditorController> m_ctrl;
     QGraphicsPixmapItem* m_bg;
     CSItem* m_currentItem;
-    Tool m_currentTool;
+    Tool m_currentTool= MOVE;
     FieldModel* m_model;
     int m_pageId;
     QUndoStack* m_undoStack;
     QList<QGraphicsItem*> m_movingItems;
     QList<QPointF> m_oldPos;
-    ImageModel* m_imageModel= nullptr;
 };
 
 #endif // CANVAS_H

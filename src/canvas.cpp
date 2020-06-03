@@ -31,12 +31,16 @@
 #include "undo/movefieldcommand.h"
 #include "undo/setbackgroundimage.h"
 
+#include "controllers/editorcontroller.h"
+#include "controllers/imagecontroller.h"
+
 #include "tablecanvasfield.h"
 
 //#include "charactersheetbutton.h"
 
-Canvas::Canvas(QObject* parent)
+Canvas::Canvas(EditorController* ctrl, QObject* parent)
     : QGraphicsScene(parent)
+    , m_ctrl(ctrl)
     , m_bg(new QGraphicsPixmapItem())
     , m_currentItem(nullptr)
     , m_model(nullptr)
@@ -77,6 +81,7 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent* event)
         }
     }
 }
+
 void Canvas::setCurrentTool(Canvas::Tool tool)
 {
     m_currentTool= tool;
@@ -96,54 +101,60 @@ void Canvas::deleteItem(QGraphicsItem* item)
 }
 void Canvas::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
-    if(mouseEvent->button() == Qt::LeftButton)
-    {
-        if(forwardEvent())
-        {
-            m_oldPos.clear();
-            QPointF mousePos(mouseEvent->buttonDownScenePos(Qt::LeftButton).x(),
-                             mouseEvent->buttonDownScenePos(Qt::LeftButton).y());
-            const QList<QGraphicsItem*> itemList= items(mousePos);
-            m_movingItems.append(itemList.isEmpty() ? nullptr : itemList.first());
 
-            if(m_movingItems.first() != nullptr && mouseEvent->button() == Qt::LeftButton)
-            {
-                m_oldPos.append(m_movingItems.first()->pos());
-            }
-
-            // clearSelection();
-            QGraphicsScene::mousePressEvent(mouseEvent);
-        }
-        if(m_currentTool == Canvas::DELETETOOL)
-        {
-            QList<QGraphicsItem*> itemList= items(mouseEvent->scenePos());
-            for(QGraphicsItem* item : itemList)
-            {
-                if(item != m_bg)
-                {
-                    deleteItem(item);
-                }
-            }
-        }
-        else if((m_currentTool <= Canvas::ADDCHECKBOX) || (m_currentTool == Canvas::BUTTON))
-        {
-            AddFieldCommand* addCommand
-                = new AddFieldCommand(m_currentTool, this, m_model, m_pageId, m_imageModel, mouseEvent->scenePos());
-            m_currentItem= addCommand->getField();
-            m_undoStack->push(addCommand);
-        }
-        mouseEvent->accept();
-        return;
-    }
     if(mouseEvent->button() == Qt::RightButton)
     {
         mouseEvent->accept();
         return;
     }
-    else
+
+    if(mouseEvent->button() != Qt::LeftButton)
+        QGraphicsScene::mousePressEvent(mouseEvent);
+
+    if(forwardEvent())
     {
+        m_oldPos.clear();
+        QPointF mousePos(mouseEvent->buttonDownScenePos(Qt::LeftButton).x(),
+                         mouseEvent->buttonDownScenePos(Qt::LeftButton).y());
+        const QList<QGraphicsItem*> itemList= items(mousePos);
+        m_movingItems.append(itemList.isEmpty() ? nullptr : itemList.first());
+
+        if(m_movingItems.first() != nullptr && mouseEvent->button() == Qt::LeftButton)
+        {
+            m_oldPos.append(m_movingItems.first()->pos());
+        }
+
+        // clearSelection();
         QGraphicsScene::mousePressEvent(mouseEvent);
     }
+    if(m_currentTool == Canvas::DELETETOOL)
+    {
+        QList<QGraphicsItem*> itemList= items(mouseEvent->scenePos());
+        for(QGraphicsItem* item : itemList)
+        {
+            if(item != m_bg)
+            {
+                deleteItem(item);
+            }
+        }
+        mouseEvent->accept();
+    }
+    else if((m_currentTool <= Canvas::ADDCHECKBOX) || (m_currentTool == Canvas::BUTTON))
+    {
+        auto imageController= m_ctrl->imageController();
+
+        ImageModel* model= nullptr;
+        if(nullptr != imageController)
+            model= imageController->model();
+
+        AddFieldCommand* addCommand
+            = new AddFieldCommand(m_currentTool, this, m_model, m_pageId, model, mouseEvent->scenePos());
+        m_currentItem= addCommand->getField();
+        m_undoStack->push(addCommand);
+        mouseEvent->accept();
+    }
+
+    QGraphicsScene::mousePressEvent(mouseEvent);
 }
 void Canvas::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
@@ -159,22 +170,7 @@ void Canvas::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
 }
 bool Canvas::forwardEvent()
 {
-    if((Canvas::MOVE == m_currentTool) || (Canvas::NONE == m_currentTool))
-    {
-        return true;
-    }
-    else
-        return false;
-}
-
-ImageModel* Canvas::getImageModel() const
-{
-    return m_imageModel;
-}
-
-void Canvas::setImageModel(ImageModel* imageModel)
-{
-    m_imageModel= imageModel;
+    return (Canvas::MOVE == m_currentTool) || (Canvas::NONE == m_currentTool);
 }
 
 QUndoStack* Canvas::undoStack() const
@@ -270,6 +266,7 @@ void Canvas::setPixmap(const QPixmap& pix)
     m_bg->setPixmap(pix);
     emit pixmapChanged();
 
+    qDebug() << "setPixmap" << pix;
     if(pix.isNull())
         removeItem(m_bg);
     else
