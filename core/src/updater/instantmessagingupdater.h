@@ -22,14 +22,26 @@
 
 #include <QObject>
 
+class NetworkMessageReader;
+
+namespace InstantMessaging
+{
+class ChatRoom;
+class InstantMessagingModel;
 class InstantMessagingUpdater : public QObject
 {
     Q_OBJECT
 public:
-    explicit InstantMessagingUpdater(QObject *parent = nullptr);
+    explicit InstantMessagingUpdater(QObject* parent= nullptr);
 
-signals:
+    void addChatRoom(InstantMessaging::ChatRoom* chat);
+    static void sendMessage();
+    static void closeChat();
 
+    template <typename T>
+    void sendOffChatRoomChanges(InstantMessaging::ChatRoom* chatRoom, const QString& property);
+    void addMessageToModel(InstantMessaging::InstantMessagingModel* model, NetworkMessageReader* msg);
 };
 
+} // namespace InstantMessaging
 #endif // INSTANTMESSAGINGUPDATER_H

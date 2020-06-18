@@ -19,26 +19,108 @@
  ***************************************************************************/
 #include "messagemodel.h"
 
-MessageModel::MessageModel(QObject *parent)
-    : QAbstractListModel(parent)
-{
-}
+#include <QDebug>
+#include <set>
 
-int MessageModel::rowCount(const QModelIndex &parent) const
+#include "messagefactory.h"
+#include "messageinterface.h"
+
+namespace InstantMessaging
 {
-    // For list models only the root node (an invalid parent) should return the list's size. For all
-    // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
-    if (parent.isValid())
+
+MessageModel::MessageModel(QObject* parent) : QAbstractListModel(parent) {}
+
+MessageModel::~MessageModel()= default;
+
+int MessageModel::rowCount(const QModelIndex& parent) const
+{
+    if(parent.isValid())
         return 0;
 
-    // FIXME: Implement me!
+    return static_cast<int>(m_messages.size());
 }
 
-QVariant MessageModel::data(const QModelIndex &index, int role) const
+QVariant MessageModel::data(const QModelIndex& index, int role) const
 {
-    if (!index.isValid())
+    if(!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
-    return QVariant();
+    int item= role;
+    if(role == Qt::DisplayRole)
+        item= TextRole;
+
+    std::set<int> map({MessageTypeRole, TextRole, TimeRole, OwnerRole, LocalRole, MessageRole});
+
+    if(map.find(item) == map.end())
+        return {};
+
+    QVariant var;
+    auto message= m_messages[index.row()].get();
+
+    switch(item)
+    {
+    case MessageTypeRole:
+        var= message->type();
+        break;
+    case TextRole:
+        var= message->text();
+        break;
+    case MessageRole:
+        var= QVariant::fromValue(message);
+        break;
+    case TimeRole:
+        var= message->dateTime().toString("hh:mm");
+        break;
+    case LocalRole:
+        var= (m_localId == message->owner());
+        break;
+    case OwnerRole:
+        var= message->owner();
+        break;
+    }
+
+    return var;
 }
+
+QHash<int, QByteArray> MessageModel::roleNames() const
+{
+    return QHash<int, QByteArray>({{MessageTypeRole, "type"},
+                                   {TextRole, "text"},
+                                   {TimeRole, "time"},
+                                   {OwnerRole, "ownerId"},
+                                   {MessageRole, "message"},
+                                   {LocalRole, "local"}});
+}
+
+QString MessageModel::localId() const
+{
+    return m_localId;
+}
+
+void MessageModel::setLocalId(const QString& localid)
+{
+    if(m_localId == localid)
+        return;
+    m_localId= localid;
+    emit localIdChanged(m_localId);
+}
+
+void MessageModel::addMessage(const QString& text, const QDateTime& time, const QString& owner,
+                              MessageInterface::MessageType type)
+{
+    // TODO use factory
+    auto msg= InstantMessaging::MessageFactory::createMessage(owner, time, type);
+    msg->setText(text);
+    addMessageInterface(msg);
+    messageAdded(msg);
+}
+
+void MessageModel::addMessageInterface(MessageInterface* msg)
+{
+    std::unique_ptr<MessageInterface> interface(msg);
+
+    beginInsertRows(QModelIndex(), 0, 0);
+    m_messages.insert(m_messages.begin(), std::move(interface));
+    endInsertRows();
+}
+} // namespace InstantMessaging

@@ -20,24 +20,61 @@
 #ifndef INSTANTMESSAGINGMODEL_H
 #define INSTANTMESSAGINGMODEL_H
 
+#include "qmlchat/chatroom.h"
 #include <QAbstractListModel>
+#include <memory>
 
+namespace InstantMessaging
+{
+class MessageInterface;
 class InstantMessagingModel : public QAbstractListModel
 {
     Q_OBJECT
-
+    Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
 public:
-    explicit InstantMessagingModel(QObject *parent = nullptr);
+    enum Role
+    {
+        TitleRole= Qt::UserRole + 1,
+        IdRole,
+        TypeRole,
+        ChatRole,
+        RecipiantCountRole
+    };
+
+    explicit InstantMessagingModel(QObject* parent= nullptr);
+    virtual ~InstantMessagingModel();
 
     // Header:
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const override;
 
     // Basic functionality:
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+    QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
 
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QHash<int, QByteArray> roleNames() const override;
+
+    ChatRoom* globalChatRoom() const;
+    QString localId() const;
+
+public slots:
+    void insertGlobalChatroom(const QString& title, const QString& uuid= QString());
+    void insertIndividualChatroom(const QString& playerId);
+    void insertCustomChatroom(const QStringList& playerIds);
+    void setLocalId(const QString& id);
+
+    void addMessageIntoChatroom(MessageInterface*, ChatRoom::ChatRoomType type, const QString& uuid);
+
+signals:
+    void chatRoomCreated(InstantMessaging::ChatRoom*);
+    void localIdChanged(QString);
 
 private:
-};
+    // void insertChatroom(ChatRoom::Type);
 
+private:
+    std::vector<std::unique_ptr<ChatRoom>> m_chats;
+    QString m_localId;
+};
+} // namespace InstantMessaging
+Q_DECLARE_METATYPE(InstantMessaging::InstantMessagingModel*)
 #endif // INSTANTMESSAGINGMODEL_H

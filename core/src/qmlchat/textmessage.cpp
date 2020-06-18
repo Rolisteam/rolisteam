@@ -19,7 +19,24 @@
  ***************************************************************************/
 #include "textmessage.h"
 
-TextMessage::TextMessage()
+namespace InstantMessaging
 {
 
+TextMessage::TextMessage(const QString& ownerId, const QDateTime& time, QObject* parent)
+    : MessageBase(ownerId, time, MessageInterface::MessageType::Text, parent)
+{
 }
+
+QString TextMessage::text() const
+{
+    return m_text;
+}
+
+void TextMessage::setText(const QString& text)
+{
+    if(text == m_text)
+        return;
+    m_text= text;
+    emit textChanged();
+}
+} // namespace InstantMessaging

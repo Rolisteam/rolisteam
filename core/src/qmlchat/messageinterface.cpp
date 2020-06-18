@@ -19,7 +19,29 @@
  ***************************************************************************/
 #include "messageinterface.h"
 
-MessageInterface::MessageInterface(QObject *parent) : QObject(parent)
+namespace InstantMessaging
 {
+MessageInterface::MessageInterface(QObject* parent) : QObject(parent) {}
 
+MessageBase::MessageBase(const QString& owner, const QDateTime& time, MessageInterface::MessageType type,
+                         QObject* parent)
+    : MessageInterface(parent), m_ownerId(owner), m_time(time), m_type(type)
+{
 }
+
+QString MessageBase::owner() const
+{
+    return m_ownerId;
+}
+
+QDateTime MessageBase::dateTime() const
+{
+    return m_time;
+}
+
+MessageInterface::MessageType MessageBase::type() const
+{
+    return m_type;
+}
+
+} // namespace InstantMessaging

@@ -19,7 +19,32 @@
  ***************************************************************************/
 #include "avatarprovider.h"
 
-AvatarProvider::AvatarProvider()
-{
+#include "data/person.h"
+#include "userlist/playermodel.h"
 
+AvatarProvider::AvatarProvider(PlayerModel* model)
+    : QQuickImageProvider(QQmlImageProviderBase::Image), m_players(model), m_default(":/resources/icons/contact.svg")
+{
+}
+
+QImage AvatarProvider::requestImage(const QString& id, QSize* size, const QSize& requestedSize)
+{
+    auto resize= [requestedSize](const QImage& source) {
+        return source.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    };
+
+    if(id.isEmpty() || m_players.isNull())
+        return resize(m_default);
+
+    auto person= m_players->personById(id);
+
+    if(!person)
+        return resize(m_default);
+
+    auto img= person->getAvatar();
+
+    if(img.isNull())
+        img= m_default;
+
+    return resize(img);
 }

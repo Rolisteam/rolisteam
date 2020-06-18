@@ -22,11 +22,25 @@
 
 #include <QObject>
 
+#include "messageinterface.h"
+
+namespace InstantMessaging
+{
+
 class TextMessage : public MessageBase
 {
     Q_OBJECT
 public:
-    TextMessage();
+    explicit TextMessage(const QString& ownerId, const QDateTime& time, QObject* parent= nullptr);
+
+    QString text() const override;
+
+public:
+    void setText(const QString& text) override;
+
+private:
+    QString m_text;
 };
 
+} // namespace InstantMessaging
 #endif // TEXTMESSAGE_H

@@ -74,7 +74,7 @@ void TestNetwork::cleanupTestCase() {}
 
 void TestNetwork::init()
 {
-    m_writer.reset(new NetworkMessageWriter(NetMsg::ChatCategory, NetMsg::AddEmptyMap));
+    m_writer.reset(new NetworkMessageWriter(NetMsg::MapCategory, NetMsg::AddEmptyMap));
     m_ipBanAccepter.reset(new IpBanAccepter());
     m_passwordAccepter.reset(new PasswordAccepter());
     m_ipRangeAccepter.reset(new IpRangeAccepter());

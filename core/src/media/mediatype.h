@@ -46,7 +46,8 @@ enum class ContentType : int
     CHARACTERSHEET,
     SHAREDNOTE,
     PDF,
-    WEBVIEW
+    WEBVIEW,
+    INSTANTMESSAGING
 };
 Q_ENUM_NS(ContentType)
 

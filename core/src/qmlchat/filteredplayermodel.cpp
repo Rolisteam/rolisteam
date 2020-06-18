@@ -18,27 +18,32 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "filteredplayermodel.h"
-
-FilteredPlayerModel::FilteredPlayerModel(QObject *parent)
-    : QAbstractListModel(parent)
+namespace InstantMessaging
 {
-}
+FilteredPlayerModel::FilteredPlayerModel(QObject* parent) : QSortFilterProxyModel(parent) {}
 
-int FilteredPlayerModel::rowCount(const QModelIndex &parent) const
+int FilteredPlayerModel::rowCount(const QModelIndex& parent) const
 {
-    // For list models only the root node (an invalid parent) should return the list's size. For all
-    // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
-    if (parent.isValid())
+    if(parent.isValid())
         return 0;
 
-    // FIXME: Implement me!
+    return m_participants.size();
 }
 
-QVariant FilteredPlayerModel::data(const QModelIndex &index, int role) const
+QStringList FilteredPlayerModel::recipiantIds() const
 {
-    if (!index.isValid())
-        return QVariant();
-
-    // FIXME: Implement me!
-    return QVariant();
+    return m_participants;
 }
+
+bool FilteredPlayerModel::hasRecipiant(const QString& uuid)
+{
+    return m_participants.contains(uuid);
+}
+
+bool FilteredPlayerModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
+{
+    auto idx= sourceModel()->index(sourceRow, 0, sourceParent);
+    auto uuid= idx.data().toString();
+    return m_participants.contains(uuid);
+}
+} // namespace InstantMessaging

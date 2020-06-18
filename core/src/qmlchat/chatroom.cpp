@@ -19,7 +19,100 @@
  ***************************************************************************/
 #include "chatroom.h"
 
-ChatRoom::ChatRoom(QObject *parent) : QObject(parent)
+#include "filteredplayermodel.h"
+#include "messagemodel.h"
+
+namespace InstantMessaging
 {
 
+ChatRoom::ChatRoom(ChatRoomType type, const QString& id, QObject* parent)
+    : QObject(parent), m_recipiants(new FilteredPlayerModel), m_messageModel(new MessageModel), m_type(type), m_uuid(id)
+{
+    connect(m_messageModel.get(), &MessageModel::localIdChanged, this, &ChatRoom::localIdChanged);
 }
+
+ChatRoom::~ChatRoom()= default;
+
+MessageModel* ChatRoom::messageModel() const
+{
+    return m_messageModel.get();
+}
+
+bool ChatRoom::unreadMessage() const
+{
+    return m_unreadMessage;
+}
+
+QString ChatRoom::uuid() const
+{
+    return m_uuid;
+}
+
+QString ChatRoom::localId() const
+{
+    return m_messageModel->localId();
+}
+
+FilteredPlayerModel* ChatRoom::recipiants() const
+{
+    return m_recipiants.get();
+}
+
+QString ChatRoom::title() const
+{
+    return m_title;
+}
+
+ChatRoom::ChatRoomType ChatRoom::type() const
+{
+    return m_type;
+}
+
+int ChatRoom::recipiantCount() const
+{
+    return m_recipiants->rowCount();
+}
+
+void ChatRoom::setUuid(const QString& id)
+{
+    if(id == m_uuid)
+        return;
+    m_uuid= id;
+    emit uuidChanged(m_uuid);
+}
+
+void ChatRoom::setTitle(const QString& title)
+{
+    if(m_title == title)
+        return;
+    m_title= title;
+    emit titleChanged(m_title);
+}
+
+void ChatRoom::setUnreadMessage(bool b)
+{
+    if(b == m_unreadMessage)
+        return;
+    m_unreadMessage= b;
+    emit unreadMessageChanged(m_unreadMessage);
+}
+
+void ChatRoom::addMessage(const QString& text)
+{
+    m_messageModel->addMessage(text, QDateTime::currentDateTime(), localId(), MessageInterface::Text);
+}
+
+void ChatRoom::addMessageInterface(MessageInterface* message)
+{
+    m_messageModel->addMessageInterface(message);
+}
+
+void ChatRoom::setLocalId(const QString& id)
+{
+    m_messageModel->setLocalId(id);
+}
+bool ChatRoom::hasRecipiant(const QString& id)
+{
+    return m_recipiants->hasRecipiant(id);
+}
+} // namespace InstantMessaging

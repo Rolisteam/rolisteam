@@ -33,26 +33,15 @@ class LocalPersonModel : public QAbstractProxyModel
     Q_OBJECT
 public:
     LocalPersonModel();
-    /**
-     * @brief data
-     * @param index
-     * @param role
-     * @return
-     */
-    // QVariant data(const QModelIndex& index, int role) const;
-    /**
-     * @brief rowCount
-     * @param parent
-     * @return
-     */
-    // int rowCount(const QModelIndex& parent= QModelIndex()) const;
-    Q_INVOKABLE QModelIndex mapFromSource(const QModelIndex& sourceIndex) const override;
-    Q_INVOKABLE QModelIndex mapToSource(const QModelIndex& proxyIndex) const override;
 
-    Q_INVOKABLE virtual QModelIndex index(int, int, const QModelIndex&) const override;
-    Q_INVOKABLE virtual QModelIndex parent(const QModelIndex&) const override;
-    Q_INVOKABLE virtual int rowCount(const QModelIndex& parent) const override;
-    Q_INVOKABLE virtual int columnCount(const QModelIndex&) const override;
+    QModelIndex mapFromSource(const QModelIndex& sourceIndex) const override;
+    QModelIndex mapToSource(const QModelIndex& proxyIndex) const override;
+
+    virtual void setSourceModel(QAbstractItemModel* sourceModel) override;
+    virtual QModelIndex index(int, int, const QModelIndex&) const override;
+    virtual QModelIndex parent(const QModelIndex& idx= QModelIndex()) const override;
+    virtual int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+    virtual int columnCount(const QModelIndex& parent= QModelIndex()) const override;
 };
 
 #endif

@@ -20,16 +20,53 @@
 #ifndef MESSAGEINTERFACE_H
 #define MESSAGEINTERFACE_H
 
+#include <QDateTime>
 #include <QObject>
 
+namespace InstantMessaging
+{
 class MessageInterface : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(MessageType type READ type CONSTANT)
+    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+    Q_PROPERTY(QString owner READ owner CONSTANT)
+    Q_PROPERTY(QDateTime dateTime READ dateTime CONSTANT)
 public:
-    explicit MessageInterface(QObject *parent = nullptr);
+    enum MessageType
+    {
+        Text,
+        Dice,
+        Notification
+    };
+    Q_ENUM(MessageType)
+    explicit MessageInterface(QObject* parent= nullptr);
+
+    virtual MessageType type() const= 0;
+    virtual QString text() const= 0;
+    virtual QString owner() const= 0;
+    virtual QDateTime dateTime() const= 0;
+
+public slots:
+    virtual void setText(const QString& text)= 0;
 
 signals:
-
+    void textChanged();
 };
 
+class MessageBase : public MessageInterface
+{
+    Q_OBJECT
+public:
+    explicit MessageBase(const QString& owner, const QDateTime& time, MessageType type, QObject* parent= nullptr);
+    QString owner() const override;
+    QDateTime dateTime() const override;
+    MessageType type() const override;
+
+private:
+    QString m_ownerId;
+    QDateTime m_time;
+    MessageType m_type;
+};
+} // namespace InstantMessaging
 #endif // MESSAGEINTERFACE_H

@@ -19,7 +19,26 @@
  ***************************************************************************/
 #include "messagefactory.h"
 
-MessageFactory::MessageFactory()
-{
+#include "qmlchat/textmessage.h"
+#include "qmlchat/dicemessage.h"
+#include "qmlchat/messageinterface.h"
 
+namespace InstantMessaging
+{
+MessageInterface* MessageFactory::createMessage(const QString& uuid, const QDateTime& time, InstantMessaging::MessageInterface::MessageType type)
+{
+    using IM= InstantMessaging::MessageInterface;
+    MessageInterface* msg = nullptr;
+    switch(type)
+    {
+    case IM::Text:
+        msg= new TextMessage(uuid, time);
+        break;
+    case IM::Dice:
+        break;
+    case IM::Notification:
+        break;
+    }
+    return msg;
+}
 }
