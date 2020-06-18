@@ -33,12 +33,7 @@
  **********/
 Person::Person() : ResourcesNode(ResourcesNode::Person) {}
 
-Person::Person(const QString& name, const QColor& color) : ResourcesNode(ResourcesNode::Person), m_color(color)
-{
-    m_name= name;
-}
-
-Person::Person(const QString& uuid, const QString& name, const QColor& color)
+Person::Person(const QString& name, const QColor& color, const QString& uuid)
     : ResourcesNode(ResourcesNode::Person, uuid), m_color(color)
 {
     m_name= name;

@@ -51,7 +51,7 @@ Player::Player(const QString& nom, const QColor& color, bool master)
 }
 
 Player::Player(const QString& uuid, const QString& nom, const QColor& color, bool master)
-    : Person(uuid, nom, color), m_gameMaster(master) //, m_link(link)
+    : Person(nom, color, uuid), m_gameMaster(master) //, m_link(link)
 {
 }
 

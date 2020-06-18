@@ -56,8 +56,7 @@ public:
     };
     Q_ENUM(TypeResource)
 
-    ResourcesNode(TypeResource type);
-    ResourcesNode(TypeResource type, const QString& uuid);
+    ResourcesNode(TypeResource type, const QString& uuid= QString());
     virtual ~ResourcesNode();
 
     QString uuid() const;

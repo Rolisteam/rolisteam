@@ -272,7 +272,7 @@ Character::Character(const QString& name, const QColor& color, bool npc, int num
 }
 
 Character::Character(const QString& uuid, const QString& name, const QColor& color, bool npc, int number)
-    : Person(uuid, name, color), m_isNpc(npc), m_number(number), m_sheet(nullptr)
+    : Person(name, color, uuid), m_isNpc(npc), m_number(number), m_sheet(nullptr)
 {
 }
 
