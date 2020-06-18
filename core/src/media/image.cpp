@@ -228,7 +228,7 @@ void Image::wheelEvent(QWheelEvent* event)
 {
     if(event->modifiers() == Qt::ControlModifier)
     {
-        int delta= event->delta();
+        int delta= event->angleDelta().y();
         (delta > 0) ? m_ctrl->zoomIn() : m_ctrl->zoomOut();
         event->ignore();
     }

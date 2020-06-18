@@ -11,7 +11,7 @@ include_directories(src/diceparser/include)
 include_directories(src/charactersheet)
 include_directories(src/widgets/MRichTextEditor)
 
-set(QT_REQUIRED_VERSION "5.12.0")
+set(QT_REQUIRED_VERSION "5.15.0")
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets Xml WebEngineWidgets Concurrent)
 
 if(TESTS)
