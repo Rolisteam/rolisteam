@@ -45,19 +45,7 @@ class Person : public ResourcesNode
     Q_PROPERTY(QString avatarPath READ avatarPath WRITE setAvatarPath NOTIFY avatarPathChanged)
 public:
     Person();
-    /**
-     * @brief Person
-     * @param name
-     * @param color
-     */
-    Person(const QString& name, const QColor& getColor);
-    /**
-     * @brief Person
-     * @param uuid
-     * @param name
-     * @param color
-     */
-    Person(const QString& uuid, const QString& getName, const QColor& getColor);
+    Person(const QString& name, const QColor& color, const QString& uuid= QString());
     /**
      * @brief ~Person
      */

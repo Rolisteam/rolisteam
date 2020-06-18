@@ -22,12 +22,11 @@
 
 #include <QUuid>
 
-ResourcesNode::ResourcesNode(TypeResource type)
-    : m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces)), m_type(type)
+ResourcesNode::ResourcesNode(TypeResource type, const QString& uuid) : m_uuid(uuid), m_type(type)
 {
+    if(m_uuid.isEmpty())
+        m_uuid= QUuid::createUuid().toString(QUuid::WithoutBraces);
 }
-
-ResourcesNode::ResourcesNode(TypeResource type, const QString& uuid) : m_uuid(uuid), m_type(type) {}
 
 ResourcesNode::~ResourcesNode() {}
 
