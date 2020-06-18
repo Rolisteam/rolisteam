@@ -44,7 +44,7 @@
 #include "ui_mainwindow.h"
 
 #include "charactersheet/charactersheet.h"
-#include "chat/chatlistwidget.h"
+//#include "chat/chatlistwidget.h"
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
 #include "controller/playercontroller.h"
@@ -249,11 +249,11 @@ void MainWindow::setupUi()
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct, m_vmapToolBar->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
 
-    m_chatListWidget= new ChatListWidget(this);
+    /*m_chatListWidget= new ChatListWidget(this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory, m_chatListWidget);
     addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
     dock->setAllowedAreas(Qt::AllDockWidgetAreas);
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct, m_chatListWidget->toggleViewAction());
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct, m_chatListWidget->toggleViewAction());*/
 
     addDockWidget(Qt::RightDockWidgetArea, m_sessionDock.get());
     m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct, m_sessionDock->toggleViewAction());
@@ -264,10 +264,10 @@ void MainWindow::setupUi()
     // PlayerList
     ///////////////////
     m_playersListWidget= new PlayersPanel(m_gameController->playerController(), this);
-    connect(m_playersListWidget, &PlayersPanel::runDiceForCharacter, this,
-            [this](const QString& cmd, const QString& uuid) {
-                m_chatListWidget->rollDiceCmdForCharacter(cmd, uuid, true);
-            });
+    /* connect(m_playersListWidget, &PlayersPanel::runDiceForCharacter, this,
+             [this](const QString& cmd, const QString& uuid) {
+                 m_chatListWidget->rollDiceCmdForCharacter(cmd, uuid, true);
+             });*/
 
     addDockWidget(Qt::RightDockWidgetArea, m_playersListWidget);
     QIcon test(":/logo.png");
@@ -518,7 +518,7 @@ void MainWindow::linkActionToMenu()
         std::map<QString, QVariant> params;
         ctrl->newMedia(Core::ContentType::WEBVIEW, params);
     });
-    connect(m_ui->m_newChatAction, &QAction::triggered, m_chatListWidget, &ChatListWidget::createPrivateChat);
+    // connect(m_ui->m_newChatAction, &QAction::triggered, m_chatListWidget, &ChatListWidget::createPrivateChat);
 
     // open
     connect(m_ui->m_openPictureAction, &QAction::triggered, this, &MainWindow::openGenericContent);
@@ -1032,7 +1032,7 @@ void MainWindow::readSettings()
 
     updateRecentFileActions();
     updateRecentScenarioAction();
-    m_chatListWidget->readSettings(settings);
+    // m_chatListWidget->readSettings(settings);
     m_audioPlayer->readSettings();
     m_dockLogUtil->initSetting();
 }
@@ -1055,7 +1055,7 @@ void MainWindow::writeSettings()
     settings.endArray();
 
     settings.setValue("recentScenario", m_recentScenarios);
-    m_chatListWidget->writeSettings(settings);
+    // m_chatListWidget->writeSettings(settings);
     for(auto& gmtool : m_gmToolBoxList)
     {
         gmtool->writeSettings();
