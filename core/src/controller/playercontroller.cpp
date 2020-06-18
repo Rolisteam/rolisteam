@@ -51,6 +51,9 @@ PlayerController::PlayerController(QObject* parent)
     m_characterModel->setSourceModel(m_model.get());
     connect(m_model.get(), &PlayerModel::gameMasterIdChanged, this, &PlayerController::gameMasterIdChanged);
     connect(m_localPlayer, &Player::uuidChanged, this, &PlayerController::localPlayerIdChanged);
+    connect(m_localPlayer, &Player::uuidChanged, m_model.get(), &PlayerModel::setLocalPlayerId);
+
+    m_model->setLocalPlayerId(m_localPlayer->uuid());
 }
 
 PlayerController::~PlayerController()= default;
