@@ -42,6 +42,7 @@ class PlayerModel : public QAbstractItemModel
 {
     Q_OBJECT
     Q_PROPERTY(QString gameMasterId READ gameMasterId NOTIFY gameMasterIdChanged)
+    Q_PROPERTY(QString localPlayerId READ localPlayerId WRITE setLocalPlayerId NOTIFY localPlayerIdChanged)
 public:
     enum ItemDataRole
     {
@@ -55,15 +56,8 @@ public:
         NpcRole,
         AvatarRole
     };
-    /**
-     * @brief Constructor
-     * @see instance()
-     */
+
     PlayerModel(QObject* parent= nullptr);
-    /**
-     * @brief Destructor
-     * @see instance()
-     */
     virtual ~PlayerModel() override;
 
     ////////////////////////////////////
@@ -84,14 +78,8 @@ public:
     QModelIndex personToIndex(Person* person) const;
 
     QString gameMasterId() const;
-
-    // void sendOffLocalPlayerInformations();
-    // void sendOffFeatures(Player* player);
-
-    // Event handlers
-    // bool event(QEvent* event) override;
-
-    //    const std::vector<std::unique_ptr<Character>>& getCharacterList() const;
+    QString localPlayerId() const;
+    QHash<int, QByteArray> roleNames() const override;
 
 public slots:
     void clear();
@@ -99,60 +87,21 @@ public slots:
     void removePlayer(Player* player);
     void addCharacter(const QModelIndex& parent, Character* character, int pos= -1);
     void removeCharacter(Character* character);
+    void setLocalPlayerId(const QString& uuid);
 
 signals:
     void playerJoin(Player* player);
     void playerLeft(Player* player);
     void gameMasterIdChanged(const QString& gameMasterId);
-    void localPlayerChanged(const QString& localId);
+    void localPlayerIdChanged(const QString& localId);
 
 private:
     void setGameMasterId(const QString& id);
 
-    //    bool everyPlayerHasFeature(const QString& name, quint8 version= 0) const;
-
-    // Setters
-    // void changeLocalPerson(Person* person, const QString& name, const QColor& color, const QImage& image);
-    // void delLocalCharacter(int index);
-
-    // bool hasPlayer(Player* player);
-    // static void defineFeaturePlayer(Player* player);
-
-    // void addNpc(Character* character);
-    // bool localIsGM() const;
-
-    /*signals:
-        void playerAdded(Player* player);
-        void characterAdded(Character* character);
-        void playerDeleted(Player* player);
-        void characterDeleted(Character* character);
-        void playerAddedAsClient(Player* player);
-        void eventOccurs(const QString msg);
-        void localGMRefused(bool);
-        void localPlayerChanged();*/
-
-    /*protected:
-        template <typename T>
-        void sendOffPersonChanges(const QString& property);
-    protected slots:
-        void updatePerson(NetworkMessageReader& data);*/
-
-private:
-    /* void addPlayer(Player* player);
-     void addCharacter(Player* player, Character* character);
-     void delPlayer(Player* player);
-     void delCharacter(Player* parent, int index);
-     void receivePlayer(NetworkMessageReader& data);
-     void delPlayer(NetworkMessageReader& data);
-     void addCharacter(NetworkMessageReader& data);
-     void delCharacter(NetworkMessageReader& data);
-     void monitorCharacter(Character* charac);
-     void monitorPlayer(Player* player);*/
-
 private:
     std::vector<std::unique_ptr<Player>> m_players;
     QString m_gameMasterId;
-    //    bool m_receivingData= false;
+    QString m_localPlayerId;
 };
 
 #endif
