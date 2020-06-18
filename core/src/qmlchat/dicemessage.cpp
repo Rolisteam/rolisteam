@@ -19,7 +19,21 @@
  ***************************************************************************/
 #include "dicemessage.h"
 
-DiceMessage::DiceMessage()
+namespace InstantMessaging
+{
+DiceMessage::DiceMessage(const QString& ownerId, const QDateTime& time, QObject* parent)
+        : MessageBase(ownerId, time, MessageInterface::MessageType::Dice ,parent)
 {
 
+}
+
+QString DiceMessage::text() const
+{
+
+}
+
+void DiceMessage::setText(const QString &text)
+{
+
+}
 }

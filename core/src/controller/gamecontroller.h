@@ -43,6 +43,7 @@ class PlayerController;
 class PreferencesController;
 class ContentController;
 class QSystemTrayIcon;
+class InstantMessagingController;
 class GameController : public QObject
 {
     Q_OBJECT
@@ -66,6 +67,7 @@ public:
     ContentController* contentController() const;
     PreferencesController* preferencesController() const;
     PreferencesManager* preferencesManager() const;
+    InstantMessagingController* instantMessagingController() const;
 
     QString version() const;
     QString currentScenario() const;
@@ -125,6 +127,7 @@ private:
     std::unique_ptr<PreferencesController> m_preferencesDialogController;
     std::unique_ptr<ContentController> m_contentCtrl;
     std::unique_ptr<PreferencesManager> m_preferences;
+    std::unique_ptr<InstantMessagingController> m_instantMessagingCtrl;
 
     QString m_currentScenario;
     QString m_version;

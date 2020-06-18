@@ -338,6 +338,7 @@
         <file>resources/icons/Patreon_Mark_Coral.jpg</file>
         <file>resources/icons/preview_markdown.svg</file>
         <file>resources/icons/preview_html.svg</file>
+        <file>resources/icons/contact.svg</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>

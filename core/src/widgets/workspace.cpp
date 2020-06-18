@@ -40,6 +40,9 @@
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
 
+#include "controller/instantmessagingcontroller.h"
+#include "qmlchat/instantmessagingview.h"
+
 #include "media/charactersheetwindow.h"
 #include "media/image.h"
 #include "noteeditor/src/notecontainer.h"
@@ -50,12 +53,13 @@
 
 #define GRAY_SCALE 191
 
-Workspace::Workspace(ContentController* ctrl, QWidget* parent)
+Workspace::Workspace(ContentController* ctrl, InstantMessagingController* instantCtrl, QWidget* parent)
     : QMdiArea(parent)
     , m_ctrl(ctrl)
     , m_variableSizeBackground(size())
     , m_actionSubWindowMap(new QMap<QAction*, QMdiSubWindow*>())
 {
+
     connect(m_ctrl, &ContentController::maxLengthTabNameChanged, this, &Workspace::updateTitleTab);
     connect(m_ctrl, &ContentController::shortTitleTabChanged, this, &Workspace::updateTitleTab);
     connect(m_ctrl, &ContentController::workspaceFilenameChanged, this, [this]() {
@@ -76,6 +80,15 @@ Workspace::Workspace(ContentController* ctrl, QWidget* parent)
             &Workspace::addSharedNote);
 
     connect(this, &Workspace::subWindowActivated, this, &Workspace::updateActiveMediaContainer);
+
+    m_instantMessageView= addSubWindow(new InstantMessagingView(instantCtrl));
+    m_instantMessageView->setGeometry(0, 0, 400, 600);
+    // m_instantMessageView->setVisible(false);
+
+    auto imvAction= new QAction(tr("Instant Messging"), this);
+    insertActionAndSubWindow(imvAction, m_instantMessageView);
+    connect(imvAction, &QAction::triggered, m_instantMessageView, &QDockWidget::setVisible);
+    connect(imvAction, &QAction::triggered, m_instantMessageView->widget(), &InstantMessagingView::setVisible);
 
     m_backgroundPicture= QPixmap(m_ctrl->workspaceFilename());
     updateBackGround();

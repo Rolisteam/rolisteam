@@ -25,6 +25,7 @@ set(HEADERS
     src/controller/playercontroller.h
     src/controller/controllerinterface.h
     src/controller/preferencescontroller.h
+    src/controller/instantmessagingcontroller.h
     src/controller/view_controller/imagecontroller.h
     src/controller/view_controller/mediacontrollerbase.h
     src/controller/view_controller/vectorialmapcontroller.h
@@ -41,6 +42,8 @@ set(HEADERS
     src/controller/media_controller/notemediacontroller.h
     src/controller/media_controller/imagemediacontroller.h
     src/controller/media_controller/sharednotemediacontroller.h
+    src/qmlchat/instantmessagingmodel.h
+    src/qmlchat/messageinterface.h
     src/controller/contentcontroller.h
     src/undoCmd/addlocalcharactercommand.h
     src/undoCmd/removelocalcharactercommand.h
@@ -72,6 +75,22 @@ set(HEADERS
     src/charactersheet/section.h
     src/charactersheet/sheetwidget.h
     src/charactersheet/tablefield.h
+    src/qmlchat/chatroom.h
+    src/qmlchat/messagemodel.h
+    src/qmlchat/textmessage.h
+    src/qmlchat/messagefactory.h
+    src/qmlchat/dicemessage.h
+    src/qmlchat/filteredplayermodel.h
+    src/qmlchat/filterinstantmessagingmodel.h
+    src/qmlchat/instantmessagingview.h
+    src/qmlchat/avatarprovider.h
+    # src/chat/chat.h
+    # src/chat/chatbrowser.h
+    # src/chat/chatlist.h
+    # src/chat/chatlistwidget.h
+    # src/chat/chatwindow.h
+    # src/chat/improvedtextedit.h
+    # src/chat/privatechatdialog.h
     src/common/controller/logcontroller.h
     src/common/controller/remotelogcontroller.h
     src/common/task/uploadlogtoserver.h
@@ -305,6 +324,7 @@ set(HEADERS
     src/updater/vmapupdater.h
     src/worker/convertionhelper.h
     src/updater/rectcontrollerupdater.h
+    src/updater/instantmessagingupdater.h
     src/updater/vmapitemcontrollerupdater.h
     src/updater/ellipsecontrollerupdater.h
     src/updater/textcontrollerupdater.h
@@ -324,6 +344,7 @@ set(SOURCES
     src/controller/view_controller/mediacontrollerbase.cpp
     src/controller/playercontroller.cpp
     src/controller/contentcontroller.cpp
+    src/controller/instantmessagingcontroller.cpp
     src/controller/media_controller/mediamanagerbase.cpp
     src/controller/media_controller/imagemediacontroller.cpp
     src/controller/media_controller/charactersheetmediacontroller.cpp
@@ -348,6 +369,13 @@ set(SOURCES
     src/audio/audioPlayer.cpp
     src/audio/musicmodel.cpp
     src/audio/playerwidget.cpp
+    src/qmlchat/chatroom.cpp
+    src/qmlchat/messagemodel.cpp
+    src/qmlchat/dicemessage.cpp
+    src/qmlchat/filteredplayermodel.cpp
+    src/qmlchat/messagefactory.cpp
+    src/qmlchat/filterinstantmessagingmodel.cpp
+    src/qmlchat/instantmessagingview.cpp
     src/charactersheet/charactersheet.cpp
     #src/charactersheet/charactersheetbutton.cpp
     src/charactersheet/charactersheetitem.cpp
@@ -369,6 +397,17 @@ set(SOURCES
     src/charactersheet/section.cpp
     src/charactersheet/sheetwidget.cpp
     src/charactersheet/tablefield.cpp
+    # src/chat/chat.cpp
+    # src/chat/chatbrowser.cpp
+    # src/chat/chatlist.cpp
+    # src/chat/chatlistwidget.cpp
+    # src/chat/chatwindow.cpp
+    # src/chat/improvedtextedit.cpp
+    # src/chat/privatechatdialog.cpp
+    src/qmlchat/instantmessagingmodel.cpp
+    src/qmlchat/messageinterface.cpp
+    src/qmlchat/textmessage.cpp
+    src/qmlchat/avatarprovider.cpp
     src/common/controller/logcontroller.cpp
     src/common/controller/remotelogcontroller.cpp
     src/common/task/uploadlogtoserver.cpp
@@ -588,14 +627,10 @@ set(SOURCES
     src/widgets/realslider.cpp
     src/widgets/shortcuteditordialog.cpp
     src/widgets/tipofdayviewer.cpp
-    src/worker/messagehelper.cpp
-    src/worker/modelhelper.cpp
-    src/worker/vectorialmapmessagehelper.cpp
-    src/worker/playermessagehelper.cpp
     src/updater/vmapupdater.cpp
     src/updater/rectcontrollerupdater.cpp
     src/updater/vmapitemcontrollerupdater.cpp
-    src/worker/convertionhelper.cpp
+    src/updater/instantmessagingupdater.cpp
     src/updater/textcontrollerupdater.cpp
     src/updater/ellipsecontrollerupdater.cpp
     src/updater/linecontrollerupdater.cpp
@@ -603,6 +638,11 @@ set(SOURCES
     src/updater/pathcontrollerupdater.cpp
     src/updater/characteritemupdater.cpp
     src/updater/charactersheetupdater.cpp
+    src/worker/messagehelper.cpp
+    src/worker/modelhelper.cpp
+    src/worker/vectorialmapmessagehelper.cpp
+    src/worker/playermessagehelper.cpp
+    src/worker/convertionhelper.cpp
     )
 
 
@@ -639,12 +679,13 @@ set(UI_FILES
     src/network/channellistpanel.ui
     src/network/connectionretrydialog.ui
     src/session/sessiondock.ui
+    src/qmlchat/instantmessagingview.ui
     )
 
 add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} src/rolisteamqml.qrc src/noteeditor/src/textedit.qrc)
 
-qt5_use_modules(core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets Xml WebEngineWidgets Concurrent)
-#target_link_libraries(core PUBLIC  Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets)
+#qt5_use_modules(       core         Widgets Gui      Svg                    Network      Multimedia      PrintSupport        Qml       Quick QuickWidgets        Xml WebEngineWidgets Concurrent Pdf)
+target_link_libraries(core PUBLIC  Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets Qt5::Concurrent)
 
 set(Network_HEADER    
     src/network/channelmodel.h

@@ -20,21 +20,25 @@
 #ifndef FILTERINSTANTMESSAGINGMODEL_H
 #define FILTERINSTANTMESSAGINGMODEL_H
 
-#include <QAbstractListModel>
+#include <QSortFilterProxyModel>
 
-class FilterInstantMessagingModel : public QAbstractListModel
+namespace InstantMessaging
+{
+
+class FilterInstantMessagingModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 
 public:
-    explicit FilterInstantMessagingModel(QObject *parent = nullptr);
+    explicit FilterInstantMessagingModel(QObject* parent= nullptr);
 
-    // Basic functionality:
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+protected:
+    bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const override;
 
 private:
+    bool m_allBut= true;
+    QStringList m_filteredId;
 };
 
+} // namespace InstantMessaging
 #endif // FILTERINSTANTMESSAGINGMODEL_H

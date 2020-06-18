@@ -97,7 +97,7 @@ QString MessageDispatcher::cat2String(NetworkMessageHeader* head)
     case NetMsg::MapCategory:
         str= QStringLiteral("MapCategory");
         break;
-    case NetMsg::ChatCategory:
+    case NetMsg::InstantMessageCategory:
         str= QStringLiteral("ChatCategory");
         break;
     case NetMsg::MusicCategory:
@@ -347,18 +347,12 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
             break;
         }
     }
-    else if(cat == NetMsg::ChatCategory)
+    else if(cat == NetMsg::InstantMessageCategory)
     {
         switch(act)
         {
-        case NetMsg::ChatMessageAction:
+        case NetMsg::InstantMessageAction:
             str= QStringLiteral("ChatMessageAction");
-            break;
-        case NetMsg::DiceMessageAction:
-            str= QStringLiteral("DiceMessageAction");
-            break;
-        case NetMsg::EmoteMessageAction:
-            str= QStringLiteral("EmoteMessageAction");
             break;
         case NetMsg::UpdateChatAction:
             str= QStringLiteral("UpdateChatAction");

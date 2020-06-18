@@ -20,22 +20,26 @@
 #ifndef INSTANTMESSAGINGVIEW_H
 #define INSTANTMESSAGINGVIEW_H
 
-#include <QWidget>
+#include <QDockWidget>
+#include <QQuickWidget>
 
-namespace Ui {
-    class InstantMessagingView;
+namespace Ui
+{
+class InstantMessagingView;
 }
-
+class InstantMessagingController;
 class InstantMessagingView : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit InstantMessagingView(QWidget *parent = nullptr);
+    explicit InstantMessagingView(InstantMessagingController* ctrl, QWidget* parent= nullptr);
     ~InstantMessagingView();
 
 private:
-    Ui::InstantMessagingView *ui;
+    Ui::InstantMessagingView* m_ui;
+    std::unique_ptr<QQuickWidget> m_qmlViewer;
+    QPointer<InstantMessagingController> m_ctrl;
 };
 
 #endif // INSTANTMESSAGINGVIEW_H

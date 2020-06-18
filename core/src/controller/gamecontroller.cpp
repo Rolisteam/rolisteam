@@ -22,6 +22,7 @@
 #include "common/controller/logcontroller.h"
 #include "common/controller/remotelogcontroller.h"
 #include "controller/contentcontroller.h"
+#include "controller/instantmessagingcontroller.h"
 #include "controller/networkcontroller.h"
 #include "controller/playercontroller.h"
 #include "controller/preferencescontroller.h"
@@ -44,6 +45,7 @@ GameController::GameController(QObject* parent)
     , m_contentCtrl(
           new ContentController(m_playerController->model(), m_playerController->characterModel(), m_networkCtrl.get()))
     , m_preferences(new PreferencesManager)
+    , m_instantMessagingCtrl(new InstantMessagingController(m_playerController->model()))
     , m_undoStack(new QUndoStack)
 {
 #ifdef VERSION_MINOR
@@ -61,7 +63,6 @@ GameController::GameController(QObject* parent)
     m_preferencesDialogController->setGameController(this);
 
     connect(m_logController.get(), &LogController::sendOffMessage, m_remoteLogCtrl.get(), &RemoteLogController::addLog);
-    // connect(, &NetworkController::isGMChanged, this, &GameController::localIsGMChanged);
     connect(m_networkCtrl.get(), &NetworkController::connectedChanged, this, [this](bool b) {
         if(b)
             sendDataToServerAtConnection();
@@ -74,6 +75,10 @@ GameController::GameController(QObject* parent)
     connect(m_playerController.get(), &PlayerController::performCommand, this, &GameController::addCommand);
     connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_remoteLogCtrl.get(),
             &RemoteLogController::setLocalUuid);
+    connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_remoteLogCtrl.get(),
+            &RemoteLogController::setLocalUuid);
+    connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_instantMessagingCtrl.get(),
+            &InstantMessagingController::setLocalId);
     connect(m_playerController.get(), &PlayerController::localPlayerIdChanged, m_contentCtrl.get(),
             &ContentController::setLocalId);
 
@@ -82,6 +87,7 @@ GameController::GameController(QObject* parent)
     m_contentCtrl->setGameMasterId(m_playerController->gameMasterId());
     m_remoteLogCtrl->setLocalUuid(m_playerController->localPlayerId());
     m_contentCtrl->setLocalId(m_playerController->localPlayerId());
+    m_instantMessagingCtrl->setLocalId(m_playerController->localPlayerId());
 
     m_remoteLogCtrl->setAppId(0);
 }
@@ -255,6 +261,11 @@ QString GameController::version() const
 QString GameController::currentScenario() const
 {
     return m_currentScenario;
+}
+
+InstantMessagingController* GameController::instantMessagingController() const
+{
+    return m_instantMessagingCtrl.get();
 }
 
 QString GameController::localPlayerId() const

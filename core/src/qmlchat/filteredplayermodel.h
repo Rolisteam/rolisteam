@@ -20,21 +20,27 @@
 #ifndef FILTEREDPLAYERMODEL_H
 #define FILTEREDPLAYERMODEL_H
 
-#include <QAbstractListModel>
-
-class FilteredPlayerModel : public QAbstractListModel
+#include <QSortFilterProxyModel>
+namespace InstantMessaging
+{
+class FilteredPlayerModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 
 public:
-    explicit FilteredPlayerModel(QObject *parent = nullptr);
+    explicit FilteredPlayerModel(QObject* parent= nullptr);
 
     // Basic functionality:
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
 
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QStringList recipiantIds() const;
+
+    bool hasRecipiant(const QString& uuid);
+
+    bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
 
 private:
+    QStringList m_participants;
 };
-
+} // namespace InstantMessaging
 #endif // FILTEREDPLAYERMODEL_H

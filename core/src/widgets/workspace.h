@@ -38,6 +38,7 @@ class SharedNoteController;
 class MapController;
 class PdfController;
 class NoteController;
+class InstantMessagingController;
 /**
  * @brief The ImprovedWorkspace class
  */
@@ -56,7 +57,7 @@ public:
         Filled,
         Repeated
     };
-    Workspace(ContentController* ctrl, QWidget* parent= nullptr);
+    Workspace(ContentController* ctrl, InstantMessagingController* instantCtrl, QWidget* parent= nullptr);
     ~Workspace();
 
     QString backgroundImagePath() const;
@@ -122,6 +123,7 @@ private:
     QMap<QAction*, QMdiSubWindow*>* m_actionSubWindowMap;
     QHash<QMdiSubWindow*, QString> m_titleBar;
     QPointer<MediaContainer> m_activeMediaContainer;
+    QPointer<QMdiSubWindow> m_instantMessageView;
 };
 
 #endif

@@ -20,21 +20,51 @@
 #ifndef MESSAGEMODEL_H
 #define MESSAGEMODEL_H
 
+#include "messageinterface.h"
 #include <QAbstractListModel>
+#include <memory>
 
+namespace InstantMessaging
+{
+class MessageInterface;
 class MessageModel : public QAbstractListModel
 {
     Q_OBJECT
-
+    Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
 public:
-    explicit MessageModel(QObject *parent = nullptr);
+    enum InnerRole
+    {
+        MessageTypeRole= Qt::UserRole + 1,
+        TextRole,
+        TimeRole,
+        MessageRole,
+        LocalRole,
+        OwnerRole
+    };
+    explicit MessageModel(QObject* parent= nullptr);
+    virtual ~MessageModel() override;
 
-    // Basic functionality:
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+    QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
 
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QHash<int, QByteArray> roleNames() const override;
+
+    QString localId() const;
+
+public slots:
+    void setLocalId(const QString& localid);
+    void addMessage(const QString& text, const QDateTime& time, const QString& owner,
+                    MessageInterface::MessageType type);
+    void addMessageInterface(MessageInterface* msg);
+
+signals:
+    void messageAdded(MessageInterface* msg);
+    void localIdChanged(QString);
 
 private:
+    std::vector<std::unique_ptr<MessageInterface>> m_messages;
+    QString m_localId;
 };
+} // namespace InstantMessaging
 
 #endif // MESSAGEMODEL_H

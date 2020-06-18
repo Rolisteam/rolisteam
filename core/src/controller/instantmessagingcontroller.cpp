@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
  *	Copyright (C) 2020 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
@@ -17,9 +17,113 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "textmessagingcontroller.h"
+#include "instantmessagingcontroller.h"
 
-TextMessagingController::TextMessagingController(QObject *parent) : QObject(parent)
+#include <QQmlEngine>
+
+#include "data/localpersonmodel.h"
+#include "network/receiveevent.h"
+#include "qmlchat/chatroom.h"
+#include "qmlchat/filterinstantmessagingmodel.h"
+#include "qmlchat/instantmessagingmodel.h"
+#include "qmlchat/messagemodel.h"
+#include "updater/instantmessagingupdater.h"
+#include "userlist/playermodel.h"
+
+void registerType()
 {
+    qmlRegisterAnonymousType<InstantMessaging::FilterInstantMessagingModel>("FilterInstantMessagingModel", 1);
+    qmlRegisterAnonymousType<InstantMessaging::MessageModel>("MessageModel", 1);
+    qmlRegisterAnonymousType<LocalPersonModel>("LocalPersonModel", 1);
+    qmlRegisterUncreatableType<InstantMessaging::ChatRoom>("InstantMessaging", 1, 0, "ChatRoom",
+                                                           "ChatRoom can't be created.");
+}
 
+InstantMessagingController::InstantMessagingController(PlayerModel* model, QObject* parent)
+    : AbstractControllerInterface(parent)
+    , m_model(new InstantMessaging::InstantMessagingModel)
+    , m_updater(new InstantMessaging::InstantMessagingUpdater)
+    , m_players(model)
+    , m_localPersonModel(new LocalPersonModel)
+{
+    qRegisterMetaType<InstantMessaging::FilterInstantMessagingModel*>("FilterInstantMessagingModel*");
+    qRegisterMetaType<InstantMessaging::MessageModel*>("MessageModel*");
+    qRegisterMetaType<LocalPersonModel*>("LocalPersonModel*");
+    qRegisterMetaType<InstantMessaging::ChatRoom*>("ChatRoom*");
+    ReceiveEvent::registerNetworkReceiver(NetMsg::InstantMessageCategory, this);
+
+    registerType();
+    addFilterModel();
+
+    m_localPersonModel->setSourceModel(m_players);
+
+    connect(m_model.get(), &InstantMessaging::InstantMessagingModel::chatRoomCreated, this,
+            [this](InstantMessaging::ChatRoom* room) { m_updater->addChatRoom(room); });
+    connect(m_model.get(), &InstantMessaging::InstantMessagingModel::localIdChanged, this,
+            &InstantMessagingController::localIdChanged);
+
+    m_model->insertGlobalChatroom(tr("Global"), QStringLiteral("global"));
+}
+
+InstantMessagingController::~InstantMessagingController()= default;
+
+InstantMessaging::FilterInstantMessagingModel* InstantMessagingController::mainModel() const
+{
+    Q_ASSERT(m_filterModels.size() > 0);
+    return m_filterModels[0].get();
+}
+
+InstantMessaging::ChatRoom* InstantMessagingController::globalChatroom() const
+{
+    return m_model->globalChatRoom();
+}
+
+PlayerModel* InstantMessagingController::playerModel() const
+{
+    return m_players;
+}
+
+LocalPersonModel* InstantMessagingController::localPersonModel() const
+{
+    return m_localPersonModel.get();
+}
+
+QString InstantMessagingController::localId() const
+{
+    return m_model->localId();
+}
+
+void InstantMessagingController::setGameController(GameController*) {}
+
+NetWorkReceiver::SendType InstantMessagingController::processMessage(NetworkMessageReader* msg)
+{
+    NetWorkReceiver::SendType type= NetWorkReceiver::AllExceptSender;
+    switch(msg->action())
+    {
+    case NetMsg::InstantMessageAction:
+        m_updater->addMessageToModel(m_model.get(), msg);
+        break;
+    default:
+        break;
+    }
+    return type;
+}
+
+void InstantMessagingController::detach(const QString& id) {}
+
+void InstantMessagingController::reattach(const QString& id) {}
+
+void InstantMessagingController::splitScreen() {}
+
+void InstantMessagingController::setLocalId(const QString& id)
+{
+    m_model->setLocalId(id);
+}
+
+void InstantMessagingController::addFilterModel()
+{
+    std::unique_ptr<InstantMessaging::FilterInstantMessagingModel> model(
+        new InstantMessaging::FilterInstantMessagingModel);
+    model->setSourceModel(m_model.get());
+    m_filterModels.push_back(std::move(model));
 }

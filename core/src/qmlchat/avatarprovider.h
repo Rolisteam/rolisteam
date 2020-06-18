@@ -20,11 +20,20 @@
 #ifndef AVATARPROVIDER_H
 #define AVATARPROVIDER_H
 
+#include <QQuickImageProvider>
+#include <QPointer>
 
-class AvatarProvider
+class PlayerModel;
+class AvatarProvider : public QQuickImageProvider
 {
 public:
-    AvatarProvider();
+    AvatarProvider(PlayerModel* model);
+
+    QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
+
+private:
+    QPointer<PlayerModel> m_players;
+    QImage m_default;
 };
 
 #endif // AVATARPROVIDER_H

@@ -20,14 +20,36 @@
 #include "instantmessagingview.h"
 #include "ui_instantmessagingview.h"
 
-InstantMessagingView::InstantMessagingView(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::InstantMessagingView)
+#include <QQmlContext>
+#include <QQmlEngine>
+#include <QUrl>
+#include <QVBoxLayout>
+
+#include "avatarprovider.h"
+#include "controller/instantmessagingcontroller.h"
+
+InstantMessagingView::InstantMessagingView(InstantMessagingController* ctrl, QWidget* parent)
+    : QWidget(parent), m_ui(new Ui::InstantMessagingView), m_qmlViewer(new QQuickWidget()), m_ctrl(ctrl)
 {
-    ui->setupUi(this);
+    m_ui->setupUi(this);
+
+    auto engine= m_qmlViewer->engine();
+    engine->rootContext()->setContextProperty("_ctrl", m_ctrl);
+    engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
+
+    m_qmlViewer->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    m_qmlViewer->setSource(QUrl("qrc:/qmlchat/chatview.qml"));
+
+    auto layout= new QVBoxLayout();
+    layout->setMargin(0);
+    setLayout(layout);
+
+    layout->addWidget(m_qmlViewer.get());
+
+    setWindowTitle(tr("Instant Messaging"));
 }
 
 InstantMessagingView::~InstantMessagingView()
 {
-    delete ui;
+    delete m_ui;
 }

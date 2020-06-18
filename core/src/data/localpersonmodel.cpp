@@ -26,6 +26,8 @@
 #include "data/person.h"
 #include "data/player.h"
 
+#include <QDebug>
+
 LocalPersonModel::LocalPersonModel() : QAbstractProxyModel() {}
 
 QModelIndex LocalPersonModel::mapFromSource(const QModelIndex& sourceIndex) const
@@ -49,10 +51,25 @@ QModelIndex LocalPersonModel::mapFromSource(const QModelIndex& sourceIndex) cons
 
 QModelIndex LocalPersonModel::mapToSource(const QModelIndex& proxyIndex) const
 {
+    QModelIndex idx;
     if(proxyIndex.row() == 0)
-        return sourceModel()->index(0, 0, QModelIndex());
+        idx= sourceModel()->index(0, 0, QModelIndex());
     else
-        return sourceModel()->index(proxyIndex.row() - 1, 0, sourceModel()->index(0, 0, QModelIndex()));
+        idx= sourceModel()->index(proxyIndex.row() - 1, 0, sourceModel()->index(0, 0, QModelIndex()));
+
+    return idx;
+}
+
+void LocalPersonModel::setSourceModel(QAbstractItemModel* sourceModel)
+{
+    QAbstractProxyModel::setSourceModel(sourceModel);
+    auto func= [this]() {
+        beginResetModel();
+
+        endResetModel();
+    };
+    connect(sourceModel, &QAbstractItemModel::dataChanged, this, func);
+    connect(sourceModel, &QAbstractItemModel::rowsInserted, this, func);
 }
 
 QModelIndex LocalPersonModel::index(int r, int c, const QModelIndex&) const
@@ -79,55 +96,9 @@ int LocalPersonModel::rowCount(const QModelIndex& parent) const
     return child + 1;
 }
 
-int LocalPersonModel::columnCount(const QModelIndex&) const
-{
-    return 1;
-}
-
-/*QVariant LocalPersonModel::data(const QModelIndex& index, int role) const
-{
-    if(!index.isValid())
-        return {};
-    auto player= m_playersList->getLocalPlayer();
-    if(nullptr == player)
-        return {};
-
-    auto row= index.row();
-    Person* person= nullptr;
-    if(row == 0)
-    {
-        person= player;
-    }
-    else
-    {
-        person= player->getCharacterByIndex(row - 1);
-    }
-    if(nullptr == person)
-        return {};
-
-    if(role == Qt::DisplayRole)
-    {
-        return person->name();
-    }
-    else if(PlayerModel::IdentifierRole == role)
-    {
-        return person->getUuid();
-    }
-    return {};
-}
-
-int LocalPersonModel::rowCount(const QModelIndex& parent) const
+int LocalPersonModel::columnCount(const QModelIndex& parent) const
 {
     if(parent.isValid())
         return 0;
-
-    Player* tmp= model()->getLocalPlayer();
-    if(nullptr != tmp)
-    {
-        return 1 + tmp->getChildrenCount();
-    }
-    else
-    {
-        return 0;
-    }
-}*/
+    return 1;
+}

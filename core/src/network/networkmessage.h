@@ -45,7 +45,7 @@ enum Category
     CharacterCategory,
     DrawCategory,
     MapCategory,
-    ChatCategory,
+    InstantMessageCategory,
     MusicCategory,
     SetupCategory,
     SharePreferencesCategory,
@@ -127,10 +127,8 @@ enum Action
     textPainting,
     handPainting,
 
-    // ChatCategory
-    ChatMessageAction= 0,
-    DiceMessageAction,
-    EmoteMessageAction,
+    // InstantMessageCategory
+    InstantMessageAction= 0,
     UpdateChatAction,
     DelChatAction,
 

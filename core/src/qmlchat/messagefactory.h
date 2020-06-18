@@ -20,11 +20,18 @@
 #ifndef MESSAGEFACTORY_H
 #define MESSAGEFACTORY_H
 
+#include <QString>
+#include <QDateTime>
 
+#include "qmlchat/messageinterface.h"
+
+namespace InstantMessaging
+{
 class MessageFactory
 {
 public:
-    MessageFactory();
+    static MessageInterface* createMessage(const QString &uuid, const QDateTime& time, InstantMessaging::MessageInterface::MessageType type);
 };
+}
 
 #endif // MESSAGEFACTORY_H

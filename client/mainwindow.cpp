@@ -83,6 +83,7 @@
 #include "common/widgets/logpanel.h"
 
 // Controller
+#include "controller/instantmessagingcontroller.h"
 #include "controller/networkcontroller.h"
 
 // Text editor
@@ -228,7 +229,8 @@ void MainWindow::setupUi()
     }
 
     // setAnimated(false);
-    m_mdiArea= new Workspace(m_gameController->contentController(), this);
+    m_mdiArea
+        = new Workspace(m_gameController->contentController(), m_gameController->instantMessagingController(), this);
     setCentralWidget(m_mdiArea);
     connect(m_mdiArea, &Workspace::subWindowActivated, this, &MainWindow::activeWindowChanged);
 

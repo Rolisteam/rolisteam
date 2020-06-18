@@ -18,27 +18,24 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "filterinstantmessagingmodel.h"
-
-FilterInstantMessagingModel::FilterInstantMessagingModel(QObject *parent)
-    : QAbstractListModel(parent)
+#include "instantmessagingmodel.h"
+namespace InstantMessaging
 {
-}
+FilterInstantMessagingModel::FilterInstantMessagingModel(QObject* parent) : QSortFilterProxyModel(parent) {}
 
-int FilterInstantMessagingModel::rowCount(const QModelIndex &parent) const
+bool FilterInstantMessagingModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
 {
-    // For list models only the root node (an invalid parent) should return the list's size. For all
-    // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
-    if (parent.isValid())
-        return 0;
-
-    // FIXME: Implement me!
+    bool value= true;
+    if(m_allBut && m_filteredId.isEmpty())
+        value= true;
+    else if(m_allBut && m_filteredId.isEmpty())
+        value= false;
+    else
+    {
+        auto index= sourceModel()->index(source_row, 0, source_parent);
+        auto id= index.data(InstantMessagingModel::IdRole).toString();
+        value= m_filteredId.contains(id) ? !m_allBut : m_allBut;
+    }
+    return value;
 }
-
-QVariant FilterInstantMessagingModel::data(const QModelIndex &index, int role) const
-{
-    if (!index.isValid())
-        return QVariant();
-
-    // FIXME: Implement me!
-    return QVariant();
-}
+} // namespace InstantMessaging

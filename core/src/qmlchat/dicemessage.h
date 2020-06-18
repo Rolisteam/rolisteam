@@ -21,12 +21,28 @@
 #define DICEMESSAGE_H
 
 #include <QObject>
+#include <QJsonObject>
+
+#include "messageinterface.h"
+
+namespace InstantMessaging
+{
 
 class DiceMessage : public MessageBase
 {
     Q_OBJECT
+    //Q_PROPERTY(qreal result READ result WRITE setResult NOTIFY resultChanged)
 public:
-    DiceMessage();
+    DiceMessage(const QString& ownerId, const QDateTime& time, QObject* parent = nullptr);
+
+    QString text() const override;
+
+public slots:
+    void setText(const QString& text) override;
+
+private:
+    QJsonObject m_data;
 };
 
+}
 #endif // DICEMESSAGE_H

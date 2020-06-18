@@ -1,5 +1,6 @@
 
 #include "data/character.h"
+#include "data/localpersonmodel.h"
 #include "data/player.h"
 #include "model/charactermodel.h"
 #include "userlist/playermodel.h"
@@ -20,17 +21,23 @@ private slots:
     void nameTest();
     void nameTest_data();
 
+    void localPersonTest();
+    void localPersonTest_data();
+
 private:
     std::unique_ptr<PlayerModel> m_playerModel;
     std::unique_ptr<CharacterModel> m_characterModel;
+    std::unique_ptr<LocalPersonModel> m_localPersonModel;
 };
 
 void CharacterModelTest::init()
 {
     m_playerModel.reset(new PlayerModel());
     m_characterModel.reset(new CharacterModel());
+    m_localPersonModel.reset(new LocalPersonModel());
 
     m_characterModel->setSourceModel(m_playerModel.get());
+    m_localPersonModel->setSourceModel(m_playerModel.get());
 }
 
 CharacterModelTest::CharacterModelTest()= default;
@@ -209,6 +216,53 @@ void CharacterModelTest::nameTest_data()
         players.push_back(player2);
         QTest::addRow("cmd 7") << "character0"
                                << "character" << 2 << players;
+    }
+}
+
+void CharacterModelTest::localPersonTest()
+{
+    QFETCH(int, count);
+    QFETCH(QVector<Player*>, players);
+
+    m_playerModel->clear();
+    QVERIFY(m_playerModel->rowCount() == 0);
+
+    for(auto p : players)
+        m_playerModel->addPlayer(p);
+
+    QCOMPARE(m_localPersonModel->rowCount(), count);
+}
+
+void CharacterModelTest::localPersonTest_data()
+{
+    QTest::addColumn<int>("count");
+    QTest::addColumn<QVector<Player*>>("players");
+
+    QTest::addRow("cmd 1") << 0 << QVector<Player*>();
+
+    {
+        QVector<Player*> players;
+        players.push_back(new Player("name", QColor(Qt::red), true));
+        QTest::addRow("cmd 2") << 1 << players;
+    }
+
+    {
+        QVector<Player*> players;
+        auto player= new Player("name", QColor(Qt::red), true);
+        player->addCharacter("character", QColor(Qt::blue), "", QHash<QString, QVariant>(), false);
+        players.push_back(player);
+        QTest::addRow("cmd 3") << 2 << players;
+    }
+
+    {
+        QVector<Player*> players;
+        auto player= new Player("name", QColor(Qt::red), true);
+        player->addCharacter("character", QColor(Qt::blue), "", QHash<QString, QVariant>(), false);
+        players.push_back(player);
+
+        player= new Player("name2", QColor(Qt::red), true);
+        players.push_back(player);
+        QTest::addRow("cmd 3") << 2 << players;
     }
 }
 
