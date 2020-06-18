@@ -1476,6 +1476,27 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>InstantMessaging::InstantMessagingModel</name>
+    <message>
+        <location filename="../core/src/qmlchat/instantmessagingmodel.cpp" line="31"/>
+        <source>Global</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>InstantMessagingView</name>
+    <message>
+        <location filename="../core/src/qmlchat/instantmessagingview.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/instantmessagingview.cpp" line="49"/>
+        <source>Instant Messaging</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>IpChecker</name>
     <message>
         <location filename="../core/src/services/ipchecker.cpp" line="36"/>
@@ -1915,52 +1936,52 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1601"/>
+        <location filename="../client/mainwindow.cpp" line="1604"/>
         <source>unknown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="635"/>
+        <location filename="../client/mainwindow.cpp" line="640"/>
         <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;%2&quot;&gt;%2&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1499"/>
+        <location filename="../client/mainwindow.cpp" line="1504"/>
         <source>Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1499"/>
+        <location filename="../client/mainwindow.cpp" line="1504"/>
         <source>Not Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1500"/>
+        <location filename="../client/mainwindow.cpp" line="1505"/>
         <source>Server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1500"/>
+        <location filename="../client/mainwindow.cpp" line="1505"/>
         <source>Client</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1501"/>
+        <location filename="../client/mainwindow.cpp" line="1506"/>
         <source>GM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1501"/>
+        <location filename="../client/mainwindow.cpp" line="1506"/>
         <source>Player</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="762"/>
+        <location filename="../client/mainwindow.cpp" line="767"/>
         <source>Open scenario</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="795"/>
+        <location filename="../client/mainwindow.cpp" line="800"/>
         <source>Save Scenario as</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1971,7 +1992,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="241"/>
+        <location filename="../client/mainwindow.cpp" line="246"/>
         <source>ToolBox</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2050,7 +2071,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../client/mainwindow.ui" line="229"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="418"/>
-        <location filename="../client/mainwindow.cpp" line="699"/>
+        <location filename="../client/mainwindow.cpp" line="704"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2561,93 +2582,93 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="913"/>
+        <location filename="../client/mainwindow.cpp" line="918"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="952"/>
+        <location filename="../client/mainwindow.cpp" line="957"/>
         <source>Update Notification</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="967"/>
+        <location filename="../client/mainwindow.cpp" line="972"/>
         <source>%1 has not the right version: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1080"/>
+        <location filename="../client/mainwindow.cpp" line="1085"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1083"/>
+        <location filename="../client/mainwindow.cpp" line="1088"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1086"/>
+        <location filename="../client/mainwindow.cpp" line="1091"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1088"/>
+        <location filename="../client/mainwindow.cpp" line="1093"/>
         <source>Erase the settings and use the default parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1091"/>
+        <location filename="../client/mainwindow.cpp" line="1096"/>
         <source>Define the &lt;username&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1094"/>
+        <location filename="../client/mainwindow.cpp" line="1099"/>
         <source>Remove limit to PDF file size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1600"/>
+        <location filename="../client/mainwindow.cpp" line="1603"/>
         <source>Export from %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1340"/>
+        <location filename="../client/mainwindow.cpp" line="1345"/>
         <source>Open %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="707"/>
+        <location filename="../client/mainwindow.cpp" line="712"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="583"/>
+        <location filename="../client/mainwindow.cpp" line="588"/>
         <source>&amp;Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="584"/>
+        <location filename="../client/mainwindow.cpp" line="589"/>
         <source>&amp;Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="634"/>
+        <location filename="../client/mainwindow.cpp" line="639"/>
         <source>Support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="709"/>
+        <location filename="../client/mainwindow.cpp" line="714"/>
         <source>Connection lost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="715"/>
+        <location filename="../client/mainwindow.cpp" line="720"/>
         <source>Quit %1 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="763"/>
-        <location filename="../client/mainwindow.cpp" line="796"/>
+        <location filename="../client/mainwindow.cpp" line="768"/>
+        <location filename="../client/mainwindow.cpp" line="801"/>
         <source>Scenarios (*.sce)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2658,22 +2679,22 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="914"/>
+        <location filename="../client/mainwindow.cpp" line="919"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="953"/>
+        <location filename="../client/mainwindow.cpp" line="958"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="963"/>
+        <location filename="../client/mainwindow.cpp" line="968"/>
         <source>%1 just joins the game.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="973"/>
+        <location filename="../client/mainwindow.cpp" line="978"/>
         <source>%1 just leaves the game.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3659,38 +3680,38 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>PdfViewer</name>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="118"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="117"/>
         <source>Crop Current View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="123"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="122"/>
         <source>Document to all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="126"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="125"/>
         <source>Export into VMap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="129"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="128"/>
         <source>Export as Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="169"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="168"/>
         <source>Sharing Pdf File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="170"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="169"/>
         <source>PDF transfert can be really heavy.
 Do you want to continue and share the PDF?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="184"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="183"/>
         <source>%1 - (PDF)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5019,12 +5040,12 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1097"/>
+        <location filename="../client/mainwindow.cpp" line="1102"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1100"/>
+        <location filename="../client/mainwindow.cpp" line="1105"/>
         <source>Define URL to connect to server: &lt;url&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5985,7 +6006,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="257"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="259"/>
         <source>Load Avatar</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7341,8 +7362,8 @@ Do you want to save your changes?</source>
 <context>
     <name>Workspace</name>
     <message>
-        <location filename="../core/src/widgets/workspace.cpp" line="415"/>
-        <source>Stop Sharing</source>
+        <location filename="../core/src/widgets/workspace.cpp" line="88"/>
+        <source>Instant Messging</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7391,6 +7412,24 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../core/src/noteeditor/format_OO_oasis_/XML_Editor.cpp" line="91"/>
         <source>Check xml syntax</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>chatview</name>
+    <message>
+        <location filename="../core/src/qmlchat/chatview.qml" line="67"/>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/chatview.qml" line="76"/>
+        <source>Everybody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/chatview.qml" line="268"/>
+        <source>send</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

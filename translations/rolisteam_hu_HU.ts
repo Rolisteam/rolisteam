@@ -1630,6 +1630,27 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>InstantMessaging::InstantMessagingModel</name>
+    <message>
+        <location filename="../core/src/qmlchat/instantmessagingmodel.cpp" line="31"/>
+        <source>Global</source>
+        <translation type="unfinished">Közös</translation>
+    </message>
+</context>
+<context>
+    <name>InstantMessagingView</name>
+    <message>
+        <location filename="../core/src/qmlchat/instantmessagingview.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished">Űrlap</translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/instantmessagingview.cpp" line="49"/>
+        <source>Instant Messaging</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>IpChecker</name>
     <message>
         <location filename="../core/src/services/ipchecker.cpp" line="36"/>
@@ -2069,12 +2090,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1601"/>
+        <location filename="../client/mainwindow.cpp" line="1604"/>
         <source>unknown</source>
         <translation>ismeretlen</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="635"/>
+        <location filename="../client/mainwindow.cpp" line="640"/>
         <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;%2&quot;&gt;%2&lt;/a&gt;</source>
         <translation>Az %1 adományozási oldal megtalálható online: &lt;br&gt; &lt;a href=&quot;%2&quot;&gt;%2 &lt;/a&gt;</translation>
     </message>
@@ -2087,42 +2108,42 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Térkép Megnyitása</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1499"/>
+        <location filename="../client/mainwindow.cpp" line="1504"/>
         <source>Connected</source>
         <translation>Csatlakozva</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1499"/>
+        <location filename="../client/mainwindow.cpp" line="1504"/>
         <source>Not Connected</source>
         <translation>Nincs összeköttetés</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1500"/>
+        <location filename="../client/mainwindow.cpp" line="1505"/>
         <source>Server</source>
         <translation>Kiszolgáló</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1500"/>
+        <location filename="../client/mainwindow.cpp" line="1505"/>
         <source>Client</source>
         <translation>Kliens</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1501"/>
+        <location filename="../client/mainwindow.cpp" line="1506"/>
         <source>GM</source>
         <translation>Mesélő</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1501"/>
+        <location filename="../client/mainwindow.cpp" line="1506"/>
         <source>Player</source>
         <translation>Játékos</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="762"/>
+        <location filename="../client/mainwindow.cpp" line="767"/>
         <source>Open scenario</source>
         <translation>Jelenet megnyitása</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="795"/>
+        <location filename="../client/mainwindow.cpp" line="800"/>
         <source>Save Scenario as</source>
         <translation>Jelenet mentése mint</translation>
     </message>
@@ -2141,7 +2162,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Nem lehet megnyitni: %1 (saveStory - MainWindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="241"/>
+        <location filename="../client/mainwindow.cpp" line="246"/>
         <source>ToolBox</source>
         <translation>Eszközsor</translation>
     </message>
@@ -2228,7 +2249,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../client/mainwindow.ui" line="229"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="418"/>
-        <location filename="../client/mainwindow.cpp" line="699"/>
+        <location filename="../client/mainwindow.cpp" line="704"/>
         <source>Quit</source>
         <translation>Kilépés</translation>
     </message>
@@ -2739,47 +2760,47 @@ p, li { white-space: pre-wrap; }
         <translation>Csempés elrendezés</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="913"/>
+        <location filename="../client/mainwindow.cpp" line="918"/>
         <source>Help</source>
         <translation>Segítség</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="952"/>
+        <location filename="../client/mainwindow.cpp" line="957"/>
         <source>Update Notification</source>
         <translation>Értesítés frissítése</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="967"/>
+        <location filename="../client/mainwindow.cpp" line="972"/>
         <source>%1 has not the right version: %2.</source>
         <translation>%1 nem rendelkezik a megfelelő verzióval: %2.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1080"/>
+        <location filename="../client/mainwindow.cpp" line="1085"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Rolisteam beállítása, hogy a &lt;port&gt; portot használja</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1083"/>
+        <location filename="../client/mainwindow.cpp" line="1088"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Rolisteam beállítása, hogy a &lt;server&gt; kiszolgálóhoz csatlakozzon.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1086"/>
+        <location filename="../client/mainwindow.cpp" line="1091"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation>Határozd meg &lt;role&gt;: KM vagy JK</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1088"/>
+        <location filename="../client/mainwindow.cpp" line="1093"/>
         <source>Erase the settings and use the default parameters</source>
         <translation>Változtatások törlése, és az alapbeállítások visszaállítása</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1091"/>
+        <location filename="../client/mainwindow.cpp" line="1096"/>
         <source>Define the &lt;username&gt;</source>
         <translation>Határozd meg &lt;username&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1094"/>
+        <location filename="../client/mainwindow.cpp" line="1099"/>
         <source>Remove limit to PDF file size</source>
         <translation>Távolítsa el a PDF-fájl méretének korlátozását</translation>
     </message>
@@ -2788,7 +2809,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Csatlakozási folyamat vége</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1600"/>
+        <location filename="../client/mainwindow.cpp" line="1603"/>
         <source>Export from %1</source>
         <translation>Exportálás a(z) % 1-ből</translation>
     </message>
@@ -2797,27 +2818,27 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Erőforrás-böngésző</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1340"/>
+        <location filename="../client/mainwindow.cpp" line="1345"/>
         <source>Open %1</source>
         <translation>Megnyitás: %1</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="707"/>
+        <location filename="../client/mainwindow.cpp" line="712"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>A kapcsolat megszakadt. %1 be fog zárni</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="583"/>
+        <location filename="../client/mainwindow.cpp" line="588"/>
         <source>&amp;Redo</source>
         <translation>&amp;Újra</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="584"/>
+        <location filename="../client/mainwindow.cpp" line="589"/>
         <source>&amp;Undo</source>
         <translation>&amp;Visszavonás</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="634"/>
+        <location filename="../client/mainwindow.cpp" line="639"/>
         <source>Support</source>
         <translation>Támogatás</translation>
     </message>
@@ -2826,12 +2847,12 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Névtelen</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="709"/>
+        <location filename="../client/mainwindow.cpp" line="714"/>
         <source>Connection lost</source>
         <translation>A kapcsolat megszakadt</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="715"/>
+        <location filename="../client/mainwindow.cpp" line="720"/>
         <source>Quit %1 </source>
         <translation>Kilépés %1</translation>
     </message>
@@ -2844,8 +2865,8 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Szeretnéd elmenteni a jelenetet mielőtt kilépsz %1?</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="763"/>
-        <location filename="../client/mainwindow.cpp" line="796"/>
+        <location filename="../client/mainwindow.cpp" line="768"/>
+        <location filename="../client/mainwindow.cpp" line="801"/>
         <source>Scenarios (*.sce)</source>
         <translation>Jelenetek (*.sce)</translation>
     </message>
@@ -2856,22 +2877,22 @@ p, li { white-space: pre-wrap; }
         <translation>A Rolisteamről</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="914"/>
+        <location filename="../client/mainwindow.cpp" line="919"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>A %1 dokumentációja megtalálható online: &lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="953"/>
+        <location filename="../client/mainwindow.cpp" line="958"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>Kiadásra került a %1 verzió. Kérlek nézd meg a &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Letöltések szekciót&lt;/a&gt; további információkért</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="963"/>
+        <location filename="../client/mainwindow.cpp" line="968"/>
         <source>%1 just joins the game.</source>
         <translation>%1 csatlakozott a játékhoz.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="973"/>
+        <location filename="../client/mainwindow.cpp" line="978"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 elhagyja a játékot.</translation>
     </message>
@@ -4099,12 +4120,12 @@ ez egy kiemelt szín.</translation>
 <context>
     <name>PdfViewer</name>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="118"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="117"/>
         <source>Crop Current View</source>
         <translation>Jelenlegi nézet körbevágása</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="123"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="122"/>
         <source>Document to all</source>
         <translation>Dokumentum mindenkinek</translation>
     </message>
@@ -4113,29 +4134,29 @@ ez egy kiemelt szín.</translation>
         <translation type="vanished">Exportálás a térképbe</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="126"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="125"/>
         <source>Export into VMap</source>
         <translation>Exportálás a VMap-ba</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="129"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="128"/>
         <source>Export as Image</source>
         <translation>Exportálás képként</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="169"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="168"/>
         <source>Sharing Pdf File</source>
         <translation>Pdf-fájl megosztása</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="170"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="169"/>
         <source>PDF transfert can be really heavy.
 Do you want to continue and share the PDF?</source>
         <translation>A PDF transzfer nem könnyű. 
 Folytatja és meg szeretné osztani a PDF-fájlt?</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="184"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="183"/>
         <source>%1 - (PDF)</source>
         <translation>%1 - (PDF)</translation>
     </message>
@@ -5577,12 +5598,12 @@ típus: %7
 </translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1097"/>
+        <location filename="../client/mainwindow.cpp" line="1102"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation>elérési út a honosító fájlhoz: &lt;translationfile&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1100"/>
+        <location filename="../client/mainwindow.cpp" line="1105"/>
         <source>Define URL to connect to server: &lt;url&gt;</source>
         <translation>Adja meg a szerverhez való csatlakozás URL-jét: &lt;url&gt;</translation>
     </message>
@@ -6600,7 +6621,7 @@ Teljes dokumentáció: %1</translation>
         <translation type="vanished">Ismeretlen</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="257"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="259"/>
         <source>Load Avatar</source>
         <translation>Avatár betöltése</translation>
     </message>
@@ -8126,9 +8147,13 @@ Akarod menteni a változtatásokat?</translation>
 <context>
     <name>Workspace</name>
     <message>
-        <location filename="../core/src/widgets/workspace.cpp" line="415"/>
         <source>Stop Sharing</source>
-        <translation type="unfinished">Megosztás leállítása</translation>
+        <translation type="obsolete">Megosztás leállítása</translation>
+    </message>
+    <message>
+        <location filename="../core/src/widgets/workspace.cpp" line="88"/>
+        <source>Instant Messging</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8177,6 +8202,24 @@ Akarod menteni a változtatásokat?</translation>
         <location filename="../core/src/noteeditor/format_OO_oasis_/XML_Editor.cpp" line="91"/>
         <source>Check xml syntax</source>
         <translation>XML szintaxis ellenőrzése</translation>
+    </message>
+</context>
+<context>
+    <name>chatview</name>
+    <message>
+        <location filename="../core/src/qmlchat/chatview.qml" line="67"/>
+        <source>Title</source>
+        <translation type="unfinished">Cím</translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/chatview.qml" line="76"/>
+        <source>Everybody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/chatview.qml" line="268"/>
+        <source>send</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
