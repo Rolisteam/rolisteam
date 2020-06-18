@@ -244,6 +244,8 @@ void SelectConnectionProfileDialog::connectTo()
 
     auto playerCtrl= m_ctrl->playerController();
     auto localPlayer= playerCtrl->localPlayer();
+    if(!localPlayer) // WARNING
+        return;
     localPlayer->setUuid(profile->playerId());
     localPlayer->setColor(ui->m_colorBtn->color());
     localPlayer->setName(ui->m_name->text());
