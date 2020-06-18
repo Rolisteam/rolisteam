@@ -19,6 +19,7 @@
  *************************************************************************/
 
 #include "network/networkmessagereader.h"
+#include <QDataStream>
 
 NetworkMessageReader::NetworkMessageReader() : NetworkMessage() {}
 
@@ -318,6 +319,18 @@ qint64 NetworkMessageReader::int64()
         return ret;
     }
     return 0;
+}
+
+QDateTime NetworkMessageReader::dateTime()
+{
+    auto byte= byteArray32();
+    QDateTime time;
+    {
+        QDataStream input(&byte, QIODevice::ReadOnly);
+        input.setVersion(QDataStream::Qt_5_15);
+        input >> time;
+    }
+    return time;
 }
 qreal NetworkMessageReader::real()
 {
