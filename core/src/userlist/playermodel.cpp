@@ -104,21 +104,21 @@ bool contains(const std::vector<std::unique_ptr<Player>>& data, Person* person)
     return it == data.end();
 }
 
-/******************
- * Initialisation *
- ******************/
-
-PlayerModel::PlayerModel(QObject* parent) : QAbstractItemModel(parent)
+bool isLocal(Person* person, const QString& uuid)
 {
-    /*    using namespace NetMsg;
-        ReceiveEvent::registerReceiver(PlayerCategory, PlayerConnectionAction, this);
-        ReceiveEvent::registerReceiver(PlayerCategory, DelPlayerAction, this);
-        ReceiveEvent::registerReceiver(PlayerCategory, ChangePlayerProperty, this);
-        ReceiveEvent::registerReceiver(CharacterPlayerCategory, AddPlayerCharacterAction, this);
-        ReceiveEvent::registerReceiver(CharacterPlayerCategory, DelPlayerCharacterAction, this);
-        ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterProperty, this);
-        ReceiveEvent::registerReceiver(SetupCategory, AddFeatureAction, this);*/
+    if(!person)
+        return false;
+
+    if(person->isLeaf())
+        person= person->parentPerson();
+
+    if(!person)
+        return false;
+
+    return (uuid == person->uuid());
 }
+
+PlayerModel::PlayerModel(QObject* parent) : QAbstractItemModel(parent) {}
 
 PlayerModel::~PlayerModel()= default;
 
@@ -219,9 +219,8 @@ QVariant PlayerModel::data(const QModelIndex& index, int role) const
             var= character->stateId();
     }
     break;
-
     case PlayerModel::LocalRole:
-        var= true; // isLocal(person);
+        var= isLocal(person, m_localPlayerId);
         break;
     case PlayerModel::GmRole:
         var= isGM;
@@ -274,16 +273,6 @@ QModelIndex PlayerModel::index(int row, int column, const QModelIndex& parent) c
     else
         return QModelIndex();
 }
-/*QList<Character*> PlayerModel::getCharacterList()
-{
-    QList<Character*> list;
-
-    for(auto& player : m_playersList)
-    {
-        list << player->getChildrenCharacter();
-    }
-    return list;
-}*/
 
 QModelIndex PlayerModel::parent(const QModelIndex& index) const
 {
@@ -399,6 +388,26 @@ QModelIndex PlayerModel::personToIndex(Person* person) const
 QString PlayerModel::gameMasterId() const
 {
     return m_gameMasterId;
+}
+
+QString PlayerModel::localPlayerId() const
+{
+    return m_localPlayerId;
+}
+
+QHash<int, QByteArray> PlayerModel::roleNames() const
+{
+    static QHash<int, QByteArray> role({{IdentifierRole, "uuid"},
+                                        {PersonPtrRole, "person"},
+                                        {NameRole, "name"},
+                                        {LocalRole, "local"},
+                                        {GmRole, "gm"},
+                                        {CharacterRole, "character"},
+                                        {CharacterStateIdRole, "characterState"},
+                                        {NpcRole, "npc"},
+                                        {AvatarRole, "avatar"}});
+
+    return role;
 }
 
 Player* PlayerModel::playerById(const QString& id) const
@@ -804,6 +813,14 @@ void PlayerModel::removeCharacter(Character* character)
     beginRemoveRows(parent, idx, idx);
     player->removeChild(character);
     endRemoveRows();
+}
+
+void PlayerModel::setLocalPlayerId(const QString& uuid)
+{
+    if(uuid == m_localPlayerId)
+        return;
+    m_localPlayerId= uuid;
+    emit localPlayerIdChanged(m_localPlayerId);
 }
 
 void PlayerModel::removePlayer(Player* player)
