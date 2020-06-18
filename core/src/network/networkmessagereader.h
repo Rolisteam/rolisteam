@@ -22,6 +22,7 @@
 #define DATA_READER_H
 
 #include "network/networkmessage.h"
+#include <QDateTime>
 #include <QString>
 /**
  * @brief The NetworkMessageReader class
@@ -63,6 +64,8 @@ public:
     qint16 int16();
     qint32 int32();
     qint64 int64();
+
+    QDateTime dateTime();
 
     NetworkMessageHeader* header() const;
     void setHeader(NetworkMessageHeader* header);

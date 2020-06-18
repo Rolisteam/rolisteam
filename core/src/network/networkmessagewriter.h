@@ -22,6 +22,8 @@
 #define NETWORK_MESSAGE_WRITER_H
 
 #include "network/networkmessage.h"
+
+#include <QDateTime>
 #include <QString>
 
 /**
@@ -47,6 +49,8 @@ public:
     void string8(const QString& data);
     void string16(const QString& data);
     void string32(const QString& data);
+
+    void dateTime(const QDateTime& time);
 
     void byteArray32(const QByteArray& data);
 

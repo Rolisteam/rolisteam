@@ -19,10 +19,7 @@
  *************************************************************************/
 
 #include "network/networkmessagewriter.h"
-//#ifndef UNIT_TEST
-//#include "mainwindow.h"
-//#endif
-//#include "network/networkmanager.h"
+#include <QDataStream>
 #include <QDebug>
 
 NetworkMessageWriter::NetworkMessageWriter(NetMsg::Category category, NetMsg::Action action,
@@ -250,6 +247,17 @@ QStringList NetworkMessageWriter::getRecipientList() const
 NetworkMessage::RecipientMode NetworkMessageWriter::getRecipientMode() const
 {
     return m_mode;
+}
+
+void NetworkMessageWriter::dateTime(const QDateTime& time)
+{
+    QByteArray array;
+    {
+        QDataStream output(&array, QIODevice::WriteOnly);
+        output.setVersion(QDataStream::Qt_5_15);
+        output << time;
+    }
+    byteArray32(array);
 }
 
 QByteArray NetworkMessageWriter::getData()
