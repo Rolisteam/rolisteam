@@ -72,13 +72,6 @@ set(HEADERS
     src/charactersheet/section.h
     src/charactersheet/sheetwidget.h
     src/charactersheet/tablefield.h
-    src/chat/chat.h
-    src/chat/chatbrowser.h
-    src/chat/chatlist.h
-    src/chat/chatlistwidget.h
-    src/chat/chatwindow.h
-    src/chat/improvedtextedit.h
-    src/chat/privatechatdialog.h
     src/common/controller/logcontroller.h
     src/common/controller/remotelogcontroller.h
     src/common/task/uploadlogtoserver.h
@@ -376,13 +369,6 @@ set(SOURCES
     src/charactersheet/section.cpp
     src/charactersheet/sheetwidget.cpp
     src/charactersheet/tablefield.cpp
-    src/chat/chat.cpp
-    src/chat/chatbrowser.cpp
-    src/chat/chatlist.cpp
-    src/chat/chatlistwidget.cpp
-    src/chat/chatwindow.cpp
-    src/chat/improvedtextedit.cpp
-    src/chat/privatechatdialog.cpp
     src/common/controller/logcontroller.cpp
     src/common/controller/remotelogcontroller.cpp
     src/common/task/uploadlogtoserver.cpp

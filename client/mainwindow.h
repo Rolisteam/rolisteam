@@ -73,7 +73,7 @@ struct FileInfo
 };
 
 class UpdateChecker;
-class ChatListWidget;
+// class ChatListWidget;
 class Image;
 class NetworkLink;
 class PreferencesDialog;
@@ -390,7 +390,7 @@ private:
 
     PreferencesDialog* m_preferencesDialog;
     PreferencesManager* m_preferences;
-    ChatListWidget* m_chatListWidget;
+    // ChatListWidget* m_chatListWidget;
 
     NotificationZone* m_dockLogUtil;
     PlayerModel* m_playerModel;
@@ -421,7 +421,6 @@ private:
     std::unique_ptr<GameController> m_gameController;
     std::unique_ptr<SelectConnectionProfileDialog> m_dialog;
     std::unique_ptr<SessionDock> m_sessionDock;
-
     std::unique_ptr<QSystemTrayIcon> m_systemTray;
 };
 

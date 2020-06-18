@@ -98,7 +98,7 @@ public:
      * @param msgtype
      */
     void showMessage(const QString& utilisateur, const QColor& couleur, const QString& message,
-                     const QString& comment= QString(), NetMsg::Action msgtype= NetMsg::ChatMessageAction);
+                     const QString& comment= QString(), NetMsg::Action msgtype= NetMsg::InstantMessageAction);
     /**
      * @brief hasUnseenMessage
      * @return
