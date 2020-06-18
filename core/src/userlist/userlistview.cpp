@@ -197,11 +197,11 @@ void UserListView::contextMenuEvent(QContextMenuEvent* e)
                 if(m_diceParser->parseLine(initCmd))
                 {
                     m_diceParser->start();
-                    auto valueList= m_diceParser->scalarResultsFromEachInstruction();
+                    /*auto valueList= m_diceParser->getSumOfDiceResult();
                     if(valueList.isEmpty())
                         return;
 
-                    charact->setInitiativeScore(static_cast<int>(valueList.first()));
+                    charact->setInitiativeScore(static_cast<int>(valueList.first()));*/
                 }
             });
         }

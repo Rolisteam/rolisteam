@@ -184,7 +184,7 @@ void PreferencesController::deleteAlias(const QModelIndex& index)
 
 QString PreferencesController::convertAlias(const QString& str)
 {
-    m_diceParser->getAliases();
+    m_diceParser->constAliases();
     return m_diceParser->convertAlias(str);
 }
 
