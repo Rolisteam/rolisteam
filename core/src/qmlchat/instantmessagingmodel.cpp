@@ -157,4 +157,28 @@ void InstantMessagingModel::addMessageIntoChatroom(MessageInterface* message, Ch
     (*it)->addMessageInterface(message);
 }
 
+void InstantMessagingModel::removePlayer(const QString& id)
+{
+    auto it= std::find_if(m_chats.begin(), m_chats.end(), [id](const std::unique_ptr<ChatRoom>& chatRoom) {
+        return (chatRoom->uuid() == id && ChatRoom::SINGLEPLAYER && chatRoom->type());
+    });
+
+    if(it == m_chats.end())
+        return;
+
+    auto idx= std::distance(m_chats.begin(), it);
+
+    beginRemoveRows(QModelIndex(), idx, idx);
+    m_chats.erase(it);
+    endRemoveRows();
+    // TODO select behaviour after
+
+    /*std::for_each(m_chats.begin(), m_chats.end(), [id](const std::unique_ptr<ChatRoom>& chatRoom) {
+        if(chatRoom->type() == ChatRoom::EXTRA)
+            {
+                chatRoom->removeParticipant
+            }
+    });*/
+}
+
 } // namespace InstantMessaging

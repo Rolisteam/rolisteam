@@ -73,6 +73,13 @@ InstantMessagingController::InstantMessagingController(PlayerModel* model, QObje
         m_model->insertIndividualChatroom(player->uuid(), player->name());
     });
 
+    connect(m_players, &PlayerModel::playerLeft, this, [this](Player* player) {
+        if(nullptr == player)
+            return;
+
+        m_model->removePlayer(player->uuid());
+    });
+
     m_model->insertGlobalChatroom(tr("Global"), QStringLiteral("global"));
 }
 
