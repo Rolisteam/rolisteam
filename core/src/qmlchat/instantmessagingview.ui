@@ -11,9 +11,15 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>InstantMessaging</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../../rolisteam.qrc">
+    <normaloff>:/chat.png</normaloff>:/chat.png</iconset>
   </property>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../rolisteam.qrc"/>
+ </resources>
  <connections/>
 </ui>
