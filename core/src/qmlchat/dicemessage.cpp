@@ -21,19 +21,12 @@
 
 namespace InstantMessaging
 {
-DiceMessage::DiceMessage(const QString& ownerId, const QDateTime& time, QObject* parent)
-        : MessageBase(ownerId, time, MessageInterface::MessageType::Dice ,parent)
+DiceMessage::DiceMessage(const QString& ownerId, const QString& writer, const QDateTime& time, QObject* parent)
+    : MessageBase(ownerId, writer, time, MessageInterface::MessageType::Dice, parent)
 {
-
 }
 
-QString DiceMessage::text() const
-{
+QString DiceMessage::text() const {}
 
-}
-
-void DiceMessage::setText(const QString &text)
-{
-
-}
-}
+void DiceMessage::setText(const QString& text) {}
+} // namespace InstantMessaging

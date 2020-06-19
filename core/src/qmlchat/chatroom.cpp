@@ -97,9 +97,9 @@ void ChatRoom::setUnreadMessage(bool b)
     emit unreadMessageChanged(m_unreadMessage);
 }
 
-void ChatRoom::addMessage(const QString& text)
+void ChatRoom::addMessage(const QString& text, const QString& personId)
 {
-    m_messageModel->addMessage(text, QDateTime::currentDateTime(), localId(), MessageInterface::Text);
+    m_messageModel->addMessage(text, QDateTime::currentDateTime(), localId(), personId, MessageInterface::Text);
 }
 
 void ChatRoom::addMessageInterface(MessageInterface* message)

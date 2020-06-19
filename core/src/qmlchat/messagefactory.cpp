@@ -19,20 +19,21 @@
  ***************************************************************************/
 #include "messagefactory.h"
 
-#include "qmlchat/textmessage.h"
 #include "qmlchat/dicemessage.h"
 #include "qmlchat/messageinterface.h"
+#include "qmlchat/textmessage.h"
 
 namespace InstantMessaging
 {
-MessageInterface* MessageFactory::createMessage(const QString& uuid, const QDateTime& time, InstantMessaging::MessageInterface::MessageType type)
+MessageInterface* MessageFactory::createMessage(const QString& uuid, const QString& writerId, const QDateTime& time,
+                                                InstantMessaging::MessageInterface::MessageType type)
 {
     using IM= InstantMessaging::MessageInterface;
-    MessageInterface* msg = nullptr;
+    MessageInterface* msg= nullptr;
     switch(type)
     {
     case IM::Text:
-        msg= new TextMessage(uuid, time);
+        msg= new TextMessage(uuid, writerId, time);
         break;
     case IM::Dice:
         break;
@@ -41,4 +42,4 @@ MessageInterface* MessageFactory::createMessage(const QString& uuid, const QDate
     }
     return msg;
 }
-}
+} // namespace InstantMessaging

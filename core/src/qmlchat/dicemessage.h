@@ -20,8 +20,8 @@
 #ifndef DICEMESSAGE_H
 #define DICEMESSAGE_H
 
-#include <QObject>
 #include <QJsonObject>
+#include <QObject>
 
 #include "messageinterface.h"
 
@@ -31,9 +31,9 @@ namespace InstantMessaging
 class DiceMessage : public MessageBase
 {
     Q_OBJECT
-    //Q_PROPERTY(qreal result READ result WRITE setResult NOTIFY resultChanged)
+    // Q_PROPERTY(qreal result READ result WRITE setResult NOTIFY resultChanged)
 public:
-    DiceMessage(const QString& ownerId, const QDateTime& time, QObject* parent = nullptr);
+    DiceMessage(const QString& ownerId, const QString& writer, const QDateTime& time, QObject* parent= nullptr);
 
     QString text() const override;
 
@@ -44,5 +44,5 @@ private:
     QJsonObject m_data;
 };
 
-}
+} // namespace InstantMessaging
 #endif // DICEMESSAGE_H

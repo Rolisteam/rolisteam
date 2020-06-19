@@ -31,7 +31,8 @@ class TextMessage : public MessageBase
 {
     Q_OBJECT
 public:
-    explicit TextMessage(const QString& ownerId, const QDateTime& time, QObject* parent= nullptr);
+    explicit TextMessage(const QString& ownerId, const QString& writerId, const QDateTime& time,
+                         QObject* parent= nullptr);
 
     QString text() const override;
 

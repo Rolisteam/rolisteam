@@ -22,8 +22,8 @@
 namespace InstantMessaging
 {
 
-TextMessage::TextMessage(const QString& ownerId, const QDateTime& time, QObject* parent)
-    : MessageBase(ownerId, time, MessageInterface::MessageType::Text, parent)
+TextMessage::TextMessage(const QString& ownerId, const QString& writerId, const QDateTime& time, QObject* parent)
+    : MessageBase(ownerId, writerId, time, MessageInterface::MessageType::Text, parent)
 {
 }
 

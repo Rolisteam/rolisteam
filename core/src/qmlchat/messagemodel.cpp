@@ -105,11 +105,11 @@ void MessageModel::setLocalId(const QString& localid)
     emit localIdChanged(m_localId);
 }
 
-void MessageModel::addMessage(const QString& text, const QDateTime& time, const QString& owner,
+void MessageModel::addMessage(const QString& text, const QDateTime& time, const QString& owner, const QString& writerId,
                               MessageInterface::MessageType type)
 {
     // TODO use factory
-    auto msg= InstantMessaging::MessageFactory::createMessage(owner, time, type);
+    auto msg= InstantMessaging::MessageFactory::createMessage(owner, writerId, time, type);
     msg->setText(text);
     addMessageInterface(msg);
     messageAdded(msg);
