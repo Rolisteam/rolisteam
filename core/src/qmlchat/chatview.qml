@@ -7,48 +7,7 @@ Item {
     id: root
     anchors.fill: parent
     property ChatRoom chatRoom: _ctrl.globalChatroom
-   /* Timer {
-        running: true
-        repeat: true
-        interval: 30000
-        onTriggered: console.log("Chatroom:"+root.chatRoom)
-    }*/
 
-    // TO BE REMOVE - Test data
-    ListModel {
-        id: contact
-        ListElement {
-            name: "Grivious"
-            avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR0lAVH9IW0PW0B-gj3ki1tV21WHWbP8qNd4XlEEHICw_Oit6CZ&usqp=CAU"
-        }
-        ListElement {
-            name: "Chewbacca"
-            avatar: "https://a.wattpad.com/useravatar/Chewbacca187.256.113313.jpg"
-        }
-        ListElement {
-            name: "Vador"
-            avatar: "https://media.anakinworld.com/uploads/entries/square_large/personnage-darth-vader.jpg"
-        }
-        ListElement {
-            name: "Wedge"
-            avatar: "https://66.media.tumblr.com/avatar_0986a83b5d58_128.pnj"
-        }
-    }
-
-    ListModel {
-        id: local
-        ListElement {
-            name: "Obi"
-            role: "player"
-            avatar: "https://d26oc3sg82pgk3.cloudfront.net/files/media/edit/image/33482/square_thumb%402x.jpg"
-        }
-        ListElement {
-            name: "Batman"
-            role: "character"
-            avatar: "https://i1.wp.com/www.inforumatik.com/wp-content/uploads/2013/06/BAO_KA_20_05.jpg?fit=256%2C256&ssl=1"
-        }
-    }
-    // TO BE REMOVE - Test data
 
     Drawer {
         id: add_chat
@@ -86,7 +45,7 @@ Item {
                     property int checkedItem: 0
                     ColumnLayout {
                         Repeater {
-                            model:  contact
+                            model: contact
                             RowLayout {
                                 Layout.fillWidth: true
                                 Image {
@@ -139,7 +98,7 @@ Item {
                             ToolTip.text: "detach"
                             ToolTip.visible: down
                         }
-                        onClicked: listView.chatRoom = model.chatroom
+                        onClicked: root.chatRoom = model.chatroom
                     }
                 }
             }
@@ -160,12 +119,11 @@ Item {
                 SplitView.fillWidth: true
                 SplitView.fillHeight: true
                 model: chatRoom.messageModel
-
+                clip: true
                 verticalLayoutDirection: ListView.BottomToTop
                 delegate: Column {
                     anchors.right: model.local ? parent.right : undefined
                     spacing: 6
-
                     Row {
                         id: messageRow
                         spacing: 6
@@ -183,7 +141,7 @@ Item {
 
                         Rectangle {
                             id: rect
-                            width: Math.min(messageId.implicitWidth + 24,
+                            width: Math.min(messageId.contentWidth + 24,
                                             listView.width - (!model.local ? avatar.width + messageRow.spacing : 0))
                             height: messageId.implicitHeight + 24
                             color: model.local ? "lightgrey" : "steelblue"
@@ -207,10 +165,11 @@ Item {
                 }
             }
             InstantMessagingEditText {
+                id: imEditText
                 SplitView.fillWidth: true
-                SplitView.minimumHeight: 70
+                SplitView.preferredHeight: 100
                 model: _ctrl.localPersonModel
-                onSendClicked: root.chatRoom.addMessage(text)
+                onSendClicked: root.chatRoom.addMessage(text, imEditText.currentPersonId)
             }
         }
     }
