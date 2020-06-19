@@ -53,7 +53,7 @@ public:
 
 public slots:
     void setLocalId(const QString& localid);
-    void addMessage(const QString& text, const QDateTime& time, const QString& owner,
+    void addMessage(const QString& text, const QDateTime& time, const QString& owner, const QString& writerId,
                     MessageInterface::MessageType type);
     void addMessageInterface(MessageInterface* msg);
 

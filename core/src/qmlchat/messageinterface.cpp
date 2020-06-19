@@ -23,9 +23,9 @@ namespace InstantMessaging
 {
 MessageInterface::MessageInterface(QObject* parent) : QObject(parent) {}
 
-MessageBase::MessageBase(const QString& owner, const QDateTime& time, MessageInterface::MessageType type,
-                         QObject* parent)
-    : MessageInterface(parent), m_ownerId(owner), m_time(time), m_type(type)
+MessageBase::MessageBase(const QString& owner, const QString& writer, const QDateTime& time,
+                         MessageInterface::MessageType type, QObject* parent)
+    : MessageInterface(parent), m_ownerId(owner), m_time(time), m_type(type), m_writer(writer)
 {
 }
 
@@ -42,6 +42,11 @@ QDateTime MessageBase::dateTime() const
 MessageInterface::MessageType MessageBase::type() const
 {
     return m_type;
+}
+
+QString MessageBase::writer() const
+{
+    return m_writer;
 }
 
 } // namespace InstantMessaging

@@ -30,7 +30,8 @@ class MessageInterface : public QObject
     Q_OBJECT
     Q_PROPERTY(MessageType type READ type CONSTANT)
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
-    Q_PROPERTY(QString owner READ owner CONSTANT)
+    Q_PROPERTY(QString owner READ owner CONSTANT)   // Player only
+    Q_PROPERTY(QString writer READ writer CONSTANT) // player or one of its character.
     Q_PROPERTY(QDateTime dateTime READ dateTime CONSTANT)
 public:
     enum MessageType
@@ -46,6 +47,7 @@ public:
     virtual QString text() const= 0;
     virtual QString owner() const= 0;
     virtual QDateTime dateTime() const= 0;
+    virtual QString writer() const= 0;
 
 public slots:
     virtual void setText(const QString& text)= 0;
@@ -58,15 +60,18 @@ class MessageBase : public MessageInterface
 {
     Q_OBJECT
 public:
-    explicit MessageBase(const QString& owner, const QDateTime& time, MessageType type, QObject* parent= nullptr);
+    explicit MessageBase(const QString& owner, const QString& writer, const QDateTime& time, MessageType type,
+                         QObject* parent= nullptr);
     QString owner() const override;
     QDateTime dateTime() const override;
     MessageType type() const override;
+    QString writer() const override;
 
 private:
     QString m_ownerId;
     QDateTime m_time;
     MessageType m_type;
+    QString m_writer;
 };
 } // namespace InstantMessaging
 #endif // MESSAGEINTERFACE_H

@@ -48,7 +48,6 @@ void InstantMessagingUpdater::addChatRoom(InstantMessaging::ChatRoom* room)
     connect(model, &InstantMessaging::MessageModel::messageAdded, this, [room](MessageInterface* message) {
         auto type= room->type();
         NetworkMessageWriter msg(NetMsg::InstantMessageCategory, NetMsg::InstantMessageAction);
-        qDebug() << type << ChatRoom::GLOBAL << room->uuid();
         if(type != ChatRoom::GLOBAL && room->uuid() != QStringLiteral("Global"))
         {
             auto recipiants= room->recipiants();
@@ -58,6 +57,7 @@ void InstantMessagingUpdater::addChatRoom(InstantMessaging::ChatRoom* room)
         msg.string8(room->uuid());
         msg.uint8(message->type());
         msg.string16(message->owner());
+        msg.string16(message->writer());
         msg.string32(message->text());
         msg.dateTime(message->dateTime());
 
@@ -92,10 +92,11 @@ void InstantMessagingUpdater::addMessageToModel(InstantMessaging::InstantMessagi
     auto uuid= msg->string8();
     auto messageType= static_cast<IM::MessageType>(msg->uint8());
     auto owner= msg->string16();
+    auto writer= msg->string16();
     auto text= msg->string32();
     auto time= msg->dateTime();
 
-    MessageInterface* imMessage= InstantMessaging::MessageFactory::createMessage(owner, time, messageType);
+    MessageInterface* imMessage= InstantMessaging::MessageFactory::createMessage(owner, writer, time, messageType);
 
     if(imMessage == nullptr)
         return;
