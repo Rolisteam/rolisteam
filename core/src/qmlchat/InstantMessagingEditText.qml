@@ -17,7 +17,7 @@ Frame {
 
     Connections {
         target: textCtrl
-        function onTextChanged(){ edit.text = text }
+        function onTextChanged(text){ edit.text = text }
     }
 
     ColumnLayout {
@@ -33,7 +33,7 @@ Frame {
                         id: selector
                         textRole: "name"
                         valueRole: "uuid"
-                        currentIndex: 0
+                        Component.onCompleted: currentIndex = 0
                         delegate: ItemDelegate {
                             width: selector.width
                             contentItem: RowLayout {

@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "messageinterface.h"
 
+#include <QDebug>
+
 namespace InstantMessaging
 {
 MessageInterface::MessageInterface(QObject* parent) : QObject(parent) {}
@@ -27,6 +29,7 @@ MessageBase::MessageBase(const QString& owner, const QString& writer, const QDat
                          MessageInterface::MessageType type, QObject* parent)
     : MessageInterface(parent), m_ownerId(owner), m_time(time), m_type(type), m_writer(writer)
 {
+    qDebug() << "messageBase" << owner << writer;
 }
 
 QString MessageBase::owner() const

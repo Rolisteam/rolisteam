@@ -17,12 +17,10 @@ Item {
 
         Frame {
             anchors.fill: parent
-
             ColumnLayout {
-
                 RowLayout {
                     Layout.fillWidth: true
-                    Label{
+                    Label {
                         text: qsTr("Title")
                     }
                     TextField {
