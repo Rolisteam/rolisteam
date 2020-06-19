@@ -50,8 +50,15 @@ void InstantMessagingUpdater::addChatRoom(InstantMessaging::ChatRoom* room)
         NetworkMessageWriter msg(NetMsg::InstantMessageCategory, NetMsg::InstantMessageAction);
         if(type != ChatRoom::GLOBAL && room->uuid() != QStringLiteral("Global"))
         {
-            auto recipiants= room->recipiants();
-            msg.setRecipientList(recipiants->recipiantIds(), NetworkMessage::OneOrMany);
+            auto model= room->recipiants();
+            if(!model)
+                return;
+
+            auto recipiants= model->recipiantIds();
+            if(type == ChatRoom::SINGLEPLAYER)
+                recipiants.append(room->uuid());
+
+            msg.setRecipientList(recipiants, NetworkMessage::OneOrMany);
         }
         msg.uint8(type);
         msg.string8(room->uuid());
@@ -63,25 +70,6 @@ void InstantMessagingUpdater::addChatRoom(InstantMessaging::ChatRoom* room)
 
         msg.sendToServer();
     });
-}
-
-void InstantMessaging::InstantMessagingUpdater::sendMessage() {}
-
-void InstantMessaging::InstantMessagingUpdater::closeChat() {}
-
-template <typename T>
-void InstantMessagingUpdater::sendOffChatRoomChanges(ChatRoom* chatRoom, const QString& property)
-{
-    if(nullptr == chatRoom)
-        return;
-
-    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::UpdateMediaProperty);
-    msg.uint8(static_cast<int>(Core::ContentType::INSTANTMESSAGING));
-    msg.string8(chatRoom->uuid());
-    msg.string16(property);
-    auto val= chatRoom->property(property.toLocal8Bit().data());
-    Helper::variantToType<T>(val.value<T>(), msg);
-    msg.sendToServer();
 }
 
 void InstantMessagingUpdater::addMessageToModel(InstantMessaging::InstantMessagingModel* model,
@@ -103,6 +91,25 @@ void InstantMessagingUpdater::addMessageToModel(InstantMessaging::InstantMessagi
     imMessage->setText(text);
 
     model->addMessageIntoChatroom(imMessage, type, uuid);
+}
+
+void InstantMessaging::InstantMessagingUpdater::sendMessage() {}
+
+void InstantMessaging::InstantMessagingUpdater::closeChat() {}
+
+template <typename T>
+void InstantMessagingUpdater::sendOffChatRoomChanges(ChatRoom* chatRoom, const QString& property)
+{
+    if(nullptr == chatRoom)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::UpdateMediaProperty);
+    msg.uint8(static_cast<int>(Core::ContentType::INSTANTMESSAGING));
+    msg.string8(chatRoom->uuid());
+    msg.string16(property);
+    auto val= chatRoom->property(property.toLocal8Bit().data());
+    Helper::variantToType<T>(val.value<T>(), msg);
+    msg.sendToServer();
 }
 
 } // namespace InstantMessaging
