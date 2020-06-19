@@ -58,7 +58,7 @@ public:
 
 public slots:
     void insertGlobalChatroom(const QString& title, const QString& uuid= QString());
-    void insertIndividualChatroom(const QString& playerId);
+    void insertIndividualChatroom(const QString& playerId, const QString& playerName);
     void insertCustomChatroom(const QStringList& playerIds);
     void setLocalId(const QString& id);
 

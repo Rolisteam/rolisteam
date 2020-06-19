@@ -109,10 +109,23 @@ void InstantMessagingModel::insertGlobalChatroom(const QString& title, const QSt
     global->setTitle(title);
     emit chatRoomCreated(global.get());
     connect(this, &InstantMessagingModel::localIdChanged, global.get(), &ChatRoom::setLocalId);
+    beginInsertRows(QModelIndex(), m_chats.size(), m_chats.size());
     m_chats.push_back(std::move(global));
+    endInsertRows();
 }
 
-void InstantMessagingModel::insertIndividualChatroom(const QString& playerId) {}
+void InstantMessagingModel::insertIndividualChatroom(const QString& playerId, const QString& playerName)
+{
+    std::unique_ptr<ChatRoom> singlePlayerIm(new ChatRoom(InstantMessaging::ChatRoom::SINGLEPLAYER));
+    singlePlayerIm->setUuid(playerId);
+    singlePlayerIm->setTitle(playerName);
+
+    emit chatRoomCreated(singlePlayerIm.get());
+    connect(this, &InstantMessagingModel::localIdChanged, singlePlayerIm.get(), &ChatRoom::setLocalId);
+    beginInsertRows(QModelIndex(), m_chats.size(), m_chats.size());
+    m_chats.push_back(std::move(singlePlayerIm));
+    endInsertRows();
+}
 
 void InstantMessagingModel::insertCustomChatroom(const QStringList& playerIds) {}
 
@@ -126,7 +139,7 @@ void InstantMessagingModel::setLocalId(const QString& id)
 
 void InstantMessagingModel::addMessageIntoChatroom(MessageInterface* message, ChatRoom::ChatRoomType type,
                                                    const QString& uuid)
-{
+{ // from network
     auto it= std::find_if(m_chats.begin(), m_chats.end(),
                           [type, uuid, message](const std::unique_ptr<ChatRoom>& chatRoom) {
                               bool val= false;
@@ -143,11 +156,5 @@ void InstantMessagingModel::addMessageIntoChatroom(MessageInterface* message, Ch
 
     (*it)->addMessageInterface(message);
 }
-
-/*void InstantMessagingModel::send(const QString& text, int currentIndex)
-{
-    auto chatRoom= m_chats[currentIndex].get();
-    // chatRoom->send();
-}*/
 
 } // namespace InstantMessaging

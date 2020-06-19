@@ -61,6 +61,14 @@ InstantMessagingController::InstantMessagingController(PlayerModel* model, QObje
             [this](InstantMessaging::ChatRoom* room) { m_updater->addChatRoom(room); });
     connect(m_model.get(), &InstantMessaging::InstantMessagingModel::localIdChanged, this,
             &InstantMessagingController::localIdChanged);
+    connect(m_players, &PlayerModel::playerJoin, this, [this](Player* player) {
+        if(nullptr == player)
+            return;
+        if(player->uuid() == localId())
+            return;
+
+        m_model->insertIndividualChatroom(player->uuid(), player->name());
+    });
 
     m_model->insertGlobalChatroom(tr("Global"), QStringLiteral("global"));
 }
