@@ -22,21 +22,29 @@
 #include <QQmlEngine>
 
 #include "data/localpersonmodel.h"
+#include "data/player.h"
 #include "network/receiveevent.h"
 #include "qmlchat/chatroom.h"
 #include "qmlchat/filterinstantmessagingmodel.h"
 #include "qmlchat/instantmessagingmodel.h"
 #include "qmlchat/messagemodel.h"
+#include "qmlchat/textwritercontroller.h"
 #include "updater/instantmessagingupdater.h"
 #include "userlist/playermodel.h"
 
 void registerType()
 {
+    qRegisterMetaType<InstantMessaging::FilterInstantMessagingModel*>("FilterInstantMessagingModel*");
+    qRegisterMetaType<InstantMessaging::MessageModel*>("MessageModel*");
+    qRegisterMetaType<LocalPersonModel*>("LocalPersonModel*");
+    qRegisterMetaType<InstantMessaging::ChatRoom*>("ChatRoom*");
+
     qmlRegisterAnonymousType<InstantMessaging::FilterInstantMessagingModel>("FilterInstantMessagingModel", 1);
     qmlRegisterAnonymousType<InstantMessaging::MessageModel>("MessageModel", 1);
     qmlRegisterAnonymousType<LocalPersonModel>("LocalPersonModel", 1);
     qmlRegisterUncreatableType<InstantMessaging::ChatRoom>("InstantMessaging", 1, 0, "ChatRoom",
                                                            "ChatRoom can't be created.");
+    qmlRegisterType<InstantMessaging::TextWriterController>("InstantMessaging", 1, 0, "TextWriterController");
 }
 
 InstantMessagingController::InstantMessagingController(PlayerModel* model, QObject* parent)
@@ -46,12 +54,7 @@ InstantMessagingController::InstantMessagingController(PlayerModel* model, QObje
     , m_players(model)
     , m_localPersonModel(new LocalPersonModel)
 {
-    qRegisterMetaType<InstantMessaging::FilterInstantMessagingModel*>("FilterInstantMessagingModel*");
-    qRegisterMetaType<InstantMessaging::MessageModel*>("MessageModel*");
-    qRegisterMetaType<LocalPersonModel*>("LocalPersonModel*");
-    qRegisterMetaType<InstantMessaging::ChatRoom*>("ChatRoom*");
     ReceiveEvent::registerNetworkReceiver(NetMsg::InstantMessageCategory, this);
-
     registerType();
     addFilterModel();
 

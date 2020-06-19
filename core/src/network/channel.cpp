@@ -166,7 +166,7 @@ void Channel::sendMessage(NetworkMessage* msg, TcpClient* emitter, bool mustBeSa
 void Channel::sendToMany(NetworkMessage* msg, TcpClient* tcp, bool deleteMsg)
 {
     auto const recipient= msg->getRecipientList();
-    qDebug() << "recipient " << recipient;
+    qDebug() << "recipient sendToMany" << recipient;
     int i= 0;
     for(auto& client : m_child)
     {
