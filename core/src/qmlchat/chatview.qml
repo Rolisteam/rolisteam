@@ -131,7 +131,7 @@ Item {
 
                         Image {
                             id: avatar
-                            source: "image://avatar/%1".arg(model.ownerId)
+                            source: "image://avatar/%1".arg(model.writerId)
                             visible: !model.local
                             fillMode: Image.PreserveAspectFit
                             property int side: 50

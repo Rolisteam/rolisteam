@@ -39,6 +39,7 @@ public:
         TimeRole,
         MessageRole,
         LocalRole,
+        WriterRole,
         OwnerRole
     };
     explicit MessageModel(QObject* parent= nullptr);
