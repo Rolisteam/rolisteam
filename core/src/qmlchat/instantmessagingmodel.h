@@ -63,6 +63,7 @@ public slots:
     void setLocalId(const QString& id);
 
     void addMessageIntoChatroom(MessageInterface*, ChatRoom::ChatRoomType type, const QString& uuid);
+    void removePlayer(const QString& id);
 
 signals:
     void chatRoomCreated(InstantMessaging::ChatRoom*);
