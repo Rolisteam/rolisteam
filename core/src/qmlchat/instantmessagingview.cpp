@@ -36,6 +36,7 @@ InstantMessagingView::InstantMessagingView(InstantMessagingController* ctrl, QWi
     auto engine= m_qmlViewer->engine();
     engine->rootContext()->setContextProperty("_ctrl", m_ctrl);
     engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
+    setMinimumWidth(200);
 
     m_qmlViewer->setResizeMode(QQuickWidget::SizeRootObjectToView);
     m_qmlViewer->setSource(QUrl("qrc:/qmlchat/chatview.qml"));
