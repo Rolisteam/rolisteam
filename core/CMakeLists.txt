@@ -84,6 +84,7 @@ set(HEADERS
     src/qmlchat/filterinstantmessagingmodel.h
     src/qmlchat/instantmessagingview.h
     src/qmlchat/avatarprovider.h
+    src/qmlchat/textwritercontroller.cpp
     # src/chat/chat.h
     # src/chat/chatbrowser.h
     # src/chat/chatlist.h
@@ -369,6 +370,7 @@ set(SOURCES
     src/audio/audioPlayer.cpp
     src/audio/musicmodel.cpp
     src/audio/playerwidget.cpp
+    src/qmlchat/textwritercontroller.cpp
     src/qmlchat/chatroom.cpp
     src/qmlchat/messagemodel.cpp
     src/qmlchat/dicemessage.cpp
