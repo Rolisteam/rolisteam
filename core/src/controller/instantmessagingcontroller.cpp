@@ -37,11 +37,13 @@ void registerType()
     qRegisterMetaType<InstantMessaging::FilterInstantMessagingModel*>("FilterInstantMessagingModel*");
     qRegisterMetaType<InstantMessaging::MessageModel*>("MessageModel*");
     qRegisterMetaType<LocalPersonModel*>("LocalPersonModel*");
+    qRegisterMetaType<PlayerModel*>("PlayerModel*");
     qRegisterMetaType<InstantMessaging::ChatRoom*>("ChatRoom*");
 
     qmlRegisterAnonymousType<InstantMessaging::FilterInstantMessagingModel>("FilterInstantMessagingModel", 1);
     qmlRegisterAnonymousType<InstantMessaging::MessageModel>("MessageModel", 1);
     qmlRegisterAnonymousType<LocalPersonModel>("LocalPersonModel", 1);
+    qmlRegisterAnonymousType<PlayerModel>("PlayerModel", 1);
     qmlRegisterUncreatableType<InstantMessaging::ChatRoom>("InstantMessaging", 1, 0, "ChatRoom",
                                                            "ChatRoom can't be created.");
     qmlRegisterType<InstantMessaging::TextWriterController>("InstantMessaging", 1, 0, "TextWriterController");

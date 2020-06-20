@@ -1,6 +1,6 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.13
-import QtQuick.Layouts 1.12
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
 import InstantMessaging 1.0
 
 Item {
@@ -8,70 +8,11 @@ Item {
     anchors.fill: parent
     property ChatRoom chatRoom: _ctrl.globalChatroom
 
-
-    Drawer {
-        id: add_chat
-        width: 0.33 * parent.width
+    SidePanel {
+        id: sidePanel
         height: parent.height
         edge: Qt.RightEdge
-
-        Frame {
-            anchors.fill: parent
-            ColumnLayout {
-                RowLayout {
-                    Layout.fillWidth: true
-                    Label {
-                        text: qsTr("Title")
-                    }
-                    TextField {
-                        id: title
-                    }
-                }
-                RowLayout {
-                    Layout.fillWidth: true
-                    Label{
-                        text: qsTr("Everybody")
-                    }
-                    Switch {
-                        id: all
-                        checked: true
-                    }
-                }
-                Frame {
-                    id: recipiants
-                    enabled: !all.checked
-                    property int checkedItem: 0
-                    ColumnLayout {
-                        Repeater {
-                            model: contact
-                            RowLayout {
-                                Layout.fillWidth: true
-                                Image {
-                                    source: model.avatar
-                                    fillMode: Image.PreserveAspectFit
-                                    sourceSize.width: 50
-                                    sourceSize.height: 50
-                                    opacity: all.checked ? 0.5 : 1.0
-                                }
-                                Label {
-                                    text: model.name
-                                    Layout.fillWidth: true
-                                }
-                                Switch {
-                                    enabled: !all.checked
-                                    onCheckedChanged: recipiants.checkedItem += checked ? 1 : -1
-                                }
-                            }
-                        }
-                    }
-                }
-
-                Button {
-                    text: "add"
-                    enabled: title.text.length > 0 && (all.checked || recipiants.checkedItem > 0 )
-                }
-            }
-        }
+        model: _ctrl.playerModel
     }
 
     ColumnLayout {
@@ -102,7 +43,7 @@ Item {
             }
             ToolButton {
                 text: "+"
-                onClicked: add_chat.open()
+                onClicked: sidePanel.open()
             }
         }
         SplitView {
