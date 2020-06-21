@@ -357,8 +357,8 @@ QString MessageDispatcher::act2String(NetworkMessageHeader* head)
         case NetMsg::UpdateChatAction:
             str= QStringLiteral("UpdateChatAction");
             break;
-        case NetMsg::DelChatAction:
-            str= QStringLiteral("DelChatAction");
+        case NetMsg::RemoveChatroomAction:
+            str= QStringLiteral("RemoveChatroomAction");
             break;
         default:
             str= QStringLiteral("Unknown Action");
