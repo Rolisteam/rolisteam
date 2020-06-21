@@ -23,6 +23,7 @@
 #include <set>
 
 #include "chatroom.h"
+#include "chatroomfactory.h"
 #include "messageinterface.h"
 
 namespace InstantMessaging
@@ -103,36 +104,39 @@ QString InstantMessagingModel::localId() const
 
 void InstantMessagingModel::insertGlobalChatroom(const QString& title, const QString& uuid)
 {
-    std::unique_ptr<ChatRoom> global(new ChatRoom(InstantMessaging::ChatRoom::GLOBAL));
-    connect(this, &InstantMessagingModel::localIdChanged, global.get(), &ChatRoom::setLocalId);
-    global->setLocalId(localId());
-    global->setTitle(title);
-
-    if(!uuid.isEmpty())
-        global->setUuid(uuid);
-
-    emit chatRoomCreated(global.get());
-
-    beginInsertRows(QModelIndex(), m_chats.size(), m_chats.size());
-    m_chats.push_back(std::move(global));
-    endInsertRows();
+    addChatRoom(
+        ChatRoomFactory::createChatRoom(title, QStringList(), uuid, InstantMessaging::ChatRoom::GLOBAL, localId()),
+        !uuid.isEmpty());
 }
 
 void InstantMessagingModel::insertIndividualChatroom(const QString& playerId, const QString& playerName)
 {
-    std::unique_ptr<ChatRoom> singlePlayerIm(new ChatRoom(InstantMessaging::ChatRoom::SINGLEPLAYER));
-    singlePlayerIm->setUuid(playerId);
-    singlePlayerIm->setTitle(playerName);
-    singlePlayerIm->setLocalId(localId());
-
-    emit chatRoomCreated(singlePlayerIm.get());
-    connect(this, &InstantMessagingModel::localIdChanged, singlePlayerIm.get(), &ChatRoom::setLocalId);
-    beginInsertRows(QModelIndex(), m_chats.size(), m_chats.size());
-    m_chats.push_back(std::move(singlePlayerIm));
-    endInsertRows();
+    addChatRoom(ChatRoomFactory::createChatRoom(playerName, {playerId, localId()}, playerId,
+                                                InstantMessaging::ChatRoom::SINGLEPLAYER, localId()));
 }
 
-void InstantMessagingModel::insertCustomChatroom(const QStringList& playerIds) {}
+void InstantMessagingModel::insertExtraChatroom(const QString& title, const QStringList& playerIds, bool remote,
+                                                const QString& uuid)
+{
+    addChatRoom(ChatRoomFactory::createChatRoom(title, playerIds, uuid, InstantMessaging::ChatRoom::EXTRA, localId()),
+                remote);
+}
+
+void InstantMessagingModel::addChatRoom(ChatRoom* room, bool remote)
+{
+    if(!room)
+        return;
+
+    std::unique_ptr<ChatRoom> chatroom(room);
+    connect(this, &InstantMessagingModel::localIdChanged, chatroom.get(), &ChatRoom::setLocalId);
+    chatroom->setLocalId(localId());
+
+    beginInsertRows(QModelIndex(), m_chats.size(), m_chats.size());
+    m_chats.push_back(std::move(chatroom));
+    endInsertRows();
+
+    emit chatRoomCreated(room, remote);
+}
 
 void InstantMessagingModel::setLocalId(const QString& id)
 {
