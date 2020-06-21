@@ -28,7 +28,7 @@ class FilteredPlayerModel : public QSortFilterProxyModel
     Q_OBJECT
 
 public:
-    explicit FilteredPlayerModel(QObject* parent= nullptr);
+    explicit FilteredPlayerModel(const QStringList& list, QObject* parent= nullptr);
 
     // Basic functionality:
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;

@@ -20,7 +20,10 @@
 #include "filteredplayermodel.h"
 namespace InstantMessaging
 {
-FilteredPlayerModel::FilteredPlayerModel(QObject* parent) : QSortFilterProxyModel(parent) {}
+FilteredPlayerModel::FilteredPlayerModel(const QStringList& list, QObject* parent)
+    : QSortFilterProxyModel(parent), m_participants(list)
+{
+}
 
 int FilteredPlayerModel::rowCount(const QModelIndex& parent) const
 {

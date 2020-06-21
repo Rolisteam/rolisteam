@@ -48,8 +48,8 @@ public:
         SINGLEPLAYER,
         EXTRA
     };
-    explicit ChatRoom(ChatRoomType type, const QString& id= QUuid::createUuid().toString(QUuid::WithoutBraces),
-                      QObject* parent= nullptr);
+    explicit ChatRoom(ChatRoomType type, const QStringList& recipiants= QStringList(),
+                      const QString& id= QUuid::createUuid().toString(QUuid::WithoutBraces), QObject* parent= nullptr);
     virtual ~ChatRoom();
 
     MessageModel* messageModel() const;

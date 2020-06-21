@@ -63,7 +63,7 @@ InstantMessagingController::InstantMessagingController(PlayerModel* model, QObje
     m_localPersonModel->setSourceModel(m_players);
 
     connect(m_model.get(), &InstantMessaging::InstantMessagingModel::chatRoomCreated, this,
-            [this](InstantMessaging::ChatRoom* room) { m_updater->addChatRoom(room); });
+            [this](InstantMessaging::ChatRoom* room, bool remote) { m_updater->addChatRoom(room, remote); });
     connect(m_model.get(), &InstantMessaging::InstantMessagingModel::localIdChanged, this,
             &InstantMessagingController::localIdChanged);
     connect(m_players, &PlayerModel::playerJoin, this, [this](Player* player) {
@@ -123,6 +123,9 @@ NetWorkReceiver::SendType InstantMessagingController::processMessage(NetworkMess
     case NetMsg::InstantMessageAction:
         m_updater->addMessageToModel(m_model.get(), msg);
         break;
+    case NetMsg::AddChatroomAction:
+        m_updater->readChatroomToModel(m_model.get(), msg);
+        break;
     default:
         break;
     }
@@ -138,6 +141,21 @@ void InstantMessagingController::splitScreen() {}
 void InstantMessagingController::setLocalId(const QString& id)
 {
     m_model->setLocalId(id);
+}
+
+void InstantMessagingController::addExtraChatroom(const QString& title, bool everyone, const QVariantList& recipiant)
+{
+    if(everyone)
+        m_model->insertGlobalChatroom(title);
+    else
+    {
+        QStringList ids;
+        ids.reserve(recipiant.size());
+        std::transform(recipiant.begin(), recipiant.end(), std::back_inserter(ids),
+                       [](const QVariant& variant) { return variant.toString(); });
+
+        m_model->insertExtraChatroom(title, ids, false);
+    }
 }
 
 void InstantMessagingController::addFilterModel()

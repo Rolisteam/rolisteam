@@ -8,12 +8,7 @@ Item {
     anchors.fill: parent
     property ChatRoom chatRoom: _ctrl.globalChatroom
 
-    SidePanel {
-        id: sidePanel
-        height: parent.height
-        edge: Qt.RightEdge
-        model: _ctrl.playerModel
-    }
+
 
     ColumnLayout {
         anchors.fill: parent
@@ -43,7 +38,15 @@ Item {
             }
             ToolButton {
                 text: "+"
-                onClicked: sidePanel.open()
+                onClicked: newChatRoom.open()
+                AddChatRoomDialog {
+                    id: newChatRoom
+                    model: _ctrl.playerModel
+                    x: -width+parent.width
+                    onChatRoomAdded: {
+                        _ctrl.addExtraChatroom(newChatRoom.title, newChatRoom.all, newChatRoom.recipiants)
+                    }
+                }
             }
         }
         SplitView {
@@ -92,7 +95,6 @@ Item {
                                 wrapMode: Label.Wrap
                             }
                         }
-
                     }
                     Label {
                         id: timestamp

@@ -64,6 +64,7 @@ public slots:
     void reattach(const QString& id);
     void splitScreen();
     void setLocalId(const QString& id);
+    void addExtraChatroom(const QString& title, bool everyone, const QVariantList& recipiant);
 
 signals:
     void createdChatWindow(InstantMessaging::FilterInstantMessagingModel* model);
