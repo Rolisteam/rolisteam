@@ -84,7 +84,8 @@ set(HEADERS
     src/qmlchat/filterinstantmessagingmodel.h
     src/qmlchat/instantmessagingview.h
     src/qmlchat/avatarprovider.h
-    src/qmlchat/textwritercontroller.cpp
+    src/qmlchat/textwritercontroller.h
+    src/qmlchat/chatroomfactory.h
     # src/chat/chat.h
     # src/chat/chatbrowser.h
     # src/chat/chatlist.h
@@ -410,6 +411,7 @@ set(SOURCES
     src/qmlchat/messageinterface.cpp
     src/qmlchat/textmessage.cpp
     src/qmlchat/avatarprovider.cpp
+    src/qmlchat/chatroomfactory.cpp
     src/common/controller/logcontroller.cpp
     src/common/controller/remotelogcontroller.cpp
     src/common/task/uploadlogtoserver.cpp
