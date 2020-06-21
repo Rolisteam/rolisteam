@@ -2,10 +2,16 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
-Drawer {
+Popup {
     id: root
     property alias model: contactList.model
+    property alias all: everyone.checked
+    property alias title: title.text
+    property var recipiants: []
+    signal chatRoomAdded()
     width: frame.implicitWidth
+    height: frame.implicitHeight
+    padding: 0
 
     Frame {
         id: frame
@@ -27,15 +33,14 @@ Drawer {
                     text: qsTr("Everybody")
                 }
                 Switch {
-                    id: all
+                    id: everyone
                     checked: true
                 }
             }
             Frame {
-                id: recipiants
+                id: userlist
                 Layout.fillWidth: true
-                enabled: !all.checked
-                property int checkedItem: 0
+                enabled: !everyone.checked
                 ColumnLayout {
                     anchors.fill: parent
                     Repeater {
@@ -47,15 +52,24 @@ Drawer {
                                 fillMode: Image.PreserveAspectFit
                                 sourceSize.width: 50
                                 sourceSize.height: 50
-                                opacity: all.checked ? 0.5 : 1.0
+                                opacity: everyone.checked ? 0.5 : 1.0
                             }
                             Label {
                                 text: model.name
                                 Layout.fillWidth: true
                             }
                             Switch {
-                                enabled: !all.checked
-                                onCheckedChanged: recipiants.checkedItem += checked ? 1 : -1
+                                enabled: !everyone.checked
+                                onCheckedChanged: {
+                                    if(checked)
+                                    {
+                                        root.recipiants.push(model.uuid)
+                                    }
+                                    else
+                                    {
+                                        root.recipiants.splice(root.recipiants.indexOf(model.uuid),1)
+                                    }
+                                }
                             }
                         }
                     }
@@ -64,7 +78,9 @@ Drawer {
 
             Button {
                 text: qsTr("Add Chatroom")
-                enabled: title.text.length > 0 && (all.checked || recipiants.checkedItem > 0 )
+                Layout.alignment: Qt.AlignRight
+                enabled: title.text.length > 0 && (everyone.checked || recipiants.length > 0 )
+                onClicked: root.chatRoomAdded()
             }
         }
     }
