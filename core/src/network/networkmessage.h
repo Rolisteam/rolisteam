@@ -129,8 +129,9 @@ enum Action
 
     // InstantMessageCategory
     InstantMessageAction= 0,
+    AddChatroomAction,
+    RemoveChatroomAction,
     UpdateChatAction,
-    DelChatAction,
 
     // MusicCategory
     StopSong= 0,

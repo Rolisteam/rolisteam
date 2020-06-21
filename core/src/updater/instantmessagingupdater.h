@@ -34,9 +34,11 @@ class InstantMessagingUpdater : public QObject
 public:
     explicit InstantMessagingUpdater(QObject* parent= nullptr);
 
-    void addChatRoom(InstantMessaging::ChatRoom* chat);
+    void addChatRoom(InstantMessaging::ChatRoom* chat, bool remote= false);
     static void sendMessage();
+    static void openChat(InstantMessaging::ChatRoom* chat);
     static void closeChat();
+    static void readChatroomToModel(InstantMessaging::InstantMessagingModel* model, NetworkMessageReader* msg);
 
     template <typename T>
     void sendOffChatRoomChanges(InstantMessaging::ChatRoom* chatRoom, const QString& property);

@@ -36,10 +36,60 @@ namespace InstantMessaging
 {
 InstantMessagingUpdater::InstantMessagingUpdater(QObject* parent) : QObject(parent) {}
 
-void InstantMessagingUpdater::addChatRoom(InstantMessaging::ChatRoom* room)
+void InstantMessagingUpdater::openChat(InstantMessaging::ChatRoom* chat)
+{
+    if(!chat)
+        return;
+
+    NetworkMessageWriter msg(NetMsg::InstantMessageCategory, NetMsg::AddChatroomAction);
+    auto ids= chat->recipiants()->recipiantIds();
+    if(chat->type() == ChatRoom::EXTRA)
+    {
+        msg.setRecipientList(ids, NetworkMessage::OneOrMany);
+    }
+    msg.uint8(chat->type());
+    msg.string8(chat->uuid());
+    msg.string32(chat->title());
+
+    if(chat->type() == ChatRoom::EXTRA)
+    {
+        msg.uint16(ids.size());
+        std::for_each(ids.begin(), ids.end(), [&msg](const QString& id) { msg.string16(id); });
+    }
+
+    msg.sendToServer();
+}
+
+void InstantMessagingUpdater::readChatroomToModel(InstantMessaging::InstantMessagingModel* model,
+                                                  NetworkMessageReader* msg)
+{
+    if(!model || !msg)
+        return;
+
+    auto type= static_cast<ChatRoom::ChatRoomType>(msg->uint8());
+    auto uuid= msg->string8();
+    auto title= msg->string32();
+    auto idCount= msg->uint16();
+    QStringList ids;
+    for(int i= 0; i < idCount; ++i)
+    {
+        ids << msg->string16();
+    }
+    if(type == ChatRoom::EXTRA)
+        model->insertExtraChatroom(title, ids, true, uuid);
+    else
+        model->insertGlobalChatroom(title, uuid);
+}
+
+void InstantMessagingUpdater::addChatRoom(InstantMessaging::ChatRoom* room, bool remote)
 {
     if(nullptr == room)
         return;
+
+    if(!remote
+       && (room->type() == InstantMessaging::ChatRoom::EXTRA
+           || (room->type() == InstantMessaging::ChatRoom::GLOBAL && room->uuid() != QStringLiteral("global"))))
+        openChat(room);
 
     connect(room, &InstantMessaging::ChatRoom::titleChanged, this,
             [this, room]() { sendOffChatRoomChanges<QString>(room, QStringLiteral("title")); });
@@ -48,7 +98,7 @@ void InstantMessagingUpdater::addChatRoom(InstantMessaging::ChatRoom* room)
     connect(model, &InstantMessaging::MessageModel::messageAdded, this, [room](MessageInterface* message) {
         auto type= room->type();
         NetworkMessageWriter msg(NetMsg::InstantMessageCategory, NetMsg::InstantMessageAction);
-        if(type != ChatRoom::GLOBAL && room->uuid() != QStringLiteral("Global"))
+        if(type != ChatRoom::GLOBAL && room->uuid() != QStringLiteral("global"))
         {
             auto model= room->recipiants();
             if(!model)
@@ -93,9 +143,9 @@ void InstantMessagingUpdater::addMessageToModel(InstantMessaging::InstantMessagi
     model->addMessageIntoChatroom(imMessage, type, uuid);
 }
 
-void InstantMessaging::InstantMessagingUpdater::sendMessage() {}
+void InstantMessagingUpdater::sendMessage() {}
 
-void InstantMessaging::InstantMessagingUpdater::closeChat() {}
+void InstantMessagingUpdater::closeChat() {}
 
 template <typename T>
 void InstantMessagingUpdater::sendOffChatRoomChanges(ChatRoom* chatRoom, const QString& property)

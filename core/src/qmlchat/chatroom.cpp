@@ -25,8 +25,12 @@
 namespace InstantMessaging
 {
 
-ChatRoom::ChatRoom(ChatRoomType type, const QString& id, QObject* parent)
-    : QObject(parent), m_recipiants(new FilteredPlayerModel), m_messageModel(new MessageModel), m_type(type), m_uuid(id)
+ChatRoom::ChatRoom(ChatRoomType type, const QStringList& recipiants, const QString& id, QObject* parent)
+    : QObject(parent)
+    , m_recipiants(new FilteredPlayerModel(recipiants))
+    , m_messageModel(new MessageModel)
+    , m_type(type)
+    , m_uuid(id)
 {
     connect(m_messageModel.get(), &MessageModel::localIdChanged, this, &ChatRoom::localIdChanged);
 }
