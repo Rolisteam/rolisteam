@@ -59,18 +59,19 @@ public:
 public slots:
     void insertGlobalChatroom(const QString& title, const QString& uuid= QString());
     void insertIndividualChatroom(const QString& playerId, const QString& playerName);
-    void insertCustomChatroom(const QStringList& playerIds);
+    void insertExtraChatroom(const QString& title, const QStringList& playerIds, bool remote,
+                             const QString& uuid= QString());
     void setLocalId(const QString& id);
 
     void addMessageIntoChatroom(MessageInterface*, ChatRoom::ChatRoomType type, const QString& uuid);
     void removePlayer(const QString& id);
 
 signals:
-    void chatRoomCreated(InstantMessaging::ChatRoom*);
+    void chatRoomCreated(InstantMessaging::ChatRoom*, bool remote= false);
     void localIdChanged(QString);
 
 private:
-    // void insertChatroom(ChatRoom::Type);
+    void addChatRoom(ChatRoom* room, bool remote= false);
 
 private:
     std::vector<std::unique_ptr<ChatRoom>> m_chats;
