@@ -46,6 +46,7 @@ class InstantMessagingController : public AbstractControllerInterface, public Ne
     Q_PROPERTY(PlayerModel* playerModel READ playerModel CONSTANT)
     Q_PROPERTY(LocalPersonModel* localPersonModel READ localPersonModel CONSTANT)
     Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
+    Q_PROPERTY(bool nightMode READ nightMode WRITE setNightMode NOTIFY nightModeChanged)
 public:
     explicit InstantMessagingController(PlayerModel* player, QObject* parent= nullptr);
     virtual ~InstantMessagingController();
@@ -54,6 +55,7 @@ public:
     PlayerModel* playerModel() const;
     LocalPersonModel* localPersonModel() const;
     QString localId() const;
+    bool nightMode() const;
 
     void setGameController(GameController*) override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
@@ -65,10 +67,14 @@ public slots:
     void splitScreen();
     void setLocalId(const QString& id);
     void addExtraChatroom(const QString& title, bool everyone, const QVariantList& recipiant);
+    void setNightMode(bool mode);
+    void openLink(const QString& link);
 
 signals:
     void createdChatWindow(InstantMessaging::FilterInstantMessagingModel* model);
     void localIdChanged(QString);
+    void nightModeChanged(bool);
+    void openWebPage(QString);
 
 private:
     std::unique_ptr<InstantMessaging::InstantMessagingModel> m_model;
@@ -76,6 +82,8 @@ private:
     std::unique_ptr<InstantMessaging::InstantMessagingUpdater> m_updater;
     QPointer<PlayerModel> m_players;
     std::unique_ptr<LocalPersonModel> m_localPersonModel;
+    bool m_nightMode= false;
+    int m_fontSizeFactor= false;
 };
 
 #endif // TEXTMESSAGINGCONTROLLER_H

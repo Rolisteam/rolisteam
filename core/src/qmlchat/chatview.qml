@@ -8,7 +8,11 @@ Item {
     anchors.fill: parent
     property ChatRoom chatRoom: _ctrl.globalChatroom
 
-
+    SideMenu {
+        id: sideMenu
+        height: parent.height
+        edge: Qt.RightEdge
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -22,15 +26,30 @@ Item {
                     model : _ctrl.mainModel
                     TabButton {
                         id: tabButton
-                        text: model.title
-                        ToolButton {
-                            anchors.right: parent.right
-                            anchors.top: parent.top
-                            anchors.bottom: parent.bottom
-                            anchors.margins: 5
-                            text: "^"
-                            ToolTip.text: "detach"
-                            ToolTip.visible: down
+                        property bool current: tabHeader.currentIndex === index
+                        background: Rectangle {
+                            color: tabButton.current ? "white" : model.unread ? "red" : "#242424"
+                        }
+
+                        contentItem: RowLayout {
+                            Label {
+                                text: model.unread ? "%1 (\*)".arg(model.title) : model.title
+                                Layout.fillWidth: true
+                                horizontalAlignment: Qt.AlignHCenter
+                                color: tabButton.current ? "black" : "white"
+                            }
+                            ToolButton {
+                                text: "^"
+                                ToolTip.text: qsTr("detach")
+                                ToolTip.visible: down
+                            }
+                            ToolButton {
+                                anchors.margins: 5
+                                visible: model.closable
+                                text: "X"
+                                ToolTip.text: qsTr("close")
+                                ToolTip.visible: down
+                            }
                         }
                         onClicked: root.chatRoom = model.chatroom
                     }
@@ -48,12 +67,16 @@ Item {
                     }
                 }
             }
+            ToolButton {
+                icon.source: "qrc:/resources/icons/menu-rounded-solid.svg"
+                onClicked: sideMenu.open()
+            }
         }
         SplitView {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.leftMargin: 10
-            Layout.rightMargin: 10
+            Layout.leftMargin: 0
+            Layout.rightMargin: 0
             orientation: Qt.Vertical
 
             ListView {
@@ -65,10 +88,10 @@ Item {
                 verticalLayoutDirection: ListView.BottomToTop
                 delegate: Column {
                     anchors.right: model.local ? parent.right : undefined
-                    spacing: 6
+                    spacing: 0
                     Row {
                         id: messageRow
-                        spacing: 6
+                        spacing: 0
                         anchors.right: model.local ? parent.right : undefined
 
                         Image {
@@ -87,12 +110,18 @@ Item {
                                             listView.width - (!model.local ? avatar.width + messageRow.spacing : 0))
                             height: messageId.implicitHeight + 24
                             color: model.local ? "lightgrey" : "steelblue"
+                            radius: 6
                             Label {
                                 id: messageId
                                 text: model.text
                                 anchors.fill: parent
                                 anchors.margins: 12
                                 wrapMode: Label.Wrap
+                                //readOnly: true
+                                //textFormat: TextEdit.AutoText
+                                //selectByMouse: true
+                                //selectByKeyboard: true
+                                onLinkActivated: _ctrl.openLink(link)
                             }
                         }
                     }
