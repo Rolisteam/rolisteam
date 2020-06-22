@@ -38,6 +38,8 @@ public:
         IdRole,
         TypeRole,
         ChatRole,
+        HasUnreadMessageRole,
+        ClosableRole,
         RecipiantCountRole
     };
 

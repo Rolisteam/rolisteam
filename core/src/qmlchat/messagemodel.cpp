@@ -112,7 +112,6 @@ void MessageModel::setLocalId(const QString& localid)
 void MessageModel::addMessage(const QString& text, const QDateTime& time, const QString& owner, const QString& writerId,
                               MessageInterface::MessageType type)
 {
-    // TODO use factory
     auto msg= InstantMessaging::MessageFactory::createMessage(owner, writerId, time, type);
     msg->setText(text);
     addMessageInterface(msg);
@@ -126,5 +125,8 @@ void MessageModel::addMessageInterface(MessageInterface* msg)
     beginInsertRows(QModelIndex(), 0, 0);
     m_messages.insert(m_messages.begin(), std::move(interface));
     endInsertRows();
+
+    if(msg->owner() != localId())
+        emit unreadMessageChanged();
 }
 } // namespace InstantMessaging

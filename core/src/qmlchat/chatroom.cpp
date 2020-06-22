@@ -33,6 +33,7 @@ ChatRoom::ChatRoom(ChatRoomType type, const QStringList& recipiants, const QStri
     , m_uuid(id)
 {
     connect(m_messageModel.get(), &MessageModel::localIdChanged, this, &ChatRoom::localIdChanged);
+    connect(m_messageModel.get(), &MessageModel::unreadMessageChanged, this, [this]() { setUnreadMessage(true); });
 }
 
 ChatRoom::~ChatRoom()= default;
