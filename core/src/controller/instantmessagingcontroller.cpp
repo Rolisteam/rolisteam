@@ -113,6 +113,17 @@ QString InstantMessagingController::localId() const
     return m_model->localId();
 }
 
+bool InstantMessagingController::nightMode() const
+{
+    return m_nightMode;
+}
+
+void InstantMessagingController::openLink(const QString& link)
+{
+    qDebug() << "open link" << link;
+    emit openWebPage(link);
+}
+
 void InstantMessagingController::setGameController(GameController*) {}
 
 NetWorkReceiver::SendType InstantMessagingController::processMessage(NetworkMessageReader* msg)
@@ -156,6 +167,14 @@ void InstantMessagingController::addExtraChatroom(const QString& title, bool eve
 
         m_model->insertExtraChatroom(title, ids, false);
     }
+}
+
+void InstantMessagingController::setNightMode(bool mode)
+{
+    if(m_nightMode == mode)
+        return;
+    m_nightMode= mode;
+    emit nightModeChanged(m_nightMode);
 }
 
 void InstantMessagingController::addFilterModel()
