@@ -340,6 +340,7 @@
         <file>resources/icons/preview_html.svg</file>
         <file>resources/icons/contact.svg</file>
         <file>resources/icons/menu-rounded-solid.svg</file>
+        <file>resources/sounds/Doorbell.wav</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>

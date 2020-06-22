@@ -20,6 +20,7 @@
 #include "instantmessagingcontroller.h"
 
 #include <QQmlEngine>
+#include <QQuickStyle>
 
 #include "data/localpersonmodel.h"
 #include "data/player.h"
@@ -47,6 +48,8 @@ void registerType()
     qmlRegisterUncreatableType<InstantMessaging::ChatRoom>("InstantMessaging", 1, 0, "ChatRoom",
                                                            "ChatRoom can't be created.");
     qmlRegisterType<InstantMessaging::TextWriterController>("InstantMessaging", 1, 0, "TextWriterController");
+
+    // QQuickStyle::setStyle("Universal");
 }
 
 InstantMessagingController::InstantMessagingController(PlayerModel* model, QObject* parent)

@@ -6,6 +6,7 @@ Drawer {
     width: pane.implicitWidth
     height: pane.implicitHeight
     property alias nightMode: nightSwitch.checked
+    property alias sound: sound.checked
 
     Pane {
         id: pane
@@ -24,7 +25,8 @@ Drawer {
                     text: qsTr("Sound Notification")
                 }
                 Switch {
-
+                    id: sound
+                    checked: true
                 }
             }
 

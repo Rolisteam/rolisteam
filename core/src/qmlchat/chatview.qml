@@ -1,12 +1,20 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import QtMultimedia 5.15
 import InstantMessaging 1.0
 
 Item {
     id: root
     anchors.fill: parent
     property ChatRoom chatRoom: _ctrl.globalChatroom
+
+    SoundEffect {
+        id: effect
+        source: "qrc:/resources/sounds/Doorbell.wav"
+        muted: !sideMenu.sound
+        volume: 1.0
+    }
 
     SideMenu {
         id: sideMenu
@@ -44,7 +52,6 @@ Item {
                                 ToolTip.visible: down
                             }
                             ToolButton {
-                                anchors.margins: 5
                                 visible: model.closable
                                 text: "X"
                                 ToolTip.text: qsTr("close")
@@ -52,6 +59,13 @@ Item {
                             }
                         }
                         onClicked: root.chatRoom = model.chatroom
+                        Connections {
+                            target: model.chatroom
+                            function onUnreadMessageChanged(unread) {
+                                if(unread && !tabButton.current)
+                                    effect.play()
+                            }
+                        }
                     }
                 }
             }
@@ -117,10 +131,6 @@ Item {
                                 anchors.fill: parent
                                 anchors.margins: 12
                                 wrapMode: Label.Wrap
-                                //readOnly: true
-                                //textFormat: TextEdit.AutoText
-                                //selectByMouse: true
-                                //selectByKeyboard: true
                                 onLinkActivated: _ctrl.openLink(link)
                             }
                         }
