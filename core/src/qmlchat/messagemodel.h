@@ -60,6 +60,7 @@ public slots:
 
 signals:
     void messageAdded(MessageInterface* msg);
+    void unreadMessageChanged();
     void localIdChanged(QString);
 
 private:

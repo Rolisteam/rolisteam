@@ -28,6 +28,15 @@
 
 namespace InstantMessaging
 {
+namespace
+{
+
+bool isClosable(ChatRoom* chatroom)
+{
+    return (chatroom->type() == ChatRoom::EXTRA
+            || (chatroom->type() == ChatRoom::GLOBAL && chatroom->uuid() != QStringLiteral("global")));
+}
+} // namespace
 InstantMessagingModel::InstantMessagingModel(QObject* parent) : QAbstractListModel(parent) {}
 
 InstantMessagingModel::~InstantMessagingModel()= default;
@@ -55,7 +64,7 @@ QVariant InstantMessagingModel::data(const QModelIndex& index, int role) const
     if(role == Qt::DisplayRole)
         item= TitleRole;
 
-    std::set<int> map({TitleRole, ChatRole, RecipiantCountRole, IdRole});
+    std::set<int> map({TitleRole, ChatRole, RecipiantCountRole, IdRole, HasUnreadMessageRole, ClosableRole});
 
     if(map.find(item) == map.end())
         return {};
@@ -77,8 +86,14 @@ QVariant InstantMessagingModel::data(const QModelIndex& index, int role) const
     case TypeRole:
         var= chatroom->type();
         break;
+    case HasUnreadMessageRole:
+        var= chatroom->unreadMessage();
+        break;
     case RecipiantCountRole:
         var= chatroom->recipiantCount();
+        break;
+    case ClosableRole:
+        var= isClosable(chatroom);
         break;
     }
 
@@ -87,8 +102,12 @@ QVariant InstantMessagingModel::data(const QModelIndex& index, int role) const
 
 QHash<int, QByteArray> InstantMessagingModel::roleNames() const
 {
-    return QHash<int, QByteArray>(
-        {{TitleRole, "title"}, {ChatRole, "chatroom"}, {IdRole, "id"}, {RecipiantCountRole, "recipiantCount"}});
+    return QHash<int, QByteArray>({{TitleRole, "title"},
+                                   {ChatRole, "chatroom"},
+                                   {IdRole, "id"},
+                                   {ClosableRole, "closable"},
+                                   {HasUnreadMessageRole, "unread"},
+                                   {RecipiantCountRole, "recipiantCount"}});
 }
 
 InstantMessaging::ChatRoom* InstantMessagingModel::globalChatRoom() const
@@ -163,7 +182,9 @@ void InstantMessagingModel::addMessageIntoChatroom(MessageInterface* message, Ch
     if(it == m_chats.end())
         return;
 
+    auto idx= std::distance(m_chats.begin(), it);
     (*it)->addMessageInterface(message);
+    emit dataChanged(index(idx, 0, QModelIndex()), index(idx, 0, QModelIndex()), {HasUnreadMessageRole, TitleRole});
 }
 
 void InstantMessagingModel::removePlayer(const QString& id)
@@ -180,14 +201,6 @@ void InstantMessagingModel::removePlayer(const QString& id)
     beginRemoveRows(QModelIndex(), idx, idx);
     m_chats.erase(it);
     endRemoveRows();
-    // TODO select behaviour after
-
-    /*std::for_each(m_chats.begin(), m_chats.end(), [id](const std::unique_ptr<ChatRoom>& chatRoom) {
-        if(chatRoom->type() == ChatRoom::EXTRA)
-            {
-                chatRoom->removeParticipant
-            }
-    });*/
 }
 
 } // namespace InstantMessaging
