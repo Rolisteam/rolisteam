@@ -22,5 +22,6 @@
         <file>qmlchat/chatview.qml</file>
         <file>qmlchat/InstantMessagingEditText.qml</file>
         <file>qmlchat/AddChatRoomDialog.qml</file>
+        <file>qmlchat/SideMenu.qml</file>
     </qresource>
 </RCC>
