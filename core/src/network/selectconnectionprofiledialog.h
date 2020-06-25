@@ -71,6 +71,7 @@ public slots:
     QString openImage(const QString& path);
     void errorOccurs(QString);
     void checkConnection();
+    void selectPlayerAvatar();
 
 private:
     Ui::SelectConnectionProfileDialog* ui;
