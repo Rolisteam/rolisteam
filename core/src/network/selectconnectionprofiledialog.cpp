@@ -28,6 +28,9 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(GameController* ctr
     connect(ui->m_profileList->selectionModel(), &QItemSelectionModel::currentChanged, this,
             [this](const QModelIndex& selected, const QModelIndex&) { setCurrentProfile(selected); });
     connect(ui->m_profileList, &QListView::doubleClicked, this, &SelectConnectionProfileDialog::connectToIndex);
+    connect(ui->m_playerAvatarAct, &QAction::triggered, this, &SelectConnectionProfileDialog::selectPlayerAvatar);
+
+    ui->m_avatarPlayer->setDefaultAction(ui->m_playerAvatarAct);
 
     ui->m_profileList->setCurrentIndex(m_model->index(0, 0));
     setCurrentProfile(ui->m_profileList->currentIndex());
@@ -165,6 +168,7 @@ void SelectConnectionProfileDialog::updateGUI()
     ui->m_colorBtn->setColor(profile->playerColor());
     m_passChanged= false;
     ui->m_passwordEdit->setText(profile->password());
+    ui->m_playerAvatarAct->setIcon(QIcon(profile->playerAvatar()));
 
     m_characterModel->setProfile(profile);
     /*if(!profile->isGM())
@@ -276,4 +280,27 @@ void SelectConnectionProfileDialog::errorOccurs(QString str)
 {
     ui->m_errorNotification->setStyleSheet("font: 19pt ;\nbackground: rgb(255, 0, 0);\ncolor: rgb(0,0,0);");
     ui->m_errorNotification->setText(str);
+}
+
+void SelectConnectionProfileDialog::selectPlayerAvatar()
+{
+    if(-1 == m_currentProfileIndex)
+        return;
+
+    auto profile= m_model->getProfile(m_currentProfileIndex);
+
+    auto newpath= openImage(profile->playerAvatar());
+
+    if(newpath.isEmpty())
+        return;
+
+    QImage img(newpath);
+
+    if(img.height() != img.width())
+    { // not square
+      // TODO chop picture if it is not square.
+    }
+
+    profile->setPlayerAvatar(newpath);
+    ui->m_playerAvatarAct->setIcon(QIcon(newpath));
 }
