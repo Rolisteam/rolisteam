@@ -47,10 +47,10 @@ PlayersPanel::PlayersPanel(PlayerController* ctrl, QWidget* parent)
     m_ui->m_playerView->setPlayerController(ctrl);
 
     m_ui->m_addBtn->setDefaultAction(m_ui->m_addLocalCharacter);
-    m_ui->m_addLocalCharacter->setIcon(QIcon(":/resources/icons/add_round.png"));
+    m_ui->m_addLocalCharacter->setIcon(QIcon(":/resources/images/add_round.png"));
 
     m_ui->m_removeBtn->setDefaultAction(m_ui->m_removeLocalCharacter);
-    m_ui->m_removeLocalCharacter->setIcon(QIcon(":/resources/icons/delete.png"));
+    m_ui->m_removeLocalCharacter->setIcon(QIcon(":/resources/images/delete.png"));
 
     setAllowedAreas(Qt::AllDockWidgetAreas);
     setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);

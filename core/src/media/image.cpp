@@ -47,7 +47,7 @@ Image::Image(ImageController* ctrl, QWidget* parent)
     connect(m_ctrl, &ImageController::pixmapChanged, this, &Image::initImage);
     connect(m_ctrl, &ImageController::cursorChanged, this, [this]() { m_imageLabel->setCursor(m_ctrl->cursor()); });
 
-    setWindowIcon(QIcon(":/resources/icons/photo.png"));
+    setWindowIcon(QIcon(":/resources/images/photo.png"));
     createActions();
 
     if(m_ctrl->isMovie())
@@ -258,7 +258,7 @@ void Image::createActions()
 {
     m_actionZoomIn= new QAction(tr("Zoom In"), this);
     m_actionZoomIn->setToolTip(tr("increase zoom level"));
-    m_actionZoomIn->setIcon(QIcon(":/resources/icons/zoom-in-32.png"));
+    m_actionZoomIn->setIcon(QIcon(":/resources/images/zoom-in-32.png"));
     connect(m_actionZoomIn, &QAction::triggered, this, [this] { m_ctrl->zoomIn(); });
 
     m_zoomInShort= new QShortcut(QKeySequence(tr("Ctrl++", "Zoom In")), this);
@@ -267,7 +267,7 @@ void Image::createActions()
     m_actionZoomIn->setShortcut(m_zoomInShort->key());
 
     m_actionZoomOut= new QAction(tr("Zoom out"), this);
-    m_actionZoomOut->setIcon(QIcon(":/resources/icons/zoom-out-32.png"));
+    m_actionZoomOut->setIcon(QIcon(":/resources/images/zoom-out-32.png"));
     m_actionZoomOut->setToolTip(tr("Reduce zoom level"));
     connect(m_actionZoomOut, &QAction::triggered, this, [this] { m_ctrl->zoomOut(); });
 

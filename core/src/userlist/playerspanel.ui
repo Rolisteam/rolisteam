@@ -59,7 +59,7 @@
   </widget>
   <action name="m_addLocalCharacter">
    <property name="icon">
-    <iconset theme=":/resources/icons/add.png">
+    <iconset theme=":/resources/images/add.png">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
@@ -68,7 +68,7 @@
   </action>
   <action name="m_removeLocalCharacter">
    <property name="icon">
-    <iconset theme=":/resources/icons/delete.png">
+    <iconset theme=":/resources/images/delete.png">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">

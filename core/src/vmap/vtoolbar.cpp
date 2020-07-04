@@ -89,55 +89,55 @@ void VToolsBar::createActions()
 {
     m_toolsGroup= new QActionGroup(this);
 
-    m_pencilAct= new QAction(QIcon(":/resources/icons/pen.png"), tr("Pen"), m_toolsGroup);
+    m_pencilAct= new QAction(QIcon(":/resources/images/pen.png"), tr("Pen"), m_toolsGroup);
     m_pencilAct->setData(Core::PEN);
 
-    m_lineAct= new QAction(QIcon(":/resources/icons/line.png"), tr("Line"), m_toolsGroup);
+    m_lineAct= new QAction(QIcon(":/resources/images/line.png"), tr("Line"), m_toolsGroup);
     m_lineAct->setData(Core::LINE);
 
-    m_rectAct= new QAction(QIcon(":/resources/icons/emptyrectangle.png"), tr("Empty Rectangle"), m_toolsGroup);
+    m_rectAct= new QAction(QIcon(":/resources/images/emptyrectangle.png"), tr("Empty Rectangle"), m_toolsGroup);
     m_rectAct->setData(Core::EMPTYRECT);
 
-    m_rectFillAct= new QAction(QIcon(":/resources/icons/filledrectangle.png"), tr("filled Rectangle"), m_toolsGroup);
+    m_rectFillAct= new QAction(QIcon(":/resources/images/filledrectangle.png"), tr("filled Rectangle"), m_toolsGroup);
     m_rectFillAct->setData(Core::FILLRECT);
 
-    m_elipseAct= new QAction(QIcon(":/resources/icons/emptyellipse.png"), tr("Empty Ellipse"), m_toolsGroup);
+    m_elipseAct= new QAction(QIcon(":/resources/images/emptyellipse.png"), tr("Empty Ellipse"), m_toolsGroup);
     m_elipseAct->setData(Core::EMPTYELLIPSE);
 
-    m_elipseFillAct= new QAction(QIcon(":/resources/icons/filledellipse.png"), tr("Filled Ellipse"), m_toolsGroup);
+    m_elipseFillAct= new QAction(QIcon(":/resources/images/filledellipse.png"), tr("Filled Ellipse"), m_toolsGroup);
     m_elipseFillAct->setData(Core::FILLEDELLIPSE);
 
-    m_textAct= new QAction(QIcon(":/resources/icons/text.png"), tr("Text"), m_toolsGroup);
+    m_textAct= new QAction(QIcon(":/resources/images/text.png"), tr("Text"), m_toolsGroup);
     m_textAct->setData(Core::TEXT);
 
-    m_handAct= new QAction(QIcon(":/resources/icons/hand.png"), tr("Hand"), m_toolsGroup);
+    m_handAct= new QAction(QIcon(":/resources/images/hand.png"), tr("Hand"), m_toolsGroup);
     m_handAct->setData(Core::HANDLER);
 
-    m_addPCAct= new QAction(QIcon(":/resources/icons/add.png"), tr("Add NPC"), m_toolsGroup);
+    m_addPCAct= new QAction(QIcon(":/resources/images/add.png"), tr("Add NPC"), m_toolsGroup);
     m_addPCAct->setData(Core::NonPlayableCharacter);
 
-    m_ruleAct= new QAction(QIcon(":/resources/icons/rule.png"), tr("Rule"), m_toolsGroup);
+    m_ruleAct= new QAction(QIcon(":/resources/images/rule.png"), tr("Rule"), m_toolsGroup);
     m_ruleAct->setData(Core::RULE);
 
-    m_pathAct= new QAction(QIcon(":/resources/icons/path.png"), tr("Path"), m_toolsGroup);
+    m_pathAct= new QAction(QIcon(":/resources/images/path.png"), tr("Path"), m_toolsGroup);
     m_pathAct->setData(Core::PATH);
-    m_anchorAct= new QAction(QIcon(":/resources/icons/insert-link-2.png"), tr("Anchor"), m_toolsGroup);
+    m_anchorAct= new QAction(QIcon(":/resources/images/insert-link-2.png"), tr("Anchor"), m_toolsGroup);
     m_anchorAct->setData(Core::ANCHOR);
 
-    m_pipette= new QAction(QIcon(":/resources/icons/pipettecursor.png"), tr("Pipette"), m_toolsGroup);
+    m_pipette= new QAction(QIcon(":/resources/images/pipettecursor.png"), tr("Pipette"), m_toolsGroup);
     m_pipette->setData(Core::PIPETTE);
 
-    m_highlighterAct= new QAction(QIcon(":/resources/icons/marker-512.png"), tr("Highlighter"), m_toolsGroup);
+    m_highlighterAct= new QAction(QIcon(":/resources/images/marker-512.png"), tr("Highlighter"), m_toolsGroup);
     m_highlighterAct->setData(Core::HIGHLIGHTER);
 
-    m_bucketAct= new QAction(QIcon(":/resources/icons/000000-paint-bucket-512.png"), tr("Paint Bucket"), m_toolsGroup);
+    m_bucketAct= new QAction(QIcon(":/resources/images/000000-paint-bucket-512.png"), tr("Paint Bucket"), m_toolsGroup);
     m_bucketAct->setData(Core::BUCKET);
 
     m_textWithBorderAct
-        = new QAction(QIcon(":/resources/icons/textwithBorder.png"), tr("Text With Border"), m_toolsGroup);
+        = new QAction(QIcon(":/resources/images/textwithBorder.png"), tr("Text With Border"), m_toolsGroup);
     m_textWithBorderAct->setData(Core::TEXTBORDER);
 
-    m_resetCountAct= new QAction(QIcon(":/resources/icons/chronometre.png"), tr("Reset NPC counter"), this);
+    m_resetCountAct= new QAction(QIcon(":/resources/images/chronometre.png"), tr("Reset NPC counter"), this);
 
     m_pencilAct->setCheckable(true);
     m_lineAct->setCheckable(true);
@@ -279,11 +279,11 @@ void VToolsBar::makeTools()
     m_editionModeCombo= new QComboBox();
 
     m_editionModeCombo->setFrame(false);
-    m_editionModeCombo->addItem(QIcon(":/resources/icons/pen.png"), tr("Normal"),
+    m_editionModeCombo->addItem(QIcon(":/resources/images/pen.png"), tr("Normal"),
                                 static_cast<int>(Core::EditionMode::Painting));
-    m_editionModeCombo->addItem(QIcon(":/resources/icons/mask.png"), tr("Mask"),
+    m_editionModeCombo->addItem(QIcon(":/resources/images/mask.png"), tr("Mask"),
                                 static_cast<int>(Core::EditionMode::Mask));
-    m_editionModeCombo->addItem(QIcon(":/resources/icons/eye.png"), tr("Unmask"),
+    m_editionModeCombo->addItem(QIcon(":/resources/images/eye.png"), tr("Unmask"),
                                 static_cast<int>(Core::EditionMode::Unmask));
 
     connect(m_editionModeCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,

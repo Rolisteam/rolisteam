@@ -32,7 +32,7 @@ void ImagePathEditor::setUi()
 
     m_photoEdit= new QLineEdit();
 
-    m_cleanButton= new QPushButton(QIcon(":/resources/icons/delete.png"), "");
+    m_cleanButton= new QPushButton(QIcon(":/resources/images/delete.png"), "");
 
     hbox->addWidget(m_photoEdit, 1);
     hbox->addWidget(m_photoBrowser);
