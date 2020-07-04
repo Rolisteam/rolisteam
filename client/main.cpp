@@ -30,6 +30,7 @@
 #include <QTranslator>
 #include <QUuid>
 
+#include "common/controller/theme.h"
 #include "data/cleveruri.h"
 #include "data/person.h"
 #include "mainwindow.h"
@@ -150,9 +151,6 @@ int main(int argc, char* argv[])
         }
     }
 
-    // qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
-    // qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
-
     // Settings
     QSettings settings("rolisteam", QString("rolisteam_%1/preferences").arg(version));
     settings.beginGroup("rolisteam/preferences");
@@ -198,6 +196,8 @@ int main(int argc, char* argv[])
     UiWatchdog dog;
     dog.start();
 #endif
+
+    customization::Theme::setPath(":/resources/stylesheet/qml/theme.ini");
 
     // Create the main window
     MainWindow* mainWindow= new MainWindow(app.arguments());
