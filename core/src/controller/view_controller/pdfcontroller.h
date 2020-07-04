@@ -48,6 +48,8 @@ public:
 
 public slots:
     void setZoomFactor(qreal zoom);
+    void zoomIn();
+    void zoomOut();
     void shareImageIntoImage(const QPixmap& image);
     void shareImageIntoMap(const QPixmap& image);
     void shareImageIntoVMap(const QPixmap& image);

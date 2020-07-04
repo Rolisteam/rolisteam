@@ -58,6 +58,16 @@ qreal PdfController::zoomFactor() const
     return m_zoom;
 }
 
+void PdfController::zoomIn()
+{
+    setZoomFactor(m_zoom + 0.02);
+}
+
+void PdfController::zoomOut()
+{
+    setZoomFactor(m_zoom - 0.02);
+}
+
 void PdfController::setData(const QByteArray& data)
 {
     if(data == m_data)

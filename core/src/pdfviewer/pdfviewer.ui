@@ -109,7 +109,7 @@
       <widget class="QLineEdit" name="lineEdit"/>
      </item>
      <item>
-      <widget class="QToolButton" name="toolButton">
+      <widget class="QToolButton" name="m_nextPageBtn">
        <property name="text">
         <string>...</string>
        </property>
