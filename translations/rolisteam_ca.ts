@@ -99,6 +99,24 @@
     </message>
 </context>
 <context>
+    <name>AddChatRoomDialog</name>
+    <message>
+        <location filename="../core/src/qmlchat/AddChatRoomDialog.qml" line="24"/>
+        <source>Title</source>
+        <translation type="unfinished">Títol</translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/AddChatRoomDialog.qml" line="33"/>
+        <source>Everybody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/AddChatRoomDialog.qml" line="80"/>
+        <source>Add Chatroom</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AnnounceDocumentDialog</name>
     <message>
         <location filename="../core/src/sharededitor/announcedocumentdialog.ui" line="14"/>
@@ -737,6 +755,34 @@ tipus: %7
     </message>
 </context>
 <context>
+    <name>ChatView</name>
+    <message>
+        <location filename="../core/src/qmlchat/ChatView.qml" line="43"/>
+        <source>Add chatroom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/ChatView.qml" line="47"/>
+        <source>Split view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/ChatView.qml" line="54"/>
+        <source>Detach current</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/ChatView.qml" line="58"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/ChatView.qml" line="90"/>
+        <source>close</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ChatWindow</name>
     <message>
         <location filename="../core/src/chat/chatwindow.cpp" line="160"/>
@@ -953,7 +999,7 @@ tipus: %7
 <context>
     <name>ContentController</name>
     <message>
-        <location filename="../core/src/controller/contentcontroller.cpp" line="54"/>
+        <location filename="../core/src/controller/contentcontroller.cpp" line="59"/>
         <source>Unknown</source>
         <translation type="unfinished">Desconegut</translation>
     </message>
@@ -1632,21 +1678,40 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>InstantMessaging::InstantMessagingModel</name>
     <message>
-        <location filename="../core/src/qmlchat/instantmessagingmodel.cpp" line="31"/>
+        <source>Global</source>
+        <translation type="obsolete">Global</translation>
+    </message>
+</context>
+<context>
+    <name>InstantMessagingController</name>
+    <message>
+        <location filename="../core/src/controller/instantmessagingcontroller.cpp" line="102"/>
         <source>Global</source>
         <translation type="unfinished">Global</translation>
     </message>
 </context>
 <context>
+    <name>InstantMessagingEditText</name>
+    <message>
+        <location filename="../core/src/qmlchat/InstantMessagingEditText.qml" line="137"/>
+        <source>send</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>InstantMessagingView</name>
     <message>
-        <location filename="../core/src/qmlchat/instantmessagingview.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Formulari</translation>
+        <translation type="obsolete">Formulari</translation>
     </message>
     <message>
-        <location filename="../core/src/qmlchat/instantmessagingview.cpp" line="49"/>
+        <location filename="../core/src/qmlchat/instantmessagingview.cpp" line="60"/>
         <source>Instant Messaging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/instantmessagingview.ui" line="14"/>
+        <source>InstantMessaging</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2090,12 +2155,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1604"/>
+        <location filename="../client/mainwindow.cpp" line="1601"/>
         <source>unknown</source>
         <translation>desconegut</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="640"/>
+        <location filename="../client/mainwindow.cpp" line="637"/>
         <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;%2&quot;&gt;%2&lt;/a&gt;</source>
         <translation>La %1 pàgina de donacions pot ser trobada a:&lt;br&gt; &lt;a href=&quot;https://liberapay.com/Rolisteam/donate&quot;&gt;%2&lt;/a&gt;</translation>
     </message>
@@ -2108,42 +2173,42 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Obrir mapa</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1504"/>
+        <location filename="../client/mainwindow.cpp" line="1501"/>
         <source>Connected</source>
         <translation>Connectat</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1504"/>
+        <location filename="../client/mainwindow.cpp" line="1501"/>
         <source>Not Connected</source>
         <translation>No connectat</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1505"/>
+        <location filename="../client/mainwindow.cpp" line="1502"/>
         <source>Server</source>
         <translation>Servidor</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1505"/>
+        <location filename="../client/mainwindow.cpp" line="1502"/>
         <source>Client</source>
         <translation>Client</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1506"/>
+        <location filename="../client/mainwindow.cpp" line="1503"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1506"/>
+        <location filename="../client/mainwindow.cpp" line="1503"/>
         <source>Player</source>
         <translation>Jugador</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="767"/>
+        <location filename="../client/mainwindow.cpp" line="764"/>
         <source>Open scenario</source>
         <translation>Obrir escenari</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="800"/>
+        <location filename="../client/mainwindow.cpp" line="797"/>
         <source>Save Scenario as</source>
         <translation>Desar i anomenar escenari com</translation>
     </message>
@@ -2162,7 +2227,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">%1 no s’ha pogut obrir (saveStory - MainWindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="246"/>
+        <location filename="../client/mainwindow.cpp" line="243"/>
         <source>ToolBox</source>
         <translation>Caixa d’eines</translation>
     </message>
@@ -2249,7 +2314,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../client/mainwindow.ui" line="229"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="418"/>
-        <location filename="../client/mainwindow.cpp" line="704"/>
+        <location filename="../client/mainwindow.cpp" line="701"/>
         <source>Quit</source>
         <translation>Sortir</translation>
     </message>
@@ -2288,11 +2353,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="447"/>
         <source>Chat</source>
         <translation>Converses</translation>
-    </message>
-    <message>
-        <location filename="../client/mainwindow.ui" line="151"/>
-        <source>GM&#xa0;ToolBoxes</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../client/mainwindow.ui" line="197"/>
@@ -2539,6 +2599,11 @@ p, li { white-space: pre-wrap; }
         <translation>Alt+S</translation>
     </message>
     <message>
+        <location filename="../client/mainwindow.ui" line="151"/>
+        <source>GM ToolBoxes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../client/mainwindow.ui" line="168"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="397"/>
         <source>Current Media</source>
@@ -2760,47 +2825,47 @@ p, li { white-space: pre-wrap; }
         <translation>Segment</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="918"/>
+        <location filename="../client/mainwindow.cpp" line="915"/>
         <source>Help</source>
         <translation>Ajuda</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="957"/>
+        <location filename="../client/mainwindow.cpp" line="954"/>
         <source>Update Notification</source>
         <translation>Actualitzar notificació</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="972"/>
+        <location filename="../client/mainwindow.cpp" line="969"/>
         <source>%1 has not the right version: %2.</source>
         <translation>%1 no té la versió correcta:</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1085"/>
+        <location filename="../client/mainwindow.cpp" line="1082"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Ajustar Rolisteam per utilitzar &lt;port&gt; per la connexió</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1088"/>
+        <location filename="../client/mainwindow.cpp" line="1085"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Ajustar Rolisteam per connectar-se a &lt;server&gt;.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1091"/>
+        <location filename="../client/mainwindow.cpp" line="1088"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation>Definir &lt;role&gt;: GM o PJ</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1093"/>
+        <location filename="../client/mainwindow.cpp" line="1090"/>
         <source>Erase the settings and use the default parameters</source>
         <translation>Eliminar tots els paràmetres i utilitzar paràmetres predeterminats.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1096"/>
+        <location filename="../client/mainwindow.cpp" line="1093"/>
         <source>Define the &lt;username&gt;</source>
         <translation>Definir &lt;nom d’usuari&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1099"/>
+        <location filename="../client/mainwindow.cpp" line="1096"/>
         <source>Remove limit to PDF file size</source>
         <translation>Eliminar el límit de mida de l’arxiu PDF</translation>
     </message>
@@ -2809,7 +2874,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Finalitzar el procés de connexió</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1603"/>
+        <location filename="../client/mainwindow.cpp" line="1600"/>
         <source>Export from %1</source>
         <translation>Exportar des de %1</translation>
     </message>
@@ -2818,27 +2883,27 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Explorador de recursos</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1345"/>
+        <location filename="../client/mainwindow.cpp" line="1342"/>
         <source>Open %1</source>
         <translation>Obrir %1</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="712"/>
+        <location filename="../client/mainwindow.cpp" line="709"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>La connexió s’ha perdut. Es tancarà %1</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="588"/>
+        <location filename="../client/mainwindow.cpp" line="585"/>
         <source>&amp;Redo</source>
         <translation>&amp;Refer</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="589"/>
+        <location filename="../client/mainwindow.cpp" line="586"/>
         <source>&amp;Undo</source>
         <translation>&amp;Desfer</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="639"/>
+        <location filename="../client/mainwindow.cpp" line="636"/>
         <source>Support</source>
         <translation>Suport</translation>
     </message>
@@ -2847,12 +2912,12 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Sense títol</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="714"/>
+        <location filename="../client/mainwindow.cpp" line="711"/>
         <source>Connection lost</source>
         <translation>Connexió perduda</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="720"/>
+        <location filename="../client/mainwindow.cpp" line="717"/>
         <source>Quit %1 </source>
         <translation>Sortir %1 </translation>
     </message>
@@ -2865,8 +2930,8 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Voleu guardar el vostre escenari abans de sortir %1?</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="768"/>
-        <location filename="../client/mainwindow.cpp" line="801"/>
+        <location filename="../client/mainwindow.cpp" line="765"/>
+        <location filename="../client/mainwindow.cpp" line="798"/>
         <source>Scenarios (*.sce)</source>
         <translation>Escenaris (*.sce)</translation>
     </message>
@@ -2877,22 +2942,22 @@ p, li { white-space: pre-wrap; }
         <translation>Sobre Rolisteam</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="919"/>
+        <location filename="../client/mainwindow.cpp" line="916"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>La documentació de %1 pot ser trobada en línia a: &lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="958"/>
+        <location filename="../client/mainwindow.cpp" line="955"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>La versió %1 ha estat llançada. Consulteu  &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt; Lloc de descàrrega &lt;/a&gt; per a informació addicional.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="968"/>
+        <location filename="../client/mainwindow.cpp" line="965"/>
         <source>%1 just joins the game.</source>
         <translation>%1 s’ha unit a la partida.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="978"/>
+        <location filename="../client/mainwindow.cpp" line="975"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 ha deixat la partida.</translation>
     </message>
@@ -3667,12 +3732,16 @@ Port:%2</translation>
         <translation>Color:</translation>
     </message>
     <message>
-        <location filename="../core/src/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="115"/>
         <location filename="../build/core/core_autogen/include/ui_npcmakerwidget.h" line="531"/>
         <location filename="../build/core/network_autogen/include/ui_npcmakerwidget.h" line="531"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_npcmakerwidget.h" line="531"/>
         <source>Initiative&#xa0;Command</source>
         <translation>Ordre d’inici</translation>
+    </message>
+    <message>
+        <location filename="../core/src/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="115"/>
+        <source>Initiative Command</source>
+        <translation type="unfinished">Comandament d’iniciativa</translation>
     </message>
     <message>
         <location filename="../core/src/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui" line="122"/>
@@ -4119,44 +4188,113 @@ Port:%2</translation>
 <context>
     <name>PdfViewer</name>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="117"/>
         <source>Crop Current View</source>
-        <translation>Escapça la visualització actual</translation>
+        <translation type="vanished">Escapça la visualització actual</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="122"/>
         <source>Document to all</source>
-        <translation>Documentar a tots</translation>
+        <translation type="vanished">Documentar a tots</translation>
     </message>
     <message>
         <source>Export to Map</source>
         <translation type="vanished">Exportar al mapa</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="125"/>
         <source>Export into VMap</source>
-        <translation>Exportar al MapaV</translation>
+        <translation type="vanished">Exportar al MapaV</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="128"/>
         <source>Export as Image</source>
-        <translation>Exportar com a imatge</translation>
+        <translation type="vanished">Exportar com a imatge</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="168"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="142"/>
         <source>Sharing Pdf File</source>
         <translation>Compartint arxiu Pdf</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="169"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="143"/>
         <source>PDF transfert can be really heavy.
 Do you want to continue and share the PDF?</source>
         <translation>La transferència de PDF pot resultar pesada. Vol continuar i compartir el PDF?</translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="183"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="157"/>
         <source>%1 - (PDF)</source>
         <translation>%1 - (PDF)</translation>
+    </message>
+    <message>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="14"/>
+        <source>PdfViewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="26"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="33"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="40"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="47"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="54"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="74"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="84"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="104"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="114"/>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
+    </message>
+    <message>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="156"/>
+        <source>Bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="191"/>
+        <source>Pages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="205"/>
+        <source>Crop View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="217"/>
+        <source>Share</source>
+        <translation type="unfinished">Compartir</translation>
+    </message>
+    <message>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="222"/>
+        <source>To map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="227"/>
+        <source>Image</source>
+        <translation type="unfinished">Imatge</translation>
+    </message>
+    <message>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="235"/>
+        <source>Continuous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="240"/>
+        <source>Zoom In</source>
+        <translation type="unfinished">Apropar el zoom</translation>
+    </message>
+    <message>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="245"/>
+        <source>Zoom Out</source>
+        <translation type="unfinished">Allunyar el zoom</translation>
+    </message>
+    <message>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="250"/>
+        <source>Previous Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/pdfviewer/pdfviewer.ui" line="255"/>
+        <source>Next Page</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4234,12 +4372,12 @@ tipus: %7
         <translation type="unfinished">PJ</translation>
     </message>
     <message>
-        <location filename="../core/src/userlist/playermodel.cpp" line="249"/>
+        <location filename="../core/src/userlist/playermodel.cpp" line="248"/>
         <source>Players List</source>
         <translation type="unfinished">Llista de jugadors</translation>
     </message>
     <message>
-        <location filename="../core/src/userlist/playermodel.cpp" line="754"/>
+        <location filename="../core/src/userlist/playermodel.cpp" line="763"/>
         <source>Dupplicated player or uuid</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4822,7 +4960,6 @@ tipus: %7
         <translation>Missatgeria</translation>
     </message>
     <message>
-        <location filename="../core/src/preferences/preferencesdialogbox.ui" line="135"/>
         <location filename="../build/core/core_autogen/include/ui_preferencesdialogbox.h" line="1231"/>
         <location filename="../build/core/network_autogen/include/ui_preferencesdialogbox.h" line="1231"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_preferencesdialogbox.h" line="1231"/>
@@ -5156,6 +5293,11 @@ tipus: %7
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_preferencesdialogbox.h" line="1226"/>
         <source>Map</source>
         <translation>Mapa</translation>
+    </message>
+    <message>
+        <location filename="../core/src/preferences/preferencesdialogbox.ui" line="135"/>
+        <source>Item Highlight Color</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/src/preferences/preferencesdialogbox.ui" line="326"/>
@@ -5515,7 +5657,7 @@ tipus: %7
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../client/main.cpp" line="109"/>
+        <location filename="../client/main.cpp" line="110"/>
         <location filename="../core/src/network/connectionprofile.cpp" line="7"/>
         <location filename="../core/src/network/main.cpp" line="91"/>
         <location filename="../core/src/undoCmd/addfieldcommand.cpp" line="84"/>
@@ -5596,13 +5738,13 @@ tipus: %7
 </translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1102"/>
+        <location filename="../client/mainwindow.cpp" line="1099"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation>Direcció a l&apos;arxiu de traducció:
 &lt;translationfile&gt;</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1105"/>
+        <location filename="../client/mainwindow.cpp" line="1102"/>
         <source>Define URL to connect to server: &lt;url&gt;</source>
         <translation>Definir URL per a connectar-se al servidor: &lt;url&gt;</translation>
     </message>
@@ -5625,7 +5767,7 @@ tipus: %7
         <translation type="vanished">Mapa</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="267"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="271"/>
         <source>Vectorial Map</source>
         <translation>Mapa vectorial</translation>
     </message>
@@ -5634,12 +5776,12 @@ tipus: %7
         <translation type="vanished">Converses</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="269"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="273"/>
         <source>Picture</source>
         <translation>Imatge</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="270"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="274"/>
         <source>Online Picture</source>
         <translation>Imatge en línia</translation>
     </message>
@@ -5649,7 +5791,7 @@ tipus: %7
         <translation>Text</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="272"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="276"/>
         <source>Charecter Sheet</source>
         <translation>Full de personatge</translation>
     </message>
@@ -5666,22 +5808,22 @@ tipus: %7
         <translation type="vanished">Llista de cançons</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="275"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="279"/>
         <source>Shared Notes</source>
         <translation>Notes compartides</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="226"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="228"/>
         <source>Character Sheets files  (%1)</source>
         <translation>Arxius de Fulls de personatge (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="230"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="232"/>
         <source>Supported Image formats (%1)</source>
         <translation>Formats d’imatge compatibles (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="234"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="236"/>
         <source>Supported Text Files (%1)</source>
         <translation>Arxius de text compatibles (%1)</translation>
     </message>
@@ -5694,63 +5836,63 @@ tipus: %7
         <translation type="vanished">Formats d&apos;àudio compatibles (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="242"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="244"/>
         <source>Supported Shared Note formats (%1)</source>
         <translation>Formats de notes compartides compatibles (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="246"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="248"/>
         <source>Supported WebPage (%1)</source>
         <translation>Llocs web compatibles (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="250"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="253"/>
         <source>Pdf File (%1)</source>
         <translation>Arxiu pdf (%1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="253"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="257"/>
         <source>Vectorial Map (%1)</source>
         <translation>Mapa vectorial (% 1)</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="271"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="275"/>
         <source>Minutes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="277"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="282"/>
         <source>Pdf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="278"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="284"/>
         <source>Webview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="309"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="315"/>
         <source>Internal</source>
         <translation>Intern</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="309"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="315"/>
         <source>Linked</source>
         <translation>Enllaçat</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="314"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="320"/>
         <source>Closed</source>
         <translation>Tancat</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="314"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="320"/>
         <location filename="../core/src/vmap/vmapframe.cpp" line="36"/>
         <source>Hidden</source>
         <translation>Amagat</translation>
     </message>
     <message>
-        <location filename="../core/src/data/cleveruri.cpp" line="314"/>
+        <location filename="../core/src/data/cleveruri.cpp" line="320"/>
         <source>Displayed</source>
         <translation>Mostrat</translation>
     </message>
@@ -6437,7 +6579,7 @@ Més informació a: %1</translation>
         <translation>Jugador</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="167"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="195"/>
         <location filename="../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h" line="363"/>
         <location filename="../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h" line="363"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h" line="363"/>
@@ -6445,7 +6587,7 @@ Més informació a: %1</translation>
         <translation>Nom: </translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="174"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="202"/>
         <location filename="../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h" line="364"/>
         <location filename="../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h" line="364"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h" line="364"/>
@@ -6453,7 +6595,7 @@ Més informació a: %1</translation>
         <translation>Color: </translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="199"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="227"/>
         <location filename="../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h" line="366"/>
         <location filename="../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h" line="366"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h" line="366"/>
@@ -6529,18 +6671,19 @@ Més informació a: %1</translation>
         <translation>Ser l’amfitrió</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="209"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="237"/>
         <source>Characters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="256"/>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="263"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="177"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="284"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="291"/>
         <source>...</source>
         <translation type="unfinished">...</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="321"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="349"/>
         <location filename="../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h" line="378"/>
         <location filename="../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h" line="378"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h" line="378"/>
@@ -6548,7 +6691,7 @@ Més informació a: %1</translation>
         <translation>Perfil nou</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="335"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="363"/>
         <location filename="../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h" line="380"/>
         <location filename="../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h" line="380"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h" line="380"/>
@@ -6556,7 +6699,7 @@ Més informació a: %1</translation>
         <translation>Suprimir</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="338"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="366"/>
         <location filename="../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h" line="383"/>
         <location filename="../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h" line="383"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h" line="383"/>
@@ -6564,8 +6707,8 @@ Més informació a: %1</translation>
         <translation>Suprimir perfil sel·leccionar</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="365"/>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="417"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="393"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="445"/>
         <location filename="../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h" line="386"/>
         <location filename="../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h" line="386"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h" line="386"/>
@@ -6573,7 +6716,7 @@ Més informació a: %1</translation>
         <translation>Connectar</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="372"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="400"/>
         <location filename="../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h" line="388"/>
         <location filename="../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h" line="388"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h" line="388"/>
@@ -6581,7 +6724,7 @@ Més informació a: %1</translation>
         <translation>Mode ‘fora de línia’</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="375"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="403"/>
         <location filename="../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h" line="390"/>
         <location filename="../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h" line="390"/>
         <location filename="../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h" line="390"/>
@@ -6589,27 +6732,32 @@ Més informació a: %1</translation>
         <translation>Cancel·lar</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="403"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="431"/>
         <source>New Character</source>
         <translation type="unfinished">Personatge nou</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="412"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="440"/>
         <source>Remove character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="422"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="450"/>
         <source>stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="190"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.ui" line="455"/>
+        <source>playerAvatar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="194"/>
         <source>Remove Current Profile</source>
         <translation>Suprimeix perfil actual</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="191"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="195"/>
         <source>Do you really want to remove %1 from your connection list ?</source>
         <translation>Esteu segur de suprimir %1 de la vostra llista de connexió?</translation>
     </message>
@@ -6622,7 +6770,7 @@ Més informació a: %1</translation>
         <translation type="vanished">Desconegut</translation>
     </message>
     <message>
-        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="259"/>
+        <location filename="../core/src/network/selectconnectionprofiledialog.cpp" line="263"/>
         <source>Load Avatar</source>
         <translation>Carregar avatar</translation>
     </message>
@@ -7242,6 +7390,24 @@ Més informació a: %1</translation>
         <location filename="../core/src/data/shortcutmodel.cpp" line="94"/>
         <source>Key</source>
         <translation>Clau</translation>
+    </message>
+</context>
+<context>
+    <name>SideMenu</name>
+    <message>
+        <location filename="../core/src/qmlchat/SideMenu.qml" line="17"/>
+        <source>Night Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/SideMenu.qml" line="26"/>
+        <source>Sound Notification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/src/qmlchat/SideMenu.qml" line="35"/>
+        <source>Font size</source>
+        <translation type="unfinished">Mida de la font</translation>
     </message>
 </context>
 <context>
@@ -8078,7 +8244,7 @@ Vol desar els canvis?</translation>
         <translation>Formulari</translation>
     </message>
     <message>
-        <location filename="../core/src/webview/webview.cpp" line="124"/>
+        <location filename="../core/src/webview/webview.cpp" line="123"/>
         <source>%1 - WebPage</source>
         <translation>%1 - Lloc web</translation>
     </message>
@@ -8152,7 +8318,7 @@ Vol desar els canvis?</translation>
         <translation type="obsolete">Deixar de compartir</translation>
     </message>
     <message>
-        <location filename="../core/src/widgets/workspace.cpp" line="88"/>
+        <location filename="../core/src/widgets/workspace.cpp" line="94"/>
         <source>Instant Messging</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8208,19 +8374,8 @@ Vol desar els canvis?</translation>
 <context>
     <name>chatview</name>
     <message>
-        <location filename="../core/src/qmlchat/chatview.qml" line="67"/>
         <source>Title</source>
-        <translation type="unfinished">Títol</translation>
-    </message>
-    <message>
-        <location filename="../core/src/qmlchat/chatview.qml" line="76"/>
-        <source>Everybody</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/src/qmlchat/chatview.qml" line="268"/>
-        <source>send</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Títol</translation>
     </message>
 </context>
 <context>
