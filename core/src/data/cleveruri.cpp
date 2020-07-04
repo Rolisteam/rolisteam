@@ -28,8 +28,8 @@
 #include "preferences/preferencesmanager.h"
 
 /////////////////
-// CleverUri       {Core::SONG, ":/resources/icons/audiofile.svg"},{Core::CHAT,
-// ":/resources/icons/scenario.png"},{CleverURI::SONGLIST, ":/resources/icons/playlist.svg"}
+// CleverUri       {Core::SONG, ":/resources/images/audiofile.svg"},{Core::CHAT,
+// ":/resources/images/scenario.png"},{CleverURI::SONGLIST, ":/resources/images/playlist.svg"}
 /////////////////
 
 QStringList CleverURI::m_typeToPreferenceDirectory
@@ -62,13 +62,15 @@ QString CleverURI::typeToIconPath(Core::ContentType type)
 {
     auto hash= QHash<Core::ContentType, QString>({
         {Core::ContentType::VECTORIALMAP, ":/vmap.png"},
-        {Core::ContentType::PICTURE, ":/resources/icons/photo.png"},
-        {Core::ContentType::ONLINEPICTURE, ":/resources/icons/photo.png"},
+        {Core::ContentType::PICTURE, ":/resources/images/photo.png"},
+        {Core::ContentType::ONLINEPICTURE, ":/resources/images/photo.png"},
         {Core::ContentType::NOTES, ":/notes.png"},
-        {Core::ContentType::CHARACTERSHEET, ":/resources/icons/treeview.png"},
-        {Core::ContentType::SHAREDNOTE, ":/resources/icons/sharedEditor.png"},
-        {Core::ContentType::WEBVIEW, ":/resources/icons/webPage.svg"},
-        {Core::ContentType::PDF, ":/resources/icons/pdfLogo.png"},
+        {Core::ContentType::CHARACTERSHEET, ":/resources/images/treeview.png"},
+        {Core::ContentType::SHAREDNOTE, ":/resources/images/sharedEditor.png"},
+        {Core::ContentType::WEBVIEW, ":/resources/images/webPage.svg"},
+#ifdef WITH_PDF
+        {Core::ContentType::PDF, ":/resources/images/pdfLogo.png"},
+#endif
     });
     return hash.value(type);
 }
@@ -246,9 +248,11 @@ QString CleverURI::getFilterForType(Core::ContentType type) // static
         filterType= QObject::tr("Supported WebPage (%1)")
                         .arg(preferences->value("WebPageFilter", "*.html *.xhtml *.htm").toString());
         break;
+#ifdef WITH_PDF
     case Core::ContentType::PDF:
         filterType= QObject::tr("Pdf File (%1)").arg(preferences->value("PdfFileFilter", "*.pdf").toString());
         break;
+#endif
     case Core::ContentType::VECTORIALMAP:
         filterType= QObject::tr("Vectorial Map (%1)").arg(preferences->value("VictorialFilter", "*.vmap").toString());
         break;
@@ -274,7 +278,9 @@ QString CleverURI::typeToString(Core::ContentType type)
     // names.insert(Core::ContentType::SONGLIST, QObject::tr("Song List"));
     names.insert(Core::ContentType::SHAREDNOTE, QObject::tr("Shared Notes"));
     // names.insert(Core::ContentType::TOKEN, QObject::tr("NPC Token"));
+#ifdef WITH_PDF
     names.insert(Core::ContentType::PDF, QObject::tr("Pdf"));
+#endif
     names.insert(Core::ContentType::WEBVIEW, QObject::tr("Webview"));
 
     return names.value(type);

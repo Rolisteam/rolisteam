@@ -134,7 +134,7 @@
   <action name="m_promoteAction">
    <property name="icon">
     <iconset resource="../../rolisteam.qrc">
-     <normaloff>:/resources/icons/go-up.png</normaloff>:/resources/icons/go-up.png</iconset>
+     <normaloff>:/resources/images/go-up.png</normaloff>:/resources/images/go-up.png</iconset>
    </property>
    <property name="text">
     <string>Promote</string>
@@ -143,7 +143,7 @@
   <action name="m_demoteAction">
    <property name="icon">
     <iconset resource="../../rolisteam.qrc">
-     <normaloff>:/resources/icons/go-down.png</normaloff>:/resources/icons/go-down.png</iconset>
+     <normaloff>:/resources/images/go-down.png</normaloff>:/resources/images/go-down.png</iconset>
    </property>
    <property name="text">
     <string>Demote</string>

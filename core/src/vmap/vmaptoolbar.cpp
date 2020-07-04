@@ -32,7 +32,7 @@ VmapToolBar::~VmapToolBar() {}
 
 void VmapToolBar::setupUi()
 {
-    m_showGridAct= new QAction(QIcon(":/resources/icons/grid.png"), tr("Show Grid"), this);
+    m_showGridAct= new QAction(QIcon(":/resources/images/grid.png"), tr("Show Grid"), this);
     m_showGridAct->setToolTip(tr("Show/Hide Grid"));
     m_showGridAct->setCheckable(true);
 

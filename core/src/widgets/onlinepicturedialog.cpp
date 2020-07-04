@@ -43,7 +43,7 @@ OnlinePictureDialog::OnlinePictureDialog(QWidget* parent)
 
     ui->scrollArea->setAlignment(Qt::AlignCenter);
     m_imageViewerLabel= new QLabel(this);
-    m_imageViewerLabel->setPixmap(QPixmap(QString::fromUtf8(":/resources/icons/preview.png")));
+    m_imageViewerLabel->setPixmap(QPixmap(QString::fromUtf8(":/resources/images/preview.png")));
     m_imageViewerLabel->setLineWidth(0);
     m_imageViewerLabel->setFrameStyle(QFrame::NoFrame);
     m_imageViewerLabel->setScaledContents(true);

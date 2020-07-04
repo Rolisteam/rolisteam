@@ -18,7 +18,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../../rolisteam.qrc">
-    <normaloff>:/resources/icons/sharedEditor.png</normaloff>:/resources/icons/sharedEditor.png</iconset>
+    <normaloff>:/resources/images/sharedEditor.png</normaloff>:/resources/images/sharedEditor.png</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
@@ -416,7 +416,7 @@
   <action name="m_refresh">
    <property name="icon">
     <iconset resource="../../../rolisteam.qrc">
-     <normaloff>:/resources/icons/action-rotate.png</normaloff>:/resources/icons/action-rotate.png</iconset>
+     <normaloff>:/resources/images/action-rotate.png</normaloff>:/resources/images/action-rotate.png</iconset>
    </property>
    <property name="text">
     <string>Refresh</string>
@@ -428,7 +428,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../../rolisteam.qrc">
-     <normaloff>:/resources/icons/preview_markdown.svg</normaloff>:/resources/icons/preview_markdown.svg</iconset>
+     <normaloff>:/resources/images/preview_markdown.svg</normaloff>:/resources/images/preview_markdown.svg</iconset>
    </property>
    <property name="text">
     <string>Markdown Preview</string>

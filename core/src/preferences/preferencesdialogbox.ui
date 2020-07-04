@@ -1052,7 +1052,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../rolisteam.qrc">
-                  <normaloff>:/resources/icons/add_round.png</normaloff>:/resources/icons/add_round.png</iconset>
+                  <normaloff>:/resources/images/add_round.png</normaloff>:/resources/images/add_round.png</iconset>
                 </property>
                </widget>
               </item>
@@ -1066,7 +1066,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../rolisteam.qrc">
-                  <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
+                  <normaloff>:/resources/images/delete.png</normaloff>:/resources/images/delete.png</iconset>
                 </property>
                </widget>
               </item>
@@ -1080,7 +1080,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../rolisteam.qrc">
-                  <normaloff>:/resources/icons/go-top.png</normaloff>:/resources/icons/go-top.png</iconset>
+                  <normaloff>:/resources/images/go-top.png</normaloff>:/resources/images/go-top.png</iconset>
                 </property>
                </widget>
               </item>
@@ -1094,7 +1094,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../rolisteam.qrc">
-                  <normaloff>:/resources/icons/go-up.png</normaloff>:/resources/icons/go-up.png</iconset>
+                  <normaloff>:/resources/images/go-up.png</normaloff>:/resources/images/go-up.png</iconset>
                 </property>
                </widget>
               </item>
@@ -1108,7 +1108,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../rolisteam.qrc">
-                  <normaloff>:/resources/icons/go-down.png</normaloff>:/resources/icons/go-down.png</iconset>
+                  <normaloff>:/resources/images/go-down.png</normaloff>:/resources/images/go-down.png</iconset>
                 </property>
                </widget>
               </item>
@@ -1122,7 +1122,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="../../rolisteam.qrc">
-                  <normaloff>:/resources/icons/go-bottom.png</normaloff>:/resources/icons/go-bottom.png</iconset>
+                  <normaloff>:/resources/images/go-bottom.png</normaloff>:/resources/images/go-bottom.png</iconset>
                 </property>
                </widget>
               </item>
@@ -1171,7 +1171,7 @@
               </property>
               <property name="icon">
                <iconset resource="../../rolisteam.qrc">
-                <normaloff>:/resources/icons/add_round.png</normaloff>:/resources/icons/add_round.png</iconset>
+                <normaloff>:/resources/images/add_round.png</normaloff>:/resources/images/add_round.png</iconset>
               </property>
              </widget>
             </item>
@@ -1185,7 +1185,7 @@
               </property>
               <property name="icon">
                <iconset resource="../../rolisteam.qrc">
-                <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
+                <normaloff>:/resources/images/delete.png</normaloff>:/resources/images/delete.png</iconset>
               </property>
              </widget>
             </item>
@@ -1199,7 +1199,7 @@
               </property>
               <property name="icon">
                <iconset resource="../../rolisteam.qrc">
-                <normaloff>:/resources/icons/go-top.png</normaloff>:/resources/icons/go-top.png</iconset>
+                <normaloff>:/resources/images/go-top.png</normaloff>:/resources/images/go-top.png</iconset>
               </property>
              </widget>
             </item>
@@ -1213,7 +1213,7 @@
               </property>
               <property name="icon">
                <iconset resource="../../rolisteam.qrc">
-                <normaloff>:/resources/icons/go-up.png</normaloff>:/resources/icons/go-up.png</iconset>
+                <normaloff>:/resources/images/go-up.png</normaloff>:/resources/images/go-up.png</iconset>
               </property>
              </widget>
             </item>
@@ -1227,7 +1227,7 @@
               </property>
               <property name="icon">
                <iconset resource="../../rolisteam.qrc">
-                <normaloff>:/resources/icons/go-down.png</normaloff>:/resources/icons/go-down.png</iconset>
+                <normaloff>:/resources/images/go-down.png</normaloff>:/resources/images/go-down.png</iconset>
               </property>
              </widget>
             </item>
@@ -1241,7 +1241,7 @@
               </property>
               <property name="icon">
                <iconset resource="../../rolisteam.qrc">
-                <normaloff>:/resources/icons/go-bottom.png</normaloff>:/resources/icons/go-bottom.png</iconset>
+                <normaloff>:/resources/images/go-bottom.png</normaloff>:/resources/images/go-bottom.png</iconset>
               </property>
              </widget>
             </item>

@@ -18,7 +18,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../rolisteam.qrc">
-    <normaloff>:/resources/logo/500-symbole.png</normaloff>:/resources/logo/500-symbole.png</iconset>
+    <normaloff>:/resources/images/logo/500-symbole.png</normaloff>:/resources/images/logo/500-symbole.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -48,7 +48,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../../rolisteam.qrc">:/resources/logo/1500-rolisteam.png</pixmap>
+        <pixmap resource="../../rolisteam.qrc">:/resources/images/logo/1500-rolisteam.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
