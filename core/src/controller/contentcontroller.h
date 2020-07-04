@@ -74,7 +74,9 @@ public:
     CharacterSheetMediaController* sheetCtrl() const;
     WebpageMediaController* webPageCtrl() const;
     SharedNoteMediaController* sharedCtrl() const;
+#ifdef WITH_PDF
     PdfMediaController* pdfCtrl() const;
+#endif
     NoteMediaController* noteCtrl() const;
 
     std::vector<MediaManagerBase*> mediaManagers() const;
@@ -138,7 +140,9 @@ private:
     std::unique_ptr<CharacterSheetMediaController> m_sheetMediaController;
     std::unique_ptr<WebpageMediaController> m_webPageMediaController;
     std::unique_ptr<SharedNoteMediaController> m_sharedNoteMediaController;
+#ifdef WITH_PDF
     std::unique_ptr<PdfMediaController> m_pdfMediaController;
+#endif
     std::unique_ptr<NoteMediaController> m_noteMediaController;
 
     PreferencesManager* m_preferences;
