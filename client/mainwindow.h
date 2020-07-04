@@ -379,7 +379,6 @@ private:
     QString getShortNameFromPath(QString path);
 
 private:
-    Workspace* m_mdiArea= nullptr;
     PlayersPanel* m_playersListWidget= nullptr;
 
     VToolsBar* m_vToolBar;
@@ -422,6 +421,7 @@ private:
     std::unique_ptr<SelectConnectionProfileDialog> m_dialog;
     std::unique_ptr<SessionDock> m_sessionDock;
     std::unique_ptr<QSystemTrayIcon> m_systemTray;
+    std::unique_ptr<Workspace> m_mdiArea;
 };
 
 #endif
