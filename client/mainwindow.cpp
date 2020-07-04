@@ -229,10 +229,10 @@ void MainWindow::setupUi()
     }
 
     // setAnimated(false);
-    m_mdiArea
-        = new Workspace(m_gameController->contentController(), m_gameController->instantMessagingController(), this);
-    setCentralWidget(m_mdiArea);
-    connect(m_mdiArea, &Workspace::subWindowActivated, this, &MainWindow::activeWindowChanged);
+    m_mdiArea.reset(
+        new Workspace(m_gameController->contentController(), m_gameController->instantMessagingController()));
+    setCentralWidget(m_mdiArea.get());
+    connect(m_mdiArea.get(), &Workspace::subWindowActivated, this, &MainWindow::activeWindowChanged);
 
     auto vmapController= m_gameController->contentController()->vmapCtrl();
     m_vToolBar= new VToolsBar(vmapController, this);
@@ -545,7 +545,7 @@ void MainWindow::linkActionToMenu()
     m_ui->m_openPdfAct->setData(static_cast<int>(Core::ContentType::PDF));
 #endif
     m_ui->m_recentFileMenu->setVisible(false);
-    connect(m_ui->m_closeAction, &QAction::triggered, m_mdiArea, &Workspace::closeActiveSub);
+    connect(m_ui->m_closeAction, &QAction::triggered, m_mdiArea.get(), &Workspace::closeActiveSub);
     connect(m_ui->m_saveAction, &QAction::triggered, this, &MainWindow::saveCurrentMedia);
     connect(m_ui->m_saveAllAction, &QAction::triggered, this, &MainWindow::saveAllMediaContainer);
     connect(m_ui->m_saveAsAction, &QAction::triggered, this, &MainWindow::saveCurrentMedia);
@@ -555,9 +555,9 @@ void MainWindow::linkActionToMenu()
 
     // Edition
     // Windows managing
-    connect(m_ui->m_cascadeViewAction, &QAction::triggered, m_mdiArea, &Workspace::cascadeSubWindows);
-    connect(m_ui->m_tabViewAction, &QAction::triggered, m_mdiArea, &Workspace::setTabbedMode);
-    connect(m_ui->m_tileViewAction, &QAction::triggered, m_mdiArea, &Workspace::tileSubWindows);
+    connect(m_ui->m_cascadeViewAction, &QAction::triggered, m_mdiArea.get(), &Workspace::cascadeSubWindows);
+    connect(m_ui->m_tabViewAction, &QAction::triggered, m_mdiArea.get(), &Workspace::setTabbedMode);
+    connect(m_ui->m_tileViewAction, &QAction::triggered, m_mdiArea.get(), &Workspace::tileSubWindows);
 
     connect(m_ui->m_fullScreenAct, &QAction::triggered, this, [=](bool enable) {
         if(enable)
@@ -676,7 +676,7 @@ void MainWindow::updateWorkspace()
 
 void MainWindow::newVMap()
 {
-    MapWizzardDialog mapWizzard(m_mdiArea);
+    MapWizzardDialog mapWizzard(m_mdiArea.get());
     if(mapWizzard.exec())
     {
         auto ctrl= m_gameController->contentController();
