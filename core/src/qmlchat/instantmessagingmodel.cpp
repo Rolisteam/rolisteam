@@ -116,22 +116,23 @@ QString InstantMessagingModel::localId() const
 
 void InstantMessagingModel::insertGlobalChatroom(const QString& title, const QString& uuid)
 {
-    addChatRoom(
-        ChatRoomFactory::createChatRoom(title, QStringList(), uuid, InstantMessaging::ChatRoom::GLOBAL, localId()),
-        !uuid.isEmpty());
+    addChatRoom(ChatRoomFactory::createChatRoom(title, QStringList(), uuid, InstantMessaging::ChatRoom::GLOBAL,
+                                                localId(), this),
+                !uuid.isEmpty());
 }
 
 void InstantMessagingModel::insertIndividualChatroom(const QString& playerId, const QString& playerName)
 {
     addChatRoom(ChatRoomFactory::createChatRoom(playerName, {playerId, localId()}, playerId,
-                                                InstantMessaging::ChatRoom::SINGLEPLAYER, localId()));
+                                                InstantMessaging::ChatRoom::SINGLEPLAYER, localId(), this));
 }
 
 void InstantMessagingModel::insertExtraChatroom(const QString& title, const QStringList& playerIds, bool remote,
                                                 const QString& uuid)
 {
-    addChatRoom(ChatRoomFactory::createChatRoom(title, playerIds, uuid, InstantMessaging::ChatRoom::EXTRA, localId()),
-                remote);
+    addChatRoom(
+        ChatRoomFactory::createChatRoom(title, playerIds, uuid, InstantMessaging::ChatRoom::EXTRA, localId(), this),
+        remote);
 }
 
 void InstantMessagingModel::addChatRoom(ChatRoom* room, bool remote)

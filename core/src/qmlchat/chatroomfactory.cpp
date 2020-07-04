@@ -21,13 +21,16 @@
 
 namespace InstantMessaging
 {
-ChatRoom* ChatRoomFactory::createChatRoom(const QString& title, const QStringList& list, const QString& uuid, ChatRoom::ChatRoomType type, const QString& localId)
+ChatRoom* ChatRoomFactory::createChatRoom(const QString& title, const QStringList& list, const QString& uuid,
+                                          ChatRoom::ChatRoomType type, const QString& localId, QObject* parent)
 {
-    ChatRoom* room = nullptr;
+    ChatRoom* room= nullptr;
     if(!uuid.isEmpty())
-        room = new ChatRoom(type, list, uuid);
+        room= new ChatRoom(type, list, uuid);
     else
-        room = new ChatRoom(type, list);
+        room= new ChatRoom(type, list);
+
+    room->setParent(parent);
 
     room->setTitle(title);
     room->setLocalId(localId);
