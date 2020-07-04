@@ -27,6 +27,7 @@
 #include <QPointer>
 #include <QString>
 #include <QWidget>
+#include <memory>
 
 #include "preferences/preferencesmanager.h"
 #include "widgets/workspace.h"
@@ -50,7 +51,6 @@ class PdfViewer;
 class PdfViewer : public MediaContainer
 {
     Q_OBJECT
-
 public:
     PdfViewer(PdfController* ctrl, QWidget* parent= nullptr);
     /**
@@ -66,10 +66,7 @@ public:
     virtual void saveMedia(const QString&);
 
     virtual void putDataIntoCleverUri();
-
     void contextMenuEvent(QContextMenuEvent* event);
-    /*signals:
-        void openImageAs(const QPixmap&, Core::ContentType);*/
 
 protected:
     void makeConnections();
@@ -83,10 +80,10 @@ protected slots:
 
 private:
     Ui::PdfViewer* m_ui= nullptr;
-    QPdfDocument* m_document;
+    std::unique_ptr<QPdfDocument> m_document;
     QPointer<PdfController> m_pdfCtrl;
     std::vector<QAction*> m_cropOption;
-    Overlay* m_overlay= nullptr;
+    std::unique_ptr<Overlay> m_overlay;
 };
 
 #endif

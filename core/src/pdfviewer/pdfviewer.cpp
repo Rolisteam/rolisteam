@@ -44,6 +44,7 @@
 PdfViewer::PdfViewer(PdfController* ctrl, QWidget* parent)
     : MediaContainer(ctrl, MediaContainer::ContainerType::PDFContainer, parent)
     , m_ui(new Ui::PdfViewer)
+    , m_document(new QPdfDocument())
     , m_pdfCtrl(ctrl)
 {
     setObjectName("PdfViewer");
@@ -52,12 +53,11 @@ PdfViewer::PdfViewer(PdfController* ctrl, QWidget* parent)
     m_ui->setupUi(wid);
     setWidget(wid);
 
-    m_document= new QPdfDocument();
-    m_ui->m_view->setDocument(m_document);
+    m_ui->m_view->setDocument(m_document.get());
 
     QPdfBookmarkModel* bookmarkModel= new QPdfBookmarkModel(this);
     m_ui->bookmarkView->setModel(bookmarkModel);
-    bookmarkModel->setDocument(m_document);
+    bookmarkModel->setDocument(m_document.get());
 
     makeConnections();
     auto buf= m_pdfCtrl->buffer();
@@ -69,20 +69,50 @@ PdfViewer::~PdfViewer() {}
 
 void PdfViewer::makeConnections()
 {
+    m_ui->m_cropViewAct->setIcon(QIcon(":/resources/images/crop.svg"));
+    m_ui->m_shareAct->setIcon(QIcon(":/resources/images/document-share.svg"));
 
     m_ui->m_cropBtn->setDefaultAction(m_ui->m_cropViewAct);
     m_ui->m_shareBtn->setDefaultAction(m_ui->m_shareAct);
     m_ui->m_exportToMapBtn->setDefaultAction(m_ui->m_exportToMapAct);
     m_ui->m_exportToImageBtn->setDefaultAction(m_ui->m_exportToImage);
     m_ui->m_continuousBtn->setDefaultAction(m_ui->m_continuousAct);
+
+    m_ui->m_zoomInBtn->setDefaultAction(m_ui->m_zoomInAct);
+    m_ui->m_zoomOutBtn->setDefaultAction(m_ui->m_zoomOutAct);
+
+    m_ui->m_nextPageBtn->setDefaultAction(m_ui->m_nextPageAct);
+    m_ui->m_previousPageBtn->setDefaultAction(m_ui->m_previousPageAct);
     // m_ui->m_shareBtn->setDefaultAction(m_ui->m_shareAct);
 
     connect(m_ui->m_continuousAct, &QAction::triggered, this, []() {
         // m_ui->m_view, &QPdfView::setZoomMode;
     });
+
+    connect(m_ui->m_continuousAct, &QAction::triggered, this, [this](bool continuous) {
+        m_ui->m_view->setPageMode(continuous ? QPdfView::MultiPage : QPdfView::SinglePage);
+    });
+
+    connect(m_ui->m_zoomInAct, &QAction::triggered, this, [this]() { m_pdfCtrl->zoomIn(); });
+
+    connect(m_ui->m_zoomOutAct, &QAction::triggered, this, [this]() { m_pdfCtrl->zoomOut(); });
+
+    m_ui->m_continuousAct->setChecked(true);
+    m_ui->m_view->setPageMode(QPdfView::MultiPage);
+
     connect(m_pdfCtrl, &PdfController::zoomFactorChanged, m_ui->m_view, &QPdfView::setZoomFactor);
 
     connect(m_ui->bookmarkView, &QTreeView::activated, this, &PdfViewer::bookmarkSelected);
+
+    auto nav= m_ui->m_view->pageNavigation();
+    connect(nav, &QPdfPageNavigation::currentPageChanged, this, [nav, this](int page) {
+        m_ui->lineEdit->setText(tr("%1/%2", "Current page/ total page").arg(page).arg(nav->pageCount()));
+    });
+    connect(nav, &QPdfPageNavigation::canGoToNextPageChanged, m_ui->m_nextPageAct, &QAction::setEnabled);
+    connect(nav, &QPdfPageNavigation::canGoToPreviousPageChanged, m_ui->m_previousPageAct, &QAction::setEnabled);
+
+    connect(m_ui->m_nextPageAct, &QAction::triggered, nav, &QPdfPageNavigation::goToNextPage);
+    connect(m_ui->m_previousPageAct, &QAction::triggered, nav, &QPdfPageNavigation::goToPreviousPage);
 
     for(auto act : m_cropOption)
     {
@@ -109,7 +139,7 @@ void PdfViewer::makeConnections()
 
 void PdfViewer::exportImage()
 {
-    if(nullptr == m_overlay)
+    if(!m_overlay)
         return;
 
     auto act= qobject_cast<QAction*>(sender());
@@ -131,8 +161,7 @@ void PdfViewer::exportImage()
         break;
     }
 
-    delete m_overlay;
-    m_overlay= nullptr;
+    m_overlay.reset();
     // m_cropCurrentView->setChecked(false);
 }
 
