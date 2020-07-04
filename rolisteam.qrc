@@ -1,359 +1,130 @@
 <RCC>
     <qresource prefix="/">
-        <file>resources/icons/add.png</file>
-        <file>resources/icons/playloop.png</file>
-        <file>resources/icons/chronometre.png</file>
-        <file>resources/icons/pen.png</file>
-        <file>resources/icons/showMap.png</file>
-        <file>resources/icons/folder.png</file>
-        <file>resources/icons/erase.png</file>
-        <file>resources/icons/filledellipse.png</file>
-        <file>resources/icons/emptyellipse.png</file>
-        <file>resources/icons/state.png</file>
-        <file>resources/icons/workspacebackground.jpg</file>
-        <file>resources/icons/playunique.png</file>
-        <file>resources/icons/play.png</file>
-        <file>resources/icons/hand.png</file>
-        <file>resources/icons/hide.png</file>
-        <file>resources/icons/pause.png</file>
-        <file>resources/icons/addcursor.png</file>
-        <file>resources/icons/movecursor.png</file>
-        <file>resources/icons/paintcursor.png</file>
-        <file>resources/icons/statecursor.png</file>
-        <file>resources/icons/orientationcursor.png</file>
-        <file>resources/icons/pipettecursor.png</file>
-        <file>resources/icons/deletecursor.png</file>
-        <file>resources/icons/textcursor.png</file>
-        <file>resources/icons/filledrectangle.png</file>
-        <file>resources/icons/emptyrectangle.png</file>
-        <file>resources/icons/stop.png</file>
-        <file>resources/icons/boldstyle.png</file>
-        <file>resources/icons/italicstyle.png</file>
-        <file>resources/icons/normalstyle.png</file>
-        <file>resources/icons/underlinestyle.png</file>
-        <file>resources/icons/remove.png</file>
-        <file alias="map.png">resources/icons/maplogo.png</file>
+        <file>resources/images/add.png</file>
+        <file>resources/images/playloop.png</file>
+        <file>resources/images/chronometre.png</file>
+        <file>resources/images/pen.png</file>
+        <file>resources/images/showMap.png</file>
+        <file>resources/images/folder.png</file>
+        <file>resources/images/erase.png</file>
+        <file>resources/images/filledellipse.png</file>
+        <file>resources/images/emptyellipse.png</file>
+        <file>resources/images/state.png</file>
+        <file>resources/images/workspacebackground.jpg</file>
+        <file>resources/images/playunique.png</file>
+        <file>resources/images/play.png</file>
+        <file>resources/images/hand.png</file>
+        <file>resources/images/hide.png</file>
+        <file>resources/images/pause.png</file>
+        <file>resources/images/addcursor.png</file>
+        <file>resources/images/movecursor.png</file>
+        <file>resources/images/paintcursor.png</file>
+        <file>resources/images/statecursor.png</file>
+        <file>resources/images/orientationcursor.png</file>
+        <file>resources/images/pipettecursor.png</file>
+        <file>resources/images/deletecursor.png</file>
+        <file>resources/images/textcursor.png</file>
+        <file>resources/images/filledrectangle.png</file>
+        <file>resources/images/emptyrectangle.png</file>
+        <file>resources/images/stop.png</file>
+        <file>resources/images/boldstyle.png</file>
+        <file>resources/images/italicstyle.png</file>
+        <file>resources/images/normalstyle.png</file>
+        <file>resources/images/underlinestyle.png</file>
+        <file>resources/images/remove.png</file>
+        <file alias="map.png">resources/images/maplogo.png</file>
         <file>translations/rolisteam_fr.qm</file>
-        <file>resources/icons/moveNpc.png</file>
-        <file>resources/icons/line.png</file>
-        <file>resources/icons/text.png</file>
-        <file alias="picture.png">resources/icons/image.png</file>
-        <file>resources/icons/save.png</file>
-        <file>resources/logo/128.ico</file>
-        <file alias="rolisteam250.png">resources/logo/250-rolisteam.png</file>
-        <file alias="logo.png">resources/logo/250-symbole.png</file>
-        <file alias="256ico.png">resources/logo/256-icone.png</file>
-        <file alias="logo-256.ico">resources/logo/256.ico</file>
-        <file>resources/logo/500-rolisteam.png</file>
-        <file>resources/logo/500-symbole.png</file>
-        <file>resources/logo/1000-fond.png</file>
-        <file>resources/logo/1000-rolisteam.png</file>
-        <file>resources/logo/1000-symbole.png</file>
-        <file>resources/logo/1500-rolisteam.png</file>
-        <file>resources/logo/Rolisteam-fond.svg</file>
-        <file>resources/logo/Rolisteam_big.svg</file>
-        <file alias="logo.svg">resources/logo/symbol.svg</file>
-        <file alias="chat.png">resources/icons/chatIcon.png</file>
-        <file alias="notes.png">resources/icons/notes.png</file>
-        <file alias="story.png">resources/icons/scenario.png</file>
-        <file alias="exit.png">resources/icons/exit.png</file>
-        <file alias="settings.png">resources/icons/settings.png</file>
-        <file alias="fit-page.png">resources/icons/fit-page-32.png</file>
-        <file alias="fit-window.png">resources/icons/fit-width-24.png</file>
+        <file>resources/images/moveNpc.png</file>
+        <file>resources/images/line.png</file>
+        <file>resources/images/text.png</file>
+        <file alias="picture.png">resources/images/image.png</file>
+        <file>resources/images/save.png</file>
+        <file>resources/images/logo/128.ico</file>
+        <file alias="rolisteam250.png">resources/images/logo/250-rolisteam.png</file>
+        <file alias="logo.png">resources/images/logo/250-symbole.png</file>
+        <file alias="256ico.png">resources/images/logo/256-icone.png</file>
+        <file alias="logo-256.ico">resources/images/logo/256.ico</file>
+        <file>resources/images/logo/500-rolisteam.png</file>
+        <file>resources/images/logo/500-symbole.png</file>
+        <file>resources/images/logo/1000-fond.png</file>
+        <file>resources/images/logo/1000-rolisteam.png</file>
+        <file>resources/images/logo/1000-symbole.png</file>
+        <file>resources/images/logo/1500-rolisteam.png</file>
+        <file>resources/images/logo/Rolisteam-fond.svg</file>
+        <file>resources/images/logo/Rolisteam_big.svg</file>
+        <file alias="logo.svg">resources/images/logo/symbol.svg</file>
+        <file alias="chat.png">resources/images/chatIcon.png</file>
+        <file alias="notes.png">resources/images/notes.png</file>
+        <file alias="story.png">resources/images/scenario.png</file>
+        <file alias="exit.png">resources/images/exit.png</file>
+        <file alias="settings.png">resources/images/settings.png</file>
+        <file alias="fit-page.png">resources/images/fit-page-32.png</file>
+        <file alias="fit-window.png">resources/images/fit-width-24.png</file>
         <file>translations/qt_fr.qm</file>
         <file>translations/rolisteam_de.qm</file>
         <file>translations/rolisteam_pt_BR.qm</file>
         <file>translations/qt_de.qm</file>
-        <file>resources/icons/preview.png</file>
-        <file>resources/icons/lock.png</file>
+        <file>resources/images/preview.png</file>
+        <file>resources/images/lock.png</file>
         <file>translations/rolisteam_tr.qm</file>
         <file>translations/qt_hu.qm</file>
         <file>translations/qt_pt.qm</file>
         <file>translations/rolisteam_hu_HU.qm</file>
-        <file>resources/icons/rule.png</file>
-        <file>resources/icons/action-order-back.png</file>
-        <file>resources/icons/action-order-front.png</file>
-        <file>resources/icons/action-order-lower.png</file>
-        <file>resources/icons/action-order-raise.png</file>
-        <file>resources/icons/action-rotate.png</file>
-        <file>resources/icons/object-rotate-left-4.png</file>
-        <file>resources/icons/object-rotate-right-4.png</file>
-        <file>resources/icons/path.png</file>
-        <file>resources/icons/photo.png</file>
-        <file>resources/icons/add_round.png</file>
-        <file>resources/icons/delete.png</file>
-        <file>resources/icons/edit-delete.png</file>
-        <file>resources/icons/go-bottom.png</file>
-        <file>resources/icons/go-down.png</file>
-        <file>resources/icons/go-top.png</file>
-        <file>resources/icons/go-up.png</file>
-        <file>resources/icons/list-add.png</file>
-        <file>resources/icons/list-remove.png</file>
-        <file>resources/icons/grid.png</file>
-        <file>resources/icons/maskpath.png</file>
-        <file>resources/icons/draw-rectangle-2.png</file>
-        <file>resources/icons/insert-link-2.png</file>
-        <file>resources/icons/textwithBorder.png</file>
-        <file>resources/icons/eye.png</file>
-        <file>resources/icons/mask.png</file>
-        <file>resources/icons/treeview.png</file>
-        <file>resources/icons/audiofile.svg</file>
-        <file>resources/icons/playlist.svg</file>
-        <file>resources/icons/liberapay.png</file>
-        <file alias="vmap.png">resources/icons/vmap.png</file>
-        <file>resources/icons/sharedEditor.png</file>
-        <file>resources/js/pdfview/debugger.js</file>
-        <file>resources/js/pdfview/pdf.js</file>
-        <file>resources/js/pdfview/pdf.worker.js</file>
-        <file>resources/js/pdfview/viewer.css</file>
-        <file>resources/js/pdfview/viewer.html</file>
-        <file>resources/js/pdfview/viewer.js</file>
-        <file>resources/js/pdfview/images/annotation-check.svg</file>
-        <file>resources/js/pdfview/images/annotation-comment.svg</file>
-        <file>resources/js/pdfview/images/annotation-help.svg</file>
-        <file>resources/js/pdfview/images/annotation-insert.svg</file>
-        <file>resources/js/pdfview/images/annotation-key.svg</file>
-        <file>resources/js/pdfview/images/annotation-newparagraph.svg</file>
-        <file>resources/js/pdfview/images/annotation-noicon.svg</file>
-        <file>resources/js/pdfview/images/annotation-note.svg</file>
-        <file>resources/js/pdfview/images/annotation-paragraph.svg</file>
-        <file>resources/js/pdfview/images/findbarButton-next.png</file>
-        <file>resources/js/pdfview/images/findbarButton-next-rtl.png</file>
-        <file>resources/js/pdfview/images/findbarButton-previous.png</file>
-        <file>resources/js/pdfview/images/findbarButton-previous-rtl.png</file>
-        <file>resources/js/pdfview/images/grab.cur</file>
-        <file>resources/js/pdfview/images/grabbing.cur</file>
-        <file>resources/js/pdfview/images/loading-icon.gif</file>
-        <file>resources/js/pdfview/images/loading-small.png</file>
-        <file>resources/js/pdfview/images/secondaryToolbarButton-documentProperties.png</file>
-        <file>resources/js/pdfview/images/secondaryToolbarButton-firstPage.png</file>
-        <file>resources/js/pdfview/images/secondaryToolbarButton-handTool.png</file>
-        <file>resources/js/pdfview/images/secondaryToolbarButton-lastPage.png</file>
-        <file>resources/js/pdfview/images/secondaryToolbarButton-rotateCcw.png</file>
-        <file>resources/js/pdfview/images/secondaryToolbarButton-rotateCw.png</file>
-        <file>resources/js/pdfview/images/shadow.png</file>
-        <file>resources/js/pdfview/images/texture.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-bookmark.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-download.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-menuArrows.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-openFile.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-pageDown.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-pageDown-rtl.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-pageUp.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-pageUp-rtl.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-presentationMode.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-print.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-search.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-secondaryToolbarToggle.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-secondaryToolbarToggle-rtl.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-sidebarToggle.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-sidebarToggle-rtl.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-viewAttachments.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-viewOutline.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-viewOutline-rtl.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-viewThumbnail.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-zoomIn.png</file>
-        <file>resources/js/pdfview/images/toolbarButton-zoomOut.png</file>
-        <file>resources/js/pdfview/locale/locale.properties</file>
-        <file>resources/js/pdfview/locale/en-US/viewer.properties</file>
-        <file>resources/js/pdfview/cmaps/78-EUC-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/78-EUC-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/78-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/78ms-RKSJ-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/78ms-RKSJ-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/78-RKSJ-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/78-RKSJ-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/78-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/83pv-RKSJ-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/90msp-RKSJ-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/90msp-RKSJ-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/90ms-RKSJ-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/90ms-RKSJ-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/90pv-RKSJ-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/90pv-RKSJ-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Add-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Add-RKSJ-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Add-RKSJ-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Add-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-CNS1-0.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-CNS1-1.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-CNS1-2.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-CNS1-3.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-CNS1-4.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-CNS1-5.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-CNS1-6.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-CNS1-UCS2.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-GB1-0.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-GB1-1.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-GB1-2.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-GB1-3.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-GB1-4.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-GB1-5.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-GB1-UCS2.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-Japan1-0.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-Japan1-1.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-Japan1-2.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-Japan1-3.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-Japan1-4.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-Japan1-5.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-Japan1-6.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-Japan1-UCS2.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-Korea1-0.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-Korea1-1.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-Korea1-2.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Adobe-Korea1-UCS2.bcmap</file>
-        <file>resources/js/pdfview/cmaps/B5-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/B5pc-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/B5pc-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/B5-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/CNS1-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/CNS1-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/CNS2-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/CNS2-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/CNS-EUC-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/CNS-EUC-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/ETen-B5-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/ETen-B5-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/ETenms-B5-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/ETenms-B5-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/ETHK-B5-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/ETHK-B5-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/EUC-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/EUC-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Ext-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Ext-RKSJ-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Ext-RKSJ-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Ext-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GB-EUC-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GB-EUC-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GB-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GBK2K-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GBK2K-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GBK-EUC-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GBK-EUC-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GBKp-EUC-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GBKp-EUC-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GBpc-EUC-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GBpc-EUC-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GBT-EUC-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GBT-EUC-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GBT-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GBTpc-EUC-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GBTpc-EUC-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GBT-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/GB-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Hankaku.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Hiragana.bcmap</file>
-        <file>resources/js/pdfview/cmaps/HKdla-B5-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/HKdla-B5-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/HKdlb-B5-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/HKdlb-B5-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/HKgccs-B5-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/HKgccs-B5-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/HKm314-B5-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/HKm314-B5-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/HKm471-B5-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/HKm471-B5-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/HKscs-B5-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/HKscs-B5-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Katakana.bcmap</file>
-        <file>resources/js/pdfview/cmaps/KSC-EUC-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/KSC-EUC-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/KSC-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/KSC-Johab-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/KSC-Johab-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/KSCms-UHC-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/KSCms-UHC-HW-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/KSCms-UHC-HW-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/KSCms-UHC-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/KSCpc-EUC-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/KSCpc-EUC-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/KSC-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/LICENSE</file>
-        <file>resources/js/pdfview/cmaps/NWP-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/NWP-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/RKSJ-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/RKSJ-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/Roman.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniCNS-UCS2-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniCNS-UCS2-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniCNS-UTF8-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniCNS-UTF8-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniCNS-UTF16-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniCNS-UTF16-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniCNS-UTF32-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniCNS-UTF32-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniGB-UCS2-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniGB-UCS2-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniGB-UTF8-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniGB-UTF8-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniGB-UTF16-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniGB-UTF16-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniGB-UTF32-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniGB-UTF32-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS2004-UTF8-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS2004-UTF8-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS2004-UTF16-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS2004-UTF16-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS2004-UTF32-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS2004-UTF32-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJISPro-UCS2-HW-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJISPro-UCS2-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJISPro-UTF8-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS-UCS2-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS-UCS2-HW-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS-UCS2-HW-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS-UCS2-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS-UTF8-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS-UTF8-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS-UTF16-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS-UTF16-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS-UTF32-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJIS-UTF32-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJISX0213-UTF32-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJISX0213-UTF32-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJISX02132004-UTF32-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniJISX02132004-UTF32-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniKS-UCS2-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniKS-UCS2-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniKS-UTF8-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniKS-UTF8-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniKS-UTF16-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniKS-UTF16-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniKS-UTF32-H.bcmap</file>
-        <file>resources/js/pdfview/cmaps/UniKS-UTF32-V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/V.bcmap</file>
-        <file>resources/js/pdfview/cmaps/WP-Symbol.bcmap</file>
-        <file>resources/icons/pdfLogo.png</file>
-        <file>resources/icons/crop.svg</file>
-        <file>resources/icons/document-share.svg</file>
-        <file>resources/icons/webPage.svg</file>
-        <file>resources/icons/reverse.svg</file>
-        <file>resources/icons/list.svg</file>
-        <file>resources/icons/000000-paint-bucket-512.png</file>
-        <file>resources/icons/marker-512.png</file>
-        <file>resources/icons/shuffle_mode.png</file>
+        <file>resources/images/rule.png</file>
+        <file>resources/images/action-order-back.png</file>
+        <file>resources/images/action-order-front.png</file>
+        <file>resources/images/action-order-lower.png</file>
+        <file>resources/images/action-order-raise.png</file>
+        <file>resources/images/action-rotate.png</file>
+        <file>resources/images/object-rotate-left-4.png</file>
+        <file>resources/images/object-rotate-right-4.png</file>
+        <file>resources/images/path.png</file>
+        <file>resources/images/photo.png</file>
+        <file>resources/images/add_round.png</file>
+        <file>resources/images/delete.png</file>
+        <file>resources/images/edit-delete.png</file>
+        <file>resources/images/go-bottom.png</file>
+        <file>resources/images/go-down.png</file>
+        <file>resources/images/go-top.png</file>
+        <file>resources/images/go-up.png</file>
+        <file>resources/images/list-add.png</file>
+        <file>resources/images/list-remove.png</file>
+        <file>resources/images/grid.png</file>
+        <file>resources/images/maskpath.png</file>
+        <file>resources/images/draw-rectangle-2.png</file>
+        <file>resources/images/insert-link-2.png</file>
+        <file>resources/images/textwithBorder.png</file>
+        <file>resources/images/eye.png</file>
+        <file>resources/images/mask.png</file>
+        <file>resources/images/treeview.png</file>
+        <file>resources/images/audiofile.svg</file>
+        <file>resources/images/playlist.svg</file>
+        <file>resources/images/liberapay.png</file>
+        <file alias="vmap.png">resources/images/vmap.png</file>
+        <file>resources/images/sharedEditor.png</file>
+        <file>resources/images/pdfLogo.png</file>
+        <file>resources/images/crop.svg</file>
+        <file>resources/images/document-share.svg</file>
+        <file>resources/images/webPage.svg</file>
+        <file>resources/images/reverse.svg</file>
+        <file>resources/images/list.svg</file>
+        <file>resources/images/000000-paint-bucket-512.png</file>
+        <file>resources/images/marker-512.png</file>
+        <file>resources/images/shuffle_mode.png</file>
         <file>resources/images/sight.svg</file>
-        <file>resources/icons/Patreon_Mark_Coral.jpg</file>
-        <file>resources/icons/preview_markdown.svg</file>
-        <file>resources/icons/preview_html.svg</file>
-        <file>resources/icons/contact.svg</file>
-        <file>resources/icons/menu-rounded-solid.svg</file>
+        <file>resources/images/Patreon_Mark_Coral.jpg</file>
+        <file>resources/images/preview_markdown.svg</file>
+        <file>resources/images/preview_html.svg</file>
+        <file>resources/images/contact.svg</file>
+        <file>resources/images/menu-rounded-solid.svg</file>
+        <file>resources/images/gridpattern/01_sqare.png</file>
+        <file>resources/images/gridpattern/02_octo.png</file>
+        <file>resources/images/gridpattern/03_hexa.png</file>
+        <file>resources/stylesheet/client/darkorange/darkorange.qss</file>
+        <file>resources/stylesheet/client/darkorange/images/checkbox.png</file>
+        <file>resources/stylesheet/client/darkorange/images/down_arrow.png</file>
+        <file>resources/stylesheet/client/darkorange/images/handle.png</file>
         <file>resources/sounds/Doorbell.wav</file>
-    </qresource>
-    <qresource prefix="/stylesheet">
-        <file>resources/stylesheet/darkorange.qss</file>
-        <file>resources/stylesheet/images/checkbox.png</file>
-        <file>resources/stylesheet/images/down_arrow.png</file>
-        <file>resources/stylesheet/images/handle.png</file>
-    </qresource>
-    <qresource prefix="/grid">
-        <file>resources/gridpattern/01_sqare.png</file>
-        <file>resources/gridpattern/02_octo.png</file>
-        <file>resources/gridpattern/03_hexa.png</file>
-    </qresource>
-    <qresource prefix="/sharednote">
         <file>resources/images/cahootsicon.png</file>
         <file>resources/images/cahootssplash.png</file>
         <file>resources/images/close.png</file>
@@ -367,7 +138,8 @@
         <file>resources/images/paste.png</file>
         <file>resources/images/print.png</file>
         <file>resources/images/redo.png</file>
-        <file>resources/images/save.png</file>
+        <file>resources/images/save_cahoos.png</file>
         <file>resources/images/undo.png</file>
+        <file>resources/stylesheet/qml/theme.ini</file>
     </qresource>
 </RCC>

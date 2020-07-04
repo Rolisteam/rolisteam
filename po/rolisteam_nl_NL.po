@@ -113,6 +113,22 @@ msgctxt "AboutRolisteam|"
 msgid "Translators"
 msgstr ""
 
+#: ../core/src/qmlchat/AddChatRoomDialog.qml:24
+#, fuzzy
+msgctxt "AddChatRoomDialog|"
+msgid "Title"
+msgstr "Titel"
+
+#: ../core/src/qmlchat/AddChatRoomDialog.qml:33
+msgctxt "AddChatRoomDialog|"
+msgid "Everybody"
+msgstr ""
+
+#: ../core/src/qmlchat/AddChatRoomDialog.qml:80
+msgctxt "AddChatRoomDialog|"
+msgid "Add Chatroom"
+msgstr ""
+
 #: ../core/src/sharededitor/announcedocumentdialog.ui:14
 msgctxt "AnnounceDocumentDialog|"
 msgid "Announce Document"
@@ -647,6 +663,31 @@ msgctxt "ChatListWidget|"
 msgid "New chat"
 msgstr "Nieuwe chat"
 
+#: ../core/src/qmlchat/ChatView.qml:43
+msgctxt "ChatView|"
+msgid "Add chatroom"
+msgstr ""
+
+#: ../core/src/qmlchat/ChatView.qml:47
+msgctxt "ChatView|"
+msgid "Split view"
+msgstr ""
+
+#: ../core/src/qmlchat/ChatView.qml:54
+msgctxt "ChatView|"
+msgid "Detach current"
+msgstr ""
+
+#: ../core/src/qmlchat/ChatView.qml:58
+msgctxt "ChatView|"
+msgid "Settings"
+msgstr ""
+
+#: ../core/src/qmlchat/ChatView.qml:90
+msgctxt "ChatView|"
+msgid "close"
+msgstr ""
+
 #: ../core/src/chat/chatwindow.cpp:160
 msgctxt "ChatWindow|"
 msgid "save"
@@ -853,7 +894,7 @@ msgctxt "ConnectionRetryDialog|"
 msgid "Connection has failed! Connection Retry in %1s."
 msgstr "Het verbinden is mislukt! Opnieuw verbinden over %1s."
 
-#: ../core/src/controller/contentcontroller.cpp:54
+#: ../core/src/controller/contentcontroller.cpp:59
 #, fuzzy
 msgctxt "ContentController|"
 msgid "Unknown"
@@ -1552,21 +1593,35 @@ msgctxt "ImagePathEditor|"
 msgid "Get picture for Character State"
 msgstr "Afbeelding verkrijgen voor karakterstatus"
 
-#: ../core/src/qmlchat/instantmessagingmodel.cpp:31
 #, fuzzy
-msgctxt "InstantMessaging::InstantMessagingModel|"
+#~ msgctxt "InstantMessaging::InstantMessagingModel|"
+#~ msgid "Global"
+#~ msgstr "Globaal"
+
+#: ../core/src/controller/instantmessagingcontroller.cpp:102
+#, fuzzy
+msgctxt "InstantMessagingController|"
 msgid "Global"
 msgstr "Globaal"
 
-#: ../core/src/qmlchat/instantmessagingview.ui:14
-#, fuzzy
-msgctxt "InstantMessagingView|"
-msgid "Form"
-msgstr "Formulier"
+#: ../core/src/qmlchat/InstantMessagingEditText.qml:137
+msgctxt "InstantMessagingEditText|"
+msgid "send"
+msgstr ""
 
-#: ../core/src/qmlchat/instantmessagingview.cpp:49
+#, fuzzy
+#~ msgctxt "InstantMessagingView|"
+#~ msgid "Form"
+#~ msgstr "Formulier"
+
+#: ../core/src/qmlchat/instantmessagingview.cpp:60
 msgctxt "InstantMessagingView|"
 msgid "Instant Messaging"
+msgstr ""
+
+#: ../core/src/qmlchat/instantmessagingview.ui:14
+msgctxt "InstantMessagingView|"
+msgid "InstantMessaging"
 msgstr ""
 
 #: ../core/src/services/ipchecker.cpp:36
@@ -1997,12 +2052,12 @@ msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
 msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Alles (*)"
 
-#: ../client/mainwindow.cpp:1604
+#: ../client/mainwindow.cpp:1601
 msgctxt "MainWindow|"
 msgid "unknown"
 msgstr "onbekend"
 
-#: ../client/mainwindow.cpp:640
+#: ../client/mainwindow.cpp:637
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
@@ -2012,42 +2067,42 @@ msgstr ""
 #~ msgid "Open Map"
 #~ msgstr "Kaart openen"
 
-#: ../client/mainwindow.cpp:1504
+#: ../client/mainwindow.cpp:1501
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "Verbonden"
 
-#: ../client/mainwindow.cpp:1504
+#: ../client/mainwindow.cpp:1501
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "Niet verbonden"
 
-#: ../client/mainwindow.cpp:1505
+#: ../client/mainwindow.cpp:1502
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Server"
 
-#: ../client/mainwindow.cpp:1505
+#: ../client/mainwindow.cpp:1502
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Client"
 
-#: ../client/mainwindow.cpp:1506
+#: ../client/mainwindow.cpp:1503
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "GM"
 
-#: ../client/mainwindow.cpp:1506
+#: ../client/mainwindow.cpp:1503
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Speler"
 
-#: ../client/mainwindow.cpp:767
+#: ../client/mainwindow.cpp:764
 msgctxt "MainWindow|"
 msgid "Open scenario"
 msgstr "Scenario openen"
 
-#: ../client/mainwindow.cpp:800
+#: ../client/mainwindow.cpp:797
 msgctxt "MainWindow|"
 msgid "Save Scenario as"
 msgstr "Scenario opslaan als"
@@ -2068,7 +2123,7 @@ msgstr "Scenario opslaan"
 #~ msgid "%1 cannot be opened (saveStory - MainWindow.cpp)"
 #~ msgstr "%1 kan niet worden geopend (saveStory - MainWindow.cpp)"
 
-#: ../client/mainwindow.cpp:246
+#: ../client/mainwindow.cpp:243
 msgctxt "MainWindow|"
 msgid "ToolBox"
 msgstr "Gereedschap"
@@ -2153,7 +2208,7 @@ msgstr "Ctrl+P"
 
 #: ../client/mainwindow.ui:229
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:418
-#: ../client/mainwindow.cpp:704
+#: ../client/mainwindow.cpp:701
 msgctxt "MainWindow|"
 msgid "Quit"
 msgstr "Afsluiten"
@@ -2193,11 +2248,6 @@ msgstr "Ctrl+N"
 msgctxt "MainWindow|"
 msgid "Chat"
 msgstr "Chatten"
-
-#: ../client/mainwindow.ui:151
-msgctxt "MainWindow|"
-msgid "GM ToolBoxes"
-msgstr ""
 
 #: ../client/mainwindow.ui:197
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:406
@@ -2444,6 +2494,11 @@ msgctxt "MainWindow|"
 msgid "Alt+S"
 msgstr "Alt+S"
 
+#: ../client/mainwindow.ui:151
+msgctxt "MainWindow|"
+msgid "GM ToolBoxes"
+msgstr ""
+
 #: ../client/mainwindow.ui:168
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:397
 msgctxt "MainWindow|"
@@ -2662,48 +2717,48 @@ msgctxt "MainWindow|"
 msgid "Tile"
 msgstr "Tegelen"
 
-#: ../client/mainwindow.cpp:918
+#: ../client/mainwindow.cpp:915
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Hulp"
 
-#: ../client/mainwindow.cpp:957
+#: ../client/mainwindow.cpp:954
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr ""
 
-#: ../client/mainwindow.cpp:972
+#: ../client/mainwindow.cpp:969
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 heeft niet de juiste versie: %2."
 
-#: ../client/mainwindow.cpp:1085
+#: ../client/mainwindow.cpp:1082
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Rolisteam instellen om <port> te gebruiken voor de verbinding"
 
-#: ../client/mainwindow.cpp:1088
+#: ../client/mainwindow.cpp:1085
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Rolisteam instellen om te verbinden met <server>."
 
-#: ../client/mainwindow.cpp:1091
+#: ../client/mainwindow.cpp:1088
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "<role> definiëren: gm of pc"
 
-#: ../client/mainwindow.cpp:1093
+#: ../client/mainwindow.cpp:1090
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr "Instellingen wissen en standaard parameters gebruiken"
 
-#: ../client/mainwindow.cpp:1096
+#: ../client/mainwindow.cpp:1093
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "<username> definiëren"
 
-#: ../client/mainwindow.cpp:1099
+#: ../client/mainwindow.cpp:1096
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr ""
@@ -2712,7 +2767,7 @@ msgstr ""
 #~ msgid "End of the connection process"
 #~ msgstr "Eind van het verbindproces"
 
-#: ../client/mainwindow.cpp:1603
+#: ../client/mainwindow.cpp:1600
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
@@ -2722,41 +2777,41 @@ msgstr ""
 #~ msgid "Resources Explorer"
 #~ msgstr "Bronnenverkenner"
 
-#: ../client/mainwindow.cpp:1345
+#: ../client/mainwindow.cpp:1342
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "%1 openen"
 
-#: ../client/mainwindow.cpp:712
+#: ../client/mainwindow.cpp:709
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "De verbinding is verbroken. %1 zal sluiten"
 
-#: ../client/mainwindow.cpp:588
+#: ../client/mainwindow.cpp:585
 #, fuzzy
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "&Opnieuw"
 
-#: ../client/mainwindow.cpp:589
+#: ../client/mainwindow.cpp:586
 #, fuzzy
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&Ongedaan maken"
 
-#: ../client/mainwindow.cpp:639
+#: ../client/mainwindow.cpp:636
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr ""
 
-#: ../client/mainwindow.cpp:714
+#: ../client/mainwindow.cpp:711
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Verbinding verbroken"
 
-#: ../client/mainwindow.cpp:720
+#: ../client/mainwindow.cpp:717
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
@@ -2772,7 +2827,7 @@ msgstr "Afsluiten %1"
 #~ msgid "Do you want to save your scenario before to quit %1?"
 #~ msgstr "Wilt u uw scenario opslaan alvorens %1 af te sluiten?"
 
-#: ../client/mainwindow.cpp:768 ../client/mainwindow.cpp:801
+#: ../client/mainwindow.cpp:765 ../client/mainwindow.cpp:798
 msgctxt "MainWindow|"
 msgid "Scenarios (*.sce)"
 msgstr "Scenario's (*.sce)"
@@ -2783,7 +2838,7 @@ msgctxt "MainWindow|"
 msgid "About Rolisteam"
 msgstr "Over Rolisteam"
 
-#: ../client/mainwindow.cpp:919
+#: ../client/mainwindow.cpp:916
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -2793,7 +2848,7 @@ msgstr ""
 "De documentatie van %1 kan online worden gevonden op :<br> <a "
 "href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>"
 
-#: ../client/mainwindow.cpp:958
+#: ../client/mainwindow.cpp:955
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -2805,13 +2860,13 @@ msgstr ""
 "href=\"http://www.rolisteam.org/download\">Download-pagina</a> voor meer "
 "informatie"
 
-#: ../client/mainwindow.cpp:968
+#: ../client/mainwindow.cpp:965
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 heeft deelgenomen aan het spel."
 
-#: ../client/mainwindow.cpp:978
+#: ../client/mainwindow.cpp:975
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
@@ -3571,12 +3626,16 @@ msgctxt "NpcMakerWidget|"
 msgid "Color:"
 msgstr "Kleur:"
 
-#: ../core/src/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui:115
 #: ../build/core/core_autogen/include/ui_npcmakerwidget.h:531
 #: ../build/core/network_autogen/include/ui_npcmakerwidget.h:531
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_npcmakerwidget.h:531
 msgctxt "NpcMakerWidget|"
 msgid "Initiative Command"
+msgstr ""
+
+#: ../core/src/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui:115
+msgctxt "NpcMakerWidget|"
+msgid "Initiative Command"
 msgstr ""
 
 #: ../core/src/widgets/gmtoolbox/NpcMaker/npcmakerwidget.ui:122
@@ -4001,42 +4060,96 @@ msgctxt "PatternModel|"
 msgid "Hexagon"
 msgstr "Zeshoek"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:117
-msgctxt "PdfViewer|"
-msgid "Crop Current View"
-msgstr ""
-
-#: ../core/src/pdfviewer/pdfviewer.cpp:122
-msgctxt "PdfViewer|"
-msgid "Document to all"
-msgstr ""
-
-#: ../core/src/pdfviewer/pdfviewer.cpp:125
-msgctxt "PdfViewer|"
-msgid "Export into VMap"
-msgstr ""
-
-#: ../core/src/pdfviewer/pdfviewer.cpp:128
-msgctxt "PdfViewer|"
-msgid "Export as Image"
-msgstr ""
-
-#: ../core/src/pdfviewer/pdfviewer.cpp:168
+#: ../core/src/pdfviewer/pdfviewer.cpp:142
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
 msgstr ""
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:169
+#: ../core/src/pdfviewer/pdfviewer.cpp:143
 msgctxt "PdfViewer|"
 msgid ""
 "PDF transfert can be really heavy.\n"
 "Do you want to continue and share the PDF?"
 msgstr ""
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:183
+#: ../core/src/pdfviewer/pdfviewer.cpp:157
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
+msgstr ""
+
+#: ../core/src/pdfviewer/pdfviewer.ui:14
+msgctxt "PdfViewer|"
+msgid "PdfViewer"
+msgstr ""
+
+#: ../core/src/pdfviewer/pdfviewer.ui:26 ../core/src/pdfviewer/pdfviewer.ui:33
+#: ../core/src/pdfviewer/pdfviewer.ui:40 ../core/src/pdfviewer/pdfviewer.ui:47
+#: ../core/src/pdfviewer/pdfviewer.ui:54 ../core/src/pdfviewer/pdfviewer.ui:74
+#: ../core/src/pdfviewer/pdfviewer.ui:84
+#: ../core/src/pdfviewer/pdfviewer.ui:104
+#: ../core/src/pdfviewer/pdfviewer.ui:114
+#, fuzzy
+msgctxt "PdfViewer|"
+msgid "..."
+msgstr "..."
+
+#: ../core/src/pdfviewer/pdfviewer.ui:156
+msgctxt "PdfViewer|"
+msgid "Bookmarks"
+msgstr ""
+
+#: ../core/src/pdfviewer/pdfviewer.ui:191
+msgctxt "PdfViewer|"
+msgid "Pages"
+msgstr ""
+
+#: ../core/src/pdfviewer/pdfviewer.ui:205
+msgctxt "PdfViewer|"
+msgid "Crop View"
+msgstr ""
+
+#: ../core/src/pdfviewer/pdfviewer.ui:217
+msgctxt "PdfViewer|"
+msgid "Share"
+msgstr ""
+
+#: ../core/src/pdfviewer/pdfviewer.ui:222
+msgctxt "PdfViewer|"
+msgid "To map"
+msgstr ""
+
+#: ../core/src/pdfviewer/pdfviewer.ui:227
+#, fuzzy
+msgctxt "PdfViewer|"
+msgid "Image"
+msgstr "Afbeelding"
+
+#: ../core/src/pdfviewer/pdfviewer.ui:235
+msgctxt "PdfViewer|"
+msgid "Continuous"
+msgstr ""
+
+#: ../core/src/pdfviewer/pdfviewer.ui:240
+#, fuzzy
+msgctxt "PdfViewer|"
+msgid "Zoom In"
+msgstr "Inzoomen"
+
+#: ../core/src/pdfviewer/pdfviewer.ui:245
+#, fuzzy
+msgctxt "PdfViewer|"
+msgid "Zoom Out"
+msgstr "Uitzoomen"
+
+#: ../core/src/pdfviewer/pdfviewer.ui:250
+msgctxt "PdfViewer|"
+msgid "Previous Page"
+msgstr ""
+
+#: ../core/src/pdfviewer/pdfviewer.ui:255
+msgctxt "PdfViewer|"
+msgid "Next Page"
 msgstr ""
 
 #: ../core/src/widgets/persondialog.ui:14
@@ -4105,13 +4218,13 @@ msgctxt "PlayerModel|"
 msgid "PC"
 msgstr "PC"
 
-#: ../core/src/userlist/playermodel.cpp:249
+#: ../core/src/userlist/playermodel.cpp:248
 #, fuzzy
 msgctxt "PlayerModel|"
 msgid "Players List"
 msgstr "Spelerlijst"
 
-#: ../core/src/userlist/playermodel.cpp:754
+#: ../core/src/userlist/playermodel.cpp:763
 msgctxt "PlayerModel|"
 msgid "Dupplicated player or uuid"
 msgstr ""
@@ -4691,7 +4804,6 @@ msgctxt "PreferencesDialogBox|"
 msgid "Messaging"
 msgstr "Chat"
 
-#: ../core/src/preferences/preferencesdialogbox.ui:135
 #: ../build/core/core_autogen/include/ui_preferencesdialogbox.h:1231
 #: ../build/core/network_autogen/include/ui_preferencesdialogbox.h:1231
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_preferencesdialogbox.h:1231
@@ -5043,6 +5155,11 @@ msgctxt "PreferencesDialogBox|"
 msgid "Map"
 msgstr "Kaart"
 
+#: ../core/src/preferences/preferencesdialogbox.ui:135
+msgctxt "PreferencesDialogBox|"
+msgid "Item Highlight Color"
+msgstr ""
+
 #: ../core/src/preferences/preferencesdialogbox.ui:326
 #: ../build/core/core_autogen/include/ui_preferencesdialogbox.h:1250
 #: ../build/core/network_autogen/include/ui_preferencesdialogbox.h:1250
@@ -5385,7 +5502,7 @@ msgctxt "PublicChat|"
 msgid "Global"
 msgstr "Globaal"
 
-#: ../client/main.cpp:109 ../core/src/network/connectionprofile.cpp:7
+#: ../client/main.cpp:110 ../core/src/network/connectionprofile.cpp:7
 #: ../core/src/network/main.cpp:91 ../core/src/undoCmd/addfieldcommand.cpp:84
 #: ../server/main.cpp:99
 msgctxt "QObject|"
@@ -5477,12 +5594,12 @@ msgctxt "QObject|"
 msgid "List of Alias:\n"
 msgstr "Lijst van aliassen:\n"
 
-#: ../client/mainwindow.cpp:1102
+#: ../client/mainwindow.cpp:1099
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "pad na het vertaalbestand: <translationfile>"
 
-#: ../client/mainwindow.cpp:1105
+#: ../client/mainwindow.cpp:1102
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr ""
@@ -5506,7 +5623,7 @@ msgstr "Gedeeld door nul"
 #~ msgid "Map"
 #~ msgstr "Kaart"
 
-#: ../core/src/data/cleveruri.cpp:267
+#: ../core/src/data/cleveruri.cpp:271
 msgctxt "QObject|"
 msgid "Vectorial Map"
 msgstr "Vectoriële kaart"
@@ -5515,12 +5632,12 @@ msgstr "Vectoriële kaart"
 #~ msgid "Chat"
 #~ msgstr "Chatten"
 
-#: ../core/src/data/cleveruri.cpp:269
+#: ../core/src/data/cleveruri.cpp:273
 msgctxt "QObject|"
 msgid "Picture"
 msgstr "Afbeelding"
 
-#: ../core/src/data/cleveruri.cpp:270
+#: ../core/src/data/cleveruri.cpp:274
 msgctxt "QObject|"
 msgid "Online Picture"
 msgstr "Online afbeelding"
@@ -5530,7 +5647,7 @@ msgctxt "QObject|"
 msgid "Text"
 msgstr "Tekst"
 
-#: ../core/src/data/cleveruri.cpp:272
+#: ../core/src/data/cleveruri.cpp:276
 msgctxt "QObject|"
 msgid "Charecter Sheet"
 msgstr "Character Sheet"
@@ -5547,24 +5664,24 @@ msgstr "Character Sheet"
 #~ msgid "Song List"
 #~ msgstr "Nummerlijst"
 
-#: ../core/src/data/cleveruri.cpp:275
+#: ../core/src/data/cleveruri.cpp:279
 msgctxt "QObject|"
 msgid "Shared Notes"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:226
+#: ../core/src/data/cleveruri.cpp:228
 #, qt-format
 msgctxt "QObject|"
 msgid "Character Sheets files  (%1)"
 msgstr "Character Sheet-bestanden (%1)"
 
-#: ../core/src/data/cleveruri.cpp:230
+#: ../core/src/data/cleveruri.cpp:232
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Image formats (%1)"
 msgstr "Ondersteunde afbeeldingsformaten (%1)"
 
-#: ../core/src/data/cleveruri.cpp:234
+#: ../core/src/data/cleveruri.cpp:236
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Text Files (%1)"
@@ -5580,66 +5697,66 @@ msgstr "Ondersteunde tekstbestanden (%1)"
 #~ msgid "Supported Audio formats (%1)"
 #~ msgstr "Ondersteunde audioformaten (%1)"
 
-#: ../core/src/data/cleveruri.cpp:242
+#: ../core/src/data/cleveruri.cpp:244
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported Shared Note formats (%1)"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:246
+#: ../core/src/data/cleveruri.cpp:248
 #, qt-format
 msgctxt "QObject|"
 msgid "Supported WebPage (%1)"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:250
+#: ../core/src/data/cleveruri.cpp:253
 #, qt-format
 msgctxt "QObject|"
 msgid "Pdf File (%1)"
 msgstr "PDF-bestand (%1)"
 
-#: ../core/src/data/cleveruri.cpp:253
+#: ../core/src/data/cleveruri.cpp:257
 #, qt-format
 msgctxt "QObject|"
 msgid "Vectorial Map (%1)"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:271
+#: ../core/src/data/cleveruri.cpp:275
 msgctxt "QObject|"
 msgid "Minutes"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:277
+#: ../core/src/data/cleveruri.cpp:282
 msgctxt "QObject|"
 msgid "Pdf"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:278
+#: ../core/src/data/cleveruri.cpp:284
 msgctxt "QObject|"
 msgid "Webview"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:309
+#: ../core/src/data/cleveruri.cpp:315
 msgctxt "QObject|"
 msgid "Internal"
 msgstr "Intern"
 
-#: ../core/src/data/cleveruri.cpp:309
+#: ../core/src/data/cleveruri.cpp:315
 msgctxt "QObject|"
 msgid "Linked"
 msgstr "Gelinkt"
 
-#: ../core/src/data/cleveruri.cpp:314
+#: ../core/src/data/cleveruri.cpp:320
 msgctxt "QObject|"
 msgid "Closed"
 msgstr ""
 
-#: ../core/src/data/cleveruri.cpp:314 ../core/src/vmap/vmapframe.cpp:36
+#: ../core/src/data/cleveruri.cpp:320 ../core/src/vmap/vmapframe.cpp:36
 msgctxt "QObject|"
 msgid "Hidden"
 msgstr "Verborgen"
 
-#: ../core/src/data/cleveruri.cpp:314
+#: ../core/src/data/cleveruri.cpp:320
 msgctxt "QObject|"
 msgid "Displayed"
 msgstr "Weergegeven"
@@ -6326,7 +6443,7 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Player"
 msgstr "Speler"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:167
+#: ../core/src/network/selectconnectionprofiledialog.ui:195
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:363
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:363
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:363
@@ -6334,7 +6451,7 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Name: "
 msgstr "Naam:"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:174
+#: ../core/src/network/selectconnectionprofiledialog.ui:202
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:364
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:364
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:364
@@ -6342,7 +6459,7 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Color: "
 msgstr "Kleur:"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:199
+#: ../core/src/network/selectconnectionprofiledialog.ui:227
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:366
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:366
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:366
@@ -6418,19 +6535,20 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Host the game"
 msgstr "Dit spel leiden"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:209
+#: ../core/src/network/selectconnectionprofiledialog.ui:237
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Characters"
 msgstr ""
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:256
-#: ../core/src/network/selectconnectionprofiledialog.ui:263
+#: ../core/src/network/selectconnectionprofiledialog.ui:177
+#: ../core/src/network/selectconnectionprofiledialog.ui:284
+#: ../core/src/network/selectconnectionprofiledialog.ui:291
 #, fuzzy
 msgctxt "SelectConnectionProfileDialog|"
 msgid "..."
 msgstr "..."
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:321
+#: ../core/src/network/selectconnectionprofiledialog.ui:349
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:378
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:378
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:378
@@ -6438,7 +6556,7 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "New Profile"
 msgstr "Nieuw profiel"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:335
+#: ../core/src/network/selectconnectionprofiledialog.ui:363
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:380
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:380
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:380
@@ -6446,7 +6564,7 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Delete"
 msgstr "Verwijderen"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:338
+#: ../core/src/network/selectconnectionprofiledialog.ui:366
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:383
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:383
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:383
@@ -6454,8 +6572,8 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Delete selected profile"
 msgstr "Geselecteerd profiel verwijderen"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:365
-#: ../core/src/network/selectconnectionprofiledialog.ui:417
+#: ../core/src/network/selectconnectionprofiledialog.ui:393
+#: ../core/src/network/selectconnectionprofiledialog.ui:445
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:386
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:386
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:386
@@ -6463,7 +6581,7 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Connect"
 msgstr "Verbinden"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:372
+#: ../core/src/network/selectconnectionprofiledialog.ui:400
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:388
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:388
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:388
@@ -6471,7 +6589,7 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "OffLine Mode"
 msgstr "Offline-modus"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:375
+#: ../core/src/network/selectconnectionprofiledialog.ui:403
 #: ../build/core/core_autogen/include/ui_selectconnectionprofiledialog.h:390
 #: ../build/core/network_autogen/include/ui_selectconnectionprofiledialog.h:390
 #: ../build-core-Qt5_12_0_64bits-Debug/core_autogen/include/ui_selectconnectionprofiledialog.h:390
@@ -6479,28 +6597,33 @@ msgctxt "SelectConnectionProfileDialog|"
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:403
+#: ../core/src/network/selectconnectionprofiledialog.ui:431
 #, fuzzy
 msgctxt "SelectConnectionProfileDialog|"
 msgid "New Character"
 msgstr "Nieuw karakter"
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:412
+#: ../core/src/network/selectconnectionprofiledialog.ui:440
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Remove character"
 msgstr ""
 
-#: ../core/src/network/selectconnectionprofiledialog.ui:422
+#: ../core/src/network/selectconnectionprofiledialog.ui:450
 msgctxt "SelectConnectionProfileDialog|"
 msgid "stop"
 msgstr ""
 
-#: ../core/src/network/selectconnectionprofiledialog.cpp:190
+#: ../core/src/network/selectconnectionprofiledialog.ui:455
+msgctxt "SelectConnectionProfileDialog|"
+msgid "playerAvatar"
+msgstr ""
+
+#: ../core/src/network/selectconnectionprofiledialog.cpp:194
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Remove Current Profile"
 msgstr "Huidig profiel verwijderen"
 
-#: ../core/src/network/selectconnectionprofiledialog.cpp:191
+#: ../core/src/network/selectconnectionprofiledialog.cpp:195
 #, qt-format
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Do you really want to remove %1 from your connection list ?"
@@ -6511,7 +6634,7 @@ msgstr "Weet u zeker dat u %1 wilt verwijderen uit verbindingslijst?"
 #~ msgid "Unknown"
 #~ msgstr "Onbekend"
 
-#: ../core/src/network/selectconnectionprofiledialog.cpp:259
+#: ../core/src/network/selectconnectionprofiledialog.cpp:263
 msgctxt "SelectConnectionProfileDialog|"
 msgid "Load Avatar"
 msgstr "Afbeelding laden"
@@ -7114,6 +7237,22 @@ msgstr ""
 msgctxt "ShortCutModel|"
 msgid "Key"
 msgstr "Sleutel"
+
+#: ../core/src/qmlchat/SideMenu.qml:17
+msgctxt "SideMenu|"
+msgid "Night Mode"
+msgstr ""
+
+#: ../core/src/qmlchat/SideMenu.qml:26
+msgctxt "SideMenu|"
+msgid "Sound Notification"
+msgstr ""
+
+#: ../core/src/qmlchat/SideMenu.qml:35
+#, fuzzy
+msgctxt "SideMenu|"
+msgid "Font size"
+msgstr "Lettertypegrootte"
 
 #: ../core/src/charactersheet/qml/Rolisteam/Table.qml:27
 msgctxt "Table|"
@@ -7925,7 +8064,7 @@ msgctxt "WebView|"
 msgid "Form"
 msgstr "Formulier"
 
-#: ../core/src/webview/webview.cpp:124
+#: ../core/src/webview/webview.cpp:123
 #, qt-format
 msgctxt "WebView|"
 msgid "%1 - WebPage"
@@ -7984,7 +8123,7 @@ msgstr ""
 #~ msgid "Stop Sharing"
 #~ msgstr "Stoppen met delen"
 
-#: ../core/src/widgets/workspace.cpp:88
+#: ../core/src/widgets/workspace.cpp:94
 msgctxt "Workspace|"
 msgid "Instant Messging"
 msgstr ""
@@ -8036,21 +8175,10 @@ msgctxt "XMLTextEdit|"
 msgid "Check xml syntax"
 msgstr "Controleer XML-syntax"
 
-#: ../core/src/qmlchat/chatview.qml:67
 #, fuzzy
-msgctxt "chatview|"
-msgid "Title"
-msgstr "Titel"
-
-#: ../core/src/qmlchat/chatview.qml:76
-msgctxt "chatview|"
-msgid "Everybody"
-msgstr ""
-
-#: ../core/src/qmlchat/chatview.qml:268
-msgctxt "chatview|"
-msgid "send"
-msgstr ""
+#~ msgctxt "chatview|"
+#~ msgid "Title"
+#~ msgstr "Titel"
 
 #: ../core/src/diceparser/mobile/main.qml:95
 #, fuzzy
