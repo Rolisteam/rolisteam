@@ -36,12 +36,13 @@ class InstantMessagingModel;
 class InstantMessagingUpdater;
 class FilterInstantMessagingModel;
 class ChatRoom;
+class ChatroomSplitterModel;
 } // namespace InstantMessaging
 
 class InstantMessagingController : public AbstractControllerInterface, public NetWorkReceiver
 {
     Q_OBJECT
-    Q_PROPERTY(InstantMessaging::FilterInstantMessagingModel* mainModel READ mainModel CONSTANT)
+    Q_PROPERTY(InstantMessaging::ChatroomSplitterModel* mainModel READ mainModel CONSTANT)
     Q_PROPERTY(InstantMessaging::ChatRoom* globalChatroom READ globalChatroom CONSTANT)
     Q_PROPERTY(PlayerModel* playerModel READ playerModel CONSTANT)
     Q_PROPERTY(LocalPersonModel* localPersonModel READ localPersonModel CONSTANT)
@@ -50,7 +51,7 @@ class InstantMessagingController : public AbstractControllerInterface, public Ne
 public:
     explicit InstantMessagingController(PlayerModel* player, QObject* parent= nullptr);
     virtual ~InstantMessagingController();
-    InstantMessaging::FilterInstantMessagingModel* mainModel() const;
+    InstantMessaging::ChatroomSplitterModel* mainModel() const;
     InstantMessaging::ChatRoom* globalChatroom() const;
     PlayerModel* playerModel() const;
     LocalPersonModel* localPersonModel() const;
@@ -61,10 +62,10 @@ public:
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
 public slots:
-    void addFilterModel();
-    void detach(const QString& id);
-    void reattach(const QString& id);
-    void splitScreen();
+    void addChatroomSplitterModel();
+    void detach(const QString& id, int index);
+    void reattach(const QString& id, int index);
+    void splitScreen(const QString& id, int index);
     void setLocalId(const QString& id);
     void addExtraChatroom(const QString& title, bool everyone, const QVariantList& recipiant);
     void setNightMode(bool mode);
@@ -78,7 +79,7 @@ signals:
 
 private:
     std::unique_ptr<InstantMessaging::InstantMessagingModel> m_model;
-    std::vector<std::unique_ptr<InstantMessaging::FilterInstantMessagingModel>> m_filterModels;
+    std::vector<std::unique_ptr<InstantMessaging::ChatroomSplitterModel>> m_splitterModels;
     std::unique_ptr<InstantMessaging::InstantMessagingUpdater> m_updater;
     QPointer<PlayerModel> m_players;
     std::unique_ptr<LocalPersonModel> m_localPersonModel;

@@ -19,13 +19,16 @@
  ***************************************************************************/
 #include "instantmessagingcontroller.h"
 
+#include <QJSEngine>
 #include <QQmlEngine>
 #include <QQuickStyle>
 
+#include "common/controller/theme.h"
 #include "data/localpersonmodel.h"
 #include "data/player.h"
 #include "network/receiveevent.h"
 #include "qmlchat/chatroom.h"
+#include "qmlchat/chatroomsplittermodel.h"
 #include "qmlchat/filterinstantmessagingmodel.h"
 #include "qmlchat/instantmessagingmodel.h"
 #include "qmlchat/messagemodel.h"
@@ -40,16 +43,27 @@ void registerType()
     qRegisterMetaType<LocalPersonModel*>("LocalPersonModel*");
     qRegisterMetaType<PlayerModel*>("PlayerModel*");
     qRegisterMetaType<InstantMessaging::ChatRoom*>("ChatRoom*");
+    qRegisterMetaType<customization::Theme*>("customization::Theme*");
+    qRegisterMetaType<customization::StyleSheet*>("customization::StyleSheet*");
+    qRegisterMetaType<InstantMessaging::ChatroomSplitterModel*>("ChatroomSplitterModel*");
 
     qmlRegisterAnonymousType<InstantMessaging::FilterInstantMessagingModel>("FilterInstantMessagingModel", 1);
     qmlRegisterAnonymousType<InstantMessaging::MessageModel>("MessageModel", 1);
     qmlRegisterAnonymousType<LocalPersonModel>("LocalPersonModel", 1);
     qmlRegisterAnonymousType<PlayerModel>("PlayerModel", 1);
+    qmlRegisterAnonymousType<InstantMessaging::ChatroomSplitterModel>("ChatroomSplitterModel", 1);
     qmlRegisterUncreatableType<InstantMessaging::ChatRoom>("InstantMessaging", 1, 0, "ChatRoom",
                                                            "ChatRoom can't be created.");
     qmlRegisterType<InstantMessaging::TextWriterController>("InstantMessaging", 1, 0, "TextWriterController");
+    qmlRegisterSingletonType<customization::Theme>("Customization", 1, 0, "Theme",
+                                                   [](QQmlEngine* engine, QJSEngine*) -> QObject* {
+                                                       auto instead= customization::Theme::instance();
+                                                       engine->setObjectOwnership(instead, QQmlEngine::CppOwnership);
+                                                       return instead;
+                                                   });
 
-    // QQuickStyle::setStyle("Universal");
+    /*qmlRegisterUncreatableType<customization::StyleSheet>("Customization", 1, 0, "StyleSheet",
+                                                          "Style sheet cannot be created in QML");*/
 }
 
 InstantMessagingController::InstantMessagingController(PlayerModel* model, QObject* parent)
@@ -61,7 +75,7 @@ InstantMessagingController::InstantMessagingController(PlayerModel* model, QObje
 {
     ReceiveEvent::registerNetworkReceiver(NetMsg::InstantMessageCategory, this);
     registerType();
-    addFilterModel();
+    addChatroomSplitterModel();
 
     m_localPersonModel->setSourceModel(m_players);
 
@@ -90,10 +104,10 @@ InstantMessagingController::InstantMessagingController(PlayerModel* model, QObje
 
 InstantMessagingController::~InstantMessagingController()= default;
 
-InstantMessaging::FilterInstantMessagingModel* InstantMessagingController::mainModel() const
+InstantMessaging::ChatroomSplitterModel* InstantMessagingController::mainModel() const
 {
-    Q_ASSERT(m_filterModels.size() > 0);
-    return m_filterModels[0].get();
+    Q_ASSERT(m_splitterModels.size() > 0);
+    return m_splitterModels[0].get();
 }
 
 InstantMessaging::ChatRoom* InstantMessagingController::globalChatroom() const
@@ -146,11 +160,18 @@ NetWorkReceiver::SendType InstantMessagingController::processMessage(NetworkMess
     return type;
 }
 
-void InstantMessagingController::detach(const QString& id) {}
+void InstantMessagingController::detach(const QString& id, int index) {}
 
-void InstantMessagingController::reattach(const QString& id) {}
+void InstantMessagingController::reattach(const QString& id, int index) {}
 
-void InstantMessagingController::splitScreen() {}
+void InstantMessagingController::splitScreen(const QString& id, int index)
+{
+    if(index > static_cast<int>(m_splitterModels.size()) || index < 0)
+        return;
+
+    auto model= m_splitterModels.at(index).get();
+    model->addFilterModel(m_model.get(), {id}, false);
+}
 
 void InstantMessagingController::setLocalId(const QString& id)
 {
@@ -180,10 +201,10 @@ void InstantMessagingController::setNightMode(bool mode)
     emit nightModeChanged(m_nightMode);
 }
 
-void InstantMessagingController::addFilterModel()
+void InstantMessagingController::addChatroomSplitterModel()
 {
-    std::unique_ptr<InstantMessaging::FilterInstantMessagingModel> model(
-        new InstantMessaging::FilterInstantMessagingModel);
-    model->setSourceModel(m_model.get());
-    m_filterModels.push_back(std::move(model));
+    std::unique_ptr<InstantMessaging::ChatroomSplitterModel> model(new InstantMessaging::ChatroomSplitterModel);
+    model->addFilterModel(m_model.get());
+    qDebug() << model->rowCount() << "addChatroomSplitterModel";
+    m_splitterModels.push_back(std::move(model));
 }
