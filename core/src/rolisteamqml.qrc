@@ -19,9 +19,10 @@
         <file>charactersheet/qml/Rolisteam/TextInputFieldv1.qml</file>
         <file>charactersheet/qml/Rolisteam/WebView.qml</file>
         <file>charactersheet/qml/Rolisteam/RLabel.qml</file>
-        <file>qmlchat/chatview.qml</file>
+        <file>qmlchat/InstantMessagingMain.qml</file>
         <file>qmlchat/InstantMessagingEditText.qml</file>
         <file>qmlchat/AddChatRoomDialog.qml</file>
         <file>qmlchat/SideMenu.qml</file>
+        <file>qmlchat/ChatView.qml</file>
     </qresource>
 </RCC>

@@ -20,26 +20,35 @@
 #ifndef CHATROOMSPLITTERMODEL_H
 #define CHATROOMSPLITTERMODEL_H
 
-#include <QAbstractItemModel>
+#include <QAbstractListModel>
+#include <memory>
+#include <vector>
 
-class ChatroomSplitterModel : public QAbstractItemModel
+namespace InstantMessaging
+{
+class FilterInstantMessagingModel;
+class InstantMessagingModel;
+class ChatroomSplitterModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
+    enum Role
+    {
+        FilterModelRole= Qt::UserRole + 1,
+        UuidRole
+    };
     explicit ChatroomSplitterModel(QObject *parent = nullptr);
 
-    // Basic functionality:
-    QModelIndex index(int row, int column,
-        const QModelIndex &parent = QModelIndex()) const override;
-    QModelIndex parent(const QModelIndex &index) const override;
-
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    QHash<int, QByteArray> roleNames() const override;
+    void addFilterModel(InstantMessaging::InstantMessagingModel* sourceModel, QStringList list = QStringList(), bool all = true);
+
 private:
+    std::vector<std::unique_ptr<FilterInstantMessagingModel>> m_filterModels;
 };
+}
 
 #endif // CHATROOMSPLITTERMODEL_H

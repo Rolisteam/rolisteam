@@ -20,6 +20,7 @@
 #include "instantmessagingview.h"
 #include "ui_instantmessagingview.h"
 
+#include <QDebug>
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QUrl>
@@ -34,12 +35,21 @@ InstantMessagingView::InstantMessagingView(InstantMessagingController* ctrl, QWi
     m_ui->setupUi(this);
 
     auto engine= m_qmlViewer->engine();
+
+    connect(engine, &QQmlEngine::warnings, this, [](const QList<QQmlError>& warnings) {
+        for(auto warn : warnings)
+        {
+            qDebug() << warn.toString();
+        }
+    });
     engine->rootContext()->setContextProperty("_ctrl", m_ctrl);
     engine->addImageProvider("avatar", new AvatarProvider(m_ctrl->playerModel()));
+    connect(m_qmlViewer.get(), &QQuickWidget::sceneGraphError, this,
+            [](QQuickWindow::SceneGraphError error, const QString& msg) { qDebug() << msg; });
     setMinimumWidth(200);
 
     m_qmlViewer->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    m_qmlViewer->setSource(QUrl("qrc:/qmlchat/chatview.qml"));
+    m_qmlViewer->setSource(QUrl("qrc:/qmlchat/InstantMessagingMain.qml"));
 
     auto layout= new QVBoxLayout();
     layout->setMargin(0);

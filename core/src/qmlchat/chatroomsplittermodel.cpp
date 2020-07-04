@@ -19,42 +19,69 @@
  ***************************************************************************/
 #include "chatroomsplittermodel.h"
 
-ChatroomSplitterModel::ChatroomSplitterModel(QObject *parent)
-    : QAbstractItemModel(parent)
-{
-}
+#include "qmlchat/filterinstantmessagingmodel.h"
+#include "qmlchat/instantmessagingmodel.h"
+#include <set>
 
-QModelIndex ChatroomSplitterModel::index(int row, int column, const QModelIndex &parent) const
+namespace InstantMessaging
 {
-    // FIXME: Implement me!
-}
+ChatroomSplitterModel::ChatroomSplitterModel(QObject* parent) : QAbstractListModel(parent) {}
 
-QModelIndex ChatroomSplitterModel::parent(const QModelIndex &index) const
+int ChatroomSplitterModel::rowCount(const QModelIndex& parent) const
 {
-    // FIXME: Implement me!
-}
-
-int ChatroomSplitterModel::rowCount(const QModelIndex &parent) const
-{
-    if (!parent.isValid())
+    if(parent.isValid())
         return 0;
 
-    // FIXME: Implement me!
+    return m_filterModels.size();
 }
 
-int ChatroomSplitterModel::columnCount(const QModelIndex &parent) const
+QVariant ChatroomSplitterModel::data(const QModelIndex& index, int role) const
 {
-    if (!parent.isValid())
-        return 0;
-
-    // FIXME: Implement me!
-}
-
-QVariant ChatroomSplitterModel::data(const QModelIndex &index, int role) const
-{
-    if (!index.isValid())
+    if(!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
-    return QVariant();
+    std::set<int> acceptedRole({FilterModelRole, UuidRole});
+    auto it= acceptedRole.find(role);
+    if(it == acceptedRole.end())
+        return QVariant();
+
+    QVariant var;
+    auto model= m_filterModels.at(index.row()).get();
+    switch(role)
+    {
+    case FilterModelRole:
+        var= QVariant::fromValue(model);
+        break;
+    case UuidRole:
+        var= model->uuid();
+        break;
+    }
+
+    return var;
 }
+
+QHash<int, QByteArray> ChatroomSplitterModel::roleNames() const
+{
+    static QHash<int, QByteArray> roles({{FilterModelRole, "filterModel"}, {UuidRole, "uuid"}});
+    return roles;
+}
+
+void ChatroomSplitterModel::addFilterModel(InstantMessaging::InstantMessagingModel* sourceModel, QStringList list,
+                                           bool all)
+{
+    std::for_each(m_filterModels.begin(), m_filterModels.end(),
+                  [list](const std::unique_ptr<FilterInstantMessagingModel>& model) {
+                      if(model->all())
+                          model->setFilterParameter(true, list);
+                  });
+
+    std::unique_ptr<InstantMessaging::FilterInstantMessagingModel> model(new FilterInstantMessagingModel());
+    model->setFilterParameter(all, list);
+
+    model->setSourceModel(sourceModel);
+
+    beginInsertRows(QModelIndex(), m_filterModels.size(), m_filterModels.size());
+    m_filterModels.push_back(std::move(model));
+    endInsertRows();
+}
+} // namespace InstantMessaging
