@@ -97,7 +97,6 @@ void SharedNoteMediaController::processNewController(SharedNoteController* notes
 void SharedNoteMediaController::addSharedNotes(const QHash<QString, QVariant>& params)
 {
     auto ownerId= params.value(QStringLiteral("ownerId")).toString();
-
     auto uuid= params.value(QStringLiteral("id")).toString();
 
     std::unique_ptr<SharedNoteController> notesCtrl(new SharedNoteController(ownerId, localId(), m_playerModel, uuid));
