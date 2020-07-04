@@ -46,10 +46,6 @@ public:
     explicit InstantMessagingModel(QObject* parent= nullptr);
     virtual ~InstantMessagingModel();
 
-    // Header:
-    QVariant headerData(int section, Qt::Orientation orientation, int role= Qt::DisplayRole) const override;
-
-    // Basic functionality:
     int rowCount(const QModelIndex& parent= QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
 
@@ -64,7 +60,6 @@ public slots:
     void insertExtraChatroom(const QString& title, const QStringList& playerIds, bool remote,
                              const QString& uuid= QString());
     void setLocalId(const QString& id);
-
     void addMessageIntoChatroom(MessageInterface*, ChatRoom::ChatRoomType type, const QString& uuid);
     void removePlayer(const QString& id);
 

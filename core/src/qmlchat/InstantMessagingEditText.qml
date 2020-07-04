@@ -1,5 +1,5 @@
-import QtQuick 2.0
-import QtQuick.Controls 2.12
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.12
 import InstantMessaging 1.0
 
@@ -8,6 +8,7 @@ Frame {
     property alias model: selector.model
     property alias currentPersonId: selector.currentValue
     signal sendClicked(var text)
+    signal focusGained()
     padding: 0
 
     TextWriterController {
@@ -33,7 +34,32 @@ Frame {
                         id: selector
                         textRole: "name"
                         valueRole: "uuid"
-                        Component.onCompleted: currentIndex = 0
+                        onCountChanged: {
+                            if(selector.currentIndex < 0 && count > 0)
+                                selector.currentIndex = 0
+                        }
+
+                        contentItem:  RowLayout {
+                            Image {
+                                source: "image://avatar/%1".arg(selector.currentValue)
+                                fillMode: Image.PreserveAspectFit
+                                Layout.fillHeight: true
+                                Layout.leftMargin: 10
+                                sourceSize.height: nameLbl.implicitHeight
+                                sourceSize.width: nameLbl.implicitHeight
+                            }
+                            Label {
+                                id: nameLbl
+                                 leftPadding: 0
+                                 rightPadding: selector.indicator.width + selector.spacing
+                                 text: selector.displayText
+                                 font: selector.font
+                                 verticalAlignment: Text.AlignVCenter
+                                 horizontalAlignment: Text.AlignHCenter
+                                 elide: Text.ElideRight
+                             }
+                        }
+
                         delegate: ItemDelegate {
                             width: selector.width
                             contentItem: RowLayout {
@@ -84,11 +110,11 @@ Frame {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 clip: true
-                //ScrollBar.vertical.interactive: true
                 TextArea {
                     id: edit
                     text: textCtrl.text
 
+                    onPressed: root.focusGained()
                     Keys.onUpPressed: textCtrl.up()
                     Keys.onDownPressed: textCtrl.down()
                     Keys.onReturnPressed: {

@@ -24,13 +24,20 @@
 
 namespace InstantMessaging
 {
-
+class ChatRoom;
 class FilterInstantMessagingModel : public QSortFilterProxyModel
 {
     Q_OBJECT
-
+    Q_PROPERTY(QString uuid READ uuid CONSTANT)
 public:
     explicit FilterInstantMessagingModel(QObject* parent= nullptr);
+
+    QString uuid() const;
+    bool all() const;
+
+    void setFilterParameter(bool b, QStringList data);
+
+    Q_INVOKABLE QVariant get(int index);
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const override;
@@ -38,6 +45,7 @@ protected:
 private:
     bool m_allBut= true;
     QStringList m_filteredId;
+    QString m_uuid;
 };
 
 } // namespace InstantMessaging

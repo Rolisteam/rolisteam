@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.15
 Drawer {
     width: pane.implicitWidth
     height: pane.implicitHeight
+    interactive: false
     property alias nightMode: nightSwitch.checked
     property alias sound: sound.checked
 

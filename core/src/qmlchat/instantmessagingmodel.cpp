@@ -30,7 +30,6 @@ namespace InstantMessaging
 {
 namespace
 {
-
 bool isClosable(ChatRoom* chatroom)
 {
     return (chatroom->type() == ChatRoom::EXTRA
@@ -40,12 +39,6 @@ bool isClosable(ChatRoom* chatroom)
 InstantMessagingModel::InstantMessagingModel(QObject* parent) : QAbstractListModel(parent) {}
 
 InstantMessagingModel::~InstantMessagingModel()= default;
-
-QVariant InstantMessagingModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    // FIXME: Implement me!
-    return QVariant();
-}
 
 int InstantMessagingModel::rowCount(const QModelIndex& parent) const
 {
@@ -148,6 +141,12 @@ void InstantMessagingModel::addChatRoom(ChatRoom* room, bool remote)
 
     std::unique_ptr<ChatRoom> chatroom(room);
     connect(this, &InstantMessagingModel::localIdChanged, chatroom.get(), &ChatRoom::setLocalId);
+    connect(room, &ChatRoom::unreadMessageChanged, this, [room, this]() {
+        auto it= std::find_if(m_chats.begin(), m_chats.end(),
+                              [room](const std::unique_ptr<ChatRoom>& chatRoom) { return room == chatRoom.get(); });
+        auto idx= std::distance(m_chats.begin(), it);
+        emit dataChanged(index(idx, 0, QModelIndex()), index(idx, 0, QModelIndex()), {HasUnreadMessageRole, TitleRole});
+    });
     chatroom->setLocalId(localId());
 
     beginInsertRows(QModelIndex(), m_chats.size(), m_chats.size());
@@ -182,9 +181,10 @@ void InstantMessagingModel::addMessageIntoChatroom(MessageInterface* message, Ch
     if(it == m_chats.end())
         return;
 
-    auto idx= std::distance(m_chats.begin(), it);
     (*it)->addMessageInterface(message);
-    emit dataChanged(index(idx, 0, QModelIndex()), index(idx, 0, QModelIndex()), {HasUnreadMessageRole, TitleRole});
+    /*  auto idx = std::distance(m_chats.begin(), it);
+      emit dataChanged(index(idx, 0, QModelIndex()), index(idx, 0, QModelIndex()),
+          {HasUnreadMessageRole, TitleRole});*/
 }
 
 void InstantMessagingModel::removePlayer(const QString& id)

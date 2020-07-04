@@ -18,10 +18,42 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "filterinstantmessagingmodel.h"
+
+#include <QUuid>
+
 #include "instantmessagingmodel.h"
+
 namespace InstantMessaging
 {
-FilterInstantMessagingModel::FilterInstantMessagingModel(QObject* parent) : QSortFilterProxyModel(parent) {}
+FilterInstantMessagingModel::FilterInstantMessagingModel(QObject* parent)
+    : QSortFilterProxyModel(parent), m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
+{
+}
+void FilterInstantMessagingModel::setFilterParameter(bool b, QStringList data)
+{
+    if(m_allBut == b && m_filteredId == data)
+        return;
+
+    m_allBut= b;
+    m_filteredId= data;
+    invalidateFilter();
+}
+
+QVariant FilterInstantMessagingModel::get(int idx)
+{
+    auto modelIndex= index(idx, 0);
+    return modelIndex.data(InstantMessagingModel::ChatRole);
+}
+
+QString FilterInstantMessagingModel::uuid() const
+{
+    return m_uuid;
+}
+
+bool FilterInstantMessagingModel::all() const
+{
+    return m_allBut;
+}
 
 bool FilterInstantMessagingModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
 {

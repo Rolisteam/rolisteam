@@ -23,7 +23,7 @@
 #include "userlist/playermodel.h"
 
 AvatarProvider::AvatarProvider(PlayerModel* model)
-    : QQuickImageProvider(QQmlImageProviderBase::Image), m_players(model), m_default(":/resources/icons/contact.svg")
+    : QQuickImageProvider(QQmlImageProviderBase::Image), m_players(model), m_default(":/resources/images/contact.svg")
 {
 }
 
@@ -46,5 +46,5 @@ QImage AvatarProvider::requestImage(const QString& id, QSize* size, const QSize&
     if(img.isNull())
         img= m_default;
 
-    return resize(img);
+    return requestedSize.isValid() ? resize(img) : img;
 }
