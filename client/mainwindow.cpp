@@ -124,7 +124,7 @@ MainWindow::MainWindow(const QStringList& args)
 {
     parseCommandLineArguments(args);
     setAcceptDrops(true);
-    m_systemTray->setIcon(QIcon(":/resources/logo/500-symbole.png"));
+    m_systemTray->setIcon(QIcon(":/resources/images/logo/500-symbole.png"));
     m_systemTray->show();
 
     // ALLOCATIONS

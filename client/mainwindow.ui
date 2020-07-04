@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../rolisteam.qrc">
-    <normaloff>:/resources/logo/500-symbole.png</normaloff>:/resources/logo/500-symbole.png</iconset>
+    <normaloff>:/resources/images/logo/500-symbole.png</normaloff>:/resources/images/logo/500-symbole.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
@@ -148,7 +148,7 @@
    </widget>
    <widget class="QMenu" name="m_gmToolBoxMenu">
     <property name="title">
-     <string>GM ToolBoxes</string>
+     <string>GM ToolBoxes</string>
     </property>
    </widget>
    <addaction name="m_fileMenu"/>
@@ -278,7 +278,7 @@
   <action name="m_aboutAction">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/logo/1000-symbole.png</normaloff>:/resources/logo/1000-symbole.png</iconset>
+     <normaloff>:/resources/images/logo/1000-symbole.png</normaloff>:/resources/images/logo/1000-symbole.png</iconset>
    </property>
    <property name="text">
     <string>About Rolisteam</string>
@@ -335,7 +335,7 @@
   <action name="m_openPictureAction">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/icons/photo.png</normaloff>:/resources/icons/photo.png</iconset>
+     <normaloff>:/resources/images/photo.png</normaloff>:/resources/images/photo.png</iconset>
    </property>
    <property name="text">
     <string>Picture</string>
@@ -424,7 +424,7 @@
   <action name="m_openOnlinePictureAction">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/icons/photo.png</normaloff>:/resources/icons/photo.png</iconset>
+     <normaloff>:/resources/images/photo.png</normaloff>:/resources/images/photo.png</iconset>
    </property>
    <property name="text">
     <string>Online Picture</string>
@@ -531,7 +531,7 @@
   <action name="m_openCharacterSheet">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/icons/treeview.png</normaloff>:/resources/icons/treeview.png</iconset>
+     <normaloff>:/resources/images/treeview.png</normaloff>:/resources/images/treeview.png</iconset>
    </property>
    <property name="text">
     <string>Character Sheet</string>
@@ -566,7 +566,7 @@
   <action name="m_newSharedNote">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/icons/sharedEditor.png</normaloff>:/resources/icons/sharedEditor.png</iconset>
+     <normaloff>:/resources/images/sharedEditor.png</normaloff>:/resources/images/sharedEditor.png</iconset>
    </property>
    <property name="text">
     <string>Shared Note</string>
@@ -578,7 +578,7 @@
   <action name="m_openShareNote">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/icons/sharedEditor.png</normaloff>:/resources/icons/sharedEditor.png</iconset>
+     <normaloff>:/resources/images/sharedEditor.png</normaloff>:/resources/images/sharedEditor.png</iconset>
    </property>
    <property name="text">
     <string>Shared Note</string>
@@ -590,7 +590,7 @@
   <action name="m_supportRolisteam">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/icons/liberapay.png</normaloff>:/resources/icons/liberapay.png</iconset>
+     <normaloff>:/resources/images/liberapay.png</normaloff>:/resources/images/liberapay.png</iconset>
    </property>
    <property name="text">
     <string>Support Rolisteam</string>
@@ -618,7 +618,7 @@
   <action name="m_openPdfAct">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/icons/pdfLogo.png</normaloff>:/resources/icons/pdfLogo.png</iconset>
+     <normaloff>:/resources/images/pdfLogo.png</normaloff>:/resources/images/pdfLogo.png</iconset>
    </property>
    <property name="text">
     <string>PDF File</string>
@@ -635,7 +635,7 @@
   <action name="m_newWebViewACt">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/icons/webPage.svg</normaloff>:/resources/icons/webPage.svg</iconset>
+     <normaloff>:/resources/images/webPage.svg</normaloff>:/resources/images/webPage.svg</iconset>
    </property>
    <property name="text">
     <string>WebPage</string>
@@ -682,7 +682,7 @@
   <action name="m_patreon">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/icons/Patreon_Mark_Coral.jpg</normaloff>:/resources/icons/Patreon_Mark_Coral.jpg</iconset>
+     <normaloff>:/resources/images/Patreon_Mark_Coral.jpg</normaloff>:/resources/images/Patreon_Mark_Coral.jpg</iconset>
    </property>
    <property name="text">
     <string>Support Rolisteam</string>
