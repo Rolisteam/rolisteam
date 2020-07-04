@@ -28,7 +28,9 @@
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/mediacontrollerbase.h"
+#ifdef WITH_PDF
 #include "controller/view_controller/pdfcontroller.h"
+#endif
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
@@ -423,7 +425,7 @@ void MessageHelper::updateWebpage(WebpageController* ctrl)
 
     msg.sendToServer();
 }
-
+#ifdef WITH_PDF
 void MessageHelper::sendOffPdfFile(PdfController* ctrl)
 {
     if(nullptr == ctrl)
@@ -446,7 +448,7 @@ QHash<QString, QVariant> MessageHelper::readPdfData(NetworkMessageReader* msg)
 
     return QHash<QString, QVariant>({{"id", id}, {"data", data}});
 }
-
+#endif
 void addVisualItemController(const vmap::VisualItemController* ctrl, NetworkMessageWriter& msg)
 {
     msg.uint8(ctrl->visible());

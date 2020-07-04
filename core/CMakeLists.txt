@@ -13,10 +13,33 @@ include_directories(src/widgets/MRichTextEditor)
 
 set(QT_REQUIRED_VERSION "5.15.0")
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui Svg Network Multimedia PrintSupport Qml Quick QuickWidgets QuickControls2 Xml WebEngineWidgets Concurrent)
+find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG COMPONENTS PdfWidgets)
 
 if(TESTS)
     find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test)
 endif()
+
+set(HAS_PDF FALSE)
+
+if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
+    set(HAS_PDF TRUE)
+    message("Enable PDF feature")
+    add_definitions(-DWITH_PDF=1)
+
+    set(pdfHeader
+        src/controller/view_controller/pdfcontroller.h
+        src/controller/media_controller/pdfmediacontroller.h
+        src/pdfviewer/pdfviewer.h)
+
+    set(pdfSource
+        src/pdfviewer/pdfviewer.cpp
+        src/controller/media_controller/pdfmediacontroller.cpp
+        src/controller/view_controller/pdfcontroller.cpp)
+
+    set(pdfUiFiles src/pdfviewer/pdfviewer.ui)
+endif()
+
+
 
 set(HEADERS
     src/controller/gamecontroller.h
@@ -32,9 +55,7 @@ set(HEADERS
     src/controller/view_controller/charactersheetcontroller.h
     src/controller/view_controller/webpagecontroller.h
     src/controller/view_controller/sharednotecontroller.h
-    src/controller/view_controller/pdfcontroller.h
     src/controller/view_controller/notecontroller.h
-    src/controller/media_controller/pdfmediacontroller.h
     src/controller/media_controller/mediamanagerbase.h
     src/controller/media_controller/charactersheetmediacontroller.h
     src/controller/media_controller/vectorialmapmediacontroller.h
@@ -45,6 +66,7 @@ set(HEADERS
     src/qmlchat/instantmessagingmodel.h
     src/qmlchat/messageinterface.h
     src/controller/contentcontroller.h
+    src/common/controller/theme.h
     src/undoCmd/addlocalcharactercommand.h
     src/undoCmd/removelocalcharactercommand.h
     src/media/mediatype.h
@@ -86,13 +108,7 @@ set(HEADERS
     src/qmlchat/avatarprovider.h
     src/qmlchat/textwritercontroller.h
     src/qmlchat/chatroomfactory.h
-    # src/chat/chat.h
-    # src/chat/chatbrowser.h
-    # src/chat/chatlist.h
-    # src/chat/chatlistwidget.h
-    # src/chat/chatwindow.h
-    # src/chat/improvedtextedit.h
-    # src/chat/privatechatdialog.h
+    src/qmlchat/chatroomsplittermodel.h
     src/common/controller/logcontroller.h
     src/common/controller/remotelogcontroller.h
     src/common/task/uploadlogtoserver.h
@@ -163,7 +179,6 @@ set(HEADERS
     src/diceparser/result/stringresult.h
     src/diceparser/validator.h
     src/media/image.h
-    #src/model/participantsmodel.h
     src/model/playerproxymodel.h    
     src/network/channel.h
     src/network/channellistpanel.h
@@ -198,7 +213,6 @@ set(HEADERS
     src/noteeditor/format_OO_oasis_/XML_Editor.h
     src/noteeditor/src/notecontainer.h
     src/noteeditor/src/textedit.h
-    src/pdfviewer/pdfviewer.h
     src/preferences/characterstatemodel.h
     src/preferences/dicealiasmodel.h
     src/preferences/palettemodel.h
@@ -206,8 +220,6 @@ set(HEADERS
     src/preferences/preferenceslistener.h
     src/preferences/preferencesmanager.h
     src/preferences/rolisteamtheme.h
-    src/qpdflib/pdfjsbridge.h
-    src/qpdflib/qpdfwidget.h
     src/services/ipchecker.h
     src/services/tipchecker.h
     src/services/updatechecker.h
@@ -216,12 +228,10 @@ set(HEADERS
     src/session/sessiondock.h
     src/session/sessionview.h
     src/sharededitor/codeeditor.h
-   #src/sharededitor/connecttodocument.h
     src/sharededitor/document.h
     src/sharededitor/enu.h
     src/sharededitor/finddialog.h
     src/sharededitor/findtoolbar.h
-#    src/sharededitor/firstrundialog.h
     src/sharededitor/markdownhighlighter.h
     src/sharededitor/participantmodel.h
     src/sharededitor/participantspane.h
@@ -353,11 +363,9 @@ set(SOURCES
     src/controller/media_controller/vectorialmapmediacontroller.cpp
     src/controller/media_controller/webpagemediacontroller.cpp
     src/controller/media_controller/sharednotemediacontroller.cpp
-    src/controller/media_controller/pdfmediacontroller.cpp
     src/controller/media_controller/notemediacontroller.cpp
     src/controller/view_controller/notecontroller.cpp
     src/controller/view_controller/vectorialmapcontroller.cpp
-    src/controller/view_controller/pdfcontroller.cpp
     src/controller/view_controller/sharednotecontroller.cpp
     src/controller/view_controller/webpagecontroller.cpp
     src/controller/view_controller/imagecontroller.cpp
@@ -365,6 +373,7 @@ set(SOURCES
     src/worker/iohelper.cpp
     src/undoCmd/addlocalcharactercommand.cpp
     src/undoCmd/removelocalcharactercommand.cpp
+    src/common/controller/theme.cpp
     src/model/profilemodel.cpp
     src/model/thememodel.cpp
     src/model/charactermodel.cpp
@@ -378,9 +387,9 @@ set(SOURCES
     src/qmlchat/filteredplayermodel.cpp
     src/qmlchat/messagefactory.cpp
     src/qmlchat/filterinstantmessagingmodel.cpp
+    src/qmlchat/chatroomsplittermodel.cpp
     src/qmlchat/instantmessagingview.cpp
     src/charactersheet/charactersheet.cpp
-    #src/charactersheet/charactersheetbutton.cpp
     src/charactersheet/charactersheetitem.cpp
     src/charactersheet/charactersheetmodel.cpp
     src/media/charactersheetwindow.cpp
@@ -400,13 +409,6 @@ set(SOURCES
     src/charactersheet/section.cpp
     src/charactersheet/sheetwidget.cpp
     src/charactersheet/tablefield.cpp
-    # src/chat/chat.cpp
-    # src/chat/chatbrowser.cpp
-    # src/chat/chatlist.cpp
-    # src/chat/chatlistwidget.cpp
-    # src/chat/chatwindow.cpp
-    # src/chat/improvedtextedit.cpp
-    # src/chat/privatechatdialog.cpp
     src/qmlchat/instantmessagingmodel.cpp
     src/qmlchat/messageinterface.cpp
     src/qmlchat/textmessage.cpp
@@ -481,7 +483,6 @@ set(SOURCES
     src/diceparser/validatorlist.cpp
     src/media/image.cpp
     src/model/playerproxymodel.cpp
-    #src/model/participantsmodel.cpp
     src/network/channel.cpp
     src/network/channellistpanel.cpp
     src/network/channelmodel.cpp
@@ -513,7 +514,6 @@ set(SOURCES
     src/noteeditor/format_OO_oasis_/XML_Editor.cpp
     src/noteeditor/src/notecontainer.cpp
     src/noteeditor/src/textedit.cpp
-    src/pdfviewer/pdfviewer.cpp
     src/preferences/characterstatemodel.cpp
     src/preferences/dicealiasmodel.cpp
     src/preferences/palettemodel.cpp
@@ -521,8 +521,6 @@ set(SOURCES
     src/preferences/preferenceslistener.cpp
     src/preferences/preferencesmanager.cpp
     src/preferences/rolisteamtheme.cpp
-    src/qpdflib/pdfjsbridge.cpp
-    src/qpdflib/qpdfwidget.cpp
     src/services/ipchecker.cpp
     src/services/tipchecker.cpp
     src/services/updatechecker.cpp
@@ -531,11 +529,9 @@ set(SOURCES
     src/session/sessiondock.cpp
     src/session/sessionview.cpp
     src/sharededitor/codeeditor.cpp
- #   src/sharededitor/connecttodocument.cpp
     src/sharededitor/document.cpp
     src/sharededitor/finddialog.cpp
     src/sharededitor/findtoolbar.cpp
-#    src/sharededitor/firstrundialog.cpp
     src/sharededitor/markdownhighlighter.cpp
     src/sharededitor/participantspane.cpp
     src/sharededitor/participantmodel.cpp
@@ -684,12 +680,18 @@ set(UI_FILES
     src/network/connectionretrydialog.ui
     src/session/sessiondock.ui
     src/qmlchat/instantmessagingview.ui
+    src/pdfviewer/pdfviewer.ui
     )
 
-add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} src/rolisteamqml.qrc src/noteeditor/src/textedit.qrc)
 
-#qt5_use_modules(       core         Widgets Gui      Svg                    Network      Multimedia      PrintSupport        Qml       Quick QuickWidgets        Xml WebEngineWidgets Concurrent Pdf)
-target_link_libraries(core PUBLIC  Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickControls2 Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets Qt5::Concurrent)
+if(HAS_PDF)
+    add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} ${pdfSource} ${pdfHeader} ${pdfUiFile} src/rolisteamqml.qrc src/noteeditor/src/textedit.qrc)
+    target_link_libraries(core PUBLIC  Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickControls2 Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets Qt5::Concurrent Qt5::PdfWidgets)
+else()
+    add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} src/rolisteamqml.qrc src/noteeditor/src/textedit.qrc)
+    target_link_libraries(core PUBLIC  Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickControls2 Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets Qt5::Concurrent)
+endif()
+
 
 set(Network_HEADER    
     src/network/channelmodel.h
@@ -746,7 +748,7 @@ set(Network_SRC
     src/data/resourcesnode.cpp
     src/worker/playermessagehelper.cpp
     src/common/controller/logcontroller.cpp
-    )
+)
 
 add_library(network SHARED ${Network_SRC} ${Network_HEADER})
 set_target_properties(network PROPERTIES COMPILE_DEFINITIONS "UNIT_TEST=1")

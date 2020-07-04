@@ -22,6 +22,8 @@
 #include "data/cleveruri.h"
 #include "worker/iohelper.h"
 
+#include <QBuffer>
+
 PdfController::PdfController(const QString& id, const QString& path, const QByteArray& data, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::PDF, parent)
 {
@@ -46,12 +48,31 @@ QByteArray PdfController::data() const
     return m_data;
 }
 
+QBuffer* PdfController::buffer()
+{
+    return new QBuffer(&m_data);
+}
+
+qreal PdfController::zoomFactor() const
+{
+    return m_zoom;
+}
+
 void PdfController::setData(const QByteArray& data)
 {
     if(data == m_data)
         return;
     m_data= data;
     emit dataChanged(m_data);
+}
+
+void PdfController::setZoomFactor(qreal zoom)
+{
+    if(qFuzzyCompare(m_zoom, zoom))
+        return;
+
+    m_zoom= zoom;
+    emit zoomFactorChanged(m_zoom);
 }
 
 void PdfController::shareImageIntoImage(const QPixmap& image) {}

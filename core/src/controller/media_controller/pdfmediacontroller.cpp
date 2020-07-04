@@ -32,17 +32,20 @@ bool PdfMediaController::openMedia(const QString& uuid, const std::map<QString, 
     if(uuid.isEmpty() && args.empty())
         return false;
 
-    QByteArray serializedData;
-    auto it= args.find(QStringLiteral("serializedData"));
-    if(it != args.end())
-        serializedData= it->second.toByteArray();
+    QHash<QString, QVariant> params(args.begin(), args.end());
 
-    QByteArray data;
-    it= args.find(QStringLiteral("data"));
-    if(it != args.end())
-        data= it->second.toByteArray();
+    /*    QByteArray serializedData;
+        auto it= args.find(QStringLiteral("serializedData"));
+        if(it != args.end())
+            serializedData= it->second.toByteArray();
 
-    addPdfController({{"id", uuid}, {"data", data}, {"serializedData", serializedData}});
+        QByteArray data;
+        it= args.find(QStringLiteral("data"));
+        if(it != args.end())
+            data= it->second.toByteArray();*/
+    params.insert("id", uuid);
+
+    addPdfController(params); //{, {"data", data}, {"serializedData", serializedData},{"path",}});
     return true;
 }
 
@@ -99,10 +102,14 @@ void PdfMediaController::addPdfController(const QHash<QString, QVariant>& params
 {
 
     auto id= params.value(QStringLiteral("id")).toString();
+    auto ownerid= params.value(QStringLiteral("ownerId")).toString();
     auto array= params.value(QStringLiteral("data")).toByteArray();
+    auto path= params.value(QStringLiteral("path")).toString();
     auto seriaziledData= params.value(QStringLiteral("seriaziledData")).toByteArray();
 
-    std::unique_ptr<PdfController> pdfController(new PdfController(id, array));
+    std::unique_ptr<PdfController> pdfController(new PdfController(id, path, array));
+    pdfController->setOwnerId(ownerid);
+
     connect(pdfController.get(), &PdfController::sharePdf, this, &PdfMediaController::sharePdf);
     connect(pdfController.get(), &PdfController::openImageAs, this, &PdfMediaController::shareImageAs);
 

@@ -38,6 +38,12 @@ class NetworkMessageWriter;
 class QPdfWidget;
 class Overlay;
 class PdfController;
+class QPdfDocument;
+class QPdfView;
+namespace Ui
+{
+class PdfViewer;
+}
 /**
  * @brief The Image class displays image to the screen. It also manages image from Internet and the zooming.
  */
@@ -61,36 +67,25 @@ public:
 
     virtual void putDataIntoCleverUri();
 
-    virtual void fill(NetworkMessageWriter& msg);
-    virtual void readMessage(NetworkMessageReader& msg);
-
     void contextMenuEvent(QContextMenuEvent* event);
     /*signals:
         void openImageAs(const QPixmap&, Core::ContentType);*/
 
 protected:
-    void createActions();
-    void creationToolBar();
+    void makeConnections();
+
 protected slots:
     void showOverLay();
     void exportImage();
     void sharePdfTo();
     void updateTitle();
+    void bookmarkSelected(const QModelIndex& index);
 
 private:
+    Ui::PdfViewer* m_ui= nullptr;
+    QPdfDocument* m_document;
     QPointer<PdfController> m_pdfCtrl;
-    QVBoxLayout* m_mainLayout= nullptr;
-
-    QAction* m_cropCurrentView= nullptr;
-    QAction* m_shareDocument= nullptr;
-
-    QAction* m_toMap= nullptr;
-    QAction* m_toVmap= nullptr;
-    QAction* m_image= nullptr;
-
     std::vector<QAction*> m_cropOption;
-
-    QPdfWidget* m_pdfWidget= nullptr;
     Overlay* m_overlay= nullptr;
 };
 
