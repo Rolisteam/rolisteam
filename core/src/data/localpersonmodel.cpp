@@ -60,9 +60,17 @@ QModelIndex LocalPersonModel::mapToSource(const QModelIndex& proxyIndex) const
     return idx;
 }
 
+QHash<int, QByteArray> LocalPersonModel::roleNames() const
+{
+    return sourceModel()->roleNames();
+}
+
 void LocalPersonModel::setSourceModel(QAbstractItemModel* sourceModel)
 {
+    beginResetModel();
     QAbstractProxyModel::setSourceModel(sourceModel);
+    endResetModel();
+
     auto func= [this]() {
         beginResetModel();
 
@@ -70,6 +78,7 @@ void LocalPersonModel::setSourceModel(QAbstractItemModel* sourceModel)
     };
     connect(sourceModel, &QAbstractItemModel::dataChanged, this, func);
     connect(sourceModel, &QAbstractItemModel::rowsInserted, this, func);
+    connect(sourceModel, &QAbstractItemModel::modelReset, this, func);
 }
 
 QModelIndex LocalPersonModel::index(int r, int c, const QModelIndex&) const

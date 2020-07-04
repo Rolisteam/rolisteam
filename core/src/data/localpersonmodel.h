@@ -37,6 +37,8 @@ public:
     QModelIndex mapFromSource(const QModelIndex& sourceIndex) const override;
     QModelIndex mapToSource(const QModelIndex& proxyIndex) const override;
 
+    QHash<int, QByteArray> roleNames() const override;
+
     virtual void setSourceModel(QAbstractItemModel* sourceModel) override;
     virtual QModelIndex index(int, int, const QModelIndex&) const override;
     virtual QModelIndex parent(const QModelIndex& idx= QModelIndex()) const override;
