@@ -78,11 +78,11 @@ signals:
     void openWebPage(QString);
 
 private:
-    std::unique_ptr<InstantMessaging::InstantMessagingModel> m_model;
-    std::vector<std::unique_ptr<InstantMessaging::ChatroomSplitterModel>> m_splitterModels;
-    std::unique_ptr<InstantMessaging::InstantMessagingUpdater> m_updater;
-    QPointer<PlayerModel> m_players;
     std::unique_ptr<LocalPersonModel> m_localPersonModel;
+    std::unique_ptr<InstantMessaging::InstantMessagingUpdater> m_updater;
+    std::vector<std::unique_ptr<InstantMessaging::ChatroomSplitterModel>> m_splitterModels;
+    std::unique_ptr<InstantMessaging::InstantMessagingModel> m_model;
+    QPointer<PlayerModel> m_players;
     bool m_nightMode= false;
     int m_fontSizeFactor= false;
 };

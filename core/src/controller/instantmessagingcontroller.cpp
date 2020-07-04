@@ -68,10 +68,10 @@ void registerType()
 
 InstantMessagingController::InstantMessagingController(PlayerModel* model, QObject* parent)
     : AbstractControllerInterface(parent)
-    , m_model(new InstantMessaging::InstantMessagingModel)
-    , m_updater(new InstantMessaging::InstantMessagingUpdater)
-    , m_players(model)
     , m_localPersonModel(new LocalPersonModel)
+    , m_updater(new InstantMessaging::InstantMessagingUpdater)
+    , m_model(new InstantMessaging::InstantMessagingModel)
+    , m_players(model)
 {
     ReceiveEvent::registerNetworkReceiver(NetMsg::InstantMessageCategory, this);
     registerType();
