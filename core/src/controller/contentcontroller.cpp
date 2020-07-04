@@ -23,10 +23,13 @@
 #include "controller/media_controller/imagemediacontroller.h"
 #include "controller/media_controller/mediamanagerbase.h"
 #include "controller/media_controller/notemediacontroller.h"
-#include "controller/media_controller/pdfmediacontroller.h"
 #include "controller/media_controller/sharednotemediacontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
 #include "controller/media_controller/webpagemediacontroller.h"
+
+#ifdef WITH_PDF
+#include "controller/media_controller/pdfmediacontroller.h"
+#endif
 
 #include "controller/view_controller/charactersheetcontroller.h"
 
@@ -49,7 +52,9 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
     , m_sheetMediaController(new CharacterSheetMediaController(characterModel))
     , m_webPageMediaController(new WebpageMediaController)
     , m_sharedNoteMediaController(new SharedNoteMediaController(playerModel))
+#ifdef WITH_PDF
     , m_pdfMediaController(new PdfMediaController)
+#endif
     , m_noteMediaController(new NoteMediaController)
     , m_sessionName(tr("Unknown"))
 {
@@ -58,7 +63,9 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
     m_mediaControllers.insert({m_sheetMediaController->type(), m_sheetMediaController.get()});
     m_mediaControllers.insert({m_webPageMediaController->type(), m_webPageMediaController.get()});
     m_mediaControllers.insert({m_sharedNoteMediaController->type(), m_sharedNoteMediaController.get()});
+#ifdef WITH_PDF
     m_mediaControllers.insert({m_pdfMediaController->type(), m_pdfMediaController.get()});
+#endif
     m_mediaControllers.insert({m_noteMediaController->type(), m_noteMediaController.get()});
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
@@ -185,10 +192,12 @@ SharedNoteMediaController* ContentController::sharedCtrl() const
     return m_sharedNoteMediaController.get();
 }
 
+#ifdef WITH_PDF
 PdfMediaController* ContentController::pdfCtrl() const
 {
     return m_pdfMediaController.get();
 }
+#endif
 
 NoteMediaController* ContentController::noteCtrl() const
 {
@@ -197,9 +206,12 @@ NoteMediaController* ContentController::noteCtrl() const
 
 std::vector<MediaManagerBase*> ContentController::mediaManagers() const
 {
-    return {m_noteMediaController.get(),    m_pdfMediaController.get(),   m_sharedNoteMediaController.get(),
-            m_webPageMediaController.get(), m_sheetMediaController.get(), m_vmapControllers.get(),
-            m_imageControllers.get()};
+    return {m_noteMediaController.get(),
+#ifdef WITH_PDF
+            m_pdfMediaController.get(),
+#endif
+            m_sharedNoteMediaController.get(), m_webPageMediaController.get(), m_sheetMediaController.get(),
+            m_vmapControllers.get(),           m_imageControllers.get()};
 }
 
 int ContentController::contentCount() const
