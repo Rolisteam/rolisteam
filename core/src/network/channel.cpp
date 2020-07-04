@@ -379,6 +379,9 @@ TreeItem* Channel::getChildById(QString id)
 {
     for(auto& item : m_child)
     {
+        if(item.isNull())
+            continue;
+
         if(item->getId() == id)
         {
             return item;
