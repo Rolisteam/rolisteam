@@ -98,9 +98,11 @@ public:
     static void sendOffImage(ImageController* ctrl);
     static QHash<QString, QVariant> readImageData(NetworkMessageReader* msg);
 
-    // PDF
+// PDF
+#ifdef WITH_PDF
     static void sendOffPdfFile(PdfController* ctrl);
     static QHash<QString, QVariant> readPdfData(NetworkMessageReader* msg);
+#endif
 
     // webpage
     static void shareWebpage(WebpageController* ctrl);

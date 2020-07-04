@@ -26,7 +26,6 @@
 #include "controller/media_controller/charactersheetmediacontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
 #include "controller/media_controller/notemediacontroller.h"
-#include "controller/media_controller/pdfmediacontroller.h"
 #include "controller/media_controller/sharednotemediacontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
 #include "controller/media_controller/webpagemediacontroller.h"
@@ -35,10 +34,14 @@
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/mapcontroller.h"
 #include "controller/view_controller/notecontroller.h"
-#include "controller/view_controller/pdfcontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
+
+#ifdef WITH_PDF
+#include "controller/media_controller/pdfmediacontroller.h"
+#include "controller/view_controller/pdfcontroller.h"
+#endif
 
 #include "controller/instantmessagingcontroller.h"
 #include "qmlchat/instantmessagingview.h"
@@ -72,7 +75,9 @@ Workspace::Workspace(ContentController* ctrl, InstantMessagingController* instan
     connect(m_ctrl->noteCtrl(), &NoteMediaController::noteControllerCreated, this, &Workspace::addNote);
     connect(m_ctrl->vmapCtrl(), &VectorialMapMediaController::vmapControllerCreated, this, &Workspace::addVectorialMap);
     connect(m_ctrl->webPageCtrl(), &WebpageMediaController::webpageControllerCreated, this, &Workspace::addWebpage);
+#ifdef WITH_PDF
     connect(m_ctrl->pdfCtrl(), &PdfMediaController::pdfControllerCreated, this, &Workspace::addPdf);
+#endif
     connect(m_ctrl->sheetCtrl(), &CharacterSheetMediaController::characterSheetCreated, this,
             &Workspace::addCharacterSheet);
     connect(m_ctrl->sharedCtrl(), &SharedNoteMediaController::sharedNoteControllerCreated, this,
@@ -470,10 +475,11 @@ void Workspace::addSharedNote(SharedNoteController* ctrl)
     addWidgetToMdi(SharedNote.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(SharedNote));
 }
-
+#ifdef WITH_PDF
 void Workspace::addPdf(PdfController* ctrl)
 {
     std::unique_ptr<PdfViewer> pdfViewer(new PdfViewer(ctrl));
     addWidgetToMdi(pdfViewer.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(pdfViewer));
 }
+#endif

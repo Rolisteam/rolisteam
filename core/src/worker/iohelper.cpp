@@ -30,16 +30,19 @@
 #include "controller/view_controller/imagecontroller.h"
 #include "controller/view_controller/mediacontrollerbase.h"
 #include "controller/view_controller/notecontroller.h"
-#include "controller/view_controller/pdfcontroller.h"
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "controller/view_controller/webpagecontroller.h"
+
+#ifdef WITH_PDF
+#include "controller/media_controller/pdfmediacontroller.h"
+#include "controller/view_controller/pdfcontroller.h"
+#endif
 
 #include "controller/media_controller/charactersheetmediacontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
 #include "controller/media_controller/mediamanagerbase.h"
 #include "controller/media_controller/notemediacontroller.h"
-#include "controller/media_controller/pdfmediacontroller.h"
 #include "controller/media_controller/sharednotemediacontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
 #include "controller/media_controller/webpagemediacontroller.h"
@@ -999,7 +1002,7 @@ void saveWebView(WebpageController* ctrl, QDataStream& output)
     output << ctrl->state();
     output << ctrl->sharingMode();
 }
-
+#ifdef WITH_PDF
 void savePdfView(PdfController* ctrl, QDataStream& output)
 {
     if(!ctrl)
@@ -1009,6 +1012,7 @@ void savePdfView(PdfController* ctrl, QDataStream& output)
 
     output << ctrl->data();
 }
+#endif
 
 void saveAllVectorialMaps(VectorialMapMediaController* manager, QDataStream& output)
 {
@@ -1083,7 +1087,7 @@ void saveAllWebpageControllers(WebpageMediaController* manager, QDataStream& out
     std::for_each(ctrls.begin(), ctrls.end(),
                   [&output](WebpageController* ctrl) { output << IOHelper::saveController(ctrl); });
 }
-
+#ifdef WITH_PDF
 void saveAllPdfControllers(PdfMediaController* manager, QDataStream& output)
 {
     if(!manager)
@@ -1095,7 +1099,7 @@ void saveAllPdfControllers(PdfMediaController* manager, QDataStream& output)
     std::for_each(ctrls.begin(), ctrls.end(),
                   [&output](PdfController* ctrl) { output << IOHelper::saveController(ctrl); });
 }
-
+#endif
 QByteArray IOHelper::saveManager(MediaManagerBase* manager)
 {
     QByteArray data;
@@ -1127,9 +1131,11 @@ QByteArray IOHelper::saveManager(MediaManagerBase* manager)
     case Core::ContentType::WEBVIEW:
         saveAllWebpageControllers(dynamic_cast<WebpageMediaController*>(manager), output);
         break;
+#ifdef WITH_PDF
     case Core::ContentType::PDF:
         saveAllPdfControllers(dynamic_cast<PdfMediaController*>(manager), output);
         break;
+#endif
     default:
         Q_ASSERT(false);
         break;
@@ -1194,9 +1200,11 @@ QByteArray IOHelper::saveController(MediaControllerBase* media)
     case Core::ContentType::WEBVIEW:
         saveWebView(dynamic_cast<WebpageController*>(media), output);
         break;
+#ifdef WITH_PDF
     case Core::ContentType::PDF:
         savePdfView(dynamic_cast<PdfController*>(media), output);
         break;
+#endif
     }
 
     return data;
@@ -1288,6 +1296,7 @@ void IOHelper::readWebpageController(WebpageController* ctrl, const QByteArray& 
     ctrl->setSharingMode(mode);
 }
 
+#ifdef WITH_PDF
 void IOHelper::readPdfController(PdfController* ctrl, const QByteArray& array)
 {
     if(!ctrl || array.isEmpty())
@@ -1301,6 +1310,7 @@ void IOHelper::readPdfController(PdfController* ctrl, const QByteArray& array)
     input >> pdfData;
     ctrl->setData(pdfData);
 }
+#endif
 
 void IOHelper::readNoteController(NoteController* ctrl, const QByteArray& array)
 {

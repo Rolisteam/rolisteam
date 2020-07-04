@@ -102,8 +102,10 @@ protected slots:
     void addCharacterSheet(CharacterSheetController* ctrl);
     void addWebpage(WebpageController* ctrl);
     void addSharedNote(SharedNoteController* ctrl);
-    void addPdf(PdfController* ctrl);
     void addNote(NoteController* ctrl);
+#ifdef WITH_PDF
+    void addPdf(PdfController* ctrl);
+#endif
 
 protected:
     void resizeEvent(QResizeEvent* event);

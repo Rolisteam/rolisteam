@@ -19,108 +19,82 @@
  ***************************************************************************/
 
 #include "pdfviewer.h"
+#include <QBuffer>
 #include <QDebug>
 #include <QFileDialog>
+#include <QPdfBookmarkModel>
+#include <QPdfDocument>
+#include <QPdfPageNavigation>
+#include <QPdfView>
 #include <QScrollBar>
 #include <QShortcut>
 #include <QtGui>
 
+#include "controller/view_controller/pdfcontroller.h"
+#include "ui_pdfviewer.h"
 #include "widgets/overlay.h"
 
+// TO BE REMOVED
 #include "qpdflib/qpdfwidget.h"
-
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
-
-#include "controller/view_controller/pdfcontroller.h"
+// TO BE REMOVED
 
 #define MARGING 0
 #define ICON_SIZE 32
-/********************************************************************/
-/* Constructeur                                                     */
-/********************************************************************/
+
 PdfViewer::PdfViewer(PdfController* ctrl, QWidget* parent)
-    : MediaContainer(ctrl, MediaContainer::ContainerType::PDFContainer, parent), m_pdfCtrl(ctrl)
+    : MediaContainer(ctrl, MediaContainer::ContainerType::PDFContainer, parent)
+    , m_ui(new Ui::PdfViewer)
+    , m_pdfCtrl(ctrl)
 {
     setObjectName("PdfViewer");
-    setWindowIcon(QIcon(":/resources/icons/pdfLogo.png"));
+    setWindowIcon(QIcon(":/resources/images/pdfLogo.png"));
     auto wid= new QWidget();
-    m_mainLayout= new QVBoxLayout(wid);
-    m_mainLayout->setMargin(MARGING);
-    wid->setLayout(m_mainLayout);
-
-    createActions();
-    creationToolBar();
-
-    m_pdfWidget= new QPdfWidget();
-    m_mainLayout->addWidget(m_pdfWidget);
-
+    m_ui->setupUi(wid);
     setWidget(wid);
 
-    m_pdfWidget->loadData(m_pdfCtrl->data());
+    m_document= new QPdfDocument();
+    m_ui->m_view->setDocument(m_document);
+
+    QPdfBookmarkModel* bookmarkModel= new QPdfBookmarkModel(this);
+    m_ui->bookmarkView->setModel(bookmarkModel);
+    bookmarkModel->setDocument(m_document);
+
+    makeConnections();
+    auto buf= m_pdfCtrl->buffer();
+    if(buf->open(QIODevice::ReadOnly))
+        m_document->load(buf);
 }
 
 PdfViewer::~PdfViewer() {}
 
-void PdfViewer::creationToolBar()
+void PdfViewer::makeConnections()
 {
-    // m_mainLayout
-    auto hLayout= new QHBoxLayout(this);
-    hLayout->setMargin(MARGING);
 
-    auto button= new QToolButton(this);
+    m_ui->m_cropBtn->setDefaultAction(m_ui->m_cropViewAct);
+    m_ui->m_shareBtn->setDefaultAction(m_ui->m_shareAct);
+    m_ui->m_exportToMapBtn->setDefaultAction(m_ui->m_exportToMapAct);
+    m_ui->m_exportToImageBtn->setDefaultAction(m_ui->m_exportToImage);
+    m_ui->m_continuousBtn->setDefaultAction(m_ui->m_continuousAct);
+    // m_ui->m_shareBtn->setDefaultAction(m_ui->m_shareAct);
 
-    button->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
-    button->setAutoRaise(true);
-    m_cropCurrentView->setCheckable(true);
-    button->setDefaultAction(m_cropCurrentView);
-    hLayout->addWidget(button);
+    connect(m_ui->m_continuousAct, &QAction::triggered, this, []() {
+        // m_ui->m_view, &QPdfView::setZoomMode;
+    });
+    connect(m_pdfCtrl, &PdfController::zoomFactorChanged, m_ui->m_view, &QPdfView::setZoomFactor);
 
-    button= new QToolButton(this);
-    button->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
-    button->setAutoRaise(true);
-    button->setDefaultAction(m_shareDocument);
-    hLayout->addWidget(button);
+    connect(m_ui->bookmarkView, &QTreeView::activated, this, &PdfViewer::bookmarkSelected);
 
-    button= new QToolButton(this);
-    button->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
-    button->setAutoRaise(true);
-    button->setDefaultAction(m_toMap);
-    m_cropOption.push_back(m_toMap);
-    hLayout->addWidget(button);
-
-    button= new QToolButton(this);
-    button->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
-    button->setAutoRaise(true);
-    button->setDefaultAction(m_toVmap);
-    m_cropOption.push_back(m_toVmap);
-    hLayout->addWidget(button);
-
-    button= new QToolButton(this);
-    button->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
-    button->setAutoRaise(true);
-    button->setDefaultAction(m_image);
-    m_cropOption.push_back(m_image);
-    hLayout->addWidget(button);
-
-    hLayout->addStretch();
-
-    m_mainLayout->addLayout(hLayout);
     for(auto act : m_cropOption)
     {
-        act->setVisible(false);
+        // act->setVisible(false);
     }
-}
-
-void PdfViewer::createActions()
-{
-    m_cropCurrentView= new QAction(tr("Crop Current View"), this);
-    m_cropCurrentView->setIcon(QIcon(":/resources/icons/crop.svg"));
+    /*m_cropCurrentView= new QAction(tr("Crop Current View"), this);
+    m_cropCurrentView->setIcon(QIcon(":/resources/images/crop.svg"));
 
     connect(m_cropCurrentView, &QAction::triggered, this, &PdfViewer::showOverLay);
 
     m_shareDocument= new QAction(tr("Document to all"), this);
-    m_shareDocument->setIcon(QIcon(":/resources/icons/document-share.svg"));
+    m_shareDocument->setIcon(QIcon(":/resources/images/document-share.svg"));
 
     m_toVmap= new QAction(tr("Export into VMap"), this);
     m_toVmap->setData(QVariant::fromValue(Core::ContentType::VECTORIALMAP));
@@ -130,7 +104,7 @@ void PdfViewer::createActions()
 
     connect(m_toVmap, &QAction::triggered, this, &PdfViewer::exportImage);
     connect(m_image, &QAction::triggered, this, &PdfViewer::exportImage);
-    connect(m_shareDocument, &QAction::triggered, this, &PdfViewer::sharePdfTo);
+    connect(m_shareDocument, &QAction::triggered, this, &PdfViewer::sharePdfTo);*/
 }
 
 void PdfViewer::exportImage()
@@ -142,7 +116,7 @@ void PdfViewer::exportImage()
     auto type= static_cast<Core::ContentType>(act->data().toInt());
 
     auto rect= m_overlay->rect();
-    auto pix= m_pdfWidget->grab(rect);
+    auto pix= m_ui->m_view->grab(rect);
 
     // emit openImageAs(pix, type);
     switch(type)
@@ -159,7 +133,7 @@ void PdfViewer::exportImage()
 
     delete m_overlay;
     m_overlay= nullptr;
-    m_cropCurrentView->setChecked(false);
+    // m_cropCurrentView->setChecked(false);
 }
 
 void PdfViewer::sharePdfTo()
@@ -183,15 +157,24 @@ void PdfViewer::updateTitle()
     setWindowTitle(tr("%1 - (PDF)").arg(m_pdfCtrl->name()));
 }
 
+void PdfViewer::bookmarkSelected(const QModelIndex& index)
+{
+    if(!index.isValid())
+        return;
+
+    const int page= index.data(QPdfBookmarkModel::PageNumberRole).toInt();
+    m_ui->m_view->pageNavigation()->setCurrentPage(page);
+}
+
 void PdfViewer::showOverLay()
 {
-    if(m_cropCurrentView->isChecked())
+    /*if(m_cropCurrentView->isChecked())
     {
         if(m_overlay == nullptr)
         {
-            m_overlay= new Overlay(m_pdfWidget->geometry(), m_pdfWidget->parentWidget());
+            m_overlay= new Overlay(m_ui->m_view->geometry(), m_ui->m_view->parentWidget());
         }
-        m_overlay->setGeometry(m_pdfWidget->geometry());
+        m_overlay->setGeometry(m_ui->m_view->geometry());
         m_overlay->show();
         for(auto act : m_cropOption)
         {
@@ -210,40 +193,7 @@ void PdfViewer::showOverLay()
         {
             act->setVisible(false);
         }
-    }
-}
-void PdfViewer::fill(NetworkMessageWriter& message)
-{
-    /*QByteArray baPdfViewer= m_uri->getData();
-    if(baPdfViewer.isEmpty())
-    {
-        QFile pdfFile(m_uri->getUri());
-        if(!pdfFile.exists())
-            return;
-
-        if(pdfFile.open(QIODevice::ReadOnly))
-        {
-            baPdfViewer= pdfFile.readAll();
-        }
-    }
-
-    message.string16(getUriName());
-    message.string8(m_mediaId);
-    message.byteArray32(baPdfViewer);*/
-}
-
-void PdfViewer::readMessage(NetworkMessageReader& msg)
-{
-    // setUriName(msg.string16());
-
-    // m_mediaId= msg.string8();
-    // QByteArray data= msg.byteArray32();
-    // QTemporaryFile file;
-    // file.setAutoRemove(false);
-    // file.open();
-    // file.write(data);
-    // m_pdfWidget->loadData(data);
-    /// m_remote= true;
+    }*/
 }
 
 void PdfViewer::savePdfToFile(QDataStream& out)
@@ -266,8 +216,8 @@ void PdfViewer::contextMenuEvent(QContextMenuEvent* event)
 {
     QMenu menu(this);
 
-    menu.addAction(m_cropCurrentView);
-    menu.addAction(m_shareDocument);
+    // menu.addAction(m_cropCurrentView);
+    // menu.addAction(m_shareDocument);
     if(m_overlay != nullptr)
     {
         menu.addSeparator();

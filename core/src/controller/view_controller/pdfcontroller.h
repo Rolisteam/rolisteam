@@ -26,10 +26,12 @@
 #include "mediacontrollerbase.h"
 
 class CleverURI;
+class QBuffer;
 class PdfController : public MediaControllerBase
 {
     Q_OBJECT
     Q_PROPERTY(QByteArray data READ data NOTIFY dataChanged)
+    Q_PROPERTY(qreal zoomFactor READ zoomFactor WRITE setZoomFactor NOTIFY zoomFactorChanged)
 public:
     explicit PdfController(const QString& id, const QString& path, const QByteArray& data= QByteArray(),
                            QObject* parent= nullptr);
@@ -39,11 +41,13 @@ public:
     void loadData() const override;
 
     QByteArray data() const;
+    QBuffer* buffer();
+    qreal zoomFactor() const;
 
     void setData(const QByteArray& data);
 
 public slots:
-    // actions
+    void setZoomFactor(qreal zoom);
     void shareImageIntoImage(const QPixmap& image);
     void shareImageIntoMap(const QPixmap& image);
     void shareImageIntoVMap(const QPixmap& image);
@@ -53,10 +57,12 @@ signals:
     void dataChanged(QByteArray data);
     void openImageAs(const QPixmap&, Core::ContentType);
     void sharePdf(QString id);
+    void zoomFactorChanged(qreal r);
 
 private:
     QByteArray m_data;
     bool m_overlayVisibility= false;
+    qreal m_zoom= 1.0;
 };
 
 #endif // PDFCONTROLLER_H
