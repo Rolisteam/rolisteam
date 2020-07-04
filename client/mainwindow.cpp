@@ -543,6 +543,8 @@ void MainWindow::linkActionToMenu()
     m_ui->m_openShareNote->setData(static_cast<int>(Core::ContentType::SHAREDNOTE));
 #ifdef WITH_PDF
     m_ui->m_openPdfAct->setData(static_cast<int>(Core::ContentType::PDF));
+#else
+    m_ui->m_openPdfAct->setVisible(false);
 #endif
     m_ui->m_recentFileMenu->setVisible(false);
     connect(m_ui->m_closeAction, &QAction::triggered, m_mdiArea.get(), &Workspace::closeActiveSub);

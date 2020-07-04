@@ -19,10 +19,8 @@ if(TESTS)
     find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Test)
 endif()
 
-set(HAS_PDF FALSE)
-
 if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
-    set(HAS_PDF TRUE)
+    set(HAS_PDF TRUE PARENT_SCOPE)
     message("Enable PDF feature")
     add_definitions(-DWITH_PDF=1)
 
@@ -684,10 +682,12 @@ set(UI_FILES
     )
 
 
-if(HAS_PDF)
+if(Qt5PdfWidgets_FOUND AND ${WITH_PDF})
+    message("Link with PDF")
     add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} ${pdfSource} ${pdfHeader} ${pdfUiFile} src/rolisteamqml.qrc src/noteeditor/src/textedit.qrc)
     target_link_libraries(core PUBLIC  Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickControls2 Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets Qt5::Concurrent Qt5::PdfWidgets)
 else()
+    message("Link without PDF")
     add_library(core SHARED ${SOURCES} ${HEADERS} ${UI_FILES} src/rolisteamqml.qrc src/noteeditor/src/textedit.qrc)
     target_link_libraries(core PUBLIC  Qt5::Core Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::PrintSupport Qt5::Qml Qt5::Quick Qt5::QuickControls2 Qt5::QuickWidgets Qt5::Xml Qt5::WebEngineWidgets Qt5::Concurrent)
 endif()
