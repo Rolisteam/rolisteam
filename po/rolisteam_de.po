@@ -2135,12 +2135,12 @@ msgctxt "MRichTextEdit|"
 msgid "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"
 msgstr "JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Alle (*)"
 
-#: ../client/mainwindow.cpp:1601
+#: ../client/mainwindow.cpp:1603
 msgctxt "MainWindow|"
 msgid "unknown"
 msgstr "unbekannt"
 
-#: ../client/mainwindow.cpp:637
+#: ../client/mainwindow.cpp:639
 #, qt-format
 msgctxt "MainWindow|"
 msgid "The %1 donation page can be found online at :<br> <a href=\"%2\">%2</a>"
@@ -2155,42 +2155,42 @@ msgstr ""
 #~ msgid "Open Map"
 #~ msgstr "Karte öffnen"
 
-#: ../client/mainwindow.cpp:1501
+#: ../client/mainwindow.cpp:1503
 msgctxt "MainWindow|"
 msgid "Connected"
 msgstr "anschlussen"
 
-#: ../client/mainwindow.cpp:1501
+#: ../client/mainwindow.cpp:1503
 msgctxt "MainWindow|"
 msgid "Not Connected"
 msgstr "nicht anschlussen"
 
-#: ../client/mainwindow.cpp:1502
+#: ../client/mainwindow.cpp:1504
 msgctxt "MainWindow|"
 msgid "Server"
 msgstr "Server"
 
-#: ../client/mainwindow.cpp:1502
+#: ../client/mainwindow.cpp:1504
 msgctxt "MainWindow|"
 msgid "Client"
 msgstr "Client"
 
-#: ../client/mainwindow.cpp:1503
+#: ../client/mainwindow.cpp:1505
 msgctxt "MainWindow|"
 msgid "GM"
 msgstr "SL"
 
-#: ../client/mainwindow.cpp:1503
+#: ../client/mainwindow.cpp:1505
 msgctxt "MainWindow|"
 msgid "Player"
 msgstr "Spieler"
 
-#: ../client/mainwindow.cpp:764
+#: ../client/mainwindow.cpp:766
 msgctxt "MainWindow|"
 msgid "Open scenario"
 msgstr "Szenario öffnen"
 
-#: ../client/mainwindow.cpp:797
+#: ../client/mainwindow.cpp:799
 msgctxt "MainWindow|"
 msgid "Save Scenario as"
 msgstr "Szenario speichern als"
@@ -2296,7 +2296,7 @@ msgstr "Ctrl+P"
 
 #: ../client/mainwindow.ui:229
 #: ../build/client/rolisteam_autogen/include/ui_mainwindow.h:418
-#: ../client/mainwindow.cpp:701
+#: ../client/mainwindow.cpp:703
 msgctxt "MainWindow|"
 msgid "Quit"
 msgstr "Verlassen"
@@ -2800,50 +2800,50 @@ msgctxt "MainWindow|"
 msgid "Tile"
 msgstr "Fliese"
 
-#: ../client/mainwindow.cpp:915
+#: ../client/mainwindow.cpp:917
 msgctxt "MainWindow|"
 msgid "Help"
 msgstr "Hilfe"
 
-#: ../client/mainwindow.cpp:954
+#: ../client/mainwindow.cpp:956
 msgctxt "MainWindow|"
 msgid "Update Notification"
 msgstr "Update-Benachrichtigung"
 
-#: ../client/mainwindow.cpp:969
+#: ../client/mainwindow.cpp:971
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 has not the right version: %2."
 msgstr "%1 hat nicht die richtige Version: %2."
 
-#: ../client/mainwindow.cpp:1082
+#: ../client/mainwindow.cpp:1084
 msgctxt "MainWindow|"
 msgid "Set rolisteam to use <port> for the connection"
 msgstr "Satz Rolisteam, um zu benutzen <port> für die Verbindung"
 
-#: ../client/mainwindow.cpp:1085
+#: ../client/mainwindow.cpp:1087
 msgctxt "MainWindow|"
 msgid "Set rolisteam to connect to <server>."
 msgstr "Satz Rolisteam zu <server> in Verbindung um zu treten."
 
-#: ../client/mainwindow.cpp:1088
+#: ../client/mainwindow.cpp:1090
 msgctxt "MainWindow|"
 msgid "Define the <role>: gm or pc"
 msgstr "Das <role> definieren : SL oder SC"
 
-#: ../client/mainwindow.cpp:1090
+#: ../client/mainwindow.cpp:1092
 msgctxt "MainWindow|"
 msgid "Erase the settings and use the default parameters"
 msgstr ""
 "Radieren Sie die Einstellungen aus, und benutzen Sie die "
 "Unterlassungsparameter"
 
-#: ../client/mainwindow.cpp:1093
+#: ../client/mainwindow.cpp:1095
 msgctxt "MainWindow|"
 msgid "Define the <username>"
 msgstr "Den <username> definieren"
 
-#: ../client/mainwindow.cpp:1096
+#: ../client/mainwindow.cpp:1098
 msgctxt "MainWindow|"
 msgid "Remove limit to PDF file size"
 msgstr "Begrenzung für PDF-Datei-Größe entfernen"
@@ -2852,7 +2852,7 @@ msgstr "Begrenzung für PDF-Datei-Größe entfernen"
 #~ msgid "End of the connection process"
 #~ msgstr "Ende des Verbindungsprozesses"
 
-#: ../client/mainwindow.cpp:1600
+#: ../client/mainwindow.cpp:1602
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Export from %1"
@@ -2862,29 +2862,29 @@ msgstr "Aus %1 exportieren"
 #~ msgid "Resources Explorer"
 #~ msgstr "Ressourcen-Explorer"
 
-#: ../client/mainwindow.cpp:1342
+#: ../client/mainwindow.cpp:1344
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Open %1"
 msgstr "%1 öffnen"
 
-#: ../client/mainwindow.cpp:709
+#: ../client/mainwindow.cpp:711
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Connection has been lost. %1 will be close"
 msgstr "Die Verbindung ist verloren. %1 wird geschlossen sein"
 
-#: ../client/mainwindow.cpp:585
+#: ../client/mainwindow.cpp:587
 msgctxt "MainWindow|"
 msgid "&Redo"
 msgstr "&Wiederherstellen"
 
-#: ../client/mainwindow.cpp:586
+#: ../client/mainwindow.cpp:588
 msgctxt "MainWindow|"
 msgid "&Undo"
 msgstr "&Rückgängig"
 
-#: ../client/mainwindow.cpp:636
+#: ../client/mainwindow.cpp:638
 msgctxt "MainWindow|"
 msgid "Support"
 msgstr "Unterstützung"
@@ -2893,12 +2893,12 @@ msgstr "Unterstützung"
 #~ msgid "Untitled"
 #~ msgstr "Unbenannt"
 
-#: ../client/mainwindow.cpp:711
+#: ../client/mainwindow.cpp:713
 msgctxt "MainWindow|"
 msgid "Connection lost"
 msgstr "Verloren Verbindung"
 
-#: ../client/mainwindow.cpp:717
+#: ../client/mainwindow.cpp:719
 #, qt-format
 msgctxt "MainWindow|"
 msgid "Quit %1 "
@@ -2914,7 +2914,7 @@ msgstr "Verlassen %1"
 #~ msgid "Do you want to save your scenario before to quit %1?"
 #~ msgstr "%1 Wollen Sie ihre Szenarien bevor zu verlassen speichern ?"
 
-#: ../client/mainwindow.cpp:765 ../client/mainwindow.cpp:798
+#: ../client/mainwindow.cpp:767 ../client/mainwindow.cpp:800
 msgctxt "MainWindow|"
 msgid "Scenarios (*.sce)"
 msgstr "Szenarien (*.sce)"
@@ -2925,7 +2925,7 @@ msgctxt "MainWindow|"
 msgid "About Rolisteam"
 msgstr "Darüber Rolisteam"
 
-#: ../client/mainwindow.cpp:916
+#: ../client/mainwindow.cpp:918
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -2935,7 +2935,7 @@ msgstr ""
 "%1 Dokumentation kann Online daran gefunden werden :<br> <a "
 "href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>"
 
-#: ../client/mainwindow.cpp:955
+#: ../client/mainwindow.cpp:957
 #, qt-format
 msgctxt "MainWindow|"
 msgid ""
@@ -2947,13 +2947,13 @@ msgstr ""
 "http://www.rolisteam.org/download\"> Download-Seite </a> für mehr "
 "Information an"
 
-#: ../client/mainwindow.cpp:965
+#: ../client/mainwindow.cpp:967
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just joins the game."
 msgstr "%1 hat sich dem Spiel gerade angeschlossen."
 
-#: ../client/mainwindow.cpp:975
+#: ../client/mainwindow.cpp:977
 #, qt-format
 msgctxt "MainWindow|"
 msgid "%1 just leaves the game."
@@ -4202,12 +4202,12 @@ msgstr "Sechseck"
 #~ msgid "Export as Image"
 #~ msgstr "Als Bild exportieren"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:142
+#: ../core/src/pdfviewer/pdfviewer.cpp:143
 msgctxt "PdfViewer|"
 msgid "Sharing Pdf File"
 msgstr "PDF-Datei freigeben"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:143
+#: ../core/src/pdfviewer/pdfviewer.cpp:144
 msgctxt "PdfViewer|"
 msgid ""
 "PDF transfert can be really heavy.\n"
@@ -4216,7 +4216,7 @@ msgstr ""
 "Die PDF-Übertragung kann sehr lange dauern.\n"
 "Möchten Sie fortfahren und das PDF freigeben?"
 
-#: ../core/src/pdfviewer/pdfviewer.cpp:157
+#: ../core/src/pdfviewer/pdfviewer.cpp:158
 #, qt-format
 msgctxt "PdfViewer|"
 msgid "%1 - (PDF)"
@@ -5777,12 +5777,12 @@ msgctxt "QObject|"
 msgid "List of Alias:\n"
 msgstr "Alias Liste:\n"
 
-#: ../client/mainwindow.cpp:1099
+#: ../client/mainwindow.cpp:1101
 msgctxt "QObject|"
 msgid "path to the translation file: <translationfile>"
 msgstr "Weg zur Übersetzungsdatei: <translationfile>"
 
-#: ../client/mainwindow.cpp:1102
+#: ../client/mainwindow.cpp:1104
 msgctxt "QObject|"
 msgid "Define URL to connect to server: <url>"
 msgstr "URL definieren, um eine Verbindung zum Server herzustellen: <url>"

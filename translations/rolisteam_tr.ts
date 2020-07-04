@@ -2037,12 +2037,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1601"/>
+        <location filename="../client/mainwindow.cpp" line="1603"/>
         <source>unknown</source>
         <translation>bilinmeyen</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="637"/>
+        <location filename="../client/mainwindow.cpp" line="639"/>
         <source>The %1 donation page can be found online at :&lt;br&gt; &lt;a href=&quot;%2&quot;&gt;%2&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2051,42 +2051,42 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Haritayı Aç</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1501"/>
+        <location filename="../client/mainwindow.cpp" line="1503"/>
         <source>Connected</source>
         <translation>Bağlandı</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1501"/>
+        <location filename="../client/mainwindow.cpp" line="1503"/>
         <source>Not Connected</source>
         <translation>Bağlı Değil</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1502"/>
+        <location filename="../client/mainwindow.cpp" line="1504"/>
         <source>Server</source>
         <translation>Sunucu</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1502"/>
+        <location filename="../client/mainwindow.cpp" line="1504"/>
         <source>Client</source>
         <translation>İstemci</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1503"/>
+        <location filename="../client/mainwindow.cpp" line="1505"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1503"/>
+        <location filename="../client/mainwindow.cpp" line="1505"/>
         <source>Player</source>
         <translation>Oynatıcı</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="764"/>
+        <location filename="../client/mainwindow.cpp" line="766"/>
         <source>Open scenario</source>
         <translation>Senaryo aç</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="797"/>
+        <location filename="../client/mainwindow.cpp" line="799"/>
         <source>Save Scenario as</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2184,7 +2184,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../client/mainwindow.ui" line="229"/>
         <location filename="../build/client/rolisteam_autogen/include/ui_mainwindow.h" line="418"/>
-        <location filename="../client/mainwindow.cpp" line="701"/>
+        <location filename="../client/mainwindow.cpp" line="703"/>
         <source>Quit</source>
         <translation>Kapat</translation>
     </message>
@@ -2695,47 +2695,47 @@ p, li { white-space: pre-wrap; }
         <translation>Kiremit</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="915"/>
+        <location filename="../client/mainwindow.cpp" line="917"/>
         <source>Help</source>
         <translation>Yardım</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="954"/>
+        <location filename="../client/mainwindow.cpp" line="956"/>
         <source>Update Notification</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="969"/>
+        <location filename="../client/mainwindow.cpp" line="971"/>
         <source>%1 has not the right version: %2.</source>
         <translation>%1 doğru sürüm değil: %2.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1082"/>
+        <location filename="../client/mainwindow.cpp" line="1084"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Rolisteam bağlantı için &lt;port&gt; kullanabilsin</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1085"/>
+        <location filename="../client/mainwindow.cpp" line="1087"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Rolisteam &lt;server&gt; bağlantısı kurabilsin.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1088"/>
+        <location filename="../client/mainwindow.cpp" line="1090"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation>&lt;role&gt; tanımlaması: gm ya da pc</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1090"/>
+        <location filename="../client/mainwindow.cpp" line="1092"/>
         <source>Erase the settings and use the default parameters</source>
         <translation>Ayarları sil ve varsayılan ayarlara dön</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1093"/>
+        <location filename="../client/mainwindow.cpp" line="1095"/>
         <source>Define the &lt;username&gt;</source>
         <translation>&lt;username&gt; tanımlaması</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1096"/>
+        <location filename="../client/mainwindow.cpp" line="1098"/>
         <source>Remove limit to PDF file size</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2744,42 +2744,42 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Bağlantı sonlandırma işlemi</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1600"/>
+        <location filename="../client/mainwindow.cpp" line="1602"/>
         <source>Export from %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1342"/>
+        <location filename="../client/mainwindow.cpp" line="1344"/>
         <source>Open %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="709"/>
+        <location filename="../client/mainwindow.cpp" line="711"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>Bağlantı kaybedildi. %1 kapatılacak</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="585"/>
+        <location filename="../client/mainwindow.cpp" line="587"/>
         <source>&amp;Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="586"/>
+        <location filename="../client/mainwindow.cpp" line="588"/>
         <source>&amp;Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="636"/>
+        <location filename="../client/mainwindow.cpp" line="638"/>
         <source>Support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="711"/>
+        <location filename="../client/mainwindow.cpp" line="713"/>
         <source>Connection lost</source>
         <translation>Bağlantı kaybedildi</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="717"/>
+        <location filename="../client/mainwindow.cpp" line="719"/>
         <source>Quit %1 </source>
         <translation>Çık %1 </translation>
     </message>
@@ -2792,8 +2792,8 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Senaryonuz kaydedilip %1 kapatılsın mı?</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="765"/>
-        <location filename="../client/mainwindow.cpp" line="798"/>
+        <location filename="../client/mainwindow.cpp" line="767"/>
+        <location filename="../client/mainwindow.cpp" line="800"/>
         <source>Scenarios (*.sce)</source>
         <translation>Senaryolar (*.sce)</translation>
     </message>
@@ -2804,22 +2804,22 @@ p, li { white-space: pre-wrap; }
         <translation>Rolisteam Hakkında</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="916"/>
+        <location filename="../client/mainwindow.cpp" line="918"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>%1 ile ilgili belgeler çevrimiçi olarak &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;burada&lt;/a&gt; bulunabilir</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="955"/>
+        <location filename="../client/mainwindow.cpp" line="957"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>%1 sürümü kullanılabilir. Lütfen daha fazla bilgi almak için &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;indirme sayfasına&lt;/a&gt; bakın</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="965"/>
+        <location filename="../client/mainwindow.cpp" line="967"/>
         <source>%1 just joins the game.</source>
         <translation>%1 az önce oyuna katıldı.</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="975"/>
+        <location filename="../client/mainwindow.cpp" line="977"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 az önce oyundan ayrıldı.</translation>
     </message>
@@ -3939,18 +3939,18 @@ bu özel bir renk.</translation>
 <context>
     <name>PdfViewer</name>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="142"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="143"/>
         <source>Sharing Pdf File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="143"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="144"/>
         <source>PDF transfert can be really heavy.
 Do you want to continue and share the PDF?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="157"/>
+        <location filename="../core/src/pdfviewer/pdfviewer.cpp" line="158"/>
         <source>%1 - (PDF)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5407,12 +5407,12 @@ type: %7
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1099"/>
+        <location filename="../client/mainwindow.cpp" line="1101"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1102"/>
+        <location filename="../client/mainwindow.cpp" line="1104"/>
         <source>Define URL to connect to server: &lt;url&gt;</source>
         <translation type="unfinished"></translation>
     </message>
