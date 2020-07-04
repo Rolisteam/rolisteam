@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../rolisteam.qrc">
-    <normaloff>:/resources/logo/500-symbole.png</normaloff>:/resources/logo/500-symbole.png</iconset>
+    <normaloff>:/resources/images/logo/500-symbole.png</normaloff>:/resources/images/logo/500-symbole.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0">
    <item>
