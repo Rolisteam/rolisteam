@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(rolisteam)
 add_definitions(-DVERSION_MAJOR=1 -DVERSION_MIDDLE=10 -DVERSION_MINOR=0 -DHAVE_SOUND -DHAVE_QT_NETWORK=1 -DHAVE_WEBVIEW=1)
 set(QT_REQUIRED_VERSION "5.12.0")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui LinguistTools Pdf)
+find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui LinguistTools)
 
 #helper
 include(cmake/TranslationHelper.cmake)

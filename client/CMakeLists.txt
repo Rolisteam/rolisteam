@@ -19,7 +19,14 @@ set(QT_REQUIRED_VERSION "5.12.0")
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Gui LinguistTools)
 
 
+
+
 add_executable(rolisteam ${SOURCES} ${HEADERS} ${UIS} ../rolisteam.qrc)
+
+if(${HAS_PDF})
+    message("Client with PDF")
+    add_definitions(-DWITH_PDF=1)
+endif()
 
 target_link_libraries(rolisteam PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets PRIVATE core)
 
