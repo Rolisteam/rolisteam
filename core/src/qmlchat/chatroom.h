@@ -25,6 +25,7 @@
 
 #include <memory>
 
+class DiceParser;
 namespace InstantMessaging
 {
 class FilteredPlayerModel;
@@ -63,6 +64,7 @@ public:
     QString localId() const;
 
     bool hasRecipiant(const QString& id);
+    void setDiceParser(DiceParser* diceParser);
 
 public slots:
     void setUuid(const QString& id);
@@ -80,12 +82,16 @@ signals:
     void localIdChanged(QString);
 
 private:
+    void rollDice(const QString& command, const QString& personId);
+
+private:
     std::unique_ptr<FilteredPlayerModel> m_recipiants;
     std::unique_ptr<MessageModel> m_messageModel;
     QString m_title;
     ChatRoomType m_type;
     QString m_uuid;
     bool m_unreadMessage= false;
+    DiceParser* m_diceParser;
 };
 } // namespace InstantMessaging
 #endif // CHATROOM_H

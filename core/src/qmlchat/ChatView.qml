@@ -8,7 +8,6 @@ import Customization 1.0
 Item {
     id: root
     property QtObject styleSheet: Theme.styleSheet("InstantMessaging")
-    property alias playerModel: newChatRoom.model
     property alias localPersonModel: imEditText.model
     property alias chatroomModel: repeater.model
     property ChatRoom chatRoom:  chatroomModel.get(tabHeader.currentIndex)
@@ -23,43 +22,38 @@ Item {
         volume: 1.0
     }
 
-    SideMenu {
-        id: sideMenu
-        height: parent.height
-        edge: Qt.RightEdge
-    }
 
-    AddChatRoomDialog {
-        id: newChatRoom
-        x: -width+parent.width
-        onChatRoomAdded: {
-            root.addChat(newChatRoom.title, newChatRoom.all, newChatRoom.recipiants)
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        onClicked: {
+            if (mouse.button === Qt.RightButton)
+                contextMenu.popup()
         }
-    }
-    Menu {
-        id: menu
-        x: -width+parent.width
-        Action {
-            text: qsTr("Add chatroom")
-            onTriggered: newChatRoom.open()
+        onPressAndHold: {
+            if (mouse.source === Qt.MouseEventNotSynthesized)
+                contextMenu.popup()
         }
-        Action {
-            text: qsTr("Split view")
-            onTriggered: {
-                root.split(root.chatRoom.uuid, tabHeader.currentIndex)
-                root.chatRoom =  chatroomModel.get(tabHeader.currentIndex)
+
+        Menu {
+            id: contextMenu
+            Action {
+                text: qsTr("Split view")
+                onTriggered: {
+                    root.split(root.chatRoom.uuid, tabHeader.currentIndex)
+                    root.chatRoom =  chatroomModel.get(tabHeader.currentIndex)
+                }
+            }
+            Action {
+                text: qsTr("Detach")
+                onTriggered: root.detach(root.chatRoom.uuid, tabHeader.currentIndex)
+            }
+            Action {
+                text: qsTr("Reatach")
+                //onTriggered: root.detach(root.chatRoom.uuid, tabHeader.currentIndex)
             }
         }
-        Action {
-            text: qsTr("Detach current")
-            onTriggered: root.detach(root.chatRoom.uuid, tabHeader.currentIndex)
-        }
-        Action {
-            text: qsTr("Settings")
-            onTriggered: sideMenu.open()
-        }
     }
-
 
     ColumnLayout {
         anchors.fill: parent
@@ -101,11 +95,8 @@ Item {
                     }
                 }
             }
-            ToolButton {
-                icon.source: "qrc:/resources/images/menu-rounded-solid.svg"
-                onClicked: menu.open()
-            }
         }
+
         SplitView {
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -119,51 +110,19 @@ Item {
                 SplitView.fillHeight: true
                 model: root.chatRoom.messageModel
                 clip: true
+                spacing: 5
                 verticalLayoutDirection: ListView.BottomToTop
-                delegate: Column {
-                    anchors.right: model.local ? parent.right : undefined
-                    spacing: root.styleSheet.spacing
-                    Row {
-                        id: messageRow
-                        spacing: root.styleSheet.spacing
-                        anchors.right: model.local ? parent.right : undefined
-
-                        Image {
-                            id: avatar
-                            source: "image://avatar/%1".arg(model.writerId)
-                            visible: !model.local
-                            fillMode: Image.PreserveAspectFit
-                            property int side: 50
-                            sourceSize.height: side
-                            sourceSize.width:  side
-                        }
-
-                        Rectangle {
-                            id: rect
-                            width: Math.min(messageId.contentWidth + root.styleSheet.textTopMargin,
-                                            listView.width - (!model.local ? avatar.width + messageRow.spacing : 0))
-                            height: messageId.contentHeight + root.styleSheet.textTopMargin
-                            color: model.local ? "lightgrey" : "steelblue"
-                            radius: 6
-                            Label {
-                                id: messageId
-                                text: model.text
-                                anchors.fill: parent
-                                anchors.margins: root.styleSheet.verticalMargin
-                                wrapMode: Text.WordWrap
-                                onLinkActivated: _ctrl.openLink(link)
-                            }
-                        }
-                    }
-                    Label {
-                        id: timestamp
-                        text: model.time
-                        anchors.right: model.local ? parent.right : undefined
-                        font.pixelSize: root.styleSheet.fontSize
-                        opacity: root.styleSheet.opacityTime
+                delegate: Component {
+                    id: delegateComponent
+                    Loader {
+                        property bool isTextMessage: model.type === MessageInterface.Text
+                        anchors.right: (isTextMessage && model.local) ? parent.right : undefined
+                        width:isTextMessage ? undefined:  parent.width-10
+                        source: isTextMessage ? "TextMessageDelegate.qml" : "DiceMessageDelegate.qml"
                     }
                 }
             }
+
             InstantMessagingEditText {
                 id: imEditText
                 SplitView.fillWidth: true
@@ -175,6 +134,7 @@ Item {
                 }
                 onFocusGained: updateUnread()
             }
+
         }
     }
 }

@@ -24,6 +24,7 @@
 #include <QAbstractListModel>
 #include <memory>
 
+class DiceParser;
 namespace InstantMessaging
 {
 class MessageInterface;
@@ -62,6 +63,7 @@ public slots:
     void setLocalId(const QString& id);
     void addMessageIntoChatroom(MessageInterface*, ChatRoom::ChatRoomType type, const QString& uuid);
     void removePlayer(const QString& id);
+    void setDiceParser(DiceParser* diceParser);
 
 signals:
     void chatRoomCreated(InstantMessaging::ChatRoom*, bool remote= false);
@@ -73,6 +75,7 @@ private:
 private:
     std::vector<std::unique_ptr<ChatRoom>> m_chats;
     QString m_localId;
+    DiceParser* m_diceParser;
 };
 } // namespace InstantMessaging
 Q_DECLARE_METATYPE(InstantMessaging::InstantMessagingModel*)
