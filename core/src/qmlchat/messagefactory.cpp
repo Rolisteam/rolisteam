@@ -36,8 +36,11 @@ MessageInterface* MessageFactory::createMessage(const QString& uuid, const QStri
         msg= new TextMessage(uuid, writerId, time);
         break;
     case IM::Dice:
+        msg= new DiceMessage(uuid, writerId, time);
         break;
-    case IM::Notification:
+    case IM::Command:
+        break;
+    case IM::Error:
         break;
     }
     return msg;

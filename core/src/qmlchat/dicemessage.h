@@ -27,21 +27,35 @@
 
 namespace InstantMessaging
 {
-
 class DiceMessage : public MessageBase
 {
     Q_OBJECT
-    // Q_PROPERTY(qreal result READ result WRITE setResult NOTIFY resultChanged)
+    Q_PROPERTY(QString json READ json CONSTANT)
+    Q_PROPERTY(QString comment READ comment CONSTANT)
+    Q_PROPERTY(QString command READ command CONSTANT)
+    Q_PROPERTY(QString details READ details CONSTANT)
 public:
     DiceMessage(const QString& ownerId, const QString& writer, const QDateTime& time, QObject* parent= nullptr);
 
     QString text() const override;
+    QString command() const;
+    QString details() const;
+    QString json() const;
+    QString comment() const;
 
 public slots:
     void setText(const QString& text) override;
 
 private:
-    QJsonObject m_data;
+    void computeResult();
+
+private:
+    // QJsonObject m_resultJson;
+    QString m_text;
+    QString m_comment;
+    QString m_command;
+    QString m_details;
+    QString m_result;
 };
 
 } // namespace InstantMessaging

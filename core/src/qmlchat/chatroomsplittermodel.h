@@ -38,17 +38,18 @@ public:
         FilterModelRole= Qt::UserRole + 1,
         UuidRole
     };
-    explicit ChatroomSplitterModel(QObject *parent = nullptr);
+    explicit ChatroomSplitterModel(QObject* parent= nullptr);
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+    QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
 
     QHash<int, QByteArray> roleNames() const override;
-    void addFilterModel(InstantMessaging::InstantMessagingModel* sourceModel, QStringList list = QStringList(), bool all = true);
+    void addFilterModel(InstantMessaging::InstantMessagingModel* sourceModel, QStringList list= QStringList(),
+                        bool all= true);
 
 private:
     std::vector<std::unique_ptr<FilterInstantMessagingModel>> m_filterModels;
 };
-}
+} // namespace InstantMessaging
 
 #endif // CHATROOMSPLITTERMODEL_H
