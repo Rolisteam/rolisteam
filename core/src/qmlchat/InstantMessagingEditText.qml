@@ -45,8 +45,8 @@ Frame {
                                 fillMode: Image.PreserveAspectFit
                                 Layout.fillHeight: true
                                 Layout.leftMargin: 10
-                                sourceSize.height: nameLbl.implicitHeight
-                                sourceSize.width: nameLbl.implicitHeight
+                                sourceSize.height: selector.height
+                                sourceSize.width: selector.height
                             }
                             Label {
                                 id: nameLbl

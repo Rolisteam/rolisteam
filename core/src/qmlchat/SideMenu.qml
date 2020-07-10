@@ -8,6 +8,7 @@ Drawer {
     interactive: false
     property alias nightMode: nightSwitch.checked
     property alias sound: sound.checked
+    property alias fontFactor: size.value
 
     Pane {
         id: pane
@@ -36,8 +37,9 @@ Drawer {
             }
             Slider {
                 id: size
-                from: 0
-                to: 4
+                from: 1.0
+                value: 1.0
+                to: 10.0
             }
         }
     }

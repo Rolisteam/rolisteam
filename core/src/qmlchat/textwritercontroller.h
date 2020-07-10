@@ -28,10 +28,13 @@ class TextWriterController : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+    Q_PROPERTY(bool diceCommand READ diceCommand NOTIFY diceCommandChanged)
 public:
-    explicit TextWriterController(QObject *parent = nullptr);
+    explicit TextWriterController(QObject* parent= nullptr);
 
     QString text() const;
+    bool diceCommand() const;
+
     Q_INVOKABLE QString interpretedText() const;
 
 public slots:
@@ -42,12 +45,17 @@ public slots:
 
 signals:
     void textChanged(const QString& text);
+    void diceCommandChanged(bool v);
+
+private:
+    void setDiceCommand(bool);
 
 private:
     QString m_text;
     QStringList m_history;
-    int m_historicPostion = 0;
+    int m_historicPostion= 0;
+    bool m_diceCmd= false;
 };
-}
+} // namespace InstantMessaging
 
 #endif // TEXTWRITERCONTROLLER_H

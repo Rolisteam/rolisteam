@@ -25,14 +25,16 @@ static const int MaxHistorySize= 100;
 
 namespace InstantMessaging
 {
-TextWriterController::TextWriterController(QObject *parent) : QObject(parent)
-{
-
-}
+TextWriterController::TextWriterController(QObject* parent) : QObject(parent) {}
 
 QString TextWriterController::text() const
 {
     return m_text;
+}
+
+bool TextWriterController::diceCommand() const
+{
+    return m_diceCmd;
 }
 
 QString TextWriterController::interpretedText() const
@@ -41,7 +43,7 @@ QString TextWriterController::interpretedText() const
     QString result2= result.replace(QRegularExpression("((?:https?)://\\S+)"), "<a href=\"\\1\">\\1</a>");
     if(result == result2)
     {
-        result2 = result.replace(QRegularExpression("((?:www)\\S+)"), "<a href=\"http://\\1\">\\1</a>");
+        result2= result.replace(QRegularExpression("((?:www)\\S+)"), "<a href=\"http://\\1\">\\1</a>");
     }
 
     return result2;
@@ -51,8 +53,17 @@ void TextWriterController::setText(const QString& text)
 {
     if(m_text == text)
         return;
-    m_text = text;
+    m_text= text;
     emit textChanged(m_text);
+    setDiceCommand(text.startsWith("!"));
+}
+
+void TextWriterController::setDiceCommand(bool b)
+{
+    if(m_diceCmd == b)
+        return;
+    m_diceCmd= b;
+    emit diceCommandChanged(m_diceCmd);
 }
 
 void TextWriterController::up()

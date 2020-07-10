@@ -84,4 +84,5 @@ void ChatroomSplitterModel::addFilterModel(InstantMessaging::InstantMessagingMod
     m_filterModels.push_back(std::move(model));
     endInsertRows();
 }
+
 } // namespace InstantMessaging

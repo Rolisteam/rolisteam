@@ -38,7 +38,8 @@ public:
     {
         Text,
         Dice,
-        Notification
+        Command,
+        Error,
     };
     Q_ENUM(MessageType)
     explicit MessageInterface(QObject* parent= nullptr);
