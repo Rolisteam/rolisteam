@@ -19,12 +19,28 @@
  ***************************************************************************/
 #include "chatroom.h"
 
+#include <QtConcurrent>
+#include <set>
+
+#include "diceparser.h"
 #include "filteredplayermodel.h"
 #include "messagemodel.h"
 
 namespace InstantMessaging
 {
+namespace
+{
+InstantMessaging::MessageInterface::MessageType textToType(const QString& text)
+{
+    auto type= InstantMessaging::MessageInterface::Text;
+    if(text.startsWith("!"))
+        type= InstantMessaging::MessageInterface::Dice;
+    else if(text.startsWith("/"))
+        type= InstantMessaging::MessageInterface::Command;
 
+    return type;
+}
+} // namespace
 ChatRoom::ChatRoom(ChatRoomType type, const QStringList& recipiants, const QString& id, QObject* parent)
     : QObject(parent)
     , m_recipiants(new FilteredPlayerModel(recipiants))
@@ -104,8 +120,50 @@ void ChatRoom::setUnreadMessage(bool b)
 
 void ChatRoom::addMessage(const QString& text, const QString& personId)
 {
-    m_messageModel->addMessage(text, QDateTime::currentDateTime(), localId(), personId.isEmpty() ? localId() : personId,
-                               MessageInterface::Text);
+    auto type= textToType(text);
+    using IM= InstantMessaging::MessageInterface;
+    std::set<IM::MessageType> normalType({IM::Text, IM::Command});
+    if(normalType.find(type) != normalType.end())
+    {
+        m_messageModel->addMessage(text, QDateTime::currentDateTime(), localId(),
+                                   personId.isEmpty() ? localId() : personId, type);
+    }
+    else if(type == IM::Dice)
+    { // dice
+        auto command= text;
+
+        rollDice(command.remove(0, 1), personId);
+    }
+}
+
+void ChatRoom::rollDice(const QString& command, const QString& personId)
+{
+    using IM= InstantMessaging::MessageInterface;
+    auto id= personId.isEmpty() ? localId() : personId;
+
+    QFutureWatcher<std::pair<bool, QString>>* watcher= new QFutureWatcher<std::pair<bool, QString>>();
+
+    connect(watcher, &QFutureWatcher<std::pair<bool, QString>>::finished, this, [this, watcher, id]() {
+        auto result= watcher->result();
+        m_messageModel->addMessage(result.second, QDateTime::currentDateTime(), localId(), id,
+                                   result.first ? IM::Dice : IM::Error);
+        delete watcher;
+    });
+
+    QFuture<std::pair<bool, QString>> future= QtConcurrent::run([this, command, id]() -> std::pair<bool, QString> {
+        if(!m_diceParser->parseLine(command))
+            return {};
+
+        m_diceParser->start();
+        auto error= m_diceParser->errorMap();
+        if(!error.isEmpty())
+            return {false, error.first()};
+
+        auto result= m_diceParser->resultAsJSon();
+
+        return {true, result};
+    });
+    watcher->setFuture(future);
 }
 
 void ChatRoom::addMessageInterface(MessageInterface* message)
@@ -120,5 +178,10 @@ void ChatRoom::setLocalId(const QString& id)
 bool ChatRoom::hasRecipiant(const QString& id)
 {
     return m_recipiants->hasRecipiant(id);
+}
+
+void ChatRoom::setDiceParser(DiceParser* diceParser)
+{
+    m_diceParser= diceParser;
 }
 } // namespace InstantMessaging

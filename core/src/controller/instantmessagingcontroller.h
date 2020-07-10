@@ -30,6 +30,7 @@
 
 class PlayerModel;
 class LocalPersonModel;
+class DiceParser;
 namespace InstantMessaging
 {
 class InstantMessagingModel;
@@ -70,6 +71,7 @@ public slots:
     void addExtraChatroom(const QString& title, bool everyone, const QVariantList& recipiant);
     void setNightMode(bool mode);
     void openLink(const QString& link);
+    void setDiceParser(DiceParser* diceParser);
 
 signals:
     void createdChatWindow(InstantMessaging::FilterInstantMessagingModel* model);
@@ -85,6 +87,7 @@ private:
     QPointer<PlayerModel> m_players;
     bool m_nightMode= false;
     int m_fontSizeFactor= false;
+    DiceParser* m_diceParser= nullptr;
 };
 
 #endif // TEXTMESSAGINGCONTROLLER_H

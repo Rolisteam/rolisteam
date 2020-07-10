@@ -26,6 +26,7 @@
 #include "controller/networkcontroller.h"
 #include "controller/playercontroller.h"
 #include "controller/preferencescontroller.h"
+#include "diceparser.h"
 #include "model/profilemodel.h"
 #include "preferences/preferencesmanager.h"
 #include "resourcescontroller.h"
@@ -47,6 +48,7 @@ GameController::GameController(QObject* parent)
     , m_preferences(new PreferencesManager)
     , m_instantMessagingCtrl(new InstantMessagingController(m_playerController->model()))
     , m_undoStack(new QUndoStack)
+    , m_diceParser(new DiceParser)
 {
 #ifdef VERSION_MINOR
 #ifdef VERSION_MAJOR
@@ -88,6 +90,7 @@ GameController::GameController(QObject* parent)
     m_remoteLogCtrl->setLocalUuid(m_playerController->localPlayerId());
     m_contentCtrl->setLocalId(m_playerController->localPlayerId());
     m_instantMessagingCtrl->setLocalId(m_playerController->localPlayerId());
+    m_instantMessagingCtrl->setDiceParser(m_diceParser.get());
 
     m_remoteLogCtrl->setAppId(0);
 }
@@ -291,6 +294,11 @@ bool GameController::connected() const
 QUndoStack* GameController::undoStack() const
 {
     return m_undoStack.get();
+}
+
+DiceParser* GameController::diceParser() const
+{
+    return m_diceParser.get();
 }
 
 void GameController::startConnection(int profileIndex)

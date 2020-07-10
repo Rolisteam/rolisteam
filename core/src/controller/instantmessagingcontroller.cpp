@@ -62,8 +62,8 @@ void registerType()
                                                        return instead;
                                                    });
 
-    /*qmlRegisterUncreatableType<customization::StyleSheet>("Customization", 1, 0, "StyleSheet",
-                                                          "Style sheet cannot be created in QML");*/
+    qmlRegisterUncreatableType<InstantMessaging::MessageInterface>("Customization", 1, 0, "MessageInterface",
+                                                                   "Not creatable as it is an enum type.");
 }
 
 InstantMessagingController::InstantMessagingController(PlayerModel* model, QObject* parent)
@@ -141,6 +141,11 @@ void InstantMessagingController::openLink(const QString& link)
     emit openWebPage(link);
 }
 
+void InstantMessagingController::setDiceParser(DiceParser* diceParser)
+{
+    m_model->setDiceParser(diceParser);
+}
+
 void InstantMessagingController::setGameController(GameController*) {}
 
 NetWorkReceiver::SendType InstantMessagingController::processMessage(NetworkMessageReader* msg)
@@ -166,7 +171,7 @@ void InstantMessagingController::reattach(const QString& id, int index) {}
 
 void InstantMessagingController::splitScreen(const QString& id, int index)
 {
-    if(index > static_cast<int>(m_splitterModels.size()) || index < 0)
+    if(index >= static_cast<int>(m_splitterModels.size()) || index < 0)
         return;
 
     auto model= m_splitterModels.at(index).get();
@@ -205,6 +210,5 @@ void InstantMessagingController::addChatroomSplitterModel()
 {
     std::unique_ptr<InstantMessaging::ChatroomSplitterModel> model(new InstantMessaging::ChatroomSplitterModel);
     model->addFilterModel(m_model.get());
-    qDebug() << model->rowCount() << "addChatroomSplitterModel";
     m_splitterModels.push_back(std::move(model));
 }

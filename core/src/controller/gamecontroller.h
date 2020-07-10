@@ -44,6 +44,7 @@ class PreferencesController;
 class ContentController;
 class QSystemTrayIcon;
 class InstantMessagingController;
+class DiceParser;
 class GameController : public QObject
 {
     Q_OBJECT
@@ -58,6 +59,7 @@ class GameController : public QObject
     Q_PROPERTY(bool localIsGM READ localIsGM NOTIFY localIsGMChanged)
     Q_PROPERTY(bool updateAvailable READ updateAvailable WRITE setUpdateAvailable NOTIFY updateAvailableChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
+    Q_PROPERTY(DiceParser* diceParser READ diceParser CONSTANT)
 public:
     explicit GameController(QObject* parent= nullptr);
     ~GameController();
@@ -78,6 +80,7 @@ public:
     bool tipAvailable() const;
     bool connected() const;
     QUndoStack* undoStack() const;
+    DiceParser* diceParser() const;
 
     LogController* logController() const;
     TipOfDay tipOfDay() const;
@@ -135,6 +138,7 @@ private:
     bool m_updateAvailable= false;
     TipOfDay m_tipOfTheDay;
     std::unique_ptr<QUndoStack> m_undoStack;
+    std::unique_ptr<DiceParser> m_diceParser;
 };
 
 #endif // GAMECONTROLLER_H

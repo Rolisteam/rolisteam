@@ -149,6 +149,7 @@ void InstantMessagingModel::addChatRoom(ChatRoom* room, bool remote)
         emit dataChanged(index(idx, 0, QModelIndex()), index(idx, 0, QModelIndex()), {HasUnreadMessageRole, TitleRole});
     });
     chatroom->setLocalId(localId());
+    chatroom->setDiceParser(m_diceParser);
 
     beginInsertRows(QModelIndex(), m_chats.size(), m_chats.size());
     m_chats.push_back(std::move(chatroom));
@@ -204,4 +205,10 @@ void InstantMessagingModel::removePlayer(const QString& id)
     endRemoveRows();
 }
 
+void InstantMessagingModel::setDiceParser(DiceParser* diceParser)
+{
+    m_diceParser= diceParser;
+    std::for_each(m_chats.begin(), m_chats.end(),
+                  [this](const std::unique_ptr<ChatRoom>& chatRoom) { chatRoom->setDiceParser(m_diceParser); });
+}
 } // namespace InstantMessaging
