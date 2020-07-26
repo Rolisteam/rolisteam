@@ -17,33 +17,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef SHAREDNOTECONTROLLERUPDATER_H
-#define SHAREDNOTECONTROLLERUPDATER_H
+#ifndef MEDIAUPDATERINTERFACE_H
+#define MEDIAUPDATERINTERFACE_H
 
 #include <QObject>
-#include <map>
 
-#include "mediaupdaterinterface.h"
-
-class SharedNoteController;
-class NetworkMessageReader;
-class SharedNoteControllerUpdater : public MediaUpdaterInterface
+class MediaControllerBase;
+class MediaUpdaterInterface : public QObject
 {
     Q_OBJECT
-
 public:
-    explicit SharedNoteControllerUpdater(QObject* parent= nullptr);
+    MediaUpdaterInterface(QObject* object = nullptr);
+    virtual void addMediaController(MediaControllerBase* ctrl) = 0;
 
-    void addMediaController(MediaControllerBase* ctrl);
-    void addSharedNoteController(SharedNoteController* sheet);
 
-    void updateProperty(NetworkMessageReader* msg, SharedNoteController* ctrl);
-    void sendOffPermissionChanged(SharedNoteController* ctrl, bool b, const QString& id);
-signals:
+    template <typename T>
+    void sendOffChanges(MediaControllerBase* ctrl, const QString& property);
 
-private:
-    std::map<SharedNoteController*, QSet<QString>> m_noteReaders;
+protected:
     bool m_updatingFromNetwork= false;
 };
 
-#endif // SHAREDNOTECONTROLLERUPDATER_H
+#endif // MEDIAUPDATERINTERFACE_H

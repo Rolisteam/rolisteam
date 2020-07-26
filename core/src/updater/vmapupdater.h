@@ -20,11 +20,12 @@
 #ifndef VMAPUPDATER_H
 #define VMAPUPDATER_H
 
+#include "mediaupdaterinterface.h"
 #include <QObject>
 
 class VectorialMapController;
 class NetworkMessageReader;
-class VMapUpdater : public QObject
+class VMapUpdater : public MediaUpdaterInterface
 {
     Q_OBJECT
 public:
@@ -33,9 +34,6 @@ public:
     void addController(VectorialMapController* ctrl);
 
     bool updateVMapProperty(NetworkMessageReader* msg, VectorialMapController* ctrl);
-
-    template <typename T>
-    void sendOffVMapChanges(VectorialMapController* ctrl, const QString& property);
 
 private:
     bool m_updatingFromNetwork= false;
