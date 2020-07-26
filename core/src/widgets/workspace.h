@@ -97,6 +97,7 @@ public slots:
     bool closeActiveSub();
 
 protected slots:
+    void addMedia(MediaControllerBase* ctrl);
     void addImage(ImageController* ctrl);
     void addVectorialMap(VectorialMapController* ctrl);
     void addCharacterSheet(CharacterSheetController* ctrl);

@@ -23,12 +23,12 @@
 #include <QtGui>
 
 #include "controller/contentcontroller.h"
-#include "controller/media_controller/charactersheetmediacontroller.h"
+/*#include "controller/media_controller/charactersheetmediacontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
 #include "controller/media_controller/notemediacontroller.h"
 #include "controller/media_controller/sharednotemediacontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
-#include "controller/media_controller/webpagemediacontroller.h"
+#include "controller/media_controller/webpagemediacontroller.h"*/
 
 #include "controller/view_controller/charactersheetcontroller.h"
 #include "controller/view_controller/imagecontroller.h"
@@ -71,17 +71,17 @@ Workspace::Workspace(ContentController* ctrl, InstantMessagingController* instan
     connect(m_ctrl, &ContentController::workspaceColorChanged, this, &Workspace::updateBackGround);
     connect(m_ctrl, &ContentController::workspacePositioningChanged, this, &Workspace::updateBackGround);
 
-    connect(m_ctrl->imagesCtrl(), &ImageMediaController::imageControllerCreated, this, &Workspace::addImage);
-    connect(m_ctrl->noteCtrl(), &NoteMediaController::noteControllerCreated, this, &Workspace::addNote);
-    connect(m_ctrl->vmapCtrl(), &VectorialMapMediaController::vmapControllerCreated, this, &Workspace::addVectorialMap);
-    connect(m_ctrl->webPageCtrl(), &WebpageMediaController::webpageControllerCreated, this, &Workspace::addWebpage);
-#ifdef WITH_PDF
-    connect(m_ctrl->pdfCtrl(), &PdfMediaController::pdfControllerCreated, this, &Workspace::addPdf);
-#endif
-    connect(m_ctrl->sheetCtrl(), &CharacterSheetMediaController::characterSheetCreated, this,
-            &Workspace::addCharacterSheet);
-    connect(m_ctrl->sharedCtrl(), &SharedNoteMediaController::sharedNoteControllerCreated, this,
-            &Workspace::addSharedNote);
+    connect(m_ctrl, &ContentController::mediaControllerCreated, this, &Workspace::addMedia);
+
+    /* connect(m_ctrl->imagesCtrl(), &ImageMediaController::imageControllerCreated, this, &Workspace::addImage);
+       connect(m_ctrl->noteCtrl(), &NoteMediaController::noteControllerCreated, this, &Workspace::addNote);
+       connect(m_ctrl->vmapCtrl(), &VectorialMapMediaController::vmapControllerCreated, this,
+   &Workspace::addVectorialMap); connect(m_ctrl->webPageCtrl(), &WebpageMediaController::webpageControllerCreated, this,
+   &Workspace::addWebpage); #ifdef WITH_PDF connect(m_ctrl->pdfCtrl(), &PdfMediaController::pdfControllerCreated, this,
+   &Workspace::addPdf); #endif connect(m_ctrl->sheetCtrl(), &CharacterSheetMediaController::characterSheetCreated, this,
+               &Workspace::addCharacterSheet);
+       connect(m_ctrl->sharedCtrl(), &SharedNoteMediaController::sharedNoteControllerCreated, this,
+               &Workspace::addSharedNote);*/
 
     connect(this, &Workspace::subWindowActivated, this, &Workspace::updateActiveMediaContainer);
 
@@ -424,7 +424,37 @@ void Workspace::updateActiveMediaContainer(QMdiSubWindow* window)
     m_activeMediaContainer= activeMediaContainer;
 }
 
-void Workspace::addWidgetToMdi(QWidget* wid, const QString& title)
+void Workspace::addMedia(MediaControllerBase* ctrl)
+{
+    switch(ctrl->contentType())
+    {
+    case Core::ContentType::PICTURE:
+        addImage(dynamic_cast<ImageController*>(ctrl));
+        break;
+    case Core::ContentType::WEBVIEW:
+        addWebpage(dynamic_cast<WebpageController*>(ctrl));
+        break;
+#ifdef WITH_PDF
+    case Core::ContentType::PDF:
+        addPdf(dynamic_cast<PdfController*>(ctrl));
+        break;
+#endif
+    case Core::ContentType::NOTES:
+        addNote(dynamic_cast<NoteController*>(ctrl));
+        break;
+    case Core::ContentType::SHAREDNOTE:
+        addSharedNote(dynamic_cast<SharedNoteController*>(ctrl));
+        break;
+    case Core::ContentType::VECTORIALMAP:
+        addVectorialMap(dynamic_cast<VectorialMapController*>(ctrl));
+        break;
+    case Core::ContentType::CHARACTERSHEET:
+        addCharacterSheet(dynamic_cast<CharacterSheetController*>(ctrl));
+        break;
+    }
+}
+
+void Workspace::addWidgetToMdi(QWidget* wid, QString title)
 {
     wid->setParent(this);
     QMdiSubWindow* sub= addSubWindow(wid);
@@ -435,12 +465,16 @@ void Workspace::addWidgetToMdi(QWidget* wid, const QString& title)
 }
 void Workspace::addImage(ImageController* ctrl)
 {
+    if(nullptr == ctrl)
+        return;
     std::unique_ptr<MediaContainer> img(new Image(ctrl));
     addWidgetToMdi(img.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(img));
 }
 void Workspace::addVectorialMap(VectorialMapController* ctrl)
 {
+    if(nullptr == ctrl)
+        return;
     std::unique_ptr<MediaContainer> vmapFrame(new VMapFrame(ctrl));
     vmapFrame->setGeometry(0, 0, 800, 600);
     addWidgetToMdi(vmapFrame.get(), ctrl->name());
@@ -448,6 +482,8 @@ void Workspace::addVectorialMap(VectorialMapController* ctrl)
 }
 void Workspace::addCharacterSheet(CharacterSheetController* ctrl)
 {
+    if(nullptr == ctrl)
+        return;
     std::unique_ptr<CharacterSheetWindow> window(new CharacterSheetWindow(ctrl));
     addWidgetToMdi(window.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(window));
@@ -455,6 +491,8 @@ void Workspace::addCharacterSheet(CharacterSheetController* ctrl)
 
 void Workspace::addWebpage(WebpageController* ctrl)
 {
+    if(nullptr == ctrl)
+        return;
     std::unique_ptr<WebView> window(new WebView(ctrl));
     addWidgetToMdi(window.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(window));
@@ -462,6 +500,8 @@ void Workspace::addWebpage(WebpageController* ctrl)
 
 void Workspace::addNote(NoteController* ctrl)
 {
+    if(nullptr == ctrl)
+        return;
     std::unique_ptr<NoteContainer> SharedNote(new NoteContainer(ctrl));
     SharedNote->setGeometry(0, 0, 800, 600);
     addWidgetToMdi(SharedNote.get(), ctrl->name());
@@ -470,6 +510,8 @@ void Workspace::addNote(NoteController* ctrl)
 
 void Workspace::addSharedNote(SharedNoteController* ctrl)
 {
+    if(nullptr == ctrl)
+        return;
     std::unique_ptr<SharedNoteContainer> SharedNote(new SharedNoteContainer(ctrl));
     SharedNote->setGeometry(0, 0, 800, 600);
     addWidgetToMdi(SharedNote.get(), ctrl->name());
@@ -478,6 +520,8 @@ void Workspace::addSharedNote(SharedNoteController* ctrl)
 #ifdef WITH_PDF
 void Workspace::addPdf(PdfController* ctrl)
 {
+    if(nullptr == ctrl)
+        return;
     std::unique_ptr<PdfViewer> pdfViewer(new PdfViewer(ctrl));
     addWidgetToMdi(pdfViewer.get(), ctrl->name());
     m_mediaContainers.push_back(std::move(pdfViewer));
