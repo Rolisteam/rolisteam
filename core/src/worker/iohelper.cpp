@@ -39,13 +39,13 @@
 #include "controller/view_controller/pdfcontroller.h"
 #endif
 
-#include "controller/media_controller/charactersheetmediacontroller.h"
+/*#include "controller/media_controller/charactersheetmediacontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
 #include "controller/media_controller/mediamanagerbase.h"
 #include "controller/media_controller/notemediacontroller.h"
 #include "controller/media_controller/sharednotemediacontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
-#include "controller/media_controller/webpagemediacontroller.h"
+#include "controller/media_controller/webpagemediacontroller.h"*/
 
 #include "data/character.h"
 #include "data/cleveruri.h"
@@ -1014,7 +1014,7 @@ void savePdfView(PdfController* ctrl, QDataStream& output)
 }
 #endif
 
-void saveAllVectorialMaps(VectorialMapMediaController* manager, QDataStream& output)
+/*void saveAllVectorialMaps(VectorialMapMediaController* manager, QDataStream& output)
 {
     if(!manager)
         return;
@@ -1142,7 +1142,7 @@ QByteArray IOHelper::saveManager(MediaManagerBase* manager)
     }
 
     return data;
-}
+}*/
 
 bool IOHelper::loadManager(MediaManagerBase* manager, QDataStream& input)
 {
@@ -1162,7 +1162,7 @@ bool IOHelper::loadManager(MediaManagerBase* manager, QDataStream& input)
         QByteArray array;
         input2 >> array;
         std::map<QString, QVariant> map({{"serializedData", array}});
-        manager->openMedia(QString(), map);
+        // manager->openMedia(QString(), map);
     }
     return true;
 }
@@ -1234,7 +1234,30 @@ void readBase(MediaControllerBase* base, QDataStream& input)
     base->setOwnerId(ownerId);
 }
 
-void IOHelper::readImageController(ImageController* ctrl, const QByteArray& array)
+void IOHelper::readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array)
+{
+    if(!ctrl || array.isEmpty())
+        return;
+    auto data= array;
+    QDataStream input(&data, QIODevice::ReadOnly);
+
+    readBase(ctrl, input);
+
+    QByteArray json;
+    input >> json;
+
+    QJsonDocument doc= QJsonDocument::fromBinaryData(json);
+    auto obj= doc.object();
+    auto charactersData= obj["character"].toObject();
+    auto images= obj["images"].toArray();
+
+    auto model= ctrl->model();
+    model->readModel(charactersData, true);
+    auto imagesModel= ctrl->imageModel();
+    imagesModel->load(images);
+}
+
+/*void IOHelper::readImageController(ImageController* ctrl, const QByteArray& array)
 {
     if(!ctrl || array.isEmpty())
         return;
@@ -1353,28 +1376,7 @@ void IOHelper::readSharedNoteController(SharedNoteController* ctrl, const QByteA
     ctrl->setPermission(perm);
 }
 
-void IOHelper::readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array)
-{
-    if(!ctrl || array.isEmpty())
-        return;
-    auto data= array;
-    QDataStream input(&data, QIODevice::ReadOnly);
 
-    readBase(ctrl, input);
-
-    QByteArray json;
-    input >> json;
-
-    QJsonDocument doc= QJsonDocument::fromBinaryData(json);
-    auto obj= doc.object();
-    auto charactersData= obj["character"].toObject();
-    auto images= obj["images"].toArray();
-
-    auto model= ctrl->model();
-    model->readModel(charactersData, true);
-    auto imagesModel= ctrl->imageModel();
-    imagesModel->load(images);
-}
 // QHash<QString, std::map<QString, QVariant>>
 void readAllController(VectorialMapController* ctrl, QDataStream& input, vmap::VisualItemController::ItemType type)
 {
@@ -1587,4 +1589,4 @@ void IOHelper::readVectorialMapController(VectorialMapController* ctrl, const QB
 
     // Character
     readAllController(ctrl, input, v::CHARACTER);
-}
+}*/
