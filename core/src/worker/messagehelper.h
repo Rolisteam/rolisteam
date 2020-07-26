@@ -73,7 +73,7 @@ public:
     static void sendOffOpenMedia(AbstractMediaController* ctrl);
 
     // vmap
-    static void readVectorialMapData(NetworkMessageReader* msg, VectorialMapController* map);
+    static QHash<QString, QVariant> readVectorialMapData(NetworkMessageReader* msg);
     static void sendOffVMap(VectorialMapController* ctrl);
 
     static void sendOffRect(const vmap::RectController* ctrl, const QString& mapId);

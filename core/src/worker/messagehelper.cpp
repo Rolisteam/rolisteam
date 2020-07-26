@@ -489,37 +489,38 @@ const std::map<QString, QVariant> readVisualItemController(NetworkMessageReader*
                                         {"locked", locked}});
 }
 
-void readSightController(vmap::SightController* ctrl, NetworkMessageReader* msg)
+QHash<QString, QVariant> readSightController(NetworkMessageReader* msg)
 {
-    if(nullptr == ctrl || nullptr == msg)
-        return;
+    if(nullptr == msg)
+        return {};
 
-    ctrl->setUuid(msg->string8());
-    auto x= msg->real();
-    auto y= msg->real();
-    auto w= msg->real();
-    auto h= msg->real();
-    ctrl->setRect(QRectF(x, y, w, h));
+    QHash<QString, QVariant> hash;
 
-    x= msg->real();
-    y= msg->real();
-    ctrl->setPos(QPointF(x, y));
-    auto singularity= ctrl->singularityList();
+    hash["uuid"]= msg->string8();
+    hash["x"]= msg->real();
+    hash["y"]= msg->real();
+    hash["w"]= msg->real();
+    hash["h"]= msg->real();
+    hash["posx"]= msg->real();
+    hash["posy"]= msg->real();
+
+    hash["count"]= msg->uint64();
+
     auto count= msg->uint64();
     for(quint64 i= 0; i < count; ++i)
     {
-        // std::pair<QPolygonF, bool>
         auto pointsCount= msg->uint64();
-        auto adding= msg->uint8();
+        hash[QStringLiteral("points_count_%1").arg(i)]= pointsCount;
+        hash[QStringLiteral("adding_%1").arg(i)]= msg->uint8();
         QPolygonF p;
         for(quint64 j= 0; j < pointsCount; ++j)
         {
             auto x= msg->real();
             auto y= msg->real();
-            p.append(QPointF(x, y));
+            hash[QStringLiteral("points_%1_%2").arg(j).arg(i)]= QPointF(x, y);
         }
-        singularity.push_back({p, adding});
     }
+    return hash;
 }
 
 void addSightController(vmap::SightController* ctrl, NetworkMessageWriter& msg)
@@ -580,14 +581,18 @@ const std::map<QString, QVariant> MessageHelper::readRect(NetworkMessageReader* 
     return hash;
 }
 
-void readRectManager(RectControllerManager* ctrl, NetworkMessageReader* msg)
+QHash<QString, QVariant> readRectManager(NetworkMessageReader* msg)
 {
+    QHash<QString, QVariant> result;
     auto count= msg->uint64();
+    result["count"]= count;
     for(quint64 i= 0; i < count; ++i)
     {
         auto param= MessageHelper::readRect(msg);
-        ctrl->addItem(param);
+        QHash<QString, QVariant> paramHash(param.begin(), param.end());
+        result[QString("param_%1").arg(i)]= paramHash;
     }
+    return result;
 }
 
 void addRectManager(RectControllerManager* ctrl, NetworkMessageWriter& msg)
@@ -607,14 +612,18 @@ void addEllipseController(const vmap::EllipseController* ctrl, NetworkMessageWri
     msg.real(ctrl->ry());
 }
 
-void readEllipseManager(EllipsControllerManager* ctrl, NetworkMessageReader* msg)
+QHash<QString, QVariant> readEllipseManager(NetworkMessageReader* msg)
 {
+    QHash<QString, QVariant> result;
     auto count= msg->uint64();
+    result["count"]= count;
     for(quint64 i= 0; i < count; ++i)
     {
         auto param= MessageHelper::readEllipse(msg);
-        ctrl->addItem(param);
+        QHash<QString, QVariant> paramHash(param.begin(), param.end());
+        result[QString("param_%1").arg(i)]= paramHash;
     }
+    return result;
 }
 
 void addEllipseManager(EllipsControllerManager* ctrl, NetworkMessageWriter& msg)
@@ -853,32 +862,31 @@ void addCharacterManager(CharacterItemControllerManager* ctrl, NetworkMessageWri
                   [&msg](const vmap::CharacterItemController* ctrl) { addCharacterController(ctrl, msg); });
 }
 
-void MessageHelper::readVectorialMapData(NetworkMessageReader* msg, VectorialMapController* ctrl)
+QHash<QString, QVariant> MessageHelper::readVectorialMapData(NetworkMessageReader* msg)
 {
-    if(nullptr == msg || nullptr == ctrl)
-        return;
+    if(nullptr == msg)
+        return {};
 
-    ctrl->setUuid(msg->string8());
-    auto name= msg->string16();
-    qDebug() << "name" << name;
-    ctrl->setName(name);
-    ctrl->setLayer(static_cast<Core::Layer>(msg->uint8()));
-    ctrl->setPermission(static_cast<Core::PermissionMode>(msg->uint8()));
-    ctrl->setBackgroundColor(msg->rgb());
-    ctrl->setVisibility(static_cast<Core::VisibilityMode>(msg->uint8()));
-    ctrl->setZindex(msg->uint64());
-    ctrl->setCharacterVision(msg->uint8());
-    ctrl->setGridPattern(static_cast<Core::GridPattern>(msg->uint8()));
-    ctrl->setGridVisibility(msg->uint8());
-    ctrl->setGridSize(static_cast<int>(msg->uint32()));
-    ctrl->setGridAbove(msg->uint8());
-    ctrl->setCollision(msg->uint8());
-    ctrl->setGridColor(msg->rgb());
+    QHash<QString, QVariant> hash;
+    hash["uuid"]= msg->string8();
+    hash["name"]= msg->string16();
+    hash["layer"]= msg->uint8();
+    hash["permission"]= msg->uint8();
+    hash["bgcolor"]= msg->rgb();
+    hash["visibility"]= msg->uint8();
+    hash["zindex"]= msg->uint64();
+    hash["charactervision"]= msg->uint8();
+    hash["gridpattern"]= msg->uint8();
+    hash["GridVisibility"]= msg->uint8();
+    hash["GridSize"]= msg->uint32();
+    hash["Collision"]= msg->uint8();
+    hash["GridColor"]= msg->rgb();
 
-    // TODO controllers
-    readSightController(ctrl->sightController(), msg);
-    readRectManager(ctrl->rectManager(), msg);
-    readEllipseManager(ctrl->ellipseManager(), msg);
+    hash["sight"]= readSightController(msg);
+    hash["rect"]= readRectManager(msg);
+    hash["ellipse"]= readEllipseManager(msg);
+
+    return hash;
 }
 
 void MessageHelper::sendOffVMap(VectorialMapController* ctrl)
