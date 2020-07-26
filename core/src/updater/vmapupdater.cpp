@@ -29,7 +29,7 @@
 #include "network/networkmessagewriter.h"
 #include "worker/convertionhelper.h"
 
-VMapUpdater::VMapUpdater(QObject* parent) : QObject(parent) {}
+VMapUpdater::VMapUpdater(QObject* parent) : MediaUpdaterInterface(parent) {}
 
 void VMapUpdater::addController(VectorialMapController* ctrl)
 {
@@ -37,33 +37,33 @@ void VMapUpdater::addController(VectorialMapController* ctrl)
         return;
 
     connect(ctrl, &VectorialMapController::collisionChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<bool>(ctrl, QStringLiteral("collision")); });
+            [this, ctrl]() { sendOffChanges<bool>(ctrl, QStringLiteral("collision")); });
     connect(ctrl, &VectorialMapController::characterVisionChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<bool>(ctrl, QStringLiteral("characterVision")); });
+            [this, ctrl]() { sendOffChanges<bool>(ctrl, QStringLiteral("characterVision")); });
     connect(ctrl, &VectorialMapController::gridColorChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<QColor>(ctrl, QStringLiteral("gridColor")); });
+            [this, ctrl]() { sendOffChanges<QColor>(ctrl, QStringLiteral("gridColor")); });
     connect(ctrl, &VectorialMapController::gridScaleChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<qreal>(ctrl, QStringLiteral("gridScale")); });
+            [this, ctrl]() { sendOffChanges<qreal>(ctrl, QStringLiteral("gridScale")); });
     connect(ctrl, &VectorialMapController::gridSizeChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<int>(ctrl, QStringLiteral("gridSize")); });
+            [this, ctrl]() { sendOffChanges<int>(ctrl, QStringLiteral("gridSize")); });
     connect(ctrl, &VectorialMapController::gridVisibilityChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<bool>(ctrl, QStringLiteral("gridVisibility")); });
+            [this, ctrl]() { sendOffChanges<bool>(ctrl, QStringLiteral("gridVisibility")); });
     connect(ctrl, &VectorialMapController::gridAboveChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<bool>(ctrl, QStringLiteral("gridAbove")); });
+            [this, ctrl]() { sendOffChanges<bool>(ctrl, QStringLiteral("gridAbove")); });
     connect(ctrl, &VectorialMapController::scaleUnitChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<Core::ScaleUnit>(ctrl, QStringLiteral("scaleUnit")); });
+            [this, ctrl]() { sendOffChanges<Core::ScaleUnit>(ctrl, QStringLiteral("scaleUnit")); });
     connect(ctrl, &VectorialMapController::permissionChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<Core::PermissionMode>(ctrl, QStringLiteral("permission")); });
+            [this, ctrl]() { sendOffChanges<Core::PermissionMode>(ctrl, QStringLiteral("permission")); });
     connect(ctrl, &VectorialMapController::gridPatternChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<Core::GridPattern>(ctrl, QStringLiteral("gridPattern")); });
+            [this, ctrl]() { sendOffChanges<Core::GridPattern>(ctrl, QStringLiteral("gridPattern")); });
     connect(ctrl, &VectorialMapController::visibilityChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<Core::VisibilityMode>(ctrl, QStringLiteral("visibility")); });
+            [this, ctrl]() { sendOffChanges<Core::VisibilityMode>(ctrl, QStringLiteral("visibility")); });
     connect(ctrl, &VectorialMapController::backgroundColorChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<QColor>(ctrl, QStringLiteral("backgroundColor")); });
+            [this, ctrl]() { sendOffChanges<QColor>(ctrl, QStringLiteral("backgroundColor")); });
     connect(ctrl, &VectorialMapController::layerChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<Core::Layer>(ctrl, QStringLiteral("layer")); });
+            [this, ctrl]() { sendOffChanges<Core::Layer>(ctrl, QStringLiteral("layer")); });
     connect(ctrl, &VectorialMapController::zIndexChanged, this,
-            [this, ctrl]() { sendOffVMapChanges<int>(ctrl, QStringLiteral("zIndex")); });
+            [this, ctrl]() { sendOffChanges<int>(ctrl, QStringLiteral("zIndex")); });
 }
 
 bool VMapUpdater::updateVMapProperty(NetworkMessageReader* msg, VectorialMapController* ctrl)
@@ -144,19 +144,4 @@ bool VMapUpdater::updateVMapProperty(NetworkMessageReader* msg, VectorialMapCont
     updatingCtrl= nullptr;
 
     return feedback;
-}
-
-template <typename T>
-void VMapUpdater::sendOffVMapChanges(VectorialMapController* ctrl, const QString& property)
-{
-    if(nullptr == ctrl || (m_updatingFromNetwork && updatingCtrl == ctrl))
-        return;
-
-    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::UpdateMediaProperty);
-    msg.uint8(static_cast<int>(Core::ContentType::VECTORIALMAP));
-    msg.string8(ctrl->uuid());
-    msg.string16(property);
-    auto val= ctrl->property(property.toLocal8Bit().data());
-    Helper::variantToType<T>(val.value<T>(), msg);
-    msg.sendToServer();
 }

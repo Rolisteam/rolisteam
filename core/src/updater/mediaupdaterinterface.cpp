@@ -17,33 +17,43 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef SHAREDNOTECONTROLLERUPDATER_H
-#define SHAREDNOTECONTROLLERUPDATER_H
-
-#include <QObject>
-#include <map>
-
 #include "mediaupdaterinterface.h"
 
-class SharedNoteController;
-class NetworkMessageReader;
-class SharedNoteControllerUpdater : public MediaUpdaterInterface
+#include "controller/media_controller/mediamanagerbase.h"
+
+#include "network/networkmessagewriter.h"
+#include "worker/convertionhelper.h"
+
+MediaUpdaterInterface::MediaUpdaterInterface(QObject *object)
+: QObject(object)
 {
-    Q_OBJECT
+    // Make compiler generate proper template
+    sendOffChanges<double>(nullptr, QString());
+    sendOffChanges<int>(nullptr, QString());
+    sendOffChanges<QColor>(nullptr, QString());
+    sendOffChanges<Core::ScaleUnit>(nullptr, QString());
+    sendOffChanges<QString>(nullptr, QString());
+    sendOffChanges<Core::ScaleUnit>(nullptr, QString());
+    sendOffChanges<Core::Layer>(nullptr, QString());
+    sendOffChanges<Core::GridPattern>(nullptr, QString());
+    sendOffChanges<Core::PermissionMode>(nullptr, QString());
+    sendOffChanges<Core::VisibilityMode>(nullptr, QString());
+    sendOffChanges<bool>(nullptr, QString());
+}
 
-public:
-    explicit SharedNoteControllerUpdater(QObject* parent= nullptr);
+template<typename T>
+void MediaUpdaterInterface::sendOffChanges(MediaControllerBase *ctrl, const QString &property)
+{
+    if(nullptr == ctrl || m_updatingFromNetwork)
+        return;
 
-    void addMediaController(MediaControllerBase* ctrl);
-    void addSharedNoteController(SharedNoteController* sheet);
+    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::UpdateMediaProperty);
+    msg.uint8(static_cast<int>(ctrl->contentType()));
+    msg.string8(ctrl->uuid());
+    msg.string16(property);
+    auto val= ctrl->property(property.toLocal8Bit().data());
+    Helper::variantToType<T>(val.value<T>(), msg);
+    msg.sendToServer();
+}
 
-    void updateProperty(NetworkMessageReader* msg, SharedNoteController* ctrl);
-    void sendOffPermissionChanged(SharedNoteController* ctrl, bool b, const QString& id);
-signals:
 
-private:
-    std::map<SharedNoteController*, QSet<QString>> m_noteReaders;
-    bool m_updatingFromNetwork= false;
-};
-
-#endif // SHAREDNOTECONTROLLERUPDATER_H

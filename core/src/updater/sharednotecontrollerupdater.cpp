@@ -28,7 +28,12 @@
 #include "worker/convertionhelper.h"
 #include "worker/messagehelper.h"
 
-SharedNoteControllerUpdater::SharedNoteControllerUpdater(QObject* parent) : QObject(parent) {}
+SharedNoteControllerUpdater::SharedNoteControllerUpdater(QObject* parent) : MediaUpdaterInterface(parent) {}
+
+void SharedNoteControllerUpdater::addMediaController(MediaControllerBase* ctrl)
+{
+    addSharedNoteController(dynamic_cast<SharedNoteController*>(ctrl));
+}
 
 void SharedNoteControllerUpdater::addSharedNoteController(SharedNoteController* noteCtrl)
 {
@@ -84,36 +89,8 @@ void SharedNoteControllerUpdater::sendOffPermissionChanged(SharedNoteController*
     msg.sendToServer();
 }
 
-template <typename T>
-void SharedNoteControllerUpdater::sendOffChanges(SharedNoteController* ctrl, const QString& property)
-{
-
-    if(nullptr == ctrl || m_updatingFromNetwork)
-        return;
-
-    QStringList list;
-    try
-    {
-        auto listener= m_noteReaders.at(ctrl);
-        list << listener.values();
-    }
-    catch(...)
-    {
-    }
-
-    NetworkMessageWriter msg(NetMsg::MediaCategory, NetMsg::UpdateMediaProperty);
-    // msg.setRecipientList(list, NetworkMessage::OneOrMany);
-    msg.uint8(static_cast<int>(Core::ContentType::SHAREDNOTE));
-    msg.string8(ctrl->uuid());
-    msg.string16(property);
-    auto val= ctrl->property(property.toLocal8Bit().data());
-    Helper::variantToType<T>(val.value<T>(), msg);
-    msg.sendToServer();
-}
-
 void SharedNoteControllerUpdater::updateProperty(NetworkMessageReader* msg, SharedNoteController* ctrl)
 {
-
     if(nullptr == msg || nullptr == ctrl)
         return;
 
