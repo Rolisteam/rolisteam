@@ -39,6 +39,7 @@ class MediaControllerBase : public QObject
     Q_PROPERTY(bool localGM READ localGM WRITE setLocalGM NOTIFY localGMChanged)
     Q_PROPERTY(QString ownerId READ ownerId WRITE setOwnerId NOTIFY ownerIdChanged)
     Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
+    Q_PROPERTY(bool remote READ remote CONSTANT)
 public:
     MediaControllerBase(const QString& id, Core::ContentType contentType, QObject* parent= nullptr);
     virtual ~MediaControllerBase() override;
@@ -56,6 +57,7 @@ public:
     QString localId() const;
 
     bool localIsOwner() const;
+    bool remote() const;
 
     virtual void saveData() const= 0;
     virtual void loadData() const= 0;
@@ -85,6 +87,7 @@ public slots:
     void setModified(bool b);
     void askToClose();
     void setPath(const QString& path);
+    void setRemote(bool remote);
 
 protected:
     QString m_uuid;
@@ -94,6 +97,7 @@ protected:
     bool m_active= false;
     bool m_localGM= false;
     bool m_modified= true;
+    bool m_remote= false;
     QString m_ownerId;
     QString m_localId;
 };

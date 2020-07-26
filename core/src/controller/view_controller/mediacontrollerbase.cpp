@@ -106,6 +106,11 @@ bool MediaControllerBase::localIsOwner() const
     return (m_ownerId == m_localId);
 }
 
+bool MediaControllerBase::remote() const
+{
+    return m_remote;
+}
+
 void MediaControllerBase::setLocalId(const QString& id)
 {
     if(id == m_localId)
@@ -153,4 +158,9 @@ void MediaControllerBase::setPath(const QString& path)
         return;
     m_path= path;
     emit pathChanged(m_path);
+}
+
+void MediaControllerBase::setRemote(bool remote)
+{
+    m_remote= remote;
 }
