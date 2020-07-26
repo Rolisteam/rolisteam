@@ -22,12 +22,12 @@
 #include "data/player.h"
 #include "sharededitor/participantmodel.h"
 #include "userlist/playermodel.h"
+QPointer<PlayerModel> SharedNoteController::m_playerModel;
 
-SharedNoteController::SharedNoteController(const QString& ownerId, const QString& local, PlayerModel* model,
-                                           const QString& uuid, QObject* parent)
+SharedNoteController::SharedNoteController(const QString& ownerId, const QString& local, const QString& uuid,
+                                           QObject* parent)
     : MediaControllerBase(uuid, Core::ContentType::SHAREDNOTE, parent)
-    , m_participantModel(new ParticipantModel(ownerId, model))
-    , m_playerModel(model)
+    , m_participantModel(new ParticipantModel(ownerId, m_playerModel))
 {
     setOwnerId(ownerId);
     setLocalId(local);
@@ -53,6 +53,11 @@ SharedNoteController::SharedNoteController(const QString& ownerId, const QString
 }
 
 SharedNoteController::~SharedNoteController()= default;
+
+void SharedNoteController::setPlayerModel(PlayerModel* model)
+{
+    m_playerModel= model;
+}
 
 QString SharedNoteController::text() const
 {
