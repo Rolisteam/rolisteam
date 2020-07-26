@@ -33,11 +33,8 @@ class SharedNoteMediaController : public MediaManagerBase
 {
     Q_OBJECT
 public:
-    SharedNoteMediaController(PlayerModel* model, QObject* parent= nullptr);
+    SharedNoteMediaController(PlayerModel* model, ContentModel* contentModel, QObject* parent= nullptr);
     ~SharedNoteMediaController() override;
-
-    bool openMedia(const QString& id, const std::map<QString, QVariant>& args) override;
-    void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
     int managerCount() const override;
@@ -53,7 +50,6 @@ private:
     void processNewController(SharedNoteController* ctrl, bool local);
 
 private:
-    std::vector<std::unique_ptr<SharedNoteController>> m_sharedNotes;
     std::unique_ptr<SharedNoteControllerUpdater> m_updater;
     QPointer<PlayerModel> m_playerModel;
 };

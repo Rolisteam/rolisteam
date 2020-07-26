@@ -27,36 +27,32 @@
 #include <vector>
 
 class CharacterModel;
+class ContentModel;
 class CharacterSheetController;
 class CharacterSheetMediaController : public MediaManagerBase
 {
     Q_OBJECT
     Q_PROPERTY(QString gameMasterId READ gameMasterId WRITE setGameMasterId NOTIFY gameMasterIdChanged)
 public:
-    CharacterSheetMediaController(CharacterModel* model);
+    CharacterSheetMediaController(ContentModel* model, CharacterModel* characterModel);
 
-    bool openMedia(const QString& id, const std::map<QString, QVariant>& args) override;
-    void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
 
     QString gameMasterId() const;
     std::vector<CharacterSheetController*> controllers() const;
-    int managerCount() const override;
 
 public slots:
     void setGameMasterId(const QString& gameMasterId);
 
 signals:
-    void characterSheetCreated(CharacterSheetController*);
-
     void gameMasterIdChanged(QString gameMasterId);
 
 private:
     void addCharacterSheet(const QHash<QString, QVariant>& params);
 
 private:
-    std::vector<std::unique_ptr<CharacterSheetController>> m_sheets;
+    // std::vector<std::unique_ptr<CharacterSheetController>> m_sheets;
     QPointer<CharacterModel> m_characterModel;
     QString m_gameMasterId;
 };

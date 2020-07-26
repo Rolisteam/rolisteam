@@ -24,7 +24,10 @@
 #include "controller/view_controller/notecontroller.h"
 #include "worker/iohelper.h"
 
-NoteMediaController::NoteMediaController(QObject* parent) : MediaManagerBase(Core::ContentType::NOTES, parent) {}
+NoteMediaController::NoteMediaController(ContentModel* contentModel, QObject* parent)
+    : MediaManagerBase(Core::ContentType::NOTES, contentModel, parent)
+{
+}
 
 NoteMediaController::~NoteMediaController()= default;
 

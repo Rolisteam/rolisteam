@@ -28,23 +28,28 @@
 #include "network/networkreceiver.h"
 
 class QUndoStack;
+class ContentModel;
+class SingleContentTypeModel;
 class MediaControllerBase;
 class MediaManagerBase : public QObject, public NetWorkReceiver
 {
     Q_OBJECT
     Q_PROPERTY(bool localIsGM READ localIsGM WRITE setLocalIsGM NOTIFY localIsGMChanged)
     Q_PROPERTY(QString localId READ localId WRITE setLocalId NOTIFY localIdChanged)
+    Q_PROPERTY(SingleContentTypeModel* model READ model CONSTANT)
 public:
-    MediaManagerBase(Core::ContentType contentType, QObject* parent= nullptr);
+    MediaManagerBase(Core::ContentType contentType, ContentModel* contentModel, QObject* parent= nullptr);
+    virtual ~MediaManagerBase();
     Core::ContentType type() const;
-    virtual bool openMedia(const QString& uuid, const std::map<QString, QVariant>& args)= 0;
-    virtual void closeMedia(const QString& id)= 0;
     virtual void registerNetworkReceiver()= 0;
-    virtual int managerCount() const= 0;
+    virtual int managerCount() const;
+
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader*);
 
     void setUndoStack(QUndoStack* stack);
     bool localIsGM() const;
     QString localId() const;
+    SingleContentTypeModel* model() const;
 
 public slots:
     void setLocalIsGM(bool localIsGM);
@@ -57,8 +62,8 @@ signals:
     void mediaAdded(QString id, QString path, Core::ContentType type, QString name);
 
 protected:
+    std::unique_ptr<SingleContentTypeModel> m_model;
     bool m_localIsGM= false;
-    Core::ContentType m_contentType;
     QString m_localId;
     QPointer<QUndoStack> m_undoStack;
 };

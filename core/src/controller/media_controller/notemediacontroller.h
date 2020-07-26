@@ -29,7 +29,7 @@ class NoteMediaController : public MediaManagerBase
 {
     Q_OBJECT
 public:
-    explicit NoteMediaController(QObject* parent= nullptr);
+    explicit NoteMediaController(ContentModel* contentModel, QObject* parent= nullptr);
     ~NoteMediaController();
 
     bool openMedia(const QString& uuid, const std::map<QString, QVariant>& args) override;

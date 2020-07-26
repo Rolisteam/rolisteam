@@ -41,8 +41,8 @@ CharacterSheetController* findSheet(const std::vector<std::unique_ptr<CharacterS
     return (*it).get();
 }
 
-CharacterSheetMediaController::CharacterSheetMediaController(CharacterModel* model)
-    : MediaManagerBase(Core::ContentType::CHARACTERSHEET), m_characterModel(model)
+CharacterSheetMediaController::CharacterSheetMediaController(ContentModel* model, CharacterModel* characterModel)
+    : MediaManagerBase(Core::ContentType::CHARACTERSHEET, model), m_characterModel(characterModel)
 {
 }
 
@@ -60,13 +60,12 @@ bool CharacterSheetMediaController::openMedia(const QString& id, const std::map<
 
 void CharacterSheetMediaController::closeMedia(const QString& id)
 {
-    auto it= std::remove_if(m_sheets.begin(), m_sheets.end(),
-                            [id](const std::unique_ptr<CharacterSheetController>& ctrl) { return ctrl->uuid() == id; });
-    if(it == m_sheets.end())
-        return;
+    /*  auto it= std::remove_if(m_sheets.begin(), m_sheets.end(),
+                              [id](const std::unique_ptr<CharacterSheetController>& ctrl) { return ctrl->uuid() == id;
+      }); if(it == m_sheets.end()) return;
 
-    (*it)->aboutToClose();
-    m_sheets.erase(it, m_sheets.end());
+      (*it)->aboutToClose();
+      m_sheets.erase(it, m_sheets.end());*/
 }
 
 void CharacterSheetMediaController::registerNetworkReceiver()
@@ -82,12 +81,12 @@ NetWorkReceiver::SendType CharacterSheetMediaController::processMessage(NetworkM
         auto hash= MessageHelper::readCharacterSheet(msg);
         addCharacterSheet(hash);
     }
-    else if(msg->action() == NetMsg::updateFieldCharacterSheet && msg->category() == NetMsg::CharacterCategory)
+    /*else if(msg->action() == NetMsg::updateFieldCharacterSheet && msg->category() == NetMsg::CharacterCategory)
     {
         auto find= msg->string8();
         auto current= findSheet(m_sheets, find);
         MessageHelper::readUpdateField(current, msg);
-    }
+    }*/
     return type;
 }
 
@@ -122,7 +121,7 @@ void CharacterSheetMediaController::addCharacterSheet(const QHash<QString, QVari
             &CharacterSheetController::setGameMasterId);
     sheetCtrl->setGameMasterId(m_gameMasterId);
 
-    emit characterSheetCreated(sheetCtrl.get());
+    // emit characterSheetCreated(sheetCtrl.get());
 
     if(params.contains(QStringLiteral("data")) && params.contains(QStringLiteral("characterId")))
     {
@@ -143,7 +142,7 @@ void CharacterSheetMediaController::addCharacterSheet(const QHash<QString, QVari
             return;
         m_undoStack->push(new RemoveMediaControllerCommand(sheet, this));
     });
-    m_sheets.push_back(std::move(sheetCtrl));
+    // m_sheets.push_back(std::move(sheetCtrl));
 }
 
 QString CharacterSheetMediaController::gameMasterId() const
@@ -154,14 +153,9 @@ QString CharacterSheetMediaController::gameMasterId() const
 std::vector<CharacterSheetController*> CharacterSheetMediaController::controllers() const
 {
     std::vector<CharacterSheetController*> vec;
-    std::transform(m_sheets.begin(), m_sheets.end(), std::back_inserter(vec),
-                   [](const std::unique_ptr<CharacterSheetController>& ctrl) { return ctrl.get(); });
+    /*std::transform(m_sheets.begin(), m_sheets.end(), std::back_inserter(vec),
+                   [](const std::unique_ptr<CharacterSheetController>& ctrl) { return ctrl.get(); });*/
     return vec;
-}
-
-int CharacterSheetMediaController::managerCount() const
-{
-    return static_cast<int>(m_sheets.size());
 }
 
 void CharacterSheetMediaController::setGameMasterId(const QString& gameMasterId)

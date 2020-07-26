@@ -19,16 +19,31 @@
  ***************************************************************************/
 #include "mediamanagerbase.h"
 
+#include "model/contentmodel.h"
+#include "model/singlecontenttypemodel.h"
 #include <QUndoStack>
 
-MediaManagerBase::MediaManagerBase(Core::ContentType contentType, QObject* parent)
-    : QObject(parent), m_contentType(contentType)
+MediaManagerBase::MediaManagerBase(Core::ContentType contentType, ContentModel* contentModel, QObject* parent)
+    : QObject(parent), m_model(new SingleContentTypeModel(contentType))
 {
+    m_model->setSourceModel(contentModel);
 }
+
+MediaManagerBase::~MediaManagerBase()= default;
 
 Core::ContentType MediaManagerBase::type() const
 {
-    return m_contentType;
+    return m_model->type();
+}
+
+int MediaManagerBase::managerCount() const
+{
+    return m_model->rowCount();
+}
+
+NetWorkReceiver::SendType MediaManagerBase::processMessage(NetworkMessageReader*)
+{
+    return NetWorkReceiver::NONE;
 }
 
 void MediaManagerBase::setLocalIsGM(bool localIsGM)
@@ -53,6 +68,11 @@ bool MediaManagerBase::localIsGM() const
 QString MediaManagerBase::localId() const
 {
     return m_localId;
+}
+
+SingleContentTypeModel* MediaManagerBase::model() const
+{
+    return m_model.get();
 }
 
 void MediaManagerBase::setLocalId(const QString& id)

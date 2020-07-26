@@ -50,8 +50,8 @@ VectorialMapController* findMap(const std::vector<std::unique_ptr<VectorialMapCo
     return (*it).get();
 }
 
-VectorialMapMediaController::VectorialMapMediaController()
-    : MediaManagerBase(Core::ContentType::VECTORIALMAP), m_updater(new VMapUpdater)
+VectorialMapMediaController::VectorialMapMediaController(ContentModel* contentModel)
+    : MediaManagerBase(Core::ContentType::VECTORIALMAP, contentModel), m_updater(new VMapUpdater)
 {
     /*auto func= [this]() {
         std::for_each(m_vmaps.begin(), m_vmaps.end(), [this](const std::unique_ptr<VectorialMapController>& ctrl) {

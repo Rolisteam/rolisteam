@@ -38,8 +38,8 @@ SharedNoteController* findNote(const std::vector<std::unique_ptr<SharedNoteContr
     return (*it).get();
 }
 
-SharedNoteMediaController::SharedNoteMediaController(PlayerModel* model, QObject* parent)
-    : MediaManagerBase(Core::ContentType::SHAREDNOTE, parent)
+SharedNoteMediaController::SharedNoteMediaController(PlayerModel* model, ContentModel* contentModel, QObject* parent)
+    : MediaManagerBase(Core::ContentType::SHAREDNOTE, contentModel, parent)
     , m_updater(new SharedNoteControllerUpdater)
     , m_playerModel(model)
 {
