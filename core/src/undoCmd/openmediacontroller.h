@@ -20,16 +20,16 @@
 #ifndef ADDMEDIACONTENEUR_H
 #define ADDMEDIACONTENEUR_H
 
+#include "media/mediatype.h"
 #include <QPointer>
 #include <QUndoCommand>
 
-class MediaManagerBase;
 class CleverURI;
-class ContentController;
+class ContentModel;
 class OpenMediaController : public QUndoCommand
 {
 public:
-    OpenMediaController(MediaManagerBase* ctrl, ContentController* contentCtrl, const std::map<QString, QVariant>& map,
+    OpenMediaController(ContentModel* contentModel, Core::ContentType type, const std::map<QString, QVariant>& map,
                         QUndoCommand* parent= nullptr);
 
     void redo() override;
@@ -38,8 +38,8 @@ public:
 private:
     CleverURI* m_uri= nullptr;
     QString m_uuid;
-    QPointer<MediaManagerBase> m_ctrl;
-    QPointer<ContentController> m_contentCtrl;
+    QPointer<ContentModel> m_model;
+    Core::ContentType m_type;
     std::map<QString, QVariant> m_args;
     bool m_gm;
 };

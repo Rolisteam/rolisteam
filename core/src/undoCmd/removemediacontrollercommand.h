@@ -20,6 +20,7 @@
 #ifndef REMOVEMEDIACONTROLLERCOMMAND_H
 #define REMOVEMEDIACONTROLLERCOMMAND_H
 
+#include <QPointer>
 #include <QUndoCommand>
 #include <QVariant>
 #include <map>
@@ -28,10 +29,11 @@
 
 class MediaControllerBase;
 class MediaManagerBase;
+class ContentModel;
 class RemoveMediaControllerCommand : public QUndoCommand
 {
 public:
-    RemoveMediaControllerCommand(MediaControllerBase* media, MediaManagerBase* ctrl, QUndoCommand* parent= nullptr);
+    RemoveMediaControllerCommand(MediaControllerBase* media, ContentModel* model, QUndoCommand* parent= nullptr);
 
     ~RemoveMediaControllerCommand() override;
 
@@ -41,8 +43,8 @@ public:
 private:
     QString m_uuid;
     QString m_title;
-    MediaControllerBase* m_ctrl= nullptr;
-    MediaManagerBase* m_manager;
+    QPointer<MediaControllerBase> m_ctrl;
+    QPointer<ContentModel> m_model;
     QByteArray m_data;
     Core::ContentType m_contentType;
 };

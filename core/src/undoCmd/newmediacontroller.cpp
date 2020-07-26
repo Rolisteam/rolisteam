@@ -25,11 +25,11 @@
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/mediamanagerbase.h"
 #include "media/mediafactory.h"
+#include "model/contentmodel.h"
 
-NewMediaController::NewMediaController(Core::ContentType contentType, MediaManagerBase* ctrl,
-                                       ContentController* contentCtrl, const std::map<QString, QVariant>& map,
-                                       QUndoCommand* parent)
-    : QUndoCommand(parent), m_ctrl(ctrl), m_contentType(contentType), m_contentCtrl(contentCtrl), m_args(map)
+NewMediaController::NewMediaController(Core::ContentType contentType, ContentModel* model,
+                                       const std::map<QString, QVariant>& map, QUndoCommand* parent)
+    : QUndoCommand(parent), m_contentType(contentType), m_args(map), m_model(model)
 {
     m_title= m_args["title"].toString();
 
@@ -44,24 +44,18 @@ void NewMediaController::redo()
     if(m_ctrl.isNull() || m_contentCtrl.isNull())
         return;
 
-    // m_uri= new CleverURI(m_title, "", "", m_contentType);
-
     if(m_uuidUri.isEmpty())
         m_uuidUri= QUuid::createUuid().toString(QUuid::WithoutBraces);
 
     auto media= Media::MediaFactory::createLocalMedia(m_uuidUri, m_contentType, m_args);
-    m_ctrl->openMedia(m_uuidUri, m_args);
-    // m_contentCtrl->addContent(m_uri); // resources manager
+    m_model->appendMedia(media);
 }
 
 void NewMediaController::undo()
 {
     qInfo() << QStringLiteral("Undo command newmediacontroller: %1 ").arg(text());
-    if(/*nullptr == m_uri ||*/ nullptr == m_ctrl)
+    if(nullptr == m_ctrl)
         return;
 
-    m_ctrl->closeMedia(m_uuidUri);
-    // m_contentCtrl->removeContent(m_uri);
-
-    // m_uri= nullptr;
+    m_model->removeMedia(m_uuidUri);
 }

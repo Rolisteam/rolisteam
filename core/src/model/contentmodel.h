@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2019 by Renaud Guezennec                               *
+ *	Copyright (C) 2020 by Renaud Guezennec                               *
  *   http://www.rolisteam.org/contact                                      *
  *                                                                         *
  *   This software is free software; you can redistribute it and/or modify *
@@ -17,34 +17,49 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef NEWMEDIACONTROLLER_H
-#define NEWMEDIACONTROLLER_H
+#ifndef CONTENTMODEL_H
+#define CONTENTMODEL_H
 
-#include "media/mediatype.h"
-#include <QPointer>
-#include <QUndoCommand>
+#include <QAbstractListModel>
 #include <memory>
+#include <vector>
 
-class MediaManagerBase;
-class ContentController;
-class ContentModel;
-class NewMediaController : public QUndoCommand
+class MediaControllerBase;
+
+class ContentModel : public QAbstractListModel
 {
-public:
-    NewMediaController(Core::ContentType contentType, ContentModel* model, const std::map<QString, QVariant>& map,
-                       QUndoCommand* parent= nullptr);
+    Q_OBJECT
 
-    void redo() override;
-    void undo() override;
+public:
+    enum CustomRole
+    {
+        NameRole= Qt::UserRole + 1,
+        TitleRole,
+        UuidRole,
+        PathRole,
+        ContentTypeRole,
+        ActiveRole,
+        ModifiedRole,
+        OwnerIdRole
+    };
+    Q_ENUM(CustomRole)
+    explicit ContentModel(QObject* parent= nullptr);
+    virtual ~ContentModel();
+
+    // Basic functionality:
+    int rowCount(const QModelIndex& parent= QModelIndex()) const override;
+
+    QVariant data(const QModelIndex& index, int role= Qt::DisplayRole) const override;
+
+    bool appendMedia(MediaControllerBase* media);
+    bool removeMedia(const QString& uuid);
+
+    void clearData();
+
+signals:
+    void mediaControllerAdded(MediaControllerBase* newCtrl);
 
 private:
-    QPointer<MediaManagerBase> m_ctrl;
-    QString m_uuidUri;
-    QString m_title;
-    Core::ContentType m_contentType;
-    QPointer<ContentController> m_contentCtrl;
-    std::map<QString, QVariant> m_args;
-    QPointer<ContentModel> m_model;
+    std::vector<std::unique_ptr<MediaControllerBase>> m_medias;
 };
-
-#endif // NEWMEDIACONTROLLER_H
+#endif // CONTENTMODEL_H
