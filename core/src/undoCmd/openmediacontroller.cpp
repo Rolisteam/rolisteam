@@ -22,6 +22,7 @@
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/mediamanagerbase.h"
 #include "data/cleveruri.h"
+#include "media/mediafactory.h"
 
 #include <QDebug>
 #include <QUuid>
@@ -45,6 +46,7 @@ void OpenMediaController::redo()
     if(m_ctrl.isNull() || m_contentCtrl.isNull())
         return;
 
+    auto media= Media::MediaFactory::createLocalMedia(m_uuid, m_type, m_args);
     m_ctrl->openMedia(m_uuid, m_args);
     // m_contentCtrl->addContent(m_uri);
     // add in workspace + add action and add into ressources manager.

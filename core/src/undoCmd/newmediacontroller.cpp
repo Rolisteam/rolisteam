@@ -24,6 +24,7 @@
 
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/mediamanagerbase.h"
+#include "media/mediafactory.h"
 
 NewMediaController::NewMediaController(Core::ContentType contentType, MediaManagerBase* ctrl,
                                        ContentController* contentCtrl, const std::map<QString, QVariant>& map,
@@ -48,6 +49,7 @@ void NewMediaController::redo()
     if(m_uuidUri.isEmpty())
         m_uuidUri= QUuid::createUuid().toString(QUuid::WithoutBraces);
 
+    auto media= Media::MediaFactory::createLocalMedia(m_uuidUri, m_contentType, m_args);
     m_ctrl->openMedia(m_uuidUri, m_args);
     // m_contentCtrl->addContent(m_uri); // resources manager
 }

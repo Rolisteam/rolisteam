@@ -24,6 +24,7 @@
 #include "controller/contentcontroller.h"
 #include "controller/media_controller/mediamanagerbase.h"
 #include "controller/view_controller/mediacontrollerbase.h"
+#include "media/mediafactory.h"
 #include "worker/iohelper.h"
 
 RemoveMediaControllerCommand::RemoveMediaControllerCommand(MediaControllerBase* ctrl, MediaManagerBase* manager,
@@ -57,5 +58,6 @@ void RemoveMediaControllerCommand::undo()
     if(nullptr == m_ctrl)
         return;
 
+    auto media= Media::MediaFactory::createLocalMedia(m_uuid, m_contentType, {{"serializedData", m_data}});
     m_manager->openMedia(m_uuid, {{"serializedData", m_data}});
 }
