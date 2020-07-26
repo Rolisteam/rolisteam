@@ -19,21 +19,27 @@
  ***************************************************************************/
 #include "contentcontroller.h"
 
-#include "controller/media_controller/charactersheetmediacontroller.h"
+/*#include "controller/media_controller/charactersheetmediacontroller.h"
 #include "controller/media_controller/imagemediacontroller.h"
 #include "controller/media_controller/mediamanagerbase.h"
 #include "controller/media_controller/notemediacontroller.h"
 #include "controller/media_controller/sharednotemediacontroller.h"
 #include "controller/media_controller/vectorialmapmediacontroller.h"
-#include "controller/media_controller/webpagemediacontroller.h"
+#include "controller/media_controller/webpagemediacontroller.h"*/
 
 #ifdef WITH_PDF
-#include "controller/media_controller/pdfmediacontroller.h"
+//#include "controller/media_controller/pdfmediacontroller.h"
 #endif
 
 #include "controller/view_controller/charactersheetcontroller.h"
+#include "controller/view_controller/imagecontroller.h"
+#include "controller/view_controller/sharednotecontroller.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
+#include "updater/mediaupdaterinterface.h"
 
 #include "gamecontroller.h"
+#include "media/mediafactory.h"
+#include "model/contentmodel.h"
 #include "network/networkmessage.h"
 #include "network/networkmessagereader.h"
 #include "preferences/preferencesmanager.h"
@@ -42,22 +48,45 @@
 #include "undoCmd/newmediacontroller.h"
 #include "undoCmd/openmediacontroller.h"
 #include "undoCmd/removemediacontrollercommand.h"
+#include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
+
+void sendOffMediaController(MediaControllerBase* ctrl)
+{
+    if(!ctrl->localIsOwner() || ctrl->remote())
+        return;
+
+    switch(ctrl->contentType())
+    {
+    case Core::ContentType::PICTURE:
+        MessageHelper::sendOffImage(dynamic_cast<ImageController*>(ctrl));
+        break;
+    case Core::ContentType::VECTORIALMAP:
+        MessageHelper::sendOffVMap(dynamic_cast<VectorialMapController*>(ctrl));
+        break;
+    default:
+        break;
+    }
+}
 
 ContentController::ContentController(PlayerModel* playerModel, CharacterModel* characterModel, QObject* parent)
     : AbstractControllerInterface(parent)
-    , m_contentModel(new SessionItemModel)
-    , m_imageControllers(new ImageMediaController)
-    , m_vmapControllers(new VectorialMapMediaController)
-    , m_sheetMediaController(new CharacterSheetMediaController(characterModel))
-    , m_webPageMediaController(new WebpageMediaController)
-    , m_sharedNoteMediaController(new SharedNoteMediaController(playerModel))
-#ifdef WITH_PDF
-    , m_pdfMediaController(new PdfMediaController)
-#endif
-    , m_noteMediaController(new NoteMediaController)
-    , m_sessionName(tr("Unknown"))
+    , m_sessionModel(new SessionItemModel)
+    , m_contentModel(new ContentModel)
+    , m_sessionName(tr("default"))
 {
+    CharacterSheetController::setCharacterModel(characterModel);
+    SharedNoteController::setPlayerModel(playerModel);
+    /*m_imageControllers.reset(new ImageMediaController(m_contentModel.get()));
+    m_vmapControllers.reset(new VectorialMapMediaController(m_contentModel.get()));
+    m_sheetMediaController.reset(new CharacterSheetMediaController(m_contentModel.get(), characterModel));
+    m_webPageMediaController.reset(new WebpageMediaController(m_contentModel.get()));
+    m_sharedNoteMediaController.reset(new SharedNoteMediaController(playerModel, m_contentModel.get()));
+#ifdef WITH_PDF
+    m_pdfMediaController.reset(new PdfMediaController(m_contentModel.get()));
+#endif
+    m_noteMediaController.reset(new NoteMediaController(m_contentModel.get()));
+
     m_mediaControllers.insert({m_imageControllers->type(), m_imageControllers.get()});
     m_mediaControllers.insert({m_vmapControllers->type(), m_vmapControllers.get()});
     m_mediaControllers.insert({m_sheetMediaController->type(), m_sheetMediaController.get()});
@@ -66,25 +95,30 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
 #ifdef WITH_PDF
     m_mediaControllers.insert({m_pdfMediaController->type(), m_pdfMediaController.get()});
 #endif
-    m_mediaControllers.insert({m_noteMediaController->type(), m_noteMediaController.get()});
+    m_mediaControllers.insert({m_noteMediaController->type(), m_noteMediaController.get()});*/
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
 
-    std::for_each(
+    connect(m_contentModel.get(), &ContentModel::mediaControllerAdded, this, [this](MediaControllerBase* ctrl) {
+        emit mediaControllerCreated(ctrl);
+        sendOffMediaController(ctrl);
+    });
+
+    /*std::for_each(
         m_mediaControllers.begin(), m_mediaControllers.end(),
         [this](const std::pair<Core::ContentType, MediaManagerBase*>& pair) {
             pair.second->registerNetworkReceiver();
-            connect(pair.second, &MediaManagerBase::mediaAdded, m_contentModel.get(), &SessionItemModel::addMedia);
-            connect(pair.second, &MediaManagerBase::mediaClosed, m_contentModel.get(), &SessionItemModel::removeMedia);
-        });
+            connect(pair.second, &MediaManagerBase::mediaAdded, m_sessionModel.get(), &SessionItemModel::addMedia);
+            connect(pair.second, &MediaManagerBase::mediaClosed, m_sessionModel.get(), &SessionItemModel::removeMedia);
+        });*/
 
-    connect(this, &ContentController::gameMasterIdChanged, m_sheetMediaController.get(),
-            &CharacterSheetMediaController::setGameMasterId);
-    connect(this, &ContentController::localIdChanged, this, [this](const QString& id) {
+    /*connect(this, &ContentController::gameMasterIdChanged, m_sheetMediaController.get(),
+            &CharacterSheetMediaController::setGameMasterId);*/
+    /*connect(this, &ContentController::localIdChanged, this, [this](const QString& id) {
         std::for_each(
             m_mediaControllers.begin(), m_mediaControllers.end(),
             [id](const std::pair<Core::ContentType, MediaManagerBase*>& pair) { pair.second->setLocalId(id); });
-    });
+    });*/
 }
 
 ContentController::~ContentController()= default;
@@ -97,21 +131,6 @@ void ContentController::setGameController(GameController* game)
     m_preferences->registerListener("BackGroundColor", this);
     m_preferences->registerListener("shortNameInTabMode", this);
     m_preferences->registerListener("MaxLengthTabName", this);
-    /* m_preferences->registerLambda("Fog_color", [this](QVariant var) {
-         if(!var.isValid())
-             m_mapMediaController->setFogColor(QColor(0, 0, 0));
-         else
-             m_mapMediaController->setFogColor(var.value<QColor>());
-     });
-
-     m_mapMediaController->setFogColor(m_preferences->value("Fog_color", QColor(Qt::black)).value<QColor>());*/
-
-    std::for_each(m_mediaControllers.begin(), m_mediaControllers.end(),
-                  [game](const std::pair<Core::ContentType, MediaManagerBase*>& pair) {
-                      pair.second->setUndoStack(game->undoStack());
-                      connect(game, &GameController::localIsGMChanged, pair.second, &MediaManagerBase::setLocalIsGM);
-                      pair.second->setLocalIsGM(game->localIsGM());
-                  });
 }
 
 void ContentController::preferencesHasChanged(const QString& key)
@@ -130,11 +149,7 @@ void ContentController::preferencesHasChanged(const QString& key)
 
 void ContentController::newMedia(Core::ContentType type, const std::map<QString, QVariant>& params)
 {
-    auto controller= m_mediaControllers[type];
-    if(!controller)
-        return;
-
-    emit performCommand(new NewMediaController(type, controller, this, params));
+    emit performCommand(new NewMediaController(type, m_contentModel.get(), params));
 }
 
 void ContentController::openMedia(const std::map<QString, QVariant>& args)
@@ -144,93 +159,34 @@ void ContentController::openMedia(const std::map<QString, QVariant>& args)
     if(it == args.end())
         return;
 
-    auto controller= m_mediaControllers[it->second.value<Core::ContentType>()];
-    if(!controller)
-        return;
+    auto type= it->second.value<Core::ContentType>();
 
-    emit performCommand(new OpenMediaController(controller, this, args));
+    emit performCommand(new OpenMediaController(m_contentModel.get(), type, args));
 }
 
-/*void ContentController::closeMedia(Core::ContentType type, const QString& id)
+SessionItemModel* ContentController::sessionModel() const
 {
-    auto controller= m_mediaControllers[type];
-    if(!controller)
-        return;
+    return m_sessionModel.get();
+}
 
-    controller->;
-
-        emit performCommand(new RemoveMediaControllerCommand(controller, controller));
-}*/
-
-SessionItemModel* ContentController::model() const
+ContentModel* ContentController::contentModel() const
 {
     return m_contentModel.get();
 }
 
-ImageMediaController* ContentController::imagesCtrl() const
-{
-    return m_imageControllers.get();
-}
-
-VectorialMapMediaController* ContentController::vmapCtrl() const
-{
-    return m_vmapControllers.get();
-}
-
-CharacterSheetMediaController* ContentController::sheetCtrl() const
-{
-    return m_sheetMediaController.get();
-}
-
-WebpageMediaController* ContentController::webPageCtrl() const
-{
-    return m_webPageMediaController.get();
-}
-
-SharedNoteMediaController* ContentController::sharedCtrl() const
-{
-    return m_sharedNoteMediaController.get();
-}
-
-#ifdef WITH_PDF
-PdfMediaController* ContentController::pdfCtrl() const
-{
-    return m_pdfMediaController.get();
-}
-#endif
-
-NoteMediaController* ContentController::noteCtrl() const
-{
-    return m_noteMediaController.get();
-}
-
-std::vector<MediaManagerBase*> ContentController::mediaManagers() const
-{
-    return {m_noteMediaController.get(),
-#ifdef WITH_PDF
-            m_pdfMediaController.get(),
-#endif
-            m_sharedNoteMediaController.get(), m_webPageMediaController.get(), m_sheetMediaController.get(),
-            m_vmapControllers.get(),           m_imageControllers.get()};
-}
-
 int ContentController::contentCount() const
 {
-    int count= 0;
-    std::for_each(
-        m_mediaControllers.begin(), m_mediaControllers.end(),
-        [&count](const std::pair<Core::ContentType, MediaManagerBase*>& pair) { count+= pair.second->managerCount(); });
-    return count;
+    return m_contentModel->rowCount();
 }
 
 void ContentController::addContent(ResourcesNode* node)
 {
-    m_contentModel->addResource(node, QModelIndex());
+    m_sessionModel->addResource(node, QModelIndex());
 }
 
 void ContentController::removeContent(ResourcesNode* node)
 {
-    m_contentModel->removeNode(node);
+    m_sessionModel->removeNode(node);
 }
 
 void ContentController::setSessionName(const QString& name)
@@ -292,6 +248,7 @@ void ContentController::setLocalId(const QString& id)
 
 void ContentController::clear()
 {
+    m_sessionModel->clearData();
     m_contentModel->clearData();
 }
 
@@ -340,27 +297,33 @@ NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader
     if(actions.find(msg->action()) == actions.end())
         return result;
 
-    auto type= static_cast<Core::ContentType>(msg->uint8());
-    auto media= m_mediaControllers.at(type);
-
-    if(!media)
-        return result;
-
-    result= media->processMessage(msg);
+    if(msg->action() == NetMsg::CloseMedia)
+    {
+        Q_UNUSED(static_cast<Core::ContentType>(msg->uint8()));
+        auto id= MessageHelper::readMediaId(msg);
+        m_sessionModel->removeMedia(id);
+        m_contentModel->removeMedia(id);
+    }
+    else
+    {
+        auto type= static_cast<Core::ContentType>(msg->uint8());
+        auto media= Media::MediaFactory::createRemoteMedia(type, msg);
+        m_contentModel->appendMedia(media);
+    }
 
     return result;
 }
 
 void ContentController::addImageAs(const QPixmap& map, Core::ContentType type)
 {
-    if(type == Core::ContentType::PICTURE)
-    {
-        m_imageControllers->addImage(map);
-    }
-    else if(type == Core::ContentType::VECTORIALMAP)
-    {
-        m_vmapControllers->addImageToMap(map);
-    }
+    /* if(type == Core::ContentType::PICTURE)
+     {
+         m_imageControllers->addImage(map);
+     }
+     else if(type == Core::ContentType::VECTORIALMAP)
+     {
+         m_vmapControllers->addImageToMap(map);
+     }*/
 }
 
 /*void ContentController::setActiveMediaController(AbstractMediaContainerController* mediaCtrl)

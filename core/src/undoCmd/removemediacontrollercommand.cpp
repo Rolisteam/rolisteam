@@ -25,18 +25,19 @@
 #include "controller/media_controller/mediamanagerbase.h"
 #include "controller/view_controller/mediacontrollerbase.h"
 #include "media/mediafactory.h"
+#include "model/contentmodel.h"
 #include "worker/iohelper.h"
 
-RemoveMediaControllerCommand::RemoveMediaControllerCommand(MediaControllerBase* ctrl, MediaManagerBase* manager,
+RemoveMediaControllerCommand::RemoveMediaControllerCommand(MediaControllerBase* ctrl, ContentModel* model,
                                                            QUndoCommand* parent)
-    : QUndoCommand(parent), m_ctrl(ctrl), m_manager(manager)
+    : QUndoCommand(parent), m_ctrl(ctrl), m_model(model)
 {
     if(m_ctrl)
     {
         m_uuid= m_ctrl->uuid();
         m_title= m_ctrl->title();
-        m_contentType= manager->type();
-        setText(QObject::tr("Close %1").arg(m_title));
+        m_contentType= ctrl->contentType();
+        setText(QObject::tr("Close %1").arg(m_ctrl->name()));
         m_data= IOHelper::saveController(m_ctrl);
     }
 }
@@ -49,7 +50,7 @@ void RemoveMediaControllerCommand::redo()
     if(nullptr == m_ctrl)
         return;
 
-    m_manager->closeMedia(m_ctrl->uuid());
+    m_model->removeMedia(m_ctrl->uuid());
 }
 
 void RemoveMediaControllerCommand::undo()
@@ -59,5 +60,5 @@ void RemoveMediaControllerCommand::undo()
         return;
 
     auto media= Media::MediaFactory::createLocalMedia(m_uuid, m_contentType, {{"serializedData", m_data}});
-    m_manager->openMedia(m_uuid, {{"serializedData", m_data}});
+    m_model->appendMedia(media);
 }

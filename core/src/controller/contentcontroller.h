@@ -49,11 +49,15 @@ class SharedNoteMediaController;
 class PdfMediaController;
 class PlayerModel;
 class NoteMediaController;
+class ContentModel;
+class MediaControllerBase;
+class MediaUpdaterInterface;
 // class AbstractMediaContainerController;
 class ContentController : public AbstractControllerInterface, public PreferencesListener, public NetWorkReceiver
 {
     Q_OBJECT
-    Q_PROPERTY(SessionItemModel* model READ model CONSTANT)
+    Q_PROPERTY(SessionItemModel* sessionModel READ sessionModel CONSTANT)
+    Q_PROPERTY(ContentModel* contentModel READ contentModel CONSTANT)
     Q_PROPERTY(QString workspaceFilename READ workspaceFilename NOTIFY workspaceFilenameChanged)
     Q_PROPERTY(QColor workspaceColor READ workspaceColor NOTIFY workspaceColorChanged)
     Q_PROPERTY(int workspacePositioning READ workspacePositioning NOTIFY workspacePositioningChanged)
@@ -68,18 +72,19 @@ public:
     explicit ContentController(PlayerModel* playerModel, CharacterModel* characterModel, QObject* parent= nullptr);
     ~ContentController() override;
 
-    SessionItemModel* model() const;
-    ImageMediaController* imagesCtrl() const;
-    VectorialMapMediaController* vmapCtrl() const;
-    CharacterSheetMediaController* sheetCtrl() const;
-    WebpageMediaController* webPageCtrl() const;
-    SharedNoteMediaController* sharedCtrl() const;
-#ifdef WITH_PDF
-    PdfMediaController* pdfCtrl() const;
-#endif
-    NoteMediaController* noteCtrl() const;
+    SessionItemModel* sessionModel() const;
+    ContentModel* contentModel() const;
+    // ImageMediaController* imagesCtrl() const;
+    // VectorialMapMediaController* vmapCtrl() const;
+    // CharacterSheetMediaController* sheetCtrl() const;
+    // WebpageMediaController* webPageCtrl() const;
+    // SharedNoteMediaController* sharedCtrl() const;
+    //#ifdef WITH_PDF
+    // PdfMediaController* pdfCtrl() const;
+    //#endif
+    // NoteMediaController* noteCtrl() const;
 
-    std::vector<MediaManagerBase*> mediaManagers() const;
+    std::vector<MediaManagerBase*> mediaUpdaters() const;
     int contentCount() const;
 
     int maxLengthTabName() const;
@@ -111,6 +116,7 @@ signals:
     void sessionPathChanged();
     void gameMasterIdChanged(const QString& gameMasterId);
     void localIdChanged(const QString& game);
+    void mediaControllerCreated(MediaControllerBase* base);
 
 public slots:
     // Media API
@@ -133,9 +139,9 @@ public slots:
     // void closeMedia(Core::ContentType type, const QString& id);
 
 private:
-    std::unique_ptr<SessionItemModel> m_contentModel;
-    std::map<Core::ContentType, MediaManagerBase*> m_mediaControllers;
-    std::unique_ptr<ImageMediaController> m_imageControllers;
+    std::unique_ptr<SessionItemModel> m_sessionModel;
+    std::map<Core::ContentType, std::unique_ptr<MediaUpdaterInterface>> m_mediaUpdaters;
+    /*std::unique_ptr<ImageMediaController> m_imageControllers;
     std::unique_ptr<VectorialMapMediaController> m_vmapControllers;
     std::unique_ptr<CharacterSheetMediaController> m_sheetMediaController;
     std::unique_ptr<WebpageMediaController> m_webPageMediaController;
@@ -143,7 +149,8 @@ private:
 #ifdef WITH_PDF
     std::unique_ptr<PdfMediaController> m_pdfMediaController;
 #endif
-    std::unique_ptr<NoteMediaController> m_noteMediaController;
+    std::unique_ptr<NoteMediaController> m_noteMediaController;*/
+    std::unique_ptr<ContentModel> m_contentModel;
 
     PreferencesManager* m_preferences;
     QString m_sessionName;

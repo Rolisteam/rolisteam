@@ -37,7 +37,7 @@ SessionDock::SessionDock(ContentController* ctrl, QWidget* parent)
 
     setWindowTitle(tr("Resources Explorer"));
 
-    m_ui->m_view->setModel(m_ctrl->model());
+    m_ui->m_view->setModel(m_ctrl->sessionModel());
 
     m_ui->m_view->setDragEnabled(true);
     m_ui->m_view->setAcceptDrops(true);
