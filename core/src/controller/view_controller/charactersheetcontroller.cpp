@@ -12,12 +12,12 @@
 #include "worker/messagehelper.h"
 #include "worker/modelhelper.h"
 
-CharacterSheetController::CharacterSheetController(CharacterModel* characterModel, const QString& id,
-                                                   const QString& path, QObject* parent)
+QPointer<CharacterModel> CharacterSheetController::m_characterModel;
+
+CharacterSheetController::CharacterSheetController(const QString& id, const QString& path, QObject* parent)
     : MediaControllerBase(id, Core::ContentType::CHARACTERSHEET, parent)
     , m_model(new CharacterSheetModel)
     , m_imageModel(new ImageModel())
-    , m_characterModel(characterModel)
     , m_characterSheetUpdater(new CharacterSheetUpdater(id))
 {
     setPath(path);
@@ -160,4 +160,9 @@ void CharacterSheetController::shareCharacterSheetTo(const QString& uuid, int id
         m_characterSheetUpdater->addCharacterSheetUpdate(sheet, CharacterSheetUpdater::UpdateMode::ONE,
                                                          QStringList() << dest);
     }
+}
+
+void CharacterSheetController::setCharacterModel(CharacterModel* model)
+{
+    m_characterModel= model;
 }

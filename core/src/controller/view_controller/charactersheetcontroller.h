@@ -53,8 +53,7 @@ class CharacterSheetController : public MediaControllerBase
     Q_PROPERTY(bool cornerEnabled READ cornerEnabled NOTIFY cornerEnabledChanged)
     Q_PROPERTY(QString gameMasterId READ gameMasterId WRITE setGameMasterId NOTIFY gameMasterIdChanged)
 public:
-    CharacterSheetController(CharacterModel* characterModel, const QString& id, const QString& path,
-                             QObject* parent= nullptr);
+    CharacterSheetController(const QString& id, const QString& path, QObject* parent= nullptr);
     ~CharacterSheetController() override;
 
     virtual void saveData() const override;
@@ -70,6 +69,8 @@ public:
     bool cornerEnabled() const;
 
     void updateFieldFrom(const QString& sheetId, const QJsonObject& obj, const QString& parentPath);
+
+    static void setCharacterModel(CharacterModel* model);
 
 public slots:
     void shareCharacterSheetTo(const QString& uuid, int idx);
@@ -87,7 +88,7 @@ signals:
 private:
     std::unique_ptr<CharacterSheetModel> m_model;
     std::unique_ptr<ImageModel> m_imageModel;
-    QPointer<CharacterModel> m_characterModel;
+    static QPointer<CharacterModel> m_characterModel;
     std::set<CharacterSheetData> m_sheetData;
     std::unique_ptr<CharacterSheetUpdater> m_characterSheetUpdater;
     QJsonObject m_rootJson;

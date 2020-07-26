@@ -60,8 +60,7 @@ public:
     };
     Q_ENUM(HighlightedSyntax)
 
-    SharedNoteController(const QString& ownerId, const QString& local, PlayerModel* model, const QString& uuid,
-                         QObject* parent= nullptr);
+    SharedNoteController(const QString& ownerId, const QString& local, const QString& uuid, QObject* parent= nullptr);
     ~SharedNoteController() override;
 
     QString text() const;
@@ -81,6 +80,7 @@ public:
     bool localCanWrite() const;
     QString textUpdate() const;
     QString updateCmd() const;
+    static void setPlayerModel(PlayerModel* model);
 
 public slots:
     void setPermission(Permission);
@@ -113,7 +113,7 @@ signals:
 
 private:
     std::unique_ptr<ParticipantModel> m_participantModel;
-    QPointer<PlayerModel> m_playerModel;
+    static QPointer<PlayerModel> m_playerModel;
     QString m_text;
     QString m_latestCommand;
     Permission m_permission= Permission::READ;
