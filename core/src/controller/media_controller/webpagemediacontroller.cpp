@@ -28,7 +28,10 @@
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 
-WebpageMediaController::WebpageMediaController() : MediaManagerBase(Core::ContentType::WEBVIEW) {}
+WebpageMediaController::WebpageMediaController(ContentModel* contentModel)
+    : MediaManagerBase(Core::ContentType::WEBVIEW, contentModel)
+{
+}
 
 WebpageMediaController::~WebpageMediaController()= default;
 

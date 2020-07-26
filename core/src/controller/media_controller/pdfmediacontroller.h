@@ -30,11 +30,9 @@ class PdfMediaController : public MediaManagerBase
 {
     Q_OBJECT
 public:
-    explicit PdfMediaController(QObject* parent= nullptr);
+    explicit PdfMediaController(ContentModel* contentModel, QObject* parent= nullptr);
     ~PdfMediaController() override;
 
-    bool openMedia(const QString& uuid, const std::map<QString, QVariant>& args) override;
-    void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
     int managerCount() const override;

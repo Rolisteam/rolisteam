@@ -32,13 +32,9 @@ class ImageMediaController : public MediaManagerBase
 {
     Q_OBJECT
 public:
-    ImageMediaController();
+    ImageMediaController(ContentModel* contentModel);
     ~ImageMediaController() override;
-
-    bool openMedia(const QString& id, const std::map<QString, QVariant>& args) override;
-    void closeMedia(const QString& id) override;
     void registerNetworkReceiver() override;
-    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) override;
     void addImage(const QPixmap& image);
     int managerCount() const override;
 
@@ -51,8 +47,8 @@ private:
     ImageController* addImageController(const QString& id, const QString& path, const QString& name,
                                         const QByteArray& pix, const QByteArray& serializedData);
 
-private:
-    std::vector<std::unique_ptr<ImageController>> m_images;
+    /*private:
+        std::vector<std::unique_ptr<ImageController>> m_images;*/
 };
 
 #endif // IMAGEMEDIACONTROLLER_H

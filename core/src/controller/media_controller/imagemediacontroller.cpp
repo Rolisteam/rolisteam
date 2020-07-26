@@ -21,110 +21,39 @@
 
 #include "controller/view_controller/imagecontroller.h"
 #include "data/cleveruri.h"
+#include "model/singlecontenttypemodel.h"
 #include "undoCmd/removemediacontrollercommand.h"
 #include "worker/iohelper.h"
-#include "worker/messagehelper.h"
 
-ImageMediaController::ImageMediaController() : MediaManagerBase(Core::ContentType::PICTURE) {}
+ImageMediaController::ImageMediaController(ContentModel* contentModel)
+    : MediaManagerBase(Core::ContentType::PICTURE, contentModel)
+{
+}
 
 ImageMediaController::~ImageMediaController()= default;
 
-void ImageMediaController::registerNetworkReceiver()
-{
-    // ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory, this);
-}
-
-NetWorkReceiver::SendType ImageMediaController::processMessage(NetworkMessageReader* msg)
-{
-    if(msg->category() == NetMsg::MediaCategory && msg->action() == NetMsg::AddMedia)
-    {
-        auto uri= MessageHelper::readImageData(msg);
-        auto name= uri.value(QStringLiteral("name")).toString();
-        auto uuid= uri.value(QStringLiteral("uuid")).toString();
-        auto data= uri.value(QStringLiteral("data")).toByteArray();
-        addImageController(uuid, "", name, data, {});
-    }
-    else if(msg->category() == NetMsg::MediaCategory && msg->action() == NetMsg::CloseMedia)
-    {
-        auto id= MessageHelper::readMediaId(msg);
-        closeMedia(id);
-    }
-    return NetWorkReceiver::NONE;
-}
-
-void ImageMediaController::closeMedia(const QString& id)
-{
-    auto it= std::remove_if(m_images.begin(), m_images.end(),
-                            [id](const std::unique_ptr<ImageController>& ctrl) { return ctrl->uuid() == id; });
-    if(it == m_images.end())
-        return;
-
-    (*it)->aboutToClose();
-    if((*it)->localIsOwner())
-        MessageHelper::closeMedia(id, type());
-    emit mediaClosed(id);
-    m_images.erase(it, m_images.end());
-}
-
-bool ImageMediaController::openMedia(const QString& id, const std::map<QString, QVariant>& args)
-{
-    if(id.isEmpty() && args.empty())
-        return false;
-
-    QByteArray serializedData;
-    auto it= args.find(QStringLiteral("serializedData"));
-    if(it != args.end())
-        serializedData= it->second.toByteArray();
-
-    it= args.find(QStringLiteral("data"));
-    QByteArray pix;
-    if(it != args.end())
-        pix= it->second.value<QByteArray>();
-
-    it= args.find(QStringLiteral("path"));
-
-    QString path;
-    if(it != args.end())
-        path= it->second.toString();
-
-    QString name;
-    it= args.find(QStringLiteral("name"));
-    if(it != args.end())
-        name= it->second.toString();
-
-    auto imgCtrl= addImageController(id, path, name, pix, serializedData);
-
-    MessageHelper::sendOffImage(imgCtrl);
-    return true;
-}
+void ImageMediaController::registerNetworkReceiver() {}
 
 ImageController* ImageMediaController::addImageController(const QString& id, const QString& path, const QString& name,
                                                           const QByteArray& pix, const QByteArray& serializedData)
 {
-    auto it= std::find_if(m_images.begin(), m_images.end(),
-                          [id](const std::unique_ptr<ImageController>& ctrl) { return ctrl->uuid() == id; });
-
-    if(it != m_images.end())
-        return it->get();
-
-    std::unique_ptr<ImageController> imgCtrl(new ImageController(id, name, path, pix));
+    auto imgCtrl= new ImageController(id, name, path, pix);
     if(!serializedData.isEmpty())
     {
-        IOHelper::readImageController(imgCtrl.get(), serializedData);
+        IOHelper::readImageController(imgCtrl, serializedData);
     }
-    emit imageControllerCreated(imgCtrl.get());
+    emit imageControllerCreated(imgCtrl);
     emit mediaAdded(imgCtrl->uuid(), imgCtrl->path(), type(), imgCtrl->name());
-    auto img= imgCtrl.get();
 
-    connect(this, &ImageMediaController::localIsGMChanged, imgCtrl.get(), &ImageController::setLocalGM);
-    connect(imgCtrl.get(), &ImageController::closeMe, this, [this, img]() {
+    connect(this, &ImageMediaController::localIsGMChanged, imgCtrl, &ImageController::setLocalGM);
+   /* connect(imgCtrl, &ImageController::closeMe, this, [this, imgCtrl]() {
         if(!m_undoStack)
             return;
-        m_undoStack->push(new RemoveMediaControllerCommand(img, this));
-    });
+        m_undoStack->push(new RemoveMediaControllerCommand(imgCtrl, this));
+    });*/
 
-    m_images.push_back(std::move(imgCtrl));
-    return img;
+    // m_images.push_back(std::move(imgCtrl));
+    return imgCtrl;
 }
 
 void ImageMediaController::addImage(const QPixmap& image)
@@ -134,13 +63,13 @@ void ImageMediaController::addImage(const QPixmap& image)
 
 int ImageMediaController::managerCount() const
 {
-    return static_cast<int>(m_images.size());
+    return m_model->rowCount();
 }
 
 std::vector<ImageController*> ImageMediaController::controllers() const
 {
     std::vector<ImageController*> vec;
-    std::transform(m_images.begin(), m_images.end(), std::back_inserter(vec),
-                   [](const std::unique_ptr<ImageController>& ctrl) { return ctrl.get(); });
+    /*std::transform(m_images.begin(), m_images.end(), std::back_inserter(vec),
+                   [](const std::unique_ptr<ImageController>& ctrl) { return ctrl.get(); });*/
     return vec;
 }

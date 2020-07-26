@@ -30,7 +30,7 @@ class WebpageMediaController : public MediaManagerBase
 {
     Q_OBJECT
 public:
-    WebpageMediaController();
+    WebpageMediaController(ContentModel* contentModel);
     ~WebpageMediaController() override;
 
     bool openMedia(const QString& id, const std::map<QString, QVariant>& args) override;

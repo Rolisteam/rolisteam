@@ -23,7 +23,10 @@
 #include "worker/iohelper.h"
 #include "worker/messagehelper.h"
 
-PdfMediaController::PdfMediaController(QObject* parent) : MediaManagerBase(Core::ContentType::PDF, parent) {}
+PdfMediaController::PdfMediaController(ContentModel* contentModel, QObject* parent)
+    : MediaManagerBase(Core::ContentType::PDF, contentModel, parent)
+{
+}
 
 PdfMediaController::~PdfMediaController()= default;
 
