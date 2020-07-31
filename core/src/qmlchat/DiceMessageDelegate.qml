@@ -18,18 +18,38 @@ Frame {
         }
         RowLayout {
             Layout.fillWidth: true
-            Image {
-                source: "image://avatar/%1".arg(model.writerId)
-                sourceSize.width:  frame.styleSheet.imageSize
-                sourceSize.height: frame.styleSheet.imageSize
-                fillMode: Image.PreserveAspectFit
+            Layout.preferredHeight: frame.styleSheet.imageSize+2*spacing
+            ColumnLayout {
+                Image {
+                    source: "image://avatar/%1".arg(model.writerId)
+                    sourceSize.width:  frame.styleSheet.imageSize
+                    sourceSize.height: frame.styleSheet.imageSize
+                    fillMode: Image.PreserveAspectFit
+                }
+                Label {
+                    id: timestamp
+                    text: model.time
+                    anchors.right: model.local ? parent.right : undefined
+                    font.pixelSize: root.styleSheet.fontSize
+                    opacity: root.styleSheet.opacityTime
+                }
             }
             Label {
                 text: frame.message.text
-                Layout.fillWidth: true
                 font.bold: true
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                textFormat: Label.RichText
+                minimumPixelSize: 10;
+                font.pixelSize: frame.styleSheet.imageSize
                 horizontalAlignment: Text.AlignHCenter
+                elide:  Label.ElideRight
+                wrapMode: Label.WordWrap
+                clip: true
+                ToolTip.visible: activeFocus
+                ToolTip.text: frame.message.text
             }
+
             ToolButton {
                 id: details
                 icon.source: "qrc:/resources/images/add_round.png"
