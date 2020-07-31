@@ -34,7 +34,7 @@ class SharedNoteControllerUpdater : public MediaUpdaterInterface
 public:
     explicit SharedNoteControllerUpdater(QObject* parent= nullptr);
 
-    void addMediaController(MediaControllerBase* ctrl);
+    void addMediaController(MediaControllerBase* ctrl) override;
     void addSharedNoteController(SharedNoteController* sheet);
 
     void updateProperty(NetworkMessageReader* msg, SharedNoteController* ctrl);

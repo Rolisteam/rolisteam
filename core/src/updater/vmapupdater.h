@@ -31,7 +31,7 @@ class VMapUpdater : public MediaUpdaterInterface
 public:
     explicit VMapUpdater(QObject* parent= nullptr);
 
-    void addController(VectorialMapController* ctrl);
+    void addMediaController(MediaControllerBase* ctrl) override;
 
     bool updateVMapProperty(NetworkMessageReader* msg, VectorialMapController* ctrl);
 
