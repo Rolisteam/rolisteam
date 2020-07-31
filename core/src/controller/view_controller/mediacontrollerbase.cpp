@@ -82,7 +82,7 @@ void MediaControllerBase::setLocalGM(bool b)
     if(m_localGM == b)
         return;
     m_localGM= b;
-    emit localGMChanged();
+    emit localGMChanged(m_localGM);
 }
 
 void MediaControllerBase::setUuid(const QString& id)

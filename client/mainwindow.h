@@ -381,15 +381,12 @@ private:
 private:
     PlayersPanel* m_playersListWidget= nullptr;
 
-
 #ifndef NULL_PLAYER
     AudioPlayer* m_audioPlayer;
 #endif
 
     PreferencesDialog* m_preferencesDialog;
     PreferencesManager* m_preferences;
-    // ChatListWidget* m_chatListWidget;
-
     NotificationZone* m_dockLogUtil;
     PlayerModel* m_playerModel;
 

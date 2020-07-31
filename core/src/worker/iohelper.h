@@ -54,11 +54,11 @@ public:
     static QJsonArray byteArrayToJsonArray(const QByteArray& data);
 
     static void readCharacterSheetController(CharacterSheetController* ctrl, const QByteArray& array);
+    static void readVectorialMapController(VectorialMapController* ctrl, const QByteArray& array);
     /*static void readImageController(ImageController* ctrl, const QByteArray& array);
     static void readNoteController(NoteController* ctrl, const QByteArray& array);
     static void readSharedNoteController(SharedNoteController* ctrl, const QByteArray& array);
     static void readWebpageController(WebpageController* ctrl, const QByteArray& array);
-    static void readVectorialMapController(VectorialMapController* ctrl, const QByteArray& array);
 #ifdef WITH_PDF
     static void readPdfController(PdfController* ctrl, const QByteArray& array);*/
     //#endif

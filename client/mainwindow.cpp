@@ -238,7 +238,6 @@ void MainWindow::setupUi()
     setCentralWidget(m_mdiArea.get());
     connect(m_mdiArea.get(), &Workspace::subWindowActivated, this, &MainWindow::activeWindowChanged);
 
-
     addDockWidget(Qt::RightDockWidgetArea, m_sessionDock.get());
     m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct, m_sessionDock->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
@@ -925,7 +924,6 @@ void MainWindow::updateUi()
     m_ui->m_saveScenarioAsAction->setEnabled(isGM);
     m_ui->m_changeProfileAct->setEnabled(false);
     m_ui->m_disconnectAction->setEnabled(true);
-
     updateRecentFileActions();
 }
 void MainWindow::showUpdateNotification()

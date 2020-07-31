@@ -77,25 +77,6 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
 {
     CharacterSheetController::setCharacterModel(characterModel);
     SharedNoteController::setPlayerModel(playerModel);
-    /*m_imageControllers.reset(new ImageMediaController(m_contentModel.get()));
-    m_vmapControllers.reset(new VectorialMapMediaController(m_contentModel.get()));
-    m_sheetMediaController.reset(new CharacterSheetMediaController(m_contentModel.get(), characterModel));
-    m_webPageMediaController.reset(new WebpageMediaController(m_contentModel.get()));
-    m_sharedNoteMediaController.reset(new SharedNoteMediaController(playerModel, m_contentModel.get()));
-#ifdef WITH_PDF
-    m_pdfMediaController.reset(new PdfMediaController(m_contentModel.get()));
-#endif
-    m_noteMediaController.reset(new NoteMediaController(m_contentModel.get()));
-
-    m_mediaControllers.insert({m_imageControllers->type(), m_imageControllers.get()});
-    m_mediaControllers.insert({m_vmapControllers->type(), m_vmapControllers.get()});
-    m_mediaControllers.insert({m_sheetMediaController->type(), m_sheetMediaController.get()});
-    m_mediaControllers.insert({m_webPageMediaController->type(), m_webPageMediaController.get()});
-    m_mediaControllers.insert({m_sharedNoteMediaController->type(), m_sharedNoteMediaController.get()});
-#ifdef WITH_PDF
-    m_mediaControllers.insert({m_pdfMediaController->type(), m_pdfMediaController.get()});
-#endif
-    m_mediaControllers.insert({m_noteMediaController->type(), m_noteMediaController.get()});*/
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
 

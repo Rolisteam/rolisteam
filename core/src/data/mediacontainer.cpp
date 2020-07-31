@@ -157,10 +157,6 @@ void MediaContainer::addActionToMenu(QMenu& menu)
     menu.addAction(m_detachedDialog);
 }
 
-void MediaContainer::fill(NetworkMessageWriter&) {}
-
-void MediaContainer::readMessage(NetworkMessageReader&) {}
-
 void MediaContainer::detachView(bool b)
 {
     static QMdiArea* parent= mdiArea();
