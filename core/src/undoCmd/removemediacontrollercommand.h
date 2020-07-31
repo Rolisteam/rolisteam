@@ -47,6 +47,7 @@ private:
     QPointer<ContentModel> m_model;
     QByteArray m_data;
     Core::ContentType m_contentType;
+    bool m_localIsGM= false;
 };
 
 #endif // REMOVEMEDIACONTROLLERCOMMAND_H

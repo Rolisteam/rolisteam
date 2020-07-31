@@ -32,19 +32,18 @@ class NewMediaController : public QUndoCommand
 {
 public:
     NewMediaController(Core::ContentType contentType, ContentModel* model, const std::map<QString, QVariant>& map,
-                       QUndoCommand* parent= nullptr);
+                       bool localIsGM, QUndoCommand* parent= nullptr);
 
     void redo() override;
     void undo() override;
 
 private:
-    QPointer<MediaManagerBase> m_ctrl;
     QString m_uuidUri;
     QString m_title;
     Core::ContentType m_contentType;
-    QPointer<ContentController> m_contentCtrl;
     std::map<QString, QVariant> m_args;
     QPointer<ContentModel> m_model;
+    bool m_localGM;
 };
 
 #endif // NEWMEDIACONTROLLER_H
