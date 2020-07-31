@@ -48,7 +48,7 @@ PdfViewer::PdfViewer(PdfController* ctrl, QWidget* parent)
     , m_pdfCtrl(ctrl)
 {
     setObjectName("PdfViewer");
-    setWindowIcon(QIcon(":/resources/images/pdfLogo.png"));
+    setWindowIcon(QIcon::fromTheme("pdfLogo"));
     auto wid= new QWidget();
     m_ui->setupUi(wid);
     setWidget(wid);
@@ -69,8 +69,8 @@ PdfViewer::~PdfViewer() {}
 
 void PdfViewer::makeConnections()
 {
-    m_ui->m_cropViewAct->setIcon(QIcon(":/resources/images/crop.svg"));
-    m_ui->m_shareAct->setIcon(QIcon(":/resources/images/document-share.svg"));
+    m_ui->m_cropViewAct->setIcon(QIcon::fromTheme("crop"));
+    m_ui->m_shareAct->setIcon(QIcon::fromTheme("document-share"));
 
     m_ui->m_cropBtn->setDefaultAction(m_ui->m_cropViewAct);
     m_ui->m_shareBtn->setDefaultAction(m_ui->m_shareAct);

@@ -61,7 +61,7 @@ Item {
     ToolButton {
         anchors.top: parent.top
         anchors.right: parent.right
-        icon.source: "qrc:/resources/images/menu-rounded-solid.svg"
+        icon.name: "menu-rounded-solid"
         onClicked: menu.open()
     }
 }

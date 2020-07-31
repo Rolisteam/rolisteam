@@ -31,7 +31,7 @@ NoteContainer::NoteContainer(NoteController* note, QWidget* parent)
     m_edit->menuBar()->setNativeMenuBar(false);
 #endif
     setWidget(m_edit);
-    setWindowIcon(QIcon(":/notes.png"));
+    setWindowIcon(QIcon::fromTheme("notes"));
     connect(m_edit, &TextEdit::fileNameChanged, this, &NoteContainer::setFileName);
 
     auto func= [this]() { setWindowTitle(tr("%1 - Note").arg(m_noteCtrl->name())); };

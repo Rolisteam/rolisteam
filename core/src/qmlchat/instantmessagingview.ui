@@ -14,12 +14,9 @@
    <string>InstantMessaging</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../rolisteam.qrc">
-    <normaloff>:/chat.png</normaloff>:/chat.png</iconset>
+   <iconset theme="chatIcon"/>
   </property>
  </widget>
- <resources>
-  <include location="../../../rolisteam.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
