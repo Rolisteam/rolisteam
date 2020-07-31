@@ -19,203 +19,298 @@
  ***************************************************************************/
 
 #include "vmaptoolbar.h"
-#include "controller/media_controller/vectorialmapmediacontroller.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
 
-VmapToolBar::VmapToolBar(VectorialMapMediaController* ctrl, QWidget* parent) : QToolBar(parent), m_ctrl(ctrl)
+VmapToolBar::VmapToolBar(VectorialMapController* ctrl, QWidget* parent) : QToolBar(parent), m_ctrl(ctrl)
 {
     setObjectName("VMapToolBar");
     setWindowTitle(tr("Toolbar for VMap"));
+    initActions();
     setupUi();
+
+    connect(m_ctrl, &VectorialMapController::localGMChanged, this, [this](bool b) {
+        setEnabled(b);
+        setVisible(b);
+    });
+
+    setEnabled(m_ctrl->localGM());
+    setVisible(m_ctrl->localGM());
 }
 
-VmapToolBar::~VmapToolBar() {}
+VmapToolBar::~VmapToolBar()= default;
+
+void VmapToolBar::initActions()
+{
+    m_showSquareAct= new QAction(QIcon::fromTheme("grid"), tr("Square Grid"), this);
+    m_showSquareAct->setCheckable(true);
+
+    m_showHexagonAct= new QAction(QIcon::fromTheme("hexa_grid"), tr("Hexagonal Grid"), this);
+    m_showHexagonAct->setCheckable(true);
+
+    auto group= new QActionGroup(this);
+    group->setExclusionPolicy(QActionGroup::ExclusionPolicy::ExclusiveOptional);
+    group->addAction(m_showSquareAct);
+    group->addAction(m_showHexagonAct);
+
+    connect(group, &QActionGroup::triggered, this, [this](QAction* action) {
+        m_ctrl->setGridVisibility(action->isChecked());
+        if(action == m_showSquareAct)
+            m_ctrl->setGridPattern(Core::GridPattern::SQUARE);
+        else
+            m_ctrl->setGridPattern(Core::GridPattern::HEXAGON);
+    });
+
+    m_gridAboveAct= new QAction(QIcon::fromTheme("grid_above"), tr("Grid Above"), this);
+    m_gridAboveAct->setCheckable(true);
+
+    connect(m_gridAboveAct, &QAction::triggered, m_ctrl, &VectorialMapController::setGridAbove);
+
+    m_onlyGmPermAct= new QAction(QIcon::fromTheme("red_round"), tr("GM only"), this);
+    m_onlyGmPermAct->setData(QVariant::fromValue(Core::PermissionMode::GM_ONLY));
+    m_onlyGmPermAct->setCheckable(true);
+
+    m_characterOnlyPermAct= new QAction(QIcon::fromTheme("orange_round"), tr("PC Move"), this);
+    m_characterOnlyPermAct->setData(QVariant::fromValue(Core::PermissionMode::PC_MOVE));
+    m_characterOnlyPermAct->setCheckable(true);
+
+    m_allPermAct= new QAction(QIcon::fromTheme("green_round"), tr("All"), this);
+    m_allPermAct->setData(QVariant::fromValue(Core::PermissionMode::PC_ALL));
+    m_allPermAct->setCheckable(true);
+
+    group= new QActionGroup(this);
+    group->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
+    group->addAction(m_onlyGmPermAct);
+    group->addAction(m_characterOnlyPermAct);
+    group->addAction(m_allPermAct);
+
+    connect(group, &QActionGroup::triggered, this,
+            [this](QAction* action) { m_ctrl->setPermission(action->data().value<Core::PermissionMode>()); });
+
+    auto updatePerm= [this](Core::PermissionMode perm) {
+        m_onlyGmPermAct->setChecked(perm == Core::PermissionMode::GM_ONLY);
+        m_characterOnlyPermAct->setChecked(perm == Core::PermissionMode::PC_MOVE);
+        m_allPermAct->setChecked(perm == Core::PermissionMode::PC_ALL);
+    };
+    connect(m_ctrl, &VectorialMapController::permissionChanged, this, updatePerm);
+    updatePerm(m_ctrl->permission());
+
+    m_hiddenAct= new QAction(QIcon::fromTheme("mask"), tr("Hidden"), this);
+    m_hiddenAct->setData(QVariant::fromValue(Core::VisibilityMode::HIDDEN));
+    m_hiddenAct->setCheckable(true);
+
+    m_fogAct= new QAction(QIcon::fromTheme("fogofwar"), tr("Fog"), this);
+    m_fogAct->setData(QVariant::fromValue(Core::VisibilityMode::FOGOFWAR));
+    m_fogAct->setCheckable(true);
+
+    m_allAct= new QAction(QIcon::fromTheme("eye"), tr("All"), this);
+    m_allAct->setData(QVariant::fromValue(Core::VisibilityMode::ALL));
+    m_allAct->setCheckable(true);
+
+    group= new QActionGroup(this);
+    group->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
+    group->addAction(m_hiddenAct);
+    group->addAction(m_fogAct);
+    group->addAction(m_allAct);
+
+    connect(group, &QActionGroup::triggered, this,
+            [this](QAction* action) { m_ctrl->setVisibility(action->data().value<Core::VisibilityMode>()); });
+
+    auto updateVisiblility= [this](Core::VisibilityMode perm) {
+        m_hiddenAct->setChecked(perm == Core::VisibilityMode::HIDDEN);
+        m_fogAct->setChecked(perm == Core::VisibilityMode::FOGOFWAR);
+        m_allAct->setChecked(perm == Core::VisibilityMode::ALL);
+    };
+    updateVisiblility(m_ctrl->visibility());
+    connect(m_ctrl, &VectorialMapController::visibilityChanged, this, updateVisiblility);
+
+    m_groundAct= new QAction(QIcon::fromTheme("ground_layer"), tr("Ground"), this);
+    m_groundAct->setData(QVariant::fromValue(Core::Layer::GROUND));
+    m_groundAct->setCheckable(true);
+
+    m_objectAct= new QAction(QIcon::fromTheme("object_layer"), tr("Object"), this);
+    m_objectAct->setData(QVariant::fromValue(Core::Layer::OBJECT));
+    m_objectAct->setCheckable(true);
+
+    m_characterAct= new QAction(QIcon::fromTheme("character_layer"), tr("Character"), this);
+    m_characterAct->setData(QVariant::fromValue(Core::Layer::CHARACTER_LAYER));
+    m_characterAct->setCheckable(true);
+
+    group= new QActionGroup(this);
+    group->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
+    group->addAction(m_groundAct);
+    group->addAction(m_objectAct);
+    group->addAction(m_characterAct);
+
+    connect(group, &QActionGroup::triggered, this,
+            [this](QAction* action) { m_ctrl->setLayer(action->data().value<Core::Layer>()); });
+
+    auto updateLayer= [this](Core::Layer layer) {
+        m_groundAct->setChecked(layer == Core::Layer::GROUND);
+        m_objectAct->setChecked(layer == Core::Layer::OBJECT);
+        m_characterAct->setChecked(layer == Core::Layer::CHARACTER_LAYER);
+    };
+    connect(m_ctrl, &VectorialMapController::layerChanged, this, updateLayer);
+    updateLayer(m_ctrl->layer());
+
+    m_hideOtherAct= new QAction(QIcon::fromTheme("hideotherlayers"), tr("hide other layers"), this);
+    m_hideOtherAct->setCheckable(true);
+
+    m_characterVisionAct= new QAction(QIcon::fromTheme("sight"), tr("Character Vision"), this);
+    m_characterVisionAct->setCheckable(true);
+    m_showTransparentAct= new QAction(QIcon::fromTheme("sun"), tr("Show Transparent Item"), this);
+    m_showTransparentAct->setCheckable(true);
+
+    m_showPcName= new QAction(QIcon::fromTheme("pcName"), tr("PC name", "PC = playable character"), this);
+    m_showNpcName= new QAction(QIcon::fromTheme("npcName"), tr("NPC name", "NPC = non-playable character"), this);
+    m_showNpcNumber= new QAction(QIcon::fromTheme("npcNumber"), tr("NPC number"), this);
+    m_showState= new QAction(QIcon::fromTheme("stateName"), tr("State"), this);
+    m_showHealthBar= new QAction(QIcon::fromTheme("healthBar"), tr("Health Bar"), this);
+    m_showInit= new QAction(QIcon::fromTheme("initScore"), tr("Initiative"), this);
+
+    m_showPcName->setCheckable(true);
+    m_showNpcName->setCheckable(true);
+    m_showNpcNumber->setCheckable(true);
+    m_showState->setCheckable(true);
+    m_showHealthBar->setCheckable(true);
+    m_showInit->setCheckable(true);
+
+    connect(m_showPcName, &QAction::triggered, m_ctrl, &VectorialMapController::setPcNameVisible);
+    connect(m_showNpcName, &QAction::triggered, m_ctrl, &VectorialMapController::setNpcNameVisible);
+    connect(m_showNpcNumber, &QAction::triggered, m_ctrl, &VectorialMapController::setNpcNumberVisible);
+    connect(m_showState, &QAction::triggered, m_ctrl, &VectorialMapController::setStateLabelVisible);
+    connect(m_showHealthBar, &QAction::triggered, m_ctrl, &VectorialMapController::setHealthBarVisible);
+    connect(m_showInit, &QAction::triggered, m_ctrl, &VectorialMapController::setInitScoreVisible);
+
+    m_showPcName->setChecked(m_ctrl->pcNameVisible());
+    m_showNpcName->setChecked(m_ctrl->npcNameVisible());
+    m_showNpcNumber->setChecked(m_ctrl->npcNumberVisible());
+    m_showState->setChecked(m_ctrl->stateLabelVisible());
+    m_showHealthBar->setChecked(m_ctrl->healthBarVisible());
+    m_showInit->setChecked(m_ctrl->initScoreVisible());
+}
 
 void VmapToolBar::setupUi()
 {
-    m_showGridAct= new QAction(QIcon(":/resources/images/grid.png"), tr("Show Grid"), this);
-    m_showGridAct->setToolTip(tr("Show/Hide Grid"));
-    m_showGridAct->setCheckable(true);
-
-    m_gridAbove= new QCheckBox(tr("Grid Above"), this);
-    m_gridAbove->setToolTip(tr("Grid Above"));
-
+    // bg
     m_bgSelector= new ColorButton();
+    m_bgSelector->setColor(m_ctrl->backgroundColor());
+    addWidget(m_bgSelector);
+    connect(m_bgSelector, &ColorButton::colorChanged, m_ctrl, &VectorialMapController::setBackgroundColor);
+    addSeparator();
 
-    m_currentPermission= new QComboBox();
-    QStringList list;
-    list << tr("GM Only") << tr("PC Move") << tr("ALL");
-    m_currentPermission->addItems(list);
+    // grid
+    auto btn= new QToolButton();
+    btn->setDefaultAction(m_showSquareAct);
+    addWidget(btn);
 
-    m_currentLayer= new QComboBox();
-    QStringList listLayer;
-    listLayer << tr("Ground") << tr("Object") << tr("Character");
-    m_currentLayer->addItems(listLayer);
+    btn= new QToolButton();
+    btn->setDefaultAction(m_showHexagonAct);
+    addWidget(btn);
 
-    m_gridPattern= new QComboBox();
-    QStringList listGrid;
-    listGrid << tr("None") << tr("Square") << tr("Hexagon");
-    m_gridPattern->addItems(listGrid);
+    btn= new QToolButton();
+    btn->setDefaultAction(m_gridAboveAct);
+    addWidget(btn);
 
     m_gridUnit= new QComboBox();
     QStringList listUnit;
     listUnit << QStringLiteral("m") << QStringLiteral("km") << QStringLiteral("cm") << QStringLiteral("mi")
              << QStringLiteral("yd") << tr("inch") << tr("foot") << tr("px");
     m_gridUnit->addItems(listUnit);
-
-    m_currentVisibility= new QComboBox();
-    QStringList listVisi;
-    listVisi << tr("Hidden") << tr("Fog of War") << tr("All");
-    m_currentVisibility->addItems(listVisi);
-
-    m_scaleSize= new QDoubleSpinBox(this);
-    m_scaleSize->setRange(0.1, std::numeric_limits<double>::max());
-    m_scaleSize->setValue(1.0);
+    // connect(m_gridUnit, &QComboBox::currentIndexChanged, m_ctrl, &VectorialMapController::setScaleUnit);
 
     m_gridSize= new QSpinBox(this);
     m_gridSize->setRange(1, std::numeric_limits<int>::max());
+    connect(m_gridSize, QOverload<int>::of(&QSpinBox::valueChanged), m_ctrl, &VectorialMapController::setGridSize);
+    m_gridSize->setValue(m_ctrl->gridSize());
 
-    addWidget(new QLabel(tr("Background:")));
-    addWidget(m_bgSelector);
-    addSeparator();
-    addWidget(new QLabel(tr("Grid:")));
-    addAction(m_showGridAct);
-    addWidget(m_gridAbove);
-    addWidget(m_gridPattern);
+    m_scaleSize= new QDoubleSpinBox(this);
+    m_scaleSize->setRange(0.1, std::numeric_limits<double>::max());
+    connect(m_scaleSize, QOverload<qreal>::of(&QDoubleSpinBox::valueChanged), m_ctrl,
+            &VectorialMapController::setGridScale);
+    m_scaleSize->setValue(m_ctrl->gridScale());
+
     addWidget(m_gridSize);
-    addWidget(new QLabel(tr("px :")));
+    addWidget(new QLabel(tr("px")));
     addWidget(m_scaleSize);
     addWidget(m_gridUnit);
+
     addSeparator();
-    addWidget(new QLabel(tr("Permission:")));
-    addWidget(m_currentPermission);
+    // permission
+    btn= new QToolButton();
+    btn->setDefaultAction(m_onlyGmPermAct);
+    addWidget(btn);
+
+    btn= new QToolButton();
+    btn->setDefaultAction(m_characterOnlyPermAct);
+    addWidget(btn);
+
+    btn= new QToolButton();
+    btn->setDefaultAction(m_allPermAct);
+    addWidget(btn);
+
     addSeparator();
-    addWidget(new QLabel(tr("Visibility:")));
-    addWidget(m_currentVisibility);
-    addWidget(new QLabel(tr("Layer:")));
-    addWidget(m_currentLayer);
+    // visibility
+    btn= new QToolButton();
+    btn->setDefaultAction(m_hiddenAct);
+    addWidget(btn);
+    btn= new QToolButton();
+    btn->setDefaultAction(m_fogAct);
+    addWidget(btn);
+    btn= new QToolButton();
+    btn->setDefaultAction(m_allAct);
+    addWidget(btn);
 
-    m_showOnlyItemsFromThisLayer= new QCheckBox(tr("Hide other Layers"));
-    addWidget(m_showOnlyItemsFromThisLayer);
+    addSeparator();
+    // layer
+    btn= new QToolButton();
+    btn->setDefaultAction(m_groundAct);
+    addWidget(btn);
+    btn= new QToolButton();
+    btn->setDefaultAction(m_objectAct);
+    addWidget(btn);
 
-    // m_showCharacterVision= new QCheckBox(tr("Character Vision"));
-    m_showCharacterVision= new QToolButton(this);
-    m_showCharacterVision->setToolTip(tr("Character Vision"));
-    m_showCharacterVision->setCheckable(true);
-    m_showCharacterVision->setIcon(QIcon(":/resources/images/sight.svg"));
-    addWidget(m_showCharacterVision);
-    // :/resources/images/sight.svg
-    m_collision= new QCheckBox(tr("Collision"));
-    addWidget(m_collision);
+    btn= new QToolButton();
+    btn->setDefaultAction(m_characterAct);
+    addWidget(btn);
 
-    m_showTransparentItem= new QAction(tr("Show transparent Item"), this);
-    addAction(m_showTransparentItem);
+    btn= new QToolButton();
+    btn->setDefaultAction(m_hideOtherAct);
+    addWidget(btn);
 
-    connect(m_showOnlyItemsFromThisLayer, SIGNAL(clicked(bool)), this, SLOT(managedAction()));
-    connect(m_showGridAct, SIGNAL(triggered()), this, SLOT(triggerGrid()));
-    connect(m_gridUnit, QOverload<int>::of(&QComboBox::currentIndexChanged), m_ctrl,
-            [this](int value) { m_ctrl->setGridUnit(static_cast<Core::ScaleUnit>(value)); });
-    connect(m_bgSelector, &ColorButton::colorChanged, m_ctrl, &VectorialMapMediaController::setBackgroundColor);
-    connect(m_gridSize, QOverload<int>::of(&QSpinBox::valueChanged), m_ctrl, &VectorialMapMediaController::setGridSize);
-    connect(m_scaleSize, QOverload<double>::of(&QDoubleSpinBox::valueChanged), m_ctrl,
-            &VectorialMapMediaController::setGridScale);
+    addSeparator();
+    // character vision
+    btn= new QToolButton();
+    btn->setDefaultAction(m_characterVisionAct);
+    addWidget(btn);
 
-    connect(m_currentVisibility, QOverload<int>::of(&QComboBox::currentIndexChanged), m_ctrl,
-            [this](int value) { m_ctrl->setVisibilityMode(static_cast<Core::VisibilityMode>(value)); });
-    connect(m_currentPermission, QOverload<int>::of(&QComboBox::currentIndexChanged), m_ctrl,
-            [this](int value) { m_ctrl->setPermissionMode(static_cast<Core::PermissionMode>(value)); });
-    connect(m_currentLayer, QOverload<int>::of(&QComboBox::currentIndexChanged), m_ctrl,
-            [this](int value) { m_ctrl->setLayer(static_cast<Core::Layer>(value)); });
+    btn= new QToolButton();
+    btn->setDefaultAction(m_showTransparentAct);
+    addWidget(btn);
 
-    connect(m_gridPattern, QOverload<int>::of(&QComboBox::currentIndexChanged), m_ctrl,
-            [this](int value) { m_ctrl->setGridPattern(static_cast<Core::GridPattern>(value)); });
+    connect(m_hideOtherAct, &QAction::triggered, m_ctrl, &VectorialMapController::hideOtherLayers);
 
-    connect(m_showGridAct, &QAction::triggered, m_ctrl, &VectorialMapMediaController::setGridVisibility);
-    connect(m_gridAbove, &QCheckBox::toggled, m_ctrl, &VectorialMapMediaController::setGridAbove);
+    addSeparator();
 
-    connect(m_showCharacterVision, &QToolButton::clicked, m_ctrl, &VectorialMapMediaController::setCharacterVision);
-    connect(m_collision, &QCheckBox::clicked, m_ctrl, &VectorialMapMediaController::setCollision);
-    connect(m_showTransparentItem, &QAction::triggered, m_ctrl, &VectorialMapMediaController::showTransparentItem);
-
-    // Update Ui
-    connect(m_ctrl, &VectorialMapMediaController::gridSizeChanged, m_gridSize, &QSpinBox::setValue);
-    connect(m_ctrl, &VectorialMapMediaController::gridUnitChanged, this,
-            [this](Core::ScaleUnit unit) { m_gridUnit->setCurrentIndex(static_cast<int>(unit)); });
-
-    connect(m_ctrl, &VectorialMapMediaController::gridAboveChanged, m_gridAbove, &QCheckBox::setChecked);
-    // connect(m_ctrl, &VectorialMapMediaController::gridColorChanged, this, [this](int) {
-    /// TODO
-    //});
-    connect(m_ctrl, &VectorialMapMediaController::gridScaleChanged, m_scaleSize, &QDoubleSpinBox::setValue);
-
-    connect(m_ctrl, &VectorialMapMediaController::gridVisibilityChanged, m_showGridAct, &QAction::setChecked);
-    connect(m_ctrl, &VectorialMapMediaController::backgroundColorChanged, m_bgSelector, &ColorButton::setColor);
-
-    connect(m_ctrl, &VectorialMapMediaController::layerChanged, this,
-            [this](Core::Layer layer) { m_currentLayer->setCurrentIndex(static_cast<int>(layer)); });
-    connect(m_ctrl, &VectorialMapMediaController::collisionChanged, m_collision, &QCheckBox::setChecked);
-    connect(m_ctrl, &VectorialMapMediaController::characterVision, m_showCharacterVision, &QCheckBox::setChecked);
-    connect(m_ctrl, &VectorialMapMediaController::visibilityModeChanged, this,
-            [this](Core::VisibilityMode mode) { m_currentVisibility->setCurrentIndex(static_cast<int>(mode)); });
-    connect(m_ctrl, &VectorialMapMediaController::permissionModeChanged, this,
-            [this](Core::PermissionMode mode) { m_currentPermission->setCurrentIndex(static_cast<int>(mode)); });
-}
-void VmapToolBar::setCurrentMap(VMap* map)
-{
-    /*  if(m_vmap != nullptr)
-          disconnect(m_vmap);
-
-      m_vmap= map;
-
-      if(m_vmap)
-      {
-          connect(m_vmap, &VMap::mapChanged, this, &VmapToolBar::updateUI);
-      }*/
-    updateUI();
-}
-void VmapToolBar::triggerGrid()
-{
-    // if(nullptr != m_vmap)
-    {
-        // m_vmap->setOption(VisualItem::ShowGrid, m_showGridAct->isChecked());
-    }
-}
-void VmapToolBar::setUnit()
-{
-    // if(nullptr != m_vmap)
-    {
-        //  m_vmap->setOption(VisualItem::Unit, m_gridUnit->currentIndex());
-    }
+    btn= new QToolButton();
+    btn->setDefaultAction(m_showPcName);
+    addWidget(btn);
+    btn= new QToolButton();
+    btn->setDefaultAction(m_showNpcName);
+    addWidget(btn);
+    btn= new QToolButton();
+    btn->setDefaultAction(m_showNpcNumber);
+    addWidget(btn);
+    btn= new QToolButton();
+    btn->setDefaultAction(m_showState);
+    addWidget(btn);
+    btn= new QToolButton();
+    btn->setDefaultAction(m_showHealthBar);
+    addWidget(btn);
+    btn= new QToolButton();
+    btn->setDefaultAction(m_showInit);
+    addWidget(btn);
 }
 
-void VmapToolBar::patternChanged(int index)
-{
-    // if(nullptr != m_vmap)
-    {
-        //  m_vmap->setOption(VisualItem::GridPattern, index);
-    }
-}
-
-void VmapToolBar::visibilityHasChanged(int index)
-{
-    // if(nullptr != m_vmap)
-    {
-        // m_vmap->setVisibilityMode(static_cast<Core::VisibilityMode>(index));
-    }
-}
-void VmapToolBar::permissionHasChanged(int index)
-{
-    //  if(nullptr != m_vmap)
-    {
-        //  m_vmap->setPermissionMode(static_cast<Core::PermissionMode>(index));
-    }
-}
-void VmapToolBar::layerHasChanged(int index)
-{
-    // if(nullptr != m_vmap)
-    {
-        //  m_vmap->setCurrentLayer(static_cast<Core::Layer>(index));
-    }
-}
 void VmapToolBar::updateUI()
 {
     // if(nullptr != m_vmap)
@@ -240,43 +335,4 @@ void VmapToolBar::updateUI()
       {
           setEnabled(false);
       }*/
-}
-void VmapToolBar::setPatternSize(int p)
-{
-    //  if(nullptr != m_vmap)
-    {
-        // m_vmap->setOption(VisualItem::GridSize, p);
-    }
-}
-void VmapToolBar::setScaleSize(double p)
-{
-    //  if(nullptr != m_vmap)
-    {
-        // m_vmap->setOption(VisualItem::Scale, p);
-    }
-}
-
-void VmapToolBar::managedAction()
-{
-    //  if(nullptr == m_vmap)
-    {
-        return;
-    }
-    QObject* obj= sender();
-    if(obj == m_showCharacterVision)
-    {
-        // m_vmap->setOption(VisualItem::EnableCharacterVision, m_showCharacterVision->isChecked());
-    }
-    else if(obj == m_collision)
-    {
-        // m_vmap->setOption(VisualItem::CollisionStatus, m_collision->isChecked());
-    }
-    else if(obj == m_showOnlyItemsFromThisLayer)
-    {
-        // m_vmap->setOption(VisualItem::HideOtherLayers, m_showOnlyItemsFromThisLayer->isChecked());
-    }
-    else if(obj == m_showTransparentItem)
-    {
-        //  m_vmap->showTransparentItems();
-    }
 }

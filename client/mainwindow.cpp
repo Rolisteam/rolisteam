@@ -130,7 +130,7 @@ MainWindow::MainWindow(const QStringList& args)
     // ALLOCATIONS
     m_dialog.reset(new SelectConnectionProfileDialog(m_gameController.get(), this));
     m_sessionDock.reset(new SessionDock(m_gameController->contentController()));
-    m_vmapToolBar= new VmapToolBar(m_gameController->contentController()->vmapCtrl(), this);
+    // m_vmapToolBar= new VmapToolBar(m_gameController->contentController()->vmapCtrl(), this);
     m_gmToolBoxList.append({new NameGeneratorWidget(this), new GMTOOL::Convertor(this), new NpcMakerWidget(this)});
     m_roomPanel= new ChannelListPanel(m_gameController->networkController(), this);
 
@@ -167,7 +167,7 @@ MainWindow::MainWindow(const QStringList& args)
     };
     m_preferences->registerLambda(QStringLiteral("VMAP::highlightColor"), func2);
 
-    addToolBar(Qt::TopToolBarArea, m_vmapToolBar);
+    // addToolBar(Qt::TopToolBarArea, m_vmapToolBar);
 
     connect(m_gameController->contentController(), &ContentController::sessionChanged, this,
             &MainWindow::setWindowModified);
@@ -238,28 +238,6 @@ void MainWindow::setupUi()
     setCentralWidget(m_mdiArea.get());
     connect(m_mdiArea.get(), &Workspace::subWindowActivated, this, &MainWindow::activeWindowChanged);
 
-    auto vmapController= m_gameController->contentController()->vmapCtrl();
-    m_vToolBar= new VToolsBar(vmapController, this);
-
-    QDockWidget* dock= new QDockWidget(this);
-    dock->setWidget(m_vToolBar);
-    addDockWidget(Qt::LeftDockWidgetArea, dock);
-    dock->setWindowTitle(tr("ToolBox"));
-    dock->setObjectName("DockToolBar");
-    auto act= dock->toggleViewAction();
-
-    act->setShortcut(QKeySequence("F8"));
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct, act);
-    QAction* vmapToolBar= m_vmapToolBar->toggleViewAction();
-    vmapToolBar->setShortcut(Qt::Key_F9);
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct, m_vmapToolBar->toggleViewAction());
-    m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
-
-    /*m_chatListWidget= new ChatListWidget(this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory, m_chatListWidget);
-    addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
-    dock->setAllowedAreas(Qt::AllDockWidgetAreas);
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct, m_chatListWidget->toggleViewAction());*/
 
     addDockWidget(Qt::RightDockWidgetArea, m_sessionDock.get());
     m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct, m_sessionDock->toggleViewAction());
@@ -571,7 +549,7 @@ void MainWindow::linkActionToMenu()
             m_mdiArea->addAction(m_ui->m_fullScreenAct);
             menuBar()->setVisible(false);
             m_mdiArea->setMouseTracking(true);
-            m_vmapToolBar->setMouseTracking(true);
+            // m_vmapToolBar->setMouseTracking(true);
             setMouseTracking(true);
         }
         else
@@ -579,7 +557,7 @@ void MainWindow::linkActionToMenu()
             showNormal();
             menuBar()->setVisible(true);
             m_mdiArea->setMouseTracking(false);
-            m_vmapToolBar->setMouseTracking(false);
+            // m_vmapToolBar->setMouseTracking(false);
             setMouseTracking(false);
             m_mdiArea->removeAction(m_ui->m_fullScreenAct);
         }
@@ -935,7 +913,6 @@ void MainWindow::updateUi()
     m_audioPlayer->updateUi(m_currentConnectionProfile->isGM());
 #endif
     bool isGM= m_currentConnectionProfile->isGM();
-    m_vToolBar->setGM(isGM);
     // m_ui->m_newMapAction->setEnabled(isGM);
     m_ui->m_addVectorialMap->setEnabled(isGM);
     m_ui->m_openMapAction->setEnabled(isGM);
@@ -946,9 +923,6 @@ void MainWindow::updateUi()
     m_ui->m_saveScenarioAction->setEnabled(isGM);
     m_ui->m_connectionLinkAct->setVisible(isGM);
     m_ui->m_saveScenarioAsAction->setEnabled(isGM);
-    m_vmapToolBar->setVisible(isGM);
-    m_vmapToolBar->toggleViewAction()->setVisible(isGM);
-
     m_ui->m_changeProfileAct->setEnabled(false);
     m_ui->m_disconnectAction->setEnabled(true);
 

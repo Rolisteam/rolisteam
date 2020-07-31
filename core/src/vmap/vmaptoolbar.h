@@ -27,7 +27,7 @@
 #include "common/widgets/colorbutton.h"
 #include "vmap.h"
 
-class VectorialMapMediaController;
+class VectorialMapController;
 /**
  * @brief The VmapToolBar class
  */
@@ -35,68 +35,51 @@ class VmapToolBar : public QToolBar
 {
     Q_OBJECT
 public:
-    /**
-     * @brief VmapToolBar
-     */
-    VmapToolBar(VectorialMapMediaController* ctrl, QWidget* parent);
-    /**
-     */
+    VmapToolBar(VectorialMapController* ctrl, QWidget* parent= nullptr);
     virtual ~VmapToolBar();
-    /**
-     * @brief setupUi
-     */
+
     void setupUi();
-    /**
-     * @brief updateUI
-     */
     void updateUI();
 
-public slots:
-    /**
-     * @brief setCurrentMap
-     * @param map
-     */
-    void setCurrentMap(VMap* map);
-    /**
-     * @brief triggerGrid
-     */
-    void triggerGrid();
-    void visibilityHasChanged(int);
-    void permissionHasChanged(int index);
-    void patternChanged(int);
-    void setPatternSize(int);
-    void setScaleSize(double);
-    void managedAction();
-
-    void layerHasChanged(int index);
-    void setUnit();
-
 private:
-    /**
-     * @brief updateUi
-     */
+    void initActions();
     void updateUi();
 
 private:
-    QPointer<VectorialMapMediaController> m_ctrl;
+    QPointer<VectorialMapController> m_ctrl;
 
     // Button
     ColorButton* m_bgSelector;
-    QAction* m_showGridAct;
-    // QAction* m_Act;
+    QAction* m_showSquareAct= nullptr;
+    QAction* m_showHexagonAct= nullptr;
+    QAction* m_gridAboveAct= nullptr;
 
-    QComboBox* m_gridPattern;
-    QComboBox* m_gridUnit;
-    QComboBox* m_currentLayer;
-    QComboBox* m_currentPermission;
-    QComboBox* m_currentVisibility;
-    QSpinBox* m_gridSize;
-    QDoubleSpinBox* m_scaleSize;
-    QCheckBox* m_showOnlyItemsFromThisLayer;
-    QToolButton* m_showCharacterVision;
-    QCheckBox* m_collision;
-    QCheckBox* m_gridAbove;
-    QAction* m_showTransparentItem;
+    QAction* m_onlyGmPermAct= nullptr;
+    QAction* m_characterOnlyPermAct= nullptr;
+    QAction* m_allPermAct= nullptr;
+
+    QAction* m_hiddenAct= nullptr;
+    QAction* m_fogAct= nullptr;
+    QAction* m_allAct= nullptr;
+
+    QAction* m_groundAct= nullptr;
+    QAction* m_objectAct= nullptr;
+    QAction* m_characterAct= nullptr;
+    QAction* m_hideOtherAct= nullptr;
+
+    QAction* m_characterVisionAct= nullptr;
+    QAction* m_showTransparentAct= nullptr;
+
+    QAction* m_showPcName= nullptr;
+    QAction* m_showNpcName= nullptr;
+    QAction* m_showNpcNumber= nullptr;
+    QAction* m_showState= nullptr;
+    QAction* m_showHealthBar= nullptr;
+    QAction* m_showInit= nullptr;
+
+    QSpinBox* m_gridSize= nullptr;
+    QDoubleSpinBox* m_scaleSize= nullptr;
+    QComboBox* m_gridUnit= nullptr;
 };
 
 #endif // VMAPTOOLBAR_H
