@@ -143,16 +143,22 @@ void VMap::updateLayer()
 void VMap::addLineItem(vmap::LineController* lineCtrl, bool editing)
 {
     auto item= new LineItem(lineCtrl);
-    addItem(item);
+    addAndInit(item);
     item->setPos(lineCtrl->pos());
     if(editing)
         m_currentItem= item;
 }
 
+void VMap::addAndInit(QGraphicsItem* item)
+{
+    addItem(item);
+    item->setVisible(true);
+}
+
 void VMap::addImageItem(vmap::ImageController* imgCtrl)
 {
     auto img= new ImageItem(imgCtrl);
-    addItem(img);
+    addAndInit(img);
     img->setPos(imgCtrl->pos());
 }
 
@@ -160,7 +166,7 @@ void VMap::addRectItem(vmap::RectController* rectCtrl, bool editing)
 {
     qDebug() << "add rect Item editing:" << editing;
     auto item= new RectItem(rectCtrl);
-    addItem(item);
+    addAndInit(item);
     item->setPos(rectCtrl->pos());
     if(editing)
         m_currentItem= item;
@@ -169,7 +175,7 @@ void VMap::addRectItem(vmap::RectController* rectCtrl, bool editing)
 void VMap::addEllipseItem(vmap::EllipseController* ellisCtrl, bool editing)
 {
     auto item= new EllipsItem(ellisCtrl);
-    addItem(item);
+    addAndInit(item);
     item->setPos(ellisCtrl->pos());
     if(editing)
         m_currentItem= item;
@@ -178,14 +184,14 @@ void VMap::addEllipseItem(vmap::EllipseController* ellisCtrl, bool editing)
 void VMap::addTextItem(vmap::TextController* textCtrl)
 {
     auto tmp= new TextItem(textCtrl);
-    addItem(tmp);
+    addAndInit(tmp);
     tmp->setPos(textCtrl->pos());
 }
 
 void VMap::addCharaterItem(vmap::CharacterItemController* itemCtrl)
 {
     auto tmp= new CharacterItem(itemCtrl);
-    addItem(tmp);
+    addAndInit(tmp);
     tmp->setPos(itemCtrl->pos());
 }
 
@@ -201,7 +207,7 @@ void VMap::addPathItem(vmap::PathController* pathCtrl, bool editing)
             m_currentPath= path;
         }
     }
-    addItem(path);
+    addAndInit(path);
     path->setPos(pathCtrl->pos());
 }
 
@@ -335,11 +341,6 @@ void VMap::cleanFogEdition()
     m_fogItem= nullptr;
 }
 
-void VMap::updateFog()
-{
-    m_sightItem->markDirty();
-}
-
 void VMap::updateItem(const QPointF& end)
 {
     switch(m_ctrl->tool())
@@ -455,7 +456,7 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
     else if(Core::HIGHLIGHTER == m_ctrl->tool() && leftButton)
     {
         auto hitem= new HighlighterItem(mouseEvent->scenePos(), m_ctrl->penSize(), m_ctrl->toolColor());
-        addItem(hitem);
+        addAndInit(hitem);
         hitem->setPos(mouseEvent->scenePos());
     }
     else if(Core::BUCKET == m_ctrl->tool() && leftButton)
@@ -479,13 +480,13 @@ void VMap::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
     else if(Core::ANCHOR == m_ctrl->tool() && leftButton)
     {
         m_parentItemAnchor= new AnchorItem();
-        addItem(m_parentItemAnchor);
+        addAndInit(m_parentItemAnchor);
         m_parentItemAnchor->setPos(mouseEvent->scenePos());
     }
     else if(Core::RULE == m_ctrl->tool() && leftButton)
     {
         m_ruleItem= new RuleItem(m_ctrl);
-        addItem(m_ruleItem);
+        addAndInit(m_ruleItem);
         m_ruleItem->setPos(mouseEvent->scenePos());
     }
     else if(leftButton)

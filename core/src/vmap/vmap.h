@@ -359,6 +359,8 @@ protected:
     void addTextItem(vmap::TextController* textCtrl);
     void addCharaterItem(vmap::CharacterItemController* itemCtrl);
 
+    void addAndInit(QGraphicsItem* item);
+
 private:
     QPointer<VectorialMapController> m_ctrl;
     /**
@@ -400,9 +402,9 @@ private:
      */
     QString m_localUserId;
 
-    SightItem* m_sightItem;
-    GridItem* m_gridItem;
-    VisualItem* m_fogItem;
+    SightItem* m_sightItem= nullptr;
+    GridItem* m_gridItem= nullptr;
+    VisualItem* m_fogItem= nullptr;
     quint64 m_zIndex;
 
     QPointer<QUndoStack> m_undoStack;
