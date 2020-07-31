@@ -25,24 +25,24 @@
 #include "widgets/diameterselector.h"
 #include "widgets/flowlayout.h"
 
-#include "controller/media_controller/vectorialmapmediacontroller.h"
+#include "controller/view_controller/vectorialmapcontroller.h"
 
-VToolsBar::VToolsBar(VectorialMapMediaController* ctrl, QWidget* parent) : QWidget(parent), m_ctrl(ctrl)
+VToolsBar::VToolsBar(VectorialMapController* ctrl, QWidget* parent) : QWidget(parent), m_ctrl(ctrl)
 {
     setWindowTitle(tr("Tools"));
     setObjectName("Toolbar");
     setupUi();
 
     // UI to Ctrl
-    connect(m_colorSelector, &VColorSelector::currentColorChanged, m_ctrl, &VectorialMapMediaController::setColor);
-    connect(m_lineDiameter, &DiameterSelector::diameterChanged, m_ctrl, &VectorialMapMediaController::setPenSize);
+    connect(m_colorSelector, &VColorSelector::currentColorChanged, m_ctrl, &VectorialMapController::setToolColor);
+    connect(m_lineDiameter, &DiameterSelector::diameterChanged, m_ctrl, &VectorialMapController::setPenSize);
     connect(m_editionModeCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
             [this](int b) { m_ctrl->setEditionMode(static_cast<Core::EditionMode>(b)); });
     connect(m_resetCountAct, &QAction::triggered, this, [this]() {
         m_displayNPCCounter->display(1);
         m_ctrl->setNpcNumber(1);
     });
-    connect(m_npcNameTextEdit, &QLineEdit::textEdited, m_ctrl, &VectorialMapMediaController::setNpcName);
+    connect(m_npcNameTextEdit, &QLineEdit::textEdited, m_ctrl, &VectorialMapController::setNpcName);
     connect(m_toolsGroup, &QActionGroup::triggered, this, [this](QAction* act) {
         auto tool= static_cast<Core::SelectableTool>(act->data().toInt());
         m_ctrl->setTool(tool);
@@ -63,14 +63,14 @@ VToolsBar::VToolsBar(VectorialMapMediaController* ctrl, QWidget* parent) : QWidg
         m_bucketAct->setChecked(tool == Core::BUCKET);
         m_textWithBorderAct->setChecked(tool == Core::TEXTBORDER);
     });
-    connect(m_opacitySlider, &QSlider::valueChanged, m_ctrl, &VectorialMapMediaController::setOpacity);
+    connect(m_opacitySlider, &QSlider::valueChanged, m_ctrl, &VectorialMapController::setOpacity);
 
     // Ctrl to UI
-    connect(m_ctrl, &VectorialMapMediaController::npcNumberChanged, m_displayNPCCounter,
+    connect(m_ctrl, &VectorialMapController::npcNumberChanged, m_displayNPCCounter,
             QOverload<int>::of(&QLCDNumber::display));
-    connect(m_ctrl, &VectorialMapMediaController::toolColorChanged, m_colorSelector, &VColorSelector::setCurrentColor);
-    connect(m_ctrl, &VectorialMapMediaController::opacityChanged, m_opacitySlider, &RealSlider::setRealValue);
-    connect(m_ctrl, &VectorialMapMediaController::editionModeChanged, this,
+    connect(m_ctrl, &VectorialMapController::toolColorChanged, m_colorSelector, &VColorSelector::setCurrentColor);
+    connect(m_ctrl, &VectorialMapController::opacityChanged, m_opacitySlider, &RealSlider::setRealValue);
+    connect(m_ctrl, &VectorialMapController::editionModeChanged, this,
             [this](Core::EditionMode mode) { m_editionModeCombo->setCurrentIndex(static_cast<int>(mode)); });
 }
 
@@ -285,23 +285,23 @@ void VToolsBar::makeTools()
     m_editionModeCombo->addItem(QIcon(":/resources/images/eye.png"), tr("Unmask"),
                                 static_cast<int>(Core::EditionMode::Unmask));
 
-    connect(m_editionModeCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-            [this, ruleButton, pipetteButton, bucketButton, addNpcButton, anchorButton, highlighterButton]() {
-                auto tool= m_ctrl->tool();
-                auto mode= static_cast<Core::EditionMode>(m_editionModeCombo->currentData().toInt());
-                bool painting= (mode == Core::EditionMode::Painting);
+    /* connect(m_editionModeCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+             [this, ruleButton, pipetteButton, bucketButton, addNpcButton, anchorButton, highlighterButton]() {
+                 auto tool= m_ctrl->tool();
+                 auto mode= static_cast<Core::EditionMode>(m_editionModeCombo->currentData().toInt());
+                 bool painting= (mode == Core::EditionMode::Painting);
 
-                ruleButton->setVisible(painting);
-                pipetteButton->setVisible(painting);
-                bucketButton->setVisible(painting);
-                addNpcButton->setVisible(painting);
-                anchorButton->setVisible(painting);
-                highlighterButton->setVisible(painting);
+                 ruleButton->setVisible(painting);
+                 pipetteButton->setVisible(painting);
+                 bucketButton->setVisible(painting);
+                 addNpcButton->setVisible(painting);
+                 anchorButton->setVisible(painting);
+                 highlighterButton->setVisible(painting);
 
-                if(tool == Core::RULE || tool == Core::PIPETTE || tool == Core::BUCKET
-                   || tool == Core::NonPlayableCharacter || tool == Core::ANCHOR)
-                    m_ctrl->setTool(Core::HANDLER);
-            });
+                 if(tool == Core::RULE || tool == Core::PIPETTE || tool == Core::BUCKET
+                    || tool == Core::NonPlayableCharacter || tool == Core::ANCHOR)
+                     m_ctrl->setTool(Core::HANDLER);
+             });*/
 
     FlowLayout* characterToolsLayout= new FlowLayout();
     characterToolsLayout->setMargin(0);

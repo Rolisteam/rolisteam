@@ -290,7 +290,7 @@ void VectorialMapController::setPermission(Core::PermissionMode mode)
     if(m_permission == mode)
         return;
     m_permission= mode;
-    emit permissionChanged();
+    emit permissionChanged(m_permission);
 }
 
 void VectorialMapController::setGridVisibility(bool visible)
@@ -298,7 +298,7 @@ void VectorialMapController::setGridVisibility(bool visible)
     if(visible == m_gridVisibility)
         return;
     m_gridVisibility= visible;
-    emit gridVisibilityChanged();
+    emit gridVisibilityChanged(m_gridVisibility);
 }
 
 void VectorialMapController::setGridAbove(bool above)
@@ -306,7 +306,7 @@ void VectorialMapController::setGridAbove(bool above)
     if(m_gridAbove == above)
         return;
     m_gridAbove= above;
-    emit gridAboveChanged();
+    emit gridAboveChanged(m_gridAbove);
 }
 
 void VectorialMapController::setGridSize(int gridSize)
@@ -314,7 +314,7 @@ void VectorialMapController::setGridSize(int gridSize)
     if(m_gridSize == gridSize)
         return;
     m_gridSize= gridSize;
-    emit gridSizeChanged();
+    emit gridSizeChanged(m_gridSize);
 }
 
 void VectorialMapController::setGridPattern(Core::GridPattern pattern)
@@ -322,7 +322,7 @@ void VectorialMapController::setGridPattern(Core::GridPattern pattern)
     if(pattern == m_gridPattern)
         return;
     m_gridPattern= pattern;
-    emit gridPatternChanged();
+    emit gridPatternChanged(m_gridPattern);
 }
 
 void VectorialMapController::setVisibility(Core::VisibilityMode mode)
@@ -330,7 +330,7 @@ void VectorialMapController::setVisibility(Core::VisibilityMode mode)
     if(mode == m_visibilityMode)
         return;
     m_visibilityMode= mode;
-    emit visibilityChanged();
+    emit visibilityChanged(m_visibilityMode);
 }
 
 void VectorialMapController::setBackgroundColor(QColor color)
@@ -338,7 +338,7 @@ void VectorialMapController::setBackgroundColor(QColor color)
     if(color == m_backgroundColor)
         return;
     m_backgroundColor= color;
-    emit backgroundColorChanged();
+    emit backgroundColorChanged(m_backgroundColor);
 }
 
 void VectorialMapController::setToolColor(QColor color)
@@ -354,7 +354,7 @@ void VectorialMapController::setPenSize(quint16 size)
     if(size == m_penSize)
         return;
     m_penSize= size;
-    emit penSizeChanged();
+    emit penSizeChanged(m_penSize);
 }
 
 void VectorialMapController::setNpcName(const QString& name)
@@ -362,7 +362,7 @@ void VectorialMapController::setNpcName(const QString& name)
     if(name == m_npcName)
         return;
     m_npcName= name;
-    emit npcNameChanged();
+    emit npcNameChanged(m_npcName);
 }
 
 void VectorialMapController::setNpcNumber(int number)
@@ -370,7 +370,7 @@ void VectorialMapController::setNpcNumber(int number)
     if(number == m_npcNumber)
         return;
     m_npcNumber= number;
-    emit npcNumberChanged();
+    emit npcNumberChanged(m_npcNumber);
 }
 
 void VectorialMapController::setGridScale(qreal scale)
@@ -378,7 +378,7 @@ void VectorialMapController::setGridScale(qreal scale)
     if(qFuzzyCompare(m_gridScale, scale))
         return;
     m_gridScale= scale;
-    emit gridScaleChanged();
+    emit gridScaleChanged(m_gridScale);
 }
 
 void VectorialMapController::setScaleUnit(Core::ScaleUnit unit)
@@ -386,7 +386,7 @@ void VectorialMapController::setScaleUnit(Core::ScaleUnit unit)
     if(m_scaleUnit == unit)
         return;
     m_scaleUnit= unit;
-    emit scaleUnitChanged();
+    emit scaleUnitChanged(m_scaleUnit);
 }
 
 void VectorialMapController::setZoomLevel(qreal lvl)
@@ -414,7 +414,7 @@ void VectorialMapController::setCollision(bool col)
     if(m_collision == col)
         return;
     m_collision= col;
-    emit collisionChanged();
+    emit collisionChanged(m_collision);
 }
 
 void VectorialMapController::setLayer(Core::Layer layer)
@@ -422,7 +422,7 @@ void VectorialMapController::setLayer(Core::Layer layer)
     if(layer == m_layer)
         return;
     m_layer= layer;
-    emit layerChanged();
+    emit layerChanged(m_layer);
 }
 
 void VectorialMapController::setTool(Core::SelectableTool tool)
@@ -430,7 +430,7 @@ void VectorialMapController::setTool(Core::SelectableTool tool)
     if(tool == m_tool)
         return;
     m_tool= tool;
-    emit toolChanged();
+    emit toolChanged(m_tool);
 }
 
 void VectorialMapController::setEditionMode(Core::EditionMode mode)
@@ -438,7 +438,7 @@ void VectorialMapController::setEditionMode(Core::EditionMode mode)
     if(mode == m_editionMode)
         return;
     m_editionMode= mode;
-    emit editionModeChanged();
+    emit editionModeChanged(m_editionMode);
 }
 
 void VectorialMapController::setOpacity(qreal opacity)
@@ -446,7 +446,7 @@ void VectorialMapController::setOpacity(qreal opacity)
     if(qFuzzyCompare(m_opacity, opacity))
         return;
     m_opacity= opacity;
-    emit opacityChanged();
+    emit opacityChanged(m_opacity);
 }
 
 void VectorialMapController::setNpcNameVisible(bool visible)
@@ -454,7 +454,7 @@ void VectorialMapController::setNpcNameVisible(bool visible)
     if(visible == m_npcNameVisible)
         return;
     m_npcNameVisible= visible;
-    emit npcNameVisibleChanged();
+    emit npcNameVisibleChanged(m_npcNameVisible);
 }
 
 void VectorialMapController::setPcNameVisible(bool visible)
@@ -462,7 +462,7 @@ void VectorialMapController::setPcNameVisible(bool visible)
     if(visible == m_pcNameVisible)
         return;
     m_pcNameVisible= visible;
-    emit pcNameVisibleChanged();
+    emit pcNameVisibleChanged(m_pcNameVisible);
 }
 
 void VectorialMapController::setHealthBarVisible(bool visible)
@@ -470,7 +470,7 @@ void VectorialMapController::setHealthBarVisible(bool visible)
     if(visible == m_healthBarVisible)
         return;
     m_healthBarVisible= visible;
-    emit healthBarVisibleChanged();
+    emit healthBarVisibleChanged(m_healthBarVisible);
 }
 
 void VectorialMapController::setInitScoreVisible(bool visible)
@@ -478,7 +478,7 @@ void VectorialMapController::setInitScoreVisible(bool visible)
     if(m_initScoreVisible == visible)
         return;
     m_initScoreVisible= visible;
-    emit initScoreVisibleChanged();
+    emit initScoreVisibleChanged(m_initScoreVisible);
 }
 
 void VectorialMapController::setNpcNumberVisible(bool visible)
@@ -486,7 +486,7 @@ void VectorialMapController::setNpcNumberVisible(bool visible)
     if(visible == m_npcNumberVisible)
         return;
     m_npcNumberVisible= visible;
-    emit npcNumberVisibleChanged();
+    emit npcNumberVisibleChanged(m_npcNumberVisible);
 }
 
 void VectorialMapController::setGridColor(QColor color)
@@ -494,7 +494,7 @@ void VectorialMapController::setGridColor(QColor color)
     if(color == m_gridColor)
         return;
     m_gridColor= color;
-    emit gridColorChanged();
+    emit gridColorChanged(m_gridColor);
 }
 
 void VectorialMapController::setCharacterVision(bool b)
@@ -502,7 +502,7 @@ void VectorialMapController::setCharacterVision(bool b)
     if(b == m_characterVision)
         return;
     m_characterVision= b;
-    emit characterVisionChanged();
+    emit characterVisionChanged(m_characterVision);
 }
 
 void VectorialMapController::setStateLabelVisible(bool b)
@@ -510,7 +510,7 @@ void VectorialMapController::setStateLabelVisible(bool b)
     if(b == m_stateLabelVisible)
         return;
     m_stateLabelVisible= b;
-    emit stateLabelVisibleChanged();
+    emit stateLabelVisibleChanged(m_stateLabelVisible);
 }
 
 void VectorialMapController::insertItemAt(const std::map<QString, QVariant>& params)
@@ -644,7 +644,7 @@ void VectorialMapController::setIdle(bool b)
     if(b == m_idle)
         return;
     m_idle= b;
-    emit idleChanged();
+    emit idleChanged(m_idle);
 }
 
 void VectorialMapController::setZindex(int index)
@@ -652,7 +652,7 @@ void VectorialMapController::setZindex(int index)
     if(index == m_zIndex)
         return;
     m_zIndex= index;
-    emit zIndexChanged();
+    emit zIndexChanged(m_zIndex);
 }
 
 void VectorialMapController::normalizeSize(const QList<vmap::VisualItemController*>& list, Method method,
@@ -662,6 +662,16 @@ void VectorialMapController::normalizeSize(const QList<vmap::VisualItemControlle
         return;
 
     emit performCommand(new ChangeSizeVmapItemCommand(list, method, mousePos));
+}
+
+void VectorialMapController::showTransparentItems()
+{
+    // TODO make a command to do so.
+}
+
+void VectorialMapController::hideOtherLayers()
+{
+    // TODO make a command to do so.
 }
 
 void VectorialMapController::removeItemController(QString uuid)

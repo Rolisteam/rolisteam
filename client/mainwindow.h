@@ -381,7 +381,6 @@ private:
 private:
     PlayersPanel* m_playersListWidget= nullptr;
 
-    VToolsBar* m_vToolBar;
 
 #ifndef NULL_PLAYER
     AudioPlayer* m_audioPlayer;
@@ -405,8 +404,6 @@ private:
     QStringList m_recentScenarios;
     QAction* m_separatorAction;
     std::vector<FileInfo> m_recentFiles;
-
-    VmapToolBar* m_vmapToolBar;
 
     ConnectionProfile* m_currentConnectionProfile= nullptr;
     QList<GameMasterTool*> m_gmToolBoxList;

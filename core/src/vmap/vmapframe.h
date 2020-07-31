@@ -30,11 +30,10 @@
 #include <QWidget>
 #include <memory>
 
-#include "rgraphicsview.h"
-
 #include "data/mediacontainer.h"
-#include "network/networkreceiver.h"
+#include "rgraphicsview.h"
 #include "vmap.h"
+#include "vmap/vmaptoolbar.h"
 #include "vmap/vtoolbar.h"
 
 class VectorialMapController;
@@ -48,161 +47,34 @@ class VMapFrame : public MediaContainer
     Q_OBJECT
 
 public:
-    /**
-     * @brief The PermissionMode enum
-     */
-    enum PermissionMode
-    {
-        GM_ONLY,
-        PC_MOVE,
-        PC_ALL
-    };
-    /**
-     * @brief VMapFrame
-     */
     VMapFrame(VectorialMapController* ctrl, QWidget* parent= nullptr);
-    /**
-     * @brief destructor
-     */
     virtual ~VMapFrame() override;
-    /**
-     * @brief fills up the current window menu
-     */
     bool defineMenu(QMenu* /*menu*/);
-
-    /**
-     * @brief reads the map into the given file
-     * @param uri of the file
-     */
     bool openFile(const QString& file);
-    /**
-     * @brief createMap
-     * @return
-     */
     bool createMap();
-    /**
-     * @brief readFile
-     * @return
-     */
     virtual bool readFileFromUri();
-    /**
-     * @brief processAddItemMessage should add items from Network
-     * @param msg
-     */
-    void processAddItemMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processDelItemMessage deletes items from network order
-     * @param msg
-     */
-    void processDelItemMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processMoveItemMessage
-     * @param msg
-     */
-    void processMoveItemMessage(NetworkMessageReader* msg);
-    /**
-     * @brief processGeometryChangeItem
-     * @param msg
-     */
-    void processGeometryChangeItem(NetworkMessageReader* msg);
-    /**
-     * @brief processMapPropertyChange
-     * @param msg
-     */
-    void processMapPropertyChange(NetworkMessageReader* msg);
-    /**
-     * @brief processSetParentItem
-     * @param msg
-     */
-    void processSetParentItem(NetworkMessageReader* msg);
-    /**
-     * @brief saveMedia
-     */
     void saveMedia() override;
-    /**
-     * @brief processGeometryViewChange
-     * @param msg
-     */
-    void processGeometryViewChange(NetworkMessageReader* msg);
-    /**
-     * @brief processOpacityMessage
-     * @param msg
-     */
-    void processOpacityMessage(NetworkMessageReader* msg);
-
-    void fill(NetworkMessageWriter& msg) override;
-    void readMessage(NetworkMessageReader& msg) override;
-
-    void processsZValueMsg(NetworkMessageReader* msg);
-    void processsRotationMsg(NetworkMessageReader* msg);
-    void processsRectGeometryMsg(NetworkMessageReader* msg);
-
     void putDataIntoCleverUri() override;
-    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 public slots:
-    /**
-     *  @brief change the current mice cursor
-     *  @param new selected QCursor
-     */
     virtual void currentCursorChanged(QCursor*) override;
-    /**
-     *  @brief change the current drawing tool
-     *  @param  new selected tool
-     */
     virtual void currentToolChanged(Core::SelectableTool) override;
-
-    /**
-     *  @brief change the current editing  behavior to MaskMode.
-     */
-    // virtual void setEditingMode(int);
-
-    // void processLayerMessage(NetworkMessageReader* msg);
 signals:
-    /**
-     * @brief defineCurrentTool
-     * @param tool
-     */
     void defineCurrentTool(Core::SelectableTool tool);
 
 protected:
-    /**
-     *  @brief called when painting the widget is required
-     *  @param event discribe the context of the event
-     */
-    // virtual void paintEvent(QPaintEvent* event);
     virtual void keyPressEvent(QKeyEvent* event) override;
 
 protected slots:
-    /**
-     * @brief updateTitle
-     */
     virtual void updateTitle() override;
 
 private: // functions
-    /**
-     * @brief updateMap
-     */
-    void updateMap();
-    /**
-     * @brief visibilityModeToText
-     * @return
-     */
-    QString visibilityModeToText(Core::VisibilityMode);
-    /**
-     * @brief permissionModeToText
-     * @return
-     */
-    QString permissionModeToText(Core::PermissionMode);
-    /**
-     * @brief layerToText
-     * @return
-     */
-    QString layerToText(Core::Layer);
+    void setupUi();
 
 private:
     QPointer<VectorialMapController> m_ctrl;
     std::unique_ptr<VMap> m_vmap;
     std::unique_ptr<RGraphicsView> m_graphicView;
+    std::unique_ptr<VToolsBar> m_toolbox;
+    std::unique_ptr<VmapToolBar> m_toolbar;
 };
-Q_DECLARE_METATYPE(VMapFrame::PermissionMode)
 #endif

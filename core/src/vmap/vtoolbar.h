@@ -34,7 +34,7 @@
 #include "widgets/diameterselector.h"
 #include "widgets/realslider.h"
 
-class VectorialMapMediaController;
+class VectorialMapController;
 /**
  *  @brief toolbar is a QWidget subclass which gathering all tool required for drawing maps.
  */
@@ -46,7 +46,7 @@ public:
     /**
      * @brief constructor for Qt widget
      */
-    VToolsBar(VectorialMapMediaController* ctrl, QWidget* parent= nullptr);
+    VToolsBar(VectorialMapController* ctrl, QWidget* parent= nullptr);
     // Selectable tools
     /**
      * @brief tools id
@@ -70,7 +70,7 @@ private:
     void makeTools();     /// utility function
 
 private:
-    QPointer<VectorialMapMediaController> m_ctrl;
+    QPointer<VectorialMapController> m_ctrl;
 
     QWidget* m_centralWidget;         /// address to the main widget
     QLineEdit* m_npcNameTextEdit;     /// text line to define the npc name

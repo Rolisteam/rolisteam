@@ -162,52 +162,42 @@ public:
 
     // Network
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
-    /*void processAddItemMessage(const NetworkMessageReader& msg);
-    void processMoveItemMessage(const NetworkMessageReader& msg);
-    void processGeometryChangeItem(const NetworkMessageReader& msg);
-    void processOpacityMessage(const NetworkMessageReader& msg);
-    void processSetParentItem(const NetworkMessageReader& msg);
-    void processDelItemMessage(const NetworkMessageReader& msg);
-    void processMovePointMsg(const NetworkMessageReader& msg);
-    void processZValueMsg(const NetworkMessageReader& msg);
-    void processRotationMsg(const NetworkMessageReader& msg);
-    void processRectGeometryMsg(const NetworkMessageReader& msg);
-    void processCharacterStateHasChanged(const NetworkMessageReader& msg);
-    void processCharacterHasChanged(const NetworkMessageReader& msg);
-    void processVisionMsg(const NetworkMessageReader& msg);
-    void processColorMsg(const NetworkMessageReader& msg);*/
+
+public slots:
+    void showTransparentItems();
+    void hideOtherLayers();
 
 signals:
-    void permissionChanged();
-    void gridSizeChanged();
-    void gridPatternChanged();
-    void gridVisibilityChanged();
-    void visibilityChanged();
-    void backgroundColorChanged();
+    void permissionChanged(Core::PermissionMode mode);
+    void gridSizeChanged(int);
+    void gridPatternChanged(Core::GridPattern p);
+    void gridVisibilityChanged(bool);
+    void visibilityChanged(Core::VisibilityMode a);
+    void backgroundColorChanged(QColor);
     void toolColorChanged(const QColor& color);
-    void penSizeChanged();
-    void npcNameChanged();
-    void npcNumberChanged();
+    void penSizeChanged(quint16);
+    void npcNameChanged(QString);
+    void npcNumberChanged(int);
     void zoomLevelChanged();
-    void gridAboveChanged();
-    void scaleUnitChanged();
-    void gridScaleChanged();
-    void collisionChanged();
-    void layerChanged();
-    void toolChanged();
-    void editionModeChanged();
-    void opacityChanged();
-    void npcNameVisibleChanged();
-    void pcNameVisibleChanged();
-    void healthBarVisibleChanged();
-    void initScoreVisibleChanged();
-    void npcNumberVisibleChanged();
-    void gridColorChanged();
-    void characterVisionChanged();
-    void stateLabelVisibleChanged();
+    void gridAboveChanged(bool);
+    void scaleUnitChanged(Core::ScaleUnit);
+    void gridScaleChanged(qreal);
+    void collisionChanged(bool);
+    void layerChanged(Core::Layer);
+    void toolChanged(Core::SelectableTool);
+    void editionModeChanged(Core::EditionMode);
+    void opacityChanged(qreal);
+    void npcNameVisibleChanged(bool);
+    void pcNameVisibleChanged(bool);
+    void healthBarVisibleChanged(bool);
+    void initScoreVisibleChanged(bool);
+    void npcNumberVisibleChanged(bool);
+    void gridColorChanged(QColor);
+    void characterVisionChanged(bool);
+    void stateLabelVisibleChanged(bool);
     void visualItemControllerCreated(VisualItemController* ctrl);
-    void idleChanged();
-    void zIndexChanged();
+    void idleChanged(bool);
+    void zIndexChanged(int);
     void orderListChanged();
 
     void visualRectChanged(QRectF visualRect);
