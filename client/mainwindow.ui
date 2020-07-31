@@ -14,8 +14,8 @@
    <string>Rolisteam</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../rolisteam.qrc">
-    <normaloff>:/resources/images/logo/500-symbole.png</normaloff>:/resources/images/logo/500-symbole.png</iconset>
+   <iconset theme="500-symbole">
+    <normaloff>.</normaloff>.</iconset>
   </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
@@ -190,7 +190,7 @@
   </action>
   <action name="m_saveScenarioAsAction">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
+    <iconset>
      <normaloff>:/story.png</normaloff>:/story.png</iconset>
    </property>
    <property name="text">
@@ -210,8 +210,8 @@
   </action>
   <action name="m_preferencesAction">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/settings.png</normaloff>:/settings.png</iconset>
+    <iconset theme="settings">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Preferences…</string>
@@ -222,8 +222,8 @@
   </action>
   <action name="m_quitAction">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/exit.png</normaloff>:/exit.png</iconset>
+    <iconset theme="exit">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -277,8 +277,8 @@
   </action>
   <action name="m_aboutAction">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/images/logo/1000-symbole.png</normaloff>:/resources/images/logo/1000-symbole.png</iconset>
+    <iconset theme="1000-symbole">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>About Rolisteam</string>
@@ -286,8 +286,8 @@
   </action>
   <action name="m_newMapAction">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/map.png</normaloff>:/map.png</iconset>
+    <iconset theme="map">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Map</string>
@@ -298,8 +298,8 @@
   </action>
   <action name="m_newChatAction">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/chat.png</normaloff>:/chat.png</iconset>
+    <iconset theme="chatIcon">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Chat</string>
@@ -310,8 +310,8 @@
   </action>
   <action name="m_newNoteAction">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/notes.png</normaloff>:/notes.png</iconset>
+    <iconset theme="notes">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Note</string>
@@ -322,8 +322,8 @@
   </action>
   <action name="m_openMapAction">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/map.png</normaloff>:/map.png</iconset>
+    <iconset theme="map">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Map</string>
@@ -334,8 +334,8 @@
   </action>
   <action name="m_openPictureAction">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/images/photo.png</normaloff>:/resources/images/photo.png</iconset>
+    <iconset theme="photo">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Picture</string>
@@ -346,8 +346,8 @@
   </action>
   <action name="m_openNoteAction">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/notes.png</normaloff>:/notes.png</iconset>
+    <iconset theme="notes">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Note</string>
@@ -358,8 +358,8 @@
   </action>
   <action name="m_openStoryAction">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/story.png</normaloff>:/story.png</iconset>
+    <iconset theme="story">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Open Scenario</string>
@@ -423,8 +423,8 @@
   </action>
   <action name="m_openOnlinePictureAction">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/images/photo.png</normaloff>:/resources/images/photo.png</iconset>
+    <iconset theme="photo">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Online Picture</string>
@@ -490,8 +490,8 @@
   </action>
   <action name="m_addVectorialMap">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/vmap.png</normaloff>:/vmap.png</iconset>
+    <iconset theme="vmap">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Map</string>
@@ -502,8 +502,8 @@
   </action>
   <action name="m_openVectorialMap">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/vmap.png</normaloff>:/vmap.png</iconset>
+    <iconset theme="vmap">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Map</string>
@@ -530,8 +530,8 @@
   </action>
   <action name="m_openCharacterSheet">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/images/treeview.png</normaloff>:/resources/images/treeview.png</iconset>
+    <iconset theme="treeview">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Character Sheet</string>
@@ -542,8 +542,8 @@
   </action>
   <action name="m_saveScenarioAction">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/story.png</normaloff>:/story.png</iconset>
+    <iconset theme="story">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Save Scenario</string>
@@ -565,8 +565,8 @@
   </action>
   <action name="m_newSharedNote">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/images/sharedEditor.png</normaloff>:/resources/images/sharedEditor.png</iconset>
+    <iconset theme="sharedEditor">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Shared Note</string>
@@ -577,8 +577,8 @@
   </action>
   <action name="m_openShareNote">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/images/sharedEditor.png</normaloff>:/resources/images/sharedEditor.png</iconset>
+    <iconset theme="sharedEditor">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Shared Note</string>
@@ -589,8 +589,8 @@
   </action>
   <action name="m_supportRolisteam">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/images/liberapay.png</normaloff>:/resources/images/liberapay.png</iconset>
+    <iconset theme="liberapay">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Support Rolisteam</string>
@@ -617,8 +617,8 @@
   </action>
   <action name="m_openPdfAct">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/images/pdfLogo.png</normaloff>:/resources/images/pdfLogo.png</iconset>
+    <iconset theme="pdfLogo">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>PDF File</string>
@@ -634,8 +634,8 @@
   </action>
   <action name="m_newWebViewACt">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/images/webPage.svg</normaloff>:/resources/images/webPage.svg</iconset>
+    <iconset theme="webPage">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>WebPage</string>
@@ -681,17 +681,15 @@
   </action>
   <action name="m_patreon">
    <property name="icon">
-    <iconset resource="../rolisteam.qrc">
-     <normaloff>:/resources/images/Patreon_Mark_Coral.jpg</normaloff>:/resources/images/Patreon_Mark_Coral.jpg</iconset>
+    <iconset theme="Patreon_Mark_Coral">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Support Rolisteam</string>
    </property>
   </action>
  </widget>
- <resources>
-  <include location="../rolisteam.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>m_tabViewAction</sender>

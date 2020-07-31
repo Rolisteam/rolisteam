@@ -86,8 +86,8 @@ void XMLTextEdit::contextMenuEvent(QContextMenuEvent* e)
 QMenu* XMLTextEdit::createOwnStandardContextMenu()
 {
     QMenu* TContext= createStandardContextMenu();
-    TContext->addAction(QIcon(QString::fromUtf8(":/img/zoomin.png")), tr("Zoom In CTRL/+"), this, SLOT(zoomIn()));
-    TContext->addAction(QIcon(QString::fromUtf8(":/img/zoomout.png")), tr("Zoom Out CTRL/-"), this, SLOT(zoomOut()));
+    TContext->addAction(QIcon::fromTheme("zoom-in-32"), tr("Zoom In CTRL/+"), this, SLOT(zoomIn()));
+    TContext->addAction(QIcon::fromTheme("zoom-out-32"), tr("Zoom Out CTRL/-"), this, SLOT(zoomOut()));
     TContext->addAction(tr("Check xml syntax"), this, SLOT(Syntaxcheck()));
     return TContext;
 }

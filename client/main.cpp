@@ -93,6 +93,7 @@ int main(int argc, char* argv[])
     // QApplication app(nargs, args);
     RolisteamApplication app(argc, argv);
     app.setAttribute(Qt::AA_DontUseNativeMenuBar, true);
+    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":/resources/rolistheme");
 
     QString appName("rolisteam");
 

@@ -32,7 +32,7 @@ SharedNoteContainer::SharedNoteContainer(SharedNoteController* ctrl, QWidget* pa
 #endif
     // setCleverUriType(Core::ContentType::SHAREDNOTE);
     setWidget(m_edit.get());
-    setWindowIcon(QIcon(":/resources/images/sharedEditor.png"));
+    setWindowIcon(QIcon::fromTheme("sharedEditor"));
     // m_edit->setFileName(getUriName());
 
     connect(m_sharedCtrl, &SharedNoteController::ownerIdChanged, m_edit.get(), &SharedNote::setOwnerId);

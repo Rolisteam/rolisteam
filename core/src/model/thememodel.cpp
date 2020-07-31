@@ -49,7 +49,7 @@ QVariant ThemeModel::data(const QModelIndex& index, int role) const
     const auto& theme= m_themeList.at(static_cast<std::size_t>(index.row()));
 
     if(role == Qt::DecorationRole && !theme->isRemovable())
-        return QIcon(":/resources/images/lock.png");
+        return QIcon::fromTheme("lock.png");
 
     QVariant var;
     switch(role)

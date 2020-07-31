@@ -47,7 +47,7 @@ Image::Image(ImageController* ctrl, QWidget* parent)
     connect(m_ctrl, &ImageController::pixmapChanged, this, &Image::initImage);
     connect(m_ctrl, &ImageController::cursorChanged, this, [this]() { m_imageLabel->setCursor(m_ctrl->cursor()); });
 
-    setWindowIcon(QIcon(":/resources/images/photo.png"));
+    setWindowIcon(QIcon::fromTheme("photo"));
     createActions();
 
     if(m_ctrl->isMovie())
@@ -258,7 +258,7 @@ void Image::createActions()
 {
     m_actionZoomIn= new QAction(tr("Zoom In"), this);
     m_actionZoomIn->setToolTip(tr("increase zoom level"));
-    m_actionZoomIn->setIcon(QIcon(":/resources/images/zoom-in-32.png"));
+    m_actionZoomIn->setIcon(QIcon::fromTheme("zoom-in-32"));
     connect(m_actionZoomIn, &QAction::triggered, this, [this] { m_ctrl->zoomIn(); });
 
     m_zoomInShort= new QShortcut(QKeySequence(tr("Ctrl++", "Zoom In")), this);
@@ -267,7 +267,7 @@ void Image::createActions()
     m_actionZoomIn->setShortcut(m_zoomInShort->key());
 
     m_actionZoomOut= new QAction(tr("Zoom out"), this);
-    m_actionZoomOut->setIcon(QIcon(":/resources/images/zoom-out-32.png"));
+    m_actionZoomOut->setIcon(QIcon::fromTheme("zoom-out-32"));
     m_actionZoomOut->setToolTip(tr("Reduce zoom level"));
     connect(m_actionZoomOut, &QAction::triggered, this, [this] { m_ctrl->zoomOut(); });
 
@@ -282,7 +282,7 @@ void Image::createActions()
     };
 
     m_actionfitWorkspace= new QAction(tr("Fit the workspace"), this);
-    m_actionfitWorkspace->setIcon(QIcon(":/fit-page.png"));
+    m_actionfitWorkspace->setIcon(QIcon::fromTheme("fit-page"));
     m_actionfitWorkspace->setToolTip(tr("The window and the image fit the workspace"));
     connect(m_actionfitWorkspace, &QAction::triggered, this, fitWorkspace);
 
@@ -297,7 +297,7 @@ void Image::createActions()
     m_fitWindowAct->setCheckable(true);
     connect(m_ctrl, &ImageController::fitWindowChanged, this,
             [this] { m_fitWindowAct->setChecked(m_ctrl->fitWindow()); });
-    m_fitWindowAct->setIcon(QIcon(":/fit-window.png"));
+    m_fitWindowAct->setIcon(QIcon::fromTheme("fit-window"));
     m_fitWindowAct->setToolTip(tr("Image will take the best dimension to fit the window."));
     connect(m_fitWindowAct, &QAction::triggered, this, setFitWindow);
 

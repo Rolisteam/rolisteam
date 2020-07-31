@@ -89,52 +89,51 @@ void VToolsBar::createActions()
 {
     m_toolsGroup= new QActionGroup(this);
 
-    m_pencilAct= new QAction(QIcon(":/resources/images/pen.png"), tr("Pen"), m_toolsGroup);
+    m_pencilAct= new QAction(QIcon::fromTheme("pen"), tr("Pen"), m_toolsGroup);
     m_pencilAct->setData(Core::PEN);
 
-    m_lineAct= new QAction(QIcon(":/resources/images/line.png"), tr("Line"), m_toolsGroup);
+    m_lineAct= new QAction(QIcon::fromTheme("line"), tr("Line"), m_toolsGroup);
     m_lineAct->setData(Core::LINE);
 
-    m_rectAct= new QAction(QIcon(":/resources/images/emptyrectangle.png"), tr("Empty Rectangle"), m_toolsGroup);
+    m_rectAct= new QAction(QIcon::fromTheme("emptyrectangle"), tr("Empty Rectangle"), m_toolsGroup);
     m_rectAct->setData(Core::EMPTYRECT);
 
-    m_rectFillAct= new QAction(QIcon(":/resources/images/filledrectangle.png"), tr("filled Rectangle"), m_toolsGroup);
+    m_rectFillAct= new QAction(QIcon::fromTheme("filledrectangle"), tr("filled Rectangle"), m_toolsGroup);
     m_rectFillAct->setData(Core::FILLRECT);
 
-    m_elipseAct= new QAction(QIcon(":/resources/images/emptyellipse.png"), tr("Empty Ellipse"), m_toolsGroup);
+    m_elipseAct= new QAction(QIcon::fromTheme("emptyellipse"), tr("Empty Ellipse"), m_toolsGroup);
     m_elipseAct->setData(Core::EMPTYELLIPSE);
 
-    m_elipseFillAct= new QAction(QIcon(":/resources/images/filledellipse.png"), tr("Filled Ellipse"), m_toolsGroup);
+    m_elipseFillAct= new QAction(QIcon::fromTheme("filledellipse"), tr("Filled Ellipse"), m_toolsGroup);
     m_elipseFillAct->setData(Core::FILLEDELLIPSE);
 
-    m_textAct= new QAction(QIcon(":/resources/images/text.png"), tr("Text"), m_toolsGroup);
+    m_textAct= new QAction(QIcon::fromTheme("text"), tr("Text"), m_toolsGroup);
     m_textAct->setData(Core::TEXT);
 
-    m_handAct= new QAction(QIcon(":/resources/images/hand.png"), tr("Hand"), m_toolsGroup);
+    m_handAct= new QAction(QIcon::fromTheme("hand"), tr("Hand"), m_toolsGroup);
     m_handAct->setData(Core::HANDLER);
 
-    m_addPCAct= new QAction(QIcon(":/resources/images/add.png"), tr("Add NPC"), m_toolsGroup);
+    m_addPCAct= new QAction(QIcon::fromTheme("add"), tr("Add NPC"), m_toolsGroup);
     m_addPCAct->setData(Core::NonPlayableCharacter);
 
-    m_ruleAct= new QAction(QIcon(":/resources/images/rule.png"), tr("Rule"), m_toolsGroup);
+    m_ruleAct= new QAction(QIcon::fromTheme("rule"), tr("Rule"), m_toolsGroup);
     m_ruleAct->setData(Core::RULE);
 
-    m_pathAct= new QAction(QIcon(":/resources/images/path.png"), tr("Path"), m_toolsGroup);
+    m_pathAct= new QAction(QIcon::fromTheme("path"), tr("Path"), m_toolsGroup);
     m_pathAct->setData(Core::PATH);
-    m_anchorAct= new QAction(QIcon(":/resources/images/insert-link-2.png"), tr("Anchor"), m_toolsGroup);
+    m_anchorAct= new QAction(QIcon::fromTheme("insert-link-2"), tr("Anchor"), m_toolsGroup);
     m_anchorAct->setData(Core::ANCHOR);
 
-    m_pipette= new QAction(QIcon(":/resources/images/pipettecursor.png"), tr("Pipette"), m_toolsGroup);
+    m_pipette= new QAction(QIcon::fromTheme("pipettecursor"), tr("Pipette"), m_toolsGroup);
     m_pipette->setData(Core::PIPETTE);
 
-    m_highlighterAct= new QAction(QIcon(":/resources/images/marker-512.png"), tr("Highlighter"), m_toolsGroup);
+    m_highlighterAct= new QAction(QIcon::fromTheme("marker-512"), tr("Highlighter"), m_toolsGroup);
     m_highlighterAct->setData(Core::HIGHLIGHTER);
 
-    m_bucketAct= new QAction(QIcon(":/resources/images/000000-paint-bucket-512.png"), tr("Paint Bucket"), m_toolsGroup);
+    m_bucketAct= new QAction(QIcon::fromTheme("000000-paint-bucket-512"), tr("Paint Bucket"), m_toolsGroup);
     m_bucketAct->setData(Core::BUCKET);
 
-    m_textWithBorderAct
-        = new QAction(QIcon(":/resources/images/textwithBorder.png"), tr("Text With Border"), m_toolsGroup);
+    m_textWithBorderAct= new QAction(QIcon::fromTheme("textwithBorder"), tr("Text With Border"), m_toolsGroup);
     m_textWithBorderAct->setData(Core::TEXTBORDER);
 
     m_resetCountAct= new QAction(QIcon(":/resources/images/chronometre.png"), tr("Reset NPC counter"), this);

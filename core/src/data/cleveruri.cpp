@@ -46,7 +46,7 @@ CleverURI::CleverURI(Core::ContentType type)
 
 QIcon CleverURI::icon() const
 {
-    return QIcon(CleverURI::typeToIconPath(m_type));
+    return QIcon::fromTheme(CleverURI::typeToIconPath(m_type));
 }
 
 CleverURI::CleverURI(const QString& name, const QString& path, Core::ContentType type)
@@ -61,15 +61,15 @@ CleverURI::~CleverURI()= default;
 QString CleverURI::typeToIconPath(Core::ContentType type)
 {
     auto hash= QHash<Core::ContentType, QString>({
-        {Core::ContentType::VECTORIALMAP, ":/vmap.png"},
-        {Core::ContentType::PICTURE, ":/resources/images/photo.png"},
-        {Core::ContentType::ONLINEPICTURE, ":/resources/images/photo.png"},
-        {Core::ContentType::NOTES, ":/notes.png"},
-        {Core::ContentType::CHARACTERSHEET, ":/resources/images/treeview.png"},
-        {Core::ContentType::SHAREDNOTE, ":/resources/images/sharedEditor.png"},
-        {Core::ContentType::WEBVIEW, ":/resources/images/webPage.svg"},
+        {Core::ContentType::VECTORIALMAP, "vmap"},
+        {Core::ContentType::PICTURE, "photo"},
+        {Core::ContentType::ONLINEPICTURE, "photo"},
+        {Core::ContentType::NOTES, "notes"},
+        {Core::ContentType::CHARACTERSHEET, "treeview"},
+        {Core::ContentType::SHAREDNOTE, "sharedEditor"},
+        {Core::ContentType::WEBVIEW, "webPage"},
 #ifdef WITH_PDF
-        {Core::ContentType::PDF, ":/resources/images/pdfLogo.png"},
+        {Core::ContentType::PDF, "pdfLogo"},
 #endif
     });
     return hash.value(type);

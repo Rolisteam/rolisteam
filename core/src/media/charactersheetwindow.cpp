@@ -60,7 +60,7 @@ CharacterSheetWindow::CharacterSheetWindow(CharacterSheetController* ctrl, QWidg
     /*connect(&m_model, SIGNAL(characterSheetHasBeenAdded(CharacterSheet*)), this,
             SLOT(addTabWithSheetView(CharacterSheet*)));*/
 
-    setWindowIcon(QIcon(":/resources/images/treeview.png"));
+    setWindowIcon(QIcon::fromTheme("treeview"));
 
     m_ui->m_treeview->setModel(m_sheetCtrl->model());
 

@@ -87,7 +87,7 @@ Workspace::Workspace(ContentController* ctrl, InstantMessagingController* instan
 
     m_instantMessageView= addSubWindow(new InstantMessagingView(instantCtrl));
     m_instantMessageView->setGeometry(0, 0, 400, 600);
-    m_instantMessageView->setWindowIcon(QIcon(":/chat.png"));
+    m_instantMessageView->setWindowIcon(QIcon::fromTheme("chatIcon"));
     // m_instantMessageView->setVisible(false);
 
     auto imvAction= new QAction(tr("Instant Messging"), this);
@@ -428,6 +428,7 @@ void Workspace::addMedia(MediaControllerBase* ctrl)
 {
     switch(ctrl->contentType())
     {
+    case Core::ContentType::ONLINEPICTURE:
     case Core::ContentType::PICTURE:
         addImage(dynamic_cast<ImageController*>(ctrl));
         break;
@@ -450,6 +451,8 @@ void Workspace::addMedia(MediaControllerBase* ctrl)
         break;
     case Core::ContentType::CHARACTERSHEET:
         addCharacterSheet(dynamic_cast<CharacterSheetController*>(ctrl));
+        break;
+    default:
         break;
     }
 }

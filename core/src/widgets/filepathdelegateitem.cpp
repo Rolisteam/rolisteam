@@ -32,7 +32,7 @@ void ImagePathEditor::setUi()
 
     m_photoEdit= new QLineEdit();
 
-    m_cleanButton= new QPushButton(QIcon(":/resources/images/delete.png"), "");
+    m_cleanButton= new QPushButton(QIcon::fromTheme("delete"), "");
 
     hbox->addWidget(m_photoEdit, 1);
     hbox->addWidget(m_photoBrowser);
@@ -67,7 +67,8 @@ void ImagePathEditor::getFileName()
 {
     PreferencesManager* preferences= PreferencesManager::getInstance();
 
-    QString fileName= QFileDialog::getOpenFileName(this, tr("Get picture for Character State"),
+    QString fileName= QFileDialog::getOpenFileName(
+        this, tr("Get picture for Character State"),
         preferences->value("StateImageDirectory", QDir::homePath()).toString(),
         preferences->value("ImageFileFilter", "*.jpg *jpeg *.png *.bmp *.svg").toString());
     if(!fileName.isEmpty())
@@ -114,8 +115,8 @@ void FilePathDelegateItem::setEditorData(QWidget* editor, const QModelIndex& ind
     }
     QStyledItemDelegate::setEditorData(editor, index);
 }
-void FilePathDelegateItem::updateEditorGeometry(
-    QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& index) const
+void FilePathDelegateItem::updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option,
+                                                const QModelIndex& index) const
 {
     QStyledItemDelegate::updateEditorGeometry(editor, option, index);
 }

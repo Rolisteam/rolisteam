@@ -203,17 +203,17 @@ void TextEdit::setupFileActions()
     menu->addAction(a);
     menu->addSeparator();*/
 
-    a= new QAction(QIcon(rsrcPath + "/fileprint.png"), tr("&Print..."), this);
+    a= new QAction(QIcon::fromTheme("fileprint"), tr("&Print..."), this);
     a->setShortcut(QKeySequence::Print);
     connect(a, SIGNAL(triggered()), this, SLOT(filePrint()));
     tb->addAction(a);
     menu->addAction(a);
 
-    a= new QAction(QIcon(rsrcPath + "/fileprint.png"), tr("Print Preview..."), this);
+    a= new QAction(QIcon::fromTheme("fileprint"), tr("Print Preview..."), this);
     connect(a, SIGNAL(triggered()), this, SLOT(filePrintPreview()));
     menu->addAction(a);
 
-    a= new QAction(QIcon(rsrcPath + "/exportpdf.png"), tr("&Export PDF..."), this);
+    a= new QAction(QIcon::fromTheme("exportpdf"), tr("&Export PDF..."), this);
     a->setShortcut(Qt::CTRL + Qt::Key_D);
     connect(a, SIGNAL(triggered()), this, SLOT(filePrintPdf()));
     tb->addAction(a);
@@ -237,24 +237,24 @@ void TextEdit::setupEditActions()
     menuBar()->addMenu(menu);
 
     QAction* a;
-    a= actionUndo= new QAction(QIcon(rsrcPath + "/editundo.png"), tr("&Undo"), this);
+    a= actionUndo= new QAction(QIcon::fromTheme("editundo"), tr("&Undo"), this);
     a->setShortcut(QKeySequence::Undo);
     tb->addAction(a);
     menu->addAction(a);
-    a= actionRedo= new QAction(QIcon(rsrcPath + "/editredo.png"), tr("&Redo"), this);
+    a= actionRedo= new QAction(QIcon::fromTheme("editredo"), tr("&Redo"), this);
     a->setShortcut(QKeySequence::Redo);
     tb->addAction(a);
     menu->addAction(a);
     menu->addSeparator();
-    a= actionCut= new QAction(QIcon(rsrcPath + "/editcut.png"), tr("Cu&t"), this);
+    a= actionCut= new QAction(QIcon::fromTheme("editcut"), tr("Cu&t"), this);
     a->setShortcut(QKeySequence::Cut);
     tb->addAction(a);
     menu->addAction(a);
-    a= actionCopy= new QAction(QIcon(rsrcPath + "/editcopy.png"), tr("&Copy"), this);
+    a= actionCopy= new QAction(QIcon::fromTheme("editcopy"), tr("&Copy"), this);
     a->setShortcut(QKeySequence::Copy);
     tb->addAction(a);
     menu->addAction(a);
-    a= actionPaste= new QAction(QIcon(rsrcPath + "/editpaste.png"), tr("&Paste"), this);
+    a= actionPaste= new QAction(QIcon::fromTheme("editpaste"), tr("&Paste"), this);
     a->setShortcut(QKeySequence::Paste);
     tb->addAction(a);
     menu->addAction(a);
@@ -305,16 +305,16 @@ void TextEdit::setupTextActions()
     QActionGroup* grp= new QActionGroup(this);
     connect(grp, SIGNAL(triggered(QAction*)), this, SLOT(textAlign(QAction*)));
 
-    actionAlignLeft= new QAction(QIcon(rsrcPath + "/textleft.png"), tr("&Left"), grp);
+    actionAlignLeft= new QAction(QIcon::fromTheme("textleft"), tr("&Left"), grp);
     actionAlignLeft->setShortcut(Qt::CTRL + Qt::Key_L);
     actionAlignLeft->setCheckable(true);
-    actionAlignCenter= new QAction(QIcon(rsrcPath + "/textcenter.png"), tr("C&enter"), grp);
+    actionAlignCenter= new QAction(QIcon::fromTheme("textcenter"), tr("C&enter"), grp);
     actionAlignCenter->setShortcut(Qt::CTRL + Qt::Key_E);
     actionAlignCenter->setCheckable(true);
-    actionAlignRight= new QAction(QIcon(rsrcPath + "/textright.png"), tr("&Right"), grp);
+    actionAlignRight= new QAction(QIcon::fromTheme("textright"), tr("&Right"), grp);
     actionAlignRight->setShortcut(Qt::CTRL + Qt::Key_R);
     actionAlignRight->setCheckable(true);
-    actionAlignJustify= new QAction(QIcon(rsrcPath + "/textjustify.png"), tr("&Justify"), grp);
+    actionAlignJustify= new QAction(QIcon::fromTheme("textjustify"), tr("&Justify"), grp);
     actionAlignJustify->setShortcut(Qt::CTRL + Qt::Key_J);
     actionAlignJustify->setCheckable(true);
 

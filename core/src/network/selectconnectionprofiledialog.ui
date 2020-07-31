@@ -349,8 +349,7 @@
           <string>New Profile</string>
          </property>
          <property name="icon">
-          <iconset resource="../../../rolisteam.qrc">
-           <normaloff>:/resources/images/add_round.png</normaloff>:/resources/images/add_round.png</iconset>
+          <iconset theme="add_round"/>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -369,8 +368,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../../../rolisteam.qrc">
-           <normaloff>:/resources/images/delete.png</normaloff>:/resources/images/delete.png</iconset>
+          <iconset theme="delete"/>
          </property>
         </widget>
        </item>
@@ -424,7 +422,7 @@
   </layout>
   <action name="m_addCharacterAct">
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset>
      <normaloff>:/resources/images/add_round.png</normaloff>:/resources/images/add_round.png</iconset>
    </property>
    <property name="text">
@@ -433,7 +431,7 @@
   </action>
   <action name="m_removeCharacterAct">
    <property name="icon">
-    <iconset resource="../../../rolisteam.qrc">
+    <iconset>
      <normaloff>:/resources/images/delete.png</normaloff>:/resources/images/delete.png</iconset>
    </property>
    <property name="text">
@@ -463,9 +461,7 @@
    <header>common/widgets/colorbutton.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../../rolisteam.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>m_isGmCheckbox</sender>

@@ -17,8 +17,7 @@
    <string>About Rolisteam</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../rolisteam.qrc">
-    <normaloff>:/resources/images/logo/500-symbole.png</normaloff>:/resources/images/logo/500-symbole.png</iconset>
+   <iconset theme="500-symbole"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -48,7 +47,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../../rolisteam.qrc">:/resources/images/logo/1500-rolisteam.png</pixmap>
+        <pixmap>:/resources/images/logo/1500-rolisteam.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -100,10 +99,7 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../rolisteam.qrc"/>
-  <include location="../../rolisteam.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

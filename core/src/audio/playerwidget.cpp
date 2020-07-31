@@ -174,17 +174,17 @@ void PlayerWidget::setupUi()
     m_pauseAct= new QAction(style()->standardIcon(QStyle::SP_MediaPause), tr("Pause"), this);
     m_stopAct= new QAction(style()->standardIcon(QStyle::SP_MediaStop), tr("Stop"), this);
 
-    m_uniqueAct= new QAction(QIcon(":/resources/images/playunique.png"), tr("Stop at the end"), this);
+    m_uniqueAct= new QAction(QIcon::fromTheme("playunique"), tr("Stop at the end"), this);
     m_uniqueAct->setShortcut(QKeySequence("Ctrl+U"));
     m_uniqueAct->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_uniqueAct->setCheckable(true);
 
-    m_repeatAct= new QAction(QIcon(":/resources/images/playloop.png"), tr("Play in loop"), this);
+    m_repeatAct= new QAction(QIcon::fromTheme("playloop"), tr("Play in loop"), this);
     m_repeatAct->setCheckable(true);
     m_repeatAct->setShortcut(QKeySequence("Ctrl+R"));
     m_repeatAct->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    m_shuffleAct= new QAction(QIcon(":/resources/images/shuffle_mode.png"), tr("Shuffle Mode"), this);
+    m_shuffleAct= new QAction(QIcon::fromTheme("shuffle_mode"), tr("Shuffle Mode"), this);
     m_shuffleAct->setCheckable(true);
     m_shuffleAct->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
@@ -205,12 +205,12 @@ void PlayerWidget::setupUi()
     m_clearList->setShortcut(QKeySequence("Ctrl+Del"));
     m_clearList->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    m_addAction= new QAction(QIcon(":/resources/images/add.png"), tr("Add Songs"), this);
+    m_addAction= new QAction(QIcon::fromTheme("add"), tr("Add Songs"), this);
     m_addAction->setShortcut(QKeySequence("Ctrl+A"));
     m_addAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_addStreamAction= new QAction(tr("Open Stream"), this);
 
-    m_deleteAction= new QAction(QIcon(":/resources/images/remove.png"), tr("Remove Song"), this);
+    m_deleteAction= new QAction(QIcon::fromTheme("remove"), tr("Remove Song"), this);
     m_deleteAction->setShortcut(QKeySequence("Del"));
     m_deleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 

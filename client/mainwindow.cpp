@@ -124,7 +124,7 @@ MainWindow::MainWindow(const QStringList& args)
 {
     parseCommandLineArguments(args);
     setAcceptDrops(true);
-    m_systemTray->setIcon(QIcon(":/resources/images/logo/500-symbole.png"));
+    m_systemTray->setIcon(QIcon::fromTheme("500-symbole"));
     m_systemTray->show();
 
     // ALLOCATIONS
@@ -216,6 +216,10 @@ MainWindow::MainWindow(const QStringList& args)
 
     setupUi();
     readSettings();
+    if(true)
+        QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":resources/rolistheme");
+    else
+        QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << ":resources/rolistheme-dark");
 }
 
 MainWindow::~MainWindow()= default;
@@ -272,8 +276,7 @@ void MainWindow::setupUi()
              });*/
 
     addDockWidget(Qt::RightDockWidgetArea, m_playersListWidget);
-    QIcon test(":/logo.png");
-    setWindowIcon(QIcon(":/logo.png"));
+    setWindowIcon(QIcon::fromTheme("logo"));
     m_ui->m_menuSubWindows->insertAction(m_ui->m_characterListAct, m_playersListWidget->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_characterListAct);
 
@@ -1456,7 +1459,7 @@ void MainWindow::updateRecentFileActions()
             QString text= QStringLiteral("&%1 %2").arg(i + 1).arg(QFileInfo(m_recentFiles[i].path).fileName());
             action->setText(text);
             action->setData(static_cast<int>(i));
-            action->setIcon(QIcon(CleverURI::typeToIconPath(m_recentFiles[i].type)));
+            action->setIcon(QIcon::fromTheme(CleverURI::typeToIconPath(m_recentFiles[i].type)));
             action->setVisible(true);
         }
         ++i;

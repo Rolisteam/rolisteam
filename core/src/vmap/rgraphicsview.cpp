@@ -487,19 +487,19 @@ void RGraphicsView::createAction()
     connect(m_zoomIn, SIGNAL(triggered()), this, SLOT(setZoomFactor()));
 
     m_backOrderAction= new QAction(tr("Back"));
-    m_backOrderAction->setIcon(QIcon(":/resources/images/action-order-back.png"));
+    m_backOrderAction->setIcon(QIcon::fromTheme("action-order-back"));
     m_backOrderAction->setData(VectorialMapController::BACK);
 
     m_frontOrderAction= new QAction(tr("Front"));
-    m_frontOrderAction->setIcon(QIcon(":/resources/images/action-order-front.png"));
+    m_frontOrderAction->setIcon(QIcon::fromTheme("action-order-front"));
     m_frontOrderAction->setData(VectorialMapController::FRONT);
 
     m_lowerAction= new QAction(tr("Lower"));
-    m_lowerAction->setIcon(QIcon(":/resources/images/action-order-lower.png"));
+    m_lowerAction->setIcon(QIcon::fromTheme("action-order-lower"));
     m_lowerAction->setData(VectorialMapController::LOWER);
 
     m_raiseAction= new QAction(tr("Raise"));
-    m_raiseAction->setIcon(QIcon(":/resources/images/action-order-raise.png"));
+    m_raiseAction->setIcon(QIcon::fromTheme("action-order-raise"));
     m_raiseAction->setData(VectorialMapController::RAISE);
 
     m_normalizeSizeAverage= new QAction(tr("Average"), this);

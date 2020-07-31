@@ -35,7 +35,7 @@ WebView::WebView(WebpageController* ctrl, QWidget* parent)
 
     setObjectName("WebPage");
     setGeometry(0, 0, 500, 500);
-    setWindowIcon(QIcon(":/resources/images/webPage.svg"));
+    setWindowIcon(QIcon::fromTheme("webPage"));
 
     m_ui->m_nextAct->setIcon(style()->standardIcon(QStyle::SP_ArrowForward));
     m_ui->m_previousAct->setIcon(style()->standardIcon(QStyle::SP_ArrowBack));
