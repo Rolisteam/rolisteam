@@ -90,9 +90,29 @@ CharacterSheetController* sheetCtrl(const QString& uuid, const QHash<QString, QV
     return sheetCtrl;
 }
 
-VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, QVariant>& map)
+VectorialMapController* vectorialMap(const QString& uuid, const QHash<QString, QVariant>& params)
 {
-    return nullptr;
+    auto vmapCtrl= new VectorialMapController(uuid);
+
+    QByteArray serializedData= params.value(QStringLiteral("serializedData")).toByteArray();
+
+    if(!params.isEmpty())
+    {
+        vmapCtrl->setPermission(params.value(QStringLiteral("permission")).value<Core::PermissionMode>());
+        vmapCtrl->setName(params.value(QStringLiteral("title")).toString());
+        vmapCtrl->setBackgroundColor(params.value(QStringLiteral("bgcolor")).value<QColor>());
+        vmapCtrl->setGridSize(params.value(QStringLiteral("gridSize")).toInt());
+        vmapCtrl->setGridPattern(params.value(QStringLiteral("gridPattern")).value<Core::GridPattern>());
+        vmapCtrl->setGridColor(params.value(QStringLiteral("gridColor")).value<QColor>());
+        vmapCtrl->setVisibility(params.value(QStringLiteral("visibility")).value<Core::VisibilityMode>());
+        vmapCtrl->setGridScale(params.value(QStringLiteral("scale")).toDouble());
+        vmapCtrl->setScaleUnit(params.value(QStringLiteral("unit")).value<Core::ScaleUnit>());
+    }
+
+    if(!serializedData.isEmpty())
+        IOHelper::readVectorialMapController(vmapCtrl, serializedData);
+
+    return vmapCtrl;
 }
 PdfController* pdf(const QString& uuid, const QHash<QString, QVariant>& map)
 {
@@ -113,7 +133,7 @@ WebpageController* webPage(const QString& uuid, const QHash<QString, QVariant>& 
 } // namespace
 
 MediaControllerBase* MediaFactory::createLocalMedia(const QString& uuid, Core::ContentType type,
-                                                    const std::map<QString, QVariant>& map)
+                                                    const std::map<QString, QVariant>& map, bool localIsGM)
 {
     QHash<QString, QVariant> params(map.begin(), map.end());
     using C= Core::ContentType;
@@ -143,13 +163,16 @@ MediaControllerBase* MediaFactory::createLocalMedia(const QString& uuid, Core::C
     case C::WEBVIEW:
         base= webPage(uuid, params);
         break;
+    default:
+        break;
     }
+    base->setLocalGM(localIsGM);
 
     Q_ASSERT(base != nullptr);
     return base;
 }
 
-MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, NetworkMessageReader* msg)
+MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, NetworkMessageReader* msg, bool localIsGM)
 {
     using C= Core::ContentType;
     MediaControllerBase* base= nullptr;
@@ -195,11 +218,16 @@ MediaControllerBase* MediaFactory::createRemoteMedia(Core::ContentType type, Net
     }
     break;
     case C::WEBVIEW:
+    {
         auto data= MessageHelper::readWebPageData(msg);
         base= webPage(uuid, data);
+    }
+    break;
+    default:
         break;
     }
     base->setRemote(true);
+    base->setLocalGM(localIsGM);
     Q_ASSERT(base != nullptr);
     return base;
 }

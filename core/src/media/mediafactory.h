@@ -22,16 +22,16 @@
 
 #include "controller/view_controller/mediacontrollerbase.h"
 
-
 class NetworkMessageReader;
 namespace Media
 {
 class MediaFactory
 {
 public:
-    static MediaControllerBase* createLocalMedia(const QString& uuid, Core::ContentType type, const std::map<QString, QVariant>& map);
-    static MediaControllerBase* createRemoteMedia(Core::ContentType type, NetworkMessageReader* msg);
+    static MediaControllerBase* createLocalMedia(const QString& uuid, Core::ContentType type,
+                                                 const std::map<QString, QVariant>& map, bool localIsGM);
+    static MediaControllerBase* createRemoteMedia(Core::ContentType type, NetworkMessageReader* msg, bool localIsGM);
 };
-}
+} // namespace Media
 
 #endif // MEDIAFACTORY_H
