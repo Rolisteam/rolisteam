@@ -30,7 +30,7 @@ class OpenMediaController : public QUndoCommand
 {
 public:
     OpenMediaController(ContentModel* contentModel, Core::ContentType type, const std::map<QString, QVariant>& map,
-                        QUndoCommand* parent= nullptr);
+                        bool localIsGM, QUndoCommand* parent= nullptr);
 
     void redo() override;
     void undo() override;
@@ -41,7 +41,7 @@ private:
     QPointer<ContentModel> m_model;
     Core::ContentType m_type;
     std::map<QString, QVariant> m_args;
-    bool m_gm;
+    bool m_localIsGM;
 };
 
 #endif // ADDMEDIACONTENEUR_H

@@ -29,12 +29,13 @@
 #include <QUuid>
 
 OpenMediaController::OpenMediaController(ContentModel* contentModel, Core::ContentType type,
-                                         const std::map<QString, QVariant>& args, QUndoCommand* parent)
+                                         const std::map<QString, QVariant>& args, bool localIsGM, QUndoCommand* parent)
     : QUndoCommand(parent)
     , m_uuid(QUuid::createUuid().toString(QUuid::WithoutBraces))
     , m_model(contentModel)
     , m_type(type)
     , m_args(args)
+    , m_localIsGM(localIsGM)
 {
     auto it= args.find("name");
     if(it != args.end())
@@ -47,7 +48,7 @@ void OpenMediaController::redo()
     if(m_model.isNull())
         return;
 
-    auto media= Media::MediaFactory::createLocalMedia(m_uuid, m_type, m_args);
+    auto media= Media::MediaFactory::createLocalMedia(m_uuid, m_type, m_args, m_localIsGM);
     m_model->appendMedia(media);
 }
 

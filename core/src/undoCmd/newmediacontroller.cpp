@@ -28,8 +28,8 @@
 #include "model/contentmodel.h"
 
 NewMediaController::NewMediaController(Core::ContentType contentType, ContentModel* model,
-                                       const std::map<QString, QVariant>& map, QUndoCommand* parent)
-    : QUndoCommand(parent), m_contentType(contentType), m_args(map), m_model(model)
+                                       const std::map<QString, QVariant>& map, bool localIsGM, QUndoCommand* parent)
+    : QUndoCommand(parent), m_contentType(contentType), m_args(map), m_model(model), m_localGM(localIsGM)
 {
     m_title= m_args["title"].toString();
 
@@ -40,22 +40,21 @@ NewMediaController::NewMediaController(Core::ContentType contentType, ContentMod
 
 void NewMediaController::redo()
 {
-    qInfo() << QStringLiteral("Redo command newmediacontroller: %1 ").arg(text());
-    if(m_ctrl.isNull() || m_contentCtrl.isNull())
+    if(m_model.isNull())
         return;
 
     if(m_uuidUri.isEmpty())
         m_uuidUri= QUuid::createUuid().toString(QUuid::WithoutBraces);
 
-    auto media= Media::MediaFactory::createLocalMedia(m_uuidUri, m_contentType, m_args);
+    qInfo() << QStringLiteral("Redo command newmediacontroller: %1 ").arg(text());
+    auto media= Media::MediaFactory::createLocalMedia(m_uuidUri, m_contentType, m_args, m_localGM);
     m_model->appendMedia(media);
 }
 
 void NewMediaController::undo()
 {
-    qInfo() << QStringLiteral("Undo command newmediacontroller: %1 ").arg(text());
-    if(nullptr == m_ctrl)
+    if(m_model.isNull())
         return;
-
+    qInfo() << QStringLiteral("Undo command newmediacontroller: %1 ").arg(text());
     m_model->removeMedia(m_uuidUri);
 }
