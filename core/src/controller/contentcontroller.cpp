@@ -36,6 +36,8 @@
 #include "controller/view_controller/sharednotecontroller.h"
 #include "controller/view_controller/vectorialmapcontroller.h"
 #include "updater/mediaupdaterinterface.h"
+#include "updater/sharednotecontrollerupdater.h"
+#include "updater/vmapupdater.h"
 
 #include "gamecontroller.h"
 #include "media/mediafactory.h"
@@ -80,9 +82,20 @@ ContentController::ContentController(PlayerModel* playerModel, CharacterModel* c
 
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory, this);
 
+    std::unique_ptr<VMapUpdater> vmapUpdater(new VMapUpdater);
+    std::unique_ptr<SharedNoteControllerUpdater> sharedNoteUpdater(new SharedNoteControllerUpdater);
+    m_mediaUpdaters.insert({Core::ContentType::VECTORIALMAP, std::move(vmapUpdater)});
+    m_mediaUpdaters.insert({Core::ContentType::SHAREDNOTE, std::move(sharedNoteUpdater)});
+
     connect(m_contentModel.get(), &ContentModel::mediaControllerAdded, this, [this](MediaControllerBase* ctrl) {
+        if(nullptr == ctrl)
+            return;
+        connect(ctrl, &MediaControllerBase::performCommand, this, &ContentController::performCommand);
         emit mediaControllerCreated(ctrl);
         sendOffMediaController(ctrl);
+        auto it= m_mediaUpdaters.find(ctrl->contentType());
+        if(it != m_mediaUpdaters.end())
+            it->second->addMediaController(ctrl);
     });
 
     /*std::for_each(
@@ -130,7 +143,7 @@ void ContentController::preferencesHasChanged(const QString& key)
 
 void ContentController::newMedia(Core::ContentType type, const std::map<QString, QVariant>& params)
 {
-    emit performCommand(new NewMediaController(type, m_contentModel.get(), params));
+    emit performCommand(new NewMediaController(type, m_contentModel.get(), params, localIsGM()));
 }
 
 void ContentController::openMedia(const std::map<QString, QVariant>& args)
@@ -142,7 +155,7 @@ void ContentController::openMedia(const std::map<QString, QVariant>& args)
 
     auto type= it->second.value<Core::ContentType>();
 
-    emit performCommand(new OpenMediaController(m_contentModel.get(), type, args));
+    emit performCommand(new OpenMediaController(m_contentModel.get(), type, args, localIsGM()));
 }
 
 SessionItemModel* ContentController::sessionModel() const
@@ -209,6 +222,11 @@ QString ContentController::gameMasterId() const
 QString ContentController::localId() const
 {
     return m_localId;
+}
+
+bool ContentController::localIsGM() const
+{
+    return m_localId == m_gameMasterId;
 }
 
 void ContentController::setGameMasterId(const QString& id)
@@ -288,7 +306,7 @@ NetWorkReceiver::SendType ContentController::processMessage(NetworkMessageReader
     else
     {
         auto type= static_cast<Core::ContentType>(msg->uint8());
-        auto media= Media::MediaFactory::createRemoteMedia(type, msg);
+        auto media= Media::MediaFactory::createRemoteMedia(type, msg, localIsGM());
         m_contentModel->appendMedia(media);
     }
 

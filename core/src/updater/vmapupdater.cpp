@@ -31,9 +31,14 @@
 
 VMapUpdater::VMapUpdater(QObject* parent) : MediaUpdaterInterface(parent) {}
 
-void VMapUpdater::addController(VectorialMapController* ctrl)
+void VMapUpdater::addMediaController(MediaControllerBase* base)
 {
-    if(nullptr == ctrl)
+    if(nullptr == base)
+        return;
+
+    auto ctrl= dynamic_cast<VectorialMapController*>(base);
+
+    if(ctrl == nullptr)
         return;
 
     connect(ctrl, &VectorialMapController::collisionChanged, this,
