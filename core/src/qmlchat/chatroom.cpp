@@ -159,7 +159,25 @@ void ChatRoom::rollDice(const QString& command, const QString& personId)
         if(!error.isEmpty())
             return {false, error.first()};
 
-        auto result= m_diceParser->resultAsJSon();
+        auto result= m_diceParser->resultAsJSon([](const QString& value, const QString& color, bool highlight) {
+            QString result= value;
+            bool hasColor= !color.isEmpty();
+            QString style;
+            if(hasColor)
+            {
+                style+= QStringLiteral("color:%1;").arg(color);
+            }
+            if(highlight)
+            {
+                if(style.isEmpty())
+                    style+= QStringLiteral("color:%1;")
+                                .arg("red"); // default color must get the value from the setting object
+                style+= QStringLiteral("font-weight:bold;");
+            }
+            if(!style.isEmpty())
+                result= QString("<span style=\"%2\">%1</span>").arg(value).arg(style);
+            return result;
+        });
 
         return {true, result};
     });

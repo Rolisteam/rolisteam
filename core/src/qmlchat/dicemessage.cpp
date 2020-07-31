@@ -18,12 +18,52 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "dicemessage.h"
+
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QMap>
+
+#include "parsingtoolbox.h"
 
 namespace InstantMessaging
 {
+namespace
+{
+QString replacePlaceHolder(const QString& str, const QJsonObject& obj)
+{
+    auto result= str;
+
+    auto instructions= obj["instructions"].toArray();
+
+    QStringList allDiceResult;
+    std::transform(instructions.begin(), instructions.end(), std::back_inserter(allDiceResult),
+                   [](const QJsonValue& jsonVal) {
+                       auto obj= jsonVal.toObject();
+                       auto diceval= obj["diceval"].toObject();
+                       return diceval["string"].toString();
+                   });
+
+    result= result.replace("%1", obj["scalar"].toString());
+    result= result.replace("%2", allDiceResult.join(","));
+    result= result.replace("%3", obj["scalar"].toString());
+
+    QStringList values;
+    std::transform(instructions.begin(), instructions.end(), std::back_inserter(values), [](const QJsonValue& jsonVal) {
+        auto obj= jsonVal.toObject();
+        auto scalar= obj["scalar"].toDouble();
+        return QString::number(scalar);
+    });
+
+    QMap<Dice::ERROR_CODE, QString> errorMap;
+    qDebug() << "values" << values;
+    result= ParsingToolBox::replaceVariableToValue(result, values, errorMap);
+    result= ParsingToolBox::replacePlaceHolderFromJson(result, obj);
+
+    return result;
+}
+
+} // namespace
 DiceMessage::DiceMessage(const QString& ownerId, const QString& writer, const QDateTime& time, QObject* parent)
     : MessageBase(ownerId, writer, time, MessageInterface::MessageType::Dice, parent)
 {
@@ -88,29 +128,14 @@ void DiceMessage::computeResult()
             auto face= objVal["face"].toInt();
             auto strValue= objVal["string"].toString();
             auto color= objVal["color"].toString();
-            auto highlight= objVal["highlight"].toBool();
-            auto hasColor= !color.isEmpty();
+            /*auto highlight= objVal["highlight"].toBool();
+            auto hasColor= !color.isEmpty();*/
 
             if((face != previousFace && previousFace != -1))
             {
                 diceArray << QString("d%1:(%2)").arg(previousFace).arg(vec.join(" "));
                 vec.clear();
             }
-
-            QString style;
-            if(hasColor)
-            {
-                style+= QStringLiteral("color:%1;").arg(color);
-            }
-            if(highlight)
-            {
-                if(style.isEmpty())
-                    style+= QStringLiteral("color:%1;")
-                                .arg("red"); // default color must get the value from the setting object
-                style+= QStringLiteral("font-weight:bold;");
-            }
-            if(!style.isEmpty())
-                strValue= QString("<span style=\"%2\">%1</span>").arg(strValue).arg(style);
 
             vec.append(strValue);
             previousFace= face;
@@ -122,6 +147,11 @@ void DiceMessage::computeResult()
 
         auto scalar= objInst["scalar"].toString();
         auto string= objInst["string"].toString();
+
+        if(!string.isEmpty())
+        {
+            m_result= replacePlaceHolder(string, obj);
+        }
     }
 
     m_details= diceArray.join(" - ");

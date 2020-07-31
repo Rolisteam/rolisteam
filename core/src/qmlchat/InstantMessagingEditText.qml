@@ -54,9 +54,11 @@ Frame {
                                  rightPadding: selector.indicator.width + selector.spacing
                                  text: selector.displayText
                                  font: selector.font
+                                 Layout.fillHeight: true
                                  verticalAlignment: Text.AlignVCenter
                                  horizontalAlignment: Text.AlignHCenter
                                  elide: Text.ElideRight
+                                 fontSizeMode : Text.VerticalFit
                              }
                         }
 
